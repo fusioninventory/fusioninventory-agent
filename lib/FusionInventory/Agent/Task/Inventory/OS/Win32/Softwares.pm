@@ -3,12 +3,10 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Softwares;
 use strict;
 use warnings;
 
-use Config;
 use English qw(-no_match_vars);
 use Win32;
-use Win32::OLE qw(in CP_UTF8);
+use Win32::OLE('in');
 use Win32::OLE::Variant;
-use FusionInventory::Agent::Tools::Win32;
 use Win32::TieRegistry (
     Delimiter   => '/',
     ArrayValues => 0,
@@ -18,57 +16,108 @@ use Win32::TieRegistry (
 use FusionInventory::Agent::Tools::Win32;
 
 sub isInventoryEnabled {
-    return 1;
+    my (%params) = @_;
+
+    return !$params{config}->{no_software};
 }
 
-sub hexToDec {
-    my $val = shift;
+sub doInventory {
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
+
+    if (is64bit()) {
+
+        # I don't know why but on Vista 32bit, KEY_WOW64_64KEY is able to read
+        # 32bit entries. This is not the case on Win2003 and if I correctly
+        # understand MSDN, this sounds very odd
+
+        my $machKey64 = $Registry->Open('LMachine', {
+            Access => KEY_READ | KEY_WOW64_64KEY
+        }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+
+        my $softwares64 =
+            $machKey64->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
+
+        _processSoftwares({
+            inventory => $inventory,
+            softwares => $softwares64bit,
+            is64bit   => 1
+        });
+
+        my $machKey32 = $Registry->Open('LMachine', {
+            Access => KEY_READ | KEY_WOW64_32KEY
+        }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+
+        my $softwares32 =
+            $machKey32->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
+
+        _processSoftwares({
+            inventory => $inventory,
+            softwares => $softwares32,
+            is64bit => 0
+        });
+    } else {
+        my $machKey = $Registry->Open('LMachine', {
+            Access => KEY_READ()
+        }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+
+        my $softwares =
+            $machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
+
+        _processSoftwares({
+            inventory => $inventory,
+            softwares => $softwares,
+            is64bit => 0
+        });
+
+    }
+
+}
+
+sub _hexToDec {
+    my ($val) = @_;
 
     return unless $val;
 
-    return $val unless $val =~ /^0x/; 
+    return $val unless $val =~ /^0x/;
 
-    my $tmp = $val;
+    $val =~ s/^0x0*//;
+    $val =~ hex($val);
 
-    $tmp =~ s/^0x0*//i;
-    return hex($tmp); 
+    return $val;
 }
 
-sub dateFormat {
-    my ($installDate) = @_; 
+sub _dateFormat {
+    my ($date) = @_; 
 
-    return unless $installDate;
+    return unless $date;
 
-    if ($installDate =~ /^(\d{4})(\d{2})(\d{2})/) {
-        return "$3/$2/$1";
-    } else { 
-        return;
-    }
+    return unless $date =~ /^(\d{4})(\d{2})(\d{2})/;
+
+    return "$3/$2/$1";
 }
 
-sub processSoftwares {
-    my $params = shift;
+sub _processSoftwares {
+    my ($params) = @_;
 
     my $softwares = $params->{softwares};
-
     my $inventory = $params->{inventory};
-    my $is64bit = $params->{is64bit};
+    my $is64bit   = $params->{is64bit};
 
-    foreach my $rawGuid ( keys %$softwares ) {
+    foreach my $rawGuid (keys %$softwares) {
         my $data = $softwares->{$rawGuid};
         next unless keys %$data;
         
         my $guid = $rawGuid;
         $guid =~ s/\/$//; # drop the tailing / 
 
-# odd, found on Win2003
-        if (!$data->{'/DisplayName'} && keys %$data <= 2) {
-            next;
-        }
-
+        # odd, found on Win2003
+        next unless keys %$data > 2;
 
         my $name = encodeFromRegistry($data->{'/DisplayName'});
-# Use the folder name if there is no DisplayName
+        # Use the folder name if there is no DisplayName
         $name = encodeFromRegistry($guid) unless $name;
         my $comments = encodeFromRegistry($data->{'/Comments'});
         my $version = encodeFromRegistry($data->{'/DisplayVersion'});
@@ -89,104 +138,30 @@ sub processSoftwares {
         # Workaround for #415
         $version =~ s/[\000-\037].*// if $version;
 
-        $inventory->addSoftware ({
-            COMMENTS => $comments,
-#            FILESIZE => $filesize,
-#            FOLDER => $folder,
-            FROM => "registry",
-            HELPLINK => $helpLink,
-            INSTALLDATE => $installDate,
-            NAME => $name,
-            NOREMOVE => $noRemove,
-            RELEASETYPE => $releaseType,
-            PUBLISHER => $publisher,
-            UNINSTALL_STRING => $uninstallString,
-            URL_INFO_ABOUT => $urlInfoAbout,
-            VERSION => $version,
-            VERSION_MINOR => $versionMinor,
-            VERSION_MAJOR => $versionMajor,
-            IS64BIT => $is64bit,
-            GUID => $guid,
-        });
+        $inventory->addEntry(
+            section => 'SOFTWARES',
+            entry   => {
+                COMMENTS         => $comments,
+    #            FILESIZE => $filesize,
+    #            FOLDER => $folder,
+                FROM             => "registry",
+                HELPLINK         => $helpLink,
+                INSTALLDATE      => $installDate,
+                NAME             => $name,
+                NOREMOVE         => $noRemove,
+                RELEASETYPE      => $releaseType,
+                PUBLISHER        => $publisher,
+                UNINSTALL_STRING => $uninstallString,
+                URL_INFO_ABOUT   => $urlInfoAbout,
+                VERSION          => $version,
+                VERSION_MINOR    => $versionMinor,
+                VERSION_MAJOR    => $versionMajor,
+                IS64BIT          => $is64bit,
+                GUID             => $guid,
+            },
+            noDuplicated => 1
+        );
     }
 }
 
-sub doInventory {
-    my (%params) = @_;
-
-    my $inventory = $params{inventory};
-
-    my $Config;
-
-
-    if (is64bit()) {
-
-        # I don't know why but on Vista 32bit, KEY_WOW64_64 is able to read
-        # 32bit entries. This is not the case on Win2003 and if I correctly
-        # understand MSDN, this sounds very odd
-
-        my $machKey64bit = $Registry->Open('LMachine', {
-            Access => KEY_READ | KEY_WOW64_64
-        }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
-
-        my $softwares64bit =
-            $machKey64bit->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
-        processSoftwares({
-            inventory => $inventory,
-            softwares => $softwares64bit,
-            is64bit => 1
-        });
-
-        my $machKey32bit = $Registry->Open('LMachine', {
-            Access => KEY_READ | KEY_WOW64_32
-        }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
-
-        my $softwares32bit =
-            $machKey32bit->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
-
-        processSoftwares({
-            inventory => $inventory,
-            softwares => $softwares32bit,
-            is64bit => 0
-        });
-
-    } else {
-        my $machKey = $Registry->Open('LMachine', {
-            Access => KEY_READ
-        }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
-
-        my $softwares=
-            $machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
-
-        processSoftwares({
-            inventory => $inventory,
-            softwares => $softwares,
-            is64bit => 0
-        });
-
-    }
-
-# Copyright (c) 2009 Megagram
-# Code from Win32::WindowsUpdate
-#    my $updateSession = Win32::OLE->new("Microsoft.Update.Session") or die "WMI connection failed.\n";
-#    my $updateSearcher = $updateSession->CreateUpdateSearcher() or die;
-#    my $queryResult = $updateSearcher->Search("Isinstalled = 1");
-#    
-#    my $updates = $queryResult->Updates;
-#    foreach my $update (in $updates) {
-#        my $id = $update->Identity->UpdateID;
-#        my $kb;
-#        foreach (in $update->KBArticleIDs) {
-#            $kb.="/" if $kb;
-#            $kb.="KB".$_;
-#        }
-#        $inventory->addUpdate({
-#
-#                ID => $id, 
-#                KB => $kb
-#
-#                });
-#    }
-
-}
 1;
