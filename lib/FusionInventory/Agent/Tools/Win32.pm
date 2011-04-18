@@ -16,12 +16,11 @@ use Win32::TieRegistry (
     ArrayValues => 0,
     qw/KEY_READ/
 );
-use FusionInventory::Agent::Task::Inventory::OS::Win32; # getWmiProperties
 
 Win32::OLE->Option(CP => 'CP_UTF8');
 
 our @EXPORT = qw(
-    getWmiProperties
+    getWmiObjects
     encodeFromWmi
     encodeFromRegistry
     KEY_WOW64_64
@@ -59,29 +58,27 @@ sub encodeFromRegistry {
     return encode("UTF-8", decode($localCodepage, $string));
 }
 
-sub getWmiProperties {
-    my $wmiClass = shift;
-    my @keys = @_;
+sub getWmiObjects {
+    my %params = (
+        moniker => 'winmgmts:{impersonationLevel=impersonate,(security)}!//./',
+        @_
+    );
 
-    my $WMIServices = Win32::OLE->GetObject(
-        "winmgmts:{impersonationLevel=impersonate,(security)}!//./" );
+    my $WMIService = Win32::OLE->GetObject($params{moniker})
+        or die "WMI connection failed: " . Win32::OLE->LastError();
 
-    if (!$WMIServices) {
-        print STDERR Win32::OLE->LastError();
-    }
-
-    my @properties;
-    foreach my $value (Win32::OLE::in(
-        $WMIServices->InstancesOf($wmiClass)
+    my @objects;
+    foreach my $instance (in(
+        $WMIServices->InstancesOf($params{class})
     )) {
-    my $property;
-        foreach my $key (@keys) {
-            $property->{$key} = encodeFromWmi($value->{$key});
+        my $object;
+        foreach my $property (@{$params{properties}}) {
+            $object->{$property} = encodeFromWmi($instance->{$property});
         }
-        push @properties, $property;
+        push @objects, $object;
     }
 
-    return @properties;
+    return @objects;
 }
 
 sub is64bit {
@@ -143,9 +140,23 @@ This module provides some generic functions for Win32.
 
 =head1 FUNCTIONS
 
-=head2 getWmiProperties($class, @properties)
+=head2 is64bit()
 
-Returns the list of given properties from given WMI class, properly encoded.
+Returns true if the OS is 64bit or false.
+
+=head2 getWmiObjects(%params)
+
+Returns the list of objects from given WMI class, with given properties, properly encoded.
+
+=over
+
+=item moniker a WMI moniker (default: winmgmts:{impersonationLevel=impersonate,(security)}!//./)
+
+=item class a WMI class
+
+=item properties a list of WMI properties
+
+=back
 
 =head2 encodeFromWmi($string)
 
