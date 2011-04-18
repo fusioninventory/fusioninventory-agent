@@ -10,6 +10,8 @@ use Win32::TieRegistry (
     qw/KEY_READ/
 );
 
+use FusionInventory::Agent::Tools;
+
 my @hives = qw/
     HKEY_CLASSES_ROOT
     HKEY_CURRENT_USER
@@ -69,6 +71,5 @@ sub doInventory {
     }
 
 }
-
 
 1;
