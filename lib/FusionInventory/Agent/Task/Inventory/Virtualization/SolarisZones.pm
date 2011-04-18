@@ -11,33 +11,6 @@ sub isInventoryEnabled {
         _check_solaris_valid_release('/etc/release');
 }
 
-# check if Solaris 10 release is higher than 08/07
-sub _check_solaris_valid_release{
-    my ($releaseFile) = @_;
-
-    my $release = getFirstMatch(
-        file => $releaseFile,
-        pattern => qr/((?:Open)?Solaris .*)/
-    );
-
-    my ($version, $year);
-    if ($release =~ m/Solaris 10 (\d)\/(\d+)/) {
-        $version = $1;
-        $year = $2;
-    } elsif ($release =~ /OpenSolaris 20(\d+)\.(\d+)\s/) {
-        $version = $1;
-        $year = $2;
-    } else {
-        return 0;
-    }
-
-    if ($year <= 7 and $version < 8) {
-        return 0;
-    }
-
-    return 1;
-}
-
 sub doInventory {
     my (%params) = @_;
 
@@ -80,6 +53,33 @@ sub doInventory {
 
         $inventory->addVirtualMachine($machine);
     }
+}
+
+# check if Solaris 10 release is higher than 08/07
+sub _check_solaris_valid_release{
+    my ($releaseFile) = @_;
+
+    my $release = getFirstMatch(
+        file => $releaseFile,
+        pattern => qr/((?:Open)?Solaris .*)/
+    );
+
+    my ($version, $year);
+    if ($release =~ m/Solaris 10 (\d+)\/(\d+)/) {
+        $version = $1;
+        $year = $2;
+    } elsif ($release =~ /OpenSolaris 20(\d+)\.(\d+)\s/) {
+        $version = $1;
+        $year = $2;
+    } else {
+        return 0;
+    }
+
+    if ($year <= 7 and $version < 8) {
+        return 0;
+    }
+
+    return 1;
 }
 
 1;
