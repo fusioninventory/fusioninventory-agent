@@ -25,7 +25,6 @@ sub doInventory {
 }
 
 sub _getMachines {
-
     my $xml = getAllLines(@_);
     return unless $xml;
 
@@ -67,4 +66,3 @@ sub _getMachines {
 }
 
 1;
-
