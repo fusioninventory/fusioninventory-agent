@@ -9,7 +9,9 @@ use warnings;
 use English qw(-no_match_vars);
 
 sub isInventoryEnabled {
-    return (can_run('/Library/Application\ Support/VMware\ Fusion/vmrun') || can_run('vmrun'));
+    return 
+        can_run('/Library/Application\ Support/VMware\ Fusion/vmrun') ||
+        can_run('vmrun');
 }
 
 sub doInventory {
