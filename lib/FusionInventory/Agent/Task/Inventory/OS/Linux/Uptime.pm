@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Uptime;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
@@ -26,6 +28,7 @@ sub doInventory {
     $inventory->setHardware(
         DESCRIPTION => "$DeviceType/$uptime"
     );
+
 }
 
 1;

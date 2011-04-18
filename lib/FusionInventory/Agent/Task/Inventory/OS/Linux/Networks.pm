@@ -1,11 +1,11 @@
-package FusionInventory::Agent::Task::Inventory::OS::Linux::Network::Networks;
+package FusionInventory::Agent::Task::Inventory::OS::Linux::Networks;
 
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Regexp;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
-use FusionInventory::Agent::Regexp;
 
 sub isInventoryEnabled {
     return 
@@ -13,7 +13,6 @@ sub isInventoryEnabled {
         can_run('route');
 }
 
-# Initialise the distro entry
 sub doInventory {
     my (%params) = @_;
 
@@ -24,7 +23,10 @@ sub doInventory {
     my $routes = _getRoutes($logger);
     my @interfaces = _getInterfaces($logger, $routes);
     foreach my $interface (@interfaces) {
-        $inventory->addNetwork($interface);
+        $inventory->addEntry(
+            section => 'NETWORKS',
+            entry   => $interface
+        );
     }
 
     # set global parameters

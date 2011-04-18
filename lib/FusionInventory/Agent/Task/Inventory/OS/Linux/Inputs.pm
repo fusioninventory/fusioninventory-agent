@@ -14,12 +14,16 @@ sub doInventory {
 
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
+
+    my $handle = getFileHandle(
+        file => '/proc/bus/input/devices',
+        logger => $logger
+    );
+    return unless $handle;
+
     my @inputs;
     my $device;
     my $in;
-
-    my $handle = getFileHandle(file => '/proc/bus/input/devices', logger => $logger);
-    return unless $handle;
 
     while (my $line = <$handle>) {
         if ($line =~ /^I: Bus=.*Vendor=(.*) Prod/) {
@@ -30,8 +34,8 @@ sub doInventory {
             if ($device->{phys} && $device->{phys} =~ "input") {
                 push @inputs, {
                     DESCRIPTION => $device->{name},
-                    CAPTION => $device->{name},
-                    TYPE=> $device->{type},
+                    CAPTION     => $device->{name},
+                    TYPE        => $device->{type},
                 };
             }
     
@@ -59,14 +63,12 @@ sub doInventory {
     }
     close $handle;
 
-#    push @inputs, {
-#        DESCRIPTION => $device->{name},
-#        TYPE=> $device->{type},
-#    };
-    foreach (@inputs) {
-        $inventory->addInput($_);
+    foreach my $input (@inputs) {
+        $inventory->addEntry(
+            section => 'INPUTS',
+            entry   => $input
+        );
     }
-
 }
 
 1;

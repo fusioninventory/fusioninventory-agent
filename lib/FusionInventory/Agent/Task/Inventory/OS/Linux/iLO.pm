@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::Linux::Network::iLO;
+package FusionInventory::Agent::Task::Inventory::OS::Linux::iLO;
 
 use strict;
 use warnings;
@@ -7,7 +7,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Regexp;
 
 sub isInventoryEnabled {
-    return can_run('hponcfg');
+    return unless can_run("hponcfg");
 }
 
 sub doInventory {
@@ -50,22 +50,25 @@ sub doInventory {
     close $handle;
     $ipsubnet = getSubnetAddress($ipaddress, $ipmask);
 
-    #Some cleanups
+    # Some cleanups
     if ( $ipaddress eq '0.0.0.0' ) { $ipaddress = "" }
     if ( not $ipaddress and not $ipmask and $ipsubnet eq '0.0.0.0' ) { $ipsubnet = "" }
     if ( not $status ) { $status = 'Down' }
 
-    $inventory->addNetwork({
-        DESCRIPTION => 'Management Interface - HP iLO',
-        IPADDRESS => $ipaddress,
-        IPMASK => $ipmask,
-        IPSUBNET => $ipsubnet,
-        STATUS => $status,
-        TYPE => 'Ethernet',
-        SPEED => $speed,
-        IPGATEWAY => $ipgateway,
-        MANAGEMENT => 'iLO',
-    });
+    $inventory->addEntry(
+        section => 'NETWORKS',
+        entry   => {
+            DESCRIPTION => 'Management Interface - HP iLO',
+            IPADDRESS   => $ipaddress,
+            IPMASK      => $ipmask,
+            IPSUBNET    => $ipsubnet,
+            STATUS      => $status,
+            TYPE        => 'Ethernet',
+            SPEED       => $speed,
+            IPGATEWAY   => $ipgateway,
+            MANAGEMENT  => 'iLO',
+        }
+    );
 }
 
 1;

@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use FusionInventory::Agent::Task::Inventory::OS::Linux::Network::Networks;
+use FusionInventory::Agent::Task::Inventory::OS::Linux::Networks;
 use Test::More;
 
 my %tests = (
@@ -76,6 +76,6 @@ plan tests => scalar keys %tests;
 use Data::Dumper;
 foreach my $test (keys %tests) {
     my $file = "resources/ifconfig/$test";
-    my @results = FusionInventory::Agent::Task::Inventory::OS::Linux::Network::Networks::_parseIfconfig(file => $file);
+    my @results = FusionInventory::Agent::Task::Inventory::OS::Linux::Networks::_parseIfconfig(file => $file);
     is_deeply(\@results, $tests{$test}, $test) or print Dumper(\@results);
 }

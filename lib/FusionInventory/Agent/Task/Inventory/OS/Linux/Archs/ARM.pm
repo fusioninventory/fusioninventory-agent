@@ -6,9 +6,11 @@ use warnings;
 use Config;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Linux;
 
 sub isInventoryEnabled { 
-    return $Config{'archname'} =~ /^arm/;
+    return $Config{archname} =~ /^arm/ &&
+           -r '/proc/cpuinfo';
 }
 
 sub doInventory {
@@ -17,18 +19,24 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $handle = getFileHandle(file => '/proc/cpuinfo', logger => $logger);
-    return unless $handle;
-
-    my $inSystem;
-    while (<$handle>) {
-        if ($inSystem && /^Serial\s+:\s*(.*)/) {
-            $inventory->setBios(SSN => $1);
-        } elsif (/^Hardware\s+:\s*(.*)/) {
-            $inventory->setBios(SMODEL => $1);
-            $inSystem = 1;
-        }
-        close $handle;
+    foreach my $cpu (_getCPUsFromProc($logger, '/proc/cpuinfo')) {
+        $inventory->addCPU($cpu);
     }
 }
+
+sub _getCPUsFromProc {
+    my ($logger, $file) = @_;
+
+    my @cpus;
+    foreach my $cpu (getCPUsFromProc(logger => $logger, file => $file)) {
+
+        push @cpus, {
+            ARCH => 'ARM',
+            TYPE => $cpu->{processor}
+        };
+    }
+
+    return @cpus;
+}
+
 1;

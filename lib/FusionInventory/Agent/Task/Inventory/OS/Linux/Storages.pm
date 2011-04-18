@@ -3,53 +3,14 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Linux;
-
-use English qw(-no_match_vars);
 
 sub isInventoryEnabled {
     return 1;
 }
-
-sub _getDescription {
-    my ($name, $manufacturer, $description, $serialnumber) = @_;
-
-    # detected as USB by udev
-    # TODO maybe we should trust udev detection by default?
-    return "USB" if (defined ($description) && $description =~ /usb/i);
-
-    if ($name =~ /^s/) { # /dev/sd* are SCSI _OR_ SATA
-        if (
-        ($manufacturer && ($manufacturer =~ /ATA/))
-        ||
-        ($serialnumber && ($serialnumber =~ /ATA/))
-        ||
-        ($description && ($description =~ /ATA/))
-        ) {
-            return  "SATA";
-        } else {
-            return "SCSI";
-        }
-    } else {
-        return "IDE";
-    }
-}
-
-# some hdparm release generated kernel error if they are
-# run on CDROM device
-# http://forums.ocsinventory-ng.org/viewtopic.php?pid=20810
-sub _correctHdparmAvailable {
-    return unless can_run('hdparm');
-
-    my $version = getFirstLine(command => 'hdparm -V');
-    my ($major, $minor) = $version =~ /^hdparm v(\d+)\.(\d+)/;
-
-    # we need at least version 9.15
-    return compareVersion($major, $minor, 9, 15);
-
-}
-
 
 sub doInventory {
     my (%params) = @_;
@@ -138,6 +99,44 @@ sub doInventory {
 
         $inventory->addStorage($device);
     }
+}
+
+sub _getDescription {
+    my ($name, $manufacturer, $description, $serialnumber) = @_;
+
+    # detected as USB by udev
+    # TODO maybe we should trust udev detection by default?
+    return "USB" if (defined ($description) && $description =~ /usb/i);
+
+    if ($name =~ /^s/) { # /dev/sd* are SCSI _OR_ SATA
+        if (
+        ($manufacturer && ($manufacturer =~ /ATA/))
+        ||
+        ($serialnumber && ($serialnumber =~ /ATA/))
+        ||
+        ($description && ($description =~ /ATA/))
+        ) {
+            return  "SATA";
+        } else {
+            return "SCSI";
+        }
+    } else {
+        return "IDE";
+    }
+}
+
+# some hdparm release generated kernel error if they are
+# run on CDROM device
+# http://forums.ocsinventory-ng.org/viewtopic.php?pid=20810
+sub _correctHdparmAvailable {
+    return unless can_run('hdparm');
+
+    my $version = getFirstLine(command => 'hdparm -V');
+    my ($major, $minor) = $version =~ /^hdparm v(\d+)\.(\d+)/;
+
+    # we need at least version 9.15
+    return compareVersion($major, $minor, 9, 15);
+
 }
 
 1;

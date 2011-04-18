@@ -6,12 +6,12 @@ use warnings;
 use Test::More;
 
 use FusionInventory::Agent::Logger;
-use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::i386::CPU;
-use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::Alpha::CPU;
-use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::SPARC::CPU;
-use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::MIPS::CPU;
-use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::ARM::CPU;
-use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::PowerPC::CPU;
+use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::i386;
+use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::Alpha;
+use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::SPARC;
+use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::MIPS;
+use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::ARM;
+use FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::PowerPC;
 
 my %i386 = (
     'linux-686-1' => {
@@ -280,37 +280,37 @@ my $logger = FusionInventory::Agent::Logger->new();
 
 foreach my $test (keys %i386) {
     my $file = "resources/cpuinfo/$test";
-    my ($procs, $cores) = FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::i386::CPU::_getCPUsFromProc($logger, $file);
+    my ($procs, $cores) = FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::i386::_getCPUsFromProc($logger, $file);
     is_deeply($procs, $i386{$test}->{procs}, "procs: ".$test);
     is_deeply($cores, $i386{$test}->{cores}, "cores: ".$test);
 }
 
 foreach my $test (keys %alpha) {
     my $file = "resources/cpuinfo/$test";
-    my @cpus = FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::Alpha::CPU::_getCPUsFromProc($logger, $file);
+    my @cpus = FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::Alpha::_getCPUsFromProc($logger, $file);
     is_deeply(\@cpus, $alpha{$test}, $test);
 }
 
 foreach my $test (keys %sparc) {
     my $file = "resources/cpuinfo/$test";
-    my @cpus = FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::SPARC::CPU::_getCPUsFromProc($logger, $file);
+    my @cpus = FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::SPARC::_getCPUsFromProc($logger, $file);
     is_deeply(\@cpus, $sparc{$test}, $test);
 }
 
 foreach my $test (keys %mips) {
     my $file = "resources/cpuinfo/$test";
-    my @cpus = FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::MIPS::CPU::_getCPUsFromProc($logger, $file);
+    my @cpus = FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::MIPS::_getCPUsFromProc($logger, $file);
     is_deeply(\@cpus, $mips{$test}, $test);
 }
 
 foreach my $test (keys %arm) {
     my $file = "resources/cpuinfo/$test";
-    my @cpus = FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::ARM::CPU::_getCPUsFromProc($logger, $file);
+    my @cpus = FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::ARM::_getCPUsFromProc($logger, $file);
     is_deeply(\@cpus, $arm{$test}, $test);
 }
 
 foreach my $test (keys %ppc) {
     my $file = "resources/cpuinfo/$test";
-    my @cpus = FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::PowerPC::CPU::_getCPUsFromProc($logger, $file);
+    my @cpus = FusionInventory::Agent::Task::Inventory::OS::Linux::Archs::PowerPC::_getCPUsFromProc($logger, $file);
     is_deeply(\@cpus, $ppc{$test}, $test);
 }

@@ -10,6 +10,52 @@ sub isInventoryEnabled {
     return 1;
 }
 
+sub doInventory {
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
+
+    my $ddcprobeData = _getDdcprobeData();
+    my $xorgData;
+
+    my $xorgPid;
+    foreach my $process (getProcessesFromPs(
+        logger => $logger,
+        command => 'ps aux'
+    )) {
+        next unless $process->{CMD} =~ m{^/usr/(?:bin/(?:X|Xorg)|X11R6/bin/X) };
+        $xorgPid = $process->{PID};
+        last;
+    }
+
+    if ($xorgPid) {
+        my $link = "/proc/$xorgPid/fd/0";
+        $xorgData = _parseXorgFd($link) if -r $link;
+    }
+
+    my $video = {
+        CHIPSET    => $xorgData->{product}    || $ddcprobeData->{product},
+        MEMORY     => $xorgData->{memory}     || $ddcprobeData->{memory},
+        NAME       => $xorgData->{name}       || $ddcprobeData->{oem},
+        RESOLUTION => $xorgData->{resolution} || $ddcprobeData->{dtiming},
+        PCISLOT    => $xorgData->{pcislot},
+    };
+
+    if ($video->{memory} && $video->{memory} =~ s/kb$//i) {
+        $video->{memory} = int($video->{memory} / 1024);
+    }
+    if ($video->{resolution}) {
+        $video->{resolution} =~ s/@.*//;
+    }
+
+    $inventory->addEntry(
+        section => 'VIDEOS',
+        entry   => $video,
+        noDuplicated => 1
+    );
+}
+
 sub _getDdcprobeData {
     my ($file) = @_;
 
@@ -73,52 +119,9 @@ sub _parseXorgFd {
             $data->{product} = $1;
         }
     }
-
     close $handle;
 
     return $data;
-}
-
-sub doInventory {
-    my (%params) = @_;
-
-    my $inventory = $params{inventory};
-    my $logger    = $params{logger};
-
-    my $ddcprobeData = _getDdcprobeData();
-    my $xorgData;
-
-    my $xorgPid;
-    foreach my $process (getProcessesFromPs(
-        logger => $logger,
-        command => 'ps aux'
-    )) {
-        next unless $process->{CMD} =~ m{^/usr/(?:bin/(?:X|Xorg)|X11R6/bin/X) };
-        $xorgPid = $process->{PID};
-        last;
-    }
-
-    if ($xorgPid) {
-        my $link = "/proc/$xorgPid/fd/0";
-        $xorgData = _parseXorgFd($link) if -r $link;
-    }
-
-    my $video = {
-        CHIPSET    => $xorgData->{product}    || $ddcprobeData->{product},
-        MEMORY     => $xorgData->{memory}     || $ddcprobeData->{memory},
-        NAME       => $xorgData->{name}       || $ddcprobeData->{oem},
-        RESOLUTION => $xorgData->{resolution} || $ddcprobeData->{dtiming},
-        PCISLOT    => $xorgData->{pcislot},
-    };
-
-    if ($video->{memory} && $video->{memory} =~ s/kb$//i) {
-        $video->{memory} = int($video->{memory} / 1024);
-    }
-    if ($video->{resolution}) {
-        $video->{resolution} =~ s/@.*//;
-    }
-
-    $inventory->addVideo($video);
 }
 
 1;

@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Distro::NonLSB;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 use FusionInventory::Agent::Tools;
 
 my @files = (
@@ -22,10 +24,24 @@ my @files = (
     [ '/etc/issue'             => '%s' ],
 );
 
-our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::OS::Linux::Distro::LSB"];
+our $runMeIfTheseChecksFailed =
+    ["FusionInventory::Agent::Task::Inventory::OS::Linux::Distro::LSB"];
 
 sub isInventoryEnabled {
     return 1;
+}
+
+sub doInventory {
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+
+    my $OSComment = getFirstLine(command => 'uname -v');
+
+    $inventory->setHardware(
+        OSNAME     => _findRelease(),
+        OSCOMMENTS => $OSComment
+    );
 }
 
 sub _findRelease {
@@ -42,19 +58,6 @@ sub _findRelease {
     }
 
     return $release;
-}
-
-sub doInventory {
-    my (%params) = @_;
-
-    my $inventory = $params{inventory};
-
-    my $OSComment = getFirstLine(command => 'uname -v');
-
-    $inventory->setHardware(
-        OSNAME     => _findRelease(),
-        OSCOMMENTS => $OSComment
-    );
 }
 
 1;
