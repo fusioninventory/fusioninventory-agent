@@ -5,7 +5,8 @@ use warnings;
 
 use FusionInventory::Agent::Tools::Win32;
 
-our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode"];
+our $runMeIfTheseChecksFailed =
+    ["FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode"];
 
 my @formFactorVal = qw/
     Unknown 
@@ -70,6 +71,10 @@ my @memoryErrorProtection = (
     'CRC',
 );
 
+sub isInventoryEnabled {
+    return 1;
+}
+
 sub doInventory {
     my (%params) = @_;
 
@@ -85,11 +90,15 @@ sub doInventory {
             SerialNumber
         / ]
     )) {
+        # Ignore ROM storages (BIOS ROM)
         my $type = $memoryTypeVal[$object->{MemoryType}];
         next if $type && $type eq 'ROM';
 
+        $object->{Capacity} = $object->{Capacity} / (1024 * 1024)
+            if $object->{Capacity};
+
         push @memories, {
-            CAPACITY     => sprintf("%i",$object->{Capacity}/(1024*1024)),
+            CAPACITY     => $object->{Capacity},
             CAPTION      => $object->{Caption},
             DESCRIPTION  => $object->{Description},
             FORMFACTOR   => $formFactorVal[$object->{FormFactor}],
@@ -124,7 +133,10 @@ sub doInventory {
     }
 
     foreach my $memory (@memories) {
-        $inventory->addMemory($memory);
+        $inventory->addEntry(
+            section => 'MEMORIES',
+            entry   => $memory
+        );
     }
 
 }
