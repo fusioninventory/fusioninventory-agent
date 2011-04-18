@@ -7,45 +7,6 @@ sub isInventoryEnabled {
     return 1;
 }
 
-# try to simulate a modern lsattr output on AIX4
-sub _lsattrForAIX4 {
-    my $device = shift;
-
-    my @lsattr;
-    my @lsattrtemp=`lsattr -EOl $device -a 'state:type'`;
-    foreach (@lsattrtemp) {
-        chomp;
-
-        my $frequency;
-
-        my (undef,$type)=split /:/;
-        #
-        # On older models, frequency is based on cpu model and uname
-        #
-        if ( $type eq "PowerPC"
-                or $type eq "PowerPC_601"
-                or $type eq "PowerPC_604") {
-            my $uname = getFirstLine(command => 'uname -m');
-            $frequency=112000000 if ($uname=~/E1D|EAD|C1D|R04|C4D|R4D/);
-            $frequency=133000000 if ($uname=~/34M/);
-            $frequency=150000000 if ($uname=~/N4D/);
-            $frequency=200000000 if ($uname=~/X4M|X4D/);
-            $frequency=225000000 if ($uname=~/N4E|K04|K44/);
-            $frequency=320000000 if ($uname=~/N4F/);
-            $frequency=360000000 if ($uname=~/K45/);
-        }
-        elsif ( $type eq "PowerPC_RS64_III" ) {
-            $frequency=400000000;
-        }
-        elsif ( $type eq "PowerPC_620" ) {
-            $frequency=172000000;
-        } else {
-            $frequency=225000000;
-        }
-        push @lsattr,"$device:$frequency\n";
-    }
-
-}
 
 sub doInventory {
     my (%params) = @_;
@@ -95,6 +56,46 @@ sub doInventory {
             CORE => $core,
             THREAD => $thread
         })
+    }
+
+}
+
+# try to simulate a modern lsattr output on AIX4
+sub _lsattrForAIX4 {
+    my $device = shift;
+
+    my @lsattr;
+    my @lsattrtemp=`lsattr -EOl $device -a 'state:type'`;
+    foreach (@lsattrtemp) {
+        chomp;
+
+        my $frequency;
+
+        my (undef,$type)=split /:/;
+        #
+        # On older models, frequency is based on cpu model and uname
+        #
+        if ( $type eq "PowerPC"
+                or $type eq "PowerPC_601"
+                or $type eq "PowerPC_604") {
+            my $uname = getFirstLine(command => 'uname -m');
+            $frequency=112000000 if ($uname=~/E1D|EAD|C1D|R04|C4D|R4D/);
+            $frequency=133000000 if ($uname=~/34M/);
+            $frequency=150000000 if ($uname=~/N4D/);
+            $frequency=200000000 if ($uname=~/X4M|X4D/);
+            $frequency=225000000 if ($uname=~/N4E|K04|K44/);
+            $frequency=320000000 if ($uname=~/N4F/);
+            $frequency=360000000 if ($uname=~/K45/);
+        }
+        elsif ( $type eq "PowerPC_RS64_III" ) {
+            $frequency=400000000;
+        }
+        elsif ( $type eq "PowerPC_620" ) {
+            $frequency=172000000;
+        } else {
+            $frequency=225000000;
+        }
+        push @lsattr,"$device:$frequency\n";
     }
 
 }

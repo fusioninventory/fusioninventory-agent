@@ -6,10 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return unless can_run('lsdev');
-    my @lsdev = `lsdev -Cc adapter -F 'name:type:description'`; 
-    return 1 if @lsdev;
-    0
+    return can_run('lsdev');
 }
 
 sub doInventory {
@@ -17,21 +14,16 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $name;
-    my $type;
-    my $manufacturer;
-
-    foreach (`lsdev -Cc adapter -F 'name:type:description'`){
-        chomp($_);
-        /^(.+):(.+):(.+)/;
-        my $name = $1;
-        my $type = $2;
-        my $manufacturer = $3;
-        $inventory->addController({
-            'NAME'          => $name,
-            'MANUFACTURER'  => $manufacturer,
-            'TYPE'          => $type,
-        });
+    foreach my $line (`lsdev -Cc adapter -F 'name:type:description'`){
+        next unless $line =~ /^(.+):(.+):(.+)/;
+        $inventory->addEntry(
+            section => 'CONTROLLERS',
+            entry   => {
+                NAME         => $1,
+                TYPE         => $2,
+                MANUFACTURER => $3,
+            }
+        );
     }
 }
 

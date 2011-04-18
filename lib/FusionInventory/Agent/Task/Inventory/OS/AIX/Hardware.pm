@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::AIX::Hardware;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isInventoryEnabled {
     return 1;
 }
@@ -17,7 +19,7 @@ sub doInventory {
     my $inventory = $params{inventory};
 
     # Using "type 0" section
-    my( $SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
+    my ($SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
         $BiosVersion, $BiosDate);
 
     #lsvpd

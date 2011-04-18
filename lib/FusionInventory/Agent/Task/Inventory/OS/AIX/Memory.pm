@@ -4,7 +4,6 @@ use strict;
 use warnings;
 
 sub isInventoryEnabled {
-    # TODO create a better check here
     return 1;
 }
 
@@ -13,6 +12,51 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
+    foreach my $memory (_getMemories()) {
+        $inventory->addEntry(
+            section => 'MEMORIES',
+            entry   => $memory
+        );
+    }
+
+    #Memory informations
+    #lsdev -Cc memory -F 'name' -t totmem
+    #lsattr -EOlmem0
+    my $memorySize = 0;
+    my (@lsdev, @lsattr, @grep);
+    @lsdev=`lsdev -Cc memory -F 'name' -t totmem`;
+    foreach (@lsdev){
+        @lsattr=`lsattr -EOl$_`;
+        foreach (@lsattr){
+            if (! /^#/){
+                # See: http://forge.fusioninventory.org/issues/399
+                # TODO: the regex should be improved here
+                /^(.+):(\d+)/;
+                $memorySize += $2;
+            }
+        }
+    }
+
+    #Paging Space
+    my $swapSize;
+    @grep=`lsps -s`;
+    foreach (@grep){
+        if ( ! /^Total/){
+            /^\s*(\d+)\w*\s+\d+.+/;
+            $swapSize = $1;
+        }
+    }
+
+    $inventory->setHardware(
+        MEMORY => $memorySize,
+        SWAP   => $swapSize 
+    );
+
+}
+
+sub _getMemories {
+
+    my @memories;
     my $capacity;
     my $description;
     my $numslots;
@@ -47,30 +91,32 @@ sub doInventory {
         if((/^FC .+/) && ($flag)) {
             $flag=0;
             $numslots = $numslots +1;
-            $inventory->addMemory({
-                CAPACITY => $capacity,
-                DESCRIPTION => $description,
-                CAPTION => $caption,
-                NUMSLOTS => $numslots,
-                VERSION => $mversion,
-                TYPE => $type,
-                SERIALNUMBER=> $serial,
-            })
+            push @memories, {
+                CAPACITY     => $capacity,
+                DESCRIPTION  => $description,
+                CAPTION      => $caption,
+                NUMSLOTS     => $numslots,
+                VERSION      => $mversion,
+                TYPE         => $type,
+                SERIALNUMBER => $serial,
+            };
         };
     }
 
     $numslots = $numslots +1;
     # End of Loop
     # The last *FC ???????? missing
-    $inventory->addMemory({
-        CAPACITY => $capacity,
-        DESCRIPTION => $description,
-        CAPTION => $caption,
-        NUMSLOTS => $numslots,
-        VERSION => $mversion,
-        TYPE => $type,
-        SERIALNUMBER=> $serial,
-    });
+    push @memories, {
+        CAPACITY     => $capacity,
+        DESCRIPTION  => $description,
+        CAPTION      => $caption,
+        NUMSLOTS     => $numslots,
+        VERSION      => $mversion,
+        TYPE         => $type,
+        SERIALNUMBER => $serial,
+    };
+
+    return @memories;
 }
 
 1;
