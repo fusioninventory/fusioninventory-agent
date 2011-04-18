@@ -20,7 +20,6 @@ my %mouseInterface = (
     162 => 'USB',
 );
 
-
 sub isInventoryEnabled {
     return 1;
 }
@@ -28,6 +27,7 @@ sub isInventoryEnabled {
 sub doInventory {
     my (%params) = @_;
 
+    my $logger    = $params{logger};
     my $inventory = $params{inventory};
 
     foreach my $object (getWmiObjects(
@@ -35,13 +35,16 @@ sub doInventory {
         properties => [ qw/Name Caption Manufacturer Description Layout/ ]
     )) {
 
-        $inventory->addInput({
-            NAME         => $object->{Name},
-            CAPTION      => $object->{Caption},
-            MANUFACTURER => $object->{Manufacturer},
-            DESCRIPTION  => $object->{Description},
-            LAYOUT       => $object->{Layout},
-        });
+        $inventory->addEntry(
+            section => 'INPUTS',
+            entry   => {
+                NAME         => $object->{Name},
+                CAPTION      => $object->{Caption},
+                MANUFACTURER => $object->{Manufacturer},
+                DESCRIPTION  => $object->{Description},
+                LAYOUT       => $object->{Layout},
+            }
+        );
     }
 
     foreach my $object (getWmiObjects(
@@ -49,15 +52,19 @@ sub doInventory {
         properties => [ qw/Name Caption Manufacturer Description PointingType DeviceInterface/ ]
     )) {
 
-        $inventory->addInput({
-            NAME         => $object->{Name},
-            CAPTION      => $object->{Caption},
-            MANUFACTURER => $object->{Manufacturer},
-            DESCRIPTION  => $object->{Description},
-            POINTINGTYPE => $object->{PointingType},
-            INTERFACE    => $mouseInterface{$object->{DeviceInterface}},
-        });
+        $inventory->addEntry(
+            section => 'INPUTS',
+            entry   => {
+                NAME         => $object->{Name},
+                CAPTION      => $object->{Caption},
+                MANUFACTURER => $object->{Manufacturer},
+                DESCRIPTION  => $object->{Description},
+                POINTINGTYPE => $object->{PointingType},
+                INTERFACE    => $mouseInterface{$object->{DeviceInterface}},
+            }
+        );
     }
+
 }
 
 1;
