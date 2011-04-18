@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<params>
+<param>
+<value><struct>
+<member>
+<name>username</name>
+<value><string>username</string></value>
+</member>
+<member>
+<name>operating_system</name>
+<value><string>redhat-release</string></value>
+</member>
+<member>
+<name>description</name>
+<value><string>Initial Registration Parameters:
+OS: redhat-release
+Release: 5Server
+CPU Arch: i686-redhat-linux</string></value>
+</member>
+<member>
+<name>checksum</name>
+<value><string>desdesdesdesdesdesdesdsdessd1ade</string></value>
+</member>
+<member>
+<name>profile_name</name>
+<value><string>cescescescsecesx.fr</string></value>
+</member>
+<member>
+<name>system_id</name>
+<value><string>ID-1232324425</string></value>
+</member>
+<member>
+<name>architecture</name>
+<value><string>i686-redhat-linux</string></value>
+</member>
+<member>
+<name>os_release</name>
+<value><string>5Server</string></value>
+</member>
+<member>
+<name>fields</name>
+<value><array><data>
+<value><string>system_id</string></value>
+<value><string>os_release</string></value>
+<value><string>operating_system</string></value>
+<value><string>architecture</string></value>
+<value><string>username</string></value>
+<value><string>type</string></value>
+</data></array></value>
+</member>
+<member>
+<name>type</name>
+<value><string>REAL</string></value>
+</member>
+</struct></value>
+</param>
+</params>
