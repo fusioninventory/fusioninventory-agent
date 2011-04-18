@@ -21,7 +21,7 @@ sub doInventory {
                 class      => "AntiVirusProduct",
                 properties => [ qw/
                     companyName displayName instanceGuid onAccessScanningEnabled
-                    productUptoDate versionNumber
+                    productUptoDate versionNumber productState
                / ]
         ))) {
 
