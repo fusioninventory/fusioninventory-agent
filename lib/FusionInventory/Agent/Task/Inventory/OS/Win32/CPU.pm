@@ -14,33 +14,6 @@ use Win32::TieRegistry (
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
 
-# the CPU description in WMI is false, we use the registry instead
-# Hardware\Description\System\CentralProcessor\1
-# thank you Nicolas Richard 
-sub getCPUInfoFromRegistry {
-    my ($logger, $cpuId) = @_;
-
-    my $machKey= $Registry->Open('LMachine', {
-        Access=> KEY_READ | KEY_WOW64_64
-    }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
-
-    my $data =
-        $machKey->{"Hardware/Description/System/CentralProcessor/".$cpuId};
-
-    my $info;
-
-    foreach my $tmpkey (%$data) {
-        next unless $tmpkey =~ /^\/(.*)/;
-        my $key = $1;
-
-        $info->{$key} = $data->{$tmpkey};
-    }
-
-    return $info;
-}
-
-
-
 sub isInventoryEnabled {
     return 1;
 }
@@ -57,10 +30,9 @@ sub doInventory {
 
     my $vmsystem;
 
-# http://forge.fusioninventory.org/issues/379
+    # http://forge.fusioninventory.org/issues/379
     my(@osver) = Win32::GetOSVersion();
     my $isWin2003 = ($osver[4] == 2 && $osver[1] == 5 && $osver[2] == 2);
-
 
     my $dmidecodeCpu = getCpusFromDmidecode();
 
@@ -70,7 +42,12 @@ sub doInventory {
         properties => [ qw/NumberOfCores ProcessorId MaxClockSpeed/ ]
     )) {
 
-        my $info = getCPUInfoFromRegistry($logger, $cpuId);
+        # the CPU description in WMI is false, we use the registry instead
+        # Hardware\Description\System\CentralProcessor\1
+        # thank you Nicolas Richard 
+        my $info = getRegistryKey(
+            "Hardware/Description/System/CentralProcessor/$cpuId"
+        );
 
 #        my $cache = $object->{L2CacheSize}+$object->{L3CacheSize};
         my $core = $object->{NumberOfCores};
@@ -121,10 +98,10 @@ sub doInventory {
     }
 
     if ($vmsystem) {
-        $inventory->setHardware(
+        $inventory->setHardware (
             VMSYSTEM => $vmsystem 
         );
     }
-
 }
+
 1;
