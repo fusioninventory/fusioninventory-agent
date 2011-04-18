@@ -220,7 +220,7 @@ my $cpropMem = [
 
 ];
 
-plan tests => (scalar keys %cpu_tests);
+plan tests => (scalar keys %cpu_tests) + 2;
 
 foreach my $test (keys %cpu_tests) {
     my $file = "$FindBin::Bin/../resources/machinfo/$test";
