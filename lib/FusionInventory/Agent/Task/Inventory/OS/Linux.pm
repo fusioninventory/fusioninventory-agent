@@ -4,10 +4,28 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use XML::TreePP;
+
 
 use FusionInventory::Agent::Tools;
 
 our $runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Generic"];
+
+# Get RedHat Network SystemId
+sub _getRHNSystemId {
+    my ($file) = @_;
+
+    my $tpp = XML::TreePP->new();
+    my $h = $tpp->parsefile($file);
+    use Data::Dumper;
+    my $v;
+    eval {
+        foreach (@{$h->{params}{param}{value}{struct}{member}}) {
+            next unless $_->{name} eq 'system_id';
+            return $_->{value}{string};
+        }
+    }
+}
 
 sub isInventoryEnabled {
     return $OSNAME eq 'linux';
@@ -31,7 +49,8 @@ sub doInventory {
         OSNAME             => "Linux",
         OSVERSION          => $osversion,
         LASTLOGGEDUSER     => $last_user,
-        DATELASTLOGGEDUSER => $last_date
+        DATELASTLOGGEDUSER => $last_date,
+        WINPRODID          => _getRHNSystemId('/etc/sysconfig/rhn/systemid'),
     });
 
 }
