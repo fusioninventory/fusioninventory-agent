@@ -3,30 +3,11 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Storages;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Tools::Win32;
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Win32;
 
 sub isInventoryEnabled {
     return can_run('hdparm');
-}
-
-sub getInfo {
-    my ($type, $nbr) = @_;
-
-    my $info = {};
-
-    my $device = "/dev/";
-    $device .= $type eq 'hd'?'hd':'scd';
-    $device .= chr(ord('a')+$nbr);
-
-    foreach (`hdparm -I $device 2>&1`) {
-        $info->{model} = $1 if /Model Number:\s+(.*?)\s*$/;
-        $info->{firmware} = $1 if /Firmware Revision:\s+(\S*)/;
-        $info->{serial} = $1 if /Serial Number:\s+(\S*)/;
-        $info->{size} = $1 if /1000:\s+(\d*)\sMBytes\s\(/;
-    }
-
-    return $info;
 }
 
 sub doInventory {
@@ -45,8 +26,11 @@ sub doInventory {
         my $info = {};
 
         if ($object->{Name} =~ /(\d+)$/) {
-            $info = getInfo("hd", $1);
+            $info = _getInfo("hd", $1);
         }
+
+        $object->{Size} = int($object->{Size} / (1024 * 1024))
+            if $object->{Size};
 
         $inventory->addStorage({
             MANUFACTURER => $object->{Manufacturer},
@@ -57,7 +41,7 @@ sub doInventory {
             INTERFACE    => $object->{InterfaceType},
             FIRMWARE     => $info->{firmware} || $object->{FirmwareRevision},
             SERIAL       => $info->{serial} || $object->{SerialNumber},
-            DISKSIZE     => $info->{size} || int($object->{Size}/(1024*1024)),
+            DISKSIZE     => $info->{size} || $object->{Size},
             SCSI_CHID    => $object->{SCSILogicialUnit},
             SCSI_COID    => $object->{SCSIPort},
             SCSI_LUN     => $object->{SCSILogicalUnit},
@@ -76,13 +60,11 @@ sub doInventory {
         my $info = {};
 
         if ($object->{Name} =~ /(\d+)$/) {
-            $info = getInfo("cdrom", $1);
+            $info = _getInfo("cdrom", $1);
         }
 
-        my $size;
-        if ($object->{Size}) {
-            $size = int($object->{Size}/(1024*1024))
-        }
+        $object->{Size} = int($object->{Size} / (1024 * 1024))
+            if $object->{Size};
 
         $inventory->addStorage({
             MANUFACTURER => $object->{Manufacturer},
@@ -93,7 +75,7 @@ sub doInventory {
             INTERFACE    => $object->{InterfaceType},
             FIRMWARE     => $info->{firmware} || $object->{FirmwareRevision},
             SERIAL       => $info->{serial} || $object->{SerialNumber},
-            DISKSIZE     => $info->{size} || $size,
+            DISKSIZE     => $info->{size} || $object->{Size},
             SCSI_CHID    => $object->{SCSILogicialUnit},
             SCSI_COID    => $object->{SCSIPort},
             SCSI_LUN     => $object->{SCSILogicalUnit},
@@ -110,6 +92,9 @@ sub doInventory {
         / ]
     )) {
 
+        $object->{Size} = int($object->{Size} / (1024 * 1024))
+            if $object->{Size};
+
         $inventory->addStorage({
             MANUFACTURER => $object->{Manufacturer},
             MODEL        => $object->{Caption},
@@ -119,7 +104,7 @@ sub doInventory {
             INTERFACE    => $object->{InterfaceType},
             FIRMWARE     => $object->{FirmwareRevision},
             SERIAL       => $object->{SerialNumber},
-            DISKSIZE     => int($object->{Size}/(1024*1024)),
+            DISKSIZE     => $object->{Size},
             SCSI_CHID    => $object->{SCSILogicialUnit},
             SCSI_COID    => $object->{SCSIPort},
             SCSI_LUN     => $object->{SCSILogicalUnit},
@@ -127,6 +112,25 @@ sub doInventory {
         });
 
     }
-
 }
+
+sub _getInfo {
+    my ($type, $nbr) = @_;
+
+    my $info = {};
+
+    my $device = "/dev/";
+    $device .= $type eq 'hd'?'hd':'scd';
+    $device .= chr(ord('a')+$nbr);
+
+    foreach (`hdparm -I $device 2>&1`) {
+        $info->{model} = $1 if /Model Number:\s+(.*?)\s*$/;
+        $info->{firmware} = $1 if /Firmware Revision:\s+(\S*)/;
+        $info->{serial} = $1 if /Serial Number:\s+(\S*)/;
+        $info->{size} = $1 if /1000:\s+(\d*)\sMBytes\s\(/;
+    }
+
+    return $info;
+} 
+
 1;
