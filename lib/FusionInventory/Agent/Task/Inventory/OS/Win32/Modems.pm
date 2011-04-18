@@ -3,7 +3,7 @@ package FusionInventory::Agent::Task::Inventory::OS::Win32::Modems;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Task::Inventory::OS::Win32;
+use FusionInventory::Agent::Tools::Win32;
 
 sub isInventoryEnabled {
     return 1;
@@ -19,12 +19,15 @@ sub doInventory {
         properties => [ qw/Name DeviceType Model Description/ ]
     )) {
 
-        $inventory->addModem({
-            NAME        => $object->{Name},
-            TYPE        => $object->{DeviceType},
-            MODEL       => $object->{Model},
-            DESCRIPTION => $object->{Description},
-        });
+        $inventory->addEntry(
+            section => 'MODEMS',
+            entry   => {
+                NAME        => $object->{Name},
+                TYPE        => $object->{DeviceType},
+                MODEL       => $object->{Model},
+                DESCRIPTION => $object->{Description},
+            }
+        );
     }
 }
 
