@@ -66,7 +66,7 @@ sub doInventory {
         my $cpus = _parseCpropProcessor('/opt/propplus/bin/cprop -summary -c Processors', '-|');
         $inventory->addCPU($cpus);
         return;
-    } elsif ( can_run ("/usr/contrib/bin/machinfo") ) {
+    } elsif ( can_run('/usr/contrib/bin/machinfo') ) {
         $CPUinfo = _parseMachinInfo('/usr/contrib/bin/machinfo', '-|');
     } else {
         my $DeviceType = getFirstLine(command => 'model |cut -f 3- -d/');

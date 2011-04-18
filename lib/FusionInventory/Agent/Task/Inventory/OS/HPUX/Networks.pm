@@ -9,11 +9,11 @@ use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
     return 
-        can_run("lanadmin") &&
-        can_run("lanscan") &&
-        can_run("netstat") &&
-        can_run("ifconfig") &&
-        can_run("uname");
+        can_run('lanadmin') &&
+        can_run('lanscan') &&
+        can_run('netstat') &&
+        can_run('ifconfig') &&
+        can_run('uname');
 }
 
 sub doInventory {
