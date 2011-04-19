@@ -30,20 +30,16 @@ sub doInventory {
         command => 'lsdev -Cc disk -s scsi -F "name:description"',
         logger  => $logger
     );
-    foreach (@scsi){
-        my $device;
+    foreach my $line (@scsi) {
+        chomp $line;
+        next unless $line =~ /^(.+):(.+)/;
+        my $device = $1;
+        my $description = $2;
         my $manufacturer;
         my $model;
-        my $description;
-        my $capacity;
-
         my $serial;
 
-        chomp;
-        /^(.+):(.+)/;
-        $device = $1;
-        $description = $2;
-        $capacity = _getCapacity($device, $logger);
+        my $capacity = _getCapacity($device, $logger);
         foreach (@lsvpd) {
             if (/^AX $device/) {
                 $flag = 1;
@@ -75,14 +71,14 @@ sub doInventory {
         }
 
         $inventory->addStorage({
-                NAME => $device,
-                MANUFACTURER => $manufacturer,
-                MODEL => $model,
-                DESCRIPTION => $description,
-                TYPE => 'disk',
-                SERIAL=> $serial,
-                DISKSIZE => $capacity
-            });
+            NAME => $device,
+            MANUFACTURER => $manufacturer,
+            MODEL => $model,
+            DESCRIPTION => $description,
+            TYPE => 'disk',
+            SERIAL=> $serial,
+            DISKSIZE => $capacity
+        });
     }
 
     @scsi=`lsdev -Cc disk -s fcp -F 'name:description'`;
