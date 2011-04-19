@@ -15,16 +15,22 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{inventory};
 
     my(@disques, $n, $i, $flag, @rep, @scsi, @values, @lsattr, $FRU, $status);
 
     #lsvpd
-    my @lsvpd = `lsvpd`;  
+    my @lsvpd = getAllLines(
+        command => 'lsvpd', logger => $logger
+    );  
     s/^\*// foreach (@lsvpd);
 
     #SCSI disks 
     $n=0;
-    @scsi=`lsdev -Cc disk -s scsi -F 'name:description'`;
+    @scsi= getAllLines(
+        command => 'lsdev -Cc disk -s scsi -F "name:description"',
+        logger  => $logger
+    );
     foreach (@scsi){
         my $device;
         my $manufacturer;
@@ -38,7 +44,10 @@ sub doInventory {
         /^(.+):(.+)/;
         $device = $1;
         $description = $2;
-        @lsattr = `lsattr -EOl $device -a 'size_in_mb'`;
+        @lsattr = getAllLines(
+            command => "lsattr -EOl $device -a 'size_in_mb'",
+            logger  => $logger
+        );
         foreach (@lsattr){
             if (! /^#/ ){
                 $capacity= $_;
@@ -158,7 +167,10 @@ $n=0;
     @scsi= ();
     @lsattr= ();
     $n=0;
-    @scsi=`lsdev -Cc disk -s vscsi -F 'name:description'`;
+    @scsi = getAllLines(
+        command => 'lsdev -Cc disk -s vscsi -F "name:description"',
+        logger => $logger
+    );
     foreach (@scsi){
         my $device;
         my $manufacturer;
@@ -171,7 +183,10 @@ $n=0;
         /^(.+):(.+)/;
         $device = $1;
         $description = $2;
-        @lsattr = `lspv  $device 2>&1`;
+        @lsattr = getAllLines(
+            command => "lspv $device",
+            logger  => $logger
+        );
         foreach (@lsattr) {
             if ( ! ( /^0516-320.*/ ) ) {
                 if (/TOTAL PPs:/ ) {
@@ -197,7 +212,10 @@ $n=0;
     #CDROM
     @scsi= ();
     @lsattr= ();
-    @scsi=`lsdev -Cc cdrom -s scsi -F 'name:description:status'`;
+    @scsi = getAllLines(
+        command => 'lsdev -Cc cdrom -s scsi -F "name:description:status"',
+        logger  => $logger
+    );
     $i=0;
     foreach (@scsi){
         my $device;
@@ -213,7 +231,10 @@ $n=0;
         $description = $2;
         $capacity = "";
         if (($status =~ /Available/)){
-            @lsattr = `lsattr -EOl $device -a 'size_in_mb'`;
+            @lsattr = getAllLines(
+                command => "lsattr -EOl $device -a 'size_in_mb'",
+                logger  => $logger
+            );
             foreach (@lsattr){
                 if (! /^#/ ){
                     $capacity = $_;
@@ -263,7 +284,10 @@ $n=0;
     #TAPE
     @scsi= ();
     @lsattr= ();
-    @scsi=`lsdev -Cc tape -s scsi -F 'name:description:status'`;
+    @scsi = getAllLines(
+        command => 'lsdev -Cc tape -s scsi -F "name:description:status"',
+        logger  => $logger
+    );
     $i=0;
     foreach (@scsi){
         my $device;
@@ -279,7 +303,10 @@ $n=0;
         $description = $2;
         $capacity = "";
         if (($status =~ /Available/)){
-            @lsattr = `lsattr -EOl $device -a 'size_in_mb'`;
+            @lsattr = getAllLinaes(
+                command => "lsattr -EOl $device -a 'size_in_mb'",
+                logger  => $logger
+            );
             foreach (@lsattr){
                 if (! /^#/ ){
                     $capacity= $_;
@@ -328,7 +355,10 @@ $n=0;
     #Disquette
     @scsi= ();
     @lsattr= ();
-    @scsi=`lsdev -Cc diskette -F 'name:description:status'`;
+    @scsi = getAllLines(
+        command => 'lsdev -Cc diskette -F "name:description:status"',
+        logger  => $logger
+    );
     $i=0;
     foreach (@scsi){
         my $device;
@@ -344,7 +374,10 @@ $n=0;
         $description = $2;
         $capacity = "";
         if (($status =~ /Available/)){
-            @lsattr = `lsattr -EOl $device -a 'fdtype'`;
+            @lsattr = getAllLines(
+                command => "lsattr -EOl $device -a 'fdtype'",
+                logger  => $logger
+            );
             foreach (@lsattr){
                 if (! /^#/ ) {
                     $capacity= $_;
