@@ -43,17 +43,7 @@ sub doInventory {
         /^(.+):(.+)/;
         $device = $1;
         $description = $2;
-        @lsattr = getAllLines(
-            command => "lsattr -EOl $device -a 'size_in_mb'",
-            logger  => $logger
-        );
-        foreach (@lsattr){
-            if (! /^#/ ){
-                $capacity= $_;
-                chomp($capacity);
-                $capacity =~ s/(\s+)$//;
-            }
-        }
+        $capacity = _getCapacity($device, $logger);
         foreach (@lsvpd) {
             if (/^AX $device/) {
                 $flag = 1;
@@ -224,17 +214,7 @@ sub doInventory {
         $description = $2;
         $capacity = "";
         if (($status =~ /Available/)){
-            @lsattr = getAllLines(
-                command => "lsattr -EOl $device -a 'size_in_mb'",
-                logger  => $logger
-            );
-            foreach (@lsattr){
-                if (! /^#/ ){
-                    $capacity = $_;
-                    chomp($capacity);
-                    $capacity =~ s/(\s+)$//;
-                }
-            }
+            $capacity = _getCapacity($device, $logger);
             $description = $scsi[$n];
             foreach (@lsvpd){
                 if (/^AX $device/) {
@@ -294,17 +274,7 @@ sub doInventory {
         $description = $2;
         $capacity = "";
         if (($status =~ /Available/)){
-            @lsattr = getAllLinaes(
-                command => "lsattr -EOl $device -a 'size_in_mb'",
-                logger  => $logger
-            );
-            foreach (@lsattr){
-                if (! /^#/ ){
-                    $capacity= $_;
-                    chomp($capacity);
-                    $capacity =~ s/(\s+)$//;
-                }
-            }
+            $capacity = _getCapacity($device, $logger);
             foreach (@lsvpd){
                 if (/^AX $device/) {
                     $flag = 1;
@@ -385,6 +355,26 @@ sub doInventory {
                 });
         }
     }
+}
+
+sub _getCapacity {
+    my ($device, $logger) = @_;
+
+    my @lsattr = getAllLinaes(
+        command => "lsattr -EOl $device -a 'size_in_mb'",
+        logger  => $logger
+    );
+
+    my $capacity;
+    foreach (@lsattr){
+        if (! /^#/ ){
+            $capacity= $_;
+            chomp($capacity);
+            $capacity =~ s/(\s+)$//;
+        }
+    }
+
+    return $capacity;
 }
 
 1;
