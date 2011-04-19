@@ -17,7 +17,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{inventory};
 
-    my(@disques, $n, $i, $flag, @rep, @scsi, @values, @lsattr, $FRU, $status);
+    my(@disques, $flag, @rep, @scsi, @values, @lsattr, $FRU, $status);
 
     #lsvpd
     my @lsvpd = getAllLines(
@@ -26,8 +26,7 @@ sub doInventory {
     s/^\*// foreach (@lsvpd);
 
     #SCSI disks 
-    $n=0;
-    @scsi= getAllLines(
+    @scsi = getAllLines(
         command => 'lsdev -Cc disk -s scsi -F "name:description"',
         logger  => $logger
     );
@@ -40,7 +39,7 @@ sub doInventory {
 
         my $serial;
 
-        chomp $scsi[$n];
+        chomp;
         /^(.+):(.+)/;
         $device = $1;
         $description = $2;
@@ -94,9 +93,8 @@ sub doInventory {
                 SERIAL=> $serial,
                 DISKSIZE => $capacity
             });
-        $n++;
     }
-$n=0;
+
   @scsi=`lsdev -Cc disk -s fcp -F 'name:description'`;
   for(@scsi){
         my $device;
@@ -106,7 +104,7 @@ $n=0;
         my $capacity;
 
         my $serial;
-        chomp $scsi[$n];
+        chomp;
         /^(.+):(.+)/;
         $device=$1;
         $description=$2;
@@ -126,10 +124,8 @@ $n=0;
           TYPE => 'disk',
           DISKSIZE => $capacity
     });
-        $n++;
   }
 
-$n=0;
   @scsi=`lsdev -Cc disk -s fdar -F 'name:description'`;
   for(@scsi){
         my $device;
@@ -139,7 +135,7 @@ $n=0;
         my $capacity;
 
         my $serial;
-        chomp $scsi[$n];
+        chomp;
         /^(.+):(.+)/;
         $device=$1;
         $description=$2;
@@ -159,14 +155,12 @@ $n=0;
           TYPE => 'disk',
           DISKSIZE => $capacity
     });
-        $n++;
   }
 
 
 #Virtual disks
     @scsi= ();
     @lsattr= ();
-    $n=0;
     @scsi = getAllLines(
         command => 'lsdev -Cc disk -s vscsi -F "name:description"',
         logger => $logger
@@ -179,7 +173,7 @@ $n=0;
         my $capacity;
 
         my $serial;
-        chomp $scsi[$n];
+        chomp;
         /^(.+):(.+)/;
         $device = $1;
         $description = $2;
@@ -205,9 +199,7 @@ $n=0;
                 NAME => $device,
                 DISKSIZE => $capacity
             });
-        $n++;
     }
-
 
     #CDROM
     @scsi= ();
@@ -216,7 +208,8 @@ $n=0;
         command => 'lsdev -Cc cdrom -s scsi -F "name:description:status"',
         logger  => $logger
     );
-    $i=0;
+
+    my $n;
     foreach (@scsi){
         my $device;
         my $manufacturer;
@@ -224,7 +217,7 @@ $n=0;
         my $description;
         my $capacity;
 
-        chomp $scsi[$i];
+        chomp;
         /^(.+):(.+):(.+)/;
         $device = $1;
         $status = $3;
@@ -278,7 +271,6 @@ $n=0;
                 });
             $n++;
         }
-        $i++;
     }
 
     #TAPE
@@ -288,7 +280,6 @@ $n=0;
         command => 'lsdev -Cc tape -s scsi -F "name:description:status"',
         logger  => $logger
     );
-    $i=0;
     foreach (@scsi){
         my $device;
         my $manufacturer;
@@ -296,7 +287,7 @@ $n=0;
         my $description;
         my $capacity;
 
-        chomp $scsi[$i];
+        chomp;
         /^(.+):(.+):(.+)/;
         $device = $1;
         $status = $3;
@@ -347,9 +338,7 @@ $n=0;
                     TYPE => 'tape',
                     DISKSIZE => $capacity
                 });
-            $n++;
         }
-        $i++;
     }
 
     #Disquette
@@ -359,7 +348,6 @@ $n=0;
         command => 'lsdev -Cc diskette -F "name:description:status"',
         logger  => $logger
     );
-    $i=0;
     foreach (@scsi){
         my $device;
         my $manufacturer;
@@ -367,7 +355,7 @@ $n=0;
         my $description;
         my $capacity;
 
-        chomp $scsi[$i];
+        chomp;
         /^(.+):(.+):(.+)/;
         $device = $1;
         $status = $3;
@@ -395,9 +383,7 @@ $n=0;
                     TYPE => 'floppy',
                     DISKSIZE => ''
                 });
-            $n++;
         }
-        $i++;
     }
 }
 
