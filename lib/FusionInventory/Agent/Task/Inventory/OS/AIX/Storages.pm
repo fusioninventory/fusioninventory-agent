@@ -91,14 +91,12 @@ sub doInventory {
         my $manufacturer;
         my $model;
         my $description;
-        my $capacity;
 
         my $serial;
         chomp;
         /^(.+):(.+)/;
         $device=$1;
         $description=$2;
-            $capacity='';
         for (@lsvpd){
           if(/^AX $device/){$flag=1}
           if ((/^MF (.+)/) && $flag){$manufacturer=$1;chomp($manufacturer);$manufacturer =~ s/(\s+)$//;}
@@ -112,7 +110,6 @@ sub doInventory {
           MODEL => $model,
           DESCRIPTION => $description,
           TYPE => 'disk',
-          DISKSIZE => $capacity
     });
   }
 
@@ -122,14 +119,12 @@ sub doInventory {
         my $manufacturer;
         my $model;
         my $description;
-        my $capacity;
 
         my $serial;
         chomp;
         /^(.+):(.+)/;
         $device=$1;
         $description=$2;
-            $capacity='';
         for (@lsvpd){
           if(/^AX $device/){$flag=1}
           if ((/^MF (.+)/) && $flag){$manufacturer=$1;chomp($manufacturer);$manufacturer =~ s/(\s+)$//;}
@@ -143,7 +138,6 @@ sub doInventory {
           MODEL => $model,
           DESCRIPTION => $description,
           TYPE => 'disk',
-          DISKSIZE => $capacity
     });
   }
 
@@ -212,7 +206,6 @@ sub doInventory {
         $device = $1;
         $status = $3;
         $description = $2;
-        $capacity = "";
         if (($status =~ /Available/)){
             $capacity = _getCapacity($device, $logger);
             $description = $scsi[$n];
@@ -272,7 +265,6 @@ sub doInventory {
         $device = $1;
         $status = $3;
         $description = $2;
-        $capacity = "";
         if (($status =~ /Available/)){
             $capacity = _getCapacity($device, $logger);
             foreach (@lsvpd){
@@ -330,21 +322,7 @@ sub doInventory {
         $device = $1;
         $status = $3;
         $description = $2;
-        $capacity = "";
         if (($status =~ /Available/)){
-            @lsattr = getAllLines(
-                command => "lsattr -EOl $device -a 'fdtype'",
-                logger  => $logger
-            );
-            foreach (@lsattr){
-                if (! /^#/ ) {
-                    $capacity= $_;
-                    chomp($capacity);
-                    $capacity =~ s/(\s+)$//;
-                }
-            }
-            #On le force en retour taille disquette non affichable
-            $capacity ="";
             $inventory->addStorage({
                     NAME => $device,
                     MANUFACTURER => 'N/A',
