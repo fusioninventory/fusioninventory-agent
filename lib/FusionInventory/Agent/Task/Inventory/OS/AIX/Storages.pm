@@ -85,33 +85,47 @@ sub doInventory {
             });
     }
 
-  @scsi=`lsdev -Cc disk -s fcp -F 'name:description'`;
-  for(@scsi){
-        my $device;
+    @scsi=`lsdev -Cc disk -s fcp -F 'name:description'`;
+    foreach my $line (@scsi) {
+        chomp $line;
+        next unless $line =~ /^(.+):(.+)/;
+        my $device = $1;
+        my $description = $2;
         my $manufacturer;
         my $model;
-        my $description;
 
-        my $serial;
-        chomp;
-        /^(.+):(.+)/;
-        $device=$1;
-        $description=$2;
         for (@lsvpd){
-          if(/^AX $device/){$flag=1}
-          if ((/^MF (.+)/) && $flag){$manufacturer=$1;chomp($manufacturer);$manufacturer =~ s/(\s+)$//;}
-          if ((/^TM (.+)/) && $flag){$model=$1;chomp($model);$model =~ s/(\s+)$//;}
-          if ((/^FN (.+)/) && $flag){$FRU=$1;chomp($FRU);$FRU =~ s/(\s+)$//;$manufacturer .= ",FRU number :".$FRU}
-          if ((/^FC .+/) && $flag) {$flag=0;last}
+            if (/^AX $device/) {
+                $flag = 1;
+            }
+            if ((/^MF (.+)/) && $flag) {
+                $manufacturer = $1;
+                chomp($manufacturer);
+                $manufacturer =~ s/(\s+)$//;
+            }
+            if ((/^TM (.+)/) && $flag) {
+                $model = $1;
+                chomp($model);
+                $model =~ s/(\s+)$//;
+            }
+            if ((/^FN (.+)/) && $flag) {
+                $FRU = $1;
+                chomp($FRU);
+                $FRU =~ s/(\s+)$//;
+                $manufacturer .= ",FRU number :".$FRU;
+            }
+            if ((/^FC .+/) && $flag) {
+                $flag=0;last
+            }
         }
         $inventory->addStorage({
-          NAME => $device,
-          MANUFACTURER => $manufacturer,
-          MODEL => $model,
-          DESCRIPTION => $description,
-          TYPE => 'disk',
-    });
-  }
+            NAME => $device,
+            MANUFACTURER => $manufacturer,
+            MODEL => $model,
+            DESCRIPTION => $description,
+            TYPE => 'disk',
+        });
+    }
 
     @scsi=`lsdev -Cc disk -s fdar -F 'name:description'`;
     foreach my $line (@scsi){
