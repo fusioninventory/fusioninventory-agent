@@ -17,20 +17,18 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{inventory};
 
-    my(@disques, $flag, @rep, @scsi, @values, @lsattr, $FRU, $status);
-
     #lsvpd
     my @lsvpd = getAllLines(
         command => 'lsvpd', logger => $logger
     );  
     s/^\*// foreach (@lsvpd);
 
-    #SCSI disks 
-    @scsi = getAllLines(
+    # SCSI disks 
+    my @scsi_disks = getAllLines(
         command => 'lsdev -Cc disk -s scsi -F "name:description"',
         logger  => $logger
     );
-    foreach my $line (@scsi) {
+    foreach my $line (@scsi_disks) {
         chomp $line;
         next unless $line =~ /^(.+):(.+)/;
         my $device = $1;
@@ -81,8 +79,11 @@ sub doInventory {
         });
     }
 
-    @scsi=`lsdev -Cc disk -s fcp -F 'name:description'`;
-    foreach my $line (@scsi) {
+    my @fcp_disks = getAllLines(
+        command => 'lsdev -Cc disk -s fcp -F "name:description"',
+        logger  => $logger
+    );
+    foreach my $line (@fcp_disks) {
         chomp $line;
         next unless $line =~ /^(.+):(.+)/;
         my $device = $1;
@@ -123,8 +124,11 @@ sub doInventory {
         });
     }
 
-    @scsi=`lsdev -Cc disk -s fdar -F 'name:description'`;
-    foreach my $line (@scsi){
+    my @fdar_disks = getAllLines(
+        command => 'lsdev -Cc disk -s fdar -F "name:description"',
+        logger  => $logger
+    );
+    foreach my $line (@fdar_disks){
         chomp $line;
         next unless $line =~ /^(.+):(.+)/;
         my $device = $1;
@@ -167,13 +171,11 @@ sub doInventory {
     }
 
     # Virtual disks
-    @scsi= ();
-    @lsattr= ();
-    @scsi = getAllLines(
+    my @vscsi = getAllLines(
         command => 'lsdev -Cc disk -s vscsi -F "name:description"',
         logger => $logger
     );
-    foreach my $line (@scsi) {
+    foreach my $line (@vscsi) {
         chomp $line;
         next unless $line =~ /^(.+):(.+)/;
         my $device = $1;
@@ -181,7 +183,7 @@ sub doInventory {
         my $model;
         my $capacity;
 
-        @lsattr = getAllLines(
+        my @lsattr = getAllLines(
             command => "lspv $device",
             logger  => $logger
         );
@@ -205,23 +207,19 @@ sub doInventory {
         });
     }
 
-    #CDROM
-    @scsi= ();
-    @lsattr= ();
-    @scsi = getAllLines(
+    # CDROM
+    my @cdroms = getAllLines(
         command => 'lsdev -Cc cdrom -s scsi -F "name:description:status"',
         logger  => $logger
     );
 
-    my $n;
-    foreach my $line (@scsi){
+    foreach my $line (@cdroms){
         chomp $line;
         next unless $line =~ /^(.+):(.+):.+Available.+/;
         my $device = $1;
         my $description = $2;
 
         my $capacity = _getCapacity($device, $logger);
-        $description = $scsi[$n];
 
         my $manufacturer;
         my $model;
@@ -258,17 +256,14 @@ sub doInventory {
             TYPE         => 'cd',
             DISKSIZE     => $capacity
         });
-        $n++;
     }
 
-    #TAPE
-    @scsi= ();
-    @lsattr= ();
-    @scsi = getAllLines(
+    # TAPE
+    my @tapes = getAllLines(
         command => 'lsdev -Cc tape -s scsi -F "name:description:status"',
         logger  => $logger
     );
-    foreach my $line (@scsi) {
+    foreach my $line (@tapes) {
         chomp $line;
         next unless $line =~ /^(.+):(.+):.+Available.+/;
         my $device = $1;
@@ -312,14 +307,12 @@ sub doInventory {
         });
     }
 
-    #Disquette
-    @scsi= ();
-    @lsattr= ();
-    @scsi = getAllLines(
+    # Diskette
+    my @diskettes = getAllLines(
         command => 'lsdev -Cc diskette -F "name:description:status"',
         logger  => $logger
     );
-    foreach my $line (@scsi) {
+    foreach my $line (@diskettes) {
         chomp $line;
         next unless $line =~ /^(.+):(.+):.+Available.+/;
         my $device = $1;
