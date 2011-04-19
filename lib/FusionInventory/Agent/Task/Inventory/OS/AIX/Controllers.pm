@@ -13,18 +13,35 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
-    foreach my $line (`lsdev -Cc adapter -F 'name:type:description'`){
-        next unless $line =~ /^(.+):(.+):(.+)/;
+    foreach my $controller (_getControllers(
+        command => 'lsdev -Cc adapter -F "name:type:description"',
+        logger  => $logger,
+    )) {
         $inventory->addEntry(
             section => 'CONTROLLERS',
-            entry   => {
-                NAME         => $1,
-                TYPE         => $2,
-                MANUFACTURER => $3,
-            }
+            entry   => $controller
         );
     }
+}
+
+sub _getControllers {
+    my $handle = getFileHandle(@_);
+    return unless $handle;
+
+    my @controllers;
+    while (my $line = <$handle>) {
+        next unless $line =~ /^(.+):(.+):(.+)/;
+        push @controllers, {
+            NAME         => $1,
+            TYPE         => $2,
+            MANUFACTURER => $3,
+        };
+    }
+    close $handle;
+
+    return @controllers;
 }
 
 1;

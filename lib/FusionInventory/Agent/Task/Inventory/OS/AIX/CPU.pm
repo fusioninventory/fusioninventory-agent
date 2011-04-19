@@ -12,26 +12,36 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
-    # TODO Need to be able to register different CPU speed!
+    foreach my $cpu (_getCPUs(
+        command => 'lsdev -Cc processor -F name',
+        logger  => $logger
+    )) {
+        $inventory->addCPU($cpu);
+    }
+}
 
+sub _getCPUs {
+    my $handle = getFileHandle(@_);
+    return unless $handle;
 
-    #lsdev -Cc processor -F name
-    #lsattr -EOl proc16
     my $aixversion = getFirstLine(command => 'uname -v');
-    foreach (`lsdev -Cc processor -F name`){
+
+    my @cpus;
+    while (my $line = <$handle>) {
+        chomp $line;
+        my $device = $line;
         my $name;
         my $frequency;
         my $core = 0;
         my $thread = 1;
 
-        chomp(my $device = $_);
-
         my @lsattr;
-        if ( $aixversion < 5 ) {
-            @lsattr=_lsattrForAIX4($device);
+        if ($aixversion < 5) {
+            @lsattr = _lsattrForAIX4($device);
         } else {
-            @lsattr=`lsattr -EOl $device -a 'state:type:frequency'`;
+            @lsattr = `lsattr -EOl $device -a 'state:type:frequency'`;
             if (`lsattr -EOl $device -a 'state:type:smt_threads'` =~ /:(\d+)$/) {
                 $thread = $1;
             }
@@ -45,19 +55,21 @@ sub doInventory {
                 } else {
                     $frequency=int (($3/1000000));
                 }
-                $name=$2;
+                $name = $2;
                 $name =~ s/_/ /;
             }
         }
 
-        $inventory->addCPU({
-            NAME => $name,
-            SPEED => $frequency,
-            CORE => $core,
+        push @cpus, {
+            NAME   => $name,
+            SPEED  => $frequency,
+            CORE   => $core,
             THREAD => $thread
-        })
+        };
     }
+    close $handle;
 
+    return @cpus;
 }
 
 # try to simulate a modern lsattr output on AIX4
