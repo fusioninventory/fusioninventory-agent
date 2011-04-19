@@ -31,37 +31,12 @@ sub doInventory {
         next unless $line =~ /^(.+):(.+)/;
         my $device = $1;
         my $description = $2;
-        my $manufacturer;
-        my $model;
-        my $serial;
+
+        my ($manufacturer, $model) = _getInfos($device, @lsvpd);
 
         my $capacity = _getCapacity($device, $logger);
-        foreach (@lsvpd) {
-            if (/^AX $device/) {
-                $flag = 1;
-            }
-            if (/^MF (.+)/ && $flag) {
-                $manufacturer = $1;
-                chomp($manufacturer);
-                $manufacturer =~ s/(\s+)$//;
-            }
-            if (/^TM (.+)/ && $flag) {
-                $model = $1;
-                chomp($model);
-                $model =~ s/(\s+)$//;
-            }
-            if (/^FN (.+)/ && $flag) {
-                $FRU = $1;
-                chomp($FRU);
-                $FRU =~ s/(\s+)$//;
-                $manufacturer .= ",FRU number :".$FRU;
-            }
-            if (/^FC .+/ && $flag) {
-                $flag = 0;
-                last;
-            }
-        }
 
+        my $serial;
         foreach (`lscfg -p -v -s -l $device` =~ /Serial Number\.*(.*)/) {
             $serial = $1;
         }
@@ -86,33 +61,9 @@ sub doInventory {
         next unless $line =~ /^(.+):(.+)/;
         my $device = $1;
         my $description = $2;
-        my $manufacturer;
-        my $model;
 
-        for (@lsvpd){
-            if (/^AX $device/) {
-                $flag = 1;
-            }
-            if ((/^MF (.+)/) && $flag) {
-                $manufacturer = $1;
-                chomp($manufacturer);
-                $manufacturer =~ s/(\s+)$//;
-            }
-            if ((/^TM (.+)/) && $flag) {
-                $model = $1;
-                chomp($model);
-                $model =~ s/(\s+)$//;
-            }
-            if ((/^FN (.+)/) && $flag) {
-                $FRU = $1;
-                chomp($FRU);
-                $FRU =~ s/(\s+)$//;
-                $manufacturer .= ",FRU number :".$FRU;
-            }
-            if ((/^FC .+/) && $flag) {
-                $flag=0;last
-            }
-        }
+        my ($manufacturer, $model) = _getInfos($device, @lsvpd);
+
         $inventory->addStorage({
             NAME         => $device,
             MANUFACTURER => $manufacturer,
@@ -131,34 +82,9 @@ sub doInventory {
         next unless $line =~ /^(.+):(.+)/;
         my $device = $1;
         my $description = $2;
-        my $manufacturer;
-        my $model;
 
-        for (@lsvpd) {
-            if (/^AX $device/) { 
-                $flag = 1;
-            }
-            if ((/^MF (.+)/) && $flag) {
-                $manufacturer = $1;
-                chomp($manufacturer);
-                $manufacturer =~ s/(\s+)$//;
-            }
-            if ((/^TM (.+)/) && $flag) {
-                $model = $1;
-                chomp($model);
-                $model =~ s/(\s+)$//;
-            }
-            if ((/^FN (.+)/) && $flag) {
-                $FRU = $1;
-                chomp($FRU);
-                $FRU =~ s/(\s+)$//;
-                $manufacturer .= ",FRU number :".$FRU;
-            }
-            if ((/^FC .+/) && $flag) {
-                $flag = 0;
-                last;
-            }
-        }
+        my ($manufacturer, $model) = _getInfos($device, @lsvpd);
+
         $inventory->addStorage({
             NAME         => $device,
             MANUFACTURER => $manufacturer,
@@ -219,33 +145,7 @@ sub doInventory {
 
         my $capacity = _getCapacity($device, $logger);
 
-        my $manufacturer;
-        my $model;
-        foreach (@lsvpd){
-            if (/^AX $device/) {
-                $flag = 1;
-            }
-            if (/^MF (.+)/ && $flag) {
-                $manufacturer = $1;
-                chomp($manufacturer);
-                $manufacturer =~ s/(\s+)$//;
-            }
-            if (/^TM (.+)/ && $flag) {
-                $model = $1;
-                chomp($model);
-                $model =~ s/(\s+)$//;
-            }
-            if (/^FN (.+)/ && $flag) {
-                $FRU = $1;
-                chomp($FRU);
-                $FRU =~ s/(\s+)$//;
-                $manufacturer .= ",FRU number :".$FRU;
-            }
-            if (/^FC .+/ && $flag) {
-                $flag = 0;
-                last;
-            }
-        }
+        my ($manufacturer, $model) = _getInfos($device);
         $inventory->addStorage({
             NAME         => $device,
             MANUFACTURER => $manufacturer,
@@ -266,35 +166,9 @@ sub doInventory {
         next unless $line =~ /^(.+):(.+):.+Available.+/;
         my $device = $1;
         my $description = $2;
-        my $manufacturer;
-        my $model;
 
         my $capacity = _getCapacity($device, $logger);
-        foreach (@lsvpd){
-            if (/^AX $device/) {
-                $flag = 1;
-            }
-            if (/^MF (.+)/ && $flag) {
-                $manufacturer = $1;
-                chomp($manufacturer);
-                $manufacturer =~ s/(\s+)$//;
-            }
-            if (/^TM (.+)/ && $flag) {
-                $model = $1;
-                chomp($model);
-                $model =~ s/(\s+)$//;
-            }
-            if (/^FN (.+)/ && $flag) {
-                $FRU = $1;
-                chomp($FRU);
-                $FRU =~ s/(\s+)$//;
-                $manufacturer .= ",FRU number :".$FRU;
-            }
-            if (/^FC .+/ && $flag) {
-                $flag = 0;
-                last;
-            }
-        }
+        my ($manufacturer, $model) = _getInfos($device);
         $inventory->addStorage({
             NAME         => $device,
             MANUFACTURER => $manufacturer,
@@ -341,6 +215,38 @@ sub _getCapacity {
     }
 
     return $capacity;
+}
+
+sub _getInfos {
+    my ($device, @lsvpd) = @_;
+
+    my ($manufacturer, $model, $flag, $FRU);
+    foreach (@lsvpd) {
+        if (/^AX $device/) {
+            $flag = 1;
+        }
+        if (/^MF (.+)/ && $flag) {
+            $manufacturer = $1;
+            chomp($manufacturer);
+            $manufacturer =~ s/(\s+)$//;
+        }
+        if (/^TM (.+)/ && $flag) {
+            $model = $1;
+            chomp($model);
+            $model =~ s/(\s+)$//;
+        }
+        if (/^FN (.+)/ && $flag) {
+            $FRU = $1;
+            chomp($FRU);
+            $FRU =~ s/(\s+)$//;
+            $manufacturer .= ",FRU number :".$FRU;
+        }
+        if (/^FC .+/ && $flag) {
+            $flag = 0;
+            last;
+        }
+    }
+    return ($manufacturer, $model);
 }
 
 1;
