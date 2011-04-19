@@ -149,18 +149,14 @@ sub doInventory {
         command => 'lsdev -Cc disk -s vscsi -F "name:description"',
         logger => $logger
     );
-    foreach (@scsi){
-        my $device;
-        my $manufacturer;
+    foreach my $line (@scsi) {
+        chomp $line;
+        next unless $line =~ /^(.+):(.+)/;
+        my $device = $1;
+        my $description = $2;
         my $model;
-        my $description;
         my $capacity;
 
-        my $serial;
-        chomp;
-        /^(.+):(.+)/;
-        $device = $1;
-        $description = $2;
         @lsattr = getAllLines(
             command => "lspv $device",
             logger  => $logger
@@ -176,13 +172,13 @@ sub doInventory {
             }
         }
         $inventory->addStorage({
-                MANUFACTURER => "VIO Disk",
-                MODEL => "Virtual Disk",
-                DESCRIPTION => $description,
-                TYPE => 'disk',
-                NAME => $device,
-                DISKSIZE => $capacity
-            });
+            MANUFACTURER => "VIO Disk",
+            MODEL => "Virtual Disk",
+            DESCRIPTION => $description,
+            TYPE => 'disk',
+            NAME => $device,
+            DISKSIZE => $capacity
+        });
     }
 
     #CDROM
