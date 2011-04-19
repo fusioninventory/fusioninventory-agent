@@ -326,11 +326,8 @@ sub doInventory {
         my $description = $2;
         $inventory->addStorage({
             NAME => $1,
-            MANUFACTURER => 'N/A',
-            MODEL => 'N/A',
             DESCRIPTION => $2,
             TYPE => 'floppy',
-            DISKSIZE => ''
         });
     }
 }
