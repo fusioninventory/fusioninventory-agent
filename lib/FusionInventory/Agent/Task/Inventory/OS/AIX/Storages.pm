@@ -71,13 +71,13 @@ sub doInventory {
         }
 
         $inventory->addStorage({
-            NAME => $device,
+            NAME         => $device,
             MANUFACTURER => $manufacturer,
-            MODEL => $model,
-            DESCRIPTION => $description,
-            TYPE => 'disk',
-            SERIAL=> $serial,
-            DISKSIZE => $capacity
+            MODEL        => $model,
+            DESCRIPTION  => $description,
+            TYPE         => 'disk',
+            SERIAL       => $serial,
+            DISKSIZE     => $capacity
         });
     }
 
@@ -115,11 +115,11 @@ sub doInventory {
             }
         }
         $inventory->addStorage({
-            NAME => $device,
+            NAME         => $device,
             MANUFACTURER => $manufacturer,
-            MODEL => $model,
-            DESCRIPTION => $description,
-            TYPE => 'disk',
+            MODEL        => $model,
+            DESCRIPTION  => $description,
+            TYPE         => 'disk',
         });
     }
 
@@ -158,11 +158,11 @@ sub doInventory {
             }
         }
         $inventory->addStorage({
-            NAME => $device,
+            NAME         => $device,
             MANUFACTURER => $manufacturer,
-            MODEL => $model,
-            DESCRIPTION => $description,
-            TYPE => 'disk',
+            MODEL        => $model,
+            DESCRIPTION  => $description,
+            TYPE         => 'disk',
         });
     }
 
@@ -197,11 +197,11 @@ sub doInventory {
         }
         $inventory->addStorage({
             MANUFACTURER => "VIO Disk",
-            MODEL => "Virtual Disk",
-            DESCRIPTION => $description,
-            TYPE => 'disk',
-            NAME => $device,
-            DISKSIZE => $capacity
+            MODEL        => "Virtual Disk",
+            DESCRIPTION  => $description,
+            TYPE         => 'disk',
+            NAME         => $device,
+            DISKSIZE     => $capacity
         });
     }
 
@@ -251,12 +251,12 @@ sub doInventory {
             }
         }
         $inventory->addStorage({
-            NAME => $device,
+            NAME         => $device,
             MANUFACTURER => $manufacturer,
-            MODEL => $model,
-            DESCRIPTION => $description,
-            TYPE => 'cd',
-            DISKSIZE => $capacity
+            MODEL        => $model,
+            DESCRIPTION  => $description,
+            TYPE         => 'cd',
+            DISKSIZE     => $capacity
         });
         $n++;
     }
@@ -303,12 +303,12 @@ sub doInventory {
             }
         }
         $inventory->addStorage({
-            NAME => $device,
+            NAME         => $device,
             MANUFACTURER => $manufacturer,
-            MODEL => $model,
-            DESCRIPTION => $description,
-            TYPE => 'tape',
-            DISKSIZE => $capacity
+            MODEL        => $model,
+            DESCRIPTION  => $description,
+            TYPE         => 'tape',
+            DISKSIZE     => $capacity
         });
     }
 
@@ -325,9 +325,9 @@ sub doInventory {
         my $device = $1;
         my $description = $2;
         $inventory->addStorage({
-            NAME => $1,
+            NAME        => $1,
             DESCRIPTION => $2,
-            TYPE => 'floppy',
+            TYPE        => 'floppy',
         });
     }
 }
