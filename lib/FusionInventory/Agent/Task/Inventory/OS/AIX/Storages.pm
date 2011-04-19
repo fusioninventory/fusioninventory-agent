@@ -310,28 +310,19 @@ sub doInventory {
         command => 'lsdev -Cc diskette -F "name:description:status"',
         logger  => $logger
     );
-    foreach (@scsi){
-        my $device;
-        my $manufacturer;
-        my $model;
-        my $description;
-        my $capacity;
-
-        chomp;
-        /^(.+):(.+):(.+)/;
-        $device = $1;
-        $status = $3;
-        $description = $2;
-        if (($status =~ /Available/)){
-            $inventory->addStorage({
-                    NAME => $device,
-                    MANUFACTURER => 'N/A',
-                    MODEL => 'N/A',
-                    DESCRIPTION => $description,
-                    TYPE => 'floppy',
-                    DISKSIZE => ''
-                });
-        }
+    foreach my $line (@scsi) {
+        chomp $line;
+        next unless $line =~ /^(.+):(.+):.+Available.+/;
+        my $device = $1;
+        my $description = $2;
+        $inventory->addStorage({
+            NAME => $1,
+            MANUFACTURER => 'N/A',
+            MODEL => 'N/A',
+            DESCRIPTION => $2,
+            TYPE => 'floppy',
+            DISKSIZE => ''
+        });
     }
 }
 
