@@ -13,21 +13,31 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
-    my $description;
-    my $designation;
-    my $name;
-    my $status;
-    my @slot;
-    my $flag=0;
+    foreach my $slot (_getSlots(
+        command => 'lsdev -Cc bus -F "name:description"',
+        logger  => $logger
+    )) {
+        $inventory->addEntry(
+            section => 'SLOTS',
+            entry   => $slot
+        );
+    }
+}
 
-    @slot=`lsdev -Cc bus -F 'name:description'`;
-    foreach (@slot){ 
-        /^(.+):(.+)/;
-        $name = $1;
-        $status = 'available';
-        $designation = $2;
-        $flag=0;
+sub _getSlots {
+    my $handle = getFileHandle(@_);
+    return unless $handle;
+
+    my @slots;
+    while (my $line = <$handle>) {
+        $line =~ /^(.+):(.+)/;
+        my $name = $1;
+        my $status = 'available';
+        my $designation = $2;
+        my $flag = 0;
+        my $description;
         my @lsvpd = `lsvpd`;
         s/^\*// foreach (@lsvpd);
         foreach (@lsvpd){
@@ -37,16 +47,16 @@ sub doInventory {
             }
             if ((/^FC .+/) && $flag) {$flag=0;last}
         }
-        $inventory->addEntry(
-            section => 'SLOTS',
-            entry   => {
-                DESCRIPTION => $description,
-                DESIGNATION => $designation,
-                NAME        => $name,
-                STATUS      => $status,
-            }
-        );
+        push @slots, {
+            DESCRIPTION => $description,
+            DESIGNATION => $designation,
+            NAME        => $name,
+            STATUS      => $status,
+        };
     }
+    close $handle;
+
+    return @slots;
 }
 
 1;

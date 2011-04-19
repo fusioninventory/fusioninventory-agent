@@ -19,24 +19,39 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my @list;
-    my $buff;
-    foreach (`lslpp -c -l`) {
-        my @entry = split /:/,$_;
+    foreach my $software (_getSoftwares(
+        command => 'lslpp -c -l',
+        logger  => $logger
+    )) {
+        $inventory->addEntry(
+            section => 'SOFTWARES',
+            entry   => $software
+        );
+    }
+
+}
+
+sub _getSoftwares {
+    my $handle = getFileHandle(@_);
+    next unless $handle;
+
+    my @softwares;
+    while (my $line = <$handle>) {
+        my @entry = split /:/, $line;
         next unless (@entry);
         next unless ($entry[1]);
         next if $entry[1] =~ /^device/;
 
-        $inventory->addEntry(
-            section => 'SOFTWARES',
-            entry   => {
-                COMMENTS => $entry[6],
-                FOLDER   => $entry[0],
-                NAME     => $entry[1],
-                VERSION  => $entry[2],
-            }
-        );
+        push @softwares, {
+            COMMENTS => $entry[6],
+            FOLDER   => $entry[0],
+            NAME     => $entry[1],
+            VERSION  => $entry[2],
+        };
     }
+    close $handle;
+
+    return @softwares;
 }
 
 1;

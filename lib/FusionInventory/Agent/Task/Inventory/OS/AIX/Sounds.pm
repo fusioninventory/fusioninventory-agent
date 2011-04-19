@@ -13,19 +13,37 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
-    foreach my $line (`lsdev -Cc adapter -F 'name:type:description'`) {
-        next unless $line =~ /audio/i;
-        next unless $line =~ /^\S+\s([^:]+):\s*(.+?)(?:\(([^()]+)\))?$/;
+    foreach my $sound (_getSounds(
+        command => 'lsdev -Cc adapter -F "name:type:description"',
+        logger  => $logger
+    )) {
         $inventory->addEntry(
             section => 'SOUNDS',
-            entry => {
-                NAME         => $1,
-                MANUFACTURER => $2,
-                DESCRIPTION  => $3,
-            }
+            entry   => $sound
         );
-    } 
+    }
+
+}
+
+sub _getSounds {
+    my $handle = getFileHandle(@_);
+    return unless $handle;
+
+    my @sounds;
+    while (my $line = <$handle>) {
+        next unless $line =~ /audio/i;
+        next unless $line =~ /^\S+\s([^:]+):\s*(.+?)(?:\(([^()]+)\))?$/;
+        push @sounds, {
+            NAME         => $1,
+            MANUFACTURER => $2,
+            DESCRIPTION  => $3,
+        };
+    }
+    close $handle;
+
+    return @sounds;
 }
 
 1;

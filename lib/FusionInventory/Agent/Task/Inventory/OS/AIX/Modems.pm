@@ -13,18 +13,35 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
-    foreach my $line (`lsdev -Cc adapter -F 'name:type:description'`) {
-        next unless $line =~ /modem/i;
-        next unless $line =~ /\d+\s(.+):(.+)$/;
+    foreach my $modem (_getModems(
+        command => 'lsdev -Cc adapter -F "name:type:description"',
+        logger  => $logger,
+    )) {
         $inventory->addEntry(
             section => 'MODEMS',
-            entry   => {
-                NAME        => $1,
-                DESCRIPTION => $2
-            }
+            entry   => $modem,
         );
     }
+}
+
+sub _getModems {
+    my $handle = getFileHandle(@_);
+    return unless $handle;
+
+    my @modems;
+    while (my $line = <$handle>) {
+        next unless $line =~ /modem/i;
+        next unless $line =~ /\d+\s(.+):(.+)$/;
+        push @modems, {
+            NAME        => $1,
+            DESCRIPTION => $2
+        };
+    }
+    close $handle;
+
+    return @modems;
 }
 
 1;
