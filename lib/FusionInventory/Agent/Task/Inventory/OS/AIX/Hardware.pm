@@ -17,13 +17,13 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     # Using "type 0" section
     my ($SystemSerial , $SystemModel, $BiosVersion, $BiosDate);
 
-    #lsvpd
-    my @lsvpd = `lsvpd`;
-    # Remove * (star) at the beginning of lines
+    # lsvpd
+    my @lsvpd = getAllLines(command => 'lsvpd', logger => $logger);
     s/^\*// foreach (@lsvpd);
 
     #Search Firmware Hard 

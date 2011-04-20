@@ -11,6 +11,7 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     foreach my $memory (_getMemories()) {
         $inventory->addEntry(
@@ -55,6 +56,7 @@ sub doInventory {
 }
 
 sub _getMemories {
+    my ($logger) = @_;
 
     my @memories;
     my $capacity;
@@ -67,9 +69,9 @@ sub _getMemories {
     my $mversion;
     my $caption;
     my $flag=0;
-    #lsvpd
-    my @lsvpd = `lsvpd`;
-    # Remove * (star) at the beginning of lines
+
+    # lsvpd
+    my @lsvpd = getAllLines(command => 'lsvpd', logger => $logger);
     s/^\*// foreach (@lsvpd);
 
     $numslots = -1; 

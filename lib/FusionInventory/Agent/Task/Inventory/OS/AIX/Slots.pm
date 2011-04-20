@@ -38,8 +38,10 @@ sub _getSlots {
         my $designation = $2;
         my $flag = 0;
         my $description;
-        my @lsvpd = `lsvpd`;
+
+        my @lsvpd = getAllLines(command => 'lsvpd', logger => $params{logger});
         s/^\*// foreach (@lsvpd);
+
         foreach (@lsvpd){
             if ((/^AX $name/) ) {$flag=1}
             if ((/^YL (.+)/) && ($flag)){

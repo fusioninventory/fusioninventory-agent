@@ -17,10 +17,8 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{inventory};
 
-    #lsvpd
-    my @lsvpd = getAllLines(
-        command => 'lsvpd', logger => $logger
-    );  
+    # lsvpd
+    my @lsvpd = getAllLines(command => 'lsvpd', logger => $logger);  
     s/^\*// foreach (@lsvpd);
 
     # SCSI disks 
