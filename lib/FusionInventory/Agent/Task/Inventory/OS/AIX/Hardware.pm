@@ -29,34 +29,62 @@ sub doInventory {
     #Search Firmware Hard 
     my $flag=0;
     my $fw = '';
-    foreach (@lsvpd){
-        if (/^DS Platform Firmware/) { $flag=1 };
-        if ( ($flag) && /^RM (.+)/) {$fw=$1;chomp($fw);$fw =~ s/(\s+)$//g;last};
-    }
-    $flag=0;
-    foreach (@lsvpd){
-        if (/^DS System Firmware/) { $flag=1 };
-        if ( ($flag) && /^RM (.+)/) {$BiosVersion=$1;chomp($BiosVersion);$BiosVersion =~ s/(\s+)$//g;last};
-    }
-    $flag=0;
-    foreach (@lsvpd){
-        if (/^DS System VPD/) { $flag=1 };
-        if ( ($flag) && /^TM (.+)/) {$SystemModel=$1;chomp($SystemModel);$SystemModel =~ s/(\s+)$//g;};
-        if ( ($flag) && /^SE (.+)/) {$SystemSerial=$1;chomp($SystemSerial);$SystemSerial =~ s/(\s+)$//g;};
-        if ( ($flag) && /^FC .+/) {$flag=0;last}
+    foreach (@lsvpd) {
+        if (/^DS Platform Firmware/) {
+            $flag = 1;
+        }
+        if ($flag && /^RM (.+)/) {
+            $fw = $1;
+            chomp($fw);
+            $fw =~ s/(\s+)$//g;
+            last;
+        }
     }
 
-# Fetch the serial number like prtconf do
+    $flag = 0;
+    foreach (@lsvpd) {
+        if (/^DS System Firmware/) {
+            $flag = 1
+        }
+        if ($flag && /^RM (.+)/) {
+            $BiosVersion = $1;
+            chomp($BiosVersion);
+            $BiosVersion =~ s/(\s+)$//g;
+            last;
+        }
+    }
+
+    $flag = 0;
+    foreach (@lsvpd) {
+        if (/^DS System VPD/) {
+            $flag = 1
+        }
+        if ($flag && /^TM (.+)/) {
+            $SystemModel = $1;
+            chomp($SystemModel);
+            $SystemModel =~ s/(\s+)$//g;
+        }
+        if ($flag && /^SE (.+)/) {
+            $SystemSerial = $1;
+            chomp($SystemSerial);
+            $SystemSerial =~ s/(\s+)$//g;
+        }
+        if ($flag && /^FC .+/) {
+            $flag = 0;
+            last;
+        }
+    }
+
+    # fetch the serial number like prtconf do
     if (! $SystemSerial) {
-        $flag=0;
+        $flag = 0;
         foreach (`lscfg -vpl sysplanar0`) {
-            if ($flag) {
-                if (/\.+(\S*?)$/) {
-                    $SystemSerial = $1;
-                }
+            if (/\s+System\ VPD/) {
+                $flag = 1;
+            }
+            if ($flag && /\.+(\S*?)$/) {
+                $SystemSerial = $1;
                 last;
-            } else {
-                $flag = 1 if /\s+System\ VPD/;
             }
         }
     }
@@ -66,11 +94,11 @@ sub doInventory {
     # Writing data
     $inventory->setBios({
         SMANUFACTURER => 'IBM',
-        SMODEL => $SystemModel,
-        SSN => $SystemSerial,
+        SMODEL        => $SystemModel,
+        SSN           => $SystemSerial,
         BMANUFACTURER => 'IBM',
-        BVERSION => $BiosVersion,
-        BDATE => $BiosDate,
+        BVERSION      => $BiosVersion,
+        BDATE         => $BiosDate,
     });
 }
 
