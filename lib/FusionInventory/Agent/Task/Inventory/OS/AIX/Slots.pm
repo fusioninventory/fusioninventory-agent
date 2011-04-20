@@ -30,7 +30,7 @@ sub _getSlots {
     my $handle = getFileHandle(@_);
     return unless $handle;
 
-    my @lsvpd = getAllLines(command => 'lsvpd', logger => $params{logger});
+    my @lsvpd = getAllLines(command => 'lsvpd');
     s/^\*// foreach (@lsvpd);
 
     my @slots;
@@ -43,11 +43,16 @@ sub _getSlots {
         my $description;
 
         foreach (@lsvpd){
-            if ((/^AX $name/) ) {$flag=1}
-            if ((/^YL (.+)/) && ($flag)){
+            if (/^AX $name/) {
+                $flag = 1;
+            }
+            if ($flag && /^YL (.+)/) {
                 $description = $2;
             }
-            if ((/^FC .+/) && $flag) {$flag=0;last}
+            if ($flag && /^FC .+/) {
+                $flag = 0;
+                last;
+            }
         }
         push @slots, {
             DESCRIPTION => $description,
