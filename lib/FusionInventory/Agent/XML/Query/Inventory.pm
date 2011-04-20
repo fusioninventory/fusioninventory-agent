@@ -905,6 +905,10 @@ Can by:
 
 =item WINLANG
 
+=item CHASSIS_TYPE
+
+The computer chassis format (e.g: Notebook, Laptop, Server, etc)
+
 =back
 
 =head2 MONITORS
