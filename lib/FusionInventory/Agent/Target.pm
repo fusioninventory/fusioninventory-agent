@@ -239,7 +239,7 @@ sub resetNextRunDate {
     my $storage = $self->{storage};
 
     lock($lock);
-    $logger->debug("Force run now");
+    $logger->debug("Agent is now running");
     
     $self->{myData}{nextRunDate} = 1;
     $storage->save({ data => $self->{myData} });
