@@ -227,21 +227,17 @@ sub _getInfos {
             next;
         }
         next unless $flag;
-
-        if (/^MF (.+)/) {
+        if (/^MF (.*\S)/) {
             $manufacturer = $1;
-            $manufacturer =~ s/(\s+)$//;
         }
-        if (/^TM (.+)/) {
+        if (/^TM (.*\S)/) {
             $model = $1;
-            $model =~ s/(\s+)$//;
         }
-        if (/^FN (.+)/) {
+        if (/^FN (.*\S)/) {
             $FRU = $1;
-            $FRU =~ s/(\s+)$//;
             $manufacturer .= ",FRU number :".$FRU;
         }
-        if (/^FC .+/) {
+        if (/^FC/) {
             last;
         }
     }

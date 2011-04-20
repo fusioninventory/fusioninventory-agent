@@ -30,11 +30,10 @@ sub doInventory {
                 next;
             }
             next unless $flag;
-
-            if (/^YL (.+)/) {
+            if (/^YL (.*\S)/) {
                 $slot->{DESCRIPTION} = $2;
             }
-            if (/^FC .+/) {
+            if (/^FC/) {
                 last;
             }
         }

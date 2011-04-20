@@ -81,25 +81,24 @@ sub _getMemories {
             next;
         }
         next unless $flag;
-
-        if (/^SZ (.+)/) {
+        if (/^SZ (.*\S)/) {
             $capacity = $1;
         }
-        if (/^PN (.+)/) {
+        if (/^PN (.*\S)/) {
             $type = $1;
         }
         # localisation slot dans type
-        if (/^YL\s(.+)/) {
+        if (/^YL\s(.*\S)/) {
             $caption = "Slot " . $1;
         }
-        if (/^SN (.+)/) {
+        if (/^SN (.*\S)/) {
             $serial = $1;
         }
-        if (/^VK (.+)/) {
+        if (/^VK (.*\S)/) {
             $mversion = $1;
         }
         # On rencontre un champ FC alors c'est la fin pour ce device
-        if (/^FC .+/) {
+        if (/^FC/) {
             $flag = 0;
             $numslots = $numslots +1;
             push @memories, {
