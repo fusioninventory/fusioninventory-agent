@@ -7,6 +7,7 @@ use Test::More;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios;
+use File::Basename;
 
 my %tests = (
     'freebsd-6.2' => {
@@ -25,6 +26,7 @@ my %tests = (
         },
         hardware => {
             UUID     => undef,
+            CHASSIS_TYPE => 'Desktop'
         }
     },
     'freebsd-8.1' => {
@@ -42,7 +44,8 @@ my %tests = (
           'BVERSION' => 'F.1C'
         },
         hardware => {
-            UUID => '30464E43-3231-3730-5836-C80AA93F35FA'
+            UUID => '30464E43-3231-3730-5836-C80AA93F35FA',
+            CHASSIS_TYPE => 'Notebook'
         },
     },
     'linux-1' => {
@@ -61,6 +64,7 @@ my %tests = (
         },
         hardware => {
             UUID => '40EB001E-8C00-01CE-8E2C-00248C590A84',
+            CHASSIS_TYPE => 'Desktop'
         },
     },
     'linux-2.6' => {
@@ -79,6 +83,7 @@ my %tests = (
         },
         hardware => {
             UUID     => '44454C4C-3800-1058-8044-C4C04F36324A',
+            CHASSIS_TYPE => 'Portable'
         }
     },
     'openbsd-3.7' => {
@@ -97,6 +102,7 @@ my %tests = (
         },
         hardware => {
             UUID     => undef,
+            CHASSIS_TYPE => 'Unknown'
         }
     },
     'openbsd-3.8' => {
@@ -115,6 +121,7 @@ my %tests = (
         },
         hardware => {
             UUID     => '44454C4C-4B00-1031-8030-B2C04F31324A',
+            CHASSIS_TYPE => 'Main Server Chassis'
         }
     },
     'openbsd-4.5' => {
@@ -132,7 +139,8 @@ my %tests = (
           'BVERSION' => 'A08'
         },
         hardware => {
-          'UUID' => '44454C4C-5600-1032-8056-B4C04F57304A'
+          'UUID' => '44454C4C-5600-1032-8056-B4C04F57304A',
+          'CHASSIS_TYPE' => 'Mini Tower'
         },
     },
     'rhel-2.1' => {
@@ -151,6 +159,7 @@ my %tests = (
         },
         hardware => {
             UUID     => undef,
+            CHASSIS_TYPE => undef
         }
     },
     'rhel-3.4' => {
@@ -169,6 +178,7 @@ my %tests = (
         },
         hardware => {
             UUID     => 'A8346631-8E88-3AE3-898C-F3AC9F61C316',
+            CHASSIS_TYPE => 'Tower'
         }
     },
     'rhel-3.9' => {
@@ -188,6 +198,7 @@ my %tests = (
         hardware => {
 	    UUID     => 'AE698CFC-492A-4C7B-848F-8C17D24BC76E',
             VMSYSTEM => 'VirtualBox',
+            CHASSIS_TYPE => undef
         }
     },
     'rhel-4.3' => {
@@ -206,6 +217,7 @@ my %tests = (
         },
         hardware => {
             UUID => '0339D4C3-44C0-9D11-A20E-85CDC42DE79C',
+            CHASSIS_TYPE => 'Tower'
         }
     },
     'rhel-4.6' => {
@@ -224,6 +236,7 @@ my %tests = (
         },
         hardware => {
             UUID => '34313236-3435-4742-3838-313448453753',
+            CHASSIS_TYPE => 'Tower'
         }
     },
     'hp-dl180' => {
@@ -242,7 +255,8 @@ my %tests = (
 
         },
         hardware => {
-          'UUID' => '00D3F681-FE8E-11D5-B656-1CC1DE0905AE'
+          'UUID' => '00D3F681-FE8E-11D5-B656-1CC1DE0905AE',
+          'CHASSIS_TYPE' => 'Rack Mount Chassis'
         },
     },
     'S3000AHLX' => {
@@ -260,7 +274,8 @@ my %tests = (
           'BVERSION' => 'S3000.86B.02.00.0031.090120061242'
         },
         hardware => {
-          'UUID' => 'D7AFF990-4871-11DB-A6C6-0007E994F7C3'
+          'UUID' => 'D7AFF990-4871-11DB-A6C6-0007E994F7C3',
+          'CHASSIS_TYPE' => 'Desktop'
         },
     },
     'S5000VSA' => {
@@ -278,7 +293,8 @@ my %tests = (
           'BVERSION' => 'S5000.86B.04.00.0066.101220061333'
         },
         hardware => {
-          'UUID' => 'CCF82081-7966-11DB-BDB3-00151716FBAC'
+          'UUID' => 'CCF82081-7966-11DB-BDB3-00151716FBAC',
+          CHASSIS_TYPE => 'Rack Mount Chassis'
         },
     },
     'vmware' => {
@@ -296,7 +312,9 @@ my %tests = (
             'BVERSION' => '6.00'
         },
         hardware => {
-            'UUID' => '500C2394-0127-D13C-0CC4-F537A6AAF1A6'
+            'UUID' => '500C2394-0127-D13C-0CC4-F537A6AAF1A6',
+            'CHASSIS_TYPE' => 'Other'
+
         }
     },
     'vmware-esx' => {
@@ -314,7 +332,8 @@ my %tests = (
           'BVERSION' => '6.00'
         },
         hardware => {
-          'UUID' => '4230BF6A-CE71-E168-6C2D-176E66D04A0D'
+          'UUID' => '4230BF6A-CE71-E168-6C2D-176E66D04A0D',
+          'CHASSIS_TYPE' => 'Other'
         }
     },
     'vmware-esx-2.5' => {
@@ -332,7 +351,8 @@ my %tests = (
           'BVERSION' => '6.00'
         },
         hardware => {
-          'UUID' => undef
+          'UUID' => undef,
+          'CHASSIS_TYPE' => undef
         },
     },
     'windows' => {
@@ -351,17 +371,39 @@ my %tests = (
         },
         hardware => {
             UUID     => '7FB4EA00-07CB-18F3-8041-CAD582735244',
+            'CHASSIS_TYPE' => 'Notebook'
         }
     },
+    'hp-proLiant-DL120-G6' => {
+        'bios' => {
+            'MMANUFACTURER' => 'Wistron Corporation',
+            'SSN' => 'XXXXXXXXXX',
+            'SKUNUMBER' => '000000-000',
+            'ASSETTAG' => 'No Asset Tag',
+            'BMANUFACTURER' => 'HP',
+            'MSN' => '0123456789',
+            'SMODEL' => 'ProLiant DL120 G6',
+            'SMANUFACTURER' => 'HP',
+            'BDATE' => '01/26/2010',
+            'MMODEL' => 'ProLiant DL120 G6',
+            'BVERSION' => 'O26'
+        },
+        'hardware' => {
+            'CHASSIS_TYPE' => 'Rack Mount Chassis',
+            'UUID' => 'EEEEEEEE-EEEE-EEEE-EEEE-EEEEEEEEEEEE'
+        }
+    }
 );
 
 plan tests => 2 * keys %tests;
 
 my $logger = FusionInventory::Agent::Logger->new();
 
-foreach my $test (keys %tests) {
-    my $file = "resources/dmidecode/$test";
+#use Data::Dumper;
+my @files = glob("resources/dmidecode/*");
+foreach my $file (@files) {
+    my $test = basename($file);
     my ($bios, $hardware) = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios::_getBiosHardware($logger, $file);
-    is_deeply($bios, $tests{$test}->{bios}, "bios: $test");
+    is_deeply($bios, $tests{$test}->{bios}, "bios: $test"); # or print Dumper({ bios => $bios, hardware => $hardware });
     is_deeply($hardware, $tests{$test}->{hardware}, "hardware: $test");
 }

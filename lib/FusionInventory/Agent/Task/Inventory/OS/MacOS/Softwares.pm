@@ -38,7 +38,7 @@ sub _getSoftwares {
     foreach my $name (keys %$info) {
         my $app = $info->{$name};
 
-        # Windows application found by Parallels
+        # Windows application found by Parallels (issue #716)
         next if
             $app->{'Get Info String'} &&
             $app->{'Get Info String'} =~ /^\S+, [A-Z]:\\/;

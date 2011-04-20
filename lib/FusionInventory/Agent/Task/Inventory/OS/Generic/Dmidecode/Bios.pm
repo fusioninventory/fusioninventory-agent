@@ -53,7 +53,8 @@ sub _getBiosHardware {
     $bios->{MSN} = $base_info->{'Serial Number'};
 
     my $hardware = {
-        UUID => $system_info->{'UUID'}
+        UUID => $system_info->{'UUID'},
+        CHASSIS_TYPE  => $chassis_info->{'Type'}
     };
 
     my $vmsystem;
@@ -73,6 +74,7 @@ sub _getBiosHardware {
             $bios->{BVERSION} =~ /VirtualBox/ ? 'VirtualBox' : undef;
     }
     $hardware->{VMSYSTEM} = $vmsystem if $vmsystem;
+
 
     return $bios, $hardware;
 }

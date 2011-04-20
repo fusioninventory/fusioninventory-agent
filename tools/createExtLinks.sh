@@ -14,3 +14,9 @@ for task in Deploy SNMPQuery NetDiscovery ESX; do
         fi
     fi
 done
+if [ ! -e lib/FusionInventory/VMware ]; then
+    ln -s $PWD/../agent-task-esx/lib/FusionInventory/VMware lib/FusionInventory/
+fi
+if [ ! -e fusioninventory-esx ]; then
+    ln -s $PWD/../agent-task-esx/fusioninventory-esx .
+fi

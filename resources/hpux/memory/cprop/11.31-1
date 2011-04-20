@@ -1,0 +1,439 @@
+[Component]: Memory
+[Table]: Memory Slots
+-------------------------------------------------------
+[Instance]: 1
+****************************************************
+                   [Hash ID]: Memory:5b8aff77xd770688b
+                    [Status]: OK
+                  [Location]: This is Volatile Memory Chip   of type OTHER with following details :  Cell Slot : 03, DIMM Slot : 03, Extender : 00.
+                      [Size]: 4 GB
+               [Module Type]: DIMM
+               [Memory Type]: Other
+             [Serial Number]: f9d94044271001
+               [Part Number]: M393B5270CH0-CH9
+****************************************************
+[Instance]: 2
+****************************************************
+                   [Hash ID]: Memory:5b8b3c80xc56a3cc
+                    [Status]: OK
+                  [Location]: This is Volatile Memory Chip   of type OTHER with following details :  Cell Slot : 03, DIMM Slot : 04, Extender : 00.
+                      [Size]: 4 GB
+               [Module Type]: DIMM
+               [Memory Type]: Other
+             [Serial Number]: cad94044271001
+               [Part Number]: M393B5270CH0-CH9
+****************************************************
+[Instance]: 3
+****************************************************
+                   [Hash ID]: Memory:5b8c701ex14e3e392
+                    [Status]: OK
+                  [Location]: This is Volatile Memory Chip   of type OTHER with following details :  Cell Slot : 03, DIMM Slot : 09, Extender : 00.
+                      [Size]: 4 GB
+               [Module Type]: DIMM
+               [Memory Type]: Other
+             [Serial Number]: 2fd94044271001
+               [Part Number]: M393B5270CH0-CH9
+****************************************************
+[Instance]: 4
+****************************************************
+                   [Hash ID]: Memory:c9b3549ax8fb76020
+                    [Status]: OK
+                  [Location]: This is Volatile Memory Chip   of type OTHER with following details :  Cell Slot : 03, DIMM Slot : 10, Extender : 00.
+                      [Size]: 4 GB
+               [Module Type]: DIMM
+               [Memory Type]: Other
+             [Serial Number]: 6cd94044271001
+               [Part Number]: M393B5270CH0-CH9
+****************************************************
+[Instance]: 5
+****************************************************
+                   [Hash ID]: Memory:5b8a8a47x6dc0210b
+                    [Status]: OK
+                  [Location]: This is Volatile Memory Chip   of type OTHER with following details :  Cell Slot : 03, DIMM Slot : 01, Extender : 00.
+                      [Size]: 4 GB
+               [Module Type]: DIMM
+               [Memory Type]: Other
+             [Serial Number]: 72d94044271001
+               [Part Number]: M393B5270CH0-CH9
+****************************************************
+[Instance]: 6
+****************************************************
+                   [Hash ID]: Memory:5b8bbb74x763f4950
+                    [Status]: OK
+                  [Location]: This is Volatile Memory Chip   of type OTHER with following details :  Cell Slot : 03, DIMM Slot : 06, Extender : 00.
+                      [Size]: 4 GB
+               [Module Type]: DIMM
+               [Memory Type]: Other
+             [Serial Number]: aed94044271001
+               [Part Number]: M393B5270CH0-CH9
+****************************************************
+[Instance]: 7
+****************************************************
+                   [Hash ID]: Memory:5b8bfaeexab339c12
+                    [Status]: OK
+                  [Location]: This is Volatile Memory Chip   of type OTHER with following details :  Cell Slot : 03, DIMM Slot : 07, Extender : 00.
+                      [Size]: 4 GB
+               [Module Type]: DIMM
+               [Memory Type]: Other
+             [Serial Number]: cbd94044271001
+               [Part Number]: M393B5270CH0-CH9
+****************************************************
+[Instance]: 8
+****************************************************
+                   [Hash ID]: Memory:c9b3d38exf9a005a4
+                    [Status]: OK
+                  [Location]: This is Volatile Memory Chip   of type OTHER with following details :  Cell Slot : 03, DIMM Slot : 12, Extender : 00.
+                      [Size]: 4 GB
+               [Module Type]: DIMM
+               [Memory Type]: Other
+             [Serial Number]: 27d94044271001
+               [Part Number]: M393B5270CH0-CH9
+****************************************************
+[Instance]: 9
+****************************************************
+                   [Hash ID]: Memory:5b8acc32xa2c28b4e
+                    [Status]: OK
+                  [Location]: This is Volatile Memory Chip   of type OTHER with following details :  Cell Slot : 03, DIMM Slot : 02, Extender : 00.
+                      [Size]: 4 GB
+               [Module Type]: DIMM
+               [Memory Type]: Other
+             [Serial Number]: fed94044271001
+               [Part Number]: M393B5270CH0-CH9
+****************************************************
+[Instance]: 10
+****************************************************
+                   [Hash ID]: Memory:5b8b834dx41753d11
+                    [Status]: OK
+                  [Location]: This is Volatile Memory Chip   of type OTHER with following details :  Cell Slot : 03, DIMM Slot : 05, Extender : 00.
+                      [Size]: 4 GB
+               [Module Type]: DIMM
+               [Memory Type]: Other
+             [Serial Number]: fdd94044271001
+               [Part Number]: M393B5270CH0-CH9
+****************************************************
+[Instance]: 11
+****************************************************
+                   [Hash ID]: Memory:5b8c3cd9xe0360655
+                    [Status]: OK
+                  [Location]: This is Volatile Memory Chip   of type OTHER with following details :  Cell Slot : 03, DIMM Slot : 08, Extender : 00.
+                      [Size]: 4 GB
+               [Module Type]: DIMM
+               [Memory Type]: Other
+             [Serial Number]: d0d94044271001
+               [Part Number]: M393B5270CH0-CH9
+****************************************************
+[Instance]: 12
+****************************************************
+                   [Hash ID]: Memory:c9b39b67xc4d5f965
+                    [Status]: OK
+                  [Location]: This is Volatile Memory Chip   of type OTHER with following details :  Cell Slot : 03, DIMM Slot : 11, Extender : 00.
+                      [Size]: 4 GB
+               [Module Type]: DIMM
+               [Memory Type]: Other
+             [Serial Number]: 71d94044271001
+               [Part Number]: M393B5270CH0-CH9
+****************************************************
+[Instance]: 13
+****************************************************
+                   [Hash ID]: Memory:5c200270x6c551b4c
+                    [Status]: OK
+                  [Location]: This is Volatile Memory Chip   of type OTHER with following details :  Cell Slot : 04, DIMM Slot : 03, Extender : 00.
+                      [Size]: 4 GB
+               [Module Type]: DIMM
+               [Memory Type]: Other
+             [Serial Number]: a7d94044271001
+               [Part Number]: M393B5270CH0-CH9
+****************************************************
+[Instance]: 14
+****************************************************
+                   [Hash ID]: Memory:5c203f79xa13b568d
+                    [Status]: OK
+                  [Location]: This is Volatile Memory Chip   of type OTHER with following details :  Cell Slot : 04, DIMM Slot : 04, Extender : 00.
+                      [Size]: 4 GB
+               [Module Type]: DIMM
+               [Memory Type]: Other
+             [Serial Number]: 26d94044271001
+               [Part Number]: M393B5270CH0-CH9
+****************************************************
+[Instance]: 15
+****************************************************
+                   [Hash ID]: Memory:5c217317xa9c89653
+                    [Status]: OK
+                  [Location]: This is Volatile Memory Chip   of type OTHER with following details :  Cell Slot : 04, DIMM Slot : 09, Extender : 00.
+                      [Size]: 4 GB
+               [Module Type]: DIMM
+               [Memory Type]: Other
+             [Serial Number]: e8d94044271001
+               [Part Number]: M393B5270CH0-CH9
+****************************************************
+[Instance]: 16
+****************************************************
+                   [Hash ID]: Memory:cc9c6377x9769057f
+                    [Status]: OK
+                  [Location]: This is Volatile Memory Chip   of type OTHER with following details :  Cell Slot : 04, DIMM Slot : 10, Extender : 00.
+                      [Size]: 4 GB
+               [Module Type]: DIMM
+               [Memory Type]: Other
+             [Serial Number]: 46da4044271001
+               [Part Number]: M393B5270CH0-CH9
+****************************************************
+[Instance]: 17
+****************************************************
+                   [Hash ID]: Memory:5c1f8d40x2a4d3cc
+                    [Status]: OK
+                  [Location]: This is Volatile Memory Chip   of type OTHER with following details :  Cell Slot : 04, DIMM Slot : 01, Extender : 00.
+                      [Size]: 4 GB
+               [Module Type]: DIMM
+               [Memory Type]: Other
+             [Serial Number]: e3d94044271001
+               [Part Number]: M393B5270CH0-CH9
+****************************************************
+[Instance]: 18
+****************************************************
+                   [Hash ID]: Memory:5c20be6dxb23fc11
+                    [Status]: OK
+                  [Location]: This is Volatile Memory Chip   of type OTHER with following details :  Cell Slot : 04, DIMM Slot : 06, Extender : 00.
+                      [Size]: 4 GB
+               [Module Type]: DIMM
+               [Memory Type]: Other
+             [Serial Number]: 2ed94044271001
+               [Part Number]: M393B5270CH0-CH9
+****************************************************
+[Instance]: 19
+****************************************************
+                   [Hash ID]: Memory:5c20fde7x40184ed3
+                    [Status]: OK
+                  [Location]: This is Volatile Memory Chip   of type OTHER with following details :  Cell Slot : 04, DIMM Slot : 07, Extender : 00.
+                      [Size]: 4 GB
+               [Module Type]: DIMM
+               [Memory Type]: Other
+             [Serial Number]: 2dd94044271001
+               [Part Number]: M393B5270CH0-CH9
+****************************************************
+[Instance]: 20
+****************************************************
+                   [Hash ID]: Memory:cc9ce26bx151ab03
+                    [Status]: OK
+                  [Location]: This is Volatile Memory Chip   of type OTHER with following details :  Cell Slot : 04, DIMM Slot : 12, Extender : 00.
+                      [Size]: 4 GB
+               [Module Type]: DIMM
+               [Memory Type]: Other
+             [Serial Number]: a6d94044271001
+               [Part Number]: M393B5270CH0-CH9
+****************************************************
+[Instance]: 21
+****************************************************
+                   [Hash ID]: Memory:5c1fcf2bx37a73e0f
+                    [Status]: OK
+                  [Location]: This is Volatile Memory Chip   of type OTHER with following details :  Cell Slot : 04, DIMM Slot : 02, Extender : 00.
+                      [Size]: 4 GB
+               [Module Type]: DIMM
+               [Memory Type]: Other
+             [Serial Number]: 67d94044271001
+               [Part Number]: M393B5270CH0-CH9
+****************************************************
+[Instance]: 22
+****************************************************
+                   [Hash ID]: Memory:5c208646xd659efd2
+                    [Status]: OK
+                  [Location]: This is Volatile Memory Chip   of type OTHER with following details :  Cell Slot : 04, DIMM Slot : 05, Extender : 00.
+                      [Size]: 4 GB
+               [Module Type]: DIMM
+               [Memory Type]: Other
+             [Serial Number]: cfd94044271001
+               [Part Number]: M393B5270CH0-CH9
+****************************************************
+[Instance]: 23
+****************************************************
+                   [Hash ID]: Memory:5c213fd2x751ab916
+                    [Status]: OK
+                  [Location]: This is Volatile Memory Chip   of type OTHER with following details :  Cell Slot : 04, DIMM Slot : 08, Extender : 00.
+                      [Size]: 4 GB
+               [Module Type]: DIMM
+               [Memory Type]: Other
+             [Serial Number]: e7d94044271001
+               [Part Number]: M393B5270CH0-CH9
+****************************************************
+[Instance]: 24
+****************************************************
+                   [Hash ID]: Memory:cc9caa44xcc879ec4
+                    [Status]: OK
+                  [Location]: This is Volatile Memory Chip   of type OTHER with following details :  Cell Slot : 04, DIMM Slot : 11, Extender : 00.
+                      [Size]: 4 GB
+               [Module Type]: DIMM
+               [Memory Type]: Other
+             [Serial Number]: 4cda4044271001
+               [Part Number]: M393B5270CH0-CH9
+****************************************************
+-------------------------------------------------------
+[Table]: Empty Slots
+-------------------------------------------------------
+[Instance]: 5
+****************************************************
+                   [Hash ID]: Memory:f28fb67dx93f26ef5
+                  [Location]: Cell Slot : 03, DIMM Slot : 01, Extender : 01
+      [Location Identifiers]: Cell Slot: 03,  Slot: 01,  Extender: 01
+         [Physical Position]: ff-ff-ff-3-1-1-a-74
+****************************************************
+[Instance]: 6
+****************************************************
+                   [Hash ID]: Memory:be1c0141xd89dc3b5
+                  [Location]: Cell Slot : 03, DIMM Slot : 07, Extender : 01
+      [Location Identifiers]: Cell Slot: 03,  Slot: 07,  Extender: 01
+         [Physical Position]: ff-ff-ff-3-1-7-a-74
+****************************************************
+[Instance]: 7
+****************************************************
+                   [Hash ID]: Memory:c6d9f73cxa28f4d16
+                  [Location]: Cell Slot : 03, DIMM Slot : 06, Extender : 01
+      [Location Identifiers]: Cell Slot: 03,  Slot: 06,  Extender: 01
+         [Physical Position]: ff-ff-ff-3-1-6-b-74
+****************************************************
+[Instance]: 8
+****************************************************
+                   [Hash ID]: Memory:df17e96x9a918ed2
+                  [Location]: Cell Slot : 03, DIMM Slot : 10, Extender : 01
+      [Location Identifiers]: Cell Slot: 03,  Slot: 10,  Extender: 01
+         [Physical Position]: ff-ff-ff-3-1-10-b-74
+****************************************************
+[Instance]: 13
+****************************************************
+                   [Hash ID]: Memory:e113d44bx47ba37
+                  [Location]: Cell Slot : 03, DIMM Slot : 03, Extender : 01
+      [Location Identifiers]: Cell Slot: 03,  Slot: 03,  Extender: 01
+         [Physical Position]: ff-ff-ff-3-1-3-c-74
+****************************************************
+[Instance]: 14
+****************************************************
+                   [Hash ID]: Memory:aca01f0fx44f30ef7
+                  [Location]: Cell Slot : 03, DIMM Slot : 09, Extender : 01
+      [Location Identifiers]: Cell Slot: 03,  Slot: 09,  Extender: 01
+         [Physical Position]: ff-ff-ff-3-1-9-c-74
+****************************************************
+[Instance]: 15
+****************************************************
+                   [Hash ID]: Memory:d855e332x36725fd8
+                  [Location]: Cell Slot : 03, DIMM Slot : 04, Extender : 01
+      [Location Identifiers]: Cell Slot: 03,  Slot: 04,  Extender: 01
+         [Physical Position]: ff-ff-ff-3-1-4-d-74
+****************************************************
+[Instance]: 16
+****************************************************
+                   [Hash ID]: Memory:b68417ccx4fa24658
+                  [Location]: Cell Slot : 03, DIMM Slot : 12, Extender : 01
+      [Location Identifiers]: Cell Slot: 03,  Slot: 12,  Extender: 01
+         [Physical Position]: ff-ff-ff-3-1-12-d-74
+****************************************************
+[Instance]: 21
+****************************************************
+                   [Hash ID]: Memory:e9d1ccb7xca475b19
+                  [Location]: Cell Slot : 03, DIMM Slot : 02, Extender : 01
+      [Location Identifiers]: Cell Slot: 03,  Slot: 02,  Extender: 01
+         [Physical Position]: ff-ff-ff-3-1-2-e-74
+****************************************************
+[Instance]: 22
+****************************************************
+                   [Hash ID]: Memory:b55e177bxef2afd9
+                  [Location]: Cell Slot : 03, DIMM Slot : 08, Extender : 01
+      [Location Identifiers]: Cell Slot: 03,  Slot: 08,  Extender: 01
+         [Physical Position]: ff-ff-ff-3-1-8-e-74
+****************************************************
+[Instance]: 23
+****************************************************
+                   [Hash ID]: Memory:cf97f48ax6cab1cfa
+                  [Location]: Cell Slot : 03, DIMM Slot : 05, Extender : 01
+      [Location Identifiers]: Cell Slot: 03,  Slot: 05,  Extender: 01
+         [Physical Position]: ff-ff-ff-3-1-5-f-74
+****************************************************
+[Instance]: 24
+****************************************************
+                   [Hash ID]: Memory:e23ad284xf5443118
+                  [Location]: Cell Slot : 03, DIMM Slot : 11, Extender : 01
+      [Location Identifiers]: Cell Slot: 03,  Slot: 11,  Extender: 01
+         [Physical Position]: ff-ff-ff-3-1-11-f-74
+****************************************************
+[Instance]: 29
+****************************************************
+                   [Hash ID]: Memory:7bc5da3xab21d695
+                  [Location]: Cell Slot : 04, DIMM Slot : 01, Extender : 01
+      [Location Identifiers]: Cell Slot: 04,  Slot: 01,  Extender: 01
+         [Physical Position]: ff-ff-ff-4-1-1-a-74
+****************************************************
+[Instance]: 30
+****************************************************
+                   [Hash ID]: Memory:d348a867xefcd2b55
+                  [Location]: Cell Slot : 04, DIMM Slot : 07, Extender : 01
+      [Location Identifiers]: Cell Slot: 04,  Slot: 07,  Extender: 01
+         [Physical Position]: ff-ff-ff-4-1-7-a-74
+****************************************************
+[Instance]: 31
+****************************************************
+                   [Hash ID]: Memory:dc069e62xb9beb4b6
+                  [Location]: Cell Slot : 04, DIMM Slot : 06, Extender : 01
+      [Location Identifiers]: Cell Slot: 04,  Slot: 06,  Extender: 01
+         [Physical Position]: ff-ff-ff-4-1-6-b-74
+****************************************************
+[Instance]: 32
+****************************************************
+                   [Hash ID]: Memory:77d0c254x694f1b32
+                  [Location]: Cell Slot : 04, DIMM Slot : 10, Extender : 01
+      [Location Identifiers]: Cell Slot: 04,  Slot: 10,  Extender: 01
+         [Physical Position]: ff-ff-ff-4-1-10-b-74
+****************************************************
+[Instance]: 37
+****************************************************
+                   [Hash ID]: Memory:f6407b71x177721d7
+                  [Location]: Cell Slot : 04, DIMM Slot : 03, Extender : 01
+      [Location Identifiers]: Cell Slot: 04,  Slot: 03,  Extender: 01
+         [Physical Position]: ff-ff-ff-4-1-3-c-74
+****************************************************
+[Instance]: 38
+****************************************************
+                   [Hash ID]: Memory:c1ccc635x5c227697
+                  [Location]: Cell Slot : 04, DIMM Slot : 09, Extender : 01
+      [Location Identifiers]: Cell Slot: 04,  Slot: 09,  Extender: 01
+         [Physical Position]: ff-ff-ff-4-1-9-c-74
+****************************************************
+[Instance]: 39
+****************************************************
+                   [Hash ID]: Memory:ed828a58x4da1c778
+                  [Location]: Cell Slot : 04, DIMM Slot : 04, Extender : 01
+      [Location Identifiers]: Cell Slot: 04,  Slot: 04,  Extender: 01
+         [Physical Position]: ff-ff-ff-4-1-4-d-74
+****************************************************
+[Instance]: 40
+****************************************************
+                   [Hash ID]: Memory:20635b8ax1e5fd2b8
+                  [Location]: Cell Slot : 04, DIMM Slot : 12, Extender : 01
+      [Location Identifiers]: Cell Slot: 04,  Slot: 12,  Extender: 01
+         [Physical Position]: ff-ff-ff-4-1-12-d-74
+****************************************************
+[Instance]: 45
+****************************************************
+                   [Hash ID]: Memory:fefe73ddxe176c2b9
+                  [Location]: Cell Slot : 04, DIMM Slot : 02, Extender : 01
+      [Location Identifiers]: Cell Slot: 04,  Slot: 02,  Extender: 01
+         [Physical Position]: ff-ff-ff-4-1-2-e-74
+****************************************************
+[Instance]: 46
+****************************************************
+                   [Hash ID]: Memory:ca8abea1x26221779
+                  [Location]: Cell Slot : 04, DIMM Slot : 08, Extender : 01
+      [Location Identifiers]: Cell Slot: 04,  Slot: 08,  Extender: 01
+         [Physical Position]: ff-ff-ff-4-1-8-e-74
+****************************************************
+[Instance]: 47
+****************************************************
+                   [Hash ID]: Memory:e4c49bb0x83da849a
+                  [Location]: Cell Slot : 04, DIMM Slot : 05, Extender : 01
+      [Location Identifiers]: Cell Slot: 04,  Slot: 05,  Extender: 01
+         [Physical Position]: ff-ff-ff-4-1-5-f-74
+****************************************************
+[Instance]: 48
+****************************************************
+                   [Hash ID]: Memory:4c1a1642xc401bd78
+                  [Location]: Cell Slot : 04, DIMM Slot : 11, Extender : 01
+      [Location Identifiers]: Cell Slot: 04,  Slot: 11,  Extender: 01
+         [Physical Position]: ff-ff-ff-4-1-11-f-74
+****************************************************
+
