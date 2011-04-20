@@ -79,7 +79,6 @@ sub _getMemories {
             $description = $_;
             $flag = 1;
             $description =~ s/DS //;
-            $description =~ s/\n//;
         }
         if ($flag && /^SZ (.+)/) {
             $capacity = $1;

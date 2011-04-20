@@ -35,7 +35,6 @@ sub doInventory {
         }
         if ($flag && /^RM (.+)/) {
             $fw = $1;
-            chomp($fw);
             $fw =~ s/(\s+)$//g;
             last;
         }
@@ -48,7 +47,6 @@ sub doInventory {
         }
         if ($flag && /^RM (.+)/) {
             $BiosVersion = $1;
-            chomp($BiosVersion);
             $BiosVersion =~ s/(\s+)$//g;
             last;
         }
@@ -61,12 +59,10 @@ sub doInventory {
         }
         if ($flag && /^TM (.+)/) {
             $SystemModel = $1;
-            chomp($SystemModel);
             $SystemModel =~ s/(\s+)$//g;
         }
         if ($flag && /^SE (.+)/) {
             $SystemSerial = $1;
-            chomp($SystemSerial);
             $SystemSerial =~ s/(\s+)$//g;
         }
         if ($flag && /^FC .+/) {
