@@ -39,7 +39,7 @@ sub _getCPUs {
 
         my @lsattr;
         if ($aixversion < 5) {
-            @lsattr = _lsattrForAIX4($device);
+            @lsattr = _lsattr($device);
         } else {
             @lsattr = `lsattr -EOl $device -a 'state:type:frequency'`;
             if (`lsattr -EOl $device -a 'state:type:smt_threads'` =~ /:(\d+)$/) {
@@ -73,7 +73,7 @@ sub _getCPUs {
 }
 
 # try to simulate a modern lsattr output on AIX4
-sub _lsattrForAIX4 {
+sub _lsattr {
     my $device = shift;
 
     my @lsattr;
