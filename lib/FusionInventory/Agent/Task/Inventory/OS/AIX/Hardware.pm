@@ -19,8 +19,7 @@ sub doInventory {
     my $inventory = $params{inventory};
 
     # Using "type 0" section
-    my ($SystemSerial , $SystemModel, $SystemManufacturer, $BiosManufacturer,
-        $BiosVersion, $BiosDate);
+    my ($SystemSerial , $SystemModel, $BiosVersion, $BiosDate);
 
     #lsvpd
     my @lsvpd = `lsvpd`;
@@ -62,16 +61,14 @@ sub doInventory {
         }
     }
 
-    $BiosManufacturer='IBM';
-    $SystemManufacturer='IBM';
     $BiosVersion .= "(Firmware :".$fw.")";
 
     # Writing data
     $inventory->setBios({
-        SMANUFACTURER => $SystemManufacturer,
+        SMANUFACTURER => 'IBM',
         SMODEL => $SystemModel,
         SSN => $SystemSerial,
-        BMANUFACTURER => $BiosManufacturer,
+        BMANUFACTURER => 'IBM',
         BVERSION => $BiosVersion,
         BDATE => $BiosDate,
     });
