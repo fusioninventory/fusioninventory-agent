@@ -35,21 +35,19 @@ sub _getSoftwares {
     my ($info) = @_;
 
     my @softwares;
-    foreach my $app (keys %$info){
-        my $a = $info->{$app};
+    foreach my $name (keys %$info) {
+        my $app = $info->{$name};
 
-        next unless ref($a) eq 'HASH';
-
-        if ($a->{'Get Info String'} && $a->{'Get Info String'} =~ /^\S+, [A-Z]:\\/g) {
-            # Windows application found by Parallels
-            next;
-        }
+        # Windows application found by Parallels
+        next if
+            $app->{'Get Info String'} &&
+            $app->{'Get Info String'} =~ /^\S+, [A-Z]:\\/;
 
         push @softwares, {
-            NAME      => $app,
-            VERSION   => $a->{'Version'},
-            COMMENTS  => $a->{'Kind'} ? '[' . $a->{'Kind'} . ']' : undef,
-            PUBLISHER => $a->{'Get Info String'},
+            NAME      => $name,
+            VERSION   => $app->{'Version'},
+            COMMENTS  => $app->{'Kind'} ? '[' . $app->{'Kind'} . ']' : undef,
+            PUBLISHER => $app->{'Get Info String'},
         };
     }
 
