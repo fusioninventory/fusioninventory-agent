@@ -32,32 +32,32 @@ sub _getCPUs {
     while (my $line = <$handle>) {
         chomp $line;
         my $device = $line;
+
+        my $thread = 1;
+        if ($aixversion < 5) {
+            $thread = getFirstMatch(
+                command => "lsattr -EOl $device -a 'state:type:smt_threads'",
+                pattern => qr/:(\d+)$/
+            );
+        }
+
+        my @lsattr = $aixversion < 5 ?
+            _lsattr($device) :
+            getAllLines(
+                command => "lsattr -EOl $device -a 'state:type:frequency'"
+            );
+
         my $name;
         my $frequency;
         my $core = 0;
-        my $thread = 1;
-
-        my @lsattr;
-        if ($aixversion < 5) {
-            @lsattr = _lsattr($device);
-        } else {
-            @lsattr = `lsattr -EOl $device -a 'state:type:frequency'`;
-            if (`lsattr -EOl $device -a 'state:type:smt_threads'` =~ /:(\d+)$/) {
-                $thread = $1;
-            }
-        }
-
-        foreach (@lsattr) {
-            if ( ! /^#/ && /(.+):(.+):(.+)/ ) {
-                $core++;
-                if ( ($3 % 1000000) >= 50000){
-                    $frequency=int (($3/1000000) +1);
-                } else {
-                    $frequency=int (($3/1000000));
-                }
-                $name = $2;
-                $name =~ s/_/ /;
-            }
+        foreach my $attr (@lsattr) {
+            next if $attr =~ /^#/;
+            next unless $attr =~ /(.+):(.+):(.+)/;
+            $core++;
+            $frequency = ($3 % 1000000) >= 50000 ? 
+                int($3 / 1000000) + 1 : int($3 / 1000000);
+            $name = $2;
+            $name =~ s/_/ /;
         }
 
         push @cpus, {
