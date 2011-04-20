@@ -64,7 +64,6 @@ sub _getMemories {
     my $numslots;
     my $speed;
     my $type;
-    my $n;
     my $serial;
     my $mversion;
     my $caption;
@@ -79,7 +78,6 @@ sub _getMemories {
         if(/^DS Memory DIMM/){
             $description = $_;
             $flag = 1;
-            (defined($n))?($n++):($n=0);
             $description =~ s/DS //;
             $description =~ s/\n//;
         }
