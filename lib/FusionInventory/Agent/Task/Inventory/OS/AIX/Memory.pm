@@ -61,7 +61,6 @@ sub _getMemories {
     my @memories;
     my $memory;
     my $numslots = 0;
-    my $flag = 0;
 
     # lsvpd
     my @lsvpd = getAllLines(command => 'lsvpd', logger => $logger);
@@ -70,10 +69,9 @@ sub _getMemories {
     foreach (@lsvpd){
         if (/^DS (Memory DIMM.*)/) {
             $memory->{DESCRIPTION} = $1;
-            $flag = 1;
             next;
         }
-        next unless $flag;
+        next unless $memory;
         if (/^SZ (.*\S)/) {
             $memory->{CAPACITY} = $1;
         }
@@ -92,7 +90,6 @@ sub _getMemories {
         }
         # On rencontre un champ FC alors c'est la fin pour ce device
         if (/^FC/) {
-            $flag = 0;
             $memory->{NUMSLOTS} = $numslots++;
             push @memories, $memory;
             undef $memory;
