@@ -28,6 +28,12 @@ sub doInventory {
 
         next unless ref($a) eq 'HASH';
 
+# http://forge.fusioninventory.org/issues/716
+        if ($a->{'Get Info String'} && $a->{'Get Info String'} =~ /\S+, [C-Z]:\\\S+/) {
+            # Windows application found by Parallels
+            next;
+        }
+
         my $kind = $a->{'Kind'} ? $a->{'Kind'} : 'UNKNOWN';
         my $comments = '['.$kind.']';
         $inventory->addSoftware({
