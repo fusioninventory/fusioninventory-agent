@@ -224,22 +224,24 @@ sub _getInfos {
     foreach (@lsvpd) {
         if (/^AX $device/) {
             $flag = 1;
+            next;
         }
-        if (/^MF (.+)/ && $flag) {
+        next unless $flag;
+
+        if (/^MF (.+)/) {
             $manufacturer = $1;
             $manufacturer =~ s/(\s+)$//;
         }
-        if (/^TM (.+)/ && $flag) {
+        if (/^TM (.+)/) {
             $model = $1;
             $model =~ s/(\s+)$//;
         }
-        if (/^FN (.+)/ && $flag) {
+        if (/^FN (.+)/) {
             $FRU = $1;
             $FRU =~ s/(\s+)$//;
             $manufacturer .= ",FRU number :".$FRU;
         }
-        if (/^FC .+/ && $flag) {
-            $flag = 0;
+        if (/^FC .+/) {
             last;
         }
     }

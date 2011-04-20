@@ -20,20 +20,21 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # Using "type 0" section
-    my ($SystemSerial , $SystemModel, $BiosVersion, $BiosDate);
+    my ($SystemSerial, $SystemModel, $BiosVersion, $BiosDate, $fw, $flag);
 
     # lsvpd
     my @lsvpd = getAllLines(command => 'lsvpd', logger => $logger);
     s/^\*// foreach (@lsvpd);
 
     #Search Firmware Hard 
-    my $flag=0;
-    my $fw = '';
+    $flag = 0;
     foreach (@lsvpd) {
         if (/^DS Platform Firmware/) {
             $flag = 1;
+            next;
         }
-        if ($flag && /^RM (.+)/) {
+        next unless $flag;
+        if (/^RM (.+)/) {
             $fw = $1;
             $fw =~ s/(\s+)$//g;
             last;
@@ -43,9 +44,11 @@ sub doInventory {
     $flag = 0;
     foreach (@lsvpd) {
         if (/^DS System Firmware/) {
-            $flag = 1
+            $flag = 1;
+            next;
         }
-        if ($flag && /^RM (.+)/) {
+        next unless $flag;
+        if (/^RM (.+)/) {
             $BiosVersion = $1;
             $BiosVersion =~ s/(\s+)$//g;
             last;
@@ -55,18 +58,19 @@ sub doInventory {
     $flag = 0;
     foreach (@lsvpd) {
         if (/^DS System VPD/) {
-            $flag = 1
+            $flag = 1;
+            next;
         }
-        if ($flag && /^TM (.+)/) {
+        next unless $flag;
+        if (/^TM (.+)/) {
             $SystemModel = $1;
             $SystemModel =~ s/(\s+)$//g;
         }
-        if ($flag && /^SE (.+)/) {
+        if (/^SE (.+)/) {
             $SystemSerial = $1;
             $SystemSerial =~ s/(\s+)$//g;
         }
-        if ($flag && /^FC .+/) {
-            $flag = 0;
+        if (/^FC .+/) {
             last;
         }
     }
@@ -77,7 +81,9 @@ sub doInventory {
         foreach (`lscfg -vpl sysplanar0`) {
             if (/\s+System\ VPD/) {
                 $flag = 1;
+                next;
             }
+            next unless $flag;
             if ($flag && /\.+(\S*?)$/) {
                 $SystemSerial = $1;
                 last;

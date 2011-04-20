@@ -27,12 +27,14 @@ sub doInventory {
         foreach (@lsvpd) {
             if (/^AX $slot->{NAME}/) {
                 $flag = 1;
+                next;
             }
-            if ($flag && /^YL (.+)/) {
+            next unless $flag;
+
+            if (/^YL (.+)/) {
                 $slot->{DESCRIPTION} = $2;
             }
-            if ($flag && /^FC .+/) {
-                $flag = 0;
+            if (/^FC .+/) {
                 last;
             }
         }
