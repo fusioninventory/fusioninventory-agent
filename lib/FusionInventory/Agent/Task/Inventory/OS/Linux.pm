@@ -12,6 +12,7 @@ our $runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Generic"];
 sub _getRHNSystemId {
     my ($file) = @_;
 
+    return unless -f $file;
     my $h = XMLin($file);
     return eval {$h->{param}{value}{struct}{member}{system_id}{value}{string}};
 }
@@ -42,7 +43,7 @@ sub doInventory {
         OSNAME => "Linux",
         OSCOMMENTS => "Unknown Linux distribution",
         OSVERSION => $osversion,
-        WINPRODID => _getRHNSystemId('/etc/sysconfig/rhn/systemid'),
+        WINPRODID => _getRHNSystemId('/etc/sysconfig/rhn/systemid') || '',
         LASTLOGGEDUSER => $lastloggeduser,
         DATELASTLOGGEDUSER => $datelastlog
     });
