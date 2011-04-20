@@ -45,13 +45,11 @@ sub _getSoftwares {
             next;
         }
 
-        my $kind = $a->{'Kind'} ? $a->{'Kind'} : 'UNKNOWN';
-        my $comments = '['.$kind.']';
         push @softwares, {
             NAME      => $app,
-            VERSION   => $a->{'Version'} || 'unknown',
-            COMMENTS  => $comments,
-            PUBLISHER => $a->{'Get Info String'} || 'unknown',
+            VERSION   => $a->{'Version'},
+            COMMENTS  => $a->{'Kind'} ? '[' . $a->{'Kind'} . ']' : undef,
+            PUBLISHER => $a->{'Get Info String'},
         };
     }
 
