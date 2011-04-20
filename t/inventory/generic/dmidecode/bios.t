@@ -7,6 +7,7 @@ use Test::More;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios;
+use File::Basename;
 
 my %tests = (
     'freebsd-6.2' => {
@@ -373,15 +374,36 @@ my %tests = (
             'CHASSIS_TYPE' => 'Notebook'
         }
     },
+    'hp-proLiant-DL120-G6' => {
+        'bios' => {
+            'MMANUFACTURER' => 'Wistron Corporation',
+            'SSN' => 'XXXXXXXXXX',
+            'SKUNUMBER' => '000000-000',
+            'ASSETTAG' => 'No Asset Tag',
+            'BMANUFACTURER' => 'HP',
+            'MSN' => '0123456789',
+            'SMODEL' => 'ProLiant DL120 G6',
+            'SMANUFACTURER' => 'HP',
+            'BDATE' => '01/26/2010',
+            'MMODEL' => 'ProLiant DL120 G6',
+            'BVERSION' => 'O26'
+        },
+        'hardware' => {
+            'CHASSIS_TYPE' => 'Rack Mount Chassis',
+            'UUID' => 'EEEEEEEE-EEEE-EEEE-EEEE-EEEEEEEEEEEE'
+        }
+    }
 );
 
 plan tests => 2 * keys %tests;
 
 my $logger = FusionInventory::Agent::Logger->new();
 
-foreach my $test (keys %tests) {
-    my $file = "resources/dmidecode/$test";
+#use Data::Dumper;
+my @files = glob("resources/dmidecode/*");
+foreach my $file (@files) {
+    my $test = basename($file);
     my ($bios, $hardware) = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios::_getBiosHardware($logger, $file);
-    is_deeply($bios, $tests{$test}->{bios}, "bios: $test");
+    is_deeply($bios, $tests{$test}->{bios}, "bios: $test"); # or print Dumper({ bios => $bios, hardware => $hardware });
     is_deeply($hardware, $tests{$test}->{hardware}, "hardware: $test");
 }
