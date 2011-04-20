@@ -611,7 +611,7 @@ sub setHardware {
         PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME IPADDR WORKGROUP
         DESCRIPTION MEMORY UUID DNS LASTLOGGEDUSER USERDOMAIN
         DATELASTLOGGEDUSER DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
-        WINPRODKEY WINCOMPANY WINLANG/) {
+        WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE/) {
 # WINLANG: Windows Language, see MSDN Win32_OperatingSystem documentation
         if (exists $args->{$key}) {
             if ($key eq 'PROCESSORS' && !$nonDeprecated) {
@@ -1779,6 +1779,10 @@ Can by:
 =item WINCOMPANY
 
 =item WINLANG
+
+=item CHASSIS_TYPE
+
+The computer chassis format (e.g: Notebook, Laptop, Server, etc)
 
 =back
 

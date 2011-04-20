@@ -101,6 +101,9 @@ sub parseDmidecode {
             if ($line =~ /^\s+Asset Tag:\s*(.+\S)/i) {
                 $bios->{ASSETTAG} = $1 eq 'Not Specified'  ? '' : $1;
             }
+            if ($line =~ /^\s+Type:\s*(.+\S)/i) {
+                $hardware->{CHASSIS_TYPE} = $1;
+            }
             next;
         }
 
