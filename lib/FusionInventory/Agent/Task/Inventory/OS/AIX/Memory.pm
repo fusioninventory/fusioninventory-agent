@@ -78,26 +78,29 @@ sub _getMemories {
         if (/^DS (Memory DIMM.*)/) {
             $description = $1;
             $flag = 1;
+            next;
         }
-        if ($flag && /^SZ (.+)/) {
+        next unless $flag;
+
+        if (/^SZ (.+)/) {
             $capacity = $1;
         }
-        if ($flag && /^PN (.+)/) {
+        if (/^PN (.+)/) {
             $type = $1;
         }
         # localisation slot dans type
-        if ($flag && /^YL\s(.+)/) {
+        if (/^YL\s(.+)/) {
             $caption = "Slot " . $1;
         }
-        if ($flag && /^SN (.+)/) {
+        if (/^SN (.+)/) {
             $serial = $1;
         }
-        if ($flag && /^VK (.+)/) {
+        if (/^VK (.+)/) {
             $mversion = $1;
         }
         # On rencontre un champ FC alors c'est la fin pour ce device
-        if ($flag && /^FC .+/) {
-            $flag=0;
+        if (/^FC .+/) {
+            $flag = 0;
             $numslots = $numslots +1;
             push @memories, {
                 CAPACITY     => $capacity,
