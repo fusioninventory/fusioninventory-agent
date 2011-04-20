@@ -24,11 +24,16 @@ sub doInventory {
     #lsdev -Cc memory -F 'name' -t totmem
     #lsattr -EOlmem0
     my $memorySize = 0;
-    my (@lsdev, @lsattr, @grep);
-    @lsdev=`lsdev -Cc memory -F 'name' -t totmem`;
+    my @lsdev = getAllLines(
+        command => 'lsdev -Cc memory -F "name" -t totmem',
+        logger  => $logger
+    );
     foreach (@lsdev){
-        @lsattr=`lsattr -EOl$_`;
-        foreach (@lsattr){
+        my @lsattr = getAllLines(
+            command => "lsattr -EOl $_",
+            logger  => $logger
+        );
+        foreach (@lsattr) {
             if (! /^#/){
                 # See: http://forge.fusioninventory.org/issues/399
                 # TODO: the regex should be improved here
@@ -40,7 +45,7 @@ sub doInventory {
 
     #Paging Space
     my $swapSize;
-    @grep=`lsps -s`;
+    my @grep = getAllLines(command => 'lsps -s', logger => $logger);
     foreach (@grep){
         if ( ! /^Total/){
             /^\s*(\d+)\w*\s+\d+.+/;

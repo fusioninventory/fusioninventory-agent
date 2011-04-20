@@ -74,7 +74,7 @@ sub doInventory {
     # fetch the serial number like prtconf do
     if (! $SystemSerial) {
         $flag = 0;
-        foreach (`lscfg -vpl sysplanar0`) {
+        foreach (getAllLines(command => 'lscfg -vpl sysplanar0')) {
             if (/\s+System\ VPD/) {
                 $flag = 1;
                 next;
