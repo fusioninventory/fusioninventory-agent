@@ -55,19 +55,20 @@ my $esx = FusionInventory::Agent::Task::ESX->new({
     }
 });
 
-$esx->connect({
+if (!$esx->connect({
             addr => $args->{host},
             login => $args->{user},
             passwd => $args->{password},
-            });
-
+            })) {
+    exit 1;
+}
 my $hostIds = $esx->getHostIds();
 foreach my $hostId (@$hostIds) {
     my $inventory = $esx->createInventory($hostId);
 
     $inventory->writeXML();
 }
-
+exit(0);
 __END__
 
 =head1 NAME
