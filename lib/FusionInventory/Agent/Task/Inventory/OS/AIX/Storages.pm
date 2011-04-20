@@ -227,17 +227,14 @@ sub _getInfos {
         }
         if (/^MF (.+)/ && $flag) {
             $manufacturer = $1;
-            chomp($manufacturer);
             $manufacturer =~ s/(\s+)$//;
         }
         if (/^TM (.+)/ && $flag) {
             $model = $1;
-            chomp($model);
             $model =~ s/(\s+)$//;
         }
         if (/^FN (.+)/ && $flag) {
             $FRU = $1;
-            chomp($FRU);
             $FRU =~ s/(\s+)$//;
             $manufacturer .= ",FRU number :".$FRU;
         }
