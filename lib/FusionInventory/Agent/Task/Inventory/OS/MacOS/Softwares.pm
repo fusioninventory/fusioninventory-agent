@@ -40,6 +40,11 @@ sub _getSoftwares {
 
         next unless ref($a) eq 'HASH';
 
+        if ($a->{'Get Info String'} && $a->{'Get Info String'} =~ /^\S+, [A-Z]:\\/g) {
+            # Windows application found by Parallels
+            next;
+        }
+
         my $kind = $a->{'Kind'} ? $a->{'Kind'} : 'UNKNOWN';
         my $comments = '['.$kind.']';
         push @softwares, {
