@@ -59,72 +59,50 @@ sub _getMemories {
     my ($logger) = @_;
 
     my @memories;
-    my $capacity;
-    my $description;
-    my $numslots;
-    my $speed;
-    my $type;
-    my $serial;
-    my $mversion;
-    my $caption;
-    my $flag=0;
+    my $memory;
+    my $numslots = 0;
+    my $flag = 0;
 
     # lsvpd
     my @lsvpd = getAllLines(command => 'lsvpd', logger => $logger);
     s/^\*// foreach (@lsvpd);
 
-    $numslots = -1; 
     foreach (@lsvpd){
         if (/^DS (Memory DIMM.*)/) {
-            $description = $1;
+            $memory->{DESCRIPTION} = $1;
             $flag = 1;
             next;
         }
         next unless $flag;
         if (/^SZ (.*\S)/) {
-            $capacity = $1;
+            $memory->{CAPACITY} = $1;
         }
         if (/^PN (.*\S)/) {
-            $type = $1;
+            $memory->{TYPE} = $1;
         }
         # localisation slot dans type
         if (/^YL\s(.*\S)/) {
-            $caption = "Slot " . $1;
+            $memory->{CAPTION} = "Slot " . $1;
         }
         if (/^SN (.*\S)/) {
-            $serial = $1;
+            $memory->{SERIAL} = $1;
         }
         if (/^VK (.*\S)/) {
-            $mversion = $1;
+            $memory->{VERSION} = $1;
         }
         # On rencontre un champ FC alors c'est la fin pour ce device
         if (/^FC/) {
             $flag = 0;
-            $numslots = $numslots +1;
-            push @memories, {
-                CAPACITY     => $capacity,
-                DESCRIPTION  => $description,
-                CAPTION      => $caption,
-                NUMSLOTS     => $numslots,
-                VERSION      => $mversion,
-                TYPE         => $type,
-                SERIALNUMBER => $serial,
-            };
+            $memory->{NUMSLOTS} = $numslots++;
+            push @memories, $memory;
+            undef $memory;
         };
     }
 
-    $numslots = $numslots +1;
     # End of Loop
     # The last *FC ???????? missing
-    push @memories, {
-        CAPACITY     => $capacity,
-        DESCRIPTION  => $description,
-        CAPTION      => $caption,
-        NUMSLOTS     => $numslots,
-        VERSION      => $mversion,
-        TYPE         => $type,
-        SERIALNUMBER => $serial,
-    };
+    $memory->{NUMSLOTS} = $numslots++;
+    push @memories, $memory;
 
     return @memories;
 }
