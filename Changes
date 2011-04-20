@@ -18,6 +18,7 @@ Revision history for FusionInventory::Agent
 	* large code cleanup
 	* various internal optimisations
 	* large test suite improvements
+        * Add the HARDWARE/CHASSIS_TYPE information
 
 2.1.8  Fri, 25 Mar 2011 16:09:15 +0100
        * Show a larger part of the string returned by the server in case of
