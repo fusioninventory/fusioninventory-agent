@@ -78,19 +78,29 @@ sub _getMemories {
     foreach (@lsvpd){
         if(/^DS Memory DIMM/){
             $description = $_;
-            $flag=1; (defined($n))?($n++):($n=0);
+            $flag = 1;
+            (defined($n))?($n++):($n=0);
             $description =~ s/DS //;
             $description =~ s/\n//;
         }
-        if((/^SZ (.+)/) && ($flag)) {$capacity = $1;}
-        if((/^PN (.+)/) && ($flag)) {$type = $1;}
+        if ($flag && /^SZ (.+)/) {
+            $capacity = $1;
+        }
+        if ($flag && /^PN (.+)/) {
+            $type = $1;
+        }
         # localisation slot dans type
-        if((/^YL\s(.+)/) && ($flag)) {$caption = "Slot ".$1;}
-        if((/^SN (.+)/) && ($flag)) {$serial = $1;}
-        if((/^VK (.+)/) && ($flag)) {$mversion = $1};
-        #print $numslots."\n";
+        if ($flag && /^YL\s(.+)/) {
+            $caption = "Slot " . $1;
+        }
+        if ($flag && /^SN (.+)/) {
+            $serial = $1;
+        }
+        if ($flag && /^VK (.+)/) {
+            $mversion = $1;
+        }
         # On rencontre un champ FC alors c'est la fin pour ce device
-        if((/^FC .+/) && ($flag)) {
+        if ($flag && /^FC .+/) {
             $flag=0;
             $numslots = $numslots +1;
             push @memories, {
