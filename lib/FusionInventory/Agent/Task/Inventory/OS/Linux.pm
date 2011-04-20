@@ -15,6 +15,7 @@ our $runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Generic"];
 sub _getRHNSystemId {
     my ($file) = @_;
 
+    return unless -f $file;
     my $tpp = XML::TreePP->new();
     my $h = $tpp->parsefile($file);
     use Data::Dumper;
@@ -52,7 +53,7 @@ sub doInventory {
         OSVERSION          => $osversion,
         LASTLOGGEDUSER     => $last_user,
         DATELASTLOGGEDUSER => $last_date,
-        WINPRODID          => _getRHNSystemId('/etc/sysconfig/rhn/systemid'),
+        WINPRODID          => _getRHNSystemId('/etc/sysconfig/rhn/systemid') || '',
     });
 
 }
