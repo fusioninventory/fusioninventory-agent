@@ -75,10 +75,9 @@ sub _getMemories {
 
     $numslots = -1; 
     foreach (@lsvpd){
-        if(/^DS Memory DIMM/){
-            $description = $_;
+        if (/^DS (Memory DIMM.*)/) {
+            $description = $1;
             $flag = 1;
-            $description =~ s/DS //;
         }
         if ($flag && /^SZ (.+)/) {
             $capacity = $1;
