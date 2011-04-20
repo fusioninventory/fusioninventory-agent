@@ -5,6 +5,7 @@ use warnings;
 use FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios;
 use Test::More;
 use FindBin;
+use File::Basename;
 
 my %tests = (
 	'dmidecode-freebsd-6.2' => {
@@ -128,13 +129,87 @@ my %tests = (
           'ASSETTAG' => 'No Asset Tag',
           'BVERSION' => '6.00',
           'BMANUFACTURER' => 'Phoenix Technologies LTD'
+        },
+        'hp-proLiant-DL120-G6' => {
+          'MMANUFACTURER' => 'Wistron Corporation',
+          'SKUNUMBER' => '000000-000',
+          'SSN' => 'XXXXXXXXXX',
+          'ASSETTAG' => 'No Asset Tag',
+          'BMANUFACTURER' => 'HP',
+          'MSN' => '0123456789',
+          'SMANUFACTURER' => 'HP',
+          'SMODEL' => 'ProLiant DL120 G6',
+          'MMODEL' => 'ProLiant DL120 G6',
+          'BDATE' => '01/26/2010',
+          'BVERSION' => 'O26'
+        },
+        'dmidecode-S5000VSA' => {
+          'MMANUFACTURER' => 'Intel',
+          'SKUNUMBER' => 'Not Specified',
+          'SSN' => '.........',
+          'ASSETTAG' => '',
+          'BMANUFACTURER' => 'Intel Corporation',
+          'MSN' => 'QSSA64700622',
+          'SMANUFACTURER' => 'Intel',
+          'SMODEL' => 'MP Server',
+          'MMODEL' => 'S5000VSA',
+          'BDATE' => '10/12/2006',
+          'BVERSION' => 'S5000.86B.04.00.0066.101220061333'
+        },
+        'dmidecode-S3000AHLX' => {
+          'MMANUFACTURER' => 'Intel Corporation',
+          'SKUNUMBER' => 'Not Specified',
+          'SSN' => 'Not Specified',
+          'ASSETTAG' => '',
+          'BMANUFACTURER' => 'Intel Corporation',
+          'MSN' => 'AZAX63801455',
+          'SMANUFACTURER' => 'Not Specified',
+          'SMODEL' => 'Not Specified',
+          'MMODEL' => 'S3000AHLX',
+          'BDATE' => '09/01/2006',
+          'BVERSION' => 'S3000.86B.02.00.0031.090120061242'
+        },
+        'dmidecode-openbsd-4.5' => {
+          'MMANUFACTURER' => 'Dell Computer Corporation',
+          'SSN' => '4V2VW0J',
+          'ASSETTAG' => '',
+          'BMANUFACTURER' => 'Dell Computer Corporation',
+          'MSN' => '..TW128003952967.',
+          'SMANUFACTURER' => 'Dell Computer Corporation',
+          'SMODEL' => 'PowerEdge 1600SC          ',
+          'BDATE' => '06/24/2003',
+          'MMODEL' => '0Y1861',
+          'BVERSION' => 'A08'
+        },
+        'dmidecode-hp-dl180' => {
+          'SMODEL' => 'ProLiant DL180 G6 ',
+          'SMANUFACTURER' => 'HP',
+          'SKUNUMBER' => '470065-124',
+          'SSN' => 'CZJ02901TG',
+          'BDATE' => '05/19/2010',
+          'BVERSION' => 'O20',
+          'BMANUFACTURER' => 'HP'
+        },
+        'dmidecode-2.10-linux' => {
+          'MMANUFACTURER' => 'ASUSTeK Computer INC.',
+          'SKUNUMBER' => 'To Be Filled By O.E.M.',
+          'SSN' => 'System Serial Number',
+          'ASSETTAG' => 'Asset-1234567890',
+          'BMANUFACTURER' => 'American Megatrends Inc.',
+          'MSN' => 'MS1C93BB0H00980',
+          'SMANUFACTURER' => 'System manufacturer',
+          'SMODEL' => 'System Product Name',
+          'MMODEL' => 'P5Q',
+          'BDATE' => '04/07/2009',
+          'BVERSION' => '2102'
         }
 );
 
-plan tests => scalar keys %tests;
-
-foreach my $test (keys %tests) {
-    my $file = "$FindBin::Bin/../resources/$test";
+my @dmifiles = glob("$FindBin::Bin/../resources/dmidecode-*");
+plan tests => int @dmifiles;
+use Data::Dumper;
+foreach my $file (@dmifiles) {
+    my $test = basename ($file);
     my ($bios, $hardware) = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios::parseDmidecode($file, '<');
-    is_deeply($bios, $tests{$test}, $test);
+    is_deeply($bios, $tests{$test}, $test) or print Dumper($bios);
 }
