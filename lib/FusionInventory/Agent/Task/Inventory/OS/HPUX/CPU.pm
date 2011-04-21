@@ -44,43 +44,41 @@ sub doInventory {
     } else {
         # old HpUX without machinfo
         my %cpuInfos = (
-            "D200" => "7100LC 75",
-            "D210" => "7100LC 100",
-            "D220" => "7300LC 132",
-            "D230" => "7300LC 160",
-            "D250" => "7200 100",
-            "D260" => "7200 120",
-            "D270" => "8000 160",
-            "D280" => "8000 180",
-            "D310" => "7100LC 100",
-            "D320" => "7300LC 132",
-            "D330" => "7300LC 160",
-            "D350" => "7200 100",
-            "D360" => "7200 120",
-            "D370" => "8000 160",
-            "D380" => "8000 180",
-            "D390" => "8200 240",
-            "K360" => "8000 180",
-            "K370" => "8200 200",
-            "K380" => "8200 240",
-            "K400" => "7200 100",
-            "K410" => "7200 120",
-            "K420" => "7200 120",
-            "K460" => "8000 180",
-            "K570" => "8200 200",
-            "K580" => "8200 240",
-            "L1000-36" => "8500 360",
-            "L1500-7x" => "8700 750",
-            "L3000-7x" => "8700 750",
-            "N4000-44" => "8500 440",
-            "ia64 hp server rx1620" => "itanium 1600"
+            "D200" => { TYPE => "7100LC", SPEED => 75  },
+            "D210" => { TYPE => "7100LC", SPEED => 100 },
+            "D220" => { TYPE => "7300LC", SPEED => 132 },
+            "D230" => { TYPE => "7300LC", SPEED => 160 },
+            "D250" => { TYPE => "7200",   SPEED => 100 },
+            "D260" => { TYPE => "7200",   SPEED => 120 },
+            "D270" => { TYPE => "8000",   SPEED => 160 },
+            "D280" => { TYPE => "8000",   SPEED => 180 },
+            "D310" => { TYPE => "7100LC", SPEED => 100 },
+            "D320" => { TYPE => "7300LC", SPEED => 132 },
+            "D330" => { TYPE => "7300LC", SPEED => 160 },
+            "D350" => { TYPE => "7200",   SPEED => 100 },
+            "D360" => { TYPE => "7200",   SPEED => 120 },
+            "D370" => { TYPE => "8000",   SPEED => 160 },
+            "D380" => { TYPE => "8000",   SPEED => 180 },
+            "D390" => { TYPE => "8200",   SPEED => 240 },
+            "K360" => { TYPE => "8000",   SPEED => 180 },
+            "K370" => { TYPE => "8200",   SPEED => 200 },
+            "K380" => { TYPE => "8200",   SPEED => 240 },
+            "K400" => { TYPE => "7200",   SPEED => 140 },
+            "K410" => { TYPE => "7200",   SPEED => 120 },
+            "K420" => { TYPE => "7200",   SPEED => 120 },
+            "K460" => { TYPE => "8000",   SPEED => 180 },
+            "K570" => { TYPE => "8200",   SPEED => 200 },
+            "K580" => { TYPE => "8200",   SPEED => 240 },
+            "L1000-36" => { TYPE => "8500", SPEED => 360 },
+            "L1500-7x" => { TYPE => "8700", SPEED => 750 },
+            "L3000-7x" => { TYPE => "8700", SPEED => 750 },
+            "N4000-44" => { TYPE => "8500", SPEED => 440 },
+            "ia64 hp server rx1620" => { TYPE => "itanium", SPEED => 1600 }
         );
 
-        my $DeviceType = getFirstLine(command => 'model |cut -f 3- -d/');
-        my $tempCpuInfo = $cpuInfos{"$DeviceType"};
-        if ( $tempCpuInfo =~ /^(\S+)\s(\S+)/ ) {
-            $CPUinfo->{TYPE} = $1;
-            $CPUinfo->{SPEED} = $2;
+        my $device = getFirstLine(command => 'model |cut -f 3- -d/');
+        if ($cpuInfos{$device}) {
+            $CPUinfo = $cpuInfos{$device};
         } else {
             foreach ( `echo 'sc product cpu;il' | /usr/sbin/cstm` ) {
                 next unless /CPU Module/;
