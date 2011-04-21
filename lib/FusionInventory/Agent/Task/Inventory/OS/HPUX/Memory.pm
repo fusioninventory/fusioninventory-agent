@@ -60,36 +60,33 @@ sub doInventory {
 
 sub _parseCprop {
     my $handle = getFileHandle(@_);
-
     return unless $handle;
 
     my $size = 0;
     my @memories;
-    my $memory;
+    my $instance;
 
     while (my $line = <$handle>) {
         if ($line =~ /\[Instance\]: \d+/) {
+            # new block
+            $instance = {};
             next;
         }
 
-        if ($line =~ /^\s*\[([^\]]*)\]:\s+(\S+.*)/) {
-            my $k = $1;
-            my $v = $2;
-            $v =~ s/\s+\*+//;
-            $memory->{$k} = $v;
+        if ($line =~ /^ \s+ \[ ([^\]]+) \]: \s (\S+.*)/x) {
+            $instance->{$1} = $2;
+            next;
         }
 
-        if ($line =~ /\*\*\*\*/) {
-            if ($memory->{Size}) {
-                $size += getCanonicalSize($memory->{Size}) || 0;
-                push @memories, {
-                    CAPACITY => $size,
-                    DESCRIPTION => $memory->{'Part Number'},
-                    SERIALNUMBER => $memory->{'Serial Number'},
-                    TYPE => $memory->{'Module Type'},
-                };
-            }
-            undef $memory;
+        if ($line =~ /^\*+/) {
+            next unless keys %$instance;
+            $size += getCanonicalSize($instance->{Size}) || 0;
+            push @memories, {
+                CAPACITY     => $size,
+                DESCRIPTION  => $instance->{'Part Number'},
+                SERIALNUMBER => $instance->{'Serial Number'},
+                TYPE         => $instance->{'Module Type'},
+            };
         }
     }
     close $handle;
