@@ -115,33 +115,33 @@ sub _parseMachinInfo {
 
     my $ret = {};
 
-    foreach (<$handle>) {
-        s/\s+/ /g;
-        if (/Number of CPUs = (\d+)/) {
+    while (my $line = <$handle>) {
+        $line =~ s/\s+/ /g;
+        if ($line =~ /Number of CPUs = (\d+)/) {
             $ret->{CPUcount} = $1;
-        } elsif (/processor model: \d+ (.+)$/) {
+        } elsif ($line =~ /processor model: \d+ (.+)$/) {
             $ret->{NAME} = $1;
-        } elsif (/Clock speed = (\d+) MHz/) {
+        } elsif ($line =~ /Clock speed = (\d+) MHz/) {
             $ret->{SPEED} = $1;
-        } elsif (/vendor information =\W+(\w+)/) {
+        } elsif ($line =~ /vendor information =\W+(\w+)/) {
             $ret->{MANUFACTURER} = $1;
             $ret->{MANUFACTURER} =~ s/GenuineIntel/Intel/;
-        } elsif (/Cache info:/) {
+        } elsif ($line =~ /Cache info:/) {
 # last; #Not tested on versions other that B11.23
         }
 # Added for HPUX 11.31
 #        if ( /Intel\(R\) Itanium 2 9000 series processor \((\d+\.\d+)/ ) {
 #            $ret->{CPUinfo}->{SPEED} = $1*1000;
 #        }
-        if ( /((\d+) |)(Intel)\(R\) Itanium( 2|\(R\))( \d+ series|) processor(s| 9350s|) \((\d+\.\d+)/i ) {
+        if ($line =~ /((\d+) |)(Intel)\(R\) Itanium( 2|\(R\))( \d+ series|) processor(s| 9350s|) \((\d+\.\d+)/i ) {
             $ret->{CPUcount} = $2 || 1;
             $ret->{MANUFACTURER} = $3;
             $ret->{SPEED} = $7*1000;
         }
-        if ( /(\d+) logical processors/ ) {
+        if ($line =~ /(\d+) logical processors/ ) {
             $ret->{CORE} = $1 / ($ret->{CPUcount} || 1);
         }
-        if (/Itanium/i) {
+        if ($line =~ /Itanium/i) {
             $ret->{NAME} = 'Itanium';
         }
 # end HPUX 11.31
@@ -156,18 +156,18 @@ sub _parseCpropProcessor {
 
     my $cpus = [];
     my $instance = {};
-    foreach (<$handle>) {
-        if (/^\[Instance\]: \d+/) {
+    while (my $line = <$handle>) {
+        if ($line =~ /^\[Instance\]: \d+/) {
             $instance = {};
             next;
-        } elsif (/^\s*\[([^\]]*)\]:\s+(\S+.*)/) {
+        } elsif ($line =~ /^\s*\[([^\]]*)\]:\s+(\S+.*)/) {
             my $k = $1;
             my $v = $2;
             $v =~ s/\s+\*+//;
             $instance->{$k} = $v;
         }
 
-        if (keys (%$instance) && /\*\*\*\*\*/) {
+        if (keys (%$instance) && $line =~ /\*\*\*\*\*/) {
             my $name = 'unknown';
             my $manufacturer = 'unknown';
             my $slotId;
