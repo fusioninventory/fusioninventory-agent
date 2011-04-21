@@ -25,7 +25,7 @@ sub doInventory {
         '%{SUMMARY}\n' . 
         '\'';
 
-    my $packages = _getPackagesListFromRpm(
+    my $packages = _getPackagesList(
         logger => $logger, command => $command
     );
     foreach my $package (@$packages) {
@@ -36,7 +36,7 @@ sub doInventory {
     }
 }
 
-sub _getPackagesListFromRpm {
+sub _getPackagesList {
     my $handle = getFileHandle(@_);
 
     my @packages;
