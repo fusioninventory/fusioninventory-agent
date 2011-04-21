@@ -26,43 +26,6 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $CPUinfo = {};
-
-    # Using old system HpUX without machinfo
-    # the Hpux whith machinfo will be done after
-    my %cpuInfos = (
-        "D200" => "7100LC 75",
-        "D210" => "7100LC 100",
-        "D220" => "7300LC 132",
-        "D230" => "7300LC 160",
-        "D250" => "7200 100",
-        "D260" => "7200 120",
-        "D270" => "8000 160",
-        "D280" => "8000 180",
-        "D310" => "7100LC 100",
-        "D320" => "7300LC 132",
-        "D330" => "7300LC 160",
-        "D350" => "7200 100",
-        "D360" => "7200 120",
-        "D370" => "8000 160",
-        "D380" => "8000 180",
-        "D390" => "8200 240",
-        "K360" => "8000 180",
-        "K370" => "8200 200",
-        "K380" => "8200 240",
-        "K400" => "7200 100",
-        "K410" => "7200 120",
-        "K420" => "7200 120",
-        "K460" => "8000 180",
-        "K570" => "8200 200",
-        "K580" => "8200 240",
-        "L1000-36" => "8500 360",
-        "L1500-7x" => "8700 750",
-        "L3000-7x" => "8700 750",
-        "N4000-44" => "8500 440",
-        "ia64 hp server rx1620" => "itanium 1600"
-    );
-
     if (-f '/opt/propplus/bin/cprop' && (`hpvminfo 2>&1` !~ /HPVM/)) {
         my $cpus = _parseCprop(
             command => '/opt/propplus/bin/cprop -summary -c Processors',
@@ -70,12 +33,49 @@ sub doInventory {
         );
         $inventory->addCPU($cpus);
         return;
-    } elsif ( can_run('/usr/contrib/bin/machinfo') ) {
+    }
+
+    my $CPUinfo;
+    if (can_run('/usr/contrib/bin/machinfo')) {
         $CPUinfo = _parseMachinInfo(
             command => '/usr/contrib/bin/machinfo',
             logger  => $logger
         );
     } else {
+        # old HpUX without machinfo
+        my %cpuInfos = (
+            "D200" => "7100LC 75",
+            "D210" => "7100LC 100",
+            "D220" => "7300LC 132",
+            "D230" => "7300LC 160",
+            "D250" => "7200 100",
+            "D260" => "7200 120",
+            "D270" => "8000 160",
+            "D280" => "8000 180",
+            "D310" => "7100LC 100",
+            "D320" => "7300LC 132",
+            "D330" => "7300LC 160",
+            "D350" => "7200 100",
+            "D360" => "7200 120",
+            "D370" => "8000 160",
+            "D380" => "8000 180",
+            "D390" => "8200 240",
+            "K360" => "8000 180",
+            "K370" => "8200 200",
+            "K380" => "8200 240",
+            "K400" => "7200 100",
+            "K410" => "7200 120",
+            "K420" => "7200 120",
+            "K460" => "8000 180",
+            "K570" => "8200 200",
+            "K580" => "8200 240",
+            "L1000-36" => "8500 360",
+            "L1500-7x" => "8700 750",
+            "L3000-7x" => "8700 750",
+            "N4000-44" => "8500 440",
+            "ia64 hp server rx1620" => "itanium 1600"
+        );
+
         my $DeviceType = getFirstLine(command => 'model |cut -f 3- -d/');
         my $tempCpuInfo = $cpuInfos{"$DeviceType"};
         if ( $tempCpuInfo =~ /^(\S+)\s(\S+)/ ) {
