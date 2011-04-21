@@ -24,6 +24,7 @@ sub doInventory {
     return unless ref $info eq 'HASH';
 
     my $softwares = _getSoftwaresList($info);
+    return unless $softwares;
 
     foreach my $software (@$softwares) {
         $inventory->addEntry(
