@@ -152,7 +152,7 @@ sub _parseCprop {
     my $handle = getFileHandle(@_);
     return unless $handle;
 
-    my $cpus;
+    my @cpus;
     my $instance;
 
     while (my $line = <$handle>) {
@@ -182,25 +182,24 @@ sub _parseCprop {
             };
 
             if ($instance->{'Location'} =~ /Cell Slot Number (\d+)\b/i) {
+                # this is a single core from a multi-core cpu
                 my $slotId = $1;
-                if ($cpus->[$slotId]) {
-                    $cpus->[$slotId]{CORE}++;
+                if ($cpus[$slotId]) {
+                    $cpus[$slotId]->{CORE}++;
                 } else {
-                    $cpus->[$slotId] = $cpu;
-                    $cpus->[$slotId]{CORE}=1;
+                    $cpus[$slotId] = $cpu;
+                    $cpus[$slotId]->{CORE}=1;
                 }
             } else {
-                push @$cpus, $cpu;
+                push @cpus, $cpu;
             }
         }
     }
     close $handle;
 
-    my @realCpus; # without empty entry
-    foreach (@$cpus) {
-        push @realCpus, $_ if $_;
-    }
+    # filter missing cpus
+    @cpus = grep { $_ } @cpus;
 
-    return \@realCpus;
+    return \@cpus;
 }
 1;
