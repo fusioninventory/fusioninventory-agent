@@ -24,6 +24,7 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my $CPUinfo = {};
 
@@ -63,11 +64,17 @@ sub doInventory {
     );
 
     if (-f '/opt/propplus/bin/cprop' && (`hpvminfo 2>&1` !~ /HPVM/)) {
-        my $cpus = _parseCpropProcessor('/opt/propplus/bin/cprop -summary -c Processors', '-|');
+        my $cpus = _parseCpropProcessor(
+            command => '/opt/propplus/bin/cprop -summary -c Processors',
+            logger  => $logger
+        );
         $inventory->addCPU($cpus);
         return;
     } elsif ( can_run('/usr/contrib/bin/machinfo') ) {
-        $CPUinfo = _parseMachinInfo('/usr/contrib/bin/machinfo', '-|');
+        $CPUinfo = _parseMachinInfo(
+            command => '/usr/contrib/bin/machinfo',
+            logger  => $logger
+        );
     } else {
         my $DeviceType = getFirstLine(command => 'model |cut -f 3- -d/');
         my $tempCpuInfo = $cpuInfos{"$DeviceType"};
@@ -103,14 +110,8 @@ sub doInventory {
 }
 
 sub _parseMachinInfo {
-    my ($file, $mode) = @_;
-
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
-    }
-
+    my $handle = getFileHandle(@_);
+    return unless $handle;
 
     my $ret = {};
 
@@ -150,13 +151,8 @@ sub _parseMachinInfo {
 }
 
 sub _parseCpropProcessor {
-    my ($file, $mode) = @_;
-
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        warn "Can't open $file: $ERRNO";
-        return;
-    }
+    my $handle = getFileHandle(@_);
+    return unless $handle;
 
     my $cpus = [];
     my $instance = {};
