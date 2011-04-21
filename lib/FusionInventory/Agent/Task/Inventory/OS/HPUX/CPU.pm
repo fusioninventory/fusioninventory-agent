@@ -64,7 +64,7 @@ sub doInventory {
     );
 
     if (-f '/opt/propplus/bin/cprop' && (`hpvminfo 2>&1` !~ /HPVM/)) {
-        my $cpus = _parseCpropProcessor(
+        my $cpus = _parseCprop(
             command => '/opt/propplus/bin/cprop -summary -c Processors',
             logger  => $logger
         );
@@ -150,7 +150,7 @@ sub _parseMachinInfo {
     return $ret;
 }
 
-sub _parseCpropProcessor {
+sub _parseCprop {
     my $handle = getFileHandle(@_);
     return unless $handle;
 
