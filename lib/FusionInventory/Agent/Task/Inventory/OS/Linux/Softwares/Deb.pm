@@ -23,7 +23,7 @@ sub doInventory {
         '${Description}\n' .
         '\'';
 
-    my $packages = _getPackagesListFromDpkg(
+    my $packages = _getPackagesList(
         logger => $logger, command => $command
     );
     foreach my $package (@$packages) {
@@ -34,7 +34,7 @@ sub doInventory {
     }
 }
 
-sub _getPackagesListFromDpkg {
+sub _getPackagesList {
     my $handle = getFileHandle(@_);
 
     my @packages;
