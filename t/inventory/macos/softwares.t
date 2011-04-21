@@ -2457,7 +2457,6 @@ my %tests = (
 
 plan tests => scalar keys %tests;
 
-use Data::Dumper;
 foreach my $test (keys %tests) {
     my $file = "resources/SysProfile/$test.yaml";
     my $info = LoadFile($file);
