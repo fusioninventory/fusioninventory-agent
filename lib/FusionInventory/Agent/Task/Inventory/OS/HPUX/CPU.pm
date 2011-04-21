@@ -170,14 +170,10 @@ sub _parseCprop {
         if ($line =~ /^\*+/) {
             next unless keys %$instance;
 
-            my $name = 'unknown';
-            my $manufacturer = 'unknown';
-            if ($instance->{'Processor Type'} =~ /Itanium/i) {
-                $name = "Itanium";
-            }
-            if ($instance->{'Processor Type'} =~ /Intel/i) {
-                $manufacturer = "Intel"
-            }
+            my $name = $instance->{'Processor Type'} =~ /Itanium/ ?
+                'Itanium' : undef;
+            my $manufacturer = $instance->{'Processor Type'} =~ /Intel/ ?
+                'Intel' : undef;
             my $cpu = {
                 SPEED        => $instance->{'Processor Speed'},
                 ID           => $instance->{'Tag'},
