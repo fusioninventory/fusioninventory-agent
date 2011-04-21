@@ -306,4 +306,4 @@ foreach my $test (keys %tests64) {
 }
 
 my @mems = FusionInventory::Agent::Task::Inventory::OS::HPUX::Memory::_parseCprop(file => 'resources/cprop/memory');
-is_deeply(\@mems, $cpropMem, '_parseCprop');
+is_deeply(\@mems, $cpropMem, 'cprop output parsing');
