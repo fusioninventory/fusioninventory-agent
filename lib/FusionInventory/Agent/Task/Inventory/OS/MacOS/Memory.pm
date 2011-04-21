@@ -17,11 +17,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $memories = _getMemories(logger => $logger);
-
-    return unless $memories;
-
-    foreach my $memory (@$memories) {
+    foreach my $memory (_getMemories(logger => $logger)) {
         $inventory->addEntry(
             section => 'MEMORIES',
             entry   => $memory
@@ -40,8 +36,7 @@ sub _getMemories {
         $infos->{Memory}->{'Memory Slots'} :
         $infos->{Memory};
 
-    my $memories;
-    # memori
+    my @memories;
     foreach my $key (sort keys %$parent_node) {
         next unless $key =~ /DIMM(\d)/; 
         my $slot = $1;
@@ -65,10 +60,10 @@ sub _getMemories {
             CAPACITY     => getCanonicalSize($info->{'Size'})
         };
 
-        push @$memories, $memory;
+        push @memories, $memory;
     }
 
-    return $memories;
+    return @memories;
 }
 
 1;
