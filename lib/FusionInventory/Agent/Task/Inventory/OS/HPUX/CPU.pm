@@ -152,49 +152,50 @@ sub _parseCprop {
     my $handle = getFileHandle(@_);
     return unless $handle;
 
-    my $cpus = [];
-    my $instance = {};
+    my $cpus;
+    my $instance;
+
     while (my $line = <$handle>) {
         if ($line =~ /^\[Instance\]: \d+/) {
+            # new block
             $instance = {};
             next;
-        } elsif ($line =~ /^\s*\[([^\]]*)\]:\s+(\S+.*)/) {
-            my $k = $1;
-            my $v = $2;
-            $v =~ s/\s+\*+//;
-            $instance->{$k} = $v;
         }
 
-        if (keys (%$instance) && $line =~ /\*\*\*\*\*/) {
+        if ($line =~ /^ \s+ \[ ([^\]]+) \]: \s (.+)/x) {
+            $instance->{$1} = $2;
+            next;
+        }
+
+        if ($line =~ /^\*+/) {
+            next unless keys %$instance;
+
             my $name = 'unknown';
             my $manufacturer = 'unknown';
-            my $slotId;
             if ($instance->{'Processor Type'} =~ /Itanium/i) {
                 $name = "Itanium";
             }
             if ($instance->{'Processor Type'} =~ /Intel/i) {
                 $manufacturer = "Intel"
             }
-            if ($instance->{'Location'} =~ /Cell Slot Number (\d+)\b/i) {
-                $slotId = $1;
-            }
             my $cpu = {
-                SPEED => $instance->{'Processor Speed'},
-                ID => $instance->{'Tag'},
-                NAME => $name,
+                SPEED        => $instance->{'Processor Speed'},
+                ID           => $instance->{'Tag'},
+                NAME         => $name,
                 MANUFACTURER => $manufacturer
             };
-            if ($slotId) {
+
+            if ($instance->{'Location'} =~ /Cell Slot Number (\d+)\b/i) {
+                my $slotId = $1;
                 if ($cpus->[$slotId]) {
                     $cpus->[$slotId]{CORE}++;
                 } else {
-                    $cpus->[$slotId]=$cpu;
+                    $cpus->[$slotId] = $cpu;
                     $cpus->[$slotId]{CORE}=1;
                 }
             } else {
                 push @$cpus, $cpu;
             }
-            $instance = {};
         }
     }
     close $handle;
