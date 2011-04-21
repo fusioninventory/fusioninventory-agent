@@ -73,5 +73,5 @@ foreach my $test (keys %tests) {
     is_deeply($results, $tests{$test}, "machinfo output parsing: $test");
 }
 
-my $cpus = FusionInventory::Agent::Task::Inventory::OS::HPUX::CPU::_parseCprop(file => 'resources/cprop/cpu');
-is_deeply($cpus, $cpropCpu, 'cprop output parsing');
+my @cpus = FusionInventory::Agent::Task::Inventory::OS::HPUX::CPU::_parseCprop(file => 'resources/cprop/cpu');
+is_deeply(\@cpus, $cpropCpu, 'cprop output parsing');

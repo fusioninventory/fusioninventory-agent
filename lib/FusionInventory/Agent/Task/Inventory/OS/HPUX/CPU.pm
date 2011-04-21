@@ -27,11 +27,12 @@ sub doInventory {
     my $logger    = $params{logger};
 
     if (-f '/opt/propplus/bin/cprop' && (`hpvminfo 2>&1` !~ /HPVM/)) {
-        my $cpus = _parseCprop(
+        foreach my $cpu (_parseCprop(
             command => '/opt/propplus/bin/cprop -summary -c Processors',
             logger  => $logger
-        );
-        $inventory->addCPU($cpus);
+        )) {
+            $inventory->addCPU($cpu);
+        }
         return;
     }
 
@@ -200,6 +201,6 @@ sub _parseCprop {
     # filter missing cpus
     @cpus = grep { $_ } @cpus;
 
-    return \@cpus;
+    return @cpus;
 }
 1;
