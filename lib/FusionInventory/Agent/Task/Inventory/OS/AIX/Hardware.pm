@@ -3,7 +3,10 @@ package FusionInventory::Agent::Task::Inventory::OS::AIX::Hardware;
 use strict;
 use warnings;
 
+use List::Util qw(first);
+
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::AIX;
 
 sub isInventoryEnabled {
     return 1;
@@ -20,55 +23,21 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # Using "type 0" section
-    my ($SystemSerial, $SystemModel, $BiosVersion, $BiosDate, $fw, $flag);
+    my ($SystemSerial, $SystemModel, $BiosVersion, $BiosDate, $flag);
 
     # lsvpd
-    my @lsvpd = getAllLines(command => 'lsvpd', logger => $logger);
-    s/^\*// foreach (@lsvpd);
+    my @devices = getDevicesFromLsvpd(logger => $logger);
 
-    #Search Firmware Hard 
-    $flag = 0;
-    foreach (@lsvpd) {
-        if (/^DS Platform Firmware/) {
-            $flag = 1;
-            next;
-        }
-        next unless $flag;
-        if (/^RM (.*\S)/) {
-            $fw = $1;
-            last;
-        }
-    }
+    my $system = first { $_->{DS} eq 'System Firmware' } @devices;
+    $BiosVersion = $system->{RM} if $system;
 
-    $flag = 0;
-    foreach (@lsvpd) {
-        if (/^DS System Firmware/) {
-            $flag = 1;
-            next;
-        }
-        next unless $flag;
-        if (/^RM (.*\S)/) {
-            $BiosVersion = $1;
-            last;
-        }
-    }
+    my $platform = first { $_->{DS} eq 'Platform Firmware' } @devices;
+    $BiosVersion .= "(Firmware : $platform->{RM})" if $platform;
 
-    $flag = 0;
-    foreach (@lsvpd) {
-        if (/^DS System VPD/) {
-            $flag = 1;
-            next;
-        }
-        next unless $flag;
-        if (/^TM (.*\S)/) {
-            $SystemModel = $1;
-        }
-        if (/^SE (.*\S)/) {
-            $SystemSerial = $1;
-        }
-        if (/^FC/) {
-            last;
-        }
+    my $vpd = first { $_->{DS} eq 'System VPD' } @devices;
+    if ($vpd) {
+        $SystemModel = $vpd->{TM};
+        $SystemSerial = $vpd->{SE};
     }
 
     # fetch the serial number like prtconf do
@@ -87,7 +56,6 @@ sub doInventory {
         }
     }
 
-    $BiosVersion .= "(Firmware :".$fw.")";
 
     # Writing data
     $inventory->setBios({
