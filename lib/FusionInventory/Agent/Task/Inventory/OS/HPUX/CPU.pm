@@ -6,6 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::HPUX;
 
 
 ###                                                                                                
@@ -109,44 +110,46 @@ sub doInventory {
 }
 
 sub _parseMachinInfo {
-    my $handle = getFileHandle(@_);
-    return unless $handle;
+    my $info = getInfoFromMachinfo(@_);
+    return unless $info;
 
-    my $ret = {};
+    my $result;
+    my $cpu_info = $info->{'CPU info'};
+    if (ref $cpu_info eq 'HASH') {
+        # HPUX 11.23
+        $result->{CPUcount} = $cpu_info->{'number of cpus'};
 
-    while (my $line = <$handle>) {
-        $line =~ s/\s+/ /g;
-        if ($line =~ /Number of CPUs = (\d+)/) {
-            $ret->{CPUcount} = $1;
-        } elsif ($line =~ /processor model: \d+ (.+)$/) {
-            $ret->{NAME} = $1;
-        } elsif ($line =~ /Clock speed = (\d+) MHz/) {
-            $ret->{SPEED} = $1;
-        } elsif ($line =~ /vendor information =\W+(\w+)/) {
-            $ret->{MANUFACTURER} = $1;
-            $ret->{MANUFACTURER} =~ s/GenuineIntel/Intel/;
-        } elsif ($line =~ /Cache info:/) {
-# last; #Not tested on versions other that B11.23
+        if ($cpu_info->{'clock speed'} =~ /(\d+) MHz/) {
+            $result->{SPEED} = $1;
         }
-# Added for HPUX 11.31
-#        if ( /Intel\(R\) Itanium 2 9000 series processor \((\d+\.\d+)/ ) {
-#            $ret->{CPUinfo}->{SPEED} = $1*1000;
-#        }
-        if ($line =~ /((\d+) |)(Intel)\(R\) Itanium( 2|\(R\))( \d+ series|) processor(s| 9350s|) \((\d+\.\d+)/i ) {
-            $ret->{CPUcount} = $2 || 1;
-            $ret->{MANUFACTURER} = $3;
-            $ret->{SPEED} = $7*1000;
+
+        if ($cpu_info->{'processor model'} =~ /Intel/) {
+            $result->{MANUFACTURER} = 'Intel';
         }
-        if ($line =~ /(\d+) logical processors/ ) {
-            $ret->{CORE} = $1 / ($ret->{CPUcount} || 1);
+
+        if ($cpu_info->{'processor model'} =~ /Itanium/) {
+            $result->{NAME} = 'Itanium';
         }
-        if ($line =~ /Itanium/i) {
-            $ret->{NAME} = 'Itanium';
+    } else {
+        # HPUX 11.31
+        if ($cpu_info =~ /^(\d+) /) {
+            $result->{CPUcount} = $1;
         }
-# end HPUX 11.31
+        if ($cpu_info =~ /([\d.]+) GHz/) {
+            $result->{SPEED} = $1 * 1000;
+        }
+        if ($cpu_info =~ /Intel/) {
+            $result->{MANUFACTURER} = 'Intel';
+        }
+        if ($cpu_info =~ /Itanium/) {
+            $result->{NAME} = 'Itanium';
+        }
+        if ($cpu_info =~ /(\d+) logical processors/ ) {
+            $result->{CORE} = $1 / $result->{CPUcount};
+        }
     }
 
-    return $ret;
+    return $result;
 }
 
 sub _parseCprop {
