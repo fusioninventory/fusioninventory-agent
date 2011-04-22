@@ -305,5 +305,5 @@ foreach my $test (keys %tests64) {
     is($size, $tests64{$test}->{size}, "size: $test");
 }
 
-my @mems = FusionInventory::Agent::Task::Inventory::OS::HPUX::Memory::_parseCprop(file => 'resources/cprop/11.31-1');
+my @mems = FusionInventory::Agent::Task::Inventory::OS::HPUX::Memory::_parseCprop(file => 'resources/cprop/memory');
 is_deeply(\@mems, $cpropMem, '_parseCprop');

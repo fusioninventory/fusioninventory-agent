@@ -1,0 +1,109 @@
+[Component]: Processors
+[Table]: Processors
+-------------------------------------------------------
+[Instance]: 1
+****************************************************
+                   [Hash ID]: Processors:e46c55b1x676ecc63
+                    [Status]: OK
+                  [DeviceID]: 0
+                       [Tag]: ff-ff-ff-3-ff-0-ff-11
+                  [Location]: This is an Intel(R) Itanium(R) 2 Processor-Module ( Model: Intel (R) Itanium 2 Processor (Family 32 Model 2 stepping E0) ), with the following details:  Cabinet Number 255, Card Cage Number 255, Back Plane Number 255, Cell Slot Number 3, Slot Number 0.
+            [Processor Type]: Intel(R) Itanium(R) 2 Processor-Module
+     [Architecture Revision]: Itanium Arch.
+               [Firmware ID]: 01.08
+      [Processor Capability]: 64 Bits
+           [Processor Speed]: 1729
+****************************************************
+[Instance]: 2
+****************************************************
+                   [Hash ID]: Processors:a17ef0b6xd19e5482
+                    [Status]: OK
+                  [DeviceID]: 1
+                       [Tag]: ff-ff-ff-3-ff-0-ff-11
+                  [Location]: This is an Intel(R) Itanium(R) 2 Processor-Module ( Model: Intel (R) Itanium 2 Processor (Family 32 Model 2 stepping E0) ), with the following details:  Cabinet Number 255, Card Cage Number 255, Back Plane Number 255, Cell Slot Number 3, Slot Number 0.
+            [Processor Type]: Intel(R) Itanium(R) 2 Processor-Module
+     [Architecture Revision]: Itanium Arch.
+               [Firmware ID]: 01.08
+      [Processor Capability]: 64 Bits
+           [Processor Speed]: 1729
+****************************************************
+[Instance]: 3
+****************************************************
+                   [Hash ID]: Processors:5e918bbbx3bcddca1
+                    [Status]: OK
+                  [DeviceID]: 2
+                       [Tag]: ff-ff-ff-3-ff-0-ff-11
+                  [Location]: This is an Intel(R) Itanium(R) 2 Processor-Module ( Model: Intel (R) Itanium 2 Processor (Family 32 Model 2 stepping E0) ), with the following details:  Cabinet Number 255, Card Cage Number 255, Back Plane Number 255, Cell Slot Number 3, Slot Number 0.
+            [Processor Type]: Intel(R) Itanium(R) 2 Processor-Module
+     [Architecture Revision]: Itanium Arch.
+               [Firmware ID]: 01.08
+      [Processor Capability]: 64 Bits
+           [Processor Speed]: 1729
+****************************************************
+[Instance]: 4
+****************************************************
+                   [Hash ID]: Processors:1ba426c0xa5fd64c0
+                    [Status]: OK
+                  [DeviceID]: 3
+                       [Tag]: ff-ff-ff-3-ff-0-ff-11
+                  [Location]: This is an Intel(R) Itanium(R) 2 Processor-Module ( Model: Intel (R) Itanium 2 Processor (Family 32 Model 2 stepping E0) ), with the following details:  Cabinet Number 255, Card Cage Number 255, Back Plane Number 255, Cell Slot Number 3, Slot Number 0.
+            [Processor Type]: Intel(R) Itanium(R) 2 Processor-Module
+     [Architecture Revision]: Itanium Arch.
+               [Firmware ID]: 01.08
+      [Processor Capability]: 64 Bits
+           [Processor Speed]: 1729
+****************************************************
+[Instance]: 5
+****************************************************
+                   [Hash ID]: Processors:d8b6c1c5x102cecdf
+                    [Status]: OK
+                  [DeviceID]: 4
+                       [Tag]: ff-ff-ff-4-ff-0-ff-11
+                  [Location]: This is an Intel(R) Itanium(R) 2 Processor-Module ( Model: Intel (R) Itanium 2 Processor (Family 32 Model 2 stepping E0) ), with the following details:  Cabinet Number 255, Card Cage Number 255, Back Plane Number 255, Cell Slot Number 4, Slot Number 0.
+            [Processor Type]: Intel(R) Itanium(R) 2 Processor-Module
+     [Architecture Revision]: Itanium Arch.
+               [Firmware ID]: 01.08
+      [Processor Capability]: 64 Bits
+           [Processor Speed]: 1729
+****************************************************
+[Instance]: 6
+****************************************************
+                   [Hash ID]: Processors:95c95ccax7a5c74fe
+                    [Status]: OK
+                  [DeviceID]: 5
+                       [Tag]: ff-ff-ff-4-ff-0-ff-11
+                  [Location]: This is an Intel(R) Itanium(R) 2 Processor-Module ( Model: Intel (R) Itanium 2 Processor (Family 32 Model 2 stepping E0) ), with the following details:  Cabinet Number 255, Card Cage Number 255, Back Plane Number 255, Cell Slot Number 4, Slot Number 0.
+            [Processor Type]: Intel(R) Itanium(R) 2 Processor-Module
+     [Architecture Revision]: Itanium Arch.
+               [Firmware ID]: 01.08
+      [Processor Capability]: 64 Bits
+           [Processor Speed]: 1729
+****************************************************
+[Instance]: 7
+****************************************************
+                   [Hash ID]: Processors:52dbf7cfxe48bfd1d
+                    [Status]: OK
+                  [DeviceID]: 6
+                       [Tag]: ff-ff-ff-4-ff-0-ff-11
+                  [Location]: This is an Intel(R) Itanium(R) 2 Processor-Module ( Model: Intel (R) Itanium 2 Processor (Family 32 Model 2 stepping E0) ), with the following details:  Cabinet Number 255, Card Cage Number 255, Back Plane Number 255, Cell Slot Number 4, Slot Number 0.
+            [Processor Type]: Intel(R) Itanium(R) 2 Processor-Module
+     [Architecture Revision]: Itanium Arch.
+               [Firmware ID]: 01.08
+      [Processor Capability]: 64 Bits
+           [Processor Speed]: 1729
+****************************************************
+[Instance]: 8
+****************************************************
+                   [Hash ID]: Processors:fee92d4x4ebb853c
+                    [Status]: OK
+                  [DeviceID]: 7
+                       [Tag]: ff-ff-ff-4-ff-0-ff-11
+                  [Location]: This is an Intel(R) Itanium(R) 2 Processor-Module ( Model: Intel (R) Itanium 2 Processor (Family 32 Model 2 stepping E0) ), with the following details:  Cabinet Number 255, Card Cage Number 255, Back Plane Number 255, Cell Slot Number 4, Slot Number 0.
+            [Processor Type]: Intel(R) Itanium(R) 2 Processor-Module
+     [Architecture Revision]: Itanium Arch.
+               [Firmware ID]: 01.08
+      [Processor Capability]: 64 Bits
+           [Processor Speed]: 1729
+****************************************************
+-------------------------------------------------------
+
