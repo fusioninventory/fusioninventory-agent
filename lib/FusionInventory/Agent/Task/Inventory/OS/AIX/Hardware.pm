@@ -40,23 +40,6 @@ sub doInventory {
         $SystemSerial = $vpd->{SE};
     }
 
-    # fetch the serial number like prtconf do
-    if (! $SystemSerial) {
-        $flag = 0;
-        foreach (getAllLines(command => 'lscfg -vpl sysplanar0')) {
-            if (/\s+System\ VPD/) {
-                $flag = 1;
-                next;
-            }
-            next unless $flag;
-            if ($flag && /\.+(\S*?)$/) {
-                $SystemSerial = $1;
-                last;
-            }
-        }
-    }
-
-
     # Writing data
     $inventory->setBios({
         SMANUFACTURER => 'IBM',
