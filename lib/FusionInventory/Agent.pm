@@ -84,7 +84,7 @@ sub new {
         logger     => $logger,
         lazy       => $config->{lazy},
         wait       => $config->{wait},
-        background => $config->{server} || $config->{service}
+        background => $config->{daemon} || $config->{service}
     });
     my $scheduler = $self->{scheduler};
 
