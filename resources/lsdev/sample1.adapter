@@ -1,0 +1,12 @@
+ent0:14108902:2-Port 10/100/1000 Base-TX PCI-X Adapter (14108902)
+ent1:14108902:2-Port 10/100/1000 Base-TX PCI-X Adapter (14108902)
+ide0:5a107512:ATA/IDE Controller Device
+lai0:14103302:GXT135P Graphics Adapter
+sa0:4f11c800:2-Port Asynchronous EIA-232 PCI Adapter
+sa1:4f111100:IBM 8-Port EIA-232/RS-422A (PCI) Adapter
+sisscsia0:14106602:PCI-X Dual Channel Ultra320 SCSI Adapter
+usbhc0:33103500:USB Host Controller (33103500)
+usbhc1:33103500:USB Host Controller (33103500)
+vsa0:hvterm1:LPAR Virtual Serial Adapter
+vsa1:hvterm-protocol:LPAR Virtual Serial Adapter
+vsa2:hvterm-protocol:LPAR Virtual Serial Adapter
