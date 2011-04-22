@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::AIX;
 
 sub isInventoryEnabled {
     return can_run('lsdev');
@@ -16,7 +17,6 @@ sub doInventory {
     my $logger    = $params{logger};
 
     foreach my $controller (_getControllers(
-        command => 'lsdev -Cc adapter -F "name:type:description"',
         logger  => $logger,
     )) {
         $inventory->addEntry(
@@ -27,19 +27,14 @@ sub doInventory {
 }
 
 sub _getControllers {
-    my $handle = getFileHandle(@_);
-    return unless $handle;
+    my @adapters = getAdaptersFromLsdev(@_);
 
     my @controllers;
-    while (my $line = <$handle>) {
-        next unless $line =~ /^(.+):(.+):(.+)/;
+    foreach my $adapter (@adapters) {
         push @controllers, {
-            NAME         => $1,
-            TYPE         => $2,
-            MANUFACTURER => $3,
+            NAME => $adapter->{NAME},
         };
     }
-    close $handle;
 
     return @controllers;
 }

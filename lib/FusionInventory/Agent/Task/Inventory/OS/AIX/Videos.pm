@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::AIX;
 
 sub isInventoryEnabled {
     return can_run('lsdev');
@@ -16,7 +17,6 @@ sub doInventory {
     my $logger    = $params{logger};
 
     foreach my $video (_getVideos(
-        command => 'lsdev -Cc adapter -F "name:type:description"',
         logger  => $logger
     )) {
         $inventory->addEntry(
@@ -27,19 +27,15 @@ sub doInventory {
 }
 
 sub _getVideos {
-    my $handle = getFileHandle(@_);
-    return unless $handle;
+    my @adapters = getAdaptersFromLsdev(@_);
 
     my @videos;
-    while (my $line = <$handle>) {
-        next unless $line =~ /graphics|vga|video/i;
-        next unless $line =~ /^\S+\s([^:]+):\s*(.+?)(?:\(([^()]+)\))?$/;
+    foreach my $adapter (@adapters) {
+        next unless $adapter->{DESCRIPTION} =~ /graphics|vga|video/i;
         push @videos, {
-            CHIPSET => $1,
-            NAME    => $2,
+            NAME => $adapter->{NAME},
         };
     }
-    close $handle;
 
     return @videos;
 }
