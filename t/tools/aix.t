@@ -387,10 +387,83 @@ my %lsvpd_tests = (
     ]
 );
 
-plan tests => scalar keys %lsvpd_tests;
+my %lsdev_tests = (
+    sample1 => [
+        {
+            NAME        => 'ent0',
+            DESCRIPTION => '2-Port 10/100/1000 Base-TX PCI-X Adapter (14108902)',
+            TYPE        => '14108902'
+        },
+        {
+            NAME        => 'ent1',
+            DESCRIPTION => '2-Port 10/100/1000 Base-TX PCI-X Adapter (14108902)',
+            TYPE        => '14108902'
+        },
+        {
+            NAME        => 'ide0',
+            DESCRIPTION => 'ATA/IDE Controller Device',
+            TYPE        => '5a107512'
+        },
+        {
+            NAME        => 'lai0',
+            DESCRIPTION => 'GXT135P Graphics Adapter',
+            TYPE        => '14103302'
+        },
+        {
+            NAME        => 'sa0',
+            DESCRIPTION => '2-Port Asynchronous EIA-232 PCI Adapter',
+            TYPE        => '4f11c800'
+        },
+        {
+            NAME        => 'sa1',
+            DESCRIPTION => 'IBM 8-Port EIA-232/RS-422A (PCI) Adapter',
+            TYPE        => '4f111100'
+        },
+        {
+            NAME        => 'sisscsia0',
+            DESCRIPTION => 'PCI-X Dual Channel Ultra320 SCSI Adapter',
+            TYPE        => '14106602'
+        },
+        {
+            NAME        => 'usbhc0',
+            DESCRIPTION => 'USB Host Controller (33103500)',
+            TYPE        => '33103500'
+        },
+        {
+            NAME        => 'usbhc1',
+            DESCRIPTION => 'USB Host Controller (33103500)',
+            TYPE        => '33103500'
+        },
+        {
+            NAME         => 'vsa0',
+            DESCRIPTION => 'LPAR Virtual Serial Adapter',
+            TYPE         => 'hvterm1'
+        },
+        {
+            NAME        => 'vsa1',
+            DESCRIPTION => 'LPAR Virtual Serial Adapter',
+            TYPE        => 'hvterm-protocol'
+        },
+        {
+            NAME        => 'vsa2',
+            DESCRIPTION => 'LPAR Virtual Serial Adapter',
+            TYPE        => 'hvterm-protocol'
+        }
+    ]
+);
+
+plan tests =>
+    (scalar keys %lsvpd_tests) +
+    (scalar keys %lsdev_tests);
 
 foreach my $test (keys %lsvpd_tests) {
     my $file = "resources/lsvpd/$test";
     my @devices = getDevicesFromLsvpd(file => $file);
     is_deeply(\@devices, $lsvpd_tests{$test}, "$test lsvpd parsing");
+}
+
+foreach my $test (keys %lsdev_tests) {
+    my $file = "resources/lsdev/$test.adapter";
+    my @adapters = getAdaptersFromLsdev(file => $file);
+    is_deeply(\@adapters, $lsdev_tests{$test}, "$test lsdev parsing");
 }

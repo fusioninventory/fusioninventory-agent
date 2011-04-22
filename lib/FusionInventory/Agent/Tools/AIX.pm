@@ -11,9 +11,11 @@ use Memoize;
 
 our @EXPORT = qw(
     getDevicesFromLsvpd
+    getAdaptersFromLsdev
 );
 
 memoize('getDevicesFromLsvpd');
+memoize('getAdaptersFromLsdev');
 
 sub getDevicesFromLsvpd {
     my %params = (
@@ -52,6 +54,31 @@ sub getDevicesFromLsvpd {
     return @devices;
 }
 
+sub getAdaptersFromLsdev {
+    my %params = (
+        command => 'lsdev -Cc adapter -F "name:type:description"',
+        @_
+    );
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my @adapters;
+
+    while (my $line = <$handle>) {
+        chomp $line;
+        my @info = split(/:/, $line);
+        push @adapters, {
+            NAME        => $info[0],
+            TYPE        => $info[1],
+            DESCRIPTION => $info[2]
+        };
+    }
+    close $handle;
+
+    return @adapters;
+}
+
 1;
 __END__
 
@@ -83,3 +110,7 @@ Returns a list of devices, extracted from lsvpd output.
     },
     ...
 )
+
+=head2 getAdaptersFromLsdev
+
+Returns a list of adapters, extracted from lsdev -Cc adapter output
