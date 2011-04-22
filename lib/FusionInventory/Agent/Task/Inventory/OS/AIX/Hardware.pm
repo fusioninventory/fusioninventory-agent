@@ -22,32 +22,30 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    # Using "type 0" section
-    my ($SystemSerial, $SystemModel, $BiosVersion, $BiosDate, $flag);
+    my ($serial, $model, $version, $date);
 
-    # lsvpd
     my @devices = getDevicesFromLsvpd(logger => $logger);
 
     my $system = first { $_->{DS} eq 'System Firmware' } @devices;
-    $BiosVersion = $system->{RM} if $system;
+    $version = $system->{RM} if $system;
 
     my $platform = first { $_->{DS} eq 'Platform Firmware' } @devices;
-    $BiosVersion .= "(Firmware : $platform->{RM})" if $platform;
+    $version .= "(Firmware : $platform->{RM})" if $platform;
 
     my $vpd = first { $_->{DS} eq 'System VPD' } @devices;
     if ($vpd) {
-        $SystemModel = $vpd->{TM};
-        $SystemSerial = $vpd->{SE};
+        $model = $vpd->{TM};
+        $serial = $vpd->{SE};
     }
 
     # Writing data
     $inventory->setBios({
         SMANUFACTURER => 'IBM',
-        SMODEL        => $SystemModel,
-        SSN           => $SystemSerial,
+        SMODEL        => $model,
+        SSN           => $serial,
         BMANUFACTURER => 'IBM',
-        BVERSION      => $BiosVersion,
-        BDATE         => $BiosDate,
+        BVERSION      => $version,
+        BDATE         => $date,
     });
 }
 
