@@ -3,6 +3,9 @@ package FusionInventory::Agent::Task::Inventory::OS::AIX::Memory;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::AIX;
+
 sub isInventoryEnabled {
     return 1;
 }
@@ -61,50 +64,23 @@ sub doInventory {
 }
 
 sub _getMemories {
-    my ($logger) = @_;
-
+    my @devices = getDevicesFromLsvpd(@_);
     my @memories;
-    my $memory;
     my $numslots = 0;
 
-    # lsvpd
-    my @lsvpd = getAllLines(command => 'lsvpd', logger => $logger);
-    s/^\*// foreach (@lsvpd);
+    foreach my $device (@devices) {
+        next unless $device->{DS} =~ /^Memory DIMM/;
 
-    foreach (@lsvpd){
-        if (/^DS (Memory DIMM.*)/) {
-            $memory->{DESCRIPTION} = $1;
-            next;
-        }
-        next unless $memory;
-        if (/^SZ (.*\S)/) {
-            $memory->{CAPACITY} = $1;
-        }
-        if (/^PN (.*\S)/) {
-            $memory->{TYPE} = $1;
-        }
-        # localisation slot dans type
-        if (/^YL\s(.*\S)/) {
-            $memory->{CAPTION} = "Slot " . $1;
-        }
-        if (/^SN (.*\S)/) {
-            $memory->{SERIAL} = $1;
-        }
-        if (/^VK (.*\S)/) {
-            $memory->{VERSION} = $1;
-        }
-        # On rencontre un champ FC alors c'est la fin pour ce device
-        if (/^FC/) {
-            $memory->{NUMSLOTS} = $numslots++;
-            push @memories, $memory;
-            undef $memory;
+        push @memories, {
+            DESCRIPTION => $device->{DS},
+            CAPACITY    => $device->{SZ},
+            TYPE        => $device->{PN},
+            CAPTION     => 'Slot ' . $device->{YL},
+            SERIAL      => $device->{SN},
+            VERSION     => $device->{VK},
+            NUMSLOTS    => $numslots++
         };
     }
-
-    # End of Loop
-    # The last *FC ???????? missing
-    $memory->{NUMSLOTS} = $numslots++;
-    push @memories, $memory;
 
     return @memories;
 }

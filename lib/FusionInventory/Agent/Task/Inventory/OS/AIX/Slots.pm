@@ -3,7 +3,10 @@ package FusionInventory::Agent::Task::Inventory::OS::AIX::Slots;
 use strict;
 use warnings;
 
+use List::Util qw(first);
+
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::AIX;
 
 sub isInventoryEnabled {
     return can_run('lsdev');
@@ -15,28 +18,15 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my @lsvpd = getAllLines(command => 'lsvpd', logger => $logger);
-    s/^\*// foreach (@lsvpd);
+    my @devices = getDevicesFromLsvpd(logger => $logger);
 
     foreach my $slot (_getSlots(
         command => 'lsdev -Cc bus -F "name:description"',
         logger  => $logger
     )) {
 
-        my $flag = 0;
-        foreach (@lsvpd) {
-            if (/^AX $slot->{NAME}/) {
-                $flag = 1;
-                next;
-            }
-            next unless $flag;
-            if (/^YL (.*\S)/) {
-                $slot->{DESCRIPTION} = $2;
-            }
-            if (/^FC/) {
-                last;
-            }
-        }
+        my $device = first { $_->{AX} eq $slot->{NAME} } @devices;
+        $slot->{DESCRIPTION} = $device->{YL} if $device;
 
         $inventory->addEntry(
             section => 'SLOTS',

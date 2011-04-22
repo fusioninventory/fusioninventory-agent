@@ -18,8 +18,7 @@ sub doInventory {
     my $logger    = $params{inventory};
 
     # lsvpd
-    my @lsvpd = getAllLines(command => 'lsvpd', logger => $logger);  
-    s/^\*// foreach (@lsvpd);
+    my @devices = getDevicesFromLsvpd(logger => $logger);  
 
     # SCSI disks 
     my @scsi_disks = getAllLines(
@@ -32,7 +31,7 @@ sub doInventory {
         my $device = $1;
         my $description = $2;
 
-        my ($manufacturer, $model) = _getInfos($device, @lsvpd);
+        my ($manufacturer, $model) = _getLsvpdInfos($device, \@devices);
 
         my $capacity = _getCapacity($device, $logger);
 
@@ -62,7 +61,7 @@ sub doInventory {
         my $device = $1;
         my $description = $2;
 
-        my ($manufacturer, $model) = _getInfos($device, @lsvpd);
+        my ($manufacturer, $model) = _getLsvpdInfos($device, \@devices);
 
         $inventory->addStorage({
             NAME         => $device,
@@ -83,7 +82,7 @@ sub doInventory {
         my $device = $1;
         my $description = $2;
 
-        my ($manufacturer, $model) = _getInfos($device, @lsvpd);
+        my ($manufacturer, $model) = _getLsvpdInfos($device, \@devices);
 
         $inventory->addStorage({
             NAME         => $device,
@@ -145,7 +144,8 @@ sub doInventory {
 
         my $capacity = _getCapacity($device, $logger);
 
-        my ($manufacturer, $model) = _getInfos($device);
+        my ($manufacturer, $model) = _getLsvpdInfos($device, \@devices);
+
         $inventory->addStorage({
             NAME         => $device,
             MANUFACTURER => $manufacturer,
@@ -168,7 +168,9 @@ sub doInventory {
         my $description = $2;
 
         my $capacity = _getCapacity($device, $logger);
-        my ($manufacturer, $model) = _getInfos($device);
+
+        my ($manufacturer, $model) = _getLsvpdInfos($device, \@devices);
+
         $inventory->addStorage({
             NAME         => $device,
             MANUFACTURER => $manufacturer,
@@ -217,30 +219,17 @@ sub _getCapacity {
     return $capacity;
 }
 
-sub _getInfos {
-    my ($device, @lsvpd) = @_;
+sub _getLsvpdInfos {
+    my ($name, $devices) = @_;
 
-    my ($manufacturer, $model, $flag, $FRU);
-    foreach (@lsvpd) {
-        if (/^AX $device/) {
-            $flag = 1;
-            next;
-        }
-        next unless $flag;
-        if (/^MF (.*\S)/) {
-            $manufacturer = $1;
-        }
-        if (/^TM (.*\S)/) {
-            $model = $1;
-        }
-        if (/^FN (.*\S)/) {
-            $FRU = $1;
-            $manufacturer .= ",FRU number :".$FRU;
-        }
-        if (/^FC/) {
-            last;
-        }
-    }
+    my $device = first { $_->{AX} eq $name } @$devices;
+    return unless $device;
+
+    my $manufacturer = $device->{MF};
+    $manufacturer .= ",FRU number :$device->{FN}" if $device->{FN};
+
+    my $model = $device->{TM};
+
     return ($manufacturer, $model);
 }
 
