@@ -617,6 +617,10 @@ Motherboard model
 
 The optional asset tag for this machine.
 
+=item TYPE
+
+depcreated, replace by HARDWARE/CHASSIS_TYPE
+
 =back
 
 =head2 CONTROLLERS
