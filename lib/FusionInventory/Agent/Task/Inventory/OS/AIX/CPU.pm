@@ -34,7 +34,7 @@ sub _getCPUs {
         my $device = $line;
 
         my $thread = 1;
-        if ($aixversion < 5) {
+        if ($aixversion >= 5) {
             $thread = getFirstMatch(
                 command => "lsattr -EOl $device -a 'state:type:smt_threads'",
                 pattern => qr/:(\d+)$/
