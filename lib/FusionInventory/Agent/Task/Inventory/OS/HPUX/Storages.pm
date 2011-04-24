@@ -18,9 +18,6 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my @all_type = ("tape","disk") ;
-    my $type;
-
     my $description;
     my $path;
     my $vendor;
@@ -43,7 +40,6 @@ sub doInventory {
             $alternate = 0 ;
             if (  $type eq "disk" ) {
                 if ( /\s+(\/dev\/dsk\/\S+)\s+(\/dev\/rdsk\/\S+)/ ) {
-                    #print "1 $1 2 $2 \n";
                     $devdsk=$1;
                     $devrdsk=$2;
                     # We look if whe are on an alternate link
@@ -54,7 +50,6 @@ sub doInventory {
                     };
                     # We are not on an alternate link
                     if ( $alternate eq 0 ) {
-                        #$size = `diskinfo -b $devrdsk`;
 
                         foreach ( `diskinfo -v $devrdsk 2>/dev/null`) {
                             if ( /^\s+size:\s+(\S+)/ ) {
@@ -65,7 +60,6 @@ sub doInventory {
                                 $revlvl=$1;
                             };
                         };
-                        #print "vendor $vendor ref $ref type $type description $description path $path size $size\n";
                         $inventory->addStorage({
                             MANUFACTURER => $vendor,
                             MODEL => $ref,
