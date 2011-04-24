@@ -32,8 +32,7 @@ sub doInventory {
     my $revlvl;
     my $alternate;
 
-    foreach ( @all_type ) {
-        $type = "$_";
+    foreach my $type (qw/tape disk/) {
         foreach ( `ioscan -kFnC $type | cut -d ':' -f 1,11,18` ) {
             if ( /(\S+)\:(\S+)\:(\S+)\s+(\S+)/ ) {
                 $description = $1;
@@ -93,7 +92,7 @@ sub doInventory {
                 };
             };
         };
-    };
+    }
 }
 
 1;
