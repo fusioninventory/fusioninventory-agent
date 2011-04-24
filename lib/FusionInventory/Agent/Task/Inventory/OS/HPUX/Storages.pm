@@ -47,28 +47,28 @@ sub doInventory {
                             $alternate=1;
                         };
                     };
-                    # We are not on an alternate link
-                    if ( $alternate eq 0 ) {
 
-                        foreach ( `diskinfo -v $devrdsk 2>/dev/null`) {
-                            if ( /^\s+size:\s+(\S+)/ ) {
-                                $size=$1;
-                                $size = int ( $size/1024 ) if $size;
-                            };
-                            if ( /^\s+rev level:\s+(\S+)/ ) {
-                                $revlvl=$1;
-                            };
+                    # skip alternate link
+                    next if $alternate;
+
+                    foreach ( `diskinfo -v $devrdsk 2>/dev/null`) {
+                        if ( /^\s+size:\s+(\S+)/ ) {
+                            $size=$1;
+                            $size = int ( $size/1024 ) if $size;
                         };
-                        $inventory->addStorage({
-                            MANUFACTURER => $vendor,
-                            MODEL => $ref,
-                            NAME => $devdsk,
-                            DESCRIPTION => $description,
-                            TYPE => $type,
-                            DISKSIZE => $size,
-                            FIRMWARE => $revlvl,
-                        });
+                        if ( /^\s+rev level:\s+(\S+)/ ) {
+                            $revlvl=$1;
+                        };
                     };
+                    $inventory->addStorage({
+                        MANUFACTURER => $vendor,
+                        MODEL => $ref,
+                        NAME => $devdsk,
+                        DESCRIPTION => $description,
+                        TYPE => $type,
+                        DISKSIZE => $size,
+                        FIRMWARE => $revlvl,
+                    });
                 };
             } else {
                 # We look for tapes
