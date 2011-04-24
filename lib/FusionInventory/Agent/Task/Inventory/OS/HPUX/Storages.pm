@@ -27,7 +27,6 @@ sub doInventory {
     my $devdsk;
     my $devrdsk;
     my $revlvl;
-    my $alternate;
 
     foreach my $type (qw/tape disk/) {
         foreach ( `ioscan -kFnC $type | cut -d ':' -f 1,11,18` ) {
@@ -37,8 +36,8 @@ sub doInventory {
                 $vendor = $3;
                 $ref = $4;
             };
-            $alternate = 0 ;
             if (  $type eq "disk" ) {
+                my $alternate = 0 ;
                 if ( /\s+(\/dev\/dsk\/\S+)\s+(\/dev\/rdsk\/\S+)/ ) {
                     $devdsk=$1;
                     $devrdsk=$2;
