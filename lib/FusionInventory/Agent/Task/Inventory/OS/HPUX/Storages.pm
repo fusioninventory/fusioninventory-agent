@@ -85,7 +85,6 @@ sub doInventory {
                 NAME         => $devdsk,
                 DESCRIPTION  => $description,
                 TYPE         => 'tape',
-                DISKSIZE     => ''
             });
         }
     }
