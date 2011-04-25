@@ -145,6 +145,7 @@ sub getCanonicalSize {
         $unit eq 'tb' ? $value * 1000 * 1000 :
         $unit eq 'gb' ? $value * 1000        :
         $unit eq 'mb' ? $value               :
+        $unit eq 'kb' ? $value * 0.001       :
                         undef                ;
 }
 
