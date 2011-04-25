@@ -57,7 +57,10 @@ sub doInventory {
 
         my $isHardDrive;
 
-        if ((defined($device->{'Part Of Whole'}) && ($device->{'Part Of Whole'} eq $device->{'Device Identifier'}))) {
+        if (
+            defined $device->{'Part Of Whole'} &&
+            $device->{'Part Of Whole'} eq $device->{'Device Identifier'}
+        ) {
             # Is it possible to have a drive without partition?
             $isHardDrive = 1;
         }
