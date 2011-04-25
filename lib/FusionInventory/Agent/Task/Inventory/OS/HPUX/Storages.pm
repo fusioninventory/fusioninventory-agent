@@ -37,12 +37,12 @@ sub doInventory {
         }
         my $alternate = 0 ;
         if ( /\s+(\/dev\/dsk\/\S+)\s+(\/dev\/rdsk\/\S+)/ ) {
-            $devdsk=$1;
-            $devrdsk=$2;
+            $devdsk  = $1;
+            $devrdsk = $2;
             # We look if whe are on an alternate link
             foreach ( `pvdisplay $devdsk 2> /dev/null` ) {
                 if ( /$devdsk\.+lternate/ ) {
-                    $alternate=1;
+                    $alternate = 1;
                 }
             }
 
@@ -60,12 +60,12 @@ sub doInventory {
             }
             $inventory->addStorage({
                 MANUFACTURER => $vendor,
-                MODEL => $ref,
-                NAME => $devdsk,
-                DESCRIPTION => $description,
-                TYPE => 'disk',
-                DISKSIZE => $size,
-                FIRMWARE => $revlvl,
+                MODEL        => $ref,
+                NAME         => $devdsk,
+                DESCRIPTION  => $description,
+                TYPE         => 'disk',
+                DISKSIZE     => $size,
+                FIRMWARE     => $revlvl,
             });
         }
     }
@@ -78,14 +78,14 @@ sub doInventory {
             $ref = $4;
         }
         if ( /^\s+(\/dev\/rmt\/\Sm)\s+/ ) {
-            $devdsk=$1;
+            $devdsk = $1;
             $inventory->addStorage({
                 MANUFACTURER => $vendor,
-                MODEL => $ref,
-                NAME => $devdsk,
-                DESCRIPTION => $description,
-                TYPE => 'tape',
-                DISKSIZE => ''
+                MODEL        => $ref,
+                NAME         => $devdsk,
+                DESCRIPTION  => $description,
+                TYPE         => 'tape',
+                DISKSIZE     => ''
             });
         }
     }
