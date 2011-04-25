@@ -2,63 +2,63 @@ If you think you should be in this list,
 please drop me a mail:
   → goneri@rulezlan.org
 
-Olivier ANDREOTTI: AIX, Solaris patches
-Thierry LACOSTE: BSD portage
-Didier LIROULET: Installation script
-Remi COLLET: code, bug fixes, Fedora/RedHat maintainer and much more
-Walid NOUH: gave access to PowerPC hardware to help the portage, patches
-Olivier ROUSSY: minor patches 
-Dennis CABOOTER: FreeBSD maintainer
-Pierre CHIFFLIER: Debian maintainer
-Nicolas DORFSMAN: Solaris patches
-Jean-Jacques MICHEL: Solaris patches
-Etienne GUILLAUMONT: AIX4 CPU detection
-Wes YOUNG: MacOSX support and patches
-Edouard GAMIN: RAID devices support for Linux
-Christoph HALMES: Solaris patches
-Jean PARPAILLON: IPMI backends and patches
-David DURIEUX: AMD64 detection on BSD systems
-Wilfried BRUNKEN: patch for memory detection on AIX
-Vladimir ELISSEEV: various patches
-Julien SAFAR: ArchLinux support
-Damien MAURAN: MacOSX packaging, doc and support
-Sebastien DAGNICOURT: AIX and Solaris patches
-Nicolas EISEN: patches
-Sylvain LUCE: Sun M5000 and M4000 support
-Philippe LIBAT: patchs and Xen support
-David OLIVIER: MacOSX patches
-Jean-François BOUCHER: Solaris patch
-Scott HANNAHS: MacOSX patches
+Olivier Andreotti: AIX, Solaris patches
+Thierry Lacoste: BSD portage
+Didier Liroulet: Installation script
+Remi Collet: code, bug fixes, Fedora/RedHat maintainer and much more
+Walid Nouh: gave access to PowerPC hardware to help the portage, patches
+Olivier Roussy: minor patches 
+Dennis Cabooter: FreeBSD maintainer
+Pierre Chifflier: Debian maintainer
+Nicolas Dorfsman: Solaris patches
+Jean-Jacques Michel: Solaris patches
+Etienne Guillaumont: AIX4 CPU detection
+Wes Young: MacOSX support and patches
+Edouard Gamin: RAID devices support for Linux
+Christoph Halmes: Solaris patches
+Jean Parpaillon: IPMI backends and patches
+David Durieux: AMD64 detection on BSD systems
+Wilfried Brunken: patch for memory detection on AIX
+Vladimir Elisseev: various patches
+Julien Safar: ArchLinux support
+Damien Mauran: MacOSX packaging, doc and support
+Sebastien Dagnicourt: AIX and Solaris patches
+Nicolas Eisen: patches
+Sylvain Luce: Sun M5000 and M4000 support
+Philippe Libat: patchs and Xen support
+David Olivier: MacOSX patches
+Jean-François Boucher: Solaris patch
+Scott Hannahs: MacOSX patches
 Maurizio Bertaboni: Solaris Zone support
-Scott HANNAHS: patch
-Sergio MERINO: patch
-Vincent KNECHT: wording patch
-Barius DRUBECK: documentation patch
-Stéphane URBANOVSKI: patchs
-Jerome LEBASE: Solaris patches
-David DURIEUX: developer
-François MERMET: HP-UX support
-Dmitry ILYIN: Patches
+Scott Hannahs: patch
+Sergio Merino: patch
+Vincent Knecht: wording patch
+Barius Drubeck: documentation patch
+Stéphane Urbanovski: patchs
+Jerome Lebase: Solaris patches
+David Durieux: developer
+François Mermet: HP-UX support
+Dmitry Ilyin: Patches
 Emengao: Patch
-Girish NAVUDA: Patches
-Nicolas CHARLES: Beta tester
-Benoit MACHIAVELLO: Beta tester
+Girish Navuda: Patches
+Nicolas Charles: Beta tester
+Benoit Machiavello: Beta tester
 Aurelien Bondis: Patch
 Alex Mauer: PNP monitor IDs
-Amir PAKDEL: HP-UX maintainer
-Guillaume ROUSSE: Agent developper
-Jan JUNGMANN: Virtuozzo support
-Sébastien PRUD'HOMME: bug reports and HPVM support
-Jérome LEBAS: Solaris patches
-Lucas MASSE: Solaris Patches
+Amir Pakdel: HP-UX maintainer
+Guillaume Rousse: Agent developper
+Jan Jungmann: Virtuozzo support
+Sébastien Prud'homme: bug reports and HPVM support
+Jérome Lebas: Solaris patches
+Lucas Masse: Solaris Patches
 Denis Linvinus: Cyrillic Windows
-Benoit MORTIER: English wording
-Guillaume GARSON: debuging
-Eric FREYENS: debuging
-Fabrice FLORE-THEBAULT: various important bug report and much more
-Mario GZUK: helpful and friendly feedback
-Yanick DURANT: patches
-Raphaël SURCOUF: patch
+Benoit Mortier: English wording
+Guillaume Garson: debuging
+Eric Freyens: debuging
+Fabrice Flore-Thebault: various important bug report and much more
+Mario Gzuk: helpful and friendly feedback
+Yanick Durant: patches
+Raphaël Surcouf: patch
 Ludovic Hutin: patch
 Sébastien Dagnicourt: patches
 Xavier Caillaud: hardware access
@@ -66,3 +66,4 @@ Christian Lete: patch
 Earl Flack: bug reports and testing
 Walery Wysotsky: bug reports and testing
 Yanick Durant: bug reports and testing
+Marty Riedling: HPUX corrections
