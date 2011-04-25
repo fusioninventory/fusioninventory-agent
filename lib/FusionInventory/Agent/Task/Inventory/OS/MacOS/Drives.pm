@@ -35,10 +35,11 @@ sub doInventory {
     foreach (`diskutil list`) {
         # partition identifiers look like disk0s1
         next unless /(disk \d+ s \d+)$/;
-        my $deviceName = "/dev/$1";
+        my $id = $1;
+        my $name = "/dev/$1";
 
         my $device;
-        foreach (`diskutil info $1`) {
+        foreach (`diskutil info $id`) {
             next unless /^\s+(.*?):\s*(\S.*)/;
             $device->{$1} = $2;
         }
@@ -48,12 +49,12 @@ sub doInventory {
             $size = getCanonicalSize($1);
         }
 
-        $drives{$deviceName}->{TOTAL}      = $size;
-        $drives{$deviceName}->{SERIAL}     = $device->{'Volume UUID'} ||
-                                             $device->{'UUID'};
-        $drives{$deviceName}->{FILESYSTEM} = $device->{'File System'} ||
-                                             $device->{'Partition Type'};
-        $drives{$deviceName}->{LABEL}      = $device->{'Volume Name'};
+        $drives{$name}->{TOTAL}      = $size;
+        $drives{$name}->{SERIAL}     = $device->{'Volume UUID'} ||
+                                       $device->{'UUID'};
+        $drives{$name}->{FILESYSTEM} = $device->{'File System'} ||
+                                       $device->{'Partition Type'};
+        $drives{$name}->{LABEL}      = $device->{'Volume Name'};
     }
 
     # add drives to the inventory
