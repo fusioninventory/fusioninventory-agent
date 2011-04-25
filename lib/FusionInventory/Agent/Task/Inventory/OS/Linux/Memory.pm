@@ -18,7 +18,6 @@ sub doInventory {
     my $handle = getFileHandle(file => '/proc/meminfo', logger => $logger);
     return unless $handle;
 
-    my $unit = 1024;
     my $PhysicalMemory;
     my $SwapFileSize;
 
@@ -29,8 +28,8 @@ sub doInventory {
     close $handle;
 
     $inventory->setHardware({
-        MEMORY => sprintf("%i", $PhysicalMemory/$unit),
-        SWAP   => sprintf("%i", $SwapFileSize/$unit),
+        MEMORY => int($PhysicalMemory/ 1024),
+        SWAP   => int($SwapFileSize / 1024),
     });
 }
 

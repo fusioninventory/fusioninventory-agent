@@ -29,8 +29,8 @@ sub doInventory {
     $PhysicalMemory = $PhysicalMemory / 1024;
 
     $inventory->setHardware({
-        MEMORY => sprintf("%i", $PhysicalMemory / 1024),
-        SWAP   => sprintf("%i", $SwapFileSize / 1024),
+        MEMORY => int($PhysicalMemory / 1024),
+        SWAP   => int($SwapFileSize / 1024),
     });
 }
 
