@@ -14,30 +14,17 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $name;
-    my $interface;
-    my $info;
-    my $type;
-    my @typeScaned=('ext_bus','fc','psi');
-    my $scaned;
-
-    foreach (@typeScaned ) {
-        $scaned=$_;
-        foreach ( `ioscan -kFC $scaned| cut -d ':' -f 9,11,17,18` ) {
-            if ( /(\S+):(\S+):(\S+):(.+)/ ) {
-                $name=$2;
-                $interface=$3;
-                $info=$4;
-                $type=$1;
-                $inventory->addEntry(
-                    section => 'CONTROLLERS',
-                    entry   => {
-                        NAME         => $name,
-                        MANUFACTURER => "$interface $info",
-                        TYPE         => $type,
-                    }
-                );
-            }
+    foreach my $type (qw/ext_bus fc psi/) {
+        foreach (`ioscan -kFC $type| cut -d ':' -f 9,11,17,18`) {
+            next unless /(\S+):(\S+):(\S+):(.+)/;
+            $inventory->addEntry(
+                section => 'CONTROLLERS',
+                entry   => {
+                    NAME         => $2,
+                    MANUFACTURER => "$3 $4",
+                    TYPE         => $1,
+                }
+            );
         }
     }
 }

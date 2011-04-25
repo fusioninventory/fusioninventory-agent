@@ -14,8 +14,8 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    foreach my $scaned (qw/ioa ba/) {
-        foreach my $line ( `ioscan -kFC $scaned| cut -d ':' -f 9,11,17,18` ) {
+    foreach my $type (qw/ioa ba/) {
+        foreach my $line (`ioscan -kFC $type| cut -d ':' -f 9,11,17,18` ) {
             next unless $line =~ /(\S+):(\S+):(\S+):(.+)/;
             $inventory->addEntry(
                 section => 'SLOTS',
