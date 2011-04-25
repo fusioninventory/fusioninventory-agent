@@ -70,7 +70,6 @@ sub doInventory {
                                                  $device->{'UUID'};
             $drives{$deviceName}->{FILESYSTEM} = $device->{'File System'} ||
                                                  $device->{'Partition Type'};
-            $drives{$deviceName}->{VOLUMN}     = $deviceName;
             $drives{$deviceName}->{LABEL}      = $device->{'Volume Name'};
         }
     }
