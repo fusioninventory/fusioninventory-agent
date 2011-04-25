@@ -95,7 +95,9 @@ sub doInventory {
             }
         }
         # NBR CPU
-        $CPUinfo->{CPUcount} = getFirstLine(command => 'ioscan -Fk -C processor | wc -l');
+        $CPUinfo->{CPUcount} = getLinesCount(
+            command => 'ioscan -Fk -C processor'
+        );
     }
 
     my $serie = getFirstLine(command => 'uname -m');
