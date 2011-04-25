@@ -42,50 +42,36 @@ sub doInventory {
     my %drives = map { $_->{VOLUMN} => $_ } @drives;
 
     # complete with diskutil informations
-    my %diskUtilDevices;
     foreach (`diskutil list`) {
         next unless /\d+:\s+.*\s+(\S+)/;
         my $deviceName = "/dev/$1";
+
+        my $device;
         foreach (`diskutil info $1`) {
             next unless /^\s+(.*?):\s*(\S.*)/;
-            $diskUtilDevices{$deviceName}->{$1} = $2;
+            $device->{$1} = $2;
         }
-    }
 
-
-    foreach my $deviceName (keys %diskUtilDevices) {
-        my $device = $diskUtilDevices{$deviceName};
         my $size;
-
-        my $isHardDrive;
-
-        if (
-            defined $device->{'Part Of Whole'} &&
-            $device->{'Part Of Whole'} eq $device->{'Device Identifier'}
-        ) {
-            # Is it possible to have a drive without partition?
-            $isHardDrive = 1;
-        }
-
         if ($device->{'Total Size'} =~ /(\S*)\s(\S+)\s+\(/) {
             if ($unitMatrice{$2}) {
-                $size = $1*$unitMatrice{$2};
+                $size = $1 * $unitMatrice{$2};
             } else {
                 $logger->error("$2 unit is not defined");
             }
         }
 
-
-        if (!$isHardDrive) {
-            $drives{$deviceName}->{TOTAL} = $size;
-            $drives{$deviceName}->{SERIAL} = $device->{'Volume UUID'} || $device->{'UUID'};
-            $drives{$deviceName}->{FILESYSTEM} = $device->{'File System'} || $device->{'Partition Type'};
-            $drives{$deviceName}->{VOLUMN} = $deviceName;
-            $drives{$deviceName}->{LABEL} = $device->{'Volume Name'};
-#        } else {
-#            $storages{$deviceName}->{DESCRIPTION} = $device->{'Protocol'};
-#            $storages{$deviceName}->{DISKSIZE} = $size;
-#            $storages{$deviceName}->{MODEL} = $device->{'Device / Media Name'};
+        if (
+            ! defined $device->{'Part Of Whole'} ||
+            $device->{'Part Of Whole'} ne $device->{'Device Identifier'}
+        ) {
+            $drives{$deviceName}->{TOTAL}      = $size;
+            $drives{$deviceName}->{SERIAL}     = $device->{'Volume UUID'} ||
+                                                 $device->{'UUID'};
+            $drives{$deviceName}->{FILESYSTEM} = $device->{'File System'} ||
+                                                 $device->{'Partition Type'};
+            $drives{$deviceName}->{VOLUMN}     = $deviceName;
+            $drives{$deviceName}->{LABEL}      = $device->{'Volume Name'};
         }
     }
 
