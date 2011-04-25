@@ -34,7 +34,6 @@ sub doInventory {
         } else {
             # Default values
             $OSName="Mac OS X";
-            $OSVersion="Unknown";
         }
 
     } else {

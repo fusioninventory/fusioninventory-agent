@@ -17,7 +17,6 @@ sub doInventory {
     my $date = getFormatedLocalTime(time());
 
     $inventory->setAccessLog ({
-        USERID => 'N/A',
         LOGDATE => $date
     });
 }

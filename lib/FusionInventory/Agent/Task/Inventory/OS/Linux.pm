@@ -53,7 +53,7 @@ sub doInventory {
         OSVERSION          => $osversion,
         LASTLOGGEDUSER     => $last_user,
         DATELASTLOGGEDUSER => $last_date,
-        WINPRODID          => _getRHNSystemId('/etc/sysconfig/rhn/systemid') || '',
+        WINPRODID          => _getRHNSystemId('/etc/sysconfig/rhn/systemid')
     });
 
 }
