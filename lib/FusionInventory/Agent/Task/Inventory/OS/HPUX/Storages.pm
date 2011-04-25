@@ -35,7 +35,7 @@ sub doInventory {
                 $path = $2;
                 $vendor = $3;
                 $ref = $4;
-            };
+            }
             if (  $type eq "disk" ) {
                 my $alternate = 0 ;
                 if ( /\s+(\/dev\/dsk\/\S+)\s+(\/dev\/rdsk\/\S+)/ ) {
@@ -45,8 +45,8 @@ sub doInventory {
                     foreach ( `pvdisplay $devdsk 2> /dev/null` ) {
                         if ( /$devdsk\.+lternate/ ) {
                             $alternate=1;
-                        };
-                    };
+                        }
+                    }
 
                     # skip alternate link
                     next if $alternate;
@@ -55,11 +55,11 @@ sub doInventory {
                         if ( /^\s+size:\s+(\S+)/ ) {
                             $size=$1;
                             $size = int ( $size/1024 ) if $size;
-                        };
+                        }
                         if ( /^\s+rev level:\s+(\S+)/ ) {
                             $revlvl=$1;
-                        };
-                    };
+                        }
+                    }
                     $inventory->addStorage({
                         MANUFACTURER => $vendor,
                         MODEL => $ref,
@@ -69,7 +69,7 @@ sub doInventory {
                         DISKSIZE => $size,
                         FIRMWARE => $revlvl,
                     });
-                };
+                }
             } else {
                 # We look for tapes
                 if ( /^\s+(\/dev\/rmt\/\Sm)\s+/ ) {
@@ -82,9 +82,9 @@ sub doInventory {
                         TYPE => $type,
                         DISKSIZE => ''
                     });
-                };
-            };
-        };
+                }
+            }
+        }
     }
 }
 
