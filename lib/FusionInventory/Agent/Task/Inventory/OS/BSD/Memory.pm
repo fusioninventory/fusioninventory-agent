@@ -18,19 +18,19 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # Swap
-    my $SwapFileSize;
+    my $swapSize;
     my @bsd_swapctl = `swapctl -sk`;
     foreach (@bsd_swapctl) {
-        $SwapFileSize = $1 if /total:\s*(\d+)/i;
+        $swapSize = $1 if /total:\s*(\d+)/i;
     }
 
     # RAM
-    my $PhysicalMemory = getFirstLine(command => 'sysctl -n hw.physmem');
-    $PhysicalMemory = $PhysicalMemory / 1024;
+    my $memorySize = getFirstLine(command => 'sysctl -n hw.physmem');
+    $memorySize = $memorySize / 1024;
 
     $inventory->setHardware({
-        MEMORY => int($PhysicalMemory / 1024),
-        SWAP   => int($SwapFileSize / 1024),
+        MEMORY => int($memorySize / 1024),
+        SWAP   => int($swapSize / 1024),
     });
 }
 
