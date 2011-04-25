@@ -21,19 +21,19 @@ sub doInventory {
 
     # if we can load the system profiler, gather the information from that
     if (can_load("Mac::SysProfile")) {
-        my $profile = Mac::SysProfile->new();
-        my $h = $profile->gettype('SPSoftwareDataType');
-        return(undef) unless(ref($h) eq 'HASH');
+        my $prof = Mac::SysProfile->new();
+        my $info = $prof->gettype('SPSoftwareDataType');
+        return unless ref $info eq 'HASH';
 
-        $h = $h->{'System Software Overview'};
+        $info = $info->{'System Software Overview'};
 
-        my $SystemVersion = $h->{'System Version'};
+        my $SystemVersion = $info->{'System Version'};
         if ($SystemVersion =~ /^(.*?)\s+(\d+.*)/) {
-            $OSName=$1;
-            $OSVersion=$2;
+            $OSName = $1;
+            $OSVersion = $2;
         } else {
             # Default values
-            $OSName="Mac OS X";
+            $OSName = "Mac OS X";
         }
 
     } else {
