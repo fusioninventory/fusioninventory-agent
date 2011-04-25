@@ -3,18 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::Drives;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
-
-my %unitMatrice = (
-    Ti => 1000*1000,
-    GB => 1024*1024,
-    Gi => 1000,
-    GB => 1024,
-    Mi => 1,
-    MB => 1,
-    Ki => 0.001,
-    KB => 0.001,
-);
 
 sub isInventoryEnabled {
     return 1;
@@ -54,12 +44,8 @@ sub doInventory {
         }
 
         my $size;
-        if ($device->{'Total Size'} =~ /(\S*)\s(\S+)\s+\(/) {
-            if ($unitMatrice{$2}) {
-                $size = $1 * $unitMatrice{$2};
-            } else {
-                $logger->error("$2 unit is not defined");
-            }
+        if ($device->{'Total Size'} =~ /^(.*) \s \(/x) {
+            $size = getCanonicalSize($1);
         }
 
         $drives{$deviceName}->{TOTAL}      = $size;
