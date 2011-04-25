@@ -26,7 +26,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    # get drives list
+    # get drives list from df
     my @types = 
         grep { ! /^(?:fdesc|devfs|procfs|linprocfs|linsysfs|tmpfs|fdescfs)$/ }
         getFilesystemsTypesFromMount(logger => $logger);
@@ -39,6 +39,9 @@ sub doInventory {
         );
     }
 
+    my %drives = map { $_->{VOLUMN} => $_ } @drives;
+
+    # complete with diskutil informations
     my %diskUtilDevices;
     foreach (`diskutil list`) {
         next unless /\d+:\s+.*\s+(\S+)/;
@@ -49,7 +52,6 @@ sub doInventory {
         }
     }
 
-    my %drives;
 
     foreach my $deviceName (keys %diskUtilDevices) {
         my $device = $diskUtilDevices{$deviceName};
