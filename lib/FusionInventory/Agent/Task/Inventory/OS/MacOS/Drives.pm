@@ -26,7 +26,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    # get drives list from df
+    # get drives list
     my @types = 
         grep { ! /^(?:fdesc|devfs|procfs|linprocfs|linsysfs|tmpfs|fdescfs)$/ }
         getFilesystemsTypesFromMount(logger => $logger);
@@ -41,9 +41,10 @@ sub doInventory {
 
     my %drives = map { $_->{VOLUMN} => $_ } @drives;
 
-    # complete with diskutil informations
+    # get additional informations
     foreach (`diskutil list`) {
-        next unless /\d+:\s+.*\s+(\S+)/;
+        # partition identifiers look like disk0s1
+        next unless /(disk \d+ s \d+)$/;
         my $deviceName = "/dev/$1";
 
         my $device;
@@ -61,17 +62,12 @@ sub doInventory {
             }
         }
 
-        if (
-            ! defined $device->{'Part Of Whole'} ||
-            $device->{'Part Of Whole'} ne $device->{'Device Identifier'}
-        ) {
-            $drives{$deviceName}->{TOTAL}      = $size;
-            $drives{$deviceName}->{SERIAL}     = $device->{'Volume UUID'} ||
-                                                 $device->{'UUID'};
-            $drives{$deviceName}->{FILESYSTEM} = $device->{'File System'} ||
-                                                 $device->{'Partition Type'};
-            $drives{$deviceName}->{LABEL}      = $device->{'Volume Name'};
-        }
+        $drives{$deviceName}->{TOTAL}      = $size;
+        $drives{$deviceName}->{SERIAL}     = $device->{'Volume UUID'} ||
+                                             $device->{'UUID'};
+        $drives{$deviceName}->{FILESYSTEM} = $device->{'File System'} ||
+                                             $device->{'Partition Type'};
+        $drives{$deviceName}->{LABEL}      = $device->{'Volume Name'};
     }
 
     # add drives to the inventory
