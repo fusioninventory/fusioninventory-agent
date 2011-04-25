@@ -41,11 +41,11 @@ sub doInventory {
 
     my %diskUtilDevices;
     foreach (`diskutil list`) {
-        if (/\d+:\s+.*\s+(\S+)/) {
-            my $deviceName = "/dev/$1";
-            foreach (`diskutil info $1`) {
-                $diskUtilDevices{$deviceName}->{$1} = $2 if /^\s+(.*?):\s*(\S.*)/;
-            }
+        next unless /\d+:\s+.*\s+(\S+)/;
+        my $deviceName = "/dev/$1";
+        foreach (`diskutil info $1`) {
+            next unless /^\s+(.*?):\s*(\S.*)/;
+            $diskUtilDevices{$deviceName}->{$1} = $2;
         }
     }
 
