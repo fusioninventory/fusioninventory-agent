@@ -18,14 +18,7 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-#  my $name;
     my $ipaddress;
-#  my $ipmask;
-#  my $ipgateway;
-#  my $speed;
-#  my $ipsubnet;
-#  my $status;
-#  my $macaddr;
 
     if ( can_run('/opt/hpsmh/data/htdocs/comppage/getMPInfo.cgi') ) {    
         foreach (`/opt/hpsmh/data/htdocs/comppage/getMPInfo.cgi`) {
