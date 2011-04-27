@@ -20,7 +20,6 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # Operating system informations
-    my $OSName    = getFirstLine(command => 'uname -s');  # It should always be "HP-UX"
     my $OSVersion = getFirstLine(command => 'uname -v');
     my $OSRelease = getFirstLine(command => 'uname -r');
     my $OSLicense = getFirstLine(command => 'uname -l');
@@ -35,7 +34,7 @@ sub doInventory {
 
 
     $inventory->setHardware({
-        OSNAME             => $OSName,
+        OSNAME             => 'HP-UX',
         OSVERSION          => $OSVersion . ' ' . $OSLicense,
         OSCOMMENTS         => $OSRelease,
         LASTLOGGEDUSER     => $lastUser,
