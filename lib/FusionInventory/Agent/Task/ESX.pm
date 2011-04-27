@@ -209,6 +209,10 @@ sub main {
             "url" => $esxRemote,
             "network" => $network
             );
+    if (!$esxRest) {
+        $logger->error("Failed to get parameter from `$esxRemote'");
+        exit;
+    }
 
 
     my $jobs = $esxRest->getJobs(
@@ -217,6 +221,7 @@ sub main {
 
     return unless $jobs;
     return unless ref($jobs->{jobs}) eq 'ARRAY';
+    $logger->info("Got ".int(@{$jobs->{jobs}})." VMware host(s) to inventory.");
 
     my $esx = FusionInventory::Agent::Task::ESX->new({
             config => $config
