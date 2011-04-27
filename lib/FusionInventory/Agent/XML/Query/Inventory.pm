@@ -126,29 +126,6 @@ sub addStorage {
     );
 }
 
-sub addCPU {
-    my ($self, $cpu) = @_;
-
-    $self->addEntry(
-        section => 'CPUS',
-        entry   => $cpu,
-    );
-
-}
-
-sub addUser {
-    my ($self, $user) = @_;
-
-    return unless $user->{LOGIN};
-
-    return unless $self->addEntry(
-        section      => 'USERS',
-        entry        => $user,
-        noDuplicated => 1
-    );
-
-}
-
 sub setGlobalValues {
     my ($self) = @_;
 
@@ -504,14 +481,6 @@ Save global information regarding the machine.
 =head2 setBios()
 
 Set BIOS informations.
-
-=head2 addCPU()
-
-Add a CPU in the inventory.
-
-=head2 addUser()
-
-Add an user in the list of logged user.
 
 =head2 addVirtualMachine()
 

@@ -22,7 +22,10 @@ sub doInventory {
 
     foreach my $cpu (getCpusFromDmidecode()) {
         $cpu->{SPEED} = $speed;
-        $inventory->addCPU($cpu);
+        $inventory->addEntry(
+            section => 'CPUS',
+            entry   => $cpu
+        );
     }
 
 }

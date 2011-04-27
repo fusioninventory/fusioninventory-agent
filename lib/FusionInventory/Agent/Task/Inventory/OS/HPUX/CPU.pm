@@ -23,7 +23,10 @@ sub doInventory {
             command => '/opt/propplus/bin/cprop -summary -c Processors',
             logger  => $logger
         )) {
-            $inventory->addCPU($cpu);
+            $inventory->addEntry(
+                section => 'CPUS',
+                entry   => $cpu
+            );
         }
         return;
     }
@@ -99,7 +102,12 @@ sub doInventory {
         $CPUinfo->{TYPE} = "PA" . $CPUinfo->{TYPE};
     }
 
-    foreach ( 1..$CPUinfo->{CPUcount} ) { $inventory->addCPU($CPUinfo) }
+    foreach ( 1..$CPUinfo->{CPUcount} ) {
+        $inventory->addEntry(
+            section => 'CPUS',
+            entry   => $CPUinfo
+        );
+    }
 }
 
 sub _parseMachinInfo {

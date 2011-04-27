@@ -84,10 +84,13 @@ sub doInventory {
     return if $infos->{4};
 
     for my $i (1 .. $processorn) {
-         $inventory->addCPU({
-             NAME  => $processort,
-             SPEED => $processors,
-         });
+         $inventory->addEntry(
+             section => 'CPUS',
+             entry   => {
+                 NAME  => $processort,
+                 SPEED => $processors,
+             }
+         );
     }
 
 }

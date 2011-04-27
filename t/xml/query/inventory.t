@@ -53,14 +53,18 @@ is_deeply(
     'creation content'
 );
 
-$inventory->addCPU({
-    NAME => 'void CPU',
-    SPEED => 1456,
-    MANUFACTURER => 'FusionInventory Developers',
-    SERIAL => 'AEZVRV',
-    THREAD => 3,
-    CORE => 1
-});
+$inventory->addEntry(
+    section => 'CPUS',
+    entry   => {
+        NAME => 'void CPU',
+        SPEED => 1456,
+        MANUFACTURER => 'FusionInventory Developers',
+        SERIAL => 'AEZVRV',
+        THREAD => 3,
+        CORE => 1
+    }
+);
+$inventory->setGlobalValues();
 $inventory->processChecksum();
 
 $content = {

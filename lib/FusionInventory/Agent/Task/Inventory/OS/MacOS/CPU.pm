@@ -50,13 +50,16 @@ sub doInventory {
                             undef   ;
 
     foreach (1 .. $cpus) {
-        $inventory->addCPU ({
-            CORE         => $cores,
-            MANUFACTURER => $manufacturer,
-            NAME         => $type,
-            THREAD       => 1,
-            SPEED        => $speed
-        });
+        $inventory->addEntry(
+            section => 'CPUS',
+            entry   => {
+                CORE         => $cores,
+                MANUFACTURER => $manufacturer,
+                NAME         => $type,
+                THREAD       => 1,
+                SPEED        => $speed
+            }
+        );
     }
 
     ### mem convert it to meg's if it comes back in gig's

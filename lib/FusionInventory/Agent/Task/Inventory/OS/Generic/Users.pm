@@ -25,7 +25,13 @@ sub doInventory {
     if ($handle) {
         while (my $line = <$handle>) {
             next unless $line =~ /^(\S+)/;
-            $inventory->addUser({ LOGIN => $1 });
+            $inventory->addEntry(
+                section => 'USERS',
+                entry   => {
+                    LOGIN => $1
+                },
+                noDuplicated => 1
+            );
         }
         close $handle;
     }

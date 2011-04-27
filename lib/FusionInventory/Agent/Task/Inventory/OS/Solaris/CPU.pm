@@ -36,7 +36,10 @@ sub doInventory {
     $cpu->{MANUFACTURER} = "SPARC";
 
     while ($count--) {
-        $inventory->addCPU($cpu);
+        $inventory->addEntry(
+            section => 'CPUS',
+            entry   => $cpu
+        );
     }
 }
 

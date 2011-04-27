@@ -57,7 +57,10 @@ sub doInventory {
             }->{lc($2)} * $1;
         }
 
-        $inventory->addCPU($cpu);
+        $inventory->addEntry(
+            section => 'CPUS',
+            entry   => $cpu
+        );
         $cpt++;
     }
 }
