@@ -134,16 +134,6 @@ sub addCPU {
         entry   => $cpu,
     );
 
-    # For the compatibility with HARDWARE/PROCESSOR*
-    my $processorn = int @{$self->{h}{CONTENT}{CPUS}};
-    my $processors = $self->{h}{CONTENT}{CPUS}[0]{SPEED};
-    my $processort = $self->{h}{CONTENT}{CPUS}[0]{NAME};
-
-    $self->setHardware ({
-        PROCESSORN => $processorn,
-        PROCESSORS => $processors,
-        PROCESSORT => $processort,
-    });
 }
 
 sub addUser {
@@ -157,9 +147,26 @@ sub addUser {
         noDuplicated => 1
     );
 
-    # Compare with old system 
-    my $userString = $self->{h}{CONTENT}{HARDWARE}{USERID} || "";
-    my $domainString = $self->{h}{CONTENT}{HARDWARE}{USERDOMAIN} || "";
+}
+
+sub setGlobalValues {
+    my ($self) = @_;
+
+    # CPU-related values
+    my $cpus = $self->{h}{CONTENT}{CPUS};
+    my $cpu = $cpus->[0];
+
+    $self->setHardware({
+        PROCESSORN => @$cpus,
+        PROCESSORS => $cpu->{SPEED},
+        PROCESSORT => $cpu->{NAME},
+    });
+
+    # user-related values
+    my $user = $self->{h}->{CONTENT}->{USERS}->[-1];
+    my $hardware = $self->{h}->{CONTENT}->{HARDWARE}
+    my $userString = $hardware->{USERID} || "";
+    my $domainString = $hardware->{USERDOMAIN} || "";
 
     $userString .= '/' if $userString;
     $domainString .= '/' if $domainString;
@@ -173,7 +180,7 @@ sub addUser {
         $userString .= $user->{LOGIN};
     }
 
-    $self->setHardware ({
+    $self->setHardware({
         USERID     => $userString,
         USERDOMAIN => $domainString,
     });
