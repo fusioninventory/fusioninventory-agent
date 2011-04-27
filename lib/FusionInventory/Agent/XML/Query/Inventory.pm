@@ -214,19 +214,19 @@ sub addUser {
 }
 
 sub addVirtualMachine {
-    my ($self, $args) = @_;
+    my ($self, $machine) = @_;
 
     my $logger = $self->{logger};
 
-    if (!$args->{STATUS}) {
+    if (!$machine->{STATUS}) {
         $logger->error("status not set by ".caller(0));
-    } elsif (!$args->{STATUS} =~ /(running|idle|paused|shutdown|crashed|dying|off)/) {
-        $logger->error("Unknown status '".$args->{status}."' from ".caller(0));
+    } elsif (!$machine->{STATUS} =~ /(running|idle|paused|shutdown|crashed|dying|off)/) {
+        $logger->error("Unknown status '".$machine->{STATUS}."' from ".caller(0));
     }
 
     $self->addEntry(
         section => 'VIRTUALMACHINES',
-        entry   => $args,
+        entry   => $machine,
     );
 
 }
