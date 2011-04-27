@@ -30,9 +30,6 @@ sub doInventory {
         pattern => qr/^(\S+)\s+\S+\s+(.+\d{2}:\d{2})\s+/
     );
 
-#TODO add grep `hostname` /etc/hosts
-
-
     $inventory->setHardware({
         OSNAME             => 'HP-UX',
         OSVERSION          => $OSVersion . ' ' . $OSLicense,
