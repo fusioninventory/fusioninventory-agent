@@ -48,8 +48,8 @@ sub doInventory {
 
     $inventory->setHardware({
         OSNAME     => $OSName,
-        OSCOMMENTS => $OSComment,
         OSVERSION  => $OSVersion,
+        OSCOMMENTS => $OSComment,
     });
 }
 
