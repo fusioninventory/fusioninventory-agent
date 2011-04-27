@@ -21,11 +21,8 @@ sub doInventory {
         pattern => qr/Description:\s+(.+)/
     );
 
-    my $OSComment = getFirstLine(command => 'uname -v');
-
     $inventory->setHardware({
         OSNAME     => $release,
-        OSCOMMENTS => $OSComment
     });
 }
 

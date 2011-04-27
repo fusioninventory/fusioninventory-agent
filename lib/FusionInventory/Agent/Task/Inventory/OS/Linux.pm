@@ -21,10 +21,12 @@ sub doInventory {
     my $inventory = $params{inventory};
 
     my $osversion = getFirstLine(command => 'uname -r');
+    my $oscomment = getFirstLine(command => 'uname -v');
 
     $inventory->setHardware({
-        OSNAME    => "Linux",
-        OSVERSION => $osversion,
+        OSNAME     => "Linux",
+        OSVERSION  => $osversion,
+        OSCOMMENTS => $oscomment,
         WINPRODID => _getRHNSystemId('/etc/sysconfig/rhn/systemid')
     });
 
