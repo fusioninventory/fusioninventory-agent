@@ -7,6 +7,7 @@ use XML::TreePP;
 use LWP::UserAgent;
 use HTTP::Cookies;
 
+use FusionInventory::Agent;
 use FusionInventory::VMware::SOAP::Host;
 
 sub new {
@@ -18,6 +19,8 @@ sub new {
         debugDir => $params->{debugDir},
         lastError => ""
     };
+
+    $self->{ua}->agent('FusionInventory-Agent_v'.$FusionInventory::Agent::VERSION);
 
     my $cookie = new HTTP::Cookies( ignore_discard => 1 );
     $self->{ua}->cookie_jar( $cookie );
