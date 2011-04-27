@@ -38,14 +38,16 @@ sub doInventory {
         }
     }
 
+    my $OSName = $OSNAME;
     if (can_run('lsb_release')) {
-        foreach (`lsb_release -d`) {
-            $OSNAME = $1 if /Description:\s+(.+)/;
-        }
+        $OSName = getFirstMatch(
+            command => 'lsb_release -d',
+            pattern => /Description:\s+(.+)/
+        );
     }
 
     $inventory->setHardware({
-        OSNAME     => $OSNAME,
+        OSNAME     => $OSName,
         OSCOMMENTS => $OSComment,
         OSVERSION  => $OSVersion,
     });
