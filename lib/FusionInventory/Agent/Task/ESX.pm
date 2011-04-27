@@ -226,14 +226,13 @@ sub main {
             });
 
 
-    foreach my $jobId (1..@{$jobs->{jobs}}) {
-        my $job = $jobs->{jobs}[$jobId-1];
+    foreach my $job (@{$jobs->{jobs}}) {
 
         if (!$esx->connect($job)) {
            $esxRest->setLog(
               d => $target->{deviceid},
               p => 'login',
-              j => $jobId,
+              j => $job->{jobnum},
               u => $uuid,
               msg => $esx->{lastError},
               code => 'ko'
@@ -249,7 +248,7 @@ sub main {
         }
         $esxRest->setLog(
                 d => $target->{deviceid},
-                j => $jobId,
+                j => $job->{jobnum},
                 u => $uuid,
                 code => 'ok'
         );
