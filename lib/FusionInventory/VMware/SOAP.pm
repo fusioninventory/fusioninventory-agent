@@ -13,7 +13,7 @@ sub new {
     my (undef, $params) = @_;
 
     my $self = {
-        ua => LWP::UserAgent->new(),
+        ua => LWP::UserAgent->new(ssl_opts => { verify_hostname => 0 }),
         url => $params->{url},
         debugDir => $params->{debugDir},
         lastError => ""
@@ -72,8 +72,18 @@ sub _send {
         $self->_storeSOAPDump($name, $res->content);
         return $res->content;
     } else {
-        print STDERR $res->status_line."\n";
-        $self->{lastError} = $res->status_line;
+        my $err = $res->content;
+        my $tmpRef = {};
+
+        eval {
+            $err =~ s/.*(<faultstring>.*<\/faultstring>).*/$1/sg;
+            $tmpRef = $self->{tpp}->parse($err);
+        };
+
+        my $errorString = $res->status_line;
+        $errorString .= ": ".$tmpRef->{faultstring} if $tmpRef->{faultstring};
+        print STDERR $errorString."\n";
+        $self->{lastError} = $errorString;
         return;
     }
 
