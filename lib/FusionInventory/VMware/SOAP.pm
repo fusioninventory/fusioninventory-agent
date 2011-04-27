@@ -84,7 +84,9 @@ sub _send {
         };
 
         my $errorString = $res->status_line;
-        $errorString .= ": ".$tmpRef->{faultstring} if $tmpRef->{faultstring};
+        if ($tmpRef && $tmpRef->{faultstring}) {
+            $errorString .= ": ".$tmpRef->{faultstring};
+        }
         print STDERR $errorString."\n";
         $self->{lastError} = $errorString;
         return;
