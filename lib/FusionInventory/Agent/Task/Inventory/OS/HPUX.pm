@@ -26,18 +26,10 @@ sub doInventory {
     my $OSLicense = getFirstLine(command => 'uname -l');
 
     # Last login informations
-    my $LastLoggedUser;
-    my $LastLogDate;
-    my @query = `last`;
-
-    while ( my $tempLine = shift @query) {
-        #if ( /^reboot\s+system boot/ ) { continue }  #It should never be seen above a user login entry (I hope)
-        if ( $tempLine =~ /^(\S+)\s+\S+\s+(.+\d{2}:\d{2})\s+/ ) {
-            $LastLoggedUser = $1;
-            $LastLogDate = $2;
-            last;
-        }
-    }
+    my ($lastUser, $lastDate) = getFirstMatch(
+        command => 'last',
+        pattern => qr/^(\S+)\s+\S+\s+(.+\d{2}:\d{2})\s+/
+    );
 
 #TODO add grep `hostname` /etc/hosts
 
@@ -46,8 +38,8 @@ sub doInventory {
         OSNAME             => $OSName,
         OSVERSION          => $OSVersion . ' ' . $OSLicense,
         OSCOMMENTS         => $OSRelease,
-        LASTLOGGEDUSER     => $LastLoggedUser,
-        DATELASTLOGGEDUSER => $LastLogDate
+        LASTLOGGEDUSER     => $lastUser,
+        DATELASTLOGGEDUSER => $lastDate
     });
 
 }
