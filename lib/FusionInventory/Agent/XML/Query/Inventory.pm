@@ -108,24 +108,23 @@ sub addEntry {
 }
 
 sub addStorage {
-    my ($self, $args) = @_;
+    my ($self, $storage) = @_;
 
     my $logger = $self->{logger};
 
-    my $values = $args;
-    if (!$values->{SERIALNUMBER}) {
-        $values->{SERIALNUMBER} = $values->{SERIAL}
+    if (!$storage->{SERIALNUMBER}) {
+        $storage->{SERIALNUMBER} = $storage->{SERIAL}
     }
 
     my $filter = '^(SCSI|HDC|IDE|USB|1394|Serial-ATA|SAS)$';
-    if ($values->{INTERFACE} && $values->{INTERFACE} !~ /$filter/) {
+    if ($storage->{INTERFACE} && $storage->{INTERFACE} !~ /$filter/) {
         $logger->debug("STORAGES/INTERFACE doesn't match /$filter/, ".
         "this is not an error but the situation should be improved");
     }
 
     $self->addEntry(
         section => 'STORAGES',
-        entry   => $values,
+        entry   => $storage,
     );
 }
 
