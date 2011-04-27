@@ -230,7 +230,6 @@ sub main {
            $esxRest->setLog(
               d => $target->{deviceid},
               p => 'login',
-              j => $job->{jobnum},
               u => $job->{uuid},
               msg => $esx->{lastError},
               code => 'ko'
@@ -246,7 +245,6 @@ sub main {
         }
         $esxRest->setLog(
                 d => $target->{deviceid},
-                j => $job->{jobnum},
                 u => $job->{uuid},
                 code => 'ok'
         );
