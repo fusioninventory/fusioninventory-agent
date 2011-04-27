@@ -1147,9 +1147,9 @@ sub writeXML {
     my $config = $self->{config};
     my $target = $self->{target};
 
-    if ($target->{path} =~ /^$/) {
-        $logger->fault ('local path unititalised!');
-    }
+#    if ($target->{path} =~ /^$/) {
+#        $logger->fault ('local path unititalised!');
+#    }
 
     $self->initialise();
 
@@ -1181,9 +1181,9 @@ sub writeHTML {
     my $config = $self->{config};
     my $target = $self->{target};
 
-    if ($target->{path} =~ /^$/) {
-        $logger->fault ('local path unititalised!');
-    }
+#    if ($target->{path} =~ /^$/) {
+#        $logger->fault ('local path unititalised!');
+#    }
 
     $self->initialise();
 
@@ -1306,9 +1306,9 @@ sub processChecksum {
     );
     # TODO CPUS is not in the list
 
-    if (!$self->{target}->{vardir}) {
-        $logger->fault ("vardir uninitialised!");
-    }
+#    if (!$self->{target}->{vardir}) {
+#        $logger->fault ("vardir uninitialised!");
+#    }
 
     my $checksum = 0;
 
