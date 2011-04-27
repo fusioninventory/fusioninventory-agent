@@ -20,7 +20,6 @@ sub doInventory {
 
     # Basic operating system informations
     my $OSVersion = getFirstLine(command => 'uname -r');
-    my $OSArchi = getFirstLine(command => 'uname -p');
     my $OSComment = getFirstLine(command => 'uname -v');
 
     # Get more information from the kernel configuration file
