@@ -22,21 +22,10 @@ sub doInventory {
 
     my $osversion = getFirstLine(command => 'uname -r');
 
-    my ($last_user, $last_date);
-    my $last = getFirstLine(command => 'last -R');
-    if ($last &&
-        $last =~ /^(\S+) \s+ \S+ \s+ (\S+ \s+ \S+ \s+ \S+ \s+ \S+)/x
-    ) {
-        $last_user = $1;
-        $last_date = $2;
-    }
-
     $inventory->setHardware({
-        OSNAME             => "Linux",
-        OSVERSION          => $osversion,
-        LASTLOGGEDUSER     => $last_user,
-        DATELASTLOGGEDUSER => $last_date,
-        WINPRODID          => _getRHNSystemId('/etc/sysconfig/rhn/systemid')
+        OSNAME    => "Linux",
+        OSVERSION => $osversion,
+        WINPRODID => _getRHNSystemId('/etc/sysconfig/rhn/systemid')
     });
 
 }

@@ -6,7 +6,9 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
-    return can_run('who');
+    return 
+        can_run('who') ||
+        can_run('last');
 }
 
 sub doInventory {
@@ -20,13 +22,27 @@ sub doInventory {
         command => 'who'
     );
 
-    return unless $handle;
-
-    while (my $line = <$handle>) {
-        next unless $line =~ /^(\S+)/;
-        $inventory->addUser({ LOGIN => $1 });
+    if ($handle) {
+        while (my $line = <$handle>) {
+            next unless $line =~ /^(\S+)/;
+            $inventory->addUser({ LOGIN => $1 });
+        }
+        close $handle;
     }
-    close $handle;
+
+    my ($lastUser, $lastDate);
+    my $last = getFirstLine(command => 'last -R');
+    if ($last &&
+        $last =~ /^(\S+) \s+ \S+ \s+ (\S+ \s+ \S+ \s+ \S+ \s+ \S+)/x
+    ) {
+        $lastUser = $1;
+        $lastDate = $2;
+    }
+
+    $inventory->setHardware({
+        LASTLOGGEDUSER     => $lastUser,
+        DATELASTLOGGEDUSER => $lastDate
+    });
 
 }
 

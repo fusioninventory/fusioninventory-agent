@@ -24,18 +24,10 @@ sub doInventory {
     my $OSRelease = getFirstLine(command => 'uname -r');
     my $OSLicense = getFirstLine(command => 'uname -l');
 
-    # Last login informations
-    my ($lastUser, $lastDate) = getFirstMatch(
-        command => 'last',
-        pattern => qr/^(\S+)\s+\S+\s+(.+\d{2}:\d{2})\s+/
-    );
-
     $inventory->setHardware({
-        OSNAME             => 'HP-UX',
-        OSVERSION          => $OSVersion . ' ' . $OSLicense,
-        OSCOMMENTS         => $OSRelease,
-        LASTLOGGEDUSER     => $lastUser,
-        DATELASTLOGGEDUSER => $lastDate
+        OSNAME     => 'HP-UX',
+        OSVERSION  => $OSVersion . ' ' . $OSLicense,
+        OSCOMMENTS => $OSRelease,
     });
 
 }
