@@ -245,7 +245,7 @@ sub main {
         foreach my $hostId (@$hostIds) {
             my $inventory = $esx->createInventory($hostId);
 
-            $inventory->writeXML();
+            my $response = $network->send({message => $inventory});
         }
         $esxRest->setLog(
                 d => $target->{deviceid},
