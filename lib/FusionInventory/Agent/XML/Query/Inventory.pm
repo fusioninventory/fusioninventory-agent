@@ -103,8 +103,6 @@ sub addEntry {
     }
 
     push @{$self->{h}{CONTENT}{$section}}, $newEntry;
-
-    return 1;
 }
 
 sub addStorage {
