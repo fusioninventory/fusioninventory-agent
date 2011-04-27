@@ -243,25 +243,6 @@ sub setAccessLog {
     }
 }
 
-sub addIpDiscoverEntry {
-    my ($self, $args) = @_;
-
-    my $ipaddress = $args->{IPADDRESS};
-    my $macaddr = $args->{MACADDR};
-    my $name = $args->{NAME};
-
-    if (!$self->{h}{CONTENT}{IPDISCOVER}{H}) {
-        $self->{h}{CONTENT}{IPDISCOVER}{H} = [];
-    }
-
-    push @{$self->{h}{CONTENT}{IPDISCOVER}{H}}, {
-        # If I or M is undef, the server will ingore the host
-        I => [$ipaddress?$ipaddress:""],
-        M => [$macaddr?$macaddr:""],
-        N => [$name?$name:"-"], # '-' is the default value reteurned by ipdiscover
-    };
-}
-
 sub addSoftwareDeploymentPackage {
     my ($self, $args) = @_;
 
@@ -532,13 +513,6 @@ Add a Virtual Machine in the inventory.
 =head2 setAccessLog()
 
 What is that for? :)
-
-=head2 addIpDiscoverEntry()
-
-IpDiscover is used to identify network interface on the local network. This
-is done on the ARP level.
-
-This function adds a network interface in the inventory.
 
 =head2 addSoftwareDeploymentPackage()
 
