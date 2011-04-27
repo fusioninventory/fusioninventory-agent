@@ -196,7 +196,6 @@ sub main {
     my $globalRemoteConfig = $globalRest->getConfig(
             d => $target->{deviceid},
             task => { ESX => $VERSION},
-            array => [ 'aa', 'bb', 'cc' ]
     );
     return unless $globalRemoteConfig->{schedule};
     return unless ref($globalRemoteConfig->{schedule}) eq 'ARRAY';
