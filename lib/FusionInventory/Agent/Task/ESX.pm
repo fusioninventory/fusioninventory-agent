@@ -66,7 +66,7 @@ sub createInventory {
     my $inventory = FusionInventory::Agent::XML::Query::Inventory->new({
             logger => $self->{logger},
             config => $self->{config},
-            target => { deviceid => $self->createFakeDeviceid($host), path => '/tmp', vardir => '/tmp/toto' }
+            target => { deviceid => $self->createFakeDeviceid($host) }
             });
 
     $inventory->{isInitialised}=1;
