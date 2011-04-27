@@ -212,7 +212,9 @@ sub main {
             );
 
 
-    my $jobs = $esxRest->getJobs();
+    my $jobs = $esxRest->getJobs(
+              d => $target->{deviceid},
+    );
     my $uuid = $jobs->{uuid};
 
     return unless $jobs;
