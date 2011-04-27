@@ -215,10 +215,8 @@ sub main {
     my $jobs = $esxRest->getJobs(
               d => $target->{deviceid},
     );
-    my $uuid = $jobs->{uuid};
 
     return unless $jobs;
-    return unless $uuid;
     return unless ref($jobs->{jobs}) eq 'ARRAY';
 
     my $esx = FusionInventory::Agent::Task::ESX->new({
@@ -233,7 +231,7 @@ sub main {
               d => $target->{deviceid},
               p => 'login',
               j => $job->{jobnum},
-              u => $uuid,
+              u => $job->{uuid},
               msg => $esx->{lastError},
               code => 'ko'
            );
@@ -249,7 +247,7 @@ sub main {
         $esxRest->setLog(
                 d => $target->{deviceid},
                 j => $job->{jobnum},
-                u => $uuid,
+                u => $job->{uuid},
                 code => 'ok'
         );
 
