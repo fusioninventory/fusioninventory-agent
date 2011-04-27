@@ -128,36 +128,6 @@ sub addStorage {
     );
 }
 
-sub setHardware {
-    my ($self, $args) = @_;
-
-    foreach my $key (qw/USERID OSVERSION PROCESSORN OSCOMMENTS CHECKSUM
-        PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME IPADDR WORKGROUP
-        DESCRIPTION MEMORY UUID DNS LASTLOGGEDUSER USERDOMAIN
-        DATELASTLOGGEDUSER DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
-        WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE/) {
-# WINLANG: Windows Language, see MSDN Win32_OperatingSystem documentation
-        if (exists $args->{$key}) {
-            my $string = getSanitizedString($args->{$key});
-            $self->{h}{CONTENT}{HARDWARE}{$key} = $string;
-        }
-    }
-}
-
-sub setBios {
-    my ($self, $args) = @_;
-
-    foreach my $key (qw/SMODEL SMANUFACTURER SSN BDATE BVERSION BMANUFACTURER
-        MMANUFACTURER MSN MMODEL ASSETTAG ENCLOSURESERIAL BASEBOARDSERIAL
-        BIOSSERIAL TYPE SKUNUMBER/) {
-
-        if (exists $args->{$key}) {
-            my $string = getSanitizedString($args->{$key});
-            $self->{h}{CONTENT}{BIOS}{$key} = $string;
-        }
-    }
-}
-
 sub addCPU {
     my ($self, $args) = @_;
 
@@ -231,6 +201,44 @@ sub addVirtualMachine {
 
 }
 
+sub addSoftwareDeploymentPackage {
+    my ($self, $args) = @_;
+
+    push
+        @{$self->{h}{CONTENT}{DOWNLOAD}{HISTORY}->{PACKAGE}},
+        { ID => $args->{ORDERID} };
+}
+
+sub setHardware {
+    my ($self, $args) = @_;
+
+    foreach my $key (qw/USERID OSVERSION PROCESSORN OSCOMMENTS CHECKSUM
+        PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME IPADDR WORKGROUP
+        DESCRIPTION MEMORY UUID DNS LASTLOGGEDUSER USERDOMAIN
+        DATELASTLOGGEDUSER DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
+        WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE/) {
+# WINLANG: Windows Language, see MSDN Win32_OperatingSystem documentation
+        if (exists $args->{$key}) {
+            my $string = getSanitizedString($args->{$key});
+            $self->{h}{CONTENT}{HARDWARE}{$key} = $string;
+        }
+    }
+}
+
+sub setBios {
+    my ($self, $args) = @_;
+
+    foreach my $key (qw/SMODEL SMANUFACTURER SSN BDATE BVERSION BMANUFACTURER
+        MMANUFACTURER MSN MMODEL ASSETTAG ENCLOSURESERIAL BASEBOARDSERIAL
+        BIOSSERIAL TYPE SKUNUMBER/) {
+
+        if (exists $args->{$key}) {
+            my $string = getSanitizedString($args->{$key});
+            $self->{h}{CONTENT}{BIOS}{$key} = $string;
+        }
+    }
+}
+
 sub setAccessLog {
     my ($self, $args) = @_;
 
@@ -240,14 +248,6 @@ sub setAccessLog {
             $self->{h}{CONTENT}{ACCESSLOG}{$key} = $args->{$key};
         }
     }
-}
-
-sub addSoftwareDeploymentPackage {
-    my ($self, $args) = @_;
-
-    push
-        @{$self->{h}{CONTENT}{DOWNLOAD}{HISTORY}->{PACKAGE}},
-        { ID => $args->{ORDERID} };
 }
 
 sub checkContent {
