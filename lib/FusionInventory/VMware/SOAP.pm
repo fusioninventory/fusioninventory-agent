@@ -127,7 +127,7 @@ sub _parseAnswer {
 }
 
 sub connect {
-    my ($self, $login, $pw) = @_;
+    my ($self, $user, $password) = @_;
 
     my $req = '<?xml version="1.0" encoding="UTF-8"?>
    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
@@ -164,7 +164,7 @@ sub connect {
         <Login xmlns="urn:vim25"><_this type="SessionManager">%s</_this>
         <userName>%s</userName><password>%s</password></Login></soapenv:Body></soapenv:Envelope>';
 
-    $answer = $self->_send('Login', 'Login', sprintf($req, $self->{sessionManager}, $login, $pw));
+    $answer = $self->_send('Login', 'Login', sprintf($req, $self->{sessionManager}, $user, $password));
     return unless $answer;
     return if $answer =~ /ServerFaultCode/m;
 
