@@ -147,13 +147,13 @@ sub addCPU {
 }
 
 sub addUser {
-    my ($self, $args) = @_;
+    my ($self, $user) = @_;
 
-    return unless $args->{LOGIN};
+    return unless $user->{LOGIN};
 
     return unless $self->addEntry(
         section      => 'USERS',
-        entry        => $args,
+        entry        => $user,
         noDuplicated => 1
     );
 
@@ -164,15 +164,13 @@ sub addUser {
     $userString .= '/' if $userString;
     $domainString .= '/' if $domainString;
 
-    my $login = $args->{LOGIN}; 
-    my $domain = $args->{DOMAIN} || '';
-# TODO: I don't think we should change the parameter this way. 
-    if ($login =~ /(.*\\|)(\S+)/) {
-        $domainString .= $domain;
+    # TODO: I don't think we should change the parameter this way. 
+    if ($user->{LOGIN} =~ /(.*\\|)(\S+)/) {
+        $domainString .= $user->{DOMAIN};
         $userString .= $2;
     } else {
-        $domainString .= $domain;
-        $userString .= $login;
+        $domainString .= $user->{DOMAIN};
+        $userString .= $user->{LOGIN};
     }
 
     $self->setHardware ({
