@@ -218,6 +218,7 @@ sub main {
     my $uuid = $jobs->{uuid};
 
     return unless $jobs;
+    return unless $uuid;
     return unless ref($jobs->{jobs}) eq 'ARRAY';
 
     my $esx = FusionInventory::Agent::Task::ESX->new({
