@@ -153,37 +153,42 @@ sub setGlobalValues {
     my ($self) = @_;
 
     # CPU-related values
-    my $cpus = $self->{h}{CONTENT}{CPUS};
-    my $cpu = $cpus->[0];
+    my $cpus = $self->{h}->{CONTENT}->{CPUS};
+    if ($cpus) {
+        my $cpu = $cpus->[0];
 
-    $self->setHardware({
-        PROCESSORN => @$cpus,
-        PROCESSORS => $cpu->{SPEED},
-        PROCESSORT => $cpu->{NAME},
-    });
+        $self->setHardware({
+            PROCESSORN => scalar @$cpus,
+            PROCESSORS => $cpu->{SPEED},
+            PROCESSORT => $cpu->{NAME},
+        });
+}
 
     # user-related values
-    my $user = $self->{h}->{CONTENT}->{USERS}->[-1];
-    my $hardware = $self->{h}->{CONTENT}->{HARDWARE}
-    my $userString = $hardware->{USERID} || "";
-    my $domainString = $hardware->{USERDOMAIN} || "";
+    my $users = $self->{h}->{CONTENT}->{USERS};
+    if ($users) {
+        my $user = $users->[-1];
+        my $hardware = $self->{h}->{CONTENT}->{HARDWARE};
+        my $userString = $hardware->{USERID} || "";
+        my $domainString = $hardware->{USERDOMAIN} || "";
 
-    $userString .= '/' if $userString;
-    $domainString .= '/' if $domainString;
+        $userString .= '/' if $userString;
+        $domainString .= '/' if $domainString;
 
-    # TODO: I don't think we should change the parameter this way. 
-    if ($user->{LOGIN} =~ /(.*\\|)(\S+)/) {
-        $domainString .= $user->{DOMAIN};
-        $userString .= $2;
-    } else {
-        $domainString .= $user->{DOMAIN};
-        $userString .= $user->{LOGIN};
+        # TODO: I don't think we should change the parameter this way. 
+        if ($user->{LOGIN} =~ /(.*\\|)(\S+)/) {
+            $domainString .= $user->{DOMAIN};
+            $userString .= $2;
+        } else {
+            $domainString .= $user->{DOMAIN};
+            $userString .= $user->{LOGIN};
+        }
+
+        $self->setHardware({
+            USERID     => $userString,
+            USERDOMAIN => $domainString,
+        });
     }
-
-    $self->setHardware({
-        USERID     => $userString,
-        USERDOMAIN => $domainString,
-    });
 }
 
 sub addVirtualMachine {
