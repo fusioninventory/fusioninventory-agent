@@ -127,11 +127,11 @@ sub addStorage {
 }
 
 sub addCPU {
-    my ($self, $args) = @_;
+    my ($self, $cpu) = @_;
 
     $self->addEntry(
         section => 'CPUS',
-        entry   => $args,
+        entry   => $cpu,
     );
 
     # For the compatibility with HARDWARE/PROCESSOR*
