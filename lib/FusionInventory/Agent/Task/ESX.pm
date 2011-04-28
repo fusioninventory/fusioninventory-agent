@@ -194,7 +194,7 @@ sub main {
             "network" => $network
             );
     my $globalRemoteConfig = $globalRest->getConfig(
-            d => $target->{deviceid},
+            machineid => $target->{deviceid},
             task => { ESX => $VERSION},
     );
     return unless $globalRemoteConfig->{schedule};
@@ -216,7 +216,7 @@ sub main {
 
 
     my $jobs = $esxRest->getJobs(
-              d => $target->{deviceid},
+              machineid => $target->{deviceid},
     );
 
     return unless $jobs;
@@ -232,9 +232,9 @@ sub main {
 
         if (!$esx->connect($job)) {
            $esxRest->setLog(
-              d => $target->{deviceid},
-              p => 'login',
-              u => $job->{uuid},
+              machineid => $target->{deviceid},
+              part => 'login',
+              uuid => $job->{uuid},
               msg => $esx->{lastError},
               code => 'ko'
            );
@@ -248,8 +248,8 @@ sub main {
             my $response = $network->send({message => $inventory});
         }
         $esxRest->setLog(
-                d => $target->{deviceid},
-                u => $job->{uuid},
+                machineid => $target->{deviceid},
+                uuid => $job->{uuid},
                 code => 'ok'
         );
 
