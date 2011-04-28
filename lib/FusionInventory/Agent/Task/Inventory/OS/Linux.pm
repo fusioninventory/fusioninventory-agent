@@ -38,7 +38,6 @@ sub _getRHNSystemId {
     return unless -f $file;
     my $tpp = XML::TreePP->new();
     my $h = $tpp->parsefile($file);
-    use Data::Dumper;
     my $v;
     eval {
         foreach (@{$h->{params}{param}{value}{struct}{member}}) {
