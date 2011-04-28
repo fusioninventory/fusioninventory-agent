@@ -248,9 +248,9 @@ sub run {
                 });
 
                 my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
-                    logger          => $logger,
-                    token           => $self->{token},
-                    deviceid        => $self->{deviceid},
+                    logger   => $logger,
+                    token    => $self->{token},
+                    deviceid => $self->{deviceid},
                 });
 
                 # Add target ACCOUNTINFO values to the prolog
@@ -303,15 +303,15 @@ sub run {
                 my $task;
                 eval {
                     $task = $package->new({
-                            config      => $config,
-                            confdir     => $self->{confdir},
-                            datadir     => $self->{datadir},
-                            logger      => $logger,
-                            target      => $target,
-                            prologresp  => $prologresp,
-                            transmitter => $transmitter,
-                            deviceid    => $self->{deviceid}
-                            });
+                        config      => $config,
+                        confdir     => $self->{confdir},
+                        datadir     => $self->{datadir},
+                        logger      => $logger,
+                        target      => $target,
+                        prologresp  => $prologresp,
+                        transmitter => $transmitter,
+                        deviceid    => $self->{deviceid}
+                    });
                 };
                 if (!$task) {
                     $logger->info("task $module can't be initialized: ".$EVAL_ERROR);
@@ -328,7 +328,7 @@ sub run {
                         die "fork failed: $ERRNO" unless defined $pid;
 
                         $logger->debug(
-                        "[task] executing $module in process $PID"
+                            "[task] executing $module in process $PID"
                         );
                         $task->run();
                     }
