@@ -49,10 +49,10 @@ sub doInventory {
                     NAME           => $object->{Name},
                     MANUFACTURER   => $object->{Manufacturer},
                     CAPTION        => $object->{Caption},
-                    DESCRIPTION    => $object->{Description},
+                    #DESCRIPTION    => $object->{Description},
                     PCIID          => $pciid,
                     PCISUBSYSTEMID => $pcisubsystemid,
-                    VERSION        => $object->{HardwareVersion},
+                    #VERSION        => $object->{HardwareVersion},
                     TYPE           => $object->{Caption},
                 }
             );
