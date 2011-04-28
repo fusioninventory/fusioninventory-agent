@@ -32,7 +32,7 @@ sub AUTOLOAD {
     $name =~ s/.*://; # strip fully-qualified portion
 
 
-    my $reqUrl = $self->{url}.'?a='.$name;
+    my $reqUrl = $self->{url}.'?action='.$name;
     foreach my $k (keys %params) {
         if (ref($params{$k}) eq 'ARRAY') {
             foreach (@{$params{$k}}) {
