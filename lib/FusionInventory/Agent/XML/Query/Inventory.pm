@@ -162,25 +162,20 @@ sub setGlobalValues {
     my $users = $self->{h}->{CONTENT}->{USERS};
     if ($users) {
         my $user = $users->[-1];
-        my $hardware = $self->{h}->{CONTENT}->{HARDWARE};
-        my $userString = $hardware->{USERID} || "";
-        my $domainString = $hardware->{USERDOMAIN} || "";
 
-        $userString .= '/' if $userString;
-        $domainString .= '/' if $domainString;
-
-        # TODO: I don't think we should change the parameter this way. 
-        if ($user->{LOGIN} =~ /(.*\\|)(\S+)/) {
-            $domainString .= $user->{DOMAIN};
-            $userString .= $2;
+        my ($domain, $id);
+        if ($user->{LOGIN} =~ /(\S+)\\(\S+)/) {
+            # Windows fully qualified username: domain\user
+            $domain = $1;
+            $id = $2;
         } else {
-            $domainString .= $user->{DOMAIN};
-            $userString .= $user->{LOGIN};
+            # simple username: user
+            $id = $user->{LOGIN};
         }
 
         $self->setHardware({
-            USERID     => $userString,
-            USERDOMAIN => $domainString,
+            USERID     => $id,
+            USERDOMAIN => $domain,
         });
     }
 }
