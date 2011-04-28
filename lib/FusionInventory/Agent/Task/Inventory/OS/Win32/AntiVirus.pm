@@ -20,15 +20,15 @@ sub doInventory {
     foreach my $instance (qw/SecurityCenter SecurityCenter2/) {
         my $moniker = "winmgmts:{impersonationLevel=impersonate,(security)}!//./root/$instance";
 
-        foreach my $object (getWMIObjects(
+        foreach my $object (getWmiObjects(
                 moniker    => $moniker,
                 class      => "AntiVirusProduct",
                 properties => [ qw/
                     companyName displayName instanceGuid onAccessScanningEnabled
                     productUptoDate versionNumber productState
                / ]
-        ))) {
-
+        )) {
+            next unless $object;
             my $enable = $object->{onAccessScanningEnabled};
             my $uptodate = $object->{productUptoDate};
 

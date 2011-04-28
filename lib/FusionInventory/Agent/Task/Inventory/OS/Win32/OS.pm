@@ -1,4 +1,3 @@
-### UNMERGED YET! ###
 package FusionInventory::Agent::Task::Inventory::OS::Win32::OS;
 
 use strict;
@@ -29,7 +28,7 @@ sub doInventory {
 
         my $key = _getXPkey();
         my $description = encodeFromRegistry(getValueFromRegistry(
-            'SYSTEM/CurrentControlSet/Services/lanmanserver/Parameters/srvcomment'
+            'HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Services/lanmanserver/Parameters/srvcomment'
         ));
 
         $object->{TotalSwapSpaceSize} = int($object->{TotalSwapSpaceSize} / (1024 * 1024))
@@ -47,6 +46,7 @@ sub doInventory {
             SWAP        => $object->{TotalSwapSpaceSize},
             DESCRIPTION => $description,
         });
+    }
 
     foreach my $object (getWmiObjects(
         class      => 'Win32_ComputerSystem',
@@ -83,8 +83,8 @@ sub doInventory {
 #http://www.perlmonks.org/?node_id=497616
 # Thanks William Gannon && Charles Clarkson
 sub _getXPkey {
-    my $key = getRawRegistryKey(
-        'Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId'
+    my $key = getValueFromRegistry(
+        'HKEY_LOCAL_MACHINE/Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId'
     );
     return unless $key;
     my @encoded = ( unpack 'C*', $key )[ reverse 52 .. 66 ];

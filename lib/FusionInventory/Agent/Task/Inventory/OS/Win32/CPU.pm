@@ -45,8 +45,9 @@ sub doInventory {
         # the CPU description in WMI is false, we use the registry instead
         # Hardware\Description\System\CentralProcessor\1
         # thank you Nicolas Richard 
-        my $info = getRegistryKey(
-            "Hardware/Description/System/CentralProcessor/$cpuId"
+        my $info = getValueFromRegistry(
+            "HKEY_LOCAL_MACHINE/Hardware/Description/System/CentralProcessor/$cpuId",
+            $logger
         );
 
 #        my $cache = $object->{L2CacheSize}+$object->{L3CacheSize};

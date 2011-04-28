@@ -84,7 +84,7 @@ sub doInventory {
 
     if ($bios->{VERSION} eq 'VirtualBox' || $bios->{MMODEL} eq 'VirtualBox') {
         $inventory->setHardware ({
-            VMSYSTEM => 'VirtualBox';
+            VMSYSTEM => 'VirtualBox'
         });
     }
 }

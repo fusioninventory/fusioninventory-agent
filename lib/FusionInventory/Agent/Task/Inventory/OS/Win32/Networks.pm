@@ -41,7 +41,7 @@ sub doInventory {
     foreach my $nic (in $nics) {
         my $interface = $interfaces[$nic->Index];
 
-        $interface->{DESCRIPTION} = encodeFromWmi($nic->Description)
+        $interface->{DESCRIPTION} = encodeFromWmi($nic->Description);
 
         foreach (@{$nic->DefaultIPGateway || []}) {
             $defaultgateways{$_} = 1;
@@ -52,9 +52,9 @@ sub doInventory {
         }
 
         if ($nic->IPAddress) {
-            while (@{$nic->IPAddress}) {
-                my $address = shift @{$nic->IPAddress};
-                my $mask = shift @{$nic->IPSubnet};
+            foreach my $addrId (0..(@{$nic->IPAddress}-1)) {
+                my $address = $nic->IPAddress->[$addrId];
+                my $mask = $nic->IPSubnet->[$addrId];
                 if ($address =~ /$ip_address_pattern/) {
                     $ips{$address}=1;
                     push @{$interface->{IPADDRESS}}, $address;
@@ -82,9 +82,11 @@ sub doInventory {
 
     }
 
-    $nics = $objWMIService->ExecQuery('SELECT * FROM Win32_NetworkAdapter');
+    $nics = $WMIService->ExecQuery('SELECT * FROM Win32_NetworkAdapter');
     foreach my $nic (in $nics) {
-        my $interface = $interfaces[$nic->Index];
+        my $interface = {};
+        # http://comments.gmane.org/gmane.comp.monitoring.fusion-inventory.devel/34
+        next unless $nic->PNPDeviceID;
 
         my $virtualdev = 0;
         # PhysicalAdapter only work on OS > XP
@@ -96,22 +98,19 @@ sub doInventory {
             $virtualdev = $nic->PhysicalAdapter ? 0 : 1;
         }
 
-        $interface->{NAME} = $nic->Name;
         $interface->{SPEED} = $nic->Speed;
         $interface->{VIRTUALDEV}  = $virtualdev;
         $interface->{MACADDR}     = $nic->MACAddress;
         $interface->{PNPDEVICEID} = $nic->PNPDeviceID;
+        push @interfaces, $interface;
     }
 
     foreach my $interface (@interfaces) {
 
-        # http://comments.gmane.org/gmane.comp.monitoring.fusion-inventory.devel/34
-        next unless $interface->{PNPDEVICEID};
-
         next if
             !$interface->{IPADDRESS} &&
             !$interface->{IPADDRESS6} &&
-            !$interface->{MACADDR}
+            !$interface->{MACADDR};
 
         # flatten multivalued keys
         foreach my $key (qw/IPADDRESS IPMASK IPSUBNET IPADDRESS6/) {
