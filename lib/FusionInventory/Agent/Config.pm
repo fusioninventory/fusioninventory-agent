@@ -45,7 +45,7 @@ my $deprecated = {
 };
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
     my $self = {};
     bless $self, $class;
@@ -55,11 +55,11 @@ sub new {
         $self->_loadFromWinRegistry();
     } else {
         $self->_loadFromCfgFile({
-            file      => $params->{options}->{'conf-file'},
-            directory => $params->{confdir},
+            file      => $params{options}->{'conf-file'},
+            directory => $params{confdir},
         });
     }
-    $self->_loadUserParams($params->{options});
+    $self->_loadUserParams($params{options});
 
     $self->_checkContent();
 
