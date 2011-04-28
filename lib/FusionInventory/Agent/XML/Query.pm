@@ -23,13 +23,6 @@ sub new {
         DEVICEID => $params->{deviceid}
     };
 
-    if (
-        $params->{currentDeviceid} &&
-        ($params->{deviceid} ne $params->{currentDeviceid})
-    ) {
-      $self->{h}{OLD_DEVICEID} = $params->{currentDeviceid};
-    }
-  
     return $self;
 }
 
@@ -84,8 +77,6 @@ the logger object to use
 =item I<deviceid>
 
 the agent identifier (mandatory)
-
-=item I<currentDeviceid>
 
 =back
 

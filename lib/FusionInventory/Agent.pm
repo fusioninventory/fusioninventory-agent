@@ -251,7 +251,6 @@ sub run {
                     logger          => $logger,
                     token           => $self->{token},
                     deviceid        => $self->{deviceid},
-                    currentDeviceid => $self->{target}->{currentDeviceid},
                 });
 
                 # Add target ACCOUNTINFO values to the prolog

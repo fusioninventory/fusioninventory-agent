@@ -44,7 +44,6 @@ sub run {
 #          accountinfo => $accountinfo,
 #          accountconfig => $accountinfo,
         deviceid        => $self->{target}->{deviceid},
-        currentDeviceid => $self->{target}->{currentDeviceid},
         last_statefile  => $self->{target}->{last_statefile},
         logger          => $self->{logger},
     });

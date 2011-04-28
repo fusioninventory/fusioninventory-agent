@@ -70,8 +70,6 @@ sub _init {
         ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
     }
 
-    $self->{currentDeviceid} = $self->{myData}{currentDeviceid};
-
     $self->{last_statefile} = $params->{vardir} . "/last_state";
 }
 
@@ -181,36 +179,6 @@ sub setPrologFreq {
 
 }
 
-sub setCurrentDeviceID {
-
-    my ($self, $deviceid) = @_;
-
-    my $logger = $self->{logger};
-    my $storage = $self->{storage};
-
-    return unless $deviceid;
-
-    if ($self->{myData}{currentDeviceid} &&
-        ($self->{myData}{currentDeviceid} eq $deviceid)) {
-        return;
-    }
-
-    if (!$self->{myData}{currentDeviceid}) {
-        $logger->debug("DEVICEID initialized at $deviceid");
-    } else {
-        $logger->info(
-            "DEVICEID has changed since last process ". 
-            "(old=$self->{myData}{currentDeviceid},new=$deviceid"
-        );
-    }
-
-    $self->{myData}{currentDeviceid} = $deviceid;
-    $storage->save({ data => $self->{myData} });
-
-    $self->{currentDeviceid} = $deviceid;
-
-}
-
 1;
 __END__
 
@@ -265,10 +233,6 @@ Set nextRunDate attribute to 1.
 =head2 setPrologFreq($prologFreq)
 
 Set prologFreq attribute.
-
-=head2 setCurrentDeviceID($currentDeviceID)
-
-Set currentDeviceID attribute.
 
 =head2 getStorage()
 
