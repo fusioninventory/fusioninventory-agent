@@ -36,9 +36,9 @@ isa_ok(
 
 if ($OSNAME eq 'MSWin32') {
 
-    $logger = FusionInventory::Agent::Logger->new({
+    $logger = FusionInventory::Agent::Logger->new(
         backends => [ qw/Stderr File/ ]
-    });
+    );
 
     is(
         @{$logger->{backends}},
@@ -61,9 +61,9 @@ if ($OSNAME eq 'MSWin32') {
         );
     };
 } else {
-    $logger = FusionInventory::Agent::Logger->new({
+    $logger = FusionInventory::Agent::Logger->new(
         backends => [ qw/Stderr Syslog File/ ]
-    });
+    );
 
     is(
         @{$logger->{backends}},
@@ -95,19 +95,19 @@ if ($OSNAME eq 'MSWin32') {
 
 # stderr backend tests
 
-$logger = FusionInventory::Agent::Logger->new({
+$logger = FusionInventory::Agent::Logger->new(
     backends => [ qw/Stderr/ ]
-});
+);
 
 ok(
     !getStderrOutput(sub { $logger->debug('message'); }),
     'debug message absence'
 );
 
-$logger = FusionInventory::Agent::Logger->new({
+$logger = FusionInventory::Agent::Logger->new(
     backends => [ qw/Stderr/ ],
     debug    => 1
-});
+);
 
 ok(
     getStderrOutput(sub { $logger->debug('message'); }),
@@ -144,11 +144,11 @@ is(
     'default logging level'
 );
 
-$logger = FusionInventory::Agent::Logger->new({
+$logger = FusionInventory::Agent::Logger->new(
     backends => [ qw/Stderr/ ],
     config   => { color => 1 },
     debug    => 1
-});
+);
 
 is(
     getStderrOutput(sub { $logger->debug('message'); }),
@@ -179,10 +179,10 @@ my $tmpdir = tempdir(CLEANUP => $ENV{TEST_DEBUG} ? 0 : 1);
 my $logfile;
 
 $logfile = "$tmpdir/test1";
-$logger = FusionInventory::Agent::Logger->new({
+$logger = FusionInventory::Agent::Logger->new(
     backends => [ qw/File/ ],
     config   => { logfile => $logfile }
-});
+);
 
 $logger->debug('message');
 
@@ -192,11 +192,11 @@ ok(
 );
 
 $logfile = "$tmpdir/test2";
-$logger = FusionInventory::Agent::Logger->new({
+$logger = FusionInventory::Agent::Logger->new(
     backends => [ qw/File/ ],
     config   => { logfile => $logfile },
     debug    => 1
-});
+);
 $logger->debug('message');
 
 ok(
@@ -235,10 +235,10 @@ is(
 );
 
 $logfile = "$tmpdir/test3";
-$logger = FusionInventory::Agent::Logger->new({
+$logger = FusionInventory::Agent::Logger->new(
     backends => [ qw/File/ ],
     config   => { logfile => $logfile },
-});
+);
 fillLogFile($logger);
 ok(
     getFileSize($logfile) > 1024 * 1024,
@@ -246,13 +246,13 @@ ok(
 );
 
 $logfile = "$tmpdir/test4";
-$logger = FusionInventory::Agent::Logger->new({
+$logger = FusionInventory::Agent::Logger->new(
     backends => [ qw/File/ ],
     config   => {
         'logfile'         => $logfile,
         'logfile-maxsize' => 1
     }
-});
+);
 fillLogFile($logger);
 ok(
     getFileSize($logfile) < 1024 * 1024,

@@ -44,11 +44,11 @@ sub new {
     );
     $self->{config} = $config;
 
-    my $logger = FusionInventory::Agent::Logger->new({
+    my $logger = FusionInventory::Agent::Logger->new(
         config   => $config,
         backends => $config->{logger},
         debug    => $config->{debug}
-    });
+    );
     $self->{logger} = $logger;
 
     if ( $REAL_USER_ID != 0 ) {
