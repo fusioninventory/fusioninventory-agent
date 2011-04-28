@@ -258,7 +258,7 @@ sub run {
 
                 # TODO Don't mix settings and temp value
                 $prologresp = $transmitter->send({
-                    url     => $self->{target}->getUrl(),
+                    url     => $target->getUrl(),
                     message => $prolog
                 });
 
