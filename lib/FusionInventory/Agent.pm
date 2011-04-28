@@ -305,7 +305,7 @@ sub run {
 
                 my $task;
                 eval {
-                    $task = $package->new({
+                    $task = $package->new(
                         config      => $config,
                         confdir     => $self->{confdir},
                         datadir     => $self->{datadir},
@@ -314,7 +314,7 @@ sub run {
                         prologresp  => $prologresp,
                         transmitter => $transmitter,
                         deviceid    => $self->{deviceid}
-                    });
+                    );
                 };
                 if (!$task) {
                     $logger->info("task $module can't be initialized: ".$EVAL_ERROR);

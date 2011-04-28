@@ -10,20 +10,20 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Logger;
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
-    die 'no target parameter' unless $params->{target};
+    die 'no target parameter' unless $params{target};
 
     my $self = {
-        logger      => $params->{logger} ||
+        logger      => $params{logger} ||
                        FusionInventory::Agent::Logger->new(),
-        config      => $params->{config},
-        confdir     => $params->{confdir},
-        datadir     => $params->{datadir},
-        target      => $params->{target},
-        prologresp  => $params->{prologresp},
-        transmitter => $params->{transmitter},
-        deviceid    => $params->{deviceid}
+        config      => $params{config},
+        confdir     => $params{confdir},
+        datadir     => $params{datadir},
+        target      => $params{target},
+        prologresp  => $params{prologresp},
+        transmitter => $params{transmitter},
+        deviceid    => $params{deviceid}
     };
     bless $self, $class;
 
@@ -69,10 +69,10 @@ This is an abstract class for all task performed by the agent.
 
 =head1 METHODS
 
-=head2 new($params)
+=head2 new(%params)
 
-The constructor. The following parameters are allowed, as keys of the $params
-hashref:
+The constructor. The following parameters are allowed, as keys of the %params
+hash:
 
 =over
 
