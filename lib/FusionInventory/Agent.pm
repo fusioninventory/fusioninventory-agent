@@ -27,18 +27,18 @@ our $AGENT_STRING =
     "FusionInventory-Agent_v$VERSION";
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
     my $self = {
         status  => 'unknown',
-        confdir => $params->{confdir},
-        datadir => $params->{datadir},
-        vardir  => $params->{vardir},
+        confdir => $params{confdir},
+        datadir => $params{datadir},
+        vardir  => $params{vardir},
         token   => _computeNewToken()
     };
     bless $self, $class;
 
-    my $config = FusionInventory::Agent::Config->new($params);
+    my $config = FusionInventory::Agent::Config->new(\%params);
     $self->{config} = $config;
 
     my $logger = FusionInventory::Agent::Logger->new({
@@ -423,9 +423,30 @@ This is the agent object.
 
 =head1 METHODS
 
-=head2 new()
+=head2 new(%params)
 
-The constructor. No arguments allowed.
+The constructor. The following parameters are allowed, as keys of the %params
+hash:
+
+=over
+
+=item I<confdir>
+
+the configuration directory.
+
+=item I<datadir>
+
+the read-only data directory.
+
+=item I<vardir>
+
+the read-write data directory.
+
+=item I<options>
+
+the options to use.
+
+=back
 
 =head2 run()
 
