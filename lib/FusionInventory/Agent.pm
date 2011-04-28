@@ -93,39 +93,39 @@ sub new {
 
     if ($config->{stdout}) {
         $scheduler->addTarget(
-            FusionInventory::Agent::Target::Stdout->new({
+            FusionInventory::Agent::Target::Stdout->new(
                 logger     => $logger,
                 deviceid   => $self->{deviceid},
                 delaytime  => $config->{delaytime},
                 basevardir => $self->{vardir},
-            })
+            )
         );
     }
 
     if ($config->{local}) {
         $scheduler->addTarget(
-            FusionInventory::Agent::Target::Local->new({
+            FusionInventory::Agent::Target::Local->new(
                 logger     => $logger,
                 deviceid   => $self->{deviceid},
                 delaytime  => $config->{delaytime},
                 basevardir => $self->{vardir},
                 path       => $config->{local},
                 html       => $config->{html},
-            })
+            )
         );
     }
 
     if ($config->{server}) {
         foreach my $url (@{$config->{server}}) {
             $scheduler->addTarget(
-                FusionInventory::Agent::Target::Server->new({
+                FusionInventory::Agent::Target::Server->new(
                     logger     => $logger,
                     deviceid   => $self->{deviceid},
                     delaytime  => $config->{delaytime},
                     basevardir => $self->{vardir},
                     url        => $url,
                     tag        => $config->{tag},
-                })
+                )
             );
         }
     }

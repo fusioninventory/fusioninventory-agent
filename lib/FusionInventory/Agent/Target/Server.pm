@@ -10,43 +10,43 @@ use URI;
 my $count = 0;
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
-    die "no url parameter" unless $params->{url};
+    die "no url parameter" unless $params{url};
 
-    my $self = $class->SUPER::new($params);
+    my $self = $class->SUPER::new(%params);
 
-    $self->{url} = URI->new($params->{url});
+    $self->{url} = URI->new($params{url});
 
     my $scheme = $self->{url}->scheme();
     if (!$scheme) {
         # this is likely a bare hostname
         # as parsing relies on scheme, host and path have to be set explicitely
         $self->{url}->scheme('http');
-        $self->{url}->host($params->{url});
+        $self->{url}->host($params{url});
         $self->{url}->path('ocsinventory');
     } else {
-        die "invalid protocol for URL: $params->{url}"
+        die "invalid protocol for URL: $params{url}"
             if $scheme ne 'http' && $scheme ne 'https';
         # complete path if needed
         $self->{url}->path('ocsinventory') if !$self->{url}->path();
     }
 
     # compute storage subdirectory from url
-    my $subdir = $params->{url};
+    my $subdir = $params{url};
     $subdir =~ s/\//_/g;
     $subdir =~ s/:/../g if $OSNAME eq 'MSWin32';
 
-    $self->_init({
+    $self->_init(
         id     => 'server' . $count++,
-        vardir => $params->{basevardir} . '/' . $subdir
-    });
+        vardir => $params{basevardir} . '/' . $subdir
+    );
 
     my $logger = $self->{logger};
 
     $self->{accountinfo} = $self->{myData}->{accountinfo};
 
-    if ($params->{tag}) {
+    if ($params{tag}) {
         if ($self->{accountinfo}->{TAG}) {
             $logger->debug(
                 "A TAG seems to already exist in the server for this ".
@@ -54,7 +54,7 @@ sub new {
                 "unless it has OCS_OPT_ACCEPT_TAG_UPDATE_FROM_CLIENT=1."
             );
         }
-        $self->{accountinfo}->{TAG} = $params->{tag};
+        $self->{accountinfo}->{TAG} = $params{tag};
     }
 
     return $self;
@@ -98,11 +98,11 @@ This is a target for sending execution result to a server.
 
 =head1 METHODS
 
-=head2 new($params)
+=head2 new(%params)
 
 The constructor. The following parameters are allowed, in addition to those
-from the base class C<FusionInventory::Agent::Target>, as keys of the $params
-hashref:
+from the base class C<FusionInventory::Agent::Target>, as keys of the %params
+hash:
 
 =over
 
