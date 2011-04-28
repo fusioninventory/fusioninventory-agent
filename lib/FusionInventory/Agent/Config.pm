@@ -206,6 +206,17 @@ This is the object used by the agent to store its configuration.
 
 =head1 METHODS
 
-=head2 new($params)
+=head2 new(%params)
 
-The constructor. All configuration parameters can be passed.
+The constructor. The following parameters are allowed, as keys of the %params
+hash:
+
+=over
+
+=item I<confdir>
+
+the configuration directory.
+
+=item I<options>
+
+additional options override.

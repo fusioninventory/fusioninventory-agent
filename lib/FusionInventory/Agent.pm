@@ -38,7 +38,10 @@ sub new {
     };
     bless $self, $class;
 
-    my $config = FusionInventory::Agent::Config->new(\%params);
+    my $config = FusionInventory::Agent::Config->new(
+        confdir => $params{confdir},
+        options => $params{options},
+    );
     $self->{config} = $config;
 
     my $logger = FusionInventory::Agent::Logger->new({
