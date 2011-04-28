@@ -250,7 +250,7 @@ sub run {
                 my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
                     logger          => $logger,
                     token           => $self->{token},
-                    deviceid        => $self->{target}->{deviceid},
+                    deviceid        => $self->{deviceid},
                     currentDeviceid => $self->{target}->{currentDeviceid},
                 });
 
