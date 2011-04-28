@@ -185,14 +185,6 @@ sub setGlobalValues {
     }
 }
 
-sub addSoftwareDeploymentPackage {
-    my ($self, $args) = @_;
-
-    push
-        @{$self->{h}{CONTENT}{DOWNLOAD}{HISTORY}->{PACKAGE}},
-        { ID => $args->{ORDERID} };
-}
-
 sub setHardware {
     my ($self, $args) = @_;
 
@@ -488,13 +480,6 @@ Add a Virtual Machine in the inventory.
 =head2 setAccessLog()
 
 What is that for? :)
-
-=head2 addSoftwareDeploymentPackage()
-
-This function is for software deployment.
-
-Order sent to the agent are recorded on the client side and then send back
-to the server in the inventory.
 
 =head2 checkContent()
 
