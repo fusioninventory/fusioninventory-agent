@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::HPUX;
 
 ###
 # Version 1.1
@@ -21,6 +22,7 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my $BiosVersion;
     my $BiosDate;
@@ -30,19 +32,12 @@ sub doInventory {
 
     $SystemModel = getFirstLine(command => 'model');
 
-    if ( can_run('/usr/contrib/bin/machinfo') ) {
-        foreach ( `/usr/contrib/bin/machinfo` ) {
-            if ( /Firmware\s+revision\s*[:=]\s+(\S+)/ ) {
-                $BiosVersion = $1;
-            } elsif ( /achine\s+serial\s+number\s*[:=]\s+(\S+)/ ) {
-                $SystemSerial = $1;
-            } elsif (/achine\s+id\s+number\s+=\s+(\S+)/) {
-                $SystemUUID = uc $1;
-            } elsif (/achine\s+ID\s+number:\s+(\S+)/) {
-                $SystemUUID = uc $1;
-            }
-        }
-    } else { #Could not run machinfo
+    if (can_run('/usr/contrib/bin/machinfo')) {
+        my $info = getInfoFromMachinfo(logger => $logger);
+        $BiosVersion  = $info->{'Firmware info'}->{'firmware revision'};
+        $SystemSerial = $info->{'Platform info'}->{'machine serial number'};
+        $SystemUUID   = uc($info->{'Platform info'}->{'machine id number'});
+    } else {
         foreach ( `echo 'sc product cpu;il' | /usr/sbin/cstm` ) {
             next unless /PDC Firmware/;
             if ( /Revision:\s+(\S+)/ ) { $BiosVersion = "PDC $1" }

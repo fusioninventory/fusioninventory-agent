@@ -44,7 +44,7 @@ sub doInventory {
     }
 
 
-    my $packages = _getPackagesListFromEquery(
+    my $packages = _getPackagesList(
         logger => $logger, command => $command
     );
 
@@ -56,7 +56,7 @@ sub doInventory {
     }
 }
 
-sub _getPackagesListFromEquery {
+sub _getPackagesList {
     my $handle = getFileHandle(@_);
 
     my @packages;

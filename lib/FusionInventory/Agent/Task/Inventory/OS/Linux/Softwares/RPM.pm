@@ -25,9 +25,11 @@ sub doInventory {
         '%{SUMMARY}\n' . 
         '\'';
 
-    my $packages = _getPackagesListFromRpm(
+    my $packages = _getPackagesList(
         logger => $logger, command => $command
     );
+    return unless $packages;
+
     foreach my $package (@$packages) {
         $inventory->addEntry(
             section => 'SOFTWARES',
@@ -36,8 +38,9 @@ sub doInventory {
     }
 }
 
-sub _getPackagesListFromRpm {
+sub _getPackagesList {
     my $handle = getFileHandle(@_);
+    return unless $handle;
 
     my @packages;
     while (my $line = <$handle>) {

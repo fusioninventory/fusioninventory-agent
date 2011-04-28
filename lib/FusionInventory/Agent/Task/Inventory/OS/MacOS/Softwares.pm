@@ -23,7 +23,10 @@ sub doInventory {
     my $info = $prof->gettype('SPApplicationsDataType');
     return unless ref $info eq 'HASH';
 
-    foreach my $software (_getSoftwares($info)) {
+    my $softwares = _getSoftwaresList($info);
+    return unless $softwares;
+
+    foreach my $software (@$softwares) {
         $inventory->addEntry(
             section => 'SOFTWARES',
             entry   => $software
@@ -51,7 +54,7 @@ sub _getSoftwares {
         };
     }
 
-    return @softwares;
+    return \@softwares;
 }
 
 1;

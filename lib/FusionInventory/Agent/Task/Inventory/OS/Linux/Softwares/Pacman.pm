@@ -19,7 +19,6 @@ sub doInventory {
         logger  => $logger,
         command => 'pacman -Q'
     );
-
     return unless $handle;
 
     while (my $line = <$handle>) {

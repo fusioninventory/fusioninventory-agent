@@ -16,11 +16,11 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my ($memories, $memorySize);
+    my @memories;
 
     # HPUX 11.31: http://forge.fusioninventory.org/issues/754
     if (-f '/opt/propplus/bin/cprop' && (`hpvminfo 2>&1` !~ /HPVM/i)) {
-        ($memories, $memorySize) = _parseCprop(
+        @memories = _parseCprop(
             command => '/opt/propplus/bin/cprop -summary -c Memory',
             logger  => $logger
         );
@@ -30,26 +30,28 @@ sub doInventory {
         if ($arch =~ /ia64/ ) {
             # enable infolog
             system("echo 'sc product  IPF_MEMORY;info' | /usr/sbin/cstm");
-            ($memories, $memorySize) = _parseCstm64(
+            @memories = _parseCstm64(
                 command => "echo 'sc product IPF_MEMORY;il' | /usr/sbin/cstm",
                 logger  => $logger
             );
         } else {
-            ($memories, $memorySize) = _parseCstm(
+            @memories = _parseCstm(
                 command => "echo 'sc product mem;il'| /usr/sbin/cstm",
                 logger  => $logger
             );
         }
     }
 
+    my $memorySize;
     my $swapSize = getLastLine(command => 'swapinfo -dt', logger => $logger);
     $swapSize =~ s/^total\s+(\d+)\s+\d+\s+\d+\s+\d+%\s+\-\s+\d+\s+\-/$1/i;
 
-    foreach my $memory (@$memories) {
+    foreach my $memory (@memories) {
         $inventory->addEntry(
             section => 'MEMORIES',
             entry   => $memory
         );
+        $memorySize += $memory->{CAPACITY};
     }
 
     $inventory->setHardware({
@@ -60,48 +62,44 @@ sub doInventory {
 
 sub _parseCprop {
     my $handle = getFileHandle(@_);
-
     return unless $handle;
 
-    my $size = 0;
     my @memories;
-    my $memory;
+    my $instance;
 
     while (my $line = <$handle>) {
         if ($line =~ /\[Instance\]: \d+/) {
+            # new block
+            $instance = {};
             next;
         }
 
-        if ($line =~ /^\s*\[([^\]]*)\]:\s+(\S+.*)/) {
-            my $k = $1;
-            my $v = $2;
-            $v =~ s/\s+\*+//;
-            $memory->{$k} = $v;
+        if ($line =~ /^ \s+ \[ ([^\]]+) \]: \s (\S+.*)/x) {
+            $instance->{$1} = $2;
+            next;
         }
 
-        if ($line =~ /\*\*\*\*/) {
-            if ($memory->{Size}) {
-                $size += getCanonicalSize($memory->{Size}) || 0;
-                push @memories, {
-                    CAPACITY => $size,
-                    DESCRIPTION => $memory->{'Part Number'},
-                    SERIALNUMBER => $memory->{'Serial Number'},
-                    TYPE => $memory->{'Module Type'},
-                };
-            }
-            undef $memory;
+        if ($line =~ /^\*+/) {
+            next unless keys %$instance;
+            next unless $instance->{Size};
+            push @memories, {
+                CAPACITY     => getCanonicalSize($instance->{Size}),
+                DESCRIPTION  => $instance->{'Part Number'},
+                SERIALNUMBER => $instance->{'Serial Number'},
+                TYPE         => $instance->{'Module Type'},
+            };
         }
     }
     close $handle;
 
-    return (\@memories, $size);
+    return @memories;
 }
 
 sub _parseCstm {
     my $handle = getFileHandle(@_);
     return unless $handle;
 
-    my (@memories, $size);
+    my @memories;
 
     my %capacities;
     my $capacity = 0;
@@ -163,20 +161,17 @@ sub _parseCstm {
             } # $ok eq 1
         } # /Serial\s+Number\.*:\s*(\S+)\s+/ 
 
-        if ($line =~ /Total Configured Memory\s*:\s(\d+)\sMB/i) {
-            $size = $1;
-        }
     }
     close $handle;
 
-    return (\@memories, $size);
+    return @memories;
 }
 
 sub _parseCstm64 {
     my $handle = getFileHandle(@_);
     return unless $handle;
 
-    my (@memories, $size);
+    my @memories;
 
     while (my $line = <$handle>) {
 
@@ -203,13 +198,10 @@ sub _parseCstm64 {
                 };
         }
 
-        if ($line =~ /Total Configured Memory\s*:\s(\d+)\sMB/i) {
-            $size = $1;
-        }
     }
     close $handle;
 
-    return (\@memories, $size);
+    return @memories;
 }
 
 1;

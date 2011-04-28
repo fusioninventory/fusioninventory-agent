@@ -35,11 +35,12 @@ sub _getSoftwares {
     my $handle = getFileHandle(@_);
     next unless $handle;
 
+    # skip headers
+    my $line = <$handle>;
+
     my @softwares;
     while (my $line = <$handle>) {
-        my @entry = split /:/, $line;
-        next unless (@entry);
-        next unless ($entry[1]);
+        my @entry = split(/:/, $line);
         next if $entry[1] =~ /^device/;
 
         push @softwares, {

@@ -3,7 +3,10 @@ package FusionInventory::Agent::Task::Inventory::OS::AIX::Hardware;
 use strict;
 use warnings;
 
+use List::Util qw(first);
+
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::AIX;
 
 sub isInventoryEnabled {
     return 1;
@@ -19,84 +22,30 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    # Using "type 0" section
-    my ($SystemSerial, $SystemModel, $BiosVersion, $BiosDate, $fw, $flag);
+    my ($serial, $model, $version, $date);
 
-    # lsvpd
-    my @lsvpd = getAllLines(command => 'lsvpd', logger => $logger);
-    s/^\*// foreach (@lsvpd);
+    my @devices = getDevicesFromLsvpd(logger => $logger);
 
-    #Search Firmware Hard 
-    $flag = 0;
-    foreach (@lsvpd) {
-        if (/^DS Platform Firmware/) {
-            $flag = 1;
-            next;
-        }
-        next unless $flag;
-        if (/^RM (.*\S)/) {
-            $fw = $1;
-            last;
-        }
+    my $system = first { $_->{DS} eq 'System Firmware' } @devices;
+    $version = $system->{RM} if $system;
+
+    my $platform = first { $_->{DS} eq 'Platform Firmware' } @devices;
+    $version .= "(Firmware : $platform->{RM})" if $platform;
+
+    my $vpd = first { $_->{DS} eq 'System VPD' } @devices;
+    if ($vpd) {
+        $model = $vpd->{TM};
+        $serial = $vpd->{SE};
     }
-
-    $flag = 0;
-    foreach (@lsvpd) {
-        if (/^DS System Firmware/) {
-            $flag = 1;
-            next;
-        }
-        next unless $flag;
-        if (/^RM (.*\S)/) {
-            $BiosVersion = $1;
-            last;
-        }
-    }
-
-    $flag = 0;
-    foreach (@lsvpd) {
-        if (/^DS System VPD/) {
-            $flag = 1;
-            next;
-        }
-        next unless $flag;
-        if (/^TM (.*\S)/) {
-            $SystemModel = $1;
-        }
-        if (/^SE (.*\S)/) {
-            $SystemSerial = $1;
-        }
-        if (/^FC/) {
-            last;
-        }
-    }
-
-    # fetch the serial number like prtconf do
-    if (! $SystemSerial) {
-        $flag = 0;
-        foreach (getAllLines(command => 'lscfg -vpl sysplanar0')) {
-            if (/\s+System\ VPD/) {
-                $flag = 1;
-                next;
-            }
-            next unless $flag;
-            if ($flag && /\.+(\S*?)$/) {
-                $SystemSerial = $1;
-                last;
-            }
-        }
-    }
-
-    $BiosVersion .= "(Firmware :".$fw.")";
 
     # Writing data
     $inventory->setBios({
         SMANUFACTURER => 'IBM',
-        SMODEL        => $SystemModel,
-        SSN           => $SystemSerial,
+        SMODEL        => $model,
+        SSN           => $serial,
         BMANUFACTURER => 'IBM',
-        BVERSION      => $BiosVersion,
-        BDATE         => $BiosDate,
+        BVERSION      => $version,
+        BDATE         => $date,
     });
 }
 

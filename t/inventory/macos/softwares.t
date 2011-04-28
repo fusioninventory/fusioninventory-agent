@@ -2457,10 +2457,9 @@ my %tests = (
 
 plan tests => scalar keys %tests;
 
-use Data::Dumper;
 foreach my $test (keys %tests) {
     my $file = "resources/SysProfile/$test.yaml";
     my $info = LoadFile($file);
-    my @softwares = FusionInventory::Agent::Task::Inventory::OS::MacOS::Softwares::_getSoftwares($info);
-    is_deeply(\@softwares, $tests{$test}, $test);
+    my $softwares = FusionInventory::Agent::Task::Inventory::OS::MacOS::Softwares::_getSoftwares($info);
+    is_deeply($softwares, $tests{$test}, $test);
 }
