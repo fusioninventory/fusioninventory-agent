@@ -126,6 +126,23 @@ sub addStorage {
     );
 }
 
+sub addVirtualMachine {
+    my ($self, $machine) = @_;
+
+    my $logger = $self->{logger};
+
+    if (!$machine->{STATUS}) {
+        $logger->error("status not set by ".caller(0));
+    } elsif (!$machine->{STATUS} =~ /(running|idle|paused|shutdown|crashed|dying|off)/) {
+        $logger->error("Unknown status '".$machine->{STATUS}."' from ".caller(0));
+    }
+
+    $self->addEntry(
+        section => 'VIRTUALMACHINES',
+        entry   => $machine,
+    );
+}
+
 sub setGlobalValues {
     my ($self) = @_;
 
@@ -166,24 +183,6 @@ sub setGlobalValues {
             USERDOMAIN => $domainString,
         });
     }
-}
-
-sub addVirtualMachine {
-    my ($self, $machine) = @_;
-
-    my $logger = $self->{logger};
-
-    if (!$machine->{STATUS}) {
-        $logger->error("status not set by ".caller(0));
-    } elsif (!$machine->{STATUS} =~ /(running|idle|paused|shutdown|crashed|dying|off)/) {
-        $logger->error("Unknown status '".$machine->{STATUS}."' from ".caller(0));
-    }
-
-    $self->addEntry(
-        section => 'VIRTUALMACHINES',
-        entry   => $machine,
-    );
-
 }
 
 sub addSoftwareDeploymentPackage {
