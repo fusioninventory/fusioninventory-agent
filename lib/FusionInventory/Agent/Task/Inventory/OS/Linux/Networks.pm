@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Networks;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 use FusionInventory::Agent::Regexp;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
@@ -12,6 +14,61 @@ sub isInventoryEnabled {
         can_run('ifconfig') &&
         can_run('route');
 }
+
+# Move in Tools.pm
+# compute network IP and mask from the IP prefix.
+# We should use it to drop the Net::IP::ip_iptobin() dependency.
+sub _computeIPv4Network {
+    my ($ip, $prefix) = @_;
+
+    my $net = sprintf ("%08b%08b%08b%08b", split(/\./, $ip));
+    my $mask;
+    $net =~ s/^(.{$prefix})[0-1]*/$1/;
+    $net .= sprintf("%0".(32-$prefix)."b", 0);
+    $mask .= 1 foreach(1..$prefix);
+    $mask .= 0 foreach(1..(32-$prefix));
+
+    my $r = { network => undef, mask => undef };
+    if ($net =~ /^(\d{8})(\d{8})(\d{8})(\d{8})$/) {
+         $r->{network} =  oct("0b".$1).".".oct("0b".$2).".".oct("0b".$3).".".oct("0b".$4);
+    }
+    if ($mask =~ /^(\d{8})(\d{8})(\d{8})(\d{8})$/) {
+         $r->{mask} =  oct("0b".$1).".".oct("0b".$2).".".oct("0b".$3).".".oct("0b".$4);
+    }
+    return $r;
+}
+
+# http://forge.fusioninventory.org/issues/854
+sub _parseIpAddrShow {
+    my $handle = getFileHandle(@_);
+    return unless $handle;
+
+    my @entries;
+    my $entry;
+    foreach (<$handle>) {
+        chomp;
+        #print $_."\n";
+        if (/^\d+:\s+(\S+): .*(UP|DOWN)/) {
+            push @entries, $entry if $entry;
+            $entry = {};
+            $entry->{DESCRIPTION} = $1;
+            $entry->{STATUS} = ucfirst(lc($2));
+        } elsif (/link\/ether (\S{2}:\S{2}:\S{2}:\S{2}:\S{2}:\S{2})/) {
+            $entry->{MACADDR} = $1;
+        } elsif (/inet6 (\S+)\//) {
+            $entry->{IPADDRESS6} = $1;
+        } elsif (/inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\/(\d{1,3})/) {
+            $entry->{IPADDRESS} = $1;
+            my $infoNet = _computeIPv4Network($1, $2);
+            $entry->{IPSUBNET} = $infoNet->{network};
+            $entry->{IPMASK} = $infoNet->{mask};
+        }
+    }
+
+    return @entries;
+}
+
+
 
 sub doInventory {
     my (%params) = @_;
@@ -65,10 +122,18 @@ sub _getRoutes {
 sub _getInterfaces {
     my ($logger, $routes) = @_;
 
-    my @interfaces = _parseIfconfig(
-        command => '/sbin/ifconfig -a',
-        logger  =>  $logger
-    );
+    my @interfaces;
+    if (can_run("/sbin/ip")) {
+        @interfaces = _parseIpAddrShow(
+            command => '/sbin/ip addr show',
+            logger  =>  $logger
+        );
+    } else { 
+        @interfaces = _parseIfconfig(
+            command => '/sbin/ifconfig -a',
+            logger  =>  $logger
+        );
+    }
 
     foreach my $interface (@interfaces) {
         if (_isWifi($logger, $interface->{DESCRIPTION})) {
