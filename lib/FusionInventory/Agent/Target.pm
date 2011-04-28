@@ -54,10 +54,10 @@ sub _init {
     $self->{id} = $params->{id};
 
     # target storage
-    $self->{storage} = FusionInventory::Agent::Storage->new({
+    $self->{storage} = FusionInventory::Agent::Storage->new(
         logger    => $self->{logger},
         directory => $params->{vardir}
-    });
+    );
 
     my $storage = $self->{storage};
     $self->{myData} = $storage->restore();

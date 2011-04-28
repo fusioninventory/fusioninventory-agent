@@ -12,24 +12,24 @@ use Storable;
 use FusionInventory::Agent::Logger;
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
-    if (!-d $params->{directory}) {
-        make_path($params->{directory}, {error => \my $err});
+    if (!-d $params{directory}) {
+        make_path($params{directory}, {error => \my $err});
         if (@$err) {
             my (undef, $message) = %{$err->[0]};
-            die "Can't create $params->{directory}: $message";
+            die "Can't create $params{directory}: $message";
         }
     }
 
-    if (! -w $params->{directory}) {
-        die "Can't write in $params->{directory}";
+    if (! -w $params{directory}) {
+        die "Can't write in $params{directory}";
     }
 
     my $self = {
-        logger    => $params->{logger} ||
+        logger    => $params{logger} ||
                      FusionInventory::Agent::Logger->new(),
-        directory => $params->{directory}
+        directory => $params{directory}
     };
 
     bless $self, $class;
@@ -161,9 +161,9 @@ FusionInventory::Agent::Storage - A data serializer/deserializer
 
 =head1 SYNOPSIS
 
-  my $storage = FusionInventory::Agent::Storage->new({
+  my $storage = FusionInventory::Agent::Storage->new(
       directory => '/tmp'
-  });
+  );
   my $data = $storage->restore({
       module => "FusionInventory::Agent"
   });
@@ -183,10 +183,10 @@ differentiate between consecutives usages.
 
 =head1 METHODS
 
-=head2 new($params)
+=head2 new(%params)
 
-The constructor. The following parameters are allowed, as keys of the $params
-hashref:
+The constructor. The following parameters are allowed, as keys of the %params
+hash:
 
 =over
 

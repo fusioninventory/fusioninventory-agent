@@ -61,10 +61,10 @@ sub new {
 
     my $hostname = _getHostname();
 
-    my $storage = FusionInventory::Agent::Storage->new({
+    my $storage = FusionInventory::Agent::Storage->new(
         logger    => $logger,
         directory => $self->{vardir}
-    });
+    );
     my $data = $storage->restore();
 
     if (
