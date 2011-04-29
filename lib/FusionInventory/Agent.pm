@@ -162,7 +162,7 @@ sub new {
             threads::shared::share($self->{status});
             threads::shared::share($self->{token});
 
-            FusionInventory::Agent::HTTPD->new({
+            FusionInventory::Agent::HTTPD->new(
                 logger          => $logger,
                 scheduler       => $scheduler,
                 agent           => $self,
@@ -170,7 +170,7 @@ sub new {
                 ip              => $config->{'httpd-ip'},
                 port            => $config->{'httpd-port'},
                 trust_localhost => $config->{'httpd-trust-localhost'},
-            });
+            );
         }
     }
 
