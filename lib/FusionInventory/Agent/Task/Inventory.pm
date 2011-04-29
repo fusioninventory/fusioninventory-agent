@@ -284,16 +284,12 @@ sub _runFunction {
         no strict 'refs'; ## no critic
 
         $result = &{$module . '::' . $function}(
-            accountconfig => $self->{accountconfig},
-            accountinfo   => $self->{accountinfo},
             config        => $self->{config},
             confdir       => $self->{confdir},
             datadir       => $self->{datadir},
             inventory     => $self->{inventory},
             logger        => $self->{logger},
-            transmitter   => $self->{transmitter},
             prologresp    => $self->{prologresp},
-            storage       => $self->{storage},
         );
     };
     alarm 0;
