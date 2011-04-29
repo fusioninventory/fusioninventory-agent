@@ -12,8 +12,7 @@ use FusionInventory::Agent::Transmitter;
 
 plan tests => 2;
 
-my $transmitter = FusionInventory::Agent::Transmitter->new(
-);
+my $transmitter = FusionInventory::Agent::Transmitter->new();
 
 my $data = "this is a test";
 is(
