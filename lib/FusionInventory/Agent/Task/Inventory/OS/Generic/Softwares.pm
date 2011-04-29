@@ -17,7 +17,7 @@ sub isInventoryEnabled {
     my (%params) = @_;
 
     return
-        !$params{config}->{no_software} &&
+        !$params{no_software} &&
         -d $params{confdir} . '/softwares';
 }
 

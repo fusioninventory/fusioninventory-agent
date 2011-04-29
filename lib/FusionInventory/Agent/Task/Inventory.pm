@@ -284,12 +284,14 @@ sub _runFunction {
         no strict 'refs'; ## no critic
 
         $result = &{$module . '::' . $function}(
-            config        => $self->{config},
             confdir       => $self->{confdir},
             datadir       => $self->{datadir},
             inventory     => $self->{inventory},
             logger        => $self->{logger},
             prologresp    => $self->{prologresp},
+            no_software   => $self->{config}->{no_software},
+            no_printer    => $self->{config}->{no_printer},
+            scan_homedirs => $self->{config}->{'scan-homedirs'},
         );
     };
     alarm 0;
