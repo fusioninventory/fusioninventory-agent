@@ -234,7 +234,7 @@ sub server {
     $logger->info("RPC service started at: http://".
         ( $config->{'rpc-ip'} || "127.0.0.1" ).
         ":".
-        $config->{'rpc-port'} || 62354);
+        ( $config->{'rpc-port'} || 62354 ));
 
 # Since perl 5.10, threads::joinable is avalaible
     my $joinableAvalaible = eval 'defined(threads::joinable) && 1';
