@@ -34,13 +34,13 @@ my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'Test' ]
 );
 
-my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
+my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new(
     deviceid => 'foo',
     msg => {
         foo => 'foo',
         bar => 'bar'
     },
-});
+);
 
 my $transmitter = FusionInventory::Agent::Transmitter->new(
     logger => $logger

@@ -5,16 +5,16 @@ use warnings;
 use base 'FusionInventory::Agent::XML::Query';
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
-    die "no msg parameter" unless $params->{msg};
+    die "no msg parameter" unless $params{msg};
 
-    my $self = $class->SUPER::new($params);
+    my $self = $class->SUPER::new(%params);
 
     $self->{h}->{QUERY} = 'UNSET!';
 
-    foreach (keys %{$params->{msg}}) {
-        $self->{h}{$_} = $params->{msg}{$_};
+    foreach (keys %{$params{msg}}) {
+        $self->{h}{$_} = $params{msg}{$_};
     }
 
     return $self;
@@ -34,11 +34,11 @@ key/values transmission.
 
 =head1 METHODS
 
-=head2 new($params)
+=head2 new(%params)
 
 The constructor. The following parameters are allowed, in addition to those
 from the base class C<FusionInventory::Agent::XML::Query>, as keys of the
-$params hashref:
+%params hash:
 
 =over
 

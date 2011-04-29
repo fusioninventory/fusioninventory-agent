@@ -250,11 +250,11 @@ sub run {
                     no_ssl_check => $self->{config}->{'no-ssl-check'},
                 );
 
-                my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
+                my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
                     logger   => $logger,
                     token    => $self->{token},
                     deviceid => $self->{deviceid},
-                });
+                );
 
                 # Add target ACCOUNTINFO values to the prolog
                 $prolog->setAccountInfo($target->getAccountInfo());

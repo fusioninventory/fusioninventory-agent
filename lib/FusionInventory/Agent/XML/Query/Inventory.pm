@@ -60,11 +60,11 @@ my %fields = (
 );
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
-    my $self = $class->SUPER::new($params);
+    my $self = $class->SUPER::new(%params);
 
-    $self->{last_statefile} = $params->{last_statefile};
+    $self->{last_statefile} = $params{last_statefile};
 
     $self->{h}->{QUERY} = 'INVENTORY';
     $self->{h}->{CONTENT} = {
@@ -422,10 +422,11 @@ Inventory XML format.
 
 =head1 METHODS
 
-=head2 new($params)
+=head2 new(%params)
 
-The constructor. See base class C<FusionInventory::Agent::XML::Query> for
-allowed parameters.
+The constructor. The following parameters are allowed, in addition to those
+from the base class C<FusionInventory::Agent::XML::Query>, as keys of the
+%params hash:
 
 =over
 

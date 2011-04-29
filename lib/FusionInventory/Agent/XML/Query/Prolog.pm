@@ -5,14 +5,14 @@ use warnings;
 use base 'FusionInventory::Agent::XML::Query';
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
-    die "no token parameter" unless $params->{token};
+    die "no token parameter" unless $params{token};
 
-    my $self = $class->SUPER::new($params);
+    my $self = $class->SUPER::new(%params);
 
     $self->{h}->{QUERY} = 'PROLOG';
-    $self->{h}->{TOKEN} = $params->{token};
+    $self->{h}->{TOKEN} = $params{token};
 
     return $self;
 }
@@ -31,11 +31,11 @@ processed, requiring execution parameters.
 
 =head1 METHODS
 
-=head2 new($params)
+=head2 new(%params)
 
 The constructor. The following parameters are allowed, in addition to those
 from the base class C<FusionInventory::Agent::XML::Query>, as keys of the
-$params hashref:
+%params hash:
 
 =over
 

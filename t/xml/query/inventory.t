@@ -15,15 +15,14 @@ plan tests => 6;
 
 my $inventory;
 throws_ok {
-    $inventory = FusionInventory::Agent::XML::Query::Inventory->new({
-    });
+    $inventory = FusionInventory::Agent::XML::Query::Inventory->new();
 } qr/^no deviceid/, 'no device id';
 
 lives_ok {
-    $inventory = FusionInventory::Agent::XML::Query::Inventory->new({
+    $inventory = FusionInventory::Agent::XML::Query::Inventory->new(
         deviceid => 'foo',
         logger   => FusionInventory::Logger->new(),
-    });
+    );
 } 'everything OK';
 
 isa_ok($inventory, 'FusionInventory::Agent::XML::Query::Inventory');

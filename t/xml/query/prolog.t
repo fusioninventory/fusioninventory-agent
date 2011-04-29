@@ -17,17 +17,17 @@ throws_ok {
 } qr/^no token/, 'no token';
 
 throws_ok {
-    $message = FusionInventory::Agent::XML::Query::Prolog->new({
+    $message = FusionInventory::Agent::XML::Query::Prolog->new(
         token    => 'foo'
-    });
+    );
 } qr/^no deviceid/, 'no device id';
 
 lives_ok {
-    $message = FusionInventory::Agent::XML::Query::Prolog->new({
+    $message = FusionInventory::Agent::XML::Query::Prolog->new(
         deviceid => 'foo',
         token    => 'foo',
         logger   => FusionInventory::Logger->new(),
-    });
+    );
 } 'everything OK';
 
 isa_ok($message, 'FusionInventory::Agent::XML::Query::Prolog');

@@ -177,9 +177,9 @@ sub send {
 
     $logger->debug("[transmitter] receiving message: $response_content");
 
-    my $response = FusionInventory::Agent::XML::Response->new({
+    my $response = FusionInventory::Agent::XML::Response->new(
         content => $response_content
-    });
+    );
 
     return $response;
 }
