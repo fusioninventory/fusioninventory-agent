@@ -6,14 +6,14 @@ use warnings;
 use FusionInventory::Agent::Logger;
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
     my $self = {
-        logger     => $params->{logger} ||
+        logger     => $params{logger} ||
                       FusionInventory::Agent::Logger->new(),
-        lazy       => $params->{lazy},
-        wait       => $params->{wait},
-        background => $params->{background},
+        lazy       => $params{lazy},
+        wait       => $params{wait},
+        background => $params{background},
         targets    => []
     };
     bless $self, $class;
@@ -107,10 +107,10 @@ This is the object used by the agent to schedule various targets.
 
 =head1 METHODS
 
-=head2 new($params)
+=head2 new(%params)
 
-The constructor. The following parameters are allowed, as keys of the $params
-hashref:
+The constructor. The following parameters are allowed, as keys of the %params
+hash:
 
 =over
 
