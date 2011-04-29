@@ -40,9 +40,6 @@ sub run {
     $self->{modules} = {};
 
     my $inventory = FusionInventory::Agent::XML::Query::Inventory->new(
-        # TODO, check if the accoun{info,config} are needed in localmode
-#          accountinfo => $accountinfo,
-#          accountconfig => $accountinfo,
         deviceid        => $self->{target}->{deviceid},
         last_statefile  => $self->{target}->{last_statefile},
         logger          => $self->{logger},
