@@ -9,7 +9,6 @@ use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::XML::Query::Inventory;
 
 our $VERSION = '1.0';
@@ -86,17 +85,7 @@ sub run {
             $self->{target}->getAccountInfo()
         );
 
-        my $transmitter = FusionInventory::Agent::Transmitter->new(
-            logger       => $self->{logger},
-            user         => $self->{config}->{user},
-            password     => $self->{config}->{password},
-            proxy        => $self->{config}->{proxy},
-            ca_cert_file => $self->{config}->{'ca-cert-file'},
-            ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
-            no_ssl_check => $self->{config}->{'no-ssl-check'},
-        );
-
-        my $response = $transmitter->send({
+        my $response = $self->{transmitter}->send({
             url     => $self->{target}->getUrl(),
             message => $inventory
         });
