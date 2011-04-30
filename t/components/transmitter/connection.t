@@ -63,6 +63,9 @@ subtest "no response" => sub {
 # http connection tests
 my ($server, $response);
 
+# ensure the server get stopped even if an exception is thrown
+$SIG{__DIE__}  = sub { $server->stop(); };
+
 $server = FusionInventory::Test::Server->new(
     port     => 8080,
     user     => 'test',
