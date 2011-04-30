@@ -52,11 +52,11 @@ sub _parseIpAddrShow {
             $entry = {};
             $entry->{DESCRIPTION} = $1;
             $entry->{STATUS} = ucfirst(lc($2));
-        } elsif ($line =~ /link\/ether (\S{2}:\S{2}:\S{2}:\S{2}:\S{2}:\S{2})/) {
+        } elsif ($line =~ /link\/ether ($mac_address_pattern)/) {
             $entry->{MACADDR} = $1;
         } elsif ($line =~ /inet6 (\S+)\//) {
             $entry->{IPADDRESS6} = $1;
-        } elsif ($line =~ /inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\/(\d{1,3})/) {
+        } elsif ($line =~ /inet ($ip_address_pattern)\/(\d{1,3})/) {
             $entry->{IPADDRESS} = $1;
             my $infoNet = _computeIPv4Network($1, $2);
             $entry->{IPSUBNET} = $infoNet->{network};
