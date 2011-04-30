@@ -24,6 +24,7 @@ sub filter {
     if (/(.*Task\/[^\/]+)\//) {
         return 0 if -l $1;
     }
+    return 0 if /lib\/FusionInventory\/VMware/;
     return 1;
 }
 
