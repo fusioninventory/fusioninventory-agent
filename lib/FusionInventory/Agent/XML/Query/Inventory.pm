@@ -96,7 +96,12 @@ sub addEntry {
     my $newEntry;
     foreach my $field (keys %$entry) {
         if (!$fields->{$field}) {
+            # unvalid field, skip
             $self->{logger}->debug("unknown field $field for section $section");
+            next;
+        }
+        if (!defined $entry->{$field}) {
+            # undefined field, skip
             next;
         }
         $newEntry->{$field} = getSanitizedString($entry->{$field});
