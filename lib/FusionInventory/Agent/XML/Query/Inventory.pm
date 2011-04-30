@@ -93,27 +93,29 @@ sub addEntry {
     my $fields = $fields{$section};
     die "unknown section $section" unless $fields;
 
-    my $newEntry;
     foreach my $field (keys %$entry) {
         if (!$fields->{$field}) {
-            # unvalid field, skip
+            # unvalid field, log error and remove
             $self->{logger}->debug("unknown field $field for section $section");
+            delete $entry->{$field};
             next;
         }
         if (!defined $entry->{$field}) {
-            # undefined field, skip
+            # undefined value, remove
+            delete $entry->{$field};
             next;
         }
-        $newEntry->{$field} = getSanitizedString($entry->{$field});
+        # sanitize value
+        $entry->{$field} = getSanitizedString($entry->{$field});
     }
     # avoid duplicate entries
     if ($params{noDuplicated}) {
-        my $md5 = md5_base64(Dumper($newEntry));
+        my $md5 = md5_base64(Dumper($entry));
         return if $self->{seen}->{$section}->{$md5};
         $self->{seen}->{$section}->{$md5} = 1;
     }
 
-    push @{$self->{h}{CONTENT}{$section}}, $newEntry;
+    push @{$self->{h}{CONTENT}{$section}}, $entry;
 }
 
 sub addStorage {
