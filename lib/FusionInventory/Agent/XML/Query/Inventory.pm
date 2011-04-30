@@ -7,7 +7,6 @@ use base 'FusionInventory::Agent::XML::Query';
 use Config;
 use Data::Dumper;
 use Digest::MD5 qw(md5_base64);
-use Encode qw/encode/;
 use English qw(-no_match_vars);
 use XML::TreePP;
 
