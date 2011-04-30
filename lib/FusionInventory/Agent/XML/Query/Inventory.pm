@@ -52,9 +52,9 @@ my %fields = (
                         PRINTPROCESSOR SERIAL/ ],
     VIRTUALMACHINES => [ qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU
                             VMID MAC COMMENT OWNER/ ],
-    LVS => [ qw/LVNAME VGNAME ATTR SIZE UUID/ ],
-    PVS => [ qw/DEVICE PVNAME FORMAT ATTR SIZE FREE UUID/ ],
-    VGS => [ qw/VGNAME PV_COUNT LV_COUNT ATTR SIZE FREE UUID/ ],
+    LOGICAL_VOLUMES => [ qw/LVNAME VGNAME ATTR SIZE UUID/ ],
+    PHYSICAL_VOLUMES => [ qw/DEVICE PVNAME FORMAT ATTR SIZE FREE UUID/ ],
+    VOLUME_GROUPS => [ qw/VGNAME PV_COUNT LV_COUNT ATTR SIZE FREE UUID/ ],
 
 );
 
@@ -1400,7 +1400,7 @@ Unique ID
 
 =back
 
-=head2 LVS
+=head2 LOGICAL_VOLUMES
 
 A LVM Logical Volume
 
@@ -1428,7 +1428,7 @@ The volume UUID.
 
 =back
 
-=head2 PVS 
+=head2 PHYSICAL_VOLUMES
 
 =over 4
 
@@ -1458,7 +1458,7 @@ The UUID.
 
 =back
 
-=head2 VGS 
+=head2 VOLUME_GROUPS
 
 A LVM Volume group.
 
