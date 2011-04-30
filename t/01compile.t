@@ -13,10 +13,21 @@ if (!eval "use Test::Compile;1") {
 }
 
 
+sub filter {
+    if ($OSNAME ne 'MSWin32') {
+        return 0 if /Syslog/;
+        return 0 if /Win32/;;
+    }
+    if (readlink $_) {
+        return 0;
+    }
+    if (/(.*Task\/[^\/]+)\//) {
+        return 0 if -l $1;
+    }
+    return 1;
+}
 
-my @files = $OSNAME eq 'MSWin32' ?
-    grep { ! /Syslog/ } all_pm_files('lib') :
-    grep { ! /Win32/  } all_pm_files('lib') ;
+my @files = grep filter($_), all_pm_files('lib') ;
 
 eval { require FusionInventory::Agent::SNMP; };
 if ($EVAL_ERROR) {
