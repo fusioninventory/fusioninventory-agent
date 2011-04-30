@@ -51,23 +51,11 @@ sub _getPackagesList {
 
 # http://forge.fusioninventory.org/issues/852
 sub _equeryNeedsWildcard {
-    my ($file, $mode) = @_;
+    my $version = getFirstLine(command => 'equery -v');
+    my ($major, $minor) = $version =~ /^equery \((\d+)\.(\d+)\.\d+\)/;
 
-    my $handle;
-    if (!open $handle, $mode, $file) {
-        warn "can't open $file: $ERRNO";
-        return;
-    }
-    chomp(my $line = <$handle>);
-    if ($line =~ /^equery \(([\d\.]+)\)/) {
-        my @v = split(/\./, $1);
-        return 1 if $v[0] > 0;
-        return if $v[1] < 3;
-        return 1;
-    }
-
-    return;
+    # true starting from version 0.3
+    return compareVersion($major, $minor, 0, 3);
 }
-
 
 1;
