@@ -980,7 +980,7 @@ sub addLogicalVolume {
 
     $self->_addEntry({
         'field' => \@fields,
-        'sectionName' => 'LVS',
+        'sectionName' => 'LOGICAL_VOLUMES',
         'values' => $args,
         'noDuplicated' => 1
     });
@@ -998,7 +998,7 @@ sub addPhysicalVolume {
 
     $self->_addEntry({
         'field' => \@fields,
-        'sectionName' => 'PVS',
+        'sectionName' => 'PHYSICAL_VOLUMES',
         'values' => $args,
         'noDuplicated' => 1
     });
@@ -1016,7 +1016,7 @@ sub addVolumeGroup {
 
     $self->_addEntry({
         'field' => \@fields,
-        'sectionName' => 'VGS',
+        'sectionName' => 'VOLUME_GROUPS',
         'values' => $args,
         'noDuplicated' => 1
     });
@@ -2332,7 +2332,7 @@ Unique ID
 
 =back
 
-=head2 LVS
+=head2 LOGICAL_VOLUMES
 
 A LVM Logical Volume
 
@@ -2360,7 +2360,7 @@ The volume UUID.
 
 =back
 
-=head2 PVS 
+=head2 PHYSICAL_VOLUMES
 
 =over 4
 
@@ -2390,7 +2390,7 @@ The UUID.
 
 =back
 
-=head2 VGS 
+=head2 VOLUME_GROUPS
 
 A LVM Volume group.
 
