@@ -58,6 +58,11 @@ my %fields = (
 
 );
 
+# convert fields list into fields hashes, for fast lookup
+foreach my $section (keys %fields) {
+    $fields{$section} = { map { $_ => 1 } @{$fields{$section}} };
+}
+
 sub new {
     my ($class, %params) = @_;
 
@@ -90,8 +95,8 @@ sub addEntry {
 
     my $newEntry;
     foreach my $field (keys %$entry) {
-        if (!grep $_ eq $field, @$fields) {
-            $self->{logger}->debug("unknown field for $section: $field");
+        if (!$fields->{$field}) {
+            $self->{logger}->debug("unknown field $field for section $section");
             next;
         }
         $newEntry->{$field} = getSanitizedString($entry->{$field});
@@ -298,10 +303,10 @@ EOF
         my $content = $self->{h}{CONTENT}->{$section};
 
         if (ref($content) eq 'ARRAY') {
-            my $fields = $fields{$section};
+            my @fields = keys %{$fields{$section}};
             $htmlBody .= "<table width=\"100\%\">\n";
             $htmlBody .= "<tr>\n";
-            foreach my $field (@$fields) {
+            foreach my $field (@fields) {
                 $htmlBody .= "<th>" . lc($field). "</th>\n";
             }
             $htmlBody .= "</tr>\n";
@@ -309,7 +314,7 @@ EOF
             foreach my $item (@$content) {
                 my $class = $count++ % 2 ? 'odd' : 'even';      
                 $htmlBody .= "<tr class=\"$class\">\n";
-                foreach my $field (@$fields) {
+                foreach my $field (@fields) {
                     $htmlBody .= "<td>" . ($item->{$field} || "" ). "</td>\n";
                 }
                 $htmlBody .= "</tr>\n";
