@@ -17,11 +17,8 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $command = 'equery list -i';
-    if (_equeryNeedsWildcard('equery -v', '-|')) {
-        $command .= " '*'";
-    }
-
+    my $command = _equeryNeedsWildcard('equery -v', '-|') ?
+        "equery list -i '*'" : "equery list -i";
 
     my $packages = _getPackagesList(
         logger => $logger, command => $command
