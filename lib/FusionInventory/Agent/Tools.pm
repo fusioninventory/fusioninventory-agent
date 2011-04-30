@@ -259,7 +259,7 @@ sub compareVersion {
     my ($major, $minor, $min_major, $min_minor) = @_;
 
     return
-        $major > $minor
+        $major > $min_major
         ||
         (
             $major == $min_major
