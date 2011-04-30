@@ -11,7 +11,7 @@ sub isInventoryEnabled {
     # We don't want to scan user directories unless --scan-homedirs is used
     return 
         can_run('prlctl') &&
-        $params{config}->{'scan-homedirs'};
+        $params{scan_homedirs};
 }
 
 sub doInventory {

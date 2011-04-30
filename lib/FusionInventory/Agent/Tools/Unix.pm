@@ -179,8 +179,8 @@ sub getFilesystemsFromDf {
         push @filesystems, {
             VOLUMN     => $infos[0],
             FILESYSTEM => $filesystem,
-            TOTAL      => sprintf("%i", $total / 1024),
-            FREE       => sprintf("%i", $free / 1024),
+            TOTAL      => int($total / 1024),
+            FREE       => int($free / 1024),
             TYPE       => $type
         };
     }

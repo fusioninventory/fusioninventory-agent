@@ -30,21 +30,21 @@ my $ok = sub {
     print compress("<REPLY><word>hello</word></REPLY>");
 };
 
-my $logger = FusionInventory::Agent::Logger->new({
+my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'Test' ]
-});
+);
 
-my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
+my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new(
     deviceid => 'foo',
     msg => {
         foo => 'foo',
         bar => 'bar'
     },
-});
+);
 
-my $transmitter = FusionInventory::Agent::Transmitter->new({
+my $transmitter = FusionInventory::Agent::Transmitter->new(
     logger => $logger
-});
+);
 
 # no connection tests
 BAIL_OUT("port aleady used") if test_port(8080);
@@ -62,6 +62,9 @@ subtest "no response" => sub {
 
 # http connection tests
 my ($server, $response);
+
+# ensure the server get stopped even if an exception is thrown
+$SIG{__DIE__}  = sub { $server->stop(); };
 
 $server = FusionInventory::Test::Server->new(
     port     => 8080,
@@ -83,9 +86,9 @@ subtest "correct response" => sub {
 };
 
 lives_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new({
+    $transmitter = FusionInventory::Agent::Transmitter->new(
         logger => $logger
-    });
+    );
 } 'instanciation: http, auth, no credentials';
 
 subtest "no response" => sub {
@@ -100,11 +103,11 @@ subtest "no response" => sub {
 };
 
 lives_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new({
+    $transmitter = FusionInventory::Agent::Transmitter->new(
         user     => 'test',
         password => 'test',
         logger   => $logger,
-    });
+    );
 } 'instanciation:  http, auth, with credentials';
 
 subtest "correct response" => sub {
@@ -136,10 +139,10 @@ $server->set_dispatch({
 $server->background();
 
 lives_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new({
+    $transmitter = FusionInventory::Agent::Transmitter->new(
         logger       => $logger,
         no_ssl_check => 1,
-    });
+    );
 } 'instanciation: https, check disabled';
 
 subtest "correct response" => sub {
@@ -150,10 +153,10 @@ subtest "correct response" => sub {
 };
 
 lives_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new({
+    $transmitter = FusionInventory::Agent::Transmitter->new(
         logger       => $logger,
         no_ssl_check => 1,
-    });
+    );
 } 'instanciation: https, check disabled, auth, no credentials';
 
 subtest "no response" => sub {
@@ -168,12 +171,12 @@ subtest "no response" => sub {
 };
 
 lives_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new({
+    $transmitter = FusionInventory::Agent::Transmitter->new(
         user         => 'test',
         password     => 'test',
         logger       => $logger,
         no_ssl_check => 1,
-    });
+    );
 } 'instanciation: https, check disabled, auth, credentials';
 
 subtest "correct response" => sub {
@@ -184,10 +187,10 @@ subtest "correct response" => sub {
 };
 
 lives_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new({
+    $transmitter = FusionInventory::Agent::Transmitter->new(
         logger       => $logger,
         ca_cert_file => 't/ssl/crt/ca.pem',
-    });
+    );
 } 'instanciation: https';
 
 subtest "correct response" => sub {
@@ -198,10 +201,10 @@ subtest "correct response" => sub {
 };
 
 lives_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new({
+    $transmitter = FusionInventory::Agent::Transmitter->new(
         logger       => $logger,
         ca_cert_file => 't/ssl/crt/ca.pem',
-    });
+    );
 } 'instanciation: https, auth, no credentials';
 
 subtest "no response" => sub {
@@ -216,12 +219,12 @@ subtest "no response" => sub {
 };
 
 lives_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new({
+    $transmitter = FusionInventory::Agent::Transmitter->new(
         user         => 'test',
         password     => 'test',
         logger       => $logger,
         ca_cert_file => 't/ssl/crt/ca.pem',
-    });
+    );
 } 'instanciation: https, auth, credentials';
 
 subtest "correct response" => sub {
@@ -257,10 +260,10 @@ my $proxy = FusionInventory::Test::Proxy->new();
 $proxy->background();
 
 lives_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new({
+    $transmitter = FusionInventory::Agent::Transmitter->new(
         logger => $logger,
         proxy  => $proxy->url()
-    });
+    );
 } 'instanciation: http, proxy';
 
 subtest "correct response" => sub {
@@ -271,10 +274,10 @@ subtest "correct response" => sub {
 };
 
 lives_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new({
+    $transmitter = FusionInventory::Agent::Transmitter->new(
         logger => $logger,
         proxy  => $proxy->url()
-    });
+    );
 } 'instanciation: http, proxy, auth, no credentials';
 
 subtest "no response" => sub {
@@ -289,12 +292,12 @@ subtest "no response" => sub {
 };
 
 lives_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new({
+    $transmitter = FusionInventory::Agent::Transmitter->new(
         user     => 'test',
         password => 'test',
         logger   => $logger,
         proxy    => $proxy->url()
-    });
+    );
 } 'instanciation: http, proxy, auth, credentials';
 
 subtest "correct response" => sub {
@@ -326,11 +329,11 @@ $server->set_dispatch({
 $server->background();
 
 lives_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new({
+    $transmitter = FusionInventory::Agent::Transmitter->new(
         logger       => $logger,
         no_ssl_check => 1,
         proxy        => $proxy->url()
-    });
+    );
 } 'instanciation: https, proxy, check disabled';
 
 subtest "correct response" => sub {
@@ -341,11 +344,11 @@ subtest "correct response" => sub {
 };
 
 lives_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new({
+    $transmitter = FusionInventory::Agent::Transmitter->new(
         logger       => $logger,
         no_ssl_check => 1,
         proxy        => $proxy->url()
-    });
+    );
 } 'instanciation: https, check disabled, proxy, auth, no credentials';
 
 subtest "no response" => sub {
@@ -360,13 +363,13 @@ subtest "no response" => sub {
 };
 
 lives_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new({
+    $transmitter = FusionInventory::Agent::Transmitter->new(
         user         => 'test',
         password     => 'test',
         logger       => $logger,
         no_ssl_check => 1,
         proxy        => $proxy->url()
-    });
+    );
 } 'instanciation: https, check disabled, proxy, auth, credentials';
 
 subtest "correct response" => sub {
@@ -377,11 +380,11 @@ subtest "correct response" => sub {
 };
 
 lives_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new({
+    $transmitter = FusionInventory::Agent::Transmitter->new(
         logger       => $logger,
         ca_cert_file => 't/ssl/crt/ca.pem',
         proxy        => $proxy->url(),
-    });
+    );
 } 'instanciation: https, proxy';
 
 subtest "correct response" => sub {
@@ -392,11 +395,11 @@ subtest "correct response" => sub {
 };
 
 lives_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new({
+    $transmitter = FusionInventory::Agent::Transmitter->new(
         logger       => $logger,
         ca_cert_file => 't/ssl/crt/ca.pem',
         proxy        => $proxy->url()
-    });
+    );
 } 'instanciation: https, proxy, auth, no credentials';
 
 subtest "no response" => sub {
@@ -411,13 +414,13 @@ subtest "no response" => sub {
 };
 
 lives_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new({
+    $transmitter = FusionInventory::Agent::Transmitter->new(
         user         => 'test',
         password     => 'test',
         logger       => $logger,
         ca_cert_file => 't/ssl/crt/ca.pem',
         proxy        => $proxy->url()
-    });
+    );
 } 'instanciation: https, proxy, auth, credentials';
 
 subtest "correct response" => sub {

@@ -14,12 +14,12 @@ my %syslog_levels = (
 );
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
     my $self = {};
     bless $self, $class;
 
-    openlog("fusinv-agent", 'cons,pid', $params->{config}->{logfacility});
+    openlog("fusinv-agent", 'cons,pid', $params{config}->{logfacility});
 
     return $self;
 }

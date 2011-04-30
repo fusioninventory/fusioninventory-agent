@@ -84,16 +84,18 @@ sub doInventory {
 
         }
 
-        $inventory->addCPU({
-#           CACHE        => $cache,
-            CORE         => $core,
-            DESCRIPTION  => $description,
-            NAME         => $name,
-            MANUFACTURER => $manufacturer,
-            SERIAL       => $serial,
-            SPEED        => $speed,
-	    ID           => $id
-        });
+        $inventory->addEntry(
+            section => 'CPUS',
+            entry   => {
+                CORE         => $core,
+                DESCRIPTION  => $description,
+                NAME         => $name,
+                MANUFACTURER => $manufacturer,
+                SERIAL       => $serial,
+                SPEED        => $speed,
+                ID           => $id
+            }
+        );
 
         $cpuId++;
     }

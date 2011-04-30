@@ -45,19 +45,18 @@ sub _parseIpAddrShow {
 
     my @entries;
     my $entry;
-    foreach (<$handle>) {
-        chomp;
-        #print $_."\n";
-        if (/^\d+:\s+(\S+): .*(UP|DOWN)/) {
+    while (my $line = <$handle>) {
+        chomp $line;
+        if ($line =~ /^\d+:\s+(\S+): .*(UP|DOWN)/) {
             push @entries, $entry if $entry;
             $entry = {};
             $entry->{DESCRIPTION} = $1;
             $entry->{STATUS} = ucfirst(lc($2));
-        } elsif (/link\/ether (\S{2}:\S{2}:\S{2}:\S{2}:\S{2}:\S{2})/) {
+        } elsif ($line =~ /link\/ether ($mac_address_pattern)/) {
             $entry->{MACADDR} = $1;
-        } elsif (/inet6 (\S+)\//) {
+        } elsif ($line =~ /inet6 (\S+)\//) {
             $entry->{IPADDRESS6} = $1;
-        } elsif (/inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\/(\d{1,3})/) {
+        } elsif ($line =~ /inet ($ip_address_pattern)\/(\d{1,3})/) {
             $entry->{IPADDRESS} = $1;
             my $infoNet = _computeIPv4Network($1, $2);
             $entry->{IPSUBNET} = $infoNet->{network};

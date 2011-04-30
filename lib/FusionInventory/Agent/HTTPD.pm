@@ -10,17 +10,17 @@ use HTTP::Daemon;
 use FusionInventory::Agent::Logger;
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
     my $self = {
-        logger          => $params->{logger},
+        logger          => $params{logger},
                            FusionInventory::Agent::Logger->new(),
-        agent           => $params->{agent},
-        scheduler       => $params->{scheduler},
-        htmldir         => $params->{htmldir},
-        ip              => $params->{ip},
-        port            => $params->{port} || 62354,
-        trust_localhost => $params->{'trust_localhost'}
+        agent           => $params{agent},
+        scheduler       => $params{scheduler},
+        htmldir         => $params{htmldir},
+        ip              => $params{ip},
+        port            => $params{port} || 62354,
+        trust_localhost => $params{'trust_localhost'}
 
     };
     bless $self, $class;
@@ -269,10 +269,10 @@ token if parameter trust_localhost is true.
 
 =head1 METHODS
 
-=head2 new($params)
+=head2 new(%params)
 
-The constructor. The following parameters are allowed, as keys of the $params
-hashref:
+The constructor. The following parameters are allowed, as keys of the %params
+hash:
 
 =over
 

@@ -9,7 +9,7 @@ sub isInventoryEnabled {
     my (%params) = @_;
 
     return 
-        !$params{config}->{no_printer} &&
+        !$params{no_printer} &&
         -r '/usr/sbin/system_profiler' &&
         can_load("Mac::SysProfile");
 }

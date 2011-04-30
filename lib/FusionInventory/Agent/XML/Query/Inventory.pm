@@ -7,7 +7,6 @@ use base 'FusionInventory::Agent::XML::Query';
 use Config;
 use Data::Dumper;
 use Digest::MD5 qw(md5_base64);
-use Encode qw/encode/;
 use English qw(-no_match_vars);
 use XML::TreePP;
 
@@ -59,12 +58,17 @@ my %fields = (
 
 );
 
+# convert fields list into fields hashes, for fast lookup
+foreach my $section (keys %fields) {
+    $fields{$section} = { map { $_ => 1 } @{$fields{$section}} };
+}
+
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
-    my $self = $class->SUPER::new($params);
+    my $self = $class->SUPER::new(%params);
 
-    $self->{last_statefile} = $params->{last_statefile};
+    $self->{last_statefile} = $params{last_statefile};
 
     $self->{h}->{QUERY} = 'INVENTORY';
     $self->{h}->{CONTENT} = {
@@ -89,46 +93,104 @@ sub addEntry {
     my $fields = $fields{$section};
     die "unknown section $section" unless $fields;
 
-    my $newEntry;
     foreach my $field (keys %$entry) {
-        if (!grep $_ eq $field, @$fields) {
-            $self->{logger}->debug("unknown field for $section: $field");
+        if (!$fields->{$field}) {
+            # unvalid field, log error and remove
+            $self->{logger}->debug("unknown field $field for section $section");
+            delete $entry->{$field};
             next;
         }
-        $newEntry->{$field} = getSanitizedString($entry->{$field});
+        if (!defined $entry->{$field}) {
+            # undefined value, remove
+            delete $entry->{$field};
+            next;
+        }
+        # sanitize value
+        $entry->{$field} = getSanitizedString($entry->{$field});
     }
     # avoid duplicate entries
     if ($params{noDuplicated}) {
-        my $md5 = md5_base64(Dumper($newEntry));
+        my $md5 = md5_base64(Dumper($entry));
         return if $self->{seen}->{$section}->{$md5};
         $self->{seen}->{$section}->{$md5} = 1;
     }
 
-    push @{$self->{h}{CONTENT}{$section}}, $newEntry;
-
-    return 1;
+    push @{$self->{h}{CONTENT}{$section}}, $entry;
 }
 
 sub addStorage {
-    my ($self, $args) = @_;
+    my ($self, $storage) = @_;
 
     my $logger = $self->{logger};
 
-    my $values = $args;
-    if (!$values->{SERIALNUMBER}) {
-        $values->{SERIALNUMBER} = $values->{SERIAL}
+    if (!$storage->{SERIALNUMBER}) {
+        $storage->{SERIALNUMBER} = $storage->{SERIAL}
     }
 
     my $filter = '^(SCSI|HDC|IDE|USB|1394|Serial-ATA|SAS)$';
-    if ($values->{INTERFACE} && $values->{INTERFACE} !~ /$filter/) {
+    if ($storage->{INTERFACE} && $storage->{INTERFACE} !~ /$filter/) {
         $logger->debug("STORAGES/INTERFACE doesn't match /$filter/, ".
         "this is not an error but the situation should be improved");
     }
 
     $self->addEntry(
         section => 'STORAGES',
-        entry   => $values,
+        entry   => $storage,
     );
+}
+
+sub addVirtualMachine {
+    my ($self, $machine) = @_;
+
+    my $logger = $self->{logger};
+
+    if (!$machine->{STATUS}) {
+        $logger->error("status not set by ".caller(0));
+    } elsif (!$machine->{STATUS} =~ /(running|idle|paused|shutdown|crashed|dying|off)/) {
+        $logger->error("Unknown status '".$machine->{STATUS}."' from ".caller(0));
+    }
+
+    $self->addEntry(
+        section => 'VIRTUALMACHINES',
+        entry   => $machine,
+    );
+}
+
+sub setGlobalValues {
+    my ($self) = @_;
+
+    # CPU-related values
+    my $cpus = $self->{h}->{CONTENT}->{CPUS};
+    if ($cpus) {
+        my $cpu = $cpus->[0];
+
+        $self->setHardware({
+            PROCESSORN => scalar @$cpus,
+            PROCESSORS => $cpu->{SPEED},
+            PROCESSORT => $cpu->{NAME},
+        });
+}
+
+    # user-related values
+    my $users = $self->{h}->{CONTENT}->{USERS};
+    if ($users) {
+        my $user = $users->[-1];
+
+        my ($domain, $id);
+        if ($user->{LOGIN} =~ /(\S+)\\(\S+)/) {
+            # Windows fully qualified username: domain\user
+            $domain = $1;
+            $id = $2;
+        } else {
+            # simple username: user
+            $id = $user->{LOGIN};
+        }
+
+        $self->setHardware({
+            USERID     => $id,
+            USERDOMAIN => $domain,
+        });
+    }
 }
 
 sub setHardware {
@@ -161,79 +223,6 @@ sub setBios {
     }
 }
 
-sub addCPU {
-    my ($self, $args) = @_;
-
-    $self->addEntry(
-        section => 'CPUS',
-        entry   => $args,
-    );
-
-    # For the compatibility with HARDWARE/PROCESSOR*
-    my $processorn = int @{$self->{h}{CONTENT}{CPUS}};
-    my $processors = $self->{h}{CONTENT}{CPUS}[0]{SPEED};
-    my $processort = $self->{h}{CONTENT}{CPUS}[0]{NAME};
-
-    $self->setHardware ({
-        PROCESSORN => $processorn,
-        PROCESSORS => $processors,
-        PROCESSORT => $processort,
-    });
-}
-
-sub addUser {
-    my ($self, $args) = @_;
-
-    return unless $args->{LOGIN};
-
-    return unless $self->addEntry(
-        section      => 'USERS',
-        entry        => $args,
-        noDuplicated => 1
-    );
-
-    # Compare with old system 
-    my $userString = $self->{h}{CONTENT}{HARDWARE}{USERID} || "";
-    my $domainString = $self->{h}{CONTENT}{HARDWARE}{USERDOMAIN} || "";
-
-    $userString .= '/' if $userString;
-    $domainString .= '/' if $domainString;
-
-    my $login = $args->{LOGIN}; 
-    my $domain = $args->{DOMAIN} || '';
-# TODO: I don't think we should change the parameter this way. 
-    if ($login =~ /(.*\\|)(\S+)/) {
-        $domainString .= getSanitizedString($domain);
-        $userString .= getSanitizedString($2);
-    } else {
-        $domainString .= getSanitizedString($domain);
-        $userString .= getSanitizedString($login);
-    }
-
-    $self->setHardware ({
-        USERID     => $userString,
-        USERDOMAIN => $domainString,
-    });
-}
-
-sub addVirtualMachine {
-    my ($self, $args) = @_;
-
-    my $logger = $self->{logger};
-
-    if (!$args->{STATUS}) {
-        $logger->error("status not set by ".caller(0));
-    } elsif (!$args->{STATUS} =~ /(running|idle|paused|shutdown|crashed|dying|off)/) {
-        $logger->error("Unknown status '".$args->{status}."' from ".caller(0));
-    }
-
-    $self->addEntry(
-        section => 'VIRTUALMACHINES',
-        entry   => $args,
-    );
-
-}
-
 sub setAccessLog {
     my ($self, $args) = @_;
 
@@ -243,33 +232,6 @@ sub setAccessLog {
             $self->{h}{CONTENT}{ACCESSLOG}{$key} = $args->{$key};
         }
     }
-}
-
-sub addIpDiscoverEntry {
-    my ($self, $args) = @_;
-
-    my $ipaddress = $args->{IPADDRESS};
-    my $macaddr = $args->{MACADDR};
-    my $name = $args->{NAME};
-
-    if (!$self->{h}{CONTENT}{IPDISCOVER}{H}) {
-        $self->{h}{CONTENT}{IPDISCOVER}{H} = [];
-    }
-
-    push @{$self->{h}{CONTENT}{IPDISCOVER}{H}}, {
-        # If I or M is undef, the server will ingore the host
-        I => [$ipaddress?$ipaddress:""],
-        M => [$macaddr?$macaddr:""],
-        N => [$name?$name:"-"], # '-' is the default value reteurned by ipdiscover
-    };
-}
-
-sub addSoftwareDeploymentPackage {
-    my ($self, $args) = @_;
-
-    push
-        @{$self->{h}{CONTENT}{DOWNLOAD}{HISTORY}->{PACKAGE}},
-        { ID => $args->{ORDERID} };
 }
 
 sub checkContent {
@@ -348,10 +310,10 @@ EOF
         my $content = $self->{h}{CONTENT}->{$section};
 
         if (ref($content) eq 'ARRAY') {
-            my $fields = $fields{$section};
+            my @fields = keys %{$fields{$section}};
             $htmlBody .= "<table width=\"100\%\">\n";
             $htmlBody .= "<tr>\n";
-            foreach my $field (@$fields) {
+            foreach my $field (@fields) {
                 $htmlBody .= "<th>" . lc($field). "</th>\n";
             }
             $htmlBody .= "</tr>\n";
@@ -359,7 +321,7 @@ EOF
             foreach my $item (@$content) {
                 my $class = $count++ % 2 ? 'odd' : 'even';      
                 $htmlBody .= "<tr class=\"$class\">\n";
-                foreach my $field (@$fields) {
+                foreach my $field (@fields) {
                     $htmlBody .= "<td>" . ($item->{$field} || "" ). "</td>\n";
                 }
                 $htmlBody .= "</tr>\n";
@@ -473,10 +435,11 @@ Inventory XML format.
 
 =head1 METHODS
 
-=head2 new($params)
+=head2 new(%params)
 
-The constructor. See base class C<FusionInventory::Agent::XML::Query> for
-allowed parameters.
+The constructor. The following parameters are allowed, in addition to those
+from the base class C<FusionInventory::Agent::XML::Query>, as keys of the
+%params hash:
 
 =over
 
@@ -519,14 +482,6 @@ Save global information regarding the machine.
 
 Set BIOS informations.
 
-=head2 addCPU()
-
-Add a CPU in the inventory.
-
-=head2 addUser()
-
-Add an user in the list of logged user.
-
 =head2 addVirtualMachine()
 
 Add a Virtual Machine in the inventory.
@@ -534,20 +489,6 @@ Add a Virtual Machine in the inventory.
 =head2 setAccessLog()
 
 What is that for? :)
-
-=head2 addIpDiscoverEntry()
-
-IpDiscover is used to identify network interface on the local network. This
-is done on the ARP level.
-
-This function adds a network interface in the inventory.
-
-=head2 addSoftwareDeploymentPackage()
-
-This function is for software deployment.
-
-Order sent to the agent are recorded on the client side and then send back
-to the server in the inventory.
 
 =head2 checkContent()
 

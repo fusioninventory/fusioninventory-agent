@@ -3330,6 +3330,17 @@ my @manufacturer_tests_nok = (
     undef
 );
 
+my @version_tests_ok = (
+    [ 1, 0, 1, 0 ], 
+    [ 1, 1, 1, 0 ], 
+    [ 2, 0, 1, 0 ], 
+);
+
+my @version_tests_nok = (
+    [ 0, 9, 1, 0 ], 
+);
+
+
 plan tests =>
     (scalar keys %dmidecode_tests) +
     (scalar keys %cpu_tests) +
@@ -3339,6 +3350,8 @@ plan tests =>
     (scalar @speed_tests_nok) +
     (scalar @manufacturer_tests_ok) +
     (scalar @manufacturer_tests_nok) +
+    (scalar @version_tests_ok) +
+    (scalar @version_tests_nok) +
     14;
 
 foreach my $test (keys %dmidecode_tests) {
@@ -3397,6 +3410,20 @@ foreach my $test (@manufacturer_tests_nok) {
     ok(
         !defined getCanonicalManufacturer($test),
         "invalid value manufacturer normalisation"
+    );
+}
+
+foreach my $test (@version_tests_ok) {
+    ok(
+        compareVersion(@$test),
+        "$test->[0].$test->[1] >= $test->[2].$test->[3]"
+    );
+}
+
+foreach my $test (@version_tests_nok) {
+    ok(
+        !compareVersion(@$test),
+        "$test->[0].$test->[1] < $test->[2].$test->[3]"
     );
 }
 

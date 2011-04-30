@@ -21,17 +21,17 @@ sub doInventory {
     # Operating system informations
     my $OSName = getFirstLine(command => 'uname -s');
 
-    # AIX OSVersion = oslevel, OSComment=oslevel -r affiche niveau de maintenance
     my $OSVersion = getFirstLine(command => 'oslevel');
+    $OSVersion =~ s/(.0)*$//;
+
     my $OSLevel = getFirstLine(command => 'oslevel -r');
     my @tabOS = split(/-/,$OSLevel);
     my $OSComment = "Maintenance Level : $tabOS[1]";
 
-    $OSVersion =~ s/(.0)*$//;
     $inventory->setHardware({
         OSNAME     => "$OSName $OSVersion",
-        OSCOMMENTS => $OSComment,
         OSVERSION  => $OSLevel,
+        OSCOMMENTS => $OSComment,
     });
 }
 

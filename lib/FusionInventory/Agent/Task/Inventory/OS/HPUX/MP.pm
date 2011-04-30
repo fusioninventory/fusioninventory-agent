@@ -18,28 +18,15 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-#  my $name;
-    my $ipaddress;
-#  my $ipmask;
-#  my $ipgateway;
-#  my $speed;
-#  my $ipsubnet;
-#  my $status;
-#  my $macaddr;
-
-    if ( can_run('/opt/hpsmh/data/htdocs/comppage/getMPInfo.cgi') ) {    
-        foreach (`/opt/hpsmh/data/htdocs/comppage/getMPInfo.cgi`) {
-            if ( /parent.frames.CHPAppletFrame.chpMiscData.RIBLink = "http.*\/([0-9.]+)";/ ) {
-                $ipaddress = $1;
-            }
-        }
-    } else { #it off course can run /opt/sfm/bin/CIMUtil
-        foreach (`/opt/sfm/bin/CIMUtil -e root/cimv2 HP_ManagementProcessor`) {
-            if ( /IPAddress\s+:\s+([0-9.]+)/ ) {
-                $ipaddress = $1;
-            }
-        }
-    }
+    my $ipaddress = can_run('/opt/hpsmh/data/htdocs/comppage/getMPInfo.cgi') ?
+        getFirstMatch(
+            command => '/opt/hpsmh/data/htdocs/comppage/getMPInfo.cgi',
+            pattern => qr/chpMiscData.RIBLink = "http.*\/([0-9.]+)";/
+        ) :
+        getFirstMatch(
+            command => '/opt/sfm/bin/CIMUtil -e root/cimv2 HP_ManagementProcessor',
+            pattern => qr/IPAddress\s+:\s+([0-9.]+)/
+        );
 
     $inventory->addEntry(
         section => 'NETWORKS',

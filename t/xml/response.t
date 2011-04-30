@@ -195,9 +195,9 @@ foreach my $test (keys %tests) {
     my $content = <$handler>;
     close $handler;
 
-    my $message = FusionInventory::Agent::XML::Response->new({
+    my $message = FusionInventory::Agent::XML::Response->new(
         content => $content
-    });
+    );
 
     my $parsed_content = $message->getParsedContent();
     is_deeply($parsed_content, $tests{$test}, $test);

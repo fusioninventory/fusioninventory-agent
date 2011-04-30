@@ -44,11 +44,15 @@ sub doInventory {
             my $domain = Variant (VT_BYREF | VT_BSTR, '');
     
             $process->GetOwner($name, $domain);
-   
-            $inventory->addUser({
-                LOGIN => $name->Get(),
-                DOMAIN => $domain->Get()
-            });
+
+            $inventory->addEntry(
+                section => 'USERS',
+                entry   => {
+                    LOGIN => $name->Get(),
+                    DOMAIN => $domain->Get()
+                },
+                noDuplicated => 1
+            );
         }
     }
 

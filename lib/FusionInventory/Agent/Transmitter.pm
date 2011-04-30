@@ -13,37 +13,37 @@ use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::XML::Response;
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
-    die "non-existing certificate file $params->{ca_cert_file}"
-        if $params->{ca_cert_file} && ! -f $params->{ca_cert_file};
+    die "non-existing certificate file $params{ca_cert_file}"
+        if $params{ca_cert_file} && ! -f $params{ca_cert_file};
 
-    die "non-existing certificate directory $params->{ca_cert_dir}"
-        if $params->{ca_cert_dir} && ! -d $params->{ca_cert_dir};
+    die "non-existing certificate directory $params{ca_cert_dir}"
+        if $params{ca_cert_dir} && ! -d $params{ca_cert_dir};
 
     my $self = {
-        logger         => $params->{logger} ||
+        logger         => $params{logger} ||
                           FusionInventory::Agent::Logger->new(),
-        user           => $params->{user},
-        password       => $params->{password},
-        ca_cert_file   => $params->{ca_cert_file},
-        ca_cert_dir    => $params->{ca_cert_dir},
-        no_ssl_check   => $params->{no_ssl_check},
-        timeout        => $params->{timeout} || 180
+        user           => $params{user},
+        password       => $params{password},
+        ca_cert_file   => $params{ca_cert_file},
+        ca_cert_dir    => $params{ca_cert_dir},
+        no_ssl_check   => $params{no_ssl_check},
+        timeout        => $params{timeout} || 180
     };
     bless $self, $class;
 
     # create user agent
     $self->{ua} = LWP::UserAgent->new(keep_alive => 1, requests_redirectable => ['POST', 'GET', 'HEAD']);
 
-    if ($params->{proxy}) {
-        $self->{ua}->proxy(['http', 'https'], $params->{proxy});
+    if ($params{proxy}) {
+        $self->{ua}->proxy(['http', 'https'], $params{proxy});
     }  else {
         $self->{ua}->env_proxy;
     }
 
     $self->{ua}->agent($FusionInventory::Agent::AGENT_STRING);
-    $self->{ua}->timeout($params->{timeout});
+    $self->{ua}->timeout($params{timeout});
 
     # check compression mode
     if (Compress::Zlib->require()) {
@@ -177,9 +177,9 @@ sub send {
 
     $logger->debug("[transmitter] receiving message: $response_content");
 
-    my $response = FusionInventory::Agent::XML::Response->new({
+    my $response = FusionInventory::Agent::XML::Response->new(
         content => $response_content
-    });
+    );
 
     return $response;
 }
@@ -356,10 +356,10 @@ through a proxy, and validate SSL certificates.
 
 =head1 METHODS
 
-=head2 new($params)
+=head2 new(%params)
 
-The constructor. The following parameters are allowed, as keys of the $params
-hashref:
+The constructor. The following parameters are allowed, as keys of the %params
+hash:
 
 =over
 

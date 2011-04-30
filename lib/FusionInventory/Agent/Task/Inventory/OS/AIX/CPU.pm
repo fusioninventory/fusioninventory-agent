@@ -18,7 +18,10 @@ sub doInventory {
         command => 'lsdev -Cc processor -F name',
         logger  => $logger
     )) {
-        $inventory->addCPU($cpu);
+        $inventory->addEntry(
+            section => 'CPUS',
+            entry   => $cpu
+        );
     }
 }
 

@@ -47,15 +47,14 @@ sub doInventory {
         SMODEL        => $SystemModel,
     });
 
-    # don't deal with CPUs if information can be computed from dmidecode
-    my $infos = getInfosFromDmidecode(logger => $logger);
-    return if $infos->{4};
-
     for my $i (1 .. $processorn) {
-         $inventory->addCPU({
-             NAME  => $processort,
-             SPEED => $processors,
-         });
+         $inventory->addEntry(
+             section => 'CPUS',
+             entry   => {
+                 NAME  => $processort,
+                 SPEED => $processors,
+             }
+         );
     }
 
 }

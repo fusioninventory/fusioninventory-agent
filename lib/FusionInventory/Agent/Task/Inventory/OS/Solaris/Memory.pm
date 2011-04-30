@@ -342,8 +342,6 @@ sub _getMemories6 {
                 }
                 my $memory = {
                     DESCRIPTION => "empty",
-                    SPEED       => 'n/a',
-                    TYPE        => 'n/a',
                     CAPACITY    => 0,
                     NUMSLOTS    => 0,
                     caption     => $caption

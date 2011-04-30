@@ -9,12 +9,12 @@ use Fcntl qw(:flock);
 use File::stat;
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
     my $self = {
-        logfile         => $params->{config}->{logfile},
-        logfile_maxsize => $params->{config}->{'logfile-maxsize'} ?
-            $params->{config}->{'logfile-maxsize'} * 1024 * 1024 : 0
+        logfile         => $params{config}->{logfile},
+        logfile_maxsize => $params{config}->{'logfile-maxsize'} ?
+            $params{config}->{'logfile-maxsize'} * 1024 * 1024 : 0
     };
     bless $self, $class;
 

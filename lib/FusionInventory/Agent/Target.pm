@@ -27,15 +27,15 @@ BEGIN {
 my $lock : shared;
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
-    die 'no basevardir parameter' unless $params->{basevardir};
+    die 'no basevardir parameter' unless $params{basevardir};
 
     my $self = {
-        logger    => $params->{logger} ||
+        logger    => $params{logger} ||
                      FusionInventory::Agent::Logger->new(),
-        deviceid  => $params->{deviceid},
-        delaytime => $params->{delaytime} || 3600,
+        deviceid  => $params{deviceid},
+        delaytime => $params{delaytime} || 3600,
     };
     bless $self, $class;
 
@@ -43,7 +43,7 @@ sub new {
 }
 
 sub _init {
-    my ($self, $params) = @_;
+    my ($self, %params) = @_;
 
     my $logger = $self->{logger};
 
@@ -51,13 +51,13 @@ sub _init {
     $self->{nextRunDate} = \$nextRunDate;
 
     # target identity
-    $self->{id} = $params->{id};
+    $self->{id} = $params{id};
 
     # target storage
-    $self->{storage} = FusionInventory::Agent::Storage->new({
+    $self->{storage} = FusionInventory::Agent::Storage->new(
         logger    => $self->{logger},
-        directory => $params->{vardir}
-    });
+        directory => $params{vardir}
+    );
 
     my $storage = $self->{storage};
     $self->{myData} = $storage->restore();
@@ -70,9 +70,7 @@ sub _init {
         ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
     }
 
-    $self->{currentDeviceid} = $self->{myData}{currentDeviceid};
-
-    $self->{last_statefile} = $params->{vardir} . "/last_state";
+    $self->{last_statefile} = $params{vardir} . "/last_state";
 }
 
 sub getStorage {
@@ -181,36 +179,6 @@ sub setPrologFreq {
 
 }
 
-sub setCurrentDeviceID {
-
-    my ($self, $deviceid) = @_;
-
-    my $logger = $self->{logger};
-    my $storage = $self->{storage};
-
-    return unless $deviceid;
-
-    if ($self->{myData}{currentDeviceid} &&
-        ($self->{myData}{currentDeviceid} eq $deviceid)) {
-        return;
-    }
-
-    if (!$self->{myData}{currentDeviceid}) {
-        $logger->debug("DEVICEID initialized at $deviceid");
-    } else {
-        $logger->info(
-            "DEVICEID has changed since last process ". 
-            "(old=$self->{myData}{currentDeviceid},new=$deviceid"
-        );
-    }
-
-    $self->{myData}{currentDeviceid} = $deviceid;
-    $storage->save({ data => $self->{myData} });
-
-    $self->{currentDeviceid} = $deviceid;
-
-}
-
 1;
 __END__
 
@@ -224,10 +192,10 @@ This is an abstract class for execution targets.
 
 =head1 METHODS
 
-=head2 new($params)
+=head2 new(%params)
 
-The constructor. The following parameters are allowed, as keys of the $params
-hashref:
+The constructor. The following parameters are allowed, as keys of the %params
+hash:
 
 =over
 
@@ -265,10 +233,6 @@ Set nextRunDate attribute to 1.
 =head2 setPrologFreq($prologFreq)
 
 Set prologFreq attribute.
-
-=head2 setCurrentDeviceID($currentDeviceID)
-
-Set currentDeviceID attribute.
 
 =head2 getStorage()
 

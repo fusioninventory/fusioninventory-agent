@@ -27,25 +27,28 @@ our $AGENT_STRING =
     "FusionInventory-Agent_v$VERSION";
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
     my $self = {
         status  => 'unknown',
-        confdir => $params->{confdir},
-        datadir => $params->{datadir},
-        vardir  => $params->{vardir},
+        confdir => $params{confdir},
+        datadir => $params{datadir},
+        vardir  => $params{vardir},
         token   => _computeNewToken()
     };
     bless $self, $class;
 
-    my $config = FusionInventory::Agent::Config->new($params);
+    my $config = FusionInventory::Agent::Config->new(
+        confdir => $params{confdir},
+        options => $params{options},
+    );
     $self->{config} = $config;
 
-    my $logger = FusionInventory::Agent::Logger->new({
+    my $logger = FusionInventory::Agent::Logger->new(
         config   => $config,
         backends => $config->{logger},
         debug    => $config->{debug}
-    });
+    );
     $self->{logger} = $logger;
 
     if ( $REAL_USER_ID != 0 ) {
@@ -58,10 +61,10 @@ sub new {
 
     my $hostname = _getHostname();
 
-    my $storage = FusionInventory::Agent::Storage->new({
+    my $storage = FusionInventory::Agent::Storage->new(
         logger    => $logger,
         directory => $self->{vardir}
-    });
+    );
     my $data = $storage->restore();
 
     if (
@@ -80,49 +83,49 @@ sub new {
         $self->{deviceid} = $data->{deviceid}
     }
 
-    $self->{scheduler} = FusionInventory::Agent::Scheduler->new({
+    $self->{scheduler} = FusionInventory::Agent::Scheduler->new(
         logger     => $logger,
         lazy       => $config->{lazy},
         wait       => $config->{wait},
         background => $config->{daemon} || $config->{service}
-    });
+    );
     my $scheduler = $self->{scheduler};
 
     if ($config->{stdout}) {
         $scheduler->addTarget(
-            FusionInventory::Agent::Target::Stdout->new({
+            FusionInventory::Agent::Target::Stdout->new(
                 logger     => $logger,
                 deviceid   => $self->{deviceid},
                 delaytime  => $config->{delaytime},
                 basevardir => $self->{vardir},
-            })
+            )
         );
     }
 
     if ($config->{local}) {
         $scheduler->addTarget(
-            FusionInventory::Agent::Target::Local->new({
+            FusionInventory::Agent::Target::Local->new(
                 logger     => $logger,
                 deviceid   => $self->{deviceid},
                 delaytime  => $config->{delaytime},
                 basevardir => $self->{vardir},
                 path       => $config->{local},
                 html       => $config->{html},
-            })
+            )
         );
     }
 
     if ($config->{server}) {
         foreach my $url (@{$config->{server}}) {
             $scheduler->addTarget(
-                FusionInventory::Agent::Target::Server->new({
+                FusionInventory::Agent::Target::Server->new(
                     logger     => $logger,
                     deviceid   => $self->{deviceid},
                     delaytime  => $config->{delaytime},
                     basevardir => $self->{vardir},
                     url        => $url,
                     tag        => $config->{tag},
-                })
+                )
             );
         }
     }
@@ -159,7 +162,7 @@ sub new {
             threads::shared::share($self->{status});
             threads::shared::share($self->{token});
 
-            FusionInventory::Agent::HTTPD->new({
+            FusionInventory::Agent::HTTPD->new(
                 logger          => $logger,
                 scheduler       => $scheduler,
                 agent           => $self,
@@ -167,7 +170,7 @@ sub new {
                 ip              => $config->{'httpd-ip'},
                 port            => $config->{'httpd-port'},
                 trust_localhost => $config->{'httpd-trust-localhost'},
-            });
+            );
         }
     }
 
@@ -237,7 +240,7 @@ sub run {
             my $transmitter;
             if ($target->isa('FusionInventory::Agent::Target::Server')) {
 
-                $transmitter = FusionInventory::Agent::Transmitter->new({
+                $transmitter = FusionInventory::Agent::Transmitter->new(
                     logger       => $logger,
                     user         => $self->{config}->{user},
                     password     => $self->{config}->{password},
@@ -245,21 +248,20 @@ sub run {
                     ca_cert_file => $self->{config}->{'ca-cert-file'},
                     ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
                     no_ssl_check => $self->{config}->{'no-ssl-check'},
-                });
+                );
 
-                my $prolog = FusionInventory::Agent::XML::Query::Prolog->new({
-                    logger          => $logger,
-                    token           => $self->{token},
-                    deviceid        => $self->{target}->{deviceid},
-                    currentDeviceid => $self->{target}->{currentDeviceid},
-                });
+                my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
+                    logger   => $logger,
+                    token    => $self->{token},
+                    deviceid => $self->{deviceid},
+                );
 
                 # Add target ACCOUNTINFO values to the prolog
                 $prolog->setAccountInfo($target->getAccountInfo());
 
                 # TODO Don't mix settings and temp value
                 $prologresp = $transmitter->send({
-                    url     => $self->{target}->getUrl(),
+                    url     => $target->getUrl(),
                     message => $prolog
                 });
 
@@ -303,16 +305,16 @@ sub run {
 
                 my $task;
                 eval {
-                    $task = $package->new({
-                            config      => $config,
-                            confdir     => $self->{confdir},
-                            datadir     => $self->{datadir},
-                            logger      => $logger,
-                            target      => $target,
-                            prologresp  => $prologresp,
-                            transmitter => $transmitter,
-                            deviceid    => $self->{deviceid}
-                            });
+                    $task = $package->new(
+                        config      => $config,
+                        confdir     => $self->{confdir},
+                        datadir     => $self->{datadir},
+                        logger      => $logger,
+                        target      => $target,
+                        prologresp  => $prologresp,
+                        transmitter => $transmitter,
+                        deviceid    => $self->{deviceid}
+                    );
                 };
                 if (!$task) {
                     $logger->info("task $module can't be initialized: ".$EVAL_ERROR);
@@ -329,7 +331,7 @@ sub run {
                         die "fork failed: $ERRNO" unless defined $pid;
 
                         $logger->debug(
-                        "[task] executing $module in process $PID"
+                            "[task] executing $module in process $PID"
                         );
                         $task->run();
                     }
@@ -424,9 +426,30 @@ This is the agent object.
 
 =head1 METHODS
 
-=head2 new()
+=head2 new(%params)
 
-The constructor. No arguments allowed.
+The constructor. The following parameters are allowed, as keys of the %params
+hash:
+
+=over
+
+=item I<confdir>
+
+the configuration directory.
+
+=item I<datadir>
+
+the read-only data directory.
+
+=item I<vardir>
+
+the read-write data directory.
+
+=item I<options>
+
+the options to use.
+
+=back
 
 =head2 run()
 

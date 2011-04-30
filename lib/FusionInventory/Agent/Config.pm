@@ -45,7 +45,7 @@ my $deprecated = {
 };
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
     my $self = {};
     bless $self, $class;
@@ -55,11 +55,11 @@ sub new {
         $self->_loadFromWinRegistry();
     } else {
         $self->_loadFromCfgFile({
-            file      => $params->{options}->{'conf-file'},
-            directory => $params->{confdir},
+            file      => $params{options}->{'conf-file'},
+            directory => $params{confdir},
         });
     }
-    $self->_loadUserParams($params->{options});
+    $self->_loadUserParams($params{options});
 
     $self->_checkContent();
 
@@ -206,6 +206,17 @@ This is the object used by the agent to store its configuration.
 
 =head1 METHODS
 
-=head2 new($params)
+=head2 new(%params)
 
-The constructor. All configuration parameters can be passed.
+The constructor. The following parameters are allowed, as keys of the %params
+hash:
+
+=over
+
+=item I<confdir>
+
+the configuration directory.
+
+=item I<options>
+
+additional options override.

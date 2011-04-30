@@ -17,17 +17,17 @@ throws_ok {
 } qr/^no msg/, 'no message';
 
 throws_ok {
-    $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
+    $message = FusionInventory::Agent::XML::Query::SimpleMessage->new(
         msg => {
             QUERY => 'TEST',
             FOO   => 'foo',
             BAR   => 'bar'
         },
-    });
+    );
 } qr/^no deviceid/, 'no device id';
 
 lives_ok {
-    $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
+    $message = FusionInventory::Agent::XML::Query::SimpleMessage->new(
         deviceid => 'foo',
         logger   => FusionInventory::Logger->new(),
         msg => {
@@ -35,7 +35,7 @@ lives_ok {
             FOO   => 'foo',
             BAR   => 'bar'
         },
-    });
+    );
 } 'everything OK';
 
 isa_ok($message, 'FusionInventory::Agent::XML::Query::SimpleMessage');
@@ -58,7 +58,7 @@ is_deeply(
 );
 
 lives_ok {
-    $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
+    $message = FusionInventory::Agent::XML::Query::SimpleMessage->new(
         deviceid => 'foo',
         msg => {
             QUERY => 'TEST',
@@ -75,7 +75,7 @@ lives_ok {
                 }
             ]
         }
-    });
+    );
 } 'everything OK';
 
 isa_ok($message, 'FusionInventory::Agent::XML::Query::SimpleMessage');

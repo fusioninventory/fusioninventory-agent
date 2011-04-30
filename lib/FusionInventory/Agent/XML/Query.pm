@@ -8,28 +8,21 @@ use XML::TreePP;
 use FusionInventory::Agent::Logger;
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
-    die "no deviceid parameter" unless $params->{deviceid};
+    die "no deviceid parameter" unless $params{deviceid};
 
     my $self = {
-        logger   => $params->{logger} ||
+        logger   => $params{logger} ||
                     FusionInventory::Agent::Logger->new(),
-        deviceid => $params->{deviceid}
+        deviceid => $params{deviceid}
     };
     bless $self, $class;
 
     $self->{h} = {
-        DEVICEID => $params->{deviceid}
+        DEVICEID => $params{deviceid}
     };
 
-    if (
-        $params->{currentDeviceid} &&
-        ($params->{deviceid} ne $params->{currentDeviceid})
-    ) {
-      $self->{h}{OLD_DEVICEID} = $params->{currentDeviceid};
-    }
-  
     return $self;
 }
 
@@ -70,10 +63,10 @@ server.
 
 =head1 METHODS
 
-=head2 new($params)
+=head2 new(%params)
 
-The constructor. The following parameters are allowed, as keys of the $params
-hashref:
+The constructor. The following parameters are allowed, as keys of the %params
+hash:
 
 =over
 
@@ -84,8 +77,6 @@ the logger object to use
 =item I<deviceid>
 
 the agent identifier (mandatory)
-
-=item I<currentDeviceid>
 
 =back
 

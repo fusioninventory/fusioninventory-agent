@@ -6,14 +6,6 @@ use warnings;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::HPUX;
 
-###
-# Version 1.1
-# Correction of Bug n 522774
-#
-# thanks to Marty Riedling for this correction
-#
-###
-
 sub isInventoryEnabled {
     return can_run('model');
 }

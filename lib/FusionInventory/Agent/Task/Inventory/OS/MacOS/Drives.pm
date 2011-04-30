@@ -3,18 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::MacOS::Drives;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
-
-my %unitMatrice = (
-    Ti => 1000*1000,
-    GB => 1024*1024,
-    Gi => 1000,
-    GB => 1024,
-    Mi => 1,
-    MB => 1,
-    Ki => 0.001,
-    KB => 0.001,
-);
 
 sub isInventoryEnabled {
     return 1;
@@ -39,49 +29,32 @@ sub doInventory {
         );
     }
 
-    my %diskUtilDevices;
+    my %drives = map { $_->{VOLUMN} => $_ } @drives;
+
+    # get additional informations
     foreach (`diskutil list`) {
-        if (/\d+:\s+.*\s+(\S+)/) {
-            my $deviceName = "/dev/$1";
-            foreach (`diskutil info $1`) {
-                $diskUtilDevices{$deviceName}->{$1} = $2 if /^\s+(.*?):\s*(\S.*)/;
-            }
+        # partition identifiers look like disk0s1
+        next unless /(disk \d+ s \d+)$/;
+        my $id = $1;
+        my $name = "/dev/$1";
+
+        my $device;
+        foreach (`diskutil info $id`) {
+            next unless /^\s+(.*?):\s*(\S.*)/;
+            $device->{$1} = $2;
         }
-    }
 
-    my %drives;
-
-    foreach my $deviceName (keys %diskUtilDevices) {
-        my $device = $diskUtilDevices{$deviceName};
         my $size;
-
-        my $isHardDrive;
-
-        if ((defined($device->{'Part Of Whole'}) && ($device->{'Part Of Whole'} eq $device->{'Device Identifier'}))) {
-            # Is it possible to have a drive without partition?
-            $isHardDrive = 1;
+        if ($device->{'Total Size'} =~ /^(.*) \s \(/x) {
+            $size = getCanonicalSize($1);
         }
 
-        if ($device->{'Total Size'} =~ /(\S*)\s(\S+)\s+\(/) {
-            if ($unitMatrice{$2}) {
-                $size = $1*$unitMatrice{$2};
-            } else {
-                $logger->error("$2 unit is not defined");
-            }
-        }
-
-
-        if (!$isHardDrive) {
-            $drives{$deviceName}->{TOTAL} = $size;
-            $drives{$deviceName}->{SERIAL} = $device->{'Volume UUID'} || $device->{'UUID'};
-            $drives{$deviceName}->{FILESYSTEM} = $device->{'File System'} || $device->{'Partition Type'};
-            $drives{$deviceName}->{VOLUMN} = $deviceName;
-            $drives{$deviceName}->{LABEL} = $device->{'Volume Name'};
-#        } else {
-#            $storages{$deviceName}->{DESCRIPTION} = $device->{'Protocol'};
-#            $storages{$deviceName}->{DISKSIZE} = $size;
-#            $storages{$deviceName}->{MODEL} = $device->{'Device / Media Name'};
-        }
+        $drives{$name}->{TOTAL}      = $size;
+        $drives{$name}->{SERIAL}     = $device->{'Volume UUID'} ||
+                                       $device->{'UUID'};
+        $drives{$name}->{FILESYSTEM} = $device->{'File System'} ||
+                                       $device->{'Partition Type'};
+        $drives{$name}->{LABEL}      = $device->{'Volume Name'};
     }
 
     # add drives to the inventory

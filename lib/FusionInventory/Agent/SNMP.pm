@@ -10,43 +10,43 @@ use Net::SNMP;
 use FusionInventory::Agent::Tools;
 
 sub new {
-    my ($class, $params ) = @_;
+    my ($class, %params) = @_;
 
-    my $self = {};
-
-    die "no hostname parameters" unless $params->{hostname};
+    die "no hostname parameters" unless $params{hostname};
 
     my $version =
-        ! $params->{version}       ? 'snmpv1'  :
-        $params->{version} eq '1'  ? 'snmpv1'  :
-        $params->{version} eq '2c' ? 'snmpv2c' :
-        $params->{version} eq '3'  ? 'snmpv3'  :
-                                     undef     ;
+        ! $params{version}       ? 'snmpv1'  :
+        $params{version} eq '1'  ? 'snmpv1'  :
+        $params{version} eq '2c' ? 'snmpv2c' :
+        $params{version} eq '3'  ? 'snmpv3'  :
+                                     undef   ;
 
-    die "invalid SNMP version $params->{version}" unless $version;
+    die "invalid SNMP version $params{version}" unless $version;
+
+    my $self = {};
 
     my $error;
     if ($version eq 'snmpv3') {
         ($self->{session}, $error) = Net::SNMP->session(
-            -timeout   => 1,
-            -retries   => 0,
+            -timeout      => 1,
+            -retries      => 0,
             -version      => $version,
-            -hostname     => $params->{hostname},
-            -username     => $params->{username},
-            -authpassword => $params->{authpassword},
-            -authprotocol => $params->{authprotocol},
-            -privpassword => $params->{privpassword},
-            -privprotocol => $params->{privprotocol},
-            -nonblocking => 0,
-            -port      => 161
+            -hostname     => $params{hostname},
+            -username     => $params{username},
+            -authpassword => $params{authpassword},
+            -authprotocol => $params{authprotocol},
+            -privpassword => $params{privpassword},
+            -privprotocol => $params{privprotocol},
+            -nonblocking  => 0,
+            -port         => 161
         );
     } else { # snmpv2c && snmpv1 #
         ($self->{session}, $error) = Net::SNMP->session(
             -timeout     => 1,
             -retries     => 0,
             -version     => $version,
-            -hostname    => $params->{hostname},
-            -community   => $params->{community},
+            -hostname    => $params{hostname},
+            -community   => $params{community},
             -nonblocking => 0,
             -port      => 161
         );
@@ -61,7 +61,6 @@ sub new {
 
     return $self;
 }
-
 
 sub snmpGet {
     my ($self, $params) = @_;

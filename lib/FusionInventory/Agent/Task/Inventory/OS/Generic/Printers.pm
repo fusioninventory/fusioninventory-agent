@@ -13,7 +13,7 @@ sub isInventoryEnabled {
     return 
         # we use system profiler on MacOS
         $OSNAME ne 'darwin' &&
-        !$params{config}->{no_printer} &&
+        !$params{no_printer} &&
         can_load("Net::CUPS") &&
         $Net::CUPS::VERSION >= 0.60;
 }

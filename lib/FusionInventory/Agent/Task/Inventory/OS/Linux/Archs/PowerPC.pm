@@ -36,7 +36,10 @@ sub doInventory {
     my $logger    = $params{logger};
 
     foreach my $cpu (_getCPUsFromProc($logger, '/proc/cpuinfo')) {
-        $inventory->addCPU($cpu);
+        $inventory->addEntry(
+            section => 'CPUS',
+            entry   => $cpu
+        );
     }
 
     my $SystemSerial = getFirstLine(file => '/proc/device-tree/serial-number');

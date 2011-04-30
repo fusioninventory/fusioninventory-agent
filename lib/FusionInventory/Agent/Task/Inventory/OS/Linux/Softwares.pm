@@ -8,7 +8,7 @@ use FusionInventory::Agent::Tools;
 sub isInventoryEnabled {
     my (%params) = @_;
 
-    return !$params{config}->{no_software};
+    return !$params{no_software};
 }
 
 sub doInventory {

@@ -7,10 +7,10 @@ use base 'FusionInventory::Agent::Logger::Backend';
 use English qw(-no_match_vars);
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
     my $self = {
-        color => $params->{config}->{color},
+        color => $params{config}->{color},
     };
     bless $self, $class;
 

@@ -20,41 +20,40 @@ plan tests => 9;
 
 my $snmp;
 throws_ok {
-    $snmp = FusionInventory::Agent::SNMP->new({
-    });
+    $snmp = FusionInventory::Agent::SNMP->new();
 } qr/^no hostname parameter/,
 'instanciation: no hostname parameter';
 
 throws_ok {
-    $snmp = FusionInventory::Agent::SNMP->new({
+    $snmp = FusionInventory::Agent::SNMP->new(
         hostname => 'localhost',
         version  => 'foo'
-    });
+    );
 } qr/^invalid SNMP version/,
 'instanciation: invalid version parameter';
 
 throws_ok {
-    $snmp = FusionInventory::Agent::SNMP->new({
+    $snmp = FusionInventory::Agent::SNMP->new(
         hostname => 'localhost',
         version  => 5
-    });
+    );
 } qr/^invalid SNMP version/,
 'instanciation: invalid version parameter';
 
 throws_ok {
-    $snmp = FusionInventory::Agent::SNMP->new({
+    $snmp = FusionInventory::Agent::SNMP->new(
         hostname => 'localhost',
         version => 1
-    });
+    );
 } qr/[Cc]ommunity (is )?not defined/,
 'instanciation: undefined community';
 
 lives_ok {
-    $snmp = FusionInventory::Agent::SNMP->new({
+    $snmp = FusionInventory::Agent::SNMP->new(
         version   => 1,
         community => 'public',
         hostname  => 'localhost'
-    });
+    );
 } 'instanciation: OK';
 
 ok(

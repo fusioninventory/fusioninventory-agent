@@ -21,7 +21,7 @@ sub doInventory {
 
     my $inventory    = $params{inventory};
     my $logger       = $params{logger};
-    my $scanhomedirs = $params{config}->{'scan-homedirs'};
+    my $scanhomedirs = $params{scan_homedirs};
 
     my $cmd_list_vms = "VBoxManage -nologo list --long vms";
 

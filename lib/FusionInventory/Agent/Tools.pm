@@ -4,11 +4,11 @@ use strict;
 use warnings;
 use base 'Exporter';
 
+use Encode qw(encode);
 use English qw(-no_match_vars);
 use File::Basename;
 use File::Spec;
 use File::stat;
-use Encode qw/encode/;
 use Memoize;
 our @EXPORT = qw(
     getSubnetAddress
@@ -146,6 +146,7 @@ sub getCanonicalSize {
         $unit eq 'tb' ? $value * 1000 * 1000 :
         $unit eq 'gb' ? $value * 1000        :
         $unit eq 'mb' ? $value               :
+        $unit eq 'kb' ? $value * 0.001       :
                         undef                ;
 }
 
@@ -258,7 +259,7 @@ sub compareVersion {
     my ($major, $minor, $min_major, $min_minor) = @_;
 
     return
-        $major > $minor
+        $major > $min_major
         ||
         (
             $major == $min_major

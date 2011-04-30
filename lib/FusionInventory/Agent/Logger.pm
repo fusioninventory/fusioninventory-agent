@@ -7,16 +7,16 @@ use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
     my $self = {
-        debug => $params->{debug},
+        debug => $params{debug},
     };
     bless $self, $class;
 
     my %backends;
     foreach my $backend (
-        $params->{backends} ? @{$params->{backends}} : 'Stderr'
+        $params{backends} ? @{$params{backends}} : 'Stderr'
     ) {
 	next if $backends{$backend};
         my $package = "FusionInventory::Agent::Logger::$backend";
@@ -31,7 +31,7 @@ sub new {
         $self->debug("Logger backend $backend initialised");
         push
             @{$self->{backends}},
-            $package->new($params);
+            $package->new(%params);
     }
 
     $self->debug($FusionInventory::Agent::VERSION_STRING);

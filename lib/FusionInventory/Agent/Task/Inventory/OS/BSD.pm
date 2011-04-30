@@ -20,7 +20,6 @@ sub doInventory {
 
     # Basic operating system informations
     my $OSVersion = getFirstLine(command => 'uname -r');
-    my $OSArchi = getFirstLine(command => 'uname -p');
     my $OSComment = getFirstLine(command => 'uname -v');
 
     # Get more information from the kernel configuration file
@@ -39,16 +38,18 @@ sub doInventory {
         }
     }
 
+    my $OSName = $OSNAME;
     if (can_run('lsb_release')) {
-        foreach (`lsb_release -d`) {
-            $OSNAME = $1 if /Description:\s+(.+)/;
-        }
+        $OSName = getFirstMatch(
+            command => 'lsb_release -d',
+            pattern => /Description:\s+(.+)/
+        );
     }
 
     $inventory->setHardware({
-        OSNAME     => $OSNAME,
-        OSCOMMENTS => $OSComment,
+        OSNAME     => $OSName,
         OSVERSION  => $OSVersion,
+        OSCOMMENTS => $OSComment,
     });
 }
 

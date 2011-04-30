@@ -9,7 +9,7 @@ sub isInventoryEnabled {
     my (%params) = @_;
 
     return
-        !$params{config}->{no_software} &&
+        !$params{no_software} &&
         can_run('pkg_info');
 }
 

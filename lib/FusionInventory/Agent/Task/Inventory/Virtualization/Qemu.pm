@@ -26,15 +26,15 @@ sub doInventory {
         # match only if an qemu instance
         next unless $process->{CMD} =~ /(qemu|kvm|(qemu-kvm)).*\-([fh]d[a-d]|cdrom).*/;
             
-        my $name = "N/A";
+        my $name;
         my $mem = 0;
         my $uuid;
         my $vmtype = $1;
                     
         my @options = split (/\-/, $process->{CMD});
         foreach my $option (@options) {
-            if ($name eq "N/A" and $option =~ m/^([fh]d[a-d]|cdrom) (\S+)/) {
-                $name = $2;
+            if ($option =~ m/^([fh]d[a-d]|cdrom) (\S+)/) {
+                $name = $2 if !$name;
             } elsif ($option =~ m/^name (\S+)/) {
                 $name = $1;
             } elsif ($option =~ m/^m (\S+)/) {

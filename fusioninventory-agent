@@ -73,12 +73,12 @@ version() if $options->{version};
 
 
 eval {
-    my $agent = FusionInventory::Agent->new({
+    my $agent = FusionInventory::Agent->new(
         confdir => './etc/fusioninventory',
         datadir => './share',
         vardir  => './var',
         options => $options
-    });
+    );
     $agent->run();
 };
 

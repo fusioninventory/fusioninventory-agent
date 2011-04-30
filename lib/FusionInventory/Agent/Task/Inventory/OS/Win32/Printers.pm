@@ -44,7 +44,7 @@ my @errStatus = (
 
 sub isInventoryEnabled {
     my (%params) = @_;
-    return !$params{config}->{no_printer};
+    return !$params{no_printer};
 }
 
 sub doInventory {

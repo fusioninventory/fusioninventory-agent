@@ -55,7 +55,7 @@ sub doInventory {
     }
 
     $inventory->setHardware({
-        SWAP   => sprintf("%i", $swapSize/1024),
+        SWAP   => int($swapSize / 1024),
         MEMORY => $memorySize
     });
 }

@@ -18,19 +18,18 @@ sub doInventory {
     my $handle = getFileHandle(file => '/proc/meminfo', logger => $logger);
     return unless $handle;
 
-    my $unit = 1024;
-    my $PhysicalMemory;
-    my $SwapFileSize;
+    my $memorySize;
+    my $swapSize;
 
     while (my $line = <$handle>) {
-        $PhysicalMemory = $1 if $line =~ /^MemTotal:\s*(\S+)/;
-        $SwapFileSize = $1 if $line =~ /^SwapTotal:\s*(\S+)/;
+        $memorySize = $1 if $line =~ /^MemTotal:\s*(\S+)/;
+        $swapSize = $1 if $line =~ /^SwapTotal:\s*(\S+)/;
     }
     close $handle;
 
     $inventory->setHardware({
-        MEMORY => sprintf("%i", $PhysicalMemory/$unit),
-        SWAP   => sprintf("%i", $SwapFileSize/$unit),
+        MEMORY => int($memorySize/ 1024),
+        SWAP   => int($swapSize / 1024),
     });
 }
 
