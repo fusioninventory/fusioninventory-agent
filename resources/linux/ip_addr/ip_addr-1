@@ -1,0 +1,25 @@
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 16436 qdisc noqueue state UNKNOWN 
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP qlen 1000
+    link/ether 00:23:18:91:db:8d brd ff:ff:ff:ff:ff:ff
+    inet 192.168.0.10/24 brd 192.168.0.255 scope global eth0
+    inet6 2a01:e34:ef9c:64d0:223:18ff:fe91:db8d/64 scope global dynamic 
+       valid_lft 85996sec preferred_lft 85996sec
+    inet6 fe80::223:18ff:fe91:db8d/64 scope link 
+       valid_lft forever preferred_lft forever
+4: tun0: <POINTOPOINT,MULTICAST,NOARP,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UNKNOWN qlen 100
+    link/none 
+    inet 192.168.41.6 peer 192.168.41.5/32 scope global tun0
+6: tun1: <POINTOPOINT,MULTICAST,NOARP,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UNKNOWN qlen 100
+    link/none 
+    inet 192.168.222.14 peer 192.168.222.13/32 scope global tun1
+23: wlan0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc mq state DOWN qlen 1000
+    link/ether e8:39:df:3f:7d:ef brd ff:ff:ff:ff:ff:ff
+24: tap0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UNKNOWN qlen 100
+    link/ether 8a:84:99:29:46:05 brd ff:ff:ff:ff:ff:ff
+    inet 172.28.218.101/24 brd 172.28.218.255 scope global tap0
+    inet6 fe80::8884:99ff:fe29:4605/64 scope link 
+       valid_lft forever preferred_lft forever

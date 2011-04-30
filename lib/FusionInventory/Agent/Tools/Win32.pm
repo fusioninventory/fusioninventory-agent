@@ -41,6 +41,7 @@ our @EXPORT = qw(
     KEY_WOW64_64
     KEY_WOW64_32
     getValueFromRegistry
+    getWmiObjects
 );
 
 sub is64bit {
@@ -49,6 +50,35 @@ sub is64bit {
         any { $_->{AddressWidth} eq 64 } 
         getWmiProperties('Win32_Processor', qw/AddressWidth/);
 }
+
+# Imported from 2.1.x for is64bit
+sub getWmiProperties {
+    my $wmiClass = shift;
+    my @keys = @_;
+
+    my $WMIServices = Win32::OLE->GetObject(
+            "winmgmts:{impersonationLevel=impersonate,(security)}!//./" );
+
+
+    if (!$WMIServices) {
+        print STDERR Win32::OLE->LastError();
+    }
+
+
+    my @properties;
+    foreach my $value ( Win32::OLE::in( $WMIServices->InstancesOf(
+                    $wmiClass ) ) )
+    {
+        my $property;
+        foreach my $key (@keys) {
+            $property->{$key} = encodeFromWmi($value->{$key});
+        }
+        push @properties, $property;
+    }
+
+    return @properties;
+}
+
 
 # We don't need to encode to UTF-8 on Win7
 sub encodeFromWmi {
@@ -84,11 +114,11 @@ sub getWmiObjects {
     );
 
     my $WMIService = Win32::OLE->GetObject($params{moniker})
-        or die "WMI connection failed: " . Win32::OLE->LastError();
+        or return; #die "WMI connection failed: " . Win32::OLE->LastError();
 
     my @objects;
     foreach my $instance (in(
-        $WMIServices->InstancesOf($params{class})
+        $WMIService->InstancesOf($params{class})
     )) {
         my $object;
         foreach my $property (@{$params{properties}}) {
@@ -100,16 +130,18 @@ sub getWmiObjects {
     return @objects;
 }
 
+# Deprecated? See: getValueFromRegistry()
 sub getRawRegistryKey {
     my ($name) = @_;
 
     my $key = $Registry->Open('LMachine', {
-        Access => KEY_READ | KEY_WOW64_64KEY
+        Access => KEY_READ() | KEY_WOW64_64KEY()
     }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
     return $key->{$name};
 }
 
+# Deprecated? See: getValueFromRegistry()
 sub getRegistryKey {
     my $rawkey = getRawRegistryKey(@_);
 
@@ -134,6 +166,8 @@ sub getValueFromRegistry {
         $root = $1;
         $subpath = $2;
         $keyName = $3;
+    } else {
+        $logger->debug("Failed to parse `$path'. Does it start with HKEY_?");
     }
     my $machKey;
     $Registry->Delimiter("/");

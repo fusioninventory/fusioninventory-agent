@@ -34,7 +34,7 @@ sub doInventory {
         # understand MSDN, this sounds very odd
 
         my $machKey64 = $Registry->Open('LMachine', {
-            Access => KEY_READ | KEY_WOW64_64KEY
+            Access => KEY_READ() | KEY_WOW64_64KEY()
         }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
         my $softwares64 =
@@ -42,12 +42,12 @@ sub doInventory {
 
         _processSoftwares({
             inventory => $inventory,
-            softwares => $softwares64bit,
+            softwares => $softwares64,
             is64bit   => 1
         });
 
         my $machKey32 = $Registry->Open('LMachine', {
-            Access => KEY_READ | KEY_WOW64_32KEY
+            Access => KEY_READ() | KEY_WOW64_32KEY()
         }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
         my $softwares32 =
@@ -125,12 +125,12 @@ sub _processSoftwares {
         my $urlInfoAbout = encodeFromRegistry($data->{'/URLInfoAbout'});
         my $helpLink = encodeFromRegistry($data->{'/HelpLink'});
         my $uninstallString = encodeFromRegistry($data->{'/UninstallString'});
-        my $noRemove;
         my $releaseType = encodeFromRegistry($data->{'/ReleaseType'});
-        my $installDate = dateFormat($data->{'/InstallDate'});
-        my $versionMinor = hexToDec($data->{'/VersionMinor'});
-        my $versionMajor = hexToDec($data->{'/VersionMajor'});
+        my $installDate = _dateFormat($data->{'/InstallDate'});
+        my $versionMinor = _hexToDec($data->{'/VersionMinor'});
+        my $versionMajor = _hexToDec($data->{'/VersionMajor'});
 
+        my $noRemove;
         if ($data->{'/NoRemove'}) {
             $noRemove = ($data->{'/NoRemove'} =~ /1/)?1:0;
         }
@@ -148,8 +148,8 @@ sub _processSoftwares {
                 HELPLINK         => $helpLink,
                 INSTALLDATE      => $installDate,
                 NAME             => $name,
-                NOREMOVE         => $noRemove,
-                RELEASETYPE      => $releaseType,
+                NO_REMOVE         => $noRemove,
+                RELEASE_TYPE      => $releaseType,
                 PUBLISHER        => $publisher,
                 UNINSTALL_STRING => $uninstallString,
                 URL_INFO_ABOUT   => $urlInfoAbout,

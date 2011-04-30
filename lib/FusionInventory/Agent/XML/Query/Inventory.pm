@@ -90,11 +90,13 @@ sub addEntry {
     die "unknown section $section" unless $fields;
 
     my $newEntry;
-    foreach my $field (@$fields) {
-        next unless defined $entry->{$field};
+    foreach my $field (keys %$entry) {
+        if (!grep $_ eq $field, @$fields) {
+            $self->{logger}->debug("unknown field for $section: $field");
+            next;
+        }
         $newEntry->{$field} = getSanitizedString($entry->{$field});
     }
-
     # avoid duplicate entries
     if ($params{noDuplicated}) {
         my $md5 = md5_base64(Dumper($newEntry));

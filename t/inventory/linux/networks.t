@@ -2,10 +2,11 @@
 
 use strict;
 use warnings;
-use FusionInventory::Agent::Task::Inventory::OS::Linux::Network::Networks;
+use FusionInventory::Agent::Task::Inventory::OS::Linux::Networks;
 use Test::More;
+use File::Basename;
 
-my %tests = (
+my %testsParseIfconfig = (
     'dell-xt2' => [
         {
             MACADDR     => 'A4:BA:DB:A5:F5:FA',
@@ -72,10 +73,81 @@ my %tests = (
     ]
 );
 
-plan tests => scalar keys %tests;
+my %testParseIpAddrShow = (
 
-foreach my $test (keys %tests) {
+'ip_addr-1' => [
+{
+            'IPSUBNET' => '127.0.0.0',
+            'IPMASK' => '255.0.0.0',
+            'STATUS' => 'Up',
+            'DESCRIPTION' => 'lo',
+            'IPADDRESS6' => '::1',
+            'IPADDRESS' => '127.0.0.1'
+          },
+          {
+            'IPSUBNET' => '192.168.0.0',
+            'IPMASK' => '255.255.255.0',
+            'MACADDR' => '00:23:18:91:db:8d',
+            'STATUS' => 'Up',
+            'DESCRIPTION' => 'eth0',
+            'IPADDRESS6' => 'fe80::223:18ff:fe91:db8d',
+            'IPADDRESS' => '192.168.0.10'
+          },
+          {
+            'STATUS' => 'Up',
+            'DESCRIPTION' => 'tun0'
+          },
+          {
+            'STATUS' => 'Up',
+            'DESCRIPTION' => 'tun1'
+          },
+          {
+            'MACADDR' => 'e8:39:df:3f:7d:ef',
+            'STATUS' => 'Down',
+            'DESCRIPTION' => 'wlan0'
+          }
+],
+'ip_addr-2' => [
+          {
+            'IPSUBNET' => '127.0.0.0',
+            'IPMASK' => '255.0.0.0',
+            'STATUS' => 'Up',
+            'DESCRIPTION' => 'lo',
+            'IPADDRESS6' => '::1',
+            'IPADDRESS' => '127.0.0.1'
+          },
+          {
+            'IPSUBNET' => '172.16.0.0',
+            'IPMASK' => '255.255.128.0',
+            'MACADDR' => '0f:0f:0f:0f:0f:0f',
+            'STATUS' => 'Up',
+            'DESCRIPTION' => 'eth0',
+            'IPADDRESS6' => 'fe80::201:29ff:fed1:feb4',
+            'IPADDRESS' => '172.16.0.201'
+          },
+          {
+            'STATUS' => 'Down',
+            'DESCRIPTION' => 'eql'
+          },
+          {
+            'STATUS' => 'Down',
+            'DESCRIPTION' => 'sit0'
+          }
+        ]
+);
+
+
+my @testParseIpAddrShow = glob("resources/linux/ip_addr/ip_addr-*");
+plan tests => int (keys %testsParseIfconfig) + int (@testParseIpAddrShow);
+
+foreach my $test (keys %testsParseIfconfig) {
     my $file = "resources/ifconfig/$test";
-    my @results = FusionInventory::Agent::Task::Inventory::OS::Linux::Network::Networks::_parseIfconfig(file => $file);
-    is_deeply(\@results, $tests{$test}, $test);
+    my @results = FusionInventory::Agent::Task::Inventory::OS::Linux::Networks::_parseIfconfig(file => $file);
+    is_deeply(\@results, $testsParseIfconfig{$test}, $test);
+}
+
+foreach my $file (@testParseIpAddrShow) {
+    my $test = basename($file);
+    my @r = FusionInventory::Agent::Task::Inventory::OS::Linux::Networks::_parseIpAddrShow(file => $file);
+    is_deeply(\@r, $testParseIpAddrShow{$test}, $test) or print Dumper(\@r);
 }

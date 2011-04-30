@@ -8,6 +8,7 @@ use English qw(-no_match_vars);
 use File::Basename;
 use File::Spec;
 use File::stat;
+use Encode qw/encode/;
 use Memoize;
 our @EXPORT = qw(
     getSubnetAddress

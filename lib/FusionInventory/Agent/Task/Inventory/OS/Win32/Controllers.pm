@@ -35,7 +35,7 @@ sub doInventory {
 
             # I scan CIM_LogicalDevice to identify more devices but I don't want
             # everything. Only devices with a PCIID sounds resonable
-            if ($wmiClass eq 'CIM_LogicalDevice') {
+            if ($class eq 'CIM_LogicalDevice') {
                 next unless $pciid;
                 next if $seen{$pciid};
             }
@@ -49,10 +49,10 @@ sub doInventory {
                     NAME           => $object->{Name},
                     MANUFACTURER   => $object->{Manufacturer},
                     CAPTION        => $object->{Caption},
-                    DESCRIPTION    => $object->{Description},
+                    #DESCRIPTION    => $object->{Description},
                     PCIID          => $pciid,
                     PCISUBSYSTEMID => $pcisubsystemid,
-                    VERSION        => $object->{HardwareVersion},
+                    #VERSION        => $object->{HardwareVersion},
                     TYPE           => $object->{Caption},
                 }
             );

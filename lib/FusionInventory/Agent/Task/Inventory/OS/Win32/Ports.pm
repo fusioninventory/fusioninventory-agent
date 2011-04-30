@@ -144,7 +144,7 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    foreach my $object (getWmiObject(
+    foreach my $object (getWmiObjects(
         class      => 'Win32_SerialPort',
         properties => [ qw/Name Caption Description/ ]
     )) {
