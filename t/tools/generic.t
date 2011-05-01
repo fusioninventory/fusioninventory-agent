@@ -3340,6 +3340,17 @@ my @version_tests_nok = (
     [ 0, 9, 1, 0 ], 
 );
 
+my @sanitization_tests = (
+    [ "",               ""    ],
+    [ "foo",            "foo" ],
+    [ "foo\x12",        "foo" ],
+    [ "\x12foo",        "foo" ],
+    [ "\x12foo\x12",    "foo" ],
+    [ "fo\xA9",         "fo©" ],
+    [ "fo\xA9\x12",     "fo©" ],
+    [ "\x12fo\xA9",     "fo©" ],
+    [ "\x12fo\xA9\x12", "fo©" ],
+);
 
 plan tests =>
     (scalar keys %dmidecode_tests) +
@@ -3352,6 +3363,7 @@ plan tests =>
     (scalar @manufacturer_tests_nok) +
     (scalar @version_tests_ok) +
     (scalar @version_tests_nok) +
+    (scalar @sanitization_tests) +
     14;
 
 foreach my $test (keys %dmidecode_tests) {
@@ -3424,6 +3436,14 @@ foreach my $test (@version_tests_nok) {
     ok(
         !compareVersion(@$test),
         "$test->[0].$test->[1] < $test->[2].$test->[3]"
+    );
+}
+
+foreach my $test (@sanitization_tests) {
+    is(
+        getSanitizedString($test->[0]),
+        $test->[1],
+        "$test->[0] sanitization"
     );
 }
 
