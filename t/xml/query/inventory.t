@@ -13,10 +13,11 @@ use FusionInventory::Agent;
 use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::Logger;
 
-plan tests => 10;
+plan tests => 18;
 
 my $logger = FusionInventory::Agent::Logger->new(
-    backends => [ 'Test' ]
+    backends => [ 'Test' ],
+    debug    => 1
 );
 
 my $inventory;
@@ -59,6 +60,116 @@ is_deeply(
     scalar $tpp->parse($inventory->getContent()),
     $content,
     'initial state, after checksum computation'
+);
+
+throws_ok {
+    $inventory->addEntry(
+        section => 'FOOS',
+    );
+} qr/^no entry/, 'no entry';
+
+throws_ok {
+    $inventory->addEntry(
+        section => 'FOOS',
+        entry   => { bar => 1 }
+    );
+} qr/^unknown section FOOS/, 'unknown section';
+
+$inventory->addEntry(
+    section => 'ENVS',
+    entry   => { 
+        KEY => 'key1',
+        VAL => 'val1'
+    }
+);
+$content->{REQUEST}->{CONTENT}->{ENVS} = {
+    KEY => 'key1',
+    VAL => 'val1',
+};
+is_deeply(
+    scalar $tpp->parse($inventory->getContent()),
+    $content,
+    'first environment variable added'
+);
+
+$inventory->addEntry(
+    section => 'ENVS',
+    entry   => { 
+        KEY => 'key2',
+        VAL => 'val2'
+    }
+);
+$content->{REQUEST}->{CONTENT}->{ENVS} = [
+    { KEY => 'key1', VAL => 'val1' },
+    { KEY => 'key2', VAL => 'val2' },
+];
+is_deeply(
+    scalar $tpp->parse($inventory->getContent()),
+    $content,
+    'second environment variable added'
+);
+
+$inventory->addEntry(
+    section => 'ENVS',
+    entry   => { 
+        KEY => 'key3',
+        VAL => undef
+    }
+);
+$content->{REQUEST}->{CONTENT}->{ENVS} = [
+    { KEY => 'key1', VAL => 'val1' },
+    { KEY => 'key2', VAL => 'val2' },
+    { KEY => 'key3'                },
+];
+is_deeply(
+    scalar $tpp->parse($inventory->getContent()),
+    $content,
+    'entry with undefined value added'
+);
+
+$inventory->addEntry(
+    section => 'ENVS',
+    entry   => { 
+        KEY => 'key4',
+        VAL => "val4\x12"
+    }
+);
+$content->{REQUEST}->{CONTENT}->{ENVS} = [
+    { KEY => 'key1', VAL => 'val1' },
+    { KEY => 'key2', VAL => 'val2' },
+    { KEY => 'key3'                },
+    { KEY => 'key4', VAL => 'val4' }
+];
+is_deeply(
+    scalar $tpp->parse($inventory->getContent()),
+    $content,
+    'entry with non-sanitized value added'
+);
+
+$inventory->addEntry(
+    section => 'ENVS',
+    entry   => { 
+        KEY => 'key5',
+        LAV => 'val5'
+    }
+);
+$content->{REQUEST}->{CONTENT}->{ENVS} = [
+    { KEY => 'key1', VAL => 'val1' },
+    { KEY => 'key2', VAL => 'val2' },
+    { KEY => 'key3'                },
+    { KEY => 'key4', VAL => 'val4' },
+    { KEY => 'key5'                }
+];
+is_deeply(
+    scalar $tpp->parse($inventory->getContent()),
+    $content,
+    'entry with unknown field added'
+);
+
+is(
+    $logger->{backends}->[0]->{message},
+    "unknown field LAV for section ENVS",
+    'unknown field logged'
 );
 
 $inventory->addEntry(
