@@ -13,7 +13,7 @@ use FusionInventory::Agent;
 use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::Logger;
 
-plan tests => 6;
+plan tests => 10;
 
 my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'Test' ]
@@ -33,10 +33,29 @@ lives_ok {
 
 isa_ok($inventory, 'FusionInventory::Agent::XML::Query::Inventory');
 
-$inventory->processChecksum();
-
 my $tpp = XML::TreePP->new();
 my $content;
+
+$content = {
+    REQUEST => {
+        DEVICEID => 'foo',
+        QUERY => 'INVENTORY',
+        CONTENT => {
+            HARDWARE => {
+                ARCHNAME => $Config{archname},
+                VMSYSTEM => 'Physical'
+            },
+            VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING
+        },
+    }
+};
+is_deeply(
+    scalar $tpp->parse($inventory->getContent()),
+    $content,
+    'initial state'
+);
+
+$inventory->processChecksum();
 
 $content = {
     REQUEST => {
@@ -55,7 +74,7 @@ $content = {
 is_deeply(
     scalar $tpp->parse($inventory->getContent()),
     $content,
-    'creation content'
+    'initial state, after checksum computation'
 );
 
 $inventory->addEntry(
@@ -69,7 +88,68 @@ $inventory->addEntry(
         CORE         => 1
     }
 );
+
+$content = {
+    REQUEST => {
+        DEVICEID => 'foo',
+        QUERY => 'INVENTORY',
+        CONTENT => {
+            VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING,
+            HARDWARE => {
+                ARCHNAME => $Config{archname},
+                CHECKSUM => 262143,
+                VMSYSTEM => 'Physical'
+            },
+            CPUS => {
+                CORE         => 1,
+                MANUFACTURER => 'FusionInventory Developers',
+                NAME         => 'void CPU',
+                SERIAL       => 'AEZVRV',
+                SPEED        => 1456,
+                THREAD       => 3,
+            }
+        },
+    }
+};
+is_deeply(
+    scalar $tpp->parse($inventory->getContent()),
+    $content,
+    'CPU added'
+);
+
 $inventory->setGlobalValues();
+
+$content = {
+    REQUEST => {
+        DEVICEID => 'foo',
+        QUERY => 'INVENTORY',
+        CONTENT => {
+            VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING,
+            HARDWARE => {
+                ARCHNAME   => $Config{archname},
+                CHECKSUM   => 262143,
+                PROCESSORN => 1,
+                PROCESSORS => 1456,
+                PROCESSORT => 'void CPU',
+                VMSYSTEM   => 'Physical'
+            },
+            CPUS => {
+                CORE         => 1,
+                MANUFACTURER => 'FusionInventory Developers',
+                NAME         => 'void CPU',
+                SERIAL       => 'AEZVRV',
+                SPEED        => 1456,
+                THREAD       => 3,
+            }
+        },
+    }
+};
+is_deeply(
+    scalar $tpp->parse($inventory->getContent()),
+    $content,
+    'CPU added, after global values computation'
+);
+
 $inventory->processChecksum();
 
 $content = {
@@ -100,7 +180,7 @@ $content = {
 is_deeply(
     scalar $tpp->parse($inventory->getContent()),
     $content,
-    'CPU added'
+    'CPU added, after checksum computation'
 );
 
 $inventory->addEntry(
@@ -114,6 +194,46 @@ $inventory->addEntry(
         VOLUMN     => '/dev/sda2',
     }
 );
+
+$content = {
+    REQUEST => {
+        DEVICEID => 'foo',
+        QUERY => 'INVENTORY',
+        CONTENT => {
+            VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING,
+            HARDWARE => {
+                ARCHNAME   => $Config{archname},
+                CHECKSUM   => 1,
+                PROCESSORN => 1,
+                PROCESSORS => 1456,
+                PROCESSORT => 'void CPU',
+                VMSYSTEM   => 'Physical'
+            },
+            CPUS => {
+                CORE         => 1,
+                MANUFACTURER => 'FusionInventory Developers',
+                NAME         => 'void CPU',
+                SERIAL       => 'AEZVRV',
+                SPEED        => 1456,
+                THREAD       => 3,
+            },
+            DRIVES => {
+                FILESYSTEM => 'ext3',
+                FREE       => 9120,
+                SERIAL     => '7f8d8f98-15d7-4bdb-b402-46cbed25432b',
+                TOTAL      => 18777,
+                TYPE       => '/',
+                VOLUMN     => '/dev/sda2'
+            }
+        },
+    }
+};
+is_deeply(
+    scalar $tpp->parse($inventory->getContent()),
+    $content,
+    'drive added'
+);
+
 $inventory->processChecksum();
 
 $content = {
@@ -152,5 +272,5 @@ $content = {
 is_deeply(
     scalar $tpp->parse($inventory->getContent()),
     $content,
-    'drive added'
+    'drive added, after checksum computation'
 );
