@@ -61,12 +61,12 @@ is_deeply(
 $inventory->addEntry(
     section => 'CPUS',
     entry   => {
-        NAME => 'void CPU',
-        SPEED => 1456,
+        NAME         => 'void CPU',
+        SPEED        => 1456,
         MANUFACTURER => 'FusionInventory Developers',
-        SERIAL => 'AEZVRV',
-        THREAD => 3,
-        CORE => 1
+        SERIAL       => 'AEZVRV',
+        THREAD       => 3,
+        CORE         => 1
     }
 );
 $inventory->setGlobalValues();
@@ -79,20 +79,20 @@ $content = {
         CONTENT => {
             VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING,
             HARDWARE => {
-                ARCHNAME => $Config{archname},
-                CHECKSUM => 1,
+                ARCHNAME   => $Config{archname},
+                CHECKSUM   => 1,
                 PROCESSORN => 1,
                 PROCESSORS => 1456,
                 PROCESSORT => 'void CPU',
-                VMSYSTEM => 'Physical'
+                VMSYSTEM   => 'Physical'
             },
             CPUS => {
-                CORE => 1,
+                CORE         => 1,
                 MANUFACTURER => 'FusionInventory Developers',
-                NAME => 'void CPU',
-                SERIAL => 'AEZVRV',
-                SPEED => 1456,
-                THREAD => 3,
+                NAME         => 'void CPU',
+                SERIAL       => 'AEZVRV',
+                SPEED        => 1456,
+                THREAD       => 3,
             }
         },
     }
@@ -123,28 +123,28 @@ $content = {
         CONTENT => {
             VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING,
             HARDWARE => {
-                ARCHNAME => $Config{archname},
-                CHECKSUM => 513,
+                ARCHNAME   => $Config{archname},
+                CHECKSUM   => 513,
                 PROCESSORN => 1,
                 PROCESSORS => 1456,
                 PROCESSORT => 'void CPU',
-                VMSYSTEM => 'Physical'
+                VMSYSTEM   => 'Physical'
             },
             CPUS => {
-                CORE => 1,
+                CORE         => 1,
                 MANUFACTURER => 'FusionInventory Developers',
-                NAME => 'void CPU',
-                SERIAL => 'AEZVRV',
-                SPEED => 1456,
-                THREAD => 3,
+                NAME         => 'void CPU',
+                SERIAL       => 'AEZVRV',
+                SPEED        => 1456,
+                THREAD       => 3,
             },
             DRIVES => {
                 FILESYSTEM => 'ext3',
-                FREE => 9120,
-                SERIAL => '7f8d8f98-15d7-4bdb-b402-46cbed25432b',
-                TOTAL => 18777,
-                TYPE => '/',
-                VOLUMN => '/dev/sda2'
+                FREE       => 9120,
+                SERIAL     => '7f8d8f98-15d7-4bdb-b402-46cbed25432b',
+                TOTAL      => 18777,
+                TYPE       => '/',
+                VOLUMN     => '/dev/sda2'
             }
         },
     }
