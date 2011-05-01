@@ -34,9 +34,7 @@ lives_ok {
 isa_ok($inventory, 'FusionInventory::Agent::XML::Query::Inventory');
 
 my $tpp = XML::TreePP->new();
-my $content;
-
-$content = {
+my $content = {
     REQUEST => {
         DEVICEID => 'foo',
         QUERY => 'INVENTORY',
@@ -56,21 +54,7 @@ is_deeply(
 );
 
 $inventory->processChecksum();
-
-$content = {
-    REQUEST => {
-        DEVICEID => 'foo',
-        QUERY => 'INVENTORY',
-        CONTENT => {
-            HARDWARE => {
-                ARCHNAME => $Config{archname},
-                CHECKSUM => 262143,
-                VMSYSTEM => 'Physical'
-            },
-            VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING
-        },
-    }
-};
+$content->{REQUEST}->{CONTENT}->{HARDWARE}->{CHECKSUM} = 262143;
 is_deeply(
     scalar $tpp->parse($inventory->getContent()),
     $content,
@@ -88,28 +72,13 @@ $inventory->addEntry(
         CORE         => 1
     }
 );
-
-$content = {
-    REQUEST => {
-        DEVICEID => 'foo',
-        QUERY => 'INVENTORY',
-        CONTENT => {
-            VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING,
-            HARDWARE => {
-                ARCHNAME => $Config{archname},
-                CHECKSUM => 262143,
-                VMSYSTEM => 'Physical'
-            },
-            CPUS => {
-                CORE         => 1,
-                MANUFACTURER => 'FusionInventory Developers',
-                NAME         => 'void CPU',
-                SERIAL       => 'AEZVRV',
-                SPEED        => 1456,
-                THREAD       => 3,
-            }
-        },
-    }
+$content->{REQUEST}->{CONTENT}->{CPUS} = {
+    CORE         => 1,
+    MANUFACTURER => 'FusionInventory Developers',
+    NAME         => 'void CPU',
+    SERIAL       => 'AEZVRV',
+    SPEED        => 1456,
+    THREAD       => 3,
 };
 is_deeply(
     scalar $tpp->parse($inventory->getContent()),
@@ -118,32 +87,9 @@ is_deeply(
 );
 
 $inventory->setGlobalValues();
-
-$content = {
-    REQUEST => {
-        DEVICEID => 'foo',
-        QUERY => 'INVENTORY',
-        CONTENT => {
-            VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING,
-            HARDWARE => {
-                ARCHNAME   => $Config{archname},
-                CHECKSUM   => 262143,
-                PROCESSORN => 1,
-                PROCESSORS => 1456,
-                PROCESSORT => 'void CPU',
-                VMSYSTEM   => 'Physical'
-            },
-            CPUS => {
-                CORE         => 1,
-                MANUFACTURER => 'FusionInventory Developers',
-                NAME         => 'void CPU',
-                SERIAL       => 'AEZVRV',
-                SPEED        => 1456,
-                THREAD       => 3,
-            }
-        },
-    }
-};
+$content->{REQUEST}->{CONTENT}->{HARDWARE}->{PROCESSORN} = 1;
+$content->{REQUEST}->{CONTENT}->{HARDWARE}->{PROCESSORS} = 1456;
+$content->{REQUEST}->{CONTENT}->{HARDWARE}->{PROCESSORT} = 'void CPU';
 is_deeply(
     scalar $tpp->parse($inventory->getContent()),
     $content,
@@ -151,32 +97,7 @@ is_deeply(
 );
 
 $inventory->processChecksum();
-
-$content = {
-    REQUEST => {
-        DEVICEID => 'foo',
-        QUERY => 'INVENTORY',
-        CONTENT => {
-            VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING,
-            HARDWARE => {
-                ARCHNAME   => $Config{archname},
-                CHECKSUM   => 1,
-                PROCESSORN => 1,
-                PROCESSORS => 1456,
-                PROCESSORT => 'void CPU',
-                VMSYSTEM   => 'Physical'
-            },
-            CPUS => {
-                CORE         => 1,
-                MANUFACTURER => 'FusionInventory Developers',
-                NAME         => 'void CPU',
-                SERIAL       => 'AEZVRV',
-                SPEED        => 1456,
-                THREAD       => 3,
-            }
-        },
-    }
-};
+$content->{REQUEST}->{CONTENT}->{HARDWARE}->{CHECKSUM} = 1;
 is_deeply(
     scalar $tpp->parse($inventory->getContent()),
     $content,
@@ -194,39 +115,13 @@ $inventory->addEntry(
         VOLUMN     => '/dev/sda2',
     }
 );
-
-$content = {
-    REQUEST => {
-        DEVICEID => 'foo',
-        QUERY => 'INVENTORY',
-        CONTENT => {
-            VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING,
-            HARDWARE => {
-                ARCHNAME   => $Config{archname},
-                CHECKSUM   => 1,
-                PROCESSORN => 1,
-                PROCESSORS => 1456,
-                PROCESSORT => 'void CPU',
-                VMSYSTEM   => 'Physical'
-            },
-            CPUS => {
-                CORE         => 1,
-                MANUFACTURER => 'FusionInventory Developers',
-                NAME         => 'void CPU',
-                SERIAL       => 'AEZVRV',
-                SPEED        => 1456,
-                THREAD       => 3,
-            },
-            DRIVES => {
-                FILESYSTEM => 'ext3',
-                FREE       => 9120,
-                SERIAL     => '7f8d8f98-15d7-4bdb-b402-46cbed25432b',
-                TOTAL      => 18777,
-                TYPE       => '/',
-                VOLUMN     => '/dev/sda2'
-            }
-        },
-    }
+$content->{REQUEST}->{CONTENT}->{DRIVES} = {
+    FILESYSTEM => 'ext3',
+    FREE       => 9120,
+    SERIAL     => '7f8d8f98-15d7-4bdb-b402-46cbed25432b',
+    TOTAL      => 18777,
+    TYPE       => '/',
+    VOLUMN     => '/dev/sda2'
 };
 is_deeply(
     scalar $tpp->parse($inventory->getContent()),
@@ -235,40 +130,7 @@ is_deeply(
 );
 
 $inventory->processChecksum();
-
-$content = {
-    REQUEST => {
-        DEVICEID => 'foo',
-        QUERY => 'INVENTORY',
-        CONTENT => {
-            VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING,
-            HARDWARE => {
-                ARCHNAME   => $Config{archname},
-                CHECKSUM   => 513,
-                PROCESSORN => 1,
-                PROCESSORS => 1456,
-                PROCESSORT => 'void CPU',
-                VMSYSTEM   => 'Physical'
-            },
-            CPUS => {
-                CORE         => 1,
-                MANUFACTURER => 'FusionInventory Developers',
-                NAME         => 'void CPU',
-                SERIAL       => 'AEZVRV',
-                SPEED        => 1456,
-                THREAD       => 3,
-            },
-            DRIVES => {
-                FILESYSTEM => 'ext3',
-                FREE       => 9120,
-                SERIAL     => '7f8d8f98-15d7-4bdb-b402-46cbed25432b',
-                TOTAL      => 18777,
-                TYPE       => '/',
-                VOLUMN     => '/dev/sda2'
-            }
-        },
-    }
-};
+$content->{REQUEST}->{CONTENT}->{HARDWARE}->{CHECKSUM} = 513;
 is_deeply(
     scalar $tpp->parse($inventory->getContent()),
     $content,
