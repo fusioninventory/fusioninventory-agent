@@ -2,16 +2,22 @@
 
 use strict;
 use warnings;
+use lib 't';
+
+use Config;
 use Test::More;
 use Test::Exception;
-use Config;
 use XML::TreePP;
 
 use FusionInventory::Agent;
 use FusionInventory::Agent::XML::Query::Inventory;
-use FusionInventory::Logger;
+use FusionInventory::Agent::Logger;
 
 plan tests => 6;
+
+my $logger = FusionInventory::Agent::Logger->new(
+    backends => [ 'Test' ]
+);
 
 my $inventory;
 throws_ok {
@@ -21,7 +27,7 @@ throws_ok {
 lives_ok {
     $inventory = FusionInventory::Agent::XML::Query::Inventory->new(
         deviceid => 'foo',
-        logger   => FusionInventory::Logger->new(),
+        logger   => $logger
     );
 } 'everything OK';
 
