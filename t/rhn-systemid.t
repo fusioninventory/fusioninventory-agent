@@ -1,17 +1,19 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 
 use strict;
 use warnings;
 
 use Test::More;
-use File::Basename;
+
 use FusionInventory::Agent::Task::Inventory::OS::Linux;
 
-my @tests = glob("resources/rhn-systemid/??*");
-plan tests => int (@tests);
+my %tests = (
+    'ID-1232324425' => 'ID-123232425'
+);
+plan tests => scalar keys %tests;
 
-foreach my $file (@tests) {
-    my $result = basename($file);
-    my $rhenSysteId = FusionInventory::Agent::Task::Inventory::OS::Linux::_getRHNSystemId ($file);
-    ok($rhenSysteId, $_);
+foreach my $test (keys %tests) {
+    my $file = "resources/rhn-systemid/$test";
+    my $rhenSysteId = FusionInventory::Agent::Task::Inventory::OS::Linux::_getRHNSystemId($file);
+    ok($rhenSysteId, $tests{$test});
 }
