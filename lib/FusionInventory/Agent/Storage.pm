@@ -48,17 +48,15 @@ sub _getFileName {
 
     my $module = $params->{module};
 
-
-    my $callerModule;
-    my $i = 0;
-    while ($callerModule = caller($i++)) {
-        last if $callerModule ne 'FusionInventory::Agent::Storage';
+    if (!$module) {
+        my $i = 0;
+        while ($module = caller($i++)) {
+            last if $module ne 'FusionInventory::Agent::Storage';
+        }
     }
 
-    my $fileName = $module || $callerModule;
-    $fileName =~ s/::/-/g; # Drop the ::
-    # They are forbiden on Windows in file path
-
+    my $fileName = $module;
+    $fileName =~ s/::/-/g; # Drop prohibited caracters
 
     return $fileName;
 }
