@@ -65,24 +65,16 @@ sub _getFilePath {
     my ($self, $params ) = @_;
 
     my $idx = $params->{idx};
+    die "idx is not an integer" if $idx !~ /^\d+$/;
     my $module = $params->{module};
 
     my $fileName = $self->_getFileName({
         module => $module
     });
 
-
-    my $extension = '';
-    if ($idx) {
-        if ($idx !~ /^\d+$/) {
-            die "idx must be an integer!";
-        } 
-        $extension = '.'.$idx;
-    }
-
+    my $extension = defined $idx ? ".$idx" : "";
 
     return $self->{directory}."/".$fileName.$extension.".dump";
-
 }
 
 sub save {
