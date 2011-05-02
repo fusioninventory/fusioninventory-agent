@@ -147,13 +147,13 @@ FusionInventory::Agent::Storage - A data serializer/deserializer
   my $storage = FusionInventory::Agent::Storage->new(
       directory => '/tmp'
   );
-  my $data = $storage->restore({
+  my $data = $storage->restore(
       module => "FusionInventory::Agent"
-  });
+  );
 
   $data->{foo} = 'bar';
 
-  $storage->save({ data => $data });
+  $storage->save(data => $data);
 
 =head1 DESCRIPTION
 
