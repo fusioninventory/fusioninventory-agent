@@ -16,10 +16,10 @@ sub new {
 }
 
 sub addMsg {
-    my ($self, $args) = @_;
+    my ($self, %params) = @_;
 
-    $self->{message} = $args->{message};
-    $self->{level}   = $args->{level};
+    $self->{message} = $params{message};
+    $self->{level}   = $params{level};
 }
 
 1;
