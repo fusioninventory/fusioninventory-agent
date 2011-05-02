@@ -66,9 +66,6 @@ sub _getFileName {
 sub _getFilePath {
     my ($self, $params ) = @_;
 
-    my $target = $self->{target};
-    my $config = $self->{config};
-
     my $idx = $params->{idx};
     my $module = $params->{module};
 
