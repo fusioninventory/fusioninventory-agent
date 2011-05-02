@@ -78,7 +78,7 @@ sub new {
 
         $data->{previousHostname} = $hostname;
         $data->{deviceid} = $self->{deviceid};
-        $storage->save({ data => $data });
+        $storage->save(data => $data);
     } else {
         $self->{deviceid} = $data->{deviceid}
     }

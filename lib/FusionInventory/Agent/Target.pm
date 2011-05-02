@@ -113,7 +113,7 @@ sub setNextRunDate {
         localtime($self->{myData}{nextRunDate})
     );
 
-    $storage->save({ data => $self->{myData} });
+    $storage->save(data => $self->{myData});
 }
 
 sub getNextRunDate {
@@ -147,7 +147,7 @@ sub resetNextRunDate {
     $logger->debug("Agent is now running");
     
     $self->{myData}{nextRunDate} = 1;
-    $storage->save({ data => $self->{myData} });
+    $storage->save(data => $self->{myData});
     
     ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
 }
@@ -175,7 +175,7 @@ sub setPrologFreq {
     }
 
     $self->{myData}{prologFreq} = $prologFreq;
-    $storage->save({ data => $self->{myData} });
+    $storage->save(data => $self->{myData});
 
 }
 
