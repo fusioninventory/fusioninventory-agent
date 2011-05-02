@@ -67,11 +67,11 @@ sub new {
 }
 
 sub send {
-    my ($self, $params) = @_;
+    my ($self, %params) = @_;
 
-    my $url = ref $params->{url} eq 'URI' ?
-        $params->{url} : URI->new($params->{url});
-    my $message = $params->{message};
+    my $url = ref $params{url} eq 'URI' ?
+        $params{url} : URI->new($params{url});
+    my $message = $params{message};
     my $logger  = $self->{logger};
 
     # activate SSL if needed
@@ -184,10 +184,9 @@ sub send {
     return $response;
 }
 
-# No POD documentation here, it's an internal fuction
 # http://stackoverflow.com/questions/74358/validate-server-certificate-with-lwp
 sub _turnSSLCheckOn {
-    my ($self, $args) = @_;
+    my ($self) = @_;
 
     eval {
         require Crypt::SSLeay;
@@ -225,10 +224,10 @@ sub _getCertificatePattern {
 
 
 sub getStore {
-    my ($self, $args) = @_;
+    my ($self, %params) = @_;
 
-    my $source = $args->{source};
-    my $noProxy = $args->{noProxy};
+    my $source = $params{source};
+    my $noProxy = $params{noProxy};
 
     my $response;
     eval {
@@ -246,10 +245,10 @@ sub getStore {
 }
 
 sub get {
-    my ($self, $args) = @_;
+    my ($self, %params) = @_;
 
-    my $source = $args->{source};
-    my $noProxy = $args->{noProxy};
+    my $source = $params{source};
+    my $noProxy = $params{noProxy};
 
     my $response = $self->{ua}->get($source);
 
@@ -260,12 +259,11 @@ sub get {
 
 
 sub isSuccess {
-    my ($self, $args) = @_;
+    my ($self, %params) = @_;
 
-    my $code = $args->{code};
+    my $code = $params{code};
 
     return is_success($code);
-
 }
 
 sub _compress {
@@ -393,12 +391,12 @@ the directory containing trusted certificates
 
 =back
 
-=head2 send
+=head2 send(%params)
 
 Send an instance of C<FusionInventory::Agent::XML::Query> to the target (the
 server).
 
-=head2 getStore()
+=head2 getStore(%params)
 
 Acts like LWP::Simple::getstore.
 
@@ -410,18 +408,18 @@ Acts like LWP::Simple::getstore.
 
 $rc, can be read by isSuccess()
 
-=head2 get()
+=head2 get(%params)
 
-        my $content = $transmitter->get({
+        my $content = $transmitter->get(
                 source => 'http://www.FusionInventory.org/',
                 timeout => 15,
                 noProxy => 0
-            });
+            );
 
 Act like LWP::Simple::get, return the HTTP content of the URL in 'source'.
 The timeout is optional
 
-=head2 isSuccess()
+=head2 isSuccess(%params)
 
 Wrapper for LWP::is_success;
 

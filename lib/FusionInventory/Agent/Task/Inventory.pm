@@ -85,10 +85,10 @@ sub run {
             $self->{target}->getAccountInfo()
         );
 
-        my $response = $self->{transmitter}->send({
+        my $response = $self->{transmitter}->send(
             url     => $self->{target}->getUrl(),
             message => $inventory
-        });
+        );
 
         return unless $response;
         $inventory->saveLastState();
