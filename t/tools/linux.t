@@ -4,8 +4,6 @@ use strict;
 use warnings;
 
 use Test::More;
-use File::Glob;
-use File::Basename;
 
 use FusionInventory::Agent::Tools::Linux;
 

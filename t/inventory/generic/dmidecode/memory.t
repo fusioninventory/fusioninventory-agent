@@ -4,7 +4,6 @@ use strict;
 use warnings;
 
 use Test::More;
-use File::Basename;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Memory;

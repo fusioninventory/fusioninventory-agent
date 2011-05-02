@@ -2,12 +2,11 @@
 
 use strict;
 use warnings;
-use FusionInventory::Agent::Tools::Unix;
-use Test::More;
-use Cwd;
-use Data::Dumper;
 
 use English qw(-no_match_vars);
+use Test::More;
+
+use FusionInventory::Agent::Tools::Unix;
 
 my %lspci_tests = (
     'dell-xt2' => [

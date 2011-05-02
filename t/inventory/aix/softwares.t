@@ -5681,6 +5681,5 @@ plan tests => scalar keys %tests;
 foreach my $test (keys %tests) {
     my $file = "resources/lslpp/$test";
     my @softwares = FusionInventory::Agent::Task::Inventory::OS::AIX::Softwares::_getSoftwares(file => $file);
-    is_deeply(\@softwares, $tests{$test}, "software: $test") or print Dumper(\@softwares);
-    use Data::Dumper;
+    is_deeply(\@softwares, $tests{$test}, "software: $test");
 }

@@ -119,6 +119,5 @@ my $logger = FusionInventory::Agent::Logger->new();
 foreach my $test (keys %tests) {
     my $file = "resources/lsusb/$test";
     my @devices = FusionInventory::Agent::Task::Inventory::OS::Generic::USB::_getDevices($logger, $file);
-    is_deeply(\@devices, $tests{$test}, $test) or print Dumper(\@devices);
-use Data::Dumper;
+    is_deeply(\@devices, $tests{$test}, $test);
 }

@@ -2,9 +2,10 @@
 
 use strict;
 use warnings;
-use FusionInventory::Agent::Task::Inventory::OS::Linux::Networks;
+
 use Test::More;
-use File::Basename;
+
+use FusionInventory::Agent::Task::Inventory::OS::Linux::Networks;
 
 my %ifconfig_tests = (
     'dell-xt2' => [
@@ -134,7 +135,6 @@ my %ipaddrshow_tests = (
         }
     ]
 );
-
 
 plan tests =>
     int (keys %ifconfig_tests) +
