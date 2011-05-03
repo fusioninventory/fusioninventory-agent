@@ -26,7 +26,7 @@ plan tests => scalar keys %tests;
 my $logger = FusionInventory::Agent::Logger->new();
 
 foreach my $test (keys %tests) {
-    my $file = "resources/lspci/$test";
+    my $file = "resources/generic/lspci/$test";
     my @videos = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Videos::_getVideoControllers($logger, $file);
     is_deeply(\@videos, $tests{$test}, $test);
 }

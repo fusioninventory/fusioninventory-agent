@@ -676,7 +676,7 @@ plan tests => scalar keys %tests;
 my $logger = FusionInventory::Agent::Logger->new();
 
 foreach my $test (keys %tests) {
-    my $file = "resources/dmidecode/$test";
+    my $file = "resources/generic/dmidecode/$test";
     my $slots = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Slots::_getSlots($logger, $file);
     is_deeply($slots, $tests{$test}, $test);
 }

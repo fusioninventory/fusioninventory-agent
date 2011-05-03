@@ -141,7 +141,7 @@ plan tests =>
     int (keys %ipaddrshow_tests);
 
 foreach my $test (keys %ifconfig_tests) {
-    my $file = "resources/ifconfig/$test";
+    my $file = "resources/generic/ifconfig/$test";
     my @results = FusionInventory::Agent::Task::Inventory::OS::Linux::Networks::_parseIfconfig(file => $file);
     is_deeply(\@results, $ifconfig_tests{$test}, $test);
 }

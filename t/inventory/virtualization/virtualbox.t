@@ -386,7 +386,7 @@ my %tests = (
 plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
-    my $file = "resources/vboxmanage/$test";
+    my $file = "resources/virtualization/vboxmanage/$test";
     my @machines = FusionInventory::Agent::Task::Inventory::Virtualization::VirtualBox::_parseVBoxManage(file => $file);
     is_deeply(\@machines, $tests{$test}, $test);
 }

@@ -281,7 +281,7 @@ my $logger = FusionInventory::Agent::Logger->new();
 FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers::_loadPciIds($logger, 'share');
 
 foreach my $test (keys %tests) {
-    my $file = "resources/lspci/$test";
+    my $file = "resources/generic/lspci/$test";
     my @controllers = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers::_getExtentedControllers($logger, $file);
     is_deeply(\@controllers, $tests{$test}, $test);
 }

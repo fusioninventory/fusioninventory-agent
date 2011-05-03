@@ -52,7 +52,7 @@ my %tests = (
 plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
-    my $file = "resources/lsvpd/$test";
+    my $file = "resources/aix/lsvpd/$test";
     my @memories = FusionInventory::Agent::Task::Inventory::OS::AIX::Memory::_getMemories(file => $file);
     is_deeply(\@memories, $tests{$test}, "memories: $test");
 }

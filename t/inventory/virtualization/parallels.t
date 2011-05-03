@@ -22,7 +22,7 @@ my %tests = (
 plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
-    my $file = "resources/prlctl/$test";
+    my $file = "resources/virtualization/prlctl/$test";
     my @machines = FusionInventory::Agent::Task::Inventory::Virtualization::Parallels::_parsePrlctlA(file => $file);
     is_deeply(\@machines, $tests{$test}, $test);
 }

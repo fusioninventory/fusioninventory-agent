@@ -2492,25 +2492,26 @@ plan tests =>
     (scalar @dhcp_leases_test);
 
 foreach my $test (keys %lspci_tests) {
-    my $file = "resources/lspci/$test";
+    my $file = "resources/generic/lspci/$test";
     my @controllers = getControllersFromLspci(file => $file);
     is_deeply(\@controllers, $lspci_tests{$test}, "$test lspci parsing");
 }
 
 foreach my $test (keys %df_tests) {
-    my $file = "resources/df/$test";
+    my $file = "resources/generic/df/$test";
     my @infos = getFilesystemsFromDf(file => $file);
     is_deeply(\@infos, $df_tests{$test}, "$test df parsing");
 }
 
 foreach my $test (keys %ps_tests) {
-    my $file = "resources/ps/$test";
+    my $file = "resources/generic/ps/$test";
     my @infos = getProcessesFromPs(file => $file);
     is_deeply(\@infos, $ps_tests{$test}, "$test ps parsing");
 }
 
 foreach my $test (@dhcp_leases_test) {
-    my $server = FusionInventory::Agent::Tools::Unix::_parseDhcpLeaseFile(undef, $test->{if}, "resources/dhcp/".$test->{file});
+    my $file = "resources/generic/dhcp/$test->{file}";
+    my $server = FusionInventory::Agent::Tools::Unix::_parseDhcpLeaseFile(undef, $test->{if}, $file);
     ok(
         $server && ($server eq $test->{result}),
         "Parse DHCP lease"
@@ -2518,13 +2519,13 @@ foreach my $test (@dhcp_leases_test) {
 }
 
 foreach my $test (keys %netstat_tests) {
-    my $file = "resources/netstat/$test";
+    my $file = "resources/generic/netstat/$test";
     my $results = getRoutesFromNetstat(file => $file);
     is_deeply($results, $netstat_tests{$test}, $test);
 }
 
 foreach my $test (keys %mount_tests) {
-    my $file = "resources/mount/$test";
+    my $file = "resources/generic/mount/$test";
     my @types = getFilesystemsTypesFromMount(file => $file);
     is_deeply(\@types, $mount_tests{$test}, $test);
 }

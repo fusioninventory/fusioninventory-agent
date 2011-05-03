@@ -399,7 +399,7 @@ plan tests => 2 * keys %tests;
 my $logger = FusionInventory::Agent::Logger->new();
 
 foreach my $test (keys %tests) {
-    my $file = "resources/dmidecode/$test";
+    my $file = "resources/generic/dmidecode/$test";
     my ($bios, $hardware) = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios::_getBiosHardware($logger, $file);
     is_deeply($bios, $tests{$test}->{bios}, "bios: $test");
     is_deeply($hardware, $tests{$test}->{hardware}, "hardware: $test");

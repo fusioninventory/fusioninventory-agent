@@ -117,7 +117,7 @@ plan tests => scalar keys %tests;
 my $logger = FusionInventory::Agent::Logger->new();
 
 foreach my $test (keys %tests) {
-    my $file = "resources/lsusb/$test";
+    my $file = "resources/generic/lsusb/$test";
     my @devices = FusionInventory::Agent::Task::Inventory::OS::Generic::USB::_getDevices($logger, $file);
     is_deeply(\@devices, $tests{$test}, $test);
 }

@@ -13,7 +13,7 @@ my %tests = (
 plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
-    my $file = "resources/rhn-systemid/$test";
+    my $file = "resources/linux/rhn-systemid/$test";
     my $rhenSysteId = FusionInventory::Agent::Task::Inventory::OS::Linux::_getRHNSystemId($file);
     ok($rhenSysteId, $tests{$test});
 }

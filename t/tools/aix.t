@@ -456,13 +456,13 @@ plan tests =>
     (scalar keys %lsdev_tests);
 
 foreach my $test (keys %lsvpd_tests) {
-    my $file = "resources/lsvpd/$test";
+    my $file = "resources/aix/lsvpd/$test";
     my @devices = getDevicesFromLsvpd(file => $file);
     is_deeply(\@devices, $lsvpd_tests{$test}, "$test lsvpd parsing");
 }
 
 foreach my $test (keys %lsdev_tests) {
-    my $file = "resources/lsdev/$test.adapter";
+    my $file = "resources/aix/lsdev/$test.adapter";
     my @adapters = getAdaptersFromLsdev(file => $file);
     is_deeply(\@adapters, $lsdev_tests{$test}, "$test lsdev parsing");
 }

@@ -203,7 +203,7 @@ my %tests = (
 plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
-    my $file = "resources/system_profiler/$test";
+    my $file = "resources/macos/system_profiler/$test";
     my @memories = FusionInventory::Agent::Task::Inventory::OS::MacOS::Memory::_getMemories(file => $file);
     is_deeply(\@memories, $tests{$test}, $test);
 }

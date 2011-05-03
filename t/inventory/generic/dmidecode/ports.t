@@ -1257,7 +1257,7 @@ plan tests => scalar keys %tests;
 my $logger = FusionInventory::Agent::Logger->new();
 
 foreach my $test (keys %tests) {
-    my $file = "resources/dmidecode/$test";
+    my $file = "resources/generic/dmidecode/$test";
     my $ports = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Ports::_getPorts($logger, $file);
     is_deeply($ports, $tests{$test}, $test);
 }

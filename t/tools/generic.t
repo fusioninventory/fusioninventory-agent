@@ -3367,13 +3367,13 @@ plan tests =>
     14;
 
 foreach my $test (keys %dmidecode_tests) {
-    my $file = "resources/dmidecode/$test";
+    my $file = "resources/generic/dmidecode/$test";
     my $infos = getInfosFromDmidecode(file => $file);
     is_deeply($infos, $dmidecode_tests{$test}, "$test dmidecode parsing");
 }
 
 foreach my $test (keys %cpu_tests) {
-    my $file = "resources/dmidecode/$test";
+    my $file = "resources/generic/dmidecode/$test";
     my @cpus = getCpusFromDmidecode(file => $file);
     is_deeply(\@cpus, $cpu_tests{$test}, "$test dmidecode cpu extraction");
 }

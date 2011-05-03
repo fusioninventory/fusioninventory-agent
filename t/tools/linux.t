@@ -543,7 +543,7 @@ plan tests =>
     (scalar keys %smartctl_tests);
 
 foreach my $test (keys %udev_tests) {
-    my $file = "resources/udev/$test";
+    my $file = "resources/linux/udev/$test";
     my $result = FusionInventory::Agent::Tools::Linux::_parseUdevEntry(
         file => $file, device => 'sda'
     );
@@ -551,19 +551,19 @@ foreach my $test (keys %udev_tests) {
 }
 
 foreach my $test (keys %cpuinfo_tests) {
-    my $file = "resources/cpuinfo/$test";
+    my $file = "resources/linux/proc/cpuinfo/$test";
     my @cpus = getCPUsFromProc(file => $file);
     is_deeply(\@cpus, $cpuinfo_tests{$test}, "$test cpuinfo parsing");
 }
 
 foreach my $test (keys %hal_tests) {
-    my $file = "resources/hal/$test";
+    my $file = "resources/linux/hal/$test";
     my @devices = getDevicesFromHal(file => $file);
     is_deeply(\@devices, $hal_tests{$test}, "$test hal parsing");
 }
 
 foreach my $test (keys %smartctl_tests) {
-    my $file = "resources/smartctl/$test";
+    my $file = "resources/linux/smartctl/$test";
     my $result = getSerialnumber(file => $file);
     is($result, $smartctl_tests{$test}, "$test smartctl parsing");
 }

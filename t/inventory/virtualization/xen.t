@@ -63,7 +63,7 @@ plan tests => scalar keys %tests;
 my $logger = FusionInventory::Agent::Logger->new();
 
 foreach my $test (keys %tests) {
-    my $file = "resources/xm/$test";
+    my $file = "resources/virtualization/xm/$test";
     my @machines = FusionInventory::Agent::Task::Inventory::Virtualization::Xen::_getVirtualMachines(file => $file);
     is_deeply(\@machines, $tests{$test}, $test);
 }

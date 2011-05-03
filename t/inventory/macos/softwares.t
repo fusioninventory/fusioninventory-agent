@@ -2458,7 +2458,7 @@ my %tests = (
 plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
-    my $file = "resources/SysProfile/$test.yaml";
+    my $file = "resources/macos/SysProfile/$test.yaml";
     my $info = LoadFile($file);
     my $softwares = FusionInventory::Agent::Task::Inventory::OS::MacOS::Softwares::_getSoftwares($info);
     is_deeply($softwares, $tests{$test}, $test);
