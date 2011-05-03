@@ -25,7 +25,9 @@ sub doInventory {
 
     my @cpusFromDmidecode = getCpusFromDmidecode();
 
-    my ($proc_cpu, $procList) = _getCPUsFromProc($logger, '/proc/cpuinfo');
+    my ($proc_cpu, $procList) = _getCPUsFromProc(
+        logger => $logger, file => '/proc/cpuinfo'
+    );
 
     my $cpt = 0;
     foreach my $cpu (@cpusFromDmidecode) {
@@ -66,9 +68,7 @@ sub doInventory {
 }
 
 sub _getCPUsFromProc {
-    my ($logger, $file) = @_;
-
-    my @cpus = getCPUsFromProc(logger => $logger, file => $file);
+    my @cpus = getCPUsFromProc(@_);
 
     my ($procs, $cpuNbr, $cores, $threads);
 
