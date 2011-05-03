@@ -15,7 +15,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    foreach my $device (_getDevices($logger)) {
+    foreach my $device (_getDevices(logger => $logger)) {
         next unless $device->{PRODUCTID};
         next unless $device->{VENDORID};
 
@@ -37,11 +37,8 @@ sub doInventory {
 }
 
 sub _getDevices {
-    my ($logger, $file) = @_;
-
     my $handle = getFileHandle(
-        logger  => $logger,
-        file    => $file,
+        @_,
         command => 'lsusb -v',
     );
 
