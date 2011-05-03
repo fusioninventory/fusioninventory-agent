@@ -6,7 +6,6 @@ use warnings;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::OS::Generic::USB;
-use FusionInventory::Agent::Logger;
 
 my %tests = (
     'dell-xt2' => [
@@ -114,10 +113,8 @@ my %tests = (
 
 plan tests => scalar keys %tests;
 
-my $logger = FusionInventory::Agent::Logger->new();
-
 foreach my $test (keys %tests) {
     my $file = "resources/generic/lsusb/$test";
-    my @devices = FusionInventory::Agent::Task::Inventory::OS::Generic::USB::_getDevices($logger, $file);
+    my @devices = FusionInventory::Agent::Task::Inventory::OS::Generic::USB::_getDevices(file => $file);
     is_deeply(\@devices, $tests{$test}, $test);
 }
