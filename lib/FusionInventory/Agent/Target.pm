@@ -34,7 +34,6 @@ sub new {
     my $self = {
         logger    => $params{logger} ||
                      FusionInventory::Agent::Logger->new(),
-        deviceid  => $params{deviceid},
         delaytime => $params{delaytime} || 3600,
     };
     bless $self, $class;
@@ -207,10 +206,6 @@ the logger object to use
 
 the initial delay before contacting the target, in seconds 
 (default: 3600)
-
-=item I<deviceid>
-
-the agent identifier
 
 =item I<basevardir>
 
