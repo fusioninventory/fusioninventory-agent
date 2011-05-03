@@ -15,7 +15,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $ports = _getPorts($logger);
+    my $ports = _getPorts(logger => $logger);
 
     return unless $ports;
 
@@ -28,9 +28,7 @@ sub doInventory {
 }
 
 sub _getPorts {
-    my ($logger, $file) = @_;
-
-    my $infos = getInfosFromDmidecode(logger => $logger, file => $file);
+    my $infos = getInfosFromDmidecode(@_);
 
     return unless $infos->{8};
 
