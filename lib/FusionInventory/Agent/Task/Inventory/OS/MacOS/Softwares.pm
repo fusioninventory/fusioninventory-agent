@@ -34,7 +34,7 @@ sub doInventory {
     }
 }
 
-sub _getSoftwares {
+sub _getSoftwaresList {
     my ($info) = @_;
 
     my @softwares;
