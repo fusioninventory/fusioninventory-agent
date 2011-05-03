@@ -1,0 +1,22 @@
+AIX specific command output and files
+
+lslpp: lslpp command output
+- sample1: lslpp -c -l
+
+lscfg: lscfg command output
+- en: lscfg -v -l en*
+- sysplanar0: lscfg -vpl sysplanar0
+
+lsdev: lsdev command output
+- sample1.adapter: lsdev -Cc adapter -F "name:type:description"
+- sample1.disk.scsi: lsdev -Cc disk -s scsi -F "name:description"
+- sample1.processor: lsdev -Cc processor -F name
+- sample1.bus: lsdev -Cc bus -F "name:description"
+- sample1.memory: lsdev -Cc memory -F name -t totmem
+- sample1.tape: lsdev -Cc tape -s scsi -F "name:description:status"
+
+lslpp: lslpp command output
+- sample1: lslpp -c -l
+
+lsvpd: lsvpd command output
+- sample1: lsvpd
