@@ -19,10 +19,13 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    foreach my $software (_getSoftwares(
+    my $softwares = _getSoftwaresList(
         command => 'lslpp -c -l',
         logger  => $logger
-    )) {
+    );
+    return unless $softwares;
+
+    foreach my $software (@$softwares) {
         $inventory->addEntry(
             section => 'SOFTWARES',
             entry   => $software
@@ -31,7 +34,7 @@ sub doInventory {
 
 }
 
-sub _getSoftwares {
+sub _getSoftwaresList {
     my $handle = getFileHandle(@_);
     next unless $handle;
 
@@ -52,7 +55,7 @@ sub _getSoftwares {
     }
     close $handle;
 
-    return @softwares;
+    return \@softwares;
 }
 
 1;

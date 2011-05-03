@@ -5680,6 +5680,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/aix/lslpp/$test";
-    my @softwares = FusionInventory::Agent::Task::Inventory::OS::AIX::Softwares::_getSoftwares(file => $file);
-    is_deeply(\@softwares, $tests{$test}, "software: $test");
+    my $softwares = FusionInventory::Agent::Task::Inventory::OS::AIX::Softwares::_getSoftwaresList(file => $file);
+    is_deeply($softwares, $tests{$test}, "software: $test");
 }
