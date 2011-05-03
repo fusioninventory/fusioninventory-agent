@@ -5,7 +5,6 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Videos;
 
 my %tests = (
@@ -23,10 +22,8 @@ my %tests = (
 
 plan tests => scalar keys %tests;
 
-my $logger = FusionInventory::Agent::Logger->new();
-
 foreach my $test (keys %tests) {
     my $file = "resources/generic/lspci/$test";
-    my @videos = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Videos::_getVideoControllers($logger, $file);
+    my @videos = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Videos::_getVideoControllers(file => $file);
     is_deeply(\@videos, $tests{$test}, $test);
 }
