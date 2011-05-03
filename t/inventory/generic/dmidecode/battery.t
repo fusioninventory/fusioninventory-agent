@@ -5,7 +5,6 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Battery;
 
 my %tests = (
@@ -39,10 +38,8 @@ my %tests = (
 
 plan tests => scalar keys %tests;
 
-my $logger = FusionInventory::Agent::Logger->new();
-
 foreach my $test (keys %tests) {
     my $file = "resources/generic/dmidecode/$test";
-    my $battery = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Battery::_getBattery($logger, $file);
+    my $battery = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Battery::_getBattery(file => $file);
     is_deeply($battery, $tests{$test}, $test);
 }
