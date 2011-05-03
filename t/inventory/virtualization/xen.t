@@ -5,7 +5,6 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Inventory::Virtualization::Xen;
 
 my %tests = (
@@ -59,8 +58,6 @@ my %tests = (
 );
 
 plan tests => scalar keys %tests;
-
-my $logger = FusionInventory::Agent::Logger->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/virtualization/xm/$test";
