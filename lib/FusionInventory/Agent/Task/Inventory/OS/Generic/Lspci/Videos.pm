@@ -5,7 +5,6 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
 
 sub isInventoryEnabled {
@@ -21,7 +20,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    foreach my $video (_getVideoControllers($logger)) {
+    foreach my $video (_getVideoControllers(logger => $logger)) {
         $inventory->addEntry(
             section => 'VIDEOS',
             entry   => $video
@@ -30,13 +29,9 @@ sub doInventory {
 }
 
 sub _getVideoControllers {
-     my ($logger, $file) = @_;
-
     my @videos;
 
-    foreach my $controller (getControllersFromLspci(
-        logger => $logger, file => $file
-    )) {
+    foreach my $controller (getControllersFromLspci(@_)) {
         next unless $controller->{NAME} =~ /graphics|vga|video|display/i;
         push @videos, {
             CHIPSET => $controller->{NAME},

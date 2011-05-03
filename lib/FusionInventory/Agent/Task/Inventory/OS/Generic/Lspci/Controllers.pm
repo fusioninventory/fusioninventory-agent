@@ -20,9 +20,9 @@ sub doInventory {
     my $logger    = $params{logger};
     my $datadir   = $params{datadir};
 
-    _loadPciIds($logger, $datadir);
+    _loadPciIds(logger => $logger, datadir => $datadir);
 
-    foreach my $controller (_getExtentedControllers($logger)) {
+    foreach my $controller (_getExtentedControllers(logger => $logger)) {
         $inventory->addEntry(
             section => 'CONTROLLERS',
             entry   => $controller
@@ -31,9 +31,7 @@ sub doInventory {
 }
 
 sub _getExtentedControllers {
-    my ($logger, $file) = @_;
-
-    my @controllers = getControllersFromLspci(logger => $logger, file => $file);
+    my @controllers = getControllersFromLspci(@_);
 
     foreach my $controller (@controllers) {
 
@@ -79,9 +77,12 @@ sub _getExtentedControllers {
 }
 
 sub _loadPciIds {
-    my ($logger, $sharedir) = @_;
+    my (%params) = @_;
 
-    my $handle = getFileHandle(file => "$sharedir/pci.ids", logger => $logger);
+    my $handle = getFileHandle(
+        file   => "$params{datadir}/pci.ids",
+        logger => $params{logger}
+    );
     return unless $handle;
 
     my ($vendor_id, $device_id, $class_id);

@@ -16,7 +16,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    foreach my $modem (_getModemControllers($logger)) {
+    foreach my $modem (_getModemControllers(logger => $logger)) {
         $inventory->addEntry(
             section => 'MODEMS',
             entry   => $modem
@@ -25,13 +25,9 @@ sub doInventory {
 }
 
 sub _getModemControllers {
-    my ($logger, $file) = @_;
-
     my @modems;
 
-    foreach my $controller (getControllersFromLspci(
-        logger => $logger, file => $file
-    )) {
+    foreach my $controller (getControllersFromLspci(@_)) {
         next unless $controller->{NAME} =~ /modem/i;
         push @modems, {
             DESCRIPTION => $controller->{NAME},
