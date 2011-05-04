@@ -1,0 +1,269 @@
+  sysplanar0         System Planar
+
+  PLATFORM SPECIFIC
+
+  Name:  IBM,9111-520
+    Model:  IBM,9111-520
+    Node:  /
+    Device Type:  chrp
+
+      System VPD:
+        Product Specific.(RT).......VSYS
+        Flag Field..................XXSV
+        Brand.......................O0
+        System Info Specific.(YL)...U9111.520.65DEDAB
+        Machine/Cabinet Serial No...65DEDAB
+        Machine Type/Model..........9111-520
+        Product Specific.(SU).......0004AC0BA763
+        Version.....................ipzSeries
+      Physical Location: U9111.520.65DEDAB
+
+      CEC:
+        Product Specific.(RT).......VCEN
+        Flag Field..................XXEV
+        Brand.......................O0
+        System Info Specific.(YL)...U787A.001.DPM2CW2
+        Machine/Cabinet Serial No...DPM2CW2
+        Machine Type/Model..........787A-001
+        Controlling CEC ID..........9111-520 65DEDAB
+        Rack Serial Number..........0000000000000000
+        Feature Code/Marketing ID...787A-001
+        Version.....................ipzSeries
+      Physical Location: U787A.001.DPM2CW2
+
+      SYSTEM BACKPLANE:
+        Product Specific.(RT).......VINI
+        Flag Field..................XXBP
+        System Info Specific.(YL)...U787A.001.DPM2CW2-P1
+        Customer Card ID Number.....522A
+        Serial Number...............YL142533608A
+        FRU Number..................80P6949
+        Part Number.................80P6949
+        Product Specific.(HE).......0001
+        Product Specific.(CT).......40130002
+        Product Specific.(HW).......0001
+        Product Specific.(B3).......000000000001
+        Product Specific.(B4).......00
+        Product Specific.(B7).......000000000000000000000000
+        Power.......................2300000000000000
+        Version.....................ipzSeries
+      Physical Location: U787A.001.DPM2CW2-P1
+
+      FSP             :
+        Product Specific.(RT).......VINI
+        Flag Field..................XXSP
+        System Info Specific.(YL)...U787A.001.DPM2CW2-P1-C7
+        Customer Card ID Number.....28D7
+        Serial Number...............YL11253320B4
+        FRU Number..................80P5315
+        Part Number.................80P5315
+        Product Specific.(HE).......0001
+        Product Specific.(CT).......40B30001
+        Product Specific.(HW).......0001
+        Product Specific.(B3).......000000000001
+        Product Specific.(B4).......00
+        Product Specific.(B7).......000000000000000000000000
+        Version.....................ipzSeries
+      Physical Location: U787A.001.DPM2CW2-P1-C7
+
+      Memory DIMM:
+        Product Specific.(RT).......VINI
+        Flag Field..................XXMS
+        System Info Specific.(YL)...U787A.001.DPM2CW2-P1-C9
+        Customer Card ID Number.....30D2
+        Serial Number...............YH10MS5CH923
+        Part Number.................00P5767
+        FRU Number.................. 00P5767
+        Size........................512
+        Version.....................RS6K
+      Physical Location: U787A.001.DPM2CW2-P1-C9
+
+      Memory DIMM:
+        Product Specific.(RT).......VINI
+        Flag Field..................XXMS
+        System Info Specific.(YL)...U787A.001.DPM2CW2-P1-C11
+        Customer Card ID Number.....30D2
+        Serial Number...............YH10MS5CH8ED
+        Part Number.................00P5767
+        FRU Number.................. 00P5767
+        Size........................512
+        Version.....................RS6K
+      Physical Location: U787A.001.DPM2CW2-P1-C11
+
+      Memory DIMM:
+        Product Specific.(RT).......VINI
+        Flag Field..................XXMS
+        System Info Specific.(YL)...U787A.001.DPM2CW2-P1-C14
+        Customer Card ID Number.....30D2
+        Serial Number...............YH10MS5CH8F0
+        Part Number.................00P5767
+        FRU Number.................. 00P5767
+        Size........................512
+        Version.....................RS6K
+      Physical Location: U787A.001.DPM2CW2-P1-C14
+
+      Memory DIMM:
+        Product Specific.(RT).......VINI
+        Flag Field..................XXMS
+        System Info Specific.(YL)...U787A.001.DPM2CW2-P1-C16
+        Customer Card ID Number.....30D2
+        Serial Number...............YH10MS5CH92C
+        Part Number.................00P5767
+        FRU Number.................. 00P5767
+        Size........................512
+        Version.....................RS6K
+      Physical Location: U787A.001.DPM2CW2-P1-C16
+
+      ANCHOR          :
+        Product Specific.(RT).......VINI
+        Flag Field..................XXAV
+        System Info Specific.(YL)...U787A.001.DPM2CW2-P1-C20
+        Customer Card ID Number.....528F
+        Serial Number...............YL1154018250
+        FRU Number..................80P3249
+        Part Number.................80P3249
+        Power.......................8100180000000000
+        Product Specific.(HE).......0010
+        Product Specific.(CT).......40B40000
+        Product Specific.(HW).......0001
+        Product Specific.(B3).......000000000001
+        Product Specific.(B4).......00
+        Product Specific.(B7).......000000000000000000000000
+        Product Specific.(B9).......43536037222759752B3E535016381728404474474D
+                                    313A69675624F506004D32164A0D6361D72F7C4D33
+                                    0384DD842A9CCDBD4D345DE020F07B1FCED6
+        Version.....................ipzSeries
+      Physical Location: U787A.001.DPM2CW2-P1-C20
+
+      CEC OP PANEL    :
+        Product Specific.(RT).......VINI
+        Flag Field..................XXOP
+        System Info Specific.(YL)...U787A.001.DPM2CW2-D1
+        Customer Card ID Number.....28E5
+        Serial Number...............YL13253220E5
+        FRU Number..................97P4935
+        Part Number.................97P4935
+        Power.......................E000000000000000
+        Product Specific.(HE).......0001
+        Product Specific.(CT).......40B50000
+        Product Specific.(HW).......0001
+        Product Specific.(B3).......000000000000
+        Product Specific.(B4).......00
+        Product Specific.(B7).......000000000000000000000000
+        Version.....................ipzSeries
+      Physical Location: U787A.001.DPM2CW2-D1
+
+      A IBM AC PS     :
+        Product Specific.(RT).......VINI
+        Flag Field..................XXPS
+        System Info Specific.(YL)...U787A.001.DPM2CW2-E1
+        Customer Card ID Number.....51B6
+        Serial Number...............YL1325AX0041
+        Part Number.................97P2330
+        FRU Number.................. 97P2330
+        Version.....................RS6K
+      Physical Location: U787A.001.DPM2CW2-E1
+
+      A IBM AC PS     :
+        Product Specific.(RT).......VINI
+        Flag Field..................XXPS
+        System Info Specific.(YL)...U787A.001.DPM2CW2-E2
+        Customer Card ID Number.....51B6
+        Serial Number...............YL13258Z0274
+        Part Number.................97P2330
+        FRU Number.................. 97P2330
+        Version.....................RS6K
+      Physical Location: U787A.001.DPM2CW2-E2
+
+      IBM Air Mover   :
+        Product Specific.(RT).......VINI
+        Flag Field..................XXAM
+        System Info Specific.(YL)...U787A.001.DPM2CW2-A1
+        Customer Card ID Number.....6B18
+        FRU Number.................. 97P3153
+        Version.....................RS6K
+      Physical Location: U787A.001.DPM2CW2-A1
+
+      IBM Air Mover   :
+        Product Specific.(RT).......VINI
+        Flag Field..................XXAM
+        System Info Specific.(YL)...U787A.001.DPM2CW2-A2
+        Customer Card ID Number.....6B18
+        FRU Number.................. 97P3153
+        Version.....................RS6K
+      Physical Location: U787A.001.DPM2CW2-A2
+
+      IBM Air Mover   :
+        Product Specific.(RT).......VINI
+        Flag Field..................XXAM
+        System Info Specific.(YL)...U787A.001.DPM2CW2-A3
+        Customer Card ID Number.....6B18
+        FRU Number.................. 97P3153
+        Version.....................RS6K
+      Physical Location: U787A.001.DPM2CW2-A3
+
+      Voltage Reg     :
+        Product Specific.(RT).......VINI
+        Flag Field..................XXRG
+        System Info Specific.(YL)...U787A.001.DPM2CW2-P1-C19
+        Customer Card ID Number.....6B12
+        FRU Number.................. 97P2642
+        Version.....................RS6K
+      Physical Location: U787A.001.DPM2CW2-P1-C19
+
+      Voltage Reg     :
+        Product Specific.(RT).......VINI
+        Flag Field..................XXRG
+        System Info Specific.(YL)...U787A.001.DPM2CW2-P1-C17
+        Customer Card ID Number.....6B10
+        FRU Number.................. 44P3193
+        Version.....................RS6K
+      Physical Location: U787A.001.DPM2CW2-P1-C17
+
+      Voltage Reg     :
+        Product Specific.(RT).......VINI
+        Flag Field..................XXRG
+        System Info Specific.(YL)...U787A.001.DPM2CW2-P1-C18
+        Customer Card ID Number.....6B11
+        FRU Number.................. 24P6892
+        Version.....................RS6K
+      Physical Location: U787A.001.DPM2CW2-P1-C18
+
+      VSBPD4E1  U4SCSI:
+        Product Specific.(RT).......VINI
+        Flag Field..................XXDB
+        System Info Specific.(YL)...U787A.001.DPM2CW2-P3
+        Customer Card ID Number.....28D2
+        Serial Number...............YL10253423B6
+        Part Number.................03N5997
+        EC Level....................H13944 
+        FRU Number.................. 03N6000
+        Product Specific.(FS).......787A-001 DPM2CW2
+        Version.....................RS6K
+      Physical Location: U787A.001.DPM2CW2-P3
+
+      MEDIA BACKPLANE :
+        Product Specific.(RT).......VINI
+        Flag Field..................XXMB
+        System Info Specific.(YL)...U787A.001.DPM2CW2-P4
+        Customer Card ID Number.....28D1
+        Serial Number...............YL1025352166
+        Part Number.................03N5897
+        EC Level....................H13928 
+        FRU Number.................. 03N6005
+        Version.....................RS6K
+      Physical Location: U787A.001.DPM2CW2-P4
+
+      System Firmware:
+        Code Level, LID Keyword.....Phyp_1 12452006011080A00701
+        Code Level, LID Keyword.....PFW 13552006011081CF0681
+        Code Level, LID Keyword.....FSP_Ker 16572006020481E00100
+        Code Level, LID Keyword.....FSP_Fil 16572006020481E00101
+        Code Level, LID Keyword.....FipS_BU 16572006020481E00200
+        Code Level, LID Keyword.....SMA 11392005070781E00500
+        Code Level, LID Keyword.....SPCN3 154720050802A0E00A11
+        Code Level, LID Keyword.....SPCN1 091620040823A0E00D00
+        Code Level, LID Keyword.....SPCN2 084720040818A0E00D20
+        Product Specific.(MI).......SF240_202 SF240_202 SF240_202
+        System Info Specific.(YL)...U9111.520.65DEDAB-Y1
+      Physical Location: U9111.520.65DEDAB-Y1

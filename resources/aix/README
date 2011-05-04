@@ -1,22 +1,36 @@
-AIX specific command output and files
+AIX specific command and file samples
 
-lslpp: lslpp command output
-- sample1: lslpp -c -l
+All aix-5.3 samples courtesy of Eric Meygret <eric.meygret@ladb.fr>
+All aix-6.1 samples courtesy of Pablo Nicola <pablo1776@gmail.com>
 
-lscfg: lscfg command output
-- en: lscfg -v -l en*
-- sysplanar0: lscfg -vpl sysplanar0
+lscfg: lscfg command
+- aix-5.3-en: lscfg -v -l en*
+- aix-5.3-sysplanar0: lscfg -vpl sysplanar0
+- aix-6.1-en: lscfg -v -l en*
+- aix-6.1-sysplanar0: lscfg -vpl sysplanar0
 
-lsdev: lsdev command output
-- sample1.adapter: lsdev -Cc adapter -F "name:type:description"
-- sample1.disk.scsi: lsdev -Cc disk -s scsi -F "name:description"
-- sample1.processor: lsdev -Cc processor -F name
-- sample1.bus: lsdev -Cc bus -F "name:description"
-- sample1.memory: lsdev -Cc memory -F name -t totmem
-- sample1.tape: lsdev -Cc tape -s scsi -F "name:description:status"
+lsdev: lsdev command
+- aix-5.3-adapter: lsdev -Cc adapter -F "name:type:description"
+- aix-5.3-bus: lsdev -Cc bus -F "name:description"
+- aix-5.3-disk-scsi: lsdev -Cc disk -s scsi -F "name:description"
+- aix-5.3-processor: lsdev -Cc processor -F name
+- aix-5.3-memory: lsdev -Cc memory -F name -t totmem
+- aix-5.3-tape: lsdev -Cc tape -s scsi -F "name:description:status"
+- aix-6.1-adapter: lsdev -Cc adapter -F "name:type:description"
+- aix-6.1-bus: lsdev -Cc bus -F "name:description"
+- aix-6.1-disk-fcp: lsdev -Cc disk -s fcp -F "name:description"
+- aix-6.1-disk-vscsi: lsdev -Cc disk -s vscsi -F "name:description"
+- aix-6.1-memory: lsdev -Cc memory -F name -t totmem
+- aix-6.1-processor: lsdev -Cc processor -F name
 
-lslpp: lslpp command output
-- sample1: lslpp -c -l
+lslpp: lslpp command
+- aix-5.3: lslpp -c -l
+- aix-6.1: lslpp -c -l
 
-lsvpd: lsvpd command output
-- sample1: lsvpd
+lsps: lsps command
+- aix-5.3: lsps
+- aix-6.1: lsps
+
+lsvpd: lsvpd command
+- aix-5.3: lsvpd
+- aix-6.1: lsvpd

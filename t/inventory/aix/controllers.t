@@ -8,7 +8,7 @@ use Test::More;
 use FusionInventory::Agent::Task::Inventory::OS::AIX::Controllers;
 
 my %tests = (
-    sample1 => [
+    'aix-5.3' => [
         {
             NAME => 'ent0',
         },
@@ -45,13 +45,51 @@ my %tests = (
         {
             NAME => 'vsa2',
         }
+    ],
+    'aix-6.1' => [
+        {
+            NAME => 'ent0'
+        },
+        {
+            NAME => 'ent1'
+        },
+        {
+            NAME => 'ent2'
+        },
+        {
+            NAME => 'fcs0'
+        },
+        {
+            NAME => 'fcs1'
+        },
+        {
+            NAME => 'fcs2'
+        },
+        {
+            NAME => 'fcs3'
+        },
+        {
+            NAME => 'fcs4'
+        },
+        {
+            NAME => 'lhea0'
+        },
+        {
+            NAME => 'vsa0'
+        },
+        {
+            NAME => 'vscsi0'
+        },
+        {
+            NAME => 'vscsi1'
+        }
     ]
 );
 
 plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
-    my $file = "resources/aix/lsdev/$test.adapter";
+    my $file = "resources/aix/lsdev/$test-adapter";
     my @controllers = FusionInventory::Agent::Task::Inventory::OS::AIX::Controllers::_getControllers(file => $file);
     is_deeply(\@controllers, $tests{$test}, "controllers: $test");
 }
