@@ -97,7 +97,7 @@ sub getRawRegistryKey {
     my ($name) = @_;
 
     my $key = $Registry->Open('LMachine', {
-        Access => KEY_READ | KEY_WOW64_64KEY
+        Access => KEY_READ | KEY_WOW64_64
     }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
     return $key->{$name};
@@ -134,7 +134,7 @@ sub getValueFromRegistry {
     my $machKey;
     $Registry->Delimiter("/");
     if (is64bit()) {
-        $machKey = $Registry->Open($root, { Access=> KEY_READ |KEY_WOW64_64KEY } );
+        $machKey = $Registry->Open($root, { Access=> KEY_READ |KEY_WOW64_64 } );
     } else {
 	$machKey = $Registry->Open($root, { Access=> KEY_READ } );
     }
