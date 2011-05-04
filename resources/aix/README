@@ -6,6 +6,8 @@ All aix-6.1 samples courtesy of Pablo Nicola <pablo1776@gmail.com>
 lscfg: lscfg command
 - aix-5.3-en: lscfg -v -l en*
 - aix-5.3-sysplanar0: lscfg -vpl sysplanar0
+- aix-5.3-disk0: lscfg -p -v -s -l hdisk0
+- aix-5.3-disk1: lscfg -p -v -s -l hdisk1
 - aix-6.1-en: lscfg -v -l en*
 - aix-6.1-sysplanar0: lscfg -vpl sysplanar0
 
@@ -34,3 +36,16 @@ lsps: lsps command
 lsvpd: lsvpd command
 - aix-5.3: lsvpd
 - aix-6.1: lsvpd
+
+lsfs: lsfs command
+- aix-5.3-root: lsfs -c /
+- aix-5.3-usr: lsfs -c /usr
+- aix-5.3-tmp: lsfs -c /tmp
+
+lsattr: lsattr command
+- aix-5.3-mem0: lsattr -EOl mem0
+- aix-5.3-hdisk0: lsattr -EOl hdisk0 -a 'size_in_mb'
+- aix-5.3-hdisk1: lsattr -EOl hdisk1 -a 'size_in_mb'
+- aix-5.3-proc0-stf: lsattr -EOl proc0 -a 'state:type:frequency'
+- aix-5.3-proc0-sts: lsattr -EOl proc0 -a 'state:type:smt_threads'
+- aix-5.3-proc0-st: lsattr -EOl proc0 -a 'state:type'
