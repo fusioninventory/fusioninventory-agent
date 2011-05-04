@@ -1,0 +1,2 @@
+#state:type:smt_threads:frequency
+enable:PowerPC_POWER7:4:3300000000

@@ -10,6 +10,7 @@ lscfg: lscfg command
 - aix-5.3-disk1: lscfg -p -v -s -l hdisk1
 - aix-6.1-en: lscfg -v -l en*
 - aix-6.1-sysplanar0: lscfg -vpl sysplanar0
+- aix-6.1-disk3: lscfg -p -v -s -l hdisk3
 
 lsdev: lsdev command
 - aix-5.3-adapter: lsdev -Cc adapter -F "name:type:description"
@@ -41,6 +42,9 @@ lsfs: lsfs command
 - aix-5.3-root: lsfs -c /
 - aix-5.3-usr: lsfs -c /usr
 - aix-5.3-tmp: lsfs -c /tmp
+- aix-6.1-root: lsfs -c /
+- aix-6.1-usr: lsfs -c /usr
+- aix-6.1-tmp: lsfs -c /tmp
 
 lsattr: lsattr command
 - aix-5.3-mem0: lsattr -EOl mem0
@@ -49,3 +53,10 @@ lsattr: lsattr command
 - aix-5.3-proc0-stf: lsattr -EOl proc0 -a 'state:type:frequency'
 - aix-5.3-proc0-sts: lsattr -EOl proc0 -a 'state:type:smt_threads'
 - aix-5.3-proc0-st: lsattr -EOl proc0 -a 'state:type'
+- aix-6.1-mem0: lsattr -EOl mem0
+- aix-6.1-proc0-stf: lsattr -EOl proc0 -a 'state:type:frequency'
+- aix-6.1-proc0-sts: lsattr -EOl proc0 -a 'state:type:smt_threads'
+- aix-6.1-proc4-st: lsattr -EOl proc4 -a 'state:type'
+- aix-6.1-proc4-stf: lsattr -EOl proc4 -a 'state:type:frequency'
+- aix-6.1-proc4-sts: lsattr -EOl proc4 -a 'state:type:smt_threads'
+- aix-6.1-proc0-st: lsattr -EOl proc0 -a 'state:type'
