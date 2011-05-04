@@ -35,7 +35,6 @@ my $localCodepage;
 
 our @EXPORT = qw(
     is64bit
-    getWmiProperties
     encodeFromWmi
     encodeFromRegistry
     KEY_WOW64_64
@@ -48,37 +47,10 @@ sub is64bit {
 
     return
         any { $_->{AddressWidth} eq 64 } 
-        getWmiProperties('Win32_Processor', qw/AddressWidth/);
+        getWmiObjects(
+            class => 'Win32_Processor', properties => [ qw/AddressWidth/ ]
+        );
 }
-
-# Imported from 2.1.x for is64bit
-sub getWmiProperties {
-    my $wmiClass = shift;
-    my @keys = @_;
-
-    my $WMIServices = Win32::OLE->GetObject(
-            "winmgmts:{impersonationLevel=impersonate,(security)}!//./" );
-
-
-    if (!$WMIServices) {
-        print STDERR Win32::OLE->LastError();
-    }
-
-
-    my @properties;
-    foreach my $value ( Win32::OLE::in( $WMIServices->InstancesOf(
-                    $wmiClass ) ) )
-    {
-        my $property;
-        foreach my $key (@keys) {
-            $property->{$key} = encodeFromWmi($value->{$key});
-        }
-        push @properties, $property;
-    }
-
-    return @properties;
-}
-
 
 # We don't need to encode to UTF-8 on Win7
 sub encodeFromWmi {
