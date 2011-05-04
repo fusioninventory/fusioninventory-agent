@@ -147,7 +147,7 @@ foreach my $test (keys %ifconfig_tests) {
 }
 
 foreach my $test (keys %ipaddrshow_tests) {
-    my $file = "resources/linux/ip_addr/$test";
+    my $file = "resources/linux/ip/$test";
     my @results = FusionInventory::Agent::Task::Inventory::OS::Linux::Networks::_parseIpAddrShow(file => $file);
     is_deeply(\@results, $ipaddrshow_tests{$test}, $test);
 }
