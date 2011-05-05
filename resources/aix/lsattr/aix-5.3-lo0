@@ -1,0 +1,11 @@
+mtu           16896     Maximum IP Packet Size for This Device     True
+netaddr       127.0.0.1 Internet Address                           True
+netaddr6      ::1       IPv6 Internet Address                      True
+netmask                 Subnet Mask                                True
+prefixlen               IPv6 Alias including Prefix Length         True
+rfc1323                 Enable/Disable TCP RFC 1323 Window Scaling True
+state         up        Current Interface Status                   True
+tcp_mssdflt             Set TCP Maximum Segment Size               True
+tcp_nodelay             Enable/Disable TCP_NODELAY Option          True
+tcp_recvspace           Set Socket Buffer Space for Receiving      True
+tcp_sendspace           Set Socket Buffer Space for Sending        True
