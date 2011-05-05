@@ -37,6 +37,8 @@ use FusionInventory::Agent::AccountInfo;
 sub parseNmapVersion {
     my $s;
 
+    return unless @_;
+
     $s .= $_ foreach @_;
 
     return unless $s =~ /Nmap version (\S+) /;
@@ -53,11 +55,18 @@ sub compareNmapVersion {
 sub parseNmap {
     my ($xml) = @_;
 
-    my $tpp = XML::TreePP->new(force_array => '*');
-    my $h = $tpp->parse($xml);
-    return unless $h;
-
     my $ret = {};
+
+    return $ret unless $xml;
+
+    my $tpp;
+    eval {
+        $tpp = XML::TreePP->new(force_array => '*');
+    };
+    return $ret unless $tpp;
+    my $h = $tpp->parse($xml);
+    return $ret unless $h;
+
     foreach my $host (@{$h->{nmaprun}[0]{host}}) {
         foreach (@{$host->{address}}) {
             if ($_->{'-addrtype'} eq 'mac') {
@@ -149,7 +158,7 @@ sub main {
 
 sub StartThreads {
    my ($self, $params) = @_;
-   
+
 	my $nb_threads_discovery = $self->{NETDISCOVERY}->{PARAM}->[0]->{THREADS_DISCOVERY};
 	my $nb_core_discovery    = $self->{NETDISCOVERY}->{PARAM}->[0]->{CORE_DISCOVERY};
 
@@ -177,11 +186,14 @@ sub StartThreads {
    my $dico;
    my $dicohash;
 
-   my $nmap_version = parseNmapVersion(`nmap -V`);
-   if (compareNmapVersion(5.29, $nmap_version)) {
-       $ModuleNmapParserParameter = "-sP --system-dns --max-retries 1 --max-rtt-timeout 1000 ";
-   } else {
-       $ModuleNmapParserParameter = "-sP -PP --system-dns --max-retries 1 --max-rtt-timeout 1000ms ";
+   my $nmapVersionString = `nmap -V`;
+   if ($nmapVersionString) {
+       my $nmap_version = parseNmapVersion($nmapVersionString);
+       if (compareNmapVersion(5.29, $nmap_version)) {
+           $ModuleNmapParserParameter = "-sP --system-dns --max-retries 1 --max-rtt-timeout 1000 ";
+       } else {
+           $ModuleNmapParserParameter = "-sP -PP --system-dns --max-retries 1 --max-rtt-timeout 1000ms ";
+       }
    }
 
    # Load storage with XML dico
@@ -244,7 +256,7 @@ sub StartThreads {
 #   } else {
 #       $self->{logger}->error("Can't load Nmap::Parser && map::Scanner. Nmap can't be used!");
 #   }
-   
+
    if ( eval { require Net::NBName; 1 } ) {
       $ModuleNetNBName = 1;
    } else {
@@ -387,7 +399,7 @@ sub StartThreads {
          $loop_action = 0;
 
 #         if ($nbip > ($nb_ip_per_thread * 4)) {
-#            
+#
 #         } elsif ($nbip > $nb_ip_per_thread) {
 #            $nb_threads_discovery = int($nbip / $nb_ip_per_thread) + 4;
 #         } else {
@@ -418,7 +430,7 @@ sub StartThreads {
          #===================================
          $exit = 2;
 #$self->{logger}->debug("exit : ".$exit);
-         if ($threads_run eq "0") {            
+         if ($threads_run eq "0") {
             #===================================
             # Create all Threads
             #===================================
@@ -498,7 +510,7 @@ sub StartThreads {
                                     $maxIdx,
                                     data => $xml_threadt
                                 });
-                              
+
                               $count = 0;
                            }
                         }
@@ -517,7 +529,7 @@ sub StartThreads {
                   }, $p, $j, $authlist, $self
                )->detach();
 
-               
+
                if ($k eq "4") {
                   sleep 1;
                   $k = 0;
@@ -563,7 +575,7 @@ sub StartThreads {
                               }
                               $exit = 1;
                               return;
-                              
+
                         } elsif (($loop_action eq "1") && ($exit eq "2")) {
                            ## Start + pause working Threads (do a function) ##
                               for($i = 0 ; $i < $loop_nbthreads ; $i++) {
@@ -593,7 +605,7 @@ sub StartThreads {
                            $exit = 1;
                            $loop_action = "2";
                         }
-                        
+
                         sleep 1;
                      }
 
@@ -638,7 +650,7 @@ sub StartThreads {
          }
          undef($xml_thread);
 
-         
+
         while($exit ne "1") {
            sleep 2;
             foreach my $idx (1..$maxIdx) {
@@ -675,7 +687,7 @@ sub StartThreads {
       }
 #      $storage->removeSubDumps();
 
-      } 
+      }
      if ($nb_core_discovery > 1) {
          $pm->finish;
       }
@@ -799,10 +811,12 @@ sub discovery_ip_threaded {
       return $datadevice;
    }
 
-   #** Nmap discovery
-   my $nmapCmd = "nmap $params->{ModuleNmapParserParameter} $params->{ip} -oX -";
-   my $xml = `$nmapCmd`;
-   $datadevice = parseNmap($xml);
+#** Nmap discovery
+   if ($params->{ModuleNmapParserParameter}) {
+       my $nmapCmd = "nmap $params->{ModuleNmapParserParameter} $params->{ip} -oX -";
+       my $xml = `$nmapCmd`;
+       $datadevice = parseNmap($xml);
+   }
 
    #** Netbios discovery
    if ($params->{ModuleNetNBName} eq "1") {
@@ -978,7 +992,7 @@ sub special_char {
 
 sub verifySerial {
    my ($self, $description, $session, $dico, $ip) = @_;
-   
+
    if ($description eq "noSuchObject") {
       return ("", 0, "", "");
    }
@@ -993,7 +1007,7 @@ sub verifySerial {
 
    foreach my $num (@{$dico->{DEVICE}}) {
       if ($num->{SYSDESCR} eq $description) {
-          
+
          if (defined($num->{SERIAL})) {
             $oid = $num->{SERIAL};
 				$serial = $session->snmpGet({
@@ -1019,7 +1033,7 @@ sub verifySerial {
                      });
 
          }
-        
+
          $oid = $num->{MACDYN};
          my $Arraymacreturn = {};
          $Arraymacreturn  = $session->snmpWalk({

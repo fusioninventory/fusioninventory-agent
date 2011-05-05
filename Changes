@@ -1,5 +1,8 @@
 Revision history for FusionInventory::Agent::Task::NetDiscovery
 
+1.5    Thu, 05 May 2011 13:10:12 +0200
+       * Don't crash if nmap is not installed
+
 1.4
        * add the resources directory
 
