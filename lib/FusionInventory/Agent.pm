@@ -154,15 +154,15 @@ sub new {
     }
 
     if (($config->{daemon} || $config->{service}) && !$config->{'no-httpd'}) {
-        FusionInventory::Agent::HTTPD->require();
+        FusionInventory::Agent::HTTP::Server->require();
         if ($EVAL_ERROR) {
-            $logger->debug("Failed to load HTTPD module: $EVAL_ERROR");
+            $logger->debug("Failed to load HTTP server: $EVAL_ERROR");
         } else {
             # make sure relevant variables are shared between threads
             threads::shared::share($self->{status});
             threads::shared::share($self->{token});
 
-            FusionInventory::Agent::HTTPD->new(
+            FusionInventory::Agent::HTTP::Server->new(
                 logger          => $logger,
                 scheduler       => $scheduler,
                 agent           => $self,
