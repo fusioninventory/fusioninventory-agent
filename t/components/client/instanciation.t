@@ -6,28 +6,28 @@ use warnings;
 use Test::More;
 use Test::Exception;
 
-use FusionInventory::Agent::Transmitter;
+use FusionInventory::Agent::HTTP::Client;
 
 plan tests => 3;
 
-my $transmitter;
+my $client;
 
 # instanciations tests
 
 throws_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new(
+    $client = FusionInventory::Agent::HTTP::Client->new(
         ca_cert_file => '/no/such/file',
     );
 } qr/^non-existing certificate file/,
 'instanciation: invalid ca cert file';
 
 throws_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new(
+    $client = FusionInventory::Agent::HTTP::Client->new(
         ca_cert_dir => '/no/such/directory',
     );
 } qr/^non-existing certificate directory/,
 'instanciation: invalid ca cert directory';
 
 lives_ok {
-    $transmitter = FusionInventory::Agent::Transmitter->new();
+    $client = FusionInventory::Agent::HTTP::Client->new();
 } 'instanciation: http';

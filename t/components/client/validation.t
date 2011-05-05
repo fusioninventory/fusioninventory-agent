@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Transmitter;
+use FusionInventory::Agent::HTTP::Client;
 
 my @ok = (
     [ 'host', 'O=domain.tld, CN=host/emailAddress=a@domain.tld' ],
@@ -28,11 +28,11 @@ my @nok = (
 plan tests => scalar @ok + scalar @nok;
 
 foreach my $ok (@ok) {
-    my $pattern = FusionInventory::Agent::Transmitter::_getCertificatePattern($ok->[0]);
+    my $pattern = FusionInventory::Agent::HTTP::Client::_getCertificatePattern($ok->[0]);
     ok($ok->[1] =~ /$pattern/);
 }
 
 foreach my $nok (@nok) {
-    my $pattern = FusionInventory::Agent::Transmitter::_getCertificatePattern($nok->[0]);
+    my $pattern = FusionInventory::Agent::HTTP::Client::_getCertificatePattern($nok->[0]);
     ok($nok->[1] !~ /$pattern/);
 }

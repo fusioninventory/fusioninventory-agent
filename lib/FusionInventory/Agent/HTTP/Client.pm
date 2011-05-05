@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Transmitter;
+package FusionInventory::Agent::HTTP::Client;
 
 use strict;
 use warnings;
@@ -344,7 +344,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Transmitter - An HTTP message transmitter
+FusionInventory::Agent::HTTP::Client - An HTTP client
 
 =head1 DESCRIPTION
 
@@ -400,7 +400,7 @@ server).
 
 Acts like LWP::Simple::getstore.
 
-        my $rc = $transmitter->getStore({
+        my $rc = $client->getStore({
                 source => 'http://www.FusionInventory.org/',
                 target => '/tmp/fusioinventory.html'
                 noProxy => 0
@@ -410,7 +410,7 @@ $rc, can be read by isSuccess()
 
 =head2 get(%params)
 
-        my $content = $transmitter->get(
+        my $content = $client->get(
                 source => 'http://www.FusionInventory.org/',
                 timeout => 15,
                 noProxy => 0
@@ -423,4 +423,4 @@ The timeout is optional
 
 Wrapper for LWP::is_success;
 
-        die unless $transmitter->isSuccess({ code => $rc });
+        die unless $client->isSuccess({ code => $rc });

@@ -85,7 +85,7 @@ sub run {
             $self->{target}->getAccountInfo()
         );
 
-        my $response = $self->{transmitter}->send(
+        my $response = $self->{client}->send(
             url     => $self->{target}->getUrl(),
             message => $inventory
         );

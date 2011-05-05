@@ -9,6 +9,7 @@ use Sys::Hostname;
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::Config;
+use FusionInventory::Agent::HTTP::Client;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Scheduler;
 use FusionInventory::Agent::Storage;
@@ -17,7 +18,6 @@ use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::Target::Stdout;
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Transmitter;
 use FusionInventory::Agent::XML::Query::Prolog;
 
 our $VERSION = '2.2.0';
@@ -237,10 +237,10 @@ sub run {
     while (my $target = $scheduler->getNextTarget()) {
         eval {
             my $prologresp;
-            my $transmitter;
+            my $client;
             if ($target->isa('FusionInventory::Agent::Target::Server')) {
 
-                $transmitter = FusionInventory::Agent::Transmitter->new(
+                $client = FusionInventory::Agent::HTTP::Client->new(
                     logger       => $logger,
                     user         => $self->{config}->{user},
                     password     => $self->{config}->{password},
@@ -260,7 +260,7 @@ sub run {
                 $prolog->setAccountInfo($target->getAccountInfo());
 
                 # TODO Don't mix settings and temp value
-                $prologresp = $transmitter->send(
+                $prologresp = $client->send(
                     url     => $target->getUrl(),
                     message => $prolog
                 );
@@ -312,7 +312,7 @@ sub run {
                         logger      => $logger,
                         target      => $target,
                         prologresp  => $prologresp,
-                        transmitter => $transmitter,
+                        client      => $client,
                         deviceid    => $self->{deviceid}
                     );
                 };

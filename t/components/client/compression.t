@@ -8,15 +8,15 @@ use English qw(-no_match_vars);
 use Test::More;
 use Test::Exception;
 
-use FusionInventory::Agent::Transmitter;
+use FusionInventory::Agent::HTTP::Client;
 
 plan tests => 2;
 
-my $transmitter = FusionInventory::Agent::Transmitter->new();
+my $client = FusionInventory::Agent::HTTP::Client->new();
 
 my $data = "this is a test";
 is(
-    $transmitter->_uncompressNative($transmitter->_compressNative($data)),
+    $client->_uncompressNative($client->_compressNative($data)),
     $data,
     'round-trip compression with Compress::Zlib'
 );
@@ -24,7 +24,7 @@ is(
 SKIP: {
     skip "gzip is not available under Windows", 1 if $OSNAME eq 'MSWin32';
     is(
-        $transmitter->_uncompressGzip($transmitter->_compressGzip($data)),
+        $client->_uncompressGzip($client->_compressGzip($data)),
         $data,
         'round-trip compression with Gzip'
     );

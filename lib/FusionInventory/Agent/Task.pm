@@ -22,7 +22,7 @@ sub new {
         datadir     => $params{datadir},
         target      => $params{target},
         prologresp  => $params{prologresp},
-        transmitter => $params{transmitter},
+        client      => $params{client},
         deviceid    => $params{deviceid}
     };
     bless $self, $class;
@@ -88,7 +88,7 @@ the logger object to use (default: a new stderr logger)
 
 =item I<prologresp>
 
-=item I<transmitter>
+=item I<client>
 
 =item I<deviceid>
 
