@@ -44,15 +44,18 @@ sub _getInterfaces {
 
     my %interfaces = map { $_->{DESCRIPTION} => $_ } @interfaces;
 
-    foreach (split / /,`ifconfig -l`) {
-        # network interface naming is enX
-        next unless /^(en\d+)/;
-        my $name = $1;
-        foreach (`lsattr -E -l $name`) {
-            $interfaces{$name}->{IPADDRESS} = $1 if /^netaddr \s*([\d*\.?]*)/i;
-            $interfaces{$name}->{IPMASK} = $1 if /^netmask\s*([\d*\.?]*)/i;
-            $interfaces{$name}->{STATUS} = $1 if /^state\s*(\w*)/i; 
-        } 
+    foreach my $interface (@interfaces) {
+        my $handle = getFileHandle(
+            command => "lsattr -E -l $interface->{DESCRIPTION}"
+        );
+        next unless $handle;
+
+        while (my $line = <$handle>) {
+            $interface->{IPADDRESS} = $1 if $line =~ /^netaddr \s*([\d*\.?]*)/i;
+            $interface->{IPMASK} = $1 if $line =~ /^netmask\s*([\d*\.?]*)/i;
+            $interface->{STATUS} = $1 if $line =~ /^state\s*(\w*)/i; 
+        }
+        close $handle;
     }
 
     foreach my $interface (values %interfaces) { 
