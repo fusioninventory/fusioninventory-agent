@@ -38,17 +38,11 @@ sub doInventory {
 
 sub _getInterfaces {
 
-    my %interfaces;
+    my @interfaces = _parseLscfg(
+        command => 'lscfg -v -l en*'
+    );
 
-    foreach (`lscfg -v -l en*`) {
-        next unless /^\s+ent(\d+)\s+\S+\s+(.+)/;
-        my $name = "en".$1;
-        $interfaces{$name}->{TYPE} = $2;
-        $interfaces{$name}->{DESCRIPTION} = $name;
-        if (/Network Address\.+(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})/) {
-            $interfaces{$name}->{MACADDR} = "$1:$2:$3:$4:$5:$6"
-        }
-    } 
+    my %interfaces = map { $_->{DESCRIPTION} => $_ } @interfaces;
 
     foreach (split / /,`ifconfig -l`) {
         # network interface naming is enX
@@ -72,6 +66,29 @@ sub _getInterfaces {
     }
 
     return values %interfaces;
+}
+
+sub _parseLscfg {
+    my $handle = getFileHandle(@_);
+    return unless $handle;
+
+    my @interfaces;
+    my $interface;
+    while (my $line = <$handle>) {
+        if ($line =~ /^\s+ ent(\d+) \s+ \S+ \s+ (.+)/x) {
+            push @interfaces, $interface if $interface;
+            undef $interface;
+            $interface->{TYPE} = $2;
+            $interface->{DESCRIPTION} = "en$1";
+        }
+        if ($line =~ /Network \s Address \.+ (\w\w)(\w\w)(\w\w)(\w\w)(\w\w)(\w\w)/x) {
+            $interface->{MACADDR} = "$1:$2:$3:$4:$5:$6";
+        }
+    }
+    close $handle;
+    push @interfaces, $interface if $interface;
+
+    return @interfaces;
 }
 
 1;
