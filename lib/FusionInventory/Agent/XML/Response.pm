@@ -28,7 +28,7 @@ sub new {
     return $self;
 }
 
-sub getParsedContent {
+sub getContent {
     my ($self) = @_;
 
     return $self->{content};
@@ -75,9 +75,9 @@ the raw XML content
 
 =back
 
-=head2 getParsedContent
+=head2 getContent
 
-Get XML content, parsed as a perl data structure.
+Get content, as a perl data structure.
 
 =head2 getOptionsInfoByName($name)
 

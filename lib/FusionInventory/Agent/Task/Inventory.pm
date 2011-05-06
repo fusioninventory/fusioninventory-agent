@@ -93,14 +93,14 @@ sub run {
         return unless $response;
         $inventory->saveLastState();
 
-        my $parsedContent = $response->getParsedContent();
-        if ($parsedContent
+        my $content = $response->getContent();
+        if ($content
             &&
-            exists ($parsedContent->{RESPONSE})
+            exists ($content->{RESPONSE})
             &&
-            $parsedContent->{RESPONSE} =~ /^ACCOUNT_UPDATE$/
+            $content->{RESPONSE} =~ /^ACCOUNT_UPDATE$/
         ) {
-            my $new = $parsedContent->{ACCOUNTINFO};
+            my $new = $content->{ACCOUNTINFO};
             my $current = $self->{target}->getAccountInfo();
             if (ref $new eq 'ARRAY') {
                 # this a list of key value pairs
