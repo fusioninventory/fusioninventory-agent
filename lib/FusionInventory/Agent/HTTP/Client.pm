@@ -83,11 +83,11 @@ sub send {
     }
 
     my $request_content = $message->getContent();
-    $logger->debug("[transmitter] sending message: $request_content");
+    $logger->debug("[client] sending message: $request_content");
 
     $request_content = $self->_compress($request_content);
     if (!$request_content) {
-        $logger->error('[transmitter] inflating problem');
+        $logger->error('[client] inflating problem');
         return;
     }
 
@@ -113,7 +113,7 @@ sub send {
         if ($result->code() == 401) {
             if ($self->{user} && $self->{password}) {
                 $logger->debug(
-                    "[transmitter] authentication required, submitting " .
+                    "[client] authentication required, submitting " .
                     "credentials"
                 );
                 # compute authentication parameters
@@ -138,7 +138,7 @@ sub send {
                 };
                 if (!$result->is_success()) {
                     $logger->error(
-                        "[transmitter] cannot establish communication with " .
+                        "[client] cannot establish communication with " .
                         "$url: " . $result->status_line()
                     );
                     return;
@@ -146,14 +146,14 @@ sub send {
             } else {
                 # abort
                 $logger->error(
-                    "[transmitter] authentication required, no credentials " .
+                    "[client] authentication required, no credentials " .
                     "available"
                 );
                 return;
             }
         } else {
             $logger->error(
-                "[transmitter] cannot establish communication with $url: " .
+                "[client] cannot establish communication with $url: " .
                 $result->status_line()
             );
             return;
@@ -165,17 +165,17 @@ sub send {
     my $response_content = $result->content();
 
    if (!$response_content) {
-        $logger->error("[transmitter] response is empty");
+        $logger->error("[client] response is empty");
         return;
     }
 
     $response_content = $self->_uncompress($response_content);
     if (!$response_content) {
-        $logger->error("[transmitter] deflating problem");
+        $logger->error("[client] deflating problem");
         return;
     }
 
-    $logger->debug("[transmitter] receiving message: $response_content");
+    $logger->debug("[client] receiving message: $response_content");
 
     my $response = FusionInventory::Agent::XML::Response->new(
         content => $response_content
