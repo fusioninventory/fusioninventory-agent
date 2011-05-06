@@ -42,8 +42,6 @@ sub _getInterfaces {
         command => 'lscfg -v -l en*'
     );
 
-    my %interfaces = map { $_->{DESCRIPTION} => $_ } @interfaces;
-
     foreach my $interface (@interfaces) {
         my $handle = getFileHandle(
             command => "lsattr -E -l $interface->{DESCRIPTION}"
@@ -58,7 +56,7 @@ sub _getInterfaces {
         close $handle;
     }
 
-    foreach my $interface (values %interfaces) { 
+    foreach my $interface (@interfaces) { 
         $interface->{STATUS} = "Down" unless $interface->{IPADDRESS};
         $interface->{IPDHCP} = "No";
 
@@ -68,7 +66,7 @@ sub _getInterfaces {
         );
     }
 
-    return values %interfaces;
+    return @interfaces;
 }
 
 sub _parseLscfg {
