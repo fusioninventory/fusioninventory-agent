@@ -96,9 +96,9 @@ sub run {
         my $content = $response->getContent();
         if ($content
             &&
-            exists ($content->{RESPONSE})
+            $content->{RESPONSE}
             &&
-            $content->{RESPONSE} =~ /^ACCOUNT_UPDATE$/
+            $content->{RESPONSE} eq 'ACCOUNT_UPDATE'
         ) {
             my $new = $content->{ACCOUNTINFO};
             my $current = $self->{target}->getAccountInfo();
