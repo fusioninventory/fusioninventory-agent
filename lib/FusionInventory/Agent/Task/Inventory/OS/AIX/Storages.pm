@@ -202,21 +202,10 @@ sub doInventory {
 sub _getCapacity {
     my ($device, $logger) = @_;
 
-    my @lsattr = getAllLinaes(
+    return getLastLine(
         command => "lsattr -EOl $device -a 'size_in_mb'",
         logger  => $logger
     );
-
-    my $capacity;
-    foreach (@lsattr){
-        if (! /^#/ ){
-            $capacity= $_;
-            chomp($capacity);
-            $capacity =~ s/(\s+)$//;
-        }
-    }
-
-    return $capacity;
 }
 
 sub _getLsvpdInfos {
