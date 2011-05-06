@@ -274,7 +274,6 @@ sub run {
                 # update target
                 my $content = $prologresp->getContent();
                 $target->setPrologFreq($content->{PROLOG_FREQ});
-                $target->setCurrentDeviceID ($self->{deviceid});
             }
 
             my @tasks = qw/
