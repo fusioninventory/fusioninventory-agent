@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Regexp;
 
 sub isInventoryEnabled {
     return
@@ -49,9 +50,12 @@ sub _getInterfaces {
         next unless $handle;
 
         while (my $line = <$handle>) {
-            $interface->{IPADDRESS} = $1 if $line =~ /^netaddr \s*([\d*\.?]*)/i;
-            $interface->{IPMASK} = $1 if $line =~ /^netmask\s*([\d*\.?]*)/i;
-            $interface->{STATUS} = $1 if $line =~ /^state\s*(\w*)/i; 
+            $interface->{IPADDRESS} = $1
+                if $line =~ /^netaddr \s+ ($ip_address_pattern)/x;
+            $interface->{IPMASK} = $1
+                if $line =~ /^netmask \s+ ($ip_address_pattern)/x;
+            $interface->{STATUS} = $1
+                if $line =~ /^state \s+ (\w+)/x; 
         }
         close $handle;
     }
