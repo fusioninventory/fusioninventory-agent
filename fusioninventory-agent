@@ -8,6 +8,9 @@ foreach (@ARGV) {
     if (/^--devlib$/) {
         print STDERR "[info] --devlib are found, Developer mode enabled\n";
         unshift @INC, 'lib';
+    } elsif (/^--disable-perllib-envvar$/) {
+        $ENV{PERL5LIB}=undef;
+        $ENV{PERLLIB}=undef;
     }
 }
 
@@ -318,6 +321,14 @@ Once PROLOG_FREQ has been set, it uses that number at the top end of
 it's random setting. Useful for pre-setting a deployed agent's initial
 start time (so you don't jam the server all at once, but don't have to
 wait an hour to make sure the deployment worked).
+
+=item B<--disable-perllib-envvar>
+
+Do not use PERL5LIB and PERLLIB environment variable to find Perl library
+path.
+
+This option can only be used as command line argument. It will be
+ignored if you set it in a config file or in Windows registry.
 
 =item B<-f>, B<--force>
 

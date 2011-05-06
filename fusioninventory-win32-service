@@ -8,6 +8,9 @@ use FusionInventory::Agent;
 
 use English qw(-no_match_vars);
 
+delete($ENV{PERL5LIB});
+delete($ENV{PERLLIB});
+
 if ($EXECUTABLE_NAME =~ /(^.*(\\|\/))/) {
     $ENV{PATH} .= $Config::Config{path_sep}.$1;
 } else {

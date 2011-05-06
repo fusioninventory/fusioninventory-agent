@@ -323,6 +323,7 @@ Extra options:
     -D --daemon-no-fork         put the agent in daemon mode but don't fork in background ($config->{'daemon-no-fork'})
     --delaytime                 set a maximum delay time (in second) if no PROLOG_FREQ is set ($config->{delaytime})
     --devlib                    search for Backend modules in ./lib only ($config->{devlib})
+    --disable-perllib-envvar    do not load Perl lib from PERL5LIB and PERLIB environment variable ($config->{'disable-perllib-envvar'})
     -f --force                  always send data to server (Don't ask before) ($config->{force})
     -i --info                   verbose mode ($config->{info})
     --lazy                      do not contact the server more than one time during the PROLOG_FREQ ($config->{lazy})
