@@ -124,7 +124,6 @@ sub getValueFromRegistry {
         $logger->debug("Failed to parse '$path'. Does it start with HKEY_?");
     }
     my $machKey;
-    $Registry->Delimiter("/");
     if (is64bit()) {
         $machKey = $Registry->Open($root, { Access=> KEY_READ |KEY_WOW64_64 } );
     } else {
