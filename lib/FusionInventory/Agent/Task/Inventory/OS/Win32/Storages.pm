@@ -117,20 +117,26 @@ sub doInventory {
 sub _getInfo {
     my ($type, $nbr) = @_;
 
-    my $info = {};
 
     my $device = "/dev/";
     $device .= $type eq 'hd'?'hd':'scd';
     $device .= chr(ord('a')+$nbr);
 
-    foreach (`hdparm -I $device 2>&1`) {
-        $info->{model} = $1 if /Model Number:\s+(.*?)\s*$/;
-        $info->{firmware} = $1 if /Firmware Revision:\s+(\S*)/;
-        $info->{serial} = $1 if /Serial Number:\s+(\S*)/;
-        $info->{size} = $1 if /1000:\s+(\d*)\sMBytes\s\(/;
+    my $handle = getFileHandle(
+        command => "hdparm -I $device",
+    );
+    return unless $handle;
+
+    my $info;
+    while (my $line = <$handle>) {
+        $info->{model} = $1 if $line =~ /Model Number:\s+(.*?)\s*$/;
+        $info->{firmware} = $1 if $line =~ /Firmware Revision:\s+(\S*)/;
+        $info->{serial} = $1 if $line =~ /Serial Number:\s+(\S*)/;
+        $info->{size} = $1 if $line =~ /1000:\s+(\d*)\sMBytes\s\(/;
     }
+    close $handle;
 
     return $info;
-} 
+}
 
 1;
