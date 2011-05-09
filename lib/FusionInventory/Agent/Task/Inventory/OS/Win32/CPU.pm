@@ -45,7 +45,7 @@ sub doInventory {
         # the CPU description in WMI is false, we use the registry instead
         # Hardware\Description\System\CentralProcessor\1
         # thank you Nicolas Richard 
-        my $info = getValueFromRegistry(
+        my $info = getRegistryValue(
             path   => "HKEY_LOCAL_MACHINE/Hardware/Description/System/CentralProcessor/$cpuId",
             logger => $logger
         );

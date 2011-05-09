@@ -28,7 +28,7 @@ our @EXPORT = qw(
     encodeFromRegistry
     KEY_WOW64_64
     KEY_WOW64_32
-    getValueFromRegistry
+    getRegistryValue
     getWmiObjects
 );
 
@@ -84,7 +84,7 @@ sub getWmiObjects {
     return @objects;
 }
 
-sub getValueFromRegistry {
+sub getRegistryValue {
     my %params = @_;
 
     my ($root, $keyName, $valueName);
@@ -147,7 +147,7 @@ Returns the list of objects from given WMI class, with given properties, properl
 
 Ensure given registry content is properly encoded to utf-8.
 
-=head2 getValueFromRegistry(%params)
+=head2 getRegistryValue(%params)
 
 Returns a value from the registry.
 

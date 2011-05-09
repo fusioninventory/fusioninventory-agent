@@ -27,7 +27,7 @@ sub doInventory {
         )) {
 
         my $key = _getXPkey();
-        my $description = encodeFromRegistry(getValueFromRegistry(
+        my $description = encodeFromRegistry(getRegistryValue(
             path   => 'HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Services/lanmanserver/Parameters/srvcomment',
             logger => $logger
         ));
@@ -84,7 +84,7 @@ sub doInventory {
 #http://www.perlmonks.org/?node_id=497616
 # Thanks William Gannon && Charles Clarkson
 sub _getXPkey {
-    my $key = getValueFromRegistry(
+    my $key = getRegistryValue(
         path => 'HKEY_LOCAL_MACHINE/Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId',
     );
     return unless $key;
