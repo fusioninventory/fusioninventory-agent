@@ -87,13 +87,11 @@ sub getWmiObjects {
 sub getValueFromRegistry {
     my ($path, $logger) = @_;
 
-    my $root;
-    my $subpath;
-    my $keyName;
+    my ($root, $keyName, $valueName);
     if ($path =~ /^(HKEY\S+?)\/(.*)\/([^\/.]*)/ ) {
-        $root = $1;
-        $subpath = $2;
-        $keyName = $3;
+        $root      = $1;
+        $keyName   = $2;
+        $valueName = $3;
     } else {
         $logger->debug("Failed to parse '$path'. Does it start with HKEY_?");
     }
@@ -111,10 +109,11 @@ sub getValueFromRegistry {
         }
         return;
     }
-    my $key = $machKey->Open($subpath);
-    my $t = $key->{$keyName};
-    return if ref($t);
-    return $t;
+    my $key = $machKey->Open($keyName);
+    my $value = $key->{$valueName};
+
+    return if ref $value;
+    return $value;
 }
 
 1;
