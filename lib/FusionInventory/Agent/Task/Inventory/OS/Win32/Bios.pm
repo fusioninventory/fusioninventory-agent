@@ -24,11 +24,10 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-
-    my $registryInfo = getRegistryKey("Hardware/Description/System/BIOS");
+    my $logger    = $params{logger};
 
     my $bios = {
-        BDATE => $registryInfo->{BIOSReleaseDate}
+        BDATE => getValueFromRegistry("Hardware/Description/System/BIOS/BIOSReleaseDate");
     };
 
     foreach my $object (getWmiObjects(
