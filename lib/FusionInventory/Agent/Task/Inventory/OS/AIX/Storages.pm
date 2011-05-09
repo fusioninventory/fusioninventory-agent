@@ -35,10 +35,11 @@ sub doInventory {
 
         my $capacity = _getCapacity($device, $logger);
 
-        my $serial;
-        foreach (`lscfg -p -v -s -l $device` =~ /Serial Number\.*(.*)/) {
-            $serial = $1;
-        }
+        my $serial = getFirstMatch(
+            command => "lscfg -p -v -s -l $device",
+            logger  => $logger,
+            pattern => qr/Serial Number\.*(.*)/
+        );
 
         $inventory->addStorage({
             NAME         => $device,
