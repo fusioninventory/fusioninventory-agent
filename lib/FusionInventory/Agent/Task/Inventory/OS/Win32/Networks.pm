@@ -41,7 +41,7 @@ sub doInventory {
     foreach my $nic (in $nics) {
         my $interface = $interfaces[$nic->Index];
 
-        $interface->{DESCRIPTION} = encodeFromWmi($nic->Description);
+        $interface->{DESCRIPTION} = $nic->Description;
 
         foreach (@{$nic->DefaultIPGateway || []}) {
             $defaultgateways{$_} = 1;

@@ -25,7 +25,6 @@ my $localCodepage;
 
 our @EXPORT = qw(
     is64bit
-    encodeFromWmi
     encodeFromRegistry
     KEY_WOW64_64
     KEY_WOW64_32
@@ -40,13 +39,6 @@ sub is64bit {
         getWmiObjects(
             class => 'Win32_Processor', properties => [ qw/AddressWidth/ ]
         );
-}
-
-# We don't need to encode to UTF-8 on Win7
-sub encodeFromWmi {
-    my ($string) = @_;
-
-    return $string;
 }
 
 sub encodeFromRegistry {
@@ -84,7 +76,7 @@ sub getWmiObjects {
     )) {
         my $object;
         foreach my $property (@{$params{properties}}) {
-            $object->{$property} = encodeFromWmi($instance->{$property});
+            $object->{$property} = $instance->{$property};
         }
         push @objects, $object;
     }
@@ -183,10 +175,6 @@ Returns the list of objects from given WMI class, with given properties, properl
 =item properties a list of WMI properties
 
 =back
-
-=head2 encodeFromWmi($string)
-
-Ensure given WMI content is properly encoded to utf-8.
 
 =head2 encodeFromRegistry($string)
 
