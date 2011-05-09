@@ -93,7 +93,8 @@ sub getValueFromRegistry {
         $keyName   = $2;
         $valueName = $3;
     } else {
-        $logger->debug("Failed to parse '$path'. Does it start with HKEY_?");
+        $logger->error("Failed to parse '$path'. Does it start with HKEY_?");
+        return;
     }
 
     my $machKey = is64bit() ?
