@@ -102,11 +102,7 @@ sub getValueFromRegistry {
 	$machKey = $Registry->Open($root, { Access=> KEY_READ } );
     }
     if (!$machKey) {
-        if ($logger) {
-            $logger->error("Can't open 'root': $EXTENDED_OS_ERROR");
-        } else {
-            warn("Can't open '$root': $EXTENDED_OS_ERROR");
-        }
+        $logger->error("Can't open 'root': $EXTENDED_OS_ERROR") if $logger;
         return;
     }
     my $key = $machKey->Open($keyName);
