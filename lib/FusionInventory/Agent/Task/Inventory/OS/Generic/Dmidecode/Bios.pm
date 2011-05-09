@@ -58,7 +58,12 @@ sub _getBiosHardware {
     };
 
     my $vmsystem;
-    if ($bios->{BMANUFACTURER}) {
+    if ($bios->{SMANUFACTURER} &&
+        $bios->{SMANUFACTURER} =~ /^Microsoft Corporation$/ &&
+        $bios->{SMODEL} &&
+        $bios->{SMODEL} =~ /Virtual Machine/) {
+        $vmsystem = 'Hyper-V';
+    } elsif ($bios->{BMANUFACTURER}) {
         $vmsystem =
             $bios->{BMANUFACTURER} =~ /(QEMU|Bochs)/         ? 'QEMU'       :
             $bios->{BMANUFACTURER} =~ /(VirtualBox|innotek)/ ? 'VirtualBox' :
@@ -74,6 +79,8 @@ sub _getBiosHardware {
             $bios->{BVERSION} =~ /VirtualBox/ ? 'VirtualBox' : undef;
     }
     $hardware->{VMSYSTEM} = $vmsystem if $vmsystem;
+
+    
 
 
     return $bios, $hardware;
