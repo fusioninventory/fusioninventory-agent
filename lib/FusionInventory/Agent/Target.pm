@@ -121,22 +121,7 @@ sub setNextRunDate {
 sub getNextRunDate {
     my ($self) = @_;
 
-    my $logger = $self->{logger};
-
-    lock($lock);
-
-    if (${$self->{nextRunDate}}) {
-        return ${$self->{nextRunDate}};
-    }
-
-    $self->setNextRunDate();
-
-    if (!${$self->{nextRunDate}}) {
-        die 'nextRunDate not set!';
-    }
-
-    return $self->{myData}{nextRunDate} ;
-
+    return ${$self->{nextRunDate}};
 }
 
 sub resetNextRunDate {
