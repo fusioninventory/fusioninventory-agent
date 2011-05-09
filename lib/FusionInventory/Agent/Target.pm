@@ -62,12 +62,15 @@ sub _init {
     $self->{myData} = $storage->restore();
 
     if ($self->{myData}{nextRunDate}) {
-        $logger->debug (
-            "[target $self->{id}] Next server contact planned for ".
-            localtime($self->{myData}{nextRunDate})
-        );
         ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
+    } else {
+        $self->setNextRunDate();
     }
+
+    $logger->debug (
+        "[target $self->{id}] Next server contact planned for ".
+        localtime(${$self->{nextRunDate}})
+    );
 
     $self->{last_statefile} = $params{vardir} . "/last_state";
 }
