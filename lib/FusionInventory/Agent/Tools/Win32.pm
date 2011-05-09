@@ -95,12 +95,11 @@ sub getValueFromRegistry {
     } else {
         $logger->debug("Failed to parse '$path'. Does it start with HKEY_?");
     }
-    my $machKey;
-    if (is64bit()) {
-        $machKey = $Registry->Open($root, { Access=> KEY_READ |KEY_WOW64_64 } );
-    } else {
-	$machKey = $Registry->Open($root, { Access=> KEY_READ } );
-    }
+
+    my $machKey = is64bit() ?
+        $Registry->Open($root, { Access=> KEY_READ|KEY_WOW64_64 } ) :
+	$Registry->Open($root, { Access=> KEY_READ } )              ;
+
     if (!$machKey) {
         $logger->error("Can't open 'root': $EXTENDED_OS_ERROR") if $logger;
         return;
