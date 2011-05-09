@@ -59,10 +59,10 @@ sub _init {
     );
 
     my $storage = $self->{storage};
-    $self->{myData} = $storage->restore();
+    my $data = $storage->restore();
 
-    if ($self->{myData}{nextRunDate}) {
-        ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
+    if ($data->{nextRunDate}) {
+        ${$self->{nextRunDate}} = $data->{nextRunDate};
     } else {
         $self->setNextRunDate();
     }
@@ -90,7 +90,7 @@ sub setNextRunDate {
 
     lock($lock);
 
-    my $serverdelay = $self->{myData}{prologFreq};
+    my $serverdelay = $self->{prologFreq};
 
     lock($lock);
 
@@ -106,16 +106,14 @@ sub setNextRunDate {
 
     my $time = time + ($max/2) + int rand($max/2);
 
-    $self->{myData}{nextRunDate} = $time;
-    
-    ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
+    ${$self->{nextRunDate}} = $time;
 
     $logger->debug (
         "[target $self->{id}] Next server contact has just been planned for ".
-        localtime($self->{myData}{nextRunDate})
+        localtime(${$self->{nextRunDate}})
     );
 
-    $storage->save(data => $self->{myData});
+    $self->_saveState();
 }
 
 sub getNextRunDate {
@@ -133,37 +131,26 @@ sub resetNextRunDate {
     lock($lock);
     $logger->debug("Agent is now running");
     
-    $self->{myData}{nextRunDate} = 1;
-    $storage->save(data => $self->{myData});
-    
-    ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
+    ${$self->{nextRunDate}} = 1;
+
+    $self->_saveState();
 }
 
 sub setPrologFreq {
-
     my ($self, $prologFreq) = @_;
 
-    my $logger = $self->{logger};
-    my $storage = $self->{storage};
+    $self->{prologFreq} = $prologFreq;
 
-    return unless $prologFreq;
+    $self->_saveState();
+}
 
-    if ($self->{myData}{prologFreq} && ($self->{myData}{prologFreq}
-            eq $prologFreq)) {
-        return;
-    }
-    if (defined($self->{myData}{prologFreq})) {
-        $logger->info(
-            "PROLOG_FREQ has changed since last process ". 
-            "(old=$self->{myData}{prologFreq},new=$prologFreq)"
-        );
-    } else {
-        $logger->info("PROLOG_FREQ has been set: $prologFreq");
-    }
+sub _saveState {
+    my ($self) = @_;
 
-    $self->{myData}{prologFreq} = $prologFreq;
-    $storage->save(data => $self->{myData});
-
+    $self->{storage}->save(data => {
+        prologFreq  => $self->{prologFreq},
+        nextRunDate => $self->{nextRunDate},
+    });
 }
 
 1;
