@@ -46,8 +46,8 @@ sub doInventory {
         # Hardware\Description\System\CentralProcessor\1
         # thank you Nicolas Richard 
         my $info = getValueFromRegistry(
-            "HKEY_LOCAL_MACHINE/Hardware/Description/System/CentralProcessor/$cpuId",
-            $logger
+            path   => "HKEY_LOCAL_MACHINE/Hardware/Description/System/CentralProcessor/$cpuId",
+            logger => $logger
         );
 
 #        my $cache = $object->{L2CacheSize}+$object->{L3CacheSize};

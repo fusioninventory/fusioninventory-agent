@@ -27,7 +27,10 @@ sub doInventory {
     my $logger    = $params{logger};
 
     my $bios = {
-        BDATE => getValueFromRegistry("Hardware/Description/System/BIOS/BIOSReleaseDate");
+        BDATE => getValueFromRegistry(
+            path   => "Hardware/Description/System/BIOS/BIOSReleaseDate",
+            logger => $logger
+        )
     };
 
     foreach my $object (getWmiObjects(

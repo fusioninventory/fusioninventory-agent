@@ -85,15 +85,15 @@ sub getWmiObjects {
 }
 
 sub getValueFromRegistry {
-    my ($path, $logger) = @_;
+    my %params = @_;
 
     my ($root, $keyName, $valueName);
-    if ($path =~ /^(HKEY\S+?)\/(.*)\/([^\/.]*)/ ) {
+    if ($params{path} =~ /^(HKEY\S+?)\/(.*)\/([^\/.]*)/ ) {
         $root      = $1;
         $keyName   = $2;
         $valueName = $3;
     } else {
-        $logger->error("Failed to parse '$path'. Does it start with HKEY_?");
+        $logger->error("Failed to parse '$params{path}'. Does it start with HKEY_?");
         return;
     }
 
@@ -102,7 +102,7 @@ sub getValueFromRegistry {
 	$Registry->Open($root, { Access=> KEY_READ } )              ;
 
     if (!$machKey) {
-        $logger->error("Can't open 'root': $EXTENDED_OS_ERROR") if $logger;
+        $params{logger}->error("Can't open 'root': $EXTENDED_OS_ERROR") if $params{logger};
         return;
     }
     my $key = $machKey->Open($keyName);
@@ -147,17 +147,16 @@ Returns the list of objects from given WMI class, with given properties, properl
 
 Ensure given registry content is properly encoded to utf-8.
 
-=head2 getValueFromRegistry($path, $logger)
+=head2 getValueFromRegistry(%params)
 
-Returns a value from the registry. The function returns undef in case of
-error.
+Returns a value from the registry.
 
-the $path parameter is a string in this format :
-$hive/location/keyname
+=over
+
+=item path a string in hive/key/value format
 
 E.g: HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProductName
 
-The delimiter is '/
+=item logger
 
-If the $logger parameter is defined, it will be used.
-
+=back

@@ -28,7 +28,8 @@ sub doInventory {
 
         my $key = _getXPkey();
         my $description = encodeFromRegistry(getValueFromRegistry(
-            'HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Services/lanmanserver/Parameters/srvcomment'
+            path   => 'HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Services/lanmanserver/Parameters/srvcomment',
+            logger => $logger
         ));
 
         $object->{TotalSwapSpaceSize} = int($object->{TotalSwapSpaceSize} / (1024 * 1024))
@@ -84,7 +85,7 @@ sub doInventory {
 # Thanks William Gannon && Charles Clarkson
 sub _getXPkey {
     my $key = getValueFromRegistry(
-        'HKEY_LOCAL_MACHINE/Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId'
+        path => 'HKEY_LOCAL_MACHINE/Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId',
     );
     return unless $key;
     my @encoded = ( unpack 'C*', $key )[ reverse 52 .. 66 ];
