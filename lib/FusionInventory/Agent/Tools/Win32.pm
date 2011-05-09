@@ -85,19 +85,14 @@ sub getWmiObjects {
 }
 
 # Deprecated? See: getValueFromRegistry()
-sub getRawRegistryKey {
+sub getRegistryKey {
     my ($name) = @_;
 
     my $key = $Registry->Open('LMachine', {
         Access => KEY_READ | KEY_WOW64_64
     }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
-    return $key->{$name};
-}
-
-# Deprecated? See: getValueFromRegistry()
-sub getRegistryKey {
-    my $rawkey = getRawRegistryKey(@_);
+    my $rawkey = $key->{$name};
 
     my $key;
 
@@ -177,10 +172,6 @@ Returns the list of objects from given WMI class, with given properties, properl
 =head2 encodeFromRegistry($string)
 
 Ensure given registry content is properly encoded to utf-8.
-
-=head2 getRawRegistryKey($name)
-
-Return a registry key directly.
 
 =head2 getRegistryKey($name)
 
