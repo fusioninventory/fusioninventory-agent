@@ -126,63 +126,63 @@ my %ddcprobe = (
 );
 
 my %xorg = (
-    'intel-1' => {
+    'linux-intel-1' => {
         pcislot    => '00:02.0',
         resolution => '1024x600',
         name       => 'Intel(R) 945GME'
     },
-    'intel-2' => {
+    'linux-intel-2' => {
         pcislot    => '00:02.0',
 	resolution => '1024x600',
 	name       => 'Intel(R) 945GME'
     },
-    'intel-3' => {
+    'linux-intel-3' => {
         pcislot    => '00:02.0',
         resolution => '1920x1080',
         name       => 'Intel(R) G41'
     },
-    'intel-4' => {
+    'linux-intel-4' => {
         memory     => '7616kB',
         resolution => '1280x800',
         pcislot    => '00:02.0',
         name       => 'Intel(r)GM965/PM965/GL960 Graphics Chip Accelerated VGA BIOS',
         product    => 'Intel(r)GM965/PM965/GL960 Graphics Controller'
     },
-    'nvidia-1' => {
+    'linux-nvidia-1' => {
         pcislot    => '05@00:00.0',
         resolution => '1680x1050',
         name       => 'GeForce 8400 GS (G98)'
     },
-    'nvidia-2' => {
+    'linux-nvidia-2' => {
         resolution => '2960x1050',
         name       => 'GeForce 7300 SE/7200 GS (G72)'
     },
-    'vesa-1' => {
+    'linux-vesa-1' => {
         memory     => '12288kB',
         resolution => '1280x1024',
         pcislot    => '00:02.0',
         name       => 'VirtualBox VBE BIOS http://www.virtualbox.org/',
         product    => 'Oracle VM VirtualBox VBE Adapter'
     },
-    'vesa-3' => {
+    'linux-vesa-3' => {
         memory     => '12288kB',
         resolution => '1024x768',
         pcislot    => '00:02.0',
         name       => 'VirtualBox VBE BIOS http://www.virtualbox.org/',
         product    => 'Oracle VM VirtualBox VBE Adapter'
     },
-    'ati-1' => {
+    'linux-ati-1' => {
         resolution => '1920x1080',
         name       => 'ATI Radeon HD 4290'
     },
-    'ati-2' => {
+    'linux-ati-2' => {
         pcislot    => '00:01.0',
         memory     => '8128kB',
         resolution => '1024x768',
         name       => 'ATI MACH64',
         product    => 'MACH64GM'
     },
-    'nouveau-1' => {
+    'linux-nouveau' => {
 	'resolution' => '1680x1050',
 	'product' => 'NVIDIA NV86'
     }
@@ -192,13 +192,13 @@ my %xorg = (
 plan tests => scalar keys (%ddcprobe) + scalar keys (%xorg);
 
 foreach my $test (keys %ddcprobe) {
-    my $file = "resources/ddcprobe/$test";
+    my $file = "resources/linux/ddcprobe/$test";
     my $result = FusionInventory::Agent::Task::Inventory::OS::Linux::Video::_getDdcprobeData($file);
     is_deeply($result, $ddcprobe{$test}, $test);
 }
 
 foreach my $test (keys %xorg) {
-    my $file = "resources/xorg-fd0/linux/$test";
+    my $file = "resources/generic/xorg/$test";
     my $result = FusionInventory::Agent::Task::Inventory::OS::Linux::Video::_parseXorgFd($file);
     is_deeply($result, $xorg{$test}, $test);
 }

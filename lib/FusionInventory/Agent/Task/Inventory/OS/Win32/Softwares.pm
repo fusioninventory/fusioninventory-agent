@@ -6,7 +6,6 @@ use warnings;
 use English qw(-no_match_vars);
 use Win32;
 use Win32::OLE('in');
-use Win32::OLE::Variant;
 use Win32::TieRegistry (
     Delimiter   => '/',
     ArrayValues => 0,
@@ -29,12 +28,12 @@ sub doInventory {
 
     if (is64bit()) {
 
-        # I don't know why but on Vista 32bit, KEY_WOW64_64KEY is able to read
+        # I don't know why but on Vista 32bit, KEY_WOW64_64 is able to read
         # 32bit entries. This is not the case on Win2003 and if I correctly
         # understand MSDN, this sounds very odd
 
         my $machKey64 = $Registry->Open('LMachine', {
-            Access => KEY_READ() | KEY_WOW64_64KEY()
+            Access => KEY_READ | KEY_WOW64_64
         }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
         my $softwares64 =
@@ -47,7 +46,7 @@ sub doInventory {
         });
 
         my $machKey32 = $Registry->Open('LMachine', {
-            Access => KEY_READ() | KEY_WOW64_32KEY()
+            Access => KEY_READ | KEY_WOW64_32
         }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
         my $softwares32 =
@@ -60,7 +59,7 @@ sub doInventory {
         });
     } else {
         my $machKey = $Registry->Open('LMachine', {
-            Access => KEY_READ()
+            Access => KEY_READ
         }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
         my $softwares =

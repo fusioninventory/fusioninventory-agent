@@ -79,7 +79,7 @@ my %hal_tests = (
 plan tests => scalar keys %hal_tests;
 
 foreach my $test (keys %hal_tests) {
-    my $file = "resources/hal/$test";
+    my $file = "resources/linux/hal/$test";
     my $results = FusionInventory::Agent::Task::Inventory::OS::Linux::Drives::_parseLshal(file => $file);
     is_deeply($results, $hal_tests{$test}, $test);
 }

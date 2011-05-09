@@ -1,0 +1,24 @@
+  hdisk0           U787A.001.DPM2CW2-P1-T10-L3-L0  
+	16 Bit LVD SCSI Disk Drive (73400 MB)
+
+        Manufacturer................IBM     
+        Machine Type and Model......ST373207LC      
+        FRU Number..................03N6325     
+        ROS Level and ID............43373043
+        Serial Number...............00060321
+        EC Level....................H13979    
+        Part Number.................26K5533     
+        Device Specific.(Z0)........000004129F00013E
+        Device Specific.(Z1)........0930C70C
+        Device Specific.(Z2)........0002
+        Device Specific.(Z3)........06031
+        Device Specific.(Z4)........0001
+        Device Specific.(Z5)........22
+        Device Specific.(Z6)........H13979    
+
+
+  PLATFORM SPECIFIC
+
+  Name:  sd
+    Node:  sd
+    Device Type:  block

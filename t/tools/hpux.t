@@ -167,7 +167,7 @@ plan tests =>
     (scalar keys %machinfo_tests);
 
 foreach my $test (keys %machinfo_tests) {
-    my $file = "resources/machinfo/$test";
+    my $file = "resources/hpux/machinfo/$test";
     my $info = getInfoFromMachinfo(file => $file);
     is_deeply($info, $machinfo_tests{$test}, "machinfo parsing: $test");
 }

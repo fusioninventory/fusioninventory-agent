@@ -5,10 +5,9 @@ use warnings;
 
 use Test::More;
 use Data::Dumper;
-
-use FusionInventory::Agent::Logger;
-use FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios;
 use File::Basename;
+
+use FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios;
 
 my %tests = (
     'freebsd-6.2' => {
@@ -416,15 +415,13 @@ my %tests = (
         }
 );
 
-plan tests => 2 * keys %tests;
-
-my $logger = FusionInventory::Agent::Logger->new();
+my @files = glob("resources/generic/dmidecode/*");
+plan tests => 2 * int(@files);
 
 #use Data::Dumper;
-my @files = glob("resources/dmidecode/*");
 foreach my $file (@files) {
     my $test = basename($file);
-    my ($bios, $hardware) = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios::_getBiosHardware($logger, $file);
+    my ($bios, $hardware) = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios::_getBiosHardware(file => $file);
     is_deeply($bios, $tests{$test}->{bios}, "bios: $test") or print Dumper({ bios => $bios, hardware => $hardware });
     is_deeply($hardware, $tests{$test}->{hardware}, "hardware: $test");
 }

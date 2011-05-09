@@ -139,7 +139,7 @@ is(
 );
 
 is(
-    getStderrOutput(sub { $logger->log({ message => 'message'}); }),
+    getStderrOutput(sub { $logger->log(message => 'message'); }),
     "[info] message",
     'default logging level'
 );
@@ -229,7 +229,7 @@ is(
 );
 
 is(
-    getFileOutput($logfile, sub { $logger->log({ message => 'message'}); }),
+    getFileOutput($logfile, sub { $logger->log(message => 'message'); }),
     '[' . localtime() . '][info] message',
     'default logging level'
 );

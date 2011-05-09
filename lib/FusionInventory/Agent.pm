@@ -78,7 +78,7 @@ sub new {
 
         $data->{previousHostname} = $hostname;
         $data->{deviceid} = $self->{deviceid};
-        $storage->save({ data => $data });
+        $storage->save(data => $data);
     } else {
         $self->{deviceid} = $data->{deviceid}
     }
@@ -260,10 +260,10 @@ sub run {
                 $prolog->setAccountInfo($target->getAccountInfo());
 
                 # TODO Don't mix settings and temp value
-                $prologresp = $transmitter->send({
+                $prologresp = $transmitter->send(
                     url     => $target->getUrl(),
                     message => $prolog
-                });
+                );
 
                 if (!$prologresp) {
                     $logger->error("No anwser from the server");

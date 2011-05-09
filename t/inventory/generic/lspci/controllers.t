@@ -5,7 +5,6 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers;
 
 my %tests = (
@@ -276,12 +275,10 @@ my %tests = (
 
 plan tests => scalar keys %tests;
 
-my $logger = FusionInventory::Agent::Logger->new();
-
-FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers::_loadPciIds($logger, 'share');
+FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers::_loadPciIds(datadir => 'share');
 
 foreach my $test (keys %tests) {
-    my $file = "resources/lspci/$test";
-    my @controllers = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers::_getExtentedControllers($logger, $file);
+    my $file = "resources/generic/lspci/$test";
+    my @controllers = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers::_getExtentedControllers(file => $file);
     is_deeply(\@controllers, $tests{$test}, $test);
 }

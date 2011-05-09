@@ -8,13 +8,14 @@ use Test::More;
 use FusionInventory::Agent::Task::Inventory::OS::AIX::Modems;
 
 my %tests = (
-    sample1 => []
+    'aix-5.3' => [],
+    'aix-6.1' => [],
 );
 
 plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
-    my $file = "resources/lsdev/$test.adapter";
+    my $file = "resources/aix/lsdev/$test-adapter";
     my @modems = FusionInventory::Agent::Task::Inventory::OS::AIX::Modems::_getModems(file => $file);
     is_deeply(\@modems, $tests{$test}, "modems: $test");
 }

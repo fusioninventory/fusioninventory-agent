@@ -1,0 +1,12 @@
+ent0:IBM,l-lan:Virtual I/O Ethernet Adapter (l-lan)
+ent1:ethernet:Logical Host Ethernet Port (lp-hea)
+ent2:ethernet:Logical Host Ethernet Port (lp-hea)
+fcs0:df1000fe:4Gb FC PCI Express Adapter (df1000fe)
+fcs1:df1000fe:4Gb FC PCI Express Adapter (df1000fe)
+fcs2:df1000fe:4Gb FC PCI Express Adapter (df1000fe)
+fcs3:df1000fe:4Gb FC PCI Express Adapter (df1000fe)
+fcs4:IBM,vfc-client:Virtual Fibre Channel Client Adapter
+lhea0:IBM,lhea:Logical Host Ethernet Adapter (l-hea)
+vsa0:hvterm1:LPAR Virtual Serial Adapter
+vscsi0:IBM,v-scsi:Virtual SCSI Client Adapter
+vscsi1:IBM,v-scsi:Virtual SCSI Client Adapter

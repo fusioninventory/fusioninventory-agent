@@ -19,23 +19,12 @@ use Win32::TieRegistry (
 
 Win32::OLE->Option(CP => 'CP_UTF8');
 
-
-use constant KEY_WOW64_64 => 0x100;
-use constant KEY_WOW64_32 => 0x200;
-
-use Win32::TieRegistry (
-        Delimiter   => '/',
-        ArrayValues => 0,
-        qw/KEY_READ/
-        );
-
 use FusionInventory::Agent::Tools;
 
 my $localCodepage;
 
 our @EXPORT = qw(
     is64bit
-    getWmiProperties
     encodeFromWmi
     encodeFromRegistry
     KEY_WOW64_64
@@ -48,37 +37,10 @@ sub is64bit {
 
     return
         any { $_->{AddressWidth} eq 64 } 
-        getWmiProperties('Win32_Processor', qw/AddressWidth/);
+        getWmiObjects(
+            class => 'Win32_Processor', properties => [ qw/AddressWidth/ ]
+        );
 }
-
-# Imported from 2.1.x for is64bit
-sub getWmiProperties {
-    my $wmiClass = shift;
-    my @keys = @_;
-
-    my $WMIServices = Win32::OLE->GetObject(
-            "winmgmts:{impersonationLevel=impersonate,(security)}!//./" );
-
-
-    if (!$WMIServices) {
-        print STDERR Win32::OLE->LastError();
-    }
-
-
-    my @properties;
-    foreach my $value ( Win32::OLE::in( $WMIServices->InstancesOf(
-                    $wmiClass ) ) )
-    {
-        my $property;
-        foreach my $key (@keys) {
-            $property->{$key} = encodeFromWmi($value->{$key});
-        }
-        push @properties, $property;
-    }
-
-    return @properties;
-}
-
 
 # We don't need to encode to UTF-8 on Win7
 sub encodeFromWmi {
@@ -135,7 +97,7 @@ sub getRawRegistryKey {
     my ($name) = @_;
 
     my $key = $Registry->Open('LMachine', {
-        Access => KEY_READ() | KEY_WOW64_64KEY()
+        Access => KEY_READ | KEY_WOW64_64
     }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
     return $key->{$name};
@@ -172,9 +134,9 @@ sub getValueFromRegistry {
     my $machKey;
     $Registry->Delimiter("/");
     if (is64bit()) {
-        $machKey = $Registry->Open($root, { Access=> KEY_READ()|KEY_WOW64_64KEY() } );
+        $machKey = $Registry->Open($root, { Access=> KEY_READ |KEY_WOW64_64 } );
     } else {
-	$machKey = $Registry->Open($root, { Access=> KEY_READ() } );
+	$machKey = $Registry->Open($root, { Access=> KEY_READ } );
     }
     if (!$machKey) {
         if ($logger) {

@@ -1,0 +1,14 @@
+pci0:PCI Bus
+pci1:PCI Bus
+pci2:PCI Bus
+pci3:PCI Bus
+pci4:PCI Bus
+pci5:PCI Bus
+pci6:PCI Bus
+pci7:PCI Bus
+pci8:PCI Bus
+pci9:PCI Bus
+pci10:PCI Bus
+pci11:PCI Bus
+pci12:PCI Bus
+vio0:Virtual I/O Bus

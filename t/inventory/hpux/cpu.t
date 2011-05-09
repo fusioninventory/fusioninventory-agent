@@ -68,10 +68,10 @@ my $cpropCpu = [
 plan tests => (scalar keys %tests) + 1;
 
 foreach my $test (keys %tests) {
-    my $file = "resources/machinfo/$test";
+    my $file = "resources/hpux/machinfo/$test";
     my $results = FusionInventory::Agent::Task::Inventory::OS::HPUX::CPU::_parseMachinInfo(file => $file);
     is_deeply($results, $tests{$test}, "machinfo output parsing: $test");
 }
 
-my @cpus = FusionInventory::Agent::Task::Inventory::OS::HPUX::CPU::_parseCprop(file => 'resources/cprop/cpu');
+my @cpus = FusionInventory::Agent::Task::Inventory::OS::HPUX::CPU::_parseCprop(file => 'resources/hpux/cprop/cpu');
 is_deeply(\@cpus, $cpropCpu, 'cprop output parsing');

@@ -15,7 +15,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $battery = _getBattery($logger);
+    my $battery = _getBattery(logger => $logger);
 
     $inventory->addEntry(
         section => 'BATTERIES',
@@ -24,9 +24,7 @@ sub doInventory {
 }
 
 sub _getBattery {
-    my ($logger, $file) = @_;
-
-    my $infos = getInfosFromDmidecode(logger => $logger, file => $file);
+    my $infos = getInfosFromDmidecode(@_);
 
     return unless $infos->{22};
 

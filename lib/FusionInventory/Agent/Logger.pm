@@ -40,45 +40,45 @@ sub new {
 }
 
 sub log {
-    my ($self, $args) = @_;
+    my ($self, %params) = @_;
 
     # levels: debug, info, error, fault
-    my $level = $args->{level} || 'info';
-    my $message = $args->{message};
+    my $level = $params{level} || 'info';
+    my $message = $params{message};
 
     return unless $message;
     return if $level eq 'debug' && !$self->{debug};
 
     foreach my $backend (@{$self->{backends}}) {
-        $backend->addMsg ({
+        $backend->addMsg (
             level => $level,
             message => $message
-        });
+        );
     }
 }
 
 sub debug {
     my ($self, $msg) = @_;
 
-    $self->log({ level => 'debug', message => $msg});
+    $self->log(level => 'debug', message => $msg);
 }
 
 sub info {
     my ($self, $msg) = @_;
 
-    $self->log({ level => 'info', message => $msg});
+    $self->log(level => 'info', message => $msg);
 }
 
 sub error {
     my ($self, $msg) = @_;
 
-    $self->log({ level => 'error', message => $msg});
+    $self->log(level => 'error', message => $msg);
 }
 
 sub fault {
     my ($self, $msg) = @_;
 
-    $self->log({ level => 'fault', message => $msg});
+    $self->log(level => 'fault', message => $msg);
 }
 
 1;
@@ -115,9 +115,9 @@ a flag allowing debug messages (default: false)
 
 =back
 
-=head2 log($params)
+=head2 log(%params)
 
-Add a log message, with a specific level. $params is an hashref, with the
+Add a log message, with a specific level. %params is an hash, with the
 following keys:
 
 =over

@@ -102,11 +102,11 @@ plan tests => 2;
 
 my $packages;
 $packages = FusionInventory::Agent::Task::Inventory::OS::Linux::Softwares::RPM::_getPackagesList(
-    file => "resources/packaging/rpm"
+    file => "resources/linux/packaging/rpm"
 );
 is_deeply($packages, $rpm_packages, 'rpm parsing');
 
 $packages = FusionInventory::Agent::Task::Inventory::OS::Linux::Softwares::Deb::_getPackagesList(
-    file => "resources/packaging/dpkg"
+    file => "resources/linux/packaging/dpkg"
 );
 is_deeply($packages, $deb_packages, 'dpkg parsing');

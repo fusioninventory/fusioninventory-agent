@@ -22,10 +22,10 @@ sub new {
 }
 
 sub addMsg {
-    my ($self, $args) = @_;
+    my ($self, %params) = @_;
 
-    my $level = $args->{level};
-    my $message = $args->{message};
+    my $level = $params{level};
+    my $message = $params{message};
 
     if ($self->{logfile_maxsize}) {
         my $stat = stat($self->{logfile});
@@ -55,7 +55,6 @@ sub addMsg {
 
 }
 
-1;
 1;
 __END__
 

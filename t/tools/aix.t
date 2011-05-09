@@ -4,12 +4,11 @@ use strict;
 use warnings;
 
 use Test::More;
-use Data::Dumper;
 
 use FusionInventory::Agent::Tools::AIX;
 
 my %lsvpd_tests = (
-    'sample1' => [
+    'aix-5.3' => [
         {
             SE => '65DEDAB',
             FG => 'XXSV',
@@ -384,11 +383,811 @@ my %lsvpd_tests = (
             DS => 'Asynchronous Terminal',
             PL => '0A-08-01-04'
         }
+    ],
+    'aix-6.1' => [
+        {
+            SE => '10086CP',
+            FG => 'XXSV',
+            DS => 'System VPD',
+            WN => 'C05076027866',
+            RT => 'VSYS',
+            TM => '8233-E8B',
+            BR => 'S0',
+            VK => 'ipzSeries',
+            YL => 'U8233.E8B.10086CP',
+            SU => '0004AC143433'
+        },
+        {
+            SE => 'DNWHPLG',
+            RK => '0000000000000000',
+            FC => '78A0-001',
+            FG => 'XXEV',
+            DS => 'CEC',
+            RT => 'VCEN',
+            TM => '78A0-001',
+            BR => 'S0',
+            VK => 'ipzSeries',
+            YL => 'U78A0.001.DNWHPLG',
+            CI => '8233-E8B 10086CP'
+        },
+        {
+            VZ => '01',
+            CC => '2A5C',
+            HE => '0001',
+            PN => '74Y1827',
+            FG => 'XXBP',
+            DS => 'SYSTEM BACKPLANE',
+            CE => '1',
+            HW => '0002',
+            FN => '74Y1825',
+            SN => 'YL10HA02307L',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            CT => '40F30024',
+            YL => 'U78A0.001.DNWHPLG-P1',
+            PR => '2A00000000000000'
+        },
+        {
+            VZ => '04',
+            CC => '1819',
+            HE => '0001',
+            PN => '46K7972',
+            FG => 'XXET',
+            DS => 'QUAD ETHERNET',
+            CE => '1',
+            HW => '0001',
+            FN => '46K7971',
+            SN => 'YL10W0005085',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            CT => '40910006',
+            YL => 'U78A0.001.DNWHPLG-P1-C6'
+        },
+        {
+            VZ => '01',
+            CC => '1817',
+            HE => '0001',
+            PN => '46K7922',
+            FG => 'XXBE',
+            DS => 'INFINIBAND 12X',
+            CE => '1',
+            HW => '0001',
+            FN => '46K6564',
+            SN => 'YL10W935004R',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            CT => '40333012',
+            YL => 'U78A0.001.DNWHPLG-P1-C8',
+            PR => '6500020000000000'
+        },
+        {
+            VZ => '01',
+            CC => '52B6',
+            HE => '0010',
+            PN => '46K6943',
+            FG => 'XXAV',
+            DS => 'ANCHOR',
+            CE => '1',
+            HW => '0001',
+            FN => '46K6943',
+            SN => 'YL100803B00C',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            CT => '40B40000',
+            YL => 'U78A0.001.DNWHPLG-P1-C9',
+            PR => '8100300000000000'
+        },
+        {
+            VZ => '01',
+            CC => '2A0F',
+            HE => '0001',
+            PN => '74Y1754',
+            FG => 'XXTP',
+            DS => 'THERMAL PWR MGMT',
+            CE => '1',
+            HW => '0001',
+            FN => '46Y3513',
+            SN => 'YL10W00190B5',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            CT => '40B60003',
+            YL => 'U78A0.001.DNWHPLG-P1-C12'
+        },
+        {
+            VZ => '01',
+            CC => '530E',
+            HE => '0001',
+            PN => '74Y2132',
+            FG => 'XXPF',
+            DS => '6 WAY PROC CUOD',
+            CE => '1',
+            HW => '0001',
+            FN => '74Y1845',
+            SN => 'YL1110035009',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            CT => '40120006',
+            YL => 'U78A0.001.DNWHPLG-P1-C13',
+            PR => '3400600111018000'
+        },
+        {
+            VZ => '03',
+            CC => '31C5',
+            HE => '0001',
+            HW => '0001',
+            SZ => '4096',
+            CT => '10210004',
+            PR => '4800000000010000',
+            PN => '77P8784',
+            DS => 'Memory DIMM',
+            FG => 'XXMS',
+            CE => '1',
+            FN => '77P8784',
+            SN => 'YLD00030486D',
+            RT => 'VINI',
+            YL => 'U78A0.001.DNWHPLG-P1-C13-C2',
+            VK => 'ipzSeries'
+        },
+        {
+            VZ => '03',
+            CC => '31C5',
+            HE => '0001',
+            HW => '0001',
+            SZ => '4096',
+            CT => '10210004',
+            PR => '4800000000010000',
+            PN => '77P8784',
+            DS => 'Memory DIMM',
+            FG => 'XXMS',
+            CE => '1',
+            FN => '77P8784',
+            SN => 'YLD003304853',
+            RT => 'VINI',
+            YL => 'U78A0.001.DNWHPLG-P1-C13-C3',
+            VK => 'ipzSeries'
+        },
+        {
+            VZ => '03',
+            CC => '31C5',
+            HE => '0001',
+            HW => '0001',
+            SZ => '4096',
+            CT => '10210004',
+            PR => '4800000000010000',
+            PN => '77P8784',
+            DS => 'Memory DIMM',
+            FG => 'XXMS',
+            CE => '1',
+            FN => '77P8784',
+            SN => 'YLD0013047DE',
+            RT => 'VINI',
+            YL => 'U78A0.001.DNWHPLG-P1-C13-C4',
+            VK => 'ipzSeries'
+        },
+        {
+            VZ => '03',
+            CC => '31C5',
+            HE => '0001',
+            HW => '0001',
+            SZ => '4096',
+            CT => '10210004',
+            PR => '4800000000010000',
+            PN => '77P8784',
+            DS => 'Memory DIMM',
+            FG => 'XXMS',
+            CE => '1',
+            FN => '77P8784',
+            SN => 'YLD002304855',
+            RT => 'VINI',
+            YL => 'U78A0.001.DNWHPLG-P1-C13-C5',
+            VK => 'ipzSeries'
+        },
+        {
+            VZ => '03',
+            CC => '31C5',
+            HE => '0001',
+            HW => '0001',
+            SZ => '4096',
+            CT => '10210004',
+            PR => '4800000000010000',
+            PN => '77P8784',
+            DS => 'Memory DIMM',
+            FG => 'XXMS',
+            CE => '1',
+            FN => '77P8784',
+            SN => 'YLD006304856',
+            RT => 'VINI',
+            YL => 'U78A0.001.DNWHPLG-P1-C13-C6',
+            VK => 'ipzSeries'
+        },
+        {
+            VZ => '03',
+            CC => '31C5',
+            HE => '0001',
+            HW => '0001',
+            SZ => '4096',
+            CT => '10210004',
+            PR => '4800000000010000',
+            PN => '77P8784',
+            DS => 'Memory DIMM',
+            FG => 'XXMS',
+            CE => '1',
+            FN => '77P8784',
+            SN => 'YLD00530483B',
+            RT => 'VINI',
+            YL => 'U78A0.001.DNWHPLG-P1-C13-C7',
+            VK => 'ipzSeries'
+        },
+        {
+            VZ => '03',
+            CC => '31C5',
+            HE => '0001',
+            HW => '0001',
+            SZ => '4096',
+            CT => '10210004',
+            PR => '4800000000010000',
+            PN => '77P8784',
+            DS => 'Memory DIMM',
+            FG => 'XXMS',
+            CE => '1',
+            FN => '77P8784',
+            SN => 'YLD007304859',
+            RT => 'VINI',
+            YL => 'U78A0.001.DNWHPLG-P1-C13-C8',
+            VK => 'ipzSeries'
+        },
+        {
+            VZ => '03',
+            CC => '31C5',
+            HE => '0001',
+            HW => '0001',
+            SZ => '4096',
+            CT => '10210004',
+            PR => '4800000000010000',
+            PN => '77P8784',
+            DS => 'Memory DIMM',
+            FG => 'XXMS',
+            CE => '1',
+            FN => '77P8784',
+            SN => 'YLD00430481E',
+            RT => 'VINI',
+            YL => 'U78A0.001.DNWHPLG-P1-C13-C9',
+            VK => 'ipzSeries'
+        },
+        {
+            VZ => '01',
+            CC => '2BCD',
+            HE => '0001',
+            PN => '74Y5487',
+            FG => 'XXOP',
+            DS => 'CEC OP PANEL',
+            CE => '1',
+            HW => '0002',
+            FN => '74Y5481',
+            SN => 'YL10W00610E4',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            CT => '40B50000',
+            YL => 'U78A0.001.DNWHPLG-D1'
+        },
+        {
+            CC => '51CA',
+            RT => 'VINI',
+            VK => 'RS6K',
+            YL => 'U78A0.001.DNWHPLG-P1-C13-C1',
+            FG => 'XXRG',
+            DS => 'Voltage Reg',
+            FN => '46K6300'
+        },
+        {
+            CC => '51C9',
+            RT => 'VINI',
+            VK => 'RS6K',
+            YL => 'U78A0.001.DNWHPLG-P1-C13-C10',
+            FG => 'XXRG',
+            DS => 'Voltage Reg',
+            FN => '46K6302'
+        },
+        {
+            CC => '51C8',
+            PN => '46K5673',
+            FG => 'XXPS',
+            DS => 'A IBM AC PS',
+            FN => '46K5673',
+            SN => 'YL10HA01N01A',
+            RT => 'VINI',
+            YL => 'U78A0.001.DNWHPLG-E1',
+            VK => 'RS6K'
+        },
+        {
+            CC => '51C8',
+            PN => '46K5673',
+            FG => 'XXPS',
+            DS => 'A IBM AC PS',
+            FN => '46K5673',
+            SN => 'YL10HA01N00M',
+            RT => 'VINI',
+            YL => 'U78A0.001.DNWHPLG-E2',
+            VK => 'RS6K'
+        },
+        {
+            CC => '6B1B',
+            RT => 'VINI',
+            VK => 'RS6K',
+            YL => 'U78A0.001.DNWHPLG-A1',
+            FG => 'XXAM',
+            DS => 'IBM Air Mover',
+            FN => '44V3454'
+        },
+        {
+            CC => '6B1B',
+            RT => 'VINI',
+            VK => 'RS6K',
+            YL => 'U78A0.001.DNWHPLG-A2',
+            FG => 'XXAM',
+            DS => 'IBM Air Mover',
+            FN => '44V3454'
+        },
+        {
+            CC => '6B1B',
+            RT => 'VINI',
+            VK => 'RS6K',
+            YL => 'U78A0.001.DNWHPLG-A3',
+            FG => 'XXAM',
+            DS => 'IBM Air Mover',
+            FN => '44V3454'
+        },
+        {
+            CC => '6B1B',
+            RT => 'VINI',
+            VK => 'RS6K',
+            YL => 'U78A0.001.DNWHPLG-A4',
+            FG => 'XXAM',
+            DS => 'IBM Air Mover',
+            FN => '44V3454'
+        },
+        {
+            VZ => '01',
+            CC => '2A16',
+            PN => '46K7882',
+            FG => 'XXDB',
+            DS => 'PSBPD8E4  3GSAS',
+            CE => '1',
+            FN => '46K7881',
+            SN => 'YL10W002805W',
+            RT => 'VINI',
+            VK => 'RS6K',
+            YL => 'U78A0.001.DNWHPLG-P2'
+        },
+        {
+            SE => '00H0441',
+            FG => 'XXEV',
+            DS => 'Tres-19',
+            RT => 'VCEN',
+            TM => '5877-001',
+            BR => 'S0',
+            VK => 'RS6K',
+            YL => 'U5877.001.00H0441',
+            CI => '8233-E8B 10086CP'
+        },
+        {
+            CC => '2C43',
+            HE => '0032',
+            PN => '44V8544',
+            FG => 'XXPS',
+            DS => 'DCA-T19',
+            HW => '0001',
+            FN => '44V8544',
+            SN => 'YH1019M17506',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            CT => '10E4000A',
+            YL => 'U5877.001.00H0441-E1'
+        },
+        {
+            CC => '2C43',
+            HE => '0032',
+            PN => '44V8544',
+            FG => 'XXPS',
+            DS => 'DCA-T19',
+            HW => '0001',
+            FN => '44V8544',
+            SN => 'YH1019M18061',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            CT => '10E4000A',
+            YL => 'U5877.001.00H0441-E2'
+        },
+        {
+            CC => '6B0A',
+            RT => 'VINI',
+            VK => 'RS6K',
+            YL => 'U5877.001.00H0441-E1-A1',
+            FG => 'XXAM',
+            DS => 'IBM Air Mover',
+            FN => '42R8429'
+        },
+        {
+            CC => '6B0A',
+            RT => 'VINI',
+            VK => 'RS6K',
+            YL => 'U5877.001.00H0441-E1-A2',
+            FG => 'XXAM',
+            DS => 'IBM Air Mover',
+            FN => '42R8429'
+        },
+        {
+            CC => '6B0A',
+            RT => 'VINI',
+            VK => 'RS6K',
+            YL => 'U5877.001.00H0441-E2-A1',
+            FG => 'XXAM',
+            DS => 'IBM Air Mover',
+            FN => '42R8429'
+        },
+        {
+            CC => '6B0A',
+            RT => 'VINI',
+            VK => 'RS6K',
+            YL => 'U5877.001.00H0441-E2-A2',
+            FG => 'XXAM',
+            DS => 'IBM Air Mover',
+            FN => '42R8429'
+        },
+        {
+            VZ => '02',
+            CC => '50A6',
+            HE => '0001',
+            PN => '45D5367',
+            FG => 'XXPO',
+            DS => 'SPCN',
+            CE => '1',
+            HW => '0001',
+            FN => '45D5368',
+            SN => 'YH10UD01811S',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            CT => '10B30004',
+            YL => 'U5877.001.00H0441-P2'
+        },
+        {
+            VZ => '04',
+            CC => '50AA',
+            HE => '0001',
+            PN => '45D5430',
+            FG => 'XXIB',
+            DS => 'MIDPLANE',
+            CE => '1',
+            HW => '0001',
+            FN => '45D5431',
+            SN => 'YH10UD01712D',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            CT => '10F30005',
+            YL => 'U5877.001.00H0441-P5'
+        },
+        {
+            VZ => '03',
+            CC => '50A2',
+            HE => '0001',
+            HW => '0001',
+            FL => 'P1',
+            CT => '10F30008',
+            PR => '2300000000000000',
+            PN => '45D5320',
+            DS => 'I/O BACKPLANE',
+            FG => 'XXIB',
+            CE => '1',
+            FN => '45D5321',
+            SN => 'YH10UD01712F',
+            RT => 'VINI',
+            YL => 'U5877.001.00H0441-P1',
+            VK => 'ipzSeries',
+            RV => '01'
+        },
+        {
+            YL => 'U8233.E8B.10086CP-Y1',
+            MI => 'AL710_099 AL710_065 AL710_099',
+            DS => 'System Firmware',
+            CL => 'SPCN2 183420070213A0E00D20'
+        },
+        {
+            AX => 'lhea0',
+            YL => 'U78A0.001.DNWHPLG-P1',
+            DS => 'Logical Host Ethernet Adapter (l-hea)'
+        },
+        {
+            CC => '5774',
+            PN => '10N7255',
+            EC => 'D76626',
+            DS => '4Gb FC PCI Express Adapter (df1000fe)',
+            MF => '001C',
+            ZC => '00000000',
+            FN => '10N7255',
+            PL => '01-00',
+            SN => '1C95208B5B',
+            ZM => '3',
+            AX => 'fcs0',
+            CD => '10dffe01',
+            YL => 'U5877.001.00H0441-P1-C5-T1',
+            RL => '02E8277F'
+        },
+        {
+            CC => '5774',
+            PN => '10N7255',
+            EC => 'D76626',
+            DS => '4Gb FC PCI Express Adapter (df1000fe)',
+            MF => '001C',
+            ZC => '00000000',
+            FN => '10N7255',
+            PL => '01-01',
+            SN => '1C95208B5B',
+            ZM => '3',
+            AX => 'fcs1',
+            CD => '10dffe01',
+            YL => 'U5877.001.00H0441-P1-C5-T2',
+            RL => '02E8277F'
+        },
+        {
+            CC => '5774',
+            PN => '10N7255',
+            EC => 'D76626',
+            DS => '4Gb FC PCI Express Adapter (df1000fe)',
+            MF => '001C',
+            ZC => '00000000',
+            FN => '10N7255',
+            PL => '02-00',
+            SN => '1C95208D7A',
+            ZM => '3',
+            AX => 'fcs2',
+            CD => '10dffe01',
+            YL => 'U5877.001.00H0441-P1-C6-T1',
+            RL => '02E8277F'
+        },
+        {
+            CC => '5774',
+            PN => '10N7255',
+            EC => 'D76626',
+            DS => '4Gb FC PCI Express Adapter (df1000fe)',
+            MF => '001C',
+            ZC => '00000000',
+            FN => '10N7255',
+            PL => '02-01',
+            SN => '1C95208D7A',
+            ZM => '3',
+            AX => 'fcs3',
+            CD => '10dffe01',
+            YL => 'U5877.001.00H0441-P1-C6-T2',
+            RL => '02E8277F'
+        },
+        {
+            CD => '10dffe01',
+            AX => 'fscsi0',
+            YL => 'U5877.001.00H0441-P1-C5-T1',
+            DS => 'FC SCSI I/O Controller Protocol Device',
+            PL => '01-00-01'
+        },
+        {
+            CD => '10dffe01',
+            AX => 'fscsi1',
+            YL => 'U5877.001.00H0441-P1-C5-T2',
+            DS => 'FC SCSI I/O Controller Protocol Device',
+            PL => '01-01-01'
+        },
+        {
+            CD => '10dffe01',
+            AX => 'fscsi2',
+            YL => 'U5877.001.00H0441-P1-C6-T1',
+            DS => 'FC SCSI I/O Controller Protocol Device',
+            PL => '02-00-01'
+        },
+        {
+            CD => '10dffe01',
+            AX => 'fscsi3',
+            YL => 'U5877.001.00H0441-P1-C6-T2',
+            DS => 'FC SCSI I/O Controller Protocol Device',
+            PL => '02-01-01'
+        },
+        {
+            SN => '83040523',
+            TM => 'DF600F',
+            AX => 'hdisk3',
+            YL => 'U5877.001.00H0441-P1-C6-T2-W50060E80104AA033-L2000000000000',
+            RL => '30303030',
+            DS => 'Other FC SCSI Disk Drive',
+            MF => 'HITACHI',
+            PL => '02-01-01'
+        },
+        {
+            SN => '83040523',
+            TM => 'DF600F',
+            AX => 'hdisk4',
+            YL => 'U5877.001.00H0441-P1-C6-T2-W50060E80104AA033-L3000000000000',
+            RL => '30303030',
+            DS => 'Other FC SCSI Disk Drive',
+            MF => 'HITACHI',
+            PL => '02-01-01'
+        },
+        {
+            SN => '83040523',
+            TM => 'DF600F',
+            AX => 'hdisk5',
+            YL => 'U5877.001.00H0441-P1-C6-T2-W50060E80104AA033-L4000000000000',
+            RL => '30303030',
+            DS => 'Other FC SCSI Disk Drive',
+            MF => 'HITACHI',
+            PL => '02-01-01'
+        },
+        {
+            SN => '83040523',
+            TM => 'DF600F',
+            AX => 'hdisk6',
+            YL => 'U5877.001.00H0441-P1-C6-T2-W50060E80104AA033-L5000000000000',
+            RL => '30303030',
+            DS => 'Other FC SCSI Disk Drive',
+            MF => 'HITACHI',
+            PL => '02-01-01'
+        },
+        {
+            SN => '83040523',
+            TM => 'DF600F',
+            AX => 'hdisk7',
+            YL => 'U5877.001.00H0441-P1-C6-T2-W50060E80104AA033-L6000000000000',
+            RL => '30303030',
+            DS => 'Other FC SCSI Disk Drive',
+            MF => 'HITACHI',
+            PL => '02-01-01'
+        },
+        {
+            SN => '83040523',
+            TM => 'DF600F',
+            AX => 'hdisk8',
+            YL => 'U5877.001.00H0441-P1-C6-T2-W50060E80104AA033-L7000000000000',
+            RL => '30303030',
+            DS => 'Other FC SCSI Disk Drive',
+            MF => 'HITACHI',
+            PL => '02-01-01'
+        },
+        {
+            SN => '83040523',
+            TM => 'DF600F',
+            AX => 'hdisk9',
+            YL => 'U5877.001.00H0441-P1-C6-T2-W50060E80104AA033-L8000000000000',
+            RL => '30303030',
+            DS => 'Other FC SCSI Disk Drive',
+            MF => 'HITACHI',
+            PL => '02-01-01'
+        },
+        {
+            SN => '83040523',
+            TM => 'DF600F',
+            AX => 'hdisk10',
+            YL => 'U5877.001.00H0441-P1-C6-T2-W50060E80104AA033-L9000000000000',
+            RL => '30303030',
+            DS => 'Other FC SCSI Disk Drive',
+            MF => 'HITACHI',
+            PL => '02-01-01'
+        },
+        {
+            SN => '83040523',
+            TM => 'DF600F',
+            AX => 'hdisk11',
+            YL => 'U5877.001.00H0441-P1-C6-T2-W50060E80104AA033-LA000000000000',
+            RL => '30303030',
+            DS => 'Other FC SCSI Disk Drive',
+            MF => 'HITACHI',
+            PL => '02-01-01'
+        },
+        {
+            SN => '83040523',
+            TM => 'DF600F',
+            AX => 'hdisk12',
+            YL => 'U5877.001.00H0441-P1-C6-T2-W50060E80104AA033-LB000000000000',
+            RL => '30303030',
+            DS => 'Other FC SCSI Disk Drive',
+            MF => 'HITACHI',
+            PL => '02-01-01'
+        },
+        {
+            SN => '83040523',
+            TM => 'DF600F',
+            AX => 'hdisk13',
+            YL => 'U5877.001.00H0441-P1-C6-T2-W50060E80104AA033-LC000000000000',
+            RL => '30303030',
+            DS => 'Other FC SCSI Disk Drive',
+            MF => 'HITACHI',
+            PL => '02-01-01'
+        },
+        {
+            SN => '83040523',
+            TM => 'DF600F',
+            AX => 'hdisk14',
+            YL => 'U5877.001.00H0441-P1-C6-T2-W50060E80104AA033-LD000000000000',
+            RL => '30303030',
+            DS => 'Other FC SCSI Disk Drive',
+            MF => 'HITACHI',
+            PL => '02-01-01'
+        },
+        {
+            SN => '83040523',
+            TM => 'DF600F',
+            AX => 'hdisk15',
+            YL => 'U5877.001.00H0441-P1-C6-T2-W50060E80104AA033-LE000000000000',
+            RL => '30303030',
+            DS => 'Other FC SCSI Disk Drive',
+            MF => 'HITACHI',
+            PL => '02-01-01'
+        },
+        {
+            SN => '83040523',
+            TM => 'DF600F',
+            AX => 'hdisk16',
+            YL => 'U5877.001.00H0441-P1-C6-T2-W50060E80104AA033-LF000000000000',
+            RL => '30303030',
+            DS => 'Other FC SCSI Disk Drive',
+            MF => 'HITACHI',
+            PL => '02-01-01'
+        },
+        {
+            SN => '83040523',
+            TM => 'DF600F',
+            AX => 'hdisk17',
+            YL => 'U5877.001.00H0441-P1-C6-T2-W50060E80104AA033-L10000000000000',
+            RL => '30303030',
+            DS => 'Other FC SCSI Disk Drive',
+            MF => 'HITACHI',
+            PL => '02-01-01'
+        },
+        {
+            AX => 'fc1',
+            DS => 'Fibre Channel Network Interface',
+            PL => '01-01-02'
+        },
+        {
+            SN => '1310211169',
+            TM => 'ULT3580-TD4',
+            AX => 'rmt0',
+            YL => 'U5877.001.00H0441-P1-C5-T1-W2002000E1113516B-L0',
+            FW => 'A239',
+            DS => 'IBM 3580 Ultrium Tape Drive (FCP)',
+            MF => 'IBM',
+            PL => '01-00-01'
+        },
+        {
+            SN => '1310207123',
+            TM => 'ULT3580-TD4',
+            AX => 'rmt1',
+            YL => 'U5877.001.00H0441-P1-C6-T1-W2008000E1113516B-L0',
+            FW => 'A239',
+            DS => 'IBM 3580 Ultrium Tape Drive (FCP)',
+            MF => 'IBM',
+            PL => '02-00-01'
+        },
+        {
+            SN => '00L4U78M1656_LL0',
+            TM => '3573-TL',
+            AX => 'smc0',
+            YL => 'U5877.001.00H0441-P1-C5-T1-W2002000E1113516B-L1000000000000',
+            FW => '9.20',
+            DS => 'IBM 3573 Tape Medium Changer (FCP)',
+            MF => 'IBM',
+            PL => '01-00-01'
+        },
+        {
+            SN => '00L4U78M1656_LL0',
+            TM => '3573-TL',
+            AX => 'smc1',
+            YL => 'U5877.001.00H0441-P1-C6-T1-W2008000E1113516B-L1000000000000',
+            FW => '9.20',
+            DS => 'IBM 3573 Tape Medium Changer (FCP)',
+            MF => 'IBM',
+            PL => '02-00-01'
+        }
     ]
 );
 
 my %lsdev_tests = (
-    sample1 => [
+    'aix-5.3' => [
         {
             NAME        => 'ent0',
             DESCRIPTION => '2-Port 10/100/1000 Base-TX PCI-X Adapter (14108902)',
@@ -449,6 +1248,68 @@ my %lsdev_tests = (
             DESCRIPTION => 'LPAR Virtual Serial Adapter',
             TYPE        => 'hvterm-protocol'
         }
+    ],
+    'aix-6.1' => [
+        {
+            NAME        => 'ent0',
+            DESCRIPTION => 'Virtual I/O Ethernet Adapter (l-lan)',
+            TYPE        => 'IBM,l-lan'
+        },
+        {
+            NAME        => 'ent1',
+            DESCRIPTION => 'Logical Host Ethernet Port (lp-hea)',
+            TYPE        => 'ethernet'
+        },
+        {
+            NAME        => 'ent2',
+            DESCRIPTION => 'Logical Host Ethernet Port (lp-hea)',
+            TYPE        => 'ethernet'
+        },
+        {
+            NAME        => 'fcs0',
+            DESCRIPTION => '4Gb FC PCI Express Adapter (df1000fe)',
+            TYPE        => 'df1000fe'
+        },
+        {
+            NAME        => 'fcs1',
+            DESCRIPTION => '4Gb FC PCI Express Adapter (df1000fe)',
+            TYPE        => 'df1000fe'
+        },
+        {
+            NAME        => 'fcs2',
+            DESCRIPTION => '4Gb FC PCI Express Adapter (df1000fe)',
+            TYPE        => 'df1000fe'
+        },
+        {
+            NAME        => 'fcs3',
+            DESCRIPTION => '4Gb FC PCI Express Adapter (df1000fe)',
+            TYPE        => 'df1000fe'
+        },
+        {
+            NAME        => 'fcs4',
+            DESCRIPTION => 'Virtual Fibre Channel Client Adapter',
+            TYPE        => 'IBM,vfc-client'
+        },
+        {
+            NAME        => 'lhea0',
+            DESCRIPTION => 'Logical Host Ethernet Adapter (l-hea)',
+            TYPE        => 'IBM,lhea'
+        },
+        {
+            NAME        => 'vsa0',
+            DESCRIPTION => 'LPAR Virtual Serial Adapter',
+            TYPE        => 'hvterm1'
+        },
+        {
+            NAME        => 'vscsi0',
+            DESCRIPTION => 'Virtual SCSI Client Adapter',
+            TYPE        => 'IBM,v-scsi'
+        },
+        {
+            NAME        => 'vscsi1',
+            DESCRIPTION => 'Virtual SCSI Client Adapter',
+            TYPE        => 'IBM,v-scsi'
+        }
     ]
 );
 
@@ -457,13 +1318,13 @@ plan tests =>
     (scalar keys %lsdev_tests);
 
 foreach my $test (keys %lsvpd_tests) {
-    my $file = "resources/lsvpd/$test";
+    my $file = "resources/aix/lsvpd/$test";
     my @devices = getDevicesFromLsvpd(file => $file);
     is_deeply(\@devices, $lsvpd_tests{$test}, "$test lsvpd parsing");
 }
 
 foreach my $test (keys %lsdev_tests) {
-    my $file = "resources/lsdev/$test.adapter";
+    my $file = "resources/aix/lsdev/$test-adapter";
     my @adapters = getAdaptersFromLsdev(file => $file);
     is_deeply(\@adapters, $lsdev_tests{$test}, "$test lsdev parsing");
 }

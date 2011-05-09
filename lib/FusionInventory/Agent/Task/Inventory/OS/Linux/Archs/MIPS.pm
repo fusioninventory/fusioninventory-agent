@@ -20,7 +20,9 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    foreach my $cpu (_getCPUsFromProc($logger, '/proc/cpuinfo')) {
+    foreach my $cpu (_getCPUsFromProc(
+        logger => $logger, file => '/proc/cpuinfo'
+    )) {
         $inventory->addEntry(
             section => 'CPUS',
             entry   => $cpu
@@ -29,10 +31,8 @@ sub doInventory {
 }
 
 sub _getCPUsFromProc {
-    my ($logger, $file) = @_;
-
     my @cpus;
-    foreach my $cpu (getCPUsFromProc(logger => $logger, file => $file)) {
+    foreach my $cpu (getCPUsFromProc(@_)) {
 
        push @cpus, {
             ARCH => 'MIPS',

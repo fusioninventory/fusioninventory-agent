@@ -52,7 +52,7 @@ my %ifconfig_tests = (
 plan tests => scalar keys %ifconfig_tests;
 
 foreach my $test (keys %ifconfig_tests) {
-    my $file = "resources/ifconfig/$test";
+    my $file = "resources/generic/ifconfig/$test";
     my @results = FusionInventory::Agent::Task::Inventory::OS::BSD::Networks::_parseIfconfig(file => $file);
     is_deeply(\@results, $ifconfig_tests{$test}, $test);
 }

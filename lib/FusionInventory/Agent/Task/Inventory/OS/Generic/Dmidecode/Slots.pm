@@ -15,7 +15,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $slots = _getSlots($logger);
+    my $slots = _getSlots(logger => $logger);
 
     return unless $slots;
 
@@ -28,9 +28,7 @@ sub doInventory {
 }
 
 sub _getSlots {
-    my ($logger, $file) = @_;
-
-    my $infos = getInfosFromDmidecode(logger => $logger, file => $file);
+    my $infos = getInfosFromDmidecode(@_);
 
     return unless $infos->{9};
 

@@ -34,7 +34,6 @@ sub new {
     my $self = {
         logger    => $params{logger} ||
                      FusionInventory::Agent::Logger->new(),
-        deviceid  => $params{deviceid},
         delaytime => $params{delaytime} || 3600,
     };
     bless $self, $class;
@@ -113,7 +112,7 @@ sub setNextRunDate {
         localtime($self->{myData}{nextRunDate})
     );
 
-    $storage->save({ data => $self->{myData} });
+    $storage->save(data => $self->{myData});
 }
 
 sub getNextRunDate {
@@ -147,7 +146,7 @@ sub resetNextRunDate {
     $logger->debug("Agent is now running");
     
     $self->{myData}{nextRunDate} = 1;
-    $storage->save({ data => $self->{myData} });
+    $storage->save(data => $self->{myData});
     
     ${$self->{nextRunDate}} = $self->{myData}{nextRunDate};
 }
@@ -175,7 +174,7 @@ sub setPrologFreq {
     }
 
     $self->{myData}{prologFreq} = $prologFreq;
-    $storage->save({ data => $self->{myData} });
+    $storage->save(data => $self->{myData});
 
 }
 
@@ -207,10 +206,6 @@ the logger object to use
 
 the initial delay before contacting the target, in seconds 
 (default: 3600)
-
-=item I<deviceid>
-
-the agent identifier
 
 =item I<basevardir>
 

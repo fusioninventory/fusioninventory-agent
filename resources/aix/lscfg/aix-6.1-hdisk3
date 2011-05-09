@@ -1,0 +1,24 @@
+  hdisk3           U5877.001.00H0441-P1-C6-T2-W50060E80104AA033-L2000000000000
+        Other FC SCSI Disk Drive
+
+        Manufacturer................HITACHI
+        Machine Type and Model......DF600F
+        Part Number.................
+        ROS Level and ID............30303030
+        Serial Number...............83040523
+        EC Level....................
+        FRU Number..................0523
+        Device Specific.(Z0)........00000432B3001102
+        Device Specific.(Z1)........001E
+        Device Specific.(Z2).........
+        Device Specific.(Z3).........
+        Device Specific.(Z4)............
+        Device Specific.(Z5)........
+        Device Specific.(Z6)........
+
+
+  PLATFORM SPECIFIC
+
+  Name:  disk
+    Node:  disk
+    Device Type:  block

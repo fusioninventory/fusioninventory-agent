@@ -4,9 +4,7 @@ use strict;
 use warnings;
 
 use Test::More;
-use File::Basename;
 
-use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Memory;
 
 my %tests = (
@@ -816,10 +814,8 @@ my %tests = (
 
 plan tests => scalar keys %tests;
 
-my $logger = FusionInventory::Agent::Logger->new();
-
 foreach my $test (keys %tests) {
-    my $file = "resources/dmidecode/$test";
-    my $memories = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Memory::_getMemories($logger, $file);
+    my $file = "resources/generic/dmidecode/$test";
+    my $memories = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Memory::_getMemories(file => $file);
     is_deeply($memories, $tests{$test}, $test);
 }

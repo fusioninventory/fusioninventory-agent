@@ -1,0 +1,58 @@
+AIX specific command and file samples
+
+All aix-5.3 samples courtesy of Eric Meygret <eric.meygret@ladb.fr>
+All aix-6.1 samples courtesy of Pablo Nicola <pablo1776@gmail.com>
+
+lscfg: lscfg command
+- aix-5.3-en: lscfg -v -l en*
+- aix-5.3-sysplanar0: lscfg -vpl sysplanar0
+- aix-5.3-disk0: lscfg -p -v -s -l hdisk0
+- aix-5.3-disk1: lscfg -p -v -s -l hdisk1
+- aix-6.1-en: lscfg -v -l en*
+- aix-6.1-sysplanar0: lscfg -vpl sysplanar0
+- aix-6.1-disk3: lscfg -p -v -s -l hdisk3
+
+lsdev: lsdev command
+- aix-5.3-adapter: lsdev -Cc adapter -F "name:type:description"
+- aix-5.3-bus: lsdev -Cc bus -F "name:description"
+- aix-5.3-disk-scsi: lsdev -Cc disk -s scsi -F "name:description"
+- aix-5.3-processor: lsdev -Cc processor -F name
+- aix-5.3-memory: lsdev -Cc memory -F name -t totmem
+- aix-5.3-tape: lsdev -Cc tape -s scsi -F "name:description:status"
+- aix-6.1-adapter: lsdev -Cc adapter -F "name:type:description"
+- aix-6.1-bus: lsdev -Cc bus -F "name:description"
+- aix-6.1-disk-fcp: lsdev -Cc disk -s fcp -F "name:description"
+- aix-6.1-disk-vscsi: lsdev -Cc disk -s vscsi -F "name:description"
+- aix-6.1-memory: lsdev -Cc memory -F name -t totmem
+- aix-6.1-processor: lsdev -Cc processor -F name
+
+lslpp: lslpp command
+- aix-5.3: lslpp -c -l
+- aix-6.1: lslpp -c -l
+
+lsps: lsps command
+- aix-5.3: lsps
+- aix-6.1: lsps
+
+lsvpd: lsvpd command
+- aix-5.3: lsvpd
+- aix-6.1: lsvpd
+
+lsfs: lsfs command
+- aix-5.3-root: lsfs -c /
+- aix-5.3-usr: lsfs -c /usr
+- aix-5.3-tmp: lsfs -c /tmp
+- aix-6.1-root: lsfs -c /
+- aix-6.1-usr: lsfs -c /usr
+- aix-6.1-tmp: lsfs -c /tmp
+
+lsattr: lsattr command
+- aix-5.3-mem0: lsattr -EOl mem0
+- aix-5.3-hdisk0: lsattr -EOl hdisk0 -a 'size_in_mb'
+- aix-5.3-hdisk1: lsattr -EOl hdisk1 -a 'size_in_mb'
+- aix-5.3-proc0: lsattr -EOl proc0 -a 'type:frequency:smt_threads'
+- aix-5.3-en0: lsattr -E -l en0
+- aix-5.3-lo0: lsattr -E -l lo0
+- aix-6.1-mem0: lsattr -EOl mem0
+- aix-6.1-proc0: lsattr -EOl proc0 -a 'type:frequency:smt_threads'
+- aix-6.1-proc4: lsattr -EOl proc0 -a 'type:frequency:smt_threads'

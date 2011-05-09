@@ -7,7 +7,6 @@ use Test::Exception;
 use XML::TreePP;
 
 use FusionInventory::Agent::XML::Query::Prolog;
-use FusionInventory::Logger;
 
 plan tests => 5;
 
@@ -26,7 +25,6 @@ lives_ok {
     $message = FusionInventory::Agent::XML::Query::Prolog->new(
         deviceid => 'foo',
         token    => 'foo',
-        logger   => FusionInventory::Logger->new(),
     );
 } 'everything OK';
 

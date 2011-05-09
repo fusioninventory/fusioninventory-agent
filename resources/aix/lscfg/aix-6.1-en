@@ -1,0 +1,16 @@
+  ent0             U8233.E8B.10086CP-V3-C4-T1  Virtual I/O Ethernet Adapter (l-lan)
+
+        Network Address.............D213C0153A04
+        Displayable Message.........Virtual I/O Ethernet Adapter (l-lan)
+        Hardware Location Code......U8233.E8B.10086CP-V3-C4-T1
+
+  ent2             U78A0.001.DNWHPLG-P1-C6-T3  Logical Host Ethernet Port (lp-hea)
+
+      IBM Host Ethernet Adapter:
+        Network Address.............00215EA67CD0
+
+  ent1             U78A0.001.DNWHPLG-P1-C6-T1  Logical Host Ethernet Port (lp-hea)
+
+      IBM Host Ethernet Adapter:
+        Network Address.............00215EA67CC0
+

@@ -16,7 +16,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    foreach my $sound (_getSoundControllers($logger)) {
+    foreach my $sound (_getSoundControllers(logger => $logger)) {
         $inventory->addEntry(
             section => 'SOUNDS',
             entry   => $sound
@@ -25,13 +25,9 @@ sub doInventory {
 }
 
 sub _getSoundControllers {
-    my ($logger, $file) = @_;
-
     my @sounds;
 
-    foreach my $controller (getControllersFromLspci(
-        logger => $logger, file => $file
-    )) {
+    foreach my $controller (getControllersFromLspci(@_)) {
         next unless $controller->{NAME} =~ /audio/i;
         push @sounds, {
             NAME         => $controller->{NAME},

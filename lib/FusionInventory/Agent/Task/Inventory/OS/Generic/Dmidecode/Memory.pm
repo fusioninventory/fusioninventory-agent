@@ -15,7 +15,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $memories = _getMemories($logger);
+    my $memories = _getMemories(logger => $logger);
 
     return unless $memories;
 
@@ -28,9 +28,7 @@ sub doInventory {
 }
 
 sub _getMemories {
-    my ($logger, $file) = @_;
-
-    my $infos = getInfosFromDmidecode(logger => $logger, file => $file);
+    my $infos = getInfosFromDmidecode(@_);
 
     my ($memories, $slot);
 

@@ -1,0 +1,4 @@
+pci0:PCI Express Bus
+pci1:PCI Express Bus
+pci2:PCI Express Bus
+vio0:Virtual I/O Bus

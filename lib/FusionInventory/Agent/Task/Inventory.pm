@@ -39,7 +39,7 @@ sub run {
     $self->{modules} = {};
 
     my $inventory = FusionInventory::Agent::XML::Query::Inventory->new(
-        deviceid        => $self->{target}->{deviceid},
+        deviceid        => $self->{deviceid},
         last_statefile  => $self->{target}->{last_statefile},
         logger          => $self->{logger},
     );
@@ -67,7 +67,7 @@ sub run {
         my $file =
             $self->{config}->{local} .
             "/" .
-            $self->{target}->{deviceid} .
+            $self->{deviceid} .
             $extension;
 
         if (open my $handle, '>', $file) {
@@ -85,10 +85,10 @@ sub run {
             $self->{target}->getAccountInfo()
         );
 
-        my $response = $self->{transmitter}->send({
+        my $response = $self->{transmitter}->send(
             url     => $self->{target}->getUrl(),
             message => $inventory
-        });
+        );
 
         return unless $response;
         $inventory->saveLastState();

@@ -50,7 +50,7 @@ my %tests = (
 );
 
 foreach my $test (keys %tests) {
-    my $file = "resources/scsi/$test";
+    my $file = "resources/linux/proc/scsi/$test";
     my @disks = FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::Adaptec::_getDisksFromProc(
         file       => $file,
         controller => $tests{$test}->{controller},
