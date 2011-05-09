@@ -202,6 +202,18 @@ my %tests = (
           'MMODEL' => 'P5Q',
           'BDATE' => '04/07/2009',
           'BVERSION' => '2102'
+        },
+        'dmidecode-hyperV' => {
+          'MMANUFACTURER' => 'Microsoft Corporation',
+          'SSN' => '2349-2347-2234-2340-2341-3240-48',
+          'ASSETTAG' => '4568-2345-6432-9324-3433-2346-47',
+          'BMANUFACTURER' => 'American Megatrends Inc.',
+          'MSN' => '2349-2347-2234-2340-2341-3240-48',
+          'SMANUFACTURER' => 'Microsoft Corporation',
+          'SMODEL' => 'Virtual Machine',
+          'BDATE' => '03/19/2009',
+          'MMODEL' => 'Virtual Machine',
+          'BVERSION' => '090004'
         }
 );
 

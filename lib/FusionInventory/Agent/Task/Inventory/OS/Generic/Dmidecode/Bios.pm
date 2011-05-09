@@ -80,6 +80,13 @@ sub parseDmidecode {
 		$bios->{SKUNUMBER} = $1;
 		$bios->{SKUNUMBER} =~ s/\s$//;
 	    }
+
+            if ($bios->{SMANUFACTURER} &&
+            $bios->{SMANUFACTURER} =~ /^Microsoft Corporation$/ &&
+            $bios->{SMODEL} &&
+            $bios->{SMODEL} =~ /Virtual Machine/) {
+                    $hardware->{VMSYSTEM} = 'Hyper-V';
+            }
             next;
         }
 
