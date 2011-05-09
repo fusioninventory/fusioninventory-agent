@@ -121,7 +121,7 @@ sub getValueFromRegistry {
         $subpath = $2;
         $keyName = $3;
     } else {
-        $logger->debug("Failed to parse `$path'. Does it start with HKEY_?");
+        $logger->debug("Failed to parse '$path'. Does it start with HKEY_?");
     }
     my $machKey;
     $Registry->Delimiter("/");
@@ -132,9 +132,9 @@ sub getValueFromRegistry {
     }
     if (!$machKey) {
         if ($logger) {
-            $logger->error("Can't open `$root': $EXTENDED_OS_ERROR");
+            $logger->error("Can't open 'root': $EXTENDED_OS_ERROR");
         } else {
-            warn("Can't open `$root': $EXTENDED_OS_ERROR");
+            warn("Can't open '$root': $EXTENDED_OS_ERROR");
         }
         return;
     }
@@ -143,7 +143,6 @@ sub getValueFromRegistry {
     return if ref($t);
     return $t;
 }
-
 
 1;
 __END__
