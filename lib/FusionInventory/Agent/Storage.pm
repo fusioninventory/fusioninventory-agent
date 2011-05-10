@@ -77,6 +77,20 @@ sub _getFilePath {
     return $self->{directory}."/".$fileName.$extension.".dump";
 }
 
+sub has {
+    my ($self, %params) = @_;
+
+    my $module = $params{module};
+    my $idx = $params{idx};
+
+    my $filePath = $self->_getFilePath(
+        module => $module,
+        idx    => $idx
+    );
+
+    return -f $filePath;
+}
+
 sub save {
     my ($self, %params) = @_;
 
@@ -186,6 +200,23 @@ the directory to use for storing data (mandatory)
 =head2 getDirectory
 
 Returns the underlying directory for this storage.
+
+=head2 has(%params)
+
+Returns true if a saved data structure exists. The following arguments are
+allowed:
+
+=over
+
+=item module
+
+The name of the module which saved the data structure (mandatory).
+
+=item idx
+
+The index number (optional).
+
+=back
 
 =head2 save(%params)
 
