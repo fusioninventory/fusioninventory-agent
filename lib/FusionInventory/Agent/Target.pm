@@ -37,6 +37,9 @@ sub new {
     };
     bless $self, $class;
 
+    # make sure relevant attributes are shared between threads
+    threads::shared::share($self->{nextRunDate});
+
     return $self;
 }
 
@@ -44,9 +47,6 @@ sub _init {
     my ($self, %params) = @_;
 
     my $logger = $self->{logger};
-
-    my $nextRunDate : shared;
-    $self->{nextRunDate} = \$nextRunDate;
 
     # target identity
     $self->{id} = $params{id};
@@ -61,14 +61,14 @@ sub _init {
     my $data = $storage->restore();
 
     if ($data->{nextRunDate}) {
-        ${$self->{nextRunDate}} = $data->{nextRunDate};
+        $self->{nextRunDate} = $data->{nextRunDate};
     } else {
         $self->setNextRunDate();
     }
 
     $logger->debug (
         "[target $self->{id}] Next server contact planned for ".
-        localtime(${$self->{nextRunDate}})
+        localtime($self->{nextRunDate})
     );
 
     $self->{last_statefile} = $params{vardir} . "/last_state";
@@ -116,8 +116,8 @@ sub _loadState {
 
     my $data = $self->{storage}->restore();
 
-    $self->{maxDelay}       = $data->{maxDelay}    if $data->{maxDelay};
-    ${$self->{nextRunDate}} = $data->{nextRunDate} if $data->{nextRunDate};
+    $self->{maxDelay}    = $data->{maxDelay}    if $data->{maxDelay};
+    $self->{nextRunDate} = $data->{nextRunDate} if $data->{nextRunDate};
 }
 
 sub _saveState {
@@ -125,7 +125,7 @@ sub _saveState {
 
     $self->{storage}->save(data => {
         maxDelay    => $self->{maxDelay},
-        nextRunDate => ${$self->{nextRunDate}},
+        nextRunDate => $self->{nextRunDate},
     });
 }
 

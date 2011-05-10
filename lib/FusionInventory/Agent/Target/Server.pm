@@ -89,9 +89,9 @@ sub _loadState {
 
     my $data = $self->{storage}->restore();
 
-    $self->{maxDelay}       = $data->{maxDelay}    if $data->{maxDelay};
-    $self->{accountInfo}    = $data->{accountInfo} if $data->{accountInfo};
-    ${$self->{nextRunDate}} = $data->{nextRunDate} if $data->{nextRunDate};
+    $self->{maxDelay}    = $data->{maxDelay}    if $data->{maxDelay};
+    $self->{nextRunDate} = $data->{nextRunDate} if $data->{nextRunDate};
+    $self->{accountInfo} = $data->{accountInfo} if $data->{accountInfo};
 }
 
 sub _saveState {
@@ -99,7 +99,7 @@ sub _saveState {
 
     $self->{storage}->save(data => {
         maxDelay    => $self->{maxDelay},
-        nextRunDate => ${$self->{nextRunDate}},
+        nextRunDate => $self->{nextRunDate},
         accountInfo => $self->{accountInfo},
     });
 }
