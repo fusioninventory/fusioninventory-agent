@@ -83,8 +83,6 @@ sub getStorage {
 sub setNextRunDate {
     my ($self, $nextRunDate) = @_;
 
-    my $logger = $self->{logger};
-
     lock($lock);
     
     if (! defined $nextRunDate) {
@@ -95,11 +93,6 @@ sub setNextRunDate {
     }
 
     ${$self->{nextRunDate}} = $nextRunDate;
-
-    $logger->debug (
-        "[target $self->{id}] Next server contact has just been planned for ".
-        localtime(${$self->{nextRunDate}})
-    );
 
     $self->_saveState();
 }
