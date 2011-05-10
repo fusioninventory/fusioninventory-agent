@@ -89,7 +89,7 @@ sub _saveState {
 
     $self->{storage}->save(data => {
         maxDelay    => $self->{maxDelay},
-        nextRunDate => $self->{nextRunDate},
+        nextRunDate => ${$self->{nextRunDate}},
         accountInfo => $self->{accountInfo},
     });
 }
