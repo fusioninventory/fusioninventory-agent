@@ -32,9 +32,9 @@ sub new {
     die 'no basevardir parameter' unless $params{basevardir};
 
     my $self = {
-        logger    => $params{logger} ||
+        logger   => $params{logger} ||
                      FusionInventory::Agent::Logger->new(),
-        delaytime => $params{delaytime} || 3600,
+        maxDelay => $params{maxDelay} || 3600,
     };
     bless $self, $class;
 
@@ -90,21 +90,10 @@ sub setNextRunDate {
 
     lock($lock);
 
-    my $serverdelay = $self->{prologFreq};
-
-    lock($lock);
-
-    my $max;
-    if ($serverdelay) {
-        $max = $serverdelay * 3600;
-    } else {
-        $max = $self->{delaytime};
-        # If the PROLOG_FREQ has never been initialized, we force it at 1h
-        $self->setPrologFreq(1);
-    }
-    $max = 1 unless $max;
-
-    my $time = time + ($max/2) + int rand($max/2);
+    my $time = 
+        time                           +
+        $self->{maxDelay} / 2          +
+        int rand($self->{maxDelay} / 2);
 
     ${$self->{nextRunDate}} = $time;
 
@@ -136,10 +125,10 @@ sub resetNextRunDate {
     $self->_saveState();
 }
 
-sub setPrologFreq {
-    my ($self, $prologFreq) = @_;
+sub setMaxDelay {
+    my ($self, $maxDelay) = @_;
 
-    $self->{prologFreq} = $prologFreq;
+    $self->{maxDelay} = $maxDelay;
 
     $self->_saveState();
 }
@@ -148,7 +137,7 @@ sub _saveState {
     my ($self) = @_;
 
     $self->{storage}->save(data => {
-        prologFreq  => $self->{prologFreq},
+        maxDelay    => $self->{maxDelay},
         nextRunDate => $self->{nextRunDate},
     });
 }
@@ -177,9 +166,9 @@ hash:
 
 the logger object to use
 
-=item I<delaytime>
+=item I<maxDelay>
 
-the initial delay before contacting the target, in seconds 
+the maximum delay before contacting the target, in seconds 
 (default: 3600)
 
 =item I<basevardir>
@@ -200,9 +189,9 @@ Set nextRunDate attribute.
 
 Set nextRunDate attribute to 1.
 
-=head2 setPrologFreq($prologFreq)
+=head2 setMaxDelay($maxDelay)
 
-Set prologFreq attribute.
+Set maxDelay attribute.
 
 =head2 getStorage()
 

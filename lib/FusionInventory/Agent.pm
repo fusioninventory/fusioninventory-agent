@@ -273,7 +273,7 @@ sub run {
 
                 # update target
                 my $content = $prologresp->getContent();
-                $target->setPrologFreq($content->{PROLOG_FREQ});
+                $target->setMaxDelay($content->{PROLOG_FREQ} * 3600);
             }
 
             my @tasks = qw/
