@@ -84,6 +84,16 @@ sub setAccountInfo {
     $self->{accountInfo} = $accountInfo;
 }
 
+sub _saveState {
+    my ($self) = @_;
+
+    $self->{storage}->save(data => {
+        maxDelay    => $self->{maxDelay},
+        nextRunDate => $self->{nextRunDate},
+        accountInfo => $self->{accountInfo},
+    });
+}
+
 1;
 
 __END__
