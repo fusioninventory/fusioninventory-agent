@@ -84,6 +84,16 @@ sub setAccountInfo {
     $self->{accountInfo} = $accountInfo;
 }
 
+sub _loadState {
+    my ($self) = @_;
+
+    my $data = $self->{storage}->restore();
+
+    $self->{maxDelay}       = $data->{maxDelay}    if $data->{maxDelay};
+    $self->{accountInfo}    = $data->{accountInfo} if $data->{accountInfo};
+    ${$self->{nextRunDate}} = $data->{nextRunDate} if $data->{nextRunDate};
+}
+
 sub _saveState {
     my ($self) = @_;
 

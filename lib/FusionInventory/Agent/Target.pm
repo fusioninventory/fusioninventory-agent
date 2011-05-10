@@ -111,6 +111,15 @@ sub setMaxDelay {
     $self->_saveState();
 }
 
+sub _loadState {
+    my ($self) = @_;
+
+    my $data = $self->{storage}->restore();
+
+    $self->{maxDelay}       = $data->{maxDelay}    if $data->{maxDelay};
+    ${$self->{nextRunDate}} = $data->{nextRunDate} if $data->{nextRunDate};
+}
+
 sub _saveState {
     my ($self) = @_;
 
