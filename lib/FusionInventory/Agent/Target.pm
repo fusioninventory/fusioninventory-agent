@@ -82,20 +82,20 @@ sub getStorage {
 }
 
 sub setNextRunDate {
-
-    my ($self, $args) = @_;
+    my ($self, $nextRunDate) = @_;
 
     my $logger = $self->{logger};
-    my $storage = $self->{storage};
 
     lock($lock);
+    
+    if (! defined $nextRunDate) {
+        $nextRunDate = 
+            time                           +
+            $self->{maxDelay} / 2          +
+            int rand($self->{maxDelay} / 2);
+    }
 
-    my $time = 
-        time                           +
-        $self->{maxDelay} / 2          +
-        int rand($self->{maxDelay} / 2);
-
-    ${$self->{nextRunDate}} = $time;
+    ${$self->{nextRunDate}} = $nextRunDate;
 
     $logger->debug (
         "[target $self->{id}] Next server contact has just been planned for ".
