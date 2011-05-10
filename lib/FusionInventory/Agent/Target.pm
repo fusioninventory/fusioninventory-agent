@@ -23,7 +23,6 @@ BEGIN {
     }
 }
 
-# resetNextRunDate() can also be called from another thread (RPC)
 my $lock : shared;
 
 sub new {
@@ -111,20 +110,6 @@ sub getNextRunDate {
     return ${$self->{nextRunDate}};
 }
 
-sub resetNextRunDate {
-    my ($self) = @_;
-
-    my $logger = $self->{logger};
-    my $storage = $self->{storage};
-
-    lock($lock);
-    $logger->debug("Agent is now running");
-    
-    ${$self->{nextRunDate}} = 1;
-
-    $self->_saveState();
-}
-
 sub setMaxDelay {
     my ($self, $maxDelay) = @_;
 
@@ -184,10 +169,6 @@ Get nextRunDate attribute.
 =head2 setNextRunDate($nextRunDate)
 
 Set nextRunDate attribute.
-
-=head2 resetNextRunDate()
-
-Set nextRunDate attribute to 1.
 
 =head2 setMaxDelay($maxDelay)
 

@@ -156,7 +156,7 @@ sub _handle {
 
             my ($code, $message);
             if ($result eq "ok") {
-                $scheduler->resetNextRunDate();
+                $scheduler->setNextRunDate(1);
                 $code    = 200;
                 $message = "Done."
             } else {

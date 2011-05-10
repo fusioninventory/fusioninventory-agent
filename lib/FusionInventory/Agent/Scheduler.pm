@@ -86,12 +86,9 @@ sub getTargets {
 sub resetNextRunDate {
     my ($self) = @_;
 
-
     foreach my $target (@{$self->{targets}}) {
-        $target->resetNextRunDate();
+        $target->setNextRunDate(1);
     }
-
-
 }
 
 1;
@@ -149,4 +146,4 @@ Get all targets.
 
 =head2 resetNextRunDate()
 
-Call resetNextRunDate() on all targets.
+Call setNextRunDate(1) on all targets.
