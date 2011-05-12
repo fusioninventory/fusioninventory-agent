@@ -80,41 +80,26 @@ sub _getFilePath {
 sub has {
     my ($self, %params) = @_;
 
-    my $module = $params{module};
-    my $idx = $params{idx};
+    my $file = $self->_getFilePath(%params);
 
-    my $filePath = $self->_getFilePath(
-        module => $module,
-        idx    => $idx
-    );
-
-    return -f $filePath;
+    return -f $file;
 }
 
 sub save {
     my ($self, %params) = @_;
 
-    my $data = $params{data};
-    my $idx = $params{idx};
+    my $file = $self->_getFilePath(%params);
 
-    my $filePath = $self->_getFilePath(idx => $idx);
-
-    store ($data, $filePath) or warn;
+    store($params{data}, $file) or warn;
 }
 
 sub restore {
     my ($self, %params) = @_;
 
-    my $module = $params{module};
-    my $idx = $params{idx};
+    my $file = $self->_getFilePath(%params);
 
-    my $filePath = $self->_getFilePath(
-        module => $module,
-        idx    => $idx
-    );
-
-    if (-f $filePath) {
-        return retrieve($filePath);
+    if (-f $file) {
+        return retrieve($file);
     } else {
         return {};
     }
@@ -123,7 +108,7 @@ sub restore {
 sub remove {
     my ($self, %params) = @_;
 
-    my $file = $self->_getFilePath(idx => $params{idx});
+    my $file = $self->_getFilePath(%params);
 
     unlink $file or $self->{logger}->error("can't unlink $file");
 }
@@ -131,7 +116,7 @@ sub remove {
 sub removeAll {
     my ($self, %params) = @_;
     
-    my $file = $self->_getFilePath(idx => $params{idx});
+    my $file = $self->_getFilePath(%params);
 
     unlink $file or $self->{logger}->error("can't unlink $file");
 }
