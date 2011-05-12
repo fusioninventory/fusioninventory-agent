@@ -14,6 +14,8 @@ use FusionInventory::Agent::Logger;
 sub new {
     my ($class, %params) = @_;
 
+    die "no directory parameter" unless $params{directory};
+
     if (!-d $params{directory}) {
         make_path($params{directory}, {error => \my $err});
         if (@$err) {
