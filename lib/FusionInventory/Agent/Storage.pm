@@ -100,11 +100,8 @@ sub restore {
 
     my $file = $self->_getFilePath(%params);
 
-    if (-f $file) {
-        return retrieve($file);
-    } else {
-        return {};
-    }
+    return unless -f $file;
+    return retrieve($file);
 }
 
 sub remove {
