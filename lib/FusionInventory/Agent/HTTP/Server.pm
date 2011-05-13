@@ -13,7 +13,7 @@ sub new {
     my ($class, %params) = @_;
 
     my $self = {
-        logger          => $params{logger},
+        logger          => $params{logger} ||
                            FusionInventory::Agent::Logger->new(),
         agent           => $params{agent},
         scheduler       => $params{scheduler},
