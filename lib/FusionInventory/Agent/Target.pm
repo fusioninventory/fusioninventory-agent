@@ -92,7 +92,7 @@ sub setNextRunDate {
             int rand($self->{maxDelay} / 2);
     }
 
-    ${$self->{nextRunDate}} = $nextRunDate;
+    $self->{nextRunDate} = $nextRunDate;
 
     $self->_saveState();
 }
@@ -100,7 +100,7 @@ sub setNextRunDate {
 sub getNextRunDate {
     my ($self) = @_;
 
-    return ${$self->{nextRunDate}};
+    return $self->{nextRunDate};
 }
 
 sub setMaxDelay {
