@@ -57,11 +57,8 @@ sub _init {
         directory => $params{vardir}
     );
 
-    my $storage = $self->{storage};
-    my $data = $storage->restore();
-
-    if ($data->{nextRunDate}) {
-        $self->{nextRunDate} = $data->{nextRunDate};
+    if ($self->{storage}->has(module => 'Target')) {
+        $self->_loadState();
     } else {
         $self->setNextRunDate();
     }
@@ -120,7 +117,7 @@ sub setMaxDelay {
 sub _loadState {
     my ($self) = @_;
 
-    my $data = $self->{storage}->restore();
+    my $data = $self->{storage}->restore(module => 'Target');
 
     $self->{maxDelay}    = $data->{maxDelay}    if $data->{maxDelay};
     $self->{nextRunDate} = $data->{nextRunDate} if $data->{nextRunDate};
@@ -129,10 +126,13 @@ sub _loadState {
 sub _saveState {
     my ($self) = @_;
 
-    $self->{storage}->save(data => {
-        maxDelay    => $self->{maxDelay},
-        nextRunDate => $self->{nextRunDate},
-    });
+    $self->{storage}->save(
+        module => 'Target',
+        data => {
+            maxDelay    => $self->{maxDelay},
+            nextRunDate => $self->{nextRunDate},
+        }
+    );
 }
 
 1;

@@ -95,7 +95,7 @@ sub setAccountInfo {
 sub _loadState {
     my ($self) = @_;
 
-    my $data = $self->{storage}->restore();
+    my $data = $self->{storage}->restore(module => 'Target');
 
     $self->{maxDelay}    = $data->{maxDelay}    if $data->{maxDelay};
     $self->{nextRunDate} = $data->{nextRunDate} if $data->{nextRunDate};
@@ -105,11 +105,14 @@ sub _loadState {
 sub _saveState {
     my ($self) = @_;
 
-    $self->{storage}->save(data => {
-        maxDelay    => $self->{maxDelay},
-        nextRunDate => $self->{nextRunDate},
-        accountInfo => $self->{accountInfo},
-    });
+    $self->{storage}->save(
+        module => 'Target',
+        data => {
+            maxDelay    => $self->{maxDelay},
+            nextRunDate => $self->{nextRunDate},
+            accountInfo => $self->{accountInfo},
+        }
+    );
 }
 
 1;
