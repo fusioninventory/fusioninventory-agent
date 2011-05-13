@@ -16,21 +16,7 @@ sub new {
 
     my $self = $class->SUPER::new(%params);
 
-    $self->{url} = URI->new($params{url});
-
-    my $scheme = $self->{url}->scheme();
-    if (!$scheme) {
-        # this is likely a bare hostname
-        # as parsing relies on scheme, host and path have to be set explicitely
-        $self->{url}->scheme('http');
-        $self->{url}->host($params{url});
-        $self->{url}->path('ocsinventory');
-    } else {
-        die "invalid protocol for URL: $params{url}"
-            if $scheme ne 'http' && $scheme ne 'https';
-        # complete path if needed
-        $self->{url}->path('ocsinventory') if !$self->{url}->path();
-    }
+    $self->{url} = _getCanonicalURL($params{url});
 
     # compute storage subdirectory from url
     my $subdir = $params{url};
@@ -58,6 +44,28 @@ sub new {
     }
 
     return $self;
+}
+
+sub _getCanonicalURL {
+    my ($string) = @_;
+
+    my $url = URI->new($string);
+
+    my $scheme = $url->scheme();
+    if (!$scheme) {
+        # this is likely a bare hostname
+        # as parsing relies on scheme, host and path have to be set explicitely
+        $url->scheme('http');
+        $url->host($string);
+        $url->path('ocsinventory');
+    } else {
+        die "invalid protocol for URL: $string"
+            if $scheme ne 'http' && $scheme ne 'https';
+        # complete path if needed
+        $url->path('ocsinventory') if !$url->path();
+    }
+
+    return $url;
 }
 
 sub getUrl {
