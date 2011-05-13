@@ -103,6 +103,12 @@ sub getNextRunDate {
     return $self->{nextRunDate};
 }
 
+sub getMaxDelay {
+    my ($self) = @_;
+
+    return $self->{maxDelay};
+}
+
 sub setMaxDelay {
     my ($self, $maxDelay) = @_;
 
