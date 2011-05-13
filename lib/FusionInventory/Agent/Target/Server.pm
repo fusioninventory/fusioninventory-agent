@@ -19,7 +19,7 @@ sub new {
     $self->{url} = _getCanonicalURL($params{url});
 
     # compute storage subdirectory from url
-    my $subdir = $params{url};
+    my $subdir = $self->{url};
     $subdir =~ s/\//_/g;
     $subdir =~ s/:/../g if $OSNAME eq 'MSWin32';
 
