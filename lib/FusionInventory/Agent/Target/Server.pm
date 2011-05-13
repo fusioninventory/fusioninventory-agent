@@ -30,8 +30,6 @@ sub new {
 
     my $logger = $self->{logger};
 
-    $self->{accountinfo} = $self->{myData}->{accountinfo};
-
     if ($params{tag}) {
         if ($self->{accountinfo}->{TAG}) {
             $logger->debug(
