@@ -230,7 +230,7 @@ sub send {
 
 
     my $serverRealm;
-    if ($res->code == '401' && $res->header('www-authenticate') =~ /^Basic realm="(.*)"/ && !$self->{config}->{realm}) {
+    if ($res && $res->code == '401' && $res->header('www-authenticate') =~ /^Basic realm="(.*)"/ && !$self->{config}->{realm}) {
         $serverRealm = $1;
         $logger->debug("Basic HTTP Auth: fixing the realm to '$serverRealm' and retrying.");
 
@@ -245,10 +245,10 @@ sub send {
     }
 
     # Checking if connected
-    if(!$res->is_success) {
+    if(!$res || !$res->is_success) {
         $logger->error ('Cannot establish communication with `'.
             $self->{URI}.': '.
-            $res->status_line.'`');
+            (($res && $res->status_line) || 'Internal error' ).'`');
         return;
     }
 
