@@ -65,7 +65,9 @@ sub _getFilePath {
     my ($self, %params) = @_;
 
     my $idx = $params{idx};
-    die "idx is not an integer" if $idx !~ /^\d+$/;
+    if ($idx && $idx !~ /^\d+$/) {
+        die "idx is not an integer";
+    }
     my $module = $params{module};
 
     my $fileName = $self->_getFileName(
