@@ -96,6 +96,15 @@ sub createUA {
     $logger->fault("Unsupported protocol $protocol")
         unless $protocol eq 'http' or $protocol eq 'https';
 
+    if ($config->{'no-ssl-check'}) {
+        if (!$config->{SslCheckWarningShown}) {
+            $logger->info( "--no-ssl-check parameter "
+                . "found. Don't check server identity!!!" );
+            $config->{SslCheckWarningShown} = 1;
+        }
+    }
+
+
     my $ua = LWP::UserAgent->new(keep_alive => 1, requests_redirectable => ['POST', 'GET', 'HEAD']);
 
     if ($noProxy) {
@@ -276,14 +285,7 @@ sub turnSSLCheckOn {
     my $config = $self->{config};
 
 
-    if ($config->{'no-ssl-check'}) {
-        if (!$config->{SslCheckWarningShown}) {
-            $logger->info( "--no-ssl-check parameter "
-                . "found. Don't check server identity!!!" );
-            $config->{SslCheckWarningShown} = 1;
-        }
-        return;
-    }
+    return if $config->{'no-ssl-check'};
 
     if (!$config->{'ca-cert-file'} && !$config->{'ca-cert-dir'}) {
         $logger->debug("You may need to use either --ca-cert-file ".
