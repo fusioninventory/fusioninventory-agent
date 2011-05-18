@@ -34,7 +34,6 @@ sub new {
         confdir => $params{confdir},
         datadir => $params{datadir},
         vardir  => $params{vardir},
-        token   => _computeNewToken()
     };
     bless $self, $class;
 
@@ -59,29 +58,18 @@ sub new {
     $logger->debug("Data directory: $self->{datadir}");
     $logger->debug("Storage directory: $self->{vardir}");
 
-    my $hostname = _getHostname();
-
-    my $storage = FusionInventory::Agent::Storage->new(
+    $self->{storage} = FusionInventory::Agent::Storage->new(
         logger    => $logger,
         directory => $self->{vardir}
     );
-    my $data = $storage->restore();
 
-    if (
-        !defined($data->{previousHostname}) ||
-        $data->{previousHostname} ne $hostname
-    ) {
-        my ($YEAR, $MONTH , $DAY, $HOUR, $MIN, $SEC) = (localtime
-            (time))[5,4,3,2,1,0];
-        $self->{deviceid} =sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
-        $hostname, ($YEAR+1900), ($MONTH+1), $DAY, $HOUR, $MIN, $SEC;
+    # handle persistent state
+    $self->_loadState() if $self->{storage}->has();
 
-        $data->{previousHostname} = $hostname;
-        $data->{deviceid} = $self->{deviceid};
-        $storage->save(data => $data);
-    } else {
-        $self->{deviceid} = $data->{deviceid}
-    }
+    $self->{deviceid} = _computeDeviceId() if !$self->{deviceid};
+    $self->{token}    = _computeToken()    if !$self->{token};
+
+    $self->_saveState();
 
     $self->{scheduler} = FusionInventory::Agent::Scheduler->new(
         logger     => $logger,
@@ -91,6 +79,7 @@ sub new {
     );
     my $scheduler = $self->{scheduler};
 
+    # create target list
     if ($config->{stdout}) {
         $scheduler->addTarget(
             FusionInventory::Agent::Target::Stdout->new(
@@ -221,6 +210,26 @@ sub _getHostname {
             "UTF-8", substr(decode("UCS-2le", $lpBuffer), 0, ord $N)
         );
     };
+}
+
+sub _loadState {
+    my ($self) = @_;
+
+    my $data = $self->{storage}->restore();
+
+    $self->{token}    = $data->{token}    if $data->{token};
+    $self->{deviceid} = $data->{deviceid} if $data->{deviceid};
+}
+
+sub _saveState {
+    my ($self) = @_;
+
+    $self->{storage}->save(
+        data => {
+            token    => $self->{token},
+            deviceid => $self->{deviceid},
+        }
+    );
 }
 
 sub run {
@@ -359,12 +368,24 @@ sub getToken {
 
 sub resetToken {
     my ($self) = @_;
-    $self->{token} = _computeNewToken();
+    $self->{token} = _computeToken();
 }
 
-sub _computeNewToken {
+# compute a random token
+sub _computeToken {
     my @chars = ('A'..'Z');
     return join('', map { $chars[rand @chars] } 1..8);
+}
+
+# compute an unique agent identifier, based on host name and current time
+sub _computeDeviceId {
+    my $hostname = _getHostname();
+
+    my ($year, $month , $day, $hour, $min, $sec) =
+        (localtime (time))[5, 4, 3, 2, 1, 0];
+
+    return sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
+        $hostname, $year + 1900, $month + 1, $day, $hour, $min, $sec;
 }
 
 sub getStatus {

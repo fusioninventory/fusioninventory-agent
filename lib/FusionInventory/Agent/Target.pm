@@ -51,17 +51,18 @@ sub _init {
     # target identity
     $self->{id} = $params{id};
 
-    # target storage
     $self->{storage} = FusionInventory::Agent::Storage->new(
         logger    => $self->{logger},
         directory => $params{vardir}
     );
 
-    if ($self->{storage}->has(module => 'Target')) {
-        $self->_loadState();
-    } else {
-        $self->setNextRunDate();
-    }
+    # handle persistent state
+    $self->_loadState() if $self->{storage}->has(module => 'Target');
+
+    $self->{nextRunDate} = _computeNextRunDate($self->{maxDelay})
+        if !$self->{nextRunDate};
+
+    $self->_saveState();
 
     $logger->debug (
         "[target $self->{id}] Next server contact planned for ".
@@ -81,16 +82,7 @@ sub setNextRunDate {
     my ($self, $nextRunDate) = @_;
 
     lock($lock);
-    
-    if (! defined $nextRunDate) {
-        $nextRunDate = 
-            time                           +
-            $self->{maxDelay} / 2          +
-            int rand($self->{maxDelay} / 2);
-    }
-
     $self->{nextRunDate} = $nextRunDate;
-
     $self->_saveState();
 }
 
@@ -110,8 +102,18 @@ sub setMaxDelay {
     my ($self, $maxDelay) = @_;
 
     $self->{maxDelay} = $maxDelay;
-
     $self->_saveState();
+}
+
+# compute a run date, as current date and a random delay
+# between maxDelay / 2 and maxDelay
+sub _computeNextRunDate {
+    my ($maxDelay) = @_;
+
+    return
+        time                   +
+        $maxDelay / 2          +
+        int rand($maxDelay / 2);
 }
 
 sub _loadState {
