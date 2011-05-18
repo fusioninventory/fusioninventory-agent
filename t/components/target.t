@@ -11,7 +11,7 @@ use URI;
 
 use FusionInventory::Agent::Target::Server;
 
-plan tests => 7;
+plan tests => 10;
 
 my $target;
 throws_ok {
@@ -52,3 +52,13 @@ $target = FusionInventory::Agent::Target::Server->new(
     basevardir => $basevardir
 );
 is($target->getUrl(), 'http://my.domain.tld/ocsinventory', 'bare hostname');
+
+is($target->getMaxDelay(), 3600, 'default value');
+my $nextRunDate = $target->getNextRunDate();
+
+ok(-f "$storage_dir/Target.dump", "state file existence");
+$target = FusionInventory::Agent::Target::Server->new(
+    url        => 'http://my.domain.tld/ocsinventory',
+    basevardir => $basevardir
+);
+is($target->getNextRunDate(), $nextRunDate, 'state persistence');
