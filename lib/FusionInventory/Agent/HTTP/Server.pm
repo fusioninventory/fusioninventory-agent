@@ -135,7 +135,7 @@ sub _handle {
             } else {
                 # authenticated request
                 if ($sentToken) {
-                    my $token = $self->{agent}->resetToken();
+                   my $token = $self->{agent}->getToken();
                    if ($sentToken eq $token) {
                         $result = "ok";
                         $self->{agent}->resetToken();
