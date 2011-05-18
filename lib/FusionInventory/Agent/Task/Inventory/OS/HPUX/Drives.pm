@@ -13,18 +13,17 @@ sub isInventoryEnabled  {
 }
 
 sub doInventory {
-    my (%params) = @_;
+    my $params = shift;
 
-    my $inventory = $params{inventory};
-    my $logger    = $params{logger};
+    my $inventory = $params->{inventory};
+    my $logger = $params->{logger};
+
 
     my $filesystem;
     my $type;
     my $lv;
     my $total;
     my $free;
-    my $createdate;
-
     my $handle = getFileHandle(
         command => 'fstyp -l',
         logger  => $logger
@@ -34,7 +33,6 @@ sub doInventory {
 
     while (my $line = <$handle>) {
         next if /^\s*$/;
-        next if $line =~ /nfs/;
         chomp $line;
         foreach (`bdf -t $line`) {
             next if ( /Filesystem/ );
