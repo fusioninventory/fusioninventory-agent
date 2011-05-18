@@ -83,14 +83,6 @@ sub getTargets {
     return @{$self->{targets}}
 }
 
-sub resetNextRunDate {
-    my ($self) = @_;
-
-    foreach my $target (@{$self->{targets}}) {
-        $target->setNextRunDate(1);
-    }
-}
-
 1;
 __END__
 
@@ -143,7 +135,3 @@ Get the next scheduled target.
 =head2 getTargets()
 
 Get all targets.
-
-=head2 resetNextRunDate()
-
-Call setNextRunDate(1) on all targets.
