@@ -226,7 +226,6 @@ sub _getHostname {
 sub run {
     my ($self) = @_;
 
-# Load setting from the config file
     my $config = $self->{config};
     my $logger = $self->{logger};
     my $scheduler = $self->{scheduler};
@@ -259,7 +258,6 @@ sub run {
                 # Add target ACCOUNTINFO values to the prolog
                 $prolog->setAccountInfo($target->getAccountInfo());
 
-                # TODO Don't mix settings and temp value
                 $prologresp = $client->send(
                     url     => $target->getUrl(),
                     message => $prolog
@@ -321,7 +319,7 @@ sub run {
                 }
 
                 if ($config->{daemon} || $config->{service}) {
-                    # daemon mode: run each task in a childprocess
+                    # daemon mode: run each task in a child process
                     if (my $pid = fork()) {
                         # parent
                         waitpid($pid, 0);
