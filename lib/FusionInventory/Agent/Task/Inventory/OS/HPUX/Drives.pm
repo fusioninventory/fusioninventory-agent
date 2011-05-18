@@ -23,7 +23,6 @@ sub doInventory {
     my $lv;
     my $total;
     my $free;
-    my $createdate;
 
     my $handle = getFileHandle(
         command => 'fstyp -l',
@@ -33,8 +32,8 @@ sub doInventory {
     return unless $handle;
 
     while (my $line = <$handle>) {
-        next if /^\s*$/;
-        next if $line =~ /nfs/;
+        next if $line =~ /^\s*$/;
+
         chomp $line;
         foreach (`bdf -t $line`) {
             next if ( /Filesystem/ );
@@ -44,15 +43,9 @@ sub doInventory {
                 $total=$2;
                 $free=$3;
                 $type=$6;
-# Disabled for the moment, see http://forge.fusioninventory.org/issues/778
-#                if ( $filesystem =~ /vxfs/i and can_run('fsdb') ) {
-#                    my $tmp = `echo '8192B.p S' | fsdb -F vxfs $lv 2>/dev/null | fgrep -i ctime`;
-#                    if ($tmp =~ /ctime\s+(\d+)\s+\d+\s+.*$/i) {
-#                        $createdate = POSIX::strftime("%Y/%m/%d %T", localtime($1));
-#                    }
-#                    #my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime($1);
-#                    #$createdate = sprintf ('%04d/%02d/%02d %02d:%02d:%02d', ($year+1900), ($mon+1), $mday, $hour, $min, $sec);
-#                }
+                if ( $filesystem =~ /vxfs/i ) {
+                    $createdate = _getVxFSctime($lv, $logger);
+                }
 
                 $inventory->addEntry(
                     section => 'DRIVES',
@@ -67,15 +60,9 @@ sub doInventory {
                 )
             } elsif ( /^(\S+)\s/) {
                 $lv=$1;
-# Disabled for the moment, see http://forge.fusioninventory.org/issues/778
-#                if ( $filesystem =~ /vxfs/i and can_run('fsdb') ) {
-#                    my $tmp = `echo '8192B.p S' | fsdb -F vxfs $lv 2>/dev/null | fgrep -i ctime`;
-#                    if ($tmp =~ /ctime\s+(\d+)\s+\d+\s+.*$/i) {
-#                        $createdate = POSIX::strftime("%Y/%m/%d %T", localtime($1));
-#                    }
-#                    #my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime($1);
-#                    #$createdate = sprintf ('%04d/%02d/%02d %02d:%02d:%02d', ($year+1900), ($mon+1), $mday, $hour, $min, $sec);
-#                }
+                if ( $filesystem =~ /vxfs/i ) {
+                    $createdate = _getVxFSctime($lv, $logger);
+                }
             } elsif ( /(\d+)\s+(\d+)\s+(\d+)\s+(\d+%)\s+(\S+)/) {
                 $total=$1;
                 $free=$3;
@@ -96,6 +83,44 @@ sub doInventory {
         } # for bdf -t $filesystem
     }
     close $handle;
+}
+
+sub _getVxFSctime {
+    my $devfilename = shift;
+    my $logger = shift; #$params->{logger}
+    my $fsver = 0;
+    # Output of 'fstyp' should be something like the following:
+    # $ fstyp -v /dev/vg00/lvol3
+    #   vxfs
+    #   version: 5
+    #   .
+    #   .
+    foreach(`fstyp -v $devfilename`) {
+      # Personally, I know only the offset of creation time date
+      #  in version 5 and 6 of VxFS
+      if ( /^version:\s+([56])$/ ) {
+        $fsver = $1;
+        last;
+      }
+    }
+    if ( $fsver < 5 or $fsver > 6 ) {
+      $logger->debug("fstyp -v $devfilename did not return the version or VxFS version not supported!");
+      return;
+    }
+
+    my $devfile;
+    my $tmpVar;
+    # Going to open the device file for RAW Binary Readonly access
+    open($devfile, "<:raw:bytes", $devfilename) or return;
+    # Offset of creation timestamp of VxFS file system
+    #  for version 5 is 8200 and for verion 6 is 8208
+    seek($devfile, $fsver==5?8200:8208, 0) or return;
+    # Creation time of VxFS file system is a 4 byte integer
+    read($devfile, $tmpVar, 4) or return;
+    close($devfile);
+    # Convert the 4-byte raw data to long integer and
+    #  return a string representation of this time stamp
+    return POSIX::strftime("%Y/%m/%d %T", localtime( unpack( 'L', $tmpVar ) ));
 }
 
 1;
