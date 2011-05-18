@@ -86,6 +86,14 @@ sub setNextRunDate {
     $self->_saveState();
 }
 
+sub resetNextRunDate {
+    my ($self) = @_;
+
+    lock($lock);
+    $self->{nextRunDate} = _computeNextRunDate($self->{maxDelay});
+    $self->_saveState();
+}
+
 sub getNextRunDate {
     my ($self) = @_;
 
@@ -178,7 +186,11 @@ Get nextRunDate attribute.
 
 =head2 setNextRunDate($nextRunDate)
 
-Set nextRunDate attribute.
+Set next execution date.
+
+=head2 resetNextRunDate()
+
+Set next execution date to a random value.
 
 =head2 setMaxDelay($maxDelay)
 

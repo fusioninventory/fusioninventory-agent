@@ -274,7 +274,7 @@ sub run {
 
                 if (!$prologresp) {
                     $logger->error("No anwser from the server");
-                    $target->setNextRunDate();
+                    $target->resetNextRunDate();
                     next;
                 }
 
@@ -479,7 +479,7 @@ Get the current authentication token.
 
 =head2 resetToken()
 
-Reset the current authentication token to a new random value.
+Set the current authentication token to a random value.
 
 =head2 getStatus()
 
