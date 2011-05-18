@@ -2,6 +2,7 @@
 
 use strict;
 use warnings;
+use threads;
 
 use English qw(-no_match_vars);
 use File::Temp qw/tempdir/;
@@ -11,7 +12,7 @@ use URI;
 
 use FusionInventory::Agent::Target::Server;
 
-plan tests => 10;
+plan tests => 11;
 
 my $target;
 throws_ok {
@@ -62,3 +63,12 @@ $target = FusionInventory::Agent::Target::Server->new(
     basevardir => $basevardir
 );
 is($target->getNextRunDate(), $nextRunDate, 'state persistence');
+
+# increment next run date in another thread
+my $thread = threads->create(\&thread);
+$thread->join();
+is($target->getNextRunDate(), $nextRunDate + 1, 'nextRunDate is shared among threads');
+
+sub thread {
+    $target->setNextRunDate($nextRunDate + 1);
+}
