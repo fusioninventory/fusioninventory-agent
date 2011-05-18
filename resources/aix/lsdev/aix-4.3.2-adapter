@@ -1,0 +1,15 @@
+sa0:pnp501:Standard I/O Serial Port
+sa1:pnp501:Standard I/O Serial Port
+sa2:pnp501:Standard I/O Serial Port
+siokma0:kma_chrp:Keyboard/Mouse Adapter
+fda0:pnp700:Standard I/O Diskette Adapter
+scsi0:ncr825:Wide SCSI I/O Controller
+scsi1:sym875:Wide/Fast-20 SCSI I/O Controller
+scsi2:sym875:Wide/Fast-20 SCSI I/O Controller
+scsi3:ncr825:Wide SCSI I/O Controller
+sioka0:keyboard:Keyboard Adapter
+ppa0:pnp400:Standard I/O Parallel Port Adapter
+sa3:4f111100:IBM 8-Port EIA-232/RS-422A (PCI) Adapter
+ent0:22100020:IBM PCI Ethernet Adapter (22100020)
+sioma0:mouse:Mouse Adapter
+ent1:23100020:IBM 10/100 Mbps Ethernet PCI Adapter (23100020)

@@ -1,0 +1,25 @@
+  hdisk0           U788D.001.99DXY4Y-P1-T10-L1-L0  
+	SCSI Disk Drive (73400 MB)
+
+        Manufacturer................IBM-ESXS
+        Machine Type and Model......ST973401SS      
+        FRU Number..................26K5779     
+        ROS Level and ID............42353144
+        Serial Number...............3LB1FV46
+        EC Level....................H17923E   
+        Part Number.................26K5267     
+        Device Specific.(Z0)........000005129F00100A
+        Device Specific.(Z1)........0714B51D    
+        Device Specific.(Z2)........1000
+        Device Specific.(Z3)........07018
+        Device Specific.(Z4)........0001
+        Device Specific.(Z5)........22
+        Device Specific.(Z6)........H17923E   
+        Brand.......................XS
+
+
+  PLATFORM SPECIFIC
+
+  Name:  sd
+    Node:  sd
+    Device Type:  block

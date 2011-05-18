@@ -46,6 +46,55 @@ my %tests = (
             NAME => 'vsa2',
         }
     ],
+    'aix-5.3b' => [
+        {
+            NAME => 'ent0',
+        },
+        {
+            NAME => 'ent1',
+        },
+        {
+            NAME => 'ent2',
+        },
+        {
+            NAME => 'ent3',
+        },
+        {
+            NAME => 'ent4',
+        },
+        {
+            NAME => 'sisioa0',
+        },
+        {
+            NAME => 'usbhc0',
+        },
+        {
+            NAME => 'usbhc1',
+        },
+        {
+            NAME => 'vsa0',
+        }
+    ],
+    'aix-5.3c' => [
+        {
+            NAME => 'ent0',
+        },
+        {
+            NAME => 'ent1',
+        },
+        {
+            NAME => 'ent2',
+        },
+        {
+            NAME => 'lhea0',
+        },
+        {
+            NAME => 'vsa0',
+        },
+        {
+            NAME => 'vscsi0',
+        }
+    ],
     'aix-6.1' => [
         {
             NAME => 'ent0'

@@ -1,0 +1,4 @@
+pci0:PCI Bus
+pci1:PCI Bus
+pci2:PCI Bus
+isa0:ISA Bus

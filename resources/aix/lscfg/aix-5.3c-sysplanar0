@@ -1,0 +1,391 @@
+   sysplanar0         System Planar
+
+  PLATFORM SPECIFIC
+
+  Name:  IBM,7778-23X
+    Model:  IBM,7778-23X
+    Node:  /
+    Device Type:  chrp
+
+      System VPD:
+        Record Name.................VSYS
+        Flag Field..................XXSV
+        Brand.......................B0
+        Hardware Location Code......U7778.23X.106BDCA
+        Machine/Cabinet Serial No...106BDCA
+        Machine Type and Model......7778-23X
+        Product Specific.(SG).......FFFFFFF
+        Product Specific.(TN).......FFFFFFFF
+        Manufacture ID..............FFFFFFF
+        Storage Fclty System ID.....FF
+        System Unique ID (SUID).....0004AC1380A1
+        World Wide Node Name........FFFFFFFFFFFFFFFF
+        World Wide Port Name........C0507601DBFE
+        Version.....................ipzSeries
+      Physical Location: U7778.23X.106BDCA
+
+      CEC:
+        Record Name.................VCEN
+        Flag Field..................XXEV
+        Brand.......................B0
+        Hardware Location Code......U78A5.001.WIH5D66
+        Machine/Cabinet Serial No...WIH5D66
+        Machine Type and Model......78A5-001
+        Controlling CEC ID..........7778-23X 106BDCA
+        Rack Serial Number..........0000000000000000
+        Feature Code/Marketing ID...78A5-001
+        Version.....................ipzSeries
+      Physical Location: U78A5.001.WIH5D66
+
+      SYS BP & 4W PROC:
+        Record Name.................VINI
+        Flag Field..................XXBP
+        Hardware Location Code......U78A5.001.WIH5D66-P1
+        Customer Card ID Number.....53AE
+        Serial Number...............YL13W9249053
+        CCIN Extender...............1
+        Product Specific.(VZ).......01
+        FRU Number..................10N9856
+        Part Number.................46K7951
+        Power.......................3300200100020001
+        Product Specific.(HE).......0001
+        Product Specific.(CT).......40F30018
+        Product Specific.(HW).......0001
+        Product Specific.(B3).......000000000001
+        Product Specific.(B4).......00
+        Product Specific.(B5).......
+        Product Specific.(B6).......
+        Product Specific.(B7).......000000000000000000000000
+        Product Specific.(B9).......43530000000000000000535000000000000000004D
+                                    3100000000000000004D3200000000000000004D33
+                                    00000000000000004D340000000000000000
+        Version.....................ipzSeries
+      Physical Location: U78A5.001.WIH5D66-P1
+
+      Memory DIMM:
+        Record Name.................VINI
+        Flag Field..................XXMS
+        Hardware Location Code......U78A5.001.WIH5D66-P1-C1
+        Customer Card ID Number.....31C3
+        Serial Number...............YLD001110C29
+        CCIN Extender...............1
+        Product Specific.(VZ).......01
+        FRU Number..................43X5036
+        Part Number.................43X5036
+        Power.......................4400000000000000
+        Size........................4096
+        Version.....................ipzSeries
+      Physical Location: U78A5.001.WIH5D66-P1-C1
+
+      Memory DIMM:
+        Record Name.................VINI
+        Flag Field..................XXMS
+        Hardware Location Code......U78A5.001.WIH5D66-P1-C2
+        Customer Card ID Number.....31C3
+        Serial Number...............YLD005346272
+        CCIN Extender...............1
+        Product Specific.(VZ).......01
+        FRU Number..................43X5036
+        Part Number.................43X5036
+        Power.......................4400000000000000
+        Size........................4096
+        Version.....................ipzSeries
+      Physical Location: U78A5.001.WIH5D66-P1-C2
+
+      Memory DIMM:
+        Record Name.................VINI
+        Flag Field..................XXMS
+        Hardware Location Code......U78A5.001.WIH5D66-P1-C3
+        Customer Card ID Number.....31C3
+        Serial Number...............YLD000110C0C
+        CCIN Extender...............1
+        Product Specific.(VZ).......01
+        FRU Number..................43X5036
+        Part Number.................43X5036
+        Power.......................4400000000000000
+        Size........................4096
+        Version.....................ipzSeries
+      Physical Location: U78A5.001.WIH5D66-P1-C3
+
+      Memory DIMM:
+        Record Name.................VINI
+        Flag Field..................XXMS
+        Hardware Location Code......U78A5.001.WIH5D66-P1-C4
+        Customer Card ID Number.....31C3
+        Serial Number...............YLD004930776
+        CCIN Extender...............1
+        Product Specific.(VZ).......01
+        FRU Number..................43X5036
+        Part Number.................43X5036
+        Power.......................4400000000000000
+        Size........................4096
+        Version.....................ipzSeries
+      Physical Location: U78A5.001.WIH5D66-P1-C4
+
+      Memory DIMM:
+        Record Name.................VINI
+        Flag Field..................XXMS
+        Hardware Location Code......U78A5.001.WIH5D66-P1-C5
+        Customer Card ID Number.....31C3
+        Serial Number...............YLD00793074C
+        CCIN Extender...............1
+        Product Specific.(VZ).......01
+        FRU Number..................43X5036
+        Part Number.................43X5036
+        Power.......................4400000000000000
+        Size........................4096
+        Version.....................ipzSeries
+      Physical Location: U78A5.001.WIH5D66-P1-C5
+
+      Memory DIMM:
+        Record Name.................VINI
+        Flag Field..................XXMS
+        Hardware Location Code......U78A5.001.WIH5D66-P1-C6
+        Customer Card ID Number.....31C3
+        Serial Number...............YLD003810961
+        CCIN Extender...............1
+        Product Specific.(VZ).......01
+        FRU Number..................43X5036
+        Part Number.................43X5036
+        Power.......................4400000000000000
+        Size........................4096
+        Version.....................ipzSeries
+      Physical Location: U78A5.001.WIH5D66-P1-C6
+
+      Memory DIMM:
+        Record Name.................VINI
+        Flag Field..................XXMS
+        Hardware Location Code......U78A5.001.WIH5D66-P1-C7
+        Customer Card ID Number.....31C3
+        Serial Number...............YLD006346270
+        CCIN Extender...............1
+        Product Specific.(VZ).......01
+        FRU Number..................43X5036
+        Part Number.................43X5036
+        Power.......................4400000000000000
+        Size........................4096
+        Version.....................ipzSeries
+      Physical Location: U78A5.001.WIH5D66-P1-C7
+
+      Memory DIMM:
+        Record Name.................VINI
+        Flag Field..................XXMS
+        Hardware Location Code......U78A5.001.WIH5D66-P1-C8
+        Customer Card ID Number.....31C3
+        Serial Number...............YLD00281096F
+        CCIN Extender...............1
+        Product Specific.(VZ).......01
+        FRU Number..................43X5036
+        Part Number.................43X5036
+        Power.......................4400000000000000
+        Size........................4096
+        Version.....................ipzSeries
+      Physical Location: U78A5.001.WIH5D66-P1-C8
+
+      ANCHOR / RISER  :
+        Record Name.................VINI
+        Flag Field..................XXAV
+        Hardware Location Code......U78A5.001.WIH5D66-P1-C9
+        Customer Card ID Number.....52C1
+        Serial Number...............YL100899N014
+        CCIN Extender...............1
+        Product Specific.(VZ).......01
+        FRU Number..................07P6897
+        Part Number.................07P6898
+        Power.......................8100008000000000
+        Product Specific.(HE).......0010
+        Product Specific.(CT).......40B40001
+        Product Specific.(HW).......0001
+        Product Specific.(B3).......000000000001
+        Product Specific.(B4).......00
+        Product Specific.(B7).......000000000000000000000000
+        Product Specific.(B9).......4353926515390746291753503E8CAEDE238DE6464D
+                                    318FDB9852970602CF4D32C362A40C53A003D54D33
+                                    BC6F2205656D3F7B4D34BCF506D4E7ADCB6C
+        Version.....................ipzSeries
+      Physical Location: U78A5.001.WIH5D66-P1-C9
+
+      Fibre Channel / Ethernet Combo Expansion Card                   :
+        Record Name.................VINI
+        Flag Field..................XXHD
+        Hardware Location Code......U78A5.001.WIH5D66-P1-C11
+        FRU Number..................39Y9304     
+        Part Number.................41Y8581     
+        Serial Number...............YK10NY98M6WD
+        Product Specific.(VZ).........
+        Product Specific.(HW).......03
+        Product Specific.(B1).......00215E4C774600000000000000215E4C7747000000
+                                    000000000000000000000000000000000000000000
+                                    000000000000
+        Version.....................xSeries  
+      Physical Location: U78A5.001.WIH5D66-P1-C11
+
+      SAS Expansion Card                                              :
+        Record Name.................VINI
+        Flag Field..................XXDT
+        Hardware Location Code......U78A5.001.WIH5D66-P1-C12
+        FRU Number..................46C4069     
+        Part Number.................46C5192     
+        Serial Number...............YK119093J07F
+        Product Specific.(VZ).........
+        Product Specific.(HW).......04
+        Product Specific.(B1).......000000000000000000000000000000000000000000
+                                    000000000000000000000000000000000000000000
+                                    000000000000
+        Version.....................xSeries  
+      Physical Location: U78A5.001.WIH5D66-P1-C12
+
+      SYS BP & 4W PROC:
+        Record Name.................VINI
+        Flag Field..................XXBP
+        Hardware Location Code......U78A5.001.WIH5D66-P2
+        Customer Card ID Number.....53AF
+        Serial Number...............YL11W923202B
+        CCIN Extender...............1
+        Product Specific.(VZ).......01
+        FRU Number..................07P6804
+        Part Number.................46K7945
+        Power.......................3300200100020001
+        Product Specific.(HE).......0001
+        Product Specific.(CT).......40F30018
+        Product Specific.(HW).......0001
+        Product Specific.(B3).......000000000001
+        Product Specific.(B4).......00
+        Product Specific.(B5).......
+        Product Specific.(B6).......
+        Product Specific.(B7).......000000000000000000000000
+        Product Specific.(B9).......43530000000000000000535000000000000000004D
+                                    3100000000000000004D3200000000000000004D33
+                                    00000000000000004D340000000000000000
+        Version.....................ipzSeries
+      Physical Location: U78A5.001.WIH5D66-P2
+
+      Memory DIMM:
+        Record Name.................VINI
+        Flag Field..................XXMS
+        Hardware Location Code......U78A5.001.WIH5D66-P2-C1
+        Customer Card ID Number.....31C3
+        Serial Number...............YLD009710956
+        CCIN Extender...............1
+        Product Specific.(VZ).......01
+        FRU Number..................43X5036
+        Part Number.................43X5036
+        Power.......................4400000000000000
+        Size........................4096
+        Version.....................ipzSeries
+      Physical Location: U78A5.001.WIH5D66-P2-C1
+
+      Memory DIMM:
+        Record Name.................VINI
+        Flag Field..................XXMS
+        Hardware Location Code......U78A5.001.WIH5D66-P2-C2
+        Customer Card ID Number.....31C3
+        Serial Number...............YLD00D346271
+        CCIN Extender...............1
+        Product Specific.(VZ).......01
+        FRU Number..................43X5036
+        Part Number.................43X5036
+        Power.......................4400000000000000
+        Size........................4096
+        Version.....................ipzSeries
+      Physical Location: U78A5.001.WIH5D66-P2-C2
+
+      Memory DIMM:
+        Record Name.................VINI
+        Flag Field..................XXMS
+        Hardware Location Code......U78A5.001.WIH5D66-P2-C3
+        Customer Card ID Number.....31C3
+        Serial Number...............YLD00851096F
+        CCIN Extender...............1
+        Product Specific.(VZ).......01
+        FRU Number..................43X5036
+        Part Number.................43X5036
+        Power.......................4400000000000000
+        Size........................4096
+        Version.....................ipzSeries
+      Physical Location: U78A5.001.WIH5D66-P2-C3
+
+      Memory DIMM:
+        Record Name.................VINI
+        Flag Field..................XXMS
+        Hardware Location Code......U78A5.001.WIH5D66-P2-C4
+        Customer Card ID Number.....31C3
+        Serial Number...............YLD00C930661
+        CCIN Extender...............1
+        Product Specific.(VZ).......01
+        FRU Number..................43X5036
+        Part Number.................43X5036
+        Power.......................4400000000000000
+        Size........................4096
+        Version.....................ipzSeries
+      Physical Location: U78A5.001.WIH5D66-P2-C4
+
+      Memory DIMM:
+        Record Name.................VINI
+        Flag Field..................XXMS
+        Hardware Location Code......U78A5.001.WIH5D66-P2-C5
+        Customer Card ID Number.....31C3
+        Serial Number...............YLD00F930748
+        CCIN Extender...............1
+        Product Specific.(VZ).......01
+        FRU Number..................43X5036
+        Part Number.................43X5036
+        Power.......................4400000000000000
+        Size........................4096
+        Version.....................ipzSeries
+      Physical Location: U78A5.001.WIH5D66-P2-C5
+
+      Memory DIMM:
+        Record Name.................VINI
+        Flag Field..................XXMS
+        Hardware Location Code......U78A5.001.WIH5D66-P2-C6
+        Customer Card ID Number.....31C3
+        Serial Number...............YLD00B410C26
+        CCIN Extender...............1
+        Product Specific.(VZ).......01
+        FRU Number..................43X5036
+        Part Number.................43X5036
+        Power.......................4400000000000000
+        Size........................4096
+        Version.....................ipzSeries
+      Physical Location: U78A5.001.WIH5D66-P2-C6
+
+      Memory DIMM:
+        Record Name.................VINI
+        Flag Field..................XXMS
+        Hardware Location Code......U78A5.001.WIH5D66-P2-C7
+        Customer Card ID Number.....31C3
+        Serial Number...............YLD00E34627B
+        CCIN Extender...............1
+        Product Specific.(VZ).......01
+        FRU Number..................43X5036
+        Part Number.................43X5036
+        Power.......................4400000000000000
+        Size........................4096
+        Version.....................ipzSeries
+      Physical Location: U78A5.001.WIH5D66-P2-C7
+
+      Memory DIMM:
+        Record Name.................VINI
+        Flag Field..................XXMS
+        Hardware Location Code......U78A5.001.WIH5D66-P2-C8
+        Customer Card ID Number.....31C3
+        Serial Number...............YLD00A610973
+        CCIN Extender...............1
+        Product Specific.(VZ).......01
+        FRU Number..................43X5036
+        Part Number.................43X5036
+        Power.......................4400000000000000
+        Size........................4096
+        Version.....................ipzSeries
+      Physical Location: U78A5.001.WIH5D66-P2-C8
+
+      System Firmware:
+        Code Level, LID Keyword.....Phyp_1 11342010061180A00701
+        Code Level, LID Keyword.....PFW 12352010050681CF0681
+        Code Level, LID Keyword.....FSP_Ker 08242010070681E00100
+        Code Level, LID Keyword.....FSP_Fil 08242010070681E00101
+        Code Level, LID Keyword.....FipS_BU 08252010070681E00200
+        Microcode Image.............EA350_074 EA350_053 EA350_074
+        Hardware Location Code......U7778.23X.106BDCA-Y1
+      Physical Location: U7778.23X.106BDCA-Y1

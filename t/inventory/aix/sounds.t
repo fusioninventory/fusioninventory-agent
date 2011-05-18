@@ -8,7 +8,11 @@ use Test::More;
 use FusionInventory::Agent::Task::Inventory::OS::AIX::Sounds;
 
 my %tests = (
+    'aix-4.3.1' => [],
+    'aix-4.3.2' => [],
     'aix-5.3' => [],
+    'aix-5.3b' => [],
+    'aix-5.3c' => [],
     'aix-6.1' => [],
 );
 

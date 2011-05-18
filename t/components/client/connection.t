@@ -446,8 +446,7 @@ sub check_response_ok {
         'FusionInventory::Agent::XML::Response',
         'response class'
     );
-    my $content;
-    lives_and { $content = $response->getParsedContent()} 'getParsedContent';
+    my $content = $response->getContent();
     is_deeply(
         $content,
         { word => 'hello' },

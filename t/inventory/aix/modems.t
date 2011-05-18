@@ -9,6 +9,8 @@ use FusionInventory::Agent::Task::Inventory::OS::AIX::Modems;
 
 my %tests = (
     'aix-5.3' => [],
+    'aix-5.3b' => [],
+    'aix-5.3c' => [],
     'aix-6.1' => [],
 );
 

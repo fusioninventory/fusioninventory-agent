@@ -1,0 +1,14 @@
+  DEVICE            LOCATION          DESCRIPTION
+	
+  ent1              10-70             IBM 10/100 Mbps Ethernet PCI Adapter
+                                      (23100020)
+
+        Network Address.............002035B58B46
+        Displayable Message.........PCI Ethernet Adapter (23100020)
+        Device Specific.(YL)........P2-I4
+
+  ent0              10-80             IBM PCI Ethernet Adapter (22100020)
+
+        Network Address.............08005ABAEBDA
+        Displayable Message.........PCI Ethernet Adapter (22100020)
+        Device Specific.(YL)........P2/E1

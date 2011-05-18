@@ -1,0 +1,2 @@
+#MountPoint:Device:Vfs:Nodename:Type:Size:Options:AutoMount:Acct
+/:/dev/hd4:jfs::bootfs:49152:rw:yes:no

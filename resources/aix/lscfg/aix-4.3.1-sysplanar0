@@ -1,0 +1,60 @@
+  DEVICE            LOCATION          DESCRIPTION
+	
+  sysplanar0        00-00             System Planar
+
+  PLATFORM SPECIFIC
+
+  Name:  IBM,7025-F50
+    Model:  IBM,7025-F50
+    Node:  /
+    Device Type:  chrp
+
+      System:
+        Machine/Cabinet Serial No...441001A
+        Machine Type/Model..........7025-F50
+        Manufacture ID..............IBM966
+        Version.....................RS6K
+      Physical Location: L1
+
+      I/O Planar:
+        Part Number.................94H1118
+        EC Level....................12605068
+        Serial Number...............L218245256
+        FRU Number..................94H1117
+        Manufacture ID..............1053
+        Version.....................RS6K
+      Physical Location: P2
+
+      System Planar:
+        Part Number.................07L8859
+        EC Level....................E77992
+        Serial Number...............L218253133
+        FRU Number..................07L9718
+        Manufacture ID..............1053
+        Version.....................RS6K
+        Product Specific.(ZM).......MF=2,MV=02,CL=1,ES=8,DE=2
+      Physical Location: P1
+
+      Op Panel:
+        FRU Number..................Op Panel
+        Version.....................RS6K
+        System Info Specific.(YL)...L1
+      Physical Location: L1-N1
+
+      Memory Card:
+        FRU Number..................Memory Card
+        Version.....................RS6K
+        System Info Specific.(YL)...P1-M1
+      Physical Location: P1-M1
+
+      Orca M5 CPU:
+        Part Number.................08L1010
+        EC Level....................E78405
+        Serial Number...............L208293363
+        FRU Number..................93H8945
+        Manufacture ID..............IBM980
+        Version.....................RS6K
+        Displayable Message.........OrcaM5 CPU DD1.3
+        Product Specific.(ZC).......PS=0013c9eb00,PB=0009e4f580,SB=0004f27
+                                    ac0,NP=02,PF=461,PV=05,KV=01,CL=1
+      Physical Location: P1-C1

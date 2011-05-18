@@ -1,0 +1,6 @@
+ent0:ethernet:Logical Host Ethernet Port (lp-hea)
+ent1:ethernet:Logical Host Ethernet Port (lp-hea)
+ent2:IBM,l-lan:Virtual I/O Ethernet Adapter (l-lan)
+lhea0:IBM,lhea:Logical Host Ethernet Adapter (l-hea)
+vsa0:hvterm1:LPAR Virtual Serial Adapter
+vscsi0:IBM,v-scsi:Virtual SCSI Client Adapter

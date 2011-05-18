@@ -1,0 +1,99 @@
+  sysplanar0         System Planar
+
+  PLATFORM SPECIFIC
+
+  Name:  IBM,8844-31X
+    Model:  IBM,8844-31X
+    Node:  /
+    Device Type:  chrp
+
+      System VPD:
+        Product Specific.(RT).......VSYS
+        Flag Field..................XXSV
+        System Info Specific.(YL)...U8844.31X.99DXY4Y
+        Machine/Cabinet Serial No...99DXY4Y
+        Machine Type/Model..........8844-31X
+        Manufacture ID..............IBM
+        Product Specific.(MU).......B6D63EA81E0011B2921300145E9C9300
+        Product Specific.(ET).......11
+        Version.....................RS6K
+      Physical Location: U8844.31X.99DXY4Y
+
+      CEC:
+        Product Specific.(RT).......VCEN
+        Flag Field..................XXEV
+        System Info Specific.(YL)...U788D.001.99DXY4Y
+        Machine/Cabinet Serial No...99DXY4Y
+        Machine Type/Model..........788D-001
+        Controlling CEC ID..........8844-31X 99DXY4Y
+        Feature Code/Marketing ID...788D-001
+        Manufacture ID..............IBM
+        Product Specific.(MU).......B6D63EA81E0011B2921300145E9C9300
+        Product Specific.(ET).......11
+        Version.....................RS6K
+      Physical Location: U788D.001.99DXY4Y
+
+      GPUL Blade Planar:
+        Product Specific.(RT).......VINI
+        Flag Field..................XXBP
+        System Info Specific.(YL)...U788D.001.99DXY4Y-P1
+        Serial Number...............YK1030749135
+        Part Number.................43X1788
+        FRU Number..................43X1814
+        Product Specific.(Z0).......002A,06,07,04081E02FB50,000000000000,37353
+                                    635314135565345,1215
+        Product Specific.(Z1).......002A,05,07,04001E02FA50,000000000000,37353
+                                    635304636335345,0F06
+        Version.....................RS6K
+      Physical Location: U788D.001.99DXY4Y-P1
+
+      Memory DIMM:
+        Product Specific.(RT).......VINI
+        Flag Field..................XXMS
+        System Info Specific.(YL)...U788D.001.99DXY4Y-P1-C1
+        Serial Number...............00005055
+        FRU Number..................HYMP512R72BP4-E3  
+        Product Specific.(Z0).......AD00000000000000
+        Size........................1024
+        Version.....................RS6K
+      Physical Location: U788D.001.99DXY4Y-P1-C1
+
+      Memory DIMM:
+        Product Specific.(RT).......VINI
+        Flag Field..................XXMS
+        System Info Specific.(YL)...U788D.001.99DXY4Y-P1-C2
+        Serial Number...............04008030
+        FRU Number..................HYMP512R72BP4-E3  
+        Product Specific.(Z0).......AD00000000000000
+        Size........................1024
+        Version.....................RS6K
+      Physical Location: U788D.001.99DXY4Y-P1-C2
+
+      Memory DIMM:
+        Product Specific.(RT).......VINI
+        Flag Field..................XXMS
+        System Info Specific.(YL)...U788D.001.99DXY4Y-P1-C3
+        Serial Number...............00007033
+        FRU Number..................HYMP512R72BP4-E3  
+        Product Specific.(Z0).......AD00000000000000
+        Size........................1024
+        Version.....................RS6K
+      Physical Location: U788D.001.99DXY4Y-P1-C3
+
+      Memory DIMM:
+        Product Specific.(RT).......VINI
+        Flag Field..................XXMS
+        System Info Specific.(YL)...U788D.001.99DXY4Y-P1-C4
+        Serial Number...............00005031
+        FRU Number..................HYMP512R72BP4-E3  
+        Product Specific.(Z0).......AD00000000000000
+        Size........................1024
+        Version.....................RS6K
+      Physical Location: U788D.001.99DXY4Y-P1-C4
+
+      System Firmware:
+        Code Level, LID Keyword.....Phyp_1 19472006101680A00701
+        Code Level, LID Keyword.....PFW 19482006101681CF0681
+        Product Specific.(MI).......MB245_300_008 MB245_300_008 MB245_300_008
+        System Info Specific.(YL)...U8844.31X.99DXY4Y-Y1
+      Physical Location: U8844.31X.99DXY4Y-Y1

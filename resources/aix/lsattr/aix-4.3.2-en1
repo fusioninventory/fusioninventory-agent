@@ -1,0 +1,13 @@
+mtu       1500          Maximum IP Packet Size for This Device     True
+remmtu    576           Maximum IP Packet Size for REMOTE Networks True
+netaddr   192.9.200.1   Internet Address                           True
+state     up            Current Interface Status                   True
+arp       on            Address Resolution Protocol (ARP)          True
+netmask   255.255.255.0 Subnet Mask                                True
+security  none          Security Level                             True
+authority               Authorized Users                           True
+broadcast               Broadcast Address                          True
+netaddr6                N/A                                        True
+alias6                  N/A                                        True
+prefixlen               N/A                                        True
+alias4                  N/A                                        True

@@ -1,0 +1,6 @@
+netaddr   127.0.0.1 Internet Address                       True
+state     up        Current Interface Status               True
+netmask             Subnet Mask                            True
+mtu       16896     Maximum IP Packet Size for This Device True
+netaddr6  ::1       N/A                                    True
+prefixlen           Subnet Mask                            True

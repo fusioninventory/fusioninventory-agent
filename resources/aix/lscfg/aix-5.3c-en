@@ -1,0 +1,15 @@
+   ent2             U7778.23X.106BDCA-V6-C4-T1  Virtual I/O Ethernet Adapter (l-lan)
+
+        Network Address.............8E729C98E604
+        Displayable Message.........Virtual I/O Ethernet Adapter (l-lan)
+        Hardware Location Code......U7778.23X.106BDCA-V6-C4-T1
+
+  ent1             U78A5.001.WIH5D66-P2-T7     Logical Host Ethernet Port (lp-hea)
+
+      IBM Host Ethernet Adapter:
+        Network Address.............00215E0B4279
+
+  ent0             U78A5.001.WIH5D66-P2-T6     Logical Host Ethernet Port (lp-hea)
+
+      IBM Host Ethernet Adapter:
+        Network Address.............00215E0B4278

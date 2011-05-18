@@ -1,0 +1,9 @@
+ent0:14101403:Gigabit Ethernet-SX PCI-X Adapter (14101403)
+ent1:14101403:Gigabit Ethernet-SX PCI-X Adapter (14101403)
+ent2:ibm_ech:EtherChannel / IEEE 802.3ad Link Aggregation
+ent3:eth:VLAN
+ent4:eth:VLAN
+sisioa0:14108d02:PCI-XDDR Dual Channel SAS RAID Adapter
+usbhc0:22106474:USB Host Controller (22106474)
+usbhc1:22106474:USB Host Controller (22106474)
+vsa0:hvterm1:LPAR Virtual Serial Adapter

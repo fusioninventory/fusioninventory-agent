@@ -384,6 +384,474 @@ my %lsvpd_tests = (
             PL => '0A-08-01-04'
         }
     ],
+    'aix-5.3b' => [
+        {
+            ET => '11',
+            SE => '99DXY4Y',
+            FG => 'XXSV',
+            DS => 'System VPD',
+            MN => 'IBM',
+            MU => 'B6D63EA81E0011B2921300145E9C9300',
+            RT => 'VSYS',
+            TM => '8844-31X',
+            VK => 'RS6K',
+            YL => 'U8844.31X.99DXY4Y'
+        },
+        {
+            ET => '11',
+            SE => '99DXY4Y',
+            FC => '788D-001',
+            FG => 'XXEV',
+            DS => 'CEC',
+            MN => 'IBM',
+            MU => 'B6D63EA81E0011B2921300145E9C9300',
+            RT => 'VCEN',
+            TM => '788D-001',
+            VK => 'RS6K',
+            YL => 'U788D.001.99DXY4Y',
+            CI => '8844-31X 99DXY4Y'
+        },
+        {
+            PN => '43X1788',
+            FG => 'XXBP',
+            DS => 'GPUL Blade Planar',
+            FN => '43X1814',
+            SN => 'YK1030749135',
+            RT => 'VINI',
+            YL => 'U788D.001.99DXY4Y-P1',
+            VK => 'RS6K'
+        },
+        {
+            FG => 'XXMS',
+            DS => 'Memory DIMM',
+            SZ => '1024',
+            FN => 'HYMP512R72BP4-E3',
+            SN => '00005055',
+            RT => 'VINI',
+            YL => 'U788D.001.99DXY4Y-P1-C1',
+            VK => 'RS6K'
+        },
+        {
+            FG => 'XXMS',
+            DS => 'Memory DIMM',
+            SZ => '1024',
+            FN => 'HYMP512R72BP4-E3',
+            SN => '04008030',
+            RT => 'VINI',
+            YL => 'U788D.001.99DXY4Y-P1-C2',
+            VK => 'RS6K'
+        },
+        {
+            FG => 'XXMS',
+            DS => 'Memory DIMM',
+            SZ => '1024',
+            FN => 'HYMP512R72BP4-E3',
+            SN => '00007033',
+            RT => 'VINI',
+            YL => 'U788D.001.99DXY4Y-P1-C3',
+            VK => 'RS6K'
+        },
+        {
+            FG => 'XXMS',
+            DS => 'Memory DIMM',
+            SZ => '1024',
+            FN => 'HYMP512R72BP4-E3',
+            SN => '00005031',
+            RT => 'VINI',
+            YL => 'U788D.001.99DXY4Y-P1-C4',
+            VK => 'RS6K'
+        },
+        {
+            YL => 'U8844.31X.99DXY4Y-Y1',
+            MI => 'MB245_300_008 MB245_300_008 MB245_300_008',
+            DS => 'System Firmware',
+            CL => 'PFW 19482006101681CF0681'
+        },
+        {
+            PN => '26K5267',
+            EC => 'H17923E',
+            DS => 'SCSI Disk Drive',
+            MF => 'IBM-ESXS',
+            FN => '26K5779',
+            PL => '01-08-00-1,0',
+            SN => '3LB1FV46',
+            AX => 'hdisk0',
+            TM => 'ST973401SS',
+            BR => 'XS',
+            YL => 'U788D.001.99DXY4Y-P1-T10-L1-L0',
+            RL => '42353144'
+        },
+        {
+            PN => '26K5267',
+            EC => 'H17923E',
+            DS => 'SCSI Disk Drive',
+            MF => 'IBM-ESXS',
+            FN => '26K5779',
+            PL => '01-08-01-1,0',
+            SN => '3LB1FWWE',
+            AX => 'hdisk1',
+            TM => 'ST973401SS',
+            BR => 'XS',
+            YL => 'U788D.001.99DXY4Y-P1-T11-L1-L0',
+            RL => '42353144'
+        }
+    ],
+    'aix-5.3c' => [
+        {
+            ID => 'FF',
+            SE => '106BDCA',
+            TN => 'FFFFFFFF',
+            FG => 'XXSV',
+            DS => 'System VPD',
+            WN => 'C0507601DBFE',
+            MN => 'FFFFFFF',
+            SG => 'FFFFFFF',
+            RT => 'VSYS',
+            TM => '7778-23X',
+            BR => 'B0',
+            VK => 'ipzSeries',
+            YL => 'U7778.23X.106BDCA',
+            SU => '0004AC1380A1',
+            NN => 'FFFFFFFFFFFFFFFF'
+        },
+        {
+            SE => 'WIH5D66',
+            RK => '0000000000000000',
+            FC => '78A5-001',
+            FG => 'XXEV',
+            DS => 'CEC',
+            RT => 'VCEN',
+            TM => '78A5-001',
+            BR => 'B0',
+            VK => 'ipzSeries',
+            YL => 'U78A5.001.WIH5D66',
+            CI => '7778-23X 106BDCA'
+        },
+        {
+            VZ => '01',
+            CC => '53AE',
+            HE => '0001',
+            PN => '46K7951',
+            FG => 'XXBP',
+            DS => 'SYS BP & 4W PROC',
+            CE => '1',
+            HW => '0001',
+            FN => '10N9856',
+            SN => 'YL13W9249053',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            CT => '40F30018',
+            YL => 'U78A5.001.WIH5D66-P1',
+            PR => '3300200100020001'
+        },
+        {
+            VZ => '01',
+            CC => '31C3',
+            PN => '43X5036',
+            FG => 'XXMS',
+            DS => 'Memory DIMM',
+            CE => '1',
+            SZ => '4096',
+            FN => '43X5036',
+            SN => 'YLD001110C29',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            YL => 'U78A5.001.WIH5D66-P1-C1',
+            PR => '4400000000000000'
+        },
+        {
+            VZ => '01',
+            CC => '31C3',
+            PN => '43X5036',
+            FG => 'XXMS',
+            DS => 'Memory DIMM',
+            CE => '1',
+            SZ => '4096',
+            FN => '43X5036',
+            SN => 'YLD005346272',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            YL => 'U78A5.001.WIH5D66-P1-C2',
+            PR => '4400000000000000'
+        },
+        {
+            VZ => '01',
+            CC => '31C3',
+            PN => '43X5036',
+            FG => 'XXMS',
+            DS => 'Memory DIMM',
+            CE => '1',
+            SZ => '4096',
+            FN => '43X5036',
+            SN => 'YLD000110C0C',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            YL => 'U78A5.001.WIH5D66-P1-C3',
+            PR => '4400000000000000'
+        },
+        {
+            VZ => '01',
+            CC => '31C3',
+            PN => '43X5036',
+            FG => 'XXMS',
+            DS => 'Memory DIMM',
+            CE => '1',
+            SZ => '4096',
+            FN => '43X5036',
+            SN => 'YLD004930776',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            YL => 'U78A5.001.WIH5D66-P1-C4',
+            PR => '4400000000000000'
+        },
+        {
+            VZ => '01',
+            CC => '31C3',
+            PN => '43X5036',
+            FG => 'XXMS',
+            DS => 'Memory DIMM',
+            CE => '1',
+            SZ => '4096',
+            FN => '43X5036',
+            SN => 'YLD00793074C',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            YL => 'U78A5.001.WIH5D66-P1-C5',
+            PR => '4400000000000000'
+        },
+        {
+            VZ => '01',
+            CC => '31C3',
+            PN => '43X5036',
+            FG => 'XXMS',
+            DS => 'Memory DIMM',
+            CE => '1',
+            SZ => '4096',
+            FN => '43X5036',
+            SN => 'YLD003810961',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            YL => 'U78A5.001.WIH5D66-P1-C6',
+            PR => '4400000000000000'
+        },
+        {
+            VZ => '01',
+            CC => '31C3',
+            PN => '43X5036',
+            FG => 'XXMS',
+            DS => 'Memory DIMM',
+            CE => '1',
+            SZ => '4096',
+            FN => '43X5036',
+            SN => 'YLD006346270',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            YL => 'U78A5.001.WIH5D66-P1-C7',
+            PR => '4400000000000000'
+        },
+        {
+            VZ => '01',
+            CC => '31C3',
+            PN => '43X5036',
+            FG => 'XXMS',
+            DS => 'Memory DIMM',
+            CE => '1',
+            SZ => '4096',
+            FN => '43X5036',
+            SN => 'YLD00281096F',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            YL => 'U78A5.001.WIH5D66-P1-C8',
+            PR => '4400000000000000'
+        },
+        {
+            VZ => '01',
+            CC => '52C1',
+            HE => '0010',
+            PN => '07P6898',
+            FG => 'XXAV',
+            DS => 'ANCHOR / RISER',
+            CE => '1',
+            HW => '0001',
+            FN => '07P6897',
+            SN => 'YL100899N014',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            CT => '40B40001',
+            YL => 'U78A5.001.WIH5D66-P1-C9',
+            PR => '8100008000000000'
+        },
+        {
+            PN => '41Y8581',
+            FG => 'XXHD',
+            DS => 'Fibre Channel / Ethernet Combo Expansion Card',
+            HW => '03',
+            FN => '39Y9304',
+            SN => 'YK10NY98M6WD',
+            RT => 'VINI',
+            YL => 'U78A5.001.WIH5D66-P1-C11',
+            VK => 'xSeries'
+        },
+        {
+            PN => '46C5192',
+            FG => 'XXDT',
+            DS => 'SAS Expansion Card',
+            HW => '04',
+            FN => '46C4069',
+            SN => 'YK119093J07F',
+            RT => 'VINI',
+            YL => 'U78A5.001.WIH5D66-P1-C12',
+            VK => 'xSeries'
+        },
+        {
+            VZ => '01',
+            CC => '53AF',
+            HE => '0001',
+            PN => '46K7945',
+            FG => 'XXBP',
+            DS => 'SYS BP & 4W PROC',
+            CE => '1',
+            HW => '0001',
+            FN => '07P6804',
+            SN => 'YL11W923202B',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            CT => '40F30018',
+            YL => 'U78A5.001.WIH5D66-P2',
+            PR => '3300200100020001'
+        },
+        {
+            VZ => '01',
+            CC => '31C3',
+            PN => '43X5036',
+            FG => 'XXMS',
+            DS => 'Memory DIMM',
+            CE => '1',
+            SZ => '4096',
+            FN => '43X5036',
+            SN => 'YLD009710956',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            YL => 'U78A5.001.WIH5D66-P2-C1',
+            PR => '4400000000000000'
+        },
+        {
+            VZ => '01',
+            CC => '31C3',
+            PN => '43X5036',
+            FG => 'XXMS',
+            DS => 'Memory DIMM',
+            CE => '1',
+            SZ => '4096',
+            FN => '43X5036',
+            SN => 'YLD00D346271',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            YL => 'U78A5.001.WIH5D66-P2-C2',
+            PR => '4400000000000000'
+        },
+        {
+            VZ => '01',
+            CC => '31C3',
+            PN => '43X5036',
+            FG => 'XXMS',
+            DS => 'Memory DIMM',
+            CE => '1',
+            SZ => '4096',
+            FN => '43X5036',
+            SN => 'YLD00851096F',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            YL => 'U78A5.001.WIH5D66-P2-C3',
+            PR => '4400000000000000'
+        },
+        {
+            VZ => '01',
+            CC => '31C3',
+            PN => '43X5036',
+            FG => 'XXMS',
+            DS => 'Memory DIMM',
+            CE => '1',
+            SZ => '4096',
+            FN => '43X5036',
+            SN => 'YLD00C930661',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            YL => 'U78A5.001.WIH5D66-P2-C4',
+            PR => '4400000000000000'
+        },
+        {
+            VZ => '01',
+            CC => '31C3',
+            PN => '43X5036',
+            FG => 'XXMS',
+            DS => 'Memory DIMM',
+            CE => '1',
+            SZ => '4096',
+            FN => '43X5036',
+            SN => 'YLD00F930748',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            YL => 'U78A5.001.WIH5D66-P2-C5',
+            PR => '4400000000000000'
+        },
+        {
+            VZ => '01',
+            CC => '31C3',
+            PN => '43X5036',
+            FG => 'XXMS',
+            DS => 'Memory DIMM',
+            CE => '1',
+            SZ => '4096',
+            FN => '43X5036',
+            SN => 'YLD00B410C26',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            YL => 'U78A5.001.WIH5D66-P2-C6',
+            PR => '4400000000000000'
+        },
+        {
+            VZ => '01',
+            CC => '31C3',
+            PN => '43X5036',
+            FG => 'XXMS',
+            DS => 'Memory DIMM',
+            CE => '1',
+            SZ => '4096',
+            FN => '43X5036',
+            SN => 'YLD00E34627B',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            YL => 'U78A5.001.WIH5D66-P2-C7',
+            PR => '4400000000000000'
+        },
+        {
+            VZ => '01',
+            CC => '31C3',
+            PN => '43X5036',
+            FG => 'XXMS',
+            DS => 'Memory DIMM',
+            CE => '1',
+            SZ => '4096',
+            FN => '43X5036',
+            SN => 'YLD00A610973',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            YL => 'U78A5.001.WIH5D66-P2-C8',
+            PR => '4400000000000000'
+        },
+        {
+            YL => 'U7778.23X.106BDCA-Y1',
+            MI => 'EA350_074 EA350_053 EA350_074',
+            DS => 'System Firmware',
+            CL => 'FipS_BU 08252010070681E00200'
+        },
+        {
+            AX => 'lhea0',
+            YL => 'U78A5.001.WIH5D66-P2',
+            DS => 'Logical Host Ethernet Adapter (l-hea)'
+        }
+    ],
     'aix-6.1' => [
         {
             SE => '10086CP',
@@ -1183,7 +1651,286 @@ my %lsvpd_tests = (
             MF => 'IBM',
             PL => '02-00-01'
         }
-    ]
+    ],
+    'aix-6.1b' => [
+        {
+            SE => '066B96A',
+            FG => 'XXSV',
+            DS => 'System VPD',
+            WN => 'C0507601DBAD',
+            RT => 'VSYS',
+            TM => '7998-60X',
+            BR => 'B0',
+            VK => 'ipzSeries',
+            YL => 'U7998.60X.066B96A',
+            SU => '0004AC13804B'
+        },
+        {
+            SE => 'WIH55B2',
+            RK => '0000000000000000',
+            FC => '78A5-001',
+            FG => 'XXEV',
+            DS => 'CEC',
+            RT => 'VCEN',
+            TM => '78A5-001',
+            BR => 'B0',
+            VK => 'ipzSeries',
+            YL => 'U78A5.001.WIH55B2',
+            CI => '7998-60X 066B96A'
+        },
+        {
+            VZ => '01',
+            CC => '53AD',
+            HE => '0001',
+            PN => '46K7686',
+            FG => 'XXBP',
+            DS => 'SYS BP & 2W PROC',
+            CE => '1',
+            HW => '0001',
+            FN => '10N9674',
+            SN => 'YL10W921605K',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            CT => '40F30015',
+            YL => 'U78A5.001.WIH55B2-P1',
+            PR => '3300200100020000'
+        },
+        {
+            VZ => '01',
+            CC => '31C2',
+            PN => '43X5035',
+            FG => 'XXMS',
+            DS => 'Memory DIMM',
+            CE => '1',
+            SZ => '2048',
+            FN => '43X5035',
+            SN => 'YLD0014403BC',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            YL => 'U78A5.001.WIH55B2-P1-C1',
+            PR => '4400000000000000'
+        },
+        {
+            VZ => '01',
+            CC => '31C2',
+            PN => '43X5035',
+            FG => 'XXMS',
+            DS => 'Memory DIMM',
+            CE => '1',
+            SZ => '2048',
+            FN => '43X5035',
+            SN => 'YLD0004403BB',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            YL => 'U78A5.001.WIH55B2-P1-C3',
+            PR => '4400000000000000'
+        },
+        {
+            VZ => '03',
+            CC => '52BF',
+            HE => '0010',
+            PN => '10N9483',
+            FG => 'XXAV',
+            DS => 'ANCHOR / RISER',
+            CE => '1',
+            HW => '0001',
+            FN => '10N9483',
+            SN => 'YL107899G01W',
+            RT => 'VINI',
+            VK => 'ipzSeries',
+            CT => '40B40001',
+            YL => 'U78A5.001.WIH55B2-P1-C9',
+            PR => '8100008000000000'
+        },
+        {
+            PN => '39Y9187',
+            FG => 'XXDT',
+            DS => 'SAS Expansion Card',
+            HW => '03',
+            FN => '39Y9188',
+            SN => 'YK105499D091',
+            RT => 'VINI',
+            YL => 'U78A5.001.WIH55B2-P1-C10',
+            VK => 'xSeries'
+        },
+        {
+            PN => '41Y8581',
+            FG => 'XXHD',
+            DS => 'Fibre Channel / Ethernet Combo Expansion Card',
+            HW => '03',
+            FN => '39Y9304',
+            SN => 'YK10NY97PHHA',
+            RT => 'VINI',
+            YL => 'U78A5.001.WIH55B2-P1-C11',
+            VK => 'xSeries'
+        },
+        {
+            YL => 'U7998.60X.066B96A-Y1',
+            MI => 'EA350_038 EA340_039 EA350_038',
+            DS => 'System Firmware',
+            CL => 'FipS_BU 02202009102881E00200'
+        },
+        {
+            AX => 'lhea0',
+            YL => 'U78A5.001.WIH55B2-P1',
+            DS => 'Carte Ethernet pour hôte logique (l-hea)'
+        },
+        {
+            CD => '10140367',
+            AX => 'ent0',
+            YL => 'U78A5.001.WIH55B2-P1-C11-L2-T1',
+            DS => 'Carte Gigabit Ethernet-SX PCI-X (14106703)',
+            RM => '03280000',
+            PL => '06-20'
+        },
+        {
+            AX => 'sas0',
+            YL => 'U78A5.001.WIH55B2-P1-T5',
+            DS => 'Protocole SAS du contrôleur',
+            PL => '00-08-00'
+        },
+        {
+            AX => 'sata0',
+            YL => 'U78A5.001.WIH55B2-P1-T5',
+            DS => 'Protocole SATA du contrôleur',
+            PL => '00-08-00'
+        },
+        {
+            AX => 'ses0',
+            YL => 'U78A5.001.WIH55B2-P1-Y1',
+            DS => 'Unité SAS Enclosure Services',
+            RM => '02',
+            PL => '00-08-00'
+        },
+        {
+            PN => '26K5267',
+            EC => 'H17923Y',
+            DS => 'Unité de disque physique SAS',
+            MF => 'IBM-ESXS',
+            FN => '39R7370',
+            PL => '00-08-00',
+            SN => '3NP3SES6',
+            AX => 'pdisk0',
+            TM => 'ST973402SS',
+            YL => 'U78A5.001.WIH55B2-P1-D2',
+            RL => '42353241'
+        },
+        {
+            PN => '26K5267',
+            EC => 'H17923Y',
+            DS => 'Unité de disque physique SAS',
+            MF => 'IBM-ESXS',
+            FN => '39R7370',
+            PL => '00-08-00',
+            SN => '3NP3T53P',
+            AX => 'pdisk1',
+            TM => 'ST973402SS',
+            YL => 'U78A5.001.WIH55B2-P1-D1',
+            RL => '42353241'
+        },
+        {
+            AX => 'kbd0',
+            YL => 'U78A5.001.WIH55B2-P1-T2-L1',
+            DS => 'Clavier USB',
+            PL => '1.1-'
+        },
+        {
+            AX => 'mouse0',
+            YL => 'U78A5.001.WIH55B2-P1-T2-L1',
+            DS => 'Souris USB',
+            PL => '1.1-'
+        },
+        {
+            CD => '1077014c',
+            AX => 'fscsi0',
+            YL => 'U78A5.001.WIH55B2-P1-C11-L1-T1',
+            DS => 'Unité logique du contrôleur d\'E-S SCSI FC',
+            PL => '04-00-01'
+        },
+        {
+            CD => '1077014c',
+            AX => 'fscsi1',
+            YL => 'U78A5.001.WIH55B2-P1-C11-L1-T2',
+            DS => 'Unité logique du contrôleur d\'E-S SCSI FC',
+            PL => '04-01-01'
+        },
+        {
+            TM => '1726-2xx  FAStT',
+            AX => 'hdisk1',
+            YL => 'U78A5.001.WIH55B2-P1-C10-T1-L500A0B8673860004-L0',
+            RL => '30363137',
+            DS => 'MPIO DS3200 SAS Disk',
+            MF => 'IBM',
+            PL => '03-08-00'
+        },
+        {
+            TM => '1726-2xx  FAStT',
+            AX => 'hdisk2',
+            YL => 'U78A5.001.WIH55B2-P1-C10-T1-L500A0B8673860004-L1000000000000',
+            RL => '30363137',
+            DS => 'MPIO DS3200 SAS Disk',
+            MF => 'IBM',
+            PL => '03-08-00'
+        },
+        {
+            SN => '1K10042208',
+            TM => 'ULT3580-HH4',
+            AX => 'rmt0',
+            YL => 'U78A5.001.WIH55B2-P1-C10-T1-L500507631245DA6A-L0',
+            FW => 'A23E',
+            DS => 'IBM 3580 Ultrium Tape Drive (SAS)',
+            MF => 'IBM',
+            PL => '03-08-00'
+        },
+        {
+            CD => '10140367',
+            AX => 'ent1',
+            YL => 'U78A5.001.WIH55B2-P1-C11-L2-T2',
+            DS => 'Carte Gigabit Ethernet-SX PCI-X (14106703)',
+            RM => '03280000',
+            PL => '06-21'
+        },
+        {
+            AX => 'kbd1',
+            DS => 'Clavier USB'
+        },
+        {
+            TM => '1726-2xx  FAStT',
+            AX => 'hdisk4',
+            YL => 'U78A5.001.WIH55B2-P1-C10-T1-L500A0B8673860004-L4000000000000',
+            RL => '30363137',
+            DS => 'MPIO DS3200 SAS Disk',
+            MF => 'IBM',
+            PL => '03-08-00'
+        },
+        {
+            TM => '1726-2xx  FAStT',
+            AX => 'hdisk5',
+            YL => 'U78A5.001.WIH55B2-P1-C10-T1-L500A0B8673860004-L2000000000000',
+            RL => '30363137',
+            DS => 'MPIO DS3200 SAS Disk',
+            MF => 'IBM',
+            PL => '03-08-00'
+        },
+        {
+            TM => '1726-2xx  FAStT',
+            AX => 'hdisk6',
+            YL => 'U78A5.001.WIH55B2-P1-C10-T1-L500A0B8673860004-L3000000000000',
+            RL => '30363137',
+            DS => 'MPIO DS3200 SAS Disk',
+            MF => 'IBM',
+            PL => '03-08-00'
+        },
+        {
+            TM => '1726-2xx  FAStT',
+            AX => 'hdisk7',
+            YL => 'U78A5.001.WIH55B2-P1-C10-T1-L500A0B8673860004-L5000000000000',
+            RL => '30363137',
+            DS => 'MPIO DS3200 SAS Disk',
+            MF => 'IBM',
+            PL => '03-08-00'
+        }
+    ],
 );
 
 my %lsdev_tests = (
@@ -1247,6 +1994,85 @@ my %lsdev_tests = (
             NAME        => 'vsa2',
             DESCRIPTION => 'LPAR Virtual Serial Adapter',
             TYPE        => 'hvterm-protocol'
+        }
+    ],
+    'aix-5.3b' => [
+        {
+            NAME        => 'ent0',
+            DESCRIPTION => 'Gigabit Ethernet-SX PCI-X Adapter (14101403)',
+            TYPE        => '14101403'
+        },
+        {
+            NAME        => 'ent1',
+            DESCRIPTION => 'Gigabit Ethernet-SX PCI-X Adapter (14101403)',
+            TYPE        => '14101403'
+        },
+        {
+            NAME        => 'ent2',
+            DESCRIPTION => 'EtherChannel / IEEE 802.3ad Link Aggregation',
+            TYPE        => 'ibm_ech'
+        },
+        {
+            NAME        => 'ent3',
+            DESCRIPTION => 'VLAN',
+            TYPE        => 'eth'
+        },
+        {
+            NAME        => 'ent4',
+            DESCRIPTION => 'VLAN',
+            TYPE        => 'eth'
+        },
+        {
+            NAME        => 'sisioa0',
+            DESCRIPTION => 'PCI-XDDR Dual Channel SAS RAID Adapter',
+            TYPE        => '14108d02'
+        },
+        {
+            NAME        => 'usbhc0',
+            DESCRIPTION => 'USB Host Controller (22106474)',
+            TYPE        => '22106474'
+        },
+        {
+            NAME        => 'usbhc1',
+            DESCRIPTION => 'USB Host Controller (22106474)',
+            TYPE        => '22106474'
+        },
+        {
+            NAME        => 'vsa0',
+            DESCRIPTION => 'LPAR Virtual Serial Adapter',
+            TYPE        => 'hvterm1'
+        }
+    ],
+    'aix-5.3c' => [
+        {
+            NAME        => 'ent0',
+            DESCRIPTION => 'Logical Host Ethernet Port (lp-hea)',
+            TYPE        => 'ethernet'
+        },
+        {
+            NAME        => 'ent1',
+            DESCRIPTION => 'Logical Host Ethernet Port (lp-hea)',
+            TYPE        => 'ethernet'
+        },
+        {
+            NAME        => 'ent2',
+            DESCRIPTION => 'Virtual I/O Ethernet Adapter (l-lan)',
+            TYPE        => 'IBM,l-lan'
+        },
+        {
+            NAME        => 'lhea0',
+            DESCRIPTION => 'Logical Host Ethernet Adapter (l-hea)',
+            TYPE        => 'IBM,lhea'
+        },
+        {
+            NAME        => 'vsa0',
+            DESCRIPTION => 'LPAR Virtual Serial Adapter',
+            TYPE        => 'hvterm1'
+        },
+        {
+            NAME        => 'vscsi0',
+            DESCRIPTION => 'Virtual SCSI Client Adapter',
+            TYPE        => 'IBM,v-scsi'
         }
     ],
     'aix-6.1' => [

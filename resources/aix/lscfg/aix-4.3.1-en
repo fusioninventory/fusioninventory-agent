@@ -1,0 +1,6 @@
+  DEVICE            LOCATION          DESCRIPTION
+	
+  ent0              10-80             IBM PCI Ethernet Adapter (22100020)
+
+        Network Address.............08005ABAE967
+        Displayable Message.........PCI Ethernet Adapter (22100020)
