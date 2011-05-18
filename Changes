@@ -1,22 +1,46 @@
 Revision history for FusionInventory::Agent
 
 2.2.0
-	* the --nosoft and --nosoftware options have been removed, as they were
-	  deprecated already
-	* the --devlib, --share-dir and --basevardir options have been 
-	  deprecated, as their values are now configured at installation time
-	* the --realm option has been deprecated, as its value is now computed
-	  automatically if needed
-	* the --daemon-no-fork option has been deprecated, and replaced by 
-	  --daemon --no-fork options
-	* the --info option has been deprecated, as it had no effect
-	* the html man page is created automatically during distribution 
-	  creation
-	* options documentation has been reviewed for consistency in various
-	  places where it appears (--help output, man page, configuration file)
-	* XML::Simple usage has been replaced by XML::TreePP
-	* large code cleanup
-	* various internal optimisations
+	* options handling:
+	  - deprecated --nosoft and --nosoftware options have been removed
+	  - --devlib, --share-dir, --basevardir and --realm options have
+	    been deprecated, as their values are now computed automatically
+	  - --daemon-no-fork option has been deprecated, and replaced by
+	    --daemon --no-fork options
+	  - --info option has been deprecated, as it had no effect
+	  - documentation has been reviewed for consistency in various
+	    places where it appears (--help output, man page, configuration 
+	    file)
+
+	* distribution and installation:
+	  - the html man page is created automatically during distribution 
+	    creation
+	  - setup directories are automatically configured at installation time
+
+	* useless code removal:
+	  - useless Ping task has been dropped
+	  - OCS network discovery and software deploiement modules of
+	    inventory task have been dropped, as we have dedicated tasks
+	    for those purposes
+
+	* various optimisations:
+	  - inventory modules search and selection logic has been
+	    rewritten for speed and memory usage
+	  - useless pause time between tasks execution has been removed
+	  - most external commands are now executed only once, and their
+	    result is cached
+
+	* code refactoring:
+	  - multiple classes have been renamed to achieve better
+	    description of their purpose
+	  - better object modeling semantics
+	  - better compliance with Perl Best Practices
+	  - usage of external filtering commands have been replaced
+	    by perl code
+
+	* dependencies changes:
+	  - XML::Simple usage has been replaced by XML::TreePP
+
 	* large test suite improvements
         * Add the HARDWARE/CHASSIS_TYPE information
         * Linux: Use /sbin/ip to get the interface IP addresses
