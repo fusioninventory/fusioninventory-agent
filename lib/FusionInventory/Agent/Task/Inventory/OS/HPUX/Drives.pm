@@ -21,64 +21,74 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $filesystem;
-    my $type;
-    my $lv;
-    my $total;
-    my $free;
-
-    my $handle = getFileHandle(
+    my $handle1 = getFileHandle(
         command => 'fstyp -l',
         logger  => $logger
     );
 
-    return unless $handle;
+    return unless $handle1;
 
-    while (my $filesystem = <$handle>) {
-        next if $filesystem =~ /^\s*$/;
-        chomp $filesystem;
-        foreach (`bdf -t $filesystem`) {
-            next if ( /Filesystem/ );
+    while (my $line1 = <$handle1>) {
+        chomp $line1;
+        my $filesystem = $line1;
+
+        my $handle2 = getFileHandle(
+            command => "bdf -t $filesystem",
+            logger  => $logger
+        );
+
+        my $device;
+        while (my $line2 = <$handle2>) {
+            next if $line2 =~ /Filesystem/;
+
             my $createdate = '0000/00/00 00:00:00';
-            if ( /^(\S+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+%)\s+(\S+)/ ) {
-                $lv=$1;
-                $total=$2;
-                $free=$3;
-                $type=$6;
-                if ( $filesystem =~ /vxfs/i ) {
-                    $createdate = _getVxFSctime($lv, $logger);
-                }
 
-                $inventory->addDrive({
-                    FREE => $free,
-                    FILESYSTEM => $filesystem,
-                    TOTAL => $total,
-                    TYPE => $type,
-                    VOLUMN => $lv,
-                    CREATEDATE => $createdate,
-                })
-            } elsif ( /^(\S+)\s/) {
-                $lv=$1;
-                if ( $filesystem =~ /vxfs/i ) {
-                    $createdate = _getVxFSctime($lv, $logger);
-                }
-            } elsif ( /(\d+)\s+(\d+)\s+(\d+)\s+(\d+%)\s+(\S+)/) {
-                $total=$1;
-                $free=$3;
-                $type=$5;
-                # print "filesystem $filesystem lv $lv total $total free $free type $type\n";
-                $inventory->addEntry({
-                    FREE       => $free,
-                    FILESYSTEM => $filesystem,
-                    TOTAL      => $total,
-                    TYPE       => $type,
-                    VOLUMN     => $lv,
-                    CREATEDATE => $createdate,
-                })
+            if ($line2 =~ /^(\S+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+%)\s+(\S+)/) {
+                $device = $1;
+
+                $createdate = _getVxFSctime($device, $logger)
+                    if $filesystem =~ /vxfs/i;
+
+                $inventory->addEntry(
+                    section => 'DRIVES',
+                    entry   => {
+                        FREE       => $3,
+                        FILESYSTEM => $filesystem,
+                        TOTAL      => $2,
+                        TYPE       => $6,
+                        VOLUMN     => $device,
+                        CREATEDATE => $createdate,
+                    }
+                );
+                next;
             }
-        } # for bdf -t $filesystem
+
+            if ($line2 =~ /^(\S+)\s/) {
+                $device = $1;
+                next;
+            }
+            
+            if ($line2 =~ /(\d+)\s+(\d+)\s+(\d+)\s+(\d+%)\s+(\S+)/) {
+                $createdate = _getVxFSctime($device, $logger)
+                    if $filesystem =~ /vxfs/i;
+
+                $inventory->addEntry(
+                    section => 'DRIVES',
+                    entry   => {
+                        FREE       => $3,
+                        FILESYSTEM => $filesystem,
+                        TOTAL      => $1,
+                        TYPE       => $5,
+                        VOLUMN     => $device,
+                        CREATEDATE => $createdate,
+                    }
+                );
+                next;
+            }
+        }
+        close $handle2;
     }
-    close $handle;
+    close $handle1;
 }
 
 # get filesystem creation time by reading binary value directly on the device
