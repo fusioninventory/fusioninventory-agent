@@ -47,7 +47,7 @@ sub doInventory {
                 $device = $1;
 
                 $createdate = _getVxFSctime($device, $logger)
-                    if $filesystem =~ /vxfs/i;
+                    if $filesystem eq 'vxfs';
 
                 $inventory->addEntry(
                     section => 'DRIVES',
@@ -70,7 +70,7 @@ sub doInventory {
             
             if ($line2 =~ /(\d+)\s+(\d+)\s+(\d+)\s+(\d+%)\s+(\S+)/) {
                 $createdate = _getVxFSctime($device, $logger)
-                    if $filesystem =~ /vxfs/i;
+                    if $filesystem eq 'vxfs';
 
                 $inventory->addEntry(
                     section => 'DRIVES',
