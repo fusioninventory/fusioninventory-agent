@@ -41,7 +41,14 @@ sub _getSoftwaresList {
     my @softwares;
     while (my $line = <$handle>) {
         chomp $line;
-        next unless $line =~ /^  (\S+)\s+(\S+)\s+(\S.*\S)/;
+        next unless $line =~ /^
+            \s\s     # two spaces
+            (\S+)    # name
+            \s+
+            (\S+)    # version
+            \s+
+            (\S.*\S) # comment
+        /x;
         next if $1 =~ /^PH/;
         push @softwares, {
             NAME      => $1,
