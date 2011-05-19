@@ -1,0 +1,1806 @@
+# dmidecode 2.10
+SMBIOS 2.3 present.
+159 structures occupying 7573 bytes.
+Table at 0x005235C0.
+
+Handle 0x0000, DMI type 0, 20 bytes
+BIOS Information
+	Vendor: American Megatrends Inc.
+	Version: 090004 
+	Release Date: 03/19/2009
+	Address: 0xF0000
+	Runtime Size: 64 kB
+	ROM Size: 256 kB
+	Characteristics:
+		ISA is supported
+		PCI is supported
+		PNP is supported
+		BIOS is upgradeable
+		BIOS shadowing is allowed
+		ESCD support is available
+		Boot from CD is supported
+		Selectable boot is supported
+		BIOS ROM is socketed
+		EDD is supported
+		5.25"/360 kB floppy services are supported (int 13h)
+		5.25"/1.2 MB floppy services are supported (int 13h)
+		3.5"/720 kB floppy services are supported (int 13h)
+		3.5"/2.88 MB floppy services are supported (int 13h)
+		Print screen service is supported (int 5h)
+		8042 keyboard services are supported (int 9h)
+		Serial services are supported (int 14h)
+		Printer services are supported (int 17h)
+		CGA/mono video services are supported (int 10h)
+		AGP is supported
+		LS-120 boot is supported
+		ATAPI Zip drive boot is supported
+		BIOS boot specification is supported
+
+Handle 0x0001, DMI type 1, 25 bytes
+System Information
+	Manufacturer: Microsoft Corporation
+	Product Name: Virtual Machine
+	Version: 7.0
+	Serial Number: 2349-2347-2234-2340-2341-3240-48
+	UUID: 3445DEE7-45D0-1244-95DD-34FAA067C1BE33E
+	Wake-up Type: Power Switch
+
+Handle 0x0002, DMI type 2, 8 bytes
+Base Board Information
+	Manufacturer: Microsoft Corporation
+	Product Name: Virtual Machine
+	Version: 7.0
+	Serial Number: 2349-2347-2234-2340-2341-3240-48
+
+Handle 0x0003, DMI type 3, 17 bytes
+Chassis Information
+	Manufacturer: Microsoft Corporation
+	Type: Desktop
+	Lock: Not Present
+	Version: 7.0
+	Serial Number: 2349-2347-2234-2340-2341-3240-48
+	Asset Tag: 4568-2345-6432-9324-3433-2346-47
+	Boot-up State: Safe
+	Power Supply State: Safe
+	Thermal State: Other
+	Security Status: Other
+	OEM Information: 0x00000000
+
+Handle 0x0004, DMI type 11, 5 bytes
+OEM Strings
+	String 1: [MS_VM_CERT/SHA1/3480ca0d534061ec9344e424f434fd3496f32c22]
+	String 2: 00000000000000000000000000000000
+	String 3: To be filed by MSFT
+
+Handle 0x0005, DMI type 4, 35 bytes
+Processor Information
+	Socket Designation: None
+	Type: Central Processor
+	Family: Xeon
+	Manufacturer: GenuineIntel
+	ID: 7A 06 01 00 FF FB 8B 1F
+	Signature: Type 0, Family 6, Model 23, Stepping 10
+	Flags:
+		FPU (Floating-point unit on-chip)
+		VME (Virtual mode extension)
+		DE (Debugging extension)
+		PSE (Page size extension)
+		TSC (Time stamp counter)
+		MSR (Model specific registers)
+		PAE (Physical address extension)
+		MCE (Machine check exception)
+		CX8 (CMPXCHG8 instruction supported)
+		APIC (On-chip APIC hardware supported)
+		SEP (Fast system call)
+		MTRR (Memory type range registers)
+		PGE (Page global enable)
+		MCA (Machine check architecture)
+		CMOV (Conditional move instruction supported)
+		PAT (Page attribute table)
+		PSE-36 (36-bit page size extension)
+		CLFSH (CLFLUSH instruction supported)
+		MMX (MMX technology supported)
+		FXSR (Fast floating-point save and restore)
+		SSE (Streaming SIMD extensions)
+		SSE2 (Streaming SIMD extensions 2)
+		SS (Self-snoop)
+		HTT (Hyper-threading technology)
+	Version: Intel Xeon
+	Voltage: 1.2 V
+	External Clock: 266 MHz
+	Max Speed: 3733 MHz
+	Current Speed: 2500 MHz
+	Status: Populated, Enabled
+	Upgrade: None
+	L1 Cache Handle: Not Provided
+	L2 Cache Handle: Not Provided
+	L3 Cache Handle: Not Provided
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0006, DMI type 4, 35 bytes
+Processor Information
+	Socket Designation: None
+	Type: Central Processor
+	Family: Unknown
+	Manufacturer: None
+	ID: 00 00 00 00 00 00 00 00
+	Version: None
+	Voltage: 2.9 V
+	External Clock: Unknown
+	Max Speed: Unknown
+	Current Speed: Unknown
+	Status: Unpopulated
+	Upgrade: None
+	L1 Cache Handle: Not Provided
+	L2 Cache Handle: Not Provided
+	L3 Cache Handle: Not Provided
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0007, DMI type 4, 35 bytes
+Processor Information
+	Socket Designation: None
+	Type: Central Processor
+	Family: Unknown
+	Manufacturer: None
+	ID: 00 00 00 00 00 00 00 00
+	Version: None
+	Voltage: 2.9 V
+	External Clock: Unknown
+	Max Speed: Unknown
+	Current Speed: Unknown
+	Status: Unpopulated
+	Upgrade: None
+	L1 Cache Handle: Not Provided
+	L2 Cache Handle: Not Provided
+	L3 Cache Handle: Not Provided
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0008, DMI type 4, 35 bytes
+Processor Information
+	Socket Designation: None
+	Type: Central Processor
+	Family: Unknown
+	Manufacturer: None
+	ID: 00 00 00 00 00 00 00 00
+	Version: None
+	Voltage: 2.9 V
+	External Clock: Unknown
+	Max Speed: Unknown
+	Current Speed: Unknown
+	Status: Unpopulated
+	Upgrade: None
+	L1 Cache Handle: Not Provided
+	L2 Cache Handle: Not Provided
+	L3 Cache Handle: Not Provided
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0009, DMI type 4, 35 bytes
+Processor Information
+	Socket Designation: None
+	Type: Central Processor
+	Family: Unknown
+	Manufacturer: None
+	ID: 00 00 00 00 00 00 00 00
+	Version: None
+	Voltage: 2.9 V
+	External Clock: Unknown
+	Max Speed: Unknown
+	Current Speed: Unknown
+	Status: Unpopulated
+	Upgrade: None
+	L1 Cache Handle: Not Provided
+	L2 Cache Handle: Not Provided
+	L3 Cache Handle: Not Provided
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x000A, DMI type 4, 35 bytes
+Processor Information
+	Socket Designation: None
+	Type: Central Processor
+	Family: Unknown
+	Manufacturer: None
+	ID: 00 00 00 00 00 00 00 00
+	Version: None
+	Voltage: 2.9 V
+	External Clock: Unknown
+	Max Speed: Unknown
+	Current Speed: Unknown
+	Status: Unpopulated
+	Upgrade: None
+	L1 Cache Handle: Not Provided
+	L2 Cache Handle: Not Provided
+	L3 Cache Handle: Not Provided
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x000B, DMI type 4, 35 bytes
+Processor Information
+	Socket Designation: None
+	Type: Central Processor
+	Family: Unknown
+	Manufacturer: None
+	ID: 00 00 00 00 00 00 00 00
+	Version: None
+	Voltage: 2.9 V
+	External Clock: Unknown
+	Max Speed: Unknown
+	Current Speed: Unknown
+	Status: Unpopulated
+	Upgrade: None
+	L1 Cache Handle: Not Provided
+	L2 Cache Handle: Not Provided
+	L3 Cache Handle: Not Provided
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x000C, DMI type 4, 35 bytes
+Processor Information
+	Socket Designation: None
+	Type: Central Processor
+	Family: Unknown
+	Manufacturer: None
+	ID: 00 00 00 00 00 00 00 00
+	Version: None
+	Voltage: 2.9 V
+	External Clock: Unknown
+	Max Speed: Unknown
+	Current Speed: Unknown
+	Status: Unpopulated
+	Upgrade: None
+	L1 Cache Handle: Not Provided
+	L2 Cache Handle: Not Provided
+	L3 Cache Handle: Not Provided
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x000D, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: USB
+	Internal Connector Type: Centronics
+	External Reference Designator: USB1
+	External Connector Type: Centronics
+	Port Type: USB
+
+Handle 0x000E, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: USB
+	Internal Connector Type: Centronics
+	External Reference Designator: USB2
+	External Connector Type: Centronics
+	Port Type: USB
+
+Handle 0x000F, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: COM1
+	Internal Connector Type: DB-9 female
+	External Reference Designator: COM1
+	External Connector Type: DB-9 female
+	Port Type: Serial Port 16550A Compatible
+
+Handle 0x0010, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: COM2
+	Internal Connector Type: DB-9 female
+	External Reference Designator: COM2
+	External Connector Type: DB-9 female
+	Port Type: Serial Port 16550A Compatible
+
+Handle 0x0011, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: Printer
+	Internal Connector Type: DB-25 male
+	External Reference Designator: Lpt1
+	External Connector Type: DB-25 male
+	Port Type: Parallel Port ECP/EPP
+
+Handle 0x0012, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: Video
+	Internal Connector Type: DB-15 male
+	External Reference Designator: Video
+	External Connector Type: DB-15 female
+	Port Type: Video Port
+
+Handle 0x0013, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: Keyboard
+	Internal Connector Type: PS/2
+	External Reference Designator: Keyboard
+	External Connector Type: PS/2
+	Port Type: Keyboard Port
+
+Handle 0x0014, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: Mouse
+	Internal Connector Type: PS/2
+	External Reference Designator: Mouse
+	External Connector Type: PS/2
+	Port Type: Mouse Port
+
+Handle 0x0015, DMI type 10, 6 bytes
+On Board Device Information
+	Type: Video
+	Status: Enabled
+	Description: To Be filled by O.E.M.
+
+Handle 0x0016, DMI type 12, 5 bytes
+System Configuration Options
+	Option 1: To Be Filled By O.E.M.
+	Option 2: To Be Filled By O.E.M.
+	Option 3: To Be Filled By O.E.M.
+
+Handle 0x0017, DMI type 13, 22 bytes
+BIOS Language Information
+	Installable Languages: 1
+		enUS
+	Currently Installed Language: enUS
+
+Handle 0x0018, DMI type 18, 23 bytes
+32-bit Memory Error Information
+	Type: OK
+	Granularity: Unknown
+	Operation: Unknown
+	Vendor Syndrome: Unknown
+	Memory Array Address: Unknown
+	Device Address: Unknown
+	Resolution: Unknown
+
+Handle 0x0019, DMI type 16, 15 bytes
+Physical Memory Array
+	Location: Unknown
+	Use: System Memory
+	Error Correction Type: None
+	Maximum Capacity: 2048 GB
+	Error Information Handle: 0x0018
+	Number Of Devices: 64
+
+Handle 0x001A, DMI type 19, 15 bytes
+Memory Array Mapped Address
+	Starting Address: 0x00000000000
+	Ending Address: 0x000400003FF
+	Range Size: 1048577 kB
+	Physical Array Handle: 0x0019
+	Partition Width: 0
+
+Handle 0x001B, DMI type 126, 15 bytes
+Inactive
+
+Handle 0x001C, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: 1024 MB
+	Form Factor: Unknown
+	Set: None
+	Locator: M0
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x001D, DMI type 20, 19 bytes
+Memory Device Mapped Address
+	Starting Address: 0x00000000000
+	Ending Address: 0x000400003FF
+	Range Size: 1048577 kB
+	Physical Device Handle: 0x001C
+	Memory Array Mapped Address Handle: 0x001A
+	Partition Row Position: <OUT OF SPEC>
+
+Handle 0x001E, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M1
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x001F, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0020, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M2
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0021, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0022, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M3
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0023, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0024, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M4
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0025, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0026, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M5
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0027, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0028, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M6
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0029, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x002A, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M7
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x002B, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x002C, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M8
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x002D, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x002E, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M9
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x002F, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0030, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M10
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0031, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0032, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M11
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0033, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0034, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M12
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0035, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0036, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M13
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0037, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0038, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M14
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0039, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x003A, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M15
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x003B, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x003C, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M16
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x003D, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x003E, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M17
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x003F, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0040, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M18
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0041, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0042, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M19
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0043, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0044, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M20
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0045, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0046, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M21
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0047, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0048, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M22
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0049, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x004A, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M23
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x004B, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x004C, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M24
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x004D, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x004E, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M25
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x004F, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0050, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M26
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0051, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0052, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M27
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0053, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0054, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M28
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0055, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0056, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M29
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0057, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0058, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M30
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0059, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x005A, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M31
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x005B, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x005C, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M32
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x005D, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x005E, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M33
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x005F, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0060, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M34
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0061, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0062, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M35
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0063, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0064, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M36
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0065, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0066, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M37
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0067, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0068, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M38
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0069, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x006A, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M39
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x006B, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x006C, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M40
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x006D, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x006E, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M41
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x006F, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0070, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M42
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0071, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0072, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M43
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0073, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0074, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M44
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0075, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0076, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M45
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0077, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0078, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M46
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0079, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x007A, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M47
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x007B, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x007C, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M48
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x007D, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x007E, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M49
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x007F, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0080, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M50
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0081, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0082, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M51
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0083, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0084, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M52
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0085, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0086, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M53
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0087, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0088, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M54
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0089, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x008A, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M55
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x008B, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x008C, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M56
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x008D, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x008E, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M57
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x008F, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0090, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M58
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0091, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0092, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M59
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0093, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0094, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M60
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0095, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0096, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M61
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0097, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x0098, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M62
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x0099, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x009A, DMI type 17, 27 bytes
+Memory Device
+	Array Handle: 0x0019
+	Error Information Handle: 0x0018
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: M63
+	Bank Locator: None
+	Type: Other
+	Type Detail: Unknown
+	Speed: Unknown
+	Manufacturer: Microsoft
+	Serial Number: None
+	Asset Tag: None
+	Part Number: None
+
+Handle 0x009B, DMI type 126, 19 bytes
+Inactive
+
+Handle 0x009C, DMI type 23, 13 bytes
+System Reset
+	Status: Disabled
+	Watchdog Timer: Not Present
+
+Handle 0x009D, DMI type 32, 20 bytes
+System Boot Information
+	Status: No errors detected
+
+Handle 0x009E, DMI type 127, 4 bytes
+End Of Table
+

@@ -4,6 +4,8 @@ use strict;
 use warnings;
 
 use Test::More;
+use Data::Dumper;
+use File::Basename;
 
 use FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios;
 
@@ -390,14 +392,36 @@ my %tests = (
             'CHASSIS_TYPE' => 'Rack Mount Chassis',
             'UUID' => 'EEEEEEEE-EEEE-EEEE-EEEE-EEEEEEEEEEEE'
         }
-    }
+    },
+    'windows-hyperV' => {
+          'bios' => {
+                      'MMANUFACTURER' => 'Microsoft Corporation',
+                      'SSN' => '2349-2347-2234-2340-2341-3240-48',
+                      'SKUNUMBER' => undef,
+                      'ASSETTAG' => '4568-2345-6432-9324-3433-2346-47',
+                      'BMANUFACTURER' => 'American Megatrends Inc.',
+                      'MSN' => '2349-2347-2234-2340-2341-3240-48',
+                      'SMODEL' => 'Virtual Machine',
+                      'SMANUFACTURER' => 'Microsoft Corporation',
+                      'BDATE' => '03/19/2009',
+                      'MMODEL' => 'Virtual Machine',
+                      'BVERSION' => '090004'
+                    },
+          'hardware' => {
+                          'CHASSIS_TYPE' => 'Desktop',
+                          'UUID' => '3445DEE7-45D0-1244-95DD-34FAA067C1BE33E',
+                          'VMSYSTEM' => 'Hyper-V'
+                        }
+        }
 );
 
-plan tests => 2 * keys %tests;
+my @files = glob("resources/generic/dmidecode/*");
+plan tests => 2 * int(@files);
 
-foreach my $test (keys %tests) {
-    my $file = "resources/generic/dmidecode/$test";
+#use Data::Dumper;
+foreach my $file (@files) {
+    my $test = basename($file);
     my ($bios, $hardware) = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios::_getBiosHardware(file => $file);
-    is_deeply($bios, $tests{$test}->{bios}, "bios: $test");
+    is_deeply($bios, $tests{$test}->{bios}, "bios: $test") or print Dumper({ bios => $bios, hardware => $hardware });
     is_deeply($hardware, $tests{$test}->{hardware}, "hardware: $test");
 }

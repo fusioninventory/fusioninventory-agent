@@ -42,6 +42,19 @@ sub new {
         $self->{ua}->env_proxy;
     }
 
+    if ($LWP::VERSION > 6) {
+        # LWP6 default behavior is to check the SSL hostname
+        if ($params{'no_ssl_check'}) {
+            $self->{ua}->ssl_opts(verify_hostname => 0);
+        }
+        if ($params{'ca_cert_file'}) {
+            $self->{ua}->ssl_opts(SSL_ca_file => $params{'ca_cert_file'});
+        }
+        if ($params{'ca_cert_dir'}) {
+            $self->{ua}->ssl_opts(SSL_ca_path => $params{'ca_cert_dir'});
+        }
+    }
+
     $self->{ua}->agent($FusionInventory::Agent::AGENT_STRING);
     $self->{ua}->timeout($params{timeout});
 
@@ -76,7 +89,7 @@ sub send {
 
     # activate SSL if needed
     my $scheme = $url->scheme();
-    if ($scheme eq 'https' && !$self->{no_ssl_check}) {
+    if ($scheme eq 'https' && $LWP::VERSION < 6 && !$self->{no_ssl_check}) {
         $self->_turnSSLCheckOn();
         my $pattern = _getCertificatePattern($url->host());
         $self->{ua}->default_header('If-SSL-Cert-Subject' => $pattern);
@@ -184,6 +197,7 @@ sub send {
     return $response;
 }
 
+# This is not needed with LWP>6, the default behavior is fine now.
 # http://stackoverflow.com/questions/74358/validate-server-certificate-with-lwp
 sub _turnSSLCheckOn {
     my ($self) = @_;
@@ -198,10 +212,12 @@ sub _turnSSLCheckOn {
     SWITCH: {
         if ($self->{ca_cert_file}) {
             $ENV{HTTPS_CA_FILE} = $self->{ca_cert_file};
+            $ENV{PERL_LWP_SSL_CA_FILE} = $self->{ca_cert_file};
             last SWITCH;
         }
         if ($self->{ca_cert_dir}) {
             $ENV{HTTPS_CA_DIR} = $self->{ca_cert_dir};
+            $ENV{PERL_LWP_SSL_CA_PATH} = $self->{ca_cert_dir};
             last SWITCH;
         }
         die

@@ -22,6 +22,7 @@ GetOptions(
     'conf-file=s',
     'color',
     'daemon|d',
+    'devlib', # For compat with 2.2.x < parameter
     'no-fork',
     'debug',
     'delaytime=s',
