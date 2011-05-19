@@ -113,8 +113,7 @@ sub accept_hook {
 
    $self->SUPER::accept_hook(@_);
 
-   my $newfh =
-   IO::Socket::SSL->start_SSL( $fh,
+   my $newfh = IO::Socket::SSL->start_SSL($fh,
        SSL_server    => 1,
        SSL_use_cert  => 1,
        SSL_cert_file => $self->{crt},
