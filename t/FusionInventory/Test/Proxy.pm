@@ -19,6 +19,11 @@ sub new {
     $proxy->agent()->no_proxy('localhost');
     $proxy->logfh(File::Temp->new());
 
+    # keep behaviour consistant with previous LWP version
+    if ($LWP::VERSION >= 6) {
+        $proxy->agent()->ssl_opts(verify_hostname => 0);
+    }
+
     my $self = {
         proxy => $proxy
     };
