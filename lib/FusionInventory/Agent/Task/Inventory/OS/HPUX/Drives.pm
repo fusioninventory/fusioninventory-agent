@@ -1,6 +1,6 @@
 package FusionInventory::Agent::Task::Inventory::OS::HPUX::Drives;
 
-use POSIX;
+use POSIX qw(strftime);
 use strict;
 use warnings;
 
