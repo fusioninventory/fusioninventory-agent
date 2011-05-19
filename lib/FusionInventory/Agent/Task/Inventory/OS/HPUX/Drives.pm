@@ -114,7 +114,7 @@ sub _getVxFSctime {
     close($devfile);
     # Convert the 4-byte raw data to long integer and
     #  return a string representation of this time stamp
-    return POSIX::strftime("%Y/%m/%d %T", localtime( unpack( 'L', $tmpVar ) ));
+    return strftime("%Y/%m/%d %T", localtime( unpack( 'L', $tmpVar ) ));
 }
 
 1;
