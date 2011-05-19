@@ -40,20 +40,15 @@ sub _getSoftwaresList {
 
     my @softwares;
     while (my $line = <$handle>) {
-        next if $line =~ /^#/;
-        next if $line =~ /^  PH/;
-        $line =~ tr/\t/ /s;
-        $line =~ tr/ //s;
         chomp $line;
-
-        if ($line =~ /^ (\S+)\s(\S+)\s(.+)/ ) {
-            push @softwares, {
-                NAME      => $1,
-                VERSION   => $2,
-                COMMENTS  => $3,
-                PUBLISHER => 'HP'
-            };
-        }
+        next unless $line =~ /^  (\S+)\s+(\S+)\s+(\S.*\S)/;
+        next if $1 =~ /^PH/;
+        push @softwares, {
+            NAME      => $1,
+            VERSION   => $2,
+            COMMENTS  => $3,
+            PUBLISHER => 'HP'
+        };
     }
 
     close $handle;
