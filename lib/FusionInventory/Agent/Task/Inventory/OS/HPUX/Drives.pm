@@ -1,5 +1,6 @@
 package FusionInventory::Agent::Task::Inventory::OS::HPUX::Drives;
 
+use POSIX;
 use strict;
 use warnings;
 
@@ -31,11 +32,10 @@ sub doInventory {
 
     return unless $handle;
 
-    while (my $line = <$handle>) {
-        next if $line =~ /^\s*$/;
-
-        chomp $line;
-        foreach (`bdf -t $line`) {
+    while (my $filesystem = <$handle>) {
+        next if $filesystem =~ /^\s*$/;
+        chomp $filesystem;
+        foreach (`bdf -t $filesystem`) {
             next if ( /Filesystem/ );
             my $createdate = '0000/00/00 00:00:00';
             if ( /^(\S+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+%)\s+(\S+)/ ) {
@@ -47,17 +47,14 @@ sub doInventory {
                     $createdate = _getVxFSctime($lv, $logger);
                 }
 
-                $inventory->addEntry(
-                    section => 'DRIVES',
-                    entry   => {
-                        FREE => $free,
-                        FILESYSTEM => $filesystem,
-                        TOTAL => $total,
-                        TYPE => $type,
-                        VOLUMN => $lv,
-                        CREATEDATE => $createdate,
-                    }
-                )
+                $inventory->addDrive({
+                    FREE => $free,
+                    FILESYSTEM => $filesystem,
+                    TOTAL => $total,
+                    TYPE => $type,
+                    VOLUMN => $lv,
+                    CREATEDATE => $createdate,
+                })
             } elsif ( /^(\S+)\s/) {
                 $lv=$1;
                 if ( $filesystem =~ /vxfs/i ) {
@@ -68,17 +65,14 @@ sub doInventory {
                 $free=$3;
                 $type=$5;
                 # print "filesystem $filesystem lv $lv total $total free $free type $type\n";
-                $inventory->addEntry(
-                    section => 'DRIVES',
-                    entry   => {
-                        FREE       => $free,
-                        FILESYSTEM => $filesystem,
-                        TOTAL      => $total,
-                        TYPE       => $type,
-                        VOLUMN     => $lv,
-                        CREATEDATE => $createdate,
-                    }
-                )
+                $inventory->addEntry({
+                    FREE       => $free,
+                    FILESYSTEM => $filesystem,
+                    TOTAL      => $total,
+                    TYPE       => $type,
+                    VOLUMN     => $lv,
+                    CREATEDATE => $createdate,
+                })
             }
         } # for bdf -t $filesystem
     }
