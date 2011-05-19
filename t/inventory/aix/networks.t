@@ -84,6 +84,28 @@ my %tests = (
             MACADDR     => '00:21:5E:A6:7C:C0',
             TYPE        => 'Logical Host Ethernet Port (lp-hea)',
         }
+    ],
+    'aix-6.1b' => [
+        {
+            DESCRIPTION => 'en0',
+            MACADDR     => '00:21:5E:4C:C7:68',
+            TYPE        => 'Gigabit Ethernet-SX PCI-X Adapter (14106703)'
+        },
+        {
+            DESCRIPTION => 'en1',
+            MACADDR     => '00:21:5E:4C:C7:69',
+            TYPE        => 'Gigabit Ethernet-SX PCI-X Adapter (14106703)'
+        },
+        {
+            DESCRIPTION => 'en3',
+            MACADDR     => '00:1A:64:86:42:31',
+            TYPE        => 'Logical Host Ethernet Port (lp-hea)'
+        },
+        {
+            DESCRIPTION => 'en2',
+            MACADDR     => '00:1A:64:86:42:30',
+            TYPE        => 'Logical Host Ethernet Port (lp-hea)'
+        }
     ]
 );
 

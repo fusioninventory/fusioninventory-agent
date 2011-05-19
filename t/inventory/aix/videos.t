@@ -17,7 +17,12 @@ my %tests = (
     ],
     'aix-5.3b' => [],
     'aix-5.3c' => [],
-    'aix-6.1' => []
+    'aix-6.1' => [],
+    'aix-6.1b' => [
+        {
+            NAME => 'ati0',
+        }
+    ]
 );
 
 plan tests => scalar keys %tests;

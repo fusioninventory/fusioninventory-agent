@@ -1773,39 +1773,39 @@ my %lsvpd_tests = (
         {
             AX => 'lhea0',
             YL => 'U78A5.001.WIH55B2-P1',
-            DS => 'Carte Ethernet pour hôte logique (l-hea)'
+            DS => 'Logical Host Ethernet Adapter (l-hea)'
         },
         {
             CD => '10140367',
             AX => 'ent0',
             YL => 'U78A5.001.WIH55B2-P1-C11-L2-T1',
-            DS => 'Carte Gigabit Ethernet-SX PCI-X (14106703)',
+            DS => 'Gigabit Ethernet-SX PCI-X Adapter (14106703)',
             RM => '03280000',
             PL => '06-20'
         },
         {
             AX => 'sas0',
             YL => 'U78A5.001.WIH55B2-P1-T5',
-            DS => 'Protocole SAS du contrôleur',
+            DS => 'Controller SAS Protocol',
             PL => '00-08-00'
         },
         {
             AX => 'sata0',
             YL => 'U78A5.001.WIH55B2-P1-T5',
-            DS => 'Protocole SATA du contrôleur',
+            DS => 'Controller SATA Protocol',
             PL => '00-08-00'
         },
         {
             AX => 'ses0',
             YL => 'U78A5.001.WIH55B2-P1-Y1',
-            DS => 'Unité SAS Enclosure Services',
+            DS => 'SAS Enclosure Services Device',
             RM => '02',
             PL => '00-08-00'
         },
         {
             PN => '26K5267',
             EC => 'H17923Y',
-            DS => 'Unité de disque physique SAS',
+            DS => 'Physical SAS Disk Drive',
             MF => 'IBM-ESXS',
             FN => '39R7370',
             PL => '00-08-00',
@@ -1818,7 +1818,7 @@ my %lsvpd_tests = (
         {
             PN => '26K5267',
             EC => 'H17923Y',
-            DS => 'Unité de disque physique SAS',
+            DS => 'Physical SAS Disk Drive',
             MF => 'IBM-ESXS',
             FN => '39R7370',
             PL => '00-08-00',
@@ -1831,27 +1831,27 @@ my %lsvpd_tests = (
         {
             AX => 'kbd0',
             YL => 'U78A5.001.WIH55B2-P1-T2-L1',
-            DS => 'Clavier USB',
+            DS => 'USB keyboard',
             PL => '1.1-'
         },
         {
             AX => 'mouse0',
             YL => 'U78A5.001.WIH55B2-P1-T2-L1',
-            DS => 'Souris USB',
+            DS => 'USB mouse',
             PL => '1.1-'
         },
         {
             CD => '1077014c',
             AX => 'fscsi0',
             YL => 'U78A5.001.WIH55B2-P1-C11-L1-T1',
-            DS => 'Unité logique du contrôleur d\'E-S SCSI FC',
+            DS => 'FC SCSI I/O Controller Protocol Device',
             PL => '04-00-01'
         },
         {
             CD => '1077014c',
             AX => 'fscsi1',
             YL => 'U78A5.001.WIH55B2-P1-C11-L1-T2',
-            DS => 'Unité logique du contrôleur d\'E-S SCSI FC',
+            DS => 'FC SCSI I/O Controller Protocol Device',
             PL => '04-01-01'
         },
         {
@@ -1886,13 +1886,13 @@ my %lsvpd_tests = (
             CD => '10140367',
             AX => 'ent1',
             YL => 'U78A5.001.WIH55B2-P1-C11-L2-T2',
-            DS => 'Carte Gigabit Ethernet-SX PCI-X (14106703)',
+            DS => 'Gigabit Ethernet-SX PCI-X Adapter (14106703)',
             RM => '03280000',
             PL => '06-21'
         },
         {
             AX => 'kbd1',
-            DS => 'Clavier USB'
+            DS => 'USB keyboard'
         },
         {
             TM => '1726-2xx  FAStT',

@@ -132,6 +132,50 @@ my %tests = (
         {
             NAME => 'vscsi1'
         }
+    ],
+    'aix-6.1b' => [
+        {
+            NAME  => 'ati0'
+        },
+        {
+            NAME  => 'ent0'
+        },
+        {
+            NAME  => 'ent1'
+        },
+        {
+            NAME  => 'ent2'
+        },
+        {
+            NAME  => 'ent3'
+        },
+        {
+            NAME  => 'fcs0'
+        },
+        {
+            NAME  => 'fcs1'
+        },
+        {
+            NAME  => 'lhea0'
+        },
+        {
+            NAME  => 'mptsas0'
+        },
+        {
+            NAME  => 'sissas0'
+        },
+        {
+            NAME  => 'usbhc0'
+        },
+        {
+            NAME  => 'usbhc1'
+        },
+        {
+            NAME  => 'usbhc2'
+        },
+        {
+            NAME  => 'vsa0'
+        }
     ]
 );
 

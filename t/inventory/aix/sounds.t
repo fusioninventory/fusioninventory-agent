@@ -14,6 +14,7 @@ my %tests = (
     'aix-5.3b' => [],
     'aix-5.3c' => [],
     'aix-6.1' => [],
+    'aix-6.1b' => [],
 );
 
 plan tests => scalar keys %tests;
