@@ -46,6 +46,8 @@ sub _getSoftwaresList {
         my @entry = split(/:/, $line);
         next if $entry[1] =~ /^device/;
 
+        $entry[6] =~ s/\s+$//;
+
         push @softwares, {
             COMMENTS => $entry[6],
             FOLDER   => $entry[0],
