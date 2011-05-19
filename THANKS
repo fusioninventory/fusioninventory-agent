@@ -45,11 +45,13 @@ Nicolas Eisen: patches
 Olivier Andreotti: AIX, Solaris patches
 Olivier Roussy: minor patches 
 Philippe Libat: patchs and Xen support
+Philippe Camelio: AIX testing samples
 Pierre Chifflier: Debian maintainer
 Pablo Nicola: AIX testing samples
 Raphaël Surcouf: patch
 Remi Collet: code, bug fixes, Fedora/RedHat maintainer and much more
 Scott Hannahs: MacOSX patches
+Sebastien Chapelant: AIX testing samples
 Sebastien Dagnicourt: AIX and Solaris patches
 Sébastien Prud'homme: bug reports and HPVM support
 Sergio Merino: patch
