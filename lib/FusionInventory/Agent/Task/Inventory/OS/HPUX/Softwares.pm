@@ -19,12 +19,26 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $handle = getFileHandle(
+    my $list = _getSoftwaresList(
         command => 'swlist',
         logger => $logger
     );
+
+    return unless $list;
+
+    foreach my $software (@$list) {
+        $inventory->addEntry(
+            section => 'SOFTWARES',
+            entry   => $software
+        );
+    }
+}
+
+sub _getSoftwaresList {
+    my $handle = getFileHandle(@_);
     return unless $handle;
 
+    my @softwares;
     while (my $line = <$handle>) {
         next if $line =~ /^#/;
         next if $line =~ /^  PH/;
@@ -33,20 +47,18 @@ sub doInventory {
         chomp $line;
 
         if ($line =~ /^ (\S+)\s(\S+)\s(.+)/ ) {
-            $inventory->addEntry(
-                section => 'SOFTWARES',
-                entry   => {
-                    NAME      => $1,
-                    VERSION   => $2,
-                    COMMENTS  => $3,
-                    PUBLISHER => 'HP'
-                }
-            );
+            push @softwares, {
+                NAME      => $1,
+                VERSION   => $2,
+                COMMENTS  => $3,
+                PUBLISHER => 'HP'
+            };
         }
     }
 
     close $handle;
 
+    return \@softwares;
 }
 
 1;
