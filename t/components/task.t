@@ -20,11 +20,11 @@ throws_ok {
 'instanciation: no target';
 
 lives_ok {
-    $task = FusionInventory::Agent::Task::Inventory->new({
-        target     => FusionInventory::Agent::Target::Stdout->new({
+    $task = FusionInventory::Agent::Task::Inventory->new(
+        target => FusionInventory::Agent::Target::Stdout->new(
             basevardir => tempdir()
-        }),
-    });
+        ),
+    );
 } 'instanciation: ok';
 
 my @modules = $task->getModules();
