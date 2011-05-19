@@ -192,18 +192,17 @@ foreach my $test (keys %tests) {
     my $handler;
     next unless open $handler, '<', $file;
     local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
-    my $content = <$handler>;
-    close $handler;
 
     my $message = FusionInventory::Agent::XML::Response->new(
-        content => $content
+        content => <$handler>
     );
+    close $handler;
 
-    my $parsed_content = $message->getParsedContent();
-    is_deeply($parsed_content, $tests{$test}, $test);
+    my $content = $message->getContent();
+    is_deeply($content, $tests{$test}, $test);
 
     subtest 'options' => sub {
-        my $options = $parsed_content->{OPTION};
+        my $options = $content->{OPTION};
         plan tests => scalar @$options;
         foreach my $option (@$options) {
             is_deeply(
