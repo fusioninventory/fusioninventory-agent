@@ -11,7 +11,6 @@ use FusionInventory::Agent::Tools;
 sub isInventoryEnabled  {
     return
         can_run('fstyp') &&
-        can_run('grep') &&
         can_run('bdf');
 }
 
