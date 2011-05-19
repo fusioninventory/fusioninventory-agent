@@ -9,7 +9,7 @@ use Sys::Hostname;
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::Config;
-use FusionInventory::Agent::HTTP::Client;
+use FusionInventory::Agent::HTTP::Client::OCS;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Scheduler;
 use FusionInventory::Agent::Storage;
@@ -248,7 +248,7 @@ sub run {
             my $client;
             if ($target->isa('FusionInventory::Agent::Target::Server')) {
 
-                $client = FusionInventory::Agent::HTTP::Client->new(
+                $client = FusionInventory::Agent::HTTP::Client::OCS->new(
                     logger       => $logger,
                     user         => $self->{config}->{user},
                     password     => $self->{config}->{password},

@@ -11,7 +11,7 @@ use Test::More;
 use Test::Exception;
 
 use FusionInventory::Agent::Logger;
-use FusionInventory::Agent::HTTP::Client;
+use FusionInventory::Agent::HTTP::Client::OCS;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Proxy;
@@ -42,7 +42,7 @@ my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new(
     },
 );
 
-my $client = FusionInventory::Agent::HTTP::Client->new(
+my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
     logger => $logger
 );
 
@@ -86,7 +86,7 @@ subtest "correct response" => sub {
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client->new(
+    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
         logger => $logger
     );
 } 'instanciation: http, auth, no credentials';
@@ -103,7 +103,7 @@ subtest "no response" => sub {
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client->new(
+    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
         user     => 'test',
         password => 'test',
         logger   => $logger,
@@ -139,7 +139,7 @@ $server->set_dispatch({
 $server->background();
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client->new(
+    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
         logger       => $logger,
         no_ssl_check => 1,
     );
@@ -153,7 +153,7 @@ subtest "correct response" => sub {
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client->new(
+    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
         logger       => $logger,
         no_ssl_check => 1,
     );
@@ -171,7 +171,7 @@ subtest "no response" => sub {
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client->new(
+    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
         user         => 'test',
         password     => 'test',
         logger       => $logger,
@@ -187,7 +187,7 @@ subtest "correct response" => sub {
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client->new(
+    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
         logger       => $logger,
         ca_cert_file => 't/ssl/crt/ca.pem',
     );
@@ -201,7 +201,7 @@ subtest "correct response" => sub {
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client->new(
+    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
         logger       => $logger,
         ca_cert_file => 't/ssl/crt/ca.pem',
     );
@@ -219,7 +219,7 @@ subtest "no response" => sub {
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client->new(
+    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
         user         => 'test',
         password     => 'test',
         logger       => $logger,
@@ -260,7 +260,7 @@ my $proxy = FusionInventory::Test::Proxy->new();
 $proxy->background();
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client->new(
+    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
         logger => $logger,
         proxy  => $proxy->url()
     );
@@ -274,7 +274,7 @@ subtest "correct response" => sub {
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client->new(
+    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
         logger => $logger,
         proxy  => $proxy->url()
     );
@@ -292,7 +292,7 @@ subtest "no response" => sub {
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client->new(
+    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
         user     => 'test',
         password => 'test',
         logger   => $logger,
@@ -329,7 +329,7 @@ $server->set_dispatch({
 $server->background();
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client->new(
+    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
         logger       => $logger,
         no_ssl_check => 1,
         proxy        => $proxy->url()
@@ -344,7 +344,7 @@ subtest "correct response" => sub {
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client->new(
+    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
         logger       => $logger,
         no_ssl_check => 1,
         proxy        => $proxy->url()
@@ -363,7 +363,7 @@ subtest "no response" => sub {
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client->new(
+    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
         user         => 'test',
         password     => 'test',
         logger       => $logger,
@@ -380,7 +380,7 @@ subtest "correct response" => sub {
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client->new(
+    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
         logger       => $logger,
         ca_cert_file => 't/ssl/crt/ca.pem',
         proxy        => $proxy->url(),
@@ -395,7 +395,7 @@ subtest "correct response" => sub {
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client->new(
+    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
         logger       => $logger,
         ca_cert_file => 't/ssl/crt/ca.pem',
         proxy        => $proxy->url()
@@ -414,7 +414,7 @@ subtest "no response" => sub {
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client->new(
+    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
         user         => 'test',
         password     => 'test',
         logger       => $logger,
