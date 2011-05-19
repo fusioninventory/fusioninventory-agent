@@ -1,7 +1,8 @@
-package FusionInventory::Agent::REST;
+package FusionInventory::Agent::HTTP::Client::Fusion;
 
 use strict;
 use warnings;
+use base 'FusionInventory::Agent::HTTP::Client';
 
 use JSON;
 use URI::Escape;
@@ -9,20 +10,13 @@ use URI::Escape;
 our $AUTOLOAD;
 
 sub new {
-    my $class = shift;
-    my %params = @_; 
+    my ($class, %params) = @_;
 
-    die "missing url key" unless $params{url};
-    die "missing network key" unless $params{network};
+    my $self = $class->SUPER::new(%params);
 
-    my $self = {
-        url => $params{url},
-        network => $params{network}
-    };
-    bless $self, $class;
+    $self->{url} = $params{url};
     return $self;
 }
-
 
 sub AUTOLOAD {
     my $self = shift;
@@ -48,7 +42,7 @@ sub AUTOLOAD {
         }
     }
 
-    my $jsonText = $self->{network}->get ({
+    my $jsonText = $self->{ua}->get ({
         source => $reqUrl,
         timeout => 60,
         });
@@ -64,6 +58,18 @@ sub DESTROY {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::HTTP::Client::Fusion - An HTTP client using Fusion protocol
+
+=head1 DESCRIPTION
+
+This is the object used by the agent to send messages to GLPI servers,
+using new Fusion protocol (JSON messages sent through GET requests).
+
+=head1 METHODS
 
 # my $rest = FusionInventory::Agent::REST->new(
 #         "url" => "http://somewhere/",
