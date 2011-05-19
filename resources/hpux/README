@@ -1,0 +1,10 @@
+HPUX specific command and file samples
+
+Data origin:
+- hpux1, hpux2 samples: Amir Pakdel <a.pakdel@karafarinbank.net>
+
+fstyp: fstyp command
+- hpux*: fstyp -l
+
+swlist: swlist command
+- hpux*: swlist

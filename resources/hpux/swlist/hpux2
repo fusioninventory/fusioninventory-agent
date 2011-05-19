@@ -1,0 +1,136 @@
+# Initializing...
+# Contacting target "basahpux"...
+#
+# Target:  basahpux:/
+#
+
+#
+# Bundle(s):
+#
+
+  AccessControl                 B.11.23.06.01  HP-UX Role-Based Access Control Infrastructure 
+  B6848BA                       1.4.gm.46.13   Ximian GNOME 1.4 GTK+ Libraries for HP-UX 
+  B9073BA                       B.11.23.08.03.00.22 HP-UX iCOD Instant Capacity (iCAP) 
+  B9901AA                       A.11.23.15.01  HP IPFilter 3.5alpha5 
+  BUNDLE                        B.2010.07.07   Patch Bundle   
+  BUNDLE11i                     B.11.23.0409.3 Required Patch Bundle for HP-UX 11i v2 (B.11.23), September 2004 
+  Base-VXFS                     4.1.002        VERITAS File System Bundle 4.1 for HP-UX 
+  Base-VXVM                     B.04.10.011    Base VERITAS Volume Manager Bundle 4.1 for HP-UX 
+  CDE-English                   B.11.23.0409   English CDE Environment 
+  CommonIO                      B.11.23.0712   Common IO Drivers 
+  DNSUPGRADE                    C.9.3.2.7.0    BIND UPGRADE   
+  DSAUtilities                  C.01.00.11     HP-UX Distributed Systems Administration Utilities 
+  DynRootDisk                   A.3.0.0.1027   Dynamic Root Disk 
+  EnableVxFS                    B.11.23.07     File-System library, commands enhancements for VxFS4.1 and 5.0 
+  FDDI-00                       B.11.23.01     PCI FDDI;Supptd HW=A3739B;SW=J3626AA 
+  FEATURE11i                    B.11.23.0803.070a Feature Enablement Patches for HP-UX 11i v2, March 2008 
+  FIREFOX                       2.0.0.4ar.00   Firefox for HP-UX 
+  FIREFOXsrc                    2.0.0.4ar.00   Firefox Source distribution 
+  FibrChanl-00                  B.11.23.0712   PCI FibreChannel;Supptd HW=A6795A,A5158A 
+  FibrChanl-01                  B.11.23.08.02  FibrChnl;SupptdHW=A6826A,A9782A,A9784A,AB378A,AB379A,AB465A,AD193A,AD194A,AD300A 
+  FibrChanl-02                  B.11.23.0712   PCIe FibreChannel;Supptd HW=AD299A,AD355A 
+  GTK                           2.6.8.00.01    GTK+ 2.6 The Gnome GUI Runtime  Toolkit 
+  GTKsrc                        2.6.8.00.01    Gtk Source distribution 
+  GigEther-00                   B.11.23.0512   PCI GigEther;Supptd HW=A4926A/A4929A/A6096A;SW=J1642AA 
+  GigEther-01                   B.11.23.0712   PCI GigEther;Supptd HW=A6825A/A6794A/A6847A/A8685A/A9782A/A9784A/A7109A/AB465A 
+  GuestAVIOStor                 B.11.23.0712   HPVM Guest AVIO Storage Software 
+  GuestAvioLan                  B.11.23.0712   HPVM Guest AVIO LAN Software 
+  HPUX11i-OE-Ent                B.11.23.0712   HP-UX Enterprise Operating Environment Component 
+  HPUXBaseAux                   B.11.23.0712   HP-UX Base OS Auxiliary 
+  HPUXBaseOS                    B.11.23        HP-UX Base OS  
+  HPUXBastille                  B.3.0.29       Bastille Security Hardening Tool 
+  HWEnable11i                   B.11.23.0712.070 Hardware Enablement Patches for HP-UX 11i v2, December 2007 
+  HostAVIOStor                  B.11.23.0712   HPVM Host AVIO Storage Software 
+  HostAvioLan                   B.11.23.0712.01 HPVM Host AVIO LAN Software 
+  IEther-00                     B.11.23.0712   PCI/PCI-X/PCIe IEther 
+  ISEEPlatform                  A.03.95.510.46.03 ISEE Platform  
+  IUX-Recovery                  C.7.7.98       Ignite-UX network recovery tool subset 
+  J4240AA                       B.11.23.20     Auto-Port Aggregation Software 
+  Java15JDK                     1.5.0.09.00    Java 1.5 JDK for HP-UX 
+  Java15JDKadd                  1.5.0.09.00    Java 1.5 JDK -AA addon for HP-UX 
+  Java15JRE                     1.5.0.09.00    Java 1.5 JRE for HP-UX 
+  Java15JREadd                  1.5.0.09.00    Java 1.5 JRE -AA addon for HP-UX 
+  Judy                          B.11.23.04.17  Judy Library and Related files 
+  LVMProvider                   R11.23.009     CIM/WBEM Provider for LVM 
+  LibcEnhancement               B.11.23.0.1    Library for Libc enhancements 
+  LoginLang                     B.11.23.01     HP-UX 11.23 login(1) support for local languages 
+  MD5Checksum                   A.01.01.02     HP-UX MD5 Secure Checksum 
+  MOZILLA                       1.7.13.01.00   Mozilla for HP-UX 
+  MOZILLAsrc                    1.7.13.01.00   Mozilla Source distribution 
+  NodeHostNameXpnd              B.11.23.01     Nodename, Hostname expansion enhancement 
+  OnlineDiag                    B.11.23.10.05  HPUX 11.23 Support Tools Bundle, December 2007 
+  ParMgr                        B.23.02.01.03  Partition Manager - HP-UX 
+  PortPkg                       B.11.23.01     HP-UX 11.23 PortPkg 
+  ProviderDefault               B.11.23.0712   Select WBEM Providers 
+  QPKAPPS                       B.11.23.1006.084a Applications Patches for HP-UX 11i v2, June 2010 
+  QPKBASE                       B.11.23.1006.084a Base Quality Pack Bundle for HP-UX 11i v2, June 2010 
+  RAID-01                       B.11.23.0806   RAID SA; Supptd HW=A7143A/A9890A/A9891A 
+  Sec00Tools                    B.01.04.10     Install-Time security infrastructure. 
+  SecurityExt                   B.11.23.01     HP-UX Security Containment Extensions 
+  SerialSCSI-00                 B.11.23.0806   PCI-X/PCI-E SerialSCSI 
+  StdModSecExt                  B.11.23.02     HP-UX 11.23 Standard Mode Security Extensions 
+  SwAssistant                   C.01.02        HP-UX Software Assistant 
+  SysFaultMgmt                  B.05.00.05.01  HPUX System Fault Management 
+  SysMgmtWeb                    A.2.2.7        HP-UX Web Based System Management User Interfaces 
+  T1456AA                       1.4.2.15.00    Java2 1.4 SDK for HP-UX 
+  T1456AAaddon                  1.4.2.15.00    Java2 1.4 SDK -AA addon for HP-UX 
+  T1457AA                       1.4.2.15.00    Java2 1.4 RTE for HP-UX 
+  T1457AAaddon                  1.4.2.15.00    Java2 1.4 RTE -AA addon for HP-UX 
+  T1471AA                       A.04.50.021    HP-UX Secure Shell 
+  TBIRD                         2.0.0.6.00     Thunderbird for HP-UX 
+  TBIRDsrc                      2.0.0.6.00     Thunderbird Source distribution 
+  USB-00                        C.01.04.07     USB Subsystem and Drivers 
+  VMGuestLib                    A.03.50        Integrity VM Guest Support Libraries 
+  hpuxwsApache                  B.2.0.59.01    HP-UX Apache-based Web Server 
+  hpuxwsTomcat                  B.5.5.23.00    HP-UX Tomcat-based Servlet Engine 
+  hpuxwsWebmin                  A.1.070.10     HP-UX Webmin-based Admin 
+  hpuxwsXml                     A.2.03         HP-UX XML Web Server Tools 
+  ixNet-SNMP                    A.13.00-5.4.2.1.004 Simple Network Monitoring protocol 
+  ixRsync                       A.15.00-3.0.5.001 File Transfer Program 
+  perl                          D.5.8.8.B      5.8.8 Perl Programming Language 
+  scsiU320-00                   B.11.23.0712   PCI-X SCSI U320; Supptd HW=A7173A/AB290A 
+#
+# Product(s) not contained in a Bundle:
+#
+
+  PHCO_40122                    1.0            sh-posix(1) cumulative patch 
+  PHCO_40349                    1.0            cumulative SAM patch 
+  PHCO_40382                    1.0            Cumulative IO Tree Provider patch 
+  PHCO_40492                    1.0            VRTS 4.1 MP2RP8 VRTSvmpro Command Patch 
+  PHCO_40616                    1.0            olrad(1M) cumulative patch 
+  PHCO_40920                    1.0            LVM commands cumulative patch 
+  PHCO_41065                    1.0            VRTS 4.1 MP2RP9 VRTSvxvm Command Patch
+  PHKL_35737                    1.0            PCI OLAR Cumulative IPF Patch, IOTreeProvidr
+  PHKL_37261                    1.0            Changes in vm-asi for core cpu id
+  PHKL_37263                    1.0            Changes in pm-svc for core cpu id
+  PHKL_38797                    1.0            Panic or hang on Integrity systems
+  PHKL_39283                    1.0            pthread_cond_timedwait,hires timers,callout
+  PHKL_40379                    1.0            boot loader cumulative patch
+  PHKL_40403                    1.0            VxFS 3.5 cumulative patch
+  PHKL_40609                    1.0            disk_pstat patch
+  PHKL_40610                    1.0            kmetric patch
+  PHKL_40614                    1.0            OLA/R subsystem cumulative patch
+  PHKL_40918                    1.0            LVM Cumulative Patch
+  PHKL_40948                    1.0            VRTS 4.1 MP2RP8 VRTSvxfs Kernel Patch
+  PHKL_41002                    1.0            mmap,madvise,mlock,msync, read corruption
+  PHKL_41028                    1.0            SCSI Tape (stape) cumulative patch
+  PHKL_41064                    1.0            VRTS 4.1 MP2RP9 VRTSvxvm Kernel Patch
+  PHNE_37258                    1.0            Cumulative STREAMS Patch
+  PHNE_39782                    1.0            nettl(1M), netfmt(1M) and nettladm(1M) patch
+  PHNE_39872                    1.0            NTP timeservices upgrade plus utilities
+  PHNE_40339                    1.0            BIND 9.2.0 Revision 5.0
+  PHNE_41021                    1.0            NFS cumulative patch
+  PHSS_39887                    1.0            OV EMANATE15.3 IA-64 Consolidated Patch 6
+  PHSS_40803                    1.0            LIBCL patch
+  PHSS_41098                    1.0            Aries cumulative patch
+  PHSS_41167                    1.0            KRB5-Client Version 1.0 Cumulative patch
+  bash                          4.0.033        bash
+  bzip2                         1.0.5          bzip2
+  gcc                           4.2.3          gcc
+  gettext                       0.17           gettext
+  libiconv                      1.13.1         libiconv
+  lsof                          4.78           lsof
+  sudo                          1.7.4p6        Provide limited super-user priveleges to specific users
+  termcap                       1.3.1          termcap
+  unzip                         5.52           unzip
+  zip                           3.0            zip

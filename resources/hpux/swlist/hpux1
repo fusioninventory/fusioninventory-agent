@@ -1,0 +1,91 @@
+# Initializing...
+# Contacting target "ignsrv"...
+#
+# Target:  ignsrv:/
+#
+
+#
+# Bundle(s):
+#
+
+  B3929EA                               4.1.004        HP OnLineJFS (Server) 
+  B6848BA                               1.4.gm.46.9    Ximian GNOME 1.4 GTK+ Libraries for HP-UX 
+  B6849AA                               B.02.01.02     Bastille Security Hardening Tool 
+  B8465BA                               A.02.00.08     HP WBEM Services for HP-UX 
+  B9073BA                               B.11.23.07.00.00.03 HP-UX iCOD (Instant Capacity) 
+  B9788AA                               1.3.1.17.00    Java2 1.3 SDK for HP-UX 
+  B9789AA                               1.3.1.17.00    Java2 1.3 RTE for HP-UX 
+  B9901AA                               A.03.05.12     HP IPFilter 3.5alpha5 
+  BUNDLE                                B.2009.02.14   Patch Bundle   
+  BUNDLE11i                             B.11.23.0409.3 Required Patch Bundle for HP-UX 11i v2 (B.11.23), September 2004 
+  Base-VXFS                             4.1.002        VERITAS File System Bundle 4.1 for HP-UX 
+  Base-VXVM                             B.04.10.011    Base VERITAS Volume Manager Bundle 4.1 for HP-UX 
+  CDE-English                           B.11.23.0409   English CDE Environment 
+  DSAUtilities                          B.11.23        HP-UX Distributed Systems Administration Utilities 
+  EnableVxFS                            B.11.23.03     File-System library, commands enhancements for VxFS4.1 
+  FDDI-00                               B.11.23.01     PCI FDDI;Supptd HW=A3739B;SW=J3626AA 
+  FEATURE11i                            B.11.23.0803.070a Feature Enablement Patches for HP-UX 11i v2, March 2008 
+  FibrChanl-00                          B.11.23.0512   PCI FibreChannel;Supptd HW=A6795A,A5158A 
+  FibrChanl-01                          B.11.23.04.01  PCI-X FibreChannel;Supptd HW=A6826A,A9782A,A9784A,AB465A,AB378A,AB379A 
+  FileSystems                           B.11.23.01     HP-UX Disks and File Systems Tool Bundle 
+  GigEther-00                           B.11.23.0512   PCI GigEther;Supptd HW=A4926A/A4929A/A6096A;SW=J1642AA 
+  GigEther-01                           B.11.23.0505   PCI GigEther;Supptd HW=A6825A/A6794A/A6847A/A8685A/A9782A/A9784A/A7109A/AB465A 
+  HPUX11i-OE-Ent                        B.11.23.0512   HP-UX Enterprise Operating Environment Component 
+  HPUXBaseAux                           B.11.23.0512   HP-UX Base OS Auxiliary 
+  HPUXBaseOS                            B.11.23        HP-UX Base OS  
+  HWEnable11i                           B.11.23.0712.070 Hardware Enablement Patches for HP-UX 11i v2, December 2007 
+  IEther-00                             B.11.23.0505   PCI/PCI-X IEther;Supptd HW=A7011A/A7012A/AB352A/AB290A/AB545A 
+  IGNITE                                C.7.7.98       HP-UX Installation Utilities (Ignite-UX) 
+  ISEEPlatform                          A.03.95.035    ISEE Platform  
+  Ignite-UX-11-23                       C.7.7.98       HP-UX Installation Utilities for Installing 11.23 Systems 
+  J4269AA                               B.04.00.03     LDAP-UX Integration 
+  Java15JDK                             1.5.0.01.01    Java 1.5 JDK for HP-UX 
+  Java15JDKadd                          1.5.0.01.01    Java 1.5 JDK -AA addon for HP-UX 
+  Java15JRE                             1.5.0.01.01    Java 1.5 JRE for HP-UX 
+  Java15JREadd                          1.5.0.01.01    Java 1.5 JRE -AA addon for HP-UX 
+  Judy                                  B.11.23.04.17  Judy Library and Related files 
+  LVMProvider                           R11.23.003     CIM/WBEM Provider for LVM 
+  MD5Checksum                           A.01.01.02     HP-UX MD5 Secure Checksum 
+  MOZILLA                               1.7.11.00.00   Mozilla 1.711 for HP-UX 
+  MOZILLAsrc                            1.7.11.00.00   Mozilla 1.711 Source distribution 
+  OnlineDiag                            B.11.23.05.07  HPUX 11.23 Support Tools Bundle, Dec 2005 
+  OpenSSL                               A.00.09.07e.013 Secure Network Communications Protocol 
+  ParMgr                                B.23.02.01.02  Partition Manager - HP-UX 
+  QPKAPPS                               B.11.23.0806.072 Applications Patches for HP-UX 11i v2, June 2008 
+  QPKBASE                               B.11.23.0806.072 Base Quality Pack Bundle for HP-UX 11i v2, June 2008 
+  RAID-01                               B.11.23.0512   RAID SA; Supptd HW=A7143A/A9890A/A9891A 
+  Sec00Tools                            B.01.02.00     Install-Time security infrastructure.
+  SecPatchCk                            B.02.02        HP-UX Security Patch Check Tool
+  SysMgmtWeb                            A.2.2.1.4      HP-UX Web Based System Management User Interfaces
+  T1456AA                               1.4.2.09.04    Java2 1.4 SDK for HP-UX
+  T1456AAaddon                          1.4.2.09.04    Java2 1.4 SDK -AA addon for HP-UX
+  T1457AA                               1.4.2.09.04    Java2 1.4 RTE for HP-UX
+  T1457AAaddon                          1.4.2.09.04    Java2 1.4 RTE -AA addon for HP-UX
+  T1471AA                               A.04.00.003    HP-UX Secure Shell
+  T2743AA                               A.01.01.01     HP Global Workload Manager Agent
+  USB-00                                C.01.02.01     USB Subsystem and Drivers
+  UtilProvider                          A.01.00        HP-UX Utilization Provider
+  VMGuestLib                            A.01.00        Integrity VM Guest Support Libraries
+  VMProvider                            A.01.00        WBEM Provider for Integrity VM
+  WBEMP-LAN-00                          B.11.23.03     LAN Provider for Ethernet LAN interfaces.
+  hpuxwsApache                          B.2.0.54.03    HP-UX Apache-based Web Server
+  hpuxwsTomcat                          B.5.5.9.03     HP-UX Tomcat-based Servlet Engine
+  hpuxwsWebmin                          A.1.070.05     HP-UX Webmin-based Admin
+  hpuxwsXml                             A.2.00         HP-UX XML Web Server Tools
+  ixNet-SNMP                            A.13.00-5.4.2.1.004 Simple Network Monitoring protocol
+  nParProvider                          B.23.01.05.01  nPartition Provider - HP-UX
+  perl                                  D.5.8.3.C      Perl Programming Language
+  scsiU320-00                           B.11.23.0512   PCI-X SCSI U320; Supptd HW=A7173A/AB290A
+  vParProvider                          B.11.23.01.03  vPar Provider - HP-UX
+#
+# Product(s) not contained in a Bundle:
+#
+
+  DATA-PROTECTOR                        A.06.00        HP OpenView Storage Data Protector
+  PHKL_37755                            1.0            memory leak in swap fix; copyout() path
+  PHSS_37552                            1.0            Aries cumulative patch
+  bzip2                                 1.0.5          bzip2
+  lsof                                  4.78           lsof
+  sudo                                  1.7.4p6        Provide limited super-user priveleges to specific users
+  unzip                                 5.52           unzip
+  zip                                   2.31           zip

@@ -1,0 +1,12 @@
+hfs
+nfs
+cdfs
+autofs
+cachefs
+ffs
+lofs
+nfs3
+procfs
+vxfs
+cifs
+pipefs
