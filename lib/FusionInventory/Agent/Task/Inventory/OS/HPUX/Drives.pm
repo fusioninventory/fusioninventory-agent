@@ -1,8 +1,10 @@
 package FusionInventory::Agent::Task::Inventory::OS::HPUX::Drives;
 
-use POSIX qw(strftime);
 use strict;
 use warnings;
+
+use English qw(-no_match_vars);
+use POSIX qw(strftime);
 
 use FusionInventory::Agent::Tools;
 
@@ -79,42 +81,47 @@ sub doInventory {
     close $handle;
 }
 
+# get filesystem creation time by reading binary value directly on the device
 sub _getVxFSctime {
-    my $devfilename = shift;
-    my $logger = shift; #$params->{logger}
-    my $fsver = 0;
+    my ($device, $logger) = @_;
+
+    # compute version-dependant read offset
+
     # Output of 'fstyp' should be something like the following:
     # $ fstyp -v /dev/vg00/lvol3
     #   vxfs
     #   version: 5
     #   .
     #   .
-    foreach(`fstyp -v $devfilename`) {
-      # Personally, I know only the offset of creation time date
-      #  in version 5 and 6 of VxFS
-      if ( /^version:\s+([56])$/ ) {
-        $fsver = $1;
-        last;
-      }
-    }
-    if ( $fsver < 5 or $fsver > 6 ) {
-      $logger->debug("fstyp -v $devfilename did not return the version or VxFS version not supported!");
+    my $version = getFirstMach(
+        command => "fstyp -v $device",
+        logger  => $logger,
+        pattern => /^version:\s+(\d+)$/
+    );
+
+    my $offset =
+        $version == 5 ? 8200 :
+        $version == 6 ? 8208 :
+                        undef;
+
+    if (!$offset) {
+      $logger->error("unable to compute offset from fstyp output");
       return;
     }
 
-    my $devfile;
-    my $tmpVar;
-    # Going to open the device file for RAW Binary Readonly access
-    open($devfile, "<:raw:bytes", $devfilename) or return;
-    # Offset of creation timestamp of VxFS file system
-    #  for version 5 is 8200 and for verion 6 is 8208
-    seek($devfile, $fsver==5?8200:8208, 0) or return;
-    # Creation time of VxFS file system is a 4 byte integer
-    read($devfile, $tmpVar, 4) or return;
-    close($devfile);
+    # read value
+    open (my $handle, "<:raw:bytes", $device)
+        or die "Can't open $device in raw mode: $ERRNO";
+    seek($handle, $offset, 0) 
+        or die "Can't seek offset $offset on device $device: $ERRNO";
+    my $raw;
+    read($handle, $raw, 4)
+        or die "Can't read 4 bytes on device $device: $ERRNO";
+    close($handle);
+
     # Convert the 4-byte raw data to long integer and
-    #  return a string representation of this time stamp
-    return strftime("%Y/%m/%d %T", localtime( unpack( 'L', $tmpVar ) ));
+    # return a string representation of this time stamp
+    return strftime("%Y/%m/%d %T", localtime(unpack('L', $raw)));
 }
 
 1;
