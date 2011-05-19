@@ -247,3 +247,20 @@ using original OCS protocol (XML messages sent through POST requests).
 
 Send an instance of C<FusionInventory::Agent::XML::Query> to the target (the
 server).
+
+The following parameters are allowed, as keys of the %params
+hash:
+
+=over
+
+=item I<url>
+
+the url to send the message to (mandatory)
+
+=item I<message>
+
+the message to send (mandatory)
+
+=back
+
+This method returns an C<FusionInventory::Agent::XML::Response> instance.
