@@ -1,13 +1,10 @@
 AIX specific command and file samples
 
 Data origin:
-- aix-4.3.1 samples courtesy of 
-- aix-4.3.2 samples courtesy of 
-- aix-5.3 samples courtesy of Eric Meygret <eric.meygret@ladb.fr>
-- aix-5.3b samples courtesy of
-- aix-5.3c samples courtesy of
-- aix-6.1 samples courtesy of Pablo Nicola <pablo1776@gmail.com>
-- aix-6.1b samples courtesy of
+- aix-4.3.1, aix-4.3.2, aix-5.3b samples: Sébastien Chapelant <schap2@hotmail.com>
+- aix-5.3 samples: Eric Meygret <eric.meygret@ladb.fr>
+- aix-5.3c and aix-6.1b samples: Philippe Camelio <pcamelio@opca2.com>
+- aix-6.1 samples: Pablo Nicola <pablo1776@gmail.com>
 
 lscfg: lscfg command
 - aix-*-en: lscfg -v -l en*
