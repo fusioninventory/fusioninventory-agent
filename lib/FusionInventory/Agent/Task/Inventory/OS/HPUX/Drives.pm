@@ -41,13 +41,11 @@ sub doInventory {
         while (my $line2 = <$handle2>) {
             next if $line2 =~ /Filesystem/;
 
-            my $createdate = '0000/00/00 00:00:00';
-
             if ($line2 =~ /^(\S+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+%)\s+(\S+)/) {
                 $device = $1;
 
-                $createdate = _getVxFSctime($device, $logger)
-                    if $filesystem eq 'vxfs';
+                my $ctime = $filesystem eq 'vxfs' ?
+                    _getVxFSctime($device, $logger) : undef;
 
                 $inventory->addEntry(
                     section => 'DRIVES',
@@ -57,7 +55,7 @@ sub doInventory {
                         TOTAL      => $2,
                         TYPE       => $6,
                         VOLUMN     => $device,
-                        CREATEDATE => $createdate,
+                        CREATEDATE => $ctime
                     }
                 );
                 next;
@@ -69,8 +67,8 @@ sub doInventory {
             }
             
             if ($line2 =~ /(\d+)\s+(\d+)\s+(\d+)\s+(\d+%)\s+(\S+)/) {
-                $createdate = _getVxFSctime($device, $logger)
-                    if $filesystem eq 'vxfs';
+                my $ctime = $filesystem eq 'vxfs' ?
+                    _getVxFSctime($device, $logger) : undef;
 
                 $inventory->addEntry(
                     section => 'DRIVES',
@@ -80,7 +78,7 @@ sub doInventory {
                         TOTAL      => $1,
                         TYPE       => $5,
                         VOLUMN     => $device,
-                        CREATEDATE => $createdate,
+                        CREATEDATE => $ctime
                     }
                 );
                 next;
