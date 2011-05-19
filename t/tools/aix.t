@@ -2136,6 +2136,78 @@ my %lsdev_tests = (
             DESCRIPTION => 'Virtual SCSI Client Adapter',
             TYPE        => 'IBM,v-scsi'
         }
+    ],
+    'aix-6.1b' => [
+        {
+            NAME        => 'ati0',
+            DESCRIPTION => 'Native Display Graphics Adapter',
+            TYPE        => '02105e51'
+        },
+        {
+            NAME        => 'ent0',
+            DESCRIPTION => 'Gigabit Ethernet-SX PCI-X Adapter (14106703)',
+            TYPE        => '14106703'
+        },
+        {
+            NAME        => 'ent1',
+            DESCRIPTION => 'Gigabit Ethernet-SX PCI-X Adapter (14106703)',
+            TYPE        => '14106703'
+        },
+        {
+            NAME        => 'ent2',
+            DESCRIPTION => 'Logical Host Ethernet Port (lp-hea)',
+            TYPE        => 'ethernet'
+        },
+        {
+            NAME        => 'ent3',
+            DESCRIPTION => 'Logical Host Ethernet Port (lp-hea)',
+            TYPE        => 'ethernet'
+        },
+        {
+            NAME        => 'fcs0',
+            DESCRIPTION => 'PCI Express 4Gb FC Adapter (77103224)',
+            TYPE        => '77103224'
+        },
+        {
+            NAME        => 'fcs1',
+            DESCRIPTION => 'PCI Express 4Gb FC Adapter (77103224)',
+            TYPE        => '77103224'
+        },
+        {
+            NAME        => 'lhea0',
+            DESCRIPTION => 'Logical Host Ethernet Adapter (l-hea)',
+            TYPE        => 'IBM,lhea'
+        },
+        {
+            NAME        => 'mptsas0',
+            DESCRIPTION => 'SAS Expansion Card (00105000)',
+            TYPE        => '00105000'
+        },
+        {
+            NAME        => 'sissas0',
+            DESCRIPTION => 'PCI-X266 Planar 3Gb SAS Adapter',
+            TYPE        => '1410c102'
+        },
+        {
+            NAME        => 'usbhc0',
+            DESCRIPTION => 'USB Host Controller (33103500)',
+            TYPE        => '33103500'
+        },
+        {
+            NAME        => 'usbhc1',
+            DESCRIPTION => 'USB Host Controller (33103500)',
+            TYPE        => '33103500'
+        },
+        {
+            NAME        => 'usbhc2',
+            DESCRIPTION => 'USB Enhanced Host Controller (3310e000)',
+            TYPE        => '3310e000'
+        },
+        {
+            NAME        => 'vsa0',
+            DESCRIPTION => 'LPAR Virtual Serial Adapter',
+            TYPE        => 'hvterm1'
+        }
     ]
 );
 
