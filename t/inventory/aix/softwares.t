@@ -8,6 +8,1746 @@ use Test::More;
 use FusionInventory::Agent::Task::Inventory::OS::AIX::Softwares;
 
 my %tests = (
+    'aix-4.3.1' => [
+        {
+            NAME     => 'X11.apps.pm',
+            COMMENTS => 'AIXwindows Power Management GUI Utility 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.msg.fr_FR.apps.pm',
+            COMMENTS => 'AIXwindows Power Mgmt GUI Msgs - French
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.acct',
+            COMMENTS => 'Accounting Services 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.adt.lib',
+            COMMENTS => 'Base Application Development Libraries 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.com',
+            COMMENTS => 'Common Hardware Diagnostics 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.rte',
+            COMMENTS => 'Hardware Diagnostics 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.util',
+            COMMENTS => 'Hardware Diagnostics Utilities 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.help.msg.fr_FR.com',
+            COMMENTS => 'WebSM/SMIT Context Helps - French
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.html.en_US.topnav.navigate',
+            COMMENTS => 'Top Level Navigation - U. S. English
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.iconv.com',
+            COMMENTS => 'Common Language to Language Converters 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.iconv.fr_FR',
+            COMMENTS => 'EBCDIC & ASCII Language Converters - French 
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.iconv.ucs.com',
+            COMMENTS => 'Unicode Base Converters for AIX Code Sets/Fonts 
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.loc.iso.fr_FR',
+            COMMENTS => 'Base System Locale ISO Code Set - French 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.mp',
+            COMMENTS => 'Base Operating System Multiprocessor Runtime 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.msg.fr_FR.diag.rte',
+            COMMENTS => 'Hardware Diagnostics Messages - French
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.msg.fr_FR.mp',
+            COMMENTS => 'Base Operating System MP Messages - French
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.msg.fr_FR.net.tcp.client',
+            COMMENTS => 'TCP/IP Messages - French
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.msg.fr_FR.rte',
+            COMMENTS => 'Base Operating System Runtime Msgs - French
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.ncs',
+            COMMENTS => 'Network Computing System 1.5.1 
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.nfs.client',
+            COMMENTS => 'Network File System Client 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.client',
+            COMMENTS => 'TCP/IP Client Support 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.smit',
+            COMMENTS => 'TCP/IP SMIT Support 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.powermgt.rte',
+            COMMENTS => 'Power Management Runtime Software 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte',
+            COMMENTS => 'Base Operating System Runtime
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.Dt',
+            COMMENTS => 'Desktop Integrator
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.ILS',
+            COMMENTS => 'International Language Support
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.SRC',
+            COMMENTS => 'System Resource Controller
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.X11',
+            COMMENTS => 'AIXwindows Device Support
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.aio',
+            COMMENTS => 'Asynchronous I/O Extension
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.archive',
+            COMMENTS => 'Archive Commands
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.bind_cmds',
+            COMMENTS => 'Binder and Loader Commands
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.boot',
+            COMMENTS => 'Boot Commands
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.bosinst',
+            COMMENTS => 'Base OS Install Commands
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.commands',
+            COMMENTS => 'Commands
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.compare',
+            COMMENTS => 'File Compare Commands
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.console',
+            COMMENTS => 'Console
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.control',
+            COMMENTS => 'System Control Commands
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.cron',
+            COMMENTS => 'Batch Operations
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.date',
+            COMMENTS => 'Date Control Commands
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.devices',
+            COMMENTS => 'Base Device Drivers
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.devices_msg',
+            COMMENTS => 'Device Driver Messages
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.diag',
+            COMMENTS => 'Diagnostics
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.edit',
+            COMMENTS => 'Editors
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.filesystem',
+            COMMENTS => 'Filesystem Administration
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.iconv',
+            COMMENTS => 'Language Converters
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.ifor_ls',
+            COMMENTS => 'iFOR/LS Libraries
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.im',
+            COMMENTS => 'Input Methods
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.install',
+            COMMENTS => 'LPP Install Commands
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.jfscomp',
+            COMMENTS => 'JFS Compression
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libc',
+            COMMENTS => 'libc Library
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libcfg',
+            COMMENTS => 'libcfg Library
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libcur',
+            COMMENTS => 'libcurses Library
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libdbm',
+            COMMENTS => 'libdbm Library
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libnetsvc',
+            COMMENTS => 'Network Services Libraries
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libpthreads',
+            COMMENTS => 'pthreads Library
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libqb',
+            COMMENTS => 'libqb Library
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libs',
+            COMMENTS => 'libs Library
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.loc',
+            COMMENTS => 'Base Locale Support
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.lvm',
+            COMMENTS => 'Logical Volume Manager
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.man',
+            COMMENTS => 'Man Commands
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.methods',
+            COMMENTS => 'Device Config Methods
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.misc_cmds',
+            COMMENTS => 'Miscellaneous Commands
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.net',
+            COMMENTS => 'Network
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.odm',
+            COMMENTS => 'Object Data Manager
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.printers',
+            COMMENTS => 'Front End Printer Support
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.security',
+            COMMENTS => 'Base Security Function
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.serv_aid',
+            COMMENTS => 'Error Log Service Aids
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.shell',
+            COMMENTS => 'Shells (bsh, ksh, csh)
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.streams',
+            COMMENTS => 'Streams Libraries
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.tty',
+            COMMENTS => 'Base TTY Support and Commands
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.loginlic',
+            COMMENTS => 'License Management 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.serv_aid',
+            COMMENTS => 'Software Error Logging and Dump Service Aids 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.smit',
+            COMMENTS => 'System Management Interface Tool (SMIT) 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.sysbr',
+            COMMENTS => 'System Backup and BOS Install Utilities 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.rte',
+            COMMENTS => 'Run-time Environment for AIX Terminals 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'ifor_ls.base.cli',
+            COMMENTS => 'License Use Management Runtime Code 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'ifor_ls.client.base',
+            COMMENTS => 'SystemView License Use Management Client Runtime
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'ifor_ls.msg.fr_FR.base.cli',
+            COMMENTS => 'LUM Runtime Code Messages - French
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'printers.hpJetDirect.attach',
+            COMMENTS => 'Hewlett-Packard JetDirect Network Printer Attachment 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'printers.msg.fr_FR.rte',
+            COMMENTS => 'Printer Backend Messages - French
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'printers.rte',
+            COMMENTS => 'Printer Backend 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'xlC.rte',
+            COMMENTS => 'C Set ++ for AIX Application Runtime
+',
+            VERSION  => '3.6.3.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.acct',
+            COMMENTS => 'Accounting Services 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.com',
+            COMMENTS => 'Common Hardware Diagnostics 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.rte',
+            COMMENTS => 'Hardware Diagnostics 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.util',
+            COMMENTS => 'Hardware Diagnostics Utilities 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.html.en_US.topnav.navigate',
+            COMMENTS => 'Top Level Navigation - U. S. English
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.mp',
+            COMMENTS => 'Base Operating System Multiprocessor Runtime 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.ncs',
+            COMMENTS => 'Network Computing System 1.5.1 
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.nfs.client',
+            COMMENTS => 'Network File System Client 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.client',
+            COMMENTS => 'TCP/IP Client Support 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.powermgt.rte',
+            COMMENTS => 'Power Management Runtime Software 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte',
+            COMMENTS => 'Base Operating System Runtime
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.Dt',
+            COMMENTS => 'Desktop Integrator
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.SRC',
+            COMMENTS => 'System Resource Controller
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.aio',
+            COMMENTS => 'Asynchronous I/O Extension
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.boot',
+            COMMENTS => 'Boot Commands
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.commands',
+            COMMENTS => 'Commands
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.control',
+            COMMENTS => 'System Control Commands
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.cron',
+            COMMENTS => 'Batch Operations
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.devices',
+            COMMENTS => 'Base Device Drivers
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.diag',
+            COMMENTS => 'Diagnostics
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.filesystem',
+            COMMENTS => 'Filesystem Administration
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.jfscomp',
+            COMMENTS => 'JFS Compression
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.lvm',
+            COMMENTS => 'Logical Volume Manager
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.printers',
+            COMMENTS => 'Front End Printer Support
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.security',
+            COMMENTS => 'Base Security Function
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.serv_aid',
+            COMMENTS => 'Error Log Service Aids
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.shell',
+            COMMENTS => 'Shells (bsh, ksh, csh)
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.tty',
+            COMMENTS => 'Base TTY Support and Commands
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.loginlic',
+            COMMENTS => 'License Management 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.serv_aid',
+            COMMENTS => 'Software Error Logging and Dump Service Aids 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.sysbr',
+            COMMENTS => 'System Backup and BOS Install Utilities 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'ifor_ls.base.cli',
+            COMMENTS => 'License Use Management Runtime Code 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'ifor_ls.client.base',
+            COMMENTS => 'SystemView License Use Management Client Runtime
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'printers.rte',
+            COMMENTS => 'Printer Backend 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.com.data',
+            COMMENTS => 'Common Terminal Definitions
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.dec.data',
+            COMMENTS => 'Digital Equipment Corp. Terminal Definitions
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.ibm.data',
+            COMMENTS => 'IBM Terminal Definitions
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.pc.data',
+            COMMENTS => 'Personal Computer Terminal Definitions
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.televideo.data',
+            COMMENTS => 'Televideo Terminal Definitions
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.wyse.data',
+            COMMENTS => 'Wyse Terminal Definitions
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        }
+    ],
+    'aix-4.3.2' => [
+        {
+            NAME     => 'X11.apps.pm',
+            COMMENTS => 'AIXwindows Power Management GUI Utility 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.msg.fr_FR.apps.pm',
+            COMMENTS => 'AIXwindows Power Mgmt GUI Msgs - French
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.acct',
+            COMMENTS => 'Accounting Services 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.adt.lib',
+            COMMENTS => 'Base Application Development Libraries 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.com',
+            COMMENTS => 'Common Hardware Diagnostics 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.rte',
+            COMMENTS => 'Hardware Diagnostics 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.util',
+            COMMENTS => 'Hardware Diagnostics Utilities 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.docregister.com',
+            COMMENTS => 'Docregister Common 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.help.msg.fr_FR.com',
+            COMMENTS => 'WebSM/SMIT Context Helps - French
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.html.en_US.topnav.navigate',
+            COMMENTS => 'Top Level Navigation - U. S. English 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.iconv.com',
+            COMMENTS => 'Common Language to Language Converters 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.iconv.fr_FR',
+            COMMENTS => 'EBCDIC & ASCII Language Converters - French 
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.iconv.ucs.com',
+            COMMENTS => 'Unicode Base Converters for AIX Code Sets/Fonts 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.loc.iso.fr_FR',
+            COMMENTS => 'Base System Locale ISO Code Set - French 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.mp',
+            COMMENTS => 'Base Operating System Multiprocessor Runtime 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.msg.fr_FR.diag.rte',
+            COMMENTS => 'Hardware Diagnostics Messages - French
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.msg.fr_FR.mp',
+            COMMENTS => 'Base Operating System MP Messages - French
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.msg.fr_FR.net.tcp.client',
+            COMMENTS => 'TCP/IP Messages - French
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.msg.fr_FR.rte',
+            COMMENTS => 'Base Operating System Runtime Msgs - French
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.ncs',
+            COMMENTS => 'Network Computing System 1.5.1 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.nfs.client',
+            COMMENTS => 'Network File System Client 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.client',
+            COMMENTS => 'TCP/IP Client Support 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.server',
+            COMMENTS => 'TCP/IP Server 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.smit',
+            COMMENTS => 'TCP/IP SMIT Support 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.powermgt.rte',
+            COMMENTS => 'Power Management Runtime Software 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte',
+            COMMENTS => 'Base Operating System Runtime
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.Dt',
+            COMMENTS => 'Desktop Integrator
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.ILS',
+            COMMENTS => 'International Language Support
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.SRC',
+            COMMENTS => 'System Resource Controller
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.X11',
+            COMMENTS => 'AIXwindows Device Support
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.aio',
+            COMMENTS => 'Asynchronous I/O Extension
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.archive',
+            COMMENTS => 'Archive Commands
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.bind_cmds',
+            COMMENTS => 'Binder and Loader Commands
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.boot',
+            COMMENTS => 'Boot Commands
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.bosinst',
+            COMMENTS => 'Base OS Install Commands
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.commands',
+            COMMENTS => 'Commands
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.compare',
+            COMMENTS => 'File Compare Commands
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.console',
+            COMMENTS => 'Console
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.control',
+            COMMENTS => 'System Control Commands
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.cron',
+            COMMENTS => 'Batch Operations
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.date',
+            COMMENTS => 'Date Control Commands
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.devices',
+            COMMENTS => 'Base Device Drivers
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.devices_msg',
+            COMMENTS => 'Device Driver Messages
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.diag',
+            COMMENTS => 'Diagnostics
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.edit',
+            COMMENTS => 'Editors
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.filesystem',
+            COMMENTS => 'Filesystem Administration
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.iconv',
+            COMMENTS => 'Language Converters
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.ifor_ls',
+            COMMENTS => 'iFOR/LS Libraries
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.im',
+            COMMENTS => 'Input Methods
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.install',
+            COMMENTS => 'LPP Install Commands
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.jfscomp',
+            COMMENTS => 'JFS Compression
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libc',
+            COMMENTS => 'libc Library
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libcfg',
+            COMMENTS => 'libcfg Library
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libcur',
+            COMMENTS => 'libcurses Library
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libdbm',
+            COMMENTS => 'libdbm Library
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libnetsvc',
+            COMMENTS => 'Network Services Libraries
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libpthreads',
+            COMMENTS => 'libpthreads Library
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libqb',
+            COMMENTS => 'libqb Library
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libs',
+            COMMENTS => 'libs Library
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.loc',
+            COMMENTS => 'Base Locale Support
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.lvm',
+            COMMENTS => 'Logical Volume Manager
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.man',
+            COMMENTS => 'Man Commands
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.methods',
+            COMMENTS => 'Device Config Methods
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.misc_cmds',
+            COMMENTS => 'Miscellaneous Commands
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.net',
+            COMMENTS => 'Network
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.odm',
+            COMMENTS => 'Object Data Manager
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.printers',
+            COMMENTS => 'Front End Printer Support
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.security',
+            COMMENTS => 'Base Security Function
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.serv_aid',
+            COMMENTS => 'Error Log Service Aids
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.shell',
+            COMMENTS => 'Shells (bsh, ksh, csh)
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.streams',
+            COMMENTS => 'Streams Libraries
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.tty',
+            COMMENTS => 'Base TTY Support and Commands
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.loginlic',
+            COMMENTS => 'License Management 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.serv_aid',
+            COMMENTS => 'Software Error Logging and Dump Service Aids 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.smit',
+            COMMENTS => 'System Management Interface Tool (SMIT) 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.sysbr',
+            COMMENTS => 'System Backup and BOS Install Utilities 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.rte',
+            COMMENTS => 'Run-time Environment for AIX Terminals 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'ifor_ls.base.cli',
+            COMMENTS => 'License Use Management Runtime Code 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'ifor_ls.client.base',
+            COMMENTS => 'SystemView License Use Management Client Runtime
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'ifor_ls.client.gui',
+            COMMENTS => 'License Use Management Client GUI 
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'ifor_ls.msg.fr_FR.base.cli',
+            COMMENTS => 'LUM Runtime Code Messages - French
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'printers.hpJetDirect.attach',
+            COMMENTS => 'Hewlett-Packard JetDirect Network Printer Attachment 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'printers.msg.fr_FR.rte',
+            COMMENTS => 'Printer Backend Messages - French
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'printers.rte',
+            COMMENTS => 'Printer Backend 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'xlC.rte',
+            COMMENTS => 'C Set ++ for AIX Application Runtime
+',
+            VERSION  => '3.6.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.acct',
+            COMMENTS => 'Accounting Services 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.com',
+            COMMENTS => 'Common Hardware Diagnostics 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.rte',
+            COMMENTS => 'Hardware Diagnostics 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.util',
+            COMMENTS => 'Hardware Diagnostics Utilities 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.html.en_US.topnav.navigate',
+            COMMENTS => 'Top Level Navigation - U. S. English 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.mp',
+            COMMENTS => 'Base Operating System Multiprocessor Runtime 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.ncs',
+            COMMENTS => 'Network Computing System 1.5.1 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.nfs.client',
+            COMMENTS => 'Network File System Client 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.client',
+            COMMENTS => 'TCP/IP Client Support 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.server',
+            COMMENTS => 'TCP/IP Server 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.powermgt.rte',
+            COMMENTS => 'Power Management Runtime Software 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte',
+            COMMENTS => 'Base Operating System Runtime
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.Dt',
+            COMMENTS => 'Desktop Integrator
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.SRC',
+            COMMENTS => 'System Resource Controller
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.aio',
+            COMMENTS => 'Asynchronous I/O Extension
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.boot',
+            COMMENTS => 'Boot Commands
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.commands',
+            COMMENTS => 'Commands
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.control',
+            COMMENTS => 'System Control Commands
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.cron',
+            COMMENTS => 'Batch Operations
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.devices',
+            COMMENTS => 'Base Device Drivers
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.diag',
+            COMMENTS => 'Diagnostics
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.filesystem',
+            COMMENTS => 'Filesystem Administration
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.jfscomp',
+            COMMENTS => 'JFS Compression
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.lvm',
+            COMMENTS => 'Logical Volume Manager
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.printers',
+            COMMENTS => 'Front End Printer Support
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.security',
+            COMMENTS => 'Base Security Function
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.serv_aid',
+            COMMENTS => 'Error Log Service Aids
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.shell',
+            COMMENTS => 'Shells (bsh, ksh, csh)
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.tty',
+            COMMENTS => 'Base TTY Support and Commands
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.loginlic',
+            COMMENTS => 'License Management 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.serv_aid',
+            COMMENTS => 'Software Error Logging and Dump Service Aids 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.sysbr',
+            COMMENTS => 'System Backup and BOS Install Utilities 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'ifor_ls.base.cli',
+            COMMENTS => 'License Use Management Runtime Code 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'ifor_ls.client.base',
+            COMMENTS => 'SystemView License Use Management Client Runtime
+',
+            VERSION  => '4.3.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'printers.rte',
+            COMMENTS => 'Printer Backend 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.com.data',
+            COMMENTS => 'Common Terminal Definitions
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.dec.data',
+            COMMENTS => 'Digital Equipment Corp. Terminal Definitions
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.ibm.data',
+            COMMENTS => 'IBM Terminal Definitions 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.pc.data',
+            COMMENTS => 'Personal Computer Terminal Definitions 
+',
+            VERSION  => '4.3.2.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.televideo.data',
+            COMMENTS => 'Televideo Terminal Definitions
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.wyse.data',
+            COMMENTS => 'Wyse Terminal Definitions
+',
+            VERSION  => '4.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        }
+    ],
     'aix-5.3' => [
         {
             NAME     => 'BULLENH_VERSION',
@@ -5674,6 +7414,4048 @@ my %tests = (
             FOLDER   => '/usr/share/lib/objrepos'
         }
     ],
+    'aix-5.3b' => [
+        {
+            NAME     => 'Java14.sdk',
+            COMMENTS => 'Java SDK 32-bit ',
+            VERSION  => '1.4.2.75',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'Tivoli_Management_Agent.client.rte',
+            COMMENTS => 'Management Framework Endpoint Runtime"',
+            VERSION  => '3.7.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.adt.bitmaps',
+            COMMENTS => 'AIXwindows Application Development Toolkit Bitmap Files ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.adt.imake',
+            COMMENTS => 'AIXwindows Application Development Toolkit imake ',
+            VERSION  => '5.3.0.30',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.adt.include',
+            COMMENTS => 'AIXwindows Application Development Toolkit Include Files ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.adt.lib',
+            COMMENTS => 'AIXwindows Application Development Toolkit Libraries ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.apps.aixterm',
+            COMMENTS => 'AIXwindows aixterm Application ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.apps.clients',
+            COMMENTS => 'AIXwindows Client Applications ',
+            VERSION  => '5.3.0.30',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.apps.config',
+            COMMENTS => 'AIXwindows Configuration Applications ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.apps.custom',
+            COMMENTS => 'AIXwindows Customizing Tool ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.apps.msmit',
+            COMMENTS => 'AIXwindows msmit Application ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.apps.rte',
+            COMMENTS => 'AIXwindows Runtime Configuration Applications ',
+            VERSION  => '5.3.0.30',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.apps.util',
+            COMMENTS => 'AIXwindows Utility Applications ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.apps.xdm',
+            COMMENTS => 'AIXwindows xdm Application ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.apps.xterm',
+            COMMENTS => 'AIXwindows xterm Application ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.base.common',
+            COMMENTS => 'AIXwindows Runtime Common Directories ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.base.lib',
+            COMMENTS => 'AIXwindows Runtime Libraries ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.base.rte',
+            COMMENTS => 'AIXwindows Runtime Environment ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.base.smt',
+            COMMENTS => 'AIXwindows Runtime Shared Memory Transport ',
+            VERSION  => '5.3.0.30',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.base.xpconfig',
+            COMMENTS => 'Xprint Configuration Files ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.fnt.coreX',
+            COMMENTS => 'AIXwindows X Consortium Fonts ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.fnt.defaultFonts',
+            COMMENTS => 'AIXwindows Default Fonts ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.fnt.iso1',
+            COMMENTS => 'AIXwindows Latin 1 Fonts ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.fnt.iso_T1',
+            COMMENTS => 'AIXwindows Latin Type1 Fonts ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.loc.en_US.base.lib',
+            COMMENTS => 'AIXwindows Client Locale Config - U.S. English ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.loc.en_US.base.rte',
+            COMMENTS => 'AIXwindows Locale Configuration - U.S. English ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.loc.fr_FR.base.lib',
+            COMMENTS => 'AIXwindows Client Locale Config - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.loc.fr_FR.base.rte',
+            COMMENTS => 'AIXwindows Locale Configuration - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.motif.lib',
+            COMMENTS => 'AIXwindows Motif Libraries ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.motif.mwm',
+            COMMENTS => 'AIXwindows Motif Window Manager ',
+            VERSION  => '5.3.0.30',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.msg.en_US.adt.imake',
+            COMMENTS => 'AIXwindows imake Messages - U.S. English',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.msg.en_US.apps.aixterm',
+            COMMENTS => 'AIXwindows aixterm Messages - U.S. English',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.msg.en_US.apps.clients',
+            COMMENTS => 'AIXwindows Client Apps Msgs - U.S. English',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.msg.en_US.apps.config',
+            COMMENTS => 'AIXwindows Config Apps Msgs - U.S. English',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.msg.en_US.apps.custom',
+            COMMENTS => 'AIXwindows Custom Tool Msgs - U.S. English',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.msg.en_US.apps.rte',
+            COMMENTS => 'AIXwindows Runtime Config Msgs - U.S. English',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.msg.en_US.apps.xdm',
+            COMMENTS => 'AIXwindows xdm Messages - U.S. English',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.msg.en_US.base.common',
+            COMMENTS => 'AIXwindows Common Messages - U.S. English',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.msg.en_US.base.rte',
+            COMMENTS => 'AIXwindows Runtime Env. Msgs - U.S. English',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.msg.en_US.motif.lib',
+            COMMENTS => 'AIXwindows Motif Lib. Msgs - U.S. English',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.msg.en_US.motif.mwm',
+            COMMENTS => 'AIX Motif Window Mgr Msgs - U.S. English',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.msg.en_US.vsm.rte',
+            COMMENTS => 'Visual Sys Mgmt. Helps & Msgs - U.S. English',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.msg.fr_FR.adt.imake',
+            COMMENTS => 'AIXwindows imake Messages - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.msg.fr_FR.apps.aixterm',
+            COMMENTS => 'AIXwindows aixterm Messages - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.msg.fr_FR.apps.clients',
+            COMMENTS => 'AIXwindows Client Apps Msgs - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.msg.fr_FR.apps.config',
+            COMMENTS => 'AIXwindows Config Apps Msgs - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.msg.fr_FR.apps.custom',
+            COMMENTS => 'AIXwindows Custom Tool Msgs - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.msg.fr_FR.apps.rte',
+            COMMENTS => 'AIXwindows Runtime Config Msgs - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.msg.fr_FR.apps.xdm',
+            COMMENTS => 'AIXwindows xdm Messages - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.msg.fr_FR.base.common',
+            COMMENTS => 'AIXwindows Common Messages - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.msg.fr_FR.base.rte',
+            COMMENTS => 'AIXwindows Runtime Env. Msgs - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.msg.fr_FR.motif.lib',
+            COMMENTS => 'AIXwindows Motif Lib. Msgs - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.msg.fr_FR.motif.mwm',
+            COMMENTS => 'AIX Motif Window Mgr Msgs - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.msg.fr_FR.vsm.rte',
+            COMMENTS => 'Visual Sys Mgmt. Helps & Msgs - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.samples.apps.clients',
+            COMMENTS => 'AIXwindows Sample X Consortium Clients Binary/Source ',
+            VERSION  => '5.3.0.30',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.samples.common',
+            COMMENTS => 'AIXwindows Imakefile Structure for Samples ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.samples.lib.Core',
+            COMMENTS => 'AIXwindows Sample X Consortium Core Libraries Binary/Source ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.vsm.lib',
+            COMMENTS => 'Visual System Managment Library',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.64bit',
+            COMMENTS => 'Base Operating System 64 bit Runtime ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.acct',
+            COMMENTS => 'Accounting Services ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.adt.base',
+            COMMENTS => 'Base Application Development Toolkit ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.adt.include',
+            COMMENTS => 'Base Application Development Include Files ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.adt.lib',
+            COMMENTS => 'Base Application Development Libraries ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.aixpert.cmds',
+            COMMENTS => 'AIX Security Hardening ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.aixpert.websm',
+            COMMENTS => 'AIX Security Hardening WebSM ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.alt_disk_install.boot_images',
+            COMMENTS => 'Alternate Disk Installation Disk Boot Images ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.alt_disk_install.rte',
+            COMMENTS => 'Alternate Disk Installation Runtime ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.cdmount',
+            COMMENTS => 'CD/DVD Automount Facility ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.com',
+            COMMENTS => 'Common Hardware Diagnostics ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.rte',
+            COMMENTS => 'Hardware Diagnostics ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.util',
+            COMMENTS => 'Hardware Diagnostics Utilities ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.ecc_client.rte',
+            COMMENTS => 'Electronic Customer Care Runtime ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.help.msg.en_US.com',
+            COMMENTS => 'WebSM/SMIT Context Helps - U.S. English ',
+            VERSION  => '5.3.0.10',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.help.msg.en_US.smit',
+            COMMENTS => 'SMIT Context Helps - U.S. English ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.help.msg.fr_FR.com',
+            COMMENTS => 'WebSM/SMIT Context Helps - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.iconv.com',
+            COMMENTS => 'Common Language to Language Converters ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.iconv.fr_FR',
+            COMMENTS => 'EBCDIC & ASCII Language Converters - French ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.iconv.ucs.com',
+            COMMENTS => 'Unicode Base Converters for AIX Code Sets/Fonts ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.loc.iso.fr_FR',
+            COMMENTS => 'Base System Locale ISO Code Set - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.mh',
+            COMMENTS => 'Mail Handler ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.mp',
+            COMMENTS => 'Base Operating System Multiprocessor Runtime ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.mp64',
+            COMMENTS => 'Base Operating System 64-bit Multiprocessor Runtime ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.msg.fr_FR.alt_disk_install.rte',
+            COMMENTS => 'Alternate Disk Install Msgs - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.msg.fr_FR.diag.rte',
+            COMMENTS => 'Hardware Diagnostics Messages - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.msg.fr_FR.mp',
+            COMMENTS => 'Base Operating System MP Msgs - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.msg.fr_FR.net.ipsec',
+            COMMENTS => 'IP Security Messages - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.msg.fr_FR.net.tcp.client',
+            COMMENTS => 'TCP/IP Messages - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.msg.fr_FR.rte',
+            COMMENTS => 'Base OS Runtime Messages - French ',
+            VERSION  => '5.3.0.30',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.msg.fr_FR.txt.tfs',
+            COMMENTS => 'Text Formatting Services Msgs - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.ipsec.keymgt',
+            COMMENTS => 'IP Security Key Management ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.ipsec.rte',
+            COMMENTS => 'IP Security ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.ncs',
+            COMMENTS => 'Network Computing System 1.5.1 ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.nfs.client',
+            COMMENTS => 'Network File System Client ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.nis.client',
+            COMMENTS => 'Network Information Service Client ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.snapp',
+            COMMENTS => 'System Networking Analysis and Performance Pilot ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.adt',
+            COMMENTS => 'TCP/IP Application Toolkit ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.client',
+            COMMENTS => 'TCP/IP Client Support ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.server',
+            COMMENTS => 'TCP/IP Server ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.smit',
+            COMMENTS => 'TCP/IP SMIT Support ',
+            VERSION  => '5.3.0.30',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.uucp',
+            COMMENTS => 'Unix to Unix Copy Program ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.diag_tool',
+            COMMENTS => 'Performance Diagnostic Tool ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.libperfstat',
+            COMMENTS => 'Performance Statistics Library Interface ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.perfstat',
+            COMMENTS => 'Performance Statistics Interface ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.proctools',
+            COMMENTS => 'Proc Filesystem Tools ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.tools',
+            COMMENTS => 'Base Performance Tools ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.tune',
+            COMMENTS => 'Performance Tuning Support ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.pmapi.events',
+            COMMENTS => 'Performance Monitor API Event Codes ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.pmapi.lib',
+            COMMENTS => 'Performance Monitor API Library ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.pmapi.pmsvcs',
+            COMMENTS => 'Performance Monitor API Kernel Extension ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.pmapi.samples',
+            COMMENTS => 'Performance Monitor API Samples ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.pmapi.tools',
+            COMMENTS => 'Performance Monitor API Tools ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte',
+            COMMENTS => 'Base Operating System Runtime',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.Dt',
+            COMMENTS => 'Desktop Integrator',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.ILS',
+            COMMENTS => 'International Language Support',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.SRC',
+            COMMENTS => 'System Resource Controller',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.X11',
+            COMMENTS => 'AIXwindows Device Support',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.aio',
+            COMMENTS => 'Asynchronous I/O Extension',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.archive',
+            COMMENTS => 'Archive Commands',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.bind_cmds',
+            COMMENTS => 'Binder and Loader Commands',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.boot',
+            COMMENTS => 'Boot Commands',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.bosinst',
+            COMMENTS => 'Base OS Install Commands',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.commands',
+            COMMENTS => 'Commands',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.compare',
+            COMMENTS => 'File Compare Commands',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.console',
+            COMMENTS => 'Console',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.control',
+            COMMENTS => 'System Control Commands',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.cron',
+            COMMENTS => 'Batch Operations',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.date',
+            COMMENTS => 'Date Control Commands',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.devices',
+            COMMENTS => 'Base Device Drivers',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.devices_msg',
+            COMMENTS => 'Device Driver Messages',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.diag',
+            COMMENTS => 'Diagnostics',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.edit',
+            COMMENTS => 'Editors',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.filesystem',
+            COMMENTS => 'Filesystem Administration',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.iconv',
+            COMMENTS => 'Language Converters',
+            VERSION  => '5.3.0.40',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.ifor_ls',
+            COMMENTS => 'iFOR/LS Libraries',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.im',
+            COMMENTS => 'Input Methods',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.install',
+            COMMENTS => 'LPP Install Commands',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.jfscomp',
+            COMMENTS => 'JFS Compression',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libc',
+            COMMENTS => 'libc Library',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libcfg',
+            COMMENTS => 'libcfg Library',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libcur',
+            COMMENTS => 'libcurses Library',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libdbm',
+            COMMENTS => 'libdbm Library',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libnetsvc',
+            COMMENTS => 'Network Services Libraries',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libpthreads',
+            COMMENTS => 'pthreads Library',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libqb',
+            COMMENTS => 'libqb Library',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libs',
+            COMMENTS => 'libs Library',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.loc',
+            COMMENTS => 'Base Locale Support',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.lvm',
+            COMMENTS => 'Logical Volume Manager',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.man',
+            COMMENTS => 'Man Commands',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.methods',
+            COMMENTS => 'Device Config Methods',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.misc_cmds',
+            COMMENTS => 'Miscellaneous Commands',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.net',
+            COMMENTS => 'Network',
+            VERSION  => '5.3.0.40',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.odm',
+            COMMENTS => 'Object Data Manager',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.printers',
+            COMMENTS => 'Front End Printer Support',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.security',
+            COMMENTS => 'Base Security Function',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.serv_aid',
+            COMMENTS => 'Error Log Service Aids',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.shell',
+            COMMENTS => 'Shells (bsh, ksh, csh)',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.streams',
+            COMMENTS => 'Streams Libraries',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.tty',
+            COMMENTS => 'Base TTY Support and Commands',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.suma',
+            COMMENTS => 'Service Update Management Assistant (SUMA) ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.loginlic',
+            COMMENTS => 'License Management ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.nim.client',
+            COMMENTS => 'Network Install Manager - Client Tools ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.quota',
+            COMMENTS => 'Filesystem Quota Commands ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.serv_aid',
+            COMMENTS => 'Software Error Logging and Dump Service Aids ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.smit',
+            COMMENTS => 'System Management Interface Tool (SMIT) ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.sysbr',
+            COMMENTS => 'System Backup and BOS Install Utilities ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.trace',
+            COMMENTS => 'Software Trace Service Aids ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.rte',
+            COMMENTS => 'Run-time Environment for AIX Terminals',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.txt.spell',
+            COMMENTS => 'Writer\'s Tools Commands ',
+            VERSION  => '5.3.0.10',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.txt.tfs',
+            COMMENTS => 'Text Formatting Services Commands ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'csm.client',
+            COMMENTS => 'Cluster Systems Management Client',
+            VERSION  => '1.5.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'csm.core',
+            COMMENTS => 'Cluster Systems Management Core',
+            VERSION  => '1.5.1.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'csm.deploy',
+            COMMENTS => 'Cluster Systems Management Deployment Component',
+            VERSION  => '1.5.1.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'csm.diagnostics',
+            COMMENTS => 'Cluster Systems Management Probe Manager / Diagnostics',
+            VERSION  => '1.5.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'csm.dsh',
+            COMMENTS => 'Cluster Systems Management Dsh',
+            VERSION  => '1.5.1.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'csm.gui.dcem',
+            COMMENTS => 'Distributed Command Execution Manager Runtime Environment',
+            VERSION  => '1.5.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'csm.msg.FR_FR.core',
+            COMMENTS => 'CSM Core Func Msgs - French (UTF)',
+            VERSION  => '1.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'csm.msg.fr_FR.core',
+            COMMENTS => 'CSM Core Func Msgs - French',
+            VERSION  => '1.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'freeware.gnu.bash.rte',
+            COMMENTS => 'bash Bourne Again SHell',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'freeware.gnu.gettext.rte',
+            COMMENTS => 'GNU Internationalisation Utility',
+            VERSION  => '0.10.35.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'ifor_ls.base.cli',
+            COMMENTS => 'License Use Management Runtime Code ',
+            VERSION  => '5.3.0.30',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'infocenter.man.EN_US.commands',
+            COMMENTS => 'AIX manual commands - U.S. English',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'infocenter.man.EN_US.files',
+            COMMENTS => 'AIX manual files - U.S. English',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'infocenter.man.EN_US.libs',
+            COMMENTS => 'AIX manual libs - U.S. English',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'invscout.com',
+            COMMENTS => 'Inventory Scout Microcode Catalog',
+            VERSION  => '2.2.0.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'invscout.ldb',
+            COMMENTS => 'Inventory Scout Logic Database',
+            VERSION  => '2.2.0.2',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'invscout.msg.fr_FR.rte',
+            COMMENTS => 'Inventory Scout Messages - French',
+            VERSION  => '2.1.0.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'invscout.rte',
+            COMMENTS => 'Inventory Scout Runtime',
+            VERSION  => '2.2.0.9',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'lum.base.cli',
+            COMMENTS => 'License Use Management Runtime Code ',
+            VERSION  => '5.1.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'lum.base.gui',
+            COMMENTS => 'License Use Management Runtime GUI ',
+            VERSION  => '5.1.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'openssh.base.client',
+            COMMENTS => 'Open Secure Shell Commands',
+            VERSION  => '4.1.0.5300',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'openssh.base.server',
+            COMMENTS => 'Open Secure Shell Server',
+            VERSION  => '4.1.0.5300',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'openssh.license',
+            COMMENTS => 'Open Secure Shell License',
+            VERSION  => '4.1.0.5300',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'openssh.msg.fr_FR',
+            COMMENTS => 'Open Secure Shell Messages - French',
+            VERSION  => '4.1.0.5300',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'perfagent.tools',
+            COMMENTS => 'Local Performance Analysis & Control Commands ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'perl.libext',
+            COMMENTS => 'Perl Library Extensions ',
+            VERSION  => '2.1.0.10',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'perl.rte',
+            COMMENTS => 'Perl Version 5 Runtime Environment ',
+            VERSION  => '5.8.2.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'printers.msg.fr_FR.rte',
+            COMMENTS => 'Printer Backend Messages - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'printers.rte',
+            COMMENTS => 'Printer Backend ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'pware53.base.rte',
+            COMMENTS => 'pWare base for 5.3',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'pware53.gcc-g++.rte',
+            COMMENTS => 'GNU GCC c/c++/objc/java/fortran 4.2.4',
+            VERSION  => '4.2.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'pware53.gettext.rte',
+            COMMENTS => 'GNU gettext 0.17',
+            VERSION  => '0.17.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'pware53.gmp.rte',
+            COMMENTS => 'gmp 4.2.4',
+            VERSION  => '4.2.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'pware53.libiconv.rte',
+            COMMENTS => 'GNU libiconv 1.12',
+            VERSION  => '1.12.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'pware53.mpfr.rte',
+            COMMENTS => 'mpfr 2.3.2',
+            VERSION  => '2.3.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'pware53.net-snmp.rte',
+            COMMENTS => 'Net-SNMP 5.4.2.1',
+            VERSION  => '5.4.2.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'pware53.openssl.rte',
+            COMMENTS => 'OpenSSL 0.9.8j',
+            VERSION  => '0.9.8.10',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'pware53.zlib.rte',
+            COMMENTS => 'zlib 1.2.3',
+            VERSION  => '1.2.3.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rpm.rte',
+            COMMENTS => 'RPM Package Manager',
+            VERSION  => '3.0.5.39',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.auditrm',
+            COMMENTS => 'RSCT Audit Log Resource Manager',
+            VERSION  => '2.4.5.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.errm',
+            COMMENTS => 'RSCT Event Response Resource Manager',
+            VERSION  => '2.4.5.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.fsrm',
+            COMMENTS => 'RSCT File System Resource Manager',
+            VERSION  => '2.4.5.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.gui',
+            COMMENTS => 'RSCT Graphical User Interface',
+            VERSION  => '2.4.5.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.hostrm',
+            COMMENTS => 'RSCT Host Resource Manager',
+            VERSION  => '2.4.5.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.lprm',
+            COMMENTS => 'RSCT Least Privilege Resource Manager',
+            VERSION  => '2.4.5.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.rmc',
+            COMMENTS => 'RSCT Resource Monitoring and Control',
+            VERSION  => '2.4.5.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.sec',
+            COMMENTS => 'RSCT Security',
+            VERSION  => '2.4.5.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.sensorrm',
+            COMMENTS => 'RSCT Sensor Resource Manager',
+            VERSION  => '2.4.5.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.sr',
+            COMMENTS => 'RSCT Registry',
+            VERSION  => '2.4.5.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.utils',
+            COMMENTS => 'RSCT Utilities',
+            VERSION  => '2.4.5.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.auditrm',
+            COMMENTS => 'RSCT Audit Log RM Msgs - French (UTF)',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.errm',
+            COMMENTS => 'RSCT Event Response RM Msgs - French (UTF)',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.fsrm',
+            COMMENTS => 'RSCT File System RM Msgs - French (UTF)',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.gui',
+            COMMENTS => 'RSCT GUI Msgs - French (UTF)',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.hostrm',
+            COMMENTS => 'RSCT Host RM Msgs - French (UTF)',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.lprm',
+            COMMENTS => 'RSCT LPRM Msgs - French (UTF)',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.rmc',
+            COMMENTS => 'RSCT RMC Msgs - French (UTF)',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.sec',
+            COMMENTS => 'RSCT Security Msgs - French (UTF)',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.sensorrm',
+            COMMENTS => 'RSCT Sensor RM Msgs - French (UTF)',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.sr',
+            COMMENTS => 'RSCT Registry Msgs - French (UTF)',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.utils',
+            COMMENTS => 'RSCT Utilities Msgs - French (UTF)',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.auditrm',
+            COMMENTS => 'RSCT Audit Log RM Msgs - French',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.errm',
+            COMMENTS => 'RSCT Event Response RM Msgs - French',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.fsrm',
+            COMMENTS => 'RSCT File System RM Msgs - French',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.gui',
+            COMMENTS => 'RSCT GUI Msgs - French',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.gui.com',
+            COMMENTS => 'RSCT GUI JAVA Msgs - French',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.hostrm',
+            COMMENTS => 'RSCT Host RM Msgs - French',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.lprm',
+            COMMENTS => 'RSCT LPRM Msgs - French',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.rmc',
+            COMMENTS => 'RSCT RMC Msgs - French',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.rmc.com',
+            COMMENTS => 'RSCT RMC JAVA Msgs - French',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.sec',
+            COMMENTS => 'RSCT Security Msgs - French',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.sensorrm',
+            COMMENTS => 'RSCT Sensor RM Msgs - French',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.sr',
+            COMMENTS => 'RSCT Registry Msgs - French',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.utils',
+            COMMENTS => 'RSCT Utilities Msgs - French',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'sysmgt.help.en_US.websm',
+            COMMENTS => 'WebSM Extended Helps - U.S. English ',
+            VERSION  => '5.3.0.30',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'sysmgt.help.msg.en_US.websm',
+            COMMENTS => 'WebSM Context Helps - U.S. English ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'sysmgt.help.msg.fr_FR.websm',
+            COMMENTS => 'WebSM Context Helps - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'sysmgt.msg.fr_FR.sguide.rte',
+            COMMENTS => 'TaskGuide Viewer Messages - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'sysmgt.msg.fr_FR.websm.apps',
+            COMMENTS => 'WebSM Client Apps. Messages - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'sysmgt.sguide.rte',
+            COMMENTS => 'TaskGuide Runtime Environment',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'sysmgt.websm.apps',
+            COMMENTS => 'Web-based System Manager Applications ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'sysmgt.websm.diag',
+            COMMENTS => 'Web-based System Manager Diagnostic Applications ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'sysmgt.websm.framework',
+            COMMENTS => 'Web-based System Manager Client/Server Support ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'sysmgt.websm.icons',
+            COMMENTS => 'Web-based System Manager Icons ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'sysmgt.websm.rte',
+            COMMENTS => 'Web-based System Manager Runtime Environment ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'sysmgt.websm.webaccess',
+            COMMENTS => 'WebSM Web Access Enablement ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'sysmgtlib.framework.core',
+            COMMENTS => 'System Management Service Libraries Common Code ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'sysmgtlib.libraries.apps',
+            COMMENTS => 'System Management Service Libraries Application Code ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'xlC.aix50.rte',
+            COMMENTS => 'C Set ++ Runtime for AIX 5.0 ',
+            VERSION  => '6.0.0.13',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'xlC.cpp',
+            COMMENTS => 'C for AIX Preprocessor',
+            VERSION  => '6.0.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'xlC.rte',
+            COMMENTS => 'C Set ++ Runtime ',
+            VERSION  => '6.0.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'Java14.sdk',
+            COMMENTS => 'Java SDK 32-bit ',
+            VERSION  => '1.4.2.75',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'Tivoli_Management_Agent.client.rte',
+            COMMENTS => 'Management Framework Endpoint Runtime"',
+            VERSION  => '3.7.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'X11.base.rte',
+            COMMENTS => 'AIXwindows Runtime Environment ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'X11.base.smt',
+            COMMENTS => 'AIXwindows Runtime Shared Memory Transport ',
+            VERSION  => '5.3.0.30',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.64bit',
+            COMMENTS => 'Base Operating System 64 bit Runtime ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.acct',
+            COMMENTS => 'Accounting Services ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.aixpert.cmds',
+            COMMENTS => 'AIX Security Hardening ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.cdmount',
+            COMMENTS => 'CD/DVD Automount Facility ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.com',
+            COMMENTS => 'Common Hardware Diagnostics ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.rte',
+            COMMENTS => 'Hardware Diagnostics ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.util',
+            COMMENTS => 'Hardware Diagnostics Utilities ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.mh',
+            COMMENTS => 'Mail Handler ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.mp',
+            COMMENTS => 'Base Operating System Multiprocessor Runtime ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.mp64',
+            COMMENTS => 'Base Operating System 64-bit Multiprocessor Runtime ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.ipsec.keymgt',
+            COMMENTS => 'IP Security Key Management ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.ipsec.rte',
+            COMMENTS => 'IP Security ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.ncs',
+            COMMENTS => 'Network Computing System 1.5.1 ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.nfs.client',
+            COMMENTS => 'Network File System Client ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.nis.client',
+            COMMENTS => 'Network Information Service Client ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.snapp',
+            COMMENTS => 'System Networking Analysis and Performance Pilot ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.client',
+            COMMENTS => 'TCP/IP Client Support ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.server',
+            COMMENTS => 'TCP/IP Server ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.uucp',
+            COMMENTS => 'Unix to Unix Copy Program ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.diag_tool',
+            COMMENTS => 'Performance Diagnostic Tool ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.libperfstat',
+            COMMENTS => 'Performance Statistics Library Interface ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.perfstat',
+            COMMENTS => 'Performance Statistics Interface ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.tools',
+            COMMENTS => 'Base Performance Tools ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.tune',
+            COMMENTS => 'Performance Tuning Support ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.pmapi.pmsvcs',
+            COMMENTS => 'Performance Monitor API Kernel Extension ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte',
+            COMMENTS => 'Base Operating System Runtime',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.Dt',
+            COMMENTS => 'Desktop Integrator',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.SRC',
+            COMMENTS => 'System Resource Controller',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.aio',
+            COMMENTS => 'Asynchronous I/O Extension',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.archive',
+            COMMENTS => 'Archive Commands',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.boot',
+            COMMENTS => 'Boot Commands',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.commands',
+            COMMENTS => 'Commands',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.control',
+            COMMENTS => 'System Control Commands',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.cron',
+            COMMENTS => 'Batch Operations',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.devices',
+            COMMENTS => 'Base Device Drivers',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.diag',
+            COMMENTS => 'Diagnostics',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.filesystem',
+            COMMENTS => 'Filesystem Administration',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.jfscomp',
+            COMMENTS => 'JFS Compression',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.lvm',
+            COMMENTS => 'Logical Volume Manager',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.printers',
+            COMMENTS => 'Front End Printer Support',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.security',
+            COMMENTS => 'Base Security Function',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.serv_aid',
+            COMMENTS => 'Error Log Service Aids',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.shell',
+            COMMENTS => 'Shells (bsh, ksh, csh)',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.tty',
+            COMMENTS => 'Base TTY Support and Commands',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.suma',
+            COMMENTS => 'Service Update Management Assistant (SUMA) ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.loginlic',
+            COMMENTS => 'License Management ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.nim.client',
+            COMMENTS => 'Network Install Manager - Client Tools ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.serv_aid',
+            COMMENTS => 'Software Error Logging and Dump Service Aids ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.sysbr',
+            COMMENTS => 'System Backup and BOS Install Utilities ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.trace',
+            COMMENTS => 'Software Trace Service Aids ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'csm.client',
+            COMMENTS => 'Cluster Systems Management Client',
+            VERSION  => '1.5.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'csm.core',
+            COMMENTS => 'Cluster Systems Management Core',
+            VERSION  => '1.5.1.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'csm.deploy',
+            COMMENTS => 'Cluster Systems Management Deployment Component',
+            VERSION  => '1.5.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'csm.diagnostics',
+            COMMENTS => 'Cluster Systems Management Probe Manager / Diagnostics',
+            VERSION  => '1.5.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'csm.dsh',
+            COMMENTS => 'Cluster Systems Management Dsh',
+            VERSION  => '1.5.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'ifor_ls.base.cli',
+            COMMENTS => 'License Use Management Runtime Code ',
+            VERSION  => '5.3.0.30',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'invscout.com',
+            COMMENTS => 'Inventory Scout Microcode Catalog',
+            VERSION  => '2.2.0.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'invscout.ldb',
+            COMMENTS => 'Inventory Scout Logic Database',
+            VERSION  => '2.2.0.2',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'invscout.rte',
+            COMMENTS => 'Inventory Scout Runtime',
+            VERSION  => '2.2.0.9',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'lum.base.cli',
+            COMMENTS => 'License Use Management Runtime Code ',
+            VERSION  => '5.1.0.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'openssh.base.client',
+            COMMENTS => 'Open Secure Shell Commands',
+            VERSION  => '4.1.0.5300',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'openssh.base.server',
+            COMMENTS => 'Open Secure Shell Server',
+            VERSION  => '4.1.0.5300',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'perfagent.tools',
+            COMMENTS => 'Local Performance Analysis & Control Commands ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'printers.rte',
+            COMMENTS => 'Printer Backend ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rpm.rte',
+            COMMENTS => 'RPM Package Manager',
+            VERSION  => '3.0.5.39',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.auditrm',
+            COMMENTS => 'RSCT Audit Log Resource Manager',
+            VERSION  => '2.4.5.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.errm',
+            COMMENTS => 'RSCT Event Response Resource Manager',
+            VERSION  => '2.4.5.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.fsrm',
+            COMMENTS => 'RSCT File System Resource Manager',
+            VERSION  => '2.4.5.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.hostrm',
+            COMMENTS => 'RSCT Host Resource Manager',
+            VERSION  => '2.4.5.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.lprm',
+            COMMENTS => 'RSCT Least Privilege Resource Manager',
+            VERSION  => '2.4.5.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.rmc',
+            COMMENTS => 'RSCT Resource Monitoring and Control',
+            VERSION  => '2.4.5.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.sec',
+            COMMENTS => 'RSCT Security',
+            VERSION  => '2.4.5.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.sensorrm',
+            COMMENTS => 'RSCT Sensor Resource Manager',
+            VERSION  => '2.4.5.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.sr',
+            COMMENTS => 'RSCT Registry',
+            VERSION  => '2.4.5.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.utils',
+            COMMENTS => 'RSCT Utilities',
+            VERSION  => '2.4.5.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'sysmgt.websm.apps',
+            COMMENTS => 'Web-based System Manager Applications ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'sysmgt.websm.framework',
+            COMMENTS => 'Web-based System Manager Client/Server Support ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'sysmgt.websm.rte',
+            COMMENTS => 'Web-based System Manager Runtime Environment ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.ansi.data',
+            COMMENTS => 'Amer National Stds Institute Terminal Defs',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.com.data',
+            COMMENTS => 'Common Terminal Definitions',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.dec.data',
+            COMMENTS => 'Digital Equipment Corp. Terminal Definitions',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.ibm.data',
+            COMMENTS => 'IBM Terminal Definitions',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.pc.data',
+            COMMENTS => 'Personal Computer Terminal Definitions',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.print.data',
+            COMMENTS => 'Generic Line Printer Terminal Definitions',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.televideo.data',
+            COMMENTS => 'Televideo Terminal Definitions',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.wyse.data',
+            COMMENTS => 'Wyse Terminal Definitions',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.txt.spell.data',
+            COMMENTS => 'Writer\'s Tools Data',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.txt.tfs.data',
+            COMMENTS => 'Text Formatting Services Data',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        }
+    ],
+    'aix-5.3c' => [
+        {
+            NAME     => 'Java14.sdk',
+            COMMENTS => 'Java SDK 32-bit ',
+            VERSION  => '1.4.2.250',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'Java6_64.sdk',
+            COMMENTS => 'Java SDK 64-bit ',
+            VERSION  => '6.0.0.265',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'Tivoli_Management_Agent.client.rte',
+            COMMENTS => 'Management Framework Endpoint Runtime"',
+            VERSION  => '3.7.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.Dt.ToolTalk',
+            COMMENTS => 'AIX CDE ToolTalk Support ',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.Dt.bitmaps',
+            COMMENTS => 'AIX CDE Bitmaps ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.Dt.helpmin',
+            COMMENTS => 'AIX CDE Minimum Help Files ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.Dt.lib',
+            COMMENTS => 'AIX CDE Runtime Libraries ',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.adt.bitmaps',
+            COMMENTS => 'AIXwindows Application Development Toolkit Bitmap Files ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.adt.imake',
+            COMMENTS => 'AIXwindows Application Development Toolkit imake ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.adt.include',
+            COMMENTS => 'AIXwindows Application Development Toolkit Include Files ',
+            VERSION  => '5.3.8.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.adt.lib',
+            COMMENTS => 'AIXwindows Application Development Toolkit Libraries ',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.apps.aixterm',
+            COMMENTS => 'AIXwindows aixterm Application ',
+            VERSION  => '5.3.8.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.apps.clients',
+            COMMENTS => 'AIXwindows Client Applications ',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.apps.config',
+            COMMENTS => 'AIXwindows Configuration Applications ',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.apps.custom',
+            COMMENTS => 'AIXwindows Customizing Tool ',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.apps.msmit',
+            COMMENTS => 'AIXwindows msmit Application ',
+            VERSION  => '5.3.8.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.apps.rte',
+            COMMENTS => 'AIXwindows Runtime Configuration Applications ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.apps.util',
+            COMMENTS => 'AIXwindows Utility Applications ',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.apps.xdm',
+            COMMENTS => 'AIXwindows xdm Application ',
+            VERSION  => '5.3.8.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.apps.xterm',
+            COMMENTS => 'AIXwindows xterm Application ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.base.common',
+            COMMENTS => 'AIXwindows Runtime Common Directories ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.base.lib',
+            COMMENTS => 'AIXwindows Runtime Libraries ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.base.rte',
+            COMMENTS => 'AIXwindows Runtime Environment ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.base.smt',
+            COMMENTS => 'AIXwindows Runtime Shared Memory Transport ',
+            VERSION  => '5.3.0.30',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.base.xpconfig',
+            COMMENTS => 'Xprint Configuration Files ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.fnt.coreX',
+            COMMENTS => 'AIXwindows X Consortium Fonts ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.fnt.defaultFonts',
+            COMMENTS => 'AIXwindows Default Fonts ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.fnt.iso1',
+            COMMENTS => 'AIXwindows Latin 1 Fonts ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.fnt.iso2',
+            COMMENTS => 'AIXwindows Latin 2 Fonts ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.fnt.iso3',
+            COMMENTS => 'AIXwindows Latin 3 Fonts ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.fnt.iso4',
+            COMMENTS => 'AIXwindows Latin 4 Fonts ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.fnt.iso_T1',
+            COMMENTS => 'AIXwindows Latin Type1 Fonts ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.fnt.ucs.com',
+            COMMENTS => 'AIXwindows Common Fonts Unicode ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.loc.en_US.base.lib',
+            COMMENTS => 'AIXwindows Client Locale Config - U.S. English ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.loc.en_US.base.rte',
+            COMMENTS => 'AIXwindows Locale Configuration - U.S. English ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.motif.lib',
+            COMMENTS => 'AIXwindows Motif Libraries ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.motif.mwm',
+            COMMENTS => 'AIXwindows Motif Window Manager ',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'X11.vsm.lib',
+            COMMENTS => 'Visual System Managment Library ',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.64bit',
+            COMMENTS => 'Base Operating System 64 bit Runtime ',
+            VERSION  => '5.3.10.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.acct',
+            COMMENTS => 'Accounting Services ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.adt.base',
+            COMMENTS => 'Base Application Development Toolkit ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.adt.include',
+            COMMENTS => 'Base Application Development Include Files ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.adt.lib',
+            COMMENTS => 'Base Application Development Libraries ',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.adt.libm',
+            COMMENTS => 'Base Application Development Math Library ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.adt.prof',
+            COMMENTS => 'Base Profiling Support ',
+            VERSION  => '5.3.10.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.alt_disk_install.boot_images',
+            COMMENTS => 'Alternate Disk Installation Disk Boot Images ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.alt_disk_install.rte',
+            COMMENTS => 'Alternate Disk Installation Runtime ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.cdmount',
+            COMMENTS => 'CD/DVD Automount Facility ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.cifs_fs.rte',
+            COMMENTS => 'Runtime for SMBFS ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.cifs_fs.smit',
+            COMMENTS => 'SMIT Interface for SMBFS ',
+            VERSION  => '5.3.7.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.content_list',
+            COMMENTS => 'AIX Release Content List',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.com',
+            COMMENTS => 'Common Hardware Diagnostics ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.rte',
+            COMMENTS => 'Hardware Diagnostics ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.util',
+            COMMENTS => 'Hardware Diagnostics Utilities ',
+            VERSION  => '5.3.10.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.iconv.com',
+            COMMENTS => 'Common Language to Language Converters ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.iconv.fr_FR',
+            COMMENTS => 'EBCDIC & ASCII Language Converters - French ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.iconv.ucs.com',
+            COMMENTS => 'Unicode Base Converters for AIX Code Sets/Fonts ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.iocp.rte',
+            COMMENTS => 'I/O Completion Ports API ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.loc.iso.fr_FR',
+            COMMENTS => 'Base System Locale ISO Code Set - French',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.mh',
+            COMMENTS => 'Mail Handler ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.mp',
+            COMMENTS => 'Base Operating System Multiprocessor Runtime ',
+            VERSION  => '5.3.10.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.mp64',
+            COMMENTS => 'Base Operating System 64-bit Multiprocessor Runtime ',
+            VERSION  => '5.3.10.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.ncs',
+            COMMENTS => 'Network Computing System 1.5.1 ',
+            VERSION  => '5.3.8.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.nfs.client',
+            COMMENTS => 'Network File System Client ',
+            VERSION  => '5.3.10.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.nfs.server',
+            COMMENTS => 'Network File System Server ',
+            VERSION  => '5.3.8.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.snapp',
+            COMMENTS => 'System Networking Analysis and Performance Pilot ',
+            VERSION  => '5.3.7.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.adt',
+            COMMENTS => 'TCP/IP Application Toolkit ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.client',
+            COMMENTS => 'TCP/IP Client Support ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.server',
+            COMMENTS => 'TCP/IP Server ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.smit',
+            COMMENTS => 'TCP/IP SMIT Support ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.uucp',
+            COMMENTS => 'Unix to Unix Copy Program ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.diag_tool',
+            COMMENTS => 'Performance Diagnostic Tool ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.libperfstat',
+            COMMENTS => 'Performance Statistics Library Interface ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.perfstat',
+            COMMENTS => 'Performance Statistics Interface ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.proctools',
+            COMMENTS => 'Proc Filesystem Tools ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.tools',
+            COMMENTS => 'Base Performance Tools ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.tune',
+            COMMENTS => 'Performance Tuning Support ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.pmapi.events',
+            COMMENTS => 'Performance Monitor API Event Codes ',
+            VERSION  => '5.3.8.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.pmapi.lib',
+            COMMENTS => 'Performance Monitor API Library ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.pmapi.pmsvcs',
+            COMMENTS => 'Performance Monitor API Kernel Extension ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.pmapi.samples',
+            COMMENTS => 'Performance Monitor API Samples ',
+            VERSION  => '5.3.7.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.pmapi.tools',
+            COMMENTS => 'Performance Monitor API Tools ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte',
+            COMMENTS => 'Base Operating System Runtime',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.Dt',
+            COMMENTS => 'Desktop Integrator',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.ILS',
+            COMMENTS => 'International Language Support',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.SRC',
+            COMMENTS => 'System Resource Controller',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.X11',
+            COMMENTS => 'AIXwindows Device Support',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.aio',
+            COMMENTS => 'Asynchronous I/O Extension',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.archive',
+            COMMENTS => 'Archive Commands',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.bind_cmds',
+            COMMENTS => 'Binder and Loader Commands',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.boot',
+            COMMENTS => 'Boot Commands',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.bosinst',
+            COMMENTS => 'Base OS Install Commands',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.commands',
+            COMMENTS => 'Commands',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.compare',
+            COMMENTS => 'File Compare Commands',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.console',
+            COMMENTS => 'Console',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.control',
+            COMMENTS => 'System Control Commands',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.cron',
+            COMMENTS => 'Batch Operations',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.date',
+            COMMENTS => 'Date Control Commands',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.devices',
+            COMMENTS => 'Base Device Drivers',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.devices_msg',
+            COMMENTS => 'Device Driver Messages',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.diag',
+            COMMENTS => 'Diagnostics',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.edit',
+            COMMENTS => 'Editors',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.filesystem',
+            COMMENTS => 'Filesystem Administration',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.iconv',
+            COMMENTS => 'Language Converters',
+            VERSION  => '5.3.8.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.ifor_ls',
+            COMMENTS => 'iFOR/LS Libraries',
+            VERSION  => '5.3.8.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.im',
+            COMMENTS => 'Input Methods',
+            VERSION  => '5.3.8.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.install',
+            COMMENTS => 'LPP Install Commands',
+            VERSION  => '5.3.10.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.jfscomp',
+            COMMENTS => 'JFS Compression',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libc',
+            COMMENTS => 'libc Library',
+            VERSION  => '5.3.10.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libcfg',
+            COMMENTS => 'libcfg Library',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libcur',
+            COMMENTS => 'libcurses Library',
+            VERSION  => '5.3.10.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libdbm',
+            COMMENTS => 'libdbm Library',
+            VERSION  => '5.3.7.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libnetsvc',
+            COMMENTS => 'Network Services Libraries',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libpthreads',
+            COMMENTS => 'pthreads Library',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libqb',
+            COMMENTS => 'libqb Library',
+            VERSION  => '5.3.8.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libs',
+            COMMENTS => 'libs Library',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.loc',
+            COMMENTS => 'Base Locale Support',
+            VERSION  => '5.3.8.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.lvm',
+            COMMENTS => 'Logical Volume Manager',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.man',
+            COMMENTS => 'Man Commands',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.methods',
+            COMMENTS => 'Device Config Methods',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.misc_cmds',
+            COMMENTS => 'Miscellaneous Commands',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.net',
+            COMMENTS => 'Network',
+            VERSION  => '5.3.0.40',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.odm',
+            COMMENTS => 'Object Data Manager',
+            VERSION  => '5.3.8.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.printers',
+            COMMENTS => 'Front End Printer Support',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.security',
+            COMMENTS => 'Base Security Function',
+            VERSION  => '5.3.10.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.serv_aid',
+            COMMENTS => 'Error Log Service Aids',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.shell',
+            COMMENTS => 'Shells (bsh, ksh, csh)',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.streams',
+            COMMENTS => 'Streams Libraries',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.tty',
+            COMMENTS => 'Base TTY Support and Commands',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.suma',
+            COMMENTS => 'Service Update Management Assistant (SUMA) ',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.swma',
+            COMMENTS => 'Software Maintenance Agreement ',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.loginlic',
+            COMMENTS => 'License Management ',
+            VERSION  => '5.3.7.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.nim.client',
+            COMMENTS => 'Network Install Manager - Client Tools ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.quota',
+            COMMENTS => 'Filesystem Quota Commands ',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.serv_aid',
+            COMMENTS => 'Software Error Logging and Dump Service Aids ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.smit',
+            COMMENTS => 'System Management Interface Tool (SMIT) ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.sysbr',
+            COMMENTS => 'System Backup and BOS Install Utilities ',
+            VERSION  => '5.3.10.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.trace',
+            COMMENTS => 'Software Trace Service Aids ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.rte',
+            COMMENTS => 'Run-time Environment for AIX Terminals ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.txt.spell',
+            COMMENTS => 'Writer\'s Tools Commands ',
+            VERSION  => '5.3.8.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.txt.tfs',
+            COMMENTS => 'Text Formatting Services Commands ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'csm.client',
+            COMMENTS => 'Cluster Systems Management Client',
+            VERSION  => '1.7.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'csm.core',
+            COMMENTS => 'Cluster Systems Management Core',
+            VERSION  => '1.7.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'csm.deploy',
+            COMMENTS => 'Cluster Systems Management Deployment Component',
+            VERSION  => '1.7.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'csm.diagnostics',
+            COMMENTS => 'Cluster Systems Management Probe Manager / Diagnostics',
+            VERSION  => '1.7.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'csm.dsh',
+            COMMENTS => 'Cluster Systems Management Dsh',
+            VERSION  => '1.7.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'csm.msg.FR_FR.core',
+            COMMENTS => 'CSM Core Func Msgs - French (UTF)',
+            VERSION  => '1.7.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'ifor_ls.base.cli',
+            COMMENTS => 'License Use Management Runtime Code ',
+            VERSION  => '5.3.8.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'ifor_ls.html.en_US.base.cli',
+            COMMENTS => 'LUM HTML Guides - U.S. English ',
+            VERSION  => '5.3.8.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'infocenter.man.EN_US.commands',
+            COMMENTS => 'AIX manual commands - U.S. English',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'infocenter.man.EN_US.files',
+            COMMENTS => 'AIX manual files - U.S. English',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'infocenter.man.EN_US.libs',
+            COMMENTS => 'AIX manual libs - U.S. English',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'invscout.com',
+            COMMENTS => 'Inventory Scout Microcode Catalog',
+            VERSION  => '2.2.0.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'invscout.ldb',
+            COMMENTS => 'Inventory Scout Logic Database',
+            VERSION  => '2.2.0.2',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'invscout.rte',
+            COMMENTS => 'Inventory Scout Runtime',
+            VERSION  => '2.2.0.13',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'lum.base.cli',
+            COMMENTS => 'License Use Management Runtime Code',
+            VERSION  => '5.1.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'openssh.base.client',
+            COMMENTS => 'Open Secure Shell Commands',
+            VERSION  => '5.2.0.5300',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'openssh.base.server',
+            COMMENTS => 'Open Secure Shell Server',
+            VERSION  => '5.2.0.5300',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'openssl.base',
+            COMMENTS => 'Open Secure Socket Layer',
+            VERSION  => '0.9.8.1100',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'perfagent.tools',
+            COMMENTS => 'Local Performance Analysis & Control Commands ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'perl.libext',
+            COMMENTS => 'Perl Library Extensions ',
+            VERSION  => '2.1.0.10',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'perl.rte',
+            COMMENTS => 'Perl Version 5 Runtime Environment ',
+            VERSION  => '5.8.2.100',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'printers.rte',
+            COMMENTS => 'Printer Backend ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rpm.rte',
+            COMMENTS => 'RPM Package Manager',
+            VERSION  => '3.0.5.47',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.auditrm',
+            COMMENTS => 'RSCT Audit Log Resource Manager',
+            VERSION  => '2.4.11.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.errm',
+            COMMENTS => 'RSCT Event Response Resource Manager',
+            VERSION  => '2.4.11.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.fsrm',
+            COMMENTS => 'RSCT File System Resource Manager',
+            VERSION  => '2.4.11.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.gui',
+            COMMENTS => 'RSCT Graphical User Interface',
+            VERSION  => '2.4.11.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.hostrm',
+            COMMENTS => 'RSCT Host Resource Manager',
+            VERSION  => '2.4.11.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.lprm',
+            COMMENTS => 'RSCT Least Privilege Resource Manager',
+            VERSION  => '2.4.11.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.microsensor',
+            COMMENTS => 'RSCT MicroSensor Resource Manager',
+            VERSION  => '2.4.11.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.rmc',
+            COMMENTS => 'RSCT Resource Monitoring and Control',
+            VERSION  => '2.4.11.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.sec',
+            COMMENTS => 'RSCT Security',
+            VERSION  => '2.4.11.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.sensorrm',
+            COMMENTS => 'RSCT Sensor Resource Manager',
+            VERSION  => '2.4.11.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.sr',
+            COMMENTS => 'RSCT Registry',
+            VERSION  => '2.4.11.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.utils',
+            COMMENTS => 'RSCT Utilities',
+            VERSION  => '2.4.11.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.auditrm',
+            COMMENTS => 'RSCT Audit Log RM Msgs - French (UTF)',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.errm',
+            COMMENTS => 'RSCT Event Response RM Msgs - French (UTF)',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.fsrm',
+            COMMENTS => 'RSCT File System RM Msgs - French (UTF)',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.hostrm',
+            COMMENTS => 'RSCT Host RM Msgs - French (UTF)',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.lprm',
+            COMMENTS => 'RSCT LPRM Msgs - French (UTF)',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.sec',
+            COMMENTS => 'RSCT Security Msgs - French (UTF)',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.sensorrm',
+            COMMENTS => 'RSCT Sensor RM Msgs - French (UTF)',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.sr',
+            COMMENTS => 'RSCT Registry Msgs - French (UTF)',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.utils',
+            COMMENTS => 'RSCT Utilities Msgs - French (UTF)',
+            VERSION  => '2.4.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'samba.base',
+            COMMENTS => 'Samba for AIX',
+            VERSION  => '3.2.8.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'samba.license',
+            COMMENTS => 'Samba for AIX',
+            VERSION  => '3.2.8.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'samba.man.en_US',
+            COMMENTS => 'Samba for AIX',
+            VERSION  => '3.2.8.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'sysmgt.sguide.rte',
+            COMMENTS => 'TaskGuide Runtime Environment',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'sysmgtlib.framework.core',
+            COMMENTS => 'System Management Service Libraries Common Code ',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'sysmgtlib.libraries.apps',
+            COMMENTS => 'System Management Service Libraries Application Code ',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'xlC.aix50.rte',
+            COMMENTS => 'XL C/C++ Runtime for AIX 5.3 ',
+            VERSION  => '10.1.0.2',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'xlC.cpp',
+            COMMENTS => 'C for AIX Preprocessor',
+            VERSION  => '9.0.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'xlC.rte',
+            COMMENTS => 'XL C/C++ Runtime ',
+            VERSION  => '10.1.0.2',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'Java14.sdk',
+            COMMENTS => 'Java SDK 32-bit ',
+            VERSION  => '1.4.2.250',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'Java6_64.sdk',
+            COMMENTS => 'Java SDK 64-bit ',
+            VERSION  => '6.0.0.265',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'Tivoli_Management_Agent.client.rte',
+            COMMENTS => 'Management Framework Endpoint Runtime"',
+            VERSION  => '3.7.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'X11.Dt.ToolTalk',
+            COMMENTS => 'AIX CDE ToolTalk Support ',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'X11.Dt.bitmaps',
+            COMMENTS => 'AIX CDE Bitmaps ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'X11.Dt.helpmin',
+            COMMENTS => 'AIX CDE Minimum Help Files ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'X11.base.rte',
+            COMMENTS => 'AIXwindows Runtime Environment ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'X11.base.smt',
+            COMMENTS => 'AIXwindows Runtime Shared Memory Transport ',
+            VERSION  => '5.3.0.30',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.64bit',
+            COMMENTS => 'Base Operating System 64 bit Runtime ',
+            VERSION  => '5.3.10.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.acct',
+            COMMENTS => 'Accounting Services ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.cdmount',
+            COMMENTS => 'CD/DVD Automount Facility ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.cifs_fs.rte',
+            COMMENTS => 'Runtime for SMBFS ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.cifs_fs.smit',
+            COMMENTS => 'SMIT Interface for SMBFS ',
+            VERSION  => '5.3.7.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.com',
+            COMMENTS => 'Common Hardware Diagnostics ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.rte',
+            COMMENTS => 'Hardware Diagnostics ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.util',
+            COMMENTS => 'Hardware Diagnostics Utilities ',
+            VERSION  => '5.3.10.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.iocp.rte',
+            COMMENTS => 'I/O Completion Ports API ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.mh',
+            COMMENTS => 'Mail Handler ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.mp',
+            COMMENTS => 'Base Operating System Multiprocessor Runtime ',
+            VERSION  => '5.3.10.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.mp64',
+            COMMENTS => 'Base Operating System 64-bit Multiprocessor Runtime ',
+            VERSION  => '5.3.10.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.ncs',
+            COMMENTS => 'Network Computing System 1.5.1 ',
+            VERSION  => '5.3.8.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.nfs.client',
+            COMMENTS => 'Network File System Client ',
+            VERSION  => '5.3.10.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.snapp',
+            COMMENTS => 'System Networking Analysis and Performance Pilot ',
+            VERSION  => '5.3.7.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.client',
+            COMMENTS => 'TCP/IP Client Support ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.server',
+            COMMENTS => 'TCP/IP Server ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.uucp',
+            COMMENTS => 'Unix to Unix Copy Program ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.diag_tool',
+            COMMENTS => 'Performance Diagnostic Tool ',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.libperfstat',
+            COMMENTS => 'Performance Statistics Library Interface ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.perfstat',
+            COMMENTS => 'Performance Statistics Interface ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.tools',
+            COMMENTS => 'Base Performance Tools ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.tune',
+            COMMENTS => 'Performance Tuning Support ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.pmapi.pmsvcs',
+            COMMENTS => 'Performance Monitor API Kernel Extension ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte',
+            COMMENTS => 'Base Operating System Runtime',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.Dt',
+            COMMENTS => 'Desktop Integrator',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.SRC',
+            COMMENTS => 'System Resource Controller',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.aio',
+            COMMENTS => 'Asynchronous I/O Extension',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.archive',
+            COMMENTS => 'Archive Commands',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.boot',
+            COMMENTS => 'Boot Commands',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.commands',
+            COMMENTS => 'Commands',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.control',
+            COMMENTS => 'System Control Commands',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.cron',
+            COMMENTS => 'Batch Operations',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.devices',
+            COMMENTS => 'Base Device Drivers',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.diag',
+            COMMENTS => 'Diagnostics',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.filesystem',
+            COMMENTS => 'Filesystem Administration',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.jfscomp',
+            COMMENTS => 'JFS Compression',
+            VERSION  => '5.3.0.50',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.lvm',
+            COMMENTS => 'Logical Volume Manager',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.printers',
+            COMMENTS => 'Front End Printer Support',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.security',
+            COMMENTS => 'Base Security Function',
+            VERSION  => '5.3.10.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.serv_aid',
+            COMMENTS => 'Error Log Service Aids',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.shell',
+            COMMENTS => 'Shells (bsh, ksh, csh)',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.tty',
+            COMMENTS => 'Base TTY Support and Commands',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.suma',
+            COMMENTS => 'Service Update Management Assistant (SUMA) ',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.loginlic',
+            COMMENTS => 'License Management ',
+            VERSION  => '5.3.7.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.nim.client',
+            COMMENTS => 'Network Install Manager - Client Tools ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.serv_aid',
+            COMMENTS => 'Software Error Logging and Dump Service Aids ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.sysbr',
+            COMMENTS => 'System Backup and BOS Install Utilities ',
+            VERSION  => '5.3.10.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.trace',
+            COMMENTS => 'Software Trace Service Aids ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'csm.client',
+            COMMENTS => 'Cluster Systems Management Client',
+            VERSION  => '1.7.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'csm.core',
+            COMMENTS => 'Cluster Systems Management Core',
+            VERSION  => '1.7.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'csm.deploy',
+            COMMENTS => 'Cluster Systems Management Deployment Component',
+            VERSION  => '1.7.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'csm.diagnostics',
+            COMMENTS => 'Cluster Systems Management Probe Manager / Diagnostics',
+            VERSION  => '1.7.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'csm.dsh',
+            COMMENTS => 'Cluster Systems Management Dsh',
+            VERSION  => '1.7.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'ifor_ls.base.cli',
+            COMMENTS => 'License Use Management Runtime Code ',
+            VERSION  => '5.3.8.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'invscout.com',
+            COMMENTS => 'Inventory Scout Microcode Catalog',
+            VERSION  => '2.2.0.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'invscout.ldb',
+            COMMENTS => 'Inventory Scout Logic Database',
+            VERSION  => '2.2.0.2',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'invscout.rte',
+            COMMENTS => 'Inventory Scout Runtime',
+            VERSION  => '2.2.0.13',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'lum.base.cli',
+            COMMENTS => 'License Use Management Runtime Code',
+            VERSION  => '5.1.2.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'openssh.base.client',
+            COMMENTS => 'Open Secure Shell Commands',
+            VERSION  => '5.2.0.5300',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'openssh.base.server',
+            COMMENTS => 'Open Secure Shell Server',
+            VERSION  => '5.2.0.5300',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'openssl.base',
+            COMMENTS => 'Open Secure Socket Layer',
+            VERSION  => '0.9.8.1100',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'perfagent.tools',
+            COMMENTS => 'Local Performance Analysis & Control Commands ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'printers.rte',
+            COMMENTS => 'Printer Backend ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rpm.rte',
+            COMMENTS => 'RPM Package Manager',
+            VERSION  => '3.0.5.47',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.auditrm',
+            COMMENTS => 'RSCT Audit Log Resource Manager',
+            VERSION  => '2.4.11.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.errm',
+            COMMENTS => 'RSCT Event Response Resource Manager',
+            VERSION  => '2.4.11.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.fsrm',
+            COMMENTS => 'RSCT File System Resource Manager',
+            VERSION  => '2.4.11.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.hostrm',
+            COMMENTS => 'RSCT Host Resource Manager',
+            VERSION  => '2.4.11.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.lprm',
+            COMMENTS => 'RSCT Least Privilege Resource Manager',
+            VERSION  => '2.4.11.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.microsensor',
+            COMMENTS => 'RSCT MicroSensor Resource Manager',
+            VERSION  => '2.4.11.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.rmc',
+            COMMENTS => 'RSCT Resource Monitoring and Control',
+            VERSION  => '2.4.11.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.sec',
+            COMMENTS => 'RSCT Security',
+            VERSION  => '2.4.11.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.sensorrm',
+            COMMENTS => 'RSCT Sensor Resource Manager',
+            VERSION  => '2.4.11.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.sr',
+            COMMENTS => 'RSCT Registry',
+            VERSION  => '2.4.11.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.utils',
+            COMMENTS => 'RSCT Utilities',
+            VERSION  => '2.4.11.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'samba.base',
+            COMMENTS => 'Samba for AIX',
+            VERSION  => '3.2.8.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.adds.data',
+            COMMENTS => 'ADDS Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.annarbor.data',
+            COMMENTS => 'Annarbor Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.ansi.data',
+            COMMENTS => 'Amer National Stds Institute Terminal Defs ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.att.data',
+            COMMENTS => 'AT&T Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.beehive.data',
+            COMMENTS => 'Beehive Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.bull.data',
+            COMMENTS => 'Bull Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.cdc.data',
+            COMMENTS => 'Control Data Corp. Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.colorscan.data',
+            COMMENTS => 'Datamedia Colorscan Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.com.data',
+            COMMENTS => 'Common Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.datamedia.data',
+            COMMENTS => 'Datamedia Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.dec.data',
+            COMMENTS => 'Digital Equipment Corp. Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.diablo.data',
+            COMMENTS => 'Generic Daisy Wheel Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.falco.data',
+            COMMENTS => 'Falco Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.fortune.data',
+            COMMENTS => 'Fortune Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.general.data',
+            COMMENTS => 'General Terminal Corp. Term Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.hardcopy.data',
+            COMMENTS => 'Hard Copy Terminals Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.hazeltine.data',
+            COMMENTS => 'Hazeltine Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.hds.data',
+            COMMENTS => 'Human Designed Systems Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.heath.data',
+            COMMENTS => 'Heathkit and Zenith Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.homebrew.data',
+            COMMENTS => 'Home-made Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.hp.data',
+            COMMENTS => 'Hewlett-Packard Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.ibm.data',
+            COMMENTS => 'IBM Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.lsi.data',
+            COMMENTS => 'Lear Siegler Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.microterm.data',
+            COMMENTS => 'Microterm Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.misc.data',
+            COMMENTS => 'Miscellaneous Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.pc.data',
+            COMMENTS => 'Personal Computer Terminal Definitions ',
+            VERSION  => '5.3.10.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.pci.data',
+            COMMENTS => 'DOS Server Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.perkinelmer.data',
+            COMMENTS => 'Perkin Elmer Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.pmcons.data',
+            COMMENTS => 'PMAX Console Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.print.data',
+            COMMENTS => 'Generic Line Printer Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.special.data',
+            COMMENTS => 'Special Generic Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.sperry.data',
+            COMMENTS => 'Sperry Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.svprint.data',
+            COMMENTS => 'System V Printer Terminal Definitions ',
+            VERSION  => '5.3.9.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.tektronix.data',
+            COMMENTS => 'Tektronix Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.teleray.data',
+            COMMENTS => 'Teleray Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.televideo.data',
+            COMMENTS => 'Televideo Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.ti.data',
+            COMMENTS => 'Texas Instruments Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.tymshare.data',
+            COMMENTS => 'Tymshare Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.visual.data',
+            COMMENTS => 'Visual Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.wyse.data',
+            COMMENTS => 'Wyse Terminal Definitions ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.txt.spell.data',
+            COMMENTS => 'Writer\'s Tools Data ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.txt.tfs.data',
+            COMMENTS => 'Text Formatting Services Data ',
+            VERSION  => '5.3.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        }
+    ],
     'aix-6.1' => [
 	{
             NAME     => 'Atape.driver',
@@ -7553,7 +13335,1923 @@ my %tests = (
             VERSION  => '6.1.0.0',
             FOLDER   => '/usr/share/lib/objrepos'
 	}
-    ]
+    ],
+    'aix-6.1b' => [
+        {
+            NAME     => 'Atape.driver',
+            COMMENTS => 'IBM AIX Enhanced Tape and Medium Changer Device Driver',
+            VERSION  => '12.0.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'ICU4C.rte',
+            COMMENTS => 'International Components for Unicode',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'Tivoli_Management_Agent.client.rte',
+            COMMENTS => 'Management Framework Endpoint Runtime"',
+            VERSION  => '3.7.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'artex.base.rte',
+            COMMENTS => 'AIX Runtime Expert',
+            VERSION  => '6.1.6.3',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'artex.base.samples',
+            COMMENTS => 'AIX Runtime Expert sample profiles',
+            VERSION  => '6.1.6.2',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.64bit',
+            COMMENTS => 'Base Operating System 64 bit Runtime',
+            VERSION  => '6.1.6.4',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.acct',
+            COMMENTS => 'Accounting Services',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.adt.base',
+            COMMENTS => 'Base Application Development Toolkit',
+            VERSION  => '6.1.6.2',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.adt.include',
+            COMMENTS => 'Base Application Development Include Files',
+            VERSION  => '6.1.6.4',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.adt.lib',
+            COMMENTS => 'Base Application Development Libraries ',
+            VERSION  => '6.1.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.aixpert.cmds',
+            COMMENTS => 'AIX Security Hardening',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.alt_disk_install.boot_images',
+            COMMENTS => 'Alternate Disk Installation Disk Boot Images',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.alt_disk_install.rte',
+            COMMENTS => 'Alternate Disk Installation Runtime',
+            VERSION  => '6.1.6.2',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.cdmount',
+            COMMENTS => 'CD/DVD Automount Facility',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.content_list',
+            COMMENTS => 'AIX Release Content List',
+            VERSION  => '6.1.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.com',
+            COMMENTS => 'Common Hardware Diagnostics',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.rte',
+            COMMENTS => 'Hardware Diagnostics',
+            VERSION  => '6.1.6.2',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.util',
+            COMMENTS => 'Hardware Diagnostics Utilities',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.help.msg.en_US.com',
+            COMMENTS => 'WebSM/SMIT Context Helps - U.S. English ',
+            VERSION  => '6.1.5.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.help.msg.en_US.smit',
+            COMMENTS => 'SMIT Context Helps - U.S. English ',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.help.msg.fr_FR.com',
+            COMMENTS => 'WebSM/SMIT Context Helps - French',
+            VERSION  => '6.1.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.iconv.com',
+            COMMENTS => 'Common Language to Language Converters',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.iconv.fr_FR',
+            COMMENTS => 'EBCDIC & ASCII Language Converters - French ',
+            VERSION  => '6.1.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.iconv.ucs.com',
+            COMMENTS => 'Unicode Base Converters for AIX Code Sets/Fonts',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.iocp.rte',
+            COMMENTS => 'I/O Completion Ports API',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.loc.com.utf',
+            COMMENTS => 'Common Locale Support - UTF-8',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.loc.iso.en_US',
+            COMMENTS => 'Base System Locale ISO Code Set - U.S. English',
+            VERSION  => '6.1.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.loc.iso.fr_FR',
+            COMMENTS => 'Base System Locale ISO Code Set - French ',
+            VERSION  => '6.1.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.loc.utf.FR_FR',
+            COMMENTS => 'Base System Locale UTF Code Set - French',
+            VERSION  => '6.1.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.mh',
+            COMMENTS => 'Mail Handler',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.mls.lib',
+            COMMENTS => 'Trusted AIX Libraries ',
+            VERSION  => '6.1.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.mp64',
+            COMMENTS => 'Base Operating System 64-bit Multiprocessor Runtime',
+            VERSION  => '6.1.6.4',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.msg.FR_FR.net.tcp.client',
+            COMMENTS => 'TCP/IP Messages - French (UTF) ',
+            VERSION  => '6.1.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.msg.FR_FR.rte',
+            COMMENTS => 'Base OS Runtime Messages - French (UTF) ',
+            VERSION  => '6.1.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.msg.fr_FR.alt_disk_install.rte',
+            COMMENTS => 'Alternate Disk Install Msgs - French',
+            VERSION  => '6.1.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.msg.fr_FR.diag.rte',
+            COMMENTS => 'Hardware Diagnostics Messages - French ',
+            VERSION  => '6.1.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.msg.fr_FR.net.tcp.client',
+            COMMENTS => 'TCP/IP Messages - French ',
+            VERSION  => '6.1.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.msg.fr_FR.rte',
+            COMMENTS => 'Base OS Runtime Messages - French ',
+            VERSION  => '6.1.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.msg.fr_FR.txt.tfs',
+            COMMENTS => 'Text Formatting Services Msgs - French',
+            VERSION  => '6.1.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.ncs',
+            COMMENTS => 'Network Computing System 1.5.1 ',
+            VERSION  => '6.1.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.nfs.client',
+            COMMENTS => 'Network File System Client',
+            VERSION  => '6.1.6.4',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.nfs.server',
+            COMMENTS => 'Network File System Server',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.snapp',
+            COMMENTS => 'System Networking Analysis and Performance Pilot',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.adt',
+            COMMENTS => 'TCP/IP Application Toolkit',
+            VERSION  => '6.1.5.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.client',
+            COMMENTS => 'TCP/IP Client Support',
+            VERSION  => '6.1.6.4',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.server',
+            COMMENTS => 'TCP/IP Server',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.smit',
+            COMMENTS => 'TCP/IP SMIT Support',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.diag_tool',
+            COMMENTS => 'Performance Diagnostic Tool',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.fdpr',
+            COMMENTS => 'Feedback Directed Program Restructuring performance tool',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.libperfstat',
+            COMMENTS => 'Performance Statistics Library Interface',
+            VERSION  => '6.1.6.2',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.perfstat',
+            COMMENTS => 'Performance Statistics Interface',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.proctools',
+            COMMENTS => 'Proc Filesystem Tools',
+            VERSION  => '6.1.6.2',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.tools',
+            COMMENTS => 'Base Performance Tools',
+            VERSION  => '6.1.6.4',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.tune',
+            COMMENTS => 'Performance Tuning Support',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.pmapi.events',
+            COMMENTS => 'Performance Monitor API Event Codes',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.pmapi.lib',
+            COMMENTS => 'Performance Monitor API Library',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.pmapi.pmsvcs',
+            COMMENTS => 'Performance Monitor API Kernel Extension',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.pmapi.samples',
+            COMMENTS => 'Performance Monitor API Samples',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.pmapi.tools',
+            COMMENTS => 'Performance Monitor API Tools',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte',
+            COMMENTS => 'Base Operating System Runtime',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.Dt',
+            COMMENTS => 'Desktop Integrator',
+            VERSION  => '6.1.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.ILS',
+            COMMENTS => 'International Language Support',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.SRC',
+            COMMENTS => 'System Resource Controller',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.X11',
+            COMMENTS => 'AIXwindows Device Support',
+            VERSION  => '6.1.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.aio',
+            COMMENTS => 'Asynchronous I/O Extension',
+            VERSION  => '6.1.6.3',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.archive',
+            COMMENTS => 'Archive Commands',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.bind_cmds',
+            COMMENTS => 'Binder and Loader Commands',
+            VERSION  => '6.1.6.2',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.boot',
+            COMMENTS => 'Boot Commands',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.bosinst',
+            COMMENTS => 'Base OS Install Commands',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.commands',
+            COMMENTS => 'Commands',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.compare',
+            COMMENTS => 'File Compare Commands',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.console',
+            COMMENTS => 'Console',
+            VERSION  => '6.1.6.2',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.control',
+            COMMENTS => 'System Control Commands',
+            VERSION  => '6.1.6.4',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.cron',
+            COMMENTS => 'Batch Operations',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.date',
+            COMMENTS => 'Date Control Commands',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.devices',
+            COMMENTS => 'Base Device Drivers',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.devices_msg',
+            COMMENTS => 'Device Driver Messages',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.diag',
+            COMMENTS => 'Diagnostics',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.edit',
+            COMMENTS => 'Editors',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.filesystem',
+            COMMENTS => 'Filesystem Administration',
+            VERSION  => '6.1.6.2',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.iconv',
+            COMMENTS => 'Language Converters',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.ifor_ls',
+            COMMENTS => 'iFOR/LS Libraries',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.im',
+            COMMENTS => 'Input Methods',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.install',
+            COMMENTS => 'LPP Install Commands',
+            VERSION  => '6.1.6.4',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.jfscomp',
+            COMMENTS => 'JFS Compression',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libc',
+            COMMENTS => 'libc Library',
+            VERSION  => '6.1.6.4',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libcfg',
+            COMMENTS => 'libcfg Library',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libcur',
+            COMMENTS => 'libcurses Library',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libdbm',
+            COMMENTS => 'libdbm Library',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libnetsvc',
+            COMMENTS => 'Network Services Libraries',
+            VERSION  => '6.1.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libpthreads',
+            COMMENTS => 'libpthreads Library',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libqb',
+            COMMENTS => 'libqb Library',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libs',
+            COMMENTS => 'libs Library',
+            VERSION  => '6.1.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.loc',
+            COMMENTS => 'Base Locale Support',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.lvm',
+            COMMENTS => 'Logical Volume Manager',
+            VERSION  => '6.1.6.2',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.man',
+            COMMENTS => 'Man Commands',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.methods',
+            COMMENTS => 'Device Config Methods',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.misc_cmds',
+            COMMENTS => 'Miscellaneous Commands',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.mlslib',
+            COMMENTS => 'Trusted AIX Libraries',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.net',
+            COMMENTS => 'Network',
+            VERSION  => '6.1.5.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.odm',
+            COMMENTS => 'Object Data Manager',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.printers',
+            COMMENTS => 'Front End Printer Support',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.security',
+            COMMENTS => 'Base Security Function',
+            VERSION  => '6.1.6.4',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.serv_aid',
+            COMMENTS => 'Error Log Service Aids',
+            VERSION  => '6.1.6.4',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.shell',
+            COMMENTS => 'Shells (bsh, ksh, csh)',
+            VERSION  => '6.1.6.4',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.streams',
+            COMMENTS => 'Streams Libraries',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.tty',
+            COMMENTS => 'Base TTY Support and Commands',
+            VERSION  => '6.1.6.2',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.suma',
+            COMMENTS => 'Service Update Management Assistant (SUMA)',
+            VERSION  => '6.1.5.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.swma',
+            COMMENTS => 'Software Maintenance Agreement',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.loginlic',
+            COMMENTS => 'License Management',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.nim.client',
+            COMMENTS => 'Network Install Manager - Client Tools',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.nim.master',
+            COMMENTS => 'Network Install Manager - Master Tools',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.nim.spot',
+            COMMENTS => 'Network Install Manager - SPOT',
+            VERSION  => '6.1.6.2',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.quota',
+            COMMENTS => 'Filesystem Quota Commands',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.serv_aid',
+            COMMENTS => 'Software Error Logging and Dump Service Aids',
+            VERSION  => '6.1.6.3',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.smit',
+            COMMENTS => 'System Management Interface Tool (SMIT)',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.sysbr',
+            COMMENTS => 'System Backup and BOS Install Utilities',
+            VERSION  => '6.1.6.3',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.trace',
+            COMMENTS => 'Software Trace Service Aids',
+            VERSION  => '6.1.6.2',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.rte',
+            COMMENTS => 'Run-time Environment for AIX Terminals',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.txt.spell',
+            COMMENTS => 'Writer\'s Tools Commands',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.txt.tfs',
+            COMMENTS => 'Text Formatting Services Commands',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.wpars',
+            COMMENTS => 'AIX Workload Partitions',
+            VERSION  => '6.1.6.3',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'clic.rte.kernext',
+            COMMENTS => 'CryptoLite for C Kernel',
+            VERSION  => '4.7.0.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'clic.rte.lib',
+            COMMENTS => 'CryptoLite for C Library',
+            VERSION  => '4.7.0.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'csm.client',
+            COMMENTS => 'Cluster Systems Management Client',
+            VERSION  => '1.7.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'csm.core',
+            COMMENTS => 'Cluster Systems Management Core',
+            VERSION  => '1.7.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'csm.deploy',
+            COMMENTS => 'Cluster Systems Management Deployment Component',
+            VERSION  => '1.7.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'csm.diagnostics',
+            COMMENTS => 'Cluster Systems Management Probe Manager / Diagnostics',
+            VERSION  => '1.7.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'csm.dsh',
+            COMMENTS => 'Cluster Systems Management Dsh',
+            VERSION  => '1.7.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'csm.msg.FR_FR.core',
+            COMMENTS => 'CSM Core Func Msgs - French (UTF)',
+            VERSION  => '1.7.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'csm.msg.fr_FR.core',
+            COMMENTS => 'CSM Core Func Msgs - French',
+            VERSION  => '1.7.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'expect.base',
+            COMMENTS => 'Binary executable files of Expect',
+            VERSION  => '5.42.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'expect.man.en_US',
+            COMMENTS => 'Expect man page documentation',
+            VERSION  => '5.42.1.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'ifor_ls.base.cli',
+            COMMENTS => 'License Use Management Runtime Code',
+            VERSION  => '6.1.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'ifor_ls.html.en_US.base.cli',
+            COMMENTS => 'LUM HTML Guides - U.S. English',
+            VERSION  => '6.1.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'infocenter.man.EN_US.commands',
+            COMMENTS => 'AIX manual commands - U.S. English',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'infocenter.man.EN_US.files',
+            COMMENTS => 'AIX manual files - U.S. English',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'infocenter.man.EN_US.libs',
+            COMMENTS => 'AIX manual libs - U.S. English',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'invscout.com',
+            COMMENTS => 'Inventory Scout Microcode Catalog',
+            VERSION  => '2.2.0.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'invscout.ldb',
+            COMMENTS => 'Inventory Scout Logic Database',
+            VERSION  => '2.2.0.2',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'invscout.msg.fr_FR.rte',
+            COMMENTS => 'Inventory Scout Messages - French',
+            VERSION  => '2.1.0.2',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'invscout.rte',
+            COMMENTS => 'Inventory Scout Runtime',
+            VERSION  => '2.2.0.15',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'lum.base.cli',
+            COMMENTS => 'License Use Management Runtime Code',
+            VERSION  => '5.1.2.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'openssh.base.client',
+            COMMENTS => 'Open Secure Shell Commands',
+            VERSION  => '5.4.0.6100',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'openssh.base.server',
+            COMMENTS => 'Open Secure Shell Server',
+            VERSION  => '5.4.0.6100',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'openssh.msg.fr_FR',
+            COMMENTS => 'Open Secure Shell Messages - French',
+            VERSION  => '5.4.0.6100',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'openssl.base',
+            COMMENTS => 'Open Secure Socket Layer',
+            VERSION  => '0.9.8.1300',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'openssl.license',
+            COMMENTS => 'Open Secure Socket License',
+            VERSION  => '0.9.8.1300',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'openssl.man.en_US',
+            COMMENTS => 'Open Secure Socket Layer',
+            VERSION  => '0.9.8.1300',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'perfagent.tools',
+            COMMENTS => 'Local Performance Analysis & Control Commands',
+            VERSION  => '6.1.6.4',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'perl.libext',
+            COMMENTS => 'Perl Library Extensions',
+            VERSION  => '2.2.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'perl.rte',
+            COMMENTS => 'Perl Version 5 Runtime Environment',
+            VERSION  => '5.8.8.120',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'printers.msg.fr_FR.rte',
+            COMMENTS => 'Printer Backend Messages - French',
+            VERSION  => '6.1.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'printers.rte',
+            COMMENTS => 'Printer Backend',
+            VERSION  => '6.1.6.2',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rpm.rte',
+            COMMENTS => 'RPM Package Manager',
+            VERSION  => '3.0.5.51',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.auditrm',
+            COMMENTS => 'RSCT Audit Log Resource Manager',
+            VERSION  => '3.1.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.errm',
+            COMMENTS => 'RSCT Event Response Resource Manager',
+            VERSION  => '3.1.0.2',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.fsrm',
+            COMMENTS => 'RSCT File System Resource Manager',
+            VERSION  => '3.1.0.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.gui',
+            COMMENTS => 'RSCT Graphical User Interface',
+            VERSION  => '3.1.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.hostrm',
+            COMMENTS => 'RSCT Host Resource Manager',
+            VERSION  => '3.1.0.2',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.lprm',
+            COMMENTS => 'RSCT Least Privilege Resource Manager',
+            VERSION  => '3.1.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.microsensor',
+            COMMENTS => 'RSCT MicroSensor Resource Manager',
+            VERSION  => '3.1.0.3',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.rmc',
+            COMMENTS => 'RSCT Resource Monitoring and Control',
+            VERSION  => '3.1.0.3',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.sec',
+            COMMENTS => 'RSCT Security',
+            VERSION  => '3.1.0.2',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.sensorrm',
+            COMMENTS => 'RSCT Sensor Resource Manager',
+            VERSION  => '3.1.0.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.sr',
+            COMMENTS => 'RSCT Registry',
+            VERSION  => '3.1.0.2',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.utils',
+            COMMENTS => 'RSCT Utilities',
+            VERSION  => '3.1.0.3',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.auditrm',
+            COMMENTS => 'RSCT Audit Log RM Msgs - French (UTF)',
+            VERSION  => '2.5.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.errm',
+            COMMENTS => 'RSCT Event Response RM Msgs - French (UTF)',
+            VERSION  => '2.5.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.fsrm',
+            COMMENTS => 'RSCT File System RM Msgs - French (UTF)',
+            VERSION  => '2.5.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.gui',
+            COMMENTS => 'RSCT GUI Msgs - French (UTF)',
+            VERSION  => '2.5.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.hostrm',
+            COMMENTS => 'RSCT Host RM Msgs - French (UTF)',
+            VERSION  => '2.5.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.lprm',
+            COMMENTS => 'RSCT LPRM Msgs - French (UTF)',
+            VERSION  => '2.5.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.rmc',
+            COMMENTS => 'RSCT RMC Msgs - French (UTF)',
+            VERSION  => '2.5.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.sec',
+            COMMENTS => 'RSCT Security Msgs - French (UTF)',
+            VERSION  => '2.5.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.sensorrm',
+            COMMENTS => 'RSCT Sensor RM Msgs - French (UTF)',
+            VERSION  => '2.5.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.sr',
+            COMMENTS => 'RSCT Registry Msgs - French (UTF)',
+            VERSION  => '2.5.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.FR_FR.core.utils',
+            COMMENTS => 'RSCT Utilities Msgs - French (UTF)',
+            VERSION  => '2.5.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.auditrm',
+            COMMENTS => 'RSCT Audit Log RM Msgs - French',
+            VERSION  => '2.5.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.errm',
+            COMMENTS => 'RSCT Event Response RM Msgs - French',
+            VERSION  => '2.5.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.fsrm',
+            COMMENTS => 'RSCT File System RM Msgs - French',
+            VERSION  => '2.5.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.gui',
+            COMMENTS => 'RSCT GUI Msgs - French',
+            VERSION  => '2.5.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.gui.com',
+            COMMENTS => 'RSCT GUI JAVA Msgs - French',
+            VERSION  => '2.5.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.hostrm',
+            COMMENTS => 'RSCT Host RM Msgs - French',
+            VERSION  => '2.5.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.lprm',
+            COMMENTS => 'RSCT LPRM Msgs - French',
+            VERSION  => '2.5.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.microsensorrm',
+            COMMENTS => 'RSCT MicorSensor RM Msgs - French',
+            VERSION  => '2.5.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.rmc',
+            COMMENTS => 'RSCT RMC Msgs - French',
+            VERSION  => '2.5.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.rmc.com',
+            COMMENTS => 'RSCT RMC JAVA Msgs - French',
+            VERSION  => '2.5.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.sec',
+            COMMENTS => 'RSCT Security Msgs - French',
+            VERSION  => '2.5.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.sensorrm',
+            COMMENTS => 'RSCT Sensor RM Msgs - French',
+            VERSION  => '2.5.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.sr',
+            COMMENTS => 'RSCT Registry Msgs - French',
+            VERSION  => '2.5.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'rsct.msg.fr_FR.core.utils',
+            COMMENTS => 'RSCT Utilities Msgs - French',
+            VERSION  => '2.5.4.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'samba.base',
+            COMMENTS => 'Samba for AIX',
+            VERSION  => '3.2.8.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'samba.license',
+            COMMENTS => 'Samba for AIX',
+            VERSION  => '3.2.8.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'samba.man.en_US',
+            COMMENTS => 'Samba for AIX',
+            VERSION  => '3.2.8.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'tcl.base',
+            COMMENTS => 'Binary executable files of Tcl',
+            VERSION  => '8.4.7.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'tcl.man.en_US',
+            COMMENTS => 'Tcl man page documentation',
+            VERSION  => '8.4.7.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'tk.base',
+            COMMENTS => 'Binary executable files of Tk',
+            VERSION  => '8.4.7.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'tk.man.en_US',
+            COMMENTS => 'Tk man page documentation',
+            VERSION  => '8.4.7.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'wio.common',
+            COMMENTS => 'Common I/O Support for Workload Partitions',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'wio.fcp',
+            COMMENTS => 'FC I/O Support for Workload Partitions',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'xlC.aix61.rte',
+            COMMENTS => 'XL C/C++ Runtime for AIX 6.1 ',
+            VERSION  => '11.1.0.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'xlC.cpp',
+            COMMENTS => 'C for AIX Preprocessor',
+            VERSION  => '9.0.0.0',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'xlC.rte',
+            COMMENTS => 'XL C/C++ Runtime ',
+            VERSION  => '11.1.0.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'xlC.sup.aix50.rte',
+            COMMENTS => 'XL C/C++ Runtime for AIX 5.2',
+            VERSION  => '9.0.0.1',
+            FOLDER   => '/usr/lib/objrepos'
+        },
+        {
+            NAME     => 'Tivoli_Management_Agent.client.rte',
+            COMMENTS => 'Management Framework Endpoint Runtime"',
+            VERSION  => '3.7.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'artex.base.rte',
+            COMMENTS => 'AIX Runtime Expert',
+            VERSION  => '6.1.6.3',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'artex.base.samples',
+            COMMENTS => 'AIX Runtime Expert sample profiles',
+            VERSION  => '6.1.6.2',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.64bit',
+            COMMENTS => 'Base Operating System 64 bit Runtime ',
+            VERSION  => '6.1.4.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.acct',
+            COMMENTS => 'Accounting Services',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.adt.base',
+            COMMENTS => 'Base Application Development Toolkit',
+            VERSION  => '6.1.6.2',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.aixpert.cmds',
+            COMMENTS => 'AIX Security Hardening',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.alt_disk_install.rte',
+            COMMENTS => 'Alternate Disk Installation Runtime',
+            VERSION  => '6.1.6.2',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.cdmount',
+            COMMENTS => 'CD/DVD Automount Facility ',
+            VERSION  => '6.1.4.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.com',
+            COMMENTS => 'Common Hardware Diagnostics ',
+            VERSION  => '6.1.4.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.rte',
+            COMMENTS => 'Hardware Diagnostics',
+            VERSION  => '6.1.6.2',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.diag.util',
+            COMMENTS => 'Hardware Diagnostics Utilities',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.iocp.rte',
+            COMMENTS => 'I/O Completion Ports API ',
+            VERSION  => '6.1.4.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.mh',
+            COMMENTS => 'Mail Handler',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.mp64',
+            COMMENTS => 'Base Operating System 64-bit Multiprocessor Runtime',
+            VERSION  => '6.1.6.4',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.ncs',
+            COMMENTS => 'Network Computing System 1.5.1 ',
+            VERSION  => '6.1.0.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.nfs.client',
+            COMMENTS => 'Network File System Client',
+            VERSION  => '6.1.6.4',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.snapp',
+            COMMENTS => 'System Networking Analysis and Performance Pilot',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.client',
+            COMMENTS => 'TCP/IP Client Support',
+            VERSION  => '6.1.6.4',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.server',
+            COMMENTS => 'TCP/IP Server',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.net.tcp.smit',
+            COMMENTS => 'TCP/IP SMIT Support',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.diag_tool',
+            COMMENTS => 'Performance Diagnostic Tool',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.libperfstat',
+            COMMENTS => 'Performance Statistics Library Interface',
+            VERSION  => '6.1.6.2',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.perfstat',
+            COMMENTS => 'Performance Statistics Interface ',
+            VERSION  => '6.1.4.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.tools',
+            COMMENTS => 'Base Performance Tools',
+            VERSION  => '6.1.6.4',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.perf.tune',
+            COMMENTS => 'Performance Tuning Support',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.pmapi.pmsvcs',
+            COMMENTS => 'Performance Monitor API Kernel Extension ',
+            VERSION  => '6.1.4.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.pmapi.tools',
+            COMMENTS => 'Performance Monitor API Tools',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte',
+            COMMENTS => 'Base Operating System Runtime',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.Dt',
+            COMMENTS => 'Desktop Integrator',
+            VERSION  => '6.1.2.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.ILS',
+            COMMENTS => 'International Language Support',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.SRC',
+            COMMENTS => 'System Resource Controller',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.aio',
+            COMMENTS => 'Asynchronous I/O Extension',
+            VERSION  => '6.1.4.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.archive',
+            COMMENTS => 'Archive Commands',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.bind_cmds',
+            COMMENTS => 'Binder and Loader Commands',
+            VERSION  => '6.1.6.2',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.boot',
+            COMMENTS => 'Boot Commands',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.commands',
+            COMMENTS => 'Commands',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.console',
+            COMMENTS => 'Console',
+            VERSION  => '6.1.6.2',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.control',
+            COMMENTS => 'System Control Commands',
+            VERSION  => '6.1.6.4',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.cron',
+            COMMENTS => 'Batch Operations',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.date',
+            COMMENTS => 'Date Control Commands',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.devices',
+            COMMENTS => 'Base Device Drivers',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.diag',
+            COMMENTS => 'Diagnostics',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.edit',
+            COMMENTS => 'Editors',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.filesystem',
+            COMMENTS => 'Filesystem Administration',
+            VERSION  => '6.1.6.2',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.iconv',
+            COMMENTS => 'Language Converters',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.install',
+            COMMENTS => 'LPP Install Commands',
+            VERSION  => '6.1.6.4',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.jfscomp',
+            COMMENTS => 'JFS Compression',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libc',
+            COMMENTS => 'libc Library',
+            VERSION  => '6.1.6.4',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libcfg',
+            COMMENTS => 'libcfg Library',
+            VERSION  => '6.1.4.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libcur',
+            COMMENTS => 'libcurses Library',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.libpthreads',
+            COMMENTS => 'libpthreads Library',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.loc',
+            COMMENTS => 'Base Locale Support',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.lvm',
+            COMMENTS => 'Logical Volume Manager',
+            VERSION  => '6.1.6.2',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.methods',
+            COMMENTS => 'Device Config Methods',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.misc_cmds',
+            COMMENTS => 'Miscellaneous Commands',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.mlslib',
+            COMMENTS => 'Trusted AIX Libraries',
+            VERSION  => '6.1.4.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.net',
+            COMMENTS => 'Network',
+            VERSION  => '6.1.5.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.odm',
+            COMMENTS => 'Object Data Manager',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.printers',
+            COMMENTS => 'Front End Printer Support',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.security',
+            COMMENTS => 'Base Security Function',
+            VERSION  => '6.1.6.4',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.serv_aid',
+            COMMENTS => 'Error Log Service Aids',
+            VERSION  => '6.1.6.4',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.shell',
+            COMMENTS => 'Shells (bsh, ksh, csh)',
+            VERSION  => '6.1.6.4',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.rte.tty',
+            COMMENTS => 'Base TTY Support and Commands',
+            VERSION  => '6.1.6.2',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.suma',
+            COMMENTS => 'Service Update Management Assistant (SUMA)',
+            VERSION  => '6.1.5.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.loginlic',
+            COMMENTS => 'License Management',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.nim.client',
+            COMMENTS => 'Network Install Manager - Client Tools',
+            VERSION  => '6.1.6.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.quota',
+            COMMENTS => 'Filesystem Quota Commands',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.serv_aid',
+            COMMENTS => 'Software Error Logging and Dump Service Aids',
+            VERSION  => '6.1.6.3',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.smit',
+            COMMENTS => 'System Management Interface Tool (SMIT)',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.sysbr',
+            COMMENTS => 'System Backup and BOS Install Utilities',
+            VERSION  => '6.1.6.3',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.sysmgt.trace',
+            COMMENTS => 'Software Trace Service Aids',
+            VERSION  => '6.1.6.2',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.wpars',
+            COMMENTS => 'AIX Workload Partitions',
+            VERSION  => '6.1.6.3',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'clic.rte.kernext',
+            COMMENTS => 'CryptoLite for C Kernel',
+            VERSION  => '4.7.0.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'csm.client',
+            COMMENTS => 'Cluster Systems Management Client',
+            VERSION  => '1.7.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'csm.core',
+            COMMENTS => 'Cluster Systems Management Core',
+            VERSION  => '1.7.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'csm.deploy',
+            COMMENTS => 'Cluster Systems Management Deployment Component',
+            VERSION  => '1.7.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'csm.diagnostics',
+            COMMENTS => 'Cluster Systems Management Probe Manager / Diagnostics',
+            VERSION  => '1.7.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'csm.dsh',
+            COMMENTS => 'Cluster Systems Management Dsh',
+            VERSION  => '1.7.1.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'ifor_ls.base.cli',
+            COMMENTS => 'License Use Management Runtime Code',
+            VERSION  => '6.1.0.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'invscout.com',
+            COMMENTS => 'Inventory Scout Microcode Catalog',
+            VERSION  => '2.2.0.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'invscout.ldb',
+            COMMENTS => 'Inventory Scout Logic Database',
+            VERSION  => '2.2.0.2',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'invscout.rte',
+            COMMENTS => 'Inventory Scout Runtime',
+            VERSION  => '2.2.0.15',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'lum.base.cli',
+            COMMENTS => 'License Use Management Runtime Code',
+            VERSION  => '5.1.2.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'openssh.base.client',
+            COMMENTS => 'Open Secure Shell Commands',
+            VERSION  => '5.4.0.6100',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'openssh.base.server',
+            COMMENTS => 'Open Secure Shell Server',
+            VERSION  => '5.4.0.6100',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'openssl.base',
+            COMMENTS => 'Open Secure Socket Layer',
+            VERSION  => '0.9.8.1300',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'perfagent.tools',
+            COMMENTS => 'Local Performance Analysis & Control Commands',
+            VERSION  => '6.1.6.4',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'printers.rte',
+            COMMENTS => 'Printer Backend',
+            VERSION  => '6.1.6.2',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rpm.rte',
+            COMMENTS => 'RPM Package Manager',
+            VERSION  => '3.0.5.51',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.auditrm',
+            COMMENTS => 'RSCT Audit Log Resource Manager',
+            VERSION  => '3.1.0.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.errm',
+            COMMENTS => 'RSCT Event Response Resource Manager',
+            VERSION  => '3.1.0.2',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.fsrm',
+            COMMENTS => 'RSCT File System Resource Manager',
+            VERSION  => '3.1.0.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.gui',
+            COMMENTS => 'RSCT Graphical User Interface',
+            VERSION  => '3.1.0.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.hostrm',
+            COMMENTS => 'RSCT Host Resource Manager',
+            VERSION  => '3.1.0.2',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.lprm',
+            COMMENTS => 'RSCT Least Privilege Resource Manager',
+            VERSION  => '3.1.0.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.microsensor',
+            COMMENTS => 'RSCT MicroSensor Resource Manager',
+            VERSION  => '3.1.0.3',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.rmc',
+            COMMENTS => 'RSCT Resource Monitoring and Control',
+            VERSION  => '3.1.0.3',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.sec',
+            COMMENTS => 'RSCT Security',
+            VERSION  => '3.1.0.2',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.sensorrm',
+            COMMENTS => 'RSCT Sensor Resource Manager',
+            VERSION  => '3.1.0.1',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.sr',
+            COMMENTS => 'RSCT Registry',
+            VERSION  => '3.1.0.2',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'rsct.core.utils',
+            COMMENTS => 'RSCT Utilities',
+            VERSION  => '3.1.0.3',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'samba.base',
+            COMMENTS => 'Samba for AIX',
+            VERSION  => '3.2.8.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'wio.common',
+            COMMENTS => 'Common I/O Support for Workload Partitions',
+            VERSION  => '6.1.6.0',
+            FOLDER   => '/etc/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.ansi.data',
+            COMMENTS => 'Amer National Stds Institute Terminal Defs ',
+            VERSION  => '6.1.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.com.data',
+            COMMENTS => 'Common Terminal Definitions ',
+            VERSION  => '6.1.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.dec.data',
+            COMMENTS => 'Digital Equipment Corp. Terminal Definitions ',
+            VERSION  => '6.1.1.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.ibm.data',
+            COMMENTS => 'IBM Terminal Definitions ',
+            VERSION  => '6.1.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.pc.data',
+            COMMENTS => 'Personal Computer Terminal Definitions ',
+            VERSION  => '6.1.4.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.print.data',
+            COMMENTS => 'Generic Line Printer Terminal Definitions ',
+            VERSION  => '6.1.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.televideo.data',
+            COMMENTS => 'Televideo Terminal Definitions ',
+            VERSION  => '6.1.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.terminfo.wyse.data',
+            COMMENTS => 'Wyse Terminal Definitions ',
+            VERSION  => '6.1.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.txt.spell.data',
+            COMMENTS => 'Writer\'s Tools Data ',
+            VERSION  => '6.1.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        },
+        {
+            NAME     => 'bos.txt.tfs.data',
+            COMMENTS => 'Text Formatting Services Data ',
+            VERSION  => '6.1.0.0',
+            FOLDER   => '/usr/share/lib/objrepos'
+        }
+    ],
 );
 
 plan tests => scalar keys %tests;
@@ -7561,5 +15259,7 @@ plan tests => scalar keys %tests;
 foreach my $test (keys %tests) {
     my $file = "resources/aix/lslpp/$test";
     my $softwares = FusionInventory::Agent::Task::Inventory::OS::AIX::Softwares::_getSoftwaresList(file => $file);
-    is_deeply($softwares, $tests{$test}, "software: $test");
+    is_deeply($softwares, $tests{$test}, "software: $test") or print Dumper($softwares);
 }
+
+use Data::Dumper;
