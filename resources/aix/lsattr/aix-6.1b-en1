@@ -1,0 +1,18 @@
+alias4                      IPv4 Alias including Subnet Mask           True
+alias6                      IPv6 Alias including Prefix Length         True
+arp           on            Address Resolution Protocol (ARP)          True
+authority                   Authorized Users                           True
+broadcast                   Broadcast Address                          True
+mtu           9000          Maximum IP Packet Size for This Device     True
+netaddr       192.168.4.1   Internet Address                           True
+netaddr6                    IPv6 Internet Address                      True
+netmask       255.255.255.0 Subnet Mask                                True
+prefixlen                   Prefix Length for IPv6 Internet Address    True
+remmtu        576           Maximum IP Packet Size for REMOTE Networks True
+rfc1323                     Enable/Disable TCP RFC 1323 Window Scaling True
+security      none          Security Level                             True
+state         up            Current Interface Status                   True
+tcp_mssdflt                 Set TCP Maximum Segment Size               True
+tcp_nodelay                 Enable/Disable TCP_NODELAY Option          True
+tcp_recvspace               Set Socket Buffer Space for Receiving      True
+tcp_sendspace               Set Socket Buffer Space for Sending        True

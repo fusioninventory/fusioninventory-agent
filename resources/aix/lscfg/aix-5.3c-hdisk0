@@ -1,0 +1,8 @@
+   hdisk0           U7778.23X.106BDCA-V6-C2-T1-L810000000000  
+	Virtual SCSI Disk Drive
+
+  PLATFORM SPECIFIC
+
+  Name:  disk
+    Node:  disk
+    Device Type:  block

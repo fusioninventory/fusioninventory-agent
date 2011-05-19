@@ -9,7 +9,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::Inventory::OS::AIX::Memory;
 
 my %tests = (
-    'aix-5.3' => [
+    'aix-5.3a' => [
         {
             NUMSLOTS    => 0,
             SERIAL      => 'YH10MS5CH923',
@@ -251,7 +251,7 @@ my %tests = (
             CAPACITY    => '2048'
         }
     ],
-    'aix-6.1' => [
+    'aix-6.1a' => [
         {
             NUMSLOTS    => 0,
             SERIAL      => 'YLD00030486D',

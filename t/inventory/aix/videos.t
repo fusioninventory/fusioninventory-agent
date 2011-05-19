@@ -10,14 +10,14 @@ use FusionInventory::Agent::Task::Inventory::OS::AIX::Videos;
 my %tests = (
     'aix-4.3.1' => [],
     'aix-4.3.2' => [],
-    'aix-5.3' => [
+    'aix-5.3a'  => [
         {
             NAME => 'lai0',
         }
     ],
     'aix-5.3b' => [],
     'aix-5.3c' => [],
-    'aix-6.1' => [],
+    'aix-6.1a' => [],
     'aix-6.1b' => [
         {
             NAME => 'ati0',

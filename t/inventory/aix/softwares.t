@@ -1500,7 +1500,7 @@ my %tests = (
             FOLDER   => '/usr/share/lib/objrepos'
         }
     ],
-    'aix-5.3' => [
+    'aix-5.3a' => [
         {
             NAME     => 'BULLENH_VERSION',
             COMMENTS => 'For BULLENH installation refer to SRB.',
@@ -11208,7 +11208,7 @@ my %tests = (
             FOLDER   => '/usr/share/lib/objrepos'
         }
     ],
-    'aix-6.1' => [
+    'aix-6.1a' => [
 	{
             NAME     => 'Atape.driver',
             COMMENTS => 'IBM AIX Enhanced Tape and Medium Changer Device Driver',

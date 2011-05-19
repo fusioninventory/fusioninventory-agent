@@ -1,0 +1,16 @@
+   hdisk1           U78A5.001.WIH55B2-P1-C10-T1-L500A0B8673860004-L0  
+	MPIO DS3200 SAS Disk
+
+        Manufacturer................IBM     
+        Machine Type and Model......1726-2xx  FAStT 
+        ROS Level and ID............30363137
+        Serial Number...............
+        Device Specific.(Z0)........0000053245005032
+        Device Specific.(Z1)........
+
+
+  PLATFORM SPECIFIC
+
+  Name:  disk
+    Node:  disk
+    Device Type:  block

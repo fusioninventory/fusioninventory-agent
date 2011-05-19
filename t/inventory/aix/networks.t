@@ -27,7 +27,7 @@ my %tests = (
             TYPE        => 'IBM PCI Ethernet Adapter (22100020)',
         }
     ],
-    'aix-5.3' => [
+    'aix-5.3a' => [
         {
             DESCRIPTION => 'en0',
             MACADDR     => '00:14:5E:4D:20:C6',
@@ -68,7 +68,7 @@ my %tests = (
             TYPE        => 'Logical Host Ethernet Port (lp-hea)'
         }
     ],
-    'aix-6.1' => [
+    'aix-6.1a' => [
         {
             DESCRIPTION => 'en0',
             MACADDR     => 'D2:13:C0:15:3A:04',

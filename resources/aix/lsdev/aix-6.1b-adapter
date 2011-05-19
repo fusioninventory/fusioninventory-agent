@@ -1,0 +1,14 @@
+ati0:02105e51:Native Display Graphics Adapter
+ent0:14106703:Gigabit Ethernet-SX PCI-X Adapter (14106703)
+ent1:14106703:Gigabit Ethernet-SX PCI-X Adapter (14106703)
+ent2:ethernet:Logical Host Ethernet Port (lp-hea)
+ent3:ethernet:Logical Host Ethernet Port (lp-hea)
+fcs0:77103224:PCI Express 4Gb FC Adapter (77103224)
+fcs1:77103224:PCI Express 4Gb FC Adapter (77103224)
+lhea0:IBM,lhea:Logical Host Ethernet Adapter (l-hea)
+mptsas0:00105000:SAS Expansion Card (00105000)
+sissas0:1410c102:PCI-X266 Planar 3Gb SAS Adapter
+usbhc0:33103500:USB Host Controller (33103500)
+usbhc1:33103500:USB Host Controller (33103500)
+usbhc2:3310e000:USB Enhanced Host Controller (3310e000)
+vsa0:hvterm1:LPAR Virtual Serial Adapter

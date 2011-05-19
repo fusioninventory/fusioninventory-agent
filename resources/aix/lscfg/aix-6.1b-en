@@ -1,0 +1,23 @@
+   ent0             U78A5.001.WIH55B2-P1-C11-L2-T1  Gigabit Ethernet-SX PCI-X Adapter (14106703)
+
+      Broadcom NetXtreme Gigabit Fiber Controller:
+        Network Address.............00215E4CC768
+        ROM Level.(alterable).......03280000
+        Hardware Location Code......U78A5.001.WIH55B2-P1-C11-L2-T1
+
+  ent1             U78A5.001.WIH55B2-P1-C11-L2-T2  Gigabit Ethernet-SX PCI-X Adapter (14106703)
+
+      Broadcom NetXtreme Gigabit Fiber Controller:
+        Network Address.............00215E4CC769
+        ROM Level.(alterable).......03280000
+        Hardware Location Code......U78A5.001.WIH55B2-P1-C11-L2-T2
+
+  ent3             U78A5.001.WIH55B2-P1-T7         Logical Host Ethernet Port (lp-hea)
+
+      IBM Host Ethernet Adapter:
+        Network Address.............001A64864231
+
+  ent2             U78A5.001.WIH55B2-P1-T6         Logical Host Ethernet Port (lp-hea)
+
+      IBM Host Ethernet Adapter:
+        Network Address.............001A64864230

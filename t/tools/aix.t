@@ -8,7 +8,7 @@ use Test::More;
 use FusionInventory::Agent::Tools::AIX;
 
 my %lsvpd_tests = (
-    'aix-5.3' => [
+    'aix-5.3a' => [
         {
             SE => '65DEDAB',
             FG => 'XXSV',
@@ -852,7 +852,7 @@ my %lsvpd_tests = (
             DS => 'Logical Host Ethernet Adapter (l-hea)'
         }
     ],
-    'aix-6.1' => [
+    'aix-6.1a' => [
         {
             SE => '10086CP',
             FG => 'XXSV',
@@ -1934,7 +1934,7 @@ my %lsvpd_tests = (
 );
 
 my %lsdev_tests = (
-    'aix-5.3' => [
+    'aix-5.3a' => [
         {
             NAME        => 'ent0',
             DESCRIPTION => '2-Port 10/100/1000 Base-TX PCI-X Adapter (14108902)',
@@ -2075,7 +2075,7 @@ my %lsdev_tests = (
             TYPE        => 'IBM,v-scsi'
         }
     ],
-    'aix-6.1' => [
+    'aix-6.1a' => [
         {
             NAME        => 'ent0',
             DESCRIPTION => 'Virtual I/O Ethernet Adapter (l-lan)',

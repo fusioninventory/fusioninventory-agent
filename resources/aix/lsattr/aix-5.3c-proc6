@@ -1,0 +1,2 @@
+#state:type:smt_threads:frequency
+enable:PowerPC_POWER6:2:4204000000
