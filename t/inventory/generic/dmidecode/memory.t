@@ -810,6 +810,521 @@ my %tests = (
             CAPACITY    => '512'
         }
     ],
+    'windows-hyperV' => [
+        {
+            'NUMSLOTS' => 1,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPACITY' => '1024',
+            'CAPTION' => 'M0'
+        },
+        {
+            'NUMSLOTS' => 2,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M1'
+        },
+        {
+            'NUMSLOTS' => 3,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M2'
+        },
+        {
+            'NUMSLOTS' => 4,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M3'
+        },
+        {
+            'NUMSLOTS' => 5,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M4'
+        },
+        {
+            'NUMSLOTS' => 6,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M5'
+        },
+        {
+            'NUMSLOTS' => 7,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M6'
+        },
+        {
+            'NUMSLOTS' => 8,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M7'
+        },
+        {
+            'NUMSLOTS' => 9,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M8'
+        },
+        {
+            'NUMSLOTS' => 10,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M9'
+        },
+        {
+            'NUMSLOTS' => 11,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M10'
+        },
+        {
+            'NUMSLOTS' => 12,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M11'
+        },
+        {
+            'NUMSLOTS' => 13,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M12'
+        },
+        {
+            'NUMSLOTS' => 14,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M13'
+        },
+        {
+            'NUMSLOTS' => 15,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M14'
+        },
+        {
+            'NUMSLOTS' => 16,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M15'
+        },
+        {
+            'NUMSLOTS' => 17,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M16'
+        },
+        {
+            'NUMSLOTS' => 18,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M17'
+        },
+        {
+            'NUMSLOTS' => 19,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M18'
+        },
+        {
+            'NUMSLOTS' => 20,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M19'
+        },
+        {
+            'NUMSLOTS' => 21,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M20'
+        },
+        {
+            'NUMSLOTS' => 22,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M21'
+        },
+        {
+            'NUMSLOTS' => 23,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M22'
+        },
+        {
+            'NUMSLOTS' => 24,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M23'
+        },
+        {
+            'NUMSLOTS' => 25,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M24'
+        },
+        {
+            'NUMSLOTS' => 26,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M25'
+        },
+        {
+            'NUMSLOTS' => 27,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M26'
+        },
+        {
+            'NUMSLOTS' => 28,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M27'
+        },
+        {
+            'NUMSLOTS' => 29,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M28'
+        },
+        {
+            'NUMSLOTS' => 30,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M29'
+        },
+        {
+            'NUMSLOTS' => 31,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M30'
+        },
+        {
+            'NUMSLOTS' => 32,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M31'
+        },
+        {
+            'NUMSLOTS' => 33,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M32'
+        },
+        {
+            'NUMSLOTS' => 34,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M33'
+        },
+        {
+            'NUMSLOTS' => 35,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M34'
+        },
+        {
+            'NUMSLOTS' => 36,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M35'
+        },
+        {
+            'NUMSLOTS' => 37,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M36'
+        },
+        {
+            'NUMSLOTS' => 38,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M37'
+        },
+        {
+            'NUMSLOTS' => 39,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M38'
+        },
+        {
+            'NUMSLOTS' => 40,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M39'
+        },
+        {
+            'NUMSLOTS' => 41,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M40'
+        },
+        {
+            'NUMSLOTS' => 42,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M41'
+        },
+        {
+            'NUMSLOTS' => 43,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M42'
+        },
+        {
+            'NUMSLOTS' => 44,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M43'
+        },
+        {
+            'NUMSLOTS' => 45,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M44'
+        },
+        {
+            'NUMSLOTS' => 46,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M45'
+        },
+        {
+            'NUMSLOTS' => 47,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M46'
+        },
+        {
+            'NUMSLOTS' => 48,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M47'
+        },
+        {
+            'NUMSLOTS' => 49,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M48'
+        },
+        {
+            'NUMSLOTS' => 50,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M49'
+        },
+        {
+            'NUMSLOTS' => 51,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M50'
+        },
+        {
+            'NUMSLOTS' => 52,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M51'
+        },
+        {
+            'NUMSLOTS' => 53,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M52'
+        },
+        {
+            'NUMSLOTS' => 54,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M53'
+        },
+        {
+            'NUMSLOTS' => 55,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M54'
+        },
+        {
+            'NUMSLOTS' => 56,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M55'
+        },
+        {
+            'NUMSLOTS' => 57,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M56'
+        },
+        {
+            'NUMSLOTS' => 58,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M57'
+        },
+        {
+            'NUMSLOTS' => 59,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M58'
+        },
+        {
+            'NUMSLOTS' => 60,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M59'
+        },
+        {
+            'NUMSLOTS' => 61,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M60'
+        },
+        {
+            'NUMSLOTS' => 62,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M61'
+        },
+        {
+            'NUMSLOTS' => 63,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M62'
+        },
+        {
+            'NUMSLOTS' => 64,
+            'SERIALNUMBER' => 'None',
+            'DESCRIPTION' => 'Unknown',
+            'TYPE' => 'Other',
+            'SPEED' => 'Unknown',
+            'CAPTION' => 'M63'
+        }
+    ]
 );
 
 plan tests => scalar keys %tests;

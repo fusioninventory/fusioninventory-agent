@@ -33,7 +33,8 @@ my %tests = (
         DATE         => '09/19/2002',
         MANUFACTURER => 'TOSHIBA',
         CHEMISTRY    => 'Lithium Ion'
-    }
+    },
+    'windows-hyperV' => undef
 );
 
 plan tests => scalar keys %tests;

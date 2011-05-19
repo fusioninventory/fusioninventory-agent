@@ -356,26 +356,6 @@ my %tests = (
             DESIGNATION => undef,
         }
     ],
-    'windows' => [
-        {
-            NAME        => 'PCMCIA0',
-            DESIGNATION => 'Adapter 1, Socket 0',
-            STATUS      => 'In Use',
-            DESCRIPTION => '32-bit PC Card (PCMCIA)'
-        },
-        {
-            NAME        => 'PCMCIA1',
-            DESIGNATION => 'Adapter 2, Socket 0',
-            STATUS      => 'In Use',
-            DESCRIPTION => '32-bit PC Card (PCMCIA)'
-        },
-        {
-            NAME        => 'SD CARD',
-            STATUS      => 'In Use',
-            DESCRIPTION => 'Other',
-            DESIGNATION => undef
-        }
-    ],
     'hp-dl180' => [
         {
             NAME        => 'SLOT1',
@@ -668,6 +648,27 @@ my %tests = (
             DESCRIPTION => '32bit PCI'
         }
     ],
+    'windows' => [
+        {
+            NAME        => 'PCMCIA0',
+            DESIGNATION => 'Adapter 1, Socket 0',
+            STATUS      => 'In Use',
+            DESCRIPTION => '32-bit PC Card (PCMCIA)'
+        },
+        {
+            NAME        => 'PCMCIA1',
+            DESIGNATION => 'Adapter 2, Socket 0',
+            STATUS      => 'In Use',
+            DESCRIPTION => '32-bit PC Card (PCMCIA)'
+        },
+        {
+            NAME        => 'SD CARD',
+            STATUS      => 'In Use',
+            DESCRIPTION => 'Other',
+            DESIGNATION => undef
+        }
+    ],
+    'windows-hyperV' => undef,
 );
 
 plan tests => scalar keys %tests;

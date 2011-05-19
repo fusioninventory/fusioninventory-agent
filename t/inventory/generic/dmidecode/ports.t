@@ -469,80 +469,6 @@ my %tests = (
             CAPTION     => 'Access Bus (USB)'
         }
     ],
-    'windows' => [
-        {
-            NAME        => undef,
-            DESCRIPTION => 'None',
-            TYPE        => 'Parallel Port ECP',
-            CAPTION     => 'DB-25 female'
-        },
-        {
-            NAME        => undef,
-            DESCRIPTION => 'None',
-            TYPE        => 'Other',
-            CAPTION     => 'DB-15 female'
-        },
-        {
-            NAME        => undef,
-            DESCRIPTION => 'None',
-            TYPE        => 'Modem Port',
-            CAPTION     => 'RJ-11'
-        },
-        {
-            NAME        => undef,
-            DESCRIPTION => 'None',
-            TYPE        => 'Network Port',
-            CAPTION     => 'RJ-45'
-        },
-        {
-            NAME        => undef,
-            DESCRIPTION => 'None',
-            TYPE        => 'Other',
-            CAPTION     => 'Infrared'
-        },
-        {
-            NAME        => undef,
-            DESCRIPTION => 'None',
-            TYPE        => 'USB',
-            CAPTION     => 'Access Bus (USB)'
-        },
-        {
-            NAME        => undef,
-            DESCRIPTION => 'None',
-            TYPE        => 'USB',
-            CAPTION     => 'Access Bus (USB)'
-        },
-        {
-            NAME        => undef,
-            DESCRIPTION => 'None',
-            TYPE        => 'USB',
-            CAPTION     => 'Access Bus (USB)'
-        },
-        {
-            NAME        => undef,
-            DESCRIPTION => 'None',
-            TYPE        => 'Other',
-            CAPTION     => 'Mini Jack (headphones)'
-        },
-        {
-            NAME        => undef,
-            DESCRIPTION => 'None',
-            TYPE        => 'Firewire (IEEE P1394)',
-            CAPTION     => 'IEEE 1394'
-        },
-        {
-            NAME        => undef,
-            DESCRIPTION => 'None',
-            TYPE        => 'Other',
-            CAPTION     => 'Other'
-        },
-        {
-            NAME        => undef,
-            DESCRIPTION => 'None',
-            TYPE        => 'Other',
-            CAPTION     => 'Other'
-        }
-    ],
     'hp-dl180' => [
         {
             NAME        => 'J1',
@@ -1249,6 +1175,130 @@ my %tests = (
             CAPTION     => 'Circular DIN-8 male'
         }
     ],
+    'windows' => [
+        {
+            NAME        => undef,
+            DESCRIPTION => 'None',
+            TYPE        => 'Parallel Port ECP',
+            CAPTION     => 'DB-25 female'
+        },
+        {
+            NAME        => undef,
+            DESCRIPTION => 'None',
+            TYPE        => 'Other',
+            CAPTION     => 'DB-15 female'
+        },
+        {
+            NAME        => undef,
+            DESCRIPTION => 'None',
+            TYPE        => 'Modem Port',
+            CAPTION     => 'RJ-11'
+        },
+        {
+            NAME        => undef,
+            DESCRIPTION => 'None',
+            TYPE        => 'Network Port',
+            CAPTION     => 'RJ-45'
+        },
+        {
+            NAME        => undef,
+            DESCRIPTION => 'None',
+            TYPE        => 'Other',
+            CAPTION     => 'Infrared'
+        },
+        {
+            NAME        => undef,
+            DESCRIPTION => 'None',
+            TYPE        => 'USB',
+            CAPTION     => 'Access Bus (USB)'
+        },
+        {
+            NAME        => undef,
+            DESCRIPTION => 'None',
+            TYPE        => 'USB',
+            CAPTION     => 'Access Bus (USB)'
+        },
+        {
+            NAME        => undef,
+            DESCRIPTION => 'None',
+            TYPE        => 'USB',
+            CAPTION     => 'Access Bus (USB)'
+        },
+        {
+            NAME        => undef,
+            DESCRIPTION => 'None',
+            TYPE        => 'Other',
+            CAPTION     => 'Mini Jack (headphones)'
+        },
+        {
+            NAME        => undef,
+            DESCRIPTION => 'None',
+            TYPE        => 'Firewire (IEEE P1394)',
+            CAPTION     => 'IEEE 1394'
+        },
+        {
+            NAME        => undef,
+            DESCRIPTION => 'None',
+            TYPE        => 'Other',
+            CAPTION     => 'Other'
+        },
+        {
+            NAME        => undef,
+            DESCRIPTION => 'None',
+            TYPE        => 'Other',
+            CAPTION     => 'Other'
+        }
+    ],
+    'windows-hyperV' => [
+        {
+            NAME        => 'USB',
+            DESCRIPTION => 'Centronics',
+            TYPE        => 'USB',
+            CAPTION     => 'Centronics'
+        },
+        {
+            NAME        => 'USB',
+            DESCRIPTION => 'Centronics',
+            TYPE        => 'USB',
+            CAPTION     => 'Centronics'
+        },
+        {
+            NAME        => 'COM1',
+            DESCRIPTION => 'DB-9 female',
+            TYPE        => 'Serial Port 16550A Compatible',
+            CAPTION     => 'DB-9 female'
+        },
+        {
+            NAME        => 'COM2',
+            DESCRIPTION => 'DB-9 female',
+            TYPE        => 'Serial Port 16550A Compatible',
+            CAPTION     => 'DB-9 female'
+        },
+        {
+            NAME        => 'Printer',
+            DESCRIPTION => 'DB-25 male',
+            TYPE        => 'Parallel Port ECP/EPP',
+            CAPTION     => 'DB-25 male'
+        },
+        {
+            NAME        => 'Video',
+            DESCRIPTION => 'DB-15 male',
+            TYPE        => 'Video Port',
+            CAPTION     => 'DB-15 female'
+        },
+        {
+            NAME        => 'Keyboard',
+            DESCRIPTION => 'PS/2',
+            TYPE        => 'Keyboard Port',
+            CAPTION     => 'PS/2'
+        },
+        {
+            NAME        => 'Mouse',
+            DESCRIPTION => 'PS/2',
+            TYPE        => 'Mouse Port',
+            CAPTION     => 'PS/2'
+        }
+    ]
 );
 
 plan tests => scalar keys %tests;
