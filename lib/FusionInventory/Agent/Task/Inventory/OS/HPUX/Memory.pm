@@ -178,10 +178,12 @@ sub _parseCstm64 {
 
     while (my $line = <$handle>) {
 
+        # this pattern assumes memory slots are correctly
+        # balanced (slot A and slot B are occuped)
         if ($line =~ /
-            (\w+IMM)\s+(\w+)\s+(\d+|\-+) # first column
+            (\w+IMM)\s+(\w+)\s+(\d+) # first column
             \s+
-            (\w+IMM)\s+(\w+)\s+(\d+|\-+) # second column
+            (\w+IMM)\s+(\w+)\s+(\d+) # second column
             /x
         ) {
             push @memories, 
