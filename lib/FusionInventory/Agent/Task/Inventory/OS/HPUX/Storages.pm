@@ -17,77 +17,63 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
-    my $description;
-    my $path;
-    my $vendor;
-    my $ref;
-    my $size;
+    foreach my $device (
+        _parseIoscan(command => 'ioscan -kFnC disk', logger => $logger)
+    ) {
+        # skip alternate links
+        next if
+            any { /$device->{NAME}\.+lternate/ }
+            `pvdisplay $device->{NAME} 2> /dev/null`;
 
-    my $devdsk;
-    my $devrdsk;
-    my $revlvl;
-
-    foreach ( `ioscan -kFnC disk | cut -d ':' -f 1,11,18` ) {
-        if ( /(\S+)\:(\S+)\:(\S+)\s+(\S+)/ ) {
-            $description = $1;
-            $path = $2;
-            $vendor = $3;
-            $ref = $4;
-        }
-        my $alternate = 0 ;
-        if ( /\s+(\/dev\/dsk\/\S+)\s+(\/dev\/rdsk\/\S+)/ ) {
-            $devdsk  = $1;
-            $devrdsk = $2;
-            # We look if whe are on an alternate link
-            foreach ( `pvdisplay $devdsk 2> /dev/null` ) {
-                if ( /$devdsk\.+lternate/ ) {
-                    $alternate = 1;
-                }
+        foreach ( `diskinfo -v $device->{NAME} 2>/dev/null`) {
+            if ( /^\s+size:\s+(\S+)/ ) {
+                $device->{DISKSIZE} = int( $1/1024 );
             }
-
-            # skip alternate link
-            next if $alternate;
-
-            foreach ( `diskinfo -v $devrdsk 2>/dev/null`) {
-                if ( /^\s+size:\s+(\S+)/ ) {
-                    $size=$1;
-                    $size = int ( $size/1024 ) if $size;
-                }
-                if ( /^\s+rev level:\s+(\S+)/ ) {
-                    $revlvl=$1;
-                }
+            if ( /^\s+rev level:\s+(\S+)/ ) {
+                $device->{FIRMWARE} = $1;
             }
-            $inventory->addStorage({
-                MANUFACTURER => $vendor,
-                MODEL        => $ref,
-                NAME         => $devdsk,
-                DESCRIPTION  => $description,
-                TYPE         => 'disk',
-                DISKSIZE     => $size,
-                FIRMWARE     => $revlvl,
-            });
         }
+
+        $device->{TYPE} = 'disk';
+        $inventory->addStorage($device);
     }
 
-    foreach ( `ioscan -kFnC tape | cut -d ':' -f 1,11,18` ) {
-        if ( /(\S+)\:(\S+)\:(\S+)\s+(\S+)/ ) {
-            $description = $1;
-            $path = $2;
-            $vendor = $3;
-            $ref = $4;
-        }
-        if ( /^\s+(\/dev\/rmt\/\Sm)\s+/ ) {
-            $devdsk = $1;
-            $inventory->addStorage({
-                MANUFACTURER => $vendor,
-                MODEL        => $ref,
-                NAME         => $devdsk,
+    foreach my $device (
+        _parseIoscan(command => 'ioscan -kFnC tape', logger => $logger)
+    ) {
+        $device->{TYPE} = 'tape';
+        $inventory->addStorage($device);
+    }
+
+}
+
+sub _parseIoscan {
+    my $handle = getFileHandle(@_);
+    return unless $handle;
+
+    my @devices;
+    my ($description, $model, $manufacturer);
+    while (my $line = <$handle>) {
+        if ($line =~ /^\s+(\S+)/ ) {
+            my $device = $1;
+
+            push @devices, {
+                MANUFACTURER => $manufacturer,
+                MODEL        => $model,
+                NAME         => $device,
                 DESCRIPTION  => $description,
-                TYPE         => 'tape',
-            });
+            };
+        } else {
+            my @infos = split(/:/, $line);
+            $description = $infos[0];
+            ($manufacturer, $model) = $infos[17] =~ /^(\S+) \s+ (\S.*\S)$/x;
         }
     }
+    close $handle;
+
+    return @devices;
 }
 
 1;
