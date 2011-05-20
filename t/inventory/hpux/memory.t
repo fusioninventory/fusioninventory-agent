@@ -13,7 +13,179 @@ my %tests = (
 );
 
 my %tests64 = (
-    'ia64-1' => [
+    hpux1 => [
+        {
+            NUMSLOTS    => '0A',
+            DESCRIPTION => 'DIMM',
+            TYPE        => 'DIMM',
+            CAPTION     => 'DIMM 0A',
+            CAPACITY    => '1024'
+        },
+        {
+            NUMSLOTS    => '0B',
+            DESCRIPTION => 'DIMM',
+            TYPE        => 'DIMM',
+            CAPTION     => 'DIMM 0B',
+            CAPACITY    => '1024'
+        },
+        {
+            NUMSLOTS    => '1A',
+            DESCRIPTION => 'DIMM',
+            TYPE        => 'DIMM',
+            CAPTION     => 'DIMM 1A',
+            CAPACITY    => '1024'
+        },
+        {
+            NUMSLOTS    => '1B',
+            DESCRIPTION => 'DIMM',
+            TYPE        => 'DIMM',
+            CAPTION     => 'DIMM 1B',
+            CAPACITY    => '1024'
+        },
+        {
+            NUMSLOTS    => '2A',
+            DESCRIPTION => 'DIMM',
+            TYPE        => 'DIMM',
+            CAPTION     => 'DIMM 2A',
+            CAPACITY    => '----'
+        },
+        {
+            NUMSLOTS    => '2B',
+            DESCRIPTION => 'DIMM',
+            TYPE        => 'DIMM',
+            CAPTION     => 'DIMM 2B',
+            CAPACITY    => '----'
+        },
+        {
+            NUMSLOTS    => '3A',
+            DESCRIPTION => 'DIMM',
+            TYPE        => 'DIMM',
+            CAPTION     => 'DIMM 3A',
+            CAPACITY    => '----'
+        },
+        {
+            NUMSLOTS    => '3B',
+            DESCRIPTION => 'DIMM',
+            TYPE        => 'DIMM',
+            CAPTION     => 'DIMM 3B',
+            CAPACITY    => '----'
+        },
+        {
+            NUMSLOTS    => '4A',
+            DESCRIPTION => 'DIMM',
+            TYPE        => 'DIMM',
+            CAPTION     => 'DIMM 4A',
+            CAPACITY    => '----'
+        },
+        {
+            NUMSLOTS    => '4B',
+            DESCRIPTION => 'DIMM',
+            TYPE        => 'DIMM',
+            CAPTION     => 'DIMM 4B',
+            CAPACITY    => '----'
+        },
+        {
+            NUMSLOTS    => '5A',
+            DESCRIPTION => 'DIMM',
+            TYPE        => 'DIMM',
+            CAPTION     => 'DIMM 5A',
+            CAPACITY    => '----'
+        },
+        {
+            NUMSLOTS    => '5B',
+            DESCRIPTION => 'DIMM',
+            TYPE        => 'DIMM',
+            CAPTION     => 'DIMM 5B',
+            CAPACITY    => '----'
+        }
+    ],
+    hpux2 => [
+        {
+            NUMSLOTS    => '0A',
+            DESCRIPTION => 'DIMM',
+            TYPE        => 'DIMM',
+            CAPTION     => 'DIMM 0A',
+            CAPACITY    => '1024'
+        },
+        {
+            NUMSLOTS    => '0B',
+            DESCRIPTION => 'DIMM',
+            TYPE        => 'DIMM',
+            CAPTION     => 'DIMM 0B',
+            CAPACITY    => '1024'
+        },
+        {
+            NUMSLOTS    => '1A',
+            DESCRIPTION => 'DIMM',
+            TYPE        => 'DIMM',
+            CAPTION     => 'DIMM 1A',
+            CAPACITY    => '1024'
+        },
+        {
+            NUMSLOTS    => '1B',
+            DESCRIPTION => 'DIMM',
+            TYPE        => 'DIMM',
+            CAPTION     => 'DIMM 1B',
+            CAPACITY    => '1024'
+        },
+        {
+            NUMSLOTS    => '2A',
+            DESCRIPTION => 'DIMM',
+            TYPE        => 'DIMM',
+            CAPTION     => 'DIMM 2A',
+            CAPACITY    => '----'
+        },
+        {
+            NUMSLOTS    => '2B',
+            DESCRIPTION => 'DIMM',
+            TYPE        => 'DIMM',
+            CAPTION     => 'DIMM 2B',
+            CAPACITY    => '----'
+        },
+        {
+            NUMSLOTS    => '3A',
+            DESCRIPTION => 'DIMM',
+            TYPE        => 'DIMM',
+            CAPTION     => 'DIMM 3A',
+            CAPACITY    => '----'
+        },
+        {
+            NUMSLOTS    => '3B',
+            DESCRIPTION => 'DIMM',
+            TYPE        => 'DIMM',
+            CAPTION     => 'DIMM 3B',
+            CAPACITY    => '----'
+        },
+        {
+            NUMSLOTS    => '4A',
+            DESCRIPTION => 'DIMM',
+            TYPE        => 'DIMM',
+            CAPTION     => 'DIMM 4A',
+            CAPACITY    => '----'
+        },
+        {
+            NUMSLOTS    => '4B',
+            DESCRIPTION => 'DIMM',
+            TYPE        => 'DIMM',
+            CAPTION     => 'DIMM 4B',
+            CAPACITY    => '----'
+        },
+        {
+            NUMSLOTS    => '5A',
+            DESCRIPTION => 'DIMM',
+            TYPE        => 'DIMM',
+            CAPTION     => 'DIMM 5A',
+            CAPACITY    => '----'
+        },
+        {
+            NUMSLOTS    => '5B',
+            DESCRIPTION => 'DIMM',
+            TYPE        => 'DIMM',
+            CAPTION     => 'DIMM 5B',
+            CAPACITY    => '----'
+        }
+    ],
+    hpux3 => [
         {
             NUMSLOTS    => '0A',
             DESCRIPTION => 'DIMM',
@@ -288,7 +460,7 @@ foreach my $test (keys %tests) {
 }
 
 foreach my $test (keys %tests64) {
-    my $file = "resources/hpux/cstm/$test";
+    my $file = "resources/hpux/cstm/$test-MEMORY";
     my @memories = FusionInventory::Agent::Task::Inventory::OS::HPUX::Memory::_parseCstm64(file => $file);
     is_deeply(\@memories, $tests64{$test}, "memories: $test");
 }
