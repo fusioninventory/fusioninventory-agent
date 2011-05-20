@@ -1,0 +1,4 @@
+content-type: text/html
+
+parent.frames.CHPAppletFrame.chpMiscData.RIBName = "Embedded iLO";
+parent.frames.CHPAppletFrame.chpMiscData.RIBLink = "https://10.0.14.60";

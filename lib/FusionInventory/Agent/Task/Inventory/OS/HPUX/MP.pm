@@ -18,20 +18,10 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
-    my ($command, $pattern);
-    if (can_run('/opt/hpsmh/data/htdocs/comppage/getMPInfo.cgi')) {
-        $command = '/opt/hpsmh/data/htdocs/comppage/getMPInfo.cgi';
-        $pattern = qr{RIBLink = "https?://($ip_address_pattern)";};
-    } else {
-        $command = '/opt/sfm/bin/CIMUtil -e root/cimv2 HP_ManagementProcessor';
-        $pattern = qr{^IPAddress\s+:\s+($ip_address_pattern)};
-    }
-
-    my $ipaddress = getFirstMatch(
-        command => $command,
-        pattern => $pattern
-    );
+    my $ipaddress = can_run('/opt/hpsmh/data/htdocs/comppage/getMPInfo.cgi') ?
+        _parseGetMPInfo(logger => $logger) : _parseCIMUtil(logger => $logger);
 
     $inventory->addEntry(
         section => 'NETWORKS',
@@ -43,6 +33,22 @@ sub doInventory {
         }
     );
 
+}
+
+sub _parseGetMPInfo {
+    return getFirstMatch(
+        command => '/opt/hpsmh/data/htdocs/comppage/getMPInfo.cgi',
+        pattern => qr{RIBLink = "https?://($ip_address_pattern)";},
+        @_
+    );
+}
+
+sub _parseCIMUtil {
+    return getFirstMatch(
+        command => '/opt/sfm/bin/CIMUtil -e root/cimv2 HP_ManagementProcessor',
+        pattern => qr{^IPAddress\s+:\s+($ip_address_pattern)},
+        @_
+    );
 }
 
 1;

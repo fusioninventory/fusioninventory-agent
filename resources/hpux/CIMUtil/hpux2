@@ -1,0 +1,14 @@
+PROMPT #  /opt/sfm/bin/CIMUtil -e root/cimv2 HP_ManagementProcessor
+Instance 0 :
+
+UniqueIdentifier :  0.25.187.236.54.163
+ControllerType :  3
+OtherControllerType :  
+IPAddress :  10.0.14.60
+URL :  https://10.0.14.60
+Dedicated :  14
+CreationClassName :  HP_ManagementProcessor
+Name :  Management Processor
+EnabledState :  2
+OperationalStatus :  2 
+
