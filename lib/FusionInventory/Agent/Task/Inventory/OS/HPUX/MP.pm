@@ -3,6 +3,7 @@ package FusionInventory::Agent::Task::Inventory::OS::HPUX::MP;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Regexp;
 use FusionInventory::Agent::Tools;
 
 #TODO driver pcislot virtualdev
@@ -18,15 +19,19 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $ipaddress = can_run('/opt/hpsmh/data/htdocs/comppage/getMPInfo.cgi') ?
-        getFirstMatch(
-            command => '/opt/hpsmh/data/htdocs/comppage/getMPInfo.cgi',
-            pattern => qr/chpMiscData.RIBLink = "http.*\/([0-9.]+)";/
-        ) :
-        getFirstMatch(
-            command => '/opt/sfm/bin/CIMUtil -e root/cimv2 HP_ManagementProcessor',
-            pattern => qr/IPAddress\s+:\s+([0-9.]+)/
-        );
+    my ($command, $pattern);
+    if (can_run('/opt/hpsmh/data/htdocs/comppage/getMPInfo.cgi')) {
+        $command = '/opt/hpsmh/data/htdocs/comppage/getMPInfo.cgi';
+        $pattern = qr{RIBLink = "https?://($ip_address_pattern)";};
+    } else {
+        $command = '/opt/sfm/bin/CIMUtil -e root/cimv2 HP_ManagementProcessor';
+        $pattern = qr{^IPAddress\s+:\s+($ip_address_pattern)};
+    }
+
+    my $ipaddress = getFirstMatch(
+        command => $command,
+        pattern => $pattern
+    );
 
     $inventory->addEntry(
         section => 'NETWORKS',
