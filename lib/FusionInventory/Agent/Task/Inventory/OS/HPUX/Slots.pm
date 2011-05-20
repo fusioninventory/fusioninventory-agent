@@ -17,7 +17,7 @@ sub doInventory {
 
     foreach my $type (qw/ioa ba/) {
         foreach my $slot (_getSlots(
-            command => "ioscan -kFC $type| cut -d ':' -f 9,11,17,18",
+            command => "ioscan -kFC $type",
             logger  => $logger
         )) {
             $inventory->addEntry(
@@ -34,11 +34,11 @@ sub _getSlots {
 
     my @slots;
     while (my $line = <$handle>) {
-        next unless $line =~ /(\S+):(\S+):(\S+):(.+)/;
+        my @info = split(/:/, $line);
         push @slots, {
-            DESCRIPTION => $2,
-            DESIGNATION => "$3 $4",
-            NAME        => $1,
+            DESCRIPTION => $info[10],
+            DESIGNATION => $info[16] . " " . $info[17],
+            NAME        => $info[8],
             STATUS      => "OK",
         };
     }
