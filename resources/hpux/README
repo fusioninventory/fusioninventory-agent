@@ -3,6 +3,12 @@ HPUX specific command and file samples
 Data origin:
 - hpux1, hpux2 samples: Amir Pakdel <a.pakdel@karafarinbank.net>
 
+cprop: crop command
+- cpu: cprop -summary -c Processors
+- memory: cprop -summary -c Memory
+
+machinfo: machinfo command
+
 fstyp: fstyp command
 - hpux*: fstyp -l
 
@@ -23,3 +29,18 @@ cstm: cstm command
 - hpux*-mem: echo 'sc product mem;il' | /usr/sbin/cstm
 - hpux*-cpu: echo 'sc product cpu;il' | /usr/sbin/cstm
 - hpux*-system: echo 'sc product system;il' | /usr/sbin/cstm
+
+ioscan: ioscan command
+- hpux*-tape: ioscan -kFnC tape
+- hpux*-disk: ioscan -kFnC disk
+- hpux*-processor: ioscan -kFC processor
+- hpux*-ioa: ioscan -kFC io
+- hpux*-ba: ioscan -kFC ba
+- hpux*-ext_bus: ioscan -kFC ext_bus
+- hpux*-fs: ioscan -kFC fc
+
+lanscan: lanscan command
+- hpux*: lanscan -iap
+
+netstat: netstat command
+- hpux*: netstat -nrv
