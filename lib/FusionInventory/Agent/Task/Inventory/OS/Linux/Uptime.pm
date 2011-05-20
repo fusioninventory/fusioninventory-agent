@@ -15,20 +15,22 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger    = $params{logger};
 
-    # Uptime
-    my $uptime = getFirstLine(file => '/proc/uptime', logger => $logger);
-    $uptime =~ s/^(.+)\s+.+/$1/;
-
-    # ISO format string conversion
-    $uptime = getFormatedGmTime($uptime);
-
-    my $DeviceType = getFirstLine(command => 'uname -m');
+    my $arch = getFirstLine(command => 'uname -m');
+    my $uptime = _getUptime(file => '/proc/uptime');
     $inventory->setHardware({
-        DESCRIPTION => "$DeviceType/$uptime"
+        DESCRIPTION => "$arch/$uptime"
     });
+}
 
+sub _getUptime {
+    my $uptime = getFirstMatch(
+        pattern => qr/^(\S+)/,
+        @_
+    );
+    return unless $uptime;
+
+    return getFormatedGmTime($uptime);
 }
 
 1;

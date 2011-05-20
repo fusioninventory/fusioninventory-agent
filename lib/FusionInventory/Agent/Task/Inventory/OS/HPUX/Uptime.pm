@@ -16,22 +16,25 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    # Uptime
-    my $uptime = getFirstLine(command => 'uptime');
-    my $seconds = 0;
-    if ( $uptime =~ /.*\sup\s((\d+)\sdays\D+)?(\d{1,2}):(\d{1,2}).*/ ) {
-        $seconds += $2 * 24 * 3600;
-        $seconds += $3 * 3600;
-        $seconds += $4 * 60;
-    }
-
-    # ISO format string conversion
-    $uptime = getFormatedGmTime($seconds);
-
-    my $DeviceType = getFirstLine(command => 'uname -m');
+    my $arch = getFirstLine(command => 'uname -m');
+    my $uptime = _getUptime(command => 'uptime');
     $inventory->setHardware({
-        DESCRIPTION => "$DeviceType/$uptime"
+        DESCRIPTION => "$arch/$uptime"
     });
+}
+
+sub _getUptime {
+    my ($days, $hours, $minutes) = getFirstMatch(
+        pattern => qr/up \s (:?(\d+)\sdays\D+)? (\d{1,2}) : (\d{1,2})/x,
+        @_
+    );
+
+    my $uptime = 0;
+    $uptime += $days * 24 * 3600 if $days;
+    $uptime += $hours * 3600;
+    $uptime += $minutes * 60;
+
+    return getFormatedGmTime($uptime);
 }
 
 1;

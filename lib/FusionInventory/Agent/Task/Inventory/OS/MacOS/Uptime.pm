@@ -14,19 +14,22 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    # stolen code from bsd.
-    my $boottime = getFirstLine(command => 'sysctl -n kern.boottime');
-    $boottime = $1 if $boottime =~ /sec\s*=\s*(\d+)/;
-    my $currenttime = time();
-    my $uptime = $currenttime - $boottime;
-
-    # ISO format string conversion
-    $uptime = getFormatedGmTime($uptime);
-
-    my $DeviceType = getFirstLine(command => 'uname -m');
+    my $arch = getFirstLine(command => 'uname -m');
+    my $uptime = _getUptime(command => 'sysctl -n kern.boottime');
     $inventory->setHardware({
-        DESCRIPTION => "$DeviceType/$uptime"
+        DESCRIPTION => "$arch/$uptime"
     });
+}
+
+sub _getUptime {
+    my $boottime = getFirstMatch(
+        pattern => qr/sec\s*=\s*(\d+)/,
+        @_,
+    );
+    return unless $boottime;
+
+    my $uptime = $boottime - time();
+    return getFormatedGmTime($uptime);
 }
 
 1;
