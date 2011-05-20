@@ -76,17 +76,16 @@ sub doInventory {
         if ($cpuInfos{$device}) {
             $CPUinfo = $cpuInfos{$device};
         } else {
-            foreach ( `echo 'sc product cpu;il' | /usr/sbin/cstm` ) {
-                next unless /CPU Module/;
-                if ( /(\S+)\s+CPU\s+Module/ ) {
-                    $CPUinfo->{TYPE} = $1;
-                }
-            }
-            foreach ( `echo 'itick_per_usec/D' | adb -k /stand/vmunix /dev/kmem` ) {
-                if ( /tick_per_usec:\s+(\d+)/ ) {
-                    $CPUinfo->{SPEED} = $1;
-                }
-            }
+            $CPUinfo->{TYPE} = getFirstMatch(
+                command => "echo 'sc product cpu;il' | /usr/sbin/cstm",
+                logger  => $logger,
+                pattern => qr/(\S+)\s+CPU\s+Module/,
+            );
+            $CPUinfo->{SPEED} = getFirstMatch(
+                command => "echo 'itick_per_usec/D' | adb -k /stand/vmunix /dev/kmem",
+                logger  => $logger,
+                pattern => qr/tick_per_usec:\s+(\d+)/
+            );
         }
         # NBR CPU
         $CPUinfo->{CPUcount} = getLinesCount(
