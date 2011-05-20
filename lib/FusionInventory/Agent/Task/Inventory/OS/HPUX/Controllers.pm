@@ -17,7 +17,7 @@ sub doInventory {
 
     foreach my $type (qw/ext_bus fc psi/) {
         foreach my $controller (_getControllers(
-            command => "ioscan -kFC $type| cut -d ':' -f 9,11,17,18",
+            command => "ioscan -kFC $type",
             logger  => $logger
         )) {
             $inventory->addEntry(
@@ -34,11 +34,11 @@ sub _getControllers {
 
     my @controllers;
     while (my $line = <$handle>) {
-        next unless $line =~ /(\S+):(\S+):(\S+):(.+)/;
+        my @info = split(/:/, $line);
         push @controllers, {
-            NAME         => $2,
-            MANUFACTURER => "$3 $4",
-            TYPE         => $1,
+            NAME         => $info[10],
+            MANUFACTURER => $info[16] . " " . $info[17],
+            TYPE         => $info[8]
         };
     }
     close $handle;
