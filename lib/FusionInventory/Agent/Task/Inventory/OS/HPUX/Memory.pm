@@ -43,8 +43,11 @@ sub doInventory {
     }
 
     my $memorySize;
-    my $swapSize = getLastLine(command => 'swapinfo -dt', logger => $logger);
-    $swapSize =~ s/^total\s+(\d+)\s+\d+\s+\d+\s+\d+%\s+\-\s+\d+\s+\-/$1/i;
+    my $swapSize = getFirstMatch(
+        command => 'swapinfo -dt',
+        logger  => $logger,
+        pattern => qr/^total\s+(\d+)/
+    );
 
     foreach my $memory (@memories) {
         $inventory->addEntry(
