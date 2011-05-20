@@ -180,29 +180,25 @@ sub _parseCstm64 {
 
         # this pattern assumes memory slots are correctly
         # balanced (slot A and slot B are occuped)
-        if ($line =~ /
+        next unless $line =~ /
             (\w+IMM)\s+(\w+)\s+(\d+) # first column
             \s+
             (\w+IMM)\s+(\w+)\s+(\d+) # second column
-            /x
-        ) {
-            push @memories, 
-                {
-                    CAPACITY     => $3,
-                    DESCRIPTION  => $1,
-                    CAPTION      => $1 . ' ' . $2,
-                    TYPE         => $1,
-                    NUMSLOTS     => $2,
-                },
-                {
-                    CAPACITY     => $6,
-                    DESCRIPTION  => $4,
-                    CAPTION      => $4 . ' ' . $5,
-                    TYPE         => $4,
-                    NUMSLOTS     => $5,
-                };
-        }
+        /x;
 
+        push @memories, {
+            CAPACITY     => $3,
+            DESCRIPTION  => $1,
+            CAPTION      => $1 . ' ' . $2,
+            TYPE         => $1,
+            NUMSLOTS     => $2,
+        }, {
+            CAPACITY     => $6,
+            DESCRIPTION  => $4,
+            CAPTION      => $4 . ' ' . $5,
+            TYPE         => $4,
+            NUMSLOTS     => $5,
+        };
     }
     close $handle;
 
