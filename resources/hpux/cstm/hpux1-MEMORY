@@ -1,0 +1,70 @@
+Running Command File (/usr/sbin/stm/ui/config/.stmrc).
+
+-- Information --
+Support Tools Manager
+
+
+Version C.50.10
+
+Product Number B4708AA
+
+(C) Copyright Hewlett Packard Co. 1995-2005
+All Rights Reserved
+
+Use of this program is subject to the licensing restrictions described
+in "Help-->On Version".  HP shall not be liable for any damages resulting
+from misuse or unauthorized use of this program.
+
+cstm>sc product IPF_MEMORY;il
+-- Converting a (2312) byte raw log file to text. --
+Preparing the Information Tool Log for IPF_MEMORY on path memory File ...
+
+.... ignsrv.opr.karafarinbank.com  :  10.0.4.56 .... 
+
+-- Information Tool Log for IPF_MEMORY on path memory --
+
+Log creation time: Thu May 19 11:33:12 2011
+
+Hardware path: memory
+
+
+Basic Memory Description 
+
+   Module Type: MEMORY
+   Page Size: 4096 Bytes
+   Total Physical Memory: N/A 
+   Total Configured Memory: 4096 MB
+   Total Deconfigured Memory: N/A 
+
+Memory Board Inventory 
+
+   DIMM Location          Size(MB)     DIMM Location          Size(MB)
+   --------------------   --------     --------------------   --------
+   DIMM 0A                1024         DIMM 0B                1024    
+   DIMM 1A                1024         DIMM 1B                1024    
+   DIMM 2A                ----         DIMM 2B                ----    
+   DIMM 3A                ----         DIMM 3B                ----    
+   DIMM 4A                ----         DIMM 4B                ----    
+   DIMM 5A                ----         DIMM 5B                ----    
+
+   Total: 4096 (MB)
+
+   ===========================================================================
+
+Memory Error Log Summary 
+
+   The memory error log is empty.
+
+Page Deallocation Table (PDT) 
+
+   The Page Deallocation Table is empty.
+
+   PDT Entries Used: 0
+   PDT Entries Free: 100
+   PDT Total Size: 100 
+
+-- Information Tool Log for IPF_MEMORY on path memory --
+View   - To View the file.
+Print  - To Print the file.
+SaveAs - To Save the file.
+Enter Done, Help, Print, SaveAs, or View: [Done] #.

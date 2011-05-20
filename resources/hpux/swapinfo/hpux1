@@ -1,0 +1,4 @@
+             Kb      Kb      Kb   PCT              Kb
+TYPE      AVAIL    USED    FREE  USED   START RESERVE  PRI  NAME
+dev     8388608       0 8388608    0%       0       -    1  /dev/vg00/lvol2
+total   8388608       0 8388608    0%       -       0    -

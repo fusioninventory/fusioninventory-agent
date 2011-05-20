@@ -1,0 +1,204 @@
+Running Command File (/usr/sbin/stm/ui/config/.stmrc).
+
+-- Information --
+Support Tools Manager
+
+
+Version C.58.00
+
+Product Number B4708AA
+
+(C) Copyright Hewlett Packard Co. 1995-2007
+All Rights Reserved
+
+Use of this program is subject to the licensing restrictions described
+in "Help-->On Version".  HP shall not be liable for any damages resulting
+from misuse or unauthorized use of this program.
+
+cstm>sc product IPF_MEMORY;il
+-- Converting a (24452) byte raw log file to text. --
+Preparing the Information Tool Log for IPF_MEMORY on path memory File ...
+
+.... basahpux  :  10.0.3.60 .... 
+
+-- Information Tool Log for IPF_MEMORY on path memory --
+
+Log creation time: Thu May 19 11:19:44 2011
+
+Hardware path: memory
+
+
+Basic Memory Description 
+
+   Module Type: MEMORY
+   Page Size: 4096 Bytes
+   Total Physical Memory: N/A 
+   Total Configured Memory: 4096 MB
+   Total Deconfigured Memory: N/A 
+
+Memory Board Inventory 
+
+   DIMM Location          Size(MB)     DIMM Location          Size(MB)
+   --------------------   --------     --------------------   --------
+   DIMM 0A                1024         DIMM 0B                1024    
+   DIMM 1A                1024         DIMM 1B                1024    
+   DIMM 2A                ----         DIMM 2B                ----    
+   DIMM 3A                ----         DIMM 3B                ----    
+   DIMM 4A                ----         DIMM 4B                ----    
+   DIMM 5A                ----         DIMM 5B                ----    
+
+   Total: 4096 (MB)
+
+   ===========================================================================
+
+Memory Error Log Summary 
+
+   DIMM Location           Error Address     Error Type  Page           Count
+   ----------------------  ----------------  ----------  -------------  -----
+   DIMM 0A                 0x241c4280        Single-Bit  0x241c4        1    
+   DIMM 0A                 0x288c4280        Single-Bit  0x288c4        1    
+   DIMM 0A                 0x34e44280        Single-Bit  0x34e44        1    
+   DIMM 0A                 0x3c0c4280        Single-Bit  0x3c0c4        1    
+   DIMM 0A                 0x3a744280        Single-Bit  0x3a744        1    
+   DIMM 0A                 0x32fc4280        Single-Bit  0x32fc4        1    
+   DIMM 0A                 0x30644280        Single-Bit  0x30644        1    
+   DIMM 0A                 0x269c4280        Single-Bit  0x269c4        1    
+   DIMM 0A                 0x3dfc4280        Single-Bit  0x3dfc4        1    
+   DIMM 0A                 0x27e44280        Single-Bit  0x27e44        1    
+   DIMM 0A                 0x2f9c4280        Single-Bit  0x2f9c4        1    
+   DIMM 0A                 0x3b6c4280        Single-Bit  0x3b6c4        1    
+   DIMM 0A                 0x28f44280        Single-Bit  0x28f44        1    
+   DIMM 0A                 0x306c4280        Single-Bit  0x306c4        1    
+   DIMM 0A                 0x251c4280        Single-Bit  0x251c4        1    
+   DIMM 0A                 0x34ec4280        Single-Bit  0x34ec4        1    
+   DIMM 0A                 0x25144280        Single-Bit  0x25144        1    
+   DIMM 0A                 0x33044280        Single-Bit  0x33044        1    
+   DIMM 0A                 0x319c4280        Single-Bit  0x319c4        1    
+   DIMM 0A                 0x2bec4280        Single-Bit  0x2bec4        1    
+   DIMM 0A                 0x2a8c4280        Single-Bit  0x2a8c4        1    
+   DIMM 0A                 0x2a744280        Single-Bit  0x2a744        1    
+   DIMM 0A                 0x2a644280        Single-Bit  0x2a644        1    
+   DIMM 0A                 0x2c844280        Single-Bit  0x2c844        1    
+   DIMM 0A                 0x327c4280        Single-Bit  0x327c4        1    
+   DIMM 0A                 0x32744280        Single-Bit  0x32744        1    
+   DIMM 0A                 0x3c8c4280        Single-Bit  0x3c8c4        1    
+   DIMM 0A                 0x3c7c4280        Single-Bit  0x3c7c4        2    
+   DIMM 0A                 0x3c044280        Single-Bit  0x3c044        1    
+   DIMM 0A                 0x3b644280        Single-Bit  0x3b644        1    
+   DIMM 0A                 0x39044280        Single-Bit  0x39044        1    
+   DIMM 0A                 0x38fc4280        Single-Bit  0x38fc4        1    
+   DIMM 0A                 0x38ec4280        Single-Bit  0x38ec4        1    
+   DIMM 0A                 0x38e44280        Single-Bit  0x38e44        1    
+   DIMM 0A                 0x38944280        Single-Bit  0x38944        1    
+   DIMM 0A                 0x388c4280        Single-Bit  0x388c4        1    
+   DIMM 0A                 0x387c4280        Single-Bit  0x387c4        1    
+   DIMM 0A                 0x386c4280        Single-Bit  0x386c4        1    
+   DIMM 0A                 0x381c4280        Single-Bit  0x381c4        1    
+   DIMM 0A                 0x38044280        Single-Bit  0x38044        1    
+   DIMM 0A                 0x377c4280        Single-Bit  0x377c4        1    
+   DIMM 0A                 0x35944280        Single-Bit  0x35944        1    
+   DIMM 0A                 0x33e44280        Single-Bit  0x33e44        1    
+   DIMM 0A                 0x31944280        Single-Bit  0x31944        1    
+   DIMM 0A                 0x30ec4280        Single-Bit  0x30ec4        1    
+   DIMM 0A                 0x2f944280        Single-Bit  0x2f944        2    
+   DIMM 0A                 0x2f644280        Single-Bit  0x2f644        1    
+   DIMM 0A                 0x2e9c4280        Single-Bit  0x2e9c4        1    
+   DIMM 0A                 0x2e944280        Single-Bit  0x2e944        1    
+   DIMM 0A                 0x2e844280        Single-Bit  0x2e844        1    
+   DIMM 0A                 0x2e744280        Single-Bit  0x2e744        2    
+   DIMM 0A                 0x2e044280        Single-Bit  0x2e044        1    
+   DIMM 0A                 0x2d944280        Single-Bit  0x2d944        1    
+   DIMM 0A                 0x2d644280        Single-Bit  0x2d644        1    
+   DIMM 0A                 0x2d1c4280        Single-Bit  0x2d1c4        1    
+   DIMM 0A                 0x2d144280        Single-Bit  0x2d144        1    
+   DIMM 0A                 0x2d0c4280        Single-Bit  0x2d0c4        2    
+   DIMM 0A                 0x2c1c4280        Single-Bit  0x2c1c4        1    
+   DIMM 0A                 0x2b144280        Single-Bit  0x2b144        1    
+   DIMM 0A                 0x2a7c4280        Single-Bit  0x2a7c4        2    
+   DIMM 0A                 0x2a044280        Single-Bit  0x2a044        1    
+   DIMM 0A                 0x291c4280        Single-Bit  0x291c4        1    
+   DIMM 0A                 0x28e44280        Single-Bit  0x28e44        1    
+   DIMM 0A                 0x289c4280        Single-Bit  0x289c4        1    
+   DIMM 0A                 0x28944280        Single-Bit  0x28944        1    
+   DIMM 0A                 0x287c4280        Single-Bit  0x287c4        1    
+   DIMM 0A                 0x281c4280        Single-Bit  0x281c4        2    
+   DIMM 0A                 0x28144280        Single-Bit  0x28144        1    
+   DIMM 0A                 0x27f44280        Single-Bit  0x27f44        1    
+   DIMM 0A                 0x279c4280        Single-Bit  0x279c4        2    
+   DIMM 0A                 0x26ec4280        Single-Bit  0x26ec4        1    
+   DIMM 0A                 0x26744280        Single-Bit  0x26744        1    
+   DIMM 0A                 0x25044280        Single-Bit  0x25044        1    
+   DIMM 0A                 0x24f44280        Single-Bit  0x24f44        1    
+   DIMM 0A                 0x24e44280        Single-Bit  0x24e44        1    
+   DIMM 0A                 0x24944280        Single-Bit  0x24944        2    
+   DIMM 0A                 0x24844280        Single-Bit  0x24844        1    
+   DIMM 0A                 0x246c4280        Single-Bit  0x246c4        1    
+   DIMM 0A                 0x24644280        Single-Bit  0x24644        1    
+   DIMM 0A                 0x23fc4280        Single-Bit  0x23fc4        2    
+   DIMM 0A                 0x239c4280        Single-Bit  0x239c4        1    
+   DIMM 0A                 0x23644280        Single-Bit  0x23644        1    
+   DIMM 0A                 0x231c4280        Single-Bit  0x231c4        1    
+   DIMM 0A                 0x22e44280        Single-Bit  0x22e44        1    
+   DIMM 0A                 0x22944280        Single-Bit  0x22944        1    
+   DIMM 0A                 0x228c4280        Single-Bit  0x228c4        1    
+   DIMM 0A                 0x227c4280        Single-Bit  0x227c4        1    
+   DIMM 0A                 0x22744280        Single-Bit  0x22744        1    
+   DIMM 0A                 0x21ec4280        Single-Bit  0x21ec4        1    
+   DIMM 0A                 0x21e44280        Single-Bit  0x21e44        1    
+   DIMM 0A                 0x21844280        Single-Bit  0x21844        1    
+   DIMM 0A                 0x21744280        Single-Bit  0x21744        1    
+   DIMM 0A                 0x20844280        Single-Bit  0x20844        1    
+   DIMM 0A                 0x38644280        Single-Bit  0x38644        2    
+   DIMM 0A                 0x38144280        Single-Bit  0x38144        2    
+   DIMM 0A                 0x380c4280        Single-Bit  0x380c4        2    
+   DIMM 0A                 0x326c4280        Single-Bit  0x326c4        2    
+   DIMM 0A                 0x2c6c4280        Single-Bit  0x2c6c4        2    
+   DIMM 0A                 0x29944280        Single-Bit  0x29944        2    
+   DIMM 0A                 0x26f44280        Single-Bit  0x26f44        2    
+   DIMM 0A                 0x266c4280        Single-Bit  0x266c4        2    
+   DIMM 0A                 0x25fc4280        Single-Bit  0x25fc4        2    
+   DIMM 0A                 0x25f44280        Single-Bit  0x25f44        2    
+   DIMM 0A                 0x23044280        Single-Bit  0x23044        2    
+   DIMM 0A                 0x22fc4280        Single-Bit  0x22fc4        2    
+   DIMM 0A                 0x21fc4280        Single-Bit  0x21fc4        2    
+   DIMM 0A                 0x211c4280        Single-Bit  0x211c4        2    
+   DIMM 0A                 0x20fc4280        Single-Bit  0x20fc4        2    
+   DIMM 0A                 0x20ec4280        Single-Bit  0x20ec4        2    
+
+   System start: Sun Feb 13 14:24:53 2011.
+   Last error detected: Sun Mar  6 10:55:17 2011.
+   Logging interval: 900 seconds.
+   109 address(es) with errors logged in memory error log. 
+
+   The Logtool Utility provides full details about the memory error log.
+
+Page Deallocation Table (PDT) 
+
+   DIMM Location           Error Address     Error Type  Page
+   ----------------------  ----------------  ----------  -------------
+   DIMM 0A                 0x38644280        Single-Bit  0x38644      
+   DIMM 0A                 0x38144280        Single-Bit  0x38144      
+   DIMM 0A                 0x380c4280        Single-Bit  0x380c4      
+   DIMM 0A                 0x326c4280        Single-Bit  0x326c4      
+   DIMM 0A                 0x2c6c4280        Single-Bit  0x2c6c4      
+   DIMM 0A                 0x29944280        Single-Bit  0x29944      
+   DIMM 0A                 0x26f44280        Single-Bit  0x26f44      
+   DIMM 0A                 0x266c4280        Single-Bit  0x266c4      
+   DIMM 0A                 0x25fc4280        Single-Bit  0x25fc4      
+   DIMM 0A                 0x25f44280        Single-Bit  0x25f44      
+   DIMM 0A                 0x23044280        Single-Bit  0x23044      
+   DIMM 0A                 0x22fc4280        Single-Bit  0x22fc4      
+   DIMM 0A                 0x21fc4280        Single-Bit  0x21fc4      
+   DIMM 0A                 0x211c4280        Single-Bit  0x211c4      
+   DIMM 0A                 0x20fc4280        Single-Bit  0x20fc4      
+   DIMM 0A                 0x20ec4280        Single-Bit  0x20ec4      
+
+   PDT Entries Used: 16
+   PDT Entries Free: 84
+   PDT Total Size: 100 
+
+-- Information Tool Log for IPF_MEMORY on path memory --
+View   - To View the file.
+Print  - To Print the file.
+SaveAs - To Save the file.
+Enter Done, Help, Print, SaveAs, or View: [Done] #.

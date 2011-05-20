@@ -1,0 +1,21 @@
+Running Command File (/usr/sbin/stm/ui/config/.stmrc).
+
+-- Information --
+Support Tools Manager
+
+
+Version C.50.10
+
+Product Number B4708AA
+
+(C) Copyright Hewlett Packard Co. 1995-2005
+All Rights Reserved
+
+Use of this program is subject to the licensing restrictions described
+in "Help-->On Version".  HP shall not be liable for any damages resulting
+from misuse or unauthorized use of this program.
+
+cstm>sc product cpu;il
+                    ^-- (InfoLog) is currently disabled. --
+
+cstm>#.

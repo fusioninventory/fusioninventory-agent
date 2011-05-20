@@ -17,3 +17,9 @@ CIMUtil: CIMUtil command
 
 getMPInfo.cgi: getMPInfo.cgi command
 - hpux*: getMPInfo.cgi
+
+cstm: cstm command
+- hpux*-MEMORY: echo 'sc product IPF_MEMORY;il' | /usr/sbin/cstm
+- hpux*-mem: echo 'sc product mem;il' | /usr/sbin/cstm
+- hpux*-cpu: echo 'sc product cpu;il' | /usr/sbin/cstm
+- hpux*-system: echo 'sc product system;il' | /usr/sbin/cstm

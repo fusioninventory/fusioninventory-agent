@@ -1,0 +1,57 @@
+Running Command File (/usr/sbin/stm/ui/config/.stmrc).
+
+-- Information --
+Support Tools Manager
+
+
+Version C.50.10
+
+Product Number B4708AA
+
+(C) Copyright Hewlett Packard Co. 1995-2005
+All Rights Reserved
+
+Use of this program is subject to the licensing restrictions described
+in "Help-->On Version".  HP shall not be liable for any damages resulting
+from misuse or unauthorized use of this program.
+
+cstm>sc product system;il
+-- Converting a (740) byte raw log file to text. --
+Preparing the Information Tool Log for system on path system File ...
+
+.... ignsrv.opr.karafarinbank.com  :  10.0.4.56 .... 
+
+-- Information Tool Log for system on path system --
+
+Log creation time: Tue May 17 15:38:25 2011
+
+Hardware path: system
+
+
+Product ID                : ia64 hp server rx2620
+Current Product Number    : AB332A
+Original Product Number   : N/A
+System Firmware Revision  : 04.29
+BMC Revision              : v04.04
+System Serial Number:     : DEH460642V
+
+System Software ID           : 1081797509
+
+
+
+      For additional information about the system and the CPUs, please run the
+      following command:
+
+                 /usr/contrib/bin/machinfo
+
+
+
+NOTE: The system Field Replaceable Unit Identification (FRUID) information has
+not yet been obtained.
+Please re-run the system information tool to obtain and display this
+information.
+-- Information Tool Log for system on path system --
+View   - To View the file.
+Print  - To Print the file.
+SaveAs - To Save the file.
+Enter Done, Help, Print, SaveAs, or View: [Done] #.
