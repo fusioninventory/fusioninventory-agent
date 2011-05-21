@@ -70,11 +70,15 @@ sub _getRoutes {
 sub _getInterfaces {
     my ($logger, $routes) = @_;
 
-    my @interfaces;
+    my $handle = getFileHandle(
+        command => 'lanscan -iap'
+    );
+    return unless $handle;
 
-    foreach (`lanscan -iap`) {
-        my ($interface, $name, $lanid);
+    my @interfaces;
+    while (my $line = <$handle>) {
         next unless /^(\S+)\s(\S+)\s(\S+)\s+(\S+)/;
+        my ($interface, $name, $lanid);
         $interface->{MACADDR} = $1;
         $name = $2;
         $lanid = $4;
@@ -127,6 +131,7 @@ sub _getInterfaces {
 
         push @interfaces, $interface;
     }
+    close $handle;
 
     return @interfaces;
 }
