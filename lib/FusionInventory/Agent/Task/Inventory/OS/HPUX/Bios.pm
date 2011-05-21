@@ -16,40 +16,34 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $BiosVersion;
-    my $BiosDate;
-    my $SystemModel;
-    my $SystemSerial;
-    my $SystemUUID;
+    my $model = getFirstLine(command => 'model');
 
-    $SystemModel = getFirstLine(command => 'model');
-
+    my ($version, $serial, $uuid);
     if (can_run('/usr/contrib/bin/machinfo')) {
         my $info = getInfoFromMachinfo(logger => $logger);
-        $BiosVersion  = $info->{'Firmware info'}->{'firmware revision'};
-        $SystemSerial = $info->{'Platform info'}->{'machine serial number'};
-        $SystemUUID   = uc($info->{'Platform info'}->{'machine id number'});
+        $version = $info->{'Firmware info'}->{'firmware revision'};
+        $serial  = $info->{'Platform info'}->{'machine serial number'};
+        $uuid    = uc($info->{'Platform info'}->{'machine id number'});
     } else {
         foreach ( `echo 'sc product cpu;il' | /usr/sbin/cstm` ) {
             next unless /PDC Firmware/;
-            if ( /Revision:\s+(\S+)/ ) { $BiosVersion = "PDC $1" }
+            if ( /Revision:\s+(\S+)/ ) { $version = "PDC $1" }
         }
-        foreach ( `echo 'sc product system;il' | /usr/sbin/cstm` ) {
-            next unless /System Serial Number/;
-            if ( /:\s+(\w+)/ ) { $SystemSerial = $1 }
-        }
+        $serial = getFirstMatch(
+            command => "echo 'sc product system;il' | /usr/sbin/cstm",
+            pattern => qr/^System Serial Number:\s+: (\S+)/
+        );
     }
 
     $inventory->setBios({
-        BVERSION      => $BiosVersion,
-        BDATE         => $BiosDate,
+        BVERSION      => $version,
         BMANUFACTURER => "HP",
         SMANUFACTURER => "HP",
-        SMODEL        => $SystemModel,
-        SSN           => $SystemSerial,
+        SMODEL        => $model,
+        SSN           => $serial,
     });
     $inventory->setHardware({
-        UUID => $SystemUUID
+        UUID => $uuid
     });
 }
 
