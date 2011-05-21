@@ -120,21 +120,10 @@ sub _getInterfaces {
             }
         }
 
-        $interface->{IPSUBNET} = join '.',
-            unpack(
-                'C4C4C4C4',
-                pack(
-                    'B32',
-                    unpack(
-                        'B32',
-                        pack('C4C4C4C4', split(/\./, $interface->{IPADDRESS}))
-                    ) &
-                    unpack(
-                        'B32',
-                        pack('C4C4C4C4', split(/\./, $interface->{IPMASK}))
-                    ) 
-                )
-            );
+        $interface->{IPSUBNET} = getSubnetAddress(
+            $interface->{IPADDRESS},
+            $interface->{IPMASK}
+        );
 
         $interface->{IPGATEWAY} =
             $routes->{$interface->{IPSUBNET} . '/' . $interface->{IPMASK}};
