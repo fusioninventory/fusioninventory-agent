@@ -66,9 +66,9 @@ sub _findDhcpLeaseFile {
     my @patterns = ("*$if*.lease", "*.lease");
     my @files;
 
-    foreach my $pattern (@patterns) {
-        foreach my $directory (@directories) {
-            next unless -d $directory;
+    foreach my $directory (@directories) {
+        next unless -d $directory;
+        foreach my $pattern (@patterns) {
 
             push @files,
                 grep { -s $_ }
