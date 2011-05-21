@@ -11,9 +11,11 @@ use Memoize;
 
 our @EXPORT = qw(
     getInfoFromMachinfo
+    isHPVMGuest
 );
 
 memoize('getInfoFromMachinfo');
+memoize('isHPVMGuest');
 
 sub getInfoFromMachinfo {
     my %params = (
@@ -68,6 +70,13 @@ sub getInfoFromMachinfo {
     close $handle;
 
     return $info;
+}
+
+sub isHPVMGuest {
+    return getFirstMatch(
+        command => 'hpvminfo',
+        pattern => qr/HPVM guest/
+    );
 }
 
 1;

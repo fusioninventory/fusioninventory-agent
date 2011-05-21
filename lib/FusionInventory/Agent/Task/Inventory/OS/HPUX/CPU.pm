@@ -18,7 +18,8 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    if (-f '/opt/propplus/bin/cprop' && (`hpvminfo 2>&1` !~ /HPVM/)) {
+    # http://forge.fusioninventory.org/issues/755
+    if (can_run('/opt/propplus/bin/cprop') && !isHPVMGuest()) {
         foreach my $cpu (_parseCprop(
             command => '/opt/propplus/bin/cprop -summary -c Processors',
             logger  => $logger
