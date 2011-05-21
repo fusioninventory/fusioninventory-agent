@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Regexp;
 
 #TODO Get driver pcislot virtualdev
 
@@ -47,13 +48,22 @@ sub doInventory {
 
 
 sub _getRoutes {
+    my $handle = getFileHandle(
+        command => 'netstat -nrv'
+    );
+    return unless $handle;
 
     my $routes;
-    foreach (`netstat -nrv`) {
-        if (/^(\S+\/\d+\.\d+\.\d+\.\d+)\s+(\d+\.\d+\.\d+\.\d+)/) {
-            $routes->{$1} = $2 if not defined $routes->{$1}; #Just keep the first one
-        }
+    while (my $line = <$handle>) {
+        next unless $line =~ /^
+            ((?:$ip_address_pattern|default)\/$ip_address_pattern)
+            \s+
+            ($ip_address_pattern)
+        /x;
+        $routes->{$1} = $2 unless defined $routes->{$1};
     }
+    close $handle;
+
     return $routes;
 }
 
