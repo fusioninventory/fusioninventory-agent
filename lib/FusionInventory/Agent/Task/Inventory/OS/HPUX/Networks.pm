@@ -78,10 +78,12 @@ sub _getInterfaces {
     my @interfaces;
     while (my $line = <$handle>) {
         next unless /^(\S+)\s(\S+)\s(\S+)\s+(\S+)/;
-        my ($interface, $name, $lanid);
-        $interface->{MACADDR} = $1;
-        $name = $2;
-        $lanid = $4;
+        my $interface = {
+            MACADDR => $1,
+            STATUS => 'Down'
+        };
+        my $name = $2;
+        my $lanid = $4;
 
         if ($interface->{MACADDR} =~ /^0x(..)(..)(..)(..)(..)(..)$/) {
             $interface->{MACADDR} = "$1:$2:$3:$4:$5:$6"
@@ -99,14 +101,10 @@ sub _getInterfaces {
                 # in Mbps
                 $interface->{SPEED} = ($1 > 1000000)? $1/1000000 : $1;
             }
-            if (/Operation Status.+=\sdown\W/i) {
-                # it is not the only criteria
-                $interface->{STATUS} = "Down";
-            }
         }
 
         foreach (`ifconfig $name 2> /dev/null`) {
-            if ( not $interface->{STATUS} and /$name:\s+flags=.*\WUP\W/ ) {
+            if (/$name:\s+flags=.*\WUP\W/ ) {
                 # its status is not reported as down in lanadmin -g
                 $interface->{STATUS} = 'Up';
             }
@@ -143,9 +141,6 @@ sub _getInterfaces {
             $interface->{IPSUBNET} eq '0.0.0.0'
         ) {
             $interface->{IPSUBNET} = "";
-        }
-        if (not $interface->{STATUS}) {
-            $interface->{STATUS} = 'Down';
         }
 
         push @interfaces, $interface;
