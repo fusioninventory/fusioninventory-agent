@@ -56,23 +56,23 @@ sub getIpDhcp {
 sub _findDhcpLeaseFile {
     my ($logger, $if) = @_;
 
-    my @files;
 
-    my @location = qw(
+    my @directories = qw(
         /var/db
         /var/lib/dhcp3
         /var/lib/dhcp
         /var/lib/dhclient
     );
-    my @pattern = ("*$if*.lease", "*.lease");
+    my @patterns = ("*$if*.lease", "*.lease");
+    my @files;
 
-    foreach my $pattern (@pattern) {
-        foreach my $dir (@location) {
-            next unless -d $dir;
+    foreach my $pattern (@patterns) {
+        foreach my $directory (@directories) {
+            next unless -d $directory;
 
             push @files,
                 grep { -s $_ }
-                glob("$dir/$pattern");
+                glob("$directory/$pattern");
         } 
     }
 
