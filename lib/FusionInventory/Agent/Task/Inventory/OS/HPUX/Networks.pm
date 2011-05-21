@@ -88,34 +88,59 @@ sub _getInterfaces {
         }
 
         foreach (`lanadmin -g $lanid`) {
-            if (/Type.+=\s(.+)/) { $interface->{TYPE} = $1; }
-            if (/Description\s+=\s(.+)/) { $interface->{DESCRIPTION} = $1; }
-            if (/Speed.+=\s(\d+)/) {
-                $interface->{SPEED} = ($1 > 1000000)? $1/1000000 : $1; # in old version speed was given in Mbps and we want speed in Mbps
+            if (/Type.+=\s(.+)/) {
+                $interface->{TYPE} = $1;
             }
-            if (/Operation Status.+=\sdown\W/i) { $interface->{STATUS} = "Down"; } #It is not the only criteria
+            if (/Description\s+=\s(.+)/) {
+                $interface->{DESCRIPTION} = $1;
+            }
+            if (/Speed.+=\s(\d+)/) {
+                # in old version speed was given in Mbps and we want speed
+                # in Mbps
+                $interface->{SPEED} = ($1 > 1000000)? $1/1000000 : $1;
+            }
+            if (/Operation Status.+=\sdown\W/i) {
+                # it is not the only criteria
+                $interface->{STATUS} = "Down";
+            }
         }
 
         foreach (`ifconfig $name 2> /dev/null`) {
-            if ( not $interface->{STATUS} and /$name:\s+flags=.*\WUP\W/ ) { #Its status is not reported as down in lanadmin -g
+            if ( not $interface->{STATUS} and /$name:\s+flags=.*\WUP\W/ ) {
+                # its status is not reported as down in lanadmin -g
                 $interface->{STATUS} = 'Up';
             }
             if (/inet\s(\S+)\snetmask\s(\S+)\s/) {
                 $interface->{IPADDRESS} = $1;
                 $interface->{IPMASK} = $2;
                 if ($interface->{IPMASK} =~ /(..)(..)(..)(..)/) {
-                    $interface->{IPMASK} = sprintf ("%i.%i.%i.%i",hex($1),hex($2),hex($3),hex($4));
+                    $interface->{IPMASK} =
+                        sprintf ("%i.%i.%i.%i",hex($1),hex($2),hex($3),hex($4));
                 }
             }
         }
 
-        $interface->{IPSUBNET} = join '.', unpack('C4C4C4C4', pack('B32', 
-                unpack('B32', pack('C4C4C4C4', split(/\./, $interface->{IPADDRESS}))) 
-                & unpack('B32', pack('C4C4C4C4', split(/\./, $interface->{IPMASK}))) 
-            ));
+        $interface->{IPSUBNET} = join '.',
+            unpack(
+                'C4C4C4C4',
+                pack(
+                    'B32',
+                    unpack(
+                        'B32',
+                        pack('C4C4C4C4', split(/\./, $interface->{IPADDRESS}))
+                    ) &
+                    unpack(
+                        'B32',
+                        pack('C4C4C4C4', split(/\./, $interface->{IPMASK}))
+                    ) 
+                )
+            );
 
-        $interface->{IPGATEWAY} = $routes->{$interface->{IPSUBNET} . '/' . $interface->{IPMASK}};
-        # replace the $ipaddress (ie IP Address of the interface itself) by the default gateway IP adress if it exists
+        $interface->{IPGATEWAY} =
+            $routes->{$interface->{IPSUBNET} . '/' . $interface->{IPMASK}};
+
+        # replace the IP Address of the interface itself by the default gateway
+        # IP adress if it exists
         if (
             defined $interface->{IPGATEWAY} and
             $interface->{IPGATEWAY} eq $interface->{IPADDRESS} and
@@ -125,9 +150,19 @@ sub _getInterfaces {
         }
 
         # Some cleanups
-        if ($interface->{IPADDRESS} eq '0.0.0.0') { $interface->{IPADDRESS} = "" }
-        if (not $interface->{IPADDRESS} and not $interface->{IPMASK} and $interface->{IPSUBNET} eq '0.0.0.0') { $interface->{IPSUBNET} = "" }
-        if (not $interface->{STATUS}) { $interface->{STATUS} = 'Down' }
+        if ($interface->{IPADDRESS} eq '0.0.0.0') {
+            $interface->{IPADDRESS} = "";
+        }
+        if (
+            not $interface->{IPADDRESS} and
+            not $interface->{IPMASK} and
+            $interface->{IPSUBNET} eq '0.0.0.0'
+        ) {
+            $interface->{IPSUBNET} = "";
+        }
+        if (not $interface->{STATUS}) {
+            $interface->{STATUS} = 'Down';
+        }
 
         push @interfaces, $interface;
     }
