@@ -125,18 +125,13 @@ sub _getInterfaces {
             $interface->{IPMASK}
         );
 
+        # the gateway address is the gateway for the interface subnet
+        # unless on the gateway itself, where it is the default gateway
+        my $subnet = $interface->{IPSUBNET} . '/' . $interface->{IPMASK};
         $interface->{IPGATEWAY} =
-            $routes->{$interface->{IPSUBNET} . '/' . $interface->{IPMASK}};
-
-        # replace the IP Address of the interface itself by the default gateway
-        # IP adress if it exists
-        if (
-            defined $interface->{IPGATEWAY} and
-            $interface->{IPGATEWAY} eq $interface->{IPADDRESS} and
-            defined $routes->{'default/0.0.0.0'}
-        ) {
-            $interface->{IPGATEWAY} = $routes->{'default/0.0.0.0'}
-        }
+            $routes->{$subnet} ne $interface->{IPADDRESS} ?
+                $routes->{$subnet}          :
+                $routes->{'default/0.0.0.0'};
 
         # Some cleanups
         if ($interface->{IPADDRESS} eq '0.0.0.0') {
