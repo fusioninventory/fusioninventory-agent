@@ -71,8 +71,8 @@ sub _findDhcpLeaseFile {
             next unless -d $dir;
 
             push @files,
-                 grep { -s $_ }
-            glob("$dir/$pattern");
+                grep { -s $_ }
+                glob("$dir/$pattern");
         } 
     }
 
@@ -83,7 +83,7 @@ sub _findDhcpLeaseFile {
         map { $_->[0] }
         sort { $a->[1]->ctime() <=> $b->[1]->ctime() }
         map { [ $_, stat($_) ] }
-    @files;
+        @files;
 
     # take the last one
     return $files[-1];
