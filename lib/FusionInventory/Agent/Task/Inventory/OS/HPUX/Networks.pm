@@ -13,8 +13,7 @@ sub isInventoryEnabled {
         can_run('lanadmin') &&
         can_run('lanscan') &&
         can_run('netstat') &&
-        can_run('ifconfig') &&
-        can_run('uname');
+        can_run('ifconfig');
 }
 
 sub doInventory {
