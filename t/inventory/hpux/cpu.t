@@ -7,7 +7,7 @@ use FusionInventory::Agent::Task::Inventory::OS::HPUX::CPU;
 
 use Test::More;
 
-my %tests = (
+my %machinfo_tests = (
     'hpux_11.31_3xia64' => {
         CPUcount     => '3',
         SPEED        => '1600',
@@ -48,30 +48,37 @@ my %tests = (
     }
 );
 
-my $cpropCpu = [
-    {
-        ID           => 'ff-ff-ff-3-ff-0-ff-11',
-        NAME         => 'Itanium',
-        MANUFACTURER => 'Intel',
-        SPEED        => '1729',
-        CORE         => 4
-    },
-    {
-        ID           => 'ff-ff-ff-4-ff-0-ff-11',
-        NAME         => 'Itanium',
-        MANUFACTURER => 'Intel',
-        SPEED        => '1729',
-        CORE         => 4
-    }
-];
+my %cprop_tests = (
+    hpux4 => [
+        {
+            ID           => 'ff-ff-ff-3-ff-0-ff-11',
+            NAME         => 'Itanium',
+            MANUFACTURER => 'Intel',
+            SPEED        => '1729',
+            CORE         => 4
+        },
+        {
+            ID           => 'ff-ff-ff-4-ff-0-ff-11',
+            NAME         => 'Itanium',
+            MANUFACTURER => 'Intel',
+            SPEED        => '1729',
+            CORE         => 4
+        }
+    ]
+);
 
-plan tests => (scalar keys %tests) + 1;
+plan tests =>
+    (scalar keys %machinfo_tests) +
+    (scalar keys %cprop_tests);
 
-foreach my $test (keys %tests) {
+foreach my $test (keys %machinfo_tests) {
     my $file = "resources/hpux/machinfo/$test";
     my $results = FusionInventory::Agent::Task::Inventory::OS::HPUX::CPU::_parseMachinInfo(file => $file);
-    is_deeply($results, $tests{$test}, "machinfo output parsing: $test");
+    is_deeply($results, $machinfo_tests{$test}, "machinfo parsing: $test");
 }
 
-my @cpus = FusionInventory::Agent::Task::Inventory::OS::HPUX::CPU::_parseCprop(file => 'resources/hpux/cprop/cpu');
-is_deeply(\@cpus, $cpropCpu, 'cprop output parsing');
+foreach my $test (keys %cprop_tests) {
+    my $file = "resources/hpux/cprop/$test-cpu";
+    my @cpus = FusionInventory::Agent::Task::Inventory::OS::HPUX::CPU::_parseCprop(file => $file);
+    is_deeply(\@cpus, $cprop_tests{$test}, "cprop parsing: $test");
+}
