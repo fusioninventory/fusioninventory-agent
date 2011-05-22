@@ -67,18 +67,9 @@ sub _getRoutes {
 sub _getInterfaces {
     my ($logger, $routes) = @_;
 
-    my @interfaces;
-    if (can_run("/sbin/ip")) {
-        @interfaces = _parseIpAddrShow(
-            command => '/sbin/ip addr show',
-            logger  =>  $logger
-        );
-    } else { 
-        @interfaces = _parseIfconfig(
-            command => '/sbin/ifconfig -a',
-            logger  =>  $logger
-        );
-    }
+    my @interfaces = can_run("/sbin/ip") ?
+        _parseIpAddrShow(command => '/sbin/ip addr show', logger => $logger):
+        _parseIfconfig(command => '/sbin/ifconfig -a',    logger => $logger);
 
     foreach my $interface (@interfaces) {
         if (_isWifi($logger, $interface->{DESCRIPTION})) {
