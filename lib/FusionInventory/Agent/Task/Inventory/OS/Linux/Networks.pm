@@ -3,8 +3,6 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Networks;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-
 use FusionInventory::Agent::Regexp;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
@@ -22,7 +20,7 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # set list of network interfaces
-    my $routes = _getRoutes($logger);
+    my $routes = _getRoutes(logger => $logger);
     my @interfaces = _getInterfaces($logger, $routes);
     foreach my $interface (@interfaces) {
         $inventory->addEntry(
@@ -45,13 +43,10 @@ sub doInventory {
 }
 
 sub _getRoutes {
-    my ($logger) = @_;
-
     my $handle = getFileHandle(
-        logger  => $logger,
-        command => 'route -n'
+        command => 'route -n',
+        @_
     );
-
     return unless $handle;
 
     my $routes;
