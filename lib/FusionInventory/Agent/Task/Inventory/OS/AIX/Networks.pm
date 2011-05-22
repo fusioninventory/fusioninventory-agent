@@ -3,8 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::AIX::Networks;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Regexp;
+use FusionInventory::Agent::Tools;
 
 sub isInventoryEnabled {
     return
