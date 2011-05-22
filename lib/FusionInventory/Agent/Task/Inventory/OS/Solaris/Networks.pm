@@ -30,7 +30,7 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # set list of network interfaces
-    my $routes = getRoutesFromInet(logger => $logger);
+    my $routes = getRoutesFromNetstat(logger => $logger);
     my @interfaces = _getInterfaces();
     foreach my $interface (@interfaces) {
         $inventory->addEntry(
