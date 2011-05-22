@@ -2,15 +2,19 @@ HPUX specific command and file samples
 
 Data origin:
 - hpux1, hpux2 samples: Amir Pakdel <a.pakdel@karafarinbank.net>
+- hpux3, hpux4 samples: Earl Flack <innate.ideas@gmail.com>
 
 cprop: crop command
-- cpu: cprop -summary -c Processors
-- memory: cprop -summary -c Memory
+- hpux*-cpu: cprop -summary -c Processors
+- hpux*-memory: cprop -summary -c Memory
 
 machinfo: machinfo command
 
 fstyp: fstyp command
 - hpux*: fstyp -l
+
+hpvminfo: hpvminfo command
+- hpux*: hpvminfo
 
 swlist: swlist command
 - hpux*: swlist
