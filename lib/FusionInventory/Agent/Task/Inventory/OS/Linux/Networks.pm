@@ -15,60 +15,6 @@ sub isInventoryEnabled {
         can_run('route');
 }
 
-# Move in Tools.pm
-# compute network IP and mask from the IP prefix.
-# We should use it to drop the Net::IP::ip_iptobin() dependency.
-sub _computeIPv4Network {
-    my ($ip, $prefix) = @_;
-
-    my $net = sprintf ("%08b%08b%08b%08b", split(/\./, $ip));
-    my $mask;
-    $net =~ s/^(.{$prefix})[0-1]*/$1/;
-    $net .= sprintf("%0".(32-$prefix)."b", 0);
-    $mask .= 1 foreach(1..$prefix);
-    $mask .= 0 foreach(1..(32-$prefix));
-
-    my $r = { network => undef, mask => undef };
-    if ($net =~ /^(\d{8})(\d{8})(\d{8})(\d{8})$/) {
-         $r->{network} =  oct("0b".$1).".".oct("0b".$2).".".oct("0b".$3).".".oct("0b".$4);
-    }
-    if ($mask =~ /^(\d{8})(\d{8})(\d{8})(\d{8})$/) {
-         $r->{mask} =  oct("0b".$1).".".oct("0b".$2).".".oct("0b".$3).".".oct("0b".$4);
-    }
-    return $r;
-}
-
-# http://forge.fusioninventory.org/issues/854
-sub _parseIpAddrShow {
-    my $handle = getFileHandle(@_);
-    return unless $handle;
-
-    my @entries;
-    my $entry;
-    while (my $line = <$handle>) {
-        chomp $line;
-        if ($line =~ /^\d+:\s+(\S+): .*(UP|DOWN)/) {
-            push @entries, $entry if $entry;
-            $entry = {};
-            $entry->{DESCRIPTION} = $1;
-            $entry->{STATUS} = ucfirst(lc($2));
-        } elsif ($line =~ /link\/ether ($mac_address_pattern)/) {
-            $entry->{MACADDR} = $1;
-        } elsif ($line =~ /inet6 (\S+)\//) {
-            $entry->{IPADDRESS6} = $1;
-        } elsif ($line =~ /inet ($ip_address_pattern)\/(\d{1,3})/) {
-            $entry->{IPADDRESS} = $1;
-            my $infoNet = _computeIPv4Network($1, $2);
-            $entry->{IPSUBNET} = $infoNet->{network};
-            $entry->{IPMASK} = $infoNet->{mask};
-        }
-    }
-
-    return @entries;
-}
-
-
-
 sub doInventory {
     my (%params) = @_;
 
@@ -308,6 +254,58 @@ sub _getNetworkInfo {
     }
 
     return ($ipsubnet, $ipgateway);
+}
+
+# Move in Tools.pm
+# compute network IP and mask from the IP prefix.
+# We should use it to drop the Net::IP::ip_iptobin() dependency.
+sub _computeIPv4Network {
+    my ($ip, $prefix) = @_;
+
+    my $net = sprintf ("%08b%08b%08b%08b", split(/\./, $ip));
+    my $mask;
+    $net =~ s/^(.{$prefix})[0-1]*/$1/;
+    $net .= sprintf("%0".(32-$prefix)."b", 0);
+    $mask .= 1 foreach(1..$prefix);
+    $mask .= 0 foreach(1..(32-$prefix));
+
+    my $r = { network => undef, mask => undef };
+    if ($net =~ /^(\d{8})(\d{8})(\d{8})(\d{8})$/) {
+         $r->{network} =  oct("0b".$1).".".oct("0b".$2).".".oct("0b".$3).".".oct("0b".$4);
+    }
+    if ($mask =~ /^(\d{8})(\d{8})(\d{8})(\d{8})$/) {
+         $r->{mask} =  oct("0b".$1).".".oct("0b".$2).".".oct("0b".$3).".".oct("0b".$4);
+    }
+    return $r;
+}
+
+# http://forge.fusioninventory.org/issues/854
+sub _parseIpAddrShow {
+    my $handle = getFileHandle(@_);
+    return unless $handle;
+
+    my @entries;
+    my $entry;
+    while (my $line = <$handle>) {
+        chomp $line;
+        if ($line =~ /^\d+:\s+(\S+): .*(UP|DOWN)/) {
+            push @entries, $entry if $entry;
+            $entry = {};
+            $entry->{DESCRIPTION} = $1;
+            $entry->{STATUS} = ucfirst(lc($2));
+        } elsif ($line =~ /link\/ether ($mac_address_pattern)/) {
+            $entry->{MACADDR} = $1;
+        } elsif ($line =~ /inet6 (\S+)\//) {
+            $entry->{IPADDRESS6} = $1;
+        } elsif ($line =~ /inet ($ip_address_pattern)\/(\d{1,3})/) {
+            $entry->{IPADDRESS} = $1;
+            my $infoNet = _computeIPv4Network($1, $2);
+            $entry->{IPSUBNET} = $infoNet->{network};
+            $entry->{IPMASK} = $infoNet->{mask};
+        }
+    }
+
+    return @entries;
 }
 
 1;
