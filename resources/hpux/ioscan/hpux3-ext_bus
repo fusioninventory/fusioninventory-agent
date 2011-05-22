@@ -1,0 +1,5 @@
+pci:wsio:F:T:F:-1:22:0:ext_bus:gvsd:0/0/0/0:16 60 19 57 0 0 0 0:0:root.cec_gen.gh2p.gvsd:gvsd:CLAIMED:INTERFACE:HPVM AVIO Stor Adapter:0:
+pci:wsio:F:T:F:-1:22:131072:ext_bus:gvsd:0/1/0/0:16 60 19 57 0 0 0 0:2:root.cec_gen.gh2p.gvsd:gvsd:CLAIMED:INTERFACE:HPVM AVIO Stor Adapter:2:
+pci:wsio:F:T:F:-1:22:196608:ext_bus:gvsd:0/2/0/0:16 60 19 57 0 0 0 0:3:root.cec_gen.gh2p.gvsd:gvsd:CLAIMED:INTERFACE:HPVM AVIO Stor Adapter:3:
+pci:wsio:F:T:F:-1:22:262144:ext_bus:gvsd:0/3/0/0:16 60 19 57 0 0 0 0:4:root.cec_gen.gh2p.gvsd:gvsd:CLAIMED:INTERFACE:HPVM AVIO Stor Adapter:4:
+em:wsio:F:F:T:0:0:65536:ext_bus:usb_ms_scsi:255/1/0:0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 :1:root.virtroot.mass_storage.usb_ms_scsi:usb_ms_scsi:CLAIMED:INTERFACE:USB Mass Storage SCSI:1:

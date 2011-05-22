@@ -1,0 +1,2 @@
+pci:wsio:F:T:F:-1:67:4294967295:fc:fcd:0/2/1/0:16 119 35 18 9 48 72 64 :0:root.sba.lba.fcd:fcd:CLAIMED:INTERFACE:HP A6826-60001 2Gb Dual Port PCI/PCI-X Fibre Channel Adapter (FC Port 1):0
+pci:wsio:F:T:F:-1:67:4294967295:fc:fcd:0/2/1/1:16 119 35 18 9 48 74 0 :1:root.sba.lba.fcd:fcd:CLAIMED:INTERFACE:HP A6826-60001 2Gb Dual Port PCI/PCI-X Fibre Channel Adapter (FC Port 2):1

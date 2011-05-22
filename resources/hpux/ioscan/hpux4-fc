@@ -1,0 +1,4 @@
+pci:wsio:F:T:F:-1:19:0:fc:fclp:0/0/0/7/0/0/0:16 223 241 0 0 0 0 0:0:root.cell.cec_gen.gh2p.PCItoPCI.pci_slot.fclp:fclp:CLAIMED:INTERFACE:HP 456972-B21 8Gb PCIe 2-port LPe1205 FC Mezzanine Adapter:0:
+pci:wsio:F:T:F:-1:19:65536:fc:fclp:0/0/0/7/0/0/1:16 223 241 0 0 0 0 54:1:root.cell.cec_gen.gh2p.PCItoPCI.pci_slot.fclp:fclp:CLAIMED:INTERFACE:HP 456972-B21 8Gb PCIe 2-port LPe1205 FC Mezzanine Adapter:1:
+pci:wsio:F:T:F:-1:19:131072:fc:fclp:0/0/0/9/0/0/0:16 223 241 0 0 0 0 0:2:root.cell.cec_gen.gh2p.PCItoPCI.pci_slot.fclp:fclp:CLAIMED:INTERFACE:HP 456972-B21 8Gb PCIe 2-port LPe1205 FC Mezzanine Adapter:2:
+pci:wsio:F:T:F:-1:19:196608:fc:fclp:0/0/0/9/0/0/1:16 223 241 0 0 0 2 35:3:root.cell.cec_gen.gh2p.PCItoPCI.pci_slot.fclp:fclp:CLAIMED:INTERFACE:HP 456972-B21 8Gb PCIe 2-port LPe1205 FC Mezzanine Adapter:3:

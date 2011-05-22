@@ -1,0 +1,9 @@
+em:pci_cdio:F:F:F:-1:-1:4294967295:ba:pci_adapter:0/0:16 60 18 46 0 70 0 4 0 0 0 0 0 0 0 1 108 98 97 0 48 48 50 0 0 47 36 48 224 0 0 1 67 76 65 73 :0:root.sba.lba:lba:CLAIMED:BUS_NEXUS:Local PCI-X Bus Adapter (122e):0
+em:pci_cdio:F:F:F:-1:-1:4294967295:ba:pci_adapter:0/1:16 60 18 46 0 70 0 4 0 0 0 0 0 0 0 1 108 98 97 0 48 48 50 0 0 47 36 48 224 0 0 1 67 76 65 73 :1:root.sba.lba:lba:CLAIMED:BUS_NEXUS:Local PCI-X Bus Adapter (122e):1
+em:pci_cdio:F:F:F:-1:-1:4294967295:ba:pci_adapter:0/2:16 60 18 46 0 70 0 4 0 0 0 0 0 0 0 1 108 98 97 0 48 48 50 0 0 47 36 48 224 0 0 1 67 76 65 73 :2:root.sba.lba:lba:CLAIMED:BUS_NEXUS:Local PCI-X Bus Adapter (122e):2
+em:pci_cdio:F:F:F:-1:-1:4294967295:ba:pci_adapter:0/3:16 60 18 46 0 70 0 4 0 0 0 0 0 0 0 1 108 98 97 0 48 48 50 0 0 47 36 48 224 0 0 1 67 76 65 73 :3:root.sba.lba:lba:CLAIMED:BUS_NEXUS:Local PCI-X Bus Adapter (122e):3
+pci:pci_cdio:F:F:F:-1:-1:4294967295:ba:pci_adapter:0/3/1/0:16 20 1 167 9 48 130 64 :4:root.sba.lba.PCItoPCI:PCItoPCI:CLAIMED:BUS_NEXUS:PCItoPCI Bridge:4
+em:pci_cdio:F:F:F:-1:-1:4294967295:ba:pci_adapter:0/4:16 60 18 46 0 70 0 4 0 0 0 0 0 0 0 1 108 98 97 0 48 48 50 0 0 47 36 48 224 0 0 1 67 76 65 73 :5:root.sba.lba:lba:CLAIMED:BUS_NEXUS:Local PCI-X Bus Adapter (122e):5
+em:pci_cdio:F:F:F:-1:-1:4294967295:ba:pci_adapter:0/5:16 60 18 46 0 70 0 4 0 0 0 0 0 0 0 1 108 98 97 0 48 48 50 0 0 47 36 48 224 0 0 1 67 76 65 73 :6:root.sba.lba:lba:CLAIMED:BUS_NEXUS:Local PCI-X Bus Adapter (122e):6
+em:pci_cdio:F:F:F:-1:-1:4294967295:ba:pci_adapter:0/6:16 60 18 46 0 70 0 4 0 0 0 0 0 0 0 1 108 98 97 0 48 48 50 0 0 47 36 48 224 0 0 1 67 76 65 73 :7:root.sba.lba:lba:CLAIMED:BUS_NEXUS:Local PCI-X Bus Adapter (122e):7
+em:pdh:F:F:F:-1:-1:4294967295:ba:pdh:250:255 255 255 255 108 0 0 9 48 0 67 0 112 0 117 0 112 100 104 0 1 80 79 144 0 0 0 0 0 0 0 0 67 76 65 73 :8:root.pdh:pdh:CLAIMED:BUS_NEXUS:Core I/O Adapter:8

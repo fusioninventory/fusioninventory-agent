@@ -1,0 +1,13 @@
+side:wsio:F:F:F:-1:-1:4294967295:ext_bus:side:0/0/2/0.0:16 149 6 73 48 101 48 41 0 0 0 0 0 0 16 0 :0:root.sba.lba.side_multi.side:side:CLAIMED:INTERFACE:IDE Primary Channel:0
+side:wsio:F:F:F:-1:-1:4294967295:ext_bus:side:0/0/2/0.1:16 149 6 73 0 124 30 96 224 0 0 0 0 159 156 0 :1:root.sba.lba.side_multi.side:side:CLAIMED:INTERFACE:IDE Secondary Channel:1
+pci:wsio:F:T:F:-1:78:131072:ext_bus:mpt:0/1/1/0:16 0 0 48 9 47 222 64 :2:root.sba.lba.mpt:mpt:CLAIMED:INTERFACE:SCSI Ultra320:2
+pci:wsio:F:T:F:-1:78:196608:ext_bus:mpt:0/1/1/1:16 0 0 48 9 48 66 0 :3:root.sba.lba.mpt:mpt:CLAIMED:INTERFACE:SCSI Ultra320:3
+fcp:wsio:F:F:F:0:0:327680:ext_bus:fcd_vbus:0/2/1/0.1.4.0.0:3 1 0 0 0 0 0 0 178 61 185 8 0 0 0 0 :5:root.sba.lba.fcd.fcd_fcp.fcd_vbus:fcd_vbus:CLAIMED:INTERFACE:FCP Array Interface:5
+fcp:wsio:F:F:F:0:0:393216:ext_bus:fcd_vbus:0/2/1/0.1.4.255.0:2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 :6:root.sba.lba.fcd.fcd_fcp.fcd_vbus:fcd_vbus:CLAIMED:INTERFACE:FCP Device Interface:6
+fcp:wsio:F:F:F:0:0:458752:ext_bus:fcd_vbus:0/2/1/0.1.5.0.0:3 1 0 0 0 0 0 0 178 61 185 8 0 0 0 0 :7:root.sba.lba.fcd.fcd_fcp.fcd_vbus:fcd_vbus:CLAIMED:INTERFACE:FCP Array Interface:7
+fcp:wsio:F:F:F:0:0:524288:ext_bus:fcd_vbus:0/2/1/0.1.5.255.0:2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 :8:root.sba.lba.fcd.fcd_fcp.fcd_vbus:fcd_vbus:CLAIMED:INTERFACE:FCP Device Interface:8
+fcp:wsio:F:F:F:0:0:589824:ext_bus:fcd_vbus:0/2/1/1.1.4.0.0:3 1 0 0 0 0 0 0 178 61 185 8 0 0 0 0 :9:root.sba.lba.fcd.fcd_fcp.fcd_vbus:fcd_vbus:CLAIMED:INTERFACE:FCP Array Interface:9
+fcp:wsio:F:F:F:0:0:655360:ext_bus:fcd_vbus:0/2/1/1.1.4.255.0:2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 :10:root.sba.lba.fcd.fcd_fcp.fcd_vbus:fcd_vbus:CLAIMED:INTERFACE:FCP Device Interface:10
+fcp:wsio:F:F:F:0:0:720896:ext_bus:fcd_vbus:0/2/1/1.1.5.0.0:3 1 0 0 0 0 0 0 178 61 185 8 0 0 0 0 :11:root.sba.lba.fcd.fcd_fcp.fcd_vbus:fcd_vbus:CLAIMED:INTERFACE:FCP Array Interface:11
+fcp:wsio:F:F:F:0:0:786432:ext_bus:fcd_vbus:0/2/1/1.1.5.255.0:2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 :12:root.sba.lba.fcd.fcd_fcp.fcd_vbus:fcd_vbus:CLAIMED:INTERFACE:FCP Device Interface:12
+pci:wsio:F:T:F:-1:45:262144:ext_bus:ciss:0/3/1/0/4/0:14 17 0 70 0 174 244 128 :4:root.sba.lba.PCItoPCI.ciss:ciss:CLAIMED:INTERFACE:PCI-X SmartArray 6402 RAID Controller:4

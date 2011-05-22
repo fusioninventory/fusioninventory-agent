@@ -1,0 +1,14 @@
+side:wsio:F:F:F:-1:-1:4294967295:ext_bus:side:0/0/2/0.0:16 149 6 73 48 101 48 41 0 0 0 0 0 0 16 0 :0:root.sba.lba.side_multi.side:side:CLAIMED:INTERFACE:IDE Primary Channel:0
+side:wsio:F:F:F:-1:-1:4294967295:ext_bus:side:0/0/2/0.1:16 149 6 73 0 101 181 120 224 0 0 0 0 143 179 96 :1:root.sba.lba.side_multi.side:side:CLAIMED:INTERFACE:IDE Secondary Channel:1
+pci:wsio:F:T:F:-1:68:131072:ext_bus:mpt:0/1/1/0:16 0 0 48 9 47 222 64 :2:root.sba.lba.mpt:mpt:CLAIMED:INTERFACE:SCSI Ultra320:2
+pci:wsio:F:T:F:-1:68:196608:ext_bus:mpt:0/1/1/1:16 0 0 48 9 48 66 0 :3:root.sba.lba.mpt:mpt:CLAIMED:INTERFACE:SCSI Ultra320:3
+pci:wsio:F:T:F:-1:68:262144:ext_bus:mpt:0/2/1/0:16 0 0 48 9 48 72 64 :4:root.sba.lba.mpt:mpt:CLAIMED:INTERFACE:SCSI Ultra320 A6961-60011:4
+pci:wsio:F:T:F:-1:68:327680:ext_bus:mpt:0/2/1/1:16 0 0 48 9 48 74 0 :5:root.sba.lba.mpt:mpt:CLAIMED:INTERFACE:SCSI Ultra320 A6961-60011:5
+pci:wsio:F:T:F:-1:33:393216:ext_bus:ciss:0/3/1/0/4/0:14 17 0 70 0 160 108 96 :6:root.sba.lba.PCItoPCI.ciss:ciss:CLAIMED:INTERFACE:PCI-X SmartArray 6402 RAID Controller:6
+fcp:wsio:F:F:F:0:0:917504:ext_bus:fcd_vbus:0/4/1/0.1.0.0.0:3 0 0 0 0 0 0 0 178 61 185 8 0 0 0 0 :14:root.sba.lba.fcd.fcd_fcp.fcd_vbus:fcd_vbus:CLAIMED:INTERFACE:FCP Array Interface:14
+fcp:wsio:F:F:F:0:0:983040:ext_bus:fcd_vbus:0/4/1/0.1.0.255.0:2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 :15:root.sba.lba.fcd.fcd_fcp.fcd_vbus:fcd_vbus:CLAIMED:INTERFACE:FCP Device Interface:15
+fcp:wsio:F:F:F:0:0:1048576:ext_bus:fcd_vbus:0/4/1/0.1.1.0.0:3 0 0 0 0 0 0 0 178 61 185 8 0 0 0 0 :16:root.sba.lba.fcd.fcd_fcp.fcd_vbus:fcd_vbus:CLAIMED:INTERFACE:FCP Array Interface:16
+fcp:wsio:F:F:F:0:0:1114112:ext_bus:fcd_vbus:0/4/1/0.1.1.255.0:2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 :17:root.sba.lba.fcd.fcd_fcp.fcd_vbus:fcd_vbus:CLAIMED:INTERFACE:FCP Device Interface:17
+fcp:wsio:F:F:F:0:0:1572864:ext_bus:fcd_vbus:0/4/1/1.2.0.255.14:2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 :24:root.sba.lba.fcd.fcd_fcp.fcd_vbus:fcd_vbus:CLAIMED:INTERFACE:FCP Device Interface:24
+pci:wsio:F:T:F:-1:68:458752:ext_bus:mpt:0/5/1/0:16 0 0 48 9 48 166 64 :7:root.sba.lba.mpt:mpt:CLAIMED:INTERFACE:SCSI Ultra320 A6961-60011:7
+pci:wsio:F:T:F:-1:68:524288:ext_bus:mpt:0/5/1/1:16 0 0 48 9 48 168 0 :8:root.sba.lba.mpt:mpt:CLAIMED:INTERFACE:SCSI Ultra320 A6961-60011:8

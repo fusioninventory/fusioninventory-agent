@@ -4,35 +4,27 @@ Data origin:
 - hpux1, hpux2 samples: Amir Pakdel <a.pakdel@karafarinbank.net>
 - hpux3, hpux4 samples: Earl Flack <innate.ideas@gmail.com>
 
-cprop: crop command
-- hpux*-cpu: cprop -summary -c Processors
-- hpux*-memory: cprop -summary -c Memory
-
-machinfo: machinfo command
-
-fstyp: fstyp command
-- hpux*: fstyp -l
-
-hpvminfo: hpvminfo command
-- hpux*: hpvminfo
-
-swlist: swlist command
-- hpux*: swlist
-
-swapinfo: swapinfo command
-- hpux*: swapinfo -dt
-
 CIMUtil: CIMUtil command
 - hpux*: CIMUtil -e root/cimv2 HP_ManagementProcessor 
 
-getMPInfo.cgi: getMPInfo.cgi command
-- hpux*: getMPInfo.cgi
+cprop: crop command
+- hpux*-cpu: cprop -summary -c Processors
+- hpux*-memory: cprop -summary -c Memory
 
 cstm: cstm command
 - hpux*-MEMORY: echo 'sc product IPF_MEMORY;il' | /usr/sbin/cstm
 - hpux*-mem: echo 'sc product mem;il' | /usr/sbin/cstm
 - hpux*-cpu: echo 'sc product cpu;il' | /usr/sbin/cstm
 - hpux*-system: echo 'sc product system;il' | /usr/sbin/cstm
+
+fstyp: fstyp command
+- hpux*: fstyp -l
+
+getMPInfo.cgi: getMPInfo.cgi command
+- hpux*: getMPInfo.cgi
+
+hpvminfo: hpvminfo command
+- hpux*: hpvminfo
 
 ioscan: ioscan command
 - hpux*-tape: ioscan -kFnC tape
@@ -46,5 +38,17 @@ ioscan: ioscan command
 lanscan: lanscan command
 - hpux*: lanscan -iap
 
+machinfo: machinfo command
+- hpux*: machinfo
+
+model: model command
+- hpux*: model
+
 netstat: netstat command
 - hpux*: netstat -nrv
+
+swapinfo: swapinfo command
+- hpux*: swapinfo -dt
+
+swlist: swlist command
+- hpux*: swlist

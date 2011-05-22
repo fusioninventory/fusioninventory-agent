@@ -1,0 +1,35 @@
+scsi:wsio:T:T:F:31:188:0:disk:sdisk:0/0/2/0.0.0.0:5 128 2 50 0 0 0 0 163 128 30 76 0 0 0 0 :0:root.sba.lba.side_multi.side.tgt.sdisk:sdisk:CLAIMED:DEVICE:TEAC    DV-28E-N:0
+                           /dev/dsk/c0t0d0   /dev/rdsk/c0t0d0
+scsi:wsio:T:T:F:31:188:393216:disk:sdisk:0/3/1/0/4/0.0.0:0 0 2 2 0 0 0 0 160 199 23 99 141 145 195 73 :1:root.sba.lba.PCItoPCI.ciss.tgt.sdisk:sdisk:CLAIMED:DEVICE:HP      LOGICAL VOLUME:6
+                           /dev/dsk/c6t0d0     /dev/dsk/c6t0d0s2   /dev/rdsk/c6t0d0    /dev/rdsk/c6t0d0s2
+                           /dev/dsk/c6t0d0s1   /dev/dsk/c6t0d0s3   /dev/rdsk/c6t0d0s1  /dev/rdsk/c6t0d0s3
+scsi:wsio:T:T:F:31:188:393472:disk:sdisk:0/3/1/0/4/0.0.1:0 0 2 2 0 0 0 0 160 199 23 99 250 150 243 223 :10:root.sba.lba.PCItoPCI.ciss.tgt.sdisk:sdisk:CLAIMED:DEVICE:HP      LOGICAL VOLUME:6
+                           /dev/dsk/c6t0d1   /dev/rdsk/c6t0d1
+scsi:wsio:T:T:F:31:188:458752:disk:sdisk:0/5/1/0.0.0:0 0 3 18 0 0 0 0 191 11 246 22 147 244 57 14 :2:root.sba.lba.mpt.tgt.sdisk:sdisk:CLAIMED:DEVICE:COMPAQ  BF3008B26C:7
+                           /dev/dsk/c7t0d0   /dev/rdsk/c7t0d0
+scsi:wsio:T:T:F:31:188:462848:disk:sdisk:0/5/1/0.1.0:0 0 3 18 0 0 0 0 191 11 246 22 131 154 93 75 :3:root.sba.lba.mpt.tgt.sdisk:sdisk:CLAIMED:DEVICE:COMPAQ  BF3008B26C:7
+                           /dev/dsk/c7t1d0   /dev/rdsk/c7t1d0
+scsi:wsio:T:T:F:31:188:466944:disk:sdisk:0/5/1/0.2.0:0 0 3 18 0 0 0 0 220 186 187 224 222 29 87 162 :4:root.sba.lba.mpt.tgt.sdisk:sdisk:CLAIMED:DEVICE:COMPAQ  BF30084971:7
+                           /dev/dsk/c7t2d0   /dev/rdsk/c7t2d0
+scsi:wsio:T:T:F:31:188:471040:disk:sdisk:0/5/1/0.3.0:0 0 3 18 0 0 0 0 191 11 246 22 8 142 123 9 :5:root.sba.lba.mpt.tgt.sdisk:sdisk:CLAIMED:DEVICE:COMPAQ  BF3008B26C:7
+                           /dev/dsk/c7t3d0   /dev/rdsk/c7t3d0
+scsi:wsio:T:T:F:31:188:475136:disk:sdisk:0/5/1/0.4.0:0 0 3 18 0 0 0 0 243 20 227 255 168 185 155 17 :6:root.sba.lba.mpt.tgt.sdisk:sdisk:CLAIMED:DEVICE:COMPAQ  BF3008AFEC:7
+                           /dev/dsk/c7t4d0   /dev/rdsk/c7t4d0
+scsi:wsio:T:T:F:31:188:479232:disk:sdisk:0/5/1/0.5.0:0 0 3 18 0 0 0 0 191 11 246 22 26 76 166 72 :7:root.sba.lba.mpt.tgt.sdisk:sdisk:CLAIMED:DEVICE:COMPAQ  BF3008B26C:7
+                           /dev/dsk/c7t5d0   /dev/rdsk/c7t5d0
+scsi:wsio:T:T:F:31:188:491520:disk:sdisk:0/5/1/0.8.0:0 0 3 18 0 0 0 0 191 11 246 22 70 201 86 150 :8:root.sba.lba.mpt.tgt.sdisk:sdisk:CLAIMED:DEVICE:COMPAQ  BF3008B26C:7
+                           /dev/dsk/c7t8d0   /dev/rdsk/c7t8d0
+scsi:wsio:T:T:F:31:188:524288:disk:sdisk:0/5/1/1.0.0:0 0 3 18 0 0 0 0 191 11 246 22 196 163 177 80 :9:root.sba.lba.mpt.tgt.sdisk:sdisk:CLAIMED:DEVICE:COMPAQ  BF3008B26C:8
+                           /dev/dsk/c8t0d0   /dev/rdsk/c8t0d0
+scsi:wsio:T:T:F:31:188:528384:disk:sdisk:0/5/1/1.1.0:0 0 3 18 0 0 0 0 191 11 246 22 17 197 4 181 :11:root.sba.lba.mpt.tgt.sdisk:sdisk:CLAIMED:DEVICE:COMPAQ  BF3008B26C:8
+                           /dev/dsk/c8t1d0   /dev/rdsk/c8t1d0
+scsi:wsio:T:T:F:31:188:532480:disk:sdisk:0/5/1/1.2.0:0 0 3 18 0 0 0 0 191 11 246 22 57 220 234 10 :16:root.sba.lba.mpt.tgt.sdisk:sdisk:CLAIMED:DEVICE:COMPAQ  BF3008B26C:8
+                           /dev/dsk/c8t2d0   /dev/rdsk/c8t2d0
+scsi:wsio:T:T:F:31:188:536576:disk:sdisk:0/5/1/1.3.0:0 0 3 18 0 0 0 0 243 20 227 255 181 188 61 64 :12:root.sba.lba.mpt.tgt.sdisk:sdisk:CLAIMED:DEVICE:COMPAQ  BF3008AFEC:8
+                           /dev/dsk/c8t3d0   /dev/rdsk/c8t3d0
+scsi:wsio:T:T:F:31:188:540672:disk:sdisk:0/5/1/1.4.0:0 0 3 18 0 0 0 0 220 186 187 224 77 236 211 210 :13:root.sba.lba.mpt.tgt.sdisk:sdisk:CLAIMED:DEVICE:COMPAQ  BF30084971:8
+                           /dev/dsk/c8t4d0   /dev/rdsk/c8t4d0
+scsi:wsio:T:T:F:31:188:544768:disk:sdisk:0/5/1/1.5.0:0 0 3 18 0 0 0 0 243 20 227 255 246 218 134 52 :14:root.sba.lba.mpt.tgt.sdisk:sdisk:CLAIMED:DEVICE:COMPAQ  BF3008AFEC:8
+                           /dev/dsk/c8t5d0   /dev/rdsk/c8t5d0
+scsi:wsio:T:T:F:31:188:557056:disk:sdisk:0/5/1/1.8.0:0 0 3 18 0 0 0 0 191 11 246 22 144 41 172 45 :15:root.sba.lba.mpt.tgt.sdisk:sdisk:CLAIMED:DEVICE:COMPAQ  BF3008B26C:8
+                           /dev/dsk/c8t8d0   /dev/rdsk/c8t8d0

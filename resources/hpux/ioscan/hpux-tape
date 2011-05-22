@@ -1,0 +1,10 @@
+scsi:wsio:F:T:F:-1:205:278528:tape:stape:0/9/0/0.4.0:1 128 2 2 0 0 0 0 174 62 131 165 0 0 0 0 :0:root.sba.lba.c720.tgt.stape:stape:CLAIMED:DEVICE:UNISYS M1016B  M2481BU:4
+                         /dev/rmt/0m             /dev/rmt/c4t4d0BEST    /dev/rmt/c4t4d0D3480  
+                         /dev/rmt/0mb            /dev/rmt/c4t4d0BESTb   /dev/rmt/c4t4d0D3480b 
+                         /dev/rmt/0mn            /dev/rmt/c4t4d0BESTn   /dev/rmt/c4t4d0D3480n 
+                         /dev/rmt/0mnb           /dev/rmt/c4t4d0BESTnb  /dev/rmt/c4t4d0D3480nb
+
+
+
+
+

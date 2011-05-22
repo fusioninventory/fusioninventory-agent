@@ -1,0 +1,21 @@
+scsi:wsio:T:T:F:31:188:0:disk:sdisk:0/0/2/0.0.0.0:5 128 2 50 0 0 0 0 163 128 30 76 0 0 0 0 :0:root.sba.lba.side_multi.side.tgt.sdisk:sdisk:CLAIMED:DEVICE:TEAC    DV-28E-N:0
+                           /dev/dsk/c0t0d0   /dev/rdsk/c0t0d0
+scsi:wsio:T:T:F:31:188:327936:disk:sdisk:0/2/1/0.1.4.0.0.0.1:0 0 2 18 0 0 0 0 178 61 185 8 182 165 19 186 :3:root.sba.lba.fcd.fcd_fcp.fcd_vbus.tgt.sdisk:sdisk:CLAIMED:DEVICE:HP      HSV200:5
+                           /dev/dsk/c5t0d1   /dev/rdsk/c5t0d1
+scsi:wsio:T:T:F:31:188:332288:disk:sdisk:0/2/1/0.1.4.0.0.1.2:0 0 2 18 0 0 0 0 178 61 185 8 182 165 19 186 :40:root.sba.lba.fcd.fcd_fcp.fcd_vbus.tgt.sdisk:sdisk:CLAIMED:DEVICE:HP      HSV200:5
+                           /dev/dsk/c5t1d2   /dev/rdsk/c5t1d2
+scsi:wsio:T:T:F:31:188:459008:disk:sdisk:0/2/1/0.1.5.0.0.0.1:0 0 2 18 0 0 0 0 178 61 185 8 69 65 48 235 :2:root.sba.lba.fcd.fcd_fcp.fcd_vbus.tgt.sdisk:sdisk:CLAIMED:DEVICE:HP      HSV200:7
+                           /dev/dsk/c7t0d1   /dev/rdsk/c7t0d1
+scsi:wsio:T:T:F:31:188:463360:disk:sdisk:0/2/1/0.1.5.0.0.1.2:0 0 2 18 0 0 0 0 178 61 185 8 69 65 48 235 :39:root.sba.lba.fcd.fcd_fcp.fcd_vbus.tgt.sdisk:sdisk:CLAIMED:DEVICE:HP      HSV200:7
+                           /dev/dsk/c7t1d2   /dev/rdsk/c7t1d2
+scsi:wsio:T:T:F:31:188:590080:disk:sdisk:0/2/1/1.1.4.0.0.0.1:0 0 2 18 0 0 0 0 178 61 185 8 182 165 19 186 :21:root.sba.lba.fcd.fcd_fcp.fcd_vbus.tgt.sdisk:sdisk:CLAIMED:DEVICE:HP      HSV200:9
+                           /dev/dsk/c9t0d1
+scsi:wsio:T:T:F:31:188:594432:disk:sdisk:0/2/1/1.1.4.0.0.1.2:0 0 2 18 0 0 0 0 178 61 185 8 182 165 19 186 :42:root.sba.lba.fcd.fcd_fcp.fcd_vbus.tgt.sdisk:sdisk:CLAIMED:DEVICE:HP      HSV200:9
+                           /dev/dsk/c9t1d2
+scsi:wsio:T:T:F:31:188:721152:disk:sdisk:0/2/1/1.1.5.0.0.0.1:0 0 2 18 0 0 0 0 178 61 185 8 69 65 48 235 :20:root.sba.lba.fcd.fcd_fcp.fcd_vbus.tgt.sdisk:sdisk:CLAIMED:DEVICE:HP      HSV200:11
+                           /dev/dsk/c11t0d1   /dev/rdsk/c11t0d1
+scsi:wsio:T:T:F:31:188:725504:disk:sdisk:0/2/1/1.1.5.0.0.1.2:0 0 2 18 0 0 0 0 178 61 185 8 69 65 48 235 :41:root.sba.lba.fcd.fcd_fcp.fcd_vbus.tgt.sdisk:sdisk:CLAIMED:DEVICE:HP      HSV200:11
+                           /dev/dsk/c11t1d2   /dev/rdsk/c11t1d2
+scsi:wsio:T:T:F:31:188:262144:disk:sdisk:0/3/1/0/4/0.0.0:0 0 2 2 0 0 0 0 160 199 23 99 81 114 69 125 :1:root.sba.lba.PCItoPCI.ciss.tgt.sdisk:sdisk:CLAIMED:DEVICE:HP      LOGICAL VOLUME:4
+                           /dev/dsk/c4t0d0     /dev/dsk/c4t0d0s2   /dev/rdsk/c4t0d0    /dev/rdsk/c4t0d0s2
+                           /dev/dsk/c4t0d0s1   /dev/dsk/c4t0d0s3   /dev/rdsk/c4t0d0s1  /dev/rdsk/c4t0d0s3

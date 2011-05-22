@@ -1,0 +1,13 @@
+scsi:wsio:F:T:F:-1:205:274432:tape:stape:0/2/1/0.3.0:1 128 3 2 0 0 0 0 233 217 7 147 110 95 155 193 :0:root.sba.lba.mpt.tgt.stape:stape:CLAIMED:DEVICE:HP      C7438A:4
+                         /dev/rmt/0m            /dev/rmt/c4t3d0BEST    /dev/rmt/c4t3d0DDS   
+                         /dev/rmt/0mb           /dev/rmt/c4t3d0BESTb   /dev/rmt/c4t3d0DDSb  
+                         /dev/rmt/0mn           /dev/rmt/c4t3d0BESTn   /dev/rmt/c4t3d0DDSn  
+                         /dev/rmt/0mnb          /dev/rmt/c4t3d0BESTnb  /dev/rmt/c4t3d0DDSnb 
+scsi:wsio:F:T:F:-1:205:1589504:tape:stape:0/4/1/1.2.0.255.14.4.1:1 128 5 18 0 0 0 0 130 94 160 90 96 127 69 49 :7:root.sba.lba.fcd.fcd_fcp.fcd_vbus.tgt.stape:stape:CLAIMED:DEVICE:HP      Ultrium 4-SCSI:24
+                         /dev/rmt/7m             /dev/rmt/7mnb           /dev/rmt/c24t4d1BESTn 
+                         /dev/rmt/7mb            /dev/rmt/c24t4d1BEST    /dev/rmt/c24t4d1BESTnb
+                         /dev/rmt/7mn            /dev/rmt/c24t4d1BESTb 
+scsi:wsio:F:T:F:-1:205:1589760:tape:stape:0/4/1/1.2.0.255.14.4.2:1 128 5 18 0 0 0 0 130 94 160 90 251 38 29 181 :8:root.sba.lba.fcd.fcd_fcp.fcd_vbus.tgt.stape:stape:CLAIMED:DEVICE:HP      Ultrium 4-SCSI:24
+                         /dev/rmt/8m             /dev/rmt/8mnb           /dev/rmt/c24t4d2BESTn 
+                         /dev/rmt/8mb            /dev/rmt/c24t4d2BEST    /dev/rmt/c24t4d2BESTnb
+                         /dev/rmt/8mn            /dev/rmt/c24t4d2BESTb 

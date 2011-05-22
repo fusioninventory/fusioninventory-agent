@@ -1,0 +1,16 @@
+Instance 0 :
+
+UniqueIdentifier :  28.193.222.64
+ControllerType :  10
+OtherControllerType :  
+IPAddress :  192.168.1.53
+URL :  http://192.168.1.53
+Dedicated :  14
+CreationClassName :  HP_ManagementProcessor
+Name :  Management Processor
+EnabledState :  2
+OperationalStatus :  2 
+FirmwareRevision :  001.001.002
+LEDColour :  4
+LEDBlinkRate :  5
+NICCondition :  2

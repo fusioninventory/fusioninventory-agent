@@ -1,0 +1,8 @@
+em:central_bus:F:F:F:-1:-1:4294967295:processor:processor:0/120:0 32 0 0 0 4 0 1 0 0 0 0 0 0 0 3 80 82 79 67 69 83 83 79 82 0 0 0 0 0 0 0 0 0 0 0:0:root.cell.processor:processor:CLAIMED:PROCESSOR:Processor:0:
+em:central_bus:F:F:F:-1:-1:4294967295:processor:processor:0/122:0 32 0 0 0 4 0 1 0 0 0 0 0 0 0 3 80 82 79 67 69 83 83 79 82 0 0 0 0 0 0 0 0 0 0 0:1:root.cell.processor:processor:CLAIMED:PROCESSOR:Processor:1:
+em:central_bus:F:F:F:-1:-1:4294967295:processor:processor:0/124:0 32 0 0 0 4 0 1 0 0 0 0 0 0 0 3 80 82 79 67 69 83 83 79 82 0 0 0 0 0 0 0 0 0 0 0:2:root.cell.processor:processor:CLAIMED:PROCESSOR:Processor:2:
+em:central_bus:F:F:F:-1:-1:4294967295:processor:processor:0/126:0 32 0 0 0 4 0 1 0 0 0 0 0 0 0 3 80 82 79 67 69 83 83 79 82 0 0 0 0 0 0 0 0 0 0 0:3:root.cell.processor:processor:CLAIMED:PROCESSOR:Processor:3:
+em:central_bus:F:F:F:-1:-1:4294967295:processor:processor:1/120:0 32 0 0 0 4 0 1 0 0 0 0 0 0 0 3 80 82 79 67 69 83 83 79 82 0 0 0 0 0 0 0 0 0 0 0:4:root.cell.processor:processor:CLAIMED:PROCESSOR:Processor:4:
+em:central_bus:F:F:F:-1:-1:4294967295:processor:processor:1/122:0 32 0 0 0 4 0 1 0 0 0 0 0 0 0 3 80 82 79 67 69 83 83 79 82 0 0 0 0 0 0 0 0 0 0 0:5:root.cell.processor:processor:CLAIMED:PROCESSOR:Processor:5:
+em:central_bus:F:F:F:-1:-1:4294967295:processor:processor:1/124:0 32 0 0 0 4 0 1 0 0 0 0 0 0 0 3 80 82 79 67 69 83 83 79 82 0 0 0 0 0 0 0 0 0 0 0:6:root.cell.processor:processor:CLAIMED:PROCESSOR:Processor:6:
+em:central_bus:F:F:F:-1:-1:4294967295:processor:processor:1/126:0 32 0 0 0 4 0 1 0 0 0 0 0 0 0 3 80 82 79 67 69 83 83 79 82 0 0 0 0 0 0 0 0 0 0 0:7:root.cell.processor:processor:CLAIMED:PROCESSOR:Processor:7:
