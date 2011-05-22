@@ -23,7 +23,7 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # set list of network interfaces
-    my $routes = _getRoutes();
+    my $routes = _getRoutes(logger => $logger);
     my @interfaces = _getInterfaces($logger, $routes);
     foreach my $interface (@interfaces) {
         $inventory->addEntry(
@@ -48,7 +48,8 @@ sub doInventory {
 
 sub _getRoutes {
     my $handle = getFileHandle(
-        command => 'netstat -nrv'
+        command => 'netstat -nrv',
+        @_
     );
     return unless $handle;
 
