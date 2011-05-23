@@ -20,37 +20,35 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $handle1 = getFileHandle(
+    # get filesystem types
+    my @types = getAllLines(
         command => 'fstyp -l',
         logger  => $logger
     );
 
-    return unless $handle1;
+    # get filesystems for each type
+    foreach my $type (@types) {
 
-    while (my $line1 = <$handle1>) {
-        chomp $line1;
-        my $filesystem = $line1;
-
-        my $handle2 = getFileHandle(
-            command => "bdf -t $filesystem",
+        my $handle = getFileHandle(
+            command => "bdf -t $type",
             logger  => $logger
         );
 
         my $device;
-        while (my $line2 = <$handle2>) {
-            next if $line2 =~ /Filesystem/;
+        while (my $line = <$handle>) {
+            next if $line =~ /Filesystem/;
 
-            if ($line2 =~ /^(\S+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+%)\s+(\S+)/) {
+            if ($line =~ /^(\S+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+%)\s+(\S+)/) {
                 $device = $1;
 
-                my $ctime = $filesystem eq 'vxfs' ?
+                my $ctime = $type eq 'vxfs' ?
                     _getVxFSctime($device, $logger) : undef;
 
                 $inventory->addEntry(
                     section => 'DRIVES',
                     entry   => {
                         FREE       => $3,
-                        FILESYSTEM => $filesystem,
+                        FILESYSTEM => $type,
                         TOTAL      => $2,
                         TYPE       => $6,
                         VOLUMN     => $device,
@@ -60,20 +58,20 @@ sub doInventory {
                 next;
             }
 
-            if ($line2 =~ /^(\S+)\s/) {
+            if ($line =~ /^(\S+)\s/) {
                 $device = $1;
                 next;
             }
             
-            if ($line2 =~ /(\d+)\s+(\d+)\s+(\d+)\s+(\d+%)\s+(\S+)/) {
-                my $ctime = $filesystem eq 'vxfs' ?
+            if ($line =~ /(\d+)\s+(\d+)\s+(\d+)\s+(\d+%)\s+(\S+)/) {
+                my $ctime = $type eq 'vxfs' ?
                     _getVxFSctime($device, $logger) : undef;
 
                 $inventory->addEntry(
                     section => 'DRIVES',
                     entry   => {
                         FREE       => $3,
-                        FILESYSTEM => $filesystem,
+                        FILESYSTEM => $type,
                         TOTAL      => $1,
                         TYPE       => $5,
                         VOLUMN     => $device,
@@ -83,9 +81,8 @@ sub doInventory {
                 next;
             }
         }
-        close $handle2;
+        close $handle;
     }
-    close $handle1;
 }
 
 # get filesystem creation time by reading binary value directly on the device
