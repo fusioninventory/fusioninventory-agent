@@ -2892,6 +2892,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/macos/system_profiler/$test";
-    my $result = getInfosFromSystemProfiler(file => $file);
-    is_deeply($result, $tests{$test}, "$test system profiler parsing");
+    my $infos = getSystemProfilerInfos(file => $file);
+    is_deeply($infos, $tests{$test}, "$test system profiler parsing");
 }

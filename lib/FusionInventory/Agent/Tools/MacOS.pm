@@ -9,11 +9,11 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 
 our @EXPORT = qw(
-    getInfosFromSystemProfiler
+    getSystemProfilerInfos
 );
 
 
-sub getInfosFromSystemProfiler {
+sub getSystemProfilerInfos {
     my %params = (
         command => '/usr/sbin/system_profiler',
         @_
@@ -76,7 +76,7 @@ This module provides some generic functions for MacOS.
 
 =head1 FUNCTIONS
 
-=head2 getInfosFromSystemProfiler(%params)
+=head2 getSystemProfilerInfos(%params)
 
 Returns a structured view of system_profiler output. Each information block is
 turned into a hashref, hierarchically organised.

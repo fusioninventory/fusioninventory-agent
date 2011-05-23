@@ -26,7 +26,7 @@ sub doInventory {
 }
 
 sub _getMemories {
-    my $infos = getInfosFromSystemProfiler(@_);
+    my $infos = getSystemProfilerInfos(@_);
 
     return unless $infos->{Memory};
 
