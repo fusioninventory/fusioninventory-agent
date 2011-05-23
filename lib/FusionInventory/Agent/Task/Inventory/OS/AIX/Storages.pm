@@ -52,6 +52,7 @@ sub doInventory {
         });
     }
 
+    # FCP disks
     my @fcp_disks = getAllLines(
         command => 'lsdev -Cc disk -s fcp -F "name:description"',
         logger  => $logger
@@ -73,11 +74,34 @@ sub doInventory {
         });
     }
 
+    # FDAR disks
     my @fdar_disks = getAllLines(
         command => 'lsdev -Cc disk -s fdar -F "name:description"',
         logger  => $logger
     );
     foreach my $line (@fdar_disks){
+        chomp $line;
+        next unless $line =~ /^(.+):(.+)/;
+        my $device = $1;
+        my $description = $2;
+
+        my ($manufacturer, $model) = _getLsvpdInfos($device, \@devices);
+
+        $inventory->addStorage({
+            NAME         => $device,
+            MANUFACTURER => $manufacturer,
+            MODEL        => $model,
+            DESCRIPTION  => $description,
+            TYPE         => 'disk',
+        });
+    }
+
+    # SAS disks
+    my @sas_disks = getAllLines(
+        command => 'lsdev -Cc disk -s sas -F "name:description"',
+        logger  => $logger
+    );
+    foreach my $line (@sas_disks){
         chomp $line;
         next unless $line =~ /^(.+):(.+)/;
         my $device = $1;
