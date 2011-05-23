@@ -179,48 +179,6 @@ sub _getCertificatePattern {
     return "CN=$hostname(\$|\/)";
 }
 
-sub getStore {
-    my ($self, %params) = @_;
-
-    my $source = $params{source};
-    my $noProxy = $params{noProxy};
-
-    my $response;
-    eval {
-        if ($^O =~ /^MSWin/ && $source =~ /^https:/g) {
-            alarm $self->{timeout};
-        }
-
-        my $request = HTTP::Request->new(GET => $source);
-        $response = $self->{ua}->request($request);
-        alarm 0;
-    };
-
-    return $response->code;
-
-}
-
-sub get {
-    my ($self, %params) = @_;
-
-    my $source = $params{source};
-    my $noProxy = $params{noProxy};
-
-    my $response = $self->{ua}->get($source);
-
-    return $response->decoded_content if $response->is_success;
-
-    return;
-}
-
-sub isSuccess {
-    my ($self, %params) = @_;
-
-    my $code = $params{code};
-
-    return is_success($code);
-}
-
 1;
 __END__
 
@@ -276,32 +234,3 @@ the directory containing trusted certificates
 
 Send given HTTP::Request object, handling SSL checking and user authentication
 automatically if needed.
-
-=head2 getStore(%params)
-
-Acts like LWP::Simple::getstore.
-
-        my $rc = $client->getStore({
-                source => 'http://www.FusionInventory.org/',
-                target => '/tmp/fusioinventory.html'
-                noProxy => 0
-            });
-
-$rc, can be read by isSuccess()
-
-=head2 get(%params)
-
-        my $content = $client->get(
-                source => 'http://www.FusionInventory.org/',
-                timeout => 15,
-                noProxy => 0
-            );
-
-Act like LWP::Simple::get, return the HTTP content of the URL in 'source'.
-The timeout is optional
-
-=head2 isSuccess(%params)
-
-Wrapper for LWP::is_success;
-
-        die unless $client->isSuccess({ code => $rc });
