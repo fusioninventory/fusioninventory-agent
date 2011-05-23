@@ -21,206 +21,123 @@ sub doInventory {
     my @devices = getDevicesFromLsvpd(logger => $logger);  
 
     # SCSI disks 
-    my @scsi_disks = getAllLines(
-        command => 'lsdev -Cc disk -s scsi -F "name:description"',
-        logger  => $logger
-    );
-    foreach my $line (@scsi_disks) {
-        chomp $line;
-        next unless $line =~ /^(.+):(.+)/;
-        my $device = $1;
-        my $description = $2;
+    foreach my $disk (_getDisks(
+        subclass => 'scsi',
+        logger   => $logger,
+    )) {
+        $disk->{DISKSIZE} = _getCapacity($disk->{NAME}, $logger);
 
-        my ($manufacturer, $model) = _getLsvpdInfos($device, \@devices);
-
-        my $capacity = _getCapacity($device, $logger);
-
-        my $serial = getFirstMatch(
-            command => "lscfg -p -v -s -l $device",
+        $disk->{SERIAL} = getFirstMatch(
+            command => "lscfg -p -v -s -l $disk->{NAME}",
             logger  => $logger,
             pattern => qr/Serial Number\.*(.*)/
         );
 
-        $inventory->addStorage({
-            NAME         => $device,
-            MANUFACTURER => $manufacturer,
-            MODEL        => $model,
-            DESCRIPTION  => $description,
-            TYPE         => 'disk',
-            SERIAL       => $serial,
-            DISKSIZE     => $capacity
-        });
+        ($disk->{MANUFACTURER}, $disk->{MODEL}) =
+            _getLsvpdInfos($disk->{NAME}, \@devices);
+
+        $inventory->addStorage($disk);
     }
 
     # FCP disks
-    my @fcp_disks = getAllLines(
-        command => 'lsdev -Cc disk -s fcp -F "name:description"',
-        logger  => $logger
-    );
-    foreach my $line (@fcp_disks) {
-        chomp $line;
-        next unless $line =~ /^(.+):(.+)/;
-        my $device = $1;
-        my $description = $2;
+    foreach my $disk (_getDisks(
+        subclass => 'fcp',
+        logger   => $logger
+    )) {
+        ($disk->{MANUFACTURER}, $disk->{MODEL}) =
+            _getLsvpdInfos($disk->{NAME}, \@devices);
 
-        my ($manufacturer, $model) = _getLsvpdInfos($device, \@devices);
-
-        $inventory->addStorage({
-            NAME         => $device,
-            MANUFACTURER => $manufacturer,
-            MODEL        => $model,
-            DESCRIPTION  => $description,
-            TYPE         => 'disk',
-        });
+        $inventory->addStorage($disk);
     }
 
     # FDAR disks
-    my @fdar_disks = getAllLines(
-        command => 'lsdev -Cc disk -s fdar -F "name:description"',
-        logger  => $logger
-    );
-    foreach my $line (@fdar_disks){
-        chomp $line;
-        next unless $line =~ /^(.+):(.+)/;
-        my $device = $1;
-        my $description = $2;
+    foreach my $disk (_getDisks(
+        subclass => 'fdar',
+        logger   => $logger
+    )) {
+        ($disk->{MANUFACTURER}, $disk->{MODEL}) =
+            _getLsvpdInfos($disk->{NAME}, \@devices);
 
-        my ($manufacturer, $model) = _getLsvpdInfos($device, \@devices);
-
-        $inventory->addStorage({
-            NAME         => $device,
-            MANUFACTURER => $manufacturer,
-            MODEL        => $model,
-            DESCRIPTION  => $description,
-            TYPE         => 'disk',
-        });
+        $inventory->addStorage($disk);
     }
 
     # SAS disks
-    my @sas_disks = getAllLines(
-        command => 'lsdev -Cc disk -s sas -F "name:description"',
-        logger  => $logger
-    );
-    foreach my $line (@sas_disks){
-        chomp $line;
-        next unless $line =~ /^(.+):(.+)/;
-        my $device = $1;
-        my $description = $2;
+    foreach my $disk (_getDisks(
+        subclass => 'sas',
+        logger   => $logger
+    )) {
+        ($disk->{MANUFACTURER}, $disk->{MODEL}) =
+            _getLsvpdInfos($disk->{NAME}, \@devices);
 
-        my ($manufacturer, $model) = _getLsvpdInfos($device, \@devices);
-
-        $inventory->addStorage({
-            NAME         => $device,
-            MANUFACTURER => $manufacturer,
-            MODEL        => $model,
-            DESCRIPTION  => $description,
-            TYPE         => 'disk',
-        });
+        $inventory->addStorage($disk);
     }
 
     # Virtual disks
-    my @vscsi = getAllLines(
-        command => 'lsdev -Cc disk -s vscsi -F "name:description"',
-        logger => $logger
-    );
-    foreach my $line (@vscsi) {
-        chomp $line;
-        next unless $line =~ /^(.+):(.+)/;
-        my $device = $1;
-        my $description = $2;
+    foreach my $disk (_getDisks(
+        subclass => 'vscsi',
+        logger   => $logger
+    )) {
         my $model;
         my $capacity;
 
         my @lsattr = getAllLines(
-            command => "lspv $device",
+            command => "lspv $disk->{NAME}",
             logger  => $logger
         );
         foreach (@lsattr) {
             if ( ! ( /^0516-320.*/ ) ) {
                 if (/TOTAL PPs:/ ) {
-                    ($capacity,$model) = split(/\(/, $_);
-                    ($capacity,$model) = split(/ /,$model);
+                    ($capacity, $model) = split(/\(/, $_);
+                    ($capacity, $model) = split(/ /, $model);
                 }
             } else {
                 $capacity = 0;
             }
         }
-        $inventory->addStorage({
-            MANUFACTURER => "VIO Disk",
-            MODEL        => "Virtual Disk",
-            DESCRIPTION  => $description,
-            TYPE         => 'disk',
-            NAME         => $device,
-            DISKSIZE     => $capacity
-        });
+
+        $disk->{MANUFACTURER} = "VIO Disk";
+        $disk->{MODEL} = "Virtual Disk";
+        $disk->{DISKSIZE} = $capacity;
+
+        $inventory->addStorage($disk);
     }
 
     # CDROM
-    my @cdroms = getAllLines(
-        command => 'lsdev -Cc cdrom -s scsi -F "name:description:status"',
-        logger  => $logger
-    );
+    foreach my $cdrom (_getRemovableMedias(
+        class    => 'cdrom',
+        subclass => 'scsi',
+        logger   => $logger
+    )) {
+        $cdrom->{TYPE} = 'cd';
+        $cdrom->{DISKSIZE} = _getCapacity($cdrom->{NAME}, $logger);
+        ($cdrom->{MANUFACTURER}, $cdrom->{MODEL}) =
+            _getLsvpdInfos($cdrom->{NAME}, \@devices);
 
-    foreach my $line (@cdroms){
-        chomp $line;
-        next unless $line =~ /^(.+):(.+):.+Available.+/;
-        my $device = $1;
-        my $description = $2;
-
-        my $capacity = _getCapacity($device, $logger);
-
-        my ($manufacturer, $model) = _getLsvpdInfos($device, \@devices);
-
-        $inventory->addStorage({
-            NAME         => $device,
-            MANUFACTURER => $manufacturer,
-            MODEL        => $model,
-            DESCRIPTION  => $description,
-            TYPE         => 'cd',
-            DISKSIZE     => $capacity
-        });
+        $inventory->addStorage($cdrom);
     }
 
-    # TAPE
-    my @tapes = getAllLines(
-        command => 'lsdev -Cc tape -s scsi -F "name:description:status"',
-        logger  => $logger
-    );
-    foreach my $line (@tapes) {
-        chomp $line;
-        next unless $line =~ /^(.+):(.+):.+Available.+/;
-        my $device = $1;
-        my $description = $2;
+    # tapes
+    foreach my $tape (_getRemovableMedias(
+        class    => 'tape',
+        subclass => 'scsi',
+        logger   => $logger
+    )) {
+        $tape->{TYPE} = 'tape';
+        $tape->{DISKSIZE} = _getCapacity($tape->{NAME}, $logger);
+        ($tape->{MANUFACTURER}, $tape->{MODEL}) =
+            _getLsvpdInfos($tape->{NAME}, \@devices);
 
-        my $capacity = _getCapacity($device, $logger);
-
-        my ($manufacturer, $model) = _getLsvpdInfos($device, \@devices);
-
-        $inventory->addStorage({
-            NAME         => $device,
-            MANUFACTURER => $manufacturer,
-            MODEL        => $model,
-            DESCRIPTION  => $description,
-            TYPE         => 'tape',
-            DISKSIZE     => $capacity
-        });
+        $inventory->addStorage($tape);
     }
 
-    # Diskette
-    my @diskettes = getAllLines(
-        command => 'lsdev -Cc diskette -F "name:description:status"',
-        logger  => $logger
-    );
-    foreach my $line (@diskettes) {
-        chomp $line;
-        next unless $line =~ /^(.+):(.+):.+Available.+/;
-        my $device = $1;
-        my $description = $2;
-        $inventory->addStorage({
-            NAME        => $1,
-            DESCRIPTION => $2,
-            TYPE        => 'floppy',
-        });
+    # floppies
+    foreach my $floppy (_getRemovableMedias(
+        class    => 'diskette',
+        logger   => $logger
+    )) {
+        $floppy->{TYPE} = 'floppy';
+
+        $inventory->addStorage($floppy);
     }
 }
 
@@ -245,6 +162,60 @@ sub _getLsvpdInfos {
     my $model = $device->{TM};
 
     return ($manufacturer, $model);
+}
+
+sub _getDisks {
+    my %params = @_;
+
+    my @disks;
+
+    my $command = "lsdev -Cc disk -s $params{subclass} -F 'name:description'";
+
+    foreach my $line (getAllLines(
+        command => $command,
+        @_
+    )) {
+        chomp $line;
+        next unless $line =~ /^(.+):(.+)/;
+        my $device = $1;
+        my $description = $2;
+
+        push @disks, {
+            NAME        => $device,
+            DESCRIPTION => $description,
+            TYPE        => 'disk',
+        };
+    }
+
+    return @disks;
+}
+
+sub _getRemovableMedias {
+    my %params = @_;
+
+    my @medias;
+
+    my $command = $params{subclass} ?
+        "lsdev -Cc $params{class} -s $params{subclass} -F 'name:description:status'" :
+        "lsdev -Cc $params{class}                      -F 'name:description:status'" ;
+
+    foreach my $line (getAllLines(
+        command => $command,
+        @_
+    )) {
+        chomp $line;
+        next unless $line =~ /^(.+):(.+):.+Available.+/;
+        my $device = $1;
+        my $description = $2;
+
+        push @medias, {
+            NAME        => $device,
+            DESCRIPTION => $description,
+            TYPE        => $params{type}
+        };
+    }
+
+    return @medias;
 }
 
 1;
