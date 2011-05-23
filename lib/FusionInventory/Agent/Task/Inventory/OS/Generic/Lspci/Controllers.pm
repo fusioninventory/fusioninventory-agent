@@ -10,7 +10,7 @@ my $vendors;
 my $classes;
 
 sub isInventoryEnabled {
-    return can_run('lspci');
+    return 1;
 }
 
 sub doInventory {
