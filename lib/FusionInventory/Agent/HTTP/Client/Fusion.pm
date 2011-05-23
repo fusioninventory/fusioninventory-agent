@@ -5,6 +5,7 @@ use warnings;
 use base 'FusionInventory::Agent::HTTP::Client';
 
 use JSON;
+use HTTP::Request;
 
 sub send {
     my ($self, %params) = @_;
@@ -14,7 +15,9 @@ sub send {
 
     $url->query_form(action => $params{action}, %{$params{params}});
 
-    my $response = $self->{ua}->get($url);
+    my $request = HTTP::Request->new(GET => $url);
+
+    my $response = $self->request($request);
 
     return unless $response;
 

@@ -5,11 +5,10 @@ use warnings;
 use base 'FusionInventory::Agent::HTTP::Client';
 
 use English qw(-no_match_vars);
-use HTTP::Status;
+use HTTP::Request;
 use UNIVERSAL::require;
 use URI;
 
-use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::XML::Response;
 
 sub new {
@@ -46,14 +45,6 @@ sub send {
     my $message = $params{message};
     my $logger  = $self->{logger};
 
-    # activate SSL if needed
-    my $scheme = $url->scheme();
-    if ($scheme eq 'https' && $LWP::VERSION < 6 && !$self->{no_ssl_check}) {
-        $self->_turnSSLCheckOn();
-        my $pattern = _getCertificatePattern($url->host());
-        $self->{ua}->default_header('If-SSL-Cert-Subject' => $pattern);
-    }
-
     my $request_content = $message->getContent();
     $logger->debug("[client] sending message: $request_content");
 
@@ -70,69 +61,8 @@ sub send {
     );
     $request->content($request_content);
 
-    my $result;
-    eval {
-        if ($OSNAME eq 'MSWin32' && $scheme eq 'https') {
-            alarm $self->{timeout};
-        }
-        $result = $self->{ua}->request($request);
-        alarm 0;
-    };
-
-    # check result first
-    if (!$result->is_success()) {
-        # authentication required
-        if ($result->code() == 401) {
-            if ($self->{user} && $self->{password}) {
-                $logger->debug(
-                    "[client] authentication required, submitting " .
-                    "credentials"
-                );
-                # compute authentication parameters
-                my $header = $result->header('www-authenticate');
-                my ($realm) = $header =~ /^Basic realm="(.*)"/;
-                my $host = $url->host();
-                my $port = $url->port() ||
-                   ($scheme eq 'https' ? 443 : 80);
-                $self->{ua}->credentials(
-                    "$host:$port",
-                    $realm,
-                    $self->{user},
-                    $self->{password}
-                );
-                # replay request
-                eval {
-                    if ($OSNAME eq 'MSWin32' && $scheme eq 'https') {
-                        alarm $self->{timeout};
-                    }
-                    $result = $self->{ua}->request($request);
-                    alarm 0;
-                };
-                if (!$result->is_success()) {
-                    $logger->error(
-                        "[client] cannot establish communication with " .
-                        "$url: " . $result->status_line()
-                    );
-                    return;
-                }
-            } else {
-                # abort
-                $logger->error(
-                    "[client] authentication required, no credentials " .
-                    "available"
-                );
-                return;
-            }
-        } else {
-            $logger->error(
-                "[client] cannot establish communication with $url: " .
-                $result->status_line()
-            );
-            return;
-        }
-    }
-
-    # stop or send in the http's body
+    my $result = $self->request($request);
+    return unless $result;
 
     my $response_content = $result->content();
 
