@@ -340,14 +340,14 @@ sub getControllersFromLspci {
         chomp $line;
 
         if ($line =~ /^
-                (\S+) \s                     # slot
-                ([^[]+) \s                   # name
-                \[([a-f\d]+)\]: \s           # class
-                ([^[]+) \s                   # manufacturer
-                \[([a-f\d]+:[a-f\d]+)\]      # id
-                (?:\s \(rev \s (\d+)\))?     # optional version
-                (?:\s \(prog-if \s [^)]+\))? # optional detail
-                /x) {
+            (\S+) \s                     # slot
+            ([^[]+) \s                   # name
+            \[([a-f\d]+)\]: \s           # class
+            ([^[]+) \s                   # manufacturer
+            \[([a-f\d]+:[a-f\d]+)\]      # id
+            (?:\s \(rev \s (\d+)\))?     # optional version
+            (?:\s \(prog-if \s [^)]+\))? # optional detail
+            /x) {
 
             $controller = {
                 PCISLOT      => $1,
@@ -362,7 +362,7 @@ sub getControllersFromLspci {
 
         next unless defined $controller;
 
-         if ($line =~ /^$/) {
+        if ($line =~ /^$/) {
             push(@controllers, $controller);
             undef $controller;
         } elsif ($line =~ /^\tKernel driver in use: (\w+)/) {
