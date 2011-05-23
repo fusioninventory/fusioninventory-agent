@@ -27,11 +27,11 @@ sub doInventory {
 sub _getModemControllers {
     my @modems;
 
-    foreach my $controller (getControllersFromLspci(@_)) {
-        next unless $controller->{NAME} =~ /modem/i;
+    foreach my $device (getPCIDevices(@_)) {
+        next unless $device->{NAME} =~ /modem/i;
         push @modems, {
-            DESCRIPTION => $controller->{NAME},
-            NAME        => $controller->{MANUFACTURER},
+            DESCRIPTION => $device->{NAME},
+            NAME        => $device->{MANUFACTURER},
         };
     }
 

@@ -17,11 +17,11 @@ our @EXPORT = qw(
     getFilesystemsFromDf
     getFilesystemsTypesFromMount
     getProcessesFromPs
-    getControllersFromLspci
+    getPCIDevices
     getRoutesFromNetstat
 );
 
-memoize('getControllersFromLspci');
+memoize('getPCIDevices');
 
 sub getDeviceCapacity {
     my %params = @_;
@@ -327,7 +327,7 @@ sub getProcessesFromPs {
     return @processes;
 }
 
-sub getControllersFromLspci {
+sub getPCIDevices {
     my %params = (
         command => 'lspci -vvv -nn',
         @_
@@ -472,9 +472,9 @@ output.
 
 =back
 
-=head2 getControllersFromLspci(%params)
+=head2 getPCIDevices(%params)
 
-Returns a list of controllers as a list of hashref, by parsing lspci command
+Returns a list of PCI devices as a list of hashref, by parsing lspci command
 output.
 
 =over

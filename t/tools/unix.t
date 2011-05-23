@@ -2493,8 +2493,8 @@ plan tests =>
 
 foreach my $test (keys %lspci_tests) {
     my $file = "resources/generic/lspci/$test";
-    my @controllers = getControllersFromLspci(file => $file);
-    is_deeply(\@controllers, $lspci_tests{$test}, "$test lspci parsing");
+    my @devices = getPCIDevices(file => $file);
+    is_deeply(\@devices, $lspci_tests{$test}, "$test lspci parsing");
 }
 
 foreach my $test (keys %df_tests) {

@@ -31,11 +31,11 @@ sub doInventory {
 sub _getVideoControllers {
     my @videos;
 
-    foreach my $controller (getControllersFromLspci(@_)) {
-        next unless $controller->{NAME} =~ /graphics|vga|video|display/i;
+    foreach my $device (getPCIDevices(@_)) {
+        next unless $device->{NAME} =~ /graphics|vga|video|display/i;
         push @videos, {
-            CHIPSET => $controller->{NAME},
-            NAME    => $controller->{MANUFACTURER},
+            CHIPSET => $device->{NAME},
+            NAME    => $device->{MANUFACTURER},
         };
     }
 

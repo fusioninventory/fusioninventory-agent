@@ -31,35 +31,48 @@ sub doInventory {
 }
 
 sub _getExtentedControllers {
-    my @controllers = getControllersFromLspci(@_);
+    my @controllers;
 
-    foreach my $controller (@controllers) {
+    foreach my $device (getPCIDevices(@_)) {
 
-        next unless $controller->{PCIID};
+        next unless $device->{PCIID};
 
-        my ($vendor_id, $device_id) = split (/:/, $controller->{PCIID});
-        my $subdevice_id = $controller->{PCISUBSYSTEMID};
+        # duplicate entry to avoid modifying it directly
+        my $controller = {
+            PCICLASS     => $device->{PCICLASS},
+            NAME         => $device->{NAME},
+            MANUFACTURER => $device->{MANUFACTURER},
+            VERSION      => $device->{VERSION},
+            PCIID        => $device->{PCIID},
+            PCISLOT      => $device->{PCISLOT},
+        };
+        $controller->{DRIVER} = $device->{DRIVER}
+            if $device->{DRIVER};
+        $controller->{PCISUBSYSTEMID} = $device->{PCISUBSYSTEMID}
+            if $device->{PCISUBSYSTEMID};
+
+        my ($vendor_id, $device_id) = split (/:/, $device->{PCIID});
+        my $subdevice_id = $device->{PCISUBSYSTEMID};
 
         if ($vendors->{$vendor_id}) {
             my $vendor = $vendors->{$vendor_id};
             $controller->{MANUFACTURER} = $vendor->{name};
 
             if ($vendor->{devices}->{$device_id}) {
-                my $device = $vendor->{devices}->{$device_id};
-                $controller->{CAPTION} =
-                    $device->{name};
+                my $entry = $vendor->{devices}->{$device_id};
+                $controller->{CAPTION} = $entry->{name};
 
                 $controller->{NAME} =
-                    $subdevice_id && $device->{subdevices}->{$subdevice_id} ?
+                    $subdevice_id && $entry->{subdevices}->{$subdevice_id} ?
 
-                    $device->{subdevices}->{$subdevice_id}->{name} :
-                    $device->{name};
+                    $entry->{subdevices}->{$subdevice_id}->{name} :
+                    $entry->{name};
             }
         }
 
-        next unless $controller->{PCICLASS};
+        next unless $device->{PCICLASS};
 
-        $controller->{PCICLASS} =~ /^(\S\S)(\S\S)$/x;
+        $device->{PCICLASS} =~ /^(\S\S)(\S\S)$/x;
         my $class_id = $1;
         my $subclass_id = $2;
 
@@ -71,6 +84,8 @@ sub _getExtentedControllers {
                     $class->{subclasses}->{$subclass_id}->{name} :
                     $class->{name};
         }
+
+        push @controllers, $controller;
     }
 
     return @controllers;

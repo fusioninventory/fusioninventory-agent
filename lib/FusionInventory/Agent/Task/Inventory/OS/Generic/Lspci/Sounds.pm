@@ -27,12 +27,12 @@ sub doInventory {
 sub _getSoundControllers {
     my @sounds;
 
-    foreach my $controller (getControllersFromLspci(@_)) {
-        next unless $controller->{NAME} =~ /audio/i;
+    foreach my $device (getPCIDevices(@_)) {
+        next unless $device->{NAME} =~ /audio/i;
         push @sounds, {
-            NAME         => $controller->{NAME},
-            MANUFACTURER => $controller->{MANUFACTURER},
-            DESCRIPTION  => "rev $controller->{VERSION}",
+            NAME         => $device->{NAME},
+            MANUFACTURER => $device->{MANUFACTURER},
+            DESCRIPTION  => "rev $device->{VERSION}",
         };
     }
 
