@@ -346,7 +346,6 @@ sub getControllersFromLspci {
             ([^[]+) \s                   # manufacturer
             \[([a-f\d]+:[a-f\d]+)\]      # id
             (?:\s \(rev \s (\d+)\))?     # optional version
-            (?:\s \(prog-if \s [^)]+\))? # optional detail
             /x) {
 
             $controller = {
