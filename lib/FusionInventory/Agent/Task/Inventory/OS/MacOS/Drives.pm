@@ -16,20 +16,21 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    # get drives list
+    # get filesystem types
     my @types = 
         grep { ! /^(?:fdesc|devfs|procfs|linprocfs|linsysfs|tmpfs|fdescfs)$/ }
         getFilesystemsTypesFromMount(logger => $logger);
 
-    my @drives;
+    # get filesystems for each type
+    my @filesystems;
     foreach my $type (@types) {
-        push @drives, getFilesystemsFromDf(
+        push @filesystems, getFilesystemsFromDf(
             logger => $logger,
             command => "df -P -k -t $type"
         );
     }
 
-    my %drives = map { $_->{VOLUMN} => $_ } @drives;
+    my %filesystems = map { $_->{VOLUMN} => $_ } @filesystems;
 
     # get additional informations
     foreach (`diskutil list`) {
@@ -49,19 +50,19 @@ sub doInventory {
             $size = getCanonicalSize($1);
         }
 
-        $drives{$name}->{TOTAL}      = $size;
-        $drives{$name}->{SERIAL}     = $device->{'Volume UUID'} ||
+        $filesystems{$name}->{TOTAL}      = $size;
+        $filesystems{$name}->{SERIAL}     = $device->{'Volume UUID'} ||
                                        $device->{'UUID'};
-        $drives{$name}->{FILESYSTEM} = $device->{'File System'} ||
+        $filesystems{$name}->{FILESYSTEM} = $device->{'File System'} ||
                                        $device->{'Partition Type'};
-        $drives{$name}->{LABEL}      = $device->{'Volume Name'};
+        $filesystems{$name}->{LABEL}      = $device->{'Volume Name'};
     }
 
-    # add drives to the inventory
-    foreach my $key (keys %drives) {
+    # add filesystems to the inventory
+    foreach my $key (keys %filesystems) {
         $inventory->addEntry(
             section => 'DRIVES',
-            entry   => $drives{$key}
+            entry   => $filesystems{$key}
         );
     }
 }

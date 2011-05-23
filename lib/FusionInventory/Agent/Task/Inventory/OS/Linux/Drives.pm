@@ -18,19 +18,19 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    foreach my $drive (_getDrives($logger)) {
+    foreach my $filesystem (_getFilesystems($logger)) {
         $inventory->addEntry(
             section => 'DRIVES',
-            entry   => $drive
+            entry   => $filesystem
         );
     }
 }
 
-sub _getDrives {
+sub _getFilesystems {
     my ($logger) = @_;
 
-    # get drives list
-    my @drives =
+    # get filesystems list
+    my @filesystems =
         # exclude virtual file systems
         grep { $_->{FILESYSTEM} !~ /^(tmpfs|usbfs|proc|devpts|devshm|udev)$/ }
         # get all file systems
@@ -39,10 +39,10 @@ sub _getDrives {
     # get additional informations
     if (can_run('blkid')) {
         # use blkid if available, as it is filesystem-independant
-        foreach my $drive (@drives) {
-            $drive->{SERIAL} = getFirstMatch(
+        foreach my $filesystem (@filesystems) {
+            $filesystem->{SERIAL} = getFirstMatch(
                 logger  => $logger,
-                command => "blkid $drive->{VOLUMN}",
+                command => "blkid $filesystem->{VOLUMN}",
                 pattern => qr/\sUUID="(\S*)"\s/
             );
         }
@@ -66,44 +66,44 @@ sub _getDrives {
             Dec => 12,
         );
 
-        foreach my $drive (@drives) {
-            if ($drive->{FILESYSTEM} =~ /^ext(2|3|4|4dev)/ && $has_dumpe2fs) {
+        foreach my $filesystem (@filesystems) {
+            if ($filesystem->{FILESYSTEM} =~ /^ext(2|3|4|4dev)/ && $has_dumpe2fs) {
                 my $handle = getFileHandle(
                     logger => $logger,
-                    command => "dumpe2fs -h $drive->{VOLUMN}"
+                    command => "dumpe2fs -h $filesystem->{VOLUMN}"
                 );
                 next unless $handle;
                 while (my $line = <$handle>) {
                     if ($line =~ /Filesystem UUID:\s+(\S+)/) {
-                        $drive->{SERIAL} = $1;
+                        $filesystem->{SERIAL} = $1;
                     } elsif ($line =~ /Filesystem created:\s+\w+\s+(\w+)\s+(\d+)\s+([\d:]+)\s+(\d{4})$/) {
-                        $drive->{CREATEDATE} = "$4/$months{$1}/$2 $3";
+                        $filesystem->{CREATEDATE} = "$4/$months{$1}/$2 $3";
                     } elsif ($line =~ /Filesystem volume name:\s*(\S.*)/) {
-                        $drive->{LABEL} = $1 unless $1 eq '<none>';
+                        $filesystem->{LABEL} = $1 unless $1 eq '<none>';
                     }
                 }
                 close $handle;
                 next;
             }
 
-            if ($drive->{FILESYSTEM} eq 'xfs' && $has_xfs_db) {
-                $drive->{SERIAL} = getFirstMatch(
+            if ($filesystem->{FILESYSTEM} eq 'xfs' && $has_xfs_db) {
+                $filesystem->{SERIAL} = getFirstMatch(
                     logger  => $logger,
-                    command => "xfs_db -r -c uuid $drive->{VOLUMN}",
+                    command => "xfs_db -r -c uuid $filesystem->{VOLUMN}",
                     pattern => qr/^UUID =\s+(\S+)/
                 );
-                $drive->{LABEL} = getFirstMatch(
+                $filesystem->{LABEL} = getFirstMatch(
                     logger  => $logger,
-                    command => "xfs_db -r -c label $drive->{VOLUMN}",
+                    command => "xfs_db -r -c label $filesystem->{VOLUMN}",
                     pattern => qr/^label =\s+"(\S+)"/
                 );
                 next;
             }
 
-            if ($drive->{FILESYSTEM} eq 'vfat' && $has_dosfslabel) {
-                $drive->{LABEL} = getFirstLine(
+            if ($filesystem->{FILESYSTEM} eq 'vfat' && $has_dosfslabel) {
+                $filesystem->{LABEL} = getFirstLine(
                     logger  => $logger,
-                    command => "dosfslabel $drive->{VOLUMN}"
+                    command => "dosfslabel $filesystem->{VOLUMN}"
                 );
                 next;
             }
@@ -112,26 +112,26 @@ sub _getDrives {
 
     # complete with hal if available
     if (can_run('lshal')) {
-        my @hal_drives = _getDrivesFromHal();
-        my %hal_drives = map { $_->{VOLUMN} => $_ } @hal_drives;
+        my @hal_filesystems = _getFilesystemsFromHal();
+        my %hal_filesystems = map { $_->{VOLUMN} => $_ } @hal_filesystems;
 
-        foreach my $drive (@drives) {
+        foreach my $filesystem (@filesystems) {
             # retrieve hal informations for this drive
-            my $hal_drive = $hal_drives{$drive->{VOLUMN}};
-            next unless $hal_drive;
+            my $hal_filesystem = $hal_filesystems{$filesystem->{VOLUMN}};
+            next unless $hal_filesystem;
 
             # take hal information if it doesn't exist already
-            foreach my $key (keys %$hal_drive) {
-                $drive->{$key} = $hal_drive->{$key}
-                    if !$drive->{$key};
+            foreach my $key (keys %$hal_filesystem) {
+                $filesystem->{$key} = $hal_filesystem->{$key}
+                    if !$filesystem->{$key};
             }
         }
     }
 
-    return @drives;
+    return @filesystems;
 }
 
-sub _getDrivesFromHal {
+sub _getFilesystemsFromHal {
     my $devices = _parseLshal(command => 'lshal');
     return @$devices;
 }

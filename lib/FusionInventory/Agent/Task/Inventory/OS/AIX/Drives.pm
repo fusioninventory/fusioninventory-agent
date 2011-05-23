@@ -16,24 +16,24 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    # get drives list
-    my @drives =
+    # get filesystems
+    my @filesystems =
         getFilesystemsFromDf(logger => $logger, command => 'df -P -k');
 
     # get additional informations
-    foreach my $drive (@drives) {
+    foreach my $filesystem (@filesystems) {
         my @lines = getAllLines(
-            logger => $logger, command => "lsfs -c $drive->{TYPE}"
+            logger => $logger, command => "lsfs -c $filesystem->{TYPE}"
         );
         my @info = split /:/, $lines[1];     
-        $drive->{FILESYSTEM} = $info[2];
+        $filesystem->{FILESYSTEM} = $info[2];
     }
 
-    # add drives to the inventory
-    foreach my $drive (@drives) {
+    # add filesystems to the inventory
+    foreach my $filesystem (@filesystems) {
         $inventory->addEntry(
             section => 'DRIVES',
-            entry   => $drive
+            entry   => $filesystem
         );
     }
 }

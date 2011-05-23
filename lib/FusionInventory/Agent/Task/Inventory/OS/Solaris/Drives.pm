@@ -16,8 +16,8 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    # get drives list
-    my @drives =
+    # get filesystems list
+    my @filesystems =
         # exclude solaris 10 specific devices
         grep { $_->{VOLUMN} !~ /^\/(devices|platform)/ } 
         # keep physical devices or swap
@@ -28,32 +28,32 @@ sub doInventory {
         getFilesystemsFromDf(logger => $logger, command => 'df -P -k');
 
     # get additional informations
-    foreach my $drive (@drives) {
+    foreach my $filesystem (@filesystems) {
 
-        if ($drive->{VOLUMN} eq 'swap') {
-            $drive->{FILESYSTEM} = 'swap';
+        if ($filesystem->{VOLUMN} eq 'swap') {
+            $filesystem->{FILESYSTEM} = 'swap';
             next;
         }
 
         my $line = getFirstLine(
-            command => "zfs get org.opensolaris.libbe:uuid $drive->{VOLUMN}"
+            command => "zfs get org.opensolaris.libbe:uuid $filesystem->{VOLUMN}"
         );
 
         if ($line =~ /org.opensolaris.libbe:uuid\s+(\S{5}\S+)/) {
-            $drive->{UUID} = $1;
-            $drive->{FILESYSTEM} = 'zfs';
+            $filesystem->{UUID} = $1;
+            $filesystem->{FILESYSTEM} = 'zfs';
             next;
         }
 
-        $drive->{FILESYSTEM} =
-            getFirstLine(command => "fstyp $drive->{VOLUMN}");
+        $filesystem->{FILESYSTEM} =
+            getFirstLine(command => "fstyp $filesystem->{VOLUMN}");
     }
 
-    # add drives to the inventory
-    foreach my $drive (@drives) {
+    # add filesystems to the inventory
+    foreach my $filesystem (@filesystems) {
         $inventory->addEntry(
             section => 'DRIVES',
-            entry   => $drive
+            entry   => $filesystem
         );
     }
 }

@@ -16,24 +16,25 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    # get drives list
+    # get filesystem types
     my @types = 
         grep { ! /^(?:fdesc|devfs|procfs|linprocfs|linsysfs|tmpfs|fdescfs)$/ }
         getFilesystemsTypesFromMount(logger => $logger);
 
-    my @drives;
+    # get filesystem for each type
+    my @filesystems;
     foreach my $type (@types) {
-        push @drives, getFilesystemsFromDf(
+        push @filesystems, getFilesystemsFromDf(
             logger => $logger,
             command => "df -P -k -t $type"
         );
     }
 
-    # add drives to the inventory
-    foreach my $drive (@drives) {
+    # add filesystems to the inventory
+    foreach my $filesystem (@filesystems) {
         $inventory->addEntry(
             section => 'DRIVES',
-            entry   => $drive
+            entry   => $filesystem
         );
     }
 }
