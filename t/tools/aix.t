@@ -2217,8 +2217,8 @@ plan tests =>
 
 foreach my $test (keys %lsvpd_tests) {
     my $file = "resources/aix/lsvpd/$test";
-    my @devices = getDevicesFromLsvpd(file => $file);
-    is_deeply(\@devices, $lsvpd_tests{$test}, "$test lsvpd parsing");
+    my @infos = getLsvpdInfos(file => $file);
+    is_deeply(\@infos, $lsvpd_tests{$test}, "$test lsvpd parsing");
 }
 
 foreach my $test (keys %lsdev_tests) {

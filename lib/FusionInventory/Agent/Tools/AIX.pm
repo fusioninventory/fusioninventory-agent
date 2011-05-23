@@ -10,14 +10,14 @@ use FusionInventory::Agent::Tools;
 use Memoize;
 
 our @EXPORT = qw(
-    getDevicesFromLsvpd
+    getLsvpdInfos
     getAdaptersFromLsdev
 );
 
-memoize('getDevicesFromLsvpd');
+memoize('getLsvpdInfos');
 memoize('getAdaptersFromLsdev');
 
-sub getDevicesFromLsvpd {
+sub getLsvpdInfos {
     my %params = (
         command => 'lsvpd',
         @_
@@ -92,11 +92,11 @@ This module provides some generic functions for AIX.
 
 =head1 FUNCTIONS
 
-=head2 getDevicesFromLsvpd
+=head2 getLsvpdInfos
 
-Returns a list of devices, extracted from lsvpd output.
+Returns a list of vital product data infos, extracted from lsvpd output.
 
-@devices = (
+@infos = (
     {
         DS => 'System VPD',
         YL => 'U9111.520.65DEDAB',

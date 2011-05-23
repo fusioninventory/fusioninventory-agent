@@ -64,20 +64,20 @@ sub doInventory {
 }
 
 sub _getMemories {
-    my @devices = getDevicesFromLsvpd(@_);
+    my @infos = getLsvpdInfos(@_);
     my @memories;
     my $numslots = 0;
 
-    foreach my $device (@devices) {
-        next unless $device->{DS} =~ /^Memory DIMM/;
+    foreach my $info (@infos) {
+        next unless $info->{DS} =~ /^Memory DIMM/;
 
         push @memories, {
-            DESCRIPTION => $device->{DS},
-            CAPACITY    => $device->{SZ},
-            TYPE        => $device->{PN},
-            CAPTION     => 'Slot ' . $device->{YL},
-            SERIAL      => $device->{SN},
-            VERSION     => $device->{VK},
+            DESCRIPTION => $info->{DS},
+            CAPACITY    => $info->{SZ},
+            TYPE        => $info->{PN},
+            CAPTION     => 'Slot ' . $info->{YL},
+            SERIAL      => $info->{SN},
+            VERSION     => $info->{VK},
             NUMSLOTS    => $numslots++
         };
     }

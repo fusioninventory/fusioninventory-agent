@@ -18,7 +18,7 @@ sub doInventory {
     my $logger    = $params{inventory};
 
     # lsvpd
-    my @devices = getDevicesFromLsvpd(logger => $logger);  
+    my @infos = getLsvpdInfos(logger => $logger);  
 
     # SCSI disks 
     foreach my $disk (_getDisks(
@@ -34,7 +34,7 @@ sub doInventory {
         );
 
         ($disk->{MANUFACTURER}, $disk->{MODEL}) =
-            _getLsvpdInfos($disk->{NAME}, \@devices);
+            _getLsvpdInfos($disk->{NAME}, \@infos);
 
         $inventory->addStorage($disk);
     }
@@ -45,7 +45,7 @@ sub doInventory {
         logger   => $logger
     )) {
         ($disk->{MANUFACTURER}, $disk->{MODEL}) =
-            _getLsvpdInfos($disk->{NAME}, \@devices);
+            _getLsvpdInfos($disk->{NAME}, \@infos);
 
         $inventory->addStorage($disk);
     }
@@ -56,7 +56,7 @@ sub doInventory {
         logger   => $logger
     )) {
         ($disk->{MANUFACTURER}, $disk->{MODEL}) =
-            _getLsvpdInfos($disk->{NAME}, \@devices);
+            _getLsvpdInfos($disk->{NAME}, \@infos);
 
         $inventory->addStorage($disk);
     }
@@ -67,7 +67,7 @@ sub doInventory {
         logger   => $logger
     )) {
         ($disk->{MANUFACTURER}, $disk->{MODEL}) =
-            _getLsvpdInfos($disk->{NAME}, \@devices);
+            _getLsvpdInfos($disk->{NAME}, \@infos);
 
         $inventory->addStorage($disk);
     }
@@ -111,7 +111,7 @@ sub doInventory {
         $cdrom->{TYPE} = 'cd';
         $cdrom->{DISKSIZE} = _getCapacity($cdrom->{NAME}, $logger);
         ($cdrom->{MANUFACTURER}, $cdrom->{MODEL}) =
-            _getLsvpdInfos($cdrom->{NAME}, \@devices);
+            _getLsvpdInfos($cdrom->{NAME}, \@infos);
 
         $inventory->addStorage($cdrom);
     }
@@ -125,7 +125,7 @@ sub doInventory {
         $tape->{TYPE} = 'tape';
         $tape->{DISKSIZE} = _getCapacity($tape->{NAME}, $logger);
         ($tape->{MANUFACTURER}, $tape->{MODEL}) =
-            _getLsvpdInfos($tape->{NAME}, \@devices);
+            _getLsvpdInfos($tape->{NAME}, \@infos);
 
         $inventory->addStorage($tape);
     }

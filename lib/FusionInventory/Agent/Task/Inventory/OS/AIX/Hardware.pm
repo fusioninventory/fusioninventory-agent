@@ -24,15 +24,15 @@ sub doInventory {
 
     my ($serial, $model, $version, $date);
 
-    my @devices = getDevicesFromLsvpd(logger => $logger);
+    my @infos = getLsvpdInfos(logger => $logger);
 
-    my $system = first { $_->{DS} eq 'System Firmware' } @devices;
+    my $system = first { $_->{DS} eq 'System Firmware' } @infos;
     $version = $system->{RM} if $system;
 
-    my $platform = first { $_->{DS} eq 'Platform Firmware' } @devices;
+    my $platform = first { $_->{DS} eq 'Platform Firmware' } @infos;
     $version .= "(Firmware : $platform->{RM})" if $platform;
 
-    my $vpd = first { $_->{DS} eq 'System VPD' } @devices;
+    my $vpd = first { $_->{DS} eq 'System VPD' } @infos;
     if ($vpd) {
         $model = $vpd->{TM};
         $serial = $vpd->{SE};

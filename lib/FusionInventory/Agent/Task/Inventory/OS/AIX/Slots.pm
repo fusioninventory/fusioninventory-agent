@@ -18,15 +18,15 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my @devices = getDevicesFromLsvpd(logger => $logger);
+    my @infos = getLsvpdInfos(logger => $logger);
 
     foreach my $slot (_getSlots(
         command => 'lsdev -Cc bus -F "name:description"',
         logger  => $logger
     )) {
 
-        my $device = first { $_->{AX} eq $slot->{NAME} } @devices;
-        $slot->{DESCRIPTION} = $device->{YL} if $device;
+        my $info = first { $_->{AX} eq $slot->{NAME} } @infos;
+        $slot->{DESCRIPTION} = $info->{YL} if $info;
 
         $inventory->addEntry(
             section => 'SLOTS',
