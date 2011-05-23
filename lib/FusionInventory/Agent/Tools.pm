@@ -21,7 +21,7 @@ our @EXPORT = qw(
     getCanonicalManufacturer
     getCanonicalSpeed
     getCanonicalSize
-    getInfosFromDmidecode
+    getDmidecodeInfos
     getCpusFromDmidecode
     getSanitizedString
     getFirstLine
@@ -44,7 +44,7 @@ our @EXPORT = qw(
 memoize('can_run');
 memoize('can_read');
 memoize('getCanonicalManufacturer');
-memoize('getInfosFromDmidecode');
+memoize('getDmidecodeInfos');
 
 sub getFormatedLocalTime {
     my ($time) = @_;
@@ -150,7 +150,7 @@ sub getCanonicalSize {
                         undef                ;
 }
 
-sub getInfosFromDmidecode {
+sub getDmidecodeInfos {
     my %params = (
         command => 'dmidecode',
         @_
@@ -195,7 +195,7 @@ sub getInfosFromDmidecode {
 }
 
 sub getCpusFromDmidecode {
-    my $infos = getInfosFromDmidecode(@_);
+    my $infos = getDmidecodeInfos(@_);
 
     return unless $infos->{4};
 
@@ -565,7 +565,7 @@ Returns a normalized speed value (in Mhz) for given one.
 
 Returns a normalized size value (in Mb) for given one.
 
-=head2 getInfosFromDmidecode
+=head2 getDmidecodeInfos
 
 Returns a structured view of dmidecode output. Each information block is turned
 into an hashref, block with same DMI type are grouped into a list, and each

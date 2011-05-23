@@ -4876,7 +4876,7 @@ plan tests =>
 
 foreach my $test (keys %dmidecode_tests) {
     my $file = "resources/generic/dmidecode/$test";
-    my $infos = getInfosFromDmidecode(file => $file);
+    my $infos = getDmidecodeInfos(file => $file);
     is_deeply($infos, $dmidecode_tests{$test}, "$test dmidecode parsing");
 }
 

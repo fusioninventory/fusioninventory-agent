@@ -22,7 +22,7 @@ sub doInventory {
 }
 
 sub _getBiosHardware {
-    my $infos = getInfosFromDmidecode(@_);
+    my $infos = getDmidecodeInfos(@_);
 
     my $bios_info    = $infos->{0}->[0];
     my $system_info  = $infos->{1}->[0];

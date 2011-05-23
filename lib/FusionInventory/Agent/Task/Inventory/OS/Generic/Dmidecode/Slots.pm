@@ -28,7 +28,7 @@ sub doInventory {
 }
 
 sub _getSlots {
-    my $infos = getInfosFromDmidecode(@_);
+    my $infos = getDmidecodeInfos(@_);
 
     return unless $infos->{9};
 

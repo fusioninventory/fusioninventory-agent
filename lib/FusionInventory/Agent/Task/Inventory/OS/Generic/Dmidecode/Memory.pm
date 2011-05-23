@@ -28,7 +28,7 @@ sub doInventory {
 }
 
 sub _getMemories {
-    my $infos = getInfosFromDmidecode(@_);
+    my $infos = getDmidecodeInfos(@_);
 
     my ($memories, $slot);
 

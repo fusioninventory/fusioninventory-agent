@@ -24,7 +24,7 @@ sub doInventory {
 }
 
 sub _getBattery {
-    my $infos = getInfosFromDmidecode(@_);
+    my $infos = getDmidecodeInfos(@_);
 
     return unless $infos->{22};
 
