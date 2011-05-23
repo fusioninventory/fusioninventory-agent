@@ -89,7 +89,7 @@ sub doInventory {
 
 
     # HPUX 11.31: http://forge.fusioninventory.org/issues/754
-    if (-f '/opt/propplus/bin/cprop' && (`hpvminfo 2>&1` !~ /HPVM/i)) {
+    if (-f '/opt/propplus/bin/cprop' && (`hpvminfo 2>&1` !~ /HPVM guest/)) {
         my ($memories, $totalMem) = _parseCpropMemory('/opt/propplus/bin/cprop -summary -c Memory', '-|');
         $inventory->setHardware({ MEMORY => $totalMem });
         $inventory->addMemory($memories);

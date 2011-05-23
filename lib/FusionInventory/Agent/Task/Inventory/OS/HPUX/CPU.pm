@@ -170,7 +170,7 @@ sub doInventory {
         "N4000-44"=>"8500 440",
         "ia64 hp server rx1620"=>"itanium 1600");
 
-    if (-f '/opt/propplus/bin/cprop' && (`hpvminfo 2>&1` !~ /HPVM/i)) {
+    if (-f '/opt/propplus/bin/cprop' && (`hpvminfo 2>&1` !~ /HPVM guest/)) {
         my $cpus = _parseCpropProcessor('/opt/propplus/bin/cprop -summary -c Processors', '-|');
         $inventory->addCPU($cpus);
         return;
