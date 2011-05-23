@@ -22,7 +22,7 @@ sub doInventory {
 
     _loadPciIds(logger => $logger, datadir => $datadir);
 
-    foreach my $controller (_getExtentedControllers(logger => $logger)) {
+    foreach my $controller (_getControllers(logger => $logger)) {
         $inventory->addEntry(
             section => 'CONTROLLERS',
             entry   => $controller
@@ -30,7 +30,7 @@ sub doInventory {
     }
 }
 
-sub _getExtentedControllers {
+sub _getControllers {
     my @controllers;
 
     foreach my $device (getPCIDevices(@_)) {

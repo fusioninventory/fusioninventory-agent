@@ -16,7 +16,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    foreach my $sound (_getSoundControllers(logger => $logger)) {
+    foreach my $sound (_getSounds(logger => $logger)) {
         $inventory->addEntry(
             section => 'SOUNDS',
             entry   => $sound
@@ -24,7 +24,7 @@ sub doInventory {
     }
 }
 
-sub _getSoundControllers {
+sub _getSounds {
     my @sounds;
 
     foreach my $device (getPCIDevices(@_)) {

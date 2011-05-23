@@ -20,7 +20,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    foreach my $video (_getVideoControllers(logger => $logger)) {
+    foreach my $video (_getVideos(logger => $logger)) {
         $inventory->addEntry(
             section => 'VIDEOS',
             entry   => $video
@@ -28,7 +28,7 @@ sub doInventory {
     }
 }
 
-sub _getVideoControllers {
+sub _getVideos {
     my @videos;
 
     foreach my $device (getPCIDevices(@_)) {

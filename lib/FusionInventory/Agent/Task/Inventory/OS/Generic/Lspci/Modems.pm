@@ -16,7 +16,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    foreach my $modem (_getModemControllers(logger => $logger)) {
+    foreach my $modem (_getModems(logger => $logger)) {
         $inventory->addEntry(
             section => 'MODEMS',
             entry   => $modem
@@ -24,7 +24,7 @@ sub doInventory {
     }
 }
 
-sub _getModemControllers {
+sub _getModems {
     my @modems;
 
     foreach my $device (getPCIDevices(@_)) {
