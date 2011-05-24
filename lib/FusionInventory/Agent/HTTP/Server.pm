@@ -25,11 +25,6 @@ sub new {
     };
     bless $self, $class;
 
-    $self->{logger}->debug($self->{htmldir} ?
-        "[HTTPD] static files are in $self->{htmldir}" :
-        "[HTTPD] no static files directory"
-    );
-
     $SIG{PIPE} = 'IGNORE';
     $self->{listener} = threads->create('_listen', $self);
 
@@ -230,6 +225,7 @@ sub _listen {
         "[HTTPD] service started at: $url"
     );
 
+    # allow the thread to be stopped 
     threads->set_thread_exit_only(1);
     $SIG{'KILL'} = sub { threads->exit(); };
 
