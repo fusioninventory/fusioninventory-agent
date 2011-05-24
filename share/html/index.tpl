@@ -10,15 +10,23 @@
 
 <img src="/logo.png" alt="FusionInventory" />
 <br />
-This is FusionInventory Agent %%AGENT_VERSION%%<br />
-The current status is "%%STATUS%%"<br />
+This is FusionInventory Agent {$version}<br />
+The current status is {$status}<br />
 
-%%IF_ALLOW_LOCALHOST%%<a href="/now">Force an Inventory</a>%%ENDIF_ALLOW_LOCALHOST%%
+{
+    if ($trust) {
+       $OUT .= '<a href="/now">Force an Inventory</a>';
+    }
+}
 
 <br />
 Next server contact planned for:
 <ul>
-%%NEXT_CONTACT%%
+{
+    foreach my $target (@targets) {
+       $OUT .= "<li>$target->{description}: $target->{time}</li>";
+    }
+}
 </ul>
 
 </body>
