@@ -43,7 +43,7 @@ sub doInventory {
             if ($properties->{productState}) {
                 my $bin = sprintf( "%b\n", $properties->{productState});
 # http://blogs.msdn.com/b/alejacma/archive/2008/05/12/how-to-get-antivirus-information-with-wmi-vbscript.aspx?PageIndex=2#comments
-                if ($bin =~ /(\d)00000(\d)000000(\d)00000$/) {
+                if ($bin =~ /(\d)\d{5}(\d)\d{6}(\d)\d{5}$/) {
                     $uptodate = $1 || $2;
                     $enable = $3?0:1;
                 }
