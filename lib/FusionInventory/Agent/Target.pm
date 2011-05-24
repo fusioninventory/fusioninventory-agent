@@ -113,6 +113,15 @@ sub setMaxDelay {
     $self->_saveState();
 }
 
+sub getStatus {
+    my ($self) = @_;
+
+    return
+        $self->getDescription() .
+        ': '                    .
+         $self->{nextRunDate} > 1 ? localtime($self->{nextRunDate}) : "now" ;
+}
+
 # compute a run date, as current date and a random delay
 # between maxDelay / 2 and maxDelay
 sub _computeNextRunDate {
@@ -203,3 +212,7 @@ Return the storage object for this target.
 =head2 getDescription()
 
 Return a string description of the target.
+
+=head2 getStatus()
+
+Return a string status for the target.
