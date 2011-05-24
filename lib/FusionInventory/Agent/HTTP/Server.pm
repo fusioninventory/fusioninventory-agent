@@ -31,7 +31,7 @@ sub new {
     );
 
     $SIG{PIPE} = 'IGNORE';
-    threads->create('_listen', $self);
+    $self->{listener} = threads->create('_listen', $self);
 
     return $self;
 }
@@ -230,6 +230,9 @@ sub _listen {
         "[HTTPD] service started at: $url"
     );
 
+    threads->set_thread_exit_only(1);
+    $SIG{'KILL'} = sub { threads->exit(); };
+
     while (1) {
         my ($client, $socket) = $daemon->accept();
         next unless $socket;
@@ -238,6 +241,12 @@ sub _listen {
         my $request = $client->get_request();
         $self->_handle($client, $request, $clientIp);
     }
+}
+
+sub DESTROY {
+    my ($self) = @_;
+
+    $self->{listener}->kill('KILL')->detach();
 }
 
 1;
