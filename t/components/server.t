@@ -14,7 +14,7 @@ use FusionInventory::Test::Agent;
 use FusionInventory::Agent::HTTP::Server;
 use FusionInventory::Agent::Logger;
 
-plan tests => 4;
+plan tests => 5;
 
 my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'Test' ]
@@ -45,6 +45,11 @@ lives_ok {
         htmldir => 'share/html'
     );
 } 'instanciation with specific port: ok';
+
+ok(
+    !$client->get('http://localhost:62354')->is_success(),
+    'server not listening anymore on default port'
+);
 
 ok(
     $client->get('http://localhost:8080')->is_success(),
