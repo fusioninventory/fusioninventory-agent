@@ -69,7 +69,7 @@ sub _getMemories {
     my $numslots = 0;
 
     foreach my $info (@infos) {
-        next unless $info->{DS} =~ /^Memory DIMM/;
+        next unless $info->{DS} eq 'Memory DIMM';
 
         push @memories, {
             DESCRIPTION => $info->{DS},
