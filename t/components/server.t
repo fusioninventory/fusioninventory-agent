@@ -20,13 +20,17 @@ my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'Test' ]
 );
 
+my $scheduler = FusionInventory::Agent::Scheduler->new(
+);
+
 my $server;
 
 lives_ok {
     $server = FusionInventory::Agent::HTTP::Server->new(
-        agent   => FusionInventory::Test::Agent->new(),
-        logger  => $logger,
-        htmldir => 'share/html'
+        agent     => FusionInventory::Test::Agent->new(),
+        scheduler => $scheduler,
+        logger    => $logger,
+        htmldir   => 'share/html'
     );
 } 'instanciation with default values: ok';
 
@@ -39,10 +43,11 @@ ok(
 
 lives_ok {
     $server = FusionInventory::Agent::HTTP::Server->new(
-        agent   => FusionInventory::Test::Agent->new(),
-        logger  => $logger,
-        port    => 8080,
-        htmldir => 'share/html'
+        agent     => FusionInventory::Test::Agent->new(),
+        scheduler => $scheduler,
+        logger    => $logger,
+        port      => 8080,
+        htmldir   => 'share/html'
     );
 } 'instanciation with specific port: ok';
 
