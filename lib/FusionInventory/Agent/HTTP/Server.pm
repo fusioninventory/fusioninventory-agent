@@ -236,7 +236,13 @@ sub _listen {
 sub DESTROY {
     my ($self) = @_;
 
-    $self->{listener}->kill('KILL')->detach();
+    return unless $self->{listener};
+
+    if ($self->{listener}->is_joinable()) {
+        $self->{listener}->join();
+    } else {
+        $self->{listener}->kill('KILL')->detach();
+    }
 }
 
 1;
