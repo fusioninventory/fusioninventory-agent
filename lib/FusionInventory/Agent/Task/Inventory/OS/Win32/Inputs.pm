@@ -20,7 +20,7 @@ my %mouseInterface = (
     162 => 'USB',
 );
 
-sub isInventoryEnabled {
+sub isEnabled {
     return 1;
 }
 

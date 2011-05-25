@@ -16,7 +16,7 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return 
         can_run('ifconfig') &&
         can_run('netstat') &&

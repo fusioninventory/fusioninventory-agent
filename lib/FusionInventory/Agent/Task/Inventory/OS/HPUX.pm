@@ -9,7 +9,7 @@ use FusionInventory::Agent::Tools;
 
 our $runAfter = ["FusionInventory::Agent::Backend::OS::Generic"];
 
-sub isInventoryEnabled  {
+sub isEnabled  {
     return $OSNAME eq 'hpux';
 }
 

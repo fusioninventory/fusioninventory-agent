@@ -16,7 +16,7 @@ use Win32::TieRegistry (
 
 use FusionInventory::Agent::Tools::Win32;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return 1;
 }
 

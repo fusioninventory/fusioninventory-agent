@@ -5,7 +5,7 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return
         -r '/usr/sbin/system_profiler' &&
         can_load("Mac::SysProfile");

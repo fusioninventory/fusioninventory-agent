@@ -14,7 +14,7 @@ use Win32::TieRegistry (
 
 use FusionInventory::Agent::Tools::Win32;
 
-sub isInventoryEnabled {
+sub isEnabled {
     my (%params) = @_;
 
     return !$params{no_software};

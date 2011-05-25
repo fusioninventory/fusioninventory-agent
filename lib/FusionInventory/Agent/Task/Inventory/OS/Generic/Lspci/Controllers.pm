@@ -9,7 +9,7 @@ use FusionInventory::Agent::Tools::Unix;
 my $vendors;
 my $classes;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return 1;
 }
 

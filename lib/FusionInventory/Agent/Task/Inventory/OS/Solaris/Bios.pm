@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Solaris;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return
         can_run('showrev') ||
         can_run('/usr/sbin/smbios');

@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::HPUX;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return can_run('model');
 }
 

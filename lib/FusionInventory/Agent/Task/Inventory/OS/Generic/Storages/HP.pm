@@ -51,7 +51,7 @@ sub _getHpacuacliFromWinRegistry {
     return $hpacuacliPath;
 }
 
-sub isInventoryEnabled {
+sub isEnabled {
     return
         can_run('hpacucli') ||
         _getHpacuacliFromWinRegistry();

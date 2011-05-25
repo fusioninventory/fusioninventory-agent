@@ -8,7 +8,7 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Regexp;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return can_run('ifconfig');
 }
 

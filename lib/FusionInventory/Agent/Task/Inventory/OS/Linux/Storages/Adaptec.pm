@@ -14,7 +14,7 @@ use FusionInventory::Agent::Tools::Linux;
 #
 # Adaptec AAC-RAID
 
-sub isInventoryEnabled {
+sub isEnabled {
     return -r '/proc/scsi/scsi';
 }
 

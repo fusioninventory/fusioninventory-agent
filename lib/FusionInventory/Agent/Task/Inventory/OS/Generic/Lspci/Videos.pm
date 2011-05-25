@@ -7,7 +7,7 @@ use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools::Unix;
 
-sub isInventoryEnabled {
+sub isEnabled {
     # both windows and linux have dedicated modules
     return 
         $OSNAME ne 'MSWin32' &&

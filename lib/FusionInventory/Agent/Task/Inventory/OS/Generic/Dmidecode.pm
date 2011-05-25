@@ -7,7 +7,7 @@ use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled {
+sub isEnabled {
 
     eval {
         # don't run dmidecode on Win2003

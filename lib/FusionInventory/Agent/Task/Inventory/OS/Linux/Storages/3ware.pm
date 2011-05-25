@@ -20,7 +20,7 @@ use FusionInventory::Agent::Tools::Linux;
 #
 # AMCC/3ware CLI (version 2.00.0X.XXX)
 
-sub isInventoryEnabled {
+sub isEnabled {
     return can_run('tw_cli');
 }
 

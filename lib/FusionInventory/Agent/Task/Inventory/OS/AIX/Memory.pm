@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::AIX;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return 1;
 }
 

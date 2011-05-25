@@ -27,7 +27,7 @@ my @files = (
 our $runMeIfTheseChecksFailed =
     ["FusionInventory::Agent::Task::Inventory::OS::Linux::Distro::LSB"];
 
-sub isInventoryEnabled {
+sub isEnabled {
     return 1;
 }
 

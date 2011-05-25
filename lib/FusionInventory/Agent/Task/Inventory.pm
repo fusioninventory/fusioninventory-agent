@@ -153,7 +153,7 @@ sub _initModulesList {
 
         my $enabled = $self->_runFunction({
             module   => $module,
-            function => "isInventoryEnabled",
+            function => "isEnabled",
             timeout  => $config->{'backend-collect-timeout'}
         });
         if (!$enabled) {

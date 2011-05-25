@@ -8,7 +8,7 @@ use List::Util qw(first);
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::AIX;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return can_run('lsdev');
 }
 

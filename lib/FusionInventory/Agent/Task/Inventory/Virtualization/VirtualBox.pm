@@ -9,7 +9,7 @@ use File::Glob ':glob';
 
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return unless can_run('VBoxManage');
     my ( $version ) = ( `VBoxManage --version` =~ m/^(\d\.\d).*$/ ) ;
     return unless $version > 2.1;

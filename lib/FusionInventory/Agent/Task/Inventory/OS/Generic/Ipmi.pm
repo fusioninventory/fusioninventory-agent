@@ -23,7 +23,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Regexp;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return unless can_run('ipmitool');
 }
 

@@ -24,7 +24,7 @@ use FusionInventory::Agent::Tools::Linux;
 #
 #
 
-sub isInventoryEnabled {
+sub isEnabled {
     return
         $Config{archname} =~ /^(ppc|powerpc)/;
 }

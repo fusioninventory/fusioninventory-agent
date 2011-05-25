@@ -5,7 +5,7 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return getFirstLine(command => 'sysctl -n kern.boottime');
 }
 

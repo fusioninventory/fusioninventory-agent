@@ -7,7 +7,7 @@ use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return can_run('virsh');
 }
 

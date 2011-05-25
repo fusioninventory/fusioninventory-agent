@@ -8,7 +8,7 @@ use Config;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Linux;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return
         $Config{archname} =~ /^sparc/ &&
         -r '/proc/cpuinfo';

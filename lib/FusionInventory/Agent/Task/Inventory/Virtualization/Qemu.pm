@@ -7,7 +7,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return 
         can_run('qemu') ||
         can_run('kvm')  ||

@@ -61,7 +61,7 @@ use FusionInventory::Agent::Tools;
 #            'idVendor' => '1133'
 #          }
 
-sub isInventoryEnabled {
+sub isEnabled {
     return 1;
 }
 
