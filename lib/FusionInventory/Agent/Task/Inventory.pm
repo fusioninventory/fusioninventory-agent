@@ -235,8 +235,6 @@ sub _runModule {
 sub _feedInventory {
     my ($self, $params) = @_;
 
-    my $logger = $self->{logger};
-
     my $inventory = $self->{inventory};
 
     my $begin = time();
