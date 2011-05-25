@@ -10,8 +10,6 @@ use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Storage;
 
 BEGIN {
-    # threads and threads::shared must be loaded before
-    # $lock is initialized
     if ($Config{usethreads}) {
         eval {
             require threads;
@@ -22,8 +20,6 @@ BEGIN {
         }
     }
 }
-
-my $lock : shared;
 
 sub new {
     my ($class, %params) = @_;
@@ -81,7 +77,7 @@ sub getStorage {
 sub setNextRunDate {
     my ($self, $nextRunDate) = @_;
 
-    lock($lock);
+    lock($self->{nextRunDate});
     $self->{nextRunDate} = $nextRunDate;
     $self->_saveState();
 }
@@ -89,7 +85,7 @@ sub setNextRunDate {
 sub resetNextRunDate {
     my ($self) = @_;
 
-    lock($lock);
+    lock($self->{nextRunDate});
     $self->{nextRunDate} = _computeNextRunDate($self->{maxDelay});
     $self->_saveState();
 }
