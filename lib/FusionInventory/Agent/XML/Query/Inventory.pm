@@ -8,6 +8,7 @@ use Config;
 use Data::Dumper;
 use Digest::MD5 qw(md5_base64);
 use English qw(-no_match_vars);
+use Text::Template;
 use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
@@ -69,6 +70,7 @@ sub new {
     my $self = $class->SUPER::new(%params);
 
     $self->{last_statefile} = $params{last_statefile};
+    $self->{htmldir}        = $params{htmldir};
 
     $self->{h}->{QUERY} = 'INVENTORY';
     $self->{h}->{CONTENT} = {
@@ -272,72 +274,18 @@ sub checkContent {
 sub getContentAsHTML {
     my ($self, $args) = @_;
 
-    my $htmlHeader = <<EOF;
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-    <title>FusionInventory-Agent $self->{deviceid} - <a href="http://www.FusionInventory.org">http://www.FusionInventory.org</a></title>
-    <style type="text/css">
-<!--/* <![CDATA[ */
- tr.odd { 
-    background-color:white;
-}
-tr.even { 
-    background-color:silver;
-}
-/* ]]> */-->
-    </style>
-</head>
-<body>
-<h1>Inventory for $self->{deviceid}</h1>
-FusionInventory Agent $FusionInventory::Agent::VERSION<br />
-<small>DEVICEID $self->{deviceid}</small>
-EOF
+    my $template = Text::Template->new(
+        TYPE => 'FILE', SOURCE => "$self->{htmldir}/inventory.tpl"
+    );
 
-    my $htmlFooter = <<EOF;
-</body>
-</html>
-EOF
+     my $hash = {
+        version  => $FusionInventory::Agent::VERSION,
+        deviceid => $self->{deviceid},
+        data     => $self->{h}->{CONTENT},
+        fields   => \%fields,
+    };
 
-    my $htmlBody;
-
-    foreach my $section (sort keys %{$self->{h}{CONTENT}}) {
-        next if $section eq 'VERSIONCLIENT';
-
-        $htmlBody .= "<h2>$section</h2>\n";
-
-        my $content = $self->{h}{CONTENT}->{$section};
-
-        if (ref($content) eq 'ARRAY') {
-            my @fields = keys %{$fields{$section}};
-            $htmlBody .= "<table width=\"100\%\">\n";
-            $htmlBody .= "<tr>\n";
-            foreach my $field (@fields) {
-                $htmlBody .= "<th>" . lc($field). "</th>\n";
-            }
-            $htmlBody .= "</tr>\n";
-            my $count = 0;
-            foreach my $item (@$content) {
-                my $class = $count++ % 2 ? 'odd' : 'even';      
-                $htmlBody .= "<tr class=\"$class\">\n";
-                foreach my $field (@fields) {
-                    $htmlBody .= "<td>" . ($item->{$field} || "" ). "</td>\n";
-                }
-                $htmlBody .= "</tr>\n";
-
-            }
-            $htmlBody .= "</table>\n";
-        } else {
-            $htmlBody .= "<ul>\n";
-            foreach my $key (sort keys %{$content}) {
-                $htmlBody .= "<li>$key: $content->{$key}</li>\n";
-            }
-            $htmlBody .= "</ul>\n<br />\n";
-        }
-    }
-
-    return $htmlHeader . $htmlBody . $htmlFooter;
+    return $template->fill_in(HASH => $hash);
 }
 
 sub processChecksum {

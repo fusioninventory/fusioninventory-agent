@@ -41,6 +41,7 @@ sub run {
     my $inventory = FusionInventory::Agent::XML::Query::Inventory->new(
         deviceid        => $self->{deviceid},
         last_statefile  => $self->{target}->{last_statefile},
+        htmldir         => $self->{datadir} . '/html',
         logger          => $self->{logger},
     );
     $self->{inventory} = $inventory;
