@@ -3,7 +3,7 @@ use strict;
 
 use warnings;
 
-use FusionInventory::Agent::Task::Inventory::OS::Linux::LVM; 
+use FusionInventory::Agent::Task::Inventory::OS::Generic::LVM; 
 
 use Test::More;
 use Data::Dumper;
@@ -60,15 +60,15 @@ my %lvs = (
 );
 
 my %pvs = (
-        'debian-5' => [
+        'test-1' => [
           {
-            'SIZE' => 53427,
-            'FORMAT' => 'lvm2',
-            'ATTR' => 'a-',
-            'FREE' => 17238,
-            'UUID' => 'PeB8Cv-Fp12-sLfi-2nXp-dG03-Vd1v-2VP6OR',
-            'PVNAME' => 'system',
-            'DEVICE' => '/dev/sda5'
+            'SIZE' => 32768,
+            'FORMAT' => 'a-',
+            'ATTR' => '106561536,00',
+            'FREE' => 0,
+            'UUID' => '3252',
+            'PVNAME' => 'lvm2',
+            'DEVICE' => 'VolGroup00'
           }
 
         ]

@@ -1,5 +1,6 @@
-package FusionInventory::Agent::Task::Inventory::OS::Linux::LVM;
+package FusionInventory::Agent::Task::Inventory::OS::Generic::LVM;
 
+# LVM for HP-UX and Linux
 use strict;
 
 use warnings;
@@ -8,7 +9,7 @@ use English qw(-no_match_vars);
 
 
 sub isInventoryEnabled {
-    can_run("lvs");
+    can_run("lvdisplay");
 }
 
 sub _parseLvs {
