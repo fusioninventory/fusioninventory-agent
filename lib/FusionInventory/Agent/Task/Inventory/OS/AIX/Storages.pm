@@ -17,24 +17,26 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{inventory};
 
-    # lsvpd
-    my @infos = getLsvpdInfos(logger => $logger);  
+    # index VPD infos by AX field
+    my %infos =
+        map  { $_->{AX} => $_ }
+        grep { $_->{AX} }
+        getLsvpdInfos(logger => $logger);  
 
     # SCSI disks 
     foreach my $disk (_getDisks(
         subclass => 'scsi',
         logger   => $logger,
     )) {
-        $disk->{DISKSIZE} = _getCapacity($disk->{NAME}, $logger);
+        $disk->{DISKSIZE}     = _getCapacity($disk->{NAME}, $logger);
+        $disk->{MANUFACTURER} = _getManufacturer(infos{$disk->{NAME}});
+        $disk->{MODEL}        = _getModel(infos{$disk->{NAME}});
 
         $disk->{SERIAL} = getFirstMatch(
             command => "lscfg -p -v -s -l $disk->{NAME}",
             logger  => $logger,
             pattern => qr/Serial Number\.*(.*)/
         );
-
-        ($disk->{MANUFACTURER}, $disk->{MODEL}) =
-            _getLsvpdInfos($disk->{NAME}, \@infos);
 
         $inventory->addStorage($disk);
     }
@@ -44,8 +46,8 @@ sub doInventory {
         subclass => 'fcp',
         logger   => $logger
     )) {
-        ($disk->{MANUFACTURER}, $disk->{MODEL}) =
-            _getLsvpdInfos($disk->{NAME}, \@infos);
+        $disk->{MANUFACTURER} = _getManufacturer(infos{$disk->{NAME}});
+        $disk->{MODEL}        = _getModel(infos{$disk->{NAME}});
 
         $inventory->addStorage($disk);
     }
@@ -55,8 +57,8 @@ sub doInventory {
         subclass => 'fdar',
         logger   => $logger
     )) {
-        ($disk->{MANUFACTURER}, $disk->{MODEL}) =
-            _getLsvpdInfos($disk->{NAME}, \@infos);
+        $disk->{MANUFACTURER} = _getManufacturer(infos{$disk->{NAME}});
+        $disk->{MODEL}        = _getModel(infos{$disk->{NAME}});
 
         $inventory->addStorage($disk);
     }
@@ -66,8 +68,8 @@ sub doInventory {
         subclass => 'sas',
         logger   => $logger
     )) {
-        ($disk->{MANUFACTURER}, $disk->{MODEL}) =
-            _getLsvpdInfos($disk->{NAME}, \@infos);
+        $disk->{MANUFACTURER} = _getManufacturer(infos{$disk->{NAME}});
+        $disk->{MODEL}        = _getModel(infos{$disk->{NAME}});
 
         $inventory->addStorage($disk);
     }
@@ -108,10 +110,10 @@ sub doInventory {
         subclass => 'scsi',
         logger   => $logger
     )) {
-        $cdrom->{TYPE} = 'cd';
-        $cdrom->{DISKSIZE} = _getCapacity($cdrom->{NAME}, $logger);
-        ($cdrom->{MANUFACTURER}, $cdrom->{MODEL}) =
-            _getLsvpdInfos($cdrom->{NAME}, \@infos);
+        $cdrom->{TYPE}         = 'cd';
+        $cdrom->{DISKSIZE}     = _getCapacity($cdrom->{NAME}, $logger);
+        $cdrom->{MANUFACTURER} = _getManufacturer(infos{$cdrom->{NAME}});
+        $cdrom->{MODEL}        = _getModel(infos{$cdrom->{NAME}});
 
         $inventory->addStorage($cdrom);
     }
@@ -123,9 +125,9 @@ sub doInventory {
         logger   => $logger
     )) {
         $tape->{TYPE} = 'tape';
-        $tape->{DISKSIZE} = _getCapacity($tape->{NAME}, $logger);
-        ($tape->{MANUFACTURER}, $tape->{MODEL}) =
-            _getLsvpdInfos($tape->{NAME}, \@infos);
+        $tape->{DISKSIZE}     = _getCapacity($tape->{NAME}, $logger);
+        $tape->{MANUFACTURER} = _getManufacturer(infos{$tape->{NAME}});
+        $tape->{MODEL}        = _getModel(infos{$tape->{NAME}});
 
         $inventory->addStorage($tape);
     }
@@ -150,18 +152,22 @@ sub _getCapacity {
     );
 }
 
-sub _getLsvpdInfos {
-    my ($name, $devices) = @_;
+sub _getManufacturer {
+    my ($device) = @_;
 
-    my $device = first { $_->{AX} eq $name } @$devices;
     return unless $device;
 
-    my $manufacturer = $device->{MF};
-    $manufacturer .= ",FRU number :$device->{FN}" if $device->{FN};
+    return $device->{FN} ?
+        "$device->{MF},FRU number :$device->{FN}" :
+        "$device->{MF}"                           ;
+}
 
-    my $model = $device->{TM};
+sub _getModel {
+    my ($device) = @_;
 
-    return ($manufacturer, $model);
+    return unless $device;
+
+    return $device->{TM};
 }
 
 sub _getDisks {

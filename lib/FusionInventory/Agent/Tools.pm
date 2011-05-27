@@ -43,7 +43,6 @@ our @EXPORT = qw(
 
 memoize('can_run');
 memoize('can_read');
-memoize('getCanonicalManufacturer');
 memoize('getDmidecodeInfos');
 
 sub getFormatedLocalTime {

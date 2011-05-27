@@ -6,6 +6,7 @@ use threads;
 
 use English qw(-no_match_vars);
 use HTTP::Daemon;
+use Text::Template;
 
 use FusionInventory::Agent::Logger;
 
@@ -25,13 +26,8 @@ sub new {
     };
     bless $self, $class;
 
-    $self->{logger}->debug($self->{htmldir} ?
-        "[HTTPD] static files are in $self->{htmldir}" :
-        "[HTTPD] no static files directory"
-    );
-
     $SIG{PIPE} = 'IGNORE';
-    threads->create('_listen', $self);
+    $self->{listener} = threads->create('_listen', $self);
 
     return $self;
 }
@@ -66,42 +62,26 @@ sub _handle {
         # root request
         if ($path eq '/') {
 
-            my $indexFile = $htmldir . "/index.tpl";
-            my $handle;
-            if (!open $handle, '<', $indexFile) {
-                $logger->error("[HTTPD] Can't open share $indexFile: $ERRNO");
-                $client->send_error(404);
-                return;
-            }
-            undef $/;
-            my $output = <$handle>;
-            close $handle;
+            my $template = Text::Template->new(
+                TYPE => 'FILE', SOURCE => "$self->{htmldir}/index.tpl"
+            );
 
-            my $nextContact = "";
-            foreach my $target (@{$scheduler->{scheduler}}) {
-                my $description = $target->getDescription();
-                my $time = $target->getNextRunDate() > 1 ?
-                    localtime($target->getNextRunDate()) : "now" ;
-                $nextContact .= "<li>$description: $time</li>\n";
-            }
-
-            my $status = $self->{agent}->getStatus();
-
-            $output =~ s/%%STATUS%%/$status/;
-            $output =~ s/%%NEXT_CONTACT%%/$nextContact/;
-            $output =~ s/%%AGENT_VERSION%%/$FusionInventory::Agent::VERSION/;
-            if ($clientIp !~ /^127\./ || !$self->{'trust_localhost'}) {
-                $output =~
-                s/%%IF_ALLOW_LOCALHOST%%.*%%ENDIF_ALLOW_LOCALHOST%%//;
-            }
-            $output =~ s/%%(END|)IF_.*?%%//g;
+            my $hash = {
+                version => $FusionInventory::Agent::VERSION,
+                trust   => $self->{trust_localhost},
+                status  => $self->{agent}->getStatus(),
+                targets => [
+                    map { $_->getStatus() } $self->{scheduler}->getTargets()
+                ]
+            };
 
             my $response = HTTP::Response->new(
                 200,
                 'OK',
                 HTTP::Headers->new('Content-Type' => 'text/html'),
-                $output
+                $template->fill_in(HASH => $hash)
             );
+
             $client->send_response($response);
 
             last SWITCH;
@@ -166,12 +146,21 @@ sub _handle {
                 $message = "Access denied: $result.";
             }
 
+            my $template = Text::Template->new(
+                TYPE => 'FILE', SOURCE => "$self->{htmldir}/now.tpl"
+            );
+
+            my $hash = {
+                message => $message
+            };
+
             my $response = HTTP::Response->new(
                 $code,
                 'OK',
                 HTTP::Headers->new('Content-Type' => 'text/html'),
-                "<html><head><title>FusionInventory-Agent</title></head><body>$message<br/><a href='/'>Back</a></body><html>"
+                $template->fill_in(HASH => $hash)
             );
+
             $client->send_response($response);
 
             last SWITCH;
@@ -230,6 +219,10 @@ sub _listen {
         "[HTTPD] service started at: $url"
     );
 
+    # allow the thread to be stopped 
+    threads->set_thread_exit_only(1);
+    $SIG{'KILL'} = sub { threads->exit(); };
+
     while (1) {
         my ($client, $socket) = $daemon->accept();
         next unless $socket;
@@ -237,6 +230,18 @@ sub _listen {
         my $clientIp = inet_ntoa($iaddr);
         my $request = $client->get_request();
         $self->_handle($client, $request, $clientIp);
+    }
+}
+
+sub DESTROY {
+    my ($self) = @_;
+
+    return unless $self->{listener};
+
+    if ($self->{listener}->is_joinable()) {
+        $self->{listener}->join();
+    } else {
+        $self->{listener}->kill('KILL')->detach();
     }
 }
 
