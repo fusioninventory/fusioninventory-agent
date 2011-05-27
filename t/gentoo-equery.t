@@ -8,11 +8,12 @@ use Test::More;
 use File::Basename;
 
 my %result = (
-    '0.3.0' => 1
+    '0.3.0' => 1,
+    '0.1.4' => undef
 );
 
 my @test = glob("resources/gentoo/equery/*");
-plan tests => @test - 1;
+plan tests => int @test;
 
 foreach my $file (@test) {
     my $test = basename($file);
