@@ -1,0 +1,27 @@
+--- Logical volume ---
+LV Name                /dev/VolGroup00/LogVol00
+VG Name                VolGroup00
+LV UUID                VaQjso-jGpn-2lYo-jQLR-Cguu-Zx65-YKk7Vk
+LV Write Access        read/write
+LV Status              available
+# open                 1
+LV Size                99,66 GB
+Current LE             3189
+Segments               1
+Allocation             inherit
+Read ahead sectors     0
+Block device           253:0
+
+--- Logical volume ---
+LV Name                /dev/VolGroup00/LogVol01
+VG Name                VolGroup00
+LV UUID                bPatMH-H30h-UQ6B-zHrS-cXBl-YTGx-4E6Zus
+LV Write Access        read/write
+LV Status              available
+# open                 1
+LV Size                1,94 GB
+Current LE             62
+Segments               1
+Allocation             inherit
+Read ahead sectors     0
+Block device           253:1
