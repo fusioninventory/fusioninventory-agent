@@ -123,7 +123,7 @@ my %vgs = (
             'VG_NAME' => 'lvm',
             'FREE' => 0,
             'PV_COUNT' => '1',
-            'VG_UUID' => 'MjsnP7-GaGC-NIo7-tS3o-gf2t-di2R-eP3Au7',
+            'VG_UUID' => 'Eubwcw-UFh2-P3Kn-aI6y-qcLT-VCzU-ls49ha',
             'LV_COUNT' => '6',
             'VG_EXTENT_SIZE' => '4.19'
           },
@@ -133,7 +133,7 @@ my %vgs = (
             'VG_NAME' => 'lvm2',
             'FREE' => 5150,
             'PV_COUNT' => '2',
-            'VG_UUID' => 'LNDa6y-PQGQ-gtnc-c7Wc-W2lS-Soaf-Bwu2Me',
+            'VG_UUID' => 'ZHOqQg-SNQJ-a79U-Jfn1-Az84-e04w-d9zH23',
             'LV_COUNT' => '2',
             'VG_EXTENT_SIZE' => '4.19'
           },
@@ -143,7 +143,7 @@ my %vgs = (
             'VG_NAME' => 'lvm2',
             'FREE' => 5150,
             'PV_COUNT' => '2',
-            'VG_UUID' => 'xkxfmu-fQLt-DtKZ-YnkY-vwcj-JqC2-WmQddD',
+            'VG_UUID' => 'ZHOqQg-SNQJ-a79U-Jfn1-Az84-e04w-d9zH23',
             'LV_COUNT' => '2',
             'VG_EXTENT_SIZE' => '4.19'
           }
