@@ -20,3 +20,5 @@ README.html
 *~
 fusioninventory-esx
 lib/FusionInventory/VMware
+*.swp
+*.swo
