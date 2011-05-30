@@ -74,6 +74,10 @@ sub new {
     $self->{h}{CONTENT}{BATTERIES} = [];
     $self->{h}{CONTENT}{ANTIVIRUS} = [];
     $self->{h}{CONTENT}{VERSIONCLIENT} = ['FusionInventory-Agent_v'.$FusionInventory::Agent::VERSION];
+    $self->{h}{CONTENT}{LOGICAL_VOLUMES} = [];
+    $self->{h}{CONTENT}{PHYSICAL_VOLUMES} = [];
+    $self->{h}{CONTENT}{VOLUME_GROUPS} = [];
+
 
     # Is the XML centent initialised?
     $self->{isInitialised} = undef;
@@ -976,7 +980,7 @@ Registered LVM Logical Volume
 sub addLogicalVolume {
     my ($self, $args) = @_;
 
-    my @fields = qw/LVNAME VGNAME ATTR SIZE UUID/;
+    my @fields = qw/LV_NAME VG_NAME ATTR SIZE LV_UUID SEG_COUNT/;
 
     $self->_addEntry({
         'field' => \@fields,
@@ -994,7 +998,7 @@ Registered LVM Physical Volume
 sub addPhysicalVolume {
     my ($self, $args) = @_;
 
-    my @fields = qw/DEVICE PVNAME FORMAT ATTR SIZE FREE UUID/;
+    my @fields = qw/DEVICE PV_NAME PV_PE_COUNT PV_UUID FORMAT ATTR SIZE FREE/;
 
     $self->_addEntry({
         'field' => \@fields,
@@ -1012,7 +1016,7 @@ Registered LVM Volume Group
 sub addVolumeGroup {
     my ($self, $args) = @_;
 
-    my @fields = qw/VGNAME PV_COUNT LV_COUNT ATTR SIZE FREE UUID/;
+    my @fields = qw/VG_NAME PV_COUNT LV_COUNT ATTR SIZE FREE VG_UUID VG_EXTENT_SIZE/;
 
     $self->_addEntry({
         'field' => \@fields,
@@ -2338,13 +2342,13 @@ A LVM Logical Volume
 
 =over 4
 
-=item LVNAME
+=item LV_NAME
 
-The volume name.
+The logical volume name.
 
-=item VGNAME
+=item LV_UUID
 
-The volume group name.
+The logical volume UUID.
 
 =item ATTR
 
@@ -2354,9 +2358,9 @@ The special attribue used on this volume (e.g: a-)
 
 The size of the volume on MB.
 
-=item UUID
+=item VG_UUID
 
-The volume UUID.
+The volume group UUID.
 
 =back
 
@@ -2396,7 +2400,7 @@ A LVM Volume group.
 
 =over 4
 
-=item VGNAME
+=item VG_NAME
 
 The name of the volume group.
 
@@ -2416,6 +2420,10 @@ The size.
 
 The free space.
 
-=item UUID
+=item VG_UUID
 
-The UUID
+The volume group UUID
+
+=item VG_EXTENT_SIZE
+
+
