@@ -52,9 +52,9 @@ my %fields = (
                         PRINTPROCESSOR SERIAL/ ],
     VIRTUALMACHINES => [ qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU
                             VMID MAC COMMENT OWNER/ ],
-    LOGICAL_VOLUMES => [ qw/LVNAME VGNAME ATTR SIZE UUID/ ],
-    PHYSICAL_VOLUMES => [ qw/DEVICE PVNAME FORMAT ATTR SIZE FREE UUID/ ],
-    VOLUME_GROUPS => [ qw/VGNAME PV_COUNT LV_COUNT ATTR SIZE FREE UUID/ ],
+    LOGICAL_VOLUMES => [ qw/LV_NAME VG_NAME ATTR SIZE LV_UUID SEG_COUNT/ ],
+    PHYSICAL_VOLUMES => [ qw/DEVICE PV_NAME PV_PE_COUNT PV_UUID FORMAT ATTR SIZE FREE/ ],
+    VOLUME_GROUPS => [ qw/VG_NAME PV_COUNT LV_COUNT ATTR SIZE FREE VG_UUID VG_EXTENT_SIZE/ ],
 
 );
 
@@ -1406,13 +1406,13 @@ A LVM Logical Volume
 
 =over 4
 
-=item LVNAME
+=item LV_NAME
 
-The volume name.
+The logical volume name.
 
-=item VGNAME
+=item LV_UUID
 
-The volume group name.
+The logical volume UUID.
 
 =item ATTR
 
@@ -1422,9 +1422,9 @@ The special attribue used on this volume (e.g: a-)
 
 The size of the volume on MB.
 
-=item UUID
+=item VG_UUID
 
-The volume UUID.
+The volume group UUID.
 
 =back
 
@@ -1464,7 +1464,7 @@ A LVM Volume group.
 
 =over 4
 
-=item VGNAME
+=item VG_NAME
 
 The name of the volume group.
 
@@ -1484,6 +1484,10 @@ The size.
 
 The free space.
 
-=item UUID
+=item VG_UUID
 
-The UUID
+The volume group UUID
+
+=item VG_EXTENT_SIZE
+
+
