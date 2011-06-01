@@ -21,6 +21,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/generic/lspci/$test";
-    my @sounds = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Sounds::_getSoundControllers(file => $file);
+    my @sounds = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Sounds::_getSounds(file => $file);
     is_deeply(\@sounds, $tests{$test}, $test);
 }

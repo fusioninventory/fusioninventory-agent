@@ -15,6 +15,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/generic/lspci/$test";
-    my @modems = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Modems::_getModemControllers(file => $file);
+    my @modems = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Modems::_getModems(file => $file);
     is_deeply(\@modems, $tests{$test}, $test);
 }

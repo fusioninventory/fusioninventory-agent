@@ -279,6 +279,6 @@ FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers::_loadP
 
 foreach my $test (keys %tests) {
     my $file = "resources/generic/lspci/$test";
-    my @controllers = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers::_getExtentedControllers(file => $file);
+    my @controllers = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers::_getControllers(file => $file);
     is_deeply(\@controllers, $tests{$test}, $test);
 }
