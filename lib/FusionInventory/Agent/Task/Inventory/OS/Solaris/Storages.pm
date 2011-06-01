@@ -18,7 +18,7 @@ sub doInventory {
     foreach my $storage (_getStorages(
             logger => $logger, command => 'iostat -En'
         )) {
-        $inventory->addStorage($storage);
+        $inventory->addEntry(section => 'STORAGES', entry => $storage);
     }
 }
 
@@ -61,9 +61,9 @@ sub _getStorages {
             }
 
             ## To be removed when FIRMWARE will be supported
-            if ($storage->{FIMRWARE}) {
+            if ($storage->{FIRMWARE}) {
                 $storage->{DESCRIPTION} = $storage->{DESCRIPTION} ?
-                $storage->{DESCRIPTION} = " FW:" . $storage->{FIRMWARE} :
+                $storage->{DESCRIPTION} . " FW:" . $storage->{FIRMWARE} :
                                            "FW:" . $storage->{FIRMWARE} ;
             }
 

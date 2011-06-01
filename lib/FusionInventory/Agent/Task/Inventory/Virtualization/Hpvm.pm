@@ -20,7 +20,9 @@ sub doInventory {
     foreach my $machine (_getMachines(
         command => 'hpvmstatus -X', logger => $logger
     )) {
-        $inventory->addVirtualMachine($machine);
+        $inventory->addEntry(
+            section => 'VIRTUALMACHINES', entry => $machine
+        );
     }
 }
 

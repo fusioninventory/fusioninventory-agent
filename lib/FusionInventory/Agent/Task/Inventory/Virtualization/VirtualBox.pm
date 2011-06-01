@@ -32,7 +32,9 @@ sub doInventory {
 
     foreach my $machine (_parseVBoxManage(logger => $logger, command => $cmd_list_vms)) {
         $machine->{OWNER} = $owner;
-        $inventory->addVirtualMachine ($machine);
+        $inventory->addEntry(
+            section => 'VIRTUALMACHINES', entry => $machine
+        );
     }
 
 
@@ -51,7 +53,9 @@ sub doInventory {
                 my $cmd_list_vms = "su \"$login\" -c \"VBoxManage -nologo list --long vms\"";
             foreach my $machine (_parseVBoxManage(logger => $logger, command => $cmd_list_vms)) {
                 $machine->{OWNER} = $login;
-                $inventory->addVirtualMachine ($machine);
+                $inventory->addEntry(
+                    section => 'VIRTUALMACHINES', entry => $machine
+                );
             }
 
         }

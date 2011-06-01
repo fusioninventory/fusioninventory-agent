@@ -57,6 +57,15 @@ my %fields = (
 
 );
 
+my %checks = (
+    STORAGES => {
+        INTERFACE => qr/^(SCSI|HDC|IDE|USB|1394|Serial-ATA|SAS)$/
+    },
+    VIRTUALMACHINES => {
+        STATUS => qr/^(running|idle|paused|shutdown|crashed|dying|off)$/
+    }
+);
+
 # convert fields list into fields hashes, for fast lookup
 foreach my $section (keys %fields) {
     $fields{$section} = { map { $_ => 1 } @{$fields{$section}} };
@@ -91,6 +100,7 @@ sub addEntry {
 
     my $section = $params{section};
     my $fields = $fields{$section};
+    my $checks = $checks{$section};
     die "unknown section $section" unless $fields;
 
     foreach my $field (keys %$entry) {
@@ -106,8 +116,16 @@ sub addEntry {
             next;
         }
         # sanitize value
-        $entry->{$field} = getSanitizedString($entry->{$field});
+        my $value = getSanitizedString($entry->{$field});
+        # check value if appliable
+        if ($checks->{$field}) {
+            $self->{logger}->debug(
+                "invalid value $value for field $field for section $section"
+            ) unless $value =~ $checks->{$field};
+        }
+        $entry->{$field} = $value;
     }
+
     # avoid duplicate entries
     if ($params{noDuplicated}) {
         my $md5 = md5_base64(Dumper($entry));
@@ -115,45 +133,11 @@ sub addEntry {
         $self->{seen}->{$section}->{$md5} = 1;
     }
 
+    if ($section eq 'STORAGES') {
+        $entry->{SERIALNUMBER} = $entry->{SERIAL} if !$entry->{SERIALNUMBER}
+    }
+
     push @{$self->{content}{$section}}, $entry;
-}
-
-sub addStorage {
-    my ($self, $storage) = @_;
-
-    my $logger = $self->{logger};
-
-    if (!$storage->{SERIALNUMBER}) {
-        $storage->{SERIALNUMBER} = $storage->{SERIAL}
-    }
-
-    my $filter = '^(SCSI|HDC|IDE|USB|1394|Serial-ATA|SAS)$';
-    if ($storage->{INTERFACE} && $storage->{INTERFACE} !~ /$filter/) {
-        $logger->debug("STORAGES/INTERFACE doesn't match /$filter/, ".
-        "this is not an error but the situation should be improved");
-    }
-
-    $self->addEntry(
-        section => 'STORAGES',
-        entry   => $storage,
-    );
-}
-
-sub addVirtualMachine {
-    my ($self, $machine) = @_;
-
-    my $logger = $self->{logger};
-
-    if (!$machine->{STATUS}) {
-        $logger->error("status not set by ".caller(0));
-    } elsif (!$machine->{STATUS} =~ /(running|idle|paused|shutdown|crashed|dying|off)/) {
-        $logger->error("Unknown status '".$machine->{STATUS}."' from ".caller(0));
-    }
-
-    $self->addEntry(
-        section => 'VIRTUALMACHINES',
-        entry   => $machine,
-    );
 }
 
 sub setGlobalValues {
@@ -399,10 +383,6 @@ ignore entry if already present
 
 =back
 
-=head2 addStorage()
-
-Add a storage system (hard drive, USB key, SAN volume, etc) in the inventory.
-
 =head2 setHardware()
 
 Save global information regarding the machine.
@@ -410,10 +390,6 @@ Save global information regarding the machine.
 =head2 setBios()
 
 Set BIOS informations.
-
-=head2 addVirtualMachine()
-
-Add a Virtual Machine in the inventory.
 
 =head2 setAccessLog()
 

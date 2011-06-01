@@ -43,7 +43,9 @@ sub doInventory {
                     command => "su '$user' -c 'prlctl list -i $uuid'"
                 );
 
-            $inventory->addVirtualMachine($machine);
+            $inventory->addEntry(
+                section => 'VIRTUALMACHINES', entry => $machine
+            );
         }
     }
 }

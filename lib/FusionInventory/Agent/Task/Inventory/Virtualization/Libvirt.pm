@@ -20,7 +20,9 @@ sub doInventory {
     foreach my $machine (_getMachines(
         command => 'virsh list --all', logger => $logger
     )) {
-        $inventory->addVirtualMachine($machine);
+        $inventory->addEntry(
+            section => 'VIRTUALMACHINES', entry => $machine
+        );
     }
 }
 

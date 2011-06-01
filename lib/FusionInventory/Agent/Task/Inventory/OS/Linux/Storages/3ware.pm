@@ -62,7 +62,7 @@ sub doInventory {
                     }
                 }
 
-                $inventory->addStorage($storage);
+                $inventory->addEntry(section => 'STORAGES', entry => $storage);
             }
         }
     }

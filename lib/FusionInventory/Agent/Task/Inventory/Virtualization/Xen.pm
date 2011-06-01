@@ -25,7 +25,9 @@ sub doInventory {
             logger  => $logger
         );
         $machine->{UUID} = $uuid;
-        $inventory->addVirtualMachine($machine);
+        $inventory->addEntry(
+            section => 'VIRTUALMACHINES', entry => $machine
+        );
     }
 }
 

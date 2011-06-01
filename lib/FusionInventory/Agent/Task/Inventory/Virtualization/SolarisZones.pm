@@ -40,18 +40,19 @@ sub doInventory {
 
         my $vcpu = getFirstLine(command => '/usr/sbin/psrinfo -p');
 
-        my $machine = {
-            MEMORY    => $memory,
-            NAME      => $zonename,
-            UUID      => $uuid,
-            STATUS    => $zonestatus,
-            SUBSYSTEM => "Solaris Zones",
-            VMTYPE    => "Solaris Zones",
-            VMID      => $zoneid,
-            VCPU      => $vcpu,
-        };
-
-        $inventory->addVirtualMachine($machine);
+        $inventory->addEntry(
+            section => 'VIRTUALMACHINES',
+            entry => {
+                MEMORY    => $memory,
+                NAME      => $zonename,
+                UUID      => $uuid,
+                STATUS    => $zonestatus,
+                SUBSYSTEM => "Solaris Zones",
+                VMTYPE    => "Solaris Zones",
+                VMID      => $zoneid,
+                VCPU      => $vcpu,
+            }
+        );
     }
 }
 

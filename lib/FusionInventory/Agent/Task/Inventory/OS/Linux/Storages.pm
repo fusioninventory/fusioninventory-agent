@@ -97,7 +97,7 @@ sub doInventory {
             $device->{DISKSIZE} = getDeviceCapacity(device => '/dev/' . $device->{NAME});
         }
 
-        $inventory->addStorage($device);
+        $inventory->addEntry(section => 'STORAGES', entry => $device);
     }
 }
 

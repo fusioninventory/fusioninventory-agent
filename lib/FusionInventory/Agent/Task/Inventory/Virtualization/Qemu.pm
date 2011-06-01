@@ -49,15 +49,18 @@ sub doInventory {
             $mem = 128;
         }
         
-        $inventory->addVirtualMachine ({
-            NAME      => $name,
-            UUID      => $uuid,
-            VCPU      => 1,
-            MEMORY    => $mem,
-            STATUS    => "running",
-            SUBSYSTEM => $vmtype,
-            VMTYPE    => $vmtype,
-        });
+        $inventory->addEntry(
+            section => 'VIRTUALMACHINES',
+            entry => {
+                NAME      => $name,
+                UUID      => $uuid,
+                VCPU      => 1,
+                MEMORY    => $mem,
+                STATUS    => "running",
+                SUBSYSTEM => $vmtype,
+                VMTYPE    => $vmtype,
+            }
+        );
     }
 }
 

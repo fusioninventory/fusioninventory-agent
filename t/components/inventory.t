@@ -12,7 +12,7 @@ use FusionInventory::Agent;
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Logger;
 
-plan tests => 19;
+plan tests => 21;
 
 my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'Test' ],
@@ -159,6 +159,7 @@ is(
     'unknown field logged'
 );
 
+
 $inventory->addEntry(
     section => 'CPUS',
     entry   => {
@@ -247,4 +248,30 @@ is(
     $inventory->{content}->{HARDWARE}->{CHECKSUM},
     513,
     'checksum after drive addition'
+);
+
+$inventory->addEntry(
+    section => 'STORAGES',
+    entry => {
+        INTERFACE => 'foo',
+        SERIAL    => 'bar'
+    }
+);
+
+is(
+    $logger->{backends}->[0]->{message},
+    "invalid value foo for field INTERFACE for section STORAGES",
+    'invalid value logged'
+);
+
+is_deeply(
+    $inventory->{content}->{STORAGES},
+    [
+        {
+            INTERFACE    => 'foo',
+            SERIAL       => 'bar',
+            SERIALNUMBER => 'bar'
+        }
+    ],
+    'drive addition'
 );

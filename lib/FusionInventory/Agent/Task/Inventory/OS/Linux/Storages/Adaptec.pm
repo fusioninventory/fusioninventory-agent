@@ -36,7 +36,7 @@ sub doInventory {
                 logger     => $logger
             )) {
             $disk->{SERIALNUMBER} = getSerialnumber($disk->{device});
-            $inventory->addStorage($disk);
+            $inventory->addEntry(section => 'STORAGES', entry => $disk);
         }
     }
 }

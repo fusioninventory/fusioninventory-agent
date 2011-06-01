@@ -79,7 +79,7 @@ sub doInventory {
                 $storage->{DESCRIPTION} = 'SCSI';
                 $storage->{TYPE} = 'disk';
 
-                $inventory->addStorage($storage);
+                $inventory->addEntry(section => 'STORAGES', entry => $storage);
                 undef $storage;
             }
         }

@@ -52,7 +52,7 @@ sub doInventory {
                 $storage->{MODEL}
             );
 
-            $inventory->addStorage($storage);
+            $inventory->addEntry(section => 'STORAGES', entry => $storage);
         }
         close $handle;
     }

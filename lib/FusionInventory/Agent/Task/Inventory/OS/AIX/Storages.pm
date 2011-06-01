@@ -38,7 +38,7 @@ sub doInventory {
             pattern => qr/Serial Number\.*(.*)/
         );
 
-        $inventory->addStorage($disk);
+        $inventory->addEntry(section => 'STORAGES', entry => $disk);
     }
 
     # FCP disks
@@ -49,7 +49,7 @@ sub doInventory {
         $disk->{MANUFACTURER} = _getManufacturer(infos{$disk->{NAME}});
         $disk->{MODEL}        = _getModel(infos{$disk->{NAME}});
 
-        $inventory->addStorage($disk);
+        $inventory->addEntry(section => 'STORAGES', entry => $disk);
     }
 
     # FDAR disks
@@ -60,7 +60,7 @@ sub doInventory {
         $disk->{MANUFACTURER} = _getManufacturer(infos{$disk->{NAME}});
         $disk->{MODEL}        = _getModel(infos{$disk->{NAME}});
 
-        $inventory->addStorage($disk);
+        $inventory->addEntry(section => 'STORAGES', entry => $disk);
     }
 
     # SAS disks
@@ -71,7 +71,7 @@ sub doInventory {
         $disk->{MANUFACTURER} = _getManufacturer(infos{$disk->{NAME}});
         $disk->{MODEL}        = _getModel(infos{$disk->{NAME}});
 
-        $inventory->addStorage($disk);
+        $inventory->addEntry(section => 'STORAGES', entry => $disk);
     }
 
     # Virtual disks
@@ -101,7 +101,7 @@ sub doInventory {
         $disk->{MODEL} = "Virtual Disk";
         $disk->{DISKSIZE} = $capacity;
 
-        $inventory->addStorage($disk);
+        $inventory->addEntry(section => 'STORAGES', entry => $disk);
     }
 
     # CDROM
@@ -115,7 +115,7 @@ sub doInventory {
         $cdrom->{MANUFACTURER} = _getManufacturer(infos{$cdrom->{NAME}});
         $cdrom->{MODEL}        = _getModel(infos{$cdrom->{NAME}});
 
-        $inventory->addStorage($cdrom);
+        $inventory->addEntry(section => 'STORAGES', entry => $cdrom);
     }
 
     # tapes
@@ -129,7 +129,7 @@ sub doInventory {
         $tape->{MANUFACTURER} = _getManufacturer(infos{$tape->{NAME}});
         $tape->{MODEL}        = _getModel(infos{$tape->{NAME}});
 
-        $inventory->addStorage($tape);
+        $inventory->addEntry(section => 'STORAGES', entry => $tape);
     }
 
     # floppies
@@ -139,7 +139,7 @@ sub doInventory {
     )) {
         $floppy->{TYPE} = 'floppy';
 
-        $inventory->addStorage($floppy);
+        $inventory->addEntry(section => 'STORAGES', entry => $floppy);
     }
 }
 
