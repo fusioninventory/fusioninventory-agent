@@ -5,24 +5,18 @@ use warnings;
 
 use XML::TreePP;
 
-use FusionInventory::Agent::Logger;
-
 sub new {
     my ($class, %params) = @_;
 
     die "no deviceid parameter" unless $params{deviceid};
+    die "no query parameter" unless $params{query};
 
-    my $self = {
-        logger   => $params{logger} ||
-                    FusionInventory::Agent::Logger->new(),
-        deviceid => $params{deviceid}
-    };
+    my $self = {};
     bless $self, $class;
 
-    $self->{h} = {
-        DEVICEID => $params{deviceid}
-    };
-
+    foreach my $key (keys %params) {
+        $self->{h}->{uc($key)} = $params{$key};
+    }
     return $self;
 }
 
@@ -46,7 +40,6 @@ sub setAccountInfo {
         }
     }
 }
-
 
 1;
 

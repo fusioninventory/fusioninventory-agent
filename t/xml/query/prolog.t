@@ -2,6 +2,7 @@
 
 use strict;
 use warnings;
+
 use Test::More;
 use Test::Exception;
 use XML::TreePP;
@@ -17,29 +18,29 @@ throws_ok {
 
 throws_ok {
     $message = FusionInventory::Agent::XML::Query::Prolog->new(
-        token    => 'foo'
+        token => 'foo'
     );
 } qr/^no deviceid/, 'no device id';
 
 lives_ok {
     $message = FusionInventory::Agent::XML::Query::Prolog->new(
-        deviceid => 'foo',
         token    => 'foo',
+        deviceid => 'foo',
     );
 } 'everything OK';
 
 isa_ok($message, 'FusionInventory::Agent::XML::Query::Prolog');
 
 my $tpp = XML::TreePP->new();
-my $content = {
-    REQUEST => {
-        DEVICEID => 'foo',
-        QUERY => 'PROLOG',
-        TOKEN => 'foo',
-    }
-};
+
 is_deeply(
     scalar $tpp->parse($message->getContent()),
-    $content,
+    {
+        REQUEST => {
+            DEVICEID => 'foo',
+            QUERY    => 'PROLOG',
+            TOKEN    => 'foo',
+        }
+    },
     'expected content'
 );
