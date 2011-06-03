@@ -76,7 +76,6 @@ sub new {
 
     my $self = {
         logger         => $params{logger},
-        last_statefile => $params{last_statefile},
         fields         => \%fields,
         content        => {
             HARDWARE => {
@@ -88,6 +87,9 @@ sub new {
         }
     };
     bless $self, $class;
+    
+    $self->{last_state_file} = $params{statedir} . '/last_state'
+        if $params{statedir};
 
     return $self;
 }
@@ -283,14 +285,14 @@ sub processChecksum {
 
     my $checksum = 0;
 
-    if ($self->{last_statefile}) {
-        if (-f $self->{last_statefile}) {
+    if ($self->{last_state_file}) {
+        if (-f $self->{last_state_file}) {
             $self->{last_state_content} = XML::TreePP->parsefile(
-                $self->{last_statefile}
+                $self->{last_state_file}
             );
         } else {
             $logger->debug(
-                "last state file '$self->{last_statefile}' doesn't exist"
+                "last state file '$self->{last_state_file}' doesn't exist"
             );
         }
     }
@@ -321,9 +323,9 @@ sub saveLastState {
         $self->processChecksum();
     }
 
-    if ($self->{last_statefile}) {
+    if ($self->{last_state_file}) {
         XML::TreePP->new()->writefile(
-            $self->{last_state_content}, $self->{last_statefile}
+            $self->{last_state_content}, $self->{last_state_file}
         );
     } else {
         $logger->debug(
@@ -356,9 +358,9 @@ from the base class C<FusionInventory::Agent::XML::Query>, as keys of the
 
 =over
 
-=item I<last_statefile>
+=item I<statedir>
 
-a path to a file containing the last serialized inventory
+a path to a writable directory containing the last serialized inventory
 
 =back
 

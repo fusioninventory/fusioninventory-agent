@@ -65,7 +65,6 @@ sub _init {
         localtime($self->{nextRunDate})
     );
 
-    $self->{last_statefile} = $params{vardir} . "/last_state";
 }
 
 sub getStorage {

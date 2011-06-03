@@ -40,9 +40,9 @@ sub run {
     $self->{modules} = {};
 
     my $inventory = FusionInventory::Agent::Inventory->new(
-        deviceid        => $self->{deviceid},
-        last_statefile  => $self->{target}->{last_statefile},
-        logger          => $self->{logger},
+        deviceid => $self->{deviceid},
+        statedir => $self->{target}->getStorage()->getDirectory(),
+        logger   => $self->{logger},
     );
 
     # Turn off localised output for commands
