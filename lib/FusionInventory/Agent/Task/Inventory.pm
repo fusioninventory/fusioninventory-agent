@@ -306,7 +306,7 @@ sub _runFunction {
 
     if ($EVAL_ERROR) {
         if ($EVAL_ERROR ne "alarm\n") {
-            $logger->debug("_runFunction(): unexpected error: $EVAL_ERROR");
+            $logger->debug("unexpected error in $module: $EVAL_ERROR");
         } else {
             $logger->debug("$module killed by a timeout.");
         }
