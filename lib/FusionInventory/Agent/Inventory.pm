@@ -79,7 +79,6 @@ sub new {
         fields         => \%fields,
         content        => {
             HARDWARE => {
-                # TODO move that in a backend module
                 ARCHNAME => $Config{archname},
                 VMSYSTEM => "Physical" # Default value
             },
