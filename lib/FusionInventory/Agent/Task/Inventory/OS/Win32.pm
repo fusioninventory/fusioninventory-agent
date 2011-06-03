@@ -7,7 +7,7 @@ use English qw(-no_match_vars);
 
 our $runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Generic"];
 
-sub isInventoryEnabled {
+sub isEnabled {
     return $OSNAME eq 'MSWin32';
 }
 

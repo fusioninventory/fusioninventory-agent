@@ -14,7 +14,7 @@ use FusionInventory::Agent::Tools::Linux;
 #
 # Adaptec AAC-RAID
 
-sub isInventoryEnabled {
+sub isEnabled {
     return -r '/proc/scsi/scsi';
 }
 
@@ -36,7 +36,7 @@ sub doInventory {
                 logger     => $logger
             )) {
             $disk->{SERIALNUMBER} = getSerialnumber($disk->{device});
-            $inventory->addStorage($disk);
+            $inventory->addEntry(section => 'STORAGES', entry => $disk);
         }
     }
 }

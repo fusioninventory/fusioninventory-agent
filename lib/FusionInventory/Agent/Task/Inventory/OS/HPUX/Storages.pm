@@ -5,7 +5,7 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled  {
+sub isEnabled  {
     return
         can_run('ioscan')    &&
         can_run('cut')       &&
@@ -37,14 +37,14 @@ sub doInventory {
         }
 
         $device->{TYPE} = 'disk';
-        $inventory->addStorage($device);
+        $inventory->addEntry(section => 'STORAGES', entry => $device);
     }
 
     foreach my $device (
         _parseIoscan(command => 'ioscan -kFnC tape', logger => $logger)
     ) {
         $device->{TYPE} = 'tape';
-        $inventory->addStorage($device);
+        $inventory->addEntry(section => 'STORAGES', entry => $device);
     }
 
 }

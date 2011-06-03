@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 use English qw(-no_match_vars);
 
-sub isInventoryEnabled { 
+sub isEnabled { 
     return 1;
 }
 

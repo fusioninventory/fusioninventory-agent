@@ -8,7 +8,7 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Linux;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return 1;
 }
 
@@ -97,7 +97,7 @@ sub doInventory {
             $device->{DISKSIZE} = getDeviceCapacity(device => '/dev/' . $device->{NAME});
         }
 
-        $inventory->addStorage($device);
+        $inventory->addEntry(section => 'STORAGES', entry => $device);
     }
 }
 

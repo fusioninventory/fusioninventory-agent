@@ -5,7 +5,7 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return can_run('vserver');
 }
 
@@ -18,7 +18,7 @@ sub doInventory {
     foreach my $machine (_getMachines(
         command => 'vserver-info', logger => $logger
     )) {
-        $inventory->addVirtualMachine($machine);
+        $inventory->addEntry(section => 'VIRTUALMACHINES', entry => $machine);
     }
 }
 

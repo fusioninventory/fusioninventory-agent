@@ -71,7 +71,7 @@ my @memoryErrorProtection = (
     'CRC',
 );
 
-sub isInventoryEnabled {
+sub isEnabled {
     return 1;
 }
 

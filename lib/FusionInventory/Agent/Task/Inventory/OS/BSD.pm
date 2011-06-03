@@ -9,7 +9,7 @@ use FusionInventory::Agent::Tools;
 
 our $runAfter = ["FusionInventory::Agent::Task::Inventory::OS::Generic"];
 
-sub isInventoryEnabled {
+sub isEnabled {
     return $OSNAME =~ /freebsd|openbsd|netbsd|gnukfreebsd|gnuknetbsd|dragonfly/;
 }
 

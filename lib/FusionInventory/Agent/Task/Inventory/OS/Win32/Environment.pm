@@ -5,7 +5,7 @@ use warnings;
 
 use FusionInventory::Agent::Tools::Win32;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return 1;
 }
 

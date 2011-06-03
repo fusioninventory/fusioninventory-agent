@@ -7,7 +7,7 @@ use FusionInventory::Agent::Regexp;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return 
         can_run('ifconfig') &&
         can_run('route');

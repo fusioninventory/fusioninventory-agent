@@ -8,7 +8,7 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::HPUX;
 
-sub isInventoryEnabled  { 
+sub isEnabled  { 
     return 1;
 }
 

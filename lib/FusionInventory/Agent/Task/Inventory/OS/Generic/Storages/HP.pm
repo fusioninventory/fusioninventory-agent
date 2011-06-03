@@ -51,7 +51,7 @@ sub _getHpacuacliFromWinRegistry {
     return $hpacuacliPath;
 }
 
-sub isInventoryEnabled {
+sub isEnabled {
     return
         can_run('hpacucli') ||
         _getHpacuacliFromWinRegistry();
@@ -143,16 +143,19 @@ sub doInventory {
                 $media = 'disk';
             }
 
-            $inventory->addStorage({
-                NAME => $model,
-                MANUFACTURER => $manufacturer,
-                MODEL => $model,
-                DESCRIPTION => $description,
-                TYPE => $media,
-                DISKSIZE => $capacity,
-                SERIALNUMBER => $serialnumber,
-                FIRMWARE => $firmware
-            }); 
+            $inventory->addEntry(
+                section => 'STORAGES',
+                entry   => {
+                    NAME         => $model,
+                    MANUFACTURER => $manufacturer,
+                    MODEL        => $model,
+                    DESCRIPTION  => $description,
+                    TYPE         => $media,
+                    DISKSIZE     => $capacity,
+                    SERIALNUMBER => $serialnumber,
+                    FIRMWARE     => $firmware
+                }
+            ); 
         }
         close $handle2;
     }

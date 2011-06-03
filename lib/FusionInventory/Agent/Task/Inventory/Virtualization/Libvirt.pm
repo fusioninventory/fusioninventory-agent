@@ -7,7 +7,7 @@ use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return can_run('virsh');
 }
 
@@ -20,7 +20,9 @@ sub doInventory {
     foreach my $machine (_getMachines(
         command => 'virsh list --all', logger => $logger
     )) {
-        $inventory->addVirtualMachine($machine);
+        $inventory->addEntry(
+            section => 'VIRTUALMACHINES', entry => $machine
+        );
     }
 }
 

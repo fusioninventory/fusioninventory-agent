@@ -5,7 +5,7 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return -r '/etc/fstab';
 }
 
@@ -48,12 +48,15 @@ sub doInventory {
             $model =~ s/(\s|,)*$//;
         }
 
-        $inventory->addStorage({
-            MANUFACTURER => $manufacturer,
-            MODEL => $model,
-            DESCRIPTION => $device,
-            DISKSIZE => $capacity
-        });
+        $inventory->addEntry(
+            section => 'STORAGES',
+            entry   => {
+                MANUFACTURER => $manufacturer,
+                MODEL => $model,
+                DESCRIPTION => $device,
+                DISKSIZE => $capacity
+            }
+        );
     }
 }
 

@@ -7,7 +7,7 @@ use Config;
 
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return $Config{archname} =~ /^IP\d+/;
 }
 

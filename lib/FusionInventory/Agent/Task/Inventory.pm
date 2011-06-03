@@ -9,6 +9,7 @@ use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::XML::Query::Inventory;
 
 our $VERSION = '1.0';
@@ -38,7 +39,7 @@ sub run {
 
     $self->{modules} = {};
 
-    my $inventory = FusionInventory::Agent::XML::Query::Inventory->new(
+    my $inventory = FusionInventory::Agent::Inventory->new(
         deviceid        => $self->{deviceid},
         last_statefile  => $self->{target}->{last_statefile},
         logger          => $self->{logger},
@@ -59,11 +60,15 @@ sub run {
     $self->_feedInventory();
 
     if ($self->{target}->isa('FusionInventory::Agent::Target::Stdout')) {
-        print $inventory->getContent();
+        $self->_printInventory(
+            inventory => $inventory,
+            handle    => \*STDOUT,
+            format    => 'xml'
+        );
     } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
         my $format = $self->{target}->{format};
 
-        my $extension = $format eq 'XML' ? '.ocs' : '.html';
+        my $extension = $format eq 'xml' ? '.ocs' : '.html';
         my $file =
             $self->{config}->{local} .
             "/" .
@@ -71,8 +76,11 @@ sub run {
             $extension;
 
         if (open my $handle, '>', $file) {
-            print $handle $format eq 'XML' ?
-                $inventory->getContent() : $inventory->getContentAsHTML();
+            $self->_printInventory(
+                inventory => $inventory,
+                handle    => $handle,
+                format    => $format
+            );
             close $handle;
             $self->{logger}->info("Inventory saved in $file");
         } else {
@@ -85,9 +93,14 @@ sub run {
             $self->{target}->getAccountInfo()
         );
 
+        my $message = FusionInventory::Agent::XML::Query::Inventory->new(
+            deviceid => $self->{deviceid},
+            content  => $inventory->getContent()
+        );
+
         my $response = $self->{client}->send(
             url     => $self->{target}->getUrl(),
-            message => $inventory
+            message => $message
         );
 
         return unless $response;
@@ -152,7 +165,7 @@ sub _initModulesList {
 
         my $enabled = $self->_runFunction({
             module   => $module,
-            function => "isInventoryEnabled",
+            function => "isEnabled",
             timeout  => $config->{'backend-collect-timeout'}
         });
         if (!$enabled) {
@@ -234,8 +247,6 @@ sub _runModule {
 sub _feedInventory {
     my ($self, $params) = @_;
 
-    my $logger = $self->{logger};
-
     my $inventory = $self->{inventory};
 
     my $begin = time();
@@ -294,6 +305,42 @@ sub _runFunction {
     }
 
     return $result;
+}
+
+sub _printInventory {
+    my ($self, %params) = @_;
+
+    SWITCH: {
+        if ($params{format} eq 'xml') {
+
+            my $tpp = XML::TreePP->new(indent => 2);
+            print {$params{handle}} $tpp->write({
+                REQUEST => $params{inventory}->{content}
+            });
+
+            last SWITCH;
+        }
+
+        if ($params{format} eq 'html') {
+
+            my $template = Text::Template->new(
+                TYPE => 'FILE', SOURCE => "$self->{datadir}/html/inventory.tpl"
+            );
+
+             my $hash = {
+                version  => $FusionInventory::Agent::VERSION,
+                deviceid => $params{inventory}->{deviceid},
+                data     => $params{inventory}->{content},
+                fields   => $params{inventory}->{fields},
+            };
+
+            print {$params{handle}} $template->fill_in(HASH => $hash);
+
+            last SWITCH;
+        }
+
+        die "unknown format $params{format}";
+    }
 }
 
 1;

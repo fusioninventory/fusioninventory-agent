@@ -11,7 +11,7 @@ use FusionInventory::Agent::Tools;
 our $runMeIfTheseChecksFailed =
     ["FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode"];
 
-sub isInventoryEnabled{
+sub isEnabled{
     return 
         $Config{archname} eq 'i386' || 
         $Config{archname} eq 'x86_64';

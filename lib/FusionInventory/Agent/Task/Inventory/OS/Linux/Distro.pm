@@ -3,7 +3,7 @@ package FusionInventory::Agent::Task::Inventory::OS::Linux::Distro;
 use strict;
 use warnings;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return 1;
 }
 

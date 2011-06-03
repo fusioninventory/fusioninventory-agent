@@ -5,7 +5,7 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled {
+sub isEnabled {
     my $boottime = getFirstLine(command => 'sysctl -n kern.boottime');
     return $boottime;
 }

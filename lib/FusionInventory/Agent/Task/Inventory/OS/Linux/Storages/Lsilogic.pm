@@ -14,7 +14,7 @@ use FusionInventory::Agent::Tools::Linux;
 #
 # mpt-status version : 1.2.0
 
-sub isInventoryEnabled {
+sub isEnabled {
     return can_run('mpt-status');
 }
 
@@ -52,7 +52,7 @@ sub doInventory {
                 $storage->{MODEL}
             );
 
-            $inventory->addStorage($storage);
+            $inventory->addEntry(section => 'STORAGES', entry => $storage);
         }
         close $handle;
     }

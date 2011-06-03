@@ -13,7 +13,7 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled { 
+sub isEnabled { 
     my (%params) = @_;
 
     return

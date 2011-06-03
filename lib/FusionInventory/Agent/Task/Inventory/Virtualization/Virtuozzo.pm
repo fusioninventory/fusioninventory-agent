@@ -5,7 +5,7 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return can_run('vzlist');
 }
 
@@ -37,15 +37,18 @@ sub doInventory {
         );
         $memory = $memory / 1024 / 1024 if $memory;
  
-        $inventory->addVirtualMachine({
-            NAME      => $name,
-            VCPU      => $cpus,
-            UUID      => $uuid,
-            MEMORY    => $memory,
-            STATUS    => $status,
-            SUBSYSTEM => $subsys,
-            VMTYPE    => "Virtuozzo",
-        });
+        $inventory->addEntry(
+            section => 'VIRTUALMACHINES',
+            entry => {
+                NAME      => $name,
+                VCPU      => $cpus,
+                UUID      => $uuid,
+                MEMORY    => $memory,
+                STATUS    => $status,
+                SUBSYSTEM => $subsys,
+                VMTYPE    => "Virtuozzo",
+            }
+        );
 
     }
 

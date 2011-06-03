@@ -15,7 +15,7 @@ Win32::OLE-> Option(CP=>CP_UTF8);
 
 
 # http://techtasks.com/code/viewbookcode/1417
-sub isInventoryEnabled {
+sub isEnabled {
     return 1;
 }
 

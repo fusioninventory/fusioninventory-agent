@@ -33,7 +33,7 @@ my @chassisType = (
     'Sealed-Case PC'
 );
 
-sub isInventoryEnabled {
+sub isEnabled {
     return 1;
 }
 

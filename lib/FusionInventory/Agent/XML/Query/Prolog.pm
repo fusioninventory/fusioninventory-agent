@@ -9,12 +9,11 @@ sub new {
 
     die "no token parameter" unless $params{token};
 
-    my $self = $class->SUPER::new(%params);
+    return $class->SUPER::new(
+        query => 'PROLOG',
+        %params
+    );
 
-    $self->{h}->{QUERY} = 'PROLOG';
-    $self->{h}->{TOKEN} = $params{token};
-
-    return $self;
 }
 
 1;

@@ -27,7 +27,7 @@ use MIME::Base64;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Screen;
 
-sub isInventoryEnabled {
+sub isEnabled {
 
     return
         $OSNAME eq 'MSWin32'                  ||

@@ -6,7 +6,7 @@ use warnings;
 # Had never been tested. There is no slot on my virtal machine.
 use FusionInventory::Agent::Tools::Win32;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return 1;
 }
 

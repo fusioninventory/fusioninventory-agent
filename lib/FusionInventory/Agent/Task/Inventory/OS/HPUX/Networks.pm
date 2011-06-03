@@ -8,7 +8,7 @@ use FusionInventory::Agent::Regexp;
 
 #TODO Get driver pcislot virtualdev
 
-sub isInventoryEnabled {
+sub isEnabled {
     return 
         can_run('lanadmin') &&
         can_run('lanscan') &&

@@ -7,7 +7,7 @@ use FusionInventory::Agent::Tools;
 
 our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt"];
 
-sub isInventoryEnabled {
+sub isEnabled {
     return can_run('xm');
 }
 
@@ -25,7 +25,9 @@ sub doInventory {
             logger  => $logger
         );
         $machine->{UUID} = $uuid;
-        $inventory->addVirtualMachine($machine);
+        $inventory->addEntry(
+            section => 'VIRTUALMACHINES', entry => $machine
+        );
     }
 }
 

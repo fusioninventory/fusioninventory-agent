@@ -7,7 +7,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return 
         can_run('qemu') ||
         can_run('kvm')  ||
@@ -49,15 +49,18 @@ sub doInventory {
             $mem = 128;
         }
         
-        $inventory->addVirtualMachine ({
-            NAME      => $name,
-            UUID      => $uuid,
-            VCPU      => 1,
-            MEMORY    => $mem,
-            STATUS    => "running",
-            SUBSYSTEM => $vmtype,
-            VMTYPE    => $vmtype,
-        });
+        $inventory->addEntry(
+            section => 'VIRTUALMACHINES',
+            entry => {
+                NAME      => $name,
+                UUID      => $uuid,
+                VCPU      => 1,
+                MEMORY    => $mem,
+                STATUS    => "running",
+                SUBSYSTEM => $vmtype,
+                VMTYPE    => $vmtype,
+            }
+        );
     }
 }
 

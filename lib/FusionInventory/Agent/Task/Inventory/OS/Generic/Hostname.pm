@@ -9,7 +9,7 @@ use Sys::Hostname;
 
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled {
+sub isEnabled {
     # We use WMI for Windows because of charset issue
     return $OSNAME ne 'MSWin32';
 }

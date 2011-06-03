@@ -8,7 +8,7 @@ use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools::Win32;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return 1;
 }
 

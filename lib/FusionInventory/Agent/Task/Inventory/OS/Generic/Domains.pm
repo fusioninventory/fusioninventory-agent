@@ -7,7 +7,7 @@ use Sys::Hostname;
 
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled {
+sub isEnabled {
     my $hostname = hostname();
 
     return 

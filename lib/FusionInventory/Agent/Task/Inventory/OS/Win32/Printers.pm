@@ -42,7 +42,7 @@ my @errStatus = (
     'Server Unknown',
 );
 
-sub isInventoryEnabled {
+sub isEnabled {
     my (%params) = @_;
     return !$params{no_printer};
 }

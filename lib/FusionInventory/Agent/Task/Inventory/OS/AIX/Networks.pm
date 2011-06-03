@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Regexp;
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return
         can_run('lscfg') ||
         can_run('ifconfig');

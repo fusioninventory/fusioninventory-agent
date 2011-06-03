@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return can_run('hdparm');
 }
 
@@ -32,21 +32,24 @@ sub doInventory {
         $object->{Size} = int($object->{Size} / (1024 * 1024))
             if $object->{Size};
 
-        $inventory->addStorage({
-            MANUFACTURER => $object->{Manufacturer},
-            MODEL        => $info->{model} || $object->{Model},
-            DESCRIPTION  => $object->{Description},
-            NAME         => $object->{Name},
-            TYPE         => $object->{MediaType},
-            INTERFACE    => $object->{InterfaceType},
-            FIRMWARE     => $info->{firmware} || $object->{FirmwareRevision},
-            SERIAL       => $info->{serial} || $object->{SerialNumber},
-            DISKSIZE     => $info->{size} || $object->{Size},
-            SCSI_CHID    => $object->{SCSILogicialUnit},
-            SCSI_COID    => $object->{SCSIPort},
-            SCSI_LUN     => $object->{SCSILogicalUnit},
-            SCSI_UNID    => $object->{SCSITargetId},
-        });
+        $inventory->addEntry(
+            section => 'STORAGES',
+            entry => {
+                MANUFACTURER => $object->{Manufacturer},
+                MODEL        => $info->{model} || $object->{Model},
+                DESCRIPTION  => $object->{Description},
+                NAME         => $object->{Name},
+                TYPE         => $object->{MediaType},
+                INTERFACE    => $object->{InterfaceType},
+                FIRMWARE     => $info->{firmware} || $object->{FirmwareRevision},
+                SERIAL       => $info->{serial} || $object->{SerialNumber},
+                DISKSIZE     => $info->{size} || $object->{Size},
+                SCSI_CHID    => $object->{SCSILogicialUnit},
+                SCSI_COID    => $object->{SCSIPort},
+                SCSI_LUN     => $object->{SCSILogicalUnit},
+                SCSI_UNID    => $object->{SCSITargetId},
+            }
+        );
     }
 
     foreach my $object (getWmiObjects(
@@ -66,21 +69,24 @@ sub doInventory {
         $object->{Size} = int($object->{Size} / (1024 * 1024))
             if $object->{Size};
 
-        $inventory->addStorage({
-            MANUFACTURER => $object->{Manufacturer},
-            MODEL        => $info->{model} || $object->{Caption},
-            DESCRIPTION  => $object->{Description},
-            NAME         => $object->{Name},
-            TYPE         => $object->{MediaType},
-            INTERFACE    => $object->{InterfaceType},
-            FIRMWARE     => $info->{firmware} || $object->{FirmwareRevision},
-            SERIAL       => $info->{serial} || $object->{SerialNumber},
-            DISKSIZE     => $info->{size} || $object->{Size},
-            SCSI_CHID    => $object->{SCSILogicialUnit},
-            SCSI_COID    => $object->{SCSIPort},
-            SCSI_LUN     => $object->{SCSILogicalUnit},
-            SCSI_UNID    => $object->{SCSITargetId},
-        });
+        $inventory->addEntry(
+            section => 'STORAGES',
+            entry => {
+                MANUFACTURER => $object->{Manufacturer},
+                MODEL        => $info->{model} || $object->{Caption},
+                DESCRIPTION  => $object->{Description},
+                NAME         => $object->{Name},
+                TYPE         => $object->{MediaType},
+                INTERFACE    => $object->{InterfaceType},
+                FIRMWARE     => $info->{firmware} || $object->{FirmwareRevision},
+                SERIAL       => $info->{serial} || $object->{SerialNumber},
+                DISKSIZE     => $info->{size} || $object->{Size},
+                SCSI_CHID    => $object->{SCSILogicialUnit},
+                SCSI_COID    => $object->{SCSIPort},
+                SCSI_LUN     => $object->{SCSILogicalUnit},
+                SCSI_UNID    => $object->{SCSITargetId},
+            }
+        );
     }
 
     foreach my $object (getWmiObjects(
@@ -95,22 +101,24 @@ sub doInventory {
         $object->{Size} = int($object->{Size} / (1024 * 1024))
             if $object->{Size};
 
-        $inventory->addStorage({
-            MANUFACTURER => $object->{Manufacturer},
-            MODEL        => $object->{Caption},
-            DESCRIPTION  => $object->{Description},
-            NAME         => $object->{Name},
-            TYPE         => $object->{MediaType},
-            INTERFACE    => $object->{InterfaceType},
-            FIRMWARE     => $object->{FirmwareRevision},
-            SERIAL       => $object->{SerialNumber},
-            DISKSIZE     => $object->{Size},
-            SCSI_CHID    => $object->{SCSILogicialUnit},
-            SCSI_COID    => $object->{SCSIPort},
-            SCSI_LUN     => $object->{SCSILogicalUnit},
-            SCSI_UNID    => $object->{SCSITargetId},
-        });
-
+        $inventory->addEntry(
+            section => 'STORAGES',
+            entry => {
+                MANUFACTURER => $object->{Manufacturer},
+                MODEL        => $object->{Caption},
+                DESCRIPTION  => $object->{Description},
+                NAME         => $object->{Name},
+                TYPE         => $object->{MediaType},
+                INTERFACE    => $object->{InterfaceType},
+                FIRMWARE     => $object->{FirmwareRevision},
+                SERIAL       => $object->{SerialNumber},
+                DISKSIZE     => $object->{Size},
+                SCSI_CHID    => $object->{SCSILogicialUnit},
+                SCSI_COID    => $object->{SCSIPort},
+                SCSI_LUN     => $object->{SCSILogicalUnit},
+                SCSI_UNID    => $object->{SCSITargetId},
+            }
+        );
     }
 }
 

@@ -21,7 +21,7 @@ my @hives = qw/
     HKEY_DYN_DATA
 /; 
 
-sub isInventoryEnabled {
+sub isEnabled {
     my (%params) = @_;
 
     my $prologresp = $params{prologresp};

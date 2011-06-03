@@ -5,7 +5,7 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
-sub isInventoryEnabled {
+sub isEnabled {
     return 1;
 }
 
@@ -46,16 +46,19 @@ sub doInventory {
             $model =~ s/\s*$manufacturer\s*//i;
         }
 
-        $inventory->addStorage({
-            NAME => $device->{'Name'},
-            SERIAL => $device->{'Serial Number'},
-            DISKSIZE => $size,
-            FIRMWARE => $device->{'Revision'},
-            MANUFACTURER => $manufacturer,
-            DESCRIPTION => $description,
-            MODEL => $model,
-            TYPE => $device->{'Type'}
-        });
+        $inventory->addEntry(
+            section => 'STORAGES',
+            entry   => {
+                NAME         => $device->{'Name'},
+                SERIAL       => $device->{'Serial Number'},
+                DISKSIZE     => $size,
+                FIRMWARE     => $device->{'Revision'},
+                MANUFACTURER => $manufacturer,
+                DESCRIPTION  => $description,
+                MODEL        => $model,
+                TYPE         => $device->{'Type'}
+            }
+        );
     }
 
 

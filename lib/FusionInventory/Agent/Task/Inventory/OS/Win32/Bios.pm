@@ -16,7 +16,7 @@ use FusionInventory::Agent::Tools::Win32;
 our $runMeIfTheseChecksFailed =
     ["FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Bios"];
 
-sub isInventoryEnabled {
+sub isEnabled {
     return 1;
 }
 

@@ -15,7 +15,7 @@ sub new {
 
     $self->{path} = $params{path};
 
-    $self->{format} = $params{html} ? 'HTML' :'XML';
+    $self->{format} = $params{html} ? 'html' :'xml';
 
     $self->_init(
         id     => 'local' . $count++,
