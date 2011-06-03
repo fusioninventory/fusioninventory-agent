@@ -44,7 +44,6 @@ sub run {
         last_statefile  => $self->{target}->{last_statefile},
         logger          => $self->{logger},
     );
-    $self->{inventory} = $inventory;
 
     # Turn off localised output for commands
     $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
@@ -57,7 +56,7 @@ sub run {
     }
 
     $self->_initModulesList();
-    $self->_feedInventory();
+    $self->_feedInventory($inventory);
 
     if ($self->{target}->isa('FusionInventory::Agent::Target::Stdout')) {
         $self->_printInventory(
@@ -89,7 +88,7 @@ sub run {
     } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
 
         # Add target ACCOUNTINFO values to the inventory
-        $self->{inventory}->setAccountInfo(
+        $inventory->setAccountInfo(
             $self->{target}->getAccountInfo()
         );
 
@@ -170,7 +169,6 @@ sub _initModulesList {
             params => {
                 confdir       => $self->{confdir},
                 datadir       => $self->{datadir},
-                inventory     => $self->{inventory},
                 logger        => $self->{logger},
                 prologresp    => $self->{prologresp},
                 no_software   => $self->{config}->{no_software},
@@ -221,7 +219,7 @@ sub _initModulesList {
 }
 
 sub _runModule {
-    my ($self, $module) = @_;
+    my ($self, $module, $inventory) = @_;
 
     my $logger = $self->{logger};
 
@@ -240,7 +238,7 @@ sub _runModule {
         die "circular dependency between $module and $other_module"
             if $self->{modules}->{$other_module}->{used};
 
-        $self->_runModule($other_module);
+        $self->_runModule($other_module, $inventory);
     }
 
     $logger->debug ("Running $module");
@@ -252,7 +250,7 @@ sub _runModule {
         params => {
             confdir       => $self->{confdir},
             datadir       => $self->{datadir},
-            inventory     => $self->{inventory},
+            inventory     => $inventory,
             logger        => $self->{logger},
             prologresp    => $self->{prologresp},
             no_software   => $self->{config}->{no_software},
@@ -265,9 +263,7 @@ sub _runModule {
 }
 
 sub _feedInventory {
-    my ($self, $params) = @_;
-
-    my $inventory = $self->{inventory};
+    my ($self, $inventory) = @_;
 
     my $begin = time();
     my @modules =
@@ -275,7 +271,7 @@ sub _feedInventory {
         keys %{$self->{modules}};
 
     foreach my $module (sort @modules) {
-        $self->_runModule($module);
+        $self->_runModule($module, $inventory);
     }
 
     # Execution time
