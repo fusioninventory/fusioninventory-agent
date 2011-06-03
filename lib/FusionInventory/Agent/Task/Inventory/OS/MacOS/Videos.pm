@@ -4,11 +4,72 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
-
+use FusionInventory::Agent::Tools::MacOS;
 sub isInventoryEnabled {
     return
-        -r '/usr/sbin/system_profiler' &&
-        can_load("Mac::SysProfile");
+        -r '/usr/sbin/system_profiler'
+}
+
+
+sub _getDisplays {
+    my $infos = getSystemProfilerInfos(@_);
+
+    my $monitors = [];
+    my $videos = [];
+
+    foreach my $videoName (keys %{$infos->{'Graphics/Displays'}}) {
+        my $videoCardInfo = $infos->{'Graphics/Displays'}{$videoName};
+
+        my $displays = {};
+        foreach my $displayName (keys %{$videoCardInfo->{Displays}}) {
+            next if $displayName =~ /^Display Connector$/;
+            next if $displayName =~ /^Display$/;
+            my $displayInfo = $videoCardInfo->{Displays}{$displayName};
+
+
+            my $resolution = $displayInfo->{Resolution};
+            if ($resolution) {
+                $resolution =~ s/\ //g;
+                $resolution =~ s/\@.*//g;
+            }
+
+            my $memory = $videoCardInfo->{'VRAM (Total)'};
+            $memory =~ s/\ .*//g if $memory;
+
+
+
+#            use Data::Dumper;
+#            print "display-BEGIN-\n";
+#            print Dumper($displayInfo);
+#            print "display-END-\n";
+#            print "video-BEGIN-\n";
+#            print Dumper($videoCardInfo);
+#            print "video-END-\n";
+
+
+
+            push @$videos, {
+                CHIPSET => $videoCardInfo->{'Chipset Model'},
+                MEMORY => $memory,
+                NAME => $videoName,
+                RESOLUTION => $resolution,
+                PCISLOT => $videoCardInfo->{Slot}
+            };
+
+            push @$monitors, {
+                CAPTION => $displayName,
+                DESCRIPTION => $displayName,
+                MANUFACTURER => '',
+                SERIAL => '',
+            }
+        }
+    }
+
+    return (
+        MONITORS => $monitors,
+        VIDEOS => $videos
+    );
+
 }
 
 sub doInventory {
@@ -16,41 +77,15 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $prof = Mac::SysProfile->new();
-    my $info = $prof->gettype('SPDisplaysDataType');
-    return unless ref $info eq 'HASH';
-
-    # add the video information
-    foreach my $x (keys %$info){
-        my $memory = $info->{$x}->{'VRAM (Total)'};
-        $memory =~ s/ MB$//;
-        $inventory->addEntry(
-            section => 'VIDEOS',
-            entry   => { 
-                NAME    => $x,
-                CHIPSET => $info->{$x}->{'Chipset Model'},
-                MEMORY  => $memory,
-            },
-            noDuplicated => 1
-        );
-
-        # this doesn't work yet, need to fix the Mac::SysProfile module to not be such a hack (parser only goes down one level)
-        # when we do fix it, it will attach the displays that sysprofiler shows in a tree form
-        # apple "xml" blows. Hard.
-        foreach my $display (keys %{$info->{$x}}){
-            my $ref = $info->{$x}->{$display};
-            next unless ref $ref eq 'HASH';
-
+    my %displays = _getDisplays();
+    foreach my $section (keys %displays ) {
+        foreach (@{$displays{$section}}) {
             $inventory->addEntry(
-                section => 'MONITORS',
-                entry   => {
-                    CAPTION     => $ref->{'Resolution'},
-                    DESCRIPTION => $display,
-                }
-            )
+                    section => $section,
+                    entry   => $_,
+                    );
         }
     }
-
 }
 
 1;
