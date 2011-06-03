@@ -1,0 +1,1 @@
+vgs --noheading --nosuffix --units M -o +vg_uuid,vg_extent_size,pv_uuid
