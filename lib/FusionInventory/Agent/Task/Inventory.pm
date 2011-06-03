@@ -163,11 +163,21 @@ sub _initModulesList {
             next;
         }
 
-        my $enabled = $self->_runFunction({
+        my $enabled = $self->_runFunction(
             module   => $module,
             function => "isEnabled",
-            timeout  => $config->{'backend-collect-timeout'}
-        });
+            timeout  => $config->{'backend-collect-timeout'},
+            params => {
+                confdir       => $self->{confdir},
+                datadir       => $self->{datadir},
+                inventory     => $self->{inventory},
+                logger        => $self->{logger},
+                prologresp    => $self->{prologresp},
+                no_software   => $self->{config}->{no_software},
+                no_printer    => $self->{config}->{no_printer},
+                scan_homedirs => $self->{config}->{'scan-homedirs'},
+            }
+        );
         if (!$enabled) {
             $logger->debug("module $module disabled");
             $self->{modules}->{$module}->{enabled} = 0;
@@ -235,11 +245,21 @@ sub _runModule {
 
     $logger->debug ("Running $module");
 
-    $self->_runFunction({
+    $self->_runFunction(
         module   => $module,
         function => "doInventory",
-        timeout  => $self->{config}->{'backend-collect-timeout'}
-    });
+        timeout  => $self->{config}->{'backend-collect-timeout'},
+        params => {
+            confdir       => $self->{confdir},
+            datadir       => $self->{datadir},
+            inventory     => $self->{inventory},
+            logger        => $self->{logger},
+            prologresp    => $self->{prologresp},
+            no_software   => $self->{config}->{no_software},
+            no_printer    => $self->{config}->{no_printer},
+            scan_homedirs => $self->{config}->{'scan-homedirs'},
+        }
+    );
     $self->{modules}->{$module}->{done} = 1;
     $self->{modules}->{$module}->{used} = 0; # unlock the module
 }
@@ -269,30 +289,22 @@ sub _feedInventory {
 }
 
 sub _runFunction {
-    my ($self, $params) = @_;
+    my ($self, %params) = @_;
 
-    my $module   = $params->{module};
-    my $function = $params->{function};
+    my $module   = $params{module};
+    my $function = $params{function};
+    my $params   = $params{params};
     my $logger   = $self->{logger};
 
     my $result;
     
     eval {
         local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n require
-        alarm $params->{timeout} if $params->{timeout};
+        alarm $params{timeout} if $params{timeout};
 
         no strict 'refs'; ## no critic
 
-        $result = &{$module . '::' . $function}(
-            confdir       => $self->{confdir},
-            datadir       => $self->{datadir},
-            inventory     => $self->{inventory},
-            logger        => $self->{logger},
-            prologresp    => $self->{prologresp},
-            no_software   => $self->{config}->{no_software},
-            no_printer    => $self->{config}->{no_printer},
-            scan_homedirs => $self->{config}->{'scan-homedirs'},
-        );
+        $result = &{$module . '::' . $function}(%$params);
     };
     alarm 0;
 
