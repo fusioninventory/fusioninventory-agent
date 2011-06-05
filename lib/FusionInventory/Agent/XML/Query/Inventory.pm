@@ -27,6 +27,9 @@ FusionInventory::Agent::XML::Query::Inventory - Inventory agent message
 This is an inventory message sent by the agent to the server, using OCS
 Inventory XML format.
 
+The data strcture format is documented in L<FusionInventory::Agent::Inventory>.
+
+
 =head1 METHODS
 
 =head2 new(%params)
