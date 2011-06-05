@@ -167,7 +167,6 @@ sub _initModulesList {
             function => "isEnabled",
             timeout  => $config->{'backend-collect-timeout'},
             params => {
-                confdir       => $self->{confdir},
                 datadir       => $self->{datadir},
                 logger        => $self->{logger},
                 prologresp    => $self->{prologresp},
@@ -248,7 +247,6 @@ sub _runModule {
         function => "doInventory",
         timeout  => $self->{config}->{'backend-collect-timeout'},
         params => {
-            confdir       => $self->{confdir},
             datadir       => $self->{datadir},
             inventory     => $inventory,
             logger        => $self->{logger},
@@ -274,6 +272,9 @@ sub _feedInventory {
         $self->_runModule($module, $inventory);
     }
 
+    $self->_importInventory($self->{config}->{'additional-content'}, $inventory)
+        if -f $self->{config}->{'additional-content'};
+
     # Execution time
     $inventory->setHardware({ETIME => time() - $begin});
 
@@ -282,6 +283,26 @@ sub _feedInventory {
     $inventory->processChecksum();
 
     $inventory->checkContent();
+}
+
+sub _importInventory {
+    my ($self, $file, $inventory) = @_;
+
+    return unless -f $file;
+
+    $self->{logger}->debug(
+        "importing $file file content to the inventory"
+    );
+
+    my $tree    = XML::TreePP->new()->parsefile($file);
+    my $content = $tree->{REQUEST}->{CONTENT};
+
+    if (!$content) {
+        $self->{logger}->error("no suitable content found");
+        return;
+    }
+
+    $inventory->mergeContent($content);
 }
 
 sub _runFunction {
@@ -323,7 +344,9 @@ sub _printInventory {
 
             my $tpp = XML::TreePP->new(indent => 2);
             print {$params{handle}} $tpp->write({
-                REQUEST => $params{inventory}->{content}
+                REQUEST => {
+                    CONTENT => $params{inventory}->{content}
+                }
             });
 
             last SWITCH;
