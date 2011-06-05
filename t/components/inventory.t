@@ -12,7 +12,7 @@ use FusionInventory::Agent;
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Logger;
 
-plan tests => 21;
+plan tests => 24;
 
 my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'Test' ],
@@ -274,4 +274,67 @@ is_deeply(
         }
     ],
     'drive addition'
+);
+
+$inventory->mergeContent(
+    {
+        SOFTWARES   => [
+            {
+                NAME => 'foo',
+                VERSION => 42,
+            },
+            {
+                NAME => 'bar',
+                VERSION => 42,
+            }
+        ],
+        STORAGES   => [
+            {
+                INTERFACE    => 'oof',
+                SERIAL       => 'rab',
+            }
+        ],
+        HARDWARE => {
+            PROCESSORT => 'fake'
+        },
+    }
+);
+
+is_deeply(
+    $inventory->{content}->{SOFTWARES},
+    [
+        {
+            NAME    => 'foo',
+            VERSION => 42
+        },
+        {
+            NAME    => 'bar',
+            VERSION => 42
+        }
+    ],
+    'empty list section merge'
+);
+
+is_deeply(
+    $inventory->{content}->{STORAGES},
+    [
+        {
+            INTERFACE    => 'foo',
+            SERIAL       => 'bar',
+            SERIALNUMBER => 'bar'
+        },
+        {
+            INTERFACE    => 'oof',
+            SERIAL       => 'rab',
+            SERIALNUMBER => 'rab'
+        },
+
+    ],
+    'non-empty list section merge'
+);
+
+is(
+    $inventory->{content}->{HARDWARE}->{PROCESSORT},
+    'fake',
+    'hash section merge'
 );

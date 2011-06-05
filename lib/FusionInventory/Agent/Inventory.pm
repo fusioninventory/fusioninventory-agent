@@ -93,6 +93,40 @@ sub new {
     return $self;
 }
 
+sub mergeContent {
+    my ($self, $content) = @_;
+
+    die "no content" unless $content;
+
+    foreach my $section (keys %$content) {
+        if (ref $content->{$section} eq 'ARRAY') {
+            # a list of entry
+            foreach my $entry (@{$content->{$section}}) {
+                $self->addEntry(section => $section, entry => $entry);
+            }
+        } else {
+            # single entry
+            SWITCH: {
+                if ($section eq 'HARDWARE') {
+                    $self->setHardware($content->{$section});
+                    last SWITCH;
+                }
+                if ($section eq 'BIOS') {
+                    $self->setBios($content->{$section});
+                    last SWITCH;
+                }
+                if ($section eq 'ACCESSLOG') {
+                    $self->setAccessLog($content->{$section});
+                    last SWITCH;
+                }
+                $self->addEntry(
+                    section => $section, entry => $content->{$section}
+                );
+            }
+        }
+    }
+}
+
 sub addEntry {
     my ($self, %params) = @_;
 
@@ -362,6 +396,10 @@ from the base class C<FusionInventory::Agent::XML::Query>, as keys of the
 a path to a writable directory containing the last serialized inventory
 
 =back
+
+=head2 mergeContent($content)
+
+Merge content to the inventory.
 
 =head2 addEntry(%params)
 
