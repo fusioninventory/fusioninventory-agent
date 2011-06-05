@@ -16,6 +16,7 @@ my $options = {};
 
 GetOptions(
     $options,
+    'additional-content=s',
     'backend-collect-timeout=s',
     'ca-cert-dir=s',
     'ca-cert-file=s',
@@ -134,6 +135,7 @@ B<fusioninventory-agent> [options] [--server server|--local directory|--sdout]
     -f --force          always send data to server (false)
     -t --tag=TAG        mark the machine with given tag
     --backend-collect-timeout   timeout for inventory modules execution (180)
+    --additional-content=FILE   additional inventory content
 
   Package deployment task specific options
     --no-p2p            do not use peer to peer to download files (false)

@@ -272,7 +272,7 @@ sub _feedInventory {
         $self->_runModule($module, $inventory);
     }
 
-    $self->_importInventory($self->{config}->{'additional-content'}, $inventory)
+    $self->_injectContent($self->{config}->{'additional-content'}, $inventory)
         if -f $self->{config}->{'additional-content'};
 
     # Execution time
@@ -285,7 +285,7 @@ sub _feedInventory {
     $inventory->checkContent();
 }
 
-sub _importInventory {
+sub _injectContent {
     my ($self, $file, $inventory) = @_;
 
     return unless -f $file;

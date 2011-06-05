@@ -4,12 +4,13 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use File::Temp;
 use IPC::Run qw(run);
 use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
 
-use Test::More tests => 13;
+use Test::More tests => 14;
 
 my ($out, $err, $rc);
 
@@ -41,9 +42,24 @@ like(
 );
 is($out, '', 'no target stdin');
 
+# create inventory targets
 $ENV{FOO} = 'bar';
+
+my $file = File::Temp->new();
+print $file <<EOF;
+<?xml version="1.0" encoding="UTF-8" ?>
+<REQUEST>
+  <CONTENT>
+      <SOFTWARES>
+          <NAME>foo</NAME>
+          <VERSION>bar</VERSION>
+      </SOFTWARES>
+  </CONTENT>
+</REQUEST>
+EOF
+
 ($out, $err, $rc) = run_agent(
-    "--stdout --no-ocsdeploy --no-wakeonlan --no-snmpquery --no-netdiscovery"
+    "--stdout --no-ocsdeploy --no-wakeonlan --no-snmpquery --no-netdiscovery --additional-content $file"
 );
 ok($rc == 0, 'exit status');
 
@@ -62,6 +78,14 @@ ok(
         @{$content->{REQUEST}->{CONTENT}->{ENVS}}
     ),
     'output has expected environment variable'
+);
+
+ok(
+    (any
+        { $_->{NAME} eq 'foo' && $_->{VERSION} eq 'bar' } 
+        @{$content->{REQUEST}->{CONTENT}->{SOFTWARES}}
+    ),
+    'output has expected software'
 );
 
 
