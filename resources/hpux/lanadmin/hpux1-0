@@ -1,0 +1,41 @@
+
+                      LAN INTERFACE STATUS DISPLAY
+                       Mon, May 23,2011  12:01:08
+
+PPA Number                      = 0
+Description                     = lan0 HP PCI-X 1000Base-T Release PHNE_36236 B.11.23.0706.02
+Type (value)                    = ethernet-csmacd(6)
+MTU Size                        = 1500
+Speed                           = 1000000000
+Station Address                 = 0x16353eac5c
+Administration Status (value)   = up(1)
+Operation Status (value)        = up(1)
+Last Change                     = 287
+Inbound Octets                  = 3964472983
+Inbound Unicast Packets         = 901741518
+Inbound Non-Unicast Packets     = 18997
+Inbound Discards                = 0
+Inbound Errors                  = 0
+Inbound Unknown Protocols       = 235
+Outbound Octets                 = 1880378407
+Outbound Unicast Packets        = 507550720
+Outbound Non-Unicast Packets    = 11245
+Outbound Discards               = 0
+Outbound Errors                 = 0
+Outbound Queue Length           = 0
+Specific                        = 655367
+
+Ethernet-like Statistics Group
+
+Index                           = 1
+Alignment Errors                = 0
+FCS Errors                      = 0
+Single Collision Frames         = 0
+Multiple Collision Frames       = 0
+Deferred Transmissions          = 0
+Late Collisions                 = 0
+Excessive Collisions            = 0
+Internal MAC Transmit Errors    = 0
+Carrier Sense Errors            = 0
+Frames Too Long                 = 0
+Internal MAC Receive Errors     = 0

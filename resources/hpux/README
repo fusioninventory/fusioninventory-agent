@@ -38,6 +38,9 @@ ioscan: ioscan command
 lanscan: lanscan command
 - hpux*: lanscan -iap
 
+lanadmin: lanadmin command
+- hpux*-X: lanscan -g X
+
 machinfo: machinfo command
 - hpux*: machinfo
 
