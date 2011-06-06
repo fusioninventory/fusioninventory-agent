@@ -36,9 +36,7 @@ sub _getSlots {
     while (my $line = <$handle>) {
         my @info = split(/:/, $line);
         push @slots, {
-            DESCRIPTION => $info[10],
-            DESIGNATION => $info[16] . " " . $info[17],
-            NAME        => $info[8],
+            DESIGNATION => $info[17],
             STATUS      => "OK",
         };
     }
