@@ -89,19 +89,13 @@ sub _getInterfaces {
             $interface->{MACADDR} = "$1:$2:$3:$4:$5:$6"
         }
 
-        foreach (`lanadmin -g $lanid`) {
-            if (/Type.+=\s(.+)/) {
-                $interface->{TYPE} = $1;
-            }
-            if (/Description\s+=\s(.+)/) {
-                $interface->{DESCRIPTION} = $1;
-            }
-            if (/Speed.+=\s(\d+)/) {
-                # in old version speed was given in Mbps and we want speed
-                # in Mbps
-                $interface->{SPEED} = ($1 > 1000000)? $1/1000000 : $1;
-            }
-        }
+        my $info = _getLanadminInfo(
+            command => "lanadmin -g $lanid", logger => $logger
+        );
+        $interface->{TYPE}        = $info->{'Type (value)'};
+        $interface->{DESCRIPTION} = $info->{Description};
+        $interface->{SPEED}       = $info->{Speed} > 1000000 ?
+                                    $info->{Speed} / 1000000 : $info->{Speed};
 
         foreach (`ifconfig $name 2> /dev/null`) {
             if (/$name:\s+flags=.*\WUP\W/ ) {
@@ -148,6 +142,20 @@ sub _getInterfaces {
     close $handle;
 
     return @interfaces;
+}
+
+sub _getLanadminInfo {
+    my $handle = getFileHandle(@_);
+    return unless $handle;
+
+    my $info;
+    while (my $line = <$handle>) {
+        next unless $line =~ /^(\S.+\S) \s+ = \s (.+)$/x;
+        $info->{$1} = $2;
+    }
+    close $handle;
+
+    return $info;
 }
 
 1;
