@@ -55,12 +55,10 @@ sub _getInterfaces {
     );
 
     foreach my $interface (@interfaces) {
-        if ($interface->{STATUS} eq 'Up') {
-            $interface->{IPSUBNET} = getSubnetAddress(
-                $interface->{IPADDRESS},
-                $interface->{IPMASK}
-            );
-        }
+        $interface->{IPSUBNET} = getSubnetAddress(
+            $interface->{IPADDRESS},
+            $interface->{IPMASK}
+        );
 
         $interface->{VIRTUALDEV} =
             $interface->{DESCRIPTION} =~ /^(lo|vboxnet|vmnet|sit|tun|pflog|pfsync|enc|strip|plip|sl|ppp|faith)\d+$/;
