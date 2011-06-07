@@ -301,11 +301,9 @@ sub _parseIfconfig {
             };
         }
 
-        
         if ($line =~ /inet ($ip_address_pattern)/) {
             $interface->{IPADDRESS} = $1;
         }
-
         if ($line =~ /\S*netmask\s+(\S+)/i) {
             # hex to dec to bin to ip
             $interface->{IPMASK} = ip_bintoip(
@@ -313,21 +311,17 @@ sub _parseIfconfig {
                 4
             );
         }
-
         if ($line =~ /groupname\s+(\S+)/i) {
             $interface->{TYPE} = $1;
         }
-
         if ($line =~ /zone\s+(\S+)/) {
             $interface->{TYPE} = $1;
         }
-
         if ($line =~ /ether\s+(\S+)/i) {
             # https://sourceforge.net/tracker/?func=detail&atid=487492&aid=1819948&group_id=58373
             $interface->{MACADDR} =
                 sprintf "%02x:%02x:%02x:%02x:%02x:%02x" , map hex, split /\:/, $1;
         }
-
         if ($line =~ /<UP,/) {
             $interface->{STATUS} = "Up";
         }
