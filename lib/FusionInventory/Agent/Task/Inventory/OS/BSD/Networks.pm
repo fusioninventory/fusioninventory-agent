@@ -18,7 +18,7 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # set list of network interfaces
-    my $routes = getRoutesFromNetstat(logger => $logger);
+    my $routes = getRoutingTable(logger => $logger);
     my @interfaces = _getInterfaces($logger, $routes);
     foreach my $interface (@interfaces) {
         $inventory->addEntry(

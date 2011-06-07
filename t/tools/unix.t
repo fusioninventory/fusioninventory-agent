@@ -2613,8 +2613,8 @@ foreach my $test (@dhcp_leases_test) {
 
 foreach my $test (keys %netstat_tests) {
     my $file = "resources/generic/netstat/$test";
-    my $results = getRoutesFromNetstat(file => $file);
-    is_deeply($results, $netstat_tests{$test}, $test);
+    my $routes = getRoutingTable(file => $file);
+    is_deeply($routes, $netstat_tests{$test}, $test);
 }
 
 foreach my $test (keys %mount_tests) {

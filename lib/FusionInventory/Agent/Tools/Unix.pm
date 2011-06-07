@@ -19,7 +19,7 @@ our @EXPORT = qw(
     getFilesystemsTypesFromMount
     getProcessesFromPs
     getPCIDevices
-    getRoutesFromNetstat
+    getRoutingTable
 );
 
 memoize('getPCIDevices');
@@ -377,7 +377,7 @@ sub getPCIDevices {
     return @controllers;
 }
 
-sub getRoutesFromNetstat {
+sub getRoutingTable {
     my %params = (
         command => 'netstat -nr -f inet',
         @_
@@ -510,7 +510,7 @@ output.
 
 =back
 
-=head2 getRoutesFromNetstat
+=head2 getRoutingTable
 
 Returns the routing table as an hashref, by parsing netstat command output.
 
