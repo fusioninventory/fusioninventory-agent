@@ -86,16 +86,8 @@ sub _parseIfconfig {
         if ($line =~ /inet ($ip_address_pattern)/) {
             $interface->{IPADDRESS} = $1;
         }
-        if ($line =~ /netmask (\S+)/) {
-            # In BSD, netmask is given in hex form
-            my $ipmask = $1;
-            if ($ipmask =~ /^0x(\w{2})(\w{2})(\w{2})(\w{2})$/) {
-                $interface->{IPMASK} =
-                    hex($1) . '.' .
-                    hex($2) . '.' .
-                    hex($3) . '.' .
-                    hex($4);
-            }
+        if ($line =~ /netmask 0x($hex_ip_address_pattern)/) {
+            $interface->{IPMASK} = hex2quad($1);
         }
         if ($line =~ /(?:address:|ether|lladdr) ($mac_address_pattern)/) {
             $interface->{MACADDR} = $1;
