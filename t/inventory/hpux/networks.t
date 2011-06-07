@@ -154,11 +154,31 @@ my %lanadmin_tests = (
     },
 );
 
+my %ifconfig_tests = (
+     'hpux1-lan0' => {
+          status  => 'Up',
+          netmask => '255.255.255.224',
+          address => '10.0.4.56'
+     },
+     'hpux2-lan0' => {
+          status  => 'Up',
+          netmask => '255.255.255.224',
+          address => '10.0.0.48'
+     },
+);
+
 plan tests =>
-    (scalar keys %lanadmin_tests);
+    (scalar keys %lanadmin_tests) +
+    (scalar keys %ifconfig_tests);
 
 foreach my $test (keys %lanadmin_tests) {
     my $file = "resources/hpux/lanadmin/$test";
     my $info = FusionInventory::Agent::Task::Inventory::OS::HPUX::Networks::_getLanadminInfo(file => $file);
     is_deeply($info, $lanadmin_tests{$test}, "lanadmin parsing: $test");
+}
+
+foreach my $test (keys %ifconfig_tests) {
+    my $file = "resources/generic/ifconfig/$test";
+    my $info = FusionInventory::Agent::Task::Inventory::OS::HPUX::Networks::_getIfconfigInfo(file => $file);
+    is_deeply($info, $ifconfig_tests{$test}, "ifconfig parsing: $test");
 }

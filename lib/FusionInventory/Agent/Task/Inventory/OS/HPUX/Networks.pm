@@ -89,28 +89,21 @@ sub _getInterfaces {
             $interface->{MACADDR} = "$1:$2:$3:$4:$5:$6"
         }
 
-        my $info = _getLanadminInfo(
+        my $lanadminInfo = _getLanadminInfo(
             command => "lanadmin -g $lanid", logger => $logger
         );
-        $interface->{TYPE}        = $info->{'Type (value)'};
-        $interface->{DESCRIPTION} = $info->{Description};
-        $interface->{SPEED}       = $info->{Speed} > 1000000 ?
-                                    $info->{Speed} / 1000000 : $info->{Speed};
+        $interface->{TYPE}        = $lanadminInfo->{'Type (value)'};
+        $interface->{DESCRIPTION} = $lanadminInfo->{Description};
+        $interface->{SPEED}       = $lanadminInfo->{Speed} > 1000000 ?
+                                        $lanadminInfo->{Speed} / 1000000 :
+                                        $lanadminInfo->{Speed};
 
-        foreach (`ifconfig $name 2> /dev/null`) {
-            if (/$name:\s+flags=.*\WUP\W/ ) {
-                # its status is not reported as down in lanadmin -g
-                $interface->{STATUS} = 'Up';
-            }
-            if (/inet\s(\S+)\snetmask\s(\S+)\s/) {
-                $interface->{IPADDRESS} = $1;
-                $interface->{IPMASK} = $2;
-                if ($interface->{IPMASK} =~ /(..)(..)(..)(..)/) {
-                    $interface->{IPMASK} =
-                        sprintf ("%i.%i.%i.%i",hex($1),hex($2),hex($3),hex($4));
-                }
-            }
-        }
+        my $ifconfigInfo = _getIfconfigInfo(
+            command => "ifconfig $name", logger => $logger
+        );
+        $interface->{STATUS}    = $ifconfigInfo->{status};
+        $interface->{IPADDRESS} = $ifconfigInfo->{address};
+        $interface->{IPMASK}    = $ifconfigInfo->{netmask};
 
         $interface->{IPSUBNET} = getSubnetAddress(
             $interface->{IPADDRESS},
@@ -152,6 +145,27 @@ sub _getLanadminInfo {
     while (my $line = <$handle>) {
         next unless $line =~ /^(\S.+\S) \s+ = \s (.+)$/x;
         $info->{$1} = $2;
+    }
+    close $handle;
+
+    return $info;
+}
+
+sub _getIfconfigInfo {
+    my $handle = getFileHandle(@_);
+    return unless $handle;
+
+    my $info;
+    while (my $line = <$handle>) {
+        if ($line =~ /<UP/) {
+            $info->{status} = 'Up';
+        }
+        if ($line =~ /inet ($ip_address_pattern)/) {
+            $info->{address} = $1;
+        }
+        if ($line =~ /netmask ($hex_ip_address_pattern)/) {
+            $info->{netmask} = hex2quad($1);
+        }
     }
     close $handle;
 
