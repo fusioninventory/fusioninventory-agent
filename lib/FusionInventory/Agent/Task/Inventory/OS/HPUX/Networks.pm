@@ -24,7 +24,10 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # set list of network interfaces
-    my $routes = _getRoutes(logger => $logger);
+    my $routes = getRoutesFromNetstat(
+        command => 'netstat -nr',
+        logger => $logger
+    );
     my @interfaces = _getInterfaces($logger, $routes);
     foreach my $interface (@interfaces) {
         $inventory->addEntry(
@@ -42,30 +45,8 @@ sub doInventory {
 
     $inventory->setHardware({
         IPADDR         => join('/', @ip_addresses),
-        DEFAULTGATEWAY => $routes->{'default/0.0.0.0'}
+        DEFAULTGATEWAY => $routes->{default}
     });
-}
-
-
-sub _getRoutes {
-    my $handle = getFileHandle(
-        command => 'netstat -nrv',
-        @_
-    );
-    return unless $handle;
-
-    my $routes;
-    while (my $line = <$handle>) {
-        next unless $line =~ /^
-            ((?:$ip_address_pattern|default)\/$ip_address_pattern)
-            \s+
-            ($ip_address_pattern)
-        /x;
-        $routes->{$1} = $2 unless defined $routes->{$1};
-    }
-    close $handle;
-
-    return $routes;
 }
 
 sub _getInterfaces {
@@ -117,7 +98,7 @@ sub _getInterfaces {
         $interface->{IPGATEWAY} =
             $routes->{$subnet} ne $interface->{IPADDRESS} ?
                 $routes->{$subnet}          :
-                $routes->{'default/0.0.0.0'};
+                $routes->{default};
 
         # Some cleanups
         if ($interface->{IPADDRESS} eq '0.0.0.0') {
