@@ -61,7 +61,7 @@ sub doInventory {
 }
 
 sub _getInterfaces {
-    my ($logger, $routes) = @_;
+    my ($logger) = @_;
 
     my @interfaces = can_run("/sbin/ip") ?
         _parseIpAddrShow(command => '/sbin/ip addr show', logger => $logger):
