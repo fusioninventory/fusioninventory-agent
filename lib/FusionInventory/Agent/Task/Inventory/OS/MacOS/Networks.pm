@@ -113,8 +113,10 @@ sub _parseIfconfig {
             $interface->{VIRTUALDEV} = 0;
         }
     }
-    push @interfaces, $interface if $interface;
     close $handle;
+    
+    # last interface
+    push @interfaces, $interface if $interface;
 
     return @interfaces;
 }

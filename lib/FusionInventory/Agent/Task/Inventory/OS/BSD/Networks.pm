@@ -107,8 +107,10 @@ sub _parseIfconfig {
             $interface->{STATUS} = 'Up';
         }
     }
-    push @interfaces, $interface if $interface;
     close $handle;
+
+    # last interface
+    push @interfaces, $interface if $interface;
 
     return @interfaces;
 }
