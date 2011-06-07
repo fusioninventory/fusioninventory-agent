@@ -29,6 +29,7 @@ our @EXPORT = qw(
     getLastLine
     getAllLines
     getLinesCount
+    hex2quad
     compareVersion
     can_run
     can_read
@@ -252,6 +253,13 @@ sub getCpusFromDmidecode {
     }
 
     return @cpus;
+}
+
+sub hex2quad {
+    my ($address) = @_;
+
+    my @bytes = $address =~ /(..)(..)(..)(..)/;
+    return join('.', map { hex($_) } @bytes);
 }
 
 sub compareVersion {
@@ -589,6 +597,10 @@ Returns a list of CPUs, from dmidecode output.
 
 Returns the input stripped from any control character, properly encoded in
 UTF-8.
+
+=head2 hex2quad($address)
+
+Convert an ip address from hexadecimal to quad form.
 
 =head2 compareVersion($major, $minor, $min_major, $min_minor)
 
