@@ -9,6 +9,7 @@ our @EXPORT = qw(
     $ip_address_pattern
     $hex_mac_address_pattern
     $hex_ip_address_pattern
+    $network_pattern
 );
 
 my $hex_byte = qr/[0-9A-F]{2}/i;
@@ -28,6 +29,10 @@ our $hex_mac_address_pattern = qr/
 
 our $hex_ip_address_pattern = qr/
     $hex_byte $hex_byte $hex_byte $hex_byte
+/x;
+
+our $network_pattern = qr/
+    $dec_byte (?:\. $dec_byte (?:\. $dec_byte (?:\. $dec_byte)?)?)? \/ \d{1,2}
 /x;
 
 1;
