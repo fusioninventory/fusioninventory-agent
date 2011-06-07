@@ -62,6 +62,33 @@ sub _getInterfaces {
     );
 
     foreach my $interface (@interfaces) {
+        if ($interface->{DESCRIPTION} =~ /^(\S+)(\d+)/) {
+            my $nic = $1;
+            my $num = $2;
+
+            if ($nic =~ /bge/ ) {
+                $interface->{SPEED} = _check_bge_nic($nic, $num);
+            } elsif ($nic =~ /ce/) {
+                $interface->{SPEED} = _check_ce($nic, $num);
+            } elsif ($nic =~ /hme/) {
+                $interface->{SPEED} = _check_nic($nic, $num);
+            } elsif ($nic =~ /dmfe/) {
+                $interface->{SPEED} = _check_dmf_nic($nic, $num);
+            } elsif ($nic =~ /ipge/) {
+                $interface->{SPEED} = _check_ce($nic, $num);
+            } elsif ($nic =~ /e1000g/) {
+                $interface->{SPEED} = _check_ce($nic, $num);
+            } elsif ($nic =~ /nxge/) {
+                $interface->{SPEED} = _check_nxge_nic($nic, $num);
+            } elsif ($nic =~ /eri/) {
+                $interface->{SPEED} = _check_nic($nic, $num);
+            } elsif ($nic =~ /aggr/) {
+                $interface->{SPEED} = "";
+            } else {
+                $interface->{SPEED} = _check_nic($nic, $num);
+            }
+        }
+
         $interface->{IPSUBNET} = getSubnetAddress(
             $interface->{IPADDRESS},
             $interface->{IPMASK}
@@ -258,9 +285,19 @@ sub _parseIfconfig {
 
     while (my $line = <$handle>) {
         if ($line =~ /^(\S+):(\S+):/) {
-            $interface->{DESCRIPTION} = $1 . ":" . $2;
+            # new interface
+            push @interfaces, $interface if $interface;
+            $interface = {
+                STATUS      => 'Down',
+                DESCRIPTION => $1 . ':' . $2
+            };
         } elsif ($line =~ /^(\S+):/) {
-            $interface->{DESCRIPTION} = $1;
+            # new interface
+            push @interfaces, $interface if $interface;
+            $interface = {
+                STATUS      => 'Down',
+                DESCRIPTION => $1
+            };
         }
 
         if ($line =~ /inet\s+(\S+)/i) {
@@ -292,46 +329,10 @@ sub _parseIfconfig {
         if ($line =~ /<UP,/) {
             $interface->{STATUS} = "Up";
         }
-
-        if ($interface->{DESCRIPTION} && $interface->{MACADDR}) {
-            my ($nic, $num);
-            if ($interface->{DESCRIPTION} =~ /^(\S+)(\d+)/) {
-                $nic = $1;
-                $num = $2;
-            }
-
-            if ($nic =~ /bge/ ) {
-                $interface->{SPEED} = _check_bge_nic($nic, $num);
-            } elsif ($nic =~ /ce/) {
-                $interface->{SPEED} = _check_ce($nic, $num);
-            } elsif ($nic =~ /hme/) {
-                $interface->{SPEED} = _check_nic($nic, $num);
-            } elsif ($nic =~ /dmfe/) {
-                $interface->{SPEED} = _check_dmf_nic($nic, $num);
-            } elsif ($nic =~ /ipge/) {
-                $interface->{SPEED} = _check_ce($nic, $num);
-            } elsif ($nic =~ /e1000g/) {
-                $interface->{SPEED} = _check_ce($nic, $num);
-            } elsif ($nic =~ /nxge/) {
-                $interface->{SPEED} = _check_nxge_nic($nic, $num);
-            } elsif ($nic =~ /eri/) {
-                $interface->{SPEED} = _check_nic($nic, $num);
-            } elsif ($nic =~ /aggr/) {
-                $interface->{SPEED} = "";
-            } else {
-                $interface->{SPEED} = _check_nic($nic, $num);
-            }
-
-            $interface->{IPSUBNET} = getSubnetAddress(
-                $interface->{IPADDRESS}, $interface->{IPMASK}
-            );
-
-            $interface->{STATUS} = 'Down' if !$interface->{STATUS};
-
-            push @interfaces, $interface;
-        }
     }
     close $handle;
+
+    push @interfaces, $interface if $interface;
 
     return @interfaces;
 }
