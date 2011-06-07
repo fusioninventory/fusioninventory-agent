@@ -15,6 +15,7 @@ use warnings;
 #DLADM=/usr/sbin/dladm
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Network;
 
 sub isEnabled {
     return 

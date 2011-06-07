@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Regexp;
 
 sub isEnabled {

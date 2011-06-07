@@ -8,6 +8,7 @@ use Win32::OLE::Const;
 use Win32::OLE::Enum;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Tools::Win32;
 use FusionInventory::Agent::Regexp;
  

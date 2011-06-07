@@ -10,9 +10,8 @@ use File::Basename;
 use File::Spec;
 use File::stat;
 use Memoize;
+
 our @EXPORT = qw(
-    getSubnetAddress
-    getSubnetAddressIPv6
     getDirectoryHandle
     getFileHandle
     getFormatedLocalTime
@@ -29,7 +28,6 @@ our @EXPORT = qw(
     getLastLine
     getAllLines
     getLinesCount
-    hex2quad
     compareVersion
     can_run
     can_read
@@ -255,13 +253,6 @@ sub getCpusFromDmidecode {
     return @cpus;
 }
 
-sub hex2quad {
-    my ($address) = @_;
-
-    my @bytes = $address =~ /(..)(..)(..)(..)/;
-    return join('.', map { hex($_) } @bytes);
-}
-
 sub compareVersion {
     my ($major, $minor, $min_major, $min_minor) = @_;
 
@@ -298,38 +289,6 @@ sub getSanitizedString {
     };
 
     return $string;
-}
-
-sub getSubnetAddress {
-    my ($address, $mask) = @_;
-
-    return unless $address && $mask;
-
-    # load Net::IP conditionnaly
-    return unless can_load("Net::IP");
-    Net::IP->import(':PROC');
-
-    my $binaddress = ip_iptobin($address, 4);
-    my $binmask    = ip_iptobin($mask, 4);
-    my $binsubnet  = $binaddress & $binmask;
-
-    return ip_bintoip($binsubnet, 4);
-}
-
-sub getSubnetAddressIPv6 {
-    my ($address, $mask) = @_;
-
-    return unless $address && $mask;
-
-    # load Net::IP conditionnaly
-    return unless can_load("Net::IP");
-    Net::IP->import(':PROC');
-
-    my $binaddress = ip_iptobin($address, 6);
-    my $binmask    = ip_iptobin($mask, 6);
-    my $binsubnet  = $binaddress & $binmask;
-
-    return ip_bintoip($binsubnet, 6);
 }
 
 sub getDirectoryHandle {
@@ -598,10 +557,6 @@ Returns a list of CPUs, from dmidecode output.
 Returns the input stripped from any control character, properly encoded in
 UTF-8.
 
-=head2 hex2quad($address)
-
-Convert an ip address from hexadecimal to quad form.
-
 =head2 compareVersion($major, $minor, $min_major, $min_minor)
 
 Returns true if software with given major and minor version meet minimal
@@ -693,14 +648,6 @@ Returns the number of lines of given command output or given file content.
 =item file the file to use, as an alternative to the command
 
 =back
-
-=head2 getSubnetAddress($address, $mask)
-
-Returns the subnet address for IPv4.
-
-=head2 getSubnetAddressIPv6($address, $mask)
-
-Returns the subnet address for IPv6.
 
 =head2 can_run($binary)
 

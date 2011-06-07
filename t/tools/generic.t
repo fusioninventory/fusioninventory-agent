@@ -4860,11 +4860,6 @@ my @sanitization_tests = (
     [ "\x12fo\xA9\x12", "fo©" ],
 );
 
-my @hex2quad_tests = (
-    [ 'ffffffff', '255.255.255.255' ],
-    [ '7f7f7f7f', '127.127.127.127' ]
-);
-
 plan tests =>
     (scalar keys %dmidecode_tests) +
     (scalar keys %cpu_tests) +
@@ -4877,7 +4872,6 @@ plan tests =>
     (scalar @version_tests_ok) +
     (scalar @version_tests_nok) +
     (scalar @sanitization_tests) +
-    (scalar @hex2quad_tests) +
     14;
 
 foreach my $test (keys %dmidecode_tests) {
@@ -4958,14 +4952,6 @@ foreach my $test (@sanitization_tests) {
         getSanitizedString($test->[0]),
         $test->[1],
         "$test->[0] sanitization"
-    );
-}
-
-foreach my $test (@hex2quad_tests) {
-    is(
-        hex2quad($test->[0]),
-        $test->[1],
-        "$test->[0] conversion"
     );
 }
 
