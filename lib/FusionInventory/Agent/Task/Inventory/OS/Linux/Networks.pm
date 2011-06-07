@@ -72,9 +72,9 @@ sub _getInterfaces {
         $interface->{PCISLOT} = $pcislot if $pcislot;
 
         $interface->{VIRTUALDEV} = _isVirtual(
-            $logger,
-            $interface->{DESCRIPTION},
-            $interface
+            logger => $logger,
+            name   => $interface->{DESCRIPTION},
+            slot   => $interface->{PCISLOT}
         );
 
         $interface->{IPDHCP} = getIpDhcp($logger, $interface->{DESCRIPTION});
@@ -159,19 +159,19 @@ sub _getSlaves {
 
 # Handle virtual devices (bridge)
 sub _isVirtual {
-    my ($logger, $name, $pcislot) = @_;
+    my (%params) = @_;
 
-    return 0 if $pcislot;
+    return 0 if $params{slot};
 
     if (-d "/sys/devices/virtual/net/") {
-        return -d "/sys/devices/virtual/net/$name";
+        return -d "/sys/devices/virtual/net/$params{name}";
     }
 
     if (can_run('brctl')) {
         # Let's guess
         my %bridge;
         my $handle = getFileHandle(
-            logger => $logger,
+            logger => $params{logger},
             command => 'brctl show'
         );
         my $line = <$handle>;
@@ -181,7 +181,7 @@ sub _isVirtual {
         }
         close $handle;
 
-        return defined $bridge{$name};
+        return defined $bridge{$params{name}};
     }
 
     return 0;
