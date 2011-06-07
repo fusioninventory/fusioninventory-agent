@@ -7,5 +7,7 @@ ifconfig
 - hpux2-lan0: ifconfig lan0
 
 netstat:
-- hpux1: netstat -nr
-- hpux2: netstat -nr
+- hpux*: netstat -nr
+- aix-*: netstat -nr
+- *bsd: netstat -nr -f inet
+- linux1: netstat -nr

@@ -1,0 +1,19 @@
+Routing tables
+Destination        Gateway           Flags   Refs     Use  If   Exp  Groups
+
+Route Tree for Protocol Family 2 (Internet):
+default            172.16.0.254      UG        0         7 en1      -      -
+10.0.0.0           10.0.0.103        UHSb      0         0 en0      -      -   =>
+10/21              10.0.0.103        U         0      5319 en0      -      -
+10.0.0.103         127.0.0.1         UGHS      0         3 lo0      -      -
+10.0.7.255         10.0.0.103        UHSb      0         4 en0      -      -
+39/16              172.16.0.21       UGS       0         5 en1      -      -
+127/8              127.0.0.1         U         9       220 lo0      -      -
+172.16.0.0         172.16.0.80       UHSb      0         0 en1      -      -   =>
+172.16/21          172.16.0.80       U        16 117544066 en1      -      -
+172.16.0.80        127.0.0.1         UGHS     18  76697322 lo0      -      -
+172.16.7.255       172.16.0.80       UHSb      0         4 en1      -      -
+192.0.0/24         172.16.0.254      UGS       0         0 en1      -      -
+
+Route Tree for Protocol Family 24 (Internet v6):
+::1                ::1               UH        0       174 lo0      -      -
