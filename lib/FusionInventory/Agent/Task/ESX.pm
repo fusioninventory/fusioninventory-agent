@@ -205,6 +205,10 @@ sub main {
         next unless $job->{task} eq "ESX";
         $esxRemote = $job->{remote};
     }
+    if (!$esxRemote) {
+       $logger->info("ESX support disabled server side.");
+       return;
+    }
     my $esxRest = FusionInventory::Agent::REST->new(
             "url" => $esxRemote,
             "network" => $network
