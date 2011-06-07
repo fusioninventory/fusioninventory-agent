@@ -1,0 +1,7 @@
+generic command and file samples
+
+ifconfig
+- aix-5.3: ifconfig -l
+- aix-6.1: ifconfig -l
+- hpux1-lan0: ifconfig lan0
+- hpux2-lan0: ifconfig lan0

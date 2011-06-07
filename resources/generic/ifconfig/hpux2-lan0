@@ -1,0 +1,2 @@
+lan0: flags=1843<UP,BROADCAST,RUNNING,MULTICAST,CKO>
+        inet 10.0.0.48 netmask ffffffe0 broadcast 10.0.0.63
