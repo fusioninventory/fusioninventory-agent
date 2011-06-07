@@ -71,7 +71,7 @@ sub _getInterfaces {
         $interface->{DRIVER} = $driver if $driver;
         $interface->{PCISLOT} = $pcislot if $pcislot;
 
-        $interface->{VIRTUALDEV} = _getVirtualDev(
+        $interface->{VIRTUALDEV} = _isVirtual(
             $logger,
             $interface->{DESCRIPTION},
             $interface
@@ -158,36 +158,33 @@ sub _getSlaves {
 }
 
 # Handle virtual devices (bridge)
-sub _getVirtualDev {
+sub _isVirtual {
     my ($logger, $name, $pcislot) = @_;
 
-    my $virtualdev;
+    return 0 if $pcislot;
 
     if (-d "/sys/devices/virtual/net/") {
-        $virtualdev = -d "/sys/devices/virtual/net/$name" ? 1 : 0;
-    } else {
-        if (can_run('brctl')) {
-            # Let's guess
-            my %bridge;
-            my $handle = getFileHandle(
-                logger => $logger,
-                command => 'brctl show'
-            );
-            my $line = <$handle>;
-            while (my $line = <$handle>) {
-                next unless $line =~ /^(\w+)\s/;
-                $bridge{$1} = 1;
-            }
-            close $handle;
-            if ($pcislot) {
-                $virtualdev = "0";
-            } elsif ($bridge{$name}) {
-                $virtualdev = "1";
-            }
-        }
+        return -d "/sys/devices/virtual/net/$name";
     }
 
-    return $virtualdev;
+    if (can_run('brctl')) {
+        # Let's guess
+        my %bridge;
+        my $handle = getFileHandle(
+            logger => $logger,
+            command => 'brctl show'
+        );
+        my $line = <$handle>;
+        while (my $line = <$handle>) {
+            next unless $line =~ /^(\w+)\s/;
+            $bridge{$1} = 1;
+        }
+        close $handle;
+
+        return defined $bridge{$name};
+    }
+
+    return 0;
 }
 
 sub _isWifi {
