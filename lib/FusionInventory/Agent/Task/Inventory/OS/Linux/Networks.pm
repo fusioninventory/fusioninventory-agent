@@ -121,7 +121,7 @@ sub _parseIfconfig {
         if ($line =~ /inet addr:($ip_address_pattern)/i) {
             $interface->{IPADDRESS} = $1;
         }
-        if ($line =~ /mask:(\S+)/i) {
+        if ($line =~ /Mask:($ip_address_pattern)/) {
             $interface->{IPMASK} = $1;
         }
         if ($line =~ /inet6 addr: (\S+)/i) {
