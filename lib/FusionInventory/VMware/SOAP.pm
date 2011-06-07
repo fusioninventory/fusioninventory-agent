@@ -235,6 +235,8 @@ sub _getVirtualMachineById {
         ';
 
     my $answer = $self->_send('RetrieveProperties', 'RetrieveProperties-VM-'.$id, sprintf($req, $self->{propertyCollector}, $id));
+    return [] unless $answer;
+
     # hack to preserve  annotation / comment formating
     $answer =~ s/\n/&#10;/gm;
 
