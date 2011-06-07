@@ -5,3 +5,7 @@ ifconfig
 - aix-6.1: ifconfig -l
 - hpux1-lan0: ifconfig lan0
 - hpux2-lan0: ifconfig lan0
+
+netstat:
+- hpux1: netstat -nr
+- hpux2: netstat -nr
