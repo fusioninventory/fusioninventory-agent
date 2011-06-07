@@ -16,6 +16,7 @@ use Net::IP qw(:PROC);
 #IFC=/sbin/ifconfig
 #DLADM=/usr/sbin/dladm
 
+use FusionInventory::Agent::Regexp;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 
@@ -300,7 +301,8 @@ sub _parseIfconfig {
             };
         }
 
-        if ($line =~ /inet\s+(\S+)/i) {
+        
+        if ($line =~ /inet ($ip_address_pattern)/) {
             $interface->{IPADDRESS} = $1;
         }
 
