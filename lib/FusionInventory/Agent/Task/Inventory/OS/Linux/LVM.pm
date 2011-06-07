@@ -44,17 +44,19 @@ sub _getLogicalVolumes {
     return unless $handle;
 
     my @volumes;
-    while (my $line = <$handle>) {
-        my @infos = split(/\s+/, $line);
-
+    foreach (<$handle>) {
+        my @line = split(/\s+/, $_);
         push @volumes, {
-            LV_NAME   => $infos[1],
-            VG_UUID   => $infos[2],
-            ATTR      => $infos[3],
-            SIZE      => int($infos[4]||0),
-            LV_UUID   => $infos[5],
-            SEG_COUNT => $infos[6],
-        };
+            DEVICE => $line[1],
+            PV_NAME => $line[2],
+            FORMAT => $line[3],
+            ATTR => $line[4],
+            SIZE => int($line[5]||0),
+            FREE => int($line[6]||0),
+            PV_UUID => $line[7],
+            PV_PE_COUNT => $line[8],
+            PE_SIZE => int($line[5] / $line[8])
+        }
 
     }
     close $handle;
