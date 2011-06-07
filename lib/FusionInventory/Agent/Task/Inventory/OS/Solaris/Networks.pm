@@ -56,9 +56,10 @@ sub doInventory {
 sub _getInterfaces {
     my (%params) = @_;
 
-    my $zone = getZone();
-
-    my @interfaces = _parseIfconfig($zone);
+    my @interfaces = _parseIfconfig(
+        command => '/sbin/ifconfig -a',
+        logger  => $params{logger}
+    );
 
     foreach my $interface (@interfaces) {
         $interface->{IPSUBNET} = getSubnetAddress(
@@ -71,6 +72,7 @@ sub _getInterfaces {
         }
     }
 
+    my $zone = getZone();
     return @interfaces unless $zone;
 
     my $OSLevel = getFirstLine(command => 'uname -r');
@@ -248,23 +250,24 @@ sub _get_link_info {
 }
 
 sub _parseIfconfig {
+    my $handle = getFileHandle(@_);
+    return unless $handle;
 
     my @interfaces;
     my $interface;
 
-    foreach (`ifconfig -a`) {
-
-        if (/^(\S+):(\S+):/) {
+    while (my $line = <$handle>) {
+        if ($line =~ /^(\S+):(\S+):/) {
             $interface->{DESCRIPTION} = $1 . ":" . $2;
-        } elsif (/^(\S+):/) {
+        } elsif ($line =~ /^(\S+):/) {
             $interface->{DESCRIPTION} = $1;
         }
 
-        if (/inet\s+(\S+)/i) {
+        if ($line =~ /inet\s+(\S+)/i) {
             $interface->{IPADDRESS} = $1;
         }
 
-        if (/\S*netmask\s+(\S+)/i) {
+        if ($line =~ /\S*netmask\s+(\S+)/i) {
             # hex to dec to bin to ip
             $interface->{IPMASK} = ip_bintoip(
                 unpack("B*", pack("N", sprintf("%d", hex($1)))),
@@ -272,21 +275,21 @@ sub _parseIfconfig {
             );
         }
 
-        if (/groupname\s+(\S+)/i) {
+        if ($line =~ /groupname\s+(\S+)/i) {
             $interface->{TYPE} = $1;
         }
 
-        if (/zone\s+(\S+)/) {
+        if ($line =~ /zone\s+(\S+)/) {
             $interface->{TYPE} = $1;
         }
 
-        if (/ether\s+(\S+)/i) {
+        if ($line =~ /ether\s+(\S+)/i) {
             # https://sourceforge.net/tracker/?func=detail&atid=487492&aid=1819948&group_id=58373
             $interface->{MACADDR} =
                 sprintf "%02x:%02x:%02x:%02x:%02x:%02x" , map hex, split /\:/, $1;
         }
 
-        if (/<UP,/) {
+        if ($line =~ /<UP,/) {
             $interface->{STATUS} = "Up";
         }
 
@@ -328,6 +331,7 @@ sub _parseIfconfig {
             push @interfaces, $interface;
         }
     }
+    close $handle;
 
     return @interfaces;
 }
