@@ -98,46 +98,43 @@ sub _getInterfaces {
 }
 
 sub _parseIfconfig {
-
     my $handle = getFileHandle(@_);
     return unless $handle;
 
     my @interfaces;
-
-    my $interface = { STATUS => 'Down' };
+    my $interface;
 
     while (my $line = <$handle>) {
         if ($line =~ /^$/) {
             # end of interface section
-            next unless $interface->{DESCRIPTION};
+            push @interfaces, $interface if $interface;
+            next;
+        }
 
-            push @interfaces, $interface;
-
-            $interface = { STATUS => 'Down' };
-
-        } else {
-            # In a section
-            if ($line =~ /^(\S+)/) {
-                $interface->{DESCRIPTION} = $1;
+        if ($line =~ /^(\S+)/) {
+            # new interface
+            $interface = {
+                STATUS      => 'Down',
+                DESCRIPTION => $1
             }
-            if ($line =~ /inet addr:($ip_address_pattern)/i) {
-                $interface->{IPADDRESS} = $1;
-            }
-            if ($line =~ /mask:(\S+)/i) {
-                $interface->{IPMASK} = $1;
-            }
-            if ($line =~ /inet6 addr: (\S+)/i) {
-                $interface->{IPADDRESS6} = $1;
-            }
-            if ($line =~ /hwadd?r\s+($mac_address_pattern)/i) {
-                $interface->{MACADDR} = $1;
-            }
-            if ($line =~ /^\s+UP\s/) {
-                $interface->{STATUS} = 'Up';
-            }
-            if ($line =~ /link encap:(\S+)/i) {
-                $interface->{TYPE} = $1;
-            }
+        }
+        if ($line =~ /inet addr:($ip_address_pattern)/i) {
+            $interface->{IPADDRESS} = $1;
+        }
+        if ($line =~ /mask:(\S+)/i) {
+            $interface->{IPMASK} = $1;
+        }
+        if ($line =~ /inet6 addr: (\S+)/i) {
+            $interface->{IPADDRESS6} = $1;
+        }
+        if ($line =~ /hwadd?r\s+($mac_address_pattern)/i) {
+            $interface->{MACADDR} = $1;
+        }
+        if ($line =~ /^\s+UP\s/) {
+            $interface->{STATUS} = 'Up';
+        }
+        if ($line =~ /link encap:(\S+)/i) {
+            $interface->{TYPE} = $1;
         }
 
     }
