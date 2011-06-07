@@ -46,7 +46,7 @@ sub _loadSOAPDump {
 }
 
 sub _storeSOAPDump {
-#    return; # DEBUG
+    return; # DEBUG
     my ($self, $action, $data) = @_;
     open(FILE, ">$action.soap") or die;
     print FILE $data;
