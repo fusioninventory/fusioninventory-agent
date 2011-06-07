@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use base 'Exporter';
 
+use Net::IP qw(:PROC);
+
 use FusionInventory::Agent::Tools;
 
 our @EXPORT = qw(
@@ -18,10 +20,6 @@ sub getSubnetAddress {
 
     return unless $address && $mask;
 
-    # load Net::IP conditionnaly
-    return unless can_load("Net::IP");
-    Net::IP->import(':PROC');
-
     my $binaddress = ip_iptobin($address, 4);
     my $binmask    = ip_iptobin($mask, 4);
     my $binsubnet  = $binaddress & $binmask;
@@ -33,10 +31,6 @@ sub getSubnetAddressIPv6 {
     my ($address, $mask) = @_;
 
     return unless $address && $mask;
-
-    # load Net::IP conditionnaly
-    return unless can_load("Net::IP");
-    Net::IP->import(':PROC');
 
     my $binaddress = ip_iptobin($address, 6);
     my $binmask    = ip_iptobin($mask, 6);
