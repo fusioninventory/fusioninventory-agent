@@ -32,8 +32,14 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # set list of network interfaces
-    my $routes = getRoutingTable(logger => $logger);
     my @interfaces = _getInterfaces();
+
+    my $routes = getRoutingTable(logger => $logger);
+    foreach my $interface (@interfaces) {
+        next unless $interface->{IPSUBNET};
+        $interface->{IPGATEWAY} = $routes->{$interface->{IPSUBNET}};
+    }
+
     foreach my $interface (@interfaces) {
         $inventory->addEntry(
             section => 'NETWORKS',
@@ -59,6 +65,13 @@ sub _getInterfaces {
     my $zone = getZone();
 
     my @interfaces = _parseIfconfig($zone);
+
+    foreach my $interface (@interfaces) {
+        $interface->{IPSUBNET} = getSubnetAddress(
+            $interface->{IPADDRESS},
+            $interface->{IPMASK}
+        );
+    }
 
     return @interfaces unless $zone;
 

@@ -20,9 +20,26 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    # set list of network interfaces
+    # get the list of network interfaces
+    my @interfaces = _getInterfaces($logger);
+
     my $routes = getRoutingTable(command => 'netstat -nr', logger => $logger);
-    my @interfaces = _getInterfaces($logger, $routes);
+    foreach my $interface (@interfaces) {
+        next unless $interface->{IPSUBNET};
+
+        $interface->{IPGATEWAY} = $routes->{$interface->{IPSUBNET}};
+
+        # replace '0.0.0.0' (ie 'default gateway') by the
+        # default gateway IP adress if it exists
+        if ($interface->{IPGATEWAY} and
+            $interface->{IPGATEWAY} eq '0.0.0.0' and 
+            $routes->{'0.0.0.0'}
+        ) {
+            $interface->{IPGATEWAY} = $routes->{'0.0.0.0'}
+        }
+    }
+
+    # set the list of interfaces
     foreach my $interface (@interfaces) {
         $inventory->addEntry(
             section => 'NETWORKS',
@@ -55,15 +72,10 @@ sub _getInterfaces {
             $interface->{TYPE} = "Wifi";
         }
 
-        if ($interface->{IPADDRESS} && $interface->{IPMASK}) {
-            my ($ipsubnet, $ipgateway) = _getNetworkInfo(
-                $interface->{IPADDRESS},
-                $interface->{IPMASK},
-                $routes
-            );
-            $interface->{IPSUBNET} = $ipsubnet;
-            $interface->{IPGATEWAY} = $ipgateway;
-        }
+        $interface->{IPSUBNET} = getSubnetAddress(
+            $interface->{IPADDRESS},
+            $interface->{IPMASK}
+        );
 
         my ($driver, $pcislot) = _getUevent(
             $logger,
@@ -208,23 +220,6 @@ sub _getUevent {
     return ($driver, $pcislot);
 }
 
-sub _getNetworkInfo {
-    my ($address, $mask, $routes) = @_;
-
-    my $ipsubnet = getSubnetAddress($address, $mask);
-    my $ipgateway = $routes->{$ipsubnet};
-
-    # replace '0.0.0.0' (ie 'default gateway') by the
-    # default gateway IP adress if it exists
-    if ($ipgateway and
-        $ipgateway eq '0.0.0.0' and 
-        $routes->{'0.0.0.0'}
-    ) {
-        $ipgateway = $routes->{'0.0.0.0'}
-    }
-
-    return ($ipsubnet, $ipgateway);
-}
 
 # http://forge.fusioninventory.org/issues/854
 sub _parseIpAddrShow {
@@ -246,7 +241,7 @@ sub _parseIpAddrShow {
             $entry->{IPADDRESS6} = $1;
         } elsif ($line =~ /inet ($ip_address_pattern)\/(\d{1,3})/) {
             $entry->{IPADDRESS} = $1;
-            $entry->{IPMASK}    = getNetworkMask($1, $2)
+            $entry->{IPMASK}    = getNetworkMask($1, $2);
             $entry->{IPSUBNET}  = getSubnetAddress(
                 $entry->{IPADDRESS}, $entry->{IPMASK}
             );

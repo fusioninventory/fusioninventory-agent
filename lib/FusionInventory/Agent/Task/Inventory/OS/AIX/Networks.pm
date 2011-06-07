@@ -17,10 +17,17 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     # set list of network interfaces
-    my $routes = getRoutingTable(command => 'netstat -nr', logger => $logger);
     my @interfaces = _getInterfaces();
+
+    my $routes = getRoutingTable(command => 'netstat -nr', logger => $logger);
+    foreach my $interface (@interfaces) {
+        next unless $interface->{IPSUBNET};
+        $interface->{IPGATEWAY} = $routes->{$interface->{IPSUBNET}};
+    }
+
     foreach my $interface (@interfaces) {
         $inventory->addEntry(
             section => 'NETWORKS',

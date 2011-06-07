@@ -24,8 +24,14 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # set list of network interfaces
+    my @interfaces = _getInterfaces($logger);
+
     my $routes = getRoutingTable(command => 'netstat -nr', logger => $logger);
-    my @interfaces = _getInterfaces($logger, $routes);
+    foreach my $interface (@interfaces) {
+        next unless $interface->{IPSUBNET};
+        $interface->{IPGATEWAY} = $routes->{$interface->{IPSUBNET}};
+    }
+
     foreach my $interface (@interfaces) {
         $inventory->addEntry(
             section => 'NETWORKS',
@@ -47,7 +53,7 @@ sub doInventory {
 }
 
 sub _getInterfaces {
-    my ($logger, $routes) = @_;
+    my ($logger) = @_;
 
     my $handle = getFileHandle(
         command => 'lanscan -iap'
@@ -88,14 +94,6 @@ sub _getInterfaces {
             $interface->{IPADDRESS},
             $interface->{IPMASK}
         );
-
-        # the gateway address is the gateway for the interface subnet
-        # unless on the gateway itself, where it is the default gateway
-        my $subnet = $interface->{IPSUBNET} . '/' . $interface->{IPMASK};
-        $interface->{IPGATEWAY} =
-            $routes->{$subnet} ne $interface->{IPADDRESS} ?
-                $routes->{$subnet}          :
-                $routes->{default};
 
         # Some cleanups
         if ($interface->{IPADDRESS} eq '0.0.0.0') {

@@ -20,8 +20,14 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # set list of network interfaces
-    my $routes = getRoutingTable(logger => $logger);
     my @interfaces = _getInterfaces($logger);
+
+    my $routes = getRoutingTable(logger => $logger);
+    foreach my $interface (@interfaces) {
+        next unless $interface->{IPSUBNET};
+        $interface->{IPGATEWAY} = $routes->{$interface->{IPSUBNET}};
+    }
+
     foreach my $interface (@interfaces) {
         $inventory->addEntry(
             section => 'NETWORKS',
