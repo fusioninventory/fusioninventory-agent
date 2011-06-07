@@ -18,6 +18,8 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
+    # set list of network interfaces
+    my $routes = getRoutingTable(command => 'netstat -nr', logger => $logger);
     my @interfaces = _getInterfaces();
     foreach my $interface (@interfaces) {
         $inventory->addEntry(
@@ -34,7 +36,8 @@ sub doInventory {
         @interfaces;
 
     $inventory->setHardware({
-        IPADDR => join('/', @ip_addresses)
+        IPADDR => join('/', @ip_addresses),
+        DEFAULTGATEWAY => $routes->{default}
     });
 }
 
