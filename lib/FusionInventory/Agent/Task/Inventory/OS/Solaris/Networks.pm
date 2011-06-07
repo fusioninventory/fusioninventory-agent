@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Solaris::Networks;
 use strict;
 use warnings;
 
+use Net::IP qw(:PROC);
+
 #ce5: flags=1000843<UP,BROADCAST,RUNNING,MULTICAST,IPv4> mtu 1500 index 3
 #        inet 55.37.101.171 netmask fffffc00 broadcast 55.37.103.255
 #        ether 0:3:ba:24:9b:bf
@@ -20,8 +22,7 @@ use FusionInventory::Agent::Tools::Network;
 sub isEnabled {
     return 
         can_run('ifconfig') &&
-        can_run('netstat') &&
-        can_load('Net::IP');
+        can_run('netstat');
 }
 
 sub doInventory {
@@ -236,9 +237,6 @@ sub _get_link_info {
 }
 
 sub _parseIfconfig {
-
-    # import Net::IP functional interface
-    Net::IP->import(':PROC');
 
     my @interfaces;
     my $interface;
