@@ -10,11 +10,7 @@ use FusionInventory::Agent::Tools::Network;
 #TODO Get driver pcislot virtualdev
 
 sub isEnabled {
-    return 
-        can_run('lanadmin') &&
-        can_run('lanscan') &&
-        can_run('netstat') &&
-        can_run('ifconfig');
+    return can_run('lanscan');
 }
 
 sub doInventory {
@@ -24,13 +20,8 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # set list of network interfaces
-    my @interfaces = _getInterfaces($logger);
-
     my $routes = getRoutingTable(command => 'netstat -nr', logger => $logger);
-    foreach my $interface (@interfaces) {
-        next unless $interface->{IPSUBNET};
-        $interface->{IPGATEWAY} = $routes->{$interface->{IPSUBNET}};
-    }
+    my @interfaces = _getInterfaces(logger => $logger, routes => $routes);
 
     foreach my $interface (@interfaces) {
         $inventory->addEntry(
@@ -52,12 +43,45 @@ sub doInventory {
     });
 }
 
-sub _getInterfaces {
-    my ($logger) = @_;
 
-    my $handle = getFileHandle(
-        command => 'lanscan -iap'
+sub _getInterfaces {
+    my (%params) = @_;
+
+    my @interfaces = _parseLanscan(
+        command => 'lanscan -iap',
+        logger  => $params{logger}
     );
+
+    foreach my $interface (@interfaces) {
+        $interface->{IPSUBNET} = getSubnetAddress(
+            $interface->{IPADDRESS},
+            $interface->{IPMASK}
+        );
+
+        # Some cleanups
+        if ($interface->{IPADDRESS} eq '0.0.0.0') {
+            $interface->{IPADDRESS} = "";
+        }
+        if (
+            not $interface->{IPADDRESS} and
+            not $interface->{IPMASK} and
+            $interface->{IPSUBNET} eq '0.0.0.0'
+        ) {
+            $interface->{IPSUBNET} = "";
+        }
+
+        if ($interface->{IPSUBNET}) {
+            $interface->{IPGATEWAY} = $params{routes}->{$interface->{IPSUBNET}};
+        }
+    }
+
+    return @interfaces;
+}
+
+sub _parseLanscan {
+    my (%params) = @_;
+
+    my $handle = getFileHandle(%params);
     return unless $handle;
 
     my @interfaces;
@@ -75,7 +99,7 @@ sub _getInterfaces {
         }
 
         my $lanadminInfo = _getLanadminInfo(
-            command => "lanadmin -g $lanid", logger => $logger
+            command => "lanadmin -g $lanid", logger => $params{logger}
         );
         $interface->{TYPE}        = $lanadminInfo->{'Type (value)'};
         $interface->{DESCRIPTION} = $lanadminInfo->{Description};
@@ -84,28 +108,11 @@ sub _getInterfaces {
                                         $lanadminInfo->{Speed};
 
         my $ifconfigInfo = _getIfconfigInfo(
-            command => "ifconfig $name", logger => $logger
+            command => "ifconfig $name", logger => $params{logger}
         );
         $interface->{STATUS}    = $ifconfigInfo->{status};
         $interface->{IPADDRESS} = $ifconfigInfo->{address};
         $interface->{IPMASK}    = $ifconfigInfo->{netmask};
-
-        $interface->{IPSUBNET} = getSubnetAddress(
-            $interface->{IPADDRESS},
-            $interface->{IPMASK}
-        );
-
-        # Some cleanups
-        if ($interface->{IPADDRESS} eq '0.0.0.0') {
-            $interface->{IPADDRESS} = "";
-        }
-        if (
-            not $interface->{IPADDRESS} and
-            not $interface->{IPMASK} and
-            $interface->{IPSUBNET} eq '0.0.0.0'
-        ) {
-            $interface->{IPSUBNET} = "";
-        }
 
         push @interfaces, $interface;
     }

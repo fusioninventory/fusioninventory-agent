@@ -20,13 +20,8 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # set list of network interfaces
-    my @interfaces = _getInterfaces($logger);
-
     my $routes = getRoutingTable(logger => $logger);
-    foreach my $interface (@interfaces) {
-        next unless $interface->{IPSUBNET};
-        $interface->{IPGATEWAY} = $routes->{$interface->{IPSUBNET}};
-    }
+    my @interfaces = _getInterfaces(logger => $logger, routes => $routes);
 
     foreach my $interface (@interfaces) {
         $inventory->addEntry(
@@ -49,11 +44,11 @@ sub doInventory {
 }
 
 sub _getInterfaces {
-    my ($logger) = @_;
+    my (%params) = @_;
 
     my @interfaces = _parseIfconfig(
         command => '/sbin/ifconfig -a',
-        logger  =>  $logger
+        logger  =>  $params{logger}
     );
 
     foreach my $interface (@interfaces) {
@@ -61,6 +56,10 @@ sub _getInterfaces {
             $interface->{IPADDRESS},
             $interface->{IPMASK}
         );
+
+        if ($interface->{IPSUBNET}) {
+            $interface->{IPGATEWAY} = $params{routes}->{$interface->{IPSUBNET}};
+        }
     }
 
     return @interfaces;

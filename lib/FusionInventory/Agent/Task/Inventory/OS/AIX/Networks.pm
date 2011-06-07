@@ -8,9 +8,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 
 sub isEnabled {
-    return
-        can_run('lscfg') ||
-        can_run('ifconfig');
+    return can_run('lscfg');
 }
 
 sub doInventory {
@@ -20,13 +18,8 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # set list of network interfaces
-    my @interfaces = _getInterfaces();
-
     my $routes = getRoutingTable(command => 'netstat -nr', logger => $logger);
-    foreach my $interface (@interfaces) {
-        next unless $interface->{IPSUBNET};
-        $interface->{IPGATEWAY} = $routes->{$interface->{IPSUBNET}};
-    }
+    my @interfaces = _getInterfaces(logger => $logger, routes => $routes);
 
     foreach my $interface (@interfaces) {
         $inventory->addEntry(
@@ -49,14 +42,19 @@ sub doInventory {
 }
 
 sub _getInterfaces {
+    my (%params) = @_;
+
+    my $logger = $params{logger};
 
     my @interfaces = _parseLscfg(
-        command => 'lscfg -v -l en*'
+        command => 'lscfg -v -l en*',
+        logger  => $logger
     );
 
     foreach my $interface (@interfaces) {
         my $handle = getFileHandle(
-            command => "lsattr -E -l $interface->{DESCRIPTION}"
+            command => "lsattr -E -l $interface->{DESCRIPTION}",
+            logger  => $logger
         );
         next unless $handle;
 
@@ -79,6 +77,10 @@ sub _getInterfaces {
             $interface->{IPADDRESS},
             $interface->{IPMASK},
         );
+
+        if ($interface->{IPSUBNET}) {
+            $interface->{IPGATEWAY} = $params{routes}->{$interface->{IPSUBNET}};
+        }
     }
 
     return @interfaces;

@@ -10,8 +10,8 @@ use FusionInventory::Agent::Tools::Unix;
 
 sub isEnabled {
     return 
-        can_run('ifconfig') &&
-        can_run('route');
+        can_run('ifconfig') ||
+        can_run('ip');
 }
 
 sub doInventory {
@@ -21,25 +21,9 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # get the list of network interfaces
-    my @interfaces = _getInterfaces($logger);
-
     my $routes = getRoutingTable(command => 'netstat -nr', logger => $logger);
-    foreach my $interface (@interfaces) {
-        next unless $interface->{IPSUBNET};
+    my @interfaces = _getInterfaces(logger => $logger, routes => $routes);
 
-        $interface->{IPGATEWAY} = $routes->{$interface->{IPSUBNET}};
-
-        # replace '0.0.0.0' (ie 'default gateway') by the
-        # default gateway IP adress if it exists
-        if ($interface->{IPGATEWAY} and
-            $interface->{IPGATEWAY} eq '0.0.0.0' and 
-            $routes->{'0.0.0.0'}
-        ) {
-            $interface->{IPGATEWAY} = $routes->{'0.0.0.0'}
-        }
-    }
-
-    # set the list of interfaces
     foreach my $interface (@interfaces) {
         $inventory->addEntry(
             section => 'NETWORKS',
@@ -61,7 +45,10 @@ sub doInventory {
 }
 
 sub _getInterfaces {
-    my ($logger) = @_;
+    my (%params) = @_;
+
+    my $logger = $params{logger};
+    my $routes = $params{routes};
 
     my @interfaces = can_run("/sbin/ip") ?
         _parseIpAddrShow(command => '/sbin/ip addr show', logger => $logger):
@@ -92,6 +79,19 @@ sub _getInterfaces {
 
         $interface->{IPDHCP} = getIpDhcp($logger, $interface->{DESCRIPTION});
         $interface->{SLAVES} = _getSlaves($interface->{DESCRIPTION});
+
+        if ($interface->{IPSUBNET}) {
+            $interface->{IPGATEWAY} = $routes->{$interface->{IPSUBNET}};
+
+            # replace '0.0.0.0' (ie 'default gateway') by the
+            # default gateway IP adress if it exists
+            if ($interface->{IPGATEWAY} and
+                $interface->{IPGATEWAY} eq '0.0.0.0' and 
+                $routes->{'0.0.0.0'}
+            ) {
+                $interface->{IPGATEWAY} = $routes->{'0.0.0.0'}
+            }
+        }
     }
 
     return @interfaces;
