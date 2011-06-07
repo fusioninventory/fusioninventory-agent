@@ -49,6 +49,7 @@ sub _parsePvs {
             FREE => int($line[6]||0),
             PV_UUID => $line[7],
             PV_PE_COUNT => $line[8],
+            PE_SIZE => int($line[5] / $line[8])
         }
 
     }
