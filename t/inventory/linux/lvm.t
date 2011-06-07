@@ -90,7 +90,8 @@ my %pvs = (
             'DEVICE' => '/dev/sda5',
             'PV_NAME' => 'lvm',
             'PV_PE_COUNT' => '3778',
-            'PV_UUID' => 'MjsnP7-GaGC-NIo7-tS3o-gf2t-di2R-eP3Au7'
+            'PV_UUID' => 'MjsnP7-GaGC-NIo7-tS3o-gf2t-di2R-eP3Au7',
+            'PE_SIZE' => 4
           },
           {
             'SIZE' => 2466,
@@ -100,7 +101,8 @@ my %pvs = (
             'DEVICE' => '/dev/sdb1',
             'PV_NAME' => 'lvm2',
             'PV_PE_COUNT' => '588',
-            'PV_UUID' => 'LNDa6y-PQGQ-gtnc-c7Wc-W2lS-Soaf-Bwu2Me'
+            'PV_UUID' => 'LNDa6y-PQGQ-gtnc-c7Wc-W2lS-Soaf-Bwu2Me',
+            'PE_SIZE' => 4
           },
           {
             'SIZE' => 2894,
@@ -110,7 +112,8 @@ my %pvs = (
             'DEVICE' => '/dev/sdb2',
             'PV_NAME' => 'lvm2',
             'PV_PE_COUNT' => '690',
-            'PV_UUID' => 'xkxfmu-fQLt-DtKZ-YnkY-vwcj-JqC2-WmQddD'
+            'PV_UUID' => 'xkxfmu-fQLt-DtKZ-YnkY-vwcj-JqC2-WmQddD',
+            'PE_SIZE' => 4
           }
         ]
         );
