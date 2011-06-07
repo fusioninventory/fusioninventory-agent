@@ -998,7 +998,7 @@ Registered LVM Physical Volume
 sub addPhysicalVolume {
     my ($self, $args) = @_;
 
-    my @fields = qw/DEVICE PV_NAME PV_PE_COUNT PV_UUID FORMAT ATTR SIZE FREE/;
+    my @fields = qw/DEVICE PV_NAME PV_PE_COUNT PV_UUID FORMAT ATTR SIZE FREE PE_SIZE/;
 
     $self->_addEntry({
         'field' => \@fields,
@@ -2372,7 +2372,7 @@ The volume group UUID.
 
 The device name. Eg.: /dev/sda1 on Linux.
 
-=item PVNAME
+=item PV_NAME
 
 The physical device name.
 
@@ -2388,9 +2388,18 @@ The LVM attribue in use for this phyisical device.
 
 The size in MB.
 
-=item UUID
+=item PV_UUID
 
 The UUID.
+
+=item PV_PE_COUNT
+
+Item PV_PE_COUNT
+
+
+=item PE_SIZE
+
+Item PE_SIZE
 
 =back
 
