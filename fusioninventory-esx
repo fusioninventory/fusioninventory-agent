@@ -116,6 +116,10 @@ The maintainer is Goneri LE BOUDER <goneri@rulezlan.org>
 
 The FusionInventory project L<fusioninventory-devel@lists.alioth.debian.org>
 
+=head1 SECURITY
+
+The SSL hostname check of the server is disabled.
+
 =head1 SEE ALSO
 
 =over 4
