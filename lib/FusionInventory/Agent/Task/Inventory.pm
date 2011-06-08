@@ -76,6 +76,9 @@ sub main {
 
     $self->feedInventory();
 
+# Put ACCOUNTINFO values in the inventory
+    my $accountinfo = $self->{target}->{accountinfo};
+    $accountinfo->setAccountInfo($self->{inventory});
 
     if ($self->{target}->{type} eq 'stdout') {
         $self->{inventory}->printXML();
@@ -86,11 +89,6 @@ sub main {
             $self->{inventory}->writeHTML();
         }
     } elsif ($self->{target}->{type} eq 'server') {
-
-        my $accountinfo = $self->{target}->{accountinfo};
-
-        # Put ACCOUNTINFO values in the inventory
-        $accountinfo->setAccountInfo($self->{inventory});
 
         my $network = FusionInventory::Agent::Network->new({
             logger => $self->{logger},
