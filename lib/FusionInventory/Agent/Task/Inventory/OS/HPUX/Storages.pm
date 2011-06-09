@@ -7,10 +7,7 @@ use FusionInventory::Agent::Tools;
 
 sub isEnabled  {
     return
-        can_run('ioscan')    &&
-        can_run('cut')       &&
-        can_run('pvdisplay') &&
-        can_run('diskinfo');
+        can_run('ioscan');
 }
 
 sub doInventory {
