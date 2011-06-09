@@ -23,9 +23,10 @@ sub doInventory {
         _parseIoscan(command => 'ioscan -kFnC disk', logger => $logger)
     ) {
         # skip alternate links
-        next if
-            any { /$device->{NAME}\.+lternate/ }
-            `pvdisplay $device->{NAME} 2> /dev/null`;
+        next if getFirstMatch(
+            command => "pvdisplay $device->{NAME}",
+            pattern => qr/$device->{NAME}\.+lternate/
+        );
 
         foreach ( `diskinfo -v $device->{NAME} 2>/dev/null`) {
             if ( /^\s+size:\s+(\S+)/ ) {
