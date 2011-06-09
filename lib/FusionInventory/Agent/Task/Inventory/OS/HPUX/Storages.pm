@@ -19,6 +19,19 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
+    foreach my $disk (_getDisks($logger)) {
+        $inventory->addEntry(section => 'STORAGES', entry => $disk);
+    }
+
+    foreach my $tape (_getTapes($logger)) {
+        $inventory->addEntry(section => 'STORAGES', entry => $tape);
+    }
+}
+
+sub _getDisks {
+    my ($logger) = @_;
+
+    my @disks;
     foreach my $device (
         _parseIoscan(command => 'ioscan -kFnC disk', logger => $logger)
     ) {
@@ -38,16 +51,24 @@ sub doInventory {
         }
 
         $device->{TYPE} = 'disk';
-        $inventory->addEntry(section => 'STORAGES', entry => $device);
+        push @disks, $device;
     }
 
+    return @disks;
+}
+
+sub _getTapes {
+    my ($logger) = @_;
+
+    my @tapes;
     foreach my $device (
         _parseIoscan(command => 'ioscan -kFnC tape', logger => $logger)
     ) {
         $device->{TYPE} = 'tape';
-        $inventory->addEntry(section => 'STORAGES', entry => $device);
+        push @tapes, $device;
     }
 
+    return @tapes;
 }
 
 sub _parseIoscan {
