@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::OS::AIX::Hardware;
+package FusionInventory::Agent::Task::Inventory::OS::AIX::Bios;
 
 use strict;
 use warnings;
