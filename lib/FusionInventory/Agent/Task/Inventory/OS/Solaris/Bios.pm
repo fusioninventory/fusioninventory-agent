@@ -99,16 +99,12 @@ sub doInventory {
 
             $SystemModel .= " ($name)" if( $name );
 
-            if( -x "/opt/SUNWsneep/bin/sneep" ) {
-                $SystemSerial = getFirstLine(
-                    command => '/opt/SUNWsneep/bin/sneep'
-                );
-            } else {
-                foreach(`/bin/find /opt -name sneep`) {
-                    next unless /^(\S+)/;
-                    $SystemSerial = getFirstLine(command => $1);
-                }
-            }
+            my $command = -x '/opt/SUNWsneep/bin/sneep' ?
+                '/opt/SUNWsneep/bin/sneep' : 'sneep';
+
+            $SystemSerial = getFirstLine(
+                command => $command
+            );
         }
     } else {
         my $infos = _parseShowrew();
