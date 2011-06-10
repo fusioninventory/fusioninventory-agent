@@ -25,21 +25,10 @@ sub doInventory {
     my $zone = getZone();
     if ($zone) {
         if (can_run('showrev')) {
-            my $handle = getFileHandle(
-                command => "showrev",
-            );
-            while (my $line = <$handle>) {
-                if ($line =~ /^Application architecture:\s+(\S+)/) { 
-                    $SystemModel = $1
-                };
-                if ($line =~ /^Hardware provider:\s+(\S+)/) {
-                    $SystemManufacturer = $1
-                };
-                if ($line =~ /^Application architecture:\s+(\S+)/) {
-                    $aarch = $1
-                };
-            }
-            close $handle;
+            my $infos = _parseShowrew();
+            $SystemModel        = $infos->{'Application architecture'};
+            $SystemManufacturer = $infos->{'Hardware provider'};
+            $aarch              = $infos->{'Application architecture'};
         }
         if ($aarch eq "i386"){
             #
@@ -122,15 +111,8 @@ sub doInventory {
             }
         }
     } else {
-        my $handle = getFileHandle(
-            command => "showrev",
-        );
-        while (my $line = <$handle>) {
-            if ($line =~ /^Hardware provider:\s+(\S+)/) {
-                $SystemManufacturer = $1
-            };
-        }
-        close $handle;
+        my $infos = _parseShowrew();
+        $SystemManufacturer = $infos->{'Hardware provider'};
 
         $SystemModel = "Solaris Containers";
         $SystemSerial = "Solaris Containers";
@@ -148,6 +130,22 @@ sub doInventory {
     $inventory->setHardware({
         UUID => $uuid
     });
+}
+
+sub _parseShowRew {
+    my $handle = getFileHandle(
+        command => "showrev",
+    );
+    return unless $handle;
+
+    my $infos;
+    while (my $line = <$handle>) {
+        next unless $line =~ /^ ([^:]+) : \s+ (\S+)/x;
+        $infos->{$1} = $2;
+    }
+    close $handle;
+
+    return $infos;
 }
 
 1;
