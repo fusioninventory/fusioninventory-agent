@@ -16,6 +16,7 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my ($SystemSerial, $SystemModel, $SystemManufacturer, $BiosManufacturer,
         $BiosVersion, $BiosDate, $uuid);
@@ -25,7 +26,7 @@ sub doInventory {
 
         my $arch;
         if (can_run('showrev')) {
-            my $infos = _parseShowrew();
+            my $infos = _parseShowrew($logger);
             $SystemModel        = $infos->{'Application architecture'};
             $SystemManufacturer = $infos->{'Hardware provider'};
             $arch               = $infos->{'Application architecture'};
@@ -35,7 +36,7 @@ sub doInventory {
         }
 
         if ($arch eq "i386") {
-            my $infos = _parseSmbios();
+            my $infos = _parseSmbios($logger);
             $SystemManufacturer = $infos->{'Manufacturer'};
             $SystemSerial       = $infos->{'Serial Number'};
             $SystemModel        = $infos->{'Product'};
@@ -44,7 +45,7 @@ sub doInventory {
             $BiosDate           = $infos->{'Release Date'};
             $uuid               = $infos->{'UUID'};
         } elsif ($arch =~ /sparc/i) {
-            my $infos = _parsePrtconf();
+            my $infos = _parsePrtconf($logger);
             $SystemModel        = $infos->{SystemModel};
             $BiosVersion        = $infos->{BiosVersion};
             $BiosDate           = $infos->{BiosDate};
@@ -53,11 +54,12 @@ sub doInventory {
                 '/opt/SUNWsneep/bin/sneep' : 'sneep';
 
             $SystemSerial = getFirstLine(
-                command => $command
+                command => $command,
+                logger  => $logger
             );
         }
     } else {
-        my $infos = _parseShowrew();
+        my $infos = _parseShowrew($logger);
         $SystemManufacturer = $infos->{'Hardware provider'};
 
         $SystemModel = "Solaris Containers";
@@ -80,8 +82,11 @@ sub doInventory {
 }
 
 sub _parseShowRew {
+    my ($logger) = @_;
+
     my $handle = getFileHandle(
         command => "showrev",
+        logger  => $logger
     );
     return unless $handle;
 
@@ -96,8 +101,11 @@ sub _parseShowRew {
 }
 
 sub _parseSmbios {
+    my ($logger) = @_;
+
     my $handle = getFileHandle(
-        command => "/usr/sbin/smbios"
+        command => "/usr/sbin/smbios",
+        logger  => $logger
     );
     return unless $handle;
 
@@ -112,8 +120,11 @@ sub _parseSmbios {
 }
 
 sub _parsePrtconf {
+    my ($logger) = @_;
+
     my $handle = getFileHandle(
-        command => "/usr/sbin/prtconf -pv"
+        command => "/usr/sbin/prtconf -pv",
+        logger  => $logger
     );
     return unless $handle;
 
