@@ -19,21 +19,23 @@ sub doInventory {
 
     my ($SystemSerial, $SystemModel, $SystemManufacturer, $BiosManufacturer,
         $BiosVersion, $BiosDate, $uuid);
-    my $aarch =
-        getFirstLine(command => 'arch') eq 'i86pc' ? 'i386' : 'unknown';
 
     my $zone = getZone();
     if ($zone) {
+
+        my $arch;
         if (can_run('showrev')) {
             my $infos = _parseShowrew();
             $SystemModel        = $infos->{'Application architecture'};
             $SystemManufacturer = $infos->{'Hardware provider'};
-            $aarch              = $infos->{'Application architecture'};
+            $arch               = $infos->{'Application architecture'};
+        } else {
+            $arch =
+                getFirstLine(command => 'arch') eq 'i86pc' ? 'i386' : 'unknown';
         }
-        if ($aarch eq "i386"){
-            #
-            # For a Intel/AMD arch, we're using smbio
-            #
+
+        if ($arch eq "i386") {
+            # use smbios for i386 arch
             my $handle = getFileHandle(
                 command => "/usr/sbin/smbios"
             );
@@ -61,10 +63,8 @@ sub doInventory {
                 }
             }
             close $handle;
-        } elsif ($aarch =~ /sparc/i) {
-            #
-            # For a Sparc arch, we're using prtconf
-            #
+        } elsif ($arch =~ /sparc/i) {
+            # use prtconf for Sparc arch
 
             my $handle = getFileHandle(
                 command => "/usr/sbin/prtconf -pv"
