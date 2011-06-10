@@ -31,11 +31,20 @@ sub doInventory {
     @devices = grep { !$seen{$_}++ } @devices;
 
     # parse dmesg
+    my @lines = getAllLines(
+        command => 'dmesg'
+    );
+
     foreach my $device (@devices) {
         my ($model, $capacity, $manufacturer);
-        foreach (`dmesg`){
-            if(/^$device.*<(.*)>/) { $model = $1; }
-            if(/^$device.*\s+(\d+)\s*MB/) { $capacity = $1;}
+
+        foreach my $line (@lines) {
+            if ($line =~ /^$device.*<(.*)>/) {
+                $model = $1;
+            }
+            if ($line =~ /^$device.*\s+(\d+)\s*MB/) {
+                $capacity = $1;
+            }
         }
 
         if ($model) {
