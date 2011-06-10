@@ -61,9 +61,9 @@ sub doInventory {
             section => 'STORAGES',
             entry   => {
                 MANUFACTURER => $manufacturer,
-                MODEL => $model,
-                DESCRIPTION => $device,
-                DISKSIZE => $capacity
+                MODEL        => $model,
+                DESCRIPTION  => $device,
+                DISKSIZE     => $capacity
             }
         );
     }
