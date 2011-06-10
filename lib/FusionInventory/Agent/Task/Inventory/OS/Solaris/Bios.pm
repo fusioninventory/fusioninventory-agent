@@ -35,69 +35,19 @@ sub doInventory {
         }
 
         if ($arch eq "i386") {
-            # use smbios for i386 arch
-            my $handle = getFileHandle(
-                command => "/usr/sbin/smbios"
-            );
-            while (my $line = <$handle>) {
-                if ($line =~ /^\s*Manufacturer:\s*(.+)$/) {
-                    $SystemManufacturer = $1
-                }
-                if ($line =~ /^\s*Serial Number:\s*(.+)$/) {
-                    $SystemSerial = $1;
-                }
-                if ($line =~ /^\s*Product:\s*(.+)$/) {
-                    $SystemModel = $1;
-                }
-                if ($line =~ /^\s*Vendor:\s*(.+)$/) {
-                    $BiosManufacturer = $1;
-                }
-                if ($line =~ /^\s*Version String:\s*(.+)$/) {
-                    $BiosVersion = $1;
-                }
-                if ($line =~ /^\s*Release Date:\s*(.+)$/) {
-                    $BiosDate = $1;
-                }
-                if ($line =~ /^\s*UUID:\s*(.+)$/) {
-                    $uuid = $1;
-                }
-            }
-            close $handle;
+            my $infos = _parseSmbios();
+            $SystemManufacturer = $infos->{'Manufacturer'};
+            $SystemSerial       = $infos->{'Serial Number'};
+            $SystemModel        = $infos->{'Product'};
+            $BiosManufacturer   = $infos->{'Vendor'};
+            $BiosVersion        = $infos->{'Version String'};
+            $BiosDate           = $infos->{'Release Date'};
+            $uuid               = $infos->{'UUID'};
         } elsif ($arch =~ /sparc/i) {
-            # use prtconf for Sparc arch
-
-            my $handle = getFileHandle(
-                command => "/usr/sbin/prtconf -pv"
-            );
-
-            my ($name, $OBPstring);
-            while (my $line = <$handle>) {
-                # prtconf is an awful thing to parse
-                if ($line =~ /^\s*banner-name:\s*'(.+)'$/) {
-                    $SystemModel = $1;
-                }
-                unless ($name) {
-                    if ($line =~ /^\s*name:\s*'(.+)'$/) {
-                        $name = $1;
-                    }
-                }
-                unless ($OBPstring) {
-                    if ($line =~ /^\s*version:\s*'(.+)'$/) {
-                        $OBPstring = $1;
-                        # looks like : "OBP 4.16.4 2004/12/18 05:18"
-                        #    with further informations sometime
-                        if ($OBPstring =~ m@OBP\s+([\d|\.]+)\s+(\d+)/(\d+)/(\d+)@ ) {
-                            $BiosVersion = "OBP $1";
-                            $BiosDate = "$2/$3/$4";
-                        } else {
-                            $BiosVersion = $OBPstring;
-                        }
-                    }
-                }
-            }
-            close $handle;
-
-            $SystemModel .= " ($name)" if( $name );
+            my $infos = _parsePrtconf();
+            $SystemModel        = $infos->{SystemModel};
+            $BiosVersion        = $infos->{BiosVersion};
+            $BiosDate           = $infos->{BiosDate};
 
             my $command = -x '/opt/SUNWsneep/bin/sneep' ?
                 '/opt/SUNWsneep/bin/sneep' : 'sneep';
@@ -141,6 +91,60 @@ sub _parseShowRew {
         $infos->{$1} = $2;
     }
     close $handle;
+
+    return $infos;
+}
+
+sub _parseSmbios {
+    my $handle = getFileHandle(
+        command => "/usr/sbin/smbios"
+    );
+    return unless $handle;
+
+    my $infos;
+    while (my $line = <$handle>) {
+        next unless $line =~ /^ \s* ([^:]+) : \s* (.+) $/x;
+        $infos->{$1} = $2;
+    }
+    close $handle;
+
+    return $infos;
+}
+
+sub _parsePrtconf {
+    my $handle = getFileHandle(
+        command => "/usr/sbin/prtconf -pv"
+    );
+    return unless $handle;
+
+    my ($infos, $name, $OBPstring);
+    while (my $line = <$handle>) {
+        # prtconf is an awful thing to parse
+        if ($line =~ /^\s*banner-name:\s*'(.+)'$/) {
+            $infos->{SystemModel} = $1;
+        }
+        unless ($name) {
+            if ($line =~ /^\s*name:\s*'(.+)'$/) {
+                $name = $1;
+            }
+        }
+        unless ($OBPstring) {
+            if ($line =~ /^\s*version:\s*'(.+)'$/) {
+                $OBPstring = $1;
+                # looks like : "OBP 4.16.4 2004/12/18 05:18"
+                #    with further informations sometime
+                if ($OBPstring =~ m@OBP\s+([\d|\.]+)\s+(\d+)/(\d+)/(\d+)@ ) {
+                    $infos->{BiosVersion} = "OBP $1";
+                    $infos->{BiosDate} = "$2/$3/$4";
+                } else {
+                    $infos->{BiosVersion} = $OBPstring;
+                }
+            }
+        }
+    }
+    close $handle;
+
+    $infos->{SystemModel} .= " ($name)" if $name;
 
     return $infos;
 }
