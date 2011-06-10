@@ -46,8 +46,8 @@ sub doInventory {
             $uuid               = $infos->{'UUID'};
         } elsif ($arch =~ /sparc/i) {
             my $infos = _parsePrtconf($logger);
-            $SystemModel        = $infos->{'banner-name'};
-            $SystemModel       .= " ($infos->{name})" if $infos->{name};
+            $SystemModel = $infos->{'banner-name'};
+            $SystemModel .= " ($infos->{name})" if $infos->{name};
 
             # looks like : "OBP 4.16.4 2004/12/18 05:18"
             #    with further informations sometime
@@ -69,10 +69,8 @@ sub doInventory {
     } else {
         my $infos = _parseShowrew($logger);
         $SystemManufacturer = $infos->{'Hardware provider'};
-
-        $SystemModel = "Solaris Containers";
-        $SystemSerial = "Solaris Containers";
-
+        $SystemModel        = "Solaris Containers";
+        $SystemSerial       = "Solaris Containers";
     }
 
     $inventory->setBios({
