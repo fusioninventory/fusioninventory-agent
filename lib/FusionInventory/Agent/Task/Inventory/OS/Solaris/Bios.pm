@@ -23,7 +23,7 @@ sub doInventory {
         getFirstLine(command => 'arch') eq 'i86pc' ? 'i386' : 'unknown';
 
     my $zone = getZone();
-    if ($zone){
+    if ($zone) {
         if (can_run('showrev')) {
             foreach(`showrev`){
                 if(/^Application architecture:\s+(\S+)/){$SystemModel = $1};
@@ -31,7 +31,7 @@ sub doInventory {
                 if(/^Application architecture:\s+(\S+)/){$aarch = $1};
             }
         }
-        if( $aarch eq "i386" ){
+        if ($aarch eq "i386"){
             #
             # For a Intel/AMD arch, we're using smbio
             #
@@ -44,14 +44,14 @@ sub doInventory {
                 if(/^\s*Release Date:\s*(.+)$/){$BiosDate = $1};
                 if(/^\s*UUID:\s*(.+)$/){$uuid = $1};
             }
-        } elsif( $aarch =~ /sparc/i ) {
+        } elsif ($aarch =~ /sparc/i) {
             #
             # For a Sparc arch, we're using prtconf
             #
             my $name;
             my $OBPstring;
 
-            foreach(`/usr/sbin/prtconf -pv`) {
+            foreach (`/usr/sbin/prtconf -pv`) {
                 # prtconf is an awful thing to parse
                 if(/^\s*banner-name:\s*'(.+)'$/){$SystemModel = $1;}
                 unless ($name)
@@ -74,7 +74,7 @@ sub doInventory {
                 $SystemSerial = getFirstLine(
                     command => '/opt/SUNWsneep/bin/sneep'
                 );
-            }else {
+            } else {
                 foreach(`/bin/find /opt -name sneep`) {
                     next unless /^(\S+)/;
                     $SystemSerial = getFirstLine(command => $1);
@@ -84,7 +84,7 @@ sub doInventory {
                 }
             }
         }
-    }else{
+    } else {
         foreach(`showrev`){
             if(/^Hardware provider:\s+(\S+)/){$SystemManufacturer = $1};
         }
