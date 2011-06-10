@@ -22,13 +22,13 @@ sub doInventory {
     my @devices;
     while (<$handle>) {
         next unless m{/^/dev/(\S+)};
-        push @devices, $1;
+        push @devices, { DESCRIPTION => $1 };
     }
     close $handle;
 
     #  filter duplicates
     my %seen;
-    @devices = grep { !$seen{$_}++ } @devices;
+    @devices = grep { !$seen{$_->{DESCRIPTION}}++ } @devices;
 
     # parse dmesg
     my @lines = getAllLines(
@@ -36,35 +36,29 @@ sub doInventory {
     );
 
     foreach my $device (@devices) {
-        my ($model, $capacity, $manufacturer);
 
         foreach my $line (@lines) {
-            if ($line =~ /^$device.*<(.*)>/) {
-                $model = $1;
+            if ($line =~ /^$device->{DESCRIPTION}.*<(.*)>/) {
+                $device->{MODEL} = $1;
             }
-            if ($line =~ /^$device.*\s+(\d+)\s*MB/) {
-                $capacity = $1;
+            if ($line =~ /^$device->{DESCRIPTION}.*\s+(\d+)\s*MB/) {
+                $device->{CAPACITY} = $1;
             }
         }
 
-        if ($model) {
-            if ($model =~ s/^(SGI|SONY|WDC|ASUS|LG|TEAC|SAMSUNG|PHILIPS|PIONEER|MAXTOR|PLEXTOR|SEAGATE|IBM|SUN|SGI|DEC|FUJITSU|TOSHIBA|YAMAHA|HITACHI|VERITAS)\s*//i) {
-                $manufacturer = $1;
+        if ($device->{MODEL}) {
+            if ($device->{MODEL} =~ s/^(SGI|SONY|WDC|ASUS|LG|TEAC|SAMSUNG|PHILIPS|PIONEER|MAXTOR|PLEXTOR|SEAGATE|IBM|SUN|SGI|DEC|FUJITSU|TOSHIBA|YAMAHA|HITACHI|VERITAS)\s*//i) {
+                $device->{MANUFACTURER} = $1;
             }
 
             # clean up the model
-            $model =~ s/^(\s|,)*//;
-            $model =~ s/(\s|,)*$//;
+            $device->{MODEL} =~ s/^(\s|,)*//;
+            $device->{MODEL} =~ s/(\s|,)*$//;
         }
 
         $inventory->addEntry(
             section => 'STORAGES',
-            entry   => {
-                MANUFACTURER => $manufacturer,
-                MODEL        => $model,
-                DESCRIPTION  => $device,
-                DISKSIZE     => $capacity
-            }
+            entry   => $device
         );
     }
 }
