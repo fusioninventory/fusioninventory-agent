@@ -79,9 +79,6 @@ sub doInventory {
                     next unless /^(\S+)/;
                     $SystemSerial = getFirstLine(command => $1);
                 }
-                if (!$SystemSerial){
-                    $SystemSerial = "Please install package SUNWsneep";
-                }
             }
         }
     } else {
