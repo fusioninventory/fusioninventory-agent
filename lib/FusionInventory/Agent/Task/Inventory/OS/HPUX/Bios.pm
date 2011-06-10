@@ -25,10 +25,17 @@ sub doInventory {
         $serial  = $info->{'Platform info'}->{'machine serial number'};
         $uuid    = uc($info->{'Platform info'}->{'machine id number'});
     } else {
-        foreach ( `echo 'sc product cpu;il' | /usr/sbin/cstm` ) {
-            next unless /PDC Firmware/;
-            if ( /Revision:\s+(\S+)/ ) { $version = "PDC $1" }
+        my $handle = getFileHandle(
+            command => "echo 'sc product cpu;il' | /usr/sbin/cstm",
+            logger  => $logger
+        );
+        while (my $line = <$handle>) {
+            next unless $line =~ /PDC Firmware/;
+            next unless $line =~ /Revision:\s+(\S+)/;
+            $version = "PDC $1";
         }
+        close $handle;
+
         $serial = getFirstMatch(
             command => "echo 'sc product system;il' | /usr/sbin/cstm",
             pattern => qr/^System Serial Number:\s+: (\S+)/
