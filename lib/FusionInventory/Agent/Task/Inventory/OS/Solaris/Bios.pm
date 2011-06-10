@@ -122,6 +122,7 @@ sub doInventory {
     $inventory->setBios({
         BVERSION      => $BiosVersion,
         BDATE         => $BiosDate,
+        BMANUFACTURER => $BiosManufacturer,
         SMANUFACTURER => $SystemManufacturer,
         SMODEL        => $SystemModel,
         SSN           => $SystemSerial
