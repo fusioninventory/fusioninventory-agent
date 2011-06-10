@@ -46,9 +46,17 @@ sub doInventory {
             $uuid               = $infos->{'UUID'};
         } elsif ($arch =~ /sparc/i) {
             my $infos = _parsePrtconf($logger);
-            $SystemModel        = $infos->{SystemModel};
-            $BiosVersion        = $infos->{BiosVersion};
-            $BiosDate           = $infos->{BiosDate};
+            $SystemModel        = $infos->{'banner-name'};
+            $SystemModel       .= " ($infos->{name})" if $infos->{name};
+
+            # looks like : "OBP 4.16.4 2004/12/18 05:18"
+            #    with further informations sometime
+            if ($infos->{version} =~ m@OBP\s+([\d|\.]+)\s+(\d+)/(\d+)/(\d+)@) {
+                $BiosVersion = "OBP $1";
+                $BiosDate    = "$2/$3/$4";
+            } else {
+                $BiosVersion = $infos->{version};
+            }
 
             my $command = -x '/opt/SUNWsneep/bin/sneep' ?
                 '/opt/SUNWsneep/bin/sneep' : 'sneep';
@@ -130,30 +138,11 @@ sub _parsePrtconf {
 
     my ($infos, $name, $OBPstring);
     while (my $line = <$handle>) {
-        # prtconf is an awful thing to parse
-        if ($line =~ /^\s*banner-name:\s*'(.+)'$/) {
-            $infos->{SystemModel} = $1;
-        }
-        if ($line =~ /^\s*name:\s*'(.+)'$/) {
-            next if $name;
-            $name = $1;
-        }
-        if ($line =~ /^\s*version:\s*'(.+)'$/) {
-            next if $OBPstring;
-            $OBPstring = $1;
-            # looks like : "OBP 4.16.4 2004/12/18 05:18"
-            #    with further informations sometime
-            if ($OBPstring =~ m@OBP\s+([\d|\.]+)\s+(\d+)/(\d+)/(\d+)@ ) {
-                $infos->{BiosVersion} = "OBP $1";
-                $infos->{BiosDate} = "$2/$3/$4";
-            } else {
-                $infos->{BiosVersion} = $OBPstring;
-            }
-        }
+        next unless $line =~ /^ \s* ([^:]+) : \s* ' (.+) '$/x;
+        next if $infos->{$1};
+        $infos->{$1} = $2;
     }
     close $handle;
-
-    $infos->{SystemModel} .= " ($name)" if $name;
 
     return $infos;
 }
