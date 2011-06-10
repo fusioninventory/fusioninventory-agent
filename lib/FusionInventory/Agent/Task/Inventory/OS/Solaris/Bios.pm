@@ -134,22 +134,20 @@ sub _parsePrtconf {
         if ($line =~ /^\s*banner-name:\s*'(.+)'$/) {
             $infos->{SystemModel} = $1;
         }
-        unless ($name) {
-            if ($line =~ /^\s*name:\s*'(.+)'$/) {
-                $name = $1;
-            }
+        if ($line =~ /^\s*name:\s*'(.+)'$/) {
+            next if $name;
+            $name = $1;
         }
-        unless ($OBPstring) {
-            if ($line =~ /^\s*version:\s*'(.+)'$/) {
-                $OBPstring = $1;
-                # looks like : "OBP 4.16.4 2004/12/18 05:18"
-                #    with further informations sometime
-                if ($OBPstring =~ m@OBP\s+([\d|\.]+)\s+(\d+)/(\d+)/(\d+)@ ) {
-                    $infos->{BiosVersion} = "OBP $1";
-                    $infos->{BiosDate} = "$2/$3/$4";
-                } else {
-                    $infos->{BiosVersion} = $OBPstring;
-                }
+        if ($line =~ /^\s*version:\s*'(.+)'$/) {
+            next if $OBPstring;
+            $OBPstring = $1;
+            # looks like : "OBP 4.16.4 2004/12/18 05:18"
+            #    with further informations sometime
+            if ($OBPstring =~ m@OBP\s+([\d|\.]+)\s+(\d+)/(\d+)/(\d+)@ ) {
+                $infos->{BiosVersion} = "OBP $1";
+                $infos->{BiosDate} = "$2/$3/$4";
+            } else {
+                $infos->{BiosVersion} = $OBPstring;
             }
         }
     }
