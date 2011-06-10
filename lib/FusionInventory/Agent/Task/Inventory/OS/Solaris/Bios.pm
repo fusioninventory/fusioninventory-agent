@@ -51,7 +51,7 @@ sub doInventory {
 
             # looks like : "OBP 4.16.4 2004/12/18 05:18"
             #    with further informations sometime
-            if ($infos->{version} =~ m@OBP\s+([\d|\.]+)\s+(\d+)/(\d+)/(\d+)@) {
+            if ($infos->{version} =~ m{OBP\s+([\d|\.]+)\s+(\d+)/(\d+)/(\d+)}) {
                 $BiosVersion = "OBP $1";
                 $BiosDate    = "$2/$3/$4";
             } else {
