@@ -93,7 +93,6 @@ sub doInventory {
 
     }
 
-    # Writing data
     $inventory->setBios({
         BVERSION      => $BiosVersion,
         BDATE         => $BiosDate,
@@ -101,10 +100,10 @@ sub doInventory {
         SMODEL        => $SystemModel,
         SSN           => $SystemSerial
     });
+
     $inventory->setHardware({
         UUID => $uuid
-    }) if $uuid;
-
+    });
 }
 
 1;

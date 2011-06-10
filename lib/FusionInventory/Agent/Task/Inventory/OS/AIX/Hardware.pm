@@ -38,14 +38,13 @@ sub doInventory {
         $serial = $vpd->{SE};
     }
 
-    # Writing data
     $inventory->setBios({
+        BVERSION      => $version,
+        BDATE         => $date,
+        BMANUFACTURER => 'IBM',
         SMANUFACTURER => 'IBM',
         SMODEL        => $model,
         SSN           => $serial,
-        BMANUFACTURER => 'IBM',
-        BVERSION      => $version,
-        BDATE         => $date,
     });
 }
 
