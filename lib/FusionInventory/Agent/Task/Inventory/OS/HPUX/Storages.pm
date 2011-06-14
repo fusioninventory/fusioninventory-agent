@@ -7,10 +7,7 @@ use FusionInventory::Agent::Tools;
 
 sub isEnabled  {
     return
-        can_run('ioscan')    &&
-        can_run('cut')       &&
-        can_run('pvdisplay') &&
-        can_run('diskinfo');
+        can_run('ioscan');
 }
 
 sub doInventory {
@@ -19,13 +16,27 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
+    foreach my $disk (_getDisks($logger)) {
+        $inventory->addEntry(section => 'STORAGES', entry => $disk);
+    }
+
+    foreach my $tape (_getTapes($logger)) {
+        $inventory->addEntry(section => 'STORAGES', entry => $tape);
+    }
+}
+
+sub _getDisks {
+    my ($logger) = @_;
+
+    my @disks;
     foreach my $device (
         _parseIoscan(command => 'ioscan -kFnC disk', logger => $logger)
     ) {
         # skip alternate links
-        next if
-            any { /$device->{NAME}\.+lternate/ }
-            `pvdisplay $device->{NAME} 2> /dev/null`;
+        next if getFirstMatch(
+            command => "pvdisplay $device->{NAME}",
+            pattern => qr/$device->{NAME}\.+lternate/
+        );
 
         foreach ( `diskinfo -v $device->{NAME} 2>/dev/null`) {
             if ( /^\s+size:\s+(\S+)/ ) {
@@ -37,16 +48,24 @@ sub doInventory {
         }
 
         $device->{TYPE} = 'disk';
-        $inventory->addEntry(section => 'STORAGES', entry => $device);
+        push @disks, $device;
     }
 
+    return @disks;
+}
+
+sub _getTapes {
+    my ($logger) = @_;
+
+    my @tapes;
     foreach my $device (
         _parseIoscan(command => 'ioscan -kFnC tape', logger => $logger)
     ) {
         $device->{TYPE} = 'tape';
-        $inventory->addEntry(section => 'STORAGES', entry => $device);
+        push @tapes, $device;
     }
 
+    return @tapes;
 }
 
 sub _parseIoscan {

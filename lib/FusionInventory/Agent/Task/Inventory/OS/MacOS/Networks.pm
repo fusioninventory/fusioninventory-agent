@@ -5,8 +5,9 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Regexp;
+use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Network;
 
 sub isEnabled {
     return can_run('ifconfig');
@@ -19,8 +20,9 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # set list of network interfaces
-    my $routes = getRoutesFromNetstat(logger => $logger);
-    my @interfaces = _getInterfaces($logger);
+    my $routes = getRoutingTable(logger => $logger);
+    my @interfaces = _getInterfaces(logger => $logger, routes => $routes);
+
     foreach my $interface (@interfaces) {
         $inventory->addEntry(
             section => 'NETWORKS',
@@ -42,11 +44,11 @@ sub doInventory {
 }
 
 sub _getInterfaces {
-    my ($logger) = @_;
+    my (%params) = @_;
 
     my @interfaces = _parseIfconfig(
         command => '/sbin/ifconfig -a',
-        logger  =>  $logger
+        logger  =>  $params{logger}
     );
 
     foreach my $interface (@interfaces) {
@@ -54,10 +56,15 @@ sub _getInterfaces {
             $interface->{IPADDRESS},
             $interface->{IPMASK}
         );
+
+        if ($interface->{IPSUBNET}) {
+            $interface->{IPGATEWAY} = $params{routes}->{$interface->{IPSUBNET}};
+        }
     }
 
     return @interfaces;
 }
+
 sub _parseIfconfig {
 
     my $handle = getFileHandle(@_);
@@ -87,16 +94,8 @@ sub _parseIfconfig {
             # fe80::214:51ff:fe1a:c8e2%fw0
             $interface->{IPADDRESS6} =~ s/%.*$//;
         }
-        if ($line =~ /netmask (\S+)/) {
-            # In BSD, netmask is given in hex form
-            my $ipmask = $1;
-            if ($ipmask =~ /^0x(\w{2})(\w{2})(\w{2})(\w{2})$/) {
-                $interface->{IPMASK} =
-                    hex($1) . '.' .
-                    hex($2) . '.' .
-                    hex($3) . '.' .
-                    hex($4);
-            }
+        if ($line =~ /netmask 0x($hex_ip_address_pattern)/) {
+            $interface->{IPMASK} = hex2quad($1);
         }
         if ($line =~ /(?:address:|ether|lladdr) ($mac_address_pattern)/) {
             $interface->{MACADDR} = $1;
@@ -114,8 +113,10 @@ sub _parseIfconfig {
             $interface->{VIRTUALDEV} = 0;
         }
     }
-    push @interfaces, $interface if $interface;
     close $handle;
+    
+    # last interface
+    push @interfaces, $interface if $interface;
 
     return @interfaces;
 }

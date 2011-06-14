@@ -1,0 +1,5 @@
+Filesystem          kbytes    used   avail %used Mounted on
+ignsrv:/storage/Archive
+                   3984588800 2790675224 1184657264   70% /net/Archive
+nfs:/u02/logs/root/kbmon/hpux/dgs/output
+                   50412224 30244184 17607224   63% /net/hpux-dgs-chdo

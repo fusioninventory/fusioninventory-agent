@@ -1,0 +1,3 @@
+Filesystem          kbytes    used   avail %used Mounted on
+nfs:/u02/logs/root/kbmon/hpux/dgs/output/ignsrv
+                   50412224 30266304 17585104   63% /net/hpux-dgs-output

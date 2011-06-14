@@ -4,6 +4,9 @@ Data origin:
 - hpux1, hpux2 samples: Amir Pakdel <a.pakdel@karafarinbank.net>
 - hpux3, hpux4 samples: Earl Flack <innate.ideas@gmail.com>
 
+bdf:
+- hpux*-X: bdf -t X
+
 CIMUtil: CIMUtil command
 - hpux*: CIMUtil -e root/cimv2 HP_ManagementProcessor 
 
@@ -37,6 +40,9 @@ ioscan: ioscan command
 
 lanscan: lanscan command
 - hpux*: lanscan -iap
+
+lanadmin: lanadmin command
+- hpux*-X: lanscan -g X
 
 machinfo: machinfo command
 - hpux*: machinfo

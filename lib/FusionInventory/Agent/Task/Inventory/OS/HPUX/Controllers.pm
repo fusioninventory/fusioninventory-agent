@@ -36,9 +36,7 @@ sub _getControllers {
     while (my $line = <$handle>) {
         my @info = split(/:/, $line);
         push @controllers, {
-            NAME         => $info[10],
-            MANUFACTURER => $info[16] . " " . $info[17],
-            TYPE         => $info[8]
+            TYPE => $info[17]
         };
     }
     close $handle;

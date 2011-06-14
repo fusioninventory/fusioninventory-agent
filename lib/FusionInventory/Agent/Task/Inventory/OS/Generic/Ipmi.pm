@@ -20,8 +20,9 @@ package FusionInventory::Agent::Task::Inventory::OS::Generic::Ipmi;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Regexp;
+use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Network;
 
 sub isEnabled {
     return unless can_run('ipmitool');

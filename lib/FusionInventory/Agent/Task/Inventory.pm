@@ -246,6 +246,13 @@ sub _feedInventory {
         $self->_runModule($module, $inventory);
     }
 
+    if (-d $self->{confdir} . '/softwares') {
+        $self->{logger}->warn(
+            "using custom scripts for adding softwares to inventory is " .
+            "deprecated, use --additional-content option insted"
+        );
+    }
+
     $self->_injectContent($self->{config}->{'additional-content'}, $inventory)
         if -f $self->{config}->{'additional-content'};
 
@@ -268,8 +275,15 @@ sub _injectContent {
         "importing $file file content to the inventory"
     );
 
-    my $tree    = XML::TreePP->new()->parsefile($file);
-    my $content = $tree->{REQUEST}->{CONTENT};
+    my $content;
+    SWITCH: {
+        if ($file =~ /\.xml$/) {
+            my $tree = XML::TreePP->new()->parsefile($file);
+            $content = $tree->{REQUEST}->{CONTENT};
+            last SWITCH;
+        }
+        die "unknown file type $file";
+    }
 
     if (!$content) {
         $self->{logger}->error("no suitable content found");

@@ -10,9 +10,8 @@ use File::Basename;
 use File::Spec;
 use File::stat;
 use Memoize;
+
 our @EXPORT = qw(
-    getSubnetAddress
-    getSubnetAddressIPv6
     getDirectoryHandle
     getFileHandle
     getFormatedLocalTime
@@ -290,38 +289,6 @@ sub getSanitizedString {
     };
 
     return $string;
-}
-
-sub getSubnetAddress {
-    my ($address, $mask) = @_;
-
-    return unless $address && $mask;
-
-    # load Net::IP conditionnaly
-    return unless can_load("Net::IP");
-    Net::IP->import(':PROC');
-
-    my $binaddress = ip_iptobin($address, 4);
-    my $binmask    = ip_iptobin($mask, 4);
-    my $binsubnet  = $binaddress & $binmask;
-
-    return ip_bintoip($binsubnet, 4);
-}
-
-sub getSubnetAddressIPv6 {
-    my ($address, $mask) = @_;
-
-    return unless $address && $mask;
-
-    # load Net::IP conditionnaly
-    return unless can_load("Net::IP");
-    Net::IP->import(':PROC');
-
-    my $binaddress = ip_iptobin($address, 6);
-    my $binmask    = ip_iptobin($mask, 6);
-    my $binsubnet  = $binaddress & $binmask;
-
-    return ip_bintoip($binsubnet, 6);
 }
 
 sub getDirectoryHandle {
@@ -681,14 +648,6 @@ Returns the number of lines of given command output or given file content.
 =item file the file to use, as an alternative to the command
 
 =back
-
-=head2 getSubnetAddress($address, $mask)
-
-Returns the subnet address for IPv4.
-
-=head2 getSubnetAddressIPv6($address, $mask)
-
-Returns the subnet address for IPv6.
 
 =head2 can_run($binary)
 

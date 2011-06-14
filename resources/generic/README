@@ -1,0 +1,13 @@
+generic command and file samples
+
+ifconfig
+- aix-5.3: ifconfig -l
+- aix-6.1: ifconfig -l
+- hpux1-lan0: ifconfig lan0
+- hpux2-lan0: ifconfig lan0
+
+netstat:
+- hpux*: netstat -nr
+- aix-*: netstat -nr
+- *bsd: netstat -nr -f inet
+- linux1: netstat -nr

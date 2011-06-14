@@ -3,17 +3,14 @@ package FusionInventory::Agent::Task::Inventory::OS::HPUX::Networks;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Regexp;
+use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Network;
 
 #TODO Get driver pcislot virtualdev
 
 sub isEnabled {
-    return 
-        can_run('lanadmin') &&
-        can_run('lanscan') &&
-        can_run('netstat') &&
-        can_run('ifconfig');
+    return can_run('lanscan');
 }
 
 sub doInventory {
@@ -23,8 +20,9 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # set list of network interfaces
-    my $routes = _getRoutes(logger => $logger);
-    my @interfaces = _getInterfaces($logger, $routes);
+    my $routes = getRoutingTable(command => 'netstat -nr', logger => $logger);
+    my @interfaces = _getInterfaces(logger => $logger, routes => $routes);
+
     foreach my $interface (@interfaces) {
         $inventory->addEntry(
             section => 'NETWORKS',
@@ -41,38 +39,49 @@ sub doInventory {
 
     $inventory->setHardware({
         IPADDR         => join('/', @ip_addresses),
-        DEFAULTGATEWAY => $routes->{'default/0.0.0.0'}
+        DEFAULTGATEWAY => $routes->{default}
     });
 }
 
 
-sub _getRoutes {
-    my $handle = getFileHandle(
-        command => 'netstat -nrv',
-        @_
+sub _getInterfaces {
+    my (%params) = @_;
+
+    my @interfaces = _parseLanscan(
+        command => 'lanscan -iap',
+        logger  => $params{logger}
     );
-    return unless $handle;
 
-    my $routes;
-    while (my $line = <$handle>) {
-        next unless $line =~ /^
-            ((?:$ip_address_pattern|default)\/$ip_address_pattern)
-            \s+
-            ($ip_address_pattern)
-        /x;
-        $routes->{$1} = $2 unless defined $routes->{$1};
+    foreach my $interface (@interfaces) {
+        $interface->{IPSUBNET} = getSubnetAddress(
+            $interface->{IPADDRESS},
+            $interface->{IPMASK}
+        );
+
+        # Some cleanups
+        if ($interface->{IPADDRESS} eq '0.0.0.0') {
+            $interface->{IPADDRESS} = "";
+        }
+        if (
+            not $interface->{IPADDRESS} and
+            not $interface->{IPMASK} and
+            $interface->{IPSUBNET} eq '0.0.0.0'
+        ) {
+            $interface->{IPSUBNET} = "";
+        }
+
+        if ($interface->{IPSUBNET}) {
+            $interface->{IPGATEWAY} = $params{routes}->{$interface->{IPSUBNET}};
+        }
     }
-    close $handle;
 
-    return $routes;
+    return @interfaces;
 }
 
-sub _getInterfaces {
-    my ($logger, $routes) = @_;
+sub _parseLanscan {
+    my (%params) = @_;
 
-    my $handle = getFileHandle(
-        command => 'lanscan -iap'
-    );
+    my $handle = getFileHandle(%params);
     return unless $handle;
 
     my @interfaces;
@@ -89,65 +98,62 @@ sub _getInterfaces {
             $interface->{MACADDR} = "$1:$2:$3:$4:$5:$6"
         }
 
-        foreach (`lanadmin -g $lanid`) {
-            if (/Type.+=\s(.+)/) {
-                $interface->{TYPE} = $1;
-            }
-            if (/Description\s+=\s(.+)/) {
-                $interface->{DESCRIPTION} = $1;
-            }
-            if (/Speed.+=\s(\d+)/) {
-                # in old version speed was given in Mbps and we want speed
-                # in Mbps
-                $interface->{SPEED} = ($1 > 1000000)? $1/1000000 : $1;
-            }
-        }
-
-        foreach (`ifconfig $name 2> /dev/null`) {
-            if (/$name:\s+flags=.*\WUP\W/ ) {
-                # its status is not reported as down in lanadmin -g
-                $interface->{STATUS} = 'Up';
-            }
-            if (/inet\s(\S+)\snetmask\s(\S+)\s/) {
-                $interface->{IPADDRESS} = $1;
-                $interface->{IPMASK} = $2;
-                if ($interface->{IPMASK} =~ /(..)(..)(..)(..)/) {
-                    $interface->{IPMASK} =
-                        sprintf ("%i.%i.%i.%i",hex($1),hex($2),hex($3),hex($4));
-                }
-            }
-        }
-
-        $interface->{IPSUBNET} = getSubnetAddress(
-            $interface->{IPADDRESS},
-            $interface->{IPMASK}
+        my $lanadminInfo = _getLanadminInfo(
+            command => "lanadmin -g $lanid", logger => $params{logger}
         );
+        $interface->{TYPE}        = $lanadminInfo->{'Type (value)'};
+        $interface->{DESCRIPTION} = $lanadminInfo->{Description};
+        $interface->{SPEED}       = $lanadminInfo->{Speed} > 1000000 ?
+                                        $lanadminInfo->{Speed} / 1000000 :
+                                        $lanadminInfo->{Speed};
 
-        # the gateway address is the gateway for the interface subnet
-        # unless on the gateway itself, where it is the default gateway
-        my $subnet = $interface->{IPSUBNET} . '/' . $interface->{IPMASK};
-        $interface->{IPGATEWAY} =
-            $routes->{$subnet} ne $interface->{IPADDRESS} ?
-                $routes->{$subnet}          :
-                $routes->{'default/0.0.0.0'};
-
-        # Some cleanups
-        if ($interface->{IPADDRESS} eq '0.0.0.0') {
-            $interface->{IPADDRESS} = "";
-        }
-        if (
-            not $interface->{IPADDRESS} and
-            not $interface->{IPMASK} and
-            $interface->{IPSUBNET} eq '0.0.0.0'
-        ) {
-            $interface->{IPSUBNET} = "";
-        }
+        my $ifconfigInfo = _getIfconfigInfo(
+            command => "ifconfig $name", logger => $params{logger}
+        );
+        $interface->{STATUS}    = $ifconfigInfo->{status};
+        $interface->{IPADDRESS} = $ifconfigInfo->{address};
+        $interface->{IPMASK}    = $ifconfigInfo->{netmask};
 
         push @interfaces, $interface;
     }
     close $handle;
 
     return @interfaces;
+}
+
+sub _getLanadminInfo {
+    my $handle = getFileHandle(@_);
+    return unless $handle;
+
+    my $info;
+    while (my $line = <$handle>) {
+        next unless $line =~ /^(\S.+\S) \s+ = \s (.+)$/x;
+        $info->{$1} = $2;
+    }
+    close $handle;
+
+    return $info;
+}
+
+sub _getIfconfigInfo {
+    my $handle = getFileHandle(@_);
+    return unless $handle;
+
+    my $info;
+    while (my $line = <$handle>) {
+        if ($line =~ /<UP/) {
+            $info->{status} = 'Up';
+        }
+        if ($line =~ /inet ($ip_address_pattern)/) {
+            $info->{address} = $1;
+        }
+        if ($line =~ /netmask ($hex_ip_address_pattern)/) {
+            $info->{netmask} = hex2quad($1);
+        }
+    }
+    close $handle;
+
+    return $info;
 }
 
 1;

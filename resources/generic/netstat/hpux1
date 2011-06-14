@@ -1,0 +1,9 @@
+Routing tables
+Destination           Gateway            Flags   Refs Interface  Pmtu
+127.0.0.1             127.0.0.1          UH        0  lo0        4136
+10.0.4.55             10.0.4.55          UH        0  lan0:1     4136
+10.0.4.56             10.0.4.56          UH        0  lan0       4136
+10.0.4.32             10.0.4.56          U         3  lan0       1500
+10.0.4.32             10.0.4.55          U         3  lan0:1     1500
+127.0.0.0             127.0.0.1          U         0  lo0           0
+default               10.0.4.33          UG        0  lan0          0

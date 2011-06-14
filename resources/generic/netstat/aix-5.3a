@@ -1,0 +1,14 @@
+Tables de routage
+Destination      Gateway           Flags   Refs     Use  If   Exp  Groups
+
+Route tree for Protocol Family 2 (Internet):
+default          192.168.2.254     UG        3    446237 en0      -      -   =>
+default          192.168.2.250     UG        7    596156 en0      -      -   
+127/8            127.0.0.1         U         3     19077 lo0      -      -   
+192.168.2.0      192.168.2.1       UHSb      0         0 en0      -      -   =>
+192.168.2/24     192.168.2.1       U        32  21793220 en0      -      -   
+192.168.2.1      127.0.0.1         UGHS     25     44250 lo0      -      -   
+192.168.2.255    192.168.2.1       UHSb      0       312 en0      -      -   
+
+Arborescence de la route pour la famille de protocoles 24 (Internet v6):
+::1              ::1               UH        0         8 lo0      -      -   

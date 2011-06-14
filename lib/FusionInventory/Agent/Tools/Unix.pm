@@ -9,6 +9,7 @@ use File::stat;
 use Memoize;
 use Time::Local;
 
+use FusionInventory::Agent::Regexp;
 use FusionInventory::Agent::Tools;
 
 our @EXPORT = qw(
@@ -18,7 +19,7 @@ our @EXPORT = qw(
     getFilesystemsTypesFromMount
     getProcessesFromPs
     getPCIDevices
-    getRoutesFromNetstat
+    getRoutingTable
 );
 
 memoize('getPCIDevices');
@@ -376,7 +377,7 @@ sub getPCIDevices {
     return @controllers;
 }
 
-sub getRoutesFromNetstat {
+sub getRoutingTable {
     my %params = (
         command => 'netstat -nr -f inet',
         @_
@@ -386,9 +387,31 @@ sub getRoutesFromNetstat {
     return unless $handle;
 
     my $routes;
+
+    # first, skip all header lines
     while (my $line = <$handle>) {
-        next unless $line =~ /^(\S+) \s+ (\S+) \s+ \S+/x;
-        next if $1 eq 'Destination';
+        last if $line =~ /^Destination/;
+    }
+
+    # second, collect routes
+    while (my $line = <$handle>) {
+        next unless $line =~ /^
+            (
+                $ip_address_pattern
+                |
+                $network_pattern
+                |
+                default
+            )
+            \s+
+            (
+                $ip_address_pattern
+                |
+                $mac_address_pattern
+                |
+                link\#\d+
+            )
+            /x;
         $routes->{$1} = $2;
     }
     close $handle;
@@ -487,7 +510,7 @@ output.
 
 =back
 
-=head2 getRoutesFromNetstat
+=head2 getRoutingTable
 
 Returns the routing table as an hashref, by parsing netstat command output.
 

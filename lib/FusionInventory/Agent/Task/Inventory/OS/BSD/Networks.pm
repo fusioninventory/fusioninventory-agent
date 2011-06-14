@@ -18,8 +18,9 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # set list of network interfaces
-    my $routes = getRoutesFromNetstat(logger => $logger);
-    my @interfaces = _getInterfaces($logger, $routes);
+    my $routes     = getRoutingTable(logger => $logger);
+    my @interfaces = _getInterfaces(logger => $logger, routes => $routes);
+
     foreach my $interface (@interfaces) {
         $inventory->addEntry(
             section => 'NETWORKS',
@@ -41,25 +42,29 @@ sub doInventory {
 }
 
 sub _getInterfaces {
-    my ($logger) = @_;
+    my (%params) = @_;
 
     my @interfaces = _parseIfconfig(
         command => '/sbin/ifconfig -a',
-        logger  =>  $logger
+        logger  =>  $params{logger}
     );
 
     foreach my $interface (@interfaces) {
-        if ($interface->{STATUS} eq 'Up') {
-            $interface->{IPSUBNET} = getSubnetAddress(
-                $interface->{IPADDRESS},
-                $interface->{IPMASK}
-            );
-        }
+        $interface->{IPSUBNET} = getSubnetAddress(
+            $interface->{IPADDRESS},
+            $interface->{IPMASK}
+        );
 
         $interface->{VIRTUALDEV} =
             $interface->{DESCRIPTION} =~ /^(lo|vboxnet|vmnet|sit|tun|pflog|pfsync|enc|strip|plip|sl|ppp|faith)\d+$/;
 
-        $interface->{IPDHCP} = getIpDhcp($logger, $interface->{DESCRIPTION});
+        $interface->{IPDHCP} = getIpDhcp(
+            $params{logger}, $interface->{DESCRIPTION}
+        );
+
+        if ($interface->{IPSUBNET}) {
+            $interface->{IPGATEWAY} = $params{routes}->{$interface->{IPSUBNET}};
+        }
     }
 
     return @interfaces;
@@ -86,16 +91,8 @@ sub _parseIfconfig {
         if ($line =~ /inet ($ip_address_pattern)/) {
             $interface->{IPADDRESS} = $1;
         }
-        if ($line =~ /netmask (\S+)/) {
-            # In BSD, netmask is given in hex form
-            my $ipmask = $1;
-            if ($ipmask =~ /^0x(\w{2})(\w{2})(\w{2})(\w{2})$/) {
-                $interface->{IPMASK} =
-                    hex($1) . '.' .
-                    hex($2) . '.' .
-                    hex($3) . '.' .
-                    hex($4);
-            }
+        if ($line =~ /netmask 0x($hex_ip_address_pattern)/) {
+            $interface->{IPMASK} = hex2quad($1);
         }
         if ($line =~ /(?:address:|ether|lladdr) ($mac_address_pattern)/) {
             $interface->{MACADDR} = $1;
@@ -110,8 +107,10 @@ sub _parseIfconfig {
             $interface->{STATUS} = 'Up';
         }
     }
-    push @interfaces, $interface if $interface;
     close $handle;
+
+    # last interface
+    push @interfaces, $interface if $interface;
 
     return @interfaces;
 }

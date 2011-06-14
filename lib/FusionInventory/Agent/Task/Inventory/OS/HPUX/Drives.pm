@@ -28,61 +28,67 @@ sub doInventory {
 
     # get filesystems for each type
     foreach my $type (@types) {
-
-        my $handle = getFileHandle(
-            command => "bdf -t $type",
-            logger  => $logger
-        );
-
-        my $device;
-        while (my $line = <$handle>) {
-            next if $line =~ /Filesystem/;
-
-            if ($line =~ /^(\S+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+%)\s+(\S+)/) {
-                $device = $1;
-
-                my $ctime = $type eq 'vxfs' ?
-                    _getVxFSctime($device, $logger) : undef;
-
-                $inventory->addEntry(
-                    section => 'DRIVES',
-                    entry   => {
-                        FREE       => $3,
-                        FILESYSTEM => $type,
-                        TOTAL      => $2,
-                        TYPE       => $6,
-                        VOLUMN     => $device,
-                        CREATEDATE => $ctime
-                    }
-                );
-                next;
-            }
-
-            if ($line =~ /^(\S+)\s/) {
-                $device = $1;
-                next;
-            }
-            
-            if ($line =~ /(\d+)\s+(\d+)\s+(\d+)\s+(\d+%)\s+(\S+)/) {
-                my $ctime = $type eq 'vxfs' ?
-                    _getVxFSctime($device, $logger) : undef;
-
-                $inventory->addEntry(
-                    section => 'DRIVES',
-                    entry   => {
-                        FREE       => $3,
-                        FILESYSTEM => $type,
-                        TOTAL      => $1,
-                        TYPE       => $5,
-                        VOLUMN     => $device,
-                        CREATEDATE => $ctime
-                    }
-                );
-                next;
-            }
+        foreach my $drive (_getDrives(type => $type, logger => $logger)) {
+            $inventory->addEntry(section => 'DRIVES', entry => $drive);
         }
-        close $handle;
     }
+}
+
+sub _getDrives {
+    my (%params) = @_;
+
+    my @drives = _parseBdf(
+        command => "bdf -t $params{type}", logger => $params{logger}
+    );
+
+    foreach my $drive (@drives) {
+        $drive->{FILESYSTEM} = $params{type};
+        $drive->{CREATEDATE} =  _getVxFSctime($drive->{VOLUMN}, $params{logger})
+            if $params{type} eq 'vxfs';
+    }
+
+    return @drives;
+}
+
+sub _parseBdf {
+    my $handle = getFileHandle(@_);
+    return unless $handle;
+
+    my @drives;
+
+    # skip header
+    my $line = <$handle>;
+
+    my $device;
+    while (my $line = <$handle>) {
+        if ($line =~ /^(\S+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+%)\s+(\S+)/) {
+            push @drives, {
+                VOLUMN     => $1,
+                TOTAL      => $2,
+                FREE       => $3,
+                TYPE       => $6,
+            };
+            next;
+        }
+
+        if ($line =~ /^(\S+)\s/) {
+            $device = $1;
+            next;
+        }
+        
+        if ($line =~ /(\d+)\s+(\d+)\s+(\d+)\s+(\d+%)\s+(\S+)/) {
+            push @drives, {
+                VOLUMN     => $device,
+                TOTAL      => $1,
+                FREE       => $3,
+                TYPE       => $5,
+            };
+            next;
+        }
+    }
+    close $handle;
+
+    return @drives;
 }
 
 # get filesystem creation time by reading binary value directly on the device

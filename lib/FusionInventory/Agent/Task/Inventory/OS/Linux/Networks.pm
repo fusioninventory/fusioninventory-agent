@@ -5,12 +5,13 @@ use warnings;
 
 use FusionInventory::Agent::Regexp;
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Tools::Unix;
 
 sub isEnabled {
     return 
-        can_run('ifconfig') &&
-        can_run('route');
+        can_run('ifconfig') ||
+        can_run('ip');
 }
 
 sub doInventory {
@@ -19,9 +20,10 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    # set list of network interfaces
-    my $routes = _getRoutes(logger => $logger);
-    my @interfaces = _getInterfaces($logger, $routes);
+    # get the list of network interfaces
+    my $routes = getRoutingTable(command => 'netstat -nr', logger => $logger);
+    my @interfaces = _getInterfaces(logger => $logger, routes => $routes);
+
     foreach my $interface (@interfaces) {
         $inventory->addEntry(
             section => 'NETWORKS',
@@ -42,25 +44,11 @@ sub doInventory {
     });
 }
 
-sub _getRoutes {
-    my $handle = getFileHandle(
-        command => 'route -n',
-        @_
-    );
-    return unless $handle;
-
-    my $routes;
-    while (my $line = <$handle>) {
-        next unless $line =~ /^($ip_address_pattern) \s+ ($ip_address_pattern)/x;
-        $routes->{$1} = $2;
-    }
-    close $handle;
-
-    return $routes;
-}
-
 sub _getInterfaces {
-    my ($logger, $routes) = @_;
+    my (%params) = @_;
+
+    my $logger = $params{logger};
+    my $routes = $params{routes};
 
     my @interfaces = can_run("/sbin/ip") ?
         _parseIpAddrShow(command => '/sbin/ip addr show', logger => $logger):
@@ -71,15 +59,10 @@ sub _getInterfaces {
             $interface->{TYPE} = "Wifi";
         }
 
-        if ($interface->{IPADDRESS} && $interface->{IPMASK}) {
-            my ($ipsubnet, $ipgateway) = _getNetworkInfo(
-                $interface->{IPADDRESS},
-                $interface->{IPMASK},
-                $routes
-            );
-            $interface->{IPSUBNET} = $ipsubnet;
-            $interface->{IPGATEWAY} = $ipgateway;
-        }
+        $interface->{IPSUBNET} = getSubnetAddress(
+            $interface->{IPADDRESS},
+            $interface->{IPMASK}
+        );
 
         my ($driver, $pcislot) = _getUevent(
             $logger,
@@ -88,60 +71,70 @@ sub _getInterfaces {
         $interface->{DRIVER} = $driver if $driver;
         $interface->{PCISLOT} = $pcislot if $pcislot;
 
-        $interface->{VIRTUALDEV} = _getVirtualDev(
-            $logger,
-            $interface->{DESCRIPTION},
-            $interface
+        $interface->{VIRTUALDEV} = _isVirtual(
+            logger => $logger,
+            name   => $interface->{DESCRIPTION},
+            slot   => $interface->{PCISLOT}
         );
 
         $interface->{IPDHCP} = getIpDhcp($logger, $interface->{DESCRIPTION});
         $interface->{SLAVES} = _getSlaves($interface->{DESCRIPTION});
+
+        if ($interface->{IPSUBNET}) {
+            $interface->{IPGATEWAY} = $routes->{$interface->{IPSUBNET}};
+
+            # replace '0.0.0.0' (ie 'default gateway') by the
+            # default gateway IP adress if it exists
+            if ($interface->{IPGATEWAY} and
+                $interface->{IPGATEWAY} eq '0.0.0.0' and 
+                $routes->{'0.0.0.0'}
+            ) {
+                $interface->{IPGATEWAY} = $routes->{'0.0.0.0'}
+            }
+        }
     }
 
     return @interfaces;
 }
 
 sub _parseIfconfig {
-
     my $handle = getFileHandle(@_);
     return unless $handle;
 
     my @interfaces;
-
-    my $interface = { STATUS => 'Down' };
+    my $interface;
 
     while (my $line = <$handle>) {
         if ($line =~ /^$/) {
             # end of interface section
-            next unless $interface->{DESCRIPTION};
+            push @interfaces, $interface if $interface;
+            next;
+        }
 
-            push @interfaces, $interface;
-
-            $interface = { STATUS => 'Down' };
-
-        } else {
-            # In a section
-            if ($line =~ /^(\S+)/) {
-                $interface->{DESCRIPTION} = $1;
+        if ($line =~ /^(\S+)/) {
+            # new interface
+            $interface = {
+                STATUS      => 'Down',
+                DESCRIPTION => $1
             }
-            if ($line =~ /inet addr:($ip_address_pattern)/i) {
-                $interface->{IPADDRESS} = $1;
-            }
-            if ($line =~ /mask:(\S+)/i) {
-                $interface->{IPMASK} = $1;
-            }
-            if ($line =~ /inet6 addr: (\S+)/i) {
-                $interface->{IPADDRESS6} = $1;
-            }
-            if ($line =~ /hwadd?r\s+($mac_address_pattern)/i) {
-                $interface->{MACADDR} = $1;
-            }
-            if ($line =~ /^\s+UP\s/) {
-                $interface->{STATUS} = 'Up';
-            }
-            if ($line =~ /link encap:(\S+)/i) {
-                $interface->{TYPE} = $1;
-            }
+        }
+        if ($line =~ /inet addr:($ip_address_pattern)/i) {
+            $interface->{IPADDRESS} = $1;
+        }
+        if ($line =~ /Mask:($ip_address_pattern)/) {
+            $interface->{IPMASK} = $1;
+        }
+        if ($line =~ /inet6 addr: (\S+)/i) {
+            $interface->{IPADDRESS6} = $1;
+        }
+        if ($line =~ /hwadd?r\s+($mac_address_pattern)/i) {
+            $interface->{MACADDR} = $1;
+        }
+        if ($line =~ /^\s+UP\s/) {
+            $interface->{STATUS} = 'Up';
+        }
+        if ($line =~ /link encap:(\S+)/i) {
+            $interface->{TYPE} = $1;
         }
 
     }
@@ -165,36 +158,33 @@ sub _getSlaves {
 }
 
 # Handle virtual devices (bridge)
-sub _getVirtualDev {
-    my ($logger, $name, $pcislot) = @_;
+sub _isVirtual {
+    my (%params) = @_;
 
-    my $virtualdev;
+    return 0 if $params{slot};
 
     if (-d "/sys/devices/virtual/net/") {
-        $virtualdev = -d "/sys/devices/virtual/net/$name" ? 1 : 0;
-    } else {
-        if (can_run('brctl')) {
-            # Let's guess
-            my %bridge;
-            my $handle = getFileHandle(
-                logger => $logger,
-                command => 'brctl show'
-            );
-            my $line = <$handle>;
-            while (my $line = <$handle>) {
-                next unless $line =~ /^(\w+)\s/;
-                $bridge{$1} = 1;
-            }
-            close $handle;
-            if ($pcislot) {
-                $virtualdev = "0";
-            } elsif ($bridge{$name}) {
-                $virtualdev = "1";
-            }
-        }
+        return -d "/sys/devices/virtual/net/$params{name}";
     }
 
-    return $virtualdev;
+    if (can_run('brctl')) {
+        # Let's guess
+        my %bridge;
+        my $handle = getFileHandle(
+            logger => $params{logger},
+            command => 'brctl show'
+        );
+        my $line = <$handle>;
+        while (my $line = <$handle>) {
+            next unless $line =~ /^(\w+)\s/;
+            $bridge{$1} = 1;
+        }
+        close $handle;
+
+        return defined $bridge{$params{name}};
+    }
+
+    return 0;
 }
 
 sub _isWifi {
@@ -224,46 +214,6 @@ sub _getUevent {
     return ($driver, $pcislot);
 }
 
-sub _getNetworkInfo {
-    my ($address, $mask, $routes) = @_;
-
-    my $ipsubnet = getSubnetAddress($address, $mask);
-    my $ipgateway = $routes->{$ipsubnet};
-
-    # replace '0.0.0.0' (ie 'default gateway') by the
-    # default gateway IP adress if it exists
-    if ($ipgateway and
-        $ipgateway eq '0.0.0.0' and 
-        $routes->{'0.0.0.0'}
-    ) {
-        $ipgateway = $routes->{'0.0.0.0'}
-    }
-
-    return ($ipsubnet, $ipgateway);
-}
-
-# Move in Tools.pm
-# compute network IP and mask from the IP prefix.
-# We should use it to drop the Net::IP::ip_iptobin() dependency.
-sub _computeIPv4Network {
-    my ($ip, $prefix) = @_;
-
-    my $net = sprintf ("%08b%08b%08b%08b", split(/\./, $ip));
-    my $mask;
-    $net =~ s/^(.{$prefix})[0-1]*/$1/;
-    $net .= sprintf("%0".(32-$prefix)."b", 0);
-    $mask .= 1 foreach(1..$prefix);
-    $mask .= 0 foreach(1..(32-$prefix));
-
-    my $r = { network => undef, mask => undef };
-    if ($net =~ /^(\d{8})(\d{8})(\d{8})(\d{8})$/) {
-         $r->{network} =  oct("0b".$1).".".oct("0b".$2).".".oct("0b".$3).".".oct("0b".$4);
-    }
-    if ($mask =~ /^(\d{8})(\d{8})(\d{8})(\d{8})$/) {
-         $r->{mask} =  oct("0b".$1).".".oct("0b".$2).".".oct("0b".$3).".".oct("0b".$4);
-    }
-    return $r;
-}
 
 # http://forge.fusioninventory.org/issues/854
 sub _parseIpAddrShow {
@@ -285,9 +235,10 @@ sub _parseIpAddrShow {
             $entry->{IPADDRESS6} = $1;
         } elsif ($line =~ /inet ($ip_address_pattern)\/(\d{1,3})/) {
             $entry->{IPADDRESS} = $1;
-            my $infoNet = _computeIPv4Network($1, $2);
-            $entry->{IPSUBNET} = $infoNet->{network};
-            $entry->{IPMASK} = $infoNet->{mask};
+            $entry->{IPMASK}    = getNetworkMask($1, $2);
+            $entry->{IPSUBNET}  = getSubnetAddress(
+                $entry->{IPADDRESS}, $entry->{IPMASK}
+            );
         }
     }
 

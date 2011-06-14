@@ -1,0 +1,10 @@
+Filesystem          kbytes    used   avail %used Mounted on
+/dev/vg00/lvol3    2097152  344480 1739560   17% /
+/dev/vg00/lvol1    2097152  146384 1935560    7% /stand
+/dev/vg00/lvol8    30736384 17318632 13326760   57% /var
+/dev/vg00/lvol7    12288000 2631792 9580776   22% /usr
+/dev/vg01/lvol1    283115520 227557603 54050591   81% /u02
+/dev/vg00/lvol6    31457280 24969328 6437856   80% /u01
+/dev/vg00/lvol5    8388608 6495544 1883528   78% /tmp
+/dev/vg00/lvol4    12288000 3974232 8248896   33% /opt
+/dev/vg00/lvol11   1048576  195605  803374   20% /backup.loc

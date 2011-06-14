@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::Solaris::Networks;
 use strict;
 use warnings;
 
+use Net::IP qw(:PROC);
+
 #ce5: flags=1000843<UP,BROADCAST,RUNNING,MULTICAST,IPv4> mtu 1500 index 3
 #        inet 55.37.101.171 netmask fffffc00 broadcast 55.37.103.255
 #        ether 0:3:ba:24:9b:bf
@@ -14,13 +16,12 @@ use warnings;
 #IFC=/sbin/ifconfig
 #DLADM=/usr/sbin/dladm
 
+use FusionInventory::Agent::Regexp;
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Network;
 
 sub isEnabled {
-    return 
-        can_run('ifconfig') &&
-        can_run('netstat') &&
-        can_load('Net::IP');
+    return can_run('ifconfig');
 }
 
 sub doInventory {
@@ -30,8 +31,9 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # set list of network interfaces
-    my $routes = getRoutesFromNetstat(logger => $logger);
-    my @interfaces = _getInterfaces();
+    my $routes     = getRoutingTable(logger => $logger);
+    my @interfaces = _getInterfaces(logger => $logger, routes => $routes);
+
     foreach my $interface (@interfaces) {
         $inventory->addEntry(
             section => 'NETWORKS',
@@ -53,11 +55,52 @@ sub doInventory {
 }
 
 sub _getInterfaces {
+    my (%params) = @_;
+
+    my @interfaces = _parseIfconfig(
+        command => '/sbin/ifconfig -a',
+        logger  => $params{logger}
+    );
+
+    foreach my $interface (@interfaces) {
+        if ($interface->{DESCRIPTION} =~ /^(\S+)(\d+)/) {
+            my $nic = $1;
+            my $num = $2;
+
+            if ($nic =~ /bge/ ) {
+                $interface->{SPEED} = _check_bge_nic($nic, $num);
+            } elsif ($nic =~ /ce/) {
+                $interface->{SPEED} = _check_ce($nic, $num);
+            } elsif ($nic =~ /hme/) {
+                $interface->{SPEED} = _check_nic($nic, $num);
+            } elsif ($nic =~ /dmfe/) {
+                $interface->{SPEED} = _check_dmf_nic($nic, $num);
+            } elsif ($nic =~ /ipge/) {
+                $interface->{SPEED} = _check_ce($nic, $num);
+            } elsif ($nic =~ /e1000g/) {
+                $interface->{SPEED} = _check_ce($nic, $num);
+            } elsif ($nic =~ /nxge/) {
+                $interface->{SPEED} = _check_nxge_nic($nic, $num);
+            } elsif ($nic =~ /eri/) {
+                $interface->{SPEED} = _check_nic($nic, $num);
+            } elsif ($nic =~ /aggr/) {
+                $interface->{SPEED} = "";
+            } else {
+                $interface->{SPEED} = _check_nic($nic, $num);
+            }
+        }
+
+        $interface->{IPSUBNET} = getSubnetAddress(
+            $interface->{IPADDRESS},
+            $interface->{IPMASK}
+        );
+
+        if ($interface->{IPSUBNET}) {
+            $interface->{IPGATEWAY} = $params{routes}->{$interface->{IPSUBNET}};
+        }
+    }
 
     my $zone = getZone();
-
-    my @interfaces = _parseIfconfig($zone);
-
     return @interfaces unless $zone;
 
     my $OSLevel = getFirstLine(command => 'uname -r');
@@ -235,89 +278,58 @@ sub _get_link_info {
 }
 
 sub _parseIfconfig {
-
-    # import Net::IP functional interface
-    Net::IP->import(':PROC');
+    my $handle = getFileHandle(@_);
+    return unless $handle;
 
     my @interfaces;
     my $interface;
 
-    foreach (`ifconfig -a`) {
-
-        if (/^(\S+):(\S+):/) {
-            $interface->{DESCRIPTION} = $1 . ":" . $2;
-        } elsif (/^(\S+):/) {
-            $interface->{DESCRIPTION} = $1;
+    while (my $line = <$handle>) {
+        if ($line =~ /^(\S+):(\S+):/) {
+            # new interface
+            push @interfaces, $interface if $interface;
+            $interface = {
+                STATUS      => 'Down',
+                DESCRIPTION => $1 . ':' . $2
+            };
+        } elsif ($line =~ /^(\S+):/) {
+            # new interface
+            push @interfaces, $interface if $interface;
+            $interface = {
+                STATUS      => 'Down',
+                DESCRIPTION => $1
+            };
         }
 
-        if (/inet\s+(\S+)/i) {
+        if ($line =~ /inet ($ip_address_pattern)/) {
             $interface->{IPADDRESS} = $1;
         }
-
-        if (/\S*netmask\s+(\S+)/i) {
+        if ($line =~ /\S*netmask\s+(\S+)/i) {
             # hex to dec to bin to ip
             $interface->{IPMASK} = ip_bintoip(
                 unpack("B*", pack("N", sprintf("%d", hex($1)))),
                 4
             );
         }
-
-        if (/groupname\s+(\S+)/i) {
+        if ($line =~ /groupname\s+(\S+)/i) {
             $interface->{TYPE} = $1;
         }
-
-        if (/zone\s+(\S+)/) {
+        if ($line =~ /zone\s+(\S+)/) {
             $interface->{TYPE} = $1;
         }
-
-        if (/ether\s+(\S+)/i) {
+        if ($line =~ /ether\s+(\S+)/i) {
             # https://sourceforge.net/tracker/?func=detail&atid=487492&aid=1819948&group_id=58373
             $interface->{MACADDR} =
                 sprintf "%02x:%02x:%02x:%02x:%02x:%02x" , map hex, split /\:/, $1;
         }
-
-        if (/<UP,/) {
+        if ($line =~ /<UP,/) {
             $interface->{STATUS} = "Up";
         }
-
-        if ($interface->{DESCRIPTION} && $interface->{MACADDR}) {
-            my ($nic, $num);
-            if ($interface->{DESCRIPTION} =~ /^(\S+)(\d+)/) {
-                $nic = $1;
-                $num = $2;
-            }
-
-            if ($nic =~ /bge/ ) {
-                $interface->{SPEED} = _check_bge_nic($nic, $num);
-            } elsif ($nic =~ /ce/) {
-                $interface->{SPEED} = _check_ce($nic, $num);
-            } elsif ($nic =~ /hme/) {
-                $interface->{SPEED} = _check_nic($nic, $num);
-            } elsif ($nic =~ /dmfe/) {
-                $interface->{SPEED} = _check_dmf_nic($nic, $num);
-            } elsif ($nic =~ /ipge/) {
-                $interface->{SPEED} = _check_ce($nic, $num);
-            } elsif ($nic =~ /e1000g/) {
-                $interface->{SPEED} = _check_ce($nic, $num);
-            } elsif ($nic =~ /nxge/) {
-                $interface->{SPEED} = _check_nxge_nic($nic, $num);
-            } elsif ($nic =~ /eri/) {
-                $interface->{SPEED} = _check_nic($nic, $num);
-            } elsif ($nic =~ /aggr/) {
-                $interface->{SPEED} = "";
-            } else {
-                $interface->{SPEED} = _check_nic($nic, $num);
-            }
-
-            $interface->{IPSUBNET} = getSubnetAddress(
-                $interface->{IPADDRESS}, $interface->{IPMASK}
-            );
-
-            $interface->{STATUS} = 'Down' if !$interface->{STATUS};
-
-            push @interfaces, $interface;
-        }
     }
+    close $handle;
+
+    # last interface
+    push @interfaces, $interface if $interface;
 
     return @interfaces;
 }
