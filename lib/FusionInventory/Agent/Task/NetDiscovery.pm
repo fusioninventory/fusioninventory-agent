@@ -79,6 +79,25 @@ sub parseNmap {
 sub run {
     my ($self) = @_;
 
+    if (!$self->{target}->isa('FusionInventory::Agent::Target::Server')) {
+        $self->{logger}->debug("No server. Exiting...");
+        return;
+    }
+
+    my $response = $self->{prologresp};
+    if (!$response) {
+        $self->{logger}->debug("No server response. Exiting...");
+        return;
+    }
+
+    my $options = $response->getOptionsInfoByName('NETDISCOVERY');
+    if (!$options) {
+        $self->{logger}->debug(
+            "No wake on lan requested in the prolog, exiting"
+        );
+        return;
+    }
+
     my $config = $self->{config};
     my $target = $self->{target};
     my $logger = $self->{logger};
@@ -91,35 +110,11 @@ sub run {
 
     $logger->debug("FusionInventory NetDiscovery module ".$VERSION);
 
-    if ($target->{type} ne 'server') {
-        $logger->debug("No server to get order from. Exiting...");
-        exit(0);
-    }
-
    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
    $hour  = sprintf("%02d", $hour);
    $min  = sprintf("%02d", $min);
    $yday = sprintf("%04d", $yday);
    $self->{PID} = $yday.$hour.$min;
-
-    my $continue = 0;
-    foreach my $num (@{$self->{'prologresp'}->{'parsedcontent'}->{OPTION}}) {
-      if (defined($num)) {
-        if ($num->{NAME} eq "NETDISCOVERY") {
-            $continue = 1;
-            $self->{NETDISCOVERY} = $num;
-        }
-      }
-    }
-    if ($continue == 0) {
-        $logger->debug("No NETDISCOVERY Asked by the server. Exiting...");
-        exit(0);
-    }
-
-    if ($target->{'type'} ne 'server') {
-        $logger->debug("No server to get order from. Exiting...");
-        exit(0);
-    }
 
     my $network = $self->{network} = FusionInventory::Agent::HTTP::Client::OCS->new({
 
