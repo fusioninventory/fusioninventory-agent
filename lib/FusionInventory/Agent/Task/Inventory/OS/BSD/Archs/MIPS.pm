@@ -43,10 +43,10 @@ sub doInventory {
     # cpu0: cache L1-I 32KB D 32KB 2 way, L2 512KB direct
 
     my ($SystemSerial, $processort, $processors);
-    foreach (`dmesg`) {
-        if (/$SystemModel\s*\[\S*\s*(\S*)\]/) { $SystemSerial = $1; }
-        if (/cpu0 at mainbus0:\s*(.*)$/) { $processort = $1; }
-        if (/CPU\s*.*\D(\d+)\s*MHz/) { $processors = $1; }
+    foreach my $line (getAllLines(command => 'dmesg')) {
+        if ($line =~ /$SystemModel\s*\[\S*\s*(\S*)\]/) { $SystemSerial = $1; }
+        if ($line =~ /cpu0 at mainbus0:\s*(.*)$/)      { $processort = $1;   }
+        if ($line =~ /CPU\s*.*\D(\d+)\s*MHz/)          { $processors = $1;   }
     }
 
     $inventory->setBios({

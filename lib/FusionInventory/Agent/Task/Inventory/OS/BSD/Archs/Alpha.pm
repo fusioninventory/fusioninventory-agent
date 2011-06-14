@@ -37,9 +37,9 @@ sub doInventory {
     # CPU: EV45 (21064A) major=6 minor=2
 
     my ($processort, $processors);
-    foreach (`dmesg`) {
-        if (/^cpu[^:]*:\s*(.*)$/i) { $processort = $1; }
-        if (/$SystemModel,\s*(\S+)\s*MHz/) { $processors = $1; }
+    foreach my $line (getAllLines(command => 'dmesg')) {
+        if ($line =~ /$SystemModel,\s*(\S+)\s*MHz/) { $processors = $1; }
+        if ($line =~ /^cpu[^:]*:\s*(.*)$/i)         { $processort = $1; }
     }
 
     $inventory->setBios({
