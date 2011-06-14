@@ -2,8 +2,10 @@
 
 use strict;
 use warnings;
-use FusionInventory::Agent::Task::Inventory::OS::BSD::Networks;
+
 use Test::More;
+
+use FusionInventory::Agent::Task::Inventory::OS::BSD::Networks;
 
 my %ifconfig_tests = (
     'freebsd-8.1' => [
