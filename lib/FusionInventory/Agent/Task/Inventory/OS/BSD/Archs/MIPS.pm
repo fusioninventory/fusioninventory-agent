@@ -56,13 +56,13 @@ sub doInventory {
     });
 
     for my $i (1 .. $processorn) {
-         $inventory->addEntry(
-             section => 'CPUS',
-             entry   => {
-                 NAME  => $processort,
-                 SPEED => $processors,
-             }
-         );
+        $inventory->addEntry(
+            section => 'CPUS',
+            entry   => {
+                NAME  => $processort,
+                SPEED => $processors,
+            }
+        );
     }
 }
 
