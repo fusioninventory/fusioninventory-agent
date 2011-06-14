@@ -131,8 +131,10 @@ sub _getDescription {
 sub _correctHdparmAvailable {
     return unless can_run('hdparm');
 
-    my $version = getFirstLine(command => 'hdparm -V');
-    my ($major, $minor) = $version =~ /^hdparm v(\d+)\.(\d+)/;
+    my ($major, $minor) = getFirstMatch(
+        command => 'hdparm -V',
+        pattern => qr/^hdparm v(\d+)\.(\d+)/
+    );
 
     # we need at least version 9.15
     return compareVersion($major, $minor, 9, 15);
