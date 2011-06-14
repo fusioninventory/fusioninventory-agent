@@ -69,6 +69,9 @@ sub processSoftwares {
             next;
         }
 
+# See bug #927
+# http://stackoverflow.com/questions/2639513/duplicate-entries-in-uninstall-registry-key-when-compiling-list-of-installed-soft
+        next if $data->{'/SystemComponent'};
 
         my $name = encodeFromRegistry($data->{'/DisplayName'});
 # Use the folder name if there is no DisplayName
