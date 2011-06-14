@@ -19,16 +19,13 @@ sub doInventory {
     my $handle = getFileHandle(file => '/etc/fstab', logger => $logger);
     return unless $handle;
 
-    my @devices;
+    my (@devices, %seen);
     while (my $line = <$handle>) {
         next unless $line =~ m{/^/dev/(\S+)};
+        next if $seen{$1}++;
         push @devices, { DESCRIPTION => $1 };
     }
     close $handle;
-
-    #  filter duplicates
-    my %seen;
-    @devices = grep { !$seen{$_->{DESCRIPTION}}++ } @devices;
 
     # parse dmesg
     my @lines = getAllLines(
