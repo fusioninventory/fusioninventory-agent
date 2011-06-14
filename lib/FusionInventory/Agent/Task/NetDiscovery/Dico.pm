@@ -1,8 +1,8 @@
 package FusionInventory::Agent::Task::NetDiscovery::Dico;
 
 use strict;
-use XML::Simple;
 
+use XML::Simple;
 
 sub loadDico {
 

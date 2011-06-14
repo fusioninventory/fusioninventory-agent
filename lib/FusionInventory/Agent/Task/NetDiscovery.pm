@@ -1,12 +1,7 @@
 package FusionInventory::Agent::Task::NetDiscovery;
-our $VERSION = '1.5';
-
-$ENV{XML_SIMPLE_PREFERRED_PARSER} = 'XML::SAX::PurePerl';
 
 use strict;
-#no strict 'refs';
 use warnings;
-
 use threads;
 use threads::shared;
 if ($threads::VERSION > 1.32){
@@ -14,25 +9,25 @@ if ($threads::VERSION > 1.32){
 }
 
 use Data::Dumper;
-
-use XML::Simple;
 use Digest::MD5 qw(md5_hex);
-
-use XML::TreePP;
 use English qw(-no_match_vars);
-
-use FusionInventory::Agent::Config;
-use FusionInventory::Logger;
-use FusionInventory::Agent::Storage;
-use FusionInventory::Agent::XML::Query::SimpleMessage;
-use FusionInventory::Agent::XML::Response::Prolog;
-use FusionInventory::Agent::Network;
-use FusionInventory::Agent::SNMP;
-use FusionInventory::Agent::Task::NetDiscovery::Dico;
-
-use FusionInventory::Agent::Task::NetDiscovery::Manufacturer::HewlettPackard;
+use XML::Simple;
+use XML::TreePP;
 
 use FusionInventory::Agent::AccountInfo;
+use FusionInventory::Agent::Config;
+use FusionInventory::Agent::Network;
+use FusionInventory::Agent::SNMP;
+use FusionInventory::Agent::Storage;
+use FusionInventory::Agent::Task::NetDiscovery::Dico;
+use FusionInventory::Agent::Task::NetDiscovery::Manufacturer::HewlettPackard;
+use FusionInventory::Agent::XML::Query::SimpleMessage;
+use FusionInventory::Agent::XML::Response::Prolog;
+use FusionInventory::Logger;
+
+our $VERSION = '1.5';
+
+$ENV{XML_SIMPLE_PREFERRED_PARSER} = 'XML::SAX::PurePerl';
 
 sub parseNmapVersion {
     my $s;
