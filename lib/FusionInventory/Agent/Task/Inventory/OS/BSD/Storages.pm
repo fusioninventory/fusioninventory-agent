@@ -20,8 +20,8 @@ sub doInventory {
     return unless $handle;
 
     my @devices;
-    while (<$handle>) {
-        next unless m{/^/dev/(\S+)};
+    while (my $line = <$handle>) {
+        next unless $line =~ m{/^/dev/(\S+)};
         push @devices, { DESCRIPTION => $1 };
     }
     close $handle;
