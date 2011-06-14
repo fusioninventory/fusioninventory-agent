@@ -111,7 +111,7 @@ sub run {
         }
       }
     }
-    if ($continue eq "0") {
+    if ($continue == 0) {
         $logger->debug("No NETDISCOVERY Asked by the server. Exiting...");
         exit(0);
     }
@@ -303,7 +303,7 @@ sub StartThreads {
          $nbip = 0;
          $core_counter = 0;
 
-         if ($threads_run eq "0") {
+         if ($threads_run == 0) {
             $iplist2 = &share({});
             $iplist = &share({});
          }
@@ -311,7 +311,7 @@ sub StartThreads {
 
          if (ref($self->{NETDISCOVERY}->{RANGEIP}) eq "HASH"){
             if ($self->{NETDISCOVERY}->{RANGEIP}->{IPSTART} eq $self->{NETDISCOVERY}->{RANGEIP}->{IPEND}) {
-               if ($threads_run eq "0") {
+               if ($threads_run == 0) {
                   $iplist->{$countnb} = &share({});
                }
                $iplist->{$countnb}->{IP} = $self->{NETDISCOVERY}->{RANGEIP}->{IPSTART};
@@ -322,7 +322,7 @@ sub StartThreads {
             } else {
                $ip = Net::IP->new($self->{NETDISCOVERY}->{RANGEIP}->{IPSTART}.' - '.$self->{NETDISCOVERY}->{RANGEIP}->{IPEND});
                do {
-                  if ($threads_run eq "0") {
+                  if ($threads_run == 0) {
                      $iplist->{$countnb} = &share({});
                   }
                   $iplist->{$countnb}->{IP} = $ip->ip();
@@ -344,7 +344,7 @@ sub StartThreads {
          } else {
             foreach my $num (@{$self->{NETDISCOVERY}->{RANGEIP}}) {
                if ($num->{IPSTART} eq $num->{IPEND}) {
-                  if ($threads_run eq "0") {
+                  if ($threads_run == 0) {
                      $iplist->{$countnb} = &share({});
                   }
                   $iplist->{$countnb}->{IP} = $num->{IPSTART};
@@ -356,7 +356,7 @@ sub StartThreads {
                   if ($num->{IPSTART} ne "") {
                      $ip = Net::IP->new($num->{IPSTART}.' - '.$num->{IPEND});
                      do {
-                        if ($threads_run eq "0") {
+                        if ($threads_run == 0) {
                            $iplist->{$countnb} = &share({});
                         }
                         $iplist->{$countnb}->{IP} = $ip->ip();
@@ -413,7 +413,7 @@ sub StartThreads {
          #===================================
          $exit = 2;
 #$self->{logger}->debug("exit : ".$exit);
-         if ($threads_run eq "0") {
+         if ($threads_run == 0) {
             #===================================
             # Create all Threads
             #===================================
@@ -439,7 +439,7 @@ sub StartThreads {
                         $loopthread = 0;
                         while ($loopthread ne "1") {
 #$self->{logger}->debug("[".$t."] : waiting...");
-                           if ($ThreadAction{$t} eq "3") { # STOP
+                           if ($ThreadAction{$t} == 3) { # STOP
                               $ThreadState{$t} = "2";
                               $self->{logger}->debug("Core $p - Thread $t deleted");
                               return;
@@ -486,7 +486,7 @@ sub StartThreads {
                                  $count++;
                               }
                            }
-                           if (($count eq "4") || (($loopthread eq "1") && ($count > 0))) {
+                           if (($count == 4) || (($loopthread == 1) && ($count > 0))) {
                               $maxIdx++;
                               $storage->save({
                                     idx =>
@@ -498,13 +498,13 @@ sub StartThreads {
                            }
                         }
                         ##### CHANGE STATE #####
-                        if ($ThreadAction{$t} eq "2") { # STOP
+                        if ($ThreadAction{$t} == 2) { # STOP
                            $ThreadState{$t} = 2;
                            $ThreadAction{$t} = 0;
 #$self->{logger}->debug("[".$t."] : stoping...");
                            $self->{logger}->debug("Core $p - Thread $t deleted");
                            return;
-                        } elsif ($ThreadAction{$t} eq "1") { # PAUSE
+                        } elsif ($ThreadAction{$t} == 1) { # PAUSE
                            $ThreadState{$t} = 0;
                            $ThreadAction{$t} = 0;
                         }
@@ -513,7 +513,7 @@ sub StartThreads {
                )->detach();
 
 
-               if ($k eq "4") {
+               if ($k == 4) {
                   sleep 1;
                   $k = 0;
                }
@@ -528,7 +528,7 @@ sub StartThreads {
                      my $loopthread;
 
                      while (1) {
-                        if (($loop_action eq "0") && ($exit eq "2")) {
+                        if (($loop_action == 0) && ($exit == 2)) {
                            ## Kill threads who do nothing partial ##
 #                              for($i = ($loop_nbthreads - 1) ; $i < $self->{NETDISCOVERY}->{PARAM}->[0]->{THREADS_DISCOVERY} ; $i++) {
 #                                 $ThreadAction{$i} = "3";
@@ -545,7 +545,7 @@ sub StartThreads {
 
                               while ($loopthread ne "1") {
                                  for($i = 0 ; $i < $loop_nbthreads ; $i++) {
-                                    if ($ThreadState{$i} eq "2") {
+                                    if ($ThreadState{$i} == 2) {
                                        $count++;
                                     }
                                  }
@@ -559,7 +559,7 @@ sub StartThreads {
                               $exit = 1;
                               return;
 
-                        } elsif (($loop_action eq "1") && ($exit eq "2")) {
+                        } elsif (($loop_action == 1) && ($exit == 2)) {
                            ## Start + pause working Threads (do a function) ##
                               for($i = 0 ; $i < $loop_nbthreads ; $i++) {
                                  $ThreadAction{$i} = "1";
@@ -574,7 +574,7 @@ sub StartThreads {
                            while ($loopthread ne "1") {
                               for($i = 0 ; $i < $loop_nbthreads ; $i++) {
                                  #print "ThreadState ".$i." = ".$ThreadState{$i}."\n";
-                                 if ($ThreadState{$i} eq "0") {
+                                 if ($ThreadState{$i} == 0) {
                                     $count++;
                                  }
                               }
@@ -608,7 +608,7 @@ sub StartThreads {
               });
 
          # Send infos to server :
-         if ($sendstart eq "0") {
+         if ($sendstart == 0) {
             my $xml_thread = {};
             $xml_thread->{AGENT}->{START} = '1';
             $xml_thread->{AGENT}->{AGENTVERSION} = $self->{config}->{VERSION};
@@ -802,7 +802,7 @@ sub discovery_ip_threaded {
    }
 
    #** Netbios discovery
-   if ($params->{ModuleNetNBName} eq "1") {
+   if ($params->{ModuleNetNBName} == 1) {
       $self->{logger}->debug("[".$params->{ip}."] : Netbios discovery");
 
       my $nb = Net::NBName->new();
@@ -815,13 +815,13 @@ sub discovery_ip_threaded {
       my $ns = $nb->node_status($params->{ip});
       if ($ns) {
          for my $rr ($ns->names) {
-             if ($rr->suffix eq "0" && $rr->G eq "GROUP") {
+             if ($rr->suffix == 0 && $rr->G eq "GROUP") {
                $datadevice->{WORKGROUP} = special_char($rr->name);
              }
-             if ($rr->suffix eq "3" && $rr->G eq "UNIQUE") {
+             if ($rr->suffix == 3 && $rr->G eq "UNIQUE") {
                $datadevice->{USERSESSION} = special_char($rr->name);
              }
-             if ($rr->suffix eq "0" && $rr->G eq "UNIQUE") {
+             if ($rr->suffix == 0 && $rr->G eq "UNIQUE") {
                  $machine = $rr->name unless $rr->name =~ /^IS~/;
                  $datadevice->{NETBIOSNAME} = special_char($machine);
                  $type = 1;
@@ -840,14 +840,14 @@ sub discovery_ip_threaded {
    }
 
 
-   if ($params->{ModuleNetSNMP} eq "1") {
+   if ($params->{ModuleNetSNMP} == 1) {
       $self->{logger}->debug("[".$params->{ip}."] : SNMP discovery");
       my $i = "4";
       my $snmpv;
       while ($i ne "1") {
          $i--;
          $snmpv = $i;
-         if ($i eq "2") {
+         if ($i == 2) {
             $snmpv = "2c";
          }
          for my $key ( sort(keys %{$params->{authlist}} )) {
