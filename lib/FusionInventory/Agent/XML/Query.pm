@@ -27,19 +27,6 @@ sub getContent {
     return $tpp->write({ REQUEST => $self->{h} });
 }
 
-sub setAccountInfo {
-    my ($self, $info) = @_;
-
-    return unless defined $info;
-    die "invalid argument $info" unless ref $info eq 'HASH';
-
-    while (my ($key, $value) = each %$info) {
-        push @{$self->{h}->{CONTENT}->{ACCOUNTINFO}}, {
-            KEYNAME  => $key,
-            KEYVALUE => $value
-        }
-    }
-}
 
 1;
 
@@ -77,6 +64,3 @@ the agent identifier (mandatory)
 
 Get XML content.
 
-=head2 setAccountInfo($info)
-
-Set account informations for this message.

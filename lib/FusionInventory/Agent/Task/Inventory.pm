@@ -43,6 +43,7 @@ sub run {
         deviceid => $self->{deviceid},
         statedir => $self->{target}->getStorage()->getDirectory(),
         logger   => $self->{logger},
+        tag      => $self->{config}->{'tag'}
     );
 
     # Turn off localised output for commands
@@ -87,11 +88,6 @@ sub run {
         }
     } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
 
-        # Add target ACCOUNTINFO values to the inventory
-        $inventory->setAccountInfo(
-            $self->{target}->getAccountInfo()
-        );
-
         my $message = FusionInventory::Agent::XML::Query::Inventory->new(
             deviceid => $self->{deviceid},
             content  => $inventory->getContent()
@@ -104,28 +100,6 @@ sub run {
 
         return unless $response;
         $inventory->saveLastState();
-
-        my $content = $response->getContent();
-        if ($content
-            &&
-            $content->{RESPONSE}
-            &&
-            $content->{RESPONSE} eq 'ACCOUNT_UPDATE'
-        ) {
-            my $new = $content->{ACCOUNTINFO};
-            my $current = $self->{target}->getAccountInfo();
-            if (ref $new eq 'ARRAY') {
-                # this a list of key value pairs
-                foreach my $pair (@{$new}) {
-                    $current->{$pair->{KEYNAME}} = $pair->{KEYVALUE};
-                }
-            } elsif (ref $new eq 'HASH') {
-                # this a single key value pair
-                $current->{$new->{KEYNAME}} = $new->{KEYVALUE};
-            } else {
-                $self->{logger}->debug("invalid ACCOUNTINFO value");
-            }
-        }
 
     }
 

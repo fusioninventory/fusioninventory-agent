@@ -51,6 +51,8 @@ Revision history for FusionInventory::Agent
 	  - HPUX: don't report unoccupied memory slots
 	  - AIX: don't report irrelevant values as controllers type and
 	    manufacturer
+          - account info are no more stored in the agent side
+
 
 2.1.8  Fri, 25 Mar 2011 16:09:15 +0100
        * Show a larger part of the string returned by the server in case of

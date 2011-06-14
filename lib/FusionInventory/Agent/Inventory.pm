@@ -86,7 +86,8 @@ sub new {
         }
     };
     bless $self, $class;
-    
+
+    $self->setTag($params{tag});
     $self->{last_state_file} = $params{statedir} . '/last_state'
         if $params{statedir};
 
@@ -251,6 +252,18 @@ sub setAccessLog {
             $self->{content}{ACCESSLOG}{$key} = $args->{$key};
         }
     }
+}
+
+sub setTag {
+    my ($self, $tag) = @_;
+
+    return unless $tag;
+
+    $self->{content}{ACCOUNTINFO} = [{
+        KEYNAME  => "TAG",
+        KEYVALUE => $tag
+    }];
+
 }
 
 sub checkContent {

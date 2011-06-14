@@ -265,7 +265,7 @@ sub run {
                 );
 
                 # Add target ACCOUNTINFO values to the prolog
-                $prolog->setAccountInfo($target->getAccountInfo());
+                #$prolog->setAccountInfo($target->getAccountInfo());
 
                 $prologresp = $client->send(
                     url     => $target->getUrl(),
