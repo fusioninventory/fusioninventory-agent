@@ -11,18 +11,13 @@ if ($threads::VERSION > 1.32){
 use Data::Dumper;
 use Digest::MD5 qw(md5_hex);
 use English qw(-no_match_vars);
-use XML::Simple;
 use XML::TreePP;
 
-use FusionInventory::Agent::AccountInfo;
-use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Network;
 use FusionInventory::Agent::SNMP;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Task::NetDiscovery::Dico;
-use FusionInventory::Agent::Task::NetDiscovery::Manufacturer::HewlettPackard;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
-use FusionInventory::Agent::XML::Response::Prolog;
 use FusionInventory::Logger;
 
 our $VERSION = '1.5';
