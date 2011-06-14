@@ -79,23 +79,17 @@ sub parseNmap {
 sub run {
     my ($self) = @_;
 
-    my $storage = $self->{storage} = FusionInventory::Agent::Storage->new({
-            target => {
-                vardir => $ARGV[0],
-            }
-        });
+    my $config = $self->{config};
+    my $target = $self->{target};
+    my $logger = $self->{logger};
 
-    my $data = $storage->restore({ module => "FusionInventory::Agent" });
-    $self->{data} = $data;
-   my $myData = $self->{myData} = $storage->restore();
+    $self->{storage} = FusionInventory::Agent::Storage->new({
+        target => {
+            vardir => $ARGV[0],
+        }
+    });
 
-    my $config = $self->{config} = $data->{config};
-    my $target = $self->{'target'} = $data->{'target'};
-    my $logger = $self->{logger} = FusionInventory::Agent::Logger->new({
-            config => $self->{config}
-        });
-    $self->{prologresp} = $data->{prologresp};
-    $self->{logger}->debug("FusionInventory NetDiscovery module ".$VERSION);
+    $logger->debug("FusionInventory NetDiscovery module ".$VERSION);
 
     if ($target->{type} ne 'server') {
         $logger->debug("No server to get order from. Exiting...");
