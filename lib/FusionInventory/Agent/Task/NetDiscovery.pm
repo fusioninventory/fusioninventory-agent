@@ -80,7 +80,7 @@ sub main {
     my $self = {};
     bless $self, 'FusionInventory::Agent::Task::NetDiscovery';
 
-    my $storage = $self->{storage} = new FusionInventory::Agent::Storage({
+    my $storage = $self->{storage} = FusionInventory::Agent::Storage->new({
             target => {
                 vardir => $ARGV[0],
             }
@@ -92,7 +92,7 @@ sub main {
 
     my $config = $self->{config} = $data->{config};
     my $target = $self->{'target'} = $data->{'target'};
-    my $logger = $self->{logger} = new FusionInventory::Agent::Logger ({
+    my $logger = $self->{logger} = FusionInventory::Agent::Logger->new({
             config => $self->{config}
         });
     $self->{prologresp} = $data->{prologresp};
@@ -128,7 +128,7 @@ sub main {
         exit(0);
     }
 
-    my $network = $self->{network} = new FusionInventory::Agent::HTTP::Client::OCS({
+    my $network = $self->{network} = FusionInventory::Agent::HTTP::Client::OCS->new({
 
             logger => $logger,
             config => $config,
@@ -284,7 +284,7 @@ sub StartThreads {
    #============================================
    $max_procs = $nb_core_discovery * $nb_threads_discovery;
    if ($nb_core_discovery > 1) {
-      $pm=new Parallel::ForkManager($max_procs);
+      $pm = Parallel::ForkManager->new($max_procs);
    }
 
    my @Thread;
@@ -327,7 +327,7 @@ sub StartThreads {
                $countnb++;
                $nbip++;
             } else {
-               $ip = new Net::IP ($self->{NETDISCOVERY}->{RANGEIP}->{IPSTART}.' - '.$self->{NETDISCOVERY}->{RANGEIP}->{IPEND});
+               $ip = Net::IP->new($self->{NETDISCOVERY}->{RANGEIP}->{IPSTART}.' - '.$self->{NETDISCOVERY}->{RANGEIP}->{IPEND});
                do {
                   if ($threads_run eq "0") {
                      $iplist->{$countnb} = &share({});
@@ -361,7 +361,7 @@ sub StartThreads {
                   $nbip++;
                } else {
                   if ($num->{IPSTART} ne "") {
-                     $ip = new Net::IP ($num->{IPSTART}.' - '.$num->{IPEND});
+                     $ip = Net::IP->new($num->{IPSTART}.' - '.$num->{IPEND});
                      do {
                         if ($threads_run eq "0") {
                            $iplist->{$countnb} = &share({});
@@ -606,7 +606,7 @@ sub StartThreads {
             ### END Threads Creation
          }
 
-         my $network = $self->{network} = new FusionInventory::Agent::HTTP::Client::OCS({
+         my $network = $self->{network} = FusionInventory::Agent::HTTP::Client::OCS->new({
 
                   logger => $self->{logger},
                   config => $self->{config},
@@ -812,7 +812,7 @@ sub discovery_ip_threaded {
    if ($params->{ModuleNetNBName} eq "1") {
       $self->{logger}->debug("[".$params->{ip}."] : Netbios discovery");
 
-      my $nb = Net::NBName->new;
+      my $nb = Net::NBName->new();
 
       my $domain = q{}; # Empty string
       my $user = q{}; # Empty string
@@ -859,7 +859,7 @@ sub discovery_ip_threaded {
          }
          for my $key ( sort(keys %{$params->{authlist}} )) {
             if ($params->{authlist}->{$key}->{VERSION} eq $snmpv) {
-               my $session = new FusionInventory::Agent::SNMP ({
+               my $session = FusionInventory::Agent::SNMP->new({
 
                   version      => $params->{authlist}->{$key}->{VERSION},
                   hostname     => $params->{ip},
