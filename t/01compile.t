@@ -14,9 +14,10 @@ if (!eval "use Test::Compile;1") {
 
 
 sub filter {
+    return 0 if /RPC/;
     if ($OSNAME ne 'MSWin32') {
         return 0 if /Syslog/;
-        return 0 if /Win32/;;
+        return 0 if /Win32/;
     }
     if (readlink $_) {
         return 0;
