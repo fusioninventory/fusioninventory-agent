@@ -1,6 +1,6 @@
 Revision history for FusionInventory::Agent
 
-2.1.8  Tue, 14 Jun 2011 19:17:37 -0000
+2.1.9  Tue, 14 Jun 2011 19:26:55 -0000
 
 HPUX
  ✔ HARDWARE/MEMORY missing on HPUX PA-RISC 11.11
@@ -69,6 +69,7 @@ LINUX
  ✔ rhn inventory
        commit:e13d10
      http://forge.fusioninventory.org/issues/713
+   thanks: Remi Collet
  ✔ HP DL servers - Harddisk
        commit:caa030
      http://forge.fusioninventory.org/issues/768
@@ -114,10 +115,17 @@ SOLARIS
      http://forge.fusioninventory.org/issues/787
    thanks: Christian Lete
 
+TEST-SUITE
+ ✔ FusionInventory::Agent::RPC build fails is no JSON
+       commit:782834
+     http://forge.fusioninventory.org/issues/955
+   thanks: Remi Collet
+
 WINDOWS
  ✔ The agent still conflicts with Oracle Perl
        commit:a63eba commit:1d18c6 commit:4afe98
      http://forge.fusioninventory.org/issues/889
+   thanks: GuruNot
  ✔ GLPI plugin imports duplicate entries with software from Windows Agent 
        commit:4553aa
      http://forge.fusioninventory.org/issues/927
