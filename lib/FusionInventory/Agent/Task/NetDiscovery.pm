@@ -7,6 +7,7 @@ use threads::shared;
 if ($threads::VERSION > 1.32){
    threads->set_stack_size(20*8192);
 }
+use base 'FusionInventory::Agent::Task';
 
 use Data::Dumper;
 use Digest::MD5 qw(md5_hex);
@@ -75,10 +76,8 @@ sub parseNmap {
 }
 
 
-sub main {
-    my ( undef ) = @_;
-    my $self = {};
-    bless $self, 'FusionInventory::Agent::Task::NetDiscovery';
+sub run {
+    my ($self) = @_;
 
     my $storage = $self->{storage} = FusionInventory::Agent::Storage->new({
             target => {
