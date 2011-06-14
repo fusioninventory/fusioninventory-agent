@@ -84,7 +84,7 @@ foreach (`git log $version..HEAD`) {
         push @{$current->{bugs}}, $1;
     } elsif (/thanks ([\w\s]*?)\s*$/) {
         $current->{thanks}{$1}=1;
-    } elsif (/Reported-by: (.*?)(\ <.*|\s*)$/) {
+    } elsif (/Reported.by: (.*?)(\ <.*|\s*)$/) {
         $current->{thanks}{$1}=1;
     }
 }
