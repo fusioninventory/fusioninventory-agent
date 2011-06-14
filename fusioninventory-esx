@@ -4,13 +4,14 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Task::ESX;
+use FusionInventory::Agent::AccountInfo;
 
 use Getopt::Long;
 
 my $args = {};
 
 GetOptions(
-        $args, 'host=s', 'user=s', 'password=s', 'directory=s'
+        $args, 'host=s', 'user=s', 'password=s', 'directory=s', 'tag=s'
         );
 
 usage() unless $args->{host} and $args->{user} and $args->{password} and $args->{directory};
@@ -62,9 +63,19 @@ if (!$esx->connect({
             })) {
     exit 1;
 }
+
+# Put ACCOUNTINFO values in the inventory
+my $accountinfo = FusionInventory::Agent::AccountInfo->new({
+    logger => $logger,
+    config => {},
+    target => $self,
+    });
+$accountinfo->set('TAG', $args->{tag});
+
 my $hostIds = $esx->getHostIds();
 foreach my $hostId (@$hostIds) {
     my $inventory = $esx->createInventory($hostId);
+    $accountinfo->setAccountInfo($inventory);
 
     $inventory->writeXML();
 }
@@ -77,7 +88,7 @@ fusioninventory-esx - vCenter/ESX/ESXi remote inventory for FusionInventory or O
 
 =head1 SYNOPSIS
 
-B<fusioninventory-esx> S<[ I<--host host> I<--user user> I<--password password> I<--directory /tmp> ]>
+B<fusioninventory-esx> S<[ I<--host host> I<--user user> I<--password password> I<--directory /tmp> I<--tag tag>> ]
 
 =head1 EXAMPLES
 
