@@ -13,12 +13,12 @@ use Digest::MD5 qw(md5_hex);
 use English qw(-no_match_vars);
 use XML::TreePP;
 
-use FusionInventory::Agent::Network;
+use FusionInventory::Agent::HTTP::Client::OCS;
+use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::SNMP;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Task::NetDiscovery::Dico;
-use FusionInventory::Agent::XML::Query::SimpleMessage;
-use FusionInventory::Logger;
+use FusionInventory::Agent::XML::Query;
 
 our $VERSION = '1.5';
 
@@ -92,7 +92,7 @@ sub main {
 
     my $config = $self->{config} = $data->{config};
     my $target = $self->{'target'} = $data->{'target'};
-    my $logger = $self->{logger} = new FusionInventory::Logger ({
+    my $logger = $self->{logger} = new FusionInventory::Agent::Logger ({
             config => $self->{config}
         });
     $self->{prologresp} = $data->{prologresp};
@@ -128,7 +128,7 @@ sub main {
         exit(0);
     }
 
-    my $network = $self->{network} = new FusionInventory::Agent::Network ({
+    my $network = $self->{network} = new FusionInventory::Agent::HTTP::Client::OCS({
 
             logger => $logger,
             config => $config,
@@ -606,7 +606,7 @@ sub StartThreads {
             ### END Threads Creation
          }
 
-         my $network = $self->{network} = new FusionInventory::Agent::Network ({
+         my $network = $self->{network} = new FusionInventory::Agent::HTTP::Client::OCS({
 
                   logger => $self->{logger},
                   config => $self->{config},
@@ -705,7 +705,7 @@ sub SendInformations{
 
    my $config = $self->{config};
 
-   my $xmlMsg = FusionInventory::Agent::XML::Query::SimpleMessage->new(
+   my $xmlMsg = FusionInventory::Agent::XML::Query->new(
        {
            config => $self->{config},
            logger => $self->{logger},
