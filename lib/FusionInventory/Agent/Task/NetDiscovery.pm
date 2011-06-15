@@ -12,6 +12,7 @@ use base 'FusionInventory::Agent::Task';
 use Data::Dumper;
 use Digest::MD5 qw(md5_hex);
 use English qw(-no_match_vars);
+use Net::IP;
 use XML::TreePP;
 
 use FusionInventory::Agent::HTTP::Client::OCS;
@@ -231,7 +232,6 @@ sub _startThreads {
    my $authlist = $self->_authParser($self->{NETDISCOVERY});
 
    ##### Get IP to scan
-   use Net::IP;
 
    # Dispatch IPs to different core
    my $startIP = q{}; # Empty string
