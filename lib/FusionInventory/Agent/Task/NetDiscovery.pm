@@ -25,7 +25,7 @@ our $VERSION = '1.5';
 
 $ENV{XML_SIMPLE_PREFERRED_PARSER} = 'XML::SAX::PurePerl';
 
-sub parseNmapVersion {
+sub _parseNmapVersion {
     my $s;
 
     return unless @_;
@@ -37,13 +37,13 @@ sub parseNmapVersion {
     return $1;
 }
 
-sub compareNmapVersion {
+sub _compareNmapVersion {
     my ($v1, $v2) = @_;
 
     return $v1 >= $v2;
 }
 
-sub parseNmap {
+sub _parseNmap {
     my ($xml) = @_;
 
     my $ret = {};
@@ -126,13 +126,13 @@ sub run {
 
    $self->{countxml} = 0;
 
-   $self->initModList();
+   $self->_initModList();
 
-   $self->StartThreads();
+   $self->_startThreads();
 }
 
 
-sub StartThreads {
+sub _startThreads {
    my ($self, $params) = @_;
 
 	my $nb_threads_discovery = $self->{NETDISCOVERY}->{PARAM}->[0]->{THREADS_DISCOVERY};
@@ -164,8 +164,8 @@ sub StartThreads {
 
    my $nmapVersionString = `nmap -V`;
    if ($nmapVersionString) {
-       my $nmap_version = parseNmapVersion($nmapVersionString);
-       if (compareNmapVersion(5.29, $nmap_version)) {
+       my $nmap_version = _parseNmapVersion($nmapVersionString);
+       if (_compareNmapVersion(5.29, $nmap_version)) {
            $ModuleNmapParserParameter = "-sP --system-dns --max-retries 1 --max-rtt-timeout 1000 ";
        } else {
            $ModuleNmapParserParameter = "-sP -PP --system-dns --max-retries 1 --max-rtt-timeout 1000ms ";
@@ -214,7 +214,7 @@ sub StartThreads {
          $xml_thread->{MODULEVERSION} = $VERSION;
          $xml_thread->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
          $xml_thread->{DICO}          = "REQUEST";
-         $self->SendInformations({
+         $self->_sendInformations({
             data => $xml_thread
             });
          undef($xml_thread);
@@ -247,7 +247,7 @@ sub StartThreads {
 
 
    # Auth SNMP
-   my $authlist = $self->AuthParser($self->{NETDISCOVERY});
+   my $authlist = $self->_authParser($self->{NETDISCOVERY});
 
    ##### Get IP to scan
    use Net::IP;
@@ -458,7 +458,7 @@ sub StartThreads {
                               }
                            }
                            if ($loopthread != 1) {
-                              my $datadevice = $self->discovery_ip_threaded({
+                              my $datadevice = $self->_discovery_ip_threaded({
                                     ip                  => $iplist->{$device_id}->{IP},
                                     entity              => $iplist->{$device_id}->{ENTITY},
                                     authlist            => $authlistt,
@@ -607,7 +607,7 @@ sub StartThreads {
             $xml_thread->{AGENT}->{AGENTVERSION} = $self->{config}->{VERSION};
             $xml_thread->{MODULEVERSION} = $VERSION;
             $xml_thread->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
-            $self->SendInformations({
+            $self->_sendInformations({
                data => $xml_thread
                });
             undef($xml_thread);
@@ -620,7 +620,7 @@ sub StartThreads {
          $xml_thread->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
          {
             lock $sendbylwp;
-            $self->SendInformations({
+            $self->_sendInformations({
                data => $xml_thread
                });
          }
@@ -635,7 +635,7 @@ sub StartThreads {
                            idx => $idx
                        });
 
-                   $self->SendInformations({
+                   $self->_sendInformations({
                            data => $data
                        });
                    $sentxml->{$idx} = 1;
@@ -653,7 +653,7 @@ sub StartThreads {
                      idx => $idx
                  });
 
-             $self->SendInformations({
+             $self->_sendInformations({
                      data => $data
                  });
              $sentxml->{$idx} = 1;
@@ -677,7 +677,7 @@ sub StartThreads {
    $xml_thread->{MODULEVERSION} = $VERSION;
    $xml_thread->{PROCESSNUMBER} = $self->{NETDISCOVERY}->{PARAM}->[0]->{PID};
    sleep 1; # Wait for threads be terminated
-   $self->SendInformations({
+   $self->_sendInformations({
       data => $xml_thread
       });
    undef($xml_thread);
@@ -686,7 +686,7 @@ sub StartThreads {
 }
 
 
-sub SendInformations{
+sub _sendInformations{
    my ($self, $message) = @_;
 
    my $config = $self->{config};
@@ -706,7 +706,7 @@ sub SendInformations{
 
 
 
-sub AuthParser {
+sub _authParser {
    my ($self, $dataAuth) = @_;
 
    my $authlist = {};
@@ -773,7 +773,7 @@ sub AuthParser {
 
 
 
-sub discovery_ip_threaded {
+sub _discovery_ip_threaded {
    my ($self, $params) = @_;
 
    my $datadevice = {};
@@ -791,7 +791,7 @@ sub discovery_ip_threaded {
    if ($params->{ModuleNmapParserParameter}) {
        my $nmapCmd = "nmap $params->{ModuleNmapParserParameter} $params->{ip} -oX -";
        my $xml = `$nmapCmd`;
-       $datadevice = parseNmap($xml);
+       $datadevice = _parseNmap($xml);
    }
 
    #** Netbios discovery
@@ -809,14 +809,14 @@ sub discovery_ip_threaded {
       if ($ns) {
          for my $rr ($ns->names) {
              if ($rr->suffix == 0 && $rr->G eq "GROUP") {
-               $datadevice->{WORKGROUP} = special_char($rr->name);
+               $datadevice->{WORKGROUP} = _special_char($rr->name);
              }
              if ($rr->suffix == 3 && $rr->G eq "UNIQUE") {
-               $datadevice->{USERSESSION} = special_char($rr->name);
+               $datadevice->{USERSESSION} = _special_char($rr->name);
              }
              if ($rr->suffix == 0 && $rr->G eq "UNIQUE") {
                  $machine = $rr->name unless $rr->name =~ /^IS~/;
-                 $datadevice->{NETBIOSNAME} = special_char($machine);
+                 $datadevice->{NETBIOSNAME} = _special_char($machine);
                  $type = 1;
              }
          }
@@ -893,7 +893,7 @@ sub discovery_ip_threaded {
                         $name = q{}; # Empty string
                      }
                      # Serial Number
-                     my ($serial, $type, $model, $mac) = $self->verifySerial($description, $session, $params->{dico}, $params->{ip});
+                     my ($serial, $type, $model, $mac) = $self->_verifySerial($description, $session, $params->{dico}, $params->{ip});
                     if ($serial eq "Received noSuchName(2) error-status at error-index 1") {
                         $serial = q{}; # Empty string
                      }
@@ -951,7 +951,7 @@ sub discovery_ip_threaded {
 
 
 
-sub special_char {
+sub _special_char {
    my $variable = shift;
    if (defined($variable)) {
       if ($variable =~ /0x$/) {
@@ -966,7 +966,7 @@ sub special_char {
 
 
 
-sub verifySerial {
+sub _verifySerial {
    my ($self, $description, $session, $dico, $ip) = @_;
 
    if ($description eq "noSuchObject") {
@@ -1080,7 +1080,7 @@ sub verifySerial {
 }
 
 
-sub initModList {
+sub _initModList {
    my $self = shift;
 
    my $logger = $self->{logger};
