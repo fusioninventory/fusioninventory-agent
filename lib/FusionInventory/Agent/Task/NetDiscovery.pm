@@ -427,16 +427,16 @@ sub StartThreads {
                      my $xml_threadt;
 
                      $self->{logger}->debug("Core $p - Thread $t created");
-                     while ($loopbigthread ne "1") {
+                     while ($loopbigthread != 1) {
                         ##### WAIT ACTION #####
                         $loopthread = 0;
-                        while ($loopthread ne "1") {
+                        while ($loopthread != 1) {
 #$self->{logger}->debug("[".$t."] : waiting...");
                            if ($ThreadAction{$t} == 3) { # STOP
                               $ThreadState{$t} = "2";
                               $self->{logger}->debug("Core $p - Thread $t deleted");
                               return;
-                           } elsif ($ThreadAction{$t} ne "0") { # RUN
+                           } elsif ($ThreadAction{$t} != 0) { # RUN
                               $ThreadState{$t} = "1";
                               $loopthread  = 1;
                            }
@@ -445,11 +445,11 @@ sub StartThreads {
                         ##### RUN ACTION #####
 #$self->{logger}->debug("[".$t."] : run...");
                         $loopthread = 0;
-                        while ($loopthread ne "1") {
+                        while ($loopthread != 1) {
                            $device_id = q{}; # Empty string
                            {
                               lock $iplist2;
-                              if (keys %{$iplist2} ne "0") {
+                              if (keys %{$iplist2} != 0) {
                                  my @keys = sort keys %{$iplist2};
                                  $device_id = pop @keys;
                                  delete $iplist2->{$device_id};
@@ -457,7 +457,7 @@ sub StartThreads {
                                  $loopthread = 1;
                               }
                            }
-                           if ($loopthread ne "1") {
+                           if ($loopthread != 1) {
                               my $datadevice = $self->discovery_ip_threaded({
                                     ip                  => $iplist->{$device_id}->{IP},
                                     entity              => $iplist->{$device_id}->{ENTITY},
@@ -536,7 +536,7 @@ sub StartThreads {
                               $count = 0;
                               $loopthread = 0;
 
-                              while ($loopthread ne "1") {
+                              while ($loopthread != 1) {
                                  for($i = 0 ; $i < $loop_nbthreads ; $i++) {
                                     if ($ThreadState{$i} == 2) {
                                        $count++;
@@ -564,7 +564,7 @@ sub StartThreads {
                            $count = 0;
                            $loopthread = 0;
 
-                           while ($loopthread ne "1") {
+                           while ($loopthread != 1) {
                               for($i = 0 ; $i < $loop_nbthreads ; $i++) {
                                  #print "ThreadState ".$i." = ".$ThreadState{$i}."\n";
                                  if ($ThreadState{$i} == 0) {
@@ -627,7 +627,7 @@ sub StartThreads {
          undef($xml_thread);
 
 
-        while($exit ne "1") {
+        while($exit != 1) {
            sleep 2;
             foreach my $idx (1..$maxIdx) {
                if (!defined($sentxml->{$idx})) {
@@ -837,7 +837,7 @@ sub discovery_ip_threaded {
       $self->{logger}->debug("[".$params->{ip}."] : SNMP discovery");
       my $i = "4";
       my $snmpv;
-      while ($i ne "1") {
+      while ($i != 1) {
          $i--;
          $snmpv = $i;
          if ($i == 2) {
