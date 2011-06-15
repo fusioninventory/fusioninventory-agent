@@ -15,7 +15,6 @@ use English qw(-no_match_vars);
 use Net::IP;
 use XML::TreePP;
 
-use FusionInventory::Agent::HTTP::Client::OCS;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::SNMP;
 use FusionInventory::Agent::Storage;
@@ -66,14 +65,6 @@ sub run {
    $min  = sprintf("%02d", $min);
    $yday = sprintf("%04d", $yday);
    $self->{PID} = $yday.$hour.$min;
-
-    my $network = $self->{network} = FusionInventory::Agent::HTTP::Client::OCS->new({
-
-            logger => $logger,
-            config => $config,
-            target => $target,
-
-        });
 
    $self->{countxml} = 0;
 
@@ -539,14 +530,6 @@ sub _startThreads {
             ### END Threads Creation
          }
 
-         my $network = $self->{network} = FusionInventory::Agent::HTTP::Client::OCS->new({
-
-                  logger => $self->{logger},
-                  config => $self->{config},
-                  target => $self->{target},
-
-              });
-
          # Send infos to server :
          if ($sendstart == 0) {
             my $xml_thread = {};
@@ -648,7 +631,7 @@ sub _sendInformations{
                CONTENT   => $message->{data},
            },
        });
-   $self->{network}->send({message => $xmlMsg});
+   $self->{client}->send({message => $xmlMsg});
 }
 
 
