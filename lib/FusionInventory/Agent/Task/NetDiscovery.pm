@@ -18,30 +18,13 @@ use FusionInventory::Agent::HTTP::Client::OCS;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::SNMP;
 use FusionInventory::Agent::Storage;
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::NetDiscovery::Dico;
 use FusionInventory::Agent::XML::Query;
 
 our $VERSION = '1.5';
 
 $ENV{XML_SIMPLE_PREFERRED_PARSER} = 'XML::SAX::PurePerl';
-
-sub _parseNmapVersion {
-    my $s;
-
-    return unless @_;
-
-    $s .= $_ foreach @_;
-
-    return unless $s =~ /Nmap version (\S+) /;
-
-    return $1;
-}
-
-sub _compareNmapVersion {
-    my ($v1, $v2) = @_;
-
-    return $v1 >= $v2;
-}
 
 sub _parseNmap {
     my ($xml) = @_;
@@ -162,15 +145,13 @@ sub _startThreads {
    my $dico;
    my $dicohash;
 
-   my $nmapVersionString = `nmap -V`;
-   if ($nmapVersionString) {
-       my $nmap_version = _parseNmapVersion($nmapVersionString);
-       if (_compareNmapVersion(5.29, $nmap_version)) {
-           $ModuleNmapParserParameter = "-sP --system-dns --max-retries 1 --max-rtt-timeout 1000 ";
-       } else {
-           $ModuleNmapParserParameter = "-sP -PP --system-dns --max-retries 1 --max-rtt-timeout 1000ms ";
-       }
-   }
+   my ($major, $minor) = getFirstMatch(
+       command => 'nmap -V',
+       pattern => qr/Nmap version (\d+)\.(\d+)/
+   );
+   my $ModuleNmapParserParameter = compareVersion($major, $minor, 5, 29) ?
+       "-sP -PP --system-dns --max-retries 1 --max-rtt-timeout 1000ms " :
+       "-sP --system-dns --max-retries 1 --max-rtt-timeout 1000 "       ;
 
    # Load storage with XML dico
    if (defined($self->{NETDISCOVERY}->{DICO})) {
