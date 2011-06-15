@@ -22,7 +22,6 @@ Additional optional perl modules:
 - Proc::PID::File, for daemon mode (Unix only)
 
 Additional optional programs:
-- nmap or ipdiscover, for network discovery
 - dmidecode (linux or bsd) for hardware inventory
 - lspci (linux or bsd) for hardware inventory
 
