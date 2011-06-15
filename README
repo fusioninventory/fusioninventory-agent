@@ -22,8 +22,8 @@ Additional optional perl modules:
 - Proc::PID::File, for daemon mode (Unix only)
 
 Additional optional programs:
-- dmidecode (linux or bsd) for hardware inventory
-- lspci (linux or bsd) for hardware inventory
+- dmidecode, for hardware inventory
+- lspci, for hardware inventory
 
 System-specific informations
 ----------------------------
