@@ -27,39 +27,6 @@ our $VERSION = '1.5';
 
 $ENV{XML_SIMPLE_PREFERRED_PARSER} = 'XML::SAX::PurePerl';
 
-sub _parseNmap {
-    my ($xml) = @_;
-
-    my $ret = {};
-
-    return $ret unless $xml;
-
-    my $tpp;
-    eval {
-        $tpp = XML::TreePP->new(force_array => '*');
-    };
-    return $ret unless $tpp;
-    my $h = $tpp->parse($xml);
-    return $ret unless $h;
-
-    foreach my $host (@{$h->{nmaprun}[0]{host}}) {
-        foreach (@{$host->{address}}) {
-            if ($_->{'-addrtype'} eq 'mac') {
-                $ret->{MAC} = $_->{'-addr'} unless $ret->{MAC};
-                $ret->{NETPORTVENDOR} = $_->{'-vendor'} unless $ret->{NETPORTVENDOR};
-            }
-        }
-        foreach (@{$host->{hostnames}}) {
-            my $name = eval {$_->{hostname}[0]{'-name'}};
-            next unless $name;
-            $ret->{DNSHOSTNAME} = $name;
-        }
-    }
-
-    return $ret;
-}
-
-
 sub run {
     my ($self) = @_;
 
@@ -114,7 +81,6 @@ sub run {
 
    $self->_startThreads();
 }
-
 
 sub _startThreads {
    my ($self, $params) = @_;
@@ -1075,6 +1041,39 @@ sub _initModList {
         }
     }
 }
+
+sub _parseNmap {
+    my ($xml) = @_;
+
+    my $ret = {};
+
+    return $ret unless $xml;
+
+    my $tpp;
+    eval {
+        $tpp = XML::TreePP->new(force_array => '*');
+    };
+    return $ret unless $tpp;
+    my $h = $tpp->parse($xml);
+    return $ret unless $h;
+
+    foreach my $host (@{$h->{nmaprun}[0]{host}}) {
+        foreach (@{$host->{address}}) {
+            if ($_->{'-addrtype'} eq 'mac') {
+                $ret->{MAC} = $_->{'-addr'} unless $ret->{MAC};
+                $ret->{NETPORTVENDOR} = $_->{'-vendor'} unless $ret->{NETPORTVENDOR};
+            }
+        }
+        foreach (@{$host->{hostnames}}) {
+            my $name = eval {$_->{hostname}[0]{'-name'}};
+            next unless $name;
+            $ret->{DNSHOSTNAME} = $name;
+        }
+    }
+
+    return $ret;
+}
+
 
 1;
 
