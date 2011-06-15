@@ -129,8 +129,6 @@ sub run {
    $self->initModList();
 
    $self->StartThreads();
-
-   exit(0);
 }
 
 
@@ -221,7 +219,7 @@ sub StartThreads {
             });
          undef($xml_thread);
          $self->{logger}->debug("Dico is to old (".$dicohash->{HASH}." vs ".$self->{NETDISCOVERY}->{DICOHASH}."). Exiting...");
-         exit(0);
+         return;
       }
    }
    $self->{logger}->debug("Dico loaded.");
