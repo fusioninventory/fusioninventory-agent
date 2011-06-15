@@ -879,7 +879,7 @@ sub _discovery_ip_threaded {
                      #print "[".$params->{ip}."][YES][".$authlist->{$key}->{VERSION}."][".$authlist->{$key}->{COMMUNITY}."]\n";
 
                      # ***** manufacturer specifications
-                     for my $m ( keys %{$self->{modules}} ) {
+                     for my $m (@{$self->{modules}}) {
                         $description = $m->discovery($description, $session,$description);
                      }
 
@@ -1081,58 +1081,18 @@ sub _verifySerial {
 
 
 sub _initModList {
-   my $self = shift;
+    my ($self) = @_;
 
-   my $logger = $self->{logger};
-   my $config = $self->{config};
+    my @modules = __PACKAGE__->getModules();
+    die "no inventory module found" if !@modules;
 
-   my @dirToScan;
-   my @installed_mods;
-   my @installed_files;
-
-   if ($config->{devlib}) {
-      # devlib enable, I only search for backend module in ./lib
-      push (@dirToScan, './lib');
-   } else {
-      foreach (@INC) {
-         next if ! -d || (-l && -d readlink) || /^(\.|lib)$/;
-         next if ! -d $_.'/FusionInventory/Agent/Task/NetDiscovery/Manufacturer';
-         push @dirToScan, $_;
-      }
-   }
-   if (@dirToScan) {
-      eval {require File::Find};
-      if ($@) {
-         $logger->debug("Failed to load File::Find");
-      } else {
-         # here I need to use $d to avoid a bug with AIX 5.2's perl 5.8.0. It
-         # changes the @INC content if i use $_ directly
-         # thanks to @rgs on irc.perl.org
-         File::Find::find(
-           {
-             wanted => sub {
-               push @installed_files, $File::Find::name if $File::Find::name =~
-               /FusionInventory\/Agent\/Task\/NetDiscovery\/Manufacturer\/.*\.pm$/;
-             },
-             follow => 1,
-             follow_skip => 2
-           }
-           , @dirToScan);
-      }
-   }
-   foreach my $file (@installed_files) {
-      my $t = $file;
-      next unless $t =~ s!.*?(FusionInventory/Agent/Task/NetDiscovery/Manufacturer/)(.*?)\.pm$!$1$2!;
-      my $m = join ('::', split /\//, $t);
-      eval "use $m;";
-      if ($@) {
-         $logger->debug ("Failed to load $m: $@");
-         next;
-      } else {
-         $logger->debug ($m." loaded");
-         $self->{modules}->{$m} = 1;
-      }
-   }
+    foreach my $module (@modules) {
+        if ($module->require()) {
+            push @{$self->{modules}}, $module;
+        } else {
+            $self->{logger}->info("failed to load $module");
+        }
+    }
 }
 
 1;
