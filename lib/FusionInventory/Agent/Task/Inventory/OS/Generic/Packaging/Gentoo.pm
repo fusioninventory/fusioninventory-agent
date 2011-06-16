@@ -33,7 +33,7 @@ sub doInventory {
     my $inventory = $params->{inventory};
 
     my $cmd = "equery list -i";
-    if (_equeryNeedsWildcard('equery -v', '-|')) {
+    if (_equeryNeedsWildcard('equery -V', '-|')) {
         $cmd .= " '*'";
     }
 # TODO: This had been rewrite from the Linux agent _WITHOUT_ being checked!
