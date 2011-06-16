@@ -73,7 +73,6 @@ sub _startThreads {
 
    my $xml_thread = {};
 
-   my $ModuleNmapParserParameter;
    my $ModuleNetNBName   = 0;
    my $ModuleNetSNMP     = 0;
    my $iplist = {};
