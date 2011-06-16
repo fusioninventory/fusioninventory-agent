@@ -17,7 +17,6 @@ use XML::TreePP;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::SNMP;
-use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::NetDiscovery::Dico;
 use FusionInventory::Agent::XML::Query;
@@ -51,12 +50,6 @@ sub run {
     my $config = $self->{config};
     my $target = $self->{target};
     my $logger = $self->{logger};
-
-    $self->{storage} = FusionInventory::Agent::Storage->new({
-        target => {
-            vardir => $ARGV[0],
-        }
-    });
 
     $logger->debug("FusionInventory NetDiscovery module ".$VERSION);
 
@@ -98,7 +91,7 @@ sub _startThreads {
    my %TuerThread;
    my %ArgumentsThread;
    my $maxIdx : shared = 0;
-   my $storage = $self->{storage};
+   my $storage = $self->{target}->getStorage();
    my $sendstart = 0;
    my $dico;
    my $dicohash;
