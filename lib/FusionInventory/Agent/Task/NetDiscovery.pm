@@ -118,15 +118,13 @@ sub _startThreads {
       } else {
          # Send Dico request to plugin for next time :
          $self->_sendInformations({
-            data => {
-                AGENT => {
-                    END => '1'
-                },
-                MODULEVERSION => $VERSION,
-                PROCESSNUMBER => $params->{PID},
-                DICO          => "REQUEST",
-            }
-        });
+             AGENT => {
+                 END => '1'
+             },
+             MODULEVERSION => $VERSION,
+             PROCESSNUMBER => $params->{PID},
+             DICO          => "REQUEST",
+         });
          $self->{logger}->debug("Dico is to old (".$dicohash->{HASH}." vs ".$options->{DICOHASH}."). Exiting...");
          return;
       }
@@ -329,14 +327,12 @@ sub _startThreads {
          # Send infos to server :
          if ($sendstart == 0) {
             $self->_sendInformations({
-                data => {
-                    AGENT => {
-                        START        => '1',
-                        AGENTVERSION => $self->{config}->{VERSION},
-                    },
-                    MODULEVERSION => $VERSION,
-                    PROCESSNUMBER => $params->{PID},
-                }
+                AGENT => {
+                    START        => '1',
+                    AGENTVERSION => $self->{config}->{VERSION},
+                },
+                MODULEVERSION => $VERSION,
+                PROCESSNUMBER => $params->{PID},
             });
             $sendstart = 1;
          }
@@ -345,12 +341,10 @@ sub _startThreads {
          {
             lock $sendbylwp;
             $self->_sendInformations({
-                data => {
-                    AGENT => {
-                        NBIP => $nbip
-                    },
-                    PROCESSNUMBER => $params->{PID}
-                }
+                AGENT => {
+                    NBIP => $nbip
+                },
+                PROCESSNUMBER => $params->{PID}
             });
          }
 
@@ -363,9 +357,7 @@ sub _startThreads {
                        idx => $idx
                    );
 
-                   $self->_sendInformations({
-                       data => $data
-                   });
+                   $self->_sendInformations($data);
                    $sentxml->{$idx} = 1;
                    $storage->remove(
                        idx => $idx
@@ -381,9 +373,7 @@ sub _startThreads {
                  idx => $idx
              );
 
-             $self->_sendInformations({
-                 data => $data
-             });
+             $self->_sendInformations($data);
              $sentxml->{$idx} = 1;
              sleep 1;
          }
@@ -401,13 +391,11 @@ sub _startThreads {
    # Send infos to server :
    sleep 1; # Wait for threads be terminated
    $self->_sendInformations({
-       data => {
-           AGENT => {
-               END => '1',
-           },
-           MODULEVERSION => $VERSION,
-           PROCESSNUMBER => $params->{PID},
-       }
+       AGENT => {
+           END => '1',
+       },
+       MODULEVERSION => $VERSION,
+       PROCESSNUMBER => $params->{PID},
    });
 
    return;
@@ -561,7 +549,7 @@ sub _manageThreads {
 }
 
 sub _sendInformations{
-   my ($self, $message) = @_;
+   my ($self, $informations) = @_;
 
    my $config = $self->{config};
 
@@ -571,7 +559,7 @@ sub _sendInformations{
        target => $self->{target},
        msg    => {
            QUERY   => 'NETDISCOVERY',
-           CONTENT => $message->{data},
+           CONTENT => $informations
        },
    );
    $self->{client}->send(message => $message);
