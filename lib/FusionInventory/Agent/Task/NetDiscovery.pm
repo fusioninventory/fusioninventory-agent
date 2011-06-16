@@ -146,15 +146,6 @@ sub _startThreads {
    }
    $self->{logger}->debug("Dico loaded.");
 
-#   if ( eval { require Nmap::Parser; 1 } ) {
-#      $ModuleNmapParser = 1;
-#      my $scan = new Nmap::Parser;
-#   } elsif ( eval { require Nmap::Scanner; 1 } ) {
-#       $ModuleNmapScanner = 1;
-#   } else {
-#       $self->{logger}->error("Can't load Nmap::Parser && map::Scanner. Nmap can't be used!");
-#   }
-
    if ( eval { require Net::NBName; 1 } ) {
       $ModuleNetNBName = 1;
    } else {
@@ -291,16 +282,7 @@ sub _startThreads {
          }
          $loop_action = 0;
 
-#         if ($nbip > ($nb_ip_per_thread * 4)) {
-#
-#         } elsif ($nbip > $nb_ip_per_thread) {
-#            $nb_threads_discovery = int($nbip / $nb_ip_per_thread) + 4;
-#         } else {
-#            $nb_threads_discovery = $nbip;
-#         }
-
          CONTINUE:
-#$self->{logger}->debug("LOOP : ".$loop_action);
          $loop_nbthreads = $nb_threads_discovery;
 
 
@@ -312,7 +294,6 @@ sub _startThreads {
          # Create Thread management others threads
          #===================================
          $exit = 2;
-#$self->{logger}->debug("exit : ".$exit);
          if ($threads_run == 0) {
             #===================================
             # Create all Threads
@@ -338,7 +319,6 @@ sub _startThreads {
                         ##### WAIT ACTION #####
                         $loopthread = 0;
                         while ($loopthread != 1) {
-#$self->{logger}->debug("[".$t."] : waiting...");
                            if ($ThreadAction{$t} == 3) { # STOP
                               $ThreadState{$t} = "2";
                               $self->{logger}->debug("Core $p - Thread $t deleted");
@@ -350,7 +330,6 @@ sub _startThreads {
                            sleep 1;
                         }
                         ##### RUN ACTION #####
-#$self->{logger}->debug("[".$t."] : run...");
                         $loopthread = 0;
                         while ($loopthread != 1) {
                            $device_id = q{}; # Empty string
@@ -399,7 +378,6 @@ sub _startThreads {
                         if ($ThreadAction{$t} == 2) { # STOP
                            $ThreadState{$t} = 2;
                            $ThreadAction{$t} = 0;
-#$self->{logger}->debug("[".$t."] : stoping...");
                            $self->{logger}->debug("Core $p - Thread $t deleted");
                            return;
                         } elsif ($ThreadAction{$t} == 1) { # PAUSE
@@ -428,14 +406,10 @@ sub _startThreads {
                      while (1) {
                         if (($loop_action == 0) && ($exit == 2)) {
                            ## Kill threads who do nothing partial ##
-#                              for($i = ($loop_nbthreads - 1) ; $i < $self->{NETDISCOVERY}->{PARAM}->[0]->{THREADS_DISCOVERY} ; $i++) {
-#                                 $ThreadAction{$i} = "3";
-#                              }
 
                            ## Start + end working threads (do a function) ##
                               for($i = 0 ; $i < $loop_nbthreads ; $i++) {
                                  $ThreadAction{$i} = "2";
-                                 #$ThreadState{$i} = "1";
                               }
                            ## Function state of working threads (if they are stopped) ##
                               $count = 0;
@@ -461,7 +435,6 @@ sub _startThreads {
                            ## Start + pause working Threads (do a function) ##
                               for($i = 0 ; $i < $loop_nbthreads ; $i++) {
                                  $ThreadAction{$i} = "1";
-                                 #$ThreadState{$i} = "1";
                               }
                            sleep 1;
 
@@ -471,7 +444,6 @@ sub _startThreads {
 
                            while ($loopthread != 1) {
                               for($i = 0 ; $i < $loop_nbthreads ; $i++) {
-                                 #print "ThreadState ".$i." = ".$ThreadState{$i}."\n";
                                  if ($ThreadState{$i} == 0) {
                                     $count++;
                                  }
@@ -558,7 +530,6 @@ sub _startThreads {
          }
 
       }
-#      $storage->removeSubDumps();
 
       }
      if ($nb_core_discovery > 1) {
@@ -753,8 +724,6 @@ sub _discovery_ip_threaded {
                });
 
                if (!defined($session->{SNMPSession}->{session})) {
-                  #print("SNMP ERROR: %s.\n", $error);
-   #               print "[".$params->{ip}."] GNERROR ()".$authlist->{$key}->{VERSION}."\n";
                } else {
 
                #print "[".$params->{ip}."] GNE () \n";
@@ -763,13 +732,8 @@ sub _discovery_ip_threaded {
                         up  => 1,
                      });
                   if ($description =~ m/No response from remote host/) {
-                     #print "[".$params->{ip}."][NO][".$authlist->{$key}->{VERSION}."][".$authlist->{$key}->{COMMUNITY}."]\n";
-                     #$session->close;
                   } elsif ($description =~ m/No buffer space available/) {
-                     #print "[".$params->{ip}."][NO][".$authlist->{$key}->{VERSION}."][".$authlist->{$key}->{COMMUNITY}."]\n";
-                     #$session->close;
                   } elsif ($description ne "null") {
-                     #print "[".$params->{ip}."][YES][".$authlist->{$key}->{VERSION}."][".$authlist->{$key}->{COMMUNITY}."]\n";
 
                      # ***** manufacturer specifications
                      for my $m (@{$self->{modules}}) {
@@ -820,7 +784,6 @@ sub _discovery_ip_threaded {
                      #$session->close;
                      return $datadevice;
                   } else {
-                     #debug($log,"[".$params->{ip}."][NO][".$$authSNMP_discovery{$key}{'version'}."][".$$authSNMP_discovery{$key}{'community'}."] ".$session->error, "",$PID,$Bin);
                      $session->close;
                   }
                }
