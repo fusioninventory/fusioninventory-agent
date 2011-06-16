@@ -47,8 +47,6 @@ sub run {
         return;
     }
 
-    my $config = $self->{config};
-    my $target = $self->{target};
     my $logger = $self->{logger};
 
     $logger->debug("FusionInventory NetDiscovery module ".$VERSION);
@@ -59,15 +57,13 @@ sub run {
    $yday = sprintf("%04d", $yday);
    $self->{PID} = $yday.$hour.$min;
 
-   $self->{countxml} = 0;
-
    $self->_initModList();
 
    $self->_startThreads();
 }
 
 sub _startThreads {
-   my ($self, $params) = @_;
+   my ($self) = @_;
 
 	my $nb_threads_discovery = $self->{NETDISCOVERY}->{PARAM}->[0]->{THREADS_DISCOVERY};
 	my $nb_core_discovery    = $self->{NETDISCOVERY}->{PARAM}->[0]->{CORE_DISCOVERY};
@@ -81,15 +77,11 @@ sub _startThreads {
 
    my $xml_thread = {};
 
-   my $ModuleNmapScanner = 0;
-   my $ModuleNmapParser  = 0;
    my $ModuleNmapParserParameter;
    my $ModuleNetNBName   = 0;
    my $ModuleNetSNMP     = 0;
    my $iplist = {};
    my $iplist2 = &share({});
-   my %TuerThread;
-   my %ArgumentsThread;
    my $maxIdx : shared = 0;
    my $storage = $self->{target}->getStorage();
    my $sendstart = 0;
@@ -188,13 +180,11 @@ sub _startThreads {
 
    my $nbip = 0;
    my $countnb;
-   my $core_counter = 0;
    my $nb_ip_per_thread = 25;
    my $limitip = $nb_threads_discovery * $nb_ip_per_thread;
    my $ip;
    my $max_procs;
    my $pm;
-   my $description;
 
    #============================================
    # Begin ForkManager (multiple core / process)
@@ -205,7 +195,6 @@ sub _startThreads {
    }
 
    my @Thread;
-   my $xml_Thread : shared = q{}; # Empty string
    for(my $p = 0; $p < $nb_core_discovery; $p++) {
       if ($nb_core_discovery > 1) {
          my $pid = $pm->start and next;
@@ -225,7 +214,6 @@ sub _startThreads {
       while ($loop_action > 0) {
          $countnb = 0;
          $nbip = 0;
-         $core_counter = 0;
 
          if ($threads_run == 0) {
             $iplist2 = &share({});
@@ -322,16 +310,6 @@ sub _startThreads {
             $ThreadState{$j} = "0";
             $ThreadAction{$j} = "0";
          }
-         #==================================
-         # Prepare in variables devices to query
-         #==================================
-         $ArgumentsThread{'id'}[$p] = &share([]);
-
-         my $i = 0;
-
-         while ($i < $nb_threads_discovery) {
-            $i++;
-         }
          #===================================
          # Create Thread management others threads
          #===================================
@@ -393,9 +371,7 @@ sub _startThreads {
                                     ip                  => $iplist->{$device_id}->{IP},
                                     entity              => $iplist->{$device_id}->{ENTITY},
                                     authlist            => $authlistt,
-                                    ModuleNmapScanner   => $ModuleNmapScanner,
                                     ModuleNetNBName     => $ModuleNetNBName,
-                                    ModuleNmapParser    => $ModuleNmapParser,
                                     ModuleNmapParserParameter => $ModuleNmapParserParameter,
                                     ModuleNetSNMP       => $ModuleNetSNMP,
                                     dico                => $dico
@@ -723,10 +699,7 @@ sub _discovery_ip_threaded {
 
       my $nb = Net::NBName->new();
 
-      my $domain = q{}; # Empty string
-      my $user = q{}; # Empty string
       my $machine = q{}; # Empty string
-      my $type = 0;
 
       my $ns = $nb->node_status($params->{ip});
       if ($ns) {
@@ -740,7 +713,6 @@ sub _discovery_ip_threaded {
              if ($rr->suffix == 0 && $rr->G eq "UNIQUE") {
                  $machine = $rr->name unless $rr->name =~ /^IS~/;
                  $datadevice->{NETBIOSNAME} = _special_char($machine);
-                 $type = 1;
              }
          }
          if (not exists($datadevice->{MAC})) {
