@@ -154,23 +154,23 @@ sub _startThreads {
    my $nb_ip_per_thread = 25;
    my $limitip = $params->{THREADS_DISCOVERY} * $nb_ip_per_thread;
    my $ip;
-   my $pm;
 
-   my $max_procs = $params->{CORE_DISCOVERY} * $params->{THREADS_DISCOVERY};
+   my $manager;
    if ($params->{CORE_DISCOVERY} > 1) {
        Parallel::ForkManager->require();
        if ($EVAL_ERROR) {
          $self->{logger}->debug("Parallel::ForkManager not installed, so only 1 core will be used...");
          $params->{CORE_DISCOVERY} = 1;
+      } else {
+          $manager = Parallel::ForkManager->new($params->{CORE_DISCOVERY});
       }
-
-      $pm = Parallel::ForkManager->new($max_procs);
    }
 
    my @Thread;
    for(my $p = 0; $p < $params->{CORE_DISCOVERY}; $p++) {
-      if ($params->{CORE_DISCOVERY} > 1) {
-         my $pid = $pm->start and next;
+      if ($manager) {
+         my $pid = $manager->start();
+         next if $pid;
       }
 
       my $threads_run = 0;
@@ -377,16 +377,11 @@ sub _startThreads {
       }
 
       }
-     if ($params->{CORE_DISCOVERY} > 1) {
-         $pm->finish;
-      }
+      $manager->finish() if $manager;
    }
 
    # Wait for threads be terminated
-
-   if ($params->{CORE_DISCOVERY} > 1) {
-      $pm->wait_all_children;
-   }
+   $manager->wait_all_children() if $manager;
    sleep 1;
 
    # Send infos to server
