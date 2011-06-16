@@ -13,6 +13,7 @@ use Data::Dumper;
 use Digest::MD5 qw(md5_hex);
 use English qw(-no_match_vars);
 use Net::IP;
+use UNIVERSAL::require;
 use XML::TreePP;
 
 use FusionInventory::Agent::Logger;
@@ -64,7 +65,8 @@ sub _startThreads {
    my $options = $self->{prologresp}->getOptionsInfoByName('NETDISCOVERY');
    my $params  = $options->{PARAM}->[0];
 
-   if ( not eval { require Parallel::ForkManager; 1 } ) {
+   Parallel::ForkManager->require();
+   if ($EVAL_ERROR) {
       if ($params->{CORE_DISCOVERY} > 1) {
          $self->{logger}->debug("Parallel::ForkManager not installed, so only 1 core will be used...");
          $params->{CORE_DISCOVERY} = 1;
@@ -73,8 +75,6 @@ sub _startThreads {
 
    my $xml_thread = {};
 
-   my $ModuleNetNBName   = 0;
-   my $ModuleNetSNMP     = 0;
    my $iplist = {};
    my $iplist2 = &share({});
    my $maxIdx : shared = 0;
@@ -143,15 +143,13 @@ sub _startThreads {
    }
    $self->{logger}->debug("Dico loaded.");
 
-   if ( eval { require Net::NBName; 1 } ) {
-      $ModuleNetNBName = 1;
-   } else {
+   my $ModuleNetNBName = Net::NBName->require();
+   if ($EVAL_ERROR) {
       $self->{logger}->error("Can't load Net::NBName. Netbios detection can't be used!");
    }
 
-   if ( eval { require Net::SNMP; 1 } ) {
-      $ModuleNetSNMP = 1;
-   } else {
+   my $ModuleNetSNMP = Net::SNMP->require();
+   if ($EVAL_ERROR) {
       $self->{logger}->error("Can't load Net::SNMP. SNMP detection can't be used!");
    }
 
