@@ -17,7 +17,6 @@ use UNIVERSAL::require;
 use XML::TreePP;
 
 use FusionInventory::Agent::Logger;
-use FusionInventory::Agent::SNMP;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::NetDiscovery::Dico;
 use FusionInventory::Agent::XML::Query;
@@ -148,9 +147,9 @@ sub _startThreads {
       $self->{logger}->error("Can't load Net::NBName. Netbios detection can't be used!");
    }
 
-   my $ModuleNetSNMP = Net::SNMP->require();
+   my $ModuleNetSNMP = FusionInventory::Agent::SNMP->require();
    if ($EVAL_ERROR) {
-      $self->{logger}->error("Can't load Net::SNMP. SNMP detection can't be used!");
+      $self->{logger}->error("Can't load FusionInventory::Agent::SNMP. SNMP detection can't be used!");
    }
 
    # retrieve SNMP authentication credentials
