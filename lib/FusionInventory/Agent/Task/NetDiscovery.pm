@@ -45,9 +45,7 @@ sub run {
         return;
     }
 
-    my $logger = $self->{logger};
-
-    $logger->debug("FusionInventory NetDiscovery module ".$VERSION);
+    $self->{logger}->debug("FusionInventory NetDiscovery module ".$VERSION);
 
    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
    $hour  = sprintf("%02d", $hour);
