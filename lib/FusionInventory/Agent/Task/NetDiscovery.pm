@@ -64,14 +64,6 @@ sub _startThreads {
    my $options = $self->{prologresp}->getOptionsInfoByName('NETDISCOVERY');
    my $params  = $options->{PARAM}->[0];
 
-   Parallel::ForkManager->require();
-   if ($EVAL_ERROR) {
-      if ($params->{CORE_DISCOVERY} > 1) {
-         $self->{logger}->debug("Parallel::ForkManager not installed, so only 1 core will be used...");
-         $params->{CORE_DISCOVERY} = 1;
-      }
-   }
-
    my $xml_thread = {};
 
    my $iplist = {};
@@ -173,6 +165,12 @@ sub _startThreads {
    #============================================
    $max_procs = $params->{CORE_DISCOVERY} * $params->{THREADS_DISCOVERY};
    if ($params->{CORE_DISCOVERY} > 1) {
+       Parallel::ForkManager->require();
+       if ($EVAL_ERROR) {
+         $self->{logger}->debug("Parallel::ForkManager not installed, so only 1 core will be used...");
+         $params->{CORE_DISCOVERY} = 1;
+      }
+
       $pm = Parallel::ForkManager->new($max_procs);
    }
 
