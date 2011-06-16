@@ -64,8 +64,6 @@ sub _startThreads {
    my $options = $self->{prologresp}->getOptionsInfoByName('NETDISCOVERY');
    my $params  = $options->{PARAM}->[0];
 
-   my $xml_thread = {};
-
    my $iplist = {};
    my $iplist2 = &share({});
    my $maxIdx : shared = 0;
@@ -119,15 +117,16 @@ sub _startThreads {
          $self->{logger}->debug("Dico is up to date.");
       } else {
          # Send Dico request to plugin for next time :
-         undef($xml_thread);
-         $xml_thread->{AGENT}->{END} = '1';
-         $xml_thread->{MODULEVERSION} = $VERSION;
-         $xml_thread->{PROCESSNUMBER} = $params->{PID};
-         $xml_thread->{DICO}          = "REQUEST";
          $self->_sendInformations({
-            data => $xml_thread
-            });
-         undef($xml_thread);
+            data => {
+                AGENT => {
+                    END => '1'
+                },
+                MODULEVERSION => $VERSION,
+                PROCESSNUMBER => $params->{PID},
+                DICO          => "REQUEST",
+            }
+        });
          $self->{logger}->debug("Dico is to old (".$dicohash->{HASH}." vs ".$options->{DICOHASH}."). Exiting...");
          return;
       }
@@ -329,29 +328,31 @@ sub _startThreads {
 
          # Send infos to server :
          if ($sendstart == 0) {
-            my $xml_thread = {};
-            $xml_thread->{AGENT}->{START} = '1';
-            $xml_thread->{AGENT}->{AGENTVERSION} = $self->{config}->{VERSION};
-            $xml_thread->{MODULEVERSION} = $VERSION;
-            $xml_thread->{PROCESSNUMBER} = $params->{PID};
             $self->_sendInformations({
-               data => $xml_thread
-               });
-            undef($xml_thread);
+                data => {
+                    AGENT => {
+                        START        => '1',
+                        AGENTVERSION => $self->{config}->{VERSION},
+                    },
+                    MODULEVERSION => $VERSION,
+                    PROCESSNUMBER => $params->{PID},
+                }
+            });
             $sendstart = 1;
          }
 
          # Send NB ips to server :
-         $xml_thread = {};
-         $xml_thread->{AGENT}->{NBIP} = $nbip;
-         $xml_thread->{PROCESSNUMBER} = $params->{PID};
          {
             lock $sendbylwp;
             $self->_sendInformations({
-               data => $xml_thread
-               });
+                data => {
+                    AGENT => {
+                        NBIP => $nbip
+                    },
+                    PROCESSNUMBER => $params->{PID}
+                }
+            });
          }
-         undef($xml_thread);
 
 
         while($exit != 1) {
@@ -398,15 +399,16 @@ sub _startThreads {
       $pm->wait_all_children;
    }
    # Send infos to server :
-   undef($xml_thread);
-   $xml_thread->{AGENT}->{END} = '1';
-   $xml_thread->{MODULEVERSION} = $VERSION;
-   $xml_thread->{PROCESSNUMBER} = $params->{PID};
    sleep 1; # Wait for threads be terminated
    $self->_sendInformations({
-      data => $xml_thread
-      });
-   undef($xml_thread);
+       data => {
+           AGENT => {
+               END => '1',
+           },
+           MODULEVERSION => $VERSION,
+           PROCESSNUMBER => $params->{PID},
+       }
+   });
 
    return;
 }
@@ -417,7 +419,7 @@ sub _handleIPRange {
     my $loopbigthread = 0;
     my $count = 0;
     my $device_id;
-    my $xml_threadt;
+    my $data;
 
     $self->{logger}->debug("Core $p - Thread $t created");
     while ($loopbigthread != 1) {
@@ -460,18 +462,17 @@ sub _handleIPRange {
               undef $iplist->{$device_id}->{ENTITY};
 
               if (keys %{$datadevice}) {
-                 $xml_threadt->{DEVICE}->[$count] = $datadevice;
-                 $xml_threadt->{MODULEVERSION} = $VERSION;
-                 $xml_threadt->{PROCESSNUMBER} = $pid;
+                 $data->{DEVICE}->[$count] = $datadevice;
+                 $data->{MODULEVERSION} = $VERSION;
+                 $data->{PROCESSNUMBER} = $pid;
                  $count++;
               }
            }
            if (($count == 4) || (($loopthread == 1) && ($count > 0))) {
               $maxIdx++;
               $self->{storage}->save({
-                    idx =>
-                    $maxIdx,
-                    data => $xml_threadt
+                    idx  => $maxIdx,
+                    data => $data
                 });
 
               $count = 0;
