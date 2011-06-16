@@ -64,23 +64,11 @@ sub _startThreads {
    my $options = $self->{prologresp}->getOptionsInfoByName('NETDISCOVERY');
    my $params  = $options->{PARAM}->[0];
 
-   my $iplist = {};
-   my $iplist2 = &share({});
-   my $maxIdx : shared = 0;
-   my $storage = $self->{target}->getStorage();
-   my $sendstart = 0;
+   # take care of models dictionnary
    my $dico;
    my $dicohash;
+   my $storage = $self->{target}->getStorage();
 
-   my ($major, $minor) = getFirstMatch(
-       command => 'nmap -V',
-       pattern => qr/Nmap version (\d+)\.(\d+)/
-   );
-   my $ModuleNmapParserParameter = compareVersion($major, $minor, 5, 29) ?
-       "-sP -PP --system-dns --max-retries 1 --max-rtt-timeout 1000ms " :
-       "-sP --system-dns --max-retries 1 --max-rtt-timeout 1000 "       ;
-
-   # Load storage with XML dico
    if (defined($options->{DICO})) {
       $storage->save(
           idx  => 999998,
@@ -131,6 +119,16 @@ sub _startThreads {
    }
    $self->{logger}->debug("Dico loaded.");
 
+   # check discovery methods available
+
+   my ($major, $minor) = getFirstMatch(
+       command => 'nmap -V',
+       pattern => qr/Nmap version (\d+)\.(\d+)/
+   );
+   my $ModuleNmapParserParameter = compareVersion($major, $minor, 5, 29) ?
+       "-sP -PP --system-dns --max-retries 1 --max-rtt-timeout 1000ms " :
+       "-sP --system-dns --max-retries 1 --max-rtt-timeout 1000 "       ;
+
    Net::NBName->require();
    if ($EVAL_ERROR) {
       $self->{logger}->error("Can't load Net::NBName. Netbios detection can't be used!");
@@ -144,23 +142,21 @@ sub _startThreads {
    # retrieve SNMP authentication credentials
    my $credentials = $options->{AUTHENTICATION};
 
-   ##### Get IP to scan
+   # manage discovery
 
-   # Dispatch IPs to different core
+   my $iplist = {};
+   my $iplist2 = &share({});
+   my $maxIdx : shared = 0;
+   my $sendstart = 0;
    my $startIP = q{}; # Empty string
-
    my $nbip = 0;
    my $countnb;
    my $nb_ip_per_thread = 25;
    my $limitip = $params->{THREADS_DISCOVERY} * $nb_ip_per_thread;
    my $ip;
-   my $max_procs;
    my $pm;
 
-   #============================================
-   # Begin ForkManager (multiple core / process)
-   #============================================
-   $max_procs = $params->{CORE_DISCOVERY} * $params->{THREADS_DISCOVERY};
+   my $max_procs = $params->{CORE_DISCOVERY} * $params->{THREADS_DISCOVERY};
    if ($params->{CORE_DISCOVERY} > 1) {
        Parallel::ForkManager->require();
        if ($EVAL_ERROR) {
@@ -385,11 +381,16 @@ sub _startThreads {
          $pm->finish;
       }
    }
+
+   # Wait for threads be terminated
+
    if ($params->{CORE_DISCOVERY} > 1) {
       $pm->wait_all_children;
    }
-   # Send infos to server :
-   sleep 1; # Wait for threads be terminated
+   sleep 1;
+
+   # Send infos to server
+
    $self->_sendInformations({
        AGENT => {
            END => '1',
