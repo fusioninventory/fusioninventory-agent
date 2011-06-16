@@ -672,14 +672,14 @@ sub _discovery_ip_threaded {
       if ($ns) {
          for my $rr ($ns->names) {
              if ($rr->suffix == 0 && $rr->G eq "GROUP") {
-               $datadevice->{WORKGROUP} = _special_char($rr->name);
+               $datadevice->{WORKGROUP} = getSanitizedString($rr->name);
              }
              if ($rr->suffix == 3 && $rr->G eq "UNIQUE") {
-               $datadevice->{USERSESSION} = _special_char($rr->name);
+               $datadevice->{USERSESSION} = getSanitizedString($rr->name);
              }
              if ($rr->suffix == 0 && $rr->G eq "UNIQUE") {
                  $machine = $rr->name unless $rr->name =~ /^IS~/;
-                 $datadevice->{NETBIOSNAME} = _special_char($machine);
+                 $datadevice->{NETBIOSNAME} = getSanitizedString($machine);
              }
          }
          if (not exists($datadevice->{MAC})) {
@@ -802,23 +802,6 @@ sub _discovery_ip_threaded {
    }
    return $datadevice;
 }
-
-
-
-sub _special_char {
-   my $variable = shift;
-   if (defined($variable)) {
-      if ($variable =~ /0x$/) {
-         return "";
-      }
-      $variable =~ s/([\x80-\xFF])//;
-      return $variable;
-   } else {
-      return "";
-   }
-}
-
-
 
 sub _verifySerial {
    my ($self, $description, $session, $dico, $ip) = @_;
