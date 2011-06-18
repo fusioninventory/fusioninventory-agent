@@ -712,20 +712,19 @@ sub _verifySerial {
 
     return unless $description;
 
-    my $macreturn = q{}; # Empty string
-    my $modelreturn = q{}; # Empty string
-    my $serial;
-    my $serialreturn = q{}; # Empty string
-
     $description =~ s/\n//g;
     $description =~ s/\r//g;
 
-    # iterate the dictionnary until a model matches current description
-    foreach my $device (@{$dico->{DEVICE}}) {
-        next unless $device->{SYSDESCR} eq $description;
+    # find a model in dictionnary matching description
+    my $model = first { $_->{SYSDESCR} eq $description } @{$dico->{DEVICE}};
 
-        if (defined($device->{SERIAL})) {
-            $serial = $snmp->get($device->{SERIAL});
+    if ($model) {
+        # a model has been found
+        my ($macreturn,  $modelreturn, $serial, $serialreturn);
+
+
+        if (defined($model->{SERIAL})) {
+            $serial = $snmp->get($model->{SERIAL});
         }
 
         if (defined($serial)) {
@@ -733,16 +732,16 @@ sub _verifySerial {
             $serial =~ s/\r//g;
             $serialreturn = $serial;
         }
-        my $typereturn  = $device->{TYPE};
-        if (defined($device->{MODELSNMP})) {
-            $modelreturn = $device->{MODELSNMP};
+        my $typereturn  = $model->{TYPE};
+        if (defined($model->{MODELSNMP})) {
+            $modelreturn = $model->{MODELSNMP};
         }
-        if (defined($device->{MAC})) {
-            $macreturn  = $snmp->get($device->{MAC});
+        if (defined($model->{MAC})) {
+            $macreturn  = $snmp->get($model->{MAC});
         }
 
         my $Arraymacreturn = {};
-        $Arraymacreturn  = $snmp->walk($device->{MACDYN});
+        $Arraymacreturn  = $snmp->walk($model->{MACDYN});
         while ( (undef,my $macadress) = each (%{$Arraymacreturn}) ) {
             if (($macadress ne '') && ($macadress ne '0:0:0:0:0:0') && ($macadress ne '00:00:00:00:00:00')) {
                 if ($macreturn !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
@@ -768,28 +767,29 @@ sub _verifySerial {
         }
 
         return ($serialreturn, $typereturn, $modelreturn, $macreturn);
-    }
+    } else {
+        # no model has been found
+        my $macreturn;
 
-    # Mac of switchs
-    if ($macreturn !~ /^$mac_address_pattern$/) {
-        $macreturn  = $snmp->get(".1.3.6.1.2.1.17.1.1.0");
-    }
-    if ($macreturn !~ /^$mac_address_pattern$/) {
-        my $Arraymacreturn = {};
-        $Arraymacreturn  = $snmp->walk(".1.3.6.1.2.1.2.2.1.6");
-        while ( (undef,my $macadress) = each (%{$Arraymacreturn}) ) {
-            if (($macadress ne '') && ($macadress ne '0:0:0:0:0:0') && ($macadress ne '00:00:00:00:00:00')) {
-                if ($macreturn !~ /^$mac_address_pattern$/) {
-                    $macreturn = $macadress;
+        # Mac of switchs
+        if ($macreturn !~ /^$mac_address_pattern$/) {
+            $macreturn  = $snmp->get(".1.3.6.1.2.1.17.1.1.0");
+        }
+        if ($macreturn !~ /^$mac_address_pattern$/) {
+            my $Arraymacreturn = {};
+            $Arraymacreturn  = $snmp->walk(".1.3.6.1.2.1.2.2.1.6");
+            while ( (undef,my $macadress) = each (%{$Arraymacreturn}) ) {
+                if (($macadress ne '') && ($macadress ne '0:0:0:0:0:0') && ($macadress ne '00:00:00:00:00:00')) {
+                    if ($macreturn !~ /^$mac_address_pattern$/) {
+                        $macreturn = $macadress;
+                    }
                 }
             }
+
         }
 
+        return (undef, undef, undef, $macreturn);
     }
-    if ($macreturn ne '') {
-        return ("", 0, "", $macreturn);
-    }
-    return ("", 0, "", "");
 }
 
 
