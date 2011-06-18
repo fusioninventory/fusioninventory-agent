@@ -438,13 +438,13 @@ sub _handleIPRange {
               }
            }
            if ($loopthread != 1) {
-              my $datadevice = $self->probeAddress({
-                    ip                  => $iplist->{$device_id}->{IP},
-                    entity              => $iplist->{$device_id}->{ENTITY},
-                    credentials         => $credentials,
-                    nmap_parameters     => $nmap_parameters,
-                    dico                => $dico
-                 });
+              my $datadevice = $self->_probeAddress(
+                    ip              => $iplist->{$device_id}->{IP},
+                    entity          => $iplist->{$device_id}->{ENTITY},
+                    credentials     => $credentials,
+                    nmap_parameters => $nmap_parameters,
+                    dico            => $dico
+             );
               undef $iplist->{$device_id}->{IP};
               undef $iplist->{$device_id}->{ENTITY};
 
@@ -565,30 +565,30 @@ sub _sendInformations{
 }
 
 sub _probeAddress {
-   my ($self, $params) = @_;
+   my ($self, %params) = @_;
 
-   if (!defined($params->{ip})) {
+   if (!defined($params{ip})) {
       $self->{logger}->debug("ip address empty...");
       return;
    }
 
-   if ($params->{ip} !~ /^$ip_address_pattern$/ ) {
+   if ($params{ip} !~ /^$ip_address_pattern$/ ) {
       $self->{logger}->debug("Invalid ip address...");
       return;
    }
 
    my $device;
 
-   if ($params->{nmap_parameters}) {
-      $self->_probeAddressByNmap($device, $params->{ip}, $params->{nmap_parameters});
+   if ($params{nmap_parameters}) {
+      $self->_probeAddressByNmap($device, $params{ip}, $params{nmap_parameters});
    }
 
    if ($INC{'Net/NBName.pm'}) {
-       $self->_probeAddressByNmap($device, $params->{ip})
+       $self->_probeAddressByNmap($device, $params{ip})
    }
 
    if ($INC{'FusionInventory/Agent/SNMP.pm'}) {
-       $self->_probeAddressBySNMP($device, $params->{ip}, $params->{credentials}, $params->{dico}, $params->{entity});
+       $self->_probeAddressBySNMP($device, $params{ip}, $params{credentials}, $params{dico}, $params{entity});
    }
 
    if ($device->{MAC}) {
@@ -596,11 +596,11 @@ sub _probeAddress {
    }
 
    if ($device->{MAC} || $device->{DNSHOSTNAME} || $device->{NETBIOSNAME}) {
-      $device->{IP}     = $params->{ip};
-      $device->{ENTITY} = $params->{entity};
-      $self->{logger}->debug("[$params->{ip}] ".Dumper($device));
+      $device->{IP}     = $params{ip};
+      $device->{ENTITY} = $params{entity};
+      $self->{logger}->debug("[$params{ip}] ".Dumper($device));
    } else {
-      $self->{logger}->debug("[$params->{ip}] Not found");
+      $self->{logger}->debug("[$params{ip}] Not found");
    }
 
    return $device;
