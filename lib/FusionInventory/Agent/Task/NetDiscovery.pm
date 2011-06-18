@@ -120,14 +120,16 @@ sub _startThreads {
    $self->{logger}->debug("Dico loaded.");
 
    # check discovery methods available
-
-   my ($major, $minor) = getFirstMatch(
-       command => 'nmap -V',
-       pattern => qr/Nmap version (\d+)\.(\d+)/
-   );
-   my $ModuleNmapParserParameter = compareVersion($major, $minor, 5, 29) ?
-       "-sP -PP --system-dns --max-retries 1 --max-rtt-timeout 1000ms " :
-       "-sP --system-dns --max-retries 1 --max-rtt-timeout 1000 "       ;
+   my $nmap_parameters;
+   if (can_run('nmap')) {
+       my ($major, $minor) = getFirstMatch(
+           command => 'nmap -V',
+           pattern => qr/Nmap version (\d+)\.(\d+)/
+       );
+       $nmap_parameters = compareVersion($major, $minor, 5, 29) ?
+           "-sP -PP --system-dns --max-retries 1 --max-rtt-timeout 1000ms " :
+           "-sP --system-dns --max-retries 1 --max-rtt-timeout 1000 "       ;
+   }
 
    Net::NBName->require();
    if ($EVAL_ERROR) {
@@ -296,7 +298,7 @@ sub _startThreads {
                    \%ThreadState,
                    $iplist,
                    $iplist2,
-                   $ModuleNmapParserParameter,
+                   $nmap_parameters,
                    $dico,
                    $maxIdx,
                    $params->{PID}
@@ -398,7 +400,7 @@ sub _startThreads {
 }
 
 sub _handleIPRange {
-    my ($self, $p, $t, $credentials, $ThreadAction, $ThreadState, $iplist2, $iplist, $ModuleNmapParserParameter, $dico, $maxIdx, $pid) = @_;
+    my ($self, $p, $t, $credentials, $ThreadAction, $ThreadState, $iplist2, $iplist, $nmap_parameters, $dico, $maxIdx, $pid) = @_;
     my $loopthread = 0;
     my $loopbigthread = 0;
     my $count = 0;
@@ -439,7 +441,7 @@ sub _handleIPRange {
                     ip                  => $iplist->{$device_id}->{IP},
                     entity              => $iplist->{$device_id}->{ENTITY},
                     credentials         => $credentials,
-                    ModuleNmapParserParameter => $ModuleNmapParserParameter,
+                    nmap_parameters     => $nmap_parameters,
                     dico                => $dico
                  });
               undef $iplist->{$device_id}->{IP};
@@ -576,8 +578,8 @@ sub _discovery_ip_threaded {
    }
 
 #** Nmap discovery
-   if ($params->{ModuleNmapParserParameter}) {
-       my $nmapCmd = "nmap $params->{ModuleNmapParserParameter} $params->{ip} -oX -";
+   if ($params->{nmap_parameters}) {
+       my $nmapCmd = "nmap $params->{nmap_parameters} $params->{ip} -oX -";
        my $xml = `$nmapCmd`;
        $datadevice = _parseNmap($xml);
    }
