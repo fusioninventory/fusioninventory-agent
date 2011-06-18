@@ -578,49 +578,78 @@ sub _discovery_ip_threaded {
       return $datadevice;
    }
 
-#** Nmap discovery
    if ($params->{nmap_parameters}) {
-       my $nmapCmd = "nmap $params->{nmap_parameters} $params->{ip} -oX -";
-       my $xml = `$nmapCmd`;
-       $datadevice = _parseNmap($xml);
+      $self->_discoverByNmap($params->{ip}, $datadevice, $params->{nmap_parameters});
    }
 
-   #** Netbios discovery
    if ($INC{'Net/NBName.pm'}) {
-      $self->{logger}->debug("[".$params->{ip}."] : Netbios discovery");
+       $self->_discoverByNmap($params->{ip}, $datadevice);
+   }
+
+   if ($INC{'FusionInventory/Agent/SNMP.pm'}) {
+       $self->_discoverBySNMP($params->{ip}, $datadevice, $params->{credentials}, $params->{dico}, $params->{entity});
+   }
+
+   if (exists($datadevice->{MAC})) {
+      $datadevice->{MAC} =~ tr/A-F/a-f/;
+   }
+   if ((exists($datadevice->{MAC})) || (exists($datadevice->{DNSHOSTNAME})) || (exists($datadevice->{NETBIOSNAME}))) {
+      $datadevice->{IP} = $params->{ip};
+      $datadevice->{ENTITY} = $params->{entity};
+      $self->{logger}->debug("[$params->{ip}] ".Dumper($datadevice));
+   } else {
+      $self->{logger}->debug("[$params->{ip}] Not found");
+   }
+   return $datadevice;
+}
+
+sub _discoverByNmap {
+    my ($self, $ip, $device, $parameters) = @_;
+
+    my $nmapCmd = "nmap $parameters $ip -oX -";
+    my $xml = `$nmapCmd`;
+    $device = _parseNmap($xml);
+}
+
+sub _discoverByNetbios {
+    my ($self, $ip, $device) = @_;
+
+      $self->{logger}->debug("[$ip] : Netbios discovery");
 
       my $nb = Net::NBName->new();
 
       my $machine = q{}; # Empty string
 
-      my $ns = $nb->node_status($params->{ip});
+      my $ns = $nb->node_status($ip);
       if ($ns) {
          for my $rr ($ns->names) {
              if ($rr->suffix == 0 && $rr->G eq "GROUP") {
-               $datadevice->{WORKGROUP} = getSanitizedString($rr->name);
+               $device->{WORKGROUP} = getSanitizedString($rr->name);
              }
              if ($rr->suffix == 3 && $rr->G eq "UNIQUE") {
-               $datadevice->{USERSESSION} = getSanitizedString($rr->name);
+               $device->{USERSESSION} = getSanitizedString($rr->name);
              }
              if ($rr->suffix == 0 && $rr->G eq "UNIQUE") {
                  $machine = $rr->name unless $rr->name =~ /^IS~/;
-                 $datadevice->{NETBIOSNAME} = getSanitizedString($machine);
+                 $device->{NETBIOSNAME} = getSanitizedString($machine);
              }
          }
-         if (not exists($datadevice->{MAC})) {
+         if (not exists($device->{MAC})) {
             my $NetbiosMac = $ns->mac_address;
             $NetbiosMac =~ tr/-/:/;
-            $datadevice->{MAC} = $NetbiosMac;
-         } elsif ($datadevice->{MAC} !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
+            $device->{MAC} = $NetbiosMac;
+         } elsif ($device->{MAC} !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
             my $NetbiosMac = $ns->mac_address;
             $NetbiosMac =~ tr/-/:/;
-            $datadevice->{MAC} = $NetbiosMac;
+            $device->{MAC} = $NetbiosMac;
          }
       }
-   }
+}
 
-   if ($INC{'FusionInventory/Agent/SNMP.pm'}) {
-      $self->{logger}->debug("[".$params->{ip}."] : SNMP discovery");
+sub _discoverBySNMP {
+    my ($self, $ip, $device, $credentials, $dico, $entity) = @_;
+
+      $self->{logger}->debug("[ip] : SNMP discovery");
       my $i = "4";
       my $snmpv;
       while ($i != 1) {
@@ -629,11 +658,11 @@ sub _discovery_ip_threaded {
          if ($i == 2) {
             $snmpv = "2c";
          }
-         foreach my $credential (@{$params->{credentials}}) {
+         foreach my $credential (@{$credentials}) {
             if ($credential->{VERSION} eq $snmpv) {
                my $session = FusionInventory::Agent::SNMP->new(
                    version      => $credential->{VERSION},
-                   hostname     => $params->{ip},
+                   hostname     => $ip,
                    community    => $credential->{COMMUNITY},
                    username     => $credential->{USERNAME},
                    authpassword => $credential->{AUTHPASSWORD},
@@ -660,7 +689,7 @@ sub _discovery_ip_threaded {
                         $description = $m->discovery($description, $session,$description);
                      }
 
-                     $datadevice->{DESCRIPTION} = $description;
+                     $device->{DESCRIPTION} = $description;
 
                      my $name = $session->snmpGet({
                            oid => '.1.3.6.1.2.1.1.5.0',
@@ -670,7 +699,7 @@ sub _discovery_ip_threaded {
                         $name = q{}; # Empty string
                      }
                      # Serial Number
-                     my ($serial, $type, $model, $mac) = $self->_verifySerial($description, $session, $params->{dico}, $params->{ip});
+                     my ($serial, $type, $model, $mac) = $self->_verifySerial($description, $session, $dico, $ip);
                     if ($serial eq "Received noSuchName(2) error-status at error-index 1") {
                         $serial = q{}; # Empty string
                      }
@@ -686,23 +715,23 @@ sub _discovery_ip_threaded {
                      $serial =~ s/^\s+//;
                      $serial =~ s/\s+$//;
                      $serial =~ s/(\.{2,})*//g;
-                     $datadevice->{SERIAL} = $serial;
-                     $datadevice->{MODELSNMP} = $model;
-                     $datadevice->{AUTHSNMP} = $credential->{ID};
-                     $datadevice->{TYPE} = $type;
-                     $datadevice->{SNMPHOSTNAME} = $name;
-                     $datadevice->{IP} = $params->{ip};
-                     if (exists($datadevice->{MAC})) {
-                        if ($datadevice->{MAC} !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
-                           $datadevice->{MAC} = $mac;
+                     $device->{SERIAL} = $serial;
+                     $device->{MODELSNMP} = $model;
+                     $device->{AUTHSNMP} = $credential->{ID};
+                     $device->{TYPE} = $type;
+                     $device->{SNMPHOSTNAME} = $name;
+                     $device->{IP} = $ip;
+                     if (exists($device->{MAC})) {
+                        if ($device->{MAC} !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
+                           $device->{MAC} = $mac;
                         }
                      } else {
-                        $datadevice->{MAC} = $mac;
+                        $device->{MAC} = $mac;
                      }
-                     $datadevice->{ENTITY} = $params->{entity};
-                     $self->{logger}->debug("[$params->{ip}] ".Dumper($datadevice));
+                     $device->{ENTITY} = $entity;
+                     $self->{logger}->debug("[$ip] ".Dumper($device));
                      #$session->close;
-                     return $datadevice;
+                     return $device;
                   } else {
                      $session->close;
                   }
@@ -710,19 +739,6 @@ sub _discovery_ip_threaded {
             }
          }
       }
-   }
-
-   if (exists($datadevice->{MAC})) {
-      $datadevice->{MAC} =~ tr/A-F/a-f/;
-   }
-   if ((exists($datadevice->{MAC})) || (exists($datadevice->{DNSHOSTNAME})) || (exists($datadevice->{NETBIOSNAME}))) {
-      $datadevice->{IP} = $params->{ip};
-      $datadevice->{ENTITY} = $params->{entity};
-      $self->{logger}->debug("[$params->{ip}] ".Dumper($datadevice));
-   } else {
-      $self->{logger}->debug("[$params->{ip}] Not found");
-   }
-   return $datadevice;
 }
 
 sub _verifySerial {
