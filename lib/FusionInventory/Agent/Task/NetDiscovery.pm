@@ -684,9 +684,6 @@ sub _discoverBySNMP {
             my $name = $snmp->get('.1.3.6.1.2.1.1.5.0');
             # Serial Number
             my ($serial, $type, $model, $mac) = $self->_verifySerial($description, $snmp, $dico, $ip);
-            $serial =~ s/^\s+//;
-            $serial =~ s/\s+$//;
-            $serial =~ s/(\.{2,})*//g;
             $device->{SERIAL} = $serial;
             $device->{MODELSNMP} = $model;
             $device->{AUTHSNMP} = $credential->{ID};
@@ -727,6 +724,9 @@ sub _verifySerial {
             if (defined($serial)) {
                 $serial =~ s/\n//g;
                 $serial =~ s/\r//g;
+                $serial =~ s/^\s+//;
+                $serial =~ s/\s+$//;
+                $serial =~ s/(\.{2,})*//g;
             }
         }
 
