@@ -55,7 +55,6 @@ sub run {
 
    $self->_initModList();
 
-   my $options = $self->{prologresp}->getOptionsInfoByName('NETDISCOVERY');
    my $params  = $options->{PARAM}->[0];
    my $storage = $self->{target}->getStorage();
 
