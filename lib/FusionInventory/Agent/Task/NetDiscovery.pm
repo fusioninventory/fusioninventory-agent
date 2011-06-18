@@ -566,16 +566,17 @@ sub _sendInformations{
 sub _discovery_ip_threaded {
    my ($self, $params) = @_;
 
-   my $device;
-
    if (!defined($params->{ip})) {
       $self->{logger}->debug("ip address empty...");
-      return $device;
+      return;
    }
+
    if ($params->{ip} !~ m/^(\d\d?\d?)\.(\d\d?\d?)\.(\d\d?\d?)\.(\d\d?\d?)/ ) {
       $self->{logger}->debug("Invalid ip address...");
-      return $device;
+      return;
    }
+
+   my $device;
 
    if ($params->{nmap_parameters}) {
       $self->_discoverByNmap($params->{ip}, $device, $params->{nmap_parameters});
@@ -592,6 +593,7 @@ sub _discovery_ip_threaded {
    if (exists($device->{MAC})) {
       $device->{MAC} =~ tr/A-F/a-f/;
    }
+
    if ((exists($device->{MAC})) || (exists($device->{DNSHOSTNAME})) || (exists($device->{NETBIOSNAME}))) {
       $device->{IP} = $params->{ip};
       $device->{ENTITY} = $params->{entity};
@@ -599,6 +601,7 @@ sub _discovery_ip_threaded {
    } else {
       $self->{logger}->debug("[$params->{ip}] Not found");
    }
+
    return $device;
 }
 
