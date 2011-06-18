@@ -591,12 +591,12 @@ sub _discovery_ip_threaded {
        $self->_discoverBySNMP($device, $params->{ip}, $params->{credentials}, $params->{dico}, $params->{entity});
    }
 
-   if (exists($device->{MAC})) {
+   if ($device->{MAC}) {
       $device->{MAC} =~ tr/A-F/a-f/;
    }
 
-   if ((exists($device->{MAC})) || (exists($device->{DNSHOSTNAME})) || (exists($device->{NETBIOSNAME}))) {
-      $device->{IP} = $params->{ip};
+   if ($device->{MAC} || $device->{DNSHOSTNAME} || $device->{NETBIOSNAME}) {
+      $device->{IP}     = $params->{ip};
       $device->{ENTITY} = $params->{entity};
       $self->{logger}->debug("[$params->{ip}] ".Dumper($device));
    } else {
@@ -637,7 +637,7 @@ sub _discoverByNetbios {
         }
     }
 
-    if (not exists($device->{MAC})) {
+    if (!$device->{MAC}) {
         my $NetbiosMac = $ns->mac_address();
         $NetbiosMac =~ tr/-/:/;
         $device->{MAC} = $NetbiosMac;
@@ -698,7 +698,7 @@ sub _discoverBySNMP {
             $device->{TYPE} = $type;
             $device->{SNMPHOSTNAME} = $name;
             $device->{IP} = $ip;
-            if (exists($device->{MAC})) {
+            if ($device->{MAC}) {
                 if ($device->{MAC} !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
                     $device->{MAC} = $mac;
                 }
