@@ -721,6 +721,7 @@ sub _verifySerial {
     $description =~ s/\n//g;
     $description =~ s/\r//g;
 
+    # iterate the dictionnary until a model matches current description
     foreach my $device (@{$dico->{DEVICE}}) {
         next unless $device->{SYSDESCR} eq $description;
 
