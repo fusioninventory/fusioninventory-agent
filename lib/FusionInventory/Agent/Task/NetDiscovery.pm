@@ -648,58 +648,53 @@ sub _discoverBySNMP {
 
     $self->{logger}->debug("[ip] : SNMP discovery");
 
-    foreach my $version (qw(3 2c 1)) {
-        foreach my $credential (@{$credentials}) {
-            next unless $credential->{VERSION} eq $version;
+    foreach my $credential (@{$credentials}) {
 
-            my $snmp;
-            eval {
-                $snmp = FusionInventory::Agent::SNMP->new(
-                    version      => $credential->{VERSION},
-                    hostname     => $ip,
-                    community    => $credential->{COMMUNITY},
-                    username     => $credential->{USERNAME},
-                    authpassword => $credential->{AUTHPASSWORD},
-                    authprotocol => $credential->{AUTHPROTOCOL},
-                    privpassword => $credential->{PRIVPASSWORD},
-                    privprotocol => $credential->{PRIVPROTOCOL},
-                    translate    => 1,
-                );
-            };
-            if ($EVAL_ERROR) {
-                $self->{logger}->error("Unable to create SNMP session for $ip: $EVAL_ERROR");
-                return;
-            }
-
-            my $description = $snmp->get('1.3.6.1.2.1.1.1.0');
-            return unless $description;
-
-            # ***** manufacturer specifications
-            foreach my $m (@{$self->{modules}}) {
-                $description = $m->discovery($description, $snmp,$description);
-            }
-
-            $device->{DESCRIPTION} = $description;
-
-            my $name = $snmp->get('.1.3.6.1.2.1.1.5.0');
-
-            # get first model in dictionnary matching description
-            $description =~ s/\n//g;
-            $description =~ s/\r//g;
-            my $model = first { $_->{SYSDESCR} eq $description } @{$dico->{DEVICE}};
-
-            $device->{SERIAL}    = _getSerial($snmp, $model);
-            $device->{MAC}       = _getMacAddress($snmp, $model) || _getMacAddress($snmp);
-            $device->{MODELSNMP} = $model->{MODELSNMP};
-            $device->{TYPE}      = $model->{TYPE};
-
-            $device->{AUTHSNMP} = $credential->{ID};
-            $device->{SNMPHOSTNAME} = $name;
-            $device->{IP} = $ip;
-            $device->{ENTITY} = $entity;
-            $self->{logger}->debug("[$ip] ".Dumper($device));
-            $snmp->close();
+        my $snmp;
+        eval {
+            $snmp = FusionInventory::Agent::SNMP->new(
+                version      => $credential->{VERSION},
+                hostname     => $ip,
+                community    => $credential->{COMMUNITY},
+                username     => $credential->{USERNAME},
+                authpassword => $credential->{AUTHPASSWORD},
+                authprotocol => $credential->{AUTHPROTOCOL},
+                privpassword => $credential->{PRIVPASSWORD},
+                privprotocol => $credential->{PRIVPROTOCOL},
+                translate    => 1,
+            );
+        };
+        if ($EVAL_ERROR) {
+            $self->{logger}->error("Unable to create SNMP session for $ip: $EVAL_ERROR");
+            return;
         }
+
+        my $description = $snmp->get('1.3.6.1.2.1.1.1.0');
+        return unless $description;
+
+        # ***** manufacturer specifications
+        foreach my $m (@{$self->{modules}}) {
+            $description = $m->discovery($description, $snmp,$description);
+        }
+
+        $device->{DESCRIPTION} = $description;
+
+        # get first model in dictionnary matching description
+        $description =~ s/\n//g;
+        $description =~ s/\r//g;
+        my $model = first { $_->{SYSDESCR} eq $description } @{$dico->{DEVICE}};
+
+        $device->{SERIAL}    = _getSerial($snmp, $model);
+        $device->{MAC}       = _getMacAddress($snmp, $model) || _getMacAddress($snmp);
+        $device->{MODELSNMP} = $model->{MODELSNMP};
+        $device->{TYPE}      = $model->{TYPE};
+
+        $device->{AUTHSNMP} = $credential->{ID};
+        $device->{SNMPHOSTNAME} = $snmp->get('.1.3.6.1.2.1.1.5.0');
+        $device->{IP} = $ip;
+        $device->{ENTITY} = $entity;
+        $self->{logger}->debug("[$ip] ".Dumper($device));
+        $snmp->close();
     }
 }
 
