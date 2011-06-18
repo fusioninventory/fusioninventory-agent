@@ -721,11 +721,11 @@ sub _verifySerial {
     $description =~ s/\n//g;
     $description =~ s/\r//g;
 
-    foreach my $num (@{$dico->{DEVICE}}) {
-        next unless $num->{SYSDESCR} eq $description;
+    foreach my $device (@{$dico->{DEVICE}}) {
+        next unless $device->{SYSDESCR} eq $description;
 
-        if (defined($num->{SERIAL})) {
-            $oid = $num->{SERIAL};
+        if (defined($device->{SERIAL})) {
+            $oid = $device->{SERIAL};
             $serial = $snmp->get($oid);
         }
 
@@ -734,16 +734,16 @@ sub _verifySerial {
             $serial =~ s/\r//g;
             $serialreturn = $serial;
         }
-        my $typereturn  = $num->{TYPE};
-        if (defined($num->{MODELSNMP})) {
-            $modelreturn = $num->{MODELSNMP};
+        my $typereturn  = $device->{TYPE};
+        if (defined($device->{MODELSNMP})) {
+            $modelreturn = $device->{MODELSNMP};
         }
-        if (defined($num->{MAC})) {
-            $oid = $num->{MAC};
+        if (defined($device->{MAC})) {
+            $oid = $device->{MAC};
             $macreturn  = $snmp->get($oid);
         }
 
-        $oid = $num->{MACDYN};
+        $oid = $device->{MACDYN};
         my $Arraymacreturn = {};
         $Arraymacreturn  = $snmp->walk($oid);
         while ( (undef,my $macadress) = each (%{$Arraymacreturn}) ) {
