@@ -702,7 +702,7 @@ sub _discoverBySNMP {
             }
             $device->{ENTITY} = $entity;
             $self->{logger}->debug("[$ip] ".Dumper($device));
-            $snmp->close;
+            $snmp->close();
         }
     }
 }
