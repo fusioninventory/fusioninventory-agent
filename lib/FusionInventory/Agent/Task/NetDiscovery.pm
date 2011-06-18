@@ -676,10 +676,7 @@ sub _discoverBySNMP {
             }
 
             #print "[".$params->{ip}."] GNE () \n";
-            my $description = $session->snmpGet({
-                oid => '1.3.6.1.2.1.1.1.0',
-                up  => 1,
-            });
+            my $description = $session->get('1.3.6.1.2.1.1.1.0');
             return unless $description;
 
             # ***** manufacturer specifications
@@ -689,10 +686,7 @@ sub _discoverBySNMP {
 
             $device->{DESCRIPTION} = $description;
 
-            my $name = $session->snmpGet({
-                oid => '.1.3.6.1.2.1.1.5.0',
-                up  => 1,
-            });
+            my $name = $session->get('.1.3.6.1.2.1.1.5.0');
             if ($name eq "null") {
                 $name = q{}; # Empty string
             }
@@ -753,10 +747,7 @@ sub _verifySerial {
 
          if (defined($num->{SERIAL})) {
             $oid = $num->{SERIAL};
-				$serial = $session->snmpGet({
-                     oid => $oid,
-                     up  => 1,
-                  });
+            $serial = $session->get($oid);
          }
 
          if (defined($serial)) {
@@ -770,18 +761,12 @@ sub _verifySerial {
          }
          if (defined($num->{MAC})) {
             $oid = $num->{MAC};
-            $macreturn  = $session->snmpGet({
-                        oid => $oid,
-                        up  => 0,
-                     });
-
+            $macreturn  = $session->get($oid);
          }
 
          $oid = $num->{MACDYN};
          my $Arraymacreturn = {};
-         $Arraymacreturn  = $session->snmpWalk({
-                     oid_start => $oid
-                  });
+         $Arraymacreturn  = $session->walk($oid);
          while ( (undef,my $macadress) = each (%{$Arraymacreturn}) ) {
             if (($macadress ne '') && ($macadress ne '0:0:0:0:0:0') && ($macadress ne '00:00:00:00:00:00')) {
                if ($macreturn !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
@@ -793,17 +778,12 @@ sub _verifySerial {
          # Mac of switchs
          if ($macreturn !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
             $oid = ".1.3.6.1.2.1.17.1.1.0";
-            $macreturn  = $session->snmpGet({
-                        oid => $oid,
-                        up  => 0,
-                     });
+            $macreturn  = $session->get($oid);
          }
          if ($macreturn !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
             $oid = ".1.3.6.1.2.1.2.2.1.6";
             my $Arraymacreturn = {};
-            $Arraymacreturn  = $session->snmpWalk({
-                        oid_start => $oid
-                     });
+            $Arraymacreturn  = $session->walk($oid);
             while ( (undef,my $macadress) = each (%{$Arraymacreturn}) ) {
                if (($macadress ne '') && ($macadress ne '0:0:0:0:0:0') && ($macadress ne '00:00:00:00:00:00')) {
                   if ($macreturn !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
@@ -820,17 +800,12 @@ sub _verifySerial {
    # Mac of switchs
    if ($macreturn !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
       $oid = ".1.3.6.1.2.1.17.1.1.0";
-      $macreturn  = $session->snmpGet({
-                  oid => $oid,
-                  up  => 0,
-               });
+      $macreturn  = $session->get($oid);
    }
    if ($macreturn !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
       $oid = ".1.3.6.1.2.1.2.2.1.6";
       my $Arraymacreturn = {};
-      $Arraymacreturn  = $session->snmpWalk({
-                  oid_start => $oid
-               });
+      $Arraymacreturn  = $session->walk($oid);
       while ( (undef,my $macadress) = each (%{$Arraymacreturn}) ) {
          if (($macadress ne '') && ($macadress ne '0:0:0:0:0:0') && ($macadress ne '00:00:00:00:00:00')) {
             if ($macreturn !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
