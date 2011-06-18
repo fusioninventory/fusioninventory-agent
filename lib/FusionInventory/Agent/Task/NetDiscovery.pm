@@ -566,40 +566,40 @@ sub _sendInformations{
 sub _discovery_ip_threaded {
    my ($self, $params) = @_;
 
-   my $datadevice = {};
+   my $device;
 
    if (!defined($params->{ip})) {
       $self->{logger}->debug("ip address empty...");
-      return $datadevice;
+      return $device;
    }
    if ($params->{ip} !~ m/^(\d\d?\d?)\.(\d\d?\d?)\.(\d\d?\d?)\.(\d\d?\d?)/ ) {
       $self->{logger}->debug("Invalid ip address...");
-      return $datadevice;
+      return $device;
    }
 
    if ($params->{nmap_parameters}) {
-      $self->_discoverByNmap($params->{ip}, $datadevice, $params->{nmap_parameters});
+      $self->_discoverByNmap($params->{ip}, $device, $params->{nmap_parameters});
    }
 
    if ($INC{'Net/NBName.pm'}) {
-       $self->_discoverByNmap($params->{ip}, $datadevice);
+       $self->_discoverByNmap($params->{ip}, $device);
    }
 
    if ($INC{'FusionInventory/Agent/SNMP.pm'}) {
-       $self->_discoverBySNMP($params->{ip}, $datadevice, $params->{credentials}, $params->{dico}, $params->{entity});
+       $self->_discoverBySNMP($params->{ip}, $device, $params->{credentials}, $params->{dico}, $params->{entity});
    }
 
-   if (exists($datadevice->{MAC})) {
-      $datadevice->{MAC} =~ tr/A-F/a-f/;
+   if (exists($device->{MAC})) {
+      $device->{MAC} =~ tr/A-F/a-f/;
    }
-   if ((exists($datadevice->{MAC})) || (exists($datadevice->{DNSHOSTNAME})) || (exists($datadevice->{NETBIOSNAME}))) {
-      $datadevice->{IP} = $params->{ip};
-      $datadevice->{ENTITY} = $params->{entity};
-      $self->{logger}->debug("[$params->{ip}] ".Dumper($datadevice));
+   if ((exists($device->{MAC})) || (exists($device->{DNSHOSTNAME})) || (exists($device->{NETBIOSNAME}))) {
+      $device->{IP} = $params->{ip};
+      $device->{ENTITY} = $params->{entity};
+      $self->{logger}->debug("[$params->{ip}] ".Dumper($device));
    } else {
       $self->{logger}->debug("[$params->{ip}] Not found");
    }
-   return $datadevice;
+   return $device;
 }
 
 sub _discoverByNmap {
