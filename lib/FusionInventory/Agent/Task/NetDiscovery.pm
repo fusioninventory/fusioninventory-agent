@@ -694,7 +694,7 @@ sub _discoverBySNMP {
             $device->{SNMPHOSTNAME} = $name;
             $device->{IP} = $ip;
             if ($device->{MAC}) {
-                if ($device->{MAC} !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
+                if ($device->{MAC} !~ /^$mac_address_pattern$/) {
                     $device->{MAC} = $mac;
                 }
             } else {
@@ -749,24 +749,24 @@ sub _verifySerial {
          $Arraymacreturn  = $snmp->walk($oid);
          while ( (undef,my $macadress) = each (%{$Arraymacreturn}) ) {
             if (($macadress ne '') && ($macadress ne '0:0:0:0:0:0') && ($macadress ne '00:00:00:00:00:00')) {
-               if ($macreturn !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
+               if ($macreturn !~ /^$mac_address_pattern$/) {
                   $macreturn = $macadress;
                }
             }
          }
 
          # Mac of switchs
-         if ($macreturn !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
+         if ($macreturn !~ /^$mac_address_pattern$/) {
             $oid = ".1.3.6.1.2.1.17.1.1.0";
             $macreturn  = $snmp->get($oid);
          }
-         if ($macreturn !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
+         if ($macreturn !~ /^$mac_address_pattern$/) {
             $oid = ".1.3.6.1.2.1.2.2.1.6";
             my $Arraymacreturn = {};
             $Arraymacreturn  = $snmp->walk($oid);
             while ( (undef,my $macadress) = each (%{$Arraymacreturn}) ) {
                if (($macadress ne '') && ($macadress ne '0:0:0:0:0:0') && ($macadress ne '00:00:00:00:00:00')) {
-                  if ($macreturn !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
+                  if ($macreturn !~ /^$mac_address_pattern$/) {
                      $macreturn = $macadress;
                   }
                }
@@ -778,17 +778,17 @@ sub _verifySerial {
    }
 
    # Mac of switchs
-   if ($macreturn !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
+   if ($macreturn !~ /^$mac_address_pattern$/) {
       $oid = ".1.3.6.1.2.1.17.1.1.0";
       $macreturn  = $snmp->get($oid);
    }
-   if ($macreturn !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
+   if ($macreturn !~ /^$mac_address_pattern$/) {
       $oid = ".1.3.6.1.2.1.2.2.1.6";
       my $Arraymacreturn = {};
       $Arraymacreturn  = $snmp->walk($oid);
       while ( (undef,my $macadress) = each (%{$Arraymacreturn}) ) {
          if (($macadress ne '') && ($macadress ne '0:0:0:0:0:0') && ($macadress ne '00:00:00:00:00:00')) {
-            if ($macreturn !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
+            if ($macreturn !~ /^$mac_address_pattern$/) {
                $macreturn = $macadress;
             }
          }
