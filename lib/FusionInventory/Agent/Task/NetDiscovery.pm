@@ -624,7 +624,7 @@ sub _discoverByNetbios {
     my $ns = $nb->node_status($ip);
     return unless $ns;
 
-    for my $rr ($ns->names()) {
+    foreach my $rr ($ns->names()) {
         if ($rr->suffix() == 0 && $rr->G() eq "GROUP") {
             $device->{WORKGROUP} = getSanitizedString($rr->name);
         }
@@ -680,7 +680,7 @@ sub _discoverBySNMP {
             return unless $description;
 
             # ***** manufacturer specifications
-            for my $m (@{$self->{modules}}) {
+            foreach my $m (@{$self->{modules}}) {
                 $description = $m->discovery($description, $snmp,$description);
             }
 
