@@ -623,29 +623,29 @@ sub _discoverByNetbios {
     my $machine = q{}; # Empty string
 
     my $ns = $nb->node_status($ip);
-    if ($ns) {
-        for my $rr ($ns->names) {
-            if ($rr->suffix == 0 && $rr->G eq "GROUP") {
-                $device->{WORKGROUP} = getSanitizedString($rr->name);
-            }
-            if ($rr->suffix == 3 && $rr->G eq "UNIQUE") {
-                $device->{USERSESSION} = getSanitizedString($rr->name);
-            }
-            if ($rr->suffix == 0 && $rr->G eq "UNIQUE") {
-                $machine = $rr->name unless $rr->name =~ /^IS~/;
-                $device->{NETBIOSNAME} = getSanitizedString($machine);
-            }
-        }
+    return unless $ns;
 
-        if (not exists($device->{MAC})) {
-            my $NetbiosMac = $ns->mac_address;
-            $NetbiosMac =~ tr/-/:/;
-            $device->{MAC} = $NetbiosMac;
-        } elsif ($device->{MAC} !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
-            my $NetbiosMac = $ns->mac_address;
-            $NetbiosMac =~ tr/-/:/;
-            $device->{MAC} = $NetbiosMac;
+    for my $rr ($ns->names) {
+        if ($rr->suffix == 0 && $rr->G eq "GROUP") {
+            $device->{WORKGROUP} = getSanitizedString($rr->name);
         }
+        if ($rr->suffix == 3 && $rr->G eq "UNIQUE") {
+            $device->{USERSESSION} = getSanitizedString($rr->name);
+        }
+        if ($rr->suffix == 0 && $rr->G eq "UNIQUE") {
+            $machine = $rr->name unless $rr->name =~ /^IS~/;
+            $device->{NETBIOSNAME} = getSanitizedString($machine);
+        }
+    }
+
+    if (not exists($device->{MAC})) {
+        my $NetbiosMac = $ns->mac_address;
+        $NetbiosMac =~ tr/-/:/;
+        $device->{MAC} = $NetbiosMac;
+    } elsif ($device->{MAC} !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
+        my $NetbiosMac = $ns->mac_address;
+        $NetbiosMac =~ tr/-/:/;
+        $device->{MAC} = $NetbiosMac;
     }
 }
 
@@ -662,82 +662,82 @@ sub _discoverBySNMP {
             $snmpv = "2c";
         }
         foreach my $credential (@{$credentials}) {
-            if ($credential->{VERSION} eq $snmpv) {
-                my $session = FusionInventory::Agent::SNMP->new(
-                    version      => $credential->{VERSION},
-                    hostname     => $ip,
-                    community    => $credential->{COMMUNITY},
-                    username     => $credential->{USERNAME},
-                    authpassword => $credential->{AUTHPASSWORD},
-                    authprotocol => $credential->{AUTHPROTOCOL},
-                    privpassword => $credential->{PRIVPASSWORD},
-                    privprotocol => $credential->{PRIVPROTOCOL},
-                    translate    => 1,
-                );
+            next unless $credential->{VERSION} eq $snmpv;
 
-                if (!defined($session->{SNMPSession}->{session})) {
-                } else {
+            my $session = FusionInventory::Agent::SNMP->new(
+                version      => $credential->{VERSION},
+                hostname     => $ip,
+                community    => $credential->{COMMUNITY},
+                username     => $credential->{USERNAME},
+                authpassword => $credential->{AUTHPASSWORD},
+                authprotocol => $credential->{AUTHPROTOCOL},
+                privpassword => $credential->{PRIVPASSWORD},
+                privprotocol => $credential->{PRIVPROTOCOL},
+                translate    => 1,
+            );
 
-                    #print "[".$params->{ip}."] GNE () \n";
-                    my $description = $session->snmpGet({
-                        oid => '1.3.6.1.2.1.1.1.0',
+            if (!defined($session->{SNMPSession}->{session})) {
+            } else {
+
+                #print "[".$params->{ip}."] GNE () \n";
+                my $description = $session->snmpGet({
+                    oid => '1.3.6.1.2.1.1.1.0',
+                    up  => 1,
+                });
+                if ($description =~ m/No response from remote host/) {
+                } elsif ($description =~ m/No buffer space available/) {
+                } elsif ($description ne "null") {
+
+                    # ***** manufacturer specifications
+                    for my $m (@{$self->{modules}}) {
+                        $description = $m->discovery($description, $session,$description);
+                    }
+
+                    $device->{DESCRIPTION} = $description;
+
+                    my $name = $session->snmpGet({
+                        oid => '.1.3.6.1.2.1.1.5.0',
                         up  => 1,
                     });
-                    if ($description =~ m/No response from remote host/) {
-                    } elsif ($description =~ m/No buffer space available/) {
-                    } elsif ($description ne "null") {
-
-                        # ***** manufacturer specifications
-                        for my $m (@{$self->{modules}}) {
-                            $description = $m->discovery($description, $session,$description);
-                        }
-
-                        $device->{DESCRIPTION} = $description;
-
-                        my $name = $session->snmpGet({
-                            oid => '.1.3.6.1.2.1.1.5.0',
-                            up  => 1,
-                        });
-                        if ($name eq "null") {
-                            $name = q{}; # Empty string
-                        }
-                        # Serial Number
-                        my ($serial, $type, $model, $mac) = $self->_verifySerial($description, $session, $dico, $ip);
-                        if ($serial eq "Received noSuchName(2) error-status at error-index 1") {
-                            $serial = q{}; # Empty string
-                        }
-                        if ($serial eq "noSuchInstance") {
-                            $serial = q{}; # Empty string
-                        }
-                        if ($serial eq "noSuchObject") {
-                            $serial = q{}; # Empty string
-                        }
-                        if ($serial eq "No response from remote host") {
-                            $serial = q{}; # Empty string
-                        }
-                        $serial =~ s/^\s+//;
-                        $serial =~ s/\s+$//;
-                        $serial =~ s/(\.{2,})*//g;
-                        $device->{SERIAL} = $serial;
-                        $device->{MODELSNMP} = $model;
-                        $device->{AUTHSNMP} = $credential->{ID};
-                        $device->{TYPE} = $type;
-                        $device->{SNMPHOSTNAME} = $name;
-                        $device->{IP} = $ip;
-                        if (exists($device->{MAC})) {
-                            if ($device->{MAC} !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
-                                $device->{MAC} = $mac;
-                            }
-                        } else {
+                    if ($name eq "null") {
+                        $name = q{}; # Empty string
+                    }
+                    # Serial Number
+                    my ($serial, $type, $model, $mac) = $self->_verifySerial($description, $session, $dico, $ip);
+                    if ($serial eq "Received noSuchName(2) error-status at error-index 1") {
+                        $serial = q{}; # Empty string
+                    }
+                    if ($serial eq "noSuchInstance") {
+                        $serial = q{}; # Empty string
+                    }
+                    if ($serial eq "noSuchObject") {
+                        $serial = q{}; # Empty string
+                    }
+                    if ($serial eq "No response from remote host") {
+                        $serial = q{}; # Empty string
+                    }
+                    $serial =~ s/^\s+//;
+                    $serial =~ s/\s+$//;
+                    $serial =~ s/(\.{2,})*//g;
+                    $device->{SERIAL} = $serial;
+                    $device->{MODELSNMP} = $model;
+                    $device->{AUTHSNMP} = $credential->{ID};
+                    $device->{TYPE} = $type;
+                    $device->{SNMPHOSTNAME} = $name;
+                    $device->{IP} = $ip;
+                    if (exists($device->{MAC})) {
+                        if ($device->{MAC} !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
                             $device->{MAC} = $mac;
                         }
-                        $device->{ENTITY} = $entity;
-                        $self->{logger}->debug("[$ip] ".Dumper($device));
-                        #$session->close;
-                        return $device;
                     } else {
-                        $session->close;
+                        $device->{MAC} = $mac;
                     }
+                    $device->{ENTITY} = $entity;
+                    $self->{logger}->debug("[$ip] ".Dumper($device));
+                    #$session->close;
+                    return $device;
+                } else {
+                    $session->close;
                 }
             }
         }
