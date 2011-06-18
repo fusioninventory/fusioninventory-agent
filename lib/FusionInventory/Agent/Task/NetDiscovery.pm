@@ -734,27 +734,27 @@ sub _verifySerial {
             $mac = $snmp->get($model->{MAC});
         }
 
-        my $Arraymacreturn  = $snmp->walk($model->{MACDYN});
-        while ( (undef,my $macadress) = each (%{$Arraymacreturn}) ) {
-            if (($macadress ne '') && ($macadress ne '0:0:0:0:0:0') && ($macadress ne '00:00:00:00:00:00')) {
-                if ($macreturn !~ /^$mac_address_pattern$/) {
-                    $macreturn = $macadress;
-                }
+        if ($mac !~ /^$mac_address_pattern$/) {
+            my $macs = $snmp->walk($model->{MACDYN});
+            foreach my $value (values %{$macs}) {
+                next if !$value;
+                next if $value eq '0:0:0:0:0:0';
+                next if $value eq '00:00:00:00:00:00';
+                $mac = $value;
             }
         }
 
-        # Mac of switchs
         if ($mac !~ /^$mac_address_pattern$/) {
             $mac = $snmp->get(".1.3.6.1.2.1.17.1.1.0");
         }
+
         if ($mac !~ /^$mac_address_pattern$/) {
-            my $Arraymacreturn  = $snmp->walk(".1.3.6.1.2.1.2.2.1.6");
-            while ( (undef,my $macadress) = each (%{$Arraymacreturn}) ) {
-                if (($macadress ne '') && ($macadress ne '0:0:0:0:0:0') && ($macadress ne '00:00:00:00:00:00')) {
-                    if ($mac !~ /^$mac_address_pattern$/) {
-                        $mac = $macadress;
-                    }
-                }
+            my $macs = $snmp->walk(".1.3.6.1.2.1.2.2.1.6");
+            foreach my $value (values %{$macs}) {
+                next if !$value;
+                next if $value eq '0:0:0:0:0:0';
+                next if $value eq '00:00:00:00:00:00';
+                $mac = $value;
             }
         }
 
@@ -763,20 +763,16 @@ sub _verifySerial {
         # no model has been found
         my $mac;
 
-        # Mac of switchs
-        if ($mac !~ /^$mac_address_pattern$/) {
-            $mac  = $snmp->get(".1.3.6.1.2.1.17.1.1.0");
-        }
-        if ($mac !~ /^$mac_address_pattern$/) {
-            my $Arraymacreturn  = $snmp->walk(".1.3.6.1.2.1.2.2.1.6");
-            while ( (undef,my $macadress) = each (%{$Arraymacreturn}) ) {
-                if (($macadress ne '') && ($macadress ne '0:0:0:0:0:0') && ($macadress ne '00:00:00:00:00:00')) {
-                    if ($mac !~ /^$mac_address_pattern$/) {
-                        $mac = $macadress;
-                    }
-                }
-            }
+        $mac  = $snmp->get(".1.3.6.1.2.1.17.1.1.0");
 
+        if ($mac !~ /^$mac_address_pattern$/) {
+            my $macs = $snmp->walk(".1.3.6.1.2.1.2.2.1.6");
+            foreach my $value (values %{$macs}) {
+                next if !$value;
+                next if $value eq '0:0:0:0:0:0';
+                next if $value eq '00:00:00:00:00:00';
+                $mac = $value;
+            }
         }
 
         return (undef, undef, undef, $mac);
