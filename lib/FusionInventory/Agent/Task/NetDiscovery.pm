@@ -300,91 +300,22 @@ sub _startThreads {
                $threads_run = 1;
                $k++;
                $Thread[$p][$j] = threads->create(
-                  sub {
-                     my $p = shift;
-                     my $t = shift;
-                     my $credentials = shift;
-                     my $self = shift;
-                     my $loopthread = 0;
-                     my $loopbigthread = 0;
-                     my $count = 0;
-                     my $device_id;
-                     my $xml_threadt;
-
-                     $self->{logger}->debug("Core $p - Thread $t created");
-                     while ($loopbigthread != 1) {
-                        ##### WAIT ACTION #####
-                        $loopthread = 0;
-                        while ($loopthread != 1) {
-                           if ($ThreadAction{$t} == 3) { # STOP
-                              $ThreadState{$t} = "2";
-                              $self->{logger}->debug("Core $p - Thread $t deleted");
-                              return;
-                           } elsif ($ThreadAction{$t} != 0) { # RUN
-                              $ThreadState{$t} = "1";
-                              $loopthread  = 1;
-                           }
-                           sleep 1;
-                        }
-                        ##### RUN ACTION #####
-                        $loopthread = 0;
-                        while ($loopthread != 1) {
-                           $device_id = q{}; # Empty string
-                           {
-                              lock $iplist2;
-                              if (keys %{$iplist2} != 0) {
-                                 my @keys = sort keys %{$iplist2};
-                                 $device_id = pop @keys;
-                                 delete $iplist2->{$device_id};
-                              } else {
-                                 $loopthread = 1;
-                              }
-                           }
-                           if ($loopthread != 1) {
-                              my $datadevice = $self->_discovery_ip_threaded({
-                                    ip                  => $iplist->{$device_id}->{IP},
-                                    entity              => $iplist->{$device_id}->{ENTITY},
-                                    credentials         => $credentials,
-                                    ModuleNetNBName     => $ModuleNetNBName,
-                                    ModuleNmapParserParameter => $ModuleNmapParserParameter,
-                                    ModuleNetSNMP       => $ModuleNetSNMP,
-                                    dico                => $dico
-                                 });
-                              undef $iplist->{$device_id}->{IP};
-                              undef $iplist->{$device_id}->{ENTITY};
-
-                              if (keys %{$datadevice}) {
-                                 $xml_threadt->{DEVICE}->[$count] = $datadevice;
-                                 $xml_threadt->{MODULEVERSION} = $VERSION;
-                                 $xml_threadt->{PROCESSNUMBER} = $params->{PID};
-                                 $count++;
-                              }
-                           }
-                           if (($count == 4) || (($loopthread == 1) && ($count > 0))) {
-                              $maxIdx++;
-                              $storage->save({
-                                    idx =>
-                                    $maxIdx,
-                                    data => $xml_threadt
-                                });
-
-                              $count = 0;
-                           }
-                        }
-                        ##### CHANGE STATE #####
-                        if ($ThreadAction{$t} == 2) { # STOP
-                           $ThreadState{$t} = 2;
-                           $ThreadAction{$t} = 0;
-                           $self->{logger}->debug("Core $p - Thread $t deleted");
-                           return;
-                        } elsif ($ThreadAction{$t} == 1) { # PAUSE
-                           $ThreadState{$t} = 0;
-                           $ThreadAction{$t} = 0;
-                        }
-                     }
-                  }, $p, $j, $credentials, $self
+                   '_handleIPRange',
+                   $self,
+                   $p,
+                   $j,
+                   $credentials,
+                   \%ThreadAction,
+                   \%ThreadState,
+                   $iplist,
+                   $iplist2,
+                   $ModuleNmapParserParameter,
+                   $ModuleNetNBName,
+                   $ModuleNetSNMP,
+                   $dico,
+                   $maxIdx,
+                   $params->{PID}
                )->detach();
-
 
                if ($k == 4) {
                   sleep 1;
@@ -393,75 +324,13 @@ sub _startThreads {
             }
             ##### Start Thread Management #####
                my $Threadmanagement = threads->create(
-                  sub {
-                     my ($self, $params) = @_;
-
-                     my $count;
-                     my $i;
-                     my $loopthread;
-
-                     while (1) {
-                        if (($loop_action == 0) && ($exit == 2)) {
-                           ## Kill threads who do nothing partial ##
-
-                           ## Start + end working threads (do a function) ##
-                              for($i = 0 ; $i < $loop_nbthreads ; $i++) {
-                                 $ThreadAction{$i} = "2";
-                              }
-                           ## Function state of working threads (if they are stopped) ##
-                              $count = 0;
-                              $loopthread = 0;
-
-                              while ($loopthread != 1) {
-                                 for($i = 0 ; $i < $loop_nbthreads ; $i++) {
-                                    if ($ThreadState{$i} == 2) {
-                                       $count++;
-                                    }
-                                 }
-                                 if ($count eq $loop_nbthreads) {
-                                    $loopthread = 1;
-                                 } else {
-                                    $count = 0;
-                                 }
-                                 sleep 1;
-                              }
-                              $exit = 1;
-                              return;
-
-                        } elsif (($loop_action == 1) && ($exit == 2)) {
-                           ## Start + pause working Threads (do a function) ##
-                              for($i = 0 ; $i < $loop_nbthreads ; $i++) {
-                                 $ThreadAction{$i} = "1";
-                              }
-                           sleep 1;
-
-                           ## Function state of working threads (if they are paused) ##
-                           $count = 0;
-                           $loopthread = 0;
-
-                           while ($loopthread != 1) {
-                              for($i = 0 ; $i < $loop_nbthreads ; $i++) {
-                                 if ($ThreadState{$i} == 0) {
-                                    $count++;
-                                 }
-                              }
-                              if ($count eq $loop_nbthreads) {
-                                 $loopthread = 1;
-                              } else {
-                                 $count = 0;
-                              }
-                              sleep 1;
-                           }
-                           $exit = 1;
-                           $loop_action = "2";
-                        }
-
-                        sleep 1;
-                     }
-
-                     return;
-                  },
-                  $self
+                   '_manageThreads',
+                   $self,
+                   $loop_action,
+                   $exit,
+                   $loop_nbthreads,
+                   \%ThreadAction,
+                   \%ThreadState,
                )->detach();
             ### END Threads Creation
          }
@@ -550,6 +419,155 @@ sub _startThreads {
    return;
 }
 
+sub _handleIPRange {
+    my ($self, $p, $t, $credentials, $ThreadAction, $ThreadState, $iplist2, $iplist, $ModuleNmapParserParameter, $ModuleNetNBName, $ModuleNetSNMP, $dico, $maxIdx, $pid) = @_;
+    my $loopthread = 0;
+    my $loopbigthread = 0;
+    my $count = 0;
+    my $device_id;
+    my $xml_threadt;
+
+    $self->{logger}->debug("Core $p - Thread $t created");
+    while ($loopbigthread != 1) {
+        ##### WAIT ACTION #####
+        $loopthread = 0;
+        while ($loopthread != 1) {
+           if ($ThreadAction->{$t} == 3) { # STOP
+              $ThreadState->{$t} = "2";
+              $self->{logger}->debug("Core $p - Thread $t deleted");
+              return;
+           } elsif ($ThreadAction->{$t} != 0) { # RUN
+              $ThreadState->{$t} = "1";
+              $loopthread  = 1;
+           }
+           sleep 1;
+        }
+        ##### RUN ACTION #####
+        $loopthread = 0;
+        while ($loopthread != 1) {
+           $device_id = q{}; # Empty string
+           {
+              lock $iplist2;
+              if (keys %{$iplist2} != 0) {
+                 my @keys = sort keys %{$iplist2};
+                 $device_id = pop @keys;
+                 delete $iplist2->{$device_id};
+              } else {
+                 $loopthread = 1;
+              }
+           }
+           if ($loopthread != 1) {
+              my $datadevice = $self->_discovery_ip_threaded({
+                    ip                  => $iplist->{$device_id}->{IP},
+                    entity              => $iplist->{$device_id}->{ENTITY},
+                    credentials         => $credentials,
+                    ModuleNetNBName     => $ModuleNetNBName,
+                    ModuleNmapParserParameter => $ModuleNmapParserParameter,
+                    ModuleNetSNMP       => $ModuleNetSNMP,
+                    dico                => $dico
+                 });
+              undef $iplist->{$device_id}->{IP};
+              undef $iplist->{$device_id}->{ENTITY};
+
+              if (keys %{$datadevice}) {
+                 $xml_threadt->{DEVICE}->[$count] = $datadevice;
+                 $xml_threadt->{MODULEVERSION} = $VERSION;
+                 $xml_threadt->{PROCESSNUMBER} = $pid;
+                 $count++;
+              }
+           }
+           if (($count == 4) || (($loopthread == 1) && ($count > 0))) {
+              $maxIdx++;
+              $self->{storage}->save({
+                    idx =>
+                    $maxIdx,
+                    data => $xml_threadt
+                });
+
+              $count = 0;
+           }
+        }
+        ##### CHANGE STATE #####
+        if ($ThreadAction->{$t} == 2) { # STOP
+           $ThreadState->{$t} = 2;
+           $ThreadAction->{$t} = 0;
+           $self->{logger}->debug("Core $p - Thread $t deleted");
+           return;
+        } elsif ($ThreadAction->{$t} == 1) { # PAUSE
+           $ThreadState->{$t} = 0;
+           $ThreadAction->{$t} = 0;
+        }
+    }
+}
+
+sub _manageThreads {
+    my ($self, $loop_action, $exit, $loop_nbthreads, $ThreadAction, $ThreadState) = @_;
+
+     my $count;
+     my $i;
+     my $loopthread;
+
+     while (1) {
+        if (($loop_action == 0) && ($exit == 2)) {
+           ## Kill threads who do nothing partial ##
+
+           ## Start + end working threads (do a function) ##
+              for($i = 0 ; $i < $loop_nbthreads ; $i++) {
+                 $ThreadAction->{$i} = "2";
+              }
+           ## Function state of working threads (if they are stopped) ##
+              $count = 0;
+              $loopthread = 0;
+
+              while ($loopthread != 1) {
+                 for($i = 0 ; $i < $loop_nbthreads ; $i++) {
+                    if ($ThreadState->{$i} == 2) {
+                       $count++;
+                    }
+                 }
+                 if ($count eq $loop_nbthreads) {
+                    $loopthread = 1;
+                 } else {
+                    $count = 0;
+                 }
+                 sleep 1;
+              }
+              $exit = 1;
+              return;
+
+        } elsif (($loop_action == 1) && ($exit == 2)) {
+           ## Start + pause working Threads (do a function) ##
+              for($i = 0 ; $i < $loop_nbthreads ; $i++) {
+                 $ThreadAction->{$i} = "1";
+              }
+           sleep 1;
+
+           ## Function state of working threads (if they are paused) ##
+           $count = 0;
+           $loopthread = 0;
+
+           while ($loopthread != 1) {
+              for($i = 0 ; $i < $loop_nbthreads ; $i++) {
+                 if ($ThreadState->{$i} == 0) {
+                    $count++;
+                 }
+              }
+              if ($count eq $loop_nbthreads) {
+                 $loopthread = 1;
+              } else {
+                 $count = 0;
+              }
+              sleep 1;
+           }
+           $exit = 1;
+           $loop_action = "2";
+        }
+
+        sleep 1;
+     }
+
+     return;
+}
 
 sub _sendInformations{
    my ($self, $message) = @_;
