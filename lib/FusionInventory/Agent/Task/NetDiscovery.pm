@@ -18,6 +18,7 @@ use UNIVERSAL::require;
 use XML::TreePP;
 
 use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Regexp;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::NetDiscovery::Dico;
 use FusionInventory::Agent::XML::Query;
@@ -571,7 +572,7 @@ sub _discovery_ip_threaded {
       return;
    }
 
-   if ($params->{ip} !~ m/^(\d\d?\d?)\.(\d\d?\d?)\.(\d\d?\d?)\.(\d\d?\d?)/ ) {
+   if ($params->{ip} !~ /^$ip_address_pattern$/ ) {
       $self->{logger}->debug("Invalid ip address...");
       return;
    }
@@ -640,7 +641,7 @@ sub _discoverByNetbios {
         my $NetbiosMac = $ns->mac_address();
         $NetbiosMac =~ tr/-/:/;
         $device->{MAC} = $NetbiosMac;
-    } elsif ($device->{MAC} !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
+    } elsif ($device->{MAC} !~ /^$mac_address_pattern$/) {
         my $NetbiosMac = $ns->mac_address();
         $NetbiosMac =~ tr/-/:/;
         $device->{MAC} = $NetbiosMac;
