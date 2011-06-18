@@ -710,9 +710,8 @@ sub _discoverBySNMP {
 sub _verifySerial {
    my ($self, $description, $snmp, $dico, $ip) = @_;
 
-   if ($description eq "noSuchObject") {
-      return ("", 0, "", "");
-   }
+   return unless $description;
+
    my $oid;
    my $macreturn = q{}; # Empty string
    my $modelreturn = q{}; # Empty string
