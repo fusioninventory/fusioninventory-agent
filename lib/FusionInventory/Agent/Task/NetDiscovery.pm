@@ -680,61 +680,55 @@ sub _discoverBySNMP {
                 oid => '1.3.6.1.2.1.1.1.0',
                 up  => 1,
             });
-            if ($description =~ m/No response from remote host/) {
-            } elsif ($description =~ m/No buffer space available/) {
-            } elsif ($description ne "null") {
+            return unless $description;
 
-                # ***** manufacturer specifications
-                for my $m (@{$self->{modules}}) {
-                    $description = $m->discovery($description, $session,$description);
-                }
+            # ***** manufacturer specifications
+            for my $m (@{$self->{modules}}) {
+                $description = $m->discovery($description, $session,$description);
+            }
 
-                $device->{DESCRIPTION} = $description;
+            $device->{DESCRIPTION} = $description;
 
-                my $name = $session->snmpGet({
-                    oid => '.1.3.6.1.2.1.1.5.0',
-                    up  => 1,
-                });
-                if ($name eq "null") {
-                    $name = q{}; # Empty string
-                }
-                # Serial Number
-                my ($serial, $type, $model, $mac) = $self->_verifySerial($description, $session, $dico, $ip);
-                if ($serial eq "Received noSuchName(2) error-status at error-index 1") {
-                    $serial = q{}; # Empty string
-                }
-                if ($serial eq "noSuchInstance") {
-                    $serial = q{}; # Empty string
-                }
-                if ($serial eq "noSuchObject") {
-                    $serial = q{}; # Empty string
-                }
-                if ($serial eq "No response from remote host") {
-                    $serial = q{}; # Empty string
-                }
-                $serial =~ s/^\s+//;
-                $serial =~ s/\s+$//;
-                $serial =~ s/(\.{2,})*//g;
-                $device->{SERIAL} = $serial;
-                $device->{MODELSNMP} = $model;
-                $device->{AUTHSNMP} = $credential->{ID};
-                $device->{TYPE} = $type;
-                $device->{SNMPHOSTNAME} = $name;
-                $device->{IP} = $ip;
-                if (exists($device->{MAC})) {
-                    if ($device->{MAC} !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
-                        $device->{MAC} = $mac;
-                    }
-                } else {
+            my $name = $session->snmpGet({
+                oid => '.1.3.6.1.2.1.1.5.0',
+                up  => 1,
+            });
+            if ($name eq "null") {
+                $name = q{}; # Empty string
+            }
+            # Serial Number
+            my ($serial, $type, $model, $mac) = $self->_verifySerial($description, $session, $dico, $ip);
+            if ($serial eq "Received noSuchName(2) error-status at error-index 1") {
+                $serial = q{}; # Empty string
+            }
+            if ($serial eq "noSuchInstance") {
+                $serial = q{}; # Empty string
+            }
+            if ($serial eq "noSuchObject") {
+                $serial = q{}; # Empty string
+            }
+            if ($serial eq "No response from remote host") {
+                $serial = q{}; # Empty string
+            }
+            $serial =~ s/^\s+//;
+            $serial =~ s/\s+$//;
+            $serial =~ s/(\.{2,})*//g;
+            $device->{SERIAL} = $serial;
+            $device->{MODELSNMP} = $model;
+            $device->{AUTHSNMP} = $credential->{ID};
+            $device->{TYPE} = $type;
+            $device->{SNMPHOSTNAME} = $name;
+            $device->{IP} = $ip;
+            if (exists($device->{MAC})) {
+                if ($device->{MAC} !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
                     $device->{MAC} = $mac;
                 }
-                $device->{ENTITY} = $entity;
-                $self->{logger}->debug("[$ip] ".Dumper($device));
-                #$session->close;
-                return $device;
             } else {
-                $session->close;
+                $device->{MAC} = $mac;
             }
+            $device->{ENTITY} = $entity;
+            $self->{logger}->debug("[$ip] ".Dumper($device));
+            $session->close;
         }
     }
 }
