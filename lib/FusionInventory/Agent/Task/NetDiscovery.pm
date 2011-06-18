@@ -156,9 +156,8 @@ sub _startThreads {
       $self->{logger}->error("Can't load Net::SNMP. SNMP detection can't be used!");
    }
 
-
-   # Auth SNMP
-   my $authlist = $self->_authParser($options);
+   # retrieve SNMP authentication credentials
+   my $credentials = $options->{AUTHENTICATION};
 
    ##### Get IP to scan
 
@@ -304,7 +303,7 @@ sub _startThreads {
                   sub {
                      my $p = shift;
                      my $t = shift;
-                     my $authlistt = shift;
+                     my $credentials = shift;
                      my $self = shift;
                      my $loopthread = 0;
                      my $loopbigthread = 0;
@@ -345,7 +344,7 @@ sub _startThreads {
                               my $datadevice = $self->_discovery_ip_threaded({
                                     ip                  => $iplist->{$device_id}->{IP},
                                     entity              => $iplist->{$device_id}->{ENTITY},
-                                    authlist            => $authlistt,
+                                    credentials         => $credentials,
                                     ModuleNetNBName     => $ModuleNetNBName,
                                     ModuleNmapParserParameter => $ModuleNmapParserParameter,
                                     ModuleNetSNMP       => $ModuleNetSNMP,
@@ -383,7 +382,7 @@ sub _startThreads {
                            $ThreadAction{$t} = 0;
                         }
                      }
-                  }, $p, $j, $authlist, $self
+                  }, $p, $j, $credentials, $self
                )->detach();
 
 
@@ -570,75 +569,6 @@ sub _sendInformations{
    $self->{client}->send({message => $xmlMsg});
 }
 
-
-
-sub _authParser {
-   my ($self, $dataAuth) = @_;
-
-   my $authlist = {};
-   my $authlistpublic = {};
-   my $counter = 0;
-
-   if (ref($dataAuth->{AUTHENTICATION}) eq "HASH"){
-      $authlist->{$counter} = {
-               ID             => $dataAuth->{AUTHENTICATION}->{ID},
-               COMMUNITY      => $dataAuth->{AUTHENTICATION}->{COMMUNITY},
-               VERSION        => $dataAuth->{AUTHENTICATION}->{VERSION},
-               USERNAME       => $dataAuth->{AUTHENTICATION}->{USERNAME},
-               AUTHPASSWORD   => $dataAuth->{AUTHENTICATION}->{AUTHPASSPHRASE},
-               AUTHPROTOCOL   => $dataAuth->{AUTHENTICATION}->{AUTHPROTOCOL},
-               PRIVPASSWORD   => $dataAuth->{AUTHENTICATION}->{PRIVPASSPHRASE},
-               PRIVPROTOCOL   => $dataAuth->{AUTHENTICATION}->{PRIVPROTOCOL}
-            };
-
-   } else {
-      foreach my $num (@{$dataAuth->{AUTHENTICATION}}) {
-         if ($num->{COMMUNITY} eq "public") {
-            $authlistpublic->{$num->{ID}} = {
-                   ID             => $num->{ID},
-                   COMMUNITY      => $num->{COMMUNITY},
-                   VERSION        => $num->{VERSION},
-                   USERNAME       => $num->{USERNAME},
-                   AUTHPASSWORD   => $num->{AUTHPASSPHRASE},
-                   AUTHPROTOCOL   => $num->{AUTHPROTOCOL},
-                   PRIVPASSWORD   => $num->{PRIVPASSPHRASE},
-                   PRIVPROTOCOL   => $num->{PRIVPROTOCOL}
-                };
-          } else {
-             $authlist->{$counter} = {
-                   ID             => $num->{ID},
-                   COMMUNITY      => $num->{COMMUNITY},
-                   VERSION        => $num->{VERSION},
-                   USERNAME       => $num->{USERNAME},
-                   AUTHPASSWORD   => $num->{AUTHPASSPHRASE},
-                   AUTHPROTOCOL   => $num->{AUTHPROTOCOL},
-                   PRIVPASSWORD   => $num->{PRIVPASSPHRASE},
-                   PRIVPROTOCOL   => $num->{PRIVPROTOCOL}
-                };
-             $counter++;
-          }
-      }
-   }
-
-   for my $num ( keys %{$authlistpublic} ) {
-       $authlist->{$counter} = {
-                   ID             => $authlistpublic->{$num}->{ID},
-                   COMMUNITY      => $authlistpublic->{$num}->{COMMUNITY},
-                   VERSION        => $authlistpublic->{$num}->{VERSION},
-                   USERNAME       => $authlistpublic->{$num}->{USERNAME},
-                   AUTHPASSWORD   => $authlistpublic->{$num}->{AUTHPASSPHRASE},
-                   AUTHPROTOCOL   => $authlistpublic->{$num}->{AUTHPROTOCOL},
-                   PRIVPASSWORD   => $authlistpublic->{$num}->{PRIVPASSPHRASE},
-                   PRIVPROTOCOL   => $authlistpublic->{$num}->{PRIVPROTOCOL}
-                };
-        $counter++;
-    }
-
-   return $authlist;
-}
-
-
-
 sub _discovery_ip_threaded {
    my ($self, $params) = @_;
 
@@ -705,20 +635,18 @@ sub _discovery_ip_threaded {
          if ($i == 2) {
             $snmpv = "2c";
          }
-         for my $key ( sort(keys %{$params->{authlist}} )) {
-            if ($params->{authlist}->{$key}->{VERSION} eq $snmpv) {
+         foreach my $credential (@{$params->{credentials}}) {
+            if ($credential->{VERSION} eq $snmpv) {
                my $session = FusionInventory::Agent::SNMP->new({
-
-                  version      => $params->{authlist}->{$key}->{VERSION},
-                  hostname     => $params->{ip},
-                  community    => $params->{authlist}->{$key}->{COMMUNITY},
-                  username     => $params->{authlist}->{$key}->{USERNAME},
-                  authpassword => $params->{authlist}->{$key}->{AUTHPASSWORD},
-                  authprotocol => $params->{authlist}->{$key}->{AUTHPROTOCOL},
-                  privpassword => $params->{authlist}->{$key}->{PRIVPASSWORD},
-                  privprotocol => $params->{authlist}->{$key}->{PRIVPROTOCOL},
-                  translate    => 1,
-
+                   version      => $credential->{VERSION},
+                   hostname     => $params->{ip},
+                   community    => $credential->{COMMUNITY},
+                   username     => $credential->{USERNAME},
+                   authpassword => $credential->{AUTHPASSWORD},
+                   authprotocol => $credential->{AUTHPROTOCOL},
+                   privpassword => $credential->{PRIVPASSWORD},
+                   privprotocol => $credential->{PRIVPROTOCOL},
+                   translate    => 1,
                });
 
                if (!defined($session->{SNMPSession}->{session})) {
@@ -766,7 +694,7 @@ sub _discovery_ip_threaded {
                      $serial =~ s/(\.{2,})*//g;
                      $datadevice->{SERIAL} = $serial;
                      $datadevice->{MODELSNMP} = $model;
-                     $datadevice->{AUTHSNMP} = $params->{authlist}->{$key}->{ID};
+                     $datadevice->{AUTHSNMP} = $credential->{ID};
                      $datadevice->{TYPE} = $type;
                      $datadevice->{SNMPHOSTNAME} = $name;
                      $datadevice->{IP} = $params->{ip};
