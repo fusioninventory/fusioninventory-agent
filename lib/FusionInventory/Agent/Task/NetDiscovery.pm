@@ -651,16 +651,10 @@ sub _discoverBySNMP {
     my ($self, $device, $ip, $credentials, $dico, $entity) = @_;
 
     $self->{logger}->debug("[ip] : SNMP discovery");
-    my $i = "4";
-    my $snmpv;
-    while ($i != 1) {
-        $i--;
-        $snmpv = $i;
-        if ($i == 2) {
-            $snmpv = "2c";
-        }
+
+    foreach my $version (qw(3 2c 1)) {
         foreach my $credential (@{$credentials}) {
-            next unless $credential->{VERSION} eq $snmpv;
+            next unless $credential->{VERSION} eq $version;
 
             my $session = FusionInventory::Agent::SNMP->new(
                 version      => $credential->{VERSION},
