@@ -637,14 +637,9 @@ sub _discoverByNetbios {
         }
     }
 
-    if (!$device->{MAC}) {
-        my $NetbiosMac = $ns->mac_address();
-        $NetbiosMac =~ tr/-/:/;
-        $device->{MAC} = $NetbiosMac;
-    } elsif ($device->{MAC} !~ /^$mac_address_pattern$/) {
-        my $NetbiosMac = $ns->mac_address();
-        $NetbiosMac =~ tr/-/:/;
-        $device->{MAC} = $NetbiosMac;
+    if (!$device->{MAC} || $device->{MAC} !~ /^$mac_address_pattern$/) {
+        $device->{MAC} = $ns->mac_address();
+        $device->{MAC} =~ tr/-/:/; 
     }
 }
 
