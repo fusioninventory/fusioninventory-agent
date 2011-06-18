@@ -13,6 +13,7 @@ use Data::Dumper;
 use Digest::MD5 qw(md5_hex);
 use English qw(-no_match_vars);
 use Net::IP;
+use Time::localtime;
 use UNIVERSAL::require;
 use XML::TreePP;
 
@@ -47,11 +48,10 @@ sub run {
 
     $self->{logger}->debug("FusionInventory NetDiscovery module ".$VERSION);
 
-   my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
-   $hour  = sprintf("%02d", $hour);
-   $min  = sprintf("%02d", $min);
-   $yday = sprintf("%04d", $yday);
-   $self->{PID} = $yday.$hour.$min;
+   $self->{PID} =
+       sprintf("%04d", localtime->yday()) . 
+       sprintf("%02d", localtime->hour()) .
+       sprintf("%02d", localtime->min());
 
    $self->_initModList();
 
