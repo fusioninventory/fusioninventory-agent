@@ -682,21 +682,20 @@ sub _discoverBySNMP {
             $device->{DESCRIPTION} = $description;
 
             my $name = $snmp->get('.1.3.6.1.2.1.1.5.0');
-            # Serial Number
-            my ($serial, $type, $model, $mac) = $self->_verifySerial($description, $snmp, $dico, $ip);
-            $device->{SERIAL} = $serial;
-            $device->{MODELSNMP} = $model;
+
+            # get first model in dictionnary matching description
+            $description =~ s/\n//g;
+            $description =~ s/\r//g;
+            my $model = first { $_->{SYSDESCR} eq $description } @{$dico->{DEVICE}};
+
+            $device->{SERIAL}    = _getSerial($snmp, $model);
+            $device->{MAC}       = _getMacAddress($snmp, $model) || _getMacAddress($snmp);
+            $device->{MODELSNMP} = $model->{MODELSNMP};
+            $device->{TYPE}      = $model->{TYPE};
+
             $device->{AUTHSNMP} = $credential->{ID};
-            $device->{TYPE} = $type;
             $device->{SNMPHOSTNAME} = $name;
             $device->{IP} = $ip;
-            if ($device->{MAC}) {
-                if ($device->{MAC} !~ /^$mac_address_pattern$/) {
-                    $device->{MAC} = $mac;
-                }
-            } else {
-                $device->{MAC} = $mac;
-            }
             $device->{ENTITY} = $entity;
             $self->{logger}->debug("[$ip] ".Dumper($device));
             $snmp->close();
@@ -704,81 +703,64 @@ sub _discoverBySNMP {
     }
 }
 
-sub _verifySerial {
-    my ($self, $description, $snmp, $dico, $ip) = @_;
+sub _getSerial {
+    my ($snmp, $model) = @_;
 
-    return unless $description;
+    # the model is mandatory for the serial number
+    return unless $model;
+    return unless $model->{SERIAL};
 
-    $description =~ s/\n//g;
-    $description =~ s/\r//g;
+    my $serial = $snmp->get($model->{SERIAL});
+    if (defined($serial)) {
+        $serial =~ s/\n//g;
+        $serial =~ s/\r//g;
+        $serial =~ s/^\s+//;
+        $serial =~ s/\s+$//;
+        $serial =~ s/(\.{2,})*//g;
+    }
 
-    # find a model in dictionnary matching description
-    my $model = first { $_->{SYSDESCR} eq $description } @{$dico->{DEVICE}};
+    return $serial;
+}
+
+sub _getMacAddress {
+    my ($snmp, $model) = @_;
+
+    my $macAddress;
 
     if ($model) {
-        # a model has been found
-        my ($mac, $serial);
-
-        if ($model->{SERIAL}) {
-            $serial = $snmp->get($model->{SERIAL});
-            if (defined($serial)) {
-                $serial =~ s/\n//g;
-                $serial =~ s/\r//g;
-                $serial =~ s/^\s+//;
-                $serial =~ s/\s+$//;
-                $serial =~ s/(\.{2,})*//g;
-            }
-        }
+        # use model-specific oids
 
         if ($model->{MAC}) {
-            $mac = $snmp->get($model->{MAC});
+            $macAddress = $snmp->get($model->{MAC});
         }
 
-        if ($mac !~ /^$mac_address_pattern$/) {
+        if (!$macAddress || $macAddress !~ /^$mac_address_pattern$/) {
             my $macs = $snmp->walk($model->{MACDYN});
             foreach my $value (values %{$macs}) {
                 next if !$value;
                 next if $value eq '0:0:0:0:0:0';
                 next if $value eq '00:00:00:00:00:00';
-                $mac = $value;
+                $macAddress = $value;
             }
         }
-
-        if ($mac !~ /^$mac_address_pattern$/) {
-            $mac = $snmp->get(".1.3.6.1.2.1.17.1.1.0");
-        }
-
-        if ($mac !~ /^$mac_address_pattern$/) {
-            my $macs = $snmp->walk(".1.3.6.1.2.1.2.2.1.6");
-            foreach my $value (values %{$macs}) {
-                next if !$value;
-                next if $value eq '0:0:0:0:0:0';
-                next if $value eq '00:00:00:00:00:00';
-                $mac = $value;
-            }
-        }
-
-        return ($serial, $model->{TYPE}, $model->{MODELSNMP}, $mac);
     } else {
-        # no model has been found
-        my $mac;
+        # use default oids
 
-        $mac  = $snmp->get(".1.3.6.1.2.1.17.1.1.0");
+        $macAddress = $snmp->get(".1.3.6.1.2.1.17.1.1.0");
 
-        if ($mac !~ /^$mac_address_pattern$/) {
+        if (!$macAddress || $macAddress !~ /^$mac_address_pattern$/) {
             my $macs = $snmp->walk(".1.3.6.1.2.1.2.2.1.6");
             foreach my $value (values %{$macs}) {
                 next if !$value;
                 next if $value eq '0:0:0:0:0:0';
                 next if $value eq '00:00:00:00:00:00';
-                $mac = $value;
+                $macAddress = $value;
             }
         }
-
-        return (undef, undef, undef, $mac);
     }
-}
 
+    return $macAddress;
+}
 
 sub _initModList {
     my ($self) = @_;
