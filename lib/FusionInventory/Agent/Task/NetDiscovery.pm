@@ -82,35 +82,35 @@ sub _startThreads {
 
    # Load storage with XML dico
    if (defined($options->{DICO})) {
-      $storage->save({
-            idx => 999998,
-            data => XMLin($options->{DICO})
-        });
+      $storage->save(
+          idx  => 999998,
+          data => XMLin($options->{DICO})
+      );
       $dicohash->{HASH} = $options->{DICOHASH};
-      $storage->save({
-            idx => 999999,
-            data => $dicohash
-        });
+      $storage->save(
+          idx  => 999999,
+          data => $dicohash
+      );
    }
 
-   $dico = $storage->restore({
+   $dico = $storage->restore(
          idx => 999998
-      });
-   $dicohash = $storage->restore({
-         idx => 999999
-      });
+   );
+   $dicohash = $storage->restore(
+       idx => 999999
+   );
 
    if ( (!defined($dico)) || (ref($dico) ne "HASH")) {
       $dico = FusionInventory::Agent::Task::NetDiscovery::Dico::loadDico();
-      $storage->save({
+      $storage->save(
             idx => 999998,
             data => $dico
-        });
+      );
       $dicohash->{HASH} = md5_hex($dico);
-      $storage->save({
-            idx => 999999,
-            data => $dicohash
-        });
+      $storage->save(
+          idx  => 999999,
+          data => $dicohash
+      );
    }
    if (defined($options->{DICOHASH})) {
       if ($dicohash->{HASH} eq $options->{DICOHASH}) {
@@ -359,17 +359,17 @@ sub _startThreads {
            sleep 2;
             foreach my $idx (1..$maxIdx) {
                if (!defined($sentxml->{$idx})) {
-                   my $data = $storage->restore({
-                           idx => $idx
-                       });
+                   my $data = $storage->restore(
+                       idx => $idx
+                   );
 
                    $self->_sendInformations({
-                           data => $data
-                       });
+                       data => $data
+                   });
                    $sentxml->{$idx} = 1;
-                   $storage->remove({
-                        idx => $idx
-                     });
+                   $storage->remove(
+                       idx => $idx
+                   );
                    sleep 1;
                 }
             }
@@ -377,13 +377,13 @@ sub _startThreads {
 
       foreach my $idx (1..$maxIdx) {
          if (!defined($sentxml->{$idx})) {
-             my $data = $storage->restore({
-                     idx => $idx
-                 });
+             my $data = $storage->restore(
+                 idx => $idx
+             );
 
              $self->_sendInformations({
-                     data => $data
-                 });
+                 data => $data
+             });
              $sentxml->{$idx} = 1;
              sleep 1;
          }
@@ -470,10 +470,10 @@ sub _handleIPRange {
            }
            if (($count == 4) || (($loopthread == 1) && ($count > 0))) {
               $maxIdx++;
-              $self->{storage}->save({
-                    idx  => $maxIdx,
-                    data => $data
-                });
+              $self->{storage}->save(
+                  idx  => $maxIdx,
+                  data => $data
+              );
 
               $count = 0;
            }
@@ -565,17 +565,16 @@ sub _sendInformations{
 
    my $config = $self->{config};
 
-   my $xmlMsg = FusionInventory::Agent::XML::Query->new(
-       {
-           config => $self->{config},
-           logger => $self->{logger},
-           target => $self->{target},
-           msg    => {
-               QUERY => 'NETDISCOVERY',
-               CONTENT   => $message->{data},
-           },
-       });
-   $self->{client}->send({message => $xmlMsg});
+   my $message = FusionInventory::Agent::XML::Query->new(
+       config => $self->{config},
+       logger => $self->{logger},
+       target => $self->{target},
+       msg    => {
+           QUERY   => 'NETDISCOVERY',
+           CONTENT => $message->{data},
+       },
+   );
+   $self->{client}->send(message => $message);
 }
 
 sub _discovery_ip_threaded {
@@ -645,7 +644,7 @@ sub _discovery_ip_threaded {
          }
          foreach my $credential (@{$params->{credentials}}) {
             if ($credential->{VERSION} eq $snmpv) {
-               my $session = FusionInventory::Agent::SNMP->new({
+               my $session = FusionInventory::Agent::SNMP->new(
                    version      => $credential->{VERSION},
                    hostname     => $params->{ip},
                    community    => $credential->{COMMUNITY},
@@ -655,7 +654,7 @@ sub _discovery_ip_threaded {
                    privpassword => $credential->{PRIVPASSWORD},
                    privprotocol => $credential->{PRIVPROTOCOL},
                    translate    => 1,
-               });
+               );
 
                if (!defined($session->{SNMPSession}->{session})) {
                } else {
