@@ -63,61 +63,10 @@ sub _startThreads {
 
    my $options = $self->{prologresp}->getOptionsInfoByName('NETDISCOVERY');
    my $params  = $options->{PARAM}->[0];
-
-   # take care of models dictionnary
-   my $dico;
-   my $dicohash;
    my $storage = $self->{target}->getStorage();
 
-   if (defined($options->{DICO})) {
-      $storage->save(
-          idx  => 999998,
-          data => XMLin($options->{DICO})
-      );
-      $dicohash->{HASH} = $options->{DICOHASH};
-      $storage->save(
-          idx  => 999999,
-          data => $dicohash
-      );
-   }
-
-   $dico = $storage->restore(
-         idx => 999998
-   );
-   $dicohash = $storage->restore(
-       idx => 999999
-   );
-
-   if ( (!defined($dico)) || (ref($dico) ne "HASH")) {
-      $dico = FusionInventory::Agent::Task::NetDiscovery::Dico::loadDico();
-      $storage->save(
-            idx => 999998,
-            data => $dico
-      );
-      $dicohash->{HASH} = md5_hex($dico);
-      $storage->save(
-          idx  => 999999,
-          data => $dicohash
-      );
-   }
-   if (defined($options->{DICOHASH})) {
-      if ($dicohash->{HASH} eq $options->{DICOHASH}) {
-         $self->{logger}->debug("Dico is up to date.");
-      } else {
-         # Send Dico request to plugin for next time :
-         $self->_sendInformations({
-             AGENT => {
-                 END => '1'
-             },
-             MODULEVERSION => $VERSION,
-             PROCESSNUMBER => $params->{PID},
-             DICO          => "REQUEST",
-         });
-         $self->{logger}->debug("Dico is to old (".$dicohash->{HASH}." vs ".$options->{DICOHASH}."). Exiting...");
-         return;
-      }
-   }
-   $self->{logger}->debug("Dico loaded.");
+   # take care of models dictionnary
+   my $dico = $self->_getDictionnary($options, $storage, $params->{PID});
 
    # check discovery methods available
    my $nmap_parameters;
@@ -397,6 +346,66 @@ sub _startThreads {
    });
 
    return;
+}
+
+sub _getDictionnary {
+    my ($self, $options, $storage, $pid) = @_;
+
+    my $dico;
+    my $dicohash;
+
+    if (defined($options->{DICO})) {
+        $storage->save(
+            idx  => 999998,
+            data => XMLin($options->{DICO})
+        );
+        $dicohash->{HASH} = $options->{DICOHASH};
+        $storage->save(
+            idx  => 999999,
+            data => $dicohash
+        );
+    }
+
+    $dico = $storage->restore(
+        idx => 999998
+    );
+    $dicohash = $storage->restore(
+        idx => 999999
+    );
+
+    if ( (!defined($dico)) || (ref($dico) ne "HASH")) {
+        $dico = FusionInventory::Agent::Task::NetDiscovery::Dico::loadDico();
+        $storage->save(
+            idx => 999998,
+            data => $dico
+        );
+        $dicohash->{HASH} = md5_hex($dico);
+        $storage->save(
+            idx  => 999999,
+            data => $dicohash
+        );
+    }
+
+    if (defined($options->{DICOHASH})) {
+        if ($dicohash->{HASH} eq $options->{DICOHASH}) {
+            $self->{logger}->debug("Dico is up to date.");
+        } else {
+            # Send Dico request to plugin for next time :
+            $self->_sendInformations({
+                AGENT => {
+                    END => '1'
+                },
+                MODULEVERSION => $VERSION,
+                PROCESSNUMBER => $pid,
+                DICO          => "REQUEST",
+            });
+            $self->{logger}->debug("Dico is to old (".$dicohash->{HASH}." vs ".$options->{DICOHASH}."). Exiting...");
+            return;
+        }
+    }
+    $self->{logger}->debug("Dico loaded.");
+
+    return $dico;
 }
 
 sub _handleIPRange {
