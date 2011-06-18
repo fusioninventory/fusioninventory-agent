@@ -666,7 +666,7 @@ sub _discoverBySNMP {
         };
         if ($EVAL_ERROR) {
             $self->{logger}->error("Unable to create SNMP session for $ip: $EVAL_ERROR");
-            return;
+            next;
         }
 
         my $description = $snmp->get('1.3.6.1.2.1.1.1.0');
