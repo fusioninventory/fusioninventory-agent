@@ -55,12 +55,6 @@ sub run {
 
    $self->_initModList();
 
-   $self->_startThreads();
-}
-
-sub _startThreads {
-   my ($self) = @_;
-
    my $options = $self->{prologresp}->getOptionsInfoByName('NETDISCOVERY');
    my $params  = $options->{PARAM}->[0];
    my $storage = $self->{target}->getStorage();
@@ -345,7 +339,6 @@ sub _startThreads {
        PROCESSNUMBER => $params->{PID},
    });
 
-   return;
 }
 
 sub _getDictionnary {
