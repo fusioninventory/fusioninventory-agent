@@ -438,7 +438,7 @@ sub _handleIPRange {
               }
            }
            if ($loopthread != 1) {
-              my $datadevice = $self->_discovery_ip_threaded({
+              my $datadevice = $self->probeAddress({
                     ip                  => $iplist->{$device_id}->{IP},
                     entity              => $iplist->{$device_id}->{ENTITY},
                     credentials         => $credentials,
@@ -564,7 +564,7 @@ sub _sendInformations{
    $self->{client}->send(message => $message);
 }
 
-sub _discovery_ip_threaded {
+sub _probeAddress {
    my ($self, $params) = @_;
 
    if (!defined($params->{ip})) {
@@ -580,15 +580,15 @@ sub _discovery_ip_threaded {
    my $device;
 
    if ($params->{nmap_parameters}) {
-      $self->_discoverByNmap($device, $params->{ip}, $params->{nmap_parameters});
+      $self->_probeAddressByNmap($device, $params->{ip}, $params->{nmap_parameters});
    }
 
    if ($INC{'Net/NBName.pm'}) {
-       $self->_discoverByNmap($device, $params->{ip})
+       $self->_probeAddressByNmap($device, $params->{ip})
    }
 
    if ($INC{'FusionInventory/Agent/SNMP.pm'}) {
-       $self->_discoverBySNMP($device, $params->{ip}, $params->{credentials}, $params->{dico}, $params->{entity});
+       $self->_probeAddressBySNMP($device, $params->{ip}, $params->{credentials}, $params->{dico}, $params->{entity});
    }
 
    if ($device->{MAC}) {
@@ -606,7 +606,7 @@ sub _discovery_ip_threaded {
    return $device;
 }
 
-sub _discoverByNmap {
+sub _probeAddressByNmap {
     my ($self, $device, $ip, $parameters) = @_;
 
     my $nmapCmd = "nmap $parameters $ip -oX -";
@@ -614,7 +614,7 @@ sub _discoverByNmap {
     $device = _parseNmap($xml);
 }
 
-sub _discoverByNetbios {
+sub _probeAddressByNetbios {
     my ($self, $device, $ip) = @_;
 
     $self->{logger}->debug("[$ip] : Netbios discovery");
@@ -643,7 +643,7 @@ sub _discoverByNetbios {
     }
 }
 
-sub _discoverBySNMP {
+sub _probeAddressBySNMP {
     my ($self, $device, $ip, $credentials, $dico, $entity) = @_;
 
     $self->{logger}->debug("[ip] : SNMP discovery");
