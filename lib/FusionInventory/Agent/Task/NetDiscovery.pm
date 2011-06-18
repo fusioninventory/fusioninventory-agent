@@ -675,7 +675,6 @@ sub _discoverBySNMP {
                 return;
             }
 
-            #print "[".$params->{ip}."] GNE () \n";
             my $description = $snmp->get('1.3.6.1.2.1.1.1.0');
             return unless $description;
 
