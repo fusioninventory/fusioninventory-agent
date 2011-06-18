@@ -693,7 +693,7 @@ sub _probeAddressBySNMP {
         $device->{SNMPHOSTNAME} = $snmp->get('.1.3.6.1.2.1.1.5.0');
         $device->{IP} = $ip;
         $device->{ENTITY} = $entity;
-        $self->{logger}->debug("[$ip] ".Dumper($device));
+
         $snmp->close();
 
         last;
