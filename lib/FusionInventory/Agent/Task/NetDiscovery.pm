@@ -686,23 +686,8 @@ sub _discoverBySNMP {
             $device->{DESCRIPTION} = $description;
 
             my $name = $snmp->get('.1.3.6.1.2.1.1.5.0');
-            if ($name eq "null") {
-                $name = q{}; # Empty string
-            }
             # Serial Number
             my ($serial, $type, $model, $mac) = $self->_verifySerial($description, $snmp, $dico, $ip);
-            if ($serial eq "Received noSuchName(2) error-status at error-index 1") {
-                $serial = q{}; # Empty string
-            }
-            if ($serial eq "noSuchInstance") {
-                $serial = q{}; # Empty string
-            }
-            if ($serial eq "noSuchObject") {
-                $serial = q{}; # Empty string
-            }
-            if ($serial eq "No response from remote host") {
-                $serial = q{}; # Empty string
-            }
             $serial =~ s/^\s+//;
             $serial =~ s/\s+$//;
             $serial =~ s/(\.{2,})*//g;
