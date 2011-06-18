@@ -620,8 +620,6 @@ sub _discoverByNetbios {
 
     my $nb = Net::NBName->new();
 
-    my $machine = q{}; # Empty string
-
     my $ns = $nb->node_status($ip);
     return unless $ns;
 
@@ -633,7 +631,7 @@ sub _discoverByNetbios {
             $device->{USERSESSION} = getSanitizedString($rr->name);
         }
         if ($rr->suffix == 0 && $rr->G eq "UNIQUE") {
-            $machine = $rr->name unless $rr->name =~ /^IS~/;
+            my $machine = $rr->name unless $rr->name =~ /^IS~/;
             $device->{NETBIOSNAME} = getSanitizedString($machine);
         }
     }
