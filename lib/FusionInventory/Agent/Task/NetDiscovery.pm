@@ -588,7 +588,7 @@ sub _probeAddress {
    }
 
    if ($INC{'FusionInventory/Agent/SNMP.pm'}) {
-       $self->_probeAddressBySNMP($device, $params{ip}, $params{credentials}, $params{dico}, $params{entity});
+       $self->_probeAddressBySNMP($device, $params{ip}, $params{credentials}, $params{dico});
    }
 
    if ($device->{MAC}) {
@@ -644,7 +644,7 @@ sub _probeAddressByNetbios {
 }
 
 sub _probeAddressBySNMP {
-    my ($self, $device, $ip, $credentials, $dico, $entity) = @_;
+    my ($self, $device, $ip, $credentials, $dico) = @_;
 
     $self->{logger}->debug("[ip] : SNMP discovery");
 
@@ -689,10 +689,8 @@ sub _probeAddressBySNMP {
         $device->{MODELSNMP} = $model->{MODELSNMP};
         $device->{TYPE}      = $model->{TYPE};
 
-        $device->{AUTHSNMP} = $credential->{ID};
+        $device->{AUTHSNMP}     = $credential->{ID};
         $device->{SNMPHOSTNAME} = $snmp->get('.1.3.6.1.2.1.1.5.0');
-        $device->{IP} = $ip;
-        $device->{ENTITY} = $entity;
 
         $snmp->close();
 
