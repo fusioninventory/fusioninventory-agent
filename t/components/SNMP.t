@@ -57,12 +57,12 @@ lives_ok {
 } 'instanciation: OK';
 
 ok(
-    !defined $snmp->snmpGet(),
+    !defined $snmp->get(),
     'no OID'
 );
 
 ok(
-    !defined $snmp->snmpWalk(),
+    !defined $snmp->walk(),
     'no first OID'
 );
 
@@ -70,13 +70,13 @@ SKIP: {
 skip 'live SNMP test disabled', 2 unless $ENV{TEST_LIVE_SNMP};
 
 is(
-    $snmp->snmpGet({ oid => '1.3.6.1.2.1.1.9.1.3.3'}),
+    $snmp->get('1.3.6.1.2.1.1.9.1.3.3'),
     'The SNMP Management Architecture MIB.',
     'simple value query'
 );
 
 is_deeply(
-    $snmp->snmpWalk({ oid_start => '1.3.6.1.2.1.1.9.1.3'}),
+    $snmp->walk('1.3.6.1.2.1.1.9.1.3'),
     {
         '1.3.6.1.2.1.1.9.1.3.1' => 'The MIB for Message Processing and Dispatching.',
         '1.3.6.1.2.1.1.9.1.3.2' => 'The MIB for Message Processing and Dispatching.',

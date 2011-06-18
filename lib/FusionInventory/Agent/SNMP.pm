@@ -62,11 +62,10 @@ sub new {
     return $self;
 }
 
-sub snmpGet {
-    my ($self, $params) = @_;
+sub get {
+    my ($self, %params) = @_;
 
-    my $oid = $params->{oid};
-
+    my $oid = $params{oid};
     return unless $oid;
 
     my $session = $self->{session};
@@ -87,11 +86,10 @@ sub snmpGet {
     return $result;
 }
 
-sub snmpWalk {
-    my ($self, $args) = @_;
+sub walk {
+    my ($self, %args) = @_;
 
-    my $oid_start = $args->{oid_start};
-
+    my $oid_start = $args{oid_start};
     return unless $oid_start;
 
     my $session = $self->{session};
@@ -187,30 +185,14 @@ Can be one of:
 
 =back
 
-=head2 snmpGet(%params)
+=head2 get($oid)
 
 This method returns a single value, corresponding to a single OID. The value is
 normalised to remove any control character, and hexadecimal mac addresses are
 translated into plain ascii.
 
-Available params:
-
-=over
-
-=item oid the unique OID to query
-
-=back
-
-=head2 snmpWalk(%params)
+=head2 walk($oid)
 
 This method returns an hashref of values, indexed by their OIDs, starting from
 the given one. The values are normalised to remove any control character, and
 hexadecimal mac addresses are translated into plain ascii.
-
-Available params:
-
-=over
-
-=item oid_start the first OID to start walking
-
-=back
