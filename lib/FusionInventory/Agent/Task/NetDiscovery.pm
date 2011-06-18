@@ -142,12 +142,12 @@ sub _startThreads {
    }
    $self->{logger}->debug("Dico loaded.");
 
-   my $ModuleNetNBName = Net::NBName->require();
+   Net::NBName->require();
    if ($EVAL_ERROR) {
       $self->{logger}->error("Can't load Net::NBName. Netbios detection can't be used!");
    }
 
-   my $ModuleNetSNMP = FusionInventory::Agent::SNMP->require();
+   FusionInventory::Agent::SNMP->require();
    if ($EVAL_ERROR) {
       $self->{logger}->error("Can't load FusionInventory::Agent::SNMP. SNMP detection can't be used!");
    }
@@ -306,8 +306,6 @@ sub _startThreads {
                    $iplist,
                    $iplist2,
                    $ModuleNmapParserParameter,
-                   $ModuleNetNBName,
-                   $ModuleNetSNMP,
                    $dico,
                    $maxIdx,
                    $params->{PID}
@@ -416,7 +414,7 @@ sub _startThreads {
 }
 
 sub _handleIPRange {
-    my ($self, $p, $t, $credentials, $ThreadAction, $ThreadState, $iplist2, $iplist, $ModuleNmapParserParameter, $ModuleNetNBName, $ModuleNetSNMP, $dico, $maxIdx, $pid) = @_;
+    my ($self, $p, $t, $credentials, $ThreadAction, $ThreadState, $iplist2, $iplist, $ModuleNmapParserParameter, $dico, $maxIdx, $pid) = @_;
     my $loopthread = 0;
     my $loopbigthread = 0;
     my $count = 0;
@@ -457,9 +455,7 @@ sub _handleIPRange {
                     ip                  => $iplist->{$device_id}->{IP},
                     entity              => $iplist->{$device_id}->{ENTITY},
                     credentials         => $credentials,
-                    ModuleNetNBName     => $ModuleNetNBName,
                     ModuleNmapParserParameter => $ModuleNmapParserParameter,
-                    ModuleNetSNMP       => $ModuleNetSNMP,
                     dico                => $dico
                  });
               undef $iplist->{$device_id}->{IP};
@@ -605,7 +601,7 @@ sub _discovery_ip_threaded {
    }
 
    #** Netbios discovery
-   if ($params->{ModuleNetNBName} == 1) {
+   if ($INC{'Net/NBName.pm'}) {
       $self->{logger}->debug("[".$params->{ip}."] : Netbios discovery");
 
       my $nb = Net::NBName->new();
@@ -638,8 +634,7 @@ sub _discovery_ip_threaded {
       }
    }
 
-
-   if ($params->{ModuleNetSNMP} == 1) {
+   if ($INC{'FusionInventory/Agent/SNMP.pm'}) {
       $self->{logger}->debug("[".$params->{ip}."] : SNMP discovery");
       my $i = "4";
       my $snmpv;
