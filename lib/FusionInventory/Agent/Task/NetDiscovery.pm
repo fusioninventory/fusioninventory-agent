@@ -712,7 +712,6 @@ sub _verifySerial {
 
     return unless $description;
 
-    my $oid;
     my $macreturn = q{}; # Empty string
     my $modelreturn = q{}; # Empty string
     my $serial;
@@ -726,8 +725,7 @@ sub _verifySerial {
         next unless $device->{SYSDESCR} eq $description;
 
         if (defined($device->{SERIAL})) {
-            $oid = $device->{SERIAL};
-            $serial = $snmp->get($oid);
+            $serial = $snmp->get($device->{SERIAL});
         }
 
         if (defined($serial)) {
@@ -740,13 +738,11 @@ sub _verifySerial {
             $modelreturn = $device->{MODELSNMP};
         }
         if (defined($device->{MAC})) {
-            $oid = $device->{MAC};
-            $macreturn  = $snmp->get($oid);
+            $macreturn  = $snmp->get($device->{MAC});
         }
 
-        $oid = $device->{MACDYN};
         my $Arraymacreturn = {};
-        $Arraymacreturn  = $snmp->walk($oid);
+        $Arraymacreturn  = $snmp->walk($device->{MACDYN});
         while ( (undef,my $macadress) = each (%{$Arraymacreturn}) ) {
             if (($macadress ne '') && ($macadress ne '0:0:0:0:0:0') && ($macadress ne '00:00:00:00:00:00')) {
                 if ($macreturn !~ /^([0-9a-f]{2}([:]|$)){6}$/i) {
@@ -757,13 +753,11 @@ sub _verifySerial {
 
         # Mac of switchs
         if ($macreturn !~ /^$mac_address_pattern$/) {
-            $oid = ".1.3.6.1.2.1.17.1.1.0";
-            $macreturn  = $snmp->get($oid);
+            $macreturn  = $snmp->get(".1.3.6.1.2.1.17.1.1.0");
         }
         if ($macreturn !~ /^$mac_address_pattern$/) {
-            $oid = ".1.3.6.1.2.1.2.2.1.6";
             my $Arraymacreturn = {};
-            $Arraymacreturn  = $snmp->walk($oid);
+            $Arraymacreturn  = $snmp->walk(".1.3.6.1.2.1.2.2.1.6");
             while ( (undef,my $macadress) = each (%{$Arraymacreturn}) ) {
                 if (($macadress ne '') && ($macadress ne '0:0:0:0:0:0') && ($macadress ne '00:00:00:00:00:00')) {
                     if ($macreturn !~ /^$mac_address_pattern$/) {
@@ -778,13 +772,11 @@ sub _verifySerial {
 
     # Mac of switchs
     if ($macreturn !~ /^$mac_address_pattern$/) {
-        $oid = ".1.3.6.1.2.1.17.1.1.0";
-        $macreturn  = $snmp->get($oid);
+        $macreturn  = $snmp->get(".1.3.6.1.2.1.17.1.1.0");
     }
     if ($macreturn !~ /^$mac_address_pattern$/) {
-        $oid = ".1.3.6.1.2.1.2.2.1.6";
         my $Arraymacreturn = {};
-        $Arraymacreturn  = $snmp->walk($oid);
+        $Arraymacreturn  = $snmp->walk(".1.3.6.1.2.1.2.2.1.6");
         while ( (undef,my $macadress) = each (%{$Arraymacreturn}) ) {
             if (($macadress ne '') && ($macadress ne '0:0:0:0:0:0') && ($macadress ne '00:00:00:00:00:00')) {
                 if ($macreturn !~ /^$mac_address_pattern$/) {
