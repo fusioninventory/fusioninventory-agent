@@ -579,15 +579,15 @@ sub _discovery_ip_threaded {
    my $device;
 
    if ($params->{nmap_parameters}) {
-      $self->_discoverByNmap($params->{ip}, $device, $params->{nmap_parameters});
+      $self->_discoverByNmap($device, $params->{ip}, $params->{nmap_parameters});
    }
 
    if ($INC{'Net/NBName.pm'}) {
-       $self->_discoverByNmap($params->{ip}, $device);
+       $self->_discoverByNmap($device, $params->{ip})
    }
 
    if ($INC{'FusionInventory/Agent/SNMP.pm'}) {
-       $self->_discoverBySNMP($params->{ip}, $device, $params->{credentials}, $params->{dico}, $params->{entity});
+       $self->_discoverBySNMP($device, $params->{ip}, $params->{credentials}, $params->{dico}, $params->{entity});
    }
 
    if (exists($device->{MAC})) {
@@ -606,7 +606,7 @@ sub _discovery_ip_threaded {
 }
 
 sub _discoverByNmap {
-    my ($self, $ip, $device, $parameters) = @_;
+    my ($self, $device, $ip, $parameters) = @_;
 
     my $nmapCmd = "nmap $parameters $ip -oX -";
     my $xml = `$nmapCmd`;
@@ -614,7 +614,7 @@ sub _discoverByNmap {
 }
 
 sub _discoverByNetbios {
-    my ($self, $ip, $device) = @_;
+    my ($self, $device, $ip) = @_;
 
       $self->{logger}->debug("[$ip] : Netbios discovery");
 
@@ -649,7 +649,7 @@ sub _discoverByNetbios {
 }
 
 sub _discoverBySNMP {
-    my ($self, $ip, $device, $credentials, $dico, $entity) = @_;
+    my ($self, $device, $ip, $credentials, $dico, $entity) = @_;
 
       $self->{logger}->debug("[ip] : SNMP discovery");
       my $i = "4";
