@@ -343,43 +343,42 @@ sub run {
 sub _getDictionnary {
     my ($self, $options, $storage, $pid) = @_;
 
-    my $dico;
-    my $dicohash;
+    my ($dictionnary, $hash);
 
     if (defined($options->{DICO})) {
         $storage->save(
             idx  => 999998,
             data => $options->{DICO}
         );
-        $dicohash->{HASH} = $options->{DICOHASH};
+        $hash->{HASH} = $options->{DICOHASH};
         $storage->save(
             idx  => 999999,
-            data => $dicohash
+            data => $hash
         );
     }
 
-    $dico = $storage->restore(
+    $dictionnary = $storage->restore(
         idx => 999998
     );
-    $dicohash = $storage->restore(
+    $hash = $storage->restore(
         idx => 999999
     );
 
-    if ( (!defined($dico)) || (ref($dico) ne "HASH")) {
-        $dico = FusionInventory::Agent::Task::NetDiscovery::Dico::loadDico();
+    if ( (!defined($dictionnary)) || (ref($dictionnary) ne "HASH")) {
+        $dictionnary = FusionInventory::Agent::Task::NetDiscovery::Dico::loadDico();
         $storage->save(
             idx => 999998,
-            data => $dico
+            data => $dictionnary
         );
-        $dicohash->{HASH} = md5_hex($dico);
+        $hash->{HASH} = md5_hex($dictionnary);
         $storage->save(
             idx  => 999999,
-            data => $dicohash
+            data => $hash
         );
     }
 
     if (defined($options->{DICOHASH})) {
-        if ($dicohash->{HASH} eq $options->{DICOHASH}) {
+        if ($hash->{HASH} eq $options->{DICOHASH}) {
             $self->{logger}->debug("Dico is up to date.");
         } else {
             # Send Dico request to plugin for next time :
@@ -391,13 +390,13 @@ sub _getDictionnary {
                 PROCESSNUMBER => $pid,
                 DICO          => "REQUEST",
             });
-            $self->{logger}->debug("Dico is to old (".$dicohash->{HASH}." vs ".$options->{DICOHASH}."). Exiting...");
+            $self->{logger}->debug("Dico is to old (".$hash->{HASH}." vs ".$options->{DICOHASH}."). Exiting...");
             return;
         }
     }
     $self->{logger}->debug("Dico loaded.");
 
-    return $dico;
+    return $dictionnary;
 }
 
 sub _handleIPRange {
