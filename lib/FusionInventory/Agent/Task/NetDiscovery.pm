@@ -349,7 +349,7 @@ sub _getDictionnary {
     if (defined($options->{DICO})) {
         $storage->save(
             idx  => 999998,
-            data => XMLin($options->{DICO})
+            data => $options->{DICO}
         );
         $dicohash->{HASH} = $options->{DICOHASH};
         $storage->save(
