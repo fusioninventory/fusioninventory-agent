@@ -61,6 +61,7 @@ sub run {
 
    # take care of models dictionnary
    my $dico = $self->_getDictionnary($options, $storage, $params->{PID});
+   return unless $dico;
 
    # check discovery methods available
    my $nmap_parameters;
@@ -345,41 +346,35 @@ sub _getDictionnary {
 
     my ($dictionnary, $hash);
 
-    if (defined($options->{DICO})) {
-        $storage->save(
-            idx  => 999998,
-            data => $options->{DICO}
-        );
-        $hash->{HASH} = $options->{DICOHASH};
+    if ($options->{DICO}) {
+        # the server message contains a dictionnary, use it
+        # and save it for later use
+        $dictionnary = $options->{DICO};
+        $hash        = $options->{DICOHASH};
+
         $storage->save(
             idx  => 999999,
-            data => $hash
+            data => {
+                dictionnary => $dictionnary,
+                hash        => $hash
+            }
         );
+    } else {
+        # no dictionnary in server message, retrieve last saved one
+        my $data = $storage->restore(idx => 999999);
+        $dictionnary = $data->{dictionnary};
+        $hash        = $data->{hash};
     }
 
-    $dictionnary = $storage->restore(
-        idx => 999998
-    );
-    $hash = $storage->restore(
-        idx => 999999
-    );
-
-    if ( (!defined($dictionnary)) || (ref($dictionnary) ne "HASH")) {
+    # fallback on builtin dictionnary
+    if (!$dictionnary || ref $dictionnary ne "HASH") {
         $dictionnary = FusionInventory::Agent::Task::NetDiscovery::Dico::loadDico();
-        $storage->save(
-            idx => 999998,
-            data => $dictionnary
-        );
-        $hash->{HASH} = md5_hex($dictionnary);
-        $storage->save(
-            idx  => 999999,
-            data => $hash
-        );
+        $hash        = md5_hex($dictionnary);
     }
 
-    if (defined($options->{DICOHASH})) {
-        if ($hash->{HASH} eq $options->{DICOHASH}) {
-            $self->{logger}->debug("Dico is up to date.");
+    if ($options->{DICOHASH}) {
+        if ($hash eq $options->{DICOHASH}) {
+            $self->{logger}->debug("Dictionnary is up to date.");
         } else {
             # Send Dico request to plugin for next time :
             $self->_sendInformations({
@@ -390,11 +385,14 @@ sub _getDictionnary {
                 PROCESSNUMBER => $pid,
                 DICO          => "REQUEST",
             });
-            $self->{logger}->debug("Dico is to old (".$hash->{HASH}." vs ".$options->{DICOHASH}."). Exiting...");
+            $self->{logger}->debug(
+                "Dictionnary is too old ($hash vs $options->{DICOHASH}), exiting"
+            );
             return;
         }
     }
-    $self->{logger}->debug("Dico loaded.");
+
+    $self->{logger}->debug("Dictionnary loaded.");
 
     return $dictionnary;
 }
