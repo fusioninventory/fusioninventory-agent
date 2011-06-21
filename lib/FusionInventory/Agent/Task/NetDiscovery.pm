@@ -9,6 +9,9 @@ if ($threads::VERSION > 1.32){
 }
 use base 'FusionInventory::Agent::Task';
 
+use constant ADDRESS_PER_THREAD => 25;
+use constant DEVICE_PER_MESSAGE => 4;
+
 use Data::Dumper;
 use Digest::MD5 qw(md5_hex);
 use English qw(-no_match_vars);
@@ -97,8 +100,7 @@ sub run {
     my @iplist : shared;
     my $maxIdx : shared = 0;
     my $sendstart = 0;
-    my $nb_ip_per_thread = 25;
-    my $limitip = $params->{THREADS_DISCOVERY} * $nb_ip_per_thread;
+    my $limitip = $params->{THREADS_DISCOVERY} * ADDRESS_PER_THREAD;
 
     my $manager;
     if ($params->{CORE_DISCOVERY} > 1) {
@@ -373,8 +375,8 @@ sub _handleIPRange {
             );
             push @devices, $device if $device;
 
-            # save list every four devices
-            if (@devices % 4 == 0) {
+            # save list each time the limit is reached
+            if (@devices % DEVICE_PER_MESSAGE == 0) {
                 $maxIdx++;
                 $self->{storage}->save(
                     idx  => $maxIdx,
