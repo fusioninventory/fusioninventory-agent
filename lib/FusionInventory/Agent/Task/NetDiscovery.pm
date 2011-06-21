@@ -97,10 +97,8 @@ sub run {
     my @iplist : shared;
     my $maxIdx : shared = 0;
     my $sendstart = 0;
-    my $startIP = q{}; # Empty string
     my $nb_ip_per_thread = 25;
     my $limitip = $params->{THREADS_DISCOVERY} * $nb_ip_per_thread;
-    my $ip;
 
     my $manager;
     if ($params->{CORE_DISCOVERY} > 1) {
@@ -143,7 +141,7 @@ sub run {
                         ENTITY => $range->{ENTITY}
                     };
                 } else {
-                    $ip = Net::IP->new($range->{IPSTART}.' - '.$range->{IPEND});
+                    my $ip = Net::IP->new($range->{IPSTART}.' - '.$range->{IPEND});
                     do {
                         push @iplist, {
                             IP     => $ip->ip(),
@@ -158,8 +156,6 @@ sub run {
                             }
                         }
                     } while (++$ip);
-                    undef $ip;
-                    $range->{IPSTART} = q{}; # Empty string
                 }
             }
             $loop_action = 0;
