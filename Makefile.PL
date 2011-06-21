@@ -8,11 +8,11 @@ license 'gpl';
 perl_version '5.006';
 
 requires 'FusionInventory::Agent' => '2.2';
-requires 'threads'                => undef;
-requires 'Net::IP'                => undef;
-requires 'Parallel::ForkManager'  => undef;
-requires 'Net::SNMP'              => undef;
 requires 'Net::NBName'            => undef;
+requires 'Net::IP'                => undef;
+requires 'Net::SNMP'              => undef;
+requires 'Parallel::ForkManager'  => undef;
+requires 'threads'                => undef;
 requires 'XML::TreePP'            => undef;
 
 WriteAll;
