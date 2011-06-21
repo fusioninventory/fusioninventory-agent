@@ -344,48 +344,42 @@ sub _getDictionnary {
 
 sub _handleIPRange {
     my ($self, $p, $t, $credentials, $ThreadAction, $ThreadState, $iplist, $nmap_parameters, $dico, $maxIdx, $pid) = @_;
-    my $loopthread = 0;
-    my $loopbigthread = 0;
     my $count = 0;
     my $data;
 
     $self->{logger}->debug("Core $p - Thread $t created");
-    while ($loopbigthread != 1) {
+    while (1) {
         ##### WAIT ACTION #####
-        $loopthread = 0;
-        while ($loopthread != 1) {
+        while (1) {
            if ($ThreadAction->[$t] == 3) { # STOP
               $ThreadState->[$t] = 2;
               $self->{logger}->debug("Core $p - Thread $t deleted");
               return;
            } elsif ($ThreadAction->[$t] != 0) { # RUN
               $ThreadState->[$t] = 1;
-              $loopthread  = 1;
+              last;
            }
            sleep 1;
         }
         ##### RUN ACTION #####
-        $loopthread = 0;
         my @devices;
 
-        while ($loopthread != 1) {
+        while (1) {
            my $item;
            {
               lock $iplist;
               $item = pop @{$iplist};
            }
-           if ($item) {
-              my $device = $self->_probeAddress(
-                    ip              => $item->{IP},
-                    entity          => $item->{ENTITY},
-                    credentials     => $credentials,
-                    nmap_parameters => $nmap_parameters,
-                    dico            => $dico
-             );
-             push @devices, $device if $device;
-           } else {
-             $loopthread = 1;
-           }
+           last unless $item;
+
+           my $device = $self->_probeAddress(
+                ip              => $item->{IP},
+                entity          => $item->{ENTITY},
+                credentials     => $credentials,
+                nmap_parameters => $nmap_parameters,
+                dico            => $dico
+           );
+           push @devices, $device if $device;
 
            # save list every four devices
            if (@devices % 4 == 0) {
