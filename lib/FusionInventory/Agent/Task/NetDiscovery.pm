@@ -95,7 +95,6 @@ sub run {
 
     # manage discovery
     my $iplist = &share([]);
-    my $iplist2 = &share([]);
     my $maxIdx : shared = 0;
     my $sendstart = 0;
     my $startIP = q{}; # Empty string
@@ -140,7 +139,6 @@ sub run {
             $nbip = 0;
 
             if ($threads_run == 0) {
-                $iplist2 = &share([]);
                 $iplist = &share([]);
             }
 
@@ -151,9 +149,10 @@ sub run {
                     if ($threads_run == 0) {
                         $iplist->[$countnb] = &share([]);
                     }
-                    $iplist->[$countnb]->{IP} = $range->{IPSTART};
-                    $iplist->[$countnb]->{ENTITY} = $range->{ENTITY};
-                    $iplist2->[$countnb] = $countnb;
+                    $iplist->[$countnb] = {
+                        IP     => $range->{IPSTART},
+                        ENTITY => $range->{ENTITY}
+                    };
                     $countnb++;
                     $nbip++;
                 } else {
@@ -162,9 +161,10 @@ sub run {
                         if ($threads_run == 0) {
                             $iplist->[$countnb] = &share({});
                         }
-                        $iplist->[$countnb]->{IP} = $ip->ip();
-                        $iplist->[$countnb]->{ENTITY} = $range->{ENTITY};
-                        $iplist2->[$countnb] = $countnb;
+                        $iplist->[$countnb] = {
+                            IP     => $ip->ip(),
+                            ENTITY => $range->{ENTITY}
+                        };
                         $countnb++;
                         $nbip++;
                         if ($nbip eq $limitip) {
@@ -208,7 +208,6 @@ sub run {
                         \@ThreadAction,
                         \@ThreadState,
                         $iplist,
-                        $iplist2,
                         $nmap_parameters,
                         $dico,
                         $maxIdx,
@@ -366,11 +365,10 @@ sub _getDictionnary {
 }
 
 sub _handleIPRange {
-    my ($self, $p, $t, $credentials, $ThreadAction, $ThreadState, $iplist2, $iplist, $nmap_parameters, $dico, $maxIdx, $pid) = @_;
+    my ($self, $p, $t, $credentials, $ThreadAction, $ThreadState, $iplist, $nmap_parameters, $dico, $maxIdx, $pid) = @_;
     my $loopthread = 0;
     my $loopbigthread = 0;
     my $count = 0;
-    my $device_id;
     my $data;
 
     $self->{logger}->debug("Core $p - Thread $t created");
@@ -391,25 +389,19 @@ sub _handleIPRange {
         ##### RUN ACTION #####
         $loopthread = 0;
         while ($loopthread != 1) {
-           $device_id = q{}; # Empty string
+           my $item;
            {
-              lock $iplist2;
-              if (@{$iplist2}) {
-                 $device_id = pop @{$iplist2};
-              } else {
-                 $loopthread = 1;
-              }
+              lock $iplist;
+              $item = pop @{$iplist};
            }
-           if ($loopthread != 1) {
+           if ($item) {
               my $datadevice = $self->_probeAddress(
-                    ip              => $iplist->[$device_id]->{IP},
-                    entity          => $iplist->[$device_id]->{ENTITY},
+                    ip              => $item->{IP},
+                    entity          => $item->{ENTITY},
                     credentials     => $credentials,
                     nmap_parameters => $nmap_parameters,
                     dico            => $dico
              );
-              undef $iplist->[$device_id]->{IP};
-              undef $iplist->[$device_id]->{ENTITY};
 
               if (keys %{$datadevice}) {
                  $data->{DEVICE}->[$count] = $datadevice;
@@ -417,6 +409,8 @@ sub _handleIPRange {
                  $data->{PROCESSNUMBER} = $pid;
                  $count++;
               }
+           } else {
+             $loopthread = 1;
            }
            if (($count == 4) || (($loopthread == 1) && ($count > 0))) {
               $maxIdx++;
