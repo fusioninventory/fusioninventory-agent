@@ -366,6 +366,8 @@ sub _handleIPRange {
         }
         ##### RUN ACTION #####
         $loopthread = 0;
+        my @devices;
+
         while ($loopthread != 1) {
            my $item;
            {
@@ -373,33 +375,46 @@ sub _handleIPRange {
               $item = pop @{$iplist};
            }
            if ($item) {
-              my $datadevice = $self->_probeAddress(
+              my $device = $self->_probeAddress(
                     ip              => $item->{IP},
                     entity          => $item->{ENTITY},
                     credentials     => $credentials,
                     nmap_parameters => $nmap_parameters,
                     dico            => $dico
              );
-
-              if (keys %{$datadevice}) {
-                 $data->{DEVICE}->[$count] = $datadevice;
-                 $data->{MODULEVERSION} = $VERSION;
-                 $data->{PROCESSNUMBER} = $pid;
-                 $count++;
-              }
+             push @devices, $device if $device;
            } else {
              $loopthread = 1;
            }
-           if (($count == 4) || (($loopthread == 1) && ($count > 0))) {
+
+           # save list every four devices
+           if (@devices % 4 == 0) {
               $maxIdx++;
               $self->{storage}->save(
                   idx  => $maxIdx,
-                  data => $data
+                  data => {
+                      DEVICE        => \@devices,
+                      MODULEVERSION => $VERSION,
+                      PROCESSNUMBER => $pid,
+                  }
               );
-
-              $count = 0;
+              undef @devices;
            }
         }
+
+        # save last devices
+       if (@devices) {
+          $maxIdx++;
+          $self->{storage}->save(
+              idx  => $maxIdx,
+              data => {
+                  DEVICE        => \@devices,
+                  MODULEVERSION => $VERSION,
+                  PROCESSNUMBER => $pid,
+              }
+          );
+       }
+
         ##### CHANGE STATE #####
         if ($ThreadAction->[$t] == 2) { # STOP
            $ThreadState->[$t] = 2;
