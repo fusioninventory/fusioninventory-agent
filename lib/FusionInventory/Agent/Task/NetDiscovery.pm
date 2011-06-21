@@ -145,73 +145,39 @@ sub run {
                 $iplist = &share({});
             }
 
-            if (ref($options->{RANGEIP}) eq "HASH") {
-                if ($options->{RANGEIP}->{IPSTART} eq $options->{RANGEIP}->{IPEND}) {
+            foreach my $num (@{$options->{RANGEIP}}) {
+                if ($num->{IPSTART} eq $num->{IPEND}) {
                     if ($threads_run == 0) {
                         $iplist->{$countnb} = &share({});
                     }
-                    $iplist->{$countnb}->{IP} = $options->{RANGEIP}->{IPSTART};
-                    $iplist->{$countnb}->{ENTITY} = $options->{RANGEIP}->{ENTITY};
+                    $iplist->{$countnb}->{IP} = $num->{IPSTART};
+                    $iplist->{$countnb}->{ENTITY} = $num->{ENTITY};
                     $iplist2->{$countnb} = $countnb;
                     $countnb++;
                     $nbip++;
                 } else {
-                    $ip = Net::IP->new($options->{RANGEIP}->{IPSTART}.' - '.$options->{RANGEIP}->{IPEND});
-                    do {
-                        if ($threads_run == 0) {
-                            $iplist->{$countnb} = &share({});
-                        }
-                        $iplist->{$countnb}->{IP} = $ip->ip();
-                        $iplist->{$countnb}->{ENTITY} = $options->{RANGEIP}->{ENTITY};
-                        $iplist2->{$countnb} = $countnb;
-                        $countnb++;
-                        $nbip++;
-                        if ($nbip eq $limitip) {
-                            if ($ip->ip() ne $options->{RANGEIP}->{IPEND}) {
-                                ++$ip;
-                                $options->{RANGEIP}->{IPSTART} = $ip->ip();
-                                $loop_action = 1;
-                                goto CONTINUE;
+                    if ($num->{IPSTART} ne "") {
+                        $ip = Net::IP->new($num->{IPSTART}.' - '.$num->{IPEND});
+                        do {
+                            if ($threads_run == 0) {
+                                $iplist->{$countnb} = &share({});
                             }
-                        }
-                    } while (++$ip);
-                    undef $options->{RANGEIP};
-                }
-            } else {
-                foreach my $num (@{$options->{RANGEIP}}) {
-                    if ($num->{IPSTART} eq $num->{IPEND}) {
-                        if ($threads_run == 0) {
-                            $iplist->{$countnb} = &share({});
-                        }
-                        $iplist->{$countnb}->{IP} = $num->{IPSTART};
-                        $iplist->{$countnb}->{ENTITY} = $num->{ENTITY};
-                        $iplist2->{$countnb} = $countnb;
-                        $countnb++;
-                        $nbip++;
-                    } else {
-                        if ($num->{IPSTART} ne "") {
-                            $ip = Net::IP->new($num->{IPSTART}.' - '.$num->{IPEND});
-                            do {
-                                if ($threads_run == 0) {
-                                    $iplist->{$countnb} = &share({});
+                            $iplist->{$countnb}->{IP} = $ip->ip();
+                            $iplist->{$countnb}->{ENTITY} = $num->{ENTITY};
+                            $iplist2->{$countnb} = $countnb;
+                            $countnb++;
+                            $nbip++;
+                            if ($nbip eq $limitip) {
+                                if ($ip->ip() ne $num->{IPEND}) {
+                                    ++$ip;
+                                    $num->{IPSTART} = $ip->ip();
+                                    $loop_action = 1;
+                                    goto CONTINUE;
                                 }
-                                $iplist->{$countnb}->{IP} = $ip->ip();
-                                $iplist->{$countnb}->{ENTITY} = $num->{ENTITY};
-                                $iplist2->{$countnb} = $countnb;
-                                $countnb++;
-                                $nbip++;
-                                if ($nbip eq $limitip) {
-                                    if ($ip->ip() ne $num->{IPEND}) {
-                                        ++$ip;
-                                        $num->{IPSTART} = $ip->ip();
-                                        $loop_action = 1;
-                                        goto CONTINUE;
-                                    }
-                                }
-                            } while (++$ip);
-                            undef $ip;
-                            $num->{IPSTART} = q{}; # Empty string
-                        }
+                            }
+                        } while (++$ip);
+                        undef $ip;
+                        $num->{IPSTART} = q{}; # Empty string
                     }
                 }
             }
