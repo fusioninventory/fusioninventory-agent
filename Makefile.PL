@@ -7,7 +7,7 @@ version_from 'lib/FusionInventory/Agent/Task/NetDiscovery.pm';
 license 'gpl';
 perl_version '5.006';
 
-requires 'FusionInventory::Agent' => '2.0';
+requires 'FusionInventory::Agent' => '2.2';
 requires 'threads'                => undef;
 requires 'Net::IP'                => undef;
 requires 'Parallel::ForkManager'  => undef;
