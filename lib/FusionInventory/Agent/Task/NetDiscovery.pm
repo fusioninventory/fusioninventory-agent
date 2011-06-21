@@ -133,7 +133,6 @@ sub run {
         my $sendbylwp : shared;
 
         while ($loop_action > 0) {
-            my $nbip = 0;
 
             foreach my $range (@{$options->{RANGEIP}}) {
                 next unless $range->{IPSTART};
@@ -143,7 +142,6 @@ sub run {
                         IP     => $range->{IPSTART},
                         ENTITY => $range->{ENTITY}
                     };
-                    $nbip++;
                 } else {
                     $ip = Net::IP->new($range->{IPSTART}.' - '.$range->{IPEND});
                     do {
@@ -151,8 +149,7 @@ sub run {
                             IP     => $ip->ip(),
                             ENTITY => $range->{ENTITY}
                         };
-                        $nbip++;
-                        if ($nbip == $limitip) {
+                        if (@iplist == $limitip) {
                             if ($ip->ip() ne $range->{IPEND}) {
                                 ++$ip;
                                 $range->{IPSTART} = $ip->ip();
@@ -233,7 +230,7 @@ sub run {
                 lock $sendbylwp;
                 $self->_sendInformations({
                     AGENT => {
-                        NBIP => $nbip
+                        NBIP => scalar @iplist
                     },
                     PROCESSNUMBER => $params->{PID}
                 });
