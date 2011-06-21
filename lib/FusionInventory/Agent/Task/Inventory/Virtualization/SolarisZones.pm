@@ -7,7 +7,7 @@ use FusionInventory::Agent::Tools;
 
 sub isEnabled { 
     return 
-        can_run('zoneadm') &&
+        canRun('zoneadm') &&
         _check_solaris_valid_release('/etc/release');
 }
 

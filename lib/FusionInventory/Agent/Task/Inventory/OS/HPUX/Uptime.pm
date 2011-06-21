@@ -7,8 +7,8 @@ use FusionInventory::Agent::Tools;
 
 sub isEnabled {
     return
-        can_run('uptime') &&
-        can_run('uname');
+        canRun('uptime') &&
+        canRun('uname');
 }
 
 sub doInventory {

@@ -10,7 +10,7 @@ use File::Glob ':glob';
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
-    return unless can_run('VBoxManage');
+    return unless canRun('VBoxManage');
 
     my ($major, $minor) = getFirstMatch(
         command => 'VBoxManage --version',

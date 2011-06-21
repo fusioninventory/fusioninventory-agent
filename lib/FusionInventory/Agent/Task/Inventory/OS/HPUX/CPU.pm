@@ -19,7 +19,7 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # http://forge.fusioninventory.org/issues/755
-    if (can_run('/opt/propplus/bin/cprop') && !isHPVMGuest()) {
+    if (canRun('/opt/propplus/bin/cprop') && !isHPVMGuest()) {
         foreach my $cpu (_parseCprop(
             command => '/opt/propplus/bin/cprop -summary -c Processors',
             logger  => $logger
@@ -33,7 +33,7 @@ sub doInventory {
     }
 
     my $CPUinfo;
-    if (can_run('/usr/contrib/bin/machinfo')) {
+    if (canRun('/usr/contrib/bin/machinfo')) {
         $CPUinfo = _parseMachinInfo(
             command => '/usr/contrib/bin/machinfo',
             logger  => $logger

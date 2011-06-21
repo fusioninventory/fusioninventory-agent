@@ -14,7 +14,7 @@ use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages;
 # IBM ServeRAID-6i
 
 sub isEnabled {
-    return can_run('ipssend');
+    return canRun('ipssend');
 }
 
 sub doInventory {

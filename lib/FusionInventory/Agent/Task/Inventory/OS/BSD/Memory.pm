@@ -7,8 +7,8 @@ use FusionInventory::Agent::Tools;
 
 sub isEnabled { 	
     return
-        can_run('sysctl') &&
-        can_run('swapctl');
+        canRun('sysctl') &&
+        canRun('swapctl');
 };
 
 sub doInventory {

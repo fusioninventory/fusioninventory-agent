@@ -22,7 +22,7 @@ sub new {
         $self->{logger}->debug(
             'Using Compress::Zlib for compression'
         );
-    } elsif (can_run('gzip')) {
+    } elsif (canRun('gzip')) {
         $self->{compression} = 'gzip';
         $self->{logger}->debug(
             'Using gzip for compression (server minimal version 1.02 needed)'

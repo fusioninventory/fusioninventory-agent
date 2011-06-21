@@ -19,7 +19,7 @@ sub doInventory {
     my @memories;
 
     # http://forge.fusioninventory.org/issues/754
-    if (can_run('/opt/propplus/bin/cprop') && !isHPVMGuest()) {
+    if (canRun('/opt/propplus/bin/cprop') && !isHPVMGuest()) {
         @memories = _parseCprop(
             command => '/opt/propplus/bin/cprop -summary -c Memory',
             logger  => $logger

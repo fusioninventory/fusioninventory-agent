@@ -85,7 +85,7 @@ sub _getStatus {
     my ($logger) = @_;
 
     # Solaris zones
-    if (can_run('/usr/sbin/zoneadm')) {
+    if (canRun('/usr/sbin/zoneadm')) {
         my $zone = getZone();
         return 'SolarisZone' if $zone ne 'global';
     }

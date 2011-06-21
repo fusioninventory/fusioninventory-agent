@@ -41,7 +41,7 @@ sub doInventory {
     close $handle;
 
     my $OSName = $OSNAME;
-    if (can_run('lsb_release')) {
+    if (canRun('lsb_release')) {
         $OSName = getFirstMatch(
             command => 'lsb_release -d',
             pattern => /Description:\s+(.+)/

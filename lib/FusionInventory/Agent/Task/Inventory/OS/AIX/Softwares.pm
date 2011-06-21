@@ -10,7 +10,7 @@ sub isEnabled {
 
     return
         !$params{no_software} &&
-        can_run('lslpp');
+        canRun('lslpp');
 }
 
 sub doInventory {

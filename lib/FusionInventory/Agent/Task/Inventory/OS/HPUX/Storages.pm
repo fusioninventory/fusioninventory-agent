@@ -7,7 +7,7 @@ use FusionInventory::Agent::Tools;
 
 sub isEnabled  {
     return
-        can_run('ioscan');
+        canRun('ioscan');
 }
 
 sub doInventory {

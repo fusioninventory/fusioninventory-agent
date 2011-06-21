@@ -10,7 +10,7 @@ sub isEnabled {
 
     # We don't want to scan user directories unless --scan-homedirs is used
     return 
-        can_run('prlctl') &&
+        canRun('prlctl') &&
         $params{scan_homedirs};
 }
 

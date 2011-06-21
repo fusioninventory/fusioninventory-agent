@@ -8,8 +8,8 @@ use FusionInventory::Agent::Tools::Unix;
 
 sub isEnabled {
     return 
-        can_run('df') ||
-        can_run('lshal');
+        canRun('df') ||
+        canRun('lshal');
 }
 
 sub doInventory {
@@ -37,7 +37,7 @@ sub _getFilesystems {
         getFilesystemsFromDf(logger => $logger, command => 'df -P -T -k');
 
     # get additional informations
-    if (can_run('blkid')) {
+    if (canRun('blkid')) {
         # use blkid if available, as it is filesystem-independant
         foreach my $filesystem (@filesystems) {
             $filesystem->{SERIAL} = getFirstMatch(
@@ -48,9 +48,9 @@ sub _getFilesystems {
         }
     } else {
         # otherwise fallback to filesystem-dependant utilities
-        my $has_dumpe2fs   = can_run('dumpe2fs');
-        my $has_xfs_db     = can_run('xfs_db');
-        my $has_dosfslabel = can_run('dosfslabel');
+        my $has_dumpe2fs   = canRun('dumpe2fs');
+        my $has_xfs_db     = canRun('xfs_db');
+        my $has_dosfslabel = canRun('dosfslabel');
         my %months = (
             Jan => 1,
             Fev => 2,
@@ -111,7 +111,7 @@ sub _getFilesystems {
     }
 
     # complete with hal if available
-    if (can_run('lshal')) {
+    if (canRun('lshal')) {
         my @hal_filesystems = _getFilesystemsFromHal();
         my %hal_filesystems = map { $_->{VOLUMN} => $_ } @hal_filesystems;
 

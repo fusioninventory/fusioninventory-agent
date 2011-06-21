@@ -15,7 +15,7 @@ use FusionInventory::Agent::Tools::Linux;
 # mpt-status version : 1.2.0
 
 sub isEnabled {
-    return can_run('mpt-status');
+    return canRun('mpt-status');
 }
 
 sub doInventory {

@@ -7,7 +7,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::AIX;
 
 sub isEnabled {
-    return can_run('lsdev');
+    return canRun('lsdev');
 }
 
 sub doInventory {

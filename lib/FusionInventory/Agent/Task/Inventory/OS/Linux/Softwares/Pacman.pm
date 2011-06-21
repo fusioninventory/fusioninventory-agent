@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
-    return can_run('pacman');
+    return canRun('pacman');
 }
 
 sub doInventory {

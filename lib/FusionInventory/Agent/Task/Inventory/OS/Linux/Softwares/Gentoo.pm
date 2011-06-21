@@ -8,7 +8,7 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
-    return can_run('equery');
+    return canRun('equery');
 }
 
 sub doInventory {

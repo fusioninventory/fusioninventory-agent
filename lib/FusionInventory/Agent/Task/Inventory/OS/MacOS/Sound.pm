@@ -8,7 +8,7 @@ use FusionInventory::Agent::Tools;
 sub isEnabled {
     return 
         -r '/usr/sbin/system_profiler' &&
-        can_load("Mac::SysProfile");
+        canLoad("Mac::SysProfile");
 }
 
 sub doInventory {

@@ -20,7 +20,7 @@ sub doInventory {
     my ($OSName, $OSVersion);
 
     # if we can load the system profiler, gather the information from that
-    if (can_load("Mac::SysProfile")) {
+    if (canLoad("Mac::SysProfile")) {
         my $prof = Mac::SysProfile->new();
         my $info = $prof->gettype('SPSoftwareDataType');
         return unless ref $info eq 'HASH';

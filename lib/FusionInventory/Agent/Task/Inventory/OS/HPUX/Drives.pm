@@ -10,8 +10,8 @@ use FusionInventory::Agent::Tools;
 
 sub isEnabled  {
     return
-        can_run('fstyp') &&
-        can_run('bdf');
+        canRun('fstyp') &&
+        canRun('bdf');
 }
 
 sub doInventory {

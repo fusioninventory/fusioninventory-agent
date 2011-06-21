@@ -8,8 +8,8 @@ use FusionInventory::Agent::Tools::Solaris;
 
 sub isEnabled {
     return
-        can_run('showrev') ||
-        can_run('/usr/sbin/smbios');
+        canRun('showrev') ||
+        canRun('/usr/sbin/smbios');
 }
 
 sub doInventory {
@@ -25,7 +25,7 @@ sub doInventory {
     if ($zone) {
 
         my $arch;
-        if (can_run('showrev')) {
+        if (canRun('showrev')) {
             my $infos = _parseShowrew($logger);
             $SystemModel        = $infos->{'Application architecture'};
             $SystemManufacturer = $infos->{'Hardware provider'};

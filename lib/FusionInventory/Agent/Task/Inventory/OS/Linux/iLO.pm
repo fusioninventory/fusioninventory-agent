@@ -8,7 +8,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 
 sub isEnabled {
-    return unless can_run("hponcfg");
+    return unless canRun("hponcfg");
 }
 
 sub doInventory {

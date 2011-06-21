@@ -8,7 +8,7 @@ use XML::TreePP;
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
-    return can_run('hpvmstatus');
+    return canRun('hpvmstatus');
 }
 
 sub doInventory {

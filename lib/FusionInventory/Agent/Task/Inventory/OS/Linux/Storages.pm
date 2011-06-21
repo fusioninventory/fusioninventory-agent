@@ -21,7 +21,7 @@ sub doInventory {
     my @devices;
 
     # get informations from hal first, if available
-    if (can_run('lshal')) {
+    if (canRun('lshal')) {
         @devices = getDevicesFromHal(logger => $logger);
     }
 
@@ -129,7 +129,7 @@ sub _getDescription {
 # run on CDROM device
 # http://forums.ocsinventory-ng.org/viewtopic.php?pid=20810
 sub _correctHdparmAvailable {
-    return unless can_run('hdparm');
+    return unless canRun('hdparm');
 
     my ($major, $minor) = getFirstMatch(
         command => 'hdparm -V',

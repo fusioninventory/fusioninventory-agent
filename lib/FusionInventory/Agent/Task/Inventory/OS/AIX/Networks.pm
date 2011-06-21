@@ -8,7 +8,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 
 sub isEnabled {
-    return can_run('lscfg');
+    return canRun('lscfg');
 }
 
 sub doInventory {

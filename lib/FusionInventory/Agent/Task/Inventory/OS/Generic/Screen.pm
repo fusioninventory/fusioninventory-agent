@@ -31,9 +31,9 @@ sub isEnabled {
 
     return
         $OSNAME eq 'MSWin32'                  ||
-        can_run("monitor-get-edid-using-vbe") ||
-        can_run("monitor-get-edid")           ||
-        can_run("get-edid");
+        canRun("monitor-get-edid-using-vbe") ||
+        canRun("monitor-get-edid")           ||
+        canRun("get-edid");
 }
 
 sub doInventory {

@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
-    return can_run('lsusb');
+    return canRun('lsusb');
 }
 
 sub doInventory {

@@ -25,7 +25,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 
 sub isEnabled {
-    return unless can_run('ipmitool');
+    return unless canRun('ipmitool');
 }
 
 sub doInventory {

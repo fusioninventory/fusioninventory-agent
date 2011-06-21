@@ -10,8 +10,8 @@ use FusionInventory::Agent::Tools::Unix;
 
 sub isEnabled {
     return 
-        can_run('ifconfig') ||
-        can_run('ip');
+        canRun('ifconfig') ||
+        canRun('ip');
 }
 
 sub doInventory {
@@ -50,7 +50,7 @@ sub _getInterfaces {
     my $logger = $params{logger};
     my $routes = $params{routes};
 
-    my @interfaces = can_run("/sbin/ip") ?
+    my @interfaces = canRun("/sbin/ip") ?
         _parseIpAddrShow(command => '/sbin/ip addr show', logger => $logger):
         _parseIfconfig(command => '/sbin/ifconfig -a',    logger => $logger);
 
@@ -167,7 +167,7 @@ sub _isVirtual {
         return -d "/sys/devices/virtual/net/$params{name}";
     }
 
-    if (can_run('brctl')) {
+    if (canRun('brctl')) {
         # Let's guess
         my %bridge;
         my $handle = getFileHandle(

@@ -14,7 +14,7 @@ sub isEnabled {
         # we use system profiler on MacOS
         $OSNAME ne 'darwin' &&
         !$params{no_printer} &&
-        can_load("Net::CUPS") &&
+        canLoad("Net::CUPS") &&
         $Net::CUPS::VERSION >= 0.60;
 }
 

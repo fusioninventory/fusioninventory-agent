@@ -21,7 +21,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 
 sub isEnabled {
-    return can_run('ifconfig');
+    return canRun('ifconfig');
 }
 
 sub doInventory {

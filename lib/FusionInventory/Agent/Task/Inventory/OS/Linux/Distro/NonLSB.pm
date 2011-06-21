@@ -48,7 +48,7 @@ sub _findRelease {
         my $file = $_->[0];
         my $distro = $_->[1];
 
-        next unless can_read($file);
+        next unless canRead($file);
         my $version = getFirstLine(file => $file);
         $release = sprintf $distro, $version;
         last;

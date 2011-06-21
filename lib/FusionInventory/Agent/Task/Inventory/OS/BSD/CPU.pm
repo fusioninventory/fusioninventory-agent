@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
-    return can_run('dmidecode');
+    return canRun('dmidecode');
 }
 
 sub doInventory {
