@@ -152,7 +152,7 @@ sub run {
                             ENTITY => $range->{ENTITY}
                         };
                         $nbip++;
-                        if ($nbip eq $limitip) {
+                        if ($nbip == $limitip) {
                             if ($ip->ip() ne $range->{IPEND}) {
                                 ++$ip;
                                 $range->{IPSTART} = $ip->ip();
