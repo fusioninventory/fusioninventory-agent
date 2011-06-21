@@ -135,28 +135,22 @@ sub run {
             foreach my $range (@{$options->{RANGEIP}}) {
                 next unless $range->{IPSTART};
                 next unless $range->{IPEND};
-                if ($range->{IPSTART} eq $range->{IPEND}) {
+
+                my $ip = Net::IP->new($range->{IPSTART}.' - '.$range->{IPEND});
+                do {
                     push @iplist, {
-                        IP     => $range->{IPSTART},
+                        IP     => $ip->ip(),
                         ENTITY => $range->{ENTITY}
                     };
-                } else {
-                    my $ip = Net::IP->new($range->{IPSTART}.' - '.$range->{IPEND});
-                    do {
-                        push @iplist, {
-                            IP     => $ip->ip(),
-                            ENTITY => $range->{ENTITY}
-                        };
-                        if (@iplist == $limitip) {
-                            if ($ip->ip() ne $range->{IPEND}) {
-                                ++$ip;
-                                $range->{IPSTART} = $ip->ip();
-                                $loop_action = 1;
-                                goto CONTINUE;
-                            }
+                    if (@iplist == $limitip) {
+                        if ($ip->ip() ne $range->{IPEND}) {
+                            ++$ip;
+                            $range->{IPSTART} = $ip->ip();
+                            $loop_action = 1;
+                            goto CONTINUE;
                         }
-                    } while (++$ip);
-                }
+                    }
+                } while (++$ip);
             }
             $loop_action = 0;
 
