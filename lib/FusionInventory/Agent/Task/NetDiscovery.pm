@@ -349,73 +349,73 @@ sub _handleIPRange {
     while (1) {
         ##### WAIT ACTION #####
         while (1) {
-           if ($ThreadAction->[$t] == 3) { # STOP
-              $ThreadState->[$t] = 2;
-              $self->{logger}->debug("Core $p - Thread $t deleted");
-              return;
-           } elsif ($ThreadAction->[$t] != 0) { # RUN
-              $ThreadState->[$t] = 1;
-              last;
-           }
-           sleep 1;
+            if ($ThreadAction->[$t] == 3) { # STOP
+                $ThreadState->[$t] = 2;
+                $self->{logger}->debug("Core $p - Thread $t deleted");
+                return;
+            } elsif ($ThreadAction->[$t] != 0) { # RUN
+                $ThreadState->[$t] = 1;
+                last;
+            }
+            sleep 1;
         }
         ##### RUN ACTION #####
         my @devices;
 
         while (1) {
-           my $item;
-           {
-              lock $iplist;
-              $item = pop @{$iplist};
-           }
-           last unless $item;
+            my $item;
+            {
+                lock $iplist;
+                $item = pop @{$iplist};
+            }
+            last unless $item;
 
-           my $device = $self->_probeAddress(
+            my $device = $self->_probeAddress(
                 ip              => $item->{IP},
                 entity          => $item->{ENTITY},
                 credentials     => $credentials,
                 nmap_parameters => $nmap_parameters,
                 dico            => $dico
-           );
-           push @devices, $device if $device;
+            );
+            push @devices, $device if $device;
 
-           # save list every four devices
-           if (@devices % 4 == 0) {
-              $maxIdx++;
-              $self->{storage}->save(
-                  idx  => $maxIdx,
-                  data => {
-                      DEVICE        => \@devices,
-                      MODULEVERSION => $VERSION,
-                      PROCESSNUMBER => $pid,
-                  }
-              );
-              undef @devices;
-           }
+            # save list every four devices
+            if (@devices % 4 == 0) {
+                $maxIdx++;
+                $self->{storage}->save(
+                    idx  => $maxIdx,
+                    data => {
+                        DEVICE        => \@devices,
+                        MODULEVERSION => $VERSION,
+                        PROCESSNUMBER => $pid,
+                    }
+                );
+                undef @devices;
+            }
         }
 
         # save last devices
-       if (@devices) {
-          $maxIdx++;
-          $self->{storage}->save(
-              idx  => $maxIdx,
-              data => {
-                  DEVICE        => \@devices,
-                  MODULEVERSION => $VERSION,
-                  PROCESSNUMBER => $pid,
-              }
-          );
-       }
+        if (@devices) {
+            $maxIdx++;
+            $self->{storage}->save(
+                idx  => $maxIdx,
+                data => {
+                    DEVICE        => \@devices,
+                    MODULEVERSION => $VERSION,
+                    PROCESSNUMBER => $pid,
+                }
+            );
+        }
 
         ##### CHANGE STATE #####
         if ($ThreadAction->[$t] == 2) { # STOP
-           $ThreadState->[$t] = 2;
-           $ThreadAction->[$t] = 0;
-           $self->{logger}->debug("Core $p - Thread $t deleted");
-           return;
+            $ThreadState->[$t] = 2;
+            $ThreadAction->[$t] = 0;
+            $self->{logger}->debug("Core $p - Thread $t deleted");
+            return;
         } elsif ($ThreadAction->[$t] == 1) { # PAUSE
-           $ThreadState->[$t] = 0;
-           $ThreadAction->[$t] = 0;
+            $ThreadState->[$t] = 0;
+            $ThreadAction->[$t] = 0;
         }
     }
 }
