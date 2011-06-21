@@ -344,8 +344,6 @@ sub _getDictionnary {
 
 sub _handleIPRange {
     my ($self, $p, $t, $credentials, $ThreadAction, $ThreadState, $iplist, $nmap_parameters, $dico, $maxIdx, $pid) = @_;
-    my $count = 0;
-    my $data;
 
     $self->{logger}->debug("Core $p - Thread $t created");
     while (1) {
