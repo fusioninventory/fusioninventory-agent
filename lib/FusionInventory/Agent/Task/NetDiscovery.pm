@@ -164,8 +164,8 @@ sub run {
             $loop_nbthreads = $params->{THREADS_DISCOVERY};
 
             for (my $j = 0 ; $j < $params->{THREADS_DISCOVERY}; $j++) {
-                $ThreadState[$j] = "0";
-                $ThreadAction[$j] = "0";
+                $ThreadState[$j] = 0;
+                $ThreadAction[$j] = 0;
             }
             #===================================
             # Create Thread management others threads
@@ -355,11 +355,11 @@ sub _handleIPRange {
         $loopthread = 0;
         while ($loopthread != 1) {
            if ($ThreadAction->[$t] == 3) { # STOP
-              $ThreadState->[$t] = "2";
+              $ThreadState->[$t] = 2;
               $self->{logger}->debug("Core $p - Thread $t deleted");
               return;
            } elsif ($ThreadAction->[$t] != 0) { # RUN
-              $ThreadState->[$t] = "1";
+              $ThreadState->[$t] = 1;
               $loopthread  = 1;
            }
            sleep 1;
@@ -426,7 +426,7 @@ sub _manageThreads {
 
            ## Start + end working threads (do a function) ##
               for($i = 0 ; $i < $loop_nbthreads ; $i++) {
-                 $ThreadAction->[$i] = "2";
+                 $ThreadAction->[$i] = 2;
               }
            ## Function state of working threads (if they are stopped) ##
               $count = 0;
@@ -451,7 +451,7 @@ sub _manageThreads {
         } elsif (($loop_action == 1) && ($exit == 2)) {
            ## Start + pause working Threads (do a function) ##
               for($i = 0 ; $i < $loop_nbthreads ; $i++) {
-                 $ThreadAction->[$i] = "1";
+                 $ThreadAction->[$i] = 1;
               }
            sleep 1;
 
@@ -473,7 +473,7 @@ sub _manageThreads {
               sleep 1;
            }
            $exit = 1;
-           $loop_action = "2";
+           $loop_action = 2;
         }
 
         sleep 1;
