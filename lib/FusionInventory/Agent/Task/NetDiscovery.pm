@@ -135,7 +135,6 @@ sub run {
         $iplist = &share({});
         my $loop_nbthreads : shared;
         my $sendbylwp : shared;
-        my $sentxml = {};
 
         while ($loop_action > 0) {
             $countnb = 0;
@@ -291,34 +290,38 @@ sub run {
                 });
             }
 
+            my $sentxml;
 
             while ($exit != 1) {
                 sleep 2;
                 foreach my $idx (1..$maxIdx) {
-                    next if defined $sentxml->{$idx};
+                    next if defined $sentxml->[$idx];
 
                     my $data = $storage->restore(
                         idx => $idx
                     );
-
                     $self->_sendInformations($data);
-                    $sentxml->{$idx} = 1;
                     $storage->remove(
                         idx => $idx
                     );
+
+                    $sentxml->[$idx] = 1;
                     sleep 1;
                 }
             }
 
             foreach my $idx (1..$maxIdx) {
-                next if defined $sentxml->{$idx};
+                next if defined $sentxml->[$idx];
 
                 my $data = $storage->restore(
                     idx => $idx
                 );
-
                 $self->_sendInformations($data);
-                $sentxml->{$idx} = 1;
+                $storage->remove(
+                    idx => $idx
+                );
+
+                $sentxml->[$idx] = 1;
                 sleep 1;
             }
         }
