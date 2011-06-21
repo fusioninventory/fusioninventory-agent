@@ -112,7 +112,7 @@ sub run {
       }
    }
 
-   for(my $p = 0; $p < $params->{CORE_DISCOVERY}; $p++) {
+   for(my $i = 0; $i < $params->{CORE_DISCOVERY}; $i++) {
       if ($manager) {
          my $pid = $manager->start();
          next if $pid;
@@ -230,10 +230,10 @@ sub run {
             #===================================
             for(my $j = 0; $j < $params->{THREADS_DISCOVERY}; $j++) {
                $threads_run = 1;
-               $Thread[$p][$j] = threads->create(
+               $Thread[$i][$j] = threads->create(
                    '_handleIPRange',
                    $self,
-                   $p,
+                   $i,
                    $j,
                    $credentials,
                    \@ThreadAction,
