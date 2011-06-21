@@ -49,23 +49,23 @@ sub run {
 
     $self->{logger}->debug("FusionInventory NetDiscovery module ".$VERSION);
 
-   $self->{PID} =
-       sprintf("%04d", localtime->yday()) . 
-       sprintf("%02d", localtime->hour()) .
-       sprintf("%02d", localtime->min());
+    $self->{PID} =
+        sprintf("%04d", localtime->yday()) . 
+        sprintf("%02d", localtime->hour()) .
+        sprintf("%02d", localtime->min());
 
-   $self->_initModList();
+    $self->_initModList();
 
-   my $params  = $options->{PARAM}->[0];
-   my $storage = $self->{target}->getStorage();
+    my $params  = $options->{PARAM}->[0];
+    my $storage = $self->{target}->getStorage();
 
-   # take care of models dictionnary
-   my $dico = $self->_getDictionnary($options, $storage, $params->{PID});
-   return unless $dico;
+    # take care of models dictionnary
+    my $dico = $self->_getDictionnary($options, $storage, $params->{PID});
+    return unless $dico;
 
-   # check discovery methods available
-   my $nmap_parameters;
-   if (can_run('nmap')) {
+    # check discovery methods available
+    my $nmap_parameters;
+    if (can_run('nmap')) {
        my ($major, $minor) = getFirstMatch(
            command => 'nmap -V',
            pattern => qr/Nmap version (\d+)\.(\d+)/
@@ -73,267 +73,271 @@ sub run {
        $nmap_parameters = compareVersion($major, $minor, 5, 29) ?
            "-sP -PP --system-dns --max-retries 1 --max-rtt-timeout 1000ms " :
            "-sP --system-dns --max-retries 1 --max-rtt-timeout 1000 "       ;
-   }
+    }
 
-   Net::NBName->require();
-   if ($EVAL_ERROR) {
-      $self->{logger}->error("Can't load Net::NBName. Netbios detection can't be used!");
-   }
+    Net::NBName->require();
+    if ($EVAL_ERROR) {
+        $self->{logger}->error(
+            "Can't load Net::NBName. Netbios detection can't be used!"
+        );
+    }
 
-   FusionInventory::Agent::SNMP->require();
-   if ($EVAL_ERROR) {
-      $self->{logger}->error("Can't load FusionInventory::Agent::SNMP. SNMP detection can't be used!");
-   }
+    FusionInventory::Agent::SNMP->require();
+    if ($EVAL_ERROR) {
+        $self->{logger}->error(
+            "Can't load FusionInventory::Agent::SNMP. SNMP detection can't " .
+            "be used!"
+        );
+    }
 
-   # retrieve SNMP authentication credentials
-   my $credentials = $options->{AUTHENTICATION};
+    # retrieve SNMP authentication credentials
+    my $credentials = $options->{AUTHENTICATION};
 
-   # manage discovery
+    # manage discovery
+    my $iplist = {};
+    my $iplist2 = &share({});
+    my $maxIdx : shared = 0;
+    my $sendstart = 0;
+    my $startIP = q{}; # Empty string
+    my $nbip = 0;
+    my $countnb;
+    my $nb_ip_per_thread = 25;
+    my $limitip = $params->{THREADS_DISCOVERY} * $nb_ip_per_thread;
+    my $ip;
 
-   my $iplist = {};
-   my $iplist2 = &share({});
-   my $maxIdx : shared = 0;
-   my $sendstart = 0;
-   my $startIP = q{}; # Empty string
-   my $nbip = 0;
-   my $countnb;
-   my $nb_ip_per_thread = 25;
-   my $limitip = $params->{THREADS_DISCOVERY} * $nb_ip_per_thread;
-   my $ip;
+    my $manager;
+    if ($params->{CORE_DISCOVERY} > 1) {
+        Parallel::ForkManager->require();
+        if ($EVAL_ERROR) {
+            $self->{logger}->debug(
+                "Parallel::ForkManager not installed, so only 1 core will be" .
+                "used..."
+            );
+            $params->{CORE_DISCOVERY} = 1;
+        } else {
+            $manager = Parallel::ForkManager->new($params->{CORE_DISCOVERY});
+        }
+    }
 
-   my $manager;
-   if ($params->{CORE_DISCOVERY} > 1) {
-       Parallel::ForkManager->require();
-       if ($EVAL_ERROR) {
-         $self->{logger}->debug("Parallel::ForkManager not installed, so only 1 core will be used...");
-         $params->{CORE_DISCOVERY} = 1;
-      } else {
-          $manager = Parallel::ForkManager->new($params->{CORE_DISCOVERY});
-      }
-   }
+    for(my $i = 0; $i < $params->{CORE_DISCOVERY}; $i++) {
+        if ($manager) {
+            my $pid = $manager->start();
+            next if $pid;
+        }
 
-   for(my $i = 0; $i < $params->{CORE_DISCOVERY}; $i++) {
-      if ($manager) {
-         my $pid = $manager->start();
-         next if $pid;
-      }
+        my $threads_run = 0;
+        my $loop_action : shared = 1;
+        my $exit : shared = 0;
 
-      my $threads_run = 0;
-      my $loop_action : shared = 1;
-      my $exit : shared = 0;
+        my @Thread;
+        my @ThreadState : shared;
+        my @ThreadAction : shared;
+        $iplist = &share({});
+        my $loop_nbthreads : shared;
+        my $sendbylwp : shared;
+        my $sentxml = {};
 
-      my @Thread;
-      my @ThreadState : shared;
-      my @ThreadAction : shared;
-      $iplist = &share({});
-      my $loop_nbthreads : shared;
-      my $sendbylwp : shared;
-      my $sentxml = {};
+        while ($loop_action > 0) {
+            $countnb = 0;
+            $nbip = 0;
 
-      while ($loop_action > 0) {
-         $countnb = 0;
-         $nbip = 0;
-
-         if ($threads_run == 0) {
-            $iplist2 = &share({});
-            $iplist = &share({});
-         }
-
-
-         if (ref($options->{RANGEIP}) eq "HASH"){
-            if ($options->{RANGEIP}->{IPSTART} eq $options->{RANGEIP}->{IPEND}) {
-               if ($threads_run == 0) {
-                  $iplist->{$countnb} = &share({});
-               }
-               $iplist->{$countnb}->{IP} = $options->{RANGEIP}->{IPSTART};
-               $iplist->{$countnb}->{ENTITY} = $options->{RANGEIP}->{ENTITY};
-               $iplist2->{$countnb} = $countnb;
-               $countnb++;
-               $nbip++;
-            } else {
-               $ip = Net::IP->new($options->{RANGEIP}->{IPSTART}.' - '.$options->{RANGEIP}->{IPEND});
-               do {
-                  if ($threads_run == 0) {
-                     $iplist->{$countnb} = &share({});
-                  }
-                  $iplist->{$countnb}->{IP} = $ip->ip();
-                  $iplist->{$countnb}->{ENTITY} = $options->{RANGEIP}->{ENTITY};
-                  $iplist2->{$countnb} = $countnb;
-                  $countnb++;
-                  $nbip++;
-                  if ($nbip eq $limitip) {
-                     if ($ip->ip() ne $options->{RANGEIP}->{IPEND}) {
-                        ++$ip;
-                        $options->{RANGEIP}->{IPSTART} = $ip->ip();
-                        $loop_action = 1;
-                        goto CONTINUE;
-                     }
-                  }
-               } while (++$ip);
-               undef $options->{RANGEIP};
+            if ($threads_run == 0) {
+                $iplist2 = &share({});
+                $iplist = &share({});
             }
-         } else {
-            foreach my $num (@{$options->{RANGEIP}}) {
-               if ($num->{IPSTART} eq $num->{IPEND}) {
-                  if ($threads_run == 0) {
-                     $iplist->{$countnb} = &share({});
-                  }
-                  $iplist->{$countnb}->{IP} = $num->{IPSTART};
-                  $iplist->{$countnb}->{ENTITY} = $num->{ENTITY};
-                  $iplist2->{$countnb} = $countnb;
-                  $countnb++;
-                  $nbip++;
-               } else {
-                  if ($num->{IPSTART} ne "") {
-                     $ip = Net::IP->new($num->{IPSTART}.' - '.$num->{IPEND});
-                     do {
+
+            if (ref($options->{RANGEIP}) eq "HASH") {
+                if ($options->{RANGEIP}->{IPSTART} eq $options->{RANGEIP}->{IPEND}) {
+                    if ($threads_run == 0) {
+                        $iplist->{$countnb} = &share({});
+                    }
+                    $iplist->{$countnb}->{IP} = $options->{RANGEIP}->{IPSTART};
+                    $iplist->{$countnb}->{ENTITY} = $options->{RANGEIP}->{ENTITY};
+                    $iplist2->{$countnb} = $countnb;
+                    $countnb++;
+                    $nbip++;
+                } else {
+                    $ip = Net::IP->new($options->{RANGEIP}->{IPSTART}.' - '.$options->{RANGEIP}->{IPEND});
+                    do {
                         if ($threads_run == 0) {
-                           $iplist->{$countnb} = &share({});
+                            $iplist->{$countnb} = &share({});
                         }
                         $iplist->{$countnb}->{IP} = $ip->ip();
-                        $iplist->{$countnb}->{ENTITY} = $num->{ENTITY};
+                        $iplist->{$countnb}->{ENTITY} = $options->{RANGEIP}->{ENTITY};
                         $iplist2->{$countnb} = $countnb;
                         $countnb++;
                         $nbip++;
                         if ($nbip eq $limitip) {
-                           if ($ip->ip() ne $num->{IPEND}) {
-                              ++$ip;
-                              $num->{IPSTART} = $ip->ip();
-                              $loop_action = 1;
-                              goto CONTINUE;
-                           }
+                            if ($ip->ip() ne $options->{RANGEIP}->{IPEND}) {
+                                ++$ip;
+                                $options->{RANGEIP}->{IPSTART} = $ip->ip();
+                                $loop_action = 1;
+                                goto CONTINUE;
+                            }
                         }
-                     } while (++$ip);
-                     undef $ip;
-                     $num->{IPSTART} = q{}; # Empty string
-                  }
-               }
+                    } while (++$ip);
+                    undef $options->{RANGEIP};
+                }
+            } else {
+                foreach my $num (@{$options->{RANGEIP}}) {
+                    if ($num->{IPSTART} eq $num->{IPEND}) {
+                        if ($threads_run == 0) {
+                            $iplist->{$countnb} = &share({});
+                        }
+                        $iplist->{$countnb}->{IP} = $num->{IPSTART};
+                        $iplist->{$countnb}->{ENTITY} = $num->{ENTITY};
+                        $iplist2->{$countnb} = $countnb;
+                        $countnb++;
+                        $nbip++;
+                    } else {
+                        if ($num->{IPSTART} ne "") {
+                            $ip = Net::IP->new($num->{IPSTART}.' - '.$num->{IPEND});
+                            do {
+                                if ($threads_run == 0) {
+                                    $iplist->{$countnb} = &share({});
+                                }
+                                $iplist->{$countnb}->{IP} = $ip->ip();
+                                $iplist->{$countnb}->{ENTITY} = $num->{ENTITY};
+                                $iplist2->{$countnb} = $countnb;
+                                $countnb++;
+                                $nbip++;
+                                if ($nbip eq $limitip) {
+                                    if ($ip->ip() ne $num->{IPEND}) {
+                                        ++$ip;
+                                        $num->{IPSTART} = $ip->ip();
+                                        $loop_action = 1;
+                                        goto CONTINUE;
+                                    }
+                                }
+                            } while (++$ip);
+                            undef $ip;
+                            $num->{IPSTART} = q{}; # Empty string
+                        }
+                    }
+                }
             }
-         }
-         $loop_action = 0;
+            $loop_action = 0;
 
-         CONTINUE:
-         $loop_nbthreads = $params->{THREADS_DISCOVERY};
+            CONTINUE:
+            $loop_nbthreads = $params->{THREADS_DISCOVERY};
 
-
-         for(my $j = 0 ; $j < $params->{THREADS_DISCOVERY} ; $j++) {
-            $ThreadState[$j] = "0";
-            $ThreadAction[$j] = "0";
-         }
-         #===================================
-         # Create Thread management others threads
-         #===================================
-         $exit = 2;
-         if ($threads_run == 0) {
-            #===================================
-            # Create all Threads
-            #===================================
-            for(my $j = 0; $j < $params->{THREADS_DISCOVERY}; $j++) {
-               $threads_run = 1;
-               $Thread[$i][$j] = threads->create(
-                   '_handleIPRange',
-                   $self,
-                   $i,
-                   $j,
-                   $credentials,
-                   \@ThreadAction,
-                   \@ThreadState,
-                   $iplist,
-                   $iplist2,
-                   $nmap_parameters,
-                   $dico,
-                   $maxIdx,
-                   $params->{PID}
-               )->detach();
-
-               # sleep one second every 4 threads
-               sleep 1 unless $j % 4;
+            for (my $j = 0 ; $j < $params->{THREADS_DISCOVERY}; $j++) {
+                $ThreadState[$j] = "0";
+                $ThreadAction[$j] = "0";
             }
-            ##### Start Thread Management #####
-               my $Threadmanagement = threads->create(
-                   '_manageThreads',
-                   $self,
-                   $loop_action,
-                   $exit,
-                   $loop_nbthreads,
-                   \@ThreadAction,
-                   \@ThreadState,
-               )->detach();
-            ### END Threads Creation
-         }
+            #===================================
+            # Create Thread management others threads
+            #===================================
+            $exit = 2;
+            if ($threads_run == 0) {
+                #===================================
+                # Create all Threads
+                #===================================
+                for (my $j = 0; $j < $params->{THREADS_DISCOVERY}; $j++) {
+                    $threads_run = 1;
+                    $Thread[$i][$j] = threads->create(
+                        '_handleIPRange',
+                        $self,
+                        $i,
+                        $j,
+                        $credentials,
+                        \@ThreadAction,
+                        \@ThreadState,
+                        $iplist,
+                        $iplist2,
+                        $nmap_parameters,
+                        $dico,
+                        $maxIdx,
+                        $params->{PID}
+                    )->detach();
 
-         # Send infos to server :
-         if ($sendstart == 0) {
-            $self->_sendInformations({
-                AGENT => {
-                    START        => '1',
-                    AGENTVERSION => $FusionInventory::Agent::VERSION,
-                },
-                MODULEVERSION => $VERSION,
-                PROCESSNUMBER => $params->{PID},
-            });
-            $sendstart = 1;
-         }
+                    # sleep one second every 4 threads
+                    sleep 1 unless $j % 4;
+                }
+                ##### Start Thread Management #####
+                my $Threadmanagement = threads->create(
+                    '_manageThreads',
+                    $self,
+                    $loop_action,
+                    $exit,
+                    $loop_nbthreads,
+                    \@ThreadAction,
+                    \@ThreadState,
+                )->detach();
+                ### END Threads Creation
+            }
 
-         # Send NB ips to server :
-         {
-            lock $sendbylwp;
-            $self->_sendInformations({
-                AGENT => {
-                    NBIP => $nbip
-                },
-                PROCESSNUMBER => $params->{PID}
-            });
-         }
+            # Send infos to server :
+            if ($sendstart == 0) {
+                $self->_sendInformations({
+                    AGENT => {
+                        START        => '1',
+                        AGENTVERSION => $FusionInventory::Agent::VERSION,
+                    },
+                    MODULEVERSION => $VERSION,
+                    PROCESSNUMBER => $params->{PID},
+                });
+                $sendstart = 1;
+            }
+
+            # Send NB ips to server :
+            {
+                lock $sendbylwp;
+                $self->_sendInformations({
+                    AGENT => {
+                        NBIP => $nbip
+                    },
+                    PROCESSNUMBER => $params->{PID}
+                });
+            }
 
 
-        while($exit != 1) {
-           sleep 2;
+            while ($exit != 1) {
+                sleep 2;
+                foreach my $idx (1..$maxIdx) {
+                    next if defined $sentxml->{$idx};
+
+                    my $data = $storage->restore(
+                        idx => $idx
+                    );
+
+                    $self->_sendInformations($data);
+                    $sentxml->{$idx} = 1;
+                    $storage->remove(
+                        idx => $idx
+                    );
+                    sleep 1;
+                }
+            }
+
             foreach my $idx (1..$maxIdx) {
-               next if defined $sentxml->{$idx};
+                next if defined $sentxml->{$idx};
 
-               my $data = $storage->restore(
-                   idx => $idx
-               );
+                my $data = $storage->restore(
+                    idx => $idx
+                );
 
-               $self->_sendInformations($data);
-               $sentxml->{$idx} = 1;
-               $storage->remove(
-                   idx => $idx
-               );
-               sleep 1;
+                $self->_sendInformations($data);
+                $sentxml->{$idx} = 1;
+                sleep 1;
             }
         }
+        $manager->finish() if $manager;
+    }
 
-      foreach my $idx (1..$maxIdx) {
-         next if defined $sentxml->{$idx};
+    # Wait for threads be terminated
+    $manager->wait_all_children() if $manager;
+    sleep 1;
 
-         my $data = $storage->restore(
-             idx => $idx
-         );
+    # Send infos to server
 
-         $self->_sendInformations($data);
-         $sentxml->{$idx} = 1;
-         sleep 1;
-      }
-
-      }
-      $manager->finish() if $manager;
-   }
-
-   # Wait for threads be terminated
-   $manager->wait_all_children() if $manager;
-   sleep 1;
-
-   # Send infos to server
-
-   $self->_sendInformations({
-       AGENT => {
-           END => '1',
-       },
-       MODULEVERSION => $VERSION,
-       PROCESSNUMBER => $params->{PID},
-   });
+    $self->_sendInformations({
+        AGENT => {
+            END => '1',
+        },
+        MODULEVERSION => $VERSION,
+        PROCESSNUMBER => $params->{PID},
+    });
 
 }
 
