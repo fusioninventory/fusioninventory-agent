@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::NetDiscovery::Dico;
 
 use strict;
+use warnings;
 
 use XML::Simple;
 
