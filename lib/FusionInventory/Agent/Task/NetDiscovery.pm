@@ -112,7 +112,6 @@ sub run {
       }
    }
 
-   my @Thread;
    for(my $p = 0; $p < $params->{CORE_DISCOVERY}; $p++) {
       if ($manager) {
          my $pid = $manager->start();
@@ -123,8 +122,9 @@ sub run {
       my $loop_action : shared = 1;
       my $exit : shared = 0;
 
-      my %ThreadState : shared;
-      my %ThreadAction : shared;
+      my @Thread;
+      my @ThreadState : shared;
+      my @ThreadAction : shared;
       $iplist = &share({});
       my $loop_nbthreads : shared;
       my $sendbylwp : shared;
@@ -217,8 +217,8 @@ sub run {
 
 
          for(my $j = 0 ; $j < $params->{THREADS_DISCOVERY} ; $j++) {
-            $ThreadState{$j} = "0";
-            $ThreadAction{$j} = "0";
+            $ThreadState[$j] = "0";
+            $ThreadAction[$j] = "0";
          }
          #===================================
          # Create Thread management others threads
@@ -236,8 +236,8 @@ sub run {
                    $p,
                    $j,
                    $credentials,
-                   \%ThreadAction,
-                   \%ThreadState,
+                   \@ThreadAction,
+                   \@ThreadState,
                    $iplist,
                    $iplist2,
                    $nmap_parameters,
@@ -256,8 +256,8 @@ sub run {
                    $loop_action,
                    $exit,
                    $loop_nbthreads,
-                   \%ThreadAction,
-                   \%ThreadState,
+                   \@ThreadAction,
+                   \@ThreadState,
                )->detach();
             ### END Threads Creation
          }
@@ -406,12 +406,12 @@ sub _handleIPRange {
         ##### WAIT ACTION #####
         $loopthread = 0;
         while ($loopthread != 1) {
-           if ($ThreadAction->{$t} == 3) { # STOP
-              $ThreadState->{$t} = "2";
+           if ($ThreadAction->[$t] == 3) { # STOP
+              $ThreadState->[$t] = "2";
               $self->{logger}->debug("Core $p - Thread $t deleted");
               return;
-           } elsif ($ThreadAction->{$t} != 0) { # RUN
-              $ThreadState->{$t} = "1";
+           } elsif ($ThreadAction->[$t] != 0) { # RUN
+              $ThreadState->[$t] = "1";
               $loopthread  = 1;
            }
            sleep 1;
@@ -459,14 +459,14 @@ sub _handleIPRange {
            }
         }
         ##### CHANGE STATE #####
-        if ($ThreadAction->{$t} == 2) { # STOP
-           $ThreadState->{$t} = 2;
-           $ThreadAction->{$t} = 0;
+        if ($ThreadAction->[$t] == 2) { # STOP
+           $ThreadState->[$t] = 2;
+           $ThreadAction->[$t] = 0;
            $self->{logger}->debug("Core $p - Thread $t deleted");
            return;
-        } elsif ($ThreadAction->{$t} == 1) { # PAUSE
-           $ThreadState->{$t} = 0;
-           $ThreadAction->{$t} = 0;
+        } elsif ($ThreadAction->[$t] == 1) { # PAUSE
+           $ThreadState->[$t] = 0;
+           $ThreadAction->[$t] = 0;
         }
     }
 }
@@ -484,7 +484,7 @@ sub _manageThreads {
 
            ## Start + end working threads (do a function) ##
               for($i = 0 ; $i < $loop_nbthreads ; $i++) {
-                 $ThreadAction->{$i} = "2";
+                 $ThreadAction->[$i] = "2";
               }
            ## Function state of working threads (if they are stopped) ##
               $count = 0;
@@ -492,7 +492,7 @@ sub _manageThreads {
 
               while ($loopthread != 1) {
                  for($i = 0 ; $i < $loop_nbthreads ; $i++) {
-                    if ($ThreadState->{$i} == 2) {
+                    if ($ThreadState->[$i] == 2) {
                        $count++;
                     }
                  }
@@ -509,7 +509,7 @@ sub _manageThreads {
         } elsif (($loop_action == 1) && ($exit == 2)) {
            ## Start + pause working Threads (do a function) ##
               for($i = 0 ; $i < $loop_nbthreads ; $i++) {
-                 $ThreadAction->{$i} = "1";
+                 $ThreadAction->[$i] = "1";
               }
            sleep 1;
 
@@ -519,7 +519,7 @@ sub _manageThreads {
 
            while ($loopthread != 1) {
               for($i = 0 ; $i < $loop_nbthreads ; $i++) {
-                 if ($ThreadState->{$i} == 0) {
+                 if ($ThreadState->[$i] == 0) {
                     $count++;
                  }
               }
