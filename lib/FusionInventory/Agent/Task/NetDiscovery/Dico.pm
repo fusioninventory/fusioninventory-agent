@@ -3,11 +3,19 @@ package FusionInventory::Agent::Task::NetDiscovery::Dico;
 use strict;
 use warnings;
 
+use English qw/-no_match_vars/;
 use XML::Simple;
 
 sub loadDico {
+    undef $INPUT_RECORD_SEPARATOR; # enable slurp mode
+    my $dico = <DATA>;
 
-   my $dico = '<?xml version="1.0" encoding="UTF-8"?>
+    return XMLin($dico);
+}
+
+1;
+__DATA__
+<?xml version="1.0" encoding="UTF-8"?>
 <SNMPDISCOVERY>
    <DEVICE>
       <SYSDESCR><![CDATA[Ordinateur CHRP PowerPC IBMTCP/IP Client Support  version: 05.03.0000.0050]]></SYSDESCR>
@@ -6436,12 +6444,3 @@ sub loadDico {
       <MACDYN>.1.3.6.1.2.1.2.2.1.6</MACDYN>
    </DEVICE>
 </SNMPDISCOVERY>
-';
-
-   my $xmlDico = new XML::Simple;
-   return XMLin($dico);
-
-   1;
-}
-
-1;
