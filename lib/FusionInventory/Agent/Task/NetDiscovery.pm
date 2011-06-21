@@ -94,8 +94,8 @@ sub run {
     my $credentials = $options->{AUTHENTICATION};
 
     # manage discovery
-    my $iplist = {};
-    my $iplist2 = &share({});
+    my $iplist = &share([]);
+    my $iplist2 = &share([]);
     my $maxIdx : shared = 0;
     my $sendstart = 0;
     my $startIP = q{}; # Empty string
@@ -132,7 +132,6 @@ sub run {
         my @Thread;
         my @ThreadState : shared;
         my @ThreadAction : shared;
-        $iplist = &share({});
         my $loop_nbthreads : shared;
         my $sendbylwp : shared;
 
@@ -141,8 +140,8 @@ sub run {
             $nbip = 0;
 
             if ($threads_run == 0) {
-                $iplist2 = &share({});
-                $iplist = &share({});
+                $iplist2 = &share([]);
+                $iplist = &share([]);
             }
 
             foreach my $range (@{$options->{RANGEIP}}) {
@@ -150,22 +149,22 @@ sub run {
                 next unless $range->{IPEND};
                 if ($range->{IPSTART} eq $range->{IPEND}) {
                     if ($threads_run == 0) {
-                        $iplist->{$countnb} = &share({});
+                        $iplist->[$countnb] = &share([]);
                     }
-                    $iplist->{$countnb}->{IP} = $range->{IPSTART};
-                    $iplist->{$countnb}->{ENTITY} = $range->{ENTITY};
-                    $iplist2->{$countnb} = $countnb;
+                    $iplist->[$countnb]->{IP} = $range->{IPSTART};
+                    $iplist->[$countnb]->{ENTITY} = $range->{ENTITY};
+                    $iplist2->[$countnb] = $countnb;
                     $countnb++;
                     $nbip++;
                 } else {
                     $ip = Net::IP->new($range->{IPSTART}.' - '.$range->{IPEND});
                     do {
                         if ($threads_run == 0) {
-                            $iplist->{$countnb} = &share({});
+                            $iplist->[$countnb] = &share({});
                         }
-                        $iplist->{$countnb}->{IP} = $ip->ip();
-                        $iplist->{$countnb}->{ENTITY} = $range->{ENTITY};
-                        $iplist2->{$countnb} = $countnb;
+                        $iplist->[$countnb]->{IP} = $ip->ip();
+                        $iplist->[$countnb]->{ENTITY} = $range->{ENTITY};
+                        $iplist2->[$countnb] = $countnb;
                         $countnb++;
                         $nbip++;
                         if ($nbip eq $limitip) {
@@ -395,24 +394,22 @@ sub _handleIPRange {
            $device_id = q{}; # Empty string
            {
               lock $iplist2;
-              if (keys %{$iplist2} != 0) {
-                 my @keys = sort keys %{$iplist2};
-                 $device_id = pop @keys;
-                 delete $iplist2->{$device_id};
+              if (@{$iplist2}) {
+                 $device_id = pop @{$iplist2};
               } else {
                  $loopthread = 1;
               }
            }
            if ($loopthread != 1) {
               my $datadevice = $self->_probeAddress(
-                    ip              => $iplist->{$device_id}->{IP},
-                    entity          => $iplist->{$device_id}->{ENTITY},
+                    ip              => $iplist->[$device_id]->{IP},
+                    entity          => $iplist->[$device_id]->{ENTITY},
                     credentials     => $credentials,
                     nmap_parameters => $nmap_parameters,
                     dico            => $dico
              );
-              undef $iplist->{$device_id}->{IP};
-              undef $iplist->{$device_id}->{ENTITY};
+              undef $iplist->[$device_id]->{IP};
+              undef $iplist->[$device_id]->{ENTITY};
 
               if (keys %{$datadevice}) {
                  $data->{DEVICE}->[$count] = $datadevice;
