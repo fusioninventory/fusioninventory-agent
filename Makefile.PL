@@ -9,7 +9,6 @@ perl_version '5.006';
 
 requires 'FusionInventory::Agent' => '2.0';
 requires 'threads'                => undef;
-requires 'XML::Simple'            => undef;
 requires 'Net::IP'                => undef;
 requires 'Parallel::ForkManager'  => undef;
 requires 'Net::SNMP'              => undef;
