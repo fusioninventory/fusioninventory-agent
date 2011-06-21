@@ -94,12 +94,11 @@ sub run {
     my $credentials = $options->{AUTHENTICATION};
 
     # manage discovery
-    my $iplist = &share([]);
+    my @iplist : shared;
     my $maxIdx : shared = 0;
     my $sendstart = 0;
     my $startIP = q{}; # Empty string
     my $nbip = 0;
-    my $countnb;
     my $nb_ip_per_thread = 25;
     my $limitip = $params->{THREADS_DISCOVERY} * $nb_ip_per_thread;
     my $ip;
@@ -135,37 +134,24 @@ sub run {
         my $sendbylwp : shared;
 
         while ($loop_action > 0) {
-            $countnb = 0;
             $nbip = 0;
-
-            if ($threads_run == 0) {
-                $iplist = &share([]);
-            }
 
             foreach my $range (@{$options->{RANGEIP}}) {
                 next unless $range->{IPSTART};
                 next unless $range->{IPEND};
                 if ($range->{IPSTART} eq $range->{IPEND}) {
-                    if ($threads_run == 0) {
-                        $iplist->[$countnb] = &share([]);
-                    }
-                    $iplist->[$countnb] = {
+                    push @iplist, {
                         IP     => $range->{IPSTART},
                         ENTITY => $range->{ENTITY}
                     };
-                    $countnb++;
                     $nbip++;
                 } else {
                     $ip = Net::IP->new($range->{IPSTART}.' - '.$range->{IPEND});
                     do {
-                        if ($threads_run == 0) {
-                            $iplist->[$countnb] = &share({});
-                        }
-                        $iplist->[$countnb] = {
+                        push @iplist, {
                             IP     => $ip->ip(),
                             ENTITY => $range->{ENTITY}
                         };
-                        $countnb++;
                         $nbip++;
                         if ($nbip eq $limitip) {
                             if ($ip->ip() ne $range->{IPEND}) {
@@ -207,7 +193,7 @@ sub run {
                         $credentials,
                         \@ThreadAction,
                         \@ThreadState,
-                        $iplist,
+                        \@iplist,
                         $nmap_parameters,
                         $dico,
                         $maxIdx,
