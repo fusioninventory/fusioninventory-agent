@@ -98,7 +98,6 @@ sub run {
     my $maxIdx : shared = 0;
     my $sendstart = 0;
     my $startIP = q{}; # Empty string
-    my $nbip = 0;
     my $nb_ip_per_thread = 25;
     my $limitip = $params->{THREADS_DISCOVERY} * $nb_ip_per_thread;
     my $ip;
@@ -134,7 +133,7 @@ sub run {
         my $sendbylwp : shared;
 
         while ($loop_action > 0) {
-            $nbip = 0;
+            my $nbip = 0;
 
             foreach my $range (@{$options->{RANGEIP}}) {
                 next unless $range->{IPSTART};
