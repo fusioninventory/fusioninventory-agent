@@ -1,11 +1,11 @@
-Create inventory of your ESX, ESXi, vCenter server using the SOAP interface.
+Do remote inventory of your ESX, ESXi, vCenter server using the SOAP interface.
 
 You can import the generated files in:
  - GLPI with FusionInventory for GLPI
  - ocsinventory
  - Uranos
 
-For the moment, only GLPI 0.80 can show the virtual machines for a give host.
+For the moment, only GLPI 0.80 can display the virtual machines / host relations.
 
 In this example, ../agent is a git clone of the 2.1.x branch of the agent:
   perl -I../fusioninventory-agent/lib -Ilib ./fusioninventory-esx --user root --password password --host esx-server --directory /tmp
