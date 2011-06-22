@@ -3,10 +3,17 @@
 use strict;
 use warnings;
 
+if ($ENV{REALLIB}) {
+    @INC = split(/:/,$ENV{REALLIB});
+}
+
+eval "
 use FusionInventory::Agent::Task::ESX;
 use FusionInventory::Agent::AccountInfo;
-
-use Getopt::Long;
+use Getopt::Long;";
+if ($@) {
+    die $@;
+}
 
 my $args = {};
 
@@ -29,7 +36,7 @@ sub usage {
         --directory /somewhere : the location where the .ocs file must be written
 
         EXAMPLE:
-        $0 --host myesx --user foo --password bar --directory /tmp
+        fusioninventory-esx --host myesx --user foo --password bar --directory /tmp
 
         Active Directory users, please note the AD authentification don't work. You must
         create a account on the VMware server.
@@ -45,10 +52,10 @@ sub usage {
         This tool is part of the FusionInventory distribution.
 EOF
 
-        exit(1);
+    exit(1);
 }
 
-use FusionInventory::Agent::Task::ESX;
+
 
 my $esx = FusionInventory::Agent::Task::ESX->new({
     config => {
@@ -66,9 +73,9 @@ if (!$esx->connect({
 
 # Put ACCOUNTINFO values in the inventory
 my $accountinfo = FusionInventory::Agent::AccountInfo->new({
-    logger => $logger,
+#    logger => $logger,
     config => {},
-    target => $self,
+#    target => $self,
     });
 $accountinfo->set('TAG', $args->{tag});
 

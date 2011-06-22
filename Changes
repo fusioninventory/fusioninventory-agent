@@ -1,5 +1,8 @@
 1.1.1  Wed, 22 Jun 2011 18:25:37 +0200
   - Add t/app.t
+  - fusioninventory-esx fix a syntax error
+  - improvement to be able to embed the tool in the
+    package from http://prebuilt.fusioninventory.org
 
 1.1.0  Tue, 14 Jun 2011 21:46:33 +0200
   - Add REST interface support
