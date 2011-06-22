@@ -40,7 +40,7 @@ sub new {
         $self->{ua}->env_proxy;
     }
 
-    if ($LWP::VERSION > 6) {
+    if ($LWP::VERSION >= 6) {
         # LWP6 default behavior is to check the SSL hostname
         if ($params{'no_ssl_check'}) {
             $self->{ua}->ssl_opts(verify_hostname => 0);
