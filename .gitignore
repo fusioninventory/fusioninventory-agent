@@ -15,7 +15,9 @@ lib/FusionInventory/Agent/Task/Deploy
 lib/FusionInventory/Agent/Task/Deploy.pm
 lib/FusionInventory/Agent/Task/ESX.pm
 pm_to_blib
-README.html
+./README
 *~
 fusioninventory-esx
 lib/FusionInventory/VMware
+*.swp
+*.swo

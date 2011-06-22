@@ -115,6 +115,10 @@ sub _processSoftwares {
         # odd, found on Win2003
         next unless keys %$data > 2;
 
+# See bug #927
+# http://stackoverflow.com/questions/2639513/duplicate-entries-in-uninstall-registry-key-when-compiling-list-of-installed-soft
+        next if $data->{'/SystemComponent'};
+
         my $name = encodeFromRegistry($data->{'/DisplayName'});
         # Use the folder name if there is no DisplayName
         $name = encodeFromRegistry($guid) unless $name;

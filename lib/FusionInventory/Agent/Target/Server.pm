@@ -30,17 +30,6 @@ sub new {
 
     my $logger = $self->{logger};
 
-    if ($params{tag}) {
-        if ($self->{accountinfo}->{TAG}) {
-            $logger->debug(
-                "A TAG seems to already exist in the server for this ".
-                "machine. The -t parameter may be ignored by the server " .
-                "unless it has OCS_OPT_ACCEPT_TAG_UPDATE_FROM_CLIENT=1."
-            );
-        }
-        $self->{accountinfo}->{TAG} = $params{tag};
-    }
-
     return $self;
 }
 
@@ -77,41 +66,27 @@ sub getDescription {
 
     return "server, $self->{url}";
 }
-
-sub getAccountInfo {
-    my ($self) = @_;
-
-    return $self->{accountInfo};
-}
-
-sub setAccountInfo {
-    my ($self, $accountInfo) = @_;
-
-    $self->{accountInfo} = $accountInfo;
-}
-
-sub _loadState {
-    my ($self) = @_;
-
-    my $data = $self->{storage}->restore(module => 'Target');
-
-    $self->{maxDelay}    = $data->{maxDelay}    if $data->{maxDelay};
-    $self->{nextRunDate} = $data->{nextRunDate} if $data->{nextRunDate};
-    $self->{accountInfo} = $data->{accountInfo} if $data->{accountInfo};
-}
-
-sub _saveState {
-    my ($self) = @_;
-
-    $self->{storage}->save(
-        module => 'Target',
-        data => {
-            maxDelay    => $self->{maxDelay},
-            nextRunDate => $self->{nextRunDate},
-            accountInfo => $self->{accountInfo},
-        }
-    );
-}
+#
+#sub _loadState {
+#    my ($self) = @_;
+#
+#    my $data = $self->{storage}->restore(module => 'Target');
+#
+#    $self->{maxDelay}    = $data->{maxDelay}    if $data->{maxDelay};
+#    $self->{nextRunDate} = $data->{nextRunDate} if $data->{nextRunDate};
+#}
+#
+#sub _saveState {
+#    my ($self) = @_;
+#
+#    $self->{storage}->save(
+#        module => 'Target',
+#        data => {
+#            maxDelay    => $self->{maxDelay},
+#            nextRunDate => $self->{nextRunDate},
+#        }
+#    );
+#}
 
 1;
 
@@ -145,10 +120,3 @@ the server URL (mandatory)
 
 Return the server URL for this target.
 
-=head2 getAccountInfo()
-
-Get account informations for this target.
-
-=head2 setAccountInfo($info)
-
-Set account informations for this target.

@@ -52,7 +52,7 @@ my %fields = (
     VIRTUALMACHINES => [ qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU
                             VMID MAC COMMENT OWNER/ ],
     LOGICAL_VOLUMES => [ qw/LV_NAME VGN_AME ATTR SIZE LV_UUID SEG_COUNT/ ],
-    PHYSICAL_VOLUMES => [ qw/DEVICE PV_NAME PV_PE_COUNT PV_UUID FORMAT ATTR SIZE FREE/ ],
+    PHYSICAL_VOLUMES => [ qw/DEVICE PV_NAME PV_PE_COUNT PV_UUID FORMAT ATTR SIZE FREE PE_SIZE/ ],
     VOLUME_GROUPS => [ qw/VG_NAME PV_COUNT LV_COUNT ATTR SIZE FREE VG_UUID VG_EXTENT_SIZE/ ],
 
 );
@@ -86,7 +86,8 @@ sub new {
         }
     };
     bless $self, $class;
-    
+
+    $self->setTag($params{tag});
     $self->{last_state_file} = $params{statedir} . '/last_state'
         if $params{statedir};
 
@@ -251,6 +252,18 @@ sub setAccessLog {
             $self->{content}{ACCESSLOG}{$key} = $args->{$key};
         }
     }
+}
+
+sub setTag {
+    my ($self, $tag) = @_;
+
+    return unless $tag;
+
+    $self->{content}{ACCOUNTINFO} = [{
+        KEYNAME  => "TAG",
+        KEYVALUE => $tag
+    }];
+
 }
 
 sub checkContent {
@@ -1376,7 +1389,7 @@ The volume UUID.
 
 The device name. Eg.: /dev/sda1 on Linux.
 
-=item PVNAME
+=item PV_NAME
 
 The physical device name.
 
@@ -1392,9 +1405,17 @@ The LVM attribue in use for this phyisical device.
 
 The size in MB.
 
-=item UUID
+=item PV_UUID
 
 The UUID.
+
+=item PV_PE_COUNT
+
+Item PV_PE_COUNT
+
+=item PE_SIZE
+
+Item PE_SIZE
 
 =back
 
