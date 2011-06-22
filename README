@@ -1,4 +1,4 @@
-Create inventory of your ESX and ESXi server using the SOAP interface.
+Create inventory of your ESX, ESXi, vCenter server using the SOAP interface.
 
 You can import the generated files in:
  - GLPI with FusionInventory for GLPI
