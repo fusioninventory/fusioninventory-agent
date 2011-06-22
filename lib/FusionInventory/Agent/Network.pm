@@ -108,7 +108,7 @@ sub createUA {
     my $ua = LWP::UserAgent->new(keep_alive => 1, requests_redirectable => ['POST', 'GET', 'HEAD']);
 
 
-    if ($LWP::VERSION > 6) {
+    if ($LWP::VERSION >= 6) {
         # LWP6 default behavior is to check the SSL hostname
         if ($config->{'no-ssl-check'}) {
             $ua->ssl_opts(verify_hostname => 0);
