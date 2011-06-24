@@ -17,7 +17,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $command = _equeryNeedsWildcard('equery -V', '-|') ?
+    my $command = _equeryNeedsWildcard() ?
         "equery list -i '*'" : "equery list -i";
 
     my $packages = _getPackagesList(
@@ -51,7 +51,7 @@ sub _getPackagesList {
 
 # http://forge.fusioninventory.org/issues/852
 sub _equeryNeedsWildcard {
-    my $version = getFirstLine(command => 'equery -v');
+    my $version = getFirstLine(command => 'equery -V');
     my ($major, $minor) = $version =~ /^equery \((\d+)\.(\d+)\.\d+\)/;
 
     # true starting from version 0.3
