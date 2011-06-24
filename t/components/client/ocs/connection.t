@@ -12,7 +12,7 @@ use Test::Exception;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::HTTP::Client::OCS;
-use FusionInventory::Agent::XML::Query::SimpleMessage;
+use FusionInventory::Agent::XML::Query;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Proxy;
 
@@ -34,8 +34,9 @@ my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'Test' ]
 );
 
-my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new(
+my $message = FusionInventory::Agent::XML::Query->new(
     deviceid => 'foo',
+    query => 'foo',
     msg => {
         foo => 'foo',
         bar => 'bar'
