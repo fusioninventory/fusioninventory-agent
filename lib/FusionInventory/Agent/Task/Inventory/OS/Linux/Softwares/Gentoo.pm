@@ -53,7 +53,8 @@ sub _getPackagesList {
 sub _equeryNeedsWildcard {
     my ($major, $minor) = getFirstMatch(
         command => 'equery -V',
-        pattern => qr/^equery \((\d+)\.(\d+)\.\d+\)/
+        pattern => qr/^equery ?\((\d+)\.(\d+)\.\d+\)/,
+        @_
     );
 
     # true starting from version 0.3
