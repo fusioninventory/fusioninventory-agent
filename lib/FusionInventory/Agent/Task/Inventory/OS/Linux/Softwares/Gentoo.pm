@@ -51,8 +51,10 @@ sub _getPackagesList {
 
 # http://forge.fusioninventory.org/issues/852
 sub _equeryNeedsWildcard {
-    my $version = getFirstLine(command => 'equery -V');
-    my ($major, $minor) = $version =~ /^equery \((\d+)\.(\d+)\.\d+\)/;
+    my ($major, $minor) = getFirstMatch(
+        command => 'equery -V',
+        pattern => qr/^equery \((\d+)\.(\d+)\.\d+\)/
+    );
 
     # true starting from version 0.3
     return compareVersion($major, $minor, 0, 3);
