@@ -10,7 +10,7 @@ use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
 
-use Test::More tests => 14;
+use Test::More tests => 32;
 
 my ($out, $err, $rc);
 
@@ -42,10 +42,60 @@ like(
 );
 is($out, '', 'no target stdin');
 
-# create inventory targets
-$ENV{FOO} = 'bar';
+my $content;
+# first inventory
+($out, $err, $rc) = run_agent(
+    "--stdout --no-ocsdeploy --no-wakeonlan --no-snmpquery --no-netdiscovery --no-printer"
+);
+ok($rc == 0, 'exit status');
 
-my $file = File::Temp->new();
+like(
+    $out,
+    qr/^<\?xml version="1.0" encoding="UTF-8" \?>/,
+    'output has correct encoding'
+);
+
+$content = XML::TreePP->new()->parse($out);
+ok($content, 'output is valid XML');
+
+ok(
+    exists $content->{REQUEST}->{CONTENT}->{SOFTWARES},
+    'inventory has software'
+);
+
+ok(
+    exists $content->{REQUEST}->{CONTENT}->{ENVS},
+    'inventory has environment variables'
+);
+
+# second inventory, without software
+($out, $err, $rc) = run_agent(
+    "--stdout --no-ocsdeploy --no-wakeonlan --no-snmpquery --no-netdiscovery --no-printer --no-software"
+);
+ok($rc == 0, 'exit status');
+
+like(
+    $out,
+    qr/^<\?xml version="1.0" encoding="UTF-8" \?>/,
+    'output has correct encoding'
+);
+
+$content = XML::TreePP->new()->parse($out);
+ok($content, 'output is valid XML');
+
+ok(
+    !exists $content->{REQUEST}->{CONTENT}->{SOFTWARES},
+    "output doesn't have any software"
+);
+
+ok(
+    exists $content->{REQUEST}->{CONTENT}->{ENVS},
+    'inventory has environment variables'
+);
+
+# third inventory, without software, but additional content
+
+my $file = File::Temp->new(UNLINK => $ENV{TEST_DEBUG} ? 0 : 1, SUFFIX => '.xml');
 print $file <<EOF;
 <?xml version="1.0" encoding="UTF-8" ?>
 <REQUEST>
@@ -63,8 +113,43 @@ EOF
 );
 ok($rc == 0, 'exit status');
 
-my $content = XML::TreePP->new()->parse($out);
+like(
+    $out,
+    qr/^<\?xml version="1.0" encoding="UTF-8" \?>/,
+    'output has correct encoding'
+);
+
+$content = XML::TreePP->new()->parse($out);
 ok($content, 'output is valid XML');
+
+ok(
+    exists $content->{REQUEST}->{CONTENT}->{SOFTWARES},
+    'inventory has softwares'
+);
+
+ok(
+    ref $content->{REQUEST}->{CONTENT}->{SOFTWARES} eq 'HASH',
+    'software list has only one element'
+);
+
+ok(
+    $content->{REQUEST}->{CONTENT}->{SOFTWARES}->{NAME} eq 'foo' &&
+    $content->{REQUEST}->{CONTENT}->{SOFTWARES}->{VERSION} eq 'bar',
+    'expected software'
+);
+
+ok(
+    exists $content->{REQUEST}->{CONTENT}->{ENVS},
+    'inventory has environment variables'
+);
+
+# create inventory targets
+$ENV{FOO} = 'bar';
+
+($out, $err, $rc) = run_agent(
+    "--stdout --no-ocsdeploy --no-wakeonlan --no-snmpquery --no-netdiscovery --no-printer --no-software"
+);
+ok($rc == 0, 'exit status');
 
 like(
     $out,
@@ -72,22 +157,26 @@ like(
     'output has correct encoding'
 );
 
+$content = XML::TreePP->new()->parse($out);
+ok($content, 'output is valid XML');
+
+ok(
+    !exists $content->{REQUEST}->{CONTENT}->{SOFTWARES},
+    "output doesn't have any software"
+);
+
+ok(
+    exists $content->{REQUEST}->{CONTENT}->{ENVS},
+    'inventory has environment variables'
+);
+
 ok(
     (any
         { $_->{KEY} eq 'FOO' && $_->{VAL} eq 'bar' } 
         @{$content->{REQUEST}->{CONTENT}->{ENVS}}
     ),
-    'output has expected environment variable'
+    'expected environment variable'
 );
-
-ok(
-    (any
-        { $_->{NAME} eq 'foo' && $_->{VERSION} eq 'bar' } 
-        @{$content->{REQUEST}->{CONTENT}->{SOFTWARES}}
-    ),
-    'output has expected software'
-);
-
 
 sub run_agent {
     my ($args) = @_;
