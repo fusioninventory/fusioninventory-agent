@@ -144,8 +144,8 @@ sub _initModulesList {
                 datadir       => $self->{datadir},
                 logger        => $self->{logger},
                 prologresp    => $self->{prologresp},
-                no_software   => $self->{config}->{no_software},
-                no_printer    => $self->{config}->{no_printer},
+                no_software   => $self->{config}->{'no-software'},
+                no_printer    => $self->{config}->{'no-printer'},
                 scan_homedirs => $self->{config}->{'scan-homedirs'},
             }
         );
