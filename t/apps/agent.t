@@ -59,7 +59,7 @@ print $file <<EOF;
 EOF
 
 ($out, $err, $rc) = run_agent(
-    "--stdout --no-ocsdeploy --no-wakeonlan --no-snmpquery --no-netdiscovery --additional-content $file"
+    "--stdout --no-ocsdeploy --no-wakeonlan --no-snmpquery --no-netdiscovery --no-printer --no-software --additional-content $file"
 );
 ok($rc == 0, 'exit status');
 
