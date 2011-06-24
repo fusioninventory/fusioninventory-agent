@@ -1,0 +1,30 @@
+linux specific command output and files
+
+blkid: blkid command output
+
+ddcprobe: ddcprobe command output
+
+equery: equery command output
+- *: equery -V
+
+hal: hal command output
+
+ip_addr: ip command output
+
+mpt-status: mpt-status command output
+
+packaging: packaging command output
+
+proc/cpuinfo: /proc/cpuinfo file
+
+proc/scsi: /proc/scsi file
+
+release: /etc/release file
+
+rhn-systemid: /etc/sysconfig/rhn/systemid file
+
+smartctl: smartctl command output
+
+tw_cli: tw_cli command output
+
+udev: /dev/.udev file
