@@ -350,7 +350,7 @@ sub processChecksum {
         if (!$self->{last_state_content}->{$section} || $self->{last_state_content}->{$section} ne $hash ) {
             $logger->debug ("Section $section has changed since last inventory");
             #We make OR on $checksum with the mask of the current section
-            $checksum |= $mask{$section};
+            $checksum |= $mask{$section}; ## no critic (ProhibitBitwise)
         }
         # Finally I store the new value.
         $self->{last_state_content}->{$section} = $hash;

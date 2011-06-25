@@ -119,7 +119,7 @@ sub _quotient {
     my($index, $encoded) = @_;
 
     # Same as $index * 256 + $product_key ???
-    my $dividend = $index * 256 ^ $encoded;
+    my $dividend = $index * 256 ^ $encoded; ## no critic (ProhibitBitwise)
 
     # return modulus and integer quotient
     return(

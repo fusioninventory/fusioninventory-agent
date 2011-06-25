@@ -33,7 +33,7 @@ sub doInventory {
         # understand MSDN, this sounds very odd
 
         my $machKey64 = $Registry->Open('LMachine', {
-            Access => KEY_READ | KEY_WOW64_64
+            Access => KEY_READ | KEY_WOW64_64 ## no critic (ProhibitBitwise)
         }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
         my $softwares64 =
@@ -46,7 +46,7 @@ sub doInventory {
         });
 
         my $machKey32 = $Registry->Open('LMachine', {
-            Access => KEY_READ | KEY_WOW64_32
+            Access => KEY_READ | KEY_WOW64_32 ## no critic (ProhibitBitwise)
         }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
         my $softwares32 =
