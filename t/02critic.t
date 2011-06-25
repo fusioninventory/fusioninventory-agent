@@ -17,6 +17,7 @@ if ($EVAL_ERROR) {
     plan(skip_all => $msg);
 }
 
-Test::Perl::Critic->import();
+my $config = File::Spec->catfile('t', 'perlcriticrc');
+Test::Perl::Critic->import(-profile => $config);
 all_critic_ok();
 
