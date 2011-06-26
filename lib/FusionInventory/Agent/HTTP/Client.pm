@@ -74,7 +74,7 @@ sub request {
             'If-SSL-Cert-Subject'         => _getSubjectPattern($host),
             'If-SSL-Cert-SubjectAltNames' => _getSubjectAltNamesPattern($host)
         );
-        # use a custom HTTPS handler, as LWP < 6 doesn't' honour SubjectAltNames
+        # use a custom HTTPS handler, as LWP < 6 doesn't honour SubjectAltNames
         FusionInventory::Agent::HTTP::HTTPSHandler->require();
         LWP::Protocol::implementor(
             'https', 'FusionInventory::Agent::HTTP::HTTPSHandler'
