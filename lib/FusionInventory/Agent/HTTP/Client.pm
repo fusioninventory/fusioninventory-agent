@@ -116,7 +116,6 @@ sub request {
                         "[client] cannot establish communication with " .
                         "$url: " . $result->status_line()
                     );
-                    return;
                 }
             } else {
                 # abort
@@ -124,14 +123,12 @@ sub request {
                     "[client] authentication required, no credentials " .
                     "available"
                 );
-                return;
             }
         } else {
             $logger->error(
                 "[client] cannot establish communication with $url: " .
                 $result->status_line()
             );
-            return;
         }
     }
 
