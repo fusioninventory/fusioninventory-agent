@@ -50,13 +50,13 @@ sub new {
         }
     } elsif (! $params{'no_ssl_check'}) {
         # use a custom HTTPS handler, forcing the use of IO::Socket::SSL
-        FusionInventory::Agent::HTTP::HTTPSHandler->require();
+        FusionInventory::Agent::HTTP::Protocol::https->require();
         if ($EVAL_ERROR) {
-            die "failed to load FusionInventory::Agent::HTTP::HTTPSHandler, " .
-            "unable to validate SSL certificates";
+            die "failed to load FusionInventory::Agent::HTTP::Protocol::https" .
+            ", unable to validate SSL certificates";
         }
         LWP::Protocol::implementor(
-            'https', 'FusionInventory::Agent::HTTP::HTTPSHandler'
+            'https', 'FusionInventory::Agent::HTTP::Protocol::https'
         );
 
         # abuse user agent to pass values to the handler 

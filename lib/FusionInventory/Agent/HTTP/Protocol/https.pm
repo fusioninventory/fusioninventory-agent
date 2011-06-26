@@ -1,4 +1,4 @@
-package FusionInventory::Agent::HTTP::HTTPSHandler;
+package FusionInventory::Agent::HTTP::Protocol::https;
 
 use strict;
 use warnings;
@@ -16,7 +16,7 @@ sub _extra_sock_opts {
     );
 }
 
-package FusionInventory::Agent::HTTP::HTTPSHandler::Socket;
+package FusionInventory::Agent::HTTP::Protocol::https::Socket;
 
 use base qw(Net::HTTPS LWP::Protocol::http::SocketMethods);
 
@@ -25,7 +25,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::HTTP::HTTPS - HTTPS protocol handler for LWP
+FusionInventory::Agent::HTTP::Protocol::https - HTTPS protocol handler for LWP
 
 =head1 DESCRIPTION
 
