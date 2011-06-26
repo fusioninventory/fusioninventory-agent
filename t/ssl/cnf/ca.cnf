@@ -21,7 +21,7 @@ authorityKeyIdentifier = keyid:always,issuer:always
 default_ca      = default_ca
 
 [ default_ca ]
-dir             = t/httpd/conf/ssl
+dir             = t/ssl
 certificate     = $dir/crt/ca.pem
 private_key     = $dir/key/ca.pem
 certs           = $dir/crt              # Where the issued certs are kept
