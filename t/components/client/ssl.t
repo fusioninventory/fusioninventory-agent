@@ -34,7 +34,7 @@ my $logger = FusionInventory::Agent::Logger->new(
 BAIL_OUT("port aleady used") if test_port(8080);
 
 my $server;
-my $request = HTTP::Request->new(GET => 'https://localhost:8080/public');
+my $url = 'https://localhost:8080/public';
 my $unsafe_client = FusionInventory::Agent::HTTP::Client->new(
     logger       => $logger,
     no_ssl_check => 1,
@@ -63,7 +63,7 @@ $server->set_dispatch({
 $server->background();
 
 ok(
-    $secure_client->request($request)->is_success(),
+    $secure_client->request(HTTP::Request->new(GET => $url))->is_success(),
     'trusted certificate, correct hostname: connection success'
 );
 
@@ -85,7 +85,7 @@ $server->set_dispatch({
 $server->background();
 
 ok(
-    $secure_client->request($request)->is_success(),
+    $secure_client->request(HTTP::Request->new(GET => $url))->is_success(),
     'trusted certificate, alternate hostname: connection success'
 );
 
@@ -107,12 +107,12 @@ $server->set_dispatch({
 $server->background();
 
 ok(
-    !$secure_client->request($request)->is_success(),
+    !$secure_client->request(HTTP::Request->new(GET => $url))->is_success(),
     'trusted certificate, wrong hostname: connection failure'
 );
 
 ok(
-    $unsafe_client->request($request)->is_success(),
+    $unsafe_client->request(HTTP::Request->new(GET => $url))->is_success(),
     'trusted certificate, wrong hostname, no check: connection success'
 );
 
@@ -134,12 +134,12 @@ $server->set_dispatch({
 $server->background();
 
 ok(
-    !$secure_client->request($request)->is_success(),
+    !$secure_client->request(HTTP::Request->new(GET => $url))->is_success(),
     'untrusted certificate, correct hostname: connection failure'
 );
 
 ok(
-    $unsafe_client->request($request)->is_success(),
+    $unsafe_client->request(HTTP::Request->new(GET => $url))->is_success(),
     'untrusted certificate, correct hostname, no check: connection success'
 );
 
