@@ -28,11 +28,11 @@ my @nok = (
 plan tests => scalar @ok + scalar @nok;
 
 foreach my $ok (@ok) {
-    my $pattern = FusionInventory::Agent::HTTP::Client::_getCertificatePattern($ok->[0]);
+    my $pattern = FusionInventory::Agent::HTTP::Client::_getSubjectPattern($ok->[0]);
     ok($ok->[1] =~ /$pattern/);
 }
 
 foreach my $nok (@nok) {
-    my $pattern = FusionInventory::Agent::HTTP::Client::_getCertificatePattern($nok->[0]);
+    my $pattern = FusionInventory::Agent::HTTP::Client::_getSubjectPattern($nok->[0]);
     ok($nok->[1] !~ /$pattern/);
 }

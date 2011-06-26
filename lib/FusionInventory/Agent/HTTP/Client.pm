@@ -69,8 +69,16 @@ sub request {
     my $scheme = $url->scheme();
     if ($scheme eq 'https' && $LWP::VERSION < 6 && !$self->{no_ssl_check}) {
         $self->_turnSSLCheckOn();
-        my $pattern = _getCertificatePattern($url->host());
-        $self->{ua}->default_header('If-SSL-Cert-Subject' => $pattern);
+        my $host = $url->host();
+        $self->{ua}->default_header(
+            'If-SSL-Cert-Subject'         => _getSubjectPattern($host),
+            'If-SSL-Cert-SubjectAltNames' => _getSubjectAltNamesPattern($host)
+        );
+        # use a custom HTTPS handler, as LWP < 6 doesn't' honour SubjectAltNames
+        FusionInventory::Agent::HTTP::HTTPSHandler->require();
+        LWP::Protocol::implementor(
+            'https', 'FusionInventory::Agent::HTTP::HTTPSHandler'
+        );
     }
 
     my $result;
@@ -173,7 +181,19 @@ sub _getCertificatePattern {
     # protect metacharacters, as pattern will be evaluated as a regex
     $hostname =~ s/\./\\./g;
 
+    return $hostname;
+}
+
+sub _getSubjectPattern {
+    my $hostname = _getCertificatePattern(@_);
+
     return "CN=$hostname(\$|\/)";
+}
+
+sub _getSubjectAltNamesPattern {
+    my $hostname = _getCertificatePattern(@_);
+
+    return "^$hostname\$";
 }
 
 1;
