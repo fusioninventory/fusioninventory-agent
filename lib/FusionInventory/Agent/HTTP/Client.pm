@@ -24,9 +24,6 @@ sub new {
                           FusionInventory::Agent::Logger->new(),
         user           => $params{user},
         password       => $params{password},
-        ca_cert_file   => $params{ca_cert_file},
-        ca_cert_dir    => $params{ca_cert_dir},
-        no_ssl_check   => $params{no_ssl_check},
         timeout        => $params{timeout} || 180
     };
     bless $self, $class;
@@ -51,6 +48,28 @@ sub new {
         if ($params{'ca_cert_dir'}) {
             $self->{ua}->ssl_opts(SSL_ca_path => $params{'ca_cert_dir'});
         }
+    } elsif (! $params{'no_ssl_check'}) {
+        # use a custom HTTPS handler, forcing the use of IO::Socket::SSL
+        FusionInventory::Agent::HTTP::HTTPSHandler->require();
+        if ($EVAL_ERROR) {
+            die "failed to load FusionInventory::Agent::HTTP::HTTPSHandler, " .
+            "unable to validate SSL certificates";
+        }
+        LWP::Protocol::implementor(
+            'https', 'FusionInventory::Agent::HTTP::HTTPSHandler'
+        );
+
+        # abuse user agent to pass values to the handler 
+        $self->{ua}->{ssl_check} = $params{'no_ssl_check'} ?
+            Net::SSLeay::VERIFY_NONE() : Net::SSLeay::VERIFY_PEER();
+
+        # set default context
+        IO::Socket::SSL::set_ctx_defaults(ca_file => $params{'ca_cert_file'})
+            if $params{'ca_cert_file'};
+        IO::Socket::SSL::set_ctx_defaults(ca_path => $params{'ca_cert_dir'})
+            if $params{'ca_cert_dir'};
+
+
     }
 
     $self->{ua}->agent($FusionInventory::Agent::AGENT_STRING);
@@ -67,19 +86,6 @@ sub request {
     # activate SSL if needed
     my $url = $request->uri();
     my $scheme = $url->scheme();
-    if ($scheme eq 'https' && $LWP::VERSION < 6 && !$self->{no_ssl_check}) {
-        $self->_turnSSLCheckOn();
-        my $host = $url->host();
-        $self->{ua}->default_header(
-            'If-SSL-Cert-Subject'         => _getSubjectPattern($host),
-            'If-SSL-Cert-SubjectAltNames' => _getSubjectAltNamesPattern($host)
-        );
-        # use a custom HTTPS handler, as LWP < 6 doesn't honour SubjectAltNames
-        FusionInventory::Agent::HTTP::HTTPSHandler->require();
-        LWP::Protocol::implementor(
-            'https', 'FusionInventory::Agent::HTTP::HTTPSHandler'
-        );
-    }
 
     my $result;
     eval {
@@ -141,59 +147,6 @@ sub request {
     }
 
     return $result;
-}
-
-# This is not needed with LWP>6, the default behavior is fine now.
-# http://stackoverflow.com/questions/74358/validate-server-certificate-with-lwp
-sub _turnSSLCheckOn {
-    my ($self) = @_;
-
-    eval {
-        require Crypt::SSLeay;
-    };
-    if ($EVAL_ERROR) {
-        die "failed to load Crypt::SSLeay, unable to validate SSL certificates";
-    }
-
-    SWITCH: {
-        if ($self->{ca_cert_file}) {
-            $ENV{HTTPS_CA_FILE} = $self->{ca_cert_file};
-            $ENV{PERL_LWP_SSL_CA_FILE} = $self->{ca_cert_file};
-            last SWITCH;
-        }
-        if ($self->{ca_cert_dir}) {
-            $ENV{HTTPS_CA_DIR} = $self->{ca_cert_dir};
-            $ENV{PERL_LWP_SSL_CA_PATH} = $self->{ca_cert_dir};
-            last SWITCH;
-        }
-        die
-            "neither certificate file or certificate directory given, unable " .
-            "to validate SSL certificates";
-    }
-}
-
-sub _getCertificatePattern {
-    my ($hostname) = @_;
-
-    # Accept SSL cert will hostname with wild-card
-    # http://forge.fusioninventory.org/issues/542
-    $hostname =~ s/^([^\.]+)/($1|\\*)/;
-    # protect metacharacters, as pattern will be evaluated as a regex
-    $hostname =~ s/\./\\./g;
-
-    return $hostname;
-}
-
-sub _getSubjectPattern {
-    my $hostname = _getCertificatePattern(@_);
-
-    return "CN=$hostname(\$|\/)";
-}
-
-sub _getSubjectAltNamesPattern {
-    my $hostname = _getCertificatePattern(@_);
-
-    return "^$hostname\$";
 }
 
 1;
