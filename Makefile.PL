@@ -15,6 +15,7 @@ requires 'Getopt::Long'                  => undef;
 requires 'XML::TreePP'                   => undef;
 requires 'LWP::UserAgent'                => undef;
 requires 'HTTP::Cookies'                 => undef;
+requires 'JSON'                          => undef;
 
 test_requires 'Test::More'               => undef;
 test_requires 'Test::Exception'          => undef;

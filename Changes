@@ -1,5 +1,6 @@
 1.1.2  Mon, 27 Jun 2011 15:44:56 +0200
   - fix fusioninventory-esx
+  - add the JSON dependency
 
 1.1.1  Wed, 22 Jun 2011 18:25:37 +0200
   - Add t/app.t
