@@ -9,12 +9,17 @@
 ##code is always made freely available.
 ##Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
 ################################################################################
-use Fcntl qw/:flock/;
+
+if ($ENV{REALLIB}) {
+    @INC = split(/:/,$ENV{REALLIB});
+}
+
+eval "
 use LWP::UserAgent;
 use XML::Simple;
 use Compress::Zlib;
 use Getopt::Long;
-use strict;
+use strict;";
 my $help;
 my $directory;
 my $file;
@@ -33,7 +38,7 @@ sub loadfile {
     }
     print "Loading $file..." if $verbose;
 
-    unless ( open( FILE, "$file" ) && flock( FILE, LOCK_EX | LOCK_NB ) ) {
+    unless ( open( FILE, "$file" )) {
         print STDERR "Failed to access $file : $!";
         return;
     }
