@@ -62,7 +62,7 @@ sub send {
     $request->content($request_content);
 
     my $result = $self->request($request);
-    return unless $result;
+    return unless $result->is_success();
 
     my $response_content = $result->content();
 
