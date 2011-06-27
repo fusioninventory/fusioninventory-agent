@@ -17,6 +17,7 @@ Additional mandatory perl modules:
 Additional optional perl modules:
 - Compress::Zlib, for message compression
 - HTTP::Daemon, for web interface
+- IO::Socket::SSL, for SSL certificate validation
 - Net::CUPS (v0.60 minimum), for printers detection 
 - Proc::Daemon, for daemon mode (Unix only)
 - Proc::PID::File, for daemon mode (Unix only)
