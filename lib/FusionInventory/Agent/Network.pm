@@ -119,6 +119,26 @@ sub createUA {
         if ($config->{'ca-cert-dir'}) {
             $ua->ssl_opts(SSL_ca_path => $config->{'ca-cert-dir'});
         }
+    } elsif (!$config->{'no-ssl-check'}) {
+        # use a custom HTTPS handler, forcing the use of IO::Socket::SSL
+        FusionInventory::Agent::HTTP::Protocol::https->require();
+        if ($EVAL_ERROR) {
+            die "failed to load FusionInventory::Agent::HTTP::Protocol::https" .
+            ", unable to validate SSL certificates";
+        }
+        LWP::Protocol::implementor(
+            'https', 'FusionInventory::Agent::HTTP::Protocol::https'
+        );
+
+        # abuse user agent to pass values to the handler 
+        $ua->{ssl_check} = $config->{'no-ssl-check'} ?
+            Net::SSLeay::VERIFY_NONE() : Net::SSLeay::VERIFY_PEER();
+
+        # set default context
+        IO::Socket::SSL::set_ctx_defaults(ca_file => $config->{'ca-cert-file'})
+            if $config->{'ca-cert-file'};
+        IO::Socket::SSL::set_ctx_defaults(ca_path => $config->{'ca-cert-dir'})
+            if $config->{'ca-cert-dir'};
     }
 
     if ($noProxy) {
@@ -158,11 +178,6 @@ sub createUA {
     my $version = 'FusionInventory-Agent_v'.$config->{VERSION};
     $ua->agent($version);
     $ua->timeout($timeout);
-
-    $self->setSslRemoteHost({
-            ua => $ua,
-            url => $uri
-        });
 
     # Auth
     my $realm = $forceRealm || $self->{config}->{realm};
@@ -289,85 +304,6 @@ sub send {
 
     return $response;
 }
-
-# No POD documentation here, it's an internal fuction
-# http://stackoverflow.com/questions/74358/validate-server-certificate-with-lwp
-sub turnSSLCheckOn {
-    my ($self, $args) = @_;
-
-    my $logger = $self->{logger};
-    my $config = $self->{config};
-
-
-    return if $config->{'no-ssl-check'};
-
-    if (!$config->{'ca-cert-file'} && !$config->{'ca-cert-dir'}) {
-        $logger->debug("You may need to use either --ca-cert-file ".
-            "or --ca-cert-dir to give the location of your SSL ".
-            "certificat. You can also disable SSL check with ".
-            "--no-ssl-check but this is very unsecure.");
-    }
-
-
-    if ($config->{'ca-cert-file'}) {
-        if (!-f $config->{'ca-cert-file'} && !-l $config->{'ca-cert-file'}) {
-            $logger->fault("--ca-cert-file doesn't existe ".
-                "`".$config->{'ca-cert-file'}."'");
-        }
-
-        $ENV{HTTPS_CA_FILE} = $config->{'ca-cert-file'};
-        $ENV{PERL_LWP_SSL_CA_FILE} = $config->{'ca-cert-file'};
-
-    } elsif ($config->{'ca-cert-dir'}) {
-        if (!-d $config->{'ca-cert-dir'}) {
-            $logger->fault("--ca-cert-dir doesn't existe ".
-                "`".$config->{'ca-cert-dir'}."'");
-        }
-
-        $ENV{HTTPS_CA_DIR} = $config->{'ca-cert-dir'};
-        $ENV{PERL_LWP_SSL_CA_PATH} = $config->{'ca-cert-dir'};
-
-    }
-
-}
-
-sub setSslRemoteHost {
-    my ($self, $args) = @_;
-
-    my $config = $self->{config};
-    my $logger = $self->{logger};
-
-    my $uri = $args->{URI};
-    my $ua = $args->{ua};
-
-    if ($config->{'no-ssl-check'}) {
-        return;
-    }
-
-    if (!$self->{URI}) {
-        $logger->fault("setSslRemoteHost(), no url parameter!");
-    }
-
-    if ($self->{URI} !~ /^https:/i) {
-        return;
-    }
-
-# Compatibility with LWP5
-    if ($LWP::VERSION < 6) {
-        $self->turnSSLCheckOn();
-    # Check server name against provided SSL certificate
-        if ( $self->{URI} =~ /^https:\/\/([^\/]+).*$/i ) {
-            my $re = $1;
-# Accept SSL cert will hostname with wild-card
-# http://forge.fusioninventory.org/issues/542
-            $re =~ s/^([^\.]+)/($1|\\*)/;
-# protect some characters, $re will be evaluated as a regex
-            $re =~ s/([\-\.])/\\$1/g;
-            $ua->default_header('If-SSL-Cert-Subject' => '/CN='.$re.'($|\/)');
-        }
-    }
-}
-
 
 =item getStore()
 
