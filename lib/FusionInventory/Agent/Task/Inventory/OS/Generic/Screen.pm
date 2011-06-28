@@ -106,9 +106,9 @@ sub _getScreens {
                 my $access;
 
                 if (FusionInventory::Agent::Tools::Win32::is64bit()) {
-                    $access = Win32::TieRegistry::KEY_READ | $KEY_WOW64_64KEY;
+                    $access = Win32::TieRegistry::KEY_READ() | $KEY_WOW64_64KEY;
                 } else {
-                    $access = Win32::TieRegistry::KEY_READ;
+                    $access = Win32::TieRegistry::KEY_READ();
                 }
 
                 # Win32-specifics constants can not be loaded on non-Windows OS
