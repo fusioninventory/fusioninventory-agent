@@ -107,7 +107,7 @@ sub run {
         Parallel::ForkManager->require();
         if ($EVAL_ERROR) {
             $self->{logger}->debug(
-                "Parallel::ForkManager not installed, so only 1 core will be" .
+                "Parallel::ForkManager not installed, so only 1 core will be " .
                 "used..."
             );
             $params->{CORE_DISCOVERY} = 1;
