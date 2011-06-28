@@ -1,0 +1,45 @@
+[ req ]
+default_bits       = 2048
+default_md         = md5
+distinguished_name = req_dn
+req_extensions     = req_ext
+string_mask        = nombstr
+prompt             = no
+
+[ req_dn ]
+organizationName       = fusioninventory.org
+organizationalUnitName = test certification authority
+commonName             = test_ca
+emailAddress           = test@fusioninventory.org
+
+[ req_ext ]
+basicConstraints       = CA:true
+subjectKeyIdentifier   = hash
+authorityKeyIdentifier = keyid:always,issuer:always
+
+[ ca ]
+default_ca      = default_ca
+
+[ default_ca ]
+dir             = t/ssl
+certificate     = $dir/crt/ca.pem
+private_key     = $dir/key/ca.pem
+certs           = $dir/crt              # Where the issued certs are kept
+serial          = $dir/serial           # The current serial number
+database        = $dir/index.txt        # database index file.
+
+new_certs_dir   = $dir/new              # default place for new certs.
+crl_dir         = $dir/crl              # Where the issued crl are kept
+
+default_days    = 730                   # how long to certify for
+default_crl_days= 30                    # how long before next CRL
+default_md      = md5                   # which md to use.
+preserve        = no                    # keep passed DN ordering
+
+policy          = ca_default_policy
+
+[ ca_default_policy ]
+organizationName        = match
+organizationalUnitName  = supplied
+commonName              = supplied
+emailAddress            = supplied
