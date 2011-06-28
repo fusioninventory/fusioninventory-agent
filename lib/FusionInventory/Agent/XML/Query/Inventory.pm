@@ -864,6 +864,7 @@ sub addInput {
         'field' => \@fields,
         'sectionName' => 'INPUTS',
         'values' => $args,
+        'noDuplicated' => 1
     });
 }
 
