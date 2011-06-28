@@ -50,7 +50,10 @@ sub new {
         }
     } elsif (! $params{'no_ssl_check'}) {
         # use a custom HTTPS handler, forcing the use of IO::Socket::SSL
-        FusionInventory::Agent::HTTP::Protocol::https->require();
+        FusionInventory::Agent::HTTP::Protocol::https->use(
+            ca_cert_file => $params{'ca_cert_file'},
+            ca_cert_dir  => $params{'ca_cert_dir'},
+        );
         if ($EVAL_ERROR) {
             die "failed to load FusionInventory::Agent::HTTP::Protocol::https" .
             ", unable to validate SSL certificates";
@@ -59,17 +62,9 @@ sub new {
             'https', 'FusionInventory::Agent::HTTP::Protocol::https'
         );
 
-        # abuse user agent to pass values to the handler 
-        $self->{ua}->{ssl_check} = $params{'no_ssl_check'} ?
-            Net::SSLeay::VERIFY_NONE() : Net::SSLeay::VERIFY_PEER();
-
-        # set default context
-        IO::Socket::SSL::set_ctx_defaults(ca_file => $params{'ca_cert_file'})
-            if $params{'ca_cert_file'};
-        IO::Socket::SSL::set_ctx_defaults(ca_path => $params{'ca_cert_dir'})
-            if $params{'ca_cert_dir'};
-
-
+        # abuse user agent to pass values to the handler, so
+        # as to have different behaviors in the same process
+        $self->{ua}->{ssl_check} = $params{'no_ssl_check'} ? 0 : 1;
     }
 
     $self->{ua}->agent($FusionInventory::Agent::AGENT_STRING);
