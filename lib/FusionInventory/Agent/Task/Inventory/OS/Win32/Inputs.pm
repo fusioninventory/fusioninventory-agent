@@ -43,7 +43,8 @@ sub doInventory {
                 MANUFACTURER => $object->{Manufacturer},
                 DESCRIPTION  => $object->{Description},
                 LAYOUT       => $object->{Layout},
-            }
+            },
+            noDuplicated => 1
         );
     }
 
@@ -61,7 +62,8 @@ sub doInventory {
                 DESCRIPTION  => $object->{Description},
                 POINTINGTYPE => $object->{PointingType},
                 INTERFACE    => $mouseInterface{$object->{DeviceInterface}},
-            }
+            },
+            noDuplicated => 1
         );
     }
 
