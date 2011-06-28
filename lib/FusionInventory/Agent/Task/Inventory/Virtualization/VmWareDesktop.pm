@@ -10,8 +10,8 @@ use FusionInventory::Agent::Tools;
 
 sub isEnabled {
     return 
-        can_run('/Library/Application\ Support/VMware\ Fusion/vmrun') ||
-        can_run('vmrun');
+        canRun('/Library/Application\ Support/VMware\ Fusion/vmrun') ||
+        canRun('vmrun');
 }
 
 sub doInventory {
@@ -20,7 +20,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
     
-    my $command = can_run('vmrun') ?
+    my $command = canRun('vmrun') ?
         'vmrun list' : '/Library/Application\ Support/VMware\ Fusion/vmrun list';
 
     foreach my $machine (_getMachines(

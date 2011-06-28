@@ -7,8 +7,8 @@ use FusionInventory::Agent::Tools;
 
 sub isEnabled {
     return 
-        can_run('who') ||
-        can_run('last');
+        canRun('who') ||
+        canRun('last');
 }
 
 sub doInventory {

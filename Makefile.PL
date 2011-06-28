@@ -36,9 +36,6 @@ if ($OSNAME ne 'MSWin32') {
 
 
 if (can_use("LWP") && $LWP::VERSION < 6) {
-    recommends 'Crypt::SSLeay'    => undef;
-} else {
-    # Crypt::SSLey remains an option
     recommends 'IO::Socket::SSL'    => undef;
 }
 

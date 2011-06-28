@@ -20,7 +20,7 @@ sub isEnabled {
             $osver[2] == 2;
     };
 
-    return unless can_run('dmidecode');
+    return unless canRun('dmidecode');
 
     my $count = getLinesCount(
         command => "dmidecode"

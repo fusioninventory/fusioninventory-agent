@@ -8,7 +8,7 @@ use FusionInventory::Agent::Tools;
 sub isEnabled {
     return 
         -r '/usr/sbin/system_profiler' &&
-        can_load("Mac::SysProfile");
+        canLoad("Mac::SysProfile");
 }
 
 sub doInventory {
@@ -27,7 +27,7 @@ sub doInventory {
     my $cpus  = $info->{'Number Of Processors'} ||
                 $info->{'Number Of CPUs'}       ||
                 1;
-    my $speed = $info->{'Processor Speed'} |
+    my $speed = $info->{'Processor Speed'} ||
                 $info->{'CPU Speed'};
     # French Mac returns 2,60 Ghz instead of 2.60 Ghz :D
     $speed =~ s/,/./;

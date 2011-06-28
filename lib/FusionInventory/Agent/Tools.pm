@@ -29,9 +29,9 @@ our @EXPORT = qw(
     getAllLines
     getLinesCount
     compareVersion
-    can_run
-    can_read
-    can_load
+    canRun
+    canRead
+    canLoad
     any
     all
     none
@@ -40,8 +40,8 @@ our @EXPORT = qw(
     module2file
 );
 
-memoize('can_run');
-memoize('can_read');
+memoize('canRun');
+memoize('canRead');
 memoize('getDmidecodeInfos');
 
 sub getFormatedLocalTime {
@@ -421,7 +421,7 @@ sub getLinesCount {
     return $count;
 }
 
-sub can_run {
+sub canRun {
     my ($binary) = @_;
 
     if ($OSNAME eq 'MSWin32') {
@@ -438,13 +438,13 @@ sub can_run {
 
 }
 
-sub can_read {
+sub canRead {
     my ($file) = @_;
 
     return -f $file;
 }
 
-sub can_load {
+sub canLoad {
     my ($module) = @_;
 
     return $module->require();
@@ -649,15 +649,15 @@ Returns the number of lines of given command output or given file content.
 
 =back
 
-=head2 can_run($binary)
+=head2 canRun($binary)
 
 Returns true if given binary can be executed.
 
-=head2 can_read($file)
+=head2 canRead($file)
 
 Returns true if given file can be read.
 
-=head2 can_load($module)
+=head2 canLoad($module)
 
 Returns true if given perl module can be loaded (and actually loads it).
 

@@ -13,7 +13,7 @@ sub isEnabled {
         $Config{archname} =~ /^(i\d86|x86_64)/ &&
         (
             -r '/proc/cpuinfo' ||
-            can_run('dmidecode')
+            canRun('dmidecode')
         );
 }
 

@@ -53,9 +53,9 @@ sub doInventory {
     # cpu0: Sun Microsystems UltraSparc-I Processor (167.00 MHz CPU)
 
     my $processort;
-    foreach (`dmesg`) {
-        if (/^mainbus0 \(root\):\s*(.*)$/) { $SystemModel = $1; }
-        if (/^cpu[^:]*:\s*(.*)$/i) { $processort = $1; }
+    foreach my $line (getAllLines(command => 'dmesg')) {
+        if ($line=~ /^mainbus0 \(root\):\s*(.*)$/) { $SystemModel = $1; }
+        if ($line =~ /^cpu[^:]*:\s*(.*)$/i)        { $processort = $1; }
     }
 
     $SystemModel =~ s/SUNW,//;
@@ -80,13 +80,13 @@ sub doInventory {
     });
 
     for my $i (1 .. $processorn) {
-         $inventory->addEntry(
-             section => 'CPUS',
-             entry   => {
-                 NAME  => $processort,
-                 SPEED => $processors,
-             }
-         );
+        $inventory->addEntry(
+            section => 'CPUS',
+            entry   => {
+                NAME  => $processort,
+                SPEED => $processors,
+            }
+        );
     }
 
 }

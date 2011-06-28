@@ -11,7 +11,7 @@ sub isEnabled {
     return
         !$params{no_software} &&
         -r '/usr/sbin/system_profiler' &&
-        can_load("Mac::SysProfile");
+        canLoad("Mac::SysProfile");
 }
 
 sub doInventory {

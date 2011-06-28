@@ -30,7 +30,7 @@ sub doInventory {
 
     my $processes = $WMIService->ExecQuery(
         "SELECT * FROM Win32_Process", "WQL",
-        wbemFlagReturnImmediately | wbemFlagForwardOnly
+        wbemFlagReturnImmediately | wbemFlagForwardOnly ## no critic (ProhibitBitwise)
     );
 
     foreach my $process (in $processes) {
@@ -40,8 +40,8 @@ sub doInventory {
         next unless $cmdLine;
  
         if ($cmdLine =~ /\\Explorer\.exe$/i) {
-            my $name = Variant (VT_BYREF | VT_BSTR, '');
-            my $domain = Variant (VT_BYREF | VT_BSTR, '');
+            my $name = Variant (VT_BYREF | VT_BSTR, '');   ## no critic (ProhibitBitwise)
+            my $domain = Variant (VT_BYREF | VT_BSTR, ''); ## no critic (ProhibitBitwise)
     
             $process->GetOwner($name, $domain);
 

@@ -15,7 +15,8 @@ my %tests = (
             DISKSIZE     => 64424,
             FIRMWARE     => '5009',
             MANUFACTURER => 'HITACHI',
-            MODEL        => 'OPEN-V'
+            MODEL        => 'OPEN-V',
+            DESCRIPTION  => 'FW:5009'
         },
     ],
     'sample2' => [
@@ -26,7 +27,7 @@ my %tests = (
             MANUFACTURER => 'HITACHI',
             MODEL        => 'DK32EJ72NSUN72G',
             SERIALNUMBER => '43W14Z080040A34E',
-            DESCRIPTION  => 'S/N:43W14Z080040A34E'
+            DESCRIPTION  => 'S/N:43W14Z080040A34E FW:PQ08'
         },
     ]
 );

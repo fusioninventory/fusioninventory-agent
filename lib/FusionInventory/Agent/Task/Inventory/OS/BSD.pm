@@ -24,7 +24,8 @@ sub doInventory {
 
     # Get more information from the kernel configuration file
     my $date;
-    foreach my $line (`sysctl -n kern.version`) {
+    my $handle = getFileHandle(command => "sysctl -n kern.version");
+    while (my $line =~ <$handle>) {
         if ($line =~ /^\S.*\#\d+:\s*(.*)/) {
             $date = $1;
             next;
@@ -37,9 +38,10 @@ sub doInventory {
             $OSComment = $kernconf . " (" . $date . ")\n" . $origin;
         }
     }
+    close $handle;
 
     my $OSName = $OSNAME;
-    if (can_run('lsb_release')) {
+    if (canRun('lsb_release')) {
         $OSName = getFirstMatch(
             command => 'lsb_release -d',
             pattern => /Description:\s+(.+)/

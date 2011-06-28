@@ -24,9 +24,6 @@ sub new {
                           FusionInventory::Agent::Logger->new(),
         user           => $params{user},
         password       => $params{password},
-        ca_cert_file   => $params{ca_cert_file},
-        ca_cert_dir    => $params{ca_cert_dir},
-        no_ssl_check   => $params{no_ssl_check},
         timeout        => $params{timeout} || 180
     };
     bless $self, $class;
@@ -40,7 +37,7 @@ sub new {
         $self->{ua}->env_proxy;
     }
 
-    if ($LWP::VERSION > 6) {
+    if ($LWP::VERSION >= 6) {
         # LWP6 default behavior is to check the SSL hostname
         if ($params{'no_ssl_check'}) {
             $self->{ua}->ssl_opts(verify_hostname => 0);
@@ -51,6 +48,28 @@ sub new {
         if ($params{'ca_cert_dir'}) {
             $self->{ua}->ssl_opts(SSL_ca_path => $params{'ca_cert_dir'});
         }
+    } elsif (! $params{'no_ssl_check'}) {
+        # use a custom HTTPS handler, forcing the use of IO::Socket::SSL
+        FusionInventory::Agent::HTTP::Protocol::https->require();
+        if ($EVAL_ERROR) {
+            die "failed to load FusionInventory::Agent::HTTP::Protocol::https" .
+            ", unable to validate SSL certificates";
+        }
+        LWP::Protocol::implementor(
+            'https', 'FusionInventory::Agent::HTTP::Protocol::https'
+        );
+
+        # abuse user agent to pass values to the handler 
+        $self->{ua}->{ssl_check} = $params{'no_ssl_check'} ?
+            Net::SSLeay::VERIFY_NONE() : Net::SSLeay::VERIFY_PEER();
+
+        # set default context
+        IO::Socket::SSL::set_ctx_defaults(ca_file => $params{'ca_cert_file'})
+            if $params{'ca_cert_file'};
+        IO::Socket::SSL::set_ctx_defaults(ca_path => $params{'ca_cert_dir'})
+            if $params{'ca_cert_dir'};
+
+
     }
 
     $self->{ua}->agent($FusionInventory::Agent::AGENT_STRING);
@@ -67,11 +86,6 @@ sub request {
     # activate SSL if needed
     my $url = $request->uri();
     my $scheme = $url->scheme();
-    if ($scheme eq 'https' && $LWP::VERSION < 6 && !$self->{no_ssl_check}) {
-        $self->_turnSSLCheckOn();
-        my $pattern = _getCertificatePattern($url->host());
-        $self->{ua}->default_header('If-SSL-Cert-Subject' => $pattern);
-    }
 
     my $result;
     eval {
@@ -116,7 +130,6 @@ sub request {
                         "[client] cannot establish communication with " .
                         "$url: " . $result->status_line()
                     );
-                    return;
                 }
             } else {
                 # abort
@@ -124,59 +137,16 @@ sub request {
                     "[client] authentication required, no credentials " .
                     "available"
                 );
-                return;
             }
         } else {
             $logger->error(
                 "[client] cannot establish communication with $url: " .
                 $result->status_line()
             );
-            return;
         }
     }
 
     return $result;
-}
-
-# This is not needed with LWP>6, the default behavior is fine now.
-# http://stackoverflow.com/questions/74358/validate-server-certificate-with-lwp
-sub _turnSSLCheckOn {
-    my ($self) = @_;
-
-    eval {
-        require Crypt::SSLeay;
-    };
-    if ($EVAL_ERROR) {
-        die "failed to load Crypt::SSLeay, unable to validate SSL certificates";
-    }
-
-    SWITCH: {
-        if ($self->{ca_cert_file}) {
-            $ENV{HTTPS_CA_FILE} = $self->{ca_cert_file};
-            $ENV{PERL_LWP_SSL_CA_FILE} = $self->{ca_cert_file};
-            last SWITCH;
-        }
-        if ($self->{ca_cert_dir}) {
-            $ENV{HTTPS_CA_DIR} = $self->{ca_cert_dir};
-            $ENV{PERL_LWP_SSL_CA_PATH} = $self->{ca_cert_dir};
-            last SWITCH;
-        }
-        die
-            "neither certificate file or certificate directory given, unable " .
-            "to validate SSL certificates";
-    }
-}
-
-sub _getCertificatePattern {
-    my ($hostname) = @_;
-
-    # Accept SSL cert will hostname with wild-card
-    # http://forge.fusioninventory.org/issues/542
-    $hostname =~ s/^([^\.]+)/($1|\\*)/;
-    # protect metacharacters, as pattern will be evaluated as a regex
-    $hostname =~ s/\./\\./g;
-
-    return "CN=$hostname(\$|\/)";
 }
 
 1;

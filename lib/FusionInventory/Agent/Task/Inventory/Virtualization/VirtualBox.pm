@@ -10,10 +10,14 @@ use File::Glob ':glob';
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
-    return unless can_run('VBoxManage');
-    my ( $version ) = ( `VBoxManage --version` =~ m/^(\d\.\d).*$/ ) ;
-    return unless $version > 2.1;
-    1;
+    return unless canRun('VBoxManage');
+
+    my ($major, $minor) = getFirstMatch(
+        command => 'VBoxManage --version',
+        pattern => qr/^(\d)\.(\d)/
+    );
+
+    return compareVersion($major, $minor, 2, 1);
 }
 
 sub doInventory {

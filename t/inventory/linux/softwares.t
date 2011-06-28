@@ -7,6 +7,7 @@ use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::OS::Linux::Softwares::RPM;
 use FusionInventory::Agent::Task::Inventory::OS::Linux::Softwares::Deb;
+use FusionInventory::Agent::Task::Inventory::OS::Linux::Softwares::Gentoo;
 
 my $rpm_packages = [
     {
@@ -98,7 +99,7 @@ my $deb_packages = [
     }
 ];
 
-plan tests => 2;
+plan tests => 4;
 
 my $packages;
 $packages = FusionInventory::Agent::Task::Inventory::OS::Linux::Softwares::RPM::_getPackagesList(
@@ -110,3 +111,17 @@ $packages = FusionInventory::Agent::Task::Inventory::OS::Linux::Softwares::Deb::
     file => "resources/linux/packaging/dpkg"
 );
 is_deeply($packages, $deb_packages, 'dpkg parsing');
+
+ok(
+    !FusionInventory::Agent::Task::Inventory::OS::Linux::Softwares::Gentoo::_equeryNeedsWildcard(
+        file => "resources/linux/equery/gentoo1"
+    ),
+    "old equery version"
+);
+
+ok(
+    FusionInventory::Agent::Task::Inventory::OS::Linux::Softwares::Gentoo::_equeryNeedsWildcard(
+        file => "resources/linux/equery/gentoo2"
+    ),
+    "new equery version"
+);

@@ -22,7 +22,7 @@ sub new {
         $self->{logger}->debug(
             'Using Compress::Zlib for compression'
         );
-    } elsif (can_run('gzip')) {
+    } elsif (canRun('gzip')) {
         $self->{compression} = 'gzip';
         $self->{logger}->debug(
             'Using gzip for compression (server minimal version 1.02 needed)'
@@ -62,7 +62,7 @@ sub send {
     $request->content($request_content);
 
     my $result = $self->request($request);
-    return unless $result;
+    return unless $result->is_success();
 
     my $response_content = $result->content();
 

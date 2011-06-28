@@ -117,8 +117,8 @@ sub accept_hook {
        SSL_server    => 1,
        SSL_use_cert  => 1,
        SSL_cert_file => $self->{crt},
-       SSL_key_file  => $self->{key}
-   ) or warn "problem setting up SSL socket: " . IO::Socket::SSL::errstr();
+       SSL_key_file  => $self->{key},
+   );
 
    $self->stdio_handle($newfh) if $newfh;
 }

@@ -17,14 +17,14 @@ Additional mandatory perl modules:
 Additional optional perl modules:
 - Compress::Zlib, for message compression
 - HTTP::Daemon, for web interface
+- IO::Socket::SSL, for SSL certificate validation
 - Net::CUPS (v0.60 minimum), for printers detection 
 - Proc::Daemon, for daemon mode (Unix only)
 - Proc::PID::File, for daemon mode (Unix only)
 
 Additional optional programs:
-- nmap or ipdiscover, for network discovery
-- dmidecode (linux or bsd) for hardware inventory
-- lspci (linux or bsd) for hardware inventory
+- dmidecode, for hardware inventory
+- lspci, for hardware inventory
 
 System-specific informations
 ----------------------------
@@ -41,7 +41,26 @@ On Windows, if you don't want to use the installer for Windows you can follow
 the installation process avalailable from
 http://forge.fusioninventory.org/projects/fusioninventory-agent/wiki/RunAgentWin32.
 
-Post-installation
------------------
+Usage
+-----
+They are two different ways to run the agent:
+- as a temporary process, exiting after completing its run
+- as a permanent process, staying in memory permanently (daemon under Unix,
+  service under Windows)
 
-Run ./fusioninventory-agent-config for automatic configuration.
+In the first case, the agent execution scheduling is completly controlled by
+the agent, through a dedicated system, such as cron under Unix, or XXX under
+Windows. In second case, the agent execution scheduling is server-controlled,
+as the agent runs regulary according to a parameter initially set in its
+configuration (delaytime), overrided by the server at the first connection
+(PROLOG_FREQ). Additionaly, the server may also initiate additional
+out-of-schedule executions by sending HTTP requests if the web interface is
+used.
+
+When executing, the agent tries to runs every available task for every
+configured target. A task is a specific kind of work to perform (local
+inventory, network discovery, wake on lan, etc...), while a target is both a
+recipient for the result and a controller for this work (an OCS server, a GLPI
+server, a local directory, etc...). Only the local inventory task is compatible
+with all kind of targets, tough, all others require a GLPI server target, and
+will get discarded for other kind of target.

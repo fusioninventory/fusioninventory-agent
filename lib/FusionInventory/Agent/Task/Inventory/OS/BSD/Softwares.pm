@@ -10,7 +10,7 @@ sub isEnabled {
 
     return
         !$params{no_software} &&
-        can_run('pkg_info');
+        canRun('pkg_info');
 }
 
 sub doInventory {

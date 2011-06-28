@@ -8,7 +8,7 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
-    return can_run('equery');
+    return canRun('equery');
 }
 
 sub doInventory {
@@ -17,7 +17,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $command = _equeryNeedsWildcard('equery -V', '-|') ?
+    my $command = _equeryNeedsWildcard() ?
         "equery list -i '*'" : "equery list -i";
 
     my $packages = _getPackagesList(
@@ -51,8 +51,11 @@ sub _getPackagesList {
 
 # http://forge.fusioninventory.org/issues/852
 sub _equeryNeedsWildcard {
-    my $version = getFirstLine(command => 'equery -v');
-    my ($major, $minor) = $version =~ /^equery \((\d+)\.(\d+)\.\d+\)/;
+    my ($major, $minor) = getFirstMatch(
+        command => 'equery -V',
+        pattern => qr/^equery ?\((\d+)\.(\d+)\.\d+\)/,
+        @_
+    );
 
     # true starting from version 0.3
     return compareVersion($major, $minor, 0, 3);

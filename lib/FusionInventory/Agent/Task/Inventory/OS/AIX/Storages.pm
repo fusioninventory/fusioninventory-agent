@@ -8,8 +8,8 @@ use FusionInventory::Agent::Tools::AIX;
 
 sub isEnabled {
     return
-        can_run('lsdev') &&
-        can_run('lsattr');
+        canRun('lsdev') &&
+        canRun('lsattr');
 }
 
 sub doInventory {

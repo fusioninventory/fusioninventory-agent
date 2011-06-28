@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
-    return can_run('vzlist');
+    return canRun('vzlist');
 }
 
 sub doInventory {

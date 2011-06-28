@@ -21,7 +21,7 @@ sub doInventory {
     my @devices;
 
     # get informations from hal first, if available
-    if (can_run('lshal')) {
+    if (canRun('lshal')) {
         @devices = getDevicesFromHal(logger => $logger);
     }
 
@@ -129,10 +129,12 @@ sub _getDescription {
 # run on CDROM device
 # http://forums.ocsinventory-ng.org/viewtopic.php?pid=20810
 sub _correctHdparmAvailable {
-    return unless can_run('hdparm');
+    return unless canRun('hdparm');
 
-    my $version = getFirstLine(command => 'hdparm -V');
-    my ($major, $minor) = $version =~ /^hdparm v(\d+)\.(\d+)/;
+    my ($major, $minor) = getFirstMatch(
+        command => 'hdparm -V',
+        pattern => qr/^hdparm v(\d+)\.(\d+)/
+    );
 
     # we need at least version 9.15
     return compareVersion($major, $minor, 9, 15);

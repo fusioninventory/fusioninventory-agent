@@ -10,8 +10,8 @@ use FusionInventory::Agent::Tools;
 
 sub isEnabled {
     return
-        can_run('/opt/hpsmh/data/htdocs/comppage/getMPInfo.cgi') ||
-        can_run('/opt/sfm/bin/CIMUtil');
+        canRun('/opt/hpsmh/data/htdocs/comppage/getMPInfo.cgi') ||
+        canRun('/opt/sfm/bin/CIMUtil');
 }
 
 sub doInventory {
@@ -20,7 +20,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $ipaddress = can_run('/opt/hpsmh/data/htdocs/comppage/getMPInfo.cgi') ?
+    my $ipaddress = canRun('/opt/hpsmh/data/htdocs/comppage/getMPInfo.cgi') ?
         _parseGetMPInfo(logger => $logger) : _parseCIMUtil(logger => $logger);
 
     $inventory->addEntry(

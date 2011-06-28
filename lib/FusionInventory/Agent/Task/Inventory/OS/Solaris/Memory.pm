@@ -7,7 +7,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Solaris;
 
 sub isEnabled {
-    return can_run('memconf');
+    return canRun('memconf');
 }
 
 sub doInventory {

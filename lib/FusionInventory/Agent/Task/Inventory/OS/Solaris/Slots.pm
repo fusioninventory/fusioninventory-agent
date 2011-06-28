@@ -7,7 +7,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Solaris;
 
 sub isEnabled {
-    return can_run('prtdiag');
+    return canRun('prtdiag');
 }
 
 sub doInventory {

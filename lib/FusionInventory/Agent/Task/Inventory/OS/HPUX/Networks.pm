@@ -10,7 +10,7 @@ use FusionInventory::Agent::Tools::Network;
 #TODO Get driver pcislot virtualdev
 
 sub isEnabled {
-    return can_run('lanscan');
+    return canRun('lanscan');
 }
 
 sub doInventory {

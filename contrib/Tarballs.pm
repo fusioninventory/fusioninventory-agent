@@ -17,7 +17,7 @@ $runAfter = ["FusionInventory::Agent::Backend::OS::Generic"];
 # Check if we are on a linux server
 sub check { $^O =~ /^linux$/ }
 # uncomment this if you want check for FreeBSD server
-# sub check {can_run("pkg_info")}
+# sub check {canRun("pkg_info")}
 
 # its the main function of the script, it's called during the hardware inventory
 sub run {

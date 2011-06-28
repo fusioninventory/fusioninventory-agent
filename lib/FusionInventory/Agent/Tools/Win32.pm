@@ -98,8 +98,8 @@ sub getRegistryValue {
     }
 
     my $machKey = is64bit() ?
-        $Registry->Open($root, { Access=> KEY_READ|KEY_WOW64_64 } ) :
-	$Registry->Open($root, { Access=> KEY_READ } )              ;
+        $Registry->Open($root, { Access=> KEY_READ | KEY_WOW64_64 } ) : ## no critic (ProhibitBitwise)
+	$Registry->Open($root, { Access=> KEY_READ } )                ;
 
     if (!$machKey) {
         $params{logger}->error("Can't open 'root': $EXTENDED_OS_ERROR") if $params{logger};

@@ -5,10 +5,11 @@ use warnings;
 
 use FusionInventory::Agent::Regexp;
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Tools::Unix;
 
 sub isEnabled {
-    return can_run("ifconfig");
+    return canRun("ifconfig");
 }
 
 sub doInventory {

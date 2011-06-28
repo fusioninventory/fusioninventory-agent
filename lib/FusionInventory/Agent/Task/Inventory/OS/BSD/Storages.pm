@@ -19,43 +19,43 @@ sub doInventory {
     my $handle = getFileHandle(file => '/etc/fstab', logger => $logger);
     return unless $handle;
 
-    my @devices;
-    while (<$handle>) {
-        next unless m{/^/dev/(\S+)};
-        push @devices, $1;
+    my (@devices, %seen);
+    while (my $line = <$handle>) {
+        next unless $line =~ m{/^/dev/(\S+)};
+        next if $seen{$1}++;
+        push @devices, { DESCRIPTION => $1 };
     }
     close $handle;
 
-    #  filter duplicates
-    my %seen;
-    @devices = grep { !$seen{$_}++ } @devices;
-
     # parse dmesg
+    my @lines = getAllLines(
+        command => 'dmesg'
+    );
+
     foreach my $device (@devices) {
-        my ($model, $capacity, $manufacturer);
-        foreach (`dmesg`){
-            if(/^$device.*<(.*)>/) { $model = $1; }
-            if(/^$device.*\s+(\d+)\s*MB/) { $capacity = $1;}
+
+        foreach my $line (@lines) {
+            if ($line =~ /^$device->{DESCRIPTION}.*<(.*)>/) {
+                $device->{MODEL} = $1;
+            }
+            if ($line =~ /^$device->{DESCRIPTION}.*\s+(\d+)\s*MB/) {
+                $device->{CAPACITY} = $1;
+            }
         }
 
-        if ($model) {
-            if ($model =~ s/^(SGI|SONY|WDC|ASUS|LG|TEAC|SAMSUNG|PHILIPS|PIONEER|MAXTOR|PLEXTOR|SEAGATE|IBM|SUN|SGI|DEC|FUJITSU|TOSHIBA|YAMAHA|HITACHI|VERITAS)\s*//i) {
-                $manufacturer = $1;
+        if ($device->{MODEL}) {
+            if ($device->{MODEL} =~ s/^(SGI|SONY|WDC|ASUS|LG|TEAC|SAMSUNG|PHILIPS|PIONEER|MAXTOR|PLEXTOR|SEAGATE|IBM|SUN|SGI|DEC|FUJITSU|TOSHIBA|YAMAHA|HITACHI|VERITAS)\s*//i) {
+                $device->{MANUFACTURER} = $1;
             }
 
             # clean up the model
-            $model =~ s/^(\s|,)*//;
-            $model =~ s/(\s|,)*$//;
+            $device->{MODEL} =~ s/^(\s|,)*//;
+            $device->{MODEL} =~ s/(\s|,)*$//;
         }
 
         $inventory->addEntry(
             section => 'STORAGES',
-            entry   => {
-                MANUFACTURER => $manufacturer,
-                MODEL => $model,
-                DESCRIPTION => $device,
-                DISKSIZE => $capacity
-            }
+            entry   => $device
         );
     }
 }

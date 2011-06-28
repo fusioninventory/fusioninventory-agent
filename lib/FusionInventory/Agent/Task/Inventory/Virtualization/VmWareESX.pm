@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isEnabled { 
-    return can_run('vmware-cmd');
+    return canRun('vmware-cmd');
 }
 
 sub doInventory {

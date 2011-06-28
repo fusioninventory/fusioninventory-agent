@@ -8,103 +8,141 @@ use FusionInventory::Agent::Tools::Solaris;
 
 sub isEnabled {
     return
-        can_run('showrev') ||
-        can_run('/usr/sbin/smbios');
+        canRun('showrev') ||
+        canRun('/usr/sbin/smbios');
 }
 
 sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     my ($SystemSerial, $SystemModel, $SystemManufacturer, $BiosManufacturer,
         $BiosVersion, $BiosDate, $uuid);
-    my $aarch =
-        getFirstLine(command => 'arch') eq 'i86pc' ? 'i386' : 'unknown';
 
     my $zone = getZone();
-    if ($zone){
-        if (can_run('showrev')) {
-            foreach(`showrev`){
-                if(/^Application architecture:\s+(\S+)/){$SystemModel = $1};
-                if(/^Hardware provider:\s+(\S+)/){$SystemManufacturer = $1};
-                if(/^Application architecture:\s+(\S+)/){$aarch = $1};
-            }
-        }
-        if( $aarch eq "i386" ){
-            #
-            # For a Intel/AMD arch, we're using smbio
-            #
-            foreach(`/usr/sbin/smbios`) {
-                if(/^\s*Manufacturer:\s*(.+)$/){$SystemManufacturer = $1};
-                if(/^\s*Serial Number:\s*(.+)$/){$SystemSerial = $1;}
-                if(/^\s*Product:\s*(.+)$/){$SystemModel = $1;}
-                if(/^\s*Vendor:\s*(.+)$/){$BiosManufacturer = $1};
-                if(/^\s*Version String:\s*(.+)$/){$BiosVersion = $1};
-                if(/^\s*Release Date:\s*(.+)$/){$BiosDate = $1};
-                if(/^\s*UUID:\s*(.+)$/){$uuid = $1};
-            }
-        } elsif( $aarch =~ /sparc/i ) {
-            #
-            # For a Sparc arch, we're using prtconf
-            #
-            my $name;
-            my $OBPstring;
+    if ($zone) {
 
-            foreach(`/usr/sbin/prtconf -pv`) {
-                # prtconf is an awful thing to parse
-                if(/^\s*banner-name:\s*'(.+)'$/){$SystemModel = $1;}
-                unless ($name)
-                { if(/^\s*name:\s*'(.+)'$/){$name = $1;} }
-                unless ($OBPstring) {
-                    if(/^\s*version:\s*'(.+)'$/){
-                        $OBPstring = $1;
-                        # looks like : "OBP 4.16.4 2004/12/18 05:18"
-                        #    with further informations sometime
-                        if( $OBPstring =~ m@OBP\s+([\d|\.]+)\s+(\d+)/(\d+)/(\d+)@ ){
-                            $BiosVersion = "OBP $1";
-                            $BiosDate = "$2/$3/$4";
-                        } else { $BiosVersion = $OBPstring }
-                    }
-                }
-            }
-            $SystemModel .= " ($name)" if( $name );
-
-            if( -x "/opt/SUNWsneep/bin/sneep" ) {
-                $SystemSerial = getFirstLine(
-                    command => '/opt/SUNWsneep/bin/sneep'
-                );
-            }else {
-                foreach(`/bin/find /opt -name sneep`) {
-                    next unless /^(\S+)/;
-                    $SystemSerial = getFirstLine(command => $1);
-                }
-                if (!$SystemSerial){
-                    $SystemSerial = "Please install package SUNWsneep";
-                }
-            }
+        my $arch;
+        if (canRun('showrev')) {
+            my $infos = _parseShowrew($logger);
+            $SystemModel        = $infos->{'Application architecture'};
+            $SystemManufacturer = $infos->{'Hardware provider'};
+            $arch               = $infos->{'Application architecture'};
+        } else {
+            $arch =
+                getFirstLine(command => 'arch') eq 'i86pc' ? 'i386' : 'unknown';
         }
-    }else{
-        foreach(`showrev`){
-            if(/^Hardware provider:\s+(\S+)/){$SystemManufacturer = $1};
-        }
-        $SystemModel = "Solaris Containers";
-        $SystemSerial = "Solaris Containers";
 
+        if ($arch eq "i386") {
+            my $infos = _parseSmbios($logger);
+            $SystemManufacturer = $infos->{'Manufacturer'};
+            $SystemSerial       = $infos->{'Serial Number'};
+            $SystemModel        = $infos->{'Product'};
+            $BiosManufacturer   = $infos->{'Vendor'};
+            $BiosVersion        = $infos->{'Version String'};
+            $BiosDate           = $infos->{'Release Date'};
+            $uuid               = $infos->{'UUID'};
+        } elsif ($arch =~ /sparc/i) {
+            my $infos = _parsePrtconf($logger);
+            $SystemModel = $infos->{'banner-name'};
+            $SystemModel .= " ($infos->{name})" if $infos->{name};
+
+            # looks like : "OBP 4.16.4 2004/12/18 05:18"
+            #    with further informations sometime
+            if ($infos->{version} =~ m{OBP\s+([\d|\.]+)\s+(\d+)/(\d+)/(\d+)}) {
+                $BiosVersion = "OBP $1";
+                $BiosDate    = "$2/$3/$4";
+            } else {
+                $BiosVersion = $infos->{version};
+            }
+
+            my $command = -x '/opt/SUNWsneep/bin/sneep' ?
+                '/opt/SUNWsneep/bin/sneep' : 'sneep';
+
+            $SystemSerial = getFirstLine(
+                command => $command,
+                logger  => $logger
+            );
+        }
+    } else {
+        my $infos = _parseShowrew($logger);
+        $SystemManufacturer = $infos->{'Hardware provider'};
+        $SystemModel        = "Solaris Containers";
+        $SystemSerial       = "Solaris Containers";
     }
 
-    # Writing data
     $inventory->setBios({
         BVERSION      => $BiosVersion,
         BDATE         => $BiosDate,
+        BMANUFACTURER => $BiosManufacturer,
         SMANUFACTURER => $SystemManufacturer,
         SMODEL        => $SystemModel,
         SSN           => $SystemSerial
     });
+
     $inventory->setHardware({
         UUID => $uuid
-    }) if $uuid;
+    });
+}
 
+sub _parseShowRew {
+    my ($logger) = @_;
+
+    my $handle = getFileHandle(
+        command => "showrev",
+        logger  => $logger
+    );
+    return unless $handle;
+
+    my $infos;
+    while (my $line = <$handle>) {
+        next unless $line =~ /^ ([^:]+) : \s+ (\S+)/x;
+        $infos->{$1} = $2;
+    }
+    close $handle;
+
+    return $infos;
+}
+
+sub _parseSmbios {
+    my ($logger) = @_;
+
+    my $handle = getFileHandle(
+        command => "/usr/sbin/smbios",
+        logger  => $logger
+    );
+    return unless $handle;
+
+    my $infos;
+    while (my $line = <$handle>) {
+        next unless $line =~ /^ \s* ([^:]+) : \s* (.+) $/x;
+        $infos->{$1} = $2;
+    }
+    close $handle;
+
+    return $infos;
+}
+
+sub _parsePrtconf {
+    my ($logger) = @_;
+
+    my $handle = getFileHandle(
+        command => "/usr/sbin/prtconf -pv",
+        logger  => $logger
+    );
+    return unless $handle;
+
+    my ($infos, $name, $OBPstring);
+    while (my $line = <$handle>) {
+        next unless $line =~ /^ \s* ([^:]+) : \s* ' (.+) '$/x;
+        next if $infos->{$1};
+        $infos->{$1} = $2;
+    }
+    close $handle;
+
+    return $infos;
 }
 
 1;

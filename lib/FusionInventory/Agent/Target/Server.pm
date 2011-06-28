@@ -66,27 +66,6 @@ sub getDescription {
 
     return "server, $self->{url}";
 }
-#
-#sub _loadState {
-#    my ($self) = @_;
-#
-#    my $data = $self->{storage}->restore(module => 'Target');
-#
-#    $self->{maxDelay}    = $data->{maxDelay}    if $data->{maxDelay};
-#    $self->{nextRunDate} = $data->{nextRunDate} if $data->{nextRunDate};
-#}
-#
-#sub _saveState {
-#    my ($self) = @_;
-#
-#    $self->{storage}->save(
-#        module => 'Target',
-#        data => {
-#            maxDelay    => $self->{maxDelay},
-#            nextRunDate => $self->{nextRunDate},
-#        }
-#    );
-#}
 
 1;
 

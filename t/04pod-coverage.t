@@ -31,7 +31,7 @@ foreach my $module (@modules) {
         $module,
         {
             coverage_class => 'Pod::Coverage::CountParents',
-            also_private => [ qw/doInventory isInventoryEnabled/ ],
+            also_private => [ qw/doInventory isEnabled/ ],
         }
     );
 }

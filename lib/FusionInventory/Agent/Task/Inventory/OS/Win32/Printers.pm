@@ -107,7 +107,7 @@ sub _getSerialbyUsb {
     return unless $portName && $portName =~ /USB/;
 
     my $machKey = $Registry->Open('LMachine', { 
-        Access => KEY_READ | KEY_WOW64_64
+        Access => KEY_READ | KEY_WOW64_64 ## no critic (ProhibitBitwise)
     }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
     # search all keys under HKLM\system\currentcontrolset\enum\USBPRINT
