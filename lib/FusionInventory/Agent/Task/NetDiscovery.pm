@@ -119,7 +119,7 @@ sub run {
     for(my $i = 0; $i < $params->{CORE_DISCOVERY}; $i++) {
         if ($manager) {
             my $pid = $manager->start();
-            next if $pid;
+            next if $pid; # parent
         }
 
         my $threads_run = 0;
