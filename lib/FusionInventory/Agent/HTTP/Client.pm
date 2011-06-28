@@ -39,15 +39,12 @@ sub new {
 
     if ($LWP::VERSION >= 6) {
         # LWP6 default behavior is to check the SSL hostname
-        if ($params{'no_ssl_check'}) {
-            $self->{ua}->ssl_opts(verify_hostname => 0);
-        }
-        if ($params{'ca_cert_file'}) {
-            $self->{ua}->ssl_opts(SSL_ca_file => $params{'ca_cert_file'});
-        }
-        if ($params{'ca_cert_dir'}) {
-            $self->{ua}->ssl_opts(SSL_ca_path => $params{'ca_cert_dir'});
-        }
+        $self->{ua}->ssl_opts(verify_hostname => 0) 
+            if $params{'no_ssl_check'};
+        $self->{ua}->ssl_opts(SSL_ca_file => $params{'ca_cert_file'})
+            if $params{'ca_cert_file'};
+        $self->{ua}->ssl_opts(SSL_ca_path => $params{'ca_cert_dir'})
+            if $params{'ca_cert_dir'};
     } elsif (! $params{'no_ssl_check'}) {
         # use a custom HTTPS handler, forcing the use of IO::Socket::SSL
         FusionInventory::Agent::HTTP::Protocol::https->use(
