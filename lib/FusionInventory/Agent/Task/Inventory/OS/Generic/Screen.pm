@@ -41,6 +41,7 @@ sub getScreens {
     if ($OSNAME eq 'MSWin32') {
         my $Registry;
         eval {
+            require FusionInventory::Agent::Tools::Win32;
             require FusionInventory::Agent::Task::Inventory::OS::Win32;
             require Win32::TieRegistry;
             Win32::TieRegistry->import(
@@ -69,11 +70,22 @@ sub getScreens {
 
             my $machKey;
             {
+                my $KEY_WOW64_64KEY = 0x100;
+
+                my $access;
+
+                if (FusionInventory::Agent::Tools::Win32::is64bit()) {
+                    $access = Win32::TieRegistry::KEY_READ | $KEY_WOW64_64KEY;
+                } else {
+                    $access = Win32::TieRegistry::KEY_READ;
+                }
+
                 # Win32-specifics constants can not be loaded on non-Windows OS
                 no strict 'subs';
                 $machKey = $Registry->Open('LMachine', {
-                    Access => Win32::TieRegistry::KEY_READ
+                    Access => $access
                 } ) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+
             }
 
             my $edid =
