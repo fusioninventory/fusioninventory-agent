@@ -44,7 +44,6 @@ test_requires  'Test::More'  => undef;
 test_requires  'XML::TreePP'  => undef;
 
 install_script  'fusioninventory-agent';
-install_script  'fusioninventory-agent-config';
 install_script  'fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
 install_script  'fusioninventory-injector';
 install_share; # No parameter, si http://www.glpi-project.org/forum/viewtopic.php?pid=107979#p107979
