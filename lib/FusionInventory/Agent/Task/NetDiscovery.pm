@@ -698,7 +698,7 @@ sub _getMacAddress {
 sub _initModList {
     my ($self) = @_;
 
-    my @modules = __PACKAGE__->getModules();
+    my @modules = __PACKAGE__->getModules(prefix => 'Manufacturer');
     die "no inventory module found" if !@modules;
 
     foreach my $module (@modules) {
