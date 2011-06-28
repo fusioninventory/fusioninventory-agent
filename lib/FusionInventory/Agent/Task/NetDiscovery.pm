@@ -68,7 +68,7 @@ sub run {
 
     # check discovery methods available
     my $nmap_parameters;
-    if (can_run('nmap')) {
+    if (canRun('nmap')) {
        my ($major, $minor) = getFirstMatch(
            command => 'nmap -V',
            pattern => qr/Nmap version (\d+)\.(\d+)/
