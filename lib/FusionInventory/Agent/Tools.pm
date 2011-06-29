@@ -256,6 +256,11 @@ sub getCpusFromDmidecode {
 sub compareVersion {
     my ($major, $minor, $min_major, $min_minor) = @_;
 
+    $major = 0 unless $major;
+    $minor = 0 unless $minor;
+    $min_major = 0 unless $min_major;
+    $min_minor = 0 unless $min_minor;
+
     return
         $major > $min_major
         ||
