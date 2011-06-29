@@ -31,7 +31,7 @@ sub new {
 }
 
 sub getModules {
-    my ($class) = @_;
+    my ($class, $prefix) = @_;
 
     # allow to be called as an instance method
     $class = ref $class ? ref $class : $class;
@@ -45,6 +45,7 @@ sub getModules {
     # find a list of modules from files in this directory
     my $root = $file;
     $root =~ s/.pm$//;
+    $root .= "/$prefix" if $prefix;
     my @modules;
     my $wanted = sub {
         return unless -f $_;
@@ -98,6 +99,9 @@ the logger object to use (default: a new stderr logger)
 
 This is the method to be implemented by each subclass.
 
-=head2 getModules()
+=head2 getModules($prefix)
 
-Return a list of modules for this task.
+Return a list of modules for this task. All modules installed at the same
+location than this package, belonging to __PACKAGE__ namespace, will be
+returned. If optional $prefix is given, base search namespace will be
+__PACKAGE__/$prefix instead.
