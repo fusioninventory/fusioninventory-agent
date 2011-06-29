@@ -121,7 +121,10 @@ sub createUA {
         }
     } elsif (!$config->{'no-ssl-check'}) {
         # use a custom HTTPS handler, forcing the use of IO::Socket::SSL
-        FusionInventory::Agent::HTTP::Protocol::https->require();
+        FusionInventory::Agent::HTTP::Protocol::https->use(
+            ca_cert_file => $config->{'ca-cert-file'},
+            ca_cert_dir  => $config->{'ca-cert-dir'},
+        );
         if ($EVAL_ERROR) {
             die "failed to load FusionInventory::Agent::HTTP::Protocol::https" .
             ", unable to validate SSL certificates";
@@ -130,15 +133,9 @@ sub createUA {
             'https', 'FusionInventory::Agent::HTTP::Protocol::https'
         );
 
-        # abuse user agent to pass values to the handler 
-        $ua->{ssl_check} = $config->{'no-ssl-check'} ?
-            Net::SSLeay::VERIFY_NONE() : Net::SSLeay::VERIFY_PEER();
-
-        # set default context
-        IO::Socket::SSL::set_ctx_defaults(ca_file => $config->{'ca-cert-file'})
-            if $config->{'ca-cert-file'};
-        IO::Socket::SSL::set_ctx_defaults(ca_path => $config->{'ca-cert-dir'})
-            if $config->{'ca-cert-dir'};
+        # abuse user agent to pass values to the handler, so
+        # as to have different behaviors in the same process
+        $ua->{ssl_check} = $config->{'no-ssl-check'} ? 0 : 1;
     }
 
     if ($noProxy) {
