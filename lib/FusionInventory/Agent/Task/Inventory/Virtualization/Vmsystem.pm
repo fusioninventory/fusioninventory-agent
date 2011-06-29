@@ -60,7 +60,7 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # return immediatly if vm type has already been found
-    return if $inventory->{h}{CONTENT}{HARDWARE}{VMSYSTEM} ne "Physical";
+    return if $inventory->{content}{HARDWARE}{VMSYSTEM} ne "Physical";
 
     my $status = _getStatus($logger);
 
