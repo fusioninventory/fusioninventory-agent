@@ -17,7 +17,7 @@ Additional mandatory perl modules:
 Additional optional perl modules:
 - Compress::Zlib, for message compression
 - HTTP::Daemon, for web interface
-- IO::Socket::SSL, for SSL certificate validation
+- IO::Socket::SSL, for HTTPS support with certificate validation
 - Net::CUPS (v0.60 minimum), for printers detection 
 - Proc::Daemon, for daemon mode (Unix only)
 - Proc::PID::File, for daemon mode (Unix only)
@@ -25,6 +25,16 @@ Additional optional perl modules:
 Additional optional programs:
 - dmidecode, for hardware inventory
 - lspci, for hardware inventory
+
+SSL support
+-----------
+LWP (also known as libwww-perl) is able to use either Crypt::SSLeay or
+IO::Socket::SSL transparently as underlying socket implementation for HTTPS
+support. However, only the second one is able to perform server certificate
+validation. As a consequence, the agent will refuse to use HTTPS, and exit
+immediatly if IO::Socket::SSL is not available, unless certificate checking has
+been explicitely disabled (--no-ssl-check command line parameter, or
+no-ssl-check configuration parameter).
 
 System-specific informations
 ----------------------------
