@@ -253,8 +253,9 @@ sub _feedInventory {
         );
     }
 
-    $self->_injectContent($self->{config}->{'additional-content'}, $inventory)
-        if -f $self->{config}->{'additional-content'};
+    if ($self->{config}->{'additional-content'} && -f $self->{config}->{'additional-content'}) {
+        $self->_injectContent($self->{config}->{'additional-content'}, $inventory)
+    }
 
     # Execution time
     $inventory->setHardware({ETIME => time() - $begin});
