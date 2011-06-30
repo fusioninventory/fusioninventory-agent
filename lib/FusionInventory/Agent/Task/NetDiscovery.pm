@@ -97,10 +97,8 @@ sub run {
     my $credentials = $options->{AUTHENTICATION};
 
     # manage discovery
-    my @iplist : shared;
     my $maxIdx : shared = 0;
     my $sendstart = 0;
-    my $limitip = $params->{THREADS_DISCOVERY} * ADDRESS_PER_THREAD;
 
     my $manager;
     if ($params->{CORE_DISCOVERY} > 1) {
@@ -123,7 +121,6 @@ sub run {
         }
 
         my $threads_run = 0;
-        my $loop_action : shared = 1;
         my $exit : shared = 0;
 
         my @Thread;
@@ -132,31 +129,28 @@ sub run {
         my $loop_nbthreads : shared;
         my $sendbylwp : shared;
 
-        while ($loop_action > 0) {
+        # convert given IP ranges into a flat list of IP addresses
+        my @addresses :shared;
+        foreach my $range (@{$options->{RANGEIP}}) {
+            next unless $range->{IPSTART};
+            next unless $range->{IPEND};
 
-            foreach my $range (@{$options->{RANGEIP}}) {
-                next unless $range->{IPSTART};
-                next unless $range->{IPEND};
+            my $ip = Net::IP->new($range->{IPSTART}.' - '.$range->{IPEND});
+            do {
+                push @addresses, {
+                    IP     => $ip->ip(),
+                    ENTITY => $range->{ENTITY}
+                };
+            } while (++$ip);
+        }
 
-                my $ip = Net::IP->new($range->{IPSTART}.' - '.$range->{IPEND});
-                do {
-                    push @iplist, {
-                        IP     => $ip->ip(),
-                        ENTITY => $range->{ENTITY}
-                    };
-                    if (@iplist == $limitip) {
-                        if ($ip->ip() ne $range->{IPEND}) {
-                            ++$ip;
-                            $range->{IPSTART} = $ip->ip();
-                            $loop_action = 1;
-                            goto CONTINUE;
-                        }
-                    }
-                } while (++$ip);
-            }
-            $loop_action = 0;
+        # process this list by blocks of fixed size
+        my @addresses_block :shared;
+        my $block_size = $params->{THREADS_DISCOVERY} * ADDRESS_PER_THREAD;
 
-            CONTINUE:
+        while (@addresses) {
+            @addresses_block = splice @addresses, 0, $block_size;
+
             $loop_nbthreads = $params->{THREADS_DISCOVERY};
 
             for (my $j = 0 ; $j < $params->{THREADS_DISCOVERY}; $j++) {
@@ -181,7 +175,7 @@ sub run {
                         $credentials,
                         \@ThreadAction,
                         \@ThreadState,
-                        \@iplist,
+                        \@addresses_block,
                         $nmap_parameters,
                         $dico,
                         $maxIdx,
@@ -195,7 +189,7 @@ sub run {
                 my $Threadmanagement = threads->create(
                     '_manageThreads',
                     $self,
-                    $loop_action,
+                    \@addresses,
                     $exit,
                     $loop_nbthreads,
                     \@ThreadAction,
@@ -222,7 +216,7 @@ sub run {
                 lock $sendbylwp;
                 $self->_sendInformations({
                     AGENT => {
-                        NBIP => scalar @iplist
+                        NBIP => scalar @addresses_block
                     },
                     PROCESSNUMBER => $params->{PID}
                 });
@@ -417,14 +411,14 @@ sub _handleIPRange {
 }
 
 sub _manageThreads {
-    my ($self, $loop_action, $exit, $loop_nbthreads, $ThreadAction, $ThreadState) = @_;
+    my ($self, $addresses, $exit, $loop_nbthreads, $ThreadAction, $ThreadState) = @_;
 
      my $count;
      my $i;
      my $loopthread;
 
      while (1) {
-        if (($loop_action == 0) && ($exit == 2)) {
+        if ((@$addresses == 0) && ($exit == 2)) {
            ## Kill threads who do nothing partial ##
 
            ## Start + end working threads (do a function) ##
@@ -451,7 +445,7 @@ sub _manageThreads {
               $exit = 1;
               return;
 
-        } elsif (($loop_action == 1) && ($exit == 2)) {
+        } elsif ((@$addresses >= 0) && ($exit == 2)) {
            ## Start + pause working Threads (do a function) ##
               for($i = 0 ; $i < $loop_nbthreads ; $i++) {
                  $ThreadAction->[$i] = 1;
@@ -476,7 +470,6 @@ sub _manageThreads {
               sleep 1;
            }
            $exit = 1;
-           $loop_action = 2;
         }
 
         sleep 1;
