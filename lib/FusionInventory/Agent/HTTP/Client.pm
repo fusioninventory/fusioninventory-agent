@@ -37,31 +37,46 @@ sub new {
         $self->{ua}->env_proxy;
     }
 
-    if ($LWP::VERSION >= 6) {
-        # LWP6 default behavior is to check the SSL hostname
-        $self->{ua}->ssl_opts(verify_hostname => 0) 
-            if $params{'no_ssl_check'};
-        $self->{ua}->ssl_opts(SSL_ca_file => $params{'ca_cert_file'})
-            if $params{'ca_cert_file'};
-        $self->{ua}->ssl_opts(SSL_ca_path => $params{'ca_cert_dir'})
-            if $params{'ca_cert_dir'};
-    } elsif (! $params{'no_ssl_check'}) {
-        # use a custom HTTPS handler, forcing the use of IO::Socket::SSL
-        FusionInventory::Agent::HTTP::Protocol::https->use(
-            ca_cert_file => $params{'ca_cert_file'},
-            ca_cert_dir  => $params{'ca_cert_dir'},
-        );
-        if ($EVAL_ERROR) {
-            die "failed to load FusionInventory::Agent::HTTP::Protocol::https" .
-            ", unable to validate SSL certificates";
+    # SSL handling
+    if ($params{'no_ssl_check'}) {
+        if ($LWP::VERSION >= 6) {
+            # LWP6 default behavior is to check the SSL hostname
+            $self->{ua}->ssl_opts(verify_hostname => 0);
         }
-        LWP::Protocol::implementor(
-            'https', 'FusionInventory::Agent::HTTP::Protocol::https'
-        );
+    } else {
+        # only IO::Socket::SSL can perform full server certificate validation,
+        # Net::SSL is only able to check certification authority, and not
+        # certificate hostname
+        IO::Socket::SSL->require();
+        die
+            "failed to load IO::Socket::SSL" .
+            ", unable to perform SSL certificate validation"
+            if $EVAL_ERROR;
 
-        # abuse user agent to pass values to the handler, so
-        # as to have different behaviors in the same process
-        $self->{ua}->{ssl_check} = $params{'no_ssl_check'} ? 0 : 1;
+        if ($LWP::VERSION >= 6) {
+            $self->{ua}->ssl_opts(SSL_ca_file => $params{'ca_cert_file'})
+                if $params{'ca_cert_file'};
+            $self->{ua}->ssl_opts(SSL_ca_path => $params{'ca_cert_dir'})
+                if $params{'ca_cert_dir'};
+        } else {
+            # use a custom HTTPS handler to workaround default LWP5 behaviour
+            FusionInventory::Agent::HTTP::Protocol::https->use(
+                ca_cert_file => $params{'ca_cert_file'},
+                ca_cert_dir  => $params{'ca_cert_dir'},
+            );
+            die 
+                "failed to load FusionInventory::Agent::HTTP::Protocol::https" .
+                ", unable to perform SSL certificate validation"
+                if $EVAL_ERROR;
+
+            LWP::Protocol::implementor(
+                'https', 'FusionInventory::Agent::HTTP::Protocol::https'
+            );
+
+            # abuse user agent internal to pass values to the handler, so
+            # as to have different behaviors in the same process
+            $self->{ua}->{ssl_check} = $params{'no_ssl_check'} ? 0 : 1;
+        }
     }
 
     $self->{ua}->agent($FusionInventory::Agent::AGENT_STRING);
