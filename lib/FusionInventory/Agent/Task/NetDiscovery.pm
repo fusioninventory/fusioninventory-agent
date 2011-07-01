@@ -105,10 +105,8 @@ sub run {
     my $maxIdx : shared = 0;
     my $sendstart = 0;
 
-    my $threads_run = 0;
     my $exit : shared = 0;
 
-    my @Thread;
     my @ThreadState : shared;
     my @ThreadAction : shared;
     my $loop_nbthreads : shared;
@@ -133,6 +131,37 @@ sub run {
     my @addresses_block :shared;
     my $block_size = $params->{THREADS_DISCOVERY} * ADDRESS_PER_THREAD;
 
+    # start threads before entering the loop
+    my @Thread;
+    for (my $j = 0; $j < $params->{THREADS_DISCOVERY}; $j++) {
+        $Thread[$j] = threads->create(
+            '_handleIPRange',
+            $self,
+            $j,
+            $credentials,
+            \@ThreadAction,
+            \@ThreadState,
+            \@addresses_block,
+            $nmap_parameters,
+            $dico,
+            $maxIdx,
+            $params->{PID}
+        )->detach();
+
+        # sleep one second every 4 threads
+        sleep 1 unless $j % 4;
+    }
+
+    my $Threadmanagement = threads->create(
+        '_manageThreads',
+        $self,
+        \@addresses,
+        $exit,
+        $loop_nbthreads,
+        \@ThreadAction,
+        \@ThreadState,
+    )->detach();
+
     while (@addresses) {
         @addresses_block = splice @addresses, 0, $block_size;
 
@@ -147,41 +176,6 @@ sub run {
         # Create Thread management others threads
         #===================================
         $exit = 2;
-        if ($threads_run == 0) {
-            #===================================
-            # Create all Threads
-            #===================================
-            for (my $j = 0; $j < $params->{THREADS_DISCOVERY}; $j++) {
-                $threads_run = 1;
-                $Thread[$j] = threads->create(
-                    '_handleIPRange',
-                    $self,
-                    $j,
-                    $credentials,
-                    \@ThreadAction,
-                    \@ThreadState,
-                    \@addresses_block,
-                    $nmap_parameters,
-                    $dico,
-                    $maxIdx,
-                    $params->{PID}
-                )->detach();
-
-                # sleep one second every 4 threads
-                sleep 1 unless $j % 4;
-            }
-            ##### Start Thread Management #####
-            my $Threadmanagement = threads->create(
-                '_manageThreads',
-                $self,
-                \@addresses,
-                $exit,
-                $loop_nbthreads,
-                \@ThreadAction,
-                \@ThreadState,
-            )->detach();
-            ### END Threads Creation
-        }
 
         # Send infos to server :
         if ($sendstart == 0) {
