@@ -17,6 +17,10 @@ use constant STOP   => 2;
 use constant RUN    => 1;
 use constant PAUSE  => 0;
 
+use constant SCAN_RUN   => 2;
+use constant SCAN_STOP  => 1;
+use constant SCAN_PAUSE => 0;
+
 use Data::Dumper;
 use Digest::MD5 qw(md5_hex);
 use English qw(-no_match_vars);
@@ -105,7 +109,7 @@ sub run {
     my $maxIdx : shared = 0;
     my $sendstart = 0;
 
-    my $exit : shared = 0;
+    my $exit : shared = SCAN_PAUSE;
 
     my $sendbylwp : shared;
 
@@ -164,7 +168,7 @@ sub run {
     while (@addresses) {
         @addresses_block = splice @addresses, 0, $block_size;
 
-        $exit = 2;
+        $exit = SCAN_RUN;
 
         # Send infos to server :
         if ($sendstart == 0) {
@@ -192,7 +196,7 @@ sub run {
 
         my $sentxml;
 
-        while ($exit != 1) {
+        while ($exit != SCAN_STOP) {
             sleep 2;
             foreach my $idx (1..$maxIdx) {
                 next if defined $sentxml->[$idx];
@@ -382,34 +386,39 @@ sub _manageThreads {
     my ($self, $addresses, $exit, $threads) = @_;
 
     while (1) {
-        if ((@$addresses == 0) && ($exit == 2)) {
+        if ($exit == SCAN_RUN) {
+            if (@$addresses == 0) {
+                # this is the last block of addresses to proceed
 
-            # set all threads in STOP state
-            $_->{action} = STOP foreach @$threads;
+                # set all threads in STOP state
+                $_->{action} = STOP foreach @$threads;
 
-            # wait for all threads to actually reach STOP state
-            while (1) {
-                last if all { $_->{state} == STOP } @$threads;
-                sleep 1;
+                # wait for them to actually reach STOP state
+                while (1) {
+                    last if all { $_->{state} == STOP } @$threads;
+                    sleep 1;
+                }
+
+                # let the main thread loop continue
+                $exit = SCAN_STOP;
+
+                # exit the thread
+                return;
+            } else {
+                # there are remaining adresses to proceed after this block
+
+                # set all threads in RUN state
+                $_->{action} = RUN foreach @$threads;
+
+                # wait for them to actually reach PAUSE state
+                while (1) {
+                    last if all { $_->{state} == PAUSE } @$threads;
+                    sleep 1;
+                }
+
+                # let the main thread loop continue
+                $exit = SCAN_STOP;
             }
-
-            $exit = 1;
-            return;
-        } elsif ((@$addresses >= 0) && ($exit == 2)) {
-
-            # set all threads in RUN state
-            $_->{action} = RUN foreach @$threads;
-
-            # wait a second
-            sleep 1;
-
-            # wait for all threads to actually reach PAUSE state
-            while (1) {
-                last if all { $_->{state} == PAUSE } @$threads;
-                sleep 1;
-            }
-
-            $exit = 1;
         }
         sleep 1;
     }
