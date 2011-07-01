@@ -381,10 +381,6 @@ sub _handleIPRange {
 sub _manageThreads {
     my ($self, $addresses, $exit, $threads) = @_;
 
-    my $count;
-    my $i;
-    my $loopthread;
-
     while (1) {
         if ((@$addresses == 0) && ($exit == 2)) {
 
