@@ -107,7 +107,6 @@ sub run {
 
     my $exit : shared = 0;
 
-    my $loop_nbthreads : shared;
     my $sendbylwp : shared;
 
     # convert given IP ranges into a flat list of IP addresses
@@ -159,14 +158,11 @@ sub run {
         $self,
         \@addresses,
         $exit,
-        $loop_nbthreads,
         \@threads
     )->detach();
 
     while (@addresses) {
         @addresses_block = splice @addresses, 0, $block_size;
-
-        $loop_nbthreads = $params->{THREADS_DISCOVERY};
 
         $exit = 2;
 
@@ -383,7 +379,7 @@ sub _handleIPRange {
 }
 
 sub _manageThreads {
-    my ($self, $addresses, $exit, $loop_nbthreads, $threads) = @_;
+    my ($self, $addresses, $exit, $threads) = @_;
 
      my $count;
      my $i;
@@ -394,20 +390,20 @@ sub _manageThreads {
            ## Kill threads who do nothing partial ##
 
            ## Start + end working threads (do a function) ##
-              for($i = 0 ; $i < $loop_nbthreads ; $i++) {
-                 $threads->[$i]->{action} = STOP;
+              foreach my $thread (@$threads) {
+                  $thread->{action} = STOP;
               }
            ## Function state of working threads (if they are stopped) ##
               $count = 0;
               $loopthread = 0;
 
               while ($loopthread != 1) {
-                 for($i = 0 ; $i < $loop_nbthreads ; $i++) {
-                    if ($threads->[$i]->{state} == STOP) {
-                       $count++;
-                    }
+                  foreach my $thread (@$threads) {
+                      if ($thread->{state} == STOP) {
+                           $count++;
+                      }
                  }
-                 if ($count eq $loop_nbthreads) {
+                 if ($count eq @$threads) {
                     $loopthread = 1;
                  } else {
                     $count = 0;
@@ -419,8 +415,8 @@ sub _manageThreads {
 
         } elsif ((@$addresses >= 0) && ($exit == 2)) {
            ## Start + pause working Threads (do a function) ##
-              for($i = 0 ; $i < $loop_nbthreads ; $i++) {
-                 $threads->[$i]->{action} = RUN;
+              foreach my $thread (@$threads) {
+                  $thread->{action} = RUN;
               }
            sleep 1;
 
@@ -429,12 +425,12 @@ sub _manageThreads {
            $loopthread = 0;
 
            while ($loopthread != 1) {
-              for($i = 0 ; $i < $loop_nbthreads ; $i++) {
-                 if ($threads->[$i]->{state} == PAUSE) {
-                    $count++;
-                 }
+              foreach my $thread (@$threads) {
+                  if ($thread->{state} == PAUSE) {
+                      $count++;
+                  }
               }
-              if ($count eq $loop_nbthreads) {
+              if ($count eq @$threads) {
                  $loopthread = 1;
               } else {
                  $count = 0;
