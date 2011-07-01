@@ -393,22 +393,11 @@ sub _manageThreads {
               foreach my $thread (@$threads) {
                   $thread->{action} = STOP;
               }
-           ## Function state of working threads (if they are stopped) ##
-              $count = 0;
-              $loopthread = 0;
 
-              while ($loopthread != 1) {
-                  foreach my $thread (@$threads) {
-                      if ($thread->{state} == STOP) {
-                           $count++;
-                      }
-                 }
-                 if ($count eq @$threads) {
-                    $loopthread = 1;
-                 } else {
-                    $count = 0;
-                 }
-                 sleep 1;
+              # wait for all threads to be in STOP state
+              while (1) {
+                  last if all { $_->{state} == STOP } @$threads;
+                  sleep 1;
               }
               $exit = 1;
               return;
@@ -420,22 +409,10 @@ sub _manageThreads {
               }
            sleep 1;
 
-           ## Function state of working threads (if they are paused) ##
-           $count = 0;
-           $loopthread = 0;
-
-           while ($loopthread != 1) {
-              foreach my $thread (@$threads) {
-                  if ($thread->{state} == PAUSE) {
-                      $count++;
-                  }
-              }
-              if ($count eq @$threads) {
-                 $loopthread = 1;
-              } else {
-                 $count = 0;
-              }
-              sleep 1;
+          # wait for all threads to be in PAUSE state
+           while (1) {
+               last if all { $_->{state} == PAUSE } @$threads;
+               sleep 1;
            }
            $exit = 1;
         }
