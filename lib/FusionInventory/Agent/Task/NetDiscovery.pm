@@ -142,7 +142,7 @@ sub run {
             $self,
             $j,
             $credentials,
-            \@threads,
+            $threads[$j],
             \@addresses_block,
             $nmap_parameters,
             $dico,
@@ -302,7 +302,7 @@ sub _getDictionnary {
 }
 
 sub _handleIPRange {
-    my ($self, $t, $credentials, $threads, $iplist, $nmap_parameters, $dico, $maxIdx, $pid) = @_;
+    my ($self, $t, $credentials, $thread, $iplist, $nmap_parameters, $dico, $maxIdx, $pid) = @_;
 
     $self->{logger}->debug("Thread $t created");
 
@@ -310,11 +310,11 @@ sub _handleIPRange {
 
         # wait for action
         WAIT: while (1) {
-            if ($threads->[$t]->{action} == DELETE) { # STOP
-                $threads->[$t]->{state} = STOP;
+            if ($thread->{action} == DELETE) { # STOP
+                $thread->{state} = STOP;
                 last OUTER;
-            } elsif ($threads->[$t]->{action} != PAUSE) { # RUN
-                $threads->[$t]->{state} = RUN;
+            } elsif ($thread->{action} != PAUSE) { # RUN
+                $thread->{state} = RUN;
                 last WAIT;
             }
             sleep 1;
@@ -369,13 +369,13 @@ sub _handleIPRange {
         }
 
         # change state
-        if ($threads->[$t]->{action} == STOP) { # STOP
-            $threads->[$t]->{state}  = STOP;
-            $threads->[$t]->{action} = PAUSE;
+        if ($thread->{action} == STOP) { # STOP
+            $thread->{state}  = STOP;
+            $thread->{action} = PAUSE;
             last OUTER;
-        } elsif ($threads->[$t]->{action} == RUN) { # PAUSE
-            $threads->[$t]->{state}  = PAUSE;
-            $threads->[$t]->{action} = PAUSE;
+        } elsif ($thread->{action} == RUN) { # PAUSE
+            $thread->{state}  = PAUSE;
+            $thread->{action} = PAUSE;
         }
     }
 
