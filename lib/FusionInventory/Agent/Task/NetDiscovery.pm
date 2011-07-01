@@ -57,7 +57,7 @@ sub run {
 
     $self->{logger}->debug("FusionInventory NetDiscovery module ".$VERSION);
 
-    $self->{PID} =
+    my $pid =
         sprintf("%04d", localtime->yday()) . 
         sprintf("%02d", localtime->hour()) .
         sprintf("%02d", localtime->min());
@@ -68,7 +68,7 @@ sub run {
     my $storage = $self->{target}->getStorage();
 
     # take care of models dictionnary
-    my $dico = $self->_getDictionnary($options, $storage, $params->{PID});
+    my $dico = $self->_getDictionnary($options, $storage, $pid);
     return unless $dico;
 
     # check discovery methods available
@@ -147,7 +147,7 @@ sub run {
             $nmap_parameters,
             $dico,
             $maxIdx,
-            $params->{PID}
+            $pid
         )->detach();
 
         # sleep one second every 4 threads
@@ -178,7 +178,7 @@ sub run {
                     AGENTVERSION => $FusionInventory::Agent::VERSION,
                 },
                 MODULEVERSION => $VERSION,
-                PROCESSNUMBER => $params->{PID},
+                PROCESSNUMBER => $pid
             });
             $sendstart = 1;
         }
@@ -190,7 +190,7 @@ sub run {
                 AGENT => {
                     NBIP => scalar @addresses_block
                 },
-                PROCESSNUMBER => $params->{PID}
+                PROCESSNUMBER => $pid
             });
         }
 
@@ -240,7 +240,7 @@ sub run {
             END => '1',
         },
         MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $params->{PID},
+        PROCESSNUMBER => $pid
     });
 
 }
