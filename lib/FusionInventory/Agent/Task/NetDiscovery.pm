@@ -312,8 +312,10 @@ sub _handleIPRange {
     my ($self, $t, $credentials, $ThreadAction, $ThreadState, $iplist, $nmap_parameters, $dico, $maxIdx, $pid) = @_;
 
     $self->{logger}->debug("Thread $t created");
+
     while (1) {
-        ##### WAIT ACTION #####
+
+        # wait for action
         while (1) {
             if ($ThreadAction->[$t] == DELETE) { # STOP
                 $ThreadState->[$t] = STOP;
@@ -325,7 +327,8 @@ sub _handleIPRange {
             }
             sleep 1;
         }
-        ##### RUN ACTION #####
+
+        # run
         my @devices;
 
         while (1) {
@@ -373,7 +376,7 @@ sub _handleIPRange {
             );
         }
 
-        ##### CHANGE STATE #####
+        # change state
         if ($ThreadAction->[$t] == STOP) { # STOP
             $ThreadState->[$t]  = STOP;
             $ThreadAction->[$t] = PAUSE;
