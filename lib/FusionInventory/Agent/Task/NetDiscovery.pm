@@ -107,8 +107,6 @@ sub run {
 
     my $exit : shared = 0;
 
-    my @ThreadState : shared;
-    my @ThreadAction : shared;
     my $loop_nbthreads : shared;
     my $sendbylwp : shared;
 
@@ -132,17 +130,19 @@ sub run {
     my $block_size = $params->{THREADS_DISCOVERY} * ADDRESS_PER_THREAD;
 
     # start threads before entering the loop
+    my @threads : shared;
     for (my $j = 0; $j < $params->{THREADS_DISCOVERY}; $j++) {
-        $ThreadState[$j] = PAUSE;
-        $ThreadAction[$j] = PAUSE;
+        $threads[$j] = {
+            state  => PAUSE,
+            action => PAUSE
+        };
 
         threads->create(
             '_handleIPRange',
             $self,
             $j,
             $credentials,
-            \@ThreadAction,
-            \@ThreadState,
+            \@threads,
             \@addresses_block,
             $nmap_parameters,
             $dico,
@@ -160,8 +160,7 @@ sub run {
         \@addresses,
         $exit,
         $loop_nbthreads,
-        \@ThreadAction,
-        \@ThreadState,
+        \@threads
     )->detach();
 
     while (@addresses) {
@@ -303,7 +302,7 @@ sub _getDictionnary {
 }
 
 sub _handleIPRange {
-    my ($self, $t, $credentials, $ThreadAction, $ThreadState, $iplist, $nmap_parameters, $dico, $maxIdx, $pid) = @_;
+    my ($self, $t, $credentials, $threads, $iplist, $nmap_parameters, $dico, $maxIdx, $pid) = @_;
 
     $self->{logger}->debug("Thread $t created");
 
@@ -311,11 +310,11 @@ sub _handleIPRange {
 
         # wait for action
         WAIT: while (1) {
-            if ($ThreadAction->[$t] == DELETE) { # STOP
-                $ThreadState->[$t] = STOP;
+            if ($threads->[$t]->{action} == DELETE) { # STOP
+                $threads->[$t]->{state} = STOP;
                 last OUTER;
-            } elsif ($ThreadAction->[$t] != PAUSE) { # RUN
-                $ThreadState->[$t] = RUN;
+            } elsif ($threads->[$t]->{action} != PAUSE) { # RUN
+                $threads->[$t]->{state} = RUN;
                 last WAIT;
             }
             sleep 1;
@@ -370,13 +369,13 @@ sub _handleIPRange {
         }
 
         # change state
-        if ($ThreadAction->[$t] == STOP) { # STOP
-            $ThreadState->[$t]  = STOP;
-            $ThreadAction->[$t] = PAUSE;
+        if ($threads->[$t]->{action} == STOP) { # STOP
+            $threads->[$t]->{state}  = STOP;
+            $threads->[$t]->{action} = PAUSE;
             last OUTER;
-        } elsif ($ThreadAction->[$t] == RUN) { # PAUSE
-            $ThreadState->[$t]  = PAUSE;
-            $ThreadAction->[$t] = PAUSE;
+        } elsif ($threads->[$t]->{action} == RUN) { # PAUSE
+            $threads->[$t]->{state}  = PAUSE;
+            $threads->[$t]->{action} = PAUSE;
         }
     }
 
@@ -384,7 +383,7 @@ sub _handleIPRange {
 }
 
 sub _manageThreads {
-    my ($self, $addresses, $exit, $loop_nbthreads, $ThreadAction, $ThreadState) = @_;
+    my ($self, $addresses, $exit, $loop_nbthreads, $threads) = @_;
 
      my $count;
      my $i;
@@ -396,7 +395,7 @@ sub _manageThreads {
 
            ## Start + end working threads (do a function) ##
               for($i = 0 ; $i < $loop_nbthreads ; $i++) {
-                 $ThreadAction->[$i] = STOP;
+                 $threads->[$i]->{action} = STOP;
               }
            ## Function state of working threads (if they are stopped) ##
               $count = 0;
@@ -404,7 +403,7 @@ sub _manageThreads {
 
               while ($loopthread != 1) {
                  for($i = 0 ; $i < $loop_nbthreads ; $i++) {
-                    if ($ThreadState->[$i] == STOP) {
+                    if ($threads->[$i]->{state} == STOP) {
                        $count++;
                     }
                  }
@@ -421,7 +420,7 @@ sub _manageThreads {
         } elsif ((@$addresses >= 0) && ($exit == 2)) {
            ## Start + pause working Threads (do a function) ##
               for($i = 0 ; $i < $loop_nbthreads ; $i++) {
-                 $ThreadAction->[$i] = RUN;
+                 $threads->[$i]->{action} = RUN;
               }
            sleep 1;
 
@@ -431,7 +430,7 @@ sub _manageThreads {
 
            while ($loopthread != 1) {
               for($i = 0 ; $i < $loop_nbthreads ; $i++) {
-                 if ($ThreadState->[$i] == PAUSE) {
+                 if ($threads->[$i]->{state} == PAUSE) {
                     $count++;
                  }
               }
