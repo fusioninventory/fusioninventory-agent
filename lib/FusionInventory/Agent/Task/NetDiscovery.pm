@@ -132,12 +132,11 @@ sub run {
     my $block_size = $params->{THREADS_DISCOVERY} * ADDRESS_PER_THREAD;
 
     # start threads before entering the loop
-    my @Thread;
     for (my $j = 0; $j < $params->{THREADS_DISCOVERY}; $j++) {
         $ThreadState[$j] = PAUSE;
         $ThreadAction[$j] = PAUSE;
 
-        $Thread[$j] = threads->create(
+        threads->create(
             '_handleIPRange',
             $self,
             $j,
@@ -155,7 +154,7 @@ sub run {
         sleep 1 unless $j % 4;
     }
 
-    my $Threadmanagement = threads->create(
+    threads->create(
         '_manageThreads',
         $self,
         \@addresses,
