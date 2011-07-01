@@ -388,30 +388,31 @@ sub _manageThreads {
     while (1) {
         if ((@$addresses == 0) && ($exit == 2)) {
 
-            # Start + end working threads (do a function) ##
-            foreach my $thread (@$threads) {
-                $thread->{action} = STOP;
-            }
+            # set all threads in STOP state
+            $_->{action} = STOP foreach @$threads;
 
-            # wait for all threads to be in STOP state
+            # wait for all threads to actually reach STOP state
             while (1) {
                 last if all { $_->{state} == STOP } @$threads;
                 sleep 1;
             }
+
             $exit = 1;
             return;
         } elsif ((@$addresses >= 0) && ($exit == 2)) {
-            # Start + pause working Threads (do a function) ##
-            foreach my $thread (@$threads) {
-                $thread->{action} = RUN;
-            }
+
+            # set all threads in RUN state
+            $_->{action} = RUN foreach @$threads;
+
+            # wait a second
             sleep 1;
 
-            # wait for all threads to be in PAUSE state
+            # wait for all threads to actually reach PAUSE state
             while (1) {
                 last if all { $_->{state} == PAUSE } @$threads;
                 sleep 1;
             }
+
             $exit = 1;
         }
         sleep 1;
