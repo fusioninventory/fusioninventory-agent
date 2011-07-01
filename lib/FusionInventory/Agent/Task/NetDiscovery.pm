@@ -381,46 +381,43 @@ sub _handleIPRange {
 sub _manageThreads {
     my ($self, $addresses, $exit, $threads) = @_;
 
-     my $count;
-     my $i;
-     my $loopthread;
+    my $count;
+    my $i;
+    my $loopthread;
 
-     while (1) {
+    while (1) {
         if ((@$addresses == 0) && ($exit == 2)) {
-           ## Kill threads who do nothing partial ##
 
-           ## Start + end working threads (do a function) ##
-              foreach my $thread (@$threads) {
-                  $thread->{action} = STOP;
-              }
+            # Start + end working threads (do a function) ##
+            foreach my $thread (@$threads) {
+                $thread->{action} = STOP;
+            }
 
-              # wait for all threads to be in STOP state
-              while (1) {
-                  last if all { $_->{state} == STOP } @$threads;
-                  sleep 1;
-              }
-              $exit = 1;
-              return;
-
+            # wait for all threads to be in STOP state
+            while (1) {
+                last if all { $_->{state} == STOP } @$threads;
+                sleep 1;
+            }
+            $exit = 1;
+            return;
         } elsif ((@$addresses >= 0) && ($exit == 2)) {
-           ## Start + pause working Threads (do a function) ##
-              foreach my $thread (@$threads) {
-                  $thread->{action} = RUN;
-              }
-           sleep 1;
+            # Start + pause working Threads (do a function) ##
+            foreach my $thread (@$threads) {
+                $thread->{action} = RUN;
+            }
+            sleep 1;
 
-          # wait for all threads to be in PAUSE state
-           while (1) {
-               last if all { $_->{state} == PAUSE } @$threads;
-               sleep 1;
-           }
-           $exit = 1;
+            # wait for all threads to be in PAUSE state
+            while (1) {
+                last if all { $_->{state} == PAUSE } @$threads;
+                sleep 1;
+            }
+            $exit = 1;
         }
-
         sleep 1;
-     }
+    }
 
-     return;
+    return;
 }
 
 sub _sendInformations{
