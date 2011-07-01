@@ -107,7 +107,6 @@ sub run {
 
     # manage discovery
     my $maxIdx : shared = 0;
-    my $sendstart = 0;
 
     my $exit : shared = SCAN_PAUSE;
 
@@ -165,23 +164,21 @@ sub run {
         \@threads
     )->detach();
 
+    # send start signal to the server
+    $self->_sendInformations({
+        AGENT => {
+            START        => '1',
+            AGENTVERSION => $FusionInventory::Agent::VERSION,
+        },
+        MODULEVERSION => $VERSION,
+        PROCESSNUMBER => $pid
+    });
+
     while (@addresses) {
         @addresses_block = splice @addresses, 0, $block_size;
 
         $exit = SCAN_RUN;
 
-        # Send infos to server :
-        if ($sendstart == 0) {
-            $self->_sendInformations({
-                AGENT => {
-                    START        => '1',
-                    AGENTVERSION => $FusionInventory::Agent::VERSION,
-                },
-                MODULEVERSION => $VERSION,
-                PROCESSNUMBER => $pid
-            });
-            $sendstart = 1;
-        }
 
         # Send NB ips to server :
         {
@@ -233,8 +230,7 @@ sub run {
     # Wait for threads be terminated
     sleep 1;
 
-    # Send infos to server
-
+    # send stop signal to the server
     $self->_sendInformations({
         AGENT => {
             END => '1',
