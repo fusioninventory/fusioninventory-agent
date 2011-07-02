@@ -17,10 +17,6 @@ use constant STOP   => 2;
 use constant RUN    => 1;
 use constant PAUSE  => 0;
 
-use constant SCAN_RUN   => 2;
-use constant SCAN_STOP  => 1;
-use constant SCAN_PAUSE => 0;
-
 use Data::Dumper;
 use Digest::MD5 qw(md5_hex);
 use English qw(-no_match_vars);
@@ -108,8 +104,6 @@ sub run {
     # manage discovery
     my $maxIdx : shared = 0;
 
-    my $exit : shared = SCAN_PAUSE;
-
     # convert given IP ranges into a flat list of IP addresses
     my @addresses :shared;
     foreach my $range (@{$options->{RANGEIP}}) {
@@ -154,14 +148,6 @@ sub run {
         sleep 1 unless $j % 4;
     }
 
-    threads->create(
-        '_manageThreads',
-        $self,
-        \@addresses,
-        $exit,
-        \@threads
-    )->detach();
-
     # send start signal to the server
     $self->_sendInformations({
         AGENT => {
@@ -173,6 +159,7 @@ sub run {
     });
 
     while (@addresses) {
+        # fetch a block of addresses from the global list
         @addresses_block = splice @addresses, 0, $block_size;
 
         # send block size to the server
@@ -183,31 +170,33 @@ sub run {
             PROCESSNUMBER => $pid
         });
 
-        $exit = SCAN_RUN;
+        # launch scan, and wait for the threads to reach final state
+        if (@addresses > 0) {
+            # there are remaining adresses to proceed after this block
 
-        my $sentxml;
+            # set all threads in RUN state
+            $_->{action} = RUN foreach @threads;
 
-        while ($exit != SCAN_STOP) {
-            sleep 2;
-            foreach my $idx (1..$maxIdx) {
-                next if defined $sentxml->[$idx];
+            # wait for them to actually reach PAUSE state
+            while (1) {
+                last if all { $_->{state} == PAUSE } @threads;
+                sleep 1;
+            }
+        } else {
+            # this is the last block of addresses to proceed
 
-                my $data = $storage->restore(
-                    idx => $idx
-                );
-                $self->_sendInformations($data);
-                $storage->remove(
-                    idx => $idx
-                );
+            # set all threads in STOP state
+            $_->{action} = STOP foreach @threads;
 
-                $sentxml->[$idx] = 1;
+            # wait for them to actually reach STOP state
+            while (1) {
+                last if all { $_->{state} == STOP } @threads;
                 sleep 1;
             }
         }
 
+        # send results to the server
         foreach my $idx (1..$maxIdx) {
-            next if defined $sentxml->[$idx];
-
             my $data = $storage->restore(
                 idx => $idx
             );
@@ -216,7 +205,6 @@ sub run {
                 idx => $idx
             );
 
-            $sentxml->[$idx] = 1;
             sleep 1;
         }
     }
@@ -370,50 +358,6 @@ sub _handleIPRange {
     }
 
     $self->{logger}->debug("Thread $t deleted");
-}
-
-sub _manageThreads {
-    my ($self, $addresses, $exit, $threads) = @_;
-
-    while (1) {
-        if ($exit == SCAN_RUN) {
-            if (@$addresses == 0) {
-                # this is the last block of addresses to proceed
-
-                # set all threads in STOP state
-                $_->{action} = STOP foreach @$threads;
-
-                # wait for them to actually reach STOP state
-                while (1) {
-                    last if all { $_->{state} == STOP } @$threads;
-                    sleep 1;
-                }
-
-                # let the main thread loop continue
-                $exit = SCAN_STOP;
-
-                # exit the thread
-                return;
-            } else {
-                # there are remaining adresses to proceed after this block
-
-                # set all threads in RUN state
-                $_->{action} = RUN foreach @$threads;
-
-                # wait for them to actually reach PAUSE state
-                while (1) {
-                    last if all { $_->{state} == PAUSE } @$threads;
-                    sleep 1;
-                }
-
-                # let the main thread loop continue
-                $exit = SCAN_STOP;
-            }
-        }
-        sleep 1;
-    }
-
-    return;
 }
 
 sub _sendInformations{
