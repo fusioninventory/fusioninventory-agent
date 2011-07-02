@@ -63,9 +63,8 @@ sub new {
 }
 
 sub get {
-    my ($self, %params) = @_;
+    my ($self, $oid) = @_;
 
-    my $oid = $params{oid};
     return unless $oid;
 
     my $session = $self->{session};
@@ -87,15 +86,14 @@ sub get {
 }
 
 sub walk {
-    my ($self, %args) = @_;
+    my ($self, $oid) = @_;
 
-    my $oid_start = $args{oid_start};
-    return unless $oid_start;
+    return unless $oid;
 
     my $session = $self->{session};
 
     my $response = $session->get_table(
-        -baseoid => $oid_start
+        -baseoid => $oid
     );
 
     return unless $response;
