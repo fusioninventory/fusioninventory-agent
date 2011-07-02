@@ -101,11 +101,8 @@ sub run {
     # retrieve SNMP authentication credentials
     my $credentials = $options->{AUTHENTICATION};
 
-    # manage discovery
-    my $maxIdx : shared = 0;
-
     # convert given IP ranges into a flat list of IP addresses
-    my @addresses :shared;
+    my @addresses;
     foreach my $range (@{$options->{RANGEIP}}) {
         next unless $range->{IPSTART};
         next unless $range->{IPEND};
@@ -119,12 +116,12 @@ sub run {
         } while (++$ip);
     }
 
-    # process this list by blocks of fixed size
+    # create the required number of scanning threads, sharing
+    # variables for synchronisation
+    my $maxIdx : shared = 0;
     my @addresses_block :shared;
-    my $block_size = $params->{THREADS_DISCOVERY} * ADDRESS_PER_THREAD;
-
-    # start threads before entering the loop
     my @threads : shared;
+
     for (my $j = 0; $j < $params->{THREADS_DISCOVERY}; $j++) {
         $threads[$j] = {
             state  => PAUSE,
@@ -158,6 +155,8 @@ sub run {
         PROCESSNUMBER => $pid
     });
 
+    # proceed the whole list of addresses block by block
+    my $block_size = $params->{THREADS_DISCOVERY} * ADDRESS_PER_THREAD;
     while (@addresses) {
         # fetch a block of addresses from the global list
         @addresses_block = splice @addresses, 0, $block_size;
