@@ -4,9 +4,7 @@ use strict;
 use warnings;
 
 sub discovery {
-   my $empty       = shift;
-   my $description = shift;
-   my $session     = shift;
+   my ($empty, $description, $session) = @_;
 
    # for Switch
 

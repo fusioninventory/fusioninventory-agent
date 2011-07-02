@@ -4,9 +4,7 @@ use strict;
 use warnings;
 
 sub discovery {
-   my $empty       = shift;
-   my $description = shift;
-   my $session     = shift;
+   my ($empty, $description, $session) = @_;
 
    # example : 5.1.6.485.R02 Service Release, September 26, 2008.
 

@@ -4,9 +4,7 @@ use strict;
 use warnings;
 
 sub discovery {
-   my $empty       = shift;
-   my $description = shift;
-   my $session     = shift;
+   my ($empty, $description, $session) = @_;
 
    if (($description =~ m/HP ETHERNET MULTI-ENVIRONMENT/) || ($description =~ m/A SNMP proxy agent, EEPROM/)){
       my $description_new = $session->snmpGet({
