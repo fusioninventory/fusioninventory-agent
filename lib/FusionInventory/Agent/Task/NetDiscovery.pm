@@ -134,6 +134,9 @@ sub run {
     # start threads before entering the loop
     my @Thread;
     for (my $j = 0; $j < $params->{THREADS_DISCOVERY}; $j++) {
+        $ThreadState[$j] = PAUSE;
+        $ThreadAction[$j] = PAUSE;
+
         $Thread[$j] = threads->create(
             '_handleIPRange',
             $self,
@@ -167,14 +170,6 @@ sub run {
 
         $loop_nbthreads = $params->{THREADS_DISCOVERY};
 
-        for (my $j = 0 ; $j < $params->{THREADS_DISCOVERY}; $j++) {
-            $ThreadState[$j] = PAUSE;
-            $ThreadAction[$j] = PAUSE;
-        }
-
-        #===================================
-        # Create Thread management others threads
-        #===================================
         $exit = 2;
 
         # Send infos to server :
