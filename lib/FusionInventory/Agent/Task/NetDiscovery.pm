@@ -18,7 +18,6 @@ use constant RUN    => 1;
 use constant PAUSE  => 0;
 
 use Data::Dumper;
-use Digest::MD5 qw(md5_hex);
 use English qw(-no_match_vars);
 use Net::IP;
 use Time::localtime;
@@ -220,8 +219,10 @@ sub _getDictionnary {
     if ($options->{DICO}) {
         # the server message contains a dictionnary, use it
         # and save it for later use
-        $dictionnary = $options->{DICO};
-        $hash        = $options->{DICOHASH};
+        $dictionnary = FusionInventory::Agent::Task::NetDiscovery::Dico->new(
+            hash => $options->{DICO}
+        );
+        $hash = $options->{DICOHASH};
 
         $storage->save(
             idx  => 999999,
@@ -238,9 +239,9 @@ sub _getDictionnary {
     }
 
     # fallback on builtin dictionnary
-    if (!$dictionnary || ref $dictionnary ne "HASH") {
+    if (!$dictionnary) {
         $dictionnary = FusionInventory::Agent::Task::NetDiscovery::Dico->new();
-        $hash        = md5_hex($dictionnary);
+        $hash        = $dictionnary->getHash();
     }
 
     if ($options->{DICOHASH}) {
@@ -481,10 +482,8 @@ sub _probeAddressBySNMP {
 
         $device->{DESCRIPTION} = $description;
 
-        # get first model in dictionnary matching description
-        $description =~ s/\n//g;
-        $description =~ s/\r//g;
-        my $model = first { $_->{SYSDESCR} eq $description } @{$dico->{DEVICE}};
+        # get model matching description from dictionnary
+        my $model = $dico->get($description);
 
         $device->{SERIAL}    = _getSerial($snmp, $model);
         $device->{MAC}       = _getMacAddress($snmp, $model) || _getMacAddress($snmp);

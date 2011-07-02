@@ -3,15 +3,76 @@ package FusionInventory::Agent::Task::NetDiscovery::Dico;
 use strict;
 use warnings;
 
+use Digest::MD5 qw(md5_hex);
 use English qw/-no_match_vars/;
-use XML::TreePP;
+use UNIVERSAL::require;
 
 sub new {
-    undef $INPUT_RECORD_SEPARATOR; # enable slurp mode
-    my $dico = <DATA>;
+    my ($class, %params) = @_;
 
-    my $tpp = XML::TreePP->new();
-    return scalar $tpp->parse($dico);
+    my $self = {};
+    bless $self, $class;
+
+    SWITCH: {
+        if ($params{file}) {
+            $self->_init_from_file($params{file});
+            last SWITCH;
+        }
+        if ($params{string}) {
+            $self->_init_from_string($params{string});
+            last SWITCH;
+        }
+        if ($params{hash}) {
+            $self->_init_from_hash($params{hash});
+            last SWITCH;
+        }
+        undef $INPUT_RECORD_SEPARATOR; # enable slurp mode
+        $self->_init_from_string(<DATA>);
+    }
+
+    return $self;
+}
+
+sub _init_from_string {
+    my ($self, $string) = @_;
+
+    XML::TreePP->require();
+    my $hash = XML::TreePP->new()->parse($string);
+    $self->_init_from_hash($hash);
+}
+
+sub _init_from_file {
+    my ($self, $file) = @_;
+
+    XML::TreePP->require();
+    my $hash = XML::TreePP->new()->parsefile($file);
+    $self->_init_from_hash($hash);
+}
+
+sub _init_from_hash {
+    my ($self, $hash) = @_;
+
+    foreach my $device (@{$hash->{SNMPDISCOVERY}->{DEVICE}}) {
+        my $md5 = md5_hex($device->{SYSDESCR});
+        $self->{models}->{$md5} = $device;
+    }
+    $self->{hash} = md5_hex($hash);
+}
+
+sub getModel {
+    my ($self, $description) = @_;
+
+    $description =~ s/\n//g;
+    $description =~ s/\r//g;
+
+    my $md5 = md5_hex($description);
+    return $self->{models}->{$md5};
+}
+
+sub getHash {
+    my ($self) = @_;
+
+    return $self->{hash};
 }
 
 1;
