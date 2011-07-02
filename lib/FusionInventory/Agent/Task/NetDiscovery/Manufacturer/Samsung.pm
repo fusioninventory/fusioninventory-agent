@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 sub discovery {
-my ($empty, $description, $session) = @_;
+    my ($empty, $description, $session) = @_;
 
     if($description =~ m/SAMSUNG NETWORK PRINTER,ROM/) {
         my $description_new = $session->snmpGet({
