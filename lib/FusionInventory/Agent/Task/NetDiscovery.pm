@@ -105,148 +105,112 @@ sub run {
     my $maxIdx : shared = 0;
     my $sendstart = 0;
 
-    my $manager;
-    if ($params->{CORE_DISCOVERY} > 1) {
-        Parallel::ForkManager->require();
-        if ($EVAL_ERROR) {
-            $self->{logger}->debug(
-                "Parallel::ForkManager not installed, so only 1 core will be " .
-                "used..."
-            );
-            $params->{CORE_DISCOVERY} = 1;
-        } else {
-            $manager = Parallel::ForkManager->new($params->{CORE_DISCOVERY});
-        }
+    my $threads_run = 0;
+    my $exit : shared = 0;
+
+    my @Thread;
+    my @ThreadState : shared;
+    my @ThreadAction : shared;
+    my $loop_nbthreads : shared;
+    my $sendbylwp : shared;
+
+    # convert given IP ranges into a flat list of IP addresses
+    my @addresses :shared;
+    foreach my $range (@{$options->{RANGEIP}}) {
+        next unless $range->{IPSTART};
+        next unless $range->{IPEND};
+
+        my $ip = Net::IP->new($range->{IPSTART}.' - '.$range->{IPEND});
+        do {
+            push @addresses, {
+                IP     => $ip->ip(),
+                ENTITY => $range->{ENTITY}
+            };
+        } while (++$ip);
     }
 
-    for(my $i = 0; $i < $params->{CORE_DISCOVERY}; $i++) {
-        if ($manager) {
-            my $pid = $manager->start();
-            next if $pid; # parent
+    # process this list by blocks of fixed size
+    my @addresses_block :shared;
+    my $block_size = $params->{THREADS_DISCOVERY} * ADDRESS_PER_THREAD;
+
+    while (@addresses) {
+        @addresses_block = splice @addresses, 0, $block_size;
+
+        $loop_nbthreads = $params->{THREADS_DISCOVERY};
+
+        for (my $j = 0 ; $j < $params->{THREADS_DISCOVERY}; $j++) {
+            $ThreadState[$j] = PAUSE;
+            $ThreadAction[$j] = PAUSE;
         }
 
-        my $threads_run = 0;
-        my $exit : shared = 0;
-
-        my @Thread;
-        my @ThreadState : shared;
-        my @ThreadAction : shared;
-        my $loop_nbthreads : shared;
-        my $sendbylwp : shared;
-
-        # convert given IP ranges into a flat list of IP addresses
-        my @addresses :shared;
-        foreach my $range (@{$options->{RANGEIP}}) {
-            next unless $range->{IPSTART};
-            next unless $range->{IPEND};
-
-            my $ip = Net::IP->new($range->{IPSTART}.' - '.$range->{IPEND});
-            do {
-                push @addresses, {
-                    IP     => $ip->ip(),
-                    ENTITY => $range->{ENTITY}
-                };
-            } while (++$ip);
-        }
-
-        # process this list by blocks of fixed size
-        my @addresses_block :shared;
-        my $block_size = $params->{THREADS_DISCOVERY} * ADDRESS_PER_THREAD;
-
-        while (@addresses) {
-            @addresses_block = splice @addresses, 0, $block_size;
-
-            $loop_nbthreads = $params->{THREADS_DISCOVERY};
-
-            for (my $j = 0 ; $j < $params->{THREADS_DISCOVERY}; $j++) {
-                $ThreadState[$j] = PAUSE;
-                $ThreadAction[$j] = PAUSE;
-            }
+        #===================================
+        # Create Thread management others threads
+        #===================================
+        $exit = 2;
+        if ($threads_run == 0) {
             #===================================
-            # Create Thread management others threads
+            # Create all Threads
             #===================================
-            $exit = 2;
-            if ($threads_run == 0) {
-                #===================================
-                # Create all Threads
-                #===================================
-                for (my $j = 0; $j < $params->{THREADS_DISCOVERY}; $j++) {
-                    $threads_run = 1;
-                    $Thread[$i][$j] = threads->create(
-                        '_handleIPRange',
-                        $self,
-                        $i,
-                        $j,
-                        $credentials,
-                        \@ThreadAction,
-                        \@ThreadState,
-                        \@addresses_block,
-                        $nmap_parameters,
-                        $dico,
-                        $maxIdx,
-                        $params->{PID}
-                    )->detach();
-
-                    # sleep one second every 4 threads
-                    sleep 1 unless $j % 4;
-                }
-                ##### Start Thread Management #####
-                my $Threadmanagement = threads->create(
-                    '_manageThreads',
+            for (my $j = 0; $j < $params->{THREADS_DISCOVERY}; $j++) {
+                $threads_run = 1;
+                $Thread[$j] = threads->create(
+                    '_handleIPRange',
                     $self,
-                    \@addresses,
-                    $exit,
-                    $loop_nbthreads,
+                    $j,
+                    $credentials,
                     \@ThreadAction,
                     \@ThreadState,
+                    \@addresses_block,
+                    $nmap_parameters,
+                    $dico,
+                    $maxIdx,
+                    $params->{PID}
                 )->detach();
-                ### END Threads Creation
+
+                # sleep one second every 4 threads
+                sleep 1 unless $j % 4;
             }
+            ##### Start Thread Management #####
+            my $Threadmanagement = threads->create(
+                '_manageThreads',
+                $self,
+                \@addresses,
+                $exit,
+                $loop_nbthreads,
+                \@ThreadAction,
+                \@ThreadState,
+            )->detach();
+            ### END Threads Creation
+        }
 
-            # Send infos to server :
-            if ($sendstart == 0) {
-                $self->_sendInformations({
-                    AGENT => {
-                        START        => '1',
-                        AGENTVERSION => $FusionInventory::Agent::VERSION,
-                    },
-                    MODULEVERSION => $VERSION,
-                    PROCESSNUMBER => $params->{PID},
-                });
-                $sendstart = 1;
-            }
+        # Send infos to server :
+        if ($sendstart == 0) {
+            $self->_sendInformations({
+                AGENT => {
+                    START        => '1',
+                    AGENTVERSION => $FusionInventory::Agent::VERSION,
+                },
+                MODULEVERSION => $VERSION,
+                PROCESSNUMBER => $params->{PID},
+            });
+            $sendstart = 1;
+        }
 
-            # Send NB ips to server :
-            {
-                lock $sendbylwp;
-                $self->_sendInformations({
-                    AGENT => {
-                        NBIP => scalar @addresses_block
-                    },
-                    PROCESSNUMBER => $params->{PID}
-                });
-            }
+        # Send NB ips to server :
+        {
+            lock $sendbylwp;
+            $self->_sendInformations({
+                AGENT => {
+                    NBIP => scalar @addresses_block
+                },
+                PROCESSNUMBER => $params->{PID}
+            });
+        }
 
-            my $sentxml;
+        my $sentxml;
 
-            while ($exit != 1) {
-                sleep 2;
-                foreach my $idx (1..$maxIdx) {
-                    next if defined $sentxml->[$idx];
-
-                    my $data = $storage->restore(
-                        idx => $idx
-                    );
-                    $self->_sendInformations($data);
-                    $storage->remove(
-                        idx => $idx
-                    );
-
-                    $sentxml->[$idx] = 1;
-                    sleep 1;
-                }
-            }
-
+        while ($exit != 1) {
+            sleep 2;
             foreach my $idx (1..$maxIdx) {
                 next if defined $sentxml->[$idx];
 
@@ -262,11 +226,24 @@ sub run {
                 sleep 1;
             }
         }
-        $manager->finish() if $manager;
+
+        foreach my $idx (1..$maxIdx) {
+            next if defined $sentxml->[$idx];
+
+            my $data = $storage->restore(
+                idx => $idx
+            );
+            $self->_sendInformations($data);
+            $storage->remove(
+                idx => $idx
+            );
+
+            $sentxml->[$idx] = 1;
+            sleep 1;
+        }
     }
 
     # Wait for threads be terminated
-    $manager->wait_all_children() if $manager;
     sleep 1;
 
     # Send infos to server
@@ -338,15 +315,15 @@ sub _getDictionnary {
 }
 
 sub _handleIPRange {
-    my ($self, $p, $t, $credentials, $ThreadAction, $ThreadState, $iplist, $nmap_parameters, $dico, $maxIdx, $pid) = @_;
+    my ($self, $t, $credentials, $ThreadAction, $ThreadState, $iplist, $nmap_parameters, $dico, $maxIdx, $pid) = @_;
 
-    $self->{logger}->debug("Core $p - Thread $t created");
+    $self->{logger}->debug("Thread $t created");
     while (1) {
         ##### WAIT ACTION #####
         while (1) {
             if ($ThreadAction->[$t] == DELETE) { # STOP
                 $ThreadState->[$t] = STOP;
-                $self->{logger}->debug("Core $p - Thread $t deleted");
+                $self->{logger}->debug("Thread $t deleted");
                 return;
             } elsif ($ThreadAction->[$t] != PAUSE) { # RUN
                 $ThreadState->[$t] = RUN;
@@ -406,7 +383,7 @@ sub _handleIPRange {
         if ($ThreadAction->[$t] == STOP) { # STOP
             $ThreadState->[$t]  = STOP;
             $ThreadAction->[$t] = PAUSE;
-            $self->{logger}->debug("Core $p - Thread $t deleted");
+            $self->{logger}->debug("Thread $t deleted");
             return;
         } elsif ($ThreadAction->[$t] == RUN) { # PAUSE
             $ThreadState->[$t]  = PAUSE;

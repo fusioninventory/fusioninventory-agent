@@ -11,7 +11,6 @@ requires 'FusionInventory::Agent' => '2.2';
 requires 'Net::NBName'            => undef;
 requires 'Net::IP'                => undef;
 requires 'Net::SNMP'              => undef;
-requires 'Parallel::ForkManager'  => undef;
 requires 'threads'                => undef;
 requires 'XML::TreePP'            => undef;
 
