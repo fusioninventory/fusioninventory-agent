@@ -12,6 +12,11 @@ use base 'FusionInventory::Agent::Task';
 use constant ADDRESS_PER_THREAD => 25;
 use constant DEVICE_PER_MESSAGE => 4;
 
+use constant DELETE => 3;
+use constant STOP   => 2;
+use constant RUN    => 1;
+use constant PAUSE  => 0;
+
 use Data::Dumper;
 use Digest::MD5 qw(md5_hex);
 use English qw(-no_match_vars);
@@ -154,8 +159,8 @@ sub run {
             $loop_nbthreads = $params->{THREADS_DISCOVERY};
 
             for (my $j = 0 ; $j < $params->{THREADS_DISCOVERY}; $j++) {
-                $ThreadState[$j] = 0;
-                $ThreadAction[$j] = 0;
+                $ThreadState[$j] = PAUSE;
+                $ThreadAction[$j] = PAUSE;
             }
             #===================================
             # Create Thread management others threads
@@ -339,12 +344,12 @@ sub _handleIPRange {
     while (1) {
         ##### WAIT ACTION #####
         while (1) {
-            if ($ThreadAction->[$t] == 3) { # STOP
-                $ThreadState->[$t] = 2;
+            if ($ThreadAction->[$t] == DELETE) { # STOP
+                $ThreadState->[$t] = STOP;
                 $self->{logger}->debug("Core $p - Thread $t deleted");
                 return;
-            } elsif ($ThreadAction->[$t] != 0) { # RUN
-                $ThreadState->[$t] = 1;
+            } elsif ($ThreadAction->[$t] != PAUSE) { # RUN
+                $ThreadState->[$t] = RUN;
                 last;
             }
             sleep 1;
@@ -398,14 +403,14 @@ sub _handleIPRange {
         }
 
         ##### CHANGE STATE #####
-        if ($ThreadAction->[$t] == 2) { # STOP
-            $ThreadState->[$t] = 2;
-            $ThreadAction->[$t] = 0;
+        if ($ThreadAction->[$t] == STOP) { # STOP
+            $ThreadState->[$t]  = STOP;
+            $ThreadAction->[$t] = PAUSE;
             $self->{logger}->debug("Core $p - Thread $t deleted");
             return;
-        } elsif ($ThreadAction->[$t] == 1) { # PAUSE
-            $ThreadState->[$t] = 0;
-            $ThreadAction->[$t] = 0;
+        } elsif ($ThreadAction->[$t] == RUN) { # PAUSE
+            $ThreadState->[$t]  = PAUSE;
+            $ThreadAction->[$t] = PAUSE;
         }
     }
 }
@@ -423,7 +428,7 @@ sub _manageThreads {
 
            ## Start + end working threads (do a function) ##
               for($i = 0 ; $i < $loop_nbthreads ; $i++) {
-                 $ThreadAction->[$i] = 2;
+                 $ThreadAction->[$i] = STOP;
               }
            ## Function state of working threads (if they are stopped) ##
               $count = 0;
@@ -431,7 +436,7 @@ sub _manageThreads {
 
               while ($loopthread != 1) {
                  for($i = 0 ; $i < $loop_nbthreads ; $i++) {
-                    if ($ThreadState->[$i] == 2) {
+                    if ($ThreadState->[$i] == STOP) {
                        $count++;
                     }
                  }
@@ -448,7 +453,7 @@ sub _manageThreads {
         } elsif ((@$addresses >= 0) && ($exit == 2)) {
            ## Start + pause working Threads (do a function) ##
               for($i = 0 ; $i < $loop_nbthreads ; $i++) {
-                 $ThreadAction->[$i] = 1;
+                 $ThreadAction->[$i] = RUN;
               }
            sleep 1;
 
@@ -458,7 +463,7 @@ sub _manageThreads {
 
            while ($loopthread != 1) {
               for($i = 0 ; $i < $loop_nbthreads ; $i++) {
-                 if ($ThreadState->[$i] == 0) {
+                 if ($ThreadState->[$i] == PAUSE) {
                     $count++;
                  }
               }
