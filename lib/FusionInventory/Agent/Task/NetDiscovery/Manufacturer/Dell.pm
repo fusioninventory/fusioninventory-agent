@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Dell;
 
+use strict;
+use warnings;
 
 sub discovery {
    my $empty       = shift;

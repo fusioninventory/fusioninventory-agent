@@ -1,5 +1,8 @@
 package FusionInventory::Agent::Task::NetDiscovery::Manufacturer::HewlettPackard;
 
+use strict;
+use warnings;
+
 sub discovery {
    my $empty       = shift;
    my $description = shift;

@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Wyse;
 
+use strict;
+use warnings;
 
 sub discovery {
    my $empty       = shift;
