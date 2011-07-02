@@ -170,29 +170,13 @@ sub run {
             PROCESSNUMBER => $pid
         });
 
-        # launch scan, and wait for the threads to reach final state
-        if (@addresses > 0) {
-            # there are remaining adresses to proceed after this block
+        # set all threads in RUN state
+        $_->{action} = RUN foreach @threads;
 
-            # set all threads in RUN state
-            $_->{action} = RUN foreach @threads;
-
-            # wait for them to actually reach PAUSE state
-            while (1) {
-                last if all { $_->{state} == PAUSE } @threads;
-                sleep 1;
-            }
-        } else {
-            # this is the last block of addresses to proceed
-
-            # set all threads in STOP state
-            $_->{action} = STOP foreach @threads;
-
-            # wait for them to actually reach STOP state
-            while (1) {
-                last if all { $_->{state} == STOP } @threads;
-                sleep 1;
-            }
+        # wait for them to reach PAUSE state
+        while (1) {
+            last if all { $_->{state} == PAUSE } @threads;
+            sleep 1;
         }
 
         # send results to the server
@@ -209,8 +193,14 @@ sub run {
         }
     }
 
-    # Wait for threads be terminated
-    sleep 1;
+    # set all threads in STOP state
+    $_->{action} = STOP foreach @threads;
+
+    # wait for them to reach STOP state
+    while (1) {
+        last if all { $_->{state} == STOP } @threads;
+        sleep 1;
+    }
 
     # send stop signal to the server
     $self->_sendInformations({
