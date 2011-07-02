@@ -313,17 +313,16 @@ sub _handleIPRange {
 
     $self->{logger}->debug("Thread $t created");
 
-    while (1) {
+    OUTER: while (1) {
 
         # wait for action
-        while (1) {
+        WAIT: while (1) {
             if ($ThreadAction->[$t] == DELETE) { # STOP
                 $ThreadState->[$t] = STOP;
-                $self->{logger}->debug("Thread $t deleted");
-                return;
+                last OUTER;
             } elsif ($ThreadAction->[$t] != PAUSE) { # RUN
                 $ThreadState->[$t] = RUN;
-                last;
+                last WAIT;
             }
             sleep 1;
         }
@@ -331,13 +330,13 @@ sub _handleIPRange {
         # run
         my @devices;
 
-        while (1) {
+        RUN: while (1) {
             my $item;
             {
                 lock $iplist;
                 $item = pop @{$iplist};
             }
-            last unless $item;
+            last RUN unless $item;
 
             my $device = $self->_probeAddress(
                 ip              => $item->{IP},
@@ -380,13 +379,14 @@ sub _handleIPRange {
         if ($ThreadAction->[$t] == STOP) { # STOP
             $ThreadState->[$t]  = STOP;
             $ThreadAction->[$t] = PAUSE;
-            $self->{logger}->debug("Thread $t deleted");
-            return;
+            last OUTER;
         } elsif ($ThreadAction->[$t] == RUN) { # PAUSE
             $ThreadState->[$t]  = PAUSE;
             $ThreadAction->[$t] = PAUSE;
         }
     }
+
+    $self->{logger}->debug("Thread $t deleted");
 }
 
 sub _manageThreads {
