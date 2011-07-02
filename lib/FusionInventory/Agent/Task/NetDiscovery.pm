@@ -110,8 +110,6 @@ sub run {
 
     my $exit : shared = SCAN_PAUSE;
 
-    my $sendbylwp : shared;
-
     # convert given IP ranges into a flat list of IP addresses
     my @addresses :shared;
     foreach my $range (@{$options->{RANGEIP}}) {
@@ -177,19 +175,15 @@ sub run {
     while (@addresses) {
         @addresses_block = splice @addresses, 0, $block_size;
 
+        # send block size to the server
+        $self->_sendInformations({
+            AGENT => {
+                NBIP => scalar @addresses_block
+            },
+            PROCESSNUMBER => $pid
+        });
+
         $exit = SCAN_RUN;
-
-
-        # Send NB ips to server :
-        {
-            lock $sendbylwp;
-            $self->_sendInformations({
-                AGENT => {
-                    NBIP => scalar @addresses_block
-                },
-                PROCESSNUMBER => $pid
-            });
-        }
 
         my $sentxml;
 
