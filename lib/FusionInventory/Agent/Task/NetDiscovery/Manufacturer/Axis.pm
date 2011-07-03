@@ -6,25 +6,23 @@ use warnings;
 sub discovery {
     my ($empty, $description, $snmp) = @_;
 
-    if ($description =~ m/AXIS OfficeBasic Network Print Server/) {
-        my $new_description = $snmp->get('.1.3.6.1.4.1.2699.1.2.1.2.1.1.3.1');
-        if ($new_description) {
-            my @infos = split(/;/, $new_description);
-            foreach (@infos) {
-                if ($_ =~ /^MDL:/) {
-                    $_ =~ s/MDL://;
-                    $description = $_;
-                    last;
-                } elsif ($_ =~ /^MODEL:/) {
-                    $_ =~ s/MODEL://;
-                    $description = $_;
-                    last;
-                }
+    return unless $description =~ m/AXIS OfficeBasic Network Print Server/;
+
+    my $result = $snmp->get('.1.3.6.1.4.1.2699.1.2.1.2.1.1.3.1');
+    if ($result) {
+        my @infos = split(/;/, $result);
+        foreach (@infos) {
+            if ($_ =~ /^MDL:/) {
+                $_ =~ s/MDL://;
+                return $_;
+            } elsif ($_ =~ /^MODEL:/) {
+                $_ =~ s/MODEL://;
+                return $_;
             }
         }
     }
 
-    return $description;
+    return;
 }
 
 1;

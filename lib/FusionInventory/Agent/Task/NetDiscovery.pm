@@ -477,7 +477,10 @@ sub _probeAddressBySNMP {
 
         # ***** manufacturer specifications
         foreach my $m (@{$self->{modules}}) {
-            $description = $m->discovery($description, $snmp);
+            my $new_description = $m->discovery($description, $snmp);
+            if ($new_description) {
+                $description = $new_description;
+            }
         }
 
         $device->{DESCRIPTION} = $description;
