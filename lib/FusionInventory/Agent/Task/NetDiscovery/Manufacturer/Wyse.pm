@@ -4,13 +4,10 @@ use strict;
 use warnings;
 
 sub discovery {
-    my ($empty, $description, $session) = @_;
+    my ($empty, $description, $snmp) = @_;
 
     if ($description =~ m/Linux/) {
-        my $description_new = $session->snmpGet({
-            oid => '.1.3.6.1.4.1.714.1.2.5.6.1.2.1.6.1',
-            up  => 1,
-        });
+        my $description_new = $snmp->get('.1.3.6.1.4.1.714.1.2.5.6.1.2.1.6.1');
         if (($description_new ne "null") && ($description_new ne "noSuchObject")) {
 
             $description_new =~ s/^"//;
