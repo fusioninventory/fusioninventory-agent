@@ -7,9 +7,9 @@ sub discovery {
     my ($empty, $description, $snmp) = @_;
 
     if ($description =~ m/AXIS OfficeBasic Network Print Server/) {
-        my $description_new = $snmp->get('.1.3.6.1.4.1.2699.1.2.1.2.1.1.3.1');
-        if ($description_new ne "null") {
-            my @infos = split(/;/,$description_new);
+        my $new_description = $snmp->get('.1.3.6.1.4.1.2699.1.2.1.2.1.1.3.1');
+        if ($new_description) {
+            my @infos = split(/;/, $new_description);
             foreach (@infos) {
                 if ($_ =~ /^MDL:/) {
                     $_ =~ s/MDL://;

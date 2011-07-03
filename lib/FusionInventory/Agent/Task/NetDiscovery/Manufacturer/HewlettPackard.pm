@@ -6,14 +6,17 @@ use warnings;
 sub discovery {
     my ($empty, $description, $snmp) = @_;
 
-    if (($description =~ m/HP ETHERNET MULTI-ENVIRONMENT/) || ($description =~ m/A SNMP proxy agent, EEPROM/)){
-        my $description_new = $snmp->get('.1.3.6.1.2.1.25.3.2.1.3.1');
-        if (($description_new ne "null") && ($description_new ne "No response from remote host")) {
-            $description = $description_new;
-        } elsif ($description_new eq "No response from remote host") {
-            $description_new = $snmp->get('.1.3.6.1.4.1.11.2.3.9.1.1.7.0');
-            if ($description_new ne "null") {
-            my @infos = split(/;/,$description_new);
+    if (
+        $description =~ m/HP ETHERNET MULTI-ENVIRONMENT/ or
+        $description =~ m/A SNMP proxy agent, EEPROM/
+    ) {
+
+        my $new_description = $snmp->get('.1.3.6.1.2.1.25.3.2.1.3.1');
+
+        if (!$new_description) {
+            $new_description = $snmp->get('.1.3.6.1.4.1.11.2.3.9.1.1.7.0');
+            if ($new_description) {
+                my @infos = split(/;/, $new_description);
                 foreach (@infos) {
                     if ($_ =~ /^MDL:/) {
                         $_ =~ s/MDL://;

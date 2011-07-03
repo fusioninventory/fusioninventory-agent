@@ -8,14 +8,11 @@ sub discovery {
 
     # example : 5.1.6.485.R02 Service Release, September 26, 2008.
 
-        if ($description =~ m/^([1-9]{1}).([0-9]{1}).([0-9]{1})(.*) Service Release,(.*)([0-9]{1}).$/ ) {
-        my $description_new = $snmp->get('.1.3.6.1.2.1.47.1.1.1.1.13.1');
-        if (($description_new ne "null") && ($description_new ne "No response from remote host")) {
-            if ($description_new eq "OS66-P24") {
-                $description = "OmniStack 6600-P24";
-            } else {
-                $description = $description_new;
-            }
+    if ($description =~ m/^([1-9]{1}).([0-9]{1}).([0-9]{1})(.*) Service Release,(.*)([0-9]{1}).$/) {
+        my $new_description = $snmp->get('.1.3.6.1.2.1.47.1.1.1.1.13.1');
+        if ($new_description) {
+            $description = $new_description eq "OS66-P24" ?
+                "OmniStack 6600-P24" : $new_description;
         }
     }
 

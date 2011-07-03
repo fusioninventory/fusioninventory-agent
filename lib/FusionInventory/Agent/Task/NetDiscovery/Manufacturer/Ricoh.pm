@@ -7,10 +7,8 @@ sub discovery {
     my ($empty, $description, $snmp) = @_;
 
     if ($description =~ m/RICOH NETWORK PRINTER/) {
-        my $description_new = $snmp->get('.1.3.6.1.4.1.11.2.3.9.1.1.7.0');
-        if (($description_new ne "null") && ($description_new ne "No response from remote host")) {
-            $description = $description_new;
-        }
+        my $new_description = $snmp->get('.1.3.6.1.4.1.11.2.3.9.1.1.7.0');
+        $description = $new_description if $new_description;
     }
 
     return $description;
