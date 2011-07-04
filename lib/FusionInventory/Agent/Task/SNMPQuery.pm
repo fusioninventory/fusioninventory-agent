@@ -231,13 +231,13 @@ sub run {
       for(my $j = 0; $j < $nb_threads_query; $j++) {
          $Thread[$p][$j] = threads->create(
              'handleDevices',
+             $self,
             $p,
             $j,
             $devicelist->{$p},
             \%devicelist2,
             $modelslist,
             $authlist,
-            $self,
             $params->{PID},
             \%TuerThread
          )->detach();
@@ -337,15 +337,7 @@ sub SendInformations {
 }
 
 sub handleDevices {
-    my $p = shift;
-    my $t = shift;
-    my $devicelist = shift;
-    my $devicelist2 = shift;
-    my $modelslist = shift;
-    my $authlist = shift;
-    my $self = shift;
-    my $pid = shift;
-    my $TuerThread = shift;
+    my ($self, $p, $t, $devicelist, $devicelist2, $modelslist, $authlist, $pid, $TuerThread) = @_;
 
     my $device_id;
 
