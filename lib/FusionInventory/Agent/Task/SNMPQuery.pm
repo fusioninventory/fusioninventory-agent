@@ -84,7 +84,6 @@ sub run {
    my $devicelist = {};
    my %devicelist2 : shared;
    my $modelslist = {};
-   my $authlist = {};
 	my @Thread;
    my $sentxml = {};
 
@@ -176,8 +175,8 @@ sub run {
    # Models SNMP
    $modelslist = ModelParser($self->{SNMPQUERY});
 
-   # Auth SNMP
-   $authlist = AuthParser($self->{SNMPQUERY});
+   # retrieve SNMP authentication credentials
+   my $credentials = $options->{AUTHENTICATION};
 
    my $pm;
 
@@ -237,7 +236,7 @@ sub run {
             $devicelist->{$p},
             \%devicelist2,
             $modelslist,
-            $authlist,
+            $credentials,
             $params->{PID},
             \%TuerThread
          )->detach();
@@ -337,7 +336,7 @@ sub SendInformations {
 }
 
 sub handleDevices {
-    my ($self, $p, $t, $devicelist, $devicelist2, $modelslist, $authlist, $pid, $TuerThread) = @_;
+    my ($self, $p, $t, $devicelist, $devicelist2, $modelslist, $credentials, $pid, $TuerThread) = @_;
 
     my $device_id;
 
@@ -367,7 +366,7 @@ sub handleDevices {
             my $datadevice = $self->query_device_threaded({
                 device              => $devicelist->{$device_id},
                 modellist           => $modelslist->{$devicelist->{$device_id}->{MODELSNMP_ID}},
-                authlist            => $authlist->{$devicelist->{$device_id}->{AUTHSNMP_ID}}
+                credentials         => $credentials->{$devicelist->{$device_id}->{AUTHSNMP_ID}}
             });
             $xml_thread->{DEVICE}->[$count] = $datadevice;
             $xml_thread->{MODULEVERSION} = $VERSION;
@@ -390,38 +389,6 @@ sub handleDevices {
     $TuerThread->{$p}[$t] = 1;
     $self->{logger}->debug("Core $p - Thread $t deleted");
 }
-
-sub AuthParser {
-   #my ($self, $dataAuth) = @_;
-   my $dataAuth = shift;
-   my $authlist = {};
-   if (ref($dataAuth->{AUTHENTICATION}) eq "HASH"){
-      $authlist->{$dataAuth->{AUTHENTICATION}->{ID}} = {
-               COMMUNITY      => $dataAuth->{AUTHENTICATION}->{COMMUNITY},
-               VERSION        => $dataAuth->{AUTHENTICATION}->{VERSION},
-               USERNAME       => $dataAuth->{AUTHENTICATION}->{USERNAME},
-               AUTHPASSWORD   => $dataAuth->{AUTHENTICATION}->{AUTHPASSPHRASE},
-               AUTHPROTOCOL   => $dataAuth->{AUTHENTICATION}->{AUTHPROTOCOL},
-               PRIVPASSWORD   => $dataAuth->{AUTHENTICATION}->{PRIVPASSPHRASE},
-               PRIVPROTOCOL   => $dataAuth->{AUTHENTICATION}->{PRIVPROTOCOL}
-            };
-   } else {
-      foreach my $num (@{$dataAuth->{AUTHENTICATION}}) {
-         $authlist->{ $num->{ID} } = {
-               COMMUNITY      => $num->{COMMUNITY},
-               VERSION        => $num->{VERSION},
-               USERNAME       => $num->{USERNAME},
-               AUTHPASSWORD   => $num->{AUTHPASSPHRASE},
-               AUTHPROTOCOL   => $num->{AUTHPROTOCOL},
-               PRIVPASSWORD   => $num->{PRIVPASSPHRASE},
-               PRIVPROTOCOL   => $num->{PRIVPROTOCOL}
-            };
-      }
-   }
-   return $authlist;
-}
-
-
 
 sub ModelParser {
    my $dataModel = shift;
@@ -495,14 +462,14 @@ sub query_device_threaded {
 	############### SNMP Queries ###############
    my $session = new FusionInventory::Agent::SNMP ({
 
-               version      => $params->{authlist}->{VERSION},
+               version      => $params->{credentials}->{VERSION},
                hostname     => $params->{device}->{IP},
-               community    => $params->{authlist}->{COMMUNITY},
-               username     => $params->{authlist}->{USERNAME},
-               authpassword => $params->{authlist}->{AUTHPASSWORD},
-               authprotocol => $params->{authlist}->{AUTHPROTOCOL},
-               privpassword => $params->{authlist}->{PRIVPASSWORD},
-               privprotocol => $params->{authlist}->{PRIVPROTOCOL},
+               community    => $params->{credentials}->{COMMUNITY},
+               username     => $params->{credentials}->{USERNAME},
+               authpassword => $params->{credentials}->{AUTHPASSWORD},
+               authprotocol => $params->{credentials}->{AUTHPROTOCOL},
+               privpassword => $params->{credentials}->{PRIVPASSWORD},
+               privprotocol => $params->{credentials}->{PRIVPROTOCOL},
                translate    => 1,
 
             });
@@ -511,14 +478,14 @@ sub query_device_threaded {
 	}
    my $session2 = new FusionInventory::Agent::SNMP ({
 
-               version      => $params->{authlist}->{VERSION},
+               version      => $params->{credentials}->{VERSION},
                hostname     => $params->{device}->{IP},
-               community    => $params->{authlist}->{COMMUNITY},
-               username     => $params->{authlist}->{USERNAME},
-               authpassword => $params->{authlist}->{AUTHPASSWORD},
-               authprotocol => $params->{authlist}->{AUTHPROTOCOL},
-               privpassword => $params->{authlist}->{PRIVPASSWORD},
-               privprotocol => $params->{authlist}->{PRIVPROTOCOL},
+               community    => $params->{credentials}->{COMMUNITY},
+               username     => $params->{credentials}->{USERNAME},
+               authpassword => $params->{credentials}->{AUTHPASSWORD},
+               authprotocol => $params->{credentials}->{AUTHPROTOCOL},
+               privpassword => $params->{credentials}->{PRIVPASSWORD},
+               privprotocol => $params->{credentials}->{PRIVPROTOCOL},
                translate    => 0,
 
             });
@@ -589,27 +556,27 @@ sub query_device_threaded {
                 #Initiate SNMP connection on this VLAN
                my $session = new FusionInventory::Agent::SNMP ({
 
-                              version      => $params->{authlist}->{VERSION},
+                              version      => $params->{credentials}->{VERSION},
                               hostname     => $params->{device}->{IP},
-                              community    => $params->{authlist}->{COMMUNITY}."@".$vlan_id_short,
-                              username     => $params->{authlist}->{USERNAME},
-                              authpassword => $params->{authlist}->{AUTHPASSWORD},
-                              authprotocol => $params->{authlist}->{AUTHPROTOCOL},
-                              privpassword => $params->{authlist}->{PRIVPASSWORD},
-                              privprotocol => $params->{authlist}->{PRIVPROTOCOL},
+                              community    => $params->{credentials}->{COMMUNITY}."@".$vlan_id_short,
+                              username     => $params->{credentials}->{USERNAME},
+                              authpassword => $params->{credentials}->{AUTHPASSWORD},
+                              authprotocol => $params->{credentials}->{AUTHPROTOCOL},
+                              privpassword => $params->{credentials}->{PRIVPASSWORD},
+                              privprotocol => $params->{credentials}->{PRIVPROTOCOL},
                               translate    => 1,
 
                            });
                   my $session2 = new FusionInventory::Agent::SNMP ({
 
-                              version      => $params->{authlist}->{VERSION},
+                              version      => $params->{credentials}->{VERSION},
                               hostname     => $params->{device}->{IP},
-                              community    => $params->{authlist}->{COMMUNITY}."@".$vlan_id_short,
-                              username     => $params->{authlist}->{USERNAME},
-                              authpassword => $params->{authlist}->{AUTHPASSWORD},
-                              authprotocol => $params->{authlist}->{AUTHPROTOCOL},
-                              privpassword => $params->{authlist}->{PRIVPASSWORD},
-                              privprotocol => $params->{authlist}->{PRIVPROTOCOL},
+                              community    => $params->{credentials}->{COMMUNITY}."@".$vlan_id_short,
+                              username     => $params->{credentials}->{USERNAME},
+                              authpassword => $params->{credentials}->{AUTHPASSWORD},
+                              authprotocol => $params->{credentials}->{AUTHPROTOCOL},
+                              privpassword => $params->{credentials}->{PRIVPASSWORD},
+                              privprotocol => $params->{credentials}->{PRIVPROTOCOL},
                               translate    => 0,
 
                            });
