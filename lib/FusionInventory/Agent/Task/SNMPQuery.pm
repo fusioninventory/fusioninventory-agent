@@ -77,7 +77,7 @@ sub run {
 	#===================================
    my %TuerThread : shared;
 	my %ArgumentsThread :shared;
-   my $devicelist = {};
+   my @devicelist : shared;
    my $modelslist = {};
 	my @Thread;
    my $sentxml = {};
@@ -106,7 +106,7 @@ sub run {
                   if ($core_counter eq $nb_core_query) {
                      $core_counter = 0;
                   }
-                  $devicelist->{$core_counter}->{$countnb[$core_counter]} = $self->{SNMPQUERY}->{DEVICE};
+                  $devicelist[$core_counter]->[$countnb[$core_counter]] = $self->{SNMPQUERY}->{DEVICE};
                   $countnb[$core_counter]++;
                   $core_counter++;
                } else {
@@ -115,7 +115,7 @@ sub run {
                         $core_counter = 0;
                      }
                      #### MODIFIER
-                     $devicelist->{$core_counter}->{$countnb[$core_counter]} = $num;
+                     $devicelist[$core_counter]->[$countnb[$core_counter]] = $num;
                      $countnb[$core_counter]++;
                      $core_counter++;
                   }
@@ -130,7 +130,7 @@ sub run {
                      $core_counter = 0;
                   }
                   #### MODIFIER
-                  $devicelist->{$core_counter}->{$countnb[$core_counter]} = $device;
+                  $devicelist[$core_counter]->[$countnb[$core_counter]] = $device;
                   $countnb[$core_counter]++;
                   $core_counter++;
                } else {
@@ -139,7 +139,7 @@ sub run {
                         $core_counter = 0;
                      }
                      #### MODIFIER
-                     $devicelist->{$core_counter}->{$countnb[$core_counter]} = $num;
+                     $devicelist[$core_counter]->[$countnb[$core_counter]] = $num;
                      $countnb[$core_counter]++;
                      $core_counter++;
                   }
@@ -208,7 +208,7 @@ sub run {
              $self,
             $p,
             $j,
-            $devicelist->{$p},
+            $devicelist[$p],
             $modelslist,
             $credentials,
             $params->{PID},
