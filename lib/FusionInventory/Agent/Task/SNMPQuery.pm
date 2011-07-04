@@ -98,56 +98,29 @@ sub run {
    }
 
    $core_counter = 0;
-   if (defined($self->{SNMPQUERY}->{DEVICE})) {
-      if (ref($self->{SNMPQUERY}->{DEVICE}) eq "HASH"){
-         foreach my $type (qw/NETWORKING PRINTER/) {
-            if ($self->{SNMPQUERY}->{DEVICE}->{TYPE} eq $type) {
-               if (ref($self->{SNMPQUERY}->{DEVICE}) eq "HASH"){
-                  if ($core_counter eq $nb_core_query) {
-                     $core_counter = 0;
-                  }
-                  $devicelist[$core_counter]->[$countnb[$core_counter]] = $self->{SNMPQUERY}->{DEVICE};
-                  $countnb[$core_counter]++;
-                  $core_counter++;
-               } else {
-                  foreach $num (@{$self->{SNMPQUERY}->{DEVICE}->{$_}}) {
-                     if ($core_counter eq $nb_core_query) {
-                        $core_counter = 0;
-                     }
-                     #### MODIFIER
-                     $devicelist[$core_counter]->[$countnb[$core_counter]] = $num;
-                     $countnb[$core_counter]++;
-                     $core_counter++;
-                  }
-               }
-            }
-         }
-      } else {
-         foreach $device (@{$self->{SNMPQUERY}->{DEVICE}}) {
-            if (defined($device)) {
-               if (ref($device) eq "HASH"){
-                  if ($core_counter eq $nb_core_query) {
-                     $core_counter = 0;
-                  }
-                  #### MODIFIER
-                  $devicelist[$core_counter]->[$countnb[$core_counter]] = $device;
-                  $countnb[$core_counter]++;
-                  $core_counter++;
-               } else {
-                  foreach $num (@{$device}) {
-                     if ($core_counter eq $nb_core_query) {
-                        $core_counter = 0;
-                     }
-                     #### MODIFIER
-                     $devicelist[$core_counter]->[$countnb[$core_counter]] = $num;
-                     $countnb[$core_counter]++;
-                     $core_counter++;
-                  }
-               }
-            }
-         }
-      }
-   }
+     foreach my $device (@{$self->{SNMPQUERY}->{DEVICE}}) {
+        if (defined($device)) {
+           if (ref($device) eq "HASH"){
+              if ($core_counter eq $nb_core_query) {
+                 $core_counter = 0;
+              }
+              #### MODIFIER
+              $devicelist[$core_counter]->[$countnb[$core_counter]] = $device;
+              $countnb[$core_counter]++;
+              $core_counter++;
+           } else {
+              foreach $num (@{$device}) {
+                 if ($core_counter eq $nb_core_query) {
+                    $core_counter = 0;
+                 }
+                 #### MODIFIER
+                 $devicelist[$core_counter]->[$countnb[$core_counter]] = $num;
+                 $countnb[$core_counter]++;
+                 $core_counter++;
+              }
+           }
+        }
+     }
 
    # Models SNMP
    $modelslist = ModelParser($self->{SNMPQUERY});
