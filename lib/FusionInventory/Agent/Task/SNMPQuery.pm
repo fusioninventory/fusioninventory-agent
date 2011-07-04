@@ -303,15 +303,6 @@ sub StartThreads {
          sleep 1;
       }
 
-      my $network = $self->{network} = new FusionInventory::Agent::HTTP::Client::OCS({
-
-               logger => $self->{logger},
-               config => $self->{config},
-               target => $self->{target},
-
-           });
-      push(@LWP::Protocol::http::EXTRA_SOCK_OPTS, MaxLineLength => 16*1024);
-
       # Send infos to server :
       my $xml_thread = {};
       $xml_thread->{AGENT}->{START} = '1';
@@ -394,15 +385,6 @@ sub StartThreads {
 sub sendEndToServer() {
    my ($self) = @_;
 
-   my $network = $self->{network} = new FusionInventory::Agent::HTTP::Client::OCS({
-
-            logger => $self->{logger},
-            config => $self->{config},
-            target => $self->{target},
-
-        });
-   push(@LWP::Protocol::http::EXTRA_SOCK_OPTS, MaxLineLength => 16*1024);
-
    # Send infos to server :
    my $xml_thread;
    $xml_thread->{AGENT}->{END} = '1';
@@ -428,7 +410,7 @@ sub SendInformations{
            CONTENT   => $message->{data},
            },
            });
-   $self->{network}->send({message => $xmlMsg});
+   $self->{client}->send({message => $xmlMsg});
 }
 
 
