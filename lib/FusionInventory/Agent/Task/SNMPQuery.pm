@@ -30,21 +30,9 @@ my $maxIdx : shared = 0;
 sub run {
     my ($self) = @_;
 
-    my $storage = $self->{storage} = new FusionInventory::Agent::Storage({
-            target => {
-                vardir => $ARGV[0],
-            }
-        });
-
-    my $data = $storage->restore({ module => "FusionInventory::Agent" });
-    $self->{data} = $data;
-
-    my $config = $self->{config} = $data->{config};
-    my $target = $self->{target} = $data->{target};
-    my $logger = $self->{logger} = new FusionInventory::Agent::Logger ({
-            config => $self->{config}
-        });
-    $self->{prologresp} = $data->{prologresp};
+    my $config = $self->{config};
+    my $target = $self->{target};
+    my $logger = $self->{logger};
     $self->{logger}->debug("FusionInventory SNMPQuery module ".$VERSION);
 
    if ( not eval { require Net::SNMP; 1 } ) {
