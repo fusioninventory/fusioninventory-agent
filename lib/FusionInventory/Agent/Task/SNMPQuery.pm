@@ -11,26 +11,20 @@ if ($threads::VERSION > 1.32){
    threads->set_stack_size(20*8192);
 }
 
-use Data::Dumper;
-
-use XML::Simple;
+use Encode qw(encode);
 use File::stat;
+use XML::Simple;
 
-use ExtUtils::Installed;
-use FusionInventory::Agent::Config;
-use FusionInventory::Logger;
+use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Storage;
-use FusionInventory::Agent::XML::Query::SimpleMessage;
-use FusionInventory::Agent::XML::Response::Prolog;
-use FusionInventory::Agent::Network;
+use FusionInventory::Agent::XML::Query;
+use FusionInventory::Agent::HTTP::Client::OCS;
 use FusionInventory::Agent::SNMP;
 
 use FusionInventory::Agent::Task::SNMPQuery::Cisco;
 use FusionInventory::Agent::Task::SNMPQuery::Procurve;
 use FusionInventory::Agent::Task::SNMPQuery::ThreeCom;
 use FusionInventory::Agent::Task::SNMPQuery::Nortel;
-
-use FusionInventory::Agent::AccountInfo;
 
 my $maxIdx : shared = 0;
 
@@ -53,7 +47,7 @@ sub main {
 
     my $config = $self->{config} = $data->{config};
     my $target = $self->{target} = $data->{target};
-    my $logger = $self->{logger} = new FusionInventory::Logger ({
+    my $logger = $self->{logger} = new FusionInventory::Agent::Logger ({
             config => $self->{config}
         });
     $self->{prologresp} = $data->{prologresp};
@@ -89,7 +83,7 @@ sub main {
         exit(0);
     }
 
-      $self->{inventory} = new FusionInventory::Agent::XML::Query::SimpleMessage ({
+      $self->{inventory} = new FusionInventory::Agent::XML::Query({
 
           # TODO, check if the accoun{info,config} are needed in localmode
 #          accountinfo => $accountinfo,
@@ -351,7 +345,7 @@ sub StartThreads {
          sleep 1;
       }
 
-      my $network = $self->{network} = new FusionInventory::Agent::Network ({
+      my $network = $self->{network} = new FusionInventory::Agent::HTTP::Client::OCS({
 
                logger => $self->{logger},
                config => $self->{config},
@@ -442,7 +436,7 @@ sub StartThreads {
 sub sendEndToServer() {
    my ($self) = @_;
 
-   my $network = $self->{network} = new FusionInventory::Agent::Network ({
+   my $network = $self->{network} = new FusionInventory::Agent::HTTP::Client::OCS({
 
             logger => $self->{logger},
             config => $self->{config},
@@ -466,7 +460,7 @@ sub sendEndToServer() {
 sub SendInformations{
    my ($self, $message) = @_;
 
-   my $xmlMsg = FusionInventory::Agent::XML::Query::SimpleMessage->new(
+   my $xmlMsg = FusionInventory::Agent::XML::Query->new(
            {
            config => $self->{config},
            logger => $self->{logger},
