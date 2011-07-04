@@ -65,17 +65,6 @@ sub run {
         return;
     }
 
-      $self->{inventory} = new FusionInventory::Agent::XML::Query({
-
-          # TODO, check if the accoun{info,config} are needed in localmode
-#          accountinfo => $accountinfo,
-#          accountconfig => $accountinfo,
-          target => $target,
-          config => $config,
-          logger => $logger,
-
-      });
-
    $self->StartThreads();
 }
 
