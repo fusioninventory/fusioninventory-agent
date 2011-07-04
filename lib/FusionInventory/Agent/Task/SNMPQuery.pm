@@ -48,17 +48,10 @@ sub run {
 
     $self->{logger}->debug("FusionInventory SNMPQuery module ".$VERSION);
 
-    $self->{PID} =
+    my $pid = 
         sprintf("%04d", localtime->yday()) . 
         sprintf("%02d", localtime->hour()) .
         sprintf("%02d", localtime->min());
-
-   $self->StartThreads();
-}
-
-
-sub StartThreads {
-   my ($self, $params) = @_;
 
    my $num_files = 1;
    my $device;
@@ -228,7 +221,7 @@ sub StartThreads {
       while ($i < $nb_threads_query) {
          $ArgumentsThread{'Bin'}[$p][$i] = $Bin;
          $ArgumentsThread{'log'}[$p][$i] = $log;
-         $ArgumentsThread{'PID'}[$p][$i] = $self->{PID};
+         $ArgumentsThread{'PID'}[$p][$i] = $pid;
          $i++;
       }
       #===================================
