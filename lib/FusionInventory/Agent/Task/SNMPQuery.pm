@@ -87,40 +87,12 @@ sub run {
 	$ArgumentsThread{'Bin'} = &share([]);
 	$ArgumentsThread{'PID'} = &share([]);
 
-   # Dispatch devices to different core
-   my @i;
-   my $nbip = 0;
-   my @countnb;
-   my $core_counter = 0;
-
-   for($core_counter = 0 ; $core_counter < $nb_core_query ; $core_counter++) {
-      $countnb[$core_counter] = 0;
+   # dispatch devices among processes
+   my $core;
+   foreach my $device (@{$self->{SNMPQUERY}->{DEVICE}}) {
+       push @{$devicelist[$core % $params->{CORE_QUERY}]}, $device;
+       $core++;
    }
-
-   $core_counter = 0;
-     foreach my $device (@{$self->{SNMPQUERY}->{DEVICE}}) {
-        if (defined($device)) {
-           if (ref($device) eq "HASH"){
-              if ($core_counter eq $nb_core_query) {
-                 $core_counter = 0;
-              }
-              #### MODIFIER
-              $devicelist[$core_counter]->[$countnb[$core_counter]] = $device;
-              $countnb[$core_counter]++;
-              $core_counter++;
-           } else {
-              foreach $num (@{$device}) {
-                 if ($core_counter eq $nb_core_query) {
-                    $core_counter = 0;
-                 }
-                 #### MODIFIER
-                 $devicelist[$core_counter]->[$countnb[$core_counter]] = $num;
-                 $countnb[$core_counter]++;
-                 $core_counter++;
-              }
-           }
-        }
-     }
 
    # Models SNMP
    $modelslist = ModelParser($self->{SNMPQUERY});
@@ -138,8 +110,10 @@ sub run {
       $pm=new Parallel::ForkManager($max_procs);
    }
 
-   if ($countnb[0] <  $nb_threads_query) {
-      $nb_threads_query = $countnb[0];
+   # reduce the number of threads to the number of devices
+   # for first process, if they are more
+   if (@{$devicelist[0]} <  $nb_threads_query) {
+      $nb_threads_query = @{$devicelist[0]};
    }
 
    my $xml_Thread : shared = '';
