@@ -410,6 +410,8 @@ sub _probeAddress {
 sub _probeAddressByNmap {
     my ($self, $device, $ip, $parameters) = @_;
 
+    $self->{logger}->debug("[$ip] : nmap discovery");
+
     $device = _parseNmap(command => "nmap $parameters $ip -oX -");
 }
 
