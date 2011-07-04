@@ -30,7 +30,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::NetDiscovery::Dico;
 use FusionInventory::Agent::XML::Query;
 
-our $VERSION = '1.5';
+our $VERSION = '2.0';
 
 sub run {
     my ($self) = @_;
