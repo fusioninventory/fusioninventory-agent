@@ -395,24 +395,20 @@ sub sendEndToServer() {
    undef($xml_thread);
 }
 
+sub SendInformations {
+   my ($self, $content) = @_;
 
+   my $message = FusionInventory::Agent::XML::Query->new(
+       deviceid => $self->{deviceid},
+       query    => 'SNMPQUERY',
+       content  => $content
+   );
 
-sub SendInformations{
-   my ($self, $message) = @_;
-
-   my $xmlMsg = FusionInventory::Agent::XML::Query->new(
-           {
-           config => $self->{config},
-           logger => $self->{logger},
-           target => $self->{target},
-           msg    => {
-           QUERY => 'SNMPQUERY',
-           CONTENT   => $message->{data},
-           },
-           });
-   $self->{client}->send({message => $xmlMsg});
+   $self->{client}->send(
+       url     => $self->{target}->getUrl(),
+       message => $message
+   );
 }
-
 
 sub AuthParser {
    #my ($self, $dataAuth) = @_;
