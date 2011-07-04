@@ -27,8 +27,6 @@ use FusionInventory::Agent::Task::SNMPQuery::Nortel;
 our $VERSION = '1.3';
 my $maxIdx : shared = 0;
 
-$SIG{INT} = \&signals;
-
 sub run {
     my ($self) = @_;
 
@@ -1086,15 +1084,5 @@ sub HexaToString {
    }
    return $val;
 }
-
-
-sub signals {
-    $SIG{INT} = \&signals;
-    warn "detection anormal end of runing program, will close it.\n";
-
-    main('finish');
-    exit();
-}
-
 
 1;
