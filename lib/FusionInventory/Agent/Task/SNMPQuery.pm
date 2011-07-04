@@ -55,7 +55,6 @@ sub run {
 
    my $num_files = 1;
    my $device;
-   my @devicetype;
    my $num;
    my $log;
 
@@ -72,9 +71,6 @@ sub run {
          $nb_core_query = 1;      
       }
    }
-
-   $devicetype[0] = "NETWORKING";
-   $devicetype[1] = "PRINTER";
 
 	#===================================
 	# Threads et variables partagÃ©es
@@ -107,8 +103,8 @@ sub run {
    if (defined($self->{SNMPQUERY}->{DEVICE})) {
       if (ref($self->{SNMPQUERY}->{DEVICE}) eq "HASH"){
          #if (keys (%{$data->{DEVICE}}) eq "0") {
-         for (@devicetype) {
-            if ($self->{SNMPQUERY}->{DEVICE}->{TYPE} eq $_) {
+         foreach my $type (qw/NETWORKING PRINTER/) {
+            if ($self->{SNMPQUERY}->{DEVICE}->{TYPE} eq $type) {
                if (ref($self->{SNMPQUERY}->{DEVICE}) eq "HASH"){
                   if ($core_counter eq $nb_core_query) {
                      $core_counter = 0;
