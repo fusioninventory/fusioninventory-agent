@@ -412,9 +412,7 @@ sub _probeAddress {
 sub _probeAddressByNmap {
     my ($self, $device, $ip, $parameters) = @_;
 
-    my $nmapCmd = "nmap $parameters $ip -oX -";
-    my $xml = `$nmapCmd`;
-    $device = _parseNmap($xml);
+    $device = _parseNmap(command => "nmap $parameters $ip -oX -");
 }
 
 sub _probeAddressByNetbios {
@@ -580,37 +578,36 @@ sub _initModList {
 }
 
 sub _parseNmap {
-    my ($xml) = @_;
+    my (%params) = @_;
 
-    my $ret = {};
+    my $handle = getFileHandle(%params);
+    return unless $handle;
 
-    return $ret unless $xml;
+    local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode
+    my $tpp  = XML::TreePP->new(force_array => '*');
+    my $tree = $tpp->parse(<$handle>);
+    close $handle;
+    return unless $tree;
 
-    my $tpp;
-    eval {
-        $tpp = XML::TreePP->new(force_array => '*');
-    };
-    return $ret unless $tpp;
-    my $h = $tpp->parse($xml);
-    return $ret unless $h;
+    my $result;
 
-    foreach my $host (@{$h->{nmaprun}[0]{host}}) {
-        foreach (@{$host->{address}}) {
-            if ($_->{'-addrtype'} eq 'mac') {
-                $ret->{MAC} = $_->{'-addr'} unless $ret->{MAC};
-                $ret->{NETPORTVENDOR} = $_->{'-vendor'} unless $ret->{NETPORTVENDOR};
-            }
+    foreach my $host (@{$tree->{nmaprun}[0]{host}}) {
+        foreach my $address (@{$host->{address}}) {
+            next unless $address->{'-addrtype'} eq 'mac';
+            $result->{MAC}           = $address->{'-addr'}
+                unless $result->{MAC};
+            $result->{NETPORTVENDOR} = $address->{'-vendor'}
+                unless $result->{NETPORTVENDOR};
         }
-        foreach (@{$host->{hostnames}}) {
-            my $name = eval {$_->{hostname}[0]{'-name'}};
+        foreach my $hostname (@{$host->{hostnames}}) {
+            my $name = eval {$hostname->{hostname}[0]{'-name'}};
             next unless $name;
-            $ret->{DNSHOSTNAME} = $name;
+            $result->{DNSHOSTNAME} = $name;
         }
     }
 
-    return $ret;
+    return $result;
 }
-
 
 1;
 
