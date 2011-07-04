@@ -480,6 +480,7 @@ sub _probeAddressBySNMP {
             my $new_description = $m->discovery($description, $snmp);
             if ($new_description) {
                 $description = $new_description;
+                last;
             }
         }
 
