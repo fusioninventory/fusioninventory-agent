@@ -70,7 +70,7 @@ sub StartThreads {
    my $num;
    my $log;
 
-  my $storage = $self->{storage};
+  my $storage = $self->{target}->getStorage();
 
 
    my $nb_threads_query = $self->{SNMPQUERY}->{PARAM}->[0]->{THREADS_QUERY};
