@@ -11,6 +11,7 @@ use base 'FusionInventory::Agent::Task';
 
 use Encode qw(encode);
 use File::stat;
+use Net::SNMP;
 use XML::Simple;
 
 use FusionInventory::Agent::HTTP::Client::OCS;
@@ -34,11 +35,6 @@ sub run {
     my $target = $self->{target};
     my $logger = $self->{logger};
     $self->{logger}->debug("FusionInventory SNMPQuery module ".$VERSION);
-
-   if ( not eval { require Net::SNMP; 1 } ) {
-      $self->{logger}->debug("Can't load Net::SNMP. Exiting...");
-      return;
-   }
 
    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
    $hour  = sprintf("%02d", $hour);
