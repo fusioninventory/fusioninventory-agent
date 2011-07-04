@@ -108,13 +108,7 @@ sub run {
                   if ($core_counter eq $nb_core_query) {
                      $core_counter = 0;
                   }
-                  $devicelist->{$core_counter}->{$countnb[$core_counter]} = {
-                                 ID             => $self->{SNMPQUERY}->{DEVICE}->{ID},
-                                 IP             => $self->{SNMPQUERY}->{DEVICE}->{IP},
-                                 TYPE           => $self->{SNMPQUERY}->{DEVICE}->{TYPE},
-                                 AUTHSNMP_ID    => $self->{SNMPQUERY}->{DEVICE}->{AUTHSNMP_ID},
-                                 MODELSNMP_ID   => $self->{SNMPQUERY}->{DEVICE}->{MODELSNMP_ID}
-                              };
+                  $devicelist->{$core_counter}->{$countnb[$core_counter]} = $self->{SNMPQUERY}->{DEVICE};
                   $devicelist2{$core_counter}{$countnb[$core_counter]} = $countnb[$core_counter];
                   $countnb[$core_counter]++;
                   $core_counter++;
@@ -140,13 +134,7 @@ sub run {
                      $core_counter = 0;
                   }
                   #### MODIFIER
-                  $devicelist->{$core_counter}->{$countnb[$core_counter]} = {
-                                 ID             => $device->{ID},
-                                 IP             => $device->{IP},
-                                 TYPE           => $device->{TYPE},
-                                 AUTHSNMP_ID    => $device->{AUTHSNMP_ID},
-                                 MODELSNMP_ID   => $device->{MODELSNMP_ID}
-                              };
+                  $devicelist->{$core_counter}->{$countnb[$core_counter]} = $device;
                   $devicelist2{$core_counter}{$countnb[$core_counter]} = $countnb[$core_counter];
                   $countnb[$core_counter]++;
                   $core_counter++;
