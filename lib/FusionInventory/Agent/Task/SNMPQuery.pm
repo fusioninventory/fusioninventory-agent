@@ -7,6 +7,7 @@ use threads::shared;
 if ($threads::VERSION > 1.32){
    threads->set_stack_size(20*8192);
 }
+use base 'FusionInventory::Agent::Task';
 
 use Encode qw(encode);
 use File::stat;
@@ -29,10 +30,7 @@ my $maxIdx : shared = 0;
 $SIG{INT} = \&signals;
 
 sub main {
-    my ( $action ) = @_;
-
-    my $self = {};
-    bless $self;
+    my ($self) = @_;
 
     my $storage = $self->{storage} = new FusionInventory::Agent::Storage({
             target => {
@@ -92,11 +90,7 @@ sub main {
 
       });
 
-   if (defined($action) && $action eq "finish") {
-      $self->sendEndToServer();
-   } else {
-      $self->StartThreads();
-   }
+   $self->StartThreads();
    exit(0);
 }
 
