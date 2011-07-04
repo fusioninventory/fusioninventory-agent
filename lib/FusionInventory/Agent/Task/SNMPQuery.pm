@@ -10,14 +10,10 @@ if ($threads::VERSION > 1.32){
 use base 'FusionInventory::Agent::Task';
 
 use Encode qw(encode);
-use File::stat;
 use Net::SNMP;
 use XML::Simple;
 
-use FusionInventory::Agent::HTTP::Client::OCS;
-use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::SNMP;
-use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::XML::Query;
 
 use FusionInventory::Agent::Task::SNMPQuery::Cisco;
