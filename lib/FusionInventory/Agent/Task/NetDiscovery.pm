@@ -350,21 +350,19 @@ sub _handleIPRange {
     $self->{logger}->debug("Thread $t deleted");
 }
 
-sub _sendInformations{
-   my ($self, $informations) = @_;
-
-   my $config = $self->{config};
+sub _sendInformations {
+   my ($self, $content) = @_;
 
    my $message = FusionInventory::Agent::XML::Query->new(
-       config => $self->{config},
-       logger => $self->{logger},
-       target => $self->{target},
-       msg    => {
-           QUERY   => 'NETDISCOVERY',
-           CONTENT => $informations
-       },
+       deviceid => $self->{deviceid},
+       query    => 'NETDISCOVERY',
+       content  => $content
    );
-   $self->{client}->send(message => $message);
+
+   $self->{client}->send(
+       url     => $self->{target}->getUrl(),
+       message => $message
+   );
 }
 
 sub _probeAddress {
