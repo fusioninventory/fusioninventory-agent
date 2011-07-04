@@ -374,22 +374,6 @@ sub StartThreads {
    );
 }
 
-
-
-sub sendEndToServer() {
-   my ($self) = @_;
-
-   # Send infos to server :
-   $self->SendInformations(
-       data => {
-          AGENT => {
-              END => 1,
-          },
-          PROCESSNUMBER => $self->{SNMPQUERY}->{PARAM}->[0]->{PID}
-       }
-   );
-}
-
 sub SendInformations {
    my ($self, $content) = @_;
 
