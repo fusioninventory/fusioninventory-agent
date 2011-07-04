@@ -102,7 +102,6 @@ sub run {
    $core_counter = 0;
    if (defined($self->{SNMPQUERY}->{DEVICE})) {
       if (ref($self->{SNMPQUERY}->{DEVICE}) eq "HASH"){
-         #if (keys (%{$data->{DEVICE}}) eq "0") {
          foreach my $type (qw/NETWORKING PRINTER/) {
             if ($self->{SNMPQUERY}->{DEVICE}->{TYPE} eq $type) {
                if (ref($self->{SNMPQUERY}->{DEVICE}) eq "HASH"){
@@ -816,8 +815,6 @@ sub ConstructDataDeviceMultiple {
    if (exists $HashDataSNMP->{ifPhysAddress}) {
       while ( ($object,$data) = each (%{$HashDataSNMP->{ifPhysAddress}}) ) {
          if ($data ne "") {
-#            my @array = split(/(\S{2})/, $data);
-#            $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{MAC} = $array[3].":".$array[5].":".$array[7].":".$array[9].":".$array[11].":".$array[13];
              $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{MAC} = $data;
          }
       }
@@ -897,7 +894,6 @@ sub PutSimpleOid {
             $datadevice->{$xmlelement1}->{$xmlelement2} = 100;
          } else {
             ($datadevice, $HashDataSNMP) = PutPourcentageOid($HashDataSNMP,$datadevice,$element."-capacitytype",$element."-level", $xmlelement1, $xmlelement2);
-            #$datadevice->{$xmlelement1}->{$xmlelement2} = $HashDataSNMP->{$element."-level"};
          }
       } else {
          $datadevice->{$xmlelement1}->{$xmlelement2} = $HashDataSNMP->{$element};
