@@ -50,10 +50,6 @@ sub run {
         return;
     }
 
-
-    my $config = $self->{config};
-    my $target = $self->{target};
-    my $logger = $self->{logger};
     $self->{logger}->debug("FusionInventory SNMPQuery module ".$VERSION);
 
    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
