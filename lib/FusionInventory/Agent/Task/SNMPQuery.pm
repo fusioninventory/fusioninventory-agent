@@ -82,8 +82,6 @@ sub StartThreads {
    $devicetype[0] = "NETWORKING";
    $devicetype[1] = "PRINTER";
 
-   my $xml_thread = {};
-
 	#===================================
 	# Threads et variables partagÃ©es
 	#===================================
@@ -300,16 +298,16 @@ sub StartThreads {
       }
 
       # Send infos to server :
-      my $xml_thread = {};
-      $xml_thread->{AGENT}->{START} = '1';
-      $xml_thread->{AGENT}->{AGENTVERSION} = $self->{config}->{VERSION};
-      $xml_thread->{MODULEVERSION} = $VERSION;
-      $xml_thread->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
-      $self->SendInformations({
-         data => $xml_thread
-         });
-      undef($xml_thread);
-
+      $self->SendInformations(
+          data => {
+              AGENT => {
+                  START        => 1,
+                  AGENTVERSION => $self->{config}->{VERSION}
+              },
+              MODULEVERSION => $VERSION,
+              PROCESSNUMBER => $self->{SNMPQUERY}->{PARAM}->[0]->{PID}
+          }
+      );
 
       my $exit = 0;
       while($exit eq "0") {
@@ -329,9 +327,9 @@ sub StartThreads {
                         idx => $idx
                     });
 
-                $self->SendInformations({
-                        data => $data
-                    });
+                $self->SendInformations(
+                    data => $data
+                );
                 $sentxml->{$idx} = 1;
                 $storage->remove({
                      idx => $idx
@@ -354,9 +352,9 @@ sub StartThreads {
           my $data = $storage->restore({
                   idx => $idx
               });
-          $self->SendInformations({
-                  data => $data
-              });
+          $self->SendInformations(
+              data => $data
+          );
           $sentxml->{$idx} = 1;
           sleep 1;
        }
@@ -365,15 +363,15 @@ sub StartThreads {
    $storage->removeSubDumps();
 
    # Send infos to server :
-   undef($xml_thread);
-   $xml_thread->{AGENT}->{END} = '1';
-   $xml_thread->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
    sleep 1; # Wait for threads be terminated
-   $self->SendInformations({
-      data => $xml_thread
-      });
-   undef($xml_thread);
-
+   $self->SendInformations(
+      data => {
+          AGENT => {
+              END => 1,
+          },
+          PROCESSNUMBER => $self->{SNMPQUERY}->{PARAM}->[0]->{PID}
+      }
+   );
 }
 
 
@@ -382,13 +380,14 @@ sub sendEndToServer() {
    my ($self) = @_;
 
    # Send infos to server :
-   my $xml_thread;
-   $xml_thread->{AGENT}->{END} = '1';
-   $xml_thread->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
-   $self->SendInformations({
-      data => $xml_thread
-      });
-   undef($xml_thread);
+   $self->SendInformations(
+       data => {
+          AGENT => {
+              END => 1,
+          },
+          PROCESSNUMBER => $self->{SNMPQUERY}->{PARAM}->[0]->{PID}
+       }
+   );
 }
 
 sub SendInformations {
