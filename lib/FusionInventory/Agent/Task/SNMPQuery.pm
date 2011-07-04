@@ -190,7 +190,6 @@ sub run {
 
    my $xml_Thread : shared = '';
    my %xml_out : shared;
-   my $sendXML :shared = 0;
    for(my $p = 0; $p < $nb_core_query; $p++) {
       if ($nb_core_query > 1) {
    		my $pid = $pm->start and next;
@@ -198,7 +197,6 @@ sub run {
 #      write_pid();
       # create the threads
       $TuerThread{$p} = &share([]);
-      my $sendbylwp : shared;
 
 # 0 : thread is alive, 1 : thread is dead 
       for(my $j = 0 ; $j < $nb_threads_query ; $j++) {
@@ -338,9 +336,6 @@ sub handleDevices {
 
     my $xml_thread = {};                                                   
     my $count = 0;
-    my $xmlout;
-    my $xml;
-    my $data_compressed;
     my $loopthread = 0;
 
     $self->{logger}->debug("Core $p - Thread $t created");
