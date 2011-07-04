@@ -302,7 +302,7 @@ sub StartThreads {
           data => {
               AGENT => {
                   START        => 1,
-                  AGENTVERSION => $self->{config}->{VERSION}
+                  AGENTVERSION => $FusionInventory::Agent::VERSION
               },
               MODULEVERSION => $VERSION,
               PROCESSNUMBER => $self->{SNMPQUERY}->{PARAM}->[0]->{PID}
