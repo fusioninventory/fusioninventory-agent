@@ -3,8 +3,8 @@ package FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Axis;
 use strict;
 use warnings;
 
-sub discovery {
-    my ($empty, $description, $snmp) = @_;
+sub getBetterDescription {
+    my ($description, $snmp) = @_;
 
     return unless $description =~ m/AXIS OfficeBasic Network Print Server/;
 

@@ -3,8 +3,8 @@ package FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Alcatel;
 use strict;
 use warnings;
 
-sub discovery {
-    my ($empty, $description, $snmp) = @_;
+sub getBetterDescription {
+    my ($description, $snmp) = @_;
 
     # example : 5.1.6.485.R02 Service Release, September 26, 2008.
     return unless $description =~ m/^([1-9]{1}).([0-9]{1}).([0-9]{1})(.*) Service Release,(.*)([0-9]{1}).$/;

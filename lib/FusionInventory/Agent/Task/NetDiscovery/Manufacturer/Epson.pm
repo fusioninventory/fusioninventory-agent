@@ -3,8 +3,8 @@ package FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Epson;
 use strict;
 use warnings;
 
-sub discovery {
-    my ($empty, $description, $snmp) = @_;
+sub getBetterDescription {
+    my ($description, $snmp) = @_;
 
     if ($description =~ m/EPSON Built-in/) {
         return $snmp->get('.1.3.6.1.4.1.1248.1.1.3.1.3.8.0');

@@ -475,11 +475,13 @@ sub _probeAddressBySNMP {
         my $description = $snmp->get('1.3.6.1.2.1.1.1.0');
         return unless $description;
 
-        # ***** manufacturer specifications
-        foreach my $m (@{$self->{modules}}) {
-            my $new_description = $m->discovery($description, $snmp);
-            if ($new_description) {
-                $description = $new_description;
+        foreach my $module (@{$self->{modules}}) {
+            no strict 'refs'; ## no critic
+            my $better_description = &{$module . '::getBetterDescription'}(
+                $description, $snmp
+            );
+            if ($better_description) {
+                $description = $better_description;
                 last;
             }
         }

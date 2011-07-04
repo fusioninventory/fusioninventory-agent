@@ -3,8 +3,8 @@ package FusionInventory::Agent::Task::NetDiscovery::Manufacturer::HewlettPackard
 use strict;
 use warnings;
 
-sub discovery {
-    my ($empty, $description, $snmp) = @_;
+sub getBetterDescription {
+    my ($description, $snmp) = @_;
 
     return unless 
         $description =~ m/HP ETHERNET MULTI-ENVIRONMENT/ or
