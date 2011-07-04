@@ -29,7 +29,7 @@ my $maxIdx : shared = 0;
 
 $SIG{INT} = \&signals;
 
-sub main {
+sub run {
     my ($self) = @_;
 
     my $storage = $self->{storage} = new FusionInventory::Agent::Storage({
