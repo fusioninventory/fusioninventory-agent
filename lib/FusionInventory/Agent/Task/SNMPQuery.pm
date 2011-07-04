@@ -78,7 +78,6 @@ sub run {
    my %TuerThread : shared;
 	my %ArgumentsThread :shared;
    my $devicelist = {};
-   my %devicelist2 : shared;
    my $modelslist = {};
 	my @Thread;
    my $sentxml = {};
@@ -96,7 +95,6 @@ sub run {
 
    for($core_counter = 0 ; $core_counter < $nb_core_query ; $core_counter++) {
       $countnb[$core_counter] = 0;
-      $devicelist2{$core_counter} = &share({});
    }
 
    $core_counter = 0;
@@ -109,7 +107,6 @@ sub run {
                      $core_counter = 0;
                   }
                   $devicelist->{$core_counter}->{$countnb[$core_counter]} = $self->{SNMPQUERY}->{DEVICE};
-                  $devicelist2{$core_counter}{$countnb[$core_counter]} = $countnb[$core_counter];
                   $countnb[$core_counter]++;
                   $core_counter++;
                } else {
@@ -119,7 +116,6 @@ sub run {
                      }
                      #### MODIFIER
                      $devicelist->{$core_counter}->{$countnb[$core_counter]} = $num;
-                     $devicelist2{$core_counter}[$countnb[$core_counter]] = $countnb[$core_counter];
                      $countnb[$core_counter]++;
                      $core_counter++;
                   }
@@ -135,7 +131,6 @@ sub run {
                   }
                   #### MODIFIER
                   $devicelist->{$core_counter}->{$countnb[$core_counter]} = $device;
-                  $devicelist2{$core_counter}{$countnb[$core_counter]} = $countnb[$core_counter];
                   $countnb[$core_counter]++;
                   $core_counter++;
                } else {
@@ -145,7 +140,6 @@ sub run {
                      }
                      #### MODIFIER
                      $devicelist->{$core_counter}->{$countnb[$core_counter]} = $num;
-                     $devicelist2{$core_counter}[$countnb[$core_counter]] = $countnb[$core_counter];
                      $countnb[$core_counter]++;
                      $core_counter++;
                   }
@@ -215,7 +209,6 @@ sub run {
             $p,
             $j,
             $devicelist->{$p},
-            \%devicelist2,
             $modelslist,
             $credentials,
             $params->{PID},
@@ -317,7 +310,7 @@ sub SendInformations {
 }
 
 sub handleDevices {
-    my ($self, $p, $t, $devicelist, $devicelist2, $modelslist, $credentials, $pid, $TuerThread) = @_;
+    my ($self, $p, $t, $devicelist, $modelslist, $credentials, $pid, $TuerThread) = @_;
 
     my $device_id;
 
@@ -329,22 +322,18 @@ sub handleDevices {
 
     while ($loopthread ne "1") {
         # Lance la procÃ©dure et rÃ©cupÃ¨re le rÃ©sultat
-        $device_id = "";
+        my $device;
         {
-            lock($devicelist2);
-            if (keys %{$devicelist2->{$p}} ne "0") {
-                my @keys = sort keys %{$devicelist2->{$p}};
-                $device_id = pop @keys;
-                delete $devicelist2->{$p}{$device_id};
-            } else {
-                $loopthread = 1;
-            }
+            lock $devicelist;
+            $device = pop @{$devicelist};
         }
+        $loopthread = 1 if !$device;
+
         if ($loopthread ne "1") {
             my $datadevice = $self->query_device_threaded({
-                device              => $devicelist->{$device_id},
-                modellist           => $modelslist->{$devicelist->{$device_id}->{MODELSNMP_ID}},
-                credentials         => $credentials->{$devicelist->{$device_id}->{AUTHSNMP_ID}}
+                device              => $device,
+                modellist           => $modelslist->{$device->{MODELSNMP_ID}},
+                credentials         => $credentials->{$device->{AUTHSNMP_ID}}
             });
             $xml_thread->{DEVICE}->[$count] = $datadevice;
             $xml_thread->{MODULEVERSION} = $VERSION;
