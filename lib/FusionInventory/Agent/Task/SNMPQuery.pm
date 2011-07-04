@@ -31,6 +31,26 @@ my $maxIdx : shared = 0;
 sub run {
     my ($self) = @_;
 
+    if (!$self->{target}->isa('FusionInventory::Agent::Target::Server')) {
+        $self->{logger}->debug("No server. Exiting...");
+        return;
+    }
+
+    my $response = $self->{prologresp};
+    if (!$response) {
+        $self->{logger}->debug("No server response. Exiting...");
+        return;
+    }
+
+    my $options = $response->getOptionsInfoByName('SNMPQUERY');
+    if (!$options) {
+        $self->{logger}->debug(
+            "No SNMP query requested in the prolog, exiting"
+        );
+        return;
+    }
+
+
     my $config = $self->{config};
     my $target = $self->{target};
     my $logger = $self->{logger};
@@ -41,25 +61,6 @@ sub run {
    $min  = sprintf("%02d", $min);
    $yday = sprintf("%04d", $yday);
    $self->{PID} = $yday.$hour.$min;
-
-    my $continue = 0;
-    foreach my $num (@{$self->{'prologresp'}->{'parsedcontent'}->{OPTION}}) {
-      if (defined($num)) {
-        if ($num->{NAME} eq "SNMPQUERY") {
-            $continue = 1;
-            $self->{SNMPQUERY} = $num;
-        }
-      }
-    }
-    if ($continue eq "0") {
-        $logger->debug("No SNMPQuery Asked by the server. Exiting...");
-        return;
-    }
-
-    if ($target->{'type'} ne 'server') {
-        $logger->debug("No server to get order from. Exiting...");
-        return;
-    }
 
    $self->StartThreads();
 }
