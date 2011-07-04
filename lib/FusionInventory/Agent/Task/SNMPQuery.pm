@@ -1,10 +1,7 @@
 package FusionInventory::Agent::Task::SNMPQuery;
-our $VERSION = '1.3';
-use strict;
-no strict 'refs';
-use warnings;
-use Encode qw(encode);
 
+use strict;
+use warnings;
 use threads;
 use threads::shared;
 if ($threads::VERSION > 1.32){
@@ -15,17 +12,18 @@ use Encode qw(encode);
 use File::stat;
 use XML::Simple;
 
+use FusionInventory::Agent::HTTP::Client::OCS;
 use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::SNMP;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::XML::Query;
-use FusionInventory::Agent::HTTP::Client::OCS;
-use FusionInventory::Agent::SNMP;
 
 use FusionInventory::Agent::Task::SNMPQuery::Cisco;
 use FusionInventory::Agent::Task::SNMPQuery::Procurve;
 use FusionInventory::Agent::Task::SNMPQuery::ThreeCom;
 use FusionInventory::Agent::Task::SNMPQuery::Nortel;
 
+our $VERSION = '1.3';
 my $maxIdx : shared = 0;
 
 $SIG{INT} = \&signals;
