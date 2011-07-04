@@ -59,11 +59,12 @@ sub run {
    my $num;
    my $log;
 
+   my $params  = $options->{PARAM}->[0];
   my $storage = $self->{target}->getStorage();
 
 
-   my $nb_threads_query = $self->{SNMPQUERY}->{PARAM}->[0]->{THREADS_QUERY};
-	my $nb_core_query = $self->{SNMPQUERY}->{PARAM}->[0]->{CORE_QUERY};
+   my $nb_threads_query = $params->{THREADS_QUERY};
+	my $nb_core_query = $params->{CORE_QUERY};
 
    if ( not eval { require Parallel::ForkManager; 1 } ) {
       if ($nb_core_query > 1) {
@@ -268,7 +269,7 @@ sub run {
                                                             });
                                                          $xml_thread->{DEVICE}->[$count] = $datadevice;
                                                          $xml_thread->{MODULEVERSION} = $VERSION;
-                                                         $xml_thread->{PROCESSNUMBER} = $self->{SNMPQUERY}->{PARAM}->[0]->{PID};
+                                                         $xml_thread->{PROCESSNUMBER} = $params->{PID};
                                                          $count++;
                                                          if (($count eq "1") || (($loopthread eq "1") && ($count > 0))) {
                                                             $maxIdx++;
@@ -298,7 +299,7 @@ sub run {
                   AGENTVERSION => $FusionInventory::Agent::VERSION
               },
               MODULEVERSION => $VERSION,
-              PROCESSNUMBER => $self->{SNMPQUERY}->{PARAM}->[0]->{PID}
+              PROCESSNUMBER => $params->{PID}
           }
       );
 
@@ -362,7 +363,7 @@ sub run {
           AGENT => {
               END => 1,
           },
-          PROCESSNUMBER => $self->{SNMPQUERY}->{PARAM}->[0]->{PID}
+          PROCESSNUMBER => $params->{PID}
       }
    );
 }
