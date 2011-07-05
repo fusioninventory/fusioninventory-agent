@@ -124,14 +124,14 @@ sub run {
       );
 
       my $exit = 0;
-      while($exit eq "0") {
+      while($exit == 0) {
          sleep 2;
          my $count = 0;
          for(my $i = 0 ; $i < $nb_threads_query ; $i++) {
-            if ($TuerThread[$i] eq "1") {
+            if ($TuerThread[$i] == 1) {
                $count++;
             }
-            if ( $count eq $nb_threads_query ) {
+            if ($count == $nb_threads_query ) {
                $exit = 1;
             }
          }
@@ -206,7 +206,7 @@ sub handleDevices {
 
     $self->{logger}->debug("Thread $t created");
 
-    while ($loopthread ne "1") {
+    while ($loopthread != 1) {
         # Lance la procÃ©dure et rÃ©cupÃ¨re le rÃ©sultat
         my $device;
         {
@@ -215,7 +215,7 @@ sub handleDevices {
         }
         $loopthread = 1 if !$device;
 
-        if ($loopthread ne "1") {
+        if ($loopthread != 1) {
             my $datadevice = $self->query_device_threaded({
                 device              => $device,
                 modellist           => $modelslist->{$device->{MODELSNMP_ID}},
@@ -225,7 +225,7 @@ sub handleDevices {
             $xml_thread->{MODULEVERSION} = $VERSION;
             $xml_thread->{PROCESSNUMBER} = $pid;
             $count++;
-            if (($count eq "1") || (($loopthread eq "1") && ($count > 0))) {
+            if (($count == 1) || (($loopthread == 1) && ($count > 0))) {
                 $maxIdx++;
                 $self->{storage}->save({
                     idx =>
@@ -363,7 +363,7 @@ sub query_device_threaded {
          $params = cartridgesupport($params);
       }
       for $key ( keys %{$params->{modellist}->{GET}} ) {
-         if ($params->{modellist}->{GET}->{$key}->{VLAN} eq "0") {
+         if ($params->{modellist}->{GET}->{$key}->{VLAN} == 0) {
             my $oid_result = $session->snmpGet({
                      oid => $params->{modellist}->{GET}->{$key}->{OID},
                      up  => 1,
@@ -389,7 +389,7 @@ sub query_device_threaded {
                      });
          $HashDataSNMP->{$key} = $ArraySNMPwalk;
          if (exists($params->{modellist}->{WALK}->{$key}->{VLAN})) {
-            if ($params->{modellist}->{WALK}->{$key}->{VLAN} eq "1") {
+            if ($params->{modellist}->{WALK}->{$key}->{VLAN} == 1) {
                $vlan_query = 1;
             }
          }
@@ -401,7 +401,7 @@ sub query_device_threaded {
       if ($datadevice->{INFO}->{TYPE} eq "NETWORKING") {
          # Scan for each vlan (for specific switch manufacturer && model)
          # Implique de recrÃ©er une session spÃ©cialement pour chaque vlan : communautÃ©@vlanID
-         if ($vlan_query eq "1") {
+         if ($vlan_query == 1) {
             while ( (my $vlan_id,my $vlan_name) = each (%{$HashDataSNMP->{'vtpVlanName'}}) ) {
                my $vlan_id_short = $vlan_id;
                $vlan_id_short =~ s/$params->{modellist}->{WALK}->{vtpVlanName}->{OID}//;
@@ -437,7 +437,7 @@ sub query_device_threaded {
                $ArraySNMPwalk = {};
                #$HashDataSNMP  = {};
                for my $link ( keys %{$params->{modellist}->{WALK}} ) {
-                  if ($params->{modellist}->{WALK}->{$link}->{VLAN} eq "1") {
+                  if ($params->{modellist}->{WALK}->{$link}->{VLAN} == 1) {
                      $ArraySNMPwalk = $session->snmpWalk({
                                         oid_start => $params->{modellist}->{WALK}->{$link}->{OID}
                      });
@@ -753,7 +753,7 @@ sub PutSimpleOid {
          $datadevice->{$xmlelement1}->{$xmlelement2} = $HashDataSNMP->{"firmware1"}." ".$HashDataSNMP->{"firmware2"};
          delete $HashDataSNMP->{"firmware2"};
       } elsif (($element =~ /^toner/) || ($element eq "wastetoner") || ($element =~ /^cartridge/) || ($element eq "maintenancekit") || ($element =~ /^drum/)) {
-         if ($HashDataSNMP->{$element."-level"} eq "-3") {
+         if ($HashDataSNMP->{$element."-level"} == -3) {
             $datadevice->{$xmlelement1}->{$xmlelement2} = 100;
          } else {
             ($datadevice, $HashDataSNMP) = PutPourcentageOid($HashDataSNMP,$datadevice,$element."-capacitytype",$element."-level", $xmlelement1, $xmlelement2);
@@ -775,7 +775,7 @@ sub PutPourcentageOid {
    my $xmlelement1 = shift;
    my $xmlelement2 = shift;
    if (exists $HashDataSNMP->{$element1}) {
-      if ((is_integer($HashDataSNMP->{$element2})) && (is_integer($HashDataSNMP->{$element1})) && ($HashDataSNMP->{$element1} ne '0')) {
+      if ((is_integer($HashDataSNMP->{$element2})) && (is_integer($HashDataSNMP->{$element1})) && ($HashDataSNMP->{$element1} != 0)) {
          $datadevice->{$xmlelement1}->{$xmlelement2} = int ( ( 100 * $HashDataSNMP->{$element2} ) / $HashDataSNMP->{$element1} );
          delete $HashDataSNMP->{$element2};
          delete $HashDataSNMP->{$element1};
