@@ -9,6 +9,9 @@ if ($threads::VERSION > 1.32){
 }
 use base 'FusionInventory::Agent::Task';
 
+use constant ALIVE => 0;
+use constant DEAD  => 1;
+
 use Encode qw(encode);
 use Net::SNMP;
 use XML::Simple;
@@ -82,8 +85,7 @@ sub run {
     # Create all Threads
     #===================================
     for(my $j = 0; $j < $nb_threads; $j++) {
-        # 0 : thread is alive, 1 : thread is dead 
-        $TuerThread[$j] = 0;
+        $TuerThread[$j] = ALIVE;
 
         $Thread[$j] = threads->create(
             'handleDevices',
@@ -116,7 +118,7 @@ sub run {
         sleep 2;
         my $count = 0;
         for(my $i = 0 ; $i < $nb_threads ; $i++) {
-            if ($TuerThread[$i] == 1) {
+            if ($TuerThread[$i] == DEAD) {
                 $count++;
             }
             if ($count == $nb_threads) {
@@ -227,7 +229,7 @@ sub handleDevices {
         sleep 1;
     }
 
-    $TuerThread->[$t] = 1;
+    $TuerThread->[$t] = DEAD;
     $self->{logger}->debug("Thread $t deleted");
 }
 
