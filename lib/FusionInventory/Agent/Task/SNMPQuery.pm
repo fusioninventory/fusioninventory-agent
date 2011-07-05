@@ -108,48 +108,19 @@ sub run {
         }
     );
 
-    my $exit = 0;
-    my $sentxml;
-    while($exit == 0) {
-        sleep 2;
-        my $count = 0;
-        for(my $i = 0 ; $i < $nb_threads ; $i++) {
-            if ($TuerThread[$i] == DEAD) {
-                $count++;
-            }
-            if ($count == $nb_threads) {
-                $exit = 1;
-            }
-        }
-        foreach my $idx (1..$maxIdx) {
-            if (!defined($sentxml->{$idx})) {
-                my $data = $storage->restore({
-                    idx => $idx
-                });
-
-                $self->SendInformations(
-                    data => $data
-                );
-                $sentxml->{$idx} = 1;
-                $storage->remove({
-                    idx => $idx
-                });
-                sleep 1;
-            }
-        }
+    while (1) {
+        last if all { $_ == DEAD } @TuerThread;
+        sleep 1;
     }
 
     foreach my $idx (1..$maxIdx) {
-        if (!defined($sentxml->{$idx})) {
-            my $data = $storage->restore({
-                idx => $idx
-            });
-            $self->SendInformations(
-                data => $data
-            );
-            $sentxml->{$idx} = 1;
-            sleep 1;
-        }
+        my $data = $storage->restore({
+            idx => $idx
+        });
+        $self->SendInformations(
+            data => $data
+        );
+        sleep 1;
     }
 
     $storage->removeSubDumps();
