@@ -97,7 +97,7 @@ sub run {
     }
 
     # Send infos to server :
-    $self->_sendInformations(
+    $self->_sendMessage({
         data => {
             AGENT => {
                 START        => 1,
@@ -106,7 +106,7 @@ sub run {
             MODULEVERSION => $VERSION,
             PROCESSNUMBER => $params->{PID}
         }
-    );
+    });
 
     while (1) {
         last if all { $_ == DEAD } @threads;
@@ -117,9 +117,9 @@ sub run {
         my $data = $storage->restore({
             idx => $idx
         });
-        $self->_sendInformations(
+        $self->_sendMessage({
             data => $data
-        );
+        });
         $storage->remove(
             idx => $idx
         );
@@ -127,17 +127,17 @@ sub run {
     }
 
     # Send infos to server :
-    $self->_sendInformations(
+    $self->_sendMessage({
         data => {
             AGENT => {
                 END => 1,
             },
             PROCESSNUMBER => $params->{PID}
         }
-    );
+    });
 }
 
-sub _sendInformations {
+sub _sendMessage {
    my ($self, $content) = @_;
 
    my $message = FusionInventory::Agent::XML::Query->new(
