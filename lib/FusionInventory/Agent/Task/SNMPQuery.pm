@@ -61,7 +61,6 @@ sub run {
 
     my @TuerThread : shared;
     my @devices : shared;
-    my @Thread;
 
     @devices = @{$options->{DEVICE}};
 
@@ -84,7 +83,7 @@ sub run {
     for(my $j = 0; $j < $nb_threads; $j++) {
         $TuerThread[$j] = ALIVE;
 
-        $Thread[$j] = threads->create(
+        threads->create(
             'handleDevices',
             $self,
             $j,
