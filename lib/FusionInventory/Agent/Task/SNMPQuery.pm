@@ -53,11 +53,6 @@ sub run {
         sprintf("%02d", localtime->hour()) .
         sprintf("%02d", localtime->min());
 
-   my $num_files = 1;
-   my $device;
-   my $num;
-   my $log;
-
    my $params  = $options->{PARAM}->[0];
   my $storage = $self->{target}->getStorage();
 
