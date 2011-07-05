@@ -77,15 +77,14 @@ sub run {
         $nb_threads = @devicelist;
     }
 
-    # 0 : thread is alive, 1 : thread is dead 
-    for(my $j = 0 ; $j < $nb_threads ; $j++) {
-        $TuerThread[$j]    = 0;
-    }
 
     #===================================
     # Create all Threads
     #===================================
     for(my $j = 0; $j < $nb_threads; $j++) {
+        # 0 : thread is alive, 1 : thread is dead 
+        $TuerThread[$j] = 0;
+
         $Thread[$j] = threads->create(
             'handleDevices',
             $self,
