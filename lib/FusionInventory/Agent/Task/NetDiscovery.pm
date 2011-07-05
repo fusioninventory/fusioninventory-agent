@@ -63,11 +63,10 @@ sub run {
 
     $self->_initModList();
 
-    my $params  = $options->{PARAM}->[0];
-    my $storage = $self->{target}->getStorage();
+    my $params = $options->{PARAM}->[0];
 
     # take care of models dictionnary
-    my $dico = $self->_getDictionnary($options, $storage, $pid);
+    my $dico = $self->_getDictionnary($options, $pid);
     return unless $dico;
 
     # check discovery methods available
@@ -179,6 +178,7 @@ sub run {
         }
 
         # send results to the server
+        my $storage = $self->{target}->getStorage();
         foreach my $idx (1..$maxIdx) {
             my $data = $storage->restore(
                 idx => $idx
@@ -213,9 +213,10 @@ sub run {
 }
 
 sub _getDictionnary {
-    my ($self, $options, $storage, $pid) = @_;
+    my ($self, $options, $pid) = @_;
 
     my ($dictionnary, $hash);
+    my $storage = $self->{target}->getStorage();
 
     if ($options->{DICO}) {
         # the server message contains a dictionnary, use it
@@ -291,6 +292,7 @@ sub _handleIPRange {
 
         # run
         my @devices;
+        my $storage = $self->{target}->getStorage();
 
         RUN: while (1) {
             my $item;
@@ -312,7 +314,7 @@ sub _handleIPRange {
             # save list each time the limit is reached
             if (@devices % DEVICE_PER_MESSAGE == 0) {
                 $maxIdx++;
-                $self->{storage}->save(
+                $storage->save(
                     idx  => $maxIdx,
                     data => {
                         DEVICE        => \@devices,
@@ -327,7 +329,7 @@ sub _handleIPRange {
         # save last devices
         if (@devices) {
             $maxIdx++;
-            $self->{storage}->save(
+            $storage->save(
                 idx  => $maxIdx,
                 data => {
                     DEVICE        => \@devices,
