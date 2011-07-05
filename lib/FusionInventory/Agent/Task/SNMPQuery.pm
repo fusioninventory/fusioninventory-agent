@@ -61,7 +61,6 @@ sub run {
 
     my @TuerThread : shared;
     my @devicelist : shared;
-    my $modelslist = {};
     my @Thread;
 
     foreach my $device (@{$self->{SNMPQUERY}->{DEVICE}}) {
@@ -69,7 +68,7 @@ sub run {
     }
 
     # Models SNMP
-    $modelslist = ModelParser($self->{SNMPQUERY});
+    my $models = ModelParser($self->{SNMPQUERY});
 
     # retrieve SNMP authentication credentials
     my $credentials = $options->{AUTHENTICATION};
@@ -92,7 +91,7 @@ sub run {
             $self,
             $j,
             \@devicelist,
-            $modelslist,
+            $models,
             $credentials,
             $params->{PID},
             \@TuerThread
