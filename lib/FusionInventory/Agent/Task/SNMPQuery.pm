@@ -52,7 +52,6 @@ sub run {
     $self->{logger}->debug("FusionInventory SNMPQuery module ".$VERSION);
 
     my $params  = $options->{PARAM}->[0];
-    my $storage = $self->{target}->getStorage();
 
     my @threads : shared;
     my @devices : shared;
@@ -109,6 +108,7 @@ sub run {
     }
 
     # send results to the server
+    my $storage = $self->{target}->getStorage();
     foreach my $idx (1..$maxIdx) {
         my $data = $storage->restore({
             idx => $idx
@@ -160,6 +160,8 @@ sub _handleDevices {
 
     $self->{logger}->debug("Thread $t created");
 
+    my $storage = $self->{target}->getStorage();
+
     while ($loopthread != 1) {
         # Lance la procÃ©dure et rÃ©cupÃ¨re le rÃ©sultat
         my $device;
@@ -179,6 +181,7 @@ sub _handleDevices {
             $xml_thread->{MODULEVERSION} = $VERSION;
             $xml_thread->{PROCESSNUMBER} = $pid;
             $count++;
+
             if (($count == 1) || (($loopthread == 1) && ($count > 0))) {
                 $maxIdx++;
                 $self->{storage}->save({
