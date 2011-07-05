@@ -6,6 +6,7 @@ use base 'FusionInventory::Agent::HTTP::Client';
 
 use JSON;
 use HTTP::Request;
+use URI::Escape;
 
 sub send {
     my ($self, %params) = @_;
@@ -13,15 +14,29 @@ sub send {
     my $url = ref $params{url} eq 'URI' ?
         $params{url} : URI->new($params{url});
 
-    $url->query_form(action => $params{action}, %{$params{params}});
+    my $finalUrl = $url.'?action='.uri_escape($params{args}->{action});
+    foreach my $k (keys %{$params{args}}) {
+        if (ref($params{args}->{$k}) eq 'ARRAY') {
+            foreach (@{$params{args}->{$k}}) {
+                $finalUrl .= '&'.$k.'[]='.uri_escape($_ || '');
+            }
+        } elsif (ref($params{args}->{$k}) eq 'HASH') {
+            foreach (keys %{$params{args}->{$k}}) {
+                $finalUrl .= '&'.$k.'['.$_.']='.uri_escape($params{args}->{$k}{$_} || '');
+            }
 
-    my $request = HTTP::Request->new(GET => $url);
+        } elsif ($k ne 'action') {
+            $finalUrl .= '&'.$k.'='.uri_escape($params{args}->{$k} || '');
+        }
+   }
+
+    my $request = HTTP::Request->new(GET => $finalUrl);
 
     my $response = $self->request($request);
 
     return unless $response;
 
-    return eval { from_json( $response, { utf8  => 1 } ) };
+    return eval { from_json( $response->content(), { utf8  => 1 } ) };
 }
 
 1;
@@ -49,13 +64,10 @@ hash:
 
 the url to send the message to (mandatory)
 
-=item I<action>
+=item I<args>
 
-the action to perform (mandatory)
-
-=item I<params>
-
-additional params for the action
+A list of parameters to pass to the server. The action key is mandatory.
+Parameters can be hashref or arrayref.
 
 =back
 
