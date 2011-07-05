@@ -24,7 +24,7 @@ use FusionInventory::Agent::Task::SNMPQuery::Procurve;
 use FusionInventory::Agent::Task::SNMPQuery::ThreeCom;
 use FusionInventory::Agent::Task::SNMPQuery::Nortel;
 
-our $VERSION = '1.3';
+our $VERSION = '2.0';
 my $maxIdx : shared = 0;
 
 sub run {
