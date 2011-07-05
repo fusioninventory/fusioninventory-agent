@@ -144,10 +144,10 @@ sub run {
         sleep 1 unless $j % 4;
     }
 
-    # send start signal to the server
+    # send initial message to the server
     $self->_sendMessage({
         AGENT => {
-            START        => '1',
+            START        => 1,
             AGENTVERSION => $FusionInventory::Agent::VERSION,
         },
         MODULEVERSION => $VERSION,
@@ -200,10 +200,10 @@ sub run {
         sleep 1;
     }
 
-    # send stop signal to the server
+    # send final message to the server
     $self->_sendMessage({
         AGENT => {
-            END => '1',
+            END => 1,
         },
         MODULEVERSION => $VERSION,
         PROCESSNUMBER => $pid
