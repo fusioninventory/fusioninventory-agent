@@ -13,8 +13,6 @@ use constant ALIVE => 0;
 use constant DEAD  => 1;
 
 use Encode qw(encode);
-use Net::SNMP;
-use XML::Simple;
 
 use FusionInventory::Agent::SNMP;
 use FusionInventory::Agent::XML::Query;
