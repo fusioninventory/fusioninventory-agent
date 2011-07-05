@@ -313,7 +313,7 @@ sub query_device_threaded {
 
 	#threads->yield;
 	############### SNMP Queries ###############
-   my $session = new FusionInventory::Agent::SNMP ({
+   my $session = FusionInventory::Agent::SNMP->new({
 
                version      => $params->{credentials}->{VERSION},
                hostname     => $params->{device}->{IP},
@@ -329,7 +329,7 @@ sub query_device_threaded {
 	if (!defined($session->{SNMPSession}->{session})) {
 		return $datadevice;
 	}
-   my $session2 = new FusionInventory::Agent::SNMP ({
+   my $session2 = FusionInventory::Agent::SNMP->new({
 
                version      => $params->{credentials}->{VERSION},
                hostname     => $params->{device}->{IP},
@@ -407,7 +407,7 @@ sub query_device_threaded {
                $vlan_id_short =~ s/$params->{modellist}->{WALK}->{vtpVlanName}->{OID}//;
                $vlan_id_short =~ s/^.//;
                 #Initiate SNMP connection on this VLAN
-               my $session = new FusionInventory::Agent::SNMP ({
+               my $session = FusionInventory::Agent::SNMP->({
 
                               version      => $params->{credentials}->{VERSION},
                               hostname     => $params->{device}->{IP},
@@ -420,7 +420,7 @@ sub query_device_threaded {
                               translate    => 1,
 
                            });
-                  my $session2 = new FusionInventory::Agent::SNMP ({
+                  my $session2 = FusionInventory::Agent::SNMP->new({
 
                               version      => $params->{credentials}->{VERSION},
                               hostname     => $params->{device}->{IP},
