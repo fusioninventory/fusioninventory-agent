@@ -115,6 +115,16 @@ sub run {
         } while (++$ip);
     }
 
+    # send initial message to the server
+    $self->_sendMessage({
+        AGENT => {
+            START        => 1,
+            AGENTVERSION => $FusionInventory::Agent::VERSION,
+        },
+        MODULEVERSION => $VERSION,
+        PROCESSNUMBER => $pid
+    });
+
     # create the required number of scanning threads, sharing
     # variables for synchronisation
     my $maxIdx : shared = 0;
@@ -144,15 +154,6 @@ sub run {
         sleep 1 unless $j % 4;
     }
 
-    # send initial message to the server
-    $self->_sendMessage({
-        AGENT => {
-            START        => 1,
-            AGENTVERSION => $FusionInventory::Agent::VERSION,
-        },
-        MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $pid
-    });
 
     # proceed the whole list of addresses block by block
     my $block_size = $params->{THREADS_DISCOVERY} * ADDRESS_PER_THREAD;
