@@ -49,7 +49,7 @@ sub run {
     my $options = $response->getOptionsInfoByName('NETDISCOVERY');
     if (!$options) {
         $self->{logger}->debug(
-            "No wake on lan requested in the prolog, exiting"
+            "No net discovery requested in the prolog, exiting"
         );
         return;
     }
