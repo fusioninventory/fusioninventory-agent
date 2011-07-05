@@ -53,131 +53,123 @@ sub run {
         sprintf("%02d", localtime->hour()) .
         sprintf("%02d", localtime->min());
 
-   my $params  = $options->{PARAM}->[0];
-  my $storage = $self->{target}->getStorage();
+    my $params  = $options->{PARAM}->[0];
+    my $storage = $self->{target}->getStorage();
+    my $nb_threads_query = $params->{THREADS_QUERY};
 
+    my @TuerThread : shared;
+    my @devicelist : shared;
+    my $modelslist = {};
+    my @Thread;
+    my $sentxml = {};
 
-   my $nb_threads_query = $params->{THREADS_QUERY};
+    foreach my $device (@{$self->{SNMPQUERY}->{DEVICE}}) {
+        push @devicelist, $device;
+    }
 
-	#===================================
-	# Threads et variables partagÃ©es
-	#===================================
-   my @TuerThread : shared;
-   my @devicelist : shared;
-   my $modelslist = {};
-	my @Thread;
-   my $sentxml = {};
+    # Models SNMP
+    $modelslist = ModelParser($self->{SNMPQUERY});
 
-   foreach my $device (@{$self->{SNMPQUERY}->{DEVICE}}) {
-       push @devicelist, $device;
-   }
+    # retrieve SNMP authentication credentials
+    my $credentials = $options->{AUTHENTICATION};
 
-   # Models SNMP
-   $modelslist = ModelParser($self->{SNMPQUERY});
+    # no need for more threads than devices to scan
+    if (@devicelist <  $nb_threads_query) {
+        $nb_threads_query = @devicelist;
+    }
 
-   # retrieve SNMP authentication credentials
-   my $credentials = $options->{AUTHENTICATION};
+    my $xml_Thread : shared = '';
+    my %xml_out : shared;
 
-   # no need for more threads than devices to scan
-   if (@devicelist <  $nb_threads_query) {
-      $nb_threads_query = @devicelist;
-   }
+    # 0 : thread is alive, 1 : thread is dead 
+    for(my $j = 0 ; $j < $nb_threads_query ; $j++) {
+        $TuerThread[$j]    = 0;
+    }
 
-   my $xml_Thread : shared = '';
-   my %xml_out : shared;
-
-# 0 : thread is alive, 1 : thread is dead 
-      for(my $j = 0 ; $j < $nb_threads_query ; $j++) {
-         $TuerThread[$j]    = 0;
-      }
-      #==================================
-      # Prepare in variables devices to query
-      #==================================
-
-      #===================================
-      # Create all Threads
-      #===================================
-      for(my $j = 0; $j < $nb_threads_query; $j++) {
-         $Thread[$j] = threads->create(
-             'handleDevices',
-             $self,
+    #===================================
+    # Create all Threads
+    #===================================
+    for(my $j = 0; $j < $nb_threads_query; $j++) {
+        $Thread[$j] = threads->create(
+            'handleDevices',
+            $self,
             $j,
             \@devicelist,
             $modelslist,
             $credentials,
             $params->{PID},
             \@TuerThread
-         )->detach();
-         sleep 1;
-      }
+        )->detach();
+        sleep 1;
+    }
 
-      # Send infos to server :
-      $self->SendInformations(
-          data => {
-              AGENT => {
-                  START        => 1,
-                  AGENTVERSION => $FusionInventory::Agent::VERSION
-              },
-              MODULEVERSION => $VERSION,
-              PROCESSNUMBER => $params->{PID}
-          }
-      );
+    # Send infos to server :
+    $self->SendInformations(
+        data => {
+            AGENT => {
+                START        => 1,
+                AGENTVERSION => $FusionInventory::Agent::VERSION
+            },
+            MODULEVERSION => $VERSION,
+            PROCESSNUMBER => $params->{PID}
+        }
+    );
 
-      my $exit = 0;
-      while($exit == 0) {
-         sleep 2;
-         my $count = 0;
-         for(my $i = 0 ; $i < $nb_threads_query ; $i++) {
+    my $exit = 0;
+    while($exit == 0) {
+        sleep 2;
+        my $count = 0;
+        for(my $i = 0 ; $i < $nb_threads_query ; $i++) {
             if ($TuerThread[$i] == 1) {
-               $count++;
+                $count++;
             }
             if ($count == $nb_threads_query ) {
-               $exit = 1;
+                $exit = 1;
             }
-         }
-         foreach my $idx (1..$maxIdx) {
+        }
+        foreach my $idx (1..$maxIdx) {
             if (!defined($sentxml->{$idx})) {
                 my $data = $storage->restore({
-                        idx => $idx
-                    });
+                    idx => $idx
+                });
 
                 $self->SendInformations(
                     data => $data
                 );
                 $sentxml->{$idx} = 1;
                 $storage->remove({
-                     idx => $idx
-                  });
+                    idx => $idx
+                });
                 sleep 1;
-             }
-         }
-      }
+            }
+        }
+    }
 
-   foreach my $idx (1..$maxIdx) {
-      if (!defined($sentxml->{$idx})) {
-          my $data = $storage->restore({
-                  idx => $idx
-              });
-          $self->SendInformations(
-              data => $data
-          );
-          $sentxml->{$idx} = 1;
-          sleep 1;
-       }
+    foreach my $idx (1..$maxIdx) {
+        if (!defined($sentxml->{$idx})) {
+            my $data = $storage->restore({
+                idx => $idx
+            });
+            $self->SendInformations(
+                data => $data
+            );
+            $sentxml->{$idx} = 1;
+            sleep 1;
+        }
+    }
 
-   }
-   $storage->removeSubDumps();
+    $storage->removeSubDumps();
 
-   # Send infos to server :
-   sleep 1; # Wait for threads be terminated
-   $self->SendInformations(
-      data => {
-          AGENT => {
-              END => 1,
-          },
-          PROCESSNUMBER => $params->{PID}
-      }
-   );
+    # Send infos to server :
+    sleep 1; # Wait for threads be terminated
+    $self->SendInformations(
+        data => {
+            AGENT => {
+                END => 1,
+            },
+            PROCESSNUMBER => $params->{PID}
+        }
+    );
 }
 
 sub SendInformations {
