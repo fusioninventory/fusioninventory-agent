@@ -120,10 +120,11 @@ sub run {
         $self->_sendInformations(
             data => $data
         );
+        $storage->remove(
+            idx => $idx
+        );
         sleep 1;
     }
-
-    $storage->removeSubDumps();
 
     # Send infos to server :
     $self->_sendInformations(
