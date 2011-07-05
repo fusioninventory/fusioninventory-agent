@@ -63,19 +63,11 @@ sub run {
 
 
    my $nb_threads_query = $params->{THREADS_QUERY};
-	my $nb_core_query = $params->{CORE_QUERY};
-
-   if ( not eval { require Parallel::ForkManager; 1 } ) {
-      if ($nb_core_query > 1) {
-         $self->{logger}->debug("Parallel::ForkManager not installed, so only 1 core will be used...");
-         $nb_core_query = 1;      
-      }
-   }
 
 	#===================================
 	# Threads et variables partagÃ©es
 	#===================================
-   my %TuerThread : shared;
+   my @TuerThread : shared;
 	my %ArgumentsThread :shared;
    my @devicelist : shared;
    my $modelslist = {};
@@ -87,11 +79,8 @@ sub run {
 	$ArgumentsThread{'Bin'} = &share([]);
 	$ArgumentsThread{'PID'} = &share([]);
 
-   # dispatch devices among processes
-   my $core;
    foreach my $device (@{$self->{SNMPQUERY}->{DEVICE}}) {
-       push @{$devicelist[$core % $params->{CORE_QUERY}]}, $device;
-       $core++;
+       push @devicelist, $device;
    }
 
    # Models SNMP
@@ -100,66 +89,47 @@ sub run {
    # retrieve SNMP authentication credentials
    my $credentials = $options->{AUTHENTICATION};
 
-   my $pm;
-
-   #============================================
-	# Begin ForkManager (multiple core / process)
-	#============================================
-   my $max_procs = $nb_core_query*$nb_threads_query;
-   if ($nb_core_query > 1) {
-      $pm=new Parallel::ForkManager($max_procs);
-   }
-
-   # reduce the number of threads to the number of devices
-   # for first process, if they are more
-   if (@{$devicelist[0]} <  $nb_threads_query) {
-      $nb_threads_query = @{$devicelist[0]};
+   # no need for more threads than devices to scan
+   if (@devicelist <  $nb_threads_query) {
+      $nb_threads_query = @devicelist;
    }
 
    my $xml_Thread : shared = '';
    my %xml_out : shared;
-   for(my $p = 0; $p < $nb_core_query; $p++) {
-      if ($nb_core_query > 1) {
-   		my $pid = $pm->start and next;
-      }
-#      write_pid();
-      # create the threads
-      $TuerThread{$p} = &share([]);
 
 # 0 : thread is alive, 1 : thread is dead 
       for(my $j = 0 ; $j < $nb_threads_query ; $j++) {
-         $TuerThread{$p}[$j]    = 0;
+         $TuerThread[$j]    = 0;
       }
       #==================================
       # Prepare in variables devices to query
       #==================================
-      $ArgumentsThread{'id'}[$p] = &share([]);
-      $ArgumentsThread{'Bin'}[$p] = &share([]);
-      $ArgumentsThread{'log'}[$p] = &share([]);
-      $ArgumentsThread{'PID'}[$p] = &share([]);
+      $ArgumentsThread{'id'} = &share([]);
+      $ArgumentsThread{'Bin'} = &share([]);
+      $ArgumentsThread{'log'} = &share([]);
+      $ArgumentsThread{'PID'} = &share([]);
 
       my $i = 0;
       my $Bin;
       while ($i < $nb_threads_query) {
-         $ArgumentsThread{'Bin'}[$p][$i] = $Bin;
-         $ArgumentsThread{'log'}[$p][$i] = $log;
-         $ArgumentsThread{'PID'}[$p][$i] = $pid;
+         $ArgumentsThread{'Bin'}[$i] = $Bin;
+         $ArgumentsThread{'log'}[$i] = $log;
+         $ArgumentsThread{'PID'}[$i] = $pid;
          $i++;
       }
       #===================================
       # Create all Threads
       #===================================
       for(my $j = 0; $j < $nb_threads_query; $j++) {
-         $Thread[$p][$j] = threads->create(
+         $Thread[$j] = threads->create(
              'handleDevices',
              $self,
-            $p,
             $j,
-            $devicelist[$p],
+            \@devicelist,
             $modelslist,
             $credentials,
             $params->{PID},
-            \%TuerThread
+            \@TuerThread
          )->detach();
          sleep 1;
       }
@@ -181,7 +151,7 @@ sub run {
          sleep 2;
          my $count = 0;
          for(my $i = 0 ; $i < $nb_threads_query ; $i++) {
-            if ($TuerThread{$p}[$i] eq "1") {
+            if ($TuerThread[$i] eq "1") {
                $count++;
             }
             if ( $count eq $nb_threads_query ) {
@@ -205,14 +175,6 @@ sub run {
              }
          }
       }
-
-      if ($nb_core_query > 1) {
-         $pm->finish;
-      }
-	}
-   if ($nb_core_query > 1) {
-   	$pm->wait_all_children;
-   }
 
    foreach my $idx (1..$maxIdx) {
       if (!defined($sentxml->{$idx})) {
@@ -257,7 +219,7 @@ sub SendInformations {
 }
 
 sub handleDevices {
-    my ($self, $p, $t, $devicelist, $modelslist, $credentials, $pid, $TuerThread) = @_;
+    my ($self, $t, $devicelist, $modelslist, $credentials, $pid, $TuerThread) = @_;
 
     my $device_id;
 
@@ -265,7 +227,7 @@ sub handleDevices {
     my $count = 0;
     my $loopthread = 0;
 
-    $self->{logger}->debug("Core $p - Thread $t created");
+    $self->{logger}->debug("Thread $t created");
 
     while ($loopthread ne "1") {
         # Lance la procÃ©dure et rÃ©cupÃ¨re le rÃ©sultat
@@ -300,8 +262,8 @@ sub handleDevices {
         sleep 1;
     }
 
-    $TuerThread->{$p}[$t] = 1;
-    $self->{logger}->debug("Core $p - Thread $t deleted");
+    $TuerThread->[$t] = 1;
+    $self->{logger}->debug("Thread $t deleted");
 }
 
 sub ModelParser {
