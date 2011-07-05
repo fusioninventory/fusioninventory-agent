@@ -17,45 +17,40 @@ sub new {
     die unless $self->{datastore};
     die unless $self->{sha512};
 
-    foreach my $sha512 (keys %{$params->{files}}) {
-        print $sha512."\n";
-    }
-
     bless $self;
 }
 
 sub download {
     my ($self) = @_;
 
-    die unless $self->{mirror};
+    die unless $self->{mirrors};
 
     my $datastore = $self->{datastore};
 
-    foreach (@{$self->{mirror}}) {
-        print Dumper($_);
-    }
+#    foreach (@{$self->{mirrors}}) {
+#        print Dumper($_);
+#    }
 
     my $basedir = $self->getBaseDir();
 
-MULTIPART: foreach (@{$self->{multipart}}) {
+MULTIPART: foreach (@{$self->{multiparts}}) {
         my ($file, $sha512) =  %$_;
 
         my $filePath  = $basedir.'/'.$file;
 
-        foreach my $mirror (@{$self->{mirror}}) {
-            print("$mirror$file, $filePath\n");
+        foreach my $mirror (@{$self->{mirrors}}) {
+            print("getstore : $mirror$file, $filePath: ");
             getstore($mirror.$file, $filePath);
             if (-f $filePath) {
-                print $filePath." found\n";
                 if (_getSha512ByFile($filePath) eq $sha512) {
+                    print "ok\n";
                     next MULTIPART;
                 } else {
-                    print _getSha512ByFile($filePath)."\n";
-                    print $sha512."\n";
+                    print "ko (invalide SHA) \n"._getSha512ByFile($filePath)."\n\n$sha512\n";
+                    die;
                 }
             } else {
-                print $filePath." not found\n";
-
+                print $filePath." ko, not found\n";
             }
         }
     }
@@ -66,16 +61,14 @@ sub exists {
     my ($self) = @_;
 
     my $datastore = $self->{datastore};
-print Dumper($self);
+
     my $path = $datastore->getPathBySha512($self->{sha512});
 
-    my $isOk = 1;
-    foreach (@{$self->{multipart}}) {
+    my $isOk = @{$self->{multiparts}}?1:0;
+    foreach (@{$self->{multiparts}}) {
         my ($file, $sha512) =  %$_;
 
         my $filePath  = $path.'/'.$file;
-
-        print $file." → ".$sha512."\n";
 
         if (!-f $filePath) {
                 $isOk = 0;
