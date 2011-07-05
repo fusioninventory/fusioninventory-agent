@@ -60,12 +60,10 @@ sub run {
     my $storage = $self->{target}->getStorage();
 
     my @TuerThread : shared;
-    my @devicelist : shared;
+    my @devices : shared;
     my @Thread;
 
-    foreach my $device (@{$self->{SNMPQUERY}->{DEVICE}}) {
-        push @devicelist, $device;
-    }
+    @devices = @{$options->{DEVICE}};
 
     # Models SNMP
     my $models = ModelParser($self->{SNMPQUERY});
@@ -75,8 +73,8 @@ sub run {
 
     # no need for more threads than devices to scan
     my $nb_threads = $params->{THREADS_QUERY};
-    if ($nb_threads > @devicelist) {
-        $nb_threads = @devicelist;
+    if ($nb_threads > @devices) {
+        $nb_threads = @devices;
     }
 
 
@@ -90,7 +88,7 @@ sub run {
             'handleDevices',
             $self,
             $j,
-            \@devicelist,
+            \@devices,
             $models,
             $credentials,
             $params->{PID},
