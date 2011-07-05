@@ -68,16 +68,10 @@ sub run {
 	# Threads et variables partagÃ©es
 	#===================================
    my @TuerThread : shared;
-	my %ArgumentsThread :shared;
    my @devicelist : shared;
    my $modelslist = {};
 	my @Thread;
    my $sentxml = {};
-
-	$ArgumentsThread{'id'} = &share([]);
-	$ArgumentsThread{'log'} = &share([]);
-	$ArgumentsThread{'Bin'} = &share([]);
-	$ArgumentsThread{'PID'} = &share([]);
 
    foreach my $device (@{$self->{SNMPQUERY}->{DEVICE}}) {
        push @devicelist, $device;
@@ -104,19 +98,7 @@ sub run {
       #==================================
       # Prepare in variables devices to query
       #==================================
-      $ArgumentsThread{'id'} = &share([]);
-      $ArgumentsThread{'Bin'} = &share([]);
-      $ArgumentsThread{'log'} = &share([]);
-      $ArgumentsThread{'PID'} = &share([]);
 
-      my $i = 0;
-      my $Bin;
-      while ($i < $nb_threads_query) {
-         $ArgumentsThread{'Bin'}[$i] = $Bin;
-         $ArgumentsThread{'log'}[$i] = $log;
-         $ArgumentsThread{'PID'}[$i] = $pid;
-         $i++;
-      }
       #===================================
       # Create all Threads
       #===================================
