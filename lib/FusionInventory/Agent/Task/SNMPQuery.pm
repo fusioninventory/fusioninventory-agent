@@ -126,7 +126,6 @@ sub run {
     $storage->removeSubDumps();
 
     # Send infos to server :
-    sleep 1; # Wait for threads be terminated
     $self->_sendInformations(
         data => {
             AGENT => {
