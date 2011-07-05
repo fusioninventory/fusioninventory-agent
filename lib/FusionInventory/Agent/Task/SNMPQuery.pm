@@ -150,47 +150,34 @@ sub _sendMessage {
 sub _handleDevices {
     my ($self, $t, $devicelist, $modelslist, $credentials, $pid, $threads) = @_;
 
-    my $device_id;
-
-    my $xml_thread = {};                                                   
-    my $count = 0;
-    my $loopthread = 0;
-
     $self->{logger}->debug("Thread $t created");
 
     my $storage = $self->{target}->getStorage();
 
-    while ($loopthread != 1) {
-        # Lance la procÃ©dure et rÃ©cupÃ¨re le rÃ©sultat
+    RUN: while (1) {
         my $device;
         {
             lock $devicelist;
             $device = pop @{$devicelist};
         }
-        $loopthread = 1 if !$device;
+        last RUN unless $device;
 
-        if ($loopthread != 1) {
-            my $datadevice = $self->_queryDeviceThreaded({
-                device              => $device,
-                modellist           => $modelslist->{$device->{MODELSNMP_ID}},
-                credentials         => $credentials->{$device->{AUTHSNMP_ID}}
-            });
-            $xml_thread->{DEVICE}->[$count] = $datadevice;
-            $xml_thread->{MODULEVERSION} = $VERSION;
-            $xml_thread->{PROCESSNUMBER} = $pid;
-            $count++;
+        my $result = $self->_queryDeviceThreaded({
+            device      => $device,
+            modellist   => $modelslist->{$device->{MODELSNMP_ID}},
+            credentials => $credentials->{$device->{AUTHSNMP_ID}}
+        });
 
-            if (($count == 1) || (($loopthread == 1) && ($count > 0))) {
-                $maxIdx++;
-                $self->{storage}->save({
-                    idx =>
-                    $maxIdx,
-                    data => $xml_thread
-                });
-                 
-                $count = 0;
+        $maxIdx++;
+        $self->{storage}->save({
+            idx  => $maxIdx,
+            data => {
+                DEVICE        => $result,
+                MODULEVERSION => $VERSION,
+                PROCESSNUMBER => $pid
             }
-        }
+        });
+                 
         sleep 1;
     }
 
