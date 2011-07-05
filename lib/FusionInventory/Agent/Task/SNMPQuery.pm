@@ -59,7 +59,7 @@ sub run {
     my $params  = $options->{PARAM}->[0];
     my $storage = $self->{target}->getStorage();
 
-    my @TuerThread : shared;
+    my @threads : shared;
     my @devices : shared;
 
     @devices = @{$options->{DEVICE}};
@@ -81,7 +81,7 @@ sub run {
     # Create all Threads
     #===================================
     for(my $j = 0; $j < $nb_threads; $j++) {
-        $TuerThread[$j] = ALIVE;
+        $threads[$j] = ALIVE;
 
         threads->create(
             'handleDevices',
@@ -91,7 +91,7 @@ sub run {
             $models,
             $credentials,
             $params->{PID},
-            \@TuerThread
+            \@threads
         )->detach();
         sleep 1;
     }
@@ -109,7 +109,7 @@ sub run {
     );
 
     while (1) {
-        last if all { $_ == DEAD } @TuerThread;
+        last if all { $_ == DEAD } @threads;
         sleep 1;
     }
 
@@ -153,7 +153,7 @@ sub SendInformations {
 }
 
 sub handleDevices {
-    my ($self, $t, $devicelist, $modelslist, $credentials, $pid, $TuerThread) = @_;
+    my ($self, $t, $devicelist, $modelslist, $credentials, $pid, $threads) = @_;
 
     my $device_id;
 
@@ -196,7 +196,7 @@ sub handleDevices {
         sleep 1;
     }
 
-    $TuerThread->[$t] = DEAD;
+    $threads->[$t] = DEAD;
     $self->{logger}->debug("Thread $t deleted");
 }
 
