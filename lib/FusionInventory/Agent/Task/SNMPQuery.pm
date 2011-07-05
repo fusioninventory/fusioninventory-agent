@@ -61,7 +61,6 @@ sub run {
     my @devicelist : shared;
     my $modelslist = {};
     my @Thread;
-    my $sentxml = {};
 
     foreach my $device (@{$self->{SNMPQUERY}->{DEVICE}}) {
         push @devicelist, $device;
@@ -77,9 +76,6 @@ sub run {
     if (@devicelist <  $nb_threads_query) {
         $nb_threads_query = @devicelist;
     }
-
-    my $xml_Thread : shared = '';
-    my %xml_out : shared;
 
     # 0 : thread is alive, 1 : thread is dead 
     for(my $j = 0 ; $j < $nb_threads_query ; $j++) {
@@ -116,6 +112,7 @@ sub run {
     );
 
     my $exit = 0;
+    my $sentxml;
     while($exit == 0) {
         sleep 2;
         my $count = 0;
