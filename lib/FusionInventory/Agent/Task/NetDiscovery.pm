@@ -145,7 +145,7 @@ sub run {
     }
 
     # send start signal to the server
-    $self->_sendInformations({
+    $self->_sendMessage({
         AGENT => {
             START        => '1',
             AGENTVERSION => $FusionInventory::Agent::VERSION,
@@ -161,7 +161,7 @@ sub run {
         @addresses_block = splice @addresses, 0, $block_size;
 
         # send block size to the server
-        $self->_sendInformations({
+        $self->_sendMessage({
             AGENT => {
                 NBIP => scalar @addresses_block
             },
@@ -182,7 +182,7 @@ sub run {
             my $data = $storage->restore(
                 idx => $idx
             );
-            $self->_sendInformations($data);
+            $self->_sendMessage($data);
             $storage->remove(
                 idx => $idx
             );
@@ -201,7 +201,7 @@ sub run {
     }
 
     # send stop signal to the server
-    $self->_sendInformations({
+    $self->_sendMessage({
         AGENT => {
             END => '1',
         },
@@ -249,7 +249,7 @@ sub _getDictionnary {
             $self->{logger}->debug("Dictionnary is up to date.");
         } else {
             # Send Dico request to plugin for next time :
-            $self->_sendInformations({
+            $self->_sendMessage({
                 AGENT => {
                     END => '1'
                 },
@@ -350,7 +350,7 @@ sub _handleIPRange {
     $self->{logger}->debug("Thread $t deleted");
 }
 
-sub _sendInformations {
+sub _sendMessage {
    my ($self, $content) = @_;
 
    my $message = FusionInventory::Agent::XML::Query->new(
