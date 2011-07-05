@@ -55,7 +55,6 @@ sub run {
 
     my $params  = $options->{PARAM}->[0];
     my $storage = $self->{target}->getStorage();
-    my $nb_threads_query = $params->{THREADS_QUERY};
 
     my @TuerThread : shared;
     my @devicelist : shared;
@@ -73,19 +72,20 @@ sub run {
     my $credentials = $options->{AUTHENTICATION};
 
     # no need for more threads than devices to scan
-    if (@devicelist <  $nb_threads_query) {
-        $nb_threads_query = @devicelist;
+    my $nb_threads = $params->{THREADS_QUERY};
+    if ($nb_threads > @devicelist) {
+        $nb_threads = @devicelist;
     }
 
     # 0 : thread is alive, 1 : thread is dead 
-    for(my $j = 0 ; $j < $nb_threads_query ; $j++) {
+    for(my $j = 0 ; $j < $nb_threads ; $j++) {
         $TuerThread[$j]    = 0;
     }
 
     #===================================
     # Create all Threads
     #===================================
-    for(my $j = 0; $j < $nb_threads_query; $j++) {
+    for(my $j = 0; $j < $nb_threads; $j++) {
         $Thread[$j] = threads->create(
             'handleDevices',
             $self,
@@ -116,11 +116,11 @@ sub run {
     while($exit == 0) {
         sleep 2;
         my $count = 0;
-        for(my $i = 0 ; $i < $nb_threads_query ; $i++) {
+        for(my $i = 0 ; $i < $nb_threads ; $i++) {
             if ($TuerThread[$i] == 1) {
                 $count++;
             }
-            if ($count == $nb_threads_query ) {
+            if ($count == $nb_threads) {
                 $exit = 1;
             }
         }
