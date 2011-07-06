@@ -57,7 +57,7 @@ sub run {
     @devices = @{$options->{DEVICE}};
 
     # Models SNMP
-    my $models = _modelParser($self->{SNMPQUERY});
+    my $models = _getModels($options);
 
     # retrieve SNMP authentication credentials
     my $credentials = $options->{AUTHENTICATION};
@@ -185,65 +185,20 @@ sub _handleDevices {
     $self->{logger}->debug("Thread $t deleted");
 }
 
-sub _modelParser {
-   my $dataModel = shift;
+sub _getModels {
+    my ($options) = @_;
 
-   my $modelslist = {};
-   my $lists;
-   my $list;
-   if (ref($dataModel->{MODEL}) eq "HASH"){
-      foreach $lists (@{$dataModel->{MODEL}->{GET}}) {
-         $modelslist->{$dataModel->{MODEL}->{ID}}->{GET}->{$lists->{OBJECT}} = {
-                     OBJECT   => $lists->{OBJECT},
-                     OID      => $lists->{OID},
-                     VLAN     => $lists->{VLAN}
-                  };
-      }
-      undef $lists;
-      foreach $lists (@{$dataModel->{MODEL}->{WALK}}) {
-         $modelslist->{$dataModel->{MODEL}->{ID}}->{WALK}->{$lists->{OBJECT}} = {
-                     OBJECT   => $lists->{OBJECT},
-                     OID      => $lists->{OID},
-                     VLAN     => $lists->{VLAN}
-                  };
-      }
-      undef $lists;
-   } else {
-      foreach my $num (@{$dataModel->{MODEL}}) {
-         foreach $list ($num->{GET}) {
-            if (ref($list) eq "HASH") {
+    foreach my $model (@{$options->{MODEL}}) {
+        # index GET and WALK properties
+        $model->{GET}  = { map { $_->{OBJECT} => $_ } @{$model->{GET}}  };
+        $model->{WALK} = { map { $_->{OBJECT} => $_ } @{$model->{WALK}} };
+    }
 
-            } else {
-               foreach $lists (@{$list}) {
-                  $modelslist->{ $num->{ID} }->{GET}->{$lists->{OBJECT}} = {
-                        OBJECT   => $lists->{OBJECT},
-                        OID      => $lists->{OID},
-                        VLAN     => $lists->{VLAN}
-                     };
-               }
-            }
-            undef $lists;
-         }
-         foreach $list ($num->{WALK}) {
-            if (ref($list) eq "HASH") {
+    # index models by their ID
+    my $models = { map { $_->{ID} => $_ } @{$options->{MODEL}} };
 
-            } else {
-               foreach $lists (@{$list}) {
-                  $modelslist->{ $num->{ID} }->{WALK}->{$lists->{OBJECT}} = {
-                          OBJECT   => $lists->{OBJECT},
-                          OID      => $lists->{OID},
-                          VLAN     => $lists->{VLAN}
-                        };
-               }
-            }
-            undef $lists;
-         }         
-      }
-   }
-   return $modelslist;
+   return $models;
 }
-
-
 
 sub _queryDeviceThreaded {
    my ($self, $params) = @_;
