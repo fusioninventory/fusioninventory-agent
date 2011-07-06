@@ -65,6 +65,18 @@ sub run {
     # retrieve SNMP authentication credentials
     my $credentials = $options->{AUTHENTICATION};
 
+    # send initial message to the server
+    $self->_sendMessage({
+        data => {
+            AGENT => {
+                START        => 1,
+                AGENTVERSION => $FusionInventory::Agent::VERSION
+            },
+            MODULEVERSION => $VERSION,
+            PROCESSNUMBER => $params->{PID}
+        }
+    });
+
     # no need for more threads than devices to scan
     my $nb_threads = $params->{THREADS_QUERY};
     if ($nb_threads > @devices) {
@@ -90,18 +102,6 @@ sub run {
         )->detach();
         sleep 1;
     }
-
-    # send initial message to the server
-    $self->_sendMessage({
-        data => {
-            AGENT => {
-                START        => 1,
-                AGENTVERSION => $FusionInventory::Agent::VERSION
-            },
-            MODULEVERSION => $VERSION,
-            PROCESSNUMBER => $params->{PID}
-        }
-    });
 
     while (1) {
         last if all { $_ == DEAD } @threads;
