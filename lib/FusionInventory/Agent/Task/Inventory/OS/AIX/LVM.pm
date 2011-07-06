@@ -48,13 +48,13 @@ sub _parseLvs {
                         $vs_elem[7] = $1;
                     }
                 }
-                print(  $lvname. " "
-                      . $vg . " "
-                      . $status . " "
-                      . $vs_elem[5] . " "
-                      . $vs_elem[7] . " "
-                      . $vs_elem[5]
-                      . "\n" );
+#                print(  $lvname. " "
+#                      . $vg . " "
+#                      . $status . " "
+#                      . $vs_elem[5] . " "
+#                      . $vs_elem[7] . " "
+#                      . $vs_elem[5]
+#                      . "\n" );
                 push @$entries,
                   {
                     LV_NAME   => $lvname,
