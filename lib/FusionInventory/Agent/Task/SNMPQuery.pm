@@ -56,11 +56,11 @@ sub run {
 
     @devices = @{$options->{DEVICE}};
 
-    # Models SNMP
-    my $models = _getModels($options);
+    # SNMP models
+    my $models = _getModels($options->{MODEL});
 
-    # retrieve SNMP authentication credentials
-    my $credentials = $options->{AUTHENTICATION};
+    # SNMP credentials
+    my $credentials = _getCredentials($options->{AUTHENTICATION});
 
     # send initial message to the server
     $self->_sendMessage({
@@ -186,18 +186,23 @@ sub _handleDevices {
 }
 
 sub _getModels {
-    my ($options) = @_;
+    my ($models) = @_;
 
-    foreach my $model (@{$options->{MODEL}}) {
+    foreach my $model (@{$models}) {
         # index GET and WALK properties
         $model->{GET}  = { map { $_->{OBJECT} => $_ } @{$model->{GET}}  };
         $model->{WALK} = { map { $_->{OBJECT} => $_ } @{$model->{WALK}} };
     }
 
     # index models by their ID
-    my $models = { map { $_->{ID} => $_ } @{$options->{MODEL}} };
+    return { map { $_->{ID} => $_ } @{$models} };
+}
 
-   return $models;
+sub _getCredentials {
+    my ($credentials) = @_;
+
+    # index credentials by their ID
+    return { map { $_->{ID} => $_ } @{$credentials} };
 }
 
 sub _queryDeviceThreaded {

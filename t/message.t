@@ -126,7 +126,7 @@ foreach my $test (keys %messages) {
     );
     my $options = $message->getOptionsInfoByName('SNMPQUERY');
     is_deeply(
-        FusionInventory::Agent::Task::SNMPQuery::_getModels($options),
+        FusionInventory::Agent::Task::SNMPQuery::_getModels($options->{MODEL}),
         $messages{$test}->{models},
         $test
     );
