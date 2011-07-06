@@ -51,11 +51,6 @@ sub run {
 
     $self->{logger}->debug("FusionInventory SNMPQuery module ".$VERSION);
 
-    my $pid = 
-        sprintf("%04d", localtime->yday()) . 
-        sprintf("%02d", localtime->hour()) .
-        sprintf("%02d", localtime->min());
-
     my $params  = $options->{PARAM}->[0];
     my $storage = $self->{target}->getStorage();
 
@@ -96,7 +91,7 @@ sub run {
         sleep 1;
     }
 
-    # Send infos to server :
+    # send initial message to the server
     $self->_sendMessage({
         data => {
             AGENT => {
@@ -113,6 +108,7 @@ sub run {
         sleep 1;
     }
 
+    # send results to the server
     foreach my $idx (1..$maxIdx) {
         my $data = $storage->restore({
             idx => $idx
@@ -126,12 +122,13 @@ sub run {
         sleep 1;
     }
 
-    # Send infos to server :
+    # send final message to the server
     $self->_sendMessage({
         data => {
             AGENT => {
                 END => 1,
             },
+            MODULEVERSION => $VERSION,
             PROCESSNUMBER => $params->{PID}
         }
     });
