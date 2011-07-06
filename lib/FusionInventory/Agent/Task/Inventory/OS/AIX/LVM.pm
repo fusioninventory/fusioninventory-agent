@@ -9,7 +9,7 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-sub isInventoryEnabled {
+sub isEnabled {
     can_run("lspv");
 }
 
@@ -182,8 +182,10 @@ sub _parseVgs {
 }
 
 sub doInventory {
-    my $params    = shift;
-    my $inventory = $params->{inventory};
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+
     my $pvs       = _parsePvs();
     $inventory->addPhysicalVolume($_) foreach (@$pvs);
     my $lvs = _parseLvs();
