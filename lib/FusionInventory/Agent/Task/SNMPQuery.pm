@@ -108,9 +108,9 @@ sub run {
     # send results to the server
     my $storage = $self->{target}->getStorage();
     foreach my $idx (1..$maxIdx) {
-        my $data = $storage->restore({
+        my $data = $storage->restore(
             idx => $idx
-        });
+        );
         $self->_sendMessage($data);
         $storage->remove(
             idx => $idx
@@ -165,14 +165,14 @@ sub _queryDevices {
         });
 
         $maxIdx++;
-        $self->{storage}->save({
+        $self->{storage}->save(
             idx  => $maxIdx,
             data => {
                 DEVICE        => $result,
                 MODULEVERSION => $VERSION,
                 PROCESSNUMBER => $pid
             }
-        });
+        );
                  
         sleep 1;
     }
