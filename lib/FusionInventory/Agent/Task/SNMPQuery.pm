@@ -241,10 +241,34 @@ sub _queryDevice {
 
     my $datadevice;
     my $HashDataSNMP;
-    # Query SNMP get #
+
+    # automatically extend model for cartridge support
     if ($device->{TYPE} eq "PRINTER") {
-        %params = cartridgesupport(\%params);
+        foreach my $key (keys %{$model->{GET}}) {
+            if (
+                $key eq "wastetoner"     ||
+                $key eq "maintenancekit" ||
+                $key =~ /^toner/         ||
+                $key =~ /^cartridge/     ||
+                $key =~ /^drum/
+            ) {
+                my $type_oid = $model->{GET}->{$key}->{OID};
+                $type_oid =~ s/43.11.1.1.6/43.11.1.1.8/;
+                my $level_oid = $model->{GET}->{$key}->{OID};
+                $level_oid =~ s/43.11.1.1.6/43.11.1.1.9/;
+
+                $model->{GET}->{$key."-capacitytype"} = {
+                    OID  => $type_oid,
+                    VLAN => 0
+                };
+                $model->{GET}->{$key."-level"} = {
+                    OID  => $level_oid,
+                    VLAN => 0
+                };
+            }
+        }
     }
+
     foreach my $key (keys %{$model->{GET}}) {
         next unless $model->{GET}->{$key}->{VLAN} == 0;
         my $result = $snmp->get(
@@ -654,25 +678,6 @@ sub _lastSplitObject {
    my @array = split(/\./, $var);
    return $array[-1];
 }
-
-
-sub _cartridgesupport {
-   my $params = shift;
-
-   foreach my $key (keys %{$params->{modellist}->{GET}}) {
-      if (($key =~ /^toner/) || ($key eq "wastetoner") || ($key =~ /^cartridge/) || ($key eq "maintenancekit") || ($key =~ /^drum/)) {
-         $params->{modellist}->{GET}->{$key."-capacitytype"}->{OID} = $params->{modellist}->{GET}->{$key}->{OID};
-         $params->{modellist}->{GET}->{$key."-capacitytype"}->{OID} =~ s/43.11.1.1.6/43.11.1.1.8/;
-         $params->{modellist}->{GET}->{$key."-capacitytype"}->{VLAN} = 0;
-
-         $params->{modellist}->{GET}->{$key."-level"}->{OID} = $params->{modellist}->{GET}->{$key}->{OID};
-         $params->{modellist}->{GET}->{$key."-level"}->{OID} =~ s/43.11.1.1.6/43.11.1.1.9/;
-         $params->{modellist}->{GET}->{$key."-level"}->{VLAN} = 0;
-      }
-   }
-   return $params;
-}
-
 
 sub _isInteger {
    $_[0] =~ /^[+-]?\d+$/;
