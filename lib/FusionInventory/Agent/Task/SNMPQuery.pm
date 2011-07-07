@@ -291,7 +291,7 @@ sub _queryDevice {
         $HashDataSNMP->{$key} = $result;
     }
 
-    ($datadevice, $HashDataSNMP) = _constructDataDeviceMultiple($HashDataSNMP,$datadevice, $self, $model->{WALK}->{vtpVlanName}->{OID}, $model->{WALK});
+    ($datadevice, $HashDataSNMP) = _constructDataDeviceMultiple($HashDataSNMP,$datadevice, $self, $model->{WALK});
 
     if ($datadevice->{INFO}->{TYPE} eq "NETWORKING") {
         # check if vlan-specific queries are is needed
@@ -466,8 +466,7 @@ sub _constructDataDeviceMultiple {
    my $HashDataSNMP = shift;
    my $datadevice = shift;
    my $self = shift;
-   my $vtpVlanName_oid = shift;
-   my $walkoid = shift;
+   my $walk = shift;
    
    my $object;
    my $data;
@@ -573,7 +572,7 @@ sub _constructDataDeviceMultiple {
       while ( ($object,$data) = each (%{$HashDataSNMP->{ifaddr}}) ) {
          if ($data ne "") {
              my $shortobject = $object;
-             $shortobject =~ s/$walkoid->{ifaddr}->{OID}//;
+             $shortobject =~ s/$walk->{ifaddr}->{OID}//;
              $shortobject =~ s/^.//;
              $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$data}]->{IP} = $shortobject;
          }
@@ -591,13 +590,13 @@ sub _constructDataDeviceMultiple {
    if (defined ($datadevice->{INFO}->{COMMENTS})) {
       if ($datadevice->{INFO}->{COMMENTS} =~ /Cisco/) {
          ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Cisco::TrunkPorts($HashDataSNMP,$datadevice, $self);
-         ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Cisco::CDPPorts($HashDataSNMP,$datadevice, $walkoid, $self);
+         ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Cisco::CDPPorts($HashDataSNMP,$datadevice, $walk, $self);
       } elsif ($datadevice->{INFO}->{COMMENTS} =~ /ProCurve/) {
          ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Cisco::TrunkPorts($HashDataSNMP,$datadevice, $self);
-         ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Procurve::CDPLLDPPorts($HashDataSNMP,$datadevice, $walkoid, $self);
+         ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Procurve::CDPLLDPPorts($HashDataSNMP,$datadevice, $walk, $self);
       } elsif ($datadevice->{INFO}->{COMMENTS} =~ /Nortel/) {
          ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Nortel::VlanTrunkPorts($HashDataSNMP,$datadevice, $self);
-         ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Nortel::LLDPPorts($HashDataSNMP,$datadevice, $walkoid, $self);
+         ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Nortel::LLDPPorts($HashDataSNMP,$datadevice, $walk, $self);
       }
    }
 
@@ -605,7 +604,7 @@ sub _constructDataDeviceMultiple {
    if (exists $HashDataSNMP->{vmvlan}) {
       while ( ($object,$data) = each (%{$HashDataSNMP->{vmvlan}}) ) {
          $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{VLANS}->{VLAN}->{NUMBER} = $data;
-         $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{VLANS}->{VLAN}->{NAME} = $HashDataSNMP->{vtpVlanName}->{$vtpVlanName_oid.".".$data};
+         $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{VLANS}->{VLAN}->{NAME} = $HashDataSNMP->{vtpVlanName}->{$walk->{vtpVlanName}->{OID} . ".".$data};
       }
       delete $HashDataSNMP->{vmvlan};
    }
