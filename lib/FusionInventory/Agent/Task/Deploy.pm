@@ -21,6 +21,16 @@ use FusionInventory::Agent::Task::Deploy::Datastore;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor;
 use FusionInventory::Agent::Task::Deploy::CheckProcessor;
 
+sub new {
+    my ($class, %params) = @_;
+
+    my $self = $class->SUPER::new(%params);
+
+    $self->{fusionClient} = FusionInventory::Agent::HTTP::Client::Fusion->new();
+
+    return $self;
+}
+
 #sub setStatus {
 #    my ($self, $params) = @_;
 #
@@ -79,17 +89,23 @@ sub setLog {
     }
 }
 
-sub getJobs {
-    my ( $self, $datastore ) = @_;
+sub processRemote {
+    my ($self, $remoteUrl) = @_;
 
-    my $logger = $self->{logger};
+    if ( !$remoteUrl ) {
+        return;
+    }
 
-    my $ret = [];
+    my $datastore = FusionInventory::Agent::Task::Deploy::Datastore->new(
+        { path => $self->{target}{storage}{directory}.'/deploy', } );
+    $datastore->cleanUp();
 
-    my $files = {};
+
+    my $jobList = [];
+    my $files;
 
     my $answer = $self->{fusionClient}->send(
-        "url" => $self->{remoteUrl},
+        "url" => $remoteUrl,
         args  => {
             action    => "getJobs",
             machineid => $self->{deviceid},
@@ -97,10 +113,10 @@ sub getJobs {
     );
 
     if ( !defined($answer) ) {
-        $logger->debug("No answer from server for deployment job.");
+        $self->{logger}->debug("No answer from server for deployment job.");
         return;
     }
-die unless $answer->{associatedFiles};
+    die unless $answer->{associatedFiles};
     foreach my $sha512 ( keys %{ $answer->{associatedFiles} } ) {
         $files->{$sha512} = FusionInventory::Agent::Task::Deploy::File->new(
             {
@@ -122,7 +138,7 @@ die unless $answer->{associatedFiles};
                 push @$associatedFiles, $files->{$uuid};
             }
         }
-        push @$ret,
+        push @$jobList,
           FusionInventory::Agent::Task::Deploy::Job->new(
             {
                 data            => $_,
@@ -131,52 +147,11 @@ die unless $answer->{associatedFiles};
           );
     }
 
-    $ret;
-}
-
-sub run {
-    my ($self) = @_;
-
-    if ( !$self->{target}->isa('FusionInventory::Agent::Target::Server') ) {
-        $self->{logger}->debug("target is not a server. Exiting.");
-        exit(0);
-    }
-
-    $self->{fusionClient} = FusionInventory::Agent::HTTP::Client::Fusion->new();
-
-    my $globalRemoteConfig = $self->{fusionClient}->send(
-        "url" => $self->{target}->{url},
-        args  => {
-            action    => "getConfig",
-            machineid => $self->{deviceid},
-            task      => { Deploy => $VERSION },
-        }
-    );
-
-    return unless $globalRemoteConfig->{schedule};
-    return unless ref( $globalRemoteConfig->{schedule} ) eq 'ARRAY';
-
-    my $deployRemote;
-    foreach my $job ( @{ $globalRemoteConfig->{schedule} } ) {
-        next unless $job->{task} eq "Deploy";
-        $self->{remoteUrl} = $job->{remote};
-    }
-    if ( !$self->{remoteUrl} ) {
-        $self->{logger}->info("Deploy support disabled server side.");
-        return;
-    }
-
-    my $datastore = FusionInventory::Agent::Task::Deploy::Datastore->new(
-        { path => $self->{target}{storage}{directory}.'/deploy', } );
-    $datastore->cleanUp();
-
-    my $jobList = $self->getJobs($datastore);
-    return unless defined($jobList);
   JOB: foreach my $job (@$jobList) {
 
         # RECEIVED
         $self->{fusionClient}->send(
-            "url" => $self->{target}->{url},
+            "url" => $remoteUrl,
             args  => {
                 action      => "setStatus",
                 machineid   => 'DEVICEID',
@@ -191,12 +166,11 @@ sub run {
             my $checkProcessor =
               FusionInventory::Agent::Task::Deploy::CheckProcessor->new();
             foreach my $checknum ( 0 .. @{ $job->{checks} } ) {
-                print $checknum. "\n";
                 next unless $job->{checks}[$checknum];
                 if ( !$checkProcessor->process( $job->{checks}[$checknum] ) ) {
 
                     $self->{fusionClient}->send(
-                        "url" => $self->{target}->{url},
+                        "url" => $remoteUrl,
                         args  => {
                             action      => "setStatus",
                             machineid   => 'DEVICEID',
@@ -217,7 +191,7 @@ sub run {
         # DOWNLOADING
 
         $self->{fusionClient}->send(
-            "url" => $self->{target}->{url},
+            "url" => $remoteUrl,
             args  => {
                 action      => "setStatus",
                 machineid   => 'DEVICEID',
@@ -228,11 +202,10 @@ sub run {
         );
 
         my $workdir = $datastore->createWorkDir( $job->{uuid} );
-        print "\n\n\n------------------------\n";
         foreach my $file ( @{ $job->{associatedFiles} } ) {
             if ( $file->exists() ) {
                 $self->{fusionClient}->send(
-                    "url" => $self->{target}->{url},
+                    "url" => $remoteUrl,
                     args  => {
                         action    => "setStatus",
                         machineid => 'DEVICEID',
@@ -246,7 +219,7 @@ sub run {
                 next;
             }
             $self->{fusionClient}->send(
-                "url" => $self->{target}->{url},
+                "url" => $remoteUrl,
                 args  => {
                     action      => "setStatus",
                     machineid   => 'DEVICEID',
@@ -260,7 +233,7 @@ sub run {
             if ( $file->exists() ) {
 
                 $self->{fusionClient}->send(
-                    "url" => $self->{target}->{url},
+                    "url" => $remoteUrl,
                     args  => {
                         action      => "setStatus",
                         machineid   => 'DEVICEID',
@@ -276,7 +249,7 @@ sub run {
             else {
 
                 $self->{fusionClient}->send(
-                    "url" => $self->{target}->{url},
+                    "url" => $remoteUrl,
                     args  => {
                         action      => "setStatus",
                         machineid   => 'DEVICEID',
@@ -291,7 +264,7 @@ sub run {
             }
         }
         $self->{fusionClient}->send(
-            "url" => $self->{target}->{url},
+            "url" => $remoteUrl,
             args  => {
                 action      => "setStatus",
                 machineid   => 'DEVICEID',
@@ -315,7 +288,7 @@ sub run {
 
         # PROCESSING
         $self->{fusionClient}->send(
-            "url" => $self->{target}->{url},
+            "url" => $remoteUrl,
             args  => {
                 action      => "setStatus",
                 machineid   => 'DEVICEID',
@@ -333,7 +306,7 @@ sub run {
             if ( !$ret->{status} ) {
 
                 $self->{fusionClient}->send(
-                    "url" => $self->{target}->{url},
+                    "url" => $remoteUrl,
                     args  => {
                         action    => "setLog",
                         machineid => 'DEVICEID',
@@ -343,7 +316,7 @@ sub run {
                 );
 
                 $self->{fusionClient}->send(
-                    "url" => $self->{target}->{url},
+                    "url" => $remoteUrl,
                     args  => {
                         action      => "setStatus",
                         machineid   => 'DEVICEID',
@@ -359,7 +332,7 @@ sub run {
                 next JOB;
             }
             $self->{fusionClient}->send(
-                "url" => $self->{target}->{url},
+                "url" => $remoteUrl,
                 args  => {
                     action      => "setStatus",
                     machineid   => 'DEVICEID',
@@ -374,7 +347,7 @@ sub run {
             $actionnum++;
         }
         $self->{fusionClient}->send(
-            "url" => $self->{target}->{url},
+            "url" => $remoteUrl,
             args  => {
                 action      => "setStatus",
                 machineid   => 'DEVICEID',
@@ -386,7 +359,7 @@ sub run {
         );
 
         $self->{fusionClient}->send(
-            "url" => $self->{target}->{url},
+            "url" => $remoteUrl,
             args  => {
                 action    => "setStatus",
                 machineid => 'DEVICEID',
@@ -398,6 +371,37 @@ sub run {
     }
 
     #$datastore->cleanUp();
+
+}
+
+
+sub run {
+    my ($self) = @_;
+
+    if ( !$self->{target}->isa('FusionInventory::Agent::Target::Server') ) {
+        $self->{logger}->debug("target is not a server. Exiting.");
+        exit(0);
+    }
+
+    my $globalRemoteConfig = $self->{fusionClient}->send(
+        "url" => $self->{target}->{url},
+        args  => {
+            action    => "getConfig",
+            machineid => $self->{deviceid},
+            task      => { Deploy => $VERSION },
+        }
+    );
+
+    return unless $globalRemoteConfig->{schedule};
+    return unless ref( $globalRemoteConfig->{schedule} ) eq 'ARRAY';
+
+    my $deployRemote;
+    foreach my $job ( @{ $globalRemoteConfig->{schedule} } ) {
+        next unless $job->{task} eq "Deploy";
+        $self->processRemote($job->{remote});
+    }
+
+    return 1;
 }
 
 __END__
