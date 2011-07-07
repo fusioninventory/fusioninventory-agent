@@ -127,6 +127,7 @@ sub run {
 
     for (my $j = 0; $j < $params->{THREADS_DISCOVERY}; $j++) {
         $threads[$j] = {
+            id     => $j,
             state  => PAUSE,
             action => PAUSE
         };
@@ -134,9 +135,8 @@ sub run {
         threads->create(
             '_scanAddresses',
             $self,
-            $j,
-            $credentials,
             $threads[$j],
+            $credentials,
             \@addresses_block,
             $nmap_parameters,
             $dico,
@@ -267,9 +267,9 @@ sub _getDictionnary {
 }
 
 sub _scanAddresses {
-    my ($self, $t, $credentials, $thread, $iplist, $nmap_parameters, $dico, $maxIdx, $pid) = @_;
+    my ($self, $thread, $credentials, $iplist, $nmap_parameters, $dico, $maxIdx, $pid) = @_;
 
-    $self->{logger}->debug("Thread $t created");
+    $self->{logger}->debug("Thread $thread->{id} created");
 
     OUTER: while (1) {
 
@@ -345,7 +345,7 @@ sub _scanAddresses {
         }
     }
 
-    $self->{logger}->debug("Thread $t deleted");
+    $self->{logger}->debug("Thread $thread->{id} deleted");
 }
 
 sub _sendMessage {
