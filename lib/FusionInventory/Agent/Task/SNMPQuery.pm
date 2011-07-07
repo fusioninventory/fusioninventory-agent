@@ -88,7 +88,7 @@ sub run {
         $threads[$j] = ALIVE;
 
         threads->create(
-            'handleDevices',
+            '_queryDevices',
             $self,
             $j,
             \@devices,
@@ -147,7 +147,7 @@ sub _sendMessage {
    );
 }
 
-sub _handleDevices {
+sub _queryDevices {
     my ($self, $t, $devicelist, $modelslist, $credentials, $pid, $threads) = @_;
 
     $self->{logger}->debug("Thread $t created");
@@ -162,7 +162,7 @@ sub _handleDevices {
         }
         last RUN unless $device;
 
-        my $result = $self->_queryDeviceThreaded({
+        my $result = $self->_queryDevice({
             device      => $device,
             modellist   => $modelslist->{$device->{MODELSNMP_ID}},
             credentials => $credentials->{$device->{AUTHSNMP_ID}}
@@ -205,7 +205,7 @@ sub _getCredentials {
     return { map { $_->{ID} => $_ } @{$credentials} };
 }
 
-sub _queryDeviceThreaded {
+sub _queryDevice {
    my ($self, $params) = @_;
 
    my $ArraySNMPwalk = {};
