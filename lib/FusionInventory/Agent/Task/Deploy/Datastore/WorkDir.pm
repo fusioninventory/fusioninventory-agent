@@ -6,6 +6,7 @@ use warnings;
 use Data::Dumper;
 use File::Path qw(make_path);
 use Archive::Extract;
+use Compress::Zlib;
 
 sub new {
     my (undef, $params) = @_;
@@ -33,35 +34,38 @@ sub prepare {
     foreach my $file (@{$self->{files}}) {
         my $finalFilePath = $self->{path}.'/'.$file->{name};
 
-        print "Building finale file: `$finalFilePath'";
-
-        print  "final file: ".$finalFilePath."\n";
+        print "Building finale file: `$finalFilePath'\n";
 
         my $fh;
         if (!open($fh, ">$finalFilePath")) {
-            print "Failed to open ".$finalFilePath.": $!";
+            print "Failed to open ".$finalFilePath.": $!\n";
             return;
         }
         binmode($fh);
-
-        foreach my $part (@{$file->{multipart}}) {
+        foreach my $part (@{$file->{multiparts}}) {
             my ($filename, $sha512) = %$part;
+
             my $partFilePath = $file->getBaseDir().'/'.$filename;
             if (! -f $partFilePath) {
                 print "Missing multipart element: `$partFilePath'\n";
             }
 
             my $part;
-            if (!open($part, "<$partFilePath")) {
-                print "Failed to open: `$partFilePath'\n";
-            } else {
+            my $buf;
+            if ($filename =~ /\.gz$/ && ($part = gzopen($file->getBaseDir().'/'.$filename, 'rb'))) {
+                while ($part->gzread($buf, 1024)) {
+                    print $fh $buf;
+                }
+                $part->gzclose;
+            } elsif (open($part, "<$partFilePath")) {
                 binmode($part);
-                my $buf;
                 while(read($part, $buf, 1024)) {
                     print $fh $buf;
                 }
                 close $part;
-            }
+            } else {
+                print "Failed to open: `$partFilePath'\n";
+                }
         }
         close($fh);
 
@@ -78,7 +82,6 @@ sub prepare {
 
         $Archive::Extract::DEBUG=1;
         if ($file->{uncompress}) {
-            print "→".$finalFilePath."\n";
             my $ae = Archive::Extract->new( archive => $finalFilePath );
             $ae->type("tgz");
             if (!$ae->extract( to => $self->{path} )) {
