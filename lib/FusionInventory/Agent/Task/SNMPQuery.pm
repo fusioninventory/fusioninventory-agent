@@ -260,26 +260,22 @@ sub _queryDevice {
     ($datadevice, $HashDataSNMP) = _constructDataDeviceSimple($HashDataSNMP,$datadevice);
 
     # Query SNMP walk #
-    my $vlan_query = 0;
     foreach my $key (keys %{$model->{WALK}}) {
         my $result = $snmp->walk(
             $model->{WALK}->{$key}->{OID}
         );
         $HashDataSNMP->{$key} = $result;
-        if (exists($model->{WALK}->{$key}->{VLAN})) {
-            if ($model->{WALK}->{$key}->{VLAN} == 1) {
-                $vlan_query = 1;
-            }
-        }
     }
-    # Conversion
 
     ($datadevice, $HashDataSNMP) = _constructDataDeviceMultiple($HashDataSNMP,$datadevice, $self, $model->{WALK}->{vtpVlanName}->{OID}, $model->{WALK});
 
     if ($datadevice->{INFO}->{TYPE} eq "NETWORKING") {
-        # Scan for each vlan (for specific switch manufacturer && model)
-        # Implique de recrÃ©er une session spÃ©cialement pour chaque vlan : communautÃ©@vlanID
-        if ($vlan_query == 1) {
+        # check if vlan-specific queries are is needed
+        my $vlan_query =
+            any { $_->{VLAN} == 1 }
+            values %{$model->{WALK}};
+
+        if ($vlan_query) {
             while ( (my $vlan_id,my $vlan_name) = each (%{$HashDataSNMP->{'vtpVlanName'}}) ) {
                 my $vlan_id_short = $vlan_id;
                 $vlan_id_short =~ s/$model->{WALK}->{vtpVlanName}->{OID}//;
