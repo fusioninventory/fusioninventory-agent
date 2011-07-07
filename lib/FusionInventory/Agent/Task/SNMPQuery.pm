@@ -111,6 +111,8 @@ sub run {
         my $data = $storage->restore(
             idx => $idx
         );
+        $data->{MODULEVERSION} = $VERSION;
+        $data->{PROCESSNUMBER} = $params->{PID};
         $self->_sendMessage($data);
         $storage->remove(
             idx => $idx
@@ -144,7 +146,7 @@ sub _sendMessage {
 }
 
 sub _queryDevices {
-    my ($self, $thread, $devices, $models, $credentials, $pid) = @_;
+    my ($self, $thread, $devices, $models, $credentials) = @_;
 
     $self->{logger}->debug("Thread $thread->{id} created");
 
@@ -168,9 +170,7 @@ sub _queryDevices {
         $self->{storage}->save(
             idx  => $maxIdx,
             data => {
-                DEVICE        => $result,
-                MODULEVERSION => $VERSION,
-                PROCESSNUMBER => $pid
+                DEVICE => $result,
             }
         );
                  
