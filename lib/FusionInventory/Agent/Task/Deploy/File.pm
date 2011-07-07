@@ -27,10 +27,6 @@ sub download {
 
     my $datastore = $self->{datastore};
 
-#    foreach (@{$self->{mirrors}}) {
-#        print Dumper($_);
-#    }
-
     my $basedir = $self->getBaseDir();
 
 MULTIPART: foreach (@{$self->{multiparts}}) {
@@ -39,18 +35,16 @@ MULTIPART: foreach (@{$self->{multiparts}}) {
         my $filePath  = $basedir.'/'.$file;
 
         foreach my $mirror (@{$self->{mirrors}}) {
-            print("getstore : $mirror$file, $filePath: ");
             getstore($mirror.$file, $filePath);
             if (-f $filePath) {
                 if (_getSha512ByFile($filePath) eq $sha512) {
-                    print "ok\n";
                     next MULTIPART;
                 } else {
-                    print "ko (invalide SHA) \n"._getSha512ByFile($filePath)."\n\n$sha512\n";
+                    print "getstore : $mirror$file, $filePath: ko (invalide SHA) \n"._getSha512ByFile($filePath)."\n\n$sha512\n";
                     die;
                 }
             } else {
-                print $filePath." ko, not found\n";
+                print "getstore : $mirror$file, $filePath:  ko, not found\n";
             }
         }
     }
