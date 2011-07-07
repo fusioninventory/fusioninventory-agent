@@ -161,11 +161,11 @@ sub _queryDevices {
         }
         last RUN unless $device;
 
-        my $result = $self->_queryDevice({
+        my $result = $self->_queryDevice(
             device      => $device,
             model       => $models->{$device->{MODELSNMP_ID}},
             credentials => $credentials->{$device->{AUTHSNMP_ID}}
-        });
+        );
 
         $maxIdx++;
         $self->{storage}->save(
@@ -203,24 +203,28 @@ sub _getIndexedCredentials {
 }
 
 sub _queryDevice {
-    my ($self, $params) = @_;
+    my ($self, %params) = @_;
+
+    my $credentials = $params{credentials};
+    my $model       = $params{model};
+    my $device      = $params{device};
 
     my $snmp;
     eval {
         $snmp = FusionInventory::Agent::SNMP->new(
-            version      => $params->{credentials}->{VERSION},
-            hostname     => $params->{device}->{IP},
-            community    => $params->{credentials}->{COMMUNITY},
-            username     => $params->{credentials}->{USERNAME},
-            authpassword => $params->{credentials}->{AUTHPASSWORD},
-            authprotocol => $params->{credentials}->{AUTHPROTOCOL},
-            privpassword => $params->{credentials}->{PRIVPASSWORD},
-            privprotocol => $params->{credentials}->{PRIVPROTOCOL},
+            version      => $credentials->{VERSION},
+            hostname     => $device->{IP},
+            community    => $credentials->{COMMUNITY},
+            username     => $credentials->{USERNAME},
+            authpassword => $credentials->{AUTHPASSWORD},
+            authprotocol => $credentials->{AUTHPROTOCOL},
+            privpassword => $credentials->{PRIVPASSWORD},
+            privprotocol => $credentials->{PRIVPROTOCOL},
             translate    => 1,
         );
     };
     if ($EVAL_ERROR) {
-        $self->{logger}->error("Unable to create SNMP session for $params->{device}->{IP}: $EVAL_ERROR");
+        $self->{logger}->error("Unable to create SNMP session for $device->{IP}: $EVAL_ERROR");
         return;
     }
 
@@ -229,48 +233,48 @@ sub _queryDevice {
     if (!$description) {
         return {
             ERROR => {
-                ID      => $params->{device}->{ID},
-                TYPE    => $params->{device}->{TYPE},
+                ID      => $device->{ID},
+                TYPE    => $device->{TYPE},
                 MESSAGE => "No response from remote host"
             }
         };
     } else {
         my $HashDataSNMP;
         # Query SNMP get #
-        if ($params->{device}->{TYPE} eq "PRINTER") {
-            $params = cartridgesupport($params);
+        if ($device->{TYPE} eq "PRINTER") {
+            %params = cartridgesupport(\%params);
         }
-        for my $key ( keys %{$params->{modellist}->{GET}} ) {
-            if ($params->{modellist}->{GET}->{$key}->{VLAN} == 0) {
+        for my $key ( keys %{$model->{GET}} ) {
+            if ($model->{GET}->{$key}->{VLAN} == 0) {
                 my $oid_result = $snmp->get(
-                    $params->{modellist}->{GET}->{$key}->{OID}
+                    $model->{GET}->{$key}->{OID}
                 );
                 if ($oid_result) {
                     $HashDataSNMP->{$key} = $oid_result;
                 }
             }
         }
-        $datadevice->{INFO}->{ID} = $params->{device}->{ID};
-        $datadevice->{INFO}->{TYPE} = $params->{device}->{TYPE};
+        $datadevice->{INFO}->{ID} = $device->{ID};
+        $datadevice->{INFO}->{TYPE} = $device->{TYPE};
         # Conversion
         ($datadevice, $HashDataSNMP) = _constructDataDeviceSimple($HashDataSNMP,$datadevice);
 
         # Query SNMP walk #
         my $vlan_query = 0;
-        for my $key ( keys %{$params->{model}->{WALK}} ) {
+        for my $key ( keys %{$model->{WALK}} ) {
             my $ArraySNMPwalk = $snmp->walk(
-                $params->{model}->{WALK}->{$key}->{OID}
+                $model->{WALK}->{$key}->{OID}
             );
             $HashDataSNMP->{$key} = $ArraySNMPwalk;
-            if (exists($params->{model}->{WALK}->{$key}->{VLAN})) {
-                if ($params->{model}->{WALK}->{$key}->{VLAN} == 1) {
+            if (exists($model->{WALK}->{$key}->{VLAN})) {
+                if ($model->{WALK}->{$key}->{VLAN} == 1) {
                     $vlan_query = 1;
                 }
             }
         }
         # Conversion
 
-        ($datadevice, $HashDataSNMP) = _constructDataDeviceMultiple($HashDataSNMP,$datadevice, $self, $params->{model}->{WALK}->{vtpVlanName}->{OID}, $params->{model}->{WALK});
+        ($datadevice, $HashDataSNMP) = _constructDataDeviceMultiple($HashDataSNMP,$datadevice, $self, $model->{WALK}->{vtpVlanName}->{OID}, $model->{WALK});
 
         if ($datadevice->{INFO}->{TYPE} eq "NETWORKING") {
             # Scan for each vlan (for specific switch manufacturer && model)
@@ -278,38 +282,38 @@ sub _queryDevice {
             if ($vlan_query == 1) {
                 while ( (my $vlan_id,my $vlan_name) = each (%{$HashDataSNMP->{'vtpVlanName'}}) ) {
                     my $vlan_id_short = $vlan_id;
-                    $vlan_id_short =~ s/$params->{model}->{WALK}->{vtpVlanName}->{OID}//;
+                    $vlan_id_short =~ s/$model->{WALK}->{vtpVlanName}->{OID}//;
                     $vlan_id_short =~ s/^.//;
                     # initiate a new SNMP connection on this VLAN
                     eval {
                         $snmp = FusionInventory::Agent::SNMP->new(
-                            version      => $params->{credentials}->{VERSION},
-                            hostname     => $params->{device}->{IP},
-                            community    => $params->{credentials}->{COMMUNITY}."@".$vlan_id_short,
-                            username     => $params->{credentials}->{USERNAME},
-                            authpassword => $params->{credentials}->{AUTHPASSWORD},
-                            authprotocol => $params->{credentials}->{AUTHPROTOCOL},
-                            privpassword => $params->{credentials}->{PRIVPASSWORD},
-                            privprotocol => $params->{credentials}->{PRIVPROTOCOL},
+                            version      => $credentials->{VERSION},
+                            hostname     => $device->{IP},
+                            community    => $credentials->{COMMUNITY}."@".$vlan_id_short,
+                            username     => $credentials->{USERNAME},
+                            authpassword => $credentials->{AUTHPASSWORD},
+                            authprotocol => $credentials->{AUTHPROTOCOL},
+                            privpassword => $credentials->{PRIVPASSWORD},
+                            privprotocol => $credentials->{PRIVPROTOCOL},
                             translate    => 1,
                         );
                     };
                     if ($EVAL_ERROR) {
-                        $self->{logger}->error("Unable to create SNMP session for $params->{device}->{IP}, VLAN $vlan_id: $EVAL_ERROR");
+                        $self->{logger}->error("Unable to create SNMP session for $device->{IP}, VLAN $vlan_id: $EVAL_ERROR");
                         return;
                     }
 
-                    for my $link ( keys %{$params->{model}->{WALK}} ) {
-                        if ($params->{model}->{WALK}->{$link}->{VLAN} == 1) {
+                    for my $link ( keys %{$model->{WALK}} ) {
+                        if ($model->{WALK}->{$link}->{VLAN} == 1) {
                             my $ArraySNMPwalk = $snmp->walk(
-                                $params->{model}->{WALK}->{$link}->{OID}
+                                $model->{WALK}->{$link}->{OID}
                             );
                             $HashDataSNMP->{VLAN}->{$vlan_id}->{$link} = $ArraySNMPwalk;
                         }
                     }
                     # Detect mac adress on each port
                     if ($datadevice->{INFO}->{COMMENTS} =~ /Cisco/) {
-                        ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Cisco::GetMAC($HashDataSNMP,$datadevice,$vlan_id,$self, $params->{model}->{WALK});
+                        ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Cisco::GetMAC($HashDataSNMP,$datadevice,$vlan_id,$self, $model->{WALK});
                     }
                     delete $HashDataSNMP->{VLAN}->{$vlan_id};
                 }
@@ -318,11 +322,11 @@ sub _queryDevice {
                     if ($datadevice->{INFO}->{COMMENTS} =~ /3Com IntelliJack/) {
                         $datadevice = FusionInventory::Agent::Task::SNMPQuery::ThreeCom::RewritePortOf225($datadevice, $self);
                     } elsif ($datadevice->{INFO}->{COMMENTS} =~ /3Com/) {
-                        ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::ThreeCom::GetMAC($HashDataSNMP,$datadevice,$self,$params->{model}->{WALK});
+                        ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::ThreeCom::GetMAC($HashDataSNMP,$datadevice,$self,$model->{WALK});
                     } elsif ($datadevice->{INFO}->{COMMENTS} =~ /ProCurve/) {
-                        ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Procurve::GetMAC($HashDataSNMP,$datadevice,$self, $params->{model}->{WALK});
+                        ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Procurve::GetMAC($HashDataSNMP,$datadevice,$self, $model->{WALK});
                     } elsif ($datadevice->{INFO}->{COMMENTS} =~ /Nortel/) {
-                        ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Nortel::GetMAC($HashDataSNMP,$datadevice,$self, $params->{model}->{WALK});
+                        ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Nortel::GetMAC($HashDataSNMP,$datadevice,$self, $model->{WALK});
                     }
                 }
             }
