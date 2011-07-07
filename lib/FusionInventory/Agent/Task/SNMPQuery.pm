@@ -245,7 +245,7 @@ sub _queryDevice {
     if ($device->{TYPE} eq "PRINTER") {
         %params = cartridgesupport(\%params);
     }
-    for my $key ( keys %{$model->{GET}} ) {
+    foreach my $key (keys %{$model->{GET}}) {
         next unless $model->{GET}->{$key}->{VLAN} == 0;
         my $result = $snmp->get(
             $model->{GET}->{$key}->{OID}
@@ -261,7 +261,7 @@ sub _queryDevice {
 
     # Query SNMP walk #
     my $vlan_query = 0;
-    for my $key ( keys %{$model->{WALK}} ) {
+    foreach my $key (keys %{$model->{WALK}}) {
         my $result = $snmp->walk(
             $model->{WALK}->{$key}->{OID}
         );
@@ -303,7 +303,7 @@ sub _queryDevice {
                     return;
                 }
 
-                for my $link ( keys %{$model->{WALK}} ) {
+                foreach my $link (keys %{$model->{WALK}}) {
                     next unless $model->{WALK}->{$link}->{VLAN} == 1;
                     my $result = $snmp->walk(
                         $model->{WALK}->{$link}->{OID}
@@ -663,7 +663,7 @@ sub _lastSplitObject {
 sub _cartridgesupport {
    my $params = shift;
 
-   for my $key ( keys %{$params->{modellist}->{GET}} ) {
+   foreach my $key (keys %{$params->{modellist}->{GET}}) {
       if (($key =~ /^toner/) || ($key eq "wastetoner") || ($key =~ /^cartridge/) || ($key eq "maintenancekit") || ($key =~ /^drum/)) {
          $params->{modellist}->{GET}->{$key."-capacitytype"}->{OID} = $params->{modellist}->{GET}->{$key}->{OID};
          $params->{modellist}->{GET}->{$key."-capacitytype"}->{OID} =~ s/43.11.1.1.6/43.11.1.1.8/;
