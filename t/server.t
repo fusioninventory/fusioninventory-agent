@@ -43,11 +43,12 @@ $tar->add_files( $tmpDirServer . "/tmp" );
 my $sha = Digest::SHA->new('512');
 $tar->write( $tmpDirServer . '/files.tar' );
 $sha->addfile( $tmpDirServer . '/files.tar', 'b' );
-$files{ $sha->hexdigest } = [
+my $sha512 = $sha->hexdigest();
+$files{ $sha512 } = [
     {
         path    => $tmpDirServer . '/files.tar',
         extract => 0,
-        sha512  => $sha->hexdigest
+        sha512  => $sha512
     }
 ];
 $filePathByFilename{'files.tar'} = $tmpDirServer . '/files.tar';
