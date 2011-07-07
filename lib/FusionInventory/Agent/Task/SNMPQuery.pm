@@ -57,10 +57,10 @@ sub run {
     @devices = @{$options->{DEVICE}};
 
     # SNMP models
-    my $models = _getModels($options->{MODEL});
+    my $models = _getIndexedModels($options->{MODEL});
 
     # SNMP credentials
-    my $credentials = _getCredentials($options->{AUTHENTICATION});
+    my $credentials = _getIndexedCredentials($options->{AUTHENTICATION});
 
     # send initial message to the server
     $self->_sendMessage({
@@ -181,7 +181,7 @@ sub _queryDevices {
     $self->{logger}->debug("Thread $thread->{id} deleted");
 }
 
-sub _getModels {
+sub _getIndexedModels {
     my ($models) = @_;
 
     foreach my $model (@{$models}) {
@@ -194,7 +194,7 @@ sub _getModels {
     return { map { $_->{ID} => $_ } @{$models} };
 }
 
-sub _getCredentials {
+sub _getIndexedCredentials {
     my ($credentials) = @_;
 
     # index credentials by their ID
