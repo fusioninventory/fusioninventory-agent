@@ -102,8 +102,8 @@ sub run {
         sleep 1;
     }
 
-    while (1) {
-        last if all { $_->{state} == DEAD } @threads;
+    # wait for all threads to reach DEAD state
+    while (any { $_->{state} != DEAD } @threads) {
         sleep 1;
     }
 
