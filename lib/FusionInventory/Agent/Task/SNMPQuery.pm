@@ -247,11 +247,11 @@ sub _queryDevice {
     }
     for my $key ( keys %{$model->{GET}} ) {
         if ($model->{GET}->{$key}->{VLAN} == 0) {
-            my $oid_result = $snmp->get(
+            my $result = $snmp->get(
                 $model->{GET}->{$key}->{OID}
             );
-            if ($oid_result) {
-                $HashDataSNMP->{$key} = $oid_result;
+            if ($result) {
+                $HashDataSNMP->{$key} = $result;
             }
         }
     }
@@ -263,10 +263,10 @@ sub _queryDevice {
     # Query SNMP walk #
     my $vlan_query = 0;
     for my $key ( keys %{$model->{WALK}} ) {
-        my $ArraySNMPwalk = $snmp->walk(
+        my $result = $snmp->walk(
             $model->{WALK}->{$key}->{OID}
         );
-        $HashDataSNMP->{$key} = $ArraySNMPwalk;
+        $HashDataSNMP->{$key} = $result;
         if (exists($model->{WALK}->{$key}->{VLAN})) {
             if ($model->{WALK}->{$key}->{VLAN} == 1) {
                 $vlan_query = 1;
@@ -306,10 +306,10 @@ sub _queryDevice {
 
                 for my $link ( keys %{$model->{WALK}} ) {
                     if ($model->{WALK}->{$link}->{VLAN} == 1) {
-                        my $ArraySNMPwalk = $snmp->walk(
+                        my $result = $snmp->walk(
                             $model->{WALK}->{$link}->{OID}
                         );
-                        $HashDataSNMP->{VLAN}->{$vlan_id}->{$link} = $ArraySNMPwalk;
+                        $HashDataSNMP->{VLAN}->{$vlan_id}->{$link} = $result;
                     }
                 }
                 # Detect mac adress on each port
