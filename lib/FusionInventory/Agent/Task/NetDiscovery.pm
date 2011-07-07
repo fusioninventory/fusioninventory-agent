@@ -132,7 +132,7 @@ sub run {
         };
 
         threads->create(
-            '_handleIPRange',
+            '_scanAddresses',
             $self,
             $j,
             $credentials,
@@ -266,7 +266,7 @@ sub _getDictionnary {
     return $dictionnary;
 }
 
-sub _handleIPRange {
+sub _scanAddresses {
     my ($self, $t, $credentials, $thread, $iplist, $nmap_parameters, $dico, $maxIdx, $pid) = @_;
 
     $self->{logger}->debug("Thread $t created");
@@ -297,7 +297,7 @@ sub _handleIPRange {
             }
             last RUN unless $item;
 
-            my $device = $self->_probeAddress(
+            my $device = $self->_scanAddress(
                 ip              => $item->{IP},
                 entity          => $item->{ENTITY},
                 credentials     => $credentials,
@@ -363,7 +363,7 @@ sub _sendMessage {
    );
 }
 
-sub _probeAddress {
+sub _scanAddress {
    my ($self, %params) = @_;
 
    if (!defined($params{ip})) {
@@ -379,15 +379,15 @@ sub _probeAddress {
    my $device;
 
    if ($params{nmap_parameters}) {
-      $self->_probeAddressByNmap($device, $params{ip}, $params{nmap_parameters});
+      $self->_scanAddressByNmap($device, $params{ip}, $params{nmap_parameters});
    }
 
    if ($INC{'Net/NBName.pm'}) {
-       $self->_probeAddressByNmap($device, $params{ip})
+       $self->_scanAddressByNmap($device, $params{ip})
    }
 
    if ($INC{'FusionInventory/Agent/SNMP.pm'}) {
-       $self->_probeAddressBySNMP($device, $params{ip}, $params{credentials}, $params{dico});
+       $self->_scanAddressBySNMP($device, $params{ip}, $params{credentials}, $params{dico});
    }
 
    if ($device->{MAC}) {
@@ -405,7 +405,7 @@ sub _probeAddress {
    return $device;
 }
 
-sub _probeAddressByNmap {
+sub _scanAddressByNmap {
     my ($self, $device, $ip, $parameters) = @_;
 
     $self->{logger}->debug("[$ip] : nmap discovery");
@@ -413,7 +413,7 @@ sub _probeAddressByNmap {
     $device = _parseNmap(command => "nmap $parameters $ip -oX -");
 }
 
-sub _probeAddressByNetbios {
+sub _scanAddressByNetbios {
     my ($self, $device, $ip) = @_;
 
     $self->{logger}->debug("[$ip] : Netbios discovery");
@@ -442,7 +442,7 @@ sub _probeAddressByNetbios {
     }
 }
 
-sub _probeAddressBySNMP {
+sub _scanAddressBySNMP {
     my ($self, $device, $ip, $credentials, $dico) = @_;
 
     $self->{logger}->debug("[ip] : SNMP discovery");
