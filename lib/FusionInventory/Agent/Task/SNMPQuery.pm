@@ -13,6 +13,7 @@ use constant ALIVE => 0;
 use constant DEAD  => 1;
 
 use Encode qw(encode);
+use English qw(-no_match_vars);
 
 use FusionInventory::Agent::SNMP;
 use FusionInventory::Agent::XML::Query;
@@ -204,55 +205,47 @@ sub _getIndexedCredentials {
 sub _queryDevice {
     my ($self, $params) = @_;
 
-    my $ArraySNMPwalk = {};
-    my $HashDataSNMP = {};
-    my $datadevice = {};
-    my $key;
-
-    #threads->yield;
-    ############### SNMP Queries ###############
-    my $session = FusionInventory::Agent::SNMP->new({
-        version      => $params->{credentials}->{VERSION},
-        hostname     => $params->{device}->{IP},
-        community    => $params->{credentials}->{COMMUNITY},
-        username     => $params->{credentials}->{USERNAME},
-        authpassword => $params->{credentials}->{AUTHPASSWORD},
-        authprotocol => $params->{credentials}->{AUTHPROTOCOL},
-        privpassword => $params->{credentials}->{PRIVPASSWORD},
-        privprotocol => $params->{credentials}->{PRIVPROTOCOL},
-        translate    => 1,
-    });
-    if (!defined($session->{SNMPSession}->{session})) {
-        return $datadevice;
+    my $snmp;
+    eval {
+        $snmp = FusionInventory::Agent::SNMP->new(
+            version      => $params->{credentials}->{VERSION},
+            hostname     => $params->{device}->{IP},
+            community    => $params->{credentials}->{COMMUNITY},
+            username     => $params->{credentials}->{USERNAME},
+            authpassword => $params->{credentials}->{AUTHPASSWORD},
+            authprotocol => $params->{credentials}->{AUTHPROTOCOL},
+            privpassword => $params->{credentials}->{PRIVPASSWORD},
+            privprotocol => $params->{credentials}->{PRIVPROTOCOL},
+            translate    => 1,
+        );
+    };
+    if ($EVAL_ERROR) {
+        $self->{logger}->error("Unable to create SNMP session for $params->{device}->{IP}: $EVAL_ERROR");
+        return;
     }
 
-    my $error = '';
-    # Query for timeout #
-    my $description = $session->snmpGet({
-        oid => '.1.3.6.1.2.1.1.1.0',
-        up  => 1,
-    });
-    my $insertXML = '';
-    if ($description =~ m/No response from remote host/) {
-        $error = "No response from remote host";
-        $datadevice->{ERROR}->{ID} = $params->{device}->{ID};
-        $datadevice->{ERROR}->{TYPE} = $params->{device}->{TYPE};
-        $datadevice->{ERROR}->{MESSAGE} = $error;
-        return $datadevice;
+    my $datadevice;
+    my $description = $snmp->get('.1.3.6.1.2.1.1.1.0');
+    if (!$description) {
+        return {
+            ERROR => {
+                ID      => $params->{device}->{ID},
+                TYPE    => $params->{device}->{TYPE},
+                MESSAGE => "No response from remote host"
+            }
+        };
     } else {
+        my $HashDataSNMP;
         # Query SNMP get #
         if ($params->{device}->{TYPE} eq "PRINTER") {
             $params = cartridgesupport($params);
         }
-        for $key ( keys %{$params->{modellist}->{GET}} ) {
+        for my $key ( keys %{$params->{modellist}->{GET}} ) {
             if ($params->{modellist}->{GET}->{$key}->{VLAN} == 0) {
-                my $oid_result = $session->snmpGet({
-                    oid => $params->{modellist}->{GET}->{$key}->{OID},
-                    up  => 1,
-                });
-                if (defined $oid_result
-                && $oid_result ne ""
-                && $oid_result ne "noSuchObject") {
+                my $oid_result = $snmp->get(
+                    $params->{modellist}->{GET}->{$key}->{OID}
+                );
+                if ($oid_result) {
                     $HashDataSNMP->{$key} = $oid_result;
                 }
             }
@@ -264,10 +257,10 @@ sub _queryDevice {
 
         # Query SNMP walk #
         my $vlan_query = 0;
-        for $key ( keys %{$params->{model}->{WALK}} ) {
-            $ArraySNMPwalk = $session->snmpWalk({
-                oid_start => $params->{model}->{WALK}->{$key}->{OID}
-            });
+        for my $key ( keys %{$params->{model}->{WALK}} ) {
+            my $ArraySNMPwalk = $snmp->walk(
+                $params->{model}->{WALK}->{$key}->{OID}
+            );
             $HashDataSNMP->{$key} = $ArraySNMPwalk;
             if (exists($params->{model}->{WALK}->{$key}->{VLAN})) {
                 if ($params->{model}->{WALK}->{$key}->{VLAN} == 1) {
@@ -287,26 +280,30 @@ sub _queryDevice {
                     my $vlan_id_short = $vlan_id;
                     $vlan_id_short =~ s/$params->{model}->{WALK}->{vtpVlanName}->{OID}//;
                     $vlan_id_short =~ s/^.//;
-                    #Initiate SNMP connection on this VLAN
-                    my $session = FusionInventory::Agent::SNMP->({
-                        version      => $params->{credentials}->{VERSION},
-                        hostname     => $params->{device}->{IP},
-                        community    => $params->{credentials}->{COMMUNITY}."@".$vlan_id_short,
-                        username     => $params->{credentials}->{USERNAME},
-                        authpassword => $params->{credentials}->{AUTHPASSWORD},
-                        authprotocol => $params->{credentials}->{AUTHPROTOCOL},
-                        privpassword => $params->{credentials}->{PRIVPASSWORD},
-                        privprotocol => $params->{credentials}->{PRIVPROTOCOL},
-                        translate    => 1,
-                    });
+                    # initiate a new SNMP connection on this VLAN
+                    eval {
+                        $snmp = FusionInventory::Agent::SNMP->new(
+                            version      => $params->{credentials}->{VERSION},
+                            hostname     => $params->{device}->{IP},
+                            community    => $params->{credentials}->{COMMUNITY}."@".$vlan_id_short,
+                            username     => $params->{credentials}->{USERNAME},
+                            authpassword => $params->{credentials}->{AUTHPASSWORD},
+                            authprotocol => $params->{credentials}->{AUTHPROTOCOL},
+                            privpassword => $params->{credentials}->{PRIVPASSWORD},
+                            privprotocol => $params->{credentials}->{PRIVPROTOCOL},
+                            translate    => 1,
+                        );
+                    };
+                    if ($EVAL_ERROR) {
+                        $self->{logger}->error("Unable to create SNMP session for $params->{device}->{IP}, VLAN $vlan_id: $EVAL_ERROR");
+                        return;
+                    }
 
-                    $ArraySNMPwalk = {};
-                    #$HashDataSNMP  = {};
                     for my $link ( keys %{$params->{model}->{WALK}} ) {
                         if ($params->{model}->{WALK}->{$link}->{VLAN} == 1) {
-                            $ArraySNMPwalk = $session->snmpWalk({
-                                oid_start => $params->{model}->{WALK}->{$link}->{OID}
-                            });
+                            my $ArraySNMPwalk = $snmp->walk(
+                                $params->{model}->{WALK}->{$link}->{OID}
+                            );
                             $HashDataSNMP->{VLAN}->{$vlan_id}->{$link} = $ArraySNMPwalk;
                         }
                     }
@@ -331,6 +328,7 @@ sub _queryDevice {
             }
         }
     }
+
     return $datadevice;
 }
 
