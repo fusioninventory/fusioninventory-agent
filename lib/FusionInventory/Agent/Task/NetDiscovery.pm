@@ -166,9 +166,8 @@ sub run {
         # set all threads in RUN state
         $_->{action} = RUN foreach @threads;
 
-        # wait for them to reach PAUSE state
-        while (1) {
-            last if all { $_->{state} == PAUSE } @threads;
+        # wait for all threads to reach PAUSE state
+        while (any { $_->{state} != PAUSE } @threads) {
             sleep 1;
         }
 
@@ -190,9 +189,8 @@ sub run {
     # set all threads in STOP state
     $_->{action} = STOP foreach @threads;
 
-    # wait for them to reach STOP state
-    while (1) {
-        last if all { $_->{state} == STOP } @threads;
+    # wait for all threads to reach STOP state
+    while (any { $_->{state} != STOP } @threads) {
         sleep 1;
     }
 
