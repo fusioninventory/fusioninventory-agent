@@ -136,8 +136,8 @@ sub run {
             '_scanAddresses',
             $self,
             $threads[$j],
-            $credentials,
             \@addresses_block,
+            $credentials,
             $nmap_parameters,
             $dico,
             $maxIdx,
@@ -265,7 +265,7 @@ sub _getDictionnary {
 }
 
 sub _scanAddresses {
-    my ($self, $thread, $credentials, $iplist, $nmap_parameters, $dico, $maxIdx, $pid) = @_;
+    my ($self, $thread, $addresses, $credentials, $nmap_parameters, $dico, $maxIdx, $pid) = @_;
 
     $self->{logger}->debug("Thread $thread->{id} created");
 
@@ -284,48 +284,48 @@ sub _scanAddresses {
         }
 
         # run
-        my @devices;
+        my @results;
         my $storage = $self->{target}->getStorage();
 
         RUN: while (1) {
-            my $item;
+            my $address;
             {
-                lock $iplist;
-                $item = pop @{$iplist};
+                lock $addresses;
+                $address = pop @{$addresses};
             }
-            last RUN unless $item;
+            last RUN unless $address;
 
-            my $device = $self->_scanAddress(
-                ip              => $item->{IP},
-                entity          => $item->{ENTITY},
+            my $result = $self->_scanAddress(
+                ip              => $address->{IP},
+                entity          => $address->{ENTITY},
                 credentials     => $credentials,
                 nmap_parameters => $nmap_parameters,
                 dico            => $dico
             );
-            push @devices, $device if $device;
+            push @results, $result if $result;
 
             # save list each time the limit is reached
-            if (@devices % DEVICE_PER_MESSAGE == 0) {
+            if (@results % DEVICE_PER_MESSAGE == 0) {
                 $maxIdx++;
                 $storage->save(
                     idx  => $maxIdx,
                     data => {
-                        DEVICE        => \@devices,
+                        DEVICE        => \@results,
                         MODULEVERSION => $VERSION,
                         PROCESSNUMBER => $pid,
                     }
                 );
-                undef @devices;
+                undef @results;
             }
         }
 
         # save last devices
-        if (@devices) {
+        if (@results) {
             $maxIdx++;
             $storage->save(
                 idx  => $maxIdx,
                 data => {
-                    DEVICE        => \@devices,
+                    DEVICE        => \@results,
                     MODULEVERSION => $VERSION,
                     PROCESSNUMBER => $pid,
                 }
