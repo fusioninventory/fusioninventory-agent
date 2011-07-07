@@ -368,94 +368,94 @@ sub _constructDataDeviceSimple {
       delete $HashDataSNMP->{'cpuuser'};
       delete $HashDataSNMP->{'cpusystem'};
    }
-   ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'cpu','INFO','CPU');
-   ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'location','INFO','LOCATION');
-   ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'firmware','INFO','FIRMWARE');
-   ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'firmware1','INFO','FIRMWARE');
-   ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'contact','INFO','CONTACT');
-   ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'comments','INFO','COMMENTS');
-   ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'uptime','INFO','UPTIME');
-   ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'serial','INFO','SERIAL');
-   ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'name','INFO','NAME');
-   ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'model','INFO','MODEL');
-   ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'entPhysicalModelName','INFO','MODEL');
-   ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'enterprise','INFO','MANUFACTURER');
-   ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'otherserial','INFO','OTHERSERIAL');
-   ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'memory','INFO','MEMORY');
-   ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'ram','INFO','RAM');
+   _putSimpleOid($HashDataSNMP,$datadevice,'cpu','INFO','CPU');
+   _putSimpleOid($HashDataSNMP,$datadevice,'location','INFO','LOCATION');
+   _putSimpleOid($HashDataSNMP,$datadevice,'firmware','INFO','FIRMWARE');
+   _putSimpleOid($HashDataSNMP,$datadevice,'firmware1','INFO','FIRMWARE');
+   _putSimpleOid($HashDataSNMP,$datadevice,'contact','INFO','CONTACT');
+   _putSimpleOid($HashDataSNMP,$datadevice,'comments','INFO','COMMENTS');
+   _putSimpleOid($HashDataSNMP,$datadevice,'uptime','INFO','UPTIME');
+   _putSimpleOid($HashDataSNMP,$datadevice,'serial','INFO','SERIAL');
+   _putSimpleOid($HashDataSNMP,$datadevice,'name','INFO','NAME');
+   _putSimpleOid($HashDataSNMP,$datadevice,'model','INFO','MODEL');
+   _putSimpleOid($HashDataSNMP,$datadevice,'entPhysicalModelName','INFO','MODEL');
+   _putSimpleOid($HashDataSNMP,$datadevice,'enterprise','INFO','MANUFACTURER');
+   _putSimpleOid($HashDataSNMP,$datadevice,'otherserial','INFO','OTHERSERIAL');
+   _putSimpleOid($HashDataSNMP,$datadevice,'memory','INFO','MEMORY');
+   _putSimpleOid($HashDataSNMP,$datadevice,'ram','INFO','RAM');
 
    if ($datadevice->{INFO}->{TYPE} eq "PRINTER") {
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'tonerblack','CARTRIDGES','TONERBLACK');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'tonerblack2','CARTRIDGES','TONERBLACK2');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'tonercyan','CARTRIDGES','TONERCYAN');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'tonermagenta','CARTRIDGES','TONERMAGENTA');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'toneryellow','CARTRIDGES','TONERYELLOW');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'wastetoner','CARTRIDGES','WASTETONER');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'cartridgeblack','CARTRIDGES','CARTRIDGEBLACK');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'cartridgeblackphoto','CARTRIDGES','CARTRIDGEBLACKPHOTO');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'cartridgecyan','CARTRIDGES','CARTRIDGECYAN');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'cartridgecyanlight','CARTRIDGES','CARTRIDGECYANLIGHT');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'cartridgemagenta','CARTRIDGES','CARTRIDGEMAGENTA');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'cartridgemagentalight','CARTRIDGES','CARTRIDGEMAGENTALIGHT');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'cartridgeyellow','CARTRIDGES','CARTRIDGEYELLOW');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'maintenancekit','CARTRIDGES','MAINTENANCEKIT');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'drumblack','CARTRIDGES','DRUMBLACK');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'drumcyan','CARTRIDGES','DRUMCYAN');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'drummagenta','CARTRIDGES','DRUMMAGENTA');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'drumyellow','CARTRIDGES','DRUMYELLOW');
+      _putSimpleOid($HashDataSNMP,$datadevice,'tonerblack','CARTRIDGES','TONERBLACK');
+      _putSimpleOid($HashDataSNMP,$datadevice,'tonerblack2','CARTRIDGES','TONERBLACK2');
+      _putSimpleOid($HashDataSNMP,$datadevice,'tonercyan','CARTRIDGES','TONERCYAN');
+      _putSimpleOid($HashDataSNMP,$datadevice,'tonermagenta','CARTRIDGES','TONERMAGENTA');
+      _putSimpleOid($HashDataSNMP,$datadevice,'toneryellow','CARTRIDGES','TONERYELLOW');
+      _putSimpleOid($HashDataSNMP,$datadevice,'wastetoner','CARTRIDGES','WASTETONER');
+      _putSimpleOid($HashDataSNMP,$datadevice,'cartridgeblack','CARTRIDGES','CARTRIDGEBLACK');
+      _putSimpleOid($HashDataSNMP,$datadevice,'cartridgeblackphoto','CARTRIDGES','CARTRIDGEBLACKPHOTO');
+      _putSimpleOid($HashDataSNMP,$datadevice,'cartridgecyan','CARTRIDGES','CARTRIDGECYAN');
+      _putSimpleOid($HashDataSNMP,$datadevice,'cartridgecyanlight','CARTRIDGES','CARTRIDGECYANLIGHT');
+      _putSimpleOid($HashDataSNMP,$datadevice,'cartridgemagenta','CARTRIDGES','CARTRIDGEMAGENTA');
+      _putSimpleOid($HashDataSNMP,$datadevice,'cartridgemagentalight','CARTRIDGES','CARTRIDGEMAGENTALIGHT');
+      _putSimpleOid($HashDataSNMP,$datadevice,'cartridgeyellow','CARTRIDGES','CARTRIDGEYELLOW');
+      _putSimpleOid($HashDataSNMP,$datadevice,'maintenancekit','CARTRIDGES','MAINTENANCEKIT');
+      _putSimpleOid($HashDataSNMP,$datadevice,'drumblack','CARTRIDGES','DRUMBLACK');
+      _putSimpleOid($HashDataSNMP,$datadevice,'drumcyan','CARTRIDGES','DRUMCYAN');
+      _putSimpleOid($HashDataSNMP,$datadevice,'drummagenta','CARTRIDGES','DRUMMAGENTA');
+      _putSimpleOid($HashDataSNMP,$datadevice,'drumyellow','CARTRIDGES','DRUMYELLOW');
 
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'pagecountertotalpages','PAGECOUNTERS','TOTAL');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'pagecounterblackpages','PAGECOUNTERS','BLACK');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'pagecountercolorpages','PAGECOUNTERS','COLOR');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'pagecounterrectoversopages','PAGECOUNTERS','RECTOVERSO');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'pagecounterscannedpages','PAGECOUNTERS','SCANNED');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'pagecountertotalpages_print','PAGECOUNTERS','PRINTTOTAL');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'pagecounterblackpages_print','PAGECOUNTERS','PRINTBLACK');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'pagecountercolorpages_print','PAGECOUNTERS','PRINTCOLOR');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'pagecountertotalpages_copy','PAGECOUNTERS','COPYTOTAL');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'pagecounterblackpages_copy','PAGECOUNTERS','COPYBLACK');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'pagecountercolorpages_copy','PAGECOUNTERS','COPYCOLOR');
-      ($datadevice, $HashDataSNMP) = _putSimpleOid($HashDataSNMP,$datadevice,'pagecountertotalpages_fax','PAGECOUNTERS','FAXTOTAL');
+      _putSimpleOid($HashDataSNMP,$datadevice,'pagecountertotalpages','PAGECOUNTERS','TOTAL');
+      _putSimpleOid($HashDataSNMP,$datadevice,'pagecounterblackpages','PAGECOUNTERS','BLACK');
+      _putSimpleOid($HashDataSNMP,$datadevice,'pagecountercolorpages','PAGECOUNTERS','COLOR');
+      _putSimpleOid($HashDataSNMP,$datadevice,'pagecounterrectoversopages','PAGECOUNTERS','RECTOVERSO');
+      _putSimpleOid($HashDataSNMP,$datadevice,'pagecounterscannedpages','PAGECOUNTERS','SCANNED');
+      _putSimpleOid($HashDataSNMP,$datadevice,'pagecountertotalpages_print','PAGECOUNTERS','PRINTTOTAL');
+      _putSimpleOid($HashDataSNMP,$datadevice,'pagecounterblackpages_print','PAGECOUNTERS','PRINTBLACK');
+      _putSimpleOid($HashDataSNMP,$datadevice,'pagecountercolorpages_print','PAGECOUNTERS','PRINTCOLOR');
+      _putSimpleOid($HashDataSNMP,$datadevice,'pagecountertotalpages_copy','PAGECOUNTERS','COPYTOTAL');
+      _putSimpleOid($HashDataSNMP,$datadevice,'pagecounterblackpages_copy','PAGECOUNTERS','COPYBLACK');
+      _putSimpleOid($HashDataSNMP,$datadevice,'pagecountercolorpages_copy','PAGECOUNTERS','COPYCOLOR');
+      _putSimpleOid($HashDataSNMP,$datadevice,'pagecountertotalpages_fax','PAGECOUNTERS','FAXTOTAL');
 
-      ($datadevice, $HashDataSNMP) = _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesblackMAX','cartridgesblackREMAIN',
+      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesblackMAX','cartridgesblackREMAIN',
                                                          'CARTRIDGE','BLACK');
-      ($datadevice, $HashDataSNMP) = _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgescyanMAX','cartridgescyanREMAIN',
+      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgescyanMAX','cartridgescyanREMAIN',
                                                          'CARTRIDGE','CYAN');
-      ($datadevice, $HashDataSNMP) = _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesyellowMAX','cartridgesyellowREMAIN',
+      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesyellowMAX','cartridgesyellowREMAIN',
                                                          'CARTRIDGE','YELLOW');
-      ($datadevice, $HashDataSNMP) = _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesmagentaMAX','cartridgesmagentaREMAIN',
+      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesmagentaMAX','cartridgesmagentaREMAIN',
                                                          'CARTRIDGE','MAGENTA');
-      ($datadevice, $HashDataSNMP) = _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgescyanlightMAX','cartridgescyanlightREMAIN',
+      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgescyanlightMAX','cartridgescyanlightREMAIN',
                                                          'CARTRIDGE','CYANLIGHT');
-      ($datadevice, $HashDataSNMP) = _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesmagentalightMAX','cartridgesmagentalightREMAIN',
+      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesmagentalightMAX','cartridgesmagentalightREMAIN',
                                                          'CARTRIDGE','MAGENTALIGHT');
-      ($datadevice, $HashDataSNMP) = _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesphotoconductorMAX','cartridgesphotoconductorREMAIN',
+      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesphotoconductorMAX','cartridgesphotoconductorREMAIN',
                                                          'CARTRIDGE','PHOTOCONDUCTOR');
-      ($datadevice, $HashDataSNMP) = _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesphotoconductorblackMAX','cartridgesphotoconductorblackREMAIN',
+      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesphotoconductorblackMAX','cartridgesphotoconductorblackREMAIN',
                                                          'CARTRIDGE','PHOTOCONDUCTORBLACK');
-      ($datadevice, $HashDataSNMP) = _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesphotoconductorcolorMAX','cartridgesphotoconductorcolorREMAIN',
+      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesphotoconductorcolorMAX','cartridgesphotoconductorcolorREMAIN',
                                                          'CARTRIDGE','PHOTOCONDUCTORCOLOR');
-      ($datadevice, $HashDataSNMP) = _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesphotoconductorcyanMAX','cartridgesphotoconductorcyanREMAIN',
+      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesphotoconductorcyanMAX','cartridgesphotoconductorcyanREMAIN',
                                                          'CARTRIDGE','PHOTOCONDUCTORCYAN');
-      ($datadevice, $HashDataSNMP) = _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesphotoconductoryellowMAX','cartridgesphotoconductoryellowREMAIN',
+      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesphotoconductoryellowMAX','cartridgesphotoconductoryellowREMAIN',
                                                          'CARTRIDGE','PHOTOCONDUCTORYELLOW');
-      ($datadevice, $HashDataSNMP) = _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesphotoconductormagentaMAX','cartridgesphotoconductormagentaREMAIN',
+      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesphotoconductormagentaMAX','cartridgesphotoconductormagentaREMAIN',
                                                          'CARTRIDGE','PHOTOCONDUCTORMAGENTA');
-      ($datadevice, $HashDataSNMP) = _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesunittransfertblackMAX','cartridgesunittransfertblackREMAIN',
+      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesunittransfertblackMAX','cartridgesunittransfertblackREMAIN',
                                                          'CARTRIDGE','UNITTRANSFERBLACK');
-      ($datadevice, $HashDataSNMP) = _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesunittransfertcyanMAX','cartridgesunittransfertcyanREMAIN',
+      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesunittransfertcyanMAX','cartridgesunittransfertcyanREMAIN',
                                                          'CARTRIDGE','UNITTRANSFERCYAN');
-      ($datadevice, $HashDataSNMP) = _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesunittransfertyellowMAX','cartridgesunittransfertyellowREMAIN',
+      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesunittransfertyellowMAX','cartridgesunittransfertyellowREMAIN',
                                                          'CARTRIDGE','UNITTRANSFERYELLOW');
-      ($datadevice, $HashDataSNMP) = _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesunittransfertmagentaMAX','cartridgesunittransfertmagentaREMAIN',
+      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesunittransfertmagentaMAX','cartridgesunittransfertmagentaREMAIN',
                                                          'CARTRIDGE','UNITTRANSFERMAGENTA');
-      ($datadevice, $HashDataSNMP) = _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgeswasteMAX','cartridgeswasteREMAIN',
+      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgeswasteMAX','cartridgeswasteREMAIN',
                                                          'CARTRIDGE','WASTE');
-      ($datadevice, $HashDataSNMP) = _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesfuserMAX','cartridgesfuserREMAIN',
+      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesfuserMAX','cartridgesfuserREMAIN',
                                                          'CARTRIDGE','FUSER');
-      ($datadevice, $HashDataSNMP) = _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesbeltcleanerMAX','cartridgesbeltcleanerREMAIN',
+      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesbeltcleanerMAX','cartridgesbeltcleanerREMAIN',
                                                          'CARTRIDGE','BELTCLEANER');
-      ($datadevice, $HashDataSNMP) = _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesmaintenancekitMAX','cartridgesmaintenancekitREMAIN',
+      _putPourcentageOid($HashDataSNMP,$datadevice,'cartridgesmaintenancekitMAX','cartridgesmaintenancekitREMAIN',
                                                          'CARTRIDGE','MAINTENANCEKIT');
    }
    return $datadevice, $HashDataSNMP;
@@ -642,7 +642,7 @@ sub _putSimpleOid {
          if ($HashDataSNMP->{$element."-level"} == -3) {
             $datadevice->{$xmlelement1}->{$xmlelement2} = 100;
          } else {
-            ($datadevice, $HashDataSNMP) = _putPourcentageOid($HashDataSNMP,$datadevice,$element."-capacitytype",$element."-level", $xmlelement1, $xmlelement2);
+            _putPourcentageOid($HashDataSNMP,$datadevice,$element."-capacitytype",$element."-level", $xmlelement1, $xmlelement2);
          }
       } else {
          $datadevice->{$xmlelement1}->{$xmlelement2} = $HashDataSNMP->{$element};
@@ -650,7 +650,6 @@ sub _putSimpleOid {
       delete $HashDataSNMP->{$element};
       
    }
-   return $datadevice, $HashDataSNMP;
 }
 
 sub _putPourcentageOid {
@@ -667,7 +666,6 @@ sub _putPourcentageOid {
          delete $HashDataSNMP->{$element1};
       }
    }
-   return $datadevice, $HashDataSNMP;
 }
 
 
