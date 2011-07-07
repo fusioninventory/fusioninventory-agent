@@ -64,14 +64,12 @@ sub run {
 
     # send initial message to the server
     $self->_sendMessage({
-        data => {
-            AGENT => {
-                START        => 1,
-                AGENTVERSION => $FusionInventory::Agent::VERSION
-            },
-            MODULEVERSION => $VERSION,
-            PROCESSNUMBER => $params->{PID}
-        }
+        AGENT => {
+            START        => 1,
+            AGENTVERSION => $FusionInventory::Agent::VERSION
+        },
+        MODULEVERSION => $VERSION,
+        PROCESSNUMBER => $params->{PID}
     });
 
     # no need for more threads than devices to scan
@@ -113,9 +111,7 @@ sub run {
         my $data = $storage->restore({
             idx => $idx
         });
-        $self->_sendMessage({
-            data => $data
-        });
+        $self->_sendMessage($data);
         $storage->remove(
             idx => $idx
         );
@@ -124,13 +120,11 @@ sub run {
 
     # send final message to the server
     $self->_sendMessage({
-        data => {
-            AGENT => {
-                END => 1,
-            },
-            MODULEVERSION => $VERSION,
-            PROCESSNUMBER => $params->{PID}
-        }
+        AGENT => {
+            END => 1,
+        },
+        MODULEVERSION => $VERSION,
+        PROCESSNUMBER => $params->{PID}
     });
 }
 
