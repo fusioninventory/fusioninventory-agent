@@ -246,13 +246,12 @@ sub _queryDevice {
         %params = cartridgesupport(\%params);
     }
     for my $key ( keys %{$model->{GET}} ) {
-        if ($model->{GET}->{$key}->{VLAN} == 0) {
-            my $result = $snmp->get(
-                $model->{GET}->{$key}->{OID}
-            );
-            if ($result) {
-                $HashDataSNMP->{$key} = $result;
-            }
+        next unless $model->{GET}->{$key}->{VLAN} == 0;
+        my $result = $snmp->get(
+            $model->{GET}->{$key}->{OID}
+        );
+        if ($result) {
+            $HashDataSNMP->{$key} = $result;
         }
     }
     $datadevice->{INFO}->{ID} = $device->{ID};
@@ -305,12 +304,11 @@ sub _queryDevice {
                 }
 
                 for my $link ( keys %{$model->{WALK}} ) {
-                    if ($model->{WALK}->{$link}->{VLAN} == 1) {
-                        my $result = $snmp->walk(
-                            $model->{WALK}->{$link}->{OID}
-                        );
-                        $HashDataSNMP->{VLAN}->{$vlan_id}->{$link} = $result;
-                    }
+                    next unless $model->{WALK}->{$link}->{VLAN} == 1;
+                    my $result = $snmp->walk(
+                        $model->{WALK}->{$link}->{OID}
+                    );
+                    $HashDataSNMP->{VLAN}->{$vlan_id}->{$link} = $result;
                 }
                 # Detect mac adress on each port
                 if ($datadevice->{INFO}->{COMMENTS} =~ /Cisco/) {
