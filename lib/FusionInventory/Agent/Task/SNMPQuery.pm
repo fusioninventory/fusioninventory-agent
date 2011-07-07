@@ -84,24 +84,26 @@ sub run {
     #===================================
     # Create all Threads
     #===================================
-    for(my $j = 0; $j < $nb_threads; $j++) {
-        $threads[$j] = ALIVE;
+    for (my $j = 0; $j < $nb_threads; $j++) {
+        $threads[$j] = {
+            id    => $j,
+            state => ALIVE
+        };
 
         threads->create(
             '_queryDevices',
             $self,
-            $j,
+            $threads[$j],
             \@devices,
             $models,
             $credentials,
             $params->{PID},
-            \@threads
         )->detach();
         sleep 1;
     }
 
     while (1) {
-        last if all { $_ == DEAD } @threads;
+        last if all { $_->{state} == DEAD } @threads;
         sleep 1;
     }
 
@@ -148,9 +150,9 @@ sub _sendMessage {
 }
 
 sub _queryDevices {
-    my ($self, $t, $devicelist, $modelslist, $credentials, $pid, $threads) = @_;
+    my ($self, $thread, $devicelist, $modelslist, $credentials, $pid) = @_;
 
-    $self->{logger}->debug("Thread $t created");
+    $self->{logger}->debug("Thread $thread->{id} created");
 
     my $storage = $self->{target}->getStorage();
 
@@ -181,8 +183,8 @@ sub _queryDevices {
         sleep 1;
     }
 
-    $threads->[$t] = DEAD;
-    $self->{logger}->debug("Thread $t deleted");
+    $thread->{state} = DEAD;
+    $self->{logger}->debug("Thread $thread->{id} deleted");
 }
 
 sub _getModels {
