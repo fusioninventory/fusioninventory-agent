@@ -8,8 +8,23 @@ use JSON;
 use HTTP::Request;
 use URI::Escape;
 
+sub new {
+    my ($class, %params) = @_;
+
+    my $self = $class->SUPER::new(%params);
+
+    if ($params{debug}) {
+        $self->{debug} = 1;
+        $self->{msgStack} = []
+    }
+
+    return $self;
+}
+
 sub send {
     my ($self, %params) = @_;
+
+    push @{$self->{msgStack}}, $params{args} if $self->{debug};
 
     my $url = ref $params{url} eq 'URI' ?
         $params{url} : URI->new($params{url});
