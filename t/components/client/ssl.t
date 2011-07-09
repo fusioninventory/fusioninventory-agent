@@ -15,7 +15,7 @@ use FusionInventory::Test::Server;
 if ($OSNAME eq 'MSWin32' || $OSNAME eq 'darwin') {
     plan skip_all => 'non working test on Windows and MacOS';
 } else {
-    plan tests => 6;
+    plan tests => 7;
 }
 
 my $ok = sub {
@@ -87,6 +87,30 @@ $server->background();
 ok(
     $secure_client->request(HTTP::Request->new(GET => $url))->is_success(),
     'trusted certificate, alternate hostname: connection success'
+);
+
+$server->stop();
+
+# trusted certificate, joker
+$server = FusionInventory::Test::Server->new(
+    port     => 8080,
+    user     => 'test',
+    realm    => 'test',
+    password => 'test',
+    ssl      => 1,
+    crt      => 't/ssl/crt/joker.pem',
+    key      => 't/ssl/key/joker.pem',
+);
+$server->set_dispatch({
+    '/public'  => $ok,
+});
+$server->background();
+
+ok(
+    $secure_client->request(
+        HTTP::Request->new(GET => 'https://localhost.localdomain:8080/public')
+    )->is_success(),
+    'trusted certificate, joker: connection success'
 );
 
 $server->stop();
