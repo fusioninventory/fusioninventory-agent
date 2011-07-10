@@ -113,7 +113,8 @@ sub getSerialbyUsb {
     foreach my $tmpkey (%$data) {
         if (ref($tmpkey) eq "Win32::TieRegistry") {
             foreach my $usbid (%$tmpkey) {
-                if ( $usbid =~ /$portName/) {
+                if ( $usbid =~ /$portName/){
+				my $parentidprefix = $usbid;
                     $usbid = $tmpkey->{$usbid}->{"ContainerID"};
                     my $serialnumber = "";
                     # search in HKLM\system\currentcontrolset\enum\USB the key with ContainerID to this value
@@ -141,6 +142,31 @@ sub getSerialbyUsb {
                             }
                         }
                     }
+			  # Other method if this not works (for example on windowsxp)
+			  my $removechar = chr(38).$portName."/";
+			  $parentidprefix =~ s/$removechar//;
+			  foreach my $tmpkeyUSB (%$dataUSB) {
+                        if (ref($tmpkeyUSB) eq "Win32::TieRegistry") {
+                            foreach my $serialtmp (%$tmpkeyUSB) {
+                                if (ref($serialtmp) eq "Win32::TieRegistry") {
+                                    foreach my $regkeys (%$serialtmp) {
+                                        if ((defined($regkeys)) && (ref($regkeys) ne "Win32::TieRegistry")) {
+                                            next unless $regkeys =~ /ParentIdPrefix/;
+                                            if ($serialnumber =~ /\&/) {
+                                            } elsif (defined($serialnumber)) {
+                                                if ($serialtmp->{$regkeys} eq $parentidprefix) {
+                                                    return $serialnumber;
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else {
+
+                                    $serialnumber = $serialtmp;
+                                }
+                            }
+                        }
+			  }
                 }
             }
         }
