@@ -13,6 +13,7 @@ use FindBin;
 use File::Path qw(make_path remove_tree);
 use Archive::Tar;
 use Compress::Zlib;
+use English '-no_match_vars';
 
 my $tmpDirServer = $FindBin::Bin . "/../tmp/deploy-test/server";
 
@@ -67,7 +68,6 @@ while ( read( FILE, $b, 768 ) ) {
     my $sha = Digest::SHA->new('512');
     $sha->addfile( $file, 'b' );
     my $sha512 = $sha->hexdigest;
-    print $sha512. "\n";
     push @parts, { path => $file, extract => 1, sha512 => $sha512 };
     $filePathByFilename{ basename($file) } = $file;
 }
@@ -96,9 +96,30 @@ my %actions = (
                 },
                 {
                     'periodicity' => 600,
-                    'task'        => 'Deploy',
-                    'remote'      => 'http://localhost:8080/deploy'
+                    'task'        => 'Deploy1',
+                    'remote'      => 'http://localhost:8080/deploy1'
                 },
+                {
+                    'periodicity' => 600,
+                    'task'        => 'Deploy2',
+                    'remote'      => 'http://localhost:8080/deploy2'
+                },
+                {
+                    'periodicity' => 600,
+                    'task'        => 'Deploy3',
+                    'remote'      => 'http://localhost:8080/deploy3'
+                },
+                {
+                    'periodicity' => 600,
+                    'task'        => 'Deploy4',
+                    'remote'      => 'http://localhost:8080/deploy4'
+                },
+                {
+                    'periodicity' => 600,
+                    'task'        => 'Deploy5',
+                    'remote'      => 'http://localhost:8080/deploy5'
+                },
+
                 {
                     'periodicity' => 700,
                     'task'        => 'ESX',
@@ -120,6 +141,7 @@ my %actions = (
 
     },
     getJobs => sub {
+        my ($cgi, $testname) = @_;
 
         my $ret = {
             'jobs' => [
@@ -138,8 +160,11 @@ my %actions = (
                     'associatedFiles' => []
                 }
             ],
+            associatedFiles => {}
         };
 
+
+        if ($testname eq 'deploy1') {
         my $cpt = 0;
         foreach my $sha512 ( keys %files ) {
             push @{ $ret->{jobs}[0]{associatedFiles} }, $sha512;
@@ -157,6 +182,43 @@ my %actions = (
                   { basename( $_->{path} ) => $_->{sha512} };
             }
             $ret->{associatedFiles}{$sha512} = $associatedFile;
+        }
+        } elsif ($testname eq 'deploy2') {
+            return ("", 500); # Invalid answer
+
+        } elsif ($testname eq 'deploy3') {
+            $ret->{jobs}[0]{actions}[0]= {
+                exec => "$EXECUTABLE_NAME -V"
+            };
+#            {
+#               "cmd" : {
+#                  "retChecks" : [
+#                    {
+#                    "type" : "okPattern",
+#                    "values" : [ "ok" ]
+#                    },
+#                    {
+#                    "type" : "errorPattern",
+#                    "values" : [ "error", "warning" ]
+#                    },
+#                    {
+#                    "type" : "okCode",
+#                    "values" : [ 1, 54 ]
+#                    },
+#                    {
+#                    "type" : "errorCode",
+#                    "values" : [ 3, 53 ]
+#                    }
+#                  ],
+#                  "envs" : {
+#                    "LANGUAGE" : "de",
+#                    "HOSTNAME" : "babel",
+#                    "OS" : "win",
+#                    "OS_VERSION" : "5.1",
+#                    "ARCH" : "x64" 
+#                  },
+#                  "exec" : "install.exe arg1 arg2" 
+#               }
         }
         return ( encode_json($ret), 200 );
     },
@@ -192,13 +254,16 @@ sub handle_request {
     my $self = shift;
     my $cgi  = shift;
 
+    my $testname = $cgi->path_info();
+    $testname =~ s#\/##;
+
     if (   !$actions{ $cgi->param("action") }
         || !defined( $actions{ $cgi->param("action") } ) )
     {
         print "Invalid action\n";
         return;
     }
-    my ( $content, $code ) = &{ $actions{ $cgi->param("action") } }($cgi);
+    my ( $content, $code ) = &{ $actions{ $cgi->param("action") } }($cgi, $testname);
     print "HTTP/1.0 $code OK\r\n";
     print "Content-Type: application/json\r\nContent-Length: ";
     print length($content), "\r\n\r\n", $content;
@@ -210,7 +275,8 @@ use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::Task::Deploy;
 use FindBin;
 use File::Path qw(make_path remove_tree);
-use Test::More tests => 1;
+use Test::More tests => 16;
+use Data::Dumper;
 
 my $tmpDirClient = $FindBin::Bin . "/../tmp/deploy-test/client";
 remove_tree($tmpDirClient) if -d $tmpDirClient;
@@ -222,16 +288,107 @@ $s->setup( port => $port );
 
 my $url_root = $s->started_ok("start up my web server");
 
-#sleep 600;
 my $target = FusionInventory::Agent::Target::Server->new(
     url        => "http://localhost:$port/",
-    basevardir => $tmpDirClient
+    basevardir => $tmpDirClient,
 );
 ok( $target, "loading Target object" );
 my $deploy = FusionInventory::Agent::Task::Deploy->new(
     deviceid => "fakeid",
-    target   => $target
+    target   => $target,
+    debug      => 1
 );
 ok( $deploy, "loading Task object" );
 
-$deploy->run();
+ok( $deploy->processRemote('http://localhost:8080/deploy1'), "processRemote()" );
+
+my $ret=[
+          {
+            'action' => 'getJobs',
+            'machineid' => 'fakeid'
+          },
+          {
+            'currentStep' => 'checking',
+            'part' => 'job',
+            'action' => 'setStatus',
+            'machineid' => 'DEVICEID',
+            'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
+          },
+          {
+            'currentStep' => 'downloading',
+            'part' => 'job',
+            'action' => 'setStatus',
+            'machineid' => 'DEVICEID',
+            'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
+          },
+          {
+            'currentStep' => 'downloading',
+            'part' => 'file',
+            'action' => 'setStatus',
+            'machineid' => 'DEVICEID',
+            'uuid' => '72fd779db80c7afbe8d9e776faa684808535c6cf97f6c7c4fc1d421e9da6003f848c0c88996a91d5b235829b3ee7a2df67e445fd45c18570ff85c2a111f5c1a4'
+          },
+          {
+            'status' => 'ok',
+            'currentStep' => 'downloading',
+            'part' => 'file',
+            'action' => 'setStatus',
+            'machineid' => 'DEVICEID',
+            'uuid' => '72fd779db80c7afbe8d9e776faa684808535c6cf97f6c7c4fc1d421e9da6003f848c0c88996a91d5b235829b3ee7a2df67e445fd45c18570ff85c2a111f5c1a4'
+          },
+          {
+            'status' => 'ok',
+            'currentStep' => 'downloading',
+            'part' => 'job',
+            'action' => 'setStatus',
+            'machineid' => 'DEVICEID',
+            'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
+          },
+          {
+            'currentStep' => 'processing',
+            'part' => 'job',
+            'action' => 'setStatus',
+            'machineid' => 'DEVICEID',
+            'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
+          },
+          {
+            'status' => 'ok',
+            'currentStep' => 'processing',
+            'part' => 'job',
+            'action' => 'setStatus',
+            'machineid' => 'DEVICEID',
+            'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
+          },
+          {
+            'status' => 'ok',
+            'part' => 'job',
+            'action' => 'setStatus',
+            'machineid' => 'DEVICEID',
+            'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
+          }
+        ];
+
+foreach (0..@$ret) {
+# We ignore uuid since we don't know it.
+    $ret->[$_]{uuid} = $deploy->{fusionClient}{msgStack}[$_]{uuid} = 'ignore';
+    is_deeply($ret->[$_], $deploy->{fusionClient}{msgStack}[$_]);
+}
+
+$deploy->{fusionClient}{msgStack} = [];
+
+# Invalid getJobs answer
+ok(!$deploy->processRemote('http://localhost:8080/deploy2'), "processRemote()" );
+$ret = [
+          {
+            'action' => 'getJobs',
+            'machineid' => 'fakeid'
+          }
+];
+is_deeply($ret, $deploy->{fusionClient}{msgStack});
+$deploy->{fusionClient}{msgStack} = [];
+ok($deploy->processRemote('http://localhost:8080/deploy3'), "processRemote()" );
+#ok( $deploy->processRemote('http://localhost:8080/deploy3'), "processRemote()" );
+#ok( $deploy->processRemote('http://localhost:8080/deploy4'), "processRemote()" );
+#ok( $deploy->processRemote('http://localhost:8080/deploy5'), "processRemote()" );
+
+ok ($deploy->run(), "running the task");

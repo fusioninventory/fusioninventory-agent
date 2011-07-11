@@ -26,7 +26,7 @@ sub new {
 
     my $self = $class->SUPER::new(%params);
 
-    $self->{fusionClient} = FusionInventory::Agent::HTTP::Client::Fusion->new();
+    $self->{fusionClient} = FusionInventory::Agent::HTTP::Client::Fusion->new(debug => $params{debug});
 
     return $self;
 }
@@ -100,7 +100,7 @@ sub processRemote {
         { path => $self->{target}{storage}{directory}.'/deploy', } );
     $datastore->cleanUp();
 
-
+    my $ret = {};
     my $jobList = [];
     my $files;
 
@@ -116,7 +116,7 @@ sub processRemote {
         $self->{logger}->debug("No answer from server for deployment job.");
         return;
     }
-    die unless $answer->{associatedFiles};
+    return unless $answer->{associatedFiles};
     foreach my $sha512 ( keys %{ $answer->{associatedFiles} } ) {
         $files->{$sha512} = FusionInventory::Agent::Task::Deploy::File->new(
             {
@@ -371,7 +371,7 @@ sub processRemote {
     }
 
     #$datastore->cleanUp();
-
+    1;
 }
 
 

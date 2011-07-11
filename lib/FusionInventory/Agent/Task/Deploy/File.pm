@@ -38,6 +38,7 @@ MULTIPART: foreach (@{$self->{multiparts}}) {
             getstore($mirror.$file, $filePath);
             if (-f $filePath) {
                 if (_getSha512ByFile($filePath) eq $sha512) {
+#                print "getstore : $mirror$file, $filePath:  ok\n";
                     next MULTIPART;
                 } else {
                     print "getstore : $mirror$file, $filePath: ko (invalide SHA) \n"._getSha512ByFile($filePath)."\n\n$sha512\n";
