@@ -34,7 +34,7 @@ sub prepare {
     foreach my $file (@{$self->{files}}) {
         my $finalFilePath = $self->{path}.'/'.$file->{name};
 
-        print "Building finale file: `$finalFilePath'\n";
+        #print "Building finale file: `$finalFilePath'\n";
 
         my $fh;
         if (!open($fh, ">$finalFilePath")) {
@@ -92,7 +92,6 @@ sub prepare {
             unlink($finalFilePath);
         }
     }
-    print $self->{path}."\n";
 
 }
 

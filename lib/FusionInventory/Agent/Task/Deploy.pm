@@ -370,7 +370,7 @@ sub processRemote {
         );
     }
 
-    #$datastore->cleanUp();
+    $datastore->cleanUp();
     1;
 }
 

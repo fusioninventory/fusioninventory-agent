@@ -5,22 +5,22 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-use Data::Dumper;
 use Cwd;
-
+use Data::Dumper;
+use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Move;
+use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Cmd;
+use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::MessageBox;
 my %actionByType = (
-        'move' => 'FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Move',
-        'cmd' => 'FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Cmd',
-        'messageBox' => 'FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::MessageBox',
+    'move'       => '',
+    'exec'       => '',
+    'messageBox' => '',
 
-        );
+);
 
 sub new {
-    my (undef, $params) = @_;
+    my ( undef, $params ) = @_;
 
-    my $self = {
-        workdir => $params->{workdir}
-    };
+    my $self = { workdir => $params->{workdir} };
 
     die unless $params->{workdir};
 
@@ -28,41 +28,43 @@ sub new {
 }
 
 sub process {
-    my ($self, $action) = @_;
+    my ( $self, $action ) = @_;
 
     my $workdir = $self->{workdir};
-
-    my ($actionType, $params) = %$action;
+    my ( $actionType, $params ) = %$action;
     print "run command: $actionType\n";
 
-    if (($OSNAME ne 'MSWin32') && ($actionType eq 'messageBox')) {
+    if ( ( $OSNAME ne 'MSWin32' ) && ( $actionType eq 'messageBox' ) ) {
         return {
             status => 1,
-                   log => [ "not Windows: action `$actionType' ignored" ]
-        }
+            log    => ["not Windows: action `$actionType' ignored"]
+        };
     }
 
-    my $cwd = getcwd();
-    if (!defined($actionByType{$actionType})) {
-        return {
-            status => 0,
-                   log => [ "unknown action `$actionType'" ]
-        }
-    }
-    eval ("use ".$actionByType{$actionType}."; 1;");
-    if ($@) {
-        return {
-            status => 0,
-                   log => [ "failed to load action `$actionType': $@" ]
-        }
-    }
-    chdir($workdir->{path});
-    my $funcName = $actionByType{$actionType}."::do";
     my $ret;
-    {
-        no strict 'refs';
-        $ret = &$funcName($params);
+    my $cwd = getcwd();
+    chdir( $workdir->{path} );
+    if ( $actionType eq 'move' ) {
+        $ret =
+          FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Move::do(
+            $params);
+    } elsif ( $actionType eq 'cmd' ) {
+        $ret =
+          FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Cmd::do(
+            $params);
+    } elsif ( $actionType eq 'messageBox' ) {
+        $ret =
+          FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::MessageBox::do(
+            $params);
+    } else {
+        print "Unknown action type: `$actionType'\n";
+        chdir($cwd);
+        return {
+            status => 0,
+            log    => ["unknown action `$actionType'"]
+        };
     }
+    print "chdir ## ".$cwd."\n";
     chdir($cwd);
 
     return $ret;

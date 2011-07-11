@@ -24,18 +24,8 @@ sub new {
 sub cleanUp {
     my ($self) = @_;
 
+    return unless -d $self->{path}.'/workdir/';
     remove_tree( $self->{path}.'/workdir/', {error => \my $err} );
-    if (@$err) {
-        for my $diag (@$err) {
-            my ($file, $message) = %$diag;
-            if ($file eq '') {
-                print "general error: $message\n";
-            }
-            else {
-                print "problem unlinking $file: $message\n";
-            }
-        }
-    }
 
 }
 
@@ -64,7 +54,8 @@ sub createWorkDir {
 
     my $path = $self->{path}.'/workdir/'.$uuid;
 
-    return unless make_path($path);
+    make_path($path);
+    return unless -d $path;
 
     return FusionInventory::Agent::Task::Deploy::Datastore::WorkDir->new({ path => $path});
 

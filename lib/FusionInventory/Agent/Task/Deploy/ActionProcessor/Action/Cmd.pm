@@ -29,8 +29,8 @@ sub _evaluateRet {
             }
         } elsif ($retCheck->{type} eq 'errorCode') {
             foreach (@{$retCheck->{values}}) {
-                if ($exitStatus != $_) {
-                    return [ 1, "exit status is not ok: `$_'" ];
+                if ($exitStatus == $_) {
+                    return [ 0, "exit status is not ok: `$_'" ];
                 }
             }
         } elsif ($retCheck->{type} eq 'errorPattern') {
@@ -46,8 +46,7 @@ sub _evaluateRet {
 }
 
 sub do {
-    die unless $_[0]->{exec};
-    print Dumper( $_[0]);
+    return { 0, ["Internal agent error"]} unless $_[0]->{exec};
 
     my %envsSaved;
 
@@ -60,8 +59,9 @@ sub do {
     }
 
     my $buf = `$_[0]->{exec} 2>&1` || '';
-    print "Run: ".$buf."\n";
+#    print "Run: ".$buf."\n";
     my $exitStatus = $? >> 8;
+    print "exitStatus: ".$exitStatus."\n";;
 
     my @retChecks;
 
