@@ -18,7 +18,6 @@ sub new {
 sub process {
     my ($self, $check) = @_;
 
-    print Dumper($check);
     if ($check->{type} eq 'winkeyExists') {
         return unless $OSNAME eq 'MSWin32';
         eval "use FusionInventory::Agent::Tools::Win32; 1";
