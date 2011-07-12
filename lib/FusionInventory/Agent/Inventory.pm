@@ -475,13 +475,19 @@ is based on OCS Inventory XML with various additions.
 
 =item SMODEL
 
+System model
+
 =item SMANUFACTURER
 
 System manufacturer
 
 =item SSN
 
+System Serial number
+
 =item BDATE
+
+BIOS release date
 
 =item BVERSION
 
@@ -804,6 +810,8 @@ Can by:
 =item WINCOMPANY
 
 =item WINLANG
+
+Language code of the Windows
 
 =item CHASSIS_TYPE
 
@@ -1290,6 +1298,10 @@ ErrStatus: See Win32_Printer.ExtendedDetectedErrorState
 =item SHARENAME
 
 =item PRINTPROCESSOR
+
+=item SERIAL
+
+The serial number
 
 =back
 
