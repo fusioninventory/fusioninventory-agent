@@ -23,17 +23,18 @@ sub process {
         eval "use FusionInventory::Agent::Tools::Win32; 1";
         my $r = getValueFromRegistry($check->{path});
         if (defined($r)) {
-            return 1;
+            return "ok";
         } else {
-            return;
+            return $check->{return};
         }
     } elsif ($check->{type} eq 'winkeyEquals') {
         return unless $OSNAME eq 'MSWin32';
         eval "use FusionInventory::Agent::Tools::Win32; 1";
         my $r = getValueFromRegistry($check->{path});
         if (defined($r) && $check->{value} eq $r) {
-            return 1;
+            return "ok";
         } else {
+            return $check->{return};
             return;
         }
     } elsif ($check->{type} eq 'winkeyMissing') {
@@ -41,33 +42,33 @@ sub process {
         eval "use FusionInventory::Agent::Tools::Win32; 1";
         my $r = getValueFromRegistry($check->{path});
         if (defined($r)) {
+            return $check->{return};
             return;
         } else {
-            return 1;
+            return "ok";
         }
     } elsif ($check->{type} eq 'fileExists') {
-        return 0 unless -f $check->{path};
+        return $check->{return} unless -f $check->{path};
     } elsif ($check->{type} eq 'fileSizeEquals') {
         my @s = stat($check->{path});
-        return unless @s;
-        return ($check->{value}) == int($s[7]);
+        return $check->{return} unless @s;
     } elsif ($check->{type} eq 'fileSizeGreater') {
         my @s = stat($check->{path});
-        return unless @s;
-        return ($check->{value}) > $s[7];
+        return $check->{return} unless @s;
+        return "ok" if ($check->{value}) > $s[7];
     } elsif ($check->{type} eq 'fileSizeLess') {
         my @s = stat($check->{path});
-        return unless @s;
-        return ($check->{value}) < $s[7];
+        return $check->{return} unless @s;
+        return "ok" if ($check->{value}) < $s[7];
     } elsif ($check->{type} eq 'fileMissing') {
-        return 0 if -f $check->{path};
+        return $check->{return} if -f $check->{path};
     } elsif ($check->{type} eq 'freespaceGreater') {
         # TODO
     } else {
         print "Unknown check: `".$check->{type}."'\n";
     }
 
-    return 1;
+    return "ok";
 }
 
 1;

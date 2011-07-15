@@ -42,7 +42,7 @@ sub _evaluateRet {
             }
         }
     }
-    return [ 1, '' ];
+    return [ 0, '' ];
 }
 
 sub do {
@@ -61,7 +61,7 @@ sub do {
     my $buf = `$_[0]->{exec} 2>&1` || '';
 #    print "Run: ".$buf."\n";
     my $exitStatus = $? >> 8;
-    print "exitStatus: ".$exitStatus."\n";;
+#    print "exitStatus: ".$exitStatus."\n";;
 
     my @retChecks;
 

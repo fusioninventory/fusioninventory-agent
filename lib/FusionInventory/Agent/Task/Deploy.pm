@@ -287,22 +287,54 @@ sub processRemote {
         $workdir->prepare();
 
         # PROCESSING
-        $self->{fusionClient}->send(
-            "url" => $remoteUrl,
-            args  => {
-                action      => "setStatus",
-                machineid   => 'DEVICEID',
-                part        => 'job',
-                uuid        => $job->{uuid},
-                currentStep => 'processing'
-            }
-        );
+#        $self->{fusionClient}->send(
+#            "url" => $remoteUrl,
+#            args  => {
+#                action      => "setStatus",
+#                machineid   => 'DEVICEID',
+#                part        => 'job',
+#                uuid        => $job->{uuid},
+#                currentStep => 'processing'
+#            }
+#        );
         my $actionProcessor =
           FusionInventory::Agent::Task::Deploy::ActionProcessor->new(
             { workdir => $workdir } );
         my $actionnum = 0;
-        while ( my $action = $job->getNextToProcess() ) {
-            my $ret = $actionProcessor->process($action);
+        ACTION: while ( my $action = $job->getNextToProcess() ) {
+        print "→actionnum: $actionnum\n";
+        my ($actionName, $params) = %$action;
+            if ( ref( $params->{checks} ) eq 'ARRAY' ) {
+                my $checkProcessor =
+                    FusionInventory::Agent::Task::Deploy::CheckProcessor->new();
+                foreach my $checknum ( 0 .. @{ $params->{checks} } ) {
+                    next unless $job->{checks}[$checknum];
+                    my $checkStatus = $checkProcessor->process( $params->{checks}[$checknum] );
+                    print "checkStatus: ".$checkStatus."\n";
+                    if ( $checkStatus ne 'ok') {
+
+                        $self->{fusionClient}->send(
+                                "url" => $remoteUrl,
+                                args  => {
+                                action      => "setStatus",
+                                machineid   => 'DEVICEID',
+                                part        => 'job',
+                                uuid        => $job->{uuid},
+                                currentStep => 'checking',
+                                status      => $checkStatus,
+                                msg         => 'check failed',
+                                actionnum   => $actionnum,
+                                cheknum     => $checknum
+                                }
+                                );
+
+                        next ACTION;
+                    }
+                }
+            }
+
+
+            my $ret = $actionProcessor->process($actionName, $params);
             if ( !$ret->{status} ) {
 
                 $self->{fusionClient}->send(
@@ -311,7 +343,8 @@ sub processRemote {
                         action    => "setLog",
                         machineid => 'DEVICEID',
                         uuid      => $job->{uuid},
-                        log       => $ret->{log}
+                        log       => $ret->{log},
+                        actionnum => $actionnum,
                     }
                 );
 
@@ -346,17 +379,6 @@ sub processRemote {
 
             $actionnum++;
         }
-        $self->{fusionClient}->send(
-            "url" => $remoteUrl,
-            args  => {
-                action      => "setStatus",
-                machineid   => 'DEVICEID',
-                part        => 'job',
-                uuid        => $job->{uuid},
-                currentStep => 'processing',
-                status      => 'ok'
-            }
-        );
 
         $self->{fusionClient}->send(
             "url" => $remoteUrl,

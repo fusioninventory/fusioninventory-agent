@@ -28,40 +28,41 @@ sub new {
 }
 
 sub process {
-    my ( $self, $action ) = @_;
+    my ( $self, $actionName, $params ) = @_;
 
     my $workdir = $self->{workdir};
-    my ( $actionType, $params ) = %$action;
-    print "run command: $actionType\n";
+    print "run command: $actionName\n";
 
-    if ( ( $OSNAME ne 'MSWin32' ) && ( $actionType eq 'messageBox' ) ) {
+    if ( ( $OSNAME ne 'MSWin32' ) && ( $actionName eq 'messageBox' ) ) {
         return {
             status => 1,
-            log    => ["not Windows: action `$actionType' ignored"]
+            log    => ["not Windows: action `$actionName' ignored"]
         };
     }
 
     my $ret;
     my $cwd = getcwd();
     chdir( $workdir->{path} );
-    if ( $actionType eq 'move' ) {
+    if ( $actionName eq 'checks' ) {
+        # not an action
+    } elsif ( $actionName eq 'move' ) {
         $ret =
           FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Move::do(
             $params);
-    } elsif ( $actionType eq 'cmd' ) {
+    } elsif ( $actionName eq 'cmd' ) {
         $ret =
           FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Cmd::do(
             $params);
-    } elsif ( $actionType eq 'messageBox' ) {
+    } elsif ( $actionName eq 'messageBox' ) {
         $ret =
           FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::MessageBox::do(
             $params);
     } else {
-        print "Unknown action type: `$actionType'\n";
+        print "Unknown action type: `$actionName'\n";
         chdir($cwd);
         return {
             status => 0,
-            log    => ["unknown action `$actionType'"]
+            log    => ["unknown action `$actionName'"]
         };
     }
     print "chdir ## ".$cwd."\n";

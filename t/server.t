@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
-use strict;
-use warnings;
 
 package My::WebServer;
 use base qw/Test::HTTP::Server::Simple HTTP::Server::Simple::CGI/;
+use strict;
+use warnings;
 
 use JSON;
 use Data::Dumper;
@@ -239,6 +239,64 @@ my %actions = (
               }
           };
         }
+    elsif ( $testname eq 'deploy7' ) {
+          $ret->{jobs}[0]{actions}[0] = {
+              cmd => {
+                  checks => [
+                  {
+                      path => $FindBin::Bin . "/../lib/FusionInventory/Agent/Task/Deploy.pm",
+                      type => "fileExists",
+                      return => "ignore" 
+                  }
+                  ],
+                  "retChecks" => [
+                      {
+                          "type"   => "okPattern",
+                          "values" => [ "perl" ]
+                      }
+                  ],
+                  exec => "$EXECUTABLE_NAME -V"
+              }
+          };
+        }
+    elsif ( $testname eq 'deploy8' ) {
+          $ret->{jobs}[0]{actions}[0] = {
+              cmd => {
+                  checks => [
+                  {
+                      path => $FindBin::Bin . "/../lib/FusionInventory/Agent/Task/Deploy.pm-missing",
+                      type => "fileExists",
+                      return => "ignore" 
+                  }
+                  ],
+                  copy => [
+                      $FindBin::Bin . "/../lib/FusionInventory/Agent/Task/Deploy.pm",
+                      $FindBin::Bin . "/../lib/FusionInventory/Agent/Task/Deploy.pm-shouldnotbethere"
+                      ]
+              }
+          };
+        }
+    elsif ( $testname eq 'deploy8' ) {
+          $ret->{jobs}[0]{actions}[0] = {
+              cmd => {
+                  checks => [
+                  {
+                      path => $FindBin::Bin . "/../lib/FusionInventory/Agent/Task/Deploy.pm-missing",
+                      type => "fileExists",
+                      return => "ignore" 
+                  }
+                  ],
+                  "retChecks" => [
+                      {
+                          "type"   => "okPattern",
+                          "values" => [ "perl" ]
+                      }
+                  ],
+                  exec => "$EXECUTABLE_NAME -V"
+              }
+          };
+        }
+
 
         return ( encode_json($ret), 200 );
     },
@@ -290,6 +348,9 @@ sub handle_request {
 }
 
 package main;
+
+use strict;
+use warnings;
 
 use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::Task::Deploy;
@@ -407,10 +468,11 @@ $ret = [
 is_deeply($ret, $deploy->{fusionClient}{msgStack});
 $deploy->{fusionClient}{msgStack} = [];
 
+my $last;
 # Run perl and see 0 as success code and so
 # should flag the deployment as OK 
 $deploy->processRemote('http://localhost:8080/deploy3');
-my $last = pop @{$deploy->{fusionClient}{msgStack}};
+$last = pop @{$deploy->{fusionClient}{msgStack}};
 ok(
         ($last->{status} eq "ok")
         &&
@@ -420,26 +482,41 @@ $deploy->{fusionClient}{msgStack} = [];
 # Run perl and see 0 as an error code and so
 # should flag the deployment as KO
 $deploy->processRemote('http://localhost:8080/deploy4');
-my $last = pop @{$deploy->{fusionClient}{msgStack}};
+$last = pop @{$deploy->{fusionClient}{msgStack}};
 ok(($last->{status} eq "ko") && ($last->{actionnum} == 0), "Cmd errorCode");
 $deploy->{fusionClient}{msgStack} = [];
 
 # Run perl and see 0 as an error code and so
 # should flag the deployment as KO
 $deploy->processRemote('http://localhost:8080/deploy5');
-my $last = pop @{$deploy->{fusionClient}{msgStack}};
+$last = pop @{$deploy->{fusionClient}{msgStack}};
 ok($last->{status} eq "ok", "Cmd okPattern");
 $deploy->{fusionClient}{msgStack} = [];
 
 # Run perl and see 0 as an error code and so
 # should flag the deployment as KO
 $deploy->processRemote('http://localhost:8080/deploy6');
-my $last = pop @{$deploy->{fusionClient}{msgStack}};
+$last = pop @{$deploy->{fusionClient}{msgStack}};
 ok(($last->{status} eq "ko") && ($last->{actionnum} == 0), "Cmd errorPatern");
 $deploy->{fusionClient}{msgStack} = [];
 
-
+# Action with check that must return ignore and so get
+# the action to be ignored
+$deploy->processRemote('http://localhost:8080/deploy7');
+$last = pop @{$deploy->{fusionClient}{msgStack}};
+ok($last->{status} eq "ok", "false ignore + action");
 $deploy->{fusionClient}{msgStack} = [];
+
+# Action with check that must return ignore and so get
+# the action to be ignored
+$deploy->processRemote('http://localhost:8080/deploy8');
+$last = pop @{$deploy->{fusionClient}{msgStack}};
+ok($last->{status} eq "ok", "true ignore + action");
+$last = pop @{$deploy->{fusionClient}{msgStack}};
+ok($last->{status} eq "ignore", "action has been ignored");
+ok(!-f $FindBin::Bin . "/../lib/FusionInventory/Agent/Task/Deploy.pm-shouldnotbethere", "action really ignored");
+$deploy->{fusionClient}{msgStack} = [];
+
 #ok( $deploy->processRemote('http://localhost:8080/deploy3'), "processRemote()" );
 #ok( $deploy->processRemote('http://localhost:8080/deploy4'), "processRemote()" );
 #ok( $deploy->processRemote('http://localhost:8080/deploy5'), "processRemote()" );
