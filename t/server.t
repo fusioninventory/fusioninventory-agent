@@ -186,40 +186,60 @@ my %actions = (
         } elsif ($testname eq 'deploy2') {
             return ("", 500); # Invalid answer
 
-        } elsif ($testname eq 'deploy3') {
-            $ret->{jobs}[0]{actions}[0]= {
-                exec => "$EXECUTABLE_NAME -V"
-            };
-#            {
-#               "cmd" : {
-#                  "retChecks" : [
-#                    {
-#                    "type" : "okPattern",
-#                    "values" : [ "ok" ]
-#                    },
-#                    {
-#                    "type" : "errorPattern",
-#                    "values" : [ "error", "warning" ]
-#                    },
-#                    {
-#                    "type" : "okCode",
-#                    "values" : [ 1, 54 ]
-#                    },
-#                    {
-#                    "type" : "errorCode",
-#                    "values" : [ 3, 53 ]
-#                    }
-#                  ],
-#                  "envs" : {
-#                    "LANGUAGE" : "de",
-#                    "HOSTNAME" : "babel",
-#                    "OS" : "win",
-#                    "OS_VERSION" : "5.1",
-#                    "ARCH" : "x64" 
-#                  },
-#                  "exec" : "install.exe arg1 arg2" 
-#               }
+    }
+    elsif ( $testname eq 'deploy3' ) {
+          $ret->{jobs}[0]{actions}[0] = {
+              cmd => {
+                  "retChecks" => [
+                      {
+                          "type"   => "okCode",
+                          "values" => [0]
+                      }
+                  ],
+                  exec => "$EXECUTABLE_NAME -V"
+              }
+          };
         }
+    elsif ( $testname eq 'deploy4' ) {
+          $ret->{jobs}[0]{actions}[0] = {
+              cmd => {
+                  "retChecks" => [
+                      {
+                          "type"   => "errorCode",
+                          "values" => [0]
+                      }
+                  ],
+                  exec => "$EXECUTABLE_NAME -V"
+              }
+          };
+        }
+    elsif ( $testname eq 'deploy5' ) {
+          $ret->{jobs}[0]{actions}[0] = {
+              cmd => {
+                  "retChecks" => [
+                      {
+                          "type"   => "okPattern",
+                          "values" => [ "foobar", "perl" ]
+                      }
+                  ],
+                  exec => "$EXECUTABLE_NAME -V"
+              }
+          };
+        }
+    elsif ( $testname eq 'deploy6' ) {
+          $ret->{jobs}[0]{actions}[0] = {
+              cmd => {
+                  "retChecks" => [
+                      {
+                          "type"   => "errorPattern",
+                          "values" => [ "foobar", "perl" ]
+                      }
+                  ],
+                  exec => "$EXECUTABLE_NAME -V"
+              }
+          };
+        }
+
         return ( encode_json($ret), 200 );
     },
     setStatus => sub {
@@ -386,7 +406,40 @@ $ret = [
 ];
 is_deeply($ret, $deploy->{fusionClient}{msgStack});
 $deploy->{fusionClient}{msgStack} = [];
-ok($deploy->processRemote('http://localhost:8080/deploy3'), "processRemote()" );
+
+# Run perl and see 0 as success code and so
+# should flag the deployment as OK 
+$deploy->processRemote('http://localhost:8080/deploy3');
+my $last = pop @{$deploy->{fusionClient}{msgStack}};
+ok(
+        ($last->{status} eq "ok")
+        &&
+        ($last->{part} eq "job"), "Cmd okCode");
+$deploy->{fusionClient}{msgStack} = [];
+
+# Run perl and see 0 as an error code and so
+# should flag the deployment as KO
+$deploy->processRemote('http://localhost:8080/deploy4');
+my $last = pop @{$deploy->{fusionClient}{msgStack}};
+ok(($last->{status} eq "ko") && ($last->{actionnum} == 0), "Cmd errorCode");
+$deploy->{fusionClient}{msgStack} = [];
+
+# Run perl and see 0 as an error code and so
+# should flag the deployment as KO
+$deploy->processRemote('http://localhost:8080/deploy5');
+my $last = pop @{$deploy->{fusionClient}{msgStack}};
+ok($last->{status} eq "ok", "Cmd okPattern");
+$deploy->{fusionClient}{msgStack} = [];
+
+# Run perl and see 0 as an error code and so
+# should flag the deployment as KO
+$deploy->processRemote('http://localhost:8080/deploy6');
+my $last = pop @{$deploy->{fusionClient}{msgStack}};
+ok(($last->{status} eq "ko") && ($last->{actionnum} == 0), "Cmd errorPatern");
+$deploy->{fusionClient}{msgStack} = [];
+
+
+$deploy->{fusionClient}{msgStack} = [];
 #ok( $deploy->processRemote('http://localhost:8080/deploy3'), "processRemote()" );
 #ok( $deploy->processRemote('http://localhost:8080/deploy4'), "processRemote()" );
 #ok( $deploy->processRemote('http://localhost:8080/deploy5'), "processRemote()" );
