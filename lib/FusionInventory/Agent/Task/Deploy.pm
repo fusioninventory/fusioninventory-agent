@@ -302,7 +302,6 @@ sub processRemote {
             { workdir => $workdir } );
         my $actionnum = 0;
         ACTION: while ( my $action = $job->getNextToProcess() ) {
-        print "→actionnum: $actionnum\n";
         my ($actionName, $params) = %$action;
             if ( ref( $params->{checks} ) eq 'ARRAY' ) {
                 my $checkProcessor =
@@ -310,7 +309,6 @@ sub processRemote {
                 foreach my $checknum ( 0 .. @{ $params->{checks} } ) {
                     next unless $job->{checks}[$checknum];
                     my $checkStatus = $checkProcessor->process( $params->{checks}[$checknum] );
-                    print "checkStatus: ".$checkStatus."\n";
                     if ( $checkStatus ne 'ok') {
 
                         $self->{fusionClient}->send(

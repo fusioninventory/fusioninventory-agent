@@ -383,7 +383,7 @@ ok( $deploy, "loading Task object" );
 
 ok( $deploy->processRemote('http://localhost:8080/deploy1'), "processRemote()" );
 
-my $ret=[
+my $ret = [
           {
             'action' => 'getJobs',
             'machineid' => 'fakeid'
@@ -407,7 +407,7 @@ my $ret=[
             'part' => 'file',
             'action' => 'setStatus',
             'machineid' => 'DEVICEID',
-            'uuid' => '72fd779db80c7afbe8d9e776faa684808535c6cf97f6c7c4fc1d421e9da6003f848c0c88996a91d5b235829b3ee7a2df67e445fd45c18570ff85c2a111f5c1a4'
+            'uuid' => '3b178f9f6b563146f11362c33972142c95aeb85fd934cb74a6c0d5a373f184b97fb734880d984779efa10b4d8e3670e11826f9f296a5370645eaf02779bc073f'
           },
           {
             'status' => 'ok',
@@ -415,26 +415,11 @@ my $ret=[
             'part' => 'file',
             'action' => 'setStatus',
             'machineid' => 'DEVICEID',
-            'uuid' => '72fd779db80c7afbe8d9e776faa684808535c6cf97f6c7c4fc1d421e9da6003f848c0c88996a91d5b235829b3ee7a2df67e445fd45c18570ff85c2a111f5c1a4'
+            'uuid' => '3b178f9f6b563146f11362c33972142c95aeb85fd934cb74a6c0d5a373f184b97fb734880d984779efa10b4d8e3670e11826f9f296a5370645eaf02779bc073f'
           },
           {
             'status' => 'ok',
             'currentStep' => 'downloading',
-            'part' => 'job',
-            'action' => 'setStatus',
-            'machineid' => 'DEVICEID',
-            'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
-          },
-          {
-            'currentStep' => 'processing',
-            'part' => 'job',
-            'action' => 'setStatus',
-            'machineid' => 'DEVICEID',
-            'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
-          },
-          {
-            'status' => 'ok',
-            'currentStep' => 'processing',
             'part' => 'job',
             'action' => 'setStatus',
             'machineid' => 'DEVICEID',
@@ -449,7 +434,7 @@ my $ret=[
           }
         ];
 
-foreach (0..@$ret) {
+foreach(0..@$ret) {
 # We ignore uuid since we don't know it.
     $ret->[$_]{uuid} = $deploy->{fusionClient}{msgStack}[$_]{uuid} = 'ignore';
     is_deeply($ret->[$_], $deploy->{fusionClient}{msgStack}[$_]);

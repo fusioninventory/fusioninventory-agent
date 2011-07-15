@@ -31,7 +31,6 @@ sub process {
     my ( $self, $actionName, $params ) = @_;
 
     my $workdir = $self->{workdir};
-    print "run command: $actionName\n";
 
     if ( ( $OSNAME ne 'MSWin32' ) && ( $actionName eq 'messageBox' ) ) {
         return {
@@ -65,7 +64,6 @@ sub process {
             log    => ["unknown action `$actionName'"]
         };
     }
-    print "chdir ## ".$cwd."\n";
     chdir($cwd);
 
     return $ret;
