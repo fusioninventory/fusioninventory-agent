@@ -8,14 +8,9 @@ use English qw(-no_match_vars);
 use Cwd;
 use Data::Dumper;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Move;
+use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Copy;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Cmd;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::MessageBox;
-my %actionByType = (
-    'move'       => '',
-    'exec'       => '',
-    'messageBox' => '',
-
-);
 
 sub new {
     my ( undef, $params ) = @_;
@@ -47,6 +42,10 @@ sub process {
     } elsif ( $actionName eq 'move' ) {
         $ret =
           FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Move::do(
+            $params);
+    } elsif ( $actionName eq 'copy' ) {
+        $ret =
+          FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Copy::do(
             $params);
     } elsif ( $actionName eq 'cmd' ) {
         $ret =

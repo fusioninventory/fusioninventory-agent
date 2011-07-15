@@ -1,10 +1,10 @@
-package FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Move;
+package FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Copy;
 
 use strict;
 use warnings;
 
 $File::Copy::Recursive::CPRFComp = 1;
-use File::Copy::Recursive qw(dirmove);
+use File::Copy::Recursive qw(rcopy);
 
 
 sub do {
@@ -12,7 +12,7 @@ sub do {
 
     my $log = [];
     my $status;
-    $status = rmove($params->{from}, $params->{to});
+    $status = rcopy($params->{from}, $params->{to});
     if (!$status) {
         $log = [ "Failed to move file: `".$_[0]->[0]."' to '".$_[0]->[1], $! ];
     }

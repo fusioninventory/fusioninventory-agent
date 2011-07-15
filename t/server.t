@@ -296,6 +296,24 @@ my %actions = (
               }
           };
         }
+    elsif ( $testname eq 'deploy9' ) {
+          $ret->{jobs}[0]{actions}[0] = {
+              copy => {
+                  from =>  $FindBin::Bin . "/../lib/FusionInventory/Agent/Task/Deploy.pm",
+                  to =>  $tmpDirServer
+              } 
+          };
+        }
+    elsif ( $testname eq 'deploy10' ) {
+          $ret->{jobs}[0]{actions}[0] = {
+              copy => {
+                  from => $FindBin::Bin . "/../lib/FusionInventory/Agent/Task/*",
+                  to => $tmpDirServer
+              }
+          };
+        }
+
+
 
 
         return ( encode_json($ret), 200 );
@@ -502,6 +520,13 @@ ok($last->{status} eq "ignore", "action has been ignored");
 ok(!-f $FindBin::Bin . "/../lib/FusionInventory/Agent/Task/Deploy.pm-shouldnotbethere", "action really ignored");
 $deploy->{fusionClient}{msgStack} = [];
 
+$deploy->processRemote('http://localhost:8080/deploy9');
+print Dumper($deploy->{fusionClient}{msgStack});
+$deploy->{fusionClient}{msgStack} = [];
+
+$deploy->processRemote('http://localhost:8080/deploy10');
+print Dumper($deploy->{fusionClient}{msgStack});
+$deploy->{fusionClient}{msgStack} = [];
 #ok( $deploy->processRemote('http://localhost:8080/deploy3'), "processRemote()" );
 #ok( $deploy->processRemote('http://localhost:8080/deploy4'), "processRemote()" );
 #ok( $deploy->processRemote('http://localhost:8080/deploy5'), "processRemote()" );
