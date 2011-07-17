@@ -1,5 +1,8 @@
 #!/usr/bin/perl -w
 
+my $tmpDirClient = $FindBin::Bin . "/../tmp/deploy-test/client";
+my $tmpDirServer = $FindBin::Bin . "/../tmp/deploy-test/server";
+
 package My::WebServer;
 use base qw/Test::HTTP::Server::Simple HTTP::Server::Simple::CGI/;
 use strict;
@@ -14,8 +17,6 @@ use File::Path qw(make_path remove_tree);
 use Archive::Tar;
 use Compress::Zlib;
 use English '-no_match_vars';
-
-my $tmpDirServer = $FindBin::Bin . "/../tmp/deploy-test/server";
 
 remove_tree($tmpDirServer) if -d $tmpDirServer;
 make_path($tmpDirServer);
@@ -412,8 +413,6 @@ use File::Path qw(make_path remove_tree);
 use Test::More tests => 16;
 use Data::Dumper;
 
-my $tmpDirClient = $FindBin::Bin . "/../tmp/deploy-test/client";
-my $tmpDirServer = $FindBin::Bin . "/../tmp/deploy-test/server";
 remove_tree($tmpDirClient) if -d $tmpDirClient;
 make_path($tmpDirClient);
 
