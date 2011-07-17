@@ -64,31 +64,6 @@ sub new {
 #    return;
 #}
 
-sub setLog {
-    my ( $self, $params ) = @_;
-
-    my $ua = LWP::UserAgent->new;
-
-    my $url =
-        $self->{backendURL}
-      . "/?a=setLog&d="
-      . $params->{machineid} . "&u="
-      . $params->{uuid};
-
-    my $fh;
-    my $content;
-    foreach ( @{ $params->{log} } ) {
-        $content .= $_ . "\n";
-    }
-
-    my $response = $ua->post( $url, { log => $content } );
-    if ( !$response->is_success ) {
-        print "FAILED TO SEND THE LOG\n";
-        sleep(600);
-        $response = $ua->post( $url, { log => $content } );
-    }
-}
-
 sub processRemote {
     my ($self, $remoteUrl) = @_;
 
