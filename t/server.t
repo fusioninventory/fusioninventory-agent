@@ -365,7 +365,7 @@ my %actions = (
         my $name = $cgi->param("name");
 
         #        print STDERR Dumper(\%filePathByFilename);
-        if ( !-f $filePathByFilename{$name} ) {
+        if ( !$filePathByFilename{$name} || !-f $filePathByFilename{$name} ) {
 
             #            print STDERR "$sha512 → 404\n";
             return ( encode_json( {} ), 404 );
