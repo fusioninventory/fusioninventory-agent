@@ -317,7 +317,7 @@ sub processRemote {
                 $self->{fusionClient}->send(
                     "url" => $remoteUrl,
                     args  => {
-                        action    => "setLog",
+                        action    => "setStatus",
                         machineid => 'DEVICEID',
                         uuid      => $job->{uuid},
                         log       => $ret->{log},
