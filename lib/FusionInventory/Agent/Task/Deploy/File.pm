@@ -41,11 +41,13 @@ MULTIPART: foreach (@{$self->{multiparts}}) {
 #                print "getstore : $mirror$file, $filePath:  ok\n";
                     next MULTIPART;
                 } else {
-                    print "getstore : $mirror$file, $filePath: ko (invalide SHA) \n"._getSha512ByFile($filePath)."\n\n$sha512\n";
-                    die;
+                    return;
+                    #print "getstore : $mirror$file, $filePath: ko (invalide SHA) \n"._getSha512ByFile($filePath)."\n\n$sha512\n";
+                    #die;
                 }
             } else {
-                print "getstore : $mirror$file, $filePath:  ko, not found\n";
+                return;
+                #print "getstore : $mirror$file, $filePath:  ko, not found\n";
             }
         }
     }
