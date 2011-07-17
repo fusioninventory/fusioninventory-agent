@@ -500,7 +500,7 @@ $deploy->{fusionClient}{msgStack} = [];
 
 ok( $deploy->processRemote('http://localhost:8080/deploy1.1'), "processRemote()" );
 
-my $ret = [
+$ret = [
           {
             'action' => 'getJobs',
             'machineid' => 'fakeid'
