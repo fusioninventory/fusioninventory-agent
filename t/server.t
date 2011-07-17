@@ -456,19 +456,21 @@ my $ret = [
             'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
           },
           {
+            'sha512' => '2a3f70d6e9c8720ab854190838fb8739f5a23d34023d28255f3e4b673e7c987421c5bc93160b5446111b7fdf5c2ca1bbd455d8d24e1683eedee7050d151e2526',
             'currentStep' => 'downloading',
             'part' => 'file',
             'action' => 'setStatus',
             'machineid' => 'DEVICEID',
-            'uuid' => '3b178f9f6b563146f11362c33972142c95aeb85fd934cb74a6c0d5a373f184b97fb734880d984779efa10b4d8e3670e11826f9f296a5370645eaf02779bc073f'
+            'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
           },
           {
+            'sha512' => '2a3f70d6e9c8720ab854190838fb8739f5a23d34023d28255f3e4b673e7c987421c5bc93160b5446111b7fdf5c2ca1bbd455d8d24e1683eedee7050d151e2526',
             'status' => 'ok',
             'currentStep' => 'downloading',
             'part' => 'file',
             'action' => 'setStatus',
             'machineid' => 'DEVICEID',
-            'uuid' => '3b178f9f6b563146f11362c33972142c95aeb85fd934cb74a6c0d5a373f184b97fb734880d984779efa10b4d8e3670e11826f9f296a5370645eaf02779bc073f'
+            'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
           },
           {
             'status' => 'ok',
