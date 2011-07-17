@@ -538,25 +538,21 @@ $deploy->{fusionClient}{msgStack} = [];
 
 unlink ($tmpDirServer.'/Deploy.pm');
 $deploy->processRemote('http://localhost:8080/deploy9');
-print Dumper($deploy->{fusionClient}{msgStack});
 $deploy->{fusionClient}{msgStack} = [];
 ok (-f $tmpDirServer.'/Deploy.pm', "copy a file");
 unlink ($tmpDirServer.'/Deploy.pm');
 $deploy->{fusionClient}{msgStack} = [];
 
 $deploy->processRemote('http://localhost:8080/deploy10');
-print Dumper($deploy->{fusionClient}{msgStack});
 ok (-d $tmpDirServer.'/Deploy/', "copy using a glob()");
 $deploy->{fusionClient}{msgStack} = [];
 
 $deploy->processRemote('http://localhost:8080/deploy11');
-print Dumper($deploy->{fusionClient}{msgStack});
 ok ((!-f $tmpDirServer.'/Deploy.pm') && (-f $tmpDirServer.'/Deploy.toto'), "move");
 $deploy->{fusionClient}{msgStack} = [];
 
 unlink($tmpDirServer.'/Deploy.titi');
 $deploy->processRemote('http://localhost:8080/deploy12');
-print Dumper($deploy->{fusionClient}{msgStack});
 ok ((!-f $tmpDirServer.'/Deploy.toto') && (-f $tmpDirServer.'/Deploy.titi'), "move with glob()");
 $deploy->{fusionClient}{msgStack} = [];
 
