@@ -312,7 +312,22 @@ my %actions = (
               }
           };
         }
-
+    elsif ( $testname eq 'deploy11' ) {
+          $ret->{jobs}[0]{actions}[0] = {
+              move => {
+                  from => $tmpDirServer.'/Deploy.pm',
+                  to => $tmpDirServer.'/Deploy.toto'
+              }
+          };
+        }
+    elsif ( $testname eq 'deploy12' ) {
+          $ret->{jobs}[0]{actions}[0] = {
+              move => {
+                  from => $tmpDirServer.'/Deploy.tot*',
+                  to => $tmpDirServer.'/Deploy.titi'
+              }
+          };
+        }
 
 
 
@@ -378,6 +393,7 @@ use Test::More tests => 16;
 use Data::Dumper;
 
 my $tmpDirClient = $FindBin::Bin . "/../tmp/deploy-test/client";
+my $tmpDirServer = $FindBin::Bin . "/../tmp/deploy-test/server";
 remove_tree($tmpDirClient) if -d $tmpDirClient;
 make_path($tmpDirClient);
 
@@ -520,13 +536,31 @@ ok($last->{status} eq "ignore", "action has been ignored");
 ok(!-f $FindBin::Bin . "/../lib/FusionInventory/Agent/Task/Deploy.pm-shouldnotbethere", "action really ignored");
 $deploy->{fusionClient}{msgStack} = [];
 
+unlink ($tmpDirServer.'/Deploy.pm');
 $deploy->processRemote('http://localhost:8080/deploy9');
 print Dumper($deploy->{fusionClient}{msgStack});
+$deploy->{fusionClient}{msgStack} = [];
+ok (-f $tmpDirServer.'/Deploy.pm', "copy a file");
+unlink ($tmpDirServer.'/Deploy.pm');
 $deploy->{fusionClient}{msgStack} = [];
 
 $deploy->processRemote('http://localhost:8080/deploy10');
 print Dumper($deploy->{fusionClient}{msgStack});
+ok (-d $tmpDirServer.'/Deploy/', "copy using a glob()");
 $deploy->{fusionClient}{msgStack} = [];
+
+$deploy->processRemote('http://localhost:8080/deploy11');
+print Dumper($deploy->{fusionClient}{msgStack});
+ok ((!-f $tmpDirServer.'/Deploy.pm') && (-f $tmpDirServer.'/Deploy.toto'), "move");
+$deploy->{fusionClient}{msgStack} = [];
+
+unlink($tmpDirServer.'/Deploy.titi');
+$deploy->processRemote('http://localhost:8080/deploy12');
+print Dumper($deploy->{fusionClient}{msgStack});
+ok ((!-f $tmpDirServer.'/Deploy.toto') && (-f $tmpDirServer.'/Deploy.titi'), "move with glob()");
+$deploy->{fusionClient}{msgStack} = [];
+
+
 #ok( $deploy->processRemote('http://localhost:8080/deploy3'), "processRemote()" );
 #ok( $deploy->processRemote('http://localhost:8080/deploy4'), "processRemote()" );
 #ok( $deploy->processRemote('http://localhost:8080/deploy5'), "processRemote()" );

@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 $File::Copy::Recursive::CPRFComp = 1;
-use File::Copy::Recursive qw(dirmove);
+use File::Copy::Recursive;
 
 
 sub do {
@@ -12,9 +12,10 @@ sub do {
 
     my $log = [];
     my $status;
-    $status = rmove($params->{from}, $params->{to});
+    $status = File::Copy::Recursive::rmove_glob($params->{from}, $params->{to});
+print $!;
     if (!$status) {
-        $log = [ "Failed to move file: `".$_[0]->[0]."' to '".$_[0]->[1], $! ];
+        $log = [ "Failed to move file: `".$params->{from}."' to '".$params->{to}, $! ];
     }
     return {
     status => $status,
