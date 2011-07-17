@@ -210,7 +210,8 @@ sub processRemote {
                         action    => "setStatus",
                         machineid => 'DEVICEID',
                         part      => 'file',
-                        uuid      => $file->{sha512},
+                        uuid        => $job->{uuid},
+                        sha512      => $file->{sha512},
                         status    => 'ok'
                     }
                 );
@@ -224,7 +225,8 @@ sub processRemote {
                     action      => "setStatus",
                     machineid   => 'DEVICEID',
                     part        => 'file',
-                    uuid        => $file->{sha512},
+                    uuid        => $job->{uuid},
+                    sha512      => $file->{sha512},
                     currentStep => 'downloading'
                 }
             );
@@ -238,7 +240,8 @@ sub processRemote {
                         action      => "setStatus",
                         machineid   => 'DEVICEID',
                         part        => 'file',
-                        uuid        => $file->{sha512},
+                        uuid        => $job->{uuid},
+                        sha512        => $file->{sha512},
                         currentStep => 'downloading',
                         status      => 'ok'
                     }
@@ -254,7 +257,8 @@ sub processRemote {
                         action      => "setStatus",
                         machineid   => 'DEVICEID',
                         part        => 'file',
-                        uuid        => $file->{sha512},
+                        uuid        => $job->{uuid},
+                        sha512      => $file->{sha512},
                         currentStep => 'downloading',
                         status      => 'ko',
                         msg         => 'download failed'

@@ -183,6 +183,26 @@ my %actions = (
             }
             $ret->{associatedFiles}{$sha512} = $associatedFile;
         }
+        }
+        elsif ($testname eq 'deploy1.1') {
+        my $cpt = 0;
+        foreach my $sha512 ( keys %files ) {
+            push @{ $ret->{jobs}[0]{associatedFiles} }, $sha512;
+
+            my $associatedFile = {
+                'uncompress' => 0,
+                'mirrors' => ['http://localhost:8080/?action=getFiles&name='],
+                'multiparts'             => [],
+                'p2p'                    => 0,
+                'p2p-retention-duration' => 0,
+                'name'                   => 'file-' . $cpt++ . '.test'
+            };
+            foreach ( @{ $files{$sha512} } ) {
+                push @{ $associatedFile->{multiparts} },
+                  { "bad" => "bad" };
+            }
+            $ret->{associatedFiles}{$sha512} = $associatedFile;
+        }
         } elsif ($testname eq 'deploy2') {
             return ("", 500); # Invalid answer
 
@@ -470,7 +490,57 @@ my $ret = [
 
 foreach(0..@$ret) {
 # We ignore uuid since we don't know it.
-    $ret->[$_]{uuid} = $deploy->{fusionClient}{msgStack}[$_]{uuid} = 'ignore';
+    $ret->[$_]{sha512} = $deploy->{fusionClient}{msgStack}[$_]{sha512} = 'ignore';
+    is_deeply($ret->[$_], $deploy->{fusionClient}{msgStack}[$_]);
+}
+
+$deploy->{fusionClient}{msgStack} = [];
+
+
+ok( $deploy->processRemote('http://localhost:8080/deploy1.1'), "processRemote()" );
+
+my $ret = [
+          {
+            'action' => 'getJobs',
+            'machineid' => 'fakeid'
+          },
+          {
+            'currentStep' => 'checking',
+            'part' => 'job',
+            'action' => 'setStatus',
+            'machineid' => 'DEVICEID',
+            'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
+          },
+          {
+            'currentStep' => 'downloading',
+            'part' => 'job',
+            'action' => 'setStatus',
+            'machineid' => 'DEVICEID',
+            'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
+          },
+          {
+            'sha512' => 'dee62337e981d7c859e6bb7d65ddd30530721b29687d3a85dafb9bb1850a7c2a4e13193bf8bf9e2d2dc4b8fbb679c74a0262479e8acf907f64bfea96ebaf20a1',
+            'currentStep' => 'downloading',
+            'part' => 'file',
+            'action' => 'setStatus',
+            'machineid' => 'DEVICEID',
+            'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
+          },
+          {
+            'msg' => 'download failed',
+            'sha512' => 'dee62337e981d7c859e6bb7d65ddd30530721b29687d3a85dafb9bb1850a7c2a4e13193bf8bf9e2d2dc4b8fbb679c74a0262479e8acf907f64bfea96ebaf20a1',
+            'status' => 'ko',
+            'currentStep' => 'downloading',
+            'part' => 'file',
+            'action' => 'setStatus',
+            'machineid' => 'DEVICEID',
+            'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
+          }
+        ]; 
+
+foreach(0..@$ret) {
+# We ignore uuid since we don't know it.
+    $ret->[$_]{sha512} = $deploy->{fusionClient}{msgStack}[$_]{sha512} = 'ignore';
     is_deeply($ret->[$_], $deploy->{fusionClient}{msgStack}[$_]);
 }
 
