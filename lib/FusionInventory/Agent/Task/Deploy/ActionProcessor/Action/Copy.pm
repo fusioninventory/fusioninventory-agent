@@ -14,7 +14,7 @@ sub do {
     my $status;
     $status = rcopy($params->{from}, $params->{to});
     if (!$status) {
-        $log = [ "Failed to move file: `".$_[0]->[0]."' to '".$_[0]->[1], $! ];
+        $log = [ "Failed to move file: '".$params->{from}."' to '".$params->{to}."'", $! ];
     }
     return {
     status => $status,
