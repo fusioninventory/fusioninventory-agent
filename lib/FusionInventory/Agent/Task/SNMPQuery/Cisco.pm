@@ -45,6 +45,15 @@ sub CDPPorts {
             if (defined($HashDataSNMP->{cdpCacheDevicePort}->{$oid_walks->{cdpCacheDevicePort}->{OID}.$short_number})) {
                $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{IFDESCR} = $HashDataSNMP->{cdpCacheDevicePort}->{$oid_walks->{cdpCacheDevicePort}->{OID}.$short_number};
             }
+            if (defined($HashDataSNMP->{cdpCacheVersion}->{$oid_walks->{cdpCacheVersion}->{OID}.$short_number})) {
+               $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{SYSDESCR} = $HashDataSNMP->{cdpCacheVersion}->{$oid_walks->{cdpCacheVersion}->{OID}.$short_number};
+            }
+            if (defined($HashDataSNMP->{cdpCacheDeviceId}->{$oid_walks->{cdpCacheDeviceId}->{OID}.$short_number})) {
+               $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{SYSNAME} = $HashDataSNMP->{cdpCacheDeviceId}->{$oid_walks->{cdpCacheDeviceId}->{OID}.$short_number};
+            }
+            if (defined($HashDataSNMP->{cdpCachePlatform}->{$oid_walks->{cdpCachePlatform}->{OID}.$short_number})) {
+               $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{MODEL} = $HashDataSNMP->{cdpCachePlatform}->{$oid_walks->{cdpCachePlatform}->{OID}.$short_number};
+            }
          }
          delete $HashDataSNMP->{cdpCacheAddress}->{$number};
          if (ref($HashDataSNMP->{cdpCacheDevicePort}) eq "HASH"){
