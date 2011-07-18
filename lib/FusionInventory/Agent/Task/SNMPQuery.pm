@@ -29,6 +29,7 @@ use FusionInventory::Agent::Task::SNMPQuery::Cisco;
 use FusionInventory::Agent::Task::SNMPQuery::Procurve;
 use FusionInventory::Agent::Task::SNMPQuery::ThreeCom;
 use FusionInventory::Agent::Task::SNMPQuery::Nortel;
+use FusionInventory::Agent::Task::SNMPQuery::AlliedTelesis;
 
 use FusionInventory::Agent::AccountInfo;
 
@@ -729,6 +730,8 @@ sub query_device_threaded {
                   ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Procurve::GetMAC($HashDataSNMP,$datadevice,$self, $params->{modellist}->{WALK});
                } elsif ($datadevice->{INFO}->{COMMENTS} =~ /Nortel/) {
                   ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Nortel::GetMAC($HashDataSNMP,$datadevice,$self, $params->{modellist}->{WALK});
+               } elsif ($datadevice->{INFO}->{COMMENTS} =~ /Allied Telesis/) {
+                  ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::AlliedTelesis::GetMAC($HashDataSNMP,$datadevice,$self, $params->{modellist}->{WALK});
                }
             }
          }
