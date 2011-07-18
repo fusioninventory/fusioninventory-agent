@@ -39,11 +39,12 @@ sub send {
             foreach (keys %{$params{args}->{$k}}) {
                 $finalUrl .= '&'.$k.'['.$_.']='.uri_escape($params{args}->{$k}{$_} || '');
             }
-
-        } elsif ($k ne 'action') {
-            $finalUrl .= '&'.$k.'='.uri_escape($params{args}->{$k} || '');
+        } elsif ($k ne 'action' && length($params{args}->{$k})) {
+            $finalUrl .= '&'.$k.'='.uri_escape($params{args}->{$k});
         }
    }
+
+    print "$finalUrl\n";
 
     my $request = HTTP::Request->new(GET => $finalUrl);
 
