@@ -449,7 +449,7 @@ sub _constructDataDeviceSimple {
             _putSimpleOid($HashDataSNMP, $datadevice, @$info);
         }
         foreach my $info (@printer_percent_infos) {
-            _putPercentOid(
+            _putPurcentageOid(
                 $datadevice,
                 $HashDataSNMP->{$info->[0]},
                 $HashDataSNMP->{$info->[1]},
@@ -626,7 +626,7 @@ sub _putSimpleOid {
         if ($HashDataSNMP->{$element."-level"} == -3) {
             $datadevice->{$xmlelement1}->{$xmlelement2} = 100;
         } else {
-            _putPourcentageOid(
+            _putPurcentageOid(
                 $datadevice,
                 $HashDataSNMP->{$element."-capacitytype"},
                 $HashDataSNMP->{$element."-level"},
@@ -639,7 +639,7 @@ sub _putSimpleOid {
     }
 }
 
-sub _putPourcentageOid {
+sub _putPurcentageOid {
     my ($datadevice, $result1, $result2, $xmlelement1, $xmlelement2) = @_;
 
     return unless $result1 && _isInteger($result1);
