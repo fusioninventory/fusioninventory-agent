@@ -355,7 +355,7 @@ sub _queryDevice {
     $datadevice->{INFO}->{ID} = $device->{ID};
     $datadevice->{INFO}->{TYPE} = $device->{TYPE};
     # Conversion
-    ($datadevice, $HashDataSNMP) = _constructDataDeviceSimple($HashDataSNMP,$datadevice);
+    _constructDataDeviceSimple($HashDataSNMP,$datadevice);
 
     # Query SNMP walk #
     foreach my $key (keys %{$model->{WALK}}) {
@@ -365,7 +365,7 @@ sub _queryDevice {
         $HashDataSNMP->{$key} = $result;
     }
 
-    ($datadevice, $HashDataSNMP) = _constructDataDeviceMultiple($HashDataSNMP,$datadevice, $self, $model->{WALK});
+    _constructDataDeviceMultiple($HashDataSNMP,$datadevice, $self, $model->{WALK});
 
     if ($datadevice->{INFO}->{TYPE} eq "NETWORKING") {
         # check if vlan-specific queries are is needed
@@ -453,8 +453,6 @@ sub _constructDataDeviceSimple {
             _putPercentOid($HashDataSNMP, $datadevice, @$info);
         }
     }
-
-    return $datadevice, $HashDataSNMP;
 }
 
 
@@ -596,8 +594,6 @@ sub _constructDataDeviceMultiple {
             $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{VLANS}->{VLAN}->{NAME} = $HashDataSNMP->{vtpVlanName}->{$walk->{vtpVlanName}->{OID} . ".".$data};
         }
     }
-
-    return $datadevice, $HashDataSNMP;
 }
 
 sub _putSimpleOid {
