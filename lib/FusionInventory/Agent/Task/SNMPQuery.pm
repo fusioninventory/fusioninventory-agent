@@ -27,77 +27,80 @@ our $VERSION = '2.0';
 my $maxIdx : shared = 0;
 
 my @infos = (
-    [ qw/cpu INFO CPU/ ],
-    [ qw/location INFO LOCATION/ ],
-    [ qw/firmware INFO FIRMWARE/ ],
-    [ qw/firmware1 INFO FIRMWARE/ ],
-    [ qw/contant INFO CONTACT/ ],
-    [ qw/comments INFO COMMENTS/ ],
-    [ qw/uptime INFO UPTIME/ ],
-    [ qw/serial INFO SERIAL/ ],
-    [ qw/name INFO NAME/ ],
-    [ qw/model INFO MODEL/ ],
-    [ qw/entPhysicalModelName INFO MODEL/ ],
-    [ qw/enterprise INFO MANUFACTURER/ ],
-    [ qw/otherserial INFO OTHERSERIAL/ ],
-    [ qw/memory INFO MEMORY/ ],
-    [ qw/ram INFO RAM/ ],
+    [ qw/cpu CPU/ ],
+    [ qw/location LOCATION/ ],
+    [ qw/firmware FIRMWARE/ ],
+    [ qw/firmware1 FIRMWARE/ ],
+    [ qw/contant CONTACT/ ],
+    [ qw/comments COMMENTS/ ],
+    [ qw/uptime UPTIME/ ],
+    [ qw/serial SERIAL/ ],
+    [ qw/name NAME/ ],
+    [ qw/model MODEL/ ],
+    [ qw/entPhysicalModelName MODEL/ ],
+    [ qw/enterprise MANUFACTURER/ ],
+    [ qw/otherserial OTHERSERIAL/ ],
+    [ qw/memory MEMORY/ ],
+    [ qw/ram RAM/ ],
 );
 
-my @printer_simple_infos = (
-    [ qw/tonerblack CARTRIDGES TONERBLACK/ ],
-    [ qw/tonerblack2 CARTRIDGES TONERBLACK2/ ],
-    [ qw/tonercyan CARTRIDGES TONERCYAN/ ],
-    [ qw/tonermagenta CARTRIDGES TONERMAGENTA/ ],
-    [ qw/toneryellow CARTRIDGES TONERYELLOW/ ],
-    [ qw/wastetoner CARTRIDGES WASTETONER/ ],
-    [ qw/cartridgeblack CARTRIDGES CARTRIDGEBLACK/ ],
-    [ qw/cartridgeblackphoto CARTRIDGES CARTRIDGEBLACKPHOTO/ ],
-    [ qw/cartridgecyan CARTRIDGES CARTRIDGECYAN/ ],
-    [ qw/cartridgecyanlight CARTRIDGES CARTRIDGECYANLIGHT/ ],
-    [ qw/cartridgemagenta CARTRIDGES CARTRIDGEMAGENTA/ ],
-    [ qw/cartridgemagentalight CARTRIDGES CARTRIDGEMAGENTALIGHT/ ],
-    [ qw/cartridgeyellow CARTRIDGES CARTRIDGEYELLOW/ ],
-    [ qw/maintenancekit CARTRIDGES MAINTENANCEKIT/ ],
-    [ qw/drumblack CARTRIDGES DRUMBLACK/ ],
-    [ qw/drumcyan CARTRIDGES DRUMCYAN/ ],
-    [ qw/drummagenta CARTRIDGES DRUMMAGENTA/ ],
-    [ qw/drumyellow CARTRIDGES DRUMYELLOW/ ],
-    [ qw/pagecountertotalpages PAGECOUNTERS TOTAL/ ],
-    [ qw/pagecounterblackpages PAGECOUNTERS BLACK/ ],
-    [ qw/pagecountercolorpages PAGECOUNTERS COLOR/ ],
-    [ qw/pagecounterrectoversopages PAGECOUNTERS RECTOVERSO/ ],
-    [ qw/pagecounterscannedpages PAGECOUNTERS SCANNED/ ],
-    [ qw/pagecountertotalpages_print PAGECOUNTERS PRINTTOTAL/ ],
-    [ qw/pagecounterblackpages_print PAGECOUNTERS PRINTBLACK/ ],
-    [ qw/pagecountercolorpages_print PAGECOUNTERS PRINTCOLOR/ ],
-    [ qw/pagecountertotalpages_copy PAGECOUNTERS COPYTOTAL/ ],
-    [ qw/pagecounterblackpages_copy PAGECOUNTERS COPYBLACK/ ],
-    [ qw/pagecountercolorpages_copy PAGECOUNTERS COPYCOLOR/ ],
-    [ qw/pagecountertotalpages_fax PAGECOUNTERS FAXTOTAL/ ],
+my @printer_cartridges_simple_infos = (
+    [ qw/tonerblack TONERBLACK/ ],
+    [ qw/tonerblack2 TONERBLACK2/ ],
+    [ qw/tonercyan TONERCYAN/ ],
+    [ qw/tonermagenta TONERMAGENTA/ ],
+    [ qw/toneryellow TONERYELLOW/ ],
+    [ qw/wastetoner WASTETONER/ ],
+    [ qw/cartridgeblack CARTRIDGEBLACK/ ],
+    [ qw/cartridgeblackphoto CARTRIDGEBLACKPHOTO/ ],
+    [ qw/cartridgecyan CARTRIDGECYAN/ ],
+    [ qw/cartridgecyanlight CARTRIDGECYANLIGHT/ ],
+    [ qw/cartridgemagenta CARTRIDGEMAGENTA/ ],
+    [ qw/cartridgemagentalight CARTRIDGEMAGENTALIGHT/ ],
+    [ qw/cartridgeyellow CARTRIDGEYELLOW/ ],
+    [ qw/maintenancekit MAINTENANCEKIT/ ],
+    [ qw/drumblack DRUMBLACK/ ],
+    [ qw/drumcyan DRUMCYAN/ ],
+    [ qw/drummagenta DRUMMAGENTA/ ],
+    [ qw/drumyellow DRUMYELLOW/ ],
 );
 
-my @printer_percent_infos = (
-    [ qw/cartridgesblackMAX cartridgesblackREMAIN CARTRIDGE BLACK/ ],
-    [ qw/cartridgescyanMAX cartridgescyanREMAIN CARTRIDGE CYAN/ ],
-    [ qw/cartridgesyellowMAX cartridgesyellowREMAIN CARTRIDGE YELLOW/ ],
-    [ qw/cartridgesmagentaMAX cartridgesmagentaREMAIN CARTRIDGE MAGENTA/ ],
-    [ qw/cartridgescyanlightMAX cartridgescyanlightREMAIN CARTRIDGE CYANLIGHT/ ],
-    [ qw/cartridgesmagentalightMAX cartridgesmagentalightREMAIN CARTRIDGE MAGENTALIGHT/ ],
-    [ qw/cartridgesphotoconductorMAX cartridgesphotoconductorREMAIN CARTRIDGE PHOTOCONDUCTOR/ ],
-    [ qw/cartridgesphotoconductorblackMAX cartridgesphotoconductorblackREMAIN CARTRIDGE PHOTOCONDUCTORBLACK/ ],
-    [ qw/cartridgesphotoconductorcolorMAX cartridgesphotoconductorcolorREMAIN CARTRIDGE PHOTOCONDUCTORCOLOR/ ],
-    [ qw/cartridgesphotoconductorcyanMAX cartridgesphotoconductorcyanREMAIN CARTRIDGE PHOTOCONDUCTORCYAN/ ],
-    [ qw/cartridgesphotoconductoryellowMAX cartridgesphotoconductoryellowREMAIN CARTRIDGE PHOTOCONDUCTORYELLOW/ ],
-    [ qw/cartridgesphotoconductormagentaMAX cartridgesphotoconductormagentaREMAIN CARTRIDGE PHOTOCONDUCTORMAGENTA/ ],
-    [ qw/cartridgesunittransfertblackMAX cartridgesunittransfertblackREMAIN CARTRIDGE UNITTRANSFERBLACK/ ],
-    [ qw/cartridgesunittransfertcyanMAX cartridgesunittransfertcyanREMAIN CARTRIDGE UNITTRANSFERCYAN/ ],
-    [ qw/cartridgesunittransfertyellowMAX cartridgesunittransfertyellowREMAIN CARTRIDGE UNITTRANSFERYELLOW/ ],
+my @printer_pagecounters_simple_infos = (
+    [ qw/pagecountertotalpages TOTAL/ ],
+    [ qw/pagecounterblackpages BLACK/ ],
+    [ qw/pagecountercolorpages COLOR/ ],
+    [ qw/pagecounterrectoversopages RECTOVERSO/ ],
+    [ qw/pagecounterscannedpages SCANNED/ ],
+    [ qw/pagecountertotalpages_print PRINTTOTAL/ ],
+    [ qw/pagecounterblackpages_print PRINTBLACK/ ],
+    [ qw/pagecountercolorpages_print PRINTCOLOR/ ],
+    [ qw/pagecountertotalpages_copy COPYTOTAL/ ],
+    [ qw/pagecounterblackpages_copy COPYBLACK/ ],
+    [ qw/pagecountercolorpages_copy COPYCOLOR/ ],
+    [ qw/pagecountertotalpages_fax FAXTOTAL/ ],
+);
+
+my @printer_cartridges_percent_infos = (
+    [ qw/cartridgesblackMAX cartridgesblackREMAIN BLACK/ ],
+    [ qw/cartridgescyanMAX cartridgescyanREMAIN CYAN/ ],
+    [ qw/cartridgesyellowMAX cartridgesyellowREMAIN YELLOW/ ],
+    [ qw/cartridgesmagentaMAX cartridgesmagentaREMAIN MAGENTA/ ],
+    [ qw/cartridgescyanlightMAX cartridgescyanlightREMAIN CYANLIGHT/ ],
+    [ qw/cartridgesmagentalightMAX cartridgesmagentalightREMAIN MAGENTALIGHT/ ],
+    [ qw/cartridgesphotoconductorMAX cartridgesphotoconductorREMAIN PHOTOCONDUCTOR/ ],
+    [ qw/cartridgesphotoconductorblackMAX cartridgesphotoconductorblackREMAIN PHOTOCONDUCTORBLACK/ ],
+    [ qw/cartridgesphotoconductorcolorMAX cartridgesphotoconductorcolorREMAIN PHOTOCONDUCTORCOLOR/ ],
+    [ qw/cartridgesphotoconductorcyanMAX cartridgesphotoconductorcyanREMAIN PHOTOCONDUCTORCYAN/ ],
+    [ qw/cartridgesphotoconductoryellowMAX cartridgesphotoconductoryellowREMAIN PHOTOCONDUCTORYELLOW/ ],
+    [ qw/cartridgesphotoconductormagentaMAX cartridgesphotoconductormagentaREMAIN PHOTOCONDUCTORMAGENTA/ ],
+    [ qw/cartridgesunittransfertblackMAX cartridgesunittransfertblackREMAIN UNITTRANSFERBLACK/ ],
+    [ qw/cartridgesunittransfertcyanMAX cartridgesunittransfertcyanREMAIN UNITTRANSFERCYAN/ ],
+    [ qw/cartridgesunittransfertyellowMAX cartridgesunittransfertyellowREMAIN UNITTRANSFERYELLOW/ ],
     [ qw/cartridgesunittransfertmagentaMAX cartridgesunittransfertmagentaREMAIN CARTRIDGE UNITTRANSFERMAGENTA/ ],
-    [ qw/cartridgeswasteMAX cartridgeswasteREMAIN CARTRIDGE WASTE/ ],
-    [ qw/cartridgesfuserMAX cartridgesfuserREMAIN CARTRIDGE FUSER/ ],
-    [ qw/cartridgesbeltcleanerMAX cartridgesbeltcleanerREMAIN CARTRIDGE BELTCLEANER/ ],
-    [ qw/cartridgesmaintenancekitMAX cartridgesmaintenancekitREMAIN CARTRIDGE MAINTENANCEKIT/ ],
+    [ qw/cartridgeswasteMAX cartridgeswasteREMAIN WASTE/ ],
+    [ qw/cartridgesfuserMAX cartridgesfuserREMAIN FUSER/ ],
+    [ qw/cartridgesbeltcleanerMAX cartridgesbeltcleanerREMAIN BELTCLEANER/ ],
+    [ qw/cartridgesmaintenancekitMAX cartridgesmaintenancekitREMAIN MAINTENANCEKIT/ ],
 );
 
 sub run {
@@ -441,19 +444,24 @@ sub _constructDataDeviceSimple {
     }
 
     foreach my $info (@infos) {
-        $datadevice->{$info->[1]}->{$info->[2]} = _getSimpleValue(
+        $datadevice->{INFO}->{$info->[1]} = _getSimpleValue(
             $HashDataSNMP, $info->[0]
         );
     }
 
     if ($datadevice->{INFO}->{TYPE} eq "PRINTER") {
-        foreach my $info (@printer_simple_infos) {
-            $datadevice->{$info->[1]}->{$info->[2]} = _getSimpleValue(
+        foreach my $info (@printer_cartridges_simple_infos) {
+            $datadevice->{CARTRIDGES}->{$info->[1]} = _getSimpleValue(
                 $HashDataSNMP, $info->[0]
             );
         }
-        foreach my $info (@printer_percent_infos) {
-            $datadevice->{$info->[2]}->{$info->[3]} = _getPercentValue(
+        foreach my $info (@printer_pagecounters_simple_infos) {
+            $datadevice->{PAGECOUNTERS}->{$info->[1]} = _getSimpleValue(
+                $HashDataSNMP, $info->[0]
+            );
+        }
+        foreach my $info (@printer_cartridges_percent_infos) {
+            $datadevice->{CARTRIDGES}->{$info->[2]} = _getPercentValue(
                 $HashDataSNMP->{$info->[0]},
                 $HashDataSNMP->{$info->[1]},
             );
