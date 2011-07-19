@@ -441,12 +441,16 @@ sub _constructDataDeviceSimple {
     }
 
     foreach my $info (@infos) {
-        _putSimpleOid($HashDataSNMP, $datadevice, @$info)
+        $datadevice->{$info->[1]}->{$info->[2]} = _getSimpleValue(
+            $HashDataSNMP, $info->[0]
+        );
     }
 
     if ($datadevice->{INFO}->{TYPE} eq "PRINTER") {
         foreach my $info (@printer_simple_infos) {
-            _putSimpleOid($HashDataSNMP, $datadevice, @$info);
+            $datadevice->{$info->[1]}->{$info->[2]} = _getSimpleValue(
+                $HashDataSNMP, $info->[0]
+            );
         }
         foreach my $info (@printer_percent_infos) {
             $datadevice->{$info->[2]}->{$info->[3]} = _getPercentValue(
@@ -598,8 +602,8 @@ sub _constructDataDeviceMultiple {
     }
 }
 
-sub _putSimpleOid {
-    my ($HashDataSNMP, $datadevice, $element, $xmlelement1, $xmlelement2) = @_;
+sub _getSimpleValue {
+    my ($HashDataSNMP, $element) = @_;
 
     return unless exists $HashDataSNMP->{$element};
 
@@ -616,20 +620,20 @@ sub _putSimpleOid {
         $HashDataSNMP->{$element} =~ s/\s+$//;
         $HashDataSNMP->{$element} =~ s/(\.{2,})*//g;
     }
+
     if ($element eq "firmware1") {
-        $datadevice->{$xmlelement1}->{$xmlelement2} = $HashDataSNMP->{"firmware1"}." ".$HashDataSNMP->{"firmware2"};
-        delete $HashDataSNMP->{"firmware2"};
+        return $HashDataSNMP->{"firmware1"}." ".$HashDataSNMP->{"firmware2"};
     } elsif (($element =~ /^toner/) || ($element eq "wastetoner") || ($element =~ /^cartridge/) || ($element eq "maintenancekit") || ($element =~ /^drum/)) {
         if ($HashDataSNMP->{$element."-level"} == -3) {
-            $datadevice->{$xmlelement1}->{$xmlelement2} = 100;
+            return 100;
         } else {
-            $datadevice->{$xmlelement1}->{$xmlelement2} = _getPercentValue(
+            return _getPercentValue(
                 $HashDataSNMP->{$element."-capacitytype"},
                 $HashDataSNMP->{$element."-level"},
             );
         }
     } else {
-        $datadevice->{$xmlelement1}->{$xmlelement2} = $HashDataSNMP->{$element};
+        return $HashDataSNMP->{$element};
     }
 }
 
