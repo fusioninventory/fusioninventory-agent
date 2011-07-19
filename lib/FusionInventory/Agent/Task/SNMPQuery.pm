@@ -444,27 +444,40 @@ sub _constructDataDeviceSimple {
     }
 
     foreach my $info (@infos) {
-        $datadevice->{INFO}->{$info->[1]} = _getSimpleValue(
-            $HashDataSNMP, $info->[0]
-        );
+        my $raw_value = $HashDataSNMP->{$info->[0]};
+        my $value =
+            $info->[0] eq 'name'        ? _hexaToString($raw_value)     :
+            $info->[0] eq 'otherserial' ? _hexaToString($raw_value)     :
+            $info->[0] eq 'serial'      ? _sanitizedSerial($raw_value)  :
+            $info->[0] eq 'ram'         ? int($raw_value / 1024 / 1024) :
+            $info->[0] eq 'memory'      ? int($raw_value / 1024 / 1024) :
+            $info->[0] eq 'firmware1'   ? $raw_value . " " . $HashDataSNMP->{"firmware2"} :
+                                          $raw_value                    ;
+        $datadevice->{INFO}->{$info->[1]} = $value;
     }
 
     if ($datadevice->{INFO}->{TYPE} eq "PRINTER") {
+        # consumable levels
         foreach my $info (@printer_cartridges_simple_infos) {
-            $datadevice->{CARTRIDGES}->{$info->[1]} = _getSimpleValue(
-                $HashDataSNMP, $info->[0]
-            );
-        }
-        foreach my $info (@printer_pagecounters_simple_infos) {
-            $datadevice->{PAGECOUNTERS}->{$info->[1]} = _getSimpleValue(
-                $HashDataSNMP, $info->[0]
-            );
+            $datadevice->{CARTRIDGES}->{$info->[1]} =
+                $HashDataSNMP->{"$info->[0]-level"} == -3 ?
+                    100 :
+                    _getPercentValue(
+                        $HashDataSNMP->{"$info->[0]-capacitytype"},
+                        $HashDataSNMP->{"$info->[0]-level"},
+                    );
         }
         foreach my $info (@printer_cartridges_percent_infos) {
             $datadevice->{CARTRIDGES}->{$info->[2]} = _getPercentValue(
                 $HashDataSNMP->{$info->[0]},
                 $HashDataSNMP->{$info->[1]},
             );
+        }
+
+        # page counters
+        foreach my $info (@printer_pagecounters_simple_infos) {
+            $datadevice->{PAGECOUNTERS}->{$info->[1]} =
+                $HashDataSNMP->{$info->[0]};
         }
     }
 }
@@ -610,51 +623,6 @@ sub _constructDataDeviceMultiple {
     }
 }
 
-sub _getSimpleValue {
-    my ($HashDataSNMP, $element) = @_;
-
-    my $value = $HashDataSNMP->{$element};
-    return unless defined $value;
-
-    if ($element eq "name" || $element eq "otherserial") {
-        return _hexaToString($value);
-    }
-
-    if ($element eq "ram" || $element eq "memory") {
-        return int($value / 1024 / 1024);
-    }
-
-    if ($element eq "serial") {
-        $value =~ s/^\s+//;
-        $value =~ s/\s+$//;
-        $value =~ s/(\.{2,})*//g;
-        return $value;
-    }
-
-    if ($element eq "firmware1") {
-        return $value . " " . $HashDataSNMP->{"firmware2"};
-    }
-
-    if (
-        $element eq "wastetoner"     || 
-        $element eq "maintenancekit" ||
-        $element =~ /^toner/         ||
-        $element =~ /^cartridge/     ||
-        $element =~ /^drum/
-    ) {
-        if ($HashDataSNMP->{$element."-level"} == -3) {
-            return 100;
-        } else {
-            return _getPercentValue(
-                $HashDataSNMP->{$element."-capacitytype"},
-                $HashDataSNMP->{$element."-level"},
-            );
-        }
-    }
-
-    return $value;
-}
-
 sub _getPercentValue {
     my ($value1, $value2) = @_;
 
@@ -678,6 +646,16 @@ sub _lastSplitObject {
 
 sub _isInteger {
     $_[0] =~ /^[+-]?\d+$/;
+}
+
+sub _sanitizedSerial {
+    my ($value) = @_;
+
+    $value =~ s/^\s+//;
+    $value =~ s/\s+$//;
+    $value =~ s/(\.{2,})*//g;
+
+    return $value;
 }
 
 sub _hexaToString {
