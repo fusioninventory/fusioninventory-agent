@@ -605,25 +605,35 @@ sub _constructDataDeviceMultiple {
 sub _getSimpleValue {
     my ($HashDataSNMP, $element) = @_;
 
-    return unless exists $HashDataSNMP->{$element};
+    my $value = $HashDataSNMP->{$element};
+    return unless defined $value;
 
-    # Rewrite hexa to string
-    if (($element eq "name") || ($element eq "otherserial")) {
-        $HashDataSNMP->{$element} = _hexaToString($HashDataSNMP->{$element});
+    if ($element eq "name" || $element eq "otherserial") {
+        return _hexaToString($value);
     }
-    # End rewrite hexa to string
-    if (($element eq "ram") || ($element eq "memory")) {
-        $HashDataSNMP->{$element} = int(( $HashDataSNMP->{$element} / 1024 ) / 1024);
+
+    if ($element eq "ram" || $element eq "memory") {
+        return int($value / 1024 / 1024);
     }
+
     if ($element eq "serial") {
-        $HashDataSNMP->{$element} =~ s/^\s+//;
-        $HashDataSNMP->{$element} =~ s/\s+$//;
-        $HashDataSNMP->{$element} =~ s/(\.{2,})*//g;
+        $value =~ s/^\s+//;
+        $value =~ s/\s+$//;
+        $value =~ s/(\.{2,})*//g;
+        return $value;
     }
 
     if ($element eq "firmware1") {
-        return $HashDataSNMP->{"firmware1"}." ".$HashDataSNMP->{"firmware2"};
-    } elsif (($element =~ /^toner/) || ($element eq "wastetoner") || ($element =~ /^cartridge/) || ($element eq "maintenancekit") || ($element =~ /^drum/)) {
+        return $value . " " . $HashDataSNMP->{"firmware2"};
+    }
+
+    if (
+        $element eq "wastetoner"     || 
+        $element eq "maintenancekit" ||
+        $element =~ /^toner/         ||
+        $element =~ /^cartridge/     ||
+        $element =~ /^drum/
+    ) {
         if ($HashDataSNMP->{$element."-level"} == -3) {
             return 100;
         } else {
@@ -632,9 +642,9 @@ sub _getSimpleValue {
                 $HashDataSNMP->{$element."-level"},
             );
         }
-    } else {
-        return $HashDataSNMP->{$element};
     }
+
+    return $value;
 }
 
 sub _getPercentValue {
