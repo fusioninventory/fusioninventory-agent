@@ -437,6 +437,7 @@ sub _constructDataDeviceSimple {
         $datadevice->{INFO}->{MAC} = $HashDataSNMP->{macaddr};
         delete $HashDataSNMP->{macaddr};
     }
+
     if (exists $HashDataSNMP->{cpuuser}) {
         $datadevice->{INFO}->{CPU} = $HashDataSNMP->{'cpuuser'} + $HashDataSNMP->{'cpusystem'};
         delete $HashDataSNMP->{'cpuuser'};
@@ -444,7 +445,7 @@ sub _constructDataDeviceSimple {
     }
 
     foreach my $info (@infos) {
-    _putSimpleOid($HashDataSNMP, $datadevice, @$info)
+        _putSimpleOid($HashDataSNMP, $datadevice, @$info)
     }
 
     if ($datadevice->{INFO}->{TYPE} eq "PRINTER") {
@@ -474,6 +475,7 @@ sub _constructDataDeviceMultiple {
         }
         delete $HashDataSNMP->{ipAdEntAddr};
     }
+
     if (exists $HashDataSNMP->{ifIndex}) {
         my $num = 0;
         while ( ($object,$data) = each (%{$HashDataSNMP->{ifIndex}}) ) {
@@ -483,78 +485,91 @@ sub _constructDataDeviceMultiple {
         }
         delete $HashDataSNMP->{ifIndex};
     }
+
     if (exists $HashDataSNMP->{ifdescr}) {
         while ( ($object,$data) = each (%{$HashDataSNMP->{ifdescr}}) ) {
             $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFDESCR} = $data;
         }
         delete $HashDataSNMP->{ifdescr};
     }
+
     if (exists $HashDataSNMP->{ifName}) {
         while ( ($object,$data) = each (%{$HashDataSNMP->{ifName}}) ) {
             $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFNAME} = $data;
         }
         delete $HashDataSNMP->{ifName};
     }
+
     if (exists $HashDataSNMP->{ifType}) {
         while ( ($object,$data) = each (%{$HashDataSNMP->{ifType}}) ) {
             $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFTYPE} = $data;
         }
         delete $HashDataSNMP->{ifType};
     }
+
     if (exists $HashDataSNMP->{ifmtu}) {
         while ( ($object,$data) = each (%{$HashDataSNMP->{ifmtu}}) ) {
             $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFMTU} = $data;
         }
         delete $HashDataSNMP->{ifmtu};
     }
+
     if (exists $HashDataSNMP->{ifspeed}) {
         while ( ($object,$data) = each (%{$HashDataSNMP->{ifspeed}}) ) {
             $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFSPEED} = $data;
         }
         delete $HashDataSNMP->{ifspeed};
     }
+
     if (exists $HashDataSNMP->{ifstatus}) {
         while ( ($object,$data) = each (%{$HashDataSNMP->{ifstatus}}) ) {
             $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFSTATUS} = $data;
         }
         delete $HashDataSNMP->{ifstatus};
     }
+
     if (exists $HashDataSNMP->{ifinternalstatus}) {
         while ( ($object,$data) = each (%{$HashDataSNMP->{ifinternalstatus}}) ) {
             $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFINTERNALSTATUS} = $data;
         }
         delete $HashDataSNMP->{ifinternalstatus};
     }
+
     if (exists $HashDataSNMP->{iflastchange}) {
         while ( ($object,$data) = each (%{$HashDataSNMP->{iflastchange}}) ) {
             $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFLASTCHANGE} = $data;
         }
         delete $HashDataSNMP->{iflastchange};
     }
+
     if (exists $HashDataSNMP->{ifinoctets}) {
         while ( ($object,$data) = each (%{$HashDataSNMP->{ifinoctets}}) ) {
             $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFINOCTETS} = $data;
         }
         delete $HashDataSNMP->{ifinoctets};
     }
+
     if (exists $HashDataSNMP->{ifoutoctets}) {
         while ( ($object,$data) = each (%{$HashDataSNMP->{ifoutoctets}}) ) {
             $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFOUTOCTETS} = $data;
         }
         delete $HashDataSNMP->{ifoutoctets};
     }
+
     if (exists $HashDataSNMP->{ifinerrors}) {
         while ( ($object,$data) = each (%{$HashDataSNMP->{ifinerrors}}) ) {
             $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFINERRORS} = $data;
         }
         delete $HashDataSNMP->{ifinerrors};
     }
+
     if (exists $HashDataSNMP->{ifouterrors}) {
         while ( ($object,$data) = each (%{$HashDataSNMP->{ifouterrors}}) ) {
             $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFOUTERRORS} = $data;
         }
         delete $HashDataSNMP->{ifouterrors};
     }
+
     if (exists $HashDataSNMP->{ifPhysAddress}) {
         while ( ($object,$data) = each (%{$HashDataSNMP->{ifPhysAddress}}) ) {
             if ($data ne "") {
@@ -563,6 +578,7 @@ sub _constructDataDeviceMultiple {
         }
         delete $HashDataSNMP->{ifPhysAddress};
     }
+
     if (exists $HashDataSNMP->{ifaddr}) {
         while ( ($object,$data) = each (%{$HashDataSNMP->{ifaddr}}) ) {
             if ($data ne "") {
@@ -574,6 +590,7 @@ sub _constructDataDeviceMultiple {
         }
         delete $HashDataSNMP->{ifaddr};
     }
+
     if (exists $HashDataSNMP->{portDuplex}) {
         while ( ($object,$data) = each (%{$HashDataSNMP->{portDuplex}}) ) {
             $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFPORTDUPLEX} = $data;
@@ -603,7 +620,6 @@ sub _constructDataDeviceMultiple {
         }
         delete $HashDataSNMP->{vmvlan};
     }
-
 
     return $datadevice, $HashDataSNMP;
 }
@@ -638,7 +654,6 @@ sub _putSimpleOid {
             $datadevice->{$xmlelement1}->{$xmlelement2} = $HashDataSNMP->{$element};
         }
         delete $HashDataSNMP->{$element};
-
     }
 }
 
