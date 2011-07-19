@@ -449,12 +449,9 @@ sub _constructDataDeviceSimple {
             _putSimpleOid($HashDataSNMP, $datadevice, @$info);
         }
         foreach my $info (@printer_percent_infos) {
-            _putPurcentageOid(
-                $datadevice,
+            $datadevice->{$info->[2]}->{$info->[3]} = _getPercentValue(
                 $HashDataSNMP->{$info->[0]},
                 $HashDataSNMP->{$info->[1]},
-                $info->[2],
-                $info->[3]
             );
         }
     }
@@ -626,12 +623,9 @@ sub _putSimpleOid {
         if ($HashDataSNMP->{$element."-level"} == -3) {
             $datadevice->{$xmlelement1}->{$xmlelement2} = 100;
         } else {
-            _putPurcentageOid(
-                $datadevice,
+            $datadevice->{$xmlelement1}->{$xmlelement2} = _getPercentValue(
                 $HashDataSNMP->{$element."-capacitytype"},
                 $HashDataSNMP->{$element."-level"},
-                $xmlelement1,
-                $xmlelement2
             );
         }
     } else {
@@ -639,15 +633,15 @@ sub _putSimpleOid {
     }
 }
 
-sub _putPurcentageOid {
-    my ($datadevice, $result1, $result2, $xmlelement1, $xmlelement2) = @_;
+sub _getPercentValue {
+    my ($value1, $value2) = @_;
 
-    return unless $result1 && _isInteger($result1);
-    return unless $result2 && _isInteger($result2);
-    return if $result1 == 0;
+    return unless $value1 && _isInteger($value1);
+    return unless $value2 && _isInteger($value2);
+    return if $value1 == 0;
 
-    $datadevice->{$xmlelement1}->{$xmlelement2} = int(
-        ( 100 * $result2 ) / $result1
+    return int(
+        ( 100 * $value2 ) / $value1
     );
 }
 
