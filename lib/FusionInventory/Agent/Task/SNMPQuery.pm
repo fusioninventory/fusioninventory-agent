@@ -313,9 +313,6 @@ sub _queryDevice {
         };
     }
 
-    my $datadevice;
-    my $HashDataSNMP;
-
     # automatically extend model for cartridge support
     if ($device->{TYPE} eq "PRINTER") {
         foreach my $key (keys %{$model->{GET}}) {
@@ -343,6 +340,14 @@ sub _queryDevice {
         }
     }
 
+    my $datadevice = {
+        INFO => {
+            ID   => $device->{ID},
+            TYPE => $device->{TYPE}
+        }
+    };
+    my $HashDataSNMP;
+
     # first, query single values
     foreach my $key (keys %{$model->{GET}}) {
         next unless $model->{GET}->{$key}->{VLAN} == 0;
@@ -350,8 +355,6 @@ sub _queryDevice {
             $model->{GET}->{$key}->{OID}
         );
     }
-    $datadevice->{INFO}->{ID} = $device->{ID};
-    $datadevice->{INFO}->{TYPE} = $device->{TYPE};
     _constructDataDeviceSimple($HashDataSNMP,$datadevice);
 
     # second, query multiple values
