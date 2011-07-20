@@ -5,7 +5,7 @@ use strict;
 sub GetMAC {
     my $HashDataSNMP = shift,
     my $datadevice = shift;
-    my $self = shift;
+    my $portsindex = shift;
     my $oid_walks = shift;
 
     my $ifIndex;
@@ -31,12 +31,12 @@ sub GetMAC {
             $HashDataSNMP->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}
             };
 
-            if (exists $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}) {
-                $i = @{$datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}};
+            if (exists $datadevice->{PORTS}->{PORT}->[$portsindex->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}) {
+                $i = @{$datadevice->{PORTS}->{PORT}->[$portsindex->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}};
             } else {
                 $i = 0;
             }
-            $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->[$i]->{MAC} = $ifphysaddress;
+            $datadevice->{PORTS}->{PORT}->[$portsindex->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->[$i]->{MAC} = $ifphysaddress;
             $i++;
         }
     }
@@ -47,11 +47,11 @@ sub GetMAC {
 # In Intellijack 225, put mac address of port 'IntelliJack Ethernet Adapter' in port 'LAN Port'
 sub RewritePortOf225 {
     my $datadevice = shift;
-    my $self = shift;
+    my $portsindex = shift;
 
-    $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{101}]->{MAC} = $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{1}]->{MAC};
-    delete $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{1}];
-    delete $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{101}]->{CONNECTIONS};
+    $datadevice->{PORTS}->{PORT}->[$portsindex->{101}]->{MAC} = $datadevice->{PORTS}->{PORT}->[$portsindex->{1}]->{MAC};
+    delete $datadevice->{PORTS}->{PORT}->[$portsindex->{1}];
+    delete $datadevice->{PORTS}->{PORT}->[$portsindex->{101}]->{CONNECTIONS};
     return $datadevice;
 }
 

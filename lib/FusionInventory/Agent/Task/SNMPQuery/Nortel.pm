@@ -6,7 +6,7 @@ use Data::Dumper;
 sub VlanTrunkPorts {
     my $HashDataSNMP = shift,
     my $datadevice = shift;
-    my $self = shift;
+    my $portsindex = shift;
 
     my $ports;
 
@@ -19,12 +19,12 @@ sub VlanTrunkPorts {
     while ( my ($portnumber,$vlans) = each (%{$ports}) ) {
         if (keys %{$vlans} > 1) {
             # Trunk
-            $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$portnumber}]->{TRUNK} = "1";
+            $datadevice->{PORTS}->{PORT}->[$portsindex->{$portnumber}]->{TRUNK} = "1";
         } elsif (keys %{$vlans} eq "1") {
             # One  vlan
             while ( my ($vlan_id,$vlan_name) = each (%{$vlans}) ) {
-                $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$portnumber}]->{VLANS}->{VLAN}->[0]->{NAME} = $vlan_name;
-                $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$portnumber}]->{VLANS}->{VLAN}->[0]->{NUMBER} = $vlan_id;
+                $datadevice->{PORTS}->{PORT}->[$portsindex->{$portnumber}]->{VLANS}->{VLAN}->[0]->{NAME} = $vlan_name;
+                $datadevice->{PORTS}->{PORT}->[$portsindex->{$portnumber}]->{VLANS}->{VLAN}->[0]->{NUMBER} = $vlan_id;
             }
         }
     }
@@ -35,7 +35,7 @@ sub VlanTrunkPorts {
 sub GetMAC {
     my $HashDataSNMP = shift,
     my $datadevice = shift;
-    my $self = shift;
+    my $portsindex = shift;
     my $oid_walks = shift;
 
     my $ifIndex;
@@ -60,22 +60,22 @@ sub GetMAC {
                 $oid_walks->{dot1dBasePortIfIndex}->{OID}.".".
                 $HashDataSNMP->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}
                 };
-                if (not exists $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CDP}) {
+                if (not exists $datadevice->{PORTS}->{PORT}->[$portsindex->{$ifIndex}]->{CONNECTIONS}->{CDP}) {
                     my $add = 1;
                     if ($ifphysaddress eq "") {
                         $add = 0;
                     }
-                    if ($ifphysaddress eq $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{MAC}) {
+                    if ($ifphysaddress eq $datadevice->{PORTS}->{PORT}->[$portsindex->{$ifIndex}]->{MAC}) {
                         $add = 0;
                     }
                     if ($add eq "1") {
-                        if (exists $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}) {
-                            $i = @{$datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}};
+                        if (exists $datadevice->{PORTS}->{PORT}->[$portsindex->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}) {
+                            $i = @{$datadevice->{PORTS}->{PORT}->[$portsindex->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}};
                             #$i++;
                         } else {
                             $i = 0;
                         }
-                        $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->[$i]->{MAC} = $ifphysaddress;
+                        $datadevice->{PORTS}->{PORT}->[$portsindex->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->[$i]->{MAC} = $ifphysaddress;
                         $i++;
                     }
                 }
@@ -92,7 +92,7 @@ sub LLDPPorts {
     my $HashDataSNMP = shift,
     my $datadevice = shift;
     my $oid_walks = shift;
-    my $self = shift;
+    my $portsindex = shift;
 
     my $short_number;
     my @port_number;
@@ -104,9 +104,9 @@ sub LLDPPorts {
             my @array = split(/\./, $short_number);
             if (!defined($port_number[$array[2]])) {
                 my @arraymac = split(/(\S{2})/, $chassisname);
-                $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$array[2]}]->{CONNECTIONS}->{CONNECTION}->{SYSMAC} = $arraymac[3].":".$arraymac[5].":".$arraymac[7].":".$arraymac[9].":".$arraymac[11].":".$arraymac[13];
-                $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$array[2]}]->{CONNECTIONS}->{CDP} = "1";
-                $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$array[2]}]->{CONNECTIONS}->{CONNECTION}->{IFNUMBER} = $array[3];
+                $datadevice->{PORTS}->{PORT}->[$portsindex->{$array[2]}]->{CONNECTIONS}->{CONNECTION}->{SYSMAC} = $arraymac[3].":".$arraymac[5].":".$arraymac[7].":".$arraymac[9].":".$arraymac[11].":".$arraymac[13];
+                $datadevice->{PORTS}->{PORT}->[$portsindex->{$array[2]}]->{CONNECTIONS}->{CDP} = "1";
+                $datadevice->{PORTS}->{PORT}->[$portsindex->{$array[2]}]->{CONNECTIONS}->{CONNECTION}->{IFNUMBER} = $array[3];
 
                 delete $HashDataSNMP->{lldpRemChassisId}->{$number};
                 if (ref($HashDataSNMP->{lldpRemPortId}) eq "HASH"){
