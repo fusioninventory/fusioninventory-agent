@@ -601,14 +601,14 @@ sub _constructDataDeviceMultiple {
     # Detect Trunk & CDP
     if (defined ($datadevice->{INFO}->{COMMENTS})) {
         if ($datadevice->{INFO}->{COMMENTS} =~ /Cisco/) {
-            ($datadevice, $results) = FusionInventory::Agent::Task::SNMPQuery::Cisco::TrunkPorts($results,$datadevice, $portsindex);
-            ($datadevice, $results) = FusionInventory::Agent::Task::SNMPQuery::Cisco::CDPPorts($results,$datadevice, $walks, $portsindex);
+            FusionInventory::Agent::Task::SNMPQuery::Cisco::TrunkPorts($results,$datadevice, $portsindex);
+            FusionInventory::Agent::Task::SNMPQuery::Cisco::CDPPorts($results,$datadevice, $walks, $portsindex);
         } elsif ($datadevice->{INFO}->{COMMENTS} =~ /ProCurve/) {
-            ($datadevice, $results) = FusionInventory::Agent::Task::SNMPQuery::Cisco::TrunkPorts($results,$datadevice, $portsindex);
-            ($datadevice, $results) = FusionInventory::Agent::Task::SNMPQuery::Procurve::CDPLLDPPorts($results,$datadevice, $walks, $portsindex);
+            FusionInventory::Agent::Task::SNMPQuery::Cisco::TrunkPorts($results,$datadevice, $portsindex);
+            FusionInventory::Agent::Task::SNMPQuery::Procurve::CDPLLDPPorts($results,$datadevice, $walks, $portsindex);
         } elsif ($datadevice->{INFO}->{COMMENTS} =~ /Nortel/) {
-            ($datadevice, $results) = FusionInventory::Agent::Task::SNMPQuery::Nortel::VlanTrunkPorts($results,$datadevice, $portsindex);
-            ($datadevice, $results) = FusionInventory::Agent::Task::SNMPQuery::Nortel::LLDPPorts($results,$datadevice, $walks, $portsindex);
+            FusionInventory::Agent::Task::SNMPQuery::Nortel::VlanTrunkPorts($results,$datadevice, $portsindex);
+            FusionInventory::Agent::Task::SNMPQuery::Nortel::LLDPPorts($results,$datadevice, $walks, $portsindex);
         }
     }
 

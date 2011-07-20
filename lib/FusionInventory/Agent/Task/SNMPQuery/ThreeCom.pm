@@ -38,7 +38,6 @@ sub GetMAC {
             $i++;
         }
     }
-    return $datadevice, $HashDataSNMP;
 }
 
 
@@ -49,7 +48,6 @@ sub RewritePortOf225 {
     $datadevice->{PORTS}->{PORT}->[$portsindex->{101}]->{MAC} = $datadevice->{PORTS}->{PORT}->[$portsindex->{1}]->{MAC};
     delete $datadevice->{PORTS}->{PORT}->[$portsindex->{1}];
     delete $datadevice->{PORTS}->{PORT}->[$portsindex->{101}]->{CONNECTIONS};
-    return $datadevice;
 }
 
 

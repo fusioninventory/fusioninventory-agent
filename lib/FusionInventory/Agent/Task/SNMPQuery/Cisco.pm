@@ -17,7 +17,6 @@ sub TrunkPorts {
     if (keys (%{$HashDataSNMP->{vlanTrunkPortDynamicStatus}}) eq "0") {
         delete $HashDataSNMP->{vlanTrunkPortDynamicStatus};
     }
-    return $datadevice, $HashDataSNMP;
 }
 
 
@@ -56,7 +55,6 @@ sub CDPPorts {
             }
         }
     }
-    return $datadevice, $HashDataSNMP;
 }
 
 
@@ -110,7 +108,6 @@ sub GetMAC {
 #      delete $HashDataSNMP->{VLAN}->{$vlan_id}->{dot1dTpFdbAddress}->{$number};
 #      delete $HashDataSNMP->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number};
     }
-    return $datadevice, $HashDataSNMP;
 }
 
 
