@@ -3,7 +3,7 @@ package FusionInventory::Agent::Task::SNMPQuery::Nortel;
 use strict;
 use warnings;
 
-sub VlanTrunkPorts {
+sub setTrunkPorts {
     my ($HashDataSNMP, $datadevice, $portsindex) = @_;
 
     my $ports;
@@ -79,7 +79,7 @@ sub GetMAC {
 }
 
 
-sub LLDPPorts {
+sub setCDPPorts {
     my ($HashDataSNMP, $datadevice, $oid_walks, $portsindex) = @_;
 
     my $short_number;

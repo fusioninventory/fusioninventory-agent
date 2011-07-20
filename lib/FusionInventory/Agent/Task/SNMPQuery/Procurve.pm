@@ -53,7 +53,7 @@ sub GetMAC {
 }
 
 
-sub CDPLLDPPorts {
+sub setCDPPorts {
     my ($HashDataSNMP, $datadevice, $oid_walks, $portsindex) = @_;
 
     my $short_number;

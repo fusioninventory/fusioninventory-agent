@@ -3,7 +3,7 @@ package FusionInventory::Agent::Task::SNMPQuery::Cisco;
 use strict;
 use warnings;
 
-sub TrunkPorts {
+sub setTrunkPorts {
     my ($HashDataSNMP, $datadevice, $portsindex) = @_;
 
     while ( (my $port_id, my $trunk) = each (%{$HashDataSNMP->{vlanTrunkPortDynamicStatus}}) ) {
@@ -17,7 +17,7 @@ sub TrunkPorts {
 
 
 
-sub CDPPorts {
+sub setCDPPorts {
     my ($HashDataSNMP, $datadevice, $oid_walks, $portsindex) = @_;
 
     my $short_number;
