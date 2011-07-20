@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::SNMPQuery::ThreeCom;
 
 use strict;
+use warnings;
 
 sub GetMAC {
     my $HashDataSNMP = shift,

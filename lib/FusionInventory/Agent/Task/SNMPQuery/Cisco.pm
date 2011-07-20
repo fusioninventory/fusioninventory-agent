@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::SNMPQuery::Cisco;
 
 use strict;
+use warnings;
 
 sub TrunkPorts {
     my $HashDataSNMP = shift,

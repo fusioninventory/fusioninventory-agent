@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::SNMPQuery::Procurve;
 
 use strict;
+use warnings;
 
 sub GetMAC {
     my $HashDataSNMP = shift,
