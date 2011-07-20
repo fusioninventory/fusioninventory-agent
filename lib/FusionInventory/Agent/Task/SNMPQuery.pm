@@ -659,17 +659,13 @@ sub _sanitizedSerial {
 }
 
 sub _hexaToString {
-    my ($val) = @_;
+    my ($value) = @_;
 
-    if ($val =~ /0x/) {
-        $val =~ s/0x//g;
-        $val =~ s/([a-fA-F0-9][a-fA-F0-9])/chr(hex($1))/g;
-        $val = encode('UTF-8', $val);
-        $val =~ s/\0//g;
-        $val =~ s/([\x80-\xFF])//g;
-        $val =~ s/[\x00-\x1F\x7F]//g;
-    }
-    return $val;
+    return unless $value =~ /0x/;
+    $value =~ s/0x//;
+    $value =~ s/(\w{2})/chr(hex($1))/eg;
+
+    return $value;
 }
 
 1;
