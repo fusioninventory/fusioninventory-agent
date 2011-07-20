@@ -626,8 +626,8 @@ sub _constructDataDeviceMultiple {
 sub _getPercentValue {
     my ($value1, $value2) = @_;
 
-    return unless $value1 && _isInteger($value1);
-    return unless $value2 && _isInteger($value2);
+    return unless defined $value1 && _isInteger($value1);
+    return unless defined $value2 && _isInteger($value2);
     return if $value1 == 0;
 
     return int(
