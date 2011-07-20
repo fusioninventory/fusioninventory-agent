@@ -21,6 +21,19 @@ sub new {
     return $self;
 }
 
+sub _prepareVal {
+    my ($self, $val) = @_;
+
+    return '' unless length($val);
+
+# forbid to long argument.
+    while (length(uri_escape($val)) > 1500) {
+        $val =~ s/^.{5}/…/;
+    }
+
+    return uri_escape($val);
+}
+
 sub send {
     my ($self, %params) = @_;
 
@@ -33,14 +46,14 @@ sub send {
     foreach my $k (keys %{$params{args}}) {
         if (ref($params{args}->{$k}) eq 'ARRAY') {
             foreach (@{$params{args}->{$k}}) {
-                $finalUrl .= '&'.$k.'[]='.uri_escape($_ || '');
+                $finalUrl .= '&'.$k.'[]='.$self->_prepareVal($_ || '');
             }
         } elsif (ref($params{args}->{$k}) eq 'HASH') {
             foreach (keys %{$params{args}->{$k}}) {
-                $finalUrl .= '&'.$k.'['.$_.']='.uri_escape($params{args}->{$k}{$_} || '');
+                $finalUrl .= '&'.$k.'['.$_.']='.$self->_prepareVal($params{args}->{$k}{$_});
             }
         } elsif ($k ne 'action' && length($params{args}->{$k})) {
-            $finalUrl .= '&'.$k.'='.uri_escape($params{args}->{$k});
+            $finalUrl .= '&'.$k.'='.$self->_prepareVal($params{args}->{$k});
         }
    }
 
