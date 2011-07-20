@@ -446,8 +446,8 @@ sub _constructDataDeviceSimple {
     foreach my $info (@infos) {
         my $raw_value = $HashDataSNMP->{$info->[0]};
         my $value =
-            $info->[0] eq 'name'        ? _hexaToString($raw_value)     :
-            $info->[0] eq 'otherserial' ? _hexaToString($raw_value)     :
+            $info->[0] eq 'name'        ? _hex2String($raw_value)       :
+            $info->[0] eq 'otherserial' ? _hex2String($raw_value)       :
             $info->[0] eq 'serial'      ? _sanitizedSerial($raw_value)  :
             $info->[0] eq 'ram'         ? int($raw_value / 1024 / 1024) :
             $info->[0] eq 'memory'      ? int($raw_value / 1024 / 1024) :
@@ -658,7 +658,7 @@ sub _sanitizedSerial {
     return $value;
 }
 
-sub _hexaToString {
+sub _hex2String {
     my ($value) = @_;
 
     return unless $value =~ /0x/;
