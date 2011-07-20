@@ -13,6 +13,8 @@ sub new {
 
     my $self = $class->SUPER::new(%params);
 
+# Stack the messages sent in order to be able to check the
+# correctness of the behavior with the test-suite
     if ($params{debug}) {
         $self->{debug} = 1;
         $self->{msgStack} = []
