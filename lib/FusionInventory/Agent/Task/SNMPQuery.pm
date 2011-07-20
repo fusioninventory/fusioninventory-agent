@@ -18,11 +18,6 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::SNMP;
 use FusionInventory::Agent::XML::Query;
 
-use FusionInventory::Agent::Task::SNMPQuery::Cisco;
-use FusionInventory::Agent::Task::SNMPQuery::Procurve;
-use FusionInventory::Agent::Task::SNMPQuery::ThreeCom;
-use FusionInventory::Agent::Task::SNMPQuery::Nortel;
-
 our $VERSION = '2.0';
 my $maxIdx : shared = 0;
 
