@@ -27,6 +27,7 @@ our $VERSION = '2.0';
 my $maxIdx : shared = 0;
 
 my @infos = (
+    [ qw/macaddr MAC/ ],
     [ qw/cpu CPU/ ],
     [ qw/location LOCATION/ ],
     [ qw/firmware FIRMWARE/ ],
@@ -434,10 +435,6 @@ sub _queryDevice {
 
 sub _constructDataDeviceSimple {
     my ($results, $datadevice) = @_;
-
-    if (exists $results->{macaddr}) {
-        $datadevice->{INFO}->{MAC} = $results->{macaddr};
-    }
 
     if (exists $results->{cpuuser}) {
         $datadevice->{INFO}->{CPU} = $results->{'cpuuser'} + $results->{'cpusystem'};
