@@ -4,9 +4,7 @@ use strict;
 use warnings;
 
 sub VlanTrunkPorts {
-    my $HashDataSNMP = shift,
-    my $datadevice = shift;
-    my $portsindex = shift;
+    my ($HashDataSNMP, $datadevice, $portsindex) = @_;
 
     my $ports;
 
@@ -33,10 +31,7 @@ sub VlanTrunkPorts {
 
 
 sub GetMAC {
-    my $HashDataSNMP = shift,
-    my $datadevice = shift;
-    my $portsindex = shift;
-    my $oid_walks = shift;
+    my ($HashDataSNMP, $datadevice, $portsindex, $oid_walks) = @_;
 
     my $ifIndex;
     my $numberip;
@@ -89,10 +84,7 @@ sub GetMAC {
 
 
 sub LLDPPorts {
-    my $HashDataSNMP = shift,
-    my $datadevice = shift;
-    my $oid_walks = shift;
-    my $portsindex = shift;
+    my ($HashDataSNMP, $datadevice, $oid_walks, $portsindex) = @_;
 
     my $short_number;
     my @port_number;

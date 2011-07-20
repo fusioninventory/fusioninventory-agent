@@ -4,10 +4,7 @@ use strict;
 use warnings;
 
 sub GetMAC {
-    my $HashDataSNMP = shift,
-    my $datadevice = shift;
-    my $portsindex = shift;
-    my $oid_walks = shift;
+    my ($HashDataSNMP, $datadevice, $portsindex, $oid_walks) = @_;
 
     my $ifIndex;
     my $numberip;
@@ -47,8 +44,7 @@ sub GetMAC {
 
 # In Intellijack 225, put mac address of port 'IntelliJack Ethernet Adapter' in port 'LAN Port'
 sub RewritePortOf225 {
-    my $datadevice = shift;
-    my $portsindex = shift;
+    my ($datadevice, $portsindex) = @_;
 
     $datadevice->{PORTS}->{PORT}->[$portsindex->{101}]->{MAC} = $datadevice->{PORTS}->{PORT}->[$portsindex->{1}]->{MAC};
     delete $datadevice->{PORTS}->{PORT}->[$portsindex->{1}];

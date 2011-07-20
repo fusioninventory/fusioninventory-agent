@@ -4,9 +4,7 @@ use strict;
 use warnings;
 
 sub TrunkPorts {
-    my $HashDataSNMP = shift,
-    my $datadevice = shift;
-    my $portsindex = shift;
+    my ($HashDataSNMP, $datadevice, $portsindex) = @_;
 
     while ( (my $port_id, my $trunk) = each (%{$HashDataSNMP->{vlanTrunkPortDynamicStatus}}) ) {
         if ($trunk eq "1") {
@@ -25,10 +23,7 @@ sub TrunkPorts {
 
 
 sub CDPPorts {
-    my $HashDataSNMP = shift,
-    my $datadevice = shift;
-    my $oid_walks = shift;
-    my $portsindex = shift;
+    my ($HashDataSNMP, $datadevice, $oid_walks, $portsindex) = @_;
 
     my $short_number;
 
@@ -67,11 +62,7 @@ sub CDPPorts {
 
 
 sub GetMAC {
-    my $HashDataSNMP = shift,
-    my $datadevice = shift;
-    my $vlan_id = shift;
-    my $portsindex = shift;
-    my $oid_walks = shift;
+    my ($HashDataSNMP, $datadevice, $vlan_id, $portsindex, $oid_walks) = @_;
 
     my $ifIndex;
     my $numberip;
