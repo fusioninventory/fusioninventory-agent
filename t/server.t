@@ -437,7 +437,7 @@ use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::Task::Deploy;
 use FindBin;
 use File::Path qw(make_path remove_tree);
-use Test::More tests => 16;
+use Test::More tests => 37;
 use Data::Dumper;
 
 remove_tree($tmpDirClient) if -d $tmpDirClient;
@@ -575,7 +575,7 @@ foreach(0..@$ret) {
 $deploy->{fusionClient}{msgStack} = [];
 
 # Invalid getJobs answer
-ok(!$deploy->processRemote('http://localhost:8080/deploy2'), "processRemote()" );
+ok(!$deploy->processRemote('http://localhost:8080/deploy2'), "invalid order, should generate an err 500" );
 $ret = [
           {
             'action' => 'getJobs',
