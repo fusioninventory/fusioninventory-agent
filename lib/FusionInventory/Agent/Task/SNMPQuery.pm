@@ -401,7 +401,7 @@ sub _queryDevice {
             $model->{GET}->{$key}->{OID}
         );
     }
-    _constructDataDeviceSimple($results,$datadevice);
+    $self->_constructDataDeviceSimple($results,$datadevice);
 
     # second, query multiple values
     foreach my $key (keys %{$model->{WALK}}) {
@@ -409,7 +409,7 @@ sub _queryDevice {
             $model->{WALK}->{$key}->{OID}
         );
     }
-    _constructDataDeviceMultiple($results,$datadevice, $ports, $model->{WALK}, $self->{logger});
+    $self->_constructDataDeviceMultiple($results,$datadevice, $ports, $model->{WALK});
 
     # additional queries for network devices
     if ($datadevice->{INFO}->{TYPE} eq "NETWORKING") {
@@ -451,7 +451,11 @@ sub _queryDevice {
                 }
                 # Detect mac adress on each port
                 if ($datadevice->{INFO}->{COMMENTS} =~ /Cisco/) {
-                    FusionInventory::Agent::Task::SNMPQuery::Cisco::GetMAC($results,$datadevice,$id,$ports, $model->{WALK});
+                    $self->_runFunction(
+                        module   => 'FusionInventory::Agent::Task::SNMPQuery::Cisco',
+                        function => 'GetMAC',
+                        params   => [ $results, $datadevice, $id, $ports, $model->{WALK} ]
+                    );
                 }
             }
         } else {
@@ -460,15 +464,11 @@ sub _queryDevice {
                 foreach my $entry (@mac_dispatch_table) {
                     next unless $comments =~ $entry->{match};
 
-                    $entry->{module}->require();
-                    if ($EVAL_ERROR) {
-                        $self->{logger}->debug("Failed to load $entry->{module}: $EVAL_ERROR");
-                    } else {
-                        no strict 'refs'; ## no critic
-                        &{$entry->{module} . '::' . $entry->{function}}(
-                            $results, $datadevice, $ports, $model->{WALK}
-                        );
-                    }
+                    $self->_runFunction(
+                        module   => $entry->{module},
+                        function => $entry->{function},
+                        params   => [ $results, $datadevice, $ports, $model->{WALK} ]
+                    );
 
                     last;
                 }
@@ -482,7 +482,7 @@ sub _queryDevice {
 
 
 sub _constructDataDeviceSimple {
-    my ($results, $datadevice) = @_;
+    my ($self, $results, $datadevice) = @_;
 
     if (exists $results->{cpuuser}) {
         $datadevice->{INFO}->{CPU} = $results->{'cpuuser'} + $results->{'cpusystem'};
@@ -529,7 +529,7 @@ sub _constructDataDeviceSimple {
 
 
 sub _constructDataDeviceMultiple {
-    my ($results, $datadevice, $ports, $walks, $logger) = @_;
+    my ($self, $results, $datadevice, $ports, $walks) = @_;
 
     if (exists $results->{ipAdEntAddr}) {
         my $i = 0;
@@ -651,25 +651,17 @@ sub _constructDataDeviceMultiple {
         foreach my $entry (@ports_dispatch_table) {
             next unless $comments =~ $entry->{match};
 
-            $entry->{trunk}->require();
-            if ($EVAL_ERROR) {
-                $logger->debug("Failed to load $entry->{trunk}: $EVAL_ERROR");
-            } else {
-                no strict 'refs'; ## no critic
-                &{$entry->{trunk} . '::setTrunkPorts'}(
-                    $results, $datadevice, $ports
-                );
-            }
+            $self->_runFunction(
+                module   => $entry->{trunk},
+                function => 'setTrunkPorts',
+                params   => [ $results, $datadevice, $ports ]
+            );
 
-            $entry->{cdp}->require();
-            if ($EVAL_ERROR) {
-                $logger->debug("Failed to load $entry->{cdp}: $EVAL_ERROR");
-            } else {
-                no strict 'refs'; ## no critic
-                &{$entry->{cdp} . '::setCDPPorts'}(
-                    $results, $datadevice, $walks, $ports
-                );
-            }
+            $self->_runFunction(
+                module   => $entry->{cdp},
+                function => 'setCDPPorts',
+                params   => [ $results, $datadevice, $walks, $ports ]
+            );
 
             last;
         }
@@ -727,6 +719,22 @@ sub _hex2String {
     $value =~ s/(\w{2})/chr(hex($1))/eg;
 
     return $value;
+}
+
+sub _runFunction {
+    my ($self, %params) = @_;
+
+    my $module   = $params{module};
+    my $function = $params{function};
+    my $params   = $params{params};
+
+    $module->require();
+    if ($EVAL_ERROR) {
+        $self->{logger}->debug("Failed to load $module: $EVAL_ERROR");
+    } else {
+        no strict 'refs'; ## no critic
+        &{$module . '::' . $function}(@$params);
+    };
 }
 
 1;
