@@ -6,15 +6,15 @@ use warnings;
 sub setTrunkPorts {
     my ($results, $datadevice, $ports) = @_;
 
-    my $ports;
+    my $myports;
 
     while ( (my $oid, my $trunkname) = each (%{$results->{PortVlanIndex}}) ) {
         my @array = split(/\./, $oid);
 
-        $ports->{$array[(@array - 2)]}->{$array[(@array - 1)]} = $trunkname;
+        $myports->{$array[(@array - 2)]}->{$array[(@array - 1)]} = $trunkname;
     }
 
-    while ( my ($portnumber,$vlans) = each (%{$ports}) ) {
+    while ( my ($portnumber,$vlans) = each (%{$myports}) ) {
         if (keys %{$vlans} > 1) {
             # Trunk
             $datadevice->{PORTS}->{PORT}->[$ports->{$portnumber}]->{TRUNK} = "1";

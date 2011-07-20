@@ -392,6 +392,7 @@ sub _queryDevice {
         }
     };
     my $results;
+    my $ports;
 
     # first, query single values
     foreach my $key (keys %{$model->{GET}}) {
@@ -408,8 +409,7 @@ sub _queryDevice {
             $model->{WALK}->{$key}->{OID}
         );
     }
-    my $portsindex;
-    _constructDataDeviceMultiple($results,$datadevice, $portsindex, $model->{WALK}, $self->{logger});
+    _constructDataDeviceMultiple($results,$datadevice, $ports, $model->{WALK}, $self->{logger});
 
     # additional queries for network devices
     if ($datadevice->{INFO}->{TYPE} eq "NETWORKING") {
@@ -451,7 +451,7 @@ sub _queryDevice {
                 }
                 # Detect mac adress on each port
                 if ($datadevice->{INFO}->{COMMENTS} =~ /Cisco/) {
-                    FusionInventory::Agent::Task::SNMPQuery::Cisco::GetMAC($results,$datadevice,$id,$self, $model->{WALK});
+                    FusionInventory::Agent::Task::SNMPQuery::Cisco::GetMAC($results,$datadevice,$id,$ports, $model->{WALK});
                 }
             }
         } else {
@@ -466,7 +466,7 @@ sub _queryDevice {
                     } else {
                         no strict 'refs'; ## no critic
                         &{$entry->{module} . '::' . $entry->{function}}(
-                            $results, $datadevice, $self, $model->{WALK}
+                            $results, $datadevice, $ports, $model->{WALK}
                         );
                     }
 
@@ -529,7 +529,7 @@ sub _constructDataDeviceSimple {
 
 
 sub _constructDataDeviceMultiple {
-    my ($results, $datadevice, $portsindex, $walks, $logger) = @_;
+    my ($results, $datadevice, $ports, $walks, $logger) = @_;
 
     if (exists $results->{ipAdEntAddr}) {
         my $i = 0;
@@ -542,7 +542,7 @@ sub _constructDataDeviceMultiple {
     if (exists $results->{ifIndex}) {
         my $num = 0;
         while (my ($object,$data) = each (%{$results->{ifIndex}}) ) {
-            $portsindex->{lastSplitObject($object)} = $num;
+            $ports->{lastSplitObject($object)} = $num;
             $datadevice->{PORTS}->{PORT}->[$num]->{IFNUMBER} = $data;
             $num++;
         }
@@ -550,80 +550,80 @@ sub _constructDataDeviceMultiple {
 
     if (exists $results->{ifdescr}) {
         while (my ($object,$data) = each (%{$results->{ifdescr}}) ) {
-            $datadevice->{PORTS}->{PORT}->[$portsindex->{lastSplitObject($object)}]->{IFDESCR} = $data;
+            $datadevice->{PORTS}->{PORT}->[$ports->{lastSplitObject($object)}]->{IFDESCR} = $data;
         }
     }
 
     if (exists $results->{ifName}) {
         while (my ($object,$data) = each (%{$results->{ifName}}) ) {
-            $datadevice->{PORTS}->{PORT}->[$portsindex->{lastSplitObject($object)}]->{IFNAME} = $data;
+            $datadevice->{PORTS}->{PORT}->[$ports->{lastSplitObject($object)}]->{IFNAME} = $data;
         }
     }
 
     if (exists $results->{ifType}) {
         while (my ($object,$data) = each (%{$results->{ifType}}) ) {
-            $datadevice->{PORTS}->{PORT}->[$portsindex->{lastSplitObject($object)}]->{IFTYPE} = $data;
+            $datadevice->{PORTS}->{PORT}->[$ports->{lastSplitObject($object)}]->{IFTYPE} = $data;
         }
     }
 
     if (exists $results->{ifmtu}) {
         while (my ($object,$data) = each (%{$results->{ifmtu}}) ) {
-            $datadevice->{PORTS}->{PORT}->[$portsindex->{lastSplitObject($object)}]->{IFMTU} = $data;
+            $datadevice->{PORTS}->{PORT}->[$ports->{lastSplitObject($object)}]->{IFMTU} = $data;
         }
     }
 
     if (exists $results->{ifspeed}) {
         while (my ($object,$data) = each (%{$results->{ifspeed}}) ) {
-            $datadevice->{PORTS}->{PORT}->[$portsindex->{lastSplitObject($object)}]->{IFSPEED} = $data;
+            $datadevice->{PORTS}->{PORT}->[$ports->{lastSplitObject($object)}]->{IFSPEED} = $data;
         }
     }
 
     if (exists $results->{ifstatus}) {
         while (my ($object,$data) = each (%{$results->{ifstatus}}) ) {
-            $datadevice->{PORTS}->{PORT}->[$portsindex->{lastSplitObject($object)}]->{IFSTATUS} = $data;
+            $datadevice->{PORTS}->{PORT}->[$ports->{lastSplitObject($object)}]->{IFSTATUS} = $data;
         }
     }
 
     if (exists $results->{ifinternalstatus}) {
         while (my ($object,$data) = each (%{$results->{ifinternalstatus}}) ) {
-            $datadevice->{PORTS}->{PORT}->[$portsindex->{lastSplitObject($object)}]->{IFINTERNALSTATUS} = $data;
+            $datadevice->{PORTS}->{PORT}->[$ports->{lastSplitObject($object)}]->{IFINTERNALSTATUS} = $data;
         }
     }
 
     if (exists $results->{iflastchange}) {
         while (my ($object,$data) = each (%{$results->{iflastchange}}) ) {
-            $datadevice->{PORTS}->{PORT}->[$portsindex->{lastSplitObject($object)}]->{IFLASTCHANGE} = $data;
+            $datadevice->{PORTS}->{PORT}->[$ports->{lastSplitObject($object)}]->{IFLASTCHANGE} = $data;
         }
     }
 
     if (exists $results->{ifinoctets}) {
         while (my ($object,$data) = each (%{$results->{ifinoctets}}) ) {
-            $datadevice->{PORTS}->{PORT}->[$portsindex->{lastSplitObject($object)}]->{IFINOCTETS} = $data;
+            $datadevice->{PORTS}->{PORT}->[$ports->{lastSplitObject($object)}]->{IFINOCTETS} = $data;
         }
     }
 
     if (exists $results->{ifoutoctets}) {
         while (my ($object,$data) = each (%{$results->{ifoutoctets}}) ) {
-            $datadevice->{PORTS}->{PORT}->[$portsindex->{lastSplitObject($object)}]->{IFOUTOCTETS} = $data;
+            $datadevice->{PORTS}->{PORT}->[$ports->{lastSplitObject($object)}]->{IFOUTOCTETS} = $data;
         }
     }
 
     if (exists $results->{ifinerrors}) {
         while (my ($object,$data) = each (%{$results->{ifinerrors}}) ) {
-            $datadevice->{PORTS}->{PORT}->[$portsindex->{lastSplitObject($object)}]->{IFINERRORS} = $data;
+            $datadevice->{PORTS}->{PORT}->[$ports->{lastSplitObject($object)}]->{IFINERRORS} = $data;
         }
     }
 
     if (exists $results->{ifouterrors}) {
         while (my ($object,$data) = each (%{$results->{ifouterrors}}) ) {
-            $datadevice->{PORTS}->{PORT}->[$portsindex->{lastSplitObject($object)}]->{IFOUTERRORS} = $data;
+            $datadevice->{PORTS}->{PORT}->[$ports->{lastSplitObject($object)}]->{IFOUTERRORS} = $data;
         }
     }
 
     if (exists $results->{ifPhysAddress}) {
         while (my ($object,$data) = each (%{$results->{ifPhysAddress}}) ) {
             if ($data ne "") {
-                $datadevice->{PORTS}->{PORT}->[$portsindex->{lastSplitObject($object)}]->{MAC} = $data;
+                $datadevice->{PORTS}->{PORT}->[$ports->{lastSplitObject($object)}]->{MAC} = $data;
             }
         }
     }
@@ -634,14 +634,14 @@ sub _constructDataDeviceMultiple {
                 my $shortobject = $object;
                 $shortobject =~ s/$walks->{ifaddr}->{OID}//;
                 $shortobject =~ s/^.//;
-                $datadevice->{PORTS}->{PORT}->[$portsindex->{$data}]->{IP} = $shortobject;
+                $datadevice->{PORTS}->{PORT}->[$ports->{$data}]->{IP} = $shortobject;
             }
         }
     }
 
     if (exists $results->{portDuplex}) {
         while (my ($object,$data) = each (%{$results->{portDuplex}}) ) {
-            $datadevice->{PORTS}->{PORT}->[$portsindex->{lastSplitObject($object)}]->{IFPORTDUPLEX} = $data;
+            $datadevice->{PORTS}->{PORT}->[$ports->{lastSplitObject($object)}]->{IFPORTDUPLEX} = $data;
         }
     }
 
@@ -657,7 +657,7 @@ sub _constructDataDeviceMultiple {
             } else {
                 no strict 'refs'; ## no critic
                 &{$entry->{trunk} . '::setTrunkPorts'}(
-                    $results, $datadevice, $portsindex
+                    $results, $datadevice, $ports
                 );
             }
 
@@ -667,7 +667,7 @@ sub _constructDataDeviceMultiple {
             } else {
                 no strict 'refs'; ## no critic
                 &{$entry->{cdp} . '::setCDPPorts'}(
-                    $results, $datadevice, $walks, $portsindex
+                    $results, $datadevice, $walks, $ports
                 );
             }
 
@@ -678,8 +678,8 @@ sub _constructDataDeviceMultiple {
     # Detect VLAN
     if (exists $results->{vmvlan}) {
         while (my ($object,$data) = each (%{$results->{vmvlan}}) ) {
-            $datadevice->{PORTS}->{PORT}->[$portsindex->{lastSplitObject($object)}]->{VLANS}->{VLAN}->{NUMBER} = $data;
-            $datadevice->{PORTS}->{PORT}->[$portsindex->{lastSplitObject($object)}]->{VLANS}->{VLAN}->{NAME} = $results->{vtpVlanName}->{$walks->{vtpVlanName}->{OID} . ".".$data};
+            $datadevice->{PORTS}->{PORT}->[$ports->{lastSplitObject($object)}]->{VLANS}->{VLAN}->{NUMBER} = $data;
+            $datadevice->{PORTS}->{PORT}->[$ports->{lastSplitObject($object)}]->{VLANS}->{VLAN}->{NAME} = $results->{vtpVlanName}->{$walks->{vtpVlanName}->{OID} . ".".$data};
         }
     }
 }
