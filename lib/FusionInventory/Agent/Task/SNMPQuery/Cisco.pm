@@ -12,10 +12,6 @@ sub TrunkPorts {
         } else {
             $datadevice->{PORTS}->{PORT}->[$portsindex->{lastSplitObject($port_id)}]->{TRUNK} = '0';
         }
-        delete $HashDataSNMP->{vlanTrunkPortDynamicStatus}->{$port_id};
-    }
-    if (keys (%{$HashDataSNMP->{vlanTrunkPortDynamicStatus}}) eq "0") {
-        delete $HashDataSNMP->{vlanTrunkPortDynamicStatus};
     }
 }
 
@@ -40,18 +36,6 @@ sub CDPPorts {
                 if (defined($HashDataSNMP->{cdpCacheDevicePort}->{$oid_walks->{cdpCacheDevicePort}->{OID}.$short_number})) {
                     $datadevice->{PORTS}->{PORT}->[$portsindex->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{IFDESCR} = $HashDataSNMP->{cdpCacheDevicePort}->{$oid_walks->{cdpCacheDevicePort}->{OID}.$short_number};
                 }
-            }
-            delete $HashDataSNMP->{cdpCacheAddress}->{$number};
-            if (ref($HashDataSNMP->{cdpCacheDevicePort}) eq "HASH"){
-                delete $HashDataSNMP->{cdpCacheDevicePort}->{$number};
-            }
-        }
-        if (keys (%{$HashDataSNMP->{cdpCacheAddress}}) eq "0") {
-            delete $HashDataSNMP->{cdpCacheAddress};
-        }
-        if (ref($HashDataSNMP->{cdpCacheDevicePort}) eq "HASH"){
-            if (keys (%{$HashDataSNMP->{cdpCacheDevicePort}}) eq "0") {
-                delete $HashDataSNMP->{cdpCacheDevicePort};
             }
         }
     }
@@ -105,8 +89,6 @@ sub GetMAC {
                 }
             }
         }
-#      delete $HashDataSNMP->{VLAN}->{$vlan_id}->{dot1dTpFdbAddress}->{$number};
-#      delete $HashDataSNMP->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number};
     }
 }
 

@@ -26,7 +26,6 @@ sub VlanTrunkPorts {
             }
         }
     }
-    return $datadevice, $HashDataSNMP;
 }
 
 
@@ -76,10 +75,7 @@ sub GetMAC {
                 }
             }
         }
-        delete $HashDataSNMP->{dot1dTpFdbAddress}->{$number};
-        delete $HashDataSNMP->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number};
     }
-    return $datadevice, $HashDataSNMP;
 }
 
 
@@ -100,22 +96,9 @@ sub LLDPPorts {
                 $datadevice->{PORTS}->{PORT}->[$portsindex->{$array[2]}]->{CONNECTIONS}->{CDP} = "1";
                 $datadevice->{PORTS}->{PORT}->[$portsindex->{$array[2]}]->{CONNECTIONS}->{CONNECTION}->{IFNUMBER} = $array[3];
 
-                delete $HashDataSNMP->{lldpRemChassisId}->{$number};
-                if (ref($HashDataSNMP->{lldpRemPortId}) eq "HASH"){
-                    delete $HashDataSNMP->{lldpRemPortId}->{$number};
-                }
-            }
-        }
-        if (keys (%{$HashDataSNMP->{lldpRemChassisId}}) eq "0") {
-            delete $HashDataSNMP->{lldpRemChassisId};
-        }
-        if (ref($HashDataSNMP->{lldpRemPortId}) eq "HASH"){
-            if (keys (%{$HashDataSNMP->{lldpRemPortId}}) eq "0") {
-                delete $HashDataSNMP->{lldpRemPortId};
             }
         }
     }
-    return $datadevice, $HashDataSNMP;
 }
 
 

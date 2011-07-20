@@ -412,7 +412,6 @@ sub _queryDevice {
                 if ($datadevice->{INFO}->{COMMENTS} =~ /Cisco/) {
                     FusionInventory::Agent::Task::SNMPQuery::Cisco::GetMAC($results,$datadevice,$id,$self, $model->{WALK});
                 }
-                delete $results->{VLAN}->{$id};
             }
         } else {
             if (defined ($datadevice->{INFO}->{COMMENTS})) {

@@ -49,8 +49,6 @@ sub GetMAC {
                 }
             }
         }
-        delete $HashDataSNMP->{dot1dTpFdbAddress}->{$number};
-        delete $HashDataSNMP->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number};
     }
 }
 
@@ -77,18 +75,6 @@ sub CDPLLDPPorts {
                     $datadevice->{PORTS}->{PORT}->[$portsindex->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{IFDESCR} = $HashDataSNMP->{cdpCacheDevicePort}->{$oid_walks->{cdpCacheDevicePort}->{OID}.$short_number};
                 }
             }
-            delete $HashDataSNMP->{cdpCacheAddress}->{$number};
-            if (ref($HashDataSNMP->{cdpCacheDevicePort}) eq "HASH"){
-                delete $HashDataSNMP->{cdpCacheDevicePort}->{$number};
-            }
-        }
-        if (keys (%{$HashDataSNMP->{cdpCacheAddress}}) eq "0") {
-            delete $HashDataSNMP->{cdpCacheAddress};
-        }
-        if (ref($HashDataSNMP->{cdpCacheDevicePort}) eq "HASH"){
-            if (keys (%{$HashDataSNMP->{cdpCacheDevicePort}}) eq "0") {
-                delete $HashDataSNMP->{cdpCacheDevicePort};
-            }
         }
     }
     if (ref($HashDataSNMP->{lldpCacheAddress}) eq "HASH"){
@@ -103,18 +89,6 @@ sub CDPLLDPPorts {
                     $datadevice->{PORTS}->{PORT}->[$portsindex->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{IFDESCR} = $HashDataSNMP->{lldpCacheDevicePort}->{$oid_walks->{lldpCacheDevicePort}->{OID}.$short_number};
                 }
 
-                delete $HashDataSNMP->{lldpCacheAddress}->{$number};
-                if (ref($HashDataSNMP->{lldpCacheDevicePort}) eq "HASH"){
-                    delete $HashDataSNMP->{lldpCacheDevicePort}->{$number};
-                }
-            }
-        }
-        if (keys (%{$HashDataSNMP->{lldpCacheAddress}}) eq "0") {
-            delete $HashDataSNMP->{lldpCacheAddress};
-        }
-        if (ref($HashDataSNMP->{lldpCacheDevicePort}) eq "HASH"){
-            if (keys (%{$HashDataSNMP->{lldpCacheDevicePort}}) eq "0") {
-                delete $HashDataSNMP->{lldpCacheDevicePort};
             }
         }
     }
