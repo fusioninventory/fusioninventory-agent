@@ -445,14 +445,14 @@ my $ret = [
             'currentStep' => 'checking',
             'part' => 'job',
             'action' => 'setStatus',
-            'machineid' => 'DEVICEID',
+            'machineid' => 'fakeid',
             'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
           },
           {
             'currentStep' => 'downloading',
             'part' => 'job',
             'action' => 'setStatus',
-            'machineid' => 'DEVICEID',
+            'machineid' => 'fakeid',
             'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
           },
           {
@@ -460,7 +460,7 @@ my $ret = [
             'currentStep' => 'downloading',
             'part' => 'file',
             'action' => 'setStatus',
-            'machineid' => 'DEVICEID',
+            'machineid' => 'fakeid',
             'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
           },
           {
@@ -469,7 +469,7 @@ my $ret = [
             'currentStep' => 'downloading',
             'part' => 'file',
             'action' => 'setStatus',
-            'machineid' => 'DEVICEID',
+            'machineid' => 'fakeid',
             'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
           },
           {
@@ -477,14 +477,14 @@ my $ret = [
             'currentStep' => 'downloading',
             'part' => 'job',
             'action' => 'setStatus',
-            'machineid' => 'DEVICEID',
+            'machineid' => 'fakeid',
             'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
           },
           {
             'status' => 'ok',
             'part' => 'job',
             'action' => 'setStatus',
-            'machineid' => 'DEVICEID',
+            'machineid' => 'fakeid',
             'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
           }
         ];
@@ -509,14 +509,14 @@ $ret = [
             'currentStep' => 'checking',
             'part' => 'job',
             'action' => 'setStatus',
-            'machineid' => 'DEVICEID',
+            'machineid' => 'fakeid',
             'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
           },
           {
             'currentStep' => 'downloading',
             'part' => 'job',
             'action' => 'setStatus',
-            'machineid' => 'DEVICEID',
+            'machineid' => 'fakeid',
             'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
           },
           {
@@ -524,7 +524,7 @@ $ret = [
             'currentStep' => 'downloading',
             'part' => 'file',
             'action' => 'setStatus',
-            'machineid' => 'DEVICEID',
+            'machineid' => 'fakeid',
             'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
           },
           {
@@ -534,7 +534,7 @@ $ret = [
             'currentStep' => 'downloading',
             'part' => 'file',
             'action' => 'setStatus',
-            'machineid' => 'DEVICEID',
+            'machineid' => 'fakeid',
             'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
           }
         ]; 

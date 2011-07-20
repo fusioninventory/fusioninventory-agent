@@ -129,7 +129,7 @@ sub processRemote {
             "url" => $remoteUrl,
             args  => {
                 action      => "setStatus",
-                machineid   => 'DEVICEID',
+                machineid   => $self->{deviceid},
                 part        => 'job',
                 uuid        => $job->{uuid},
                 currentStep => 'checking'
@@ -148,7 +148,7 @@ sub processRemote {
                         "url" => $remoteUrl,
                         args  => {
                             action      => "setStatus",
-                            machineid   => 'DEVICEID',
+                            machineid   => $self->{deviceid},
                             part        => 'job',
                             uuid        => $job->{uuid},
                             currentStep => 'checking',
@@ -169,7 +169,7 @@ sub processRemote {
             "url" => $remoteUrl,
             args  => {
                 action      => "setStatus",
-                machineid   => 'DEVICEID',
+                machineid   => $self->{deviceid},
                 part        => 'job',
                 uuid        => $job->{uuid},
                 currentStep => 'downloading'
@@ -183,7 +183,7 @@ sub processRemote {
                     "url" => $remoteUrl,
                     args  => {
                         action    => "setStatus",
-                        machineid => 'DEVICEID',
+                        machineid   => $self->{deviceid},
                         part      => 'file',
                         uuid        => $job->{uuid},
                         sha512      => $file->{sha512},
@@ -198,7 +198,7 @@ sub processRemote {
                 "url" => $remoteUrl,
                 args  => {
                     action      => "setStatus",
-                    machineid   => 'DEVICEID',
+                    machineid   => $self->{deviceid},
                     part        => 'file',
                     uuid        => $job->{uuid},
                     sha512      => $file->{sha512},
@@ -213,7 +213,7 @@ sub processRemote {
                     "url" => $remoteUrl,
                     args  => {
                         action      => "setStatus",
-                        machineid   => 'DEVICEID',
+                        machineid   => $self->{deviceid},
                         part        => 'file',
                         uuid        => $job->{uuid},
                         sha512        => $file->{sha512},
@@ -230,7 +230,7 @@ sub processRemote {
                     "url" => $remoteUrl,
                     args  => {
                         action      => "setStatus",
-                        machineid   => 'DEVICEID',
+                        machineid   => $self->{deviceid},
                         part        => 'file',
                         uuid        => $job->{uuid},
                         sha512      => $file->{sha512},
@@ -246,7 +246,7 @@ sub processRemote {
             "url" => $remoteUrl,
             args  => {
                 action      => "setStatus",
-                machineid   => 'DEVICEID',
+                machineid   => $self->{deviceid},
                 part        => 'job',
                 uuid        => $job->{uuid},
                 currentStep => 'downloading',
@@ -294,7 +294,7 @@ sub processRemote {
                                 "url" => $remoteUrl,
                                 args  => {
                                 action      => "setStatus",
-                                machineid   => 'DEVICEID',
+                                machineid   => $self->{deviceid},
                                 part        => 'job',
                                 uuid        => $job->{uuid},
                                 currentStep => 'checking',
@@ -318,7 +318,7 @@ sub processRemote {
                     "url" => $remoteUrl,
                     args  => {
                         action    => "setStatus",
-                        machineid => 'DEVICEID',
+                        machineid => $self->{deviceid},
                         uuid      => $job->{uuid},
                         log       => $ret->{log},
                         actionnum => $actionnum,
@@ -329,7 +329,7 @@ sub processRemote {
                     "url" => $remoteUrl,
                     args  => {
                         action      => "setStatus",
-                        machineid   => 'DEVICEID',
+                        machineid   => $self->{deviceid},
                         part        => 'job',
                         uuid        => $job->{uuid},
                         currentStep => 'processing',
@@ -345,7 +345,7 @@ sub processRemote {
                 "url" => $remoteUrl,
                 args  => {
                     action      => "setStatus",
-                    machineid   => 'DEVICEID',
+                    machineid   => $self->{deviceid},
                     part        => 'job',
                     uuid        => $job->{uuid},
                     currentStep => 'processing',
@@ -361,7 +361,7 @@ sub processRemote {
             "url" => $remoteUrl,
             args  => {
                 action    => "setStatus",
-                machineid => 'DEVICEID',
+                machineid => $self->{deviceid},
                 part      => 'job',
                 uuid      => $job->{uuid},
                 status    => 'ok'
