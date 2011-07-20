@@ -234,6 +234,21 @@ my %actions = (
               }
           };
         }
+    elsif ( $testname eq 'deploy4.1' ) {
+          $ret->{jobs}[0]{actions}[0] = {
+               cmd => {
+          "retChecks" => [
+                  {
+                  "type"   => "errorCode",
+                  "values" => [0]
+                  }
+              ],
+
+                  exec => "$EXECUTABLE_NAME -pe \"\" " . $FindBin::Bin . "/../META.yml",
+                  logLineLimit => 10
+              }
+          };
+        }
     elsif ( $testname eq 'deploy5' ) {
           $ret->{jobs}[0]{actions}[0] = {
               cmd => {
@@ -349,8 +364,20 @@ my %actions = (
               }
           };
         }
-
-
+    elsif ( $testname eq 'deploy13' ) {
+          $ret->{jobs}[0]{actions}[0] = {
+              copy => {
+                  from => $tmpDirServer.'/Deploy.titi',
+                  to => $tmpDirServer.'/Deploy.totor'
+              }
+          };
+          $ret->{jobs}[0]{actions}[1] = {
+              copy => {
+                  from => $tmpDirServer.'/Deploy.totorMissing',
+                  to => $tmpDirServer.'/Deploy.titi'
+              }
+          };
+        }
 
         return ( encode_json($ret), 200 );
     },
@@ -576,6 +603,13 @@ $last = pop @{$deploy->{fusionClient}{msgStack}};
 ok(($last->{status} eq "ko") && ($last->{actionnum} == 0), "Cmd errorCode");
 $deploy->{fusionClient}{msgStack} = [];
 
+# ensure we got only 10 lines of log 
+$deploy->processRemote('http://localhost:8080/deploy4.1');
+pop @{$deploy->{fusionClient}{msgStack}};
+$last = pop @{$deploy->{fusionClient}{msgStack}};
+ok (int(@{$last->{log}}) == 10 + 3, "Log: Number of line based on logLineLimit");
+$deploy->{fusionClient}{msgStack} = [];
+
 # Run perl and see 0 as an error code and so
 # should flag the deployment as KO
 $deploy->processRemote('http://localhost:8080/deploy5');
@@ -607,6 +641,7 @@ ok($last->{status} eq "ignore", "action has been ignored");
 ok(!-f $FindBin::Bin . "/../lib/FusionInventory/Agent/Task/Deploy.pm-shouldnotbethere", "action really ignored");
 $deploy->{fusionClient}{msgStack} = [];
 
+# Try to copy a file
 unlink ($tmpDirServer.'/Deploy.pm');
 $deploy->processRemote('http://localhost:8080/deploy9');
 $deploy->{fusionClient}{msgStack} = [];
@@ -614,18 +649,30 @@ ok (-f $tmpDirServer.'/Deploy.pm', "copy a file");
 unlink ($tmpDirServer.'/Deploy.pm');
 $deploy->{fusionClient}{msgStack} = [];
 
+# Try to copy a file using a wildcare (*)
 $deploy->processRemote('http://localhost:8080/deploy10');
 ok (-d $tmpDirServer.'/Deploy/', "copy using a glob()");
 $deploy->{fusionClient}{msgStack} = [];
 
+# Move a file
 $deploy->processRemote('http://localhost:8080/deploy11');
 ok ((!-f $tmpDirServer.'/Deploy.pm') && (-f $tmpDirServer.'/Deploy.toto'), "move");
 $deploy->{fusionClient}{msgStack} = [];
 
+# move a file using a wildcare (*)
 unlink($tmpDirServer.'/Deploy.titi');
 $deploy->processRemote('http://localhost:8080/deploy12');
 ok ((!-f $tmpDirServer.'/Deploy.toto') && (-f $tmpDirServer.'/Deploy.titi'), "move with glob()");
 $deploy->{fusionClient}{msgStack} = [];
+
+# try to copy valide file then a missing file
+unlink($tmpDirServer.'/Deploy.totor');
+$deploy->processRemote('http://localhost:8080/deploy13');
+ok ((!-f $tmpDirServer.'/Deploy.toto') && (-f $tmpDirServer.'/Deploy.titi'), "fails the second action");
+$last = pop @{$deploy->{fusionClient}{msgStack}};
+ok(($last->{status} eq "ko") && ($last->{actionnum} == 1), "section action should failed");
+$deploy->{fusionClient}{msgStack} = [];
+
 
 
 #ok( $deploy->processRemote('http://localhost:8080/deploy3'), "processRemote()" );

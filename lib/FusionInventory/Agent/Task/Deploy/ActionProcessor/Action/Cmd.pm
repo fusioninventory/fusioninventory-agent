@@ -65,15 +65,18 @@ sub do {
 
     my @retChecks;
 
+    my $logLineLimit =  $_[0]->{logLineLimit} || 3;
+
     my @log;
     if($buf) {
         my @lines = split('\n', $buf);
         foreach my $line (reverse @lines) {
             chomp($line);
-            shift @log if @log > 3;
-            push @log, $line;
+            shift @log if @log > $logLineLimit;
+            unshift @log, $line;
         }
     }
+    shift @log if @log > $logLineLimit;
 
 # Use the retChecks key to know if the command exec is successful
     my $t = _evaluateRet ($_[0]->{retChecks}, \$buf, $exitStatus);
