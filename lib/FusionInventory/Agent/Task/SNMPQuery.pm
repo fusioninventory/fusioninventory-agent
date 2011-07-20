@@ -104,7 +104,7 @@ my @printer_cartridges_percent_infos = (
     [ qw/cartridgesmaintenancekitMAX cartridgesmaintenancekitREMAIN MAINTENANCEKIT/ ],
 );
 
-my @dispatch_table = (
+my @ports_dispatch_table = (
     {
         match => qr/Cisco/,
         trunk => 'FusionInventory::Agent::Task::SNMPQuery::Cisco',
@@ -119,6 +119,29 @@ my @dispatch_table = (
         match => qr/Nortel/,
         trunk => 'FusionInventory::Agent::Task::SNMPQuery::Nortel',
         cdp   => 'FusionInventory::Agent::Task::SNMPQuery::Nortel',
+    },
+);
+
+my @mac_dispatch_table = (
+    {
+        match    => qr/3Com IntelliJack/,
+        module   => 'FusionInventory::Agent::Task::SNMPQuery::ThreeCom',
+        function => 'RewritePortOf225',
+    },
+    {
+        match    => qr/3Com/,
+        module   => 'FusionInventory::Agent::Task::SNMPQuery::ThreeCom',
+        function => 'GetMAC',
+    },
+    {
+        match    => qr/ProCurve/,
+        module   => 'FusionInventory::Agent::Task::SNMPQuery::ProCurve',
+        function => 'GetMAC'
+    },
+    {
+        match    => qr/Nortel/,
+        module   => 'FusionInventory::Agent::Task::SNMPQuery::Nortel',
+        function => 'setMacAddresses'
     },
 );
 
@@ -432,15 +455,22 @@ sub _queryDevice {
                 }
             }
         } else {
-            if (defined ($datadevice->{INFO}->{COMMENTS})) {
-                if ($datadevice->{INFO}->{COMMENTS} =~ /3Com IntelliJack/) {
-                    FusionInventory::Agent::Task::SNMPQuery::ThreeCom::RewritePortOf225($datadevice, $self);
-                } elsif ($datadevice->{INFO}->{COMMENTS} =~ /3Com/) {
-                    FusionInventory::Agent::Task::SNMPQuery::ThreeCom::GetMAC($results,$datadevice,$self,$model->{WALK});
-                } elsif ($datadevice->{INFO}->{COMMENTS} =~ /ProCurve/) {
-                    FusionInventory::Agent::Task::SNMPQuery::Procurve::GetMAC($results,$datadevice,$self, $model->{WALK});
-                } elsif ($datadevice->{INFO}->{COMMENTS} =~ /Nortel/) {
-                    FusionInventory::Agent::Task::SNMPQuery::Nortel::GetMAC($results,$datadevice,$self, $model->{WALK});
+            my $comments = $datadevice->{INFO}->{COMMENTS};
+            if (defined $comments) {
+                foreach my $entry (@mac_dispatch_table) {
+                    next unless $comments =~ $entry->{match};
+
+                    $entry->{module}->require();
+                    if ($EVAL_ERROR) {
+                        $self->{logger}->debug("Failed to load $entry->{module}: $EVAL_ERROR");
+                    } else {
+                        no strict 'refs'; ## no critic
+                        &{$entry->{module} . '::' . $entry->{function}}(
+                            $results, $datadevice, $self, $model->{WALK}
+                        );
+                    }
+
+                    last;
                 }
             }
         }
@@ -618,7 +648,7 @@ sub _constructDataDeviceMultiple {
     # Detect Trunk & CDP
     my $comments = $datadevice->{INFO}->{COMMENTS};
     if (defined $comments) {
-        foreach my $entry (@dispatch_table) {
+        foreach my $entry (@ports_dispatch_table) {
             next unless $comments =~ $entry->{match};
 
             $entry->{trunk}->require();
