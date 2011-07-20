@@ -32,7 +32,7 @@ use FusionInventory::Logger;
 sub main {
     my $self = FusionInventory::Agent::Task::Inventory->new();
 
-    if ($self->{target}->{type} eq 'server' &&
+    if ((!$self->{config}->{force} && ($self->{target}->{type} eq 'server')) &&
         (
             !exists($self->{prologresp}->{parsedcontent}->{RESPONSE}) ||
             $self->{prologresp}->{parsedcontent}->{RESPONSE} !~ /^SEND$/
