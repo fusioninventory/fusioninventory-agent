@@ -1,7 +1,6 @@
 package FusionInventory::Agent::Task::SNMPQuery::Nortel;
 
 use strict;
-use Data::Dumper;
 
 sub VlanTrunkPorts {
     my $HashDataSNMP = shift,
