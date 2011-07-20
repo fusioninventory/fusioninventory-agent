@@ -104,6 +104,24 @@ my @printer_cartridges_percent_infos = (
     [ qw/cartridgesmaintenancekitMAX cartridgesmaintenancekitREMAIN MAINTENANCEKIT/ ],
 );
 
+my @dispatch_table = (
+    {
+        match => qr/Cisco/,
+        trunk => 'FusionInventory::Agent::Task::SNMPQuery::Cisco',
+        cdp   => 'FusionInventory::Agent::Task::SNMPQuery::Cisco',
+    },
+    {
+        match => qr/ProCurve/,
+        trunk => 'FusionInventory::Agent::Task::SNMPQuery::Cisco',
+        cdp   => 'FusionInventory::Agent::Task::SNMPQuery::ProCurve',
+    },
+    {
+        match => qr/Nortel/,
+        trunk => 'FusionInventory::Agent::Task::SNMPQuery::Nortel',
+        cdp   => 'FusionInventory::Agent::Task::SNMPQuery::Nortel',
+    },
+);
+
 sub run {
     my ($self) = @_;
 
@@ -368,7 +386,7 @@ sub _queryDevice {
         );
     }
     my $portsindex;
-    _constructDataDeviceMultiple($results,$datadevice, $portsindex, $model->{WALK});
+    _constructDataDeviceMultiple($results,$datadevice, $portsindex, $model->{WALK}, $self->{logger});
 
     # additional queries for network devices
     if ($datadevice->{INFO}->{TYPE} eq "NETWORKING") {
@@ -481,7 +499,7 @@ sub _constructDataDeviceSimple {
 
 
 sub _constructDataDeviceMultiple {
-    my ($results, $datadevice, $portsindex, $walks) = @_;
+    my ($results, $datadevice, $portsindex, $walks, $logger) = @_;
 
     if (exists $results->{ipAdEntAddr}) {
         my $i = 0;
@@ -598,16 +616,32 @@ sub _constructDataDeviceMultiple {
     }
 
     # Detect Trunk & CDP
-    if (defined ($datadevice->{INFO}->{COMMENTS})) {
-        if ($datadevice->{INFO}->{COMMENTS} =~ /Cisco/) {
-            FusionInventory::Agent::Task::SNMPQuery::Cisco::TrunkPorts($results,$datadevice, $portsindex);
-            FusionInventory::Agent::Task::SNMPQuery::Cisco::CDPPorts($results,$datadevice, $walks, $portsindex);
-        } elsif ($datadevice->{INFO}->{COMMENTS} =~ /ProCurve/) {
-            FusionInventory::Agent::Task::SNMPQuery::Cisco::TrunkPorts($results,$datadevice, $portsindex);
-            FusionInventory::Agent::Task::SNMPQuery::Procurve::CDPLLDPPorts($results,$datadevice, $walks, $portsindex);
-        } elsif ($datadevice->{INFO}->{COMMENTS} =~ /Nortel/) {
-            FusionInventory::Agent::Task::SNMPQuery::Nortel::VlanTrunkPorts($results,$datadevice, $portsindex);
-            FusionInventory::Agent::Task::SNMPQuery::Nortel::LLDPPorts($results,$datadevice, $walks, $portsindex);
+    my $comments = $datadevice->{INFO}->{COMMENTS};
+    if (defined $comments) {
+        foreach my $entry (@dispatch_table) {
+            next unless $comments =~ $entry->{match};
+
+            $entry->{trunk}->require();
+            if ($EVAL_ERROR) {
+                $logger->debug("Failed to load $entry->{trunk}: $EVAL_ERROR");
+            } else {
+                no strict 'refs'; ## no critic
+                &{$entry->{trunk} . '::setTrunkPorts'}(
+                    $results, $datadevice, $portsindex
+                );
+            }
+
+            $entry->{cdp}->require();
+            if ($EVAL_ERROR) {
+                $logger->debug("Failed to load $entry->{cdp}: $EVAL_ERROR");
+            } else {
+                no strict 'refs'; ## no critic
+                &{$entry->{cdp} . '::setCDPPorts'}(
+                    $results, $datadevice, $walks, $portsindex
+                );
+            }
+
+            last;
         }
     }
 
