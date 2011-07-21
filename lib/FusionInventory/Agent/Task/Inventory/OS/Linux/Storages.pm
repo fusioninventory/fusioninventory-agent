@@ -37,7 +37,7 @@ sub getFromSysProc {
     my @names;
 
     foreach my $file (glob ("/sys/block/*")) {
-        next unless $file =~ /([sh]d[a-z]|fd\d)$/;
+        next unless $file =~ /([vsh]d[a-z]|fd\d)$/;
         push(@names, $1);
     }
 
@@ -46,7 +46,7 @@ sub getFromSysProc {
         warn "Can't run $command: $ERRNO";
     } else {
         while (<$handle>) {
-            next unless (/^\/dev\/([sh]d[a-z])/);
+            next unless (/^\/dev\/([vsh]d[a-z])/);
             push(@names, $1);
         }
         close $handle;
@@ -105,7 +105,7 @@ sub getCapacity {
     # requires permissions on /dev/$dev
     my $cap;
     foreach (`$command /dev/$dev 2>/dev/null`) {
-        $cap = $1 if /^\d+$/;
+        $cap = $1 if /^(\d+)$/;
     }
     $cap = int($cap / 1000) if $cap;
     return $cap;
@@ -130,6 +130,8 @@ sub getDescription {
         } else {
             return "SCSI";
         }
+    } elsif ($name =~ /^vd/) {
+        return "Virtual";
     } else {
         return "IDE";
     }
@@ -229,7 +231,7 @@ sub doInventory {
             $device->{MANUFACTURER} = getCanonicalManufacturer($device->{MODEL});
         }
 
-        if (!$device->{DISKSIZE} && $device->{TYPE} !~ /^cd/) {
+        if ((!$device->{DISKSIZE}) && ($device->{TYPE} !~ /^cd/)) {
             $device->{DISKSIZE} = getCapacity($device->{NAME});
         }
 
