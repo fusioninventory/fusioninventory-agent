@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::SNMPQuery::ThreeCom;
+package FusionInventory::Agent::Task::SNMPQuery::Manufacturer::ThreeCom;
 
 use strict;
 use warnings;

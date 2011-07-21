@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::SNMPQuery::Cisco;
+package FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco;
 
 use strict;
 use warnings;

@@ -103,40 +103,40 @@ my @printer_cartridges_percent_infos = (
 my @ports_dispatch_table = (
     {
         match => qr/Cisco/,
-        trunk => 'FusionInventory::Agent::Task::SNMPQuery::Cisco',
-        cdp   => 'FusionInventory::Agent::Task::SNMPQuery::Cisco',
+        trunk => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco',
+        cdp   => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco',
     },
     {
         match => qr/ProCurve/,
-        trunk => 'FusionInventory::Agent::Task::SNMPQuery::Cisco',
-        cdp   => 'FusionInventory::Agent::Task::SNMPQuery::ProCurve',
+        trunk => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco',
+        cdp   => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::ProCurve',
     },
     {
         match => qr/Nortel/,
-        trunk => 'FusionInventory::Agent::Task::SNMPQuery::Nortel',
-        cdp   => 'FusionInventory::Agent::Task::SNMPQuery::Nortel',
+        trunk => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Nortel',
+        cdp   => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Nortel',
     },
 );
 
 my @mac_dispatch_table = (
     {
         match    => qr/3Com IntelliJack/,
-        module   => 'FusionInventory::Agent::Task::SNMPQuery::ThreeCom',
+        module   => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::ThreeCom',
         function => 'RewritePortOf225',
     },
     {
         match    => qr/3Com/,
-        module   => 'FusionInventory::Agent::Task::SNMPQuery::ThreeCom',
+        module   => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::ThreeCom',
         function => 'setMacAddresses',
     },
     {
         match    => qr/ProCurve/,
-        module   => 'FusionInventory::Agent::Task::SNMPQuery::ProCurve',
+        module   => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::ProCurve',
         function => 'setMacAddresses'
     },
     {
         match    => qr/Nortel/,
-        module   => 'FusionInventory::Agent::Task::SNMPQuery::Nortel',
+        module   => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Nortel',
         function => 'setMacAddresses'
     },
 );
@@ -448,7 +448,7 @@ sub _queryDevice {
                 # Detect mac adress on each port
                 if ($datadevice->{INFO}->{COMMENTS} =~ /Cisco/) {
                     $self->_runFunction(
-                        module   => 'FusionInventory::Agent::Task::SNMPQuery::Cisco',
+                        module   => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco',
                         function => 'setMacAddresses',
                         params   => [ $results, $datadevice, $id, $ports, $model->{WALK} ]
                     );
