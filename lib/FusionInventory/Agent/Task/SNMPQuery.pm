@@ -666,8 +666,11 @@ sub _constructDataDeviceMultiple {
     # Detect VLAN
     if (exists $results->{vmvlan}) {
         while (my ($object,$data) = each (%{$results->{vmvlan}}) ) {
-            $datadevice->{PORTS}->{PORT}->[$ports->{lastSplitObject($object)}]->{VLANS}->{VLAN}->{NUMBER} = $data;
-            $datadevice->{PORTS}->{PORT}->[$ports->{lastSplitObject($object)}]->{VLANS}->{VLAN}->{NAME} = $results->{vtpVlanName}->{$walks->{vtpVlanName}->{OID} . ".".$data};
+            my $name = $results->{vtpVlanName}->{$walks->{vtpVlanName}->{OID} . ".".$data};
+            $datadevice->{PORTS}->{PORT}->[$ports->{lastSplitObject($object)}]->{VLANS}->{VLAN} = {
+                NUMBER => $data,
+                NAME   => $name
+            };
         }
     }
 }
