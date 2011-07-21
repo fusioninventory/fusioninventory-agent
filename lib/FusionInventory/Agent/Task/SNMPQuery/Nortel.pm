@@ -41,7 +41,7 @@ sub setMacAddresses {
 
     my $i = 0;
 
-    while ( my ($number,$ifphysaddress) = each (%{$results->{dot1dTpFdbAddress}}) ) {
+    while (my ($number,$ifphysaddress) = each %{$results->{dot1dTpFdbAddress}}) {
         $short_number = $number;
         $short_number =~ s/$walks->{dot1dTpFdbAddress}->{OID}//;
         $dot1dTpFdbPort = $walks->{dot1dTpFdbPort}->{OID};
@@ -87,7 +87,7 @@ sub setCDPPorts {
     my @port_number;
 
     if (ref($results->{lldpRemChassisId}) eq "HASH"){
-        while ( my ( $number, $chassisname) = each (%{$results->{lldpRemChassisId}}) ) {
+        while (my ($number, $chassisname) = each %{$results->{lldpRemChassisId}}) {
             $short_number = $number;
             $short_number =~ s/$walks->{lldpRemChassisId}->{OID}//;
             my @array = split(/\./, $short_number);

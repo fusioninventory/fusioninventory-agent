@@ -6,7 +6,7 @@ use warnings;
 sub setTrunkPorts {
     my ($results, $deviceports, $ports) = @_;
 
-    while (my ($port_id, $trunk) = each (%{$results->{vlanTrunkPortDynamicStatus}}) ) {
+    while (my ($port_id, $trunk) = each %{$results->{vlanTrunkPortDynamicStatus}}) {
         $deviceports->[$ports->{lastSplitObject($port_id)}]->{TRUNK} = $trunk ? 1 : 0;
     }
 }
@@ -20,7 +20,7 @@ sub setCDPPorts {
 
     my $short_number;
 
-    while ( my ( $number, $ip_hex) = each (%{$results->{cdpCacheAddress}}) ) {
+    while (my ($number, $ip_hex) = each %{$results->{cdpCacheAddress}}) {
         $ip_hex =~ s/://g;
         $short_number = $number;
         $short_number =~ s/$walks->{cdpCacheAddress}->{OID}//;
@@ -49,7 +49,7 @@ sub setMacAddresses {
 
     my $i = 0;
     # each VLAN WALK per port
-    while ( my ($number,$ifphysaddress) = each (%{$results->{VLAN}->{$vlan_id}->{dot1dTpFdbAddress}}) ) {
+    while (my ($number, $ifphysaddress) = each %{$results->{VLAN}->{$vlan_id}->{dot1dTpFdbAddress}}) {
         $short_number = $number;
         $short_number =~ s/$walks->{dot1dTpFdbAddress}->{OID}//;
         $dot1dTpFdbPort = $walks->{dot1dTpFdbPort}->{OID};
