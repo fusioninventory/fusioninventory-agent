@@ -16,22 +16,22 @@ sub setTrunkPorts {
 sub setCDPPorts {
     my ($results, $datadevice, $walks, $ports) = @_;
 
+    return unless ref $results->{cdpCacheAddress} eq 'HASH';
+
     my $short_number;
 
-    if (ref($results->{cdpCacheAddress}) eq "HASH"){
-        while ( my ( $number, $ip_hex) = each (%{$results->{cdpCacheAddress}}) ) {
-            $ip_hex =~ s/://g;
-            $short_number = $number;
-            $short_number =~ s/$walks->{cdpCacheAddress}->{OID}//;
-            my @array = split(/\./, $short_number);
-            my @ip_num = split(/(\S{2})/, $ip_hex);
-            my $ip = (hex $ip_num[3]).".".(hex $ip_num[5]).".".(hex $ip_num[7]).".".(hex $ip_num[9]);
-            if ($ip ne "0.0.0.0") {
-                $datadevice->{PORTS}->{PORT}->[$ports->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{IP} = $ip;
-                $datadevice->{PORTS}->{PORT}->[$ports->{$array[1]}]->{CONNECTIONS}->{CDP} = "1";
-                if (defined($results->{cdpCacheDevicePort}->{$walks->{cdpCacheDevicePort}->{OID}.$short_number})) {
-                    $datadevice->{PORTS}->{PORT}->[$ports->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{IFDESCR} = $results->{cdpCacheDevicePort}->{$walks->{cdpCacheDevicePort}->{OID}.$short_number};
-                }
+    while ( my ( $number, $ip_hex) = each (%{$results->{cdpCacheAddress}}) ) {
+        $ip_hex =~ s/://g;
+        $short_number = $number;
+        $short_number =~ s/$walks->{cdpCacheAddress}->{OID}//;
+        my @array = split(/\./, $short_number);
+        my @ip_num = split(/(\S{2})/, $ip_hex);
+        my $ip = (hex $ip_num[3]).".".(hex $ip_num[5]).".".(hex $ip_num[7]).".".(hex $ip_num[9]);
+        if ($ip ne "0.0.0.0") {
+            $datadevice->{PORTS}->{PORT}->[$ports->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{IP} = $ip;
+            $datadevice->{PORTS}->{PORT}->[$ports->{$array[1]}]->{CONNECTIONS}->{CDP} = "1";
+            if (defined($results->{cdpCacheDevicePort}->{$walks->{cdpCacheDevicePort}->{OID}.$short_number})) {
+                $datadevice->{PORTS}->{PORT}->[$ports->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{IFDESCR} = $results->{cdpCacheDevicePort}->{$walks->{cdpCacheDevicePort}->{OID}.$short_number};
             }
         }
     }
