@@ -40,7 +40,6 @@ sub setMacAddresses {
     }
 }
 
-
 # In Intellijack 225, put mac address of port 'IntelliJack Ethernet Adapter' in port 'LAN Port'
 sub RewritePortOf225 {
     my ($datadevice, $ports) = @_;
@@ -49,6 +48,5 @@ sub RewritePortOf225 {
     delete $datadevice->{PORTS}->{PORT}->[$ports->{1}];
     delete $datadevice->{PORTS}->{PORT}->[$ports->{101}]->{CONNECTIONS};
 }
-
 
 1;

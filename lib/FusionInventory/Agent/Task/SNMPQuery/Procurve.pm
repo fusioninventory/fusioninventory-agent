@@ -52,7 +52,6 @@ sub setMacAddresses {
     }
 }
 
-
 sub setCDPPorts {
     my ($results, $datadevice, $walks, $ports) = @_;
 
@@ -93,6 +92,5 @@ sub setCDPPorts {
         }
     }
 }
-
 
 1;

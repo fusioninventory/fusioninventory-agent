@@ -11,8 +11,6 @@ sub setTrunkPorts {
     }
 }
 
-
-
 sub setCDPPorts {
     my ($results, $datadevice, $walks, $ports) = @_;
 
@@ -36,7 +34,6 @@ sub setCDPPorts {
         }
     }
 }
-
 
 sub setMacAddresses {
     my ($results, $datadevice, $vlan_id, $ports, $walks) = @_;
@@ -86,8 +83,6 @@ sub setMacAddresses {
         }
     }
 }
-
-
 
 sub lastSplitObject {
     my $var = shift;
