@@ -649,7 +649,7 @@ sub _constructDataDeviceMultiple {
             $self->_runFunction(
                 module   => $entry->{trunk},
                 function => 'setTrunkPorts',
-                params   => [ $results, $datadevice, $ports ]
+                params   => [ $results, $datadevice->{PORTS}->{PORT}, $ports ]
             );
 
             $self->_runFunction(

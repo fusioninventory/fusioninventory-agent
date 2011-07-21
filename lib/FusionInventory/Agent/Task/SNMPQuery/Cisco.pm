@@ -4,10 +4,10 @@ use strict;
 use warnings;
 
 sub setTrunkPorts {
-    my ($results, $datadevice, $ports) = @_;
+    my ($results, $deviceports, $ports) = @_;
 
     while (my ($port_id, $trunk) = each (%{$results->{vlanTrunkPortDynamicStatus}}) ) {
-        $datadevice->{PORTS}->{PORT}->[$ports->{lastSplitObject($port_id)}]->{TRUNK} = $trunk ? 1 : 0;
+        $deviceports->[$ports->{lastSplitObject($port_id)}]->{TRUNK} = $trunk ? 1 : 0;
     }
 }
 

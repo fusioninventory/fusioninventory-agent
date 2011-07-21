@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 sub setTrunkPorts {
-    my ($results, $datadevice, $ports) = @_;
+    my ($results, $deviceports, $ports) = @_;
 
     my $myports;
 
@@ -17,14 +17,14 @@ sub setTrunkPorts {
         if (keys %{$vlans} == 1) {
             # a single vlan
             while (my ($id, $name) = each %{$vlans}) {
-                $datadevice->{PORTS}->{PORT}->[$ports->{$portnumber}]->{VLANS}->{VLAN}->[0] = {
+                $deviceports->[$ports->{$portnumber}]->{VLANS}->{VLAN}->[0] = {
                     NAME   => $name,
                     NUMBER => $id
                 };
             }
         } else {
             # trunk
-            $datadevice->{PORTS}->{PORT}->[$ports->{$portnumber}]->{TRUNK} = 1;
+            $deviceports->[$ports->{$portnumber}]->{TRUNK} = 1;
         }
     }
 }
