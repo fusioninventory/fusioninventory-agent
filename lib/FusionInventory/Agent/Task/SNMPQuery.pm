@@ -126,12 +126,12 @@ my @mac_dispatch_table = (
     {
         match    => qr/3Com/,
         module   => 'FusionInventory::Agent::Task::SNMPQuery::ThreeCom',
-        function => 'GetMAC',
+        function => 'setMacAddresses',
     },
     {
         match    => qr/ProCurve/,
         module   => 'FusionInventory::Agent::Task::SNMPQuery::ProCurve',
-        function => 'GetMAC'
+        function => 'setMacAddresses'
     },
     {
         match    => qr/Nortel/,
@@ -448,7 +448,7 @@ sub _queryDevice {
                 if ($datadevice->{INFO}->{COMMENTS} =~ /Cisco/) {
                     $self->_runFunction(
                         module   => 'FusionInventory::Agent::Task::SNMPQuery::Cisco',
-                        function => 'GetMAC',
+                        function => 'setMacAddresses',
                         params   => [ $results, $datadevice, $id, $ports, $model->{WALK} ]
                     );
                 }

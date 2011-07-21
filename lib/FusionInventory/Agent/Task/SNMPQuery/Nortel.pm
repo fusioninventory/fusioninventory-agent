@@ -29,7 +29,7 @@ sub setTrunkPorts {
 }
 
 
-sub GetMAC {
+sub setMacAddresses {
     my ($results, $datadevice, $ports, $walks) = @_;
 
     my $ifIndex;

@@ -42,8 +42,7 @@ sub setCDPPorts {
 }
 
 
-
-sub GetMAC {
+sub setMacAddresses {
     my ($results, $datadevice, $vlan_id, $ports, $walks) = @_;
 
     my $ifIndex;
