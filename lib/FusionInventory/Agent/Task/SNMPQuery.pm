@@ -17,6 +17,7 @@ use English qw(-no_match_vars);
 
 use FusionInventory::Agent::SNMP;
 use FusionInventory::Agent::XML::Query;
+use FusionInventory::Agent::Task::SNMPQuery::Tools;
 
 our $VERSION = '2.0';
 my $maxIdx : shared = 0;
@@ -681,15 +682,6 @@ sub _getPercentValue {
     return int(
         ( 100 * $value2 ) / $value1
     );
-}
-
-
-
-sub _lastSplitObject {
-    my ($var) = @_;
-
-    my @array = split(/\./, $var);
-    return $array[-1];
 }
 
 sub _isInteger {
