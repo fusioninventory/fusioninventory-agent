@@ -3,33 +3,6 @@ package FusionInventory::Agent::Task::SNMPQuery::Nortel;
 use strict;
 use warnings;
 
-sub setTrunkPorts {
-    my ($results, $deviceports, $ports) = @_;
-
-    my $myports;
-
-    while (my ($oid, $trunkname) = each %{$results->{PortVlanIndex}}) {
-        my @array = split(/\./, $oid);
-        $myports->{$array[-2]}->{$array[-1]} = $trunkname;
-    }
-
-    while (my ($portnumber, $vlans) = each %{$myports}) {
-        if (keys %{$vlans} == 1) {
-            # a single vlan
-            while (my ($id, $name) = each %{$vlans}) {
-                $deviceports->[$ports->{$portnumber}]->{VLANS}->{VLAN}->[0] = {
-                    NAME   => $name,
-                    NUMBER => $id
-                };
-            }
-        } else {
-            # trunk
-            $deviceports->[$ports->{$portnumber}]->{TRUNK} = 1;
-        }
-    }
-}
-
-
 sub setMacAddresses {
     my ($results, $datadevice, $ports, $walks) = @_;
 
@@ -79,6 +52,31 @@ sub setMacAddresses {
     }
 }
 
+sub setTrunkPorts {
+    my ($results, $deviceports, $ports) = @_;
+
+    my $myports;
+
+    while (my ($oid, $trunkname) = each %{$results->{PortVlanIndex}}) {
+        my @array = split(/\./, $oid);
+        $myports->{$array[-2]}->{$array[-1]} = $trunkname;
+    }
+
+    while (my ($portnumber, $vlans) = each %{$myports}) {
+        if (keys %{$vlans} == 1) {
+            # a single vlan
+            while (my ($id, $name) = each %{$vlans}) {
+                $deviceports->[$ports->{$portnumber}]->{VLANS}->{VLAN}->[0] = {
+                    NAME   => $name,
+                    NUMBER => $id
+                };
+            }
+        } else {
+            # trunk
+            $deviceports->[$ports->{$portnumber}]->{TRUNK} = 1;
+        }
+    }
+}
 
 sub setCDPPorts {
     my ($results, $datadevice, $walks, $ports) = @_;
@@ -101,6 +99,5 @@ sub setCDPPorts {
         }
     }
 }
-
 
 1;
