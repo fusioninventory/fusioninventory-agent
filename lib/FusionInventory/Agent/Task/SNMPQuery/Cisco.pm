@@ -6,12 +6,8 @@ use warnings;
 sub setTrunkPorts {
     my ($results, $datadevice, $ports) = @_;
 
-    while ( (my $port_id, my $trunk) = each (%{$results->{vlanTrunkPortDynamicStatus}}) ) {
-        if ($trunk eq "1") {
-            $datadevice->{PORTS}->{PORT}->[$ports->{lastSplitObject($port_id)}]->{TRUNK} = $trunk;
-        } else {
-            $datadevice->{PORTS}->{PORT}->[$ports->{lastSplitObject($port_id)}]->{TRUNK} = '0';
-        }
+    while (my ($port_id, $trunk) = each (%{$results->{vlanTrunkPortDynamicStatus}}) ) {
+        $datadevice->{PORTS}->{PORT}->[$ports->{lastSplitObject($port_id)}]->{TRUNK} = $trunk ? 1 : 0;
     }
 }
 
