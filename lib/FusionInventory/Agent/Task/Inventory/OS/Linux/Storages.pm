@@ -120,6 +120,8 @@ sub _getDescription {
         } else {
             return "SCSI";
         }
+    } elsif ($name =~ /^vd/) {
+            return "Virtual";
     } else {
         return "IDE";
     }

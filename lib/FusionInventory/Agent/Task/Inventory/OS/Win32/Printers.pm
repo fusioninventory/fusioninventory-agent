@@ -143,6 +143,31 @@ sub _getSerialbyUsb {
                     } else {
                         $serialnumber = $serialtmp;
                     }
+			  # Other method if this not works (for example on windowsxp)
+			  my $removechar = chr(38).$portName."/";
+			  $parentidprefix =~ s/$removechar//;
+			  foreach my $tmpkeyUSB (%$dataUSB) {
+                        if (ref($tmpkeyUSB) eq "Win32::TieRegistry") {
+                            foreach my $serialtmp (%$tmpkeyUSB) {
+                                if (ref($serialtmp) eq "Win32::TieRegistry") {
+                                    foreach my $regkeys (%$serialtmp) {
+                                        if ((defined($regkeys)) && (ref($regkeys) ne "Win32::TieRegistry")) {
+                                            next unless $regkeys =~ /ParentIdPrefix/;
+                                            if ($serialnumber =~ /\&/) {
+                                            } elsif (defined($serialnumber)) {
+                                                if ($serialtmp->{$regkeys} eq $parentidprefix) {
+                                                    return $serialnumber;
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else {
+
+                                    $serialnumber = $serialtmp;
+                                }
+                            }
+                        }
+			  }
                 }
             }
         }

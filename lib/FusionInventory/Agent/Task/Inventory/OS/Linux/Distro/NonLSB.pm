@@ -8,6 +8,7 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 
 my @files = (
+    [ '/etc/vmware-release'    => '%s' ],
     [ '/etc/arch-release'      => 'ArchLinux %s' ],
     [ '/etc/debian_version'    => 'Debian GNU/Linux %s' ],
     [ '/etc/fedora-release'    => '%s' ],
@@ -20,7 +21,6 @@ my @files = (
     [ '/etc/SuSE-release'      => '%s' ],
     [ '/etc/trustix-release'   => '%s' ],
     [ '/etc/ubuntu_version'    => 'Ubuntu %s' ],
-    [ '/etc/vmware-release'    => '%s' ],
     [ '/etc/issue'             => '%s' ],
 );
 
