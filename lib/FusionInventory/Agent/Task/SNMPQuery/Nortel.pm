@@ -8,22 +8,23 @@ sub setTrunkPorts {
 
     my $myports;
 
-    while ( (my $oid, my $trunkname) = each (%{$results->{PortVlanIndex}}) ) {
+    while (my ($oid, $trunkname) = each %{$results->{PortVlanIndex}}) {
         my @array = split(/\./, $oid);
-
-        $myports->{$array[(@array - 2)]}->{$array[(@array - 1)]} = $trunkname;
+        $myports->{$array[-2]}->{$array[-1]} = $trunkname;
     }
 
-    while ( my ($portnumber,$vlans) = each (%{$myports}) ) {
-        if (keys %{$vlans} > 1) {
-            # Trunk
-            $datadevice->{PORTS}->{PORT}->[$ports->{$portnumber}]->{TRUNK} = "1";
-        } elsif (keys %{$vlans} eq "1") {
-            # One  vlan
-            while ( my ($vlan_id,$vlan_name) = each (%{$vlans}) ) {
-                $datadevice->{PORTS}->{PORT}->[$ports->{$portnumber}]->{VLANS}->{VLAN}->[0]->{NAME} = $vlan_name;
-                $datadevice->{PORTS}->{PORT}->[$ports->{$portnumber}]->{VLANS}->{VLAN}->[0]->{NUMBER} = $vlan_id;
+    while (my ($portnumber, $vlans) = each %{$myports}) {
+        if (keys %{$vlans} == 1) {
+            # a single vlan
+            while (my ($id, $name) = each %{$vlans}) {
+                $datadevice->{PORTS}->{PORT}->[$ports->{$portnumber}]->{VLANS}->{VLAN}->[0] = {
+                    NAME   => $name,
+                    NUMBER => $id
+                };
             }
+        } else {
+            # trunk
+            $datadevice->{PORTS}->{PORT}->[$ports->{$portnumber}]->{TRUNK} = 1;
         }
     }
 }
