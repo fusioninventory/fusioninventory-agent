@@ -450,7 +450,7 @@ sub _queryDevice {
                     $self->_runFunction(
                         module   => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco',
                         function => 'setMacAddresses',
-                        params   => [ $results, $datadevice, $id, $ports, $model->{WALK} ]
+                        params   => [ $results, $datadevice, $ports, $model->{WALK}, $id ]
                     );
                 }
             }

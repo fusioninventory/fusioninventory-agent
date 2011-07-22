@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Task::SNMPQuery::Tools;
 
 sub setMacAddresses {
-    my ($results, $datadevice, $vlan_id, $ports, $walks) = @_;
+    my ($results, $datadevice, $ports, $walks, $vlan_id) = @_;
 
     while (my ($number, $ifphysaddress) = each %{$results->{VLAN}->{$vlan_id}->{dot1dTpFdbAddress}}) {
         next unless $ifphysaddress;
