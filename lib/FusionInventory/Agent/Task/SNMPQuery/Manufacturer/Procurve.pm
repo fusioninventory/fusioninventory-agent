@@ -62,17 +62,17 @@ sub setCDPPorts {
 
     if (ref $results->{cdpCacheAddress} eq "HASH"){
         while (my ($number, $ip_hex) = each %{$results->{cdpCacheAddress}}) {
+            my $ip = hex2quad($ip_hex);
+            next if $ip eq '0.0.0.0';
+
             $short_number = $number;
             $short_number =~ s/$walks->{cdpCacheAddress}->{OID}//;
             my @array = split(/\./, $short_number);
-            my $ip = hex2quad($ip_hex);
-            if ($ip ne "0.0.0.0") {
-                $port_number[$array[1]] = 1;
-                $datadevice->{PORTS}->{PORT}->[$ports->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{IP} = $ip;
-                $datadevice->{PORTS}->{PORT}->[$ports->{$array[1]}]->{CONNECTIONS}->{CDP} = "1";
-                if (defined $results->{cdpCacheDevicePort}->{$walks->{cdpCacheDevicePort}->{OID}.$short_number}) {
-                    $datadevice->{PORTS}->{PORT}->[$ports->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{IFDESCR} = $results->{cdpCacheDevicePort}->{$walks->{cdpCacheDevicePort}->{OID}.$short_number};
-                }
+            $port_number[$array[1]] = 1;
+            $datadevice->{PORTS}->{PORT}->[$ports->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{IP} = $ip;
+            $datadevice->{PORTS}->{PORT}->[$ports->{$array[1]}]->{CONNECTIONS}->{CDP} = "1";
+            if (defined $results->{cdpCacheDevicePort}->{$walks->{cdpCacheDevicePort}->{OID}.$short_number}) {
+                $datadevice->{PORTS}->{PORT}->[$ports->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{IFDESCR} = $results->{cdpCacheDevicePort}->{$walks->{cdpCacheDevicePort}->{OID}.$short_number};
             }
         }
     }
