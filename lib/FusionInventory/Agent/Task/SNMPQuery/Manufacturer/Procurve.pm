@@ -54,7 +54,7 @@ sub setMacAddresses {
     }
 }
 
-sub setCDPPorts {
+sub setConnectedDevices {
     my ($results, $datadevice, $walks, $ports) = @_;
 
     if (ref $results->{cdpCacheAddress} eq "HASH"){

@@ -104,17 +104,17 @@ my @ports_dispatch_table = (
     {
         match => qr/Cisco/,
         trunk => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco',
-        cdp   => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco',
+        devices => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco',
     },
     {
         match => qr/ProCurve/,
         trunk => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco',
-        cdp   => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::ProCurve',
+        devices => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::ProCurve',
     },
     {
         match => qr/Nortel/,
         trunk => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Nortel',
-        cdp   => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Nortel',
+        devices => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Nortel',
     },
 );
 
@@ -641,7 +641,7 @@ sub _constructDataDeviceMultiple {
         }
     }
 
-    # Detect Trunk & CDP
+    # Detect trunk & connected devices
     my $comments = $datadevice->{INFO}->{COMMENTS};
     if (defined $comments) {
         foreach my $entry (@ports_dispatch_table) {
@@ -654,8 +654,8 @@ sub _constructDataDeviceMultiple {
             );
 
             $self->_runFunction(
-                module   => $entry->{cdp},
-                function => 'setCDPPorts',
+                module   => $entry->{devices},
+                function => 'setConnectedDevices',
                 params   => [ $results, $datadevice, $walks, $ports ]
             );
 

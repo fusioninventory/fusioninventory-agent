@@ -48,7 +48,7 @@ sub setTrunkPorts {
     }
 }
 
-sub setCDPPorts {
+sub setConnectedDevices {
     my ($results, $datadevice, $walks, $ports) = @_;
 
     return unless ref $results->{cdpCacheAddress} eq 'HASH';
