@@ -90,7 +90,7 @@ sub run {
 
         my $message = FusionInventory::Agent::XML::Query::Inventory->new(
             deviceid => $self->{deviceid},
-            content  => $inventory->getContent()
+            content  => $inventory->{content}
         );
 
         my $response = $self->{client}->send(
