@@ -66,10 +66,8 @@ sub setCDPPorts {
 
     return unless ref $results->{lldpRemChassisId} eq "HASH";
 
-    my $short_number;
-
     while (my ($number, $chassisname) = each %{$results->{lldpRemChassisId}}) {
-        $short_number = $number;
+        my $short_number = $number;
         $short_number =~ s/$walks->{lldpRemChassisId}->{OID}//;
 
         my @arraymac = split(/(\S{2})/, $chassisname);
