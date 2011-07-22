@@ -333,7 +333,8 @@ sub processChecksum {
 
     if ($self->{last_state_file}) {
         if (-f $self->{last_state_file}) {
-            $self->{last_state_content} = XML::TreePP->parsefile(
+            my $tpp = XML::TreePP->new();
+            $self->{last_state_content} = $tpp->parsefile(
                 $self->{last_state_file}
             );
         } else {
