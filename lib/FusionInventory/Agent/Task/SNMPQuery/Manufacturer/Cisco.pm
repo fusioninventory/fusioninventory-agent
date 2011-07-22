@@ -16,7 +16,7 @@ sub setMacAddresses {
         my $dot1dTpFdbPort = $walks->{dot1dTpFdbPort}->{OID};
 
         my $key = $dot1dTpFdbPort.$short_number;
-        next unless $results->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$key};
+        next unless defined $results->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$key};
 
         my $subkey =
             $walks->{dot1dBasePortIfIndex}->{OID}                  . 
@@ -24,7 +24,7 @@ sub setMacAddresses {
             $results->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$key};
 
         my $ifIndex = $results->{VLAN}->{$vlan_id}->{dot1dBasePortIfIndex}->{$subkey};
-        next unless $ifIndex;
+        next unless defined $ifIndex;
 
         if (not exists $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CDP}) {
             my $add = 1;
