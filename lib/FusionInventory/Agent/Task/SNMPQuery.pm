@@ -487,8 +487,8 @@ sub _constructDataDeviceSimple {
     foreach my $info (@infos) {
         my $raw_value = $results->{$info->[0]};
         my $value =
-            $info->[0] eq 'name'        ? hex2stringValue($raw_value)   :
-            $info->[0] eq 'otherserial' ? hex2stringValue($raw_value)   :
+            $info->[0] eq 'name'        ? hex2string($raw_value)        :
+            $info->[0] eq 'otherserial' ? hex2string($raw_value)        :
             $info->[0] eq 'serial'      ? _sanitizedSerial($raw_value)  :
             $info->[0] eq 'ram'         ? int($raw_value / 1024 / 1024) :
             $info->[0] eq 'memory'      ? int($raw_value / 1024 / 1024) :

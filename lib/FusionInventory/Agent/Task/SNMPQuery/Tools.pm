@@ -6,7 +6,7 @@ use base 'Exporter';
 
 our @EXPORT = qw(
     lastSplitObject
-    hex2stringValue
+    hex2string
 );
 
 sub lastSplitObject {
@@ -16,7 +16,7 @@ sub lastSplitObject {
     return $array[-1];
 }
 
-sub hex2stringValue {
+sub hex2string {
     my ($hex) = @_;
 
     return unless $hex =~ /0x/;
