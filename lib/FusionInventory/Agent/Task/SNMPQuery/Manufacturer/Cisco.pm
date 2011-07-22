@@ -8,25 +8,20 @@ use FusionInventory::Agent::Task::SNMPQuery::Tools;
 sub setMacAddresses {
     my ($results, $datadevice, $vlan_id, $ports, $walks) = @_;
 
-    my $ifIndex;
-    my $numberip;
-    my $mac;
-    my $short_number;
-    my $dot1dTpFdbPort;
-
     my $i = 0;
     # each VLAN WALK per port
     while (my ($number, $ifphysaddress) = each %{$results->{VLAN}->{$vlan_id}->{dot1dTpFdbAddress}}) {
-        $short_number = $number;
+        my $short_number = $number;
         $short_number =~ s/$walks->{dot1dTpFdbAddress}->{OID}//;
-        $dot1dTpFdbPort = $walks->{dot1dTpFdbPort}->{OID};
+        my $dot1dTpFdbPort = $walks->{dot1dTpFdbPort}->{OID};
+
         if (exists $results->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}) {
             if (exists $results->{VLAN}->{$vlan_id}->{dot1dBasePortIfIndex}->{
                 $walks->{dot1dBasePortIfIndex}->{OID}.".".
                 $results->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}
                 }) {
 
-                $ifIndex = $results->{VLAN}->{$vlan_id}->{dot1dBasePortIfIndex}->{
+                my $ifIndex = $results->{VLAN}->{$vlan_id}->{dot1dBasePortIfIndex}->{
                 $walks->{dot1dBasePortIfIndex}->{OID}.".".
                 $results->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}
                 };
