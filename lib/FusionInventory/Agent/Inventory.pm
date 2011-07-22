@@ -333,10 +333,11 @@ sub processChecksum {
 
     if ($self->{last_state_file}) {
         if (-f $self->{last_state_file}) {
-            my $tpp = XML::TreePP->new();
-            $self->{last_state_content} = $tpp->parsefile(
-                $self->{last_state_file}
-            );
+            eval {
+                $self->{last_state_content} = XML::TreePP->new()->parsefile(
+                    $self->{last_state_file}
+                );
+            }
         } else {
             $logger->debug(
                 "last state file '$self->{last_state_file}' doesn't exist"
@@ -369,11 +370,12 @@ sub saveLastState {
     if (!defined($self->{last_state_content})) {
         $self->processChecksum();
     }
-
     if ($self->{last_state_file}) {
-        XML::TreePP->new()->writefile(
-            $self->{last_state_file}, $self->{last_state_content}
-        );
+        eval {
+            XML::TreePP->new()->writefile(
+                $self->{last_state_file}, $self->{last_state_content}
+            );
+        }
     } else {
         $logger->debug(
             "last state file is not defined, last state not saved"
