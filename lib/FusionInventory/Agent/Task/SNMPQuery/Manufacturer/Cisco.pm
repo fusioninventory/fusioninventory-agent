@@ -14,36 +14,36 @@ sub setMacAddresses {
         my $short_number = $number;
         $short_number =~ s/$walks->{dot1dTpFdbAddress}->{OID}//;
         my $dot1dTpFdbPort = $walks->{dot1dTpFdbPort}->{OID};
+
         my $key = $dot1dTpFdbPort.$short_number;
+        next unless $results->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$key};
 
-        if (exists $results->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$key}) {
-            if (exists $results->{VLAN}->{$vlan_id}->{dot1dBasePortIfIndex}->{
-                $walks->{dot1dBasePortIfIndex}->{OID}.".".
-                $results->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$key}
-                }) {
+        if (exists $results->{VLAN}->{$vlan_id}->{dot1dBasePortIfIndex}->{
+            $walks->{dot1dBasePortIfIndex}->{OID}.".".
+            $results->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$key}
+            }) {
 
-                my $ifIndex = $results->{VLAN}->{$vlan_id}->{dot1dBasePortIfIndex}->{
-                $walks->{dot1dBasePortIfIndex}->{OID}.".".
-                $results->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$key}
-                };
-                if (not exists $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CDP}) {
-                    my $add = 1;
-                    if ($ifphysaddress eq "") {
-                        $add = 0;
+            my $ifIndex = $results->{VLAN}->{$vlan_id}->{dot1dBasePortIfIndex}->{
+            $walks->{dot1dBasePortIfIndex}->{OID}.".".
+            $results->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$key}
+            };
+            if (not exists $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CDP}) {
+                my $add = 1;
+                if ($ifphysaddress eq "") {
+                    $add = 0;
+                }
+                if ($ifphysaddress eq $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{MAC}) {
+                    $add = 0;
+                }
+                if ($add eq "1") {
+                    if (exists $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}) {
+                        $i = @{$datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}};
+                        #$i++;
+                    } else {
+                        $i = 0;
                     }
-                    if ($ifphysaddress eq $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{MAC}) {
-                        $add = 0;
-                    }
-                    if ($add eq "1") {
-                        if (exists $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}) {
-                            $i = @{$datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}};
-                            #$i++;
-                        } else {
-                            $i = 0;
-                        }
-                        $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->[$i]->{MAC} = $ifphysaddress;
-                        $i++;
-                    }
+                    $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->[$i]->{MAC} = $ifphysaddress;
+                    $i++;
                 }
             }
         }
