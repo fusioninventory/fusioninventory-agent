@@ -28,18 +28,20 @@ sub setMacAddresses {
         my $ifIndex = $results->{VLAN}->{$vlan_id}->{dot1dBasePortIfIndex}->{$subkey};
         next unless defined $ifIndex;
 
+        my $port = $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}];
+
         # connection has CDP
-        next if exists $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CDP};
+        next if exists $port->{CONNECTIONS}->{CDP};
 
-        next if $ifphysaddress eq $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{MAC};
+        next if $ifphysaddress eq $port->{MAC};
 
-        if (exists $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}) {
-            $i = @{$datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}};
+        if (exists $port->{CONNECTIONS}->{CONNECTION}) {
+            $i = @{$port->{CONNECTIONS}->{CONNECTION}};
             #$i++;
         } else {
             $i = 0;
         }
-        $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->[$i]->{MAC} = $ifphysaddress;
+        $port->{CONNECTIONS}->{CONNECTION}->[$i]->{MAC} = $ifphysaddress;
         $i++;
     }
 }
