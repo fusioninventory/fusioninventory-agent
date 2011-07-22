@@ -28,9 +28,10 @@ sub setMacAddresses {
 sub RewritePortOf225 {
     my ($datadevice, $ports) = @_;
 
-    $datadevice->{PORTS}->{PORT}->[$ports->{101}]->{MAC} = $datadevice->{PORTS}->{PORT}->[$ports->{1}]->{MAC};
-    delete $datadevice->{PORTS}->{PORT}->[$ports->{1}];
-    delete $datadevice->{PORTS}->{PORT}->[$ports->{101}]->{CONNECTIONS};
+    my $deviceports = $datadevice->{PORTS}->{PORT};
+    $deviceports->[$ports->{101}]->{MAC} = $deviceports->[$ports->{1}]->{MAC};
+    delete $deviceports->[$ports->{1}];
+    delete $deviceports->[$ports->{101}]->{CONNECTIONS};
 }
 
 1;
