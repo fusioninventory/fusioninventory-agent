@@ -23,9 +23,10 @@ sub setMacAddresses {
             '.'                                                    .
             $results->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$key};
 
-        if (exists $results->{VLAN}->{$vlan_id}->{dot1dBasePortIfIndex}->{$subkey}) {
+        my $ifIndex = $results->{VLAN}->{$vlan_id}->{dot1dBasePortIfIndex}->{$subkey};
 
-            my $ifIndex = $results->{VLAN}->{$vlan_id}->{dot1dBasePortIfIndex}->{$subkey};
+        if ($ifIndex) {
+
             if (not exists $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CDP}) {
                 my $add = 1;
                 if ($ifphysaddress eq "") {
