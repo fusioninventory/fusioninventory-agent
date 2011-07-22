@@ -6,25 +6,19 @@ use warnings;
 sub setMacAddresses {
     my ($results, $datadevice, $ports, $walks) = @_;
 
-    my $ifIndex;
-    my $numberip;
-    my $mac;
-    my $short_number;
-    my $dot1dTpFdbPort;
-
     my $i = 0;
-
     while (my ($number,$ifphysaddress) = each %{$results->{dot1dTpFdbAddress}}) {
-        $short_number = $number;
+        my $short_number = $number;
         $short_number =~ s/$walks->{dot1dTpFdbAddress}->{OID}//;
-        $dot1dTpFdbPort = $walks->{dot1dTpFdbPort}->{OID};
+        my $dot1dTpFdbPort = $walks->{dot1dTpFdbPort}->{OID};
+
         if (exists $results->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}) {
             if (exists $results->{dot1dBasePortIfIndex}->{
                 $walks->{dot1dBasePortIfIndex}->{OID}.".".
                 $results->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}
                 }) {
 
-                $ifIndex = $results->{dot1dBasePortIfIndex}->{
+                my $ifIndex = $results->{dot1dBasePortIfIndex}->{
                 $walks->{dot1dBasePortIfIndex}->{OID}.".".
                 $results->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}
                 };
