@@ -86,11 +86,14 @@ sub setCDPPorts {
             $short_number =~ s/$walks->{lldpCacheAddress}->{OID}//;
             my @array = split(/\./, $short_number);
             next if defined $port_number[$array[1]];
-            $datadevice->{PORTS}->{PORT}->[$ports->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{SYSNAME} = $chassisname;
-            $datadevice->{PORTS}->{PORT}->[$ports->{$array[1]}]->{CONNECTIONS}->{CDP} = "1";
-            if (defined $results->{lldpCacheDevicePort}->{$walks->{lldpCacheDevicePort}->{OID}.$short_number}) {
-                $datadevice->{PORTS}->{PORT}->[$ports->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{IFDESCR} = $results->{lldpCacheDevicePort}->{$walks->{lldpCacheDevicePort}->{OID}.$short_number};
-            }
+            my $connections =
+                $datadevice->{PORTS}->{PORT}->[$ports->{$array[1]}]->{CONNECTIONS};
+            $connections->{CONNECTION}->{SYSNAME} = $chassisname;
+            $connections->{CDP} = 1;
+            $connections->{CONNECTION}->{IFDESCR} =
+                $results->{lldpCacheDevicePort}->{
+                    $walks->{lldpCacheDevicePort}->{OID} . $short_number
+                };
         }
     }
 }
