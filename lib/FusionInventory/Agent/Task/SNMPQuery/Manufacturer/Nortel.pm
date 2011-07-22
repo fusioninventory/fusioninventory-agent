@@ -73,13 +73,13 @@ sub setCDPPorts {
         $short_number = $number;
         $short_number =~ s/$walks->{lldpRemChassisId}->{OID}//;
         my @array = split(/\./, $short_number);
-        if (!defined($port_number[$array[2]])) {
-            my @arraymac = split(/(\S{2})/, $chassisname);
-            $datadevice->{PORTS}->{PORT}->[$ports->{$array[2]}]->{CONNECTIONS}->{CONNECTION}->{SYSMAC} = $arraymac[3].":".$arraymac[5].":".$arraymac[7].":".$arraymac[9].":".$arraymac[11].":".$arraymac[13];
-            $datadevice->{PORTS}->{PORT}->[$ports->{$array[2]}]->{CONNECTIONS}->{CDP} = "1";
-            $datadevice->{PORTS}->{PORT}->[$ports->{$array[2]}]->{CONNECTIONS}->{CONNECTION}->{IFNUMBER} = $array[3];
+        next if defined $port_number[$array[2]];
 
-        }
+        my @arraymac = split(/(\S{2})/, $chassisname);
+        $datadevice->{PORTS}->{PORT}->[$ports->{$array[2]}]->{CONNECTIONS}->{CONNECTION}->{SYSMAC} = $arraymac[3].":".$arraymac[5].":".$arraymac[7].":".$arraymac[9].":".$arraymac[11].":".$arraymac[13];
+        $datadevice->{PORTS}->{PORT}->[$ports->{$array[2]}]->{CONNECTIONS}->{CDP} = "1";
+        $datadevice->{PORTS}->{PORT}->[$ports->{$array[2]}]->{CONNECTIONS}->{CONNECTION}->{IFNUMBER} = $array[3];
+
     }
 }
 
