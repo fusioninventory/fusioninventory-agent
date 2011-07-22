@@ -371,7 +371,7 @@ sub saveLastState {
 
     if ($self->{last_state_file}) {
         XML::TreePP->new()->writefile(
-            $self->{last_state_content}, $self->{last_state_file}
+            $self->{last_state_file}, $self->{last_state_content}
         );
     } else {
         $logger->debug(
