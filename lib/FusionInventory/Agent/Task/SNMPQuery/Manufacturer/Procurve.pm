@@ -57,8 +57,6 @@ sub setMacAddresses {
 sub setCDPPorts {
     my ($results, $datadevice, $walks, $ports) = @_;
 
-    my @port_number;
-
     if (ref $results->{cdpCacheAddress} eq "HASH"){
         while (my ($number, $ip_hex) = each %{$results->{cdpCacheAddress}}) {
             my $ip = hex2quad($ip_hex);
@@ -67,8 +65,6 @@ sub setCDPPorts {
             my $short_number = $number;
             $short_number =~ s/$walks->{cdpCacheAddress}->{OID}//;
             my @array = split(/\./, $short_number);
-            $port_number[$array[1]] = 1;
-
             my $connections =
                 $datadevice->{PORTS}->{PORT}->[$ports->{$array[1]}]->{CONNECTIONS};
 
@@ -85,9 +81,12 @@ sub setCDPPorts {
             my $short_number = $number;
             $short_number =~ s/$walks->{lldpCacheAddress}->{OID}//;
             my @array = split(/\./, $short_number);
-            next if defined $port_number[$array[1]];
             my $connections =
                 $datadevice->{PORTS}->{PORT}->[$ports->{$array[1]}]->{CONNECTIONS};
+
+            # already done through CDP 
+            next if $connections->{CDP};
+
             $connections->{CONNECTION}->{SYSNAME} = $chassisname;
             $connections->{CDP} = 1;
             $connections->{CONNECTION}->{IFDESCR} =
