@@ -8,49 +8,31 @@ use FusionInventory::Agent::Tools::Network;
 sub setMacAddresses {
     my ($results, $datadevice, $ports, $walks) = @_;
 
-    my $ifIndex;
-    my $numberip;
-    my $mac;
-    my $short_number;
-    my $dot1dTpFdbPort;
+    while (my ($number, $ifphysaddress) = each %{$results->{dot1dTpFdbAddress}}) {
+        next unless $ifphysaddress;
 
-    my $i = 0;
-
-    while (my ($number,$ifphysaddress) = each %{$results->{dot1dTpFdbAddress}}) {
-        $short_number = $number;
+        my $short_number = $number;
         $short_number =~ s/$walks->{dot1dTpFdbAddress}->{OID}//;
-        $dot1dTpFdbPort = $walks->{dot1dTpFdbPort}->{OID};
-        if (exists $results->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}) {
-            if (exists $results->{dot1dBasePortIfIndex}->{
-                $walks->{dot1dBasePortIfIndex}->{OID}.".".
-                $results->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}
-                }) {
+        my $dot1dTpFdbPort = $walks->{dot1dTpFdbPort}->{OID};
 
-                $ifIndex = $results->{dot1dBasePortIfIndex}->{
-                $walks->{dot1dBasePortIfIndex}->{OID}.".".
-                $results->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}
-                };
-                if (not exists $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CDP}) {
-                    my $add = 1;
-                    if ($ifphysaddress eq "") {
-                        $add = 0;
-                    }
-                    if ($ifphysaddress eq $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{MAC}) {
-                        $add = 0;
-                    }
-                    if ($add eq "1") {
-                        if (exists $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}) {
-                            $i = @{$datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}};
-                            #$i++;
-                        } else {
-                            $i = 0;
-                        }
-                        $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->[$i]->{MAC} = $ifphysaddress;
-                        $i++;
-                    }
-                }
-            }
-        }
+        my $portKey = $dot1dTpFdbPort . $short_number;
+        my $ifKey_part = $results->{dot1dTpFdbPort}->{$portKey};
+        next unless defined $ifKey_part;
+
+        my $ifIndex =
+            $results->{dot1dBasePortIfIndex}->{
+                $walks->{dot1dBasePortIfIndex}->{OID} . '.' .  $ifKey_part
+            };
+        next unless defined $ifIndex;
+
+        my $port = $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}];
+
+        next if exists $port->{CONNECTIONS}->{CDP};
+        next if $ifphysaddress eq $port->{MAC};
+
+        my $connection = $port->{CONNECTIONS}->{CONNECTION};
+        my $i = $connection ? @{$connection} : 0;
+        $connection->[$i]->{MAC} = $ifphysaddress;
     }
 }
 
