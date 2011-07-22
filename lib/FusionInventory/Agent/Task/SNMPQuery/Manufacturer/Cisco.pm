@@ -8,7 +8,6 @@ use FusionInventory::Agent::Task::SNMPQuery::Tools;
 sub setMacAddresses {
     my ($results, $datadevice, $vlan_id, $ports, $walks) = @_;
 
-    # each VLAN WALK per port
     while (my ($number, $ifphysaddress) = each %{$results->{VLAN}->{$vlan_id}->{dot1dTpFdbAddress}}) {
         next unless $ifphysaddress;
 
@@ -29,7 +28,6 @@ sub setMacAddresses {
 
         my $port = $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}];
 
-        # connection has CDP
         next if exists $port->{CONNECTIONS}->{CDP};
 
         next if $ifphysaddress eq $port->{MAC};
