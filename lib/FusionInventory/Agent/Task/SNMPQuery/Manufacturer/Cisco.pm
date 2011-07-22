@@ -52,14 +52,13 @@ sub setCDPPorts {
 
     return unless ref $results->{cdpCacheAddress} eq 'HASH';
 
-    my $short_number;
-
     while (my ($number, $ip_hex) = each %{$results->{cdpCacheAddress}}) {
-        $short_number = $number;
-        $short_number =~ s/$walks->{cdpCacheAddress}->{OID}//;
-        my @array = split(/\./, $short_number);
         my $ip = hex2stringAddress($ip_hex);
         next if $ip eq '0.0.0.0';
+
+        my $short_number = $number;
+        $short_number =~ s/$walks->{cdpCacheAddress}->{OID}//;
+        my @array = split(/\./, $short_number);
 
         $datadevice->{PORTS}->{PORT}->[$ports->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{IP} = $ip;
         $datadevice->{PORTS}->{PORT}->[$ports->{$array[1]}]->{CONNECTIONS}->{CDP} = "1";
