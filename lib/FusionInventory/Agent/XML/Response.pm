@@ -17,7 +17,7 @@ sub new {
     my $content = $tpp->parse($params{content});
 
     die "content is not an XML message" unless ref $content eq 'HASH';
-    die "content is an invalid XML message" unless $content->{REPLY};
+    die "content is an invalid XML message" unless defined($content->{REPLY});
 
     my $self = {
         content => $content->{REPLY}
