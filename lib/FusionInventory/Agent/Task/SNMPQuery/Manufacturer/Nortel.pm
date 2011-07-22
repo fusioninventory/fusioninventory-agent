@@ -83,7 +83,7 @@ sub setCDPPorts {
             $arraymac[9]  . ":" .
             $arraymac[11] . ":" .
             $arraymac[13];
-        $connections->{CDP} = "1";
+        $connections->{CDP} = 1;
     }
 }
 
