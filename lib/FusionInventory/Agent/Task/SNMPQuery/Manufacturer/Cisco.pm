@@ -11,6 +11,8 @@ sub setMacAddresses {
     my $i = 0;
     # each VLAN WALK per port
     while (my ($number, $ifphysaddress) = each %{$results->{VLAN}->{$vlan_id}->{dot1dTpFdbAddress}}) {
+        next unless $ifphysaddress;
+
         my $short_number = $number;
         $short_number =~ s/$walks->{dot1dTpFdbAddress}->{OID}//;
         my $dot1dTpFdbPort = $walks->{dot1dTpFdbPort}->{OID};
@@ -29,23 +31,16 @@ sub setMacAddresses {
         # connection has CDP
         next if exists $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CDP};
 
-        my $add = 1;
-        if ($ifphysaddress eq "") {
-            $add = 0;
+        next if $ifphysaddress eq $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{MAC};
+
+        if (exists $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}) {
+            $i = @{$datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}};
+            #$i++;
+        } else {
+            $i = 0;
         }
-        if ($ifphysaddress eq $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{MAC}) {
-            $add = 0;
-        }
-        if ($add eq "1") {
-            if (exists $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}) {
-                $i = @{$datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}};
-                #$i++;
-            } else {
-                $i = 0;
-            }
-            $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->[$i]->{MAC} = $ifphysaddress;
-            $i++;
-        }
+        $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->[$i]->{MAC} = $ifphysaddress;
+        $i++;
     }
 }
 
