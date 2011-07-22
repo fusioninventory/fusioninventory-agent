@@ -14,16 +14,17 @@ sub setMacAddresses {
         my $short_number = $number;
         $short_number =~ s/$walks->{dot1dTpFdbAddress}->{OID}//;
         my $dot1dTpFdbPort = $walks->{dot1dTpFdbPort}->{OID};
+        my $key = $dot1dTpFdbPort.$short_number;
 
-        if (exists $results->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}) {
+        if (exists $results->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$key}) {
             if (exists $results->{VLAN}->{$vlan_id}->{dot1dBasePortIfIndex}->{
                 $walks->{dot1dBasePortIfIndex}->{OID}.".".
-                $results->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}
+                $results->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$key}
                 }) {
 
                 my $ifIndex = $results->{VLAN}->{$vlan_id}->{dot1dBasePortIfIndex}->{
                 $walks->{dot1dBasePortIfIndex}->{OID}.".".
-                $results->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}
+                $results->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$key}
                 };
                 if (not exists $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CDP}) {
                     my $add = 1;
