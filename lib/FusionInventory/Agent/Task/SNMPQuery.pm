@@ -121,12 +121,12 @@ my @ports_dispatch_table = (
 my @mac_dispatch_table = (
     {
         match    => qr/3Com IntelliJack/,
-        module   =>  __PACKAGE__ . '::Manufacturer::ThreeCom',
+        module   =>  __PACKAGE__ . '::Manufacturer::3Com',
         function => 'RewritePortOf225',
     },
     {
         match    => qr/3Com/,
-        module   => __PACKAGE__ . '::Manufacturer::ThreeCom',
+        module   => __PACKAGE__ . '::Manufacturer::3Com',
         function => 'setMacAddresses',
     },
     {
