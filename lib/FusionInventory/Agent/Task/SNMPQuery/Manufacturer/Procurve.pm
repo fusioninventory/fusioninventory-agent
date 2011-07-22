@@ -63,7 +63,7 @@ sub setCDPPorts {
             $short_number = $number;
             $short_number =~ s/$walks->{cdpCacheAddress}->{OID}//;
             my @array = split(/\./, $short_number);
-            my $ip = getStringIpAddress($ip_hex);
+            my $ip = hex2stringAddress($ip_hex);
             if (($ip ne "0.0.0.0") && ($ip =~ /^([O1]?\d\d?|2[0-4]\d|25[0-5])\.([O1]?\d\d?|2[0-4]\d|25[0-5])\.([O1]?\d\d?|2[0-4]\d|25[0-5])\.([O1]?\d\d?|2[0-4]\d|25[0-5])$/)){
                 $port_number[$array[1]] = 1;
                 $datadevice->{PORTS}->{PORT}->[$ports->{$array[1]}]->{CONNECTIONS}->{CONNECTION}->{IP} = $ip;

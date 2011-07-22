@@ -487,8 +487,8 @@ sub _constructDataDeviceSimple {
     foreach my $info (@infos) {
         my $raw_value = $results->{$info->[0]};
         my $value =
-            $info->[0] eq 'name'        ? _hex2String($raw_value)       :
-            $info->[0] eq 'otherserial' ? _hex2String($raw_value)       :
+            $info->[0] eq 'name'        ? hex2stringValue($raw_value)   :
+            $info->[0] eq 'otherserial' ? hex2stringValue($raw_value)   :
             $info->[0] eq 'serial'      ? _sanitizedSerial($raw_value)  :
             $info->[0] eq 'ram'         ? int($raw_value / 1024 / 1024) :
             $info->[0] eq 'memory'      ? int($raw_value / 1024 / 1024) :
@@ -697,16 +697,6 @@ sub _sanitizedSerial {
     $value =~ s/^\s+//;
     $value =~ s/\s+$//;
     $value =~ s/(\.{2,})*//g;
-
-    return $value;
-}
-
-sub _hex2String {
-    my ($value) = @_;
-
-    return unless $value =~ /0x/;
-    $value =~ s/0x//;
-    $value =~ s/(\w{2})/chr(hex($1))/eg;
 
     return $value;
 }
