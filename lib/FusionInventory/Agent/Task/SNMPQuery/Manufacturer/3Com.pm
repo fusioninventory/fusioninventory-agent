@@ -6,37 +6,21 @@ use warnings;
 sub setMacAddresses {
     my ($results, $datadevice, $ports, $walks) = @_;
 
-    my $ifIndex;
-    my $numberip;
-    my $mac;
-    my $short_number;
-    my $dot1dTpFdbPort;
-    my $add = 0;
-    my $i;
+    while (my ($number, $ifphysaddress) = each %{$results->{dot1dTpFdbAddress}}) {
+        next unless $ifphysaddress;
 
-    while ( my ($number,$ifphysaddress) = each (%{$results->{dot1dTpFdbAddress}}) ) {
-        $short_number = $number;
+        my $short_number = $number;
         $short_number =~ s/$walks->{dot1dTpFdbAddress}->{OID}//;
-        $dot1dTpFdbPort = $walks->{dot1dTpFdbPort}->{OID};
+        my $dot1dTpFdbPort = $walks->{dot1dTpFdbPort}->{OID};
 
-        $add = 1;
-        if ($ifphysaddress eq "") {
-            $add = 0;
-        }
-        if (($add eq "1") && (exists($results->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}))) {
-            $ifIndex = $results->{dot1dBasePortIfIndex}->{
-            $walks->{dot1dBasePortIfIndex}->{OID}.".".
-            $results->{dot1dTpFdbPort}->{$dot1dTpFdbPort.$short_number}
-            };
+        my $portKey = $dot1dTpFdbPort . $short_number;
+        my $ifIndex = $results->{dot1dTpFdbPort}->{$portKey};
+        next unless defined $ifIndex;
 
-            if (exists $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}) {
-                $i = @{$datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}};
-            } else {
-                $i = 0;
-            }
-            $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->[$i]->{MAC} = $ifphysaddress;
-            $i++;
-        }
+        my $port = $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}];
+        my $connection = $port->{CONNECTIONS}->{CONNECTION};
+        my $i = $connection ? @{$connection} : 0;
+        $connection->[$i]->{MAC} = $ifphysaddress;
     }
 }
 
