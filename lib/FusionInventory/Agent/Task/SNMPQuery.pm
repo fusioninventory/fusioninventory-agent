@@ -718,3 +718,37 @@ sub _runFunction {
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Task::SNMPQuery - Remote inventory support for FusionInventory Agent
+
+=head1 DESCRIPTION
+
+This task extracts various informations from remote hosts through SNMP
+protocol:
+
+=over
+
+=item *
+
+network switches, routers and printers analysis
+
+=item *
+
+relation between computers / printers / switchs ports
+
+=item *
+
+report printer cartridge and counter status
+
+=back
+
+This task requires a GLPI server with FusionInventory plugin.
+
+=head1 AUTHORS
+
+Copyright (C) 2009 David Durieux
+Copyright (C) 2010-2011 FusionInventory Team
