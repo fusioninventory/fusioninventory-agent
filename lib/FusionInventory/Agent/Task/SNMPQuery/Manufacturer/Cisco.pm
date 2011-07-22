@@ -65,9 +65,10 @@ sub setCDPPorts {
 
         $connections->{CONNECTION}->{IP} = $ip;
         $connections->{CDP} = 1;
-        if (defined($results->{cdpCacheDevicePort}->{$walks->{cdpCacheDevicePort}->{OID}.$short_number})) {
-            $connections->{CONNECTION}->{IFDESCR} = $results->{cdpCacheDevicePort}->{$walks->{cdpCacheDevicePort}->{OID}.$short_number};
-        }
+        $connections->{CONNECTION}->{IFDESCR} =
+            $results->{cdpCacheDevicePort}->{
+                $walks->{cdpCacheDevicePort}->{OID} . $short_number
+            };
     }
 }
 
