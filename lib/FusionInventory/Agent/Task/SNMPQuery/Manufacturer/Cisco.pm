@@ -24,27 +24,25 @@ sub setMacAddresses {
             $results->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$key};
 
         my $ifIndex = $results->{VLAN}->{$vlan_id}->{dot1dBasePortIfIndex}->{$subkey};
+        next unless $ifIndex;
 
-        if ($ifIndex) {
-
-            if (not exists $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CDP}) {
-                my $add = 1;
-                if ($ifphysaddress eq "") {
-                    $add = 0;
+        if (not exists $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CDP}) {
+            my $add = 1;
+            if ($ifphysaddress eq "") {
+                $add = 0;
+            }
+            if ($ifphysaddress eq $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{MAC}) {
+                $add = 0;
+            }
+            if ($add eq "1") {
+                if (exists $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}) {
+                    $i = @{$datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}};
+                    #$i++;
+                } else {
+                    $i = 0;
                 }
-                if ($ifphysaddress eq $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{MAC}) {
-                    $add = 0;
-                }
-                if ($add eq "1") {
-                    if (exists $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}) {
-                        $i = @{$datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}};
-                        #$i++;
-                    } else {
-                        $i = 0;
-                    }
-                    $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->[$i]->{MAC} = $ifphysaddress;
-                    $i++;
-                }
+                $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}]->{CONNECTIONS}->{CONNECTION}->[$i]->{MAC} = $ifphysaddress;
+                $i++;
             }
         }
     }
