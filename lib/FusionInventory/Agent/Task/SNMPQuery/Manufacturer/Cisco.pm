@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Task::SNMPQuery::Tools;
+use FusionInventory::Agent::Tools::Network;
 
 sub setMacAddresses {
     my ($results, $datadevice, $ports, $walks, $vlan_id) = @_;
@@ -53,7 +54,7 @@ sub setCDPPorts {
     return unless ref $results->{cdpCacheAddress} eq 'HASH';
 
     while (my ($number, $ip_hex) = each %{$results->{cdpCacheAddress}}) {
-        my $ip = hex2stringAddress($ip_hex);
+        my $ip = hex2quad($ip_hex);
         next if $ip eq '0.0.0.0';
 
         my $short_number = $number;
