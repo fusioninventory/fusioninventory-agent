@@ -24,16 +24,9 @@ sub run {
             $self->{logger}->debug(
                 "Force enable, ignore prolog and run inventory."
             );
-        } else {
-            my $parsedContent = $self->{prologresp}->getParsedContent();
-            if (
-                !$parsedContent ||
-                ! $parsedContent->{RESPONSE} ||
-                ! $parsedContent->{RESPONSE} eq 'SEND'
-            ) {
-                $self->{logger}->debug("No inventory requested in the prolog");
-                return;
-            }
+        } elsif ($self->{prologresp}{content}{RESPONSE} !~ /^SEND$/) {
+            $self->{logger}->debug("No inventory requested in the prolog");
+            return;
         }
     }
 
