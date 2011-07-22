@@ -102,41 +102,41 @@ my @printer_cartridges_percent_infos = (
 
 my @ports_dispatch_table = (
     {
-        match => qr/Cisco/,
-        trunk => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco',
-        devices => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco',
+        match   => qr/Cisco/,
+        trunk   => __PACKAGE__ . '::Manufacturer::Cisco',
+        devices => __PACKAGE__ . '::Manufacturer::Cisco',
     },
     {
-        match => qr/ProCurve/,
-        trunk => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco',
-        devices => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::ProCurve',
+        match   => qr/ProCurve/,
+        trunk   => __PACKAGE__ . '::Manufacturer::Cisco',
+        devices => __PACKAGE__ . '::Manufacturer::ProCurve',
     },
     {
-        match => qr/Nortel/,
-        trunk => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Nortel',
-        devices => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Nortel',
+        match   => qr/Nortel/,
+        trunk   => __PACKAGE__ . '::Manufacturer::Nortel',
+        devices => __PACKAGE__ . '::Manufacturer::Nortel',
     },
 );
 
 my @mac_dispatch_table = (
     {
         match    => qr/3Com IntelliJack/,
-        module   => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::ThreeCom',
+        module   =>  __PACKAGE__ . '::Manufacturer::ThreeCom',
         function => 'RewritePortOf225',
     },
     {
         match    => qr/3Com/,
-        module   => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::ThreeCom',
+        module   => __PACKAGE__ . '::Manufacturer::ThreeCom',
         function => 'setMacAddresses',
     },
     {
         match    => qr/ProCurve/,
-        module   => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::ProCurve',
+        module   => __PACKAGE__ . '::Manufacturer::ProCurve',
         function => 'setMacAddresses'
     },
     {
         match    => qr/Nortel/,
-        module   => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Nortel',
+        module   => __PACKAGE__ . '::Manufacturer::Nortel',
         function => 'setMacAddresses'
     },
 );
