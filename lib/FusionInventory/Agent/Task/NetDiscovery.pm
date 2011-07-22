@@ -702,115 +702,28 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::NetDiscovery - SNMP support for FusionInventory Agent
+FusionInventory::Agent::Task::NetDiscovery - Net discovery support for FusionInventory Agent
 
 =head1 DESCRIPTION
 
-This module scans your networks to get informations from devices with the SNMP protocol
+This tasks scans your networks to find and identify connected devices,
+allowing:
 
-=over 4
-
-=item *
-networking devices discovery within an IP range
+=over
 
 =item *
-network switches, printers and routers analysis
+
+networking devices discovery within an IP range, through nmap, NetBios or SNMP
 
 =item *
-relation between computers / printers / switchs ports
 
-=item *
-identify unknown MAC addresses
-
-=item *
-report printer cartridge and counter status
-
-=item *
-support management of SNMP versions v1, v2, v3
+networking devices identification, through SNMP
 
 =back
 
-This plugin depends on FusionInventory for GLPI.
+This task requires a GLPI server with FusionInventory plugin.
 
 =head1 AUTHORS
 
-The maintainer is David DURIEUX <d.durieux@siprossii.com>
-
-Please read the AUTHORS, Changes and THANKS files to see who is behind
-FusionInventory.
-
-=head1 SEE ALSO
-
-=over 4
-
-=item
-FusionInventory website: L<http://www.FusionInventory.org/>
-
-=item
-
-project Forge: L<http://Forge.FusionInventory.org>
-
-=item
-
-The source code of the agent is available on:
-
-=over
-
-=item
-
-Gitorious: L<http://gitorious.org/fusioninventory>
-
-=item
-
-Github: L<http://github.com/fusinv/fusioninventory-agent>
-
-=back
-
-=item
-
-The mailing lists:
-
-=over
-
-=item
-
-L<http://lists.alioth.debian.org/mailman/listinfo/fusioninventory-devel>
-
-=item
-
-L<http://lists.alioth.debian.org/mailman/listinfo/fusioninventory-user>
-
-=back
-
-=item
-
-IRC: #FusionInventory on FreeNode IRC Network
-
-=back
-
-=head1 BUGS
-
-Please, use the mailing lists as much as possible. You can open your own bug
-tickets. Patches are welcome. You can also use the bugtracker on
-http://forge.fusionInventory.org
-
-=head1 COPYRIGHT
-
 Copyright (C) 2009 David Durieux
 Copyright (C) 2010-2011 FusionInventory Team
-
- This program is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-
-=cut
