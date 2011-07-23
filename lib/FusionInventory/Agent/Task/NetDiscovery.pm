@@ -203,8 +203,8 @@ sub run {
         PROCESSNUMBER => $params->{PID}
     });
 
-    # create the required number of scanning threads, sharing
-    # variables for synchronisation
+    # create the required number of threads, sharing variables
+    # for synchronisation
     my $maxIdx : shared = 0;
     my @addresses_block :shared;
     my @threads : shared;
@@ -224,8 +224,7 @@ sub run {
             $credentials,
             $nmap_parameters,
             $dico,
-            $maxIdx,
-            $params->{PID}
+            $maxIdx
         )->detach();
 
         # sleep one second every 4 threads
@@ -261,6 +260,8 @@ sub run {
             my $data = $storage->restore(
                 idx => $idx
             );
+            $data->{MODULEVERSION} = $VERSION;
+            $data->{PROCESSNUMBER} = $params->{PID};
             $self->_sendMessage($data);
             $storage->remove(
                 idx => $idx
@@ -349,7 +350,7 @@ sub _getDictionnary {
 }
 
 sub _scanAddresses {
-    my ($self, $thread, $addresses, $credentials, $nmap_parameters, $dico, $maxIdx, $pid) = @_;
+    my ($self, $thread, $addresses, $credentials, $nmap_parameters, $dico, $maxIdx) = @_;
 
     $self->{logger}->debug("Thread $thread->{id} created");
 
@@ -394,9 +395,7 @@ sub _scanAddresses {
                 $storage->save(
                     idx  => $maxIdx,
                     data => {
-                        DEVICE        => \@results,
-                        MODULEVERSION => $VERSION,
-                        PROCESSNUMBER => $pid,
+                        DEVICE => \@results,
                     }
                 );
                 undef @results;
@@ -409,9 +408,7 @@ sub _scanAddresses {
             $storage->save(
                 idx  => $maxIdx,
                 data => {
-                    DEVICE        => \@results,
-                    MODULEVERSION => $VERSION,
-                    PROCESSNUMBER => $pid,
+                    DEVICE => \@results,
                 }
             );
         }
