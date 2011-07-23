@@ -53,10 +53,8 @@ sub getNetworkMask {
     $mask .= 1 foreach(1..$prefix);
     $mask .= 0 foreach(1..(32-$prefix));
 
-    if ($mask =~ /^(\d{8})(\d{8})(\d{8})(\d{8})$/) {
-         $mask = oct("0b".$1).".".oct("0b".$2).".".oct("0b".$3).".".oct("0b".$4);
-    }
-    return $mask;
+    my @bytes = $mask =~ /^(\d{8})(\d{8})(\d{8})(\d{8})$/;
+    return join ('.', map { oct('0b' . $_) } @bytes);
 }
 
 1;
