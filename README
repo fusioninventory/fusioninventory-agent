@@ -1,27 +1,37 @@
-DESCRIPTION 
- This module scans your networks to get informations from devices with SNMP protocol:
-  - networking devices discovery within an IP range
-  - network switche, printer and router analyse
-  - relation between computer / printer / switch port
-  - identify unknown MAC addresses
-  - report printer cartridge and ounter status
-  - support management of SNMP versions v1, v2, v3
+		FusionInventory agent net discovery task
+		----------------------------------------
 
- The plugin depends on FusionInventory for GLPI. OCS Inventory can't use this plugin.
+Description 
+-----------
+This tasks scans the network to find connected devices, allowing:
+- devices discovery within an IP range, through nmap, NetBios or SNMP
+- devices identification, through SNMP
 
-LICENSE
- This program is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
+Dependencies
+------------
+This task requires a FusionInventory agent (minimal version 2.2.0), and can
+only be executed with a GLPI server with FusionInventory plugin.
 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
+Optional perl modules:
+- Net::NBName
+- Net::SNMP
 
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+Optional programs:
+- nmap
+
+License
+-------
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
 USA
-
