@@ -34,96 +34,86 @@ our $VERSION = '2.0';
 
 my @dispatch_table = (
     {
-        # alcatel
-        match => qr/^\S+ Service Release/,
-        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Alcatel',
+        match    => qr/^\S+ Service Release/,
+        module   => __PACKAGE__ . '::Manufacturer::Alcatel',
         function => 'getDescription'
     },
     {
-        match => qr/AXIS OfficeBasic Network Print Server/,
-        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Axis',
+        match    => qr/AXIS OfficeBasic Network Print Server/,
+        module   => __PACKAGE__ . '::Manufacturer::Axis',
         function => 'getDescription'
 
     },
     {
-        # dd-wrt
-        match => qr/Linux/,
-        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Ddwrt',
+        match    => qr/Linux/,
+        module   => __PACKAGE__ . '::Manufacturer::Ddwrt',
         function => 'getDescription'
     },
     {
-        # dell switch
-        match => 'Ethernet Switch',
-        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Dell',
+        match    => 'Ethernet Switch',
+        module   => __PACKAGE__ . '::Manufacturer::Dell',
         function => 'getDescription'
     },
     {
-        # Epson
-        match => qr/EPSON Built-in/,
-        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Epson',
+        match    => qr/EPSON Built-in/,
+        module   => __PACKAGE__ . '::Manufacturer::Epson',
         function => 'getDescriptionBuiltin'
     },
     {
-        # Epson
-        match => qr/EPSON Internal 10Base-T/,
-        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Epson',
+        match    => qr/EPSON Internal 10Base-T/,
+        module   => __PACKAGE__ . '::Manufacturer::Epson',
         function => 'getDescriptionInternal'
     },
     {
-        match => qr/HP ETHERNET MULTI-ENVIRONMENT/,
-        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::HewlettPackard',
+        match    => qr/HP ETHERNET MULTI-ENVIRONMENT/,
+        module   => __PACKAGE__ . '::Manufacturer::HewlettPackard',
         function => 'getDescription'
     },
     {
-        match => qr/A SNMP proxy agent, EEPROM/,
-        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::HewlettPackard',
+        match    => qr/A SNMP proxy agent, EEPROM/,
+        module   => __PACKAGE__ . '::Manufacturer::HewlettPackard',
         function => 'getDescription'
     },
     {
-        # kyocera
-        match => qr/,HP,JETDIRECT,J/,
-        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Kyocera',
+        match    => qr/,HP,JETDIRECT,J/,
+        module   => __PACKAGE__ . '::Manufacturer::Kyocera',
         function => 'getDescriptionHP'
     },
     {
-        match => 'KYOCERA MITA Printing System',
-        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Kyocera',
+        match    => 'KYOCERA MITA Printing System',
+        module   => __PACKAGE__ . '::Manufacturer::Kyocera',
         function => 'getDescriptionOther'
     },
     {
-        match => 'KYOCERA Printer I/F',
-        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Kyocera',
+        match    => 'KYOCERA Printer I/F',
+        module   => __PACKAGE__ . '::Manufacturer::Kyocera',
         function => 'getDescriptionOther'
 
     },
     {
-        match => 'SB-110',
-        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Kyocera',
+        match    => 'SB-110',
+        module   => __PACKAGE__ . '::Manufacturer::Kyocera',
         function => 'getDescriptionOther'
 
     },
         {
-        match => qr/RICOH NETWORK PRINTER/,
-        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Ricoh',
-        function => 'getDescription'
-
-    },
-    {
-        # samsung
-        match => qr/SAMSUNG NETWORK PRINTER,ROM/,
-        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Samsung',
+        match    => qr/RICOH NETWORK PRINTER/,
+        module   => __PACKAGE__ . '::Manufacturer::Ricoh',
         function => 'getDescription'
     },
     {
-        # Wyse
-        match => qr/Linux/,
-        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Wyse',
+        match   => qr/SAMSUNG NETWORK PRINTER,ROM/,
+        module  => __PACKAGE__ . '::Manufacturer::Samsung',
         function => 'getDescription'
     },
     {
-        # Zebra
-        match => qr/ZebraNet PrintServer/,
-        module => 'FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Zebranet',
+        match    => qr/Linux/,
+        module   => __PACKAGE__ . '::Manufacturer::Wyse',
+        function => 'getDescription'
+    },
+    {
+        match    => qr/ZebraNet PrintServer/,
+        module   => __PACKAGE__ . '::Manufacturer::Zebranet',
         function => 'getDescription'
     },
 );
