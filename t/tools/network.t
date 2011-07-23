@@ -17,15 +17,29 @@ my @mask_tests = (
     [ '191.168.0.1', 24, '255.255.255.0'   ],
 );
 
+my @mac_tests = (
+    [ '0xAABBCCDDEEFF', 'AA:BB:CC:DD:EE:FF' ],
+    [ 'AABBCCDDEEFF',   'AA:BB:CC:DD:EE:FF' ],
+);
+
 plan tests =>
     scalar @hex2quad_tests +
-    scalar @mask_tests;
+    scalar @mask_tests +
+    scalar @mac_tests;
 
 foreach my $test (@hex2quad_tests) {
     is(
         hex2quad($test->[0]),
         $test->[1],
         "$test->[0] conversion"
+    );
+}
+
+foreach my $test (@mac_tests) {
+    is(
+        getCanonicalMacAddress($test->[0]),
+        $test->[1],
+        "$test->[0] canonicalisation"
     );
 }
 

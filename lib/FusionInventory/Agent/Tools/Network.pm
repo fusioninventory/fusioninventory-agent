@@ -12,6 +12,7 @@ our @EXPORT = qw(
     getSubnetAddress
     getSubnetAddressIPv6
     getNetworkMask
+    getCanonicalMacAddress
     hex2quad
 );
 
@@ -44,6 +45,15 @@ sub hex2quad {
 
     my @bytes = $address =~ /(..)(..)(..)(..)/;
     return join('.', map { hex($_) } @bytes);
+}
+
+sub getCanonicalMacAddress {
+    my ($address) = @_;
+
+    $address =~ s/^0x//;
+
+    my @bytes = $address =~ /^(..)(..)(..)(..)(..)(..)$/;
+    return join(':', @bytes);
 }
 
 sub getNetworkMask {
@@ -85,3 +95,8 @@ Returns the subnet address for IPv6.
 =head2 getNetworkMask($address, $prefix)
 
 Returns the network mask.
+
+=head2 getCanonicalMacAddress($address)
+
+Returns the canonical form of the mac address.
+
