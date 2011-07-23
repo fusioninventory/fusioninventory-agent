@@ -1,19 +1,35 @@
-ABOUT
- To use this module, you'll need FusionInventory plugin for GLPI.
+		FusionInventory agent SNMP query task
+		-------------------------------------
 
-LICENSE
- This program is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
+Description
+-----------
+This task extracts various informations from remote hosts through SNMP
+protocol:
+- printer cartridge and counter status
+- network switches and routers ports status
+- relation between computers / printers / switchs ports
 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
+Dependencies
+------------
+This task requires a FusionInventory agent (minimal version 2.2.0), and can
+only be executed with a GLPI server with FusionInventory plugin.
 
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+Mandatory perl modules:
+- Net::SNMP
+
+License
+-------
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
 USA
-
