@@ -706,18 +706,17 @@ FusionInventory::Agent::Task::NetDiscovery - Net discovery support for FusionInv
 
 =head1 DESCRIPTION
 
-This tasks scans your networks to find and identify connected devices,
-allowing:
+This tasks scans the network to find connected devices, allowing:
 
 =over
 
 =item *
 
-networking devices discovery within an IP range, through nmap, NetBios or SNMP
+devices discovery within an IP range, through nmap, NetBios or SNMP
 
 =item *
 
-networking devices identification, through SNMP
+devices identification, through SNMP
 
 =back
 
