@@ -3,8 +3,6 @@ package FusionInventory::Agent::Task::Inventory::OS::Solaris::Networks;
 use strict;
 use warnings;
 
-use Net::IP qw(:PROC);
-
 #ce5: flags=1000843<UP,BROADCAST,RUNNING,MULTICAST,IPv4> mtu 1500 index 3
 #        inet 55.37.101.171 netmask fffffc00 broadcast 55.37.103.255
 #        ether 0:3:ba:24:9b:bf
@@ -306,12 +304,8 @@ sub _parseIfconfig {
         if ($line =~ /inet ($ip_address_pattern)/) {
             $interface->{IPADDRESS} = $1;
         }
-        if ($line =~ /\S*netmask\s+(\S+)/i) {
-            # hex to dec to bin to ip
-            $interface->{IPMASK} = ip_bintoip(
-                unpack("B*", pack("N", sprintf("%d", hex($1)))),
-                4
-            );
+        if ($line =~ /netmask ($hex_ip_address_pattern)/i) {
+            $interface->{IPMASK} = hex2quad($1);
         }
         if ($line =~ /groupname\s+(\S+)/i) {
             $interface->{TYPE} = $1;
