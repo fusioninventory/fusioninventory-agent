@@ -20,7 +20,6 @@ use FusionInventory::Agent::XML::Query;
 use FusionInventory::Agent::Task::SNMPQuery::Tools;
 
 our $VERSION = '2.0';
-my $maxIdx : shared = 0;
 
 my @infos = (
     [ qw/macaddr MAC/ ],
@@ -188,12 +187,15 @@ sub run {
         PROCESSNUMBER => $params->{PID}
     });
 
+    # create the required number of threads, sharing variables
+    # for synchronisation
+    my $maxIdx : shared = 0;
+
     # no need for more threads than devices to scan
     my $nb_threads = $params->{THREADS_QUERY};
     if ($nb_threads > @devices) {
         $nb_threads = @devices;
     }
-
 
     #===================================
     # Create all Threads
@@ -211,6 +213,7 @@ sub run {
             \@devices,
             $models,
             $credentials,
+            $maxIdx,
             $params->{PID},
         )->detach();
         sleep 1;
@@ -262,7 +265,7 @@ sub _sendMessage {
 }
 
 sub _queryDevices {
-    my ($self, $thread, $devices, $models, $credentials) = @_;
+    my ($self, $thread, $devices, $models, $credentials, $maxIdx) = @_;
 
     $self->{logger}->debug("Thread $thread->{id} created");
 
