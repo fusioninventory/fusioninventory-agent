@@ -12,8 +12,8 @@ our @EXPORT = qw(
     getSubnetAddress
     getSubnetAddressIPv6
     getNetworkMask
-    getCanonicalMacAddress
     hex2quad
+    join2split
 );
 
 sub getSubnetAddress {
@@ -47,10 +47,8 @@ sub hex2quad {
     return join('.', map { hex($_) } @bytes);
 }
 
-sub getCanonicalMacAddress {
+sub join2split {
     my ($address) = @_;
-
-    $address =~ s/^0x//;
 
     my @bytes = $address =~ /^(..)(..)(..)(..)(..)(..)$/;
     return join(':', @bytes);
@@ -84,6 +82,10 @@ This module provides some network-related functions.
 
 Convert an ip address from hexadecimal to quad form.
 
+=head2 join2split($address)
+
+Convert a mac address from join to split form.
+
 =head2 getSubnetAddress($address, $mask)
 
 Returns the subnet address for IPv4.
@@ -96,7 +98,4 @@ Returns the subnet address for IPv6.
 
 Returns the network mask.
 
-=head2 getCanonicalMacAddress($address)
-
-Returns the canonical form of the mac address.
 

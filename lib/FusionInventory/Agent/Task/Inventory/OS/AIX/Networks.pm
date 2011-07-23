@@ -99,8 +99,8 @@ sub _parseLscfg {
             $interface->{TYPE} = $2;
             $interface->{DESCRIPTION} = "en$1";
         }
-        if ($line =~ /Network \s Address \.+ (\w\w)(\w\w)(\w\w)(\w\w)(\w\w)(\w\w)/x) {
-            $interface->{MACADDR} = "$1:$2:$3:$4:$5:$6";
+        if ($line =~ /Network Address\.+($hex_mac_address_pattern)/) {
+            $interface->{MACADDR} = join2split($1);
         }
     }
     close $handle;

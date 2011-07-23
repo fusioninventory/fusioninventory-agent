@@ -86,9 +86,9 @@ sub _parseLanscan {
 
     my @interfaces;
     while (my $line = <$handle>) {
-        next unless /^(\S+)\s(\S+)\s(\S+)\s+(\S+)/;
+        next unless /^0x($hex_mac_address_pattern)\s(\S+)\s(\S+)\s+(\S+)/;
         my $interface = {
-            MACADDR => getCanonicalMacAddress($1),
+            MACADDR => join2split($1),
             STATUS => 'Down'
         };
         my $name = $2;

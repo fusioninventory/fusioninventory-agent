@@ -12,20 +12,19 @@ my @hex2quad_tests = (
     [ '7f7f7f7f', '127.127.127.127' ]
 );
 
+my @join2split_tests = (
+    [ 'AABBCCDDEEFF', 'AA:BB:CC:DD:EE:FF' ],
+);
+
 my @mask_tests = (
     [ '127.0.0.1',   32, '255.255.255.255' ],
     [ '191.168.0.1', 24, '255.255.255.0'   ],
 );
 
-my @mac_tests = (
-    [ '0xAABBCCDDEEFF', 'AA:BB:CC:DD:EE:FF' ],
-    [ 'AABBCCDDEEFF',   'AA:BB:CC:DD:EE:FF' ],
-);
-
 plan tests =>
     scalar @hex2quad_tests +
-    scalar @mask_tests +
-    scalar @mac_tests;
+    scalar @join2split_tests +
+    scalar @mask_tests;
 
 foreach my $test (@hex2quad_tests) {
     is(
@@ -35,11 +34,11 @@ foreach my $test (@hex2quad_tests) {
     );
 }
 
-foreach my $test (@mac_tests) {
+foreach my $test (@join2split_tests) {
     is(
-        getCanonicalMacAddress($test->[0]),
+        join2split($test->[0]),
         $test->[1],
-        "$test->[0] canonicalisation"
+        "$test->[0] conversion"
     );
 }
 
