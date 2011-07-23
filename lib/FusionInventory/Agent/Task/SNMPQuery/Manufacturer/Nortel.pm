@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Nortel;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools::Network;
+
 sub setMacAddresses {
     my ($results, $datadevice, $ports, $walks) = @_;
 
@@ -70,19 +72,13 @@ sub setConnectedDevices {
         my $short_number = $number;
         $short_number =~ s/$walks->{lldpRemChassisId}->{OID}//;
 
-        my @arraymac = split(/(\S{2})/, $chassisname);
         my @array = split(/\./, $short_number);
         my $connections =
             $datadevice->{PORTS}->{PORT}->[$ports->{$array[2]}]->{CONNECTIONS};
 
         $connections->{CONNECTION}->{IFNUMBER} = $array[3];
         $connections->{CONNECTION}->{SYSMAC} =
-            $arraymac[3]  . ":" .
-            $arraymac[5]  . ":" .
-            $arraymac[7]  . ":" .
-            $arraymac[9]  . ":" .
-            $arraymac[11] . ":" .
-            $arraymac[13];
+            join2split($chassisname);
         $connections->{CDP} = 1;
     }
 }
