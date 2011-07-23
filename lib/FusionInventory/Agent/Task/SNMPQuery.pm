@@ -734,15 +734,15 @@ protocol:
 
 =item *
 
-network switches, routers and printers analysis
+printer cartridges and counters status
 
 =item *
 
-relation between computers / printers / switchs ports
+router/switch ports status
 
 =item *
 
-report printer cartridge and counter status
+relations between devices and router/switch ports
 
 =back
 

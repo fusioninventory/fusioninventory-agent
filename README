@@ -5,9 +5,9 @@ Description
 -----------
 This task extracts various informations from remote hosts through SNMP
 protocol:
-- printer cartridge and counter status
-- network switches and routers ports status
-- relation between computers / printers / switchs ports
+- printer cartridges and counters status
+- router/switch ports status
+- relations between devices and router/switch ports
 
 Dependencies
 ------------
