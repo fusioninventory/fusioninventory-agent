@@ -88,15 +88,11 @@ sub _parseLanscan {
     while (my $line = <$handle>) {
         next unless /^(\S+)\s(\S+)\s(\S+)\s+(\S+)/;
         my $interface = {
-            MACADDR => $1,
+            MACADDR => getCanonicalMacAddress($1),
             STATUS => 'Down'
         };
         my $name = $2;
         my $lanid = $4;
-
-        if ($interface->{MACADDR} =~ /^0x(..)(..)(..)(..)(..)(..)$/) {
-            $interface->{MACADDR} = "$1:$2:$3:$4:$5:$6"
-        }
 
         my $lanadminInfo = _getLanadminInfo(
             command => "lanadmin -g $lanid", logger => $params{logger}
