@@ -105,16 +105,16 @@ sub _getInterfaces {
 
     my $OSLevel = getFirstLine(command => 'uname -r');
     if ($OSLevel =~ /5.10/) {
-        foreach (`/usr/sbin/dladm show-aggr`) {
-            next if /device/;
-            next if /key/;
+        foreach my $line (`/usr/sbin/dladm show-aggr`) {
+            next if $line =~ /device/;
+            next if $line =~ /key/;
             my $interface = {
                 STATUS    => 'Down',
                 IPADDRESS => "0.0.0.0",
             };
-            $interface->{DESCRIPTION} = $1 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/; # aggrega
-            $interface->{MACADDR} = $2 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
-            $interface->{SPEED} = $3." ".$4." ".$5 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
+            $interface->{DESCRIPTION} = $1 if $line =~ /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/; # aggrega
+            $interface->{MACADDR} = $2 if $line =~ /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
+            $interface->{SPEED} = $3." ".$4." ".$5 if $line =~  /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
             $interface->{STATUS} = 1 if /up/;
             push @interfaces, $interface;
         }
