@@ -166,11 +166,6 @@ sub run {
 
     my $params  = $options->{PARAM}->[0];
 
-    my @threads : shared;
-    my @devices : shared;
-
-    @devices = @{$options->{DEVICE}};
-
     # SNMP models
     my $models = _getIndexedModels($options->{MODEL});
 
@@ -189,7 +184,9 @@ sub run {
 
     # create the required number of threads, sharing variables
     # for synchronisation
-    my $maxIdx : shared = 0;
+    my $maxIdx  : shared = 0;
+    my @devices : shared = @{$options->{DEVICE}};
+    my @threads : shared;
 
     # no need for more threads than devices to scan
     my $nb_threads = $params->{THREADS_QUERY};
