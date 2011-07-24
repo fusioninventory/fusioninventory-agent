@@ -346,12 +346,9 @@ sub _queryDevice {
     # first, query single values
     foreach my $key (keys %{$model->{GET}}) {
         next unless $model->{GET}->{$key}->{VLAN} == 0;
-        my $result = $snmp->get(
+        $HashDataSNMP->{$key} = $snmp->get(
             $model->{GET}->{$key}->{OID}
         );
-        if ($result) {
-            $HashDataSNMP->{$key} = $result;
-        }
     }
     $datadevice->{INFO}->{ID} = $device->{ID};
     $datadevice->{INFO}->{TYPE} = $device->{TYPE};
@@ -359,10 +356,9 @@ sub _queryDevice {
 
     # second, query multiple values
     foreach my $key (keys %{$model->{WALK}}) {
-        my $result = $snmp->walk(
+        $HashDataSNMP->{$key} = $snmp->walk(
             $model->{WALK}->{$key}->{OID}
         );
-        $HashDataSNMP->{$key} = $result;
     }
     _constructDataDeviceMultiple($HashDataSNMP,$datadevice, $self, $model->{WALK});
 
