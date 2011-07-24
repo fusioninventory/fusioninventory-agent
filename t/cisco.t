@@ -11,93 +11,69 @@ my @mac_tests = (
     # - output data structure
     # - test explication
     [
-        {
-            PORTS => {
-                PORT => [
-                    {
-                        CONNECTIONS => {
-                            CONNECTION => [
-                            ]
-                        },
-                        MAC => 'X',
-                    }
-                ]
+        [
+            {
+                CONNECTIONS => {
+                    CONNECTION => [
+                    ]
+                },
+                MAC => 'X',
             }
-        },
-        {
-            PORTS => {
-                PORT => [
-                    {
-                        CONNECTIONS => {
-                            CONNECTION => [
-                                { MAC => '00 1C F6 C5 64 19' }
-                            ]
-                        },
-                        MAC => 'X',
-                    }
-                ]
+        ],
+        [
+            {
+                CONNECTIONS => {
+                    CONNECTION => [
+                        { MAC => '00 1C F6 C5 64 19' }
+                    ]
+                },
+                MAC => 'X',
             }
-        },
+        ],
         'connection mac address retrieval'
     ],
     [
-        {
-            PORTS => {
-                PORT => [
-                    {
-                        CONNECTIONS => {
-                            CONNECTION => [
-                            ],
-                            CDP => undef,
-                        },
-                        MAC => 'X',
-                    }
-                ]
+        [
+            {
+                CONNECTIONS => {
+                    CONNECTION => [
+                    ],
+                    CDP => undef,
+                },
+                MAC => 'X',
             }
-        },
-        {
-            PORTS => {
-                PORT => [
-                    {
-                        CONNECTIONS => {
-                            CONNECTION => [
-                            ],
-                            CDP => undef,
-                        },
-                        MAC => 'X',
-                    }
-                ]
+        ],
+        [
+            {
+                CONNECTIONS => {
+                    CONNECTION => [
+                    ],
+                    CDP => undef,
+                },
+                MAC => 'X',
             }
-        },
+        ],
         'connection mac address retrieval, connection has CDP'
     ],
     [
-        {
-            PORTS => {
-                PORT => [
-                    {
-                        CONNECTIONS => {
-                            CONNECTION => [
-                            ],
-                        },
-                        MAC => '00 1C F6 C5 64 19',
-                    }
-                ]
+        [
+            {
+                CONNECTIONS => {
+                    CONNECTION => [
+                    ],
+                },
+                MAC => '00 1C F6 C5 64 19',
             }
-        },
-        {
-            PORTS => {
-                PORT => [
-                    {
-                        CONNECTIONS => {
-                            CONNECTION => [
-                            ],
-                        },
-                        MAC => '00 1C F6 C5 64 19',
-                    }
-                ]
+        ],
+        [
+            {
+                CONNECTIONS => {
+                    CONNECTION => [
+                    ],
+                },
+                MAC => '00 1C F6 C5 64 19',
             }
-        },
+        ],
         'connection mac address retrieval, same mac address as the port'
     ],
 );
@@ -116,7 +92,7 @@ my $walks = {
     },
 };
 
-my $ports = {
+my $index = {
     306 => 0,
 };
 
@@ -138,7 +114,7 @@ my $results = {
 
 foreach my $test (@mac_tests) {
     FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco::setMacAddresses(
-        $results, $test->[0], $ports, $walks, 1
+        $results, $test->[0], $index, $walks, 1
     );
 
     is_deeply(

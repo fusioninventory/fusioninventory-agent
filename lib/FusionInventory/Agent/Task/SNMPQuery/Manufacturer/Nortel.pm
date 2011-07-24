@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools::Network;
 
 sub setMacAddresses {
-    my ($results, $datadevice, $ports, $walks) = @_;
+    my ($results, $deviceports, $index, $walks) = @_;
 
     my $i = 0;
     while (my ($number, $ifphysaddress) = each %{$results->{dot1dTpFdbAddress}}) {
@@ -26,7 +26,7 @@ sub setMacAddresses {
             };
         next unless defined $ifIndex;
 
-        my $port = $datadevice->{PORTS}->{PORT}->[$ports->{$ifIndex}];
+        my $port = $deviceports->[$index->{$ifIndex}];
 
         next if exists $port->{CONNECTIONS}->{CDP};
         next if $ifphysaddress eq $port->{MAC};
@@ -64,7 +64,7 @@ sub setTrunkPorts {
 }
 
 sub setConnectedDevices {
-    my ($results, $datadevice, $walks, $ports) = @_;
+    my ($results, $deviceports, $index, $walks) = @_;
 
     return unless ref $results->{lldpRemChassisId} eq "HASH";
 
@@ -74,7 +74,7 @@ sub setConnectedDevices {
 
         my @array = split(/\./, $short_number);
         my $connections =
-            $datadevice->{PORTS}->{PORT}->[$ports->{$array[2]}]->{CONNECTIONS};
+            $deviceports->[$index->{$array[2]}]->{CONNECTIONS};
 
         $connections->{CONNECTION}->{IFNUMBER} = $array[3];
         $connections->{CONNECTION}->{SYSMAC} =
