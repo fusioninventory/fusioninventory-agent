@@ -300,16 +300,16 @@ sub _queryDevice {
             values %{$model->{WALK}};
 
         if ($vlan_query) {
-            while ( (my $vlan_id,my $vlan_name) = each (%{$HashDataSNMP->{'vtpVlanName'}}) ) {
-                my $vlan_id_short = $vlan_id;
-                $vlan_id_short =~ s/$model->{WALK}->{vtpVlanName}->{OID}//;
-                $vlan_id_short =~ s/^.//;
+            while ( my ($id, $name) = each (%{$HashDataSNMP->{'vtpVlanName'}}) ) {
+                my $short_id = $id;
+                $short_id =~ s/$model->{WALK}->{vtpVlanName}->{OID}//;
+                $short_id =~ s/^.//;
                 # initiate a new SNMP connection on this VLAN
                 eval {
                     $snmp = FusionInventory::Agent::SNMP->new(
                         version      => $credentials->{VERSION},
                         hostname     => $device->{IP},
-                        community    => $credentials->{COMMUNITY}."@".$vlan_id_short,
+                        community    => $credentials->{COMMUNITY}."@".$short_id,
                         username     => $credentials->{USERNAME},
                         authpassword => $credentials->{AUTHPASSWORD},
                         authprotocol => $credentials->{AUTHPROTOCOL},
@@ -319,7 +319,7 @@ sub _queryDevice {
                     );
                 };
                 if ($EVAL_ERROR) {
-                    $self->{logger}->error("Unable to create SNMP session for $device->{IP}, VLAN $vlan_id: $EVAL_ERROR");
+                    $self->{logger}->error("Unable to create SNMP session for $device->{IP}, VLAN $id: $EVAL_ERROR");
                     return;
                 }
 
@@ -328,13 +328,13 @@ sub _queryDevice {
                     my $result = $snmp->walk(
                         $model->{WALK}->{$link}->{OID}
                     );
-                    $HashDataSNMP->{VLAN}->{$vlan_id}->{$link} = $result;
+                    $HashDataSNMP->{VLAN}->{$id}->{$link} = $result;
                 }
                 # Detect mac adress on each port
                 if ($datadevice->{INFO}->{COMMENTS} =~ /Cisco/) {
-                    ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Cisco::GetMAC($HashDataSNMP,$datadevice,$vlan_id,$self, $model->{WALK});
+                    ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Cisco::GetMAC($HashDataSNMP,$datadevice,$id,$self, $model->{WALK});
                 }
-                delete $HashDataSNMP->{VLAN}->{$vlan_id};
+                delete $HashDataSNMP->{VLAN}->{$id};
             }
         } else {
             if (defined ($datadevice->{INFO}->{COMMENTS})) {
