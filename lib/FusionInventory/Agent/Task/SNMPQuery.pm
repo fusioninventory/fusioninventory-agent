@@ -397,7 +397,7 @@ sub _queryDevice {
 
     # first, query single values
     foreach my $variable (values %{$model->{GET}}) {
-        next unless $variable->{VLAN} == 0;
+        next if $variable->{VLAN};
         $results->{$variable->{OBJECT}} = $snmp->get($variable->{OID});
     }
     $self->_constructDataDeviceSimple($results,$datadevice);
@@ -412,7 +412,7 @@ sub _queryDevice {
     if ($datadevice->{INFO}->{TYPE} eq "NETWORKING") {
         # check if vlan-specific queries are is needed
         my $vlan_query =
-            any { $_->{VLAN} == 1 }
+            any { $_->{VLAN} }
             values %{$model->{WALK}};
 
         if ($vlan_query) {
@@ -440,7 +440,7 @@ sub _queryDevice {
                 }
 
                 foreach my $link (keys %{$model->{WALK}}) {
-                    next unless $model->{WALK}->{$link}->{VLAN} == 1;
+                    next unless $model->{WALK}->{$link}->{VLAN};
                     my $result = $snmp->walk(
                         $model->{WALK}->{$link}->{OID}
                     );
