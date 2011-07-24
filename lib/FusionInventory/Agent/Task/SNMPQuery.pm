@@ -21,82 +21,85 @@ use FusionInventory::Agent::Task::SNMPQuery::Tools;
 
 our $VERSION = '2.0';
 
-my @infos = (
-    [ qw/macaddr MAC/ ],
-    [ qw/cpu CPU/ ],
-    [ qw/location LOCATION/ ],
-    [ qw/firmware FIRMWARE/ ],
-    [ qw/firmware1 FIRMWARE/ ],
-    [ qw/contant CONTACT/ ],
-    [ qw/comments COMMENTS/ ],
-    [ qw/uptime UPTIME/ ],
-    [ qw/serial SERIAL/ ],
-    [ qw/name NAME/ ],
-    [ qw/model MODEL/ ],
-    [ qw/entPhysicalModelName MODEL/ ],
-    [ qw/enterprise MANUFACTURER/ ],
-    [ qw/otherserial OTHERSERIAL/ ],
-    [ qw/memory MEMORY/ ],
-    [ qw/ram RAM/ ],
+# properties shared by all devices
+my %properties = (
+    MAC          => 'macaddr',
+    CPU          => 'cpu',
+    LOCATION     => 'location',
+    FIRMWARE     => 'firmware',
+    CONTACT      => 'contant',
+    COMMENTS     => 'comments',
+    UPTIME       => 'uptime',
+    SERIAL       => 'serial',
+    NAME         => 'name',
+    MODEL        => 'model',
+    MODEL        => 'entPhysicalModelName',
+    MANUFACTURER => 'enterprise',
+    OTHERSERIAL  => 'otherserial',
+    MEMORY       => 'memory',
+    RAM          => 'ram',
 );
 
-my @printer_cartridges_simple_infos = (
-    [ qw/tonerblack TONERBLACK/ ],
-    [ qw/tonerblack2 TONERBLACK2/ ],
-    [ qw/tonercyan TONERCYAN/ ],
-    [ qw/tonermagenta TONERMAGENTA/ ],
-    [ qw/toneryellow TONERYELLOW/ ],
-    [ qw/wastetoner WASTETONER/ ],
-    [ qw/cartridgeblack CARTRIDGEBLACK/ ],
-    [ qw/cartridgeblackphoto CARTRIDGEBLACKPHOTO/ ],
-    [ qw/cartridgecyan CARTRIDGECYAN/ ],
-    [ qw/cartridgecyanlight CARTRIDGECYANLIGHT/ ],
-    [ qw/cartridgemagenta CARTRIDGEMAGENTA/ ],
-    [ qw/cartridgemagentalight CARTRIDGEMAGENTALIGHT/ ],
-    [ qw/cartridgeyellow CARTRIDGEYELLOW/ ],
-    [ qw/maintenancekit MAINTENANCEKIT/ ],
-    [ qw/drumblack DRUMBLACK/ ],
-    [ qw/drumcyan DRUMCYAN/ ],
-    [ qw/drummagenta DRUMMAGENTA/ ],
-    [ qw/drumyellow DRUMYELLOW/ ],
+# printer-specific catridge-specific simple properties
+my %printer_cartridges_simple_properties = (
+    TONERBLACK            => 'tonerblack',
+    TONERBLACK2           => 'tonerblack2',
+    TONERCYAN             => 'tonercyan',
+    TONERMAGENTA          => 'tonermagenta',
+    TONERYELLOW           => 'toneryellow',
+    WASTETONER            => 'wastetoner',
+    CARTRIDGEBLACK        => 'cartridgeblack',
+    CARTRIDGEBLACKPHOTO   => 'cartridgeblackphoto',
+    CARTRIDGECYAN         => 'cartridgecyan',
+    CARTRIDGECYANLIGHT    => 'cartridgecyanlight',
+    CARTRIDGEMAGENTA      => 'cartridgemagenta',
+    CARTRIDGEMAGENTALIGHT => 'cartridgemagentalight',
+    CARTRIDGEYELLOW       => 'cartridgeyellow',
+    MAINTENANCEKIT        => 'maintenancekit',
+    DRUMBLACK             => 'drumblack',
+    DRUMCYAN              => 'drumcyan',
+    DRUMMAGENTA           => 'drummagenta',
+    DRUMYELLOW            => 'drumyellow',
 );
 
-my @printer_pagecounters_simple_infos = (
-    [ qw/pagecountertotalpages TOTAL/ ],
-    [ qw/pagecounterblackpages BLACK/ ],
-    [ qw/pagecountercolorpages COLOR/ ],
-    [ qw/pagecounterrectoversopages RECTOVERSO/ ],
-    [ qw/pagecounterscannedpages SCANNED/ ],
-    [ qw/pagecountertotalpages_print PRINTTOTAL/ ],
-    [ qw/pagecounterblackpages_print PRINTBLACK/ ],
-    [ qw/pagecountercolorpages_print PRINTCOLOR/ ],
-    [ qw/pagecountertotalpages_copy COPYTOTAL/ ],
-    [ qw/pagecounterblackpages_copy COPYBLACK/ ],
-    [ qw/pagecountercolorpages_copy COPYCOLOR/ ],
-    [ qw/pagecountertotalpages_fax FAXTOTAL/ ],
+# printer-specific page counter-specific properties
+my %printer_pagecounters_properties = (
+    TOTAL      => 'pagecountertotalpages',
+    BLACK      => 'pagecounterblackpages',
+    COLOR      => 'pagecountercolorpages',
+    RECTOVERSO => 'pagecounterrectoversopages',
+    SCANNED    => 'pagecounterscannedpages',
+    PRINTTOTAL => 'pagecountertotalpages_print',
+    PRINTBLACK => 'pagecounterblackpages_print',
+    PRINTCOLOR => 'pagecountercolorpages_print',
+    COPYTOTAL  => 'pagecountertotalpages_copy',
+    COPYBLACK  => 'pagecounterblackpages_copy',
+    COPYCOLOR  => 'pagecountercolorpages_copy',
+    FAXTOTAL   => 'pagecountertotalpages_fax',
 );
 
-my @printer_cartridges_percent_infos = (
-    [ qw/cartridgesblackMAX cartridgesblackREMAIN BLACK/ ],
-    [ qw/cartridgescyanMAX cartridgescyanREMAIN CYAN/ ],
-    [ qw/cartridgesyellowMAX cartridgesyellowREMAIN YELLOW/ ],
-    [ qw/cartridgesmagentaMAX cartridgesmagentaREMAIN MAGENTA/ ],
-    [ qw/cartridgescyanlightMAX cartridgescyanlightREMAIN CYANLIGHT/ ],
-    [ qw/cartridgesmagentalightMAX cartridgesmagentalightREMAIN MAGENTALIGHT/ ],
-    [ qw/cartridgesphotoconductorMAX cartridgesphotoconductorREMAIN PHOTOCONDUCTOR/ ],
-    [ qw/cartridgesphotoconductorblackMAX cartridgesphotoconductorblackREMAIN PHOTOCONDUCTORBLACK/ ],
-    [ qw/cartridgesphotoconductorcolorMAX cartridgesphotoconductorcolorREMAIN PHOTOCONDUCTORCOLOR/ ],
-    [ qw/cartridgesphotoconductorcyanMAX cartridgesphotoconductorcyanREMAIN PHOTOCONDUCTORCYAN/ ],
-    [ qw/cartridgesphotoconductoryellowMAX cartridgesphotoconductoryellowREMAIN PHOTOCONDUCTORYELLOW/ ],
-    [ qw/cartridgesphotoconductormagentaMAX cartridgesphotoconductormagentaREMAIN PHOTOCONDUCTORMAGENTA/ ],
-    [ qw/cartridgesunittransfertblackMAX cartridgesunittransfertblackREMAIN UNITTRANSFERBLACK/ ],
-    [ qw/cartridgesunittransfertcyanMAX cartridgesunittransfertcyanREMAIN UNITTRANSFERCYAN/ ],
-    [ qw/cartridgesunittransfertyellowMAX cartridgesunittransfertyellowREMAIN UNITTRANSFERYELLOW/ ],
-    [ qw/cartridgesunittransfertmagentaMAX cartridgesunittransfertmagentaREMAIN CARTRIDGE UNITTRANSFERMAGENTA/ ],
-    [ qw/cartridgeswasteMAX cartridgeswasteREMAIN WASTE/ ],
-    [ qw/cartridgesfuserMAX cartridgesfuserREMAIN FUSER/ ],
-    [ qw/cartridgesbeltcleanerMAX cartridgesbeltcleanerREMAIN BELTCLEANER/ ],
-    [ qw/cartridgesmaintenancekitMAX cartridgesmaintenancekitREMAIN MAINTENANCEKIT/ ],
+# printer-specific cartridge specific percent properties
+my %printer_cartridges_percent_properties = (
+    BLACK                 => [ qw/cartridgesblackMAX cartridgesblackREMAIN/ ],
+    CYAN                  => [ qw/cartridgescyanMAX cartridgescyanREMAIN/ ],
+    YELLOW                => [ qw/cartridgesyellowMAX cartridgesyellowREMAIN/ ],
+    MAGENTA               => [ qw/cartridgesmagentaMAX cartridgesmagentaREMAIN/ ],
+    CYANLIGHT             => [ qw/cartridgescyanlightMAX cartridgescyanlightREMAIN/ ],
+    MAGENTALIGHT          => [ qw/cartridgesmagentalightMAX cartridgesmagentalightREMAIN/ ],
+    PHOTOCONDUCTOR        => [ qw/cartridgesphotoconductorMAX cartridgesphotoconductorREMAIN/ ],
+    PHOTOCONDUCTORBLACK   => [ qw/cartridgesphotoconductorblackMAX cartridgesphotoconductorblackREMAIN/ ],
+    PHOTOCONDUCTORCOLOR   => [ qw/cartridgesphotoconductorcolorMAX cartridgesphotoconductorcolorREMAIN/ ],
+    PHOTOCONDUCTORCYAN    => [ qw/cartridgesphotoconductorcyanMAX cartridgesphotoconductorcyanREMAIN/ ],
+    PHOTOCONDUCTORYELLOW  => [ qw/cartridgesphotoconductoryellowMAX cartridgesphotoconductoryellowREMAIN/ ],
+    PHOTOCONDUCTORMAGENTA => [ qw/cartridgesphotoconductormagentaMAX cartridgesphotoconductormagentaREMAIN/ ],
+    UNITTRANSFERBLACK     => [ qw/cartridgesunittransfertblackMAX cartridgesunittransfertblackREMAIN/ ],
+    UNITTRANSFERCYAN      => [ qw/cartridgesunittransfertcyanMAX cartridgesunittransfertcyanREMAIN/ ],
+    UNITTRANSFERYELLOW    => [ qw/cartridgesunittransfertyellowMAX cartridgesunittransfertyellowREMAIN/ ],
+    UNITTRANSFERMAGENTA   => [ qw/cartridgesunittransfertmagentaMAX cartridgesunittransfertmagentaREMAIN/ ],
+    WASTE                 => [ qw/cartridgeswasteMAX cartridgeswasteREMAIN/ ],
+    FUSER                 => [ qw/cartridgesfuserMAX cartridgesfuserREMAIN/ ],
+    BELTCLEANER           => [ qw/cartridgesbeltcleanerMAX cartridgesbeltcleanerREMAIN/ ],
+    MAINTENANCEKIT        => [ qw/cartridgesmaintenancekitMAX cartridgesmaintenancekitREMAIN/ ],
 );
 
 my @ports_dispatch_table = (
@@ -481,41 +484,47 @@ sub _constructDataDeviceSimple {
         $datadevice->{INFO}->{CPU} = $results->{'cpuuser'} + $results->{'cpusystem'};
     }
 
-    foreach my $info (@infos) {
-        my $raw_value = $results->{$info->[0]};
+    if (exists $results->{firmware1}) {
+        $datadevice->{INFO}->{FIRMWARE} = $results->{'firmware1'} . ' ' . $results->{'firmware2'};
+    }
+
+    foreach my $key (keys %properties) {
+        my $raw_value = $results->{$properties{$key}};
         my $value =
-            $info->[0] eq 'name'        ? hex2string($raw_value)        :
-            $info->[0] eq 'otherserial' ? hex2string($raw_value)        :
-            $info->[0] eq 'serial'      ? _sanitizedSerial($raw_value)  :
-            $info->[0] eq 'ram'         ? int($raw_value / 1024 / 1024) :
-            $info->[0] eq 'memory'      ? int($raw_value / 1024 / 1024) :
-            $info->[0] eq 'firmware1'   ? $raw_value . " " . $results->{"firmware2"} :
-                                          $raw_value                    ;
-        $datadevice->{INFO}->{$info->[1]} = $value;
+            $key eq 'NAME'        ? hex2string($raw_value)        :
+            $key eq 'OTHERSERIAL' ? hex2string($raw_value)        :
+            $key eq 'SERIAL'      ? _sanitizedSerial($raw_value)  :
+            $key eq 'RAM'         ? int($raw_value / 1024 / 1024) :
+            $key eq 'MEMORY'      ? int($raw_value / 1024 / 1024) :
+                                    $raw_value                    ;
+        $datadevice->{INFO}->{$key} = $value;
     }
 
     if ($datadevice->{INFO}->{TYPE} eq "PRINTER") {
         # consumable levels
-        foreach my $info (@printer_cartridges_simple_infos) {
-            $datadevice->{CARTRIDGES}->{$info->[1]} =
-                $results->{"$info->[0]-level"} == -3 ?
+        foreach my $key (keys %printer_cartridges_simple_properties) {
+            my $property = $printer_cartridges_simple_properties{$key};
+            $datadevice->{CARTRIDGES}->{$key} =
+                $results->{"$property-level"} == -3 ?
                     100 :
                     _getPercentValue(
-                        $results->{"$info->[0]-capacitytype"},
-                        $results->{"$info->[0]-level"},
+                        $results->{"$property-capacitytype"},
+                        $results->{"$property-level"},
                     );
         }
-        foreach my $info (@printer_cartridges_percent_infos) {
-            $datadevice->{CARTRIDGES}->{$info->[2]} = _getPercentValue(
-                $results->{$info->[0]},
-                $results->{$info->[1]},
+        foreach my $key (keys %printer_cartridges_percent_properties) {
+            my $property = $printer_cartridges_percent_properties{$key};
+            $datadevice->{CARTRIDGES}->{$key} = _getPercentValue(
+                $results->{$property->[0]},
+                $results->{$property->[1]},
             );
         }
 
         # page counters
-        foreach my $info (@printer_pagecounters_simple_infos) {
-            $datadevice->{PAGECOUNTERS}->{$info->[1]} =
-                $results->{$info->[0]};
+        foreach my $key (keys %printer_pagecounters_properties) {
+            my $property = $printer_pagecounters_properties{$key};
+            $datadevice->{PAGECOUNTERS}->{$key} =
+                $results->{$property};
         }
     }
 }
