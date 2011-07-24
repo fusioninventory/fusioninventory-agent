@@ -482,11 +482,11 @@ sub _constructDataDeviceSimple {
     my ($self, $results, $datadevice) = @_;
 
     if (exists $results->{cpuuser}) {
-        $datadevice->{INFO}->{CPU} = $results->{'cpuuser'} + $results->{'cpusystem'};
+        $datadevice->{INFO}->{CPU} = $results->{cpuuser} + $results->{cpusystem};
     }
 
     if (exists $results->{firmware1}) {
-        $datadevice->{INFO}->{FIRMWARE} = $results->{'firmware1'} . ' ' . $results->{'firmware2'};
+        $datadevice->{INFO}->{FIRMWARE} = $results->{firmware1} . ' ' . $results->{firmware2};
     }
 
     foreach my $key (keys %properties) {
