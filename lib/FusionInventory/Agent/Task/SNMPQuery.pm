@@ -528,20 +528,18 @@ sub _setGenericProperties {
 
     if (exists $results->{ifPhysAddress}) {
         while (my ($object,$data) = each (%{$results->{ifPhysAddress}}) ) {
-            if ($data ne "") {
-                $datadevice->{PORTS}->{PORT}->[$ports->{lastSplitObject($object)}]->{MAC} = $data;
-            }
+            next unless $data;
+            $datadevice->{PORTS}->{PORT}->[$ports->{lastSplitObject($object)}]->{MAC} = $data;
         }
     }
 
     if (exists $results->{ifaddr}) {
         while (my ($object,$data) = each (%{$results->{ifaddr}}) ) {
-            if ($data ne "") {
-                my $shortobject = $object;
-                $shortobject =~ s/$walks->{ifaddr}->{OID}//;
-                $shortobject =~ s/^.//;
-                $datadevice->{PORTS}->{PORT}->[$ports->{$data}]->{IP} = $shortobject;
-            }
+            next unless $data;
+            my $shortobject = $object;
+            $shortobject =~ s/$walks->{ifaddr}->{OID}//;
+            $shortobject =~ s/^.//;
+            $datadevice->{PORTS}->{PORT}->[$ports->{$data}]->{IP} = $shortobject;
         }
     }
 
