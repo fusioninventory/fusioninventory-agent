@@ -62,6 +62,30 @@ my %printer_cartridges_simple_properties = (
     DRUMYELLOW            => 'drumyellow',
 );
 
+# printer-specific cartridge specific percent properties
+my %printer_cartridges_percent_properties = (
+    BLACK                 => 'cartridgesblack',
+    CYAN                  => 'cartridgescyan',
+    YELLOW                => 'cartridgesyellow',
+    MAGENTA               => 'cartridgesmagenta',
+    CYANLIGHT             => 'cartridgescyanlight',
+    MAGENTALIGHT          => 'cartridgesmagentalight',
+    PHOTOCONDUCTOR        => 'cartridgesphotoconductor',
+    PHOTOCONDUCTORBLACK   => 'cartridgesphotoconductorblack',
+    PHOTOCONDUCTORCOLOR   => 'cartridgesphotoconductorcolor',
+    PHOTOCONDUCTORCYAN    => 'cartridgesphotoconductorcyan',
+    PHOTOCONDUCTORYELLOW  => 'cartridgesphotoconductoryellow',
+    PHOTOCONDUCTORMAGENTA => 'cartridgesphotoconductormagenta',
+    UNITTRANSFERBLACK     => 'cartridgesunittransfertblack',
+    UNITTRANSFERCYAN      => 'cartridgesunittransfertcyan',
+    UNITTRANSFERYELLOW    => 'cartridgesunittransfertyellow',
+    UNITTRANSFERMAGENTA   => 'cartridgesunittransfertmagenta',
+    WASTE                 => 'cartridgeswaste',
+    FUSER                 => 'cartridgesfuser',
+    BELTCLEANER           => 'cartridgesbeltcleaner',
+    MAINTENANCEKIT        => 'cartridgesmaintenancekit',
+);
+
 # printer-specific page counter-specific properties
 my %printer_pagecounters_properties = (
     TOTAL      => 'pagecountertotalpages',
@@ -78,29 +102,6 @@ my %printer_pagecounters_properties = (
     FAXTOTAL   => 'pagecountertotalpages_fax',
 );
 
-# printer-specific cartridge specific percent properties
-my %printer_cartridges_percent_properties = (
-    BLACK                 => [ qw/cartridgesblackMAX cartridgesblackREMAIN/ ],
-    CYAN                  => [ qw/cartridgescyanMAX cartridgescyanREMAIN/ ],
-    YELLOW                => [ qw/cartridgesyellowMAX cartridgesyellowREMAIN/ ],
-    MAGENTA               => [ qw/cartridgesmagentaMAX cartridgesmagentaREMAIN/ ],
-    CYANLIGHT             => [ qw/cartridgescyanlightMAX cartridgescyanlightREMAIN/ ],
-    MAGENTALIGHT          => [ qw/cartridgesmagentalightMAX cartridgesmagentalightREMAIN/ ],
-    PHOTOCONDUCTOR        => [ qw/cartridgesphotoconductorMAX cartridgesphotoconductorREMAIN/ ],
-    PHOTOCONDUCTORBLACK   => [ qw/cartridgesphotoconductorblackMAX cartridgesphotoconductorblackREMAIN/ ],
-    PHOTOCONDUCTORCOLOR   => [ qw/cartridgesphotoconductorcolorMAX cartridgesphotoconductorcolorREMAIN/ ],
-    PHOTOCONDUCTORCYAN    => [ qw/cartridgesphotoconductorcyanMAX cartridgesphotoconductorcyanREMAIN/ ],
-    PHOTOCONDUCTORYELLOW  => [ qw/cartridgesphotoconductoryellowMAX cartridgesphotoconductoryellowREMAIN/ ],
-    PHOTOCONDUCTORMAGENTA => [ qw/cartridgesphotoconductormagentaMAX cartridgesphotoconductormagentaREMAIN/ ],
-    UNITTRANSFERBLACK     => [ qw/cartridgesunittransfertblackMAX cartridgesunittransfertblackREMAIN/ ],
-    UNITTRANSFERCYAN      => [ qw/cartridgesunittransfertcyanMAX cartridgesunittransfertcyanREMAIN/ ],
-    UNITTRANSFERYELLOW    => [ qw/cartridgesunittransfertyellowMAX cartridgesunittransfertyellowREMAIN/ ],
-    UNITTRANSFERMAGENTA   => [ qw/cartridgesunittransfertmagentaMAX cartridgesunittransfertmagentaREMAIN/ ],
-    WASTE                 => [ qw/cartridgeswasteMAX cartridgeswasteREMAIN/ ],
-    FUSER                 => [ qw/cartridgesfuserMAX cartridgesfuserREMAIN/ ],
-    BELTCLEANER           => [ qw/cartridgesbeltcleanerMAX cartridgesbeltcleanerREMAIN/ ],
-    MAINTENANCEKIT        => [ qw/cartridgesmaintenancekitMAX cartridgesmaintenancekitREMAIN/ ],
-);
 
 my @ports_dispatch_table = (
     {
@@ -505,18 +506,18 @@ sub _constructDataDeviceSimple {
         foreach my $key (keys %printer_cartridges_simple_properties) {
             my $property = $printer_cartridges_simple_properties{$key};
             $datadevice->{CARTRIDGES}->{$key} =
-                $results->{"$property-level"} == -3 ?
+                $results->{$property . '-level'} == -3 ?
                     100 :
                     _getPercentValue(
-                        $results->{"$property-capacitytype"},
-                        $results->{"$property-level"},
+                        $results->{$property . '-capacitytype'},
+                        $results->{$property . '-level'},
                     );
         }
         foreach my $key (keys %printer_cartridges_percent_properties) {
             my $property = $printer_cartridges_percent_properties{$key};
             $datadevice->{CARTRIDGES}->{$key} = _getPercentValue(
-                $results->{$property->[0]},
-                $results->{$property->[1]},
+                $results->{$property . 'MAX'},
+                $results->{$property . 'REMAIN'},
             );
         }
 
