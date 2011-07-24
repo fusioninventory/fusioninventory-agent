@@ -21,7 +21,10 @@ use FusionInventory::Agent::Task::SNMPQuery::Tools;
 
 our $VERSION = '2.0';
 
-# properties shared by all devices
+# list of devices properties, indexed by XML element name
+# the link to a specific OID is made by the model
+
+# generic properties
 my %properties = (
     MAC          => 'macaddr',
     CPU          => 'cpu',
@@ -40,7 +43,7 @@ my %properties = (
     RAM          => 'ram',
 );
 
-# printer-specific catridge-specific simple properties
+# printer catridge simple properties
 my %printer_cartridges_simple_properties = (
     TONERBLACK            => 'tonerblack',
     TONERBLACK2           => 'tonerblack2',
@@ -62,7 +65,7 @@ my %printer_cartridges_simple_properties = (
     DRUMYELLOW            => 'drumyellow',
 );
 
-# printer-specific cartridge specific percent properties
+# printer cartridge percent properties
 my %printer_cartridges_percent_properties = (
     BLACK                 => 'cartridgesblack',
     CYAN                  => 'cartridgescyan',
@@ -86,7 +89,7 @@ my %printer_cartridges_percent_properties = (
     MAINTENANCEKIT        => 'cartridgesmaintenancekit',
 );
 
-# printer-specific page counter-specific properties
+# printer page counter properties
 my %printer_pagecounters_properties = (
     TOTAL      => 'pagecountertotalpages',
     BLACK      => 'pagecounterblackpages',
