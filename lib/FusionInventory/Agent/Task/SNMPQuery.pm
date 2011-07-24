@@ -431,265 +431,265 @@ sub _queryDevice {
 
 
 sub _constructDataDeviceSimple {
-   my $HashDataSNMP = shift;
-   my $datadevice = shift;
-   if (exists $HashDataSNMP->{macaddr}) {
-      $datadevice->{INFO}->{MAC} = $HashDataSNMP->{macaddr};
-      delete $HashDataSNMP->{macaddr};
-   }
-   if (exists $HashDataSNMP->{cpuuser}) {
-      $datadevice->{INFO}->{CPU} = $HashDataSNMP->{'cpuuser'} + $HashDataSNMP->{'cpusystem'};
-      delete $HashDataSNMP->{'cpuuser'};
-      delete $HashDataSNMP->{'cpusystem'};
-   }
+    my $HashDataSNMP = shift;
+    my $datadevice = shift;
+    if (exists $HashDataSNMP->{macaddr}) {
+        $datadevice->{INFO}->{MAC} = $HashDataSNMP->{macaddr};
+        delete $HashDataSNMP->{macaddr};
+    }
+    if (exists $HashDataSNMP->{cpuuser}) {
+        $datadevice->{INFO}->{CPU} = $HashDataSNMP->{'cpuuser'} + $HashDataSNMP->{'cpusystem'};
+        delete $HashDataSNMP->{'cpuuser'};
+        delete $HashDataSNMP->{'cpusystem'};
+    }
 
-   foreach my $info (@infos) {
-      _putSimpleOid($HashDataSNMP, $datadevice, @$info)
-   }
+    foreach my $info (@infos) {
+    _putSimpleOid($HashDataSNMP, $datadevice, @$info)
+    }
 
-   if ($datadevice->{INFO}->{TYPE} eq "PRINTER") {
-      foreach my $info (@printer_simple_infos) {
-          _putSimpleOid($HashDataSNMP, $datadevice, @$info);
-      }
-      foreach my $info (@printer_percent_infos) {
-          _putPercentOid($HashDataSNMP, $datadevice, @$info);
-      }
-   }
+    if ($datadevice->{INFO}->{TYPE} eq "PRINTER") {
+        foreach my $info (@printer_simple_infos) {
+            _putSimpleOid($HashDataSNMP, $datadevice, @$info);
+        }
+        foreach my $info (@printer_percent_infos) {
+            _putPercentOid($HashDataSNMP, $datadevice, @$info);
+        }
+    }
 
-   return $datadevice, $HashDataSNMP;
+    return $datadevice, $HashDataSNMP;
 }
 
 
 sub _constructDataDeviceMultiple {
-   my $HashDataSNMP = shift;
-   my $datadevice = shift;
-   my $self = shift;
-   my $walk = shift;
-   
-   my $object;
-   my $data;
+    my $HashDataSNMP = shift;
+    my $datadevice = shift;
+    my $self = shift;
+    my $walk = shift;
 
-   if (exists $HashDataSNMP->{ipAdEntAddr}) {
-      my $i = 0;
-      while ( ($object,$data) = each (%{$HashDataSNMP->{ipAdEntAddr}}) ) {
-         $datadevice->{INFO}->{IPS}->{IP}->[$i] = $data;
-         $i++;
-      }
-      delete $HashDataSNMP->{ipAdEntAddr};
-   }
-   if (exists $HashDataSNMP->{ifIndex}) {
-      my $num = 0;
-      while ( ($object,$data) = each (%{$HashDataSNMP->{ifIndex}}) ) {
-         $self->{portsindex}->{lastSplitObject($object)} = $num;
-         $datadevice->{PORTS}->{PORT}->[$num]->{IFNUMBER} = $data;
-         $num++;
-      }
-      delete $HashDataSNMP->{ifIndex};
-   }
-   if (exists $HashDataSNMP->{ifdescr}) {
-      while ( ($object,$data) = each (%{$HashDataSNMP->{ifdescr}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFDESCR} = $data;
-      }
-      delete $HashDataSNMP->{ifdescr};
-   }
-   if (exists $HashDataSNMP->{ifName}) {
-      while ( ($object,$data) = each (%{$HashDataSNMP->{ifName}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFNAME} = $data;
-      }
-      delete $HashDataSNMP->{ifName};
-   }
-   if (exists $HashDataSNMP->{ifType}) {
-      while ( ($object,$data) = each (%{$HashDataSNMP->{ifType}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFTYPE} = $data;
-      }
-      delete $HashDataSNMP->{ifType};
-   }
-   if (exists $HashDataSNMP->{ifmtu}) {
-      while ( ($object,$data) = each (%{$HashDataSNMP->{ifmtu}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFMTU} = $data;
-      }
-      delete $HashDataSNMP->{ifmtu};
-   }
-   if (exists $HashDataSNMP->{ifspeed}) {
-      while ( ($object,$data) = each (%{$HashDataSNMP->{ifspeed}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFSPEED} = $data;
-      }
-      delete $HashDataSNMP->{ifspeed};
-   }
-   if (exists $HashDataSNMP->{ifstatus}) {
-      while ( ($object,$data) = each (%{$HashDataSNMP->{ifstatus}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFSTATUS} = $data;
-      }
-      delete $HashDataSNMP->{ifstatus};
-   }
-   if (exists $HashDataSNMP->{ifinternalstatus}) {
-      while ( ($object,$data) = each (%{$HashDataSNMP->{ifinternalstatus}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFINTERNALSTATUS} = $data;
-      }
-      delete $HashDataSNMP->{ifinternalstatus};
-   }
-   if (exists $HashDataSNMP->{iflastchange}) {
-      while ( ($object,$data) = each (%{$HashDataSNMP->{iflastchange}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFLASTCHANGE} = $data;
-      }
-      delete $HashDataSNMP->{iflastchange};
-   }
-   if (exists $HashDataSNMP->{ifinoctets}) {
-      while ( ($object,$data) = each (%{$HashDataSNMP->{ifinoctets}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFINOCTETS} = $data;
-      }
-      delete $HashDataSNMP->{ifinoctets};
-   }
-   if (exists $HashDataSNMP->{ifoutoctets}) {
-      while ( ($object,$data) = each (%{$HashDataSNMP->{ifoutoctets}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFOUTOCTETS} = $data;
-      }
-      delete $HashDataSNMP->{ifoutoctets};
-   }
-   if (exists $HashDataSNMP->{ifinerrors}) {
-      while ( ($object,$data) = each (%{$HashDataSNMP->{ifinerrors}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFINERRORS} = $data;
-      }
-      delete $HashDataSNMP->{ifinerrors};
-   }
-   if (exists $HashDataSNMP->{ifouterrors}) {
-      while ( ($object,$data) = each (%{$HashDataSNMP->{ifouterrors}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFOUTERRORS} = $data;
-      }
-      delete $HashDataSNMP->{ifouterrors};
-   }
-   if (exists $HashDataSNMP->{ifPhysAddress}) {
-      while ( ($object,$data) = each (%{$HashDataSNMP->{ifPhysAddress}}) ) {
-         if ($data ne "") {
-             $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{MAC} = $data;
-         }
-      }
-      delete $HashDataSNMP->{ifPhysAddress};
-   }
-   if (exists $HashDataSNMP->{ifaddr}) {
-      while ( ($object,$data) = each (%{$HashDataSNMP->{ifaddr}}) ) {
-         if ($data ne "") {
-             my $shortobject = $object;
-             $shortobject =~ s/$walk->{ifaddr}->{OID}//;
-             $shortobject =~ s/^.//;
-             $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$data}]->{IP} = $shortobject;
-         }
-      }
-      delete $HashDataSNMP->{ifaddr};
-   }
-   if (exists $HashDataSNMP->{portDuplex}) {
-      while ( ($object,$data) = each (%{$HashDataSNMP->{portDuplex}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFPORTDUPLEX} = $data;
-      }
-      delete $HashDataSNMP->{portDuplex};
-   }
+    my $object;
+    my $data;
 
-   # Detect Trunk & CDP
-   if (defined ($datadevice->{INFO}->{COMMENTS})) {
-      if ($datadevice->{INFO}->{COMMENTS} =~ /Cisco/) {
-         ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Cisco::TrunkPorts($HashDataSNMP,$datadevice, $self);
-         ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Cisco::CDPPorts($HashDataSNMP,$datadevice, $walk, $self);
-      } elsif ($datadevice->{INFO}->{COMMENTS} =~ /ProCurve/) {
-         ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Cisco::TrunkPorts($HashDataSNMP,$datadevice, $self);
-         ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Procurve::CDPLLDPPorts($HashDataSNMP,$datadevice, $walk, $self);
-      } elsif ($datadevice->{INFO}->{COMMENTS} =~ /Nortel/) {
-         ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Nortel::VlanTrunkPorts($HashDataSNMP,$datadevice, $self);
-         ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Nortel::LLDPPorts($HashDataSNMP,$datadevice, $walk, $self);
-      }
-   }
+    if (exists $HashDataSNMP->{ipAdEntAddr}) {
+        my $i = 0;
+        while ( ($object,$data) = each (%{$HashDataSNMP->{ipAdEntAddr}}) ) {
+            $datadevice->{INFO}->{IPS}->{IP}->[$i] = $data;
+            $i++;
+        }
+        delete $HashDataSNMP->{ipAdEntAddr};
+    }
+    if (exists $HashDataSNMP->{ifIndex}) {
+        my $num = 0;
+        while ( ($object,$data) = each (%{$HashDataSNMP->{ifIndex}}) ) {
+            $self->{portsindex}->{lastSplitObject($object)} = $num;
+            $datadevice->{PORTS}->{PORT}->[$num]->{IFNUMBER} = $data;
+            $num++;
+        }
+        delete $HashDataSNMP->{ifIndex};
+    }
+    if (exists $HashDataSNMP->{ifdescr}) {
+        while ( ($object,$data) = each (%{$HashDataSNMP->{ifdescr}}) ) {
+            $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFDESCR} = $data;
+        }
+        delete $HashDataSNMP->{ifdescr};
+    }
+    if (exists $HashDataSNMP->{ifName}) {
+        while ( ($object,$data) = each (%{$HashDataSNMP->{ifName}}) ) {
+            $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFNAME} = $data;
+        }
+        delete $HashDataSNMP->{ifName};
+    }
+    if (exists $HashDataSNMP->{ifType}) {
+        while ( ($object,$data) = each (%{$HashDataSNMP->{ifType}}) ) {
+            $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFTYPE} = $data;
+        }
+        delete $HashDataSNMP->{ifType};
+    }
+    if (exists $HashDataSNMP->{ifmtu}) {
+        while ( ($object,$data) = each (%{$HashDataSNMP->{ifmtu}}) ) {
+            $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFMTU} = $data;
+        }
+        delete $HashDataSNMP->{ifmtu};
+    }
+    if (exists $HashDataSNMP->{ifspeed}) {
+        while ( ($object,$data) = each (%{$HashDataSNMP->{ifspeed}}) ) {
+            $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFSPEED} = $data;
+        }
+        delete $HashDataSNMP->{ifspeed};
+    }
+    if (exists $HashDataSNMP->{ifstatus}) {
+        while ( ($object,$data) = each (%{$HashDataSNMP->{ifstatus}}) ) {
+            $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFSTATUS} = $data;
+        }
+        delete $HashDataSNMP->{ifstatus};
+    }
+    if (exists $HashDataSNMP->{ifinternalstatus}) {
+        while ( ($object,$data) = each (%{$HashDataSNMP->{ifinternalstatus}}) ) {
+            $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFINTERNALSTATUS} = $data;
+        }
+        delete $HashDataSNMP->{ifinternalstatus};
+    }
+    if (exists $HashDataSNMP->{iflastchange}) {
+        while ( ($object,$data) = each (%{$HashDataSNMP->{iflastchange}}) ) {
+            $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFLASTCHANGE} = $data;
+        }
+        delete $HashDataSNMP->{iflastchange};
+    }
+    if (exists $HashDataSNMP->{ifinoctets}) {
+        while ( ($object,$data) = each (%{$HashDataSNMP->{ifinoctets}}) ) {
+            $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFINOCTETS} = $data;
+        }
+        delete $HashDataSNMP->{ifinoctets};
+    }
+    if (exists $HashDataSNMP->{ifoutoctets}) {
+        while ( ($object,$data) = each (%{$HashDataSNMP->{ifoutoctets}}) ) {
+            $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFOUTOCTETS} = $data;
+        }
+        delete $HashDataSNMP->{ifoutoctets};
+    }
+    if (exists $HashDataSNMP->{ifinerrors}) {
+        while ( ($object,$data) = each (%{$HashDataSNMP->{ifinerrors}}) ) {
+            $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFINERRORS} = $data;
+        }
+        delete $HashDataSNMP->{ifinerrors};
+    }
+    if (exists $HashDataSNMP->{ifouterrors}) {
+        while ( ($object,$data) = each (%{$HashDataSNMP->{ifouterrors}}) ) {
+            $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFOUTERRORS} = $data;
+        }
+        delete $HashDataSNMP->{ifouterrors};
+    }
+    if (exists $HashDataSNMP->{ifPhysAddress}) {
+        while ( ($object,$data) = each (%{$HashDataSNMP->{ifPhysAddress}}) ) {
+            if ($data ne "") {
+                $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{MAC} = $data;
+            }
+        }
+        delete $HashDataSNMP->{ifPhysAddress};
+    }
+    if (exists $HashDataSNMP->{ifaddr}) {
+        while ( ($object,$data) = each (%{$HashDataSNMP->{ifaddr}}) ) {
+            if ($data ne "") {
+                my $shortobject = $object;
+                $shortobject =~ s/$walk->{ifaddr}->{OID}//;
+                $shortobject =~ s/^.//;
+                $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{$data}]->{IP} = $shortobject;
+            }
+        }
+        delete $HashDataSNMP->{ifaddr};
+    }
+    if (exists $HashDataSNMP->{portDuplex}) {
+        while ( ($object,$data) = each (%{$HashDataSNMP->{portDuplex}}) ) {
+            $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{IFPORTDUPLEX} = $data;
+        }
+        delete $HashDataSNMP->{portDuplex};
+    }
 
-   # Detect VLAN
-   if (exists $HashDataSNMP->{vmvlan}) {
-      while ( ($object,$data) = each (%{$HashDataSNMP->{vmvlan}}) ) {
-         $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{VLANS}->{VLAN}->{NUMBER} = $data;
-         $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{VLANS}->{VLAN}->{NAME} = $HashDataSNMP->{vtpVlanName}->{$walk->{vtpVlanName}->{OID} . ".".$data};
-      }
-      delete $HashDataSNMP->{vmvlan};
-   }
+    # Detect Trunk & CDP
+    if (defined ($datadevice->{INFO}->{COMMENTS})) {
+        if ($datadevice->{INFO}->{COMMENTS} =~ /Cisco/) {
+            ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Cisco::TrunkPorts($HashDataSNMP,$datadevice, $self);
+            ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Cisco::CDPPorts($HashDataSNMP,$datadevice, $walk, $self);
+        } elsif ($datadevice->{INFO}->{COMMENTS} =~ /ProCurve/) {
+            ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Cisco::TrunkPorts($HashDataSNMP,$datadevice, $self);
+            ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Procurve::CDPLLDPPorts($HashDataSNMP,$datadevice, $walk, $self);
+        } elsif ($datadevice->{INFO}->{COMMENTS} =~ /Nortel/) {
+            ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Nortel::VlanTrunkPorts($HashDataSNMP,$datadevice, $self);
+            ($datadevice, $HashDataSNMP) = FusionInventory::Agent::Task::SNMPQuery::Nortel::LLDPPorts($HashDataSNMP,$datadevice, $walk, $self);
+        }
+    }
+
+    # Detect VLAN
+    if (exists $HashDataSNMP->{vmvlan}) {
+        while ( ($object,$data) = each (%{$HashDataSNMP->{vmvlan}}) ) {
+            $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{VLANS}->{VLAN}->{NUMBER} = $data;
+            $datadevice->{PORTS}->{PORT}->[$self->{portsindex}->{lastSplitObject($object)}]->{VLANS}->{VLAN}->{NAME} = $HashDataSNMP->{vtpVlanName}->{$walk->{vtpVlanName}->{OID} . ".".$data};
+        }
+        delete $HashDataSNMP->{vmvlan};
+    }
 
 
-   return $datadevice, $HashDataSNMP;
+    return $datadevice, $HashDataSNMP;
 }
 
 sub _putSimpleOid {
-   my $HashDataSNMP = shift;
-   my $datadevice = shift;
-   my $element = shift;
-   my $xmlelement1 = shift;
-   my $xmlelement2 = shift;
+    my $HashDataSNMP = shift;
+    my $datadevice = shift;
+    my $element = shift;
+    my $xmlelement1 = shift;
+    my $xmlelement2 = shift;
 
-   if (exists $HashDataSNMP->{$element}) {
-      # Rewrite hexa to string
-      if (($element eq "name") || ($element eq "otherserial")) {
-         $HashDataSNMP->{$element} = _hexaToString($HashDataSNMP->{$element});
-      }
-      # End rewrite hexa to string
-      if (($element eq "ram") || ($element eq "memory")) {
-         $HashDataSNMP->{$element} = int(( $HashDataSNMP->{$element} / 1024 ) / 1024);
-      }
-      if ($element eq "serial") {
-         $HashDataSNMP->{$element} =~ s/^\s+//;
-         $HashDataSNMP->{$element} =~ s/\s+$//;
-         $HashDataSNMP->{$element} =~ s/(\.{2,})*//g;
-      }
-      if ($element eq "firmware1") {
-         $datadevice->{$xmlelement1}->{$xmlelement2} = $HashDataSNMP->{"firmware1"}." ".$HashDataSNMP->{"firmware2"};
-         delete $HashDataSNMP->{"firmware2"};
-      } elsif (($element =~ /^toner/) || ($element eq "wastetoner") || ($element =~ /^cartridge/) || ($element eq "maintenancekit") || ($element =~ /^drum/)) {
-         if ($HashDataSNMP->{$element."-level"} == -3) {
-            $datadevice->{$xmlelement1}->{$xmlelement2} = 100;
-         } else {
-            _putPourcentageOid($HashDataSNMP,$datadevice,$element."-capacitytype",$element."-level", $xmlelement1, $xmlelement2);
-         }
-      } else {
-         $datadevice->{$xmlelement1}->{$xmlelement2} = $HashDataSNMP->{$element};
-      }
-      delete $HashDataSNMP->{$element};
-      
-   }
+    if (exists $HashDataSNMP->{$element}) {
+        # Rewrite hexa to string
+        if (($element eq "name") || ($element eq "otherserial")) {
+            $HashDataSNMP->{$element} = _hexaToString($HashDataSNMP->{$element});
+        }
+        # End rewrite hexa to string
+        if (($element eq "ram") || ($element eq "memory")) {
+            $HashDataSNMP->{$element} = int(( $HashDataSNMP->{$element} / 1024 ) / 1024);
+        }
+        if ($element eq "serial") {
+            $HashDataSNMP->{$element} =~ s/^\s+//;
+            $HashDataSNMP->{$element} =~ s/\s+$//;
+            $HashDataSNMP->{$element} =~ s/(\.{2,})*//g;
+        }
+        if ($element eq "firmware1") {
+            $datadevice->{$xmlelement1}->{$xmlelement2} = $HashDataSNMP->{"firmware1"}." ".$HashDataSNMP->{"firmware2"};
+            delete $HashDataSNMP->{"firmware2"};
+        } elsif (($element =~ /^toner/) || ($element eq "wastetoner") || ($element =~ /^cartridge/) || ($element eq "maintenancekit") || ($element =~ /^drum/)) {
+            if ($HashDataSNMP->{$element."-level"} == -3) {
+                $datadevice->{$xmlelement1}->{$xmlelement2} = 100;
+            } else {
+                _putPourcentageOid($HashDataSNMP,$datadevice,$element."-capacitytype",$element."-level", $xmlelement1, $xmlelement2);
+            }
+        } else {
+            $datadevice->{$xmlelement1}->{$xmlelement2} = $HashDataSNMP->{$element};
+        }
+        delete $HashDataSNMP->{$element};
+
+    }
 }
 
 sub _putPourcentageOid {
-   my $HashDataSNMP = shift;
-   my $datadevice = shift;
-   my $element1 = shift;
-   my $element2 = shift;
-   my $xmlelement1 = shift;
-   my $xmlelement2 = shift;
-   if (exists $HashDataSNMP->{$element1}) {
-      if ((_isInteger($HashDataSNMP->{$element2})) && (_isInteger($HashDataSNMP->{$element1})) && ($HashDataSNMP->{$element1} != 0)) {
-         $datadevice->{$xmlelement1}->{$xmlelement2} = int ( ( 100 * $HashDataSNMP->{$element2} ) / $HashDataSNMP->{$element1} );
-         delete $HashDataSNMP->{$element2};
-         delete $HashDataSNMP->{$element1};
-      }
-   }
+    my $HashDataSNMP = shift;
+    my $datadevice = shift;
+    my $element1 = shift;
+    my $element2 = shift;
+    my $xmlelement1 = shift;
+    my $xmlelement2 = shift;
+    if (exists $HashDataSNMP->{$element1}) {
+        if ((_isInteger($HashDataSNMP->{$element2})) && (_isInteger($HashDataSNMP->{$element1})) && ($HashDataSNMP->{$element1} != 0)) {
+            $datadevice->{$xmlelement1}->{$xmlelement2} = int ( ( 100 * $HashDataSNMP->{$element2} ) / $HashDataSNMP->{$element1} );
+            delete $HashDataSNMP->{$element2};
+            delete $HashDataSNMP->{$element1};
+        }
+    }
 }
 
 
 
 sub _lastSplitObject {
-   my $var = shift;
+    my $var = shift;
 
-   my @array = split(/\./, $var);
-   return $array[-1];
+    my @array = split(/\./, $var);
+    return $array[-1];
 }
 
 sub _isInteger {
-   $_[0] =~ /^[+-]?\d+$/;
+    $_[0] =~ /^[+-]?\d+$/;
 }
 
 sub _hexaToString {
-   my $val = shift;
+    my $val = shift;
 
-   if ($val =~ /0x/) {
-      $val =~ s/0x//g;
-      $val =~ s/([a-fA-F0-9][a-fA-F0-9])/chr(hex($1))/g;
-      $val = encode('UTF-8', $val);
-      $val =~ s/\0//g;
-      $val =~ s/([\x80-\xFF])//g;
-      $val =~ s/[\x00-\x1F\x7F]//g;
-   }
-   return $val;
+    if ($val =~ /0x/) {
+        $val =~ s/0x//g;
+        $val =~ s/([a-fA-F0-9][a-fA-F0-9])/chr(hex($1))/g;
+        $val = encode('UTF-8', $val);
+        $val =~ s/\0//g;
+        $val =~ s/([\x80-\xFF])//g;
+        $val =~ s/[\x00-\x1F\x7F]//g;
+    }
+    return $val;
 }
 
 1;
