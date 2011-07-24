@@ -431,8 +431,8 @@ sub _queryDevice {
 
 
 sub _constructDataDeviceSimple {
-    my $HashDataSNMP = shift;
-    my $datadevice = shift;
+    my ($HashDataSNMP, $datadevice) = @_;
+
     if (exists $HashDataSNMP->{macaddr}) {
         $datadevice->{INFO}->{MAC} = $HashDataSNMP->{macaddr};
         delete $HashDataSNMP->{macaddr};
@@ -461,10 +461,7 @@ sub _constructDataDeviceSimple {
 
 
 sub _constructDataDeviceMultiple {
-    my $HashDataSNMP = shift;
-    my $datadevice = shift;
-    my $self = shift;
-    my $walk = shift;
+    my ($HashDataSNMP, $datadevice, $self, $walks) = @_;
 
     my $object;
     my $data;
@@ -612,11 +609,7 @@ sub _constructDataDeviceMultiple {
 }
 
 sub _putSimpleOid {
-    my $HashDataSNMP = shift;
-    my $datadevice = shift;
-    my $element = shift;
-    my $xmlelement1 = shift;
-    my $xmlelement2 = shift;
+    my ($HashDataSNMP, $datadevice, $element, $xmlelement1, $xmlelement2) = @_;
 
     if (exists $HashDataSNMP->{$element}) {
         # Rewrite hexa to string
@@ -650,12 +643,8 @@ sub _putSimpleOid {
 }
 
 sub _putPourcentageOid {
-    my $HashDataSNMP = shift;
-    my $datadevice = shift;
-    my $element1 = shift;
-    my $element2 = shift;
-    my $xmlelement1 = shift;
-    my $xmlelement2 = shift;
+    my ($HashDataSNMP, $datadevice, $element1, $element2, $xmlelement1, $xmlelement2) = @_;
+
     if (exists $HashDataSNMP->{$element1}) {
         if ((_isInteger($HashDataSNMP->{$element2})) && (_isInteger($HashDataSNMP->{$element1})) && ($HashDataSNMP->{$element1} != 0)) {
             $datadevice->{$xmlelement1}->{$xmlelement2} = int ( ( 100 * $HashDataSNMP->{$element2} ) / $HashDataSNMP->{$element1} );
@@ -668,7 +657,7 @@ sub _putPourcentageOid {
 
 
 sub _lastSplitObject {
-    my $var = shift;
+    my ($var) = @_;
 
     my @array = split(/\./, $var);
     return $array[-1];
@@ -679,7 +668,7 @@ sub _isInteger {
 }
 
 sub _hexaToString {
-    my $val = shift;
+    my ($val) = @_;
 
     if ($val =~ /0x/) {
         $val =~ s/0x//g;
