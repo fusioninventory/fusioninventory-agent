@@ -104,7 +104,7 @@ my @mac_tests = (
 
 plan tests => scalar @mac_tests;
 
-my $walk = {
+my $walks = {
     dot1dBasePortIfIndex => {
         OID => '.1.3.6.1.2.17.1.4.1.2'
     },
@@ -116,11 +116,11 @@ my $walk = {
     },
 };
 
-my $index = {
+my $ports = {
     306 => 0,
 };
 
-my $data = {
+my $results = {
     VLAN => {
         1 => {
             dot1dTpFdbPort => {
@@ -138,7 +138,7 @@ my $data = {
 
 foreach my $test (@mac_tests) {
     FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco::setMacAddresses(
-        $data, $test->[0], 1, $index, $walk
+        $results, $test->[0], $ports, $walks, 1
     );
 
     is_deeply(
