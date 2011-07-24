@@ -359,24 +359,25 @@ sub _queryDevice {
 
     # automatically extend model for cartridge support
     if ($device->{TYPE} eq "PRINTER") {
-        foreach my $key (keys %{$model->{GET}}) {
+        foreach my $variable (values %{$model->{GET}}) {
+            my $object = $variable->{OBJECT};
             if (
-                $key eq "wastetoner"     ||
-                $key eq "maintenancekit" ||
-                $key =~ /^toner/         ||
-                $key =~ /^cartridge/     ||
-                $key =~ /^drum/
+                $object eq "wastetoner"     ||
+                $object eq "maintenancekit" ||
+                $object =~ /^toner/         ||
+                $object =~ /^cartridge/     ||
+                $object =~ /^drum/
             ) {
-                my $type_oid = $model->{GET}->{$key}->{OID};
+                my $type_oid = $variable->{OID};
                 $type_oid =~ s/43.11.1.1.6/43.11.1.1.8/;
-                my $level_oid = $model->{GET}->{$key}->{OID};
+                my $level_oid = $variable->{OID};
                 $level_oid =~ s/43.11.1.1.6/43.11.1.1.9/;
 
-                $model->{GET}->{$key."-capacitytype"} = {
+                $model->{GET}->{"$object-capacitytype"} = {
                     OID  => $type_oid,
                     VLAN => 0
                 };
-                $model->{GET}->{$key."-level"} = {
+                $model->{GET}->{"$object-level"} = {
                     OID  => $level_oid,
                     VLAN => 0
                 };
@@ -394,19 +395,15 @@ sub _queryDevice {
     my $ports;
 
     # first, query single values
-    foreach my $key (keys %{$model->{GET}}) {
-        next unless $model->{GET}->{$key}->{VLAN} == 0;
-        $results->{$key} = $snmp->get(
-            $model->{GET}->{$key}->{OID}
-        );
+    foreach my $variable (values %{$model->{GET}}) {
+        next unless $variable->{VLAN} == 0;
+        $results->{$variable->{OBJECT}} = $snmp->get($variable->{OID});
     }
     $self->_constructDataDeviceSimple($results,$datadevice);
 
     # second, query multiple values
-    foreach my $key (keys %{$model->{WALK}}) {
-        $results->{$key} = $snmp->walk(
-            $model->{WALK}->{$key}->{OID}
-        );
+    foreach my $variable (values %{$model->{WALK}}) {
+        $results->{$variable->{OBJECT}} = $snmp->walk($variable->{OID});
     }
     $self->_constructDataDeviceMultiple($results,$datadevice, $ports, $model->{WALK});
 
