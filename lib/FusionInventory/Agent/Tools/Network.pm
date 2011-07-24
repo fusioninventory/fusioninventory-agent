@@ -43,7 +43,7 @@ sub getSubnetAddressIPv6 {
 sub hex2quad {
     my ($address) = @_;
 
-    my @bytes = $address =~ /(..)(..)(..)(..)/;
+    my @bytes = $address =~ /^(..)(..)(..)(..)$/;
     return join('.', map { hex($_) } @bytes);
 }
 
