@@ -386,100 +386,35 @@ sub _queryDevice {
         }
     }
 
+    # first, fetch values from device
+    my $results;
+    foreach my $variable (values %{$model->{GET}}) {
+        next if $variable->{VLAN};
+        $results->{$variable->{OBJECT}} = $snmp->get($variable->{OID});
+    }
+    foreach my $variable (values %{$model->{WALK}}) {
+        $results->{$variable->{OBJECT}} = $snmp->walk($variable->{OID});
+    }
+
+    # second, use results to build the object
     my $datadevice = {
         INFO => {
             ID   => $device->{ID},
             TYPE => $device->{TYPE}
         }
     };
-    my $results;
     my $ports;
-
-    # first, query single values
-    foreach my $variable (values %{$model->{GET}}) {
-        next if $variable->{VLAN};
-        $results->{$variable->{OBJECT}} = $snmp->get($variable->{OID});
-    }
-    $self->_constructDataDeviceSimple($results,$datadevice);
-
-    # second, query multiple values
-    foreach my $variable (values %{$model->{WALK}}) {
-        $results->{$variable->{OBJECT}} = $snmp->walk($variable->{OID});
-    }
-    $self->_constructDataDeviceMultiple($results,$datadevice, $ports, $model->{WALK});
-
-    # additional queries for network devices
-    if ($datadevice->{INFO}->{TYPE} eq "NETWORKING") {
-        # check if vlan-specific queries are is needed
-        my $vlan_query =
-            any { $_->{VLAN} }
-            values %{$model->{WALK}};
-
-        if ($vlan_query) {
-            while (my ($id, $name) = each (%{$results->{vtpVlanName}}) ) {
-                my $short_id = $id;
-                $short_id =~ s/$model->{WALK}->{vtpVlanName}->{OID}//;
-                $short_id =~ s/^.//;
-                # initiate a new SNMP connection on this VLAN
-                eval {
-                    $snmp = FusionInventory::Agent::SNMP->new(
-                        version      => $credentials->{VERSION},
-                        hostname     => $device->{IP},
-                        community    => $credentials->{COMMUNITY}."@".$short_id,
-                        username     => $credentials->{USERNAME},
-                        authpassword => $credentials->{AUTHPASSWORD},
-                        authprotocol => $credentials->{AUTHPROTOCOL},
-                        privpassword => $credentials->{PRIVPASSWORD},
-                        privprotocol => $credentials->{PRIVPROTOCOL},
-                        translate    => 1,
-                    );
-                };
-                if ($EVAL_ERROR) {
-                    $self->{logger}->error("Unable to create SNMP session for $device->{IP}, VLAN $id: $EVAL_ERROR");
-                    return;
-                }
-
-                foreach my $link (keys %{$model->{WALK}}) {
-                    next unless $model->{WALK}->{$link}->{VLAN};
-                    my $result = $snmp->walk(
-                        $model->{WALK}->{$link}->{OID}
-                    );
-                    $results->{VLAN}->{$id}->{$link} = $result;
-                }
-                # Detect mac adress on each port
-                if ($datadevice->{INFO}->{COMMENTS} =~ /Cisco/) {
-                    $self->_runFunction(
-                        module   => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco',
-                        function => 'setMacAddresses',
-                        params   => [ $results, $datadevice, $ports, $model->{WALK}, $id ]
-                    );
-                }
-            }
-        } else {
-            my $comments = $datadevice->{INFO}->{COMMENTS};
-            if (defined $comments) {
-                foreach my $entry (@mac_dispatch_table) {
-                    next unless $comments =~ $entry->{match};
-
-                    $self->_runFunction(
-                        module   => $entry->{module},
-                        function => $entry->{function},
-                        params   => [ $results, $datadevice, $ports, $model->{WALK} ]
-                    );
-
-                    last;
-                }
-            }
-        }
-    }
+    $self->_setGenericProperties($results, $datadevice, $ports, $model->{WALK});
+    $self->_setPrinterProperties($results, $datadevice)
+        if $device->{TYPE} eq 'PRINTER';
+    $self->_setNetworkingProperties($results, $datadevice, $ports, $model->{WALK}, $device->{IP}, $credentials)
+        if $device->{TYPE} eq 'NETWORKING';
 
     return $datadevice;
 }
 
-
-
-sub _constructDataDeviceSimple {
-    my ($self, $results, $datadevice) = @_;
+sub _setGenericProperties {
+    my ($self, $results, $datadevice, $ports, $walks) = @_;
 
     if (exists $results->{cpuuser}) {
         $datadevice->{INFO}->{CPU} = $results->{cpuuser} + $results->{cpusystem};
@@ -501,38 +436,6 @@ sub _constructDataDeviceSimple {
         $datadevice->{INFO}->{$key} = $value;
     }
 
-    if ($datadevice->{INFO}->{TYPE} eq "PRINTER") {
-        # consumable levels
-        foreach my $key (keys %printer_cartridges_simple_properties) {
-            my $property = $printer_cartridges_simple_properties{$key};
-            $datadevice->{CARTRIDGES}->{$key} =
-                $results->{$property . '-level'} == -3 ?
-                    100 :
-                    _getPercentValue(
-                        $results->{$property . '-capacitytype'},
-                        $results->{$property . '-level'},
-                    );
-        }
-        foreach my $key (keys %printer_cartridges_percent_properties) {
-            my $property = $printer_cartridges_percent_properties{$key};
-            $datadevice->{CARTRIDGES}->{$key} = _getPercentValue(
-                $results->{$property . 'MAX'},
-                $results->{$property . 'REMAIN'},
-            );
-        }
-
-        # page counters
-        foreach my $key (keys %printer_pagecounters_properties) {
-            my $property = $printer_pagecounters_properties{$key};
-            $datadevice->{PAGECOUNTERS}->{$key} =
-                $results->{$property};
-        }
-    }
-}
-
-
-sub _constructDataDeviceMultiple {
-    my ($self, $results, $datadevice, $ports, $walks) = @_;
 
     if (exists $results->{ipAdEntAddr}) {
         my $i = 0;
@@ -647,9 +550,44 @@ sub _constructDataDeviceMultiple {
             $datadevice->{PORTS}->{PORT}->[$ports->{lastSplitObject($object)}]->{IFPORTDUPLEX} = $data;
         }
     }
+}
 
-    # Detect trunk & connected devices
+sub _setPrinterProperties {
+    my ($self, $results, $datadevice) = @_;
+
+    # consumable levels
+    foreach my $key (keys %printer_cartridges_simple_properties) {
+        my $property = $printer_cartridges_simple_properties{$key};
+        $datadevice->{CARTRIDGES}->{$key} =
+            $results->{$property . '-level'} == -3 ?
+                100 :
+                _getPercentValue(
+                    $results->{$property . '-capacitytype'},
+                    $results->{$property . '-level'},
+                );
+    }
+    foreach my $key (keys %printer_cartridges_percent_properties) {
+        my $property = $printer_cartridges_percent_properties{$key};
+        $datadevice->{CARTRIDGES}->{$key} = _getPercentValue(
+            $results->{$property . 'MAX'},
+            $results->{$property . 'REMAIN'},
+        );
+    }
+
+    # page counters
+    foreach my $key (keys %printer_pagecounters_properties) {
+        my $property = $printer_pagecounters_properties{$key};
+        $datadevice->{PAGECOUNTERS}->{$key} =
+            $results->{$property};
+    }
+}
+
+sub _setNetworkingProperties {
+    my ($self, $results, $datadevice, $ports, $walks, $host, $credentials) = @_;
+
     my $comments = $datadevice->{INFO}->{COMMENTS};
+
+    # trunk & connected devices
     if (defined $comments) {
         foreach my $entry (@ports_dispatch_table) {
             next unless $comments =~ $entry->{match};
@@ -680,6 +618,66 @@ sub _constructDataDeviceMultiple {
             };
         }
     }
+
+    # check if vlan-specific queries are is needed
+    my $vlan_query =
+        any { $_->{VLAN} }
+        values %{$walks};
+
+    if ($vlan_query) {
+        while (my ($id, $name) = each (%{$results->{vtpVlanName}}) ) {
+            my $short_id = $id;
+            $short_id =~ s/$walks->{vtpVlanName}->{OID}//;
+            $short_id =~ s/^.//;
+            # initiate a new SNMP connection on this VLAN
+            my $snmp;
+            eval {
+                $snmp = FusionInventory::Agent::SNMP->new(
+                    version      => $credentials->{VERSION},
+                    hostname     => $host,
+                    community    => $credentials->{COMMUNITY}."@".$short_id,
+                    username     => $credentials->{USERNAME},
+                    authpassword => $credentials->{AUTHPASSWORD},
+                    authprotocol => $credentials->{AUTHPROTOCOL},
+                    privpassword => $credentials->{PRIVPASSWORD},
+                    privprotocol => $credentials->{PRIVPROTOCOL},
+                    translate    => 1,
+                );
+            };
+            if ($EVAL_ERROR) {
+                $self->{logger}->error("Unable to create SNMP session for $host, VLAN $id: $EVAL_ERROR");
+                return;
+            }
+
+            foreach my $variable (values %{$walks}) {
+                next unless $variable->{VLAN};
+                $results->{VLAN}->{$id}->{$variable->{OBJECT}} = $snmp->walk($variable->{OID});
+            }
+            # Detect mac adress on each port
+            if ($comments =~ /Cisco/) {
+                $self->_runFunction(
+                    module   => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco',
+                    function => 'setMacAddresses',
+                    params   => [ $results, $datadevice, $ports, $walks, $id ]
+                );
+            }
+        }
+    } else {
+        if (defined $comments) {
+            foreach my $entry (@mac_dispatch_table) {
+                next unless $comments =~ $entry->{match};
+
+                $self->_runFunction(
+                    module   => $entry->{module},
+                    function => $entry->{function},
+                    params   => [ $results, $datadevice, $ports, $walks ]
+                );
+
+                last;
+            }
+        }
+    }
+
 }
 
 sub _getPercentValue {
