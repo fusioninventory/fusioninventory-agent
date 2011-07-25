@@ -444,89 +444,91 @@ sub _setGenericProperties {
         }
     }
 
+    my $ports = $datadevice->{PORTS}->{PORT};
+
     if (exists $results->{ifIndex}) {
         my $num = 0;
         while (my ($object, $data) = each %{$results->{ifIndex}}) {
-            $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFNUMBER} = $data;
+            $ports->[lastSplitObject($object)]->{IFNUMBER} = $data;
         }
     }
 
     if (exists $results->{ifdescr}) {
         while (my ($object, $data) = each %{$results->{ifdescr}}) {
-            $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFDESCR} = $data;
+            $ports->[lastSplitObject($object)]->{IFDESCR} = $data;
         }
     }
 
     if (exists $results->{ifName}) {
         while (my ($object, $data) = each %{$results->{ifName}}) {
-            $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFNAME} = $data;
+            $ports->[lastSplitObject($object)]->{IFNAME} = $data;
         }
     }
 
     if (exists $results->{ifType}) {
         while (my ($object, $data) = each %{$results->{ifType}}) {
-            $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFTYPE} = $data;
+            $ports->[lastSplitObject($object)]->{IFTYPE} = $data;
         }
     }
 
     if (exists $results->{ifmtu}) {
         while (my ($object, $data) = each %{$results->{ifmtu}}) {
-            $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFMTU} = $data;
+            $ports->[lastSplitObject($object)]->{IFMTU} = $data;
         }
     }
 
     if (exists $results->{ifspeed}) {
         while (my ($object, $data) = each %{$results->{ifspeed}}) {
-            $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFSPEED} = $data;
+            $ports->[lastSplitObject($object)]->{IFSPEED} = $data;
         }
     }
 
     if (exists $results->{ifstatus}) {
         while (my ($object, $data) = each %{$results->{ifstatus}}) {
-            $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFSTATUS} = $data;
+            $ports->[lastSplitObject($object)]->{IFSTATUS} = $data;
         }
     }
 
     if (exists $results->{ifinternalstatus}) {
         while (my ($object, $data) = each %{$results->{ifinternalstatus}}) {
-            $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFINTERNALSTATUS} = $data;
+            $ports->[lastSplitObject($object)]->{IFINTERNALSTATUS} = $data;
         }
     }
 
     if (exists $results->{iflastchange}) {
         while (my ($object, $data) = each %{$results->{iflastchange}}) {
-            $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFLASTCHANGE} = $data;
+            $ports->[lastSplitObject($object)]->{IFLASTCHANGE} = $data;
         }
     }
 
     if (exists $results->{ifinoctets}) {
         while (my ($object, $data) = each %{$results->{ifinoctets}}) {
-            $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFINOCTETS} = $data;
+            $ports->[lastSplitObject($object)]->{IFINOCTETS} = $data;
         }
     }
 
     if (exists $results->{ifoutoctets}) {
         while (my ($object, $data) = each %{$results->{ifoutoctets}}) {
-            $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFOUTOCTETS} = $data;
+            $ports->[lastSplitObject($object)]->{IFOUTOCTETS} = $data;
         }
     }
 
     if (exists $results->{ifinerrors}) {
         while (my ($object, $data) = each %{$results->{ifinerrors}}) {
-            $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFINERRORS} = $data;
+            $ports->[lastSplitObject($object)]->{IFINERRORS} = $data;
         }
     }
 
     if (exists $results->{ifouterrors}) {
         while (my ($object, $data) = each %{$results->{ifouterrors}}) {
-            $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFOUTERRORS} = $data;
+            $ports->[lastSplitObject($object)]->{IFOUTERRORS} = $data;
         }
     }
 
     if (exists $results->{ifPhysAddress}) {
         while (my ($object, $data) = each %{$results->{ifPhysAddress}}) {
             next unless $data;
-            $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{MAC} = $data;
+            $ports->[lastSplitObject($object)]->{MAC} = $data;
         }
     }
 
@@ -536,13 +538,13 @@ sub _setGenericProperties {
             my $shortobject = $object;
             $shortobject =~ s/$walks->{ifaddr}->{OID}//;
             $shortobject =~ s/^.//;
-            $datadevice->{PORTS}->{PORT}->[$data]->{IP} = $shortobject;
+            $ports->[$data]->{IP} = $shortobject;
         }
     }
 
     if (exists $results->{portDuplex}) {
         while (my ($object, $data) = each %{$results->{portDuplex}}) {
-            $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{IFPORTDUPLEX} = $data;
+            $ports->[lastSplitObject($object)]->{IFPORTDUPLEX} = $data;
         }
     }
 }
@@ -581,6 +583,7 @@ sub _setNetworkingProperties {
     my ($self, $results, $datadevice, $walks, $host, $credentials) = @_;
 
     my $comments = $datadevice->{INFO}->{COMMENTS};
+    my $ports = $datadevice->{PORTS}->{PORT};
 
     # trunk & connected devices
     if (defined $comments) {
@@ -590,13 +593,13 @@ sub _setNetworkingProperties {
             $self->_runFunction(
                 module   => $entry->{trunk},
                 function => 'setTrunkPorts',
-                params   => [ $results, $datadevice->{PORTS}->{PORT} ]
+                params   => [ $results, $ports ]
             );
 
             $self->_runFunction(
                 module   => $entry->{devices},
                 function => 'setConnectedDevices',
-                params   => [ $results, $datadevice->{PORTS}->{PORT}, $walks ]
+                params   => [ $results, $ports, $walks ]
             );
 
             last;
@@ -607,7 +610,7 @@ sub _setNetworkingProperties {
     if (exists $results->{vmvlan}) {
         while (my ($object, $data) = each %{$results->{vmvlan}}) {
             my $name = $results->{vtpVlanName}->{$walks->{vtpVlanName}->{OID} . ".".$data};
-            $datadevice->{PORTS}->{PORT}->[lastSplitObject($object)]->{VLANS}->{VLAN} = {
+            $ports->[lastSplitObject($object)]->{VLANS}->{VLAN} = {
                 NUMBER => $data,
                 NAME   => $name
             };
@@ -653,7 +656,7 @@ sub _setNetworkingProperties {
                 $self->_runFunction(
                     module   => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco',
                     function => 'setMacAddresses',
-                    params   => [ $results, $datadevice->{PORTS}->{PORT}, $walks, $id ]
+                    params   => [ $results, $ports, $walks, $id ]
                 );
             }
         }
@@ -665,7 +668,7 @@ sub _setNetworkingProperties {
                 $self->_runFunction(
                     module   => $entry->{module},
                     function => $entry->{function},
-                    params   => [ $results, $datadevice->{PORTS}->{PORT}, $walks ]
+                    params   => [ $results, $ports, $walks ]
                 );
 
                 last;
@@ -676,7 +679,7 @@ sub _setNetworkingProperties {
     # cleanup ports list to keep only defined ones
     $datadevice->{PORTS}->{PORT} = [
         grep { $_ }
-        @{$datadevice->{PORTS}->{PORT}}
+        @{$ports}
     ];
 
 }
