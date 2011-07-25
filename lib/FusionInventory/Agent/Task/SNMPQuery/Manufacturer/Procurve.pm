@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools::Network;
 
 sub setMacAddresses {
-    my ($results, $deviceports, $index, $walks) = @_;
+    my ($results, $deviceports, $walks) = @_;
 
     while (my ($number, $ifphysaddress) = each %{$results->{dot1dTpFdbAddress}}) {
         next unless $ifphysaddress;
@@ -25,7 +25,7 @@ sub setMacAddresses {
             };
         next unless defined $ifIndex;
 
-        my $port = $deviceports->[$index->{$ifIndex}];
+        my $port = $deviceports->[$ifIndex];
 
         next if exists $port->{CONNECTIONS}->{CDP};
         next if $ifphysaddress eq $port->{MAC};
@@ -37,7 +37,7 @@ sub setMacAddresses {
 }
 
 sub setConnectedDevices {
-    my ($results, $deviceports, $index, $walks) = @_;
+    my ($results, $deviceports, $walks) = @_;
 
     if (ref $results->{cdpCacheAddress} eq 'HASH') {
         while (my ($number, $ip_hex) = each %{$results->{cdpCacheAddress}}) {
@@ -48,7 +48,7 @@ sub setConnectedDevices {
             $short_number =~ s/$walks->{cdpCacheAddress}->{OID}//;
             my @array = split(/\./, $short_number);
             my $connections =
-                $deviceports->[$index->{$array[1]}]->{CONNECTIONS};
+                $deviceports->[$array[1]]->{CONNECTIONS};
 
             $connections->{CONNECTION}->{IP} = $ip;
             $connections->{CDP} = 1;
@@ -65,7 +65,7 @@ sub setConnectedDevices {
             $short_number =~ s/$walks->{lldpCacheAddress}->{OID}//;
             my @array = split(/\./, $short_number);
             my $connections =
-                $deviceports->[$index->{$array[1]}]->{CONNECTIONS};
+                $deviceports->[$array[1]]->{CONNECTIONS};
 
             # already done through CDP 
             next if $connections->{CDP};

@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 sub setMacAddresses {
-    my ($results, $deviceports, $index, $walks) = @_;
+    my ($results, $deviceports, $walks) = @_;
 
     while (my ($number, $ifphysaddress) = each %{$results->{dot1dTpFdbAddress}}) {
         next unless $ifphysaddress;
@@ -17,7 +17,7 @@ sub setMacAddresses {
         my $ifIndex = $results->{dot1dTpFdbPort}->{$portKey};
         next unless defined $ifIndex;
 
-        my $port = $deviceports->[$index->{$ifIndex}];
+        my $port = $deviceports->[$ifIndex];
         my $connection = $port->{CONNECTIONS}->{CONNECTION};
         my $i = $connection ? @{$connection} : 0;
         $connection->[$i]->{MAC} = $ifphysaddress;
@@ -26,11 +26,11 @@ sub setMacAddresses {
 
 # In Intellijack 225, put mac address of port 'IntelliJack Ethernet Adapter' in port 'LAN Port'
 sub RewritePortOf225 {
-    my ($results, $deviceports, $index, $walks) = @_;
+    my ($results, $deviceports, $walks) = @_;
 
-    $deviceports->[$index->{101}]->{MAC} = $deviceports->[$index->{1}]->{MAC};
-    delete $deviceports->[$index->{1}];
-    delete $deviceports->[$index->{101}]->{CONNECTIONS};
+    $deviceports->[101]->{MAC} = $deviceports->[1]->{MAC};
+    delete $deviceports->[1];
+    delete $deviceports->[101]->{CONNECTIONS};
 }
 
 1;

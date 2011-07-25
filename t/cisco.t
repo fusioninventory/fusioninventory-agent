@@ -92,10 +92,6 @@ my $walks = {
     },
 };
 
-my $index = {
-    306 => 0,
-};
-
 my $results = {
     VLAN => {
         1 => {
@@ -106,7 +102,7 @@ my $results = {
                 '.1.3.6.1.2.1.17.4.3.1.1.0.28.246.197.100.25' => '00 1C F6 C5 64 19',
             },
             dot1dBasePortIfIndex => {
-                '.1.3.6.1.2.17.1.4.1.2.2307' => 306,
+                '.1.3.6.1.2.17.1.4.1.2.2307' => 0,
             }
         }
     }
@@ -114,7 +110,7 @@ my $results = {
 
 foreach my $test (@mac_tests) {
     FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco::setMacAddresses(
-        $results, $test->[0], $index, $walks, 1
+        $results, $test->[0], $walks, 1
     );
 
     is_deeply(
