@@ -133,17 +133,17 @@ my @mac_dispatch_table = (
     {
         match    => qr/3Com/,
         module   => __PACKAGE__ . '::Manufacturer::3Com',
-        function => 'setMacAddresses',
+        function => 'setConnectedDevicesMacAddress',
     },
     {
         match    => qr/ProCurve/,
         module   => __PACKAGE__ . '::Manufacturer::ProCurve',
-        function => 'setMacAddresses'
+        function => 'setConnectedDevicesMacAddress'
     },
     {
         match    => qr/Nortel/,
         module   => __PACKAGE__ . '::Manufacturer::Nortel',
-        function => 'setMacAddresses'
+        function => 'setConnectedDevicesMacAddress'
     },
 );
 
@@ -655,7 +655,7 @@ sub _setNetworkingProperties {
             if ($comments =~ /Cisco/) {
                 $self->_runMethod(
                     class  => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco',
-                    method => 'setMacAddresses',
+                    method => 'setConnectedDevicesMacAddress',
                     params => [ $results, $ports, $walks, $id ]
                 );
             }

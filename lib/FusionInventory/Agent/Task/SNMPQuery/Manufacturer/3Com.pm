@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer';
 
-sub setMacAddresses {
+sub setConnectedDevicesMacAddress {
     my ($class, $results, $ports, $walks) = @_;
 
     while (my ($number, $ifphysaddress) = each %{$results->{dot1dTpFdbAddress}}) {

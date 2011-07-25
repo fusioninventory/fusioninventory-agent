@@ -6,7 +6,7 @@ use base 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer';
 
 use FusionInventory::Agent::Tools::Network;
 
-sub setMacAddresses {
+sub setConnectedDevicesMacAddress {
     my ($class, $results, $ports, $walks) = @_;
 
     my $i = 0;

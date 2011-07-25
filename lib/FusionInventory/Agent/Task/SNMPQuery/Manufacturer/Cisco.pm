@@ -7,7 +7,7 @@ use base 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer';
 use FusionInventory::Agent::Task::SNMPQuery::Tools;
 use FusionInventory::Agent::Tools::Network;
 
-sub setMacAddresses {
+sub setConnectedDevicesMacAddress {
     my ($class, $results, $ports, $walks, $vlan_id) = @_;
 
     while (my ($number, $ifphysaddress) = each %{$results->{VLAN}->{$vlan_id}->{dot1dTpFdbAddress}}) {
