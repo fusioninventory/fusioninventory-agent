@@ -218,7 +218,6 @@ sub run {
             $models,
             $credentials,
             $maxIdx,
-            $params->{PID},
         )->detach();
         sleep 1;
     }
