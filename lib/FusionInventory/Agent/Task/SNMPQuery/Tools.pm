@@ -25,3 +25,22 @@ sub hex2string {
 
     return $hex;
 }
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Task::Tools - Utility functions
+
+=head1 DESCRIPTION
+
+This is a module providing some utility functions
+
+=head1 FUNCTIONS
+
+=head2 lastSplitObject($oid)
+
+return the last number of an oid.
+
+=head2 hex2string($hex)
+
+convert a string from hex to ascii.
