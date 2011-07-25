@@ -447,7 +447,6 @@ sub _setGenericProperties {
     my $ports = $datadevice->{PORTS}->{PORT};
 
     if ($results->{ifIndex}) {
-        my $num = 0;
         while (my ($oid, $data) = each %{$results->{ifIndex}}) {
             $ports->[lastSplitObject($oid)]->{IFNUMBER} = $data;
         }
