@@ -2,12 +2,13 @@ package FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco;
 
 use strict;
 use warnings;
+use base 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer';
 
 use FusionInventory::Agent::Task::SNMPQuery::Tools;
 use FusionInventory::Agent::Tools::Network;
 
 sub setMacAddresses {
-    my ($results, $deviceports, $walks, $vlan_id) = @_;
+    my ($class, $results, $deviceports, $walks, $vlan_id) = @_;
 
     while (my ($number, $ifphysaddress) = each %{$results->{VLAN}->{$vlan_id}->{dot1dTpFdbAddress}}) {
         next unless $ifphysaddress;
@@ -41,7 +42,7 @@ sub setMacAddresses {
 }
 
 sub setTrunkPorts {
-    my ($results, $deviceports) = @_;
+    my ($class, $results, $deviceports) = @_;
 
     while (my ($port_id, $trunk) = each %{$results->{vlanTrunkPortDynamicStatus}}) {
         $deviceports->[lastSplitObject($port_id)]->{TRUNK} = $trunk ? 1 : 0;
@@ -49,7 +50,7 @@ sub setTrunkPorts {
 }
 
 sub setConnectedDevices {
-    my ($results, $deviceports, $walks) = @_;
+    my ($class, $results, $deviceports, $walks) = @_;
 
     return unless ref $results->{cdpCacheAddress} eq 'HASH';
 

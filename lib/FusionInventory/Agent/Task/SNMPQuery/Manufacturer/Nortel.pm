@@ -2,11 +2,12 @@ package FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Nortel;
 
 use strict;
 use warnings;
+use base 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer';
 
 use FusionInventory::Agent::Tools::Network;
 
 sub setMacAddresses {
-    my ($results, $deviceports, $walks) = @_;
+    my ($class, $results, $deviceports, $walks) = @_;
 
     my $i = 0;
     while (my ($number, $ifphysaddress) = each %{$results->{dot1dTpFdbAddress}}) {
@@ -38,7 +39,7 @@ sub setMacAddresses {
 }
 
 sub setTrunkPorts {
-    my ($results, $deviceports, $ports) = @_;
+    my ($class, $results, $deviceports, $ports) = @_;
 
     my $myports;
 
@@ -64,7 +65,7 @@ sub setTrunkPorts {
 }
 
 sub setConnectedDevices {
-    my ($results, $deviceports, $walks) = @_;
+    my ($class, $results, $deviceports, $walks) = @_;
 
     return unless ref $results->{lldpRemChassisId} eq "HASH";
 

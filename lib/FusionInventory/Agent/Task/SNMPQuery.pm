@@ -590,16 +590,16 @@ sub _setNetworkingProperties {
         foreach my $entry (@ports_dispatch_table) {
             next unless $comments =~ $entry->{match};
 
-            $self->_runFunction(
-                module   => $entry->{trunk},
-                function => 'setTrunkPorts',
-                params   => [ $results, $ports ]
+            $self->_runMethod(
+                class  => $entry->{trunk},
+                method => 'setTrunkPorts',
+                params => [ $results, $ports ]
             );
 
-            $self->_runFunction(
-                module   => $entry->{devices},
-                function => 'setConnectedDevices',
-                params   => [ $results, $ports, $walks ]
+            $self->_runMethod(
+                class  => $entry->{devices},
+                method => 'setConnectedDevices',
+                params => [ $results, $ports, $walks ]
             );
 
             last;
@@ -653,10 +653,10 @@ sub _setNetworkingProperties {
             }
             # Detect mac adress on each port
             if ($comments =~ /Cisco/) {
-                $self->_runFunction(
-                    module   => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco',
-                    function => 'setMacAddresses',
-                    params   => [ $results, $ports, $walks, $id ]
+                $self->_runMethod(
+                    class  => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco',
+                    method => 'setMacAddresses',
+                    params => [ $results, $ports, $walks, $id ]
                 );
             }
         }
@@ -665,10 +665,10 @@ sub _setNetworkingProperties {
             foreach my $entry (@mac_dispatch_table) {
                 next unless $comments =~ $entry->{match};
 
-                $self->_runFunction(
-                    module   => $entry->{module},
-                    function => $entry->{function},
-                    params   => [ $results, $ports, $walks ]
+                $self->_runMethod(
+                    class  => $entry->{module},
+                    method => $entry->{function},
+                    params => [ $results, $ports, $walks ]
                 );
 
                 last;
@@ -710,19 +710,18 @@ sub _sanitizedSerial {
     return $value;
 }
 
-sub _runFunction {
+sub _runMethod {
     my ($self, %params) = @_;
 
-    my $module   = $params{module};
-    my $function = $params{function};
-    my $params   = $params{params};
+    my $class  = $params{class};
+    my $method = $params{method};
+    my $params = $params{params};
 
-    $module->require();
+    $class->require();
     if ($EVAL_ERROR) {
-        $self->{logger}->debug("Failed to load $module: $EVAL_ERROR");
+        $self->{logger}->debug("Failed to load $class: $EVAL_ERROR");
     } else {
-        no strict 'refs'; ## no critic
-        &{$module . '::' . $function}(@$params);
+        $class->$method(@$params);
     };
 }
 
