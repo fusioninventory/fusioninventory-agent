@@ -39,7 +39,7 @@ sub setConnectedDevicesMacAddress {
 }
 
 sub setTrunkPorts {
-    my ($class, $results, $ports, $ports) = @_;
+    my ($class, $results, $ports) = @_;
 
     my $myports;
 
