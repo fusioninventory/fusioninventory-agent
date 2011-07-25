@@ -10,14 +10,14 @@ sub setConnectedDevicesMacAddress {
     my ($class, $results, $ports, $walks) = @_;
 
     my $i = 0;
-    while (my ($number, $ifphysaddress) = each %{$results->{dot1dTpFdbAddress}}) {
-        next unless $ifphysaddress;
+    while (my ($oid, $mac) = each %{$results->{dot1dTpFdbAddress}}) {
+        next unless $mac;
 
-        my $short_number = $number;
-        $short_number =~ s/$walks->{dot1dTpFdbAddress}->{OID}//;
+        my $suffix = $oid;
+        $suffix =~ s/$walks->{dot1dTpFdbAddress}->{OID}//;
         my $dot1dTpFdbPort = $walks->{dot1dTpFdbPort}->{OID};
 
-        my $portKey = $dot1dTpFdbPort . $short_number;
+        my $portKey = $dot1dTpFdbPort . $suffix;
         my $ifKey_part = $results->{dot1dTpFdbPort}->{$portKey};
         next unless defined $ifKey_part;
 
@@ -29,12 +29,14 @@ sub setConnectedDevicesMacAddress {
 
         my $port = $ports->[$ifIndex];
 
-        next if exists $port->{CONNECTIONS}->{CDP};
-        next if $ifphysaddress eq $port->{MAC};
+        # this device has already been processed through CDP/LLDP
+        next if $port->{CONNECTIONS}->{CDP};
+        # this is port own mac address
+        next if $port->{MAC} eq $mac;
 
-        my $connection = $port->{CONNECTIONS}->{CONNECTION};
-        my $i = $connection ? @{$connection} : 0;
-        $connection->[$i]->{MAC} = $ifphysaddress;
+        # create a new connection with this mac address
+        my $connections = $port->{CONNECTIONS}->{CONNECTION};
+        push @$connections, { MAC => $mac };
     }
 }
 

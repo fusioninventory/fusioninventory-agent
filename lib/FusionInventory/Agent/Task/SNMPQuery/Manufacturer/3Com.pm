@@ -7,21 +7,22 @@ use base 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer';
 sub setConnectedDevicesMacAddress {
     my ($class, $results, $ports, $walks) = @_;
 
-    while (my ($number, $ifphysaddress) = each %{$results->{dot1dTpFdbAddress}}) {
-        next unless $ifphysaddress;
+    while (my ($oid, $mac) = each %{$results->{dot1dTpFdbAddress}}) {
+        next unless $mac;
 
-        my $short_number = $number;
-        $short_number =~ s/$walks->{dot1dTpFdbAddress}->{OID}//;
+        my $suffix = $oid;
+        $suffix =~ s/$walks->{dot1dTpFdbAddress}->{OID}//;
         my $dot1dTpFdbPort = $walks->{dot1dTpFdbPort}->{OID};
 
-        my $portKey = $dot1dTpFdbPort . $short_number;
+        my $portKey = $dot1dTpFdbPort . $suffix;
         my $ifIndex = $results->{dot1dTpFdbPort}->{$portKey};
         next unless defined $ifIndex;
 
         my $port = $ports->[$ifIndex];
-        my $connection = $port->{CONNECTIONS}->{CONNECTION};
-        my $i = $connection ? @{$connection} : 0;
-        $connection->[$i]->{MAC} = $ifphysaddress;
+
+        # create a new connection with this mac address
+        my $connections = $port->{CONNECTIONS}->{CONNECTION};
+        push @$connections, { MAC => $mac };
     }
 }
 
