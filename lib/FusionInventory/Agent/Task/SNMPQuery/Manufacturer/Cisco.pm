@@ -67,12 +67,20 @@ sub setConnectedDevices {
         my $connections =
             $ports->[$array[1]]->{CONNECTIONS};
 
-        $connections->{CONNECTION}->{IP} = $ip;
         $connections->{CDP} = 1;
-        $connections->{CONNECTION}->{IFDESCR} =
-            $results->{cdpCacheDevicePort}->{
-                $walks->{cdpCacheDevicePort}->{OID} . $short_number
-            };
+        $connections->{CONNECTION}->{IP} = $ip;
+        $connections->{CONNECTION}->{IFDESCR} = $results->{cdpCacheDevicePort}->{
+            $walks->{cdpCacheDevicePort}->{OID} . $short_number
+        };
+        $connections->{CONNECTION}->{SYSDESCR} = $results->{cdpCacheVersion}->{
+            $walks->{cdpCacheVersion}->{OID} . $short_number
+        };
+        $connections->{CONNECTION}->{SYSNAME} = $results->{cdpCacheDeviceId}->{
+            $walks->{cdpCacheDeviceId}->{OID} . $short_number
+        };
+        $connections->{CONNECTION}->{MODEL} = $results->{cdpCachePlatform}->{
+            $walks->{cdpCachePlatform}->{OID} . $short_number
+        };
     }
 }
 

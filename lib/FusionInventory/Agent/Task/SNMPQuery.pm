@@ -145,6 +145,11 @@ my @mac_dispatch_table = (
         module   => __PACKAGE__ . '::Manufacturer::Nortel',
         function => 'setConnectedDevicesMacAddress'
     },
+    {
+        match    => qr/Allied Telesis/,
+        module   => __PACKAGE__ . '::Manufacturer::AlliedTelesis',
+        function => 'setConnectedDevicesMacAddress'
+    }
 );
 
 sub run {
