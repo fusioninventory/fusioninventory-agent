@@ -16,7 +16,7 @@ sub lastSplitObject {
     return $array[-1];
 }
 
-sub hex2string {
+sub hex2ascii {
     my ($hex) = @_;
 
     return unless $hex =~ /0x/;
@@ -41,6 +41,6 @@ This is a module providing some utility functions
 
 return the last number of an oid.
 
-=head2 hex2string($hex)
+=head2 hex2ascii($hex)
 
 convert a string from hex to ascii.
