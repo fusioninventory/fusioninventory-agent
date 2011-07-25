@@ -47,7 +47,7 @@ sub setTrunkPorts {
     my ($class, $results, $ports) = @_;
 
     while (my ($port_id, $trunk) = each %{$results->{vlanTrunkPortDynamicStatus}}) {
-        $ports->[lastSplitObject($port_id)]->{TRUNK} = $trunk ? 1 : 0;
+        $ports->[getLastNumber($port_id)]->{TRUNK} = $trunk ? 1 : 0;
     }
 }
 

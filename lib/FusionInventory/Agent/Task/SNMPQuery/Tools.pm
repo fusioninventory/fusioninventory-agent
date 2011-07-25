@@ -5,11 +5,11 @@ use warnings;
 use base 'Exporter';
 
 our @EXPORT = qw(
-    lastSplitObject
+    getLastNumber
     hex2string
 );
 
-sub lastSplitObject {
+sub getLastNumber {
     my $var = shift;
 
     my @array = split(/\./, $var);
@@ -37,7 +37,7 @@ This is a module providing some utility functions
 
 =head1 FUNCTIONS
 
-=head2 lastSplitObject($oid)
+=head2 getLastNumber($oid)
 
 return the last number of an oid.
 
