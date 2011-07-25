@@ -392,10 +392,10 @@ sub _queryDevice {
     # first, fetch values from device
     my $results;
     foreach my $variable (values %{$model->{GET}}) {
-        next if $variable->{VLAN};
         $results->{$variable->{OBJECT}} = $snmp->get($variable->{OID});
     }
     foreach my $variable (values %{$model->{WALK}}) {
+        next if $variable->{VLAN};
         $results->{$variable->{OBJECT}} = $snmp->walk($variable->{OID});
     }
 
