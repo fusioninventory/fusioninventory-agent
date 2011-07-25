@@ -7,7 +7,7 @@ use base 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer';
 use FusionInventory::Agent::Tools::Network;
 
 sub setMacAddresses {
-    my ($class, $results, $deviceports, $walks) = @_;
+    my ($class, $results, $ports, $walks) = @_;
 
     while (my ($number, $ifphysaddress) = each %{$results->{dot1dTpFdbAddress}}) {
         next unless $ifphysaddress;
@@ -26,7 +26,7 @@ sub setMacAddresses {
             };
         next unless defined $ifIndex;
 
-        my $port = $deviceports->[$ifIndex];
+        my $port = $ports->[$ifIndex];
 
         next if exists $port->{CONNECTIONS}->{CDP};
         next if $ifphysaddress eq $port->{MAC};
@@ -38,7 +38,7 @@ sub setMacAddresses {
 }
 
 sub setConnectedDevices {
-    my ($class, $results, $deviceports, $walks) = @_;
+    my ($class, $results, $ports, $walks) = @_;
 
     if (ref $results->{cdpCacheAddress} eq 'HASH') {
         while (my ($number, $ip_hex) = each %{$results->{cdpCacheAddress}}) {
@@ -49,7 +49,7 @@ sub setConnectedDevices {
             $short_number =~ s/$walks->{cdpCacheAddress}->{OID}//;
             my @array = split(/\./, $short_number);
             my $connections =
-                $deviceports->[$array[1]]->{CONNECTIONS};
+                $ports->[$array[1]]->{CONNECTIONS};
 
             $connections->{CONNECTION}->{IP} = $ip;
             $connections->{CDP} = 1;
@@ -66,7 +66,7 @@ sub setConnectedDevices {
             $short_number =~ s/$walks->{lldpCacheAddress}->{OID}//;
             my @array = split(/\./, $short_number);
             my $connections =
-                $deviceports->[$array[1]]->{CONNECTIONS};
+                $ports->[$array[1]]->{CONNECTIONS};
 
             # already done through CDP 
             next if $connections->{CDP};

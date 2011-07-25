@@ -8,7 +8,7 @@ use FusionInventory::Agent::Task::SNMPQuery::Tools;
 use FusionInventory::Agent::Tools::Network;
 
 sub setMacAddresses {
-    my ($class, $results, $deviceports, $walks, $vlan_id) = @_;
+    my ($class, $results, $ports, $walks, $vlan_id) = @_;
 
     while (my ($number, $ifphysaddress) = each %{$results->{VLAN}->{$vlan_id}->{dot1dTpFdbAddress}}) {
         next unless $ifphysaddress;
@@ -30,7 +30,7 @@ sub setMacAddresses {
             $results->{VLAN}->{$vlan_id}->{dot1dBasePortIfIndex}->{$ifKey};
         next unless defined $ifIndex;
 
-        my $port = $deviceports->[$ifIndex];
+        my $port = $ports->[$ifIndex];
 
         next if exists $port->{CONNECTIONS}->{CDP};
         next if $ifphysaddress eq $port->{MAC};
@@ -42,15 +42,15 @@ sub setMacAddresses {
 }
 
 sub setTrunkPorts {
-    my ($class, $results, $deviceports) = @_;
+    my ($class, $results, $ports) = @_;
 
     while (my ($port_id, $trunk) = each %{$results->{vlanTrunkPortDynamicStatus}}) {
-        $deviceports->[lastSplitObject($port_id)]->{TRUNK} = $trunk ? 1 : 0;
+        $ports->[lastSplitObject($port_id)]->{TRUNK} = $trunk ? 1 : 0;
     }
 }
 
 sub setConnectedDevices {
-    my ($class, $results, $deviceports, $walks) = @_;
+    my ($class, $results, $ports, $walks) = @_;
 
     return unless ref $results->{cdpCacheAddress} eq 'HASH';
 
@@ -63,7 +63,7 @@ sub setConnectedDevices {
         my @array = split(/\./, $short_number);
 
         my $connections =
-            $deviceports->[$array[1]]->{CONNECTIONS};
+            $ports->[$array[1]]->{CONNECTIONS};
 
         $connections->{CONNECTION}->{IP} = $ip;
         $connections->{CDP} = 1;

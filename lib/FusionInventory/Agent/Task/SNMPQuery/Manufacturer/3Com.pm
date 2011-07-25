@@ -5,7 +5,7 @@ use warnings;
 use base 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer';
 
 sub setMacAddresses {
-    my ($class, $results, $deviceports, $walks) = @_;
+    my ($class, $results, $ports, $walks) = @_;
 
     while (my ($number, $ifphysaddress) = each %{$results->{dot1dTpFdbAddress}}) {
         next unless $ifphysaddress;
@@ -18,7 +18,7 @@ sub setMacAddresses {
         my $ifIndex = $results->{dot1dTpFdbPort}->{$portKey};
         next unless defined $ifIndex;
 
-        my $port = $deviceports->[$ifIndex];
+        my $port = $ports->[$ifIndex];
         my $connection = $port->{CONNECTIONS}->{CONNECTION};
         my $i = $connection ? @{$connection} : 0;
         $connection->[$i]->{MAC} = $ifphysaddress;
@@ -27,11 +27,11 @@ sub setMacAddresses {
 
 # In Intellijack 225, put mac address of port 'IntelliJack Ethernet Adapter' in port 'LAN Port'
 sub RewritePortOf225 {
-    my ($class, $results, $deviceports, $walks) = @_;
+    my ($class, $results, $ports, $walks) = @_;
 
-    $deviceports->[101]->{MAC} = $deviceports->[1]->{MAC};
-    delete $deviceports->[1];
-    delete $deviceports->[101]->{CONNECTIONS};
+    $ports->[101]->{MAC} = $ports->[1]->{MAC};
+    delete $ports->[1];
+    delete $ports->[101]->{CONNECTIONS};
 }
 
 1;
