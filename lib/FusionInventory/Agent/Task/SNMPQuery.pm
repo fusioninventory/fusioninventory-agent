@@ -413,12 +413,12 @@ sub _queryDevice {
 sub _setGenericProperties {
     my ($self, $results, $datadevice, $walks) = @_;
 
-    if (exists $results->{cpuuser}) {
+    if ($results->{cpuuser}) {
         $datadevice->{INFO}->{CPU} =
             $results->{cpuuser} + $results->{cpusystem};
     }
 
-    if (exists $results->{firmware1}) {
+    if ($results->{firmware1}) {
         $datadevice->{INFO}->{FIRMWARE} =
             $results->{firmware1} . ' ' . $results->{firmware2};
     }
@@ -436,7 +436,7 @@ sub _setGenericProperties {
     }
 
 
-    if (exists $results->{ipAdEntAddr}) {
+    if ($results->{ipAdEntAddr}) {
         my $i = 0;
         while (my ($object, $data) = each %{$results->{ipAdEntAddr}}) {
             $datadevice->{INFO}->{IPS}->{IP}->[$i] = $data;
