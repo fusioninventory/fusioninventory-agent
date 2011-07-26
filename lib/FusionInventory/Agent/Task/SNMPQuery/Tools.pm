@@ -6,7 +6,7 @@ use base 'Exporter';
 
 our @EXPORT = qw(
     getLastNumber
-    hex2string
+    hex2ascii
 );
 
 sub getLastNumber {
