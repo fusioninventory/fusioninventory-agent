@@ -21,7 +21,7 @@ sub isEnabled {
 }
 
 sub doInventory {
-    my (%params) = shift;
+    my (%params) = @_;
 
     my $inventory    = $params{inventory};
     my $logger       = $params{logger};
