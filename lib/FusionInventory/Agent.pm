@@ -263,9 +263,6 @@ sub run {
                     deviceid => $self->{deviceid},
                 );
 
-                # Add target ACCOUNTINFO values to the prolog
-                #$prolog->setAccountInfo($target->getAccountInfo());
-
                 $prologresp = $client->send(
                     url     => $target->getUrl(),
                     message => $prolog
