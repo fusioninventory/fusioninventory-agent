@@ -158,7 +158,7 @@ sub _getStatus {
         'ACPI: [A-Z]{4} \(v\d+\s+Xen ' => 'Xen',
     );
 
-    if (-f '/var/log/dmesg') {
+    if (-r '/var/log/dmesg') {
         my $handle = getFileHandle(
             file => '/var/log/dmesg',
             logger => $logger

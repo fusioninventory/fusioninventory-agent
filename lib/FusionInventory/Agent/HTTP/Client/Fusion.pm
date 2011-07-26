@@ -6,22 +6,68 @@ use base 'FusionInventory::Agent::HTTP::Client';
 
 use JSON;
 use HTTP::Request;
+use URI::Escape;
+
+sub new {
+    my ($class, %params) = @_;
+
+    my $self = $class->SUPER::new(%params);
+
+# Stack the messages sent in order to be able to check the
+# correctness of the behavior with the test-suite
+    if ($params{debug}) {
+        $self->{debug} = 1;
+        $self->{msgStack} = []
+    }
+
+    return $self;
+}
+
+sub _prepareVal {
+    my ($self, $val) = @_;
+
+    return '' unless length($val);
+
+# forbid to long argument.
+    while (length(uri_escape($val)) > 1500) {
+        $val =~ s/^.{5}/…/;
+    }
+
+    return uri_escape($val);
+}
 
 sub send {
     my ($self, %params) = @_;
 
+    push @{$self->{msgStack}}, $params{args} if $self->{debug};
+
     my $url = ref $params{url} eq 'URI' ?
         $params{url} : URI->new($params{url});
 
-    $url->query_form(action => $params{action}, %{$params{params}});
+    my $finalUrl = $url.'?action='.uri_escape($params{args}->{action});
+    foreach my $k (keys %{$params{args}}) {
+        if (ref($params{args}->{$k}) eq 'ARRAY') {
+            foreach (@{$params{args}->{$k}}) {
+                $finalUrl .= '&'.$k.'[]='.$self->_prepareVal($_ || '');
+            }
+        } elsif (ref($params{args}->{$k}) eq 'HASH') {
+            foreach (keys %{$params{args}->{$k}}) {
+                $finalUrl .= '&'.$k.'['.$_.']='.$self->_prepareVal($params{args}->{$k}{$_});
+            }
+        } elsif ($k ne 'action' && length($params{args}->{$k})) {
+            $finalUrl .= '&'.$k.'='.$self->_prepareVal($params{args}->{$k});
+        }
+   }
 
-    my $request = HTTP::Request->new(GET => $url);
+    print "$finalUrl\n";
+
+    my $request = HTTP::Request->new(GET => $finalUrl);
 
     my $response = $self->request($request);
 
     return unless $response;
 
-    return eval { from_json( $response, { utf8  => 1 } ) };
+    return eval { from_json( $response->content(), { utf8  => 1 } ) };
 }
 
 1;
@@ -49,13 +95,10 @@ hash:
 
 the url to send the message to (mandatory)
 
-=item I<action>
+=item I<args>
 
-the action to perform (mandatory)
-
-=item I<params>
-
-additional params for the action
+A list of parameters to pass to the server. The action key is mandatory.
+Parameters can be hashref or arrayref.
 
 =back
 

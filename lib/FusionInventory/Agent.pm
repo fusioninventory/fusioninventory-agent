@@ -259,7 +259,6 @@ sub run {
                 );
 
                 my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
-                    logger   => $logger,
                     token    => $self->{token},
                     deviceid => $self->{deviceid},
                 );

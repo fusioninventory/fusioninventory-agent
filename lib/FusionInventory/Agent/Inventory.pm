@@ -333,9 +333,11 @@ sub processChecksum {
 
     if ($self->{last_state_file}) {
         if (-f $self->{last_state_file}) {
-            $self->{last_state_content} = XML::TreePP->parsefile(
-                $self->{last_state_file}
-            );
+            eval {
+                $self->{last_state_content} = XML::TreePP->new()->parsefile(
+                    $self->{last_state_file}
+                );
+            }
         } else {
             $logger->debug(
                 "last state file '$self->{last_state_file}' doesn't exist"
@@ -368,11 +370,12 @@ sub saveLastState {
     if (!defined($self->{last_state_content})) {
         $self->processChecksum();
     }
-
     if ($self->{last_state_file}) {
-        XML::TreePP->new()->writefile(
-            $self->{last_state_content}, $self->{last_state_file}
-        );
+        eval {
+            XML::TreePP->new()->writefile(
+                $self->{last_state_file}, $self->{last_state_content}
+            );
+        }
     } else {
         $logger->debug(
             "last state file is not defined, last state not saved"
@@ -475,13 +478,19 @@ is based on OCS Inventory XML with various additions.
 
 =item SMODEL
 
+System model
+
 =item SMANUFACTURER
 
 System manufacturer
 
 =item SSN
 
+System Serial number
+
 =item BDATE
+
+BIOS release date
 
 =item BVERSION
 
@@ -804,6 +813,8 @@ Can by:
 =item WINCOMPANY
 
 =item WINLANG
+
+Language code of the Windows
 
 =item CHASSIS_TYPE
 
@@ -1290,6 +1301,10 @@ ErrStatus: See Win32_Printer.ExtendedDetectedErrorState
 =item SHARENAME
 
 =item PRINTPROCESSOR
+
+=item SERIAL
+
+The serial number
 
 =back
 
