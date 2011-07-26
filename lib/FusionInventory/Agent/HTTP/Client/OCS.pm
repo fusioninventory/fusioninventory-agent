@@ -71,10 +71,13 @@ sub send {
         return;
     }
 
-    $response_content = $self->_uncompress($response_content);
-    if (!$response_content) {
-        $logger->error("[client] deflating problem");
-        return;
+    my $uncompressed_response_content = $self->_uncompress($response_content);
+    if ($uncompressed_response_content) {
+        $response_content = $uncompressed_response_content;
+    } else {
+        $logger->info(
+            "[client] deflating failure: this is not compressed content"
+        );
     }
 
     $logger->debug("[client] receiving message: $response_content");
