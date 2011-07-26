@@ -16,14 +16,18 @@ sub new {
 
     my $self = $class->SUPER::new(%params);
 
+    $self->{ua}->default_header('Pragma' => 'no-cache');
+
     # check compression mode
     if (Compress::Zlib->require()) {
         $self->{compression} = 'native';
+        $self->{ua}->default_header('Content-type' => 'application/x-compress');
         $self->{logger}->debug(
             'Using Compress::Zlib for compression'
         );
     } elsif (canRun('gzip')) {
         $self->{compression} = 'gzip';
+        $self->{ua}->default_header('Content-type' => 'application/x-compress');
         $self->{logger}->debug(
             'Using gzip for compression (server minimal version 1.02 needed)'
         );
@@ -55,10 +59,6 @@ sub send {
     }
 
     my $request = HTTP::Request->new(POST => $url);
-    $request->header(
-        'Pragma'       => 'no-cache',
-        'Content-type' => 'application/x-compress'
-    );
     $request->content($request_content);
 
     my $result = $self->request($request);
