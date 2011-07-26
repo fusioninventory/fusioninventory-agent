@@ -61,10 +61,10 @@ sub send {
     my $request = HTTP::Request->new(POST => $url);
     $request->content($request_content);
 
-    my $result = $self->request($request);
-    return unless $result->is_success();
+    my $response = $self->request($request);
+    return unless $response->is_success();
 
-    my $response_content = $result->content();
+    my $response_content = $response->content();
 
    if (!$response_content) {
         $logger->error("[client] response is empty");
