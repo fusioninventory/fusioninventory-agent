@@ -27,18 +27,19 @@ sub doInventory {
     my @printers = $cups->getDestinations();
 
     foreach my $printer (@printers) {
-        my $name = $printer->getUri();
+        my $uri = $printer->getUri();
+        my $name = $uri;
         $name =~ s/^.*\/\/([^\.]*).*$/$1/eg ;
         $name =~ s/%([0-9A-Fa-f]{2})/chr(hex($1))/eg;
         $inventory->addEntry(
             section => 'PRINTERS',
             entry   => {
                 NAME        => $name,
+                PORT        => $uri,
                 DESCRIPTION => $printer->getDescription(),
                 DRIVER      => $printer->getOptionValue(
                                    "printer-make-and-model"
                                ),
-                PORT        => $printer->getUri(), 
             }
         );
     }
