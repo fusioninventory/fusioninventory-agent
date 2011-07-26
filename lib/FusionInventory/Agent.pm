@@ -120,8 +120,7 @@ sub new {
     }
 
     if (!$scheduler->getTargets()) {
-        $logger->error("No target defined. Please use ".
-            "--server=SERVER or --local=/directory");
+        $logger->error("No target defined, aborting");
         exit 1;
     }
 
