@@ -272,7 +272,7 @@ sub run {
                 );
 
                 if (!$prologresp) {
-                    $logger->error("No anwser from the server");
+                    $logger->error("No answer from the server");
                     $target->resetNextRunDate();
                     next;
                 }
