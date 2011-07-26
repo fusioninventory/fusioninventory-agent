@@ -79,11 +79,9 @@ sub send {
 
     $logger->debug("[client] receiving message: $response_content");
 
-    my $response = FusionInventory::Agent::XML::Response->new(
+    return FusionInventory::Agent::XML::Response->new(
         content => $response_content
     );
-
-    return $response;
 }
 
 sub _compress {
