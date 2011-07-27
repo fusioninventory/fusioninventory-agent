@@ -50,7 +50,7 @@ sub send {
     my $logger  = $self->{logger};
 
     my $request_content = $message->getContent();
-    $logger->debug("[client] sending message: $request_content");
+    $logger->debug("[client] sending message:\n $request_content");
 
     $request_content = $self->_compress($request_content);
     if (!$request_content) {
@@ -80,7 +80,7 @@ sub send {
         );
     }
 
-    $logger->debug("[client] receiving message: $response_content");
+    $logger->debug("[client] receiving message:\n $response_content");
 
     return FusionInventory::Agent::XML::Response->new(
         content => $response_content
