@@ -3,8 +3,8 @@ package FusionInventory::Agent::Task::Inventory::OS::HPUX::MP;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Regexp;
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Regexp;
 
 #TODO driver pcislot virtualdev
 

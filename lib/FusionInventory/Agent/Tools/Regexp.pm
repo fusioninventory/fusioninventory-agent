@@ -1,10 +1,10 @@
-package FusionInventory::Agent::Regexp;
+package FusionInventory::Agent::Tools::Regexp;
 
 use strict;
 use warnings;
 use base 'Exporter';
 
-our @EXPORT = qw(
+our @EXPORT = qw(FusionInventory::Agent::Tools::Regexp
     $mac_address_pattern
     $ip_address_pattern
     $hex_mac_address_pattern
@@ -41,7 +41,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Regexp - Generic regular expressions
+FusionInventory::Agent::Tools::Regexp - Generic regular expressions
 
 =head1 DESCRIPTION
 

@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Regexp;
+use FusionInventory::Agent::Tools::Regexp;
 
 my @network_ok_tests = qw(
     10.0.0.0/32

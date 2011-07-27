@@ -5,9 +5,9 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-use FusionInventory::Agent::Regexp;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
+use FusionInventory::Agent::Tools::Regexp;
 
 sub isEnabled {
     return canRun('ifconfig');
