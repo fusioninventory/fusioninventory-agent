@@ -332,13 +332,13 @@ sub run {
                         die "fork failed: $ERRNO" unless defined $pid;
 
                         $logger->debug(
-                            "[task] executing $module in process $PID"
+                            "executing $module in process $PID"
                         );
                         $task->run();
                     }
                 } else {
                     # standalone mode: run each task directly
-                    $logger->debug("[task] executing $module");
+                    $logger->debug("executing $module");
                     $task->run();
                 }
             }
