@@ -25,8 +25,8 @@ use UNIVERSAL::require;
 use XML::TreePP;
 
 use FusionInventory::Agent::Logger;
-use FusionInventory::Agent::Regexp;
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Regexp;
 use FusionInventory::Agent::Task::NetDiscovery::Dico;
 use FusionInventory::Agent::XML::Query;
 
@@ -210,16 +210,18 @@ sub run {
     my @threads : shared;
 
     for (my $j = 0; $j < $params->{THREADS_DISCOVERY}; $j++) {
-        $threads[$j] = {
+        my %thread :shared = (
             id     => $j,
             state  => PAUSE,
             action => PAUSE
-        };
+        );
+
+        push @threads, \%thread;
 
         threads->create(
             '_scanAddresses',
             $self,
-            $threads[$j],
+            \%thread,
             \@addresses_block,
             $credentials,
             $nmap_parameters,
@@ -236,7 +238,9 @@ sub run {
     my $block_size = $params->{THREADS_DISCOVERY} * ADDRESS_PER_THREAD;
     while (@addresses) {
         # fetch a block of addresses from the global list
-        @addresses_block = splice @addresses, 0, $block_size;
+        @addresses_block =
+            map { shared_clone($_) }
+            splice @addresses, 0, $block_size;
 
         # send block size to the server
         $self->_sendMessage({
