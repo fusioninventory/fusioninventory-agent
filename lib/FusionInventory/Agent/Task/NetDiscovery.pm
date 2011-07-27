@@ -242,6 +242,10 @@ sub run {
             map { shared_clone($_) }
             splice @addresses, 0, $block_size;
 
+        $self->{logger}->debug(
+            "scanning block: $addresses_block[0]->{IP}, $addresses_block[-1]->{IP}"
+        );
+
         # send block size to the server
         $self->_sendMessage({
             AGENT => {
@@ -459,18 +463,23 @@ sub _scanAddress {
       return;
    }
 
-   my $device;
+   # initialising the variable is mandatory, otherwise subsequent
+   # methods will each modify a different local variable
+   my $device = {};
 
    if ($params{nmap_parameters}) {
       $self->_scanAddressByNmap($device, $params{ip}, $params{nmap_parameters});
+        ### nmap: $device
    }
 
    if ($INC{'Net/NBName.pm'}) {
-       $self->_scanAddressByNmap($device, $params{ip})
+       $self->_scanAddressByNetbios($device, $params{ip});
+        ### netbios: $device
    }
 
    if ($INC{'FusionInventory/Agent/SNMP.pm'}) {
        $self->_scanAddressBySNMP($device, $params{ip}, $params{credentials}, $params{dico});
+        ### snmp: $device
    }
 
    if ($device->{MAC}) {
@@ -480,9 +489,9 @@ sub _scanAddress {
    if ($device->{MAC} || $device->{DNSHOSTNAME} || $device->{NETBIOSNAME}) {
       $device->{IP}     = $params{ip};
       $device->{ENTITY} = $params{entity};
-      $self->{logger}->debug("[$params{ip}] ".Dumper($device));
+      $self->{logger}->debug("address $params{ip}: found device\n" . Dumper($device));
    } else {
-      $self->{logger}->debug("[$params{ip}] Not found");
+      $self->{logger}->debug("address $params{ip}: nothing found");
    }
 
    return $device;
@@ -491,15 +500,19 @@ sub _scanAddress {
 sub _scanAddressByNmap {
     my ($self, $device, $ip, $parameters) = @_;
 
-    $self->{logger}->debug("[$ip] : nmap discovery");
+    $self->{logger}->debug("address $ip: nmap scan");
 
-    $device = _parseNmap(command => "nmap $parameters $ip -oX -");
+    my $result = _parseNmap(command => "nmap $parameters $ip -oX -");
+
+    $device->{MAC}           = $result->{MAC}           if $result->{MAC};
+    $device->{NETPORTVENDOR} = $result->{NETPORTVENDOR} if $result->{NETPORTVENDOR};
+    $device->{DNSHOSTNAME}   = $result->{DNSHOSTNAME}   if $result->{DNSHOSTNAME};
 }
 
 sub _scanAddressByNetbios {
     my ($self, $device, $ip) = @_;
 
-    $self->{logger}->debug("[$ip] : Netbios discovery");
+    $self->{logger}->debug("address $ip: Netbios scan");
 
     my $nb = Net::NBName->new();
 
@@ -528,7 +541,7 @@ sub _scanAddressByNetbios {
 sub _scanAddressBySNMP {
     my ($self, $device, $ip, $credentials, $dico) = @_;
 
-    $self->{logger}->debug("[ip] : SNMP discovery");
+    $self->{logger}->debug("address $ip: SNMP scan");
 
     foreach my $credential (@{$credentials}) {
 
@@ -672,10 +685,9 @@ sub _parseNmap {
     foreach my $host (@{$tree->{nmaprun}[0]{host}}) {
         foreach my $address (@{$host->{address}}) {
             next unless $address->{'-addrtype'} eq 'mac';
-            $result->{MAC}           = $address->{'-addr'}
-                unless $result->{MAC};
-            $result->{NETPORTVENDOR} = $address->{'-vendor'}
-                unless $result->{NETPORTVENDOR};
+            $result->{MAC}           = $address->{'-addr'};
+            $result->{NETPORTVENDOR} = $address->{'-vendor'};
+            last;
         }
         foreach my $hostname (@{$host->{hostnames}}) {
             my $name = eval {$hostname->{hostname}[0]{'-name'}};
