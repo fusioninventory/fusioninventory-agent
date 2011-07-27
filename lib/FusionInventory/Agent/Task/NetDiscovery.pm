@@ -300,7 +300,7 @@ sub _getDictionnary {
         # the server message contains a dictionnary, use it
         # and save it for later use
         $dictionnary = FusionInventory::Agent::Task::NetDiscovery::Dico->new(
-            hash => $options->{DICO}
+            string => $options->{DICO}
         );
         $hash = $options->{DICOHASH};
 
