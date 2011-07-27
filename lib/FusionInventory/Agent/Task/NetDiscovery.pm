@@ -26,7 +26,7 @@ use XML::TreePP;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Regexp;
+use FusionInventory::Agent::Tools::Regexp;
 use FusionInventory::Agent::Task::NetDiscovery::Dico;
 use FusionInventory::Agent::XML::Query;
 
