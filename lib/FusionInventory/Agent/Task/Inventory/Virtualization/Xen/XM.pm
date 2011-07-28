@@ -43,6 +43,8 @@ sub doInventory {
 	    chomp $vm;
             my ($name, $vmid, $memory, $vcpu, $status, $time) = split(' ',$vm);
 
+            next if $vmid == 0;
+
 	    $status =~ s/-//g;
 	    $status = ( $status ? $status_list{$status} : 'off');
 
