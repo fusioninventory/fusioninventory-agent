@@ -12,7 +12,7 @@ my $default = {
     'logfacility'             => 'LOG_USER',
     'delaytime'               => 3600,
     'backend-collect-timeout' => 180,
-    'rpc-port'                => 62354,
+    'httpd-port'              => 62354,
 };
 
 my $deprecated = {
