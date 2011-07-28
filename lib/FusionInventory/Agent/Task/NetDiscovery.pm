@@ -436,65 +436,65 @@ sub _scanAddresses {
 }
 
 sub _sendMessage {
-   my ($self, $content) = @_;
+    my ($self, $content) = @_;
 
-   my $message = FusionInventory::Agent::XML::Query->new(
-       deviceid => $self->{deviceid},
-       query    => 'NETDISCOVERY',
-       content  => $content
-   );
+    my $message = FusionInventory::Agent::XML::Query->new(
+        deviceid => $self->{deviceid},
+        query    => 'NETDISCOVERY',
+        content  => $content
+    );
 
-   $self->{client}->send(
-       url     => $self->{target}->getUrl(),
-       message => $message
-   );
+    $self->{client}->send(
+        url     => $self->{target}->getUrl(),
+        message => $message
+    );
 }
 
 sub _scanAddress {
-   my ($self, %params) = @_;
+    my ($self, %params) = @_;
 
-   if (!defined($params{ip})) {
-      $self->{logger}->debug("ip address empty...");
-      return;
-   }
+    if (!defined($params{ip})) {
+        $self->{logger}->debug("ip address empty...");
+        return;
+    }
 
-   if ($params{ip} !~ /^$ip_address_pattern$/ ) {
-      $self->{logger}->debug("Invalid ip address...");
-      return;
-   }
+    if ($params{ip} !~ /^$ip_address_pattern$/ ) {
+        $self->{logger}->debug("Invalid ip address...");
+        return;
+    }
 
-   # initialising the variable is mandatory, otherwise subsequent
-   # methods will each modify a different local variable
-   my $device = {};
+    # initialising the variable is mandatory, otherwise subsequent
+    # methods will each modify a different local variable
+    my $device = {};
 
-   if ($params{nmap_parameters}) {
-      $self->_scanAddressByNmap($device, $params{ip}, $params{nmap_parameters});
+    if ($params{nmap_parameters}) {
+        $self->_scanAddressByNmap($device, $params{ip}, $params{nmap_parameters});
         ### nmap: $device
-   }
+    }
 
-   if ($INC{'Net/NBName.pm'}) {
-       $self->_scanAddressByNetbios($device, $params{ip});
+    if ($INC{'Net/NBName.pm'}) {
+        $self->_scanAddressByNetbios($device, $params{ip});
         ### netbios: $device
-   }
+    }
 
-   if ($INC{'FusionInventory/Agent/SNMP.pm'}) {
-       $self->_scanAddressBySNMP($device, $params{ip}, $params{credentials}, $params{dico});
+    if ($INC{'FusionInventory/Agent/SNMP.pm'}) {
+        $self->_scanAddressBySNMP($device, $params{ip}, $params{credentials}, $params{dico});
         ### snmp: $device
-   }
+    }
 
-   if ($device->{MAC}) {
-      $device->{MAC} =~ tr/A-F/a-f/;
-   }
+    if ($device->{MAC}) {
+        $device->{MAC} =~ tr/A-F/a-f/;
+    }
 
-   if ($device->{MAC} || $device->{DNSHOSTNAME} || $device->{NETBIOSNAME}) {
-      $device->{IP}     = $params{ip};
-      $device->{ENTITY} = $params{entity};
-      $self->{logger}->debug("address $params{ip}: found device\n" . Dumper($device));
-   } else {
-      $self->{logger}->debug("address $params{ip}: nothing found");
-   }
+    if ($device->{MAC} || $device->{DNSHOSTNAME} || $device->{NETBIOSNAME}) {
+        $device->{IP}     = $params{ip};
+        $device->{ENTITY} = $params{entity};
+        $self->{logger}->debug("address $params{ip}: found device\n" . Dumper($device));
+    } else {
+        $self->{logger}->debug("address $params{ip}: nothing found");
+    }
 
-   return $device;
+    return $device;
 }
 
 sub _scanAddressByNmap {
