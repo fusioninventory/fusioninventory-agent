@@ -25,6 +25,10 @@ sub doInventory {
         if ($line =~ /^\s+(\d+|\-)\s+(\S+)\s+(\S.+)/) {
             my $name = $2;
             my $status = $3;
+
+            # Xen DomU
+            next if $name eq 'Domain-0';
+
             $status =~ s/^shut off/off/;
 
             my $xml = `virsh dumpxml $name`;
