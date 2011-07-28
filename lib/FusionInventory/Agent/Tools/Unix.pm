@@ -355,7 +355,7 @@ sub getPCIDevices {
                 PCICLASS     => $3,
                 MANUFACTURER => $4,
                 PCIID        => $5,
-                VERSION      => $6
+                REV          => $6
             };
             next;
         }
