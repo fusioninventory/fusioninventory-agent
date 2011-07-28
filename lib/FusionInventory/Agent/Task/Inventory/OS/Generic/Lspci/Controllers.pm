@@ -42,6 +42,7 @@ sub _getControllers {
             PCICLASS     => $device->{PCICLASS},
             NAME         => $device->{NAME},
             MANUFACTURER => $device->{MANUFACTURER},
+            VERSION      => $device->{VERSION},
             PCIID        => $device->{PCIID},
             PCISLOT      => $device->{PCISLOT},
         };
