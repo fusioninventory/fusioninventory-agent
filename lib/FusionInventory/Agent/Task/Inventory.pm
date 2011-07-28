@@ -147,8 +147,15 @@ sub initModList {
                     }
                 }
             } else {
-                chomp(my $binpath=`which $binary 2>/dev/null`);
-                $ret = -x $binpath;
+                foreach (split(':', $ENV{PATH})) {
+                    next unless -x "$_/$binary";
+                    $ret = 1;
+                    last;
+                }
+                if (!$ret) {
+                    chomp(my $binpath=`which $binary 2>/dev/null`);
+                    $ret = -x $binpath;
+                }
             }
 
             return $ret;
