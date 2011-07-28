@@ -38,7 +38,7 @@ sub _getMachines {
 
         my $name = $2;
 
-        # ignore Xen DomU
+        # ignore Xen Dom0
         next if $name eq 'Domain-0';
 
         my $status = $3;
