@@ -25,7 +25,7 @@ GetOptions(
     'daemon|d',
     'devlib', # For compat with 2.2.x < parameter
     'no-fork',
-    'debug',
+    'debug+',
     'delaytime=s',
     'force|f',
     'help|h',

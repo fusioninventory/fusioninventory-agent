@@ -12,7 +12,7 @@ use Test::More;
 
 use FusionInventory::Agent::Logger;
 
-plan tests => 25;
+plan tests => 29;
 
 my $logger = FusionInventory::Agent::Logger->new();
 
@@ -100,6 +100,11 @@ $logger = FusionInventory::Agent::Logger->new(
 );
 
 ok(
+    !getStderrOutput(sub { $logger->debug2('message'); }),
+    'debug2 message absence'
+);
+
+ok(
     !getStderrOutput(sub { $logger->debug('message'); }),
     'debug message absence'
 );
@@ -107,6 +112,11 @@ ok(
 $logger = FusionInventory::Agent::Logger->new(
     backends => [ qw/Stderr/ ],
     debug    => 1
+);
+
+ok(
+    !getStderrOutput(sub { $logger->debug2('message'); }),
+    'debug2 message absence'
 );
 
 ok(
@@ -142,6 +152,21 @@ is(
     getStderrOutput(sub { $logger->log(message => 'message'); }),
     "[info] message",
     'default logging level'
+);
+
+$logger = FusionInventory::Agent::Logger->new(
+    backends => [ qw/Stderr/ ],
+    debug    => 2
+);
+
+ok(
+    getStderrOutput(sub { $logger->debug2('message'); }),
+    'debug2 message presence'
+);
+
+ok(
+    getStderrOutput(sub { $logger->debug('message'); }),
+    'debug message presence'
 );
 
 $logger = FusionInventory::Agent::Logger->new(

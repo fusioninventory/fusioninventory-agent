@@ -10,7 +10,7 @@ sub new {
     my ($class, %params) = @_;
 
     my $self = {
-        debug => $params{debug},
+        debug => $params{debug} || 0,
     };
     bless $self, $class;
 
@@ -42,12 +42,13 @@ sub new {
 sub log {
     my ($self, %params) = @_;
 
-    # levels: debug, info, error, fault
+    # levels: debug2, debug, info, error, fault
     my $level = $params{level} || 'info';
     my $message = $params{message};
 
     return unless $message;
-    return if $level eq 'debug' && !$self->{debug};
+    return if $level eq 'debug2' && $self->{debug} < 2;
+    return if $level eq 'debug'  && $self->{debug} < 1;
 
     foreach my $backend (@{$self->{backends}}) {
         $backend->addMsg (
@@ -55,6 +56,12 @@ sub log {
             message => $message
         );
     }
+}
+
+sub debug2 {
+    my ($self, $msg) = @_;
+
+    $self->log(level => 'debug2', message => $msg);
 }
 
 sub debug {
