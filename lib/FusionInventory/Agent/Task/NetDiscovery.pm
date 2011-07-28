@@ -12,10 +12,10 @@ use base 'FusionInventory::Agent::Task';
 use constant ADDRESS_PER_THREAD => 25;
 use constant DEVICE_PER_MESSAGE => 4;
 
-use constant DELETE => 3;
-use constant STOP   => 2;
-use constant RUN    => 1;
-use constant PAUSE  => 0;
+use constant START => 0;
+use constant RUN   => 1;
+use constant STOP  => 2;
+use constant EXIT  => 3;
 
 use Data::Dumper;
 use English qw(-no_match_vars);
@@ -207,21 +207,15 @@ sub run {
     # for synchronisation
     my $maxIdx : shared = 0;
     my @addresses_block :shared;
-    my @threads : shared;
+    my @states : shared;
 
-    for (my $j = 0; $j < $params->{THREADS_DISCOVERY}; $j++) {
-        my %thread :shared = (
-            id     => $j,
-            state  => PAUSE,
-            action => PAUSE
-        );
-
-        push @threads, \%thread;
+    for (my $i = 0; $i < $params->{THREADS_DISCOVERY}; $i++) {
+        $states[$i] = START;
 
         threads->create(
             '_scanAddresses',
             $self,
-            \%thread,
+            \$states[$i],
             \@addresses_block,
             $credentials,
             $nmap_parameters,
@@ -230,9 +224,8 @@ sub run {
         )->detach();
 
         # sleep one second every 4 threads
-        sleep 1 unless $j % 4;
+        sleep 1 unless $i % 4;
     }
-
 
     # proceed the whole list of addresses block by block
     my $block_size = $params->{THREADS_DISCOVERY} * ADDRESS_PER_THREAD;
@@ -255,10 +248,10 @@ sub run {
         });
 
         # set all threads in RUN state
-        $_->{action} = RUN foreach @threads;
+        $_ = RUN foreach @states;
 
-        # wait for all threads to reach PAUSE state
-        while (any { $_->{state} != PAUSE } @threads) {
+        # wait for all threads to reach STOP state
+        while (any { $_ != STOP } @states) {
             sleep 1;
         }
 
@@ -277,13 +270,9 @@ sub run {
         }
     }
 
-    # set all threads in STOP state
-    $_->{action} = STOP foreach @threads;
-
-    # wait for all threads to reach STOP state
-    while (any { $_->{state} != STOP } @threads) {
-        sleep 1;
-    }
+    # set all threads in EXIT state
+    $_ = EXIT foreach @states;
+    sleep 1;
 
     # send final message to the server
     $self->_sendMessage({
@@ -356,35 +345,33 @@ sub _getDictionnary {
 }
 
 sub _scanAddresses {
-    my ($self, $thread, $addresses, $credentials, $nmap_parameters, $dico, $maxIdx) = @_;
+    my ($self, $state, $addresses, $credentials, $nmap_parameters, $dico, $maxIdx) = @_;
 
-    $self->{logger}->debug("Thread $thread->{id} created");
+    my $logger = $self->{logger};
+    my $id     = threads->tid();
+    
+    $logger->debug("Thread $id created");
+
+    # start: wait for state to change
+    while ($$state == START) {
+        sleep 1;
+    }
 
     OUTER: while (1) {
+        # run: process available addresses until exhaustion
+        $$state = RUN;
+        $logger->debug("Thread $id switched to RUN state");
 
-        # wait for action
-        WAIT: while (1) {
-            if ($thread->{action} == DELETE) { # STOP
-                $thread->{state} = STOP;
-                last OUTER;
-            } elsif ($thread->{action} != PAUSE) { # RUN
-                $thread->{state} = RUN;
-                last WAIT;
-            }
-            sleep 1;
-        }
-
-        # run
         my @results;
         my $storage = $self->{target}->getStorage();
 
-        RUN: while (1) {
+        INNER: while (1) {
             my $address;
             {
                 lock $addresses;
                 $address = pop @{$addresses};
             }
-            last RUN unless $address;
+            last INNER unless $address;
 
             my $result = $self->_scanAddress(
                 ip              => $address->{IP},
@@ -415,18 +402,18 @@ sub _scanAddresses {
             );
         }
 
-        # change state
-        if ($thread->{action} == STOP) { # STOP
-            $thread->{state}  = STOP;
-            $thread->{action} = PAUSE;
-            last OUTER;
-        } elsif ($thread->{action} == RUN) { # PAUSE
-            $thread->{state}  = PAUSE;
-            $thread->{action} = PAUSE;
+        # stop: wait for state to change
+        $$state = STOP;
+        $logger->debug("Thread $id switched to STOP state");
+        while ($$state == STOP) {
+            sleep 1;
         }
+
+        # exit: exit thread
+        last OUTER if $$state == EXIT;
     }
 
-    $self->{logger}->debug("Thread $thread->{id} deleted");
+    $logger->debug("Thread $id deleted");
 }
 
 sub _sendMessage {
