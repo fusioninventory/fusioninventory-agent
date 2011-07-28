@@ -9,8 +9,8 @@ use File::stat;
 use Memoize;
 use Time::Local;
 
-use FusionInventory::Agent::Regexp;
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Regexp;
 
 our @EXPORT = qw(
     getDeviceCapacity

@@ -14,9 +14,9 @@ use warnings;
 #IFC=/sbin/ifconfig
 #DLADM=/usr/sbin/dladm
 
-use FusionInventory::Agent::Regexp;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
+use FusionInventory::Agent::Tools::Regexp;
 
 sub isEnabled {
     return canRun('ifconfig');

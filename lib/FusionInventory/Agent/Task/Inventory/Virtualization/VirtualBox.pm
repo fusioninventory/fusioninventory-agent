@@ -5,7 +5,7 @@ use warnings;
 
 use English qw(-no_match_vars);
 use File::Basename;
-use File::Glob ':glob';
+use File::Glob qw(:glob);
 
 use FusionInventory::Agent::Tools;
 

@@ -7,9 +7,9 @@ use Win32::OLE qw(in CP_UTF8);
 use Win32::OLE::Const;
 use Win32::OLE::Enum;
 
-use FusionInventory::Agent::Regexp;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
+use FusionInventory::Agent::Tools::Regexp;
 use FusionInventory::Agent::Tools::Win32;
  
 Win32::OLE-> Option(CP=>CP_UTF8);

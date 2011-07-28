@@ -5,7 +5,7 @@ use warnings;
 
 use Config;
 use English qw(-no_match_vars);
-use File::Glob ':glob';
+use File::Glob qw(:glob);
 use File::Path qw(make_path);
 use Storable;
 
