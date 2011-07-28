@@ -37,6 +37,10 @@ sub _getMachines {
         next unless $line =~ /^\s+(\d+|\-)\s+(\S+)\s+(\S.+)/;
 
         my $name = $2;
+
+        # ignore Xen Dom0
+        next if $name eq 'Domain-0';
+
         my $status = $3;
         $status =~ s/^shut off/off/;
 

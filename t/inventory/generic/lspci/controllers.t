@@ -17,7 +17,7 @@ my %tests = (
             PCISLOT      => '00:00.0',
             PCICLASS     => '0600',
             MANUFACTURER => 'Intel Corporation',
-            VERSION      => '07',
+            REV          => '07',
             PCIID        => '8086:2a40'
         },
         {
@@ -28,7 +28,7 @@ my %tests = (
             PCISLOT      => '00:02.0',
             PCICLASS     => '0300',
             MANUFACTURER => 'Intel Corporation',
-            VERSION      => '07',
+            REV          => '07',
             PCIID        => '8086:2a42'
         },
         {
@@ -38,7 +38,7 @@ my %tests = (
             PCISLOT      => '00:02.1',
             PCICLASS     => '0380',
             MANUFACTURER => 'Intel Corporation',
-            VERSION      => '07',
+            REV          => '07',
             PCIID        => '8086:2a43'
         },
         {
@@ -49,7 +49,7 @@ my %tests = (
             PCISLOT      => '00:19.0',
             PCICLASS     => '0200',
             MANUFACTURER => 'Intel Corporation',
-            VERSION      => '03',
+            REV          => '03',
             PCIID        => '8086:10f5'
         },
         {
@@ -60,7 +60,7 @@ my %tests = (
             PCISLOT      => '00:1a.0',
             PCICLASS     => '0c03',
             MANUFACTURER => 'Intel Corporation',
-            VERSION      => '03',
+            REV          => '03',
             PCIID        => '8086:2937'
         },
         {
@@ -71,7 +71,7 @@ my %tests = (
             PCISLOT      => '00:1a.1',
             PCICLASS     => '0c03',
             MANUFACTURER => 'Intel Corporation',
-            VERSION      => '03',
+            REV          => '03',
             PCIID        => '8086:2938'
         },
         {
@@ -82,7 +82,7 @@ my %tests = (
             PCISLOT      => '00:1a.2',
             PCICLASS     => '0c03',
             MANUFACTURER => 'Intel Corporation',
-            VERSION      => '03',
+            REV          => '03',
             PCIID        => '8086:2939'
         },
         {
@@ -93,7 +93,7 @@ my %tests = (
             PCISLOT      => '00:1a.7',
             PCICLASS     => '0c03',
             MANUFACTURER => 'Intel Corporation',
-            VERSION      => '03',
+            REV          => '03',
             PCIID        => '8086:293c'
         },
         {
@@ -104,7 +104,7 @@ my %tests = (
             PCISLOT      => '00:1b.0',
             PCICLASS     => '0403',
             MANUFACTURER => 'Intel Corporation',
-            VERSION      => '03',
+            REV          => '03',
             PCIID        => '8086:293e'
         },
         {
@@ -115,7 +115,7 @@ my %tests = (
             PCISLOT      => '00:1c.0',
             PCICLASS     => '0604',
             MANUFACTURER => 'Intel Corporation',
-            VERSION      => '03',
+            REV          => '03',
             PCIID        => '8086:2940'
         },
         {
@@ -126,7 +126,7 @@ my %tests = (
             PCISLOT      => '00:1c.1',
             PCICLASS     => '0604',
             MANUFACTURER => 'Intel Corporation',
-            VERSION      => '03',
+            REV          => '03',
             PCIID        => '8086:2942'
         },
         {
@@ -137,7 +137,7 @@ my %tests = (
             PCISLOT      => '00:1c.3',
             PCICLASS     => '0604',
             MANUFACTURER => 'Intel Corporation',
-            VERSION      => '03',
+            REV          => '03',
             PCIID        => '8086:2946'
         },
         {
@@ -148,7 +148,7 @@ my %tests = (
             PCISLOT      => '00:1d.0',
             PCICLASS     => '0c03',
             MANUFACTURER => 'Intel Corporation',
-            VERSION      => '03',
+            REV          => '03',
             PCIID        => '8086:2934'
         },
         {
@@ -159,7 +159,7 @@ my %tests = (
             PCISLOT      => '00:1d.1',
             PCICLASS     => '0c03',
             MANUFACTURER => 'Intel Corporation',
-            VERSION      => '03',
+            REV          => '03',
             PCIID        => '8086:2935'
         },
         {
@@ -170,7 +170,7 @@ my %tests = (
             PCISLOT      => '00:1d.2',
             PCICLASS     => '0c03',
             MANUFACTURER => 'Intel Corporation',
-            VERSION      => '03',
+            REV          => '03',
             PCIID        => '8086:2936'
         },
         {
@@ -181,7 +181,7 @@ my %tests = (
             PCISLOT      => '00:1d.7',
             PCICLASS     => '0c03',
             MANUFACTURER => 'Intel Corporation',
-            VERSION      => '03',
+            REV          => '03',
             PCIID        => '8086:293a'
         },
         {
@@ -191,7 +191,7 @@ my %tests = (
             PCISLOT      => '00:1e.0',
             PCICLASS     => '0604',
             MANUFACTURER => 'Intel Corporation',
-            VERSION      => '93',
+            REV          => '93',
             PCIID        => '8086:2448'
         },
         {
@@ -201,7 +201,7 @@ my %tests = (
             PCISLOT      => '00:1f.0',
             PCICLASS     => '0601',
             MANUFACTURER => 'Intel Corporation',
-            VERSION      => '03',
+            REV          => '03',
             PCIID        => '8086:2917'
         },
         {
@@ -212,7 +212,7 @@ my %tests = (
             PCISLOT      => '00:1f.2',
             PCICLASS     => '0104',
             MANUFACTURER => 'Intel Corporation',
-            VERSION      => '03',
+            REV          => '03',
             PCIID        => '8086:282a'
         },
         {
@@ -223,7 +223,7 @@ my %tests = (
             PCISLOT      => '00:1f.3',
             PCICLASS     => '0c05',
             MANUFACTURER => 'Intel Corporation',
-            VERSION      => '03',
+            REV          => '03',
             PCIID        => '8086:2930'
         },
         {
@@ -234,7 +234,7 @@ my %tests = (
             PCISLOT      => '02:01.0',
             PCICLASS     => '0607',
             MANUFACTURER => 'Texas Instruments',
-            VERSION      => undef,
+            REV          => undef,
             PCIID        => '104c:8039'
         },
         {
@@ -245,7 +245,7 @@ my %tests = (
             PCISLOT      => '02:01.1',
             PCICLASS     => '0c00',
             MANUFACTURER => 'Texas Instruments',
-            VERSION      => undef,
+            REV          => undef,
             PCIID        => '104c:803a'
         },
         {
@@ -256,7 +256,7 @@ my %tests = (
             PCISLOT      => '02:01.3',
             PCICLASS     => '0805',
             MANUFACTURER => 'Texas Instruments',
-            VERSION      => undef,
+            REV          => undef,
             PCIID        => '104c:803c'
         },
         {
@@ -267,7 +267,7 @@ my %tests = (
             PCISLOT      => '0c:00.0',
             PCICLASS     => '0280',
             MANUFACTURER => 'Intel Corporation',
-            VERSION      => undef,
+            REV          => undef,
             PCIID        => '8086:4232'
         }
     ]
