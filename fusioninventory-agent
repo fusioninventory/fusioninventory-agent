@@ -126,6 +126,8 @@ Supported systems:
 
 Minimum perl version: 5.8
 
+The which command on UNIX/Linux/MacOSX system.
+
 Additional mandatory perl modules:
 
 =over
