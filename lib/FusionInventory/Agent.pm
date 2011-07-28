@@ -64,7 +64,7 @@ sub new {
     );
 
     # handle persistent state
-    $self->_loadState() if $self->{storage}->has();
+    $self->_loadState();
 
     $self->{deviceid} = _computeDeviceId() if !$self->{deviceid};
     $self->{token}    = _computeToken()    if !$self->{token};
@@ -214,7 +214,7 @@ sub _getHostname {
 sub _loadState {
     my ($self) = @_;
 
-    my $data = $self->{storage}->restore();
+    my $data = $self->{storage}->restore(name => 'FusionInventory-Agent');
 
     $self->{token}    = $data->{token}    if $data->{token};
     $self->{deviceid} = $data->{deviceid} if $data->{deviceid};
@@ -224,6 +224,7 @@ sub _saveState {
     my ($self) = @_;
 
     $self->{storage}->save(
+        name => 'FusionInventory-Agent',
         data => {
             token    => $self->{token},
             deviceid => $self->{deviceid},

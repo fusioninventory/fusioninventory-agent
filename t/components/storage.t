@@ -10,7 +10,7 @@ use Test::Exception;
 
 use FusionInventory::Agent::Storage;
 
-plan tests => 10;
+plan tests => 16;
 
 my $storage;
 throws_ok {
@@ -55,10 +55,41 @@ lives_ok {
 
 ok(-d "$writedir/subdir", "subdirectory creation");
 
-ok(!$storage->has(), "content existence");
-ok(!defined $storage->restore(), "content retrieval");
+throws_ok {
+    $storage->has();
+} qr/^no name parameter/,
+'has: no name';
 
-$storage->save(data => { foo => "bar" });
+ok(!$storage->has(name => 'test'), "content existence");
 
-ok($storage->has(), "content existence");
-is_deeply($storage->restore(), { foo => "bar" }, "content retrieval");
+throws_ok {
+    $storage->restore();
+} qr/^no name parameter/,
+'restore: no name';
+
+ok(!defined $storage->restore(name => 'test'), "content retrieval");
+
+throws_ok {
+    $storage->save(data => { foo => "bar" });
+} qr/^no name parameter/,
+'save: no name';
+
+$storage->save(name => 'test', data => { foo => "bar" });
+
+ok($storage->has(name => 'test'), "content existence");
+is_deeply(
+    $storage->restore(name => 'test'),
+    { foo => "bar" },
+    "content retrieval"
+);
+
+ok(-f "$writedir/subdir/test.dump", "file presence");
+
+throws_ok {
+    $storage->remove();
+} qr/^no name parameter/,
+'remove: no name';
+
+$storage->remove(name => 'test');
+
+ok(!-f "$writedir/subdir/test.dump", "file removal");

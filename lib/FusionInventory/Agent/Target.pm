@@ -53,7 +53,7 @@ sub _init {
     );
 
     # handle persistent state
-    $self->_loadState() if $self->{storage}->has(module => 'Target');
+    $self->_loadState();
 
     $self->{nextRunDate} = _computeNextRunDate($self->{maxDelay})
         if !$self->{nextRunDate};
@@ -131,7 +131,7 @@ sub _computeNextRunDate {
 sub _loadState {
     my ($self) = @_;
 
-    my $data = $self->{storage}->restore(module => 'Target');
+    my $data = $self->{storage}->restore(name => 'target');
 
     $self->{maxDelay}    = $data->{maxDelay}    if $data->{maxDelay};
     $self->{nextRunDate} = $data->{nextRunDate} if $data->{nextRunDate};
@@ -141,7 +141,7 @@ sub _saveState {
     my ($self) = @_;
 
     $self->{storage}->save(
-        module => 'Target',
+        name => 'target',
         data => {
             maxDelay    => $self->{maxDelay},
             nextRunDate => $self->{nextRunDate},
