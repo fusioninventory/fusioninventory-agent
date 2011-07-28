@@ -264,14 +264,15 @@ sub run {
 
         # send results to the server
         my $storage = $self->{target}->getStorage();
-        foreach my $idx (1..$maxIdx) {
+        foreach my $i (1 .. $maxIdx) {
+            my $filename = sprintf('netdiscovery%02i', $i);
             my $data = {
-                DEVICE        => $storage->restore(idx => $idx),
+                DEVICE        => $storage->restore(name => $filename),
                 MODULEVERSION => $VERSION,
                 PROCESSNUMBER => $params->{PID}
             };
             $self->_sendMessage($data);
-            $storage->remove(idx => $idx);
+            $storage->remove(name => $filename);
             sleep 1;
         }
     }
@@ -310,7 +311,7 @@ sub _getDictionnary {
         $hash = $options->{DICOHASH};
 
         $storage->save(
-            idx  => 999999,
+            name => 'dictionnary',
             data => {
                 dictionnary => $dictionnary,
                 hash        => $hash
@@ -318,7 +319,7 @@ sub _getDictionnary {
         );
     } else {
         # no dictionnary in server message, retrieve last saved one
-        my $data = $storage->restore(idx => 999999);
+        my $data = $storage->restore(name => 'dictionnary');
         $dictionnary = $data->{dictionnary};
         $hash        = $data->{hash};
     }
@@ -398,7 +399,7 @@ sub _scanAddresses {
             if (@results % DEVICE_PER_MESSAGE == 0) {
                 $maxIdx++;
                 $storage->save(
-                    idx  => $maxIdx,
+                    name => sprintf('netdiscovery%02i', $maxIdx),
                     data => \@results,
                 );
                 undef @results;
@@ -409,7 +410,7 @@ sub _scanAddresses {
         if (@results) {
             $maxIdx++;
             $storage->save(
-                idx  => $maxIdx,
+                name => sprintf('netdiscovery%02i', $maxIdx),
                 data => \@results,
             );
         }
