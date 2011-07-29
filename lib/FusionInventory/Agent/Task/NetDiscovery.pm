@@ -480,15 +480,18 @@ sub _scanAddressByNetbios {
 
     my %device;
     foreach my $rr ($ns->names()) {
-        if ($rr->suffix() == 0 && $rr->G() eq "GROUP") {
-            $device{WORKGROUP} = getSanitizedString($rr->name);
+        my $suffix = $rr->suffix();
+        my $G      = $rr->G();
+        my $name   = $rr->name();
+        if ($suffix == 0 && $G eq 'GROUP') {
+            $device{WORKGROUP} = getSanitizedString($name);
         }
-        if ($rr->suffix() == 3 && $rr->G() eq "UNIQUE") {
-            $device{USERSESSION} = getSanitizedString($rr->name);
+        if ($suffix == 3 && $G eq 'UNIQUE') {
+            $device{USERSESSION} = getSanitizedString($name);
         }
-        if ($rr->suffix() == 0 && $rr->G() eq "UNIQUE") {
-            my $machine = $rr->name() unless $rr->name() =~ /^IS~/;
-            $device{NETBIOSNAME} = getSanitizedString($machine);
+        if ($suffix == 0 && $G eq 'UNIQUE') {
+            $device{NETBIOSNAME} = getSanitizedString($name)
+                unless $name =~ /^IS~/;
         }
     }
 
