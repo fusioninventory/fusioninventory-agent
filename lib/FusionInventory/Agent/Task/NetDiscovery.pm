@@ -145,8 +145,8 @@ sub run {
     my $params = $options->{PARAM}->[0];
 
     # take care of models dictionnary
-    my $dico = $self->_getDictionnary($options, $params->{PID});
-    return unless $dico;
+    my $dictionnary = $self->_getDictionnary($options, $params->{PID});
+    return unless $dictionnary;
 
     # check discovery methods available
     my $nmap_parameters;
@@ -219,7 +219,7 @@ sub run {
             \@addresses_block,
             $credentials,
             $nmap_parameters,
-            $dico,
+            $dictionnary,
             $maxIdx
         )->detach();
 
