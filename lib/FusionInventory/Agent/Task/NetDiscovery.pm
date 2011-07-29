@@ -492,10 +492,8 @@ sub _scanAddressByNetbios {
         }
     }
 
-    if (!$device{MAC} || $device{MAC} !~ /^$mac_address_pattern$/) {
-        $device{MAC} = $ns->mac_address();
-        $device{MAC} =~ tr/-/:/; 
-    }
+    $device{MAC} = $ns->mac_address();
+    $device{MAC} =~ tr/-/:/; 
 
     return %device;
 }
