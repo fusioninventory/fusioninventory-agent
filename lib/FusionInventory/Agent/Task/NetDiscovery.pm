@@ -155,23 +155,23 @@ sub run {
            "-sP -PP --system-dns --max-retries 1 --max-rtt-timeout 1000ms " :
            "-sP --system-dns --max-retries 1 --max-rtt-timeout 1000 "       ;
     } else {
-        $self->{logger}->error(
-            "Can't run nmap, nmap detection can't be used!"
+        $self->{logger}->info(
+            "Can't run nmap, nmap detection can't be used"
         );
     }
 
     Net::NBName->require();
     if ($EVAL_ERROR) {
-        $self->{logger}->error(
-            "Can't load Net::NBName. Netbios detection can't be used!"
+        $self->{logger}->info(
+            "Can't load Net::NBName, netbios can't be used"
         );
     }
 
     FusionInventory::Agent::SNMP->require();
     if ($EVAL_ERROR) {
-        $self->{logger}->error(
-            "Can't load FusionInventory::Agent::SNMP. SNMP detection can't " .
-            "be used!"
+        $self->{logger}->info(
+            "Can't load FusionInventory::Agent::SNMP, snmp detection can't " .
+            "be used"
         );
     } else {
         $snmp_credentials = $options->{AUTHENTICATION};
