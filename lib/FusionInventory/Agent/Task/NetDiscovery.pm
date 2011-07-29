@@ -9,7 +9,6 @@ if ($threads::VERSION > 1.32){
 }
 use base 'FusionInventory::Agent::Task';
 
-use constant ADDRESS_PER_THREAD => 25;
 use constant DEVICE_PER_MESSAGE => 4;
 
 use constant START => 0;
@@ -178,20 +177,6 @@ sub run {
     # retrieve SNMP authentication credentials
     my $credentials = $options->{AUTHENTICATION};
 
-    # convert given IP ranges into a flat list of IP addresses
-    my @addresses;
-    foreach my $range (@{$options->{RANGEIP}}) {
-        next unless $range->{IPSTART};
-        next unless $range->{IPEND};
-
-        my $ip = Net::IP->new($range->{IPSTART}.' - '.$range->{IPEND});
-        do {
-            push @addresses, {
-                IP     => $ip->ip(),
-                ENTITY => $range->{ENTITY}
-            };
-        } while (++$ip);
-    }
 
     # send initial message to the server
     $self->_sendMessage({
@@ -206,7 +191,7 @@ sub run {
     # create the required number of threads, sharing variables
     # for synchronisation
     my $maxIdx : shared = 0;
-    my @addresses_block :shared;
+    my @addresses :shared;
     my @states : shared;
 
     for (my $i = 0; $i < $params->{THREADS_DISCOVERY}; $i++) {
@@ -216,7 +201,7 @@ sub run {
             '_scanAddresses',
             $self,
             \$states[$i],
-            \@addresses_block,
+            \@addresses,
             $credentials,
             $nmap_parameters,
             $dictionnary,
@@ -227,22 +212,23 @@ sub run {
         sleep 1 unless $i % 4;
     }
 
-    # proceed the whole list of addresses block by block
-    my $block_size = $params->{THREADS_DISCOVERY} * ADDRESS_PER_THREAD;
-    while (@addresses) {
-        # fetch a block of addresses from the global list
-        @addresses_block =
-            map { shared_clone($_) }
-            splice @addresses, 0, $block_size;
+    # proceed each given IP block
+    foreach my $range (@{$options->{RANGEIP}}) {
+        next unless $range->{IPSTART};
+        next unless $range->{IPEND};
 
-        $self->{logger}->debug(
-            "scanning block: $addresses_block[0]->{IP}, $addresses_block[-1]->{IP}"
-        );
+        # compute adresses list
+        my $block_string = $range->{IPSTART}.'-'.$range->{IPEND};
+        my $block = Net::IP->new($block_string);
+        do {
+            push @addresses, $block->ip(),
+        } while (++$block);
+        $self->{logger}->debug("scanning range: $block_string");
 
         # send block size to the server
         $self->_sendMessage({
             AGENT => {
-                NBIP => scalar @addresses_block
+                NBIP => scalar @addresses
             },
             PROCESSNUMBER => $params->{PID}
         });
@@ -259,8 +245,10 @@ sub run {
         my $storage = $self->{target}->getStorage();
         foreach my $i (1 .. $maxIdx) {
             my $filename = sprintf('netdiscovery%02i', $i);
+            my $devices = $storage->restore(name => $filename);
+            $_->{ENTITY} = $range->{ENTITY} foreach @$devices;
             my $data = {
-                DEVICE        => $storage->restore(name => $filename),
+                DEVICE        => $devices,
                 MODULEVERSION => $VERSION,
                 PROCESSNUMBER => $params->{PID}
             };
@@ -374,8 +362,7 @@ sub _scanAddresses {
             last INNER unless $address;
 
             my $result = $self->_scanAddress(
-                ip              => $address->{IP},
-                entity          => $address->{ENTITY},
+                ip              => $address,
                 credentials     => $credentials,
                 nmap_parameters => $nmap_parameters,
                 dico            => $dico
