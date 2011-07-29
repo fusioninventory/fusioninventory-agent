@@ -207,9 +207,6 @@ sub run {
             $snmp_dictionnary,
             $nmap_parameters,
         )->detach();
-
-        # sleep one second every 4 threads
-        sleep 1 unless $i % 4;
     }
 
     # proceed each given IP block
