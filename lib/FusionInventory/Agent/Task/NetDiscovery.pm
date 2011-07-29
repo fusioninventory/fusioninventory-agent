@@ -190,9 +190,9 @@ sub run {
 
     # create the required number of threads, sharing variables
     # for synchronisation
-    my $maxIdx : shared = 0;
     my @addresses :shared;
-    my @states : shared;
+    my @devices   :shared;
+    my @states    :shared;
 
     for (my $i = 0; $i < $params->{THREADS_DISCOVERY}; $i++) {
         $states[$i] = START;
@@ -202,10 +202,10 @@ sub run {
             $self,
             \$states[$i],
             \@addresses,
+            \@devices,
             $credentials,
             $nmap_parameters,
             $dictionnary,
-            $maxIdx
         )->detach();
 
         # sleep one second every 4 threads
@@ -241,21 +241,19 @@ sub run {
             sleep 1;
         }
 
+        # complete results
+        $_->{ENTITY} = $range->{ENTITY} foreach @devices;
+
         # send results to the server
-        my $storage = $self->{target}->getStorage();
-        foreach my $i (1 .. $maxIdx) {
-            my $filename = sprintf('netdiscovery%02i', $i);
-            my $devices = $storage->restore(name => $filename);
-            $_->{ENTITY} = $range->{ENTITY} foreach @$devices;
-            my $data = {
-                DEVICE        => $devices,
-                MODULEVERSION => $VERSION,
-                PROCESSNUMBER => $params->{PID}
-            };
-            $self->_sendMessage($data);
-            $storage->remove(name => $filename);
-            sleep 1;
-        }
+        my $data = {
+            DEVICE        => \@devices,
+            MODULEVERSION => $VERSION,
+            PROCESSNUMBER => $params->{PID}
+        };
+        $self->_sendMessage($data);
+
+        # empty results list
+        @devices = ();
     }
 
     # set all threads in EXIT state
@@ -333,7 +331,7 @@ sub _getDictionnary {
 }
 
 sub _scanAddresses {
-    my ($self, $state, $addresses, $credentials, $nmap_parameters, $dico, $maxIdx) = @_;
+    my ($self, $state, $addresses, $devices, $credentials, $nmap_parameters, $dico) = @_;
 
     my $logger = $self->{logger};
     my $id     = threads->tid();
@@ -361,32 +359,17 @@ sub _scanAddresses {
             }
             last INNER unless $address;
 
-            my $result = $self->_scanAddress(
+            my $device = $self->_scanAddress(
                 ip              => $address,
                 credentials     => $credentials,
                 nmap_parameters => $nmap_parameters,
                 dico            => $dico
             );
-            push @results, $result if $result;
 
-            # save list each time the limit is reached
-            if (@results % DEVICE_PER_MESSAGE == 0) {
-                $maxIdx++;
-                $storage->save(
-                    name => sprintf('netdiscovery%02i', $maxIdx),
-                    data => \@results,
-                );
-                undef @results;
+            if ($device) {
+                lock $devices;
+                push @$devices, shared_clone($device);
             }
-        }
-
-        # save last devices
-        if (@results) {
-            $maxIdx++;
-            $storage->save(
-                name => sprintf('netdiscovery%02i', $maxIdx),
-                data => \@results,
-            );
         }
 
         # stop: wait for state to change
