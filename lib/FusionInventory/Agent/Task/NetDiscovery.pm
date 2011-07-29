@@ -434,6 +434,10 @@ sub _sendMessage {
 sub _scanAddress {
     my ($self, %params) = @_;
 
+    my $logger = $self->{logger};
+    my $id     = threads->tid();
+    $logger->debug("thread $id: scanning $params{ip}");
+
     my %device = (
         $params{nmap_parameters} ? $self->_scanAddressByNmap(%params)    : (),
         $INC{'Net/NBName.pm'}    ? $self->_scanAddressByNetbios(%params) : (),
@@ -447,11 +451,11 @@ sub _scanAddress {
     if ($device{MAC} || $device{DNSHOSTNAME} || $device{NETBIOSNAME}) {
         $device{IP}     = $params{ip};
         $device{ENTITY} = $params{entity};
-        $self->{logger}->debug(
-            "address $params{ip}: found device\n" . Dumper(\%device)
+        $logger->debug(
+            "thread $id: device found for $params{ip}\n" . Dumper(\%device)
         );
     } else {
-        $self->{logger}->debug("address $params{ip}: nothing found");
+        $logger->debug("thread $id: nothing found for $params{ip}");
     }
 
     return \%device;
@@ -460,7 +464,8 @@ sub _scanAddress {
 sub _scanAddressByNmap {
     my ($self, %params) = @_;
 
-    $self->{logger}->debug("address $params{ip}: nmap scan");
+    my $id = threads->tid();
+    $self->{logger}->debug("thread $id: scanning $params{ip} with nmap");
 
     my $device = _parseNmap(
         command => "nmap $params{nmap_parameters} $params{ip} -oX -"
@@ -471,7 +476,8 @@ sub _scanAddressByNmap {
 sub _scanAddressByNetbios {
     my ($self, %params) = @_;
 
-    $self->{logger}->debug("address $params{ip}: Netbios scan");
+    my $id = threads->tid();
+    $self->{logger}->debug("thread $id: scanning $params{ip} with netbios");
 
     my $nb = Net::NBName->new();
 
@@ -504,7 +510,8 @@ sub _scanAddressByNetbios {
 sub _scanAddressBySNMP {
     my ($self, %params) = @_;
 
-    $self->{logger}->debug("address $params{ip}: SNMP scan");
+    my $id = threads->tid();
+    $self->{logger}->debug("thread $id: scanning $params{ip} with snmp");
 
     my %device;
     foreach my $credential (@{$params{credentials}}) {
