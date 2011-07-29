@@ -454,11 +454,11 @@ sub _scanAddress {
         $logger->debug(
             "thread $id: device found for $params{ip}\n" . Dumper(\%device)
         );
-    } else {
-        $logger->debug("thread $id: nothing found for $params{ip}");
+        return \%device;
     }
 
-    return \%device;
+    $logger->debug("thread $id: nothing found for $params{ip}");
+    return;
 }
 
 sub _scanAddressByNmap {
