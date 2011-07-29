@@ -369,7 +369,7 @@ sub _scanAddresses {
             my $address;
             {
                 lock $addresses;
-                $address = pop @{$addresses};
+                $address = shift @{$addresses};
             }
             last INNER unless $address;
 
