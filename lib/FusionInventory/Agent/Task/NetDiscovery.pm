@@ -434,16 +434,6 @@ sub _sendMessage {
 sub _scanAddress {
     my ($self, %params) = @_;
 
-    if (!defined($params{ip})) {
-        $self->{logger}->debug("ip address empty...");
-        return;
-    }
-
-    if ($params{ip} !~ /^$ip_address_pattern$/ ) {
-        $self->{logger}->debug("Invalid ip address...");
-        return;
-    }
-
     # initialising the variable is mandatory, otherwise subsequent
     # methods will each modify a different local variable
     my $device = {};
