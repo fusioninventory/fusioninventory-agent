@@ -143,12 +143,9 @@ sub run {
 
     my $params = $options->{PARAM}->[0];
 
-    # take care of models dictionnary
-    my $dictionnary = $self->_getDictionnary($options, $params->{PID});
-    return unless $dictionnary;
-
     # check discovery methods available
-    my $nmap_parameters;
+    my ($nmap_parameters, $snmp_credentials, $snmp_dictionnary);
+
     if (canRun('nmap')) {
        my ($major, $minor) = getFirstMatch(
            command => 'nmap -V',
@@ -157,6 +154,10 @@ sub run {
        $nmap_parameters = compareVersion($major, $minor, 5, 29) ?
            "-sP -PP --system-dns --max-retries 1 --max-rtt-timeout 1000ms " :
            "-sP --system-dns --max-retries 1 --max-rtt-timeout 1000 "       ;
+    } else {
+        $self->{logger}->error(
+            "Can't run nmap, nmap detection can't be used!"
+        );
     }
 
     Net::NBName->require();
@@ -172,11 +173,10 @@ sub run {
             "Can't load FusionInventory::Agent::SNMP. SNMP detection can't " .
             "be used!"
         );
+    } else {
+        $snmp_credentials = $options->{AUTHENTICATION};
+        $snmp_dictionnary = $self->_getDictionnary($options, $params->{PID});
     }
-
-    # retrieve SNMP authentication credentials
-    my $credentials = $options->{AUTHENTICATION};
-
 
     # send initial message to the server
     $self->_sendMessage({
@@ -203,9 +203,9 @@ sub run {
             \$states[$i],
             \@addresses,
             \@devices,
-            $credentials,
+            $snmp_credentials,
+            $snmp_dictionnary,
             $nmap_parameters,
-            $dictionnary,
         )->detach();
 
         # sleep one second every 4 threads
@@ -331,7 +331,7 @@ sub _getDictionnary {
 }
 
 sub _scanAddresses {
-    my ($self, $state, $addresses, $devices, $credentials, $nmap_parameters, $dico) = @_;
+    my ($self, $state, $addresses, $devices, $snmp_credentials, $snmp_dictionnary, $nmap_parameters,) = @_;
 
     my $logger = $self->{logger};
     my $id     = threads->tid();
@@ -360,10 +360,10 @@ sub _scanAddresses {
             last INNER unless $address;
 
             my $device = $self->_scanAddress(
-                ip              => $address,
-                credentials     => $credentials,
-                nmap_parameters => $nmap_parameters,
-                dico            => $dico
+                ip               => $address,
+                nmap_parameters  => $nmap_parameters,
+                snmp_credentials => $snmp_credentials,
+                snmp_dico        => $snmp_dictionnary
             );
 
             if ($device) {
@@ -484,7 +484,7 @@ sub _scanAddressBySNMP {
     $self->{logger}->debug("thread $id: scanning $params{ip} with snmp");
 
     my %device;
-    foreach my $credential (@{$params{credentials}}) {
+    foreach my $credential (@{$params{snmp_credentials}}) {
 
         my $snmp;
         eval {
@@ -536,7 +536,7 @@ sub _scanAddressBySNMP {
         $device{DESCRIPTION} = $description;
 
         # get model matching description from dictionnary
-        my $model = $params{dico}->get($description);
+        my $model = $params{snmp_dictionnary}->get($description);
 
         $device{SERIAL}    = _getSerial($snmp, $model);
         $device{MAC}       = _getMacAddress($snmp, $model) || _getMacAddress($snmp);
