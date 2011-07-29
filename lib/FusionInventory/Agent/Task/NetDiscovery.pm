@@ -434,93 +434,85 @@ sub _sendMessage {
 sub _scanAddress {
     my ($self, %params) = @_;
 
-    # initialising the variable is mandatory, otherwise subsequent
-    # methods will each modify a different local variable
-    my $device = {};
+    my %device = (
+        $params{nmap_parameters} ? $self->_scanAddressByNmap(%params)    : (),
+        $INC{'Net/NBName.pm'}    ? $self->_scanAddressByNetbios(%params) : (),
+        $INC{'Net/SNMP.pm'}      ? $self->_scanAddressBySNMP(%params)    : ()
+    );
 
-    if ($params{nmap_parameters}) {
-        $self->_scanAddressByNmap($device, $params{ip}, $params{nmap_parameters});
-        ### nmap: $device
+    if ($device{MAC}) {
+        $device{MAC} =~ tr/A-F/a-f/;
     }
 
-    if ($INC{'Net/NBName.pm'}) {
-        $self->_scanAddressByNetbios($device, $params{ip});
-        ### netbios: $device
-    }
-
-    if ($INC{'FusionInventory/Agent/SNMP.pm'}) {
-        $self->_scanAddressBySNMP($device, $params{ip}, $params{credentials}, $params{dico});
-        ### snmp: $device
-    }
-
-    if ($device->{MAC}) {
-        $device->{MAC} =~ tr/A-F/a-f/;
-    }
-
-    if ($device->{MAC} || $device->{DNSHOSTNAME} || $device->{NETBIOSNAME}) {
-        $device->{IP}     = $params{ip};
-        $device->{ENTITY} = $params{entity};
-        $self->{logger}->debug("address $params{ip}: found device\n" . Dumper($device));
+    if ($device{MAC} || $device{DNSHOSTNAME} || $device{NETBIOSNAME}) {
+        $device{IP}     = $params{ip};
+        $device{ENTITY} = $params{entity};
+        $self->{logger}->debug(
+            "address $params{ip}: found device\n" . Dumper(\%device)
+        );
     } else {
         $self->{logger}->debug("address $params{ip}: nothing found");
     }
 
-    return $device;
+    return \%device;
 }
 
 sub _scanAddressByNmap {
-    my ($self, $device, $ip, $parameters) = @_;
+    my ($self, %params) = @_;
 
-    $self->{logger}->debug("address $ip: nmap scan");
+    $self->{logger}->debug("address $params{ip}: nmap scan");
 
-    my $result = _parseNmap(command => "nmap $parameters $ip -oX -");
-
-    $device->{MAC}           = $result->{MAC}           if $result->{MAC};
-    $device->{NETPORTVENDOR} = $result->{NETPORTVENDOR} if $result->{NETPORTVENDOR};
-    $device->{DNSHOSTNAME}   = $result->{DNSHOSTNAME}   if $result->{DNSHOSTNAME};
+    my $device = _parseNmap(
+        command => "nmap $params{nmap_parameters} $params{ip} -oX -"
+    );
+    return $device ? %$device : ();
 }
 
 sub _scanAddressByNetbios {
-    my ($self, $device, $ip) = @_;
+    my ($self, %params) = @_;
 
-    $self->{logger}->debug("address $ip: Netbios scan");
+    $self->{logger}->debug("address $params{ip}: Netbios scan");
 
     my $nb = Net::NBName->new();
 
-    my $ns = $nb->node_status($ip);
+    my $ns = $nb->node_status($params{ip});
     return unless $ns;
 
+    my %device;
     foreach my $rr ($ns->names()) {
         if ($rr->suffix() == 0 && $rr->G() eq "GROUP") {
-            $device->{WORKGROUP} = getSanitizedString($rr->name);
+            $device{WORKGROUP} = getSanitizedString($rr->name);
         }
         if ($rr->suffix() == 3 && $rr->G() eq "UNIQUE") {
-            $device->{USERSESSION} = getSanitizedString($rr->name);
+            $device{USERSESSION} = getSanitizedString($rr->name);
         }
         if ($rr->suffix() == 0 && $rr->G() eq "UNIQUE") {
             my $machine = $rr->name() unless $rr->name() =~ /^IS~/;
-            $device->{NETBIOSNAME} = getSanitizedString($machine);
+            $device{NETBIOSNAME} = getSanitizedString($machine);
         }
     }
 
-    if (!$device->{MAC} || $device->{MAC} !~ /^$mac_address_pattern$/) {
-        $device->{MAC} = $ns->mac_address();
-        $device->{MAC} =~ tr/-/:/; 
+    if (!$device{MAC} || $device{MAC} !~ /^$mac_address_pattern$/) {
+        $device{MAC} = $ns->mac_address();
+        $device{MAC} =~ tr/-/:/; 
     }
+
+    return %device;
 }
 
 sub _scanAddressBySNMP {
-    my ($self, $device, $ip, $credentials, $dico) = @_;
+    my ($self, %params) = @_;
 
-    $self->{logger}->debug("address $ip: SNMP scan");
+    $self->{logger}->debug("address $params{ip}: SNMP scan");
 
-    foreach my $credential (@{$credentials}) {
+    my %device;
+    foreach my $credential (@{$params{credentials}}) {
 
         my $snmp;
         eval {
             $snmp = FusionInventory::Agent::SNMP->new(
                 version      => $credential->{VERSION},
-                hostname     => $ip,
+                hostname     => $params{ip},
                 community    => $credential->{COMMUNITY},
                 username     => $credential->{USERNAME},
                 authpassword => $credential->{AUTHPASSWORD},
@@ -531,7 +523,9 @@ sub _scanAddressBySNMP {
             );
         };
         if ($EVAL_ERROR) {
-            $self->{logger}->error("Unable to create SNMP session for $ip: $EVAL_ERROR");
+            $self->{logger}->error(
+                "Unable to create SNMP session for $params{ip}: $EVAL_ERROR"
+            );
             next;
         }
 
@@ -561,23 +555,25 @@ sub _scanAddressBySNMP {
             last;
         }
 
-        $device->{DESCRIPTION} = $description;
+        $device{DESCRIPTION} = $description;
 
         # get model matching description from dictionnary
-        my $model = $dico->get($description);
+        my $model = $params{dico}->get($description);
 
-        $device->{SERIAL}    = _getSerial($snmp, $model);
-        $device->{MAC}       = _getMacAddress($snmp, $model) || _getMacAddress($snmp);
-        $device->{MODELSNMP} = $model->{MODELSNMP};
-        $device->{TYPE}      = $model->{TYPE};
+        $device{SERIAL}    = _getSerial($snmp, $model);
+        $device{MAC}       = _getMacAddress($snmp, $model) || _getMacAddress($snmp);
+        $device{MODELSNMP} = $model->{MODELSNMP};
+        $device{TYPE}      = $model->{TYPE};
 
-        $device->{AUTHSNMP}     = $credential->{ID};
-        $device->{SNMPHOSTNAME} = $snmp->get('.1.3.6.1.2.1.1.5.0');
+        $device{AUTHSNMP}     = $credential->{ID};
+        $device{SNMPHOSTNAME} = $snmp->get('.1.3.6.1.2.1.1.5.0');
 
         $snmp->close();
 
         last;
     }
+
+    return %device;
 }
 
 sub _getSerial {
