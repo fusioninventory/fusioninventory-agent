@@ -198,7 +198,7 @@ sub run {
 
     # create the required number of threads, sharing variables
     # for synchronisation
-    my @devices :shared = @{$options->{DEVICE}};
+    my @devices :shared = map { shared_clone($_) } @{$options->{DEVICE}};
     my @results :shared;
     my @states  :shared;
 
