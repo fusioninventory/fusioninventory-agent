@@ -223,7 +223,6 @@ sub run {
             $models,
             $credentials,
         )->detach();
-        sleep 1;
     }
 
     # set all threads in RUN state
