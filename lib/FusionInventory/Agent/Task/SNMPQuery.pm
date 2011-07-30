@@ -198,8 +198,8 @@ sub run {
 
     # create the required number of threads, sharing variables
     # for synchronisation
-    my $maxIdx  : shared = 0;
-    my @devices : shared = @{$options->{DEVICE}};
+    my @devices :shared = @{$options->{DEVICE}};
+    my @results :shared;
     my @states  :shared;
 
     # no need for more threads than devices to scan
@@ -219,9 +219,9 @@ sub run {
             $self,
             \$states[$i],
             \@devices,
+            \@results,
             $models,
             $credentials,
-            $maxIdx,
         )->detach();
         sleep 1;
     }
@@ -235,16 +235,13 @@ sub run {
     }
 
     # send results to the server
-    my $storage = $self->{target}->getStorage();
-    foreach my $i (1 .. $maxIdx) {
-        my $filename = sprintf('snmpquery%02i', $i);
+    foreach my $result (@results) {
         my $data = {
-            DEVICE        => $storage->restore(name => $filename),
+            DEVICE        => $result,
             MODULEVERSION => $VERSION,
             PROCESSNUMBER => $params->{PID}
         };
         $self->_sendMessage($data);
-        $storage->remove(name => $filename);
         sleep 1;
     }
 
@@ -274,7 +271,7 @@ sub _sendMessage {
 }
 
 sub _queryDevices {
-    my ($self, $state, $devices, $models, $credentials, $maxIdx) = @_;
+    my ($self, $state, $devices, $results, $models, $credentials) = @_;
 
     my $logger = $self->{logger};
     my $id     = threads->tid();
@@ -306,11 +303,10 @@ sub _queryDevices {
             credentials => $credentials->{$device->{AUTHSNMP_ID}}
         );
 
-        $maxIdx++;
-        $self->{storage}->save(
-            name => sprintf('snmpquery%02i', $maxIdx),
-            data => $result,
-        );
+        if ($result) {
+            lock $results;
+            push @$results, shared_clone($result);
+        }
                  
         sleep 1;
     }
