@@ -9,8 +9,10 @@ if ($threads::VERSION > 1.32){
 }
 use base 'FusionInventory::Agent::Task';
 
-use constant ALIVE => 0;
-use constant DEAD  => 1;
+use constant START => 0;
+use constant RUN   => 1;
+use constant STOP  => 2;
+use constant EXIT  => 3;
 
 use Encode qw(encode);
 use English qw(-no_match_vars);
@@ -198,7 +200,7 @@ sub run {
     # for synchronisation
     my $maxIdx  : shared = 0;
     my @devices : shared = @{$options->{DEVICE}};
-    my @threads : shared;
+    my @states  :shared;
 
     # no need for more threads than devices to scan
     my $nb_threads = $params->{THREADS_QUERY};
@@ -209,16 +211,13 @@ sub run {
     #===================================
     # Create all Threads
     #===================================
-    for (my $j = 0; $j < $nb_threads; $j++) {
-        $threads[$j] = {
-            id    => $j,
-            state => ALIVE
-        };
+    for (my $i = 0; $i < $nb_threads; $i++) {
+        $states[$i] = START;
 
         threads->create(
             '_queryDevices',
             $self,
-            $threads[$j],
+            \$states[$i],
             \@devices,
             $models,
             $credentials,
@@ -227,21 +226,25 @@ sub run {
         sleep 1;
     }
 
-    # wait for all threads to reach DEAD state
-    while (any { $_->{state} != DEAD } @threads) {
+    # set all threads in RUN state
+    $_ = RUN foreach @states;
+
+    # wait for all threads to reach STOP state
+    while (any { $_ != EXIT } @states) {
         sleep 1;
     }
 
     # send results to the server
     my $storage = $self->{target}->getStorage();
-    foreach my $idx (1..$maxIdx) {
+    foreach my $i (1 .. $maxIdx) {
+        my $filename = sprintf('snmpquery%02i', $i);
         my $data = {
-            DEVICE        => $storage->restore(idx => $idx),
+            DEVICE        => $storage->restore(name => $filename),
             MODULEVERSION => $VERSION,
             PROCESSNUMBER => $params->{PID}
         };
         $self->_sendMessage($data);
-        $storage->remove(idx => $idx);
+        $storage->remove(name => $filename);
         sleep 1;
     }
 
@@ -271,13 +274,25 @@ sub _sendMessage {
 }
 
 sub _queryDevices {
-    my ($self, $thread, $devices, $models, $credentials, $maxIdx) = @_;
+    my ($self, $state, $devices, $models, $credentials, $maxIdx) = @_;
 
-    $self->{logger}->debug("Thread $thread->{id} created");
+    my $logger = $self->{logger};
+    my $id     = threads->tid();
+
+    $logger->debug("Thread $id created in PAUSE state");
+
+    # start: wait for state to change
+    while ($$state == START) {
+        sleep 1;
+    }
 
     my $storage = $self->{target}->getStorage();
+    # run: process available addresses until exhaustion
+    $$state = RUN;
+    $logger->debug("Thread $id switched to RUN state");
 
     RUN: while (1) {
+
         my $device;
         {
             lock $devices;
@@ -293,15 +308,15 @@ sub _queryDevices {
 
         $maxIdx++;
         $self->{storage}->save(
-            idx  => $maxIdx,
+            name => sprintf('snmpquery%02i', $maxIdx),
             data => $result,
         );
                  
         sleep 1;
     }
 
-    $thread->{state} = DEAD;
-    $self->{logger}->debug("Thread $thread->{id} deleted");
+    $$state = EXIT;
+    $logger->debug("Thread $id switched to EXIT state");
 }
 
 sub _getIndexedModels {
