@@ -26,6 +26,14 @@ our $VERSION_STRING =
 our $AGENT_STRING =
     "FusionInventory-Agent_v$VERSION";
 
+my @tasks = qw/
+    OcsDeploy
+    Inventory
+    WakeOnLan
+    SNMPQuery
+    NetDiscovery
+/;
+
 sub new {
     my ($class, %params) = @_;
 
@@ -279,13 +287,6 @@ sub run {
                 $target->setMaxDelay($content->{PROLOG_FREQ} * 3600);
             }
 
-            my @tasks = qw/
-                OcsDeploy
-                Inventory
-                WakeOnLan
-                SNMPQuery
-                NetDiscovery
-            /;
 
             foreach my $module (@tasks) {
 
@@ -387,6 +388,29 @@ sub _computeDeviceId {
 sub getStatus {
     my ($self) = @_;
     return $self->{status};
+}
+
+sub getKnownTasks {
+    my ($self) = @_;
+
+    my %tasks;
+    foreach my $module (@tasks) {
+
+        my $package = "FusionInventory::Agent::Task::$module";
+        next unless $package->require();
+        next unless $package->isa('FusionInventory::Agent::Task');
+
+        # retrieve version
+        my $version;
+        {
+            no strict 'refs';  ## no critic
+            $version = ${$package . '::VERSION'};
+        }
+
+        $tasks{$module} = $version;
+    }
+
+    return %tasks;
 }
 
 sub getAvailableTasks {

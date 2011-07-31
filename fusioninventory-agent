@@ -32,6 +32,7 @@ GetOptions(
     'html',
     'info|i',
     'lazy',
+    'list-tasks',
     'local|l=s',
     'logger=s',
     'logfile=s',
@@ -71,8 +72,18 @@ if ($ENV{REALLIB}) {
     @INC = split(/:/,$ENV{REALLIB});
 }
 
-version() if $options->{version};
+if ($options->{version}) {
+    print $FusionInventory::Agent::VERSION_STRING . "\n";
+    exit 0;
+}
 
+if ($options->{'list-tasks'}) {
+    my %tasks = FusionInventory::Agent->getKnownTasks();
+    foreach my $task (keys %tasks) {
+        print "$task (v$tasks{$task})\n";
+    }
+    exit 0;
+}
 
 eval {
     my $agent = FusionInventory::Agent->new(
@@ -92,11 +103,6 @@ if ($EVAL_ERROR) {
     print STDERR "___\n";
     print STDERR $EVAL_ERROR;
     exit 1;
-}
-
-sub version {
-    print $FusionInventory::Agent::VERSION_STRING . "\n";
-    exit 0;
 }
 
 __END__
