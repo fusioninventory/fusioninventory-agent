@@ -9,6 +9,7 @@ use English qw(-no_match_vars);
 use File::Basename;
 use File::Spec;
 use File::stat;
+use File::Which;
 use Memoize;
 
 our @EXPORT = qw(
@@ -429,18 +430,7 @@ sub getLinesCount {
 sub canRun {
     my ($binary) = @_;
 
-    if ($OSNAME eq 'MSWin32') {
-        foreach my $dir (split/$Config::Config{path_sep}/, $ENV{PATH}) {
-            foreach my $ext (qw/.exe .bat/) {
-                return 1 if -f $dir . '/' . $binary . $ext;
-            }
-        }
-        return 0;
-    } else {
-        return 
-            system("which $binary >/dev/null 2>&1") == 0;
-    }
-
+    return which($binary);
 }
 
 sub canRead {

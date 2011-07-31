@@ -11,6 +11,7 @@ perl_version '5.008';
 
 # mandatory dependencies
 requires 'Digest::MD5'        => undef;
+requires 'File::Which'        => undef;
 requires 'LWP'                => undef;
 requires 'Net::IP'            => undef;
 requires 'UNIVERSAL::require' => undef;
