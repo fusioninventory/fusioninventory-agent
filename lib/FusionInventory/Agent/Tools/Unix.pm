@@ -10,7 +10,7 @@ use Memoize;
 use Time::Local;
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::Regexp;
+use FusionInventory::Agent::Tools::Network;
 
 our @EXPORT = qw(
     getDeviceCapacity

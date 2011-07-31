@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::Regexp;
+use FusionInventory::Agent::Tools::Network;
 
 #TODO driver pcislot virtualdev
 

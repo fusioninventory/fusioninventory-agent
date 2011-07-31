@@ -7,6 +7,17 @@ use Test::More;
 
 use FusionInventory::Agent::Tools::Network;
 
+my @network_ok_tests = qw(
+    10.0.0.0/32
+    10.0.0/24
+    10.0/16
+    10/8
+);
+
+my @network_nok_tests = qw(
+    10.0.0.0
+);
+
 my @hex2quad_tests = (
     [ 'ffffffff', '255.255.255.255' ],
     [ '7f7f7f7f', '127.127.127.127' ]
@@ -22,9 +33,19 @@ my @mask_tests = (
 );
 
 plan tests =>
-    scalar @hex2quad_tests +
-    scalar @join2split_tests +
+    scalar @network_ok_tests  +
+    scalar @network_nok_tests +
+    scalar @hex2quad_tests    +
+    scalar @join2split_tests  +
     scalar @mask_tests;
+
+foreach my $test (@network_ok_tests) {
+    ok($test =~ $network_pattern, "$test matches network pattern");
+}
+
+foreach my $test (@network_nok_tests) {
+    ok($test !~ $network_pattern, "$test doesn't match network pattern");
+}
 
 foreach my $test (@hex2quad_tests) {
     is(

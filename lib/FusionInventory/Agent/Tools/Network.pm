@@ -9,12 +9,40 @@ use Net::IP qw(:PROC);
 use FusionInventory::Agent::Tools;
 
 our @EXPORT = qw(
+    $mac_address_pattern
+    $ip_address_pattern
+    $hex_mac_address_pattern
+    $hex_ip_address_pattern
+    $network_pattern
     getSubnetAddress
     getSubnetAddressIPv6
     getNetworkMask
     hex2quad
     join2split
 );
+
+my $hex_byte = qr/[0-9A-F]{2}/i;
+my $dec_byte = qr/[0-9]{1,3}/;
+
+our $mac_address_pattern = qr/
+    $hex_byte : $hex_byte : $hex_byte : $hex_byte : $hex_byte : $hex_byte
+/x;
+
+our $ip_address_pattern = qr/
+    $dec_byte \. $dec_byte \. $dec_byte \. $dec_byte
+/x;
+
+our $hex_mac_address_pattern = qr/
+    $hex_byte $hex_byte $hex_byte $hex_byte $hex_byte $hex_byte
+/x;
+
+our $hex_ip_address_pattern = qr/
+    $hex_byte $hex_byte $hex_byte $hex_byte
+/x;
+
+our $network_pattern = qr/
+    $dec_byte (?:\. $dec_byte (?:\. $dec_byte (?:\. $dec_byte)?)?)? \/ \d{1,2}
+/x;
 
 sub getSubnetAddress {
     my ($address, $mask) = @_;
@@ -70,11 +98,29 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Tools::Network - Network-related functions
+FusionInventory::Agent::Tools::Network - Network-related patterns and functions
 
 =head1 DESCRIPTION
 
-This module provides some network-related functions.
+This module provides some network-related patterns and functions.
+
+=head1 PATTERNS
+
+=head2 mac_address_pattern
+
+This pattern matches a MAC address.
+
+=head2 ip_address_pattern
+
+This pattern matches an IP address.
+
+=head2 hax_mac_address_pattern
+
+This pattern matches a MAC address in hexadecimal form.
+
+=head2 hax_ip_address_pattern
+
+This pattern matches an IP address in hexadecimal form.
 
 =head1 FUNCTIONS
 

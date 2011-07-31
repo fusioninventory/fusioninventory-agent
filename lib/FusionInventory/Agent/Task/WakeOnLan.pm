@@ -11,7 +11,7 @@ use constant SOCK_PACKET => 10;
 use English qw(-no_match_vars);
 use Socket;
 
-use FusionInventory::Agent::Tools::Regexp;
+use FusionInventory::Agent::Tools::Network;
 
 our $VERSION = '1.0';
 
