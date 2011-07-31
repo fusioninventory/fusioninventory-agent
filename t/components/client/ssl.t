@@ -92,28 +92,33 @@ ok(
 $server->stop();
 
 # trusted certificate, joker
-$server = FusionInventory::Test::Server->new(
-    port     => 8080,
-    user     => 'test',
-    realm    => 'test',
-    password => 'test',
-    ssl      => 1,
-    crt      => 't/ssl/crt/joker.pem',
-    key      => 't/ssl/key/joker.pem',
-);
-$server->set_dispatch({
-    '/public'  => $ok,
-});
-$server->background();
+SKIP: {
+    skip 'unable to resolve localhost.localdomain', 1
+        unless gethostbyname('localhost.localdomain');
 
-ok(
-    $secure_client->request(
-        HTTP::Request->new(GET => 'https://localhost.localdomain:8080/public')
-    )->is_success(),
-    'trusted certificate, joker: connection success'
-);
+    $server = FusionInventory::Test::Server->new(
+        port     => 8080,
+        user     => 'test',
+        realm    => 'test',
+        password => 'test',
+        ssl      => 1,
+        crt      => 't/ssl/crt/joker.pem',
+        key      => 't/ssl/key/joker.pem',
+    );
+    $server->set_dispatch({
+        '/public'  => $ok,
+    });
+    $server->background();
 
-$server->stop();
+    ok(
+        $secure_client->request(
+            HTTP::Request->new(GET => 'https://localhost.localdomain:8080/public')
+        )->is_success(),
+        'trusted certificate, joker: connection success'
+    );
+
+    $server->stop();
+}
 
 # trusted certificate, wrong hostname
 $server = FusionInventory::Test::Server->new(
