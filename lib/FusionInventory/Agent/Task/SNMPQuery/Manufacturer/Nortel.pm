@@ -81,7 +81,7 @@ sub setConnectedDevices {
 
         $connections->{CONNECTION}->{IFNUMBER} = $array[3];
         $connections->{CONNECTION}->{SYSMAC} =
-            join2split($chassisname);
+            alt2canonical($chassisname);
         $connections->{CDP} = 1;
     }
 }

@@ -44,7 +44,7 @@ sub setConnectedDevices {
 
     if (ref $results->{cdpCacheAddress} eq 'HASH') {
         while (my ($number, $ip_hex) = each %{$results->{cdpCacheAddress}}) {
-            my $ip = hex2quad($ip_hex);
+            my $ip = hex2canonical($ip_hex);
             next if $ip eq '0.0.0.0';
 
             my $short_number = $number;
