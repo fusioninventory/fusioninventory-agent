@@ -37,18 +37,14 @@ sub new {
             -authprotocol => $params{authprotocol},
             -privpassword => $params{privpassword},
             -privprotocol => $params{privprotocol},
-            -nonblocking  => 0,
-            -port         => 161
         );
     } else { # snmpv2c && snmpv1 #
         ($self->{session}, $error) = Net::SNMP->session(
-            -timeout     => 1,
-            -retries     => 0,
-            -version     => $version,
-            -hostname    => $params{hostname},
-            -community   => $params{community},
-            -nonblocking => 0,
-            -port      => 161
+            -timeout   => 1,
+            -retries   => 0,
+            -version   => $version,
+            -hostname  => $params{hostname},
+            -community => $params{community},
         );
     }
 
