@@ -11,14 +11,14 @@ use FusionInventory::Agent::Tools;
 our @EXPORT = qw(
     $mac_address_pattern
     $ip_address_pattern
-    $hex_mac_address_pattern
+    $alt_mac_address_pattern
     $hex_ip_address_pattern
     $network_pattern
     getSubnetAddress
     getSubnetAddressIPv6
     getNetworkMask
-    hex2quad
-    join2split
+    hex2canonical
+    alt2canonical
 );
 
 my $hex_byte = qr/[0-9A-F]{2}/i;
@@ -32,7 +32,7 @@ our $ip_address_pattern = qr/
     $dec_byte \. $dec_byte \. $dec_byte \. $dec_byte
 /x;
 
-our $hex_mac_address_pattern = qr/
+our $alt_mac_address_pattern = qr/
     $hex_byte $hex_byte $hex_byte $hex_byte $hex_byte $hex_byte
 /x;
 
@@ -68,14 +68,14 @@ sub getSubnetAddressIPv6 {
     return ip_bintoip($binsubnet, 6);
 }
 
-sub hex2quad {
+sub hex2canonical {
     my ($address) = @_;
 
     my @bytes = $address =~ /^(..)(..)(..)(..)$/;
     return join('.', map { hex($_) } @bytes);
 }
 
-sub join2split {
+sub alt2canonical {
     my ($address) = @_;
 
     my @bytes = $address =~ /^(..)(..)(..)(..)(..)(..)$/;
@@ -108,29 +108,29 @@ This module provides some network-related patterns and functions.
 
 =head2 mac_address_pattern
 
-This pattern matches a MAC address.
+This pattern matches a MAC address in canonical form (aa::bb:cc:dd:ee:ff).
 
 =head2 ip_address_pattern
 
-This pattern matches an IP address.
+This pattern matches an IP address in canonical form (xyz.xyz.xyz.xyz).
 
-=head2 hax_mac_address_pattern
+=head2 alt_mac_address_pattern
 
-This pattern matches a MAC address in hexadecimal form.
+This pattern matches a MAC address in alternative form (aabbccddeeff).
 
-=head2 hax_ip_address_pattern
+=head2 hex_ip_address_pattern
 
-This pattern matches an IP address in hexadecimal form.
+This pattern matches an IP address in hexadecimal form (aabbccdd).
 
 =head1 FUNCTIONS
 
-=head2 hex2quad($address)
+=head2 hex2canonical($address)
 
-Convert an ip address from hexadecimal to quad form.
+Convert an ip address from hexadecimal to canonical form.
 
-=head2 join2split($address)
+=head2 alt2canonical($address)
 
-Convert a mac address from join to split form.
+Convert a mac address from alternative to canonical form.
 
 =head2 getSubnetAddress($address, $mask)
 

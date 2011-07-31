@@ -98,8 +98,8 @@ sub _parseLscfg {
             $interface->{TYPE} = $2;
             $interface->{DESCRIPTION} = "en$1";
         }
-        if ($line =~ /Network Address\.+($hex_mac_address_pattern)/) {
-            $interface->{MACADDR} = join2split($1);
+        if ($line =~ /Network Address\.+($alt_mac_address_pattern)/) {
+            $interface->{MACADDR} = alt2canonical($1);
         }
     }
     close $handle;

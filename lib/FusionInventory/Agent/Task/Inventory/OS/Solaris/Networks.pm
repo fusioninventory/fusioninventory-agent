@@ -304,7 +304,7 @@ sub _parseIfconfig {
             $interface->{IPADDRESS} = $1;
         }
         if ($line =~ /netmask ($hex_ip_address_pattern)/i) {
-            $interface->{IPMASK} = hex2quad($1);
+            $interface->{IPMASK} = hex2canonical($1);
         }
         if ($line =~ /groupname\s+(\S+)/i) {
             $interface->{TYPE} = $1;

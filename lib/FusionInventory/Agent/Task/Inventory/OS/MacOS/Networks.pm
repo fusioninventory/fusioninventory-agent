@@ -94,7 +94,7 @@ sub _parseIfconfig {
             $interface->{IPADDRESS6} =~ s/%.*$//;
         }
         if ($line =~ /netmask 0x($hex_ip_address_pattern)/) {
-            $interface->{IPMASK} = hex2quad($1);
+            $interface->{IPMASK} = hex2canonical($1);
         }
         if ($line =~ /(?:address:|ether|lladdr) ($mac_address_pattern)/) {
             $interface->{MACADDR} = $1;

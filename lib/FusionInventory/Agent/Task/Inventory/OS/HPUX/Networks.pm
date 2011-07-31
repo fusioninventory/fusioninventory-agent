@@ -85,9 +85,9 @@ sub _parseLanscan {
 
     my @interfaces;
     while (my $line = <$handle>) {
-        next unless /^0x($hex_mac_address_pattern)\s(\S+)\s(\S+)\s+(\S+)/;
+        next unless /^0x($alt_mac_address_pattern)\s(\S+)\s(\S+)\s+(\S+)/;
         my $interface = {
-            MACADDR => join2split($1),
+            MACADDR => alt2canonical($1),
             STATUS => 'Down'
         };
         my $name = $2;
@@ -143,7 +143,7 @@ sub _getIfconfigInfo {
             $info->{address} = $1;
         }
         if ($line =~ /netmask ($hex_ip_address_pattern)/) {
-            $info->{netmask} = hex2quad($1);
+            $info->{netmask} = hex2canonical($1);
         }
     }
     close $handle;
