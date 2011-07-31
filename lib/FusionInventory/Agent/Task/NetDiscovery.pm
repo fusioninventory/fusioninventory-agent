@@ -25,7 +25,7 @@ use XML::TreePP;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::Regexp;
+use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Task::NetDiscovery::Dico;
 use FusionInventory::Agent::XML::Query;
 
@@ -191,7 +191,7 @@ sub run {
     # create the required number of threads, sharing variables
     # for synchronisation
     my @addresses :shared;
-    my @devices   :shared;
+    my @results   :shared;
     my @states    :shared;
 
     for (my $i = 0; $i < $params->{THREADS_DISCOVERY}; $i++) {
@@ -202,7 +202,7 @@ sub run {
             $self,
             \$states[$i],
             \@addresses,
-            \@devices,
+            \@results,
             $snmp_credentials,
             $snmp_dictionnary,
             $nmap_parameters,
@@ -239,18 +239,18 @@ sub run {
         }
 
         # complete results
-        $_->{ENTITY} = $range->{ENTITY} foreach @devices;
+        $_->{ENTITY} = $range->{ENTITY} foreach @results;
 
         # send results to the server
         my $data = {
-            DEVICE        => \@devices,
+            DEVICE        => \@results,
             MODULEVERSION => $VERSION,
             PROCESSNUMBER => $params->{PID}
         };
         $self->_sendMessage($data);
 
         # empty results list
-        @devices = ();
+        @results = ();
     }
 
     # set all threads in EXIT state
@@ -328,7 +328,7 @@ sub _getDictionnary {
 }
 
 sub _scanAddresses {
-    my ($self, $state, $addresses, $devices, $snmp_credentials, $snmp_dictionnary, $nmap_parameters,) = @_;
+    my ($self, $state, $addresses, $results, $snmp_credentials, $snmp_dictionnary, $nmap_parameters,) = @_;
 
     my $logger = $self->{logger};
     my $id     = threads->tid();
@@ -356,16 +356,16 @@ sub _scanAddresses {
             }
             last INNER unless $address;
 
-            my $device = $self->_scanAddress(
+            my $result = $self->_scanAddress(
                 ip               => $address,
                 nmap_parameters  => $nmap_parameters,
                 snmp_credentials => $snmp_credentials,
                 snmp_dico        => $snmp_dictionnary
             );
 
-            if ($device) {
-                lock $devices;
-                push @$devices, shared_clone($device);
+            if ($result) {
+                lock $results;
+                push @$results, shared_clone($result);
             }
         }
 
