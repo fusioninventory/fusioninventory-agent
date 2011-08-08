@@ -114,7 +114,7 @@ sub getStatus {
     return
         $self->getDescription() .
         ': '                    .
-         ($self->{nextRunDate} > 1) ? localtime($self->{nextRunDate}) : "now" ;
+         ($self->{nextRunDate} > 1 ? localtime($self->{nextRunDate}) : "now" );
 }
 
 # compute a run date, as current date and a random delay

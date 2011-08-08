@@ -23,7 +23,7 @@ Next server contact planned for:
 <ul>
 {
     foreach my $target (@targets) {
-       $OUT .= "<li>$target->{description}: $target->{time}</li>";
+       $OUT .= "<li>$target</li>";
     }
 }
 </ul>
