@@ -32,6 +32,7 @@ my @tasks = qw/
     WakeOnLan
     SNMPQuery
     NetDiscovery
+    Deploy
 /;
 
 sub new {
