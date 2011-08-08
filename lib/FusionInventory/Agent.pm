@@ -335,7 +335,7 @@ sub run {
                         die "fork failed: $ERRNO" unless defined $pid;
 
                         $logger->debug(
-                            "executing $module in process $PID"
+                            "executing $module in process $$"
                         );
                         $task->run();
                         exit(0);
