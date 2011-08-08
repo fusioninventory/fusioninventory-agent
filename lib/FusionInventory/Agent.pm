@@ -280,7 +280,7 @@ sub run {
                 if (!$prologresp) {
                     $logger->error("No answer from the server");
                     $target->resetNextRunDate();
-                    next;
+                    return;
                 }
 
                 # update target
