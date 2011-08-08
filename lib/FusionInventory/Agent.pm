@@ -347,7 +347,7 @@ sub run {
 
             $self->{status} = 'waiting';
 
-            $target->setNextRunDate();
+            $target->resetNextRunDate();
         };
         if ($EVAL_ERROR) {
             $logger->fault($EVAL_ERROR);
