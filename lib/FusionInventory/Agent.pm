@@ -349,12 +349,12 @@ sub run {
 
             $self->{status} = 'waiting';
 
-            $target->resetNextRunDate();
         };
         if ($EVAL_ERROR) {
             $logger->fault($EVAL_ERROR);
             $status++;
         }
+        $target->resetNextRunDate();
     }
 
     exit $status;
