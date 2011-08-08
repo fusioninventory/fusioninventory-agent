@@ -338,6 +338,7 @@ sub run {
                             "executing $module in process $PID"
                         );
                         $task->run();
+                        exit(0);
                     }
                 } else {
                     # standalone mode: run each task directly
