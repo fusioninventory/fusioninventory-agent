@@ -236,6 +236,10 @@ sub _listen {
 sub DESTROY {
     my ($self) = @_;
 
+    print "Call of DESTROY $$\n";
+    print "FIXME: http://forge.fusioninventory.org/issues/1052\n"
+    return;
+
     return unless $self->{listener};
 
     if ($self->{listener}->is_joinable()) {
