@@ -70,7 +70,6 @@ sub doInventory {
         my $infos = _parseShowrew($logger);
         $SystemManufacturer = $infos->{'Hardware provider'};
         $SystemModel        = "Solaris Containers";
-        $SystemSerial       = "Solaris Containers";
     }
 
     $inventory->setBios({
