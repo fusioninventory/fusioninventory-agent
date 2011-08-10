@@ -24,7 +24,7 @@ sub run {
             $self->{logger}->debug(
                 "Force enable, ignore prolog and run inventory."
             );
-        } elsif ($self->{prologresp}{content}{RESPONSE} !~ /^SEND$/) {
+        } elsif (!$self->{prologresp}{content}{RESPONSE} || $self->{prologresp}{content}{RESPONSE} !~ /^SEND$/) {
             $self->{logger}->debug("No inventory requested in the prolog");
             return;
         }
