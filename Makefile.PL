@@ -47,7 +47,7 @@ test_requires  'XML::TreePP'  => undef;
 install_script  'fusioninventory-agent';
 install_script  'fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
 install_script  'fusioninventory-injector';
-install_share; # No parameter, si http://www.glpi-project.org/forum/viewtopic.php?pid=107979#p107979
+install_share; # No parameter, see http://www.glpi-project.org/forum/viewtopic.php?pid=107979#p107979
 
 # We want a release bundled with the needed dependency to be able to
 # prepare a standalone binary with PAR::Packer 
