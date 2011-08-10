@@ -118,7 +118,7 @@ sub getCanonicalSpeed {
 
     return 400 if $speed =~ /^PC3200U/;
 
-    return undef unless $speed =~ /^(\d+) \s? (\S+)$/x;
+    return undef unless $speed =~ /^([\,\.\d]+) \s? (\S+)$/x;
     my $value = $1;
     my $unit = lc($2);
 
@@ -380,7 +380,6 @@ sub getFirstMatch {
     my %params = @_;
 
     return unless $params{pattern};
-
     my $handle = getFileHandle(%params);
     return unless $handle;
 
