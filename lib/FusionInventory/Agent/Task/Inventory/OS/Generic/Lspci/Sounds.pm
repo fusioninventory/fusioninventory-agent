@@ -32,7 +32,7 @@ sub _getSounds {
         push @sounds, {
             NAME         => $device->{NAME},
             MANUFACTURER => $device->{MANUFACTURER},
-            DESCRIPTION  => $device->{VERSION} && "rev $device->{VERSION}",
+            DESCRIPTION  => $device->{REV} && "rev $device->{REV}",
         };
     }
 
