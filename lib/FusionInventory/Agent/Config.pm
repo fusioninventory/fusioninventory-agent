@@ -42,6 +42,10 @@ my $deprecated = {
         message => 'use --daemon and --no-fork options instead',
         new     => [ 'daemon', 'no-fork' ]
     },
+    'D' => {
+        message => 'use --daemon and --no-fork options instead',
+        new     => [ 'daemon', 'no-fork' ]
+    },
 };
 
 sub new {
@@ -158,7 +162,7 @@ sub _checkContent {
         my $handler = $deprecated->{$old};
 
         # notify user of deprecation
-        print STDERR "the --$old option is deprecated, $handler->{message}\n";
+        print STDERR "the '$old' option is deprecated, $handler->{message}\n";
 
         # transfer the value to the new option, if possible
         if ($handler->{new}) {
