@@ -140,7 +140,7 @@ my %testParseSpec = (
 
 );
 
-plan tests => scalar keys(%testParseMemconf) * 2;
+plan tests => scalar keys(%testParseMemconf) + scalar keys(%testParseSpec);
 
 foreach my $test ( keys %testParseMemconf ) {
     my $r =
