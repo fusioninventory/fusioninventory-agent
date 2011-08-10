@@ -85,7 +85,6 @@ sub doInventory {
             if(/^Hardware provider:\s+(\S+)/){$SystemManufacturer = $1};
         }
         $SystemModel = "Solaris Containers";
-        $SystemSerial = "Solaris Containers";
 
     }
 
