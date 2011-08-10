@@ -1,0 +1,1051 @@
+c0t0d0           Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: Optiarc  Product: DVD-ROM DDU810A  Revision: RX02 Serial No:  
+Size: 0.00GB <0 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 2 Predictive Failure Analysis: 0 
+c3t0d0           Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: INTEL    Product: SROMBSASFC       Revision: 1.11 Serial No:  
+Size: 146.00GB <145999527424 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 0 Predictive Failure Analysis: 0 
+c3t1d0           Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: INTEL    Product: SROMBSASFC       Revision: 1.11 Serial No:  
+Size: 146.00GB <145999527424 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 0 Predictive Failure Analysis: 0 
+c1t13d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t14d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t13d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t14d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t15d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t16d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t17d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t18d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t19d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t20d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t21d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t22d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t23d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t24d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t25d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t26d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t27d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t28d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t29d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t30d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t31d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t32d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t33d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t34d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t35d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t36d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t37d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t38d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t39d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t40d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t41d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t42d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t43d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t44d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t45d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t46d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t47d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t48d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t49d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t50d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t51d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t52d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t53d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t54d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t55d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t56d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t57d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t58d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t59d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t60d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t61d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t62d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t63d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t64d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t65d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t66d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t67d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t68d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t69d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t70d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c2t71d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 6 Predictive Failure Analysis: 0 
+c2t72d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t8d0           Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t9d0           Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t10d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t11d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t12d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t13d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t8d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t15d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t16d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t17d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t18d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t19d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t20d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t21d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t22d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t23d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t24d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t25d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t26d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t9d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t28d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t29d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t30d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t31d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t32d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t33d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t34d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t35d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t36d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t37d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t38d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t39d0          Soft Errors: 0 Hard Errors: 1 Transport Errors: 4 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 1 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t10d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t41d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR38 Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t42d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR38 Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t43d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t44d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t45d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c6t46d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t11d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t12d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t13d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t15d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t16d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t17d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t18d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t19d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t20d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR38 Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t21d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t22d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t23d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t24d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t25d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t26d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t28d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR38 Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t29d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t30d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t31d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t32d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t15d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t16d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t17d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t18d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t19d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t20d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t21d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t22d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t23d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t24d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t25d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t26d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t27d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t28d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t29d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t30d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t31d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t32d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t33d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t34d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t35d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t36d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t37d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t38d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t39d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t40d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t71d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 3 Predictive Failure Analysis: 0 
+c1t41d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t42d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t43d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t44d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t45d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t46d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t47d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t48d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t49d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t50d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t51d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t52d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t53d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t54d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t55d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t56d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t57d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t58d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t59d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t60d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t61d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t62d0          Soft Errors: 0 Hard Errors: 1 Transport Errors: 8 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 1 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t63d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t64d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t65d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t66d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t67d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t68d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t69d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t70d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c1t72d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: Hitachi HUA72101 Revision: A70M Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t33d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t34d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t35d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t36d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t37d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t38d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t39d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t41d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t42d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t43d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t44d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t45d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t46d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t47d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t48d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t49d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310005 Revision: XQ32 Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t50d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t51d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t52d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t54d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t55d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t56d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t57d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t58d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c11t59d0         Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: ATA      Product: SEAGATE ST310003 Revision: XR3A Serial No:  
+Size: 1000.20GB <1000204885504 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 4 Predictive Failure Analysis: 0 
+c7t0d0           Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: Intel(R) Product: RMM2 VDrive 1 Revision: 0.01 Serial No:  Size: 0.00GB <0 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 2 Predictive Failure Analysis: 0 
+c8t0d0           Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: Intel(R) Product: RMM2 VDrive 2 Revision: 0.01 Serial No:  Size: 0.00GB <0 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 2 Predictive Failure Analysis: 0 
+c10t0d0          Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: Intel(R) Product: RMM2 VDrive 4 Revision: 0.01 Serial No:  Size: 0.00GB <0 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 2 Predictive Failure Analysis: 0 
+c9t0d0           Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Vendor: Intel(R) Product: RMM2 VDrive 3 Revision: 0.01 Serial No:  Size: 0.00GB <0 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 2 Predictive Failure Analysis: 0 

@@ -35,11 +35,15 @@ sub _getStorages {
         if (/^(\S+)\s+Soft/) {
             $storage->{NAME} = $1;
         }
-        if (/Product:\s*(\S+)/) {
-            $storage->{MODEL} = $1;
+        if (/Product:\s*(.+)/) {
+            my $model = $1;
+            # empty product, we got Revision instead, dropping it
+            $model =~ s/Revision:.*//;
+            $storage->{MODEL} = $model;
         }
         if (/Serial No:\s*(\S+)/) {
-            $storage->{SERIALNUMBER} = $1;
+            my $serial = $1;
+            $storage->{SERIALNUMBER} = $serial if $serial !~ /^Size/i;
         }
         if (/Revision:\s*(\S+)/) {
             $storage->{FIRMWARE} = $1 unless $1 eq 'Serial';
@@ -66,6 +70,14 @@ sub _getStorages {
                 $storage->{DESCRIPTION} . " FW:" . $storage->{FIRMWARE} :
                                            "FW:" . $storage->{FIRMWARE} ;
             }
+
+            ## Workaround for MANUFACTURER == ATA case
+            if ($storage->{MANUFACTURER} && ($storage->{MANUFACTURER} eq 'ATA') && $storage->{MODEL} =~ s/^(Hitachi|Seagate|INTEL)\s(\S.*)/$2/i) {
+                $storage->{MANUFACTURER} = $1;
+            }
+
+            ## Drop the (R) from the manufacturer string
+            $storage->{MANUFACTURER} =~ s/\(R\)$//i;
 
             if (-l "/dev/rdsk/$storage->{NAME}s2") {
                 my $rdisk_path = getFirstLine(
