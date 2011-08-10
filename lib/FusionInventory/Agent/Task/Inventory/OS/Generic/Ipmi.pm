@@ -35,7 +35,6 @@ sub doInventory {
     my $ipaddress;
     my $ipgateway;
     my $ipmask;
-    my $ipsubnet;
     my $macaddr;
     my $status;
     my $type;
@@ -55,13 +54,18 @@ sub doInventory {
         }
     }
     $description = 'bmc';
-    my $binip = &ip_iptobin ($ipaddress, 4);
-    my $binmask = &ip_iptobin ($ipmask, 4);
-    my $binsubnet = $binip & $binmask;
+    my $ipsubnet;
+    my $binip;
+    my $binmask;
+    my $binsubnet;
     if (can_load("Net::IP qw(:PROC)")) {
         $ipsubnet = ip_bintoip($binsubnet, 4);
+        $binip = &ip_iptobin ($ipaddress, 4);
+        $binmask = &ip_iptobin ($ipmask, 4);
+        $binsubnet = $binip & $binmask;
+
     }
-    $status = 1 if $ipaddress != '0.0.0.0';
+    $status = 1 if $ipaddress ne '0.0.0.0';
     $type = 'Ethernet';
 
     $inventory->addNetwork({
