@@ -18,7 +18,7 @@ sub doInventory {
 
     my $class = getClass();
 
-    my ($count, $cpu) = 
+    my ($count, $cpu) =
         $class == 7 ? _getCPUFromPrtcl($logger)  :
                       _getCPUFromMemconf($logger);
 
@@ -53,73 +53,122 @@ sub doInventory {
 # Sun Microsystems, Inc. SPARC Enterprise T5120 (4-core 8-thread UltraSPARC-T2 1165MHz)
 # Sun Microsystems, Inc. Sun SPARC Enterprise M5000 Server (6 X dual-core dual-thread SPARC64-VI 2150MHz)
 # Fujitsu SPARC Enterprise M4000 Server (4 X dual-core dual-thread SPARC64-VI 2150MHz)
+# Sun Microsystems, Inc. Sun Fire V20z (Solaris x86 machine) (2 X Dual Core AMD Opteron(tm) Processor 270 1993MHz)
 
 sub _getCPUFromMemconf {
-    my ($logger) = @_;
+    my ($logger, $file) = @_;
 
     my $spec = getFirstMatch(
+        file => $file, # Only for the test-suite
         command => 'memconf',
         logger  => $logger,
-        pattern => qr/^
-            (?:Sun Microsystems, Inc\.|Fujitsu)
-            .*
-            \(([^)]+MHz)\)
-            $/x,
+        pattern => qr/^((Sun\s|Fujitsu|Intel).*\d+(G|M)Hz\)).*$/x,
     );
     return _parseSpec($spec);
 }
 
+sub _parseCoreString {
+    my ($v) = @_;
+
+    if ($v =~ /Dual/i) {
+        return 2;
+    } elsif ($v =~ /Quad/i) {
+        return 4;
+    } elsif ($v =~ /(\d+)-(core|thread)/) {
+        return $1;
+    }elsif ($v =~ /^dual/) {
+        return 2;
+    } elsif ($v =~ /^quad/) {
+        return 4;
+    }
+
+    return $v;
+}
+
+
 sub _parseSpec {
     my ($spec) = @_;
 
-    # UltraSPARC-III 750MHz
-    if ($spec =~ /^(\S+) \s (\d+) MHz$/x) {
-        return 1,  {
-            NAME   => $1,
-            SPEED  => $2,
-            CORE   => 1,
-            THREAD => 0
-        };
+    my $manufacturer;
+    if ($spec =~ /(AMD|Fujitsu|Intel)\s/g) {
+        $manufacturer = $1;
+    } elsif ($spec =~ /(Sun)\s/) {
+        $manufacturer = $1;
+        $manufacturer =~ s/.*Sun.*/Sun Microsystems/;
     }
 
     # 4 X UltraSPARC-III 750MHz
-    if ($spec =~ /^(\d+) \s X \s (\S+) \s (\d+) MHz$/x) {
+    if ($spec =~ /(\d+) \s X \s (\S+) \s (\d+ \s* .Hz)/x) {
         return $1, {
+            MANUFACTURER   => $manufacturer,
             NAME   => $2,
-            SPEED  => $3,
+            SPEED  => getCanonicalSpeed($3),
             CORE   => 1,
-            THREAD => 0
         };
     }
 
     # 2 X dual-thread UltraSPARC-IV 1350MHz
-    if ($spec =~ /^(\d+) \s X \s (\S+) \s (\S+) \s (\d+) MHz$/x) {
+    if ($spec =~ /(\d+) \s X \s (\S+) \s (\S+) \s (\d+) MHz/x) {
         return $1, {
+            MANUFACTURER   => $manufacturer,
             NAME   => $3 . " (" . $2 . ")",
             SPEED  => $4,
-            CORE   => $1,
-            THREAD => $2
+            CORE   => _parseCoreString($1),
+            THREAD => _parseCoreString($2)
         };
     }
 
     # 8-core quad-thread UltraSPARC-T1 1000MHz
     # 8-core 8-thread UltraSPARC-T2 1165MHz
-    if ($spec =~ /^(\d+ -core) \s (\S+) \s (\S+) \s (\d+) MHz/x) {
+    if ($spec =~ /(\d+ -core) \s (\S+) \s (\S+) \s (\d+) MHz/x) {
         return 1, {
+            MANUFACTURER   => $manufacturer,
             NAME   => $3 . " (" . $1 . " " . $2 . ")",
             SPEED  => $4,
-            CORE   => $1,
-            THREAD => $2
+            CORE   => _parseCoreString($1),
+            THREAD => _parseCoreString($2)
         };
     }
 
     # 6 X dual-core dual-thread SPARC64-VI 2150MHz
-    if ($spec =~ /^(\d+) \s X \s (\S+) \s (\S+) \s (\S+) \s (\d+) MHz/x) {
+    if ($spec =~ /(\d+) \s X \s (\S+) \s (\S+) \s (\S+) \s (\d+) MHz/x) {
         return $1, {
+            MANUFACTURER   => $manufacturer,
             NAME   => $4 . " (" . $2 . " " . $3 . ")",
             SPEED  => $5,
-            CORE   => $2,
-            THREAD => $3
+            CORE   => _parseCoreString($2),
+            THREAD => _parseCoreString($3)
+        };
+    }
+
+    # 2 X Dual Core AMD Opteron(tm) Processor 270 1993MHz
+    if ($spec =~ /(\d+) \s X \s (\S+) \s Core \s AMD \s (Opteron\(tm\) \s Processor \s \S+) \s ([\.\d]+ \s* .Hz)/x) {
+        return $1, {
+            MANUFACTURER   => $manufacturer,
+            NAME   => $3,
+            SPEED  => getCanonicalSpeed($4),
+            CORE   => _parseCoreString($2),
+        };
+    }
+
+    # 2 X Quad-Core Intel(R) Xeon(R) E7320 @ 2.13GHz
+    if ($spec =~ /(\d+) \s X \s (\S+) \s Intel\(R\) \s (Xeon\(R\) \s E\d+) \s @ \s ([\d\.]+\s*.Hz)/x) {
+        return $1, {
+            MANUFACTURER   => $manufacturer,
+            NAME   => $3,
+            SPEED  => getCanonicalSpeed($4),
+            CORE   => _parseCoreString($2),
+        };
+    }
+
+    # UltraSPARC-IIi 270MHz
+    # UltraSPARC-III 750MHz
+    if ($spec =~ /([^()\s]\S+) \s (\d+ \s* .Hz)/x) {
+        return $1, {
+            MANUFACTURER   => $manufacturer,
+            NAME   => $1,
+            SPEED  => getCanonicalSpeed($2),
+            CORE   => 1,
         };
     }
 

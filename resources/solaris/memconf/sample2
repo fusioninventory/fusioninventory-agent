@@ -1,0 +1,9 @@
+hostname : 
+Sun Ultra 5/10 UPA/PCI (UltraSPARC-IIi 270MHz) (Ultra 5)
+Memory Interleave Factor = 2-way
+socket DIMM1 has a 32MB DIMM
+socket DIMM2 has a 32MB DIMM
+socket DIMM3 has a 32MB DIMM
+socket DIMM4 has a 32MB DIMM
+empty sockets : None
+total memory = 128MB

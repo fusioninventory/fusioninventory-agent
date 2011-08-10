@@ -625,7 +625,7 @@ Number of core.
 
 =item MANUFACTURER
 
-AMD/Intel/Transmeta/Cyrix/VIA
+AMD/Intel/Transmeta/Cyrix/VIA/Sun Microsystems//Fujitsu
 
 =item NAME
 
