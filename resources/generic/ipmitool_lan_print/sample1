@@ -1,0 +1,27 @@
+Set in Progress         : Set Complete
+Auth Type Support       : NONE MD5 PASSWORD
+Auth Type Enable        : Callback :
+                        : User     :
+                        : Operator :
+                        : Admin    :
+                        : OEM      :
+IP Address Source       : BIOS Assigned Address
+IP Address              : 0.0.0.0
+Subnet Mask             : 255.255.255.0
+MAC Address             : 00:15:17:8f:48:32
+SNMP Community String   :
+IP Header               : TTL=0x40 Flags=0x40 Precedence=0x00 TOS=0x10
+BMC ARP Control         : ARP Responses Disabled, Gratuitous ARP Disabled
+Gratituous ARP Intrvl   : 2.0 seconds
+Default Gateway IP      : 0.0.0.0
+Default Gateway MAC     : 00:00:00:00:00:00
+Backup Gateway IP       : 0.0.0.0
+Backup Gateway MAC      : 00:00:00:00:00:00
+RMCP+ Cipher Suites     : 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14
+Cipher Suite Priv Max   : XXXXXXXXXXXXXXX
+                        :     X=Cipher Suite Unused
+                        :     c=CALLBACK
+                        :     u=USER
+                        :     o=OPERATOR
+                        :     a=ADMIN
+                        :     O=OEM
