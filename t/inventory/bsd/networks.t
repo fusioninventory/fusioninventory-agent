@@ -48,13 +48,58 @@ my %ifconfig_tests = (
             STATUS      => 'Up',
             IPADDRESS   => '192.168.200.6'
         }
+    ],
+    'solaris-10' => [
+             {
+            'MTU' => '8232',
+            'DESCRIPTION' => 'lo0',
+            'STATUS' => 'Up',
+            'IPADDRESS' => '127.0.0.1'
+          },
+          {
+            'MTU' => '1500',
+            'DESCRIPTION' => 'aggr1',
+            'STATUS' => 'Up',
+            'IPADDRESS' => '130.79.0.1'
+          },
+          {
+            'MTU' => '1500',
+            'DESCRIPTION' => 'e1000g0',
+            'STATUS' => 'Up',
+            'IPADDRESS' => '130.79.0.2'
+          },
+          {
+            'MTU' => '1500',
+            'DESCRIPTION' => 'e1000g2',
+            'STATUS' => 'Up',
+            'IPADDRESS' => '130.79.0.3'
+          },
+          {
+            'MTU' => '1500',
+            'DESCRIPTION' => 'e1000g3',
+            'STATUS' => 'Up',
+            'IPADDRESS' => '192.168.19.1'
+          },
+          {
+            'MTU' => '1500',
+            'DESCRIPTION' => 'e1000g4',
+            'STATUS' => 'Up',
+            'IPADDRESS' => '130.79.255.1'
+          },
+          {
+            'MTU' => '1500',
+            'DESCRIPTION' => 'igb0',
+            'STATUS' => 'Up',
+            'IPADDRESS' => '192.168.20.1'
+          } 
     ]
 );
 
 plan tests => scalar keys %ifconfig_tests;
 
+use Data::Dumper;
 foreach my $test (keys %ifconfig_tests) {
     my $file = "resources/generic/ifconfig/$test";
     my @results = FusionInventory::Agent::Task::Inventory::OS::BSD::Networks::_parseIfconfig(file => $file);
-    is_deeply(\@results, $ifconfig_tests{$test}, $test);
+    is_deeply(\@results, $ifconfig_tests{$test}, $test) or print Dumper(\@results);
 }
