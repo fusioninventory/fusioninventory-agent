@@ -10,16 +10,10 @@ sub isEnabled {
     return unless canRun("hponcfg");
 }
 
-sub doInventory {
-    my (%params) = @_;
+sub _parseHponcfg {
+    my %params = @_;
 
-    my $inventory = $params{inventory};
-    my $logger    = $params{logger};
-
-    my $handle = getFileHandle(
-        logger => $logger,
-        command => 'hponcfg -aw -'
-    );
+    my $handle = getFileHandle(%params);
 
     return unless $handle;
 
@@ -29,12 +23,13 @@ sub doInventory {
     my $ipsubnet;
     my $ipaddress;
     my $status;
+    my $error;
 
     while (my $line = <$handle>) {
         if ($line =~ /<IP_ADDRESS VALUE="($ip_address_pattern)"\/>/) {
             $ipaddress = $1;
         }
-        if ($line =~ /<SUBNET_MASK VALUE="($ip_address_pattern))"\/>/) {
+        if ($line =~ /<SUBNET_MASK VALUE="($ip_address_pattern)"\/>/) {
             $ipmask = $1;
         }
         if ($line =~ /<GATEWAY_IP_ADDRESS VALUE="($ip_address_pattern)"\/>/) {
@@ -46,19 +41,26 @@ sub doInventory {
         if ($line =~ /<ENABLE_NIC VALUE="(.)"\/>/) {
             $status = 'Up' if $1 =~ /Y/i;
         }
+        if ($line =~ /not found/) {
+            chomp($error = $line);
+            $params{logger}->error($line);
+        }
     }
     close $handle;
     $ipsubnet = getSubnetAddress($ipaddress, $ipmask);
 
     # Some cleanups
-    if ( $ipaddress eq '0.0.0.0' ) { $ipaddress = "" }
-    if ( not $ipaddress and not $ipmask and $ipsubnet eq '0.0.0.0' ) { $ipsubnet = "" }
+    if ( $ipaddress && ($ipaddress eq '0.0.0.0') ) { $ipaddress = "" }
+    if ( $ipsubnet && ($ipsubnet eq '0.0.0.0') ) { $ipsubnet = "" }
+    if ( not $ipaddress and not $ipmask and not $ipsubnet ) { $ipsubnet = "" }
     if ( not $status ) { $status = 'Down' }
 
-    $inventory->addEntry(
-        section => 'NETWORKS',
-        entry   => {
-            DESCRIPTION => 'Management Interface - HP iLO',
+    my $description = 'Management Interface - HP iLO';
+    # Report the error
+    $description .= "(err: $error)" if $error;
+
+    return {
+            DESCRIPTION => $description,
             IPADDRESS   => $ipaddress,
             IPMASK      => $ipmask,
             IPSUBNET    => $ipsubnet,
@@ -67,7 +69,23 @@ sub doInventory {
             SPEED       => $speed,
             IPGATEWAY   => $ipgateway,
             MANAGEMENT  => 'iLO',
-        }
+        };
+}
+
+sub doInventory {
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
+
+    my $entry = _parseHponcfg(
+        logger => $logger,
+        command => 'hponcfg -aw -'
+    );
+
+    $inventory->addEntry(
+        section => 'NETWORKS',
+        entry   => $entry
     );
 }
 
