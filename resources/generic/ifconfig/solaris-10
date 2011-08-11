@@ -1,0 +1,20 @@
+lo0: flags=2001000849<UP,LOOPBACK,RUNNING,MULTICAST,IPv4,VIRTUAL> mtu 8232 index 1
+        inet 127.0.0.1 netmask ff000000
+aggr1: flags=1000843<UP,BROADCAST,RUNNING,MULTICAST,IPv4> mtu 1500 index 2
+        inet 130.79.0.1 netmask fffffe00 broadcast 130.79.0.255
+        ether 0:15:17:7a:60:31
+e1000g0: flags=1000843<UP,BROADCAST,RUNNING,MULTICAST,IPv4> mtu 1500 index 3
+        inet 130.79.0.2 netmask ffffff80 broadcast 130.79.0.255
+        ether 0:15:17:7a:60:30
+e1000g2: flags=1000843<UP,BROADCAST,RUNNING,MULTICAST,IPv4> mtu 1500 index 4
+        inet 130.79.0.3 netmask ffffff80 broadcast 130.79.0.255
+        ether 0:15:17:7a:60:32
+e1000g3: flags=1000843<UP,BROADCAST,RUNNING,MULTICAST,IPv4> mtu 1500 index 5
+        inet 192.168.19.1 netmask ffffff00 broadcast 192.168.19.255
+        ether 0:15:17:7a:60:33
+e1000g4: flags=1000843<UP,BROADCAST,RUNNING,MULTICAST,IPv4> mtu 1500 index 6
+        inet 130.79.255.1 netmask ffffffe0 broadcast 130.79.255.255
+        ether 0:15:17:8a:48:30
+igb0: flags=1000843<UP,BROADCAST,RUNNING,MULTICAST,IPv4> mtu 1500 index 7
+        inet 192.168.20.1 netmask ffffff00 broadcast 192.168.20.255
+        ether 0:15:17:6a:44:4c

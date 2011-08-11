@@ -15,6 +15,7 @@ use warnings;
 #DLADM=/usr/sbin/dladm
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Solaris;
 use FusionInventory::Agent::Tools::Network;
 
 sub isEnabled {
@@ -56,7 +57,8 @@ sub _getInterfaces {
 
     my @interfaces = _parseIfconfig(
         command => '/sbin/ifconfig -a',
-        logger  => $params{logger}
+        logger  => $params{logger},
+        file => $params{file}
     );
 
     foreach my $interface (@interfaces) {
@@ -253,18 +255,22 @@ sub _get_link_info {
 
     my $info;
 
-    $info =
-        $speed == 0    ? "10 Mb/s"  :
-        $speed == 10   ? "10 Mb/s"  :
-        $speed == 100  ? "100 Mb/s" :
-        $speed == 1000 ? "1 Gb/s"   :
-                         "ERROR"    ;
+    if ($speed) {
+        $info =
+            $speed == 0    ? "10 Mb/s"  :
+            $speed == 10   ? "10 Mb/s"  :
+            $speed == 100  ? "100 Mb/s" :
+            $speed == 1000 ? "1 Gb/s"   :
+                             "ERROR"    ;
+    }
 
-    $info .=
-        $duplex == 2 ? " FDX"     :
-        $duplex == 1 ? " HDX"     :
-        $duplex == 0 ? " UNKNOWN" :
-                       " ERROR"   ;
+    if ($duplex) {
+        $info .=
+            $duplex == 2 ? " FDX"     :
+            $duplex == 1 ? " HDX"     :
+            $duplex == 0 ? " UNKNOWN" :
+                           " ERROR"   ;
+    }
 
     if ($auto) {
         $info .=
