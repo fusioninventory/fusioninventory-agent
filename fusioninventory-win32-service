@@ -17,8 +17,8 @@ delete($ENV{PERLLIB});
 
 my $win32service = 1;
 Win32::Daemon::StartService();
-$SERVICE_SLEEP_TIME = 2000; # 20 milliseconds
-$PrevState = SERVICE_START_PENDING;
+my $SERVICE_SLEEP_TIME = 2000; # 20 milliseconds
+my $PrevState = SERVICE_START_PENDING;
 
 my $thr;
 
@@ -28,7 +28,7 @@ sub startAgent {
         my $agent = new FusionInventory::Agent(
             confdir => './etc/fusioninventory',
             datadir => './share',
-            vardir  => './var'
+            vardir  => './var',
             options => {
                 service => 1
             }
@@ -42,6 +42,7 @@ sub killAgent {
     $thr = undef;
 }
 
+my $State;
 while (SERVICE_STOPPED != ($State = Win32::Daemon::State())){ 
     if (SERVICE_START_PENDING == $State) {
         # Initialization code

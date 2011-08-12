@@ -12,8 +12,7 @@ sub isEnabled {
     return
         $Config{archname} =~ /^(i\d86|x86_64)/ &&
         (
-            -r '/proc/cpuinfo' ||
-            canRun('dmidecode')
+            -r '/proc/cpuinfo'
         );
 }
 
@@ -28,9 +27,9 @@ sub doInventory {
     my ($proc_cpu, $procList) = _getCPUsFromProc(
         logger => $logger, file => '/proc/cpuinfo'
     );
-
     my $cpt = 0;
-    foreach my $cpu (@cpusFromDmidecode) {
+    my @baseCpuList = @cpusFromDmidecode?@cpusFromDmidecode:@$procList;
+    foreach my $cpu (@baseCpuList) {
 
         if ($proc_cpu->{vendor_id}) {
             $proc_cpu->{vendor_id} =~ s/Genuine//;

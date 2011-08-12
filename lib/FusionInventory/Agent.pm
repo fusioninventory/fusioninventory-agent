@@ -33,6 +33,7 @@ my @tasks = qw/
     SNMPQuery
     NetDiscovery
     Deploy
+    ESX
 /;
 
 sub new {
@@ -300,7 +301,8 @@ sub run {
                 }
                 if (!$package->isa('FusionInventory::Agent::Task')) {
                     $logger->info(
-                        "task $module is not compatible with this agent"
+                        "task $module is not compatible with this agent (".
+                        $FusionInventory::Agent::VERSION.")"
                     );
                     next;
                 }
