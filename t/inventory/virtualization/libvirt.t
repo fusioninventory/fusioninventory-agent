@@ -132,6 +132,18 @@ my %tests_infos = (
           'uuid' => 'd0f1baf3-ac9d-e828-619f-91f074c8c6c4',
           'vcpu' => '1'
     },
+    sample2 => {
+          'memory' => '4194',
+          'vmtype' => 'kvm',
+          'uuid' => '5e3884eb-0caa-194b-cd17-3d9ca1b20c3b',
+          'vcpu' => '4'
+    },
+    sample3 => {
+          'memory' => '2097',
+          'vmtype' => 'kvm',
+          'uuid' => 'aee61d6a-0c2f-f8b6-5246-7c555d803a7d',
+          'vcpu' => '2'
+    },
 );
 
 
@@ -151,5 +163,6 @@ foreach my $test (keys %tests_list) {
 foreach my $test (keys %tests_infos) {
     my $file = "resources/virtualization/libvirt/virsh_dumpxml/$test";
     my %infos = FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt::_getMachineInfos(file => $file, logger => $logger);
-    is_deeply(\%infos, $tests_infos{$test}, "parse 'virsh dumpxml' ".$test);
+    use Data::Dumper;
+    is_deeply(\%infos, $tests_infos{$test}, "parse 'virsh dumpxml' ".$test) or print Dumper(\%infos);
 }
