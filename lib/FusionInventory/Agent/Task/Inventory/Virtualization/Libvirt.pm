@@ -26,7 +26,10 @@ sub doInventory {
         next if $line =~ /^-{5}/;
 
         if ($line =~ /^\s*(\d+|\-)\s+(\S+)\s+(\S.+)/) {
-            my $vmid = int($1);
+            my $vmid = $1;
+            # hack to avoid a warning if $1 is not a int
+            # better fix in 2.2.x branch
+            $vmid = 0 unless $vmid =~ /^\d+$/;
             my $name = $2;
             my $status = $3;
 
