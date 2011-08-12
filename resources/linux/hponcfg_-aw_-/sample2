@@ -1,0 +1,3 @@
+Firmware Revision = 2.05 Device type = iLO 2 Driver name = hpilo
+sh: xsltproc: not found
+ERROR: Failed to capture the configuration.#
