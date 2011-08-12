@@ -26,6 +26,45 @@ sub doInventory {
     }
 }
 
+sub _getMachineInfos {
+    my %params = @_;
+    my $xml = getAllLines(%params);
+
+    if (!$xml) {
+        $params{logger}->error("No virsh xmldump output");
+        return;
+    }
+
+    my $tpp = XML::TreePP->new();
+
+    my $vcpu;
+    my $uuid;
+    my $vmtype;
+    my $memory;
+
+    eval {
+        my $data = $tpp->parse($xml);
+
+        $vcpu = $data->{domain}->{vcpu};
+        $uuid = $data->{domain}->{uuid};
+        $vmtype = $data->{domain}->{'-type'};
+        if ($data->{domain}{currentMemory} =~ /(\d+)\d{3}$/) {
+            $memory = $1;
+        }
+    };
+    if ($@) {
+        $params{logger}->error("Failed to parse XML output");
+    }
+
+
+    return (
+        vcpu => $vcpu,
+        uuid => $uuid,
+        vmtype => $vmtype,
+        memory => $memory,
+    );
+}
+
 sub _getMachines {
     my %params = @_;
 
@@ -34,38 +73,30 @@ sub _getMachines {
 
     my @machines;
     while (my $line = <$handle>) {
-        next unless $line =~ /^\s*(\d+|\-)\s+(\S+)\s+(\S.+)/;
+        next if $line =~ /^\s*Id/;
+        next if $line =~ /^-{5}/;
+        next unless $line =~ /^\s*(\d+|)(\-|)\s+(\S+)\s+(\S.+)/;
 
-        my $vmid = int($1);
-        my $name = $2;
+        my $vmid = $1;
+        my $name = $3;
 
         # ignore Xen Dom0
         next if $name eq 'Domain-0';
 
-        my $status = $3;
+        my $status = $4;
         $status =~ s/^shut off/off/;
 
-        my $xml = getAllLines(command => "virsh dumpxml $name", logger => $params{logger});
-        my $tpp = XML::TreePP->new();
-        my $data = $tpp->parse($xml);
-
-        my $vcpu = $data->{domain}->{vcpu};
-        my $uuid = $data->{domain}->{uuid};
-        my $vmtype = $data->{domain}->{type};
-        my $memory;
-        if ($data->{currentMemory} =~ /(\d+)\d{3}$/) {
-            $memory = $1;
-        }
+        my %infos = _getMachineInfos(command => "virsh dumpxml $name", logger => $params{logger});
 
         my $machine = {
-            MEMORY    => $memory,
+            MEMORY    => $infos{memory},
             NAME      => $name,
-            UUID      => $uuid,
+            UUID      => $infos{uuid},
             STATUS    => $status,
-            SUBSYSTEM => $vmtype,
+            SUBSYSTEM => $infos{vmtype},
             VMTYPE    => "libvirt",
             VMID      => $vmid,
-            VCPU      => $vcpu,
+            VCPU      => $infos{vcpu},
         };
 
         push @machines, $machine;

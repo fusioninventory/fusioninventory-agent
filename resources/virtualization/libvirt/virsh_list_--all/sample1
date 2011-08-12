@@ -1,0 +1,12 @@
+ Id Name                 State
+----------------------------------
+151 vm1                  running
+152 vm2                  running
+170 vm-ad                running
+178 vm-ts                running
+185 vm3                  running
+190 vm4                  running
+208 vm5                  running
+209 vm6-ws1              running
+210 vml3                 running
+  - vm-srv-net1          shut off
