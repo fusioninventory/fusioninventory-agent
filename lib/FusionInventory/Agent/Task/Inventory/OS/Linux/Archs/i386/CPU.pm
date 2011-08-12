@@ -74,7 +74,7 @@ sub doInventory {
         if (!$cpus->[$id]->{THREAD} && $cpuProc->{'siblings'}) {
             $cpus->[$id]->{THREAD} = $cpuProc->{'siblings'};
         }
-        if ($cpus->[$id]->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
+        if ($cpus->[$id]->{NAME} && $cpus->[$id]->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
             $cpus->[$id]->{SPEED} = {
                ghz => 1000,
                mhz => 1,
