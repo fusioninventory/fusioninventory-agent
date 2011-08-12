@@ -379,7 +379,7 @@ sub run {
 
     if ( !$self->{target}->isa('FusionInventory::Agent::Target::Server') ) {
         $self->{logger}->debug("target is not a server. Exiting.");
-        exit(0);
+        return;
     }
 
     my $globalRemoteConfig = $self->{fusionClient}->send(
