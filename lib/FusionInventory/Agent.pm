@@ -33,6 +33,7 @@ my @tasks = qw/
     SNMPQuery
     NetDiscovery
     Deploy
+    ESX
 /;
 
 sub new {
