@@ -22,7 +22,8 @@ sub doInventory {
     }
 
     while (my $line = <$handle>) {
-        if ($line =~ /^\s+(\d+|\-)\s+(\S+)\s+(\S.+)/) {
+        if ($line =~ /^\s*(\d+|\-)\s+(\S+)\s+(\S.+)/) {
+            my $vmid = int($1);
             my $name = $2;
             my $status = $3;
 
@@ -32,7 +33,7 @@ sub doInventory {
             $status =~ s/^shut off/off/;
 
             my $xml = `virsh dumpxml $name`;
-            my $data = XMLin($xml);
+            my $data = eval { XMLin($xml) };
 
             my $vcpu = $data->{vcpu};
             my $uuid = $data->{uuid};
@@ -49,6 +50,7 @@ sub doInventory {
                 STATUS => $status,
                 SUBSYSTEM => $vmtype,
                 VMTYPE => "libvirt",
+                VMID => $vmid,
                 VCPU   => $vcpu,
             };
 
