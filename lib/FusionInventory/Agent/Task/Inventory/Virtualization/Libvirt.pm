@@ -34,8 +34,9 @@ sub _getMachines {
 
     my @machines;
     while (my $line = <$handle>) {
-        next unless $line =~ /^\s+(\d+|\-)\s+(\S+)\s+(\S.+)/;
+        next unless $line =~ /^\s*(\d+|\-)\s+(\S+)\s+(\S.+)/;
 
+        my $vmid = int($1);
         my $name = $2;
 
         # ignore Xen Dom0
@@ -63,6 +64,7 @@ sub _getMachines {
             STATUS    => $status,
             SUBSYSTEM => $vmtype,
             VMTYPE    => "libvirt",
+            VMID      => $vmid,
             VCPU      => $vcpu,
         };
 
