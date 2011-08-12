@@ -22,6 +22,9 @@ sub doInventory {
     }
 
     while (my $line = <$handle>) {
+        next if $line =~ /^\s*Id/;
+        next if $line =~ /^-{5}/;
+
         if ($line =~ /^\s*(\d+|\-)\s+(\S+)\s+(\S.+)/) {
             my $vmid = int($1);
             my $name = $2;
