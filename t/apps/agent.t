@@ -107,7 +107,7 @@ print $file <<EOF;
   </CONTENT>
 </REQUEST>
 EOF
-
+close($file);
 ($out, $err, $rc) = run_agent(
     "--stdout --no-ocsdeploy --no-wakeonlan --no-snmpquery --no-netdiscovery --no-printer --no-software --additional-content $file"
 );
