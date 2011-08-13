@@ -170,6 +170,8 @@ ok(
     'inventory has environment variables'
 );
 
+SKIP: {
+skip '$ENV not set by IPC::Run on Windows', 1 if $OSNAME eq 'MSWin32';
 ok(
     (any
         { $_->{KEY} eq 'FOO' && $_->{VAL} eq 'bar' } 
@@ -177,6 +179,7 @@ ok(
     ),
     'expected environment variable'
 );
+}
 
 sub run_agent {
     my ($args) = @_;
