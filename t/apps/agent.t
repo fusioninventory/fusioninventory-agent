@@ -182,7 +182,7 @@ sub run_agent {
     my ($args) = @_;
     my @args = $args ? split(/\s+/, $args) : ();
     run(
-        [ './fusioninventory-agent', @args ],
+        [ $EXECUTABLE_NAME, 'fusioninventory-agent', @args ],
         \my ($in, $out, $err)
     );
     return ($out, $err, $CHILD_ERROR >> 8);
