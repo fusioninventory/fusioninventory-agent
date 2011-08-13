@@ -43,6 +43,7 @@ if (can_use("LWP") && $LWP::VERSION < 6) {
 # test dependencies
 test_requires  'Test::More'  => undef;
 test_requires  'XML::TreePP'  => undef;
+test_requires  'IPC::Run'  => undef;
 
 install_script  'fusioninventory-agent';
 install_script  'fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
