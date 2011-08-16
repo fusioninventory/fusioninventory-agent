@@ -103,8 +103,8 @@ my %dumpxml_tests = (
 
 
 plan tests =>
-    scalar (keys %list_tests) +
-    scalar (keys %dumpxml_tests);
+    (scalar keys %list_tests)   +
+    (scalar keys %dumpxml_tests);
 
 foreach my $test (keys %list_tests) {
     my $file = "resources/virtualization/virsh/$test";

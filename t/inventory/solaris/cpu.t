@@ -139,8 +139,8 @@ my %spec_tests = (
 );
 
 plan tests => 
-    scalar keys(%memconf_tests) +
-    scalar keys(%spec_tests);
+    (scalar keys %memconf_tests) +
+    (scalar keys %spec_tests)    ;
 
 foreach my $test (keys %memconf_tests) {
     my $file    = "resources/solaris/memconf/$test";
