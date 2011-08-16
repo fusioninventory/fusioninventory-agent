@@ -37,8 +37,8 @@ sub _parseHponcfg {
         if ($line =~ /<NIC_SPEED VALUE="([0-9]+)"\/>/) {
             $interface->{SPEED} = $1;
         } 
-        if ($line =~ /<ENABLE_NIC VALUE="(.)"\/>/) {
-            $interface->{STATUS} = 'Up' if $1 =~ /Y/i;
+        if ($line =~ /<ENABLE_NIC VALUE="Y"\/>/) {
+            $interface->{STATUS} = 'Up';
         }
         if ($line =~ /not found/) {
             chomp $line;
