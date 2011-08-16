@@ -22,7 +22,7 @@ sub doInventory {
 
     return unless $handle;
 
-    while (my $line =~ <$handle>) {
+    while (my $line = <$handle>) {
         next if $line =~  /^Ap_Id/;
         next unless $line =~ /^(\S+)\s+(\S+)\s+(\S+)/;
         my $name = $1;
