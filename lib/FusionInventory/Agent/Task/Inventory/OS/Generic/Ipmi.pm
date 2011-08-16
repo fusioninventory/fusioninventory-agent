@@ -65,6 +65,11 @@ sub doInventory {
 
     my $ipsubnet = getSubnetAddress($ipaddress, $ipmask);
 
+    my $status = "Down";
+    if ($ipaddress && ($ipaddress ne '0.0.0.0')) {
+        $status = "Up";
+    }
+
     $inventory->addEntry(
         section => 'NETWORKS',
         entry   => {
@@ -74,7 +79,7 @@ sub doInventory {
             IPMASK      => $ipmask,
             IPSUBNET    => $ipsubnet,
             MACADDR     => $macaddr,
-            STATUS      => $ipaddress != '0.0.0.0' ? "Up" : "Down",
+            STATUS      => $status,
             TYPE        => 'Ethernet'
         }
     );
