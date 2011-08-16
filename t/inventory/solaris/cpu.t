@@ -7,7 +7,7 @@ use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::OS::Solaris::CPU;
 
-my %testParseMemconf = (
+my %memconf_tests = (
     sample4 => [
         2,
         {
@@ -37,7 +37,7 @@ my %testParseMemconf = (
     ]
 );
 
-my %testParseSpec = (
+my %spec_tests = (
     'Sun Microsystems, Inc. Sun-Fire-T200 (Sun Fire T2000) (8-core quad-thread UltraSPARC-T1 1000MHz)' => [
         1,
         {
@@ -138,15 +138,17 @@ my %testParseSpec = (
     ]
 );
 
-plan tests => scalar keys(%testParseMemconf) + scalar keys(%testParseSpec);
+plan tests => 
+    scalar keys(%memconf_tests) +
+    scalar keys(%spec_tests);
 
-foreach my $test ( keys %testParseMemconf ) {
+foreach my $test (keys %memconf_tests) {
     my $file    = "resources/solaris/memconf/$test";
     my @results = FusionInventory::Agent::Task::Inventory::OS::Solaris::CPU::_getCPUFromMemconf(file => $file);
-    is_deeply(\@results, $testParseMemconf{$test}, "memconf parsing: $test" );
+    is_deeply(\@results, $memconf_tests{$test}, "memconf parsing: $test" );
 }
 
-foreach my $test ( keys %testParseSpec ) {
+foreach my $test (keys %spec_tests) {
     my @results = FusionInventory::Agent::Task::Inventory::OS::Solaris::CPU::_parseSpec($test);
-    is_deeply(\@results, $testParseSpec{$test}, "spec parsing: $test" );
+    is_deeply(\@results, $spec_tests{$test}, "spec parsing: $test" );
 }
