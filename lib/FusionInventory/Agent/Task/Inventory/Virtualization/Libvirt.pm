@@ -27,40 +27,6 @@ sub doInventory {
     }
 }
 
-sub _getMachineInfos {
-    my %params = @_;
-
-    my $xml = getAllLines(%params);
-    if (!$xml) {
-        $params{logger}->error("No virsh xmldump output");
-        return;
-    }
-
-    my $data;
-    eval {
-        $data = XML::TreePP->new()->parse($xml);
-    };
-    if ($EVAL_ERROR) {
-        $params{logger}->error("Failed to parse XML output");
-        return;
-    }
-
-    my $vcpu   = $data->{domain}->{vcpu};
-    my $uuid   = $data->{domain}->{uuid};
-    my $vmtype = $data->{domain}->{'-type'};
-    my $memory;
-    if ($data->{domain}{currentMemory} =~ /(\d+)\d{3}$/) {
-        $memory = $1;
-    }
-
-    return (
-        vcpu => $vcpu,
-        uuid => $uuid,
-        vmtype => $vmtype,
-        memory => $memory,
-    );
-}
-
 sub _getMachines {
     my %params = @_;
 
@@ -100,6 +66,40 @@ sub _getMachines {
     close $handle;
 
     return @machines;
+}
+
+sub _getMachineInfos {
+    my %params = @_;
+
+    my $xml = getAllLines(%params);
+    if (!$xml) {
+        $params{logger}->error("No virsh xmldump output");
+        return;
+    }
+
+    my $data;
+    eval {
+        $data = XML::TreePP->new()->parse($xml);
+    };
+    if ($EVAL_ERROR) {
+        $params{logger}->error("Failed to parse XML output");
+        return;
+    }
+
+    my $vcpu   = $data->{domain}->{vcpu};
+    my $uuid   = $data->{domain}->{uuid};
+    my $vmtype = $data->{domain}->{'-type'};
+    my $memory;
+    if ($data->{domain}{currentMemory} =~ /(\d+)\d{3}$/) {
+        $memory = $1;
+    }
+
+    return (
+        vcpu => $vcpu,
+        uuid => $uuid,
+        vmtype => $vmtype,
+        memory => $memory,
+    );
 }
 
 1;
