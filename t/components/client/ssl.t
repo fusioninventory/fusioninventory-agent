@@ -9,6 +9,7 @@ use Socket;
 use Test::More;
 use Test::Exception;
 
+use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::HTTP::Client;
 use FusionInventory::Test::Server;
 
