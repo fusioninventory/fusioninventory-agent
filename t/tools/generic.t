@@ -4703,14 +4703,14 @@ my %cpu_tests = (
     ],
     'linux-2.6' => [
         {
-        ID             => 'D8 06 00 00 FF FB E9 AF',
-        NAME           => 'Pentium M',
-        EXTERNAL_CLOCK => '133',
-        SPEED          => '1800',
-        THREAD         => undef,
-        SERIAL         => undef,
-        MANUFACTURER   => 'Intel',
-        CORE           => undef
+            ID             => 'D8 06 00 00 FF FB E9 AF',
+            NAME           => 'Pentium M',
+            EXTERNAL_CLOCK => '133',
+            SPEED          => '1800',
+            THREAD         => undef,
+            SERIAL         => undef,
+            MANUFACTURER   => 'Intel',
+            CORE           => undef
         }
     ],
     'vmware' => [
@@ -4768,14 +4768,14 @@ my %cpu_tests = (
     ],
     'windows-hyperV' => [
         {
-            'ID' => '7A 06 01 00 FF FB 8B 1F',
-            'NAME' => 'Xeon',
-            'EXTERNAL_CLOCK' => '266',
-            'SPEED' => '3733',
-            'THREAD' => undef,
-            'SERIAL' => 'None',
-            'MANUFACTURER' => 'GenuineIntel',
-            'CORE' => undef
+            ID             => '7A 06 01 00 FF FB 8B 1F',
+            NAME           => 'Xeon',
+            EXTERNAL_CLOCK => '266',
+            SPEED          => '3733',
+            THREAD         => undef,
+            SERIAL         => 'None',
+            MANUFACTURER   => 'GenuineIntel',
+            CORE           => undef
         }
     ]
 );

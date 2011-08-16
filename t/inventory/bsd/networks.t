@@ -50,48 +50,48 @@ my %ifconfig_tests = (
         }
     ],
     'solaris-10' => [
-             {
-            'MTU' => '8232',
-            'DESCRIPTION' => 'lo0',
-            'STATUS' => 'Up',
-            'IPADDRESS' => '127.0.0.1'
-          },
-          {
-            'MTU' => '1500',
-            'DESCRIPTION' => 'aggr1',
-            'STATUS' => 'Up',
-            'IPADDRESS' => '130.79.0.1'
-          },
-          {
-            'MTU' => '1500',
-            'DESCRIPTION' => 'e1000g0',
-            'STATUS' => 'Up',
-            'IPADDRESS' => '130.79.0.2'
-          },
-          {
-            'MTU' => '1500',
-            'DESCRIPTION' => 'e1000g2',
-            'STATUS' => 'Up',
-            'IPADDRESS' => '130.79.0.3'
-          },
-          {
-            'MTU' => '1500',
-            'DESCRIPTION' => 'e1000g3',
-            'STATUS' => 'Up',
-            'IPADDRESS' => '192.168.19.1'
-          },
-          {
-            'MTU' => '1500',
-            'DESCRIPTION' => 'e1000g4',
-            'STATUS' => 'Up',
-            'IPADDRESS' => '130.79.255.1'
-          },
-          {
-            'MTU' => '1500',
-            'DESCRIPTION' => 'igb0',
-            'STATUS' => 'Up',
-            'IPADDRESS' => '192.168.20.1'
-          } 
+           {
+            MTU         => '8232',
+            DESCRIPTION => 'lo0',
+            STATUS      => 'Up',
+            IPADDRESS   => '127.0.0.1'
+        },
+        {
+            MTU         => '1500',
+            DESCRIPTION => 'aggr1',
+            STATUS      => 'Up',
+            IPADDRESS   => '130.79.0.1'
+        },
+        {
+            MTU         => '1500',
+            DESCRIPTION => 'e1000g0',
+            STATUS      => 'Up',
+            IPADDRESS   => '130.79.0.2'
+        },
+        {
+            MTU         => '1500',
+            DESCRIPTION => 'e1000g2',
+            STATUS      => 'Up',
+            IPADDRESS   => '130.79.0.3'
+        },
+        {
+            MTU         => '1500',
+            DESCRIPTION => 'e1000g3',
+            STATUS      => 'Up',
+            IPADDRESS   => '192.168.19.1'
+        },
+        {
+            MTU         => '1500',
+            DESCRIPTION => 'e1000g4',
+            STATUS      => 'Up',
+            IPADDRESS   => '130.79.255.1'
+        },
+        {
+            MTU         => '1500',
+            DESCRIPTION => 'igb0',
+            STATUS      => 'Up',
+            IPADDRESS   => '192.168.20.1'
+        } 
     ]
 );
 

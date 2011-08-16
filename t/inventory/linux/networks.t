@@ -73,72 +73,72 @@ my %ifconfig_tests = (
         } 
     ],
     'linux-rhel5.6' => [
-          {
-            'IPMASK' => '255.255.252.0',
-            'MACADDR' => '00:1E:68:2F:85:D8',
-            'DESCRIPTION' => 'eth0',
-            'STATUS' => 'Up',
-            'TYPE' => 'Ethernet',
-            'IPADDRESS6' => 'fe80::21e:68ff:fe2f:85d8/64',
-            'IPADDRESS' => '10.202.0.31'
-          },
-          {
-            'IPMASK' => '255.0.0.0',
-            'DESCRIPTION' => 'lo',
-            'STATUS' => 'Up',
-            'TYPE' => 'Local',
-            'IPADDRESS6' => '::1/128',
-            'IPADDRESS' => '127.0.0.1'
-          },
-          {
-            'MACADDR' => '00:1E:68:2F:85:D8',
-            'DESCRIPTION' => 'peth0',
-            'STATUS' => 'Up',
-            'TYPE' => 'Ethernet',
-            'IPADDRESS6' => 'fe80::21e:68ff:fe2f:85d8/64'
-          },
-          {
-            'MACADDR' => 'FE:FF:FF:FF:FF:FF',
-            'DESCRIPTION' => 'vif1.0',
-            'STATUS' => 'Up',
-            'TYPE' => 'Ethernet',
-            'IPADDRESS6' => 'fe80::fcff:ffff:feff:ffff/64'
-          },
-          {
-            'MACADDR' => 'FE:FF:FF:FF:FF:FF',
-            'DESCRIPTION' => 'vif2.0',
-            'STATUS' => 'Up',
-            'TYPE' => 'Ethernet',
-            'IPADDRESS6' => 'fe80::fcff:ffff:feff:ffff/64'
-          },
-          {
-            'MACADDR' => 'FE:FF:FF:FF:FF:FF',
-            'DESCRIPTION' => 'vif3.0',
-            'STATUS' => 'Up',
-            'TYPE' => 'Ethernet',
-            'IPADDRESS6' => 'fe80::fcff:ffff:feff:ffff/64'
-          },
-          {
-            'MACADDR' => 'FE:FF:FF:FF:FF:FF',
-            'DESCRIPTION' => 'vif4.0',
-            'STATUS' => 'Up',
-            'TYPE' => 'Ethernet',
-            'IPADDRESS6' => 'fe80::fcff:ffff:feff:ffff/64'
-          },
-          {
-            'MACADDR' => 'FE:FF:FF:FF:FF:FF',
-            'DESCRIPTION' => 'vif5.0',
-            'STATUS' => 'Up',
-            'TYPE' => 'Ethernet',
-            'IPADDRESS6' => 'fe80::fcff:ffff:feff:ffff/64'
-          },
-          {
-            'MACADDR' => 'FE:FF:FF:FF:FF:FF',
-            'DESCRIPTION' => 'vif6.0',
-            'STATUS' => 'Up',
-            'TYPE' => 'Ethernet',
-            'IPADDRESS6' => 'fe80::fcff:ffff:feff:ffff/64'
-          }
+        {
+            IPMASK      => '255.255.252.0',
+            MACADDR     => '00:1E:68:2F:85:D8',
+            DESCRIPTION => 'eth0',
+            STATUS      => 'Up',
+            TYPE        => 'Ethernet',
+            IPADDRESS6  => 'fe80::21e:68ff:fe2f:85d8/64',
+            IPADDRESS   => '10.202.0.31'
+        },
+        {
+            IPMASK      => '255.0.0.0',
+            DESCRIPTION => 'lo',
+            STATUS      => 'Up',
+            TYPE        => 'Local',
+            IPADDRESS6  => '::1/128',
+            IPADDRESS   => '127.0.0.1'
+        },
+        {
+            MACADDR     => '00:1E:68:2F:85:D8',
+            DESCRIPTION => 'peth0',
+            STATUS      => 'Up',
+            TYPE        => 'Ethernet',
+            IPADDRESS6  => 'fe80::21e:68ff:fe2f:85d8/64'
+        },
+        {
+            MACADDR     => 'FE:FF:FF:FF:FF:FF',
+            DESCRIPTION => 'vif1.0',
+            STATUS      => 'Up',
+            TYPE        => 'Ethernet',
+            IPADDRESS6  => 'fe80::fcff:ffff:feff:ffff/64'
+        },
+        {
+            MACADDR     => 'FE:FF:FF:FF:FF:FF',
+            DESCRIPTION => 'vif2.0',
+            STATUS      => 'Up',
+            TYPE        => 'Ethernet',
+            IPADDRESS6  => 'fe80::fcff:ffff:feff:ffff/64'
+        },
+        {
+            MACADDR     => 'FE:FF:FF:FF:FF:FF',
+            DESCRIPTION => 'vif3.0',
+            STATUS      => 'Up',
+            TYPE        => 'Ethernet',
+            IPADDRESS6  => 'fe80::fcff:ffff:feff:ffff/64'
+        },
+        {
+            MACADDR     => 'FE:FF:FF:FF:FF:FF',
+            DESCRIPTION => 'vif4.0',
+            STATUS      => 'Up',
+            TYPE        => 'Ethernet',
+            IPADDRESS6  => 'fe80::fcff:ffff:feff:ffff/64'
+        },
+        {
+            MACADDR     => 'FE:FF:FF:FF:FF:FF',
+            DESCRIPTION => 'vif5.0',
+            STATUS      => 'Up',
+            TYPE        => 'Ethernet',
+            IPADDRESS6  => 'fe80::fcff:ffff:feff:ffff/64'
+        },
+        {
+            MACADDR     => 'FE:FF:FF:FF:FF:FF',
+            DESCRIPTION => 'vif6.0',
+            STATUS      => 'Up',
+            TYPE        => 'Ethernet',
+            IPADDRESS6  => 'fe80::fcff:ffff:feff:ffff/64'
+        }
     ]
 );
 
