@@ -43,7 +43,8 @@ sub _parseHponcfg {
         }
         if ($line =~ /not found/) {
             chomp $line;
-            $params{logger}->error("error in hponcfg output: $line");
+            $params{logger}->error("error in hponcfg output: $line")
+                if $params{logger};
         }
     }
     close $handle;
