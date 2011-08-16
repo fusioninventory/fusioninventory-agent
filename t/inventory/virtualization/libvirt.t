@@ -7,7 +7,7 @@ use FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt;
 
 use Test::More;
 
-my %tests_list = (
+my %list_tests = (
     list1 => [
         {
             VMTYPE    => 'libvirt',
@@ -80,7 +80,7 @@ my %tests_list = (
     ],
 );
 
-my %tests_infos = (
+my %dumpxml_tests = (
     dumpxml1 => {
           memory => '524',
           vmtype => 'kvm',
@@ -102,16 +102,18 @@ my %tests_infos = (
 );
 
 
-plan tests => scalar (keys %tests_list) + scalar (keys %tests_infos);
+plan tests =>
+    scalar (keys %list_tests) +
+    scalar (keys %dumpxml_tests);
 
-foreach my $test (keys %tests_list) {
+foreach my $test (keys %list_tests) {
     my $file = "resources/virtualization/virsh/$test";
     my @machines = FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt::_parseList(file => $file);
-    is_deeply(\@machines, $tests_list{$test}, "virst list parsing: $test");
+    is_deeply(\@machines, $list_tests{$test}, "virst list parsing: $test");
 }
 
-foreach my $test (keys %tests_infos) {
+foreach my $test (keys %dumpxml_tests) {
     my $file = "resources/virtualization/virsh/$test";
     my %infos = FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt::_parseDumpxml(file => $file);
-    is_deeply(\%infos, $tests_infos{$test}, "virsh dumpxml parsing: $test");
+    is_deeply(\%infos, $dumpxml_tests{$test}, "virsh dumpxml parsing: $test");
 }
