@@ -161,7 +161,7 @@ sub _parseSpec {
     # UltraSPARC-IIi 270MHz
     # UltraSPARC-III 750MHz
     if ($spec =~ /([^()\s]\S+) \s (\d+ \s* .Hz)/x) {
-        return $1, {
+        return 1, {
             MANUFACTURER   => $manufacturer,
             NAME   => $1,
             SPEED  => getCanonicalSpeed($2),

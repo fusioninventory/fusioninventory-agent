@@ -18,7 +18,7 @@ my %memconf_tests = (
         },
     ],
     sample2 => [
-        'UltraSPARC-IIi',
+        1,
         {
             NAME         => 'UltraSPARC-IIi',
             MANUFACTURER => 'Sun Microsystems',
@@ -68,7 +68,7 @@ my %spec_tests = (
         }
     ],
     'Sun Microsystems, Inc. Sun Fire V240 (UltraSPARC-IIIi 1002MHz)' => [
-        'UltraSPARC-IIIi',
+        1,
         {
             NAME         => 'UltraSPARC-IIIi',
             MANUFACTURER => 'Sun Microsystems',
