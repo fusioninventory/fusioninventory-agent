@@ -13,114 +13,70 @@ my %tests_list = (
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm1',
-            SUBSYSTEM => undef,
             STATUS    => 'running',
-            MEMORY    => undef,
             VMID      => '151',
-            UUID      => undef,
-            VCPU      => undef
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm2',
-            SUBSYSTEM => undef,
             STATUS    => 'running',
-            MEMORY    => undef,
             VMID      => '152',
-            UUID      => undef,
-            VCPU      => undef
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm-ad',
-            SUBSYSTEM => undef,
             STATUS    => 'running',
-            MEMORY    => undef,
             VMID      => '170',
-            UUID      => undef,
-            VCPU      => undef
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm-ts',
-            SUBSYSTEM => undef,
             STATUS    => 'running',
-            MEMORY    => undef,
             VMID      => '178',
-            UUID      => undef,
-            VCPU      => undef
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm3',
-            SUBSYSTEM => undef,
             STATUS    => 'running',
-            MEMORY    => undef,
             VMID      => '185',
-            UUID      => undef,
-            VCPU      => undef
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm4',
-            SUBSYSTEM => undef,
             STATUS    => 'running',
-            MEMORY    => undef,
             VMID      => '190',
-            UUID      => undef,
-            VCPU      => undef
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm5',
-            SUBSYSTEM => undef,
             STATUS    => 'running',
-            MEMORY    => undef,
             VMID      => '208',
-            UUID      => undef,
-            VCPU      => undef
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm6-ws1',
-            SUBSYSTEM => undef,
             STATUS    => 'running',
-            MEMORY    => undef,
             VMID      => '209',
-            UUID      => undef,
-            VCPU      => undef
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vml3',
-            SUBSYSTEM => undef,
             STATUS    => 'running',
-            MEMORY    => undef,
             VMID      => '210',
-            UUID      => undef,
-            VCPU      => undef
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm-srv-net1',
-            SUBSYSTEM => undef,
             STATUS    => 'off',
-            MEMORY    => undef,
             VMID      => '',
-            UUID      => undef,
-            VCPU      => undef
         }
     ],
     list2 => [
         {
             VMTYPE    => 'libvirt',
             NAME      => 'Debian_Squeeze_64_bits',
-            SUBSYSTEM => undef,
             STATUS    => 'running',
-            MEMORY    => undef,
             VMID      => '6',
-            UUID      => undef,
-            VCPU      => undef
         }
     ],
 );
@@ -153,15 +109,14 @@ my $logger = FusionInventory::Agent::Logger->new(
     backends => [],
 );
 
-
 foreach my $test (keys %tests_list) {
     my $file = "resources/virtualization/virsh/$test";
-    my @machines = FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt::_getMachines(file => $file, logger => $logger);
-    is_deeply(\@machines, $tests_list{$test}, "parse 'virsh list --all' ".$test);
+    my @machines = FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt::_parseList(file => $file, logger => $logger);
+    is_deeply(\@machines, $tests_list{$test}, "virst list parsing: $test");
 }
 
 foreach my $test (keys %tests_infos) {
     my $file = "resources/virtualization/virsh/$test";
-    my %infos = FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt::_getMachineInfos(file => $file, logger => $logger);
-    is_deeply(\%infos, $tests_infos{$test}, "parse 'virsh dumpxml' ".$test);
+    my %infos = FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt::_parseDumpxml(file => $file, logger => $logger);
+    is_deeply(\%infos, $tests_infos{$test}, "virsh dumpxml parsing: $test");
 }

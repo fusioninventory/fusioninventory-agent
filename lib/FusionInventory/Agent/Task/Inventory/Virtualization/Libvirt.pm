@@ -18,9 +18,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    foreach my $machine (_getMachines(
-        command => 'virsh list --all', logger => $logger
-    )) {
+    foreach my $machine (_getMachines(logger => $logger)) {
         $inventory->addEntry(
             section => 'VIRTUALMACHINES', entry => $machine
         );
@@ -28,6 +26,29 @@ sub doInventory {
 }
 
 sub _getMachines {
+    my %params = @_;
+
+    my @machines = _parseList(
+        command => 'virsh list --all',
+        logger  => $params{logger}
+    );
+
+    foreach my $machine (@machines) {
+        my %infos = _parseDumpxml(
+            command => "virsh dumpxml $machine->{NAME}",
+            logger  => $params{logger}
+        );
+
+        $machine->{MEMORY}    = $infos{memory};
+        $machine->{UUID}      = $infos{uuid};
+        $machine->{SUBSYSTEM} = $infos{vmtype};
+        $machine->{VCPU}      = $infos{vcpu};
+    }
+
+    return @machines;
+}
+
+sub _parseList {
     my %params = @_;
 
     my $handle = getFileHandle(%params);
@@ -48,17 +69,11 @@ sub _getMachines {
         my $status = $4;
         $status =~ s/^shut off/off/;
 
-        my %infos = _getMachineInfos(command => "virsh dumpxml $name", logger => $params{logger});
-
         my $machine = {
-            MEMORY    => $infos{memory},
             NAME      => $name,
-            UUID      => $infos{uuid},
             STATUS    => $status,
-            SUBSYSTEM => $infos{vmtype},
             VMTYPE    => "libvirt",
             VMID      => $vmid,
-            VCPU      => $infos{vcpu},
         };
 
         push @machines, $machine;
@@ -68,7 +83,7 @@ sub _getMachines {
     return @machines;
 }
 
-sub _getMachineInfos {
+sub _parseDumpxml {
     my %params = @_;
 
     my $xml = getAllLines(%params);
