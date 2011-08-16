@@ -153,6 +153,8 @@ sub getFilesystemsFromDf {
     
     # get headers line first
     my $line = <$handle>;
+    return unless $line;
+
     chomp $line;
     my @headers = split(/\s+/, $line);
 

@@ -272,8 +272,10 @@ sub _injectContent {
     my $content;
     SWITCH: {
         if ($file =~ /\.xml$/) {
-            my $tree = XML::TreePP->new()->parsefile($file);
-            $content = $tree->{REQUEST}->{CONTENT};
+            eval {
+                my $tree = XML::TreePP->new()->parsefile($file);
+                $content = $tree->{REQUEST}->{CONTENT};
+            };
             last SWITCH;
         }
         die "unknown file type $file";

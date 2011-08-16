@@ -107,7 +107,7 @@ print $file <<EOF;
   </CONTENT>
 </REQUEST>
 EOF
-
+close($file);
 ($out, $err, $rc) = run_agent(
     "--stdout --no-ocsdeploy --no-wakeonlan --no-snmpquery --no-netdiscovery --no-printer --no-software --additional-content $file"
 );
@@ -170,6 +170,8 @@ ok(
     'inventory has environment variables'
 );
 
+SKIP: {
+skip '$ENV not set by IPC::Run on Windows', 1 if $OSNAME eq 'MSWin32';
 ok(
     (any
         { $_->{KEY} eq 'FOO' && $_->{VAL} eq 'bar' } 
@@ -177,12 +179,13 @@ ok(
     ),
     'expected environment variable'
 );
+}
 
 sub run_agent {
     my ($args) = @_;
     my @args = $args ? split(/\s+/, $args) : ();
     run(
-        [ './fusioninventory-agent', @args ],
+        [ $EXECUTABLE_NAME, 'fusioninventory-agent', @args ],
         \my ($in, $out, $err)
     );
     return ($out, $err, $CHILD_ERROR >> 8);
