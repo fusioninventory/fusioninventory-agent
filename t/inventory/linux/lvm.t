@@ -6,7 +6,6 @@ use warnings;
 use FusionInventory::Agent::Task::Inventory::OS::Linux::LVM; 
 
 use Test::More;
-use Data::Dumper;
 
 
 plan tests => 3;
@@ -155,15 +154,15 @@ my %vgs = (
 
 foreach my $test (keys %pvs) {
     my @pvs = FusionInventory::Agent::Task::Inventory::OS::Linux::LVM::_getPhysicalVolumes(file => 'resources/lvm/linux/pvs/'.$test);
-    is_deeply(\@pvs, $pvs{$test}, '_parsePvs()') or print Dumper(\@pvs);
+    is_deeply(\@pvs, $pvs{$test}, '_parsePvs()');
 }
 
 foreach my $test (keys %lvs) {
     my @lvs = FusionInventory::Agent::Task::Inventory::OS::Linux::LVM::_getLogicalVolumes(file => 'resources/lvm/linux/lvs/'.$test);
-    is_deeply(\@lvs, $lvs{$test}, '_parseLvs()') or print Dumper(\@lvs);
+    is_deeply(\@lvs, $lvs{$test}, '_parseLvs()');
 }
 
 foreach my $test (keys %vgs) {
     my @vgs = FusionInventory::Agent::Task::Inventory::OS::Linux::LVM::_getVolumeGroups(file => 'resources/lvm/linux/vgs/'.$test);
-    is_deeply(\@vgs, $vgs{$test}, '_parseVgs()') or print Dumper(\@vgs);
+    is_deeply(\@vgs, $vgs{$test}, '_parseVgs()');
 }

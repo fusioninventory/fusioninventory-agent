@@ -3,7 +3,6 @@
 use strict;
 use warnings;
 
-use Data::Dumper;
 use Test::More;
 
 use FusionInventory::Agent::Logger;
@@ -146,16 +145,13 @@ foreach my $test ( keys %testParseMemconf ) {
     my $r =
       FusionInventory::Agent::Task::Inventory::OS::Solaris::CPU::_getCPUFromMemconf(
         undef, './resources/solaris/memconf/' . $test );
-    use Data::Dumper;
-    is_deeply( $r, $testParseMemconf{$test}, "parse memconf: $test" )
-      or print Dumper($r);
+    is_deeply( $r, $testParseMemconf{$test}, "parse memconf: $test" );
 
 }
-use Data::Dumper;
+
 foreach my $test ( keys %testParseSpec ) {
     my @ret =
       FusionInventory::Agent::Task::Inventory::OS::Solaris::CPU::_parseSpec(
         $test);
-    is_deeply( \@ret, $testParseSpec{$test}, "parseSpec: $test" ) or print Dumper(\@ret)
-
+    is_deeply( \@ret, $testParseSpec{$test}, "parseSpec: $test" );
 }

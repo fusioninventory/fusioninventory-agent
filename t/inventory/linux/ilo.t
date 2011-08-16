@@ -38,10 +38,9 @@ my %tests = (
 
 plan tests => int (keys %tests);
 
-use Data::Dumper;
 foreach my $test (keys %tests) {
     my $file = "resources/linux/hponcfg_-aw_-/$test";
     my $results = FusionInventory::Agent::Task::Inventory::OS::Linux::iLO::_parseHponcfg(file => $file, logger => $logger);
-    is_deeply($results, $tests{$test}, $test) or print Dumper($results);
+    is_deeply($results, $tests{$test}, $test);
 }
 

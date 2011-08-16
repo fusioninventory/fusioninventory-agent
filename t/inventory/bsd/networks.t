@@ -97,9 +97,8 @@ my %ifconfig_tests = (
 
 plan tests => scalar keys %ifconfig_tests;
 
-use Data::Dumper;
 foreach my $test (keys %ifconfig_tests) {
     my $file = "resources/generic/ifconfig/$test";
     my @results = FusionInventory::Agent::Task::Inventory::OS::BSD::Networks::_parseIfconfig(file => $file);
-    is_deeply(\@results, $ifconfig_tests{$test}, $test) or print Dumper(\@results);
+    is_deeply(\@results, $ifconfig_tests{$test}, $test);
 }

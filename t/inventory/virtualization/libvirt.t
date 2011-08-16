@@ -163,6 +163,5 @@ foreach my $test (keys %tests_list) {
 foreach my $test (keys %tests_infos) {
     my $file = "resources/virtualization/libvirt/virsh_dumpxml/$test";
     my %infos = FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt::_getMachineInfos(file => $file, logger => $logger);
-    use Data::Dumper;
-    is_deeply(\%infos, $tests_infos{$test}, "parse 'virsh dumpxml' ".$test) or print Dumper(\%infos);
+    is_deeply(\%infos, $tests_infos{$test}, "parse 'virsh dumpxml' ".$test);
 }
