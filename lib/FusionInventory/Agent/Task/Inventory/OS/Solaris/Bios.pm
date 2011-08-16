@@ -26,7 +26,7 @@ sub doInventory {
 
         my $arch;
         if (canRun('showrev')) {
-            my $infos = _parseShowrew($logger);
+            my $infos = _parseShowRev($logger);
             $SystemModel        = $infos->{'Application architecture'};
             $SystemManufacturer = $infos->{'Hardware provider'};
             $arch               = $infos->{'Application architecture'};
@@ -67,7 +67,7 @@ sub doInventory {
             );
         }
     } else {
-        my $infos = _parseShowrew($logger);
+        my $infos = _parseShowRev($logger);
         $SystemManufacturer = $infos->{'Hardware provider'};
         $SystemModel        = "Solaris Containers";
     }
@@ -86,7 +86,7 @@ sub doInventory {
     });
 }
 
-sub _parseShowRew {
+sub _parseShowRev {
     my ($logger) = @_;
 
     my $handle = getFileHandle(
