@@ -3,6 +3,7 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
 use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
@@ -39,7 +40,7 @@ sub _getMachineInfos {
     eval {
         $data = XML::TreePP->new()->parse($xml);
     };
-    if ($@) {
+    if ($EVAL_ERROR) {
         $params{logger}->error("Failed to parse XML output");
         return;
     }
