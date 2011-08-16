@@ -42,8 +42,8 @@ sub _parseHponcfg {
             $status = 'Up' if $1 =~ /Y/i;
         }
         if ($line =~ /not found/) {
-            chomp($error = $line);
-            $params{logger}->error($line);
+            chomp $line;
+            $params{logger}->error("error in hponcfg output: $line");
         }
     }
     close $handle;
@@ -52,12 +52,8 @@ sub _parseHponcfg {
     # Some cleanups
     if ( not $status ) { $status = 'Down' }
 
-    my $description = 'Management Interface - HP iLO';
-    # Report the error
-    $description .= "(err: $error)" if $error;
-
     return {
-            DESCRIPTION => $description,
+            DESCRIPTION => 'Management Interface - HP iLO',
             IPADDRESS   => $ipaddress,
             IPMASK      => $ipmask,
             IPSUBNET    => $ipsubnet,

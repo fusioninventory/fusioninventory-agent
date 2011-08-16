@@ -31,7 +31,7 @@ my %tests = (
         TYPE        => 'Ethernet',
         IPSUBNET    => undef,
         MANAGEMENT  => 'iLO',
-        DESCRIPTION => 'Management Interface - HP iLO(err: sh: xsltproc: not found)',
+        DESCRIPTION => 'Management Interface - HP iLO',
         IPADDRESS   => undef
     }
 );
