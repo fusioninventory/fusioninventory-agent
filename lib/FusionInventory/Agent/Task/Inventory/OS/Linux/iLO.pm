@@ -27,7 +27,7 @@ sub _parseHponcfg {
 
     while (my $line = <$handle>) {
         if ($line =~ /<IP_ADDRESS VALUE="($ip_address_pattern)"\/>/) {
-            $ipaddress = $1;
+            $ipaddress = $1 unless $1 eq '0.0.0.0';
         }
         if ($line =~ /<SUBNET_MASK VALUE="($ip_address_pattern)"\/>/) {
             $ipmask = $1;
@@ -50,9 +50,6 @@ sub _parseHponcfg {
     $ipsubnet = getSubnetAddress($ipaddress, $ipmask);
 
     # Some cleanups
-    if ( $ipaddress && ($ipaddress eq '0.0.0.0') ) { $ipaddress = "" }
-    if ( $ipsubnet && ($ipsubnet eq '0.0.0.0') ) { $ipsubnet = "" }
-    if ( not $ipaddress and not $ipmask and not $ipsubnet ) { $ipsubnet = "" }
     if ( not $status ) { $status = 'Down' }
 
     my $description = 'Management Interface - HP iLO';
