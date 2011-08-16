@@ -356,7 +356,7 @@ sub getFirstLine {
     my $result = <$handle>;
     close $handle;
 
-    chomp $result;
+    chomp $result if $result;
     return $result;
 }
 
@@ -372,7 +372,7 @@ sub getLastLine {
     }
     close $handle;
 
-    chomp $result;
+    chomp $result if $result;
     return $result;
 }
 
