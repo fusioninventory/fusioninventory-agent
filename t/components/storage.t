@@ -23,19 +23,22 @@ my $readdir = "$basedir/read";
 mkdir $readdir;
 chmod 0555, $readdir;
 
-throws_ok {
-    $storage = FusionInventory::Agent::Storage->new(
-        directory => $readdir
-    );
-} qr/^Can't write in/,
-'instanciation: non-writable directory';
+SKIP: {
+    skip "chmod doesn't work on Windows", 2 if $OSNAME eq 'MSWin32';
+    throws_ok {
+        $storage = FusionInventory::Agent::Storage->new(
+            directory => $readdir
+        );
+    } qr/^Can't write in/,
+    'instanciation: non-writable directory';
 
-throws_ok {
-    $storage = FusionInventory::Agent::Storage->new(
-        directory => "$readdir/subdir"
-    );
-} qr/^Can't create/,
-'instanciation: non-creatable subdirectory';
+    throws_ok {
+        $storage = FusionInventory::Agent::Storage->new(
+            directory => "$readdir/subdir"
+        );
+    } qr/^Can't create/,
+    'instanciation: non-creatable subdirectory';
+}
 
 my $writedir = "$basedir/write";
 mkdir $writedir;
