@@ -19,8 +19,8 @@ sub doInventory {
     my $class = getClass();
 
     my ($count, $cpu) =
-        $class == 7 ? _getCPUFromPrtcl($logger)  :
-                      _getCPUFromMemconf($logger);
+        $class == 7 ? _getCPUFromPrtcl(logger => $logger)  :
+                      _getCPUFromMemconf(logger => $logger);
 
     # fallback on generic method
     if (!$count) {
@@ -56,13 +56,10 @@ sub doInventory {
 # Sun Microsystems, Inc. Sun Fire V20z (Solaris x86 machine) (2 X Dual Core AMD Opteron(tm) Processor 270 1993MHz)
 
 sub _getCPUFromMemconf {
-    my ($logger, $file) = @_;
-
     my $spec = getFirstMatch(
-        file => $file, # Only for the test-suite
         command => 'memconf',
-        logger  => $logger,
         pattern => qr/^((Sun\s|Fujitsu|Intel).*\d+(G|M)Hz\)).*$/x,
+        @_
     );
     return _parseSpec($spec);
 }
@@ -175,8 +172,6 @@ sub _parseSpec {
 }
 
 sub _getCPUFromPrtcl {
-    my ($logger) = @_;
-
     my ($count, $cpu);
 
     foreach (`prctl -n zone.cpu-shares $$`) {
