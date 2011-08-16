@@ -23,7 +23,7 @@ my %tests = (
         DESCRIPTION => 'Management Interface - HP iLO',
         IPADDRESS   => '192.168.10.1'
     },
-    'sample2-missing-xsltproc' => {
+    'sample2' => {
         IPGATEWAY   => undef,
         IPMASK      => undef,
         STATUS      => 'Down',
