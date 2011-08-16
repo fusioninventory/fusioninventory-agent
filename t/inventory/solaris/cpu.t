@@ -8,24 +8,33 @@ use Test::More;
 use FusionInventory::Agent::Task::Inventory::OS::Solaris::CPU;
 
 my %testParseMemconf = (
-    sample4 => {
-        NAME         => 'Opteron(tm) Processor 270',
-        MANUFACTURER => 'AMD',
-        SPEED        => '1993',
-        CORE         => '2'
-    },
-    sample2 => {
-        NAME         => 'UltraSPARC-IIi',
-        MANUFACTURER => 'Sun Microsystems',
-        SPEED        => '270',
-        CORE         => '1'
-    },
-    sample1 => {
-        NAME         => 'Xeon(R) E7320',
-        MANUFACTURER => 'Intel',
-        SPEED        => '2130',
-        CORE         => '4'
-    },
+    sample4 => [
+        2,
+        {
+            NAME         => 'Opteron(tm) Processor 270',
+            MANUFACTURER => 'AMD',
+            SPEED        => '1993',
+            CORE         => '2'
+        },
+    ],
+    sample2 => [
+        'UltraSPARC-IIi',
+        {
+            NAME         => 'UltraSPARC-IIi',
+            MANUFACTURER => 'Sun Microsystems',
+            SPEED        => '270',
+            CORE         => '1'
+        },
+    ],
+    sample1 => [
+        2,
+        {
+            NAME         => 'Xeon(R) E7320',
+            MANUFACTURER => 'Intel',
+            SPEED        => '2130',
+            CORE         => '4'
+        },
+    ]
 );
 
 my %testParseSpec = (
@@ -132,16 +141,12 @@ my %testParseSpec = (
 plan tests => scalar keys(%testParseMemconf) + scalar keys(%testParseSpec);
 
 foreach my $test ( keys %testParseMemconf ) {
-    my $r =
-      FusionInventory::Agent::Task::Inventory::OS::Solaris::CPU::_getCPUFromMemconf(
-        undef, './resources/solaris/memconf/' . $test );
-    is_deeply( $r, $testParseMemconf{$test}, "parse memconf: $test" );
-
+    my $file    = "resources/solaris/memconf/$test";
+    my @results = FusionInventory::Agent::Task::Inventory::OS::Solaris::CPU::_getCPUFromMemconf(file => $file);
+    is_deeply(\@results, $testParseMemconf{$test}, "memconf parsing: $test" );
 }
 
 foreach my $test ( keys %testParseSpec ) {
-    my @ret =
-      FusionInventory::Agent::Task::Inventory::OS::Solaris::CPU::_parseSpec(
-        $test);
-    is_deeply( \@ret, $testParseSpec{$test}, "parseSpec: $test" );
+    my @results = FusionInventory::Agent::Task::Inventory::OS::Solaris::CPU::_parseSpec($test);
+    is_deeply(\@results, $testParseSpec{$test}, "spec parsing: $test" );
 }
