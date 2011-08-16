@@ -4,7 +4,6 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt;
-use FusionInventory::Agent::Logger;
 
 use Test::More;
 
@@ -105,18 +104,14 @@ my %tests_infos = (
 
 plan tests => scalar (keys %tests_list) + scalar (keys %tests_infos);
 
-my $logger = FusionInventory::Agent::Logger->new(
-    backends => [],
-);
-
 foreach my $test (keys %tests_list) {
     my $file = "resources/virtualization/virsh/$test";
-    my @machines = FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt::_parseList(file => $file, logger => $logger);
+    my @machines = FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt::_parseList(file => $file);
     is_deeply(\@machines, $tests_list{$test}, "virst list parsing: $test");
 }
 
 foreach my $test (keys %tests_infos) {
     my $file = "resources/virtualization/virsh/$test";
-    my %infos = FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt::_parseDumpxml(file => $file, logger => $logger);
+    my %infos = FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt::_parseDumpxml(file => $file);
     is_deeply(\%infos, $tests_infos{$test}, "virsh dumpxml parsing: $test");
 }
