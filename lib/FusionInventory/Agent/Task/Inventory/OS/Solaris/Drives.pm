@@ -10,6 +10,17 @@ sub isEnabled {
     return canRun('df');
 }
 
+sub _getDfCmd {
+    my $line = getFirstLine(
+        command => "df --version"
+    );
+
+    my $ret = ($line =~ /GNU/)?"df -P -k":"df -P -k";
+
+    return $ret;
+}
+print _getDfCmd();
+
 sub doInventory {
     my (%params) = @_;
 
@@ -25,7 +36,7 @@ sub doInventory {
         # exclude cdrom mount
         grep { $_->{TYPE} !~ /cdrom/ } 
         # get all file systems
-        getFilesystemsFromDf(logger => $logger, command => 'df -P -k');
+        getFilesystemsFromDf(logger => $logger, command => _getDfCmd());
 
     # get additional informations
     foreach my $filesystem (@filesystems) {
