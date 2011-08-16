@@ -372,7 +372,7 @@ sub getLastLine {
     }
     close $handle;
 
-    chomp $result;
+    chomp $result if $result;
     return $result;
 }
 
