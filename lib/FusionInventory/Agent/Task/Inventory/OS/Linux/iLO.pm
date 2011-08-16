@@ -17,29 +17,28 @@ sub _parseHponcfg {
 
     return unless $handle;
 
-    my $ipmask;
-    my $ipgateway;
-    my $speed;
-    my $ipsubnet;
-    my $ipaddress;
-    my $status;
-    my $error;
+    my $interface = {
+        DESCRIPTION => 'Management Interface - HP iLO',
+        TYPE        => 'Ethernet',
+        MANAGEMENT  => 'iLO',
+        STATUS      => 'Down',
+    };
 
     while (my $line = <$handle>) {
         if ($line =~ /<IP_ADDRESS VALUE="($ip_address_pattern)"\/>/) {
-            $ipaddress = $1 unless $1 eq '0.0.0.0';
+            $interface->{IPADDRESS} = $1 unless $1 eq '0.0.0.0';
         }
         if ($line =~ /<SUBNET_MASK VALUE="($ip_address_pattern)"\/>/) {
-            $ipmask = $1;
+            $interface->{IPMASK} = $1;
         }
         if ($line =~ /<GATEWAY_IP_ADDRESS VALUE="($ip_address_pattern)"\/>/) {
-            $ipgateway = $1;
+            $interface->{IPGATEWAY} = $1;
         }
         if ($line =~ /<NIC_SPEED VALUE="([0-9]+)"\/>/) {
-            $speed = $1;
+            $interface->{SPEED} = $1;
         } 
         if ($line =~ /<ENABLE_NIC VALUE="(.)"\/>/) {
-            $status = 'Up' if $1 =~ /Y/i;
+            $interface->{STATUS} = 'Up' if $1 =~ /Y/i;
         }
         if ($line =~ /not found/) {
             chomp $line;
@@ -48,22 +47,11 @@ sub _parseHponcfg {
         }
     }
     close $handle;
-    $ipsubnet = getSubnetAddress($ipaddress, $ipmask);
+    $interface->{IPSUBNET} = getSubnetAddress(
+        $interface->{IPADDRESS}, $interface->{IPMASK}
+    );
 
-    # Some cleanups
-    if ( not $status ) { $status = 'Down' }
-
-    return {
-            DESCRIPTION => 'Management Interface - HP iLO',
-            IPADDRESS   => $ipaddress,
-            IPMASK      => $ipmask,
-            IPSUBNET    => $ipsubnet,
-            STATUS      => $status,
-            TYPE        => 'Ethernet',
-            SPEED       => $speed,
-            IPGATEWAY   => $ipgateway,
-            MANAGEMENT  => 'iLO',
-        };
+    return $interface;
 }
 
 sub doInventory {

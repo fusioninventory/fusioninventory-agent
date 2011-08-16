@@ -20,15 +20,11 @@ my %tests = (
         IPADDRESS   => '192.168.10.1'
     },
     'sample2' => {
-        IPGATEWAY   => undef,
-        IPMASK      => undef,
         STATUS      => 'Down',
-        SPEED       => undef,
         TYPE        => 'Ethernet',
-        IPSUBNET    => undef,
         MANAGEMENT  => 'iLO',
         DESCRIPTION => 'Management Interface - HP iLO',
-        IPADDRESS   => undef
+        IPSUBNET    => undef
     }
 );
 
