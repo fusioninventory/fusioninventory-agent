@@ -39,7 +39,7 @@ my %tests = (
 plan tests => int (keys %tests);
 
 foreach my $test (keys %tests) {
-    my $file = "resources/linux/hponcfg_-aw_-/$test";
+    my $file = "resources/linux/hponcfg/$test";
     my $results = FusionInventory::Agent::Task::Inventory::OS::Linux::iLO::_parseHponcfg(file => $file, logger => $logger);
     is_deeply($results, $tests{$test}, $test);
 }

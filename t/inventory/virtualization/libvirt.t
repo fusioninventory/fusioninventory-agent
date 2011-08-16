@@ -9,7 +9,7 @@ use FusionInventory::Agent::Logger;
 use Test::More;
 
 my %tests_list = (
-    sample1 => [
+    list1 => [
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm1',
@@ -111,7 +111,7 @@ my %tests_list = (
             VCPU      => undef
         }
     ],
-    sample2 => [
+    list2 => [
         {
             VMTYPE    => 'libvirt',
             NAME      => 'Debian_Squeeze_64_bits',
@@ -126,19 +126,19 @@ my %tests_list = (
 );
 
 my %tests_infos = (
-    sample1 => {
+    dumpxml1 => {
           memory => '524',
           vmtype => 'kvm',
           uuid    => 'd0f1baf3-ac9d-e828-619f-91f074c8c6c4',
           vcpu    => '1'
     },
-    sample2 => {
+    dumpxml2 => {
           memory => '4194',
           vmtype => 'kvm',
           uuid   => '5e3884eb-0caa-194b-cd17-3d9ca1b20c3b',
           vcpu   => '4'
     },
-    sample3 => {
+    dumpxml3 => {
           memory => '2097',
           vmtype => 'kvm',
           uuid   => 'aee61d6a-0c2f-f8b6-5246-7c555d803a7d',
@@ -155,13 +155,13 @@ my $logger = FusionInventory::Agent::Logger->new(
 
 
 foreach my $test (keys %tests_list) {
-    my $file = "resources/virtualization/libvirt/virsh_list_--all/$test";
+    my $file = "resources/virtualization/virsh/$test";
     my @machines = FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt::_getMachines(file => $file, logger => $logger);
     is_deeply(\@machines, $tests_list{$test}, "parse 'virsh list --all' ".$test);
 }
 
 foreach my $test (keys %tests_infos) {
-    my $file = "resources/virtualization/libvirt/virsh_dumpxml/$test";
+    my $file = "resources/virtualization/virsh/$test";
     my %infos = FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt::_getMachineInfos(file => $file, logger => $logger);
     is_deeply(\%infos, $tests_infos{$test}, "parse 'virsh dumpxml' ".$test);
 }
