@@ -41,6 +41,8 @@ our @EXPORT = qw(
     module2file
 );
 
+my $nowhere = $OSNAME eq 'MSWin32' ? 'nul' : '/dev/null';
+
 memoize('canRun');
 memoize('canRead');
 memoize('getDmidecodeInfos');
@@ -329,7 +331,7 @@ sub getFileHandle {
             last SWITCH;
         }
         if ($params{command}) {
-            if (!open $handle, '-|', $params{command} . " 2>/dev/null") {
+            if (!open $handle, '-|', $params{command} . " 2>$nowhere") {
                 $params{logger}->error(
                     "Can't run command $params{command}: $ERRNO"
                 ) if $params{logger};
