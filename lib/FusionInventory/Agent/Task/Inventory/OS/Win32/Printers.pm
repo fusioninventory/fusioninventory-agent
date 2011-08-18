@@ -110,69 +110,46 @@ sub _getSerialbyUsb {
         Access => KEY_READ | KEY_WOW64_64 ## no critic (ProhibitBitwise)
     }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
-    # search all keys under HKLM\system\currentcontrolset\enum\USBPRINT
-    my $data = $machKey->{"SYSTEM/CurrentControlSet/Enum/USBPRINT"};
-    foreach my $tmpkey (%$data) {
-        next unless ref($tmpkey) eq "Win32::TieRegistry";
+    # first, find the USB container ID for this printer
+    my $usbId;
+    my $usbprintKey = $machKey->{"SYSTEM/CurrentControlSet/Enum/USBPRINT"};
 
-       # search a subkey whose name contains the port number (USBxxx)
-       foreach my $usbid (%$tmpkey) {
-           next unless $usbid =~ /$portName/;
+    # find the printer entry matching given portname
+    PRINTER: foreach my $printerKey (values %$usbprintKey) {
+        # look for a subkey with expected content
+        foreach my $subKey (values %$printerKey) {
+            next unless 
+                $subKey->{'Device Parameters/'}                &&
+                $subKey->{'Device Parameters/'}->{'/PortName'} &&
+                $subKey->{'Device Parameters/'}->{'/PortName'} eq $portName;
+            # got it
+            $usbId = $subKey->{'/ContainerID'};
+            last PRINTER;
+        };
+    }
 
-            # get its container id
-            $usbid = $tmpkey->{$usbid}->{"ContainerID"};
-            my $serialnumber = "";
+    return unless $usbId;
 
-            # search all keys under HKLM\system\currentcontrolset\enum\USB
-            my $dataUSB = $machKey->{"SYSTEM/CurrentControlSet/Enum/USB"};
-            foreach my $tmpkeyUSB (%$dataUSB) {
-                next unless ref($tmpkeyUSB) eq "Win32::TieRegistry";
+    # second, get the serial number from the ID container entry
+    my $serial;
+    my $usbKey = $machKey->{"SYSTEM/CurrentControlSet/Enum/USB"};
 
-                # search a subkey matching this container id
-                foreach my $serialtmp (%$tmpkeyUSB) {
-                    if (ref($serialtmp) eq "Win32::TieRegistry") {
-                        foreach my $regkeys (%$serialtmp) {
-                            next unless defined($regkeys) &&
-                                ref($regkeys) ne "Win32::TieRegistry";
-                            next unless $regkeys =~ /ContainerID/;
-                            next if $serialnumber =~ /\&/;
-                            next unless defined($serialnumber);
-                            next unless $serialtmp->{$regkeys} eq $usbid;
-                            return $serialnumber;
-                        }
-                    } else {
-                        $serialnumber = $serialtmp;
-                    }
-			  # Other method if this not works (for example on windowsxp)
-			  my $removechar = chr(38).$portName."/";
-			  $parentidprefix =~ s/$removechar//;
-			  foreach my $tmpkeyUSB (%$dataUSB) {
-                        if (ref($tmpkeyUSB) eq "Win32::TieRegistry") {
-                            foreach my $serialtmp (%$tmpkeyUSB) {
-                                if (ref($serialtmp) eq "Win32::TieRegistry") {
-                                    foreach my $regkeys (%$serialtmp) {
-                                        if ((defined($regkeys)) && (ref($regkeys) ne "Win32::TieRegistry")) {
-                                            next unless $regkeys =~ /ParentIdPrefix/;
-                                            if ($serialnumber =~ /\&/) {
-                                            } elsif (defined($serialnumber)) {
-                                                if ($serialtmp->{$regkeys} eq $parentidprefix) {
-                                                    return $serialnumber;
-                                                }
-                                            }
-                                        }
-                                    }
-                                } else {
-
-                                    $serialnumber = $serialtmp;
-                                }
-                            }
-                        }
-			  }
-                }
-            }
+    # find the device entry matching given container Id
+    DEVICE: foreach my $deviceKey (values %$usbKey) {
+        # look for a subkey with expected content
+        foreach my $subKeyName (keys %$deviceKey) {
+            my $subKey = $deviceKey->{$subKeyName};
+            next unless
+                $subKey->{'/ContainerId'} &&
+                $subKey->{'/ContainerId'} eq $usbId;
+            # got it
+            $serial = $subKeyName;
+            $serial =~ s{/$}{};
+            last DEVICE;
         }
     }
-    return;
+
+    return $serial;
 }
 
 1;
