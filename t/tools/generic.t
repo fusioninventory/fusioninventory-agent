@@ -4703,14 +4703,14 @@ my %cpu_tests = (
     ],
     'linux-2.6' => [
         {
-        ID             => 'D8 06 00 00 FF FB E9 AF',
-        NAME           => 'Pentium M',
-        EXTERNAL_CLOCK => '133',
-        SPEED          => '1800',
-        THREAD         => undef,
-        SERIAL         => undef,
-        MANUFACTURER   => 'Intel',
-        CORE           => undef
+            ID             => 'D8 06 00 00 FF FB E9 AF',
+            NAME           => 'Pentium M',
+            EXTERNAL_CLOCK => '133',
+            SPEED          => '1800',
+            THREAD         => undef,
+            SERIAL         => undef,
+            MANUFACTURER   => 'Intel',
+            CORE           => undef
         }
     ],
     'vmware' => [
@@ -4768,14 +4768,14 @@ my %cpu_tests = (
     ],
     'windows-hyperV' => [
         {
-            'ID' => '7A 06 01 00 FF FB 8B 1F',
-            'NAME' => 'Xeon',
-            'EXTERNAL_CLOCK' => '266',
-            'SPEED' => '3733',
-            'THREAD' => undef,
-            'SERIAL' => 'None',
-            'MANUFACTURER' => 'GenuineIntel',
-            'CORE' => undef
+            ID             => '7A 06 01 00 FF FB 8B 1F',
+            NAME           => 'Xeon',
+            EXTERNAL_CLOCK => '266',
+            SPEED          => '3733',
+            THREAD         => undef,
+            SERIAL         => 'None',
+            MANUFACTURER   => 'GenuineIntel',
+            CORE           => undef
         }
     ]
 );
@@ -4967,7 +4967,7 @@ is(
     "first line, file reading"
 );
 is(
-    getFirstLine(command => 'perl -MConfig -e \'print "foo\nbar\nbaz\n"\''),
+    getFirstLine(command => 'perl -e "print qq{foo\nbar\nbaz\n}"'),
     'foo',
     "first line, command reading"
 );
@@ -4977,7 +4977,7 @@ is(
     "last line, file reading"
 );
 is(
-    getLastLine(command => 'perl -MConfig -e \'print "foo\nbar\nbaz\n"\''),
+    getLastLine(command => 'perl -e "print qq{foo\nbar\nbaz\n}"'),
     'baz',
     "last line, command reading"
 );
@@ -4987,7 +4987,7 @@ is(
     "lines count, file reading"
 );
 is(
-    getLinesCount(command => 'perl -MConfig -e \'print "foo\nbar\n\baz\n"\''),
+    getLinesCount(command => 'perl -e "print qq{foo\nbar\n\baz\n}"'),
     3,
     "lines count, command reading"
 );
@@ -5002,12 +5002,12 @@ is(
     "all lines, file reading, scalar context"
 );
 is_deeply(
-    [ getAllLines(command => 'perl -MConfig -e \'print "foo\nbar\nbaz\n"\'') ],
+    [ getAllLines(command => 'perl -e "print qq{foo\nbar\nbaz\n}"') ],
     [ qw/foo bar baz/ ],
     "all lines, command reading, list context"
 );
 is(
-    getAllLines(command => 'perl -MConfig -e \'print "foo\nbar\nbaz\n"\''),
+    getAllLines(command => 'perl -e "print qq{foo\nbar\nbaz\n}"'),
     "foo\nbar\nbaz\n",
     "all lines, command reading, scalar context"
 );
@@ -5022,12 +5022,12 @@ is(
     "first match, file reading, scalar context"
 );
 is_deeply(
-    [ getFirstMatch(command => 'perl -MConfig -e \'print "foo\nbar\nbaz\n"\'', pattern => qr/^(b\w+)$/) ],
+    [ getFirstMatch(command => 'perl -e "print qq{foo\nbar\nbaz\n}"', pattern => qr/^(b\w+)$/) ],
     [ qw/bar/ ],
     "first match, command reading, list context"
 );
 is(
-    getFirstMatch(command => 'perl -MConfig -e \'print "foo\nbar\nbaz\n"\'', pattern => qr/^(b\w+)$/),
+    getFirstMatch(command => 'perl -e "print qq{foo\nbar\nbaz\n}"', pattern => qr/^(b\w+)$/),
     'bar',
     "first match, command reading, scalar context"
 );

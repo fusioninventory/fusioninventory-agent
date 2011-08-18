@@ -11,6 +11,7 @@ use Test::Exception;
 
 use UNIVERSAL::require;
 
+use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::HTTP::Client;
 use FusionInventory::Test::Server;
 

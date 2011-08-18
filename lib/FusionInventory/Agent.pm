@@ -301,8 +301,8 @@ sub run {
                 }
                 if (!$package->isa('FusionInventory::Agent::Task')) {
                     $logger->info(
-                        "task $module is not compatible with this agent (".
-                        $FusionInventory::Agent::VERSION.")"
+                        "task $module is not compatible with this agent " .
+                        "($VERSION)"
                     );
                     next;
                 }

@@ -179,24 +179,24 @@ my %tests = (
         }
     ],
     '10.6-intel' => [
-          {
-            'NUMSLOTS' => '0',
-            'SERIALNUMBER' => '0xD5289015',
-            'DESCRIPTION' => '8HTF12864HDY-667E1',
-            'SPEED' => '667',
-            'TYPE' => 'DDR2 SDRAM',
-            'CAPACITY' => 1000,
-            'CAPTION' => 'Status: OK'
-          },
-          {
-            'NUMSLOTS' => '1',
-            'SERIALNUMBER' => '0x00000000',
-            'DESCRIPTION' => '1024636750S',
-            'SPEED' => '667',
-            'TYPE' => 'DDR2 SDRAM',
-            'CAPACITY' => 1000,
-            'CAPTION' => 'Status: OK'
-          }
+        {
+            NUMSLOTS     => '0',
+            SERIALNUMBER => '0xD5289015',
+            DESCRIPTION  => '8HTF12864HDY-667E1',
+            SPEED        => '667',
+            TYPE         => 'DDR2 SDRAM',
+            CAPACITY     => 1000,
+            CAPTION      => 'Status: OK'
+        },
+        {
+            NUMSLOTS     => '1',
+            SERIALNUMBER => '0x00000000',
+            DESCRIPTION  => '1024636750S',
+            SPEED        => '667',
+            TYPE         => 'DDR2 SDRAM',
+            CAPACITY     => 1000,
+            CAPTION      => 'Status: OK'
+        }
     ]
 );
 

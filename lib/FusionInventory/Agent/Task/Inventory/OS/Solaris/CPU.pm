@@ -19,8 +19,8 @@ sub doInventory {
     my $class = getClass();
 
     my ($count, $cpu) =
-        $class == 7 ? _getCPUFromPrtcl($logger)  :
-                      _getCPUFromMemconf($logger);
+        $class == 7 ? _getCPUFromPrtcl(logger => $logger)  :
+                      _getCPUFromMemconf(logger => $logger);
 
     # fallback on generic method
     if (!$count) {
@@ -56,13 +56,10 @@ sub doInventory {
 # Sun Microsystems, Inc. Sun Fire V20z (Solaris x86 machine) (2 X Dual Core AMD Opteron(tm) Processor 270 1993MHz)
 
 sub _getCPUFromMemconf {
-    my ($logger, $file) = @_;
-
     my $spec = getFirstMatch(
-        file => $file, # Only for the test-suite
         command => 'memconf',
-        logger  => $logger,
         pattern => qr/^((Sun\s|Fujitsu|Intel).*\d+(G|M)Hz\)).*$/x,
+        @_
     );
     return _parseSpec($spec);
 }
@@ -100,21 +97,21 @@ sub _parseSpec {
     # 4 X UltraSPARC-III 750MHz
     if ($spec =~ /(\d+) \s X \s (\S+) \s (\d+ \s* .Hz)/x) {
         return $1, {
-            MANUFACTURER   => $manufacturer,
-            NAME   => $2,
-            SPEED  => getCanonicalSpeed($3),
-            CORE   => 1,
+            MANUFACTURER => $manufacturer,
+            NAME         => $2,
+            SPEED        => getCanonicalSpeed($3),
+            CORE         => 1,
         };
     }
 
     # 2 X dual-thread UltraSPARC-IV 1350MHz
     if ($spec =~ /(\d+) \s X \s (\S+) \s (\S+) \s (\d+) MHz/x) {
         return $1, {
-            MANUFACTURER   => $manufacturer,
-            NAME   => $3 . " (" . $2 . ")",
-            SPEED  => $4,
-            CORE   => _parseCoreString($1),
-            THREAD => _parseCoreString($2)
+            MANUFACTURER => $manufacturer,
+            NAME         => $3 . " (" . $2 . ")",
+            SPEED        => $4,
+            CORE         => _parseCoreString($1),
+            THREAD       => _parseCoreString($2)
         };
     }
 
@@ -122,61 +119,59 @@ sub _parseSpec {
     # 8-core 8-thread UltraSPARC-T2 1165MHz
     if ($spec =~ /(\d+ -core) \s (\S+) \s (\S+) \s (\d+) MHz/x) {
         return 1, {
-            MANUFACTURER   => $manufacturer,
-            NAME   => $3 . " (" . $1 . " " . $2 . ")",
-            SPEED  => $4,
-            CORE   => _parseCoreString($1),
-            THREAD => _parseCoreString($2)
+            MANUFACTURER => $manufacturer,
+            NAME         => $3 . " (" . $1 . " " . $2 . ")",
+            SPEED        => $4,
+            CORE         => _parseCoreString($1),
+            THREAD       => _parseCoreString($2)
         };
     }
 
     # 6 X dual-core dual-thread SPARC64-VI 2150MHz
     if ($spec =~ /(\d+) \s X \s (\S+) \s (\S+) \s (\S+) \s (\d+) MHz/x) {
         return $1, {
-            MANUFACTURER   => $manufacturer,
-            NAME   => $4 . " (" . $2 . " " . $3 . ")",
-            SPEED  => $5,
-            CORE   => _parseCoreString($2),
-            THREAD => _parseCoreString($3)
+            MANUFACTURER => $manufacturer,
+            NAME         => $4 . " (" . $2 . " " . $3 . ")",
+            SPEED        => $5,
+            CORE         => _parseCoreString($2),
+            THREAD       => _parseCoreString($3)
         };
     }
 
     # 2 X Dual Core AMD Opteron(tm) Processor 270 1993MHz
     if ($spec =~ /(\d+) \s X \s (\S+) \s Core \s AMD \s (Opteron\(tm\) \s Processor \s \S+) \s ([\.\d]+ \s* .Hz)/x) {
         return $1, {
-            MANUFACTURER   => $manufacturer,
-            NAME   => $3,
-            SPEED  => getCanonicalSpeed($4),
-            CORE   => _parseCoreString($2),
+            MANUFACTURER => $manufacturer,
+            NAME         => $3,
+            SPEED        => getCanonicalSpeed($4),
+            CORE         => _parseCoreString($2),
         };
     }
 
     # 2 X Quad-Core Intel(R) Xeon(R) E7320 @ 2.13GHz
     if ($spec =~ /(\d+) \s X \s (\S+) \s Intel\(R\) \s (Xeon\(R\) \s E\d+) \s @ \s ([\d\.]+\s*.Hz)/x) {
         return $1, {
-            MANUFACTURER   => $manufacturer,
-            NAME   => $3,
-            SPEED  => getCanonicalSpeed($4),
-            CORE   => _parseCoreString($2),
+            MANUFACTURER => $manufacturer,
+            NAME         => $3,
+            SPEED        => getCanonicalSpeed($4),
+            CORE         => _parseCoreString($2),
         };
     }
 
     # UltraSPARC-IIi 270MHz
     # UltraSPARC-III 750MHz
     if ($spec =~ /([^()\s]\S+) \s (\d+ \s* .Hz)/x) {
-        return $1, {
-            MANUFACTURER   => $manufacturer,
-            NAME   => $1,
-            SPEED  => getCanonicalSpeed($2),
-            CORE   => 1,
+        return 1, {
+            MANUFACTURER => $manufacturer,
+            NAME         => $1,
+            SPEED        => getCanonicalSpeed($2),
+            CORE         => 1,
         };
     }
 
 }
 
 sub _getCPUFromPrtcl {
-    my ($logger) = @_;
-
     my ($count, $cpu);
 
     foreach (`prctl -n zone.cpu-shares $$`) {

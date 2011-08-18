@@ -1016,5 +1016,4 @@ foreach my $test (keys %tests) {
     my $file = "resources/hpux/swlist/$test";
     my $softwares = FusionInventory::Agent::Task::Inventory::OS::HPUX::Softwares::_getSoftwaresList(file => $file);
     is_deeply($softwares, $tests{$test}, "software: $test");
-    use Data::Dumper;
 }

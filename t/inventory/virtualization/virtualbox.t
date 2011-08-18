@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use Test::More;
-use FusionInventory::Agent::Logger;
+
 use FusionInventory::Agent::Task::Inventory::Virtualization::VirtualBox;
 
 my %tests = (

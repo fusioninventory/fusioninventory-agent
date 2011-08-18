@@ -17,59 +17,41 @@ sub _parseHponcfg {
 
     return unless $handle;
 
-    my $ipmask;
-    my $ipgateway;
-    my $speed;
-    my $ipsubnet;
-    my $ipaddress;
-    my $status;
-    my $error;
+    my $interface = {
+        DESCRIPTION => 'Management Interface - HP iLO',
+        TYPE        => 'Ethernet',
+        MANAGEMENT  => 'iLO',
+        STATUS      => 'Down',
+    };
 
     while (my $line = <$handle>) {
         if ($line =~ /<IP_ADDRESS VALUE="($ip_address_pattern)"\/>/) {
-            $ipaddress = $1;
+            $interface->{IPADDRESS} = $1 unless $1 eq '0.0.0.0';
         }
         if ($line =~ /<SUBNET_MASK VALUE="($ip_address_pattern)"\/>/) {
-            $ipmask = $1;
+            $interface->{IPMASK} = $1;
         }
         if ($line =~ /<GATEWAY_IP_ADDRESS VALUE="($ip_address_pattern)"\/>/) {
-            $ipgateway = $1;
+            $interface->{IPGATEWAY} = $1;
         }
         if ($line =~ /<NIC_SPEED VALUE="([0-9]+)"\/>/) {
-            $speed = $1;
+            $interface->{SPEED} = $1;
         } 
-        if ($line =~ /<ENABLE_NIC VALUE="(.)"\/>/) {
-            $status = 'Up' if $1 =~ /Y/i;
+        if ($line =~ /<ENABLE_NIC VALUE="Y"\/>/) {
+            $interface->{STATUS} = 'Up';
         }
         if ($line =~ /not found/) {
-            chomp($error = $line);
-            $params{logger}->error($line);
+            chomp $line;
+            $params{logger}->error("error in hponcfg output: $line")
+                if $params{logger};
         }
     }
     close $handle;
-    $ipsubnet = getSubnetAddress($ipaddress, $ipmask);
+    $interface->{IPSUBNET} = getSubnetAddress(
+        $interface->{IPADDRESS}, $interface->{IPMASK}
+    );
 
-    # Some cleanups
-    if ( $ipaddress && ($ipaddress eq '0.0.0.0') ) { $ipaddress = "" }
-    if ( $ipsubnet && ($ipsubnet eq '0.0.0.0') ) { $ipsubnet = "" }
-    if ( not $ipaddress and not $ipmask and not $ipsubnet ) { $ipsubnet = "" }
-    if ( not $status ) { $status = 'Down' }
-
-    my $description = 'Management Interface - HP iLO';
-    # Report the error
-    $description .= "(err: $error)" if $error;
-
-    return {
-            DESCRIPTION => $description,
-            IPADDRESS   => $ipaddress,
-            IPMASK      => $ipmask,
-            IPSUBNET    => $ipsubnet,
-            STATUS      => $status,
-            TYPE        => 'Ethernet',
-            SPEED       => $speed,
-            IPGATEWAY   => $ipgateway,
-            MANAGEMENT  => 'iLO',
-        };
+    return $interface;
 }
 
 sub doInventory {

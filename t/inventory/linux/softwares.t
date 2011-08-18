@@ -11,40 +11,40 @@ use FusionInventory::Agent::Task::Inventory::OS::Linux::Softwares::Gentoo;
 
 my $rpm_packages = [
     {
-        'FROM' => 'rpm',
-        'PUBLISHER' => 'Red Hat, Inc.',
-        'NAME' => 'specspo',
-        'COMMENTS' => 'Fedora package descriptions, summaries, and groups.',
-        'INSTALLDATE' => 'Wed Dec 22 23:26:02 2010',
-        'VERSION' => '13-1.el5',
-        'FILESIZE' => '20486218'
+        FROM        => 'rpm',
+        PUBLISHER   => 'Red Hat, Inc.',
+        NAME        => 'specspo',
+        COMMENTS    => 'Fedora package descriptions, summaries, and groups.',
+        INSTALLDATE => 'Wed Dec 22 23:26:02 2010',
+        VERSION     => '13-1.el5',
+        FILESIZE    =>  '20486218'
     },
     {
-        'FROM' => 'rpm',
-        'PUBLISHER' => 'Red Hat, Inc.',
-        'NAME' => 'mktemp',
-        'COMMENTS' => 'A small utility for safely making /tmp files.',
-        'INSTALLDATE' => 'Wed Dec 22 23:26:17 2010',
-        'VERSION' => '1.5-23.2.2',
-        'FILESIZE' => '15712'
+        FROM        => 'rpm',
+        PUBLISHER   => 'Red Hat, Inc.',
+        NAME        => 'mktemp',
+        COMMENTS    => 'A small utility for safely making /tmp files.',
+        INSTALLDATE => 'Wed Dec 22 23:26:17 2010',
+        VERSION     => '1.5-23.2.2',
+        FILESIZE    =>  '15712'
     },
     {
-        'FROM' => 'rpm',
-        'PUBLISHER' => 'Red Hat, Inc.',
-        'NAME' => 'libICE',
-        'COMMENTS' => 'X.Org X11 libICE runtime library',
-        'INSTALLDATE' => 'Wed Dec 22 23:26:18 2010',
-        'VERSION' => '1.0.1-2.1',
-        'FILESIZE' => '111181'
+        FROM        => 'rpm',
+        PUBLISHER   => 'Red Hat, Inc.',
+        NAME        => 'libICE',
+        COMMENTS    => 'X.Org X11 libICE runtime library',
+        INSTALLDATE => 'Wed Dec 22 23:26:18 2010',
+        VERSION     => '1.0.1-2.1',
+        FILESIZE    =>  '111181'
     },
     {
-        'FROM' => 'rpm',
-        'PUBLISHER' => 'Red Hat, Inc.',
-        'NAME' => 'nspr',
-        'COMMENTS' => 'Netscape Portable Runtime',
-        'INSTALLDATE' => 'Wed Dec 22 23:26:22 2010',
-        'VERSION' => '4.7.3-2.el5',
-        'FILESIZE' => '253512'
+        FROM        => 'rpm',
+        PUBLISHER   => 'Red Hat, Inc.',
+        NAME        => 'nspr',
+        COMMENTS    => 'Netscape Portable Runtime',
+        INSTALLDATE => 'Wed Dec 22 23:26:22 2010',
+        VERSION     => '4.7.3-2.el5',
+        FILESIZE    =>  '253512'
     }
 ];
 my $deb_packages = [
