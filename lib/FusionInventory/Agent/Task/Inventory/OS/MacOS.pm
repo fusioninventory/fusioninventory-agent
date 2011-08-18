@@ -46,10 +46,19 @@ sub doInventory {
     # add the uname -v as the comment, not really needed, but extra info
     # never hurt
     my $OSComment = getFirstLine(command => 'uname -v');
+    my $KernelVersion = getFirstLine(command => 'uname -r');
+
     $inventory->setHardware({
         OSNAME     => $OSName,
         OSCOMMENTS => $OSComment,
         OSVERSION  => $OSVersion,
+    });
+
+    $inventory->setOperatingSystem({
+        NAME                 => "MacOSX",
+        VERSION              => $OSVersion,
+        KERNEL_VERSION       => $KernelVersion,
+        FULL_NAME            => $OSName
     });
 }
 
