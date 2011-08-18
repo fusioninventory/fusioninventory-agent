@@ -75,7 +75,8 @@ sub doInventory {
                 $object->{VerticalResolution};
         }
 
-        $object->{Serial} = _getSerialbyUsb($object->{PortName});
+        $object->{Serial} = _getSerialbyUsb($object->{PortName})
+            if $object->{PortName} && $object->{PortName} =~ /USB/;
 
         $inventory->addEntry(
             section => 'PRINTERS',
@@ -103,8 +104,6 @@ sub doInventory {
 # Search serial when connected in USB
 sub _getSerialbyUsb {
     my ($portName) = @_;
-
-    return unless $portName && $portName =~ /USB/;
 
     my $machKey = $Registry->Open('LMachine', { 
         Access => KEY_READ | KEY_WOW64_64 ## no critic (ProhibitBitwise)
