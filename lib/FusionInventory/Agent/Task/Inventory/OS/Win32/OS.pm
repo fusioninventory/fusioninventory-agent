@@ -121,6 +121,24 @@ sub doInventory {
             SWAP => int(($Properties->{TotalSwapSpaceSize}||0)/(1024*1024)),
             DESCRIPTION => $description,
         });
+
+        # Caption contains something like "Microsoft(R) Windows(R) Server 2003,
+        # Enterprise Edition x64" so we cut off "Microsoft(R) Windows(R)" to get
+        # the version name. This is an approximation, improvements welcome.
+        # See also:
+        # http://msdn.microsoft.com/en-us/library/ms724833%28v=vs.85%29.aspx
+        my $OSVersion = $Properties->{Caption};
+        if ($Properties->{Caption} =~ "Microsoft(R) Windows(R) (.*)") {
+            OSVersion = $1;
+        }
+
+        $inventory->setOS({
+            NAME                 => "Windows",
+            VERSION              => $OSVersion,
+            KERNEL_VERSION       => $Properties->{Version},
+            FULL_NAME            => $Properties->{Caption},
+            SERVICE_PACK         => $Properties->{CSDVersion}
+        });
     }
 
     foreach my $Properties (getWmiProperties('Win32_ComputerSystem', qw/

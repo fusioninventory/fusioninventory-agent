@@ -19,10 +19,12 @@ sub doInventory {
     my $OSVersion;
     my $OSLevel;
     my $OSArchi;
+    my $OSName;
 
     # Operating system informations
     chomp($OSVersion=`uname -r`);
     chomp($OSArchi=`uname -p`);
+    chomp($OSName=`uname -s`);
 
     # Retrieve the origin of the kernel configuration file
     my ($date, $origin, $kernconf);
@@ -47,6 +49,13 @@ sub doInventory {
         OSNAME => $OSNAME,
         OSCOMMENTS => $OSComment,
         OSVERSION => $OSVersion,
+    });
+
+    $inventory->setOS({
+        NAME                 => $OSName,
+        VERSION              => $OSVersion,
+        KERNEL_VERSION       => $OSVersion,
+        FULL_NAME            => $OSNAME
     });
 }
 1;

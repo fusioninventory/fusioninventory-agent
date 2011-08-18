@@ -15,6 +15,15 @@ sub doInventory {
     foreach (`lsb_release -d`) {
         $release = $1 if /Description:\s+(.+)/;
     }
+
+    my $linuxDistributionName;
+    my $linuxDistributionVersion;
+    # Redirect stderr to /dev/null to avoid "No LSB modules are available" message
+    foreach (`lsb_release -a 2> /dev/null`) {
+        $linuxDistributionName    = $1 if /Distributor ID:\s+(.+)/;
+        $linuxDistributionVersion = $1 if /Release:\s+(.+)/;
+    }
+
     my $OSComment;
     chomp($OSComment =`uname -v`);
 
@@ -22,6 +31,13 @@ sub doInventory {
         OSNAME => $release,
         OSCOMMENTS => "$OSComment"
     });
+
+    $inventory->setOS({
+        NAME                 => "$linuxDistributionName",
+        VERSION              => "$linuxDistributionVersion",
+        FULL_NAME            => $release
+    });
+
 }
 
 

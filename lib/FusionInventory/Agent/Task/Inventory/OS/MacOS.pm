@@ -13,6 +13,7 @@ sub doInventory {
     my $params = shift;
     my $inventory = $params->{inventory};
 
+    my $KernelVersion;
     my $OSName;
     my $OSComment;
     my $OSVersion;
@@ -42,12 +43,21 @@ sub doInventory {
         chomp($OSVersion=`uname -r`);			
     }
 
+    chomp($KernelVersion=`uname -r`);
+
     # add the uname -v as the comment, not really needed, but extra info never hurt
     chomp($OSComment=`uname -v`);
     $inventory->setHardware({
         OSNAME	   => $OSName,
         OSCOMMENTS => $OSComment,
         OSVERSION  => $OSVersion,
+    });
+
+    $inventory->setOS({
+        NAME                 => "MacOSX",
+        VERSION              => $OSVersion,
+        KERNEL_VERSION       => $KernelVersion,
+        FULL_NAME            => $OSName
     });
 }
 

@@ -49,6 +49,12 @@ sub doInventory {
         DATELASTLOGGEDUSER => $LastLogDate
     });
 
+    $inventory->setOS({
+        NAME                 => "HP-UX",
+        VERSION              => $OSRelease,
+        KERNEL_VERSION       => $OSRelease,
+        FULL_NAME            => $OSName
+    });
 }
 
 1;
