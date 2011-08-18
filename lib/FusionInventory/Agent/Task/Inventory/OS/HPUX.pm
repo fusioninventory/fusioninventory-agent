@@ -30,7 +30,7 @@ sub doInventory {
         OSCOMMENTS => $OSRelease,
     });
 
-    $inventory->setOS({
+    $inventory->setOperatingSystem({
         NAME                 => "HP-UX",
         VERSION              => $OSRelease,
         KERNEL_VERSION       => $OSRelease,

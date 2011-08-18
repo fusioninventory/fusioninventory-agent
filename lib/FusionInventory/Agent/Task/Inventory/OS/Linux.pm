@@ -30,7 +30,7 @@ sub doInventory {
         WINPRODID =>  $systemId,
     });
 
-    $inventory->setOS({
+    $inventory->setOperatingSystem({
         KERNEL_VERSION => $osversion
     });
 

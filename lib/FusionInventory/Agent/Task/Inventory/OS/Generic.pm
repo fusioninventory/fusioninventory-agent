@@ -14,7 +14,7 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    $inventory->setOS({
+    $inventory->setOperatingSystem({
         KERNEL_NAME => $OSNAME
     });
 }

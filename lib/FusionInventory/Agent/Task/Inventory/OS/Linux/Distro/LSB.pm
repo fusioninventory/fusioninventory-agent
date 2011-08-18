@@ -33,7 +33,7 @@ sub doInventory {
         OSNAME     => $release,
     });
 
-    $inventory->setOS({
+    $inventory->setOperatingSystem({
         NAME                 => $linuxDistributionName,
         VERSION              => $linuxDistributionVersion,
         FULL_NAME            => $release

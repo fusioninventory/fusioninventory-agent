@@ -128,7 +128,7 @@ sub doInventory {
     });
 
 
-    $inventory->setOS(_getDistroData());
+    $inventory->setOperatingSystem(_getDistroData());
 }
 
 sub _findRelease {

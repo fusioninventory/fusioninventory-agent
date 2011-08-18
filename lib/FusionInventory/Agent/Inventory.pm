@@ -229,7 +229,7 @@ sub setHardware {
     }
 }
 
-sub setOS {
+sub setOperatingSystem {
     my ($self, $args) = @_;
 
     foreach my $key (qw/KERNEL_NAME KERNEL_VERSION NAME VERSION FULL_NAME SERVICE_PACK/) {
@@ -453,7 +453,7 @@ ignore entry if already present
 
 Save global information regarding the machine.
 
-=head2 setOS()
+=head2 setOperatingSystem()
 
 Operating System information.
 

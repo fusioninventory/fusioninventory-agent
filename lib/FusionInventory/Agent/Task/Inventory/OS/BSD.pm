@@ -54,7 +54,7 @@ sub doInventory {
         OSCOMMENTS => $OSComment,
     });
 
-    $inventory->setOS({
+    $inventory->setOperatingSystem({
         NAME                 => $OSName,
         VERSION              => $OSVersion,
         KERNEL_VERSION       => $OSVersion,
