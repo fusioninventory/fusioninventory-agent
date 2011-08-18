@@ -79,6 +79,15 @@ sub doInventory {
         });
 
     }
+
+    $inventory->setOS({
+        NAME                 => "Windows",
+#        VERSION              => $OSVersion,
+        KERNEL_VERSION       => $Properties->{Version},
+        FULL_NAME            => $Properties->{Caption},
+        SERVICE_PACK         => $Properties->{CSDVersion}
+    });
+
 }
 
 #http://www.perlmonks.org/?node_id=497616

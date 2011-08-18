@@ -33,6 +33,12 @@ sub doInventory {
         OSVERSION  => $OSLevel,
         OSCOMMENTS => $OSComment,
     });
+
+    $inventory->setOS({
+        NAME                 => "AIX",
+        VERSION              => $OSVersion,
+        FULL_NAME            => "$OSName $OSVersion"
+    });
 }
 
 1;

@@ -53,6 +53,13 @@ sub doInventory {
         OSVERSION  => $OSVersion,
         OSCOMMENTS => $OSComment,
     });
+
+    $inventory->setOS({
+        NAME                 => $OSName,
+        VERSION              => $OSVersion,
+        KERNEL_VERSION       => $OSVersion,
+        FULL_NAME            => $OSNAME
+    });
 }
 
 1;

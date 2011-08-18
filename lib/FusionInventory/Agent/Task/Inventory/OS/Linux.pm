@@ -30,6 +30,10 @@ sub doInventory {
         WINPRODID =>  $systemId,
     });
 
+    $inventory->setOS({
+        KERNEL_VERSION => $osversion
+    });
+
 }
 
 # Get RedHat Network SystemId

@@ -229,6 +229,17 @@ sub setHardware {
     }
 }
 
+sub setOS {
+    my ($self, $args) = @_;
+
+    foreach my $key (qw/KERNEL_NAME KERNEL_VERSION NAME VERSION FULL_NAME SERVICE_PACK/) {
+        next unless exists $args->{$key};
+
+        my $string = getSanitizedString($args->{$key});
+        $self->{content}{OPERATINGSYSTEM}{$key} = $string;
+    }
+}
+
 sub setBios {
     my ($self, $args) = @_;
 
@@ -441,6 +452,10 @@ ignore entry if already present
 =head2 setHardware()
 
 Save global information regarding the machine.
+
+=head2 setOS()
+
+Operating System information.
 
 =head2 setBios()
 
@@ -710,6 +725,10 @@ should use the USERS section instead.
 
 =item OSVERSION
 
+Version number of the operating system. This field will be deprecated in the
+future, please use OPERATINGSYSTEM/VERSION or OPERATINGSYSTEM/KERNEL_VERSION
+instead.
+
 =item PROCESSORN
 
 =item OSCOMMENTS
@@ -742,6 +761,10 @@ The time needed to run the inventory on the agent side.
 
 =item OSNAME
 
+Full name of the operating system as reported by itself. This field will be
+deprecated in the future, please use OPERATINGSYSTEM/NAME or
+OPERATINGSYSTEM/FULL_NAME instead.
+
 =item IPADDR
 
 =item WORKGROUP
@@ -772,9 +795,9 @@ This field is deprecated, you should use the USERS section instead.
 
 =item VMSYSTEM
 
-The virtualization technologie used if the machine is a virtual machine.
+The virtualization technology used if the machine is a virtual machine.
 
-Can by:
+Can be:
 
 =over 5
 
@@ -819,6 +842,45 @@ Language code of the Windows
 =item CHASSIS_TYPE
 
 The computer chassis format (e.g: Notebook, Laptop, Server, etc)
+
+=back
+
+=head2 OPERATINGSYSTEM
+
+=over 4
+
+=item KERNEL_NAME
+
+The name of the kernel used by this operating system, e.g freebsd, linux, hpux,
+win32, etc (linux for android).
+
+=item KERNEL_VERSION
+
+Version of the operating system's kernel, e.g 2.6.32 for Linux, 5.2.x.y on
+Windows Server 2003, etc.
+
+=item NAME
+
+Name of the Operating System ("Distributor ID" in LSB terms), e.g Debian,
+Ubuntu, CentOS, SUSE LINUX, Windows, MacOSX, FreeBSD, AIX, Android, etc.
+
+=item VERSION
+
+Version of the operating system distribution ("Release" in LSB terms), e.g 11.04
+on Ubuntu natty, 5.0.8 on Debian Lenny, 5.4 on CentOS 5.4, 2003 for Windows
+Server 2003, etc.
+
+=item FULL_NAME
+
+Full name of the operating system as reported by itself, e.g "Debian GNU/Linux
+unstable (sid)" or "Microsoft(R) Windows(R) Server 2003, Enterprise Edition
+x64". This is also contained in the HARDWARE/OSNAME field which will be
+deprecated in the future.
+
+=item SERVICE_PACK
+
+The Service Pack level reported by the operating system. This field is only
+present on systems which use this notion.
 
 =back
 
