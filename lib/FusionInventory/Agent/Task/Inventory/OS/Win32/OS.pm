@@ -132,7 +132,7 @@ sub doInventory {
             OSVersion = $1;
         }
 
-        $inventory->setOS({
+        $inventory->setOperatingSystem({
             NAME                 => "Windows",
             VERSION              => $OSVersion,
             KERNEL_VERSION       => $Properties->{Version},

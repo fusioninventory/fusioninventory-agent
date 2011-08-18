@@ -22,7 +22,7 @@ sub doInventory {
     }
     while (<$handle>) {
         if (/^PATCHLEVEL = ([0-9]+)/) {
-			$inventory->setOS({
+			$inventory->setOperatingSystem({
                 SERVICE_PACK => $1
             });
         }

@@ -631,12 +631,12 @@ sub setHardware {
     }
 }
 
-=item setOS()
+=item setOperatingSystem()
 
 Save global information regarding the operating system.
 
 =cut
-sub setOS {
+sub setOperatingSystem {
     my ($self, $args) = @_;
 
     my $logger = $self->{logger};

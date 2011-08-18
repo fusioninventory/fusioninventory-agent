@@ -48,7 +48,7 @@ sub doInventory {
         DATELASTLOGGEDUSER => $datelastlog
     });
 
-    $inventory->setOS({
+    $inventory->setOperatingSystem({
         KERNEL_VERSION       => $osversion
     });
 }

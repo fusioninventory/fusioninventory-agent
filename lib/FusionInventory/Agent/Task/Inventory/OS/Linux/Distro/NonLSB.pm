@@ -134,7 +134,7 @@ sub setDistroData {
             $distroVersion = $1;
 
             # Now we have found the distro name and version, let's set them
-            $inventory->setOS({
+            $inventory->setOperatingSystem({
                 NAME                 => "$distroName",
                 VERSION              => "$distroVersion",
                 FULL_NAME            => $commercialFullName
