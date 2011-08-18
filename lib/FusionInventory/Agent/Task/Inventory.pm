@@ -292,10 +292,7 @@ sub _injectContent {
 sub _runFunction {
     my ($self, %params) = @_;
 
-    my $module   = $params{module};
-    my $function = $params{function};
-    my $params   = $params{params};
-    my $logger   = $self->{logger};
+    my $logger = $self->{logger};
 
     my $result;
     
@@ -305,15 +302,17 @@ sub _runFunction {
 
         no strict 'refs'; ## no critic
 
-        $result = &{$module . '::' . $function}(%$params);
+        $result = &{$params{module} . '::' . $params{function}}(
+	    %{$params{params}}
+	);
     };
     alarm 0;
 
     if ($EVAL_ERROR) {
         if ($EVAL_ERROR ne "alarm\n") {
-            $logger->debug("unexpected error in $module: $EVAL_ERROR");
+            $logger->debug("unexpected error in $params{module}: $EVAL_ERROR");
         } else {
-            $logger->debug("$module killed by a timeout.");
+            $logger->debug("$params{module} killed by a timeout.");
         }
     }
 

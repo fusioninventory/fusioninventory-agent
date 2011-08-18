@@ -93,7 +93,9 @@ sub getRegistryValue {
         $keyName   = $2;
         $valueName = $3;
     } else {
-        $logger->error("Failed to parse '$params{path}'. Does it start with HKEY_?");
+        $params{logger}->error(
+	    "Failed to parse '$params{path}'. Does it start with HKEY_?"
+	) if $params{logger};
         return;
     }
 
@@ -102,7 +104,8 @@ sub getRegistryValue {
 	$Registry->Open($root, { Access=> KEY_READ } )                ;
 
     if (!$machKey) {
-        $params{logger}->error("Can't open 'root': $EXTENDED_OS_ERROR") if $params{logger};
+        $params{logger}->error("Can't open 'root': $EXTENDED_OS_ERROR")
+	    if $params{logger};
         return;
     }
     my $key = $machKey->Open($keyName);
