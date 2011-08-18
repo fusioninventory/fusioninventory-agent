@@ -336,7 +336,6 @@ sub processChecksum {
         SOUNDS        => 16384,
         VIDEOS        => 32768,
         SOFTWARES     => 65536,
-        VIRTUALMACHINES => 131072,
     );
     # TODO CPUS is not in the list
 
