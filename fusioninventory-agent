@@ -343,33 +343,9 @@ This option is only available when the agent is not run as a server.
 
 =over
 
-=item B<--no-ocsdeploy>
+=item B<--no-task>=I<TASK>
 
-Disable the software deployment (OCS compatible module).
-
-=item B<--no-inventory>
-
-Do not run inventory task.
-
-=item B<--no-wakeonlan>
-
-Do not run wake on lan task.
-
-=item B<--no-snmpquery>
-
-Do not run snmp query task.
-
-=item B<--no-netdiscovery>
-
-Do not run net discovery task.
-
-=item B<--no-deploy>
-
-Disable the software deployment (new module).
-
-=item B<--no-esx>
-
-Disable the ESX inventory task.
+Disable the given task
 
 =back
 
