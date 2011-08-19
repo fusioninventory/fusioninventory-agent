@@ -85,6 +85,20 @@ sub _validateAnswer {
         return;
     }
 
+    if (ref($answer->{associatedFiles}) ne 'HASH') {
+        $$msgRef = "associatedFiles should be an hash";
+        return;
+    }
+
+    foreach my $k (%{$answer->{associatedFiles}}) {
+        foreach (qw/mirrors multiparts name/) {
+            if (!defined($answer->{associatedFiles}{$k}{$_})) {
+                $$msgRef = "Missing key `$_' in associatedFiles";
+                return;
+            }
+        }
+    }
+
     return 1;
 }
 
@@ -113,7 +127,7 @@ sub processRemote {
 
     my $msg;
     if (!_validateAnswer(\$msg, $answer)) {
-        $self->{logger}->debug($msg);
+        $self->{logger}->debug("bad JSON: ".$msg);
         return;
     }
 
