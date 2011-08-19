@@ -70,6 +70,8 @@ sub new {
 sub _validateAnswer {
     my ($msgRef, $answer) = @_;
 
+    $$msgRef = "";
+
     if (!defined($answer)) {
         $$msgRef = "No answer from server.";
         return;
@@ -97,6 +99,15 @@ sub _validateAnswer {
                 return;
             }
         }
+    }
+    foreach my $job (@{$answer->{jobs}}) {
+        foreach (qw/uuid associatedFiles actions checks/) {
+            if (!defined($job->{$_})) {
+                $$msgRef = "Missing key `$_' in jobs";
+                return;
+            }
+        }
+
     }
 
     return 1;
