@@ -1,57 +1,53 @@
 Revision history for FusionInventory::Agent
 
 2.2.0
-	* options handling:
-	  - deprecated --nosoft and --nosoftware options have been removed
-	  - --devlib, --share-dir, --basevardir and --realm options have
-	    been deprecated, as their values are now computed automatically
-	  - --daemon-no-fork option has been deprecated, and replaced by
-	    --daemon --no-fork options
-	  - --info option has been deprecated, as it had no effect
-	  - documentation has been reviewed for consistency in various
-	    places where it appears (--help output, man page, configuration 
-	    file)
 
-	* distribution and installation:
-	  - the html man page is created automatically during distribution 
-	    creation
-	  - setup directories are automatically configured at installation time
+Major changes:
+* support for OCS account info have been dropped: the agent doesn't store
+ arbitrary informations locally anymore
+* support for OCS network discovery and software deployment features within
+  inventory task have been removed, they are dedicated tasks for those purposes
+* fusioninventory-agent-config executable has been dropped, in favor of better
+  documentation
+* better multitasking support:
+ - the agent use fork() to run task if needed, instead of running a new process
+   from scratch, avoiding the need to use a temporary file to transmit
+   parameters, with related security risks
+ - the agent only forks to run a tasks when running as a server, making tracing
+   and debugging easier
+ - the agent only use one thread for the web interface
+* better SSL support:
+  - IO::Socket::SSL perl module is now required for certificate validation
+  - Crypt::SSLeay perl module still allow HTTPS support, but without
+    certificate validation, and the connection will be aborted unless
+    certificate checking is disabled
+  - validation is now performed by SSL library, and honours alternative subject
+    names, and other subtilities
+* large speed improvement: up to 150% for a local inventory
+* large cleanup of values returned from inventory:
+  - unknown values are filtered out
+  - strings are trimmed for trailing spaces
+  - irrelevant values, such as controllers type and manufacturer on AIX and
+    HPUX, are filtered out
+* options handling:
+  - deprecated --nosoft and --nosoftware options have been removed
+  - --devlib, --share-dir, --basevardir and --realm options have been
+    deprecated, as their values are now computed automatically at installation
+  - --daemon-no-fork option has been deprecated, and replaced by --daemon
+    --no-fork options
+  - --info option has been deprecated, as it had no effect
+* documentation has been reviewed for consistency in various places where it
+  appears (--help output, man page, configuration file)
+* installation procedure automatically setup configuration and data directories
+  locations in executable, there is no need to manually configure them anymore
+* useless Ping task has been dropped
+* XML::TreePP perl module is now used instead of XML::Simple, reducing native
+  perl modules dependencies
 
-	* useless code removal:
-	  - useless Ping task has been dropped
-	  - OCS network discovery and software deploiement modules of
-	    inventory task have been dropped, as we have dedicated tasks
-	    for those purposes
-
-	* various optimisations:
-	  - inventory modules search and selection logic has been
-	    rewritten for speed and memory usage
-	  - useless pause time between tasks execution has been removed
-	  - most external commands are now executed only once, and their
-	    result is cached
-
-	* code refactoring:
-	  - multiple classes have been renamed to achieve better
-	    description of their purpose
-	  - better object modeling semantics
-	  - better compliance with Perl Best Practices
-	  - usage of external filtering commands have been replaced
-	    by perl code
-
-	* dependencies changes:
-	  - XML::Simple usage has been replaced by XML::TreePP
-
-	* large test suite improvements
-
-        * Inventory task:
-	  - ensure unknown values are not reported
-	  - remove trailing spaces in many strings
-	  - Add the HARDWARE/CHASSIS_TYPE information
-	  - Linux: Use /sbin/ip to get the interface IP addresses (#854)
-	  - HPUX: don't report unoccupied memory slots
-	  - AIX: don't report irrelevant values as controllers type and
-	    manufacturer
-          - account info are no more stored in the agent side
+Minor changes:
+* Add the HARDWARE/CHASSIS_TYPE information
+* Linux: Use /sbin/ip to get the interface IP addresses (#854)
+* HPUX: don't report unoccupied memory slots
 
 2.1.9  Tue, 14 Jun 2011 19:26:55 -0000
 
