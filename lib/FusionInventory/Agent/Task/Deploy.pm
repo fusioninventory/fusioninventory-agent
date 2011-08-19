@@ -67,6 +67,27 @@ sub new {
 #    return;
 #}
 
+sub _validateAnswer {
+    my ($msgRef, $answer) = @_;
+
+    if (!defined($answer)) {
+        $$msgRef = "No answer from server.";
+        return;
+    }
+
+    if (ref($answer) ne 'HASH') {
+        $$msgRef = "Bad answer from server. Not a hash reference.";
+        return;
+    }
+
+    if (!defined($answer->{associatedFiles})) {
+        $$msgRef = "missing associatedFiles key";
+        return;
+    }
+
+    return 1;
+}
+
 sub processRemote {
     my ($self, $remoteUrl) = @_;
 
@@ -90,11 +111,12 @@ sub processRemote {
         }
     );
 
-    if ( !defined($answer) ) {
-        $self->{logger}->debug("No answer from server for deployment job.");
+    my $msg;
+    if (!_validateAnswer(\$msg, $answer)) {
+        $self->{logger}->debug($msg);
         return;
     }
-    return unless $answer->{associatedFiles};
+
     foreach my $sha512 ( keys %{ $answer->{associatedFiles} } ) {
         $files->{$sha512} = FusionInventory::Agent::Task::Deploy::File->new(
             {
