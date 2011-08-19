@@ -46,7 +46,7 @@ GetOptions(
     'no-wakeonlan',
     'no-snmpquery',
     'no-netdiscovery',
-    'no-task=s@',
+    'no-task=s',
     'no-p2p',
     'password|p=s',
     'proxy|P=s',
