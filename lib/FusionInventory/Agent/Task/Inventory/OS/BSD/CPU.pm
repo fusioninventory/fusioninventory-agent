@@ -1,5 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::OS::BSD::CPU;
 
+use FusionInventory::Agent::Tools;
+
 use strict;
 use warnings;
 
