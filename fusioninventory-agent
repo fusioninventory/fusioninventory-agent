@@ -46,6 +46,7 @@ GetOptions(
     'no-wakeonlan',
     'no-snmpquery',
     'no-netdiscovery',
+    'no-task=s@',
     'no-p2p',
     'password|p=s',
     'proxy|P=s',
@@ -135,12 +136,7 @@ B<fusioninventory-agent> [options] [--server server|--local directory|--sdout]
     --lazy                      do not contact the target before next scheduled time
 
   Task selection options
-    --no-ocsdeploy      do not run packages deployment task (false)
-    --no-inventory      do not run inventory task (false)
-    --no-wakeonlan      do not run wake on lan task (false)
-    --no-snmpquery      do not run snmp query task (false)
-    --no-netdiscovery   do not run net discovery task (false)
-    --no-deploy         do not run new experimental software deployment task (false)
+    --no-task=TASK      do not run given task
 
   Inventory task specific options
     --no-printer        do not list local printers (false)

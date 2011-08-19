@@ -289,10 +289,12 @@ sub run {
                 $target->setMaxDelay($content->{PROLOG_FREQ} * 3600);
             }
 
+            # index list of disabled task for fast lookup
+            my %disabled = map { $_ => 1 } @{$config->{'no-task'}};
 
             foreach my $module (@tasks) {
 
-                next if $config->{'no-'.lc($module)};
+                next if $disabled{lc($module)};
 
                 my $package = "FusionInventory::Agent::Task::$module";
                 if (!$package->require()) {

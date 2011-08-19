@@ -46,6 +46,26 @@ my $deprecated = {
         message => 'use --daemon and --no-fork options instead',
         new     => [ 'daemon', 'no-fork' ]
     },
+    'no-inventory' => {
+        message => 'use --no-task inventory option instead',
+        new     => sub { push @{$_[0]->{'no-task'}}, 'inventory' }
+    },
+    'no-wakeonlan' => {
+        message => 'use --no-task wakeonlan option instead',
+        new     => sub { push @{$_[0]->{'no-task'}}, 'wakeonlan' }
+    },
+    'no-netdiscovery' => {
+        message => 'use --no-task netdiscovery option instead',
+        new     => sub { push @{$_[0]->{'no-task'}}, 'netdiscovery' }
+    },
+    'no-snmpquery' => {
+        message => 'use --no-task snmpquery option instead',
+        new     => sub { push @{$_[0]->{'no-task'}}, 'snmpquery' }
+    },
+    'no-ocsdeploy' => {
+        message => 'use --no-task ocsdeploy option instead',
+        new     => sub { push @{$_[0]->{'no-task'}}, 'ocsdeploy' }
+    },
 };
 
 sub new {
@@ -166,11 +186,15 @@ sub _checkContent {
 
         # transfer the value to the new option, if possible
         if ($handler->{new}) {
-            if (ref $handler->{new} eq 'ARRAY') {
+            if (ref $handler->{new} eq 'CODE') {
+                $handler->{new}->($self);
+            } elsif (ref $handler->{new} eq 'ARRAY') {
+                # list of new flags
                 foreach my $new (@{$handler->{new}}) {
                     $self->{$new} = $self->{$old};
                 }
             } else {
+                # new flag
                 $self->{$handler->{new}} = $self->{$old};
             }
         }
