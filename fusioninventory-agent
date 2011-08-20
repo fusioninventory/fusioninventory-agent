@@ -106,11 +106,7 @@ eval {
 };
 
 if ($EVAL_ERROR) {
-    print STDERR "Execution failed. Are you sure the software is fully ";
-    print STDERR "installed\n";
-    print STDERR "and an old version of the agent not already present on the ";
-    print STDERR "system?\n";
-    print STDERR "___\n";
+    print STDERR "Execution failure:.\n";
     print STDERR $EVAL_ERROR;
     exit 1;
 }
