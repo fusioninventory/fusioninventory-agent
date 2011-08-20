@@ -97,7 +97,7 @@ if ($options->{'list-tasks'}) {
 
 eval {
     my $agent = FusionInventory::Agent->new(
-        confdir => './etc/fusioninventory',
+        confdir => './etc',
         datadir => './share',
         vardir  => './var',
         options => $options
