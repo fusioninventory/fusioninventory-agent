@@ -36,27 +36,17 @@ GetOptions(
     'logger=s',
     'logfile=s',
     'logfile-maxsize=i',
-    'no-ocsdeploy',
-    'no-inventory',
     'no-printer',
-    'no-socket',
     'no-httpd',
     'no-software',
     'no-ssl-check',
-    'no-wakeonlan',
-    'no-snmpquery',
-    'no-netdiscovery',
     'no-task=s',
     'no-p2p',
     'password|p=s',
     'proxy|P=s',
-    'realm|r=s',
     'httpd-ip=s',
     'httpd-port=s',
     'httpd-trust-localhost',
-    'rpc-ip=s',
-    'rpc-port=s',
-    'rpc-trust-localhost',
     'scan-homedirs',
     'server|s=s',
     'stdout',
@@ -64,9 +54,14 @@ GetOptions(
     'user|u=s',
     'version',
     'wait|w=s',
-# Deprecated options
+    # deprecated options
     'daemon-no-fork|D',
-    'devlib', # For compat with 2.2.x < parameter
+    'devlib',
+    'no-ocsdeploy',
+    'no-inventory',
+    'no-wakeonlan',
+    'no-snmpquery',
+    'no-netdiscovery',
     'rpc-trust-localhost',
     'rpc-port',
     'rpc-ip',
@@ -74,7 +69,6 @@ GetOptions(
     'realm',
     'info',
 ) or pod2usage(-verbose => 0);
-
 
 pod2usage(-verbose => 0) if $options->{help};
 
