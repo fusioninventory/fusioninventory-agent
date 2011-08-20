@@ -136,6 +136,7 @@ B<fusioninventory-agent> [options] [--server server|--local directory|--sdout]
     --lazy                      do not contact the target before next scheduled time
 
   Task selection options
+    --list-tasks        list available tasks and exit
     --no-task=TASK      do not run given task
 
   Inventory task specific options
@@ -346,6 +347,10 @@ This option is only available when the agent is not run as a server.
 =item B<--no-task>=I<TASK>
 
 Disable the given task
+
+=item B<--list-tasks>
+
+List available tasks and exit
 
 =back
 
