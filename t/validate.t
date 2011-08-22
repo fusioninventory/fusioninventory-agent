@@ -8,7 +8,7 @@ use FusionInventory::Agent::Task::Deploy;
 use JSON;
 
 
-use Test::More tests => 6;
+use Test::More tests => 12;
 use Data::Dumper;
 
 my @tests = (
