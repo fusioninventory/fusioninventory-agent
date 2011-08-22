@@ -160,7 +160,7 @@ sub new {
             threads::shared::share($self->{status});
             threads::shared::share($self->{token});
 
-            FusionInventory::Agent::HTTP::Server->new(
+            $self->{_server} = FusionInventory::Agent::HTTP::Server->new(
                 logger          => $logger,
                 scheduler       => $scheduler,
                 agent           => $self,
