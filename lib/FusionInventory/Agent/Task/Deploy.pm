@@ -91,10 +91,9 @@ sub _validateAnswer {
         $$msgRef = "associatedFiles should be an hash";
         return;
     }
-
-    foreach my $k (%{$answer->{associatedFiles}}) {
+    foreach my $k (keys %{$answer->{associatedFiles}}) {
         foreach (qw/mirrors multiparts name/) {
-            if (!defined($answer->{associatedFiles}{$k}{$_})) {
+            if (!defined($answer->{associatedFiles}->{$k}->{$_})) {
                 $$msgRef = "Missing key `$_' in associatedFiles";
                 return;
             }
