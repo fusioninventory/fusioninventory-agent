@@ -1,0 +1,8 @@
+Hostname: mysunserver
+Hostid: mabox
+Release: 5.10
+Kernel architecture: sun4v
+Application architecture: sparc
+Hardware provider: Sun_Microsystems
+Domain:
+Kernel version: SunOS 5.10 Generic_125100-06
