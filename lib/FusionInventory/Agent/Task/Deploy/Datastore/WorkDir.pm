@@ -42,30 +42,22 @@ sub prepare {
             return;
         }
         binmode($fh);
-        foreach my $part (@{$file->{multiparts}}) {
-            my ($filename, $sha512) = %$part;
-
-            my $partFilePath = $file->getBaseDir().'/'.$filename;
+        foreach my $sha512 (@{$file->{multiparts}}) {
+            my $partFilePath = $file->getBaseDir().'/'.$sha512;
             if (! -f $partFilePath) {
                 print "Missing multipart element: `$partFilePath'\n";
             }
 
             my $part;
             my $buf;
-            if ($filename =~ /\.gz$/ && ($part = gzopen($file->getBaseDir().'/'.$filename, 'rb'))) {
+            if ($part = gzopen($file->getBaseDir().'/'.$sha512, 'rb')) {
                 while ($part->gzread($buf, 1024)) {
                     print $fh $buf;
                 }
                 $part->gzclose;
-            } elsif (open($part, "<$partFilePath")) {
-                binmode($part);
-                while(read($part, $buf, 1024)) {
-                    print $fh $buf;
-                }
-                close $part;
             } else {
                 print "Failed to open: `$partFilePath'\n";
-                }
+            }
         }
         close($fh);
 

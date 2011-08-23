@@ -29,13 +29,12 @@ sub download {
 
     my $basedir = $self->getBaseDir();
 
-MULTIPART: foreach (@{$self->{multiparts}}) {
-        my ($file, $sha512) =  %$_;
-
-        my $filePath  = $basedir.'/'.$file;
+MULTIPART: foreach my $sha512 (@{$self->{multiparts}}) {
+        my $filePath  = $basedir.'/'.$sha512;
 
         foreach my $mirror (@{$self->{mirrors}}) {
-            getstore($mirror.$file, $filePath);
+            print "::".$mirror.$sha512."\n";
+            getstore($mirror.$sha512, $filePath);
             if (-f $filePath) {
                 if (_getSha512ByFile($filePath) eq $sha512) {
 #                print "getstore : $mirror$file, $filePath:  ok\n";
@@ -62,10 +61,9 @@ sub exists {
     my $path = $datastore->getPathBySha512($self->{sha512});
 
     my $isOk = @{$self->{multiparts}}?1:0;
-    foreach (@{$self->{multiparts}}) {
-        my ($file, $sha512) =  %$_;
+    foreach my $sha512 (@{$self->{multiparts}}) {
 
-        my $filePath  = $path.'/'.$file;
+        my $filePath  = $path.'/'.$sha512;
 
         if (!-f $filePath) {
                 $isOk = 0;
