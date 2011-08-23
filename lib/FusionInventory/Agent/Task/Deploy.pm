@@ -105,8 +105,12 @@ sub _validateAnswer {
                 $$msgRef = "Missing key `$_' in jobs";
                 return;
             }
-        }
 
+            if (ref($job->{actions}) ne 'ARRAY') {
+                $$msgRef = "jobs/actions must be an array";
+                return;
+            }
+        }
     }
 
     return 1;
