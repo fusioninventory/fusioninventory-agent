@@ -46,6 +46,26 @@ my $deprecated = {
         message => 'use --daemon and --no-fork options instead',
         new     => [ 'daemon', 'no-fork' ]
     },
+    'no-inventory' => {
+        message => 'use --no-task inventory option instead',
+        new     => { 'no-task' => 'inventory' }
+    },
+    'no-wakeonlan' => {
+        message => 'use --no-task wakeonlan option instead',
+        new     => { 'no-task' => 'wakeonlan' }
+    },
+    'no-netdiscovery' => {
+        message => 'use --no-task netdiscovery option instead',
+        new     => { 'no-task' => 'netdiscovery' }
+    },
+    'no-snmpquery' => {
+        message => 'use --no-task snmpquery option instead',
+        new     => { 'no-task' => 'snmpquery' }
+    },
+    'no-ocsdeploy' => {
+        message => 'use --no-task ocsdeploy option instead',
+        new     => { 'no-task' => 'ocsdeploy' }
+    },
 };
 
 sub new {
@@ -166,11 +186,20 @@ sub _checkContent {
 
         # transfer the value to the new option, if possible
         if ($handler->{new}) {
-            if (ref $handler->{new} eq 'ARRAY') {
+            if (ref $handler->{new} eq 'HASH') {
+                # list of new options with new values
+                foreach my $key (keys %{$handler->{new}}) {
+                    $self->{$key} = $self->{$key} ?
+                        $self->{$key} . ',' . $handler->{new}->{$key} :
+                        $handler->{new}->{$key};
+                }
+            } elsif (ref $handler->{new} eq 'ARRAY') {
+                # list of new options, with same value
                 foreach my $new (@{$handler->{new}}) {
                     $self->{$new} = $self->{$old};
                 }
             } else {
+                # new option, with same value
                 $self->{$handler->{new}} = $self->{$old};
             }
         }
@@ -187,6 +216,8 @@ sub _checkContent {
     # multi-values options
     $self->{logger} = [ split(/,/, $self->{logger}) ] if $self->{logger};
     $self->{server} = [ split(/,/, $self->{server}) ] if $self->{server};
+    $self->{'no-task'} = [ split(/,/, $self->{'no-task'}) ]
+        if $self->{'no-task'};
 
     # files location
     $self->{'ca-cert-file'} =

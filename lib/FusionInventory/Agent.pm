@@ -160,7 +160,7 @@ sub new {
             threads::shared::share($self->{status});
             threads::shared::share($self->{token});
 
-            FusionInventory::Agent::HTTP::Server->new(
+            $self->{_server} = FusionInventory::Agent::HTTP::Server->new(
                 logger          => $logger,
                 scheduler       => $scheduler,
                 agent           => $self,
@@ -291,10 +291,12 @@ sub run {
                 }
             }
 
+            # index list of disabled task for fast lookup
+            my %disabled = map { $_ => 1 } @{$config->{'no-task'}};
 
             foreach my $module (@tasks) {
 
-                next if $config->{'no-'.lc($module)};
+                next if $disabled{lc($module)};
 
                 my $package = "FusionInventory::Agent::Task::$module";
                 if (!$package->require()) {
