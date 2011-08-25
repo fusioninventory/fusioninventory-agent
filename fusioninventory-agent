@@ -36,26 +36,17 @@ GetOptions(
     'logger=s',
     'logfile=s',
     'logfile-maxsize=i',
-    'no-ocsdeploy',
-    'no-inventory',
     'no-printer',
-    'no-socket',
     'no-httpd',
     'no-software',
     'no-ssl-check',
-    'no-wakeonlan',
-    'no-snmpquery',
-    'no-netdiscovery',
+    'no-task=s',
     'no-p2p',
     'password|p=s',
     'proxy|P=s',
-    'realm|r=s',
     'httpd-ip=s',
     'httpd-port=s',
     'httpd-trust-localhost',
-    'rpc-ip=s',
-    'rpc-port=s',
-    'rpc-trust-localhost',
     'scan-homedirs',
     'server|s=s',
     'stdout',
@@ -63,9 +54,14 @@ GetOptions(
     'user|u=s',
     'version',
     'wait|w=s',
-# Deprecated options
+    # deprecated options
     'daemon-no-fork|D',
-    'devlib', # For compat with 2.2.x < parameter
+    'devlib',
+    'no-ocsdeploy',
+    'no-inventory',
+    'no-wakeonlan',
+    'no-snmpquery',
+    'no-netdiscovery',
     'rpc-trust-localhost',
     'rpc-port',
     'rpc-ip',
@@ -73,7 +69,6 @@ GetOptions(
     'realm',
     'info',
 ) or pod2usage(-verbose => 0);
-
 
 pod2usage(-verbose => 0) if $options->{help};
 
@@ -96,7 +91,7 @@ if ($options->{'list-tasks'}) {
 
 eval {
     my $agent = FusionInventory::Agent->new(
-        confdir => './etc/fusioninventory',
+        confdir => './etc',
         datadir => './share',
         vardir  => './var',
         options => $options
@@ -105,11 +100,7 @@ eval {
 };
 
 if ($EVAL_ERROR) {
-    print STDERR "Execution failed. Are you sure the software is fully ";
-    print STDERR "installed\n";
-    print STDERR "and an old version of the agent not already present on the ";
-    print STDERR "system?\n";
-    print STDERR "___\n";
+    print STDERR "Execution failure:.\n";
     print STDERR $EVAL_ERROR;
     exit 1;
 }
@@ -135,12 +126,8 @@ B<fusioninventory-agent> [options] [--server server|--local directory|--sdout]
     --lazy                      do not contact the target before next scheduled time
 
   Task selection options
-    --no-ocsdeploy      do not run packages deployment task (false)
-    --no-inventory      do not run inventory task (false)
-    --no-wakeonlan      do not run wake on lan task (false)
-    --no-snmpquery      do not run snmp query task (false)
-    --no-netdiscovery   do not run net discovery task (false)
-    --no-deploy         do not run new experimental software deployment task (false)
+    --list-tasks        list available tasks and exit
+    --no-task=TASK      do not run given task
 
   Inventory task specific options
     --no-printer        do not list local printers (false)
@@ -347,33 +334,13 @@ This option is only available when the agent is not run as a server.
 
 =over
 
-=item B<--no-ocsdeploy>
+=item B<--no-task>=I<TASK>
 
-Disable the software deployment (OCS compatible module).
+Disable the given task
 
-=item B<--no-inventory>
+=item B<--list-tasks>
 
-Do not run inventory task.
-
-=item B<--no-wakeonlan>
-
-Do not run wake on lan task.
-
-=item B<--no-snmpquery>
-
-Do not run snmp query task.
-
-=item B<--no-netdiscovery>
-
-Do not run net discovery task.
-
-=item B<--no-deploy>
-
-Disable the software deployment (new module).
-
-=item B<--no-esx>
-
-Disable the ESX inventory task.
+List available tasks and exit
 
 =back
 

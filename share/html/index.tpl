@@ -14,7 +14,9 @@ The current status is {$status}<br />
 
 {
     if ($trust) {
-       $OUT .= '<a href="/now">Force an Inventory</a>';
+       '<a href="/now">Force an Inventory</a>';
+    } else {
+	'';
     }
 }
 

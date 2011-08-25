@@ -36,6 +36,9 @@ Major changes:
   - --daemon-no-fork option has been deprecated, and replaced by --daemon
     --no-fork options
   - --info option has been deprecated, as it had no effect
+  - --debug option can be specified multiple times, for additional verbosity
+  - --no-inventory, --no-ocsdeploy, --no-snmpquery, --no-netdiscovery options
+    have been deprecated in favor of a generic --no-task option
 * documentation has been reviewed for consistency in various places where it
   appears (--help output, man page, configuration file)
 * installation procedure automatically setup configuration and data directories
