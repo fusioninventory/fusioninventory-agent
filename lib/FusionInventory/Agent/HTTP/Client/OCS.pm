@@ -62,29 +62,54 @@ sub send {
     $request->content($request_content);
 
     my $response = $self->request($request);
-    return unless $response->is_success();
+    if (!$response->is_success()) {
+        $logger->error(
+            "[client] error response: " . $response->status_line()
+        );
+        return;
+    }
 
     my $response_content = $response->content();
-
-   if (!$response_content) {
-        $logger->error("[client] response is empty");
+    if (!$response_content) {
+        $logger->error("[client] empty content");
         return;
     }
 
     my $uncompressed_response_content = $self->_uncompress($response_content);
-    if ($uncompressed_response_content) {
-        $response_content = $uncompressed_response_content;
-    } else {
-        $logger->info(
-            "[client] deflating failure: this is not compressed content"
-        );
+    if (!$uncompressed_response_content) {
+        # second chance, look for zlib magic number
+        my $offset = index($response_content, "\x78\x9c");
+        if ($offset > 0) {
+            $logger->info("compressed message found at offset $offset");
+            $uncompressed_response_content = $self->_uncompress(
+                substr($response_content, $offset)
+            );
+        } else {
+            my @lines = split(/\n/, $response_content);
+            $logger->error(
+                "[client] uncompressed content, starting with " . $lines[0]
+            );
+            return;
+        }
     }
 
     $logger->debug2("[client] receiving message:\n $response_content");
 
-    return FusionInventory::Agent::XML::Response->new(
-        content => $response_content
-    );
+    my $result;
+    eval {
+        $result = FusionInventory::Agent::XML::Response->new(
+            content => $uncompressed_response_content
+        );
+    };
+    if ($EVAL_ERROR) {
+        my @lines = split(/\n/, $uncompressed_response_content);
+        $logger->error(
+            "[client] unexpected content, starting with " . $lines[0]
+        );
+        return;
+    }
+
+    return $result;
 }
 
 sub _compress {
