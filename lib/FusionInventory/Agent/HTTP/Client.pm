@@ -34,7 +34,7 @@ sub new {
     if ($params{proxy}) {
         $self->{ua}->proxy(['http', 'https'], $params{proxy});
     }  else {
-        $self->{ua}->env_proxy;
+        $self->{ua}->env_proxy();
     }
 
     # SSL handling
