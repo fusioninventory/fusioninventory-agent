@@ -34,7 +34,9 @@ sub new {
     bless $self, $class;
 
     # make sure relevant attributes are shared between threads
-    threads::shared::share($self->{nextRunDate});
+    if ($threads::VERSION) {
+        threads::shared::share($self->{nextRunDate});
+    }
 
     return $self;
 }

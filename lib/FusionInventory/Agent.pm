@@ -286,7 +286,9 @@ sub run {
 
                 # update target
                 my $content = $prologresp->getContent();
-                $target->setMaxDelay($content->{PROLOG_FREQ} * 3600);
+                if (defined($content->{PROLOG_FREQ})) {
+                    $target->setMaxDelay($content->{PROLOG_FREQ} * 3600);
+                }
             }
 
             # index list of disabled task for fast lookup
