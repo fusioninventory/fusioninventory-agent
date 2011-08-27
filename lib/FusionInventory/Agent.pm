@@ -301,7 +301,7 @@ sub run {
                 my $package = "FusionInventory::Agent::Task::$module";
                 if (!$package->require()) {
                     $logger->info("task $module is not available");
-                    $logger->debug("task $module compile error: ".$@);
+                    $logger->debug("task $module compile error: $EVAL_ERROR");
                     next;
                 }
                 if (!$package->isa('FusionInventory::Agent::Task')) {
