@@ -15,9 +15,9 @@ sub _getDfCmd {
         command => "df --version"
     );
 
-    my $ret = ($line =~ /GNU/)?"df -P -k":"df -P -k";
-
-    return $ret;
+    return $line =~ /GNU/ ? 
+        "df -P -k" :
+        "df -k";
 }
 
 sub doInventory {
