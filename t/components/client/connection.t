@@ -4,15 +4,14 @@ use strict;
 use warnings;
 use lib 't';
 
-use Compress::Zlib;
 use English qw(-no_match_vars);
+use HTTP::Request;
 use Socket;
 use Test::More;
 use Test::Exception;
 
 use FusionInventory::Agent::Logger;
-use FusionInventory::Agent::HTTP::Client::OCS;
-use FusionInventory::Agent::XML::Query;
+use FusionInventory::Agent::HTTP::Client;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Proxy;
 
@@ -23,27 +22,14 @@ if ($OSNAME eq 'MSWin32') {
 }
 
 my $ok = sub {
-    my ($server, $cgi) = @_;
-
-    print "HTTP/1.0 200 OK\r\n";
-    print "\r\n";
-    print compress("<REPLY><word>hello</word></REPLY>");
+    print "HTTP/1.0 200 OK\r\n\r\nOK";
 };
 
 my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'Test' ]
 );
 
-my $message = FusionInventory::Agent::XML::Query->new(
-    deviceid => 'foo',
-    query => 'foo',
-    msg => {
-        foo => 'foo',
-        bar => 'bar'
-    },
-);
-
-my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+my $client = FusionInventory::Agent::HTTP::Client->new(
     logger => $logger
 );
 
@@ -52,10 +38,8 @@ BAIL_OUT("port aleady used") if test_port(8080);
 
 subtest "no response" => sub {
     check_response_nok(
-        scalar $client->send(
-            message => $message,
-            url     => 'http://localhost:8080/public',
-        ),
+        $client,
+        'http://localhost:8080/public',
         $logger,
         qr/Can't connect to localhost:8080/
     );
@@ -80,31 +64,29 @@ $server->set_dispatch({
 $server->background() or BAIL_OUT("can't launch the server");
 
 subtest "correct response" => sub {
-    check_response_ok($client->send(
-        message => $message,
-        url     => 'http://localhost:8080/public',
-    ));
+    check_response_ok(
+        $client,
+        'http://localhost:8080/public'
+    );
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+    $client = FusionInventory::Agent::HTTP::Client->new(
         logger => $logger
     );
 } 'instanciation: http, auth, no credentials';
 
 subtest "no response" => sub {
     check_response_nok(
-        scalar $client->send(
-            message => $message,
-            url     => 'http://localhost:8080/private',
-        ),
+        $client,
+        'http://localhost:8080/private',
         $logger,
-        "[client] authentication required, no credentials available",
+        "[http client] authentication required, no credentials available",
     );
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+    $client = FusionInventory::Agent::HTTP::Client->new(
         user     => 'test',
         password => 'test',
         logger   => $logger,
@@ -112,10 +94,10 @@ lives_ok {
 } 'instanciation:  http, auth, with credentials';
 
 subtest "correct response" => sub {
-    check_response_ok($client->send(
-        message => $message,
-        url     => 'http://localhost:8080/private',
-    ));
+    check_response_ok(
+        $client,
+        'http://localhost:8080/private'
+    );
 };
 
 $server->stop();
@@ -140,21 +122,21 @@ $server->set_dispatch({
 $server->background();
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+    $client = FusionInventory::Agent::HTTP::Client->new(
         logger       => $logger,
         no_ssl_check => 1,
     );
 } 'instanciation: https, check disabled';
 
 subtest "correct response" => sub {
-    check_response_ok($client->send(
-        message => $message,
-        url     => 'https://localhost:8080/public',
-    ));
+    check_response_ok(
+        $client,
+        'https://localhost:8080/public'
+    );
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+    $client = FusionInventory::Agent::HTTP::Client->new(
         logger       => $logger,
         no_ssl_check => 1,
     );
@@ -162,17 +144,15 @@ lives_ok {
 
 subtest "no response" => sub {
     check_response_nok(
-        scalar $client->send(
-            message => $message,
-            url     => 'https://localhost:8080/private',
-        ),
+        $client,
+        'https://localhost:8080/private',
         $logger,
-        "[client] authentication required, no credentials available",
+        "[http client] authentication required, no credentials available",
     );
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+    $client = FusionInventory::Agent::HTTP::Client->new(
         user         => 'test',
         password     => 'test',
         logger       => $logger,
@@ -181,28 +161,28 @@ lives_ok {
 } 'instanciation: https, check disabled, auth, credentials';
 
 subtest "correct response" => sub {
-    check_response_ok($client->send(
-        message => $message,
-        url     => 'https://localhost:8080/private',
-    ));
+    check_response_ok(
+        $client,
+        'https://localhost:8080/private',
+    );
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+    $client = FusionInventory::Agent::HTTP::Client->new(
         logger       => $logger,
         ca_cert_file => 't/ssl/crt/ca.pem',
     );
 } 'instanciation: https';
 
 subtest "correct response" => sub {
-    check_response_ok($client->send(
-        message => $message,
-        url     => 'https://localhost:8080/public',
-    )); 
+    check_response_ok(
+        $client,
+        'https://localhost:8080/public',
+    ); 
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+    $client = FusionInventory::Agent::HTTP::Client->new(
         logger       => $logger,
         ca_cert_file => 't/ssl/crt/ca.pem',
     );
@@ -210,17 +190,15 @@ lives_ok {
 
 subtest "no response" => sub {
     check_response_nok(
-        scalar $client->send(
-            message => $message,
-            url     => 'https://localhost:8080/private',
-        ),
+        $client,
+        'https://localhost:8080/private',
         $logger,
-        "[client] authentication required, no credentials available",
+        "[http client] authentication required, no credentials available",
     );
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+    $client = FusionInventory::Agent::HTTP::Client->new(
         user         => 'test',
         password     => 'test',
         logger       => $logger,
@@ -229,10 +207,10 @@ lives_ok {
 } 'instanciation: https, auth, credentials';
 
 subtest "correct response" => sub {
-    check_response_ok($client->send(
-        message => $message,
-        url     => 'https://localhost:8080/private',
-    ));
+    check_response_ok(
+        $client,
+        'https://localhost:8080/private',
+    );
 };
 
 $server->stop();
@@ -261,21 +239,21 @@ my $proxy = FusionInventory::Test::Proxy->new();
 $proxy->background();
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+    $client = FusionInventory::Agent::HTTP::Client->new(
         logger => $logger,
         proxy  => $proxy->url()
     );
 } 'instanciation: http, proxy';
 
 subtest "correct response" => sub {
-    check_response_ok($client->send(
-        message => $message,
-        url     => 'http://localhost:8080/public',
-    ));
+    check_response_ok(
+        $client,
+        'http://localhost:8080/public',
+    );
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+    $client = FusionInventory::Agent::HTTP::Client->new(
         logger => $logger,
         proxy  => $proxy->url()
     );
@@ -283,17 +261,15 @@ lives_ok {
 
 subtest "no response" => sub {
     check_response_nok(
-        scalar $client->send(
-            message => $message,
-            url     => 'http://localhost:8080/private',
-        ),
+        $client,
+        'http://localhost:8080/private',
         $logger,
-        "[client] authentication required, no credentials available",
+        "[http client] authentication required, no credentials available",
     ); 
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+    $client = FusionInventory::Agent::HTTP::Client->new(
         user     => 'test',
         password => 'test',
         logger   => $logger,
@@ -302,10 +278,10 @@ lives_ok {
 } 'instanciation: http, proxy, auth, credentials';
 
 subtest "correct response" => sub {
-    check_response_ok($client->send(
-        message => $message,
-        url     => 'http://localhost:8080/private',
-    ));
+    check_response_ok(
+        $client,
+        'http://localhost:8080/private',
+    );
 };
 
 $server->stop();
@@ -330,7 +306,7 @@ $server->set_dispatch({
 $server->background();
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+    $client = FusionInventory::Agent::HTTP::Client->new(
         logger       => $logger,
         no_ssl_check => 1,
         proxy        => $proxy->url()
@@ -338,14 +314,14 @@ lives_ok {
 } 'instanciation: https, proxy, check disabled';
 
 subtest "correct response" => sub {
-    check_response_ok($client->send(
-        message => $message,
-        url     => 'https://localhost:8080/public',
-    ));
+    check_response_ok(
+        $client,
+        'https://localhost:8080/public',
+    );
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+    $client = FusionInventory::Agent::HTTP::Client->new(
         logger       => $logger,
         no_ssl_check => 1,
         proxy        => $proxy->url()
@@ -354,17 +330,15 @@ lives_ok {
 
 subtest "no response" => sub {
     check_response_nok(
-        scalar $client->send(
-            message => $message,
-            url     => 'https://localhost:8080/private',
-        ),
+        $client,
+        'https://localhost:8080/private',
         $logger,
-        "[client] authentication required, no credentials available",
+        "[http client] authentication required, no credentials available",
     );
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+    $client = FusionInventory::Agent::HTTP::Client->new(
         user         => 'test',
         password     => 'test',
         logger       => $logger,
@@ -374,14 +348,14 @@ lives_ok {
 } 'instanciation: https, check disabled, proxy, auth, credentials';
 
 subtest "correct response" => sub {
-    check_response_ok($client->send(
-        message => $message,
-        url     => 'https://localhost:8080/private',
-    ));
+    check_response_ok(
+        $client,
+        'https://localhost:8080/private',
+    );
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+    $client = FusionInventory::Agent::HTTP::Client->new(
         logger       => $logger,
         ca_cert_file => 't/ssl/crt/ca.pem',
         proxy        => $proxy->url(),
@@ -389,14 +363,14 @@ lives_ok {
 } 'instanciation: https, proxy';
 
 subtest "correct response" => sub {
-    check_response_ok($response = $client->send(
-        message => $message,
-        url     => 'https://localhost:8080/public',
-    )); 
+    check_response_ok(
+        $client,
+        'https://localhost:8080/public',
+    ); 
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+    $client = FusionInventory::Agent::HTTP::Client->new(
         logger       => $logger,
         ca_cert_file => 't/ssl/crt/ca.pem',
         proxy        => $proxy->url()
@@ -405,17 +379,15 @@ lives_ok {
 
 subtest "no response" => sub {
     check_response_nok(
-        scalar $client->send(
-            message => $message,
-            url     => 'https://localhost:8080/private',
-        ),
+        $client,
+        'https://localhost:8080/private',
         $logger,
-        "[client] authentication required, no credentials available",
+        "[http client] authentication required, no credentials available",
     ); 
 };
 
 lives_ok {
-    $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+    $client = FusionInventory::Agent::HTTP::Client->new(
         user         => 'test',
         password     => 'test',
         logger       => $logger,
@@ -425,10 +397,10 @@ lives_ok {
 } 'instanciation: https, proxy, auth, credentials';
 
 subtest "correct response" => sub {
-    check_response_ok($client->send(
-        message => $message,
-        url     => 'https://localhost:8080/private',
-    ));
+    check_response_ok(
+        $client,
+        'https://localhost:8080/private',
+    );
 };
 
 $server->stop();
@@ -438,28 +410,21 @@ $proxy->stop();
 
 
 sub check_response_ok {
-    my ($response) = @_;
+    my ($client, $url) = @_;
 
-    plan tests => 3;
-    ok(defined $response, "response from server");
-    isa_ok(
-        $response,
-        'FusionInventory::Agent::XML::Response',
-        'response class'
-    );
-    my $content = $response->getContent();
-    is_deeply(
-        $content,
-        { word => 'hello' },
-        'response content'
-    );
+    plan tests => 1;
+    my $response = $client->request(HTTP::Request->new(GET => $url));
+
+    ok($response->is_success(), "response is a success");
 }
 
 sub check_response_nok {
-    my ($response, $logger, $message) = @_;
+    my ($client, $url, $logger, $message) = @_;
 
     plan tests => 3;
-    ok(!defined $response,  "no response");
+    my $response = $client->request(HTTP::Request->new(GET => $url));
+
+    ok(!$response->is_success(), "response is an error");
     is(
         $logger->{backends}->[0]->{level},
         'error',
