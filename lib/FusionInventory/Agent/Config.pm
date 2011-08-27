@@ -102,8 +102,6 @@ sub _loadFromWinRegistry {
     my ($self) = @_;
 
     eval {
-        require Encode;
-        Encode->import('encode');
         require Win32::TieRegistry;
         Win32::TieRegistry->import(
             Delimiter   => "/",
