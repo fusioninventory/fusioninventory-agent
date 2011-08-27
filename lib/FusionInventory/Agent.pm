@@ -200,25 +200,23 @@ sub _getHostname {
     return hostname() if $OSNAME ne 'MSWin32';
 
     # otherwise, use Win32 API
-    eval {
-        require Encode;
-        require Win32::API;
-        Encode->import();
+    require Encode;
+    require Win32::API;
+    Encode->import();
 
-        my $getComputerName = Win32::API->new(
-            "kernel32", "GetComputerNameExW", ["I", "P", "P"], "N"
-        );
-        my $lpBuffer = "\x00" x 1024;
-        my $N = 1024; #pack ("c4", 160,0,0,0);
+    my $getComputerName = Win32::API->new(
+        "kernel32", "GetComputerNameExW", ["I", "P", "P"], "N"
+    );
+    my $lpBuffer = "\x00" x 1024;
+    my $N = 1024; #pack ("c4", 160,0,0,0);
 
-        $getComputerName->Call(3, $lpBuffer, $N);
+    $getComputerName->Call(3, $lpBuffer, $N);
 
-        # GetComputerNameExW returns the string in UTF16, we have to change
-        # it to UTF8
-        return encode(
-            "UTF-8", substr(decode("UCS-2le", $lpBuffer), 0, ord $N)
-        );
-    };
+    # GetComputerNameExW returns the string in UTF16, we have to change
+    # it to UTF8
+    return encode(
+        "UTF-8", substr(decode("UCS-2le", $lpBuffer), 0, ord $N)
+    );
 }
 
 sub _loadState {

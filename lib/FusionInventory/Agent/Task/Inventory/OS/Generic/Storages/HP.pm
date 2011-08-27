@@ -18,15 +18,12 @@ sub _getHpacuacliFromWinRegistry {
     my ($logger) = @_;
 
     my $Registry;
-    eval {
-        require Win32::TieRegistry;
-        Win32::TieRegistry->import(
-            Delimiter   => '/',
-            ArrayValues => 0,
-            TiedRef     => \$Registry,
-        );
-    };
-    return if $EVAL_ERROR;
+    require Win32::TieRegistry;
+    Win32::TieRegistry->import(
+        Delimiter   => '/',
+        ArrayValues => 0,
+        TiedRef     => \$Registry,
+    );
 
     my $machKey;
     {

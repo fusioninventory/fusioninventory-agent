@@ -102,16 +102,12 @@ sub _loadFromWinRegistry {
     my ($self) = @_;
 
     my $Registry;
-    eval {
-        require Win32::TieRegistry;
-        Win32::TieRegistry->import(
-            Delimiter   => '/',
-            ArrayValues => 0,
-            TiedRef     => \$Registry
-        );
-    };
-    die "Can't load Win32::TieRegistry: $EVAL_ERROR"
-        if $EVAL_ERROR;
+    require Win32::TieRegistry;
+    Win32::TieRegistry->import(
+        Delimiter   => '/',
+        ArrayValues => 0,
+        TiedRef     => \$Registry
+    );
 
     my $machKey = $Registry->Open('LMachine', {
         Access => Win32::TieRegistry::KEY_READ()

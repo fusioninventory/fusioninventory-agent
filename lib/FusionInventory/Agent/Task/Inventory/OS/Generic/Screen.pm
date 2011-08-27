@@ -74,19 +74,13 @@ sub _getScreens {
 
     if ($OSNAME eq 'MSWin32') {
         my $Registry;
-        eval {
-            require FusionInventory::Agent::Tools::Win32;
-            require Win32::TieRegistry;
-            Win32::TieRegistry->import(
-                Delimiter   => '/',
-                ArrayValues => 0,
-                TiedRef     => \$Registry
-            );
-        };
-        if ($EVAL_ERROR) {
-            print "Failed to load Win32::OLE and Win32::TieRegistry\n";
-            return;
-        }
+        require FusionInventory::Agent::Tools::Win32;
+        require Win32::TieRegistry;
+        Win32::TieRegistry->import(
+            Delimiter   => '/',
+            ArrayValues => 0,
+            TiedRef     => \$Registry
+        );
 
         foreach my $objItem (getWmiProperties('Win32_DesktopMonitor', qw/
             Caption MonitorManufacturer MonitorType PNPDeviceID
