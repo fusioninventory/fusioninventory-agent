@@ -94,6 +94,12 @@ sub new {
     return $self;
 }
 
+sub getContent {
+    my ($self) = @_;
+
+    return $self->{content};
+}
+
 sub mergeContent {
     my ($self, $content) = @_;
 
