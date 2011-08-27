@@ -6,14 +6,14 @@ use lib 't';
 
 use English qw(-no_match_vars);
 use HTTP::Request;
-use Socket;
 use Test::More;
 use Test::Exception;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::HTTP::Client;
-use FusionInventory::Test::Server;
 use FusionInventory::Test::Proxy;
+use FusionInventory::Test::Server;
+use FusionInventory::Test::Utils;
 
 if ($OSNAME eq 'MSWin32') {
     plan skip_all => 'non working test on Windows';
@@ -443,20 +443,4 @@ sub check_response_nok {
             "error message content"
         );
     }
-}
-
-sub test_port {
-    my $port   = $_[0];
-
-    my $iaddr = inet_aton('localhost');
-    my $paddr = sockaddr_in($port, $iaddr);
-    my $proto = getprotobyname('tcp');
-    if (socket(my $socket, PF_INET, SOCK_STREAM, $proto)) {
-        if (connect($socket, $paddr)) {
-            close $socket;
-            return 1;
-        } 
-    }
-
-    return 0;
 }
