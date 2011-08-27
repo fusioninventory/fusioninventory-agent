@@ -29,7 +29,7 @@ the agent configuration object
 
 =back
 
-=head2 addMsg(%params)
+=head2 addMessage(%params)
 
 Add a log message, with a specific level. The following arguments are allowed:
 
