@@ -19,7 +19,6 @@ sub _getDfCmd {
 
     return $ret;
 }
-print _getDfCmd();
 
 sub doInventory {
     my (%params) = @_;
