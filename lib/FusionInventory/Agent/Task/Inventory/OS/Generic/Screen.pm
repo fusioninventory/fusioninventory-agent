@@ -31,10 +31,10 @@ use FusionInventory::Agent::Tools::Screen;
 sub isEnabled {
 
     return
-        $OSNAME eq 'MSWin32'                  ||
-        canRun("monitor-get-edid-using-vbe") ||
-        canRun("monitor-get-edid")           ||
-        canRun("get-edid");
+        $OSNAME eq 'MSWin32'                 ||
+        canRun('monitor-get-edid-using-vbe') ||
+        canRun('monitor-get-edid')           ||
+        canRun('get-edid');
 }
 
 sub doInventory {
@@ -87,7 +87,7 @@ sub _getScreens {
             Caption MonitorManufacturer MonitorType PNPDeviceID
         /)) {
 
-            next unless $objItem->{"PNPDeviceID"};
+            next unless $objItem->{PNPDeviceID};
 
             my $screen = {
                 MANUFACTURER => $objItem->{MonitorManufacturer},
