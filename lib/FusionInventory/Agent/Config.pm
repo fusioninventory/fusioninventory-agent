@@ -6,6 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 use File::Spec;
 use Getopt::Long;
+use UNIVERSAL::require;
 
 my $default = {
     'logger'                  => 'Stderr',
@@ -102,7 +103,7 @@ sub _loadFromWinRegistry {
     my ($self) = @_;
 
     my $Registry;
-    require Win32::TieRegistry;
+    Win32::TieRegistry->require();
     Win32::TieRegistry->import(
         Delimiter   => '/',
         ArrayValues => 0,

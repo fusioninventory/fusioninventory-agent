@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
 # Tested on 2.6.* kernels
@@ -18,7 +19,7 @@ sub _getHpacuacliFromWinRegistry {
     my ($logger) = @_;
 
     my $Registry;
-    require Win32::TieRegistry;
+    Win32::TieRegistry->require();
     Win32::TieRegistry->import(
         Delimiter   => '/',
         ArrayValues => 0,

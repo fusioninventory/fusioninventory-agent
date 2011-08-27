@@ -180,18 +180,15 @@ sub new {
 sub _isAlreadyRunning {
     my ($self) = @_;
 
-    eval {
-        require Proc::PID::File;
-        return Proc::PID::File->running();
-    };
-
+    Proc::PID::File->require();
     if ($EVAL_ERROR) {
         $self->{logger}->debug(
             'Proc::PID::File unavailable, unable to check for running agent'
         );
+        return 0;
     }
 
-    return 0;
+    return Proc::PID::File->running();
 }
 
 sub _getHostname {
@@ -200,9 +197,9 @@ sub _getHostname {
     return hostname() if $OSNAME ne 'MSWin32';
 
     # otherwise, use Win32 API
-    require Encode;
-    require Win32::API;
+    Encode->require();
     Encode->import();
+    Win32::API->require();
 
     my $getComputerName = Win32::API->new(
         "kernel32", "GetComputerNameExW", ["I", "P", "P"], "N"

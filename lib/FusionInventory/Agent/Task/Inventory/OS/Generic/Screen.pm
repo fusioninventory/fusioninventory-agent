@@ -23,6 +23,7 @@ use warnings;
 
 use English qw(-no_match_vars);
 use MIME::Base64;
+use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Screen;
@@ -74,8 +75,8 @@ sub _getScreens {
 
     if ($OSNAME eq 'MSWin32') {
         my $Registry;
-        require FusionInventory::Agent::Tools::Win32;
-        require Win32::TieRegistry;
+        FusionInventory::Agent::Tools::Win32->require();
+        Win32::TieRegistry->require();
         Win32::TieRegistry->import(
             Delimiter   => '/',
             ArrayValues => 0,
