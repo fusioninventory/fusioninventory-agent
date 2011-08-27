@@ -106,8 +106,6 @@ sub _getScreens {
                     $access = Win32::TieRegistry::KEY_READ();
                 }
 
-                # Win32-specifics constants can not be loaded on non-Windows OS
-                no strict 'subs'; ## no critics
                 $machKey = $Registry->Open('LMachine', {
                     Access => $access
                 }) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
