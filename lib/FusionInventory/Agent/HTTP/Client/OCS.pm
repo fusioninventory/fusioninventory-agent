@@ -11,6 +11,8 @@ use URI;
 
 use FusionInventory::Agent::XML::Response;
 
+my $log_prefix = "[http client] ";
+
 sub new {
     my ($class, %params) = @_;
 
@@ -23,17 +25,20 @@ sub new {
         $self->{compression} = 'native';
         $self->{ua}->default_header('Content-type' => 'application/x-compress');
         $self->{logger}->debug(
+            $log_prefix . 
             'Using Compress::Zlib for compression'
         );
     } elsif (canRun('gzip')) {
         $self->{compression} = 'gzip';
         $self->{ua}->default_header('Content-type' => 'application/x-compress');
         $self->{logger}->debug(
+            $log_prefix . 
             'Using gzip for compression (server minimal version 1.02 needed)'
         );
     } else {
         $self->{compression} = 'none';
         $self->{logger}->debug(
+            $log_prefix . 
             'Not using compression (server minimal version 1.02 needed)'
         );
     }
@@ -50,11 +55,11 @@ sub send {
     my $logger  = $self->{logger};
 
     my $request_content = $message->getContent();
-    $logger->debug2("[client] sending message:\n $request_content");
+    $logger->debug2($log_prefix . "sending message:\n $request_content");
 
     $request_content = $self->_compress($request_content);
     if (!$request_content) {
-        $logger->error('[client] inflating problem');
+        $logger->error($log_prefix . 'inflating problem');
         return;
     }
 
@@ -63,15 +68,13 @@ sub send {
 
     my $response = $self->request($request);
     if (!$response->is_success()) {
-        $logger->error(
-            "[client] error response: " . $response->status_line()
-        );
+        $logger->error($log_prefix . "error response: " . $response->status_line());
         return;
     }
 
     my $response_content = $response->content();
     if (!$response_content) {
-        $logger->error("[client] empty content");
+        $logger->error($log_prefix . "empty content");
         return;
     }
 
@@ -87,13 +90,13 @@ sub send {
         } else {
             my @lines = split(/\n/, $response_content);
             $logger->error(
-                "[client] uncompressed content, starting with " . $lines[0]
+                $log_prefix . "uncompressed content, starting with $lines[0]"
             );
             return;
         }
     }
 
-    $logger->debug2("[client] receiving message:\n $response_content");
+    $logger->debug2($log_prefix . "receiving message:\n $response_content");
 
     my $result;
     eval {
@@ -104,7 +107,7 @@ sub send {
     if ($EVAL_ERROR) {
         my @lines = split(/\n/, $uncompressed_response_content);
         $logger->error(
-            "[client] unexpected content, starting with " . $lines[0]
+            $log_prefix . "unexpected content, starting with $lines[0]"
         );
         return;
     }

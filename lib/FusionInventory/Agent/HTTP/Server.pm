@@ -10,6 +10,8 @@ use Text::Template;
 
 use FusionInventory::Agent::Logger;
 
+my $log_prefix = "[http server] ";
+
 sub new {
     my ($class, %params) = @_;
 
@@ -45,12 +47,12 @@ sub _handle {
     }
 
     my $path = $request->uri()->path();
-    $logger->debug("[HTTPD] request $path from client $clientIp");
+    $logger->debug($log_prefix . "request $path from client $clientIp");
 
     # non-GET requests
     my $method = $request->method();
     if ($method ne 'GET') {
-        $logger->debug("[HTTPD] error, invalid request type: $method");
+        $logger->debug($log_prefix . "error, invalid request type: $method");
         $client->send_error(400);
         $client->close;
         undef($client);
@@ -94,10 +96,10 @@ sub _handle {
                 my $directory =
                     $target->getStorage()->getDirectory() . "/deploy";
                 if (-f "$directory/$file") {
-                    $logger->debug("[HTTPD] $path sent");
+                    $logger->debug($log_prefix . "file $path sent");
                     $client->send_file_response("$directory/$file");
                 } else {
-                    $logger->debug("[HTTPD] $path not found");
+                    $logger->debug($log_prefix . "file $path not found");
                 }
             }
             $client->send_error(404);
@@ -121,14 +123,15 @@ sub _handle {
                         $self->{agent}->resetToken();
                     } else {
                         $logger->debug(
-                            "[HTTPD] untrusted address, invalid token " .
+                            $log_prefix . 
+                            "untrusted address, invalid token " .
                             "$sentToken != $token"
                         );
                         $result = "untrusted address, invalid token";
                     }
                } else {
                     $logger->debug(
-                        "[HTTPD] untrusted address, no token received"
+                        $log_prefix . "untrusted address, no token received"
                     );
                     $result = "untrusted address, no token received";
                 }
@@ -186,7 +189,7 @@ sub _handle {
             last SWITCH;
         }
 
-        $logger->debug("[HTTPD] error, unknown path: $path");
+        $logger->debug("error, unknown path: $path");
         $client->send_error(400);
     }
 
@@ -207,7 +210,7 @@ sub _listen {
     );
   
     if (!$daemon) {
-        $logger->error("[HTTPD] failed to start the HTTPD service");
+        $logger->error($log_prefix . "failed to start the HTTPD service");
         return;
     } 
 
@@ -215,9 +218,7 @@ sub _listen {
         "http://$self->{ip}:$self->{port}" :
         "http://localhost:$self->{port}" ;
 
-    $logger->info(
-        "[HTTPD] service started at: $url"
-    );
+    $logger->info($log_prefix . "HTTPD service started at $url");
 
     # allow the thread to be stopped 
     threads->set_thread_exit_only(1);

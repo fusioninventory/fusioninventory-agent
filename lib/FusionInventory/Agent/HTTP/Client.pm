@@ -10,6 +10,8 @@ use UNIVERSAL::require;
 
 use FusionInventory::Agent::Logger;
 
+my $log_prefix = "[http client] ";
+
 sub new {
     my ($class, %params) = @_;
 
@@ -71,8 +73,8 @@ sub request {
         if ($result->code() == 401) {
             if ($self->{user} && $self->{password}) {
                 $logger->debug(
-                    "[client] authentication required, submitting " .
-                    "credentials"
+                    $log_prefix .
+                    "authentication required, submitting credentials"
                 );
                 # compute authentication parameters
                 my $header = $result->header('www-authenticate');
@@ -96,20 +98,22 @@ sub request {
                 };
                 if (!$result->is_success()) {
                     $logger->error(
-                        "[client] cannot establish communication with " .
-                        "$url: " . $result->status_line()
+                        $log_prefix .
+                        "cannot establish communication with $url: " .
+                        $result->status_line()
                     );
                 }
             } else {
                 # abort
                 $logger->error(
-                    "[client] authentication required, no credentials " .
-                    "available"
+                    $log_prefix .
+                    "authentication required, no credentials available"
                 );
             }
         } else {
             $logger->error(
-                "[client] cannot establish communication with $url: " .
+                $log_prefix .
+                "cannot establish communication with $url: " .
                 $result->status_line()
             );
         }

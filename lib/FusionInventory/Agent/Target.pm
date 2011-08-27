@@ -62,8 +62,8 @@ sub _init {
 
     $self->_saveState();
 
-    $logger->debug (
-        "[target $self->{id}] Next server contact planned for ".
+    $logger->debug(
+        "[target $self->{id}] Next server contact planned for " .
         localtime($self->{nextRunDate})
     );
 
