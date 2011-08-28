@@ -140,9 +140,7 @@ sub processRemote {
         }
     );
 
-print "GOT: ".Dumper($answer);
-print ref($answer)."\n";
-    if (ref($answer) eq 'HASH' && !$answer) {
+    if (ref($answer) eq 'HASH' && !keys %$answer) {
         $self->{logger}->debug("Nothing to do");
         return;
     }
