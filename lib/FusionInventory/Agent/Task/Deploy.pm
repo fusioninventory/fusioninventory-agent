@@ -88,6 +88,7 @@ sub _validateAnswer {
     }
 
     if (ref($answer->{associatedFiles}) ne 'HASH') {
+    print Dumper($answer);
         $$msgRef = "associatedFiles should be an hash";
         return;
     }
@@ -125,7 +126,7 @@ sub processRemote {
 
     my $datastore = FusionInventory::Agent::Task::Deploy::Datastore->new(
         { path => $self->{target}{storage}{directory}.'/deploy', } );
-    $datastore->cleanUp();
+#    $datastore->cleanUp();
 
     my $ret = {};
     my $jobList = [];
@@ -138,6 +139,13 @@ sub processRemote {
             machineid => $self->{deviceid},
         }
     );
+
+print "GOT: ".Dumper($answer);
+print ref($answer)."\n";
+    if (ref($answer) eq 'HASH' && !$answer) {
+        $self->{logger}->debug("Nothing to do");
+        return;
+    }
 
     my $msg;
     if (!_validateAnswer(\$msg, $answer)) {
@@ -335,6 +343,7 @@ sub processRemote {
         my $actionnum = 0;
         ACTION: while ( my $action = $job->getNextToProcess() ) {
         my ($actionName, $params) = %$action;
+        print Dumper($params);
             if ( $params && (ref( $params->{checks} ) eq 'ARRAY') ) {
                 my $checkProcessor =
                     FusionInventory::Agent::Task::Deploy::CheckProcessor->new();
@@ -422,7 +431,7 @@ sub processRemote {
         );
     }
 
-    $datastore->cleanUp();
+#    $datastore->cleanUp();
     1;
 }
 

@@ -6,6 +6,8 @@ use warnings;
 use Data::Dumper;
 use Digest::SHA;
 use LWP::Simple;
+use File::Basename;
+use File::Path qw(make_path);
 
 sub new {
     my (undef, $params) = @_;
@@ -20,6 +22,29 @@ sub new {
     bless $self;
 }
 
+sub getPartFilePath {
+    my ($self, $sha512, ) = @_;
+
+
+    my $filePath  = $self->{datastore}->{path}.'/filepats/';
+
+    if ($self->{p2p}) {
+        $filePath .= 'shared/';
+        $filePath .= time + ($self->{'p2p-retention-duration'} * 60);
+        $filePath .= '/';
+    } else {
+        $filePath .= 'private/';
+    }
+
+    return unless $sha512 =~ /^(.)(.)/;
+
+    $filePath .= $1.'/'.$1.$2.'/';
+
+    $filePath.=$sha512;
+
+
+}
+
 sub download {
     my ($self) = @_;
 
@@ -27,26 +52,37 @@ sub download {
 
     my $datastore = $self->{datastore};
 
-    my $basedir = $self->getBaseDir();
+    my $mirrorList =  $self->{mirrors};
+
+
+use Data::Dumper;
+print Dumper($self->{mirrors});
+print "p2p: "."\n";
+
+   my $p2pHostList;
+   if ($self->{p2p} && FusionInventory::Agent::Task::Deploy::P2P->require) {
+      $p2pHostList = FusionInventory::Agent::Task::Deploy::P2P::findPeer(80)#62354;
+   }
+   use Data::Dumper;
+   print Dumper($p2pHostList);
 
 MULTIPART: foreach my $sha512 (@{$self->{multiparts}}) {
-        my $filePath  = $basedir.'/'.$sha512;
+        my $partFilePath = $self->getPartFilePath($sha512);
+        File::Path::make_path(dirname($partFilePath)) or warn "make_path: ".$@;
+        print "→".$partFilePath."\n";
 
-        foreach my $mirror (@{$self->{mirrors}}) {
-            print "::".$mirror.$sha512."\n";
-            getstore($mirror.$sha512, $filePath);
-            if (-f $filePath) {
-                if (_getSha512ByFile($filePath) eq $sha512) {
-#                print "getstore : $mirror$file, $filePath:  ok\n";
+        MIRROR: foreach my $mirror (@$p2pHostList, @$mirrorList) {
+            next unless $sha512 =~ /^(.)(.)/;
+            my $sha512dir = $1.'/'.$1.$2.'/';
+
+            print $mirror.$sha512dir.$sha512."\n";
+            my $rc = getstore($mirror.$sha512dir.$sha512, $partFilePath);
+
+            if (is_success($rc) && -f $partFilePath) {
+                if (_getSha512ByFile($partFilePath) eq $sha512) {
+                print "getstore : $partFilePath:  ok\n";
                     next MULTIPART;
-                } else {
-                    return;
-                    #print "getstore : $mirror$file, $filePath: ko (invalide SHA) \n"._getSha512ByFile($filePath)."\n\n$sha512\n";
-                    #die;
                 }
-            } else {
-                return;
-                #print "getstore : $mirror$file, $filePath:  ko, not found\n";
             }
         }
     }
@@ -83,12 +119,6 @@ sub _getSha512ByFile {
     $sha->addfile($filePath, 'b');
 
     return $sha->hexdigest;
-}
-
-sub getBaseDir {
-    my ($self) = @_;
-
-    return $self->{datastore}->getPathBySha512($self->{sha512});
 }
 
 sub validateFileByPath {

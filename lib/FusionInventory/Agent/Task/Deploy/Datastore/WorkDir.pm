@@ -32,6 +32,7 @@ sub prepare {
     my ($self) = @_;
 
     foreach my $file (@{$self->{files}}) {
+    print Dumper($file);
         my $finalFilePath = $self->{path}.'/'.$file->{name};
 
         #print "Building finale file: `$finalFilePath'\n";
@@ -51,6 +52,8 @@ sub prepare {
             my $part;
             my $buf;
             if ($part = gzopen($file->getBaseDir().'/'.$sha512, 'rb')) {
+
+                print "reading ".$sha512."\n";
                 while ($part->gzread($buf, 1024)) {
                     print $fh $buf;
                 }
@@ -62,7 +65,7 @@ sub prepare {
         close($fh);
 
         if (!$file->validateFileByPath($finalFilePath)) {
-            print "Failed to construct the final file.\n";
+            print "Failed to construct the final file.: $finalFilePath\n";
             return;
         }
 
