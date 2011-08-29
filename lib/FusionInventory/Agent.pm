@@ -157,6 +157,7 @@ sub new {
             $logger->debug("Failed to load HTTP server: $EVAL_ERROR");
         } else {
             # make sure relevant variables are shared between threads
+            threads::shared->require();
             threads::shared::share($self->{status});
             threads::shared::share($self->{token});
 
