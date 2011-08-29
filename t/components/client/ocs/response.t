@@ -67,7 +67,7 @@ subtest "error response" => sub {
             url     => 'http://localhost:8080/error',
         ),
         $logger,
-        "[client] error response: 403 NOK",
+        "[http client] communication error: 403 NOK",
     );
 };
 
@@ -78,7 +78,7 @@ subtest "empty content" => sub {
             url     => 'http://localhost:8080/empty',
         ),
         $logger,
-        "[client] empty content",
+        "[http client] empty content",
     );
 };
 
@@ -89,7 +89,7 @@ subtest "uncompressed content" => sub {
             url     => 'http://localhost:8080/uncompressed',
         ),
         $logger,
-        "[client] uncompressed content, starting with $html_content",
+        "[http client] uncompressed content, starting with $html_content",
     );
 };
 
@@ -100,7 +100,7 @@ subtest "unexpected content" => sub {
             url     => 'http://localhost:8080/unexpected',
         ),
         $logger,
-        "[client] unexpected content, starting with $html_content",
+        "[http client] unexpected content, starting with $html_content",
     );
 };
 
