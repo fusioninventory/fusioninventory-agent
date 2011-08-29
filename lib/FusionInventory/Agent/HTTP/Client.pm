@@ -99,8 +99,7 @@ sub request {
                 if (!$result->is_success()) {
                     $logger->error(
                         $log_prefix .
-                        "cannot establish communication with $url: " .
-                        $result->status_line()
+                        "authentication required, wrong credentials"
                     );
                 }
             } else {
@@ -113,8 +112,7 @@ sub request {
         } else {
             $logger->error(
                 $log_prefix .
-                "cannot establish communication with $url: " .
-                $result->status_line()
+                "communication error: " . $result->status_line()
             );
         }
     }
