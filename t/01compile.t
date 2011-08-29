@@ -6,12 +6,14 @@ use warnings;
 use English qw(-no_match_vars);
 use Test::More;
 
-
-if (!eval "use Test::Compile;1") {
-    eval "use Test::More skip_all => 'Missing Test::Compile';";
-    exit 0
+eval {
+    require Test::Compile;
+    Test::Compile->import();
+};
+if ($EVAL_ERROR) {
+    my $msg = 'Test::Compile required';
+    plan(skip_all => $msg);
 }
-
 
 sub filter {
     return 0 if /REST/;
