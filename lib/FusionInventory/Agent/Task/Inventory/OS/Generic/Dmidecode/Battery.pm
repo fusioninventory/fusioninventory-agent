@@ -55,19 +55,18 @@ sub _getBattery {
 sub _parseDate {
     my ($string) = @_;
 
-    if ($string =~ /(\d{1,2})([\/-])(\d{1,2})([\/-])(\d{2})/) {
-        my $d = $1;
-        my $m = $3;
-        my $y = ($5>90?"19":"20").$5;
-
-        return "$1/$3/$y";
-    } elsif ($string =~ /(\d{4})([\/-])(\d{1,2})([\/-])(\d{1,2})/) {
-        my $y = ($5>90?"19":"20").$1;
-        my $d = $3;
-        my $m = $5;
-
-        return "$d/$m/$y";
+    my ($day, $month, $year);
+    if ($string =~ /(\d{1,2}) [\/-] (\d{1,2}) [\/-] (\d{2})/x) {
+        $day   = $1;
+        $month = $2;
+        $year  = ($3 > 90 ? "19" : "20" ) . $3;
+    } elsif ($string =~ /(\d{4}) [\/-] (\d{1,2}) [\/-] (\d{1,2})/x) {
+        $year  = $1;
+        $day   = $2;
+        $month = $3;
     }
+
+    return "$day/$month/$year";
 }
 
 1;
