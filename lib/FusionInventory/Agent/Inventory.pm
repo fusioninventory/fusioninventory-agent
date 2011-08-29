@@ -323,7 +323,7 @@ sub processChecksum {
 
     my $logger = $self->{logger};
 
-#To apply to $checksum with an OR
+    # to apply to $checksum with an OR
     my %mask = (
         HARDWARE      => 1,
         BIOS          => 2,
@@ -345,8 +345,6 @@ sub processChecksum {
     );
     # TODO CPUS is not in the list
 
-    my $checksum = 0;
-
     if ($self->{last_state_file}) {
         if (-f $self->{last_state_file}) {
             eval {
@@ -361,16 +359,22 @@ sub processChecksum {
         }
     }
 
+    my $checksum = 0;
     foreach my $section (keys %mask) {
-        #If the checksum has changed...
         my $hash =
-            md5_base64(Dumper($self->{content}{$section}));
-        if (!$self->{last_state_content}->{$section} || $self->{last_state_content}->{$section} ne $hash ) {
-            $logger->debug ("Section $section has changed since last inventory");
-            #We make OR on $checksum with the mask of the current section
-            $checksum |= $mask{$section}; ## no critic (ProhibitBitwise)
-        }
-        # Finally I store the new value.
+            md5_base64(Dumper($self->{content}->{$section}));
+
+        # check if the section did change since the last run
+        next if 
+            $self->{last_state_content}->{$section} &&
+            $self->{last_state_content}->{$section} eq $hash;
+
+        $logger->debug("Section $section has changed since last inventory");
+
+        # add the mask of the current section to the checksum
+        $checksum |= $mask{$section}; ## no critic (ProhibitBitwise)
+
+        # store the new value.
         $self->{last_state_content}->{$section} = $hash;
     }
 
