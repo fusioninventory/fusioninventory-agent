@@ -102,7 +102,7 @@ sub run {
 }
 
 sub _initModulesList {
-    my $self = shift;
+    my ($self) = @_;
 
     my $logger = $self->{logger};
     my $config = $self->{config};

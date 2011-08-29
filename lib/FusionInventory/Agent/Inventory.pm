@@ -319,7 +319,7 @@ sub checkContent {
 }
 
 sub processChecksum {
-    my $self = shift;
+    my ($self) = @_;
 
     my $logger = $self->{logger};
 

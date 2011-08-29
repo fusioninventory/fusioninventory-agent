@@ -418,7 +418,7 @@ sub _ratio_name {
 }
 
 sub getManufacturerFromCode {
-    my $code = shift;
+    my ($code) = @_;
     my $h = {
         "ACR" => "Acer America Corp.",
         "ACT" => "Targa",

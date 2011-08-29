@@ -53,7 +53,7 @@ sub _getBattery {
 }
 
 sub _parseDate {
-    my $string = shift;
+    my ($string) = @_;
 
     if ($string =~ /(\d{1,2})([\/-])(\d{1,2})([\/-])(\d{2})/) {
         my $d = $1;
