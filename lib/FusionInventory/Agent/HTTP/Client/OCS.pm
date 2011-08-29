@@ -67,10 +67,10 @@ sub send {
     $request->content($request_content);
 
     my $response = $self->request($request);
-    if (!$response->is_success()) {
-        $logger->error($log_prefix . "error response: " . $response->status_line());
-        return;
-    }
+
+    # no need to log anything specific here, it has already been done
+    # in parent class
+    return if !$response->is_success();
 
     my $response_content = $response->content();
     if (!$response_content) {
