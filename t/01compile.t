@@ -15,23 +15,22 @@ if ($EVAL_ERROR) {
     plan(skip_all => $msg);
 }
 
+# use mock modules for non-available ones
 if ($OSNAME eq 'MSWin32') {
     push @INC, 't/fake/unix';
 } else {
     push @INC, 't/fake/windows';
 }
 
+# blacklist additional tasks that may be installed
 sub filter {
-    return 0 if /REST/;
-    return 0 if /lib\/FusionInventory\/VMware/;
-    return 0 if readlink $_;
-    if (/(.*Task\/[^\/]+)\//) {
-        return 0 if -l $1;
-    }
-    return 1;
+    return
+        $_ !~ m{FusionInventory/Agent/Task} ||
+        $_ =~ m{FusionInventory/Agent/Task/(Inventory|WakeOnLan)};
 }
 
-my @files = grep filter($_), all_pm_files('lib') ;
+# exclude linked modules
+my @files = grep { filter($_) } all_pm_files('lib');
 
 eval { require FusionInventory::Agent::SNMP; };
 if ($EVAL_ERROR) {
