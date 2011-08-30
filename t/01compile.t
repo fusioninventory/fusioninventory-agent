@@ -15,19 +15,19 @@ if ($EVAL_ERROR) {
     plan(skip_all => $msg);
 }
 
+if ($OSNAME eq 'MSWin32') {
+    push @INC, 't/fake/unix';
+} else {
+    push @INC, 't/fake/windows';
+}
+
 sub filter {
     return 0 if /REST/;
-    if ($OSNAME ne 'MSWin32') {
-        return 0 if /Syslog/;
-        return 0 if /Win32/;
-    }
-    if (readlink $_) {
-        return 0;
-    }
+    return 0 if /lib\/FusionInventory\/VMware/;
+    return 0 if readlink $_;
     if (/(.*Task\/[^\/]+)\//) {
         return 0 if -l $1;
     }
-    return 0 if /lib\/FusionInventory\/VMware/;
     return 1;
 }
 
