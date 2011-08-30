@@ -7,6 +7,7 @@ use constant wbemFlagReturnImmediately => 0x10;
 use constant wbemFlagForwardOnly => 0x20;
 
 use English qw(-no_match_vars);
+use Win32::OLE;
 use Win32::OLE::Variant;
 use Win32::TieRegistry (
     Delimiter   => '/',
