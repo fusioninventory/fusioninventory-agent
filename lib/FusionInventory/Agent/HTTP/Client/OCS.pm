@@ -9,6 +9,7 @@ use HTTP::Request;
 use UNIVERSAL::require;
 use URI;
 
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::XML::Response;
 
 my $log_prefix = "[http client] ";
@@ -147,12 +148,11 @@ sub _compressGzip {
     print $in $data;
     close $in;
 
-    my $command = 'gzip -c ' . $in->filename();
-    my $out;
-    if (! open $out, '-|', $command) {
-        $self->{logger}->debug("Can't run $command: $ERRNO");
-        return;
-    }
+    my $out = getFileHandle(
+        command => 'gzip -c ' . $in->filename(),
+        logger  => $self->{logger}
+    );
+    return unless $out;
 
     local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
     my $result = <$out>;
@@ -174,12 +174,11 @@ sub _uncompressGzip {
     print $in $data;
     close $in;
 
-    my $command = 'gzip -dc ' . $in->filename();
-    my $out;
-    if (! open $out, '-|', $command) {
-        $self->{logger}->debug("Can't run $command: $ERRNO");
-        return;
-    }
+    my $out = getFileHandle(
+        command => 'gzip -dc ' . $in->filename(),
+        logger  => $self->{logger}
+    );
+    return unless $out;
 
     local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
     my $result = <$out>;
