@@ -2,10 +2,13 @@
 
 use strict;
 use warnings;
+use lib 't';
+
 use Config;
 use File::Temp;
-use FusionInventory::Agent::Tools;
 use Test::More;
+
+use FusionInventory::Agent::Tools;
 
 my %dmidecode_tests = (
     'freebsd-6.2' =>  {
@@ -4872,7 +4875,7 @@ plan tests =>
     (scalar @version_tests_ok) +
     (scalar @version_tests_nok) +
     (scalar @sanitization_tests) +
-    14;
+    17;
 
 foreach my $test (keys %dmidecode_tests) {
     my $file = "resources/generic/dmidecode/$test";
@@ -5031,3 +5034,24 @@ is(
     'bar',
     "first match, command reading, scalar context"
 );
+
+my $result1 = runFunction(
+    module   => 'FusionInventory::Test::Module',
+    function => 'mirror',
+    params   => 'foo'
+);
+ok(!defined $result1, 'indirect function execution, unloaded module');
+my $result2 = runFunction(
+    module   => 'FusionInventory::Test::Module',
+    function => 'mirror',
+    params   => 'foo',
+    load     => 1
+);
+is($result2, 'foo', 'indirect function execution, automatic module loading');
+runFunction(
+    module   => 'FusionInventory::Test::Module',
+    function => 'loop',
+    params   => 'foo',
+    timeout  => 1
+);
+ok(1, 'indirect infinite loop function execution, timeout');

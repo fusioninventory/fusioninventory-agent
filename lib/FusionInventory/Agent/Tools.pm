@@ -11,6 +11,7 @@ use File::Spec;
 use File::stat;
 use File::Which;
 use Memoize;
+use UNIVERSAL::require;
 
 our @EXPORT = qw(
     getDirectoryHandle
@@ -39,6 +40,7 @@ our @EXPORT = qw(
     uniq
     file2module
     module2file
+    runFunction
 );
 
 my $nowhere = $OSNAME eq 'MSWin32' ? 'nul' : '/dev/null';
@@ -490,6 +492,45 @@ sub module2file {
     return $module;
 }
 
+sub runFunction {
+    my (%params) = @_;
+
+    my $logger = $params{logger};
+
+    # ensure module is loaded
+    if ($params{load}) {
+        $params{module}->require();
+        if ($EVAL_ERROR) {
+            $logger->debug("Failed to load $params{module}: $EVAL_ERROR")
+                if $logger;
+            return;
+        }
+    }
+
+    my $result;
+    eval {
+        # set 
+        local $SIG{ALRM} = sub { die "alarm\n" };
+        alarm $params{timeout} if $params{timeout};
+        no strict 'refs'; ## no critic
+        $result = &{$params{module} . '::' . $params{function}}(
+            ref $params{params} eq 'HASH'  ? %{$params{params}} :
+            ref $params{params} eq 'ARRAY' ? @{$params{params}} :
+                                               $params{params} 
+	);
+        alarm 0;
+    };
+
+    if ($EVAL_ERROR) {
+        my $message = $EVAL_ERROR eq "alarm\n" ?
+            "$params{module} killed by a timeout"             :
+            "unexpected error in $params{module}: $EVAL_ERROR";
+        $logger->debug($message) if $logger;
+    }
+
+    return $result;
+}
+
 1;
 __END__
 
@@ -683,3 +724,20 @@ Converts a perl file name to a perl module name (Foo/Bar.pm -> Foo::Bar)
 
 Converts a perl module name to a perl file name ( Foo::Bar -> Foo/Bar.pm)
 
+=head2 runFunction(%params)
+
+Run a function whose name is computed at runtime and return its result.
+
+=over
+
+=item logger a logger object
+
+=item module the function namespace
+
+=item function the function name
+
+=item timeout timeout for function execution
+
+=item load enforce module loading first
+
+=back

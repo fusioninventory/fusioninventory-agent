@@ -132,7 +132,7 @@ sub _initModulesList {
             next;
         }
 
-        my $enabled = $self->_runFunction(
+        my $enabled = $self->runFunction(
             module   => $module,
             function => "isEnabled",
             timeout  => $config->{'backend-collect-timeout'},
@@ -212,7 +212,7 @@ sub _runModule {
 
     $logger->debug ("Running $module");
 
-    $self->_runFunction(
+    $self->runFunction(
         module   => $module,
         function => "doInventory",
         timeout  => $self->{config}->{'backend-collect-timeout'},
@@ -290,36 +290,6 @@ sub _injectContent {
     }
 
     $inventory->mergeContent($content);
-}
-
-sub _runFunction {
-    my ($self, %params) = @_;
-
-    my $logger = $self->{logger};
-
-    my $result;
-    
-    eval {
-        local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n require
-        alarm $params{timeout} if $params{timeout};
-
-        no strict 'refs'; ## no critic
-
-        $result = &{$params{module} . '::' . $params{function}}(
-	    %{$params{params}}
-	);
-    };
-    alarm 0;
-
-    if ($EVAL_ERROR) {
-        if ($EVAL_ERROR ne "alarm\n") {
-            $logger->debug("unexpected error in $params{module}: $EVAL_ERROR");
-        } else {
-            $logger->debug("$params{module} killed by a timeout.");
-        }
-    }
-
-    return $result;
 }
 
 sub _printInventory {
