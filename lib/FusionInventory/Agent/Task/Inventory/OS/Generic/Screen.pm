@@ -23,6 +23,7 @@ use warnings;
 
 use English qw(-no_match_vars);
 use MIME::Base64;
+use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Screen;
@@ -30,10 +31,10 @@ use FusionInventory::Agent::Tools::Screen;
 sub isEnabled {
 
     return
-        $OSNAME eq 'MSWin32'                  ||
-        canRun("monitor-get-edid-using-vbe") ||
-        canRun("monitor-get-edid")           ||
-        canRun("get-edid");
+        $OSNAME eq 'MSWin32'                 ||
+        canRun('monitor-get-edid-using-vbe') ||
+        canRun('monitor-get-edid')           ||
+        canRun('get-edid');
 }
 
 sub doInventory {
@@ -74,25 +75,19 @@ sub _getScreens {
 
     if ($OSNAME eq 'MSWin32') {
         my $Registry;
-        eval {
-            require FusionInventory::Agent::Tools::Win32;
-            require Win32::TieRegistry;
-            Win32::TieRegistry->import(
-                Delimiter   => '/',
-                ArrayValues => 0,
-                TiedRef     => \$Registry
-            );
-        };
-        if ($EVAL_ERROR) {
-            print "Failed to load Win32::OLE and Win32::TieRegistry\n";
-            return;
-        }
+        FusionInventory::Agent::Tools::Win32->require();
+        Win32::TieRegistry->require();
+        Win32::TieRegistry->import(
+            Delimiter   => '/',
+            ArrayValues => 0,
+            TiedRef     => \$Registry
+        );
 
         foreach my $objItem (getWmiProperties('Win32_DesktopMonitor', qw/
             Caption MonitorManufacturer MonitorType PNPDeviceID
         /)) {
 
-            next unless $objItem->{"PNPDeviceID"};
+            next unless $objItem->{PNPDeviceID};
 
             my $screen = {
                 MANUFACTURER => $objItem->{MonitorManufacturer},
@@ -111,8 +106,6 @@ sub _getScreens {
                     $access = Win32::TieRegistry::KEY_READ();
                 }
 
-                # Win32-specifics constants can not be loaded on non-Windows OS
-                no strict 'subs'; ## no critics
                 $machKey = $Registry->Open('LMachine', {
                     Access => $access
                 }) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");

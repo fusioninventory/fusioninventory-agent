@@ -47,6 +47,14 @@ sub doInventory {
             SWAP        => $object->{TotalSwapSpaceSize},
             DESCRIPTION => $description,
         });
+
+        $inventory->setOperatingSystem({
+            NAME           => "Windows",
+    #        VERSION       => $OSVersion,
+            KERNEL_VERSION => $object->{Version},
+            FULL_NAME      => $object->{Caption},
+            SERVICE_PACK   => $object->{CSDVersion}
+        });
     }
 
     foreach my $object (getWmiObjects(
@@ -80,13 +88,6 @@ sub doInventory {
 
     }
 
-    $inventory->setOperatingSystem({
-        NAME                 => "Windows",
-#        VERSION              => $OSVersion,
-        KERNEL_VERSION       => $Properties->{Version},
-        FULL_NAME            => $Properties->{Caption},
-        SERVICE_PACK         => $Properties->{CSDVersion}
-    });
 
 }
 

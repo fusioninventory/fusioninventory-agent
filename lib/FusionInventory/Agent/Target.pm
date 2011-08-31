@@ -3,23 +3,10 @@ package FusionInventory::Agent::Target;
 use strict;
 use warnings;
 
-use Config;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Storage;
-
-BEGIN {
-    if ($Config{usethreads}) {
-        eval {
-            require threads;
-            require threads::shared;
-        };
-        if ($EVAL_ERROR) {
-            print "[error]Failed to use threads!\n"; 
-        }
-    }
-}
 
 sub new {
     my ($class, %params) = @_;
@@ -33,8 +20,9 @@ sub new {
     };
     bless $self, $class;
 
-    # make sure relevant attributes are shared between threads
     if ($threads::VERSION) {
+        # make sure relevant attributes are shared between threads
+        threads::shared->require();
         threads::shared::share($self->{nextRunDate});
     }
 
@@ -62,8 +50,8 @@ sub _init {
 
     $self->_saveState();
 
-    $logger->debug (
-        "[target $self->{id}] Next server contact planned for ".
+    $logger->debug(
+        "[target $self->{id}] Next server contact planned for " .
         localtime($self->{nextRunDate})
     );
 

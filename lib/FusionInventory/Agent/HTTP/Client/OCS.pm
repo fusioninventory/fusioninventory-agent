@@ -9,7 +9,10 @@ use HTTP::Request;
 use UNIVERSAL::require;
 use URI;
 
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::XML::Response;
+
+my $log_prefix = "[http client] ";
 
 sub new {
     my ($class, %params) = @_;
@@ -23,17 +26,20 @@ sub new {
         $self->{compression} = 'native';
         $self->{ua}->default_header('Content-type' => 'application/x-compress');
         $self->{logger}->debug(
+            $log_prefix . 
             'Using Compress::Zlib for compression'
         );
     } elsif (canRun('gzip')) {
         $self->{compression} = 'gzip';
         $self->{ua}->default_header('Content-type' => 'application/x-compress');
         $self->{logger}->debug(
+            $log_prefix . 
             'Using gzip for compression (server minimal version 1.02 needed)'
         );
     } else {
         $self->{compression} = 'none';
         $self->{logger}->debug(
+            $log_prefix . 
             'Not using compression (server minimal version 1.02 needed)'
         );
     }
@@ -50,11 +56,11 @@ sub send {
     my $logger  = $self->{logger};
 
     my $request_content = $message->getContent();
-    $logger->debug2("[client] sending message:\n $request_content");
+    $logger->debug2($log_prefix . "sending message:\n $request_content");
 
     $request_content = $self->_compress($request_content);
     if (!$request_content) {
-        $logger->error('[client] inflating problem');
+        $logger->error($log_prefix . 'inflating problem');
         return;
     }
 
@@ -62,29 +68,52 @@ sub send {
     $request->content($request_content);
 
     my $response = $self->request($request);
-    return unless $response->is_success();
+
+    # no need to log anything specific here, it has already been done
+    # in parent class
+    return if !$response->is_success();
 
     my $response_content = $response->content();
-
-   if (!$response_content) {
-        $logger->error("[client] response is empty");
+    if (!$response_content) {
+        $logger->error($log_prefix . "empty content");
         return;
     }
 
     my $uncompressed_response_content = $self->_uncompress($response_content);
-    if ($uncompressed_response_content) {
-        $response_content = $uncompressed_response_content;
-    } else {
-        $logger->info(
-            "[client] deflating failure: this is not compressed content"
-        );
+    if (!$uncompressed_response_content) {
+        # second chance, look for zlib magic number
+        my $offset = index($response_content, "\x78\x9c");
+        if ($offset > 0) {
+            $logger->info("compressed message found at offset $offset");
+            $uncompressed_response_content = $self->_uncompress(
+                substr($response_content, $offset)
+            );
+        } else {
+            my @lines = split(/\n/, $response_content);
+            $logger->error(
+                $log_prefix . "uncompressed content, starting with $lines[0]"
+            );
+            return;
+        }
     }
 
-    $logger->debug2("[client] receiving message:\n $response_content");
+    $logger->debug2($log_prefix . "receiving message:\n $response_content");
 
-    return FusionInventory::Agent::XML::Response->new(
-        content => $response_content
-    );
+    my $result;
+    eval {
+        $result = FusionInventory::Agent::XML::Response->new(
+            content => $uncompressed_response_content
+        );
+    };
+    if ($EVAL_ERROR) {
+        my @lines = split(/\n/, $uncompressed_response_content);
+        $logger->error(
+            $log_prefix . "unexpected content, starting with $lines[0]"
+        );
+        return;
+    }
+
+    return $result;
 }
 
 sub _compress {
@@ -119,12 +148,11 @@ sub _compressGzip {
     print $in $data;
     close $in;
 
-    my $command = 'gzip -c ' . $in->filename();
-    my $out;
-    if (! open $out, '-|', $command) {
-        $self->{logger}->debug("Can't run $command: $ERRNO");
-        return;
-    }
+    my $out = getFileHandle(
+        command => 'gzip -c ' . $in->filename(),
+        logger  => $self->{logger}
+    );
+    return unless $out;
 
     local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
     my $result = <$out>;
@@ -146,12 +174,11 @@ sub _uncompressGzip {
     print $in $data;
     close $in;
 
-    my $command = 'gzip -dc ' . $in->filename();
-    my $out;
-    if (! open $out, '-|', $command) {
-        $self->{logger}->debug("Can't run $command: $ERRNO");
-        return;
-    }
+    my $out = getFileHandle(
+        command => 'gzip -dc ' . $in->filename(),
+        logger  => $self->{logger}
+    );
+    return unless $out;
 
     local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
     my $result = <$out>;

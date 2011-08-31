@@ -75,7 +75,7 @@ sub doInventory {
                 $object->{VerticalResolution};
         }
 
-        $object->{Serial} = _getSerialByUSB($object->{PortName})
+        $object->{Serial} = _getUSBPrinterSerial($object->{PortName})
             if $object->{PortName} && $object->{PortName} =~ /USB/;
 
         $inventory->addEntry(
@@ -102,7 +102,7 @@ sub doInventory {
 }
 
 # Search serial when connected in USB
-sub _getSerialByUSB {
+sub _getUSBPrinterSerial {
     my ($portName) = @_;
 
     my $machKey = $Registry->Open('LMachine', { 

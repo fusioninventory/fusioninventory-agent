@@ -23,7 +23,7 @@ my $inventory;
 
 lives_ok {
     $inventory = FusionInventory::Agent::Inventory->new(
-        logger   => $logger
+        logger => $logger
     );
 } 'everything OK';
 
@@ -44,7 +44,7 @@ is_deeply(
 $inventory->processChecksum();
 is(
     $inventory->{content}->{HARDWARE}->{CHECKSUM},
-    262143,
+    131071,
     'initial state checksum'
 );
 

@@ -5,13 +5,13 @@ use warnings;
 use lib 't';
 
 use English qw(-no_match_vars);
-use Socket;
 use Test::More;
 use Test::Exception;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::HTTP::Client;
 use FusionInventory::Test::Server;
+use FusionInventory::Test::Utils;
 
 if ($OSNAME eq 'MSWin32' || $OSNAME eq 'darwin') {
     plan skip_all => 'non working test on Windows and MacOS';
@@ -174,19 +174,3 @@ ok(
 );
 
 $server->stop();
-
-sub test_port {
-    my $port   = $_[0];
-
-    my $iaddr = inet_aton('localhost');
-    my $paddr = sockaddr_in($port, $iaddr);
-    my $proto = getprotobyname('tcp');
-    if (socket(my $socket, PF_INET, SOCK_STREAM, $proto)) {
-        if (connect($socket, $paddr)) {
-            close $socket;
-            return 1;
-        } 
-    }
-
-    return 0;
-}

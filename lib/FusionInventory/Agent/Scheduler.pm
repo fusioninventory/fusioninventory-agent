@@ -55,7 +55,7 @@ sub getNextTarget {
             return $target;
         } else {
             $logger->info(
-                "[scheduler] $target->{id} is not ready yet, next server " .
+                "$target->{id} is not ready yet, next server " .
                 "contact planned for " . localtime($target->getNextRunDate())
             );
             return;

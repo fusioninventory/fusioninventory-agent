@@ -24,7 +24,7 @@ sub new {
     return $self;
 }
 
-sub addMsg {
+sub addMessage {
     my ($self, %params) = @_;
 
     my $level = $params{level};

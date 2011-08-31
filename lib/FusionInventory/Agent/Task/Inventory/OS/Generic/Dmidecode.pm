@@ -4,21 +4,22 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
 
-    eval {
+    if ($OSNAME eq 'MSWin32') {
         # don't run dmidecode on Win2003
         # http://forge.fusioninventory.org/issues/379
-        require Win32;
+        Win32->require();
         my @osver = Win32::GetOSVersion();
         return if
             $osver[4] == 2 &&
             $osver[1] == 5 &&
             $osver[2] == 2;
-    };
+    }
 
     return unless canRun('dmidecode');
 

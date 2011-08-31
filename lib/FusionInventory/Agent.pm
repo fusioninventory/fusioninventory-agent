@@ -157,6 +157,7 @@ sub new {
             $logger->debug("Failed to load HTTP server: $EVAL_ERROR");
         } else {
             # make sure relevant variables are shared between threads
+            threads::shared->require();
             threads::shared::share($self->{status});
             threads::shared::share($self->{token});
 
@@ -180,18 +181,15 @@ sub new {
 sub _isAlreadyRunning {
     my ($self) = @_;
 
-    eval {
-        require Proc::PID::File;
-        return Proc::PID::File->running();
-    };
-
+    Proc::PID::File->require();
     if ($EVAL_ERROR) {
         $self->{logger}->debug(
             'Proc::PID::File unavailable, unable to check for running agent'
         );
+        return 0;
     }
 
-    return 0;
+    return Proc::PID::File->running();
 }
 
 sub _getHostname {
@@ -200,25 +198,23 @@ sub _getHostname {
     return hostname() if $OSNAME ne 'MSWin32';
 
     # otherwise, use Win32 API
-    eval {
-        require Encode;
-        require Win32::API;
-        Encode->import();
+    Encode->require();
+    Encode->import();
+    Win32::API->require();
 
-        my $getComputerName = Win32::API->new(
-            "kernel32", "GetComputerNameExW", ["I", "P", "P"], "N"
-        );
-        my $lpBuffer = "\x00" x 1024;
-        my $N = 1024; #pack ("c4", 160,0,0,0);
+    my $getComputerName = Win32::API->new(
+        "kernel32", "GetComputerNameExW", ["I", "P", "P"], "N"
+    );
+    my $lpBuffer = "\x00" x 1024;
+    my $N = 1024; #pack ("c4", 160,0,0,0);
 
-        $getComputerName->Call(3, $lpBuffer, $N);
+    $getComputerName->Call(3, $lpBuffer, $N);
 
-        # GetComputerNameExW returns the string in UTF16, we have to change
-        # it to UTF8
-        return encode(
-            "UTF-8", substr(decode("UCS-2le", $lpBuffer), 0, ord $N)
-        );
-    };
+    # GetComputerNameExW returns the string in UTF16, we have to change
+    # it to UTF8
+    return encode(
+        "UTF-8", substr(decode("UCS-2le", $lpBuffer), 0, ord $N)
+    );
 }
 
 sub _loadState {
@@ -301,7 +297,7 @@ sub run {
                 my $package = "FusionInventory::Agent::Task::$module";
                 if (!$package->require()) {
                     $logger->info("task $module is not available");
-                    $logger->debug("task $module compile error: ".$@);
+                    $logger->debug2("task $module compile error: $EVAL_ERROR");
                     next;
                 }
                 if (!$package->isa('FusionInventory::Agent::Task')) {

@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
 # Tested on 2.6.* kernels
@@ -18,24 +19,16 @@ sub _getHpacuacliFromWinRegistry {
     my ($logger) = @_;
 
     my $Registry;
-    eval {
-        require Win32::TieRegistry;
-        Win32::TieRegistry->import(
-            Delimiter   => '/',
-            ArrayValues => 0,
-            TiedRef     => \$Registry,
-        );
-    };
-    return if $EVAL_ERROR;
+    Win32::TieRegistry->require();
+    Win32::TieRegistry->import(
+        Delimiter   => '/',
+        ArrayValues => 0,
+        TiedRef     => \$Registry,
+    );
 
-    my $machKey;
-    {
-        # Win32-specifics constants can not be loaded on non-Windows OS
-        no strict 'subs'; ## no critics
-        my $machKey = $Registry->Open('LMachine', {
-            Access => Win32::TieRegistry::KEY_READ
-        }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
-    }
+    my $machKey = $Registry->Open('LMachine', {
+        Access => Win32::TieRegistry::KEY_READ(),
+    }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
     my $uninstallValues =
         $machKey->{'SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/HP ACUCLI'};

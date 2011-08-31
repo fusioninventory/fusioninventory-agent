@@ -24,9 +24,12 @@ sub run {
             $self->{logger}->debug(
                 "Force enable, ignore prolog and run inventory."
             );
-        } elsif (!$self->{prologresp}{content}{RESPONSE} || $self->{prologresp}{content}{RESPONSE} !~ /^SEND$/) {
-            $self->{logger}->debug("No inventory requested in the prolog");
-            return;
+        } else {
+            my $content = $self->{prologresp}->getContent();
+            if (!$content || $content->{RESPONSE} || $content->{RESPONSE} !~ /^SEND$/) {
+                $self->{logger}->debug("No inventory requested in the prolog");
+                return;
+            }
         }
     }
 
@@ -83,7 +86,7 @@ sub run {
 
         my $message = FusionInventory::Agent::XML::Query::Inventory->new(
             deviceid => $self->{deviceid},
-            content  => $inventory->{content}
+            content  => $inventory->getContent()
         );
 
         my $response = $self->{client}->send(
@@ -99,7 +102,7 @@ sub run {
 }
 
 sub _initModulesList {
-    my $self = shift;
+    my ($self) = @_;
 
     my $logger = $self->{logger};
     my $config = $self->{config};

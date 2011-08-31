@@ -57,7 +57,7 @@ is($target->getUrl(), 'http://my.domain.tld/ocsinventory', 'bare hostname');
 is($target->getMaxDelay(), 3600, 'default value');
 my $nextRunDate = $target->getNextRunDate();
 
-ok(-f "$storage_dir/Target.dump", "state file existence");
+ok(-f "$storage_dir/target.dump", "state file existence");
 $target = FusionInventory::Agent::Target::Server->new(
     url        => 'http://my.domain.tld/ocsinventory',
     basevardir => $basevardir
