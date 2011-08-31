@@ -132,7 +132,7 @@ sub _initModulesList {
             next;
         }
 
-        my $enabled = $self->runFunction(
+        my $enabled = runFunction(
             module   => $module,
             function => "isEnabled",
             timeout  => $config->{'backend-collect-timeout'},
@@ -212,7 +212,7 @@ sub _runModule {
 
     $logger->debug ("Running $module");
 
-    $self->runFunction(
+    runFunction(
         module   => $module,
         function => "doInventory",
         timeout  => $self->{config}->{'backend-collect-timeout'},
