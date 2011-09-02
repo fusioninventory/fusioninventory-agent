@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Inventory;
+package FusionInventory::Agent::Task::Inventory::Inventory;
 
 use strict;
 use warnings;
@@ -410,22 +410,24 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::XML::Query::Inventory - Inventory agent message
+FusionInventory::Agent::Task::Inventory::Inventory - Inventory data structure
 
 =head1 DESCRIPTION
 
-This is an inventory message sent by the agent to the server, using OCS
-Inventory XML format.
+This is a data structure corresponding to an hardware and software inventory.
 
 =head1 METHODS
 
 =head2 new(%params)
 
-The constructor. The following parameters are allowed, in addition to those
-from the base class C<FusionInventory::Agent::XML::Query>, as keys of the
+The constructor. The following parameters are allowed, as keys of the
 %params hash:
 
 =over
+
+=item I<logger>
+
+a logger object
 
 =item I<statedir>
 
@@ -480,25 +482,22 @@ Check inventory content.
 
 =head2 processChecksum()
 
-Compute the <CHECKSUM/> field. This information is used by the server to
-know which parts of the XML have changed since the last inventory.
-
-The is done thanks to the last_file file. It has MD5 prints of the previous
-inventory. 
+Compute the inventory checksum. This information is used by the server to
+know which parts of the inventory have changed since the last one.
 
 =head2 saveLastState()
 
 At the end of the process IF the inventory was saved
 correctly, the last_state is saved.
 
-=head1 XML STRUCTURE
+=head1 DATA MODEL
 
-This section presents the XML structure used by FusionInventory. The schema
-is based on OCS Inventory XML with various additions.
+This section presents the various entry types, with their attributes. The names
+correspond to the historical OCS format.
 
 =head2 BIOS
 
-=over 4
+=over
 
 =item SMODEL
 
@@ -554,7 +553,7 @@ depcreated, replace by HARDWARE/CHASSIS_TYPE
 
 =head2 CONTROLLERS
 
-=over 4
+=over
 
 =item CAPTION
 
@@ -599,7 +598,7 @@ Revision of the device in the XX format (e.g: 04)
 
 =head2 MEMORIES
 
-=over 4
+=over
 
 =item CAPACITY
 
@@ -635,7 +634,7 @@ Eg. 2, start at 1, not 0
 
 =head2 CPUS
 
-=over 4
+=over
 
 =item CACHESIZE
 
@@ -677,7 +676,7 @@ The CPU ID: http://en.wikipedia.org/wiki/CPUID
 
 Drive is actually a filesystem. Virtual filesystem like /proc or /sys are ignored.
 
-=over 4
+=over
 
 =item CREATEDATE
 
@@ -725,7 +724,7 @@ System name of the partition (e.g: /dev/sda1 or server:/directory for NFS)
 
 =head2 HARDWARE
 
-=over 4
+=over
 
 =item USERID
 
@@ -856,7 +855,7 @@ The computer chassis format (e.g: Notebook, Laptop, Server, etc)
 
 =head2 OPERATINGSYSTEM
 
-=over 4
+=over
 
 =item KERNEL_NAME
 
@@ -895,7 +894,7 @@ present on systems which use this notion.
 
 =head2 MONITORS
 
-=over 4
+=over
 
 =item BASE64
 
@@ -923,7 +922,7 @@ The uuencoded EDID trame. Optional.
 
 Serial, Parallel, SATA, etc
 
-=over 4
+=over
 
 =item CAPTION
 
@@ -941,7 +940,7 @@ Represents physical connection points including ports, motherboard slots and per
 
 This information is hardly reliable.
 
-=over 4
+=over
 
 =item CAPACITY
 
@@ -961,7 +960,7 @@ This information is hardly reliable.
 
 =head2 STORAGES
 
-=over 4
+=over
 
 =item DESCRIPTION
 
@@ -1015,7 +1014,7 @@ World Wide Name http://fr.wikipedia.org/wiki/World_Wide_Name
 
 =head2 SOFTWARES
 
-=over 4
+=over
 
 =item COMMENTS
 
@@ -1074,7 +1073,7 @@ Windows software GUID
 
 =head2 USERS
 
-=over 4
+=over
 
 =item LOGIN
 
@@ -1086,7 +1085,7 @@ The Windows domain of the user, if available.
 
 =head2 VIDEOS
 
-=over 4
+=over
 
 =item CHIPSET
 
@@ -1108,7 +1107,7 @@ The local PCI slot ID if the video card use PCI.
 
 =head2 VIRTUALMACHINES
 
-=over 4
+=over
 
 =item MEMORY
 
@@ -1155,7 +1154,7 @@ a comment
 
 =head2 SOUNDS
 
-=over 4
+=over
 
 =item DESCRIPTION
 
@@ -1167,7 +1166,7 @@ a comment
 
 =head2 MODEMS
 
-=over 4
+=over
 
 =item DESCRIPTION
 
@@ -1179,7 +1178,7 @@ a comment
 
 Environment variables
 
-=over 4
+=over
 
 =item KEY
 
@@ -1191,7 +1190,7 @@ Environment variables
 
 Windows updates
 
-=over 4
+=over
 
 =item ID 
 
@@ -1207,7 +1206,7 @@ List of KB, delimiter is '/'
 
 USB Devices
 
-=over 4
+=over
 
 =item VENDORID 
 
@@ -1237,7 +1236,7 @@ The name of the device (optional)
 
 A network configuration.
 
-=over 4
+=over
 
 =item DESCRIPTION
 
@@ -1305,7 +1304,7 @@ Wifi only, Access point name
 
 =head2 BATTERIES
 
-=over 4
+=over
 
 =item CAPACITY
 
@@ -1335,7 +1334,7 @@ Voltage in mV
 
 =head2 PRINTERS
 
-=over 4
+=over
 
 =item COMMENT
 
@@ -1381,7 +1380,7 @@ The serial number
 
 =head2 PROCESSES
 
-=over 4
+=over
 
 =item USER
 
@@ -1415,7 +1414,7 @@ The command.
 
 =head2 ANTIVIRUS
 
-=over 4
+=over
 
 =item COMPANY
 
@@ -1443,7 +1442,7 @@ Unique ID
 
 A LVM Logical Volume
 
-=over 4
+=over
 
 =item LVNAME
 
@@ -1469,7 +1468,7 @@ The volume UUID.
 
 =head2 PHYSICAL_VOLUMES
 
-=over 4
+=over
 
 =item DEVICE
 
@@ -1509,7 +1508,7 @@ Item PE_SIZE
 
 A LVM Volume group.
 
-=over 4
+=over
 
 =item VGNAME
 

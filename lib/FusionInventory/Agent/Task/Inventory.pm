@@ -9,7 +9,7 @@ use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Inventory;
+use FusionInventory::Agent::Task::Inventory::Inventory;
 use FusionInventory::Agent::XML::Query::Inventory;
 
 our $VERSION = '1.0';
@@ -35,7 +35,7 @@ sub run {
 
     $self->{modules} = {};
 
-    my $inventory = FusionInventory::Agent::Inventory->new(
+    my $inventory = FusionInventory::Agent::Task::Inventory::Inventory->new(
         deviceid => $self->{deviceid},
         statedir => $self->{target}->getStorage()->getDirectory(),
         logger   => $self->{logger},
