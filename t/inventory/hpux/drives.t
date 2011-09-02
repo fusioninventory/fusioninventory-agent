@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::OS::HPUX::Drives;
+use FusionInventory::Agent::Task::Inventory::Input::HPUX::Drives;
 
 my %tests = (
     'hpux1-nfs' => [
@@ -156,6 +156,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/hpux/bdf/$test";
-    my @drives = FusionInventory::Agent::Task::Inventory::OS::HPUX::Drives::_parseBdf(file => $file);
+    my @drives = FusionInventory::Agent::Task::Inventory::Input::HPUX::Drives::_parseBdf(file => $file);
     is_deeply(\@drives, $tests{$test}, "$test bdf parsing");
 }

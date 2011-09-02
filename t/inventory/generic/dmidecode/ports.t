@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Ports;
+use FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Ports;
 
 my %tests = (
     'freebsd-6.2' => [
@@ -1305,6 +1305,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/generic/dmidecode/$test";
-    my $ports = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Ports::_getPorts(file => $file);
+    my $ports = FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Ports::_getPorts(file => $file);
     is_deeply($ports, $tests{$test}, $test);
 }

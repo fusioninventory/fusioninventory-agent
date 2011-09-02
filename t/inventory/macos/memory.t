@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::OS::MacOS::Memory;
+use FusionInventory::Agent::Task::Inventory::Input::MacOS::Memory;
 
 my %tests = (
     '10.4-powerpc' => [
@@ -204,6 +204,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/macos/system_profiler/$test";
-    my @memories = FusionInventory::Agent::Task::Inventory::OS::MacOS::Memory::_getMemories(file => $file);
+    my @memories = FusionInventory::Agent::Task::Inventory::Input::MacOS::Memory::_getMemories(file => $file);
     is_deeply(\@memories, $tests{$test}, $test);
 }

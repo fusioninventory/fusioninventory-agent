@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Memory;
+use FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Memory;
 
 my %tests = (
     'freebsd-6.2' => [
@@ -1331,6 +1331,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/generic/dmidecode/$test";
-    my $memories = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Memory::_getMemories(file => $file);
+    my $memories = FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Memory::_getMemories(file => $file);
     is_deeply($memories, $tests{$test}, $test);
 }

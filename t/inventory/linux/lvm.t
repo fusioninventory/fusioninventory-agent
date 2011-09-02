@@ -3,7 +3,7 @@ use strict;
 
 use warnings;
 
-use FusionInventory::Agent::Task::Inventory::OS::Linux::LVM; 
+use FusionInventory::Agent::Task::Inventory::Input::Linux::LVM; 
 
 use Test::More;
 
@@ -152,16 +152,16 @@ my %vgs = (
 );
 
 foreach my $test (keys %pvs) {
-    my @pvs = FusionInventory::Agent::Task::Inventory::OS::Linux::LVM::_getPhysicalVolumes(file => 'resources/lvm/linux/pvs/'.$test);
+    my @pvs = FusionInventory::Agent::Task::Inventory::Input::Linux::LVM::_getPhysicalVolumes(file => 'resources/lvm/linux/pvs/'.$test);
     is_deeply(\@pvs, $pvs{$test}, '_parsePvs()');
 }
 
 foreach my $test (keys %lvs) {
-    my @lvs = FusionInventory::Agent::Task::Inventory::OS::Linux::LVM::_getLogicalVolumes(file => 'resources/lvm/linux/lvs/'.$test);
+    my @lvs = FusionInventory::Agent::Task::Inventory::Input::Linux::LVM::_getLogicalVolumes(file => 'resources/lvm/linux/lvs/'.$test);
     is_deeply(\@lvs, $lvs{$test}, '_parseLvs()');
 }
 
 foreach my $test (keys %vgs) {
-    my @vgs = FusionInventory::Agent::Task::Inventory::OS::Linux::LVM::_getVolumeGroups(file => 'resources/lvm/linux/vgs/'.$test);
+    my @vgs = FusionInventory::Agent::Task::Inventory::Input::Linux::LVM::_getVolumeGroups(file => 'resources/lvm/linux/vgs/'.$test);
     is_deeply(\@vgs, $vgs{$test}, '_parseVgs()');
 }

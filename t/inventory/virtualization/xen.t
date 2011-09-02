@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Virtualization::Xen;
+use FusionInventory::Agent::Task::Inventory::Input::Virtualization::Xen;
 
 my %tests = (
     sample1 => [
@@ -61,7 +61,7 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/virtualization/xm/$test";
-    my @machines = FusionInventory::Agent::Task::Inventory::Virtualization::Xen::_getVirtualMachines(file => $file);
+    my @machines = FusionInventory::Agent::Task::Inventory::Input::Virtualization::Xen::_getVirtualMachines(file => $file);
     is_deeply(\@machines, $tests{$test}, $test);
 }
 
