@@ -5,7 +5,7 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-use FusionInventory::Agent::Tools::Unix;
+use FusionInventory::Agent::Tools::Generic;
 
 sub isEnabled {
     # both windows and linux have dedicated modules
