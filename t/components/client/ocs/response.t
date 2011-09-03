@@ -15,11 +15,7 @@ use FusionInventory::Agent::XML::Query;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
 
-if ($OSNAME eq 'MSWin32') {
-    plan skip_all => 'non working test on Windows';
-} else {
-    plan tests => 6;
-}
+plan tests => 6;
 
 my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'Test' ]

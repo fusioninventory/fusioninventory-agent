@@ -15,14 +15,12 @@ use FusionInventory::Test::Proxy;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
 
-if ($OSNAME eq 'MSWin32') {
-    plan skip_all => 'non working test on Windows';
-} else {
-    plan tests => 36;
-}
+plan tests => 36;
 
 my $ok = sub {
-    print "HTTP/1.0 200 OK\r\n\r\nOK";
+    print "HTTP/1.0 200 OK\r\n";
+    print "\r\n";
+    print "OK";
 };
 
 my $logger = FusionInventory::Agent::Logger->new(
@@ -104,6 +102,7 @@ $server->stop();
 
 SKIP: {
 skip 'non working test under MacOS', 12 if $OSNAME eq 'darwin';
+skip 'non working test under Windows', 12 if $OSNAME eq 'MSWin32';
 # https connection tests
 
 $server = FusionInventory::Test::Server->new(
@@ -216,6 +215,8 @@ subtest "correct response" => sub {
 $server->stop();
 }
 
+SKIP: {
+skip 'non working test under Windows', 18 if $OSNAME eq 'MSWin32';
 # http connection through proxy tests
 
 $server = FusionInventory::Test::Server->new(
@@ -407,7 +408,7 @@ $server->stop();
 }
 
 $proxy->stop();
-
+}
 
 sub check_response_ok {
     my ($client, $url) = @_;
