@@ -433,7 +433,15 @@ a logger object
 
 a path to a writable directory containing the last serialized inventory
 
+=item I<tag>
+
+an arbitrary label, used for server-side filtering
+
 =back
+
+=head2 getContent()
+
+Get content attribute.
 
 =head2 mergeContent($content)
 
@@ -460,6 +468,10 @@ ignore entry if already present
 
 =back
 
+=head2 setTag($tag)
+
+Set inventory tag, an arbitrary label used for filtering on server side.
+
 =head2 setHardware()
 
 Save global information regarding the machine.
@@ -484,6 +496,12 @@ Check inventory content.
 
 Compute the inventory checksum. This information is used by the server to
 know which parts of the inventory have changed since the last one.
+
+=head2 setGlobalValues()
+
+Compute the inventory global values, meaning values in hardware section such as
+CPU number, speed and model, computed from other values, but neededed for OCS
+compatibility.
 
 =head2 saveLastState()
 

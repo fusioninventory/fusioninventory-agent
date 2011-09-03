@@ -543,6 +543,20 @@ given command output or given file content.
 
 =back
 
+=head2 getLastLine(%params)
+
+Returns the last line of given command output or given file content.
+
+=over
+
+=item logger a logger object
+
+=item command the exact command to use
+
+=item file the file to use, as an alternative to the command
+
+=back
+
 =head2 getLinesCount(%params)
 
 Returns the number of lines of given command output or given file content.

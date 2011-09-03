@@ -149,6 +149,10 @@ Can be one of:
 
 =back
 
+=head2 debug2($message)
+
+Add a log message with debug2 level.
+
 =head2 debug($message)
 
 Add a log message with debug level.

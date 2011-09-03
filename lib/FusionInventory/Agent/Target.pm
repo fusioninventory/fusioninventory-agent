@@ -179,6 +179,10 @@ the base directory of the storage area (mandatory)
 
 =back
 
+=head2 setShared()
+
+Ensure the target can be shared among threads
+
 =head2 getNextRunDate()
 
 Get nextRunDate attribute.
@@ -190,6 +194,10 @@ Set next execution date.
 =head2 resetNextRunDate()
 
 Set next execution date to a random value.
+
+=head2 getMaxDelay($maxDelay)
+
+Get maxDelay attribute.
 
 =head2 setMaxDelay($maxDelay)
 
