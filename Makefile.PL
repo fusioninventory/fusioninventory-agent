@@ -26,6 +26,7 @@ if ($OSNAME eq 'darwin') {
 recommends 'Compress::Zlib'   => undef;
 recommends 'HTTP::Daemon'     => undef;
 recommends 'Net::CUPS'        => 0.60;
+recommends 'IO::Socket::SSL'  => undef;
 
 if ($OSNAME ne 'MSWin32') {
     recommends 'Proc::Daemon'     => undef;
@@ -33,11 +34,6 @@ if ($OSNAME ne 'MSWin32') {
 } else {
     requires 'Win32::OLE' => undef;
     requires 'Win32::TieRegistry' => undef;
-}
-
-
-if (can_use("LWP") && $LWP::VERSION < 6) {
-    recommends 'IO::Socket::SSL'    => undef;
 }
 
 # test dependencies
