@@ -58,8 +58,7 @@ sub _getInterfaces {
 
     my @interfaces = _parseIfconfig(
         command => '/sbin/ifconfig -a',
-        logger  => $params{logger},
-        file => $params{file}
+        @_
     );
 
     foreach my $interface (@interfaces) {
@@ -101,50 +100,23 @@ sub _getInterfaces {
     }
 
     my $zone = getZone();
-    return @interfaces unless $zone;
-
     my $OSLevel = getFirstLine(command => 'uname -r');
-    if ($OSLevel =~ /5.10/) {
-        foreach my $line (`/usr/sbin/dladm show-aggr`) {
-            next if $line =~ /device/;
-            next if $line =~ /key/;
-            my $interface = {
-                STATUS    => 'Down',
-                IPADDRESS => "0.0.0.0",
-            };
-            next unless
-                $line =~ /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
-            $interface->{DESCRIPTION} = $1;
-            $interface->{MACADDR}     = $2;
-            $interface->{SPEED}       = $3 . " " . $4 . " " . $5;
-            $interface->{STATUS}      = 1 if /up/;
-            push @interfaces, $interface;
-        }
 
-        my $inc = 1;
-        my $interface;
-        foreach (`/usr/sbin/fcinfo hba-port`) {
-            $interface->{DESCRIPTION} = "HBA_Port_WWN_" . $inc if /HBA Port WWN:\s+(\S+)/;
-            $interface->{DESCRIPTION} .= " " . $1 if /OS Device Name:\s+(\S+)/;
-            $interface->{SPEED} = $1 if /Current Speed:\s+(\S+)/;
-            $interface->{MACADDR} = $1 if /Node WWN:\s+(\S+)/;
-            $interface->{TYPE} = $1 if /Manufacturer:\s+(.*)$/;
-            $interface->{TYPE} .= " " . $1 if /Model:\s+(.*)$/;
-            $interface->{TYPE} .= " " . $1 if /Firmware Version:\s+(.*)$/;
-            $interface->{STATUS} = 1 if /online/;
+    if ($zone && $OSLevel && $OSLevel =~ /5.10/) {
+        push @interfaces, _parseDladm(
+            command => '/usr/sbin/dladm show-aggr',
+            logger  => $params{logger}
+        );
 
-            if ($interface->{DESCRIPTION} && $interface->{MACADDR}) {
-                $interface->{IPADDRESS} = "0.0.0.0";
-                $interface->{STATUS} = 'Down' if !$interface->{STATUS};
-
-                push @interfaces, $interface;
-                $inc++;
-            }
-        }
+        push @interfaces, _parsefcinfo(
+            command => '/usr/sbin/fcinfo hba-port',
+            logger  => $params{logger}
+        );
     }
 
     return @interfaces;
 }
+
 
 # Function to test Quad Fast-Ethernet, Fast-Ethernet, and
 # Gigabit-Ethernet (i.e. qfe_, hme_, ge_, fjgi_)
@@ -332,6 +304,61 @@ sub _parseIfconfig {
 
     # last interface
     push @interfaces, $interface if $interface;
+
+    return @interfaces;
+}
+
+sub _parseDladm {
+    my $handle = getFileHandle(@_);
+    return unless $handle;
+
+    my @interfaces;
+    while (my $line = <$handle>) {
+        next if $line =~ /device/;
+        next if $line =~ /key/;
+        my $interface = {
+            STATUS    => 'Down',
+            IPADDRESS => "0.0.0.0",
+        };
+        next unless
+            $line =~ /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
+        $interface->{DESCRIPTION} = $1;
+        $interface->{MACADDR}     = $2;
+        $interface->{SPEED}       = $3 . " " . $4 . " " . $5;
+        $interface->{STATUS}      = 1 if /up/;
+        push @interfaces, $interface;
+    }
+    close $handle;
+
+    return @interfaces;
+}
+
+sub _parsefcinfo {
+    my $handle = getFileHandle(@_);
+    return unless $handle;
+
+    my @interfaces;
+    my $inc = 1;
+    my $interface;
+    while (my $line = <$handle>) {
+        $interface->{DESCRIPTION} = "HBA_Port_WWN_" . $inc if $line =~ /HBA Port WWN:\s+(\S+)/;
+        $interface->{DESCRIPTION} .= " " . $1 if $line =~ /OS Device Name:\s+(\S+)/;
+        $interface->{SPEED} = $1 if $line =~ /Current Speed:\s+(\S+)/;
+        $interface->{MACADDR} = $1 if $line =~ /Node WWN:\s+(\S+)/;
+        $interface->{TYPE} = $1 if $line =~ /Manufacturer:\s+(.*)$/;
+        $interface->{TYPE} .= " " . $1 if $line =~ /Model:\s+(.*)$/;
+        $interface->{TYPE} .= " " . $1 if $line =~ /Firmware Version:\s+(.*)$/;
+        $interface->{STATUS} = 1 if $line =~ /online/;
+
+        if ($interface->{DESCRIPTION} && $interface->{MACADDR}) {
+            $interface->{IPADDRESS} = "0.0.0.0";
+            $interface->{STATUS} = 'Down' if !$interface->{STATUS};
+
+            push @interfaces, $interface;
+            $inc++;
+        }
+    }
+    close $handle;
 
     return @interfaces;
 }
