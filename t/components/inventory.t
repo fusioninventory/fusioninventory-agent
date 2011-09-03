@@ -41,7 +41,7 @@ is_deeply(
     'initial state'
 );
 
-$inventory->processChecksum();
+$inventory->computeChecksum();
 is(
     $inventory->{content}->{HARDWARE}->{CHECKSUM},
     131071,
@@ -187,7 +187,7 @@ is_deeply(
     'CPU added'
 );
 
-$inventory->setGlobalValues();
+$inventory->computeGlobalValues();
 
 is(
     $inventory->{content}->{HARDWARE}->{PROCESSORN},
@@ -207,7 +207,7 @@ is(
     'global CPU type',
 );
 
-$inventory->processChecksum();
+$inventory->computeChecksum();
 
 is(
     $inventory->{content}->{HARDWARE}->{CHECKSUM},
@@ -242,7 +242,7 @@ is_deeply(
     'drive addition'
 );
 
-$inventory->processChecksum();
+$inventory->computeChecksum();
 
 is(
     $inventory->{content}->{HARDWARE}->{CHECKSUM},

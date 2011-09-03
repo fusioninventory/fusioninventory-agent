@@ -182,7 +182,7 @@ sub addEntry {
     push @{$self->{content}{$section}}, $entry;
 }
 
-sub setGlobalValues {
+sub computeGlobalValues {
     my ($self) = @_;
 
     # CPU-related values
@@ -318,7 +318,7 @@ sub checkContent {
 
 }
 
-sub processChecksum {
+sub computeChecksum {
     my ($self) = @_;
 
     my $logger = $self->{logger};
@@ -492,12 +492,12 @@ What is that for? :)
 
 Check inventory content.
 
-=head2 processChecksum()
+=head2 computeChecksum()
 
 Compute the inventory checksum. This information is used by the server to
 know which parts of the inventory have changed since the last one.
 
-=head2 setGlobalValues()
+=head2 computeLegacyValues()
 
 Compute the inventory global values, meaning values in hardware section such as
 CPU number, speed and model, computed from other values, but neededed for OCS
