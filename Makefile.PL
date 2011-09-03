@@ -41,9 +41,12 @@ if (can_use("LWP") && $LWP::VERSION < 6) {
 }
 
 # test dependencies
-test_requires  'Test::More'  => undef;
-test_requires  'XML::TreePP'  => undef;
-test_requires  'IPC::Run'  => undef;
+test_requires  'Test::More'                   => undef;
+test_requires  'IPC::Run'                     => undef;
+test_requires  'HTTP::proxy'                  => undef;
+test_requires  'HTTP::Server::Simple'         => undef;
+test_requires  'HTTP::Server::Simple::Authen' => undef;
+test_requires  'IO::Capture::Stderr'          => undef;
 
 install_script  'fusioninventory-agent';
 install_script  'fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
