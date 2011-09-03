@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::Virtualization;
+package FusionInventory::Agent::Task::Inventory::Input::Virtualization;
 
 use strict;
 use warnings;

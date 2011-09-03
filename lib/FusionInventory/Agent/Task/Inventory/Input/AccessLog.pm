@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::AccessLog;
+package FusionInventory::Agent::Task::Inventory::Input::AccessLog;
 
 use strict;
 use warnings;
