@@ -161,6 +161,8 @@ sub new {
             threads::shared::share($self->{status});
             threads::shared::share($self->{token});
 
+            $_->setShared() foreach $scheduler->getTargets();
+
             $self->{_server} = FusionInventory::Agent::HTTP::Server->new(
                 logger          => $logger,
                 scheduler       => $scheduler,

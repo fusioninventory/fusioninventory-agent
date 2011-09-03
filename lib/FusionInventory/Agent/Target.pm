@@ -20,12 +20,6 @@ sub new {
     };
     bless $self, $class;
 
-    if ($threads::VERSION) {
-        # make sure relevant attributes are shared between threads
-        threads::shared->require();
-        threads::shared::share($self->{nextRunDate});
-    }
-
     return $self;
 }
 
@@ -57,6 +51,17 @@ sub _init {
 
 }
 
+sub setShared {
+    my ($self) = @_;
+
+    # make sure relevant attributes are shared between threads
+    threads::shared->require();
+    threads::shared::share($self->{nextRunDate});
+
+    $self->{shared} = 1;
+
+}
+
 sub getStorage {
     my ($self) = @_;
 
@@ -66,7 +71,7 @@ sub getStorage {
 sub setNextRunDate {
     my ($self, $nextRunDate) = @_;
 
-    lock($self->{nextRunDate});
+    lock($self->{nextRunDate}) if $self->{shared};
     $self->{nextRunDate} = $nextRunDate;
     $self->_saveState();
 }
@@ -74,7 +79,7 @@ sub setNextRunDate {
 sub resetNextRunDate {
     my ($self) = @_;
 
-    lock($self->{nextRunDate});
+    lock($self->{nextRunDate}) if $self->{shared};
     $self->{nextRunDate} = _computeNextRunDate($self->{maxDelay});
     $self->_saveState();
 }
