@@ -80,7 +80,7 @@ sub run {
             close $handle;
             $self->{logger}->info("Inventory saved in $file");
         } else {
-            warn "Can't open $file: $ERRNO"
+            $self->{logger}->error("Can't write to $file: $ERRNO");
         }
     } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
 
