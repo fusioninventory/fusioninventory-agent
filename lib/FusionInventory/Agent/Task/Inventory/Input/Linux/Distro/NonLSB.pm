@@ -59,6 +59,18 @@ sub isEnabled {
     return !canRun("lsb_release");
 }
 
+sub doInventory {
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+
+    $inventory->setHardware({
+        OSNAME => _findRelease(),
+    });
+
+    $inventory->setOperatingSystem(_getDistroData());
+}
+
 sub _getDistroData {
     my $distroName;
     my $distroVersion;
@@ -117,19 +129,6 @@ sub _getDistroData {
     return $ret;
 }
 
-
-sub doInventory {
-    my (%params) = @_;
-
-    my $inventory = $params{inventory};
-
-    $inventory->setHardware({
-        OSNAME     => _findRelease(),
-    });
-
-
-    $inventory->setOperatingSystem(_getDistroData());
-}
 
 sub _findRelease {
     my $release;
