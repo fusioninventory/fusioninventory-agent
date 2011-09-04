@@ -108,45 +108,24 @@ sub _handle {
 
         # now request
         if ($path =~ m{^/now(?:/(\S+))?$}) {
-            my $sentToken = $1;
+            my $token = $1;
 
-            my $result;
-            if ($clientIp =~ /^127\./ && $self->{trust_localhost}) {
-                # trusted request
-                $result = "ok";
-            } else {
-                # authenticated request
-                if ($sentToken) {
-                   my $token = $self->{agent}->getToken();
-                   if ($sentToken eq $token) {
-                        $result = "ok";
-                        $self->{agent}->resetToken();
-                    } else {
-                        $logger->debug(
-                            $log_prefix . 
-                            "untrusted address, invalid token " .
-                            "$sentToken != $token"
-                        );
-                        $result = "untrusted address, invalid token";
-                    }
-               } else {
-                    $logger->debug(
-                        $log_prefix . "untrusted address, no token received"
-                    );
-                    $result = "untrusted address, no token received";
-                }
-            }
-
-            my ($code, $message);
-            if ($result eq "ok") {
+            my ($code, $message, $trace);
+            if (
+                $self->_is_trusted($clientIp) ||
+                $self->_is_authenticated($token)
+            ) {
                 foreach my $target ($scheduler->getTargets()) {
                     $target->setNextRunDate(1);
                 }
+                $self->{agent}->resetToken();
                 $code    = 200;
-                $message = "Done."
+                $message = "OK";
+                $trace   = "valid request, forcing execution right now";
             } else {
                 $code    = 403;
-                $message = "Access denied: $result.";
+                $message = "Access denied";
+                $trace   = "invalid request (bad token or bad address)";
             }
 
             my $template = Text::Template->new(
@@ -165,6 +144,7 @@ sub _handle {
             );
 
             $client->send_response($response);
+            $logger->debug($log_prefix . $trace);
 
             last SWITCH;
         }
@@ -194,6 +174,22 @@ sub _handle {
     }
 
     $client->close();
+}
+
+sub _is_trusted {
+    my ($self, $address) = @_;
+
+    return 0 unless $self->{trust_localhost};
+
+    return $address =~ /^127\./;
+}
+
+sub _is_authenticated {
+    my ($self, $token) = @_;
+
+    return 0 unless $token;
+
+    return $token eq $self->{agent}->getToken();
 }
 
 sub _listen {
