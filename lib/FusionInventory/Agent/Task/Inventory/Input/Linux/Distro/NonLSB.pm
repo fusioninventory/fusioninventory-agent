@@ -72,19 +72,16 @@ sub doInventory {
 }
 
 sub _getDistroData {
-    my $distroName;
-    my $distroVersion;
-    my $commercialFullName;
-
-    my $ret = {};
+    my $data;
 
     foreach (@files) {
         my $file = $_->[0];
-        $distroName = $_->[1];
+        next unless -f $file;
+
+        my $distroName = $_->[1];
         my $distroVersRegex = $_->[2];
         my $distroFullName  = $_->[3];
 
-        next unless -f $file;
         my $handle;
         if (!open $handle, '<', $file) {
             warn "Can't open $file: $ERRNO";
@@ -94,12 +91,12 @@ sub _getDistroData {
         chomp $version;
         close $handle;
 
-        $commercialFullName = sprintf $distroFullName, $version;
+        my $commercialFullName = sprintf $distroFullName, $version;
         if ($version =~ /^$distroVersRegex/) {
-            $distroVersion = $1;
+            my $distroVersion = $1;
 
             # Now we have found the distro name and version, let's set them
-            $ret = {
+            $data = {
                 NAME                 => $distroName,
                 VERSION              => $distroVersion,
                 FULL_NAME            => $commercialFullName
@@ -119,14 +116,14 @@ sub _getDistroData {
         }
         while (<$handle>) {
             if (/^PATCHLEVEL = ([0-9]+)/) {
-                $ret->{SERVICE_PACK} = $1;
+                $data->{SERVICE_PACK} = $1;
             }
         }
         close $handle;
     }
 
 
-    return $ret;
+    return $data;
 }
 
 
