@@ -46,7 +46,7 @@ GetOptions(
     'proxy|P=s',
     'httpd-ip=s',
     'httpd-port=s',
-    'httpd-trust-localhost',
+    'httpd-trust=s',
     'scan-homedirs',
     'server|s=s',
     'stdout',
@@ -154,7 +154,7 @@ B<fusioninventory-agent> [options] [--server server|--local directory|--sdout]
     --no-httpd                 disable embedded web server (false)
     --httpd-ip=IP              network interface to listen to
     --httpd-port=PORT          network port to listen to (62354)
-    --httpd-trust-localhost    trust local requests without authentication token (false)
+    --httpd-trust=RANGE        trust requests from range without authentication token (false)
 
   Logging options
     --logger                    Logger backend, either Stderr, File or Syslog (Stderr)
@@ -442,9 +442,9 @@ available interfaces).
 
 The network port to use for the embedded web server (62354).
 
-=item B<--httpd-trust-localhost>
+=item B<--httpd-trust>=I<RANGE>
 
-Trust local requests without authentication token (false).
+Trust requests from given range without authentication token (false).
 
 =back
 

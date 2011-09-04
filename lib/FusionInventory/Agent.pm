@@ -170,7 +170,7 @@ sub new {
                 htmldir         => $self->{datadir} . '/html',
                 ip              => $config->{'httpd-ip'},
                 port            => $config->{'httpd-port'},
-                trust_localhost => $config->{'httpd-trust-localhost'},
+                trust           => $config->{'httpd-trust'},
             );
         }
     }

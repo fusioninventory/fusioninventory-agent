@@ -59,7 +59,6 @@ sub setShared {
     threads::shared::share($self->{nextRunDate});
 
     $self->{shared} = 1;
-
 }
 
 sub getStorage {

@@ -36,8 +36,8 @@ my $deprecated = {
         new     => 'httpd-port'
     },
     'rpc-trust-localhost' => {
-        message => 'use --httpd-trust-localhost option instead',
-        new     => 'httpd-trust-localhost'
+        message => 'use --httpd-trust 127.0.0.1 option instead',
+        new     => { 'httpd-trust' => '127.0.0.1' }
     },
     'daemon-no-fork' => {
         message => 'use --daemon and --no-fork options instead',

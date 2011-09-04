@@ -6,6 +6,7 @@ use threads;
 
 use English qw(-no_match_vars);
 use HTTP::Daemon;
+use Net::IP;
 use Text::Template;
 
 use FusionInventory::Agent::Logger;
@@ -23,7 +24,7 @@ sub new {
         htmldir         => $params{htmldir},
         ip              => $params{ip},
         port            => $params{port} || 62354,
-        trust_localhost => $params{'trust_localhost'}
+        trust           => $params{trust}
 
     };
     bless $self, $class;
@@ -70,7 +71,7 @@ sub _handle {
 
             my $hash = {
                 version => $FusionInventory::Agent::VERSION,
-                trust   => $self->{trust_localhost},
+                trust   => $self->_is_trusted($clientIp),
                 status  => $self->{agent}->getStatus(),
                 targets => [
                     map { $_->getStatus() } $self->{scheduler}->getTargets()
@@ -179,9 +180,15 @@ sub _handle {
 sub _is_trusted {
     my ($self, $address) = @_;
 
-    return 0 unless $self->{trust_localhost};
+    return 0 unless $self->{trust};
 
-    return $address =~ /^127\./;
+    my $source  = Net::IP->new($address);
+    my $trusted = Net::IP->new($self->{trust});
+    my $result = $source->overlaps($trusted);
+
+    return 
+        $result == $IP_A_IN_B_OVERLAP || # included in trusted range
+        $result == $IP_IDENTICAL;        # equals trusted address
 }
 
 sub _is_authenticated {
@@ -268,8 +275,8 @@ requests are accepted:
 =back
 
 Authentication is based on a token created by the agent, and sent to the
-server at initial connection. Connection from local host is allowed without
-token if parameter trust_localhost is true.
+server at initial connection. Connection from addresses matching the trust
+parameter are trusted without token.
 
 =head1 METHODS
 
@@ -304,9 +311,9 @@ the network adress to listen to (default: all)
 
 the network port to listen to
 
-=item I<trust_localhost>
+=item I<trust>
 
-a flag allowing to trust local request without authentication tokens (default:
-false)
+an IP adress or an IP adress range from which to trust incoming requests
+without authentication token (default: none)
 
 =back
