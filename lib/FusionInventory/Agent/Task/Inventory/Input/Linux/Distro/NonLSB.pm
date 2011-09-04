@@ -14,41 +14,41 @@ use FusionInventory::Agent::Tools;
 # - template to get the full name
 my @distributions = (
     # vmware-release contains something like "VMware ESX Server 3" or "VMware ESX 4.0 (Kandinsky)"
-    [ '/etc/vmware-release',    'VMWare',                     '.* ([0-9\.]+).*',         '%s' ],
+    [ '/etc/vmware-release',    'VMWare',                     '([\d.]+)',         '%s' ],
 
-    [ '/etc/arch-release',      'ArchLinux',                  '(.*)',                    'ArchLinux %s' ],
+    [ '/etc/arch-release',      'ArchLinux',                  '(.*)',             'ArchLinux %s' ],
 
-    [ '/etc/debian_version',    'Debian',                     '(.*)',                    'Debian GNU/Linux %s'],
+    [ '/etc/debian_version',    'Debian',                     '(.*)',             'Debian GNU/Linux %s'],
 
     # fedora-release contains something like "Fedora release 9 (Sulphur)"
-    [ '/etc/fedora-release',    'Fedora',                     '.* release ([0-9\.]+).*', '%s' ],
+    [ '/etc/fedora-release',    'Fedora',                     'release ([\d.]+)', '%s' ],
 
-    [ '/etc/gentoo-release',    'Gentoo',                     '(.*)',                    'Gentoo Linux %s' ],
+    [ '/etc/gentoo-release',    'Gentoo',                     '(.*)',             'Gentoo Linux %s' ],
 
     # knoppix_version contains something like "3.2 2003-04-15".
     # Note: several 3.2 releases can be made, with different dates, so we need to keep the date suffix
-    [ '/etc/knoppix_version',   'Knoppix',                    '(.*)',                    'Knoppix GNU/Linux %s' ],
+    [ '/etc/knoppix_version',   'Knoppix',                    '(.*)',             'Knoppix GNU/Linux %s' ],
 
     # mandriva-release contains something like "Mandriva Linux release 2010.1 (Official) for x86_64"
-    [ '/etc/mandriva-release',  'Mandriva',                   '.* release ([0-9\.]+).*', '%s'],
+    [ '/etc/mandriva-release',  'Mandriva',                   'release ([\d.]+)', '%s'],
 
     # mandrake-release contains something like "Mandrakelinux release 10.1 (Community) for i586"
-    [ '/etc/mandrake-release',  'Mandrake',                   '.* release ([0-9\.]+).*', '%s'],
+    [ '/etc/mandrake-release',  'Mandrake',                   'release ([\d.]+)', '%s'],
 
     # redhat-release contains something like "Red Hat Enterprise Linux Server release 5 (Tikanga)"
-    [ '/etc/redhat-release',    'RedHat',                     '.* release ([0-9\.]+).*', '%s' ],
+    [ '/etc/redhat-release',    'RedHat',                     'release ([\d.]+)', '%s' ],
 
-    [ '/etc/slackware-version', 'Slackware',                  'Slackware (.*)'         , '%s' ],
+    [ '/etc/slackware-version', 'Slackware',                  'Slackware (.*)',   '%s' ],
 
     # SuSE-release contains something like "SUSE Linux Enterprise Server 11 (x86_64)"
     # Note: it may contain several extra lines
-    [ '/etc/SuSE-release',      'SuSE',                       '.* ([0-9\.]+).*',         '%s' ],
+    [ '/etc/SuSE-release',      'SuSE',                       '([\d.]+)',         '%s' ],
 
     # trustix-release contains something like "Trustix Secure Linux release 2.0 (Cloud)"
-    [ '/etc/trustix-release',   'Trustix',                    '.* release ([0-9\.]+).*', '%s' ],
+    [ '/etc/trustix-release',   'Trustix',                    'release ([\d.]+)', '%s' ],
 
     # Fallback
-    [ '/etc/issue',             'Unknown Linux distribution', '.* ([0-9\.]+).*'        , '%s' ],
+    [ '/etc/issue',             'Unknown Linux distribution', '([\d.]+)'        , '%s' ],
 
     # Note: Ubuntu is not listed here as it does not have a
     # ubuntu-{release,version} file, but it should always have the lsb_release
@@ -86,7 +86,7 @@ sub _getDistroData {
 
     my $line       = getFirstLine(file => $distribution->[0]);
     my $release    = sprintf $template, $line;
-    my ($version)  = $line =~ /^$regexp/;
+    my ($version)  = $line =~ /$regexp/;
 
     my $data = {
         NAME      => $name,
