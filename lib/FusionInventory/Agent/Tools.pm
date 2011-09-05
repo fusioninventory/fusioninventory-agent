@@ -431,7 +431,7 @@ sub getLinesCount {
 sub canRun {
     my ($binary) = @_;
 
-    return which($binary);
+    return scalar(which($binary));
 }
 
 sub canRead {
