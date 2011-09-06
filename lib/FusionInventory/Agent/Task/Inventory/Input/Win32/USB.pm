@@ -45,11 +45,11 @@ sub doInventory {
         class      => 'CIM_LogicalDevice',
         properties => [ qw/DeviceID Name/ ]
     )) {
-        next unless $object->{DeviceID} =~ /^USB\\VID_(\w+)&PID_(\w+)(\\|$)(.*)/;
+        next unless $object->{DeviceID} =~ /^USB\\VID_(\w+)&PID_(\w+)(.*)?/;
 
-        my $vendorId = $1;
+        my $vendorId  = $1;
         my $productId = $2;
-        my $serial = $4;
+        my $serial    = $3;
 
         $serial =~ s/.*?&//;
         $serial =~ s/&.*$//;
