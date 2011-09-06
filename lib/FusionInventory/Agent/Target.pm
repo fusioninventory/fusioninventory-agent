@@ -56,7 +56,10 @@ sub setShared {
 
     # make sure relevant attributes are shared between threads
     threads::shared->require();
-    threads::shared::share($self->{nextRunDate});
+    # calling share(\$self->{status}) directly breaks in testing
+    # context, hence the need to use an intermediate variable
+    my $nextRunDate = \$self->{nextRunDate};
+    threads::shared::share($nextRunDate);
 
     $self->{shared} = 1;
 }

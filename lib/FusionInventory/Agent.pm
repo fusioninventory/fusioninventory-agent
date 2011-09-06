@@ -158,8 +158,12 @@ sub new {
         } else {
             # make sure relevant variables are shared between threads
             threads::shared->require();
-            threads::shared::share($self->{status});
-            threads::shared::share($self->{token});
+            # calling share(\$self->{status}) directly breaks in testing
+            # context, hence the need to use an intermediate variable
+            my $status = \$self->{status};
+            my $token = \$self->{token};
+            threads::shared::share($status);
+            threads::shared::share($token);
 
             $_->setShared() foreach $scheduler->getTargets();
 
