@@ -13,7 +13,7 @@ my %result = (
 );
 
 my @test = glob("resources/gentoo/equery/*");
-plan tests => int @test;
+plan tests => int (keys %result);
 
 foreach my $file (@test) {
     my $test = basename($file);
