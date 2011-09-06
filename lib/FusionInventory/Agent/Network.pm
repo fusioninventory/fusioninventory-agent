@@ -107,40 +107,17 @@ sub createUA {
 
     my $ua = LWP::UserAgent->new(keep_alive => 1, requests_redirectable => ['POST', 'GET', 'HEAD']);
 
-    # SSL handling
-    if ($config->{'no-ssl-check'}) {
-        if ($LWP::VERSION >= 6) {
-            # LWP6 default behavior is to check the SSL hostname
+
+    if ($LWP::VERSION > 6) {
+        # LWP6 default behavior is to check the SSL hostname
+        if ($config->{'no-ssl-check'}) {
             $ua->ssl_opts(verify_hostname => 0);
         }
-    } else {
-        # only IO::Socket::SSL can perform full server certificate validation,
-        # Net::SSL is only able to check certification authority, and not
-        # certificate hostname
-        IO::Socket::SSL->require();
-        die
-            "failed to load IO::Socket::SSL" .
-            ", unable to perform SSL certificate validation"
-            if $EVAL_ERROR;
-
-        if ($LWP::VERSION >= 6) {
-            $ua->ssl_opts(SSL_ca_file => $config->{'ca-cert-file'})
-                if $config->{'ca-cert-file'};
-            $ua->ssl_opts(SSL_ca_path => $config->{'ca-cert-dir'})
-                if $config->{'ca-cert-dir'};
-        } else {
-            # use a custom HTTPS handler to workaround default LWP5 behaviour
-            FusionInventory::Agent::HTTP::Protocol::https->use(
-                ca_cert_file => $config->{'ca-cert-file'},
-                ca_cert_dir  => $config->{'ca-cert-dir'},
-            );
-            LWP::Protocol::implementor(
-                'https', 'FusionInventory::Agent::HTTP::Protocol::https'
-            );
-
-            # abuse user agent internal to pass values to the handler, so
-            # as to mix validating and non-validating agents in the same process
-            $ua->{ssl_check} = $config->{'no-ssl-check'} ? 0 : 1;
+        if ($config->{'ca-cert-file'}) {
+            $ua->ssl_opts(SSL_ca_file => $config->{'ca-cert-file'});
+        }
+        if ($config->{'ca-cert-dir'}) {
+            $ua->ssl_opts(SSL_ca_path => $config->{'ca-cert-dir'});
         }
     }
 
@@ -181,6 +158,11 @@ sub createUA {
     my $version = 'FusionInventory-Agent_v'.$config->{VERSION};
     $ua->agent($version);
     $ua->timeout($timeout);
+
+    $self->setSslRemoteHost({
+            ua => $ua,
+            url => $uri
+        });
 
     # Auth
     my $realm = $forceRealm || $self->{config}->{realm};
@@ -307,6 +289,86 @@ sub send {
 
     return $response;
 }
+
+# No POD documentation here, it's an internal fuction
+# http://stackoverflow.com/questions/74358/validate-server-certificate-with-lwp
+sub turnSSLCheckOn {
+    my ($self, $args) = @_;
+
+    my $logger = $self->{logger};
+    my $config = $self->{config};
+
+
+    return if $config->{'no-ssl-check'};
+
+    if (!$config->{'ca-cert-file'} && !$config->{'ca-cert-dir'}) {
+        $logger->debug("You may need to use either --ca-cert-file ".
+            "or --ca-cert-dir to give the location of your SSL ".
+            "certificat. You can also disable SSL check with ".
+            "--no-ssl-check but this is very unsecure.");
+        return;
+    }
+
+
+    if ($config->{'ca-cert-file'}) {
+        if (!-f $config->{'ca-cert-file'} && !-l $config->{'ca-cert-file'}) {
+            $logger->fault("--ca-cert-file doesn't existe ".
+                "`".$config->{'ca-cert-file'}."'");
+        }
+
+        $ENV{HTTPS_CA_FILE} = $config->{'ca-cert-file'};
+        $ENV{PERL_LWP_SSL_CA_FILE} = $config->{'ca-cert-file'};
+
+    } elsif ($config->{'ca-cert-dir'}) {
+        if (!-d $config->{'ca-cert-dir'}) {
+            $logger->fault("--ca-cert-dir doesn't existe ".
+                "`".$config->{'ca-cert-dir'}."'");
+        }
+
+        $ENV{HTTPS_CA_DIR} = $config->{'ca-cert-dir'};
+        $ENV{PERL_LWP_SSL_CA_PATH} = $config->{'ca-cert-dir'};
+
+    }
+
+}
+
+sub setSslRemoteHost {
+    my ($self, $args) = @_;
+
+    my $config = $self->{config};
+    my $logger = $self->{logger};
+
+    my $uri = $args->{URI};
+    my $ua = $args->{ua};
+
+    if ($config->{'no-ssl-check'}) {
+        return;
+    }
+
+    if (!$self->{URI}) {
+        $logger->fault("setSslRemoteHost(), no url parameter!");
+    }
+
+    if ($self->{URI} !~ /^https:/i) {
+        return;
+    }
+
+# Compatibility with LWP5
+    if ($LWP::VERSION < 6) {
+        $self->turnSSLCheckOn();
+    # Check server name against provided SSL certificate
+        if ( $self->{URI} =~ /^https:\/\/([^\/]+).*$/i ) {
+            my $re = $1;
+# Accept SSL cert will hostname with wild-card
+# http://forge.fusioninventory.org/issues/542
+            $re =~ s/^([^\.]+)/($1|\\*)/;
+# protect some characters, $re will be evaluated as a regex
+            $re =~ s/([\-\.])/\\$1/g;
+            $ua->default_header('If-SSL-Cert-Subject' => '/CN='.$re.'($|\/)');
+        }
+    }
+}
+
 
 =item getStore()
 
