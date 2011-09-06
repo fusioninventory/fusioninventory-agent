@@ -41,7 +41,7 @@ TEST-SUITE
  ✔ FusionInventory::Agent::RPC build fails is no JSON
        commit:914cb5
      http://forge.fusioninventory.org/issues/955
- ✔ New build-dep: Test::Exception
+ ✔ New build-deps: Test::Exception, HTTP::Server::Simple::CGI
 
 WINDOWS
  ✔ use BIOS/MMODEL instead of BIOS/SMODEL on Win32 &lt;= 2003

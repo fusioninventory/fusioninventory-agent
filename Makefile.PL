@@ -39,6 +39,7 @@ if ($OSNAME ne 'MSWin32') {
 test_requires  'Test::More'  => undef;
 test_requires  'XML::TreePP'  => undef;
 test_requires  'Test::Exception' => undef;
+test_requires  'HTTP::Server::Simple::CGI' => undef;
 
 install_script  'fusioninventory-agent';
 install_script  'fusioninventory-agent-config';
