@@ -2,7 +2,7 @@
 # Create symblink to the subi task modules
 set -e
 
-for task in Deploy SNMPQuery NetDiscovery ESX; do
+for task in Deploy SNMPQuery NetDiscovery ESX OcsDeploy; do
     taskLcName=`perl -e" print lc \"$task\""`
     taskFile=$PWD/../agent-task-$taskLcName/lib/FusionInventory/Agent/Task/$task.pm
     taskDir=$PWD/../agent-task-$taskLcName/lib/FusionInventory/Agent/Task/$task

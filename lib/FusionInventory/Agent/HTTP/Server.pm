@@ -68,6 +68,20 @@ sub _handle {
             my $template = Text::Template->new(
                 TYPE => 'FILE', SOURCE => "$self->{htmldir}/index.tpl"
             );
+            if (!$template) {
+                $logger->error($log_prefix . "Template access failed: $Text::Template::ERROR");
+                ;
+
+                my $response = HTTP::Response->new(
+                    500,
+                    'KO',
+                    HTTP::Headers->new('Content-Type' => 'text/html'),
+                    "No template"
+                );
+
+                $client->send_response($response);
+                return;
+            }
 
             my $hash = {
                 version => $FusionInventory::Agent::VERSION,

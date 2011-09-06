@@ -43,6 +43,9 @@ test_requires  'HTTP::proxy'                  => undef;
 test_requires  'HTTP::Server::Simple'         => undef;
 test_requires  'HTTP::Server::Simple::Authen' => undef;
 test_requires  'IO::Capture::Stderr'          => undef;
+test_requires  'Test::Exception' => undef;
+test_requires  'HTTP::Server::Simple::CGI' => undef;
+test_requires  'HTTP::Server::Simple::Authen' => undef;
 
 install_script  'fusioninventory-agent';
 install_script  'fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
