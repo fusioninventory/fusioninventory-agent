@@ -1,5 +1,56 @@
 Revision history for FusionInventory::Agent
 
+2.1.10  Tue, 06 Sep 2011 08:48:27 -0000
+
+ ✔ Model and SSN don't correct
+       commit:7bb7b1
+     http://forge.fusioninventory.org/issues/1061
+   thanks: DuyLong LE
+
+INTERNAL
+ ✔ Report Linux distribution version number
+       commit:c7e958
+     http://forge.fusioninventory.org/issues/1066
+   thanks: Guillaume Rousse, Jonathan Clarke
+ ✔ incorrect FSF postal address
+       commit:190a04
+     http://forge.fusioninventory.org/issues/965
+   thanks: Remi Collet
+ ✔ Incorrect test for LWP version
+       commit:ebd880
+     http://forge.fusioninventory.org/issues/994
+   thanks: Guillaume Rousse
+
+LINUX
+ ✔ Use of uninitialized value in pattern match on CPU.pm
+       commit:ba5ee3
+     http://forge.fusioninventory.org/issues/1068
+   thanks: DuyLong LE
+
+SOLARIS
+ ✔ Can't get network interface
+       commit:c54339
+     http://forge.fusioninventory.org/issues/1056
+   thanks: DuyLong LE
+ ✔ Agent segfault on Opensolaris when trying to send an inventory using https
+       commit:fcfb8a
+     http://forge.fusioninventory.org/issues/332
+   thanks: Walid Nouh
+
+TEST-SUITE
+ ✔ FusionInventory::Agent::RPC build fails is no JSON
+       commit:914cb5
+     http://forge.fusioninventory.org/issues/955
+
+WINDOWS
+ ✔ use BIOS/MMODEL instead of BIOS/SMODEL on Win32 &lt;= 2003
+       commit:0b5ce8
+     http://forge.fusioninventory.org/issues/1139
+ ✔ keyboard with same serial added twice in connected items
+       commit:ce7244
+     http://forge.fusioninventory.org/issues/788
+   thanks: David Durieux, Fabrice Flore-Thebault, jerome slayer
+
 2.1.9  Tue, 14 Jun 2011 19:26:55 -0000
 
 HPUX
