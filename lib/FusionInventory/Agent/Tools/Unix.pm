@@ -18,11 +18,8 @@ our @EXPORT = qw(
     getFilesystemsFromDf
     getFilesystemsTypesFromMount
     getProcessesFromPs
-    getPCIDevices
     getRoutingTable
 );
-
-memoize('getPCIDevices');
 
 sub getDeviceCapacity {
     my %params = @_;
@@ -330,55 +327,6 @@ sub getProcessesFromPs {
     return @processes;
 }
 
-sub getPCIDevices {
-    my %params = (
-        command => 'lspci -vvv -nn',
-        @_
-    );
-    my $handle = getFileHandle(%params);
-
-    my (@controllers, $controller);
-
-    while (my $line = <$handle>) {
-        chomp $line;
-
-        if ($line =~ /^
-            (\S+) \s                     # slot
-            ([^[]+) \s                   # name
-            \[([a-f\d]+)\]: \s           # class
-            ([^[]+) \s                   # manufacturer
-            \[([a-f\d]+:[a-f\d]+)\]      # id
-            (?:\s \(rev \s (\d+)\))?     # optional version
-            /x) {
-
-            $controller = {
-                PCISLOT      => $1,
-                NAME         => $2,
-                PCICLASS     => $3,
-                MANUFACTURER => $4,
-                PCIID        => $5,
-                REV          => $6
-            };
-            next;
-        }
-
-        next unless defined $controller;
-
-        if ($line =~ /^$/) {
-            push(@controllers, $controller);
-            undef $controller;
-        } elsif ($line =~ /^\tKernel driver in use: (\w+)/) {
-            $controller->{DRIVER} = $1;
-        } elsif ($line =~ /^\tSubsystem: ([a-f\d]{4}:[a-f\d]{4})/) {
-            $controller->{PCISUBSYSTEMID} = $1;
-        }
-    }
-
-    close $handle;
-
-    return @controllers;
-}
-
 sub getRoutingTable {
     my %params = (
         command => 'netstat -nr -f inet',
@@ -492,21 +440,6 @@ output.
 =item logger a logger object
 
 =item command the exact command to use
-
-=item file the file to use, as an alternative to the command
-
-=back
-
-=head2 getPCIDevices(%params)
-
-Returns a list of PCI devices as a list of hashref, by parsing lspci command
-output.
-
-=over
-
-=item logger a logger object
-
-=item command the exact command to use (default: lspci -vvv -nn)
 
 =item file the file to use, as an alternative to the command
 

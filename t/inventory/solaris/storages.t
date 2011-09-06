@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::OS::Solaris::Storages;
+use FusionInventory::Agent::Task::Inventory::Input::Solaris::Storages;
 
 my %tests = (
     'sample1' => [
@@ -1725,6 +1725,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/solaris/iostat/$test";
-    my @storages = FusionInventory::Agent::Task::Inventory::OS::Solaris::Storages::_getStorages(file => $file);
+    my @storages = FusionInventory::Agent::Task::Inventory::Input::Solaris::Storages::_getStorages(file => $file);
     is_deeply(\@storages, $tests{$test}, $test);
 }

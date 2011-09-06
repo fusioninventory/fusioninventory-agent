@@ -161,6 +161,8 @@ sub new {
             threads::shared::share($self->{status});
             threads::shared::share($self->{token});
 
+            $_->setShared() foreach $scheduler->getTargets();
+
             $self->{_server} = FusionInventory::Agent::HTTP::Server->new(
                 logger          => $logger,
                 scheduler       => $scheduler,
@@ -510,9 +512,20 @@ Set the current authentication token to a random value.
 
 Get the current agent status.
 
+=head2 getKnownTasks()
+
+Get all available tasks among hard-coded list, as a list of module / version
+pairs:
+
+%tasks = (
+    'FusionInventory::Agent::Task::Foo' => x,
+    'FusionInventory::Agent::Task::Bar' => y,
+);
+
 =head2 getAvailableTasks()
 
-Get all available tasks, as a list of module / version pairs:
+Get all available tasks found on the system, as a list of module / version
+pairs:
 
 %tasks = (
     'FusionInventory::Agent::Task::Foo' => x,

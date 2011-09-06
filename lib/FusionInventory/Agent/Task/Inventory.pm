@@ -9,7 +9,7 @@ use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Inventory;
+use FusionInventory::Agent::Task::Inventory::Inventory;
 use FusionInventory::Agent::XML::Query::Inventory;
 
 our $VERSION = '1.0';
@@ -35,7 +35,7 @@ sub run {
 
     $self->{modules} = {};
 
-    my $inventory = FusionInventory::Agent::Inventory->new(
+    my $inventory = FusionInventory::Agent::Task::Inventory::Inventory->new(
         deviceid => $self->{deviceid},
         statedir => $self->{target}->getStorage()->getDirectory(),
         logger   => $self->{logger},
@@ -108,14 +108,14 @@ sub _initModulesList {
     my $config = $self->{config};
     my $storage = $self->{storage};
 
-    my @modules = __PACKAGE__->getModules();
+    my @modules = __PACKAGE__->getModules('Input');
     die "no inventory module found" if !@modules;
 
     # first pass: compute all relevant modules
     foreach my $module (sort @modules) {
         # compute parent module:
         my @components = split('::', $module);
-        my $parent = @components > 5 ?
+        my $parent = @components > 6 ?
             join('::', @components[0 .. $#components -1]) : '';
 
         # skip if parent is not allowed
@@ -132,7 +132,7 @@ sub _initModulesList {
             next;
         }
 
-        my $enabled = $self->_runFunction(
+        my $enabled = runFunction(
             module   => $module,
             function => "isEnabled",
             timeout  => $config->{'backend-collect-timeout'},
@@ -212,7 +212,7 @@ sub _runModule {
 
     $logger->debug ("Running $module");
 
-    $self->_runFunction(
+    runFunction(
         module   => $module,
         function => "doInventory",
         timeout  => $self->{config}->{'backend-collect-timeout'},
@@ -256,9 +256,8 @@ sub _feedInventory {
     # Execution time
     $inventory->setHardware({ETIME => time() - $begin});
 
-    $inventory->setGlobalValues();
-
-    $inventory->processChecksum();
+    $inventory->computeGlobalValues();
+    $inventory->computeChecksum();
 
     $inventory->checkContent();
 }
@@ -290,36 +289,6 @@ sub _injectContent {
     }
 
     $inventory->mergeContent($content);
-}
-
-sub _runFunction {
-    my ($self, %params) = @_;
-
-    my $logger = $self->{logger};
-
-    my $result;
-    
-    eval {
-        local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n require
-        alarm $params{timeout} if $params{timeout};
-
-        no strict 'refs'; ## no critic
-
-        $result = &{$params{module} . '::' . $params{function}}(
-	    %{$params{params}}
-	);
-    };
-    alarm 0;
-
-    if ($EVAL_ERROR) {
-        if ($EVAL_ERROR ne "alarm\n") {
-            $logger->debug("unexpected error in $params{module}: $EVAL_ERROR");
-        } else {
-            $logger->debug("$params{module} killed by a timeout.");
-        }
-    }
-
-    return $result;
 }
 
 sub _printInventory {

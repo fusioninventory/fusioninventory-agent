@@ -6,7 +6,7 @@ use warnings;
 use Test::More;
 use YAML qw/LoadFile/;
 
-use FusionInventory::Agent::Task::Inventory::OS::MacOS::Softwares;
+use FusionInventory::Agent::Task::Inventory::Input::MacOS::Softwares;
 
 my %tests = (
     'sample1' => [
@@ -2460,6 +2460,6 @@ plan tests => scalar keys %tests;
 foreach my $test (keys %tests) {
     my $file = "resources/macos/SysProfile/$test.yaml";
     my $info = LoadFile($file);
-    my $softwares = FusionInventory::Agent::Task::Inventory::OS::MacOS::Softwares::_getSoftwaresList($info);
+    my $softwares = FusionInventory::Agent::Task::Inventory::Input::MacOS::Softwares::_getSoftwaresList($info);
     is_deeply($softwares, $tests{$test}, $test);
 }

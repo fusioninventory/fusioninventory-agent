@@ -64,6 +64,8 @@ $target = FusionInventory::Agent::Target::Server->new(
 );
 is($target->getNextRunDate(), $nextRunDate, 'state persistence');
 
+# set target shared
+$target->setShared();
 # increment next run date in another thread
 my $thread = threads->create(\&thread);
 $thread->join();

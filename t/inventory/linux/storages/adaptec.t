@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::Adaptec;
+use FusionInventory::Agent::Task::Inventory::Input::Linux::Storages::Adaptec;
 use Test::More;
 
 plan tests => 2;
@@ -51,7 +51,7 @@ my %tests = (
 
 foreach my $test (keys %tests) {
     my $file = "resources/linux/proc/scsi/$test";
-    my @disks = FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::Adaptec::_getDisksFromProc(
+    my @disks = FusionInventory::Agent::Task::Inventory::Input::Linux::Storages::Adaptec::_getDisksFromProc(
         file       => $file,
         controller => $tests{$test}->{controller},
         name       => $tests{$test}->{name},

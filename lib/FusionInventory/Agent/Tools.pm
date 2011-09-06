@@ -11,6 +11,7 @@ use File::Spec;
 use File::stat;
 use File::Which;
 use Memoize;
+use UNIVERSAL::require;
 
 our @EXPORT = qw(
     getDirectoryHandle
@@ -21,8 +22,6 @@ our @EXPORT = qw(
     getCanonicalManufacturer
     getCanonicalSpeed
     getCanonicalSize
-    getDmidecodeInfos
-    getCpusFromDmidecode
     getSanitizedString
     getFirstLine
     getFirstMatch
@@ -39,13 +38,13 @@ our @EXPORT = qw(
     uniq
     file2module
     module2file
+    runFunction
 );
 
 my $nowhere = $OSNAME eq 'MSWin32' ? 'nul' : '/dev/null';
 
 memoize('canRun');
 memoize('canRead');
-memoize('getDmidecodeInfos');
 
 sub getFormatedLocalTime {
     my ($time) = @_;
@@ -149,111 +148,6 @@ sub getCanonicalSize {
         $unit eq 'mb' ? $value               :
         $unit eq 'kb' ? $value * 0.001       :
                         undef                ;
-}
-
-sub getDmidecodeInfos {
-    my %params = (
-        command => 'dmidecode',
-        @_
-    );
-
-    my $handle = getFileHandle(%params);
-
-    my ($info, $block, $type);
-
-    while (my $line = <$handle>) {
-        chomp $line;
-
-        if ($line =~ /DMI type (\d+)/) {
-            # start of block
-
-            # push previous block in list
-            if ($block) {
-                push(@{$info->{$type}}, $block);
-                undef $block;
-            }
-
-            # switch type
-            $type = $1;
-
-            next;
-        }
-
-        next unless defined $type;
-
-        next unless $line =~ /^\s+ ([^:]+) : \s (.*\S)/x;
-
-        next if
-            $2 eq 'N/A'           ||
-            $2 eq 'Not Specified' ||
-            $2 eq 'Not Present'   ;
-
-        $block->{$1} = $2;
-    }
-    close $handle;
-
-    return $info;
-}
-
-sub getCpusFromDmidecode {
-    my $infos = getDmidecodeInfos(@_);
-
-    return unless $infos->{4};
-
-    my @cpus;
-    foreach my $info (@{$infos->{4}}) {
-        next if $info->{Status} && $info->{Status} =~ /Unpopulated/i;
-
-        my $proc_manufacturer = $info->{'Processor Manufacturer'};
-        my $proc_version      = $info->{'Processor Version'};
-
-        # VMware
-        next if
-            ($proc_manufacturer && $proc_manufacturer eq '000000000000') &&
-            ($proc_version      && $proc_version eq '00000000000000000000000000000000');
-
-        my $cpu = {
-            SERIAL => $info->{'Serial Number'},
-            ID     => $info->{ID},
-            CORE   => $info->{'Core Count'} || $info->{'Core Enabled'},
-            THREAD => $info->{'Thread Count'},
-        };
-        $cpu->{MANUFACTURER} = $info->{'Manufacturer'} || $info->{'Processor Manufacturer'};
-        $cpu->{NAME} =
-            ($cpu->{MANUFACTURER} =~ /Intel/ ? $info->{'Family'} : undef) ||
-            $info->{'Version'}                                     ||
-            $info->{'Processor Family'}                            ||
-            $info->{'Processor Version'};
-
-        if ($info->{Version}) {
-            if ($info->{Version} =~ /([\d\.]+)MHz$/) {
-                $cpu->{SPEED} = $1;
-            } elsif ($info->{Version} =~ /([\d\.]+)GHz$/) {
-                $cpu->{SPEED} = $1 * 1000;
-            }
-        }
-        if (!$cpu->{SPEED}) {
-            if ($info->{'Max Speed'}) {
-                if ($info->{'Max Speed'} =~ /^\s*(\d+)\s*Mhz/i) {
-                    $cpu->{SPEED} = $1;
-                } elsif ($info->{'Max Speed'} =~ /^\s*(\d+)\s*Ghz/i) {
-                    $cpu->{SPEED} = $1 * 1000;
-                }
-            }
-        }
-
-        if ($info->{'External Clock'}) {
-            if ($info->{'External Clock'} =~ /^\s*(\d+)\s*Mhz/i) {
-                $cpu->{EXTERNAL_CLOCK} = $1;
-            } elsif ($info->{'External Clock'} =~ /^\s*(\d+)\s*Ghz/i) {
-                $cpu->{EXTERNAL_CLOCK} = $1 * 1000;
-            }
-        }
-
-        push @cpus, $cpu;
-    }
-
-    return @cpus;
 }
 
 sub compareVersion {
@@ -490,6 +384,45 @@ sub module2file {
     return $module;
 }
 
+sub runFunction {
+    my (%params) = @_;
+
+    my $logger = $params{logger};
+
+    # ensure module is loaded
+    if ($params{load}) {
+        $params{module}->require();
+        if ($EVAL_ERROR) {
+            $logger->debug("Failed to load $params{module}: $EVAL_ERROR")
+                if $logger;
+            return;
+        }
+    }
+
+    my $result;
+    eval {
+        # set 
+        local $SIG{ALRM} = sub { die "alarm\n" };
+        alarm $params{timeout} if $params{timeout};
+        no strict 'refs'; ## no critic
+        $result = &{$params{module} . '::' . $params{function}}(
+            ref $params{params} eq 'HASH'  ? %{$params{params}} :
+            ref $params{params} eq 'ARRAY' ? @{$params{params}} :
+                                               $params{params} 
+	);
+        alarm 0;
+    };
+
+    if ($EVAL_ERROR) {
+        my $message = $EVAL_ERROR eq "alarm\n" ?
+            "$params{module} killed by a timeout"             :
+            "unexpected error in $params{module}: $EVAL_ERROR";
+        $logger->debug($message) if $logger;
+    }
+
+    return $result;
+}
+
 1;
 __END__
 
@@ -526,27 +459,6 @@ Returns a normalized speed value (in Mhz) for given one.
 =head2 getCanonicalSize($size)
 
 Returns a normalized size value (in Mb) for given one.
-
-=head2 getDmidecodeInfos
-
-Returns a structured view of dmidecode output. Each information block is turned
-into an hashref, block with same DMI type are grouped into a list, and each
-list is indexed by its DMI type into the resulting hashref.
-
-$info = {
-    0 => [
-        { block }
-    ],
-    1 => [
-        { block },
-        { block },
-    ],
-    ...
-}
-
-=head2 getCpusFromDmidecode()
-
-Returns a list of CPUs, from dmidecode output.
 
 =head2 getSanitizedString($string)
 
@@ -631,6 +543,20 @@ given command output or given file content.
 
 =back
 
+=head2 getLastLine(%params)
+
+Returns the last line of given command output or given file content.
+
+=over
+
+=item logger a logger object
+
+=item command the exact command to use
+
+=item file the file to use, as an alternative to the command
+
+=back
+
 =head2 getLinesCount(%params)
 
 Returns the number of lines of given command output or given file content.
@@ -683,3 +609,20 @@ Converts a perl file name to a perl module name (Foo/Bar.pm -> Foo::Bar)
 
 Converts a perl module name to a perl file name ( Foo::Bar -> Foo/Bar.pm)
 
+=head2 runFunction(%params)
+
+Run a function whose name is computed at runtime and return its result.
+
+=over
+
+=item logger a logger object
+
+=item module the function namespace
+
+=item function the function name
+
+=item timeout timeout for function execution
+
+=item load enforce module loading first
+
+=back

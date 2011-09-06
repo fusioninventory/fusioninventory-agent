@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::OS::HPUX::Networks;
+use FusionInventory::Agent::Task::Inventory::Input::HPUX::Networks;
 
 my %lanadmin_tests = (
     'hpux1-0' => {
@@ -173,12 +173,12 @@ plan tests =>
 
 foreach my $test (keys %lanadmin_tests) {
     my $file = "resources/hpux/lanadmin/$test";
-    my $info = FusionInventory::Agent::Task::Inventory::OS::HPUX::Networks::_getLanadminInfo(file => $file);
+    my $info = FusionInventory::Agent::Task::Inventory::Input::HPUX::Networks::_getLanadminInfo(file => $file);
     is_deeply($info, $lanadmin_tests{$test}, "lanadmin parsing: $test");
 }
 
 foreach my $test (keys %ifconfig_tests) {
     my $file = "resources/generic/ifconfig/$test";
-    my $info = FusionInventory::Agent::Task::Inventory::OS::HPUX::Networks::_getIfconfigInfo(file => $file);
+    my $info = FusionInventory::Agent::Task::Inventory::Input::HPUX::Networks::_getIfconfigInfo(file => $file);
     is_deeply($info, $ifconfig_tests{$test}, "ifconfig parsing: $test");
 }

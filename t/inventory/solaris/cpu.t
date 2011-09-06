@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::OS::Solaris::CPU;
+use FusionInventory::Agent::Task::Inventory::Input::Solaris::CPU;
 
 my %memconf_tests = (
     sample4 => [
@@ -144,11 +144,11 @@ plan tests =>
 
 foreach my $test (keys %memconf_tests) {
     my $file    = "resources/solaris/memconf/$test";
-    my @results = FusionInventory::Agent::Task::Inventory::OS::Solaris::CPU::_getCPUFromMemconf(file => $file);
+    my @results = FusionInventory::Agent::Task::Inventory::Input::Solaris::CPU::_getCPUFromMemconf(file => $file);
     is_deeply(\@results, $memconf_tests{$test}, "memconf parsing: $test" );
 }
 
 foreach my $test (keys %spec_tests) {
-    my @results = FusionInventory::Agent::Task::Inventory::OS::Solaris::CPU::_parseSpec($test);
+    my @results = FusionInventory::Agent::Task::Inventory::Input::Solaris::CPU::_parseSpec($test);
     is_deeply(\@results, $spec_tests{$test}, "spec parsing: $test" );
 }

@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::OS::Generic::USB;
+use FusionInventory::Agent::Task::Inventory::Input::Generic::USB;
 
 my %tests = (
     'dell-xt2' => [
@@ -115,6 +115,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/generic/lsusb/$test";
-    my @devices = FusionInventory::Agent::Task::Inventory::OS::Generic::USB::_getDevices(file => $file);
+    my @devices = FusionInventory::Agent::Task::Inventory::Input::Generic::USB::_getDevices(file => $file);
     is_deeply(\@devices, $tests{$test}, $test);
 }

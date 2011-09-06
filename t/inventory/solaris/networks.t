@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::OS::Solaris::Networks;
+use FusionInventory::Agent::Task::Inventory::Input::Solaris::Networks;
 
 my %ifconfig_tests = (
     'solaris-10' => [
@@ -87,7 +87,7 @@ plan tests =>
 
 foreach my $test (keys %ifconfig_tests) {
     my $file = "resources/generic/ifconfig/$test";
-    my @results = FusionInventory::Agent::Task::Inventory::OS::Solaris::Networks::_getInterfaces(file => $file);
+    my @results = FusionInventory::Agent::Task::Inventory::Input::Solaris::Networks::_getInterfaces(file => $file);
     is_deeply(\@results, $ifconfig_tests{$test}, $test);
 }
 
