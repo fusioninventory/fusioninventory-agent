@@ -61,7 +61,7 @@ sub doInventory {
     my $bmanufacturer;
     my $mmanufacturer;
     my $msn;
-    my $model;
+    my $mmodel;
     my $assettag;
 
 
@@ -84,7 +84,7 @@ sub doInventory {
         Manufacturer Model
     /)) {
         $smanufacturer = $Properties->{Manufacturer} unless $smanufacturer;
-        $model = $Properties->{Model} unless $model;
+        $smodel = $Properties->{Model} unless $smodel;
     }
 
     foreach my $Properties (getWmiProperties('Win32_SystemEnclosure', qw/
@@ -100,7 +100,7 @@ sub doInventory {
     /)) {
         $baseBoardSerial = $Properties->{SerialNumber};
         $ssn = $Properties->{SerialNumber} unless $ssn;
-        $smodel = $Properties->{Product} unless $smodel;
+        $mmodel = $Properties->{Product} unless $*model;
         $smanufacturer = $Properties->{Manufacturer} unless $smanufacturer;
 
     }
@@ -114,7 +114,7 @@ sub doInventory {
         BMANUFACTURER => $bmanufacturer,
         MMANUFACTURER => $mmanufacturer,
         MSN => $msn,
-        MMODEL => $model,
+        MMODEL => $mmodel,
         ASSETTAG => $assettag,
         ENCLOSURESERIAL => $enclosureSerial,
         BASEBOARDSERIAL => $baseBoardSerial,
@@ -124,11 +124,11 @@ sub doInventory {
     my $vmsystem;
 # it's more reliable to do a regex on the CPU NAME
 # QEMU Virtual CPU version 0.12.4
-#    if ($bmanufacturer eq 'Bochs' || $model eq 'Bochs') {
+#    if ($bmanufacturer eq 'Bochs' || $mmodel eq 'Bochs') {
 #        $vmsystem = 'QEMU';
 #    } els
 
-    if ($bversion eq 'VirtualBox' || $model eq 'VirtualBox') {
+    if ($bversion eq 'VirtualBox' || $mmodel eq 'VirtualBox') {
         $vmsystem = 'VirtualBox';
     }
 
