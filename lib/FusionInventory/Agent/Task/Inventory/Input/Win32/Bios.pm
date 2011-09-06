@@ -54,7 +54,7 @@ sub doInventory {
         / ]
     )) {
         $bios->{SMANUFACTURER} = $object->{Manufacturer};
-        $bios->{MMODEL}        = $object->{Model};
+        $bios->{SMODEL}        = $object->{Model};
     }
 
     foreach my $object (getWmiObjects(
@@ -76,7 +76,7 @@ sub doInventory {
     )) {
         $bios->{BASEBOARDSERIAL} = $object->{SerialNumber};
         $bios->{SSN}             = $object->{SerialNumber} unless $bios->{SSN};
-        $bios->{SMODEL}          = $object->{Product};
+        $bios->{MMODEL}          = $object->{Product};
         $bios->{SMANUFACTURER}   = $object->{Manufacturer}
             unless $bios->{SMANUFACTURER};
 

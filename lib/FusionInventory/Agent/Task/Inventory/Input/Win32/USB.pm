@@ -9,6 +9,33 @@ sub isEnabled {
     return 1;
 }
 
+my @devices;
+
+sub alreadyIn {
+    my ($vendorId, $productId, $serial) = @_;
+
+    foreach (@devices) {
+        if (
+            ($_->{vendorId} eq $vendorId)
+              &&
+            ($_->{productId} eq $productId)
+              &&
+            ($_->{serial} eq $serial)
+            ) {
+            return 1;
+        }
+    }
+
+    push @devices, {
+        vendorId => $vendorId,
+        productId => $productId,
+        serial => $serial
+    };
+
+    return;
+}
+
+
 sub doInventory {
     my (%params) = @_;
 
@@ -28,6 +55,8 @@ sub doInventory {
         $serial =~ s/&.*$//;
 
         next if $vendorId =~ /^0+$/;
+
+        next if alreadyIn($vendorId, $productId, $serial);
 
         $inventory->addEntry(
             section => 'USBDEVICES',
