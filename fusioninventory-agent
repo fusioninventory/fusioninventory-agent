@@ -154,8 +154,6 @@ Additional optional perl modules:
 
 =item HTTP::Daemon, for web interface
 
-=item IO::Socket::SSL, for HTTPS support with certificate validation
-
 =item Net::CUPS (v0.60 minimum), for printers detection 
 
 =item File::ShareDir, for automatic data directory determination
@@ -177,16 +175,6 @@ Additional optional programs:
 =item lspci (linux or bsd) for hardware inventory
 
 =back
-
-=head2 SSL support
-
-LWP (also known as libwww-perl) is able to use either Crypt::SSLeay or
-IO::Socket::SSL transparently as underlying socket implementation for HTTPS
-support. However, only the second one is able to perform server certificate
-validation. As a consequence, the agent will refuse to use HTTPS, and exit
-immediatly if IO::Socket::SSL is not available, unless certificate checking has
-been explicitely disabled (--no-ssl-check command line parameter, or
-no-ssl-check configuration parameter).
 
 =head2 PROCEDURE
 
