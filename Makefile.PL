@@ -16,7 +16,7 @@ requires 'LWP'                => undef;
 requires 'Net::IP'            => undef;
 requires 'UNIVERSAL::require' => undef;
 requires 'Text::Template'     => undef;
-requires 'XML::TreePP'        => undef;
+requires 'XML::TreePP'        => '0.26';
 
 if ($OSNAME eq 'darwin') {
     requires 'Mac::SysProfile' => undef;
