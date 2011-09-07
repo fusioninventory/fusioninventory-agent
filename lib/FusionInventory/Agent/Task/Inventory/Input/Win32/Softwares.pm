@@ -115,53 +115,36 @@ sub _processSoftwares {
         # odd, found on Win2003
         next unless keys %$data > 2;
 
-# See bug #927
-# http://stackoverflow.com/questions/2639513/duplicate-entries-in-uninstall-registry-key-when-compiling-list-of-installed-soft
+        # See bug #927
+        # http://stackoverflow.com/questions/2639513/duplicate-entries-in-uninstall-registry-key-when-compiling-list-of-installed-soft
         next if $data->{'/SystemComponent'};
 
-        my $name = encodeFromRegistry($data->{'/DisplayName'});
-        # Use the folder name if there is no DisplayName
-        $name = encodeFromRegistry($guid) unless $name;
-        my $comments = encodeFromRegistry($data->{'/Comments'});
-        my $version = encodeFromRegistry($data->{'/DisplayVersion'});
-        my $publisher = encodeFromRegistry($data->{'/Publisher'});
-        my $urlInfoAbout = encodeFromRegistry($data->{'/URLInfoAbout'});
-        my $helpLink = encodeFromRegistry($data->{'/HelpLink'});
-        my $uninstallString = encodeFromRegistry($data->{'/UninstallString'});
-        my $releaseType = encodeFromRegistry($data->{'/ReleaseType'});
-        my $installDate = _dateFormat($data->{'/InstallDate'});
-        my $versionMinor = _hexToDec($data->{'/VersionMinor'});
-        my $versionMajor = _hexToDec($data->{'/VersionMajor'});
-
-        my $noRemove;
-        if ($data->{'/NoRemove'}) {
-            $noRemove = ($data->{'/NoRemove'} =~ /1/)?1:0;
-        }
+        my $software = {
+            FROM             => "registry",
+            NAME             => encodeFromRegistry($data->{'/DisplayName'}) ||
+                                encodeFromRegistry($guid), # folder name
+            COMMENTS         => encodeFromRegistry($data->{'/Comments'}),
+            HELPLINK         => encodeFromRegistry($data->{'/HelpLink'}),
+            RELEASETYPE      => encodeFromRegistry($data->{'/ReleaseType'}),
+            VERSION          => encodeFromRegistry($data->{'/DisplayVersion'}),
+            PUBLISHER        => encodeFromRegistry($data->{'/Publisher'}),
+            URL_INFO_ABOUT   => encodeFromRegistry($data->{'/URLInfoAbout'}),
+            UNINSTALL_STRING => encodeFromRegistry($data->{'/UninstallString'}),
+            INSTALLDATE      => _dateFormat($data->{'/InstallDate'}),
+            VERSION_MINOR    => _hexToDec($data->{'/VersionMinor'}),
+            VERSION_MAJOR    => _hexToDec($data->{'/VersionMajor'}),
+            NO_REMOVE        => $data->{'/NoRemove'} && 
+                               $data->{'/NoRemove'} =~ /1/,
+            IS64BIT          => $is64bit,
+            GUID             => $guid,
+        };
 
         # Workaround for #415
-        $version =~ s/[\000-\037].*// if $version;
+        $software->{VERSION} =~ s/[\000-\037].*// if $software->{VERSION};
 
         $inventory->addEntry(
             section => 'SOFTWARES',
-            entry   => {
-                COMMENTS         => $comments,
-    #            FILESIZE => $filesize,
-    #            FOLDER => $folder,
-                FROM             => "registry",
-                HELPLINK         => $helpLink,
-                INSTALLDATE      => $installDate,
-                NAME             => $name,
-                NO_REMOVE         => $noRemove,
-                RELEASE_TYPE      => $releaseType,
-                PUBLISHER        => $publisher,
-                UNINSTALL_STRING => $uninstallString,
-                URL_INFO_ABOUT   => $urlInfoAbout,
-                VERSION          => $version,
-                VERSION_MINOR    => $versionMinor,
-                VERSION_MAJOR    => $versionMajor,
-                IS64BIT          => $is64bit,
-                GUID             => $guid,
-            },
+            entry   => $software,
             noDuplicated => 1
         );
     }
