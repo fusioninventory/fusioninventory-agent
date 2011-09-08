@@ -479,14 +479,14 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::OcsDeploy - OCS Inventory Software deployment support for FusionInvnetory Agent
+FusionInventory::Agent::Task::Deploy - Software deployment support for FusionInvnetory Agent
 
 =head1 DESCRIPTION
 
 With this module, F<FusionInventory> can accept software deployment
-request from an OCS Inventory server.
+request from an GLPI server with the FusionInventory plugin.
 
-OCS Inventory uses SSL certificat to authentificat the server. You may have
+This module uses SSL certificat to authentificat the server. You may have
 to point F<--ca-cert-file> or F<--ca-cert-dir> to your public certificat.
 
 If the P2P option is turned on, the agent will looks for peer in its network. The network size will be limited at 255 machines.
