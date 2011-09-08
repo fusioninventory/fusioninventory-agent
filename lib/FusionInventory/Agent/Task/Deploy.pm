@@ -222,6 +222,19 @@ sub processRemote {
             }
         }
 
+        $self->{fusionClient}->send(
+            "url" => $remoteUrl,
+            args  => {
+                action      => "setStatus",
+                machineid   => $self->{deviceid},
+                part        => 'job',
+                uuid        => $job->{uuid},
+                currentStep => 'checking',
+                status    => 'ok'
+            }
+        );
+
+
         # DOWNLOADING
 
         $self->{fusionClient}->send(
@@ -371,9 +384,10 @@ sub processRemote {
             }
 
 
-            my $ret = $actionProcessor->process($actionName, $params);
+            my $ret;
+            eval { $ret = $actionProcessor->process($actionName, $params); };
+            $ret->{log} = $@ if $@;
             if ( !$ret->{status} ) {
-
                 $self->{fusionClient}->send(
                     "url" => $remoteUrl,
                     args  => {
