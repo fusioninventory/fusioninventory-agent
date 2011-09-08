@@ -1,0 +1,17 @@
+FusionInventory::Agent::Task::Deploy - Software deployment support
+for FusionInvnetory Agent
+
+DESCRIPTION
+With this module, FusionInventory can accept software deployment
+request from an GLPI server with the FusionInventory plugin.
+
+This module uses SSL certificat to authentificat the server. You
+may have to point --ca-cert-file or --ca-cert-dir to your public certificat.
+
+If the P2P option is turned on, the agent will looks for peer in its
+network. The network size will be limited at 255 machines.
+
+
+Copyright TECLIB' 2011
+Copyright Gonéri Le Bouder 2011
+License GPLv2+
