@@ -457,7 +457,7 @@ use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::Task::Deploy;
 use FindBin;
 use File::Path qw(make_path remove_tree);
-use Test::More tests => 37;
+use Test::More tests => 39;
 use Data::Dumper;
 
 remove_tree($tmpDirClient) if -d $tmpDirClient;
