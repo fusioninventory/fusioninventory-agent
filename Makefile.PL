@@ -43,9 +43,10 @@ test_requires  'HTTP::proxy'                  => undef;
 test_requires  'HTTP::Server::Simple'         => undef;
 test_requires  'HTTP::Server::Simple::Authen' => undef;
 test_requires  'IO::Capture::Stderr'          => undef;
-test_requires  'Test::Exception' => undef;
-test_requires  'HTTP::Server::Simple::CGI' => undef;
+test_requires  'Test::Exception'              => undef;
+test_requires  'HTTP::Server::Simple::CGI'    => undef;
 test_requires  'HTTP::Server::Simple::Authen' => undef;
+test_requires  'YAML'                         => undef;
 
 install_script  'fusioninventory-agent';
 install_script  'fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
@@ -104,7 +105,7 @@ sub install {
 
 config_install :
 	install -d -m 755 $(DESTDIR)$(CONFDIR)
-	install -m 644 etc/fusioninventory/agent.cfg $(DESTDIR)$(CONFDIR)
+	install -m 644 etc/agent.cfg $(DESTDIR)$(CONFDIR)
 
 data_install :
 	install -d -m 755 $(DESTDIR)$(DATADIR)
