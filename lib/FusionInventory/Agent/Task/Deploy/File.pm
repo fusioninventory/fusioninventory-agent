@@ -29,13 +29,12 @@ sub getPartFilePath {
     my $filePath  = $self->{datastore}->{path}.'/fileparts/';
     find({
         wanted => sub {
-            return unless $_ eq $sha512;
+            return unless -f;
+            return unless basename($_) eq $sha512;
             $filePath = $File::Find::name;
             return;
         },
-        options => {
-            no_chdir => 1
-        }
+        no_chdir => 1
     }, $self->{datastore}->{path}.'/fileparts');
 
     return $filePath if -f $filePath;
