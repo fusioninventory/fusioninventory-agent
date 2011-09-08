@@ -61,13 +61,15 @@ sub _parseDate {
         $day   = $1;
         $month = $2;
         $year  = ($3 > 90 ? "19" : "20" ) . $3;
+        return "$day/$month/$year";
     } elsif ($string =~ /(\d{4}) [\/-] (\d{1,2}) [\/-] (\d{1,2})/x) {
         $year  = $1;
         $day   = $2;
         $month = $3;
+        return "$day/$month/$year";
     }
 
-    return "$day/$month/$year";
+    return;
 }
 
 1;
