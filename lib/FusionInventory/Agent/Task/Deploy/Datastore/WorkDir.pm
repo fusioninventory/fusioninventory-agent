@@ -44,14 +44,14 @@ sub prepare {
         }
         binmode($fh);
         foreach my $sha512 (@{$file->{multiparts}}) {
-            my $partFilePath = $file->getBaseDir().'/'.$sha512;
+            my $partFilePath = $file->getPartFilePath($sha512);
             if (! -f $partFilePath) {
                 print "Missing multipart element: `$partFilePath'\n";
             }
 
             my $part;
             my $buf;
-            if ($part = gzopen($file->getBaseDir().'/'.$sha512, 'rb')) {
+            if ($part = gzopen($partFilePath, 'rb')) {
 
                 print "reading ".$sha512."\n";
                 while ($part->gzread($buf, 1024)) {

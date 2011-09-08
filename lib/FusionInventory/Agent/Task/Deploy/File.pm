@@ -68,7 +68,7 @@ print "p2p: "."\n";
 
 MULTIPART: foreach my $sha512 (@{$self->{multiparts}}) {
         my $partFilePath = $self->getPartFilePath($sha512);
-        File::Path::make_path(dirname($partFilePath)) or warn "make_path: ".$@;
+        File::Path::make_path(dirname($partFilePath));
         print "→".$partFilePath."\n";
 
         MIRROR: foreach my $mirror (@$p2pHostList, @$mirrorList) {
@@ -99,7 +99,7 @@ sub exists {
     my $isOk = @{$self->{multiparts}}?1:0;
     foreach my $sha512 (@{$self->{multiparts}}) {
 
-        my $filePath  = $path.'/'.$sha512;
+        my $filePath  = $self->getPartFilePath($sha512);
 
         if (!-f $filePath) {
                 $isOk = 0;
