@@ -69,19 +69,41 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
+
+    foreach my $device (_getDevices(command => 'ioreg -l', logger => $logger)) {
+        $inventory->addEntry(
+            section => 'USBDEVICES',
+            entry   => $device,
+            noDuplicated => 1
+        );
+    }
+}
+
+sub _getDevices {
+    my $handle = getFileHandle(@_);
+    return unless $handle;
 
     my $state = 0;
-#IOUSBDevice  
     my @devices;  
     my $device;   
-    foreach (`ioreg -l`) {
-        s/^[\|\s]*//;     
-        $state = 1 if /<class IOUSBDevice,/;
-        $state = 2 if $state == 1 && /^\{/;
-        if ($state == 2 && /^\}/) {
+
+    while (my $line = <$handle>) {
+        $line =~ s/^[\|\s]*//;     
+        $state = 1 if $line =~ /<class IOUSBDevice,/;
+        $state = 2 if $state == 1 && $line =~ /^\{/;
+
+        if ($state == 2 && $line =~ /^\}/) {
             $state = 0;   
-            push @devices, $device if keys %$device;
-            $device = {};                                                                                                                  
+            push @devices, {
+                VENDORID  => sprintf("%x", $device->{'idVendor'}),
+                PRODUCTID => sprintf("%x", $device->{'idProduct'}),
+                SERIAL    => $device->{'USB Serial Number'},
+                NAME      => $device->{'USB Product Name'},
+                CLASS     => $device->{'bDeviceClass'},
+                SUBCLASS  => $device->{'bDeviceSubClass'}
+            } if keys %$device;
+            $device = {};
         } 
 
         if ($state == 2) {
@@ -95,23 +117,10 @@ sub doInventory {
                 $device->{$key}=$val;
             } 
         } 
-
     } 
+    close $handle;
 
-    foreach my $device (@devices) {
-        $inventory->addEntry(
-            section => 'USBDEVICES',
-            entry   => {
-                VENDORID  => sprintf("%x", $device->{'idVendor'}),
-                PRODUCTID => sprintf("%x", $device->{'idProduct'}),
-                SERIAL    => $device->{'USB Serial Number'},
-                NAME      => $device->{'USB Product Name'},
-                CLASS     => $device->{'bDeviceClass'},
-                SUBCLASS  => $device->{'bDeviceSubClass'}
-            },
-            noDuplicated => 1
-        );
-    }
+    return @devices;
 }
 
 1;
