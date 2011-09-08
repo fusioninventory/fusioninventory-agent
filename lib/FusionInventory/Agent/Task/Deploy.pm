@@ -88,7 +88,6 @@ sub _validateAnswer {
     }
 
     if (ref($answer->{associatedFiles}) ne 'HASH') {
-    print Dumper($answer);
         $$msgRef = "associatedFiles should be an hash";
         return;
     }
@@ -250,7 +249,7 @@ sub processRemote {
 
         my $workdir = $datastore->createWorkDir( $job->{uuid} );
         foreach my $file ( @{ $job->{associatedFiles} } ) {
-            if ( $file->exists() ) {
+            if ( $file->filePartsExists() ) {
                 $self->{fusionClient}->send(
                     "url" => $remoteUrl,
                     args  => {
@@ -279,7 +278,7 @@ sub processRemote {
             );
 
             $file->download();
-            if ( $file->exists() ) {
+            if ( $file->filePartsExists() ) {
 
                 $self->{fusionClient}->send(
                     "url" => $remoteUrl,
@@ -354,7 +353,6 @@ sub processRemote {
         my $actionnum = 0;
         ACTION: while ( my $action = $job->getNextToProcess() ) {
         my ($actionName, $params) = %$action;
-        print Dumper($params);
             if ( $params && (ref( $params->{checks} ) eq 'ARRAY') ) {
                 my $checkProcessor =
                     FusionInventory::Agent::Task::Deploy::CheckProcessor->new();
@@ -443,7 +441,7 @@ sub processRemote {
         );
     }
 
-#    $datastore->cleanUp();
+    $datastore->cleanUp();
     1;
 }
 

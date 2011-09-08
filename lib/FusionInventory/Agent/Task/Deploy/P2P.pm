@@ -176,10 +176,10 @@ sub scan {
                         ConnectTimeout=> 10,
                         Connected     => sub {
                             push @ipFound, 'http://'.$addr.':'.$port.'/deploy/getFile/';
+                            $_[KERNEL]->yield("shutdown");
                             },
-                                ServerInput   => sub {
-                                      my $input = $_[ARG0];
-                        print "from server: $input\n";
+                        ServerInput   => sub {
+                            $_[KERNEL]->yield("shutdown");
                         },
                 );
 

@@ -3,6 +3,7 @@ package FusionInventory::Agent::Task::Deploy::File;
 use strict;
 use warnings;
 
+use File::Find;
 use Data::Dumper;
 use Digest::SHA;
 use LWP::Simple;
@@ -25,8 +26,19 @@ sub new {
 sub getPartFilePath {
     my ($self, $sha512, ) = @_;
 
+    my $filePath  = $self->{datastore}->{path}.'/fileparts/';
+    find({
+        wanted => sub {
+            return unless $_ eq $sha512;
+            $filePath = $File::Find::name;
+            return;
+        },
+        options => {
+            no_chdir => 1
+        }
+    }, $self->{datastore}->{path}.'/fileparts');
 
-    my $filePath  = $self->{datastore}->{path}.'/filepats/';
+    return $filePath if -f $filePath;
 
     if ($self->{p2p}) {
         $filePath .= 'shared/';
@@ -40,9 +52,9 @@ sub getPartFilePath {
 
     $filePath .= $1.'/'.$1.$2.'/';
 
-    $filePath.=$sha512;
+    $filePath .= $sha512;
 
-
+    return $filePath;
 }
 
 sub download {
@@ -60,16 +72,18 @@ print Dumper($self->{mirrors});
 print "p2p: "."\n";
 
    my $p2pHostList;
-   if ($self->{p2p} && FusionInventory::Agent::Task::Deploy::P2P->require) {
-      $p2pHostList = FusionInventory::Agent::Task::Deploy::P2P::findPeer(80)#62354;
-   }
    use Data::Dumper;
-   print Dumper($p2pHostList);
 
 MULTIPART: foreach my $sha512 (@{$self->{multiparts}}) {
         my $partFilePath = $self->getPartFilePath($sha512);
         File::Path::make_path(dirname($partFilePath));
-        print "→".$partFilePath."\n";
+        if (-f $partFilePath) {
+                next MULTIPART if _getSha512ByFile($partFilePath) eq $sha512;
+        }
+
+        if ($self->{p2p} && (ref($p2pHostList) ne 'ARRAY') && FusionInventory::Agent::Task::Deploy::P2P->require) {
+            $p2pHostList = FusionInventory::Agent::Task::Deploy::P2P::findPeer(62354);
+        }
 
         MIRROR: foreach my $mirror (@$p2pHostList, @$mirrorList) {
             next unless $sha512 =~ /^(.)(.)/;
@@ -89,14 +103,12 @@ MULTIPART: foreach my $sha512 (@{$self->{multiparts}}) {
 
 }
 
-sub exists {
+sub filePartsExists {
     my ($self) = @_;
 
     my $datastore = $self->{datastore};
 
-    my $path = $datastore->getPathBySha512($self->{sha512});
-
-    my $isOk = @{$self->{multiparts}}?1:0;
+    my $isOk = 1;
     foreach my $sha512 (@{$self->{multiparts}}) {
 
         my $filePath  = $self->getPartFilePath($sha512);

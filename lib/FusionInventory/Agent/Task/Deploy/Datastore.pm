@@ -24,8 +24,12 @@ sub new {
 sub cleanUp {
     my ($self) = @_;
 
-    return unless -d $self->{path}.'/workdir/';
-    remove_tree( $self->{path}.'/workdir/', {error => \my $err} );
+    if (-d $self->{path}.'/workdir/') {
+        remove_tree( $self->{path}.'/workdir/', {error => \my $err} );
+    }
+    if (-d $self->{path}.'/fileparts/private/') {
+        remove_tree( $self->{path}.'/fileparts/private/', {error => \my $err} );
+    }
 
 }
 
