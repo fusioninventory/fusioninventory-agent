@@ -75,29 +75,19 @@ sub send {
 
     my $response_content = $response->content();
     if (!$response_content) {
-        $logger->error($log_prefix . "empty content");
+        $logger->error($log_prefix . "unknown content format");
         return;
     }
 
     my $uncompressed_response_content = $self->_uncompress($response_content);
     if (!$uncompressed_response_content) {
-        # second chance, look for zlib magic number
-        my $offset = index($response_content, "\x78\x9c");
-        if ($offset > 0) {
-            $logger->info("compressed message found at offset $offset");
-            $uncompressed_response_content = $self->_uncompress(
-                substr($response_content, $offset)
-            );
-        } else {
-            my @lines = split(/\n/, $response_content);
-            $logger->error(
-                $log_prefix . "uncompressed content, starting with $lines[0]"
-            );
-            return;
-        }
+        $logger->error(
+            $log_prefix . "uncompressed content, starting with: ".substr($response_content, 0, 500)
+        );
+        return;
     }
 
-    $logger->debug2($log_prefix . "receiving message:\n $response_content");
+    $logger->debug2($log_prefix . "receiving message:\n $uncompressed_response_content");
 
     my $result;
     eval {
@@ -128,10 +118,19 @@ sub _compress {
 sub _uncompress {
     my ($self, $data) = @_;
 
-    return 
-        $self->{compression} eq 'native' ? $self->_uncompressNative($data) :
-        $self->{compression} eq 'gzip'   ? $self->_uncompressGzip($data)   :
-                                          $data;
+    if ($data =~ /(\x78\x9C.*)/s) {
+        $self->{logger}->debug2("format: Zlib");
+        return $self->_uncompressNative($1);
+    } elsif ($data =~ /(\x1F\x8B\x08\x08.*)/s) {
+        $self->{logger}->debug2("format: Gzip");
+        return $self->_uncompressGzip($1);
+    } elsif ($data =~ /(<html><\/html>|)[^<]*(<.*>)\s*$/s) {
+        $self->{logger}->debug2("format: Plaintext");
+        return $2;
+    } else {
+        $self->{logger}->debug2("format: Unknown");
+        return;
+    }
 }
 
 sub _compressNative {
