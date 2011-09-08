@@ -10,10 +10,16 @@ version_from 'lib/FusionInventory/Agent/Task/Deploy.pm';
 perl_version '5.008';
 
 # mandatory dependencies
-requires 'FusionInventory::Agent'        => 2.2.0;
+requires 'FusionInventory::Agent' => 2.2.0;
 
-test_requires 'Archive::Extract'               => undef;
-test_requires 'Digest::SHA'               => undef;
+requires 'Archive::Extract' => undef;
+requires 'Digest::SHA' => undef;
+requires 'File::Basename' => undef;
+requires 'JSON' => undef;
+requires 'URI::Escape' => undef;
+requires 'File::Copy::Recursive' => undef;
+requires 'File::Path' => undef;
+requires 'File::Glob' => undef;
 
 
 WriteAll;
