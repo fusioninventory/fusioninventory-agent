@@ -9,6 +9,8 @@ use Cwd;
 use Data::Dumper;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Move;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Copy;
+use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Mkdir;
+use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Delete;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Cmd;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::MessageBox;
 
@@ -47,6 +49,14 @@ sub process {
         $ret =
           FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Copy::do(
             $params);
+    } elsif ( $actionName eq 'mkdir' ) {
+        $ret =
+          FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Mkdir::do(
+            $params);
+    } elsif ( $actionName eq 'delete' ) {
+        $ret =
+          FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Delete::do(
+            $params);
     } elsif ( $actionName eq 'cmd' ) {
         $ret =
           FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Cmd::do(
@@ -55,7 +65,7 @@ sub process {
         $ret =
           FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::MessageBox::do(
             $params);
-    } else {
+   } else {
         print "Unknown action type: `$actionName'\n";
         chdir($cwd);
         return {

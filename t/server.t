@@ -378,7 +378,27 @@ my %actions = (
               }
           };
         }
-
+    elsif ( $testname eq 'deploy14' ) {
+          $ret->{jobs}[0]{actions}[0] = {
+              mkdir => { 
+                list => [
+                $tmpDirServer.'/test-dir1',
+                $tmpDirServer.'/test-dir2',
+                $tmpDirServer.'/test-dir3',
+                ]
+             }
+          };
+        }
+    elsif ( $testname eq 'deploy15' ) {
+          $ret->{jobs}[0]{actions}[0] = {
+              delete => { 
+                list => [
+                $tmpDirServer.'/dir-to-delete',
+                $tmpDirServer.'/file-to-delete',
+                ]
+             }
+          };
+        }
         return ( encode_json($ret), 200 );
     },
     setStatus => sub {
@@ -673,6 +693,29 @@ $last = pop @{$deploy->{fusionClient}{msgStack}};
 ok(($last->{status} eq "ko") && ($last->{actionnum} == 1), "section action should failed");
 $deploy->{fusionClient}{msgStack} = [];
 
+# create a list of directory
+$deploy->processRemote('http://localhost:8080/deploy14');
+ok (
+  -d $tmpDirServer.'/test-dir1'
+    &&
+  -d $tmpDirServer.'/test-dir2'
+    &&
+  -d $tmpDirServer.'/test-dir3',
+, "create directory");
+$deploy->{fusionClient}{msgStack} = [];
+
+mkdir $tmpDirServer.'/dir-to-delete';
+open FILE, ">".$tmpDirServer.'/file-to-delete';
+print FILE "titi\n";
+close FILE;
+# delete a list of file and directory
+$deploy->processRemote('http://localhost:8080/deploy15');
+ok (
+  !-e $tmpDirServer.'/dir-to-delete'
+    &&
+  !-e $tmpDirServer.'/file-to-delete'
+, "delete file and directory");
+$deploy->{fusionClient}{msgStack} = [];
 
 
 #ok( $deploy->processRemote('http://localhost:8080/deploy3'), "processRemote()" );
