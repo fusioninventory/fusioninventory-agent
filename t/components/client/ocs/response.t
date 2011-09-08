@@ -15,7 +15,7 @@ use FusionInventory::Agent::XML::Query;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
 
-plan tests => 6;
+plan tests => 7;
 
 my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'Test' ]
