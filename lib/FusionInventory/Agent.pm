@@ -27,7 +27,6 @@ our $AGENT_STRING =
     "FusionInventory-Agent_v$VERSION";
 
 my @tasks = qw/
-    OcsDeploy
     Inventory
     WakeOnLan
     SNMPQuery

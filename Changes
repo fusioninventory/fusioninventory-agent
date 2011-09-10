@@ -46,6 +46,8 @@ Major changes:
 * useless Ping task has been dropped
 * XML::TreePP perl module is now used instead of XML::Simple, reducing native
   perl modules dependencies
+* OcsDeploy task is now deprecated. Please continue to use the 2.1.x agent is
+  you need it.
 
 Minor changes:
 * Add the HARDWARE/CHASSIS_TYPE information
