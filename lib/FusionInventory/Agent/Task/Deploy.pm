@@ -125,7 +125,7 @@ sub processRemote {
 
     my $datastore = FusionInventory::Agent::Task::Deploy::Datastore->new(
         { path => $self->{target}{storage}{directory}.'/deploy', } );
-#    $datastore->cleanUp();
+    $datastore->cleanUp();
 
     my $ret = {};
     my $jobList = [];
