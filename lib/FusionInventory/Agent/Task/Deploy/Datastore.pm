@@ -5,6 +5,7 @@ use FusionInventory::Agent::Task::Deploy::Datastore::WorkDir;
 use strict;
 use warnings;
 
+use File::Glob;
 use File::Path qw(make_path remove_tree);
 
 sub new {
@@ -29,6 +30,13 @@ sub cleanUp {
     }
     if (-d $self->{path}.'/fileparts/private/') {
         remove_tree( $self->{path}.'/fileparts/private/', {error => \my $err} );
+    }
+    if (-d $self->{path}.'/fileparts/shared/') {
+        foreach my $sharedSubDir (File::Glob::glob($self->{path}.'/fileparts/shared/*')) {
+            next unless $sharedSubDir =~ /(\d+)/;
+            next unless time > $1;
+            remove_tree( $sharedSubDir, {error => \my $err} );
+        }
     }
 
 }
