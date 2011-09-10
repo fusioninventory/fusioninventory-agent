@@ -334,7 +334,33 @@ sub processRemote {
 #             next JOB;
 #         }
 
-        $workdir->prepare();
+        if (!$workdir->prepare()) {
+            $self->{fusionClient}->send(
+                "url" => $remoteUrl,
+                args  => {
+                action      => "setStatus",
+                machineid   => $self->{deviceid},
+                part        => 'job',
+                uuid        => $job->{uuid},
+                currentStep => 'prepare',
+                status      => 'ko',
+                msg         => 'failed to prepare work dir'
+                }
+            );
+            next JOB;
+        } else {
+            $self->{fusionClient}->send(
+                "url" => $remoteUrl,
+                args  => {
+                action      => "setStatus",
+                machineid   => $self->{deviceid},
+                part        => 'job',
+                uuid        => $job->{uuid},
+                currentStep => 'prepare',
+                status      => 'ok',
+                }
+            );
+        }
 
         # PROCESSING
 #        $self->{fusionClient}->send(
