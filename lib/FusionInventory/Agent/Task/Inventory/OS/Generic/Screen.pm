@@ -642,10 +642,21 @@ sub _getManifacturerFromCode {
         "ZCM" => "Zenith Data Systems",
         "___" => "Targa",
         "BNQ" => "BenQ Corporation",
+        "LPL" => "LG Philips",
+        "PCK" => "Daewoo",
+        "NVD" => "Nvidia", #Nvidia
+        "HIQ" => "Hyundai ImageQuest",
+        "BMM" => "BMM",
+        "AMW" => "AMW",
+        "IFS" => "InFocus",
+        "BOE" => "BOE Display Technology",
+        "IQT" => "Hyundai",
+
+
     };
 
     return $h->{$code} if (exists ($h->{$code}) && $h->{$code});
-    return "Unknown manufacturer code ".$code;
+    return $code;
 }
 
 sub sqr { $_[0] * $_[0] }
