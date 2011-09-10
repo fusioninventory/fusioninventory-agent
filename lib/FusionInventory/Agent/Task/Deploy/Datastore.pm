@@ -25,6 +25,7 @@ sub new {
 sub cleanUp {
     my ($self) = @_;
 
+    my $diskFull=$self->diskIsFull();
     if (-d $self->{path}.'/workdir/') {
         remove_tree( $self->{path}.'/workdir/', {error => \my $err} );
     }
@@ -34,8 +35,9 @@ sub cleanUp {
     if (-d $self->{path}.'/fileparts/shared/') {
         foreach my $sharedSubDir (File::Glob::glob($self->{path}.'/fileparts/shared/*')) {
             next unless $sharedSubDir =~ /(\d+)/;
-            next unless time > $1;
-            remove_tree( $sharedSubDir, {error => \my $err} );
+            if (time > $1 || $diskFull) {
+                remove_tree( $sharedSubDir, {error => \my $err} );
+            }
         }
     }
 
@@ -73,4 +75,86 @@ sub createWorkDir {
 
 
 }
+
+sub diskIsFull {
+    my ( $self ) = @_;
+
+    my $logger = $self->{logger};
+
+    my $spaceFree;
+    if ($^O =~ /^MSWin/) {
+
+        if (!eval ('
+                use Win32::OLE qw(in CP_UTF8);
+                use Win32::OLE::Const;
+
+                Win32::OLE->Option(CP => CP_UTF8);
+
+                1')) {
+            $logger->error("Failed to load Win32::OLE: $@");
+        }
+
+
+        my $letter;
+        if ($self->{path} !~ /^(\w):./) {
+            $logger->error("Path parse error: ".$self->{path});
+            return;
+        }
+        $letter = $1.':';
+
+
+        my $WMIServices = Win32::OLE->GetObject(
+            "winmgmts:{impersonationLevel=impersonate,(security)}!//./" );
+
+        if (!$WMIServices) {
+            $logger->error(Win32::OLE->LastError());
+            return;
+        }
+
+        foreach my $properties ( Win32::OLE::in(
+                $WMIServices->InstancesOf('Win32_LogicalDisk'))) {
+
+            next unless lc($properties->{Caption}) eq lc($letter);
+            my $t = $properties->{FreeSpace};
+            if ($t && $t =~ /(\d+)\d{6}$/) {
+                $spaceFree = $1;
+            }
+        }
+    } elsif ($^O =~ /^solaris/i) {
+        my $dfFh;
+        if (open($dfFh, '-|', "df", '-b', $self->{path})) {
+            foreach(<$dfFh>) {
+                if (/^\S+\s+(\d+)\d{3}[^\d]/) {
+                    $spaceFree = $1;
+                }
+            }
+            close $dfFh
+        } else {
+            $logger->error("Failed to exec df");
+        }
+    } else {
+        my $dfFh;
+        if (open($dfFh, '-|', "df", '-Pk', $self->{path})) {
+            foreach(<$dfFh>) {
+                if (/^\S+\s+\S+\s+\S+\s+(\d+)\d{3}[^\d]/) {
+                    $spaceFree = $1;
+                }
+            }
+            close $dfFh
+        } else {
+            $logger->error("Failed to exec df");
+        }
+    }
+
+    if(!$spaceFree) {
+	$logger->debug('$spaceFree is undef!');
+	$spaceFree=0;
+    }
+
+    print "Freespace on ".$self->{path}." : ".$spaceFree."\n";
+    # 400MB Free, should be set by a config option
+    return ($spaceFree < 2000);
+}
+
+
 1;
