@@ -32,10 +32,7 @@ sub prepare {
     my ($self) = @_;
 
     foreach my $file (@{$self->{files}}) {
-    print Dumper($file);
         my $finalFilePath = $self->{path}.'/'.$file->{name};
-
-        #print "Building finale file: `$finalFilePath'\n";
 
         my $fh;
         if (!open($fh, ">$finalFilePath")) {
@@ -78,7 +75,6 @@ sub prepare {
         $Archive::Extract::DEBUG=1;
         if ($file->{uncompress}) {
             my $ae = Archive::Extract->new( archive => $finalFilePath );
-            $ae->type("tgz");
             if (!$ae->extract( to => $self->{path} )) {
                 print "Failed to extract `$finalFilePath'\n";
                 return;
@@ -88,6 +84,7 @@ sub prepare {
         }
     }
 
+    return 1;
 }
 
 1;
