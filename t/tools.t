@@ -4,7 +4,6 @@ use strict;
 use warnings;
 use lib 't';
 
-use Config;
 use File::Temp;
 use Test::More;
 
