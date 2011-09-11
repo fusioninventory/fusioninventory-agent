@@ -112,41 +112,41 @@ sub _parseCstm {
     my $subnumslot;
     my $serialnumber = 'No Serial Number available!';
     my $type;
-    my $ok=0;
+    my $ok = 0;
 
     while (my $line = <$handle>) {
 
         if ($line =~ /FRU\sSource\s+=\s+\S+\s+\(memory/ ) {
-            $ok=0;
+            $ok = 0;
         }
         if ($line =~ /Source\s+Detail\s+=\s4/ ) {
-            $ok=1;
+            $ok = 1;
         }
         if ($line =~ /\s+(\d+)\s+(\d+)/ ) {
             $capacities{$1} = $2;
         }
         if ($line =~ /Extender\s+Location\s+=\s+(\S+)/ ) {
-            $subnumslot=$1;
+            $subnumslot = $1;
         };
         if ($line =~ /DIMMS\s+Rank\s+=\s+(\S+)/ ) {
-            $numslot=sprintf("%02x",$1);
+            $numslot = sprintf("%02x",$1);
         }
 
         if ($line =~ /FRU\s+Name\.*:\s+(\S+)/ ) {
             if ($line =~ /(\S+)_(\S+)/ ) {
-                $type=$1;
-                $capacity=$2;
+                $type = $1;
+                $capacity = $2;
             } elsif ($line =~ /(\wIMM)(\S+)/ ) {
-                $ok=1;
-                $type=$1;
-                $numslot=$2;
+                $ok = 1;
+                $type = $1;
+                $numslot = $2;
             }
         }
         if ($line =~ /Part\s+Number\.*:\s*(\S+)\s+/ ) {
-            $description=$1;
+            $description = $1;
         }
         if ($line =~ /Serial\s+Number\.*:\s*(\S+)\s+/ ) {
-            $serialnumber=$1;
+            $serialnumber = $1;
             if ( $ok eq 1 ) {
                 if ( $capacity eq 0 ) {
                     $capacity = $capacities{$numslot};
@@ -159,8 +159,8 @@ sub _parseCstm {
                     NUMSLOTS     => '1',
                     SERIALNUMBER => $serialnumber,
                 };
-                $ok=0;
-                $capacity=0;
+                $ok = 0;
+                $capacity = 0;
             } # $ok eq 1
         } # /Serial\s+Number\.*:\s*(\S+)\s+/ 
 
