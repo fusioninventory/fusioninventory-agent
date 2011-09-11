@@ -2,7 +2,6 @@ package FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Nortel;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer';
 
 use FusionInventory::Agent::Tools::Network;
 
