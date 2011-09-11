@@ -44,11 +44,11 @@ sub doInventory {
         PCISLOT    => $xorgData->{pcislot},
     };
 
-    if ($video->{memory} && $video->{memory} =~ s/kb$//i) {
-        $video->{memory} = int($video->{memory} / 1024);
+    if ($video->{MEMORY} && $video->{MEMORY} =~ s/kb$//i) {
+        $video->{MEMORY} = int($video->{MEMORY} / 1024);
     }
-    if ($video->{resolution}) {
-        $video->{resolution} =~ s/@.*//;
+    if ($video->{RESOLUTION}) {
+        $video->{RESOLUTION} =~ s/@.*//;
     }
 
     # avoid duplicates
