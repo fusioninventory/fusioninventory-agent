@@ -87,3 +87,24 @@ sub setConnectedDevices {
 }
 
 1;
+=head1 NAME
+
+FusionInventory::Agent::Task::Manufacturer::Nortel - Nortel-specific functions
+
+=head1 DESCRIPTION
+
+This is a class defining some functions specific to Nortel hardware.
+
+=head1 FUNCTIONS
+
+=head2 setConnectedDevicesMacAddress($results, $ports, $walks)
+
+Set mac addresses of connected devices.
+
+=head2 setTrunkPorts($results, $ports)
+
+Set trunk bit on relevant ports.
+
+=head2 setConnectedDevices($results, $ports, $walks)
+
+Set connected devices, through CDP or LLDP.

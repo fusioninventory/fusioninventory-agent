@@ -35,3 +35,20 @@ sub RewritePortOf225 {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Task::Manufacturer::3Com - 3Com-specific functions
+
+=head1 DESCRIPTION
+
+This is a class defining some functions specific to 3Com hardware.
+
+=head1 FUNCTIONS
+
+=head2 setConnectedDevicesMacAddress($results, $ports, $walks)
+
+Set mac addresses of connected devices.
+
+=head2 RewritePortOf225($results, $ports, $walk)

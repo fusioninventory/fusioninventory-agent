@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools::Network;
 
 sub setConnectedDevicesMacAddress {
-    my ($ports, $walks, $vlan_id) = @_;
+    my ($results, $ports, $walks, $vlan_id) = @_;
 
     while (my ($oid, $mac) = each %{$results->{VLAN}->{$vlan_id}->{dot1dTpFdbAddress}}) {
         next unless $mac;
@@ -42,7 +42,7 @@ sub setConnectedDevicesMacAddress {
 }
 
 sub setTrunkPorts {
-    my ($ports) = @_;
+    my ($results, $ports) = @_;
 
     while (my ($port_id, $trunk) = each %{$results->{vlanTrunkPortDynamicStatus}}) {
         $ports->[getLastNumber($port_id)]->{TRUNK} = $trunk ? 1 : 0;
@@ -50,7 +50,7 @@ sub setTrunkPorts {
 }
 
 sub setConnectedDevices {
-    my ($ports, $walks) = @_;
+    my ($results, $ports, $walks) = @_;
 
     return unless ref $results->{cdpCacheAddress} eq 'HASH';
 
@@ -83,3 +83,26 @@ sub setConnectedDevices {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Task::Manufacturer::Cisco - Cisco-specific functions
+
+=head1 DESCRIPTION
+
+This is a class defining some functions specific to Cisco hardware.
+
+=head1 FUNCTIONS
+
+=head2 setConnectedDevicesMacAddress($results, $ports, $walks, $vlan_id)
+
+Set mac addresses of connected devices.
+
+=head2 setTrunkPorts($results, $ports)
+
+Set trunk bit on relevant ports.
+
+=head2 setConnectedDevices($results, $ports, $walks)
+
+Set connected devices, through CDP or LLDP.

@@ -37,3 +37,18 @@ sub setConnectedDevicesMacAddress {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Task::Manufacturer::AlliedTelesis - AlliedTelesis-specific functions
+
+=head1 DESCRIPTION
+
+This is a class defining some functions specific to AlliedTelesis hardware.
+
+=head1 FUNCTIONS
+
+=head2 setConnectedDevicesMacAddress($results, $ports, $walks)
+
+Set mac addresses of connected devices.
