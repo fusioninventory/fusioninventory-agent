@@ -52,8 +52,8 @@ sub setTrunkPorts {
     my $results = $params{results};
     my $ports   = $params{ports};
 
-    while (my ($port_id, $trunk) = each %{$results->{vlanTrunkPortDynamicStatus}}) {
-        $ports->[getLastNumber($port_id)]->{TRUNK} = $trunk ? 1 : 0;
+    while (my ($oid, $trunk) = each %{$results->{vlanTrunkPortDynamicStatus}}) {
+        $ports->[getLastNumber($oid)]->{TRUNK} = $trunk ? 1 : 0;
     }
 }
 

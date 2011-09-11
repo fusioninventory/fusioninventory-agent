@@ -454,7 +454,7 @@ sub _setGenericProperties {
 
     if ($results->{ipAdEntAddr}) {
         my $i = 0;
-        while (my ($object, $data) = each %{$results->{ipAdEntAddr}}) {
+        while (my ($oid, $data) = each %{$results->{ipAdEntAddr}}) {
             $datadevice->{INFO}->{IPS}->{IP}->[$i] = $data;
             $i++;
         }
