@@ -8,6 +8,7 @@ use English qw(-no_match_vars);
 use Net::SNMP;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Network;
 
 sub new {
     my ($class, %params) = @_;
@@ -115,15 +116,15 @@ sub _getNormalizedValue {
         $oid =~ /.1.3.6.1.2.1.17.4.3.1.1/ ||
         $oid =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/;
 
-    if ($value !~ /0x/) {
-        $value = "0x" . unpack 'H*', $value;
+    if ($value !~ /^0x/) {
+        # convert from binary to hexadecimal
+        $value = unpack 'H*', $value;
+    } else {
+        # drop hex prefix
+        $value = s/^0x//;
     }
 
-    my @array = split(/\S{2}/, $value);
-    if (@array == 14) {
-        $value = join(':', map { $array[$_] } qw/3 5 7 9 11 13/);
-    }
-    return $value;
+    return alt2canonical($value);
 }
 
 1;
