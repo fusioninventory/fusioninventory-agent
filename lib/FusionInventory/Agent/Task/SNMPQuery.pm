@@ -19,7 +19,7 @@ use English qw(-no_match_vars);
 
 use FusionInventory::Agent::SNMP;
 use FusionInventory::Agent::XML::Query;
-use FusionInventory::Agent::Task::SNMPQuery::Tools;
+use FusionInventory::Agent::Tools::Network;
 
 our $VERSION = '2.0';
 

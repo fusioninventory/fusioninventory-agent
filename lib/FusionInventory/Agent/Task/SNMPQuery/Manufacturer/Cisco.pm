@@ -3,7 +3,6 @@ package FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Task::SNMPQuery::Tools;
 use FusionInventory::Agent::Tools::Network;
 
 sub setConnectedDevicesMacAddress {
