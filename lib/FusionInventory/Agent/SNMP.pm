@@ -81,12 +81,12 @@ sub get {
     return if $response->{$oid} =~ /noSuchInstance/;
     return if $response->{$oid} =~ /noSuchObject/;
 
-    my $result = $response->{$oid};
-    $result = _getFixedMac($result) if $oid =~ /$bad_oids_pattern/;
-    $result = getSanitizedString($result);
-    chomp $result;
+    my $value = $response->{$oid};
+    $value = _getFixedMac($value) if $oid =~ /$bad_oids_pattern/;
+    $value = getSanitizedString($value);
+    chomp $value;
 
-    return $result;
+    return $value;
 }
 
 sub walk {
@@ -102,17 +102,17 @@ sub walk {
 
     return unless $response;
 
-    my $result;
+    my $values;
 
     foreach my $oid (keys %{$response}) {
         my $value = $response->{$oid};
         $value = _getFixedMac($value) if $oid =~ /$bad_oids_pattern/;
         $value = getSanitizedString($value);
         chomp $value;
-        $result->{$oid} = $value;
+        $values->{$oid} = $value;
     }
 
-    return $result;
+    return $values;
 }
 
 # normalize badly-encoded mac address
