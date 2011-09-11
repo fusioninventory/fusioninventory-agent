@@ -441,8 +441,8 @@ sub _setGenericProperties {
     foreach my $key (keys %properties) {
         my $raw_value = $results->{$properties{$key}};
         my $value =
-            $key eq 'NAME'        ? hex2ascii($raw_value)         :
-            $key eq 'OTHERSERIAL' ? hex2ascii($raw_value)         :
+            $key eq 'NAME'        ? hex2char($raw_value)          :
+            $key eq 'OTHERSERIAL' ? hex2char($raw_value)          :
             $key eq 'SERIAL'      ? _sanitizedSerial($raw_value)  :
             $key eq 'RAM'         ? int($raw_value / 1024 / 1024) :
             $key eq 'MEMORY'      ? int($raw_value / 1024 / 1024) :

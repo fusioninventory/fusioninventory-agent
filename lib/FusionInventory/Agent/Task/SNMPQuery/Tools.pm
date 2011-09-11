@@ -6,7 +6,6 @@ use base 'Exporter';
 
 our @EXPORT = qw(
     getLastNumber
-    hex2ascii
 );
 
 sub getLastNumber {
@@ -16,15 +15,6 @@ sub getLastNumber {
     return $array[-1];
 }
 
-sub hex2ascii {
-    my ($hex) = @_;
-
-    return unless $hex =~ /0x/;
-    $hex =~ s/0x//;
-    $hex =~ s/(\w{2})/chr(hex($1))/eg;
-
-    return $hex;
-}
 __END__
 
 =head1 NAME
@@ -40,7 +30,3 @@ This is a module providing some utility functions
 =head2 getLastNumber($oid)
 
 return the last number of an oid.
-
-=head2 hex2ascii($hex)
-
-convert a string from hex to ascii.
