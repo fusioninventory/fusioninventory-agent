@@ -116,7 +116,7 @@ This module provides some network-related patterns and functions.
 
 =head2 mac_address_pattern
 
-This pattern matches a MAC address in canonical form (aa::bb:cc:dd:ee:ff).
+This pattern matches a MAC address in canonical form (aa:bb:cc:dd:ee:ff).
 
 =head2 ip_address_pattern
 
