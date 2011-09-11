@@ -11,7 +11,7 @@ perl_version '5.008';
 requires 'FusionInventory::Agent' => '2.2';
 requires 'Net::IP'                => undef;
 requires 'threads'                => undef;
-requires 'XML::TreePP'            => undef;
+requires 'XML::TreePP'            => '0.26';
 
 # optional dependencies
 requires 'Net::NBName'            => undef;
