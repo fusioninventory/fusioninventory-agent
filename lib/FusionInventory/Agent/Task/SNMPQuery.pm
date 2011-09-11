@@ -691,12 +691,13 @@ sub _setNetworkingProperties {
             foreach my $entry (@mac_dispatch_table) {
                 next unless $comments =~ $entry->{match};
 
-                $self->_runMethod(
-                    class  => $entry->{module},
-                    method => $entry->{function},
-                    params => {
+                $self->runFunction(
+                    module   => $entry->{module},
+                    function => $entry->{function},
+                    params   => {
                         results => $results, ports => $ports, walks => $walks
-                    }
+                    },
+                    load     => 1
                 );
 
                 last;
