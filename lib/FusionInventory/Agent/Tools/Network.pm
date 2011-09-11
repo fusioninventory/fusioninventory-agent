@@ -19,6 +19,7 @@ our @EXPORT = qw(
     getNetworkMask
     hex2canonical
     alt2canonical
+    getLastNumber
 );
 
 my $hex_byte = qr/[0-9A-F]{2}/i;
@@ -93,6 +94,13 @@ sub getNetworkMask {
     return join ('.', map { oct('0b' . $_) } @bytes);
 }
 
+sub getLastNumber {
+    my ($oid) = @_;
+
+    my @array = split(/\./, $oid);
+    return $array[-1];
+}
+
 1;
 __END__
 
@@ -144,4 +152,7 @@ Returns the subnet address for IPv6.
 
 Returns the network mask.
 
+=head2 getLastNumber($oid)
+
+return the last number of an oid.
 
