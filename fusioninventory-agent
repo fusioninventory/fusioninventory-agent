@@ -72,10 +72,6 @@ GetOptions(
 
 pod2usage(-verbose => 0) if $options->{help};
 
-if ($ENV{REALLIB}) {
-    @INC = split(/:/,$ENV{REALLIB});
-}
-
 if ($options->{version}) {
     print $FusionInventory::Agent::VERSION_STRING . "\n";
     exit 0;
