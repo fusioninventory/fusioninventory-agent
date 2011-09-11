@@ -37,29 +37,27 @@ sub doInventory {
     );
 
     foreach my $process (in $processes) {
-    
-        my $cmdLine = $process->{CommandLine};
+        next unless
+            $process->{CommandLine} &&
+            $process->{CommandLine} =~ /\\Explorer\.exe$/i;
 
-        next unless $cmdLine;
- 
-        if ($cmdLine =~ /\\Explorer\.exe$/i) {
-            my $name = Variant (VT_BYREF | VT_BSTR, '');   ## no critic (ProhibitBitwise)
-            my $domain = Variant (VT_BYREF | VT_BSTR, ''); ## no critic (ProhibitBitwise)
-    
-            $process->GetOwner($name, $domain);
+        ## no critic (ProhibitBitwise)
+        my $name = Variant(VT_BYREF | VT_BSTR, '');
+        my $domain = Variant(VT_BYREF | VT_BSTR, '');
 
-            my $user = {
-                LOGIN => $name->Get(),
-                DOMAIN => $domain->Get()
-            };
+        $process->GetOwner($name, $domain);
 
-            next if $seen->{$user->{LOGIN}}++;
+        my $user = {
+            LOGIN => $name->Get(),
+            DOMAIN => $domain->Get()
+        };
 
-            $inventory->addEntry(
-                section => 'USERS',
-                entry   => $user
-            );
-        }
+        next if $seen->{$user->{LOGIN}}++;
+
+        $inventory->addEntry(
+            section => 'USERS',
+            entry   => $user
+        );
     }
 
     my $machKey = $Registry->Open('LMachine', {
