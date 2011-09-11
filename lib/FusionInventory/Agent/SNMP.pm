@@ -10,6 +10,15 @@ use Net::SNMP;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 
+my @bad_oids = qw(
+    .1.3.6.1.2.1.2.2.1.6
+    .1.3.6.1.2.1.4.22.1.2
+    .1.3.6.1.2.1.17.1.1.0
+    .1.3.6.1.2.1.17.4.3.1.1
+    .1.3.6.1.4.1.9.9.23.1.2.1.1.4
+);
+my $bad_oids_pattern = '^(' . join('|', map { quotemeta($_) } @bad_oids) . ')';
+
 sub new {
     my ($class, %params) = @_;
 
@@ -73,7 +82,7 @@ sub get {
     return if $response->{$oid} =~ /noSuchObject/;
 
     my $result = $response->{$oid};
-    $result = _getFixedMac($result) if _isBadMac($oid);
+    $result = _getFixedMac($result) if $oid =~ /$bad_oids_pattern/;
     $result = getSanitizedString($result);
     chomp $result;
 
@@ -97,25 +106,13 @@ sub walk {
 
     foreach my $oid (keys %{$response}) {
         my $value = $response->{$oid};
-        $value = _getFixedMac($value) if _isBadMac($oid);
+        $value = _getFixedMac($value) if $oid =~ /$bad_oids_pattern/;
         $value = getSanitizedString($value);
         chomp $value;
         $result->{$oid} = $value;
     }
 
     return $result;
-}
-
-# known badly-encoded mac address OIDs
-sub _isBadMac {
-    my ($oid) = @_;
-
-    return
-        $oid =~ /.1.3.6.1.2.1.2.2.1.6/    ||
-        $oid =~ /.1.3.6.1.2.1.4.22.1.2/   ||
-        $oid =~ /.1.3.6.1.2.1.17.1.1.0/   ||
-        $oid =~ /.1.3.6.1.2.1.17.4.3.1.1/ ||
-        $oid =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/;
 }
 
 # normalize badly-encoded mac address
