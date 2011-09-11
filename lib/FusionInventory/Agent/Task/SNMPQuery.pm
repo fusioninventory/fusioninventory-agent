@@ -604,16 +604,18 @@ sub _setNetworkingProperties {
         foreach my $entry (@ports_dispatch_table) {
             next unless $comments =~ $entry->{match};
 
-            $self->_runMethod(
-                class  => $entry->{trunk},
-                method => 'setTrunkPorts',
-                params => [ $results, $ports ]
+            runFunction(
+                module   => $entry->{trunk},
+                function => 'setTrunkPorts',
+                params   => [ $results, $ports ],
+                load     => 1
             );
 
-            $self->_runMethod(
-                class  => $entry->{devices},
-                method => 'setConnectedDevices',
-                params => [ $results, $ports, $walks ]
+            runFunction(
+                module   => $entry->{devices},
+                function => 'setConnectedDevices',
+                params   => [ $results, $ports, $walks ],
+                load     => 1
             );
 
             last;
@@ -667,10 +669,12 @@ sub _setNetworkingProperties {
             }
             # Detect mac adress on each port
             if ($comments =~ /Cisco/) {
-                $self->_runMethod(
-                    class  => 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco',
-                    method => 'setConnectedDevicesMacAddress',
-                    params => [ $results, $ports, $walks, $id ]
+                my $module = 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco';
+                runFunction(
+                    module   => $module,
+                    function => 'setConnectedDevicesMacAddress',
+                    params   => [ $results, $ports, $walks, $id ],
+                    load     => 1
                 );
             }
         }
@@ -722,21 +726,6 @@ sub _sanitizedSerial {
     $value =~ s/(\.{2,})*//g;
 
     return $value;
-}
-
-sub _runMethod {
-    my ($self, %params) = @_;
-
-    my $class  = $params{class};
-    my $method = $params{method};
-    my $params = $params{params};
-
-    $class->require();
-    if ($EVAL_ERROR) {
-        $self->{logger}->debug("Failed to load $class: $EVAL_ERROR");
-    } else {
-        $class->$method(@$params);
-    };
 }
 
 1;

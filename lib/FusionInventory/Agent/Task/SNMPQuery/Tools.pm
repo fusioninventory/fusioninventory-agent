@@ -10,7 +10,7 @@ our @EXPORT = qw(
 );
 
 sub getLastNumber {
-    my $var = shift;
+    my ($var) = @_;
 
     my @array = split(/\./, $var);
     return $array[-1];

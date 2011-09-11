@@ -2,12 +2,11 @@ package FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Procurve;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer';
 
 use FusionInventory::Agent::Tools::Network;
 
 sub setConnectedDevicesMacAddress {
-    my ($class, $results, $ports, $walks) = @_;
+    my ($results, $ports, $walks) = @_;
 
     while (my ($oid, $mac) = each %{$results->{dot1dTpFdbAddress}}) {
         next unless $mac;
@@ -40,7 +39,7 @@ sub setConnectedDevicesMacAddress {
 }
 
 sub setConnectedDevices {
-    my ($class, $results, $ports, $walks) = @_;
+    my ($results, $ports, $walks) = @_;
 
     if (ref $results->{cdpCacheAddress} eq 'HASH') {
         while (my ($number, $ip_hex) = each %{$results->{cdpCacheAddress}}) {

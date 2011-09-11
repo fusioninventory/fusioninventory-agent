@@ -2,10 +2,9 @@ package FusionInventory::Agent::Task::SNMPQuery::Manufacturer::AlliedTelesis;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer';
 
 sub setConnectedDevicesMacAddress {
-    my ($class, $results, $ports, $walks) = @_;
+    my ($results, $ports, $walks) = @_;
 
     while (my ($oid, $mac) = each %{$results->{dot1dTpFdbAddress}}) {
         next unless $mac;

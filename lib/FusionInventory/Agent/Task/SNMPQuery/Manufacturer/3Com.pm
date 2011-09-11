@@ -2,10 +2,9 @@ package FusionInventory::Agent::Task::SNMPQuery::Manufacturer::3Com;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer';
 
 sub setConnectedDevicesMacAddress {
-    my ($class, $results, $ports, $walks) = @_;
+    my ($results, $ports, $walks) = @_;
 
     while (my ($oid, $mac) = each %{$results->{dot1dTpFdbAddress}}) {
         next unless $mac;
@@ -28,7 +27,7 @@ sub setConnectedDevicesMacAddress {
 
 # In Intellijack 225, put mac address of port 'IntelliJack Ethernet Adapter' in port 'LAN Port'
 sub RewritePortOf225 {
-    my ($class, $results, $ports, $walks) = @_;
+    my ($results, $ports, $walks) = @_;
 
     $ports->[101]->{MAC} = $ports->[1]->{MAC};
     delete $ports->[1];
