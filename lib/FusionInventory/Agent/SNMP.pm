@@ -72,7 +72,8 @@ sub get {
     return if $response->{$oid} =~ /noSuchInstance/;
     return if $response->{$oid} =~ /noSuchObject/;
 
-    my $result = _getNormalizedValue($oid, $response->{$oid});
+    my $result = $response->{$oid};
+    $result = _getFixedMac($result) if _isBadMac($oid);
     $result = getSanitizedString($result);
     chomp $result;
 
@@ -95,7 +96,8 @@ sub walk {
     my $result;
 
     foreach my $oid (keys %{$response}) {
-        my $value = _getNormalizedValue($oid, $response->{$oid});
+        my $value = $response->{$oid};
+        $value = _getFixedMac($value) if _isBadMac($oid);
         $value = getSanitizedString($value);
         chomp $value;
         $result->{$oid} = $value;
@@ -104,17 +106,21 @@ sub walk {
     return $result;
 }
 
-sub _getNormalizedValue {
-    my ($oid, $value) = @_;
+# known badly-encoded mac address OIDs
+sub _isBadMac {
+    my ($oid) = @_;
 
-    # return value directly, unless for specific oids
-    # corresponding to bad mac addresses
-    return $value unless 
+    return
         $oid =~ /.1.3.6.1.2.1.2.2.1.6/    ||
         $oid =~ /.1.3.6.1.2.1.4.22.1.2/   ||
         $oid =~ /.1.3.6.1.2.1.17.1.1.0/   ||
         $oid =~ /.1.3.6.1.2.1.17.4.3.1.1/ ||
         $oid =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/;
+}
+
+# normalize badly-encoded mac address
+sub _getFixedMac {
+    my ($value) = @_;
 
     if ($value !~ /^0x/) {
         # convert from binary to hexadecimal
