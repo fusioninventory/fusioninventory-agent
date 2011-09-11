@@ -6,6 +6,8 @@ use warnings;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
 
+my $seen;
+
 sub isEnabled {
     return 1;
 }
@@ -49,10 +51,12 @@ sub doInventory {
         $video->{resolution} =~ s/@.*//;
     }
 
+    # avoid duplicates
+    next if $seen->{$video->{NAME}}++;
+
     $inventory->addEntry(
         section => 'VIDEOS',
-        entry   => $video,
-        noDuplicated => 1
+        entry   => $video
     );
 }
 

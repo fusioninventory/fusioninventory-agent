@@ -5,6 +5,8 @@ use warnings;
 
 use FusionInventory::Agent::Tools::Win32;
 
+my $seen;
+
 sub isEnabled {
     return 1;
 }
@@ -29,30 +31,31 @@ sub doInventory {
                / ]
         )) {
             next unless $object;
-            my $enable = $object->{onAccessScanningEnabled};
-            my $uptodate = $object->{productUptoDate};
+
+            my $antivirus = {
+                COMPANY  => $object->{companyName},
+                NAME     => $object->{displayName},
+                GUID     => $object->{instanceGuid},
+                VERSION  => $object->{versionNumber},
+                ENABLED  => $object->{onAccessScanningEnabled},
+                UPTODATE => $object->{productUptoDate}
+            };
 
             if ($object->{productState}) {
                 my $bin = sprintf( "%b\n", $object->{productState});
 # http://blogs.msdn.com/b/alejacma/archive/2008/05/12/how-to-get-antivirus-information-with-wmi-vbscript.aspx?PageIndex=2#comments
                 if ($bin =~ /(\d)\d{5}(\d)\d{6}(\d)\d{5}$/) {
-                    $uptodate = $1 || $2;
-                    $enable = $3?0:1;
+                    $antivirus->{UPTODATE} = $1 || $2;
+                    $antivirus->{ENABLED}  = $3 ? 0 : 1;
                 }
-
             }
+
+            # avoid duplicates
+            next if $seen->{$antivirus->{NAME}}->{$antivirus->{VERSION}}++;
 
             $inventory->addEntry(
                 section => 'ANTIVIRUS',
-                entry   => {
-                    COMPANY  => $object->{companyName},
-                    NAME     => $object->{displayName},
-                    GUID     => $object->{instanceGuid},
-                    ENABLED  => $enable,
-                    UPTODATE => $uptodate,
-                    VERSION  => $object->{versionNumber}
-                },
-                noDuplicated => 1
+                entry   => $antivirus
             );
         }
     }

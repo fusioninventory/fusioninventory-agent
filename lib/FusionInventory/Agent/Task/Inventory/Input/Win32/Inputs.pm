@@ -6,6 +6,8 @@ use warnings;
 # Had never been tested.
 use FusionInventory::Agent::Tools::Win32;
 
+my $seen;
+
 my %mouseInterface = (
     1 =>  'Other',
     2 => 'Unknown',
@@ -34,17 +36,20 @@ sub doInventory {
         class      => 'Win32_Keyboard',
         properties => [ qw/Name Caption Manufacturer Description Layout/ ]
     )) {
+        my $input = {
+            NAME         => $object->{Name},
+            CAPTION      => $object->{Caption},
+            MANUFACTURER => $object->{Manufacturer},
+            DESCRIPTION  => $object->{Description},
+            LAYOUT       => $object->{Layout},
+        };
+
+        # avoid duplicates
+        next if $seen->{$input->{NAME}}++;
 
         $inventory->addEntry(
             section => 'INPUTS',
-            entry   => {
-                NAME         => $object->{Name},
-                CAPTION      => $object->{Caption},
-                MANUFACTURER => $object->{Manufacturer},
-                DESCRIPTION  => $object->{Description},
-                LAYOUT       => $object->{Layout},
-            },
-            noDuplicated => 1
+            entry   => $input
         );
     }
 
@@ -52,18 +57,21 @@ sub doInventory {
         class      => 'Win32_PointingDevice',
         properties => [ qw/Name Caption Manufacturer Description PointingType DeviceInterface/ ]
     )) {
+        my $input = {
+            NAME         => $object->{Name},
+            CAPTION      => $object->{Caption},
+            MANUFACTURER => $object->{Manufacturer},
+            DESCRIPTION  => $object->{Description},
+            POINTINGTYPE => $object->{PointingType},
+            INTERFACE    => $mouseInterface{$object->{DeviceInterface}},
+        };
+
+        # avoid duplicates
+        next if $seen->{$input->{NAME}}++;
 
         $inventory->addEntry(
             section => 'INPUTS',
-            entry   => {
-                NAME         => $object->{Name},
-                CAPTION      => $object->{Caption},
-                MANUFACTURER => $object->{Manufacturer},
-                DESCRIPTION  => $object->{Description},
-                POINTINGTYPE => $object->{PointingType},
-                INTERFACE    => $mouseInterface{$object->{DeviceInterface}},
-            },
-            noDuplicated => 1
+            entry   => $input
         );
     }
 

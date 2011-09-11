@@ -5,6 +5,8 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
+my $seen;
+
 sub isEnabled {
     return 
         canRun('who') ||
@@ -25,12 +27,14 @@ sub doInventory {
     if ($handle) {
         while (my $line = <$handle>) {
             next unless $line =~ /^(\S+)/;
+            my $user = { LOGIN => $1 };
+
+            # avoid duplicates
+            next if $seen->{$user->{LOGIN}}++;
+
             $inventory->addEntry(
                 section => 'USERS',
-                entry   => {
-                    LOGIN => $1
-                },
-                noDuplicated => 1
+                entry   => $user
             );
         }
         close $handle;

@@ -17,6 +17,8 @@ use Win32::TieRegistry (
 
 use FusionInventory::Agent::Tools::Win32;
 
+my $seen;
+
 sub isEnabled {
     return 1;
 }
@@ -46,13 +48,16 @@ sub doInventory {
     
             $process->GetOwner($name, $domain);
 
+            my $user = {
+                LOGIN => $name->Get(),
+                DOMAIN => $domain->Get()
+            };
+
+            next if $seen->{$user->{LOGIN}}++;
+
             $inventory->addEntry(
                 section => 'USERS',
-                entry   => {
-                    LOGIN => $name->Get(),
-                    DOMAIN => $domain->Get()
-                },
-                noDuplicated => 1
+                entry   => $user
             );
         }
     }

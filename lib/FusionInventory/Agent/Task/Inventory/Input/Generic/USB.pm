@@ -5,6 +5,8 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
+my $seen;
+
 sub isEnabled {
     return canRun('lsusb');
 }
@@ -28,10 +30,12 @@ sub doInventory {
             $device->{SERIAL} = undef;
         }
 
+        # avoid duplicates
+        next if $seen->{$device->{SERIAL}}++;
+
         $inventory->addEntry(
             section => 'USBDEVICES',
             entry   => $device,
-            noDuplicated => 1
         );
     }
 }

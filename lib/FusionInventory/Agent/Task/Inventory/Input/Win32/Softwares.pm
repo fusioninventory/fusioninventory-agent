@@ -14,6 +14,8 @@ use Win32::TieRegistry (
 
 use FusionInventory::Agent::Tools::Win32;
 
+my $seen;
+
 sub isEnabled {
     my (%params) = @_;
 
@@ -129,10 +131,12 @@ sub _processSoftwares {
         # Workaround for #415
         $software->{VERSION} =~ s/[\000-\037].*// if $software->{VERSION};
 
+        # avoid duplicates
+        next if $seen->{$software->{NAME}}->{$software->{VERSION}}++;
+
         $inventory->addEntry(
             section => 'SOFTWARES',
             entry   => $software,
-            noDuplicated => 1
         );
     }
 }

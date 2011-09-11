@@ -5,36 +5,11 @@ use warnings;
 
 use FusionInventory::Agent::Tools::Win32;
 
+my $seen;
+
 sub isEnabled {
     return 1;
 }
-
-my @devices;
-
-sub alreadyIn {
-    my ($vendorId, $productId, $serial) = @_;
-
-    foreach (@devices) {
-        if (
-            ($_->{vendorId} eq $vendorId)
-              &&
-            ($_->{productId} eq $productId)
-              &&
-            ($_->{serial} eq $serial)
-            ) {
-            return 1;
-        }
-    }
-
-    push @devices, {
-        vendorId => $vendorId,
-        productId => $productId,
-        serial => $serial
-    };
-
-    return;
-}
-
 
 sub doInventory {
     my (%params) = @_;
@@ -47,26 +22,24 @@ sub doInventory {
     )) {
         next unless $object->{DeviceID} =~ /^USB\\VID_(\w+)&PID_(\w+)(.*)/;
 
-        my $vendorId  = $1;
-        my $productId = $2;
-        my $serial    = $3;
+        my $device = {
+            NAME      => $object->{Name},
+            VENDORID  => $1,
+            PRODUCTID => $2,
+            SERIAL    => $3
+        };
 
-        $serial =~ s/.*?&//;
-        $serial =~ s/&.*$//;
+        $device->{SERIAL} =~ s/.*?&//;
+        $device->{SERIAL} =~ s/&.*$//;
 
-        next if $vendorId =~ /^0+$/;
+        next if $device->{VENDORID} =~ /^0+$/;
 
-        next if alreadyIn($vendorId, $productId, $serial);
+        # avoid duplicates
+        next if $seen->{$device->{SERIAL}}++;
 
         $inventory->addEntry(
             section => 'USBDEVICES',
-            entry   => {
-                NAME      => $object->{Name},
-                VENDORID  => $vendorId,
-                PRODUCTID => $productId,
-                SERIAL    => $serial
-            },
-            noDuplicated => 1
+            entry   => $device
         );
     }
 }

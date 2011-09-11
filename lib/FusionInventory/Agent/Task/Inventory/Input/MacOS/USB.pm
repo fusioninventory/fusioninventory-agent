@@ -5,6 +5,8 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
+my $seen;
+
 sub isEnabled {
     return 1;
 }
@@ -16,10 +18,11 @@ sub doInventory {
     my $logger    = $params{logger};
 
     foreach my $device (_getDevices(logger => $logger)) {
+        # avoid duplicates
+        next if $seen->{$device->{SERIAL}}++;
         $inventory->addEntry(
             section => 'USBDEVICES',
             entry   => $device,
-            noDuplicated => 1
         );
     }
 }
