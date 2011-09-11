@@ -39,7 +39,7 @@ my @mac_tests = (
                 CONNECTIONS => {
                     CONNECTION => [
                     ],
-                    CDP => undef,
+                    CDP => 1,
                 },
                 MAC => 'X',
             }
@@ -49,7 +49,7 @@ my @mac_tests = (
                 CONNECTIONS => {
                     CONNECTION => [
                     ],
-                    CDP => undef,
+                    CDP => 1,
                 },
                 MAC => 'X',
             }
