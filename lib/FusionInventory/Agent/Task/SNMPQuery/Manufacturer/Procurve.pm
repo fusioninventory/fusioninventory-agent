@@ -6,7 +6,11 @@ use warnings;
 use FusionInventory::Agent::Tools::Network;
 
 sub setConnectedDevicesMacAddress {
-    my ($results, $ports, $walks) = @_;
+    my (%params) = @_;
+
+    my $results = $params{results};
+    my $ports   = $params{ports};
+    my $walks   = $params{walks};
 
     while (my ($oid, $mac) = each %{$results->{dot1dTpFdbAddress}}) {
         next unless $mac;
@@ -39,7 +43,11 @@ sub setConnectedDevicesMacAddress {
 }
 
 sub setConnectedDevices {
-    my ($results, $ports, $walks) = @_;
+    my (%params) = @_;
+
+    my $results = $params{results};
+    my $ports   = $params{ports};
+    my $walks   = $params{walks};
 
     if (ref $results->{cdpCacheAddress} eq 'HASH') {
         while (my ($number, $ip_hex) = each %{$results->{cdpCacheAddress}}) {
@@ -95,10 +103,30 @@ This is a class defining some functions specific to Procurve hardware.
 
 =head1 FUNCTIONS
 
-=head2 setConnectedDevicesMacAddress($results, $ports, $walks)
+=head2 setConnectedDevicesMacAddress(%params)
 
 Set mac addresses of connected devices.
 
-=head2 setConnectedDevices($results, $ports, $walks)
+=over
+
+=item results raw values collected through SNMP
+
+=item ports device ports list
+
+=item walks model walk branch
+
+=back
+
+=head2 setConnectedDevices(%params)
 
 Set connected devices, through CDP or LLDP.
+
+=over
+
+=item results raw values collected through SNMP
+
+=item ports device ports list
+
+=item walks model walk branch
+
+=back

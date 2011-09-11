@@ -6,7 +6,11 @@ use warnings;
 use FusionInventory::Agent::Tools::Network;
 
 sub setConnectedDevicesMacAddress {
-    my ($class, $results, $ports, $walks) = @_;
+    my (%params) = @_;
+
+    my $results = $params{results};
+    my $ports   = $params{ports};
+    my $walks   = $params{walks};
 
     my $i = 0;
     while (my ($oid, $mac) = each %{$results->{dot1dTpFdbAddress}}) {
@@ -40,7 +44,10 @@ sub setConnectedDevicesMacAddress {
 }
 
 sub setTrunkPorts {
-    my ($class, $results, $ports) = @_;
+    my (%params) = @_;
+
+    my $results = $params{results};
+    my $ports   = $params{ports};
 
     my $myports;
 
@@ -66,7 +73,11 @@ sub setTrunkPorts {
 }
 
 sub setConnectedDevices {
-    my ($class, $results, $ports, $walks) = @_;
+    my (%params) = @_;
+
+    my $results = $params{results};
+    my $ports   = $params{ports};
+    my $walks   = $params{walks};
 
     return unless ref $results->{lldpRemChassisId} eq "HASH";
 
@@ -96,14 +107,42 @@ This is a class defining some functions specific to Nortel hardware.
 
 =head1 FUNCTIONS
 
-=head2 setConnectedDevicesMacAddress($results, $ports, $walks)
+=head2 setConnectedDevicesMacAddress(%params)
 
 Set mac addresses of connected devices.
 
-=head2 setTrunkPorts($results, $ports)
+=over
+
+=item results raw values collected through SNMP
+
+=item ports device ports list
+
+=item walks model walk branch
+
+=back
+
+=head2 setTrunkPorts(%params)
 
 Set trunk bit on relevant ports.
 
-=head2 setConnectedDevices($results, $ports, $walks)
+=over
+
+=item results raw values collected through SNMP
+
+=item ports device ports list
+
+=back
+
+=head2 setConnectedDevices(%params)
 
 Set connected devices, through CDP or LLDP.
+
+=over
+
+=item results raw values collected through SNMP
+
+=item ports device ports list
+
+=item walks model walk branch
+
+=back

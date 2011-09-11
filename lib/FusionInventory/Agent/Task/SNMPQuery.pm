@@ -608,14 +608,16 @@ sub _setNetworkingProperties {
             runFunction(
                 module   => $entry->{trunk},
                 function => 'setTrunkPorts',
-                params   => [ $results, $ports ],
+                params   => { results => $results, ports => $ports },
                 load     => 1
             );
 
             runFunction(
                 module   => $entry->{devices},
                 function => 'setConnectedDevices',
-                params   => [ $results, $ports, $walks ],
+                params   => {
+                    results => $results, ports => $ports, walks => $walks
+                },
                 load     => 1
             );
 
@@ -674,7 +676,12 @@ sub _setNetworkingProperties {
                 runFunction(
                     module   => $module,
                     function => 'setConnectedDevicesMacAddress',
-                    params   => [ $results, $ports, $walks, $id ],
+                    params   => {
+                        results => $results,
+                        ports   => $ports,
+                        walks   => $walks,
+                        vlan_id => $id
+                    },
                     load     => 1
                 );
             }
@@ -687,7 +694,9 @@ sub _setNetworkingProperties {
                 $self->_runMethod(
                     class  => $entry->{module},
                     method => $entry->{function},
-                    params => [ $results, $ports, $walks ]
+                    params => {
+                        results => $results, ports => $ports, walks => $walks
+                    }
                 );
 
                 last;

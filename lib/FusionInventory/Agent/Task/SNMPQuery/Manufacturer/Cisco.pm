@@ -6,7 +6,12 @@ use warnings;
 use FusionInventory::Agent::Tools::Network;
 
 sub setConnectedDevicesMacAddress {
-    my ($results, $ports, $walks, $vlan_id) = @_;
+    my (%params) = @_;
+
+    my $results = $params{results};
+    my $ports   = $params{ports};
+    my $walks   = $params{walks};
+    my $vlan_id = $params{vlan_id};
 
     while (my ($oid, $mac) = each %{$results->{VLAN}->{$vlan_id}->{dot1dTpFdbAddress}}) {
         next unless $mac;
@@ -42,7 +47,10 @@ sub setConnectedDevicesMacAddress {
 }
 
 sub setTrunkPorts {
-    my ($results, $ports) = @_;
+    my (%params) = @_;
+
+    my $results = $params{results};
+    my $ports   = $params{ports};
 
     while (my ($port_id, $trunk) = each %{$results->{vlanTrunkPortDynamicStatus}}) {
         $ports->[getLastNumber($port_id)]->{TRUNK} = $trunk ? 1 : 0;
@@ -50,7 +58,11 @@ sub setTrunkPorts {
 }
 
 sub setConnectedDevices {
-    my ($results, $ports, $walks) = @_;
+    my (%params) = @_;
+
+    my $results  = $params{results};
+    my $ports    = $params{ports};
+    my $walks    = $params{walks};
 
     return unless ref $results->{cdpCacheAddress} eq 'HASH';
 
@@ -95,14 +107,44 @@ This is a class defining some functions specific to Cisco hardware.
 
 =head1 FUNCTIONS
 
-=head2 setConnectedDevicesMacAddress($results, $ports, $walks, $vlan_id)
+=head2 setConnectedDevicesMacAddress(%params)
 
 Set mac addresses of connected devices.
 
-=head2 setTrunkPorts($results, $ports)
+=over
+
+=item results raw values collected through SNMP
+
+=item ports device ports list
+
+=item walks model walk branch
+
+=item vlan_id VLAN identifier
+
+=back
+
+=head2 setTrunkPorts(%params)
 
 Set trunk bit on relevant ports.
 
-=head2 setConnectedDevices($results, $ports, $walks)
+=over
+
+=item results raw values collected through SNMP
+
+=item ports device ports list
+
+=back
+
+=head2 setConnectedDevices(%params)
 
 Set connected devices, through CDP or LLDP.
+
+=over
+
+=item results raw values collected through SNMP
+
+=item ports device ports list
+
+=item walks model walk branch
+
+=back

@@ -4,7 +4,11 @@ use strict;
 use warnings;
 
 sub setConnectedDevicesMacAddress {
-    my ($results, $ports, $walks) = @_;
+    my (%params) = @_;
+
+    my $results = $params{results};
+    my $ports   = $params{ports};
+    my $walks   = $params{walks};
 
     while (my ($oid, $mac) = each %{$results->{dot1dTpFdbAddress}}) {
         next unless $mac;
@@ -52,3 +56,13 @@ This is a class defining some functions specific to AlliedTelesis hardware.
 =head2 setConnectedDevicesMacAddress($results, $ports, $walks)
 
 Set mac addresses of connected devices.
+
+=over
+
+=item results raw values collected through SNMP
+
+=item ports device ports list
+
+=item walks model walk branch
+
+=back

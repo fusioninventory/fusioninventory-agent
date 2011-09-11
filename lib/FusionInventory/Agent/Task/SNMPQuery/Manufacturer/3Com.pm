@@ -4,7 +4,11 @@ use strict;
 use warnings;
 
 sub setConnectedDevicesMacAddress {
-    my ($results, $ports, $walks) = @_;
+    my (%params) = @_;
+
+    my $results = $params{results};
+    my $ports   = $params{ports};
+    my $walks   = $params{walks};
 
     while (my ($oid, $mac) = each %{$results->{dot1dTpFdbAddress}}) {
         next unless $mac;
@@ -27,7 +31,9 @@ sub setConnectedDevicesMacAddress {
 
 # In Intellijack 225, put mac address of port 'IntelliJack Ethernet Adapter' in port 'LAN Port'
 sub RewritePortOf225 {
-    my ($results, $ports, $walks) = @_;
+    my (%params) = @_;
+
+    my $ports = $params{ports};
 
     $ports->[101]->{MAC} = $ports->[1]->{MAC};
     delete $ports->[1];
@@ -47,8 +53,28 @@ This is a class defining some functions specific to 3Com hardware.
 
 =head1 FUNCTIONS
 
-=head2 setConnectedDevicesMacAddress($results, $ports, $walks)
+=head2 setConnectedDevicesMacAddress(%params)
 
 Set mac addresses of connected devices.
 
-=head2 RewritePortOf225($results, $ports, $walk)
+=over
+
+=item results raw values collected through SNMP
+
+=item ports device ports list
+
+=item walks model walk branch
+
+=back
+
+=head2 RewritePortOf225(%params)
+
+=over
+
+=item results raw values collected through SNMP
+
+=item ports device ports list
+
+=item walks model walk branch
+
+=back

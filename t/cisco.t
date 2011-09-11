@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 
 use strict;
+use warnings;
 
 use Test::More;
 use FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco;
@@ -109,8 +110,8 @@ my $results = {
 };
 
 foreach my $test (@mac_tests) {
-    FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco::setMacAddresses(
-        $results, $test->[0], $walks, 1
+    FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco::setConnectedDevicesMacAddress(
+        results => $results, ports => $test->[0], walks => $walks, vlan_id => 1
     );
 
     is_deeply(
