@@ -89,6 +89,21 @@ my @sanitization_tests = (
     [ "\x12fo\xA9\x12", "fo©" ],
 );
 
+my @hex2char_tests = (
+    [ '0x41', 'A'  ],
+    [ '41',   '41' ],
+);
+
+my @hex2dec_tests = (
+    [ '0x41', '65' ],
+    [ '41',   '41' ],
+);
+
+my @dec2hex_tests = (
+    [ '65',   '0x41' ],
+    [ '0x41', '0x41' ],
+);
+
 plan tests =>
     (scalar @size_tests_ok) +
     (scalar @size_tests_nok) +
@@ -99,6 +114,9 @@ plan tests =>
     (scalar @version_tests_ok) +
     (scalar @version_tests_nok) +
     (scalar @sanitization_tests) +
+    (scalar @hex2char_tests) +
+    (scalar @hex2dec_tests) +
+    (scalar @dec2hex_tests) +
     17;
 
 foreach my $test (@size_tests_nok) {
@@ -167,6 +185,30 @@ foreach my $test (@sanitization_tests) {
         getSanitizedString($test->[0]),
         $test->[1],
         "$test->[0] sanitization"
+    );
+}
+
+foreach my $test (@hex2char_tests) {
+    is(
+        hex2char($test->[0]),
+        $test->[1],
+        "conversion: $test->[0] to character"
+    );
+}
+
+foreach my $test (@hex2dec_tests) {
+    is(
+        hex2dec($test->[0]),
+        $test->[1],
+        "conversion: $test->[0] to decimal"
+    );
+}
+
+foreach my $test (@dec2hex_tests) {
+    is(
+        dec2hex($test->[0]),
+        $test->[1],
+        "conversion: $test->[0] to hexadecimal"
     );
 }
 

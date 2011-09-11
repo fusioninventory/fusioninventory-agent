@@ -29,8 +29,8 @@ sub _getDevices {
     return 
         map {
             {
-                VENDORID  => sprintf("%x", $_->{'idVendor'}),
-                PRODUCTID => sprintf("%x", $_->{'idProduct'}),
+                VENDORID  => dec2hex($_->{'idVendor'}),
+                PRODUCTID => dec2hex($_->{'idProduct'}),
                 SERIAL    => $_->{'USB Serial Number'},
                 NAME      => $_->{'USB Product Name'},
                 CLASS     => $_->{'bDeviceClass'},

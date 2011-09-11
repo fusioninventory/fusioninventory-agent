@@ -75,19 +75,6 @@ sub doInventory {
 
 }
 
-sub _hexToDec {
-    my ($val) = @_;
-
-    return unless $val;
-
-    return $val unless $val =~ /^0x/;
-
-    $val =~ s/^0x0*//;
-    $val =~ hex($val);
-
-    return $val;
-}
-
 sub _dateFormat {
     my ($date) = @_; 
 
@@ -131,8 +118,8 @@ sub _processSoftwares {
             URL_INFO_ABOUT   => encodeFromRegistry($data->{'/URLInfoAbout'}),
             UNINSTALL_STRING => encodeFromRegistry($data->{'/UninstallString'}),
             INSTALLDATE      => _dateFormat($data->{'/InstallDate'}),
-            VERSION_MINOR    => _hexToDec($data->{'/VersionMinor'}),
-            VERSION_MAJOR    => _hexToDec($data->{'/VersionMajor'}),
+            VERSION_MINOR    => hex2dec($data->{'/VersionMinor'}),
+            VERSION_MAJOR    => hex2dec($data->{'/VersionMajor'}),
             NO_REMOVE        => $data->{'/NoRemove'} && 
                                $data->{'/NoRemove'} =~ /1/,
             IS64BIT          => $is64bit,

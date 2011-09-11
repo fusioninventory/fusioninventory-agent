@@ -25,10 +25,9 @@ sub doInventory {
     # example on NetBSD: 0x807b65c
     # example on OpenBSD: 2155570635
     my $SystemSerial = getFirstLine(command => 'sysctl -n kern.hostid');
-    if ( $SystemSerial =~ /^\d*$/ ) { # convert to NetBSD format
-        $SystemSerial = sprintf ("0x%x",$SystemSerial);
-    }
-    $SystemSerial =~ s/^0x//; # remove 0x to make it appear as in the firmware
+    # force hexadecimal, but remove 0x to make it appear as in the firmware
+    $SystemSerial = dec2hex($SystemSerial);
+    $SystemSerial =~ s/^0x//;
 
     my $processorn = getFirstLine(command => 'sysctl -n hw.ncpu');
 

@@ -32,6 +32,9 @@ our @EXPORT = qw(
     canRun
     canRead
     canLoad
+    hex2char
+    hex2dec
+    dec2hex
     any
     all
     none
@@ -340,6 +343,36 @@ sub canLoad {
     return $module->require();
 }
 
+sub hex2char {
+    my ($value) = @_;
+
+    return unless $value;
+    return $value unless $value =~ /^0x/;
+
+    $value =~ s/^0x//;
+    $value =~ s/(\w{2})/chr(hex($1))/eg;
+
+    return $value;
+}
+
+sub hex2dec {
+    my ($value) = @_;
+
+    return unless $value;
+    return $value unless $value =~ /^0x/;
+
+    return oct($value);
+}
+
+sub dec2hex {
+    my ($value) = @_;
+
+    return unless $value;
+    return $value if $value =~ /^0x/;
+
+    return sprintf("0x%x", $value);
+}
+
 # shamelessly imported from List::MoreUtils to avoid a dependency
 sub any (&@) { ## no critic (SubroutinePrototypes)
     my $f = shift;
@@ -582,6 +615,22 @@ Returns true if given file can be read.
 =head2 canLoad($module)
 
 Returns true if given perl module can be loaded (and actually loads it).
+
+=head2 hex2char($value)
+
+Returns the value converted to a character if it starts with hexadecimal
+prefix, the unconverted value otherwise. Eg. 0x41 -> A, 41 -> 41.
+
+=head2 hex2dec($value)
+
+Returns the value converted to a decimal if it starts with hexadecimal prefix,
+the unconverted value otherwise. Eg. 0x41 -> 65, 41 -> 41.
+
+=head2 dec2hex($value)
+
+Returns the value converted to an hexadecimal if it doesn't start with
+hexadecimal prefix, the unconverted value otherwise. Eg. 65 -> 0x41, 0x41 ->
+0x41.
 
 =head2 any BLOCK LIST
 
