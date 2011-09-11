@@ -2,7 +2,7 @@
 BEGIN {
     use File::Spec;
     use File::Basename;
-    chdir(dirname(File::Spec->rel2abs( __FILE__ )));
+    chdir(dirname(File::Spec->rel2abs( __FILE__ ))."/../..");
 }
 
 use strict;
