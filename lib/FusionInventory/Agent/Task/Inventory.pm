@@ -26,7 +26,7 @@ sub run {
             );
         } else {
             my $content = $self->{prologresp}->getContent();
-            if (!$content || $content->{RESPONSE} || $content->{RESPONSE} !~ /^SEND$/) {
+            if (!($content && $content->{RESPONSE} && $content->{RESPONSE} =~ /^SEND$/)) {
                 $self->{logger}->debug("No inventory requested in the prolog");
                 return;
             }

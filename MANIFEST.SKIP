@@ -38,3 +38,4 @@ lib/FusionInventory/Agent/Task/Deploy
 lib/FusionInventory/Agent/Task/ESX
 lib/FusionInventory/VMware
 fusioninventory-esx
+^tools*

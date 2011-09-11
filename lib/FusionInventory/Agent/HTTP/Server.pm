@@ -8,6 +8,7 @@ use English qw(-no_match_vars);
 use HTTP::Daemon;
 use Net::IP;
 use Text::Template;
+use File::Basename;
 
 use FusionInventory::Agent::Logger;
 
@@ -105,19 +106,38 @@ sub _handle {
         } 
 
         # deploy request
-        if ($path =~ m{^/deploy/([\w\d/-]+)$}) {
-            my $file = $1;
-            foreach my $target (@{$scheduler->{scheduler}}) {
-                my $directory =
-                    $target->getStorage()->getDirectory() . "/deploy";
-                if (-f "$directory/$file") {
-                    $logger->debug($log_prefix . "file $path sent");
-                    $client->send_file_response("$directory/$file");
-                } else {
-                    $logger->debug($log_prefix . "file $path not found");
-                }
+        if ($path =~ m{^/deploy/getFile/./../([\w\d/-]+)$}) {
+            File::Find->require;
+            my $sha512 = $1;
+            my $filePath;
+            foreach my $target (@{$self->{scheduler}{targets}}) {
+                my $file;
+                my $shareDir = $target->{storage}{directory}."/deploy/fileparts/shared";
+                next unless -d $shareDir;
+                File::Find::find({
+                        wanted => sub {
+                        return unless -f;
+                        return unless basename($_) eq  $sha512;
+                        Digest::SHA->require;
+                        my $sha = Digest::SHA->new('512');
+                        $sha->addfile($File::Find::name, 'b');
+
+                        if ($sha->hexdigest eq $sha512) {
+                            $filePath = $File::Find::name;
+                            return;
+                        }
+                     },
+                     no_chdir => 1
+                }, $shareDir);
+                last if $filePath;
             }
-            $client->send_error(404);
+            if ($filePath && -f $filePath) {
+                $logger->debug($log_prefix . "file $sha512 not found");
+                $client->send_file_response("$filePath");
+                $logger->debug($log_prefix . "file $filePath sent");
+            } else {
+                $client->send_error(404);
+            }
             last SWITCH;
         }
 

@@ -15,7 +15,7 @@ use FusionInventory::Agent::XML::Query;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
 
-plan tests => 6;
+plan tests => 7;
 
 my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'Test' ]
@@ -50,6 +50,7 @@ $server->set_dispatch({
     '/error'        => sub { print "HTTP/1.0 403 NOK\r\n\r\n"; },
     '/empty'        => sub { print $header; },
     '/uncompressed' => sub { print $header . $html_content; },
+    '/mixedhtml'   => sub { print $header . $html_content." a aee".$xml_content ; },
     '/unexpected'   => sub { print $header . compress($html_content); },
     '/correct'      => sub { print $header . compress($xml_content); },
     '/altered'      => sub { print $header . "\n" . compress($xml_content); },
@@ -74,9 +75,20 @@ subtest "empty content" => sub {
             url     => 'http://localhost:8080/empty',
         ),
         $logger,
-        "[http client] empty content",
+        "[http client] unknown content format",
     );
 };
+
+
+subtest "mixedhtml content" => sub {
+    check_response_ok(
+        scalar $client->send(
+            message => $message,
+            url     => 'http://localhost:8080/mixedhtml',
+        ),
+    );
+};
+
 
 subtest "uncompressed content" => sub {
     check_response_nok(
@@ -85,7 +97,7 @@ subtest "uncompressed content" => sub {
             url     => 'http://localhost:8080/uncompressed',
         ),
         $logger,
-        "[http client] uncompressed content, starting with $html_content",
+        "[http client] unexpected content, starting with $html_content",
     );
 };
 
