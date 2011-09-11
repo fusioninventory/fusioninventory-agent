@@ -64,15 +64,15 @@ sub doInventory {
         Access => KEY_READ
     }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
-    foreach (
+    foreach my $key (
         "SOFTWARE/Microsoft/Windows NT/CurrentVersion/Winlogon/DefaultUserName",
         "SOFTWARE/Microsoft/Windows/CurrentVersion/Authentication/LogonUI/LastLoggedOnUser"
     ) {
-        my $lastloggeduser = encodeFromRegistry($machKey->{$_});
-        next unless $lastloggeduser;
-        $lastloggeduser =~ s,.*\\,,;
+        my $user = encodeFromRegistry($machKey->{$key});
+        next unless $user;
+        $user =~ s,.*\\,,;
         $inventory->setHardware({
-           LASTLOGGEDUSER => $lastloggeduser
+           LASTLOGGEDUSER => $user
         });
     }
 
