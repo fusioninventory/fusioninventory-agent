@@ -514,17 +514,11 @@ sub _scanAddressBySNMP {
                 next unless $description eq $entry->{match};
             }
 
-            $entry->{module}->require();
-            if ($EVAL_ERROR) {
-                $self->{logger}->debug(
-                    "Failed to load $entry->{module}: $EVAL_ERROR"
-                );
-                last;
-            }
-
-            no strict 'refs'; ## no critic
-            $description = &{$entry->{module} . '::' . $entry->{function}}(
-                $snmp
+            $description = runFunction(
+                module   => $entry->{module},
+                function => $entry->{function},
+                params   => $snmp,
+                load     => 1
             );
 
             last;
