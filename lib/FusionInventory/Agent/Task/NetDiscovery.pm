@@ -360,7 +360,7 @@ sub _scanAddresses {
                 ip               => $address,
                 nmap_parameters  => $nmap_parameters,
                 snmp_credentials => $snmp_credentials,
-                snmp_dico        => $snmp_dictionnary
+                snmp_dictionnary => $snmp_dictionnary
             );
 
             if ($result) {
