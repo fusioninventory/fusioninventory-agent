@@ -29,7 +29,17 @@ sub doInventory {
         command => 'ps aux',
         logger  => $logger
     )) {
-        next unless $process->{CMD} =~ m{^/usr/(?:bin/(?:X|Xorg)|X11R6/bin/X) };
+        next unless $process->{CMD} =~ m{
+            ^
+            (?:
+                /usr/bin
+                |
+                /usr/X11R6/bin
+                |
+                /etc/X11
+            )
+            /X
+        }x;
         $xorgPid = $process->{PID};
         last;
     }
