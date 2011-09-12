@@ -527,7 +527,7 @@ sub _scanAddressBySNMP {
         $device{DESCRIPTION} = $description;
 
         # get model matching description from dictionnary
-        my $model = $params{snmp_dictionnary}->get($description);
+        my $model = $params{snmp_dictionnary}->getModel($description);
 
         $device{SERIAL}    = _getSerial($snmp, $model);
         $device{MAC}       = _getMacAddress($snmp, $model) || _getMacAddress($snmp);
