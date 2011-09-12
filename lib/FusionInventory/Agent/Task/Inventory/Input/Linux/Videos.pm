@@ -49,6 +49,8 @@ sub doInventory {
         $xorgData = _parseXorgFd(file => $link) if -r $link;
     }
 
+    return unless $xorgData || $ddcprobeData;
+
     my $video = {
         CHIPSET    => $xorgData->{product}    || $ddcprobeData->{product},
         MEMORY     => $xorgData->{memory}     || $ddcprobeData->{memory},
