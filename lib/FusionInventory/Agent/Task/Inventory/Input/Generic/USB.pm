@@ -5,8 +5,6 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
-my $seen;
-
 sub isEnabled {
     return canRun('lsusb');
 }
@@ -29,9 +27,6 @@ sub doInventory {
         if (defined($device->{SERIAL}) && length($device->{SERIAL}) < 5) {
             $device->{SERIAL} = undef;
         }
-
-        # avoid duplicates
-        next if $seen->{$device->{SERIAL}}++;
 
         $inventory->addEntry(
             section => 'USBDEVICES',
