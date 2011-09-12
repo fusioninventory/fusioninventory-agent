@@ -100,7 +100,7 @@ sub doInventory {
     /)) {
         $baseBoardSerial = $Properties->{SerialNumber};
         $ssn = $Properties->{SerialNumber} unless $ssn;
-        $mmodel = $Properties->{Product} unless $model;
+        $mmodel = $Properties->{Product} unless $mmodel;
         $smanufacturer = $Properties->{Manufacturer} unless $smanufacturer;
 
     }
