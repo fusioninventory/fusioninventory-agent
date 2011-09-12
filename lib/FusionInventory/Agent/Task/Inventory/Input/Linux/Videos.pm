@@ -18,13 +18,16 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $ddcprobeData = _getDdcprobeData();
+    my $ddcprobeData = _getDdcprobeData(
+        command => 'ddcprobe',
+        logger  => $logger
+    );
     my $xorgData;
 
     my $xorgPid;
     foreach my $process (getProcessesFromPs(
-        logger => $logger,
-        command => 'ps aux'
+        command => 'ps aux',
+        logger  => $logger
     )) {
         next unless $process->{CMD} =~ m{^/usr/(?:bin/(?:X|Xorg)|X11R6/bin/X) };
         $xorgPid = $process->{PID};
@@ -33,7 +36,7 @@ sub doInventory {
 
     if ($xorgPid) {
         my $link = "/proc/$xorgPid/fd/0";
-        $xorgData = _parseXorgFd($link) if -r $link;
+        $xorgData = _parseXorgFd(file => $link) if -r $link;
     }
 
     my $video = {
@@ -61,13 +64,7 @@ sub doInventory {
 }
 
 sub _getDdcprobeData {
-    my ($file) = @_;
-
-    my $handle = getFileHandle(
-        command => 'ddcprobe 2>&1',
-        file => $file
-    );
-
+    my $handle = getFileHandle(@_);
     return unless $handle;
 
     my $data;
@@ -76,17 +73,13 @@ sub _getDdcprobeData {
         $line =~ s/[^[:ascii:]]//g;
         $data->{$1} = $2 if $line =~ /^(\S+):\s+(.*)/;
     }
+    close $handle;
 
     return $data;
 }
 
 sub _parseXorgFd {
-    my ($file) = @_;
-
-    my $handle = getFileHandle(
-        file => $file
-    );
-
+    my $handle = getFileHandle(@_);
     return unless $handle;
 
     my $data;
