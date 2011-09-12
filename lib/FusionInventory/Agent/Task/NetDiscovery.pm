@@ -505,7 +505,7 @@ sub _scanAddressBySNMP {
         }
 
         my $description = $snmp->get('1.3.6.1.2.1.1.1.0');
-        return unless $description;
+        next unless $description;
 
         foreach my $entry (@dispatch_table) {
             if (ref $entry->{match} eq 'Regexp') {
