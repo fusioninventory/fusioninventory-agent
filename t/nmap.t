@@ -38,7 +38,7 @@ my %tests = (
 plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
-    my $file = "resources/nmap-xml/$test";
+    my $file = "resources/nmap/$test";
     my $result = FusionInventory::Agent::Task::NetDiscovery::_parseNmap(
         file => $file
     );
