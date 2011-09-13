@@ -23,7 +23,6 @@ use Time::localtime;
 use UNIVERSAL::require;
 use XML::TreePP;
 
-use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Task::NetDiscovery::Dico;
