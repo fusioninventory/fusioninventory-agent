@@ -6506,3 +6506,43 @@ __DATA__
       <MACDYN>.1.3.6.1.2.1.2.2.1.6</MACDYN>
    </DEVICE>
 </SNMPDISCOVERY>
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Task::NetDiscovery::Dictionnary - SNMP model dictionnary
+
+=head1 DESCRIPTION
+
+This dictionnary contains identification informations for SNMP devices.
+
+=head1 METHODS
+
+=head2 new
+
+The constructor. The following parameters are allowed, as keys of the %params
+hash:
+
+=over
+
+=item I<string>
+
+The models list, as an XML string.
+
+=item I<file>
+
+The models list, as an XML file.
+
+=item I<hash>
+
+The models list, as an hashref.
+
+=back
+
+=head2 getHash()
+
+Return the hash identifying this dictionnary content.
+
+=head2 getModel($description)
+
+Return the model whose sysDescr property matches the given description.
