@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::NetDiscovery::Dico;
+package FusionInventory::Agent::Task::NetDiscovery::Dictionnary;
 
 use strict;
 use warnings;
