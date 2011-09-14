@@ -299,7 +299,7 @@ sub _getDictionnary {
 
     # fallback on builtin dictionnary
     if (!$dictionnary) {
-        $dictionnary = FusionInventory::Agent::Task::NetDiscovery::Dico->new();
+        $dictionnary = FusionInventory::Agent::Task::NetDiscovery::Dictionnary->new();
         $hash        = $dictionnary->getHash();
     }
 
