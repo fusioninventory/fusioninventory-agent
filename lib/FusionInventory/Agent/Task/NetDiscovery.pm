@@ -553,16 +553,7 @@ sub _getSerial {
     return unless $model;
     return unless $model->{SERIAL};
 
-    my $serial = $snmp->get($model->{SERIAL});
-    if (defined($serial)) {
-        $serial =~ s/\n//g;
-        $serial =~ s/\r//g;
-        $serial =~ s/^\s+//;
-        $serial =~ s/\s+$//;
-        $serial =~ s/(\.{2,})*//g;
-    }
-
-    return $serial;
+    return $snmp->getSerial($model->{SERIAL});
 }
 
 sub _getMacAddress {
@@ -574,11 +565,11 @@ sub _getMacAddress {
         # use model-specific oids
 
         if ($model->{MAC}) {
-            $macAddress = $snmp->get($model->{MAC});
+            $macAddress = $snmp->getMacAddress($model->{MAC});
         }
 
         if (!$macAddress || $macAddress !~ /^$mac_address_pattern$/) {
-            my $macs = $snmp->walk($model->{MACDYN});
+            my $macs = $snmp->walkMacAddresses($model->{MACDYN});
             foreach my $value (values %{$macs}) {
                 next if !$value;
                 next if $value eq '0:0:0:0:0:0';
@@ -589,10 +580,10 @@ sub _getMacAddress {
     } else {
         # use default oids
 
-        $macAddress = $snmp->get(".1.3.6.1.2.1.17.1.1.0");
+        $macAddress = $snmp->getMacAddress(".1.3.6.1.2.1.17.1.1.0");
 
         if (!$macAddress || $macAddress !~ /^$mac_address_pattern$/) {
-            my $macs = $snmp->walk(".1.3.6.1.2.1.2.2.1.6");
+            my $macs = $snmp->walkMacAddresses(".1.3.6.1.2.1.2.2.1.6");
             foreach my $value (values %{$macs}) {
                 next if !$value;
                 next if $value eq '0:0:0:0:0:0';
