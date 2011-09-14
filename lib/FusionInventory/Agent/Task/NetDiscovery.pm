@@ -23,10 +23,9 @@ use Time::localtime;
 use UNIVERSAL::require;
 use XML::TreePP;
 
-use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
-use FusionInventory::Agent::Task::NetDiscovery::Dico;
+use FusionInventory::Agent::Task::NetDiscovery::Dictionnary;
 use FusionInventory::Agent::XML::Query;
 
 our $VERSION = '2.0';
@@ -279,7 +278,7 @@ sub _getDictionnary {
     if ($options->{DICO}) {
         # the server message contains a dictionnary, use it
         # and save it for later use
-        $dictionnary = FusionInventory::Agent::Task::NetDiscovery::Dico->new(
+        $dictionnary = FusionInventory::Agent::Task::NetDiscovery::Dictionnary->new(
             string => $options->{DICO}
         );
         $hash = $options->{DICOHASH};
