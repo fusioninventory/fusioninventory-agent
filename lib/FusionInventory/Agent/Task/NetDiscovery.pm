@@ -176,7 +176,7 @@ sub run {
         $snmp_credentials = $options->{AUTHENTICATION};
         $snmp_dictionnary = $self->_getDictionnary($options, $params->{PID});
         # abort immediatly if the dictionnary isn't up to date
-        return unless $dictionnary;
+        return unless $snmp_dictionnary;
     }
 
     # send initial message to the server
