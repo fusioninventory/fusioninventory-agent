@@ -82,8 +82,6 @@ sub get {
     return if $response->{$oid} =~ /noSuchObject/;
 
     my $value = $response->{$oid};
-    $value = _getFixedMac($value) if $oid =~ /$bad_oids_pattern/;
-    $value = getSanitizedString($value);
     chomp $value;
 
     return $value;
@@ -106,8 +104,6 @@ sub walk {
 
     foreach my $oid (keys %{$response}) {
         my $value = $response->{$oid};
-        $value = _getFixedMac($value) if $oid =~ /$bad_oids_pattern/;
-        $value = getSanitizedString($value);
         chomp $value;
         $values->{$oid} = $value;
     }
@@ -115,8 +111,41 @@ sub walk {
     return $values;
 }
 
-# normalize badly-encoded mac address
-sub _getFixedMac {
+sub getMacAddress {
+    my ($self, $oid) = @_;
+
+    my $value = $self->get($oid);
+    return unless $value;
+
+    if ($oid =~ /$bad_oids_pattern/) {
+        $value = _sanitizeMacAddress($value);
+    }
+
+    $value = alt2canonical($value);
+
+    return $value;
+}
+
+sub walkMacAddresses {
+    my ($self, $oid) = @_;
+
+    my $values = $self->walk($oid);
+    return unless $values;
+
+    if ($oid =~ /$bad_oids_pattern/) {
+        foreach my $value (values %$values) {
+            $value = _sanitizeMacAddress($value);
+        }
+    }
+
+    foreach my $value (values %$values) {
+        $value = alt2canonical($value);
+    }
+
+    return $values;
+}
+
+sub _sanitizeMacAddress {
     my ($value) = @_;
 
     if ($value !~ /^0x/) {
@@ -124,10 +153,26 @@ sub _getFixedMac {
         $value = unpack 'H*', $value;
     } else {
         # drop hex prefix
-        $value = s/^0x//;
+        $value =~ s/^0x//;
     }
 
-    return alt2canonical($value);
+    return $value;
+}
+
+
+sub getSerial {
+    my ($self, $oid) = @_;
+
+    my $value = $self->get($oid);
+    return unless $value;
+
+    $value =~ s/\n//g;
+    $value =~ s/\r//g;
+    $value =~ s/^\s+//;
+    $value =~ s/\s+$//;
+    $value =~ s/\.{2,}//g;
+
+    return $value;
 }
 
 1;
@@ -191,3 +236,18 @@ translated into plain ascii.
 This method returns an hashref of values, indexed by their OIDs, starting from
 the given one. The values are normalised to remove any control character, and
 hexadecimal mac addresses are translated into plain ascii.
+
+=head2 getSerial($oid)
+
+Wraps get($oid), assuming the value is a serial number and sanitizing it
+accordingly.
+
+=head2 getMacAddress($oid)
+
+Wraps get($oid), assuming the value is a mac address and sanitizing it
+accordingly.
+
+=head2 walkMacAddresses($oid)
+
+Wraps walk($oid), assuming the values are mac addresses and sanitizing them
+accordingly.
