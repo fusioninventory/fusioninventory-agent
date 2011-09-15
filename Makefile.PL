@@ -89,9 +89,9 @@ sub constants {
         INSTALLMAN1DIR       => '$(PREFIX)/share/man/man1',
         INSTALLSITEMAN1DIR   => '$(PREFIX)/share/man/man1',
         INSTALLVENDORMAN1DIR => '$(PREFIX)/share/man/man1',
-        CONFDIR              => '$(PREFIX)/etc/fusioninventory',
+        SYSCONFDIR           => '$(PREFIX)/etc/fusioninventory',
         DATADIR              => '$(PREFIX)/share/fusioninventory',
-        VARDIR               => '$(PREFIX)/var/fusioninventory',
+        LOCALSTATEDIR        => '$(PREFIX)/var/fusioninventory',
     );
 
     # allow variables defined on command line to override defaults
@@ -114,7 +114,7 @@ sub constants {
     }
 
     # add out own variables
-    foreach my $name (qw/CONFDIR DATADIR VARDIR/) {
+    foreach my $name (qw/SYSCONFDIR DATADIR LOCALSTATEDIR/) {
         push @code, "$name = $variables{$name}";
     }
 
@@ -154,9 +154,9 @@ sub installbin {
     $installbin .= <<'EOF';
 FINALIZE = $(ABSPERLRUN) -pi \
     -e 's|use lib .*||;' \
-    -e 's|confdir => .*|confdir => "$(CONFDIR)",|;' \
+    -e 's|confdir => .*|confdir => "$(SYSCONFDIR)",|;' \
     -e 's|datadir => .*|datadir => "$(DATADIR)",|;' \
-    -e 's|vardir  => .*|vardir  => "$(VARDIR)",|' \
+    -e 's|vardir  => .*|vardir  => "$(LOCALSTATEDIR)",|' \
     --
 EOF
     return $installbin;
