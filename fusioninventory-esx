@@ -35,6 +35,7 @@ sub usage {
         --user username        : the user name
         --password xxxx        : the password
         --directory /somewhere : the location where the .ocs file must be written
+        --tag xxxx             : set a tag for the inventoried machine
 
         EXAMPLE:
         fusioninventory-esx --host myesx --user foo --password bar --directory /tmp
