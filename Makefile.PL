@@ -71,17 +71,33 @@ makemaker_args(
         TESTS => join ' ', map { glob } qw(t/*.t t/*/*.t t/*/*/*.t t/*/*/*/*.t)
     },
 );
+
 WriteAll;
+
+print <<EOF;
+
+Installation summary
+--------------------
+
+prefix: $MY::variables{PREFIX}
+configuration installation directory: $MY::variables{SYSCONFDIR}
+constant data installation directory: $MY::variables{DATADIR}
+variable data installation directory: $MY::variables{LOCALSTATEDIR}
+
+EOF
 
 package MY;
 
 use English qw(-no_match_vars);
 
+our %variables;
+
 # force a perl-independant prefix for everything but perl modules
 sub constants {
     my ($self) = @_;
 
-    my %variables = (
+    # for some reason, initialising variables from the global scope doesn't work
+    %variables = (
         PREFIX               => '/usr/local',
         INSTALLBIN           => '$(PREFIX)/bin',
         INSTALLSITEBIN       => '$(PREFIX)/bin',
