@@ -1,5 +1,11 @@
 Revision history for FusionInventory::Agent
 
+2.1.12 
+
+SOLARIS
+ ✔ Fix some warnings for spurious stat() calls
+ ✔ Fix hostname being forced to 'SOLARIS'
+
 2.1.11  Mon, 12 Sep 2011 17:34:38 +0200
 
 WINDOWS
