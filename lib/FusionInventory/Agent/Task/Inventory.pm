@@ -154,7 +154,12 @@ sub initModList {
                 }
                 if (!$ret) {
                     chomp(my $binpath=`which $binary 2>/dev/null`);
-                    $ret = -x $binpath;
+                    # some which implementation, such as solaris, unfortunatly
+                    # return 'command foo not found', with no error status,
+                    # for unknown command. When testing path with spaces,
+                    # it returns a multiline message... So, let's check 
+                    # result content before assuming it is a file path
+                    $ret = $binpath =~ /not found/ ? 0 : -x $binpath;
                 }
             }
 
