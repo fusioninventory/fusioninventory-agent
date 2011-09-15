@@ -77,21 +77,48 @@ package MY;
 
 use English qw(-no_match_vars);
 
-# allow user to define installation directories
-sub post_constants {
+# force a perl-independant prefix for everything but perl modules
+sub constants {
     my ($self) = @_;
-    my $confdir =
-        $self->{ARGS}->{CONFDIR} || '$(PREFIX)/etc/fusioninventory';
-    my $datadir =
-        $self->{ARGS}->{DATADIR} || '$(PREFIX)/share/fusioninventory';
-    my $vardir =
-        $self->{ARGS}->{VARDIR} || '$(PREFIX)/var/fusioninventory';
-    return <<EOF;
-CONFDIR = $confdir
-DATADIR = $datadir
-VARDIR  = $vardir
 
-EOF
+    my %variables = (
+        PREFIX               => '/usr/local',
+        INSTALLBIN           => '$(PREFIX)/bin',
+        INSTALLSITEBIN       => '$(PREFIX)/bin',
+        INSTALLVENDORBIN     => '$(PREFIX)/bin',
+        INSTALLMAN1DIR       => '$(PREFIX)/share/man/man1',
+        INSTALLSITEMAN1DIR   => '$(PREFIX)/share/man/man1',
+        INSTALLVENDORMAN1DIR => '$(PREFIX)/share/man/man1',
+        CONFDIR              => '$(PREFIX)/etc/fusioninventory',
+        DATADIR              => '$(PREFIX)/share/fusioninventory',
+        VARDIR               => '$(PREFIX)/var/fusioninventory',
+    );
+
+    # allow variables defined on command line to override defaults
+    foreach my $name (keys %variables) {
+        $variables{$name} = $self->{ARGS}->{$name} if $self->{ARGS}->{$name};
+    }
+
+    # get all standard MM variables definitions, and override them if needed
+    my @code = split(/\n/, $self->SUPER::constants(@_));
+    foreach my $line (@code) {
+        # Skip comments
+        next if $line =~ /^\s*#/;
+        # Skip everything which isn't a var assignment.
+        next unless $line =~ /^([A-Z_]+) =/;
+        my $name = $1;
+        # skip variables we're not interested
+        next unless $variables{$name};
+
+        $line = "$name = $variables{$name}";
+    }
+
+    # add out own variables
+    foreach my $name (qw/CONFDIR DATADIR VARDIR/) {
+        push @code, "$name = $variables{$name}";
+    }
+
+    return join("\n", @code);
 }
 
 # ensure configuration and data get installed too
