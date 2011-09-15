@@ -52,15 +52,6 @@ install_script  'fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
 install_script  'fusioninventory-injector';
 install_share; # No parameter, see http://www.glpi-project.org/forum/viewtopic.php?pid=107979#p107979
 
-# We want a release bundled with the needed dependency to be able to
-# prepare a standalone binary with PAR::Packer 
-if ($ENV{FusionInventory_BUNDLE_RELEASE}) {
-    foreach my $module (qw/Archive::Zip HTML::Parser LWP URI XML::NamespaceSupport Net::IP HTML::Tagset Proc::Daemon Module::ScanDeps PAR::Packer AutoLoader PAR PAR::Dist File::Remove YAML::Tiny Getopt::ArgvFile ExtUtils::Install ExtUtils::ParseXS XML::SAX XML::Simple/) {
-        bundle $module;
-        requires $module;
-    }
-}
-
 # memconf is needed by Solaris backend module
 if ($OSNAME eq 'solaris') {
     install_script  'memconf';
