@@ -137,8 +137,8 @@ sub install {
     $install .= <<'EOF';
 
 config_install :
-	install -d -m 755 $(DESTDIR)$(CONFDIR)
-	install -m 644 etc/agent.cfg $(DESTDIR)$(CONFDIR)
+	install -d -m 755 $(DESTDIR)$(SYSCONFDIR)
+	install -m 644 etc/agent.cfg $(DESTDIR)$(SYSCONFDIR)
 
 data_install :
 	install -d -m 755 $(DESTDIR)$(DATADIR)
