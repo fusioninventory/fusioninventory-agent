@@ -138,7 +138,11 @@ sub install {
 
 config_install :
 	install -d -m 755 $(DESTDIR)$(SYSCONFDIR)
-	install -m 644 etc/agent.cfg $(DESTDIR)$(SYSCONFDIR)
+	if [ -f $(DESTDIR)/$(SYSCONFDIR)/agent.cfg ]; then \
+	    install -m 644 etc/agent.cfg $(DESTDIR)$(SYSCONFDIR)/agent.cfg.new; \
+	else \
+	    install -m 644 etc/agent.cfg $(DESTDIR)$(SYSCONFDIR)/agent.cfg; \
+	fi
 
 data_install :
 	install -d -m 755 $(DESTDIR)$(DATADIR)
