@@ -50,7 +50,6 @@ test_requires  'YAML'                         => undef;
 install_script  'fusioninventory-agent';
 install_script  'fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
 install_script  'fusioninventory-injector';
-install_share; # No parameter, see http://www.glpi-project.org/forum/viewtopic.php?pid=107979#p107979
 
 # memconf is needed by Solaris backend module
 if ($OSNAME eq 'solaris') {
