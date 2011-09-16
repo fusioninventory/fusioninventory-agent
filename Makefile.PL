@@ -49,11 +49,8 @@ test_requires  'YAML'                         => undef;
 install_script  'fusioninventory-agent';
 install_script  'fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
 install_script  'fusioninventory-injector';
-
 # memconf is needed by Solaris backend module
-if ($OSNAME eq 'solaris') {
-    install_script  'memconf';
-}
+install_script  'memconf' if $OSNAME eq 'solaris';
 
 makemaker_args(
     test => {
