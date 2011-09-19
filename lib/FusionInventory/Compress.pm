@@ -9,10 +9,13 @@ use File::Temp qw/ tempdir tempfile /;
 sub new {
     my ($class, $params) = @_;
 
-    my $self = {};
+    my $self = {
+        mode => 'unknown'
+    };
 
     my $logger = $self->{logger} = $params->{logger};
 
+    $self->{mode} = 'unknown';
     eval {
         require Compress::Zlib;
     };
