@@ -28,7 +28,7 @@ sub doInventory {
 
     my $bios = {
         BDATE => getRegistryValue(
-            path   => "Hardware/Description/System/BIOS/BIOSReleaseDate",
+            path   => "HKEY_LOCAL_MACHINE/Hardware/Description/System/BIOS/BIOSReleaseDate",
             logger => $logger
         )
     };
