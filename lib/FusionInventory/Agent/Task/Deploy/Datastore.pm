@@ -91,13 +91,13 @@ sub diskIsFull {
                 Win32::OLE->Option(CP => CP_UTF8);
 
                 1')) {
-            $logger->error("Failed to load Win32::OLE: $@");
+            $logger->error("Failed to load Win32::OLE: $@") if $logger;
         }
 
 
         my $letter;
         if ($self->{path} !~ /^(\w):./) {
-            $logger->error("Path parse error: ".$self->{path});
+            $logger->error("Path parse error: ".$self->{path}) if $logger;
             return;
         }
         $letter = $1.':';
@@ -107,7 +107,7 @@ sub diskIsFull {
             "winmgmts:{impersonationLevel=impersonate,(security)}!//./" );
 
         if (!$WMIServices) {
-            $logger->error(Win32::OLE->LastError());
+            $logger->error(Win32::OLE->LastError()) if $logger;
             return;
         }
 
@@ -129,7 +129,7 @@ sub diskIsFull {
                 }
             }
             close $dfFh
-        } else {
+        } elsif ($logger) {
             $logger->error("Failed to exec df");
         }
     } else {
@@ -141,13 +141,13 @@ sub diskIsFull {
                 }
             }
             close $dfFh
-        } else {
+        } elsif ($logger) {
             $logger->error("Failed to exec df");
         }
     }
 
     if(!$spaceFree) {
-	$logger->debug('$spaceFree is undef!');
+	$logger->debug('$spaceFree is undef!') if $logger;
 	$spaceFree=0;
     }
 
