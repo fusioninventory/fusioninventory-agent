@@ -37,7 +37,7 @@ if ($OSNAME ne 'MSWin32') {
 }
 
 # test dependencies
-test_requires  'Test::More'                   => undef;
+test_requires  'Test::More'                   => '0.93'; # subtest
 test_requires  'IPC::Run'                     => undef;
 test_requires  'HTTP::Proxy'                  => undef;
 test_requires  'HTTP::Server::Simple'         => undef;
