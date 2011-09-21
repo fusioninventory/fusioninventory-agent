@@ -135,7 +135,7 @@ sub _handle {
                 last if $filePath;
             }
             if ($filePath && -f $filePath) {
-                $logger->debug($log_prefix . "file $sha512 not found");
+                $logger->debug($log_prefix . "file $sha512 found");
                 $client->send_file_response("$filePath");
                 $logger->debug($log_prefix . "file $filePath sent");
             } else {
