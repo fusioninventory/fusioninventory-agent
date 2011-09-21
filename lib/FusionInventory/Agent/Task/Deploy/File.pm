@@ -26,12 +26,16 @@ sub new {
 sub getPartFilePath {
     my ($self, $sha512, ) = @_;
 
+
+    return unless $sha512 =~ /^..(.{6})/;
+    my $filename = $1;
+ 
     my $filePath  = $self->{datastore}->{path}.'/fileparts/';
     if (-d $filePath) {
         find({
             wanted => sub {
                 return unless -f;
-                return unless basename($_) eq $sha512;
+                return unless basename($_) eq $filename;
                 $filePath = $File::Find::name;
                 return;
             },
@@ -49,11 +53,10 @@ sub getPartFilePath {
         $filePath .= 'private/';
     }
 
-    return unless $sha512 =~ /^(.)(.)/;
 
-    $filePath .= $1.'/'.$1.$2.'/';
+    return unless $sha512 =~ /^(.)(.)(.{6})/;
 
-    $filePath .= $sha512;
+    $filePath .= $1.'/'.$2.'/'.$3;
 
     return $filePath;
 }
@@ -92,10 +95,8 @@ MULTIPART: foreach my $sha512 (@{$self->{multiparts}}) {
 
             print $mirror.$sha512dir.$sha512."\n";
             my $rc = getstore($mirror.$sha512dir.$sha512, $partFilePath);
-
             if (is_success($rc) && -f $partFilePath) {
                 if (_getSha512ByFile($partFilePath) eq $sha512) {
-                print "getstore : $partFilePath:  ok\n";
                     next MULTIPART;
                 }
             }
