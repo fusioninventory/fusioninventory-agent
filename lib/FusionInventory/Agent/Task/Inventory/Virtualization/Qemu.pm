@@ -5,6 +5,8 @@ use strict;
 use warnings;
 
 sub isInventoryEnabled {
+    return if can_run('virsh');
+
     return 
         can_run('qemu') ||
         can_run('kvm')  ||
