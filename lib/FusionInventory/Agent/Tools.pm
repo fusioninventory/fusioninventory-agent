@@ -239,6 +239,7 @@ sub getFileHandle {
 	if ($params{string}) {
 	    
 	    open $handle, "<", \$params{string} or die;
+            last SWITCH;
 	}
         die "neither command nor file parameter given";
     }

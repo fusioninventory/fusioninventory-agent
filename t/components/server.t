@@ -50,6 +50,7 @@ lives_ok {
         htmldir   => 'share/html'
     );
 } 'instanciation with specific port: ok';
+sleep 1;
 
 ok(
     !$client->get('http://localhost:62354')->is_success(),

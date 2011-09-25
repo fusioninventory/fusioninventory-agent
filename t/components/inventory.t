@@ -187,7 +187,7 @@ is_deeply(
     'CPU added'
 );
 
-$inventory->computeGlobalValues();
+$inventory->computeLegacyValues();
 
 is(
     $inventory->{content}->{HARDWARE}->{PROCESSORN},

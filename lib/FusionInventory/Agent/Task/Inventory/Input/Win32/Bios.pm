@@ -28,7 +28,7 @@ sub doInventory {
 
     my $bios = {
         BDATE => getRegistryValue(
-            path   => "Hardware/Description/System/BIOS/BIOSReleaseDate",
+            path   => "HKEY_LOCAL_MACHINE/Hardware/Description/System/BIOS/BIOSReleaseDate",
             logger => $logger
         )
     };
@@ -84,7 +84,11 @@ sub doInventory {
 
     $inventory->setBios($bios);
 
-    if ($bios->{VERSION} eq 'VirtualBox' || $bios->{MMODEL} eq 'VirtualBox') {
+    if (
+        ($bios->{VERSION} && ($bios->{VERSION} eq 'VirtualBox'))
+         ||
+        ($bios->{MMODEL} && ($bios->{MMODEL} eq 'VirtualBox'))
+       ) {
         $inventory->setHardware ({
             VMSYSTEM => 'VirtualBox'
         });

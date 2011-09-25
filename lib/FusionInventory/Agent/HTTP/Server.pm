@@ -110,6 +110,9 @@ sub _handle {
             File::Find->require;
             my $sha512 = $1;
             my $filePath;
+
+            return unless $sha512 =~ /^..(.{6})/;
+            my $filename = $1;
             foreach my $target (@{$self->{scheduler}{targets}}) {
                 my $file;
                 my $shareDir = $target->{storage}{directory}."/deploy/fileparts/shared";
@@ -117,7 +120,7 @@ sub _handle {
                 File::Find::find({
                         wanted => sub {
                         return unless -f;
-                        return unless basename($_) eq  $sha512;
+                        return unless basename($_) eq  $filename;
                         Digest::SHA->require;
                         my $sha = Digest::SHA->new('512');
                         $sha->addfile($File::Find::name, 'b');
@@ -132,7 +135,7 @@ sub _handle {
                 last if $filePath;
             }
             if ($filePath && -f $filePath) {
-                $logger->debug($log_prefix . "file $sha512 not found");
+                $logger->debug($log_prefix . "file $sha512 found");
                 $client->send_file_response("$filePath");
                 $logger->debug($log_prefix . "file $filePath sent");
             } else {
@@ -259,7 +262,7 @@ sub _listen {
 
     # allow the thread to be stopped 
     threads->set_thread_exit_only(1);
-    $SIG{'KILL'} = sub { threads->exit(); };
+    $SIG{'KILL'} = sub {};
 
     while (1) {
         my ($client, $socket) = $daemon->accept();
