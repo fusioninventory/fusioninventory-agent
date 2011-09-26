@@ -60,6 +60,11 @@ makemaker_args(
 
 WriteAll;
 
+# substitute prefix everywhere
+$MY::variables{SYSCONFDIR} =~ s/\$\(PREFIX\)/$MY::variables{PREFIX}/;
+$MY::variables{DATADIR} =~ s/\$\(PREFIX\)/$MY::variables{PREFIX}/;
+$MY::variables{LOCALSTATEDIR} =~ s/\$\(PREFIX\)/$MY::variables{PREFIX}/;
+
 print <<EOF;
 
 Installation summary
