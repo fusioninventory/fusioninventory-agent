@@ -107,7 +107,7 @@ sub constants {
         # Skip comments
         next if $line =~ /^\s*#/;
         # Skip everything which isn't a var assignment.
-        next unless $line =~ /^([A-Z_]+) =/;
+        next unless $line =~ /^([A-Z0-9_]+) =/;
         my $name = $1;
         # skip variables we're not interested
         next unless $variables{$name};
