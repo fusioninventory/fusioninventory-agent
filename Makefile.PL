@@ -85,9 +85,9 @@ sub constants {
     # for some reason, initialising variables from the global scope doesn't work
     %variables = (
         PREFIX               => '/usr/local',
-        INSTALLBIN           => '$(PREFIX)/bin',
-        INSTALLSITEBIN       => '$(PREFIX)/bin',
-        INSTALLVENDORBIN     => '$(PREFIX)/bin',
+        INSTALLSCRIPT        => '$(PREFIX)/bin',
+        INSTALLSITESCRIPT    => '$(PREFIX)/bin',
+        INSTALLVENDORSCRIPT  => '$(PREFIX)/bin',
         INSTALLMAN1DIR       => '$(PREFIX)/share/man/man1',
         INSTALLSITEMAN1DIR   => '$(PREFIX)/share/man/man1',
         INSTALLVENDORMAN1DIR => '$(PREFIX)/share/man/man1',
