@@ -34,7 +34,7 @@ lives_ok {
     );
 } 'instanciation with default values: ok';
 
-my $client = LWP::UserAgent->new();
+my $client = LWP::UserAgent->new(timeout => 2);
 
 ok(
     $client->get('http://localhost:62354')->is_success(),
