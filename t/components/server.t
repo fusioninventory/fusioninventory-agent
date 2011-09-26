@@ -14,7 +14,7 @@ use FusionInventory::Test::Agent;
 use FusionInventory::Agent::HTTP::Server;
 use FusionInventory::Agent::Logger;
 
-plan tests => 5;
+plan tests => 6;
 
 my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'Test' ]
@@ -60,4 +60,18 @@ ok(
 ok(
     $client->get('http://localhost:8080')->is_success(),
     'server listening on specific port'
+);
+
+# fork a child process, as when running in server mode
+if (my $pid = fork()) {
+    # parent
+    waitpid($pid, 0);
+} else {
+    # child
+    exit(0);
+}
+
+ok(
+    $client->get('http://localhost:8080')->is_success(),
+    'server still listening on specific port after child process exit'
 );
