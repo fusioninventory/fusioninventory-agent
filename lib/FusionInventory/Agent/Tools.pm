@@ -237,11 +237,10 @@ sub getFileHandle {
             last SWITCH;
         }
 	if ($params{string}) {
-	    
 	    open $handle, "<", \$params{string} or die;
             last SWITCH;
 	}
-        die "neither command nor file parameter given";
+        die "neither command, file or string parameter given";
     }
 
     return $handle;
@@ -518,15 +517,17 @@ Returns an open file handle on either a command output, or a file.
 
 =head2 getFileHandle(%params)
 
-Returns an open file handle on either a command output, or a file.
+Returns an open file handle on either a command output, a file, or a string.
 
 =over
 
 =item logger a logger object
 
-=item command the exact command to use
+=item command the command to use
 
 =item file the file to use, as an alternative to the command
+
+=item string the string to use, as an alternative to the command
 
 =back
 
