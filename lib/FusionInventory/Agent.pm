@@ -46,8 +46,14 @@ sub new {
     };
     bless $self, $class;
 
+    return $self;
+}
+
+sub init {
+    my ($self, %params) = @_;
+
     my $config = FusionInventory::Agent::Config->new(
-        confdir => $params{confdir},
+        confdir => $self->{confdir},
         options => $params{options},
     );
     $self->{config} = $config;
@@ -179,8 +185,6 @@ sub new {
     }
 
     $logger->debug("FusionInventory Agent initialised");
-
-    return $self;
 }
 
 sub _isAlreadyRunning {

@@ -77,8 +77,14 @@ if ($options->{version}) {
     exit 0;
 }
 
+my $agent = FusionInventory::Agent->new(
+    confdir => './etc',
+    datadir => './share',
+    vardir  => './var',
+);
+
 if ($options->{'list-tasks'}) {
-    my %tasks = FusionInventory::Agent->getKnownTasks();
+    my %tasks = $agent->getKnownTasks();
     foreach my $task (keys %tasks) {
         print "$task (v$tasks{$task})\n";
     }
@@ -86,12 +92,7 @@ if ($options->{'list-tasks'}) {
 }
 
 eval {
-    my $agent = FusionInventory::Agent->new(
-        confdir => './etc',
-        datadir => './share',
-        vardir  => './var',
-        options => $options
-    );
+    $agent->init(options => $options);
     $agent->run();
 };
 
