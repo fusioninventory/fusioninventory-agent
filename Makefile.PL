@@ -65,6 +65,11 @@ $MY::variables{SYSCONFDIR} =~ s/\$\(PREFIX\)/$MY::variables{PREFIX}/;
 $MY::variables{DATADIR} =~ s/\$\(PREFIX\)/$MY::variables{PREFIX}/;
 $MY::variables{LOCALSTATEDIR} =~ s/\$\(PREFIX\)/$MY::variables{PREFIX}/;
 
+# look for already existing configuration file
+my $config_file_message = -f "$MY::variables{SYSCONFDIR}/agent.cfg" ?
+    "previous configuration file found, new one will be installed as agent.cfg.new" :
+    "no previous configuration file found, new one will be installed as agent.cfg";
+
 print <<EOF;
 
 Installation summary
@@ -73,6 +78,8 @@ prefix: $MY::variables{PREFIX}
 configuration installation directory: $MY::variables{SYSCONFDIR}
 constant data installation directory: $MY::variables{DATADIR}
 variable data installation directory: $MY::variables{LOCALSTATEDIR}
+
+$config_file_message
 EOF
 
 package MY;
