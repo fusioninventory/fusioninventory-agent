@@ -69,12 +69,10 @@ print <<EOF;
 
 Installation summary
 --------------------
-
 prefix: $MY::variables{PREFIX}
 configuration installation directory: $MY::variables{SYSCONFDIR}
 constant data installation directory: $MY::variables{DATADIR}
 variable data installation directory: $MY::variables{LOCALSTATEDIR}
-
 EOF
 
 package MY;
