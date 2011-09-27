@@ -184,13 +184,11 @@ sub _getStatus {
 
     # On OpenBSD, dmesg is in sbin
     # http://forge.fusioninventory.org/issues/402
-    # TODO: we should remove the head call here
     foreach my $dmesg (qw(/bin/dmesg /sbin/dmesg)) {
         next unless -f $dmesg;
-        my $command = "$dmesg | head -n 750";
 
         my $handle = getFileHandle(
-            command => $command,
+            command => $dmesg,
             logger => $logger,
         );
         my $result = _findPattern($handle);
