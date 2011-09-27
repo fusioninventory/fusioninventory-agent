@@ -132,7 +132,7 @@ sub _getStatus {
     }
 
     # Let's parse some logs & /proc files for well known strings
-    my %msgmap = (
+    my %patterns = (
         'VMware vmxnet virtual NIC driver' => 'VMware',
         'Vendor: VMware\s+Model: Virtual disk' => 'VMware',
         'Vendor: VMware,\s+Model: VMware Virtual ' => 'VMware',
@@ -163,14 +163,17 @@ sub _getStatus {
             file => '/var/log/dmesg',
             logger => $logger
         );
-        while (<$handle>) {
-            foreach my $str (keys %msgmap) {
-                next unless /$str/;
-                close $handle;
-                return $msgmap{$str};
+        my $result;
+        while (my $line = <$handle>) {
+            foreach my $pattern (keys %patterns) {
+                next unless $line =~ /$pattern/;
+                $result = $patterns{$pattern};
+                last;
             }
         }
         close $handle;
+
+        return $result if $result;
     }
 
     # On OpenBSD, dmesg is in sbin
@@ -184,14 +187,17 @@ sub _getStatus {
             command => $command,
             logger => $logger,
         );
-        while (<$handle>) {
-            foreach my $str (keys %msgmap) {
-                next unless /$str/;
-                close $handle;
-                return $msgmap{$str};
+        my $result;
+        while (my $line = <$handle>) {
+            foreach my $pattern (keys %patterns) {
+                next unless $line =~ /$pattern/;
+                $result = $patterns{$pattern};
+                last;
             }
         }
         close $handle;
+
+        return $result if $result;
     }
 
     if (-f '/proc/scsi/scsi') {
@@ -199,14 +205,17 @@ sub _getStatus {
             file => '/proc/scsi/scsi',
             logger => $logger
         );
-        while (<$handle>) {
-            foreach my $str (keys %msgmap) {
-                next unless /$str/;
-                close $handle;
-                return $msgmap{$str};
+        my $result;
+        while (my $line = <$handle>) {
+            foreach my $pattern (keys %patterns) {
+                next unless $line =~ /$pattern/;
+                $result = $patterns{$pattern};
+                last;
             }
         }
         close $handle;
+
+        return $result if $result;
     }
 
     return 'Physical';
