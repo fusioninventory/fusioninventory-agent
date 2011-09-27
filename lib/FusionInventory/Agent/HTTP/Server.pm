@@ -106,12 +106,14 @@ sub _handle {
 
         # deploy request
         if ($path =~ m{^/deploy/getFile/./../([\w\d/-]+)$}) {
-            File::Find->require;
             my $sha512 = $1;
 
             return unless $sha512 =~ /^..(.{6})/;
             my $name = $1;
             my $path;
+
+            File::Find->require();
+            Digest::SHA->require();
 
             foreach my $target ($self->{scheduler}->getTargets()) {
                 my $shareDir = $target->{storage}->getDirectory()."/deploy/fileparts/shared";
@@ -120,7 +122,6 @@ sub _handle {
                         wanted => sub {
                         return unless -f;
                         return unless basename($_) eq  $name;
-                        Digest::SHA->require;
                         my $sha = Digest::SHA->new('512');
                         $sha->addfile($File::Find::name, 'b');
 
