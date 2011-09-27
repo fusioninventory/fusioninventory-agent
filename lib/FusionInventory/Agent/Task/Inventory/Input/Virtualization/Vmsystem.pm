@@ -185,7 +185,7 @@ sub _getStatus {
     # On OpenBSD, dmesg is in sbin
     # http://forge.fusioninventory.org/issues/402
     foreach my $dmesg (qw(/bin/dmesg /sbin/dmesg)) {
-        next unless -f $dmesg;
+        next unless -x $dmesg;
 
         my $handle = getFileHandle(
             command => $dmesg,
