@@ -36,18 +36,6 @@ sub _getDisplays {
             my $memory = $videoCardInfo->{'VRAM (Total)'};
             $memory =~ s/\ .*//g if $memory;
 
-
-
-#            use Data::Dumper;
-#            print "display-BEGIN-\n";
-#            print Dumper($displayInfo);
-#            print "display-END-\n";
-#            print "video-BEGIN-\n";
-#            print Dumper($videoCardInfo);
-#            print "video-END-\n";
-
-
-
             push @$videos, {
                 CHIPSET => $videoCardInfo->{'Chipset Model'},
                 MEMORY => $memory,
