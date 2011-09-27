@@ -49,6 +49,45 @@ use warnings;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Solaris;
 
+my @vmware_patterns = (
+    'VMware vmxnet virtual NIC driver',
+    'Vendor: VMware\s+Model: Virtual disk',
+    'Vendor: VMware,\s+Model: VMware Virtual ',
+    ': VMware Virtual IDE CDROM Drive'
+);
+my $vmware_pattern = _assemblePatterns(@vmware_patterns);
+
+my @qemu_patterns = (
+    ' QEMUAPIC ',
+    'QEMU Virtual CPU',
+    ': QEMU HARDDISK,',
+    ': QEMU CD-ROM,'
+);
+my $qemu_pattern = _assemblePatterns(@qemu_patterns);
+
+my @virtual_machine_patterns = (
+    ': Virtual HD,',
+    ': Virtual CD,'
+);
+my $virtual_machine_pattern = _assemblePatterns(@virtual_machine_patterns);
+
+my @virtualbox_patterns = (
+    ' VBOXBIOS ',
+    ': VBOX HARDDISK,',
+    ': VBOX CD-ROM,',
+);
+my $virtualbox_pattern = _assemblePatterns(@virtualbox_patterns);
+
+my @xen_patterns = (
+    'Hypervisor signature: xen',
+    'Xen virtual console successfully installed',
+    'Xen reported:',
+    'Xen: \d+ - \d+',
+    'xen-vbd: registered block device',
+    'ACPI: [A-Z]{4} \(v\d+\s+Xen ',
+);
+my $xen_pattern = _assemblePatterns(@xen_patterns);
+
 sub isEnabled {
     return 1;
 }
@@ -132,38 +171,13 @@ sub _getStatus {
     }
 
     # Let's parse some logs & /proc files for well known strings
-    my %patterns = (
-        'VMware vmxnet virtual NIC driver' => 'VMware',
-        'Vendor: VMware\s+Model: Virtual disk' => 'VMware',
-        'Vendor: VMware,\s+Model: VMware Virtual ' => 'VMware',
-        ': VMware Virtual IDE CDROM Drive' => 'VMware',
-
-        ' QEMUAPIC ' => 'QEMU',
-        'QEMU Virtual CPU' => 'QEMU',
-        ': QEMU HARDDISK,' => 'QEMU',
-        ': QEMU CD-ROM,' => 'QEMU',
-
-        ': Virtual HD,' => 'Virtual Machine',
-        ': Virtual CD,' => 'Virtual Machine',
-
-        ' VBOXBIOS ' => 'VirtualBox',
-        ': VBOX HARDDISK,' => 'VirtualBox',
-        ': VBOX CD-ROM,' => 'VirtualBox',
-
-        'Hypervisor signature: xen' => 'Xen',
-        'Xen virtual console successfully installed' => 'Xen',
-        'Xen reported:' => 'Xen',
-        'Xen: \d+ - \d+' => 'Xen',
-        'xen-vbd: registered block device' => 'Xen',
-        'ACPI: [A-Z]{4} \(v\d+\s+Xen ' => 'Xen',
-    );
 
     if (-r '/var/log/dmesg') {
         my $handle = getFileHandle(
             file => '/var/log/dmesg',
             logger => $logger
         );
-        my $result = _findPattern($handle, \%patterns);
+        my $result = _findPattern($handle);
         close $handle;
         return $result if $result;
     }
@@ -179,7 +193,7 @@ sub _getStatus {
             command => $command,
             logger => $logger,
         );
-        my $result = _findPattern($handle, \%patterns);
+        my $result = _findPattern($handle);
         close $handle;
         return $result if $result;
     }
@@ -189,7 +203,7 @@ sub _getStatus {
             file => '/proc/scsi/scsi',
             logger => $logger
         );
-        my $result = _findPattern($handle, \%patterns);
+        my $result = _findPattern($handle);
         close $handle;
         return $result if $result;
     }
@@ -197,14 +211,22 @@ sub _getStatus {
     return 'Physical';
 }
 
+sub _assemblePatterns {
+    my (@patterns) = @_;
+
+    my $pattern = '(?:' . join('|', @patterns) . ')';
+    return qr/$pattern/;
+}
+
 sub _findPattern {
-    my ($handle, $patterns) = @_;
+    my ($handle) = @_;
 
     while (my $line = <$handle>) {
-        foreach my $pattern (keys %$patterns) {
-            next unless $line =~ /$pattern/;
-            return $patterns->{$pattern};
-        }
+        return 'VMware'          if $line =~ $vmware_pattern;
+        return 'QEMU'            if $line =~ $qemu_pattern;
+        return 'Virtual Machine' if $line =~ $virtual_machine_pattern;
+        return 'VirtualBox'      if $line =~ $virtualbox_pattern;
+        return 'Xen'             if $line =~ $xen_pattern;
     }
 }
 
