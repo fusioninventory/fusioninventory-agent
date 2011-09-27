@@ -163,7 +163,7 @@ sub init {
 
             $_->setShared() foreach $scheduler->getTargets();
 
-            $self->{_server} = FusionInventory::Agent::HTTP::Server->new(
+            $self->{server} = FusionInventory::Agent::HTTP::Server->new(
                 logger          => $logger,
                 scheduler       => $scheduler,
                 agent           => $self,
@@ -291,6 +291,8 @@ sub run {
         }
         $target->resetNextRunDate();
     }
+
+    $self->{server}->terminate() if $self->{server};
 
     exit $status;
 }
