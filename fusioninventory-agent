@@ -84,7 +84,7 @@ my $agent = FusionInventory::Agent->new(
 );
 
 if ($options->{'list-tasks'}) {
-    my %tasks = $agent->getKnownTasks();
+    my %tasks = $agent->getAvailableTasks();
     foreach my $task (keys %tasks) {
         print "$task (v$tasks{$task})\n";
     }

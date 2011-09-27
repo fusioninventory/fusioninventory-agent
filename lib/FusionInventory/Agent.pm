@@ -26,15 +26,6 @@ our $VERSION_STRING =
 our $AGENT_STRING =
     "FusionInventory-Agent_v$VERSION";
 
-my @tasks = qw/
-    Inventory
-    WakeOnLan
-    SNMPQuery
-    NetDiscovery
-    Deploy
-    ESX
-/;
-
 sub new {
     my ($class, %params) = @_;
 
@@ -184,6 +175,9 @@ sub init {
         }
     }
 
+    my %tasks = $self->getAvailableTasks();
+    $self->{tasks} = [ keys %tasks ];
+
     $logger->debug("FusionInventory Agent initialised");
 }
 
@@ -299,29 +293,16 @@ sub run {
             # index list of disabled task for fast lookup
             my %disabled = map { $_ => 1 } @{$config->{'no-task'}};
 
-            foreach my $module (@tasks) {
+            foreach my $name (@{$self->{tasks}}) {
 
-                next if $disabled{lc($module)};
+                next if $disabled{lc($name)};
 
-                my $package = "FusionInventory::Agent::Task::$module";
-                if (!$package->require()) {
-                    $logger->info("task $module is not available");
-                    $logger->debug2("task $module compile error: $EVAL_ERROR");
-                    next;
-                }
-                if (!$package->isa('FusionInventory::Agent::Task')) {
-                    $logger->info(
-                        "task $module is not compatible with this agent " .
-                        "($VERSION)"
-                    );
-                    next;
-                }
+                $self->{status} = "running task $name";
 
-                $self->{status} = "running task $module";
-
+                my $class = "FusionInventory::Agent::Task::$name";
                 my $task;
                 eval {
-                    $task = $package->new(
+                    $task = $class->new(
                         config      => $config,
                         confdir     => $self->{confdir},
                         datadir     => $self->{datadir},
@@ -333,7 +314,9 @@ sub run {
                     );
                 };
                 if (!$task) {
-                    $logger->info("task $module can't be initialized: ".$EVAL_ERROR);
+                    $logger->info(
+                        "task $name can't be initialized: $EVAL_ERROR"
+                    );
                     next;
                 }
 
@@ -347,14 +330,14 @@ sub run {
                         die "fork failed: $ERRNO" unless defined $pid;
 
                         $logger->debug(
-                            "executing $module in process $$"
+                            "executing $name in process $$"
                         );
                         $task->run();
                         exit(0);
                     }
                 } else {
                     # standalone mode: run each task directly
-                    $logger->debug("executing $module");
+                    $logger->debug("executing $name");
                     $task->run();
                 }
             }
@@ -404,32 +387,10 @@ sub getStatus {
     return $self->{status};
 }
 
-sub getKnownTasks {
-    my ($self) = @_;
-
-    my %tasks;
-    foreach my $module (@tasks) {
-
-        my $package = "FusionInventory::Agent::Task::$module";
-        next unless $package->require();
-        next unless $package->isa('FusionInventory::Agent::Task');
-
-        # retrieve version
-        my $version;
-        {
-            no strict 'refs';  ## no critic
-            $version = ${$package . '::VERSION'};
-        }
-
-        $tasks{$module} = $version;
-    }
-
-    return %tasks;
-}
-
 sub getAvailableTasks {
     my ($self) = @_;
 
+    my $logger = $self->{logger};
     my %tasks;
 
     # tasks may be dispatched in every directory referenced in @INC
@@ -440,11 +401,21 @@ sub getAvailableTasks {
 
         # look for all perl modules here
         foreach my $file (glob("$directory/$subdirectory/*.pm")) {
-            next unless $file =~ m{($subdirectory/\S+\.pm)$};
+            next unless $file =~ m{($subdirectory/(\S+)\.pm)$};
             my $module = file2module($1);
+            my $name = file2module($2);
 
             # check module
             # todo: use a child process when running as a server to save memory
+            if (!$module->require()) {
+                $logger->debug2("module $module does not compile") if $logger;
+                next;
+            }
+            if (!$module->isa('FusionInventory::Agent::Task')) {
+                $logger->debug2("module $module is not a task") if $logger;
+                next;
+            }
+
             next unless $module->require();
             next unless $module->isa('FusionInventory::Agent::Task');
 
@@ -458,7 +429,7 @@ sub getAvailableTasks {
                 $version = ${$module . '::VERSION'};
             }
 
-            $tasks{$module} = $version;
+            $tasks{$name} = $version;
         }
     }
 
@@ -518,16 +489,6 @@ Set the current authentication token to a random value.
 =head2 getStatus()
 
 Get the current agent status.
-
-=head2 getKnownTasks()
-
-Get all available tasks among hard-coded list, as a list of module / version
-pairs:
-
-%tasks = (
-    'FusionInventory::Agent::Task::Foo' => x,
-    'FusionInventory::Agent::Task::Bar' => y,
-);
 
 =head2 getAvailableTasks()
 
