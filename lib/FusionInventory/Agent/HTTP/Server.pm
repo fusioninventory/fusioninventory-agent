@@ -112,9 +112,9 @@ sub _handle {
 
             return unless $sha512 =~ /^..(.{6})/;
             my $filename = $1;
-            foreach my $target (@{$self->{scheduler}{targets}}) {
+            foreach my $target ($self->{scheduler}->getTargets()) {
                 my $file;
-                my $shareDir = $target->{storage}{directory}."/deploy/fileparts/shared";
+                my $shareDir = $target->{storage}->getDirectory()."/deploy/fileparts/shared";
                 next unless -d $shareDir;
                 File::Find::find({
                         wanted => sub {
