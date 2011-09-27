@@ -88,6 +88,11 @@ my @xen_patterns = (
 );
 my $xen_pattern = _assemblePatterns(@xen_patterns);
 
+my %module_patterns = (
+    '^vmxnet\s' => 'VMware',
+    '^xen_\w+front\s' => 'Xen',
+);
+
 sub isEnabled {
     return 1;
 }
@@ -149,29 +154,27 @@ sub _getStatus {
         }
     }
 
-    # Parse loaded modules
-    my %modmap = (
-        '^vmxnet\s' => 'VMware',
-        '^xen_\w+front\s' => 'Xen',
-    );
+    my $result;
+
+    # loaded modules
 
     if (-f '/proc/modules') {
         my $handle = getFileHandle(
             file => '/proc/modules',
             logger => $logger
         );
-        while (<$handle>) {
-            foreach my $str (keys %modmap) {
-                next unless /$str/;
-                close $handle;
-                return $modmap{$str};
+        while (my $line = <$handle>) {
+            foreach my $pattern (keys %module_patterns) {
+                next unless $line =~ /$pattern/;
+                $result = $module_patterns{$pattern};
+                last;
             }
         }
         close $handle;
     }
+    return $result if $result;
 
-    # Let's parse some logs & /proc files for well known strings
-    my $result;
+    # dmesg
 
     if (-r '/var/log/dmesg') {
         my $handle = getFileHandle(file => '/var/log/dmesg', logger => $logger);
@@ -189,6 +192,8 @@ sub _getStatus {
         close $handle;
     }
     return $result if $result;
+
+    # scsci
 
     if (-f '/proc/scsi/scsi') {
         my $handle = getFileHandle(
