@@ -171,40 +171,34 @@ sub _getStatus {
     }
 
     # Let's parse some logs & /proc files for well known strings
+    my $result;
 
     if (-r '/var/log/dmesg') {
-        my $handle = getFileHandle(
-            file => '/var/log/dmesg',
-            logger => $logger
-        );
-        my $result = _findPattern($handle);
+        my $handle = getFileHandle(file => '/var/log/dmesg', logger => $logger);
+        $result = _findPattern($handle);
         close $handle;
-        return $result if $result;
-    }
-
-    # On OpenBSD, dmesg is in sbin
-    # http://forge.fusioninventory.org/issues/402
-    foreach my $dmesg (qw(/bin/dmesg /sbin/dmesg)) {
-        next unless -x $dmesg;
-
-        my $handle = getFileHandle(
-            command => $dmesg,
-            logger => $logger,
-        );
-        my $result = _findPattern($handle);
+    } elsif (-x '/bin/dmesg') {
+        my $handle = getFileHandle(command => '/bin/dmesg', logger => $logger);
+        $result = _findPattern($handle);
         close $handle;
-        return $result if $result;
+    } elsif (-x '/sbin/dmesg') {
+        # On OpenBSD, dmesg is in sbin
+        # http://forge.fusioninventory.org/issues/402
+        my $handle = getFileHandle(command => '/sbin/dmesg', logger => $logger);
+        $result = _findPattern($handle);
+        close $handle;
     }
+    return $result if $result;
 
     if (-f '/proc/scsi/scsi') {
         my $handle = getFileHandle(
             file => '/proc/scsi/scsi',
             logger => $logger
         );
-        my $result = _findPattern($handle);
+        $result = _findPattern($handle);
         close $handle;
-        return $result if $result;
     }
+    return $result if $result;
 
     return 'Physical';
 }
