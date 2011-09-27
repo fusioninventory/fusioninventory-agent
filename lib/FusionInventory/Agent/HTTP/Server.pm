@@ -118,20 +118,18 @@ sub _handle {
             foreach my $target ($self->{scheduler}->getTargets()) {
                 my $shareDir = $target->{storage}->getDirectory()."/deploy/fileparts/shared";
                 next unless -d $shareDir;
-                File::Find::find({
-                        wanted => sub {
-                        return unless -f;
-                        return unless basename($_) eq  $name;
-                        my $sha = Digest::SHA->new('512');
-                        $sha->addfile($File::Find::name, 'b');
 
-                        if ($sha->hexdigest eq $sha512) {
-                            $path = $File::Find::name;
-                            return;
-                        }
-                     },
-                     no_chdir => 1
-                }, $shareDir);
+                my $wanted = sub {
+                    return unless -f $_;
+                    return unless basename($_) eq $name;
+
+                    my $sha = Digest::SHA->new('512');
+                    $sha->addfile($File::Find::name, 'b');
+                    return unless $sha->hexdigest eq $sha512;
+
+                    $path = $File::Find::name;
+                };
+                File::Find::find({ wanted => $wanted, no_chdir => 1 }, $shareDir);
                 last if $path;
             }
             if ($path && -f $path) {
