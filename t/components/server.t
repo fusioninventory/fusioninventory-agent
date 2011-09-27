@@ -41,6 +41,8 @@ ok(
     'server listening on default port'
 );
 
+$server->terminate();
+
 lives_ok {
     $server = FusionInventory::Agent::HTTP::Server->new(
         agent     => FusionInventory::Test::Agent->new(),
@@ -75,3 +77,5 @@ ok(
     $client->get('http://localhost:8080')->is_success(),
     'server still listening on specific port after child process exit'
 );
+
+$server->terminate();

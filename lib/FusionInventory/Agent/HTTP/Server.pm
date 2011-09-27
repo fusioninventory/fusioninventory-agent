@@ -261,7 +261,7 @@ sub _listen {
 
     # allow the thread to be stopped 
     threads->set_thread_exit_only(1);
-    $SIG{'KILL'} = sub {};
+    $SIG{'KILL'} = sub { threads->exit() };
 
     while (1) {
         my ($client, $socket) = $daemon->accept();
@@ -273,6 +273,14 @@ sub _listen {
     }
 }
 
+sub terminate {
+    my ($self) = @_;
+
+    return unless $self->{listener};
+
+    $self->{listener}->kill('KILL');
+}
+
 sub DESTROY {
     my ($self) = @_;
 
@@ -280,8 +288,8 @@ sub DESTROY {
 
     if ($self->{listener}->is_joinable()) {
         $self->{listener}->join();
-    } else {
-        $self->{listener}->kill('KILL')->detach();
+    } elsif (!$self->{listener}->is_detached()) {
+        $self->{listener}->detach();
     }
 }
 
