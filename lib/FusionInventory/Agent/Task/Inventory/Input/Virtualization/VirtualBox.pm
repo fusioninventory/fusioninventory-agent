@@ -73,21 +73,19 @@ sub _parseVBoxManage {
         chomp $line;
 
         if ($line =~ m/^Name:\s+(.*)$/) {
-# this is a little tricky, because USB devices also have a 'name'
-# field, so let's use the 'index' field to disambiguate
+            # this is a little tricky, because USB devices also have a 'name'
+            # field, so let's use the 'index' field to disambiguate
             if (defined $index) {
                 $index = undef;
                 next;
             }
-            if ($machine) {
-                $machine->{VCPU}      = 1;
-                $machine->{SUBSYSTEM} = 'Oracle VM VirtualBox';
-                $machine->{VMTYPE}    = 'VirtualBox';
-                push @machines, $machine;
-            }
+            push @machines, $machine if $machine;
             $machine = {
-                NAME => $1
-            }
+                NAME      => $1,
+                VCPU      => 1,
+                SUBSYSTEM => 'Oracle VM VirtualBox',
+                VMTYPE    => 'VirtualBox'
+            };
         } elsif ($line =~ m/^UUID:\s+(.+)/) {
             $machine->{UUID} = $1;
         } elsif ($line =~ m/^Memory size:\s+(.+)/ ) {
@@ -100,13 +98,8 @@ sub _parseVBoxManage {
     }
     close $handle;
 
-# push last remaining machine
-    if ($machine) {
-        $machine->{VCPU}      = 1;
-        $machine->{SUBSYSTEM} = 'Oracle VM VirtualBox';
-        $machine->{VMTYPE}    = 'VirtualBox';
-        push @machines, $machine;
-    }
+    # push last remaining machine
+    push @machines, $machine if $machine;
 
     return @machines;
 }
