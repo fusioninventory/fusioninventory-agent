@@ -163,16 +163,8 @@ sub _getStatus {
             file => '/var/log/dmesg',
             logger => $logger
         );
-        my $result;
-        while (my $line = <$handle>) {
-            foreach my $pattern (keys %patterns) {
-                next unless $line =~ /$pattern/;
-                $result = $patterns{$pattern};
-                last;
-            }
-        }
+        my $result = _findPattern($handle, \%patterns);
         close $handle;
-
         return $result if $result;
     }
 
@@ -187,16 +179,8 @@ sub _getStatus {
             command => $command,
             logger => $logger,
         );
-        my $result;
-        while (my $line = <$handle>) {
-            foreach my $pattern (keys %patterns) {
-                next unless $line =~ /$pattern/;
-                $result = $patterns{$pattern};
-                last;
-            }
-        }
+        my $result = _findPattern($handle, \%patterns);
         close $handle;
-
         return $result if $result;
     }
 
@@ -205,20 +189,23 @@ sub _getStatus {
             file => '/proc/scsi/scsi',
             logger => $logger
         );
-        my $result;
-        while (my $line = <$handle>) {
-            foreach my $pattern (keys %patterns) {
-                next unless $line =~ /$pattern/;
-                $result = $patterns{$pattern};
-                last;
-            }
-        }
+        my $result = _findPattern($handle, \%patterns);
         close $handle;
-
         return $result if $result;
     }
 
     return 'Physical';
+}
+
+sub _findPattern {
+    my ($handle, $patterns) = @_;
+
+    while (my $line = <$handle>) {
+        foreach my $pattern (keys %$patterns) {
+            next unless $line =~ /$pattern/;
+            return $patterns->{$pattern};
+        }
+    }
 }
 
 1;
