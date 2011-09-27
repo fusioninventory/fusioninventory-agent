@@ -38,8 +38,8 @@ sub _getDisplays {
 
         my $displays = {};
         foreach my $displayName (keys %{$videoCardInfo->{Displays}}) {
-            next if $displayName =~ /^Display Connector$/;
-            next if $displayName =~ /^Display$/;
+            next if $displayName eq 'Display Connector';
+            next if $displayName eq 'Display';
             my $displayInfo = $videoCardInfo->{Displays}{$displayName};
 
             my $resolution = $displayInfo->{Resolution};
