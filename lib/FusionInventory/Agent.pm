@@ -181,66 +181,6 @@ sub init {
     $logger->debug("FusionInventory Agent initialised");
 }
 
-sub _isAlreadyRunning {
-    my ($self) = @_;
-
-    Proc::PID::File->require();
-    if ($EVAL_ERROR) {
-        $self->{logger}->debug(
-            'Proc::PID::File unavailable, unable to check for running agent'
-        );
-        return 0;
-    }
-
-    return Proc::PID::File->running();
-}
-
-sub _getHostname {
-
-    # use hostname directly under Unix
-    return hostname() if $OSNAME ne 'MSWin32';
-
-    # otherwise, use Win32 API
-    Encode->require();
-    Encode->import();
-    Win32::API->require();
-
-    my $getComputerName = Win32::API->new(
-        "kernel32", "GetComputerNameExW", ["I", "P", "P"], "N"
-    );
-    my $lpBuffer = "\x00" x 1024;
-    my $N = 1024; #pack ("c4", 160,0,0,0);
-
-    $getComputerName->Call(3, $lpBuffer, $N);
-
-    # GetComputerNameExW returns the string in UTF16, we have to change
-    # it to UTF8
-    return encode(
-        "UTF-8", substr(decode("UCS-2le", $lpBuffer), 0, ord $N)
-    );
-}
-
-sub _loadState {
-    my ($self) = @_;
-
-    my $data = $self->{storage}->restore(name => 'FusionInventory-Agent');
-
-    $self->{token}    = $data->{token}    if $data->{token};
-    $self->{deviceid} = $data->{deviceid} if $data->{deviceid};
-}
-
-sub _saveState {
-    my ($self) = @_;
-
-    $self->{storage}->save(
-        name => 'FusionInventory-Agent',
-        data => {
-            token    => $self->{token},
-            deviceid => $self->{deviceid},
-        }
-    );
-}
-
 sub run {
     my ($self) = @_;
 
@@ -365,23 +305,6 @@ sub resetToken {
     $self->{token} = _computeToken();
 }
 
-# compute a random token
-sub _computeToken {
-    my @chars = ('A'..'Z');
-    return join('', map { $chars[rand @chars] } 1..8);
-}
-
-# compute an unique agent identifier, based on host name and current time
-sub _computeDeviceId {
-    my $hostname = _getHostname();
-
-    my ($year, $month , $day, $hour, $min, $sec) =
-        (localtime (time))[5, 4, 3, 2, 1, 0];
-
-    return sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
-        $hostname, $year + 1900, $month + 1, $day, $hour, $min, $sec;
-}
-
 sub getStatus {
     my ($self) = @_;
     return $self->{status};
@@ -434,6 +357,83 @@ sub getAvailableTasks {
     }
 
     return %tasks;
+}
+
+sub _isAlreadyRunning {
+    my ($self) = @_;
+
+    Proc::PID::File->require();
+    if ($EVAL_ERROR) {
+        $self->{logger}->debug(
+            'Proc::PID::File unavailable, unable to check for running agent'
+        );
+        return 0;
+    }
+
+    return Proc::PID::File->running();
+}
+
+sub _getHostname {
+
+    # use hostname directly under Unix
+    return hostname() if $OSNAME ne 'MSWin32';
+
+    # otherwise, use Win32 API
+    Encode->require();
+    Encode->import();
+    Win32::API->require();
+
+    my $getComputerName = Win32::API->new(
+        "kernel32", "GetComputerNameExW", ["I", "P", "P"], "N"
+    );
+    my $lpBuffer = "\x00" x 1024;
+    my $N = 1024; #pack ("c4", 160,0,0,0);
+
+    $getComputerName->Call(3, $lpBuffer, $N);
+
+    # GetComputerNameExW returns the string in UTF16, we have to change
+    # it to UTF8
+    return encode(
+        "UTF-8", substr(decode("UCS-2le", $lpBuffer), 0, ord $N)
+    );
+}
+
+sub _loadState {
+    my ($self) = @_;
+
+    my $data = $self->{storage}->restore(name => 'FusionInventory-Agent');
+
+    $self->{token}    = $data->{token}    if $data->{token};
+    $self->{deviceid} = $data->{deviceid} if $data->{deviceid};
+}
+
+sub _saveState {
+    my ($self) = @_;
+
+    $self->{storage}->save(
+        name => 'FusionInventory-Agent',
+        data => {
+            token    => $self->{token},
+            deviceid => $self->{deviceid},
+        }
+    );
+}
+
+# compute a random token
+sub _computeToken {
+    my @chars = ('A'..'Z');
+    return join('', map { $chars[rand @chars] } 1..8);
+}
+
+# compute an unique agent identifier, based on host name and current time
+sub _computeDeviceId {
+    my $hostname = _getHostname();
+
+    my ($year, $month , $day, $hour, $min, $sec) =
+        (localtime (time))[5, 4, 3, 2, 1, 0];
+
+    return sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
+        $hostname, $year + 1900, $month + 1, $day, $hour, $min, $sec;
 }
 
 1;
