@@ -27,41 +27,37 @@ sub doInventory {
     my $logger       = $params{logger};
     my $scanhomedirs = $params{scan_homedirs};
 
-    my $cmd_list_vms = "VBoxManage -nologo list --long vms";
+    my $command = "VBoxManage -nologo list --long vms";
 
-    my $owner;
-    if ( $REAL_USER_ID != 0 ) {
-        $owner = getpwuid $REAL_USER_ID;
-    }
+    my $owner = getpwuid $REAL_USER_ID;
 
-    foreach my $machine (_parseVBoxManage(logger => $logger, command => $cmd_list_vms)) {
+    foreach my $machine (_parseVBoxManage(
+        logger => $logger, command => $command
+    )) {
         $machine->{OWNER} = $owner;
         $inventory->addEntry(
             section => 'VIRTUALMACHINES', entry => $machine
         );
     }
 
+    return unless $scanhomedirs == 1 && $REAL_USER_ID == 0;
 
-# If home directories scan is authorized
-    if ($scanhomedirs == 1 && $REAL_USER_ID == 0) {
-        my $homeDir = "/home";
+    my $homeDir = $OSNAME eq 'darwin' ?
+        "/Users" : "/home";
 
-        if ($OSNAME eq 'darwin') {
-            $homeDir = "/Users";
-        }
-        my @homeDirlist = glob("$homeDir/*");
-        return if @homeDirlist > 10; # To many users, ignored.
-        foreach (@homeDirlist) {
-            my $login = basename($_);
-            next unless getpwnam ($login); # Invalid account
-                my $cmd_list_vms = "su \"$login\" -c \"VBoxManage -nologo list --long vms\"";
-            foreach my $machine (_parseVBoxManage(logger => $logger, command => $cmd_list_vms)) {
-                $machine->{OWNER} = $login;
-                $inventory->addEntry(
-                    section => 'VIRTUALMACHINES', entry => $machine
-                );
-            }
-
+    my @homeDirs = glob("$homeDir/*");
+    return if @homeDirs > 10; # Too many users, ignored.
+    foreach my $homeDir (@homeDirs) {
+        my $login = basename($homeDir);
+        next unless getpwnam ($login); # Invalid account
+        my $command = "su '$login' -c 'VBoxManage -nologo list --long vms'";
+        foreach my $machine (_parseVBoxManage(
+            logger => $logger, command => $command
+        )) {
+            $machine->{OWNER} = $login;
+            $inventory->addEntry(
+                section => 'VIRTUALMACHINES', entry => $machine
+            );
         }
     }
 }
