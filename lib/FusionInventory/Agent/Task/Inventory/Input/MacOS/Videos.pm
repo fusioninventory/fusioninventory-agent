@@ -5,11 +5,27 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::MacOS;
+
 sub isEnabled {
     return
         -r '/usr/sbin/system_profiler'
 }
 
+sub doInventory {
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+
+    my %displays = _getDisplays();
+    foreach my $section (keys %displays ) {
+        foreach (@{$displays{$section}}) {
+            $inventory->addEntry(
+                    section => $section,
+                    entry   => $_,
+                    );
+        }
+    }
+}
 
 sub _getDisplays {
     my $infos = getSystemProfilerInfos(@_);
@@ -60,20 +76,5 @@ sub _getDisplays {
 
 }
 
-sub doInventory {
-    my (%params) = @_;
-
-    my $inventory = $params{inventory};
-
-    my %displays = _getDisplays();
-    foreach my $section (keys %displays ) {
-        foreach (@{$displays{$section}}) {
-            $inventory->addEntry(
-                    section => $section,
-                    entry   => $_,
-                    );
-        }
-    }
-}
 
 1;
