@@ -132,7 +132,7 @@ sub _handle {
                 File::Find::find({ wanted => $wanted, no_chdir => 1 }, $shareDir);
                 last if $path;
             }
-            if ($path && -f $path) {
+            if ($path) {
                 $logger->debug($log_prefix . "file $sha512 found");
                 $client->send_file_response($path);
                 $logger->debug($log_prefix . "file $path sent");
