@@ -292,6 +292,8 @@ sub run {
         $target->resetNextRunDate();
     }
 
+    $self->{server}->terminate() if $self->{server};
+
     exit $status;
 }
 
