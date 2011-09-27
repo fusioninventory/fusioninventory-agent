@@ -42,7 +42,6 @@ sub _getDisplays {
             next if $displayName =~ /^Display$/;
             my $displayInfo = $videoCardInfo->{Displays}{$displayName};
 
-
             my $resolution = $displayInfo->{Resolution};
             if ($resolution) {
                 $resolution =~ s/\ //g;
@@ -63,8 +62,6 @@ sub _getDisplays {
             push @$monitors, {
                 CAPTION => $displayName,
                 DESCRIPTION => $displayName,
-                MANUFACTURER => '',
-                SERIAL => '',
             }
         }
     }
