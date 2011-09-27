@@ -30,7 +30,6 @@ sub new {
     };
     bless $self, $class;
 
-    $SIG{PIPE} = 'IGNORE';
     $self->{listener} = threads->create('_listen', $self);
 
     return $self;
