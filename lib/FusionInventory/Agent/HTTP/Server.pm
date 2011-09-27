@@ -39,8 +39,6 @@ sub _handle {
     my ($self, $client, $request, $clientIp) = @_;
     
     my $logger = $self->{logger};
-    my $scheduler = $self->{scheduler};
-    my $htmldir = $self->{htmldir};
 
     if (!$request) {
         $client->close();
@@ -64,144 +62,32 @@ sub _handle {
     SWITCH: {
         # root request
         if ($path eq '/') {
-
-            my $template = Text::Template->new(
-                TYPE => 'FILE', SOURCE => "$self->{htmldir}/index.tpl"
-            );
-            if (!$template) {
-                $logger->error($log_prefix . "Template access failed: $Text::Template::ERROR");
-                ;
-
-                my $response = HTTP::Response->new(
-                    500,
-                    'KO',
-                    HTTP::Headers->new('Content-Type' => 'text/html'),
-                    "No template"
-                );
-
-                $client->send_response($response);
-                return;
-            }
-
-            my $hash = {
-                version => $FusionInventory::Agent::VERSION,
-                trust   => $self->_is_trusted($clientIp),
-                status  => $self->{agent}->getStatus(),
-                targets => [
-                    map { $_->getStatus() } $self->{scheduler}->getTargets()
-                ]
-            };
-
-            my $response = HTTP::Response->new(
-                200,
-                'OK',
-                HTTP::Headers->new('Content-Type' => 'text/html'),
-                $template->fill_in(HASH => $hash)
-            );
-
-            $client->send_response($response);
-
+            $self->_handle_root($client, $request, $clientIp);
             last SWITCH;
         } 
 
         # deploy request
         if ($path =~ m{^/deploy/getFile/./../([\w\d/-]+)$}) {
-            my $sha512 = $1;
-
-            return unless $sha512 =~ /^..(.{6})/;
-            my $name = $1;
-            my $path;
-
-            File::Find->require();
-            Digest::SHA->require();
-
-            foreach my $target ($self->{scheduler}->getTargets()) {
-                my $shareDir = $target->{storage}->getDirectory()."/deploy/fileparts/shared";
-                next unless -d $shareDir;
-
-                my $wanted = sub {
-                    return unless -f $_;
-                    return unless basename($_) eq $name;
-
-                    my $sha = Digest::SHA->new('512');
-                    $sha->addfile($File::Find::name, 'b');
-                    return unless $sha->hexdigest eq $sha512;
-
-                    $path = $File::Find::name;
-                };
-                File::Find::find({ wanted => $wanted, no_chdir => 1 }, $shareDir);
-                last if $path;
-            }
-            if ($path) {
-                $logger->debug($log_prefix . "file $sha512 found");
-                $client->send_file_response($path);
-                $logger->debug($log_prefix . "file $path sent");
-            } else {
-                $client->send_error(404);
-            }
+            $self->_handle_deploy($client, $request, $clientIp, $1);
             last SWITCH;
         }
 
         # now request
         if ($path =~ m{^/now(?:/(\S+))?$}) {
-            my $token = $1;
-
-            my ($code, $message, $trace);
-            if (
-                $self->_is_trusted($clientIp) ||
-                $self->_is_authenticated($token)
-            ) {
-                foreach my $target ($scheduler->getTargets()) {
-                    $target->setNextRunDate(1);
-                }
-                $self->{agent}->resetToken();
-                $code    = 200;
-                $message = "OK";
-                $trace   = "valid request, forcing execution right now";
-            } else {
-                $code    = 403;
-                $message = "Access denied";
-                $trace   = "invalid request (bad token or bad address)";
-            }
-
-            my $template = Text::Template->new(
-                TYPE => 'FILE', SOURCE => "$self->{htmldir}/now.tpl"
-            );
-
-            my $hash = {
-                message => $message
-            };
-
-            my $response = HTTP::Response->new(
-                $code,
-                'OK',
-                HTTP::Headers->new('Content-Type' => 'text/html'),
-                $template->fill_in(HASH => $hash)
-            );
-
-            $client->send_response($response);
-            $logger->debug($log_prefix . $trace);
-
+            $self->_handle_now($client, $request, $clientIp, $1);
             last SWITCH;
         }
 
         # status request
         if ($path eq '/status') {
-            my $status = $self->{agent}->getStatus();
-            my $response = HTTP::Response->new(
-                200,
-                'OK',
-                HTTP::Headers->new('Content-Type' => 'text/plain'),
-               "status: ".$status
-            );
-            $client->send_response($response);
+            $self->_handle_status($client, $request, $clientIp);
             last SWITCH;
         }
 
         # static content request
         if ($path =~ m{^/(logo.png|site.css|favicon.ico)$}) {
             my $file = $1;
-            $client->send_file_response("$htmldir/$file");
+            $client->send_file_response("$self->{htmldir}/$file");
             last SWITCH;
         }
 
@@ -210,6 +96,141 @@ sub _handle {
     }
 
     $client->close();
+}
+
+sub _handle_root {
+    my ($self, $client, $request, $clientIp) = @_;
+
+    my $logger = $self->{logger};
+
+    my $template = Text::Template->new(
+        TYPE => 'FILE', SOURCE => "$self->{htmldir}/index.tpl"
+    );
+    if (!$template) {
+        $logger->error($log_prefix . "Template access failed: $Text::Template::ERROR");
+        ;
+
+        my $response = HTTP::Response->new(
+            500,
+            'KO',
+            HTTP::Headers->new('Content-Type' => 'text/html'),
+            "No template"
+        );
+
+        $client->send_response($response);
+        return;
+    }
+
+    my $hash = {
+        version => $FusionInventory::Agent::VERSION,
+        trust   => $self->_is_trusted($clientIp),
+        status  => $self->{agent}->getStatus(),
+        targets => [
+            map { $_->getStatus() } $self->{scheduler}->getTargets()
+        ]
+    };
+
+    my $response = HTTP::Response->new(
+        200,
+        'OK',
+        HTTP::Headers->new('Content-Type' => 'text/html'),
+        $template->fill_in(HASH => $hash)
+    );
+
+    $client->send_response($response);
+}
+
+sub _handle_deploy {
+    my ($self, $client, $request, $clientIp, $sha512) = @_;
+
+    my $logger = $self->{logger};
+
+    return unless $sha512 =~ /^..(.{6})/;
+    my $name = $1;
+    my $path;
+
+    File::Find->require();
+    Digest::SHA->require();
+
+    foreach my $target ($self->{scheduler}->getTargets()) {
+        my $shareDir = $target->{storage}->getDirectory()."/deploy/fileparts/shared";
+        next unless -d $shareDir;
+
+        my $wanted = sub {
+            return unless -f $_;
+            return unless basename($_) eq $name;
+
+            my $sha = Digest::SHA->new('512');
+            $sha->addfile($File::Find::name, 'b');
+            return unless $sha->hexdigest eq $sha512;
+
+            $path = $File::Find::name;
+        };
+        File::Find::find({ wanted => $wanted, no_chdir => 1 }, $shareDir);
+        last if $path;
+    }
+    if ($path) {
+        $logger->debug($log_prefix . "file $sha512 found");
+        $client->send_file_response($path);
+        $logger->debug($log_prefix . "file $path sent");
+    } else {
+        $client->send_error(404);
+    }
+}
+
+sub _handle_now {
+    my ($self, $client, $request, $clientIp, $token) = @_;
+
+    my $logger = $self->{logger};
+
+    my ($code, $message, $trace);
+    if (
+        $self->_is_trusted($clientIp) ||
+        $self->_is_authenticated($token)
+    ) {
+        foreach my $target ($self->{scheduler}->getTargets()) {
+            $target->setNextRunDate(1);
+        }
+        $self->{agent}->resetToken();
+        $code    = 200;
+        $message = "OK";
+        $trace   = "valid request, forcing execution right now";
+    } else {
+        $code    = 403;
+        $message = "Access denied";
+        $trace   = "invalid request (bad token or bad address)";
+    }
+
+    my $template = Text::Template->new(
+        TYPE => 'FILE', SOURCE => "$self->{htmldir}/now.tpl"
+    );
+
+    my $hash = {
+        message => $message
+    };
+
+    my $response = HTTP::Response->new(
+        $code,
+        'OK',
+        HTTP::Headers->new('Content-Type' => 'text/html'),
+        $template->fill_in(HASH => $hash)
+    );
+
+    $client->send_response($response);
+    $logger->debug($log_prefix . $trace);
+}
+
+sub _handle_status {
+    my ($self, $client, $request, $clientIp) = @_;
+
+    my $status = $self->{agent}->getStatus();
+    my $response = HTTP::Response->new(
+        200,
+        'OK',
+        HTTP::Headers->new('Content-Type' => 'text/plain'),
+       "status: ".$status
+    );
+    $client->send_response($response);
 }
 
 sub _is_trusted {
