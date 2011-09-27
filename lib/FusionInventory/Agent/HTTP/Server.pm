@@ -108,35 +108,35 @@ sub _handle {
         if ($path =~ m{^/deploy/getFile/./../([\w\d/-]+)$}) {
             File::Find->require;
             my $sha512 = $1;
-            my $filePath;
 
             return unless $sha512 =~ /^..(.{6})/;
-            my $filename = $1;
+            my $name = $1;
+            my $path;
+
             foreach my $target ($self->{scheduler}->getTargets()) {
-                my $file;
                 my $shareDir = $target->{storage}->getDirectory()."/deploy/fileparts/shared";
                 next unless -d $shareDir;
                 File::Find::find({
                         wanted => sub {
                         return unless -f;
-                        return unless basename($_) eq  $filename;
+                        return unless basename($_) eq  $name;
                         Digest::SHA->require;
                         my $sha = Digest::SHA->new('512');
                         $sha->addfile($File::Find::name, 'b');
 
                         if ($sha->hexdigest eq $sha512) {
-                            $filePath = $File::Find::name;
+                            $path = $File::Find::name;
                             return;
                         }
                      },
                      no_chdir => 1
                 }, $shareDir);
-                last if $filePath;
+                last if $path;
             }
-            if ($filePath && -f $filePath) {
+            if ($path && -f $path) {
                 $logger->debug($log_prefix . "file $sha512 found");
-                $client->send_file_response("$filePath");
-                $logger->debug($log_prefix . "file $filePath sent");
+                $client->send_file_response($path);
+                $logger->debug($log_prefix . "file $path sent");
             } else {
                 $client->send_error(404);
             }
