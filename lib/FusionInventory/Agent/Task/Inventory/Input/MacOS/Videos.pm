@@ -52,15 +52,15 @@ sub _getDisplays {
             $memory =~ s/\ .*//g if $memory;
 
             push @$videos, {
-                CHIPSET => $videoCardInfo->{'Chipset Model'},
-                MEMORY => $memory,
-                NAME => $videoName,
+                CHIPSET    => $videoCardInfo->{'Chipset Model'},
+                MEMORY     => $memory,
+                NAME       => $videoName,
                 RESOLUTION => $resolution,
-                PCISLOT => $videoCardInfo->{Slot}
+                PCISLOT    => $videoCardInfo->{Slot}
             };
 
             push @$monitors, {
-                CAPTION => $displayName,
+                CAPTION     => $displayName,
                 DESCRIPTION => $displayName,
             }
         }
@@ -68,7 +68,7 @@ sub _getDisplays {
 
     return (
         MONITORS => $monitors,
-        VIDEOS => $videos
+        VIDEOS   => $videos
     );
 
 }
