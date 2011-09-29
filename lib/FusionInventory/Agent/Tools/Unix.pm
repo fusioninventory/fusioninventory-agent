@@ -21,6 +21,8 @@ our @EXPORT = qw(
     getRoutingTable
 );
 
+memoize('getProcessesFromPS');
+
 sub getDeviceCapacity {
     my %params = @_;
 
