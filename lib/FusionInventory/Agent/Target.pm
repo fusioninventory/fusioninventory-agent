@@ -14,9 +14,10 @@ sub new {
     die 'no basevardir parameter' unless $params{basevardir};
 
     my $self = {
-        logger   => $params{logger} ||
-                     FusionInventory::Agent::Logger->new(),
-        maxDelay => $params{maxDelay} || 3600,
+        logger       => $params{logger} ||
+                        FusionInventory::Agent::Logger->new(),
+        maxDelay     => $params{maxDelay} || 3600,
+        initialDelay => $params{delaytime},
     };
     bless $self, $class;
 
@@ -39,7 +40,7 @@ sub _init {
     # handle persistent state
     $self->_loadState();
 
-    $self->{nextRunDate} = _computeNextRunDate($self->{maxDelay})
+    $self->{nextRunDate} = $self->_computeNextRunDate()
         if !$self->{nextRunDate};
 
     $self->_saveState();
@@ -82,7 +83,7 @@ sub resetNextRunDate {
     my ($self) = @_;
 
     lock($self->{nextRunDate}) if $self->{shared};
-    $self->{nextRunDate} = _computeNextRunDate($self->{maxDelay});
+    $self->{nextRunDate} = $self->_computeNextRunDate();
     $self->_saveState();
 }
 
@@ -117,12 +118,20 @@ sub getStatus {
 # compute a run date, as current date and a random delay
 # between maxDelay / 2 and maxDelay
 sub _computeNextRunDate {
-    my ($maxDelay) = @_;
+    my ($self) = @_;
 
-    return
-        time                   +
-        $maxDelay / 2          +
-        int rand($maxDelay / 2);
+    my $ret;
+    if ($self->{initialDelay}) {
+        $ret = time + $self->{initialDelay};
+        $self->{initialDelay} = undef;
+    } else {
+        $ret =
+            time                   +
+            $self->{maxDelay} / 2  +
+            int rand($self->{maxDelay} / 2);
+    }
+
+    return $ret;
 }
 
 sub _loadState {
