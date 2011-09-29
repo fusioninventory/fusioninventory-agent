@@ -102,7 +102,6 @@ sub _loadPciIds {
 
     my ($vendor_id, $device_id, $class_id);
     while (my $line = <$handle>) {
-        next if $line =~ /^#/;
 
         if ($line =~ /^(\S{4}) \s+ (.*)/x) {
             # Vendor ID
