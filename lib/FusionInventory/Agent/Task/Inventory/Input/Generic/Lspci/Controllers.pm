@@ -103,11 +103,7 @@ sub _loadPciIds {
     my ($vendor_id, $device_id, $class_id);
     while (my $line = <$handle>) {
 
-        if ($line =~ /^(\S{4}) \s+ (.*)/x) {
-            # Vendor ID
-            $vendor_id = $1;
-            $vendors->{$vendor_id}->{name} = $2;
-        } elsif ($line =~ /^\t (\S{4}) \s+ (.*)/x) {
+        if ($line =~ /^\t (\S{4}) \s+ (.*)/x) {
             # Device ID
             $device_id = $1;
             $vendors->{$vendor_id}->{devices}->{$device_id}->{name} = $2;
@@ -115,6 +111,10 @@ sub _loadPciIds {
             # Subdevice ID
             my $subdevice_id = "$1:$2";
             $vendors->{$vendor_id}->{devices}->{$device_id}->{subdevices}->{$subdevice_id}->{name} = $3;
+        } elsif ($line =~ /^(\S{4}) \s+ (.*)/x) {
+            # Vendor ID
+            $vendor_id = $1;
+            $vendors->{$vendor_id}->{name} = $2;
         } elsif ($line =~ /^C \s+ (\S{2}) \s+ (.*)/x) {
             # Class ID
             $class_id = $1;
