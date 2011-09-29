@@ -20,7 +20,7 @@ sub doInventory {
     my $logger    = $params{logger};
 
     my $command = 'pkg_info';
-    my $packages = _getPackagesFromPkgInfo(
+    my $packages = _getPackagesListFromPkgInfo(
         logger => $logger, command => $command
     );
 
@@ -41,7 +41,7 @@ sub _getPackagesListFromPkgInfo {
         push @packages, {
             NAME    => $1,
             VERSION => $2,
-            VERSION => $3
+            DESCRIPTION => $3
         };
     }
 
