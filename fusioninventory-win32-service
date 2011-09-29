@@ -33,6 +33,7 @@ sub startAgent {
         my $agent = new FusionInventory::Agent(
             confdir => './etc/fusioninventory',
             datadir => './share',
+            libdir  => './lib',
             vardir  => './var',
         );
         $agent->init(options => { service => 1 });

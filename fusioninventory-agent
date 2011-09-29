@@ -80,6 +80,7 @@ if ($options->{version}) {
 my $agent = FusionInventory::Agent->new(
     confdir => './etc',
     datadir => './share',
+    libdir  => './lib',
     vardir  => './var',
 );
 

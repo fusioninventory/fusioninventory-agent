@@ -98,9 +98,15 @@ sub constants {
         INSTALLSCRIPT        => '$(PREFIX)/bin',
         INSTALLSITESCRIPT    => '$(PREFIX)/bin',
         INSTALLVENDORSCRIPT  => '$(PREFIX)/bin',
+        INSTALLLIB           => '$(DATADIR)/lib',
+        INSTALLSITELIB       => '$(DATADIR)/lib',
+        INSTALLVENDORLIB     => '$(DATADIR)/lib',
         INSTALLMAN1DIR       => '$(PREFIX)/share/man/man1',
         INSTALLSITEMAN1DIR   => '$(PREFIX)/share/man/man1',
         INSTALLVENDORMAN1DIR => '$(PREFIX)/share/man/man1',
+        INSTALLMAN3DIR       => '$(PREFIX)/share/man/man3',
+        INSTALLSITEMAN3DIR   => '$(PREFIX)/share/man/man3',
+        INSTALLVENDORMAN3DIR => '$(PREFIX)/share/man/man3',
         SYSCONFDIR           => '$(PREFIX)/etc/fusioninventory',
         DATADIR              => '$(PREFIX)/share/fusioninventory',
         LOCALSTATEDIR        => '$(PREFIX)/var/fusioninventory',
@@ -133,12 +139,18 @@ sub constants {
     return join("\n", @code);
 }
 
-# ensure configuration and data get installed too
 sub install {
     my ($self) = @_;
     my $install = $self->SUPER::install(@_);
-    $install =~ s/install :: pure_install doc_install/install :: pure_install doc_install config_install data_install/;
 
+    # add dependency on data and configuration installation targets, and remove
+    # dependency on perlocal installation target
+    $install =~ s/install :: pure_install doc_install/install :: pure_install config_install data_install/;
+
+    # suppress all lines related to packlist file installation
+    $install =~ s/.*\.packlist \\\n//g;
+
+    # add data and configuration installation targets
     $install .= <<'EOF';
 
 config_install :
@@ -169,9 +181,10 @@ sub installbin {
 
     $installbin .= <<'EOF';
 FINALIZE = $(ABSPERLRUN) -pi \
-    -e 's|use lib .*||;' \
+    -e 's|use lib .*|use lib "$(DATADIR)/lib";|;' \
     -e 's|confdir => .*|confdir => "$(SYSCONFDIR)",|;' \
     -e 's|datadir => .*|datadir => "$(DATADIR)",|;' \
+    -e 's|libdir  => .*|libdir  => "$(DATADIR)/lib",|;' \
     -e 's|vardir  => .*|vardir  => "$(LOCALSTATEDIR)",|' \
     --
 EOF
