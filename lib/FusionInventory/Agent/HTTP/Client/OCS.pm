@@ -34,13 +34,13 @@ sub new {
         $self->{ua}->default_header('Content-type' => 'application/x-compress');
         $self->{logger}->debug(
             $log_prefix . 
-            'Using gzip for compression (server minimal version 1.02 needed)'
+            'Using gzip for compression'
         );
     } else {
         $self->{compression} = 'none';
         $self->{logger}->debug(
             $log_prefix . 
-            'Not using compression (server minimal version 1.02 needed)'
+            'Not using compression'
         );
     }
 
@@ -118,10 +118,16 @@ sub _compress {
 sub _uncompress {
     my ($self, $data) = @_;
 
+open TMP, ">/tmp/bb" or die;
+print TMP $data;
+close TMP;
+
+
+print $data."\n";
     if ($data =~ /(\x78\x9C.*)/s) {
         $self->{logger}->debug2("format: Zlib");
         return $self->_uncompressNative($1);
-    } elsif ($data =~ /(\x1F\x8B\x08\x08.*)/s) {
+    } elsif ($data =~ /(\x1F\x8B\x08.*)/s) {
         $self->{logger}->debug2("format: Gzip");
         return $self->_uncompressGzip($1);
     } elsif ($data =~ /(<html><\/html>|)[^<]*(<.*>)\s*$/s) {
