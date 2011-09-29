@@ -308,7 +308,7 @@ sub _printInventory {
         }
 
         if ($params{format} eq 'html') {
-
+            Text::Template->require();
             my $template = Text::Template->new(
                 TYPE => 'FILE', SOURCE => "$self->{datadir}/html/inventory.tpl"
             );
