@@ -121,7 +121,7 @@ sub _uncompress {
     if ($data =~ /(\x78\x9C.*)/s) {
         $self->{logger}->debug2("format: Zlib");
         return $self->_uncompressNative($1);
-    } elsif ($data =~ /(\x1F\x8B\x08\x08.*)/s) {
+    } elsif ($data =~ /(\x1F\x8B\x08.*)/s) {
         $self->{logger}->debug2("format: Gzip");
         return $self->_uncompressGzip($1);
     } elsif ($data =~ /(<html><\/html>|)[^<]*(<.*>)\s*$/s) {
