@@ -4,8 +4,7 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use File::Basename;
-use File::Glob qw(:glob);
+use User::pwent;
 
 use FusionInventory::Agent::Tools;
 
@@ -42,19 +41,25 @@ sub doInventory {
 
     return unless $scanhomedirs == 1 && $REAL_USER_ID == 0;
 
-    my $homeDir = $OSNAME eq 'darwin' ?
-        "/Users" : "/home";
+    # assume all system users with a suitable homedir is an actual human user
+    my $pattern = $OSNAME eq 'darwin' ?
+        qr{^/Users} : qr{^/home};
 
-    my @homeDirs = glob("$homeDir/*");
-    return if @homeDirs > 10; # Too many users, ignored.
-    foreach my $homeDir (@homeDirs) {
-        my $login = basename($homeDir);
-        next unless getpwnam ($login); # Invalid account
-        my $command = "su '$login' -c 'VBoxManage -nologo list --long vms'";
+    my @users;
+    while (my $user = getpwent()) {
+        next unless $user->dir() =~ /$pattern/;
+        push @users, $user->name();
+    }
+
+    # abort if too many users
+    return if @users > 10;
+
+    foreach my $user (@users) {
+        my $command = "su '$user' -c 'VBoxManage -nologo list --long vms'";
         foreach my $machine (_parseVBoxManage(
             logger => $logger, command => $command
         )) {
-            $machine->{OWNER} = $login;
+            $machine->{OWNER} = $user;
             $inventory->addEntry(
                 section => 'VIRTUALMACHINES', entry => $machine
             );
