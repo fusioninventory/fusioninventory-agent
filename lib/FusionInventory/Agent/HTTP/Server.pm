@@ -281,7 +281,10 @@ sub _listen {
 
     # allow the thread to be stopped 
     threads->set_thread_exit_only(1);
-    $SIG{'KILL'} = sub { threads->exit() };
+    $SIG{'KILL'} = sub {
+        return if $OSNAME eq 'MSWin32';
+        threads->exit()
+    };
 
     while (1) {
         my ($client, $socket) = $daemon->accept();

@@ -78,4 +78,18 @@ ok(
     'server still listening on specific port after child process exit'
 );
 
+if (my $pid = fork()) {
+    # parent
+    waitpid($pid, 0);
+} else {
+    # child
+    alarm 1;
+}
+
+ok(
+    $client->get('http://localhost:8080')->is_success(),
+    'server still listening on specific port after child process receive a sig ALRM'
+);
+
+
 $server->terminate();
