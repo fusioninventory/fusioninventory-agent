@@ -122,6 +122,7 @@ sub diskIsFull {
         }
     } elsif ($^O =~ /^solaris/i) {
         my $dfFh;
+        return unless -d $self->{path};
         if (open($dfFh, '-|', "df", '-b', $self->{path})) {
             foreach(<$dfFh>) {
                 if (/^\S+\s+(\d+)\d{3}[^\d]/) {
@@ -134,6 +135,7 @@ sub diskIsFull {
         }
     } else {
         my $dfFh;
+        return unless -d $self->{path};
         if (open($dfFh, '-|', "df", '-Pk', $self->{path})) {
             foreach(<$dfFh>) {
                 if (/^\S+\s+\S+\s+\S+\s+(\d+)\d{3}[^\d]/) {
