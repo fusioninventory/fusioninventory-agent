@@ -1,5 +1,5 @@
 package FusionInventory::Agent::Task::Deploy;
-our $VERSION = '1.0.1';
+our $VERSION = '1.0.2';
 
 # Full protocol documentation available here:
 #  http://forge.fusioninventory.org/projects/fusioninventory-agent/wiki/API-REST-deploy

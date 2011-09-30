@@ -16,6 +16,60 @@ my %cache = (
     data => undef
 );
 
+
+sub _computeIPToTest {
+    my ($addresses, $ipLimit) = @_;
+
+    # Max number of IP to pick from a network range
+    $ipLimit = 255 unless $ipLimit;
+
+    my @ipToTest;
+    foreach my $data (@$addresses) {
+        next if $data->{ip}[0] == 127; # Ignore 127.x.x.x addresses
+        next if $data->{ip}[0] == 169; # Ignore 169.x.x.x range too
+
+        my @begin;
+        my @end;
+
+        foreach my $idx (0..3) {
+            push @begin, $data->{ip}[$idx] & (255 & $data->{mask}[$idx]);
+            push @end, $data->{ip}[$idx] | (255 - $data->{mask}[$idx]);
+        }
+
+        my $ip = sprintf("%d.%d.%d.%d", @{$data->{ip}});
+        my $ipStart = sprintf("%d.%d.%d.%d", @begin);
+        my $ipEnd = sprintf("%d.%d.%d.%d", @end);
+
+        my $ipInterval = Net::IP->new ($ipStart.' - '.$ipEnd) || die  (Net::IP::Error());
+
+        next if $ipStart eq $ipEnd;
+
+        if ($ipInterval->size() > 5000) {
+            print("Range to large: ".$ipInterval->size()." (max 5000)\n");
+            next;
+        }
+
+        my $after = 0;
+        my @newIPs;
+        do {
+            push @newIPs, $ipInterval->ip();
+            if ($after || $ip eq $ipInterval->ip()) {
+                $after++;
+            } elsif (@newIPs > ($ipLimit / 2)) {
+                shift @newIPs;
+            }
+        } while (++$ipInterval && ($after < ($ipLimit / 2)));
+
+
+        print("Scanning from ".$newIPs[0]." to ".$newIPs[@newIPs-1]."\n");
+
+        push @ipToTest, @newIPs;
+
+    }
+    return @ipToTest;
+
+}
+
 sub fisher_yates_shuffle {
     my $deck = shift;  # $deck is a reference to an array
 
@@ -74,42 +128,9 @@ print "cachedate: ".$cache{date}."\n";
         return;
     }
     use Data::Dumper;
-    print Dumper(\@addresses);
-    my %ipToTest;
-    foreach my $addr (@addresses) {
-        next if $addr->{ip}[0] == 127; # Ignore 127.x.x.x addresses
-            next if $addr->{ip}[0] == 169; # Ignore 169.x.x.x range too
-
-            my @begin;
-        my @end;
-
-        foreach my $idx (0..3) {
-            push @begin, $addr->{ip}[$idx] & (255 & $addr->{mask}[$idx]);
-            push @end, $addr->{ip}[$idx] | (255 - $addr->{mask}[$idx]);
-        }
-
-        my $ipStart = sprintf("%d.%d.%d.%d", @begin);
-        my $ipEnd = sprintf("%d.%d.%d.%d", @end);
-
-        my $ipInterval = Net::IP->new ($ipStart.' - '.$ipEnd) || die  (Net::IP::Error());
-
-        next if $ipStart eq $ipEnd;
-
-        print("Scanning from $ipStart to $ipEnd\n");
-
-        if ($ipInterval->size() > 1200) {
-            print("Range to large: ".$ipInterval->size()." (max 1200)\n");
-            next;
-        }
-
-        do {
-            $ipToTest{$ipInterval->ip()}=1;
-        } while (++$ipInterval);
-
-    }
 
     $cache{date}=time;
-    $cache{data}=scan({port => $port}, keys %ipToTest);
+    $cache{data}=scan({port => $port}, _computeIPToTest(\@addresses));
     return $cache{data};
 }
 
