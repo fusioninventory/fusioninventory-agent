@@ -89,7 +89,8 @@ sub run {
             content  => $inventory->getContent()
         );
 
-        my $response = $self->{client}->send(
+        my $ocsClient = FusionInventory::Agent::HTTP::Client::OCS->new(%{$self->{client}});
+        my $response = $ocsClient->send(
             url     => $self->{target}->getUrl(),
             message => $message
         );
