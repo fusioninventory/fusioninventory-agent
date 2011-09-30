@@ -134,9 +134,15 @@ sub _getSha512ByFile {
 
     my $sha = Digest::SHA->new('512');
 
-    $sha->addfile($filePath, 'b');
+    my $sha512;
 
-    return $sha->hexdigest;
+    eval {
+        $sha->addfile($filePath, 'b');
+        $sha512 = $sha->hexdigest;
+    };
+    print "SHA512 failure: $@\n" if $@;
+
+    return $sha512;
 }
 
 sub validateFileByPath {
