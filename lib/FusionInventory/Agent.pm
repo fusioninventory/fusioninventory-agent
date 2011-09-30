@@ -195,6 +195,7 @@ sub run {
         eval {
             my $prologresp;
             my $client;
+            my $ocsClient;
             if ($target->isa('FusionInventory::Agent::Target::Server')) {
 
                 $client = FusionInventory::Agent::HTTP::Client::OCS->new(
@@ -206,13 +207,14 @@ sub run {
                     ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
                     no_ssl_check => $self->{config}->{'no-ssl-check'},
                 );
+                $ocsClient = FusionInventory::Agent::HTTP::Client::OCS->new(%$client);
 
                 my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
                     token    => $self->{token},
                     deviceid => $self->{deviceid},
                 );
 
-                $prologresp = $client->send(
+                $prologresp = $ocsClient->send(
                     url     => $target->getUrl(),
                     message => $prolog
                 );
