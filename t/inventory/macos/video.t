@@ -11,8 +11,6 @@ my %tests = (
     '10.4-powerpc' => {
         MONITORS => [
             {
-                SERIAL       => '',
-                MANUFACTURER => '',
                 DESCRIPTION  => 'ASUS VH222',
                 CAPTION      => 'ASUS VH222'
             }
@@ -31,8 +29,6 @@ my %tests = (
         {
         MONITORS => [
             {
-                SERIAL       => '',
-                MANUFACTURER => '',
                 DESCRIPTION  => 'ASUS VH222',
                 CAPTION      => 'ASUS VH222'
             }
@@ -50,8 +46,6 @@ my %tests = (
     '10.6-intel' => {
         MONITORS => [
             {
-                SERIAL       => '',
-                MANUFACTURER => '',
                 DESCRIPTION  => 'iMac',
                 CAPTION      => 'iMac'
             }
@@ -69,8 +63,6 @@ my %tests = (
     '10.6.6-intel' => {
         MONITORS => [
             {
-                SERIAL       => '',
-                MANUFACTURER => '',
                 DESCRIPTION  => 'Color LCD',
                 CAPTION      => 'Color LCD'
             }
