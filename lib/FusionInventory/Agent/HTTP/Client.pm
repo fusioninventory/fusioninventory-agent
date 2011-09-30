@@ -54,7 +54,7 @@ sub new {
 }
 
 sub request {
-    my ($self, $request) = @_;
+    my ($self, $request, $file) = @_;
 
     my $logger  = $self->{logger};
 
@@ -67,7 +67,7 @@ sub request {
         if ($OSNAME eq 'MSWin32' && $scheme eq 'https') {
             alarm $self->{timeout};
         }
-        $result = $self->{ua}->request($request);
+        $result = $self->{ua}->request($request, $file);
         alarm 0;
     };
 
@@ -97,7 +97,7 @@ sub request {
                     if ($OSNAME eq 'MSWin32' && $scheme eq 'https') {
                         alarm $self->{timeout};
                     }
-                    $result = $self->{ua}->request($request);
+                    $result = $self->{ua}->request($request, $file);
                     alarm 0;
                 };
                 if (!$result->is_success()) {
