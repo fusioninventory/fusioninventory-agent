@@ -59,9 +59,9 @@ sub do {
     }
 
     my $buf = `$_[0]->{exec} 2>&1` || '';
-#    print "Run: ".$buf."\n";
+    print "Run: ".$buf."\n";
     my $exitStatus = $? >> 8;
-#    print "exitStatus: ".$exitStatus."\n";;
+    print "exitStatus: ".$exitStatus."\n";;
 
     my @retChecks;
 
