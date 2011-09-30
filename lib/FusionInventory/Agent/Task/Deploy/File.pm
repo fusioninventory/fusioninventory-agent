@@ -114,8 +114,6 @@ MULTIPART: foreach my $sha512 (@{$self->{multiparts}}) {
 sub filePartsExists {
     my ($self) = @_;
 
-    my $datastore = $self->{datastore};
-
     my $isOk = 1;
     foreach my $sha512 (@{$self->{multiparts}}) {
 
