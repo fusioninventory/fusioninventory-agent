@@ -118,12 +118,6 @@ sub _compress {
 sub _uncompress {
     my ($self, $data) = @_;
 
-open TMP, ">/tmp/bb" or die;
-print TMP $data;
-close TMP;
-
-
-print $data."\n";
     if ($data =~ /(\x78\x9C.*)/s) {
         $self->{logger}->debug2("format: Zlib");
         return $self->_uncompressNative($1);
