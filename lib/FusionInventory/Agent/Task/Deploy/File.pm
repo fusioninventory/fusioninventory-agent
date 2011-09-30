@@ -6,7 +6,7 @@ use warnings;
 use File::Find;
 use Data::Dumper;
 use Digest::SHA;
-use LWP::Simple;
+use HTTP::Request;
 use File::Basename;
 use File::Path qw(make_path);
 
@@ -16,6 +16,7 @@ sub new {
     my $self = $params->{data};
     $self->{sha512} = $params->{sha512};
     $self->{datastore} = $params->{datastore};
+    $self->{client} = $params->{client};
 
     die unless $self->{datastore};
     die unless $self->{sha512};
@@ -94,8 +95,11 @@ MULTIPART: foreach my $sha512 (@{$self->{multiparts}}) {
             my $sha512dir = $1.'/'.$1.$2.'/';
 
             print $mirror.$sha512dir.$sha512."\n";
-            my $rc = getstore($mirror.$sha512dir.$sha512, $partFilePath);
-            if (is_success($rc) && -f $partFilePath) {
+
+            my $request = HTTP::Request->new(GET => $mirror.$sha512dir.$sha512);
+            my $response = $self->{client}->request($request, $partFilePath);
+
+            if (($response->code == 200) && -f $partFilePath) {
                 if (_getSha512ByFile($partFilePath) eq $sha512) {
                     next MULTIPART;
                 }

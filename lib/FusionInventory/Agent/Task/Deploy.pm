@@ -153,6 +153,7 @@ sub processRemote {
     foreach my $sha512 ( keys %{ $answer->{associatedFiles} } ) {
         $files->{$sha512} = FusionInventory::Agent::Task::Deploy::File->new(
             {
+                client    => $self->{client},
                 sha512    => $sha512,
                 data      => $answer->{associatedFiles}{$sha512},
                 datastore => $datastore
