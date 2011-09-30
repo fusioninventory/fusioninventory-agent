@@ -29,7 +29,7 @@ sub new {
 
     my $self = $class->SUPER::new(%params);
 
-    $self->{fusionClient} = FusionInventory::Agent::HTTP::Client::Fusion->new(debug => $params{debug});
+    $self->{fusionClient} = FusionInventory::Agent::HTTP::Client::Fusion->new(%{$self->{client}}, debug => $params{debug});
 
     return $self;
 }
