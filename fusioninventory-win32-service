@@ -1,9 +1,4 @@
 #!/usr/bin/perl
-BEGIN {
-    use File::Spec;
-    use File::Basename;
-    chdir(dirname(File::Spec->rel2abs( __FILE__ ))."/../..");
-}
 
 use strict;
 use warnings;
@@ -31,9 +26,9 @@ sub startAgent {
     return if $thr;
     $thr = threads->create(sub {
         my $agent = new FusionInventory::Agent(
-            confdir => './etc/fusioninventory',
-            datadir => './share',
-            vardir  => './var',
+            confdir => '../../etc/fusioninventory',
+            datadir => '../../share',
+            vardir  => '../../var',
         );
         $agent->init(options => { service => 1 });
         $agent->run();
