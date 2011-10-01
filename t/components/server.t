@@ -14,7 +14,7 @@ use FusionInventory::Test::Agent;
 use FusionInventory::Agent::HTTP::Server;
 use FusionInventory::Agent::Logger;
 
-plan tests => 6;
+plan tests => 7;
 
 my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'Test' ]
@@ -84,11 +84,12 @@ if (my $pid = fork()) {
 } else {
     # child
     alarm 1;
+    exit(0);
 }
 
 ok(
     $client->get('http://localhost:8080')->is_success(),
-    'server still listening on specific port after child process receive a sig ALRM'
+    'server still listening on specific port after child process raised ALRM'
 );
 
 
