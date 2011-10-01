@@ -3,6 +3,7 @@ package FusionInventory::Agent::HTTP::Server;
 use strict;
 use warnings;
 use threads;
+use threads::shared;
 
 use English qw(-no_match_vars);
 use HTTP::Daemon;
@@ -30,6 +31,9 @@ sub new {
     };
     bless $self, $class;
 
+    $self->{stop} = 0;
+    my $stop = \$self->{stop};
+    threads::shared::share($stop);
     $self->{listener} = threads->create('_listen', $self);
 
     return $self;
@@ -279,15 +283,9 @@ sub _listen {
 
     $logger->info($log_prefix . "HTTPD service started at $url");
 
-    # allow the thread to be stopped 
-    threads->set_thread_exit_only(1);
-    $SIG{'KILL'} = sub {
-        return if $OSNAME eq 'MSWin32';
-        threads->exit()
-    };
-
     while (1) {
         my ($client, $socket) = $daemon->accept();
+        last if $self->{stop};
         next unless $socket;
         my (undef, $iaddr) = sockaddr_in($socket);
         my $clientIp = inet_ntoa($iaddr);
@@ -299,9 +297,8 @@ sub _listen {
 sub terminate {
     my ($self) = @_;
 
-    return unless $self->{listener};
-
-    $self->{listener}->kill('KILL');
+    lock $self->{stop};
+    $self->{stop} = 1;
 }
 
 sub DESTROY {
