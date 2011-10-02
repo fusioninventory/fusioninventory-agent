@@ -183,7 +183,7 @@ sub run {
         return;
     }
 
-    my $response = $self->{prologresp};
+    my $response = $self->getPrologResponse();
     if (!$response) {
         $self->{logger}->debug("No server response, exiting");
         return;
