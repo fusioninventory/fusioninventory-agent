@@ -729,16 +729,6 @@ sub _isInteger {
     $_[0] =~ /^[+-]?\d+$/;
 }
 
-sub _sanitizedSerial {
-    my ($value) = @_;
-
-    $value =~ s/^\s+//;
-    $value =~ s/\s+$//;
-    $value =~ s/(\.{2,})*//g;
-
-    return $value;
-}
-
 1;
 
 __END__
