@@ -179,13 +179,13 @@ sub run {
     my ($self) = @_;
 
     if (!$self->{target}->isa('FusionInventory::Agent::Target::Server')) {
-        $self->{logger}->debug("No server. Exiting...");
+        $self->{logger}->debug("No server available, exiting");
         return;
     }
 
     my $response = $self->{prologresp};
     if (!$response) {
-        $self->{logger}->debug("No server response. Exiting...");
+        $self->{logger}->debug("No server response, exiting");
         return;
     }
 
