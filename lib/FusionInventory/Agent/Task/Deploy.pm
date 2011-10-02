@@ -29,7 +29,20 @@ sub new {
 
     my $self = $class->SUPER::new(%params);
 
-    $self->{fusionClient} = FusionInventory::Agent::HTTP::Client::Fusion->new(%{$self->{client}}, debug => $params{debug});
+    if ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
+        $self->{client} = FusionInventory::Agent::HTTP::Client::Fusion->new(
+            logger       => $self->{logger},
+            user         => $params{user},
+            password     => $params{password},
+            proxy        => $params{proxy},
+            ca_cert_file => $params{'ca_cert_file'},
+            ca_cert_dir  => $params{'ca_cert_dir'},
+            no_ssl_check => $params{'no_ssl_check'},
+            debug => $params{debug}
+        );
+
+        $self->{prologresp} = $self->getPrologResponse();
+    }
 
     return $self;
 }
@@ -131,7 +144,7 @@ sub processRemote {
     my $jobList = [];
     my $files;
 
-    my $answer = $self->{fusionClient}->send(
+    my $answer = $self->{client}->send(
         "url" => $remoteUrl,
         args  => {
             action    => "getJobs",
@@ -183,7 +196,7 @@ sub processRemote {
   JOB: foreach my $job (@$jobList) {
 
         # RECEIVED
-        $self->{fusionClient}->send(
+        $self->{client}->send(
             "url" => $remoteUrl,
             args  => {
                 action      => "setStatus",
@@ -202,7 +215,7 @@ sub processRemote {
                 next unless $job->{checks}[$checknum];
                 if ( !$checkProcessor->process( $job->{checks}[$checknum] ) ) {
 
-                    $self->{fusionClient}->send(
+                    $self->{client}->send(
                         "url" => $remoteUrl,
                         args  => {
                             action      => "setStatus",
@@ -221,7 +234,7 @@ sub processRemote {
             }
         }
 
-        $self->{fusionClient}->send(
+        $self->{client}->send(
             "url" => $remoteUrl,
             args  => {
                 action      => "setStatus",
@@ -236,7 +249,7 @@ sub processRemote {
 
         # DOWNLOADING
 
-        $self->{fusionClient}->send(
+        $self->{client}->send(
             "url" => $remoteUrl,
             args  => {
                 action      => "setStatus",
@@ -250,7 +263,7 @@ sub processRemote {
         my $workdir = $datastore->createWorkDir( $job->{uuid} );
         foreach my $file ( @{ $job->{associatedFiles} } ) {
             if ( $file->filePartsExists() ) {
-                $self->{fusionClient}->send(
+                $self->{client}->send(
                     "url" => $remoteUrl,
                     args  => {
                         action    => "setStatus",
@@ -265,7 +278,7 @@ sub processRemote {
                 $workdir->addFile($file);
                 next;
             }
-            $self->{fusionClient}->send(
+            $self->{client}->send(
                 "url" => $remoteUrl,
                 args  => {
                     action      => "setStatus",
@@ -280,7 +293,7 @@ sub processRemote {
             $file->download();
             if ( $file->filePartsExists() ) {
 
-                $self->{fusionClient}->send(
+                $self->{client}->send(
                     "url" => $remoteUrl,
                     args  => {
                         action      => "setStatus",
@@ -297,7 +310,7 @@ sub processRemote {
             }
             else {
 
-                $self->{fusionClient}->send(
+                $self->{client}->send(
                     "url" => $remoteUrl,
                     args  => {
                         action      => "setStatus",
@@ -313,7 +326,7 @@ sub processRemote {
                 next JOB;
             }
         }
-        $self->{fusionClient}->send(
+        $self->{client}->send(
             "url" => $remoteUrl,
             args  => {
                 action      => "setStatus",
@@ -335,7 +348,7 @@ sub processRemote {
 #         }
 
         if (!$workdir->prepare()) {
-            $self->{fusionClient}->send(
+            $self->{client}->send(
                 "url" => $remoteUrl,
                 args  => {
                 action      => "setStatus",
@@ -349,7 +362,7 @@ sub processRemote {
             );
             next JOB;
         } else {
-            $self->{fusionClient}->send(
+            $self->{client}->send(
                 "url" => $remoteUrl,
                 args  => {
                 action      => "setStatus",
@@ -363,7 +376,7 @@ sub processRemote {
         }
 
         # PROCESSING
-#        $self->{fusionClient}->send(
+#        $self->{client}->send(
 #            "url" => $remoteUrl,
 #            args  => {
 #                action      => "setStatus",
@@ -387,7 +400,7 @@ sub processRemote {
                     my $checkStatus = $checkProcessor->process( $params->{checks}[$checknum] );
                     if ( $checkStatus ne 'ok') {
 
-                        $self->{fusionClient}->send(
+                        $self->{client}->send(
                                 "url" => $remoteUrl,
                                 args  => {
                                 action      => "setStatus",
@@ -412,7 +425,7 @@ sub processRemote {
             eval { $ret = $actionProcessor->process($actionName, $params); };
             $ret->{log} = $@ if $@;
             if ( !$ret->{status} ) {
-                $self->{fusionClient}->send(
+                $self->{client}->send(
                     "url" => $remoteUrl,
                     args  => {
                         action    => "setStatus",
@@ -423,7 +436,7 @@ sub processRemote {
                     }
                 );
 
-                $self->{fusionClient}->send(
+                $self->{client}->send(
                     "url" => $remoteUrl,
                     args  => {
                         action      => "setStatus",
@@ -439,7 +452,7 @@ sub processRemote {
 
                 next JOB;
             }
-            $self->{fusionClient}->send(
+            $self->{client}->send(
                 "url" => $remoteUrl,
                 args  => {
                     action      => "setStatus",
@@ -455,7 +468,7 @@ sub processRemote {
             $actionnum++;
         }
 
-        $self->{fusionClient}->send(
+        $self->{client}->send(
             "url" => $remoteUrl,
             args  => {
                 action    => "setStatus",
@@ -480,7 +493,7 @@ sub run {
         return;
     }
 
-    my $globalRemoteConfig = $self->{fusionClient}->send(
+    my $globalRemoteConfig = $self->{client}->send(
         "url" => $self->{target}->{url},
         args  => {
             action    => "getConfig",
