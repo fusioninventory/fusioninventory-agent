@@ -20,14 +20,14 @@ sub new {
     my $self = $class->SUPER::new(%params);
 
     if ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
-        $self->{agent} = FusionInventory::Agent::HTTP::Client::OCS->new(
+        $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
             logger       => $self->{logger},
             user         => $params{user},
             password     => $params{password},
             proxy        => $params{proxy},
-            ca_cert_file => $params{'ca-cert-file'},
-            ca_cert_dir  => $params{'ca-cert-dir'},
-            no_ssl_check => $params{'no-ssl-check'},
+            ca_cert_file => $params{'ca_cert_file'},
+            ca_cert_dir  => $params{'ca_cert_dir'},
+            no_ssl_check => $params{'no_ssl_check'},
         );
     }
 
@@ -118,8 +118,7 @@ sub run {
             content  => $inventory->getContent()
         );
 
-        my $ocsClient = FusionInventory::Agent::HTTP::Client::OCS->new(%{$self->{client}});
-        my $response = $ocsClient->send(
+        my $response = $self->{client}->send(
             url     => $self->{target}->getUrl(),
             message => $message
         );
