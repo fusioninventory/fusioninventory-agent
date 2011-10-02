@@ -26,9 +26,9 @@ sub new {
             user         => $params{user},
             password     => $params{password},
             proxy        => $params{proxy},
-            ca_cert_file => $params{'ca-cert-file'},
-            ca_cert_dir  => $params{'ca-cert-dir'},
-            no_ssl_check => $params{'no-ssl-check'},
+            ca_cert_file => $params{'ca_cert_file'},
+            ca_cert_dir  => $params{'ca_cert_dir'},
+            no_ssl_check => $params{'no_ssl_check'},
         );
 
         $self->{prologresp} = $self->getPrologResponse();
