@@ -26,7 +26,7 @@ my $thread;
 
 my $state;
 my $previousState = SERVICE_START_PENDING;
-while (SERVICE_STOPPED != ($state = Win32::Daemon::State())){ 
+while (($state = Win32::Daemon::State()) != SERVICE_STOPPED) { 
     if ($state == SERVICE_START_PENDING) {
         # Initialization code
         startAgent();
@@ -88,11 +88,12 @@ while (SERVICE_STOPPED != ($state = Win32::Daemon::State())){
 
 sub startAgent {
     return if $thread;
+    my $directory = dirname(File::Spec->rel2abs( __FILE__ ));
     $thread = threads->create(sub {
         my $agent = new FusionInventory::Agent(
-            confdir => dirname(File::Spec->rel2abs( __FILE__ )).'/../../etc/fusioninventory',
-            datadir => dirname(File::Spec->rel2abs( __FILE__ )).'/../../share',
-            vardir  => dirname(File::Spec->rel2abs( __FILE__ )).'/../../var',
+            confdir => $directory . '/../../etc/fusioninventory',
+            datadir => $directory . '/../../share',
+            vardir  => $directory . '/../../var',
         );
         $agent->init(options => { service => 1 });
         $agent->run();
