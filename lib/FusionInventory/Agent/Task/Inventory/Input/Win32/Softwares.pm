@@ -41,11 +41,11 @@ sub doInventory {
         my $softwares64 =
             $machKey64->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
 
-        _processSoftwares({
+        _processSoftwares(
             inventory => $inventory,
             softwares => $softwares64,
             is64bit   => 1
-        });
+        );
 
         my $machKey32 = $Registry->Open('LMachine', {
             Access => KEY_READ | KEY_WOW64_32 ## no critic (ProhibitBitwise)
@@ -54,11 +54,11 @@ sub doInventory {
         my $softwares32 =
             $machKey32->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
 
-        _processSoftwares({
+        _processSoftwares(
             inventory => $inventory,
             softwares => $softwares32,
             is64bit => 0
-        });
+        );
     } else {
         my $machKey = $Registry->Open('LMachine', {
             Access => KEY_READ
@@ -67,11 +67,11 @@ sub doInventory {
         my $softwares =
             $machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
 
-        _processSoftwares({
+        _processSoftwares(
             inventory => $inventory,
             softwares => $softwares,
             is64bit => 0
-        });
+        );
 
     }
 
@@ -88,11 +88,11 @@ sub _dateFormat {
 }
 
 sub _processSoftwares {
-    my ($params) = @_;
+    my (%params) = @_;
 
-    my $softwares = $params->{softwares};
-    my $inventory = $params->{inventory};
-    my $is64bit   = $params->{is64bit};
+    my $softwares = $params{softwares};
+    my $inventory = $params{inventory};
+    my $is64bit   = $params{is64bit};
 
     foreach my $rawGuid (keys %$softwares) {
         my $data = $softwares->{$rawGuid};
@@ -123,7 +123,7 @@ sub _processSoftwares {
             VERSION_MINOR    => hex2dec($data->{'/VersionMinor'}),
             VERSION_MAJOR    => hex2dec($data->{'/VersionMajor'}),
             NO_REMOVE        => $data->{'/NoRemove'} && 
-                               $data->{'/NoRemove'} =~ /1/,
+                                $data->{'/NoRemove'} =~ /1/,
             IS64BIT          => $is64bit,
             GUID             => $guid,
         };
