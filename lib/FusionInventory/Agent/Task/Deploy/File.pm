@@ -85,9 +85,11 @@ MULTIPART: foreach my $sha512 (@{$self->{multiparts}}) {
                 next MULTIPART if _getSha512ByFile($partFilePath) eq $sha512;
         }
 
-        if ($self->{p2p} && (ref($p2pHostList) ne 'ARRAY') && FusionInventory::Agent::Task::Deploy::P2P->require) {
-            $p2pHostList = FusionInventory::Agent::Task::Deploy::P2P::findPeer(62354);
-        }
+        eval {
+            if ($self->{p2p} && (ref($p2pHostList) ne 'ARRAY') && FusionInventory::Agent::Task::Deploy::P2P->require) {
+                $p2pHostList = FusionInventory::Agent::Task::Deploy::P2P::findPeer(62354);
+            }
+        };
 
         MIRROR: foreach my $mirror (@$p2pHostList, @$mirrorList) {
             next unless $sha512 =~ /^(.)(.)/;
