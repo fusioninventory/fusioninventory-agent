@@ -12,6 +12,7 @@ use Win32::TieRegistry (
     qw/KEY_READ/
 );
 
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
 
 my $seen;
@@ -41,11 +42,12 @@ sub doInventory {
         my $softwares64 =
             $machKey64->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
 
-        _processSoftwares({
-            inventory => $inventory,
+        foreach my $software (_getSoftwares(
             softwares => $softwares64,
             is64bit   => 1
-        });
+        )) {
+            $inventory->addEntry(section => 'SOFTWARES', entry => $software);
+        }
 
         my $machKey32 = $Registry->Open('LMachine', {
             Access => KEY_READ | KEY_WOW64_32 ## no critic (ProhibitBitwise)
@@ -54,11 +56,12 @@ sub doInventory {
         my $softwares32 =
             $machKey32->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
 
-        _processSoftwares({
-            inventory => $inventory,
+        foreach my $software (_getSoftwares(
             softwares => $softwares32,
-            is64bit => 0
-        });
+            is64bit   => 0
+        )) {
+            $inventory->addEntry(section => 'SOFTWARES', entry => $software);
+        }
     } else {
         my $machKey = $Registry->Open('LMachine', {
             Access => KEY_READ
@@ -67,46 +70,45 @@ sub doInventory {
         my $softwares =
             $machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
 
-        _processSoftwares({
-            inventory => $inventory,
+        foreach my $software (_getSoftwares(
             softwares => $softwares,
-            is64bit => 0
-        });
-
+            is64bit   => 0
+        )) {
+            $inventory->addEntry(section => 'SOFTWARES', entry => $software);
+        }
     }
-
 }
 
 sub _dateFormat {
     my ($date) = @_; 
 
-    return unless $date;
+    ## no critic (ExplicitReturnUndef)
+    return undef unless $date;
 
     return unless $date =~ /^(\d{4})(\d{2})(\d{2})/;
 
     return "$3/$2/$1";
 }
 
-sub _processSoftwares {
-    my ($params) = @_;
+sub _getSoftwares {
+    my (%params) = @_;
 
-    my $softwares = $params->{softwares};
-    my $inventory = $params->{inventory};
-    my $is64bit   = $params->{is64bit};
+    my $softwares = $params{softwares};
+    my $is64bit   = $params{is64bit};
+
+    my @softwares;
 
     foreach my $rawGuid (keys %$softwares) {
         my $data = $softwares->{$rawGuid};
-        next unless keys %$data;
-        
-        my $guid = $rawGuid;
-        $guid =~ s/\/$//; # drop the tailing / 
-
         # odd, found on Win2003
         next unless keys %$data > 2;
 
         # See bug #927
         # http://stackoverflow.com/questions/2639513/duplicate-entries-in-uninstall-registry-key-when-compiling-list-of-installed-soft
         next if $data->{'/SystemComponent'};
+
+        my $guid = $rawGuid;
+        $guid =~ s/\/$//; # drop the tailing / 
 
         my $software = {
             FROM             => "registry",
@@ -120,10 +122,9 @@ sub _processSoftwares {
             URL_INFO_ABOUT   => encodeFromRegistry($data->{'/URLInfoAbout'}),
             UNINSTALL_STRING => encodeFromRegistry($data->{'/UninstallString'}),
             INSTALLDATE      => _dateFormat($data->{'/InstallDate'}),
-            VERSION_MINOR    => hex2dec($data->{'/VersionMinor'}),
-            VERSION_MAJOR    => hex2dec($data->{'/VersionMajor'}),
-            NO_REMOVE        => $data->{'/NoRemove'} && 
-                               $data->{'/NoRemove'} =~ /1/,
+            VERSION_MINOR    => hex2dec($data->{'/MinorVersion'}),
+            VERSION_MAJOR    => hex2dec($data->{'/MajorVersion'}),
+            NO_REMOVE        => hex2dec($data->{'/NoRemove'}),
             IS64BIT          => $is64bit,
             GUID             => $guid,
         };
@@ -134,11 +135,10 @@ sub _processSoftwares {
         # avoid duplicates
         next if $seen->{$software->{NAME}}->{$software->{VERSION}}++;
 
-        $inventory->addEntry(
-            section => 'SOFTWARES',
-            entry   => $software,
-        );
+        push @softwares, $software;
     }
+
+    return @softwares;
 }
 
 1;

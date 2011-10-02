@@ -83,24 +83,22 @@ sub doInventory {
 
     $nics = $WMIService->ExecQuery('SELECT * FROM Win32_NetworkAdapter');
     foreach my $nic (in $nics) {
-        my $interface = {};
         # http://comments.gmane.org/gmane.comp.monitoring.fusion-inventory.devel/34
         next unless $nic->PNPDeviceID;
 
-        my $virtualdev = 0;
+        my $interface = {
+		SPEED       => $nic->Speed,
+		MACADDR     => $nic->MACAddress,
+		PNPDEVICEID => $nic->PNPDeviceID,
+	};
+
         # PhysicalAdapter only work on OS > XP
-        if (!defined($nic->PhysicalAdapter)) {
-            if ($nic->PNPDeviceID =~ /^ROOT/) {
-                $virtualdev = 1;
-            }
+        if (defined $nic->PhysicalAdapter) {
+            $interface->{VIRTUALDEV} = $nic->PhysicalAdapter ? 0 : 1;
         } else {
-            $virtualdev = $nic->PhysicalAdapter ? 0 : 1;
+	    $interface->{VIRTUALDEV} = $nic->PNPDeviceID =~ /^ROOT/ ? 1 : 0;
         }
 
-        $interface->{SPEED} = $nic->Speed;
-        $interface->{VIRTUALDEV}  = $virtualdev;
-        $interface->{MACADDR}     = $nic->MACAddress;
-        $interface->{PNPDEVICEID} = $nic->PNPDeviceID;
         push @interfaces, $interface;
     }
 

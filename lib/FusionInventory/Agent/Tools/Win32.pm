@@ -44,7 +44,8 @@ sub is64bit {
 sub encodeFromRegistry {
     my ($string) = @_;
 
-    return unless $string;
+    ## no critic (ExplicitReturnUndef)
+    return undef unless $string;
 
     if (!$localCodepage) {
         my $lmachine = $Registry->Open('LMachine', {
