@@ -121,8 +121,8 @@ sub _getSoftwares {
             URL_INFO_ABOUT   => encodeFromRegistry($data->{'/URLInfoAbout'}),
             UNINSTALL_STRING => encodeFromRegistry($data->{'/UninstallString'}),
             INSTALLDATE      => _dateFormat($data->{'/InstallDate'}),
-            VERSION_MINOR    => hex2dec($data->{'/VersionMinor'}),
-            VERSION_MAJOR    => hex2dec($data->{'/VersionMajor'}),
+            VERSION_MINOR    => hex2dec($data->{'/MinorVersion'}),
+            VERSION_MAJOR    => hex2dec($data->{'/MajorVersion'}),
             NO_REMOVE        => $data->{'/NoRemove'} && 
                                 $data->{'/NoRemove'} =~ /1/,
             IS64BIT          => $is64bit,
