@@ -42,11 +42,7 @@ sub getPrologResponse {
         message => $prolog
     );
 
-    if (!$response) {
-        $self->{logger}->error("No answer from the server");
-        $self->{target}->resetNextRunDate();
-        return;
-    }
+    return unless $response;
 
     # update target
     my $content = $response->getContent();
