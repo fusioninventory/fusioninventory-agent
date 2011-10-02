@@ -41,11 +41,12 @@ sub doInventory {
         my $softwares64 =
             $machKey64->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
 
-        _processSoftwares(
-            inventory => $inventory,
-            softwares => $softwares64,
-            is64bit   => 1
-        );
+	foreach my $software (_getSoftwares(
+	    softwares => $softwares64,
+	    is64bit   => 1
+        )) {
+	    $inventory->addEntry(section => 'SOFTWARES', entry => $software);
+	}
 
         my $machKey32 = $Registry->Open('LMachine', {
             Access => KEY_READ | KEY_WOW64_32 ## no critic (ProhibitBitwise)
@@ -54,11 +55,12 @@ sub doInventory {
         my $softwares32 =
             $machKey32->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
 
-        _processSoftwares(
-            inventory => $inventory,
-            softwares => $softwares32,
-            is64bit => 0
-        );
+	foreach my $software (_getSoftwares(
+	    softwares => $softwares32,
+	    is64bit   => 0
+        )) {
+	    $inventory->addEntry(section => 'SOFTWARES', entry => $software);
+	}
     } else {
         my $machKey = $Registry->Open('LMachine', {
             Access => KEY_READ
@@ -67,14 +69,13 @@ sub doInventory {
         my $softwares =
             $machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
 
-        _processSoftwares(
-            inventory => $inventory,
-            softwares => $softwares,
-            is64bit => 0
-        );
-
+	foreach my $software (_getSoftwares(
+	    softwares => $softwares,
+	    is64bit   => 0
+        )) {
+	    $inventory->addEntry(section => 'SOFTWARES', entry => $software);
+	}
     }
-
 }
 
 sub _dateFormat {
@@ -87,12 +88,13 @@ sub _dateFormat {
     return "$3/$2/$1";
 }
 
-sub _processSoftwares {
+sub _getSoftwares {
     my (%params) = @_;
 
     my $softwares = $params{softwares};
-    my $inventory = $params{inventory};
     my $is64bit   = $params{is64bit};
+
+    my @softwares;
 
     foreach my $rawGuid (keys %$softwares) {
         my $data = $softwares->{$rawGuid};
@@ -134,11 +136,10 @@ sub _processSoftwares {
         # avoid duplicates
         next if $seen->{$software->{NAME}}->{$software->{VERSION}}++;
 
-        $inventory->addEntry(
-            section => 'SOFTWARES',
-            entry   => $software,
-        );
+	push @softwares, $software;
     }
+
+    return @softwares;
 }
 
 1;
