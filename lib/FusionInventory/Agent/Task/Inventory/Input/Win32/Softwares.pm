@@ -12,6 +12,7 @@ use Win32::TieRegistry (
     qw/KEY_READ/
 );
 
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
 
 my $seen;
