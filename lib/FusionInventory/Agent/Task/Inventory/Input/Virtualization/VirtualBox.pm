@@ -28,7 +28,7 @@ sub doInventory {
 
     my $command = "VBoxManage -nologo list --long vms";
 
-    my $owner = getpwuid $REAL_USER_ID;
+    my $owner = getpwuid($REAL_USER_ID)->name();
 
     foreach my $machine (_parseVBoxManage(
         logger => $logger, command => $command
