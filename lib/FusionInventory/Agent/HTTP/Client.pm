@@ -60,7 +60,7 @@ sub request {
 
     my $url = $request->uri();
     my $scheme = $url->scheme();
-    $self->_setSSLOptions($url) if $scheme eq 'https'; 
+    $self->_setSSLOptions($url) if $scheme eq 'https';
 
     my $result;
     eval {
