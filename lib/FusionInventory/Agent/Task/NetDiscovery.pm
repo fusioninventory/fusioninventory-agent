@@ -558,8 +558,6 @@ sub _scanAddressBySNMP {
         $device{AUTHSNMP}     = $credential->{ID};
         $device{SNMPHOSTNAME} = $snmp->get('.1.3.6.1.2.1.1.5.0');
 
-        $snmp->close();
-
         last;
     }
 
