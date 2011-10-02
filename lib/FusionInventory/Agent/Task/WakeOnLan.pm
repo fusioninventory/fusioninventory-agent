@@ -15,6 +15,28 @@ use FusionInventory::Agent::Tools::Network;
 
 our $VERSION = '1.0';
 
+sub new {
+    my ($class, %params) = @_;
+
+    my $self = $class->SUPER::new(%params);
+
+    if ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
+        $self->{agent} = FusionInventory::Agent::HTTP::Client::OCS->new(
+            logger       => $self->{logger},
+            user         => $params{user},
+            password     => $params{password},
+            proxy        => $params{proxy},
+            ca_cert_file => $params{'ca-cert-file'},
+            ca_cert_dir  => $params{'ca-cert-dir'},
+            no_ssl_check => $params{'no-ssl-check'},
+        );
+
+        $self->{prologresp} = $self->getPrologResponse();
+    }
+
+    return $self;
+}
+
 sub run {
     my ($self) = @_;
 

@@ -194,44 +194,6 @@ sub run {
 
     while (my $target = $scheduler->getNextTarget()) {
         eval {
-            my $prologresp;
-            my $client;
-            my $ocsClient;
-            if ($target->isa('FusionInventory::Agent::Target::Server')) {
-
-                $client = FusionInventory::Agent::HTTP::Client::OCS->new(
-                    logger       => $logger,
-                    user         => $self->{config}->{user},
-                    password     => $self->{config}->{password},
-                    proxy        => $self->{config}->{proxy},
-                    ca_cert_file => $self->{config}->{'ca-cert-file'},
-                    ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
-                    no_ssl_check => $self->{config}->{'no-ssl-check'},
-                );
-                $ocsClient = FusionInventory::Agent::HTTP::Client::OCS->new(%$client);
-
-                my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
-                    token    => $self->{token},
-                    deviceid => $self->{deviceid},
-                );
-
-                $prologresp = $ocsClient->send(
-                    url     => $target->getUrl(),
-                    message => $prolog
-                );
-
-                if (!$prologresp) {
-                    $logger->error("No answer from the server");
-                    $target->resetNextRunDate();
-                    return;
-                }
-
-                # update target
-                my $content = $prologresp->getContent();
-                if (defined($content->{PROLOG_FREQ})) {
-                    $target->setMaxDelay($content->{PROLOG_FREQ} * 3600);
-                }
-            }
 
             # index list of disabled task for fast lookup
             my %disabled = map { $_ => 1 } @{$config->{'no-task'}};
@@ -246,14 +208,19 @@ sub run {
                 my $task;
                 eval {
                     $task = $class->new(
-                        config      => $config,
-                        confdir     => $self->{confdir},
-                        datadir     => $self->{datadir},
-                        logger      => $logger,
-                        target      => $target,
-                        prologresp  => $prologresp,
-                        client      => $client,
-                        deviceid    => $self->{deviceid}
+                        config       => $config,
+                        confdir      => $self->{confdir},
+                        datadir      => $self->{datadir},
+                        logger       => $logger,
+                        target       => $target,
+                        token        => $self->{token},
+                        deviceid     => $self->{deviceid},
+                        user         => $self->{config}->{user},
+                        password     => $self->{config}->{password},
+                        proxy        => $self->{config}->{proxy},
+                        ca_cert_file => $self->{config}->{'ca-cert-file'},
+                        ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
+                        no_ssl_check => $self->{config}->{'no-ssl-check'},
                     );
                 };
                 if (!$task) {
