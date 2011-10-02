@@ -4,9 +4,6 @@ use strict;
 use warnings;
 use threads;
 use threads::shared;
-if ($threads::VERSION > 1.32){
-   threads->set_stack_size(20*8192);
-}
 use base 'FusionInventory::Agent::Task';
 
 use constant START => 0;
