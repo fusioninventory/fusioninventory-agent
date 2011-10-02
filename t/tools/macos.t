@@ -7,7 +7,7 @@ use Test::More;
 
 use FusionInventory::Agent::Tools::MacOS;
 
-my %tests = (
+my %system_profiler_tests = (
     '10.4-powerpc' => {
         'Network' => {
             'Ethernet intégré 2' => {
@@ -2888,10 +2888,169 @@ my %tests = (
     }
 );
 
-plan tests => scalar keys %tests;
+my %ioreg_tests = (
+    IOUSBDevice => [
+        {
+            'IOGeneralInterest' => 'IOCommand is not serializable',
+            'USB Address' => '2',
+            'Requested Power' => '20',
+            'idProduct' => '539',
+            'bMaxPacketSize0' => '8',
+            'USB Vendor Name' => 'Apple Computer',
+            'sessionID' => '922879256',
+            'bNumConfigurations' => '1',
+            'bDeviceProtocol' => '0',
+            'Bus Power Available' => '250',
+            'Device Speed' => '1',
+            'USB Product Name' => 'Apple Internal Keyboard / Trackpad',
+            'iProduct' => '2',
+            'IOUserClientClass' => 'IOUSBDeviceUserClientV2',
+            'non-removable' => 'yes',
+            'bDeviceClass' => '0',
+            'bDeviceSubClass' => '0',
+            'PortNum' => '2',
+            'bcdDevice' => '24',
+            'locationID' => '488636416',
+            'iManufacturer' => '1',
+            'iSerialNumber' => '0',
+            'idVendor' => '1452'
+        },
+        {
+            'IOGeneralInterest' => 'IOCommand is not serializable',
+            'USB Address' => '2',
+            'Requested Power' => '50',
+            'idProduct' => '33344',
+            'bMaxPacketSize0' => '8',
+            'USB Vendor Name' => 'Apple Computer, Inc.',
+            'sessionID' => '944991920',
+            'bNumConfigurations' => '1',
+            'bDeviceProtocol' => '0',
+            'Bus Power Available' => '250',
+            'Device Speed' => '1',
+            'USB Product Name' => 'IR Receiver',
+            'iProduct' => '2',
+            'IOUserClientClass' => 'IOUSBDeviceUserClientV2',
+            'non-removable' => 'yes',
+            'bDeviceClass' => '0',
+            'bDeviceSubClass' => '0',
+            'PortNum' => '2',
+            'bcdDevice' => '272',
+            'locationID' => '1562378240',
+            'iManufacturer' => '1',
+            'iSerialNumber' => '0',
+            'idVendor' => '1452'
+        },
+        {
+            'IOGeneralInterest' => 'IOCommand is not serializable',
+            'USB Address' => '2',
+            'Requested Power' => '0',
+            'idProduct' => '33285',
+            'bMaxPacketSize0' => '64',
+            'USB Vendor Name' => 'Apple Inc.',
+            'sessionID' => '3290864968',
+            'bNumConfigurations' => '1',
+            'bDeviceProtocol' => '1',
+            'Bus Power Available' => '250',
+            'Device Speed' => '1',
+            'iProduct' => '0',
+            'IOUserClientClass' => 'IOUSBDeviceUserClientV2',
+            'USB Product Name' => 'Bluetooth USB Host Controller',
+            'PortNum' => '1',
+            'bDeviceClass' => '224',
+            'bDeviceSubClass' => '1',
+            'non-removable' => 'yes',
+            'bcdDevice' => '6501',
+            'locationID' => '2098200576',
+            'iManufacturer' => '0',
+            'iSerialNumber' => '0',
+            'idVendor' => '1452'
+        },
+        {
+            'IOGeneralInterest' => 'IOCommand is not serializable',
+            'USB Address' => '2',
+            'Requested Power' => '50',
+            'idProduct' => '34049',
+            'bMaxPacketSize0' => '64',
+            'USB Vendor Name' => 'Micron',
+            'sessionID' => '2717373407',
+            'bNumConfigurations' => '1',
+            'bDeviceProtocol' => '255',
+            'Bus Power Available' => '250',
+            'Device Speed' => '2',
+            'USB Product Name' => 'Built-in iSight',
+            'iProduct' => '2',
+            'IOUserClientClass' => 'IOUSBDeviceUserClientV2',
+            'non-removable' => 'yes',
+            'bDeviceClass' => '255',
+            'bDeviceSubClass' => '255',
+            'PortNum' => '4',
+            'bcdDevice' => '393',
+            'locationID' => '18446744073663414272',
+            'iManufacturer' => '1',
+            'iSerialNumber' => '0',
+            'idVendor' => '1452'
+        },
+        {
+            'IOGeneralInterest' => 'IOCommand is not serializable',
+            'USB Address' => '3',
+            'Requested Power' => '50',
+            'idProduct' => '24613',
+            'bMaxPacketSize0' => '64',
+            'USB Vendor Name' => 'CBM',
+            'sessionID' => '3995793432240',
+            'bNumConfigurations' => '1',
+            'bDeviceProtocol' => '0',
+            'Bus Power Available' => '250',
+            'uid' => 'USB:197660250078C5C90000',
+            'Device Speed' => '2',
+            'USB Product Name' => 'Flash Disk',
+            'iProduct' => '2',
+            'IOUserClientClass' => 'IOUSBDeviceUserClientV2',
+            'bDeviceClass' => '0',
+            'bDeviceSubClass' => '0',
+            'PortNum' => '3',
+            'bcdDevice' => '256',
+            'locationID' => '18446744073662365696',
+            'iManufacturer' => '1',
+            'iSerialNumber' => '3',
+            'idVendor' => '6518',
+            'USB Serial Number' => '16270078C5C90000'
+        }
+    ],
+    IOPlatformExpertDevice => [
+        {
+            'IOPlatformUUID' => '00000000-0000-1000-8000-001B633026B1',
+            'IOBusyInterest' => 'IOCommand is not serializable',
+            'IOPlatformSerialNumber' => 'W87305UMYA8',
+            'IOPolledInterface' => 'SMCPolledInterface is not serializable',
+            'compatible' => 'MacBook2,1',
+            'model' => 'MacBook2,1',
+            'serial-number' => '59413800000000000000000000573837333035554',
+            'version' => '1.0',
+            'name' => '/',
+            'board-id' => 'Mac-F4208CAA',
+            'clock-frequency' => '00',
+            'system-type' => '02',
+            'manufacturer' => 'Apple Inc.',
+            'product-name' => 'MacBook2,1',
+            'IOPlatformArgs' => '0030'
+        }
+    ]
+);
 
-foreach my $test (keys %tests) {
+plan tests => 
+    scalar (keys %system_profiler_tests) + 
+    scalar (keys %ioreg_tests);
+
+
+foreach my $test (keys %system_profiler_tests) {
     my $file = "resources/macos/system_profiler/$test";
     my $infos = getSystemProfilerInfos(file => $file);
-    is_deeply($infos, $tests{$test}, "$test system profiler parsing");
+    is_deeply($infos, $system_profiler_tests{$test}, "$test system profiler parsing");
+}
+
+foreach my $test (keys %ioreg_tests) {
+    my $file = "resources/macos/ioreg/$test";
+    my @devices = getIODevices(file => $file, class => $test);
+    is_deeply(\@devices, $ioreg_tests{$test}, "$test ioreg parsing");
 }

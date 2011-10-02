@@ -15,19 +15,46 @@ sub new {
     die 'no target parameter' unless $params{target};
 
     my $self = {
-        logger      => $params{logger} ||
-                       FusionInventory::Agent::Logger->new(),
-        config      => $params{config},
-        confdir     => $params{confdir},
-        datadir     => $params{datadir},
-        target      => $params{target},
-        prologresp  => $params{prologresp},
-        client      => $params{client},
-        deviceid    => $params{deviceid}
+        logger       => $params{logger} ||
+                        FusionInventory::Agent::Logger->new(),
+        config       => $params{config},
+        confdir      => $params{confdir},
+        datadir      => $params{datadir},
+        target       => $params{target},
+        token        => $params{token},
+        deviceid     => $params{deviceid},
     };
     bless $self, $class;
 
     return $self;
+}
+
+sub getPrologResponse {
+    my ($self) = @_;
+
+    my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
+        token    => $self->{token},
+        deviceid => $self->{deviceid},
+    );
+
+    my $response = $self->{client}->send(
+        url     => $self->{target}->getUrl(),
+        message => $prolog
+    );
+
+    if (!$response) {
+        $self->{logger}->error("No answer from the server");
+        $self->{target}->resetNextRunDate();
+        return;
+    }
+
+    # update target
+    my $content = $response->getContent();
+    if (defined($content->{PROLOG_FREQ})) {
+        $self->{target}->setMaxDelay($content->{PROLOG_FREQ} * 3600);
+    }
+
+    return $response;
 }
 
 sub getModules {

@@ -7,6 +7,7 @@ use Cwd;
 use English qw(-no_match_vars);
 use Sys::Hostname;
 use UNIVERSAL::require;
+use File::Glob;
 
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::HTTP::Client::OCS;
@@ -20,21 +21,11 @@ use FusionInventory::Agent::Target::Stdout;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::XML::Query::Prolog;
 
-our $VERSION = '2.2.0';
+our $VERSION = '2.1.9901';
 our $VERSION_STRING = 
     "FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
 our $AGENT_STRING =
     "FusionInventory-Agent_v$VERSION";
-
-my @tasks = qw/
-    OcsDeploy
-    Inventory
-    WakeOnLan
-    SNMPQuery
-    NetDiscovery
-    Deploy
-    ESX
-/;
 
 sub new {
     my ($class, %params) = @_;
@@ -47,8 +38,14 @@ sub new {
     };
     bless $self, $class;
 
+    return $self;
+}
+
+sub init {
+    my ($self, %params) = @_;
+
     my $config = FusionInventory::Agent::Config->new(
-        confdir => $params{confdir},
+        confdir => $self->{confdir},
         options => $params{options},
     );
     $self->{config} = $config;
@@ -157,41 +154,194 @@ sub new {
             $logger->debug("Failed to load HTTP server: $EVAL_ERROR");
         } else {
             # make sure relevant variables are shared between threads
-            threads::shared::share($self->{status});
-            threads::shared::share($self->{token});
+            threads::shared->require();
+            # calling share(\$self->{status}) directly breaks in testing
+            # context, hence the need to use an intermediate variable
+            my $status = \$self->{status};
+            my $token = \$self->{token};
+            threads::shared::share($status);
+            threads::shared::share($token);
 
-            $self->{_server} = FusionInventory::Agent::HTTP::Server->new(
+            $_->setShared() foreach $scheduler->getTargets();
+
+            $self->{server} = FusionInventory::Agent::HTTP::Server->new(
                 logger          => $logger,
                 scheduler       => $scheduler,
                 agent           => $self,
                 htmldir         => $self->{datadir} . '/html',
                 ip              => $config->{'httpd-ip'},
                 port            => $config->{'httpd-port'},
-                trust_localhost => $config->{'httpd-trust-localhost'},
+                trust           => $config->{'httpd-trust'},
             );
         }
     }
 
-    $logger->debug("FusionInventory Agent initialised");
+    my %tasks = $self->getAvailableTasks();
+    $self->{tasks} = [ keys %tasks ];
 
-    return $self;
+    $logger->debug("FusionInventory Agent initialised");
+}
+
+sub run {
+    my ($self) = @_;
+
+    my $config = $self->{config};
+    my $logger = $self->{logger};
+    my $scheduler = $self->{scheduler};
+    $self->{status} = 'waiting';
+
+    my $status = 0;
+
+    while (my $target = $scheduler->getNextTarget()) {
+        eval {
+
+            # index list of disabled task for fast lookup
+            my %disabled = map { $_ => 1 } @{$config->{'no-task'}};
+
+            foreach my $name (@{$self->{tasks}}) {
+
+                next if $disabled{lc($name)};
+
+                $self->{status} = "running task $name";
+
+                my $class = "FusionInventory::Agent::Task::$name";
+                my $task;
+                eval {
+                    $task = $class->new(
+                        config       => $config,
+                        confdir      => $self->{confdir},
+                        datadir      => $self->{datadir},
+                        logger       => $logger,
+                        target       => $target,
+                        token        => $self->{token},
+                        deviceid     => $self->{deviceid},
+                        user         => $self->{config}->{user},
+                        password     => $self->{config}->{password},
+                        proxy        => $self->{config}->{proxy},
+                        ca_cert_file => $self->{config}->{'ca-cert-file'},
+                        ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
+                        no_ssl_check => $self->{config}->{'no-ssl-check'},
+                    );
+                };
+                if (!$task) {
+                    $logger->info(
+                        "task $name can't be initialized: $EVAL_ERROR"
+                    );
+                    next;
+                }
+
+                if ($config->{daemon} || $config->{service}) {
+                    # daemon mode: run each task in a child process
+                    if (my $pid = fork()) {
+                        # parent
+                        waitpid($pid, 0);
+                    } else {
+                        # child
+                        die "fork failed: $ERRNO" unless defined $pid;
+
+                        $logger->debug(
+                            "executing $name in process $$"
+                        );
+                        $task->run();
+                        exit(0);
+                    }
+                } else {
+                    # standalone mode: run each task directly
+                    $logger->debug("executing $name");
+                    $task->run();
+                }
+            }
+
+            $self->{status} = 'waiting';
+
+        };
+        if ($EVAL_ERROR) {
+            $logger->fault($EVAL_ERROR);
+            $status++;
+        }
+        $target->resetNextRunDate();
+    }
+
+    $self->{server}->terminate() if $self->{server};
+
+    exit $status;
+}
+
+sub getToken {
+    my ($self) = @_;
+    return $self->{token};
+}
+
+sub resetToken {
+    my ($self) = @_;
+    $self->{token} = _computeToken();
+}
+
+sub getStatus {
+    my ($self) = @_;
+    return $self->{status};
+}
+
+sub getAvailableTasks {
+    my ($self) = @_;
+
+    my $logger = $self->{logger};
+    my %tasks;
+
+    # tasks may be dispatched in every directory referenced in @INC
+    foreach my $directory (@INC) {
+        # look for a suitable subdirectory
+        my $subdirectory = "FusionInventory/Agent/Task";
+        next unless -d "$directory/$subdirectory";
+
+        # look for all perl modules here
+        foreach my $file (File::Glob::glob("$directory/$subdirectory/*.pm")) {
+            next unless $file =~ m{($subdirectory/(\S+)\.pm)$};
+            my $module = file2module($1);
+            my $name = file2module($2);
+            # check module
+            # todo: use a child process when running as a server to save memory
+            if (!$module->require()) {
+                $logger->debug2("module $module does not compile") if $logger;
+                next;
+            }
+            if (!$module->isa('FusionInventory::Agent::Task')) {
+                $logger->debug2("module $module is not a task") if $logger;
+                next;
+            }
+
+            next unless $module->require();
+            next unless $module->isa('FusionInventory::Agent::Task');
+
+            # only the first seen will be loaded
+            next if defined $tasks{$module};
+            
+            # retrieve version
+            my $version;
+            {
+                no strict 'refs';  ## no critic
+                $version = ${$module . '::VERSION'};
+            }
+
+            $tasks{$name} = $version;
+        }
+    }
+
+    return %tasks;
 }
 
 sub _isAlreadyRunning {
     my ($self) = @_;
 
-    eval {
-        require Proc::PID::File;
-        return Proc::PID::File->running();
-    };
-
+    Proc::PID::File->require();
     if ($EVAL_ERROR) {
         $self->{logger}->debug(
             'Proc::PID::File unavailable, unable to check for running agent'
         );
+        return 0;
     }
 
-    return 0;
+    return Proc::PID::File->running();
 }
 
 sub _getHostname {
@@ -200,25 +350,23 @@ sub _getHostname {
     return hostname() if $OSNAME ne 'MSWin32';
 
     # otherwise, use Win32 API
-    eval {
-        require Encode;
-        require Win32::API;
-        Encode->import();
+    Encode->require();
+    Encode->import();
+    Win32::API->require();
 
-        my $getComputerName = Win32::API->new(
-            "kernel32", "GetComputerNameExW", ["I", "P", "P"], "N"
-        );
-        my $lpBuffer = "\x00" x 1024;
-        my $N = 1024; #pack ("c4", 160,0,0,0);
+    my $getComputerName = Win32::API->new(
+        "kernel32", "GetComputerNameExW", ["I", "P", "P"], "N"
+    );
+    my $lpBuffer = "\x00" x 1024;
+    my $N = 1024; #pack ("c4", 160,0,0,0);
 
-        $getComputerName->Call(3, $lpBuffer, $N);
+    $getComputerName->Call(3, $lpBuffer, $N);
 
-        # GetComputerNameExW returns the string in UTF16, we have to change
-        # it to UTF8
-        return encode(
-            "UTF-8", substr(decode("UCS-2le", $lpBuffer), 0, ord $N)
-        );
-    };
+    # GetComputerNameExW returns the string in UTF16, we have to change
+    # it to UTF8
+    return encode(
+        "UTF-8", substr(decode("UCS-2le", $lpBuffer), 0, ord $N)
+    );
 }
 
 sub _loadState {
@@ -242,141 +390,6 @@ sub _saveState {
     );
 }
 
-sub run {
-    my ($self) = @_;
-
-    my $config = $self->{config};
-    my $logger = $self->{logger};
-    my $scheduler = $self->{scheduler};
-    $self->{status} = 'waiting';
-
-    my $status = 0;
-
-    while (my $target = $scheduler->getNextTarget()) {
-        eval {
-            my $prologresp;
-            my $client;
-            if ($target->isa('FusionInventory::Agent::Target::Server')) {
-
-                $client = FusionInventory::Agent::HTTP::Client::OCS->new(
-                    logger       => $logger,
-                    user         => $self->{config}->{user},
-                    password     => $self->{config}->{password},
-                    proxy        => $self->{config}->{proxy},
-                    ca_cert_file => $self->{config}->{'ca-cert-file'},
-                    ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
-                    no_ssl_check => $self->{config}->{'no-ssl-check'},
-                );
-
-                my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
-                    token    => $self->{token},
-                    deviceid => $self->{deviceid},
-                );
-
-                $prologresp = $client->send(
-                    url     => $target->getUrl(),
-                    message => $prolog
-                );
-
-                if (!$prologresp) {
-                    $logger->error("No answer from the server");
-                    $target->resetNextRunDate();
-                    return;
-                }
-
-                # update target
-                my $content = $prologresp->getContent();
-                if (defined($content->{PROLOG_FREQ})) {
-                    $target->setMaxDelay($content->{PROLOG_FREQ} * 3600);
-                }
-            }
-
-            # index list of disabled task for fast lookup
-            my %disabled = map { $_ => 1 } @{$config->{'no-task'}};
-
-            foreach my $module (@tasks) {
-
-                next if $disabled{lc($module)};
-
-                my $package = "FusionInventory::Agent::Task::$module";
-                if (!$package->require()) {
-                    $logger->info("task $module is not available");
-                    $logger->debug("task $module compile error: ".$@);
-                    next;
-                }
-                if (!$package->isa('FusionInventory::Agent::Task')) {
-                    $logger->info(
-                        "task $module is not compatible with this agent " .
-                        "($VERSION)"
-                    );
-                    next;
-                }
-
-                $self->{status} = "running task $module";
-
-                my $task;
-                eval {
-                    $task = $package->new(
-                        config      => $config,
-                        confdir     => $self->{confdir},
-                        datadir     => $self->{datadir},
-                        logger      => $logger,
-                        target      => $target,
-                        prologresp  => $prologresp,
-                        client      => $client,
-                        deviceid    => $self->{deviceid}
-                    );
-                };
-                if (!$task) {
-                    $logger->info("task $module can't be initialized: ".$EVAL_ERROR);
-                    next;
-                }
-
-                if ($config->{daemon} || $config->{service}) {
-                    # daemon mode: run each task in a child process
-                    if (my $pid = fork()) {
-                        # parent
-                        waitpid($pid, 0);
-                    } else {
-                        # child
-                        die "fork failed: $ERRNO" unless defined $pid;
-
-                        $logger->debug(
-                            "executing $module in process $$"
-                        );
-                        $task->run();
-                        exit(0);
-                    }
-                } else {
-                    # standalone mode: run each task directly
-                    $logger->debug("executing $module");
-                    $task->run();
-                }
-            }
-
-            $self->{status} = 'waiting';
-
-        };
-        if ($EVAL_ERROR) {
-            $logger->fault($EVAL_ERROR);
-            $status++;
-        }
-        $target->resetNextRunDate();
-    }
-
-    exit $status;
-}
-
-sub getToken {
-    my ($self) = @_;
-    return $self->{token};
-}
-
-sub resetToken {
-    my ($self) = @_;
-    $self->{token} = _computeToken();
-}
-
 # compute a random token
 sub _computeToken {
     my @chars = ('A'..'Z');
@@ -392,72 +405,6 @@ sub _computeDeviceId {
 
     return sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
         $hostname, $year + 1900, $month + 1, $day, $hour, $min, $sec;
-}
-
-sub getStatus {
-    my ($self) = @_;
-    return $self->{status};
-}
-
-sub getKnownTasks {
-    my ($self) = @_;
-
-    my %tasks;
-    foreach my $module (@tasks) {
-
-        my $package = "FusionInventory::Agent::Task::$module";
-        next unless $package->require();
-        next unless $package->isa('FusionInventory::Agent::Task');
-
-        # retrieve version
-        my $version;
-        {
-            no strict 'refs';  ## no critic
-            $version = ${$package . '::VERSION'};
-        }
-
-        $tasks{$module} = $version;
-    }
-
-    return %tasks;
-}
-
-sub getAvailableTasks {
-    my ($self) = @_;
-
-    my %tasks;
-
-    # tasks may be dispatched in every directory referenced in @INC
-    foreach my $directory (@INC) {
-        # look for a suitable subdirectory
-        my $subdirectory = "FusionInventory/Agent/Task";
-        next unless -d "$directory/$subdirectory";
-
-        # look for all perl modules here
-        foreach my $file (glob("$directory/$subdirectory/*.pm")) {
-            next unless $file =~ m{($subdirectory/\S+\.pm)$};
-            my $module = file2module($1);
-
-            # check module
-            # todo: use a child process when running as a server to save memory
-            next unless $module->require();
-            next unless $module->isa('FusionInventory::Agent::Task');
-
-            # only the first seen will be loaded
-            next if defined $tasks{$module};
-            
-            # retrieve version
-            my $version;
-            {
-                no strict 'refs';  ## no critic
-                $version = ${$module . '::VERSION'};
-            }
-
-            $tasks{$module} = $version;
-        }
-    }
-
-    return %tasks;
 }
 
 1;
@@ -516,7 +463,8 @@ Get the current agent status.
 
 =head2 getAvailableTasks()
 
-Get all available tasks, as a list of module / version pairs:
+Get all available tasks found on the system, as a list of module / version
+pairs:
 
 %tasks = (
     'FusionInventory::Agent::Task::Foo' => x,

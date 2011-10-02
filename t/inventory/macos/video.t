@@ -5,14 +5,12 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::OS::MacOS::Videos;
+use FusionInventory::Agent::Task::Inventory::Input::MacOS::Videos;
 
 my %tests = (
     '10.4-powerpc' => {
         MONITORS => [
             {
-                SERIAL       => '',
-                MANUFACTURER => '',
                 DESCRIPTION  => 'ASUS VH222',
                 CAPTION      => 'ASUS VH222'
             }
@@ -31,8 +29,6 @@ my %tests = (
         {
         MONITORS => [
             {
-                SERIAL       => '',
-                MANUFACTURER => '',
                 DESCRIPTION  => 'ASUS VH222',
                 CAPTION      => 'ASUS VH222'
             }
@@ -50,8 +46,6 @@ my %tests = (
     '10.6-intel' => {
         MONITORS => [
             {
-                SERIAL       => '',
-                MANUFACTURER => '',
                 DESCRIPTION  => 'iMac',
                 CAPTION      => 'iMac'
             }
@@ -69,8 +63,6 @@ my %tests = (
     '10.6.6-intel' => {
         MONITORS => [
             {
-                SERIAL       => '',
-                MANUFACTURER => '',
                 DESCRIPTION  => 'Color LCD',
                 CAPTION      => 'Color LCD'
             }
@@ -91,6 +83,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/macos/system_profiler/$test";
-    my %displays = FusionInventory::Agent::Task::Inventory::OS::MacOS::Videos::_getDisplays(file => $file);
+    my %displays = FusionInventory::Agent::Task::Inventory::Input::MacOS::Videos::_getDisplays(file => $file);
     is_deeply(\%displays, $tests{$test}, $test);
 }

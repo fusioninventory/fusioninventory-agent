@@ -3,23 +3,10 @@ package FusionInventory::Agent::Target;
 use strict;
 use warnings;
 
-use Config;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Storage;
-
-BEGIN {
-    if ($Config{usethreads}) {
-        eval {
-            require threads;
-            require threads::shared;
-        };
-        if ($EVAL_ERROR) {
-            print "[error]Failed to use threads!\n"; 
-        }
-    }
-}
 
 sub new {
     my ($class, %params) = @_;
@@ -27,16 +14,12 @@ sub new {
     die 'no basevardir parameter' unless $params{basevardir};
 
     my $self = {
-        logger   => $params{logger} ||
-                     FusionInventory::Agent::Logger->new(),
-        maxDelay => $params{maxDelay} || 3600,
+        logger       => $params{logger} ||
+                        FusionInventory::Agent::Logger->new(),
+        maxDelay     => $params{maxDelay} || 3600,
+        initialDelay => $params{delaytime},
     };
     bless $self, $class;
-
-    # make sure relevant attributes are shared between threads
-    if ($threads::VERSION) {
-        threads::shared::share($self->{nextRunDate});
-    }
 
     return $self;
 }
@@ -57,16 +40,29 @@ sub _init {
     # handle persistent state
     $self->_loadState();
 
-    $self->{nextRunDate} = _computeNextRunDate($self->{maxDelay})
+    $self->{nextRunDate} = $self->_computeNextRunDate()
         if !$self->{nextRunDate};
 
     $self->_saveState();
 
-    $logger->debug (
-        "[target $self->{id}] Next server contact planned for ".
+    $logger->debug(
+        "[target $self->{id}] Next server contact planned for " .
         localtime($self->{nextRunDate})
     );
 
+}
+
+sub setShared {
+    my ($self) = @_;
+
+    # make sure relevant attributes are shared between threads
+    threads::shared->require();
+    # calling share(\$self->{status}) directly breaks in testing
+    # context, hence the need to use an intermediate variable
+    my $nextRunDate = \$self->{nextRunDate};
+    threads::shared::share($nextRunDate);
+
+    $self->{shared} = 1;
 }
 
 sub getStorage {
@@ -78,7 +74,7 @@ sub getStorage {
 sub setNextRunDate {
     my ($self, $nextRunDate) = @_;
 
-    lock($self->{nextRunDate});
+    lock($self->{nextRunDate}) if $self->{shared};
     $self->{nextRunDate} = $nextRunDate;
     $self->_saveState();
 }
@@ -86,8 +82,8 @@ sub setNextRunDate {
 sub resetNextRunDate {
     my ($self) = @_;
 
-    lock($self->{nextRunDate});
-    $self->{nextRunDate} = _computeNextRunDate($self->{maxDelay});
+    lock($self->{nextRunDate}) if $self->{shared};
+    $self->{nextRunDate} = $self->_computeNextRunDate();
     $self->_saveState();
 }
 
@@ -122,12 +118,20 @@ sub getStatus {
 # compute a run date, as current date and a random delay
 # between maxDelay / 2 and maxDelay
 sub _computeNextRunDate {
-    my ($maxDelay) = @_;
+    my ($self) = @_;
 
-    return
-        time                   +
-        $maxDelay / 2          +
-        int rand($maxDelay / 2);
+    my $ret;
+    if ($self->{initialDelay}) {
+        $ret = time + $self->{initialDelay};
+        $self->{initialDelay} = undef;
+    } else {
+        $ret =
+            time                   +
+            $self->{maxDelay} / 2  +
+            int rand($self->{maxDelay} / 2);
+    }
+
+    return $ret;
 }
 
 sub _loadState {
@@ -186,6 +190,10 @@ the base directory of the storage area (mandatory)
 
 =back
 
+=head2 setShared()
+
+Ensure the target can be shared among threads
+
 =head2 getNextRunDate()
 
 Get nextRunDate attribute.
@@ -197,6 +205,10 @@ Set next execution date.
 =head2 resetNextRunDate()
 
 Set next execution date to a random value.
+
+=head2 getMaxDelay($maxDelay)
+
+Get maxDelay attribute.
 
 =head2 setMaxDelay($maxDelay)
 

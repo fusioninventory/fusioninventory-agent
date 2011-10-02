@@ -14,7 +14,7 @@ use FusionInventory::Test::Agent;
 use FusionInventory::Agent::HTTP::Server;
 use FusionInventory::Agent::Logger;
 
-plan tests => 5;
+plan tests => 7;
 
 my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'Test' ]
@@ -34,12 +34,14 @@ lives_ok {
     );
 } 'instanciation with default values: ok';
 
-my $client = LWP::UserAgent->new();
+my $client = LWP::UserAgent->new(timeout => 2);
 
 ok(
     $client->get('http://localhost:62354')->is_success(),
     'server listening on default port'
 );
+
+$server->terminate();
 
 lives_ok {
     $server = FusionInventory::Agent::HTTP::Server->new(
@@ -50,6 +52,7 @@ lives_ok {
         htmldir   => 'share/html'
     );
 } 'instanciation with specific port: ok';
+sleep 1;
 
 ok(
     !$client->get('http://localhost:62354')->is_success(),
@@ -60,3 +63,35 @@ ok(
     $client->get('http://localhost:8080')->is_success(),
     'server listening on specific port'
 );
+
+# fork a child process, as when running in server mode
+if (my $pid = fork()) {
+    # parent
+    waitpid($pid, 0);
+} else {
+    # child
+    exit(0);
+}
+
+ok(
+    $client->get('http://localhost:8080')->is_success(),
+    'server still listening after child process exit'
+);
+
+# fork a child process, and raise ALRM from it, as when a timeout is reached
+if (my $pid = fork()) {
+    # parent
+    waitpid($pid, 0);
+} else {
+    # child
+    alarm 1;
+    exit(0);
+}
+
+ok(
+    $client->get('http://localhost:8080')->is_success(),
+    'server still listening after child process raised ALRM'
+);
+
+
+$server->terminate();

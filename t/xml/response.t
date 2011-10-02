@@ -119,13 +119,15 @@ my %tests = (
                     ]
                     }
                 ],
-                DEVICE => {
-                    ID           => '72',
-                    IP           => '192.168.0.151',
-                    MODELSNMP_ID => '196',
-                    TYPE         => 'PRINTER',
-                    AUTHSNMP_ID  => '1'
-                },
+                DEVICE => [
+                    {
+                        ID           => '72',
+                        IP           => '192.168.0.151',
+                        MODELSNMP_ID => '196',
+                        TYPE         => 'PRINTER',
+                        AUTHSNMP_ID  => '1'
+                    }
+                ],
                 PARAM => [
                     {
                         PID           => '1280265498/024',

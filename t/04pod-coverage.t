@@ -20,9 +20,21 @@ if ($EVAL_ERROR) {
 
 Test::Pod::Coverage->import();
 
-my @modules = $OSNAME eq 'MSWin32' ?
-    grep { ! /Syslog/ } all_modules('lib') :
-    grep { ! /(Win32|Registry)/  } all_modules('lib') ;
+# use mock modules for non-available ones
+if ($OSNAME eq 'MSWin32') {
+    push @INC, 't/fake/unix';
+} else {
+    push @INC, 't/fake/windows';
+}
+
+# blacklist additional tasks that may be installed
+sub filter {
+    return
+        $_ !~ m{^FusionInventory::Agent::Task} ||
+        $_ =~ m{^FusionInventory::Agent::Task::(Inventory|WakeOnLan)};
+}
+
+my @modules = grep { filter($_) } all_modules('lib');
 
 plan tests => scalar @modules;
 

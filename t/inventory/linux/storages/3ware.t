@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::3ware;
+use FusionInventory::Agent::Task::Inventory::Input::Linux::Storages::3ware;
 use Test::More;
 
 plan tests => 4;
@@ -43,25 +43,25 @@ my @storages = (
 );
 
 is_deeply(
-    [ FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::3ware::_getCards('resources/linux/tw_cli/cards') ],
+    [ FusionInventory::Agent::Task::Inventory::Input::Linux::Storages::3ware::_getCards('resources/linux/tw_cli/cards') ],
     [ @cards ],
     'cards extraction'
 );
 
 is_deeply(
-    [ FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::3ware::_getUnits({ id => 'c0' }, 'resources/linux/tw_cli/units') ],
+    [ FusionInventory::Agent::Task::Inventory::Input::Linux::Storages::3ware::_getUnits({ id => 'c0' }, 'resources/linux/tw_cli/units') ],
     [ @units ],
     'units extraction'
 );
 
 is_deeply(
-    [ FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::3ware::_getPorts({ id => 'c0' }, { id => 'u0' }, 'resources/linux/tw_cli/ports') ],
+    [ FusionInventory::Agent::Task::Inventory::Input::Linux::Storages::3ware::_getPorts({ id => 'c0' }, { id => 'u0' }, 'resources/linux/tw_cli/ports') ],
     [ @ports ],
     'ports extraction'
 );
 
 is_deeply(
-    [ FusionInventory::Agent::Task::Inventory::OS::Linux::Storages::3ware::_getStorage({ id => 'c0', model => '9650SE-2LP' }, { id => 'p0' }, 'resources/linux/tw_cli/storage') ],
+    [ FusionInventory::Agent::Task::Inventory::Input::Linux::Storages::3ware::_getStorage({ id => 'c0', model => '9650SE-2LP' }, { id => 'p0' }, 'resources/linux/tw_cli/storage') ],
     [ @storages ],
     'storages extraction'
 );

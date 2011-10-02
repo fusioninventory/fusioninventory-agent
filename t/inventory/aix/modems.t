@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::OS::AIX::Modems;
+use FusionInventory::Agent::Task::Inventory::Input::AIX::Modems;
 
 my %tests = (
     'aix-4.3.1' => [],
@@ -21,6 +21,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/aix/lsdev/$test-adapter";
-    my @modems = FusionInventory::Agent::Task::Inventory::OS::AIX::Modems::_getModems(file => $file);
+    my @modems = FusionInventory::Agent::Task::Inventory::Input::AIX::Modems::_getModems(file => $file);
     is_deeply(\@modems, $tests{$test}, "modems: $test");
 }

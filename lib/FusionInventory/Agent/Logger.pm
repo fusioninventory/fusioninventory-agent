@@ -51,7 +51,7 @@ sub log {
     return if $level eq 'debug'  && $self->{debug} < 1;
 
     foreach my $backend (@{$self->{backends}}) {
-        $backend->addMsg (
+        $backend->addMessage (
             level => $level,
             message => $message
         );
@@ -59,33 +59,33 @@ sub log {
 }
 
 sub debug2 {
-    my ($self, $msg) = @_;
+    my ($self, $message) = @_;
 
-    $self->log(level => 'debug2', message => $msg);
+    $self->log(level => 'debug2', message => $message);
 }
 
 sub debug {
-    my ($self, $msg) = @_;
+    my ($self, $message) = @_;
 
-    $self->log(level => 'debug', message => $msg);
+    $self->log(level => 'debug', message => $message);
 }
 
 sub info {
-    my ($self, $msg) = @_;
+    my ($self, $message) = @_;
 
-    $self->log(level => 'info', message => $msg);
+    $self->log(level => 'info', message => $message);
 }
 
 sub error {
-    my ($self, $msg) = @_;
+    my ($self, $message) = @_;
 
-    $self->log(level => 'error', message => $msg);
+    $self->log(level => 'error', message => $message);
 }
 
 sub fault {
-    my ($self, $msg) = @_;
+    my ($self, $message) = @_;
 
-    $self->log(level => 'fault', message => $msg);
+    $self->log(level => 'fault', message => $message);
 }
 
 1;
@@ -148,6 +148,10 @@ Can be one of:
 =item I<message>
 
 =back
+
+=head2 debug2($message)
+
+Add a log message with debug2 level.
 
 =head2 debug($message)
 

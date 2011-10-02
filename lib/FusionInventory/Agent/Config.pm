@@ -6,6 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 use File::Spec;
 use Getopt::Long;
+use UNIVERSAL::require;
 
 my $default = {
     'logger'                  => 'Stderr',
@@ -35,8 +36,8 @@ my $deprecated = {
         new     => 'httpd-port'
     },
     'rpc-trust-localhost' => {
-        message => 'use --httpd-trust-localhost option instead',
-        new     => 'httpd-trust-localhost'
+        message => 'use --httpd-trust 127.0.0.1 option instead',
+        new     => { 'httpd-trust' => '127.0.0.1' }
     },
     'daemon-no-fork' => {
         message => 'use --daemon and --no-fork options instead',
@@ -101,21 +102,18 @@ sub _loadDefaults {
 sub _loadFromWinRegistry {
     my ($self) = @_;
 
-    eval {
-        require Encode;
-        Encode->import('encode');
-        require Win32::TieRegistry;
-        Win32::TieRegistry->import(
-            Delimiter   => "/",
-            ArrayValues => 0
-        );
-    };
-    if ($EVAL_ERROR) {
-        print "[error] $EVAL_ERROR";
-        return;
-    }
+    my $Registry;
+    Win32::TieRegistry->require();
+    Win32::TieRegistry->import(
+        Delimiter   => '/',
+        ArrayValues => 0,
+        TiedRef     => \$Registry
+    );
 
-    my $machKey = $Win32::TieRegistry::Registry->Open( "LMachine", {Access=>Win32::TieRegistry::KEY_READ(),Delimiter=>"/"} );
+    my $machKey = $Registry->Open('LMachine', {
+        Access => Win32::TieRegistry::KEY_READ()
+    }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+
     my $settings = $machKey->{"SOFTWARE/FusionInventory-Agent"};
 
     foreach my $rawKey (keys %$settings) {

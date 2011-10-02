@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers;
+use FusionInventory::Agent::Task::Inventory::Input::Generic::Lspci::Controllers;
 
 my %tests = (
     'dell-xt2' => [
@@ -275,10 +275,10 @@ my %tests = (
 
 plan tests => scalar keys %tests;
 
-FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers::_loadPciIds(datadir => 'share');
+FusionInventory::Agent::Task::Inventory::Input::Generic::Lspci::Controllers::_loadPciIds(datadir => 'share');
 
 foreach my $test (keys %tests) {
     my $file = "resources/generic/lspci/$test";
-    my @controllers = FusionInventory::Agent::Task::Inventory::OS::Generic::Lspci::Controllers::_getControllers(file => $file);
+    my @controllers = FusionInventory::Agent::Task::Inventory::Input::Generic::Lspci::Controllers::_getControllers(file => $file);
     is_deeply(\@controllers, $tests{$test}, $test);
 }

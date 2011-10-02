@@ -10,6 +10,8 @@ use UNIVERSAL::require;
 
 use FusionInventory::Agent::Logger;
 
+my $log_prefix = "[http client] ";
+
 sub new {
     my ($class, %params) = @_;
 
@@ -20,30 +22,30 @@ sub new {
         if $params{ca_cert_dir} && ! -d $params{ca_cert_dir};
 
     my $self = {
-        logger           => $params{logger} ||
-                           FusionInventory::Agent::Logger->new(),
-        user             => $params{user},
-        password         => $params{password},
-        timeout          => $params{timeout} || 180,
-
-        no_ssl_check     => $params{'no_ssl_check'},
-        ssl_socket_class => $params{ssl_socket_class} || "IO::Socket::SSL",
-
-        ca_cert_file     => $params{ca_cert_file},
-        ca_cert_dir      => $params{ca_cert_dir},
+        logger         => $params{logger} ||
+                          FusionInventory::Agent::Logger->new(),
+        user           => $params{user},
+        password       => $params{password},
+        timeout        => $params{timeout} || 180,
+        ssl_set        => 0,
+        no_ssl_check   => $params{no_ssl_check},
+        ca_cert_dir    => $params{ca_cert_dir},
+        ca_cert_file   => $params{ca_cert_file}
     };
     bless $self, $class;
 
-#    $Net::HTTPS::SSL_SOCKET_CLASS = $self->{ssl_socket_class};
     # create user agent
-    $self->{ua} = LWP::UserAgent->new(keep_alive => 1, requests_redirectable => ['POST', 'GET', 'HEAD']);
+    $self->{ua} = LWP::UserAgent->new(
+            parse_head => 0, # No need to parse HTML
+            keep_alive => 1,
+            requests_redirectable => ['POST', 'GET', 'HEAD']
+    );
 
     if ($params{proxy}) {
         $self->{ua}->proxy(['http', 'https'], $params{proxy});
     }  else {
-        $self->{ua}->env_proxy;
+        $self->{ua}->env_proxy();
     }
-
 
     $self->{ua}->agent($FusionInventory::Agent::AGENT_STRING);
     $self->{ua}->timeout($params{timeout});
@@ -51,21 +53,96 @@ sub new {
     return $self;
 }
 
-sub _turnSSLOn {
-    my ($self) = @_;
+sub request {
+    my ($self, $request, $file) = @_;
 
-    # Already loaded?
-    return if $self->{ssl_on};
+    my $logger  = $self->{logger};
 
-    $ENV{PERL_NET_HTTPS_SSL_SOCKET_CLASS}=$self->{ssl_socket_class};
+    my $url = $request->uri();
+    my $scheme = $url->scheme();
+    $self->_setSSLOptions($url) if $scheme eq 'https'; 
+
+    my $result;
+    eval {
+        if ($OSNAME eq 'MSWin32' && $scheme eq 'https') {
+            alarm $self->{timeout};
+        }
+        $result = $self->{ua}->request($request, $file);
+        alarm 0;
+    };
+
+    # check result first
+    if (!$result->is_success()) {
+        # authentication required
+        if ($result->code() == 401) {
+            if ($self->{user} && $self->{password}) {
+                $logger->debug(
+                    $log_prefix .
+                    "authentication required, submitting credentials"
+                );
+                # compute authentication parameters
+                my $header = $result->header('www-authenticate');
+                my ($realm) = $header =~ /^Basic realm="(.*)"/;
+                my $host = $url->host();
+                my $port = $url->port() ||
+                   ($scheme eq 'https' ? 443 : 80);
+                $self->{ua}->credentials(
+                    "$host:$port",
+                    $realm,
+                    $self->{user},
+                    $self->{password}
+                );
+                # replay request
+                eval {
+                    if ($OSNAME eq 'MSWin32' && $scheme eq 'https') {
+                        alarm $self->{timeout};
+                    }
+                    $result = $self->{ua}->request($request, $file);
+                    alarm 0;
+                };
+                if (!$result->is_success()) {
+                    $logger->error(
+                        $log_prefix .
+                        "authentication required, wrong credentials"
+                    );
+                }
+            } else {
+                # abort
+                $logger->error(
+                    $log_prefix .
+                    "authentication required, no credentials available"
+                );
+            }
+        } else {
+            $logger->error(
+                $log_prefix .
+                "communication error: " . $result->status_line()
+            );
+        }
+    }
+
+    return $result;
+}
+
+sub _setSSLOptions {
+    my ($self, $url) = @_;
+
     # SSL handling
     if ($self->{'no_ssl_check'}) {
         if ($LWP::VERSION >= 6) {
             # LWP6 default behavior is to check the SSL hostname
             $self->{ua}->ssl_opts(verify_hostname => 0);
         }
-    } elsif ($self->{ssl_socket_class} ne 'Net::SSL' && IO::Socket::SSL->require() && !$EVAL_ERROR) {
-        $self->{ssl_socket_class} = "IO::Socket::SSL";
+    } elsif (IO::Socket::SSL->require() && !$EVAL_ERROR) {
+        return if $self->{ssl_set};
+        # only IO::Socket::SSL can perform full server certificate validation,
+        # Net::SSL is only able to check certification authority, and not
+        # certificate hostname
+        IO::Socket::SSL->require();
+        die
+            "failed to load IO::Socket::SSL" .
+            ", unable to perform SSL certificate validation"
+            if $EVAL_ERROR;
 
         if ($LWP::VERSION >= 6) {
             $self->{ua}->ssl_opts(SSL_ca_file => $self->{'ca_cert_file'})
@@ -91,12 +168,13 @@ sub _turnSSLOn {
             # as to have different behaviors in the same process
             $self->{ua}->{ssl_check} = $self->{'no_ssl_check'} ? 0 : 1;
         }
+
+        $self->{ssl_set} = 1;
     } elsif (Crypt::SSLeay->require() && !$EVAL_ERROR) {
         # This option has some limitation what's why IO::Socket::SSL
         # remains the best option:
         #  - No alternate hostname support
         #  - Hostname validation has to be done manually
-        $self->{ssl_socket_class} = "Net::SSL";
         if ($LWP::VERSION >= 6) {
             $self->{ua}->ssl_opts(SSL_ca_file => $self->{'ca_cert_file'})
 	        if $self->{'ca_cert_file'};
@@ -115,41 +193,9 @@ sub _turnSSLOn {
         $ENV{HTTPS_CA_DIR} = $self->{'ca_cert_dir'}
             if $self->{'ca_cert_dir'};
 
-
-        # abuse user agent internal to pass values to the handler, so
-        # as to have different behaviors in the same process
-        $self->{ua}->{ssl_check} = $self->{'no_ssl_check'} ? 0 : 1;
-
-
-    } else {
-        die
-            "failed to load IO::Socket::SSL or Crypt::SSLeay" .
-            ", unable to perform SSL certificate validation"
-    }
-
-    $self->{logger}->debug("SSL: ".$self->{ssl_socket_class}." loaded");
-
-    $self->{ssl_on} = 1;
-
-}
-
-sub request {
-    my ($self, $request) = @_;
-
-    my $logger  = $self->{logger};
-
-    # activate SSL if needed
-    my $url = $request->uri();
-    my $scheme = $url->scheme();
-
-    if ($scheme eq 'https') {
-        $self->_turnSSLOn();
-# Restore the initial socket class. Needed by the test-suite
-#        $Net::HTTPS::SSL_SOCKET_CLASS = $self->{ssl_socket_class};
-        $ENV{PERL_NET_HTTPS_SSL_SOCKET_CLASS}=$self->{ssl_socket_class};
         $self->{ua}->default_header('');
 #        $self->{ua}->ssl_opts(SSL_verifycn_scheme => undef);
-        if ( (!$self->{no_ssl_check}) && $self->{ssl_socket_class} eq 'Net::SSL' && $url =~ /^https:\/\/([^\/]+).*$/i ) {
+        if ( (!$self->{no_ssl_check}) && $url =~ /^https:\/\/([^\/]+).*$/i ) {
             my $re = $1;
 # Accept SSL cert will hostname with wild-card
 # http://forge.fusioninventory.org/issues/542
@@ -160,68 +206,8 @@ sub request {
             $re =~ s/:\d+//g;
             $self->{ua}->default_header('If-SSL-Cert-Subject' => '/CN='.$re.'($|\/)');
         }
+
     }
-
-    my $result;
-    eval {
-        if ($OSNAME eq 'MSWin32' && $scheme eq 'https') {
-            alarm $self->{timeout};
-        }
-        $result = $self->{ua}->request($request);
-        alarm 0;
-    };
-
-    # check result first
-    if (!$result->is_success()) {
-        # authentication required
-        if ($result->code() == 401) {
-            if ($self->{user} && $self->{password}) {
-                $logger->debug(
-                    "[client] authentication required, submitting " .
-                    "credentials"
-                );
-                # compute authentication parameters
-                my $header = $result->header('www-authenticate');
-                my ($realm) = $header =~ /^Basic realm="(.*)"/;
-                my $host = $url->host();
-                my $port = $url->port() ||
-                   ($scheme eq 'https' ? 443 : 80);
-                $self->{ua}->credentials(
-                    "$host:$port",
-                    $realm,
-                    $self->{user},
-                    $self->{password}
-                );
-                # replay request
-                eval {
-                    if ($OSNAME eq 'MSWin32' && $scheme eq 'https') {
-                        alarm $self->{timeout};
-                    }
-                    $result = $self->{ua}->request($request);
-                    alarm 0;
-                };
-                if (!$result->is_success()) {
-                    $logger->error(
-                        "[client] cannot establish communication with " .
-                        "$url: " . $result->status_line()
-                    );
-                }
-            } else {
-                # abort
-                $logger->error(
-                    "[client] authentication required, no credentials " .
-                    "available"
-                );
-            }
-        } else {
-            $logger->error(
-                "[client] cannot establish communication with $url: " .
-                $result->status_line()
-            );
-        }
-    }
-
-    return $result;
 }
 
 1;

@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Battery;
+use FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Battery;
 
 my %tests = (
     'freebsd-6.2' => undef,
@@ -41,6 +41,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/generic/dmidecode/$test";
-    my $battery = FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode::Battery::_getBattery(file => $file);
+    my $battery = FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Battery::_getBattery(file => $file);
     is_deeply($battery, $tests{$test}, $test);
 }

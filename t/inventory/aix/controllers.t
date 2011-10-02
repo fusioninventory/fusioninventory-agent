@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::OS::AIX::Controllers;
+use FusionInventory::Agent::Task::Inventory::Input::AIX::Controllers;
 
 my %tests = (
     'aix-5.3a' => [
@@ -183,6 +183,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/aix/lsdev/$test-adapter";
-    my @controllers = FusionInventory::Agent::Task::Inventory::OS::AIX::Controllers::_getControllers(file => $file);
+    my @controllers = FusionInventory::Agent::Task::Inventory::Input::AIX::Controllers::_getControllers(file => $file);
     is_deeply(\@controllers, $tests{$test}, "controllers: $test");
 }

@@ -5,7 +5,6 @@ use warnings;
 use lib 't';
 
 use English qw(-no_match_vars);
-use Socket;
 use Test::More;
 use Test::Exception;
 
@@ -14,6 +13,7 @@ use UNIVERSAL::require;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::HTTP::Client;
 use FusionInventory::Test::Server;
+use FusionInventory::Test::Utils;
 
 my $doNetSSL = Net::SSL->require;
 
@@ -225,19 +225,3 @@ ok(
 ) if $doNetSSL;
 
 $server->stop();
-
-sub test_port {
-    my $port   = $_[0];
-
-    my $iaddr = inet_aton('localhost');
-    my $paddr = sockaddr_in($port, $iaddr);
-    my $proto = getprotobyname('tcp');
-    if (socket(my $socket, PF_INET, SOCK_STREAM, $proto)) {
-        if (connect($socket, $paddr)) {
-            close $socket;
-            return 1;
-        } 
-    }
-
-    return 0;
-}

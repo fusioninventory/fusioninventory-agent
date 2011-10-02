@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Virtualization::VirtualBox;
+use FusionInventory::Agent::Task::Inventory::Input::Virtualization::VirtualBox;
 
 my %tests = (
     sample1 => [
@@ -97,6 +97,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/virtualization/vboxmanage/$test";
-    my @machines = FusionInventory::Agent::Task::Inventory::Virtualization::VirtualBox::_parseVBoxManage(file => $file);
+    my @machines = FusionInventory::Agent::Task::Inventory::Input::Virtualization::VirtualBox::_parseVBoxManage(file => $file);
     is_deeply(\@machines, $tests{$test}, $test);
 }

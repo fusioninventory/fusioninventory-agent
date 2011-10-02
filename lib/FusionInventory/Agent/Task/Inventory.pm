@@ -9,10 +9,32 @@ use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Inventory;
+use FusionInventory::Agent::Task::Inventory::Inventory;
 use FusionInventory::Agent::XML::Query::Inventory;
 
 our $VERSION = '1.0';
+
+sub new {
+    my ($class, %params) = @_;
+
+    my $self = $class->SUPER::new(%params);
+
+    if ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
+        $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
+            logger       => $self->{logger},
+            user         => $params{user},
+            password     => $params{password},
+            proxy        => $params{proxy},
+            ca_cert_file => $params{'ca_cert_file'},
+            ca_cert_dir  => $params{'ca_cert_dir'},
+            no_ssl_check => $params{'no_ssl_check'},
+        );
+
+        $self->{prologresp} = $self->getPrologResponse();
+    }
+
+    return $self;
+}
 
 sub run {
     my ($self) = @_;
@@ -24,15 +46,18 @@ sub run {
             $self->{logger}->debug(
                 "Force enable, ignore prolog and run inventory."
             );
-        } elsif (!$self->{prologresp}{content}{RESPONSE} || $self->{prologresp}{content}{RESPONSE} !~ /^SEND$/) {
-            $self->{logger}->debug("No inventory requested in the prolog");
-            return;
+        } else {
+            my $content = $self->{prologresp}->getContent();
+            if (!($content && $content->{RESPONSE} && $content->{RESPONSE} =~ /^SEND$/)) {
+                $self->{logger}->debug("No inventory requested in the prolog");
+                return;
+            }
         }
     }
 
     $self->{modules} = {};
 
-    my $inventory = FusionInventory::Agent::Inventory->new(
+    my $inventory = FusionInventory::Agent::Task::Inventory::Inventory->new(
         deviceid => $self->{deviceid},
         statedir => $self->{target}->getStorage()->getDirectory(),
         logger   => $self->{logger},
@@ -77,13 +102,13 @@ sub run {
             close $handle;
             $self->{logger}->info("Inventory saved in $file");
         } else {
-            warn "Can't open $file: $ERRNO"
+            $self->{logger}->error("Can't write to $file: $ERRNO");
         }
     } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
 
         my $message = FusionInventory::Agent::XML::Query::Inventory->new(
             deviceid => $self->{deviceid},
-            content  => $inventory->{content}
+            content  => $inventory->getContent()
         );
 
         my $response = $self->{client}->send(
@@ -99,20 +124,20 @@ sub run {
 }
 
 sub _initModulesList {
-    my $self = shift;
+    my ($self) = @_;
 
     my $logger = $self->{logger};
     my $config = $self->{config};
     my $storage = $self->{storage};
 
-    my @modules = __PACKAGE__->getModules();
+    my @modules = __PACKAGE__->getModules('Input');
     die "no inventory module found" if !@modules;
 
     # first pass: compute all relevant modules
     foreach my $module (sort @modules) {
         # compute parent module:
         my @components = split('::', $module);
-        my $parent = @components > 5 ?
+        my $parent = @components > 6 ?
             join('::', @components[0 .. $#components -1]) : '';
 
         # skip if parent is not allowed
@@ -129,7 +154,7 @@ sub _initModulesList {
             next;
         }
 
-        my $enabled = $self->_runFunction(
+        my $enabled = runFunction(
             module   => $module,
             function => "isEnabled",
             timeout  => $config->{'backend-collect-timeout'},
@@ -209,7 +234,7 @@ sub _runModule {
 
     $logger->debug ("Running $module");
 
-    $self->_runFunction(
+    runFunction(
         module   => $module,
         function => "doInventory",
         timeout  => $self->{config}->{'backend-collect-timeout'},
@@ -253,9 +278,8 @@ sub _feedInventory {
     # Execution time
     $inventory->setHardware({ETIME => time() - $begin});
 
-    $inventory->setGlobalValues();
-
-    $inventory->processChecksum();
+    $inventory->computeLegacyValues();
+    $inventory->computeChecksum();
 
     $inventory->checkContent();
 }
@@ -289,36 +313,6 @@ sub _injectContent {
     $inventory->mergeContent($content);
 }
 
-sub _runFunction {
-    my ($self, %params) = @_;
-
-    my $logger = $self->{logger};
-
-    my $result;
-    
-    eval {
-        local $SIG{ALRM} = sub { die "alarm\n" }; # NB: \n require
-        alarm $params{timeout} if $params{timeout};
-
-        no strict 'refs'; ## no critic
-
-        $result = &{$params{module} . '::' . $params{function}}(
-	    %{$params{params}}
-	);
-    };
-    alarm 0;
-
-    if ($EVAL_ERROR) {
-        if ($EVAL_ERROR ne "alarm\n") {
-            $logger->debug("unexpected error in $params{module}: $EVAL_ERROR");
-        } else {
-            $logger->debug("$params{module} killed by a timeout.");
-        }
-    }
-
-    return $result;
-}
-
 sub _printInventory {
     my ($self, %params) = @_;
 
@@ -336,7 +330,7 @@ sub _printInventory {
         }
 
         if ($params{format} eq 'html') {
-
+            Text::Template->require();
             my $template = Text::Template->new(
                 TYPE => 'FILE', SOURCE => "$self->{datadir}/html/inventory.tpl"
             );

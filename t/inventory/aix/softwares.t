@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::OS::AIX::Softwares;
+use FusionInventory::Agent::Task::Inventory::Input::AIX::Softwares;
 
 my %tests = (
     'aix-4.3.1' => [
@@ -15010,6 +15010,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/aix/lslpp/$test";
-    my $softwares = FusionInventory::Agent::Task::Inventory::OS::AIX::Softwares::_getSoftwaresList(file => $file);
+    my $softwares = FusionInventory::Agent::Task::Inventory::Input::AIX::Softwares::_getSoftwaresList(file => $file);
     is_deeply($softwares, $tests{$test}, "software: $test");
 }

@@ -9,8 +9,8 @@ use Test::More;
 use Test::Exception;
 
 use FusionInventory::Agent;
-use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Task::Inventory::Inventory;
 
 plan tests => 24;
 
@@ -22,12 +22,12 @@ my $logger = FusionInventory::Agent::Logger->new(
 my $inventory;
 
 lives_ok {
-    $inventory = FusionInventory::Agent::Inventory->new(
-        logger   => $logger
+    $inventory = FusionInventory::Agent::Task::Inventory::Inventory->new(
+        logger => $logger
     );
 } 'everything OK';
 
-isa_ok($inventory, 'FusionInventory::Agent::Inventory');
+isa_ok($inventory, 'FusionInventory::Agent::Task::Inventory::Inventory');
 
 is_deeply(
     $inventory->{content},
@@ -41,10 +41,10 @@ is_deeply(
     'initial state'
 );
 
-$inventory->processChecksum();
+$inventory->computeChecksum();
 is(
     $inventory->{content}->{HARDWARE}->{CHECKSUM},
-    262143,
+    131071,
     'initial state checksum'
 );
 
@@ -187,7 +187,7 @@ is_deeply(
     'CPU added'
 );
 
-$inventory->setGlobalValues();
+$inventory->computeLegacyValues();
 
 is(
     $inventory->{content}->{HARDWARE}->{PROCESSORN},
@@ -207,7 +207,7 @@ is(
     'global CPU type',
 );
 
-$inventory->processChecksum();
+$inventory->computeChecksum();
 
 is(
     $inventory->{content}->{HARDWARE}->{CHECKSUM},
@@ -242,7 +242,7 @@ is_deeply(
     'drive addition'
 );
 
-$inventory->processChecksum();
+$inventory->computeChecksum();
 
 is(
     $inventory->{content}->{HARDWARE}->{CHECKSUM},

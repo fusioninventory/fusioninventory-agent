@@ -3,30 +3,36 @@ package FusionInventory::Agent::HTTP::Server;
 use strict;
 use warnings;
 use threads;
+use threads::shared;
 
 use English qw(-no_match_vars);
 use HTTP::Daemon;
+use Net::IP;
 use Text::Template;
+use File::Basename;
 
 use FusionInventory::Agent::Logger;
+
+my $log_prefix = "[http server] ";
 
 sub new {
     my ($class, %params) = @_;
 
     my $self = {
-        logger          => $params{logger} ||
-                           FusionInventory::Agent::Logger->new(),
-        agent           => $params{agent},
-        scheduler       => $params{scheduler},
-        htmldir         => $params{htmldir},
-        ip              => $params{ip},
-        port            => $params{port} || 62354,
-        trust_localhost => $params{'trust_localhost'}
-
+        logger    => $params{logger} ||
+                     FusionInventory::Agent::Logger->new(),
+        agent     => $params{agent},
+        scheduler => $params{scheduler},
+        htmldir   => $params{htmldir},
+        ip        => $params{ip},
+        port      => $params{port} || 62354,
+        trust     => $params{trust}
     };
     bless $self, $class;
 
-    $SIG{PIPE} = 'IGNORE';
+    $self->{stop} = 0;
+    my $stop = \$self->{stop};
+    threads::shared::share($stop);
     $self->{listener} = threads->create('_listen', $self);
 
     return $self;
@@ -36,8 +42,6 @@ sub _handle {
     my ($self, $client, $request, $clientIp) = @_;
     
     my $logger = $self->{logger};
-    my $scheduler = $self->{scheduler};
-    my $htmldir = $self->{htmldir};
 
     if (!$request) {
         $client->close();
@@ -45,12 +49,12 @@ sub _handle {
     }
 
     my $path = $request->uri()->path();
-    $logger->debug("[HTTPD] request $path from client $clientIp");
+    $logger->debug($log_prefix . "request $path from client $clientIp");
 
     # non-GET requests
     my $method = $request->method();
     if ($method ne 'GET') {
-        $logger->debug("[HTTPD] error, invalid request type: $method");
+        $logger->debug($log_prefix . "error, invalid request type: $method");
         $client->send_error(400);
         $client->close;
         undef($client);
@@ -61,136 +65,197 @@ sub _handle {
     SWITCH: {
         # root request
         if ($path eq '/') {
-
-            my $template = Text::Template->new(
-                TYPE => 'FILE', SOURCE => "$self->{htmldir}/index.tpl"
-            );
-
-            my $hash = {
-                version => $FusionInventory::Agent::VERSION,
-                trust   => $self->{trust_localhost},
-                status  => $self->{agent}->getStatus(),
-                targets => [
-                    map { $_->getStatus() } $self->{scheduler}->getTargets()
-                ]
-            };
-
-            my $response = HTTP::Response->new(
-                200,
-                'OK',
-                HTTP::Headers->new('Content-Type' => 'text/html'),
-                $template->fill_in(HASH => $hash)
-            );
-
-            $client->send_response($response);
-
+            $self->_handle_root($client, $request, $clientIp);
             last SWITCH;
         } 
 
         # deploy request
-        if ($path =~ m{^/deploy/([\w\d/-]+)$}) {
-            my $file = $1;
-            foreach my $target (@{$scheduler->{scheduler}}) {
-                my $directory =
-                    $target->getStorage()->getDirectory() . "/deploy";
-                if (-f "$directory/$file") {
-                    $logger->debug("[HTTPD] $path sent");
-                    $client->send_file_response("$directory/$file");
-                } else {
-                    $logger->debug("[HTTPD] $path not found");
-                }
-            }
-            $client->send_error(404);
+        if ($path =~ m{^/deploy/getFile/./../([\w\d/-]+)$}) {
+            $self->_handle_deploy($client, $request, $clientIp, $1);
             last SWITCH;
         }
 
         # now request
         if ($path =~ m{^/now(?:/(\S+))?$}) {
-            my $sentToken = $1;
-
-            my $result;
-            if ($clientIp =~ /^127\./ && $self->{trust_localhost}) {
-                # trusted request
-                $result = "ok";
-            } else {
-                # authenticated request
-                if ($sentToken) {
-                   my $token = $self->{agent}->getToken();
-                   if ($sentToken eq $token) {
-                        $result = "ok";
-                        $self->{agent}->resetToken();
-                    } else {
-                        $logger->debug(
-                            "[HTTPD] untrusted address, invalid token " .
-                            "$sentToken != $token"
-                        );
-                        $result = "untrusted address, invalid token";
-                    }
-               } else {
-                    $logger->debug(
-                        "[HTTPD] untrusted address, no token received"
-                    );
-                    $result = "untrusted address, no token received";
-                }
-            }
-
-            my ($code, $message);
-            if ($result eq "ok") {
-                foreach my $target ($scheduler->getTargets()) {
-                    $target->setNextRunDate(1);
-                }
-                $code    = 200;
-                $message = "Done."
-            } else {
-                $code    = 403;
-                $message = "Access denied: $result.";
-            }
-
-            my $template = Text::Template->new(
-                TYPE => 'FILE', SOURCE => "$self->{htmldir}/now.tpl"
-            );
-
-            my $hash = {
-                message => $message
-            };
-
-            my $response = HTTP::Response->new(
-                $code,
-                'OK',
-                HTTP::Headers->new('Content-Type' => 'text/html'),
-                $template->fill_in(HASH => $hash)
-            );
-
-            $client->send_response($response);
-
+            $self->_handle_now($client, $request, $clientIp, $1);
             last SWITCH;
         }
 
         # status request
         if ($path eq '/status') {
-            my $status = $self->{agent}->getStatus();
-            my $response = HTTP::Response->new(
-                200,
-                'OK',
-                HTTP::Headers->new('Content-Type' => 'text/plain'),
-               "status: ".$status
-            );
-            $client->send_response($response);
+            $self->_handle_status($client, $request, $clientIp);
             last SWITCH;
         }
 
         # static content request
         if ($path =~ m{^/(logo.png|site.css|favicon.ico)$}) {
             my $file = $1;
-            $client->send_file_response("$htmldir/$file");
+            $client->send_file_response("$self->{htmldir}/$file");
             last SWITCH;
         }
 
-        $logger->debug("[HTTPD] error, unknown path: $path");
+        $logger->debug("error, unknown path: $path");
         $client->send_error(400);
     }
 
     $client->close();
+}
+
+sub _handle_root {
+    my ($self, $client, $request, $clientIp) = @_;
+
+    my $logger = $self->{logger};
+
+    my $template = Text::Template->new(
+        TYPE => 'FILE', SOURCE => "$self->{htmldir}/index.tpl"
+    );
+    if (!$template) {
+        $logger->error($log_prefix . "Template access failed: $Text::Template::ERROR");
+        ;
+
+        my $response = HTTP::Response->new(
+            500,
+            'KO',
+            HTTP::Headers->new('Content-Type' => 'text/html'),
+            "No template"
+        );
+
+        $client->send_response($response);
+        return;
+    }
+
+    my $hash = {
+        version => $FusionInventory::Agent::VERSION,
+        trust   => $self->_is_trusted($clientIp),
+        status  => $self->{agent}->getStatus(),
+        targets => [
+            map { $_->getStatus() } $self->{scheduler}->getTargets()
+        ]
+    };
+
+    my $response = HTTP::Response->new(
+        200,
+        'OK',
+        HTTP::Headers->new('Content-Type' => 'text/html'),
+        $template->fill_in(HASH => $hash)
+    );
+
+    $client->send_response($response);
+}
+
+sub _handle_deploy {
+    my ($self, $client, $request, $clientIp, $sha512) = @_;
+
+    my $logger = $self->{logger};
+
+    return unless $sha512 =~ /^..(.{6})/;
+    my $name = $1;
+    my $path;
+
+    File::Find->require();
+    Digest::SHA->require();
+
+    foreach my $target ($self->{scheduler}->getTargets()) {
+        my $shareDir = $target->{storage}->getDirectory()."/deploy/fileparts/shared";
+        next unless -d $shareDir;
+
+        my $wanted = sub {
+            return unless -f $_;
+            return unless basename($_) eq $name;
+
+            my $sha = Digest::SHA->new('512');
+            $sha->addfile($File::Find::name, 'b');
+            return unless $sha->hexdigest eq $sha512;
+
+            $path = $File::Find::name;
+        };
+        File::Find::find({ wanted => $wanted, no_chdir => 1 }, $shareDir);
+        last if $path;
+    }
+    if ($path) {
+        $logger->debug($log_prefix . "file $sha512 found");
+        $client->send_file_response($path);
+        $logger->debug($log_prefix . "file $path sent");
+    } else {
+        $client->send_error(404);
+    }
+}
+
+sub _handle_now {
+    my ($self, $client, $request, $clientIp, $token) = @_;
+
+    my $logger = $self->{logger};
+
+    my ($code, $message, $trace);
+    if (
+        $self->_is_trusted($clientIp) ||
+        $self->_is_authenticated($token)
+    ) {
+        foreach my $target ($self->{scheduler}->getTargets()) {
+            $target->setNextRunDate(1);
+        }
+        $self->{agent}->resetToken();
+        $code    = 200;
+        $message = "OK";
+        $trace   = "valid request, forcing execution right now";
+    } else {
+        $code    = 403;
+        $message = "Access denied";
+        $trace   = "invalid request (bad token or bad address)";
+    }
+
+    my $template = Text::Template->new(
+        TYPE => 'FILE', SOURCE => "$self->{htmldir}/now.tpl"
+    );
+
+    my $hash = {
+        message => $message
+    };
+
+    my $response = HTTP::Response->new(
+        $code,
+        'OK',
+        HTTP::Headers->new('Content-Type' => 'text/html'),
+        $template->fill_in(HASH => $hash)
+    );
+
+    $client->send_response($response);
+    $logger->debug($log_prefix . $trace);
+}
+
+sub _handle_status {
+    my ($self, $client, $request, $clientIp) = @_;
+
+    my $status = $self->{agent}->getStatus();
+    my $response = HTTP::Response->new(
+        200,
+        'OK',
+        HTTP::Headers->new('Content-Type' => 'text/plain'),
+       "status: ".$status
+    );
+    $client->send_response($response);
+}
+
+sub _is_trusted {
+    my ($self, $address) = @_;
+
+    return 0 unless $self->{trust};
+
+    my $source  = Net::IP->new($address);
+    my $trusted = Net::IP->new($self->{trust});
+    my $result = $source->overlaps($trusted);
+
+    return 
+        $result == $IP_A_IN_B_OVERLAP || # included in trusted range
+        $result == $IP_IDENTICAL;        # equals trusted address
+}
+
+sub _is_authenticated {
+    my ($self, $token) = @_;
+
+    return 0 unless $token;
+
+    return $token eq $self->{agent}->getToken();
 }
 
 sub _listen {
@@ -207,7 +272,7 @@ sub _listen {
     );
   
     if (!$daemon) {
-        $logger->error("[HTTPD] failed to start the HTTPD service");
+        $logger->error($log_prefix . "failed to start the HTTPD service");
         return;
     } 
 
@@ -215,22 +280,24 @@ sub _listen {
         "http://$self->{ip}:$self->{port}" :
         "http://localhost:$self->{port}" ;
 
-    $logger->info(
-        "[HTTPD] service started at: $url"
-    );
-
-    # allow the thread to be stopped 
-    threads->set_thread_exit_only(1);
-    $SIG{'KILL'} = sub { threads->exit(); };
+    $logger->info($log_prefix . "HTTPD service started at $url");
 
     while (1) {
         my ($client, $socket) = $daemon->accept();
+        last if $self->{stop};
         next unless $socket;
         my (undef, $iaddr) = sockaddr_in($socket);
         my $clientIp = inet_ntoa($iaddr);
         my $request = $client->get_request();
         $self->_handle($client, $request, $clientIp);
     }
+}
+
+sub terminate {
+    my ($self) = @_;
+
+    lock $self->{stop};
+    $self->{stop} = 1;
 }
 
 sub DESTROY {
@@ -240,8 +307,8 @@ sub DESTROY {
 
     if ($self->{listener}->is_joinable()) {
         $self->{listener}->join();
-    } else {
-        $self->{listener}->kill('KILL')->detach();
+    } elsif (!$self->{listener}->is_detached()) {
+        $self->{listener}->detach();
     }
 }
 
@@ -271,8 +338,8 @@ requests are accepted:
 =back
 
 Authentication is based on a token created by the agent, and sent to the
-server at initial connection. Connection from local host is allowed without
-token if parameter trust_localhost is true.
+server at initial connection. Connection from addresses matching the trust
+parameter are trusted without token.
 
 =head1 METHODS
 
@@ -307,9 +374,9 @@ the network adress to listen to (default: all)
 
 the network port to listen to
 
-=item I<trust_localhost>
+=item I<trust>
 
-a flag allowing to trust local request without authentication tokens (default:
-false)
+an IP adress or an IP adress range from which to trust incoming requests
+without authentication token (default: none)
 
 =back

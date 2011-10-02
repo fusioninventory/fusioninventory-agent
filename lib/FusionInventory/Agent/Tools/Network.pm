@@ -19,6 +19,7 @@ our @EXPORT = qw(
     getNetworkMask
     hex2canonical
     alt2canonical
+    getLastNumber
 );
 
 my $hex_byte = qr/[0-9A-F]{2}/i;
@@ -63,6 +64,9 @@ sub getSubnetAddressIPv6 {
 
     my $binaddress = ip_iptobin($address, 6);
     my $binmask    = ip_iptobin($mask, 6);
+
+    return unless $binaddress && $binmask;
+
     my $binsubnet  = $binaddress & $binmask; ## no critic (ProhibitBitwise)
 
     return ip_bintoip($binsubnet, 6);
@@ -93,6 +97,13 @@ sub getNetworkMask {
     return join ('.', map { oct('0b' . $_) } @bytes);
 }
 
+sub getLastNumber {
+    my ($oid) = @_;
+
+    my @array = split(/\./, $oid);
+    return $array[-1];
+}
+
 1;
 __END__
 
@@ -108,7 +119,7 @@ This module provides some network-related patterns and functions.
 
 =head2 mac_address_pattern
 
-This pattern matches a MAC address in canonical form (aa::bb:cc:dd:ee:ff).
+This pattern matches a MAC address in canonical form (aa:bb:cc:dd:ee:ff).
 
 =head2 ip_address_pattern
 
@@ -144,4 +155,7 @@ Returns the subnet address for IPv6.
 
 Returns the network mask.
 
+=head2 getLastNumber($oid)
+
+return the last number of an oid.
 

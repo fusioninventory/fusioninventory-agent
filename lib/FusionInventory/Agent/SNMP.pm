@@ -8,6 +8,16 @@ use English qw(-no_match_vars);
 use Net::SNMP;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Network;
+
+my @bad_oids = qw(
+    .1.3.6.1.2.1.2.2.1.6
+    .1.3.6.1.2.1.4.22.1.2
+    .1.3.6.1.2.1.17.1.1.0
+    .1.3.6.1.2.1.17.4.3.1.1
+    .1.3.6.1.4.1.9.9.23.1.2.1.1.4
+);
+my $bad_oids_pattern = '^(' . join('|', map { quotemeta($_) } @bad_oids) . ')';
 
 sub new {
     my ($class, %params) = @_;
@@ -71,11 +81,10 @@ sub get {
     return if $response->{$oid} =~ /noSuchInstance/;
     return if $response->{$oid} =~ /noSuchObject/;
 
-    my $result = _getNormalizedValue($oid, $response->{$oid});
-    $result = getSanitizedString($result);
-    chomp $result;
+    my $value = $response->{$oid};
+    chomp $value;
 
-    return $result;
+    return $value;
 }
 
 sub walk {
@@ -91,38 +100,78 @@ sub walk {
 
     return unless $response;
 
-    my $result;
+    my $values;
 
     foreach my $oid (keys %{$response}) {
-        my $value = _getNormalizedValue($oid, $response->{$oid});
-        $value = getSanitizedString($value);
+        my $value = $response->{$oid};
         chomp $value;
-        $result->{$oid} = $value;
+        $values->{$oid} = $value;
     }
 
-    return $result;
+    return $values;
 }
 
-sub _getNormalizedValue {
-    my ($oid, $value) = @_;
+sub getMacAddress {
+    my ($self, $oid) = @_;
 
-    # return value directly, unless for specific oids
-    # corresponding to bad mac addresses
-    return $value unless 
-        $oid =~ /.1.3.6.1.2.1.2.2.1.6/    ||
-        $oid =~ /.1.3.6.1.2.1.4.22.1.2/   ||
-        $oid =~ /.1.3.6.1.2.1.17.1.1.0/   ||
-        $oid =~ /.1.3.6.1.2.1.17.4.3.1.1/ ||
-        $oid =~ /.1.3.6.1.4.1.9.9.23.1.2.1.1.4/;
+    my $value = $self->get($oid);
+    return unless $value;
 
-    if ($value !~ /0x/) {
-        $value = "0x" . unpack 'H*', $value;
+    if ($oid =~ /$bad_oids_pattern/) {
+        $value = _sanitizeMacAddress($value);
     }
 
-    my @array = split(/\S{2}/, $value);
-    if (@array == 14) {
-        $value = join(':', map { $array[$_] } qw/3 5 7 9 11 13/);
+    $value = alt2canonical($value);
+
+    return $value;
+}
+
+sub walkMacAddresses {
+    my ($self, $oid) = @_;
+
+    my $values = $self->walk($oid);
+    return unless $values;
+
+    if ($oid =~ /$bad_oids_pattern/) {
+        foreach my $value (values %$values) {
+            $value = _sanitizeMacAddress($value);
+        }
     }
+
+    foreach my $value (values %$values) {
+        $value = alt2canonical($value);
+    }
+
+    return $values;
+}
+
+sub _sanitizeMacAddress {
+    my ($value) = @_;
+
+    if ($value !~ /^0x/) {
+        # convert from binary to hexadecimal
+        $value = unpack 'H*', $value;
+    } else {
+        # drop hex prefix
+        $value =~ s/^0x//;
+    }
+
+    return $value;
+}
+
+
+sub getSerial {
+    my ($self, $oid) = @_;
+
+    my $value = $self->get($oid);
+    return unless $value;
+
+    $value =~ s/\n//g;
+    $value =~ s/\r//g;
+    $value =~ s/^\s+//;
+    $value =~ s/\s+$//;
+    $value =~ s/\.{2,}//g;
+
     return $value;
 }
 
@@ -187,3 +236,18 @@ translated into plain ascii.
 This method returns an hashref of values, indexed by their OIDs, starting from
 the given one. The values are normalised to remove any control character, and
 hexadecimal mac addresses are translated into plain ascii.
+
+=head2 getSerial($oid)
+
+Wraps get($oid), assuming the value is a serial number and sanitizing it
+accordingly.
+
+=head2 getMacAddress($oid)
+
+Wraps get($oid), assuming the value is a mac address and sanitizing it
+accordingly.
+
+=head2 walkMacAddresses($oid)
+
+Wraps walk($oid), assuming the values are mac addresses and sanitizing them
+accordingly.

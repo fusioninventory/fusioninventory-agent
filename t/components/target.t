@@ -57,13 +57,15 @@ is($target->getUrl(), 'http://my.domain.tld/ocsinventory', 'bare hostname');
 is($target->getMaxDelay(), 3600, 'default value');
 my $nextRunDate = $target->getNextRunDate();
 
-ok(-f "$storage_dir/Target.dump", "state file existence");
+ok(-f "$storage_dir/target.dump", "state file existence");
 $target = FusionInventory::Agent::Target::Server->new(
     url        => 'http://my.domain.tld/ocsinventory',
     basevardir => $basevardir
 );
 is($target->getNextRunDate(), $nextRunDate, 'state persistence');
 
+# set target shared
+$target->setShared();
 # increment next run date in another thread
 my $thread = threads->create(\&thread);
 $thread->join();

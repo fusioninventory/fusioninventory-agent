@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::OS::Linux::Networks;
+use FusionInventory::Agent::Task::Inventory::Input::Linux::Networks;
 
 my %ifconfig_tests = (
     'dell-xt2' => [
@@ -210,12 +210,12 @@ plan tests =>
 
 foreach my $test (keys %ifconfig_tests) {
     my $file = "resources/generic/ifconfig/$test";
-    my @results = FusionInventory::Agent::Task::Inventory::OS::Linux::Networks::_parseIfconfig(file => $file);
+    my @results = FusionInventory::Agent::Task::Inventory::Input::Linux::Networks::_parseIfconfig(file => $file);
     is_deeply(\@results, $ifconfig_tests{$test}, $test);
 }
 
 foreach my $test (keys %ipaddrshow_tests) {
     my $file = "resources/linux/ip/$test";
-    my @results = FusionInventory::Agent::Task::Inventory::OS::Linux::Networks::_parseIpAddrShow(file => $file);
+    my @results = FusionInventory::Agent::Task::Inventory::Input::Linux::Networks::_parseIpAddrShow(file => $file);
     is_deeply(\@results, $ipaddrshow_tests{$test}, $test);
 }

@@ -16,7 +16,7 @@ requires 'LWP'                => undef;
 requires 'Net::IP'            => undef;
 requires 'UNIVERSAL::require' => undef;
 requires 'Text::Template'     => undef;
-requires 'XML::TreePP'        => undef;
+requires 'XML::TreePP'        => '0.26';
 
 if ($OSNAME eq 'darwin') {
     requires 'Mac::SysProfile' => undef;
@@ -26,6 +26,7 @@ if ($OSNAME eq 'darwin') {
 recommends 'Compress::Zlib'   => undef;
 recommends 'HTTP::Daemon'     => undef;
 recommends 'Net::CUPS'        => 0.60;
+recommends 'IO::Socket::SSL'  => undef;
 
 if ($OSNAME ne 'MSWin32') {
     recommends 'Proc::Daemon'     => undef;
@@ -35,61 +36,101 @@ if ($OSNAME ne 'MSWin32') {
     requires 'Win32::TieRegistry' => undef;
 }
 
-
-if (can_use("LWP") && $LWP::VERSION < 6) {
-    recommends 'IO::Socket::SSL'    => undef;
-}
-
 # test dependencies
-test_requires  'Test::More'  => undef;
-test_requires  'XML::TreePP'  => undef;
-test_requires  'IPC::Run'  => undef;
+test_requires  'Test::More'                   => '0.93'; # subtest
+test_requires  'IPC::Run'                     => undef;
+test_requires  'HTTP::Proxy'                  => undef;
+test_requires  'HTTP::Server::Simple'         => undef;
+test_requires  'HTTP::Server::Simple::Authen' => undef;
+test_requires  'IO::Capture::Stderr'          => undef;
+test_requires  'Test::Exception'              => undef;
+test_requires  'YAML'                         => undef;
 
 install_script  'fusioninventory-agent';
 install_script  'fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
 install_script  'fusioninventory-injector';
-install_share; # No parameter, see http://www.glpi-project.org/forum/viewtopic.php?pid=107979#p107979
-
-# We want a release bundled with the needed dependency to be able to
-# prepare a standalone binary with PAR::Packer 
-if ($ENV{FusionInventory_BUNDLE_RELEASE}) {
-    foreach my $module (qw/Archive::Zip HTML::Parser LWP URI XML::NamespaceSupport Net::IP HTML::Tagset Proc::Daemon Module::ScanDeps PAR::Packer AutoLoader PAR PAR::Dist File::Remove YAML::Tiny Getopt::ArgvFile ExtUtils::Install ExtUtils::ParseXS XML::SAX XML::Simple/) {
-        bundle $module;
-        requires $module;
-    }
-}
-
 # memconf is needed by Solaris backend module
-if ($OSNAME eq 'solaris') {
-    install_script  'memconf';
-}
+install_script  'memconf' if $OSNAME eq 'solaris';
 
 makemaker_args(
     test => {
         TESTS => join ' ', map { glob } qw(t/*.t t/*/*.t t/*/*/*.t t/*/*/*/*.t)
     },
 );
+
 WriteAll;
+
+# substitute prefix everywhere
+$MY::variables{SYSCONFDIR} =~ s/\$\(PREFIX\)/$MY::variables{PREFIX}/;
+$MY::variables{DATADIR} =~ s/\$\(PREFIX\)/$MY::variables{PREFIX}/;
+$MY::variables{LOCALSTATEDIR} =~ s/\$\(PREFIX\)/$MY::variables{PREFIX}/;
+
+# look for already existing configuration file
+my $config_file_message = -f "$MY::variables{SYSCONFDIR}/agent.cfg" ?
+    "previous configuration file found, new one will be installed as agent.cfg.new" :
+    "no previous configuration file found, new one will be installed as agent.cfg";
+
+print <<EOF;
+
+Installation summary
+--------------------
+prefix: $MY::variables{PREFIX}
+configuration installation directory: $MY::variables{SYSCONFDIR}
+constant data installation directory: $MY::variables{DATADIR}
+variable data installation directory: $MY::variables{LOCALSTATEDIR}
+
+$config_file_message
+EOF
 
 package MY;
 
 use English qw(-no_match_vars);
 
-# allow user to define installation directories
-sub post_constants {
-    my ($self) = @_;
-    my $confdir =
-        $self->{ARGS}->{CONFDIR} || '$(PREFIX)/etc/fusioninventory';
-    my $datadir =
-        $self->{ARGS}->{DATADIR} || '$(PREFIX)/share/fusioninventory';
-    my $vardir =
-        $self->{ARGS}->{VARDIR} || '$(PREFIX)/var/fusioninventory';
-    return <<EOF;
-CONFDIR = $confdir
-DATADIR = $datadir
-VARDIR  = $vardir
+our %variables;
 
-EOF
+# force a perl-independant prefix for everything but perl modules
+sub constants {
+    my ($self) = @_;
+
+    # for some reason, initialising variables from the global scope doesn't work
+    %variables = (
+        PREFIX               => '/usr/local',
+        INSTALLSCRIPT        => '$(PREFIX)/bin',
+        INSTALLSITESCRIPT    => '$(PREFIX)/bin',
+        INSTALLVENDORSCRIPT  => '$(PREFIX)/bin',
+        INSTALLMAN1DIR       => '$(PREFIX)/share/man/man1',
+        INSTALLSITEMAN1DIR   => '$(PREFIX)/share/man/man1',
+        INSTALLVENDORMAN1DIR => '$(PREFIX)/share/man/man1',
+        SYSCONFDIR           => '$(PREFIX)/etc/fusioninventory',
+        DATADIR              => '$(PREFIX)/share/fusioninventory',
+        LOCALSTATEDIR        => '$(PREFIX)/var/fusioninventory',
+    );
+
+    # allow variables defined on command line to override defaults
+    foreach my $name (keys %variables) {
+        $variables{$name} = $self->{ARGS}->{$name} if $self->{ARGS}->{$name};
+    }
+
+    # get all standard MM variables definitions, and override them if needed
+    my @code = split(/\n/, $self->SUPER::constants(@_));
+    foreach my $line (@code) {
+        # Skip comments
+        next if $line =~ /^\s*#/;
+        # Skip everything which isn't a var assignment.
+        next unless $line =~ /^([A-Z0-9_]+) =/;
+        my $name = $1;
+        # skip variables we're not interested
+        next unless $variables{$name};
+
+        $line = "$name = $variables{$name}";
+    }
+
+    # add out own variables
+    foreach my $name (qw/SYSCONFDIR DATADIR LOCALSTATEDIR/) {
+        push @code, "$name = $variables{$name}";
+    }
+
+    return join("\n", @code);
 }
 
 # ensure configuration and data get installed too
@@ -101,8 +142,12 @@ sub install {
     $install .= <<'EOF';
 
 config_install :
-	install -d -m 755 $(DESTDIR)$(CONFDIR)
-	install -m 644 etc/fusioninventory/agent.cfg $(DESTDIR)$(CONFDIR)
+	install -d -m 755 $(DESTDIR)$(SYSCONFDIR)
+	if [ -f $(DESTDIR)/$(SYSCONFDIR)/agent.cfg ]; then \
+	    install -m 644 etc/agent.cfg $(DESTDIR)$(SYSCONFDIR)/agent.cfg.new; \
+	else \
+	    install -m 644 etc/agent.cfg $(DESTDIR)$(SYSCONFDIR)/agent.cfg; \
+	fi
 
 data_install :
 	install -d -m 755 $(DESTDIR)$(DATADIR)
@@ -125,9 +170,9 @@ sub installbin {
     $installbin .= <<'EOF';
 FINALIZE = $(ABSPERLRUN) -pi \
     -e 's|use lib .*||;' \
-    -e 's|confdir => .*|confdir => "$(CONFDIR)",|;' \
+    -e 's|confdir => .*|confdir => "$(SYSCONFDIR)",|;' \
     -e 's|datadir => .*|datadir => "$(DATADIR)",|;' \
-    -e 's|vardir  => .*|vardir  => "$(VARDIR)",|' \
+    -e 's|vardir  => .*|vardir  => "$(LOCALSTATEDIR)",|' \
     --
 EOF
     return $installbin;

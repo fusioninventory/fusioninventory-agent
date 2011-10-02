@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::OS::AIX::Storages;
+use FusionInventory::Agent::Task::Inventory::Input::AIX::Storages;
 
 my %lsdev_tests = (
     'aix-4.3.1-disk-scsi' => [
@@ -374,14 +374,14 @@ plan tests =>
 
 foreach my $test (keys %lsdev_tests) {
     my $file = "resources/aix/lsdev/$test";
-    my @devices = FusionInventory::Agent::Task::Inventory::OS::AIX::Storages::_parseLsdev(file => $file, pattern => qr/^(.+):(.+)/);
+    my @devices = FusionInventory::Agent::Task::Inventory::Input::AIX::Storages::_parseLsdev(file => $file, pattern => qr/^(.+):(.+)/);
     is_deeply(\@devices, $lsdev_tests{$test}, "lsdev parsing: $test");
 }
 
 foreach my $test (keys %disk_tests) {
     my $lsvpd_file = "resources/aix/lsvpd/$test";
     my $lsdev_file = "resources/aix/lsdev/$test-disk-$disk_tests{$test}->{type}";
-    my $infos = FusionInventory::Agent::Task::Inventory::OS::AIX::Storages::_getIndexedLsvpdInfos(file => $lsvpd_file);
-    my @disks = FusionInventory::Agent::Task::Inventory::OS::AIX::Storages::_getDisks(file => $lsdev_file, infos => $infos);
+    my $infos = FusionInventory::Agent::Task::Inventory::Input::AIX::Storages::_getIndexedLsvpdInfos(file => $lsvpd_file);
+    my @disks = FusionInventory::Agent::Task::Inventory::Input::AIX::Storages::_getDisks(file => $lsdev_file, infos => $infos);
     is_deeply(\@disks, $disk_tests{$test}->{disks}, "disk extraction: $test");
 }

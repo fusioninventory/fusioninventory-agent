@@ -5,6 +5,10 @@ use warnings;
 use lib './lib';
 use threads;
 use threads::shared;
+use constant SERVICE_SLEEP_TIME => 2000; # 20 milliseconds
+
+use File::Spec;
+use File::Basename;
 
 use English qw(-no_match_vars);
 use Win32;
@@ -17,80 +21,59 @@ delete($ENV{PERLLIB});
 
 my $win32service = 1;
 Win32::Daemon::StartService();
-my $SERVICE_SLEEP_TIME = 2000; # 20 milliseconds
-my $PrevState = SERVICE_START_PENDING;
 
-my $thr;
+my $thread;
 
-sub startAgent {
-    return if $thr;
-    $thr = threads->create(sub {
-        my $agent = new FusionInventory::Agent(
-            confdir => './etc/fusioninventory',
-            datadir => './share',
-            vardir  => './var',
-            options => {
-                service => 1
-            }
-        );
-        $agent->run();
-    });
-}
-
-sub killAgent {
-    $thr->kill('KILL');
-    $thr = undef;
-}
-
-my $State;
-while (SERVICE_STOPPED != ($State = Win32::Daemon::State())){ 
-    if (SERVICE_START_PENDING == $State) {
+my $state;
+my $previousState = SERVICE_START_PENDING;
+while (($state = Win32::Daemon::State()) != SERVICE_STOPPED) { 
+    if ($state == SERVICE_START_PENDING) {
         # Initialization code
         startAgent();
         Win32::Daemon::State(SERVICE_RUNNING);
-        $PrevState = SERVICE_RUNNING;
-    } elsif (SERVICE_STOP_PENDING == $State) {
+        $previousState = SERVICE_RUNNING;
+    } elsif ($state == SERVICE_STOP_PENDING) {
         killAgent();
         Win32::Daemon::State(SERVICE_STOPPED);
-    } elsif (SERVICE_PAUSE_PENDING == $State) {
+    } elsif ($state == SERVICE_PAUSE_PENDING) {
         # "Pausing...";
         killAgent();
         Win32::Daemon::State(SERVICE_PAUSED);
-        $PrevState = SERVICE_PAUSED;
+        $previousState = SERVICE_PAUSED;
         killAgent();
         next;
-    } elsif (SERVICE_CONTINUE_PENDING == $State) {
+    } elsif ($state == SERVICE_CONTINUE_PENDING) {
         # "Resuming...";
         startAgent();
         Win32::Daemon::State(SERVICE_RUNNING);
-        $PrevState = SERVICE_RUNNING;
+        $previousState = SERVICE_RUNNING;
         next;
-    } elsif (SERVICE_STOP_PENDING == $State) {
+    } elsif ($state == SERVICE_STOP_PENDING) {
         # "Stopping...";
         killAgent();
         Win32::Daemon::State(SERVICE_STOPPED);
-        $PrevState = SERVICE_STOPPED;
+        $previousState = SERVICE_STOPPED;
         next;
-    } elsif (SERVICE_RUNNING == $State) {
+    } elsif ($state == SERVICE_RUNNING) {
         # The service is running as normal...
         # ...add the main code here...
         startAgent();
     } else {
         # Got an unhandled control message. Set the state to
         # whatever the previous state was.
-        Win32::Daemon::State($PrevState);
+        Win32::Daemon::State($previousState);
     }
 
     # Check for any outstanding commands. Pass in a non zero value
     # and it resets the Last Message to SERVICE_CONTROL_NONE.
-    if (SERVICE_CONTROL_NONE != (my $Message = 
+    if (SERVICE_CONTROL_NONE != (my $message = 
             Win32::Daemon::LastControlMessage(1))) {
-        if (SERVICE_CONTROL_INTERROGATE == $Message) {
+        if (SERVICE_CONTROL_INTERROGATE == $message) {
             # Got here if the Service Control Manager is requesting
             # the current state of the service. This can happen for
             # a variety of reasons. Report the last state we set.
-            Win32::Daemon::State( $PrevState );
-        } elsif (SERVICE_CONTROL_SHUTDOWN == $Message) {
+            Win32::Daemon::State($previousState);
+        } elsif (SERVICE_CONTROL_SHUTDOWN == $message) {
             # Yikes! The system is shutting down. We had better clean up
             # and stop.
             # Tell the SCM that we are preparing to shutdown and that we expect
@@ -100,7 +83,26 @@ while (SERVICE_STOPPED != ($State = Win32::Daemon::State())){
         }
     }
     # Snoose for awhile so we don't suck up cpu time...
-    Win32::Sleep($SERVICE_SLEEP_TIME);
+    Win32::Sleep(SERVICE_SLEEP_TIME);
+}
+
+sub startAgent {
+    return if $thread;
+    my $directory = dirname(File::Spec->rel2abs( __FILE__ ));
+    $thread = threads->create(sub {
+        my $agent = new FusionInventory::Agent(
+            confdir => $directory . '/../../etc/fusioninventory',
+            datadir => $directory . '/../../share',
+            vardir  => $directory . '/../../var',
+        );
+        $agent->init(options => { service => 1 });
+        $agent->run();
+    });
+}
+
+sub killAgent {
+    $thread->kill('KILL');
+    $thread = undef;
 }
 
 __END__

@@ -11,7 +11,9 @@ use FusionInventory::Agent;
 
 plan tests => 8;
 
-my %before = FusionInventory::Agent->getAvailableTasks();
+my $agent = FusionInventory::Agent->new();
+
+my %before = $agent->getAvailableTasks();
 my $tmpdir = tempdir(CLEANUP => $ENV{TEST_DEBUG} ? 0 : 1);
 my $tasks;
 
@@ -23,7 +25,7 @@ EOF
 $tasks = get_new_tasks("$tmpdir/1");
 is_deeply (
     $tasks,
-    { 'FusionInventory::Agent::Task::Test1' => 42 },
+    { 'Test1' => 42 },
     "single task"
 );
 
@@ -41,8 +43,8 @@ $tasks = get_new_tasks("$tmpdir/2");
 is_deeply (
     $tasks,
     { 
-        'FusionInventory::Agent::Task::Test2a' => 42,
-        'FusionInventory::Agent::Task::Test2b' => 42
+        'Test2a' => 42,
+        'Test2b' => 42
     },
     "multiple tasks, single root"
 );
@@ -61,8 +63,8 @@ $tasks = get_new_tasks("$tmpdir/3/a", "$tmpdir/3/b");
 is_deeply (
     $tasks,
     { 
-        'FusionInventory::Agent::Task::Test3a' => 42,
-        'FusionInventory::Agent::Task::Test3b' => 42
+        'Test3a' => 42,
+        'Test3b' => 42
     },
     "multiple tasks, multiple roots"
 );
@@ -81,7 +83,7 @@ $tasks = get_new_tasks("$tmpdir/4/a", "$tmpdir/4/b");
 is_deeply (
     $tasks,
     { 
-        'FusionInventory::Agent::Task::Test4' => 42,
+        'Test4' => 42,
     },
     "single tasks, multiple versions, first found wins"
 );
@@ -134,7 +136,7 @@ sub get_new_tasks {
 
     unshift @INC, @dirs;
 
-    my %after = FusionInventory::Agent->getAvailableTasks();
+    my %after = $agent->getAvailableTasks();
 
     shift @INC foreach @dirs;
 

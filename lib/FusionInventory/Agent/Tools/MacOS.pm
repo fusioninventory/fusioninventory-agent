@@ -10,8 +10,8 @@ use FusionInventory::Agent::Tools;
 
 our @EXPORT = qw(
     getSystemProfilerInfos
+    getIODevices
 );
-
 
 sub getSystemProfilerInfos {
     my %params = (
@@ -63,6 +63,50 @@ sub getSystemProfilerInfos {
     return $info;
 }
 
+sub getIODevices {
+    my %params = @_;
+
+    # passing expected class to the command ensure only instance of this class
+    # are present in the output, reducing the size of the content to be parsed,
+    # but still requires some manual filtering to avoid subclasses instances
+    my $command = $params{class} ? "ioreg -c $params{class}" : "ioreg -l";
+    my $filter = $params{class} || '[^,]+';
+
+    my $handle = getFileHandle(command => $command, %params);
+    return unless $handle;
+
+    my @devices;  
+    my $device;
+
+
+    while (my $line = <$handle>) {
+        if ($line =~ /<class $filter,/) {
+            # new device block
+            $device = {};
+            next;
+        }
+
+        next unless $device;
+
+        if ($line =~ /\| }/) {
+            # end of device block
+            push @devices, $device;
+            undef $device;
+            next;
+        }
+
+        if ($line =~ /"([^"]+)" \s = \s <? (?: "([^"]+)" | (\d+)) >?/x) {
+            # string or numeric property
+            $device->{$1} = $2 || $3;
+            next;
+        }
+
+    }
+    close $handle;
+
+    return @devices;
+}
+
 1;
 __END__
 
@@ -96,6 +140,21 @@ $info = {
 =item logger a logger object
 
 =item command the exact command to use (default: /usr/sbin/system_profiler)
+
+=item file the file to use, as an alternative to the command
+
+=back
+
+=head2 getIODevices(%params)
+
+Returns a flat list of devices as a list of hashref, by parsing ioreg output.
+Relationships are not extracted.
+
+=over
+
+=item logger a logger object
+
+=item class the class of devices wanted
 
 =item file the file to use, as an alternative to the command
 
