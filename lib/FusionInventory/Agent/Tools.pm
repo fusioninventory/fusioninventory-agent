@@ -346,7 +346,8 @@ sub canLoad {
 sub hex2char {
     my ($value) = @_;
 
-    return unless $value;
+    ## no critic (ExplicitReturnUndef)
+    return undef unless $value;
     return $value unless $value =~ /^0x/;
 
     $value =~ s/^0x//;
@@ -358,7 +359,8 @@ sub hex2char {
 sub hex2dec {
     my ($value) = @_;
 
-    return unless $value;
+    ## no critic (ExplicitReturnUndef)
+    return undef unless $value;
     return $value unless $value =~ /^0x/;
 
     return oct($value);
@@ -367,7 +369,8 @@ sub hex2dec {
 sub dec2hex {
     my ($value) = @_;
 
-    return unless $value;
+    ## no critic (ExplicitReturnUndef)
+    return undef unless $value;
     return $value if $value =~ /^0x/;
 
     return sprintf("0x%x", $value);

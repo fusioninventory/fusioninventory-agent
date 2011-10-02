@@ -42,12 +42,12 @@ sub doInventory {
         my $softwares64 =
             $machKey64->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
 
-	foreach my $software (_getSoftwares(
-	    softwares => $softwares64,
-	    is64bit   => 1
+        foreach my $software (_getSoftwares(
+            softwares => $softwares64,
+            is64bit   => 1
         )) {
-	    $inventory->addEntry(section => 'SOFTWARES', entry => $software);
-	}
+            $inventory->addEntry(section => 'SOFTWARES', entry => $software);
+        }
 
         my $machKey32 = $Registry->Open('LMachine', {
             Access => KEY_READ | KEY_WOW64_32 ## no critic (ProhibitBitwise)
@@ -56,12 +56,12 @@ sub doInventory {
         my $softwares32 =
             $machKey32->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
 
-	foreach my $software (_getSoftwares(
-	    softwares => $softwares32,
-	    is64bit   => 0
+        foreach my $software (_getSoftwares(
+            softwares => $softwares32,
+            is64bit   => 0
         )) {
-	    $inventory->addEntry(section => 'SOFTWARES', entry => $software);
-	}
+            $inventory->addEntry(section => 'SOFTWARES', entry => $software);
+        }
     } else {
         my $machKey = $Registry->Open('LMachine', {
             Access => KEY_READ
@@ -70,19 +70,20 @@ sub doInventory {
         my $softwares =
             $machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
 
-	foreach my $software (_getSoftwares(
-	    softwares => $softwares,
-	    is64bit   => 0
+        foreach my $software (_getSoftwares(
+            softwares => $softwares,
+            is64bit   => 0
         )) {
-	    $inventory->addEntry(section => 'SOFTWARES', entry => $software);
-	}
+            $inventory->addEntry(section => 'SOFTWARES', entry => $software);
+        }
     }
 }
 
 sub _dateFormat {
     my ($date) = @_; 
 
-    return unless $date;
+    ## no critic (ExplicitReturnUndef)
+    return undef unless $date;
 
     return unless $date =~ /^(\d{4})(\d{2})(\d{2})/;
 
@@ -123,8 +124,7 @@ sub _getSoftwares {
             INSTALLDATE      => _dateFormat($data->{'/InstallDate'}),
             VERSION_MINOR    => hex2dec($data->{'/MinorVersion'}),
             VERSION_MAJOR    => hex2dec($data->{'/MajorVersion'}),
-            NO_REMOVE        => $data->{'/NoRemove'} && 
-                                $data->{'/NoRemove'} =~ /1/,
+            NO_REMOVE        => hex2dec($data->{'/NoRemove'}),
             IS64BIT          => $is64bit,
             GUID             => $guid,
         };
@@ -135,7 +135,7 @@ sub _getSoftwares {
         # avoid duplicates
         next if $seen->{$software->{NAME}}->{$software->{VERSION}}++;
 
-	push @softwares, $software;
+        push @softwares, $software;
     }
 
     return @softwares;
