@@ -21,7 +21,7 @@ sub new {
     my $self = $class->SUPER::new(%params);
 
     if ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
-        $self->{agent} = FusionInventory::Agent::HTTP::Client::OCS->new(
+        $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
             logger       => $self->{logger},
             user         => $params{user},
             password     => $params{password},
