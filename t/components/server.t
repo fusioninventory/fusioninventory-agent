@@ -75,9 +75,10 @@ if (my $pid = fork()) {
 
 ok(
     $client->get('http://localhost:8080')->is_success(),
-    'server still listening on specific port after child process exit'
+    'server still listening after child process exit'
 );
 
+# fork a child process, and raise ALRM from it, as when a timeout is reached
 if (my $pid = fork()) {
     # parent
     waitpid($pid, 0);
@@ -89,7 +90,7 @@ if (my $pid = fork()) {
 
 ok(
     $client->get('http://localhost:8080')->is_success(),
-    'server still listening on specific port after child process raised ALRM'
+    'server still listening after child process raised ALRM'
 );
 
 

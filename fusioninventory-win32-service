@@ -7,6 +7,9 @@ use threads;
 use threads::shared;
 use constant SERVICE_SLEEP_TIME => 2000; # 20 milliseconds
 
+use File::Spec;
+use File::Basename;
+
 use English qw(-no_match_vars);
 use Win32;
 use Win32::Daemon;
@@ -87,9 +90,9 @@ sub startAgent {
     return if $thread;
     $thread = threads->create(sub {
         my $agent = new FusionInventory::Agent(
-            confdir => '../../etc/fusioninventory',
-            datadir => '../../share',
-            vardir  => '../../var',
+            confdir => dirname(File::Spec->rel2abs( __FILE__ )).'/../../etc/fusioninventory',
+            datadir => dirname(File::Spec->rel2abs( __FILE__ )).'/../../share',
+            vardir  => dirname(File::Spec->rel2abs( __FILE__ )).'/../../var',
         );
         $agent->init(options => { service => 1 });
         $agent->run();

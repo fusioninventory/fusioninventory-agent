@@ -7,6 +7,7 @@ use Cwd;
 use English qw(-no_match_vars);
 use Sys::Hostname;
 use UNIVERSAL::require;
+use File::Glob;
 
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::HTTP::Client::OCS;
@@ -327,11 +328,10 @@ sub getAvailableTasks {
         next unless -d "$directory/$subdirectory";
 
         # look for all perl modules here
-        foreach my $file (glob("$directory/$subdirectory/*.pm")) {
+        foreach my $file (File::Glob::glob("$directory/$subdirectory/*.pm")) {
             next unless $file =~ m{($subdirectory/(\S+)\.pm)$};
             my $module = file2module($1);
             my $name = file2module($2);
-
             # check module
             # todo: use a child process when running as a server to save memory
             if (!$module->require()) {
