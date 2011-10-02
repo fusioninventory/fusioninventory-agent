@@ -30,8 +30,6 @@ sub new {
             ca_cert_dir  => $params{'ca-cert-dir'},
             no_ssl_check => $params{'no-ssl-check'},
         );
-
-        $self->{prologresp} = $self->getPrologResponse();
     }
 
     return $self;
@@ -41,13 +39,13 @@ sub run {
     my ($self) = @_;
 
     if (!$self->{target}->isa('FusionInventory::Agent::Target::Server')) {
-        $self->{logger}->debug("No server. Exiting...");
+        $self->{logger}->debug("No server available, exiting");
         return;
     }
 
-    my $response = $self->{prologresp};
+    my $response = $self->getPrologResponse();
     if (!$response) {
-        $self->{logger}->debug("No server response. Exiting...");
+        $self->{logger}->debug("No server response, exiting");
         return;
     }
 
