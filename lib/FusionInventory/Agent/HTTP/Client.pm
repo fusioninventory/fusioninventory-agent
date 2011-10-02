@@ -171,6 +171,17 @@ sub _setSSLOptions {
 
         $self->{ssl_set} = 1;
     } elsif (Crypt::SSLeay->require() && !$EVAL_ERROR) {
+        $self->{ua}->default_header('');
+        return if $self->{no_ssl_check};
+
+        if (!$self->{'ca_cert_file'} && !$self->{'ca_cert_dir'}) {
+            die("You may need to use either --ca-cert-file ".
+                    "or --ca-cert-dir to give the location of your SSL ".
+                    "certificat. You can also disable SSL check with ".
+                    "--no-ssl-check but this is very unsecure.");
+            return;
+        }
+
         # This option has some limitation what's why IO::Socket::SSL
         # remains the best option:
         #  - No alternate hostname support
@@ -193,9 +204,7 @@ sub _setSSLOptions {
         $ENV{HTTPS_CA_DIR} = $self->{'ca_cert_dir'}
             if $self->{'ca_cert_dir'};
 
-        $self->{ua}->default_header('');
-#        $self->{ua}->ssl_opts(SSL_verifycn_scheme => undef);
-        if ( (!$self->{no_ssl_check}) && $url =~ /^https:\/\/([^\/]+).*$/i ) {
+        if ($url =~ /^https:\/\/([^\/]+).*$/i ) {
             my $re = $1;
 # Accept SSL cert will hostname with wild-card
 # http://forge.fusioninventory.org/issues/542
