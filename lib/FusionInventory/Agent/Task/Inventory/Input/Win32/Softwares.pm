@@ -99,17 +99,15 @@ sub _getSoftwares {
 
     foreach my $rawGuid (keys %$softwares) {
         my $data = $softwares->{$rawGuid};
-        next unless keys %$data;
-        
-        my $guid = $rawGuid;
-        $guid =~ s/\/$//; # drop the tailing / 
-
         # odd, found on Win2003
         next unless keys %$data > 2;
 
         # See bug #927
         # http://stackoverflow.com/questions/2639513/duplicate-entries-in-uninstall-registry-key-when-compiling-list-of-installed-soft
         next if $data->{'/SystemComponent'};
+
+        my $guid = $rawGuid;
+        $guid =~ s/\/$//; # drop the tailing / 
 
         my $software = {
             FROM             => "registry",
