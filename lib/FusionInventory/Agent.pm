@@ -242,6 +242,7 @@ sub run {
                         $logger->debug(
                             "executing $name in process $$"
                         );
+                        $task->initUA();
                         $task->run();
                         exit(0);
                     }
