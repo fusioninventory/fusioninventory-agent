@@ -28,24 +28,29 @@ sub new {
     my ($class, %params) = @_;
 
     my $self = $class->SUPER::new(%params);
+    $self->{debug} = $params{debug};
+
+
+    return $self;
+}
+
+sub init {
 
     if ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
         $self->{client} = FusionInventory::Agent::HTTP::Client::Fusion->new(
             logger       => $self->{logger},
-            user         => $params{user},
-            password     => $params{password},
-            proxy        => $params{proxy},
-            ca_cert_file => $params{'ca_cert_file'},
-            ca_cert_dir  => $params{'ca_cert_dir'},
-            no_ssl_check => $params{'no_ssl_check'},
-            debug => $params{debug}
+            user         => $self->{user},
+            password     => $self->{password},
+            proxy        => $self->{proxy},
+            ca_cert_file => $self->{'ca_cert_file'},
+            ca_cert_dir  => $self->{'ca_cert_dir'},
+            no_ssl_check => $self->{'no_ssl_check'},
+            debug => $self->{debug}
         );
-
-        $self->{prologresp} = $self->getPrologResponse();
     }
 
-    return $self;
 }
+
 
 #sub setStatus {
 #    my ($self, $params) = @_;
