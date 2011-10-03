@@ -24,22 +24,15 @@ my @hives = qw/
 sub isEnabled {
     my (%params) = @_;
 
-    my $prologresp = $params{prologresp};
-
-    return
-        $prologresp &&
-        $prologresp->getOptionsInfoByName("REGISTRY");
+    return $params{registry};
 }
 
 sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $prologresp = $params{prologresp};
 
-    my $options = $prologresp->getOptionsInfoByName("REGISTRY");
-
-    foreach my $option (@$options) {
+    foreach my $option (@{$params{registry}}) {
         my $name = $option->{NAME};
         my $regkey = $option->{REGKEY};
         my $regtree = $option->{REGTREE};

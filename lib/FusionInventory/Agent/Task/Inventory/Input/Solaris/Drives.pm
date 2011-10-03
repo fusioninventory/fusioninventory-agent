@@ -15,7 +15,9 @@ sub _getDfCmd {
         command => "df --version"
     );
 
-    return $line =~ /GNU/ ? 
+# df --help is on STDERR on some system
+# so $line is undef
+    return ($line && $line =~ /GNU/) ?
         "df -P -k" :
         "df -k";
 }
@@ -49,7 +51,7 @@ sub doInventory {
             command => "zfs get org.opensolaris.libbe:uuid $filesystem->{VOLUMN}"
         );
 
-        if ($line =~ /org.opensolaris.libbe:uuid\s+(\S{5}\S+)/) {
+        if ($line && $line =~ /org.opensolaris.libbe:uuid\s+(\S{5}\S+)/) {
             $filesystem->{UUID} = $1;
             $filesystem->{FILESYSTEM} = 'zfs';
             next;

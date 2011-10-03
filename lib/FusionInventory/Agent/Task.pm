@@ -23,6 +23,12 @@ sub new {
         target       => $params{target},
         token        => $params{token},
         deviceid     => $params{deviceid},
+        user         => $params{user},
+        password     => $params{password},
+        proxy        => $params{proxy},
+        ca_cert_file => $params{ca_cert_file},
+        ca_cert_dir  => $params{ca_cert_dir},
+        no_ssl_check => $params{no_ssl_check},
     };
     bless $self, $class;
 
@@ -42,11 +48,7 @@ sub getPrologResponse {
         message => $prolog
     );
 
-    if (!$response) {
-        $self->{logger}->error("No answer from the server");
-        $self->{target}->resetNextRunDate();
-        return;
-    }
+    return unless $response;
 
     # update target
     my $content = $response->getContent();

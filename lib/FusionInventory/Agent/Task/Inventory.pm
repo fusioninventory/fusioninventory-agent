@@ -19,40 +19,51 @@ sub new {
 
     my $self = $class->SUPER::new(%params);
 
+    return $self;
+}
+
+sub init {
+    my ($self) = @_;
+
     if ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
         $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
             logger       => $self->{logger},
-            user         => $params{user},
-            password     => $params{password},
-            proxy        => $params{proxy},
-            ca_cert_file => $params{'ca_cert_file'},
-            ca_cert_dir  => $params{'ca_cert_dir'},
-            no_ssl_check => $params{'no_ssl_check'},
+            user         => $self->{user},
+            password     => $self->{password},
+            proxy        => $self->{proxy},
+            ca_cert_file => $self->{ca_cert_file},
+            ca_cert_dir  => $self->{ca_cert_dir},
+            no_ssl_check => $self->{no_ssl_check},
         );
-
-        $self->{prologresp} = $self->getPrologResponse();
     }
-
-    return $self;
 }
 
 sub run {
     my ($self) = @_;
 
+    my $registry;
     if ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
-        die "No server response" unless $self->{prologresp};
+        my $response = $self->getPrologResponse();
+        if (!$response) {
+            $self->{logger}->debug("No server response, exiting");
+            return;
+        }
 
-        if ($self->{config}->{force}) {
-            $self->{logger}->debug(
-                "Force enable, ignore prolog and run inventory."
-            );
-        } else {
-            my $content = $self->{prologresp}->getContent();
-            if (!($content && $content->{RESPONSE} && $content->{RESPONSE} =~ /^SEND$/)) {
-                $self->{logger}->debug("No inventory requested in the prolog");
+        my $content = $response->getContent();
+        if (!($content && $content->{RESPONSE} && $content->{RESPONSE} =~ /^SEND$/)) {
+            if ($self->{config}->{force}) {
+                $self->{logger}->debug(
+                    "No inventory requested in the prolog, inventory forced"
+                );
+            } else {
+                $self->{logger}->debug(
+                    "No inventory requested in the prolog, exiting"
+                );
                 return;
             }
         }
+
+        $registry = $response->getOptionsInfoByName('REGISTRY');
     }
 
     $self->{modules} = {};
@@ -74,8 +85,8 @@ sub run {
         );
     }
 
-    $self->_initModulesList();
-    $self->_feedInventory($inventory);
+    $self->_initModulesList($registry);
+    $self->_feedInventory($inventory, $registry);
 
     if ($self->{target}->isa('FusionInventory::Agent::Target::Stdout')) {
         $self->_printInventory(
@@ -124,7 +135,7 @@ sub run {
 }
 
 sub _initModulesList {
-    my ($self) = @_;
+    my ($self, $registry) = @_;
 
     my $logger = $self->{logger};
     my $config = $self->{config};
@@ -161,7 +172,7 @@ sub _initModulesList {
             params => {
                 datadir       => $self->{datadir},
                 logger        => $self->{logger},
-                prologresp    => $self->{prologresp},
+                registry      => $registry,
                 no_software   => $self->{config}->{'no-software'},
                 no_printer    => $self->{config}->{'no-printer'},
                 scan_homedirs => $self->{config}->{'scan-homedirs'},
@@ -210,7 +221,7 @@ sub _initModulesList {
 }
 
 sub _runModule {
-    my ($self, $module, $inventory) = @_;
+    my ($self, $module, $inventory, $registry) = @_;
 
     my $logger = $self->{logger};
 
@@ -229,10 +240,10 @@ sub _runModule {
         die "circular dependency between $module and $other_module"
             if $self->{modules}->{$other_module}->{used};
 
-        $self->_runModule($other_module, $inventory);
+        $self->_runModule($other_module, $inventory, $registry);
     }
 
-    $logger->debug ("Running $module");
+    $logger->debug("Running $module");
 
     runFunction(
         module   => $module,
@@ -242,7 +253,7 @@ sub _runModule {
             datadir       => $self->{datadir},
             inventory     => $inventory,
             logger        => $self->{logger},
-            prologresp    => $self->{prologresp},
+            registry      => $registry,
             no_software   => $self->{config}->{no_software},
             no_printer    => $self->{config}->{no_printer},
             scan_homedirs => $self->{config}->{'scan-homedirs'},
@@ -253,7 +264,7 @@ sub _runModule {
 }
 
 sub _feedInventory {
-    my ($self, $inventory) = @_;
+    my ($self, $inventory, $registry) = @_;
 
     my $begin = time();
     my @modules =
@@ -261,7 +272,7 @@ sub _feedInventory {
         keys %{$self->{modules}};
 
     foreach my $module (sort @modules) {
-        $self->_runModule($module, $inventory);
+        $self->_runModule($module, $inventory, $registry);
     }
 
     if (-d $self->{confdir} . '/softwares') {
