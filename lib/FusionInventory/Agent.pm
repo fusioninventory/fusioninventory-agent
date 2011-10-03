@@ -239,9 +239,7 @@ sub run {
                         # child
                         die "fork failed: $ERRNO" unless defined $pid;
 
-                        $logger->debug(
-                            "executing $name in process $$"
-                        );
+                        $logger->debug("executing $name in process $PID");
                         $task->init();
                         $task->run();
                         exit(0);
