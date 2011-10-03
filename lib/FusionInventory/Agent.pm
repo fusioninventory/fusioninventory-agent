@@ -230,6 +230,11 @@ sub run {
                     next;
                 }
 
+                if (!$task->isEnabled()) {
+                    $logger->info("task $name is not enabled");
+                    next;
+                }
+
                 if ($config->{daemon} || $config->{service}) {
                     # daemon mode: run each task in a child process
                     if (my $pid = fork()) {
