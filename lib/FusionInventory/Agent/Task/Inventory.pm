@@ -14,14 +14,6 @@ use FusionInventory::Agent::XML::Query::Inventory;
 
 our $VERSION = '1.0';
 
-sub new {
-    my ($class, %params) = @_;
-
-    my $self = $class->SUPER::new(%params);
-
-    return $self;
-}
-
 sub init {
     my ($self) = @_;
 
