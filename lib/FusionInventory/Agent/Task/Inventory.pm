@@ -21,19 +21,20 @@ sub isEnabled {
 }
 
 sub init {
-    my ($self) = @_;
+    my ($self, %params) = @_;
 
-    if ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
-        $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
-            logger       => $self->{logger},
-            user         => $self->{user},
-            password     => $self->{password},
-            proxy        => $self->{proxy},
-            ca_cert_file => $self->{ca_cert_file},
-            ca_cert_dir  => $self->{ca_cert_dir},
-            no_ssl_check => $self->{no_ssl_check},
-        );
-    }
+    return unless
+        $self->{target}->isa('FusionInventory::Agent::Target::Server');
+
+    $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
+        logger       => $self->{logger},
+        user         => $params{user},
+        password     => $params{password},
+        proxy        => $params{proxy},
+        ca_cert_file => $params{ca_cert_file},
+        ca_cert_dir  => $params{ca_cert_dir},
+        no_ssl_check => $params{no_ssl_check},
+    );
 }
 
 sub run {

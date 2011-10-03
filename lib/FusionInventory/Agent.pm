@@ -215,12 +215,6 @@ sub run {
                         target       => $target,
                         token        => $self->{token},
                         deviceid     => $self->{deviceid},
-                        user         => $self->{config}->{user},
-                        password     => $self->{config}->{password},
-                        proxy        => $self->{config}->{proxy},
-                        ca_cert_file => $self->{config}->{'ca-cert-file'},
-                        ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
-                        no_ssl_check => $self->{config}->{'no-ssl-check'},
                     );
                 };
                 if (!$task) {
@@ -245,14 +239,28 @@ sub run {
                         die "fork failed: $ERRNO" unless defined $pid;
 
                         $logger->debug("executing $name in process $PID");
-                        $task->init();
+                        $task->init(
+                            user         => $self->{config}->{user},
+                            password     => $self->{config}->{password},
+                            proxy        => $self->{config}->{proxy},
+                            ca_cert_file => $self->{config}->{'ca-cert-file'},
+                            ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
+                            no_ssl_check => $self->{config}->{'no-ssl-check'},
+                        );
                         $task->run();
                         exit(0);
                     }
                 } else {
                     # standalone mode: run each task directly
                     $logger->debug("executing $name");
-                    $task->init();
+                    $task->init(
+                        user         => $self->{config}->{user},
+                        password     => $self->{config}->{password},
+                        proxy        => $self->{config}->{proxy},
+                        ca_cert_file => $self->{config}->{'ca-cert-file'},
+                        ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
+                        no_ssl_check => $self->{config}->{'no-ssl-check'},
+                    );
                     $task->run();
                 }
             }
