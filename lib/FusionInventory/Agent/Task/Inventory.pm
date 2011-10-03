@@ -22,7 +22,7 @@ sub new {
     return $self;
 }
 
-sub initUA {
+sub init {
     my ($self) = @_;
 
     if ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {

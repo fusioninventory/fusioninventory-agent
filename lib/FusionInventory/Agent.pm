@@ -242,13 +242,14 @@ sub run {
                         $logger->debug(
                             "executing $name in process $$"
                         );
-                        $task->initUA();
+                        $task->init();
                         $task->run();
                         exit(0);
                     }
                 } else {
                     # standalone mode: run each task directly
                     $logger->debug("executing $name");
+                    $task->init();
                     $task->run();
                 }
             }
