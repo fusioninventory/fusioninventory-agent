@@ -202,8 +202,6 @@ sub run {
 
                 next if $disabled{lc($name)};
 
-                $self->{status} = "running task $name";
-
                 my $class = "FusionInventory::Agent::Task::$name";
                 my $task;
                 eval {
@@ -229,6 +227,8 @@ sub run {
                     next;
                 }
 
+                $self->{status} = "running task $name";
+
                 if ($config->{daemon} || $config->{service}) {
                     # daemon mode: run each task in a child process
                     if (my $pid = fork()) {
@@ -238,7 +238,7 @@ sub run {
                         # child
                         die "fork failed: $ERRNO" unless defined $pid;
 
-                        $logger->debug("executing $name in process $PID");
+                        $logger->debug("running task $name in process $PID");
                         $task->init(
                             user         => $self->{config}->{user},
                             password     => $self->{config}->{password},
@@ -252,7 +252,7 @@ sub run {
                     }
                 } else {
                     # standalone mode: run each task directly
-                    $logger->debug("executing $name");
+                    $logger->debug("running task $name");
                     $task->init(
                         user         => $self->{config}->{user},
                         password     => $self->{config}->{password},
