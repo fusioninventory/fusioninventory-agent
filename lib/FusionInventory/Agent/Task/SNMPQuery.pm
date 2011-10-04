@@ -175,7 +175,7 @@ sub run {
     );
 
     my $options = $self->getOptionsFromServer(
-        $client, 'SNMPQUERY', 'SNMP query'
+        $client, 'SNMPQUERY', 'SNMPQuery'
     );
     return unless $options;
    
