@@ -241,23 +241,14 @@ sub run {
                 next if $disabled{lc($name)};
 
                 my $class = "FusionInventory::Agent::Task::$name";
-                my $task;
-                eval {
-                    $task = $class->new(
-                        config       => $config,
-                        confdir      => $self->{confdir},
-                        datadir      => $self->{datadir},
-                        logger       => $logger,
-                        target       => $target,
-                        deviceid     => $self->{deviceid},
-                    );
-                };
-                if (!$task) {
-                    $logger->info(
-                        "task $name can't be initialized: $EVAL_ERROR"
-                    );
-                    next;
-                }
+                my $task = $class->new(
+                    config       => $config,
+                    confdir      => $self->{confdir},
+                    datadir      => $self->{datadir},
+                    logger       => $logger,
+                    target       => $target,
+                    deviceid     => $self->{deviceid},
+                );
 
                 if (!$task->isEnabled($response)) {
                     $logger->info("task $name is not enabled");
