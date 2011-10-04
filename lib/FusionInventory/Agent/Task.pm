@@ -30,14 +30,14 @@ sub new {
 }
 
 sub getPrologResponse {
-    my ($self) = @_;
+    my ($self, $client) = @_;
 
     my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
         token    => $self->{token},
         deviceid => $self->{deviceid},
     );
 
-    my $response = $self->{client}->send(
+    my $response = $client->send(
         url     => $self->{target}->getUrl(),
         message => $prolog
     );

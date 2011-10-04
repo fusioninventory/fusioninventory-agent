@@ -21,10 +21,10 @@ sub isEnabled {
     return $self->{target}->isa('FusionInventory::Agent::Target::Server');
 }
 
-sub init {
+sub run {
     my ($self, %params) = @_;
 
-    $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
+    my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
         logger       => $self->{logger},
         user         => $params{user},
         password     => $params{password},
@@ -33,12 +33,8 @@ sub init {
         ca_cert_dir  => $params{ca_cert_dir},
         no_ssl_check => $params{no_ssl_check},
     );
-}
 
-sub run {
-    my ($self) = @_;
-
-    my $response = $self->getPrologResponse();
+    my $response = $self->getPrologResponse($client);
     if (!$response) {
         $self->{logger}->debug("No server response, exiting");
         return;

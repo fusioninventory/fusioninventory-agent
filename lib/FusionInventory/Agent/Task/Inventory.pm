@@ -20,29 +20,22 @@ sub isEnabled {
     return 1;
 }
 
-sub init {
+sub run {
     my ($self, %params) = @_;
 
-    return unless
-        $self->{target}->isa('FusionInventory::Agent::Target::Server');
-
-    $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
-        logger       => $self->{logger},
-        user         => $params{user},
-        password     => $params{password},
-        proxy        => $params{proxy},
-        ca_cert_file => $params{ca_cert_file},
-        ca_cert_dir  => $params{ca_cert_dir},
-        no_ssl_check => $params{no_ssl_check},
-    );
-}
-
-sub run {
-    my ($self) = @_;
-
-    my $registry;
+    my ($client, $registry);
     if ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
-        my $response = $self->getPrologResponse();
+        $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+            logger       => $self->{logger},
+            user         => $params{user},
+            password     => $params{password},
+            proxy        => $params{proxy},
+            ca_cert_file => $params{ca_cert_file},
+            ca_cert_dir  => $params{ca_cert_dir},
+            no_ssl_check => $params{no_ssl_check},
+        );
+
+        my $response = $self->getPrologResponse($client);
         if (!$response) {
             $self->{logger}->debug("No server response, exiting");
             return;
@@ -121,7 +114,7 @@ sub run {
             content  => $inventory->getContent()
         );
 
-        my $response = $self->{client}->send(
+        my $response = $client->send(
             url     => $self->{target}->getUrl(),
             message => $message
         );

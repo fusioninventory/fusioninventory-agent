@@ -239,7 +239,7 @@ sub run {
                         die "fork failed: $ERRNO" unless defined $pid;
 
                         $logger->debug("running task $name in process $PID");
-                        $task->init(
+                        $task->run(
                             user         => $self->{config}->{user},
                             password     => $self->{config}->{password},
                             proxy        => $self->{config}->{proxy},
@@ -247,13 +247,12 @@ sub run {
                             ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
                             no_ssl_check => $self->{config}->{'no-ssl-check'},
                         );
-                        $task->run();
                         exit(0);
                     }
                 } else {
                     # standalone mode: run each task directly
                     $logger->debug("running task $name");
-                    $task->init(
+                    $task->run(
                         user         => $self->{config}->{user},
                         password     => $self->{config}->{password},
                         proxy        => $self->{config}->{proxy},
@@ -261,7 +260,6 @@ sub run {
                         ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
                         no_ssl_check => $self->{config}->{'no-ssl-check'},
                     );
-                    $task->run();
                 }
             }
 
