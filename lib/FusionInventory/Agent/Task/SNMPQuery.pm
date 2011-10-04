@@ -153,10 +153,23 @@ my @mac_dispatch_table = (
 );
 
 sub isEnabled {
-    my ($self) = @_;
+    my ($self, $response) = @_;
 
-    return 
+    return unless
         $self->{target}->isa('FusionInventory::Agent::Target::Server');
+
+    my $options = $self->getOptionsFromServer(
+        $response, 'SNMPQUERY', 'SNMPQuery'
+    );
+    return unless $options;
+
+    if (!$options->{DEVICE}) {
+        $self->{logger}->debug("No device defined in the prolog response");
+        return;
+    }
+
+    $self->{options} = $options;
+    return 1;
 }
 
 sub run {
@@ -164,7 +177,18 @@ sub run {
 
     $self->{logger}->debug("FusionInventory SNMPQuery task $VERSION");
 
-    my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+    my $options     = $self->{options};
+    my $pid         = $options->{PARAM}->[0]->{PID};
+    my $max_threads = $options->{PARAM}->[0]->{THREADS_DISCOVERY};
+   
+    # SNMP models
+    my $models = _getIndexedModels($options->{MODEL});
+
+    # SNMP credentials
+    my $credentials = _getIndexedCredentials($options->{AUTHENTICATION});
+
+    # task-specific client
+    $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
         logger       => $self->{logger},
         user         => $params{user},
         password     => $params{password},
@@ -174,19 +198,6 @@ sub run {
         no_ssl_check => $params{no_ssl_check},
     );
 
-    my $options = $self->getOptionsFromServer(
-        $client, 'SNMPQUERY', 'SNMPQuery'
-    );
-    return unless $options;
-   
-    my $params  = $options->{PARAM}->[0];
-
-    # SNMP models
-    my $models = _getIndexedModels($options->{MODEL});
-
-    # SNMP credentials
-    my $credentials = _getIndexedCredentials($options->{AUTHENTICATION});
-
     # send initial message to the server
     $self->_sendMessage({
         AGENT => {
@@ -194,7 +205,7 @@ sub run {
             AGENTVERSION => $FusionInventory::Agent::VERSION
         },
         MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $params->{PID}
+        PROCESSNUMBER => $pid
     });
 
     # create the required number of threads, sharing variables
@@ -204,15 +215,14 @@ sub run {
     my @states  :shared;
 
     # no need for more threads than devices to scan
-    my $nb_threads = $params->{THREADS_QUERY};
-    if ($nb_threads > @devices) {
-        $nb_threads = @devices;
+    if ($max_threads > @devices) {
+        $max_threads = @devices;
     }
 
     #===================================
     # Create all Threads
     #===================================
-    for (my $i = 0; $i < $nb_threads; $i++) {
+    for (my $i = 0; $i < $max_threads; $i++) {
         $states[$i] = START;
 
         threads->create(
@@ -239,7 +249,7 @@ sub run {
         my $data = {
             DEVICE        => $result,
             MODULEVERSION => $VERSION,
-            PROCESSNUMBER => $params->{PID}
+            PROCESSNUMBER => $pid
         };
         $self->_sendMessage($data);
         sleep 1;
@@ -251,7 +261,7 @@ sub run {
             END => 1,
         },
         MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $params->{PID}
+        PROCESSNUMBER => $PID
     });
 }
 
