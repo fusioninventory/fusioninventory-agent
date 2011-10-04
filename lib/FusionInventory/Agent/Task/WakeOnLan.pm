@@ -11,6 +11,8 @@ use constant SOCK_PACKET => 10;
 use English qw(-no_match_vars);
 use Socket;
 
+use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Linux;
 use FusionInventory::Agent::Tools::Network;
 
 our $VERSION = '1.0';
@@ -64,27 +66,24 @@ sub run {
         setsockopt(SOCKET, SOL_SOCKET, SO_BROADCAST, 1)
             or warn "Can't do setsockopt: $ERRNO\n";
 
-        open my $handle, '-|', '/sbin/ifconfig -a'
-            or die "Can't run /sbin/ifconfig: $ERRNO";
-        while (my $line = <$handle>) {
-            next unless $line =~ /(\S+) \s+ Link \s \S+ \s+ HWaddr \s (\S+)/x;
-            my $netName = $1;
-            my $netMac = $2;
-            $self->{logger}->debug(
-                "Send magic packet to $macaddress directly on card driver"
-            );
-            $netMac =~ s/://g;
+        my $interface =
+            first { $_->{MACADDR} }
+            getInterfacesFromIfconfig(logger => $self->{logger});
+        my $sourceMac = $interface->{MACADDR};
+        $sourceMac =~ s/://g;
 
-            my $magic_packet =
-                (pack('H12', $macaddress)) .
-                (pack('H12', $netMac)) .
-                (pack('H4', "0842"));
-            $magic_packet .= chr(0xFF) x 6 . (pack('H12', $macaddress) x 16);
-            my $destination = pack("Sa14", 0, $netName);
-            send(SOCKET, $magic_packet, 0, $destination)
-                or warn "Couldn't send packet: $ERRNO";
-        }
-        close $handle;
+        $self->{logger}->debug(
+            "Send magic packet to $macaddress directly on card driver"
+        );
+
+        my $magic_packet =
+            (pack('H12', $macaddress)) .
+            (pack('H12', $sourceMac)) .
+            (pack('H4', "0842"));
+        $magic_packet .= chr(0xFF) x 6 . (pack('H12', $macaddress) x 16);
+        my $destination = pack("Sa14", 0, $interface->{DESCRIPTION});
+        send(SOCKET, $magic_packet, 0, $destination)
+            or warn "Couldn't send packet: $ERRNO";
         # TODO : For FreeBSD, send to /dev/bpf ....
     };
 
