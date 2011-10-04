@@ -4,6 +4,15 @@ use strict;
 use warnings;
 use base 'Exporter';
 
+use constant SOLARIS_UNKNOWN      => 0;
+use constant SOLARIS_FIRE         => 1;
+use constant SOLARIS_FIRE_V       => 2;
+use constant SOLARIS_FIRE_T       => 3;
+use constant SOLARIS_ENTERPRISE_T => 4;
+use constant SOLARIS_ENTERPRISE   => 5;
+use constant SOLARIS_I86PC        => 6;
+use constant SOLARIS_CONTAINER    => 7;
+
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
@@ -13,6 +22,14 @@ our @EXPORT = qw(
     getZone
     getModel
     getClass
+    SOLARIS_UNKNOWN
+    SOLARIS_FIRE
+    SOLARIS_FIRE_V
+    SOLARIS_FIRE_T
+    SOLARIS_ENTERPRISE_T
+    SOLARIS_ENTERPRISE
+    SOLARIS_I86PC
+    SOLARIS_CONTAINER
 );
 
 memoize('getZone');
@@ -50,7 +67,7 @@ sub getClass {
     my $model = getModel();
 
     if ($model =~ /SUNW,Sun-Fire-\d/) {
-        return 1;
+        return SOLARIS_FIRE;
     }
 
     if (
@@ -58,31 +75,31 @@ sub getClass {
         $model =~ /SUNW,Netra-T/    or
         $model =~ /SUNW,Ultra-250/
     ) {
-        return 2;
+        return SOLARIS_FIRE_V;
     }
 
     if (
         $model =~ /SUNW,Sun-Fire-T\d/ or
         $model =~ /SUNW,T\d/
     ) {
-        return 3;
+        return SOLARIS_FIRE_T;
     }
 
     if ($model =~ /SUNW,SPARC-Enterprise-T\d/) {
-        return 4;
+        return SOLARIS_ENTERPRISE_T;
     }
     if ($model =~ /SUNW,SPARC-Enterprise/) {
-        return 5;
+        return SOLARIS_ENTERPRISE;
     }
     if ($model eq "i86pc") {
-        return 6;
+        return SOLARIS_I86PC;
     }
     if ($model =~ /Solaris Containers/) {
-        return 7;
+        return SOLARIS_CONTAINER;
     }
 
     # unknown class
-    return 0;
+    return SOLARIS_UNKNOWN;
 }
 
 

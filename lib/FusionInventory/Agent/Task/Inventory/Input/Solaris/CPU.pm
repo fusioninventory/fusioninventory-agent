@@ -19,8 +19,9 @@ sub doInventory {
     my $class = getClass();
 
     my ($count, $cpu) =
-        $class == 7 ? _getCPUFromPrtcl(logger => $logger)  :
-                      _getCPUFromMemconf(logger => $logger);
+        $class == SOLARIS_CONTAINER ?
+            _getCPUFromPrtcl(logger => $logger)  :
+            _getCPUFromMemconf(logger => $logger);
 
     # fallback on generic method
     if (!$count) {

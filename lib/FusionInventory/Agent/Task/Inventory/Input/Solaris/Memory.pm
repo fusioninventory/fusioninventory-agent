@@ -24,14 +24,14 @@ sub doInventory {
     }
 
     my @memories =
-        $class == 1 ? _getMemories1() :
-        $class == 2 ? _getMemories2() :
-        $class == 3 ? _getMemories3() :
-        $class == 4 ? _getMemories4() :
-        $class == 5 ? _getMemories5() :
-        $class == 6 ? _getMemories6() :
-        $class == 7 ? _getMemories7() :
-                      ()              ;
+        $class == SOLARIS_FIRE         ? _getMemories1() :
+        $class == SOLARIS_FIRE_V       ? _getMemories2() :
+        $class == SOLARIS_FIRE_T       ? _getMemories3() :
+        $class == SOLARIS_ENTERPRISE_T ? _getMemories4() :
+        $class == SOLARIS_ENTERPRISE   ? _getMemories5() :
+        $class == SOLARIS_I86PC        ? _getMemories6() :
+        $class == SOLARIS_CONTAINER    ? _getMemories7() :
+                                         ()              ;
 
     foreach my $memory (@memories) {
         $inventory->addEntry(

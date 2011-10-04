@@ -19,9 +19,9 @@ sub doInventory {
     my $class = getClass();
 
     my @slots = 
-        $class == 4 ? _getSlots4(logger => $logger, command => 'prtdiag') :
-        $class == 5 ? _getSlots5(logger => $logger, command => 'prtdiag') :
-                      _getSlotsDefault(logger => $logger, command => 'prtdiag') ;
+        $class == SOLARIS_ENTERPRISE_T ? _getSlots4(logger => $logger) :
+        $class == SOLARIS_ENTERPRISE   ? _getSlots5(logger => $logger) :
+                                         _getSlotsDefault(logger => $logger) ;
 
     foreach my $slot (@slots) {
         $inventory->addEntry(
@@ -32,8 +32,12 @@ sub doInventory {
 }
 
 sub _getSlots4 {
+    my %params = (
+        command => 'prtdiag',
+        @_
+    );
 
-    my $handle  = getFileHandle(@_);
+    my $handle  = getFileHandle(%params);
     return unless $handle;
 
     my @slots;
@@ -53,8 +57,12 @@ sub _getSlots4 {
 }
 
 sub _getSlots5 {
+    my %params = (
+        command => 'prtdiag',
+        @_
+    );
 
-    my $handle  = getFileHandle(@_);
+    my $handle  = getFileHandle(%params);
     return unless $handle;
 
     my @slots;
@@ -99,8 +107,12 @@ sub _getSlots5 {
 }
 
 sub _getSlotsDefault {
+    my %params = (
+        command => 'prtdiag',
+        @_
+    );
 
-    my $handle  = getFileHandle(@_);
+    my $handle  = getFileHandle(%params);
     return unless $handle;
 
     my @slots;
