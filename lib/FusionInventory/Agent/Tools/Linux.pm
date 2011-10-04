@@ -9,6 +9,7 @@ use Memoize;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
+use FusionInventory::Agent::Tools::Network;
 
 our @EXPORT = qw(
     getDevicesFromUdev
@@ -16,6 +17,8 @@ our @EXPORT = qw(
     getDevicesFromProc
     getCPUsFromProc
     getSerialnumber
+    getInterfacesFromIfconfig
+    getInterfacesFromIp
 );
 
 memoize('getDevicesFromUdev');
@@ -254,6 +257,91 @@ sub getSerialnumber {
     return $serial;
 }
 
+sub getInterfacesFromIfconfig {
+    my %params = (
+        command => '/sbin/ifconfig -a',
+        @_
+    );
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my @interfaces;
+    my $interface;
+
+    while (my $line = <$handle>) {
+        if ($line =~ /^$/) {
+            # end of interface section
+            push @interfaces, $interface if $interface;
+            next;
+        }
+
+        if ($line =~ /^(\S+)/) {
+            # new interface
+            $interface = {
+                STATUS      => 'Down',
+                DESCRIPTION => $1
+            }
+        }
+        if ($line =~ /inet addr:($ip_address_pattern)/i) {
+            $interface->{IPADDRESS} = $1;
+        }
+        if ($line =~ /Mask:($ip_address_pattern)/) {
+            $interface->{IPMASK} = $1;
+        }
+        if ($line =~ /inet6 addr: (\S+)/i) {
+            $interface->{IPADDRESS6} = $1;
+        }
+        if ($line =~ /hwadd?r\s+($mac_address_pattern)/i) {
+            $interface->{MACADDR} = $1;
+        }
+        if ($line =~ /^\s+UP\s/) {
+            $interface->{STATUS} = 'Up';
+        }
+        if ($line =~ /link encap:(\S+)/i) {
+            $interface->{TYPE} = $1;
+        }
+
+    }
+    close $handle;
+
+    return @interfaces;
+}
+sub getInterfacesFromIp {
+    my %params = (
+        command => '/sbin/ip addr show',
+        @_
+    );
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my @interfaces;
+    my $interface;
+
+    while (my $line = <$handle>) {
+        chomp $line;
+        if ($line =~ /^\d+:\s+(\S+): .*(UP|DOWN)/) {
+            push @interfaces, $interface if $interface;
+            $interface = {
+                DESCRIPTION => $1,
+                STATUS      => ucfirst(lc($2))
+            };
+        } elsif ($line =~ /link\/ether ($mac_address_pattern)/) {
+            $interface->{MACADDR} = $1;
+        } elsif ($line =~ /inet6 (\S+)\//) {
+            $interface->{IPADDRESS6} = $1;
+        } elsif ($line =~ /inet ($ip_address_pattern)\/(\d{1,3})/) {
+            $interface->{IPADDRESS} = $1;
+            $interface->{IPMASK}    = getNetworkMask($1, $2);
+            $interface->{IPSUBNET}  = getSubnetAddress(
+                $interface->{IPADDRESS}, $interface->{IPMASK}
+            );
+        }
+    }
+
+    return @interfaces;
+}
+
 1;
 __END__
 
@@ -332,6 +420,38 @@ Availables parameters:
 =item logger a logger object
 
 =item device the device to use
+
+=item file the file to use
+
+=back
+
+=head2 getInterfacesFromIfconfig(%params)
+
+Returns the list of interfaces, by parsing ifconfig command output.
+
+Availables parameters:
+
+=over
+
+=item logger a logger object
+
+=item command the command to use (default: /sbin/ifconfig -a)
+
+=item file the file to use
+
+=back
+
+=head2 getInterfacesFromIp(%params)
+
+Returns the list of interfaces, by parsing ip command output.
+
+Availables parameters:
+
+=over
+
+=item logger a logger object
+
+=item command the command to use (default: /sbin/ip addr show)
 
 =item file the file to use
 
