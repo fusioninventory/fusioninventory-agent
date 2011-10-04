@@ -15,8 +15,24 @@ use FusionInventory::Agent::XML::Query::Inventory;
 our $VERSION = '1.0';
 
 sub isEnabled {
-    my ($self) = @_;
+    my ($self, $response) = @_;
 
+    # always enabled for local target
+    return 1 unless
+        $self->{target}->isa('FusionInventory::Agent::Target::Server');
+
+    if ($self->{config}->{force}) {
+        $self->{logger}->debug("Prolog response ignored");
+        return 1;
+    }
+
+    my $content = $response->getContent();
+    if (!$content || !$content->{RESPONSE} || $content->{RESPONSE} ne 'SEND') {
+        $self->{logger}->debug("No inventory requested in the prolog response");
+        return;
+    }
+
+    $self->{registry} = $response->getOptionsInfoByName('REGISTRY');
     return 1;
 }
 
@@ -24,41 +40,6 @@ sub run {
     my ($self, %params) = @_;
 
     $self->{logger}->debug("FusionInventory Inventory task $VERSION");
-
-    my ($client, $registry);
-    if ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
-        $client = FusionInventory::Agent::HTTP::Client::OCS->new(
-            logger       => $self->{logger},
-            user         => $params{user},
-            password     => $params{password},
-            proxy        => $params{proxy},
-            ca_cert_file => $params{ca_cert_file},
-            ca_cert_dir  => $params{ca_cert_dir},
-            no_ssl_check => $params{no_ssl_check},
-        );
-
-        my $response = $self->getPrologResponse($client);
-        if (!$response) {
-            $self->{logger}->debug("No server response, exiting");
-            return;
-        }
-
-        my $content = $response->getContent();
-        if (!($content && $content->{RESPONSE} && $content->{RESPONSE} =~ /^SEND$/)) {
-            if ($self->{config}->{force}) {
-                $self->{logger}->debug(
-                    "No inventory requested in the prolog, inventory forced"
-                );
-            } else {
-                $self->{logger}->debug(
-                    "No inventory requested in the prolog, exiting"
-                );
-                return;
-            }
-        }
-
-        $registry = $response->getOptionsInfoByName('REGISTRY');
-    }
 
     $self->{modules} = {};
 
@@ -79,8 +60,8 @@ sub run {
         );
     }
 
-    $self->_initModulesList($registry);
-    $self->_feedInventory($inventory, $registry);
+    $self->_initModulesList();
+    $self->_feedInventory($inventory);
 
     if ($self->{target}->isa('FusionInventory::Agent::Target::Stdout')) {
         $self->_printInventory(
@@ -110,6 +91,15 @@ sub run {
             $self->{logger}->error("Can't write to $file: $ERRNO");
         }
     } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
+        my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+            logger       => $self->{logger},
+            user         => $params{user},
+            password     => $params{password},
+            proxy        => $params{proxy},
+            ca_cert_file => $params{ca_cert_file},
+            ca_cert_dir  => $params{ca_cert_dir},
+            no_ssl_check => $params{no_ssl_check},
+        );
 
         my $message = FusionInventory::Agent::XML::Query::Inventory->new(
             deviceid => $self->{deviceid},
@@ -129,7 +119,7 @@ sub run {
 }
 
 sub _initModulesList {
-    my ($self, $registry) = @_;
+    my ($self) = @_;
 
     my $logger = $self->{logger};
     my $config = $self->{config};
@@ -166,7 +156,7 @@ sub _initModulesList {
             params => {
                 datadir       => $self->{datadir},
                 logger        => $self->{logger},
-                registry      => $registry,
+                registry      => $self->{registry},
                 no_software   => $self->{config}->{'no-software'},
                 no_printer    => $self->{config}->{'no-printer'},
                 scan_homedirs => $self->{config}->{'scan-homedirs'},
@@ -215,7 +205,7 @@ sub _initModulesList {
 }
 
 sub _runModule {
-    my ($self, $module, $inventory, $registry) = @_;
+    my ($self, $module, $inventory) = @_;
 
     my $logger = $self->{logger};
 
@@ -234,7 +224,7 @@ sub _runModule {
         die "circular dependency between $module and $other_module"
             if $self->{modules}->{$other_module}->{used};
 
-        $self->_runModule($other_module, $inventory, $registry);
+        $self->_runModule($other_module, $inventory);
     }
 
     $logger->debug("Running $module");
@@ -247,7 +237,7 @@ sub _runModule {
             datadir       => $self->{datadir},
             inventory     => $inventory,
             logger        => $self->{logger},
-            registry      => $registry,
+            registry      => $self->{registry},
             no_software   => $self->{config}->{no_software},
             no_printer    => $self->{config}->{no_printer},
             scan_homedirs => $self->{config}->{'scan-homedirs'},
@@ -258,7 +248,7 @@ sub _runModule {
 }
 
 sub _feedInventory {
-    my ($self, $inventory, $registry) = @_;
+    my ($self, $inventory) = @_;
 
     my $begin = time();
     my @modules =
@@ -266,7 +256,7 @@ sub _feedInventory {
         keys %{$self->{modules}};
 
     foreach my $module (sort @modules) {
-        $self->_runModule($module, $inventory, $registry);
+        $self->_runModule($module, $inventory);
     }
 
     if (-d $self->{confdir} . '/softwares') {

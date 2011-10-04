@@ -18,9 +18,29 @@ use FusionInventory::Agent::Tools::Network;
 our $VERSION = '1.0';
 
 sub isEnabled {
-    my ($self) = @_;
+    my ($self, $response) = @_;
 
-    return $self->{target}->isa('FusionInventory::Agent::Target::Server');
+    return unless
+        $self->{target}->isa('FusionInventory::Agent::Target::Server');
+
+    my $options = $self->getOptionsFromServer(
+        $response, 'WAKEONLAN', 'WakeOnLan'
+    );
+    return unless $options;
+
+    my $target = $options->{PARAM}->[0]->{MAC};
+    if (!$target) {
+        $self->{logger}->debug("No mac address defined in the prolog response");
+        return;
+    }
+
+    if (!$target !~ /^$mac_address_pattern$/) {
+        $self->{logger}->debug("invalid MAC address $target");
+        return;
+    }
+
+    $self->{options} = $options;
+    return 1;
 }
 
 sub run {
@@ -28,27 +48,8 @@ sub run {
 
     $self->{logger}->debug("FusionInventory WakeOnLan task $VERSION");
 
-    my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
-        logger       => $self->{logger},
-        user         => $params{user},
-        password     => $params{password},
-        proxy        => $params{proxy},
-        ca_cert_file => $params{ca_cert_file},
-        ca_cert_dir  => $params{ca_cert_dir},
-        no_ssl_check => $params{no_ssl_check},
-    );
-
-    my $options = $self->getOptionsFromServer(
-        $client, 'WAKEONLAN', 'wake on lan'
-    );
-    return unless $options;
-
-    my $target = $options->{PARAM}->[0]->{MAC};
-    return unless defined $target;
-
-    if ($target !~ /^$mac_address_pattern$/) {
-        die "invalid MAC address $target, exiting";
-    }
+    my $options = $self->{options};
+    my $target  = $options->{PARAM}->[0]->{MAC};
     $target =~ s/://g;
 
     # Linux only

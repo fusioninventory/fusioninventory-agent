@@ -21,7 +21,6 @@ sub new {
         confdir      => $params{confdir},
         datadir      => $params{datadir},
         target       => $params{target},
-        token        => $params{token},
         deviceid     => $params{deviceid},
     };
     bless $self, $class;
@@ -29,42 +28,17 @@ sub new {
     return $self;
 }
 
-sub getPrologResponse {
-    my ($self, $client) = @_;
-
-    my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
-        token    => $self->{token},
-        deviceid => $self->{deviceid},
-    );
-
-    my $response = $client->send(
-        url     => $self->{target}->getUrl(),
-        message => $prolog
-    );
-
-    return unless $response;
-
-    # update target
-    my $content = $response->getContent();
-    if (defined($content->{PROLOG_FREQ})) {
-        $self->{target}->setMaxDelay($content->{PROLOG_FREQ} * 3600);
-    }
-
-    return $response;
-}
-
 sub getOptionsFromServer {
-    my ($self, $client, $name, $feature) = @_;
+    my ($self, $response, $name, $feature) = @_;
 
-    my $response = $self->getPrologResponse($client);
     if (!$response) {
-        $self->{logger}->debug("No server response, exiting");
+        $self->{logger}->debug("No server response");
         return;
     }
 
     my $options = $response->getOptionsInfoByName($name);
     if (!$options) {
-        $self->{logger}->debug("No $feature requested in the prolog, exiting");
+        $self->{logger}->debug("No $feature requested in the prolog");
         return;
     }
 
@@ -140,11 +114,7 @@ the logger object to use (default: a new stderr logger)
 
 This is the method to be implemented by each subclass.
 
-=head2 getPrologResponse($client)
-
-Get server response to prolog message.
-
-=head2 getOptionsFromServer($client, $name, $feature)
+=head2 getOptionsFromServer($response, $name, $feature)
 
 Get task-specific options in server response to prolog message.
 

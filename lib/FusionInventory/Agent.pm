@@ -194,6 +194,44 @@ sub run {
 
     while (my $target = $scheduler->getNextTarget()) {
         eval {
+            # the prolog dialog must be done once for all tasks,
+            # but only for server targets
+            my $response;
+            if ($target->isa('FusionInventory::Agent::Target::Server')) {
+                my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+                    logger       => $logger,
+                    user         => $self->{config}->{user},
+                    password     => $self->{config}->{password},
+                    proxy        => $self->{config}->{proxy},
+                    ca_cert_file => $self->{config}->{'ca-cert-file'},
+                    ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
+                    no_ssl_check => $self->{config}->{'no-ssl-check'},
+                );
+
+                my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
+                    token    => $self->{token},
+                    deviceid => $self->{deviceid},
+                );
+
+                eval {
+                    $response = $client->send(
+                        url     => $target->getUrl(),
+                        message => $prolog
+                    );
+                };
+
+                if (!$response) {
+                    $logger->error("No answer from the server");
+                    $target->resetNextRunDate();
+                    next;
+                }
+
+                # update target
+                my $content = $response->getContent();
+                if (defined($content->{PROLOG_FREQ})) {
+                    $target->setMaxDelay($content->{PROLOG_FREQ} * 3600);
+                }
+            }
 
             # index list of disabled task for fast lookup
             my %disabled = map { $_ => 1 } @{$config->{'no-task'}};
@@ -211,7 +249,6 @@ sub run {
                         datadir      => $self->{datadir},
                         logger       => $logger,
                         target       => $target,
-                        token        => $self->{token},
                         deviceid     => $self->{deviceid},
                     );
                 };
@@ -222,7 +259,7 @@ sub run {
                     next;
                 }
 
-                if (!$task->isEnabled()) {
+                if (!$task->isEnabled($response)) {
                     $logger->info("task $name is not enabled");
                     next;
                 }
