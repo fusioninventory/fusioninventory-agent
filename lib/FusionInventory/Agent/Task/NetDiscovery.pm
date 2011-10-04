@@ -133,19 +133,10 @@ sub run {
         no_ssl_check => $params{no_ssl_check},
     );
 
-    my $response = $self->getPrologResponse($client);
-    if (!$response) {
-        $self->{logger}->debug("No server response, exiting");
-        return;
-    }
-
-    my $options = $response->getOptionsInfoByName('NETDISCOVERY');
-    if (!$options) {
-        $self->{logger}->debug(
-            "No net discovery requested in the prolog, exiting"
-        );
-        return;
-    }
+    my $options = $self->getOptionsFromServer(
+        $client, 'NETDISCOVERY', 'net discovery'
+    );
+    return unless $options;
 
     $self->{logger}->debug("FusionInventory NetDiscovery module ".$VERSION);
 
