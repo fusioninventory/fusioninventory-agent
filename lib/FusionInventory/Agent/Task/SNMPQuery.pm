@@ -172,20 +172,11 @@ sub run {
         no_ssl_check => $params{no_ssl_check},
     );
 
-    my $response = $self->getPrologResponse($client);
-    if (!$response) {
-        $self->{logger}->debug("No server response, exiting");
-        return;
-    }
-
-    my $options = $response->getOptionsInfoByName('SNMPQUERY');
-    if (!$options) {
-        $self->{logger}->debug(
-            "No SNMP query requested in the prolog, exiting"
-        );
-        return;
-    }
-
+    my $options = $self->getOptionsFromServer(
+        $client, 'SNMPQUERY', 'SNMP query'
+    );
+    return unless $options;
+   
     $self->{logger}->debug("FusionInventory SNMPQuery module ".$VERSION);
 
     my $params  = $options->{PARAM}->[0];
