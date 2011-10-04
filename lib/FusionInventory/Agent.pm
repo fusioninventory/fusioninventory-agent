@@ -217,12 +217,7 @@ sub run {
                     url     => $target->getUrl(),
                     message => $prolog
                 );
-
-                if (!$response) {
-                    $logger->error("No answer from the server");
-                    $target->resetNextRunDate();
-                    next;
-                }
+                die "No answer from the server" unless $response;
 
                 # update target
                 my $content = $response->getContent();
@@ -235,7 +230,6 @@ sub run {
             my %disabled = map { $_ => 1 } @{$config->{'no-task'}};
 
             foreach my $name (@{$self->{tasks}}) {
-
                 next if $disabled{lc($name)};
 
                 my $class = "FusionInventory::Agent::Task::$name";
