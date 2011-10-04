@@ -114,10 +114,23 @@ my @dispatch_table = (
 );
 
 sub isEnabled {
-    my ($self) = @_;
+    my ($self, $response) = @_;
 
-    return 
+    return unless
         $self->{target}->isa('FusionInventory::Agent::Target::Server');
+
+    my $options = $self->getOptionsFromServer(
+        $response, 'NETDISCOVERY', 'NetDiscovery'
+    );
+    return unless $options;
+
+    if (!$options->{RANGEIP}) {
+        $self->{logger}->debug("No IP range defined in the prolog response");
+        return;
+    }
+
+    $self->{options} = $options;
+    return 1;
 }
 
 sub run {
@@ -125,22 +138,9 @@ sub run {
 
     $self->{logger}->debug("FusionInventory NetDiscovery task $VERSION");
 
-    my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
-        logger       => $self->{logger},
-        user         => $params{user},
-        password     => $params{password},
-        proxy        => $params{proxy},
-        ca_cert_file => $params{ca_cert_file},
-        ca_cert_dir  => $params{ca_cert_dir},
-        no_ssl_check => $params{no_ssl_check},
-    );
-
-    my $options = $self->getOptionsFromServer(
-        $client, 'NETDISCOVERY', 'NetDiscovery'
-    );
-    return unless $options;
-
-    my $params = $options->{PARAM}->[0];
+    my $options     = $self->{options};
+    my $pid         = $options->{PARAM}->[0]->{PID};
+    my $max_threads = $options->{PARAM}->[0]->{THREADS_DISCOVERY};
 
     # check discovery methods available
     my ($nmap_parameters, $snmp_credentials, $snmp_dictionnary);
@@ -174,10 +174,22 @@ sub run {
         );
     } else {
         $snmp_credentials = $options->{AUTHENTICATION};
-        $snmp_dictionnary = $self->_getDictionnary($options, $params->{PID});
+        $snmp_dictionnary = $self->_getDictionnary($options, $pid);
         # abort immediatly if the dictionnary isn't up to date
         return unless $snmp_dictionnary;
     }
+
+    # task-specific client
+    $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
+        logger       => $self->{logger},
+        user         => $params{user},
+        password     => $params{password},
+        proxy        => $params{proxy},
+        ca_cert_file => $params{ca_cert_file},
+        ca_cert_dir  => $params{ca_cert_dir},
+        no_ssl_check => $params{no_ssl_check},
+    );
+
 
     # send initial message to the server
     $self->_sendMessage({
@@ -186,7 +198,7 @@ sub run {
             AGENTVERSION => $FusionInventory::Agent::VERSION,
         },
         MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $params->{PID}
+        PROCESSNUMBER => $pid
     });
 
     # create the required number of threads, sharing variables
@@ -195,7 +207,7 @@ sub run {
     my @results   :shared;
     my @states    :shared;
 
-    for (my $i = 0; $i < $params->{THREADS_DISCOVERY}; $i++) {
+    for (my $i = 0; $i < $max_threads; $i++) {
         $states[$i] = START;
 
         threads->create(
@@ -228,7 +240,7 @@ sub run {
             AGENT => {
                 NBIP => scalar @addresses
             },
-            PROCESSNUMBER => $params->{PID}
+            PROCESSNUMBER => $pid
         });
 
         # set all threads in RUN state
@@ -246,7 +258,7 @@ sub run {
         my $data = {
             DEVICE        => \@results,
             MODULEVERSION => $VERSION,
-            PROCESSNUMBER => $params->{PID}
+            PROCESSNUMBER => $pid
         };
         $self->_sendMessage($data);
 
@@ -264,7 +276,7 @@ sub run {
             END => 1,
         },
         MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $params->{PID}
+        PROCESSNUMBER => $pid
     });
 
 }
