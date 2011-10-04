@@ -43,7 +43,7 @@ sub run {
     );
     return unless $options;
 
-    my $macaddress = $self->{WAKEONLAN}->{PARAM}->[0]->{MAC};
+    my $macaddress = $options->{PARAM}->[0]->{MAC};
 
     return unless defined $macaddress;
 
