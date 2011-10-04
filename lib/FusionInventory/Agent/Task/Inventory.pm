@@ -325,7 +325,9 @@ sub _printInventory {
             my $tpp = XML::TreePP->new(indent => 2);
             print {$params{handle}} $tpp->write({
                 REQUEST => {
-                    CONTENT => $params{inventory}->{content}
+                    CONTENT => $params{inventory}->{content},
+                    DEVICEID => $self->{deviceid},
+                    QUERY => "INVENTORY",
                 }
             });
 
