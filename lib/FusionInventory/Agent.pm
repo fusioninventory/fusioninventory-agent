@@ -213,12 +213,10 @@ sub run {
                     deviceid => $self->{deviceid},
                 );
 
-                eval {
-                    $response = $client->send(
-                        url     => $target->getUrl(),
-                        message => $prolog
-                    );
-                };
+                $response = $client->send(
+                    url     => $target->getUrl(),
+                    message => $prolog
+                );
 
                 if (!$response) {
                     $logger->error("No answer from the server");
