@@ -65,7 +65,7 @@ sub run {
         $source =~ s/://g;
 
         $self->{logger}->debug(
-            "Send magic packet to $target directly on card driver"
+            "Sending magic packet to $target as ethernet frame"
         );
 
         my $magic_packet =
@@ -89,7 +89,7 @@ sub run {
             (pack('H12', $target) x 16);
         my $sinbroadcast = sockaddr_in("9", inet_aton("255.255.255.255"));
         $self->{logger}->debug(
-            "Send magic packet to $target in UDP mode (degraded wol)"
+            "Sending magic packet to $target as UDP packetm"
         );
         send(SOCKET, $magic_packet, 0, $sinbroadcast);
     };
