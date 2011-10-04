@@ -23,6 +23,8 @@ sub isEnabled {
 sub run {
     my ($self, %params) = @_;
 
+    $self->{logger}->debug("FusionInventory Inventory task $VERSION");
+
     my ($client, $registry);
     if ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
         $client = FusionInventory::Agent::HTTP::Client::OCS->new(

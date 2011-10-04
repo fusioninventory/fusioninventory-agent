@@ -26,6 +26,8 @@ sub isEnabled {
 sub run {
     my ($self, %params) = @_;
 
+    $self->{logger}->debug("FusionInventory WakeOnLan task $VERSION");
+
     my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
         logger       => $self->{logger},
         user         => $params{user},
