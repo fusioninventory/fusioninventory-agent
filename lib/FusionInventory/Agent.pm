@@ -202,8 +202,6 @@ sub run {
 
                 next if $disabled{lc($name)};
 
-                $self->{status} = "running task $name";
-
                 my $class = "FusionInventory::Agent::Task::$name";
                 my $task;
                 eval {
@@ -215,12 +213,6 @@ sub run {
                         target       => $target,
                         token        => $self->{token},
                         deviceid     => $self->{deviceid},
-                        user         => $self->{config}->{user},
-                        password     => $self->{config}->{password},
-                        proxy        => $self->{config}->{proxy},
-                        ca_cert_file => $self->{config}->{'ca-cert-file'},
-                        ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
-                        no_ssl_check => $self->{config}->{'no-ssl-check'},
                     );
                 };
                 if (!$task) {
@@ -229,6 +221,13 @@ sub run {
                     );
                     next;
                 }
+
+                if (!$task->isEnabled()) {
+                    $logger->info("task $name is not enabled");
+                    next;
+                }
+
+                $self->{status} = "running task $name";
 
                 if ($config->{daemon} || $config->{service}) {
                     # daemon mode: run each task in a child process
@@ -239,17 +238,29 @@ sub run {
                         # child
                         die "fork failed: $ERRNO" unless defined $pid;
 
-                        $logger->debug(
-                            "executing $name in process $$"
+                        $logger->debug("running task $name in process $PID");
+                        $task->init(
+                            user         => $self->{config}->{user},
+                            password     => $self->{config}->{password},
+                            proxy        => $self->{config}->{proxy},
+                            ca_cert_file => $self->{config}->{'ca-cert-file'},
+                            ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
+                            no_ssl_check => $self->{config}->{'no-ssl-check'},
                         );
-                        $task->init();
                         $task->run();
                         exit(0);
                     }
                 } else {
                     # standalone mode: run each task directly
-                    $logger->debug("executing $name");
-                    $task->init();
+                    $logger->debug("running task $name");
+                    $task->init(
+                        user         => $self->{config}->{user},
+                        password     => $self->{config}->{password},
+                        proxy        => $self->{config}->{proxy},
+                        ca_cert_file => $self->{config}->{'ca-cert-file'},
+                        ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
+                        no_ssl_check => $self->{config}->{'no-ssl-check'},
+                    );
                     $task->run();
                 }
             }

@@ -15,37 +15,28 @@ use FusionInventory::Agent::Tools::Network;
 
 our $VERSION = '1.0';
 
-sub new {
-    my ($class, %params) = @_;
+sub isEnabled {
+    my ($self) = @_;
 
-    my $self = $class->SUPER::new(%params);
-
-    return $self;
+    return $self->{target}->isa('FusionInventory::Agent::Target::Server');
 }
 
 sub init {
-    my ($self) = @_;
+    my ($self, %params) = @_;
 
-    if ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
-        $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
-            logger       => $self->{logger},
-            user         => $self->{user},
-            password     => $self->{password},
-            proxy        => $self->{proxy},
-            ca_cert_file => $self->{ca_cert_file},
-            ca_cert_dir  => $self->{ca_cert_dir},
-            no_ssl_check => $self->{no_ssl_check},
-        );
-    }
+    $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
+        logger       => $self->{logger},
+        user         => $params{user},
+        password     => $params{password},
+        proxy        => $params{proxy},
+        ca_cert_file => $params{ca_cert_file},
+        ca_cert_dir  => $params{ca_cert_dir},
+        no_ssl_check => $params{no_ssl_check},
+    );
 }
 
 sub run {
     my ($self) = @_;
-
-    if (!$self->{target}->isa('FusionInventory::Agent::Target::Server')) {
-        $self->{logger}->debug("No server available, exiting");
-        return;
-    }
 
     my $response = $self->getPrologResponse();
     if (!$response) {
