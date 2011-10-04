@@ -152,35 +152,27 @@ my @mac_dispatch_table = (
     }
 );
 
-sub new {
-    my ($class, %params) = @_;
+sub isEnabled {
+    my ($self) = @_;
 
-    my $self = $class->SUPER::new(%params);
-
-    if ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
-        $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
-            logger       => $self->{logger},
-            user         => $params{user},
-            password     => $params{password},
-            proxy        => $params{proxy},
-            ca_cert_file => $params{ca_cert_file},
-            ca_cert_dir  => $params{ca_cert_dir},
-            no_ssl_check => $params{no_ssl_check},
-        );
-    }
-
-    return $self;
+    return 
+        $self->{target}->isa('FusionInventory::Agent::Target::Server');
 }
 
 sub run {
-    my ($self) = @_;
+    my ($self, %params) = @_;
 
-    if (!$self->{target}->isa('FusionInventory::Agent::Target::Server')) {
-        $self->{logger}->debug("No server available, exiting");
-        return;
-    }
+    my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+        logger       => $self->{logger},
+        user         => $params{user},
+        password     => $params{password},
+        proxy        => $params{proxy},
+        ca_cert_file => $params{ca_cert_file},
+        ca_cert_dir  => $params{ca_cert_dir},
+        no_ssl_check => $params{no_ssl_check},
+    );
 
-    my $response = $self->getPrologResponse();
+    my $response = $self->getPrologResponse($client);
     if (!$response) {
         $self->{logger}->debug("No server response, exiting");
         return;
