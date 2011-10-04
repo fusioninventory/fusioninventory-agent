@@ -127,6 +127,8 @@ sub request {
 sub _setSSLOptions {
     my ($self, $url) = @_;
 
+    return if $self->{ssl_set};
+
     # SSL handling
     if ($self->{'no_ssl_check'}) {
         if ($LWP::VERSION >= 6) {
@@ -134,16 +136,9 @@ sub _setSSLOptions {
             $self->{ua}->ssl_opts(verify_hostname => 0);
         }
     } elsif (IO::Socket::SSL->require() && !$EVAL_ERROR) {
-        return if $self->{ssl_set};
         # only IO::Socket::SSL can perform full server certificate validation,
         # Net::SSL is only able to check certification authority, and not
         # certificate hostname
-        IO::Socket::SSL->require();
-        die
-            "failed to load IO::Socket::SSL" .
-            ", unable to perform SSL certificate validation"
-            if $EVAL_ERROR;
-
         if ($LWP::VERSION >= 6) {
             $self->{ua}->ssl_opts(SSL_ca_file => $self->{'ca_cert_file'})
                 if $self->{'ca_cert_file'};
@@ -169,54 +164,19 @@ sub _setSSLOptions {
             $self->{ua}->{ssl_check} = $self->{'no_ssl_check'} ? 0 : 1;
         }
 
-        $self->{ssl_set} = 1;
     } elsif (Crypt::SSLeay->require() && !$EVAL_ERROR) {
-        $self->{ua}->default_header('');
-        return if $self->{no_ssl_check};
-
-        if (!$self->{'ca_cert_file'} && !$self->{'ca_cert_dir'}) {
-            die("You may need to use either --ca-cert-file ".
-                    "or --ca-cert-dir to give the location of your SSL ".
-                    "certificat. You can also disable SSL check with ".
-                    "--no-ssl-check but this is very unsecure.");
-            return;
+        if (!$self->{'no_ssl_check'}) {
+            die("We do not check serveur certificat with Crypt::SSLeay. " .
+            "Please install IO::Socket::SSL and Net::SSLeay or use " .
+            "the no-ssl-check parameter.");
         }
-
-        # This option has some limitation what's why IO::Socket::SSL
-        # remains the best option:
-        #  - No alternate hostname support
-        #  - Hostname validation has to be done manually
-        if ($LWP::VERSION >= 6) {
-            $self->{ua}->ssl_opts(SSL_ca_file => $self->{'ca_cert_file'})
-	        if $self->{'ca_cert_file'};
-            $self->{ua}->ssl_opts(SSL_ca_path => $self->{'ca_cert_dir'})
-                if $self->{'ca_cert_dir'};
-            # Net::SSL+Crypt::SSLeay are not able to turn OpenSSL internal
-            # hostname check. We check that ourself with If-SSL-Cert-Subject
-            # after. For the moment we turn verify_hostname off
-            $self->{ua}->ssl_opts(verify_hostname => 0);
-            $self->{ua}->ssl_opts(SSL_verify_mode => 1);
-#            $self->{ua}->ssl_opts(SSL_verifycn_scheme => 'www');
-
-	}
-        $ENV{HTTPS_CA_FILE} = $self->{'ca_cert_file'}
-            if $self->{'ca_cert_file'};
-        $ENV{HTTPS_CA_DIR} = $self->{'ca_cert_dir'}
-            if $self->{'ca_cert_dir'};
-
-        if ($url =~ /^https:\/\/([^\/]+).*$/i ) {
-            my $re = $1;
-# Accept SSL cert will hostname with wild-card
-# http://forge.fusioninventory.org/issues/542
-            $re =~ s/^([^\.]+)/($1|\\*)/;
-# protect some characters, $re will be evaluated as a regex
-            $re =~ s/([\-\.])/\\$1/g;
-# Drop the port numbers
-            $re =~ s/:\d+//g;
-            $self->{ua}->default_header('If-SSL-Cert-Subject' => '/CN='.$re.'($|\/)');
-        }
+    } else {
+        die
+            "failed to load IO::Socket::SSL, " .
+            "unable to perform SSL certificate validation";
 
     }
+    $self->{ssl_set} = 1;
 }
 
 1;
