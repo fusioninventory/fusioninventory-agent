@@ -162,6 +162,8 @@ sub isEnabled {
 sub run {
     my ($self, %params) = @_;
 
+    $self->{logger}->debug("FusionInventory SNMPQuery module $VERSION");
+
     my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
         logger       => $self->{logger},
         user         => $params{user},
@@ -177,8 +179,6 @@ sub run {
     );
     return unless $options;
    
-    $self->{logger}->debug("FusionInventory SNMPQuery module ".$VERSION);
-
     my $params  = $options->{PARAM}->[0];
 
     # SNMP models
