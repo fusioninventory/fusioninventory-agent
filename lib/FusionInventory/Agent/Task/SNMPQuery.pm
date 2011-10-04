@@ -162,7 +162,7 @@ sub isEnabled {
 sub run {
     my ($self, %params) = @_;
 
-    $self->{logger}->debug("FusionInventory SNMPQuery module $VERSION");
+    $self->{logger}->debug("FusionInventory SNMPQuery task $VERSION");
 
     my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
         logger       => $self->{logger},
