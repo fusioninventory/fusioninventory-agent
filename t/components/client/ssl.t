@@ -8,19 +8,15 @@ use English qw(-no_match_vars);
 use Test::More;
 use Test::Exception;
 
-use UNIVERSAL::require;
-
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::HTTP::Client;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
 
-my $doNetSSL = Net::SSL->require;
-
 if ($OSNAME eq 'MSWin32' || $OSNAME eq 'darwin') {
     plan skip_all => 'non working test on Windows and MacOS';
 } else {
-    plan tests => 8 + ($doNetSSL?6:0);
+    plan tests => 7;
 }
 
 my $ok = sub {
@@ -48,17 +44,6 @@ my $secure_client = FusionInventory::Agent::HTTP::Client->new(
     logger       => $logger,
     ca_cert_file => 't/ssl/crt/ca.pem',
 );
-my $unsafe_client_net_ssl = FusionInventory::Agent::HTTP::Client->new(
-    logger       => $logger,
-    no_ssl_check => 1,
-    ssl_socket_class => 'Net::SSL'
-) if $doNetSSL;
-my $secure_client_net_ssl = FusionInventory::Agent::HTTP::Client->new(
-    logger       => $logger,
-    ca_cert_file => 't/ssl/crt/ca.pem',
-    ssl_socket_class => 'Net::SSL'
-) if $doNetSSL;
-
 
 # ensure the server get stopped even if an exception is thrown
 $SIG{__DIE__}  = sub { $server->stop(); };
@@ -80,13 +65,8 @@ $server->background();
 
 ok(
     $secure_client->request(HTTP::Request->new(GET => $url))->is_success(),
-    'trusted certificate, correct hostname: connection success (IO::Socket::SSL)'
+    'trusted certificate, correct hostname: connection success'
 );
-ok(
-    $secure_client_net_ssl->request(HTTP::Request->new(GET => $url))->is_success(),
-    'trusted certificate, correct hostname: connection success (Net::SSL)'
-) if $doNetSSL;
-
 
 $server->stop();
 
@@ -107,16 +87,8 @@ $server->background();
 
 ok(
     $secure_client->request(HTTP::Request->new(GET => $url))->is_success(),
-    'trusted certificate, alternate hostname: connection success (IO::Socket::SSL)'
+    'trusted certificate, alternate hostname: connection success'
 );
-# Alternate hostname is broken with Net::SSL
-SKIP: {
-    skip "Alternate hostname is broken with Net::SSL/Crypt::SSLeay", 1;
-    ok(
-        $secure_client_net_ssl->request(HTTP::Request->new(GET => $url))->is_success(),
-        'trusted certificate, alternate hostname: connection success (Net::SSL)'
-    );
-}
 
 $server->stop();
 
@@ -143,14 +115,8 @@ SKIP: {
         $secure_client->request(
             HTTP::Request->new(GET => 'https://localhost.localdomain:8080/public')
         )->is_success(),
-        'trusted certificate, joker: connection succes (IO::Socket::SSL)'
+        'trusted certificate, joker: connection success'
     );
-    ok(
-        $secure_client_net_ssl->request(
-            HTTP::Request->new(GET => 'https://localhost.localdomain:8080/public')
-        )->is_success(),
-        'trusted certificate, joker: connection success (Net::SSL)'
-    ) if $doNetSSL;
 
     $server->stop();
 }
@@ -172,22 +138,13 @@ $server->background();
 
 ok(
     !$secure_client->request(HTTP::Request->new(GET => $url))->is_success(),
-    'trusted certificate, wrong hostname: connection failure (IO::Socket::SSL)'
+    'trusted certificate, wrong hostname: connection failure'
 );
-ok(
-    !$secure_client_net_ssl->request(HTTP::Request->new(GET => $url))->is_success(),
-    'trusted certificate, wrong hostname: connection failure (Net::SSL)'
-) if $doNetSSL;
 
 ok(
     $unsafe_client->request(HTTP::Request->new(GET => $url))->is_success(),
-    'trusted certificate, wrong hostname, no check: connection success (IO::Socket::SSL)'
+    'trusted certificate, wrong hostname, no check: connection success'
 );
-ok(
-    $unsafe_client_net_ssl->request(HTTP::Request->new(GET => $url))->is_success(),
-    'trusted certificate, wrong hostname, no check: connection success (Net::SSL)'
-) if $doNetSSL;
-
 
 $server->stop();
 
@@ -208,20 +165,12 @@ $server->background();
 
 ok(
     !$secure_client->request(HTTP::Request->new(GET => $url))->is_success(),
-    'untrusted certificate, correct hostname: connection failure (IO::Socket::SSL)'
+    'untrusted certificate, correct hostname: connection failure'
 );
-ok(
-    !$secure_client_net_ssl->request(HTTP::Request->new(GET => $url))->is_success(),
-    'untrusted certificate, correct hostname: connection failure (Net::SSL)'
-) if $doNetSSL;
 
 ok(
     $unsafe_client->request(HTTP::Request->new(GET => $url))->is_success(),
-    'untrusted certificate, correct hostname, no check: connection success (IO::Socket::SSL)'
+    'untrusted certificate, correct hostname, no check: connection success'
 );
-ok(
-    $unsafe_client_net_ssl->request(HTTP::Request->new(GET => $url))->is_success(),
-    'untrusted certificate, correct hostname, no check: connection success (Net::SSL)'
-) if $doNetSSL;
 
 $server->stop();
