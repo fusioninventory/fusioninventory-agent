@@ -123,7 +123,7 @@ sub isEnabled {
 sub run {
     my ($self, %params) = @_;
 
-    $self->{logger}->debug("FusionInventory NetDiscovery module $VERSION");
+    $self->{logger}->debug("FusionInventory NetDiscovery task $VERSION");
 
     my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
         logger       => $self->{logger},
