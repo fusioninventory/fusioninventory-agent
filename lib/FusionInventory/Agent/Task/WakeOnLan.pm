@@ -36,19 +36,10 @@ sub run {
         no_ssl_check => $params{no_ssl_check},
     );
 
-    my $response = $self->getPrologResponse($client);
-    if (!$response) {
-        $self->{logger}->debug("No server response, exiting");
-        return;
-    }
-
-    my $options = $response->getOptionsInfoByName('WAKEONLAN');
-    if (!$options) {
-        $self->{logger}->debug(
-            "No wake on lan requested in the prolog, exiting"
-        );
-        return;
-    }
+    my $options = $self->getOptionsFromServer(
+        $client, 'WAKEONLAN', 'wake on lan'
+    );
+    return unless $options;
 
     my $macaddress = $self->{WAKEONLAN}->{PARAM}->[0]->{MAC};
 

@@ -53,6 +53,24 @@ sub getPrologResponse {
     return $response;
 }
 
+sub getOptionsFromServer {
+    my ($self, $client, $name, $feature) = @_;
+
+    my $response = $self->getPrologResponse($client);
+    if (!$response) {
+        $self->{logger}->debug("No server response, exiting");
+        return;
+    }
+
+    my $options = $response->getOptionsInfoByName($name);
+    if (!$options) {
+        $self->{logger}->debug("No $feature requested in the prolog, exiting");
+        return;
+    }
+
+    return $options;
+}
+
 sub getModules {
     my ($class, $prefix) = @_;
 
@@ -121,6 +139,14 @@ the logger object to use (default: a new stderr logger)
 =head2 run()
 
 This is the method to be implemented by each subclass.
+
+=head2 getPrologResponse($client)
+
+Get server response to prolog message.
+
+=head2 getOptionsFromServer($client, $name, $feature)
+
+Get task-specific options in server response to prolog message.
 
 =head2 getModules($prefix)
 
