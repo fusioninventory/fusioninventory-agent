@@ -43,14 +43,13 @@ sub run {
     );
     return unless $options;
 
-    my $macaddress = $options->{PARAM}->[0]->{MAC};
+    my $target = $options->{PARAM}->[0]->{MAC};
+    return unless defined $target;
 
-    return unless defined $macaddress;
-
-    if ($macaddress !~ /^$mac_address_pattern$/) {
-        die "invalid MAC address $macaddress, exiting";
+    if ($target !~ /^$mac_address_pattern$/) {
+        die "invalid MAC address $target, exiting";
     }
-    $macaddress =~ s/://g;
+    $target =~ s/://g;
 
     # Linux only
     eval {
@@ -62,18 +61,18 @@ sub run {
         my $interface =
             first { $_->{MACADDR} }
             getInterfacesFromIfconfig(logger => $self->{logger});
-        my $sourceMac = $interface->{MACADDR};
-        $sourceMac =~ s/://g;
+        my $source = $interface->{MACADDR};
+        $source =~ s/://g;
 
         $self->{logger}->debug(
-            "Send magic packet to $macaddress directly on card driver"
+            "Send magic packet to $target directly on card driver"
         );
 
         my $magic_packet =
-            (pack('H12', $macaddress)) .
-            (pack('H12', $sourceMac)) .
+            (pack('H12', $target)) .
+            (pack('H12', $source)) .
             (pack('H4', "0842"));
-        $magic_packet .= chr(0xFF) x 6 . (pack('H12', $macaddress) x 16);
+        $magic_packet .= chr(0xFF) x 6 . (pack('H12', $target) x 16);
         my $destination = pack("Sa14", 0, $interface->{DESCRIPTION});
         send(SOCKET, $magic_packet, 0, $destination)
             or warn "Couldn't send packet: $ERRNO";
@@ -87,10 +86,10 @@ sub run {
         socket(SOCKET, PF_INET, SOCK_DGRAM, getprotobyname('udp'));
         my $magic_packet = 
             chr(0xFF) x 6 .
-            (pack('H12', $macaddress) x 16);
+            (pack('H12', $target) x 16);
         my $sinbroadcast = sockaddr_in("9", inet_aton("255.255.255.255"));
         $self->{logger}->debug(
-            "Send magic packet to $macaddress in UDP mode (degraded wol)"
+            "Send magic packet to $target in UDP mode (degraded wol)"
         );
         send(SOCKET, $magic_packet, 0, $sinbroadcast);
     };
