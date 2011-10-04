@@ -136,7 +136,7 @@ sub run {
     );
 
     my $options = $self->getOptionsFromServer(
-        $client, 'NETDISCOVERY', 'net discovery'
+        $client, 'NETDISCOVERY', 'NetDiscovery'
     );
     return unless $options;
 
