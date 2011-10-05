@@ -187,6 +187,7 @@ sub run {
 
     $self->{status} = 'waiting';
 
+    # endless loop in server mode
     while (my $target = $self->{scheduler}->getNextTarget()) {
         eval {
             $self->_runTarget($target);
@@ -196,8 +197,6 @@ sub run {
     }
 
     $self->{server}->terminate() if $self->{server};
-
-    exit 0;
 }
 
 sub _runTarget {
