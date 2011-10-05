@@ -195,8 +195,6 @@ sub run {
         $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
         $target->resetNextRunDate();
     }
-
-    $self->{server}->terminate() if $self->{server};
 }
 
 sub _runTarget {
