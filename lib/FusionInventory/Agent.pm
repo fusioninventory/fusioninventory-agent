@@ -185,117 +185,121 @@ sub init {
 sub run {
     my ($self) = @_;
 
-    my $config = $self->{config};
-    my $logger = $self->{logger};
-    my $scheduler = $self->{scheduler};
     $self->{status} = 'waiting';
 
-    my $status = 0;
-
-    while (my $target = $scheduler->getNextTarget()) {
+    while (my $target = $self->{scheduler}->getNextTarget()) {
         eval {
-            # the prolog dialog must be done once for all tasks,
-            # but only for server targets
-            my $response;
-            if ($target->isa('FusionInventory::Agent::Target::Server')) {
-                my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
-                    logger       => $logger,
-                    user         => $self->{config}->{user},
-                    password     => $self->{config}->{password},
-                    proxy        => $self->{config}->{proxy},
-                    ca_cert_file => $self->{config}->{'ca-cert-file'},
-                    ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
-                    no_ssl_check => $self->{config}->{'no-ssl-check'},
-                );
-
-                my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
-                    token    => $self->{token},
-                    deviceid => $self->{deviceid},
-                );
-
-                $response = $client->send(
-                    url     => $target->getUrl(),
-                    message => $prolog
-                );
-                die "No answer from the server" unless $response;
-
-                # update target
-                my $content = $response->getContent();
-                if (defined($content->{PROLOG_FREQ})) {
-                    $target->setMaxDelay($content->{PROLOG_FREQ} * 3600);
-                }
-            }
-
-            # index list of disabled task for fast lookup
-            my %disabled = map { $_ => 1 } @{$config->{'no-task'}};
-
-            foreach my $name (@{$self->{tasks}}) {
-                next if $disabled{lc($name)};
-
-                my $class = "FusionInventory::Agent::Task::$name";
-                my $task = $class->new(
-                    config       => $config,
-                    confdir      => $self->{confdir},
-                    datadir      => $self->{datadir},
-                    logger       => $logger,
-                    target       => $target,
-                    deviceid     => $self->{deviceid},
-                );
-
-                if (!$task->isEnabled($response)) {
-                    $logger->info("task $name is not enabled");
-                    next;
-                }
-
-                $self->{status} = "running task $name";
-
-                if ($config->{daemon} || $config->{service}) {
-                    # daemon mode: run each task in a child process
-                    if (my $pid = fork()) {
-                        # parent
-                        waitpid($pid, 0);
-                    } else {
-                        # child
-                        die "fork failed: $ERRNO" unless defined $pid;
-
-                        $logger->debug("running task $name in process $PID");
-                        $task->run(
-                            user         => $self->{config}->{user},
-                            password     => $self->{config}->{password},
-                            proxy        => $self->{config}->{proxy},
-                            ca_cert_file => $self->{config}->{'ca-cert-file'},
-                            ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
-                            no_ssl_check => $self->{config}->{'no-ssl-check'},
-                        );
-                        exit(0);
-                    }
-                } else {
-                    # standalone mode: run each task directly
-                    $logger->debug("running task $name");
-                    $task->run(
-                        user         => $self->{config}->{user},
-                        password     => $self->{config}->{password},
-                        proxy        => $self->{config}->{proxy},
-                        ca_cert_file => $self->{config}->{'ca-cert-file'},
-                        ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
-                        no_ssl_check => $self->{config}->{'no-ssl-check'},
-                    );
-                }
-            }
-
-            $self->{status} = 'waiting';
-
+            $self->_runTarget($target);
         };
-        if ($EVAL_ERROR) {
-            $logger->fault($EVAL_ERROR);
-            $status++;
-        }
+        $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
         $target->resetNextRunDate();
     }
 
     $self->{server}->terminate() if $self->{server};
 
-    exit $status;
+    exit 0;
+}
+
+sub _runTarget {
+    my ($self, $target) = @_;
+
+    # the prolog dialog must be done once for all tasks,
+    # but only for server targets
+    my $response;
+    if ($target->isa('FusionInventory::Agent::Target::Server')) {
+        my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+            logger       => $self->{logger},
+            user         => $self->{config}->{user},
+            password     => $self->{config}->{password},
+            proxy        => $self->{config}->{proxy},
+            ca_cert_file => $self->{config}->{'ca-cert-file'},
+            ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
+            no_ssl_check => $self->{config}->{'no-ssl-check'},
+        );
+
+        my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
+            token    => $self->{token},
+            deviceid => $self->{deviceid},
+        );
+
+        $response = $client->send(
+            url     => $target->getUrl(),
+            message => $prolog
+        );
+        die "No answer from the server" unless $response;
+
+        # update target
+        my $content = $response->getContent();
+        if (defined($content->{PROLOG_FREQ})) {
+            $target->setMaxDelay($content->{PROLOG_FREQ} * 3600);
+        }
+    }
+
+    # index list of disabled task for fast lookup
+    my %disabled = map { $_ => 1 } @{$self->{config}->{'no-task'}};
+
+    foreach my $name (@{$self->{tasks}}) {
+        next if $disabled{lc($name)};
+        eval {
+            $self->_runTask($target, $name, $response);
+        };
+        $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
+        $self->{status} = 'waiting';
+    }
+}
+
+sub _runTask {
+    my ($self, $target, $name, $response) = @_;
+
+    my $class = "FusionInventory::Agent::Task::$name";
+    my $task = $class->new(
+        config       => $self->{config},
+        confdir      => $self->{confdir},
+        datadir      => $self->{datadir},
+        logger       => $self->{logger},
+        target       => $target,
+        deviceid     => $self->{deviceid},
+    );
+
+    if (!$task->isEnabled($response)) {
+        $self->{logger}->info("task $name is not enabled");
+        return;
+    }
+
+    $self->{status} = "running task $name";
+
+    if ($self->{config}->{daemon} || $self->{config}->{service}) {
+        # daemon mode: run each task in a child process
+        if (my $pid = fork()) {
+            # parent
+            waitpid($pid, 0);
+        } else {
+            # child
+            die "fork failed: $ERRNO" unless defined $pid;
+
+            $self->{logger}->debug("running task $name in process $PID");
+            $task->run(
+                user         => $self->{config}->{user},
+                password     => $self->{config}->{password},
+                proxy        => $self->{config}->{proxy},
+                ca_cert_file => $self->{config}->{'ca-cert-file'},
+                ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
+                no_ssl_check => $self->{config}->{'no-ssl-check'},
+            );
+            exit(0);
+        }
+    } else {
+        # standalone mode: run each task directly
+        $self->{logger}->debug("running task $name");
+        $task->run(
+            user         => $self->{config}->{user},
+            password     => $self->{config}->{password},
+            proxy        => $self->{config}->{proxy},
+            ca_cert_file => $self->{config}->{'ca-cert-file'},
+            ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
+            no_ssl_check => $self->{config}->{'no-ssl-check'},
+        );
+    }
 }
 
 sub getToken {
