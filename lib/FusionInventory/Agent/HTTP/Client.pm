@@ -166,9 +166,10 @@ sub _setSSLOptions {
 
     } elsif (Crypt::SSLeay->require() && !$EVAL_ERROR) {
         if (!$self->{'no_ssl_check'}) {
-            die("We do not check serveur certificat with Crypt::SSLeay. " .
-            "Please install IO::Socket::SSL and Net::SSLeay or use " .
-            "the no-ssl-check parameter.");
+            die("Serveur certificat check is disabled with the SSL library ".
+            "installed (Crypt::SSLeay). You can either Install IO::Socket::SSL ".
+            "or use the no-ssl-check parameter to explicitly disable this ".
+            "feature.");
         }
     } else {
         die
