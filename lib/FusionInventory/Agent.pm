@@ -176,8 +176,11 @@ sub init {
         }
     }
 
-    my %tasks = $self->getAvailableTasks();
-    $self->{tasks} = [ keys %tasks ];
+    # compute list of allowed tasks
+    my %available = $self->getAvailableTasks();
+    my %disabled  = map { lc($_) => 1 } @{$config->{'no-task'}};
+    my @allowed   = grep { !$disabled{lc($_)} } keys %available;
+    $self->{tasks} = \@allowed;
 
     $logger->debug("FusionInventory Agent initialised");
 }
@@ -232,11 +235,7 @@ sub _runTarget {
         }
     }
 
-    # index list of disabled task for fast lookup
-    my %disabled = map { $_ => 1 } @{$self->{config}->{'no-task'}};
-
     foreach my $name (@{$self->{tasks}}) {
-        next if $disabled{lc($name)};
         eval {
             $self->_runTask($target, $name, $response);
         };
