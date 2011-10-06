@@ -98,6 +98,8 @@ sub doInventory {
             if ($nic->PNPDeviceID =~ /^ROOT/) {
                 $virtualdev = 1;
             }
+        } elsif ($netif->{description} =~ /RAS Async Adapter/i) {
+            $virtualdev = 1;
         } else {
             $virtualdev = $nic->PhysicalAdapter?0:1;
         }
