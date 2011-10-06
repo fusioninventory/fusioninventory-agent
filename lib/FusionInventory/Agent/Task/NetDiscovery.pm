@@ -142,6 +142,17 @@ sub run {
     my $pid         = $options->{PARAM}->[0]->{PID};
     my $max_threads = $options->{PARAM}->[0]->{THREADS_DISCOVERY};
 
+    # task-specific client
+    $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
+        logger       => $self->{logger},
+        user         => $params{user},
+        password     => $params{password},
+        proxy        => $params{proxy},
+        ca_cert_file => $params{ca_cert_file},
+        ca_cert_dir  => $params{ca_cert_dir},
+        no_ssl_check => $params{no_ssl_check},
+    );
+
     # check discovery methods available
     my ($nmap_parameters, $snmp_credentials, $snmp_dictionnary);
 
@@ -178,17 +189,6 @@ sub run {
         # abort immediatly if the dictionnary isn't up to date
         return unless $snmp_dictionnary;
     }
-
-    # task-specific client
-    $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
-        logger       => $self->{logger},
-        user         => $params{user},
-        password     => $params{password},
-        proxy        => $params{proxy},
-        ca_cert_file => $params{ca_cert_file},
-        ca_cert_dir  => $params{ca_cert_dir},
-        no_ssl_check => $params{no_ssl_check},
-    );
 
 
     # send initial message to the server
