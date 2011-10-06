@@ -179,7 +179,7 @@ sub run {
 
     my $options     = $self->{options};
     my $pid         = $options->{PARAM}->[0]->{PID};
-    my $max_threads = $options->{PARAM}->[0]->{THREADS_DISCOVERY};
+    my $max_threads = $options->{PARAM}->[0]->{THREADS_QUERY};
    
     # SNMP models
     my $models = _getIndexedModels($options->{MODEL});
