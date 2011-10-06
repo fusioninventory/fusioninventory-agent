@@ -558,7 +558,7 @@ sub _getSerial {
     return unless $model;
     return unless $model->{SERIAL};
 
-    return $snmp->getSerial($model->{SERIAL});
+    return $snmp->getSerialNumber($model->{SERIAL});
 }
 
 sub _getMacAddress {
