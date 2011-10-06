@@ -309,14 +309,8 @@ sub _getDictionnary {
         $hash        = $data->{hash};
     }
 
-    # fallback on builtin dictionnary
-    if (!$dictionnary) {
-        $dictionnary = FusionInventory::Agent::Task::NetDiscovery::Dictionnary->new();
-        $hash        = $dictionnary->getHash();
-    }
-
     if ($options->{DICOHASH}) {
-        if ($hash eq $options->{DICOHASH}) {
+        if ($hash && $hash eq $options->{DICOHASH}) {
             $self->{logger}->debug("Dictionnary is up to date.");
         } else {
             # Send Dico request to plugin for next time :
