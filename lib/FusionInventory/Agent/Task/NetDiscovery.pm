@@ -313,7 +313,7 @@ sub _getDictionnary {
         if ($hash && $hash eq $options->{DICOHASH}) {
             $self->{logger}->debug("Dictionnary is up to date.");
         } else {
-            # Send Dico request to plugin for next time :
+            # Send dictionnary update request
             $self->_sendMessage({
                 AGENT => {
                     END => '1'
@@ -322,8 +322,9 @@ sub _getDictionnary {
                 PROCESSNUMBER => $pid,
                 DICO          => "REQUEST",
             });
-            $self->{logger}->debug(
-                "Dictionnary is too old ($hash vs $options->{DICOHASH}), exiting"
+            $self->{logger}->debug($hash ?
+                "Dictionnary is outdated, update request sent, exiting" :
+                "No dictionnary, update request sent, exiting"
             );
             return;
         }
