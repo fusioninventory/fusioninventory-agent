@@ -2,6 +2,7 @@ package FusionInventory::Agent::SNMP;
 
 use strict;
 use warnings;
+use base 'Exporter';
 
 use Encode qw(encode);
 use English qw(-no_match_vars);
@@ -9,6 +10,13 @@ use Net::SNMP;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
+
+our @EXPORT_OK = qw(
+    getSanitizedSerialNumber
+    getSanitizedMacAddress
+    getLastElement
+);
+
 
 my @bad_oids = qw(
     .1.3.6.1.2.1.2.2.1.6
@@ -118,7 +126,7 @@ sub getMacAddress {
     return unless $value;
 
     if ($oid =~ /$bad_oids_pattern/) {
-        $value = _sanitizeMacAddress($value);
+        $value = getSanitizedMacAddress($value);
     }
 
     $value = alt2canonical($value);
@@ -134,7 +142,7 @@ sub walkMacAddresses {
 
     if ($oid =~ /$bad_oids_pattern/) {
         foreach my $value (values %$values) {
-            $value = _sanitizeMacAddress($value);
+            $value = getSanitizedMacAddress($value);
         }
     }
 
@@ -145,7 +153,16 @@ sub walkMacAddresses {
     return $values;
 }
 
-sub _sanitizeMacAddress {
+sub getSerialNumber {
+    my ($self, $oid) = @_;
+
+    my $value = $self->get($oid);
+    return unless $value;
+
+    return getSanitizedSerialNumber($value);
+}
+
+sub getSanitizedMacAddress {
     my ($value) = @_;
 
     if ($value !~ /^0x/) {
@@ -159,12 +176,8 @@ sub _sanitizeMacAddress {
     return $value;
 }
 
-
-sub getSerial {
-    my ($self, $oid) = @_;
-
-    my $value = $self->get($oid);
-    return unless $value;
+sub getSanitizedSerialNumber {
+    my ($value) = @_;
 
     $value =~ s/\n//g;
     $value =~ s/\r//g;
@@ -173,6 +186,13 @@ sub getSerial {
     $value =~ s/\.{2,}//g;
 
     return $value;
+}
+
+sub getLastElement {
+    my ($oid) = @_;
+
+    my @array = split(/\./, $oid);
+    return $array[-1];
 }
 
 1;
@@ -237,7 +257,7 @@ This method returns an hashref of values, indexed by their OIDs, starting from
 the given one. The values are normalised to remove any control character, and
 hexadecimal mac addresses are translated into plain ascii.
 
-=head2 getSerial($oid)
+=head2 getSerialNumber($oid)
 
 Wraps get($oid), assuming the value is a serial number and sanitizing it
 accordingly.
@@ -251,3 +271,17 @@ accordingly.
 
 Wraps walk($oid), assuming the values are mac addresses and sanitizing them
 accordingly.
+
+=head1 FUNCTIONS
+
+=head2 getSanitizedSerialNumber($value)
+
+Return a sanitized serial number.
+
+=head2 getSanitizedMacAddress($value)
+
+Return a sanitized mac address.
+
+=head2 getLastElement($oid)
+
+return the last number of an oid.
