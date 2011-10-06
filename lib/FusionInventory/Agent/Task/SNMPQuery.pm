@@ -14,7 +14,7 @@ use constant EXIT  => 3;
 use Encode qw(encode);
 use English qw(-no_match_vars);
 
-use FusionInventory::Agent::SNMP;
+use FusionInventory::Agent::SNMP qw(getSanitizedSerialNumber getLastElement);
 use FusionInventory::Agent::XML::Query;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
@@ -452,15 +452,14 @@ sub _setGenericProperties {
     foreach my $key (keys %properties) {
         my $raw_value = $results->{$properties{$key}};
         my $value =
-            $key eq 'NAME'        ? hex2char($raw_value)          :
-            $key eq 'OTHERSERIAL' ? hex2char($raw_value)          :
-            $key eq 'SERIAL'      ? _sanitizedSerial($raw_value)  :
-            $key eq 'RAM'         ? int($raw_value / 1024 / 1024) :
-            $key eq 'MEMORY'      ? int($raw_value / 1024 / 1024) :
-                                    $raw_value                    ;
+            $key eq 'NAME'        ? hex2char($raw_value)                 :
+            $key eq 'OTHERSERIAL' ? hex2char($raw_value)                 :
+            $key eq 'SERIAL'      ? getSanitizedSerialNumber($raw_value) :
+            $key eq 'RAM'         ? int($raw_value / 1024 / 1024)        :
+            $key eq 'MEMORY'      ? int($raw_value / 1024 / 1024)        :
+                                    $raw_value                           ;
         $datadevice->{INFO}->{$key} = $value;
     }
-
 
     if ($results->{ipAdEntAddr}) {
         my $i = 0;
@@ -474,86 +473,86 @@ sub _setGenericProperties {
 
     if ($results->{ifIndex}) {
         while (my ($oid, $data) = each %{$results->{ifIndex}}) {
-            $ports->[getLastNumber($oid)]->{IFNUMBER} = $data;
+            $ports->[getLastElement($oid)]->{IFNUMBER} = $data;
         }
     }
 
     if ($results->{ifdescr}) {
         while (my ($oid, $data) = each %{$results->{ifdescr}}) {
-            $ports->[getLastNumber($oid)]->{IFDESCR} = $data;
+            $ports->[getLastElement($oid)]->{IFDESCR} = $data;
         }
     }
 
     if ($results->{ifName}) {
         while (my ($oid, $data) = each %{$results->{ifName}}) {
-            $ports->[getLastNumber($oid)]->{IFNAME} = $data;
+            $ports->[getLastElement($oid)]->{IFNAME} = $data;
         }
     }
 
     if ($results->{ifType}) {
         while (my ($oid, $data) = each %{$results->{ifType}}) {
-            $ports->[getLastNumber($oid)]->{IFTYPE} = $data;
+            $ports->[getLastElement($oid)]->{IFTYPE} = $data;
         }
     }
 
     if ($results->{ifmtu}) {
         while (my ($oid, $data) = each %{$results->{ifmtu}}) {
-            $ports->[getLastNumber($oid)]->{IFMTU} = $data;
+            $ports->[getLastElement($oid)]->{IFMTU} = $data;
         }
     }
 
     if ($results->{ifspeed}) {
         while (my ($oid, $data) = each %{$results->{ifspeed}}) {
-            $ports->[getLastNumber($oid)]->{IFSPEED} = $data;
+            $ports->[getLastElement($oid)]->{IFSPEED} = $data;
         }
     }
 
     if ($results->{ifstatus}) {
         while (my ($oid, $data) = each %{$results->{ifstatus}}) {
-            $ports->[getLastNumber($oid)]->{IFSTATUS} = $data;
+            $ports->[getLastElement($oid)]->{IFSTATUS} = $data;
         }
     }
 
     if ($results->{ifinternalstatus}) {
         while (my ($oid, $data) = each %{$results->{ifinternalstatus}}) {
-            $ports->[getLastNumber($oid)]->{IFINTERNALSTATUS} = $data;
+            $ports->[getLastElement($oid)]->{IFINTERNALSTATUS} = $data;
         }
     }
 
     if ($results->{iflastchange}) {
         while (my ($oid, $data) = each %{$results->{iflastchange}}) {
-            $ports->[getLastNumber($oid)]->{IFLASTCHANGE} = $data;
+            $ports->[getLastElement($oid)]->{IFLASTCHANGE} = $data;
         }
     }
 
     if ($results->{ifinoctets}) {
         while (my ($oid, $data) = each %{$results->{ifinoctets}}) {
-            $ports->[getLastNumber($oid)]->{IFINOCTETS} = $data;
+            $ports->[getLastElement($oid)]->{IFINOCTETS} = $data;
         }
     }
 
     if ($results->{ifoutoctets}) {
         while (my ($oid, $data) = each %{$results->{ifoutoctets}}) {
-            $ports->[getLastNumber($oid)]->{IFOUTOCTETS} = $data;
+            $ports->[getLastElement($oid)]->{IFOUTOCTETS} = $data;
         }
     }
 
     if ($results->{ifinerrors}) {
         while (my ($oid, $data) = each %{$results->{ifinerrors}}) {
-            $ports->[getLastNumber($oid)]->{IFINERRORS} = $data;
+            $ports->[getLastElement($oid)]->{IFINERRORS} = $data;
         }
     }
 
     if ($results->{ifouterrors}) {
         while (my ($oid, $data) = each %{$results->{ifouterrors}}) {
-            $ports->[getLastNumber($oid)]->{IFOUTERRORS} = $data;
+            $ports->[getLastElement($oid)]->{IFOUTERRORS} = $data;
         }
     }
 
     if ($results->{ifPhysAddress}) {
         while (my ($oid, $data) = each %{$results->{ifPhysAddress}}) {
             next unless $data;
-            $ports->[getLastNumber($oid)]->{MAC} = $data;
+            $ports->[getLastElement($oid)]->{MAC} = $data;
         }
     }
 
@@ -569,7 +568,7 @@ sub _setGenericProperties {
 
     if ($results->{portDuplex}) {
         while (my ($oid, $data) = each %{$results->{portDuplex}}) {
-            $ports->[getLastNumber($oid)]->{IFPORTDUPLEX} = $data;
+            $ports->[getLastElement($oid)]->{IFPORTDUPLEX} = $data;
         }
     }
 }
@@ -639,7 +638,7 @@ sub _setNetworkingProperties {
     if ($results->{vmvlan}) {
         while (my ($oid, $data) = each %{$results->{vmvlan}}) {
             my $name = $results->{vtpVlanName}->{$walks->{vtpVlanName}->{OID} . ".".$data};
-            $ports->[getLastNumber($oid)]->{VLANS}->{VLAN} = {
+            $ports->[getLastElement($oid)]->{VLANS}->{VLAN} = {
                 NUMBER => $data,
                 NAME   => $name
             };

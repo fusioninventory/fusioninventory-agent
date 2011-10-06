@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools::Network;
+use FusionInventory::Agent::SNMP qw(getLastElement);
 
 sub setConnectedDevicesMacAddress {
     my (%params) = @_;
@@ -53,7 +54,7 @@ sub setTrunkPorts {
     my $ports   = $params{ports};
 
     while (my ($oid, $trunk) = each %{$results->{vlanTrunkPortDynamicStatus}}) {
-        $ports->[getLastNumber($oid)]->{TRUNK} = $trunk ? 1 : 0;
+        $ports->[getLastElement($oid)]->{TRUNK} = $trunk ? 1 : 0;
     }
 }
 
