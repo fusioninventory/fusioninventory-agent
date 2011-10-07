@@ -8,6 +8,9 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
 
 sub isEnabled {
+    # Avoid duplicated entry with libvirt
+    return if can_run('virsh');
+
     return 
         canRun('qemu') ||
         canRun('kvm')  ||
