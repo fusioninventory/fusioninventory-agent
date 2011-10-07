@@ -79,15 +79,56 @@ my %ifconfig_tests = (
             IPADDRESS   => '192.168.20.1'
         }
     ],
+    'opensolaris' => [
+        {
+          'IPSUBNET' => '127.0.0.0',
+          'IPGATEWAY' => undef,
+          'IPMASK' => '255.0.0.0',
+          'DESCRIPTION' => 'lo0',
+          'STATUS' => 'Up',
+          'SPEED' => undef,
+          'IPADDRESS' => '127.0.0.1'
+        },
+        {
+          'IPGATEWAY' => undef,
+          'IPMASK' => '255.255.255.0',
+          'MACADDR' => '08:00:27:fc:ad:56',
+          'STATUS' => 'Up',
+          'SPEED' => undef,
+          'IPSUBNET' => '192.168.0.0',
+          'DESCRIPTION' => 'e1000g0',
+          'IPADDRESS' => '192.168.0.41'
+        },
+        {
+          'IPSUBNET' => undef,
+          'DESCRIPTION' => 'lo0',
+          'STATUS' => 'Up',
+          'SPEED' => undef
+        },
+        {
+          'IPSUBNET' => undef,
+          'MACADDR' => '08:00:27:fc:ad:56',
+          'DESCRIPTION' => 'e1000g0',
+          'STATUS' => 'Up',
+          'SPEED' => undef
+        },
+        {
+          'IPSUBNET' => undef,
+          'DESCRIPTION' => 'e1000g0:1',
+          'STATUS' => 'Up',
+          'SPEED' => undef
+        }
+    ]
 
 );
 
 plan tests =>
     int (keys %ifconfig_tests);
 
+use Data::Dumper;
 foreach my $test (keys %ifconfig_tests) {
     my $file = "resources/generic/ifconfig/$test";
     my @results = FusionInventory::Agent::Task::Inventory::Input::Solaris::Networks::_getInterfaces(file => $file);
-    is_deeply(\@results, $ifconfig_tests{$test}, $test);
+    is_deeply(\@results, $ifconfig_tests{$test}, $test) or print Dumper(\@results);
 }
 
