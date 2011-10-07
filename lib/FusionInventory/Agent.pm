@@ -239,7 +239,7 @@ sub _runTarget {
         eval {
             $self->_runTask($target, $name, $response);
         };
-        $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
+        $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
         $self->{status} = 'waiting';
     }
 }
