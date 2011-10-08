@@ -469,7 +469,8 @@ sub _setGenericProperties {
         }
     }
 
-    my $ports = $datadevice->{PORTS}->{PORT};
+    # ports is a sparse array of network ports, using native port number
+    my $ports;
 
     if ($results->{ifIndex}) {
         while (my ($oid, $data) = each %{$results->{ifIndex}}) {
@@ -571,6 +572,8 @@ sub _setGenericProperties {
             $ports->[getLastElement($oid)]->{IFPORTDUPLEX} = $data;
         }
     }
+
+    $datadevice->{PORTS}->{PORT} = $ports;
 }
 
 sub _setPrinterProperties {
