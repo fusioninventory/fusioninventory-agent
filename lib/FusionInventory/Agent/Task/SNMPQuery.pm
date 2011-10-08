@@ -451,6 +451,7 @@ sub _setGenericProperties {
 
     foreach my $key (keys %properties) {
         my $raw_value = $results->{$properties{$key}};
+        next unless defined $raw_value;
         my $value =
             $key eq 'NAME'        ? hex2char($raw_value)                 :
             $key eq 'OTHERSERIAL' ? hex2char($raw_value)                 :
