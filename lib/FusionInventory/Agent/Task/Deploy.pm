@@ -24,66 +24,12 @@ use FusionInventory::Agent::Task::Deploy::Datastore;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor;
 use FusionInventory::Agent::Task::Deploy::CheckProcessor;
 
-sub new {
-    my ($class, %params) = @_;
+sub isEnabled {
+    my ($self, $response) = @_;
 
-    my $self = $class->SUPER::new(%params);
-    $self->{debug} = $params{debug};
-
-
-    return $self;
-}
-
-sub init {
-
-    if ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
-        $self->{client} = FusionInventory::Agent::HTTP::Client::Fusion->new(
-            logger       => $self->{logger},
-            user         => $self->{user},
-            password     => $self->{password},
-            proxy        => $self->{proxy},
-            ca_cert_file => $self->{'ca_cert_file'},
-            ca_cert_dir  => $self->{'ca_cert_dir'},
-            no_ssl_check => $self->{'no_ssl_check'},
-            debug => $self->{debug}
-        );
-    }
+    return $self->{target}->isa('FusionInventory::Agent::Target::Server');
 
 }
-
-
-#sub setStatus {
-#    my ($self, $params) = @_;
-#
-##    my $deviceid;
-##    my $part;
-##    my $uuid;
-##    my $status;
-##    my $message;
-#    #my $ua = LWP::UserAgent->new;
-#    my $network = $self->{network};
-#
-#    my $url = $self->{backendURL}."/?a=setStatus";
-#
-#    foreach (keys %$params) {
-#        $url .= "&$_=".uri_escape($params->{$_});
-#    }
-#
-#    print $url."\n";
-#
-#
-#    my $cpt = 1;
-#    do {
-#        my $response = $network->get({ source => $url });
-#        return 1 if defined($response);
-#
-#        print "FAILED TO UPDATE THE STATUS.\n";
-#        print "while retry in 600 seconds ($cpt/5)\n";
-#        sleep(600);
-#    } while ($cpt++ <= 5);
-#
-#    return;
-#}
 
 sub _validateAnswer {
     my ($msgRef, $answer) = @_;
@@ -157,6 +103,8 @@ sub processRemote {
         }
     );
 
+use Data::Dumper;
+print Dumper($answer);
     if (ref($answer) eq 'HASH' && !keys %$answer) {
         $self->{logger}->debug("Nothing to do");
         return;
@@ -397,6 +345,8 @@ sub processRemote {
             { workdir => $workdir } );
         my $actionnum = 0;
         ACTION: while ( my $action = $job->getNextToProcess() ) {
+use Data::Dumper;
+print Dumper($action);
         my ($actionName, $params) = %$action;
             if ( $params && (ref( $params->{checks} ) eq 'ARRAY') ) {
                 my $checkProcessor =
@@ -492,12 +442,18 @@ sub processRemote {
 
 
 sub run {
-    my ($self) = @_;
+    my ($self, %params) = @_;
 
-    if ( !$self->{target}->isa('FusionInventory::Agent::Target::Server') ) {
-        $self->{logger}->debug("No server. Exiting...");
-        return;
-    }
+    $self->{client} = FusionInventory::Agent::HTTP::Client::Fusion->new(
+            logger       => $self->{logger},
+            user         => $params{user},
+            password     => $params{password},
+            proxy        => $params{proxy},
+            ca_cert_file => $params{ca_cert_file},
+            ca_cert_dir  => $params{ca_cert_dir},
+            no_ssl_check => $params{no_ssl_check},
+            debug        => $self->{debug}
+    );
 
     my $globalRemoteConfig = $self->{client}->send(
         "url" => $self->{target}->{url},
