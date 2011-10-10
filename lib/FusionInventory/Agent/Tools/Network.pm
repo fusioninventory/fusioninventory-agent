@@ -81,7 +81,7 @@ sub hex2canonical {
 sub alt2canonical {
     my ($address) = @_;
 
-    my @bytes = $address =~ /^(..)(..)(..)(..)(..)(..)$/;
+    my @bytes = $address =~ /^(?:0x)?(..)(..)(..)(..)(..)(..)$/;
     return join(':', @bytes);
 }
 
