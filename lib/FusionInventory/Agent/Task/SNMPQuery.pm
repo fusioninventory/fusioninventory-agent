@@ -463,11 +463,9 @@ sub _setGenericProperties {
     }
 
     if ($results->{ipAdEntAddr}) {
-        my $i = 0;
-        while (my ($oid, $data) = each %{$results->{ipAdEntAddr}}) {
-            $datadevice->{INFO}->{IPS}->{IP}->[$i] = $data;
-            $i++;
-        }
+        $datadevice->{INFO}->{IPS}->{IP} = [
+            values %{$results->{ipAdEntAddr}}
+        ];
     }
 
     # ports is a sparse array of network ports, using native port number
