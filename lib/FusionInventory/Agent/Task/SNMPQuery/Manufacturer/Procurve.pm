@@ -57,15 +57,15 @@ sub setConnectedDevices {
 
             my $port_number = getNextToLastElement($oid);
 
-            my $connections =
-                $ports->[$port_number]->{CONNECTIONS};
-
-            $connections->{CONNECTION}->{IP} = $ip;
-            $connections->{CDP} = 1;
-            $connections->{CONNECTION}->{IFDESCR} =
-                $results->{cdpCacheDevicePort}->{
-                    $walks->{cdpCacheDevicePort}->{OID} . $port_number
-                };
+            $ports->[$port_number]->{CONNECTIONS} = {
+                CDP        => 1,
+                CONNECTION => {
+                    IP      => $ip,
+                    IFDESCR => $results->{cdpCacheDevicePort}->{
+                        $walks->{cdpCacheDevicePort}->{OID} . $port_number
+                    }
+                }
+            };
         }
     }
 
@@ -74,18 +74,18 @@ sub setConnectedDevices {
 
             my $port_number = getNextToLastElement($oid);
 
-            my $connections =
-                $ports->[$port_number]->{CONNECTIONS};
-
             # already done through CDP 
-            next if $connections->{CDP};
+            next if $ports->[$port_number]->{CONNECTIONS};
 
-            $connections->{CONNECTION}->{SYSNAME} = $chassisname;
-            $connections->{CDP} = 1;
-            $connections->{CONNECTION}->{IFDESCR} =
-                $results->{lldpCacheDevicePort}->{
-                    $walks->{lldpCacheDevicePort}->{OID} . $port_number
-                };
+            $ports->[$port_number]->{CONNECTIONS} = {
+                CDP        => 1,
+                CONNECTION => {
+                    SYSNAME => $chassisname,
+                    IFDESCR => $results->{lldpCacheDevicePort}->{
+                        $walks->{lldpCacheDevicePort}->{OID} . $port_number
+                    }
+                }
+            };
         }
     }
 }
