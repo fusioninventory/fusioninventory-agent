@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools::Network;
-use FusionInventory::Agent::SNMP qw(getLastElement);
+use FusionInventory::Agent::SNMP qw(getLastElement getNextToLastElement);
 
 sub setConnectedDevicesMacAddress {
     my (%params) = @_;
@@ -67,30 +67,28 @@ sub setConnectedDevices {
 
     return unless ref $results->{cdpCacheAddress} eq 'HASH';
 
-    while (my ($number, $ip_hex) = each %{$results->{cdpCacheAddress}}) {
+    while (my ($oid, $ip_hex) = each %{$results->{cdpCacheAddress}}) {
         my $ip = hex2canonical($ip_hex);
         next if $ip eq '0.0.0.0';
 
-        my $short_number = $number;
-        $short_number =~ s/$walks->{cdpCacheAddress}->{OID}//;
-        my @array = split(/\./, $short_number);
+        my $port_number = getNextToLastElement($oid);
 
         my $connections =
-            $ports->[$array[1]]->{CONNECTIONS};
+            $ports->[$port_number]->{CONNECTIONS};
 
         $connections->{CDP} = 1;
         $connections->{CONNECTION}->{IP} = $ip;
         $connections->{CONNECTION}->{IFDESCR} = $results->{cdpCacheDevicePort}->{
-            $walks->{cdpCacheDevicePort}->{OID} . $short_number
+            $walks->{cdpCacheDevicePort}->{OID} . $port_number
         };
         $connections->{CONNECTION}->{SYSDESCR} = $results->{cdpCacheVersion}->{
-            $walks->{cdpCacheVersion}->{OID} . $short_number
+            $walks->{cdpCacheVersion}->{OID} . $port_number
         };
         $connections->{CONNECTION}->{SYSNAME} = $results->{cdpCacheDeviceId}->{
-            $walks->{cdpCacheDeviceId}->{OID} . $short_number
+            $walks->{cdpCacheDeviceId}->{OID} . $port_number
         };
         $connections->{CONNECTION}->{MODEL} = $results->{cdpCachePlatform}->{
-            $walks->{cdpCachePlatform}->{OID} . $short_number
+            $walks->{cdpCachePlatform}->{OID} . $port_number
         };
     }
 }
