@@ -15,6 +15,7 @@ our @EXPORT_OK = qw(
     getSanitizedSerialNumber
     getSanitizedMacAddress
     getLastElement
+    getNextToLastElement
 );
 
 
@@ -195,6 +196,13 @@ sub getLastElement {
     return $array[-1];
 }
 
+sub getNextToLastElement {
+    my ($oid) = @_;
+
+    my @array = split(/\./, $oid);
+    return $array[-2];
+}
+
 1;
 __END__
 
@@ -285,3 +293,7 @@ Return a sanitized mac address.
 =head2 getLastElement($oid)
 
 return the last number of an oid.
+
+=head2 getNextToLastElement($oid)
+
+return the netx to last number of an oid.
