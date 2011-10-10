@@ -19,8 +19,10 @@ my @network_nok_tests = qw(
 );
 
 my @hex2canonical_tests = (
-    [ 'ffffffff', '255.255.255.255' ],
-    [ '7f7f7f7f', '127.127.127.127' ]
+    [ 'ffffffff',   '255.255.255.255' ],
+    [ '0xffffffff', '255.255.255.255' ],
+    [ '7f7f7f7f',   '127.127.127.127' ],
+    [ '0x7f7f7f7f', '127.127.127.127' ]
 );
 
 my @alt2canonical_tests = (
