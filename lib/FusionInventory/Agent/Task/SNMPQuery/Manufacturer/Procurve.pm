@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools::Network;
+use FusionInventory::Agent::SNMP qw(getNextToLastElement);
 
 sub setConnectedDevicesMacAddress {
     my (%params) = @_;
@@ -50,32 +51,31 @@ sub setConnectedDevices {
     my $walks   = $params{walks};
 
     if (ref $results->{cdpCacheAddress} eq 'HASH') {
-        while (my ($number, $ip_hex) = each %{$results->{cdpCacheAddress}}) {
+        while (my ($oid, $ip_hex) = each %{$results->{cdpCacheAddress}}) {
             my $ip = hex2canonical($ip_hex);
             next if $ip eq '0.0.0.0';
 
-            my $short_number = $number;
-            $short_number =~ s/$walks->{cdpCacheAddress}->{OID}//;
-            my @array = split(/\./, $short_number);
+            my $port_number = getNextToLastElement($oid);
+
             my $connections =
-                $ports->[$array[1]]->{CONNECTIONS};
+                $ports->[$port_number]->{CONNECTIONS};
 
             $connections->{CONNECTION}->{IP} = $ip;
             $connections->{CDP} = 1;
             $connections->{CONNECTION}->{IFDESCR} =
                 $results->{cdpCacheDevicePort}->{
-                    $walks->{cdpCacheDevicePort}->{OID} . $short_number
+                    $walks->{cdpCacheDevicePort}->{OID} . $port_number
                 };
         }
     }
 
     if (ref $results->{lldpCacheAddress} eq 'HASH') {
-        while (my ($number, $chassisname) = each %{$results->{lldpCacheAddress}}) {
-            my $short_number = $number;
-            $short_number =~ s/$walks->{lldpCacheAddress}->{OID}//;
-            my @array = split(/\./, $short_number);
+        while (my ($oid, $chassisname) = each %{$results->{lldpCacheAddress}}) {
+
+            my $port_number = getNextToLastElement($oid);
+
             my $connections =
-                $ports->[$array[1]]->{CONNECTIONS};
+                $ports->[$port_number]->{CONNECTIONS};
 
             # already done through CDP 
             next if $connections->{CDP};
@@ -84,7 +84,7 @@ sub setConnectedDevices {
             $connections->{CDP} = 1;
             $connections->{CONNECTION}->{IFDESCR} =
                 $results->{lldpCacheDevicePort}->{
-                    $walks->{lldpCacheDevicePort}->{OID} . $short_number
+                    $walks->{lldpCacheDevicePort}->{OID} . $port_number
                 };
         }
     }
