@@ -552,7 +552,7 @@ sub _setGenericProperties {
     if ($results->{ifPhysAddress}) {
         while (my ($oid, $data) = each %{$results->{ifPhysAddress}}) {
             next unless $data;
-            $ports->[getLastElement($oid)]->{MAC} = $data;
+            $ports->[getLastElement($oid)]->{MAC} = alt2canonical($data);
         }
     }
 
