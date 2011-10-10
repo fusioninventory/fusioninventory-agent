@@ -261,7 +261,7 @@ sub run {
             END => 1,
         },
         MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $PID
+        PROCESSNUMBER => $pid
     });
 }
 
