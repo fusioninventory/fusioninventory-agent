@@ -19,6 +19,11 @@ use FusionInventory::Agent;
 delete($ENV{PERL5LIB});
 delete($ENV{PERLLIB});
 
+my $directory = dirname(File::Spec->rel2abs( __FILE__ ));
+# on Win2k, Windows do not chdir to the bin directory
+# we need to do it by ourself
+chdir($directory);
+
 my $win32service = 1;
 Win32::Daemon::StartService();
 
@@ -88,7 +93,6 @@ while (($state = Win32::Daemon::State()) != SERVICE_STOPPED) {
 
 sub startAgent {
     return if $thread;
-    my $directory = dirname(File::Spec->rel2abs( __FILE__ ));
     $thread = threads->create(sub {
         my $agent = new FusionInventory::Agent(
             confdir => $directory . '/../../etc/fusioninventory',
