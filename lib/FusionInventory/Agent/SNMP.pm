@@ -306,5 +306,4 @@ return the last element of an oid.
 
 =head2 getNextToLastElement($oid)
 
-return the last to next element of an oid.
-
+return the next to last element of an oid.
