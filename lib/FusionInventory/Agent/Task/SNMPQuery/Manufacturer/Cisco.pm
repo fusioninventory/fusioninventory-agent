@@ -73,8 +73,7 @@ sub setConnectedDevices {
 
         my $port_number = getNextToLastElement($oid);
 
-        my $connections =
-            $ports->[$port_number]->{CONNECTIONS};
+        my $connections;
 
         $connections->{CDP} = 1;
         $connections->{CONNECTION}->{IP} = $ip;
@@ -90,6 +89,8 @@ sub setConnectedDevices {
         $connections->{CONNECTION}->{MODEL} = $results->{cdpCachePlatform}->{
             $walks->{cdpCachePlatform}->{OID} . $port_number
         };
+
+	$ports->[$port_number]->{CONNECTIONS} = $connections;
     }
 }
 
