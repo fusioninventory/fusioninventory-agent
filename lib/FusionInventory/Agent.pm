@@ -333,7 +333,7 @@ sub getAvailableTasks {
             # check module
             # todo: use a child process when running as a server to save memory
             if (!$module->require()) {
-                $logger->debug2("module $module does not compile") if $logger;
+                $logger->debug2("module $module does not compile: $@") if $logger;
                 next;
             }
             if (!$module->isa('FusionInventory::Agent::Task')) {
