@@ -14,6 +14,7 @@ use FusionInventory::Agent::Tools::Network;
 our @EXPORT_OK = qw(
     getSanitizedSerialNumber
     getSanitizedMacAddress
+    getElement
     getLastElement
     getNextToLastElement
 );
@@ -189,18 +190,23 @@ sub getSanitizedSerialNumber {
     return $value;
 }
 
+sub getElement {
+    my ($oid, $index) = @_;
+
+    my @array = split(/\./, $oid);
+    return $array[$index];
+}
+
 sub getLastElement {
     my ($oid) = @_;
 
-    my @array = split(/\./, $oid);
-    return $array[-1];
+    return getElement($oid, -1);
 }
 
 sub getNextToLastElement {
     my ($oid) = @_;
 
-    my @array = split(/\./, $oid);
-    return $array[-2];
+    return getElement($oid, -2);
 }
 
 1;
@@ -290,10 +296,15 @@ Return a sanitized serial number.
 
 Return a sanitized mac address.
 
+=head2 getElement($oid, $index)
+
+return the $index element of an oid.
+
 =head2 getLastElement($oid)
 
-return the last number of an oid.
+return the last element of an oid.
 
 =head2 getNextToLastElement($oid)
 
-return the netx to last number of an oid.
+return the last to next element of an oid.
+
