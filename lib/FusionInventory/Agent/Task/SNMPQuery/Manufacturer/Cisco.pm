@@ -34,7 +34,7 @@ sub setConnectedDevicesMacAddress {
             $results->{VLAN}->{$vlan_id}->{dot1dBasePortIfIndex}->{$ifKey};
         next unless defined $ifIndex;
 
-        my $port = $ports->[$ifIndex];
+        my $port = $ports->{$ifIndex};
 
         # this device has already been processed through CDP/LLDP
         next if $port->{CONNECTIONS}->{CDP};
@@ -54,7 +54,7 @@ sub setTrunkPorts {
     my $ports   = $params{ports};
 
     while (my ($oid, $trunk) = each %{$results->{vlanTrunkPortDynamicStatus}}) {
-        $ports->[getLastElement($oid)]->{TRUNK} = $trunk ? 1 : 0;
+        $ports->{getLastElement($oid)}->{TRUNK} = $trunk ? 1 : 0;
     }
 }
 
@@ -73,7 +73,7 @@ sub setConnectedDevices {
 
         my $port_number = getNextToLastElement($oid);
 
-	$ports->[$port_number]->{CONNECTIONS} = {
+	$ports->{$port_number}->{CONNECTIONS} = {
             CDP        => 1,
             CONNECTION => {
                 IP      => $ip,

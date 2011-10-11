@@ -27,7 +27,7 @@ sub setConnectedDevicesMacAddress {
             };
         next unless defined $ifIndex;
 
-        my $port = $ports->[$ifIndex];
+        my $port = $ports->{$ifIndex};
 
         # this device has already been processed through CDP/LLDP
         next if $port->{CONNECTIONS}->{CDP};

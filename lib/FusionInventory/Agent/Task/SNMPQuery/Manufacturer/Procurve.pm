@@ -30,7 +30,7 @@ sub setConnectedDevicesMacAddress {
             };
         next unless defined $ifIndex;
 
-        my $port = $ports->[$ifIndex];
+        my $port = $ports->{$ifIndex};
 
         # this device has already been processed through CDP/LLDP
         next if $port->{CONNECTIONS}->{CDP};
@@ -57,7 +57,7 @@ sub setConnectedDevices {
 
             my $port_number = getNextToLastElement($oid);
 
-            $ports->[$port_number]->{CONNECTIONS} = {
+            $ports->{$port_number}->{CONNECTIONS} = {
                 CDP        => 1,
                 CONNECTION => {
                     IP      => $ip,
@@ -75,9 +75,9 @@ sub setConnectedDevices {
             my $port_number = getNextToLastElement($oid);
 
             # already done through CDP 
-            next if $ports->[$port_number]->{CONNECTIONS};
+            next if $ports->{$port_number}->{CONNECTIONS};
 
-            $ports->[$port_number]->{CONNECTIONS} = {
+            $ports->{$port_number}->{CONNECTIONS} = {
                 CDP        => 1,
                 CONNECTION => {
                     SYSNAME => $chassisname,

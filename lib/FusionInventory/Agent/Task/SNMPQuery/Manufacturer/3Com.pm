@@ -21,7 +21,7 @@ sub setConnectedDevicesMacAddress {
         my $ifIndex = $results->{dot1dTpFdbPort}->{$portKey};
         next unless defined $ifIndex;
 
-        my $port = $ports->[$ifIndex];
+        my $port = $ports->{$ifIndex};
 
         # create a new connection with this mac address
         my $connections = $port->{CONNECTIONS}->{CONNECTION};
@@ -35,9 +35,9 @@ sub RewritePortOf225 {
 
     my $ports = $params{ports};
 
-    $ports->[101]->{MAC} = $ports->[1]->{MAC};
-    delete $ports->[1];
-    delete $ports->[101]->{CONNECTIONS};
+    $ports->{101}->{MAC} = $ports->{1}->{MAC};
+    delete $ports->{1};
+    delete $ports->{101}->{CONNECTIONS};
 }
 
 1;

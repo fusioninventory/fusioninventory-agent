@@ -30,7 +30,7 @@ sub setConnectedDevicesMacAddress {
             };
         next unless defined $ifIndex;
 
-        my $port = $ports->[$ifIndex];
+        my $port = $ports->{$ifIndex};
 
         # this device has already been processed through CDP/LLDP
         next if $port->{CONNECTIONS}->{CDP};
@@ -60,14 +60,14 @@ sub setTrunkPorts {
         if (keys %{$vlans} == 1) {
             # a single vlan
             while (my ($id, $name) = each %{$vlans}) {
-                $ports->[$ports->{$portnumber}]->{VLANS}->{VLAN}->[0] = {
+                $ports->{$ports->{$portnumber}}->{VLANS}->{VLAN}->[0] = {
                     NAME   => $name,
                     NUMBER => $id
                 };
             }
         } else {
             # trunk
-            $ports->[$ports->{$portnumber}]->{TRUNK} = 1;
+            $ports->{$ports->{$portnumber}}->{TRUNK} = 1;
         }
     }
 }
@@ -87,7 +87,7 @@ sub setConnectedDevices {
 
         my @array = split(/\./, $short_number);
         my $connections =
-            $ports->[$array[2]]->{CONNECTIONS};
+            $ports->{$array[2]}->{CONNECTIONS};
 
         $connections->{CONNECTION}->{IFNUMBER} = $array[3];
         $connections->{CONNECTION}->{SYSMAC} =
