@@ -73,24 +73,24 @@ sub setConnectedDevices {
 
         my $port_number = getNextToLastElement($oid);
 
-        my $connections;
-
-        $connections->{CDP} = 1;
-        $connections->{CONNECTION}->{IP} = $ip;
-        $connections->{CONNECTION}->{IFDESCR} = $results->{cdpCacheDevicePort}->{
-            $walks->{cdpCacheDevicePort}->{OID} . $port_number
+	$ports->[$port_number]->{CONNECTIONS} = {
+            CDP        => 1,
+            CONNECTION => {
+                IP      => $ip,
+                IFDESCR => $results->{cdpCacheDevicePort}->{
+                    $walks->{cdpCacheDevicePort}->{OID} . $port_number
+                },
+                SYSDESCR => $results->{cdpCacheVersion}->{
+                    $walks->{cdpCacheVersion}->{OID} . $port_number
+                },
+                SYSNAME  => $results->{cdpCacheDeviceId}->{
+                    $walks->{cdpCacheDeviceId}->{OID} . $port_number
+                },
+                MODEL => $results->{cdpCachePlatform}->{
+                    $walks->{cdpCachePlatform}->{OID} . $port_number
+                }
+            }
         };
-        $connections->{CONNECTION}->{SYSDESCR} = $results->{cdpCacheVersion}->{
-            $walks->{cdpCacheVersion}->{OID} . $port_number
-        };
-        $connections->{CONNECTION}->{SYSNAME} = $results->{cdpCacheDeviceId}->{
-            $walks->{cdpCacheDeviceId}->{OID} . $port_number
-        };
-        $connections->{CONNECTION}->{MODEL} = $results->{cdpCachePlatform}->{
-            $walks->{cdpCachePlatform}->{OID} . $port_number
-        };
-
-	$ports->[$port_number]->{CONNECTIONS} = $connections;
     }
 }
 
