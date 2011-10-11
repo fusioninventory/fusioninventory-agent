@@ -29,6 +29,15 @@ Win32::Daemon::StartService();
 
 my $thread;
 
+sub getMessage {
+
+    if ($Win32::Daemon::VERSION < 20101014) {
+        return Win32::Daemon::LastControlMessage(1);
+    } else {
+        return Win32::Daemon::QueryLastMessage();
+    }
+}
+
 my $state;
 my $previousState = SERVICE_START_PENDING;
 while (($state = Win32::Daemon::State()) != SERVICE_STOPPED) { 
@@ -71,8 +80,7 @@ while (($state = Win32::Daemon::State()) != SERVICE_STOPPED) {
 
     # Check for any outstanding commands. Pass in a non zero value
     # and it resets the Last Message to SERVICE_CONTROL_NONE.
-    if (SERVICE_CONTROL_NONE != (my $message = 
-            Win32::Daemon::LastControlMessage(1))) {
+    if (SERVICE_CONTROL_NONE != (my $message = getMessage())) {
         if (SERVICE_CONTROL_INTERROGATE == $message) {
             # Got here if the Service Control Manager is requesting
             # the current state of the service. This can happen for
