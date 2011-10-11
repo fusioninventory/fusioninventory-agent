@@ -114,6 +114,8 @@ if ($options{file}) {
     pod2usage();
 }
 
+exit(0);
+
 __END__
 
 =head1 NAME
