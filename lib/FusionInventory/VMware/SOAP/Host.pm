@@ -229,7 +229,6 @@ sub getStorages {
         my $serialnumber;
         my $size;
 
-
         # TODO 
         #$volumnMapping{$entry->{canonicalName}} = $entry->{deviceName};
 
@@ -245,12 +244,25 @@ sub getStorages {
         if ($entry->{capacity}{blockSize} && $entry->{capacity}{block}) {
             $size = int($entry->{capacity}{blockSize} *$entry->{capacity}{block})/1000;
         }
+        my $manufacturer;
+        if ($entry->{vendor} && ($entry->{vendor} !~ /^\s*ATA\s*$/)) {
+            $manufacturer = $entry->{vendor};
+        } else {
+            $manufacturer = getCanonicalManufacturer($entry->{model});
+        }
+
+        $manufacturer =~ s/\s*(\S.*\S)\s*/$1/;
+
+        my $model = $entry->{model};
+        $model =~ s/\s*(\S.*\S)\s*/$1/;
+
+
         push @$ret, {
                 DESCRIPTION => $entry->{displayName},
                 DISKSIZE => $size,
 #        INTERFACE
-                MANUFACTURER => getCanonicalManufacturer($entry->{model}) || $entry->{vendor},
-                MODEL => $entry->{model},
+                MANUFACTURER => $manufacturer,
+                MODEL => $model,
                 NAME => $entry->{deviceName},
                 TYPE => $entry->{deviceType},
                 SERIAL => $serialnumber,

@@ -354,8 +354,8 @@ my %test = (
             'DISKSIZE' => undef,
             'SERIAL' => undef,
             'DESCRIPTION' => 'Local TEAC CD-ROM (mpx.vmhba0:C0:T0:L0)',
-            'MANUFACTURER' => 'TEAC    ',
-            'MODEL' => 'DV-28E-V        '
+            'MANUFACTURER' => 'TEAC',
+            'MODEL' => 'DV-28E-V'
           },
           {
             'NAME' => '/vmfs/devices/disks/t10.ATA_____ST3250310NS_________________________________________9SF1F0TH',
@@ -365,7 +365,7 @@ my %test = (
             'SERIAL' => '3232323232323232323232325783704970488472',
             'DESCRIPTION' => 'Local ATA Disk (t10.ATA_____ST3250310NS_________________________________________9SF1F0TH)',
             'MANUFACTURER' => 'Seagate',
-            'MODEL' => 'ST3250310NS     '
+            'MODEL' => 'ST3250310NS'
           }
 
         ],
