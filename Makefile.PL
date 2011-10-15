@@ -10,7 +10,7 @@ version_from 'lib/FusionInventory/Agent/Task/ESX.pm';
 perl_version '5.008';
 
 # mandatory dependencies
-requires 'FusionInventory::Agent'        => 2.1.9;
+requires 'FusionInventory::Agent'        => 2.2.0;
 requires 'Getopt::Long'                  => undef;
 requires 'XML::TreePP'                   => undef;
 requires 'LWP::UserAgent'                => undef;
