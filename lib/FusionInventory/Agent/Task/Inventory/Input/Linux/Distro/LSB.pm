@@ -21,6 +21,9 @@ sub doInventory {
         pattern => qr/Description:\s+(.+)/
     );
 
+    # See: #1262
+    $release =~ s/^Enterprise Linux Enterprise Linux/Oracle Linux/;
+
     my $linuxDistributionName;
     my $linuxDistributionVersion;
     # Redirect stderr to /dev/null to avoid "No LSB modules are available" message

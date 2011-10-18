@@ -102,6 +102,8 @@ if ($EVAL_ERROR) {
     exit 1;
 }
 
+exit(0);
+
 __END__
 
 =head1 NAME

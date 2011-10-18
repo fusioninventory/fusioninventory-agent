@@ -95,6 +95,9 @@ sub doInventory {
         # PhysicalAdapter only work on OS > XP
         if (defined $nic->PhysicalAdapter) {
             $interface->{VIRTUALDEV} = $nic->PhysicalAdapter ? 0 : 1;
+        # http://forge.fusioninventory.org/issues/1166 
+        } elsif ($interface->{description} =~ /RAS Async Adapter/i) {
+            $interface->{VIRTUALDEV} = 1;
         } else {
 	    $interface->{VIRTUALDEV} = $nic->PNPDeviceID =~ /^ROOT/ ? 1 : 0;
         }

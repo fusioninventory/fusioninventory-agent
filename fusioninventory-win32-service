@@ -19,10 +19,24 @@ use FusionInventory::Agent;
 delete($ENV{PERL5LIB});
 delete($ENV{PERLLIB});
 
+my $directory = dirname(File::Spec->rel2abs( __FILE__ ));
+# on Win2k, Windows do not chdir to the bin directory
+# we need to do it by ourself
+chdir($directory);
+
 my $win32service = 1;
 Win32::Daemon::StartService();
 
 my $thread;
+
+sub getMessage {
+
+    if ($Win32::Daemon::VERSION < 20101014) {
+        return Win32::Daemon::LastControlMessage(1);
+    } else {
+        return Win32::Daemon::QueryLastMessage();
+    }
+}
 
 my $state;
 my $previousState = SERVICE_START_PENDING;
@@ -66,8 +80,7 @@ while (($state = Win32::Daemon::State()) != SERVICE_STOPPED) {
 
     # Check for any outstanding commands. Pass in a non zero value
     # and it resets the Last Message to SERVICE_CONTROL_NONE.
-    if (SERVICE_CONTROL_NONE != (my $message = 
-            Win32::Daemon::LastControlMessage(1))) {
+    if (SERVICE_CONTROL_NONE != (my $message = getMessage())) {
         if (SERVICE_CONTROL_INTERROGATE == $message) {
             # Got here if the Service Control Manager is requesting
             # the current state of the service. This can happen for
@@ -88,7 +101,6 @@ while (($state = Win32::Daemon::State()) != SERVICE_STOPPED) {
 
 sub startAgent {
     return if $thread;
-    my $directory = dirname(File::Spec->rel2abs( __FILE__ ));
     $thread = threads->create(sub {
         my $agent = new FusionInventory::Agent(
             confdir => $directory . '/../../etc/fusioninventory',

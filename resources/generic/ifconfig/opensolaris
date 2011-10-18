@@ -1,0 +1,12 @@
+lo0: flags=2001000849<UP,LOOPBACK,RUNNING,MULTICAST,IPv4,VIRTUAL> mtu 8232 index 1
+        inet 127.0.0.1 netmask ff000000 
+e1000g0: flags=1004843<UP,BROADCAST,RUNNING,MULTICAST,DHCP,IPv4> mtu 1500 index 2
+        inet 192.168.0.41 netmask ffffff00 broadcast 192.168.0.255
+        ether 8:0:27:fc:ad:56 
+lo0: flags=2002000849<UP,LOOPBACK,RUNNING,MULTICAST,IPv6,VIRTUAL> mtu 8252 index 1
+        inet6 ::1/128 
+e1000g0: flags=2000841<UP,RUNNING,MULTICAST,IPv6> mtu 1480 index 2
+        inet6 fe80::a00:27ff:fefc:ad56/10 
+        ether 8:0:27:fc:ad:56 
+e1000g0:1: flags=2080841<UP,RUNNING,MULTICAST,ADDRCONF,IPv6> mtu 1480 index 2
+        inet6 2a01:e35:8ad7:48d0:a00:27ff:fefc:ad56/64
