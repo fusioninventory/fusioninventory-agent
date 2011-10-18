@@ -1,23 +1,28 @@
-		FusionInventory agent net discovery task
-		----------------------------------------
+		FusionInventory agent network tasks
+		-----------------------------------
 
 Description 
 -----------
-This tasks scans the network to find connected devices, allowing:
-- devices discovery within an IP range, through nmap, NetBios or SNMP
-- devices identification, through SNMP
+This plugin provides two additional tasks for FusionInventory:
+- NetDiscovery allows to scan the network to find and identify connected devices
+- NetInventory allows to extract various informations from connected devices
+
+They are distributed together as closely related. The typical workflow is to
+first discover devices, once, so as to import them in the inventory with
+minimal information, and then to extract information from them as often as
+needed to populate the inventory.
 
 Dependencies
 ------------
 This task requires a FusionInventory agent (minimal version 2.2.0), and can
 only be executed with a GLPI server with FusionInventory plugin.
 
-Optional perl modules:
-- Net::NBName
-- Net::SNMP
+Additional perl modules:
+- Net::SNMP (mandatory for inventory, optional for discovery)
+- Net::NBName (optional for discovery)
 
-Optional programs:
-- nmap
+Additional programs:
+- nmap (optional for discovery)
 
 License
 -------
