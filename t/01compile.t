@@ -32,9 +32,4 @@ sub filter {
 # exclude linked modules
 my @files = grep { filter($_) } all_pm_files('lib');
 
-eval { require FusionInventory::Agent::SNMP; };
-if ($EVAL_ERROR) {
-    @files = grep  { ! /SNMP/ } @files;
-}
-
 all_pm_files_ok(@files);
