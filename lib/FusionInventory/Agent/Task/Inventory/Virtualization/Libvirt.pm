@@ -27,11 +27,13 @@ sub doInventory {
 
         if ($line =~ /^\s*(\d+|\-)\s+(\S+)\s+(\S.+)/) {
             my $vmid = $1;
+
+            my $name = $2;
+            my $status = $3;
+
             # hack to avoid a warning if $1 is not a int
             # better fix in 2.2.x branch
             $vmid = 0 unless $vmid =~ /^\d+$/;
-            my $name = $2;
-            my $status = $3;
 
             # Xen DomU
             next if $name eq 'Domain-0';
