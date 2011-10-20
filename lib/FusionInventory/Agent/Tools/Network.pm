@@ -74,14 +74,14 @@ sub getSubnetAddressIPv6 {
 sub hex2canonical {
     my ($address) = @_;
 
-    my @bytes = $address =~ /^(..)(..)(..)(..)$/;
+    my @bytes = $address =~ /^(?:0x)?(..)(..)(..)(..)$/;
     return join('.', map { hex($_) } @bytes);
 }
 
 sub alt2canonical {
     my ($address) = @_;
 
-    my @bytes = $address =~ /^(..)(..)(..)(..)(..)(..)$/;
+    my @bytes = $address =~ /^(?:0x)?(..)(..)(..)(..)(..)(..)$/;
     return join(':', @bytes);
 }
 
