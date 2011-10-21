@@ -12,7 +12,7 @@ my $default = {
     'logger'                  => 'Stderr',
     'logfacility'             => 'LOG_USER',
     'delaytime'               => 3600,
-    'backend-collect-timeout' => 180,
+    'backend-collect-timeout' => 30,
     'httpd-port'              => 62354,
 };
 
