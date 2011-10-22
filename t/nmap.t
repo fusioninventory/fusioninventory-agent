@@ -9,11 +9,6 @@ use Test::More;
 use FusionInventory::Agent::Task::NetDiscovery;
 
 my %tests = (
-    '10.0.1.147' => {
-        DNSHOSTNAME   => 'dd-wrt.lan',
-        NETPORTVENDOR => 'Cisco-Linksys',
-        MAC           => '00:1D:7E:43:96:57'
-    },
     '10.0.1.1' => {
         DNSHOSTNAME   => 'dd-wrt.lan',
         NETPORTVENDOR => 'Cisco-Linksys',
