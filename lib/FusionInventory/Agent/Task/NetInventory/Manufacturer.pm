@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::SNMPQuery::Manufacturer;
+package FusionInventory::Agent::Task::NetInventory::Manufacturer;
 
 use strict;
 use warnings;
@@ -8,7 +8,8 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::Manufacturer - Manufacturer-specific methods
+FusionInventory::Agent::Task::NetInventory::Manufacturer -
+Manufacturer-specific methods
 
 =head1 DESCRIPTION
 

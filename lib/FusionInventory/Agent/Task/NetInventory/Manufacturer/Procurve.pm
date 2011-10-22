@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Procurve;
+package FusionInventory::Agent::Task::NetInventory::Manufacturer::Procurve;
 
 use strict;
 use warnings;
@@ -95,7 +95,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::Manufacturer::Procurve - Procurve-specific functions
+FusionInventory::Agent::Task::NetInventory::Manufacturer::Procurve - Procurve-specific functions
 
 =head1 DESCRIPTION
 

@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Nortel;
+package FusionInventory::Agent::Task::NetInventory::Manufacturer::Nortel;
 
 use strict;
 use warnings;
@@ -99,7 +99,7 @@ sub setConnectedDevices {
 1;
 =head1 NAME
 
-FusionInventory::Agent::Task::Manufacturer::Nortel - Nortel-specific functions
+FusionInventory::Agent::Task::NetInventory::Manufacturer::Nortel - Nortel-specific functions
 
 =head1 DESCRIPTION
 

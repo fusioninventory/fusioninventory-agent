@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::SNMPQuery::Manufacturer::3Com;
+package FusionInventory::Agent::Task::NetInventory::Manufacturer::3Com;
 
 use strict;
 use warnings;
@@ -45,7 +45,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::Manufacturer::3Com - 3Com-specific functions
+FusionInventory::Agent::Task::NetInventory::Manufacturer::3Com - 3Com-specific functions
 
 =head1 DESCRIPTION
 

@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::SNMPQuery;
+package FusionInventory::Agent::Task::NetInventory;
 
 use strict;
 use warnings;
@@ -175,7 +175,7 @@ sub isEnabled {
 sub run {
     my ($self, %params) = @_;
 
-    $self->{logger}->debug("FusionInventory SNMPQuery task $VERSION");
+    $self->{logger}->debug("FusionInventory NetInventory task $VERSION");
 
     my $options     = $self->{options};
     my $pid         = $options->{PARAM}->[0]->{PID};
@@ -683,7 +683,7 @@ sub _setNetworkingProperties {
             }
             # Detect mac adress on each port
             if ($comments =~ /Cisco/) {
-                my $module = 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco';
+                my $module = 'FusionInventory::Agent::Task::NetInventory::Manufacturer::Cisco';
                 runFunction(
                     module   => $module,
                     function => 'setConnectedDevicesMacAddress',
@@ -747,7 +747,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::SNMPQuery - Remote inventory support for FusionInventory Agent
+FusionInventory::Agent::Task::NetInventory - Remote inventory support for FusionInventory Agent
 
 =head1 DESCRIPTION
 

@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use Test::More;
-use FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco;
+use FusionInventory::Agent::Task::NetInventory::Manufacturer::Cisco;
 
 my @mac_tests = (
     # each item is an arrayref of three elements:
@@ -110,7 +110,7 @@ my $results = {
 };
 
 foreach my $test (@mac_tests) {
-    FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco::setConnectedDevicesMacAddress(
+    FusionInventory::Agent::Task::NetInventory::Manufacturer::Cisco::setConnectedDevicesMacAddress(
         results => $results, ports => $test->[0], walks => $walks, vlan_id => 1
     );
 

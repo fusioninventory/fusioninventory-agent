@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::SNMPQuery::Manufacturer::AlliedTelesis;
+package FusionInventory::Agent::Task::NetInventory::Manufacturer::AlliedTelesis;
 
 use strict;
 use warnings;
@@ -45,7 +45,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::Manufacturer::AlliedTelesis - AlliedTelesis-specific functions
+FusionInventory::Agent::Task::NetInventory::Manufacturer::AlliedTelesis - AlliedTelesis-specific functions
 
 =head1 DESCRIPTION
 
