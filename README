@@ -8,9 +8,25 @@ This plugin provides two additional tasks for FusionInventory:
 - NetInventory allows to extract various informations from connected devices
 
 They are distributed together as closely related. The typical workflow is to
-first discover devices, once, so as to import them in the inventory with
-minimal information, and then to extract information from them as often as
-needed to populate the inventory.
+first discover devices, once, to import them in the inventory with minimal
+information, and then to extract information from them as often as needed to
+populate the inventory.
+
+NetDiscovery use the following tools, if available, to scan IP networks:
+nmap external command, Net::NBName and Net::SNMP perl modules. Devices found
+will be reported as unkwown device with few additional informations, such as
+mac address and hostname, unless identified as a specific device. Currently, 
+identification works  only through SNMP, tough, and relies on exact matching of
+the device sysdescr field in a the SNMP models dictionnary from the GLPI
+server. As this sysdescr field content is highly dependant of exact
+hardware/firmware combination, a device will be either perfectly identified, if
+already known, or not indentified at all.
+
+NetInventory can be applied to any device discovered AND identified in the
+previous step, as it relies on the usage of an SNMP model to describe the
+device, and map specific features with known SNMP variables identifiers. Once
+again, there is no partial descriptive model available: if the device is known,
+it can be inventoried completly, if it is not, it can't be.
 
 Dependencies
 ------------
