@@ -12,17 +12,17 @@ my @mac_tests = (
     # - output data structure
     # - test explication
     [
-        [
-            {
+        {
+            0 => {
                 CONNECTIONS => {
                     CONNECTION => [
                     ]
                 },
                 MAC => 'X',
             }
-        ],
-        [
-            {
+        },
+        {
+            0 =>  {
                 CONNECTIONS => {
                     CONNECTION => [
                         { MAC => '00 1C F6 C5 64 19' }
@@ -30,12 +30,12 @@ my @mac_tests = (
                 },
                 MAC => 'X',
             }
-        ],
+        },
         'connection mac address retrieval'
     ],
     [
-        [
-            {
+        {
+            0 => {
                 CONNECTIONS => {
                     CONNECTION => [
                     ],
@@ -43,9 +43,9 @@ my @mac_tests = (
                 },
                 MAC => 'X',
             }
-        ],
-        [
-            {
+        },
+        {
+            0 => {
                 CONNECTIONS => {
                     CONNECTION => [
                     ],
@@ -53,28 +53,28 @@ my @mac_tests = (
                 },
                 MAC => 'X',
             }
-        ],
+        },
         'connection mac address retrieval, connection has CDP'
     ],
     [
-        [
-            {
+        {
+            0 => {
                 CONNECTIONS => {
                     CONNECTION => [
                     ],
                 },
                 MAC => '00 1C F6 C5 64 19',
             }
-        ],
-        [
-            {
+        },
+        {
+            0 => {
                 CONNECTIONS => {
                     CONNECTION => [
                     ],
                 },
                 MAC => '00 1C F6 C5 64 19',
             }
-        ],
+        },
         'connection mac address retrieval, same mac address as the port'
     ],
 );
