@@ -57,7 +57,7 @@ sub _getInterfaces {
     my (%params) = @_;
 
     my @interfaces = _parseIfconfig(
-        command => '/sbin/ifconfig -a',
+        command => 'ifconfig -a',
         @_
     );
 
