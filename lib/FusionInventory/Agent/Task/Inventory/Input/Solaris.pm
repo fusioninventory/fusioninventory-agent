@@ -45,7 +45,7 @@ sub doInventory {
         DESCRIPTION => $HWDescription
     });
 
-    $inventory->setHardware({
+    $inventory->setOperatingSystem({
         NAME                 => "Solaris",
         VERSION              => $OSLevel,
         KERNEL_VERSION       => $OSComment,
