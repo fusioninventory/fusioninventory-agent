@@ -335,7 +335,7 @@ sub getRoutingTable {
         @_
     );
 
-    my $handle = getFileHandle(@_);
+    my $handle = getFileHandle(%params);
     return unless $handle;
 
     my $routes;
