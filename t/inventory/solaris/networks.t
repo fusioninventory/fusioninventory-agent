@@ -123,7 +123,7 @@ my %ifconfig_tests = (
 );
 
 plan tests =>
-    int (keys %ifconfig_tests);
+    int (1 + keys %ifconfig_tests);
 
 use Data::Dumper;
 foreach my $test (keys %ifconfig_tests) {
@@ -132,3 +132,31 @@ foreach my $test (keys %ifconfig_tests) {
     is_deeply(\@results, $ifconfig_tests{$test}, $test) or print Dumper(\@results);
 }
 
+
+my @parsefcinfo = (
+      {
+        'FIRMWARE' => '05.03.02',
+        'STATUS' => 'Up',
+        'SPEED' => '4Gb',
+        'TYPE' => 'HBA',
+        'DRIVER' => 'qlc',
+        'DESCRIPTION' => 'HBA_Port_WWN_1 /dev/cfg/c0',
+        'MANUFACTURER' => 'QLogic Corp.',
+        'MODEL' => 'QLE2462',
+        'WWN' => '200000e08b94b4a3'
+      },
+      {
+        'FIRMWARE' => '05.03.02',
+        'STATUS' => 'Up',
+        'SPEED' => '4Gb',
+        'TYPE' => 'HBA',
+        'DRIVER' => 'qlc',
+        'DESCRIPTION' => 'HBA_Port_WWN_2 /dev/cfg/c1',
+        'MANUFACTURER' => 'QLogic Corp.',
+        'MODEL' => 'QLE2462',
+        'WWN' => '200100e08bb4b4a3'
+      }
+);
+my $file = "resources/solaris/fcinfo_hba-port/sample-1";
+my @result = FusionInventory::Agent::Task::Inventory::Input::Solaris::Networks::_parsefcinfo(file => $file);
+is_deeply(\@result, \@parsefcinfo, "_parsefcinfo") or print Dumper(\@result);

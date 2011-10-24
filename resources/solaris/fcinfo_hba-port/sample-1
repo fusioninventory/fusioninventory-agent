@@ -1,0 +1,28 @@
+HBA Port WWN: 210000e08b94b4a3
+        OS Device Name: /dev/cfg/c0
+        Manufacturer: QLogic Corp.
+        Model: QLE2462
+        Firmware Version: 05.03.02
+        FCode/BIOS Version:  BIOS: 1.12; fcode: 1.16; EFI: 1.04;
+        Serial Number: RFC0708N52628
+        Driver Name: qlc
+        Driver Version: 20100301-3.00
+        Type: L-port
+        State: online
+        Supported Speeds: 1Gb 2Gb 4Gb
+        Current Speed: 4Gb
+        Node WWN: 200000e08b94b4a3
+HBA Port WWN: 210100e08bb4b4a3
+        OS Device Name: /dev/cfg/c1
+        Manufacturer: QLogic Corp.
+        Model: QLE2462
+        Firmware Version: 05.03.02
+        FCode/BIOS Version:  BIOS: 1.12; fcode: 1.16; EFI: 1.04;
+        Serial Number: RFC0708N52628
+        Driver Name: qlc
+        Driver Version: 20100301-3.00
+        Type: L-port
+        State: online
+        Supported Speeds: 1Gb 2Gb 4Gb
+        Current Speed: 4Gb
+        Node WWN: 200100e08bb4b4a3
