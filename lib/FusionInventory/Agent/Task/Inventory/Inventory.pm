@@ -293,31 +293,6 @@ sub checkContent {
     my $missing = 0;
     my $content = $self->{content};
 
-    if (!$content->{NETWORKS}->[0]->{MACADDR}) {
-        $logger->debug('Missing value: MAC address of first network card');
-        $missing++;
-    }
-    if (!$content->{BIOS}->{SSN}) {
-        $logger->debug('Missing value: serial number');
-        $missing++;
-    }
-    if (!$content->{HARDWARE}->{NAME}) {
-        $logger->debug('Missing value: hostname');
-        $missing++;
-    }
-    if (!$content->{HARDWARE}->{UUID}) {
-        $logger->debug('Missing value: UUID');
-        $missing++;
-    }
-
-    if ($missing) {
-        $logger->debug(
-            'Important value(s) to identify the computer are missing. ' .
-            'Depending on how the server identify duplicated machine, ' .
-            'this may create zombie computer in your data base.'
-        );
-    }
-
 }
 
 sub computeChecksum {
