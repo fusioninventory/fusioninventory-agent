@@ -71,13 +71,16 @@ sub _getStorages {
                                            "FW:" . $storage->{FIRMWARE} ;
             }
 
-            ## Workaround for MANUFACTURER == ATA case
-            if ($storage->{MANUFACTURER} && ($storage->{MANUFACTURER} eq 'ATA') && $storage->{MODEL} =~ s/^(Hitachi|Seagate|INTEL)\s(\S.*)/$2/i) {
-                $storage->{MANUFACTURER} = $1;
+            if ($storage->{MANUFACTURER}) {
+                ## Workaround for MANUFACTURER == ATA case
+                if (($storage->{MANUFACTURER} eq 'ATA') && $storage->{MODEL} =~ s/^(Hitachi|Seagate|INTEL)\s(\S.*)/$2/i) {
+                        $storage->{MANUFACTURER} = $1;
+                }
+
+                ## Drop the (R) from the manufacturer string
+                $storage->{MANUFACTURER} =~ s/\(R\)$//i;
             }
 
-            ## Drop the (R) from the manufacturer string
-            $storage->{MANUFACTURER} =~ s/\(R\)$//i;
 
             if (-l "/dev/rdsk/$storage->{NAME}s2") {
                 my $rdisk_path = getFirstLine(
