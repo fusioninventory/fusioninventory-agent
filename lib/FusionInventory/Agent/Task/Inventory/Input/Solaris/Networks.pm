@@ -344,17 +344,18 @@ sub _parsefcinfo {
         $interface->{DESCRIPTION} = "HBA_Port_WWN_" . $inc if $line =~ /HBA Port WWN:\s+(\S+)/;
         $interface->{DESCRIPTION} .= " " . $1 if $line =~ /OS Device Name:\s+(\S+)/;
         $interface->{SPEED} = $1 if $line =~ /Current Speed:\s+(\S+)/;
-        $interface->{MACADDR} = $1 if $line =~ /Node WWN:\s+(\S+)/;
+        $interface->{WWN} = $1 if $line =~ /Node WWN:\s+(\S+)/;
         $interface->{TYPE} = $1 if $line =~ /Manufacturer:\s+(.*)$/;
         $interface->{TYPE} .= " " . $1 if $line =~ /Model:\s+(.*)$/;
         $interface->{TYPE} .= " " . $1 if $line =~ /Firmware Version:\s+(.*)$/;
-        $interface->{STATUS} = 1 if $line =~ /online/;
+        $interface->{STATUS} = 'Up' if $line =~ /online/;
 
-        if ($interface->{DESCRIPTION} && $interface->{MACADDR}) {
+        if ($interface->{DESCRIPTION} && $interface->{WWN}) {
             $interface->{IPADDRESS} = "0.0.0.0";
             $interface->{STATUS} = 'Down' if !$interface->{STATUS};
 
             push @interfaces, $interface;
+            $interface = {};
             $inc++;
         }
     }
