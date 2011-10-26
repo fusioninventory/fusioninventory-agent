@@ -7,6 +7,7 @@ use Config;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Linux;
+use FusionInventory::Agent::Tools::Generic;
 
 sub isEnabled { 
     return

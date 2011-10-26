@@ -25,7 +25,7 @@ sub doInventory {
     # Get more information from the kernel configuration file
     my $date;
     my $handle = getFileHandle(command => "sysctl -n kern.version");
-    while (my $line =~ <$handle>) {
+    while (my $line = <$handle>) {
         if ($line =~ /^\S.*\#\d+:\s*(.*)/) {
             $date = $1;
             next;

@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Generic;
 
 sub isEnabled {
     return canRun('dmidecode');

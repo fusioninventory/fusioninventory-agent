@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Input::AIX::CPU;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
+
 sub isEnabled {
     return 1;
 }

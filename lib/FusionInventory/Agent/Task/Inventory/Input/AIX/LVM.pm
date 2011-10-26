@@ -10,7 +10,7 @@ use warnings;
 use English qw(-no_match_vars);
 
 sub isEnabled {
-    can_run("lspv");
+    canRun("lspv");
 }
 
 sub _parseLvs {

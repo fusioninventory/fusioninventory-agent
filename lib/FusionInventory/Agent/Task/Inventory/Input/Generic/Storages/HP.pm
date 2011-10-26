@@ -47,7 +47,7 @@ sub _getHpacuacliFromWinRegistry {
 sub isEnabled {
     return
         canRun('hpacucli') ||
-        _getHpacuacliFromWinRegistry();
+        ($OSNAME eq 'MSWin32' && _getHpacuacliFromWinRegistry());
 }
 
 sub doInventory {

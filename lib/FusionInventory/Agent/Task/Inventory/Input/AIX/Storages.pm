@@ -19,7 +19,7 @@ sub doInventory {
     my $logger    = $params{inventory};
 
     # index VPD infos by AX field
-    my $infos = _getIndexedInfos(logger => $logger);
+    my $infos = _getIndexedLsvpdInfos(logger => $logger);
 
     foreach my $disk (_getDisks(logger => $logger, subclass => 'scsi', infos => $infos)) {
         $disk->{DISKSIZE} = _getCapacity($disk->{NAME}, $params{logger});
@@ -50,7 +50,7 @@ sub doInventory {
         $inventory->addEntry(section => 'STORAGES', entry => $disk);
     }
 
-    foreach my $cdrom (_getCDROMs(logger => $logger, infos => $infos)) {
+    foreach my $cdrom (_getCdroms(logger => $logger, infos => $infos)) {
         $inventory->addEntry(section => 'STORAGES', entry => $cdrom);
     }
 
