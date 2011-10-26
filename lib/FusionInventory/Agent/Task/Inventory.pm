@@ -152,6 +152,7 @@ sub _initModulesList {
         my $enabled = runFunction(
             module   => $module,
             function => "isEnabled",
+            logger => $logger,
             timeout  => $config->{'backend-collect-timeout'},
             params => {
                 datadir       => $self->{datadir},
@@ -232,6 +233,7 @@ sub _runModule {
     runFunction(
         module   => $module,
         function => "doInventory",
+        logger => $logger,
         timeout  => $self->{config}->{'backend-collect-timeout'},
         params => {
             datadir       => $self->{datadir},
