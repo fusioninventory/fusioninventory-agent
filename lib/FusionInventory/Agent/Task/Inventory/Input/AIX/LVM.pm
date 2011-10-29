@@ -187,11 +187,19 @@ sub doInventory {
     my $inventory = $params{inventory};
 
     my $pvs       = _parsePvs();
-    $inventory->addPhysicalVolume($_) foreach (@$pvs);
+    foreach (@$pvs) {
+        $inventory->addEntry(section => 'PHYSICAL_VOLUMES', entry => $_);
+    }
+
     my $lvs = _parseLvs();
-    inventory->addLogicalVolume($_) foreach (@$lvs);
+    foreach (@$lvs) {
+        $inventory->addEntry(section => 'LOGICAL_VOLUMES', entry => $_);
+    }
+
     my $vgs = _parseVgs();
-    $inventory->addVolumeGroup($_) foreach (@$vgs);
+    foreach (@$vgs) {
+        $inventory->addEntry(section => 'VOLUME_GROUPS', entry => $_);
+    }
 
 }
 
