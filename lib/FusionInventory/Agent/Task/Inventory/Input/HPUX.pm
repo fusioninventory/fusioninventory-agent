@@ -7,7 +7,7 @@ use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
 
-our $runAfter = ["FusionInventory::Agent::Backend::Input::Generic"];
+our $runAfter = ["FusionInventory::Agent::Task::Inventory::Input::Generic"];
 
 sub isEnabled  {
     return $OSNAME eq 'hpux';
