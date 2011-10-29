@@ -29,7 +29,7 @@ sub doInventory {
     );
     return unless $handle1;
 
-    while (my $line1 =~ <$handle1>) {
+    while (my $line1 = <$handle1>) {
 
 # Example Output :
 # Found 1 IBM ServeRAID controller(s).
