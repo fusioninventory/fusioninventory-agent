@@ -325,7 +325,7 @@ sub _parseDladm {
         $interface->{DESCRIPTION} = $1;
         $interface->{MACADDR}     = $2;
         $interface->{SPEED}       = $3 . " " . $4 . " " . $5;
-        $interface->{STATUS}      = 1 if /up/;
+        $interface->{STATUS}      = 'Up' if $line =~ /UP/;
         push @interfaces, $interface;
     }
     close $handle;
