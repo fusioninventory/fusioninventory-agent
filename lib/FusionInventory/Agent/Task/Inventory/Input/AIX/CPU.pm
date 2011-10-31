@@ -39,26 +39,32 @@ sub _getCPUs {
         my $device = $line;
 
         my $format = $aixversion >= 5 ?
-            'type:frequency:smt_threads' : 'type';
+            'type:frequency:frequency' : 'type';
 
         my @lsattr = getAllLines(
             command => "lsattr -EOl $device -a '$format'",
         );
+
+        my $cpu = {
+            THREAD => 1
+        };
+
+        my $smt_threads = getFirstLine(command => "lsattr -EOl $device -a 'state:type:smt_threads'");
+        if ($smt_threads && $smt_threads =~ /:(\d+)$/) {
+            $cpu->{THREAD} = $1;
+        }
+
 
         # drop headers
         shift @lsattr;
         
         # use first line to compute name, frequency and number of threads
         my @infos = split(/:/, $lsattr[0]);
-        my $cpu = {
-            THREAD => 1
-        };
 
         $cpu->{NAME} = $infos[0];
         $cpu->{NAME} =~ s/_/ /;
 
         if ($aixversion >= 5) {
-            $cpu->{THREAD} = $infos[2];
             $cpu->{SPEED} = ($infos[1] % 1000000) >= 50000 ? 
                 int($infos[1] / 1000000) + 1 : int($infos[1] / 1000000);
         } else {
