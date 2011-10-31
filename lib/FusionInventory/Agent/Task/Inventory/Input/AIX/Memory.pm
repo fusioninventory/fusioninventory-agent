@@ -76,8 +76,8 @@ sub _getMemories {
             CAPACITY    => $info->{SZ},
             TYPE        => $info->{PN},
             CAPTION     => 'Slot ' . $info->{YL},
-            SERIAL      => $info->{SN},
-            VERSION     => $info->{VK},
+            SERIALNUMBER=> $info->{SN},
+#            VERSION     => $info->{VK},
             NUMSLOTS    => $numslots++
         };
     }
