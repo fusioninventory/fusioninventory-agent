@@ -75,12 +75,13 @@ sub prepare {
         $Archive::Extract::DEBUG=1;
         if ($file->{uncompress}) {
             my $ae = Archive::Extract->new( archive => $finalFilePath );
-            if (!$ae->extract( to => $self->{path} )) {
+            if (!$ae) {
+                print "Failed to create Archive::Extract object\n";
+            } elsif (!$ae->extract( to => $self->{path} )) {
                 print "Failed to extract `$finalFilePath'\n";
-                return;
             }
-
-            unlink($finalFilePath);
+            # We ignore failure here because one my have activated the
+            # extract flag on common file and this should be harmless
         }
     }
 
