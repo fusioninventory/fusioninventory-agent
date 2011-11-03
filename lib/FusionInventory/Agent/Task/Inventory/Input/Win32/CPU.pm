@@ -13,6 +13,7 @@ use Win32::TieRegistry (
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
+use FusionInventory::Agent::Tools::Generic;
 
 sub isEnabled {
     return 1;
