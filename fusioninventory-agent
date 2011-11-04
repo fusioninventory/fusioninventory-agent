@@ -135,7 +135,7 @@ B<fusioninventory-agent> [options] [--server server|--local directory|--sdout]
     --html              save the inventory as HTML (false)
     -f --force          always send data to server (false)
     -t --tag=TAG        mark the machine with given tag
-    --backend-collect-timeout   timeout for inventory modules execution (180)
+    --backend-collect-timeout   timeout for inventory modules execution (30)
     --additional-content=FILE   additional inventory content
 
   Package deployment task specific options
