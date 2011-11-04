@@ -207,7 +207,22 @@ sub getNetworks {
     foreach (@vnic) {
         next if ref($_) ne 'HASH';
 
-        push @$ret, {
+        if ( ref($_) eq 'ARRAY') {
+            foreach ( @$_ ) {
+                push @$ret, {
+                    DESCRIPTION => $_->{device},
+                    IPADDRESS => $_->{spec}{ip}{ipAddress},
+                    IPMASK => $_->{spec}{ip}{subnetMask},
+                    MACADDR => $_->{spec}{mac},
+                    MTU => $_->{spec}{ip}{mtu},
+                    STATUS => $_->{spec}{ip}{ipAddress}?'Up':'Down',
+                    VIRTUALDEV => '1',
+                    };
+                }
+        }
+        else {
+
+            push @$ret, {
                 DESCRIPTION => $_->{device},
                 IPADDRESS => $_->{spec}{ip}{ipAddress},
                 IPMASK => $_->{spec}{ip}{subnetMask},
@@ -216,6 +231,9 @@ sub getNetworks {
                 STATUS => $_->{spec}{ip}{ipAddress}?'Up':'Down',
                 VIRTUALDEV => '1',
                 };
+
+        }
+
     }
 
     return $ret;
