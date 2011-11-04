@@ -6,6 +6,7 @@ use warnings;
 use constant wbemFlagReturnImmediately => 0x10;
 use constant wbemFlagForwardOnly => 0x20;
 
+use Win32::API;
 use Encode qw(encode);
 use English qw(-no_match_vars);
 use Win32::OLE::Variant;
@@ -131,6 +132,19 @@ sub doInventory {
         });
     }
 
+
+
+    my $GetComputerName = new Win32::API("kernel32", "GetComputerNameExW", ["I", "P", "P"],
+            "N");
+    my $lpBuffer = "\x00" x 1024;
+    my $N=1024;#pack ("c4", 160,0,0,0);
+
+    my $return = $GetComputerName->Call(3, $lpBuffer,$N);
+
+# GetComputerNameExW returns the string in UTF16, we have to change it
+# to UTF8
+    my $name = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));
+
     foreach my $Properties (getWmiProperties('Win32_ComputerSystem', qw/
         Name Domain Workgroup UserName PrimaryOwnerName TotalPhysicalMemory
     /)) {
@@ -144,12 +158,15 @@ sub doInventory {
         my $winowner = $Properties->{PrimaryOwnerName};
 
         #$inventory->addUser({ LOGIN => encode('UTF-8', $Properties->{UserName}) });
+        $name = $Properties->{Name} unless $name;
+        $name = $ENV{COMPUTERNAME} unless $name;
+
         $inventory->setHardware({
             MEMORY => int(($Properties->{TotalPhysicalMemory}||0)/(1024*1024)),
             USERDOMAIN => $userdomain,
             WORKGROUP => $workgroup,
             WINOWNER => $winowner,
-            NAME => $Properties->{Name},
+            NAME => $name,
         });
     }
 
