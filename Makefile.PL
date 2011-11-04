@@ -1,9 +1,9 @@
 use inc::Module::Install;
 
-name 'FusionInventory-Agent-Task-NetDiscovery';
+name 'FusionInventory-Agent-Tasks-Net';
 include 'Module::AutoInstall';
-abstract 'Network discovery support for FusionInventory Agent';
-version_from 'lib/FusionInventory/Agent/Task/NetDiscovery.pm';
+abstract 'FusionInventory Agent network tasks';
+version '1.0';
 license 'gpl';
 perl_version '5.008';
 
