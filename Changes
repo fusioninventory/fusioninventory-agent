@@ -36,6 +36,8 @@ Major changes:
   - --daemon-no-fork option has been deprecated, and replaced by --daemon
     --no-fork options
   - --info option has been deprecated, as it had no effect
+  - --rpc-trust-localhost option has been deprecated, in favor of a more
+    generic --http-trust option, allowing an arbitrary IP adresse or range
   - --debug option can be specified multiple times, for additional verbosity
   - --no-inventory, --no-ocsdeploy, --no-snmpquery, --no-netdiscovery options
     have been deprecated in favor of a generic --no-task option
