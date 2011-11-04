@@ -144,12 +144,19 @@ sub doInventory {
 # GetComputerNameExW returns the string in UTF16, we have to change it
 # to UTF8
     my $name = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));
+    my $domain;
+    if ($name =~ s/^([^\.]+)\.(.*)/$1/) {
+        $domain = $2;
+    }
 
     foreach my $Properties (getWmiProperties('Win32_ComputerSystem', qw/
         Name Domain Workgroup UserName PrimaryOwnerName TotalPhysicalMemory
     /)) {
 
-        my $workgroup = $Properties->{Domain} || $Properties->{Workgroup};
+        my $workgroup = $Properties->{Domain};
+        $workgroup = $Properties->{Workgroup} unless $workgroup;
+        $workgroup = $domain unless $workgroup;
+
         my $userdomain;
 #        my $userid;
 #        my @tmp = split(/\\/, $Properties->{UserName});
