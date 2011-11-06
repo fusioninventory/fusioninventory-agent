@@ -6,11 +6,18 @@ use Data::Dumper;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::REST;
-use FusionInventory::Agent::XML::Query::Inventory;
+use FusionInventory::Agent::HTTP::Client::Fusion;
+use FusionInventory::Agent::Task::Inventory::Inventory;
 use FusionInventory::Agent::Config;
 use FusionInventory::VMware::SOAP;
-use FusionInventory::Logger;
+use FusionInventory::Agent::Logger;
+
+
+sub isEnabled {
+    my ($self, $response) = @_;
+
+    return $self->{target}->isa('FusionInventory::Agent::Target::Server');
+}
 
 sub connect {
     my ($self, $job) = @_;
@@ -63,11 +70,11 @@ sub createInventory {
     my $host;
     $host = $vpbs->getHostFullInfo($id);
 
-    my $inventory = FusionInventory::Agent::XML::Query::Inventory->new({
+    my $inventory = FusionInventory::Agent::Task::Inventory::Inventory->new(
             logger => $self->{logger},
             config => $self->{config},
-            target => { deviceid => $self->createFakeDeviceid($host) }
-            });
+            );
+    $inventory->{deviceid}=$self->createFakeDeviceid($host);
 
     $inventory->{isInitialised}=1;
     $inventory->{h}{CONTENT}{HARDWARE}{ARCHNAME}=['remote'];
@@ -78,14 +85,14 @@ sub createInventory {
 
     foreach my $cpu (@{$host->getCPUs()})
     {
-        $inventory->addCPU($cpu);
+        $inventory->addEntry(section => 'CPUS', entry => $cpu);
     }
 
     foreach (@{$host->getControllers()}) {
-        $inventory->addController($_);
+        $inventory->addEntry(section => 'CONTROLLERS', entry => $_);
 
         if ($_->{PCICLASS} && ($_->{PCICLASS} eq '300')) {
-            $inventory->addVideo({
+            $inventory->addEntry(section => 'VIDEOS', entry => {
                     NAME => $_->{NAME},
                     PCISLOT => $_->{PCISLOT},
                     })
@@ -95,7 +102,7 @@ sub createInventory {
     my %ipaddr;
     foreach (@{$host->getNetworks()}) {
         $ipaddr{$_->{IPADDRESS}}=1 if $_->{IPADDRESS};
-        $inventory->addNetwork($_);
+        $inventory->addEntry(section => 'NETWORKS', entry => $_);
     }
     $inventory->setHardware({IPADDR => join '/', (keys %ipaddr)});
 
@@ -111,11 +118,11 @@ sub createInventory {
 # TODO
 #        $volumnMapping{$entry->{canonicalName}} = $entry->{deviceName};
 
-        $inventory->addStorage($_);
+        $inventory->addEntry(section => 'STORAGES', entry => $_);
     }
 
     foreach (@{$host->getDrives()}) {
-        $inventory->addDrive($_);
+        $inventory->addEntry(section => 'DRIVES', entry => $_);
     }
 
     foreach (@{$host->getVirtualMachines()}) {
@@ -154,49 +161,32 @@ sub getHostIds {
     return $self->{vpbs}->getHostIds();
 }
 
-sub main {
-    my ( undef ) = @_;
+sub run {
+    my ($self, %params) = @_;
 
-    my $self = {};
-    bless $self;
-
-
-    my $storage = FusionInventory::Agent::Storage->new({
-            target => {
-                vardir => $ARGV[0],
-            }
-        });
-
-    my $data = $storage->restore({
-            module => "FusionInventory::Agent"
-        });
-
-    my $config = $self->{config} = $data->{config};
-    my $target = $self->{'target'} = $data->{'target'};
-    my $logger = $self->{logger} = FusionInventory::Logger->new ({
-            config => $self->{config}
-        });
-
-    return unless $target;
-    return unless $target->{type} eq 'server';
-
-    my $network = $self->{network} = FusionInventory::Agent::Network->new ({
-
-            logger => $logger,
-            config => $config,
-            target => $target,
-
-        });
+    $self->{logger}->debug("FusionInventory Inventory task $VERSION");
 
 
-    my $globalRest = FusionInventory::Agent::REST->new(
-            "url" => $target->{path},
-            "network" => $network
-            );
-    my $globalRemoteConfig = $globalRest->getConfig(
-            machineid => $target->{deviceid},
-            task => { ESX => $VERSION},
+    $self->{client} = FusionInventory::Agent::HTTP::Client::Fusion->new(
+            logger       => $self->{logger},
+            user         => $params{user},
+            password     => $params{password},
+            proxy        => $params{proxy},
+            ca_cert_file => $params{ca_cert_file},
+            ca_cert_dir  => $params{ca_cert_dir},
+            no_ssl_check => $params{no_ssl_check},
+            debug        => $self->{debug}
     );
+
+    my $globalRemoteConfig = $self->{client}->send(
+        "url" => $self->{target}->{url},
+        args  => {
+            action    => "getConfig",
+            machineid => $self->{deviceid},
+            task      => { Deploy => $VERSION },
+        }
+    );
+
     return unless $globalRemoteConfig->{schedule};
     return unless ref($globalRemoteConfig->{schedule}) eq 'ARRAY';
 
@@ -206,55 +196,77 @@ sub main {
         $esxRemote = $job->{remote};
     }
     if (!$esxRemote) {
-       $logger->info("ESX support disabled server side.");
+       $self->{logger}->info("ESX support disabled server side.");
        return;
     }
-    my $esxRest = FusionInventory::Agent::REST->new(
-            "url" => $esxRemote,
-            "network" => $network
-            );
-    if (!$esxRest) {
-        $logger->error("Failed to get parameter from `$esxRemote'");
-        exit;
-    }
 
-
-    my $jobs = $esxRest->getJobs(
-              machineid => $target->{deviceid},
+    my $jobs = $self->{client}->send(
+        "url" => $esxRemote,
+        args  => {
+            action    => "getJobs",
+            machineid => $self->{deviceid}
+        }
     );
 
     return unless $jobs;
     return unless ref($jobs->{jobs}) eq 'ARRAY';
-    $logger->info("Got ".int(@{$jobs->{jobs}})." VMware host(s) to inventory.");
+    $self->{logger}->info("Got ".int(@{$jobs->{jobs}})." VMware host(s) to inventory.");
 
-    my $esx = FusionInventory::Agent::Task::ESX->new({
-            config => $config
-            });
+#    my $esx = FusionInventory::Agent::Task::ESX->new({
+#            config => $config
+#            });
+
+
+    my $ocsClient = FusionInventory::Agent::HTTP::Client::OCS->new(
+        logger       => $self->{logger},
+        user         => $params{user},
+        password     => $params{password},
+        proxy        => $params{proxy},
+        ca_cert_file => $params{ca_cert_file},
+        ca_cert_dir  => $params{ca_cert_dir},
+        no_ssl_check => $params{no_ssl_check},
+    );
 
 
     foreach my $job (@{$jobs->{jobs}}) {
 
-        if (!$esx->connect($job)) {
-           $esxRest->setLog(
-              machineid => $target->{deviceid},
-              part => 'login',
-              uuid => $job->{uuid},
-              msg => $esx->{lastError},
-              code => 'ko'
-           );
+        if (!$self->connect($job)) {
+            $self->{client}->send(
+                    "url" => $esxRemote,
+                    args  => {
+                        machineid => $self->{deviceid},
+                        part => 'login',
+                        uuid => $job->{uuid},
+                        msg => $self->{lastError},
+                        code => 'ko'
+                    }
+            );
+
+
            next;
         }
 
-        my $hostIds = $esx->getHostIds();
+        my $hostIds = $self->getHostIds();
         foreach my $hostId (@$hostIds) {
-            my $inventory = $esx->createInventory($hostId);
+            my $inventory = $self->createInventory($hostId);
 
-            my $response = $network->send({message => $inventory});
+            my $message = FusionInventory::Agent::XML::Query::Inventory->new(
+                deviceid => $self->{deviceid},
+                content  => $inventory->getContent()
+            );
+
+            my $response = $ocsClient->send(
+                    url     => $self->{target}->getUrl(),
+                    message => $message
+            );
         }
-        $esxRest->setLog(
-                machineid => $target->{deviceid},
-                uuid => $job->{uuid},
-                code => 'ok'
+        $self->{client}->send(
+                "url" => $esxRemote,
+                args  => {
+                    machineid => $self->{deviceid},
+                    uuid => $job->{uuid},
+                    code => 'ok'
+                }
         );
 
     }
@@ -266,7 +278,7 @@ sub main {
 sub new {
     my (undef, $params) = @_;
 
-    my $logger = FusionInventory::Logger->new ();
+    my $logger = FusionInventory::Agent::Logger->new ();
 
 
     my $self = { config => $params->{config}, logger => $logger };

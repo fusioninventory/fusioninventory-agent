@@ -9,8 +9,8 @@ if ($ENV{REALLIB}) {
 
 eval "
 use FusionInventory::Agent::Task::ESX;
-use FusionInventory::Agent::AccountInfo;
-use FusionInventory::Logger;
+#use FusionInventory::Agent::AccountInfo;
+use FusionInventory::Agent::Logger;
 use Getopt::Long;";
 if ($@) {
     die $@;
@@ -74,20 +74,40 @@ if (!$esx->connect({
 }
 
 # Put ACCOUNTINFO values in the inventory
-my $logger = FusionInventory::Logger->new();
-my $accountinfo = FusionInventory::Agent::AccountInfo->new({
-    logger => $logger,
-    config => {},
-#    target => $self,
-    });
-$accountinfo->set('TAG', $args->{tag});
+my $logger = FusionInventory::Agent::Logger->new();
+#my $accountinfo = FusionInventory::Agent::AccountInfo->new({
+#    logger => $logger,
+#    config => {},
+##    target => $self,
+#    });
+#$accountinfo->set('TAG', $args->{tag});
 
 my $hostIds = $esx->getHostIds();
 foreach my $hostId (@$hostIds) {
     my $inventory = $esx->createInventory($hostId);
-    $accountinfo->setAccountInfo($inventory);
+    #$accountinfo->setAccountInfo($inventory);
 
-    $inventory->writeXML();
+   # $inventory->writeXML();
+
+
+    my $file = $inventory->{deviceid} . ".ocs";
+
+    if (open my $handle, '>', $file) {
+        my $tpp = XML::TreePP->new(indent => 2);
+        print $handle $tpp->write({
+            REQUEST => {
+            CONTENT => $inventory->{content},
+            DEVICEID => $inventory->{deviceid},
+            QUERY => "INVENTORY",
+            }
+        });
+
+                close $handle;
+        print("Inventory saved in $file\n");
+    } else {
+        print("Can't write to $file: $?\n");
+    }
+
 }
 exit(0);
 __END__
