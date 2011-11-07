@@ -29,7 +29,6 @@ GetOptions(
     'force|f',
     'help|h',
     'html',
-    'info|i',
     'lazy',
     'list-tasks',
     'local|l=s',
@@ -67,7 +66,7 @@ GetOptions(
     'rpc-ip',
     'no-socket',
     'realm',
-    'info',
+    'info|i',
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0) if $options->{help};
