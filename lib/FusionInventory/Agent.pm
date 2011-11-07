@@ -177,10 +177,10 @@ sub init {
     }
 
     # compute list of allowed tasks
-    my %available = $self->getAvailableTasks();
-    my %disabled  = map { lc($_) => 1 } @{$config->{'no-task'}};
-    my @allowed   = grep { !$disabled{lc($_)} } keys %available;
-    $self->{tasks} = \@allowed;
+    my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
+    my @tasks = keys %available;
+
+    $self->{tasks} = \@tasks;
 
     $logger->debug("FusionInventory Agent initialised");
 }
@@ -314,10 +314,12 @@ sub getStatus {
 }
 
 sub getAvailableTasks {
-    my ($self) = @_;
+    my ($self, %params) = @_;
 
     my $logger = $self->{logger};
     my %tasks;
+
+    my %disabled  = map { lc($_) => 1 } @{$params{disabledTasks}};
 
     # tasks may be dispatched in every directory referenced in @INC
     foreach my $directory (@INC) {
@@ -330,6 +332,9 @@ sub getAvailableTasks {
             next unless $file =~ m{($subdirectory/(\S+)\.pm)$};
             my $module = file2module($1);
             my $name = file2module($2);
+
+            next if $disabled{lc($name)};
+
             # check module
             # todo: use a child process when running as a server to save memory
             if (!$module->require()) {
