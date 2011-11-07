@@ -5,9 +5,11 @@ our $VERSION = "1.1.2";
 use Data::Dumper;
 use strict;
 use warnings;
+use base 'FusionInventory::Agent::Task';
 
 use FusionInventory::Agent::HTTP::Client::Fusion;
 use FusionInventory::Agent::Task::Inventory::Inventory;
+use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::Config;
 use FusionInventory::VMware::SOAP;
 use FusionInventory::Agent::Logger;
@@ -165,7 +167,7 @@ sub getHostIds {
 sub run {
     my ( $self, %params ) = @_;
 
-    $self->{logger}->debug("FusionInventory Inventory task $VERSION");
+    $self->{logger}->debug("FusionInventory ESX task $VERSION");
 
     $self->{client} = FusionInventory::Agent::HTTP::Client::Fusion->new(
         logger       => $self->{logger},
@@ -177,31 +179,31 @@ sub run {
         no_ssl_check => $params{no_ssl_check},
         debug        => $self->{debug}
     );
+    die unless $self->{client};
 
     my $globalRemoteConfig = $self->{client}->send(
         "url" => $self->{target}->{url},
         args  => {
             action    => "getConfig",
             machineid => $self->{deviceid},
-            task      => { Deploy => $VERSION },
+            task      => { ESX => $VERSION },
         }
     );
 
     return unless $globalRemoteConfig->{schedule};
     return unless ref( $globalRemoteConfig->{schedule} ) eq 'ARRAY';
 
-    my $esxRemote;
     foreach my $job ( @{ $globalRemoteConfig->{schedule} } ) {
         next unless $job->{task} eq "ESX";
-        $esxRemote = $job->{remote};
+        $self->{esxRemote} = $job->{remote};
     }
-    if ( !$esxRemote ) {
+    if ( !$self->{esxRemote} ) {
         $self->{logger}->info("ESX support disabled server side.");
         return;
     }
 
     my $jobs = $self->{client}->send(
-        "url" => $esxRemote,
+        "url" => $self->{esxRemote},
         args  => {
             action    => "getJobs",
             machineid => $self->{deviceid}
@@ -231,8 +233,9 @@ sub run {
 
         if ( !$self->connect($job) ) {
             $self->{client}->send(
-                "url" => $esxRemote,
+                "url" => $self->{esxRemote},
                 args  => {
+                    action => 'setLog',
                     machineid => $self->{deviceid},
                     part      => 'login',
                     uuid      => $job->{uuid},
@@ -259,8 +262,9 @@ sub run {
             );
         }
         $self->{client}->send(
-            "url" => $esxRemote,
+            "url" => $self->{esxRemote},
             args  => {
+                action => 'setLog',
                 machineid => $self->{deviceid},
                 uuid      => $job->{uuid},
                 code      => 'ok'
@@ -273,13 +277,13 @@ sub run {
 }
 
 # Only used by the command line tool
-sub new {
-    my ( undef, $params ) = @_;
-
-    my $logger = FusionInventory::Agent::Logger->new();
-
-    my $self = { config => $params->{config}, logger => $logger };
-    bless $self;
-}
+#sub new {
+#    my ( undef, $params ) = @_;
+#
+#    my $logger = FusionInventory::Agent::Logger->new();
+#
+#    my $self = { config => $params->{config}, logger => $logger };
+#    bless $self;
+#}
 
 1;
