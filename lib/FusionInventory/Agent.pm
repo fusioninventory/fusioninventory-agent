@@ -385,24 +385,10 @@ sub _getHostname {
     # use hostname directly under Unix
     return hostname() if $OSNAME ne 'MSWin32';
 
-    # otherwise, use Win32 API
-    Encode->require();
-    Encode->import();
-    Win32::API->require();
+    FusionInventory::Agent::Tools::Win32->require;
 
-    my $getComputerName = Win32::API->new(
-        "kernel32", "GetComputerNameExW", ["I", "P", "P"], "N"
-    );
-    my $lpBuffer = "\x00" x 1024;
-    my $N = 1024; #pack ("c4", 160,0,0,0);
+    return FusionInventory::Agent::Tools::Win32::getHostnameFromKernel32();
 
-    $getComputerName->Call(3, $lpBuffer, $N);
-
-    # GetComputerNameExW returns the string in UTF16, we have to change
-    # it to UTF8
-    return encode(
-        "UTF-8", substr(decode("UCS-2le", $lpBuffer), 0, ord $N)
-    );
 }
 
 sub _loadState {
