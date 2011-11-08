@@ -90,6 +90,8 @@ sub get {
 
     return if $response->{$oid} =~ /noSuchInstance/;
     return if $response->{$oid} =~ /noSuchObject/;
+    return if $response->{$oid} =~ /No response from remote host/;
+
 
     my $value = $response->{$oid};
     chomp $value;
