@@ -502,7 +502,6 @@ sub _scanAddressBySNMP {
                 authprotocol => $credential->{AUTHPROTOCOL},
                 privpassword => $credential->{PRIVPASSWORD},
                 privprotocol => $credential->{PRIVPROTOCOL},
-                translate    => 1,
             );
         };
         if ($EVAL_ERROR) {
