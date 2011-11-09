@@ -94,13 +94,13 @@ sub doInventory {
         my $type = $memoryTypeVal[$object->{MemoryType}];
         next if $type && $type eq 'ROM';
         next if $type && $type eq 'Flash';
-        
-        return unless $Properties->{Capacity} =~ /^\d+$/;
-
-        $object->{Capacity} = $object->{Capacity} / (1024 * 1024);
+       
+        my $capacity; 
+        $capacity = $object->{Capacity} / (1024 * 1024)
+            if $object->{Capacity};
 
         push @memories, {
-            CAPACITY     => $object->{Capacity},
+            CAPACITY     => $capacity,
             CAPTION      => $object->{Caption},
             DESCRIPTION  => $object->{Description},
             FORMFACTOR   => $formFactorVal[$object->{FormFactor}],
