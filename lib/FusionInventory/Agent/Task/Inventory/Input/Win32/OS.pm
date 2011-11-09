@@ -57,6 +57,22 @@ sub doInventory {
         });
     }
 
+    # In the rare case WMI DB is broken,
+    # We first initialize the name by kernel32
+    # call
+    my $name = getHostnameFromKernel32();
+    $name = $ENV{COMPUTERNAME} unless $name;
+    my $domain;
+
+    if ($name  =~ s/^([^\.]+)\.(.*)/$1/) {
+        $domain = $2;
+    }
+
+    $inventory->setHardware({
+        NAME       => $name,
+        WORKGROUP  => $domain
+    });
+
     foreach my $object (getWmiObjects(
         class      => 'Win32_ComputerSystem',
         properties => [ qw/

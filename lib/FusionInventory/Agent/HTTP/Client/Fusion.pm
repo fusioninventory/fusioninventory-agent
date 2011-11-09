@@ -59,7 +59,7 @@ sub send {
         }
    }
 
-    print "$finalUrl\n";
+    $self->{logger}->debug2($finalUrl) if $self->{logger};
 
     my $request = HTTP::Request->new(GET => $finalUrl);
 

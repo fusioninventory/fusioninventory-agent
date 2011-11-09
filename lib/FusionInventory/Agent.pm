@@ -177,10 +177,10 @@ sub init {
     }
 
     # compute list of allowed tasks
-    my %available = $self->getAvailableTasks();
-    my %disabled  = map { lc($_) => 1 } @{$config->{'no-task'}};
-    my @allowed   = grep { !$disabled{lc($_)} } keys %available;
-    $self->{tasks} = \@allowed;
+    my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
+    my @tasks = keys %available;
+
+    $self->{tasks} = \@tasks;
 
     $logger->debug("FusionInventory Agent initialised");
 }
@@ -314,10 +314,12 @@ sub getStatus {
 }
 
 sub getAvailableTasks {
-    my ($self) = @_;
+    my ($self, %params) = @_;
 
     my $logger = $self->{logger};
     my %tasks;
+
+    my %disabled  = map { lc($_) => 1 } @{$params{disabledTasks}};
 
     # tasks may be dispatched in every directory referenced in @INC
     foreach my $directory (@INC) {
@@ -330,6 +332,9 @@ sub getAvailableTasks {
             next unless $file =~ m{($subdirectory/(\S+)\.pm)$};
             my $module = file2module($1);
             my $name = file2module($2);
+
+            next if $disabled{lc($name)};
+
             # check module
             # todo: use a child process when running as a server to save memory
             if (!$module->require()) {
@@ -380,24 +385,10 @@ sub _getHostname {
     # use hostname directly under Unix
     return hostname() if $OSNAME ne 'MSWin32';
 
-    # otherwise, use Win32 API
-    Encode->require();
-    Encode->import();
-    Win32::API->require();
+    FusionInventory::Agent::Tools::Win32->require;
 
-    my $getComputerName = Win32::API->new(
-        "kernel32", "GetComputerNameExW", ["I", "P", "P"], "N"
-    );
-    my $lpBuffer = "\x00" x 1024;
-    my $N = 1024; #pack ("c4", 160,0,0,0);
+    return FusionInventory::Agent::Tools::Win32::getHostnameFromKernel32();
 
-    $getComputerName->Call(3, $lpBuffer, $N);
-
-    # GetComputerNameExW returns the string in UTF16, we have to change
-    # it to UTF8
-    return encode(
-        "UTF-8", substr(decode("UCS-2le", $lpBuffer), 0, ord $N)
-    );
 }
 
 sub _loadState {

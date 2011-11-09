@@ -9,6 +9,7 @@ use constant KEY_WOW64_32 => 0x200;
 
 use Encode;
 use English qw(-no_match_vars);
+use Win32::API; 
 use Win32::OLE qw(in CP_UTF8);
 use Win32::OLE::Const;
 use Win32::TieRegistry (
@@ -30,6 +31,7 @@ our @EXPORT = qw(
     KEY_WOW64_32
     getRegistryValue
     getWmiObjects
+    getHostnameFromKernel32
 );
 
 sub is64bit {
@@ -114,6 +116,22 @@ sub getRegistryValue {
 
     return if ref $value;
     return $value;
+}
+
+# Return the Computer name
+# array (ComputerName, Domaine)
+sub getHostnameFromKernel32 {
+    my $GetComputerName = new Win32::API("kernel32", "GetComputerNameExW", ["I", "P", "P"],
+            "N");
+    my $lpBuffer = "\x00" x 1024;
+    my $N=1024;#pack ("c4", 160,0,0,0);
+
+    my $return = $GetComputerName->Call(3, $lpBuffer,$N);
+
+# GetComputerNameExW returns the string in UTF16, we have to change it
+# to UTF8
+    return encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));
+   
 }
 
 1;

@@ -93,12 +93,14 @@ sub doInventory {
         # Ignore ROM storages (BIOS ROM)
         my $type = $memoryTypeVal[$object->{MemoryType}];
         next if $type && $type eq 'ROM';
-
-        $object->{Capacity} = $object->{Capacity} / (1024 * 1024)
+        next if $type && $type eq 'Flash';
+       
+        my $capacity; 
+        $capacity = $object->{Capacity} / (1024 * 1024)
             if $object->{Capacity};
 
         push @memories, {
-            CAPACITY     => $object->{Capacity},
+            CAPACITY     => $capacity,
             CAPTION      => $object->{Caption},
             DESCRIPTION  => $object->{Description},
             FORMFACTOR   => $formFactorVal[$object->{FormFactor}],
