@@ -27,7 +27,6 @@ sub doInventory {
         'winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\cimv2'
     ) or die "WMI connection failed: " . Win32::OLE->LastError();
 
-    my $defaultGw;
     my %ips;
     my @ip6s;
     my @interfaces;
