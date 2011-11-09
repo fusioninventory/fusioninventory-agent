@@ -197,7 +197,21 @@ sub computeLegacyValues {
             PROCESSORS => $cpu->{SPEED},
             PROCESSORT => $cpu->{NAME},
         });
-}
+    }
+
+    # network related values
+    my $interfaces = $self->{content}->{NETWORKS};
+    if ($interfaces) {
+        my @ip_addresses =
+            grep { ! /^127/ }
+            grep { $_ }
+            map { $_->{IPADDRESS} }
+            @$interfaces;
+
+        $self->setHardware({
+            IPADDR => join('/', @ip_addresses),
+        });
+    }
 
     # user-related values
     my $users = $self->{content}->{USERS};

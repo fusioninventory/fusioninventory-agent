@@ -31,15 +31,7 @@ sub doInventory {
         );
     }
 
-    # set global parameters
-    my @ip_addresses =
-        grep { ! /^127/ }
-        grep { $_ }
-        map { $_->{IPADDRESS} }
-        @interfaces;
-
     $inventory->setHardware({
-        IPADDR         => join('/', @ip_addresses),
         DEFAULTGATEWAY => $routes->{'0.0.0.0'}
     });
 }
