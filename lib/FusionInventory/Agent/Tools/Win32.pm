@@ -8,7 +8,6 @@ use constant KEY_WOW64_64 => 0x100;
 use constant KEY_WOW64_32 => 0x200;
 
 use Encode;
-use Encode qw(encode);
 use English qw(-no_match_vars);
 use Win32::API; 
 use Win32::OLE qw(in CP_UTF8);
