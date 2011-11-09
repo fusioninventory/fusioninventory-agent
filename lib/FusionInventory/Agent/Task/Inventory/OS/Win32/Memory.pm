@@ -89,12 +89,6 @@ sub doInventory {
                 next if $memoryTypeVal[$Properties->{MemoryType}] eq 'ROM';
         }
 
-        if (defined($Properties->{Capacity})) {
-            return unless $Properties->{Capacity} =~ /^\d+$/;
-        }
-
-
-
         my $capacity = sprintf("%i",$Properties->{Capacity}/(1024*1024));
         my $caption = $Properties->{Caption};
         my $description = $Properties->{Description};
