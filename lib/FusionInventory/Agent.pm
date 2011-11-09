@@ -34,6 +34,7 @@ sub new {
         status  => 'unknown',
         confdir => $params{confdir},
         datadir => $params{datadir},
+        libdir  => $params{libdir},
         vardir  => $params{vardir},
     };
     bless $self, $class;
@@ -318,49 +319,39 @@ sub getAvailableTasks {
 
     my $logger = $self->{logger};
     my %tasks;
-
     my %disabled  = map { lc($_) => 1 } @{$params{disabledTasks}};
 
-    # tasks may be dispatched in every directory referenced in @INC
-    foreach my $directory (@INC) {
-        # look for a suitable subdirectory
-        my $subdirectory = "FusionInventory/Agent/Task";
-        next unless -d "$directory/$subdirectory";
+    # tasks may be located only in agent libdir
+    my $directory = $self->{libdir};
+    my $subdirectory = "FusionInventory/Agent/Task";
 
-        # look for all perl modules here
-        foreach my $file (File::Glob::glob("$directory/$subdirectory/*.pm")) {
-            next unless $file =~ m{($subdirectory/(\S+)\.pm)$};
-            my $module = file2module($1);
-            my $name = file2module($2);
+    # look for all perl modules here
+    foreach my $file (glob("$directory/$subdirectory/*.pm")) {
+        next unless $file =~ m{($subdirectory/(\S+)\.pm)$};
+        my $module = file2module($1);
+        my $name = file2module($2);
 
-            next if $disabled{lc($name)};
+        next if $disabled{lc($name)};
 
-            # check module
-            # todo: use a child process when running as a server to save memory
-            if (!$module->require()) {
-                $logger->debug2("module $module does not compile: $@") if $logger;
-                next;
-            }
-            if (!$module->isa('FusionInventory::Agent::Task')) {
-                $logger->debug2("module $module is not a task") if $logger;
-                next;
-            }
-
-            next unless $module->require();
-            next unless $module->isa('FusionInventory::Agent::Task');
-
-            # only the first seen will be loaded
-            next if defined $tasks{$module};
-            
-            # retrieve version
-            my $version;
-            {
-                no strict 'refs';  ## no critic
-                $version = ${$module . '::VERSION'};
-            }
-
-            $tasks{$name} = $version;
+        # check module
+        # todo: use a child process when running as a server to save memory
+        if (!$module->require()) {
+            $logger->debug2("module $module does not compile") if $logger;
+            next;
         }
+        if (!$module->isa('FusionInventory::Agent::Task')) {
+            $logger->debug2("module $module is not a task") if $logger;
+            next;
+        }
+
+        # retrieve version
+        my $version;
+        {
+            no strict 'refs';  ## no critic
+            $version = ${$module . '::VERSION'};
+        }
+
+        $tasks{$name} = $version;
     }
 
     return %tasks;
