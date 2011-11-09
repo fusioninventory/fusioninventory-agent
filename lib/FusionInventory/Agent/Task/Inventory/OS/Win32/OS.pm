@@ -7,7 +7,7 @@ use constant wbemFlagReturnImmediately => 0x10;
 use constant wbemFlagForwardOnly => 0x20;
 
 use Win32::API;
-use Encode qw(encode);
+use Encode qw(encode decode);
 use English qw(-no_match_vars);
 use Win32::OLE::Variant;
 use Win32::TieRegistry (
