@@ -82,7 +82,7 @@ sub doInventory {
         Capacity Caption Description FormFactor Removable Speed MemoryType
         SerialNumber
     /)) {
-        if (defined($memoryTypeVal[$Properties->{MemoryType}]) {
+        if (defined($memoryTypeVal[$Properties->{MemoryType}])) {
 # See: #1334
                 next if $memoryTypeVal[$Properties->{MemoryType}] eq 'Flash';
 # Ignore ROM storages (BIOS ROM)
