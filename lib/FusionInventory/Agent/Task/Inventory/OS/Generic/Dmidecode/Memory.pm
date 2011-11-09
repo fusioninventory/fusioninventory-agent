@@ -35,15 +35,17 @@ sub doInventory {
         } elsif ($flag && /^$/) { # end of section
             $flag = 0;
 
-            $inventory->addMemory({
-                CAPACITY => $capacity,
-                DESCRIPTION => $description,
-                CAPTION => $caption,
-                SPEED => $speed,
-                TYPE => $type,
-                NUMSLOTS => $numslot,
-                SERIALNUMBER => $serialnumber,
-            });
+            if ($type !~ /Flash/i) {
+                $inventory->addMemory({
+                    CAPACITY => $capacity,
+                    DESCRIPTION => $description,
+                    CAPTION => $caption,
+                    SPEED => $speed,
+                    TYPE => $type,
+                    NUMSLOTS => $numslot,
+                    SERIALNUMBER => $serialnumber,
+                });
+            }
 
             $capacity = $description = $caption = $type = $type = $speed = $serialnumber = undef;
         } elsif ($flag) { # in the section
