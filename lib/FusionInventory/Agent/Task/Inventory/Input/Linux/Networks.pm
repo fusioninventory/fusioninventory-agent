@@ -22,9 +22,12 @@ sub doInventory {
 
     # get the list of network interfaces
     my $routes = getRoutingTable(command => 'netstat -nr', logger => $logger);
-    my @interfaces = _getInterfaces(logger => $logger, routes => $routes);
+    my @interfaces = _getInterfaces(logger => $logger);
 
     foreach my $interface (@interfaces) {
+        $interface->{IPGATEWAY} = $params{routes}->{$interface->{IPSUBNET}}
+            if $interface->{IPSUBNET};
+
         $inventory->addEntry(
             section => 'NETWORKS',
             entry   => $interface
@@ -71,19 +74,6 @@ sub _getInterfaces {
 
         $interface->{IPDHCP} = getIpDhcp($logger, $interface->{DESCRIPTION});
         $interface->{SLAVES} = _getSlaves($interface->{DESCRIPTION});
-
-        if ($interface->{IPSUBNET}) {
-            $interface->{IPGATEWAY} = $routes->{$interface->{IPSUBNET}};
-
-            # replace '0.0.0.0' (ie 'default gateway') by the
-            # default gateway IP adress if it exists
-            if ($interface->{IPGATEWAY} and
-                $interface->{IPGATEWAY} eq '0.0.0.0' and 
-                $routes->{'0.0.0.0'}
-            ) {
-                $interface->{IPGATEWAY} = $routes->{'0.0.0.0'}
-            }
-        }
     }
 
     return @interfaces;

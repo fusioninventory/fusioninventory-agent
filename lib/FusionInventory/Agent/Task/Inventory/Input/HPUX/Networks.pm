@@ -20,9 +20,12 @@ sub doInventory {
 
     # set list of network interfaces
     my $routes = getRoutingTable(command => 'netstat -nr', logger => $logger);
-    my @interfaces = _getInterfaces(logger => $logger, routes => $routes);
+    my @interfaces = _getInterfaces(logger => $logger);
 
     foreach my $interface (@interfaces) {
+        $interface->{IPGATEWAY} = $params{routes}->{$interface->{IPSUBNET}}
+            if $interface->{IPSUBNET};
+
         $inventory->addEntry(
             section => 'NETWORKS',
             entry   => $interface
@@ -58,10 +61,6 @@ sub _getInterfaces {
             $interface->{IPSUBNET} eq '0.0.0.0'
         ) {
             $interface->{IPSUBNET} = "";
-        }
-
-        if ($interface->{IPSUBNET}) {
-            $interface->{IPGATEWAY} = $params{routes}->{$interface->{IPSUBNET}};
         }
     }
 
