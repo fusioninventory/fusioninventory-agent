@@ -8,11 +8,7 @@ use Sys::Hostname;
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
-    my $hostname = hostname();
-
-    return 
-        (index $hostname, '.') >= 0 || # look for a dot in hostname
-        -f "/etc/resolv.conf"
+    return -f "/etc/resolv.conf";
 }
 
 sub doInventory {
