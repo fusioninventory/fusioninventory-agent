@@ -87,9 +87,9 @@ sub doInventory {
         next unless $nic->PNPDeviceID;
 
         my $interface = {
-		SPEED       => $nic->Speed,
-		MACADDR     => $nic->MACAddress,
-		PNPDEVICEID => $nic->PNPDeviceID,
+            SPEED       => $nic->Speed,
+            MACADDR     => $nic->MACAddress,
+            PNPDEVICEID => $nic->PNPDeviceID,
 	};
 
         # PhysicalAdapter only work on OS > XP
