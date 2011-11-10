@@ -38,6 +38,9 @@ sub _getMemories {
         foreach my $info (@{$infos->{17}}) {
             $slot++;
 
+            # Flash is 'in general' an unrelated internal BIOS storage, See bug: #1334
+            next if $info->{'Type'} =~ /Flash/i;
+
             my $memory = {
                 NUMSLOTS     => $slot,
                 DESCRIPTION  => $info->{'Form Factor'},
