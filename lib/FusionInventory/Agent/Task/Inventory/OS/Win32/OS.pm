@@ -145,7 +145,7 @@ sub doInventory {
 # to UTF8
     my $name = encode("UTF-8", substr(decode("UCS-2le", $lpBuffer),0,ord $N));
     my $domain;
-    if ($name =~ s/^([^\.]+)\.(.*)/$1/) {
+    if ($name =~ s/^([^\.]+)\.(.+)/$1/) {
         $domain = $2;
     }
 
@@ -157,11 +157,6 @@ sub doInventory {
         $workgroup = $Properties->{Workgroup} unless $workgroup;
         $workgroup = $domain unless $workgroup;
 
-        my $userdomain;
-#        my $userid;
-#        my @tmp = split(/\\/, $Properties->{UserName});
-#        $userdomain = $tmp[0];
-#        $userid = $tmp[1];
         my $winowner = $Properties->{PrimaryOwnerName};
 
         #$inventory->addUser({ LOGIN => encode('UTF-8', $Properties->{UserName}) });
@@ -170,7 +165,6 @@ sub doInventory {
 
         $inventory->setHardware({
             MEMORY => int(($Properties->{TotalPhysicalMemory}||0)/(1024*1024)),
-            USERDOMAIN => $userdomain,
             WORKGROUP => $workgroup,
             WINOWNER => $winowner,
             NAME => $name,
