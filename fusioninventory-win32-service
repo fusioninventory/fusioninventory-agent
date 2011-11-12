@@ -28,18 +28,9 @@ my $win32service = 1;
 Win32::Daemon::StartService();
 
 my $thread;
-
-sub getMessage {
-
-    if ($Win32::Daemon::VERSION < 20101014) {
-        return Win32::Daemon::LastControlMessage(1);
-    } else {
-        return Win32::Daemon::QueryLastMessage();
-    }
-}
-
 my $state;
 my $previousState = SERVICE_START_PENDING;
+
 while (($state = Win32::Daemon::State()) != SERVICE_STOPPED) { 
     if ($state == SERVICE_START_PENDING) {
         # Initialization code
@@ -99,6 +90,14 @@ while (($state = Win32::Daemon::State()) != SERVICE_STOPPED) {
     Win32::Sleep(SERVICE_SLEEP_TIME);
 }
 
+sub getMessage {
+    if ($Win32::Daemon::VERSION < 20101014) {
+        return Win32::Daemon::LastControlMessage(1);
+    } else {
+        return Win32::Daemon::QueryLastMessage();
+    }
+}
+
 sub startAgent {
     return if $thread;
     $thread = threads->create(sub {
@@ -106,6 +105,7 @@ sub startAgent {
             confdir => $directory . '/../../etc/fusioninventory',
             datadir => $directory . '/../../share',
             vardir  => $directory . '/../../var',
+            libdir  => $directory . '/../../lib',
         );
         $agent->init(options => { service => 1 });
         $agent->run();
