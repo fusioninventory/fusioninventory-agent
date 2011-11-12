@@ -12,7 +12,7 @@ my %tests = (
     'aix-5.3a' => [
         {
             NUMSLOTS    => 0,
-            SERIAL      => 'YH10MS5CH923',
+            SERIALNUMBER=> 'YH10MS5CH923',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'RS6K',
             TYPE        => '00P5767',
@@ -21,7 +21,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 1,
-            SERIAL      => 'YH10MS5CH8ED',
+            SERIALNUMBER=> 'YH10MS5CH8ED',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'RS6K',
             TYPE        => '00P5767',
@@ -30,7 +30,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 2,
-            SERIAL      => 'YH10MS5CH8F0',
+            SERIALNUMBER=> 'YH10MS5CH8F0',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'RS6K',
             TYPE        => '00P5767',
@@ -39,7 +39,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 3,
-            SERIAL      => 'YH10MS5CH92C',
+            SERIALNUMBER=> 'YH10MS5CH92C',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'RS6K',
             TYPE        => '00P5767',
@@ -50,7 +50,7 @@ my %tests = (
     'aix-5.3b' => [
         {
             NUMSLOTS    => 0,
-            SERIAL      => '00005055',
+            SERIALNUMBER=> '00005055',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'RS6K',
             TYPE        => undef,
@@ -59,7 +59,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 1,
-            SERIAL      => '04008030',
+            SERIALNUMBER=> '04008030',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'RS6K',
             TYPE        => undef,
@@ -68,7 +68,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 2,
-            SERIAL      => '00007033',
+            SERIALNUMBER=> '00007033',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'RS6K',
             TYPE        => undef,
@@ -77,7 +77,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 3,
-            SERIAL      => '00005031',
+            SERIALNUMBER=> '00005031',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'RS6K',
             TYPE        => undef,
@@ -88,7 +88,7 @@ my %tests = (
     'aix-5.3c' => [
         {
             NUMSLOTS    => 0,
-            SERIAL      => 'YLD001110C29',
+            SERIALNUMBER=> 'YLD001110C29',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'ipzSeries',
             TYPE        => '43X5036',
@@ -97,7 +97,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 1,
-            SERIAL      => 'YLD005346272',
+            SERIALNUMBER=> 'YLD005346272',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'ipzSeries',
             TYPE        => '43X5036',
@@ -106,7 +106,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 2,
-            SERIAL      => 'YLD000110C0C',
+            SERIALNUMBER=> 'YLD000110C0C',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'ipzSeries',
             TYPE        => '43X5036',
@@ -115,7 +115,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 3,
-            SERIAL      => 'YLD004930776',
+            SERIALNUMBER=> 'YLD004930776',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'ipzSeries',
             TYPE        => '43X5036',
@@ -124,7 +124,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 4,
-            SERIAL      => 'YLD00793074C',
+            SERIALNUMBER=> 'YLD00793074C',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'ipzSeries',
             TYPE        => '43X5036',
@@ -133,7 +133,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 5,
-            SERIAL      => 'YLD003810961',
+            SERIALNUMBER=> 'YLD003810961',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'ipzSeries',
             TYPE        => '43X5036',
@@ -142,7 +142,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 6,
-            SERIAL      => 'YLD006346270',
+            SERIALNUMBER=> 'YLD006346270',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'ipzSeries',
             TYPE        => '43X5036',
@@ -151,7 +151,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 7,
-            SERIAL      => 'YLD00281096F',
+            SERIALNUMBER=> 'YLD00281096F',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'ipzSeries',
             TYPE        => '43X5036',
@@ -160,7 +160,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 8,
-            SERIAL      => 'YLD009710956',
+            SERIALNUMBER=> 'YLD009710956',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'ipzSeries',
             TYPE        => '43X5036',
@@ -169,7 +169,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 9,
-            SERIAL      => 'YLD00D346271',
+            SERIALNUMBER=> 'YLD00D346271',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'ipzSeries',
             TYPE        => '43X5036',
@@ -178,7 +178,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 10,
-            SERIAL      => 'YLD00851096F',
+            SERIALNUMBER=> 'YLD00851096F',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'ipzSeries',
             TYPE        => '43X5036',
@@ -187,7 +187,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 11,
-            SERIAL      => 'YLD00C930661',
+            SERIALNUMBER=> 'YLD00C930661',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'ipzSeries',
             TYPE        => '43X5036',
@@ -196,7 +196,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 12,
-            SERIAL      => 'YLD00F930748',
+            SERIALNUMBER=> 'YLD00F930748',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'ipzSeries',
             TYPE        => '43X5036',
@@ -205,7 +205,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 13,
-            SERIAL      => 'YLD00B410C26',
+            SERIALNUMBER=> 'YLD00B410C26',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'ipzSeries',
             TYPE        => '43X5036',
@@ -214,7 +214,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 14,
-            SERIAL      => 'YLD00E34627B',
+            SERIALNUMBER=> 'YLD00E34627B',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'ipzSeries',
             TYPE        => '43X5036',
@@ -223,7 +223,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 15,
-            SERIAL      => 'YLD00A610973',
+            SERIALNUMBER=> 'YLD00A610973',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'ipzSeries',
             TYPE        => '43X5036',
@@ -234,7 +234,7 @@ my %tests = (
     'aix-6.1b' => [
         {
             NUMSLOTS    => 0,
-            SERIAL      => 'YLD0014403BC',
+            SERIALNUMBER=> 'YLD0014403BC',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'ipzSeries',
             TYPE        => '43X5035',
@@ -243,7 +243,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 1,
-            SERIAL      => 'YLD0004403BB',
+            SERIALNUMBER=> 'YLD0004403BB',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'ipzSeries',
             TYPE        => '43X5035',
@@ -254,7 +254,7 @@ my %tests = (
     'aix-6.1a' => [
         {
             NUMSLOTS    => 0,
-            SERIAL      => 'YLD00030486D',
+            SERIALNUMBER=> 'YLD00030486D',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'ipzSeries',
             TYPE        => '77P8784',
@@ -263,7 +263,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 1,
-            SERIAL      => 'YLD003304853',
+            SERIALNUMBER=> 'YLD003304853',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'ipzSeries',
             TYPE        => '77P8784',
@@ -272,7 +272,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 2,
-            SERIAL      => 'YLD0013047DE',
+            SERIALNUMBER=> 'YLD0013047DE',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'ipzSeries',
             TYPE        => '77P8784',
@@ -281,7 +281,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 3,
-            SERIAL      => 'YLD002304855',
+            SERIALNUMBER=> 'YLD002304855',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'ipzSeries',
             TYPE        => '77P8784',
@@ -290,7 +290,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 4,
-            SERIAL      => 'YLD006304856',
+            SERIALNUMBER=> 'YLD006304856',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'ipzSeries',
             TYPE        => '77P8784',
@@ -299,7 +299,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 5,
-            SERIAL      => 'YLD00530483B',
+            SERIALNUMBER=> 'YLD00530483B',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'ipzSeries',
             TYPE        => '77P8784',
@@ -308,7 +308,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 6,
-            SERIAL      => 'YLD007304859',
+            SERIALNUMBER=> 'YLD007304859',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'ipzSeries',
             TYPE        => '77P8784',
@@ -317,7 +317,7 @@ my %tests = (
         },
         {
             NUMSLOTS    => 7,
-            SERIAL      => 'YLD00430481E',
+            SERIALNUMBER=> 'YLD00430481E',
             DESCRIPTION => 'Memory DIMM',
             VERSION     => 'ipzSeries',
             TYPE        => '77P8784',
