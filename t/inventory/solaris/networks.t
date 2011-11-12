@@ -11,7 +11,6 @@ my %ifconfig_tests = (
     'solaris-10' => [
         {
             IPSUBNET    => '127.0.0.0',
-            IPGATEWAY   => undef,
             IPMASK      => '255.0.0.0',
             DESCRIPTION => 'lo0',
             STATUS      => 'Up',
@@ -19,7 +18,6 @@ my %ifconfig_tests = (
             IPADDRESS   => '127.0.0.1'
         },
         {
-            IPGATEWAY   => undef,
             IPMASK      => '255.255.254.0',
             MACADDR     => '00:15:17:7a:60:31',
             STATUS      => 'Up',
@@ -29,7 +27,6 @@ my %ifconfig_tests = (
             IPADDRESS   => '130.79.0.1'
         },
         {
-            IPGATEWAY   => undef,
             IPMASK      => '255.255.255.128',
             MACADDR     => '00:15:17:7a:60:30',
             STATUS      => 'Up',
@@ -39,7 +36,6 @@ my %ifconfig_tests = (
             IPADDRESS   => '130.79.0.2'
         },
         {
-            IPGATEWAY   => undef,
             IPMASK      => '255.255.255.128',
             MACADDR     => '00:15:17:7a:60:32',
             STATUS      => 'Up',
@@ -49,7 +45,6 @@ my %ifconfig_tests = (
             IPADDRESS   => '130.79.0.3'
         },
         {
-            IPGATEWAY   => undef,
             IPMASK      => '255.255.255.0',
             MACADDR     => '00:15:17:7a:60:33',
             STATUS      => 'Up',
@@ -59,7 +54,6 @@ my %ifconfig_tests = (
             IPADDRESS   => '192.168.19.1'
         },
         {
-            IPGATEWAY   => undef,
             IPMASK      => '255.255.255.224',
             MACADDR     => '00:15:17:8a:48:30',
             STATUS      => 'Up',
@@ -69,7 +63,6 @@ my %ifconfig_tests = (
             IPADDRESS   => '130.79.255.1'
         },
         {
-            IPGATEWAY   => undef,
             IPMASK      => '255.255.255.0',
             MACADDR     => '00:15:17:6a:44:4c',
             STATUS      => 'Up',
@@ -82,7 +75,6 @@ my %ifconfig_tests = (
     'opensolaris' => [
         {
           'IPSUBNET' => '127.0.0.0',
-          'IPGATEWAY' => undef,
           'IPMASK' => '255.0.0.0',
           'DESCRIPTION' => 'lo0',
           'STATUS' => 'Up',
@@ -90,7 +82,6 @@ my %ifconfig_tests = (
           'IPADDRESS' => '127.0.0.1'
         },
         {
-          'IPGATEWAY' => undef,
           'IPMASK' => '255.255.255.0',
           'MACADDR' => '08:00:27:fc:ad:56',
           'STATUS' => 'Up',
