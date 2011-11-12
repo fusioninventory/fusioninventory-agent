@@ -24,9 +24,16 @@ if ($OSNAME eq 'MSWin32') {
 
 # blacklist additional tasks that may be installed
 sub filter {
-    return
-        $_ !~ m{FusionInventory/Agent/Task} ||
-        $_ =~ m{FusionInventory/Agent/Task/(Inventory|WakeOnLan)};
+    if ($_ =~ m{FusionInventory/VMware}) {
+        return 0;
+    }
+    if ($_ =~ m{FusionInventory/Agent/Tools}) {
+        return 1;
+    }
+    if ($_ !~ m{FusionInventory/Agent/Task/(Inventory|WakeOnLan)}) {
+        return 0;
+    }
+    return 1;
 }
 
 # exclude linked modules
