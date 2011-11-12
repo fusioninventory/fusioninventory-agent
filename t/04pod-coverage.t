@@ -6,6 +6,9 @@ use warnings;
 use Test::More;
 use English qw(-no_match_vars);
 
+use lib 't';
+use FusionInventory::Test::Utils;
+
 if (!$ENV{TEST_AUTHOR}) {
     my $msg = 'Author test. Set $ENV{TEST_AUTHOR} to a true value to run.';
     plan(skip_all => $msg);
@@ -25,13 +28,6 @@ if ($OSNAME eq 'MSWin32') {
     push @INC, 't/fake/unix';
 } else {
     push @INC, 't/fake/windows';
-}
-
-# blacklist additional tasks that may be installed
-sub filter {
-    return
-        $_ !~ m{^FusionInventory::Agent::Task} ||
-        $_ =~ m{^FusionInventory::Agent::Task::(Inventory|WakeOnLan)};
 }
 
 my @modules = grep { filter($_) } all_modules('lib');

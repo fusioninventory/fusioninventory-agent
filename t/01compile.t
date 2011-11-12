@@ -6,6 +6,9 @@ use warnings;
 use English qw(-no_match_vars);
 use Test::More;
 
+use lib 't';
+use FusionInventory::Test::Utils;
+
 eval {
     require Test::Compile;
     Test::Compile->import();
@@ -20,20 +23,6 @@ if ($OSNAME eq 'MSWin32') {
     push @INC, 't/fake/unix';
 } else {
     push @INC, 't/fake/windows';
-}
-
-# blacklist additional tasks that may be installed
-sub filter {
-    if ($_ =~ m{FusionInventory/VMware}) {
-        return 0;
-    }
-    if ($_ =~ m{FusionInventory/Agent/Tools}) {
-        return 1;
-    }
-    if ($_ !~ m{FusionInventory/Agent/Task/(Inventory|WakeOnLan)}) {
-        return 0;
-    }
-    return 1;
 }
 
 # exclude linked modules
