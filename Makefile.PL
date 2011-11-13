@@ -1,4 +1,5 @@
 use inc::Module::Install;
+use File::Which;
 
 name 'FusionInventory-Agent-Tasks-Net';
 include 'Module::AutoInstall';
@@ -7,8 +8,22 @@ version '1.0';
 license 'gpl';
 perl_version '5.008';
 
+# check for fusioninventory-agent setup
+my $agent = which('fusioninventory-agent');
+if (!$agent) {
+    warn "warning: fusioninventory-agent not found in PATH";
+} else {
+    my $command = 'fusioninventory-agent --setup';
+    open (my $handle, '-|', $command) or die "can't run $command: $!";
+    while (my $line = <$handle>) {
+        chomp $line;
+        next unless $line =~ /(\S+): (\S+)/;
+        $MY::setup{uc($1)} = $2;
+    }
+    close $handle;
+}
+
 # mandatory dependencies
-requires 'FusionInventory::Agent' => '2.2';
 requires 'Net::IP'                => undef;
 requires 'threads'                => undef;
 requires 'XML::TreePP'            => '0.26';
@@ -35,6 +50,7 @@ package MY;
 
 use English qw(-no_match_vars);
 
+our %setup;
 our %variables;
 
 # force a perl-independant prefix for everything but perl modules
@@ -50,8 +66,13 @@ sub constants {
         INSTALLMAN3DIR       => '$(PREFIX)/share/man/man3',
         INSTALLSITEMAN3DIR   => '$(PREFIX)/share/man/man3',
         INSTALLVENDORMAN3DIR => '$(PREFIX)/share/man/man3',
-        DATADIR              => '$(PREFIX)/share/fusioninventory',
+        DATADIR              => '$(PREFIX)/share/fusioninventory'
     );
+
+    # allow variables detected from agent setup to override defaults
+    foreach my $name (keys %variables) {
+        $variables{$name} = $setup{$name} if $setup{$name};
+    }
 
     # allow variables defined on command line to override defaults
     foreach my $name (keys %variables) {
