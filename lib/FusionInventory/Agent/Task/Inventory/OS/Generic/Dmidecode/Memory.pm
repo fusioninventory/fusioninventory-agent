@@ -27,6 +27,18 @@ sub doInventory {
     my $caption;
     my $serialnumber;
 
+    my $errorCorrection;
+    foreach (@dmidecode) {
+        if (/dmi type 16,/i) {
+            $flag = 1;
+        } elsif ($flag && /^Error Correction Type\s*:\s*(.+)/i) {
+            $errorCorrection = $1;
+        } elsif ($flag && /^\s*$/) {
+            last;
+        }
+    }
+
+    $flag = 0;
     foreach (@dmidecode) {
 
         if (/dmi type 17,/i) { # begining of Memory Device section
@@ -34,6 +46,8 @@ sub doInventory {
             $numslot++;
         } elsif ($flag && /^$/) { # end of section
             $flag = 0;
+
+            $description .= " ($errorCorrection)" if $errorCorrection;
 
             if ($type !~ /Flash/i) {
                 $inventory->addMemory({
@@ -44,6 +58,7 @@ sub doInventory {
                     TYPE => $type,
                     NUMSLOTS => $numslot,
                     SERIALNUMBER => $serialnumber,
+                    MEMORYCORRECTION => $errorCorrection
                 });
             }
 

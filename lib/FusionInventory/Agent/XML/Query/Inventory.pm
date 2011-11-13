@@ -349,6 +349,7 @@ sub addMemory {
         TYPE
         DESCRIPTION
         NUMSLOTS
+        MEMORYCORRECTION
     /;
 
     $self->_addEntry({
