@@ -56,11 +56,6 @@ sub doInventory {
 
     my $vmsystem;
 
-# http://forge.fusioninventory.org/issues/379
-    my(@osver) = Win32::GetOSVersion();
-    my $isWin2003 = ($osver[4] == 2 && $osver[1] == 5 && $osver[2] == 2);
-
-
     my $dmidecodeCpu = getCpusFromDmidecode();
 
     my $cpuId = 0;
