@@ -33,6 +33,10 @@ sub _getMemories {
 
     my ($memories, $slot);
 
+    my $memoryCorrection;
+    if ($infos->{16}) {
+        $memoryCorrection = $infos->{16}[0]{'Error Correction Type'};
+    }
     if ($infos->{17}) {
 
         foreach my $info (@{$infos->{17}}) {
@@ -41,13 +45,17 @@ sub _getMemories {
             # Flash is 'in general' an unrelated internal BIOS storage, See bug: #1334
             next if $info->{'Type'} =~ /Flash/i;
 
+            my $description = $info->{'Form Factor'};
+            $description .= " ($memoryCorrection)" if $memoryCorrection;
+
             my $memory = {
                 NUMSLOTS     => $slot,
-                DESCRIPTION  => $info->{'Form Factor'},
+                DESCRIPTION  => $description,
                 CAPTION      => $info->{'Locator'},
                 SPEED        => $info->{'Speed'},
                 TYPE         => $info->{'Type'},
-                SERIALNUMBER => $info->{'Serial Number'}
+                SERIALNUMBER => $info->{'Serial Number'},
+                MEMORYCORRECTION => $memoryCorrection
             };
 
             if ($info->{'Size'} && $info->{'Size'} =~ /^(\d+) \s MB$/x) {
