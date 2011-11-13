@@ -13,6 +13,8 @@ use Win32::TieRegistry (
     qw/KEY_READ/
 );
 
+our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode"];
+
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
 use FusionInventory::Agent::Tools;
 
@@ -56,7 +58,10 @@ sub doInventory {
 
     my $vmsystem;
 
-    my $dmidecodeCpu = getCpusFromDmidecode();
+# http://forge.fusioninventory.org/issues/379
+    my(@osver) = Win32::GetOSVersion();
+    my $isWin2003 = ($osver[4] == 2 && $osver[1] == 5 && $osver[2] == 2);
+
 
     my $cpuId = 0;
     foreach my $Properties (getWmiProperties('Win32_Processor', qw/
@@ -70,7 +75,7 @@ sub doInventory {
         my $description = $info->{Identifier};
         my $name = $info->{ProcessorNameString};
         my $manufacturer = $info->{VendorIdentifier};
-        my $id = $dmidecodeCpu->[$cpuId]->{ID} || $Properties->{ProcessorId};
+        my $id = $Properties->{ProcessorId};
         my $serial = $dmidecodeCpu->[$cpuId]->{SERIAL};
         my $speed = $dmidecodeCpu->[$cpuId]->{SPEED} || $Properties->{MaxClockSpeed};
 
@@ -111,6 +116,27 @@ sub doInventory {
         });
 
         $cpuId++;
+    }
+
+    if (!$cpuId) {
+        foreach (1..$ENV{'NUMBER_OF_PROCESSORS'}) {
+            my $manufacturer;
+            if ($ENV{PROCESSOR_IDENTIFIER} =~ /,\s(\S+)$/) {
+                $manufacturer = $1;
+                $manufacturer =~ s/Genuine//;
+                $manufacturer =~ s/(TMx86|TransmetaCPU)/Transmeta/;
+                $manufacturer =~ s/CyrixInstead/Cyrix/;
+                $manufacturer=~ s/CentaurHauls/VIA/;
+            }
+
+
+            $inventory->addCPU({
+#           CACHE => $cache,
+                    DESCRIPTION => $ENV{PROCESSOR_IDENTIFIER},
+                    MANUFACTURER => $manufacturer,
+                    });
+            $cpuId++;
+        }
     }
 
     if ($vmsystem) {
