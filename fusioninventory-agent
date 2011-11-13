@@ -31,7 +31,7 @@ GetOptions(
     'html',
     'lazy',
     'list-tasks',
-    'libdir',
+    'setup',
     'local|l=s',
     'logger=s',
     'logfile=s',
@@ -84,8 +84,10 @@ my %setup = (
     vardir  => './var',
 );
 
-if ($options->{libdir}) {
-    print $setup{libdir} . "\n";
+if ($options->{setup}) {
+    foreach my $key (keys %setup) {
+        print "$key: $setup{$key}\n";
+    }
     exit 0;
 }
 
@@ -533,9 +535,9 @@ This is only useful when running as a daemon.
 
 Turn the debug mode on.
 
-=item B<--libdir>
+=item B<--setup>
 
-Print the lib directory and exit.
+Print the agent setup directories and exit.
 
 =item B<--version>
 
