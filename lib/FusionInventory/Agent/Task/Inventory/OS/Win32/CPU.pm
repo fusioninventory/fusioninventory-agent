@@ -70,14 +70,20 @@ sub doInventory {
 
         my $info = getCPUInfoFromRegistry($logger, $cpuId);
 
-#        my $cache = $Properties->{L2CacheSize}+$Properties->{L3CacheSize};
         my $core = $Properties->{NumberOfCores};
         my $description = $info->{Identifier};
         my $name = $info->{ProcessorNameString};
         my $manufacturer = $info->{VendorIdentifier};
         my $id = $Properties->{ProcessorId};
-        my $serial = $dmidecodeCpu->[$cpuId]->{SERIAL};
-        my $speed = $dmidecodeCpu->[$cpuId]->{SPEED} || $Properties->{MaxClockSpeed};
+        my $speed = $Properties->{MaxClockSpeed};
+
+        # Some information are missing on Win2000
+        if (!$name) {
+            $name = $ENV{PROCESSOR_IDENTIFIER};
+            if ($name =~ s/,\s(\S+)$//) {
+                $manufacturer = $1;
+            }
+        }
 
         if ($manufacturer) {
             $manufacturer =~ s/Genuine//;
@@ -112,31 +118,10 @@ sub doInventory {
             MANUFACTURER => $manufacturer,
             SERIAL => $serial,
             SPEED => $speed,
-	    ID => $id
+            ID => $id
         });
 
         $cpuId++;
-    }
-
-    if (!$cpuId) {
-        foreach (1..$ENV{'NUMBER_OF_PROCESSORS'}) {
-            my $manufacturer;
-            if ($ENV{PROCESSOR_IDENTIFIER} =~ /,\s(\S+)$/) {
-                $manufacturer = $1;
-                $manufacturer =~ s/Genuine//;
-                $manufacturer =~ s/(TMx86|TransmetaCPU)/Transmeta/;
-                $manufacturer =~ s/CyrixInstead/Cyrix/;
-                $manufacturer=~ s/CentaurHauls/VIA/;
-            }
-
-
-            $inventory->addCPU({
-#           CACHE => $cache,
-                    DESCRIPTION => $ENV{PROCESSOR_IDENTIFIER},
-                    MANUFACTURER => $manufacturer,
-                    });
-            $cpuId++;
-        }
     }
 
     if ($vmsystem) {
