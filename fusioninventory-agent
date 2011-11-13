@@ -31,6 +31,7 @@ GetOptions(
     'html',
     'lazy',
     'list-tasks',
+    'libdir',
     'local|l=s',
     'logger=s',
     'logfile=s',
@@ -76,12 +77,19 @@ if ($options->{version}) {
     exit 0;
 }
 
-my $agent = FusionInventory::Agent->new(
+my %setup = (
     confdir => './etc',
     datadir => './share',
     libdir  => './lib',
     vardir  => './var',
 );
+
+if ($options->{libdir}) {
+    print $setup{libdir} . "\n";
+    exit 0;
+}
+
+my $agent = FusionInventory::Agent->new(%setup);
 
 if ($options->{'list-tasks'}) {
     my %tasks = $agent->getAvailableTasks();
@@ -524,6 +532,10 @@ This is only useful when running as a daemon.
 =item B<--debug>
 
 Turn the debug mode on.
+
+=item B<--libdir>
+
+Print the lib directory and exit.
 
 =item B<--version>
 
