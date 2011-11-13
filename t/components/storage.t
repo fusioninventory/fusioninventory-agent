@@ -25,6 +25,7 @@ chmod 0555, $readdir;
 
 SKIP: {
     skip "chmod doesn't work on Windows", 2 if $OSNAME eq 'MSWin32';
+    skip ", not applicable: test runned by root", 2 if $UID == 0;
     throws_ok {
         $storage = FusionInventory::Agent::Storage->new(
             directory => $readdir
