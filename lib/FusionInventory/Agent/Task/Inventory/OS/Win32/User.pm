@@ -32,7 +32,7 @@ sub doInventory {
 
     foreach my $objItem (in $colItems) {
     
-        my $cmdLine = $objItem->{CommandLine};
+        my $cmdLine = $objItem->{ExecutablePath};
 
         next unless $cmdLine;
  
