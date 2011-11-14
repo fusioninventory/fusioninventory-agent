@@ -38,8 +38,8 @@ sub doInventory {
 
     foreach my $process (in $processes) {
         next unless
-            $process->{CommandLine} &&
-            $process->{CommandLine} =~ /\\Explorer\.exe$/i;
+            $process->{ExecutablePath} &&
+            $process->{ExecutablePath} =~ /\\Explorer\.exe$/i;
 
         ## no critic (ProhibitBitwise)
         my $name = Variant(VT_BYREF | VT_BSTR, '');
