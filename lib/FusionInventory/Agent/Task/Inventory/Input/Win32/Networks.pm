@@ -37,7 +37,7 @@ sub doInventory {
         'SELECT * FROM Win32_NetworkAdapterConfiguration'
     );
     foreach my $nic (in $nics) {
-        my $interface = $interfaces[$nic->Index];
+        my $interface = {};
 
         $interface->{DESCRIPTION} = $nic->Description;
 
@@ -78,30 +78,29 @@ sub doInventory {
         $interface->{MACADDR} = $nic->MACAddress;
         $interface->{MTU}     = $nic->MTU;
 
+        $interfaces[$nic->Index] = $interface;
     }
 
     $nics = $WMIService->ExecQuery('SELECT * FROM Win32_NetworkAdapter');
     foreach my $nic (in $nics) {
+	my $interface = $interfaces[$nic->Index];
+
         # http://comments.gmane.org/gmane.comp.monitoring.fusion-inventory.devel/34
         next unless $nic->PNPDeviceID;
 
-        my $interface = {
-            SPEED       => $nic->Speed,
-            MACADDR     => $nic->MACAddress,
-            PNPDEVICEID => $nic->PNPDeviceID,
-	};
+	$interface->{SPEED}       = $nic->Speed;
+	$interface->{MACADDR}     = $nic->MACAddress;
+	$interface->{PNPDEVICEID} = $nic->PNPDeviceID;
 
         # PhysicalAdapter only work on OS > XP
         if (defined $nic->PhysicalAdapter) {
             $interface->{VIRTUALDEV} = $nic->PhysicalAdapter ? 0 : 1;
         # http://forge.fusioninventory.org/issues/1166 
-        } elsif ($interface->{DESCRIPTION} && $interface->{DESCRIPTION} =~ /RAS Async Adapter/i) {
+        } elsif ($interface->{description} =~ /RAS Async Adapter/i) {
             $interface->{VIRTUALDEV} = 1;
         } else {
 	    $interface->{VIRTUALDEV} = $nic->PNPDeviceID =~ /^ROOT/ ? 1 : 0;
         }
-
-        push @interfaces, $interface;
     }
 
     foreach my $interface (@interfaces) {
@@ -126,6 +125,7 @@ sub doInventory {
     $inventory->setHardware({
         DEFAULTGATEWAY => join ('/',keys %defaultgateways),
         DNS            => join('/', keys %dns),
+        IPADDR         => join('/', keys %ips),
     });
 
 }
