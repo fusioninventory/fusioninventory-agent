@@ -3,18 +3,10 @@
 use strict;
 use warnings;
 
-if ($ENV{REALLIB}) {
-    @INC = split(/:/,$ENV{REALLIB});
-}
-
-eval "
 use FusionInventory::Agent::Task::ESX;
 #use FusionInventory::Agent::AccountInfo;
 use FusionInventory::Agent::Logger;
-use Getopt::Long;";
-if ($@) {
-    die $@;
-}
+use Getopt::Long;
 
 my $args = {};
 
@@ -58,12 +50,9 @@ EOF
 }
 
 
-
-my $esx = FusionInventory::Agent::Task::ESX->new({
-    config => {
-        local => $args->{directory}
-    }
-});
+my $esx = FusionInventory::Agent::Task::ESX->new(
+    target => {},
+);
 
 if (!$esx->connect({
             host => $args->{host},
@@ -90,7 +79,7 @@ foreach my $hostId (@$hostIds) {
    # $inventory->writeXML();
 
 
-    my $file = $inventory->{deviceid} . ".ocs";
+    my $file =  $args->{directory} . '/' . $inventory->{deviceid} . ".ocs";
 
     if (open my $handle, '>', $file) {
         my $tpp = XML::TreePP->new(indent => 2);
