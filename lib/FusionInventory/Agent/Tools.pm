@@ -46,9 +46,6 @@ our @EXPORT = qw(
 
 my $nowhere = $OSNAME eq 'MSWin32' ? 'nul' : '/dev/null';
 
-memoize('canRun');
-memoize('canRead');
-
 sub getFormatedLocalTime {
     my ($time) = @_;
 
