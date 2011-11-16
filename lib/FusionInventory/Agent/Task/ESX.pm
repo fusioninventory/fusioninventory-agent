@@ -79,7 +79,7 @@ sub createInventory {
         logger => $self->{logger},
         config => $self->{config},
     );
-    $inventory->{deviceid} = $self->createFakeDeviceid($host);
+    $self->{deviceid} = $self->createFakeDeviceid($host);
 
     $inventory->{isInitialised} = 1;
     $inventory->{h}{CONTENT}{HARDWARE}{ARCHNAME} = ['remote'];
