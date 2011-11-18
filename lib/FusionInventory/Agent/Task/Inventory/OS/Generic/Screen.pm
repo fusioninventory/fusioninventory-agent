@@ -32,6 +32,91 @@ sub isInventoryEnabled {
         can_run("get-edid");
 }
 
+sub getScreensFromWindows {
+    my ($logger) = @_;
+
+    my $devices = {};
+    my $Registry;
+    eval {
+        require FusionInventory::Agent::Tools::Win32;
+        require FusionInventory::Agent::Task::Inventory::OS::Win32;
+        require Win32::TieRegistry;
+        Win32::TieRegistry->import(
+                Delimiter   => '/',
+                ArrayValues => 0,
+                TiedRef     => \$Registry
+                );
+    };
+    if ($EVAL_ERROR) {
+        print "Failed to load Win32::OLE and Win32::TieRegistry\n";
+        return;
+    }
+
+    use constant wbemFlagReturnImmediately => 0x10;
+    use constant wbemFlagForwardOnly => 0x20;
+
+# Vista and upper, able to get the second screen  
+    my $WMIServices = Win32::OLE->GetObject(
+            "winmgmts:{impersonationLevel=impersonate,authenticationLevel=Pkt}!//./root/wmi" );
+
+    foreach my $properties ( Win32::OLE::in( $WMIServices->InstancesOf(
+                    "WMIMonitorID" ) ) )
+    {
+
+        next unless $properties->{InstanceName};
+        my $PNPDeviceID = $properties->{InstanceName};
+        $PNPDeviceID =~ s/_\d+//;
+        $devices->{lc($PNPDeviceID)} = {};
+    }
+
+# The generic Win32_DesktopMonitor class, the second screen will be missing
+    foreach my $objItem (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_DesktopMonitor', qw/
+                Caption PNPDeviceID Availability MonitorType MonitorManufacturer
+                /)) {
+
+        next unless $objItem->{"Availability"};
+        next unless $objItem->{"PNPDeviceID"};
+        next unless $objItem->{"Availability"} == 3;
+        my $name = $objItem->{"Caption"};
+
+        $devices->{lc($objItem->{"PNPDeviceID"})} = { name => $name, type => $objItem->{MonitorType}, manufacturer => $objItem->{MonitorManufacturer}, caption => $objItem->{Caption} };
+
+    }
+
+    my @ret;
+    foreach my $PNPDeviceID (keys %{$devices}) {
+
+
+        my $machKey;
+        {
+            my $KEY_WOW64_64KEY = 0x100;
+
+            my $access;
+
+            if (FusionInventory::Agent::Tools::Win32::is64bit()) {
+                $access = Win32::TieRegistry::KEY_READ() | $KEY_WOW64_64KEY;
+            } else {
+                $access = Win32::TieRegistry::KEY_READ();
+            }
+
+# Win32-specifics constants can not be loaded on non-Windows OS
+            no strict 'subs';
+            $machKey = $Registry->Open('LMachine', {
+                    Access => $access
+                    } ) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+
+        }
+
+        $devices->{$PNPDeviceID}{edid} =
+            $machKey->{"SYSTEM/CurrentControlSet/Enum/".$PNPDeviceID."/Device Parameters/EDID"} || '';
+        $devices->{$PNPDeviceID}{edid} =~ s/^\s+$//;
+
+        push @ret, $devices->{$PNPDeviceID};
+    }
+    return @ret;
+
+}
+
 sub getScreens {
     my ($logger) = @_;
 
@@ -39,61 +124,8 @@ sub getScreens {
 
 
     if ($OSNAME eq 'MSWin32') {
-        my $Registry;
-        eval {
-            require FusionInventory::Agent::Tools::Win32;
-            require FusionInventory::Agent::Task::Inventory::OS::Win32;
-            require Win32::TieRegistry;
-            Win32::TieRegistry->import(
-                Delimiter   => '/',
-                ArrayValues => 0,
-                TiedRef     => \$Registry
-            );
-        };
-        if ($EVAL_ERROR) {
-            print "Failed to load Win32::OLE and Win32::TieRegistry\n";
-            return;
-        }
-
-#        use constant wbemFlagReturnImmediately => 0x10;
-#        use constant wbemFlagForwardOnly => 0x20;
-
-#        my $objWMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2") or $logger->fault("WMI connection failed.\n");
-#        my $colItems = $objWMIService->ExecQuery("SELECT * FROM Win32_DesktopMonitor", "WQL",
-#                wbemFlagReturnImmediately | wbemFlagForwardOnly);
-        foreach my $objItem (FusionInventory::Agent::Task::Inventory::OS::Win32::getWmiProperties('Win32_DesktopMonitor', qw/
-            Caption MonitorManufacturer MonitorType PNPDeviceID
-        /)) {
-
-            next unless $objItem->{"PNPDeviceID"};
-            my $name = $objItem->{"Caption"};
-
-            my $machKey;
-            {
-                my $KEY_WOW64_64KEY = 0x100;
-
-                my $access;
-
-                if (FusionInventory::Agent::Tools::Win32::is64bit()) {
-                    $access = Win32::TieRegistry::KEY_READ() | $KEY_WOW64_64KEY;
-                } else {
-                    $access = Win32::TieRegistry::KEY_READ();
-                }
-
-                # Win32-specifics constants can not be loaded on non-Windows OS
-                no strict 'subs';
-                $machKey = $Registry->Open('LMachine', {
-                    Access => $access
-                } ) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-
-            }
-
-            my $edid =
-                $machKey->{"SYSTEM/CurrentControlSet/Enum/$objItem->{PNPDeviceID}/Device Parameters/EDID"} || '';
-            $edid =~ s/^\s+$//;
-
-            push @raw_edid, { name => $name, edid => $edid, type => $objItem->{MonitorType}, manufacturer => $objItem->{MonitorManufacturer}, caption => $objItem->{Caption} };
-        }
+ 
+        @raw_edid = getScreensFromWindows($logger);
 
     } else {
 
