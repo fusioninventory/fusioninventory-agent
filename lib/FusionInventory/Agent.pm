@@ -65,6 +65,7 @@ sub init {
     $logger->debug("Configuration directory: $self->{confdir}");
     $logger->debug("Data directory: $self->{datadir}");
     $logger->debug("Storage directory: $self->{vardir}");
+    $logger->debug("Lib directory: $self->{libdir}");
 
     $self->{storage} = FusionInventory::Agent::Storage->new(
         logger    => $logger,
