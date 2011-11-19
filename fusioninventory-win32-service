@@ -24,7 +24,6 @@ my $directory = dirname(File::Spec->rel2abs( __FILE__ ));
 # we need to do it by ourself
 chdir($directory);
 
-my $win32service = 1;
 Win32::Daemon::StartService();
 
 my $thread;
