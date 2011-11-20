@@ -10,6 +10,10 @@ use constant KEY_WOW64_32 => 0x200;
 use Encode;
 use English qw(-no_match_vars);
 use Win32::API; 
+# Kernel32.dll is used more or less everywhere.
+# Without this, Win32::API will release the DLL even
+# if it's a very bad idea
+*Win32::API::DESTROY = sub {};
 use Win32::OLE qw(in CP_UTF8);
 use Win32::OLE::Const;
 use Win32::TieRegistry (
