@@ -7,6 +7,10 @@ use constant wbemFlagReturnImmediately => 0x10;
 use constant wbemFlagForwardOnly => 0x20;
 
 use Win32::API;
+# Kernel32.dll is used more or less everywhere.
+# Without this, Win32::API will release the DLL even
+# if it's a very bad idea
+*Win32::API::DESTROY = sub {};
 use Encode qw(encode decode);
 use English qw(-no_match_vars);
 use Win32::OLE::Variant;

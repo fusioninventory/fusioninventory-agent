@@ -100,6 +100,11 @@ sub new {
 use Encode;
 use Win32::API;
 
+# Kernel32.dll is used more or less everywhere.
+# Without this, Win32::API will release the DLL even
+# if it s a very bad idea
+*Win32::API::DESTROY = sub {};
+
 	my $GetComputerName = new Win32::API("kernel32", "GetComputerNameExW", ["I", "P", "P"],
 "N");
 my $lpBuffer = "\x00" x 1024;
