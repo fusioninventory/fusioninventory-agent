@@ -122,8 +122,6 @@ sub getRegistryValue {
     return $value;
 }
 
-# Return the Computer name
-# array (ComputerName, Domaine)
 sub getHostnameFromKernel32 {
     my $GetComputerName = new Win32::API("kernel32", "GetComputerNameExW", ["I", "P", "P"],
             "N");
@@ -186,3 +184,7 @@ E.g: HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProductName
 =item logger
 
 =back
+
+=head2 getHostnameFromKernel32
+
+Returns the computer name and its domain, as a list.
