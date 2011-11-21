@@ -6,6 +6,7 @@ use integer;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::Tools::Win32;
 
 sub isEnabled {
@@ -60,7 +61,7 @@ sub doInventory {
     # In the rare case WMI DB is broken,
     # We first initialize the name by kernel32
     # call
-    my $name = getHostnameFromKernel32();
+    my $name = FusionInventory::Agent::Tools::Hostname::getHostname();
     $name = $ENV{COMPUTERNAME} unless $name;
     my $domain;
 

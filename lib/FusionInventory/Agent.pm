@@ -5,7 +5,6 @@ use warnings;
 
 use Cwd;
 use English qw(-no_match_vars);
-use Sys::Hostname;
 use UNIVERSAL::require;
 use File::Glob;
 
@@ -19,9 +18,10 @@ use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::Target::Stdout;
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::XML::Query::Prolog;
 
-our $VERSION = '2.1.9903';
+our $VERSION = '2.2.0+dev-2.2.x-20111120-1046';
 our $VERSION_STRING = 
     "FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
 our $AGENT_STRING =
@@ -372,17 +372,6 @@ sub _isAlreadyRunning {
     return Proc::PID::File->running();
 }
 
-sub _getHostname {
-
-    # use hostname directly under Unix
-    return hostname() if $OSNAME ne 'MSWin32';
-
-    FusionInventory::Agent::Tools::Win32->require;
-
-    return FusionInventory::Agent::Tools::Win32::getHostnameFromKernel32();
-
-}
-
 sub _loadState {
     my ($self) = @_;
 
@@ -412,7 +401,7 @@ sub _computeToken {
 
 # compute an unique agent identifier, based on host name and current time
 sub _computeDeviceId {
-    my $hostname = _getHostname();
+    my $hostname = FusionInventory::Agent::Tools::Hostname::getHostname();
 
     my ($year, $month , $day, $hour, $min, $sec) =
         (localtime (time))[5, 4, 3, 2, 1, 0];
