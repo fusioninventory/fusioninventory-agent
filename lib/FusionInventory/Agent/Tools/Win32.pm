@@ -128,7 +128,7 @@ sub getHostnameFromKernel32 {
     my $buffer = "\x00" x 1024;
     my $n = 1024;#pack ("c4", 160,0,0,0);
 
-    my $return = $GetComputerName->Call(3, $buffer, $n);
+    $GetComputerName->Call(3, $buffer, $n);
 
     # GetComputerNameExW returns the string in UTF16, we have to change it
     # to UTF8
