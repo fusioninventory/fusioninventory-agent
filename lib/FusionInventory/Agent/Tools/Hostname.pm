@@ -5,7 +5,7 @@ BEGIN {
     use English qw(-no_match_vars);
 
     if ($OSNAME eq 'MSWin32') {
-        Win32::API->require(); 
+        Win32::API->require();
         # Kernel32.dll is used more or less everywhere.
         # Without this, Win32::API will release the DLL even
         # if it's a very bad idea
@@ -34,9 +34,9 @@ sub getHostname {
 
         Sys::Hostname->require();
         return Sys::Hostname::hostname();
-        return 
+        return
     }
-   
+ 
 
 }
 
