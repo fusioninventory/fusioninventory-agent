@@ -31,7 +31,7 @@ our @EXPORT = qw(
     KEY_WOW64_32
     getRegistryValue
     getWmiObjects
-    getHostnameFromKernel32
+    getLocalcodepage
 );
 
 sub is64bit {
@@ -43,12 +43,7 @@ sub is64bit {
         );
 }
 
-sub encodeFromRegistry {
-    my ($string) = @_;
-
-    ## no critic (ExplicitReturnUndef)
-    return undef unless $string;
-
+sub getLocalcodepage {
     if (!$localCodepage) {
         my $lmachine = $Registry->Open('LMachine', {
             Access => KEY_READ
@@ -61,7 +56,17 @@ sub encodeFromRegistry {
             $localCodepage = "cp".$codepage->{ACP};
     }
 
-    return encode("UTF-8", decode($localCodepage, $string));
+    return $localCodepage;
+
+}
+
+sub encodeFromRegistry {
+    my ($string) = @_;
+
+    ## no critic (ExplicitReturnUndef)
+    return undef unless $string;
+
+    return encode("UTF-8", decode(getLocalcodepage(), $string));
 }
 
 sub getWmiObjects {
