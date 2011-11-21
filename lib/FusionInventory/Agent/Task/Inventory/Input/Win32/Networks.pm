@@ -37,12 +37,20 @@ sub doInventory {
         'SELECT * FROM Win32_NetworkAdapterConfiguration'
     );
     foreach my $nic (in $nics) {
-        my $interface = {};
-
-        $interface->{DESCRIPTION} = $nic->Description;
+        my $interface = {
+            DESCRIPTION => $nic->Description,
+            STATUS      => $nic->IPEnabled ? "Up" : "Down",
+            IPDHCP      => $nic->DHCPServer,
+            MACADDR     => $nic->MACAddress,
+            MTU         => $nic->MTU
+        };
 
         foreach (@{$nic->DefaultIPGateway || []}) {
             $defaultgateways{$_} = 1;
+        }
+
+        if ($nic->DefaultIPGateway) {
+            $interface->{IPGATEWAY} = $nic->DefaultIPGateway()->[0];
         }
 
         foreach (@{$nic->DNSServerSearchOrder || []}) {
@@ -68,15 +76,6 @@ sub doInventory {
                 }
             }
         }
-
-        if ($nic->DefaultIPGateway) {
-            $interface->{IPGATEWAY} = $nic->DefaultIPGateway()->[0];
-        }
-
-        $interface->{STATUS}  = $nic->IPEnabled ? "Up" : "Down";
-        $interface->{IPDHCP}  = $nic->DHCPServer;
-        $interface->{MACADDR} = $nic->MACAddress;
-        $interface->{MTU}     = $nic->MTU;
 
         $interfaces[$nic->Index] = $interface;
     }

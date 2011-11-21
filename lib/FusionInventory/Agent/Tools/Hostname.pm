@@ -20,7 +20,7 @@ sub getHostname {
     if ($OSNAME eq 'MSWin32') {
 
 
-        my $GetComputerName = new Win32::API("kernel32", "GetComputerNameExW", ["I", "P", "P"],
+        my $GetComputerName = Win32::API->new("kernel32", "GetComputerNameExW", ["I", "P", "P"],
                 "N");
         my $lpBuffer = "\x00" x 1024;
         my $N=1024;#pack ("c4", 160,0,0,0);
