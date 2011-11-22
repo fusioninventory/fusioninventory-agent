@@ -138,20 +138,16 @@ sub run {
 
     $self->{logger}->debug("FusionInventory NetDiscovery task $VERSION");
 
+    $self->{cnx}{user}         = $params{user};
+    $self->{cnx}{password}     = $params{password};
+    $self->{cnx}{proxy}        = $params{proxy};
+    $self->{cnx}{ca_cert_file} = $params{ca_cert_file};
+    $self->{cnx}{ca_cert_dir}  = $params{ca_cert_dir};
+    $self->{cnx}{no_ssl_check} = $params{no_ssl_check};
+
     my $options     = $self->{options};
     my $pid         = $options->{PARAM}->[0]->{PID};
     my $max_threads = $options->{PARAM}->[0]->{THREADS_DISCOVERY};
-
-    # task-specific client
-    $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
-        logger       => $self->{logger},
-        user         => $params{user},
-        password     => $params{password},
-        proxy        => $params{proxy},
-        ca_cert_file => $params{ca_cert_file},
-        ca_cert_dir  => $params{ca_cert_dir},
-        no_ssl_check => $params{no_ssl_check},
-    );
 
     # check discovery methods available
     my ($nmap_parameters, $snmp_credentials, $snmp_dictionnary);
@@ -191,16 +187,6 @@ sub run {
     }
 
 
-    # send initial message to the server
-    $self->_sendMessage({
-        AGENT => {
-            START        => 1,
-            AGENTVERSION => $FusionInventory::Agent::VERSION,
-        },
-        MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $pid
-    });
-
     # create the required number of threads, sharing variables
     # for synchronisation
     my @addresses :shared;
@@ -221,6 +207,16 @@ sub run {
             $nmap_parameters,
         )->detach();
     }
+
+    # send initial message to the server
+    $self->_sendMessage({
+        AGENT => {
+            START        => 1,
+            AGENTVERSION => $FusionInventory::Agent::VERSION,
+        },
+        MODULEVERSION => $VERSION,
+        PROCESSNUMBER => $pid
+    });
 
     # proceed each given IP block
     foreach my $range (@{$options->{RANGEIP}}) {
@@ -248,7 +244,7 @@ sub run {
 
         # wait for all threads to reach STOP state
         while (any { $_ != STOP } @states) {
-            sleep 1;
+            delay(1);
         }
 
         # complete results
@@ -268,7 +264,7 @@ sub run {
 
     # set all threads in EXIT state
     $_ = EXIT foreach @states;
-    sleep 1;
+    delay(1);
 
     # send final message to the server
     $self->_sendMessage({
@@ -345,7 +341,7 @@ sub _scanAddresses {
 
     # start: wait for state to change
     while ($$state == START) {
-        sleep 1;
+        delay(1);
     }
 
     OUTER: while (1) {
@@ -381,7 +377,7 @@ sub _scanAddresses {
         $$state = STOP;
         $logger->debug("Thread $id switched to STOP state");
         while ($$state == STOP) {
-            sleep 1;
+            delay(1);
         }
 
         # exit: exit thread
@@ -393,6 +389,19 @@ sub _scanAddresses {
 
 sub _sendMessage {
     my ($self, $content) = @_;
+
+    # task-specific client
+    if (!$self->{client}) {
+        $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
+            logger       => $self->{logger},
+            user         => $self->{cnx}{user},
+            password     => $self->{cnx}{password},
+            proxy        => $self->{cnx}{proxy},
+            ca_cert_file => $self->{cnx}{ca_cert_file},
+            ca_cert_dir  => $self->{cnx}{ca_cert_dir},
+            no_ssl_check => $self->{cnx}{no_ssl_check},
+        );
+    }
 
     my $message = FusionInventory::Agent::XML::Query->new(
         deviceid => $self->{deviceid},
