@@ -1,0 +1,26 @@
+Revision history for FusionInventory::Agent::Task::NetDiscovery
+
+1.3
+       * Drop the --local mode
+       * Add trunk and vlan of Nortel
+
+1.2
+       * Convert printer name from hexa to string
+       * Fix bad characters in hexatostring
+       * Fix uninitialized values
+       * Fix division by zero and prevent thread crashing
+       * Add catchin ctrl-c and send finish query to server
+       * Fix get IP of printers
+       * Delete many dot in some serial number
+       * Add LLDP support for Procurve switches
+
+1.1
+       * Add a test script: t/use.t
+       * Add sleep for 1 second between two send to server
+       * Remove space before and after serial number
+       * Add MODULEVERSION in XML
+       * Add better support of Cisco
+       * Fix on calculate pourcentages when var isn't numeric and so crash thread.
+
+1.0
+       * Initial independent release of the module

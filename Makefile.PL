@@ -1,4 +1,5 @@
 use inc::Module::Install;
+use File::Which;
 
 name 'FusionInventory-Agent-Tasks-Net';
 include 'Module::AutoInstall';
@@ -7,8 +8,22 @@ version '1.0';
 license 'gpl';
 perl_version '5.008';
 
+# check for fusioninventory-agent setup
+my $agent = which('fusioninventory-agent');
+if (!$agent) {
+    warn "warning: fusioninventory-agent not found in PATH";
+} else {
+    my $command = 'fusioninventory-agent --setup';
+    open (my $handle, '-|', $command) or die "can't run $command: $!";
+    while (my $line = <$handle>) {
+        chomp $line;
+        next unless $line =~ /(\S+): (\S+)/;
+        $MY::setup{uc($1)} = $2;
+    }
+    close $handle;
+}
+
 # mandatory dependencies
-requires 'FusionInventory::Agent' => '2.2';
 requires 'Net::IP'                => undef;
 requires 'threads'                => undef;
 requires 'XML::TreePP'            => '0.26';
@@ -19,3 +34,69 @@ requires 'Net::SNMP'              => undef;
 
 WriteAll;
 
+# substitute prefix everywhere
+$MY::variables{DATADIR} =~ s/\$\(PREFIX\)/$MY::variables{PREFIX}/;
+
+print <<EOF;
+
+Installation summary
+--------------------
+prefix: $MY::variables{PREFIX}
+constant data installation directory: $MY::variables{DATADIR}
+
+EOF
+
+package MY;
+
+use English qw(-no_match_vars);
+
+our %setup;
+our %variables;
+
+# force a perl-independant prefix for everything but perl modules
+sub constants {
+    my ($self) = @_;
+
+    # for some reason, initialising variables from the global scope doesn't work
+    %variables = (
+        PREFIX               => '/usr/local',
+        INSTALLLIB           => '$(DATADIR)/lib',
+        INSTALLSITELIB       => '$(DATADIR)/lib',
+        INSTALLVENDORLIB     => '$(DATADIR)/lib',
+        INSTALLMAN3DIR       => '$(PREFIX)/share/man/man3',
+        INSTALLSITEMAN3DIR   => '$(PREFIX)/share/man/man3',
+        INSTALLVENDORMAN3DIR => '$(PREFIX)/share/man/man3',
+        DATADIR              => '$(PREFIX)/share/fusioninventory'
+    );
+
+    # allow variables detected from agent setup to override defaults
+    foreach my $name (keys %variables) {
+        $variables{$name} = $setup{$name} if $setup{$name};
+    }
+
+    # allow variables defined on command line to override defaults
+    foreach my $name (keys %variables) {
+        $variables{$name} = $self->{ARGS}->{$name} if $self->{ARGS}->{$name};
+    }
+
+    # get all standard MM variables definitions, and override them if needed
+    my @code = split(/\n/, $self->SUPER::constants(@_));
+    foreach my $line (@code) {
+        # Skip comments
+        next if $line =~ /^\s*#/;
+        # Skip everything which isn't a var assignment.
+        next unless $line =~ /^([A-Z0-9_]+) =/;
+        my $name = $1;
+        # skip variables we're not interested
+        next unless $variables{$name};
+
+        $line = "$name = $variables{$name}";
+    }
+
+    # add out own variables
+    foreach my $name (qw/DATADIR/) {
+        push @code, "$name = $variables{$name}";
+    }
+
+    return join("\n", @code);
+}

@@ -369,7 +369,6 @@ sub _queryDevice {
             authprotocol => $credentials->{AUTHPROTOCOL},
             privpassword => $credentials->{PRIVPASSWORD},
             privprotocol => $credentials->{PRIVPROTOCOL},
-            translate    => 1,
         );
     };
     if ($EVAL_ERROR) {
@@ -675,7 +674,6 @@ sub _setNetworkingProperties {
                     authprotocol => $credentials->{AUTHPROTOCOL},
                     privpassword => $credentials->{PRIVPASSWORD},
                     privprotocol => $credentials->{PRIVPROTOCOL},
-                    translate    => 1,
                 );
             };
             if ($EVAL_ERROR) {
@@ -781,4 +779,4 @@ This task requires a GLPI server with FusionInventory plugin.
 =head1 AUTHORS
 
 Copyright (C) 2009 David Durieux
-Copyright (C) 2010-2011 FusionInventory Team
+    Copyright (C) 2010-2011 FusionInventory Team
