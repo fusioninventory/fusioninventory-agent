@@ -42,6 +42,7 @@ our @EXPORT = qw(
     file2module
     module2file
     runFunction
+    delay
 );
 
 my $nowhere = $OSNAME eq 'MSWin32' ? 'nul' : '/dev/null';
@@ -456,6 +457,18 @@ sub runFunction {
     return $result;
 }
 
+sub delay {
+    my ($delay) = @_;
+
+    if ($OSNAME eq 'MSWin32') {
+        Win32->require();
+        Win32::Sleep($delay*1000);
+    }  else {
+        sleep($delay);
+    }
+}
+
+
 1;
 __END__
 
@@ -677,3 +690,8 @@ Run a function whose name is computed at runtime and return its result.
 =item load enforce module loading first
 
 =back
+
+=head2 delay($second)
+
+Wait for $second. It uses sleep() or Win32::Sleep() depending
+on the Operating System.
