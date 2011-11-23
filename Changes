@@ -1,6 +1,34 @@
 Revision history for FusionInventory::Agent
 
-2.1.12 
+2.1.12  Wed, 23 Nov 2011 18:14:52 +0100
+
+GENERIC
+ ✔ Memory: Add ECC / no ECC information
+       commit:b01f6f
+     http://forge.fusioninventory.org/issues/1234
+   thanks: Walid Nouh, jerome slayer
+
+LINUX
+ ✔ Duplication virtualmachine name on the same machine
+       commit:982c08
+     http://forge.fusioninventory.org/issues/1140
+   thanks: DuyLong LE
+
+WINDOWS
+ ✔ [windows] Virtual network adapter reported as physical - and breaks all computer linking in GLPI
+       commit:5b4a1e
+     http://forge.fusioninventory.org/issues/1166
+   thanks: David Durieux, V'yacheslav Stetskevych
+ ✔ use $ENV{COMPUTERNAME} is HARDWARE/NAME is empty
+       commit:44c07b
+     http://forge.fusioninventory.org/issues/1330
+ ✔ 2.1.11 - Total amount of total RAM memory incorrectly detected on some Windows 7 computers
+       commit:f93d24
+     http://forge.fusioninventory.org/issues/1334
+   thanks: Tomás Abad, Andre Silva
+ ✔ Dual screen configuration ignored on Windows Vista/7
+       commit:6cbf8b
+     http://forge.fusioninventory.org/issues/1351
 
 SOLARIS
  ✔ Fix some warnings for spurious stat() calls
