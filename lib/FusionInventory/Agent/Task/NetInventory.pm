@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::SNMPQuery;
+package FusionInventory::Agent::Task::NetInventory;
 
 use strict;
 use warnings;
@@ -175,7 +175,14 @@ sub isEnabled {
 sub run {
     my ($self, %params) = @_;
 
-    $self->{logger}->debug("FusionInventory SNMPQuery task $VERSION");
+    $self->{logger}->debug("FusionInventory NetInventory task $VERSION");
+
+    $self->{cnx}{user}         = $params{user};
+    $self->{cnx}{password}     = $params{password};
+    $self->{cnx}{proxy}        = $params{proxy};
+    $self->{cnx}{ca_cert_file} = $params{ca_cert_file};
+    $self->{cnx}{ca_cert_dir}  = $params{ca_cert_dir};
+    $self->{cnx}{no_ssl_check} = $params{no_ssl_check};
 
     my $options     = $self->{options};
     my $pid         = $options->{PARAM}->[0]->{PID};
@@ -186,27 +193,6 @@ sub run {
 
     # SNMP credentials
     my $credentials = _getIndexedCredentials($options->{AUTHENTICATION});
-
-    # task-specific client
-    $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
-        logger       => $self->{logger},
-        user         => $params{user},
-        password     => $params{password},
-        proxy        => $params{proxy},
-        ca_cert_file => $params{ca_cert_file},
-        ca_cert_dir  => $params{ca_cert_dir},
-        no_ssl_check => $params{no_ssl_check},
-    );
-
-    # send initial message to the server
-    $self->_sendMessage({
-        AGENT => {
-            START        => 1,
-            AGENTVERSION => $FusionInventory::Agent::VERSION
-        },
-        MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $pid
-    });
 
     # create the required number of threads, sharing variables
     # for synchronisation
@@ -236,12 +222,19 @@ sub run {
         )->detach();
     }
 
-    # set all threads in RUN state
-    $_ = RUN foreach @states;
+    # send initial message to the server
+    $self->_sendMessage({
+        AGENT => {
+            START        => 1,
+            AGENTVERSION => $FusionInventory::Agent::VERSION
+        },
+        MODULEVERSION => $VERSION,
+        PROCESSNUMBER => $pid
+    });
 
     # wait for all threads to reach STOP state
     while (any { $_ != EXIT } @states) {
-        sleep 1;
+        delay(1);
     }
 
     # send results to the server
@@ -252,7 +245,7 @@ sub run {
             PROCESSNUMBER => $pid
         };
         $self->_sendMessage($data);
-        sleep 1;
+        delay(1);
     }
 
     # send final message to the server
@@ -266,7 +259,20 @@ sub run {
 }
 
 sub _sendMessage {
-   my ($self, $content) = @_;
+    my ($self, $content) = @_;
+
+    # task-specific client
+    if (!$self->{client}) {
+        $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
+            logger       => $self->{logger},
+            user         => $self->{cnx}{user},
+            password     => $self->{cnx}{password},
+            proxy        => $self->{cnx}{proxy},
+            ca_cert_file => $self->{cnx}{ca_cert_file},
+            ca_cert_dir  => $self->{cnx}{ca_cert_dir},
+            no_ssl_check => $self->{cnx}{no_ssl_check},
+        );
+    }
 
    my $message = FusionInventory::Agent::XML::Query->new(
        deviceid => $self->{deviceid},
@@ -290,7 +296,7 @@ sub _queryDevices {
 
     # start: wait for state to change
     while ($$state == START) {
-        sleep 1;
+        delay(1);
     }
 
     my $storage = $self->{target}->getStorage();
@@ -318,7 +324,7 @@ sub _queryDevices {
             push @$results, shared_clone($result);
         }
                  
-        sleep 1;
+        delay(1);
     }
 
     $$state = EXIT;
@@ -363,7 +369,6 @@ sub _queryDevice {
             authprotocol => $credentials->{AUTHPROTOCOL},
             privpassword => $credentials->{PRIVPASSWORD},
             privprotocol => $credentials->{PRIVPROTOCOL},
-            translate    => 1,
         );
     };
     if ($EVAL_ERROR) {
@@ -669,7 +674,6 @@ sub _setNetworkingProperties {
                     authprotocol => $credentials->{AUTHPROTOCOL},
                     privpassword => $credentials->{PRIVPASSWORD},
                     privprotocol => $credentials->{PRIVPROTOCOL},
-                    translate    => 1,
                 );
             };
             if ($EVAL_ERROR) {
@@ -683,7 +687,7 @@ sub _setNetworkingProperties {
             }
             # Detect mac adress on each port
             if ($comments =~ /Cisco/) {
-                my $module = 'FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco';
+                my $module = 'FusionInventory::Agent::Task::NetInventory::Manufacturer::Cisco';
                 runFunction(
                     module   => $module,
                     function => 'setConnectedDevicesMacAddress',
@@ -747,7 +751,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::SNMPQuery - Remote inventory support for FusionInventory Agent
+FusionInventory::Agent::Task::NetInventory - Remote inventory support for FusionInventory Agent
 
 =head1 DESCRIPTION
 
@@ -775,4 +779,4 @@ This task requires a GLPI server with FusionInventory plugin.
 =head1 AUTHORS
 
 Copyright (C) 2009 David Durieux
-Copyright (C) 2010-2011 FusionInventory Team
+    Copyright (C) 2010-2011 FusionInventory Team

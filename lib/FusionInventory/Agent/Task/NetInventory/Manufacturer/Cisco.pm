@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco;
+package FusionInventory::Agent::Task::NetInventory::Manufacturer::Cisco;
 
 use strict;
 use warnings;
@@ -99,7 +99,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::Manufacturer::Cisco - Cisco-specific functions
+FusionInventory::Agent::Task::NetInventory::Manufacturer::Cisco - Cisco-specific functions
 
 =head1 DESCRIPTION
 

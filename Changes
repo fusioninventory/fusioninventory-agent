@@ -1,4 +1,10 @@
-Revision history for FusionInventory::Agent::Task::NetDiscovery
+Revision history for FusionInventory::Agent::Task::NetInventory
+
+2.0
+	* adaptation to FusionInventory 2.2
+	* large code cleanup
+	* simplify and harmonize parallelism handling
+	* rename to NetInventory
 
 1.3
        * Drop the --local mode
