@@ -362,9 +362,10 @@ sub setSslRemoteHost {
     # Check server name against provided SSL certificate
         if ( $self->{URI} =~ /^https:\/\/([^\/]+).*$/i ) {
             my $re = $1;
+            $re =~ s/:\d+//;
 # Accept SSL cert will hostname with wild-card
 # http://forge.fusioninventory.org/issues/542
-            $re =~ s/^([^\.]+)/($1|\\*)/;
+            $re =~ s/^([^\.]+)\.(.+)/($1|\\*)/;
 # protect some characters, $re will be evaluated as a regex
             $re =~ s/([\-\.])/\\$1/g;
             $ua->default_header('If-SSL-Cert-Subject' => '/CN='.$re.'($|\/)');
