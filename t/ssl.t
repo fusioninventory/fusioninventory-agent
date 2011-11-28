@@ -107,10 +107,14 @@ $server->set_dispatch({
 });
 $server->background();
 
+
+SKIP: {
+skip "Too all LWP for alternate hostname", 1 unless $LWP::VERSION >= 6;
 ok(
     $secure_client->send({message => $message}),
     'trusted certificate, alternate hostname: connection success'
 );
+}
 
 $server->stop();
 
@@ -161,10 +165,14 @@ ok(
     'untrusted certificate, correct hostname: connection failure'
 );
 
+SKIP: {
+skip "Check disabled on LWP<6", 1 unless $LWP::VERSION >= 6;
+# Unless you wan to fix this
 ok(
     $unsafe_client->send({message => $message}),
     'untrusted certificate, correct hostname, no check: connection success'
 );
+}
 
 $server->stop();
 
