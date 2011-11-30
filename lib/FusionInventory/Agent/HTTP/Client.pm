@@ -148,6 +148,12 @@ sub _setSSLOptions {
                 if $self->{'ca_cert_file'};
             $self->{ua}->ssl_opts(SSL_ca_path => $self->{'ca_cert_dir'})
                 if $self->{'ca_cert_dir'};
+        } elsif ($IO::Socket::SSL::VERSION < 1.14) {
+            # SSL_verifycn_scheme and SSL_verifycn_name are required
+            die "IO::Socket::SSL $IO::Socket::SSL::VERSION is too old. Version 1.14 is ".
+                "required to do SSL cert validation.\n".
+                " You can use 'no-ssl-check' option ".
+                " if you want to disable the SSL cert check";
         } else {
             # use a custom HTTPS handler to workaround default LWP5 behaviour
             FusionInventory::Agent::HTTP::Protocol::https->use(
@@ -156,7 +162,9 @@ sub _setSSLOptions {
             );
             die 
                 "failed to load FusionInventory::Agent::HTTP::Protocol::https" .
-                ", unable to perform SSL certificate validation"
+                ", unable to perform SSL certificate validation.\n".
+                " You can use 'no-ssl-check' option ".
+                " if you want to disable the SSL cert check"
                 if $EVAL_ERROR;
 
             LWP::Protocol::implementor(
