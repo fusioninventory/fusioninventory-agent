@@ -173,7 +173,7 @@ sub _getScreens {
         if (!$raw_edid) {
             foreach (1..5) { # Sometime get-edid return an empty string...
                 $raw_edid = getFirstLine(command => 'get-edid');
-                last if length($raw_edid) == 128 || length($raw_edid) == 256;
+                last if $raw_edid && (length($raw_edid) == 128 || length($raw_edid) == 256);
             }
         }
         return unless length($raw_edid) == 128 || length($raw_edid) == 256;
