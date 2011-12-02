@@ -16,7 +16,7 @@ use FusionInventory::Test::Utils;
 if ($OSNAME eq 'MSWin32' || $OSNAME eq 'darwin') {
     plan skip_all => 'non working test on Windows and MacOS';
 } else {
-    plan tests => 7;
+    plan tests => 8;
 }
 
 my $ok = sub {
@@ -45,6 +45,11 @@ my $secure_client = FusionInventory::Agent::HTTP::Client->new(
     ca_cert_file => 't/ssl/crt/ca.pem',
 );
 
+my $secure_sha256_client = FusionInventory::Agent::HTTP::Client->new(
+    logger       => $logger,
+    ca_cert_file => 't/ssl/crt/ca-rulezlan.pem',
+);
+
 # ensure the server get stopped even if an exception is thrown
 $SIG{__DIE__}  = sub { $server->stop(); };
 
@@ -66,6 +71,28 @@ $server->background();
 ok(
     $secure_client->request(HTTP::Request->new(GET => $url))->is_success(),
     'trusted certificate, correct hostname: connection success'
+);
+
+$server->stop();
+
+# trusted sha256 certificate, correct hostname
+$server = FusionInventory::Test::Server->new(
+    port     => 8080,
+    user     => 'test',
+    realm    => 'test',
+    password => 'test',
+    ssl      => 1,
+    crt      => 't/ssl/crt/good-sha256.pem',
+    key      => 't/ssl/key/good-sha256.pem',
+);
+$server->set_dispatch({
+    '/public'  => $ok,
+});
+$server->background();
+
+ok(
+    $secure_sha256_client->request(HTTP::Request->new(GET => $url))->is_success(),
+    'trusted certificate (sha256), correct hostname: connection success'
 );
 
 $server->stop();
