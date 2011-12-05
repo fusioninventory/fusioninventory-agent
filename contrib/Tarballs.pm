@@ -2,7 +2,7 @@
 #
 # The complete name of the package
 # the path MUST be valid or the package won't be loaded
-package FusionInventory::Agent::Backend::OS::Generic::Tarballs;
+package FusionInventory::Agent::Task::Inventory::Input::Generic::Tarballs;
 use strict;
 # I need to declare $runAfter because of the strict mode 
 use vars qw($runAfter);
