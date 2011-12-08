@@ -24,9 +24,16 @@ sub doInventory {
     return unless ref $info eq 'HASH';
 
     foreach my $printer (keys %$info) {
-        if ($printer && $printer =~ /^The printers list is empty. To add printers/) {
+        if ($printer && (
+            $printer =~ /list is empty/
+            ||
+            $printer =~ /^Status/
+            ||
+            $printer =~ /^CUPS Version/
+            )            ) {
 #http://forge.fusioninventory.org/issues/169
-            next;
+#https://bugs.launchpad.net/bugs/901570
+                next;
         }
 
         $inventory->addEntry(
