@@ -13,8 +13,6 @@ use Win32::TieRegistry (
     qw/KEY_READ/
 );
 
-our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::OS::Generic::Dmidecode"];
-
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
 use FusionInventory::Agent::Tools;
 
@@ -58,10 +56,7 @@ sub doInventory {
 
     my $vmsystem;
 
-# http://forge.fusioninventory.org/issues/379
-    my(@osver) = Win32::GetOSVersion();
-    my $isWin2003 = ($osver[4] == 2 && $osver[1] == 5 && $osver[2] == 2);
-
+    my $dmidecodeCpu = getCpusFromDmidecode();
 
     my $cpuId = 0;
     foreach my $Properties (getWmiProperties('Win32_Processor', qw/
@@ -70,20 +65,14 @@ sub doInventory {
 
         my $info = getCPUInfoFromRegistry($logger, $cpuId);
 
+#        my $cache = $Properties->{L2CacheSize}+$Properties->{L3CacheSize};
         my $core = $Properties->{NumberOfCores};
         my $description = $info->{Identifier};
         my $name = $info->{ProcessorNameString};
         my $manufacturer = $info->{VendorIdentifier};
-        my $id = $Properties->{ProcessorId};
-        my $speed = $Properties->{MaxClockSpeed};
-
-        # Some information are missing on Win2000
-        if (!$name) {
-            $name = $ENV{PROCESSOR_IDENTIFIER};
-            if ($name =~ s/,\s(\S+)$//) {
-                $manufacturer = $1;
-            }
-        }
+        my $id = $dmidecodeCpu->[$cpuId]->{ID} || $Properties->{ProcessorId};
+        my $serial = $dmidecodeCpu->[$cpuId]->{SERIAL};
+        my $speed = $dmidecodeCpu->[$cpuId]->{SPEED} || $Properties->{MaxClockSpeed};
 
         if ($manufacturer) {
             $manufacturer =~ s/Genuine//;
@@ -118,7 +107,7 @@ sub doInventory {
             MANUFACTURER => $manufacturer,
             SERIAL => $serial,
             SPEED => $speed,
-            ID => $id
+	    ID => $id
         });
 
         $cpuId++;
