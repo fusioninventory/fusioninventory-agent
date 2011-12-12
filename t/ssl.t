@@ -10,10 +10,15 @@ use Socket;
 use Test::More;
 use Test::Exception;
 
+use UNIVERSAL::require;
 use FusionInventory::Agent::Network;
 use FusionInventory::Agent::XML::Query::SimpleMessage;
-use FusionInventory::Test::Server;
 use FusionInventory::Logger;
+
+if (!IO::Socket::SSL->require()) {
+    plan skip_all => "IO::Socket::SSL required to run this test";
+}
+FusionInventory::Test::Server->require();
 
 if ($OSNAME eq 'MSWin32' || $OSNAME eq 'darwin') {
     plan skip_all => 'non working test on Windows and MacOS';
@@ -46,6 +51,7 @@ my $message = FusionInventory::Agent::XML::Query::SimpleMessage->new({
         foo => 'bar'
     }
 });
+
 my $unsafe_client = FusionInventory::Agent::Network->new({
     logger       => $logger,
     target       => {
@@ -89,7 +95,6 @@ ok(
     $secure_client->send({message => $message}),
     'trusted certificate, correct hostname: connection success'
 );
-
 $server->stop();
 
 # trusted certificate, alternate hostname
