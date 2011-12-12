@@ -47,7 +47,7 @@ my $secure_client = FusionInventory::Agent::HTTP::Client->new(
 
 my $secure_sha256_client = FusionInventory::Agent::HTTP::Client->new(
     logger       => $logger,
-    ca_cert_file => 't/ssl/crt/ca-rulezlan.pem',
+    ca_cert_file => 't/ssl/crt/ca.pem',
 );
 
 # ensure the server get stopped even if an exception is thrown
