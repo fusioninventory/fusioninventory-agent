@@ -379,7 +379,7 @@ print Dumper($action);
 
             my $ret;
             eval { $ret = $actionProcessor->process($actionName, $params); };
-            $ret->{log} = $@ if $@;
+            push @{$ret->{log}}, $@ if $@;
             if ( !$ret->{status} ) {
                 $self->{client}->send(
                     "url" => $remoteUrl,
