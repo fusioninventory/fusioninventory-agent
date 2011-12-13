@@ -102,6 +102,11 @@ my @dispatch_table = (
         function => 'getDescription'
     },
     {
+        match   => qr/Samsung(.*);S\/N(.*)/,
+        module  => __PACKAGE__ . '::Manufacturer::Samsung',
+        function => 'getDescription'
+    },
+    {
         match    => qr/Linux/,
         module   => __PACKAGE__ . '::Manufacturer::Wyse',
         function => 'getDescription'
