@@ -78,8 +78,7 @@ foreach my $hostId (@$hostIds) {
 
    # $inventory->writeXML();
 
-
-    my $file =  $args->{directory} . '/' . $inventory->{deviceid} . ".ocs";
+    my $file =  $args->{directory} . '/' . $esx->createFakeDeviceid($esx->{vpbs}->getHostFullInfo($hostId)) . ".ocs";
 
     if (open my $handle, '>', $file) {
         my $tpp = XML::TreePP->new(indent => 2);
