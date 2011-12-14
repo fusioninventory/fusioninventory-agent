@@ -1,5 +1,21 @@
 Revision history for FusionInventory::Agent
 
+2.1.12  Wed, 14 Dec 2011 13:06:44 +0100
+
+TEST-SUITE
+ ✔ 2.1.10 Test suite fails
+       commit:8035bd
+     http://forge.fusioninventory.org/issues/1161
+   thanks: Remi Collet
+
+WINDOWS
+ ✔ VM System incorrect
+       commit:b59a09
+     http://forge.fusioninventory.org/issues/1391
+   thanks: Mario Gzuk
+ ✔ Fix the CPU detection on Windows 
+   thanks: Anthony Facchin
+
 2.1.12  Wed, 23 Nov 2011 18:14:52 +0100
 
 GENERIC
