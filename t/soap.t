@@ -12,7 +12,7 @@ use Data::Dumper;
 
 my %test = (
     'esx-4.1.0-1' => {
-        'connect()' => [
+        'connect' => [
           {
             'lastActiveTime' => '1970-01-25T03:53:04.326969+01:00',
             'loginTime' => '1970-01-25T03:53:04.326969+01:00',
@@ -23,7 +23,7 @@ my %test = (
             'key' => '52eec005-5d13-dfae-afd8-7e1b4561a154'
           }
         ],
-        'getHostname()' => 'esx-test.teclib.local',
+        'getHostname' => 'esx-test.teclib.local',
         'getBiosInfo()' => {
           'SMANUFACTURER' => 'Sun Microsystems',
           'SMODEL' => 'Sun Fire X2200 M2 with Dual Core Processor',
@@ -31,7 +31,7 @@ my %test = (
           'ASSETTAG' => ' To Be Filled By O.E.M.',
           'BVERSION' => 'S39_3B27'
         },
-        'getHardwareInfo()' => {
+        'getHardwareInfo' => {
           'OSCOMMENTS' => 'VMware ESX 4.1.0 build-260247',
           'NAME' => 'esx-test',
           'OSVERSION' => '4.1.0',
@@ -41,7 +41,7 @@ my %test = (
           'UUID' => 'b5bfd78a-fa79-0010-adfe-001b24f07258',
           'DNS' => '10.0.5.105'
         },
-        'getCPUs()' => [
+        'getCPUs' => [
           {
             'NAME' => 'Dual-Core AMD Opteron(tm) Processor 2218',
             'MANUFACTURER' => 'AMD',
@@ -57,7 +57,7 @@ my %test = (
             'CORE' => 2
           }
         ],
-        'getControllers()' => [
+        'getControllers' => [
           {
             'PCISUBSYSTEMID' => '108e:534b',
             'PCICLASS' => '500',
@@ -275,7 +275,7 @@ my %test = (
             'PCISLOT' => '06:04.1'
           }
         ],
-        'getNetworks()' => [
+        'getNetworks' => [
           {
             'IPMASK' => undef,
             'STATUS' => 'Down',
@@ -369,7 +369,7 @@ my %test = (
           }
 
         ],
-        'getDrives()' => [
+        'getDrives' => [
           {
             'VOLUMN' => undef,
             'NAME' => 'datastore1',
@@ -387,7 +387,7 @@ my %test = (
             'FILESYSTEM' => 'nfs'
           }
         ],
-       'getVirtualMachines()' => [
+       'getVirtualMachines' => [
           {
             'NAME' => 'ubuntu',
             'STATUS' => 'running',
@@ -451,7 +451,7 @@ foreach my $dir (glob('resources/*')) {
     lives_ok{$ret = $vpbs->getHostFullInfo()} $testName.' getHostFullInfo()';
 
     foreach my $func (qw(getHostname getBiosInfo getHardwareInfo getCPUs getControllers getNetworks getStorages getDrives getVirtualMachines)) {
-        is_deeply($ret->$func, $test{$testName}{"$func()"}, "$func()") or print "####\n". Dumper($ret->$func)."####\n";
+        is_deeply($ret->$func, $test{$testName}{$func}, "$testName $func()") or print "####GOT: \n". Dumper($ret->$func)."####\n####EXPECT: \n". Dumper($test{$testName}{$func})."\n";
 
     }
 
