@@ -130,6 +130,10 @@ sub doInventory {
 
     if ($bversion eq 'VirtualBox' || $mmodel eq 'VirtualBox') {
         $vmsystem = 'VirtualBox';
+    } elsif ($smodel =~  /VMware/i) {
+        $vmsystem = 'VMware';
+    } elsif ($biosSerial =~  /VMware/i) {
+        $vmsystem = 'VMware';
     }
 
     if ($vmsystem) {
