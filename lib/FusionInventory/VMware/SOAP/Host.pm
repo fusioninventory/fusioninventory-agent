@@ -168,57 +168,24 @@ sub getNetworks {
     my ($self) = @_;
 
     my $ret = [];
-    foreach ( eval { @{ getArray( $self->{hash}[0]{config}{network}{pnic} ) } }
-      )
-    {
-        push @$ret, {
-            DESCRIPTION => $_->{device},
-            DRIVER      => $_->{driver},
-            IPADDRESS   => $_->{ip}{ipAddress},
+    foreach my $nicType (qw/vnic pnic consoleVnic/)  {
 
-            #            IPGATEWAY => '',
-            IPMASK => $_->{ip}{subnetMask},
-
-            #            IPSUBNET => '',
-            MACADDR => $_->{mac},
-
-            #            MTU => '',
-            PCISLOT => $_->{pci},
-            STATUS  => $_->{ip}{ipAddress} ? 'Up' : 'Down',
-
-            #            TYPE => '',
-            #            VIRTUALDEV => '',
-            #            SLAVES => '',
-            #            MANAGEMENT => '',
-            SPEED => eval { $_->{spec}{linkSpeed}{speedMb} || '' },
-        };
-    }
-
-    foreach ( eval { @{ getArray( $self->{hash}[0]{config}{network}{vnic} ) } }
-      )
-    {
-        push @$ret, {
-            DESCRIPTION => $_->{device},
-            DRIVER      => $_->{driver},
-            IPADDRESS   => eval { $_->{ip}{ipAddress} },
-
-            #            IPGATEWAY => '',
-            IPMASK => $_->{ip}{subnetMask},
-
-            #            IPSUBNET => '',
-            MACADDR => $_->{mac},
-
-            #            MTU => '',
-            PCISLOT => $_->{pci},
-            STATUS  => $_->{ip}{ipAddress} ? 'Up' : 'Down',
-
-            #            TYPE => '',
-            VIRTUALDEV => '1',
-
-            #            SLAVES => '',
-            #            MANAGEMENT => '',
-            SPEED => eval { $_->{spec}{linkSpeed}{speedMb} || '' },
-        };
+        foreach ( eval { @{ getArray( $self->{hash}[0]{config}{network}{$nicType} ) } }
+                )
+        {
+            push @$ret, {
+                DESCRIPTION => $_->{device},
+                            DRIVER      => $_->{driver},
+                            IPADDRESS   => eval { $_->{spec}{ip}{ipAddress} },
+                            IPMASK      => eval {$_->{spec}{ip}{subnetMask} },
+                            MACADDR     => eval { $_->{spec}{mac} },
+                            MTU         => eval { $_->{spec}{mtu} },
+                            PCISLOT => $_->{pci},
+                            STATUS  => $_->{ip}{ipAddress} ? 'Up' : 'Down',
+                            VIRTUALDEV => $nicType eq 'vnic'?1:0,
+                            SPEED => eval { $_->{spec}{linkSpeed}{speedMb} || '' },
+            };
+        }
     }
 
     my @vnic;
