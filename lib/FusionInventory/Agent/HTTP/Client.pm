@@ -22,23 +22,23 @@ sub new {
         if $params{ca_cert_dir} && ! -d $params{ca_cert_dir};
 
     my $self = {
-        logger         => $params{logger} ||
+        logger       => $params{logger} ||
                           FusionInventory::Agent::Logger->new(),
-        user           => $params{user},
-        password       => $params{password},
-        timeout        => $params{timeout} || 180,
-        ssl_set        => 0,
-        no_ssl_check   => $params{no_ssl_check},
-        ca_cert_dir    => $params{ca_cert_dir},
-        ca_cert_file   => $params{ca_cert_file}
+        user         => $params{user},
+        password     => $params{password},
+        timeout      => $params{timeout} || 180,
+        ssl_set      => 0,
+        no_ssl_check => $params{no_ssl_check},
+        ca_cert_dir  => $params{ca_cert_dir},
+        ca_cert_file => $params{ca_cert_file}
     };
     bless $self, $class;
 
     # create user agent
     $self->{ua} = LWP::UserAgent->new(
-            parse_head => 0, # No need to parse HTML
-            keep_alive => 1,
-            requests_redirectable => ['POST', 'GET', 'HEAD']
+        parse_head => 0, # No need to parse HTML
+        keep_alive => 1,
+        requests_redirectable => ['POST', 'GET', 'HEAD']
     );
 
     if ($params{proxy}) {
@@ -139,8 +139,9 @@ sub _setSSLOptions {
         # certificate hostname
         IO::Socket::SSL->require();
         die
-            "failed to load IO::Socket::SSL" .
-            ", unable to perform SSL certificate validation"
+            "failed to load IO::Socket::SSL, "                 .
+            "unable to perform SSL certificate validation.\n"  .
+            "You can use 'no-ssl-check' option to disable it."
             if $EVAL_ERROR;
 
         if ($LWP::VERSION >= 6) {
@@ -148,13 +149,14 @@ sub _setSSLOptions {
                 if $self->{'ca_cert_file'};
             $self->{ua}->ssl_opts(SSL_ca_path => $self->{'ca_cert_dir'})
                 if $self->{'ca_cert_dir'};
-        } elsif ($IO::Socket::SSL::VERSION < 1.14) {
-            # SSL_verifycn_scheme and SSL_verifycn_name are required
-            die "IO::Socket::SSL $IO::Socket::SSL::VERSION is too old. Version 1.14 is ".
-                "required to do SSL cert validation.\n".
-                " You can use 'no-ssl-check' option ".
-                " if you want to disable the SSL cert check";
         } else {
+            # SSL_verifycn_scheme and SSL_verifycn_name are required
+            die 
+                "IO::Socket::SSL $IO::Socket::SSL::VERSION is too old, "     .
+                "version 1.14 is required for SSL certificate validation.\n" .
+                " You can use 'no-ssl-check' option to disable SSL it."
+                if $IO::Socket::SSL::VERSION < 1.14;
+
             # use a custom HTTPS handler to workaround default LWP5 behaviour
             FusionInventory::Agent::HTTP::Protocol::https->use(
                 ca_cert_file => $self->{'ca_cert_file'},
@@ -162,9 +164,8 @@ sub _setSSLOptions {
             );
             die 
                 "failed to load FusionInventory::Agent::HTTP::Protocol::https" .
-                ", unable to perform SSL certificate validation.\n".
-                " You can use 'no-ssl-check' option ".
-                " if you want to disable the SSL cert check"
+                ", unable to perform SSL certificate validation.\n"            .
+                "You can use 'no-ssl-check' option to disable it."
                 if $EVAL_ERROR;
 
             LWP::Protocol::implementor(
