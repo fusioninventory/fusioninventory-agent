@@ -35,23 +35,18 @@ sub _getStorages {
         if (/^(\S+)\s+Soft/) {
             $storage->{NAME} = $1;
         }
-        if (/Product:\s*(.+)/) {
-            my $model = $1;
-            # empty product, we got Revision instead, dropping it
-            $model =~ s/Revision:.*//;
-            $storage->{MODEL} = $model;
-        }
-        if (/Serial No:\s*(\S+)/) {
-            my $serial = $1;
-            $storage->{SERIALNUMBER} = $serial if $serial !~ /^Size/i;
-        }
-        if (/Revision:\s*(\S+)/) {
-            $storage->{FIRMWARE} = $1 unless $1 eq 'Serial';
-        }
-        if (/^Vendor:\s*(\S+)/) {
+        if (/^
+            Vendor:       \s (\S+)          \s+
+            Product:      \s (\S[\w\s-]*\S) \s+
+            Revision:     \s (\S+)          \s+
+            Serial \s No: \s (\S*)
+        /x) {
             $storage->{MANUFACTURER} = $1;
+            $storage->{MODEL} = $2;
+            $storage->{FIRMWARE} = $3;
+            $storage->{SERIALNUMBER} = $4 if $4;
         }
-        if (/<(\d+)\s*bytes/) {
+        if (/<(\d+) bytes/) {
             $storage->{DISKSIZE} = int($1/(1000*1000));
         }
         if(/^Illegal/) { # Last ligne
