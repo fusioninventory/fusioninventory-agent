@@ -81,8 +81,11 @@ sub _getStorages {
 
             if ($storage->{MANUFACTURER}) {
                 ## Workaround for MANUFACTURER == ATA case
-                if (($storage->{MANUFACTURER} eq 'ATA') && $storage->{MODEL} =~ s/^(Hitachi|Seagate|INTEL)\s(\S.*)/$2/i) {
+                if (
+                    $storage->{MANUFACTURER} eq 'ATA' &&
+                    $storage->{MODEL} =~ /^(Hitachi|Seagate|INTEL) (.+)/i) {
                         $storage->{MANUFACTURER} = $1;
+                        $storage->{MODEL} = $2;
                 }
 
                 ## Drop the (R) from the manufacturer string
