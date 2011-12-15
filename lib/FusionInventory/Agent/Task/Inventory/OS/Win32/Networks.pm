@@ -109,6 +109,9 @@ sub doInventory {
         $netifs[$idx]{macaddr} = $nic->MACAddress;
         $netifs[$idx]{speed} = $nic->Speed;
         $netifs[$idx]{pnpdeviceid} = $nic->PNPDeviceID;
+        $netifs[$idx]{type} = $nic->AdapterType;
+
+        $netifs[$idx]{type} =~ s/Ethernet.*/Ethernet/ if $netifs[$idx]{type};
     }
 
     foreach my $netif (@netifs) {
