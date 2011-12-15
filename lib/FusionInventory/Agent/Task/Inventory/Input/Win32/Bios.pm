@@ -82,6 +82,8 @@ sub doInventory {
 
     }
 
+    $bios->{$_} =~ s/\s+$// foreach (keys %bios);
+
     $inventory->setBios($bios);
 
     if (
@@ -92,7 +94,16 @@ sub doInventory {
         $inventory->setHardware ({
             VMSYSTEM => 'VirtualBox'
         });
+    } elsif (
+        ($bios->{BIOSSERIAL} && ($bios->{BIOSSERIAL} =~ /VMware/i))
+         ||
+        ($bios->{SMODEL} && ($bios->{SMODEL} eq 'VirtualBox'))
+       ) {
+        $inventory->setHardware ({
+            VMSYSTEM => 'VMware'
+        });
     }
+
 }
 
 1;

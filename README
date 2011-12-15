@@ -36,6 +36,26 @@ immediatly if IO::Socket::SSL is not available, unless certificate checking has
 been explicitely disabled (--no-ssl-check command line parameter, or
 no-ssl-check configuration parameter).
 
+The SSL protocol version supported by the agent is dependant of openssl
+version. In particular, usage of specific certificate signature algorithms such
+as SHA requires at least openssl 0.9.8o, as it is supposed to be allowed
+starting from TLS 1.1 only. Failure to comply will result in error message such
+as:
+warning: TLS library problem: 14710:error:0D0C50A1:asn1 encoding
+routines:ASN1_item_verify:unknown message digest algorithm:a_verify.c:146:
+
+This can be controlled in the certificate itself:
+[guillaume@beria ~]$ openssl x509 -noout -text -in cert.pem | grep Signature
+Signature Algorithm: sha256WithRSAEncryption
+Signature Algorithm: sha256WithRSAEncryption
+
+The available workaround:
+- ensure server certificate complies with clients capacities, using controlled
+  certificate generation parameters
+- ensure clients capacities matches server certificate properties, upgrading
+  openssl and its perl bindings (Net::SSLeay)
+- disable server certificate checking on client
+
 System-specific informations
 ----------------------------
 
