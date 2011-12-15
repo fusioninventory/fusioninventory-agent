@@ -58,15 +58,13 @@ sub getNextTarget {
         # block until a target is eligible to run, then return it
         while (1) {
             foreach my $target (@{$self->{targets}}) {
-                my $tasksExecPlan = $target->getTaskExecPlan();
-                foreach my $a (@$tasksExecPlan) {
-                   if (time > $a->{when}) {
-                       return ($target, $a);
+                foreach my $tasksExecPlan (@{$target->{tasksExecPlan}}) {
+                   if (time > $tasksExecPlan->{when}) {
+                       return ($target, $tasksExecPlan);
                    }
                 }
             }
-            print "sleep 10\n";
-            sleep(10);
+            sleep(5);
         }
     }
 
@@ -74,8 +72,6 @@ sub getNextTarget {
         next unless @{$target->{tasksExecPlan}};
         # Gonéri: I'm not fan of $tasksExecPlan name
         my $tasksExecPlan = shift @{$target->{tasksExecPlan}};
-        use Data::Dumper;
-        print Dumper($tasksExecPlan);
 
         if ($self->{lazy}) {
 # return next target if eligible, nothing otherwise
