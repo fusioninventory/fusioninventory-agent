@@ -31,11 +31,11 @@ sub _getStorages {
     my @storages;
     my $storage;
 
-    while (<$handle>) {
-        if (/^(\S+)\s+Soft/) {
+    while (my $line = <$handle>) {
+        if ($line =~ /^(\S+)\s+Soft/) {
             $storage->{NAME} = $1;
         }
-        if (/^
+        if ($line =~ /^
             Vendor:       \s (\S+)          \s+
             Product:      \s (\S[\w\s-]*\S) \s+
             Revision:     \s (\S+)          \s+
@@ -46,10 +46,10 @@ sub _getStorages {
             $storage->{FIRMWARE} = $3;
             $storage->{SERIALNUMBER} = $4 if $4;
         }
-        if (/<(\d+) bytes/) {
+        if ($line =~ /<(\d+) bytes/) {
             $storage->{DISKSIZE} = int($1/(1000*1000));
         }
-        if(/^Illegal/) { # Last ligne
+        if ($line =~ /^Illegal/) { # Last ligne
 
             ## To be removed when SERIALNUMBER will be supported
             if ($storage->{SERIALNUMBER}) {
