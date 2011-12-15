@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
+use JSON;
 use Config;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
@@ -12,7 +13,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::Inventory::Inventory;
 use FusionInventory::Agent::XML::Query::Inventory;
 
-our $VERSION = '1.0';
+our $VERSION = '2.0';
 
 sub isEnabled {
     my ($self, $response) = @_;
@@ -21,18 +22,18 @@ sub isEnabled {
     return 1 unless
         $self->{target}->isa('FusionInventory::Agent::Target::Server');
 
-    if ($self->{config}->{force}) {
-        $self->{logger}->debug("Prolog response ignored");
-        return 1;
-    }
-
-    my $content = $response->getContent();
-    if (!$content || !$content->{RESPONSE} || $content->{RESPONSE} ne 'SEND') {
-        $self->{logger}->debug("No inventory requested in the prolog response");
-        return;
-    }
-
-    $self->{registry} = $response->getOptionsInfoByName('REGISTRY');
+#    if ($self->{config}->{force}) {
+#        $self->{logger}->debug("Prolog response ignored");
+#        return 1;
+#    }
+#
+#    my $content = $response->getContent();
+#    if (!$content || !$content->{RESPONSE} || $content->{RESPONSE} ne 'SEND') {
+#        $self->{logger}->debug("No inventory requested in the prolog response");
+#        return;
+#    }
+#
+#    $self->{registry} = $response->getOptionsInfoByName('REGISTRY');
     return 1;
 }
 
@@ -45,7 +46,7 @@ sub run {
 
     my $inventory = FusionInventory::Agent::Task::Inventory::Inventory->new(
         deviceid => $self->{deviceid},
-        statedir => $self->{target}->getStorage()->getDirectory(),
+#        statedir => $self->{target}->getStorage()->getDirectory(),
         logger   => $self->{logger},
         tag      => $self->{config}->{'tag'}
     );
@@ -91,7 +92,7 @@ sub run {
             $self->{logger}->error("Can't write to $file: $ERRNO");
         }
     } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
-        my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+        my $client = FusionInventory::Agent::HTTP::Client::Fusion->new(
             logger       => $self->{logger},
             user         => $params{user},
             password     => $params{password},
@@ -101,15 +102,21 @@ sub run {
             no_ssl_check => $params{no_ssl_check},
         );
 
-        my $message = FusionInventory::Agent::XML::Query::Inventory->new(
-            deviceid => $self->{deviceid},
-            content  => $inventory->getContent()
-        );
+#        my $message = FusionInventory::Agent::XML::Query::Inventory->new(
+#            deviceid => $self->{deviceid},
+#            content  => $inventory->getContent()
+#        );
 
         my $response = $client->send(
-            url     => $self->{target}->getUrl(),
-            message => $message
+            url     => $params{remote},
+            args => {
+                action => "setInventory",
+                machineid => $self->{deviceid}
+             },
+            postData => encode_json($inventory->getContent()) 
         );
+        use Data::Dumper;
+        print Dumper($response);
 
         return unless $response;
         $inventory->saveLastState();

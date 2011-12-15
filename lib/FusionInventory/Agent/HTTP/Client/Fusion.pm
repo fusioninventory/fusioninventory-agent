@@ -61,7 +61,16 @@ sub send {
 
     $self->{logger}->debug2($finalUrl) if $self->{logger};
 
-    my $request = HTTP::Request->new(GET => $finalUrl);
+    print $finalUrl."\n";
+    my $request = HTTP::Request->new();
+
+    $request->uri($finalUrl);
+    if ($params{postData}) {
+        $request->content($params{postData});
+        $request->method('POST');
+    } else {
+        $request->method('GET');
+    }
 
     my $response = $self->request($request);
 

@@ -9,7 +9,7 @@ use UNIVERSAL::require;
 use File::Glob;
 
 use FusionInventory::Agent::Config;
-use FusionInventory::Agent::HTTP::Client::OCS;
+use FusionInventory::Agent::HTTP::Client::Fusion;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Scheduler;
 use FusionInventory::Agent::Storage;
@@ -80,10 +80,29 @@ sub init {
 
     $self->_saveState();
 
+    my $client = FusionInventory::Agent::HTTP::Client::Fusion->new(
+          logger       => $self->{logger},
+          user         => $self->{config}->{user},
+          password     => $self->{config}->{password},
+          proxy        => $self->{config}->{proxy},
+          ca_cert_file => $self->{config}->{'ca-cert-file'},
+          ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
+          no_ssl_check => $self->{config}->{'no-ssl-check'},
+    );
+    $self->{client} = $client;
+
+    # compute list of allowed tasks
+    my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
+#    my @tasks = keys %available; # TODO: remove from F::A
+
+#    $self->{tasks} = \@tasks; # TODO: remove from F::A
+
     $self->{scheduler} = FusionInventory::Agent::Scheduler->new(
+        client     => $client,
         logger     => $logger,
         lazy       => $config->{lazy},
         wait       => $config->{wait},
+        tasks      => \%available,
         background => $config->{daemon} || $config->{service}
     );
     my $scheduler = $self->{scheduler};
@@ -178,12 +197,6 @@ sub init {
         }
     }
 
-    # compute list of allowed tasks
-    my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
-    my @tasks = keys %available;
-
-    $self->{tasks} = \@tasks;
-
     $logger->debug("FusionInventory Agent initialised");
 }
 
@@ -193,78 +206,44 @@ sub run {
     $self->{status} = 'waiting';
 
     # endless loop in server mode
-    while (my $target = $self->{scheduler}->getNextTarget()) {
+    while (my ($target, $tasksExecPlan) = $self->{scheduler}->getNextTarget()) {
+        last unless $tasksExecPlan;
         eval {
-            $self->_runTarget($target);
+            $self->_runTarget($target, $tasksExecPlan);
         };
         $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
-        $target->resetNextRunDate();
+        # $target->resetNextRunDate(); TODO
     }
 }
 
 sub _runTarget {
-    my ($self, $target) = @_;
+    my ($self, $target, $tasksExecPlan) = @_;
 
     # the prolog dialog must be done once for all tasks,
     # but only for server targets
     my $response;
-    if ($target->isa('FusionInventory::Agent::Target::Server')) {
-        my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
-            logger       => $self->{logger},
-            user         => $self->{config}->{user},
-            password     => $self->{config}->{password},
-            proxy        => $self->{config}->{proxy},
-            ca_cert_file => $self->{config}->{'ca-cert-file'},
-            ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
-            no_ssl_check => $self->{config}->{'no-ssl-check'},
-        );
 
-        my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
-            token    => $self->{token},
-            deviceid => $self->{deviceid},
-        );
-
-        $response = $client->send(
-            url     => $target->getUrl(),
-            message => $prolog
-        );
-        die "No answer from the server" unless $response;
-
-        # update target
-        my $content = $response->getContent();
-        if (defined($content->{PROLOG_FREQ})) {
-            $target->setMaxDelay($content->{PROLOG_FREQ} * 3600);
-        }
-    }
-
-    foreach my $name (@{$self->{tasks}}) {
-        eval {
-            $self->_runTask($target, $name, $response);
-        };
-        $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
-        $self->{status} = 'waiting';
-    }
+    eval {
+       $self->_runTask($target, $tasksExecPlan);
+    };
+    $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
+    $self->{status} = 'waiting';
 }
 
 sub _runTask {
-    my ($self, $target, $name, $response) = @_;
+    my ($self, $target, $tasksExecPlan) = @_;
 
-    my $class = "FusionInventory::Agent::Task::$name";
+    my $class = "FusionInventory::Agent::Task::".$tasksExecPlan->{task};
     my $task = $class->new(
         config       => $self->{config},
         confdir      => $self->{confdir},
         datadir      => $self->{datadir},
         logger       => $self->{logger},
         target       => $target,
-        deviceid     => $self->{deviceid},
+        deviceid     => $self->{deviceid}
     );
 
-    if (!$task->isEnabled($response)) {
-        $self->{logger}->info("task $name is not enabled");
-        return;
-    }
-
-    $self->{status} = "running task $name";
+    $self->{status} = "running task ".$tasksExecPlan->{task};
 
     if ($self->{config}->{daemon} || $self->{config}->{service}) {
         # daemon mode: run each task in a child process
@@ -275,7 +254,7 @@ sub _runTask {
             # child
             die "fork failed: $ERRNO" unless defined $pid;
 
-            $self->{logger}->debug("running task $name in process $PID");
+            $self->{logger}->debug("running task ".$tasksExecPlan->{task}." in process $PID");
             $task->run(
                 user         => $self->{config}->{user},
                 password     => $self->{config}->{password},
@@ -283,12 +262,13 @@ sub _runTask {
                 ca_cert_file => $self->{config}->{'ca-cert-file'},
                 ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
                 no_ssl_check => $self->{config}->{'no-ssl-check'},
+                remote       => $tasksExecPlan->{remote}
             );
             exit(0);
         }
     } else {
         # standalone mode: run each task directly
-        $self->{logger}->debug("running task $name");
+        $self->{logger}->debug("running task ".$tasksExecPlan->{task});
         $task->run(
             user         => $self->{config}->{user},
             password     => $self->{config}->{password},
@@ -296,6 +276,7 @@ sub _runTask {
             ca_cert_file => $self->{config}->{'ca-cert-file'},
             ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
             no_ssl_check => $self->{config}->{'no-ssl-check'},
+            remote       => $tasksExecPlan->{remote}
         );
     }
 }

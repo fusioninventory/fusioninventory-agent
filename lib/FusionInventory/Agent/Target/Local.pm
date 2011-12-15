@@ -37,6 +37,16 @@ sub getDescription {
     return "local, $self->{path}";
 }
 
+sub prepareTasksExecPlan {
+    my ($self) = @_;
+
+
+    $self->{tasksExecPlan} = [
+        { Inventory => $self->_computeNextRunDate() }
+    ]
+
+}
+
 1;
 
 __END__

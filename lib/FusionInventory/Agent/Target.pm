@@ -18,6 +18,10 @@ sub new {
                         FusionInventory::Agent::Logger->new(),
         maxDelay     => $params{maxDelay} || 3600,
         initialDelay => $params{delaytime},
+        client       => $params{client},
+        deviceid     => $params{deviceid},
+        configValidityNextCheck => 0,
+        tasksExecPlan      => []
     };
     bless $self, $class;
 
@@ -40,15 +44,15 @@ sub _init {
     # handle persistent state
     $self->_loadState();
 
-    $self->{nextRunDate} = $self->_computeNextRunDate()
-        if !$self->{nextRunDate};
+#    $self->{nextRunDate} = $self->_computeNextRunDate()
+#        if !$self->{nextRunDate};
 
     $self->_saveState();
 
-    $logger->debug(
-        "[target $self->{id}] Next server contact planned for " .
-        localtime($self->{nextRunDate})
-    );
+#    $logger->debug(
+#        "[target $self->{id}] Next server contact planned for " .
+#        localtime($self->{nextRunDate})
+#    );
 
 }
 
@@ -56,11 +60,11 @@ sub setShared {
     my ($self) = @_;
 
     # make sure relevant attributes are shared between threads
-    threads::shared->require();
+#    threads::shared->require();
     # calling share(\$self->{status}) directly breaks in testing
     # context, hence the need to use an intermediate variable
-    my $nextRunDate = \$self->{nextRunDate};
-    threads::shared::share($nextRunDate);
+#    my $nextRunDate = \$self->{nextRunDate};
+#    threads::shared::share($nextRunDate);
 
     $self->{shared} = 1;
 }
@@ -71,26 +75,18 @@ sub getStorage {
     return $self->{storage};
 }
 
-sub setNextRunDate {
-    my ($self, $nextRunDate) = @_;
-
-    lock($self->{nextRunDate}) if $self->{shared};
-    $self->{nextRunDate} = $nextRunDate;
-    $self->_saveState();
-}
-
-sub resetNextRunDate {
+#sub resetNextRunDate {
+#    my ($self) = @_;
+#
+#    lock($self->{nextRunDate}) if $self->{shared};
+#    $self->{nextRunDate} = $self->_computeNextRunDate();
+#    $self->_saveState();
+#}
+#
+sub getTasksExecPlan {
     my ($self) = @_;
 
-    lock($self->{nextRunDate}) if $self->{shared};
-    $self->{nextRunDate} = $self->_computeNextRunDate();
-    $self->_saveState();
-}
-
-sub getNextRunDate {
-    my ($self) = @_;
-
-    return $self->{nextRunDate};
+    return $self->{tasksExecPlan};
 }
 
 sub getMaxDelay {
@@ -112,7 +108,7 @@ sub getStatus {
     return
         $self->getDescription() .
         ': '                    .
-         ($self->{nextRunDate} > 1 ? localtime($self->{nextRunDate}) : "now" );
+         "TODO";
 }
 
 # compute a run date, as current date and a random delay
@@ -140,7 +136,7 @@ sub _loadState {
     my $data = $self->{storage}->restore(name => 'target');
 
     $self->{maxDelay}    = $data->{maxDelay}    if $data->{maxDelay};
-    $self->{nextRunDate} = $data->{nextRunDate} if $data->{nextRunDate};
+    $self->{tasksExecPlan} = $data->{tasksExecPlan} if $data->{tasksExecPlan};
 }
 
 sub _saveState {
@@ -150,7 +146,7 @@ sub _saveState {
         name => 'target',
         data => {
             maxDelay    => $self->{maxDelay},
-            nextRunDate => $self->{nextRunDate},
+            tasksExecPlan => $self->{tasksExecPlan},
         }
     );
 }
@@ -197,10 +193,6 @@ Ensure the target can be shared among threads
 =head2 getNextRunDate()
 
 Get nextRunDate attribute.
-
-=head2 setNextRunDate($nextRunDate)
-
-Set next execution date.
 
 =head2 resetNextRunDate()
 

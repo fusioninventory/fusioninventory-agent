@@ -27,7 +27,15 @@ sub getDescription {
     return "stdout";
 }
 
-1;
+sub prepareTasksExecPlan {
+    my ($self) = @_;
+
+
+    $self->{tasksExecPlan} = [
+        { Inventory => $self->_computeNextRunDate() }
+    ]
+
+}
 
 1;
 

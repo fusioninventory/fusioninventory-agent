@@ -7,12 +7,14 @@ use base 'FusionInventory::Agent::Target';
 use English qw(-no_match_vars);
 use URI;
 
+use Data::Dumper;
+
 my $count = 0;
 
 sub new {
     my ($class, %params) = @_;
 
-    die "no url parameter" unless $params{url};
+#    die "no url parameter" unless $params{url};
 
     my $self = $class->SUPER::new(%params);
 
@@ -48,12 +50,17 @@ sub _getCanonicalURL {
     } else {
         die "invalid protocol for URL: $string"
             if $scheme ne 'http' && $scheme ne 'https';
-        # complete path if needed
-        $url->path('ocsinventory') if !$url->path();
     }
 
     return $url;
 }
+
+sub setUrl {
+    my ($self, $url) = @_;
+
+    $self->{url} = $url;
+}
+
 
 sub getUrl {
     my ($self) = @_;
@@ -64,8 +71,56 @@ sub getUrl {
 sub getDescription {
     my ($self) = @_;
 
-    return "server, $self->{url}";
+    return "server, TODO";
 }
+
+sub prepareTasksExecPlan {
+    my ($self, %params, $init) = @_;
+
+    my $r = $params{client}->send(
+        url => $self->getUrl,
+        args => {
+            action => 'getConfig',
+            machineid => $self->{deviceid},
+            task => $params{tasks}
+        }
+    );
+
+    return unless @{$r->{schedule}};
+    return unless int($r->{configValidityPeriod});
+    
+
+    foreach (@{$r->{schedule}}) {
+    print Dumper($_);
+        next unless int($_->{periodicity});
+        next unless $_->{task} =~ /^\S+$/;
+        next unless $_->{remote} =~ /^\S+$/;
+
+        my $when = time + $_->{periodicity};
+
+        # The first time we are the delayStartup
+        if (!$self->{configValidityNextCheck} && $_->{delayStartup}) {
+            $when += $_->{delayStartup};
+        }
+
+        push @{$self->{tasksExecPlan}}, {
+            when => $when,
+            task => $_->{task},
+            remote => $_->{remote}
+        };
+    }
+
+    $self->{configValidityNextCheck} = time + $r->{configValidityPeriod};
+
+ #   foreach ()
+  #  use Data::Dumper;
+
+#    $self->{tasksExecPlan} = [
+#        { Inventory => $self->_computeNextRunDate() }
+ #   ]
+
+}
+
 
 1;
 

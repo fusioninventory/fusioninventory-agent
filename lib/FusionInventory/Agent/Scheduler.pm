@@ -9,11 +9,13 @@ sub new {
     my ($class, %params) = @_;
 
     my $self = {
+        client     => $params{client},
         logger     => $params{logger} ||
                       FusionInventory::Agent::Logger->new(),
         lazy       => $params{lazy},
         wait       => $params{wait},
         background => $params{background},
+        tasks       => $params{tasks},
         targets    => []
     };
     bless $self, $class;
@@ -24,7 +26,17 @@ sub new {
 sub addTarget {
     my ($self, $target) = @_;
 
+#    $target->prepareTasksExecPlan(client => $self->{client}, tasks => $self->{tasks});
+
+#    print Dumper($target->{tasksExecPlan});
+
     push @{$self->{targets}}, $target;
+}
+
+sub getTargets {
+    my ($self) = @_;
+
+    return @{$self->{targets}}
 }
 
 sub getNextTarget {
@@ -34,54 +46,72 @@ sub getNextTarget {
 
     return unless @{$self->{targets}};
 
+# Read settings from server
+    foreach my $target (@{$self->{targets}}) {
+        if ($target->{configValidityNextCheck} < time) {
+            $target->prepareTasksExecPlan(client => $self->{client}, tasks => $self->{tasks});
+        }
+    }
+
+
     if ($self->{background}) {
         # block until a target is eligible to run, then return it
         while (1) {
             foreach my $target (@{$self->{targets}}) {
-                if (time > $target->getNextRunDate()) {
-                    return $target;
+                my $tasksExecPlan = $target->getTaskExecPlan();
+                foreach my $a (@$tasksExecPlan) {
+                   if (time > $a->{when}) {
+                       return ($target, $a);
+                   }
                 }
             }
+            print "sleep 10\n";
             sleep(10);
         }
     }
 
-    my $target = shift @{$self->{targets}};
+    foreach my $target (@{$self->{targets}}) {
+        next unless @{$target->{tasksExecPlan}};
+        # Gonéri: I'm not fan of $tasksExecPlan name
+        my $tasksExecPlan = shift @{$target->{tasksExecPlan}};
+        use Data::Dumper;
+        print Dumper($tasksExecPlan);
 
-    if ($self->{lazy}) {
-        # return next target if eligible, nothing otherwise
-        if (time > $target->getNextRunDate()) {
-            $logger->debug("[scheduler] $target->{id} is ready");
-            return $target;
-        } else {
+        if ($self->{lazy}) {
+# return next target if eligible, nothing otherwise
+            if (time > $tasksExecPlan->{when}) {
+                $logger->debug("[scheduler] ".
+                        $target->{id}.
+                        "/".
+                        $tasksExecPlan->{task}.
+                        " is ready");
+                return ($target, $tasksExecPlan);
+            } else {
+                $logger->info(
+                        "$target->{id} is not ready yet, next server " .
+                        "contact planned for " . localtime($target->getNextRunDate())
+                        );
+                push @{$target->{tasksExecPlan}}, $tasksExecPlan;
+                return;
+            }
+        } elsif ($self->{wait}) {
+# return next target after waiting for a random delay
+            my $time = int rand($self->{wait});
             $logger->info(
-                "$target->{id} is not ready yet, next server " .
-                "contact planned for " . localtime($target->getNextRunDate())
-            );
-            return;
+                    "[scheduler] sleeping for $time second(s) because of the wait " .
+                    "parameter"
+                    );
+            print "let's sleep $time\n";
+            sleep $time;
+            return ($target, $tasksExecPlan);
+        } else {
+# return next target immediatly
+            return ($target, $tasksExecPlan);
         }
     }
 
-    if ($self->{wait}) {
-        # return next target after waiting for a random delay
-        my $time = int rand($self->{wait});
-        $logger->info(
-            "[scheduler] sleeping for $time second(s) because of the wait " .
-            "parameter"
-        );
-        sleep $time;
-        return $target;
-    }
-
-    # return next target immediatly
-    return $target;
 }
 
-sub getTargets {
-    my ($self) = @_;
-
-    return @{$self->{targets}}
-}
 
 1;
 __END__
@@ -121,6 +151,15 @@ I<background> flag is not set.
 
 a flag to set if the agent is running as a resident program, aka a daemon in
 Unix world, and a service in Windows world (default: false)
+
+=item I<tasks>
+
+a hash reference on a key/val list of avalaible tasks.
+
+=item I<client>
+
+A I<FusionInventory::Agent::HTTP::Client::Fusion> instance.
+
 
 =back
 
