@@ -102,6 +102,12 @@ sub doInventory {
         } else {
 	    $interface->{VIRTUALDEV} = $nic->PNPDeviceID =~ /^ROOT/ ? 1 : 0;
         }
+
+        if (defined $nic->AdapterType) {
+            $interface->{TYPE} = $nic->AdapterType;
+            $interface->{TYPE} =~ s/Ethernet.*/Ethernet/;
+        }
+
     }
 
     foreach my $interface (@interfaces) {

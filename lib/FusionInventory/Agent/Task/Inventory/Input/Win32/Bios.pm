@@ -92,7 +92,16 @@ sub doInventory {
         $inventory->setHardware ({
             VMSYSTEM => 'VirtualBox'
         });
+    } elsif (
+        ($bios->{BIOSSERIAL} && ($bios->{BIOSSERIAL} =~ /VMware/i))
+         ||
+        ($bios->{SMODEL} && ($bios->{SMODEL} eq 'VirtualBox'))
+       ) {
+        $inventory->setHardware ({
+            VMSYSTEM => 'VMware'
+        });
     }
+
 }
 
 1;
