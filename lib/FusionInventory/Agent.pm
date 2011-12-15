@@ -127,7 +127,6 @@ sub init {
                 delaytime  => $config->{delaytime},
                 basevardir => $self->{vardir},
                 path       => $config->{local},
-                html       => $config->{html},
             )
         );
     }
@@ -263,7 +262,7 @@ sub _runTask {
                 ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
                 no_ssl_check => $self->{config}->{'no-ssl-check'},
                 remote       => $tasksExecPlan->{remote}
-            );
+                );
             exit(0);
         }
     } else {

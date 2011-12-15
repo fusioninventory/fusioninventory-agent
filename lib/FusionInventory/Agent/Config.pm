@@ -67,6 +67,9 @@ my $deprecated = {
         message => 'use --no-task ocsdeploy option instead',
         new     => { 'no-task' => 'ocsdeploy' }
     },
+    'html' => {
+        message => 'use --inventory-format=html',
+    }
 };
 
 sub new {

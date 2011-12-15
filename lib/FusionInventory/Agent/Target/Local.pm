@@ -15,8 +15,6 @@ sub new {
 
     $self->{path} = $params{path};
 
-    $self->{format} = $params{html} ? 'html' :'xml';
-
     $self->_init(
         id     => 'local' . $count++,
         vardir => $params{basevardir} . '/__LOCAL__',
@@ -41,9 +39,14 @@ sub prepareTasksExecPlan {
     my ($self) = @_;
 
 
-    $self->{tasksExecPlan} = [
-        { Inventory => $self->_computeNextRunDate() }
-    ]
+    $self->{tasksExecPlan} = [ {
+            task => 'Inventory',
+            when => $self->_computeNextRunDate(),
+        }
+    ];
+
+
+    $self->{configValidityNextCheck} = time + 600;
 
 }
 

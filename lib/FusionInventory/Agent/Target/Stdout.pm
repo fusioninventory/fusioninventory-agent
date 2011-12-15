@@ -30,10 +30,13 @@ sub getDescription {
 sub prepareTasksExecPlan {
     my ($self) = @_;
 
+    $self->{tasksExecPlan} = [ {
+            task => 'Inventory',
+            when => $self->_computeNextRunDate(),
+        }
+    ];
 
-    $self->{tasksExecPlan} = [
-        { Inventory => $self->_computeNextRunDate() }
-    ]
+    $self->{configValidityNextCheck} = time + 600;
 
 }
 

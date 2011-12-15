@@ -68,6 +68,7 @@ GetOptions(
     'no-socket',
     'realm',
     'info|i',
+    'local-inventory-format=s'
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0) if $options->{help};
@@ -201,7 +202,7 @@ B<fusioninventory-agent> [options] [--server server|--local directory|--sdout]
     % fusioninventory-agent --local /tmp
     # execute all available tasks and write the result in /tmp directory
 
-    % fusioninventory-agent --local /tmp --html
+    % fusioninventory-agent --local /tmp --local-inventory-format=html
     # execute all available tasks and write the result in /tmp directory in
     # HTML format
 
@@ -369,9 +370,9 @@ Do not list installed software in inventory.
 
 Allow the agent to scan home directories for virtual machines.
 
-=item B<--html>
+=item B<--local-inventory-format>=I<FORMAT>
 
-Save the inventory as HTML.
+Save the inventory as I<FORMAT>. Format can be html, xml and json.
 
 This is only used for local inventories.
 

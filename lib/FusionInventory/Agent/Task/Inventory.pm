@@ -68,23 +68,23 @@ sub run {
         $self->_printInventory(
             inventory => $inventory,
             handle    => \*STDOUT,
-            format    => 'xml'
+            format    => $self->{config}->{'local-inventory-format'}
         );
     } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
-        my $format = $self->{target}->{format};
+        my $format = $self->{config}->{'local-inventory-format'};
 
-        my $extension = $format eq 'xml' ? '.ocs' : '.html';
         my $file =
             $self->{config}->{local} .
             "/" .
             $self->{deviceid} .
-            $extension;
+            "." .
+            $format;
 
         if (open my $handle, '>', $file) {
             $self->_printInventory(
                 inventory => $inventory,
                 handle    => $handle,
-                format    => $format
+                format    => $self->{config}->{'local-inventory-format'}
             );
             close $handle;
             $self->{logger}->info("Inventory saved in $file");
@@ -113,7 +113,7 @@ sub run {
                 action => "setInventory",
                 machineid => $self->{deviceid}
              },
-            postData => encode_json($inventory->getContent()) 
+            postData => to_json($inventory->getContent(), { utf8 => 1 })
         );
         use Data::Dumper;
         print Dumper($response);
@@ -331,6 +331,13 @@ sub _printInventory {
                     QUERY => "INVENTORY",
                 }
             });
+
+            last SWITCH;
+        }
+
+        if ($params{format} eq 'json') {
+
+            print {$params{handle}} to_json($params{inventory}->getContent(), { utf8 => 1, pretty => 1 });
 
             last SWITCH;
         }
