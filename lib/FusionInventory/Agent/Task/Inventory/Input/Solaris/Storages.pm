@@ -15,9 +15,22 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    foreach my $storage (_getStorages(
-            logger => $logger, command => 'iostat -En'
-        )) {
+    my @storages = _getStorages(
+        logger => $logger, command => 'iostat -En'
+    );
+
+    foreach my $storage (@storages) {
+        if (-l "/dev/rdsk/$storage->{NAME}s2") {
+            my $rdisk_path = getFirstLine(
+                command => "ls -l /dev/rdsk/$storage->{NAME}s2"
+            );
+            $storage->{TYPE} =
+                $rdisk_path =~ /->.*scsi_vhci/ ? 'MPxIO' :
+                $rdisk_path =~ /->.*fp@/       ? 'FC'    :
+                $rdisk_path =~ /->.*scsi@/     ? 'SCSI'  :
+                                                 undef   ;
+        }
+
         $inventory->addEntry(section => 'STORAGES', entry => $storage);
     }
 }
@@ -77,16 +90,6 @@ sub _getStorages {
             }
 
 
-            if (-l "/dev/rdsk/$storage->{NAME}s2") {
-                my $rdisk_path = getFirstLine(
-                    command => "ls -l /dev/rdsk/$storage->{NAME}s2"
-                );
-                $storage->{TYPE} =
-                    $rdisk_path =~ /->.*scsi_vhci/ ? 'MPxIO' :
-                    $rdisk_path =~ /->.*fp@/       ? 'FC'    :
-                    $rdisk_path =~ /->.*scsi@/     ? 'SCSI'  :
-                                                     undef   ;
-            }
             push @storages, $storage;
             undef $storage;
         }
