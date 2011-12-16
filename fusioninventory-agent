@@ -143,11 +143,11 @@ B<fusioninventory-agent> [options] [--server server|--local directory|--sdout]
     --no-printer        do not list local printers (false)
     --no-software       do not list installed software (false)
     --scan-homedirs     allow to scan use home directories (false)
-    --html              save the inventory as HTML (false)
     -f --force          always send data to server (false)
     -t --tag=TAG        mark the machine with given tag
     --backend-collect-timeout   timeout for inventory modules execution (30)
     --additional-content=FILE   additional inventory content
+    --local-inventory-fromat=html/xml/json  format to use, when generating a local inventory
 
   Package deployment task specific options
     --no-p2p            do not use peer to peer to download files (false)
