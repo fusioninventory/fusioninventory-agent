@@ -113,7 +113,7 @@ sub run {
                 action => "setInventory",
                 machineid => $self->{deviceid}
              },
-            postData => to_json($inventory->getContent(), { utf8 => 1 })
+            postData => to_json(_localCase($inventory->getContent()), { utf8 => 1 })
         );
 
         return unless $response;
@@ -315,6 +315,32 @@ sub _injectContent {
     $inventory->mergeContent($content);
 }
 
+# Transition to low case inventory for JSON
+# in the future we should do the opposite only for XML inventory
+sub _localCase {
+    my ($content) = @_;
+
+    my $final = {};
+
+    foreach my $k (keys %$content) {
+        if (ref($content->{$k}) eq 'ARRAY') {
+            foreach my $section (@{$content->{$k}}) {
+                my $t = {};
+                foreach (keys %$section) {
+                    $t->{lc($_)} = $section->{$_}
+                }
+                push @{$final->{lc($k)}}, $t;
+            }
+        } elsif (ref($content->{$k}) eq 'HASH') {
+            foreach my $subk (keys %{$content->{$k}}) {
+                $final->{lc($k)}{lc($subk)} = $content->{$k}{$subk};
+            }
+        }
+    }
+
+    return $final;
+}
+
 sub _printInventory {
     my ($self, %params) = @_;
 
@@ -335,7 +361,7 @@ sub _printInventory {
 
         if ($params{format} eq 'json') {
 
-            print {$params{handle}} to_json($params{inventory}->getContent(), { utf8 => 1, pretty => 1 });
+            print {$params{handle}} to_json(_localCase($params{inventory}->getContent()), { utf8 => 1, pretty => 1 });
 
             last SWITCH;
         }
