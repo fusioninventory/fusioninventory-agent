@@ -1,3 +1,7 @@
+1.1.3  Fri, 16 Dec 2011 14:48:27 +0100
+  - Improve the network inventory
+    thanks Stefan Stefanov
+
 1.1.2  Mon, 27 Jun 2011 15:44:56 +0200
   - fix fusioninventory-esx
   - add the JSON dependency
