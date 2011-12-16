@@ -1,0 +1,6 @@
+this is an example of a basic PHP server for FusionInventory Agent.
+
+You can find JSON format description on FusionInventory website:
+ - http://forge.fusioninventory.org/projects/fusioninventory-agent/wiki/API-REST
+ - http://forge.fusioninventory.org/projects/fusioninventory-agent/wiki/API-REST-inventory
+ - http://forge.fusioninventory.org/projects/fusioninventory-agent/wiki/API-REST-WakeOnLan
