@@ -115,8 +115,6 @@ sub run {
              },
             postData => to_json($inventory->getContent(), { utf8 => 1 })
         );
-        use Data::Dumper;
-        print Dumper($response);
 
         return unless $response;
         $inventory->saveLastState();

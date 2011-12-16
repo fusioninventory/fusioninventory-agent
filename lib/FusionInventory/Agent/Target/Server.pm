@@ -7,8 +7,6 @@ use base 'FusionInventory::Agent::Target';
 use English qw(-no_match_vars);
 use URI;
 
-use Data::Dumper;
-
 my $count = 0;
 
 sub new {
@@ -86,12 +84,12 @@ sub prepareTasksExecPlan {
         }
     );
 
+    return unless $r->{schedule};
     return unless @{$r->{schedule}};
     return unless int($r->{configValidityPeriod});
     
 
     foreach (@{$r->{schedule}}) {
-    print Dumper($_);
         next unless int($_->{periodicity});
         next unless $_->{task} =~ /^\S+$/;
         next unless $_->{remote} =~ /^\S+$/;

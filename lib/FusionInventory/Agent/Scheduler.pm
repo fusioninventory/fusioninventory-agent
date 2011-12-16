@@ -26,10 +26,6 @@ sub new {
 sub addTarget {
     my ($self, $target) = @_;
 
-#    $target->prepareTasksExecPlan(client => $self->{client}, tasks => $self->{tasks});
-
-#    print Dumper($target->{tasksExecPlan});
-
     push @{$self->{targets}}, $target;
 }
 

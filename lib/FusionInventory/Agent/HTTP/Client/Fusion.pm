@@ -61,7 +61,7 @@ sub send {
 
     $self->{logger}->debug2($finalUrl) if $self->{logger};
 
-    print $finalUrl."\n";
+#    print $finalUrl."\n";
     my $request = HTTP::Request->new();
 
     $request->uri($finalUrl);
