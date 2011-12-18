@@ -41,9 +41,9 @@ sub doInventory {
     }
 
     my ($lastUser, $lastDate);
-    my $last = getFirstLine(command => 'last -R');
+    my $last = getFirstLine(command => 'last');
     if ($last &&
-        $last =~ /^(\S+) \s+ \S+ \s+ (\S+ \s+ \S+ \s+ \S+ \s+ \S+)/x
+        $last =~ /^(\S+) \s+ \S+ \s+ \S+ \s+ (\S+ \s+ \S+ \s+ \S+ \s+ \S+)/x
     ) {
         $lastUser = $1;
         $lastDate = $2;
