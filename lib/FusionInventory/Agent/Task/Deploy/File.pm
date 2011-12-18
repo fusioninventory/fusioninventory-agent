@@ -3,7 +3,7 @@ package FusionInventory::Agent::Task::Deploy::File;
 use strict;
 use warnings;
 
-use File::Find;
+use File::Glob;
 use Data::Dumper;
 use Digest::SHA;
 use HTTP::Request;
@@ -28,36 +28,33 @@ sub getPartFilePath {
     my ($self, $sha512, ) = @_;
 
 
-    return unless $sha512 =~ /^..(.{6})/;
+    return unless $sha512 =~ /^(.)(.)(.{6})/;
+    my $subFilePath = $1.'/'.$2.'/'.$3;
+
     my $filename = $1;
  
-    my $filePath  = $self->{datastore}->{path}.'/fileparts/';
-    if (-d $filePath) {
-        find({
-            wanted => sub {
-                return unless -f;
-                return unless basename($_) eq $filename;
-                $filePath = $File::Find::name;
-                return;
-            },
-            no_chdir => 1
-        }, $filePath);
+    my @locToCheck = File::Glob::glob($self->{datastore}->{path}.'/fileparts/shared/*');
+    push @locToCheck, $self->{datastore}->{path}.'/fileparts/private';
+
+    foreach my $loc (@locToCheck) {
+        if (-f $loc.'/'.$subFilePath) {
+            return $loc.'/'.$subFilePath;
+        }
     }
 
-    return $filePath if -f $filePath;
-
+    my $filePath = $self->{datastore}->{path}.'/fileparts/';
+# filepart not found
     if ($self->{p2p}) {
         $filePath .= 'shared/';
-        $filePath .= time + ($self->{'p2p-retention-duration'} * 60);
-        $filePath .= '/';
+# Compute a directory name that will be used to know
+# if the file must be purge. We don't want a new directory
+# everytime, so we use a 10h frame
+        $filePath .= int(time/10000)*10000 + ($self->{'p2p-retention-duration'} * 60);
+        $filePath .= '/'.$subFilePath;
     } else {
-        $filePath .= 'private/';
+        $filePath .= 'private';
+        $filePath .= '/'.$subFilePath;
     }
-
-
-    return unless $sha512 =~ /^(.)(.)(.{6})/;
-
-    $filePath .= $1.'/'.$2.'/'.$3;
 
     return $filePath;
 }
@@ -72,12 +69,7 @@ sub download {
     my $mirrorList =  $self->{mirrors};
 
 
-use Data::Dumper;
-print Dumper($self->{mirrors});
-print "p2p: "."\n";
-
-   my $p2pHostList;
-   use Data::Dumper;
+    my $p2pHostList;
 
 MULTIPART: foreach my $sha512 (@{$self->{multiparts}}) {
         my $partFilePath = $self->getPartFilePath($sha512);
@@ -106,6 +98,8 @@ MULTIPART: foreach my $sha512 (@{$self->{multiparts}}) {
                     next MULTIPART;
                 }
             }
+# bad file, drop it
+            unlink($partFilePath);
         }
     }
 
@@ -114,19 +108,13 @@ MULTIPART: foreach my $sha512 (@{$self->{multiparts}}) {
 sub filePartsExists {
     my ($self) = @_;
 
-    my $isOk = 1;
     foreach my $sha512 (@{$self->{multiparts}}) {
 
         my $filePath  = $self->getPartFilePath($sha512);
+        return 0 unless -f $filePath;
 
-        if (!-f $filePath) {
-                $isOk = 0;
-        } elsif (_getSha512ByFile($filePath) ne $sha512) {
-                unlink($filePath);
-                $isOk = 0;
-        }
     }
-    return $isOk;
+    return 1;
 }
 
 sub _getSha512ByFile {
@@ -135,7 +123,6 @@ sub _getSha512ByFile {
     my $sha = Digest::SHA->new('512');
 
     my $sha512;
-
     eval {
         $sha->addfile($filePath, 'b');
         $sha512 = $sha->hexdigest;
@@ -150,8 +137,6 @@ sub validateFileByPath {
 
 
     if (-f $filePath) {
-        my $t = _getSha512ByFile($filePath);
-
         if (_getSha512ByFile($filePath) eq $self->{sha512}) {
             return 1;
         }
