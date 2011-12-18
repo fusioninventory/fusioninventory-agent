@@ -172,10 +172,10 @@ sub _getNic {
         DRIVER      => $ref->{driver},
         IPADDRESS   => eval { $ref->{spec}{ip}{ipAddress} },
         IPMASK      => eval { $ref->{spec}{ip}{subnetMask} },
-        MACADDR     => eval { $ref->{spec}{mac} },
+        MACADDR     => eval { $ref->{mac} || $ref->{spec}{mac} },
         MTU         => eval { $ref->{spec}{mtu} },
         PCISLOT     => $ref->{pci},
-        STATUS      => $ref->{ip}{ipAddress} ? 'Up' : 'Down',
+        STATUS      => eval { $ref->{spec}{ip}{ipAddress} } ? 'Up' : 'Down',
         VIRTUALDEV  => $isVirtual,
         SPEED       => eval { $ref->{spec}{linkSpeed}{speedMb} },
     }
@@ -202,11 +202,12 @@ sub getNetworks {
     my @vnic;
     eval { push @vnic, $self->{hash}[0]{config}{network}{consoleVnic} if $self->{hash}[0]{config}{network}{consoleVnic}; };
     eval { push @vnic, $self->{hash}[0]{config}{vmotion}{netConfig}{candidateVnic} if $self->{hash}[0]{config}{vmotion}{netConfig}{candidateVnic} };
-    foreach (@vnic) {
-        next if ref($_) ne 'HASH';
-        next if $seen->{$_->{device}}++;
+    foreach my $entry (@vnic) {
+        foreach ( @{ getArray($entry) } ) {
+            next if $seen->{$_->{device}}++;
 
-        push @$ret, _getNic($_, 1);
+            push @$ret, _getNic($_, 1);
+        }
     }
 
     return $ret;

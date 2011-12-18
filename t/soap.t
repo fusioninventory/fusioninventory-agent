@@ -277,73 +277,76 @@ my %test = (
         ],
         'getNetworks' => [
           {
-            'IPMASK' => undef,
-            'STATUS' => 'Down',
-            'MACADDR' => '00:1b:24:f0:6a:45',
-            'DESCRIPTION' => 'vmnic0',
-            'SPEED' => '',
-            'PCISLOT' => '00:08.0',
-            'IPADDRESS' => undef,
-            'DRIVER' => 'forcedeth'
-          },
-          {
-            'IPMASK' => undef,
-            'STATUS' => 'Down',
-            'MACADDR' => '00:1b:24:f0:6a:46',
-            'DESCRIPTION' => 'vmnic1',
-            'SPEED' => '',
-            'PCISLOT' => '00:09.0',
-            'IPADDRESS' => undef,
-            'DRIVER' => 'forcedeth'
-          },
-          {
-            'IPMASK' => undef,
-            'STATUS' => 'Down',
-            'MACADDR' => '00:1b:24:f0:6a:43',
-            'DESCRIPTION' => 'vmnic2',
-            'SPEED' => '100',
-            'PCISLOT' => '06:04.0',
-            'IPADDRESS' => undef,
-            'DRIVER' => 'tg3'
-          },
-          {
-            'IPMASK' => undef,
-            'STATUS' => 'Down',
-            'MACADDR' => '00:1b:24:f0:6a:44',
-            'DESCRIPTION' => 'vmnic3',
-            'SPEED' => '',
-            'PCISLOT' => '06:04.1',
-            'IPADDRESS' => undef,
-            'DRIVER' => 'tg3'
-          },
-          {
-            'IPMASK' => undef,
-            'VIRTUALDEV' => '1',
-            'STATUS' => 'Down',
-            'MACADDR' => undef,
-            'SPEED' => '',
-            'PCISLOT' => undef,
-            'DRIVER' => undef,
-            'DESCRIPTION' => 'vmk0',
-            'IPADDRESS' => undef
-          },
-          {
-            'MTU' => undef,
             'IPMASK' => '255.255.0.0',
-            'VIRTUALDEV' => '1',
-            'STATUS' => 'Up',
-            'MACADDR' => '00:50:56:4e:eb:6f',
-            'DESCRIPTION' => 'vswif0',
-            'IPADDRESS' => '10.0.2.190'
-          },
-          {
-            'MTU' => undef,
-            'IPMASK' => '255.255.0.0',
-            'VIRTUALDEV' => '1',
+            'VIRTUALDEV' => 1,
             'STATUS' => 'Up',
             'MACADDR' => '00:50:56:75:f7:2e',
+            'SPEED' => undef,
+            'PCISLOT' => undef,
+            'DRIVER' => undef,
+            'MTU' => '1500',
             'DESCRIPTION' => 'vmk0',
             'IPADDRESS' => '10.0.2.189'
+          },
+          {
+            'IPMASK' => '',
+            'VIRTUALDEV' => 0,
+            'STATUS' => 'Down',
+            'MACADDR' => '00:1b:24:f0:6a:45',
+            'SPEED' => '0',
+            'PCISLOT' => '00:08.0',
+            'DRIVER' => 'forcedeth',
+            'MTU' => undef,
+            'DESCRIPTION' => 'vmnic0',
+            'IPADDRESS' => ''
+          },
+          {
+            'IPMASK' => '',
+            'VIRTUALDEV' => 0,
+            'STATUS' => 'Down',
+            'MACADDR' => '00:1b:24:f0:6a:46',
+            'SPEED' => '0',
+            'PCISLOT' => '00:09.0',
+            'DRIVER' => 'forcedeth',
+            'MTU' => undef,
+            'DESCRIPTION' => 'vmnic1',
+            'IPADDRESS' => ''
+          },
+          {
+            'IPMASK' => '',
+            'VIRTUALDEV' => 0,
+            'STATUS' => 'Down',
+            'MACADDR' => '00:1b:24:f0:6a:43',
+            'SPEED' => '100',
+            'PCISLOT' => '06:04.0',
+            'DRIVER' => 'tg3',
+            'MTU' => undef,
+            'DESCRIPTION' => 'vmnic2',
+            'IPADDRESS' => ''
+          },
+          {
+            'IPMASK' => '',
+            'VIRTUALDEV' => 0,
+            'STATUS' => 'Down',
+            'MACADDR' => '00:1b:24:f0:6a:44',
+            'SPEED' => '0',
+            'PCISLOT' => '06:04.1',
+            'DRIVER' => 'tg3',
+            'MTU' => undef,
+            'DESCRIPTION' => 'vmnic3',
+            'IPADDRESS' => ''
+          },
+          {
+            'IPMASK' => '255.255.0.0',
+            'VIRTUALDEV' => 0,
+            'STATUS' => 'Up',
+            'MACADDR' => '00:50:56:4e:eb:6f',
+            'SPEED' => undef,
+            'PCISLOT' => undef,
+            'DRIVER' => undef,
+            'MTU' => undef,
+            'DESCRIPTION' => 'vswif0',
+            'IPADDRESS' => '10.0.2.190'
           }
         ],
         'getStorages()' => [
