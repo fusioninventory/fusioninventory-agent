@@ -56,7 +56,7 @@ sub process {
         my @s = stat($check->{path});
         return $check->{return} unless @s;
         return "ok" if ($check->{value}) > $s[7];
-    } elsif ($check->{type} eq 'fileSizeLess') {
+    } elsif ($check->{type} eq 'fileSizeLower') {
         my @s = stat($check->{path});
         return $check->{return} unless @s;
         return "ok" if ($check->{value}) < $s[7];
