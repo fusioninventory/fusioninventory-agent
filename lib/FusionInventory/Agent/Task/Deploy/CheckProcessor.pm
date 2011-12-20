@@ -21,7 +21,7 @@ sub process {
     if ($check->{type} eq 'winkeyExists') {
         return unless $OSNAME eq 'MSWin32';
         eval "use FusionInventory::Agent::Tools::Win32; 1";
-        my $r = getValueFromRegistry($check->{path});
+        my $r = FusionInventory::Agent::Tools::Win32::getRegistryValue($check->{path});
         if (defined($r)) {
             return "ok";
         } else {
