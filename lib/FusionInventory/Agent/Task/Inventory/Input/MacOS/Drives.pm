@@ -25,8 +25,9 @@ sub doInventory {
     my @filesystems;
     foreach my $type (@types) {
         push @filesystems, getFilesystemsFromDf(
-            logger => $logger,
-            command => "df -P -k -t $type"
+            logger  => $logger,
+            command => "df -P -k -t $type",
+            type    => $type,
         );
     }
 

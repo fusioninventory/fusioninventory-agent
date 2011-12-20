@@ -148,29 +148,24 @@ sub _handle_deploy {
 
     my $logger = $self->{logger};
 
-    return unless $sha512 =~ /^..(.{6})/;
-    my $name = $1;
-    my $path;
+    return unless $sha512 =~ /^(.)(.)(.{6})/;
+    my $subFilePath = $1.'/'.$2.'/'.$3;
 
-    File::Find->require();
+    File::Glob->require();
     Digest::SHA->require();
 
-    foreach my $target ($self->{scheduler}->getTargets()) {
-        my $shareDir = $target->{storage}->getDirectory()."/deploy/fileparts/shared";
-        next unless -d $shareDir;
-
-        my $wanted = sub {
-            return unless -f $_;
-            return unless basename($_) eq $name;
+    my $path;
+    LOOP: foreach my $target ($self->{scheduler}->getTargets()) {
+        foreach (File::Glob::glob($target->{storage}->getDirectory()."/deploy/fileparts/shared/*")) {
+            next unless -f $_.'/'.$subFilePath;
 
             my $sha = Digest::SHA->new('512');
-            $sha->addfile($File::Find::name, 'b');
-            return unless $sha->hexdigest eq $sha512;
+            $sha->addfile($_.'/'.$subFilePath, 'b');
+            next unless $sha->hexdigest eq $sha512;
 
-            $path = $File::Find::name;
-        };
-        File::Find::find({ wanted => $wanted, no_chdir => 1 }, $shareDir);
-        last if $path;
+            $path = $_.'/'.$subFilePath;
+            last LOOP;
+        }
     }
     if ($path) {
         $logger->debug($log_prefix . "file $sha512 found");

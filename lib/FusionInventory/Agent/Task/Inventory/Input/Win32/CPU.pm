@@ -32,6 +32,8 @@ sub doInventory {
     my $id;
     my $speed;
 
+    my @dmidecodeCpu = getCpusFromDmidecode();
+
     my $vmsystem;
 
     my $cpuId = 0;
@@ -49,12 +51,15 @@ sub doInventory {
         );
 
 #        my $cache = $object->{L2CacheSize}+$object->{L3CacheSize};
-        my $core = $object->{NumberOfCores};
+        my $core = $dmidecodeCpu[$cpuId]->{CORE} || $object->{NumberOfCores};
+        my $thread = $dmidecodeCpu[$cpuId]->{THREAD};
         my $description = $info->{Identifier};
         my $name = $info->{ProcessorNameString};
         my $manufacturer = $info->{VendorIdentifier};
-        my $id = $object->{ProcessorId};
-        my $speed = $object->{MaxClockSpeed};
+        my $id = $dmidecodeCpu[$cpuId]->{ID} || $object->{ProcessorId};
+        my $speed = $dmidecodeCpu[$cpuId]->{SPEED} || $object->{MaxClockSpeed};
+        my $serial = $dmidecodeCpu[$cpuId]->{SERIAL};
+
 
         # Some information are missing on Win2000
         if (!$name) {
@@ -93,6 +98,7 @@ sub doInventory {
             section => 'CPUS',
             entry   => {
                 CORE         => $core,
+                THREAD       => $thread,
                 DESCRIPTION  => $description,
                 NAME         => $name,
                 MANUFACTURER => $manufacturer,

@@ -146,7 +146,8 @@ sub _parseDhcpLeaseFile {
 }
 
 sub getFilesystemsFromDf {
-    my $handle = getFileHandle(@_);
+    my %params = (@_);
+    my $handle = getFileHandle(%params);
 
     my @filesystems;
     
@@ -161,7 +162,9 @@ sub getFilesystemsFromDf {
         chomp $line;
         my @infos = split(/\s+/, $line);
 
-        # depending of the number of colums, information index change
+        # depending on the df implementation, and how it is called 
+        # the filesystem type may appear as second colum, or be missing
+        # in the second case, it has to be given by caller
         my ($filesystem, $total, $free, $type);
         if ($headers[1] eq 'Type') {
             $filesystem = $infos[1];
@@ -169,6 +172,7 @@ sub getFilesystemsFromDf {
             $free       = $infos[4];
             $type       = $infos[6];
         } else {
+            $filesystem = $params{type},
             $total = $infos[1];
             $free  = $infos[3];
             $type  = $infos[5];

@@ -18,6 +18,8 @@ sub doInventory {
 
     my $battery = _getBattery(logger => $logger);
 
+    return unless $battery;
+
     $inventory->addEntry(
         section => 'BATTERIES',
         entry   => $battery
