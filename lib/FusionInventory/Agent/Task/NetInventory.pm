@@ -231,6 +231,7 @@ sub run {
         MODULEVERSION => $VERSION,
         PROCESSNUMBER => $pid
     });
+    $_ = RUN foreach @states;
 
     # wait for all threads to reach STOP state
     while (any { $_ != EXIT } @states) {
@@ -301,7 +302,6 @@ sub _queryDevices {
 
     my $storage = $self->{target}->getStorage();
     # run: process available addresses until exhaustion
-    $$state = RUN;
     $logger->debug("Thread $id switched to RUN state");
 
     RUN: while (1) {
