@@ -132,7 +132,10 @@ sub createInventory {
     }
 
     foreach ( @{ $host->getVirtualMachines() } ) {
-        $inventory->addVirtualMachine($_);
+        $inventory->addEntry(
+            section => 'VIRTUALMACHINES',
+            entry => $_
+        );
     }
 
     return $inventory;
