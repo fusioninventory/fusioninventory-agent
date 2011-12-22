@@ -31,7 +31,7 @@ sub process {
     if ( ( $OSNAME ne 'MSWin32' ) && ( $actionName eq 'messageBox' ) ) {
         return {
             status => 1,
-            log    => ["not Windows: action `$actionName' ignored"]
+            msg    => ["not Windows: action `$actionName' ignored"]
         };
     }
 
@@ -65,7 +65,7 @@ sub process {
         chdir($cwd);
         return {
             status => 0,
-            log    => ["unknown action `$actionName'"]
+            msg    => ["unknown action `$actionName'"]
         };
     }
     chdir($cwd);

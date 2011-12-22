@@ -9,16 +9,16 @@ use File::Path;
 sub do {
     my ($params) = @_;
 
-    my $log = [];
+    my $msg = [];
     my $status = 1;
     foreach (@{$params->{list}}) {
         File::Path::remove_tree($_);
         $status = 0 if -e $_;
-        push @$log, "Failed to delete $_";
+        push @$msg, "Failed to delete $_";
     }
     return {
     status => $status,
-    log => $log,
+    msg => $msg,
     };
 }
 

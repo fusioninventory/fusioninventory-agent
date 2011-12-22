@@ -225,7 +225,8 @@ print Dumper($answer);
                         part      => 'file',
                         uuid        => $job->{uuid},
                         sha512      => $file->{sha512},
-                        status    => 'ok'
+                        status    => 'ok',
+                        currentStep => 'downloading'
                     }
                 );
 
@@ -379,7 +380,8 @@ print Dumper($action);
 
             my $ret;
             eval { $ret = $actionProcessor->process($actionName, $params); };
-            push @{$ret->{log}}, $@ if $@;
+            $ret->{msg} = [] unless $ret->{msg};
+            push @{$ret->{msg}}, $@ if $@;
             if ( !$ret->{status} ) {
                 $self->{client}->send(
                     "url" => $remoteUrl,
@@ -387,7 +389,7 @@ print Dumper($action);
                         action    => "setStatus",
                         machineid => $self->{deviceid},
                         uuid      => $job->{uuid},
-                        log       => $ret->{log},
+                        msg       => $ret->{msg},
                         actionnum => $actionnum,
                     }
                 );

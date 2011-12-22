@@ -6,7 +6,7 @@ use warnings;
 use Data::Dumper;
 
 sub _evaluateRet {
-    my ($retChecks, $log, $exitStatus) = @_;
+    my ($retChecks, $buf, $exitStatus) = @_;
 
     if (ref($retChecks) ne 'ARRAY') {
         return [ 1, 'ok, no check to evaluate.' ];
@@ -23,7 +23,7 @@ sub _evaluateRet {
         } elsif ($retCheck->{type} eq 'okPattern') {
             foreach (@{$retCheck->{values}}) {
                 next unless length($_);
-                if ($$log =~ /$_/) {
+                if ($$buf =~ /$_/) {
                     return [ 1, "ok pattern found in log: /$_/" ];
                 }
             }
@@ -36,7 +36,7 @@ sub _evaluateRet {
         } elsif ($retCheck->{type} eq 'errorPattern') {
             foreach (@{$retCheck->{values}}) {
                 next unless length($_);
-                if ($$log =~ /$_/) {
+                if ($$buf =~ /$_/) {
                     return [ 0, "error pattern found in log: /$_/" ];
                 }
             }
@@ -67,24 +67,24 @@ sub do {
 
     my $logLineLimit =  $_[0]->{logLineLimit} || 3;
 
-    my @log;
+    my @msg;
     if($buf) {
         my @lines = split('\n', $buf);
         foreach my $line (reverse @lines) {
             chomp($line);
-            shift @log if @log > $logLineLimit;
-            unshift @log, $line;
+            shift @msg if @msg > $logLineLimit;
+            unshift @msg, $line;
         }
     }
-    shift @log if @log > $logLineLimit;
+    shift @msg if @msg > $logLineLimit;
 
 # Use the retChecks key to know if the command exec is successful
     my $t = _evaluateRet ($_[0]->{retChecks}, \$buf, $exitStatus);
 
     my $status = $t->[0];
-    push @log, "--------------------------------";
-    push @log, "exit status: `$exitStatus'";
-    push @log, $t->[1];
+    push @msg, "--------------------------------";
+    push @msg, "exit status: `$exitStatus'";
+    push @msg, $t->[1];
 
     if ($_[0]->{envs}) {
         foreach my $key (keys %envsSaved) {
@@ -94,7 +94,7 @@ sub do {
 
     return {
         status => $status,
-        log => \@log,
+        msg => \@msg,
     }
 }
 

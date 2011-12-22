@@ -11,19 +11,19 @@ use File::Glob;
 sub do {
     my ($params) = @_;
 
-    my $log = [];
+    my $msg = [];
     my $status = 1;
     foreach (File::Glob::glob($params->{from})) {
         if (!File::Copy::Recursive::rmove($_, $params->{to})) {
-            push @$log, "Failed to move: `".$params->{from}."' to '".$params->{to};
-            push @$log, $!;
+            push @$msg, "Failed to move: `".$params->{from}."' to '".$params->{to};
+            push @$msg, $!;
 
             $status = 0;
         }
     }
     return {
         status => $status,
-        log => $log,
+        msg => $msg,
     };
 }
 
