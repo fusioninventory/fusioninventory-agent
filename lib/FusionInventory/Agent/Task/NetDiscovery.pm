@@ -255,21 +255,20 @@ sub run {
         # wait for all threads to reach STOP state
         while (any { $_ != STOP } @states) {
             delay(1);
+
+            while (my $result = shift @results) {
+# send results to the server
+                my $data = {
+                    DEVICE        => [$result],
+                    MODULEVERSION => $VERSION,
+                    PROCESSNUMBER => $pid,
+                    ENTITY        => $range->{ENTITY}
+                };
+                $self->_sendMessage($data);
+            }
         }
 
-        # complete results
-        $_->{ENTITY} = $range->{ENTITY} foreach @results;
 
-        # send results to the server
-        my $data = {
-            DEVICE        => \@results,
-            MODULEVERSION => $VERSION,
-            PROCESSNUMBER => $pid
-        };
-        $self->_sendMessage($data);
-
-        # empty results list
-        @results = ();
     }
 
     # set all threads in EXIT state
