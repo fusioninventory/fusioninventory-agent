@@ -8,10 +8,11 @@ use base 'FusionInventory::Agent::Task';
 
 use constant DEVICE_PER_MESSAGE => 4;
 
-use constant START => 0;
-use constant RUN   => 1;
-use constant STOP  => 2;
-use constant EXIT  => 3;
+use constant UNKNOWN => 0;
+use constant START => 1;
+use constant RUN   => 2;
+use constant STOP  => 3;
+use constant EXIT  => 4;
 
 use Data::Dumper;
 use English qw(-no_match_vars);
@@ -199,7 +200,7 @@ sub run {
     my @states    :shared;
 
     for (my $i = 0; $i < $max_threads; $i++) {
-        $states[$i] = START;
+        $states[$i] = UNKNOWN;
 
         threads->create(
             '_scanAddresses',
@@ -211,6 +212,10 @@ sub run {
             $snmp_dictionnary,
             $nmap_parameters,
         )->detach();
+    }
+
+    while (any { $_ != START } @states) {
+        delay(1);
     }
 
     # send initial message to the server
@@ -344,6 +349,7 @@ sub _scanAddresses {
     
     $logger->debug("Thread $id created");
 
+    $$state = START;
     # start: wait for state to change
     while ($$state == START) {
         delay(1);
@@ -439,7 +445,6 @@ sub _scanAddress {
 
     if ($device{MAC} || $device{DNSHOSTNAME} || $device{NETBIOSNAME}) {
         $device{IP}     = $params{ip};
-        $device{ENTITY} = $params{entity};
         $logger->debug(
             "thread $id: device found for $params{ip}\n" . Dumper(\%device)
         );
