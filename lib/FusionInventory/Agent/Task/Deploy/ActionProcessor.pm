@@ -12,7 +12,6 @@ use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Copy;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Mkdir;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Delete;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Cmd;
-use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::MessageBox;
 
 sub new {
     my ( undef, $params ) = @_;
@@ -60,10 +59,6 @@ sub process {
     } elsif ( $actionName eq 'cmd' ) {
         $ret =
           FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Cmd::do(
-            $params);
-    } elsif ( $actionName eq 'messageBox' ) {
-        $ret =
-          FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::MessageBox::do(
             $params);
    } else {
         print "Unknown action type: `$actionName'\n";
