@@ -141,9 +141,9 @@ sub _getUevent {
     return unless $handle;
 
     my ($driver, $pcislot);
-    while (<$handle>) {
-        $driver = $1 if /^DRIVER=(\S+)/;
-        $pcislot = $1 if /^PCI_SLOT_NAME=(\S+)/;
+    while (my $line = <$handle>) {
+        $driver = $1 if $line =~ /^DRIVER=(\S+)/;
+        $pcislot = $1 if $line =~ /^PCI_SLOT_NAME=(\S+)/;
     }
     close $handle;
 
