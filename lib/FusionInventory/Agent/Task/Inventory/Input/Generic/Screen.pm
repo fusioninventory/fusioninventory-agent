@@ -77,10 +77,10 @@ sub _getScreensFromWindows {
         require FusionInventory::Agent::Tools::Win32;
         require Win32::TieRegistry;
         Win32::TieRegistry->import(
-                Delimiter   => '/',
-                ArrayValues => 0,
-                TiedRef     => \$Registry
-                );
+            Delimiter   => '/',
+            ArrayValues => 0,
+            TiedRef     => \$Registry
+        );
     };
     if ($EVAL_ERROR) {
         print "Failed to load Win32::OLE and Win32::TieRegistry\n";
@@ -90,13 +90,14 @@ sub _getScreensFromWindows {
     use constant wbemFlagReturnImmediately => 0x10;
     use constant wbemFlagForwardOnly => 0x20;
 
-# Vista and upper, able to get the second screen
+    # Vista and upper, able to get the second screen
     my $WMIServices = Win32::OLE->GetObject(
-            "winmgmts:{impersonationLevel=impersonate,authenticationLevel=Pkt}!//./root/wmi" );
+        "winmgmts:{impersonationLevel=impersonate,authenticationLevel=Pkt}!//./root/wmi"
+    );
 
-    foreach my $properties ( Win32::OLE::in( $WMIServices->InstancesOf(
-                    "WMIMonitorID" ) ) )
-    {
+    foreach my $properties (Win32::OLE::in($WMIServices->InstancesOf(
+        "WMIMonitorID"
+    ))) {
 
         next unless $properties->{InstanceName};
         my $PNPDeviceID = $properties->{InstanceName};
@@ -106,18 +107,23 @@ sub _getScreensFromWindows {
 
 # The generic Win32_DesktopMonitor class, the second screen will be missing
     foreach my $object (FusionInventory::Agent::Tools::Win32::getWmiObjects(
-                class => 'Win32_DesktopMonitor',
-                properties => [ qw/
-                Caption MonitorManufacturer MonitorType PNPDeviceID
-                / ] )) {
-
+        class => 'Win32_DesktopMonitor',
+        properties => [ qw/
+            Caption MonitorManufacturer MonitorType PNPDeviceID
+        / ]
+    )) {
 
         next unless $object->{"Availability"};
         next unless $object->{"PNPDeviceID"};
         next unless $object->{"Availability"} == 3;
         my $name = $object->{"Caption"};
 
-        $devices->{lc($object->{"PNPDeviceID"})} = { name => $name, type => $object->{MonitorType}, manufacturer => $object->{MonitorManufacturer}, caption => $object->{Caption} };
+        $devices->{lc($object->{"PNPDeviceID"})} = {
+            name         => $name,
+            type         => $object->{MonitorType},
+            manufacturer => $object->{MonitorManufacturer},
+            caption      => $object->{Caption}
+        };
 
     }
 
@@ -140,8 +146,8 @@ sub _getScreensFromWindows {
 # Win32-specifics constants can not be loaded on non-Windows OS
             no strict 'subs';
             $machKey = $Registry->Open('LMachine', {
-                    Access => $access
-                    } ) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+                Access => $access
+            } ) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
 
         }
 
