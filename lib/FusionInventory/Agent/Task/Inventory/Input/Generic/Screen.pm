@@ -113,12 +113,12 @@ sub _getScreensFromWindows {
         / ]
     )) {
 
-        next unless $object->{"Availability"};
-        next unless $object->{"PNPDeviceID"};
-        next unless $object->{"Availability"} == 3;
-        my $name = $object->{"Caption"};
+        next unless $object->{Availability};
+        next unless $object->{PNPDeviceID};
+        next unless $object->{Availability} == 3;
+        my $name = $object->{Caption};
 
-        $devices->{lc($object->{"PNPDeviceID"})} = {
+        $devices->{lc($object->{PNPDeviceID})} = {
             name         => $name,
             type         => $object->{MonitorType},
             manufacturer => $object->{MonitorManufacturer},
