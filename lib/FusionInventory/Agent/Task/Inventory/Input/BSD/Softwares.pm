@@ -39,9 +39,9 @@ sub _getPackagesListFromPkgInfo {
     while (my $line = <$handle>) {
         next unless $line =~ /^(\S+)-(\d+\S*)\s+(.*)/;
         push @packages, {
-            NAME    => $1,
-            VERSION => $2,
-            DESCRIPTION => $3
+            NAME     => $1,
+            VERSION  => $2,
+            COMMENTS => $3
         };
     }
 

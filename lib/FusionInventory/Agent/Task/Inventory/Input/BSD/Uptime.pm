@@ -6,8 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
-    my $boottime = getFirstLine(command => 'sysctl -n kern.boottime');
-    return $boottime;
+    return canRun('sysctl');
 }
 
 sub doInventory {
@@ -23,10 +22,13 @@ sub doInventory {
 }
 
 sub _getUptime {
-    my $boottime = getFirstMatch(
-        pattern => qr/sec\s*=\s*(\d+)/,
-        @_,
-    );
+    my $line = getFirstLine(@_);
+
+    # the output of 'sysctl -n kern.boottime' differs between BSD flavours
+    my $boottime = 
+        $line =~ /^(\d+)/      ? $1 : # OpenBSD format
+        $line =~ /sec = (\d+)/ ? $1 : # FreeBSD format
+        undef;
     return unless $boottime;
 
     my $uptime = $boottime - time();

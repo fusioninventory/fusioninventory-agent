@@ -105,17 +105,19 @@ sub _getScreensFromWindows {
     }
 
 # The generic Win32_DesktopMonitor class, the second screen will be missing
-    foreach my $objItem (getWmiProperties('Win32_DesktopMonitor', qw/
+    foreach my $object (FusionInventory::Agent::Tools::Win32::getWmiObjects(
+                class => 'Win32_DesktopMonitor',
+                properties => [ qw/
                 Caption MonitorManufacturer MonitorType PNPDeviceID
-                /)) {
+                / ] )) {
 
 
-        next unless $objItem->{"Availability"};
-        next unless $objItem->{"PNPDeviceID"};
-        next unless $objItem->{"Availability"} == 3;
-        my $name = $objItem->{"Caption"};
+        next unless $object->{"Availability"};
+        next unless $object->{"PNPDeviceID"};
+        next unless $object->{"Availability"} == 3;
+        my $name = $object->{"Caption"};
 
-        $devices->{lc($objItem->{"PNPDeviceID"})} = { name => $name, type => $objItem->{MonitorType}, manufacturer => $objItem->{MonitorManufacturer}, caption => $objItem->{Caption} };
+        $devices->{lc($object->{"PNPDeviceID"})} = { name => $name, type => $object->{MonitorType}, manufacturer => $object->{MonitorManufacturer}, caption => $object->{Caption} };
 
     }
 

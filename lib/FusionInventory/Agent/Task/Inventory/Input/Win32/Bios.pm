@@ -82,7 +82,9 @@ sub doInventory {
 
     }
 
-    $bios->{$_} =~ s/\s+$// foreach (keys %bios);
+    foreach (keys %$bios) {
+        $bios->{$_} =~ s/\s+$// if $bios->{$_};
+    }
 
     $inventory->setBios($bios);
 

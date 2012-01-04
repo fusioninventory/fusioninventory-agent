@@ -51,7 +51,7 @@ sub doInventory {
             }
 
             # avoid duplicates
-            next if $seen->{$antivirus->{NAME}}->{$antivirus->{VERSION}}++;
+            next if $seen->{$antivirus->{NAME}}->{$antivirus->{VERSION}||'_undef_'}++;
 
             $inventory->addEntry(
                 section => 'ANTIVIRUS',

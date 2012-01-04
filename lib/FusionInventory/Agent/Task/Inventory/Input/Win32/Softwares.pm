@@ -133,7 +133,7 @@ sub _getSoftwares {
         $software->{VERSION} =~ s/[\000-\037].*// if $software->{VERSION};
 
         # avoid duplicates
-        next if $seen->{$software->{NAME}}->{$software->{VERSION}}++;
+        next if $seen->{$software->{NAME}}->{$software->{VERSION} || '_undef_'}++;
 
         push @softwares, $software;
     }
