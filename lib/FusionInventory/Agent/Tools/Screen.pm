@@ -500,6 +500,7 @@ sub getManufacturerFromCode {
         "IFS" => "InFocus",
         "BOE" => "BOE Display Technology",
         "IQT" => "Hyundai",
+        "HSD" => "Hannspree Inc"
 
 
     };
