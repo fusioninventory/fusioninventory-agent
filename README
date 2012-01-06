@@ -8,18 +8,20 @@ This tasks scans the network to find connected devices, allowing:
 - devices identification, through SNMP
 
 NetDiscovery use the following tools, if available, to scan IP networks:
-nmap external command, Net::NBName and Net::SNMP perl modules. Devices found
-will be reported as unkwown device with few additional informations, such as
-mac address and hostname, unless identified as a specific device. Currently, 
-identification works  only through SNMP, tough, and relies on exact matching of
-the device sysdescr field in a the SNMP models dictionnary from the GLPI
-server. As this sysdescr field content is highly dependant of exact
-hardware/firmware combination, a device will be either perfectly identified, if
-already known, or not indentified at all.
+- nmap external command
+- Net::NBName perl module
+- Net::SNMP perl module
+This allow to discover connected devices, with a few additional information,
+such as mac address and hostname, but not to identify them.
 
-Once discovered, devices can be imported in the inventory and then inventoried
-with NetInventory task.
+If the device replies to SNMP, tough, an additional identification attempt is
+performed, by comparing its sysdescr field with a database of known values. If 
+there is an exact match, an SNMP description model can be assigned, allowing to
+immediatly identify the device category (printer, network device, etc...), and
+to use NetInventory task later to fetch additional informations.
 
+Wether identified or not, discovered devices are reported to GLPI as 'unknown
+device', and have to be imported in the inventory.
 
 Dependencies
 ------------
