@@ -88,7 +88,7 @@ use English qw(-no_match_vars);
 
 our %variables;
 
-# force a perl-independant prefix for everything but perl modules
+# force a perl-independant prefix for everything
 sub constants {
     my ($self) = @_;
 
