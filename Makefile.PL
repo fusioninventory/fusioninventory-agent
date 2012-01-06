@@ -208,8 +208,9 @@ sub test {
     my $test = $self->SUPER::test(@_);
 
     $test .= <<'EOF';
-test-junit:
-	prove --lib --timer --recurse --formatter TAP::Formatter::JUnit t
+%-junit.xml:
+	prove --lib --timer --recurse --formatter TAP::Formatter::JUnit t \
+	    > $@
 EOF
 
     return $test;
