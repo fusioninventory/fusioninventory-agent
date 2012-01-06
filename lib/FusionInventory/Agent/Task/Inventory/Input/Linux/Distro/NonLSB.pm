@@ -70,11 +70,13 @@ sub doInventory {
     my $distribution = first { -f $_->[0] } @distributions;
     return unless $distribution;
 
+    my $data = _getDistroData($distribution);
+
     $inventory->setHardware({
-        OSNAME => _findRelease($distribution),
+        OSNAME => $data->{FULL_NAME }
     });
 
-    $inventory->setOperatingSystem(_getDistroData($distribution));
+    $inventory->setOperatingSystem($data);
 }
 
 sub _getDistroData {
@@ -102,17 +104,6 @@ sub _getDistroData {
     }
 
     return $data;
-}
-
-sub _findRelease {
-    my ($distribution) = @_;
-
-    my $template = $distribution->[3];
-
-    my $line    = getFirstLine(file => $distribution->[0]);
-    my $release = sprintf $template, $line;
-
-    return $release;
 }
 
 1;
