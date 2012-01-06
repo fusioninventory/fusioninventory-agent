@@ -17,7 +17,7 @@ my @distributions = (
     # vmware-release contains something like "VMware ESX Server 3" or "VMware ESX 4.0 (Kandinsky)"
     [ '/etc/vmware-release',    'VMWare',                     '([\d.]+)',         '%s' ],
 
-    [ '/etc/arch-release',      'ArchLinux',                  '(.*)',             'ArchLinux %s' ],
+    [ '/etc/arch-release',      'ArchLinux',                  '(.*)',             'ArchLinux' ],
 
     [ '/etc/debian_version',    'Debian',                     '(.*)',             'Debian GNU/Linux %s'],
 
@@ -88,8 +88,14 @@ sub _getDistroData {
     my $template = $distribution->[3];
 
     my $line       = getFirstLine(file => $distribution->[0]);
-    my $release    = sprintf $template, $line;
-    my ($version)  = $line =~ /$regexp/;
+    # Arch Linux has an empty release file
+    my ($release, $version);
+    if ($line) {
+        $release   = sprintf $template, $line;
+        ($version) = $line =~ /$regexp/;
+    } else {
+        $release = $template;
+    }
 
     my $data = {
         NAME      => $name,
