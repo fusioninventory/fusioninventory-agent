@@ -209,7 +209,8 @@ sub test {
 
     $test .= <<'EOF';
 junit.xml:
-	prove -l --recurse --formatter TAP::Formatter::JUnit t > junit.xml
+	prove --lib --timer --recurse --formatter TAP::Formatter::JUnit t \
+	    > junit.xml
 EOF
 
     return $test;
