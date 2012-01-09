@@ -15,10 +15,15 @@ sub new {
     die "no datastore parameter" unless $params{datastore};
     die "no sha512 parameter" unless $params{sha512};
 
-    my $self = $params{data};
-    $self->{sha512} = $params{sha512};
-    $self->{datastore} = $params{datastore};
-    $self->{client} = $params{client};
+    my $self = {
+        p2p                    => $params{data}->{p2p},
+        p2p_retention_duration => $params{data}->{'p2p-retention-duration'},
+        mirrors                => $params{data}->{mirrors},
+        multiparts             => $params{data}->{multiparts},
+        sha512                 => $params{sha512},
+        datastore              => $params{datastore},
+        client                 => $params{client}
+    };
 
     bless $self, $class;
 
@@ -50,7 +55,7 @@ sub getPartFilePath {
 # Compute a directory name that will be used to know
 # if the file must be purge. We don't want a new directory
 # everytime, so we use a 10h frame
-        $filePath .= int(time/10000)*10000 + ($self->{'p2p-retention-duration'} * 60);
+        $filePath .= int(time/10000)*10000 + ($self->{p2p_retention_duration} * 60);
         $filePath .= '/'.$subFilePath;
     } else {
         $filePath .= 'private';

@@ -8,8 +8,11 @@ use English qw(-no_match_vars);
 sub new {
     my ($class, %params) = @_;
 
-    my $self = $params{data};
-    $self->{associatedFiles} = $params{associatedFiles};
+    my $self = {
+        requires        => $params{data}->{requires},
+        actions         => $params{data}->{actions},
+        associatedFiles => $params{associatedFiles}
+    };
 
     bless $self, $class;
 
