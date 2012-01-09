@@ -27,7 +27,9 @@ sub process {
         } else {
             return $check->{return};
         }
-    } elsif ($check->{type} eq 'winkeyEquals') {
+    }
+
+    if ($check->{type} eq 'winkeyEquals') {
         return unless $OSNAME eq 'MSWin32';
         require FusionInventory::Agent::Tools::Win32;
         my $r = FusionInventory::Agent::Tools::Win32::getValueFromRegistry($check->{path});
@@ -37,7 +39,9 @@ sub process {
             return $check->{return};
             return;
         }
-    } elsif ($check->{type} eq 'winkeyMissing') {
+    }
+    
+    if ($check->{type} eq 'winkeyMissing') {
         return unless $OSNAME eq 'MSWin32';
         require FusionInventory::Agent::Tools::Win32;
         my $r = FusionInventory::Agent::Tools::Win32::getValueFromRegistry($check->{path});
@@ -47,26 +51,44 @@ sub process {
         } else {
             return "ok";
         }
-    } elsif ($check->{type} eq 'fileExists') {
+    } 
+
+    if ($check->{type} eq 'fileExists') {
         return $check->{return} unless -f $check->{path};
-    } elsif ($check->{type} eq 'fileSizeEquals') {
+        return 'ok';
+    }
+
+    if ($check->{type} eq 'fileSizeEquals') {
         my @s = stat($check->{path});
         return $check->{return} unless @s;
-    } elsif ($check->{type} eq 'fileSizeGreater') {
+        return 'ok';
+    }
+
+    if ($check->{type} eq 'fileSizeGreater') {
         my @s = stat($check->{path});
         return $check->{return} unless @s;
         return "ok" if ($check->{value}) > $s[7];
-    } elsif ($check->{type} eq 'fileSizeLower') {
+        return "ok";
+    }
+
+    if ($check->{type} eq 'fileSizeLower') {
         my @s = stat($check->{path});
         return $check->{return} unless @s;
         return "ok" if ($check->{value}) < $s[7];
-    } elsif ($check->{type} eq 'fileMissing') {
-        return $check->{return} if -f $check->{path};
-    } elsif ($check->{type} eq 'freespaceGreater') {
-        # TODO
-    } else {
-        print "Unknown check: `".$check->{type}."'\n";
+        return "ok";
     }
+    
+    if ($check->{type} eq 'fileMissing') {
+        return $check->{return} if -f $check->{path};
+        return "ok";
+    }
+    
+    if ($check->{type} eq 'freespaceGreater') {
+        # TODO
+        return "ok";
+    }
+    
+    print "Unknown check: `".$check->{type}."'\n";
 
     return "ok";
 }
