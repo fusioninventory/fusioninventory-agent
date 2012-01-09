@@ -82,7 +82,7 @@ sub createWorkDir {
 }
 
 sub diskIsFull {
-    my ( $self ) = @_;
+    my ($self) = @_;
 
     my $logger = $self->{logger};
 
@@ -91,12 +91,12 @@ sub diskIsFull {
         $OSNAME eq 'solaris' ? _getFreeSpaceSolaris() :
                                _getFreeSpace()        ;
 
-    if(!$freeSpace) {
+    if (!$freeSpace) {
 	$logger->debug('$spaceFree is undef!');
-	$freeSpace=0;
+	$freeSpace = 0;
     }
 
-    print "Freespace on ".$self->{path}." : ".$freeSpace."\n";
+    print "Free space on $self->{path}: $freeSpace\n";
     # 400MB Free, should be set by a config option
     return ($freeSpace < 2000);
 }
