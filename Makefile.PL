@@ -11,18 +11,16 @@ perl_version '5.008';
 
 # check for fusioninventory-agent setup
 my $agent = which('fusioninventory-agent');
-if (!$agent) {
-    warn "warning: fusioninventory-agent not found in PATH";
-} else {
-    my $command = 'fusioninventory-agent --setup';
-    open (my $handle, '-|', $command) or die "can't run $command: $ERRNO";
-    while (my $line = <$handle>) {
-        chomp $line;
-        next unless $line =~ /(\S+): (\S+)/;
-        $MY::setup{uc($1)} = $2;
-    }
-    close $handle;
+die "fusioninventory-agent not found in PATH\n" unless $agent;
+
+my $command = 'fusioninventory-agent --setup';
+open (my $handle, '-|', $command) or die "can't run $command: $ERRNO";
+while (my $line = <$handle>) {
+    chomp $line;
+    next unless $line =~ /(\S+): (\S+)/;
+    $MY::setup{uc($1)} = $2;
 }
+close $handle;
 
 # mandatory dependencies
 requires 'Net::IP'                => undef;
