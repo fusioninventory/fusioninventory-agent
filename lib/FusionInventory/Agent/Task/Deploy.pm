@@ -101,7 +101,6 @@ sub processRemote {
         }
     );
 
-use Data::Dumper;
 print Dumper($answer);
     if (ref($answer) eq 'HASH' && !keys %$answer) {
         $self->{logger}->debug("Nothing to do");
@@ -344,7 +343,6 @@ print Dumper($answer);
             { workdir => $workdir } );
         my $actionnum = 0;
         ACTION: while ( my $action = $job->getNextToProcess() ) {
-use Data::Dumper;
 print Dumper($action);
         my ($actionName, $params) = %$action;
             if ( $params && (ref( $params->{checks} ) eq 'ARRAY') ) {
