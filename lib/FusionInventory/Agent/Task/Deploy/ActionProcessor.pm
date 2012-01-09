@@ -15,11 +15,11 @@ use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Cmd;
 sub new {
     my ($class, %params) = @_;
 
+    die "no workdir parameter" unless $params{workdir};
+
     my $self = {
         workdir => $params{workdir}
     };
-
-    die unless $params{workdir};
 
     bless $self, $class;
 }

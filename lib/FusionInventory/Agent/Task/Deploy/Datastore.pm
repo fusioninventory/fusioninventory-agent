@@ -11,7 +11,7 @@ use FusionInventory::Agent::Task::Deploy::Datastore::WorkDir;
 sub new {
     my ($class, %params) = @_;
 
-    die unless $params{path};
+    die "no path parameter" unless $params{path};
 
     my $self = {
         path => $params{path},

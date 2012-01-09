@@ -12,13 +12,13 @@ use HTTP::Request;
 sub new {
     my ($class, %params) = @_;
 
+    die "no datastore parameter" unless $params{datastore};
+    die "no sha512 parameter" unless $params{sha512};
+
     my $self = $params{data};
     $self->{sha512} = $params{sha512};
     $self->{datastore} = $params{datastore};
     $self->{client} = $params{client};
-
-    die unless $self->{datastore};
-    die unless $self->{sha512};
 
     bless $self, $class;
 }
