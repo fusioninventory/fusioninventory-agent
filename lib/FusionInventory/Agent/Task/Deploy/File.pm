@@ -21,6 +21,8 @@ sub new {
     $self->{client} = $params{client};
 
     bless $self, $class;
+
+    return $self;
 }
 
 sub getPartFilePath {

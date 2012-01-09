@@ -11,6 +11,8 @@ sub new {
     my $self = {};
 
     bless $self, $class;
+
+    return $self;
 }
 
 sub process {

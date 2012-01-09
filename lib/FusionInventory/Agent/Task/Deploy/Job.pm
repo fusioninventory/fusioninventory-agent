@@ -12,6 +12,8 @@ sub new {
     $self->{associatedFiles} = $params{associatedFiles};
 
     bless $self, $class;
+
+    return $self;
 }
 
 
