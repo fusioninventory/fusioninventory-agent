@@ -7,7 +7,6 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
-use Data::Dumper;
 use JSON;
 use LWP;
 use URI::Escape;
@@ -101,7 +100,6 @@ sub processRemote {
         }
     );
 
-print Dumper($answer);
     if (ref($answer) eq 'HASH' && !keys %$answer) {
         $self->{logger}->debug("Nothing to do");
         return;
@@ -343,7 +341,6 @@ print Dumper($answer);
             { workdir => $workdir } );
         my $actionnum = 0;
         ACTION: while ( my $action = $job->getNextToProcess() ) {
-print Dumper($action);
         my ($actionName, $params) = %$action;
             if ( $params && (ref( $params->{checks} ) eq 'ARRAY') ) {
                 my $checkProcessor =
