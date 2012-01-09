@@ -13,11 +13,13 @@ use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Delete;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Cmd;
 
 sub new {
-    my ($class, $params ) = @_;
+    my ($class, %params) = @_;
 
-    my $self = { workdir => $params->{workdir} };
+    my $self = {
+        workdir => $params{workdir}
+    };
 
-    die unless $params->{workdir};
+    die unless $params{workdir};
 
     bless $self, $class;
 }

@@ -6,10 +6,10 @@ use warnings;
 use English qw(-no_match_vars);
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
-    my $self = $params->{data};
-    $self->{associatedFiles} = $params->{associatedFiles};
+    my $self = $params{data};
+    $self->{associatedFiles} = $params{associatedFiles};
 
     bless $self, $class;
 }

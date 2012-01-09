@@ -85,7 +85,8 @@ sub processRemote {
     }
 
     my $datastore = FusionInventory::Agent::Task::Deploy::Datastore->new(
-        { path => $self->{target}{storage}{directory}.'/deploy', } );
+        path => $self->{target}{storage}{directory}.'/deploy' 
+    );
     $datastore->cleanUp();
 
     my $ret = {};
@@ -113,12 +114,10 @@ sub processRemote {
 
     foreach my $sha512 ( keys %{ $answer->{associatedFiles} } ) {
         $files->{$sha512} = FusionInventory::Agent::Task::Deploy::File->new(
-            {
-                client    => $self->{client},
-                sha512    => $sha512,
-                data      => $answer->{associatedFiles}{$sha512},
-                datastore => $datastore
-            }
+            client    => $self->{client},
+            sha512    => $sha512,
+            data      => $answer->{associatedFiles}{$sha512},
+            datastore => $datastore
         );
     }
 
@@ -135,10 +134,8 @@ sub processRemote {
         }
         push @$jobList,
           FusionInventory::Agent::Task::Deploy::Job->new(
-            {
-                data            => $_,
-                associatedFiles => $associatedFiles
-            }
+            data            => $_,
+            associatedFiles => $associatedFiles
           );
     }
 
@@ -338,7 +335,8 @@ sub processRemote {
 #        );
         my $actionProcessor =
           FusionInventory::Agent::Task::Deploy::ActionProcessor->new(
-            { workdir => $workdir } );
+            workdir => $workdir
+        );
         my $actionnum = 0;
         ACTION: while ( my $action = $job->getNextToProcess() ) {
         my ($actionName, $params) = %$action;

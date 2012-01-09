@@ -8,11 +8,11 @@ use Archive::Extract;
 use Compress::Zlib;
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
     my $self = {};
 
-    $self->{path} = $params->{path};
+    $self->{path} = $params{path};
     $self->{files} = [];
 
     bless $self, $class;

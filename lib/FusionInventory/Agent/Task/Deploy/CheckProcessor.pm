@@ -6,7 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
     my $self = {};
 

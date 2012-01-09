@@ -9,12 +9,12 @@ use File::Path qw(make_path remove_tree);
 use FusionInventory::Agent::Task::Deploy::Datastore::WorkDir;
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
-    die unless $params->{path};
+    die unless $params{path};
 
     my $self = {
-        path => $params->{path},
+        path => $params{path},
     };
 
     bless $self, $class;
@@ -69,9 +69,9 @@ sub createWorkDir {
     make_path($path);
     return unless -d $path;
 
-    return FusionInventory::Agent::Task::Deploy::Datastore::WorkDir->new({ path => $path});
-
-
+    return FusionInventory::Agent::Task::Deploy::Datastore::WorkDir->new(
+        path => $path
+    );
 }
 
 sub diskIsFull {

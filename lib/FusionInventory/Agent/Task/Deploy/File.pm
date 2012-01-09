@@ -10,12 +10,12 @@ use File::Glob;
 use HTTP::Request;
 
 sub new {
-    my ($class, $params) = @_;
+    my ($class, %params) = @_;
 
-    my $self = $params->{data};
-    $self->{sha512} = $params->{sha512};
-    $self->{datastore} = $params->{datastore};
-    $self->{client} = $params->{client};
+    my $self = $params{data};
+    $self->{sha512} = $params{sha512};
+    $self->{datastore} = $params{datastore};
+    $self->{client} = $params{client};
 
     die unless $self->{datastore};
     die unless $self->{sha512};
