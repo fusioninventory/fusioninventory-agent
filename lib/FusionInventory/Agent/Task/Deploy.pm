@@ -14,8 +14,6 @@ use Data::Dumper;
 use URI::Escape;
 use FusionInventory::Agent::Storage;
 
-#use FusionInventory::Agent::Network;
-#use FusionInventory::Agent::REST;
 use FusionInventory::Agent::HTTP::Client::Fusion;
 
 use FusionInventory::Agent::Task::Deploy::Job;
