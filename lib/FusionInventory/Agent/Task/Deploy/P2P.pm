@@ -91,7 +91,7 @@ print "cachedate: ".$cache{date}."\n";
 
     my @addresses;
 
-    print $^O."\n";
+    print $OSNAME."\n";
     if ( $OSNAME eq 'linux') {
         my $stack;
         foreach (`LC_ALL=C ifconfig`) {
@@ -112,7 +112,7 @@ print "cachedate: ".$cache{date}."\n";
             }
 
         }
-    } elsif ( $^O =~ /^MSWin/x ) {
+    } elsif ( $OSNAME =~ /^MSWin/x ) {
         foreach (`route print`) {
             if (/^\s+(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\s+(255)\.(255)\.(\d+)\.(\d+)/x) {
                 push @addresses, { 
@@ -150,7 +150,7 @@ sub scan {
     my $found;
     my $running = 0;
 
-    my $thisIsWindows = ($^O =~ /mswin32/i);
+    my $thisIsWindows = ($OSNAME =~ /mswin32/i);
 
     my @needCheck2 = 0;
     my $ipCpt = int(@ipToTestList);

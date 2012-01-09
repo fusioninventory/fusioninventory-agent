@@ -3,6 +3,7 @@ package FusionInventory::Agent::Task::Deploy::Datastore::WorkDir;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
 use File::Path qw(make_path);
 use Archive::Extract;
 use Compress::Zlib;
@@ -35,7 +36,7 @@ sub prepare {
 
         my $fh;
         if (!open($fh, ">$finalFilePath")) {
-            print "Failed to open ".$finalFilePath.": $!\n";
+            print "Failed to open ".$finalFilePath.": $ERRNO\n";
             return;
         }
         binmode($fh);

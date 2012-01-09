@@ -3,6 +3,7 @@ package FusionInventory::Agent::Task::Deploy::Datastore;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
 use File::Glob;
 use File::Path qw(make_path remove_tree);
 
@@ -82,7 +83,7 @@ sub diskIsFull {
     my $logger = $self->{logger};
 
     my $spaceFree;
-    if ($^O =~ /^MSWin/) {
+    if ($OSNAME =~ /^MSWin/) {
 
         if (!eval ('
                 use Win32::OLE qw(in CP_UTF8);
@@ -120,7 +121,7 @@ sub diskIsFull {
                 $spaceFree = $1;
             }
         }
-    } elsif ($^O =~ /^solaris/i) {
+    } elsif ($OSNAME =~ /^solaris/i) {
         my $dfFh;
         return unless -d $self->{path};
         if (open($dfFh, '-|', "df", '-b', $self->{path})) {

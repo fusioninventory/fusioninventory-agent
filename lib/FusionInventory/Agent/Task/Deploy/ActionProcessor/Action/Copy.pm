@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 $File::Copy::Recursive::CPRFComp = 1;
+use English qw(-no_match_vars);
 use File::Copy::Recursive qw(rcopy);
 use File::Glob;
 
@@ -15,7 +16,7 @@ sub do {
     foreach (File::Glob::glob($params->{from})) {
         if (!File::Copy::Recursive::rcopy($_, $params->{to})) {
             push @$msg, "Failed to copy: `".$params->{from}."' to '".$params->{to};
-            push @$msg, $!;
+            push @$msg, $ERRNO;
 
             $status = 0;
         }
