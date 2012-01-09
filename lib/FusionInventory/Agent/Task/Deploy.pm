@@ -1,5 +1,4 @@
 package FusionInventory::Agent::Task::Deploy;
-our $VERSION = '1.0.2';
 
 # Full protocol documentation available here:
 #  http://forge.fusioninventory.org/projects/fusioninventory-agent/wiki/API-REST-deploy
@@ -20,6 +19,8 @@ use FusionInventory::Agent::Task::Deploy::CheckProcessor;
 use FusionInventory::Agent::Task::Deploy::Datastore;
 use FusionInventory::Agent::Task::Deploy::File;
 use FusionInventory::Agent::Task::Deploy::Job;
+
+our $VERSION = '1.0.2';
 
 sub isEnabled {
     my ($self, $response) = @_;
