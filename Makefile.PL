@@ -10,10 +10,10 @@ version_from 'lib/FusionInventory/Agent/Task/ESX.pm';
 perl_version '5.008';
 
 # mandatory dependencies
-requires 'FusionInventory::Agent'        => 2.2.0;
-requires 'JSON'                          => undef;
+requires 'FusionInventory::Agent' => 2.2.0;
+requires 'JSON'                   => undef;
 
-test_requires 'Test::Exception'          => undef;
+test_requires 'Test::Exception'   => undef;
 
 install_script  'fusioninventory-esx';
 
