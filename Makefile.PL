@@ -11,11 +11,11 @@ perl_version '5.008';
 
 # mandatory dependencies
 requires 'FusionInventory::Agent' => 2.2.0;
-requires 'Archive::Extract' => undef;
-requires 'Digest::SHA' => undef;
-requires 'File::Copy::Recursive' => undef;
-requires 'JSON' => undef;
-requires 'URI::Escape' => undef;
+requires 'Archive::Extract'       => undef;
+requires 'Digest::SHA'            => undef;
+requires 'File::Copy::Recursive'  => undef;
+requires 'JSON'                   => undef;
+requires 'URI::Escape'            => undef;
 
 
 WriteAll;
