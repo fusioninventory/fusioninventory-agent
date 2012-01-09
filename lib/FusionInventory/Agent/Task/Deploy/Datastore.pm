@@ -1,12 +1,12 @@
 package FusionInventory::Agent::Task::Deploy::Datastore;
 
-use FusionInventory::Agent::Task::Deploy::Datastore::WorkDir;
-
 use strict;
 use warnings;
 
 use File::Glob;
 use File::Path qw(make_path remove_tree);
+
+use FusionInventory::Agent::Task::Deploy::Datastore::WorkDir;
 
 sub new {
     my ($class, $params) = @_;

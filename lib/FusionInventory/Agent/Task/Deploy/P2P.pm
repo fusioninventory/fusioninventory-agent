@@ -1,15 +1,15 @@
 package FusionInventory::Agent::Task::Deploy::P2P;
 
-# POE Debug
-#sub POE::Kernel::TRACE_REFCNT () { 1 }
-use POE qw(Component::Client::TCP Component::Client::Ping);
-
-use HTTP::Request::Common qw(GET);
-use Net::IP;
-use English qw(-no_match_vars);
-
 use strict;
 use warnings;
+
+use English qw(-no_match_vars);
+use HTTP::Request::Common qw(GET);
+use Net::IP;
+use POE qw(Component::Client::TCP Component::Client::Ping);
+
+# POE Debug
+#sub POE::Kernel::TRACE_REFCNT () { 1 }
 
 my %cache = (
     date => 0,

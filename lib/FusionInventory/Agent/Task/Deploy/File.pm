@@ -3,11 +3,11 @@ package FusionInventory::Agent::Task::Deploy::File;
 use strict;
 use warnings;
 
-use File::Glob;
 use Digest::SHA;
-use HTTP::Request;
 use File::Basename;
 use File::Path qw(make_path);
+use File::Glob;
+use HTTP::Request;
 
 sub new {
     my ($class, $params) = @_;

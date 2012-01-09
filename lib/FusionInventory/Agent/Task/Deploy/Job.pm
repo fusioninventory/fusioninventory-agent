@@ -1,9 +1,9 @@
 package FusionInventory::Agent::Task::Deploy::Job;
 
-use English qw(-no_match_vars);
-
 use strict;
 use warnings;
+
+use English qw(-no_match_vars);
 
 sub new {
     my ($class, $params) = @_;

@@ -3,9 +3,9 @@ package FusionInventory::Agent::Task::Deploy::ActionProcessor;
 use strict;
 use warnings;
 
+use Cwd;
 use English qw(-no_match_vars);
 
-use Cwd;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Move;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Copy;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Mkdir;
