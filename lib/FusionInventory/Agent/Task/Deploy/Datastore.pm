@@ -8,6 +8,7 @@ use File::Glob;
 use File::Path qw(make_path remove_tree);
 use UNIVERSAL::require;
 
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Deploy::Datastore::WorkDir;
 
@@ -142,19 +143,11 @@ sub _getFreeSpaceSolaris {
 
     return unless -d $self->{path};
 
-    my $freeSpace;
-    if (open(my $handle, '-|', "df", '-b', $self->{path})) {
-        foreach(<$handle>) {
-            if (/^\S+\s+(\d+)\d{3}[^\d]/) {
-                $freeSpace = $1;
-            }
-        }
-        close $handle
-    } else {
-        $self->{logger}->error("Failed to exec df") if $self->{logger};
-    }
-
-    return $freeSpace;
+    return getFirstMatch(
+        command => "df -b $self->{path}",
+        pattern => qr/^\S+\s+(\d+)\d{3}[^\d]/,
+        logger  => $self->{logger}
+    );
 }
 
 sub _getFreeSpace {
@@ -162,19 +155,11 @@ sub _getFreeSpace {
 
     return unless -d $self->{path};
 
-    my $freeSpace;
-    if (open(my $handle, '-|', "df", '-Pk', $self->{path})) {
-        foreach(<$handle>) {
-            if (/^\S+\s+\S+\s+\S+\s+(\d+)\d{3}[^\d]/) {
-                $freeSpace = $1;
-            }
-        }
-        close $handle
-    } else {
-        $self->{logger}->error("Failed to exec df") if $self->{logger};
-    }
-
-    return $freeSpace;
+    return getFirstMatch(
+        command => "df -Pk $self->{path}",
+        pattern => qr/^\S+\s+\S+\s+\S+\s+(\d+)\d{3}[^\d]/,
+        logger  => $self->{logger}
+    );
 }
 
 1;
