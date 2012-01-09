@@ -1,4 +1,5 @@
 use inc::Module::Install;
+use English qw(-no_match_vars);
 use File::Which;
 
 name 'FusionInventory-Agent-Task-NetDiscovery';
@@ -14,7 +15,7 @@ if (!$agent) {
     warn "warning: fusioninventory-agent not found in PATH";
 } else {
     my $command = 'fusioninventory-agent --setup';
-    open (my $handle, '-|', $command) or die "can't run $command: $!";
+    open (my $handle, '-|', $command) or die "can't run $command: $ERRNO";
     while (my $line = <$handle>) {
         chomp $line;
         next unless $line =~ /(\S+): (\S+)/;
@@ -47,8 +48,6 @@ constant data installation directory: $MY::variables{DATADIR}
 EOF
 
 package MY;
-
-use English qw(-no_match_vars);
 
 our %setup;
 our %variables;
