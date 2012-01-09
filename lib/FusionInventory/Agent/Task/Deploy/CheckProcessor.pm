@@ -22,69 +22,51 @@ sub process {
         return unless $OSNAME eq 'MSWin32';
         require FusionInventory::Agent::Tools::Win32;
         my $r = FusionInventory::Agent::Tools::Win32::getRegistryValue($check->{path});
-        if (defined($r)) {
-            return "ok";
-        } else {
-            return $check->{return};
-        }
+        return defined $r ? 'ok' : $check->{return};
     }
 
     if ($check->{type} eq 'winkeyEquals') {
         return unless $OSNAME eq 'MSWin32';
         require FusionInventory::Agent::Tools::Win32;
         my $r = FusionInventory::Agent::Tools::Win32::getValueFromRegistry($check->{path});
-        if (defined($r) && $check->{value} eq $r) {
-            return "ok";
-        } else {
-            return $check->{return};
-            return;
-        }
+
+        return defined $r && $check->{value} eq $r ? 'ok' : $check->{return};
     }
     
     if ($check->{type} eq 'winkeyMissing') {
         return unless $OSNAME eq 'MSWin32';
         require FusionInventory::Agent::Tools::Win32;
         my $r = FusionInventory::Agent::Tools::Win32::getValueFromRegistry($check->{path});
-        if (defined($r)) {
-            return $check->{return};
-            return;
-        } else {
-            return "ok";
-        }
+
+        return defined $r ? $check->{return} : 'ok';
     } 
 
     if ($check->{type} eq 'fileExists') {
-        return $check->{return} unless -f $check->{path};
-        return 'ok';
+        return -f $check->{path} ? 'ok' : $check->{return};
     }
 
     if ($check->{type} eq 'fileSizeEquals') {
         my @s = stat($check->{path});
-        return $check->{return} unless @s;
-        return 'ok';
+        return @s ? 'ok' : $check->{return};
     }
 
     if ($check->{type} eq 'fileSizeGreater') {
         my @s = stat($check->{path});
         return $check->{return} unless @s;
-        return "ok" if ($check->{value}) > $s[7];
-        return "ok";
+        return $check->{value} > $s[7] ? 'ok' : 'ok';
     }
 
     if ($check->{type} eq 'fileSizeLower') {
         my @s = stat($check->{path});
         return $check->{return} unless @s;
-        return "ok" if ($check->{value}) < $s[7];
-        return "ok";
+        return $check->{value} < $s[7] ? 'ok' : 'ok';
     }
     
     if ($check->{type} eq 'fileMissing') {
-        return $check->{return} if -f $check->{path};
-        return "ok";
+        return -f $check->{path} ? $check->{return} : 'ok';
     }
     
     if ($check->{type} eq 'freespaceGreater') {
-        # TODO
         return "ok";
     }
     
