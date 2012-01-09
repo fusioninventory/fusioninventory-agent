@@ -250,7 +250,7 @@ sub processRemote {
                         machineid   => $self->{deviceid},
                         part        => 'file',
                         uuid        => $job->{uuid},
-                        sha512        => $file->{sha512},
+                        sha512      => $file->{sha512},
                         currentStep => 'downloading',
                         status      => 'ok'
                     }
@@ -301,13 +301,13 @@ sub processRemote {
             $self->{client}->send(
                 url  => $remoteUrl,
                 args => {
-                action      => "setStatus",
-                machineid   => $self->{deviceid},
-                part        => 'job',
-                uuid        => $job->{uuid},
-                currentStep => 'prepare',
-                status      => 'ko',
-                msg         => 'failed to prepare work dir'
+                    action      => "setStatus",
+                    machineid   => $self->{deviceid},
+                    part        => 'job',
+                    uuid        => $job->{uuid},
+                    currentStep => 'prepare',
+                    status      => 'ko',
+                    msg         => 'failed to prepare work dir'
                 }
             );
             next JOB;
@@ -315,12 +315,12 @@ sub processRemote {
             $self->{client}->send(
                 url  => $remoteUrl,
                 args => {
-                action      => "setStatus",
-                machineid   => $self->{deviceid},
-                part        => 'job',
-                uuid        => $job->{uuid},
-                currentStep => 'prepare',
-                status      => 'ok',
+                    action      => "setStatus",
+                    machineid   => $self->{deviceid},
+                    part        => 'job',
+                    uuid        => $job->{uuid},
+                    currentStep => 'prepare',
+                    status      => 'ok',
                 }
             );
         }
@@ -351,8 +351,8 @@ sub processRemote {
                     if ( $checkStatus ne 'ok') {
 
                         $self->{client}->send(
-                                url  => $remoteUrl,
-                                args => {
+                            url  => $remoteUrl,
+                            args => {
                                 action      => "setStatus",
                                 machineid   => $self->{deviceid},
                                 part        => 'job',
@@ -362,8 +362,8 @@ sub processRemote {
                                 msg         => 'check failed',
                                 actionnum   => $actionnum,
                                 cheknum     => $checknum
-                                }
-                                );
+                            }
+                        );
 
                         next ACTION;
                     }
@@ -440,14 +440,14 @@ sub run {
     my ($self, %params) = @_;
 
     $self->{client} = FusionInventory::Agent::HTTP::Client::Fusion->new(
-            logger       => $self->{logger},
-            user         => $params{user},
-            password     => $params{password},
-            proxy        => $params{proxy},
-            ca_cert_file => $params{ca_cert_file},
-            ca_cert_dir  => $params{ca_cert_dir},
-            no_ssl_check => $params{no_ssl_check},
-            debug        => $self->{debug}
+        logger       => $self->{logger},
+        user         => $params{user},
+        password     => $params{password},
+        proxy        => $params{proxy},
+        ca_cert_file => $params{ca_cert_file},
+        ca_cert_dir  => $params{ca_cert_dir},
+        no_ssl_check => $params{no_ssl_check},
+        debug        => $self->{debug}
     );
 
     my $globalRemoteConfig = $self->{client}->send(
