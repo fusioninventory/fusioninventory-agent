@@ -3,10 +3,10 @@ package FusionInventory::Agent::Task::Deploy::Datastore::WorkDir;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-use File::Path qw(make_path);
 use Archive::Extract;
 use Compress::Zlib;
+use English qw(-no_match_vars);
+use File::Path qw(make_path);
 
 sub new {
     my ($class, %params) = @_;
