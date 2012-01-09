@@ -1,17 +1,17 @@
 package FusionInventory::Agent::Task::ESX;
 
-our $VERSION = "1.1.3";
-
 use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
+use FusionInventory::Agent::Config;
 use FusionInventory::Agent::HTTP::Client::Fusion;
+use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Inventory::Inventory;
 use FusionInventory::Agent::XML::Query::Inventory;
-use FusionInventory::Agent::Config;
 use FusionInventory::VMware::SOAP;
-use FusionInventory::Agent::Logger;
+
+our $VERSION = "1.1.3";
 
 sub isEnabled {
     my ( $self, $response ) = @_;
