@@ -35,7 +35,7 @@ sub prepare {
         my $finalFilePath = $self->{path}.'/'.$file->{name};
 
         my $fh;
-        if (!open($fh, ">$finalFilePath")) {
+        if (!open($fh, '>', $finalFilePath)) {
             print "Failed to open ".$finalFilePath.": $ERRNO\n";
             return;
         }
