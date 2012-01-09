@@ -199,7 +199,7 @@
 #}
 #
 #
-#1;
+1;
 #
 #
 #=head1 wxPerl wrapper 
