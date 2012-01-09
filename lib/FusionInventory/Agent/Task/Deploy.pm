@@ -93,8 +93,8 @@ sub processRemote {
     my $files;
 
     my $answer = $self->{client}->send(
-        "url" => $remoteUrl,
-        args  => {
+        url  => $remoteUrl,
+        args => {
             action    => "getJobs",
             machineid => $self->{deviceid},
         }
@@ -146,8 +146,8 @@ sub processRemote {
 
         # RECEIVED
         $self->{client}->send(
-            "url" => $remoteUrl,
-            args  => {
+            url  => $remoteUrl,
+            args => {
                 action      => "setStatus",
                 machineid   => $self->{deviceid},
                 part        => 'job',
@@ -165,8 +165,8 @@ sub processRemote {
                 if ( !$checkProcessor->process( $job->{checks}[$checknum] ) ) {
 
                     $self->{client}->send(
-                        "url" => $remoteUrl,
-                        args  => {
+                        url  => $remoteUrl,
+                        args => {
                             action      => "setStatus",
                             machineid   => $self->{deviceid},
                             part        => 'job',
@@ -184,8 +184,8 @@ sub processRemote {
         }
 
         $self->{client}->send(
-            "url" => $remoteUrl,
-            args  => {
+            url  => $remoteUrl,
+            args => {
                 action      => "setStatus",
                 machineid   => $self->{deviceid},
                 part        => 'job',
@@ -199,8 +199,8 @@ sub processRemote {
         # DOWNLOADING
 
         $self->{client}->send(
-            "url" => $remoteUrl,
-            args  => {
+            url  => $remoteUrl,
+            args => {
                 action      => "setStatus",
                 machineid   => $self->{deviceid},
                 part        => 'job',
@@ -213,8 +213,8 @@ sub processRemote {
         foreach my $file ( @{ $job->{associatedFiles} } ) {
             if ( $file->filePartsExists() ) {
                 $self->{client}->send(
-                    "url" => $remoteUrl,
-                    args  => {
+                    url  => $remoteUrl,
+                    args => {
                         action    => "setStatus",
                         machineid   => $self->{deviceid},
                         part      => 'file',
@@ -229,8 +229,8 @@ sub processRemote {
                 next;
             }
             $self->{client}->send(
-                "url" => $remoteUrl,
-                args  => {
+                url  => $remoteUrl,
+                args => {
                     action      => "setStatus",
                     machineid   => $self->{deviceid},
                     part        => 'file',
@@ -244,8 +244,8 @@ sub processRemote {
             if ( $file->filePartsExists() ) {
 
                 $self->{client}->send(
-                    "url" => $remoteUrl,
-                    args  => {
+                    url  => $remoteUrl,
+                    args => {
                         action      => "setStatus",
                         machineid   => $self->{deviceid},
                         part        => 'file',
@@ -261,8 +261,8 @@ sub processRemote {
             else {
 
                 $self->{client}->send(
-                    "url" => $remoteUrl,
-                    args  => {
+                    url  => $remoteUrl,
+                    args => {
                         action      => "setStatus",
                         machineid   => $self->{deviceid},
                         part        => 'file',
@@ -277,8 +277,8 @@ sub processRemote {
             }
         }
         $self->{client}->send(
-            "url" => $remoteUrl,
-            args  => {
+            url  => $remoteUrl,
+            args => {
                 action      => "setStatus",
                 machineid   => $self->{deviceid},
                 part        => 'job',
@@ -299,8 +299,8 @@ sub processRemote {
 
         if (!$workdir->prepare()) {
             $self->{client}->send(
-                "url" => $remoteUrl,
-                args  => {
+                url  => $remoteUrl,
+                args => {
                 action      => "setStatus",
                 machineid   => $self->{deviceid},
                 part        => 'job',
@@ -313,8 +313,8 @@ sub processRemote {
             next JOB;
         } else {
             $self->{client}->send(
-                "url" => $remoteUrl,
-                args  => {
+                url  => $remoteUrl,
+                args => {
                 action      => "setStatus",
                 machineid   => $self->{deviceid},
                 part        => 'job',
@@ -327,8 +327,8 @@ sub processRemote {
 
         # PROCESSING
 #        $self->{client}->send(
-#            "url" => $remoteUrl,
-#            args  => {
+#            url  => $remoteUrl,
+#            args => {
 #                action      => "setStatus",
 #                machineid   => 'DEVICEID',
 #                part        => 'job',
@@ -351,8 +351,8 @@ sub processRemote {
                     if ( $checkStatus ne 'ok') {
 
                         $self->{client}->send(
-                                "url" => $remoteUrl,
-                                args  => {
+                                url  => $remoteUrl,
+                                args => {
                                 action      => "setStatus",
                                 machineid   => $self->{deviceid},
                                 part        => 'job',
@@ -377,8 +377,8 @@ sub processRemote {
             push @{$ret->{msg}}, $@ if $@;
             if ( !$ret->{status} ) {
                 $self->{client}->send(
-                    "url" => $remoteUrl,
-                    args  => {
+                    url  => $remoteUrl,
+                    args => {
                         action    => "setStatus",
                         machineid => $self->{deviceid},
                         uuid      => $job->{uuid},
@@ -388,8 +388,8 @@ sub processRemote {
                 );
 
                 $self->{client}->send(
-                    "url" => $remoteUrl,
-                    args  => {
+                    url  => $remoteUrl,
+                    args => {
                         action      => "setStatus",
                         machineid   => $self->{deviceid},
                         part        => 'job',
@@ -404,8 +404,8 @@ sub processRemote {
                 next JOB;
             }
             $self->{client}->send(
-                "url" => $remoteUrl,
-                args  => {
+                url  => $remoteUrl,
+                args => {
                     action      => "setStatus",
                     machineid   => $self->{deviceid},
                     part        => 'job',
@@ -420,8 +420,8 @@ sub processRemote {
         }
 
         $self->{client}->send(
-            "url" => $remoteUrl,
-            args  => {
+            url  => $remoteUrl,
+            args => {
                 action    => "setStatus",
                 machineid => $self->{deviceid},
                 part      => 'job',
@@ -451,8 +451,8 @@ sub run {
     );
 
     my $globalRemoteConfig = $self->{client}->send(
-        "url" => $self->{target}->{url},
-        args  => {
+        url  => $self->{target}->{url},
+        args => {
             action    => "getConfig",
             machineid => $self->{deviceid},
             task      => { Deploy => $VERSION },
