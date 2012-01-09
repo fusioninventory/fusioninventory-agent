@@ -11,7 +11,7 @@ use File::Basename;
 use File::Path qw(make_path);
 
 sub new {
-    my (undef, $params) = @_;
+    my ($class, $params) = @_;
 
     my $self = $params->{data};
     $self->{sha512} = $params->{sha512};
@@ -21,7 +21,7 @@ sub new {
     die unless $self->{datastore};
     die unless $self->{sha512};
 
-    bless $self;
+    bless $self, $class;
 }
 
 sub getPartFilePath {

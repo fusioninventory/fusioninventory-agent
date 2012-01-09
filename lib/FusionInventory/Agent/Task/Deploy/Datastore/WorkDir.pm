@@ -9,14 +9,14 @@ use Archive::Extract;
 use Compress::Zlib;
 
 sub new {
-    my (undef, $params) = @_;
+    my ($class, $params) = @_;
 
     my $self = {};
 
     $self->{path} = $params->{path};
     $self->{files} = [];
 
-    bless $self;
+    bless $self, $class;
 }
 
 sub addFile {

@@ -9,7 +9,7 @@ use File::Glob;
 use File::Path qw(make_path remove_tree);
 
 sub new {
-    my (undef, $params) = @_;
+    my ($class, $params) = @_;
 
     die unless $params->{path};
 
@@ -17,9 +17,7 @@ sub new {
         path => $params->{path},
     };
 
-
-
-    bless $self;
+    bless $self, $class;
 }
 
 sub cleanUp {

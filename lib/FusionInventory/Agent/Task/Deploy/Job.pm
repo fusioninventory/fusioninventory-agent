@@ -7,12 +7,12 @@ use strict;
 use warnings;
 
 sub new {
-    my (undef, $params) = @_;
+    my ($class, $params) = @_;
 
     my $self = $params->{data};
     $self->{associatedFiles} = $params->{associatedFiles};
 
-    bless $self;
+    bless $self, $class;
 }
 
 

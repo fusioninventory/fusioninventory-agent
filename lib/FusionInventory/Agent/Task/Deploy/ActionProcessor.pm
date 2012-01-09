@@ -14,13 +14,13 @@ use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Delete;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Cmd;
 
 sub new {
-    my ( undef, $params ) = @_;
+    my ($class, $params ) = @_;
 
     my $self = { workdir => $params->{workdir} };
 
     die unless $params->{workdir};
 
-    bless $self;
+    bless $self, $class;
 }
 
 sub process {
