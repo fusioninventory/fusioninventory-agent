@@ -106,19 +106,13 @@ sub _getFreeSpaceWindows {
 
     my $logger = $self->{logger};
 
-    Win32::OLE->require();
+    FusionInventory::Agent::Tools::Win32->require();
     if ($EVAL_ERROR) {
-        $logger->error("Failed to load Win32::OLE: $EVAL_ERROR");
+        $logger->error(
+            "Failed to load FusionInventory::Agent::Tools::Win32: $EVAL_ERROR"
+        );
         return;
     }
-
-    Win32::OLE::Const->require();
-    if ($EVAL_ERROR) {
-        $logger->error("Failed to load Win32::OLE::Const: $EVAL_ERROR");
-        return;
-    }
-
-    Win32::OLE->Option(CP => 'CP_UTF8');
 
     my $letter;
     if ($self->{path} !~ /^(\w):./) {
@@ -127,22 +121,14 @@ sub _getFreeSpaceWindows {
     }
     $letter = $1.':';
 
-
-    my $WMIServices = Win32::OLE->GetObject(
-        "winmgmts:{impersonationLevel=impersonate,(security)}!//./" );
-
-    if (!$WMIServices) {
-        $logger->error(Win32::OLE->LastError());
-        return;
-    }
-
     my $freeSpace;
-    foreach my $properties (Win32::OLE::in($WMIServices->InstancesOf(
-        'Win32_LogicalDisk'
-    ))) {
-
-        next unless lc($properties->{Caption}) eq lc($letter);
-        my $t = $properties->{FreeSpace};
+    foreach my $object (FusionInventory::Agent::Tools::Win32::getWmiObjects(
+        moniker    => 'winmgmts:{impersonationLevel=impersonate,(security)}!//./',
+        class      => 'Win32_LogicalDisk',
+        properties => [ qw/Caption FreeSpace/ ]
+    )) {
+        next unless lc($object->{Caption}) eq lc($letter);
+        my $t = $object->{FreeSpace};
         if ($t && $t =~ /(\d+)\d{6}$/) {
             $freeSpace = $1;
         }
