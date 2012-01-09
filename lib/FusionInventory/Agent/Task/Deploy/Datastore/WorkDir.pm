@@ -36,27 +36,27 @@ sub prepare {
 
         my $fh;
         if (!open($fh, '>', $finalFilePath)) {
-            print "Failed to open ".$finalFilePath.": $ERRNO\n";
+            print "Failed to open '$finalFilePath': $ERRNO\n";
             return;
         }
         binmode($fh);
         foreach my $sha512 (@{$file->{multiparts}}) {
             my $partFilePath = $file->getPartFilePath($sha512);
             if (! -f $partFilePath) {
-                print "Missing multipart element: `$partFilePath'\n";
+                print "Missing multipart element '$partFilePath'\n";
             }
 
             my $part;
             my $buf;
             if ($part = gzopen($partFilePath, 'rb')) {
 
-                print "reading ".$sha512."\n";
+                print "reading $sha512\n";
                 while ($part->gzread($buf, 1024)) {
                     print $fh $buf;
                 }
                 $part->gzclose;
             } else {
-                print "Failed to open: `$partFilePath'\n";
+                print "Failed to open '$partFilePath'\n";
             }
         }
         close($fh);
@@ -78,7 +78,7 @@ sub prepare {
             if (!$ae) {
                 print "Failed to create Archive::Extract object\n";
             } elsif (!$ae->extract( to => $self->{path} )) {
-                print "Failed to extract `$finalFilePath'\n";
+                print "Failed to extract '$finalFilePath'\n";
             }
             # We ignore failure here because one my have activated the
             # extract flag on common file and this should be harmless
