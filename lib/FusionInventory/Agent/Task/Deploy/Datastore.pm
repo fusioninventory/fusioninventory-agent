@@ -6,6 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 use File::Glob;
 use File::Path qw(make_path remove_tree);
+use UNIVERSAL::require;
 
 use FusionInventory::Agent::Task::Deploy::Datastore::WorkDir;
 
@@ -102,16 +103,19 @@ sub _getFreeSpaceWindows {
 
     my $logger = $self->{logger};
 
-    if (!eval ('
-            use Win32::OLE qw(in CP_UTF8);
-            use Win32::OLE::Const;
-
-            Win32::OLE->Option(CP => CP_UTF8);
-
-            1')) {
-        $logger->error("Failed to load Win32::OLE: $@") if $logger;
+    Win32::OLE->require();
+    if ($EVAL_ERROR) {
+        $logger->error("Failed to load Win32::OLE: $EVAL_ERROR") if $logger;
+        return;
     }
 
+    Win32::OLE::Const->require();
+    if ($EVAL_ERROR) {
+        $logger->error("Failed to load Win32::OLE::Const: $EVAL_ERROR") if $logger;
+        return;
+    }
+
+    Win32::OLE->Option(CP => 'CP_UTF8');
 
     my $letter;
     if ($self->{path} !~ /^(\w):./) {
@@ -130,8 +134,9 @@ sub _getFreeSpaceWindows {
     }
 
     my $freeSpace;
-    foreach my $properties ( Win32::OLE::in(
-            $WMIServices->InstancesOf('Win32_LogicalDisk'))) {
+    foreach my $properties (Win32::OLE::in($WMIServices->InstancesOf(
+        'Win32_LogicalDisk'
+    ))) {
 
         next unless lc($properties->{Caption}) eq lc($letter);
         my $t = $properties->{FreeSpace};
