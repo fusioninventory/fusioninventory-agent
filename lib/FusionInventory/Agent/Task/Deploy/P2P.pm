@@ -16,7 +16,6 @@ my %cache = (
     data => undef
 );
 
-
 sub _computeIPToTest {
     my ($addresses, $ipLimit) = @_;
 
@@ -73,9 +72,9 @@ sub _computeIPToTest {
 sub fisher_yates_shuffle {
     my $deck = shift;  # $deck is a reference to an array
 
-        return unless @$deck; # must not be empty!
+    return unless @$deck; # must not be empty!
 
-        my $i = @$deck;
+    my $i = @$deck;
     while (--$i) {
         my $j = int rand ($i+1);
         @$deck[$i,$j] = @$deck[$j,$i];
@@ -106,7 +105,7 @@ print "cachedate: ".$cache{date}."\n";
             (/inet\saddr:(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3}).*Mask:(255)\.(255).(\d+)\.(\d+)/x) {
                 print "→".$_."\n";
                 $stack = { 
-                    ip => [ $1, $2, $3, $4 ],
+                    ip   => [ $1, $2, $3, $4 ],
                     mask => [ 255, 255, 255, $8 ]
                 };
             }
@@ -116,8 +115,8 @@ print "cachedate: ".$cache{date}."\n";
         foreach (`route print`) {
             if (/^\s+(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\s+(255)\.(255)\.(\d+)\.(\d+)/x) {
                 push @addresses, { 
-                    ip => [ $1, $2, $3, $4 ],
-                       mask => [ 255, 255, 255, $8 ]
+                    ip   => [ $1, $2, $3, $4 ],
+                    mask => [ 255, 255, 255, $8 ]
                 };
             }
         }
@@ -143,9 +142,8 @@ sub scan {
     fisher_yates_shuffle(\@ipToTestList);
 
     POE::Component::Client::Ping->spawn(
-            Timeout             => 5,           # defaults to 1 second
-            );
-
+        Timeout => 5,           # defaults to 1 second
+    );
 
     my $found;
     my $running = 0;
@@ -154,10 +152,10 @@ sub scan {
     my $ipCpt = int(@ipToTestList);
     my @ipFound;
     POE::Session->create(
-            inline_states => {
+        inline_states => {
             _start => sub {
-            $_[HEAP]->{shutdown_on_error}=1;
-            $_[KERNEL]->yield( "add", 0 );
+                $_[HEAP]->{shutdown_on_error}=1;
+                $_[KERNEL]->yield( "add", 0 );
             },
             add => sub {
             my $ipToTest = shift @ipToTestList;
@@ -189,22 +187,20 @@ sub scan {
                 print($addr." is up\n");
 
                 POE::Component::Client::TCP->new(
-                        RemoteAddress => $addr,
-                        RemotePort    => $port,
-                        ConnectTimeout=> 10,
-                        Connected     => sub {
-                            push @ipFound, 'http://'.$addr.':'.$port.'/deploy/getFile/';
-                            $_[KERNEL]->yield("shutdown");
-                            },
-                        ServerInput   => sub {
-                            $_[KERNEL]->yield("shutdown");
-                        },
+                    RemoteAddress  => $addr,
+                    RemotePort     => $port,
+                    ConnectTimeout => 10,
+                    Connected      => sub {
+                        push @ipFound, "http://$addr:$port/deploy/getFile/";
+                        $_[KERNEL]->yield("shutdown");
+                    },
+                    ServerInput    => sub {
+                        $_[KERNEL]->yield("shutdown");
+                    },
                 );
-
             },
-
-            },
-                          );
+        },
+    );
 # Run everything, and exit when it's all done.
     $poe_kernel->run();
     print "byebye\n";
