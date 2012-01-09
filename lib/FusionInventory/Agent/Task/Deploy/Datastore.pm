@@ -83,7 +83,7 @@ sub diskIsFull {
     my $logger = $self->{logger};
 
     my $spaceFree;
-    if ($OSNAME =~ /^MSWin/) {
+    if ($OSNAME eq 'MSWin32') {
 
         if (!eval ('
                 use Win32::OLE qw(in CP_UTF8);
@@ -121,7 +121,7 @@ sub diskIsFull {
                 $spaceFree = $1;
             }
         }
-    } elsif ($OSNAME =~ /^solaris/i) {
+    } elsif ($OSNAME eq 'solaris') {
         my $dfFh;
         return unless -d $self->{path};
         if (open($dfFh, '-|', "df", '-b', $self->{path})) {
