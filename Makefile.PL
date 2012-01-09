@@ -22,6 +22,8 @@ while (my $line = <$handle>) {
 }
 close $handle;
 
+die "agent too old (minimal version 2.2.0 required)\n" if $CHILD_ERROR;
+
 # mandatory dependencies
 requires 'Net::IP'                => undef;
 requires 'threads'                => undef;
