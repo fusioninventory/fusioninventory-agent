@@ -11,10 +11,10 @@ use File::Path qw(make_path);
 sub new {
     my ($class, %params) = @_;
 
-    my $self = {};
-
-    $self->{path} = $params{path};
-    $self->{files} = [];
+    my $self = {
+        path  => $params{path},
+        files => []
+    };
 
     bless $self, $class;
 }
