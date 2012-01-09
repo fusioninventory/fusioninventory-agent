@@ -4,7 +4,6 @@ use strict;
 use warnings;
 
 use File::Glob;
-use Data::Dumper;
 use Digest::SHA;
 use HTTP::Request;
 use File::Basename;

@@ -1,6 +1,5 @@
 package FusionInventory::Agent::Task::Deploy::Job;
 
-use Data::Dumper;
 use English qw(-no_match_vars);
 
 use strict;

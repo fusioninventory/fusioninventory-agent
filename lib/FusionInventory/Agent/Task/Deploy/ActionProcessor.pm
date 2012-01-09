@@ -6,7 +6,6 @@ use warnings;
 use English qw(-no_match_vars);
 
 use Cwd;
-use Data::Dumper;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Move;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Copy;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Mkdir;

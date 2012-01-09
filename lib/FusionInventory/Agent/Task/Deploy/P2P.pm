@@ -127,7 +127,6 @@ print "cachedate: ".$cache{date}."\n";
         print "No network to scan...\n";
         return;
     }
-    use Data::Dumper;
 
     $cache{date}=time;
     $cache{data}=scan({port => $port}, _computeIPToTest(\@addresses));

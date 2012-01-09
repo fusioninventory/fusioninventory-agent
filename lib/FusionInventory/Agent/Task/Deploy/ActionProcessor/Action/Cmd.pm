@@ -3,8 +3,6 @@ package FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Cmd;
 use strict;
 use warnings;
 
-use Data::Dumper;
-
 sub _evaluateRet {
     my ($retChecks, $buf, $exitStatus) = @_;
 

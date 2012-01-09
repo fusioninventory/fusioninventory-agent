@@ -5,8 +5,6 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-use Data::Dumper;
-
 sub new {
     my ($class, $params) = @_;
 

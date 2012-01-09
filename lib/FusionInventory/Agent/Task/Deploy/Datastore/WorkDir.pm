@@ -3,7 +3,6 @@ package FusionInventory::Agent::Task::Deploy::Datastore::WorkDir;
 use strict;
 use warnings;
 
-use Data::Dumper;
 use File::Path qw(make_path);
 use Archive::Extract;
 use Compress::Zlib;
