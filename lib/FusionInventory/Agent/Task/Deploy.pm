@@ -8,19 +8,18 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
-use LWP;
-use JSON;
 use Data::Dumper;
+use JSON;
+use LWP;
 use URI::Escape;
-use FusionInventory::Agent::Storage;
 
 use FusionInventory::Agent::HTTP::Client::Fusion;
-
-use FusionInventory::Agent::Task::Deploy::Job;
-use FusionInventory::Agent::Task::Deploy::File;
-use FusionInventory::Agent::Task::Deploy::Datastore;
+use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor;
 use FusionInventory::Agent::Task::Deploy::CheckProcessor;
+use FusionInventory::Agent::Task::Deploy::Datastore;
+use FusionInventory::Agent::Task::Deploy::File;
+use FusionInventory::Agent::Task::Deploy::Job;
 
 sub isEnabled {
     my ($self, $response) = @_;
