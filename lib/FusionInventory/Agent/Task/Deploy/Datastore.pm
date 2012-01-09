@@ -8,6 +8,7 @@ use File::Glob;
 use File::Path qw(make_path remove_tree);
 use UNIVERSAL::require;
 
+use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Deploy::Datastore::WorkDir;
 
 sub new {
@@ -16,7 +17,9 @@ sub new {
     die "no path parameter" unless $params{path};
 
     my $self = {
-        path => $params{path},
+        path   => $params{path},
+        logger => $params{logger} ||
+                  FusionInventory::Agent::Logger->new(),
     };
 
     bless $self, $class;
@@ -89,7 +92,7 @@ sub diskIsFull {
                                _getFreeSpace()        ;
 
     if(!$freeSpace) {
-	$logger->debug('$spaceFree is undef!') if $logger;
+	$logger->debug('$spaceFree is undef!');
 	$freeSpace=0;
     }
 
@@ -105,13 +108,13 @@ sub _getFreeSpaceWindows {
 
     Win32::OLE->require();
     if ($EVAL_ERROR) {
-        $logger->error("Failed to load Win32::OLE: $EVAL_ERROR") if $logger;
+        $logger->error("Failed to load Win32::OLE: $EVAL_ERROR");
         return;
     }
 
     Win32::OLE::Const->require();
     if ($EVAL_ERROR) {
-        $logger->error("Failed to load Win32::OLE::Const: $EVAL_ERROR") if $logger;
+        $logger->error("Failed to load Win32::OLE::Const: $EVAL_ERROR");
         return;
     }
 
@@ -119,7 +122,7 @@ sub _getFreeSpaceWindows {
 
     my $letter;
     if ($self->{path} !~ /^(\w):./) {
-        $logger->error("Path parse error: ".$self->{path}) if $logger;
+        $logger->error("Path parse error: ".$self->{path});
         return;
     }
     $letter = $1.':';
@@ -129,7 +132,7 @@ sub _getFreeSpaceWindows {
         "winmgmts:{impersonationLevel=impersonate,(security)}!//./" );
 
     if (!$WMIServices) {
-        $logger->error(Win32::OLE->LastError()) if $logger;
+        $logger->error(Win32::OLE->LastError());
         return;
     }
 
