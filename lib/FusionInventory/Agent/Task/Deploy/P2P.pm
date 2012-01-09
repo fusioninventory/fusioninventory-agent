@@ -150,8 +150,6 @@ sub scan {
     my $found;
     my $running = 0;
 
-    my $thisIsWindows = ($OSNAME eq 'MSWin32');
-
     my @needCheck2 = 0;
     my $ipCpt = int(@ipToTestList);
     my @ipFound;
