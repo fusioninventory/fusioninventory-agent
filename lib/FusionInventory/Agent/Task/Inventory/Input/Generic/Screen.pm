@@ -129,26 +129,17 @@ sub _getScreensFromWindows {
     my @ret;
     foreach my $PNPDeviceID (keys %{$devices}) {
 
+        my $KEY_WOW64_64KEY = 0x100;
 
-        my $machKey;
-        {
-            my $KEY_WOW64_64KEY = 0x100;
+        my $access = FusionInventory::Agent::Tools::Win32::is64bit() ?
+            Win32::TieRegistry::KEY_READ() | $KEY_WOW64_64KEY :
+            Win32::TieRegistry::KEY_READ();
 
-            my $access;
-
-            if (FusionInventory::Agent::Tools::Win32::is64bit()) {
-                $access = Win32::TieRegistry::KEY_READ() | $KEY_WOW64_64KEY;
-            } else {
-                $access = Win32::TieRegistry::KEY_READ();
-            }
-
-# Win32-specifics constants can not be loaded on non-Windows OS
-            no strict 'subs';
-            $machKey = $Registry->Open('LMachine', {
-                Access => $access
-            } ) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-
-        }
+        my $machKey = $Registry->Open('LMachine', {
+            Access => $access
+        } ) or $logger->fault(
+            "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR"
+        );
 
         $devices->{$PNPDeviceID}{edid} =
             $machKey->{"SYSTEM/CurrentControlSet/Enum/".$PNPDeviceID."/Device Parameters/EDID"} || '';
