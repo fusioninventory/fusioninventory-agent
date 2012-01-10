@@ -115,13 +115,8 @@ sub _getScreensFromWindows {
         };
     }
 
-    Win32::TieRegistry->require();
-    if ($EVAL_ERROR) {
-        print "Failed to load Win32::TieRegistry: $EVAL_ERROR";
-        return;
-    }
-
     my $Registry;
+    Win32::TieRegistry->require();
     Win32::TieRegistry->import(
         Delimiter   => '/',
         ArrayValues => 0,
