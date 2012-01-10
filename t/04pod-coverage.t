@@ -3,11 +3,11 @@
 
 use strict;
 use warnings;
+
 use Test::More;
 use English qw(-no_match_vars);
 
 use lib 't';
-use FusionInventory::Test::Utils;
 
 if (!$ENV{TEST_AUTHOR}) {
     my $msg = 'Author test. Set $ENV{TEST_AUTHOR} to a true value to run.';
@@ -42,4 +42,12 @@ foreach my $module (@modules) {
             also_private => [ qw/doInventory isEnabled/ ],
         }
     );
+}
+
+# namespace-based filter
+sub filter {
+    return 0 if $_ =~ m{FusionInventory::VMware};
+    return 1 if $_ =~ m{FusionInventory::Agent::Task::(Inventory|WakeOnLan)};
+    return 0 if $_ =~ m{FusionInventory::Agent::Task};
+    return 1;
 }

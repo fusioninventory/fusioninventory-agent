@@ -8,7 +8,6 @@ use Socket;
 
 our @EXPORT = qw(
     test_port
-    filter
 );
 
 sub test_port {
@@ -26,20 +25,3 @@ sub test_port {
 
     return 0;
 }
-
-# blacklist additional tasks that may be installed
-sub filter {
-    if ($_ =~ m{FusionInventory/VMware}) {
-        return 0;
-    }
-    if ($_ =~ m{FusionInventory/Agent/Tools}) {
-        return 1;
-    }
-    if ($_ !~ m{FusionInventory/Agent/Task/(Inventory|WakeOnLan)}) {
-        return 0;
-    }
-    return 1;
-}
-
-
-
