@@ -3,6 +3,7 @@ package FusionInventory::VMware::SOAP;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
 use XML::TreePP;
 use LWP::UserAgent;
 use HTTP::Cookies;
@@ -37,11 +38,11 @@ sub new {
 sub _loadSOAPDump {
     my ( $self, $name ) = @_;
 
-    my $content;
+    local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
+
     my $file = $self->{debugDir} . "/" . $name . ".soap";
     open(my $handle, '<', $file) or die "failed to open $file";
-    $/       = undef;
-    $content = <handle>;
+    my $content = <handle>;
     close $handle;
 
     return $content;
