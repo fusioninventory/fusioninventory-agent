@@ -20,8 +20,7 @@ sub new {
         lastError => ""
     };
 
-    $self->{ua}
-      ->agent( 'FusionInventory-Agent_v' . $FusionInventory::Agent::VERSION );
+    $self->{ua}->agent($FusionInventory::Agent::AGENT_STRING);
 
     my $cookie = new HTTP::Cookies( ignore_discard => 1 );
     $self->{ua}->cookie_jar($cookie);
