@@ -38,8 +38,8 @@ sub _loadSOAPDump {
     my ( $self, $name ) = @_;
 
     my $content;
-    open(my $handle, '<', $self->{debugDir} . "/" . $name . ".soap" )
-      or die "failed to open " . $self->{debugDir} . '/' . $name . ".soap";
+    my $file = $self->{debugDir} . "/" . $name . ".soap";
+    open(my $handle, '<', $file) or die "failed to open $file";
     $/       = undef;
     $content = <handle>;
     close $handle;
