@@ -30,7 +30,9 @@ sub new {
     $self->{ua}->agent("VMware::PoorBoySOAP/0.1 ");
 
     $self->{tpp} = XML::TreePP->new( force_array => [qw( returnval propSet )] );
-    return bless $self, $class;
+    bless $self, $class;
+
+    return $self;
 }
 
 sub _loadSOAPDump {
