@@ -72,7 +72,6 @@ sub _getScreensFromWindows {
     my ($logger) = @_;
 
     my $devices = {};
-    my $Registry;
 
     FusionInventory::Agent::Tools::Win32->require();
     if ($EVAL_ERROR) {
@@ -80,18 +79,6 @@ sub _getScreensFromWindows {
             "Failed to load FusionInventory::Agent::Tools::Win32: $EVAL_ERROR";
         return;
     }
-
-    Win32::TieRegistry->require();
-    if ($EVAL_ERROR) {
-        print "Failed to load Win32::TieRegistry: $EVAL_ERROR";
-        return;
-    }
-
-    Win32::TieRegistry->import(
-        Delimiter   => '/',
-        ArrayValues => 0,
-        TiedRef     => \$Registry
-    );
 
     use constant wbemFlagReturnImmediately => 0x10;
     use constant wbemFlagForwardOnly => 0x20;
@@ -132,6 +119,19 @@ sub _getScreensFromWindows {
         };
 
     }
+
+    Win32::TieRegistry->require();
+    if ($EVAL_ERROR) {
+        print "Failed to load Win32::TieRegistry: $EVAL_ERROR";
+        return;
+    }
+
+    my $Registry;
+    Win32::TieRegistry->import(
+        Delimiter   => '/',
+        ArrayValues => 0,
+        TiedRef     => \$Registry
+    );
 
     my @ret;
     foreach my $PNPDeviceID (keys %{$devices}) {
