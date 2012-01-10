@@ -6,14 +6,14 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub new {
-    my ( undef, $hash, $vms ) = @_;
+    my ($class, $hash, $vms) = @_;
 
     my $self = {
         hash => $hash,
         vms  => $vms
     };
 
-    bless $self;
+    bless $self, $class;
 }
 
 sub getArray {

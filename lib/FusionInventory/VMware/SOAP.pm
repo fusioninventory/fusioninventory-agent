@@ -11,7 +11,7 @@ use FusionInventory::Agent;
 use FusionInventory::VMware::SOAP::Host;
 
 sub new {
-    my ( undef, $params ) = @_;
+    my ( $class, $params ) = @_;
 
     my $self = {
         ua       => LWP::UserAgent->new( ssl_opts => { verify_hostname => 0 } ),
@@ -30,7 +30,7 @@ sub new {
     $self->{ua}->agent("VMware::PoorBoySOAP/0.1 ");
 
     $self->{tpp} = XML::TreePP->new( force_array => [qw( returnval propSet )] );
-    return bless $self;
+    return bless $self, $class;
 }
 
 sub _loadSOAPDump {
