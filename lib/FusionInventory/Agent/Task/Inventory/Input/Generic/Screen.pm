@@ -80,9 +80,6 @@ sub _getScreensFromWindows {
         return;
     }
 
-    use constant wbemFlagReturnImmediately => 0x10;
-    use constant wbemFlagForwardOnly => 0x20;
-
     # Vista and upper, able to get the second screen
     my $WMIServices = Win32::OLE->GetObject(
         "winmgmts:{impersonationLevel=impersonate,authenticationLevel=Pkt}!//./root/wmi"
