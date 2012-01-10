@@ -31,7 +31,7 @@ our @EXPORT = qw(
     KEY_WOW64_32
     getRegistryValue
     getWmiObjects
-    getLocalcodepage
+    getLocalCodepage
 );
 
 sub is64bit {
@@ -43,7 +43,7 @@ sub is64bit {
         );
 }
 
-sub getLocalcodepage {
+sub getLocalCodepage {
     if (!$localCodepage) {
         my $lmachine = $Registry->Open('LMachine', {
             Access => KEY_READ
@@ -66,7 +66,7 @@ sub encodeFromRegistry {
     ## no critic (ExplicitReturnUndef)
     return undef unless $string;
 
-    return encode("UTF-8", decode(getLocalcodepage(), $string));
+    return encode("UTF-8", decode(getLocalCodepage(), $string));
 }
 
 sub getWmiObjects {
@@ -140,7 +140,7 @@ This module provides some Windows-specific generic functions.
 
 Returns true if the OS is 64bit or false.
 
-=head2 getLocalcodepage()
+=head2 getLocalCodepage()
 
 Returns the local codepage.
 
