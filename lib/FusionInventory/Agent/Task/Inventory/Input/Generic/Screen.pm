@@ -151,35 +151,28 @@ sub _getScreensFromWindows {
 
 }
 
+sub _getScreensFromUnix {
 
+    my $raw_edid =
+        getFirstLine(command => 'monitor-get-edid-using-vbe') ||
+        getFirstLine(command => 'monitor-get-edid');
+
+    if (!$raw_edid) {
+        foreach (1..5) { # Sometime get-edid return an empty string...
+            $raw_edid = getFirstLine(command => 'get-edid');
+            last if $raw_edid && (length($raw_edid) == 128 || length($raw_edid) == 256);
+        }
+    }
+    return unless length($raw_edid) == 128 || length($raw_edid) == 256;
+
+    return ( { edid => $raw_edid } );
+}
 
 sub _getScreens {
     my ($logger) = @_;
 
-    my @screens;
-
-    if ($OSNAME eq 'MSWin32') {
-
-        return _getScreensFromWindows($logger);
-
-    } else {
-        # Mandriva
-        my $raw_edid =
-            getFirstLine(command => 'monitor-get-edid-using-vbe') ||
-            getFirstLine(command => 'monitor-get-edid');
-
-        if (!$raw_edid) {
-            foreach (1..5) { # Sometime get-edid return an empty string...
-                $raw_edid = getFirstLine(command => 'get-edid');
-                last if $raw_edid && (length($raw_edid) == 128 || length($raw_edid) == 256);
-            }
-        }
-        return unless length($raw_edid) == 128 || length($raw_edid) == 256;
-
-        push @screens, { edid => $raw_edid };
-    }
-
-    return @screens;
+    return $OSNAME eq 'MSWin32' ?
+        _getScreensFromWindows($logger) : _getScreensFromUnix($logger);
 }
 
 1;
