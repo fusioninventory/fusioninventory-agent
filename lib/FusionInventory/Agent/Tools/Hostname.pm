@@ -32,7 +32,6 @@ sub getHostname {
     } else {
         Sys::Hostname->require();
         return Sys::Hostname::hostname();
-        return
     }
 
 }
