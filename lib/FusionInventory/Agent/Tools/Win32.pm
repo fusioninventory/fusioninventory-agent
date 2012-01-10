@@ -140,6 +140,10 @@ This module provides some Windows-specific generic functions.
 
 Returns true if the OS is 64bit or false.
 
+=head2 getLocalcodepage()
+
+Returns the local codepage.
+
 =head2 getWmiObjects(%params)
 
 Returns the list of objects from given WMI class, with given properties, properly encoded.

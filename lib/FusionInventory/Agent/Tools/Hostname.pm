@@ -37,3 +37,18 @@ sub getHostname {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Tools::Hostname - OS-independant hostname computing
+
+=head1 DESCRIPTION
+
+This module provides a generic function to retrieve host name
+
+=head1 FUNCTIONS
+
+=head2 getHostname()
+
+Returns the host name.

@@ -448,6 +448,10 @@ the options to use.
 
 =back
 
+=head2 init()
+
+Initialize the agent.
+
 =head2 run()
 
 Run the agent.
