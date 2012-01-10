@@ -71,14 +71,14 @@ sub doInventory {
 sub _getScreensFromWindows {
     my ($logger) = @_;
 
-    my $devices = {};
-
     FusionInventory::Agent::Tools::Win32->require();
     if ($EVAL_ERROR) {
         print
             "Failed to load FusionInventory::Agent::Tools::Win32: $EVAL_ERROR";
         return;
     }
+
+    my @screens;
 
     # Vista and upper, able to get the second screen
     foreach my $object (FusionInventory::Agent::Tools::Win32::getWmiObjects(
@@ -90,7 +90,9 @@ sub _getScreensFromWindows {
 
         my $PNPDeviceID = $object->{InstanceName};
         $PNPDeviceID =~ s/_\d+//;
-        $devices->{lc($PNPDeviceID)} = {};
+        push @screens, {
+            id => $object->{PNPDeviceID}
+        };
     }
 
     # The generic Win32_DesktopMonitor class, the second screen will be missing
@@ -105,7 +107,8 @@ sub _getScreensFromWindows {
         next unless $object->{Availability} == 3;
         my $name = $object->{Caption};
 
-        $devices->{lc($object->{PNPDeviceID})} = {
+        push @screens, {
+            id           => $object->{PNPDeviceID},
             name         => $name,
             type         => $object->{MonitorType},
             manufacturer => $object->{MonitorManufacturer},
@@ -126,8 +129,7 @@ sub _getScreensFromWindows {
         TiedRef     => \$Registry
     );
 
-    my @ret;
-    foreach my $PNPDeviceID (keys %{$devices}) {
+    foreach my $screen (@screens) {
 
         my $KEY_WOW64_64KEY = 0x100;
 
@@ -141,14 +143,13 @@ sub _getScreensFromWindows {
             "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR"
         );
 
-        $devices->{$PNPDeviceID}{edid} =
-            $machKey->{"SYSTEM/CurrentControlSet/Enum/".$PNPDeviceID."/Device Parameters/EDID"} || '';
-        $devices->{$PNPDeviceID}{edid} =~ s/^\s+$//;
+        $screen->{edid} =
+            $machKey->{"SYSTEM/CurrentControlSet/Enum/$screen->{id}/Device Parameters/EDID"} || '';
+        $screen->{edid} =~ s/^\s+$//;
 
-        push @ret, $devices->{$PNPDeviceID};
     }
-    return @ret;
 
+    return @screens;
 }
 
 sub _getScreensFromUnix {
