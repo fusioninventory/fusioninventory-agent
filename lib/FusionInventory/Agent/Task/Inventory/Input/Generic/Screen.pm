@@ -73,19 +73,25 @@ sub _getScreensFromWindows {
 
     my $devices = {};
     my $Registry;
-    eval {
-        require FusionInventory::Agent::Tools::Win32;
-        require Win32::TieRegistry;
-        Win32::TieRegistry->import(
-            Delimiter   => '/',
-            ArrayValues => 0,
-            TiedRef     => \$Registry
-        );
-    };
+
+    FusionInventory::Agent::Tools::Win32->require();
     if ($EVAL_ERROR) {
-        print "Failed to load Win32::OLE and Win32::TieRegistry\n";
+        print
+            "Failed to load FusionInventory::Agent::Tools::Win32: $EVAL_ERROR";
         return;
     }
+
+    Win32::TieRegistry->require();
+    if ($EVAL_ERROR) {
+        print "Failed to load Win32::TieRegistry: $EVAL_ERROR";
+        return;
+    }
+
+    Win32::TieRegistry->import(
+        Delimiter   => '/',
+        ArrayValues => 0,
+        TiedRef     => \$Registry
+    );
 
     use constant wbemFlagReturnImmediately => 0x10;
     use constant wbemFlagForwardOnly => 0x20;
