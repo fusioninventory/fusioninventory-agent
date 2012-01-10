@@ -39,11 +39,11 @@ sub _loadSOAPDump {
     my ( $self, $name ) = @_;
 
     my $content;
-    open( FILE, "<" . $self->{debugDir} . "/" . $name . ".soap" )
+    open(my $handle, '<', $self->{debugDir} . "/" . $name . ".soap" )
       or die "failed to open " . $self->{debugDir} . '/' . $name . ".soap";
     $/       = undef;
-    $content = <FILE>;
-    close FILE;
+    $content = <handle>;
+    close $handle;
 
     return $content;
 }
@@ -51,9 +51,9 @@ sub _loadSOAPDump {
 sub _storeSOAPDump {
     return;    # DEBUG
     my ( $self, $action, $data ) = @_;
-    open( FILE, ">$action.soap" ) or die;
-    print FILE $data;
-    close FILE;
+    open(my $handle, '>', "$action.soap") or die;
+    print $handle $data;
+    close $handle;
 }
 
 sub _send {
