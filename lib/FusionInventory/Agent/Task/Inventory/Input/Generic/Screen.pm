@@ -105,11 +105,10 @@ sub _getScreensFromWindows {
         next unless $object->{Availability};
         next unless $object->{PNPDeviceID};
         next unless $object->{Availability} == 3;
-        my $name = $object->{Caption};
 
         push @screens, {
             id           => $object->{PNPDeviceID},
-            name         => $name,
+            name         => $object->{Caption},
             type         => $object->{MonitorType},
             manufacturer => $object->{MonitorManufacturer},
             caption      => $object->{Caption}
