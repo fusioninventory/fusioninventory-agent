@@ -81,28 +81,25 @@ sub _getScreensFromWindows {
     }
 
     # Vista and upper, able to get the second screen
-    my $WMIServices = Win32::OLE->GetObject(
-        "winmgmts:{impersonationLevel=impersonate,authenticationLevel=Pkt}!//./root/wmi"
-    );
+    foreach my $object (FusionInventory::Agent::Tools::Win32::getWmiObjects(
+        moniker    => 'winmgmts:{impersonationLevel=impersonate,authenticationLevel=Pkt}!//./root/wmi',
+        class      => 'WMIMonitorID',
+        properties => [ qw/InstanceName/ ]
+    )) {
+        next unless $object->{InstanceName};
 
-    foreach my $properties (Win32::OLE::in($WMIServices->InstancesOf(
-        "WMIMonitorID"
-    ))) {
-
-        next unless $properties->{InstanceName};
-        my $PNPDeviceID = $properties->{InstanceName};
+        my $PNPDeviceID = $object->{InstanceName};
         $PNPDeviceID =~ s/_\d+//;
         $devices->{lc($PNPDeviceID)} = {};
     }
 
-# The generic Win32_DesktopMonitor class, the second screen will be missing
+    # The generic Win32_DesktopMonitor class, the second screen will be missing
     foreach my $object (FusionInventory::Agent::Tools::Win32::getWmiObjects(
         class => 'Win32_DesktopMonitor',
         properties => [ qw/
             Caption MonitorManufacturer MonitorType PNPDeviceID
         / ]
     )) {
-
         next unless $object->{Availability};
         next unless $object->{PNPDeviceID};
         next unless $object->{Availability} == 3;
@@ -114,7 +111,6 @@ sub _getScreensFromWindows {
             manufacturer => $object->{MonitorManufacturer},
             caption      => $object->{Caption}
         };
-
     }
 
     Win32::TieRegistry->require();
