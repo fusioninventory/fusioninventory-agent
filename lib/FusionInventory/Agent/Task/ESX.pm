@@ -1,6 +1,6 @@
 package FusionInventory::Agent::Task::ESX;
 
-our $VERSION = "1.1.3";
+our $VERSION = "2.0.9901";
 
 use Data::Dumper;
 use strict;
