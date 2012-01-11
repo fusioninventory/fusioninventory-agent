@@ -1,4 +1,5 @@
 use inc::Module::Install;
+use English qw(-no_match_vars);
 use File::Which;
 
 name 'FusionInventory-Agent-Task-NetInventory';
