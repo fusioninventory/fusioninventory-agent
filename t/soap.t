@@ -8,8 +8,6 @@ use Test::Exception;
 use FusionInventory::VMware::SOAP;
 use File::Basename;
 
-use Data::Dumper;
-
 my %test = (
     'esx-4.1.0-1' => {
         'connect' => [
@@ -449,13 +447,12 @@ foreach my $dir (glob('resources/*')) {
 
     my $ret;
     lives_ok{$ret = $vpbs->connect('foo', 'bar')} $testName.' connect()';
-    is_deeply($ret, $test{$testName}{'connect()'}, 'connect()') or print  Dumper($ret);
+    is_deeply($ret, $test{$testName}{'connect()'}, 'connect()');
 
     lives_ok{$ret = $vpbs->getHostFullInfo()} $testName.' getHostFullInfo()';
 
     foreach my $func (qw(getHostname getBiosInfo getHardwareInfo getCPUs getControllers getNetworks getStorages getDrives getVirtualMachines)) {
-        is_deeply($ret->$func, $test{$testName}{$func}, "$testName $func()") or print "####GOT: \n". Dumper($ret->$func)."####\n####EXPECT: \n". Dumper($test{$testName}{$func})."\n";
-
+        is_deeply($ret->$func, $test{$testName}{$func}, "$testName $func()");
     }
 
 }
