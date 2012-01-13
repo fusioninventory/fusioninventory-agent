@@ -6,9 +6,8 @@ use warnings;
 use Test::More;
 use Test::Exception;
 use FusionInventory::VMware::SOAP;
-use File::Basename;
 
-my %test = (
+my %tests = (
     'esx-4.1.0-1' => {
         'connect' => [
           {
@@ -436,23 +435,43 @@ my %test = (
         ]
     },
 );
-plan tests => 12;
+my @functions = qw/
+    getHostname
+    getBiosInfo
+    getHardwareInfo
+    getCPUs
+    getControllers
+    getNetworks
+    getStorages
+    getDrives
+    getVirtualMachines
+/;
+plan tests => (scalar keys %tests) * (scalar @functions + 3);
 
-foreach my $dir (glob('resources/*')) {
-    my $testName = basename($dir);
+foreach my $test (keys %tests) {
+    my $dir = "resources/$test";
     my $vpbs = FusionInventory::VMware::SOAP->new(
         debugDir => $dir,
         user => 'foo',
     );
 
-    my $ret;
-    lives_ok{$ret = $vpbs->connect('foo', 'bar')} $testName.' connect()';
-    is_deeply($ret, $test{$testName}{'connect()'}, 'connect()');
+    my $result;
+    lives_ok {
+        $result = $vpbs->connect('foo', 'bar')
+    } "$test connect()";
 
-    lives_ok{$ret = $vpbs->getHostFullInfo()} $testName.' getHostFullInfo()';
+    is_deeply($result, $tests{$test}->{connect}, 'connect()');
 
-    foreach my $func (qw(getHostname getBiosInfo getHardwareInfo getCPUs getControllers getNetworks getStorages getDrives getVirtualMachines)) {
-        is_deeply($ret->$func, $test{$testName}{$func}, "$testName $func()");
+    lives_ok {
+        $result = $vpbs->getHostFullInfo()
+    } "$test getHostFullInfo()";
+
+    foreach my $function (@functions) {
+        is_deeply(
+            $result->{$function},
+            $tests{$test}->{$function},
+            "$test $function()"
+        );
     }
 
 }
