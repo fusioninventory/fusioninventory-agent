@@ -442,10 +442,10 @@ plan tests => 12;
 
 foreach my $dir (glob('resources/*')) {
     my $testName = basename($dir);
-    my $vpbs = FusionInventory::VMware::SOAP->new({
-    debugDir => $dir,
-    user => 'foo',
-    });
+    my $vpbs = FusionInventory::VMware::SOAP->new(
+        debugDir => $dir,
+        user => 'foo',
+    );
 
     my $ret;
     lives_ok{$ret = $vpbs->connect('foo', 'bar')} $testName.' connect()';

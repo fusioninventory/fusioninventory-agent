@@ -12,12 +12,12 @@ use FusionInventory::Agent;
 use FusionInventory::VMware::SOAP::Host;
 
 sub new {
-    my ( $class, $params ) = @_;
+    my ($class, %params) = @_;
 
     my $self = {
         ua       => LWP::UserAgent->new( ssl_opts => { verify_hostname => 0 } ),
-        url      => $params->{url},
-        debugDir => $params->{debugDir},
+        url      => $params{url},
+        debugDir => $params{debugDir},
         lastError => ""
     };
 

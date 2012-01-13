@@ -25,7 +25,7 @@ sub connect {
     my $url = 'https://' . $job->{host} . '/sdk/vimService';
 
     my $vpbs =
-      FusionInventory::VMware::SOAP->new( { url => $url, vcenter => 1 } );
+      FusionInventory::VMware::SOAP->new(url => $url, vcenter => 1 );
     if ( !$vpbs->connect( $job->{user}, $job->{password} ) ) {
         $self->{lastError} = $vpbs->{lastError};
         return;
