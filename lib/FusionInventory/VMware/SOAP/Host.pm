@@ -90,10 +90,10 @@ sub getCPUs {
     my $totalThread = $hardware->{cpuInfo}{numCpuThreads};
     my $cpuEntries  = $hardware->{cpuPkg};
 
-    my $ret = [];
+    my $cpus;
     foreach (_getList($cpuEntries)) {
         my $thread;
-        push @$ret,
+        push @$cpus,
           {
             CORE         => $totalCore / _getList($cpuEntries),
             MANUFACTURER => $cpuManufacturor{ $_->{vendor} } || $_->{vendor},
@@ -103,13 +103,13 @@ sub getCPUs {
           };
     }
 
-    return $ret;
+    return $cpus;
 }
 
 sub getControllers {
     my ($self) = @_;
 
-    my $ret = [];
+    my $controllers;
 
     foreach ( @{ $self->{hash}[0]{hardware}{pciDevice} } ) {
 
@@ -127,7 +127,7 @@ sub getControllers {
             s/:(\w+)/:000$1/;
             s/.*(\w{4}:).*(\w{4}).*/$1$2/g;
         }
-        push @$ret,
+        push @$controllers,
           {
             NAME           => $_->{deviceName},
             MANUFACTURER   => $_->{vendorName},
@@ -139,7 +139,7 @@ sub getControllers {
 
     }
 
-    return $ret;
+    return $controllers;
 }
 
 sub _getNic {
@@ -162,7 +162,7 @@ sub _getNic {
 sub getNetworks {
     my ($self) = @_;
 
-    my $ret = [];
+    my $networks;
 
     my $seen = {};
 
@@ -173,7 +173,7 @@ sub getNetworks {
 
             next if $seen->{$_->{device}}++;
             my $isVirtual = $nicType eq 'vnic'?1:0;
-            push @$ret, _getNic($_, $isVirtual);
+            push @$networks, _getNic($_, $isVirtual);
         }
     }
 
@@ -184,17 +184,17 @@ sub getNetworks {
         foreach (_getList($entry)) {
             next if $seen->{$_->{device}}++;
 
-            push @$ret, _getNic($_, 1);
+            push @$networks, _getNic($_, 1);
         }
     }
 
-    return $ret;
+    return $networks;
 }
 
 sub getStorages {
     my ($self) = @_;
 
-    my $ret = [];
+    my $storages;
     foreach my $entry (
         _getList($self->{hash}[0]{config}{storageDevice}{scsiLun}))
     {
@@ -229,7 +229,7 @@ sub getStorages {
         my $model = $entry->{model};
         $model =~ s/\s*(\S.*\S)\s*/$1/;
 
-        push @$ret, {
+        push @$storages, {
             DESCRIPTION => $entry->{displayName},
             DISKSIZE    => $size,
 
@@ -249,14 +249,14 @@ sub getStorages {
 
     }
 
-    return $ret;
+    return $storages;
 
 }
 
 sub getDrives {
     my ($self) = @_;
 
-    my $ret = [];
+    my $drives;
 
     foreach (
         _getList($self->{hash}[0]{config}{fileSystemVolume}{mountInfo}))
@@ -269,7 +269,7 @@ sub getDrives {
 #        } else {
 #            $volumn = $volumnMapping{$_->{volume}{extent}{diskName}}." ".$_->{volume}{extent}{partition};
         }
-        push @$ret,
+        push @$drives,
           {
             SERIAL => $_->{volume}{uuid},
             TOTAL  => int( ( $_->{volume}{capacity} || 0 ) / ( 1000 * 1000 ) ),
@@ -280,13 +280,13 @@ sub getDrives {
           };
     }
 
-    return $ret;
+    return $drives;
 }
 
 sub getVirtualMachines {
     my ($self) = @_;
 
-    my $ret = [];
+    my $virtualMachines;
 
     foreach ( @{ $self->{vms} } ) {
         my $status;
@@ -311,7 +311,7 @@ sub getVirtualMachines {
         # hack to preserve  annotation / comment formating
         $comment =~ s/\n/&#10;/gm if $comment;
 
-        push @$ret,
+        push @$virtualMachines,
           {
             VMID    => eval       { $_->[0]{summary}{vm} },
             NAME    => eval       { $_->[0]{name} },
@@ -325,7 +325,7 @@ sub getVirtualMachines {
           };
     }
 
-    return $ret;
+    return $virtualMachines;
 }
 
 1;
