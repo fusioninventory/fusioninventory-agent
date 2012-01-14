@@ -42,7 +42,7 @@ sub _loadSOAPDump {
 
     my $file = $self->{debugDir} . "/" . $name . ".soap";
     open(my $handle, '<', $file) or die "failed to open $file";
-    my $content = <handle>;
+    my $content = <$handle>;
     close $handle;
 
     return $content;
