@@ -435,10 +435,12 @@ my %tests = (
         ]
     },
 );
-my @methods = qw/
+my @scalar_methods = qw/
     getHostname
     getBiosInfo
     getHardwareInfo
+/;
+my @list_methods = qw/
     getCPUs
     getControllers
     getNetworks
@@ -446,7 +448,8 @@ my @methods = qw/
     getDrives
     getVirtualMachines
 /;
-plan tests => (scalar keys %tests) * (scalar @methods + 3);
+plan tests =>
+    (scalar keys %tests) * (scalar @scalar_methods + scalar @list_methods + 3);
 
 foreach my $test (keys %tests) {
     my $dir = "resources/$test";
@@ -466,9 +469,17 @@ foreach my $test (keys %tests) {
         $result = $vpbs->getHostFullInfo()
     } "$test getHostFullInfo()";
 
-    foreach my $method (@methods) {
+    foreach my $method (@scalar_methods) {
         is_deeply(
             $result->$method(),
+            $tests{$test}->{$method},
+            "$test $method()"
+        );
+    }
+
+    foreach my $method (@list_methods) {
+        is_deeply(
+            [ $result->$method() ],
             $tests{$test}->{$method},
             "$test $method()"
         );

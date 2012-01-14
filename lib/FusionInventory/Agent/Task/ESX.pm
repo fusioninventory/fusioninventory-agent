@@ -87,11 +87,11 @@ sub createInventory {
 
     $inventory->setHardware( $host->getHardwareInfo() );
 
-    foreach my $cpu ( @{ $host->getCPUs() } ) {
+    foreach my $cpu ($host->getCPUs()) {
         $inventory->addEntry( section => 'CPUS', entry => $cpu );
     }
 
-    foreach ( @{ $host->getControllers() } ) {
+    foreach ($host->getControllers()) {
         $inventory->addEntry( section => 'CONTROLLERS', entry => $_ );
 
         if ( $_->{PCICLASS} && ( $_->{PCICLASS} eq '300' ) ) {
@@ -106,7 +106,7 @@ sub createInventory {
     }
 
     my %ipaddr;
-    foreach ( @{ $host->getNetworks() } ) {
+    foreach ($host->getNetworks()) {
         $ipaddr{ $_->{IPADDRESS} } = 1 if $_->{IPADDRESS};
         $inventory->addEntry( section => 'NETWORKS', entry => $_ );
     }
@@ -118,7 +118,7 @@ sub createInventory {
     #    }
 
     my %volumnMapping;
-    foreach ( @{ $host->getStorages() } ) {
+    foreach ($host->getStorages()) {
 
         # TODO
         #        $volumnMapping{$entry->{canonicalName}} = $entry->{deviceName};
@@ -130,7 +130,7 @@ sub createInventory {
         $inventory->addEntry( section => 'DRIVES', entry => $_ );
     }
 
-    foreach ( @{ $host->getVirtualMachines() } ) {
+    foreach ($host->getVirtualMachines()) {
         $inventory->addEntry(
             section => 'VIRTUALMACHINES',
             entry => $_
