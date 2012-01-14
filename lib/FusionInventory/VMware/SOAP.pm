@@ -287,7 +287,9 @@ sub getHostFullInfo {
         push @$vms, $self->_getVirtualMachineById($id);
     }
 
-    my $host = FusionInventory::VMware::SOAP::Host->new( $ref, $vms );
+    my $host = FusionInventory::VMware::SOAP::Host->new(
+        hash => $ref, vms => $vms
+    );
     return $host;
 }
 

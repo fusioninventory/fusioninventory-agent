@@ -6,11 +6,11 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub new {
-    my ($class, $hash, $vms) = @_;
+    my ($class, %params) = @_;
 
     my $self = {
-        hash => $hash,
-        vms  => $vms
+        hash => $params{hash},
+        vms  => $params{vms}
     };
 
     bless $self, $class;
