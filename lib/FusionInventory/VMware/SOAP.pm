@@ -76,8 +76,7 @@ sub _send {
     if ( $res->is_success ) {
         $self->_storeSOAPDump( $name, $res->content );
         return $res->content;
-    }
-    else {
+    } else {
         my $err    = $res->content;
         my $tmpRef = {};
 
@@ -120,8 +119,7 @@ sub _parseAnswer {
                 $tmp{ $p->{name} } = $p->{val};
             }
             push @$ref, \%tmp;
-        }
-        else {
+        } else {
             push @$ref, $_;
         }
     }
@@ -151,8 +149,7 @@ sub connect {
         $self->{vcenter}           = 1;                     # TODO
         $self->{sessionManager}    = "SessionManager";
         $self->{propertyCollector} = "propertyCollector";
-    }
-    else {
+    } else {
         $self->{vcenter}           = 0;
         $self->{sessionManager}    = "ha-sessionmgr";
         $self->{propertyCollector} = "ha-property-collector";
@@ -277,12 +274,10 @@ sub getHostFullInfo {
     if ( exists( $ref->[0]{vm}{ManagedObjectReference} ) ) {    # ESX 3.5
         if ( ref( $ref->[0]{vm}{ManagedObjectReference} ) eq 'ARRAY' ) {
             $machineIdList = $ref->[0]{vm}{ManagedObjectReference};
-        }
-        else {
+        } else {
             push @$machineIdList, $ref->[0]{vm}{ManagedObjectReference};
         }
-    }
-    else {
+    } else {
         $machineIdList = $self->_getVirtualMachineList();
     }
 
