@@ -43,8 +43,9 @@ sub getHostname {
 sub getBiosInfo {
     my ($self) = @_;
 
-    my $biosInfo   = $self->{hash}[0]{hardware}{biosInfo};
-    my $systemInfo = $self->{hash}[0]{hardware}{systemInfo};
+    my $hardware   = $self->{hash}[0]{hardware};
+    my $biosInfo   = $hardware->{biosInfo};
+    my $systemInfo = $hardware->{systemInfo};
 
     return {
         BDATE         => $biosInfo->{releaseDate},
@@ -58,26 +59,21 @@ sub getBiosInfo {
 sub getHardwareInfo {
     my ($self) = @_;
 
-    my $name = $self->{hash}[0]{config}{network}{dnsConfig}{hostName};
-    my $dns  = join '/',
-      _getList($self->{hash}[0]{config}{network}{dnsConfig}{address});
-    my $workgroup = $self->{hash}[0]{config}{network}{dnsConfig}{domainName};
-    my $memory =
-      int( $self->{hash}[0]{hardware}{memorySize} / ( 1024 * 1024 ) );
-    my $uuid = $self->{hash}[0]{summary}{hardware}{uuid}
-      || $self->{hash}[0]{hardware}{systemInfo}{uuid};
-    my $osversion  = $self->{hash}[0]{summary}{config}{product}{version};
-    my $osname     = $self->{hash}[0]{summary}{config}{product}{name};
-    my $oscomments = $self->{hash}[0]{summary}{config}{product}{fullName};
+    my $dnsConfig  = $self->{hash}[0]{config}{network}{dnsConfig};
+    my $hardware   = $self->{hash}[0]{hardware};
+    my $summary    = $self->{hash}[0]{summary};
+    my $product    = $summary->{config}->{product};
+    my $systemInfo = $hardware->{systemInfo};
+
     return {
-        NAME       => $name,
-        DNS        => $dns,
-        WORKGROUP  => $workgroup,
-        MEMORY     => $memory,
-        UUID       => $uuid,
-        OSVERSION  => $osversion,
-        OSNAME     => $osname,
-        OSCOMMENTS => $oscomments,
+        NAME       => $dnsConfig->{hostName},
+        DNS        => join('/', _getList($dnsConfig->{address})),
+        WORKGROUP  => $dnsConfig->{domainName},
+        MEMORY     => int($hardware->{memorySize} / (1024 * 1024)),
+        UUID       => $summary->{hardware}->{uuid} || $systemInfo->{uuid},
+        OSVERSION  => $product->{version},
+        OSNAME     => $product->{name},
+        OSCOMMENTS => $product->{fullName}
     };
 }
 
