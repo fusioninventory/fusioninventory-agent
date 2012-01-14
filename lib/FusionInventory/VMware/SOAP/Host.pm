@@ -148,14 +148,14 @@ sub _getNic {
     return {
         DESCRIPTION => $ref->{device},
         DRIVER      => $ref->{driver},
-        IPADDRESS   => eval { $ref->{spec}{ip}{ipAddress} },
-        IPMASK      => eval { $ref->{spec}{ip}{subnetMask} },
-        MACADDR     => eval { $ref->{mac} || $ref->{spec}{mac} },
-        MTU         => eval { $ref->{spec}{mtu} },
+        IPADDRESS   => $ref->{spec}{ip}{ipAddress},
+        IPMASK      => $ref->{spec}{ip}{subnetMask},
+        MACADDR     => $ref->{mac} || $ref->{spec}{mac},
+        MTU         => $ref->{spec}{mtu},
         PCISLOT     => $ref->{pci},
-        STATUS      => eval { $ref->{spec}{ip}{ipAddress} } ? 'Up' : 'Down',
+        STATUS      => $ref->{spec}{ip}{ipAddress} ? 'Up' : 'Down',
         VIRTUALDEV  => $isVirtual,
-        SPEED       => eval { $ref->{spec}{linkSpeed}{speedMb} },
+        SPEED       => $ref->{spec}{linkSpeed}{speedMb},
     }
 }
 
@@ -167,8 +167,7 @@ sub getNetworks {
     my $seen = {};
 
     foreach my $nicType (qw/vnic pnic consoleVnic/)  {
-        foreach ( eval {_getList($self->{hash}[0]{config}{network}{$nicType})}
-                )
+        foreach (_getList($self->{hash}[0]{config}{network}{$nicType}))
         {
 
             next if $seen->{$_->{device}}++;
@@ -178,8 +177,10 @@ sub getNetworks {
     }
 
     my @vnic;
-    eval { push @vnic, $self->{hash}[0]{config}{network}{consoleVnic} if $self->{hash}[0]{config}{network}{consoleVnic}; };
-    eval { push @vnic, $self->{hash}[0]{config}{vmotion}{netConfig}{candidateVnic} if $self->{hash}[0]{config}{vmotion}{netConfig}{candidateVnic} };
+    push @vnic, $self->{hash}[0]{config}{network}{consoleVnic}
+        if $self->{hash}[0]{config}{network}{consoleVnic};
+    push @vnic, $self->{hash}[0]{config}{vmotion}{netConfig}{candidateVnic}
+        if $self->{hash}[0]{config}{vmotion}{netConfig}{candidateVnic};
     foreach my $entry (@vnic) {
         foreach (_getList($entry)) {
             next if $seen->{$_->{device}}++;
@@ -306,20 +307,20 @@ sub getVirtualMachines {
 
             #            print Dumper($_->[0]);
         }
-        my $comment = eval { $_->[0]{config}{annotation} };
+        my $comment = $_->[0]{config}{annotation};
 
         # hack to preserve  annotation / comment formating
         $comment =~ s/\n/&#10;/gm if $comment;
 
         push @virtualMachines,
           {
-            VMID    => eval       { $_->[0]{summary}{vm} },
-            NAME    => eval       { $_->[0]{name} },
+            VMID    => $_->[0]{summary}{vm},
+            NAME    => $_->[0]{name},
             STATUS  => $status,
-            UUID    => eval       { $_->[0]{summary}{config}{uuid} },
-            MEMORY  => eval       { $_->[0]{summary}{config}{memorySizeMB} },
+            UUID    => $_->[0]{summary}{config}{uuid},
+            MEMORY  => $_->[0]{summary}{config}{memorySizeMB},
             VMTYPE  => 'VMware',
-            VCPU    => eval       { $_->[0]{summary}{config}{numCpu} },
+            VCPU    => $_->[0]{summary}{config}{numCpu},
             MAC     => join( '/', @mac ),
             COMMENT => $comment
           };
