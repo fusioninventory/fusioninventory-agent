@@ -43,26 +43,15 @@ sub getHostname {
 sub getBiosInfo {
     my ($self) = @_;
 
-    my $bdate;
-    my $bversion;
-    my $smodel;
-    my $smanufacturer;
-    my $assettag;
-
-    $bdate    = $self->{hash}[0]{hardware}{biosInfo}{releaseDate};
-    $bversion = $self->{hash}[0]{hardware}{biosInfo}{biosVersion};
-    $smodel   = $self->{hash}[0]{hardware}{systemInfo}{model};
-    $smanufacturer = $self->{hash}[0]{hardware}{systemInfo}{vendor};
-    $assettag = $self->{hash}[0]{hardware}{systemInfo}{otherIdentifyingInfo}
-          {identifierValue};
+    my $biosInfo   = $self->{hash}[0]{hardware}{biosInfo};
+    my $systemInfo = $self->{hash}[0]{hardware}{systemInfo};
 
     return {
-        BDATE         => $bdate,
-        BVERSION      => $bversion,
-        SMODEL        => $smodel,
-        SMANUFACTURER => $smanufacturer,
-        ASSETTAG      => $assettag,
-
+        BDATE         => $biosInfo->{releaseDate},
+        BVERSION      => $biosInfo->{biosVersion},
+        SMODEL        => $systemInfo->{model},
+        SMANUFACTURER => $systemInfo->{vendor},
+        ASSETTAG      => $systemInfo->{otherIdentifyingInfo}->{identifierValue}
     };
 }
 
