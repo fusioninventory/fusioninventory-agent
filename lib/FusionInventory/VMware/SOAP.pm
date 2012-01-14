@@ -22,7 +22,7 @@ sub new {
 
     $self->{ua}->agent($FusionInventory::Agent::AGENT_STRING);
 
-    my $cookie = new HTTP::Cookies( ignore_discard => 1 );
+    my $cookie = HTTP::Cookies->new( ignore_discard => 1 );
     $self->{ua}->cookie_jar($cookie);
 
     push @{ $self->{ua}->requests_redirectable }, 'POST';
