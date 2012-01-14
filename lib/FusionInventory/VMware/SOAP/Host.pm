@@ -85,12 +85,11 @@ sub getCPUs {
         intel => 'Intel',
     );
 
-    my $totalCore;
-    my $totalThread;
-    my $cpuEntries;
-    eval { $totalCore   = $self->{hash}[0]{hardware}{cpuInfo}{numCpuCores} };
-    eval { $totalThread = $self->{hash}[0]{hardware}{cpuInfo}{numCpuThreads} };
-    eval { $cpuEntries  = $self->{hash}[0]{hardware}{cpuPkg} };
+    my $hardware    = $self->{hash}[0]{hardware};
+    my $totalCore   = $hardware->{cpuInfo}{numCpuCores};
+    my $totalThread = $hardware->{cpuInfo}{numCpuThreads};
+    my $cpuEntries  = $hardware->{cpuPkg};
+
     my $ret = [];
     foreach (_getList($cpuEntries)) {
         my $thread;
