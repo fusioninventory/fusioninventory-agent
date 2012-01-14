@@ -21,15 +21,10 @@ sub new {
 sub _getArray {
     my $h = shift;
 
-    if ( ref($h) eq 'ARRAY' ) {
-        return $h;
-    }
-    elsif ($h) {
-        return [$h];
-    }
-    else {
-        return [];
-    }
+    return 
+        ref $h eq 'ARRAY' ? $h   :
+            $h            ? [$h] :
+                            []   ;
 }
 
 sub getBootTime {
