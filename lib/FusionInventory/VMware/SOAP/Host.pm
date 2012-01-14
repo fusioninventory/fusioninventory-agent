@@ -49,15 +49,12 @@ sub getBiosInfo {
     my $smanufacturer;
     my $assettag;
 
-    eval { $bdate    = $self->{hash}[0]{hardware}{biosInfo}{releaseDate}; };
-    eval { $bversion = $self->{hash}[0]{hardware}{biosInfo}{biosVersion}; };
-    eval { $smodel   = $self->{hash}[0]{hardware}{systemInfo}{model}; };
-    eval { $smanufacturer = $self->{hash}[0]{hardware}{systemInfo}{vendor}; };
-    eval {
-        $assettag =
-          $self->{hash}[0]{hardware}{systemInfo}{otherIdentifyingInfo}
+    $bdate    = $self->{hash}[0]{hardware}{biosInfo}{releaseDate};
+    $bversion = $self->{hash}[0]{hardware}{biosInfo}{biosVersion};
+    $smodel   = $self->{hash}[0]{hardware}{systemInfo}{model};
+    $smanufacturer = $self->{hash}[0]{hardware}{systemInfo}{vendor};
+    $assettag = $self->{hash}[0]{hardware}{systemInfo}{otherIdentifyingInfo}
           {identifierValue};
-    };
 
     return {
         BDATE         => $bdate,
