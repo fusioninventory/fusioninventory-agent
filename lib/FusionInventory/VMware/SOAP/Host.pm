@@ -239,8 +239,7 @@ sub getStorages {
         my $manufacturer;
         if ( $entry->{vendor} && ( $entry->{vendor} !~ /^\s*ATA\s*$/ ) ) {
             $manufacturer = $entry->{vendor};
-        }
-        else {
+        } else {
             $manufacturer = getCanonicalManufacturer( $entry->{model} );
         }
 
@@ -312,8 +311,7 @@ sub getVirtualMachines {
         my $status;
         if ( $_->[0]{summary}{runtime}{powerState} eq 'poweredOn' ) {
             $status = 'running';
-        }
-        elsif ( $_->[0]{summary}{runtime}{powerState} eq 'poweredOff' ) {
+        } elsif ( $_->[0]{summary}{runtime}{powerState} eq 'poweredOff' ) {
             $status = 'off';
         }
 
