@@ -101,7 +101,8 @@ sub _parseAnswer {
     my ( $self, $answer ) = @_;
 
     return unless $answer;
-    undef $/;
+
+    local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
 
     # We simplify the XML structure
     my $pattern = '.*<\w+Response xmlns="urn:vim25">(.+)</\w+Response>.*$';
