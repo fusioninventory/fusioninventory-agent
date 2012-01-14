@@ -21,7 +21,7 @@ my %tests = (
           }
         ],
         'getHostname' => 'esx-test.teclib.local',
-        'getBiosInfo()' => {
+        'getBiosInfo' => {
           'SMANUFACTURER' => 'Sun Microsystems',
           'SMODEL' => 'Sun Fire X2200 M2 with Dual Core Processor',
           'BDATE' => '2009-02-04T00:00:00Z',
@@ -346,7 +346,7 @@ my %tests = (
             'IPADDRESS' => '10.0.2.190'
           }
         ],
-        'getStorages()' => [
+        'getStorages' => [
           {
             'NAME' => '/vmfs/devices/cdrom/mpx.vmhba0:C0:T0:L0',
             'FIRMWARE' => '1.AC',
@@ -435,7 +435,7 @@ my %tests = (
         ]
     },
 );
-my @functions = qw/
+my @methods = qw/
     getHostname
     getBiosInfo
     getHardwareInfo
@@ -446,7 +446,7 @@ my @functions = qw/
     getDrives
     getVirtualMachines
 /;
-plan tests => (scalar keys %tests) * (scalar @functions + 3);
+plan tests => (scalar keys %tests) * (scalar @methods + 3);
 
 foreach my $test (keys %tests) {
     my $dir = "resources/$test";
@@ -466,11 +466,11 @@ foreach my $test (keys %tests) {
         $result = $vpbs->getHostFullInfo()
     } "$test getHostFullInfo()";
 
-    foreach my $function (@functions) {
+    foreach my $method (@methods) {
         is_deeply(
-            $result->{$function},
-            $tests{$test}->{$function},
-            "$test $function()"
+            $result->$method(),
+            $tests{$test}->{$method},
+            "$test $method()"
         );
     }
 
