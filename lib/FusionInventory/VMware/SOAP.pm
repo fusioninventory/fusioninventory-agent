@@ -18,7 +18,6 @@ sub new {
         ua       => LWP::UserAgent->new( ssl_opts => { verify_hostname => 0 } ),
         url      => $params{url},
         debugDir => $params{debugDir},
-        lastError => ""
     };
 
     $self->{ua}->agent($FusionInventory::Agent::AGENT_STRING);
