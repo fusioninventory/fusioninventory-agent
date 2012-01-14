@@ -88,28 +88,29 @@ sub createInventory {
     $inventory->setHardware( $host->getHardwareInfo() );
 
     foreach my $cpu ($host->getCPUs()) {
-        $inventory->addEntry( section => 'CPUS', entry => $cpu );
+        $inventory->addEntry(section => 'CPUS', entry => $cpu);
     }
 
-    foreach ($host->getControllers()) {
-        $inventory->addEntry( section => 'CONTROLLERS', entry => $_ );
+    foreach my $controller ($host->getControllers()) {
+        $inventory->addEntry(section => 'CONTROLLERS', entry => $controller);
 
-        if ( $_->{PCICLASS} && ( $_->{PCICLASS} eq '300' ) ) {
+        if ($controller->{PCICLASS} && $controller->{PCICLASS} eq '300') {
             $inventory->addEntry(
                 section => 'VIDEOS',
                 entry   => {
-                    NAME    => $_->{NAME},
-                    PCISLOT => $_->{PCISLOT},
+                    NAME    => $controller->{NAME},
+                    PCISLOT => $controller->{PCISLOT},
                 }
             );
         }
     }
 
     my %ipaddr;
-    foreach ($host->getNetworks()) {
-        $ipaddr{ $_->{IPADDRESS} } = 1 if $_->{IPADDRESS};
-        $inventory->addEntry( section => 'NETWORKS', entry => $_ );
+    foreach my $network ($host->getNetworks()) {
+        $ipaddr{ $network->{IPADDRESS} } = 1 if $network->{IPADDRESS};
+        $inventory->addEntry(section => 'NETWORKS', entry => $network);
     }
+
     $inventory->setHardware( { IPADDR => join '/', ( keys %ipaddr ) } );
 
     # TODO
@@ -118,23 +119,18 @@ sub createInventory {
     #    }
 
     my %volumnMapping;
-    foreach ($host->getStorages()) {
-
+    foreach my $storage ($host->getStorages()) {
         # TODO
         #        $volumnMapping{$entry->{canonicalName}} = $entry->{deviceName};
-
-        $inventory->addEntry( section => 'STORAGES', entry => $_ );
+        $inventory->addEntry(section => 'STORAGES', entry => $storage);
     }
 
-    foreach ( @{ $host->getDrives() } ) {
-        $inventory->addEntry( section => 'DRIVES', entry => $_ );
+    foreach my $drive ($host->getDrives()) {
+        $inventory->addEntry( section => 'DRIVES', entry => $drive);
     }
 
-    foreach ($host->getVirtualMachines()) {
-        $inventory->addEntry(
-            section => 'VIRTUALMACHINES',
-            entry => $_
-        );
+    foreach my $machine ($host->getVirtualMachines()) {
+        $inventory->addEntry(section => 'VIRTUALMACHINES', entry => $machine);
     }
 
     return $inventory;
