@@ -27,7 +27,9 @@ die "agent too old (minimal version 2.2.0 required)\n" if $CHILD_ERROR;
 # mandatory dependencies
 requires 'JSON'                   => undef;
 
-test_requires 'Test::Exception'   => undef;
+test_requires 'Test::Exception'  => undef;
+test_requires 'Test::MockObject' => undef;
+test_requires 'Test::MockModule' => undef;
 
 install_script  'fusioninventory-esx';
 
