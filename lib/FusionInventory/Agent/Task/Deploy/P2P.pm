@@ -92,25 +92,18 @@ print "cachedate: ".$cache{date}."\n";
 
     print $OSNAME."\n";
     if ($OSNAME eq 'linux') {
-        my $stack;
-        foreach (`LC_ALL=C ifconfig`) {
-#        inet addr:192.168.69.106  Bcast:192.168.69.255  Mask:255.255.255.0
-            if (/^\s*$/) {
-                $stack = undef; 
-            } elsif($stack && /Interrupt:\d+\s+/) {
-# This is a real physical network card
-                push @addresses, $stack; 
-                $stack = undef; 
-            } elsif
-            (/inet\saddr:(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3}).*Mask:(255)\.(255).(\d+)\.(\d+)/x) {
-                print "→".$_."\n";
-                $stack = { 
-                    ip   => [ $1, $2, $3, $4 ],
-                    mask => [ 255, 255, 255, $8 ]
-                };
-            }
+        FusionInventory::Agent::Tools::Linux->require();
+        @addresses =
+            map {
+                { 
+                    ip   => [ split(/\./, $_->{IPADDRESS} ],
+                    mask => [ split(/\./, $_->{IPMASK} ],
+                }
+            } 
+            grep { $_->{IPMASK} =~ /^255\.255\.255/ }
+            grep { $_->{STATUS} eq 'Up' }
+            FusionInventory::Agent::Tools::Linux::getInterfacesFromIfconfig();
 
-        }
     } elsif ($OSNAME eq 'MSWin32') {
         foreach (`route print`) {
             if (/^\s+(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\s+(255)\.(255)\.(\d+)\.(\d+)/x) {
