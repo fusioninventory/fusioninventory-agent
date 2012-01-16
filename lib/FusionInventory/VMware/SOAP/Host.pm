@@ -18,7 +18,7 @@ sub new {
     return $self;
 }
 
-sub _getList {
+sub _asArray {
     my $h = shift;
 
     return 
@@ -67,7 +67,7 @@ sub getHardwareInfo {
 
     return {
         NAME       => $dnsConfig->{hostName},
-        DNS        => join('/', _getList($dnsConfig->{address})),
+        DNS        => join('/', _asArray($dnsConfig->{address})),
         WORKGROUP  => $dnsConfig->{domainName},
         MEMORY     => int($hardware->{memorySize} / (1024 * 1024)),
         UUID       => $summary->{hardware}->{uuid} || $systemInfo->{uuid},
@@ -91,11 +91,11 @@ sub getCPUs {
     my $cpuEntries  = $hardware->{cpuPkg};
 
     my @cpus;
-    foreach (_getList($cpuEntries)) {
+    foreach (_asArray($cpuEntries)) {
         my $thread;
         push @cpus,
           {
-            CORE         => $totalCore / _getList($cpuEntries),
+            CORE         => $totalCore / _asArray($cpuEntries),
             MANUFACTURER => $cpuManufacturor{ $_->{vendor} } || $_->{vendor},
             NAME         => $_->{description},
             SPEED        => int( $_->{hz} / ( 1000 * 1000 ) ),
@@ -167,7 +167,7 @@ sub getNetworks {
     my $seen = {};
 
     foreach my $nicType (qw/vnic pnic consoleVnic/)  {
-        foreach (_getList($self->{hash}[0]{config}{network}{$nicType}))
+        foreach (_asArray($self->{hash}[0]{config}{network}{$nicType}))
         {
 
             next if $seen->{$_->{device}}++;
@@ -182,7 +182,7 @@ sub getNetworks {
     push @vnic, $self->{hash}[0]{config}{vmotion}{netConfig}{candidateVnic}
         if $self->{hash}[0]{config}{vmotion}{netConfig}{candidateVnic};
     foreach my $entry (@vnic) {
-        foreach (_getList($entry)) {
+        foreach (_asArray($entry)) {
             next if $seen->{$_->{device}}++;
 
             push @networks, _getNic($_, 1);
@@ -197,7 +197,7 @@ sub getStorages {
 
     my @storages;
     foreach my $entry (
-        _getList($self->{hash}[0]{config}{storageDevice}{scsiLun}))
+        _asArray($self->{hash}[0]{config}{storageDevice}{scsiLun}))
     {
         my $serialnumber;
         my $size;
@@ -205,7 +205,7 @@ sub getStorages {
         # TODO
         #$volumnMapping{$entry->{canonicalName}} = $entry->{deviceName};
 
-        foreach my $altName (_getList($entry->{alternateName})) {
+        foreach my $altName (_asArray($entry->{alternateName})) {
             next unless ref($altName) eq 'HASH';
             next unless $altName->{namespace};
             next unless $altName->{data};
@@ -260,7 +260,7 @@ sub getDrives {
     my @drives;
 
     foreach (
-        _getList($self->{hash}[0]{config}{fileSystemVolume}{mountInfo}))
+        _asArray($self->{hash}[0]{config}{fileSystemVolume}{mountInfo}))
     {
         my $volumn;
         if ( $_->{volume}{type} && ( $_->{volume}{type} =~ /NFS/i ) ) {
@@ -298,7 +298,7 @@ sub getVirtualMachines {
         }
 
         my @mac;
-        foreach (_getList($_->[0]{config}{hardware}{device})) {
+        foreach (_asArray($_->[0]{config}{hardware}{device})) {
             push @mac, $_->{macAddress} if $_->{macAddress};
         }
 
