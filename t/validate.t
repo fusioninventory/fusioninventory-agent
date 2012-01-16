@@ -9,7 +9,6 @@ use JSON;
 
 
 use Test::More tests => 14;
-use Data::Dumper;
 
 my @tests = (
         {
@@ -51,9 +50,8 @@ my @tests = (
 
 foreach (@tests) {
     my $msg;
-    use Data::Dumper;
     my $ret = FusionInventory::Agent::Task::Deploy::_validateAnswer(\$msg, eval {decode_json($_->{json})});
     ok(($ret?0:1) == ($_->{ret}?0:1), "returned code");
-    ok($msg eq $_->{msg}, "returned msg") or print "'".$msg."`\n";
+    ok($msg eq $_->{msg}, "returned msg");
 }
 
