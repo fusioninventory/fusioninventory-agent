@@ -55,8 +55,8 @@ my @tests = (
 
 );
 
-foreach (@tests) {
+foreach my $test (@tests) {
     my @ret = FusionInventory::Agent::Task::Deploy::P2P::_computeIPToTest(
-        $_->{test}, 6 );
-    is_deeply(\@ret, $_->{ret}, $_->{name});
+        $test_->{test}, 6 );
+    is_deeply(\@ret, $test->{ret}, $text->{name});
 }
