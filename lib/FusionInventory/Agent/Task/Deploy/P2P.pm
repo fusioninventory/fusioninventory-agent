@@ -23,23 +23,25 @@ sub _computeIPToTest {
     $ipLimit = 255 unless $ipLimit;
 
     my @ipToTest;
-    foreach my $data (@$addresses) {
-        next if $data->{ip}[0] == 127; # Ignore 127.x.x.x addresses
-        next if $data->{ip}[0] == 169; # Ignore 169.x.x.x range too
+    foreach my $address (@$addresses) {
+        my @ip_bytes   = split(/\./, $address->{ip});
+        my @mask_bytes = split(/\./, $address->{mask});
+        next if $ip_bytes[0] == 127; # Ignore 127.x.x.x addresses
+        next if $ip_bytes[0] == 169; # Ignore 169.x.x.x range too
 
-        my @begin;
+        # compute range
+        my @start;
         my @end;
 
         foreach my $idx (0..3) {
-            push @begin, $data->{ip}[$idx] & (255 & $data->{mask}[$idx]);
-            push @end, $data->{ip}[$idx] | (255 - $data->{mask}[$idx]);
+            push @start, $ip_bytes[$idx] & (255 & $mask_bytes[$idx]);
+            push @end,   $ip_bytes[$idx] | (255 - $mask_bytes[$idx]);
         }
 
-        my $ip = sprintf("%d.%d.%d.%d", @{$data->{ip}});
-        my $ipStart = sprintf("%d.%d.%d.%d", @begin);
-        my $ipEnd = sprintf("%d.%d.%d.%d", @end);
+        my $ipStart = join('.', @start);
+        my $ipEnd   = join('.', @end);
 
-        my $ipInterval = Net::IP->new ($ipStart.' - '.$ipEnd) || die  (Net::IP::Error());
+        my $ipInterval = Net::IP->new($ipStart.' - '.$ipEnd) || die Net::IP::Error();
 
         next if $ipStart eq $ipEnd;
 
@@ -52,7 +54,7 @@ sub _computeIPToTest {
         my @newIPs;
         do {
             push @newIPs, $ipInterval->ip();
-            if ($after || $ip eq $ipInterval->ip()) {
+            if ($after || $address->{ip} eq $ipInterval->ip()) {
                 $after++;
             } elsif (@newIPs > ($ipLimit / 2)) {
                 shift @newIPs;
@@ -96,8 +98,8 @@ print "cachedate: ".$cache{date}."\n";
         @addresses =
             map {
                 { 
-                    ip   => [ split(/\./, $_->{IPADDRESS} ],
-                    mask => [ split(/\./, $_->{IPMASK} ],
+                    ip   => $_->{IPADDRESS},
+                    mask => $_->{IPMASK},
                 }
             } 
             grep { $_->{IPMASK} =~ /^255\.255\.255/ }
@@ -106,10 +108,10 @@ print "cachedate: ".$cache{date}."\n";
 
     } elsif ($OSNAME eq 'MSWin32') {
         foreach (`route print`) {
-            if (/^\s+(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\s+(255)\.(255)\.(\d+)\.(\d+)/x) {
+            if (/^\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s+(255\.255\.\d{1,3}\.\d{1,3})/x) {
                 push @addresses, { 
-                    ip   => [ $1, $2, $3, $4 ],
-                    mask => [ 255, 255, 255, $8 ]
+                    ip   => $1,
+                    mask => $2
                 };
             }
         }
