@@ -15,9 +15,8 @@ sub new {
     my ($class, %params) = @_;
 
     my $self = {
-        ua       => LWP::UserAgent->new( ssl_opts => { verify_hostname => 0 } ),
-        url      => $params{url},
-        debugDir => $params{debugDir},
+        ua  => LWP::UserAgent->new( ssl_opts => { verify_hostname => 0 } ),
+        url => $params{url},
     };
 
     $self->{ua}->agent($FusionInventory::Agent::AGENT_STRING);
@@ -34,33 +33,8 @@ sub new {
     return $self;
 }
 
-sub _loadSOAPDump {
-    my ( $self, $name ) = @_;
-
-    local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
-
-    my $file = $self->{debugDir} . "/" . $name . ".soap";
-    open(my $handle, '<', $file) or die "failed to open $file";
-    my $content = <$handle>;
-    close $handle;
-
-    return $content;
-}
-
-sub _storeSOAPDump {
-    return;    # DEBUG
-    my ( $self, $action, $data ) = @_;
-    open(my $handle, '>', "$action.soap") or die;
-    print $handle $data;
-    close $handle;
-}
-
 sub _send {
-    my ( $self, $action, $name, $xmlToSend ) = @_;
-
-    if ( $self->{debugDir} ) {
-        return $self->_loadSOAPDump($name);
-    }
+    my ( $self, $action, $xmlToSend ) = @_;
 
     my $req = HTTP::Request->new( POST => $self->{url} );
     $req->content($xmlToSend);
@@ -73,7 +47,6 @@ sub _send {
     my $res = $self->{ua}->request($req);
 
     if ( $res->is_success ) {
-        $self->_storeSOAPDump( $name, $res->content );
         return $res->content;
     } else {
         my $err    = $res->content;
@@ -139,7 +112,7 @@ sub connect {
 <RetrieveServiceContent xmlns="urn:vim25"><_this type="ServiceInstance">ServiceInstance</_this>
 </RetrieveServiceContent></soapenv:Body></soapenv:Envelope>';
 
-    my $answer = $self->_send( 'ServiceInstance', 'ServiceInstance', $req );
+    my $answer = $self->_send( 'ServiceInstance', $req );
     return unless $answer;
 
     my $serviceInstance = $self->_parseAnswer($answer);
@@ -163,9 +136,10 @@ sub connect {
         <Login xmlns="urn:vim25"><_this type="SessionManager">%s</_this>
         <userName>%s</userName><password>%s</password></Login></soapenv:Body></soapenv:Envelope>';
 
-    $answer =
-      $self->_send( 'Login', 'Login',
-        sprintf( $req, $self->{sessionManager}, $user, $password ) );
+    $answer = $self->_send(
+        'Login',
+        sprintf( $req, $self->{sessionManager}, $user, $password )
+    );
     return unless $answer;
     return if $answer =~ /ServerFaultCode/m;
 
@@ -202,9 +176,10 @@ sub _getVirtualMachineList {
         <skip>0</skip><selectSet xsi:type="TraversalSpec"><name>folderTraversalSpec</name><type>Folder</type><path>childEntity</path><skip>0</skip><selectSet><name>folderTraversalSpec</name></selectSet><selectSet><name>datacenterHostTraversalSpec</name></selectSet><selectSet><name>datacenterVmTraversalSpec</name></selectSet><selectSet><name>datacenterDatastoreTraversalSpec</name></selectSet><selectSet><name>datacenterNetworkTraversalSpec</name></selectSet><selectSet><name>computeResourceRpTraversalSpec</name></selectSet><selectSet><name>computeResourceHostTraversalSpec</name></selectSet><selectSet><name>hostVmTraversalSpec</name></selectSet><selectSet><name>resourcePoolVmTraversalSpec</name></selectSet></selectSet><selectSet xsi:type="TraversalSpec"><name>datacenterDatastoreTraversalSpec</name><type>Datacenter</type><path>datastoreFolder</path><skip>0</skip><selectSet><name>folderTraversalSpec</name></selectSet></selectSet><selectSet xsi:type="TraversalSpec"><name>datacenterNetworkTraversalSpec</name><type>Datacenter</type><path>networkFolder</path><skip>0</skip><selectSet><name>folderTraversalSpec</name></selectSet></selectSet><selectSet xsi:type="TraversalSpec"><name>datacenterVmTraversalSpec</name><type>Datacenter</type><path>vmFolder</path><skip>0</skip><selectSet><name>folderTraversalSpec</name></selectSet></selectSet><selectSet xsi:type="TraversalSpec"><name>datacenterHostTraversalSpec</name><type>Datacenter</type><path>hostFolder</path><skip>0</skip><selectSet><name>folderTraversalSpec</name></selectSet></selectSet><selectSet xsi:type="TraversalSpec"><name>computeResourceHostTraversalSpec</name><type>ComputeResource</type><path>host</path><skip>0</skip></selectSet><selectSet xsi:type="TraversalSpec"><name>computeResourceRpTraversalSpec</name><type>ComputeResource</type><path>resourcePool</path><skip>0</skip><selectSet><name>resourcePoolTraversalSpec</name></selectSet><selectSet><name>resourcePoolVmTraversalSpec</name></selectSet></selectSet><selectSet xsi:type="TraversalSpec"><name>resourcePoolTraversalSpec</name><type>ResourcePool</type><path>resourcePool</path><skip>0</skip><selectSet><name>resourcePoolTraversalSpec</name></selectSet><selectSet><name>resourcePoolVmTraversalSpec</name></selectSet></selectSet><selectSet xsi:type="TraversalSpec"><name>hostVmTraversalSpec</name><type>HostSystem</type><path>vm</path><skip>0</skip><selectSet><name>folderTraversalSpec</name></selectSet></selectSet><selectSet xsi:type="TraversalSpec"><name>resourcePoolVmTraversalSpec</name><type>ResourcePool</type><path>vm</path><skip>0</skip></selectSet></objectSet></specSet></RetrieveProperties></soapenv:Body></soapenv:Envelope>
         ';
 
-    my $answer =
-      $self->_send( 'RetrievePropertiesVMList', 'RetrievePropertiesVMList',
-        $req );
+    my $answer = $self->_send(
+        'RetrievePropertiesVMList',
+        $req
+    );
     my $ref = $self->_parseAnswer($answer);
     my @list;
     if ( ref($ref) eq 'HASH' ) {
@@ -238,7 +213,6 @@ sub _getVirtualMachineById {
 
     my $answer = $self->_send(
         'RetrieveProperties',
-        'RetrieveProperties-VM-' . $id,
         sprintf( $req, $self->{propertyCollector}, $id )
     );
     return [] unless $answer;
@@ -265,9 +239,10 @@ sub getHostFullInfo {
         </objectSet></specSet></RetrieveProperties></soapenv:Body></soapenv:Envelope>
         ';
 
-    my $answer =
-      $self->_send( 'RetrieveProperties', 'getHostFullInfo',
-        sprintf( $req, $self->{propertyCollector}, $id ) );
+    my $answer = $self->_send(
+        'RetrieveProperties',
+        sprintf( $req, $self->{propertyCollector}, $id )
+    );
     my $ref = $self->_parseAnswer($answer);
     my $vms = [];
     my $machineIdList;
@@ -308,8 +283,7 @@ sub getHostIds {
 <specSet><propSet><type>HostSystem</type><all>0</all></propSet><objectSet><obj type="Folder">group-d1</obj>
 <skip>0</skip><selectSet xsi:type="TraversalSpec"><name>folderTraversalSpec</name><type>Folder</type><path>childEntity</path><skip>0</skip><selectSet><name>folderTraversalSpec</name></selectSet><selectSet><name>datacenterHostTraversalSpec</name></selectSet><selectSet><name>datacenterVmTraversalSpec</name></selectSet><selectSet><name>datacenterDatastoreTraversalSpec</name></selectSet><selectSet><name>datacenterNetworkTraversalSpec</name></selectSet><selectSet><name>computeResourceRpTraversalSpec</name></selectSet><selectSet><name>computeResourceHostTraversalSpec</name></selectSet><selectSet><name>hostVmTraversalSpec</name></selectSet><selectSet><name>resourcePoolVmTraversalSpec</name></selectSet></selectSet><selectSet xsi:type="TraversalSpec"><name>datacenterDatastoreTraversalSpec</name><type>Datacenter</type><path>datastoreFolder</path><skip>0</skip><selectSet><name>folderTraversalSpec</name></selectSet></selectSet><selectSet xsi:type="TraversalSpec"><name>datacenterNetworkTraversalSpec</name><type>Datacenter</type><path>networkFolder</path><skip>0</skip><selectSet><name>folderTraversalSpec</name></selectSet></selectSet><selectSet xsi:type="TraversalSpec"><name>datacenterVmTraversalSpec</name><type>Datacenter</type><path>vmFolder</path><skip>0</skip><selectSet><name>folderTraversalSpec</name></selectSet></selectSet><selectSet xsi:type="TraversalSpec"><name>datacenterHostTraversalSpec</name><type>Datacenter</type><path>hostFolder</path><skip>0</skip><selectSet><name>folderTraversalSpec</name></selectSet></selectSet><selectSet xsi:type="TraversalSpec"><name>computeResourceHostTraversalSpec</name><type>ComputeResource</type><path>host</path><skip>0</skip></selectSet><selectSet xsi:type="TraversalSpec"><name>computeResourceRpTraversalSpec</name><type>ComputeResource</type><path>resourcePool</path><skip>0</skip><selectSet><name>resourcePoolTraversalSpec</name></selectSet><selectSet><name>resourcePoolVmTraversalSpec</name></selectSet></selectSet><selectSet xsi:type="TraversalSpec"><name>resourcePoolTraversalSpec</name><type>ResourcePool</type><path>resourcePool</path><skip>0</skip><selectSet><name>resourcePoolTraversalSpec</name></selectSet><selectSet><name>resourcePoolVmTraversalSpec</name></selectSet></selectSet><selectSet xsi:type="TraversalSpec"><name>hostVmTraversalSpec</name><type>HostSystem</type><path>vm</path><skip>0</skip><selectSet><name>folderTraversalSpec</name></selectSet></selectSet><selectSet xsi:type="TraversalSpec"><name>resourcePoolVmTraversalSpec</name><type>ResourcePool</type><path>vm</path><skip>0</skip></selectSet></objectSet></specSet></RetrieveProperties></soapenv:Body></soapenv:Envelope>';
 
-    my $answer =
-      $self->_send( 'RetrieveProperties', 'getESXFullInfo', sprintf($req) );
+    my $answer = $self->_send('RetrieveProperties', sprintf($req) );
     my $ref = $self->_parseAnswer($answer);
 
     my @ids;
