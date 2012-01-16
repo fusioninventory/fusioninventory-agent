@@ -26,15 +26,18 @@ my %tests = (
             'key' => '52eec005-5d13-dfae-afd8-7e1b4561a154'
           }
         ],
-        'getHostname' => 'esx-test.teclib.local',
-        'getBiosInfo' => {
-          'SMANUFACTURER' => 'Sun Microsystems',
-          'SMODEL' => 'Sun Fire X2200 M2 with Dual Core Processor',
-          'BDATE' => '2009-02-04T00:00:00Z',
-          'ASSETTAG' => ' To Be Filled By O.E.M.',
-          'BVERSION' => 'S39_3B27'
-        },
-        'getHardwareInfo' => {
+        'getHostname' => [ 'esx-test.teclib.local' ],
+        'getBiosInfo' => [
+            {
+              'SMANUFACTURER' => 'Sun Microsystems',
+              'SMODEL' => 'Sun Fire X2200 M2 with Dual Core Processor',
+              'BDATE' => '2009-02-04T00:00:00Z',
+              'ASSETTAG' => ' To Be Filled By O.E.M.',
+              'BVERSION' => 'S39_3B27'
+            }
+        ],
+        'getHardwareInfo' => [
+            {
           'OSCOMMENTS' => 'VMware ESX 4.1.0 build-260247',
           'NAME' => 'esx-test',
           'OSVERSION' => '4.1.0',
@@ -43,7 +46,8 @@ my %tests = (
           'OSNAME' => 'VMware ESX',
           'UUID' => 'b5bfd78a-fa79-0010-adfe-001b24f07258',
           'DNS' => '10.0.5.105'
-        },
+          }
+        ],
         'getCPUs' => [
           {
             'NAME' => 'Dual-Core AMD Opteron(tm) Processor 2218',
@@ -441,12 +445,10 @@ my %tests = (
         ]
     },
 );
-my @scalar_methods = qw/
+my @methods = qw/
     getHostname
     getBiosInfo
     getHardwareInfo
-/;
-my @list_methods = qw/
     getCPUs
     getControllers
     getNetworks
@@ -455,7 +457,7 @@ my @list_methods = qw/
     getVirtualMachines
 /;
 plan tests =>
-    (scalar keys %tests) * (scalar @scalar_methods + scalar @list_methods + 3);
+    (scalar keys %tests) * (scalar @methods + 3);
 
 my $module = Test::MockModule->new('LWP::UserAgent');
 
@@ -513,20 +515,11 @@ foreach my $test (keys %tests) {
         $result = $vpbs->getHostFullInfo()
     } "$test getHostFullInfo()";
 
-    foreach my $method (@scalar_methods) {
-        is_deeply(
-            $result->$method(),
-            $tests{$test}->{$method},
-            "$test $method()"
-        );
-    }
-
-    foreach my $method (@list_methods) {
+    foreach my $method (@methods) {
         is_deeply(
             [ $result->$method() ],
             $tests{$test}->{$method},
             "$test $method()"
         );
     }
-
 }
