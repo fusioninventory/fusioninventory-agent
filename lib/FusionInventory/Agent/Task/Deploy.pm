@@ -159,24 +159,23 @@ sub processRemote {
               FusionInventory::Agent::Task::Deploy::CheckProcessor->new();
             foreach my $checknum ( 0 .. @{ $job->{checks} } ) {
                 next unless $job->{checks}[$checknum];
-                if ( !$checkProcessor->process( $job->{checks}[$checknum] ) ) {
+                next if $checkProcessor->process( $job->{checks}[$checknum] ) );
 
-                    $self->{client}->send(
-                        url  => $remoteUrl,
-                        args => {
-                            action      => "setStatus",
-                            machineid   => $self->{deviceid},
-                            part        => 'job',
-                            uuid        => $job->{uuid},
-                            currentStep => 'checking',
-                            status      => 'ko',
-                            msg         => 'check failed',
-                            cheknum     => $checknum
-                        }
-                    );
+                $self->{client}->send(
+                    url  => $remoteUrl,
+                    args => {
+                        action      => "setStatus",
+                        machineid   => $self->{deviceid},
+                        part        => 'job',
+                        uuid        => $job->{uuid},
+                        currentStep => 'checking',
+                        status      => 'ko',
+                        msg         => 'check failed',
+                        cheknum     => $checknum
+                    }
+                );
 
-                    next JOB;
-                }
+                next JOB;
             }
         }
 
