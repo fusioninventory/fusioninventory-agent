@@ -50,6 +50,6 @@ foreach my $test (@tests) {
     my $msg;
     my $ret = FusionInventory::Agent::Task::Deploy::_validateAnswer(\$msg, eval {decode_json($test->{json})});
     ok(($ret ? 0 : 1) == ($test->{ret} ? 0 : 1), "returned code");
-    ok($msg eq $test->{msg}, "returned msg");
+    is($msg,  $test->{msg}, "returned msg");
 }
 
