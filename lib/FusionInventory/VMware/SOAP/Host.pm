@@ -289,32 +289,33 @@ sub getVirtualMachines {
 
     my @virtualMachines;
 
-    foreach ( @{ $self->{vms} } ) {
+    foreach my $vm (@{$self->{vms}}) {
+        my $machine = $vm->[0];
         my $status =
-            $_->[0]{summary}{runtime}{powerState} eq 'poweredOn'  ? 'running' :
-            $_->[0]{summary}{runtime}{powerState} eq 'poweredOff' ? 'off'     :
+            $machine->{summary}{runtime}{powerState} eq 'poweredOn'  ? 'running' :
+            $machine->{summary}{runtime}{powerState} eq 'poweredOff' ? 'off'     :
                                                                     undef     ;
         print "Unknown status\n" if !$status;
 
         my @mac;
-        foreach (_asArray($_->[0]{config}{hardware}{device})) {
-            push @mac, $_->{macAddress} if $_->{macAddress};
+        foreach my $device (_asArray($machine->{config}{hardware}{device})) {
+            push @mac, $device->{macAddress} if $device->{macAddress};
         }
 
-        my $comment = $_->[0]{config}{annotation};
+        my $comment = $machine->{config}{annotation};
 
         # hack to preserve  annotation / comment formating
         $comment =~ s/\n/&#10;/gm if $comment;
 
         push @virtualMachines,
           {
-            VMID    => $_->[0]{summary}{vm},
-            NAME    => $_->[0]{name},
+            VMID    => $machine->{summary}{vm},
+            NAME    => $machine->{name},
             STATUS  => $status,
-            UUID    => $_->[0]{summary}{config}{uuid},
-            MEMORY  => $_->[0]{summary}{config}{memorySizeMB},
+            UUID    => $machine->{summary}{config}{uuid},
+            MEMORY  => $machine->{summary}{config}{memorySizeMB},
             VMTYPE  => 'VMware',
-            VCPU    => $_->[0]{summary}{config}{numCpu},
+            VCPU    => $machine->{summary}{config}{numCpu},
             MAC     => join( '/', @mac ),
             COMMENT => $comment
           };
