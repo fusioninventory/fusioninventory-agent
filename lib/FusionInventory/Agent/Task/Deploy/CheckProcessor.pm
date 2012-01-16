@@ -5,16 +5,6 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-sub new {
-    my ($class, %params) = @_;
-
-    my $self = {};
-
-    bless $self, $class;
-
-    return $self;
-}
-
 sub process {
     my ($self, $check) = @_;
 

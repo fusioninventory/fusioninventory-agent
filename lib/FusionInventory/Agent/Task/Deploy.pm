@@ -155,11 +155,11 @@ sub processRemote {
 
         # CHECKING
         if ( ref( $job->{checks} ) eq 'ARRAY' ) {
-            my $checkProcessor =
-              FusionInventory::Agent::Task::Deploy::CheckProcessor->new();
             foreach my $checknum ( 0 .. @{ $job->{checks} } ) {
                 next unless $job->{checks}[$checknum];
-                next if $checkProcessor->process( $job->{checks}[$checknum] ) );
+                next if FusionInventory::Agent::Task::Deploy::CheckProcessor->process(
+                    $job->{checks}[$checknum]
+                );
 
                 $self->{client}->send(
                     url  => $remoteUrl,
