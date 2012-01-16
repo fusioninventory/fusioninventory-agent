@@ -1,3 +1,8 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
 use FusionInventory::Agent::Task::Deploy::P2P;
 use Data::Dumper;
 use Test::More tests => 3;
