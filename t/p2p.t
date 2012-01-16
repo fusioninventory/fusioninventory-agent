@@ -4,7 +4,6 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Task::Deploy::P2P;
-use Data::Dumper;
 use Test::More tests => 3;
 
 my @tests = (
@@ -59,5 +58,5 @@ my @tests = (
 foreach (@tests) {
     my @ret = FusionInventory::Agent::Task::Deploy::P2P::_computeIPToTest(
         $_->{test}, 6 );
-    is_deeply(\@ret, $_->{ret}, $_->{name}) or print Dumper( \@ret );
+    is_deeply(\@ret, $_->{ret}, $_->{name});
 }
