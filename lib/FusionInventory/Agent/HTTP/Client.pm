@@ -130,9 +130,7 @@ sub _setSSLOptions {
     # SSL handling
     if ($self->{no_ssl_check}) {
         # IO::Socket::SSL default behavior is to check the SSL hostname
-        # We run it in a eval to avoid break if the ssl_opts doesn't work
-        # with old LWP
-       eval { $self->{ua}->ssl_opts(verify_hostname => 0); }
+       $self->{ua}->ssl_opts(verify_hostname => 0) if $LWP::VERSION >= 6;
     } else {
         # only IO::Socket::SSL can perform full server certificate validation,
         # Net::SSL is only able to check certification authority, and not
