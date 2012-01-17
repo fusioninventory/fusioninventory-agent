@@ -10,10 +10,10 @@ sub import {
     my ($class, %params) = @_;
 
     # set default context
-    IO::Socket::SSL::set_ctx_defaults(ca_file => $params{'ca_cert_file'})
-        if $params{'ca_cert_file'};
-    IO::Socket::SSL::set_ctx_defaults(ca_path => $params{'ca_cert_dir'})
-        if $params{'ca_cert_dir'};
+    IO::Socket::SSL::set_ctx_defaults(ca_file => $params{ca_cert_file})
+        if $params{ca_cert_file};
+    IO::Socket::SSL::set_ctx_defaults(ca_path => $params{ca_cert_dir})
+        if $params{ca_cert_dir};
 }
 
 sub _extra_sock_opts {
