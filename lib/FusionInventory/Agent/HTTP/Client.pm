@@ -128,10 +128,10 @@ sub _setSSLOptions {
     my ($self) = @_;
 
     # SSL handling
-    if ($self->{'no_ssl_check'}) {
-# IO::Socket::SSL default behavior is to check the SSL hostname
-# We run it in a eval to avoid break if the ssl_opts doesn't work on some
-# old LWP
+    if ($self->{no_ssl_check}) {
+        # IO::Socket::SSL default behavior is to check the SSL hostname
+        # We run it in a eval to avoid break if the ssl_opts doesn't work
+        # with old LWP
        eval { $self->{ua}->ssl_opts(verify_hostname => 0); }
     } else {
         # only IO::Socket::SSL can perform full server certificate validation,
@@ -145,10 +145,10 @@ sub _setSSLOptions {
             if $EVAL_ERROR;
 
         if ($LWP::VERSION >= 6) {
-            $self->{ua}->ssl_opts(SSL_ca_file => $self->{'ca_cert_file'})
-                if $self->{'ca_cert_file'};
-            $self->{ua}->ssl_opts(SSL_ca_path => $self->{'ca_cert_dir'})
-                if $self->{'ca_cert_dir'};
+            $self->{ua}->ssl_opts(SSL_ca_file => $self->{ca_cert_file})
+                if $self->{ca_cert_file};
+            $self->{ua}->ssl_opts(SSL_ca_path => $self->{ca_cert_dir})
+                if $self->{ca_cert_dir};
         } else {
             # SSL_verifycn_scheme and SSL_verifycn_name are required
             die 
@@ -159,8 +159,8 @@ sub _setSSLOptions {
 
             # use a custom HTTPS handler to workaround default LWP5 behaviour
             FusionInventory::Agent::HTTP::Protocol::https->use(
-                ca_cert_file => $self->{'ca_cert_file'},
-                ca_cert_dir  => $self->{'ca_cert_dir'},
+                ca_cert_file => $self->{ca_cert_file},
+                ca_cert_dir  => $self->{ca_cert_dir},
             );
             die 
                 "failed to load FusionInventory::Agent::HTTP::Protocol::https" .
@@ -174,7 +174,7 @@ sub _setSSLOptions {
 
             # abuse user agent internal to pass values to the handler, so
             # as to have different behaviors in the same process
-            $self->{ua}->{ssl_check} = $self->{'no_ssl_check'} ? 0 : 1;
+            $self->{ua}->{ssl_check} = $self->{no_ssl_check} ? 0 : 1;
         }
     }
 
