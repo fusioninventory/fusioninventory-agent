@@ -1,5 +1,9 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
 use FusionInventory::Agent::Task::Deploy::P2P;
-use Data::Dumper;
 use Test::More tests => 3;
 
 my @tests = (
@@ -7,8 +11,8 @@ my @tests = (
         name => 'Ignore',
         test => [
             {
-                ip   => [ 127, 0, 0, 1 ],
-                mask => [ 255, 0, 0, 0 ]
+                ip   => '127.0.0.1',
+                mask => '255.0.0.0'
             }
         ],
         ret => [
@@ -18,8 +22,8 @@ my @tests = (
         name => '192.168.5.5',
         test => [
             {
-                ip   => [ 192, 168, 5,   5 ],
-                mask => [ 255, 255, 255, 0 ]
+                ip   => '192.168.5.5',
+                mask => '255.255.255.0'
             },
         ],
         ret => [
@@ -35,8 +39,8 @@ my @tests = (
         name => '10.5.6.200',
         test => [
             {
-                ip   => [ 10, 5, 6, 200 ],
-                mask => [ 255, 255, 250, 0 ]
+                ip   => '10.5.6.200',
+                mask => '255.255.250.0'
             }
         ],
         ret => [
@@ -51,8 +55,8 @@ my @tests = (
 
 );
 
-foreach (@tests) {
+foreach my $test (@tests) {
     my @ret = FusionInventory::Agent::Task::Deploy::P2P::_computeIPToTest(
-        $_->{test}, 6 );
-    is_deeply(\@ret, $_->{ret}, $_->{name}) or print Dumper( \@ret );
+        $test->{test}, 6 );
+    is_deeply(\@ret, $test->{ret}, $test->{name});
 }

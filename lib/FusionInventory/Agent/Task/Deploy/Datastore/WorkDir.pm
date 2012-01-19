@@ -3,20 +3,20 @@ package FusionInventory::Agent::Task::Deploy::Datastore::WorkDir;
 use strict;
 use warnings;
 
-use Data::Dumper;
-use File::Path qw(make_path);
 use Archive::Extract;
 use Compress::Zlib;
+use English qw(-no_match_vars);
+use File::Path qw(make_path);
 
 sub new {
-    my (undef, $params) = @_;
+    my ($class, %params) = @_;
 
-    my $self = {};
+    my $self = {
+        path  => $params{path},
+        files => []
+    };
 
-    $self->{path} = $params->{path};
-    $self->{files} = [];
-
-    bless $self;
+    bless $self, $class;
 }
 
 sub addFile {
@@ -35,28 +35,28 @@ sub prepare {
         my $finalFilePath = $self->{path}.'/'.$file->{name};
 
         my $fh;
-        if (!open($fh, ">$finalFilePath")) {
-            print "Failed to open ".$finalFilePath.": $!\n";
+        if (!open($fh, '>', $finalFilePath)) {
+            print "Failed to open '$finalFilePath': $ERRNO\n";
             return;
         }
         binmode($fh);
         foreach my $sha512 (@{$file->{multiparts}}) {
             my $partFilePath = $file->getPartFilePath($sha512);
             if (! -f $partFilePath) {
-                print "Missing multipart element: `$partFilePath'\n";
+                print "Missing multipart element '$partFilePath'\n";
             }
 
             my $part;
             my $buf;
             if ($part = gzopen($partFilePath, 'rb')) {
 
-                print "reading ".$sha512."\n";
+                print "reading $sha512\n";
                 while ($part->gzread($buf, 1024)) {
                     print $fh $buf;
                 }
                 $part->gzclose;
             } else {
-                print "Failed to open: `$partFilePath'\n";
+                print "Failed to open '$partFilePath'\n";
             }
         }
         close($fh);
@@ -78,7 +78,7 @@ sub prepare {
             if (!$ae) {
                 print "Failed to create Archive::Extract object\n";
             } elsif (!$ae->extract( to => $self->{path} )) {
-                print "Failed to extract `$finalFilePath'\n";
+                print "Failed to extract '$finalFilePath'\n";
             }
             # We ignore failure here because one my have activated the
             # extract flag on common file and this should be harmless

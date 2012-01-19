@@ -1,25 +1,31 @@
 package FusionInventory::Agent::Task::Deploy::Datastore;
 
-use FusionInventory::Agent::Task::Deploy::Datastore::WorkDir;
-
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
 use File::Glob;
 use File::Path qw(make_path remove_tree);
+use UNIVERSAL::require;
+
+use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Task::Deploy::Datastore::WorkDir;
 
 sub new {
-    my (undef, $params) = @_;
+    my ($class, %params) = @_;
 
-    die unless $params->{path};
+    die "no path parameter" unless $params{path};
 
     my $self = {
-        path => $params->{path},
+        path   => $params{path},
+        logger => $params{logger} ||
+                  FusionInventory::Agent::Logger->new(),
     };
 
+    bless $self, $class;
 
-
-    bless $self;
+    return $self;
 }
 
 sub cleanUp {
@@ -71,92 +77,89 @@ sub createWorkDir {
     make_path($path);
     return unless -d $path;
 
-    return FusionInventory::Agent::Task::Deploy::Datastore::WorkDir->new({ path => $path});
-
-
+    return FusionInventory::Agent::Task::Deploy::Datastore::WorkDir->new(
+        path => $path
+    );
 }
 
 sub diskIsFull {
-    my ( $self ) = @_;
+    my ($self) = @_;
 
     my $logger = $self->{logger};
 
-    my $spaceFree;
-    if ($^O =~ /^MSWin/) {
+    my $freeSpace =
+        $OSNAME eq 'MSWin32' ? _getFreeSpaceWindows() :
+        $OSNAME eq 'solaris' ? _getFreeSpaceSolaris() :
+                               _getFreeSpace()        ;
 
-        if (!eval ('
-                use Win32::OLE qw(in CP_UTF8);
-                use Win32::OLE::Const;
-
-                Win32::OLE->Option(CP => CP_UTF8);
-
-                1')) {
-            $logger->error("Failed to load Win32::OLE: $@") if $logger;
-        }
-
-
-        my $letter;
-        if ($self->{path} !~ /^(\w):./) {
-            $logger->error("Path parse error: ".$self->{path}) if $logger;
-            return;
-        }
-        $letter = $1.':';
-
-
-        my $WMIServices = Win32::OLE->GetObject(
-            "winmgmts:{impersonationLevel=impersonate,(security)}!//./" );
-
-        if (!$WMIServices) {
-            $logger->error(Win32::OLE->LastError()) if $logger;
-            return;
-        }
-
-        foreach my $properties ( Win32::OLE::in(
-                $WMIServices->InstancesOf('Win32_LogicalDisk'))) {
-
-            next unless lc($properties->{Caption}) eq lc($letter);
-            my $t = $properties->{FreeSpace};
-            if ($t && $t =~ /(\d+)\d{6}$/) {
-                $spaceFree = $1;
-            }
-        }
-    } elsif ($^O =~ /^solaris/i) {
-        my $dfFh;
-        return unless -d $self->{path};
-        if (open($dfFh, '-|', "df", '-b', $self->{path})) {
-            foreach(<$dfFh>) {
-                if (/^\S+\s+(\d+)\d{3}[^\d]/) {
-                    $spaceFree = $1;
-                }
-            }
-            close $dfFh
-        } elsif ($logger) {
-            $logger->error("Failed to exec df");
-        }
-    } else {
-        my $dfFh;
-        return unless -d $self->{path};
-        if (open($dfFh, '-|', "df", '-Pk', $self->{path})) {
-            foreach(<$dfFh>) {
-                if (/^\S+\s+\S+\s+\S+\s+(\d+)\d{3}[^\d]/) {
-                    $spaceFree = $1;
-                }
-            }
-            close $dfFh
-        } elsif ($logger) {
-            $logger->error("Failed to exec df");
-        }
+    if (!$freeSpace) {
+	$logger->debug('$spaceFree is undef!');
+	$freeSpace = 0;
     }
 
-    if(!$spaceFree) {
-	$logger->debug('$spaceFree is undef!') if $logger;
-	$spaceFree=0;
-    }
-
-    print "Freespace on ".$self->{path}." : ".$spaceFree."\n";
+    print "Free space on $self->{path}: $freeSpace\n";
     # 400MB Free, should be set by a config option
-    return ($spaceFree < 2000);
+    return ($freeSpace < 2000);
 }
 
+sub _getFreeSpaceWindows {
+    my ($self) = @_;
+
+    my $logger = $self->{logger};
+
+    FusionInventory::Agent::Tools::Win32->require();
+    if ($EVAL_ERROR) {
+        $logger->error(
+            "Failed to load FusionInventory::Agent::Tools::Win32: $EVAL_ERROR"
+        );
+        return;
+    }
+
+    my $letter;
+    if ($self->{path} !~ /^(\w):./) {
+        $logger->error("Path parse error: ".$self->{path});
+        return;
+    }
+    $letter = $1.':';
+
+    my $freeSpace;
+    foreach my $object (FusionInventory::Agent::Tools::Win32::getWmiObjects(
+        moniker    => 'winmgmts:{impersonationLevel=impersonate,(security)}!//./',
+        class      => 'Win32_LogicalDisk',
+        properties => [ qw/Caption FreeSpace/ ]
+    )) {
+        next unless lc($object->{Caption}) eq lc($letter);
+        my $t = $object->{FreeSpace};
+        if ($t && $t =~ /(\d+)\d{6}$/) {
+            $freeSpace = $1;
+        }
+    }
+
+    return $freeSpace;
+}
+
+sub _getFreeSpaceSolaris {
+    my ($self) = @_;
+
+    return unless -d $self->{path};
+
+    return getFirstMatch(
+        command => "df -b $self->{path}",
+        pattern => qr/^\S+\s+(\d+)\d{3}[^\d]/,
+        logger  => $self->{logger}
+    );
+}
+
+sub _getFreeSpace {
+    my ($self) = @_;
+
+    return unless -d $self->{path};
+
+    return getFirstMatch(
+        command => "df -Pk $self->{path}",
+        pattern => qr/^\S+\s+\S+\s+\S+\s+(\d+)\d{3}[^\d]/,
+        logger  => $self->{logger}
+    );
+}
 
 1;

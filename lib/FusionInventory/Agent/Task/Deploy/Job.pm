@@ -1,18 +1,22 @@
 package FusionInventory::Agent::Task::Deploy::Job;
 
-use Data::Dumper;
-use English qw(-no_match_vars);
-
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 sub new {
-    my (undef, $params) = @_;
+    my ($class, %params) = @_;
 
-    my $self = $params->{data};
-    $self->{associatedFiles} = $params->{associatedFiles};
+    my $self = {
+        requires        => $params{data}->{requires},
+        actions         => $params{data}->{actions},
+        associatedFiles => $params{associatedFiles}
+    };
 
-    bless $self;
+    bless $self, $class;
+
+    return $self;
 }
 
 

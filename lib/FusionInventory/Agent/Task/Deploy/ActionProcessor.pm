@@ -3,10 +3,9 @@ package FusionInventory::Agent::Task::Deploy::ActionProcessor;
 use strict;
 use warnings;
 
+use Cwd;
 use English qw(-no_match_vars);
 
-use Cwd;
-use Data::Dumper;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Move;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Copy;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Mkdir;
@@ -14,13 +13,17 @@ use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Delete;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Cmd;
 
 sub new {
-    my ( undef, $params ) = @_;
+    my ($class, %params) = @_;
 
-    my $self = { workdir => $params->{workdir} };
+    die "no workdir parameter" unless $params{workdir};
 
-    die unless $params->{workdir};
+    my $self = {
+        workdir => $params{workdir}
+    };
 
-    bless $self;
+    bless $self, $class;
+
+    return $self;
 }
 
 sub process {

@@ -1,5 +1,4 @@
 package FusionInventory::Agent::Task::Deploy;
-our $VERSION = '1.0.3';
 
 # Full protocol documentation available here:
 #  http://forge.fusioninventory.org/projects/fusioninventory-agent/wiki/API-REST-deploy
@@ -8,21 +7,19 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
-use LWP;
 use JSON;
-use Data::Dumper;
+use LWP;
 use URI::Escape;
-use FusionInventory::Agent::Storage;
 
-#use FusionInventory::Agent::Network;
-#use FusionInventory::Agent::REST;
 use FusionInventory::Agent::HTTP::Client::Fusion;
-
-use FusionInventory::Agent::Task::Deploy::Job;
-use FusionInventory::Agent::Task::Deploy::File;
-use FusionInventory::Agent::Task::Deploy::Datastore;
+use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor;
 use FusionInventory::Agent::Task::Deploy::CheckProcessor;
+use FusionInventory::Agent::Task::Deploy::Datastore;
+use FusionInventory::Agent::Task::Deploy::File;
+use FusionInventory::Agent::Task::Deploy::Job;
+
+our $VERSION = '1.0.3';
 
 sub isEnabled {
     my ($self, $response) = @_;
@@ -88,7 +85,8 @@ sub processRemote {
     }
 
     my $datastore = FusionInventory::Agent::Task::Deploy::Datastore->new(
-        { path => $self->{target}{storage}{directory}.'/deploy', } );
+        path => $self->{target}{storage}{directory}.'/deploy' 
+    );
     $datastore->cleanUp();
 
     my $ret = {};
@@ -96,15 +94,13 @@ sub processRemote {
     my $files;
 
     my $answer = $self->{client}->send(
-        "url" => $remoteUrl,
-        args  => {
+        url  => $remoteUrl,
+        args => {
             action    => "getJobs",
             machineid => $self->{deviceid},
         }
     );
 
-use Data::Dumper;
-print Dumper($answer);
     if (ref($answer) eq 'HASH' && !keys %$answer) {
         $self->{logger}->debug("Nothing to do");
         return;
@@ -118,12 +114,10 @@ print Dumper($answer);
 
     foreach my $sha512 ( keys %{ $answer->{associatedFiles} } ) {
         $files->{$sha512} = FusionInventory::Agent::Task::Deploy::File->new(
-            {
-                client    => $self->{client},
-                sha512    => $sha512,
-                data      => $answer->{associatedFiles}{$sha512},
-                datastore => $datastore
-            }
+            client    => $self->{client},
+            sha512    => $sha512,
+            data      => $answer->{associatedFiles}{$sha512},
+            datastore => $datastore
         );
     }
 
@@ -140,10 +134,8 @@ print Dumper($answer);
         }
         push @$jobList,
           FusionInventory::Agent::Task::Deploy::Job->new(
-            {
-                data            => $_,
-                associatedFiles => $associatedFiles
-            }
+            data            => $_,
+            associatedFiles => $associatedFiles
           );
     }
 
@@ -151,8 +143,8 @@ print Dumper($answer);
 
         # RECEIVED
         $self->{client}->send(
-            "url" => $remoteUrl,
-            args  => {
+            url  => $remoteUrl,
+            args => {
                 action      => "setStatus",
                 machineid   => $self->{deviceid},
                 part        => 'job',
@@ -163,34 +155,33 @@ print Dumper($answer);
 
         # CHECKING
         if ( ref( $job->{checks} ) eq 'ARRAY' ) {
-            my $checkProcessor =
-              FusionInventory::Agent::Task::Deploy::CheckProcessor->new();
             foreach my $checknum ( 0 .. @{ $job->{checks} } ) {
                 next unless $job->{checks}[$checknum];
-                if ( !$checkProcessor->process( $job->{checks}[$checknum] ) ) {
+                next if FusionInventory::Agent::Task::Deploy::CheckProcessor->process(
+                    $job->{checks}[$checknum]
+                );
 
-                    $self->{client}->send(
-                        "url" => $remoteUrl,
-                        args  => {
-                            action      => "setStatus",
-                            machineid   => $self->{deviceid},
-                            part        => 'job',
-                            uuid        => $job->{uuid},
-                            currentStep => 'checking',
-                            status      => 'ko',
-                            msg         => 'check failed',
-                            cheknum     => $checknum
-                        }
-                    );
+                $self->{client}->send(
+                    url  => $remoteUrl,
+                    args => {
+                        action      => "setStatus",
+                        machineid   => $self->{deviceid},
+                        part        => 'job',
+                        uuid        => $job->{uuid},
+                        currentStep => 'checking',
+                        status      => 'ko',
+                        msg         => 'check failed',
+                        cheknum     => $checknum
+                    }
+                );
 
-                    next JOB;
-                }
+                next JOB;
             }
         }
 
         $self->{client}->send(
-            "url" => $remoteUrl,
-            args  => {
+            url  => $remoteUrl,
+            args => {
                 action      => "setStatus",
                 machineid   => $self->{deviceid},
                 part        => 'job',
@@ -204,8 +195,8 @@ print Dumper($answer);
         # DOWNLOADING
 
         $self->{client}->send(
-            "url" => $remoteUrl,
-            args  => {
+            url  => $remoteUrl,
+            args => {
                 action      => "setStatus",
                 machineid   => $self->{deviceid},
                 part        => 'job',
@@ -218,8 +209,8 @@ print Dumper($answer);
         foreach my $file ( @{ $job->{associatedFiles} } ) {
             if ( $file->filePartsExists() ) {
                 $self->{client}->send(
-                    "url" => $remoteUrl,
-                    args  => {
+                    url  => $remoteUrl,
+                    args => {
                         action    => "setStatus",
                         machineid   => $self->{deviceid},
                         part      => 'file',
@@ -234,8 +225,8 @@ print Dumper($answer);
                 next;
             }
             $self->{client}->send(
-                "url" => $remoteUrl,
-                args  => {
+                url  => $remoteUrl,
+                args => {
                     action      => "setStatus",
                     machineid   => $self->{deviceid},
                     part        => 'file',
@@ -249,13 +240,13 @@ print Dumper($answer);
             if ( $file->filePartsExists() ) {
 
                 $self->{client}->send(
-                    "url" => $remoteUrl,
-                    args  => {
+                    url  => $remoteUrl,
+                    args => {
                         action      => "setStatus",
                         machineid   => $self->{deviceid},
                         part        => 'file',
                         uuid        => $job->{uuid},
-                        sha512        => $file->{sha512},
+                        sha512      => $file->{sha512},
                         currentStep => 'downloading',
                         status      => 'ok'
                     }
@@ -266,8 +257,8 @@ print Dumper($answer);
             else {
 
                 $self->{client}->send(
-                    "url" => $remoteUrl,
-                    args  => {
+                    url  => $remoteUrl,
+                    args => {
                         action      => "setStatus",
                         machineid   => $self->{deviceid},
                         part        => 'file',
@@ -282,8 +273,8 @@ print Dumper($answer);
             }
         }
         $self->{client}->send(
-            "url" => $remoteUrl,
-            args  => {
+            url  => $remoteUrl,
+            args => {
                 action      => "setStatus",
                 machineid   => $self->{deviceid},
                 part        => 'job',
@@ -304,36 +295,36 @@ print Dumper($answer);
 
         if (!$workdir->prepare()) {
             $self->{client}->send(
-                "url" => $remoteUrl,
-                args  => {
-                action      => "setStatus",
-                machineid   => $self->{deviceid},
-                part        => 'job',
-                uuid        => $job->{uuid},
-                currentStep => 'prepare',
-                status      => 'ko',
-                msg         => 'failed to prepare work dir'
+                url  => $remoteUrl,
+                args => {
+                    action      => "setStatus",
+                    machineid   => $self->{deviceid},
+                    part        => 'job',
+                    uuid        => $job->{uuid},
+                    currentStep => 'prepare',
+                    status      => 'ko',
+                    msg         => 'failed to prepare work dir'
                 }
             );
             next JOB;
         } else {
             $self->{client}->send(
-                "url" => $remoteUrl,
-                args  => {
-                action      => "setStatus",
-                machineid   => $self->{deviceid},
-                part        => 'job',
-                uuid        => $job->{uuid},
-                currentStep => 'prepare',
-                status      => 'ok',
+                url  => $remoteUrl,
+                args => {
+                    action      => "setStatus",
+                    machineid   => $self->{deviceid},
+                    part        => 'job',
+                    uuid        => $job->{uuid},
+                    currentStep => 'prepare',
+                    status      => 'ok',
                 }
             );
         }
 
         # PROCESSING
 #        $self->{client}->send(
-#            "url" => $remoteUrl,
-#            args  => {
+#            url  => $remoteUrl,
+#            args => {
 #                action      => "setStatus",
 #                machineid   => 'DEVICEID',
 #                part        => 'job',
@@ -343,11 +334,10 @@ print Dumper($answer);
 #        );
         my $actionProcessor =
           FusionInventory::Agent::Task::Deploy::ActionProcessor->new(
-            { workdir => $workdir } );
+            workdir => $workdir
+        );
         my $actionnum = 0;
         ACTION: while ( my $action = $job->getNextToProcess() ) {
-use Data::Dumper;
-print Dumper($action);
         my ($actionName, $params) = %$action;
             if ( $params && (ref( $params->{checks} ) eq 'ARRAY') ) {
                 my $checkProcessor =
@@ -358,8 +348,8 @@ print Dumper($action);
                     if ( $checkStatus ne 'ok') {
 
                         $self->{client}->send(
-                                "url" => $remoteUrl,
-                                args  => {
+                            url  => $remoteUrl,
+                            args => {
                                 action      => "setStatus",
                                 machineid   => $self->{deviceid},
                                 part        => 'job',
@@ -369,8 +359,8 @@ print Dumper($action);
                                 msg         => 'check failed',
                                 actionnum   => $actionnum,
                                 cheknum     => $checknum
-                                }
-                                );
+                            }
+                        );
 
                         next ACTION;
                     }
@@ -384,8 +374,8 @@ print Dumper($action);
             push @{$ret->{msg}}, $@ if $@;
             if ( !$ret->{status} ) {
                 $self->{client}->send(
-                    "url" => $remoteUrl,
-                    args  => {
+                    url  => $remoteUrl,
+                    args => {
                         action    => "setStatus",
                         machineid => $self->{deviceid},
                         uuid      => $job->{uuid},
@@ -395,8 +385,8 @@ print Dumper($action);
                 );
 
                 $self->{client}->send(
-                    "url" => $remoteUrl,
-                    args  => {
+                    url  => $remoteUrl,
+                    args => {
                         action      => "setStatus",
                         machineid   => $self->{deviceid},
                         part        => 'job',
@@ -411,8 +401,8 @@ print Dumper($action);
                 next JOB;
             }
             $self->{client}->send(
-                "url" => $remoteUrl,
-                args  => {
+                url  => $remoteUrl,
+                args => {
                     action      => "setStatus",
                     machineid   => $self->{deviceid},
                     part        => 'job',
@@ -427,8 +417,8 @@ print Dumper($action);
         }
 
         $self->{client}->send(
-            "url" => $remoteUrl,
-            args  => {
+            url  => $remoteUrl,
+            args => {
                 action    => "setStatus",
                 machineid => $self->{deviceid},
                 part      => 'job',
@@ -447,19 +437,19 @@ sub run {
     my ($self, %params) = @_;
 
     $self->{client} = FusionInventory::Agent::HTTP::Client::Fusion->new(
-            logger       => $self->{logger},
-            user         => $params{user},
-            password     => $params{password},
-            proxy        => $params{proxy},
-            ca_cert_file => $params{ca_cert_file},
-            ca_cert_dir  => $params{ca_cert_dir},
-            no_ssl_check => $params{no_ssl_check},
-            debug        => $self->{debug}
+        logger       => $self->{logger},
+        user         => $params{user},
+        password     => $params{password},
+        proxy        => $params{proxy},
+        ca_cert_file => $params{ca_cert_file},
+        ca_cert_dir  => $params{ca_cert_dir},
+        no_ssl_check => $params{no_ssl_check},
+        debug        => $self->{debug}
     );
 
     my $globalRemoteConfig = $self->{client}->send(
-        "url" => $self->{target}->{url},
-        args  => {
+        url  => $self->{target}->{url},
+        args => {
             action    => "getConfig",
             machineid => $self->{deviceid},
             task      => { Deploy => $VERSION },

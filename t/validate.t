@@ -1,15 +1,12 @@
 #!/usr/bin/perl -w
 
-
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Task::Deploy;
 use JSON;
-
-
 use Test::More tests => 14;
-use Data::Dumper;
+
+use FusionInventory::Agent::Task::Deploy;
 
 my @tests = (
         {
@@ -49,11 +46,10 @@ my @tests = (
        },
 );
 
-foreach (@tests) {
+foreach my $test (@tests) {
     my $msg;
-    use Data::Dumper;
-    my $ret = FusionInventory::Agent::Task::Deploy::_validateAnswer(\$msg, eval {decode_json($_->{json})});
-    ok(($ret?0:1) == ($_->{ret}?0:1), "returned code");
-    ok($msg eq $_->{msg}, "returned msg") or print "'".$msg."`\n";
+    my $ret = FusionInventory::Agent::Task::Deploy::_validateAnswer(\$msg, eval {decode_json($test->{json})});
+    ok(($ret ? 0 : 1) == ($test->{ret} ? 0 : 1), "returned code");
+    is($msg,  $test->{msg}, "returned msg");
 }
 

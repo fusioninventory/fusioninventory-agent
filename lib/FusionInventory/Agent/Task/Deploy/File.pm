@@ -3,25 +3,31 @@ package FusionInventory::Agent::Task::Deploy::File;
 use strict;
 use warnings;
 
-use File::Glob;
-use Data::Dumper;
 use Digest::SHA;
-use HTTP::Request;
 use File::Basename;
 use File::Path qw(make_path);
+use File::Glob;
+use HTTP::Request;
 
 sub new {
-    my (undef, $params) = @_;
+    my ($class, %params) = @_;
 
-    my $self = $params->{data};
-    $self->{sha512} = $params->{sha512};
-    $self->{datastore} = $params->{datastore};
-    $self->{client} = $params->{client};
+    die "no datastore parameter" unless $params{datastore};
+    die "no sha512 parameter" unless $params{sha512};
 
-    die unless $self->{datastore};
-    die unless $self->{sha512};
+    my $self = {
+        p2p                    => $params{data}->{p2p},
+        p2p_retention_duration => $params{data}->{'p2p-retention-duration'},
+        mirrors                => $params{data}->{mirrors},
+        multiparts             => $params{data}->{multiparts},
+        sha512                 => $params{sha512},
+        datastore              => $params{datastore},
+        client                 => $params{client}
+    };
 
-    bless $self;
+    bless $self, $class;
+
+    return $self;
 }
 
 sub getPartFilePath {
@@ -49,7 +55,7 @@ sub getPartFilePath {
 # Compute a directory name that will be used to know
 # if the file must be purge. We don't want a new directory
 # everytime, so we use a 10h frame
-        $filePath .= int(time/10000)*10000 + ($self->{'p2p-retention-duration'} * 60);
+        $filePath .= int(time/10000)*10000 + ($self->{p2p_retention_duration} * 60);
         $filePath .= '/'.$subFilePath;
     } else {
         $filePath .= 'private';
