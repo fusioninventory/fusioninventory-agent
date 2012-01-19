@@ -478,7 +478,7 @@ sub _scanAddressByNmap {
     my ($self, %params) = @_;
 
     my $id = threads->tid();
-    $self->{logger}->debug("thread $id: scanning $params{ip} with nmap");
+    $self->{logger}->debug2("thread $id: scanning $params{ip} with nmap");
 
     my $device = _parseNmap(
         command => "nmap $params{nmap_parameters} $params{ip} -oX -"
@@ -490,7 +490,7 @@ sub _scanAddressByNetbios {
     my ($self, %params) = @_;
 
     my $id = threads->tid();
-    $self->{logger}->debug("thread $id: scanning $params{ip} with netbios");
+    $self->{logger}->debug2("thread $id: scanning $params{ip} with netbios");
 
     my $nb = Net::NBName->new();
 
@@ -530,7 +530,7 @@ sub _scanAddressBySNMP {
 
         my $snmp;
         eval {
-	    $self->{logger}->debug("thread $id: scanning $params{ip} with snmp, using credentials $credential->{ID}");
+	    $self->{logger}->debug2("thread $id: scanning $params{ip} with snmp, using credentials $credential->{ID}");
             $snmp = FusionInventory::Agent::SNMP->new(
                 version      => $credential->{VERSION},
                 hostname     => $params{ip},
