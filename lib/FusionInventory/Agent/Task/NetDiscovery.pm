@@ -524,13 +524,13 @@ sub _scanAddressBySNMP {
     my ($self, %params) = @_;
 
     my $id = threads->tid();
-    $self->{logger}->debug("thread $id: scanning $params{ip} with snmp");
 
     my %device;
     foreach my $credential (@{$params{snmp_credentials}}) {
 
         my $snmp;
         eval {
+	    $self->{logger}->debug("thread $id: scanning $params{ip} with snmp, using credentials $credential->{ID}");
             $snmp = FusionInventory::Agent::SNMP->new(
                 version      => $credential->{VERSION},
                 hostname     => $params{ip},
