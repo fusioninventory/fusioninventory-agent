@@ -26,7 +26,7 @@ use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Task::NetDiscovery::Dictionnary;
 use FusionInventory::Agent::XML::Query;
 
-our $VERSION = '1.99';
+our $VERSION = '1.9901';
 
 my @dispatch_table = (
     {

@@ -1,4 +1,5 @@
 use inc::Module::Install;
+use English qw(-no_match_vars);
 use File::Which;
 
 name 'FusionInventory-Agent-Task-NetDiscovery';
@@ -10,18 +11,18 @@ perl_version '5.008';
 
 # check for fusioninventory-agent setup
 my $agent = which('fusioninventory-agent');
-if (!$agent) {
-    warn "warning: fusioninventory-agent not found in PATH";
-} else {
-    my $command = 'fusioninventory-agent --setup';
-    open (my $handle, '-|', $command) or die "can't run $command: $!";
-    while (my $line = <$handle>) {
-        chomp $line;
-        next unless $line =~ /(\S+): (\S+)/;
-        $MY::setup{uc($1)} = $2;
-    }
-    close $handle;
+die "fusioninventory-agent not found in PATH\n" unless $agent;
+
+my $command = 'fusioninventory-agent --setup';
+open (my $handle, '-|', $command) or die "can't run $command: $ERRNO";
+while (my $line = <$handle>) {
+    chomp $line;
+    next unless $line =~ /(\S+): (\S+)/;
+    $MY::setup{uc($1)} = $2;
 }
+close $handle;
+
+die "agent too old (minimal version 2.2.0 required)\n" if $CHILD_ERROR;
 
 # mandatory dependencies
 requires 'Net::IP'                => undef;
@@ -47,8 +48,6 @@ constant data installation directory: $MY::variables{DATADIR}
 EOF
 
 package MY;
-
-use English qw(-no_match_vars);
 
 our %setup;
 our %variables;
