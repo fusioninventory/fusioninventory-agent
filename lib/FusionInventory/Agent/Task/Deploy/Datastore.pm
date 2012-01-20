@@ -94,9 +94,9 @@ sub diskIsFull {
     my $logger = $self->{logger};
 
     my $freeSpace =
-        $OSNAME eq 'MSWin32' ? _getFreeSpaceWindows() :
-        $OSNAME eq 'solaris' ? _getFreeSpaceSolaris() :
-                               _getFreeSpace()        ;
+        $OSNAME eq 'MSWin32' ? $self->_getFreeSpaceWindows() :
+        $OSNAME eq 'solaris' ? $self->_getFreeSpaceSolaris() :
+                               $self->_getFreeSpace()        ;
 
     if (!$freeSpace) {
 	$logger->debug('$spaceFree is undef!');
