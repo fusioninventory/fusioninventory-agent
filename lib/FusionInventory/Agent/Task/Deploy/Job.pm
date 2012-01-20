@@ -9,6 +9,7 @@ sub new {
     my ($class, %params) = @_;
 
     my $self = {
+        uuid            => $params{data}->{uuid},
         requires        => $params{data}->{requires},
         actions         => $params{data}->{actions},
         associatedFiles => $params{associatedFiles}

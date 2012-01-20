@@ -20,9 +20,10 @@ sub new {
         p2p_retention_duration => $params{data}->{'p2p-retention-duration'},
         mirrors                => $params{data}->{mirrors},
         multiparts             => $params{data}->{multiparts},
+        name                   => $params{data}->{name},
         sha512                 => $params{sha512},
         datastore              => $params{datastore},
-        client                 => $params{client}
+        client                 => $params{client},
     };
 
     bless $self, $class;
