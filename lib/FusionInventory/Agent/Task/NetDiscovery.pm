@@ -26,7 +26,7 @@ use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Task::NetDiscovery::Dictionnary;
 use FusionInventory::Agent::XML::Query;
 
-our $VERSION = '1.99';
+our $VERSION = '1.9901';
 
 my @dispatch_table = (
     {
@@ -186,7 +186,7 @@ sub run {
             "be used"
         );
     } else {
-        $snmp_credentials = $options->{AUTHENTICATION};
+        $snmp_credentials = $self->_getCredentials($options);
         $snmp_dictionnary = $self->_getDictionnary($options, $pid);
         # abort immediatly if the dictionnary isn't up to date
         return unless $snmp_dictionnary;
@@ -340,6 +340,26 @@ sub _getDictionnary {
     return $dictionnary;
 }
 
+sub _getCredentials {
+    my ($self, $options) = @_;
+
+    my @credentials;
+
+    foreach my $credential (@{$options->{AUTHENTICATION}}) {
+	if ($credential->{VERSION} eq '3') {
+	    # a user name is required
+	    next unless $credential->{USERNAME};
+	    # DES support is required
+	    next unless Crypt::DES->require();
+	} else {
+	    next unless $credential->{COMMUNITY};
+	}
+	push @credentials, $credential;
+    }
+
+    return \@credentials;
+}
+
 sub _scanAddresses {
     my ($self, $state, $addresses, $results, $snmp_credentials, $snmp_dictionnary, $nmap_parameters,) = @_;
 
@@ -458,7 +478,7 @@ sub _scanAddressByNmap {
     my ($self, %params) = @_;
 
     my $id = threads->tid();
-    $self->{logger}->debug("thread $id: scanning $params{ip} with nmap");
+    $self->{logger}->debug2("thread $id: scanning $params{ip} with nmap");
 
     my $device = _parseNmap(
         command => "nmap $params{nmap_parameters} $params{ip} -oX -"
@@ -470,7 +490,7 @@ sub _scanAddressByNetbios {
     my ($self, %params) = @_;
 
     my $id = threads->tid();
-    $self->{logger}->debug("thread $id: scanning $params{ip} with netbios");
+    $self->{logger}->debug2("thread $id: scanning $params{ip} with netbios");
 
     my $nb = Net::NBName->new();
 
@@ -504,13 +524,13 @@ sub _scanAddressBySNMP {
     my ($self, %params) = @_;
 
     my $id = threads->tid();
-    $self->{logger}->debug("thread $id: scanning $params{ip} with snmp");
 
     my %device;
     foreach my $credential (@{$params{snmp_credentials}}) {
 
         my $snmp;
         eval {
+	    $self->{logger}->debug2("thread $id: scanning $params{ip} with snmp, using credentials $credential->{ID}");
             $snmp = FusionInventory::Agent::SNMP->new(
                 version      => $credential->{VERSION},
                 hostname     => $params{ip},
