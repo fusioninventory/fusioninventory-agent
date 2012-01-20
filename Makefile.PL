@@ -15,7 +15,7 @@ eval {
     die "fusioninventory-agent not found in PATH\n" unless $agent;
 
     my $command = 'fusioninventory-agent --setup';
-    open (my $handle, '-|', $command) or die "can't run $command: $!";
+    open (my $handle, '-|', $command) or die "can't run $command: $ERRNO";
     while (my $line = <$handle>) {
         chomp $line;
         next unless $line =~ /(\S+): (\S+)/;
