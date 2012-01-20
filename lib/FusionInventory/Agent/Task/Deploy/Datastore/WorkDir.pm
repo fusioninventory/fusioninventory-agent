@@ -16,6 +16,11 @@ sub new {
         files => []
     };
 
+    if (! -d $self->{path}) {
+        die "path `".$self->{path}."' doesn't exit.";
+    }
+
+
     bless $self, $class;
 }
 

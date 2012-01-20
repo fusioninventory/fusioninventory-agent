@@ -23,6 +23,10 @@ sub new {
                   FusionInventory::Agent::Logger->new(),
     };
 
+    if (!$self->{path}) {
+      die("No datastore path");
+    }
+
     bless $self, $class;
 
     return $self;
@@ -30,6 +34,8 @@ sub new {
 
 sub cleanUp {
     my ($self) = @_;
+
+    return unless -d $self->{path};
 
     my $diskFull=$self->diskIsFull();
     if (-d $self->{path}.'/workdir/') {
