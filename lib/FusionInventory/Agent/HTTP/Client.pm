@@ -129,8 +129,11 @@ sub _setSSLOptions {
 
     # SSL handling
     if ($self->{no_ssl_check}) {
-        # IO::Socket::SSL default behavior is to check the SSL hostname
-       $self->{ua}->ssl_opts(verify_hostname => 0) if $LWP::VERSION >= 6;
+       # LWP 6 default behaviour is to check hostname
+       # Fedora also backported this behaviour change in its LWP5 package, so
+       # just checking on LWP version is not enough
+       $self->{ua}->ssl_opts(verify_hostname => 0)
+           if $self->{ua}->can('ssl_opts');
     } else {
         # only IO::Socket::SSL can perform full server certificate validation,
         # Net::SSL is only able to check certification authority, and not
