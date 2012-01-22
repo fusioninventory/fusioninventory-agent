@@ -5,6 +5,7 @@ use warnings;
 
 use English qw(-no_match_vars);
 use File::Glob;
+use File::Spec;
 use File::Path qw(make_path remove_tree);
 use UNIVERSAL::require;
 
@@ -18,7 +19,7 @@ sub new {
     die "no path parameter" unless $params{path};
 
     my $self = {
-        path   => $params{path},
+        path   => File::Spec->rel2abs($params{path}),
         logger => $params{logger} ||
                   FusionInventory::Agent::Logger->new(),
     };
