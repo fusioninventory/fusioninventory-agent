@@ -127,8 +127,9 @@ sub doInventory {
 #    if ($bmanufacturer eq 'Bochs' || $mmodel eq 'Bochs') {
 #        $vmsystem = 'QEMU';
 #    } els
-
-    if ($bversion eq 'VirtualBox' || $mmodel eq 'VirtualBox') {
+    if ($smanufacturer eq 'Xen' || $bmanufacturer eq 'Xen') {
+        $vmsystem = 'Xen';
+    } elsif ($bversion eq 'VirtualBox' || $mmodel eq 'VirtualBox') {
         $vmsystem = 'VirtualBox';
     } elsif ($smodel =~  /VMware/i) {
         $vmsystem = 'VMware';
