@@ -21,7 +21,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::XML::Query::Prolog;
 
-our $VERSION = '2.1.9903';
+our $VERSION = '2.1.9904';
 our $VERSION_STRING = 
     "FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
 our $AGENT_STRING =
@@ -427,6 +427,10 @@ the read-write data directory.
 the options to use.
 
 =back
+
+=head2 init()
+
+Initialize the agent.
 
 =head2 run()
 

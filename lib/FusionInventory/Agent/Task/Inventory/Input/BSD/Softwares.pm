@@ -37,7 +37,7 @@ sub _getPackagesListFromPkgInfo {
 
     my @packages;
     while (my $line = <$handle>) {
-        next unless $line =~ /^(\S+)-(\d+\S*)\s+(.*)/;
+        next unless $line =~ /^(\S+) - (\S+) \s+ (.*)/x;
         push @packages, {
             NAME     => $1,
             VERSION  => $2,

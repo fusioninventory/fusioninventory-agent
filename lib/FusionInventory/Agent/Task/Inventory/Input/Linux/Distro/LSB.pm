@@ -15,31 +15,30 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $release = getFirstMatch(
+    my $handle = getFileHandle(
         logger  => $logger,
-        command => 'lsb_release -d',
-        pattern => qr/Description:\s+(.+)/
+        command => 'lsb_release -a',
     );
 
-    # See: #1262
-    $release =~ s/^Enterprise Linux Enterprise Linux/Oracle Linux/;
-
-    my $linuxDistributionName;
-    my $linuxDistributionVersion;
-    # Redirect stderr to /dev/null to avoid "No LSB modules are available" message
-    foreach (`lsb_release -a 2> /dev/null`) {
-        $linuxDistributionName    = $1 if /Distributor ID:\s+(.+)/;
-        $linuxDistributionVersion = $1 if /Release:\s+(.+)/;
+    my ($name, $version, $description);
+    while (my $line = <$handle>) {
+        $name        = $1 if $line =~ /^Distributor ID:\s+(.+)/;
+        $version     = $1 if $line =~ /^Release:\s+(.+)/;
+        $description = $1 if $line =~ /^Description:\s+(.+)/;
     }
+    close $handle;
+
+    # See: #1262
+    $description =~ s/^Enterprise Linux Enterprise Linux/Oracle Linux/;
 
     $inventory->setHardware({
-        OSNAME     => $release,
+        OSNAME => $description,
     });
 
     $inventory->setOperatingSystem({
-        NAME                 => $linuxDistributionName,
-        VERSION              => $linuxDistributionVersion,
-        FULL_NAME            => $release
+        NAME      => $name,
+        VERSION   => $version,
+        FULL_NAME => $description
     });
 
 }

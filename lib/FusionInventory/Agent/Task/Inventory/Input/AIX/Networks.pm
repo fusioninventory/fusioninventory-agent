@@ -41,10 +41,16 @@ sub _getInterfaces {
 
     my $logger = $params{logger};
 
+    # get a first list of interfaces objects from lscfg
     my @interfaces = _parseLscfg(
         command => 'lscfg -v -l en*',
         logger  => $logger
     );
+
+    # complete with empty interfaces objects from ifconfig
+    push @interfaces,
+        map { { DESCRIPTION => $_ } }
+        split(/ /, getFirstLine(command => 'ifconfig -l'));
 
     foreach my $interface (@interfaces) {
         my $handle = getFileHandle(

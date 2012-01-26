@@ -375,3 +375,7 @@ an IP adress or an IP adress range from which to trust incoming requests
 without authentication token (default: none)
 
 =back
+
+=head2 terminate
+
+Ensure the listening thread terminates.

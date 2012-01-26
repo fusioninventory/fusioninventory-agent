@@ -104,6 +104,14 @@ sub doInventory {
         $inventory->setHardware ({
             VMSYSTEM => 'VMware'
         });
+    } elsif (
+        ($bios->{SMANUFACTURER} eq 'Xen')
+         ||
+        ($bios->{BMANUFACTURER} eq 'Xen')
+       ) {
+        $inventory->setHardware ({
+            VMSYSTEM => 'Xen'
+        });
     }
 
 }

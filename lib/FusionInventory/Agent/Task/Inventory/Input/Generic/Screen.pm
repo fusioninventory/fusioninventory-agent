@@ -71,119 +71,102 @@ sub doInventory {
 sub _getScreensFromWindows {
     my ($logger) = @_;
 
-    my $devices = {};
-    my $Registry;
-    eval {
-        require FusionInventory::Agent::Tools::Win32;
-        require Win32::TieRegistry;
-        Win32::TieRegistry->import(
-                Delimiter   => '/',
-                ArrayValues => 0,
-                TiedRef     => \$Registry
-                );
-    };
+    FusionInventory::Agent::Tools::Win32->require();
     if ($EVAL_ERROR) {
-        print "Failed to load Win32::OLE and Win32::TieRegistry\n";
+        print
+            "Failed to load FusionInventory::Agent::Tools::Win32: $EVAL_ERROR";
         return;
     }
 
-    use constant wbemFlagReturnImmediately => 0x10;
-    use constant wbemFlagForwardOnly => 0x20;
+    my @screens;
 
-# Vista and upper, able to get the second screen
-    my $WMIServices = Win32::OLE->GetObject(
-            "winmgmts:{impersonationLevel=impersonate,authenticationLevel=Pkt}!//./root/wmi" );
-
-    foreach my $properties ( Win32::OLE::in( $WMIServices->InstancesOf(
-                    "WMIMonitorID" ) ) )
-    {
-
-        next unless $properties->{InstanceName};
-        my $PNPDeviceID = $properties->{InstanceName};
-        $PNPDeviceID =~ s/_\d+//;
-        $devices->{lc($PNPDeviceID)} = {};
-    }
-
-# The generic Win32_DesktopMonitor class, the second screen will be missing
+    # Vista and upper, able to get the second screen
     foreach my $object (FusionInventory::Agent::Tools::Win32::getWmiObjects(
-                class => 'Win32_DesktopMonitor',
-                properties => [ qw/
-                Caption MonitorManufacturer MonitorType PNPDeviceID
-                / ] )) {
+        moniker    => 'winmgmts:{impersonationLevel=impersonate,authenticationLevel=Pkt}!//./root/wmi',
+        class      => 'WMIMonitorID',
+        properties => [ qw/InstanceName/ ]
+    )) {
+        next unless $object->{InstanceName};
 
+        my $PNPDeviceID = $object->{InstanceName};
+        $PNPDeviceID =~ s/_\d+//;
+        push @screens, {
+            id => $object->{PNPDeviceID}
+        };
+    }
 
-        next unless $object->{"Availability"};
-        next unless $object->{"PNPDeviceID"};
-        next unless $object->{"Availability"} == 3;
-        my $name = $object->{"Caption"};
+    # The generic Win32_DesktopMonitor class, the second screen will be missing
+    foreach my $object (FusionInventory::Agent::Tools::Win32::getWmiObjects(
+        class => 'Win32_DesktopMonitor',
+        properties => [ qw/
+            Caption MonitorManufacturer MonitorType PNPDeviceID
+        / ]
+    )) {
+        next unless $object->{Availability};
+        next unless $object->{PNPDeviceID};
+        next unless $object->{Availability} == 3;
 
-        $devices->{lc($object->{"PNPDeviceID"})} = { name => $name, type => $object->{MonitorType}, manufacturer => $object->{MonitorManufacturer}, caption => $object->{Caption} };
+        push @screens, {
+            id           => $object->{PNPDeviceID},
+            name         => $object->{Caption},
+            type         => $object->{MonitorType},
+            manufacturer => $object->{MonitorManufacturer},
+            caption      => $object->{Caption}
+        };
+    }
+
+    my $Registry;
+    Win32::TieRegistry->require();
+    Win32::TieRegistry->import(
+        Delimiter   => '/',
+        ArrayValues => 0,
+        TiedRef     => \$Registry
+    );
+
+    foreach my $screen (@screens) {
+
+        my $access = FusionInventory::Agent::Tools::Win32::is64bit() ?
+            Win32::TieRegistry::KEY_READ() |
+                FusionInventory::Agent::Tools::Win32::KEY_WOW64_64() :
+            Win32::TieRegistry::KEY_READ();
+
+        my $machKey = $Registry->Open('LMachine', {
+            Access => $access
+        } ) or $logger->fault(
+            "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR"
+        );
+
+        $screen->{edid} =
+            $machKey->{"SYSTEM/CurrentControlSet/Enum/$screen->{id}/Device Parameters/EDID"} || '';
+        $screen->{edid} =~ s/^\s+$//;
 
     }
 
-    my @ret;
-    foreach my $PNPDeviceID (keys %{$devices}) {
-
-
-        my $machKey;
-        {
-            my $KEY_WOW64_64KEY = 0x100;
-
-            my $access;
-
-            if (FusionInventory::Agent::Tools::Win32::is64bit()) {
-                $access = Win32::TieRegistry::KEY_READ() | $KEY_WOW64_64KEY;
-            } else {
-                $access = Win32::TieRegistry::KEY_READ();
-            }
-
-# Win32-specifics constants can not be loaded on non-Windows OS
-            no strict 'subs';
-            $machKey = $Registry->Open('LMachine', {
-                    Access => $access
-                    } ) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-
-        }
-
-        $devices->{$PNPDeviceID}{edid} =
-            $machKey->{"SYSTEM/CurrentControlSet/Enum/".$PNPDeviceID."/Device Parameters/EDID"} || '';
-        $devices->{$PNPDeviceID}{edid} =~ s/^\s+$//;
-
-        push @ret, $devices->{$PNPDeviceID};
-    }
-    return @ret;
-
+    return @screens;
 }
 
+sub _getScreensFromUnix {
 
+    my $raw_edid =
+        getFirstLine(command => 'monitor-get-edid-using-vbe') ||
+        getFirstLine(command => 'monitor-get-edid');
+
+    if (!$raw_edid) {
+        foreach (1..5) { # Sometime get-edid return an empty string...
+            $raw_edid = getFirstLine(command => 'get-edid');
+            last if $raw_edid && (length($raw_edid) == 128 || length($raw_edid) == 256);
+        }
+    }
+    return unless length($raw_edid) == 128 || length($raw_edid) == 256;
+
+    return ( { edid => $raw_edid } );
+}
 
 sub _getScreens {
     my ($logger) = @_;
 
-    my @screens;
-
-    if ($OSNAME eq 'MSWin32') {
-
-        return _getScreensFromWindows($logger);
-
-    } else {
-        # Mandriva
-        my $raw_edid =
-            getFirstLine(command => 'monitor-get-edid-using-vbe') ||
-            getFirstLine(command => 'monitor-get-edid');
-
-        if (!$raw_edid) {
-            foreach (1..5) { # Sometime get-edid return an empty string...
-                $raw_edid = getFirstLine(command => 'get-edid');
-                last if $raw_edid && (length($raw_edid) == 128 || length($raw_edid) == 256);
-            }
-        }
-        return unless length($raw_edid) == 128 || length($raw_edid) == 256;
-
-        push @screens, { edid => $raw_edid };
-    }
-
-    return @screens;
+    return $OSNAME eq 'MSWin32' ?
+        _getScreensFromWindows($logger) : _getScreensFromUnix($logger);
 }
 
 1;

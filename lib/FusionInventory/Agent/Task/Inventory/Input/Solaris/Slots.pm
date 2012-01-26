@@ -42,9 +42,9 @@ sub _getSlots4 {
 
     my @slots;
 
-    while (<$handle>) {
-        next unless /pci/;
-        my @pci = split(/ +/);
+    while (my $line = <$handle>) {
+        next unless $line =~ /pci/;
+        my @pci = split(/ +/, $line);
         push @slots, {
             DESCRIPTION => $pci[0] . " (" . $pci[1] . ")",
             DESIGNATION => $pci[3],

@@ -88,7 +88,7 @@ use English qw(-no_match_vars);
 
 our %variables;
 
-# force a perl-independant prefix for everything but perl modules
+# force a perl-independant prefix for everything
 sub constants {
     my ($self) = @_;
 
@@ -201,4 +201,17 @@ fusioninventory-agent.1.html: fusioninventory-agent
 
 EOF
     return $manifypods;
+}
+
+sub test {
+    my ($self) = @_;
+    my $test = $self->SUPER::test(@_);
+
+    $test .= <<'EOF';
+%-junit.xml:
+	prove --lib --timer --recurse --formatter TAP::Formatter::JUnit t \
+	    > $@
+EOF
+
+    return $test;
 }

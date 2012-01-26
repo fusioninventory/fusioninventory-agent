@@ -56,8 +56,8 @@ sub _getDisksFromProc {
     my $disk;
 
     my $count = -1;
-    while (<$handle>) {
-        if (/^Host: (\w+)/) {
+    while (my $line = <$handle>) {
+        if ($line =~ /^Host: (\w+)/) {
             $count++;
             if ($1 eq $params{controller}) {
                 # that's the controller we're looking for
@@ -72,7 +72,7 @@ sub _getDisksFromProc {
             }
         }
 
-        if (/Model:\s(\S+).*Rev:\s(\S+)/) {
+        if ($line =~ /Model:\s(\S+).*Rev:\s(\S+)/) {
             next unless $disk;
             $disk->{MODEL}    = $1;
             $disk->{FIRMWARE} = $2;

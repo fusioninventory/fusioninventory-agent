@@ -3,10 +3,11 @@ package FusionInventory::Agent::Tools::Hostname;
 use strict;
 use warnings;
 
-BEGIN {
-    use UNIVERSAL::require();
-    use English qw(-no_match_vars);
+use UNIVERSAL::require();
+use Encode;
+use English qw(-no_match_vars);
 
+BEGIN {
     if ($OSNAME eq 'MSWin32') {
         Win32::API->require();
         # Kernel32.dll is used more or less everywhere.
@@ -16,13 +17,9 @@ BEGIN {
     }
 }
 
-use Encode;
-
 sub getHostname {
 
     if ($OSNAME eq 'MSWin32') {
-
-
         my $GetComputerName = Win32::API->new("kernel32", "GetComputerNameExW", ["I", "P", "P"], "N");
         my $buffer = "\x00" x 1024;
         my $N=1024;#pack ("c4", 160,0,0,0);
@@ -33,13 +30,25 @@ sub getHostname {
         # to UTF8
         return encode("UTF-8", substr(decode("UCS-2le", $buffer),0,ord $N));
     } else {
-
         Sys::Hostname->require();
         return Sys::Hostname::hostname();
-        return
     }
- 
 
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Tools::Hostname - OS-independant hostname computing
+
+=head1 DESCRIPTION
+
+This module provides a generic function to retrieve host name
+
+=head1 FUNCTIONS
+
+=head2 getHostname()
+
+Returns the host name.

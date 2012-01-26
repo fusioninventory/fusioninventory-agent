@@ -5,11 +5,13 @@ CVS/
 ^.gitignore$
 ^.cvsignore$
 .svn
+.merge
 
 ^blib
 ^_build
 ^Build$
 ^cover_db
+^nytprof
 ^Makefile(\.old)?$
 ^MANIFEST\.
 ^pm_to_blib$
