@@ -20,6 +20,8 @@ use Win32::TieRegistry (
 
 use FusionInventory::Agent::Task::Inventory::OS::Win32;
 
+my $seen = {};
+
 sub isInventoryEnabled {
     return 1;
 }
@@ -60,7 +62,7 @@ sub processSoftwares {
     foreach my $rawGuid ( keys %$softwares ) {
         my $data = $softwares->{$rawGuid};
         next unless keys %$data;
-        
+
         my $guid = $rawGuid;
         $guid =~ s/\/$//; # drop the tailing / 
 
@@ -68,10 +70,6 @@ sub processSoftwares {
         if (!$data->{'/DisplayName'} && keys %$data <= 2) {
             next;
         }
-
-# See bug #927
-# http://stackoverflow.com/questions/2639513/duplicate-entries-in-uninstall-registry-key-when-compiling-list-of-installed-soft
-        next if $data->{'/SystemComponent'};
 
         my $name = encodeFromRegistry($data->{'/DisplayName'});
 # Use the folder name if there is no DisplayName
@@ -95,7 +93,9 @@ sub processSoftwares {
         # Workaround for #415
         $version =~ s/[\000-\037].*// if $version;
 
-        $inventory->addSoftware ({
+    addSoftware(
+        inventory => $inventory,
+        fields => {
             COMMENTS => $comments,
 #            FILESIZE => $filesize,
 #            FOLDER => $folder,
@@ -115,6 +115,40 @@ sub processSoftwares {
             GUID => $guid,
         });
     }
+}
+
+sub processMSIE {
+    my %params = @_;
+
+    my $inventory = $params{inventory};
+    my $is64bit = $params{is64bit} || 0;
+    my $machKey = $params{machKey};
+
+        my $name = "Internet Explorer";
+    if ($is64bit) {
+        $name .= " (64bit)";
+    }
+    my $version = $params{machKey}->{"SOFTWARE/Microsoft/Internet Explorer/Version"};
+
+    addSoftware (
+        inventory => $inventory,
+        fields => {
+            FROM => "registry",
+            IS64BIT => $is64bit,
+            NAME => $name,
+            VERSION => $version,
+        PUBLISHER => "Microsoft Corporation"
+        }
+    )
+}
+
+sub addSoftware {
+    my %params = @_;
+
+    return if $seen->{$params{fields}->{NAME}}->{$params{fields}->{IS64BIT}}{$params{fields}->{VERSION} || '_undef_'}++;
+
+    $params{inventory}->addSoftware ($params{fields});
+
 }
 
 sub doInventory {
@@ -144,14 +178,27 @@ sub doInventory {
             $machKey64bit->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
         processSoftwares({ inventory => $inventory, softwares => $softwares, is64bit => 1});
 
+    processMSIE(
+        machKey => $machKey64bit,
+        inventory => $inventory,
+        is64bit => 1,
+    );
+
+
         my $machKey32bit = $Registry->Open('LMachine', {
             Access => KEY_READ | KEY_WOW64_32KEY
         }) or $logger->fault("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
 
         $softwares=
             $machKey32bit->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
-
         processSoftwares({ inventory => $inventory, softwares => $softwares, is64bit => 0});
+
+    processMSIE(
+        machKey => $machKey32bit,
+        inventory => $inventory,
+        is64bit => 0,
+    );
+
 
     } else {
         my $machKey = $Registry->Open('LMachine', {
@@ -160,9 +207,13 @@ sub doInventory {
 
         my $softwares=
             $machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
-
         processSoftwares({ inventory => $inventory, softwares => $softwares, is64bit => 0});
 
+    processMSIE(
+        machKey => $machKey,
+        inventory => $inventory,
+        is64bit => 0,
+    );
     }
 
 # Copyright (c) 2009 Megagram
