@@ -46,8 +46,13 @@ sub doInventory {
             softwares => $softwares64,
             is64bit   => 1
         )) {
-            $inventory->addEntry(section => 'SOFTWARES', entry => $software);
+            _addSoftware(inventory => $inventory, entry => $software);
         }
+        _processMSIE(
+            machKey => $machKey64,
+            inventory => $inventory,
+            is64bit => 1
+        );
 
         my $machKey32 = $Registry->Open('LMachine', {
             Access => KEY_READ | KEY_WOW64_32 ## no critic (ProhibitBitwise)
@@ -60,8 +65,15 @@ sub doInventory {
             softwares => $softwares32,
             is64bit   => 0
         )) {
-            $inventory->addEntry(section => 'SOFTWARES', entry => $software);
+            _addSoftware(inventory => $inventory, entry => $software);
         }
+        _processMSIE(
+            machKey => $machKey64,
+            inventory => $inventory,
+            is64bit => 0
+        );
+
+
     } else {
         my $machKey = $Registry->Open('LMachine', {
             Access => KEY_READ
@@ -74,8 +86,13 @@ sub doInventory {
             softwares => $softwares,
             is64bit   => 0
         )) {
-            $inventory->addEntry(section => 'SOFTWARES', entry => $software);
+            _addSoftware(inventory => $inventory, entry => $software);
         }
+        _processMSIE(
+            machKey => $machKey,
+            inventory => $inventory,
+            is64bit => 0
+        );
     }
 }
 
@@ -103,10 +120,6 @@ sub _getSoftwares {
         # odd, found on Win2003
         next unless keys %$data > 2;
 
-        # See bug #927
-        # http://stackoverflow.com/questions/2639513/duplicate-entries-in-uninstall-registry-key-when-compiling-list-of-installed-soft
-        next if $data->{'/SystemComponent'};
-
         my $guid = $rawGuid;
         $guid =~ s/\/$//; # drop the tailing / 
 
@@ -132,13 +145,47 @@ sub _getSoftwares {
         # Workaround for #415
         $software->{VERSION} =~ s/[\000-\037].*// if $software->{VERSION};
 
-        # avoid duplicates
-        next if $seen->{$software->{NAME}}->{$software->{VERSION} || '_undef_'}++;
-
         push @softwares, $software;
     }
 
     return @softwares;
 }
+
+sub _addSoftware {
+    my %params = @_;
+
+    my $entry = $params{entry};
+
+        # avoid duplicates
+        return if $seen->{$entry->{NAME}}->{$entry->{IS64BIT}}{$entry->{VERSION} || '_undef_'}++;
+
+    $params{inventory}->addEntry(section => 'SOFTWARES', entry => $entry);
+}
+
+sub _processMSIE {
+    my %params = @_;
+
+    my $inventory = $params{inventory};
+    my $is64bit = $params{is64bit} || 0;
+    my $machKey = $params{machKey};
+
+        my $name = "Internet Explorer";
+    if ($is64bit) {
+        $name .= " (64bit)";
+    }
+    my $version = $params{machKey}->{"SOFTWARE/Microsoft/Internet Explorer/Version"};
+
+    _addSoftware(
+        inventory => $params{inventory},
+        entry => {
+            FROM => "registry",
+            IS64BIT => $is64bit,
+            NAME => $name,
+            VERSION => $version,
+        PUBLISHER => "Microsoft Corporation"
+    });
+
+}
+
 
 1;
