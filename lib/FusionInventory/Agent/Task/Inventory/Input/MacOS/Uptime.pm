@@ -21,14 +21,20 @@ sub doInventory {
     });
 }
 
-sub _getUptime {
+sub _getBootTime {
     my $boottime = getFirstMatch(
-        pattern => qr/sec\s*=\s*(\d+)/,
+        pattern => qr/(\d+)$/,
         @_,
     );
+
+    return $boottime;
+}
+
+sub _getUptime {
+    my $boottime = _getBootTime(@_);
     return unless $boottime;
 
-    my $uptime = $boottime - time();
+    my $uptime = time() - $boottime;
     return getFormatedGmTime($uptime);
 }
 
