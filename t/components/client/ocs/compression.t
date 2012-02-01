@@ -16,7 +16,7 @@ my $client = FusionInventory::Agent::HTTP::Client::OCS->new();
 
 my $data = "this is a test";
 is(
-    $client->_uncompressNative($client->_compressNative($data)),
+    $client->_uncompressZlib($client->_compressZlib($data)),
     $data,
     'round-trip compression with Compress::Zlib'
 );

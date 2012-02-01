@@ -23,21 +23,24 @@ sub new {
 
     # check compression mode
     if (Compress::Zlib->require()) {
-        $self->{compression} = 'native';
-        $self->{ua}->default_header('Content-type' => 'application/x-compress');
+        # RFC 1950
+        $self->{compression} = 'zlib';
+        $self->{ua}->default_header('Content-type' => 'application/x-compress-zlib');
         $self->{logger}->debug(
             $log_prefix . 
             'Using Compress::Zlib for compression'
         );
     } elsif (canRun('gzip')) {
+        # RFC 1952
         $self->{compression} = 'gzip';
-        $self->{ua}->default_header('Content-type' => 'application/x-compress');
+        $self->{ua}->default_header('Content-type' => 'application/x-compress-gzip');
         $self->{logger}->debug(
             $log_prefix . 
             'Using gzip for compression'
         );
     } else {
         $self->{compression} = 'none';
+        $self->{ua}->default_header('Content-type' => 'application/xml');
         $self->{logger}->debug(
             $log_prefix . 
             'Not using compression'
@@ -110,9 +113,9 @@ sub _compress {
     my ($self, $data) = @_;
 
     return 
-        $self->{compression} eq 'native' ? $self->_compressNative($data) :
-        $self->{compression} eq 'gzip'   ? $self->_compressGzip($data)   :
-                                          $data;
+        $self->{compression} eq 'zlib' ? $self->_compressZlib($data) :
+        $self->{compression} eq 'gzip' ? $self->_compressGzip($data) :
+                                         $data;
 }
 
 sub _uncompress {
@@ -120,7 +123,7 @@ sub _uncompress {
 
     if ($data =~ /(\x78\x9C.*)/s) {
         $self->{logger}->debug2("format: Zlib");
-        return $self->_uncompressNative($1);
+        return $self->_uncompressZlib($1);
     } elsif ($data =~ /(\x1F\x8B\x08.*)/s) {
         $self->{logger}->debug2("format: Gzip");
         return $self->_uncompressGzip($1);
@@ -133,7 +136,7 @@ sub _uncompress {
     }
 }
 
-sub _compressNative {
+sub _compressZlib {
     my ($self, $data) = @_;
 
     return Compress::Zlib::compress($data);
@@ -160,7 +163,7 @@ sub _compressGzip {
     return $result;
 }
 
-sub _uncompressNative {
+sub _uncompressZlib {
     my ($self, $data) = @_;
 
     return Compress::Zlib::uncompress($data);
