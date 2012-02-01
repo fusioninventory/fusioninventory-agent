@@ -25,7 +25,7 @@ eval {
 
     die "agent too old (minimal version 2.2.0 required)\n" if $CHILD_ERROR;
 };
-warn "unable to check fusioninventory-agent setup: $EVAL_ERROR" if $EVAL_ERROR
+warn "unable to check fusioninventory-agent setup: $EVAL_ERROR" if $EVAL_ERROR;
 
 # mandatory dependencies
 requires 'Net::IP'                => undef;
