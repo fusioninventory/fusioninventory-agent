@@ -16,6 +16,7 @@ my @files = (
     [ '/etc/knoppix_version'   => 'Knoppix GNU/Linux %s' ],
     [ '/etc/mandriva-release'  => '%s' ],
     [ '/etc/mandrake-release'  => '%s' ],
+    [ '/etc/centos-release'    => '%s' ],
     [ '/etc/redhat-release'    => '%s' ],
     [ '/etc/slackware-version' => '%s' ],
     [ '/etc/SuSE-release'      => '%s' ],
@@ -55,6 +56,9 @@ my @filesDistros = (
 
     # mandrake-release contains something like "Mandrakelinux release 10.1 (Community) for i586"
     [ '/etc/mandrake-release'  => 'Mandrake'  => '.* release ([0-9\.]+).*'  => '%s'],
+
+    # centos-release contains something like "CentOS Linux release 6.0 (Final)"
+    [ '/etc/centos-release'    => 'CentOS'    => '.* release ([0-9\.]+).*'  => '%s' ],
 
     # redhat-release contains something like "Red Hat Enterprise Linux Server release 5 (Tikanga)"
     [ '/etc/redhat-release'    => 'RedHat'    => '.* release ([0-9\.]+).*'  => '%s' ],
