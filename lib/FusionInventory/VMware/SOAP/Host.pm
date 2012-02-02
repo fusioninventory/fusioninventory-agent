@@ -235,9 +235,7 @@ sub getStorages {
             }
         }
         if ( $entry->{capacity}{blockSize} && $entry->{capacity}{block} ) {
-            $size =
-              int( $entry->{capacity}{blockSize} * $entry->{capacity}{block} ) /
-              1000;
+            $size = int(($entry->{capacity}{blockSize} *$entry->{capacity}{block})/1024/1024);
         }
         my $manufacturer;
         if ( $entry->{vendor} && ( $entry->{vendor} !~ /^\s*ATA\s*$/ ) ) {
