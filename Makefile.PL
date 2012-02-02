@@ -33,6 +33,11 @@ requires 'Digest::SHA'            => undef;
 requires 'File::Copy::Recursive'  => undef;
 requires 'JSON'                   => undef;
 requires 'URI::Escape'            => undef;
+recommends 'POE::Component::Client::Ping' => undef;
+
+test_requires 'Test::HTTP::Server::Simple' => undef;
+test_requires 'Test::HTTP::Server::Simple' => undef;
+test_requires 'POE::Component::Client::Ping' => undef;
 
 WriteAll;
 
