@@ -66,7 +66,8 @@ sub constants {
         INSTALLMAN3DIR       => '$(PREFIX)/share/man/man3',
         INSTALLSITEMAN3DIR   => '$(PREFIX)/share/man/man3',
         INSTALLVENDORMAN3DIR => '$(PREFIX)/share/man/man3',
-        DATADIR              => '$(PREFIX)/share/fusioninventory'
+        DATADIR              => '$(PREFIX)/share/fusioninventory',
+        FULLPERLRUN          => '$(FULLPERL) -I$(DATADIR)/lib'
     );
 
     # allow variables detected from agent setup to override defaults
