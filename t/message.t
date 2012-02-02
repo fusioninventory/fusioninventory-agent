@@ -7,7 +7,7 @@ use English qw(-no_match_vars);
 use Test::More;
 
 use FusionInventory::Agent::XML::Response;
-use FusionInventory::Agent::Task::SNMPQuery;
+use FusionInventory::Agent::Task::NetInventory;
 
 my %messages = (
     message2 => {
@@ -126,7 +126,7 @@ foreach my $test (keys %messages) {
     );
     my $options = $message->getOptionsInfoByName('SNMPQUERY');
     is_deeply(
-        FusionInventory::Agent::Task::SNMPQuery::_getModels($options->{MODEL}),
+        FusionInventory::Agent::Task::NetInventory::_getIndexedModels($options->{MODEL}),
         $messages{$test}->{models},
         $test
     );
