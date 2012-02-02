@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use Test::More;
-use FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco;
+use FusionInventory::Agent::Task::NetInventory::Manufacturer::Cisco;
 
 my @mac_tests = (
     # each item is an arrayref of three elements:
@@ -12,17 +12,17 @@ my @mac_tests = (
     # - output data structure
     # - test explication
     [
-        [
-            {
+        {
+            0 => {
                 CONNECTIONS => {
                     CONNECTION => [
                     ]
                 },
                 MAC => 'X',
             }
-        ],
-        [
-            {
+        },
+        {
+            0 => {
                 CONNECTIONS => {
                     CONNECTION => [
                         { MAC => '00 1C F6 C5 64 19' }
@@ -30,12 +30,12 @@ my @mac_tests = (
                 },
                 MAC => 'X',
             }
-        ],
+        },
         'connection mac address retrieval'
     ],
     [
-        [
-            {
+        {
+            0 => {
                 CONNECTIONS => {
                     CONNECTION => [
                     ],
@@ -43,9 +43,9 @@ my @mac_tests = (
                 },
                 MAC => 'X',
             }
-        ],
-        [
-            {
+        },
+        {
+            0 => {
                 CONNECTIONS => {
                     CONNECTION => [
                     ],
@@ -53,28 +53,28 @@ my @mac_tests = (
                 },
                 MAC => 'X',
             }
-        ],
+        },
         'connection mac address retrieval, connection has CDP'
     ],
     [
-        [
-            {
+        {
+            0 => {
                 CONNECTIONS => {
                     CONNECTION => [
                     ],
                 },
                 MAC => '00 1C F6 C5 64 19',
             }
-        ],
-        [
-            {
+        },
+        {
+            0 => {
                 CONNECTIONS => {
                     CONNECTION => [
                     ],
                 },
                 MAC => '00 1C F6 C5 64 19',
             }
-        ],
+        },
         'connection mac address retrieval, same mac address as the port'
     ],
 );
@@ -110,7 +110,7 @@ my $results = {
 };
 
 foreach my $test (@mac_tests) {
-    FusionInventory::Agent::Task::SNMPQuery::Manufacturer::Cisco::setConnectedDevicesMacAddress(
+    FusionInventory::Agent::Task::NetInventory::Manufacturer::Cisco::setConnectedDevicesMacAddress(
         results => $results, ports => $test->[0], walks => $walks, vlan_id => 1
     );
 
