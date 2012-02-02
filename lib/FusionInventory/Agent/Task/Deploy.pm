@@ -340,11 +340,9 @@ sub processRemote {
         ACTION: while ( my $action = $job->getNextToProcess() ) {
         my ($actionName, $params) = %$action;
             if ( $params && (ref( $params->{checks} ) eq 'ARRAY') ) {
-                my $checkProcessor =
-                    FusionInventory::Agent::Task::Deploy::CheckProcessor->new();
                 foreach my $checknum ( 0 .. @{ $params->{checks} } ) {
                     next unless $job->{checks}[$checknum];
-                    my $checkStatus = $checkProcessor->process( $params->{checks}[$checknum] );
+                    my $checkStatus = FusionInventory::Agent::Task::Deploy::CheckProcessor::process( $params->{checks}[$checknum] );
                     if ( $checkStatus ne 'ok') {
 
                         $self->{client}->send(
