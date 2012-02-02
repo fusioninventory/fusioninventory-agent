@@ -6,28 +6,25 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub new {
-    my ( undef, $hash, $vms ) = @_;
+    my ($class, %params) = @_;
 
     my $self = {
-        hash => $hash,
-        vms  => $vms
+        hash => $params{hash},
+        vms  => $params{vms}
     };
 
-    bless $self;
+    bless $self, $class;
+
+    return $self;
 }
 
-sub getArray {
+sub _asArray {
     my $h = shift;
 
-    if ( ref($h) eq 'ARRAY' ) {
-        return $h;
-    }
-    elsif ($h) {
-        return [$h];
-    }
-    else {
-        return [];
-    }
+    return 
+        ref $h eq 'ARRAY' ? @$h  :
+            $h            ? ($h) :
+                            ()   ;
 }
 
 sub getBootTime {
@@ -46,55 +43,37 @@ sub getHostname {
 sub getBiosInfo {
     my ($self) = @_;
 
-    my $bdate;
-    my $bversion;
-    my $smodel;
-    my $smanufacturer;
-    my $assettag;
-
-    eval { $bdate    = $self->{hash}[0]{hardware}{biosInfo}{releaseDate}; };
-    eval { $bversion = $self->{hash}[0]{hardware}{biosInfo}{biosVersion}; };
-    eval { $smodel   = $self->{hash}[0]{hardware}{systemInfo}{model}; };
-    eval { $smanufacturer = $self->{hash}[0]{hardware}{systemInfo}{vendor}; };
-    eval {
-        $assettag =
-          $self->{hash}[0]{hardware}{systemInfo}{otherIdentifyingInfo}
-          {identifierValue};
-    };
+    my $hardware   = $self->{hash}[0]{hardware};
+    my $biosInfo   = $hardware->{biosInfo};
+    my $systemInfo = $hardware->{systemInfo};
 
     return {
-        BDATE         => $bdate,
-        BVERSION      => $bversion,
-        SMODEL        => $smodel,
-        SMANUFACTURER => $smanufacturer,
-        ASSETTAG      => $assettag,
-
+        BDATE         => $biosInfo->{releaseDate},
+        BVERSION      => $biosInfo->{biosVersion},
+        SMODEL        => $systemInfo->{model},
+        SMANUFACTURER => $systemInfo->{vendor},
+        ASSETTAG      => $systemInfo->{otherIdentifyingInfo}->{identifierValue}
     };
 }
 
 sub getHardwareInfo {
     my ($self) = @_;
 
-    my $name = $self->{hash}[0]{config}{network}{dnsConfig}{hostName};
-    my $dns  = join '/',
-      @{ getArray( $self->{hash}[0]{config}{network}{dnsConfig}{address} ) };
-    my $workgroup = $self->{hash}[0]{config}{network}{dnsConfig}{domainName};
-    my $memory =
-      int( $self->{hash}[0]{hardware}{memorySize} / ( 1024 * 1024 ) );
-    my $uuid = $self->{hash}[0]{summary}{hardware}{uuid}
-      || $self->{hash}[0]{hardware}{systemInfo}{uuid};
-    my $osversion  = $self->{hash}[0]{summary}{config}{product}{version};
-    my $osname     = $self->{hash}[0]{summary}{config}{product}{name};
-    my $oscomments = $self->{hash}[0]{summary}{config}{product}{fullName};
+    my $dnsConfig  = $self->{hash}[0]{config}{network}{dnsConfig};
+    my $hardware   = $self->{hash}[0]{hardware};
+    my $summary    = $self->{hash}[0]{summary};
+    my $product    = $summary->{config}->{product};
+    my $systemInfo = $hardware->{systemInfo};
+
     return {
-        NAME       => $name,
-        DNS        => $dns,
-        WORKGROUP  => $workgroup,
-        MEMORY     => $memory,
-        UUID       => $uuid,
-        OSVERSION  => $osversion,
-        OSNAME     => $osname,
-        OSCOMMENTS => $oscomments,
+        NAME       => $dnsConfig->{hostName},
+        DNS        => join('/', _asArray($dnsConfig->{address})),
+        WORKGROUP  => $dnsConfig->{domainName},
+        MEMORY     => int($hardware->{memorySize} / (1024 * 1024)),
+        UUID       => $summary->{hardware}->{uuid} || $systemInfo->{uuid},
+        OSVERSION  => $product->{version},
+        OSNAME     => $product->{name},
+        OSCOMMENTS => $product->{fullName}
     };
 }
 
@@ -106,18 +85,17 @@ sub getCPUs {
         intel => 'Intel',
     );
 
-    my $totalCore;
-    my $totalThread;
-    my $cpuEntries;
-    eval { $totalCore   = $self->{hash}[0]{hardware}{cpuInfo}{numCpuCores} };
-    eval { $totalThread = $self->{hash}[0]{hardware}{cpuInfo}{numCpuThreads} };
-    eval { $cpuEntries  = $self->{hash}[0]{hardware}{cpuPkg} };
-    my $ret = [];
-    foreach ( @{ getArray($cpuEntries) } ) {
+    my $hardware    = $self->{hash}[0]{hardware};
+    my $totalCore   = $hardware->{cpuInfo}{numCpuCores};
+    my $totalThread = $hardware->{cpuInfo}{numCpuThreads};
+    my $cpuEntries  = $hardware->{cpuPkg};
+
+    my @cpus;
+    foreach (_asArray($cpuEntries)) {
         my $thread;
-        push @$ret,
+        push @cpus,
           {
-            CORE         => $totalCore / @{ getArray($cpuEntries) },
+            CORE         => $totalCore / _asArray($cpuEntries),
             MANUFACTURER => $cpuManufacturor{ $_->{vendor} } || $_->{vendor},
             NAME         => $_->{description},
             SPEED        => int( $_->{hz} / ( 1000 * 1000 ) ),
@@ -125,13 +103,13 @@ sub getCPUs {
           };
     }
 
-    return $ret;
+    return @cpus;
 }
 
 sub getControllers {
     my ($self) = @_;
 
-    my $ret = [];
+    my @controllers;
 
     foreach ( @{ $self->{hash}[0]{hardware}{pciDevice} } ) {
 
@@ -149,7 +127,7 @@ sub getControllers {
             s/:(\w+)/:000$1/;
             s/.*(\w{4}:).*(\w{4}).*/$1$2/g;
         }
-        push @$ret,
+        push @controllers,
           {
             NAME           => $_->{deviceName},
             MANUFACTURER   => $_->{vendorName},
@@ -161,7 +139,7 @@ sub getControllers {
 
     }
 
-    return $ret;
+    return @controllers;
 }
 
 sub _getNic {
@@ -170,55 +148,56 @@ sub _getNic {
     return {
         DESCRIPTION => $ref->{device},
         DRIVER      => $ref->{driver},
-        IPADDRESS   => eval { $ref->{spec}{ip}{ipAddress} },
-        IPMASK      => eval { $ref->{spec}{ip}{subnetMask} },
-        MACADDR     => eval { $ref->{mac} || $ref->{spec}{mac} },
-        MTU         => eval { $ref->{spec}{mtu} },
+        IPADDRESS   => $ref->{spec}{ip}{ipAddress},
+        IPMASK      => $ref->{spec}{ip}{subnetMask},
+        MACADDR     => $ref->{mac} || $ref->{spec}{mac},
+        MTU         => $ref->{spec}{mtu},
         PCISLOT     => $ref->{pci},
-        STATUS      => eval { $ref->{spec}{ip}{ipAddress} } ? 'Up' : 'Down',
+        STATUS      => $ref->{spec}{ip}{ipAddress} ? 'Up' : 'Down',
         VIRTUALDEV  => $isVirtual,
-        SPEED       => eval { $ref->{spec}{linkSpeed}{speedMb} },
+        SPEED       => $ref->{spec}{linkSpeed}{speedMb},
     }
 }
 
 sub getNetworks {
     my ($self) = @_;
 
-    my $ret = [];
+    my @networks;
 
     my $seen = {};
 
     foreach my $nicType (qw/vnic pnic consoleVnic/)  {
-        foreach ( eval { @{ getArray( $self->{hash}[0]{config}{network}{$nicType} ) } }
-                )
+        foreach (_asArray($self->{hash}[0]{config}{network}{$nicType}))
         {
 
             next if $seen->{$_->{device}}++;
             my $isVirtual = $nicType eq 'vnic'?1:0;
-            push @$ret, _getNic($_, $isVirtual);
+            push @networks, _getNic($_, $isVirtual);
         }
     }
 
     my @vnic;
-    eval { push @vnic, $self->{hash}[0]{config}{network}{consoleVnic} if $self->{hash}[0]{config}{network}{consoleVnic}; };
-    eval { push @vnic, $self->{hash}[0]{config}{vmotion}{netConfig}{candidateVnic} if $self->{hash}[0]{config}{vmotion}{netConfig}{candidateVnic} };
+    push @vnic, $self->{hash}[0]{config}{network}{consoleVnic}
+        if $self->{hash}[0]{config}{network}{consoleVnic};
+    push @vnic, $self->{hash}[0]{config}{vmotion}{netConfig}{candidateVnic}
+        if $self->{hash}[0]{config}{vmotion}{netConfig}{candidateVnic};
     foreach my $entry (@vnic) {
-        foreach ( @{ getArray($entry) } ) {
+        foreach (_asArray($entry)) {
             next if $seen->{$_->{device}}++;
 
-            push @$ret, _getNic($_, 1);
+            push @networks, _getNic($_, 1);
         }
     }
 
-    return $ret;
+    return @networks;
 }
 
 sub getStorages {
     my ($self) = @_;
 
-    my $ret = [];
+    my @storages;
     foreach my $entry (
-        @{ getArray( $self->{hash}[0]{config}{storageDevice}{scsiLun} ) } )
+        _asArray($self->{hash}[0]{config}{storageDevice}{scsiLun}))
     {
         my $serialnumber;
         my $size;
@@ -226,7 +205,7 @@ sub getStorages {
         # TODO
         #$volumnMapping{$entry->{canonicalName}} = $entry->{deviceName};
 
-        foreach my $altName ( @{ getArray( $entry->{alternateName} ) } ) {
+        foreach my $altName (_asArray($entry->{alternateName})) {
             next unless ref($altName) eq 'HASH';
             next unless $altName->{namespace};
             next unless $altName->{data};
@@ -240,8 +219,7 @@ sub getStorages {
         my $manufacturer;
         if ( $entry->{vendor} && ( $entry->{vendor} !~ /^\s*ATA\s*$/ ) ) {
             $manufacturer = $entry->{vendor};
-        }
-        else {
+        } else {
             $manufacturer = getCanonicalManufacturer( $entry->{model} );
         }
 
@@ -250,7 +228,7 @@ sub getStorages {
         my $model = $entry->{model};
         $model =~ s/\s*(\S.*\S)\s*/$1/;
 
-        push @$ret, {
+        push @storages, {
             DESCRIPTION => $entry->{displayName},
             DISKSIZE    => $size,
 
@@ -270,17 +248,17 @@ sub getStorages {
 
     }
 
-    return $ret;
+    return @storages;
 
 }
 
 sub getDrives {
     my ($self) = @_;
 
-    my $ret = [];
+    my @drives;
 
     foreach (
-        @{ getArray( $self->{hash}[0]{config}{fileSystemVolume}{mountInfo} ) } )
+        _asArray($self->{hash}[0]{config}{fileSystemVolume}{mountInfo}))
     {
         my $volumn;
         if ( $_->{volume}{type} && ( $_->{volume}{type} =~ /NFS/i ) ) {
@@ -290,7 +268,7 @@ sub getDrives {
 #        } else {
 #            $volumn = $volumnMapping{$_->{volume}{extent}{diskName}}." ".$_->{volume}{extent}{partition};
         }
-        push @$ret,
+        push @drives,
           {
             SERIAL => $_->{volume}{uuid},
             TOTAL  => int( ( $_->{volume}{capacity} || 0 ) / ( 1000 * 1000 ) ),
@@ -301,53 +279,47 @@ sub getDrives {
           };
     }
 
-    return $ret;
+    return @drives;
 }
 
 sub getVirtualMachines {
     my ($self) = @_;
 
-    my $ret = [];
+    my @virtualMachines;
 
-    foreach ( @{ $self->{vms} } ) {
-        my $status;
-        if ( $_->[0]{summary}{runtime}{powerState} eq 'poweredOn' ) {
-            $status = 'running';
-        }
-        elsif ( $_->[0]{summary}{runtime}{powerState} eq 'poweredOff' ) {
-            $status = 'off';
-        }
+    foreach my $vm (@{$self->{vms}}) {
+        my $machine = $vm->[0];
+        my $status =
+            $machine->{summary}{runtime}{powerState} eq 'poweredOn'  ? 'running' :
+            $machine->{summary}{runtime}{powerState} eq 'poweredOff' ? 'off'     :
+                                                                    undef     ;
+        print "Unknown status\n" if !$status;
 
         my @mac;
-        foreach ( @{ getArray( $_->[0]{config}{hardware}{device} ) } ) {
-            push @mac, $_->{macAddress} if $_->{macAddress};
+        foreach my $device (_asArray($machine->{config}{hardware}{device})) {
+            push @mac, $device->{macAddress} if $device->{macAddress};
         }
 
-        if ( !$status ) {
-            print "Unknown status\n";
-
-            #            print Dumper($_->[0]);
-        }
-        my $comment = eval { $_->[0]{config}{annotation} };
+        my $comment = $machine->{config}{annotation};
 
         # hack to preserve  annotation / comment formating
         $comment =~ s/\n/&#10;/gm if $comment;
 
-        push @$ret,
+        push @virtualMachines,
           {
-            VMID    => eval       { $_->[0]{summary}{vm} },
-            NAME    => eval       { $_->[0]{name} },
+            VMID    => $machine->{summary}{vm},
+            NAME    => $machine->{name},
             STATUS  => $status,
-            UUID    => eval       { $_->[0]{summary}{config}{uuid} },
-            MEMORY  => eval       { $_->[0]{summary}{config}{memorySizeMB} },
+            UUID    => $machine->{summary}{config}{uuid},
+            MEMORY  => $machine->{summary}{config}{memorySizeMB},
             VMTYPE  => 'VMware',
-            VCPU    => eval       { $_->[0]{summary}{config}{numCpu} },
+            VCPU    => $machine->{summary}{config}{numCpu},
             MAC     => join( '/', @mac ),
             COMMENT => $comment
           };
     }
 
-    return $ret;
+    return @virtualMachines;
 }
 
 1;

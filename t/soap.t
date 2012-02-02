@@ -1,16 +1,19 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 
 use strict;
 use warnings;
 
+use LWP::UserAgent;
+use English qw(-no_match_vars);
+use HTTP::Response;
 use Test::More;
 use Test::Exception;
+use Test::MockObject::Extends;
+use Test::MockModule;
+
 use FusionInventory::VMware::SOAP;
-use File::Basename;
 
-use Data::Dumper;
-
-my %test = (
+my %tests = (
     'esx-4.1.0-1' => {
         'connect' => [
           {
@@ -23,15 +26,18 @@ my %test = (
             'key' => '52eec005-5d13-dfae-afd8-7e1b4561a154'
           }
         ],
-        'getHostname' => 'esx-test.teclib.local',
-        'getBiosInfo()' => {
-          'SMANUFACTURER' => 'Sun Microsystems',
-          'SMODEL' => 'Sun Fire X2200 M2 with Dual Core Processor',
-          'BDATE' => '2009-02-04T00:00:00Z',
-          'ASSETTAG' => ' To Be Filled By O.E.M.',
-          'BVERSION' => 'S39_3B27'
-        },
-        'getHardwareInfo' => {
+        'getHostname' => [ 'esx-test.teclib.local' ],
+        'getBiosInfo' => [
+            {
+              'SMANUFACTURER' => 'Sun Microsystems',
+              'SMODEL' => 'Sun Fire X2200 M2 with Dual Core Processor',
+              'BDATE' => '2009-02-04T00:00:00Z',
+              'ASSETTAG' => ' To Be Filled By O.E.M.',
+              'BVERSION' => 'S39_3B27'
+            }
+        ],
+        'getHardwareInfo' => [
+            {
           'OSCOMMENTS' => 'VMware ESX 4.1.0 build-260247',
           'NAME' => 'esx-test',
           'OSVERSION' => '4.1.0',
@@ -40,7 +46,8 @@ my %test = (
           'OSNAME' => 'VMware ESX',
           'UUID' => 'b5bfd78a-fa79-0010-adfe-001b24f07258',
           'DNS' => '10.0.5.105'
-        },
+          }
+        ],
         'getCPUs' => [
           {
             'NAME' => 'Dual-Core AMD Opteron(tm) Processor 2218',
@@ -349,7 +356,7 @@ my %test = (
             'IPADDRESS' => '10.0.2.190'
           }
         ],
-        'getStorages()' => [
+        'getStorages' => [
           {
             'NAME' => '/vmfs/devices/cdrom/mpx.vmhba0:C0:T0:L0',
             'FIRMWARE' => '1.AC',
@@ -438,24 +445,81 @@ my %test = (
         ]
     },
 );
-plan tests => 12;
+my @methods = qw/
+    getHostname
+    getBiosInfo
+    getHardwareInfo
+    getCPUs
+    getControllers
+    getNetworks
+    getStorages
+    getDrives
+    getVirtualMachines
+/;
+plan tests =>
+    (scalar keys %tests) * (scalar @methods + 3);
 
-foreach my $dir (glob('resources/*')) {
-    my $testName = basename($dir);
-    my $vpbs = FusionInventory::VMware::SOAP->new({
-    debugDir => $dir,
-    user => 'foo',
-    });
+my $module = Test::MockModule->new('LWP::UserAgent');
 
-    my $ret;
-    lives_ok{$ret = $vpbs->connect('foo', 'bar')} $testName.' connect()';
-    is_deeply($ret, $test{$testName}{'connect()'}, 'connect()') or print  Dumper($ret);
+foreach my $test (keys %tests) {
+    my $dir = "resources/$test";
 
-    lives_ok{$ret = $vpbs->getHostFullInfo()} $testName.' getHostFullInfo()';
+    # create mock user agent
+    my $ua   = LWP::UserAgent->new();
+    my $mock = Test::MockObject::Extends->new($ua);
+    $mock->mock(
+        'request',
+        sub {
+            my ($self, $request) = @_;
 
-    foreach my $func (qw(getHostname getBiosInfo getHardwareInfo getCPUs getControllers getNetworks getStorages getDrives getVirtualMachines)) {
-        is_deeply($ret->$func, $test{$testName}{$func}, "$testName $func()") or print "####GOT: \n". Dumper($ret->$func)."####\n####EXPECT: \n". Dumper($test{$testName}{$func})."\n";
+            # compute SOAP dump file name
+            my ($action) =
+                $request->header('soapaction') =~ /"urn:vim25#(\S+)"/;
 
+            my $tree = XML::TreePP->new()->parse($request->content());
+            my $body =
+                $tree->{'soapenv:Envelope'}->{'soapenv:Body'};
+            my $obj  =
+                $body->{RetrieveProperties}->{specSet}->{objectSet}->{obj};
+            if ($obj->{'-type'} && $obj->{'-type'} eq 'VirtualMachine') {
+                $action .= "-VM-$obj->{'#text'}";
+            }
+            my $file = $dir . "/" . $action . ".soap";
+
+            local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
+            open(my $handle, '<', $file) or die "failed to open $file";
+            my $content = <$handle>;
+            close $handle;
+
+            return HTTP::Response->new(
+                200, 'OK', undef, $content
+            );
+        }
+    );
+
+    # ensure a calll to LWP::UserAgent->new() return our mock agent
+    $module->mock(new => sub { return $mock; });
+
+    my $vpbs = FusionInventory::VMware::SOAP->new(
+        user => 'foo',
+    );
+
+    my $result;
+    lives_ok {
+        $result = $vpbs->connect('foo', 'bar')
+    } "$test connect()";
+
+    is_deeply($result, $tests{$test}->{connect}, 'connect()');
+
+    lives_ok {
+        $result = $vpbs->getHostFullInfo()
+    } "$test getHostFullInfo()";
+
+    foreach my $method (@methods) {
+        is_deeply(
+            [ $result->$method() ],
+            $tests{$test}->{$method},
+            "$test $method()"
+        );
     }
-
 }
