@@ -21,5 +21,5 @@ Test::Pod::Coverage->import();
 
 all_pod_coverage_ok({
     coverage_class => 'Pod::Coverage::CountParents',
-    also_private   => [ qw/discovery/ ]
+    also_private   => [ qw/getDescription getDescriptionHP getDescriptionOther/ ]
 });
