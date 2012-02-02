@@ -475,10 +475,11 @@ my $target = FusionInventory::Agent::Target::Server->new(
     basevardir => $tmpDirClient,
 );
 ok( $target, "loading Target object" );
+
 my $deploy = FusionInventory::Agent::Task::Deploy->new(
     deviceid => "fakeid",
     target   => $target,
-    debug      => 1
+    debug    => 1
 );
 ok( $deploy, "loading Task object" );
 
