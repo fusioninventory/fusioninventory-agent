@@ -453,6 +453,7 @@ package main;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::HTTP::Client::OCS;
 use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::Task::Deploy;
 use FindBin;
@@ -480,6 +481,12 @@ my $deploy = FusionInventory::Agent::Task::Deploy->new(
     debug      => 1
 );
 ok( $deploy, "loading Task object" );
+
+$deploy->{client} = FusionInventory::Agent::HTTP::Client::Fusion->new();
+ok( $deploy->{client}, "loading Client object" );
+
+
+
 my $ret;
 #ok( $deploy->processRemote('http://localhost:8080/deploy1'), "processRemote()" );
 
