@@ -76,7 +76,7 @@ sub prepareTasksExecPlan {
     my ($self, %params, $init) = @_;
 
     my $r = $params{client}->send(
-        url => $self->getUrl,
+        url => $self->getUrl(),
         args => {
             action => 'getConfig',
             machineid => $self->{deviceid},
