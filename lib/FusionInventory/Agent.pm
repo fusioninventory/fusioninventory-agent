@@ -91,12 +91,6 @@ sub init {
     );
     $self->{client} = $client;
 
-    # compute list of allowed tasks
-    my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
-#    my @tasks = keys %available; # TODO: remove from F::A
-
-#    $self->{tasks} = \@tasks; # TODO: remove from F::A
-
     $self->{scheduler} = FusionInventory::Agent::Scheduler->new(
         client     => $client,
         logger     => $logger,
@@ -217,10 +211,6 @@ sub run {
 
 sub _runTarget {
     my ($self, $target, $tasksExecPlan) = @_;
-
-    # the prolog dialog must be done once for all tasks,
-    # but only for server targets
-    my $response;
 
     eval {
        $self->_runTask($target, $tasksExecPlan);
