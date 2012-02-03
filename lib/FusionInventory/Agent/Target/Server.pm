@@ -110,13 +110,6 @@ sub prepareTasksExecPlan {
 
     $self->{configValidityNextCheck} = time + $r->{configValidityPeriod};
 
- #   foreach ()
-  #  use Data::Dumper;
-
-#    $self->{tasksExecPlan} = [
-#        { Inventory => $self->_computeNextRunDate() }
- #   ]
-
 }
 
 
