@@ -222,7 +222,7 @@ sub _runTarget {
 sub _runTask {
     my ($self, $target, $tasksExecPlan) = @_;
 
-    my $class = "FusionInventory::Agent::Task::".$tasksExecPlan->{task};
+    my $class = "FusionInventory::Agent::Task::$tasksExecPlan->{task}";
     my $task = $class->new(
         config       => $self->{config},
         confdir      => $self->{confdir},
@@ -232,7 +232,7 @@ sub _runTask {
         deviceid     => $self->{deviceid}
     );
 
-    $self->{status} = "running task ".$tasksExecPlan->{task};
+    $self->{status} = "running task $tasksExecPlan->{task}";
 
     if ($self->{config}->{daemon} || $self->{config}->{service}) {
         # daemon mode: run each task in a child process
@@ -243,7 +243,9 @@ sub _runTask {
             # child
             die "fork failed: $ERRNO" unless defined $pid;
 
-            $self->{logger}->debug("running task ".$tasksExecPlan->{task}." in process $PID");
+            $self->{logger}->debug(
+                "running task $tasksExecPlan->{task} in process $PID"
+            );
             $task->run(
                 user         => $self->{config}->{user},
                 password     => $self->{config}->{password},
@@ -257,7 +259,7 @@ sub _runTask {
         }
     } else {
         # standalone mode: run each task directly
-        $self->{logger}->debug("running task ".$tasksExecPlan->{task});
+        $self->{logger}->debug("running task $tasksExecPlan->{task}");
         $task->run(
             user         => $self->{config}->{user},
             password     => $self->{config}->{password},
