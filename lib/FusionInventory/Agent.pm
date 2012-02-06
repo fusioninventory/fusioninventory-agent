@@ -91,6 +91,11 @@ sub init {
     );
     $self->{client} = $client;
 
+    # compute list of allowed tasks
+    my %available = $self->getAvailableTasks(
+        disabledTasks => $config->{'no-task'}
+    );
+
     $self->{scheduler} = FusionInventory::Agent::Scheduler->new(
         client     => $client,
         logger     => $logger,
