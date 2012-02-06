@@ -100,7 +100,7 @@ sub getMessage {
 sub startAgent {
     return if $thread;
     $thread = threads->create(sub {
-        my $agent = new FusionInventory::Agent(
+        my $agent = FusionInventory::Agent->new(
             confdir => $directory . '/../../etc/fusioninventory',
             datadir => $directory . '/../../share',
             vardir  => $directory . '/../../var',
