@@ -45,7 +45,10 @@ sub getNextTarget {
 # Read settings from server
     foreach my $target (@{$self->{targets}}) {
         if ($target->{configValidityNextCheck} < time) {
-            $target->prepareTasksExecPlan(client => $self->{client}, tasks => $self->{tasks});
+            $target->prepareTasksExecPlan(
+                client => $self->{client},
+                tasks => $self->{tasks}
+            );
         }
     }
 
@@ -54,9 +57,9 @@ sub getNextTarget {
         # block until a target is eligible to run, then return it
         while (1) {
             foreach my $target (@{$self->{targets}}) {
-                foreach my $tasksExecPlan (@{$target->{tasksExecPlan}}) {
-                   if (time > $tasksExecPlan->{when}) {
-                       return ($target, $tasksExecPlan);
+                foreach my $event (@{$target->{tasksExecPlan}}) {
+                   if (time > $event->{when}) {
+                       return ($target, $event);
                    }
                 }
             }
@@ -66,24 +69,23 @@ sub getNextTarget {
 
     foreach my $target (@{$self->{targets}}) {
         next unless @{$target->{tasksExecPlan}};
-        # Gonéri: I'm not fan of $tasksExecPlan name
-        my $tasksExecPlan = shift @{$target->{tasksExecPlan}};
+        my $event = shift @{$target->{tasksExecPlan}};
 
         if ($self->{lazy}) {
 # return next target if eligible, nothing otherwise
-            if (time > $tasksExecPlan->{when}) {
+            if (time > $event->{when}) {
                 $logger->debug("[scheduler] ".
                         $target->{id}.
                         "/".
-                        $tasksExecPlan->{task}.
+                        $event->{task}.
                         " is ready");
-                return ($target, $tasksExecPlan);
+                return ($target, $event);
             } else {
                 $logger->info(
                         "$target->{id} is not ready yet, next server " .
                         "contact planned for " . localtime($target->getNextRunDate())
                         );
-                push @{$target->{tasksExecPlan}}, $tasksExecPlan;
+                push @{$target->{tasksExecPlan}}, $event;
                 return;
             }
         } elsif ($self->{wait}) {
@@ -95,10 +97,10 @@ sub getNextTarget {
                     );
             print "let's sleep $time\n";
             sleep $time;
-            return ($target, $tasksExecPlan);
+            return ($target, $event);
         } else {
 # return next target immediatly
-            return ($target, $tasksExecPlan);
+            return ($target, $event);
         }
     }
 
