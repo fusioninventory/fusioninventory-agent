@@ -13,7 +13,7 @@ sub _prepareVal {
 
     return '' unless length($val);
 
-# forbid to long argument.
+    # forbid too long argument.
     while (length(uri_escape($val)) > 1500) {
         $val =~ s/^.{5}/…/;
     }
