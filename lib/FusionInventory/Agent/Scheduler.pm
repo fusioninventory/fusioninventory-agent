@@ -17,7 +17,7 @@ sub new {
         lazy       => $params{lazy},
         wait       => $params{wait},
         background => $params{background},
-        tasks       => $params{tasks},
+        tasks      => $params{tasks},
         targets    => []
     };
     bless $self, $class;
@@ -47,7 +47,7 @@ sub getNextTarget {
 # Read settings from server
     foreach my $target (@{$self->{targets}}) {
         if ($target->{configValidityNextCheck} < time) {
-            $target->prepareTasksExecPlan(
+            $target->planifyEvents(
                 client => $self->{client},
                 tasks => $self->{tasks}
             );
@@ -59,7 +59,7 @@ sub getNextTarget {
         # block until a target is eligible to run, then return it
         while (1) {
             foreach my $target (@{$self->{targets}}) {
-                foreach my $event (@{$target->{tasksExecPlan}}) {
+                foreach my $event (@{$target->{events}}) {
                    if (time > $event->{when}) {
                        return ($target, $event);
                    }
@@ -70,8 +70,8 @@ sub getNextTarget {
     }
 
     foreach my $target (@{$self->{targets}}) {
-        next unless @{$target->{tasksExecPlan}};
-        my $event = shift @{$target->{tasksExecPlan}};
+        next unless @{$target->{events}};
+        my $event = shift @{$target->{events}};
 
         if ($self->{lazy}) {
             # return next target if eligible, nothing otherwise
@@ -87,7 +87,7 @@ sub getNextTarget {
                     "$target->{id} is not ready yet, next server contact " .
                     "planned for " . localtime($target->getNextRunDate())
                 );
-                push @{$target->{tasksExecPlan}}, $event;
+                push @{$target->{events}}, $event;
                 return;
             }
         } elsif ($self->{wait}) {
@@ -149,7 +149,7 @@ Unix world, and a service in Windows world (default: false)
 
 =item I<tasks>
 
-a hash reference on a key/val list of avalaible tasks.
+a hash reference on a key/val list of available tasks.
 
 =item I<client>
 

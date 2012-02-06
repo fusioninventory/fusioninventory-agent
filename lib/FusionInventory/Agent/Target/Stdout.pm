@@ -27,17 +27,16 @@ sub getDescription {
     return "stdout";
 }
 
-sub prepareTasksExecPlan {
+sub planifyEvents {
     my ($self) = @_;
 
-    $self->{tasksExecPlan} = [ {
+    $self->{events} = [ {
             task => 'Inventory',
             when => $self->_computeNextRunDate(),
         }
     ];
 
     $self->{configValidityNextCheck} = time + 600;
-
 }
 
 1;

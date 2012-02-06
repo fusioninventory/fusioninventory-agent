@@ -72,7 +72,7 @@ sub getDescription {
     return "server, TODO";
 }
 
-sub prepareTasksExecPlan {
+sub planifyEvents {
     my ($self, %params) = @_;
 
     my $r = $params{client}->send(
@@ -100,7 +100,7 @@ sub prepareTasksExecPlan {
             $when += $event->{delayStartup};
         }
 
-        push @{$self->{tasksExecPlan}}, {
+        push @{$self->{events}}, {
             when   => $when,
             task   => $event->{task},
             remote => $event->{remote}

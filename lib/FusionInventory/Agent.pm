@@ -204,10 +204,10 @@ sub run {
     $self->{status} = 'waiting';
 
     # endless loop in server mode
-    while (my ($target, $tasksExecPlan) = $self->{scheduler}->getNextTarget()) {
-        last unless $tasksExecPlan;
+    while (my ($target, $event) = $self->{scheduler}->getNextTarget()) {
+        last unless $event;
         eval {
-            $self->_runTarget($target, $tasksExecPlan);
+            $self->_runTarget($target, $event);
         };
         $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
         # $target->resetNextRunDate(); TODO
@@ -215,19 +215,19 @@ sub run {
 }
 
 sub _runTarget {
-    my ($self, $target, $tasksExecPlan) = @_;
+    my ($self, $target, $event) = @_;
 
     eval {
-       $self->_runTask($target, $tasksExecPlan);
+       $self->_runTask($target, $event);
     };
     $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
     $self->{status} = 'waiting';
 }
 
 sub _runTask {
-    my ($self, $target, $tasksExecPlan) = @_;
+    my ($self, $target, $event) = @_;
 
-    my $class = "FusionInventory::Agent::Task::$tasksExecPlan->{task}";
+    my $class = "FusionInventory::Agent::Task::$event->{task}";
     my $task = $class->new(
         config       => $self->{config},
         confdir      => $self->{confdir},
@@ -237,7 +237,7 @@ sub _runTask {
         deviceid     => $self->{deviceid}
     );
 
-    $self->{status} = "running task $tasksExecPlan->{task}";
+    $self->{status} = "running task $event->{task}";
 
     if ($self->{config}->{daemon} || $self->{config}->{service}) {
         # daemon mode: run each task in a child process
@@ -249,7 +249,7 @@ sub _runTask {
             die "fork failed: $ERRNO" unless defined $pid;
 
             $self->{logger}->debug(
-                "running task $tasksExecPlan->{task} in process $PID"
+                "running task $event->{task} in process $PID"
             );
             $task->run(
                 user         => $self->{config}->{user},
@@ -258,13 +258,13 @@ sub _runTask {
                 ca_cert_file => $self->{config}->{'ca-cert-file'},
                 ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
                 no_ssl_check => $self->{config}->{'no-ssl-check'},
-                remote       => $tasksExecPlan->{remote}
+                remote       => $event->{remote}
                 );
             exit(0);
         }
     } else {
         # standalone mode: run each task directly
-        $self->{logger}->debug("running task $tasksExecPlan->{task}");
+        $self->{logger}->debug("running task $event->{task}");
         $task->run(
             user         => $self->{config}->{user},
             password     => $self->{config}->{password},
@@ -272,7 +272,7 @@ sub _runTask {
             ca_cert_file => $self->{config}->{'ca-cert-file'},
             ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
             no_ssl_check => $self->{config}->{'no-ssl-check'},
-            remote       => $tasksExecPlan->{remote}
+            remote       => $event->{remote}
         );
     }
 }

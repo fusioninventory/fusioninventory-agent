@@ -21,7 +21,6 @@ sub new {
         client       => $params{client},
         deviceid     => $params{deviceid},
         configValidityNextCheck => 0,
-        tasksExecPlan      => []
     };
     bless $self, $class;
 
@@ -82,11 +81,11 @@ sub getStorage {
 #    $self->{nextRunDate} = $self->_computeNextRunDate();
 #    $self->_saveState();
 #}
-#
-sub getTasksExecPlan {
+
+sub getEvents {
     my ($self) = @_;
 
-    return $self->{tasksExecPlan};
+    return $self->{events};
 }
 
 sub getMaxDelay {
@@ -135,8 +134,8 @@ sub _loadState {
 
     my $data = $self->{storage}->restore(name => 'target');
 
-    $self->{maxDelay}    = $data->{maxDelay}    if $data->{maxDelay};
-    $self->{tasksExecPlan} = $data->{tasksExecPlan} if $data->{tasksExecPlan};
+    $self->{maxDelay} = $data->{maxDelay} if $data->{maxDelay};
+    $self->{events}   = $data->{events}   if $data->{events};
 }
 
 sub _saveState {
@@ -145,8 +144,8 @@ sub _saveState {
     $self->{storage}->save(
         name => 'target',
         data => {
-            maxDelay    => $self->{maxDelay},
-            tasksExecPlan => $self->{tasksExecPlan},
+            maxDelay => $self->{maxDelay},
+            events   => $self->{events},
         }
     );
 }
