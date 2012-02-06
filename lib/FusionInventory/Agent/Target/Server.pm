@@ -89,22 +89,22 @@ sub prepareTasksExecPlan {
     return unless int($r->{configValidityPeriod});
     
 
-    foreach (@{$r->{schedule}}) {
-        next unless int($_->{periodicity});
-        next unless $_->{task} =~ /^\S+$/;
-        next unless $_->{remote} =~ /^\S+$/;
+    foreach my $event (@{$r->{schedule}}) {
+        next unless int($event->{periodicity});
+        next unless $event->{task} =~ /^\S+$/;
+        next unless $event->{remote} =~ /^\S+$/;
 
-        my $when = time + $_->{periodicity};
+        my $when = time + $event->{periodicity};
 
         # The first time we are the delayStartup
-        if (!$self->{configValidityNextCheck} && $_->{delayStartup}) {
-            $when += $_->{delayStartup};
+        if (!$self->{configValidityNextCheck} && $event->{delayStartup}) {
+            $when += $event->{delayStartup};
         }
 
         push @{$self->{tasksExecPlan}}, {
             when => $when,
-            task => $_->{task},
-            remote => $_->{remote}
+            task => $event->{task},
+            remote => $event->{remote}
         };
     }
 
