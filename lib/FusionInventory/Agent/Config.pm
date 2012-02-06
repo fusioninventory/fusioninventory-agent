@@ -17,59 +17,6 @@ my $default = {
 };
 
 my $deprecated = {
-    'info' => {
-        message => 'it was useless anyway'
-    },
-    'realm' => {
-        message => 'it is now useless'
-    },
-    'no-socket' => {
-        message => 'use --no-httpd option instead',
-        new     => 'no-httpd'
-    },
-    'rpc-ip' => {
-        message => 'use --httpd-ip option instead',
-        new     => 'httpd-ip'
-    },
-    'rpc-port' => {
-        message => 'use --httpd-port option instead',
-        new     => 'httpd-port'
-    },
-    'rpc-trust-localhost' => {
-        message => 'use --httpd-trust 127.0.0.1 option instead',
-        new     => { 'httpd-trust' => '127.0.0.1' }
-    },
-    'daemon-no-fork' => {
-        message => 'use --daemon and --no-fork options instead',
-        new     => [ 'daemon', 'no-fork' ]
-    },
-    'D' => {
-        message => 'use --daemon and --no-fork options instead',
-        new     => [ 'daemon', 'no-fork' ]
-    },
-    'no-inventory' => {
-        message => 'use --no-task inventory option instead',
-        new     => { 'no-task' => 'inventory' }
-    },
-    'no-wakeonlan' => {
-        message => 'use --no-task wakeonlan option instead',
-        new     => { 'no-task' => 'wakeonlan' }
-    },
-    'no-netdiscovery' => {
-        message => 'use --no-task netdiscovery option instead',
-        new     => { 'no-task' => 'netdiscovery' }
-    },
-    'no-snmpquery' => {
-        message => 'use --no-task snmpquery option instead',
-        new     => { 'no-task' => 'snmpquery' }
-    },
-    'no-ocsdeploy' => {
-        message => 'use --no-task ocsdeploy option instead',
-        new     => { 'no-task' => 'ocsdeploy' }
-    },
-    'html' => {
-        message => 'use --inventory-format=html',
-    }
 };
 
 sub new {
