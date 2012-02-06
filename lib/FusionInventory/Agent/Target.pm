@@ -43,27 +43,12 @@ sub _init {
     # handle persistent state
     $self->_loadState();
 
-#    $self->{nextRunDate} = $self->_computeNextRunDate()
-#        if !$self->{nextRunDate};
-
     $self->_saveState();
-
-#    $logger->debug(
-#        "[target $self->{id}] Next server contact planned for " .
-#        localtime($self->{nextRunDate})
-#    );
 
 }
 
 sub setShared {
     my ($self) = @_;
-
-    # make sure relevant attributes are shared between threads
-#    threads::shared->require();
-    # calling share(\$self->{status}) directly breaks in testing
-    # context, hence the need to use an intermediate variable
-#    my $nextRunDate = \$self->{nextRunDate};
-#    threads::shared::share($nextRunDate);
 
     $self->{shared} = 1;
 }
@@ -73,14 +58,6 @@ sub getStorage {
 
     return $self->{storage};
 }
-
-#sub resetNextRunDate {
-#    my ($self) = @_;
-#
-#    lock($self->{nextRunDate}) if $self->{shared};
-#    $self->{nextRunDate} = $self->_computeNextRunDate();
-#    $self->_saveState();
-#}
 
 sub getEvents {
     my ($self) = @_;
@@ -188,14 +165,6 @@ the base directory of the storage area (mandatory)
 =head2 setShared()
 
 Ensure the target can be shared among threads
-
-=head2 getNextRunDate()
-
-Get nextRunDate attribute.
-
-=head2 resetNextRunDate()
-
-Set next execution date to a random value.
 
 =head2 getMaxDelay($maxDelay)
 
