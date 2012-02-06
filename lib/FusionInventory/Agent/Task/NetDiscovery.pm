@@ -117,6 +117,11 @@ my @dispatch_table = (
         module   => __PACKAGE__ . '::Manufacturer::Zebranet',
         function => 'getDescription'
     },
+    {
+        match    => qr/ZebraNet Wired PS/,
+        module   => __PACKAGE__ . '::Manufacturer::Zebranet',
+        function => 'getDescription'
+    },
 );
 
 sub isEnabled {
