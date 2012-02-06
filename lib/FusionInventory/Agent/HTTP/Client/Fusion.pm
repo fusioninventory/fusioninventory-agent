@@ -27,27 +27,26 @@ sub send {
     my $url = ref $params{url} eq 'URI' ?
         $params{url} : URI->new($params{url});
 
-    my $finalUrl = $url.'?action='.uri_escape($params{args}->{action});
+    $url .= '?action=' . uri_escape($params{args}->{action});
     foreach my $k (keys %{$params{args}}) {
         if (ref($params{args}->{$k}) eq 'ARRAY') {
             foreach (@{$params{args}->{$k}}) {
-                $finalUrl .= '&'.$k.'[]='.$self->_prepareVal($_ || '');
+                $url .= '&' . $k . '[]=' .$self->_prepareVal($_ || '');
             }
         } elsif (ref($params{args}->{$k}) eq 'HASH') {
             foreach (keys %{$params{args}->{$k}}) {
-                $finalUrl .= '&'.$k.'['.$_.']='.$self->_prepareVal($params{args}->{$k}{$_});
+                $url .= '&' . $k. '[' . $_. ']=' . $self->_prepareVal($params{args}->{$k}{$_});
             }
         } elsif ($k ne 'action' && length($params{args}->{$k})) {
-            $finalUrl .= '&'.$k.'='.$self->_prepareVal($params{args}->{$k});
+            $url .= '&' . $k . '=' . $self->_prepareVal($params{args}->{$k});
         }
-   }
+    }
 
-    $self->{logger}->debug2($finalUrl) if $self->{logger};
+    $self->{logger}->debug2($url) if $self->{logger};
 
-#    print $finalUrl."\n";
     my $request = HTTP::Request->new();
 
-    $request->uri($finalUrl);
+    $request->uri($url);
     if ($params{postData}) {
         $request->content($params{postData});
         $request->method('POST');
