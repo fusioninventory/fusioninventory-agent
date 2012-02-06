@@ -73,7 +73,7 @@ sub getDescription {
 }
 
 sub prepareTasksExecPlan {
-    my ($self, %params, $init) = @_;
+    my ($self, %params) = @_;
 
     my $r = $params{client}->send(
         url => $self->getUrl(),
