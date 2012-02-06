@@ -78,16 +78,15 @@ sub prepareTasksExecPlan {
     my $r = $params{client}->send(
         url => $self->getUrl(),
         args => {
-            action => 'getConfig',
+            action    => 'getConfig',
             machineid => $self->{deviceid},
-            task => $params{tasks}
+            task      => $params{tasks}
         }
     );
 
     return unless $r->{schedule};
     return unless @{$r->{schedule}};
     return unless int($r->{configValidityPeriod});
-    
 
     foreach my $event (@{$r->{schedule}}) {
         next unless int($event->{periodicity});
@@ -102,8 +101,8 @@ sub prepareTasksExecPlan {
         }
 
         push @{$self->{tasksExecPlan}}, {
-            when => $when,
-            task => $event->{task},
+            when   => $when,
+            task   => $event->{task},
             remote => $event->{remote}
         };
     }
