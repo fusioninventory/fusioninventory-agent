@@ -28,17 +28,19 @@ sub send {
         $params{url} : URI->new($params{url});
 
     $url .= '?action=' . uri_escape($params{args}->{action});
-    foreach my $k (keys %{$params{args}}) {
-        if (ref($params{args}->{$k}) eq 'ARRAY') {
-            foreach (@{$params{args}->{$k}}) {
-                $url .= '&' . $k . '[]=' .$self->_prepareVal($_ || '');
+
+    foreach my $arg (keys %{$params{args}}) {
+        my $value = $params{args}->{$arg};
+        if (ref $value eq 'ARRAY') {
+            foreach (@$value) {
+                $url .= '&' . $arg . '[]=' .$self->_prepareVal($_ || '');
             }
-        } elsif (ref($params{args}->{$k}) eq 'HASH') {
-            foreach (keys %{$params{args}->{$k}}) {
-                $url .= '&' . $k. '[' . $_. ']=' . $self->_prepareVal($params{args}->{$k}{$_});
+        } elsif (ref $value eq 'HASH') {
+            foreach (keys %$value) {
+                $url .= '&' . $arg . '[' . $_. ']=' . $self->_prepareVal($value->{$_});
             }
-        } elsif ($k ne 'action' && length($params{args}->{$k})) {
-            $url .= '&' . $k . '=' . $self->_prepareVal($params{args}->{$k});
+        } elsif ($arg ne 'action' && length($value)) {
+            $url .= '&' . $arg . '=' . $self->_prepareVal($value);
         }
     }
 
