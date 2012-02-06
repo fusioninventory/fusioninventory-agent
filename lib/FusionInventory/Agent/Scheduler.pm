@@ -5,6 +5,8 @@ use warnings;
 
 use FusionInventory::Agent::Logger;
 
+my $log_prefix = "[scheduler] ";
+
 sub new {
     my ($class, %params) = @_;
 
@@ -72,34 +74,33 @@ sub getNextTarget {
         my $event = shift @{$target->{tasksExecPlan}};
 
         if ($self->{lazy}) {
-# return next target if eligible, nothing otherwise
+            # return next target if eligible, nothing otherwise
             if (time > $event->{when}) {
-                $logger->debug("[scheduler] ".
-                        $target->{id}.
-                        "/".
-                        $event->{task}.
-                        " is ready");
+                $logger->info(
+                    $log_prefix .
+                    "$target->{id}/$event->{task} is ready"
+                );
                 return ($target, $event);
             } else {
                 $logger->info(
-                        "$target->{id} is not ready yet, next server " .
-                        "contact planned for " . localtime($target->getNextRunDate())
-                        );
+                    $log_prefix .
+                    "$target->{id} is not ready yet, next server contact " .
+                    "planned for " . localtime($target->getNextRunDate())
+                );
                 push @{$target->{tasksExecPlan}}, $event;
                 return;
             }
         } elsif ($self->{wait}) {
-# return next target after waiting for a random delay
+            # return next target after waiting for a random delay
             my $time = int rand($self->{wait});
             $logger->info(
-                    "[scheduler] sleeping for $time second(s) because of the wait " .
-                    "parameter"
-                    );
-            print "let's sleep $time\n";
+                $log_prefix .
+                "sleeping for $time second(s) because of the wait parameter"
+            );
             sleep $time;
             return ($target, $event);
         } else {
-# return next target immediatly
+            # return next target immediatly
             return ($target, $event);
         }
     }
