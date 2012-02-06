@@ -33,7 +33,7 @@ sub send {
         my $value = $params{args}->{$arg};
         if (ref $value eq 'ARRAY') {
             foreach (@$value) {
-                $url .= '&' . $arg . '[]=' .$self->_prepareVal($_ || '');
+                $url .= '&' . $arg . '[]=' . $self->_prepareVal($_ || '');
             }
         } elsif (ref $value eq 'HASH') {
             foreach (keys %$value) {
