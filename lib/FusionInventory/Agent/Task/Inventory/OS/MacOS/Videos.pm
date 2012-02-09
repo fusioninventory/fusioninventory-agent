@@ -79,10 +79,8 @@ sub doInventory {
     my %displays = _getDisplays();
     foreach my $section (keys %displays ) {
         foreach (@{$displays{$section}}) {
-            $inventory->addEntry(
-                    section => $section,
-                    entry   => $_,
-                    );
+            $inventory->addVideo(
+                  entry   => $_
         }
     }
 }
