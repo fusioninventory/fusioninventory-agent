@@ -63,6 +63,8 @@ sub send {
 
 #    print $finalUrl."\n";
     my $request = HTTP::Request->new();
+    $request->header( 'Content-Type' => 'application/json' );
+
 
     $request->uri($finalUrl);
     if ($params{postData}) {
