@@ -102,7 +102,7 @@ sub doInventory {
 }
 
 # Search serial when connected in USB
-sub _getUSBPrinterSerial {
+sub _getUSBPrinterSerialNumber {
     my ($portName) = @_;
 
     my $machKey = $Registry->Open('LMachine', { 
@@ -110,45 +110,62 @@ sub _getUSBPrinterSerial {
     }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
     # first, find the USB container ID for this printer
-    my $usbId;
-    my $usbprintKey = $machKey->{"SYSTEM/CurrentControlSet/Enum/USBPRINT"};
+    my $prefix = _getUSBPrefix(
+        $machKey->{"SYSTEM/CurrentControlSet/Enum/USBPRINT"},
+        $portName
+    );
+    return unless $prefix;
+
+    # second, get the serial number from the ID container entry
+    my $serial = _getUSBSerial(
+        $machKey->{"SYSTEM/CurrentControlSet/Enum/USB"},
+        $prefix
+    );
+
+    return $serial;
+}
+
+sub _getUSBPrefix {
+    my ($printKey, $portName) = @_;
 
     # find the printer entry matching given portname
-    PRINTER: foreach my $printerKey (values %$usbprintKey) {
+    foreach my $printerKey (values %$printKey) {
         # look for a subkey with expected content
-        foreach my $subKey (values %$printerKey) {
+        foreach my $subKeyName (keys %$printerKey) {
+            my $subKey = $printerKey->{$subKeyName};
             next unless 
                 $subKey->{'Device Parameters/'}                &&
                 $subKey->{'Device Parameters/'}->{'/PortName'} &&
                 $subKey->{'Device Parameters/'}->{'/PortName'} eq $portName;
             # got it
-            $usbId = $subKey->{'/ContainerID'};
-            last PRINTER;
+            my $prefix = $subKeyName;
+            $prefix =~ s{&$portName/$}{};
+            return $prefix;
         };
     }
 
-    return unless $usbId;
+    return;
+}
 
-    # second, get the serial number from the ID container entry
-    my $serial;
-    my $usbKey = $machKey->{"SYSTEM/CurrentControlSet/Enum/USB"};
+sub _getUSBSerial {
+    my ($usbKey, $prefix) = @_;
 
     # find the device entry matching given container Id
-    DEVICE: foreach my $deviceKey (values %$usbKey) {
+    foreach my $deviceKey (values %$usbKey) {
         # look for a subkey with expected content
         foreach my $subKeyName (keys %$deviceKey) {
             my $subKey = $deviceKey->{$subKeyName};
             next unless
-                $subKey->{'/ContainerId'} &&
-                $subKey->{'/ContainerId'} eq $usbId;
+                $subKey->{'/ParentIdPrefix'} &&
+                $subKey->{'/ParentIdPrefix'} eq $prefix;
             # got it
-            $serial = $subKeyName;
+            my $serial = $subKeyName;
             $serial =~ s{/$}{};
-            last DEVICE;
+            return $serial;
         }
     }
 
-    return $serial;
+    return;
 }
 
 1;
