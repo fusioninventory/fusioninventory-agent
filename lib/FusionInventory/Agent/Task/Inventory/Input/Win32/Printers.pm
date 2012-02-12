@@ -101,8 +101,7 @@ sub doInventory {
     }    
 }
 
-# Search serial when connected in USB
-sub _getUSBPrinterSerialNumber {
+sub _getUSBPrinterSerial {
     my ($portName) = @_;
 
     my $machKey = $Registry->Open('LMachine', { 
