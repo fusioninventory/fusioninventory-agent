@@ -17,9 +17,7 @@ sub doInventory {
 
     foreach my $object (getWmiObjects(
         class      => 'Win32_SystemSlot',
-        properties => [ qw/
-            Name Description SlotDesignation Status Shared
-        / ]
+        properties => [ qw/Name Description SlotDesignation Status/ ]
     )) {
 
         $inventory->addEntry(
@@ -29,7 +27,6 @@ sub doInventory {
                 DESCRIPTION => $object->{Description},
                 DESIGNATION => $object->{SlotDesignation},
                 STATUS      => $object->{Status},
-                SHARED      => $object->{Shared}
             }
         );
     }
