@@ -47,6 +47,8 @@ sub send {
     $self->{logger}->debug2($url) if $self->{logger};
 
     my $request = HTTP::Request->new();
+    $request->header( 'Content-Type' => 'application/json' );
+
 
     $request->uri($url);
     if ($params{postData}) {
