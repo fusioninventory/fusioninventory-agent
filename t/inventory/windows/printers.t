@@ -23,6 +23,9 @@ my %tests = (
         USB001 => [ '6&1086615&0',  'J5J126789' ],
         USB003 => [ '6&159b6df2&0', 'JV40VNJ' ],
         USB004 => [ '7&20bd29b5&0', '6&28e27c3d&0&0000' ],
+    },
+    7 => {
+        USB001 => [ '7&17e8a3c3&0',  'MY26K1K34C2L' ],
     }
 );
 
@@ -33,8 +36,8 @@ foreach my $test (keys %tests) {
 plan tests => $plan;
 
 foreach my $test (keys %tests) {
-    my $printKey = load_registry("resources/win32/printer/$test/USBPRINT.reg");
-    my $usbKey   = load_registry("resources/win32/printer/$test/USB.reg");
+    my $printKey = load_registry("resources/win32/registry/$test-USBPRINT.reg");
+    my $usbKey   = load_registry("resources/win32/registry/$test-USB.reg");
     foreach my $port (keys $tests{$test}) {
         my $prefix = FusionInventory::Agent::Task::Inventory::Input::Win32::Printers::_getUSBPrefix($printKey, $port);
         my $serial = FusionInventory::Agent::Task::Inventory::Input::Win32::Printers::_getUSBSerial($usbKey, $prefix);
