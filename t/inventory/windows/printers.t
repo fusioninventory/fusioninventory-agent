@@ -10,6 +10,7 @@ BEGIN {
     # use mock modules for non-available ones
     push @INC, 't/fake/windows' if $OSNAME ne 'MSWin32';
 }
+
 use FusionInventory::Agent::Task::Inventory::Input::Win32::Printers;
 
 my %tests = (
@@ -53,10 +54,15 @@ sub load_registry {
     my $root_key = {};
     my $current_key;
 
-    open (my $handle, '<:encoding(UTF-16LE)', $file) or die();
+    open (my $handle, '<', $file) or die "can't open $file: $ERRNO";
+
+    # this is a windows file
+    binmode $handle, ':encoding(UTF-16LE)';
+    binmode $handle, ':crlf';
+
     while (my $line = <$handle>) {
 
-        if ($line =~ /^ \[ ([^]]+) \]/x) {
+        if ($line =~ /^ \[ ([^]]+) \] $/x) {
             my $path = $1;
             my @path = split(/\\/, $path);
 

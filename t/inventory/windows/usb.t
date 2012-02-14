@@ -88,7 +88,7 @@ foreach my $test (keys %tests) {
             my @objects;
             my $object;
             while (my $line = <$handle>) {
-                if ($line =~ /^(\w+)=(.+)$/) {
+                if ($line =~ /^ (\w+) = (.+) $/x) {
                     my $key = $1;
                     my $value = $2;
                     next unless $properties{$key};
