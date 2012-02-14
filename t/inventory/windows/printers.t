@@ -5,7 +5,6 @@ use warnings;
 
 use English qw(-no_match_vars);
 use Test::More;
-use UNIVERSAL::require;
 
 BEGIN {
     # use mock modules for non-available ones
