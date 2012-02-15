@@ -18,6 +18,7 @@ sub new {
     my $self = {
         p2p                    => $params{data}->{p2p},
         p2p_retention_duration => $params{data}->{'p2p-retention-duration'},
+        uncompress             => $params{data}->{'uncompress'},
         mirrors                => $params{data}->{mirrors},
         multiparts             => $params{data}->{multiparts},
         name                   => $params{data}->{name},

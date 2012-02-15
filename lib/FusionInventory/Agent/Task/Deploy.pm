@@ -53,7 +53,7 @@ sub _validateAnswer {
         return;
     }
     foreach my $k (keys %{$answer->{associatedFiles}}) {
-        foreach (qw/mirrors multiparts name/) {
+        foreach (qw/mirrors multiparts name p2p-retention-duration p2p uncompress/) {
             if (!defined($answer->{associatedFiles}->{$k}->{$_})) {
                 $$msgRef = "Missing key `$_' in associatedFiles";
                 return;
