@@ -110,9 +110,13 @@ the logger object to use (default: a new stderr logger)
 
 =back
 
+=head2 isEnabled()
+
+This is a method to be implemented by each subclass.
+
 =head2 run()
 
-This is the method to be implemented by each subclass.
+This is a method to be implemented by each subclass.
 
 =head2 getOptionsFromServer($response, $name, $feature)
 
