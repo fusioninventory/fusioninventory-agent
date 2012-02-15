@@ -16,6 +16,18 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
+    foreach my $device (_getUSBDevices()) {
+        $inventory->addEntry(
+            section => 'USBDEVICES',
+            entry   => $device
+        );
+    }
+}
+
+sub _getUSBDevices {
+
+    my @devices;
+
     foreach my $object (getWmiObjects(
         class      => 'CIM_LogicalDevice',
         properties => [ qw/DeviceID Name/ ]
@@ -37,11 +49,10 @@ sub doInventory {
         # avoid duplicates
         next if $seen->{$device->{SERIAL}}++;
 
-        $inventory->addEntry(
-            section => 'USBDEVICES',
-            entry   => $device
-        );
+        push @devices, $device;
     }
+
+    return @devices;
 }
 
 1;
