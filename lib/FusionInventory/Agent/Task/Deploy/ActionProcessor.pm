@@ -27,7 +27,7 @@ sub new {
 }
 
 sub process {
-    my ( $self, $actionName, $params ) = @_;
+    my ( $self, $actionName, $params, $logger ) = @_;
 
     my $workdir = $self->{workdir};
 
@@ -46,23 +46,23 @@ sub process {
     } elsif ( $actionName eq 'move' ) {
         $ret =
           FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Move::do(
-            $params);
+            $params, $logger);
     } elsif ( $actionName eq 'copy' ) {
         $ret =
           FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Copy::do(
-            $params);
+            $params, $logger);
     } elsif ( $actionName eq 'mkdir' ) {
         $ret =
           FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Mkdir::do(
-            $params);
+            $params, $logger);
     } elsif ( $actionName eq 'delete' ) {
         $ret =
           FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Delete::do(
-            $params);
+            $params, $logger);
     } elsif ( $actionName eq 'cmd' ) {
         $ret =
           FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Cmd::do(
-            $params);
+            $params, $logger);
    } else {
         print "Unknown action type: `$actionName'\n";
         chdir($cwd);

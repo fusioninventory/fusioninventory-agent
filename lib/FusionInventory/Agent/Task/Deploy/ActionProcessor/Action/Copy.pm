@@ -9,14 +9,16 @@ use File::Copy::Recursive qw(rcopy);
 use File::Glob;
 
 sub do {
-    my ($params) = @_;
+    my ($params, $logger) = @_;
 
     my $msg = [];
     my $status = 1;
     foreach (File::Glob::glob($params->{from})) {
         if (!File::Copy::Recursive::rcopy($_, $params->{to})) {
-            push @$msg, "Failed to copy: `".$params->{from}."' to '".$params->{to};
+            my $m = "Failed to copy: `".$params->{from}."' to '".$params->{to};
+            push @$msg, $m;
             push @$msg, $ERRNO;
+            $logger->debug($m);
 
             $status = 0;
         }

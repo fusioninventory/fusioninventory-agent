@@ -7,14 +7,16 @@ use File::Path;
 
 
 sub do {
-    my ($params) = @_;
+    my ($params, $logger) = @_;
 
     my $msg = [];
     my $status = 1;
     foreach (@{$params->{list}}) {
         File::Path::mkpath($_);
         $status = 0 unless -d $_;
-        push @$msg, "Failed to create $_ directory";
+        my $m = "Failed to create $_ directory";
+        push @$msg, $m;
+        $logger->debug($m);
     }
     return {
     status => $status,

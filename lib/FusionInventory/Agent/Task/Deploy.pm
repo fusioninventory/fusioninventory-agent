@@ -367,7 +367,7 @@ sub processRemote {
 
 
             my $ret;
-            eval { $ret = $actionProcessor->process($actionName, $params); };
+            eval { $ret = $actionProcessor->process($actionName, $params, $self->{logger}); };
             $ret->{msg} = [] unless $ret->{msg};
             push @{$ret->{msg}}, $@ if $@;
             if ( !$ret->{status} ) {

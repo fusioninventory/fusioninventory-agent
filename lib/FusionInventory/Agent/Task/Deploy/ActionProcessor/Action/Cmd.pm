@@ -6,6 +6,10 @@ use warnings;
 sub _evaluateRet {
     my ($retChecks, $buf, $exitStatus) = @_;
 
+use Data::Dumper;
+print Dumper($retChecks);
+print Dumper($exitStatus);
+
     if (ref($retChecks) ne 'ARRAY') {
         return [ 1, 'ok, no check to evaluate.' ];
     }
@@ -44,26 +48,28 @@ sub _evaluateRet {
 }
 
 sub do {
-    return { 0, ["Internal agent error"]} unless $_[0]->{exec};
+    my ($params, $logger) = @_;
+    return { 0, ["Internal agent error"]} unless $params->{exec};
 
     my %envsSaved;
 
 
-    if ($_[0]->{envs}) {
-        foreach my $key (keys %{$_[0]->{envs}}) {
+    if ($params->{envs}) {
+        foreach my $key (keys %{$params->{envs}}) {
             $envsSaved{$key} = $ENV{$key};
-            $ENV{$key} = $_[0]->{envs}{$key};
+            $ENV{$key} = $params->{envs}{$key};
         }
     }
 
-    my $buf = `$_[0]->{exec} 2>&1` || '';
-    print "Run: ".$buf."\n";
+    my $buf = `$params->{exec} 2>&1` || '';
+    my $errMsg = $!;
+    $logger->debug("Run: ".$buf);
     my $exitStatus = $? >> 8;
-    print "exitStatus: ".$exitStatus."\n";;
+    $logger->debug("exitStatus: ".$exitStatus);;
 
     my @retChecks;
 
-    my $logLineLimit =  $_[0]->{logLineLimit} || 3;
+    my $logLineLimit =  $params->{logLineLimit} || 3;
 
     my @msg;
     if($buf) {
@@ -77,14 +83,20 @@ sub do {
     shift @msg if @msg > $logLineLimit;
 
 # Use the retChecks key to know if the command exec is successful
-    my $t = _evaluateRet ($_[0]->{retChecks}, \$buf, $exitStatus);
+    my $t = _evaluateRet ($params->{retChecks}, \$buf, $exitStatus);
 
     my $status = $t->[0];
     push @msg, "--------------------------------";
+    push @msg, "error msg: `$errMsg'" if $errMsg;
     push @msg, "exit status: `$exitStatus'";
     push @msg, $t->[1];
 
-    if ($_[0]->{envs}) {
+    foreach (@msg) {
+        $logger->debug($_);
+    }
+    $logger->debug("exitStatus: ".$exitStatus);;
+
+    if ($params->{envs}) {
         foreach my $key (keys %envsSaved) {
             $ENV{$key} = $envsSaved{$key};
         }

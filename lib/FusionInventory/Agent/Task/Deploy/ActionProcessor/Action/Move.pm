@@ -10,14 +10,16 @@ use File::Glob;
 
 
 sub do {
-    my ($params) = @_;
+    my ($params, $logger) = @_;
 
     my $msg = [];
     my $status = 1;
     foreach (File::Glob::glob($params->{from})) {
         if (!File::Copy::Recursive::rmove($_, $params->{to})) {
-            push @$msg, "Failed to move: `".$params->{from}."' to '".$params->{to};
+            my $m = "Failed to move: `".$params->{from}."' to '".$params->{to};
+            push @$msg, $m;
             push @$msg, $ERRNO;
+            $logger->debug($m);
 
             $status = 0;
         }
