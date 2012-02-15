@@ -6,7 +6,7 @@ use warnings;
 use Config;
 use English qw(-no_match_vars);
 use File::Glob qw(:glob);
-use File::Path qw(make_path);
+use File::Path qw(mkpath);
 use Storable;
 
 use FusionInventory::Agent::Logger;
@@ -17,7 +17,7 @@ sub new {
     die "no directory parameter" unless $params{directory};
 
     if (!-d $params{directory}) {
-        make_path($params{directory}, {error => \my $err});
+        mkpath($params{directory}, {error => \my $err});
         if (@$err) {
             my (undef, $message) = %{$err->[0]};
             die "Can't create $params{directory}: $message";
