@@ -85,7 +85,8 @@ sub processRemote {
     }
 
     my $datastore = FusionInventory::Agent::Task::Deploy::Datastore->new(
-        path => $self->{target}{storage}{directory}.'/deploy' 
+        path => $self->{target}{storage}{directory}.'/deploy',
+        logger => $self->{logger}
     );
     $datastore->cleanUp();
 
@@ -100,7 +101,6 @@ sub processRemote {
             machineid => $self->{deviceid},
         }
     );
-
     if (ref($answer) eq 'HASH' && !keys %$answer) {
         $self->{logger}->debug("Nothing to do");
         return;

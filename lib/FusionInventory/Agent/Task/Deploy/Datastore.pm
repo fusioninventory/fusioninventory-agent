@@ -85,7 +85,8 @@ sub createWorkDir {
     return unless -d $path;
 
     return FusionInventory::Agent::Task::Deploy::Datastore::WorkDir->new(
-        path => $path
+        path => $path,
+        logger => $self->{logger}
     );
 }
 

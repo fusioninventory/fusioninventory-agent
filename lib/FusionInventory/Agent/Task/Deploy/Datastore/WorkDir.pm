@@ -13,6 +13,7 @@ sub new {
 
     my $self = {
         path  => $params{path},
+        logger => $params{logger},
         files => []
     };
 
@@ -36,38 +37,41 @@ sub addFile {
 sub prepare {
     my ($self) = @_;
 
+    my $logger = $self->{logger};
+use Data::Dumper;
+print Dumper($self->{files});
     foreach my $file (@{$self->{files}}) {
         my $finalFilePath = $self->{path}.'/'.$file->{name};
 
         my $fh;
         if (!open($fh, '>', $finalFilePath)) {
-            print "Failed to open '$finalFilePath': $ERRNO\n";
+            $logger->debug("Failed to open '$finalFilePath': $ERRNO");
             return;
         }
         binmode($fh);
         foreach my $sha512 (@{$file->{multiparts}}) {
             my $partFilePath = $file->getPartFilePath($sha512);
             if (! -f $partFilePath) {
-                print "Missing multipart element '$partFilePath'\n";
+                $logger->debug("Missing multipart element '$partFilePath'");
             }
 
             my $part;
             my $buf;
             if ($part = gzopen($partFilePath, 'rb')) {
 
-                print "reading $sha512\n";
+                $logger->debug("reading $sha512");
                 while ($part->gzread($buf, 1024)) {
                     print $fh $buf;
                 }
                 $part->gzclose;
             } else {
-                print "Failed to open '$partFilePath'\n";
+                $logger->info("Failed to open '$partFilePath'");
             }
         }
         close($fh);
 
         if (!$file->validateFileByPath($finalFilePath)) {
-            print "Failed to construct the final file.: $finalFilePath\n";
+            $logger->info("Failed to construct the final file.: $finalFilePath");
             return;
         }
 
@@ -81,9 +85,9 @@ sub prepare {
         if ($file->{uncompress}) {
             my $ae = Archive::Extract->new( archive => $finalFilePath );
             if (!$ae) {
-                print "Failed to create Archive::Extract object\n";
+                $logger->info("Failed to create Archive::Extract object");
             } elsif (!$ae->extract( to => $self->{path} )) {
-                print "Failed to extract '$finalFilePath'\n";
+                $logger->debug("Failed to extract '$finalFilePath'");
             }
             # We ignore failure here because one my have activated the
             # extract flag on common file and this should be harmless
