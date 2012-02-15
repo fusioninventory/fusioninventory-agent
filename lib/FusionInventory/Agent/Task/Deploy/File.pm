@@ -5,7 +5,7 @@ use warnings;
 
 use Digest::SHA;
 use File::Basename;
-use File::Path qw(make_path);
+use File::Path qw(mkpath);
 use File::Glob;
 use HTTP::Request;
 
@@ -80,7 +80,7 @@ sub download {
 
 MULTIPART: foreach my $sha512 (@{$self->{multiparts}}) {
         my $partFilePath = $self->getPartFilePath($sha512);
-        File::Path::make_path(dirname($partFilePath));
+        File::Path::mkpath(dirname($partFilePath));
         if (-f $partFilePath) {
                 next MULTIPART if _getSha512ByFile($partFilePath) eq $sha512;
         }

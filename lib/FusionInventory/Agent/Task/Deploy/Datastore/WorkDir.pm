@@ -6,7 +6,7 @@ use warnings;
 use Archive::Extract;
 use Compress::Zlib;
 use English qw(-no_match_vars);
-use File::Path qw(make_path);
+use File::Path qw(mkpath);
 
 sub new {
     my ($class, %params) = @_;

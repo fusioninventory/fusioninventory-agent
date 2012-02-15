@@ -12,7 +12,7 @@ sub do {
     my $msg = [];
     my $status = 1;
     foreach (@{$params->{list}}) {
-        File::Path::make_path($_);
+        File::Path::mkpath($_);
         $status = 0 unless -d $_;
         push @$msg, "Failed to create $_ directory";
     }

@@ -6,7 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 use File::Glob;
 use File::Spec;
-use File::Path qw(make_path remove_tree);
+use File::Path qw(mkpath remove_tree);
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
@@ -67,7 +67,7 @@ sub getPathBySha512 {
 
     my $filePath = $self->{path}.'/files/'.$shortSha;
 
-    if (-d $filePath || make_path($filePath)) {
+    if (-d $filePath || mkpath($filePath)) {
         return $filePath;
     } else {
         return;
@@ -77,11 +77,11 @@ sub getPathBySha512 {
 sub createWorkDir {
     my ($self, $uuid) = @_;
 
-#    make_path($filePath);
+#    mkpath($filePath);
 
     my $path = $self->{path}.'/workdir/'.$uuid;
 
-    make_path($path);
+    mkpath($path);
     return unless -d $path;
 
     return FusionInventory::Agent::Task::Deploy::Datastore::WorkDir->new(
