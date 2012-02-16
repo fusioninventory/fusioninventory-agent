@@ -123,12 +123,12 @@ sub _getScreensFromWindows {
         TiedRef     => \$Registry
     );
 
-    foreach my $screen (@screens) {
+    my $access = FusionInventory::Agent::Tools::Win32::is64bit() ?
+	Win32::TieRegistry::KEY_READ() |
+	    FusionInventory::Agent::Tools::Win32::KEY_WOW64_64() :
+	Win32::TieRegistry::KEY_READ();
 
-        my $access = FusionInventory::Agent::Tools::Win32::is64bit() ?
-            Win32::TieRegistry::KEY_READ() |
-                FusionInventory::Agent::Tools::Win32::KEY_WOW64_64() :
-            Win32::TieRegistry::KEY_READ();
+    foreach my $screen (@screens) {
 
         my $machKey = $Registry->Open('LMachine', {
             Access => $access
