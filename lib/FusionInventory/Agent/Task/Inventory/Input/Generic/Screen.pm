@@ -88,10 +88,9 @@ sub _getScreensFromWindows {
     )) {
         next unless $object->{InstanceName};
 
-        my $PNPDeviceID = $object->{InstanceName};
-        $PNPDeviceID =~ s/_\d+//;
+        $object->{InstanceName} =~ s/_\d+//;
         push @screens, {
-            id => $object->{PNPDeviceID}
+            id => $object->{InstanceName}
         };
     }
 
