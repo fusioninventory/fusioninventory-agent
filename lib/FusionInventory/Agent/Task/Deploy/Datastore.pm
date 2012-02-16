@@ -105,7 +105,7 @@ sub diskIsFull {
 	$freeSpace = 0;
     }
 
-    print "Free space on $self->{path}: $freeSpace\n";
+    $logger->debug("Free space on $self->{path}: $freeSpace");
     # 400MB Free, should be set by a config option
     return ($freeSpace < 2000);
 }

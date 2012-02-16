@@ -117,7 +117,8 @@ sub processRemote {
             client    => $self->{client},
             sha512    => $sha512,
             data      => $answer->{associatedFiles}{$sha512},
-            datastore => $datastore
+            datastore => $datastore,
+            logger    => $self->{logger}
         );
     }
 

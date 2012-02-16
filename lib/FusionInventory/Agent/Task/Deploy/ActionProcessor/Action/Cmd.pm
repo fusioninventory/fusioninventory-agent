@@ -6,10 +6,6 @@ use warnings;
 sub _evaluateRet {
     my ($retChecks, $buf, $exitStatus) = @_;
 
-use Data::Dumper;
-print Dumper($retChecks);
-print Dumper($exitStatus);
-
     if (ref($retChecks) ne 'ARRAY') {
         return [ 1, 'ok, no check to evaluate.' ];
     }

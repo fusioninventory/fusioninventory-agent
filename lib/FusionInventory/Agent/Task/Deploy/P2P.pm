@@ -17,7 +17,7 @@ my %cache = (
 );
 
 sub _computeIPToTest {
-    my ($addresses, $ipLimit) = @_;
+    my ($logger, $addresses, $ipLimit) = @_;
 
     # Max number of IP to pick from a network range
     $ipLimit = 255 unless $ipLimit;
@@ -46,7 +46,7 @@ sub _computeIPToTest {
         next if $ipStart eq $ipEnd;
 
         if ($ipInterval->size() > 5000) {
-            print("Range to large: ".$ipInterval->size()." (max 5000)\n");
+            $logger->debug("Range to large: ".$ipInterval->size()." (max 5000)");
             next;
         }
 
@@ -62,7 +62,7 @@ sub _computeIPToTest {
         } while (++$ipInterval && ($after < ($ipLimit / 2)));
 
 
-        print("Scanning from ".$newIPs[0]." to ".$newIPs[@newIPs-1]."\n");
+        $logger->debug("Scanning from ".$newIPs[0]." to ".$newIPs[@newIPs-1]) if $logger;
 
         push @ipToTest, @newIPs;
 
@@ -84,32 +84,31 @@ sub fisher_yates_shuffle {
 }
 
 sub findPeer {
-    my ( $port ) = @_;
+    my ( $port, $logger ) = @_;
 
-print "cachedate: ".$cache{date}."\n";
-    print("looking for a peer in the network\n");
+    $logger->debug("cachedate: ".$cache{date});
+    $logger->info("looking for a peer in the network");
     return $cache{data} if $cache{date} + 600 > time;
 
     my @addresses;
 
-    print $OSNAME."\n";
-    if ($OSNAME eq 'linux') {
-        FusionInventory::Agent::Tools::Linux->require();
-        @addresses =
-            map {
-                { 
-                    ip   => $_->{IPADDRESS},
-                    mask => $_->{IPMASK},
-                }
-            } 
-            grep { $_->{IPMASK} =~ /^255\.255\.255/ }
+       if ($OSNAME eq 'linux') {
+           FusionInventory::Agent::Tools::Linux->require();
+           @addresses =
+               map {
+                   {
+                       ip   => $_->{IPADDRESS},
+                       mask => $_->{IPMASK},
+                   }
+               }
+            grep { $_->{IPMASK} && $_->{IPMASK} =~ /^255\.255\.255/ }
             grep { $_->{STATUS} eq 'Up' }
             FusionInventory::Agent::Tools::Linux::getInterfacesFromIfconfig();
 
     } elsif ($OSNAME eq 'MSWin32') {
         foreach (`route print`) {
             if (/^\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s+(255\.255\.\d{1,3}\.\d{1,3})/x) {
-                push @addresses, { 
+                push @addresses, {
                     ip   => $1,
                     mask => $2
                 };
@@ -118,12 +117,12 @@ print "cachedate: ".$cache{date}."\n";
     }
 
     if (!@addresses) {
-        print "No network to scan...\n";
+        $logger->info("No network to scan...");
         return;
     }
 
     $cache{date}=time;
-    $cache{data}=scan({port => $port}, _computeIPToTest(\@addresses));
+    $cache{data}=scan({logger => $logger, port => $port}, _computeIPToTest($logger, \@addresses));
     return $cache{data};
 }
 
@@ -132,6 +131,7 @@ sub scan {
     my ($params, @ipToTestList) = @_;
     my $port = $params->{port};
     my $sha512 = $params->{sha512};
+    my $logger = $params->{logger};
 
 
     fisher_yates_shuffle(\@ipToTestList);
@@ -157,8 +157,6 @@ sub scan {
 
             return unless $ipToTest;
 
-            print ".";
-
             $_[KERNEL]->post(
                 "pinger", # Post the request to the "pingthing" component.
                 "ping",      # Ask it to "ping" an address.
@@ -175,11 +173,11 @@ sub scan {
 
                 if (!$addr) {
                     $ipCpt--;
-                    print "cpt:".$ipCpt."\n";
+                    $logger->debug("cpt:".$ipCpt);
 
                     return;
                 }
-                print($addr." is up\n");
+                $logger->debug($addr." is up");
 
                 POE::Component::Client::TCP->new(
                     RemoteAddress  => $addr,
@@ -198,7 +196,7 @@ sub scan {
     );
 # Run everything, and exit when it's all done.
     $poe_kernel->run();
-    print "byebye\n";
+    $logger->debug("end of POE loop");
     return \@ipFound;
 }
 

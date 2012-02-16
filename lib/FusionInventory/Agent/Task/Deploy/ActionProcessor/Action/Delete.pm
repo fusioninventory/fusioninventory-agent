@@ -18,7 +18,6 @@ sub do {
         push @$msg, $m;
         $logger->debug($m);
     }
-    push @$msg, "Failed to delete $_";
     return {
     status => $status,
     msg => $msg,

@@ -64,7 +64,7 @@ sub process {
           FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Cmd::do(
             $params, $logger);
    } else {
-        print "Unknown action type: `$actionName'\n";
+        $logger->debug("Unknown action type: `$actionName'");
         chdir($cwd);
         return {
             status => 0,

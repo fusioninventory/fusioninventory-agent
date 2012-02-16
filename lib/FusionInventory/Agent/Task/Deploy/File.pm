@@ -25,6 +25,7 @@ sub new {
         sha512                 => $params{sha512},
         datastore              => $params{datastore},
         client                 => $params{client},
+        logger                 => $params{logger}
     };
 
     bless $self, $class;
@@ -83,12 +84,12 @@ MULTIPART: foreach my $sha512 (@{$self->{multiparts}}) {
         my $partFilePath = $self->getPartFilePath($sha512);
         File::Path::mkpath(dirname($partFilePath));
         if (-f $partFilePath) {
-                next MULTIPART if _getSha512ByFile($partFilePath) eq $sha512;
+                next MULTIPART if $self->_getSha512ByFile($partFilePath) eq $sha512;
         }
 
         eval {
             if ($self->{p2p} && (ref($p2pHostList) ne 'ARRAY') && FusionInventory::Agent::Task::Deploy::P2P->require) {
-                $p2pHostList = FusionInventory::Agent::Task::Deploy::P2P::findPeer(62354);
+                $p2pHostList = FusionInventory::Agent::Task::Deploy::P2P::findPeer(62354, $self->{logger});
             }
         };
 
@@ -96,13 +97,13 @@ MULTIPART: foreach my $sha512 (@{$self->{multiparts}}) {
             next unless $sha512 =~ /^(.)(.)/;
             my $sha512dir = $1.'/'.$1.$2.'/';
 
-            print $mirror.$sha512dir.$sha512."\n";
+            $self->{logger}->debug($mirror.$sha512dir.$sha512);
 
             my $request = HTTP::Request->new(GET => $mirror.$sha512dir.$sha512);
             my $response = $self->{client}->request($request, $partFilePath);
 
             if (($response->code == 200) && -f $partFilePath) {
-                if (_getSha512ByFile($partFilePath) eq $sha512) {
+                if ($self->_getSha512ByFile($partFilePath) eq $sha512) {
                     next MULTIPART;
                 }
             }
@@ -126,7 +127,7 @@ sub filePartsExists {
 }
 
 sub _getSha512ByFile {
-    my ($filePath) = @_;
+    my ($self, $filePath) = @_;
 
     my $sha = Digest::SHA->new('512');
 
@@ -135,7 +136,7 @@ sub _getSha512ByFile {
         $sha->addfile($filePath, 'b');
         $sha512 = $sha->hexdigest;
     };
-    print "SHA512 failure: $@\n" if $@;
+    $self->{logger}->debug("SHA512 failure: $@") if $@;
 
     return $sha512;
 }
@@ -145,7 +146,7 @@ sub validateFileByPath {
 
 
     if (-f $filePath) {
-        if (_getSha512ByFile($filePath) eq $self->{sha512}) {
+        if ($self->_getSha512ByFile($filePath) eq $self->{sha512}) {
             return 1;
         }
     }
