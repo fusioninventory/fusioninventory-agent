@@ -1,0 +1,2 @@
+*.reg eol=crlf
+*.wmi eol=crlf
