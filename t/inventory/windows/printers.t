@@ -31,14 +31,14 @@ my %tests = (
 
 my $plan = 0;
 foreach my $test (keys %tests) {
-    $plan += 2 * scalar (keys $tests{$test});
+    $plan += 2 * scalar (keys %{$tests{$test}});
 }
 plan tests => $plan;
 
 foreach my $test (keys %tests) {
     my $printKey = load_registry("resources/win32/registry/$test-USBPRINT.reg");
     my $usbKey   = load_registry("resources/win32/registry/$test-USB.reg");
-    foreach my $port (keys $tests{$test}) {
+    foreach my $port (keys %{$tests{$test}}) {
         my $prefix = FusionInventory::Agent::Task::Inventory::Input::Win32::Printers::_getUSBPrefix($printKey, $port);
         my $serial = FusionInventory::Agent::Task::Inventory::Input::Win32::Printers::_getUSBSerial($usbKey, $prefix);
 
