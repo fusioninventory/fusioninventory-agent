@@ -439,6 +439,10 @@ sub processRemote {
 sub run {
     my ($self, %params) = @_;
 
+    # Turn off localised output for commands
+    $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
+    $ENV{LANG} = 'C'; # Turn off localised output for commands
+
     $self->{client} = FusionInventory::Agent::HTTP::Client::Fusion->new(
         logger       => $self->{logger},
         user         => $params{user},
