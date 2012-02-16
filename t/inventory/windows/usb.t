@@ -75,7 +75,7 @@ foreach my $test (keys %tests) {
         sub {
             my (%params) = @_;
 
-            my $file = "resources/win32/wmi/$test-$params{class}";
+            my $file = "resources/win32/wmi/$test-$params{class}.wmi";
             open (my $handle, '<', $file) or die "can't open $file: $ERRNO";
 
             # this is a windows file
