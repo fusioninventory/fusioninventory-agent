@@ -68,7 +68,6 @@ foreach my $test (keys %tests) {
             open (my $handle, '<', $file) or die "can't open $file: $ERRNO";
 
             # this is a windows file
-            #binmode $handle, ':crlf';
             binmode $handle, ':encoding(UTF-16LE)';
             local $INPUT_RECORD_SEPARATOR="\r\n";
 
@@ -79,6 +78,7 @@ foreach my $test (keys %tests) {
             my $object;
             while (my $line = <$handle>) {
                 chomp $line;
+
                 if ($line =~ /^ (\w+) = (.+) $/x) {
                     my $key = $1;
                     my $value = $2;
@@ -87,6 +87,7 @@ foreach my $test (keys %tests) {
                     $object->{$key} = $value;
                     next;
                 }
+
                 if ($line =~ /^$/) {
                     push @objects, $object if $object;
                     undef $object;
