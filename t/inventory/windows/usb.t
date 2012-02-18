@@ -18,47 +18,36 @@ use FusionInventory::Agent::Task::Inventory::Input::Win32::USB;
 my %tests = (
     7 => [
         {
-            NAME      => 'Périphérique audio USB',
-            SERIAL    => 'MI_02\\7',
-            VENDORID  => '046D',
-            PRODUCTID => '08C9'
-        },
-        {
-            NAME      => 'Périphérique d’entrée USB',
-            SERIAL    => 'MI_01\\7',
-            VENDORID  => '046D',
-            PRODUCTID => 'C30A'
-        },
-        {
             NAME      => 'Generic USB Hub',
-            SERIAL    => '1C9B8E1E',
             VENDORID  => '8087',
             PRODUCTID => '0024'
         },
         {
             NAME      => 'Generic USB Hub',
-            SERIAL    => '355C47BA',
             VENDORID  => '8087',
             PRODUCTID => '0024'
         },
         {
             NAME      => 'ASUS Bluetooth',
-            SERIAL    => 'DF2EE03',
             VENDORID  => '0B05',
             PRODUCTID => '179C'
         },
         {
             NAME      => 'Périphérique USB composite',
-            SERIAL    => '\\6BE882AB',
+            SERIAL    => '6BE882AB',
             VENDORID  => '046D',
             PRODUCTID => '08C9'
         },
         {
-            NAME      => 'Périphérique vidéo USB',
-            SERIAL    => 'MI_00\\7',
+            NAME      => 'Périphérique d’entrée USB',
             VENDORID  => '046D',
-            PRODUCTID => '08C9'
-        }
+            PRODUCTID => 'C03E'
+        },
+        {
+            NAME      => 'Périphérique USB composite',
+            VENDORID  => '046D',
+            PRODUCTID => 'C30A'
+        },
     ]
 );
 
@@ -79,8 +68,9 @@ foreach my $test (keys %tests) {
             open (my $handle, '<', $file) or die "can't open $file: $ERRNO";
 
             # this is a windows file
+            #binmode $handle, ':crlf';
             binmode $handle, ':encoding(UTF-16LE)';
-            binmode $handle, ':crlf';
+            local $INPUT_RECORD_SEPARATOR="\r\n";
 
             # build a list of desired properties indexes
             my %properties = map { $_ => 1 } @{$params{properties}};
@@ -88,6 +78,7 @@ foreach my $test (keys %tests) {
             my @objects;
             my $object;
             while (my $line = <$handle>) {
+                chomp $line;
                 if ($line =~ /^ (\w+) = (.+) $/x) {
                     my $key = $1;
                     my $value = $2;
