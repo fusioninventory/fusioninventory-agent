@@ -1,2 +1,3 @@
-*.reg eol=crlf
-*.wmi eol=crlf
+# prevent any eol normalization
+*.reg -text
+*.wmi -text
