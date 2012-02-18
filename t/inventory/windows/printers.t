@@ -58,9 +58,10 @@ sub load_registry {
 
     # this is a windows file
     binmode $handle, ':encoding(UTF-16LE)';
-    binmode $handle, ':crlf';
+    local $INPUT_RECORD_SEPARATOR="\r\n";
 
     while (my $line = <$handle>) {
+        chomp $line;
 
         if ($line =~ /^ \[ ([^]]+) \] $/x) {
             my $path = $1;
