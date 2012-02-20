@@ -73,5 +73,4 @@ sub _getDisplays {
 
 }
 
-
 1;
