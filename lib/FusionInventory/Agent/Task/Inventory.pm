@@ -198,9 +198,9 @@ sub _initModulesList {
             }
         }
 
-        unless ($failed) {
+        if ($failed) {
             $self->{modules}->{$module}->{enabled} = 0;
-            $logger->debug("module $module disabled: no depended module failed");
+            $logger->debug("module $module disabled because of $failed");
         }
     }
 }
