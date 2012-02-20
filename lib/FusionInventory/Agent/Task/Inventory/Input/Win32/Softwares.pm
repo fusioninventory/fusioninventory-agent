@@ -175,7 +175,7 @@ sub _processMSIE {
     my $is64bit = $params{is64bit} || 0;
     my $machKey = $params{machKey};
 
-        my $name = "Internet Explorer";
+    my $name = "Internet Explorer";
     if ($is64bit) {
         $name .= " (64bit)";
     }
