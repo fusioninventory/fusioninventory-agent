@@ -162,8 +162,8 @@ sub _addSoftware {
 
     my $entry = $params{entry};
 
-        # avoid duplicates
-        return if $seen->{$entry->{NAME}}->{$entry->{IS64BIT}}{$entry->{VERSION} || '_undef_'}++;
+    # avoid duplicates
+    return if $seen->{$entry->{NAME}}->{$entry->{IS64BIT}}{$entry->{VERSION} || '_undef_'}++;
 
     $params{inventory}->addEntry(section => 'SOFTWARES', entry => $entry);
 }
