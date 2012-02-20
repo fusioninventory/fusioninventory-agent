@@ -68,7 +68,7 @@ sub doInventory {
             _addSoftware(inventory => $inventory, entry => $software);
         }
         _processMSIE(
-            machKey => $machKey64,
+            machKey => $machKey32,
             inventory => $inventory,
             is64bit => 0
         );
