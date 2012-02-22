@@ -99,10 +99,17 @@ MULTIPART: foreach my $sha512 (@{$self->{multiparts}}) {
 
             $self->{logger}->debug($mirror.$sha512dir.$sha512);
 
-            my $request = HTTP::Request->new(GET => $mirror.$sha512dir.$sha512);
-            my $response = $self->{client}->request($request, $partFilePath);
+            my $request;
+            my $response;
 
-            if (($response->code == 200) && -f $partFilePath) {
+            eval {
+                alarm 1800;
+                $request = HTTP::Request->new(GET => $mirror.$sha512dir.$sha512);
+                $response = $self->{client}->request($request, $partFilePath);
+                alarm 0;
+            };
+
+            if ($response && ($response->code == 200) && -f $partFilePath) {
                 if ($self->_getSha512ByFile($partFilePath) eq $sha512) {
                     next MULTIPART;
                 }
