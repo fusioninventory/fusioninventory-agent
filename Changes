@@ -1,5 +1,39 @@
 Revision history for FusionInventory::Agent
 
+2.1.14  Wed, 22 Feb 2012 14:56:51 -0000
+
+LINUX
+ ✔ Detected OS is &quot;RedHat&quot; for CentOS servers if lsb_release not available
+       commit:d3a252
+     http://forge.fusioninventory.org/issues/1193
+   thanks: Jonathan Clarke
+
+MACOSX
+ ✔ no-software option doesn't work as advertised
+       commit:18dfaf
+     http://forge.fusioninventory.org/issues/1476
+   thanks: Ronan Mejecaze
+ ✔ syntax error in Video module
+   thanks: Walid Nouh
+
+WINDOWS
+ ✔ No 2007 Microsoft Office system into XML
+       commit:39f3c7
+     http://forge.fusioninventory.org/issues/1065
+   thanks: Walid Nouh, Xavier Caillaud, jerome slayer
+ ✔ On Windows Vista Office 2007 is not correctly gathered
+       commit:39f3c7
+     http://forge.fusioninventory.org/issues/1425
+   thanks: Walid Nouh, Xavier Caillaud
+ ✔ VM System incorrect
+       commit:259996
+     http://forge.fusioninventory.org/issues/1436
+   thanks: Mario Gzuk
+ ✔ Inventory Internet Explorer when it's not present in Add/remove programs
+       commit:39f3c7
+     http://forge.fusioninventory.org/issues/1441
+   thanks: Walid Nouh, Xavier Caillaud, jerome slayer
+
 2.1.13  Wed, 14 Dec 2011 13:06:44 +0100
 
 TEST-SUITE
