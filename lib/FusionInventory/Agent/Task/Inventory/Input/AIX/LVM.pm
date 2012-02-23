@@ -2,15 +2,35 @@ package FusionInventory::Agent::Task::Inventory::Input::AIX::LVM;
 
 use FusionInventory::Agent::Tools;
 
-# LVM for AIX
 use strict;
-
 use warnings;
 
 use English qw(-no_match_vars);
 
 sub isEnabled {
     canRun("lspv");
+}
+
+sub doInventory {
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+
+    my $pvs       = _parsePvs();
+    foreach (@$pvs) {
+        $inventory->addEntry(section => 'PHYSICAL_VOLUMES', entry => $_);
+    }
+
+    my $lvs = _parseLvs();
+    foreach (@$lvs) {
+        $inventory->addEntry(section => 'LOGICAL_VOLUMES', entry => $_);
+    }
+
+    my $vgs = _parseVgs();
+    foreach (@$vgs) {
+        $inventory->addEntry(section => 'VOLUME_GROUPS', entry => $_);
+    }
+
 }
 
 sub _parseLvs {
@@ -179,28 +199,6 @@ sub _parseVgs {
     }
 
     return $entries;
-}
-
-sub doInventory {
-    my (%params) = @_;
-
-    my $inventory = $params{inventory};
-
-    my $pvs       = _parsePvs();
-    foreach (@$pvs) {
-        $inventory->addEntry(section => 'PHYSICAL_VOLUMES', entry => $_);
-    }
-
-    my $lvs = _parseLvs();
-    foreach (@$lvs) {
-        $inventory->addEntry(section => 'LOGICAL_VOLUMES', entry => $_);
-    }
-
-    my $vgs = _parseVgs();
-    foreach (@$vgs) {
-        $inventory->addEntry(section => 'VOLUME_GROUPS', entry => $_);
-    }
-
 }
 
 1;
