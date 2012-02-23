@@ -299,16 +299,6 @@ sub setTag {
 
 }
 
-sub checkContent {
-    my ($self, $args) = @_;
-
-    my $logger = $self->{logger};
-
-    my $missing = 0;
-    my $content = $self->{content};
-
-}
-
 sub computeChecksum {
     my ($self) = @_;
 
@@ -374,7 +364,7 @@ sub computeChecksum {
 }
 
 sub saveLastState {
-    my ($self, $args) = @_;
+    my ($self) = @_;
 
     my $logger = $self->{logger};
 
@@ -478,10 +468,6 @@ Set BIOS informations.
 =head2 setAccessLog()
 
 What is that for? :)
-
-=head2 checkContent()
-
-Check inventory content.
 
 =head2 computeChecksum()
 
