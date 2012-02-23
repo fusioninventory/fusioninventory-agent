@@ -65,10 +65,10 @@ sub _getLogicalVolume {
     foreach my $line (<$handle>) {
         chomp $line;
 
-        if ($line =~ /(\S+):.*/) {
+        if ($line =~ /(\S+):/) {
             $volume->{VG_UUID} = $1;
         }
-        if ($line !~ !/^LV NAME.*/ && $line =~ /(\S+) *(\S+) *(\d+) *(\d+) *(\d+) *(\S+) *(\S+)/) {
+        if ($line !~ !/^LV NAME/ && $line =~ /(\S+) *(\S+) *(\d+) *(\d+) *(\d+) *(\S+) *(\S+)/) {
             $volume->{LV_NAME}   = $1;
             $volume->{SEG_COUNT} = $3;
             $volume->{ATTR}      = "Type $2,PV: $5";
@@ -81,7 +81,7 @@ sub _getLogicalVolume {
         if (/.*PP SIZE:\s+(\d+) .*/) {
             $size = $1;
         }
-        if (/LV IDENTIFIER:      (\S+)/) {
+        if (/LV IDENTIFIER:\s+(\S+)/) {
             $volume->{LV_UUID} = $1;
         }
     }
@@ -129,22 +129,22 @@ sub _getPhysicalVolume {
     foreach my $line (<$handle>) {
         chomp $line;
 
-        if ($line =~ /PHYSICAL VOLUME:    (\S+)/) {
+        if ($line =~ /PHYSICAL VOLUME:\s+(\S+)/) {
             $volume->{FORMAT} = "AIX PV $1";
         }
-        if ($line =~ /FREE PPs:           (\d+) .*/) {
+        if ($line =~ /FREE PPs:\s+(\d+)/) {
             $free = $1;
         }
-        if ($line =~ /TOTAL PPs:          (\d+) .*/) {
+        if ($line =~ /TOTAL PPs:\s+(\d+)/) {
             $total = $1;
         }
-        if ($line =~ /VOLUME GROUP:     (\S+)/) {
+        if ($line =~ /VOLUME GROUP:\s+(\S+)/) {
             $volume->{ATTR} = "VG $1";
         }
-        if ($line =~ /PP SIZE:            (\d+) .*/) {
+        if ($line =~ /PP SIZE:\s+(\d+)/) {
             $volume->{PE_SIZE} = $1;
         }
-        if ($line =~ /PV IDENTIFIER:      (\S+)/) {
+        if ($line =~ /PV IDENTIFIER:\s+(\S+)/) {
             $volume->{PV_UUID} = $1;
         }
     }
@@ -193,22 +193,22 @@ sub _getVolumeGroup {
     foreach my $line (<$handle>) {
         chomp $line;
 
-        if ($line =~ /TOTAL PPs:      (\d+) .*/) {
+        if ($line =~ /TOTAL PPs:\s+(\d+)/) {
             $group->{SIZE} = $1;
         }
-        if ($line =~ /FREE PPs:       (\d+) .*/) {
+        if ($line =~ /FREE PPs:\s+(\d+)/) {
             $group->{FREE} = $1;
         }
-        if ($line =~ /VG IDENTIFIER:  (\S+)/) {
+        if ($line =~ /VG IDENTIFIER:\s+(\S+)/) {
             $group->{VG_UUID} = $1;
         }
-        if ($line =~ /PP SIZE:        (\d+) .*/) {
+        if ($line =~ /PP SIZE:\s+(\d+)/) {
             $group->{VG_EXTENT_SIZE} = $1;
         }
-        if ($line =~ /LVs:                (\d+) .*/) {
+        if ($line =~ /LVs:\s+(\d+)/) {
             $group->{LV_COUNT} = $1;
         }
-        if ($line =~/ACTIVE PVs:\s+(\d+) .*/) {
+        if ($line =~/ACTIVE PVs:\s+(\d+)/) {
             $group->{PV_COUNT} = $1;
         }
 
