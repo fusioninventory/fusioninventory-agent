@@ -106,7 +106,6 @@ sub _parseCstm {
 
     my %capacities;
     my $capacity = 0;
-    my $caption; 
     my $description;
     my $numslot = 1;
     my $subnumslot;

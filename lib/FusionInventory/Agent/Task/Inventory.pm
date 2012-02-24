@@ -123,7 +123,6 @@ sub _initModulesList {
 
     my $logger = $self->{logger};
     my $config = $self->{config};
-    my $storage = $self->{storage};
 
     my @modules = __PACKAGE__->getModules('Input');
     die "no inventory module found" if !@modules;

@@ -71,7 +71,6 @@ sub _getSlots5 {
     my $name;
     my $description;
     my $designation;
-    my $status;
 
     while (<$handle>) {
         last if /^\=+/ && $flag_pci && $flag;

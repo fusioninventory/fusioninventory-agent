@@ -15,7 +15,6 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger    = $params{logger};
 
     # Doesn't works on Win2003 Server
     # On Win7, we need to use SecurityCenter2

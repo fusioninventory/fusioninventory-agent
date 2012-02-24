@@ -36,7 +36,6 @@ sub _getDisplays {
     foreach my $videoName (keys %{$infos->{'Graphics/Displays'}}) {
         my $videoCardInfo = $infos->{'Graphics/Displays'}{$videoName};
 
-        my $displays = {};
         foreach my $displayName (keys %{$videoCardInfo->{Displays}}) {
             next if $displayName eq 'Display Connector';
             next if $displayName eq 'Display';

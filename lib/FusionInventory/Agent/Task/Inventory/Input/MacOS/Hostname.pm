@@ -15,7 +15,6 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger    = $params{logger};
 
     my $prof = Mac::SysProfile->new();
     my $info = $prof->gettype('SPSoftwareDataType');

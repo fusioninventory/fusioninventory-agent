@@ -43,7 +43,6 @@ sub _getRHNSystemId {
     return unless -f $file;
     my $tpp = XML::TreePP->new();
     my $h = $tpp->parsefile($file);
-    my $v;
     eval {
         foreach (@{$h->{params}{param}{value}{struct}{member}}) {
             next unless $_->{name} eq 'system_id';
