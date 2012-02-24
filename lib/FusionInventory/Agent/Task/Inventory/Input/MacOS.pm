@@ -18,8 +18,8 @@ sub doInventory {
 
     my ($OSName, $OSVersion);
 
-    # if we can load the system profiler, gather the information from that
     if (canLoad("Mac::SysProfile")) {
+        # use system profiler if available
         my $prof = Mac::SysProfile->new();
         my $info = $prof->gettype('SPSoftwareDataType');
         return unless ref $info eq 'HASH';
@@ -36,8 +36,7 @@ sub doInventory {
         }
 
     } else {
-        # we can't load the system profiler, use the basic BSD stype information
-        # Operating system informations
+        # fallback on basic BSD type information otherwise
         $OSName = getFirstLine(command => 'uname -s');
         $OSVersion = getFirstLine(command => 'uname -r');
     }
