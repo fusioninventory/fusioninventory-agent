@@ -34,12 +34,12 @@ sub _getDisplays {
     my $videos = [];
 
     foreach my $videoName (keys %{$infos->{'Graphics/Displays'}}) {
-        my $videoCardInfo = $infos->{'Graphics/Displays'}{$videoName};
+        my $videoCardInfo = $infos->{'Graphics/Displays'}->{$videoName};
 
         foreach my $displayName (keys %{$videoCardInfo->{Displays}}) {
             next if $displayName eq 'Display Connector';
             next if $displayName eq 'Display';
-            my $displayInfo = $videoCardInfo->{Displays}{$displayName};
+            my $displayInfo = $videoCardInfo->{Displays}->{$displayName};
 
             my $resolution = $displayInfo->{Resolution};
             if ($resolution) {
