@@ -27,7 +27,6 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger    = $params{logger};
 
     if (is64bit()) {
 
@@ -49,9 +48,9 @@ sub doInventory {
             _addSoftware(inventory => $inventory, entry => $software);
         }
         _processMSIE(
-            machKey => $machKey64,
+            machKey   => $machKey64,
             inventory => $inventory,
-            is64bit => 1
+            is64bit   => 1
         );
 
         my $machKey32 = $Registry->Open('LMachine', {
@@ -68,9 +67,9 @@ sub doInventory {
             _addSoftware(inventory => $inventory, entry => $software);
         }
         _processMSIE(
-            machKey => $machKey32,
+            machKey   => $machKey32,
             inventory => $inventory,
-            is64bit => 0
+            is64bit   => 0
         );
 
 
@@ -89,9 +88,9 @@ sub doInventory {
             _addSoftware(inventory => $inventory, entry => $software);
         }
         _processMSIE(
-            machKey => $machKey,
+            machKey   => $machKey,
             inventory => $inventory,
-            is64bit => 0
+            is64bit   => 0
         );
     }
 }
@@ -117,7 +116,6 @@ sub _getSoftwares {
     my (%params) = @_;
 
     my $softwares = $params{softwares};
-    my $is64bit   = $params{is64bit};
 
     my @softwares;
 
@@ -144,7 +142,7 @@ sub _getSoftwares {
             VERSION_MINOR    => hex2dec($data->{'/MinorVersion'}),
             VERSION_MAJOR    => hex2dec($data->{'/MajorVersion'}),
             NO_REMOVE        => hex2dec($data->{'/NoRemove'}),
-            IS64BIT          => $is64bit,
+            IS64BIT          => $params{is64bit},
             GUID             => $guid,
         };
 
@@ -169,29 +167,24 @@ sub _addSoftware {
 }
 
 sub _processMSIE {
-    my %params = @_;
+    my (%params) = @_;
 
-    my $inventory = $params{inventory};
-    my $is64bit = $params{is64bit} || 0;
-    my $machKey = $params{machKey};
-
-    my $name = "Internet Explorer";
-    if ($is64bit) {
-        $name .= " (64bit)";
-    }
-    my $version = $params{machKey}->{"SOFTWARE/Microsoft/Internet Explorer/Version"};
+    my $name = $params{is64bit} ?
+        "Internet Explorer (64bit)" : "Internet Explorer";
+    my $version = 
+        $params{machKey}->{"SOFTWARE/Microsoft/Internet Explorer/Version"};
 
     _addSoftware(
         inventory => $params{inventory},
-        entry => {
-            FROM => "registry",
-            IS64BIT => $is64bit,
-            NAME => $name,
-            VERSION => $version,
-        PUBLISHER => "Microsoft Corporation"
-    });
+        entry     => {
+            FROM      => "registry",
+            IS64BIT   => $params{is64bit},
+            NAME      => $name,
+            VERSION   => $version,
+            PUBLISHER => "Microsoft Corporation"
+        }
+    );
 
 }
-
 
 1;
