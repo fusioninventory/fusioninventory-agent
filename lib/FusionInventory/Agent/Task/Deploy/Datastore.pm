@@ -47,7 +47,7 @@ sub cleanUp {
     }
     if (-d $self->{path}.'/fileparts/shared/') {
         foreach my $sharedSubDir (File::Glob::glob($self->{path}.'/fileparts/shared/*')) {
-            next unless $sharedSubDir =~ /(\d+)/;
+            next unless $sharedSubDir =~ /(\d+)$/;
             if (time > $1 || $diskFull) {
                 remove_tree( $sharedSubDir, {error => \my $err} );
             }
