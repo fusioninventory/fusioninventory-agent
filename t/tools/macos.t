@@ -18,9 +18,8 @@ my %system_profiler_tests = (
                 'BSD Device Name' => 'en1',
                 'Ethernet' => {
                     'MAC Address' => '00:14:51:61:ef:09',
-                    'Media Options' => {
-                        'Media Subtype' => 'autoselect'
-                    }
+                    'Media Options' => undef,
+                    'Media Subtype' => 'autoselect'
                 },
                 'Hardware' => 'Ethernet',
                 'Type' => 'Ethernet',
@@ -29,10 +28,9 @@ my %system_profiler_tests = (
                 },
                 'Proxies' => {
                     'Proxy Configuration Method' => 'Manual',
-                    'ExcludeSimpleHostnames' => {
-                        'Auto Discovery Enabled' => 'No',
-                        'FTP Passive Mode' => 'Yes'
-                    }
+                    'ExcludeSimpleHostnames' => 0,
+                    'Auto Discovery Enabled' => 'No',
+                    'FTP Passive Mode' => 'Yes'
                 }
             },
             'Modem interne' => {
@@ -48,10 +46,9 @@ my %system_profiler_tests = (
                 'Hardware' => 'Modem',
                 'Proxies' => {
                     'Proxy Configuration Method' => 'Manual',
-                    'ExcludeSimpleHostnames' => {
-                        'Auto Discovery Enabled' => 'No',
-                        'FTP Passive Mode' => 'Yes'
-                    }
+                    'ExcludeSimpleHostnames' => 0,
+                    'Auto Discovery Enabled' => 'No',
+                    'FTP Passive Mode' => 'Yes'
                 }
             },
             'Ethernet intégré' => {
@@ -74,12 +71,11 @@ my %system_profiler_tests = (
                 'IPv4 Addresses' => '10.0.1.110',
                 'DHCP Server Responses' => {
                     'Domain Name' => 'lan',
-                    'Lease Duration (seconds)' => {
-                        'Routers' => '10.0.1.1',
-                        'Subnet Mask' => '255.255.255.0',
-                        'Server Identifier' => '10.0.1.1',
-                        'DHCP Message Type' => '0x05'
-                    },
+                    'Lease Duration (seconds)' => 0,
+                    'Routers' => '10.0.1.1',
+                    'Subnet Mask' => '255.255.255.0',
+                    'Server Identifier' => '10.0.1.1',
+                    'DHCP Message Type' => '0x05',
                     'Domain Name Servers' => '10.0.1.1'
                 },
                 'IPv4' => {
@@ -112,10 +108,9 @@ my %system_profiler_tests = (
                 'Hardware' => 'Modem',
                 'Proxies' => {
                     'Proxy Configuration Method' => 'Manual',
-                    'ExcludeSimpleHostnames' => {
-                        'Auto Discovery Enabled' => 'No',
-                        'FTP Passive Mode' => 'Yes'
-                    }
+                    'ExcludeSimpleHostnames' => 0,
+                    'Auto Discovery Enabled' => 'No',
+                    'FTP Passive Mode' => 'Yes'
                 }
             },
             'FireWire intégré' => {
@@ -136,10 +131,9 @@ my %system_profiler_tests = (
                 },
                 'Proxies' => {
                     'Proxy Configuration Method' => 'Manual',
-                    'ExcludeSimpleHostnames' => {
-                        'Auto Discovery Enabled' => 'No',
-                        'FTP Passive Mode' => 'Yes'
-                    }
+                    'ExcludeSimpleHostnames' => 0,
+                    'Auto Discovery Enabled' => 'No',
+                    'FTP Passive Mode' => 'Yes'
                 }
             }
         },
@@ -159,11 +153,10 @@ my %system_profiler_tests = (
                             'Configuration Method' => 'DHCP'
                         },
                         'Proxies' => {
-                            'Auto Discovery Enabled' => {},
+                            'Auto Discovery Enabled' => 0,
                             'Proxy Configuration Method' => '2',
-                            'ExcludeSimpleHostnames' => {
-                                'FTP Passive Mode' => '1'
-                            }
+                            'ExcludeSimpleHostnames' => 0,
+                            'FTP Passive Mode' => '1'
                         },
                         'Hardware (MAC) Address' => '00:14:51:61:ef:09'
                     },
@@ -176,36 +169,32 @@ my %system_profiler_tests = (
                             'Configuration Method' => 'PPP'
                         },
                         'Proxies' => {
-                            'Auto Discovery Enabled' => {},
+                            'Auto Discovery Enabled' => 0,
                             'Proxy Configuration Method' => '2',
-                            'ExcludeSimpleHostnames' => {
-                                'FTP Passive Mode' => '1'
-                            }
+                            'ExcludeSimpleHostnames' => 0,
+                            'FTP Passive Mode' => '1'
                         },
                         'PPP' => {
-                            'ACSP Enabled' => {},
-                            'Idle Reminder' => {
-                                'IPCP Compression VJ' => '1',
-                                'LCP Echo Interval' => '10',
-                                'LCP Echo Enabled' => '1',
-                                'Log File' => '/var/log/ppp.log',
-                                'Idle Reminder Time' => '1800',
-                                'LCP Echo Failure' => '4'
-                            },
-                            'Verbose Logging' => {},
-                            'Dial On Demand' => {
-                                'Disconnect On Logout' => '1',
-                                'Disconnect On Idle Timer' => '600',
-                                'Disconnect On Idle' => '1',
-                                'Disconnect On Fast User Switch' => '1',
-                                'Disconnect On Sleep' => '1'
-                            },
-                            'Display Terminal Window' => {
-                               'Redial Enabled' => '1',
-                               'Redial Count' => '1',
-                               'Redial Interval' => '5'
-                             },
-                            'Use Terminal Script' => {}
+                            'ACSP Enabled' => 0,
+                            'Idle Reminder' => 0,
+                            'IPCP Compression VJ' => '1',
+                            'LCP Echo Interval' => '10',
+                            'LCP Echo Enabled' => '1',
+                            'Log File' => '/var/log/ppp.log',
+                            'Idle Reminder Time' => '1800',
+                            'LCP Echo Failure' => '4',
+                            'Verbose Logging' => 0,
+                            'Dial On Demand' => 0,
+                            'Disconnect On Logout' => '1',
+                            'Disconnect On Idle Timer' => '600',
+                            'Disconnect On Idle' => '1',
+                            'Disconnect On Fast User Switch' => '1',
+                            'Disconnect On Sleep' => '1',
+                            'Display Terminal Window' => 0,
+                            'Redial Enabled' => '1',
+                            'Redial Count' => '1',
+                            'Redial Interval' => '5',
+                            'Use Terminal Script' => 0,
                         }
                     },
                     'Ethernet intégré' => {
@@ -221,14 +210,13 @@ my %system_profiler_tests = (
                             'Configuration Method' => 'DHCP'
                         },
                         'Proxies' => {
-                            'SOCKS Proxy Enabled' => {},
-                            'HTTPS Proxy Enabled' => {},
-                            'FTP Proxy Enabled' => {
-                                'FTP Passive Mode' => '1'
-                            },
-                            'Gopher Proxy Enabled' => {},
-                            'HTTP Proxy Enabled' => {},
-                            'RTSP Proxy Enabled' => {}
+                            'SOCKS Proxy Enabled' => 0,
+                            'HTTPS Proxy Enabled' => 0,
+                            'FTP Proxy Enabled' => 0,
+                            'FTP Passive Mode' => '1',
+                            'Gopher Proxy Enabled' => 0,
+                            'HTTP Proxy Enabled' => 0,
+                            'RTSP Proxy Enabled' => 0,
                         },
                         'Hardware (MAC) Address' => '00:14:51:61:ef:08'
                     },
@@ -241,37 +229,32 @@ my %system_profiler_tests = (
                             'Configuration Method' => 'PPP'
                         },
                         'Proxies' => {
-                            'Auto Discovery Enabled' => {},
+                            'Auto Discovery Enabled' => 0,
                             'Proxy Configuration Method' => '2',
-                            'ExcludeSimpleHostnames' => {
-                                'FTP Passive Mode' => '1'
-                            }
+                            'ExcludeSimpleHostnames' => 0,
+                            'FTP Passive Mode' => '1'
                         },
                         'PPP' => {
-                            'ACSP Enabled' => {},
-                            'Idle Reminder' => {
-                                'IPCP Compression VJ' => '1',
-                                'Idle Reminder Time' => '1800'
-                            },
-                            'Verbose Logging' => {},
-                            'LCP Echo Enabled' => {
+                            'ACSP Enabled' => 0,
+                            'Idle Reminder' => 0,
+                            'IPCP Compression VJ' => '1',
+                            'Idle Reminder Time' => '1800',
+                            'Verbose Logging' => 0,
+                            'LCP Echo Enabled' => 0,
                             'LCP Echo Interval' => '10',
                             'Log File' => '/var/log/ppp.log',
-                            'LCP Echo Failure' => '4'
-                            },
-                            'Dial On Demand' => {
+                            'LCP Echo Failure' => '4',
+                            'Dial On Demand' => 0,
                             'Disconnect On Logout' => '1',
                             'Disconnect On Idle Timer' => '600',
                             'Disconnect On Idle' => '1',
                             'Disconnect On Fast User Switch' => '1',
-                            'Disconnect On Sleep' => '1'
-                        },
-                        'Display Terminal Window' => {
-                           'Redial Enabled' => '1',
-                           'Redial Count' => '1',
-                           'Redial Interval' => '5'
-                         },
-                        'Use Terminal Script' => {}
+                            'Disconnect On Sleep' => '1',
+                            'Display Terminal Window' => 0,
+                            'Redial Enabled' => '1',
+                            'Redial Count' => '1',
+                            'Redial Interval' => '5',
+                            'Use Terminal Script' => 0,
                         }
                     },
                     'FireWire intégré' => {
@@ -287,11 +270,10 @@ my %system_profiler_tests = (
                             'Configuration Method' => 'DHCP'
                         },
                         'Proxies' => {
-                            'Auto Discovery Enabled' => {},
+                            'Auto Discovery Enabled' => 0,
                             'Proxy Configuration Method' => '2',
-                            'ExcludeSimpleHostnames' => {
-                                'FTP Passive Mode' => '1'
-                            }
+                            'ExcludeSimpleHostnames' => 0,
+                            'FTP Passive Mode' => '1'
                         },
                         'Hardware (MAC) Address' => '00:14:51:ff:fe:1a:c8:e2'
                     }
@@ -344,12 +326,11 @@ my %system_profiler_tests = (
                     'Removable Media' => 'No',
                     'BSD Name' => 'disk0',
                     'Protocol' => 'ata',
-                    'Unit Number' => {
-                        'OS9 Drivers' => 'No',
-                        'Socket Type' => 'Serial-ATA',
-                        'S.M.A.R.T. status' => 'Verified',
-                        'Bay Name' => '"A (upper)"'
-                    }
+                    'Unit Number' => 0,
+                    'OS9 Drivers' => 'No',
+                    'Socket Type' => 'Serial-ATA',
+                    'S.M.A.R.T. status' => 'Verified',
+                    'Bay Name' => '"A (upper)"'
                 }
             }
         },
@@ -402,9 +383,8 @@ my %system_profiler_tests = (
                     'Detachable Drive' => 'No',
                     'Serial Number' => 'B6FD7234EC63',
                     'Protocol' => 'ATAPI',
-                    'Unit Number' => {
-                    'Socket Type' => 'Internal'
-                },
+                    'Unit Number' => 0,
+                    'Socket Type' => 'Internal',
                     'Model' => 'HL-DT-ST DVD-RW GWA-4165B'
                 }
             }
@@ -563,17 +543,16 @@ my %system_profiler_tests = (
         'Power' => {
             'System Power Settings' => {
                 'AC Power' => {
-                    'System Sleep Timer (Minutes)' => {
-                        'Reduce Processor Speed' => 'No',
-                        'Dynamic Power Step' => 'Yes',
-                        'Display Sleep Timer (Minutes)' => '10',
-                        'Disk Sleep Timer (Minutes)' => '10',
-                        'Automatic Restart On Power Loss' => 'No',
-                        'Sleep On Power Button' => 'Yes',
-                        'Wake On AC Change' => 'No',
-                        'Wake On Modem Ring' => 'Yes',
-                        'Wake On LAN' => 'Yes'
-                    }
+                    'System Sleep Timer (Minutes)' => 0,
+                    'Reduce Processor Speed' => 'No',
+                    'Dynamic Power Step' => 'Yes',
+                    'Display Sleep Timer (Minutes)' => '10',
+                    'Disk Sleep Timer (Minutes)' => '10',
+                    'Automatic Restart On Power Loss' => 'No',
+                    'Sleep On Power Button' => 'Yes',
+                    'Wake On AC Change' => 'No',
+                    'Wake On Modem Ring' => 'Yes',
+                    'Wake On LAN' => 'Yes'
                 }
             }
         }
@@ -790,11 +769,10 @@ my %system_profiler_tests = (
                     'Detachable Drive' => 'No',
                     'Serial Number' => 'B6FD7234EC63',
                     'Protocol' => 'ATAPI',
-                    'Unit Number' => {
-                        'Low Power Polling' => 'No',
-                        'Socket Type' => 'Internal',
-                        'Power Off' => 'No'
-                    },
+                    'Unit Number' => 0,
+                    'Low Power Polling' => 'No',
+                    'Socket Type' => 'Internal',
+                    'Power Off' => 'No',
                     'Model' => 'HL-DT-ST DVD-RW GWA-4165B'
                 }
             }
@@ -856,18 +834,17 @@ my %system_profiler_tests = (
             },
             'System Power Settings' => {
                 'AC Power' => {
-                    'System Sleep Timer (Minutes)' => {
-                        'Reduce Processor Speed' => 'No',
-                        'Dynamic Power Step' => 'Yes',
-                        'Display Sleep Timer (Minutes)' => '3',
-                        'Disk Sleep Timer (Minutes)' => '10',
-                        'Automatic Restart On Power Loss' => 'No',
-                        'Sleep On Power Button' => 'Yes',
-                        'Wake On AC Change' => 'No',
-                        'Wake On Clamshell Open' => 'Yes',
-                        'Wake On Modem Ring' => 'Yes',
-                        'Wake On LAN' => 'Yes'
-                    }
+                    'System Sleep Timer (Minutes)' => 0,
+                    'Reduce Processor Speed' => 'No',
+                    'Dynamic Power Step' => 'Yes',
+                    'Display Sleep Timer (Minutes)' => '3',
+                    'Disk Sleep Timer (Minutes)' => '10',
+                    'Automatic Restart On Power Loss' => 'No',
+                    'Sleep On Power Button' => 'Yes',
+                    'Wake On AC Change' => 'No',
+                    'Wake On Clamshell Open' => 'Yes',
+                    'Wake On Modem Ring' => 'Yes',
+                    'Wake On LAN' => 'Yes'
                 }
             }
         },
@@ -942,12 +919,11 @@ my %system_profiler_tests = (
                 },
                 'DHCP Server Responses' => {
                     'Domain Name' => 'lan',
-                    'Lease Duration (seconds)' => {
-                        'Routers' => '10.0.1.1',
-                        'Subnet Mask' => '255.255.255.0',
-                        'Server Identifier' => '10.0.1.1',
-                        'DHCP Message Type' => '0x05'
-                    },
+                    'Lease Duration (seconds)' => 0,
+                    'Routers' => '10.0.1.1',
+                    'Subnet Mask' => '255.255.255.0',
+                    'Server Identifier' => '10.0.1.1',
+                    'DHCP Message Type' => '0x05',
                     'Domain Name Servers' => '10.0.1.1'
                 },
                 'Type' => 'Ethernet',
@@ -988,9 +964,8 @@ my %system_profiler_tests = (
                 'BSD Device Name' => 'en1',
                 'Ethernet' => {
                     'MAC Address' => '00:14:51:61:ef:09',
-                    'Media Options' => {
-                        'Media Subtype' => 'Auto Select'
-                    }
+                    'Media Options' => undef,
+                    'Media Subtype' => 'Auto Select'
                 },
                 'Hardware' => 'AirPort',
                 'Type' => 'AirPort',
@@ -1049,13 +1024,12 @@ my %system_profiler_tests = (
                     'Removable Media' => 'No',
                     'BSD Name' => 'disk0',
                     'Protocol' => 'ata',
-                    'Unit Number' => {
-                        'Mac OS 9 Drivers' => 'No',
-                        'Socket Type' => 'Serial-ATA',
-                        'S.M.A.R.T. status' => 'Verified',
-                        'Partition Map Type' => 'APM (Apple Partition Map)',
-                        'Bay Name' => '"B (lower)"'
-                    }
+                    'Unit Number' => 0,
+                    'Mac OS 9 Drivers' => 'No',
+                    'Socket Type' => 'Serial-ATA',
+                    'S.M.A.R.T. status' => 'Verified',
+                    'Partition Map Type' => 'APM (Apple Partition Map)',
+                    'Bay Name' => '"B (lower)"'
                 }
             }
         },
@@ -1361,14 +1335,14 @@ my %system_profiler_tests = (
                         'IEEE80211' => {
                             'Join Mode' => 'Automatic',
                             'Disconnect on Logout' => 'No',
-                            'PowerEnabled' => {},
+                            'PowerEnabled' => 0,
                             'PreferredNetworks' => {
                                 'Unique Network ID' => '905AE8BA-BD26-48F3-9486-AE5BC72FE642',
-                                'RememberRecentNetworks' => '1',
                                 'SecurityType' => 'WPA2 Personal',
                                 'Unique Password ID' => '907EDC44-8C27-44A0-B5F5-2D04E1A5942A',
                                 'SSID_STR' => 'freewa'
                             },
+                            'RememberRecentNetworks' => '1',
                             'JoinModeFallback' => 'Prompt'
                         }
                     }
@@ -1386,7 +1360,7 @@ my %system_profiler_tests = (
                     'Current Available (mA)' => '500',
                     'Speed' => 'Up to 12 Mb/sec',
                     'Product ID' => '0x8206',
-                    'Current Required (mA)' => {},
+                    'Current Required (mA)' => 0,
                     'Manufacturer' => 'Apple Inc.',
                     'Vendor ID' => '0x05ac  (Apple Inc.)'
                 },
@@ -1469,11 +1443,10 @@ my %system_profiler_tests = (
                     'Detachable Drive' => 'No',
                     'Serial Number' => '            fG424F9E',
                     'Protocol' => 'ATAPI',
-                    'Unit Number' => {
-                        'Low Power Polling' => 'Yes',
-                        'Socket Type' => 'Internal',
-                        'Power Off' => 'No'
-                    },
+                    'Unit Number' => 0,
+                    'Low Power Polling' => 'Yes',
+                    'Socket Type' => 'Internal',
+                    'Power Off' => 'No',
                     'Model' => 'MATSHITADVD-R   UJ-875'
                 }
             }
@@ -1530,12 +1503,10 @@ my %system_profiler_tests = (
             'Apple Bluetooth Software Version' => '2.3.3f8',
             'Outgoing Serial Ports' => {
                 'Serial Port 1' => {
-                    'Address' => {
-                        'Name' => 'Bluetooth-Modem'
-                    },
-                    'RFCOMM Channel' => {
-                        'Requires Authentication' => 'No'
-                    }
+                    'Address' => undef,
+                    'Name' => 'Bluetooth-Modem',
+                    'RFCOMM Channel' => 0,
+                    'Requires Authentication' => 'No'
                 }
             },
             'Services' => {
@@ -1624,9 +1595,8 @@ my %system_profiler_tests = (
                 'BSD Device Name' => 'en3',
                 'Ethernet' => {
                     'MAC Address' => '00:1c:42:00:00:09',
-                    'Media Options' => {
-                        'Media Subtype' => 'Auto Select'
-                    }
+                    'Media Options' => undef,
+                    'Media Subtype' => 'Auto Select'
                 },
                 'Hardware' => 'Ethernet',
                 'Type' => 'Ethernet',
@@ -1638,13 +1608,12 @@ my %system_profiler_tests = (
                     'Addresses' => '192.168.1.16'
                 },
                 'Proxies' => {
-                    'Exclude Simple Hostnames' => {
-                        'Auto Discovery Enabled' => 'No',
-                        'FTP Passive Mode' => 'Yes',
-                        'Service Order' => '9'
-                    },
+                    'Exclude Simple Hostnames' => 0,
+                    'Auto Discovery Enabled' => 'No',
+                    'FTP Passive Mode' => 'Yes',
                     'Proxy Configuration Method' => 'Manual'
-                }
+                },
+                'Service Order' => '9',
             },
             'Parallels Shared Networking Adapter' => {
                 'Has IP Assigned' => 'Yes',
@@ -1654,9 +1623,8 @@ my %system_profiler_tests = (
                 'BSD Device Name' => 'en2',
                 'Ethernet' => {
                     'MAC Address' => '00:1c:42:00:00:08',
-                    'Media Options' => {
-                        'Media Subtype' => 'Auto Select'
-                    }
+                    'Media Options' => undef,
+                    'Media Subtype' => 'Auto Select'
                 },
                 'Hardware' => 'Ethernet',
                 'Type' => 'Ethernet',
@@ -1668,13 +1636,12 @@ my %system_profiler_tests = (
                     'Addresses' => '192.168.0.11'
                 },
                 'Proxies' => {
-                    'Exclude Simple Hostnames' => {
-                        'Auto Discovery Enabled' => 'No',
-                        'FTP Passive Mode' => 'Yes',
-                        'Service Order' => '8'
-                    },
+                    'Exclude Simple Hostnames' => 0,
+                    'Auto Discovery Enabled' => 'No',
+                    'FTP Passive Mode' => 'Yes',
                     'Proxy Configuration Method' => 'Manual'
-                }
+                },
+                'Service Order' => '8',
             },
             'FireWire' => {
                 'Has IP Assigned' => 'No',
@@ -1694,9 +1661,9 @@ my %system_profiler_tests = (
                 'Hardware' => 'FireWire',
                 'Proxies' => {
                     'FTP Passive Mode' => 'Yes',
-                    'Service Order' => '2',
                     'Exceptions List' => '*.local, 169.254/16'
-                }
+                },
+                'Service Order' => '2',
             },
             'Ethernet' => {
                 'Has IP Assigned' => 'Yes',
@@ -1718,12 +1685,11 @@ my %system_profiler_tests = (
                 'IPv4 Addresses' => '10.0.1.101',
                 'DHCP Server Responses' => {
                     'Domain Name' => 'lan',
-                    'Lease Duration (seconds)' => {
-                        'Routers' => '10.0.1.1',
-                        'Subnet Mask' => '255.255.255.0',
-                        'Server Identifier' => '10.0.1.1',
-                        'DHCP Message Type' => '0x05'
-                    },
+                    'Lease Duration (seconds)' => 0,
+                    'Routers' => '10.0.1.1',
+                    'Subnet Mask' => '255.255.255.0',
+                    'Server Identifier' => '10.0.1.1',
+                    'DHCP Message Type' => '0x05',
                     'Domain Name Servers' => '10.0.1.1'
                 },
                 'IPv4' => {
@@ -1736,9 +1702,9 @@ my %system_profiler_tests = (
                 },
                 'Proxies' => {
                     'FTP Passive Mode' => 'Yes',
-                    'Service Order' => '1',
                     'Exceptions List' => '*.local, 169.254/16'
-                }
+                },
+                'Service Order' => '1',
             },
             'Bluetooth' => {
                 'Has IP Assigned' => 'No',
@@ -1754,7 +1720,7 @@ my %system_profiler_tests = (
                 'Proxies' => {
                     'FTP Passive Mode' => 'Yes'
                 },
-                'Service Order' => {}
+                'Service Order' => 0,
             },
             'AirPort' => {
                 'Has IP Assigned' => 'No',
@@ -1765,9 +1731,8 @@ my %system_profiler_tests = (
                 'BSD Device Name' => 'en1',
                 'Ethernet' => {
                     'MAC Address' => '00:1e:c2:a7:26:6f',
-                    'Media Options' => {
-                        'Media Subtype' => 'Auto Select'
-                    }
+                    'Media Options' => undef,
+                    'Media Subtype' => 'Auto Select'
                 },
                 'IPv4' => {
                     'Configuration Method' => 'DHCP'
@@ -1778,9 +1743,9 @@ my %system_profiler_tests = (
                     'HTTP Proxy Port' => '80',
                     'FTP Passive Mode' => 'Yes',
                     'HTTP Proxy Enabled' => 'No',
-                    'Service Order' => '3',
                     'Exceptions List' => '*.local, 169.254/16'
-                }
+                },
+                'Service Order' => '3',
             }
         },
         'Ethernet Cards' => {
@@ -1886,16 +1851,16 @@ my %system_profiler_tests = (
                 },
                 'Applications' => {
                     'org.sip-communicator' => 'Allow all connections',
-                    'Firewall Logging' => 'No',
                     'com.skype.skype' => 'Allow all connections',
                     'com.Growl.GrowlHelperApp' => 'Allow all connections',
                     'com.hp.scan.app' => 'Allow all connections',
                     'com.parallels.desktop.dispatcher' => 'Allow all connections',
-                    'Stealth Mode' => 'No',
                     'net.sourceforge.xmeeting.XMeeting' => 'Allow all connections',
                     'com.getdropbox.dropbox' => 'Allow all connections'
                 },
-                'Mode' => 'Limit incoming connections to specific services and applications'
+                'Mode' => 'Limit incoming connections to specific services and applications',
+                'Firewall Logging' => 'No',
+                'Stealth Mode' => 'No',
             }
         },
         'Software' => {
@@ -2124,17 +2089,17 @@ my %system_profiler_tests = (
                         },
                         'Hardware (MAC) Address' => '00:1c:b3:c0:56:85',
                         'IEEE80211' => {
-                            'Join Mode' => 'Automatic',
                             'Disconnect on Logout' => 'Yes',
+                            'Join Mode' => 'Automatic',
+                            'JoinModeFallback' => 'Prompt',
                             'PowerEnabled' => '1',
-                            'RememberRecentNetworks' => {},
-                            'RequireAdmin' => {},
                             'PreferredNetworks' => {
                                 'Unique Network ID' => 'A628B3F5-DB6B-48A6-A3A4-17D33697041B',
                                 'SecurityType' => 'Open',
                                 'SSID_STR' => 'univ-paris1.fr'
                             },
-                            'JoinModeFallback' => 'Prompt'
+                            'RememberRecentNetworks' => 0,
+                            'RequireAdmin' => 0,
                         }
                     }
                 },
@@ -2224,8 +2189,8 @@ my %system_profiler_tests = (
                             'Join Mode' => 'Automatic',
                             'Disconnect on Logout' => 'Yes',
                             'PowerEnabled' => '1',
-                            'RememberRecentNetworks' => {},
-                            'RequireAdmin' => {},
+                            'RememberRecentNetworks' => 0,
+                            'RequireAdmin' => 0,
                             'PreferredNetworks' => {
                                  'Unique Network ID' => '963478B4-1AC3-4B35-A4BB-3510FEA2FEF2',
                                  'SecurityType' => 'WPA2 Enterprise',
@@ -2321,8 +2286,8 @@ my %system_profiler_tests = (
                         'IEEE80211' => {
                             'Join Mode' => 'Automatic',
                             'Disconnect on Logout' => 'Yes',
-                            'PowerEnabled' => {},
-                            'RememberRecentNetworks' => {},
+                            'PowerEnabled' => 0,
+                            'RememberRecentNetworks' => 0,
                             'PreferredNetworks' => {
                                 'Unique Network ID' => '46A33A68-7109-48AD-9255-900F0134903E',
                                 'SecurityType' => 'WPA Personal',
@@ -2379,15 +2344,13 @@ my %system_profiler_tests = (
             'ATA Bus' => {
                 'MATSHITACD-RW  CW-8221' => {
                     'Revision' => 'GA0J',
-                    'Serial Number' => {
-                        'Detachable Drive' => 'No',
-                        'Protocol' => 'ATAPI'
-                    },
-                    'Unit Number' => {
-                        'Low Power Polling' => 'Yes',
-                        'Socket Type' => 'Internal',
-                        'Power Off' => 'Yes'
-                    },
+                    'Serial Number' => undef,
+                    'Detachable Drive' => 'No',
+                    'Protocol' => 'ATAPI',
+                    'Unit Number' => 0,
+                    'Low Power Polling' => 'Yes',
+                    'Socket Type' => 'Internal',
+                    'Power Off' => 'Yes',
                     'Model' => 'MATSHITACD-RW  CW-8221'
                 }
             }
@@ -2431,12 +2394,10 @@ my %system_profiler_tests = (
             'Apple Bluetooth Software Version' => '2.3.8f7',
             'Outgoing Serial Ports' => {
                 'Serial Port 1' => {
-                    'Address' => {
-                        'Name' => 'Bluetooth-Modem'
-                    },
-                    'RFCOMM Channel' => {
-                        'Requires Authentication' => 'No'
-                    }
+                    'Address' => undef,
+                    'Name' => 'Bluetooth-Modem',
+                    'RFCOMM Channel' => 0,
+                    'Requires Authentication' => 'No'
                 }
             },
             'Services' => {
@@ -2479,19 +2440,18 @@ my %system_profiler_tests = (
             },
             'Battery Information' => {
                 'Charge Information' => {
-                    'Full charge capacity (mAh)' => {},
-                    'Charge remaining (mAh)' => {
-                        'Fully charged' => 'No',
-                        'Charging' => 'No'
-                    }
+                    'Full charge capacity (mAh)' => 0,
+                    'Charge remaining (mAh)' => 0,
+                    'Fully charged' => 'No',
+                    'Charging' => 'No'
                 },
                 'Health Information' => {
-                    'Voltage (mV)' => '3908',
-                    'Battery Installed' => 'Yes',
                     'Cycle count' => '5',
                     'Condition' => 'Replace Now',
-                    'Amperage (mA)' => '74'
                 },
+                'Voltage (mV)' => '3908',
+                'Battery Installed' => 'Yes',
+                'Amperage (mA)' => '74',
                 'Model Information' => {
                     'PCB Lot Code' => '0000',
                     'Firmware Version' => '102a',
@@ -2504,16 +2464,15 @@ my %system_profiler_tests = (
             },
             'System Power Settings' => {
                 'AC Power' => {
-                    'System Sleep Timer (Minutes)' => {
-                        'Display Sleep Timer (Minutes)' => '10',
-                        'Disk Sleep Timer (Minutes)' => '10',
-                        'Automatic Restart On Power Loss' => 'No',
-                        'Wake On AC Change' => 'No',
-                        'Current Power Source' => 'Yes',
-                        'Wake On Clamshell Open' => 'Yes',
-                        'Display Sleep Uses Dim' => 'Yes',
-                        'Wake On LAN' => 'Yes'
-                    }
+                    'System Sleep Timer (Minutes)' => 0,
+                    'Display Sleep Timer (Minutes)' => '10',
+                    'Disk Sleep Timer (Minutes)' => '10',
+                    'Automatic Restart On Power Loss' => 'No',
+                    'Wake On AC Change' => 'No',
+                    'Current Power Source' => 'Yes',
+                    'Wake On Clamshell Open' => 'Yes',
+                    'Display Sleep Uses Dim' => 'Yes',
+                    'Wake On LAN' => 'Yes'
                 },
                 'Battery Power' => {
                     'Reduce Brightness' => 'Yes',
@@ -2580,9 +2539,9 @@ my %system_profiler_tests = (
                 'Hardware' => 'FireWire',
                 'Proxies' => {
                     'FTP Passive Mode' => 'Yes',
-                    'Service Order' => '2',
                     'Exceptions List' => '*.local, 169.254/16'
-                }
+                },
+                'Service Order' => '2',
             },
             'Ethernet' => {
                 'Has IP Assigned' => 'Yes',
@@ -2609,12 +2568,11 @@ my %system_profiler_tests = (
                 'IPv4 Addresses' => '172.20.10.171',
                 'DHCP Server Responses' => {
                     'Domain Name' => 'univ-paris1.fr',
-                    'Lease Duration (seconds)' => {
-                        'Routers' => '172.20.10.72',
-                        'Subnet Mask' => '255.255.254.0',
-                        'Server Identifier' => '172.20.0.2',
-                        'DHCP Message Type' => '0x05'
-                    },
+                    'Lease Duration (seconds)' => 0,
+                    'Routers' => '172.20.10.72',
+                    'Subnet Mask' => '255.255.254.0',
+                    'Server Identifier' => '172.20.0.2',
+                    'DHCP Message Type' => '0x05',
                     'Domain Name Servers' => '193.55.96.84,193.55.99.70,194.214.33.181'
                 },
                 'IPv4' => {
@@ -2634,12 +2592,12 @@ my %system_profiler_tests = (
                         'Portability' => '37',
                         'Type' => '50',
                         'Metric' => '503771',
-                        'IPv6 Address' => '2001:0660:3305:0100:021b:63ff:fe36:1ec3',
                         'Marginal Power' => '71',
-                        'Service Order' => '1',
                         'Total Power' => '72'
                     }
-                }
+                },
+                'IPv6 Address' => '2001:0660:3305:0100:021b:63ff:fe36:1ec3',
+                'Service Order' => '1',
             },
             'Bluetooth' => {
                 'Has IP Assigned' => 'No',
@@ -2655,7 +2613,7 @@ my %system_profiler_tests = (
                 'Proxies' => {
                     'FTP Passive Mode' => 'Yes'
                 },
-                'Service Order' => {}
+                'Service Order' => 0,
             },
             'AirPort' => {
                 'Has IP Assigned' => 'No',
@@ -2663,9 +2621,8 @@ my %system_profiler_tests = (
                 'BSD Device Name' => 'en1',
                 'Ethernet' => {
                     'MAC Address' => '00:1c:b3:c0:56:85',
-                    'Media Options' => {
-                        'Media Subtype' => 'Auto Select'
-                    }
+                    'Media Options' => undef,
+                    'Media Subtype' => 'Auto Select'
                 },
                 'IPv4' => {
                     'Configuration Method' => 'DHCP'
@@ -2673,9 +2630,9 @@ my %system_profiler_tests = (
                 'Hardware' => 'AirPort',
                 'Proxies' => {
                     'FTP Passive Mode' => 'Yes',
-                    'Service Order' => '3',
                     'Exceptions List' => '*.local, 169.254/16'
-                }
+                },
+                'Service Order' => '3',
             }
         },
         'Ethernet Cards' => {
@@ -2853,11 +2810,10 @@ my %system_profiler_tests = (
                     'Firmware Version' => 'Atheros 5416: 2.1.14.5',
                     'Locale' => 'ETSI',
                     'Card Type' => 'AirPort Extreme  (0x168C, 0x87)',
-                    'Country Code' => {
-                        'Supported PHY Modes' => '802.11 a/b/g/n',
-                        'Status' => 'Off',
-                        'Supported Channels' => '1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140'
-                    }
+                    'Country Code' => undef,
+                    'Supported PHY Modes' => '802.11 a/b/g/n',
+                    'Status' => 'Off',
+                    'Supported Channels' => '1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140'
                 }
             }
         },
@@ -3047,6 +3003,7 @@ foreach my $test (keys %system_profiler_tests) {
     my $file = "resources/macos/system_profiler/$test";
     my $infos = getSystemProfilerInfos(file => $file);
     is_deeply($infos, $system_profiler_tests{$test}, "$test system profiler parsing");
+    use Data::Dumper;
 }
 
 foreach my $test (keys %ioreg_tests) {
