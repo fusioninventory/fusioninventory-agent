@@ -147,9 +147,9 @@ sub _loadFromCfgFile {
         return;
     }
 
-    while (<$handle>) {
-        s/#.+//;
-        if (/([\w-]+)\s*=\s*(.+)/) {
+    while (my $line = <$handle>) {
+        $line =~ s/#.+//;
+        if ($line =~ /([\w-]+)\s*=\s*(.+)/) {
             my $key = $1;
             my $val = $2;
             # Remove the quotes
