@@ -276,8 +276,6 @@ sub _feedInventory {
 
     $inventory->computeLegacyValues();
     $inventory->computeChecksum();
-
-    $inventory->checkContent();
 }
 
 sub _injectContent {
