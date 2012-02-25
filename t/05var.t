@@ -23,5 +23,7 @@ if ($EVAL_ERROR) {
     plan(skip_all => 'Test::Vars required to validate the code');
 }
 
-Test::Vars::all_vars_ok(ignore_vars => { '$i' => 1 });
+Test::Vars::all_vars_ok(
+    ignore_vars => { '$i' => 1, '%params' => 1, '$class' => 1 }
+);
 
