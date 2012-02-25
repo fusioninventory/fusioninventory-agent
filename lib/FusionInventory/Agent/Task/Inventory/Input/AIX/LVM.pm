@@ -16,21 +16,21 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    foreach my $volume (_parsePvs()) {
+    foreach my $volume (_getPhysicalVolumes()) {
         $inventory->addEntry(section => 'PHYSICAL_VOLUMES', entry => $volume);
     }
 
-    foreach my $volume (_parseLvs()) {
+    foreach my $volume (_getLogicalVolumes()) {
         $inventory->addEntry(section => 'LOGICAL_VOLUMES', entry => $volume);
     }
 
-    foreach my $group (_parseVgs()) {
+    foreach my $group (_getVolumeGroups()) {
         $inventory->addEntry(section => 'VOLUME_GROUPS', entry => $group);
     }
 
 }
 
-sub _parseLvs {
+sub _getLogicalVolumes {
 
     my @vs_elem;
     my $vg;
@@ -87,7 +87,7 @@ sub _parseLvs {
     return $entries;
 }
 
-sub _parsePvs {
+sub _getPhysicalVolumes {
 
     my @vs_elem;
     my $vg;
@@ -141,7 +141,7 @@ sub _parsePvs {
     return $entries;
 }
 
-sub _parseVgs {
+sub _getVolumeGroups {
 
     my $entries = [];
     my @vs_elem;
