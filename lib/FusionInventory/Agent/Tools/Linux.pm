@@ -332,7 +332,7 @@ sub getInterfacesFromIp {
             $interface->{IPADDRESS6} = $1;
         } elsif ($line =~ /inet ($ip_address_pattern)\/(\d{1,3})/) {
             $interface->{IPADDRESS} = $1;
-            $interface->{IPMASK}    = getNetworkMask($1, $2);
+            $interface->{IPMASK}    = getNetworkMask($2);
             $interface->{IPSUBNET}  = getSubnetAddress(
                 $interface->{IPADDRESS}, $interface->{IPMASK}
             );

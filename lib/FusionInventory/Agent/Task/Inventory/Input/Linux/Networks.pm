@@ -43,7 +43,6 @@ sub _getInterfaces {
     my (%params) = @_;
 
     my $logger = $params{logger};
-    my $routes = $params{routes};
 
     my @interfaces = canRun("/sbin/ip") ?
         getInterfacesFromIp(logger => $logger):
@@ -60,7 +59,6 @@ sub _getInterfaces {
         );
 
         my ($driver, $pcislot) = _getUevent(
-            $logger,
             $interface->{DESCRIPTION}
         );
         $interface->{DRIVER} = $driver if $driver;
@@ -134,7 +132,7 @@ sub _isWifi {
 }
 
 sub _getUevent {
-    my ($logger, $name) = @_;
+    my ($name) = @_;
 
     my $file = "/sys/class/net/$name/device/uevent";
     my $handle = getFileHandle(file => $file);

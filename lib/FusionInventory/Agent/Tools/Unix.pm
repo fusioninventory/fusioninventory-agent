@@ -46,7 +46,7 @@ sub getDeviceCapacity {
 sub getIpDhcp {
     my ($logger, $if) = @_;
 
-    my $dhcpLeaseFile = _findDhcpLeaseFile($logger, $if);
+    my $dhcpLeaseFile = _findDhcpLeaseFile($if);
 
     return unless $dhcpLeaseFile;
 
@@ -54,8 +54,7 @@ sub getIpDhcp {
 }
 
 sub _findDhcpLeaseFile {
-    my ($logger, $if) = @_;
-
+    my ($if) = @_;
 
     my @directories = qw(
         /var/db
