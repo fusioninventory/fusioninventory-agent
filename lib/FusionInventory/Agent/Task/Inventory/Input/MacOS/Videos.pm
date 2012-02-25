@@ -17,13 +17,19 @@ sub doInventory {
     my $inventory = $params{inventory};
 
     my %displays = _getDisplays();
-    foreach my $section (keys %displays ) {
-        foreach my $entry (@{$displays{$section}}) {
-            $inventory->addEntry(
-                section => $section,
-                entry   => $entry,
-            );
-        }
+
+    foreach my $monitor (@{$displays{MONITORS}}) {
+        $inventory->addEntry(
+            section => 'MONITORS',
+            entry   => $monitor,
+        );
+    }
+
+    foreach my $video (@{$displays{VIDEOS}}) {
+        $inventory->addEntry(
+            section => 'VIDEOS',
+            entry   => $video,
+        );
     }
 }
 
