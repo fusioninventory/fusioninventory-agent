@@ -1,0 +1,38 @@
+ATA:
+
+    ATA Bus:
+
+        HL-DT-ST DVDRW  GSA-S10N:
+
+          Capacity: 7,77 GB (7 771 521 024 bytes)
+          Model: HL-DT-ST DVDRW  GSA-S10N                
+          Revision: BP08    
+          Serial Number: K0076RM5813         
+          Removable Media: Yes
+          Detachable Drive: No
+          BSD Name: disk1
+          Protocol: ATAPI
+          Unit Number: 0
+          Socket Type: Internal
+          Low Power Polling: Yes
+          Power Off: Yes
+          Partition Map Type: APM (Apple Partition Map)
+          S.M.A.R.T. status: Not Supported
+          Volumes:
+              Capacity: 31 KB (30 720 bytes)
+              Media Type: DVD-ROM
+              Writable: No
+              BSD Name: disk1s1
+              Capacity: 1,03 GB (1 034 455 040 bytes)
+              Media Type: DVD-ROM
+              Writable: No
+              BSD Name: disk1s2
+            Mac OS X Install DVD:
+              Capacity: 6,74 GB (6 737 006 592 bytes)
+              Available: 84,9 MB (84 946 944 bytes)
+              Media Type: DVD-ROM
+              Writable: No
+              File System: HFS+
+              BSD Name: disk1s3
+              Mount Point: /Volumes/Mac OS X Install DVD
+
