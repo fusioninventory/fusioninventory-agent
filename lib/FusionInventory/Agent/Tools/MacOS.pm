@@ -5,6 +5,7 @@ use warnings;
 use base 'Exporter';
 
 use English qw(-no_match_vars);
+use Memoize;
 
 use FusionInventory::Agent::Tools;
 
@@ -12,6 +13,8 @@ our @EXPORT = qw(
     getSystemProfilerInfos
     getIODevices
 );
+
+memoize('getSystemProfilerInfos');
 
 sub getSystemProfilerInfos {
     my %params = (
