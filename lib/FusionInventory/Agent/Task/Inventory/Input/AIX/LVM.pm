@@ -42,7 +42,7 @@ sub _getLogicalVolumes {
 
     my @volumes;
 
-    foreach my $line (<$handle>) {
+    while (my $line = <$handle>) {
         chomp $line;
         push @volumes, _getLogicalVolume($logger, $line);
     }
@@ -62,7 +62,7 @@ sub _getLogicalVolume {
 
     my $volume;
 
-    foreach my $line (<$handle>) {
+    while (my $line = <$handle>) {
         chomp $line;
 
         if ($line =~ /(\S+):/) {
@@ -102,7 +102,7 @@ sub _getPhysicalVolumes {
 
     my @volumes;
 
-    foreach my $line (<$handle>) {
+    while (my $line = <$handle>) {
         chomp $line;
         push @volumes, _getPhysicalVolume($logger, $line);
     }
@@ -126,7 +126,7 @@ sub _getPhysicalVolume {
     };
 
     my ($free, $total);
-    foreach my $line (<$handle>) {
+    while (my $line = <$handle>) {
         chomp $line;
 
         if ($line =~ /PHYSICAL VOLUME:\s+(\S+)/) {
@@ -168,7 +168,7 @@ sub _getVolumeGroups {
 
     my @groups;
 
-    foreach my $line (<$handle>) {
+    while (my $line = <$handle>) {
         chomp $line;
         push @groups, _getVolumeGroup($logger, $line);
     }
@@ -190,7 +190,7 @@ sub _getVolumeGroup {
         VG_NAME => $name
     };
 
-    foreach my $line (<$handle>) {
+    while (my $line = <$handle>) {
         chomp $line;
 
         if ($line =~ /TOTAL PPs:\s+(\d+)/) {
