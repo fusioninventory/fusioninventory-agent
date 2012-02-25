@@ -19,7 +19,7 @@ memoize('getDmidecodeInfos');
 memoize('getPCIDevices');
 
 sub getDmidecodeInfos {
-    my %params = (
+    my (%params) = (
         command => 'dmidecode',
         @_
     );
@@ -124,7 +124,7 @@ sub getCpusFromDmidecode {
 }
 
 sub getPCIDevices {
-    my %params = (
+    my (%params) = (
         command => 'lspci -vvv -nn',
         @_
     );

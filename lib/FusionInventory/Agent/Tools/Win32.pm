@@ -70,7 +70,7 @@ sub encodeFromRegistry {
 }
 
 sub getWmiObjects {
-    my %params = (
+    my (%params) = (
         moniker => 'winmgmts:{impersonationLevel=impersonate,(security)}!//./',
         @_
     );
@@ -93,7 +93,7 @@ sub getWmiObjects {
 }
 
 sub getRegistryValue {
-    my %params = @_;
+    my (%params) = @_;
 
     my ($root, $keyName, $valueName);
     if ($params{path} =~ /^(HKEY\S+?)\/(.*)\/([^\/.]*)/ ) {

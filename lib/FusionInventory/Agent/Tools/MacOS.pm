@@ -17,7 +17,7 @@ our @EXPORT = qw(
 memoize('getSystemProfilerInfos');
 
 sub getSystemProfilerInfos {
-    my %params = (
+    my (%params) = (
         command => '/usr/sbin/system_profiler',
         @_
     );
@@ -85,7 +85,7 @@ sub getSystemProfilerInfos {
 }
 
 sub getIODevices {
-    my %params = @_;
+    my (%params) = @_;
 
     # passing expected class to the command ensure only instance of this class
     # are present in the output, reducing the size of the content to be parsed,

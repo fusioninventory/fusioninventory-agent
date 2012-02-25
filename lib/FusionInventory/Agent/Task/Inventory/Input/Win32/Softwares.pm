@@ -156,7 +156,7 @@ sub _getSoftwares {
 }
 
 sub _addSoftware {
-    my %params = @_;
+    my (%params) = @_;
 
     my $entry = $params{entry};
 

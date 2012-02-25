@@ -32,7 +32,7 @@ sub doInventory {
 }
 
 sub _getSlots4 {
-    my %params = (
+    my (%params) = (
         command => 'prtdiag',
         @_
     );
@@ -57,7 +57,7 @@ sub _getSlots4 {
 }
 
 sub _getSlots5 {
-    my %params = (
+    my (%params) = (
         command => 'prtdiag',
         @_
     );
@@ -106,7 +106,7 @@ sub _getSlots5 {
 }
 
 sub _getSlotsDefault {
-    my %params = (
+    my (%params) = (
         command => 'prtdiag',
         @_
     );

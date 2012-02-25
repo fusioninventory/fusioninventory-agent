@@ -24,7 +24,7 @@ our @EXPORT = qw(
 memoize('getDevicesFromUdev');
 
 sub getDevicesFromUdev {
-    my %params = @_;
+    my (%params) = @_;
 
     my @devices;
 
@@ -45,7 +45,7 @@ sub getDevicesFromUdev {
 }
 
 sub _parseUdevEntry {
-    my %params = @_;
+    my (%params) = @_;
 
     my $handle = getFileHandle(%params);
     return unless $handle;
@@ -85,7 +85,7 @@ sub _parseUdevEntry {
 }
 
 sub getCPUsFromProc {
-    my %params = (
+    my (%params) = (
         file => '/proc/cpuinfo',
         @_
     );
@@ -120,7 +120,7 @@ sub _isValidCPU {
 
 
 sub getDevicesFromHal {
-    my %params = (
+    my (%params) = (
         command => '/usr/bin/lshal',
         @_
     );
@@ -164,7 +164,7 @@ sub getDevicesFromHal {
 }
 
 sub getDevicesFromProc {
-    my %params = @_;
+    my (%params) = @_;
 
     # compute list of devices
     my @names;
@@ -245,7 +245,7 @@ sub _getValueFromSysProc {
 }
 
 sub getSerialnumber {
-    my %params = @_;
+    my (%params) = @_;
 
     my ($serial) = getFirstMatch(
         command => $params{device} ? "smartctl -i $params{device}" : undef,
@@ -258,7 +258,7 @@ sub getSerialnumber {
 }
 
 sub getInterfacesFromIfconfig {
-    my %params = (
+    my (%params) = (
         command => '/sbin/ifconfig -a',
         @_
     );
@@ -307,7 +307,7 @@ sub getInterfacesFromIfconfig {
     return @interfaces;
 }
 sub getInterfacesFromIp {
-    my %params = (
+    my (%params) = (
         command => '/sbin/ip addr show',
         @_
     );
