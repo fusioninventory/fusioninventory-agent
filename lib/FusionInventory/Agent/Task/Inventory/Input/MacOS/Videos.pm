@@ -30,8 +30,8 @@ sub doInventory {
 sub _getDisplays {
     my $infos = getSystemProfilerInfos(@_);
 
-    my $monitors = [];
-    my $videos = [];
+    my @monitors;
+    my @videos;
 
     foreach my $videoName (keys %{$infos->{'Graphics/Displays'}}) {
         my $videoCardInfo = $infos->{'Graphics/Displays'}->{$videoName};
@@ -50,7 +50,7 @@ sub _getDisplays {
             my $memory = $videoCardInfo->{'VRAM (Total)'};
             $memory =~ s/\ .*//g if $memory;
 
-            push @$videos, {
+            push @videos, {
                 CHIPSET    => $videoCardInfo->{'Chipset Model'},
                 MEMORY     => $memory,
                 NAME       => $videoName,
@@ -58,7 +58,7 @@ sub _getDisplays {
                 PCISLOT    => $videoCardInfo->{Slot}
             };
 
-            push @$monitors, {
+            push @monitors, {
                 CAPTION     => $displayName,
                 DESCRIPTION => $displayName,
             }
@@ -66,8 +66,8 @@ sub _getDisplays {
     }
 
     return (
-        MONITORS => $monitors,
-        VIDEOS   => $videos
+        MONITORS => \@monitors,
+        VIDEOS   => \@videos
     );
 
 }
