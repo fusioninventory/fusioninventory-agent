@@ -3,12 +3,7 @@ Revision history for FusionInventory agent
 2.2.0
 
 Major changes:
-* support for OCS account info have been dropped: the agent doesn't store
- arbitrary informations locally anymore
-* support for OCS network discovery and software deployment features within
-  inventory task have been removed, they are dedicated tasks for those purposes
-* fusioninventory-agent-config executable has been dropped, in favor of better
-  documentation
+* large speed improvement: up to 150% for a local inventory
 * better multitasking support:
  - the agent use fork() to run task if needed, instead of running a new process
    from scratch, avoiding the need to use a temporary file to transmit
@@ -23,13 +18,20 @@ Major changes:
     certificate checking is disabled
   - validation is now performed by SSL library, and honours alternative subject
     names, and other subtilities
-* large speed improvement: up to 150% for a local inventory
 * large cleanup of values returned from inventory:
   - unknown values are filtered out
   - strings are trimmed for trailing spaces
-  - irrelevant values, such as controllers type and manufacturer on AIX and
-    HPUX, are filtered out
-* options handling:
+  - irrelevant values, such as windows internal USB serial number, or
+    controllers type and manufacturer on AIX and HPUX, are filtered out
+* installation procedure automatically setup configuration and data directories
+  locations in executable, there is no need to manually configure them anymore
+* removal of useless features:
+  - support for OCS account info have been dropped, the agent doesn't store
+    arbitrary informations locally anymore
+  - support for OCS network discovery and software deployment features within
+    inventory task have been removed, we have better alternatives
+  - useless Ping task has been dropped
+* cleanup of available options:
   - deprecated --nosoft and --nosoftware options have been removed
   - --devlib, --share-dir, --basevardir and --realm options have been
     deprecated, as their values are now computed automatically at installation
@@ -41,11 +43,10 @@ Major changes:
   - --debug option can be specified multiple times, for additional verbosity
   - --no-inventory, --no-ocsdeploy, --no-snmpquery, --no-netdiscovery options
     have been deprecated in favor of a generic --no-task option
+* fusioninventory-agent-config executable has been dropped, in favor of better
+  documentation
 * documentation has been reviewed for consistency in various places where it
   appears (--help output, man page, configuration file)
-* installation procedure automatically setup configuration and data directories
-  locations in executable, there is no need to manually configure them anymore
-* useless Ping task has been dropped
 * XML::TreePP perl module is now used instead of XML::Simple, reducing native
   perl modules dependencies
 * OcsDeploy task is now deprecated. Please continue to use the 2.1.x agent is
