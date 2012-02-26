@@ -16,13 +16,13 @@ use FusionInventory::Agent::Task::Inventory::Input::Win32::Printers;
 my %tests = (
     xppro1 => {
         USB001 => [ '6&397bdcac&0', '49R8Ka' ],
-        USB002 => [ '6&2ad9257f&0', '5&19d1ce61&0&2' ],
-        USB003 => [ '6&1605722f&0', '5&2377f6ef&0&2' ],
+        USB002 => [ '6&2ad9257f&0', undef ],
+        USB003 => [ '6&1605722f&0', undef ],
     },
     xppro2 => {
         USB001 => [ '6&1086615&0',  'J5J126789' ],
         USB003 => [ '6&159b6df2&0', 'JV40VNJ' ],
-        USB004 => [ '7&20bd29b5&0', '6&28e27c3d&0&0000' ],
+        USB004 => [ '7&20bd29b5&0', undef ],
     },
     7 => {
         USB001 => [ '7&17e8a3c3&0',  'MY26K1K34C2L' ],
