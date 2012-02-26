@@ -27,37 +27,34 @@ sub doInventory {
 sub _getStorages {
     my $infos = getSystemProfilerInfos(@_);
 
-    # system profiler info is organized as
-    # bus => {
-    #     controller => {
-    #         key1 => value1,
-    #         device => {
-    #             key1 => value1
-    #             subdevice => {
-    #                 key1 => value1,
-    #             }
-    #         }
-    #     }
-    # }
+    # system profiler data structure:
+    # bus
+    # └── controller
+    #     ├── device
+    #     │   ├── subdevice
+    #     │   │   └── key:value
+    #     │   └── key:value
+    #     └── key:value
+
     my @storages;
 
-    foreach my $bus_name (qw/ATA SERIAL-ATA USB FireWire/) {
-        my $bus = $infos->{$bus_name};
+    foreach my $busName (qw/ATA SERIAL-ATA USB FireWire/) {
+        my $bus = $infos->{$busName};
         next unless $bus;
-        foreach my $controller_name (keys %{$bus}) {
-            my $controller = $bus->{$controller_name};
-            foreach my $device_name (keys %{$controller}) {
-                my $device = $controller->{$device_name};
+        foreach my $controllerName (keys %{$bus}) {
+            my $controller = $bus->{$controllerName};
+            foreach my $deviceName (keys %{$controller}) {
+                my $device = $controller->{$deviceName};
                 next unless ref $device eq 'HASH';
                 if (_isStorage($device)) {
                     push @storages,
-                        _getStorage($device, $device_name, $bus_name);
+                        _getStorage($device, $deviceName, $busName);
                 } else {
-                    foreach my $subdevice_name (keys %{$device}) {
-                        my $subdevice = $device->{$subdevice_name};
+                    foreach my $subdeviceName (keys %{$device}) {
+                        my $subdevice = $device->{$subdeviceName};
                         next unless ref $subdevice eq 'HASH';
                         push @storages,
-                            _getStorage($subdevice, $subdevice_name, $bus_name)
+                            _getStorage($subdevice, $subdeviceName, $busName)
                             if _isStorage($subdevice);
                     }
                 }
