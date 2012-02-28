@@ -74,9 +74,10 @@ sub doInventory {
                 SerialNumber Product Manufacturer
             / ]
     )) {
-        $bios->{BASEBOARDSERIAL} = $object->{SerialNumber};
-        $bios->{SSN}             = $object->{SerialNumber} unless $bios->{SSN};
+        $bios->{MSN}             = $object->{SerialNumber};
         $bios->{MMODEL}          = $object->{Product};
+        $bios->{SSN}             = $object->{SerialNumber}
+            unless $bios->{SSN};
         $bios->{SMANUFACTURER}   = $object->{Manufacturer}
             unless $bios->{SMANUFACTURER};
 

@@ -534,8 +534,6 @@ Motherboard model
 
 =item ENCLOSURESERIAL
 
-=item BASEBOARDSERIAL
-
 =item BIOSSERIAL
 
 The optional asset tag for this machine.
