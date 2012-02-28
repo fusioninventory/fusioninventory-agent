@@ -39,6 +39,7 @@ GetOptions(
     'no-printer',
     'no-httpd',
     'no-software',
+    'no-environment',
     'no-ssl-check',
     'no-task=s',
     'no-p2p',
@@ -141,6 +142,7 @@ B<fusioninventory-agent> [options] [--server server|--local directory|--sdout]
   Inventory task specific options
     --no-printer        do not list local printers (false)
     --no-software       do not list installed software (false)
+    --no-environment    do not list environment variables (false)
     --scan-homedirs     allow to scan use home directories (false)
     --html              save the inventory as HTML (false)
     -f --force          always send data to server (false)
@@ -364,6 +366,10 @@ Do not list local printers in inventory.
 =item B<--no-software>
 
 Do not list installed software in inventory.
+
+=item B<--no-environment>
+
+Do not list environment variables in inventory.
 
 =item B<--scan-homedirs>
 

@@ -6,7 +6,9 @@ use warnings;
 use FusionInventory::Agent::Tools::Win32;
 
 sub isEnabled {
-    return 1;
+    my (%params) = @_;
+
+    return !$params{no_environment};
 }
 
 sub doInventory {

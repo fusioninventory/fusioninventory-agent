@@ -154,12 +154,13 @@ sub _initModulesList {
             logger => $logger,
             timeout  => $config->{'backend-collect-timeout'},
             params => {
-                datadir       => $self->{datadir},
-                logger        => $self->{logger},
-                registry      => $self->{registry},
-                no_software   => $self->{config}->{'no-software'},
-                no_printer    => $self->{config}->{'no-printer'},
-                scan_homedirs => $self->{config}->{'scan-homedirs'},
+                datadir        => $self->{datadir},
+                logger         => $self->{logger},
+                registry       => $self->{registry},
+                no_software    => $self->{config}->{'no-software'},
+                no_printer     => $self->{config}->{'no-printer'},
+                no_environment => $self->{config}->{'no-environment'},
+                scan_homedirs  => $self->{config}->{'scan-homedirs'},
             }
         );
         if (!$enabled) {
