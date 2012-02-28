@@ -48,6 +48,41 @@ my %tests = (
             VENDORID  => '046D',
             PRODUCTID => 'C30A'
         },
+    ],
+    xppro2 => [
+        {
+            NAME      => "Concentrador USB genérico",
+            VENDORID  => '046A',
+            PRODUCTID => '0009'
+        },
+        {
+            NAME      => 'Dispositivo compuesto USB',
+            VENDORID  => '046A',
+            PRODUCTID => '0019'
+        },
+        {
+            NAME      => 'SmartTerminal XX44',
+            VENDORID  => '046A',
+            PRODUCTID => '002D'
+        },
+        {
+            NAME      => 'Compatibilidad con impresoras USB',
+            SERIAL    => 'JV40VNJ',
+            VENDORID  => '03F0',
+            PRODUCTID => '3A17'
+        },
+        {
+            NAME      => 'Compatibilidad con impresoras USB',
+            SERIAL    => 'J5J126789',
+            VENDORID  => '04F9',
+            PRODUCTID => '002B'
+        },
+        {
+            NAME      => 'Dispositivo compuesto USB',
+            SERIAL    => '00CNBW86S20B',
+            VENDORID  => '03F0',
+            PRODUCTID => '3817'
+        }
     ]
 );
 
