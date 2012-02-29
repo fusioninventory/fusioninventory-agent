@@ -10,7 +10,7 @@ use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
 
-use Test::More tests => 32;
+use Test::More tests => 37;
 
 my ($out, $err, $rc);
 
@@ -42,10 +42,12 @@ like(
 );
 is($out, '', 'no target stdin');
 
+my $base_options = "--stdout --no-task ocsdeploy,wakeonlan,snmpquery,netdiscovery";
+
 my $content;
 # first inventory
 ($out, $err, $rc) = run_agent(
-    "--stdout --no-ocsdeploy --no-wakeonlan --no-snmpquery --no-netdiscovery --no-printer"
+    "$base_options --no-category printer"
 );
 ok($rc == 0, 'exit status');
 
@@ -70,7 +72,7 @@ ok(
 
 # second inventory, without software
 ($out, $err, $rc) = run_agent(
-    "--stdout --no-ocsdeploy --no-wakeonlan --no-snmpquery --no-netdiscovery --no-printer --no-software"
+    "$base_options --no-category printer,software"
 );
 ok($rc == 0, 'exit status');
 
@@ -109,7 +111,7 @@ print $file <<EOF;
 EOF
 close($file);
 ($out, $err, $rc) = run_agent(
-    "--stdout --no-ocsdeploy --no-wakeonlan --no-snmpquery --no-netdiscovery --no-printer --no-software --additional-content $file"
+    "$base_options --no-category printer,software --additional-content $file"
 );
 ok($rc == 0, 'exit status');
 
@@ -129,7 +131,7 @@ ok(
 
 ok(
     ref $content->{REQUEST}->{CONTENT}->{SOFTWARES} eq 'HASH',
-    'software list has only one element'
+    'inventory has expected software list'
 );
 
 ok(
@@ -143,11 +145,10 @@ ok(
     'inventory has environment variables'
 );
 
-# create inventory targets
-$ENV{FOO} = 'bar';
+my $path = $ENV{PATH};
 
 ($out, $err, $rc) = run_agent(
-    "--stdout --no-ocsdeploy --no-wakeonlan --no-snmpquery --no-netdiscovery --no-printer --no-software"
+    "$base_options --no-category printer,software"
 );
 ok($rc == 0, 'exit status');
 
@@ -162,7 +163,7 @@ ok($content, 'output is valid XML');
 
 ok(
     !exists $content->{REQUEST}->{CONTENT}->{SOFTWARES},
-    "output doesn't have any software"
+    "inventory doesn't have any software"
 );
 
 ok(
@@ -170,16 +171,37 @@ ok(
     'inventory has environment variables'
 );
 
-SKIP: {
-skip '$ENV not set by IPC::Run on Windows', 1 if $OSNAME eq 'MSWin32';
 ok(
     (any
-        { $_->{KEY} eq 'FOO' && $_->{VAL} eq 'bar' } 
+        { $_->{KEY} eq 'PATH' && $_->{VAL} eq $path } 
         @{$content->{REQUEST}->{CONTENT}->{ENVS}}
     ),
-    'expected environment variable'
+    'inventory has expected environment variable value'
 );
-}
+
+($out, $err, $rc) = run_agent(
+    "$base_options --no-category printer,software,environment"
+);
+ok($rc == 0, 'exit status');
+
+like(
+    $out,
+    qr/^<\?xml version="1.0" encoding="UTF-8" \?>/,
+    'output has correct encoding'
+);
+
+$content = XML::TreePP->new()->parse($out);
+ok($content, 'output is valid XML');
+
+ok(
+    !exists $content->{REQUEST}->{CONTENT}->{SOFTWARES},
+    "inventory doesn't have any software"
+);
+
+ok(
+    !exists $content->{REQUEST}->{CONTENT}->{ENVS},
+    "inventory doesn't have any environment variables"
+);
 
 sub run_agent {
     my ($args) = @_;
