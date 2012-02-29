@@ -20,7 +20,7 @@ my $seen;
 sub isEnabled {
     my (%params) = @_;
 
-    return !$params{no_software};
+    return !$params{no_category}->{software};
 }
 
 sub doInventory {

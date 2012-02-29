@@ -67,6 +67,14 @@ my $deprecated = {
         message => 'use --no-task ocsdeploy option instead',
         new     => { 'no-task' => 'ocsdeploy' }
     },
+    'no-printer' => {
+        message => 'use --no-category printer option instead',
+        new     => { 'no-category' => 'printer' }
+    },
+    'no-software' => {
+        message => 'use --no-category software option instead',
+        new     => { 'no-category' => 'software' }
+    },
 };
 
 sub new {
@@ -216,6 +224,8 @@ sub _checkContent {
     $self->{server} = [ split(/,/, $self->{server}) ] if $self->{server};
     $self->{'no-task'} = [ split(/,/, $self->{'no-task'}) ]
         if $self->{'no-task'};
+    $self->{'no-category'} = [ split(/,/, $self->{'no-category'}) ]
+        if $self->{'no-category'};
 
     # files location
     $self->{'ca-cert-file'} =

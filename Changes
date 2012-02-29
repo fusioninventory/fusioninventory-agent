@@ -43,7 +43,8 @@ Major changes:
   - --debug option can be specified multiple times, for additional verbosity
   - --no-inventory, --no-ocsdeploy, --no-snmpquery, --no-netdiscovery options
     have been deprecated in favor of a generic --no-task option
-  - --no-environment allows to not list environment variables in inventory
+  - --no-software, --no-printer options have been deprecated in favor of a
+    generic --no-category option, and 'environment' value support has been added
 * fusioninventory-agent-config executable has been dropped, in favor of better
   documentation
 * documentation has been reviewed for consistency in various places where it

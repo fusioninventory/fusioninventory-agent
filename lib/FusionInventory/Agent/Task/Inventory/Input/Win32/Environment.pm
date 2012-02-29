@@ -8,7 +8,7 @@ use FusionInventory::Agent::Tools::Win32;
 sub isEnabled {
     my (%params) = @_;
 
-    return !$params{no_environment};
+    return !$params{no_category}->{environment};
 }
 
 sub doInventory {

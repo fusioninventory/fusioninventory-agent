@@ -9,7 +9,7 @@ sub isEnabled {
     my (%params) = @_;
 
     return 
-        !$params{no_printer} &&
+        !$params{no_category}->{printer} &&
         -r '/usr/sbin/system_profiler' &&
         canLoad("Mac::SysProfile");
 }

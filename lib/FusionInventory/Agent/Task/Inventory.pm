@@ -60,8 +60,10 @@ sub run {
         );
     }
 
-    $self->_initModulesList();
-    $self->_feedInventory($inventory);
+    my %disabled = map { $_ => 1 } @{$self->{config}->{'no-category'}};
+
+    $self->_initModulesList(\%disabled);
+    $self->_feedInventory($inventory, \%disabled);
 
     if ($self->{target}->isa('FusionInventory::Agent::Target::Stdout')) {
         $self->_printInventory(
@@ -119,7 +121,7 @@ sub run {
 }
 
 sub _initModulesList {
-    my ($self) = @_;
+    my ($self, $disabled) = @_;
 
     my $logger = $self->{logger};
     my $config = $self->{config};
@@ -154,13 +156,11 @@ sub _initModulesList {
             logger => $logger,
             timeout  => $config->{'backend-collect-timeout'},
             params => {
-                datadir        => $self->{datadir},
-                logger         => $self->{logger},
-                registry       => $self->{registry},
-                no_software    => $self->{config}->{'no-software'},
-                no_printer     => $self->{config}->{'no-printer'},
-                no_environment => $self->{config}->{'no-environment'},
-                scan_homedirs  => $self->{config}->{'scan-homedirs'},
+                no_category   => $disabled,
+                datadir       => $self->{datadir},
+                logger        => $self->{logger},
+                registry      => $self->{registry},
+                scan_homedirs => $self->{config}->{'scan-homedirs'},
             }
         );
         if (!$enabled) {
@@ -206,7 +206,7 @@ sub _initModulesList {
 }
 
 sub _runModule {
-    my ($self, $module, $inventory) = @_;
+    my ($self, $module, $inventory, $disabled) = @_;
 
     my $logger = $self->{logger};
 
@@ -225,7 +225,7 @@ sub _runModule {
         die "circular dependency between $module and $other_module"
             if $self->{modules}->{$other_module}->{used};
 
-        $self->_runModule($other_module, $inventory);
+        $self->_runModule($other_module, $inventory, $disabled);
     }
 
     $logger->debug("Running $module");
@@ -238,10 +238,9 @@ sub _runModule {
         params => {
             datadir       => $self->{datadir},
             inventory     => $inventory,
+            no_category   => $disabled,
             logger        => $self->{logger},
             registry      => $self->{registry},
-            no_software   => $self->{config}->{no_software},
-            no_printer    => $self->{config}->{no_printer},
             scan_homedirs => $self->{config}->{'scan-homedirs'},
         }
     );

@@ -13,7 +13,7 @@ sub isEnabled {
     return
         # We use WMI for Windows because of charset issue
         $OSNAME ne 'MSWin32' &&
-        !$params{no_environment};
+        !$params{no_category}->{environment};
 }
 
 sub doInventory {
