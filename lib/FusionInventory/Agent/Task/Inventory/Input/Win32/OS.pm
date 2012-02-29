@@ -6,6 +6,7 @@ use integer;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::Tools::Win32;
 
@@ -32,21 +33,28 @@ sub doInventory {
             path   => 'HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Services/lanmanserver/Parameters/srvcomment',
             logger => $logger
         ));
+        my $installDate = getFormatedLocalTime(hex2dec(
+            encodeFromRegistry(getRegistryValue(
+                path   => 'HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion/InstallDate',
+                logger => $logger
+            ))
+        ));
 
         $object->{TotalSwapSpaceSize} = int($object->{TotalSwapSpaceSize} / (1024 * 1024))
             if $object->{TotalSwapSpaceSize};
 
         $inventory->setHardware({
-            WINLANG     => $object->{OSLanguage},
-            OSNAME      => $object->{Caption},
-            OSVERSION   => $object->{Version},
-            WINPRODKEY  => $key,
-            WINPRODID   => $object->{SerialNumber},
-            WINCOMPANY  => $object->{Organization},
-            WINOWNER    => $object->{RegistredUser},
-            OSCOMMENTS  => $object->{CSDVersion},
-            SWAP        => $object->{TotalSwapSpaceSize},
-            DESCRIPTION => $description,
+            WINLANG       => $object->{OSLanguage},
+            OSNAME        => $object->{Caption},
+            OSVERSION     => $object->{Version},
+            WINPRODKEY    => $key,
+            WINPRODID     => $object->{SerialNumber},
+            WINCOMPANY    => $object->{Organization},
+            WINOWNER      => $object->{RegistredUser},
+            OSCOMMENTS    => $object->{CSDVersion},
+            SWAP          => $object->{TotalSwapSpaceSize},
+            DESCRIPTION   => $description,
+            OSINSTALLDATE => $installDate
         });
 
         $inventory->setOperatingSystem({
