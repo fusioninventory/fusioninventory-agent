@@ -1,0 +1,17 @@
+System Configuration:  Sun Microsystems  sun4u
+Memory size: 16384 Megabyte
+System Peripherals (PROM Nodes):
+
+Node 0xf0819f00
+    scsi-initiator-id:  00000007
+    node#:  00000000
+    #size-cells:  00000002
+    stick-frequency:  00bebc20
+    clock-frequency:  08f0d180
+    idprom:  01840014.4f4162cb.45255cf4.4162cb16.55555555.55555555.55555555.55555555
+    breakpoint-trap:  0000007f
+    device_type:  'gptwo'
+    banner-name:  'Sun Fire E6900'
+    compatible: 'SUNW,Serengeti'
+    newio-addr:  00000001
+    name:  'SUNW,Sun-Fire'

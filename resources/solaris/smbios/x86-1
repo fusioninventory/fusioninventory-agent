@@ -1,0 +1,12 @@
+ID    SIZE TYPE
+1     76   SMB_TYPE_SYSTEM (system information)
+
+  Manufacturer: Sun Microsystems, Inc.
+  Product: Sun Fire V40z
+  Version: 00
+  Serial Number: R00T34E0009
+
+  UUID: be1630df-d130-41a4-be32-fd28bb4bd1ac
+  Wake-Up Event: 0x6 (power switch)
+  SKU Number: 
+  Family:
