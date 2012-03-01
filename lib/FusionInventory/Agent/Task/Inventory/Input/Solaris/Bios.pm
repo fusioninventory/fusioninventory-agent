@@ -36,7 +36,7 @@ sub doInventory {
         }
 
         if ($arch eq "i386") {
-            my $infos = _parseSmbios($logger);
+            my $infos = _parseSmbios(logger => $logger);
             $SystemManufacturer = $infos->{'Manufacturer'};
             $SystemSerial       = $infos->{'Serial Number'};
             $SystemModel        = $infos->{'Product'};
@@ -45,7 +45,7 @@ sub doInventory {
             $BiosDate           = $infos->{'Release Date'};
             $uuid               = $infos->{'UUID'};
         } elsif ($arch =~ /sparc/i) {
-            my $infos = _parsePrtconf($logger);
+            my $infos = _parsePrtconf(logger => $logger);
             $SystemModel = $infos->{'banner-name'};
             $SystemModel .= " ($infos->{name})" if $infos->{name};
 
@@ -67,7 +67,7 @@ sub doInventory {
             );
         }
     } else {
-        my $infos = _parseShowRev($logger);
+        my $infos = _parseShowRev(logger => $logger);
         $SystemManufacturer = $infos->{'Hardware provider'};
         $SystemModel        = "Solaris Containers";
     }
