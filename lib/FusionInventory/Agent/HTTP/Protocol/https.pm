@@ -17,7 +17,7 @@ sub import {
 }
 
 sub _extra_sock_opts {
-    my ($self, $host, $port) = @_;
+    my ($self, $host) = @_;
 
     return (
         SSL_verify_mode     => $self->{ua}->{ssl_check} ?

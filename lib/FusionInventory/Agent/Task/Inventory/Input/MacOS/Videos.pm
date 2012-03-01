@@ -17,30 +17,35 @@ sub doInventory {
     my $inventory = $params{inventory};
 
     my %displays = _getDisplays();
-    foreach my $section (keys %displays ) {
-        foreach my $entry (@{$displays{$section}}) {
-            $inventory->addEntry(
-                section => $section,
-                entry   => $entry,
-            );
-        }
+
+    foreach my $monitor (@{$displays{MONITORS}}) {
+        $inventory->addEntry(
+            section => 'MONITORS',
+            entry   => $monitor,
+        );
+    }
+
+    foreach my $video (@{$displays{VIDEOS}}) {
+        $inventory->addEntry(
+            section => 'VIDEOS',
+            entry   => $video,
+        );
     }
 }
 
 sub _getDisplays {
     my $infos = getSystemProfilerInfos(@_);
 
-    my $monitors = [];
-    my $videos = [];
+    my @monitors;
+    my @videos;
 
     foreach my $videoName (keys %{$infos->{'Graphics/Displays'}}) {
-        my $videoCardInfo = $infos->{'Graphics/Displays'}{$videoName};
+        my $videoCardInfo = $infos->{'Graphics/Displays'}->{$videoName};
 
-        my $displays = {};
         foreach my $displayName (keys %{$videoCardInfo->{Displays}}) {
             next if $displayName eq 'Display Connector';
             next if $displayName eq 'Display';
-            my $displayInfo = $videoCardInfo->{Displays}{$displayName};
+            my $displayInfo = $videoCardInfo->{Displays}->{$displayName};
 
             my $resolution = $displayInfo->{Resolution};
             if ($resolution) {
@@ -51,7 +56,7 @@ sub _getDisplays {
             my $memory = $videoCardInfo->{'VRAM (Total)'};
             $memory =~ s/\ .*//g if $memory;
 
-            push @$videos, {
+            push @videos, {
                 CHIPSET    => $videoCardInfo->{'Chipset Model'},
                 MEMORY     => $memory,
                 NAME       => $videoName,
@@ -59,7 +64,7 @@ sub _getDisplays {
                 PCISLOT    => $videoCardInfo->{Slot}
             };
 
-            push @$monitors, {
+            push @monitors, {
                 CAPTION     => $displayName,
                 DESCRIPTION => $displayName,
             }
@@ -67,11 +72,10 @@ sub _getDisplays {
     }
 
     return (
-        MONITORS => $monitors,
-        VIDEOS   => $videos
+        MONITORS => \@monitors,
+        VIDEOS   => \@videos
     );
 
 }
-
 
 1;

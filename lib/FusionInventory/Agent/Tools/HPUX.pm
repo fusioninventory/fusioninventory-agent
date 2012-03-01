@@ -18,7 +18,7 @@ memoize('getInfoFromMachinfo');
 memoize('isHPVMGuest');
 
 sub getInfoFromMachinfo {
-    my %params = (
+    my (%params) = (
         command => '/usr/contrib/bin/machinfo',
         @_
     );

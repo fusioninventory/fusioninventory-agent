@@ -28,8 +28,6 @@ sub new {
         vardir => $params{basevardir} . '/' . $subdir
     );
 
-    my $logger = $self->{logger};
-
     return $self;
 }
 

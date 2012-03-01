@@ -256,7 +256,6 @@ sub _is_authenticated {
 sub _listen {
     my ($self) = @_;
 
-    my $scheduler = $self->{scheduler};
     my $logger = $self->{logger};
 
     my $daemon = HTTP::Daemon->new(

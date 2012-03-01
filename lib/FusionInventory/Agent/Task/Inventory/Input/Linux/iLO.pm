@@ -11,7 +11,7 @@ sub isEnabled {
 }
 
 sub _parseHponcfg {
-    my %params = @_;
+    my (%params) = @_;
 
     my $handle = getFileHandle(%params);
 

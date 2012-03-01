@@ -5,6 +5,7 @@ use warnings;
 use base 'Exporter';
 
 use English qw(-no_match_vars);
+use Memoize;
 
 use FusionInventory::Agent::Tools;
 
@@ -13,8 +14,10 @@ our @EXPORT = qw(
     getIODevices
 );
 
+memoize('getSystemProfilerInfos');
+
 sub getSystemProfilerInfos {
-    my %params = (
+    my (%params) = (
         command => '/usr/sbin/system_profiler',
         @_
     );
@@ -32,14 +35,32 @@ sub getSystemProfilerInfos {
         my $level = defined $1 ? length($1) : 0;
         my $key = $2;
         my $value = $3;
+        
+        my $parent = $parents[-1];
+        my $parent_level = $parent->[1];
+        my $parent_node  = $parent->[0];
 
-        if ($value) {
-            # just add the value to the current parent
-            $parents[-1]->[0]->{$key} = $value;
+        if (defined $value) {
+            # check indentation level against parent node
+            if ($level <= $parent_level) {
+
+                if (keys %$parent_node == 0) {
+                    # discard just created node, and fix its parent
+                    my $parent_key = $parent->[2];
+                    $parents[-2]->[0]->{$parent_key} = undef;
+                }
+
+                # unstack nodes until a suitable parent is found
+                while ($level <= $parents[-1]->[1]) {
+                    pop @parents;
+                }
+                $parent_node = $parents[-1]->[0];
+            }
+
+            # add the value to the current node
+            $parent_node->{$key} = $value;
         } else {
             # compare level with parent
-            my $parent_level = $parents[-1]->[1];
-
             if ($level > $parent_level) {
                 # down the tree: no change
             } elsif ($level < $parent_level) {
@@ -55,7 +76,7 @@ sub getSystemProfilerInfos {
             # create a new node, and push it to the stack
             my $parent_node = $parents[-1]->[0];
             $parent_node->{$key} = {};
-            push (@parents, [ $parent_node->{$key}, $level ]);
+            push (@parents, [ $parent_node->{$key}, $level, $key ]);
         }
     }
     close $handle;
@@ -64,7 +85,7 @@ sub getSystemProfilerInfos {
 }
 
 sub getIODevices {
-    my %params = @_;
+    my (%params) = @_;
 
     # passing expected class to the command ensure only instance of this class
     # are present in the output, reducing the size of the content to be parsed,

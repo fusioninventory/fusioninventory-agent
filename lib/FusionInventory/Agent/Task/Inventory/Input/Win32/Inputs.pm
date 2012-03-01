@@ -29,7 +29,6 @@ sub isEnabled {
 sub doInventory {
     my (%params) = @_;
 
-    my $logger    = $params{logger};
     my $inventory = $params{inventory};
 
     foreach my $object (getWmiObjects(

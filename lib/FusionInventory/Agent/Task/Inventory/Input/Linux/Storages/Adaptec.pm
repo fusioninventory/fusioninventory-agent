@@ -42,7 +42,7 @@ sub doInventory {
 }
 
 sub _getDisksFromProc {
-    my %params = (
+    my (%params) = (
         file => '/proc/scsi/scsi',
         @_
     );

@@ -28,15 +28,11 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $serial;
-    my $id;
-    my $speed;
-
     my @dmidecodeCpu = getCpusFromDmidecode();
 
     my $vmsystem;
-
     my $cpuId = 0;
+
     foreach my $object (getWmiObjects(
         class      => 'Win32_Processor',
         properties => [ qw/NumberOfCores ProcessorId MaxClockSpeed/ ]
@@ -59,7 +55,6 @@ sub doInventory {
         my $id = $dmidecodeCpu[$cpuId]->{ID} || $object->{ProcessorId};
         my $speed = $dmidecodeCpu[$cpuId]->{SPEED} || $object->{MaxClockSpeed};
         my $serial = $dmidecodeCpu[$cpuId]->{SERIAL};
-
 
         # Some information are missing on Win2000
         if (!$name) {

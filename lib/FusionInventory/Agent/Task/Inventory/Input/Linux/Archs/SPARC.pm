@@ -32,8 +32,6 @@ sub doInventory {
 }
 
 sub _getCPUsFromProc {
-    my ($logger, $file) = @_;
-
     my $cpu = (getCPUsFromProc(@_))[0];
 
     return unless $cpu && $cpu->{'ncpus probed'};

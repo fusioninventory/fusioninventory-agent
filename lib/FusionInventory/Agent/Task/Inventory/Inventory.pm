@@ -29,10 +29,11 @@ my %fields = (
     MODEMS      => [ qw/DESCRIPTION NAME/ ],
     MONITORS    => [ qw/BASE64 CAPTION DESCRIPTION MANUFACTURER SERIAL
                         UUENCODE/ ],
-    NETWORKS    => [ qw/DESCRIPTION DRIVER IPADDRESS IPADDRESS6 IPDHCP IPGATEWAY
-                        IPMASK IPSUBNET MACADDR MTU PCISLOT PNPDEVICEID STATUS
-                        TYPE VIRTUALDEV SLAVES SPEED MANAGEMENT BSSID SSID WWN
-                        MANUFACTURER FIRMWARE MODEL/ ],
+    NETWORKS    => [ qw/BSSID DESCRIPTION DRIVER FIRMWARE IPADDRESS IPADDRESS6 
+                        IPDHCP IPGATEWAY IPMASK IPMASK6 IPSUBNET IPSUBNET6
+                        MANAGEMENT MANUFACTURER MACADDR MODEL MTU PCISLOT 
+                        PNPDEVICEID STATUS SLAVES SPEED SSID TYPE VIRTUALDEV  
+                        WWN/ ],
     PORTS       => [ qw/CAPTION DESCRIPTION NAME TYPE/ ],
     PROCESSES   => [ qw/USER PID CPUUSAGE MEM VIRTUALMEMORY TTY STARTED CMD/ ],
     REGISTRY    => [ qw/NAME REGVALUE HIVE/ ],
@@ -51,11 +52,14 @@ my %fields = (
     PRINTERS    => [ qw/COMMENT DESCRIPTION DRIVER NAME NETWORK PORT RESOLUTION
                         SHARED STATUS ERRSTATUS SERVERNAME SHARENAME 
                         PRINTPROCESSOR SERIAL/ ],
-    VIRTUALMACHINES => [ qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU
-                            VMID MAC COMMENT OWNER/ ],
-    LOGICAL_VOLUMES => [ qw/LV_NAME VGN_AME ATTR SIZE LV_UUID SEG_COUNT VG_UUID/ ],
-    PHYSICAL_VOLUMES => [ qw/DEVICE PV_NAME PV_PE_COUNT PV_UUID FORMAT ATTR SIZE FREE PE_SIZE/ ],
-    VOLUME_GROUPS => [ qw/VG_NAME PV_COUNT LV_COUNT ATTR SIZE FREE VG_UUID VG_EXTENT_SIZE/ ],
+    VIRTUALMACHINES  => [ qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU
+                             VMID MAC COMMENT OWNER/ ],
+    LOGICAL_VOLUMES  => [ qw/LV_NAME VGN_AME ATTR SIZE LV_UUID SEG_COUNT 
+                             VG_UUID/ ],
+    PHYSICAL_VOLUMES => [ qw/DEVICE PV_NAME PV_PE_COUNT PV_UUID FORMAT ATTR 
+                             SIZE FREE PE_SIZE/ ],
+    VOLUME_GROUPS    => [ qw/VG_NAME PV_COUNT LV_COUNT ATTR SIZE FREE VG_UUID 
+                             VG_EXTENT_SIZE/ ],
 
 );
 
@@ -242,7 +246,7 @@ sub setHardware {
         PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME IPADDR WORKGROUP
         DESCRIPTION MEMORY UUID DNS LASTLOGGEDUSER USERDOMAIN
         DATELASTLOGGEDUSER DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
-        WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE/) {
+        WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE OSINSTALLDATE/) {
 # WINLANG: Windows Language, see MSDN Win32_OperatingSystem documentation
         if (exists $args->{$key}) {
             my $string = getSanitizedString($args->{$key});
@@ -296,16 +300,6 @@ sub setTag {
         KEYNAME  => "TAG",
         KEYVALUE => $tag
     }];
-
-}
-
-sub checkContent {
-    my ($self, $args) = @_;
-
-    my $logger = $self->{logger};
-
-    my $missing = 0;
-    my $content = $self->{content};
 
 }
 
@@ -374,7 +368,7 @@ sub computeChecksum {
 }
 
 sub saveLastState {
-    my ($self, $args) = @_;
+    my ($self) = @_;
 
     my $logger = $self->{logger};
 
@@ -479,10 +473,6 @@ Set BIOS informations.
 
 What is that for? :)
 
-=head2 checkContent()
-
-Check inventory content.
-
 =head2 computeChecksum()
 
 Compute the inventory checksum. This information is used by the server to
@@ -547,8 +537,6 @@ Motherboard model
 =item ASSETTAG
 
 =item ENCLOSURESERIAL
-
-=item BASEBOARDSERIAL
 
 =item BIOSSERIAL
 

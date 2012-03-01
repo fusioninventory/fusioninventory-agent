@@ -88,10 +88,9 @@ sub _getScreensFromWindows {
     )) {
         next unless $object->{InstanceName};
 
-        my $PNPDeviceID = $object->{InstanceName};
-        $PNPDeviceID =~ s/_\d+//;
+        $object->{InstanceName} =~ s/_\d+//;
         push @screens, {
-            id => $object->{PNPDeviceID}
+            id => $object->{InstanceName}
         };
     }
 
@@ -123,12 +122,12 @@ sub _getScreensFromWindows {
         TiedRef     => \$Registry
     );
 
-    foreach my $screen (@screens) {
+    my $access = FusionInventory::Agent::Tools::Win32::is64bit() ?
+	Win32::TieRegistry::KEY_READ() |
+	    FusionInventory::Agent::Tools::Win32::KEY_WOW64_64() :
+	Win32::TieRegistry::KEY_READ();
 
-        my $access = FusionInventory::Agent::Tools::Win32::is64bit() ?
-            Win32::TieRegistry::KEY_READ() |
-                FusionInventory::Agent::Tools::Win32::KEY_WOW64_64() :
-            Win32::TieRegistry::KEY_READ();
+    foreach my $screen (@screens) {
 
         my $machKey = $Registry->Open('LMachine', {
             Access => $access
