@@ -54,7 +54,7 @@ my %fields = (
                         PRINTPROCESSOR SERIAL/ ],
     BIOS             => [ qw/SMODEL SMANUFACTURER SSN BDATE BVERSION 
                              BMANUFACTURER MMANUFACTURER MSN MMODEL ASSETTAG 
-                             ENCLOSURESERIAL BASEBOARDSERIAL BIOSSERIAL 
+                             ENCLOSURESERIAL BIOSSERIAL 
                              TYPE SKUNUMBER/ ],
     HARDWARE         => [ qw/USERID OSVERSION PROCESSORN OSCOMMENTS CHECKSUM
                              PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME
