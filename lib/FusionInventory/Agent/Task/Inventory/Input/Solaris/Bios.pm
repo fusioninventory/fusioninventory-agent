@@ -19,7 +19,8 @@ sub doInventory {
     my $logger    = $params{logger};
 
     my ($SystemSerial, $SystemModel, $SystemManufacturer, $BiosManufacturer,
-        $BiosVersion, $BiosDate, $uuid);
+        $BiosVersion, $BiosDate, $uuid, $sku, $MotherboardSerial, 
+        $MotherboardManufacturer, $MotherboardModel);
 
     my $zone = getZone();
     if ($zone) {
@@ -37,13 +38,20 @@ sub doInventory {
 
         if ($arch eq "i386") {
             my $infos = _parseSmbios(logger => $logger);
-            $SystemManufacturer = $infos->{'Manufacturer'};
-            $SystemSerial       = $infos->{'Serial Number'};
-            $SystemModel        = $infos->{'Product'};
-            $BiosManufacturer   = $infos->{'Vendor'};
-            $BiosVersion        = $infos->{'Version String'};
-            $BiosDate           = $infos->{'Release Date'};
-            $uuid               = $infos->{'UUID'};
+            my $motherboardInfos = $infos->{SMB_TYPE_BASEBOARD};
+            my $systemInfos = $infos->{SMB_TYPE_SYSTEM};
+            my $biosInfos = $infos->{SMB_TYPE_BIOS};
+
+            $BiosManufacturer   = $biosInfos->{'Vendor'};
+            $BiosVersion        = $biosInfos->{'Version String'};
+            $BiosDate           = $biosInfos->{'Release Date'};
+            $SystemManufacturer = $systemInfos->{'Manufacturer'};
+            $SystemModel        = $systemInfos->{'Product'};
+            $uuid               = $systemInfos->{'UUID'};
+            $sku                = $systemInfos->{'SKU Number'};
+            $MotherboardModel        = $motherboardInfos->{'Product'};
+            $MotherboardSerial       = $motherboardInfos->{'Serial Number'};
+            $MotherboardManufacturer = $motherboardInfos->{'Manufacturer'};
         } elsif ($arch =~ /sparc/i) {
             my $infos = _parsePrtconf(logger => $logger);
             $SystemModel = $infos->{'banner-name'};
@@ -78,7 +86,11 @@ sub doInventory {
         BMANUFACTURER => $BiosManufacturer,
         SMANUFACTURER => $SystemManufacturer,
         SMODEL        => $SystemModel,
-        SSN           => $SystemSerial
+        SSN           => $SystemSerial,
+        SKUNUMBER     => $sku,
+        MSN           => $MotherboardSerial,
+        MMANUFACTURER => $MotherboardManufacturer,
+        MMODEL        => $MotherboardModel
     });
 
     $inventory->setHardware({
