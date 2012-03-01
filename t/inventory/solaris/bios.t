@@ -55,55 +55,73 @@ my %showrev_tests = (
 
 my %smbios_tests = (
     'x86-1' => {
-        'Version' => '00',
-        'SKU Number' => ' ',
-        'Serial Number' => 'R00T34E0009',
-        'Product' => 'Sun Fire V40z',
-        'Manufacturer' => 'Sun Microsystems, Inc.',
-        'UUID' => 'be1630df-d130-41a4-be32-fd28bb4bd1ac',
-        'Wake-Up Event' => '0x6 (power switch)'
+        'SMB_TYPE_SYSTEM' => {
+            'Version' => '00',
+            'SKU Number' => ' ',
+            'Serial Number' => 'R00T34E0009',
+            'Product' => 'Sun Fire V40z',
+            'Manufacturer' => 'Sun Microsystems, Inc.',
+            'UUID' => 'be1630df-d130-41a4-be32-fd28bb4bd1ac',
+            'Wake-Up Event' => '0x6 (power switch)'
+        }
     },
     'x86-3' => {
-        'Flags' => '0x9',
-        'Serial Number' => 'QSDH1234567',
-        'Family' => ' ',
-        'Type' => '1 (KCS: Keyboard Controller Style)',
-        'ROM Size' => '8388608 bytes',
-        'Release Date' => '07/12/2009',
-        'Product' => 'S7000FC4UR',
-        'Manufacturer' => 'TRANSTEC',
-        'Characteristics' => '0x15c099a80',
-        'Version Number' => '0.0',
-        'Chassis Height' => '1u',
-        'Power Supply State' => '0x3 (safe)',
-        'Lock Present' => 'N',
-        'Interrupt Number' => '0',
-        'Version' => 'E10476-011',
-        'Version String' => 'SFC4UR.86B.01.00.0029.071220092126',
-        'Board Type' => '0xa (motherboard)',
-        'i2c Bus Slave Address' => '0x20',
-        'SKU Number' => '6I012345TF',
-        'Vendor' => 'Intel Corporation',
-        'Image Size' => '98304 bytes',
-        'Chassis Type' => '0x17 (rack mount chassis)',
-        'Power Cords' => '1',
-        'Address Segment' => '0xe800',
-        'BMC Base Address' => '0xca2',
-        'Boot-Up State' => '0x3 (safe)',
-        'UUID' => '4b713db6-6d40-11dd-b32c-000123456789',
-        'Chassis' => '0',
-        'NV Storage Device Bus ID' => '0xffffffff',
-        'BMC IPMI Version' => '2.0',
-        'Element Records' => '0',
-        'Thermal State' => '0x3 (safe)',
-        'Register Spacing' => '1',
-        'Asset Tag' => '6I012345TF',
-        'Characteristics Extension Byte 2' => '0x7',
-        'Characteristics Extension Byte 1' => '0x33',
-        'Embedded Ctlr Firmware Version Number' => '0.0',
-        'OEM Data' => '0x81581cf8',
-        'Wake-Up Event' => '0x6 (power switch)'
-      }
+        SMB_TYPE_CHASSIS => {
+            'Chassis Height' => '1u',
+            'Power Supply State' => '0x3 (safe)',
+            'Element Records' => '0',
+            'Serial Number' => 'QSDH1234567',
+            'Thermal State' => '0x3 (safe)',
+            'Lock Present' => 'N',
+            'Asset Tag' => '6I012345TF',
+            'Chassis Type' => '0x17 (rack mount chassis)',
+            'Power Cords' => '1',
+            'Version' => 'E10476-011',
+            'OEM Data' => '0x81581cf8',
+            'Boot-Up State' => '0x3 (safe)',
+            'Manufacturer' => 'TRANSTEC'
+        },
+        SMB_TYPE_BIOS => {
+            'Characteristics' => '0x15c099a80',
+            'Version Number' => '0.0',
+            'Vendor' => 'Intel Corporation',
+            'Image Size' => '98304 bytes',
+            'Characteristics Extension Byte 2' => '0x7',
+            'Characteristics Extension Byte 1' => '0x33',
+            'Address Segment' => '0xe800',
+            'Version String' => 'SFC4UR.86B.01.00.0029.071220092126',
+            'Embedded Ctlr Firmware Version Number' => '0.0',
+            'Release Date' => '07/12/2009',
+            'ROM Size' => '8388608 bytes'
+        },
+        SMB_TYPE_IPMIDEV => {
+            'Flags' => '0x9',
+            'NV Storage Device Bus ID' => '0xffffffff',
+            'BMC IPMI Version' => '2.0',
+            'Register Spacing' => '1',
+            'Interrupt Number' => '0',
+            'Type' => '1 (KCS: Keyboard Controller Style)',
+            'i2c Bus Slave Address' => '0x20',
+            'BMC Base Address' => '0xca2'
+        },
+        SMB_TYPE_BASEBOARD => {
+            'Board Type' => '0xa (motherboard)',
+            'Flags' => '0x9',
+            'Serial Number' => 'QSFX12345678',
+            'Product' => 'S7000FC4UR',
+            'Manufacturer' => 'Intel',
+            'Chassis' => '0',
+            'Asset Tag' => '6I012345TF'
+        },
+        SMB_TYPE_SYSTEM => {
+            'Family' => ' ',
+            'SKU Number' => '6I012345TF',
+            'Product' => 'MP Server',
+            'Manufacturer' => 'Intel',
+            'UUID' => '4b713db6-6d40-11dd-b32c-000123456789',
+            'Wake-Up Event' => '0x6 (power switch)'
+        }
+    }
 );
 
 my %prtconf_tests = (

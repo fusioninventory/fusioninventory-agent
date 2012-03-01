@@ -114,10 +114,17 @@ sub _parseSmbios {
     my $handle = getFileHandle(%params);
     return unless $handle;
 
-    my $infos;
+    my ($infos, $current);
     while (my $line = <$handle>) {
-        next unless $line =~ /^ \s* ([^:]+) : \s* (.+) $/x;
-        $infos->{$1} = $2;
+        if ($line =~ /^ \d+ \s+ \d+ \s+ (\S+)/x) {
+            $current = $1;
+            next;
+        }
+
+        if ($line =~ /^ \s* ([^:]+) : \s* (.+) $/x) {
+            $infos->{$current}->{$1} = $2;
+            next;
+        }
     }
     close $handle;
 
