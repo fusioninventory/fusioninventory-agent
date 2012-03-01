@@ -106,12 +106,12 @@ sub _parseShowRev {
 }
 
 sub _parseSmbios {
-    my ($logger) = @_;
-
-    my $handle = getFileHandle(
-        command => "/usr/sbin/smbios",
-        logger  => $logger
+    my (%params) = (
+        command => '/usr/sbin/smbios',
+        @_
     );
+
+    my $handle = getFileHandle(%params);
     return unless $handle;
 
     my $infos;
