@@ -29,7 +29,6 @@ sub _getBiosHardware {
     my $system_info  = $infos->{1}->[0];
     my $base_info    = $infos->{2}->[0];
     my $chassis_info = $infos->{3}->[0];
-    my $cpu_info     = $infos->{4}->[0];
 
     my $bios = {
         BMANUFACTURER => $bios_info->{'Vendor'},

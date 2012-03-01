@@ -18,7 +18,7 @@ memoize('getLsvpdInfos');
 memoize('getAdaptersFromLsdev');
 
 sub getLsvpdInfos {
-    my %params = (
+    my (%params) = (
         command => 'lsvpd',
         @_
     );
@@ -55,7 +55,7 @@ sub getLsvpdInfos {
 }
 
 sub getAdaptersFromLsdev {
-    my %params = (
+    my (%params) = (
         command => 'lsdev -Cc adapter -F "name:type:description"',
         @_
     );

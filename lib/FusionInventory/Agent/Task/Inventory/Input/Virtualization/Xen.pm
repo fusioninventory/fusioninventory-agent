@@ -53,7 +53,7 @@ sub  _getVirtualMachines {
     my @machines;
     while (my $line = <$handle>) {
         chomp $line;
-        my ($name, $vmid, $memory, $vcpu, $status, $time) = split(' ', $line);
+        my ($name, $vmid, $memory, $vcpu, $status) = split(' ', $line);
         next if $name eq 'Domain-0';
         next if $vmid == 0;
 

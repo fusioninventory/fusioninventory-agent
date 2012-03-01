@@ -26,7 +26,7 @@ sub doInventory {
 }
 
 sub _getMachines {
-    my %params = @_;
+    my (%params) = @_;
 
     my @machines = _parseList(
         command => 'virsh list --all',
@@ -49,7 +49,7 @@ sub _getMachines {
 }
 
 sub _parseList {
-    my %params = @_;
+    my (%params) = @_;
 
     my $handle = getFileHandle(%params);
     return unless $handle;
@@ -84,7 +84,7 @@ sub _parseList {
 }
 
 sub _parseDumpxml {
-    my %params = @_;
+    my (%params) = @_;
 
     my $xml = getAllLines(%params);
     if (!$xml) {

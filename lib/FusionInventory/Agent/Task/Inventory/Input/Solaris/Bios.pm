@@ -133,7 +133,7 @@ sub _parsePrtconf {
     );
     return unless $handle;
 
-    my ($infos, $name, $OBPstring);
+    my $infos;
     while (my $line = <$handle>) {
         next unless $line =~ /^ \s* ([^:]+) : \s* ' (.+) '$/x;
         next if $infos->{$1};

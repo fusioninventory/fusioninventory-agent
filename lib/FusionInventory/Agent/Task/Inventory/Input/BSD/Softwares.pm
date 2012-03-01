@@ -9,7 +9,7 @@ sub isEnabled {
     my (%params) = @_;
 
     return
-        !$params{no_software} &&
+        !$params{no_category}->{software} &&
         canRun('pkg_info');
 }
 

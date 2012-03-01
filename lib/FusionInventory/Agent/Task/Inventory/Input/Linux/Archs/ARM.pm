@@ -30,11 +30,9 @@ sub doInventory {
 }
 
 sub _getCPUsFromProc {
-    my ($logger, $file) = @_;
-
     my @cpus;
-    foreach my $cpu (getCPUsFromProc(@_)) {
 
+    foreach my $cpu (getCPUsFromProc(@_)) {
         push @cpus, {
             ARCH => 'ARM',
             TYPE => $cpu->{processor}

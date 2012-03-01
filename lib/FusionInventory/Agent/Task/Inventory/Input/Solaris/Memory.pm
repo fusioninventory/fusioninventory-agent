@@ -132,7 +132,6 @@ sub _getMemories2 {
     my $flag_mt = 0;
 
     my $capacity;
-    my $description;
     my $caption;
     my $speed;
     my $type;

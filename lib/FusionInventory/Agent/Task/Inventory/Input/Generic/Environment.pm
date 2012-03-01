@@ -8,8 +8,12 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
-    # We use WMI for Windows because of charset issue
-    return $OSNAME ne 'MSWin32';
+    my (%params) = @_;
+
+    return
+        # We use WMI for Windows because of charset issue
+        $OSNAME ne 'MSWin32' &&
+        !$params{no_category}->{environment};
 }
 
 sub doInventory {

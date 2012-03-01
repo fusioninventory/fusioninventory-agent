@@ -24,7 +24,7 @@ our @EXPORT = qw(
 memoize('getProcessesFromPs');
 
 sub getDeviceCapacity {
-    my %params = @_;
+    my (%params) = @_;
 
     return unless $params{device};
 
@@ -46,7 +46,7 @@ sub getDeviceCapacity {
 sub getIpDhcp {
     my ($logger, $if) = @_;
 
-    my $dhcpLeaseFile = _findDhcpLeaseFile($logger, $if);
+    my $dhcpLeaseFile = _findDhcpLeaseFile($if);
 
     return unless $dhcpLeaseFile;
 
@@ -54,8 +54,7 @@ sub getIpDhcp {
 }
 
 sub _findDhcpLeaseFile {
-    my ($logger, $if) = @_;
-
+    my ($if) = @_;
 
     my @directories = qw(
         /var/db
@@ -146,7 +145,7 @@ sub _parseDhcpLeaseFile {
 }
 
 sub getFilesystemsFromDf {
-    my %params = (@_);
+    my (%params) = @_;
     my $handle = getFileHandle(%params);
 
     my @filesystems;
@@ -197,7 +196,7 @@ sub getFilesystemsFromDf {
 }
 
 sub getFilesystemsTypesFromMount {
-    my %params = (
+    my (%params) = (
         command => 'mount',
         @_
     );
@@ -334,7 +333,7 @@ sub getProcessesFromPs {
 }
 
 sub getRoutingTable {
-    my %params = (
+    my (%params) = (
         command => 'netstat -nr -f inet',
         @_
     );

@@ -80,7 +80,7 @@ sub _getDdcprobeData {
     return unless $handle;
 
     my $data;
-    foreach my $line (<$handle>) {
+    while (my $line = <$handle>) {
         $line =~ s/[[:cntrl:]]//g;
         $line =~ s/[^[:ascii:]]//g;
         $data->{$1} = $2 if $line =~ /^(\S+):\s+(.*)/;
@@ -95,7 +95,7 @@ sub _parseXorgFd {
     return unless $handle;
 
     my $data;
-    foreach my $line (<$handle>) {
+    while (my $line = <$handle>) {
         if ($line =~ /Modeline\s"(\S+?)"/) {
             $data->{resolution} = $1 if !$data->{resolution};
         } elsif ($line =~ /Integrated Graphics Chipset:\s+(.*)/) {

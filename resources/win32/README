@@ -1,0 +1,6 @@
+Windows specific command and file samples
+
+wmi: wmi queries results
+- *-CIM_LogicalDevice: wmic path CIM_LogicalDevice get /Format:list
+
+registry: registry exports

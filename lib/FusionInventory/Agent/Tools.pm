@@ -202,7 +202,7 @@ sub getSanitizedString {
 }
 
 sub getDirectoryHandle {
-    my %params = @_;
+    my (%params) = @_;
 
     die "no directory parameter given" unless $params{directory};
 
@@ -218,7 +218,7 @@ sub getDirectoryHandle {
 }
 
 sub getFileHandle {
-    my %params = @_;
+    my (%params) = @_;
 
     my $handle;
 
@@ -252,7 +252,7 @@ sub getFileHandle {
 }
 
 sub getFirstLine {
-    my %params = @_;
+    my (%params) = @_;
 
     my $handle = getFileHandle(%params);
     return unless $handle;
@@ -265,7 +265,7 @@ sub getFirstLine {
 }
 
 sub getLastLine {
-    my %params = @_;
+    my (%params) = @_;
 
     my $handle = getFileHandle(%params);
     return unless $handle;
@@ -281,7 +281,7 @@ sub getLastLine {
 }
 
 sub getFirstMatch {
-    my %params = @_;
+    my (%params) = @_;
 
     return unless $params{pattern};
     my $handle = getFileHandle(%params);
@@ -298,7 +298,7 @@ sub getFirstMatch {
 }
 
 sub getAllLines {
-    my %params = @_;
+    my (%params) = @_;
 
     my $handle = getFileHandle(%params);
     return unless $handle;
@@ -316,7 +316,7 @@ sub getAllLines {
 }
 
 sub getLinesCount {
-    my %params = @_;
+    my (%params) = @_;
 
     my $handle = getFileHandle(%params);
     return unless $handle;
