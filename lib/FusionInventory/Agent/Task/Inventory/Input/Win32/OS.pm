@@ -28,7 +28,10 @@ sub doInventory {
             / ]
         )) {
 
-        my $key = _getXPkey();
+        my $key = _getXPkey(path => 'HKEY_LOCAL_MACHINE/Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId');
+        if (!$key) { # 582
+           $key = _getXPkey(path => 'HKEY_LOCAL_MACHINE/Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId4');
+        }
         my $description = encodeFromRegistry(getRegistryValue(
             path   => 'HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Services/lanmanserver/Parameters/srvcomment',
             logger => $logger
@@ -119,10 +122,9 @@ sub doInventory {
 #http://www.perlmonks.org/?node_id=497616
 # Thanks William Gannon && Charles Clarkson
 sub _getXPkey {
-    my $key = getRegistryValue(
-        path => 'HKEY_LOCAL_MACHINE/Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId',
-    );
+    my $key = getRegistryValue(@_);
     return unless $key;
+
     my @encoded = ( unpack 'C*', $key )[ reverse 52 .. 66 ];
 
     # Get indices
@@ -147,6 +149,7 @@ sub _getXPkey {
         join '-',
         $cd_key =~ /(.{5})/g;
 
+    return if $cd_key =~ /^[B-]*$/;
     return $cd_key;
 }
 
