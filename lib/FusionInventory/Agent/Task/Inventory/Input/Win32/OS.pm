@@ -58,7 +58,7 @@ sub doInventory {
 
         $inventory->setOperatingSystem({
             NAME           => "Windows",
-            INSTALL_DATE   => $installDate
+            INSTALL_DATE   => $installDate,
     #        VERSION       => $OSVersion,
             KERNEL_VERSION => $object->{Version},
             FULL_NAME      => $object->{Caption},
