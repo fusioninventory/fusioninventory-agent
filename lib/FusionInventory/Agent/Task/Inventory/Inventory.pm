@@ -246,7 +246,7 @@ sub setHardware {
         PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME IPADDR WORKGROUP
         DESCRIPTION MEMORY UUID DNS LASTLOGGEDUSER USERDOMAIN
         DATELASTLOGGEDUSER DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
-        WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE OSINSTALLDATE/) {
+        WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE/) {
 # WINLANG: Windows Language, see MSDN Win32_OperatingSystem documentation
         if (exists $args->{$key}) {
             my $string = getSanitizedString($args->{$key});
@@ -258,7 +258,7 @@ sub setHardware {
 sub setOperatingSystem {
     my ($self, $args) = @_;
 
-    foreach my $key (qw/KERNEL_NAME KERNEL_VERSION NAME VERSION FULL_NAME SERVICE_PACK/) {
+    foreach my $key (qw/KERNEL_NAME KERNEL_VERSION NAME VERSION FULL_NAME SERVICE_PACK INSTALL_DATE/) {
         next unless exists $args->{$key};
 
         my $string = getSanitizedString($args->{$key});
@@ -886,6 +886,10 @@ deprecated in the future.
 
 The Service Pack level reported by the operating system. This field is only
 present on systems which use this notion.
+
+=item INSTALL_DATE
+
+The operating system installation date.
 
 =back
 

@@ -54,11 +54,11 @@ sub doInventory {
             OSCOMMENTS    => $object->{CSDVersion},
             SWAP          => $object->{TotalSwapSpaceSize},
             DESCRIPTION   => $description,
-            OSINSTALLDATE => $installDate
         });
 
         $inventory->setOperatingSystem({
             NAME           => "Windows",
+            INSTALL_DATE   => $installDate
     #        VERSION       => $OSVersion,
             KERNEL_VERSION => $object->{Version},
             FULL_NAME      => $object->{Caption},
