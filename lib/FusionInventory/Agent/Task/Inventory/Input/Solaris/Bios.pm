@@ -125,12 +125,12 @@ sub _parseSmbios {
 }
 
 sub _parsePrtconf {
-    my ($logger) = @_;
-
-    my $handle = getFileHandle(
-        command => "/usr/sbin/prtconf -pv",
-        logger  => $logger
+    my (%params) = (
+        command => '/usr/sbin/prtconf -pv',
+        @_
     );
+
+    my $handle = getFileHandle(%params);
     return unless $handle;
 
     my $infos;
