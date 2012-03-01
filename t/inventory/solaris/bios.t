@@ -76,7 +76,7 @@ my %showrev_tests = (
 plan tests => scalar keys %showrev_tests;
 
 foreach my $test (keys %showrev_tests) {
-    my $file   = "resources/solaris/showrev-$test";
+    my $file   = "resources/solaris/showrev/$test";
     my $result = FusionInventory::Agent::Task::Inventory::Input::Solaris::Bios::_parseShowRev(file => $file);
     is_deeply($result, $showrev_tests{$test}, "showrev parsing: $test");
 }
