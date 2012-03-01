@@ -26,7 +26,7 @@ sub doInventory {
 
         my $arch;
         if (canRun('showrev')) {
-            my $infos = _parseShowRev($logger);
+            my $infos = _parseShowRev(logger => $logger);
             $SystemModel        = $infos->{'Application architecture'};
             $SystemManufacturer = $infos->{'Hardware provider'};
             $arch               = $infos->{'Application architecture'};
@@ -87,12 +87,12 @@ sub doInventory {
 }
 
 sub _parseShowRev {
-    my ($logger) = @_;
-
-    my $handle = getFileHandle(
-        command => "showrev",
-        logger  => $logger
+    my (%params) = (
+        command => 'showrev',
+        @_
     );
+
+    my $handle = getFileHandle(%params);
     return unless $handle;
 
     my $infos;
