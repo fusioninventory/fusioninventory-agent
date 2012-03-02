@@ -182,11 +182,18 @@ sub _parsePsrinfo {
 }
 
 sub _getCPUFromPrtcl {
-    my ($count, $cpu);
+    my (%params) = (
+        command => "prctl -n zone.cpu-shares $$",
+        @_
+    );
 
-    foreach (`prctl -n zone.cpu-shares $$`) {
-        $cpu->{NAME} = $1 if /^zone.(\S+)$/;
-        $cpu->{NAME} .= " " . $1 if /^\s*privileged+\s*(\d+)/;
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my ($count, $cpu);
+    while (my $line = <$handle>) {
+        $cpu->{NAME} = $1 if $line =~ /^zone.(\S+)$/;
+        $cpu->{NAME} .= " " . $1 if $line =~ /^\s*privileged+\s*(\d+)/;
         #$count = 1 if /^\s*privileged+\s*(\d+)/;
         foreach (`memconf 2>&1`) {
             if(/\s+\((\d+).*\s+(\d+)MHz/) {
@@ -195,6 +202,7 @@ sub _getCPUFromPrtcl {
             }
         }
     }
+    close $handle;
 
     return ($count, $cpu);
 }
