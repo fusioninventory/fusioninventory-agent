@@ -25,13 +25,7 @@ sub doInventory {
 
     # fallback on generic method
     if (!$count) {
-        foreach (`psrinfo -v`) {
-            if (/^\s+The\s(\w+)\sprocessor\soperates\sat\s(\d+)\sMHz,/) {
-                $cpu->{NAME}  = $1;
-                $cpu->{SPEED} = $2;
-                $count++;
-            }
-        }
+        ($count, $cpu->{NAME}, $cpu->{SPEED}) = _parsePsrinfo();
     }
 
     $cpu->{MANUFACTURER} = "SPARC";
@@ -170,6 +164,30 @@ sub _parseSpec {
         };
     }
 
+}
+
+sub _parsePsrinfo {
+    my (%params) = (
+        command => 'psrinfo -v',
+        @_
+    );
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my $count = 0;
+    my ($name, $speed);
+    while (my $line = <$handle>) {
+        next unless $line =~ 
+            /^\s+The\s(\w+)\sprocessor\soperates\sat\s(\d+)\sMHz,/;
+
+        $name  = $1;
+        $speed = $2;
+        $count++;
+    }
+    close $handle;
+
+    return ($count, $name, $speed);
 }
 
 sub _getCPUFromPrtcl {
