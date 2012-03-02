@@ -16,10 +16,14 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
+    my $bios = {
+        SMANUFACTURER => 'DEC',
+    };
+
     # sysctl infos
 
     # example on *BSD: AlphaStation 255 4/232
-    my $SystemModel = getFirstLine(command => 'sysctl -n hw.model');
+    $bios->{SMODEL} = getFirstLine(command => 'sysctl -n hw.model');
 
     my $processorn = getFirstLine(command => 'sysctl -n hw.ncpu');
 
@@ -37,14 +41,11 @@ sub doInventory {
 
     my ($processort, $processors);
     foreach my $line (getAllLines(command => 'dmesg')) {
-        if ($line =~ /$SystemModel,\s*(\S+)\s*MHz/) { $processors = $1; }
+        if ($line =~ /$bios->{SMODEL},\s*(\S+)\s*MHz/) { $processors = $1; }
         if ($line =~ /^cpu[^:]*:\s*(.*)$/i)         { $processort = $1; }
     }
 
-    $inventory->setBios({
-        SMANUFACTURER => 'DEC',
-        SMODEL        => $SystemModel,
-    });
+    $inventory->setBios($bios);
 
     for my $i (1 .. $processorn) {
         $inventory->addEntry(

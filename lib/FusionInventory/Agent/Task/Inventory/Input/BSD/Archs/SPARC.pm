@@ -16,17 +16,21 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
+    my $bios = {
+        SMANUFACTURER => 'SUN',
+    };
+
     # sysctl infos
 
     # it gives only the CPU on OpenBSD/sparc64
-    my $SystemModel = getFirstLine(command => 'sysctl -n hw.model');
+    $bios->{SMODEL} = getFirstLine(command => 'sysctl -n hw.model');
 
     # example on NetBSD: 0x807b65c
     # example on OpenBSD: 2155570635
-    my $SystemSerial = getFirstLine(command => 'sysctl -n kern.hostid');
+    $bios->{SSN} = getFirstLine(command => 'sysctl -n kern.hostid');
     # force hexadecimal, but remove 0x to make it appear as in the firmware
-    $SystemSerial = dec2hex($SystemSerial);
-    $SystemSerial =~ s/^0x//;
+    $bios->{SSN} = dec2hex($bios->{SSN});
+    $bios->{SSN} =~ s/^0x//;
 
     my $processorn = getFirstLine(command => 'sysctl -n hw.ncpu');
 
@@ -52,14 +56,14 @@ sub doInventory {
 
     my $processort;
     foreach my $line (getAllLines(command => 'dmesg')) {
-        if ($line=~ /^mainbus0 \(root\):\s*(.*)$/) { $SystemModel = $1; }
+        if ($line=~ /^mainbus0 \(root\):\s*(.*)$/) { $bios->{SMODEL} = $1; }
         if ($line =~ /^cpu[^:]*:\s*(.*)$/i)        { $processort = $1; }
     }
 
-    $SystemModel =~ s/SUNW,//;
-    $SystemModel =~ s/[:\(].*$//;
-    $SystemModel =~ s/^\s*//;
-    $SystemModel =~ s/\s*$//;
+    $bios->{SMODEL} =~ s/SUNW,//;
+    $bios->{SMODEL} =~ s/[:\(].*$//;
+    $bios->{SMODEL} =~ s/^\s*//;
+    $bios->{SMODEL} =~ s/\s*$//;
 
     $processort =~ s/SUNW,//;
     $processort =~ s/^\s*//;
@@ -71,11 +75,7 @@ sub doInventory {
         $processors = sprintf("%.0f", "$1$2"); # round number
     }
 
-    $inventory->setBios({
-        SMANUFACTURER => 'SUN',
-        SMODEL        => $SystemModel,
-        SSN           => $SystemSerial,
-    });
+    $inventory->setBios($bios);
 
     for my $i (1 .. $processorn) {
         $inventory->addEntry(
