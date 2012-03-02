@@ -4513,6 +4513,298 @@ my %dmidecode_tests = (
                 'Ending Address' => '0x000400003FF'
             }
         ]
+    },
+    'windows-xppro' => {
+        '32' => [
+            {
+                'Status' => 'No errors detected'
+            }
+        ],
+        '11' => [
+            {
+                'String 1' => 'Dell System',
+                'String 3' => '13[PP04X]',
+                'String 2' => '5[0003]'
+            }
+        ],
+        '21' => [
+            {
+                'Type' => 'Touch Pad',
+                'Buttons' => '2',
+                'Interface' => 'Bus Mouse'
+            }
+        ],
+        '7' => [
+            {
+                'Error Correction Type' => 'None',
+                'Installed Size' => '128 kB',
+                'Operational Mode' => 'Write Back',
+                'Configuration' => 'Enabled, Not Socketed, Level 1',
+                'Installed SRAM Type' => 'Unknown',
+                'System Type' => 'Data',
+                'Speed' => 'Unknown',
+                'Associativity' => '4-way Set-associative',
+                'Location' => 'Internal',
+                'Maximum Size' => '128 kB'
+            },
+            {
+                'Error Correction Type' => 'None',
+                'Installed Size' => '6144 kB',
+                'Operational Mode' => 'Varies With Memory Address',
+                'Configuration' => 'Enabled, Not Socketed, Level 2',
+                'Installed SRAM Type' => 'Pipeline Burst',
+                'System Type' => 'Unified',
+                'Speed' => '15 ns',
+                'Associativity' => 'Other',
+                'Location' => 'Internal',
+                'Maximum Size' => '6144 kB'
+            }
+        ],
+        '17' => [
+            {
+                'Part Number' => 'EBE21UE8ACUA-8G-E',
+                'Serial Number' => '14FA6621',
+                'Data Width' => '64 bits',
+                'Array Handle' => '0x1000',
+                'Type Detail' => 'Synchronous',
+                'Set' => 'None',
+                'Asset Tag' => '200840',
+                'Total Width' => '64 bits',
+                'Type' => 'DDR2',
+                'Speed' => '800 MHz',
+                'Size' => '2048 MB',
+                'Error Information Handle' => 'Not Provided',
+                'Locator' => 'DIMM_A',
+                'Manufacturer' => '7F7FFE0000000000',
+                'Form Factor' => 'DIMM'
+            },
+            {
+                'Part Number' => 'EBE21UE8ACUA-8G-E',
+                'Serial Number' => 'AEF96621',
+                'Data Width' => '64 bits',
+                'Array Handle' => '0x1000',
+                'Type Detail' => 'Synchronous',
+                'Set' => 'None',
+                'Asset Tag' => '200840',
+                'Total Width' => '64 bits',
+                'Type' => 'DDR2',
+                'Speed' => '800 MHz',
+                'Size' => '2048 MB',
+                'Error Information Handle' => 'Not Provided',
+                'Locator' => 'DIMM_B',
+                'Manufacturer' => '7F7FFE0000000000',
+                'Form Factor' => 'DIMM'
+            }
+        ],
+        '2' => [
+            {
+                'Product Name' => '0P019G',
+                'Serial Number' => '.HLG964J.CN129618C52450.',
+                'Manufacturer' => 'Dell Inc.'
+            }
+        ],
+        '22' => [
+            {
+                'Design Capacity' => '84000 mWh',
+                'Maximum Error' => '3%',
+                'OEM-specific Information' => '0x00000001',
+                'Design Voltage' => '11100 mV',
+                'SBDS Manufacture Date' => '2010-08-31',
+                'SBDS Chemistry' => 'LION',
+                'Location' => 'Sys. Battery Bay',
+                'Manufacturer' => 'SMP',
+                'Name' => 'DELL HJ59008',
+                'SBDS Version' => '1.0',
+                'SBDS Serial Number' => '02C7'
+            }
+        ],
+        '1' => [
+            {
+                'Wake-up Type' => 'Power Switch',
+                'Product Name' => 'Precision M4400',
+                'Serial Number' => 'HLG964J',
+                'Manufacturer' => 'Dell Inc.',
+                'UUID' => '44454C4C-4C00-1047-8039-C8C04F36344A'
+            }
+        ],
+        '0' => [
+            {
+                'BIOS Revision' => '2.4',
+                'Address' => '0xF0000',
+                'Vendor' => 'Dell Inc.',
+                'Version' => 'A24',
+                'Runtime Size' => '64 kB',
+                'Firmware Revision' => '2.4',
+                'Release Date' => '08/19/2010',
+                'ROM Size' => '1728 kB'
+            }
+        ],
+        '16' => [
+            {
+                'Number Of Devices' => '2',
+                'Error Correction Type' => 'None',
+                'Error Information Handle' => 'Not Provided',
+                'Location' => 'System Board Or Motherboard',
+                'Maximum Capacity' => '8 GB',
+                'Use' => 'System Memory'
+            }
+        ],
+        '13' => [
+            {
+                'Language Description Format' => 'Long',
+                'Installable Languages' => '1',
+                'Currently Installed Language' => 'en|US|iso8859-1'
+            }
+        ],
+        '27' => [
+            {
+                'Type' => 'Fan',
+                'Status' => 'OK',
+                'OEM-specific Information' => '0x0000DD00'
+            }
+        ],
+        '28' => [
+            {
+                'Status' => 'OK',
+                'Minimum Value' => '0.0 deg C',
+                'OEM-specific Information' => '0x0000DC00',
+                'Accuracy' => 'Unknown',
+                'Maximum Value' => '127.0 deg C',
+                'Resolution' => '1.000 deg C',
+                'Location' => 'Processor',
+                'Tolerance' => '0.5 deg C',
+                'Description' => 'CPU Internal Temperature'
+            }
+        ],
+        '3' => [
+            {
+                'Type' => 'Portable',
+                'Power Supply State' => 'Safe',
+                'Security Status' => 'None',
+                'Serial Number' => 'HLG964J',
+                'Thermal State' => 'Safe',
+                'Boot-up State' => 'Safe',
+                'Manufacturer' => 'Dell Inc.'
+            }
+        ],
+        '9' => [
+            {
+                'ID' => 'Adapter 0, Socket 0',
+                'Length' => 'Other',
+                'Designation' => 'PCMCIA 0',
+                'Type' => '32-bit PC Card (PCMCIA)',
+                'Current Usage' => 'Available'
+            }
+        ],
+        '20' => [
+            {
+                'Range Size' => '4 GB',
+                'Partition Row Position' => '1',
+                'Starting Address' => '0x00000000000',
+                'Memory Array Mapped Address Handle' => '0x1301',
+                'Physical Device Handle' => '0x1100',
+                'Interleaved Data Depth' => '8',
+                'Interleave Position' => '1',
+                'Ending Address' => '0x000FFFFFFFF'
+            },
+            {
+                'Range Size' => '4 GB',
+                'Partition Row Position' => '1',
+                'Starting Address' => '0x00000000000',
+                'Memory Array Mapped Address Handle' => '0x1301',
+                'Physical Device Handle' => '0x1101',
+                'Interleaved Data Depth' => '8',
+                'Interleave Position' => '2',
+                'Ending Address' => '0x000FFFFFFFF'
+            }
+        ],
+        '8' => [
+            {
+                'Port Type' => 'Parallel Port PS/2',
+                'External Connector Type' => 'DB-25 female',
+                'Internal Reference Designator' => 'PARALLEL',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'Port Type' => 'Serial Port 16550A Compatible',
+                'External Connector Type' => 'DB-9 male',
+                'Internal Reference Designator' => 'SERIAL1',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'Port Type' => 'USB',
+                'External Connector Type' => 'Access Bus (USB)',
+                'Internal Reference Designator' => 'USB',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'Port Type' => 'Video Port',
+                'External Connector Type' => 'DB-15 female',
+                'Internal Reference Designator' => 'MONITOR',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'Port Type' => 'Firewire (IEEE P1394)',
+                'External Connector Type' => 'IEEE 1394',
+                'Internal Reference Designator' => 'FireWire',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'Port Type' => 'Modem Port',
+                'External Connector Type' => 'RJ-11',
+                'Internal Reference Designator' => 'Modem',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'Port Type' => 'Network Port',
+                'External Connector Type' => 'RJ-45',
+                'Internal Reference Designator' => 'Ethernet',
+                'Internal Connector Type' => 'None'
+            }
+        ],
+        '4' => [
+            {
+                'ID' => '76 06 01 00 FF FB EB BF',
+                'Socket Designation' => 'Microprocessor',
+                'Status' => 'Populated, Enabled',
+                'Max Speed' => '2534 MHz',
+                'Family' => 'Core 2 Duo',
+                'Thread Count' => '2',
+                'Current Speed' => '2534 MHz',
+                'L2 Cache Handle' => '0x0701',
+                'Type' => 'Central Processor',
+                'Signature' => 'Type 0, Family 6, Model 23, Stepping 6',
+                'L1 Cache Handle' => '0x0700',
+                'Manufacturer' => 'Intel',
+                'Core Enabled' => '2',
+                'External Clock' => '266 MHz',
+                'Upgrade' => 'None',
+                'Core Count' => '2',
+                'Voltage' => '3.3 V',
+                'L3 Cache Handle' => 'Not Provided'
+            }
+        ],
+        '10' => [
+            {
+                'Type' => 'Video',
+                'Status' => 'Enabled',
+                'Description' => 'NVIDIA Quadro FX 1700M'
+            },
+            {
+                'Type' => 'Sound',
+                'Status' => 'Enabled',
+                'Description' => 'IDT 92HD71'
+            }
+        ],
+        '19' => [
+            {
+                'Range Size' => '4 GB',
+                'Partition Width' => '1',
+                'Starting Address' => '0x00000000000',
+                'Physical Array Handle' => '0x1000',
+                'Ending Address' => '0x000FFFFFFFF'
+            }
+        ]
     }
 );
 
