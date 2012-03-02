@@ -27,7 +27,7 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger =    $params{logger};
+    my $logger    = $params{logger};
 
     if (is64bit()) {
 
@@ -44,10 +44,9 @@ sub doInventory {
 
         foreach my $software (_getSoftwares(
             softwares => $softwares64,
-            is64bit   => 1,
-            logger => $logger
+            is64bit   => 1
         )) {
-            _addSoftware(inventory => $inventory, entry => $software, logger => $logger);
+            _addSoftware(inventory => $inventory, entry => $software);
         }
         _processMSIE(
             machKey   => $machKey64,
@@ -67,7 +66,7 @@ sub doInventory {
             is64bit   => 0,
             logger => $logger
         )) {
-            _addSoftware(inventory => $inventory, entry => $software, logger => $logger);
+            _addSoftware(inventory => $inventory, entry => $software);
         }
         _processMSIE(
             machKey   => $machKey32,
@@ -88,7 +87,7 @@ sub doInventory {
             softwares => $softwares,
             is64bit   => 0
         )) {
-            _addSoftware(inventory => $inventory, entry => $software, logger => $logger);
+            _addSoftware(inventory => $inventory, entry => $software);
         }
         _processMSIE(
             machKey   => $machKey,
@@ -168,7 +167,6 @@ sub _addSoftware {
 
     my $entry = $params{entry};
 
-    $params{logger}->debug("_addSoftware() begin") if $params{logger};
     # avoid duplicates
     return if $seen->{$entry->{NAME}}->{$entry->{IS64BIT}}{$entry->{VERSION} || '_undef_'}++;
 

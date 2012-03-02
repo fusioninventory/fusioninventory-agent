@@ -15,9 +15,6 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
 use FusionInventory::Agent::Tools::Generic;
 
-our $runMeIfTheseChecksFailed =
-    ["FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode"];
-
 sub isEnabled {
     return 1;
 }
