@@ -908,6 +908,28 @@ my %tests = (
             MEMORYCORRECTION => 'None'
         }
     ],
+    'windows-xppro' => [
+        {
+            NUMSLOTS         => 1,
+            SERIALNUMBER     => '14FA6621',
+            TYPE             => 'DDR2',
+            SPEED            => '800 MHz',
+            CAPTION          => 'DIMM_A',
+            MEMORYCORRECTION => 'None',
+            DESCRIPTION      => 'DIMM (None)',
+            CAPACITY         => '2048'
+        },
+        {
+            NUMSLOTS         => 2,
+            SERIALNUMBER     => 'AEF96621',
+            TYPE             => 'DDR2',
+            SPEED            => '800 MHz',
+            CAPTION          => 'DIMM_B',
+            MEMORYCORRECTION => 'None',
+            DESCRIPTION      => 'DIMM (None)',
+            CAPACITY         => '2048'
+        }
+    ],
     'windows-hyperV' => [
         {
             NUMSLOTS     => 1,
