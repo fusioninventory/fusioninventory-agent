@@ -24,9 +24,7 @@ sub doInventory {
             _getCPUFromMemconf(logger => $logger);
 
     # fallback on generic method
-    if (!$count) {
-        ($count, $cpu->{NAME}, $cpu->{SPEED}) = _parsePsrinfo();
-    }
+    ($count, $cpu) = _getCPUFromPrsinfo(logger => $logger) if !$count;
 
     $cpu->{MANUFACTURER} = "SPARC";
 
@@ -157,7 +155,7 @@ sub _parseSpec {
 
 }
 
-sub _parsePsrinfo {
+sub _getCPUFromPsrinfo {
     my (%params) = (
         command => 'psrinfo -v',
         @_
@@ -167,18 +165,18 @@ sub _parsePsrinfo {
     return unless $handle;
 
     my $count = 0;
-    my ($name, $speed);
+    my $cpu;
     while (my $line = <$handle>) {
         next unless $line =~ 
             /^\s+The\s(\w+)\sprocessor\soperates\sat\s(\d+)\sMHz,/;
 
-        $name  = $1;
-        $speed = $2;
+        $cpu->{NAME}  = $1;
+        $cpu->{SPEED} = $2;
         $count++;
     }
     close $handle;
 
-    return ($count, $name, $speed);
+    return ($count, $cpu);
 }
 
 sub _getCPUFromPrtcl {

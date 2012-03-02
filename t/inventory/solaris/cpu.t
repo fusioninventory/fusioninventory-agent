@@ -38,7 +38,13 @@ my %memconf_tests = (
 );
 
 my %psrinfo_tests = (
-    sample1 => [ 8, 'i386', 2133 ]
+    sample1 => [
+        8,
+        {
+            NAME  => 'i386',
+            SPEED => 2133
+        }
+    ]
 );
 
 my %spec_tests = (
@@ -155,7 +161,7 @@ foreach my $test (keys %memconf_tests) {
 
 foreach my $test (keys %psrinfo_tests) {
     my $file    = "resources/solaris/psrinfo/$test";
-    my @results = FusionInventory::Agent::Task::Inventory::Input::Solaris::CPU::_parsePsrinfo(file => $file);
+    my @results = FusionInventory::Agent::Task::Inventory::Input::Solaris::CPU::_getCPUFromPsrinfo(file => $file);
     is_deeply(\@results, $psrinfo_tests{$test}, "psrinfo parsing: $test" );
 }
 
