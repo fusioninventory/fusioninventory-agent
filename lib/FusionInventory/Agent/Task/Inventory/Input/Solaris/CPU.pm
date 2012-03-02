@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Input::Solaris::CPU;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Solaris;
 
@@ -181,7 +183,7 @@ sub _getCPUFromPsrinfo {
 
 sub _getCPUFromPrtcl {
     my (%params) = (
-        command => "prctl -n zone.cpu-shares $$",
+        command => "prctl -n zone.cpu-shares $PID",
         @_
     );
 
