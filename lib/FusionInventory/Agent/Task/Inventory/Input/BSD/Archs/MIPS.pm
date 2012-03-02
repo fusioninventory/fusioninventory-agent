@@ -26,7 +26,7 @@ sub doInventory {
     # example on OpenBSD: SGI-O2 (IP32)
     $bios->{SMODEL} = getFirstLine(command => 'sysctl -n hw.model');
 
-    my $processorn = getFirstLine(command => 'sysctl -n hw.ncpu');
+    my $count = getFirstLine(command => 'sysctl -n hw.ncpu');
 
     # dmesg infos
     
@@ -45,22 +45,19 @@ sub doInventory {
     # cpu0 at mainbus0: MIPS R5000 CPU rev 2.1 180 MHz with R5000 based FPC rev 1.0
     # cpu0: cache L1-I 32KB D 32KB 2 way, L2 512KB direct
 
-    my ($processort, $processors);
+    my $cpu;
     foreach my $line (getAllLines(command => 'dmesg')) {
         if ($line =~ /$bios->{SMODEL}\s*\[\S*\s*(\S*)\]/) { $bios->{SSN} = $1; }
-        if ($line =~ /cpu0 at mainbus0:\s*(.*)$/)         { $processort = $1;  }
-        if ($line =~ /CPU\s*.*\D(\d+)\s*MHz/)             { $processors = $1;  }
+        if ($line =~ /cpu0 at mainbus0:\s*(.*)$/)         { $cpu->{NAME} = $1; }
+        if ($line =~ /CPU\s*.*\D(\d+)\s*MHz/)             { $cpu->{SPEED} = $1;  }
     }
 
     $inventory->setBios($bios);
 
-    for my $i (1 .. $processorn) {
+    while ($count--) {
         $inventory->addEntry(
             section => 'CPUS',
-            entry   => {
-                NAME  => $processort,
-                SPEED => $processors,
-            }
+            entry   => $cpu
         );
     }
 }

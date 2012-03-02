@@ -32,7 +32,7 @@ sub doInventory {
     $bios->{SSN} = dec2hex($bios->{SSN});
     $bios->{SSN} =~ s/^0x//;
 
-    my $processorn = getFirstLine(command => 'sysctl -n hw.ncpu');
+    my $count = getFirstLine(command => 'sysctl -n hw.ncpu');
 
     # dmesg infos
 
@@ -54,10 +54,10 @@ sub doInventory {
     # FreeBSD:
     # cpu0: Sun Microsystems UltraSparc-I Processor (167.00 MHz CPU)
 
-    my $processort;
+    my $cpu;
     foreach my $line (getAllLines(command => 'dmesg')) {
         if ($line=~ /^mainbus0 \(root\):\s*(.*)$/) { $bios->{SMODEL} = $1; }
-        if ($line =~ /^cpu[^:]*:\s*(.*)$/i)        { $processort = $1; }
+        if ($line =~ /^cpu[^:]*:\s*(.*)$/i)        { $cpu->{NAME}    = $1; }
     }
 
     $bios->{SMODEL} =~ s/SUNW,//;
@@ -65,25 +65,21 @@ sub doInventory {
     $bios->{SMODEL} =~ s/^\s*//;
     $bios->{SMODEL} =~ s/\s*$//;
 
-    $processort =~ s/SUNW,//;
-    $processort =~ s/^\s*//;
-    $processort =~ s/\s*$//;
+    $cpu->{NAME} =~ s/SUNW,//;
+    $cpu->{NAME} =~ s/^\s*//;
+    $cpu->{NAME} =~ s/\s*$//;
 
-    my $processors;
     # XXX quick and dirty _attempt_ to get proc speed
-    if ( $processort =~ /(\d+)(\.\d+|)\s*mhz/i ) { # possible decimal point
-        $processors = sprintf("%.0f", "$1$2"); # round number
+    if ($cpu->{NAME} =~ /(\d+)(\.\d+|)\s*mhz/i ) { # possible decimal point
+        $cpu->{SPEED} = sprintf("%.0f", "$1$2"); # round number
     }
 
     $inventory->setBios($bios);
 
-    for my $i (1 .. $processorn) {
+    while ($count--) {
         $inventory->addEntry(
             section => 'CPUS',
-            entry   => {
-                NAME  => $processort,
-                SPEED => $processors,
-            }
+            entry   => $cpu
         );
     }
 
