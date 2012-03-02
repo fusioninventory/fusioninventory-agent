@@ -62,21 +62,12 @@ sub _getCPUFromMemconf {
 sub _parseCoreString {
     my ($v) = @_;
 
-    if ($v =~ /Dual/i) {
-        return 2;
-    } elsif ($v =~ /Quad/i) {
-        return 4;
-    } elsif ($v =~ /(\d+)-(core|thread)/) {
-        return $1;
-    }elsif ($v =~ /^dual/) {
-        return 2;
-    } elsif ($v =~ /^quad/) {
-        return 4;
-    }
-
-    return $v;
+    return
+        $v =~ /dual/i               ? 2  :
+        $v =~ /quad/i               ? 4  :
+        $v =~ /(\d+)-(core|thread)/ ? $1 :
+        $v;
 }
-
 
 sub _parseSpec {
     my ($spec) = @_;
