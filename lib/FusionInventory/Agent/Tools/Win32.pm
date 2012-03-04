@@ -222,7 +222,3 @@ E.g: HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion
 =item logger
 
 =back
-
-=head2 getHostnameFromKernel32
-
-Returns the computer name and its domain, as a list.
