@@ -4,12 +4,6 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use Win32;
-use Win32::TieRegistry (
-    Delimiter   => '/',
-    ArrayValues => 0,
-    qw/KEY_READ/
-);
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
@@ -44,7 +38,13 @@ sub doInventory {
 sub _getCPUs {
     my ($logger) = @_;
 
-    my @dmidecodeCpu = getCpusFromDmidecode();
+    my @dmidecodeInfos = getCpusFromDmidecode();
+    # the CPU description in WMI is false, we use the registry instead
+    my $registryInfos = getRegistryKey(
+        path   => "HKEY_LOCAL_MACHINE/Hardware/Description/System/CentralProcessor",
+        logger => $logger
+    );
+
     my $cpuId = 0;
     my @cpus;
 
@@ -53,22 +53,15 @@ sub _getCPUs {
         properties => [ qw/NumberOfCores ProcessorId MaxClockSpeed/ ]
     )) {
 
-        # the CPU description in WMI is false, we use the registry instead
-        # Hardware\Description\System\CentralProcessor\1
-        # thank you Nicolas Richard 
-        my $registryInfo = getRegistryValue(
-            path   => "HKEY_LOCAL_MACHINE/Hardware/Description/System/CentralProcessor/$cpuId",
-            logger => $logger
-        );
-
-        my $dmidecodeInfo = $dmidecodeCpu[$cpuId];
+        my $dmidecodeInfo = $dmidecodeInfos[$cpuId];
+        my $registryInfo  = $registryInfos->{"$cpuId/"};
 
         my $cpu = {
             CORE         => $dmidecodeInfo->{CORE} || $object->{NumberOfCores},
             THREAD       => $dmidecodeInfo->{THREAD},
-            DESCRIPTION  => $registryInfo->{Identifier},
-            NAME         => $registryInfo->{ProcessorNameString},
-            MANUFACTURER => $registryInfo->{VendorIdentifier},
+            DESCRIPTION  => $registryInfo->{'/Identifier'},
+            NAME         => $registryInfo->{'/ProcessorNameString'},
+            MANUFACTURER => $registryInfo->{'/VendorIdentifier'},
             SERIAL       => $dmidecodeInfo->{SERIAL},
             SPEED        => $dmidecodeInfo->{SPEED} || $object->{MaxClockSpeed},
             ID           => $dmidecodeInfo->{ID} || $object->{ProcessorId}
