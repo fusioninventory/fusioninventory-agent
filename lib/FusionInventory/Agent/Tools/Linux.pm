@@ -186,7 +186,7 @@ sub getDevicesFromProc {
     return unless $handle;
 
     while (my $line = <$handle>) {
-        next unless $line =~ (/^\/dev\/([sh]d[a-z])/);
+        next unless $line =~ m{^/dev/([sh]d[a-z])};
         push(@names, $1);
     }
     close $handle;
