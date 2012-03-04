@@ -203,16 +203,3 @@ fusioninventory-agent.1.html: fusioninventory-agent
 EOF
     return $manifypods;
 }
-
-sub test {
-    my ($self) = @_;
-    my $test = $self->SUPER::test(@_);
-
-    $test .= <<'EOF';
-%-junit.xml:
-	prove --lib --timer --recurse --formatter TAP::Formatter::JUnit t \
-	    > $@
-EOF
-
-    return $test;
-}
