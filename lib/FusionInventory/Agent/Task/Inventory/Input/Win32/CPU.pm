@@ -25,10 +25,28 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my @dmidecodeCpu = getCpusFromDmidecode();
+    my @cpus = _getCPUs($logger);
 
-    my $vmsystem;
+    foreach my $cpu (@cpus) {
+        $inventory->addEntry(
+            section => 'CPUS',
+            entry   => $cpu
+        );
+    }
+
+    if (any { $_->{NAME} =~ /QEMU/i } @cpus) {
+        $inventory->setHardware ({
+            VMSYSTEM => 'QEMU'
+        });
+    }
+}
+
+sub _getCPUs {
+    my ($logger) = @_;
+
+    my @dmidecodeCpu = getCpusFromDmidecode();
     my $cpuId = 0;
+    my @cpus;
 
     foreach my $object (getWmiObjects(
         class      => 'Win32_Processor',
@@ -79,7 +97,6 @@ sub doInventory {
             $cpu->{NAME} =~ s/^\s+//;
             $cpu->{NAME} =~ s/\s+$//;
 
-            $vmsystem = "QEMU" if $cpu->{NAME} =~ /QEMU/i;
 
             if ($cpu->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
                 $cpu->{SPEED} = {
@@ -89,19 +106,12 @@ sub doInventory {
             }
         }
 
-        $inventory->addEntry(
-            section => 'CPUS',
-            entry   => $cpu
-        );
+        push @cpus, $cpu;
 
         $cpuId++;
     }
 
-    if ($vmsystem) {
-        $inventory->setHardware ({
-            VMSYSTEM => $vmsystem 
-        });
-    }
+    return @cpus;
 }
 
 1;
