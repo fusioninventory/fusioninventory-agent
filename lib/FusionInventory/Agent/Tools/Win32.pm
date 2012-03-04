@@ -30,6 +30,7 @@ our @EXPORT = qw(
     KEY_WOW64_64
     KEY_WOW64_32
     getRegistryValue
+    getRegistryKey
     getWmiObjects
     getLocalCodepage
 );
@@ -96,7 +97,7 @@ sub getRegistryValue {
     my (%params) = @_;
 
     my ($root, $keyName, $valueName);
-    if ($params{path} =~ /^(HKEY\S+?)\/(.*)\/([^\/.]*)/ ) {
+    if ($params{path} =~ /^(HKEY_\S+)\/(.+)\/([^\/]+)/ ) {
         $root      = $1;
         $keyName   = $2;
         $valueName = $3;
@@ -107,20 +108,52 @@ sub getRegistryValue {
         return;
     }
 
-    my $machKey = is64bit() ?
-        $Registry->Open($root, { Access=> KEY_READ | KEY_WOW64_64 } ) : ## no critic (ProhibitBitwise)
-	$Registry->Open($root, { Access=> KEY_READ } )                ;
+    my $key = _getRegistryKey(
+        logger  => $params{logger},
+        root    => $root,
+        keyName => $keyName
+    );
+    return $key->{"/$valueName"};
+}
 
-    if (!$machKey) {
-        $params{logger}->error("Can't open 'root': $EXTENDED_OS_ERROR")
-	    if $params{logger};
+sub getRegistryKey {
+    my (%params) = @_;
+
+    my ($root, $keyName);
+    if ($params{path} =~ /^(HKEY_\S+)\/(.+)/ ) {
+        $root      = $1;
+        $keyName   = $2;
+    } else {
+        $params{logger}->error(
+	    "Failed to parse '$params{path}'. Does it start with HKEY_?"
+	) if $params{logger};
         return;
     }
-    my $key = $machKey->Open($keyName);
-    my $value = $key->{$valueName};
 
-    return if ref $value;
-    return $value;
+    return _getRegistryKey(
+        logger  => $params{logger},
+        root    => $root,
+        keyName => $keyName
+    );
+}
+
+sub _getRegistryKey {
+    my (%params) = @_;
+
+    ## no critic (ProhibitBitwise)
+    my $rootKey = is64bit() ?
+        $Registry->Open($params{root}, { Access=> KEY_READ | KEY_WOW64_64 } ) :
+	$Registry->Open($params{root}, { Access=> KEY_READ } )                ;
+
+    if (!$rootKey) {
+        $params{logger}->error(
+            "Can't open $params{root} key: $EXTENDED_OS_ERROR"
+        ) if $params{logger};
+        return;
+    }
+    my $key = $rootKey->Open($params{keyName});
+
+    return $key;
 }
 
 1;
