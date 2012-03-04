@@ -101,7 +101,7 @@ sub doInventory {
 sub _getUSBPrinterSerial {
     my ($portName, $logger) = @_;
 
-    # first, find the USB container ID for this printer
+    # find the ParentIdPrefix value for the printer matching given portname
     my $prefix = _getUSBPrefix(
         getRegistryKey(
             path => "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Enum/USBPRINT",
@@ -111,7 +111,7 @@ sub _getUSBPrinterSerial {
     );
     return unless $prefix;
 
-    # second, get the serial number from the ID container entry
+    # find the key name for the device matching given parentIdPrefix
     my $serial = _getUSBSerial(
         getRegistryKey(
             path => "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Enum/USB",
@@ -123,7 +123,6 @@ sub _getUSBPrinterSerial {
     return $serial;
 }
 
-# find the ParentIdPrefix value for the printer matching given portname
 sub _getUSBPrefix {
     my ($print, $portName) = @_;
 
@@ -151,7 +150,6 @@ sub _getUSBPrefix {
     return;
 }
 
-# find the key name for the device matching given parentIdPrefix
 sub _getUSBSerial {
     my ($usb, $prefix) = @_;
 
