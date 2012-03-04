@@ -930,6 +930,46 @@ my %tests = (
             CAPACITY         => '2048'
         }
     ],
+    'windows-7' => [
+        {
+            NUMSLOTS         => 1,
+            MEMORYCORRECTION => 'None',
+            SERIALNUMBER     => 'SerNum0',
+            DESCRIPTION      => 'DIMM (None)',
+            TYPE             => 'Unknown',
+            SPEED            => 'Unknown',
+            CAPTION          => 'DIMM0'
+        },
+        {
+            NUMSLOTS         => 2,
+            SERIALNUMBER     => '0000000',
+            TYPE             => '<OUT OF SPEC>',
+            SPEED            => '1600 MHz',
+            CAPTION          => 'DIMM1',
+            MEMORYCORRECTION => 'None',
+            DESCRIPTION      => 'DIMM (None)',
+            CAPACITY         => '2048'
+        },
+        {
+            NUMSLOTS         => 3,
+            MEMORYCORRECTION => 'None',
+            SERIALNUMBER     => 'SerNum2',
+            DESCRIPTION      => 'DIMM (None)',
+            TYPE             => 'Unknown',
+            SPEED            => 'Unknown',
+            CAPTION          => 'DIMM2'
+        },
+        {
+            NUMSLOTS         => 4,
+            SERIALNUMBER     => '0000000',
+            TYPE             => '<OUT OF SPEC>',
+            SPEED            => '1600 MHz',
+            CAPTION          => 'DIMM3',
+            MEMORYCORRECTION => 'None',
+            DESCRIPTION      => 'DIMM (None)',
+            CAPACITY         => '2048'
+        }
+    ],
     'windows-hyperV' => [
         {
             NUMSLOTS     => 1,
