@@ -6,6 +6,7 @@ use lib 't';
 
 use English qw(-no_match_vars);
 use Test::More;
+use Test::MockModule;
 
 use FusionInventory::Test::Utils;
 
@@ -38,13 +39,21 @@ foreach my $test (keys %tests) {
 }
 plan tests => $plan;
 
-foreach my $test (keys %tests) {
-    my $printKey = load_registry("resources/win32/registry/$test-USBPRINT.reg");
-    my $usbKey   = load_registry("resources/win32/registry/$test-USB.reg");
-    foreach my $port (keys %{$tests{$test}}) {
-        my $prefix = FusionInventory::Agent::Task::Inventory::Input::Win32::Printers::_getUSBPrefix($printKey, $port);
-        my $serial = FusionInventory::Agent::Task::Inventory::Input::Win32::Printers::_getUSBSerial($usbKey, $prefix);
+my $module = Test::MockModule->new(
+    'FusionInventory::Agent::Task::Inventory::Input::Win32::Printers'
+);
 
-        is($serial, $tests{$test}->{$port}, "serial for printer $port");
+foreach my $test (keys %tests) {
+    $module->mock(
+        'getRegistryKey',
+        mockGetRegistryKey($test)
+    );
+
+    foreach my $port (keys %{$tests{$test}}) {
+        is(
+            FusionInventory::Agent::Task::Inventory::Input::Win32::Printers::_getUSBPrinterSerial($port),
+            $tests{$test}->{$port},
+            "serial for printer $port"
+        );
     }
 }
