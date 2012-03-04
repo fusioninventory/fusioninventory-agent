@@ -89,30 +89,36 @@ sub doInventory {
 
     $inventory->setBios($bios);
 
-    if (
-        ($bios->{VERSION} && ($bios->{VERSION} eq 'VirtualBox'))
-         ||
-        ($bios->{MMODEL} && ($bios->{MMODEL} eq 'VirtualBox'))
-       ) {
-        $inventory->setHardware ({
-            VMSYSTEM => 'VirtualBox'
-        });
-    } elsif (
-        ($bios->{BIOSSERIAL} && ($bios->{BIOSSERIAL} =~ /VMware/i))
-         ||
-        ($bios->{SMODEL} && ($bios->{SMODEL} eq 'VirtualBox'))
-       ) {
-        $inventory->setHardware ({
-            VMSYSTEM => 'VMware'
-        });
-    } elsif (
-        ($bios->{SMANUFACTURER} eq 'Xen')
-         ||
-        ($bios->{BMANUFACTURER} eq 'Xen')
-       ) {
-        $inventory->setHardware ({
-            VMSYSTEM => 'Xen'
-        });
+    SWITCH: {
+        if (
+            ($bios->{VERSION} && $bios->{VERSION} eq 'VirtualBox') ||
+            ($bios->{MMODEL}  && $bios->{MMODEL} eq 'VirtualBox')
+           ) {
+            $inventory->setHardware ({
+                VMSYSTEM => 'VirtualBox'
+            });
+            last SWITCH;
+        }
+
+        if (
+            ($bios->{BIOSSERIAL} && $bios->{BIOSSERIAL} =~ /VMware/i) ||
+            ($bios->{SMODEL}     && $bios->{SMODEL} eq 'VirtualBox')
+           ) {
+            $inventory->setHardware ({
+                VMSYSTEM => 'VMware'
+            });
+            last SWITCH;
+        }
+
+        if (
+            ($bios->{SMANUFACTURER} && $bios->{SMANUFACTURER} eq 'Xen') ||
+            ($bios->{BMANUFACTURER} && $bios->{BMANUFACTURER} eq 'Xen')
+           ) {
+            $inventory->setHardware ({
+                VMSYSTEM => 'Xen'
+            });
+            last SWITCH;
+        }
     }
 
 }
