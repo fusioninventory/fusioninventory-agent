@@ -60,6 +60,14 @@ sub run {
         );
     }
 
+    if (not $ENV{PATH}) {
+        # set a minimal PATH if none is set (#1129)
+        $ENV{PATH} = '/sbin:/usr/sbin:/bin:/usr/bin';
+        $self->{logger}->debug(
+            "PATH is not set, using /sbin:/usr/sbin:/bin:/usr/bin as default"
+        );
+    }
+
     my %disabled = map { $_ => 1 } @{$self->{config}->{'no-category'}};
 
     $self->_initModulesList(\%disabled);
