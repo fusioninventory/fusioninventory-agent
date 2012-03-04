@@ -2,9 +2,12 @@
 
 use strict;
 use warnings;
+use lib 't';
 
 use English qw(-no_match_vars);
 use Test::More;
+
+use FusionInventory::Test::Utils;
 
 BEGIN {
     # use mock modules for non-available ones
@@ -44,59 +47,4 @@ foreach my $test (keys %tests) {
 
         is($serial, $tests{$test}->{$port}, "serial for printer $port");
     }
-}
-
-sub load_registry {
-    my ($file) = @_;
-
-    my $root_offset;
-    my $root_key = {};
-    my $current_key;
-
-    open (my $handle, '<', $file) or die "can't open $file: $ERRNO";
-
-    # this is a windows file
-    binmode $handle, ':encoding(UTF-16LE)';
-    local $INPUT_RECORD_SEPARATOR="\r\n";
-
-    while (my $line = <$handle>) {
-        chomp $line;
-
-        if ($line =~ /^ \[ ([^]]+) \] $/x) {
-            my $path = $1;
-            my @path = split(/\\/, $path);
-
-            if ($root_offset) {
-                splice @path, 0, $root_offset;
-                $current_key = $root_key;
-                foreach my $element (@path) {
-                    my $key_path = $element . '/';
-
-                    if (!defined $current_key->{$key_path}) {
-                        my $new_key = {};
-                        $current_key->{$key_path} = $new_key;
-                    }
-
-                    $current_key = $current_key->{$key_path};
-                }
-            } else {
-                $root_offset = scalar @path;
-            }
-            next;
-        }
-
-        if ($line =~ /^ " ([^"]+) " = dword:(\d+)/x) {
-            $current_key->{'/' . $1} = "0x$2";
-            next;
-        }
-
-        if ($line =~ /^ " ([^"]+) " = " ([^"]+) "/x) {
-            $current_key->{'/' . $1} = $2;
-            next;
-        }
-
-    }
-    close $handle;
-
-    return $root_key;
 }
