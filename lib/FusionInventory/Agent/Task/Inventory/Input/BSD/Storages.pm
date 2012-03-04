@@ -62,7 +62,7 @@ sub _getDevicesFromFstab {
 
     my (@devices, %seen);
     while (my $line = <$handle>) {
-        next unless $line =~ m{/^/dev/(\S+)};
+        next unless $line =~ m{^/dev/(\S+)};
         next if $seen{$1}++;
         push @devices, { DESCRIPTION => $1 };
     }
