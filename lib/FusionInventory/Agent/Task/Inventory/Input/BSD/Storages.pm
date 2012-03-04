@@ -16,7 +16,7 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # get a list of devices from /etc/fstab
-    my @devices = _getDevicesFromFstab();
+    my @devices = _getDevicesFromFstab(logger => $logger);
 
     # parse dmesg
     my @lines = getAllLines(
