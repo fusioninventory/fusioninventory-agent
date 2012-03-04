@@ -67,7 +67,7 @@ foreach my $test (@alt2canonical_tests) {
 
 foreach my $test (@mask_tests) {
     is(
-        getNetworkMask($test->[0], $test->[1]),
+        getNetworkMask($test->[1]),
         $test->[2],
         "$test->[0]/$test->[1] mask extraction"
     );
