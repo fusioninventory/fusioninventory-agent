@@ -9,6 +9,7 @@ use English qw(-no_match_vars);
 
 BEGIN {
     if ($OSNAME eq 'MSWin32') {
+        no warnings 'redefine';
         Win32::API->require();
         # Kernel32.dll is used more or less everywhere.
         # Without this, Win32::API will release the DLL even
