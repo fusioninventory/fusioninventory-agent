@@ -64,6 +64,6 @@ foreach my $test (keys %tests) {
     is_deeply(
         \@cpus,
         $tests{$test},
-        "$test cpu"
+        "$test sample"
     );
 }

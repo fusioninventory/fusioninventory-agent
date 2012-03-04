@@ -52,7 +52,6 @@ my $module = Test::MockModule->new(
 );
 
 foreach my $test (keys %tests) {
-    # redefine getWmiObjects function
     $module->mock(
         'getWmiObjects',
         mockGetWmiObjects($test)
@@ -62,6 +61,6 @@ foreach my $test (keys %tests) {
     is_deeply(
         \@memories,
         $tests{$test},
-        "$test memory"
+        "$test sample"
     );
 }

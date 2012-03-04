@@ -53,7 +53,7 @@ foreach my $test (keys %tests) {
         is(
             FusionInventory::Agent::Task::Inventory::Input::Win32::Printers::_getUSBPrinterSerial($port),
             $tests{$test}->{$port},
-            "serial for printer $port"
+            "$test sample, $port printer"
         );
     }
 }
