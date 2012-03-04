@@ -170,7 +170,7 @@ sub getDevicesFromProc {
     my @names;
 
     foreach my $file (glob ("/sys/block/*")) {
-        next unless $file =~ /([sh]d[a-z]|fd\d)$/;
+        next unless $file =~ /([shv]d[a-z]|fd\d)$/;
         push(@names, $1);
     }
 
@@ -186,7 +186,7 @@ sub getDevicesFromProc {
     return unless $handle;
 
     while (my $line = <$handle>) {
-        next unless $line =~ m{^/dev/([sh]d[a-z])};
+        next unless $line =~ m{^/dev/([shv]d[a-z])};
         push(@names, $1);
     }
     close $handle;
