@@ -58,12 +58,6 @@ The available workaround:
 
 System-specific informations
 ----------------------------
-
-On Solaris, Sun Studio seems to be needed to build the dependency. The
-generated Makefile needs gmake to be executed. The default installation will
-install the binary in /usr/perl5/5.XXXXX/bin, set your $PATH variable according
-to that.
-
 On Solaris/SPARC, you must install sneep and record the Serial Number with it.
 Download it from http://www.sun.com/download/products.xml?id=4304155a.
 
