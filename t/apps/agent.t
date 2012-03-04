@@ -145,7 +145,10 @@ ok(
     'inventory has environment variables'
 );
 
-my $path = $ENV{PATH};
+# PATH through WMI appears with %SystemRoot% templates, preventing direct
+# comparaison with %ENV content
+my $name = $OSNAME eq 'MSWin32' ? 'PATHEXT' : 'PATH';
+my $value = $ENV{$name};
 
 ($out, $err, $rc) = run_agent(
     "$base_options --no-category printer,software"
@@ -173,7 +176,7 @@ ok(
 
 ok(
     (any
-        { $_->{KEY} eq 'PATH' && $_->{VAL} eq $path } 
+        { $_->{KEY} eq $name && $_->{VAL} eq $value } 
         @{$content->{REQUEST}->{CONTENT}->{ENVS}}
     ),
     'inventory has expected environment variable value'
