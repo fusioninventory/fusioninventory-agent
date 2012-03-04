@@ -10,6 +10,7 @@ use Socket;
 our @EXPORT = qw(
     test_port
     mockGetWmiObjects
+    mockGetRegistryKey
     load_registry
 );
 
@@ -70,6 +71,19 @@ sub mockGetWmiObjects {
         return @objects;
     };
 }
+
+sub mockGetRegistryKey {
+    my ($test) = @_;
+
+    return sub {
+        my (%params) = @_;
+
+        my $last_elt = (split(/\//, $params{path}))[-1];
+        my $file = "resources/win32/registry/$test-$last_elt.reg";
+        return load_registry($file);
+    };
+}
+
 
 sub load_registry {
     my ($file) = @_;
