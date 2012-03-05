@@ -114,29 +114,12 @@ sub _getScreensFromWindows {
         };
     }
 
-    my $Registry;
-    Win32::TieRegistry->require();
-    Win32::TieRegistry->import(
-        Delimiter   => '/',
-        ArrayValues => 0,
-        TiedRef     => \$Registry
-    );
-
-    my $access = FusionInventory::Agent::Tools::Win32::is64bit() ?
-	Win32::TieRegistry::KEY_READ() |
-	    FusionInventory::Agent::Tools::Win32::KEY_WOW64_64() :
-	Win32::TieRegistry::KEY_READ();
-
     foreach my $screen (@screens) {
-
-        my $machKey = $Registry->Open('LMachine', {
-            Access => $access
-        } ) or $logger->fault(
-            "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR"
-        );
-
         $screen->{edid} =
-            $machKey->{"SYSTEM/CurrentControlSet/Enum/$screen->{id}/Device Parameters/EDID"} || '';
+            FusionInventory::Agent::Tools::Win32::getRegistryValue(
+                path => "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Enum/$screen->{id}/Device Parameters/EDID",
+                logger => $logger
+        ) || '';
         $screen->{edid} =~ s/^\s+$//;
 
     }
