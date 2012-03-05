@@ -59,6 +59,9 @@ sub doInventory {
                 $screen->{SERIAL} = $edid->{serial_number2}->[0];
             }
             $screen->{BASE64} = encode_base64($screen->{edid});
+
+            # drop temporary variable
+            delete $screen->{edid};
         }
 
         $inventory->addEntry(
