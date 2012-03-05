@@ -127,18 +127,18 @@ sub _getScreensFromWindows {
 
 sub _getScreensFromUnix {
 
-    my $raw_edid =
+    my $edid =
         getFirstLine(command => 'monitor-get-edid-using-vbe') ||
         getFirstLine(command => 'monitor-get-edid');
 
-    if (!$raw_edid) {
+    if (!$edid) {
         foreach (1..5) { # Sometime get-edid return an empty string...
-            $raw_edid = getFirstLine(command => 'get-edid');
-            last if $raw_edid;
+            $edid = getFirstLine(command => 'get-edid');
+            last if $edid;
         }
     }
 
-    return ( { edid => $raw_edid } );
+    return ( { edid => $edid } );
 }
 
 sub _getScreens {
