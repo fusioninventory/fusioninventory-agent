@@ -443,10 +443,8 @@ sub runFunction {
     my $result;
     eval {
         # set a timeout if needed
-        if ($params{timeout}) {
-            local $SIG{ALRM} = sub { die "alarm\n" };
-            alarm $params{timeout};
-        }
+        local $SIG{ALRM} = sub { die "alarm\n" } if $params{timeout};
+        alarm $params{timeout};
 
         no strict 'refs'; ## no critic
         $result = &{$params{module} . '::' . $params{function}}(
