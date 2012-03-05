@@ -61,6 +61,12 @@ System-specific informations
 On Solaris/SPARC, you must install sneep and record the Serial Number with it.
 Download it from http://www.sun.com/download/products.xml?id=4304155a.
 
+The Windows installer will run the agent with the SYSTEM account. If you use
+an user GPO to configure the printer, the information will hidden and so not
+collected.
+To avoid this situation, you can turn off the server, and run the agent with
+user privilege, for example during the login.
+
 On Windows, if you don't want to use the installer for Windows you can follow
 the installation process avalailable from
 http://forge.fusioninventory.org/projects/fusioninventory-agent/wiki/RunAgentWin32.
