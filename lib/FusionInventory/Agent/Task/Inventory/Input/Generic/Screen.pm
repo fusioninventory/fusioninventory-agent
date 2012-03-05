@@ -110,10 +110,10 @@ sub _getScreensFromWindows {
 
         push @screens, {
             id           => $object->{PNPDeviceID},
-            name         => $object->{Caption},
-            type         => $object->{MonitorType},
-            manufacturer => $object->{MonitorManufacturer},
-            caption      => $object->{Caption}
+            NAME         => $object->{Caption},
+            TYPE         => $object->{MonitorType},
+            MANUFACTURER => $object->{MonitorManufacturer},
+            CAPTION      => $object->{Caption}
         };
     }
 
