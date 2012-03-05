@@ -76,19 +76,37 @@ sub _getLogicalVolume {
     }
     close $handle;
 
-    my $size;
-    foreach (`lslv $volume->{LV_NAME}`) {
-        if (/.*PP SIZE:\s+(\d+) .*/) {
-            $size = $1;
-        }
-        if (/LV IDENTIFIER:\s+(\S+)/) {
-            $volume->{LV_UUID} = $1;
-        }
-    }
-
+    my ($size, $uuid) = _getVolumeInfo(
+        name   => $volume->{LV_NAME},
+        logger => $logger
+    );
     $volume->{SIZE} = int($volume->{SEG_COUNT} * $size);
+    $volume->{LV_UUID} = $uuid;
 
     return $volume;
+}
+
+sub _getVolumeInfo {
+    my (%params) = @_;
+
+    my $handle = getFileHandle( 
+        command => "lslv $params{name}",
+        logger  => $params{logger}
+    );
+    return unless $handle;
+
+    my ($size, $uuid);
+    while (my $line = <$handle>) {
+        if ($line =~ /.*PP SIZE:\s+(\d+) .*/) {
+            $size = $1;
+        }
+        if ($line =~ /LV IDENTIFIER:\s+(\S+)/) {
+            $uuid = $1;
+        }
+    }
+    close $handle;
+
+    return ($size, $uuid);
 }
 
 sub _getPhysicalVolumes {

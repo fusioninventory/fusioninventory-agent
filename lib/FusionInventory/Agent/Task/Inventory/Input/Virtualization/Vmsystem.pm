@@ -200,7 +200,7 @@ sub _getStatus {
             file => '/proc/scsi/scsi',
             logger => $logger
         );
-        $result = _matchPattern($handle);
+        $result = _matchPatterns($handle);
         close $handle;
     }
     return $result if $result;

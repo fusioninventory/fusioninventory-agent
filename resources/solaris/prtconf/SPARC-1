@@ -1,13 +1,3 @@
-Hostname: 157501s021plc
-Hostid: 83249bbf
-Release: 5.10
-Kernel architecture: sun4u
-Application architecture: sparc
-Hardware provider: Sun_Microsystem
-Domain: be.cnamts.fr
-Kernel version: SunOS 5.10 Generic_118833-17
-
- $ prtconf -pv    (-b would be great...but doesn't work before S10)
 System Configuration:  Sun Microsystems  sun4u
 Memory size: 16384 Megabyte
 System Peripherals (PROM Nodes):

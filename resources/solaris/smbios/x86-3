@@ -1,0 +1,90 @@
+ID    SIZE TYPE
+1     18   SMB_TYPE_IPMIDEV (IPMI device information)
+
+  Type: 1 (KCS: Keyboard Controller Style)
+  BMC IPMI Version: 2.0
+  i2c Bus Slave Address: 0x20
+  NV Storage Device Bus ID: 0xffffffff
+  BMC Base Address: 0xca2
+  Interrupt Number: 0
+  Register Spacing: 1
+  Flags: 0x9
+    SMB_IPMI_F_IOADDR (base address is in i/o space)
+    SMB_IPMI_F_INTREDGE (intr is edge triggered (else lvl))
+
+ID    SIZE TYPE
+2     53   SMB_TYPE_SYSTEM (system information)
+
+  Manufacturer: Intel
+  Product: MP Server
+
+  UUID: 4b713db6-6d40-11dd-b32c-000123456789
+  Wake-Up Event: 0x6 (power switch)
+  SKU Number: 6I012345TF
+  Family: 
+
+ID    SIZE TYPE
+3     56   SMB_TYPE_BASEBOARD (base board)
+
+  Manufacturer: Intel
+  Product: S7000FC4UR
+  Serial Number: QSFX12345678
+  Asset Tag: 6I012345TF
+
+  Chassis: 0
+  Flags: 0x9
+    SMB_BBFL_MOTHERBOARD (board is a motherboard)
+    SMB_BBFL_REPLACABLE (board is field-replacable)
+  Board Type: 0xa (motherboard)
+
+ID    SIZE TYPE
+4     64   SMB_TYPE_CHASSIS (system enclosure or chassis)
+
+  Manufacturer: TRANSTEC
+  Version: E10476-011
+  Serial Number: QSDH1234567
+  Asset Tag: 6I012345TF
+
+  OEM Data: 0x81581cf8
+  Lock Present: N
+  Chassis Type: 0x17 (rack mount chassis)
+  Boot-Up State: 0x3 (safe)
+  Power Supply State: 0x3 (safe)
+  Thermal State: 0x3 (safe)
+  Chassis Height: 1u
+  Power Cords: 1
+  Element Records: 0
+
+ID    SIZE TYPE
+5     87   SMB_TYPE_BIOS (BIOS information)
+
+  Vendor: Intel Corporation
+  Version String: SFC4UR.86B.01.00.0029.071220092126
+  Release Date: 07/12/2009
+  Address Segment: 0xe800
+  ROM Size: 8388608 bytes
+  Image Size: 98304 bytes
+  Characteristics: 0x15c099a80
+    SMB_BIOSFL_PCI (PCI is supported)
+    SMB_BIOSFL_PLUGNPLAY (Plug and Play is supported)
+    SMB_BIOSFL_FLASH (BIOS is Flash Upgradeable)
+    SMB_BIOSFL_SHADOW (BIOS shadowing is allowed)
+    SMB_BIOSFL_CDBOOT (Boot from CD is supported)
+    SMB_BIOSFL_SELBOOT (Selectable Boot supported)
+    SMB_BIOSFL_EDD (EDD Spec is supported)
+    SMB_BIOSFL_I5_PRINT (int 0x5 print screen svcs)
+    SMB_BIOSFL_I9_KBD (int 0x9 8042 keyboard svcs)
+    SMB_BIOSFL_I14_SER (int 0x14 serial svcs)
+    SMB_BIOSFL_I10_CGA (int 0x10 CGA svcs)
+    0x100000000
+  Characteristics Extension Byte 1: 0x33
+    SMB_BIOSXB1_ACPI (ACPI is supported)
+    SMB_BIOSXB1_USBL (USB legacy is supported)
+    SMB_BIOSXB1_LS120 (LS-120 boot is supported)
+    SMB_BIOSXB1_ATZIP (ATAPI ZIP drive boot is supported)
+  Characteristics Extension Byte 2: 0x7
+    SMB_BIOSXB2_BBOOT (BIOS Boot Specification supported)
+    SMB_BIOSXB2_FKNETSVC (F-key Network Svc boot supported)
+    SMB_BIOSXB2_ETCDIST (Enable Targeted Content Distrib.)
+  Version Number: 0.0
+  Embedded Ctlr Firmware Version Number: 0.0
