@@ -71,7 +71,7 @@ sub doInventory {
 sub _getScreensFromWindows {
     my ($logger) = @_;
 
-    FusionInventory::Agent::Tools::Win32->require();
+    FusionInventory::Agent::Tools::Win32->use();
     if ($EVAL_ERROR) {
         print
             "Failed to load FusionInventory::Agent::Tools::Win32: $EVAL_ERROR";
@@ -81,7 +81,7 @@ sub _getScreensFromWindows {
     my @screens;
 
     # Vista and upper, able to get the second screen
-    foreach my $object (FusionInventory::Agent::Tools::Win32::getWmiObjects(
+    foreach my $object (getWmiObjects(
         moniker    => 'winmgmts:{impersonationLevel=impersonate,authenticationLevel=Pkt}!//./root/wmi',
         class      => 'WMIMonitorID',
         properties => [ qw/InstanceName/ ]
@@ -95,7 +95,7 @@ sub _getScreensFromWindows {
     }
 
     # The generic Win32_DesktopMonitor class, the second screen will be missing
-    foreach my $object (FusionInventory::Agent::Tools::Win32::getWmiObjects(
+    foreach my $object (getWmiObjects(
         class => 'Win32_DesktopMonitor',
         properties => [ qw/
             Caption MonitorManufacturer MonitorType PNPDeviceID
@@ -115,13 +115,11 @@ sub _getScreensFromWindows {
     }
 
     foreach my $screen (@screens) {
-        $screen->{edid} =
-            FusionInventory::Agent::Tools::Win32::getRegistryValue(
-                path => "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Enum/$screen->{id}/Device Parameters/EDID",
-                logger => $logger
+        $screen->{edid} = getRegistryValue(
+            path => "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Enum/$screen->{id}/Device Parameters/EDID",
+            logger => $logger
         ) || '';
         $screen->{edid} =~ s/^\s+$//;
-
     }
 
     return @screens;
