@@ -60,7 +60,6 @@ sub doInventory {
             }
             $screen->{BASE64} = encode_base64($screen->{edid});
 
-            # drop temporary variable
             delete $screen->{edid};
         }
 
@@ -118,11 +117,13 @@ sub _getScreensFromWindows {
     }
 
     foreach my $screen (@screens) {
+        next unless $screen->{id};
         $screen->{edid} = getRegistryValue(
             path => "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Enum/$screen->{id}/Device Parameters/EDID",
             logger => $logger
         ) || '';
         $screen->{edid} =~ s/^\s+$//;
+        delete $screen->{id};
     }
 
     return @screens;
