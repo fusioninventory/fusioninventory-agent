@@ -3,8 +3,8 @@
 
 Description
 -----------
-This task extracts various informations from remote hosts through SNMP
-protocol:
+This task allows the agent to extracts various informations from remote hosts
+through SNMP protocol:
 - printer cartridges and counters status
 - router/switch ports status
 - relations between devices and router/switch ports
