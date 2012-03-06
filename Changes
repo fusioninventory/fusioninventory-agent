@@ -56,6 +56,7 @@ Major changes:
 
 Minor changes:
 * Add the HARDWARE/CHASSIS_TYPE information
+* local inventory file name now has .xml extension (#211)
 * Linux: report all IP addresses used by each interfaces (#854)
 * HPUX: don't report unoccupied memory slots
 * AIX: add LVM support

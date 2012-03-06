@@ -82,7 +82,7 @@ sub run {
     } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
         my $format = $self->{target}->{format};
 
-        my $extension = $format eq 'xml' ? '.ocs' : '.html';
+        my $extension = $format eq 'xml' ? '.xml' : '.html';
         my $file =
             $self->{config}->{local} .
             "/" .
