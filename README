@@ -3,7 +3,7 @@
 
 Description 
 -----------
-This tasks scans the network to find connected devices, allowing:
+This tasks allows the agent to scans the network to find connected devices:
 - devices discovery within an IP range, through nmap, NetBios or SNMP
 - devices identification, through SNMP
 
