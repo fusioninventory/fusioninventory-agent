@@ -1,4 +1,10 @@
-Do remote inventory of your ESX, ESXi, vCenter server using the SOAP interface.
+		FusionInventory agent ESX task
+		------------------------------
+
+Description
+-----------
+This task allows the agent to perform remote inventory of ESX, ESXi, vCenter
+server using the SOAP interface.
 
 You can import the generated files in:
  - GLPI with FusionInventory for GLPI
