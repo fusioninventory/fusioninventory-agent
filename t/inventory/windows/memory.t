@@ -42,6 +42,67 @@ my %tests = (
             DESCRIPTION  => "Mémoire physique",
             CAPACITY     => '2048'
         }
+    ],
+    'xp' => [
+        {
+            NUMSLOTS     => 0,
+            FORMFACTOR   => 'DIMM',
+            SERIALNUMBER => undef,
+            TYPE         => 'Unknown',
+            SPEED        => '800',
+            CAPTION      => 'Physical Memory',
+            REMOVABLE    => 0,
+            DESCRIPTION  => 'Physical Memory',
+            CAPACITY     => '2048'
+        },
+        {
+            NUMSLOTS     => 1,
+            FORMFACTOR   => 'DIMM',
+            SERIALNUMBER => undef,
+            TYPE         => 'Unknown',
+            SPEED        => '800',
+            CAPTION      => 'Physical Memory',
+            REMOVABLE    => 0,
+            DESCRIPTION  => 'Physical Memory',
+            CAPACITY     => '2048'
+        }
+      ],
+    '2003' => [
+        {
+            NUMSLOTS     => 0,
+            FORMFACTOR   => 'DIMM',
+            SERIALNUMBER => undef,
+            TYPE         => 'Unknown',
+            SPEED        => '266',
+            CAPTION      => 'Physical Memory',
+            REMOVABLE    => 0,
+            DESCRIPTION  => 'Physical Memory',
+            CAPACITY     => '1024'
+        },
+        {
+            NUMSLOTS     => 1,
+            FORMFACTOR   => 'DIMM',
+            SERIALNUMBER => undef,
+            TYPE         => 'Unknown',
+            SPEED        => '266',
+            CAPTION      => 'Physical Memory',
+            REMOVABLE    => 0,
+            DESCRIPTION  => 'Physical Memory',
+            CAPACITY     => '1024'
+        }
+      ],
+    '2003SP2' => [
+        {
+            NUMSLOTS     => 0,
+            FORMFACTOR   => 'DIMM',
+            SERIALNUMBER => undef,
+            TYPE         => 'DRAM',
+            SPEED        => undef,
+            CAPTION      => 'Physical Memory',
+            REMOVABLE    => 0,
+            DESCRIPTION  => 'Physical Memory',
+            CAPACITY     => '1024'
+        }
     ]
 );
 
