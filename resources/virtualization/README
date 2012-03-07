@@ -1,0 +1,4 @@
+virtualization-related commands output
+
+vboxmanage: VBoxManage command output
+- sample?: VBoxManage -nologo list--long  vms 

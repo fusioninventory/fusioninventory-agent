@@ -106,15 +106,13 @@ sub _getDescription {
 
     # detected as USB by udev
     # TODO maybe we should trust udev detection by default?
-    return "USB" if (defined ($description) && $description =~ /usb/i);
+    return "USB" if ($description && $description =~ /usb/i);
 
     if ($name =~ /^s/) { # /dev/sd* are SCSI _OR_ SATA
         if (
-        ($manufacturer && ($manufacturer =~ /ATA/))
-        ||
-        ($serialnumber && ($serialnumber =~ /ATA/))
-        ||
-        ($description && ($description =~ /ATA/))
+            ($manufacturer && $manufacturer =~ /ATA/) ||
+            ($serialnumber && $serialnumber =~ /ATA/) ||
+            ($description && $description =~ /ATA/)
         ) {
             return  "SATA";
         } else {

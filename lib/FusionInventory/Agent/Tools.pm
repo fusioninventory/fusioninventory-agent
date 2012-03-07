@@ -442,9 +442,10 @@ sub runFunction {
 
     my $result;
     eval {
-        # set 
-        local $SIG{ALRM} = sub { die "alarm\n" };
-        alarm $params{timeout} if $params{timeout};
+        # set a timeout if needed
+        local $SIG{ALRM} = sub { die "alarm\n" } if $params{timeout};
+        alarm $params{timeout};
+
         no strict 'refs'; ## no critic
         $result = &{$params{module} . '::' . $params{function}}(
             ref $params{params} eq 'HASH'  ? %{$params{params}} :

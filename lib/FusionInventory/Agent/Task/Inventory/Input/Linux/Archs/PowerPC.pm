@@ -44,35 +44,30 @@ sub doInventory {
         );
     }
 
-    my $SystemSerial = getFirstLine(file => '/proc/device-tree/serial-number');
-    $SystemSerial =~ s/[^\,^\.^\w^\ ]//g; # I remove some unprintable char
+    my $bios;
 
-    my $SystemModel = getFirstLine(file => '/proc/device-tree/model');
-    $SystemModel =~ s/[^\,^\.^\w^\ ]//g;
+    $bios->{SSN} = getFirstLine(file => '/proc/device-tree/serial-number');
+    $bios->{SSN} =~ s/[^\,^\.^\w^\ ]//g; # I remove some unprintable char
+
+    $bios->{SMODEL} = getFirstLine(file => '/proc/device-tree/model');
+    $bios->{SMODEL} =~ s/[^\,^\.^\w^\ ]//g;
 
     my $colorCode = getFirstLine(file => '/proc/device-tree/color-code');
     my ($color) = unpack "h7" , $colorCode;
-    $SystemModel .= " color: $color" if $color;
+    $bios->{SMODEL} .= " color: $color" if $color;
 
-    my $BiosVersion = getFirstLine(file => '/proc/device-tree/openprom/model');
-    $BiosVersion =~ s/[^\,^\.^\w^\ ]//g;
+    $bios->{BVERSION} =
+        getFirstLine(file => '/proc/device-tree/openprom/model');
+    $bios->{BVERSION} =~ s/[^\,^\.^\w^\ ]//g;
 
-    my ($BiosManufacturer, $SystemManufacturer);
     my $copyright = getFirstLine(file => '/proc/device-tree/copyright');
     if ($copyright && $copyright =~ /Apple/) {
         # What about the Apple clone?
-        $BiosManufacturer = "Apple Computer, Inc.";
-        $SystemManufacturer = "Apple Computer, Inc." 
+        $bios->{BMANUFACTURER} = "Apple Computer, Inc.";
+        $bios->{SMANUFACTURER} = "Apple Computer, Inc." 
     }
 
-    $inventory->setBios({
-        SMANUFACTURER => $SystemManufacturer,
-        SMODEL        => $SystemModel,
-        SSN           => $SystemSerial,
-        BMANUFACTURER => $BiosManufacturer,
-        BVERSION      => $BiosVersion,
-    });
-
+    $inventory->setBios($bios);
 }
 
 sub _getCPUsFromProc {

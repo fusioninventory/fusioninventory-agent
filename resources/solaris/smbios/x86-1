@@ -1,13 +1,3 @@
-Hostname: stlaurent
-Hostid: 403100b
-Release: 5.10
-Kernel architecture: i86pc
-Application architecture: i386
-Hardware provider:
-Domain:
-Kernel version: SunOS 5.10 Generic_127112-07
-
- $ smbios -t SMB_TYPE_SYSTEM
 ID    SIZE TYPE
 1     76   SMB_TYPE_SYSTEM (system information)
 

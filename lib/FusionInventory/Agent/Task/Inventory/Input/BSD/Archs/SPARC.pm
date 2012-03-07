@@ -16,19 +16,23 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
+    my $bios = {
+        SMANUFACTURER => 'SUN',
+    };
+
     # sysctl infos
 
     # it gives only the CPU on OpenBSD/sparc64
-    my $SystemModel = getFirstLine(command => 'sysctl -n hw.model');
+    $bios->{SMODEL} = getFirstLine(command => 'sysctl -n hw.model');
 
     # example on NetBSD: 0x807b65c
     # example on OpenBSD: 2155570635
-    my $SystemSerial = getFirstLine(command => 'sysctl -n kern.hostid');
+    $bios->{SSN} = getFirstLine(command => 'sysctl -n kern.hostid');
     # force hexadecimal, but remove 0x to make it appear as in the firmware
-    $SystemSerial = dec2hex($SystemSerial);
-    $SystemSerial =~ s/^0x//;
+    $bios->{SSN} = dec2hex($bios->{SSN});
+    $bios->{SSN} =~ s/^0x//;
 
-    my $processorn = getFirstLine(command => 'sysctl -n hw.ncpu');
+    my $count = getFirstLine(command => 'sysctl -n hw.ncpu');
 
     # dmesg infos
 
@@ -50,40 +54,32 @@ sub doInventory {
     # FreeBSD:
     # cpu0: Sun Microsystems UltraSparc-I Processor (167.00 MHz CPU)
 
-    my $processort;
+    my $cpu;
     foreach my $line (getAllLines(command => 'dmesg')) {
-        if ($line=~ /^mainbus0 \(root\):\s*(.*)$/) { $SystemModel = $1; }
-        if ($line =~ /^cpu[^:]*:\s*(.*)$/i)        { $processort = $1; }
+        if ($line=~ /^mainbus0 \(root\):\s*(.*)$/) { $bios->{SMODEL} = $1; }
+        if ($line =~ /^cpu[^:]*:\s*(.*)$/i)        { $cpu->{NAME}    = $1; }
     }
 
-    $SystemModel =~ s/SUNW,//;
-    $SystemModel =~ s/[:\(].*$//;
-    $SystemModel =~ s/^\s*//;
-    $SystemModel =~ s/\s*$//;
+    $bios->{SMODEL} =~ s/SUNW,//;
+    $bios->{SMODEL} =~ s/[:\(].*$//;
+    $bios->{SMODEL} =~ s/^\s*//;
+    $bios->{SMODEL} =~ s/\s*$//;
 
-    $processort =~ s/SUNW,//;
-    $processort =~ s/^\s*//;
-    $processort =~ s/\s*$//;
+    $cpu->{NAME} =~ s/SUNW,//;
+    $cpu->{NAME} =~ s/^\s*//;
+    $cpu->{NAME} =~ s/\s*$//;
 
-    my $processors;
     # XXX quick and dirty _attempt_ to get proc speed
-    if ( $processort =~ /(\d+)(\.\d+|)\s*mhz/i ) { # possible decimal point
-        $processors = sprintf("%.0f", "$1$2"); # round number
+    if ($cpu->{NAME} =~ /(\d+)(\.\d+|)\s*mhz/i ) { # possible decimal point
+        $cpu->{SPEED} = sprintf("%.0f", "$1$2"); # round number
     }
 
-    $inventory->setBios({
-        SMANUFACTURER => 'SUN',
-        SMODEL        => $SystemModel,
-        SSN           => $SystemSerial,
-    });
+    $inventory->setBios($bios);
 
-    for my $i (1 .. $processorn) {
+    while ($count--) {
         $inventory->addEntry(
             section => 'CPUS',
-            entry   => {
-                NAME  => $processort,
-                SPEED => $processors,
-            }
+            entry   => $cpu
         );
     }
 

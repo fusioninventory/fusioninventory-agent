@@ -16,16 +16,7 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # get a list of devices from /etc/fstab
-    my $handle = getFileHandle(file => '/etc/fstab', logger => $logger);
-    return unless $handle;
-
-    my (@devices, %seen);
-    while (my $line = <$handle>) {
-        next unless $line =~ m{/^/dev/(\S+)};
-        next if $seen{$1}++;
-        push @devices, { DESCRIPTION => $1 };
-    }
-    close $handle;
+    my @devices = _getDevicesFromFstab(logger => $logger);
 
     # parse dmesg
     my @lines = getAllLines(
@@ -58,6 +49,26 @@ sub doInventory {
             entry   => $device
         );
     }
+}
+
+sub _getDevicesFromFstab {
+    my (%params) = (
+        file => '/etc/fstab',
+        @_
+    );
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my (@devices, %seen);
+    while (my $line = <$handle>) {
+        next unless $line =~ m{^/dev/(\S+)};
+        next if $seen{$1}++;
+        push @devices, { DESCRIPTION => $1 };
+    }
+    close $handle;
+
+    return @devices;
 }
 
 1;

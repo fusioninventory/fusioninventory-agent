@@ -4513,6 +4513,1161 @@ my %dmidecode_tests = (
                 'Ending Address' => '0x000400003FF'
             }
         ]
+    },
+    'windows-xppro' => {
+        '32' => [
+            {
+                'Status' => 'No errors detected'
+            }
+        ],
+        '11' => [
+            {
+                'String 1' => 'Dell System',
+                'String 3' => '13[PP04X]',
+                'String 2' => '5[0003]'
+            }
+        ],
+        '21' => [
+            {
+                'Type' => 'Touch Pad',
+                'Buttons' => '2',
+                'Interface' => 'Bus Mouse'
+            }
+        ],
+        '7' => [
+            {
+                'Error Correction Type' => 'None',
+                'Installed Size' => '128 kB',
+                'Operational Mode' => 'Write Back',
+                'Configuration' => 'Enabled, Not Socketed, Level 1',
+                'Installed SRAM Type' => 'Unknown',
+                'System Type' => 'Data',
+                'Speed' => 'Unknown',
+                'Associativity' => '4-way Set-associative',
+                'Location' => 'Internal',
+                'Maximum Size' => '128 kB'
+            },
+            {
+                'Error Correction Type' => 'None',
+                'Installed Size' => '6144 kB',
+                'Operational Mode' => 'Varies With Memory Address',
+                'Configuration' => 'Enabled, Not Socketed, Level 2',
+                'Installed SRAM Type' => 'Pipeline Burst',
+                'System Type' => 'Unified',
+                'Speed' => '15 ns',
+                'Associativity' => 'Other',
+                'Location' => 'Internal',
+                'Maximum Size' => '6144 kB'
+            }
+        ],
+        '17' => [
+            {
+                'Part Number' => 'EBE21UE8ACUA-8G-E',
+                'Serial Number' => '14FA6621',
+                'Data Width' => '64 bits',
+                'Array Handle' => '0x1000',
+                'Type Detail' => 'Synchronous',
+                'Set' => 'None',
+                'Asset Tag' => '200840',
+                'Total Width' => '64 bits',
+                'Type' => 'DDR2',
+                'Speed' => '800 MHz',
+                'Size' => '2048 MB',
+                'Error Information Handle' => 'Not Provided',
+                'Locator' => 'DIMM_A',
+                'Manufacturer' => '7F7FFE0000000000',
+                'Form Factor' => 'DIMM'
+            },
+            {
+                'Part Number' => 'EBE21UE8ACUA-8G-E',
+                'Serial Number' => 'AEF96621',
+                'Data Width' => '64 bits',
+                'Array Handle' => '0x1000',
+                'Type Detail' => 'Synchronous',
+                'Set' => 'None',
+                'Asset Tag' => '200840',
+                'Total Width' => '64 bits',
+                'Type' => 'DDR2',
+                'Speed' => '800 MHz',
+                'Size' => '2048 MB',
+                'Error Information Handle' => 'Not Provided',
+                'Locator' => 'DIMM_B',
+                'Manufacturer' => '7F7FFE0000000000',
+                'Form Factor' => 'DIMM'
+            }
+        ],
+        '2' => [
+            {
+                'Product Name' => '0P019G',
+                'Serial Number' => '.HLG964J.CN129618C52450.',
+                'Manufacturer' => 'Dell Inc.'
+            }
+        ],
+        '22' => [
+            {
+                'Design Capacity' => '84000 mWh',
+                'Maximum Error' => '3%',
+                'OEM-specific Information' => '0x00000001',
+                'Design Voltage' => '11100 mV',
+                'SBDS Manufacture Date' => '2010-08-31',
+                'SBDS Chemistry' => 'LION',
+                'Location' => 'Sys. Battery Bay',
+                'Manufacturer' => 'SMP',
+                'Name' => 'DELL HJ59008',
+                'SBDS Version' => '1.0',
+                'SBDS Serial Number' => '02C7'
+            }
+        ],
+        '1' => [
+            {
+                'Wake-up Type' => 'Power Switch',
+                'Product Name' => 'Precision M4400',
+                'Serial Number' => 'HLG964J',
+                'Manufacturer' => 'Dell Inc.',
+                'UUID' => '44454C4C-4C00-1047-8039-C8C04F36344A'
+            }
+        ],
+        '0' => [
+            {
+                'BIOS Revision' => '2.4',
+                'Address' => '0xF0000',
+                'Vendor' => 'Dell Inc.',
+                'Version' => 'A24',
+                'Runtime Size' => '64 kB',
+                'Firmware Revision' => '2.4',
+                'Release Date' => '08/19/2010',
+                'ROM Size' => '1728 kB'
+            }
+        ],
+        '16' => [
+            {
+                'Number Of Devices' => '2',
+                'Error Correction Type' => 'None',
+                'Error Information Handle' => 'Not Provided',
+                'Location' => 'System Board Or Motherboard',
+                'Maximum Capacity' => '8 GB',
+                'Use' => 'System Memory'
+            }
+        ],
+        '13' => [
+            {
+                'Language Description Format' => 'Long',
+                'Installable Languages' => '1',
+                'Currently Installed Language' => 'en|US|iso8859-1'
+            }
+        ],
+        '27' => [
+            {
+                'Type' => 'Fan',
+                'Status' => 'OK',
+                'OEM-specific Information' => '0x0000DD00'
+            }
+        ],
+        '28' => [
+            {
+                'Status' => 'OK',
+                'Minimum Value' => '0.0 deg C',
+                'OEM-specific Information' => '0x0000DC00',
+                'Accuracy' => 'Unknown',
+                'Maximum Value' => '127.0 deg C',
+                'Resolution' => '1.000 deg C',
+                'Location' => 'Processor',
+                'Tolerance' => '0.5 deg C',
+                'Description' => 'CPU Internal Temperature'
+            }
+        ],
+        '3' => [
+            {
+                'Type' => 'Portable',
+                'Power Supply State' => 'Safe',
+                'Security Status' => 'None',
+                'Serial Number' => 'HLG964J',
+                'Thermal State' => 'Safe',
+                'Boot-up State' => 'Safe',
+                'Manufacturer' => 'Dell Inc.'
+            }
+        ],
+        '9' => [
+            {
+                'ID' => 'Adapter 0, Socket 0',
+                'Length' => 'Other',
+                'Designation' => 'PCMCIA 0',
+                'Type' => '32-bit PC Card (PCMCIA)',
+                'Current Usage' => 'Available'
+            }
+        ],
+        '20' => [
+            {
+                'Range Size' => '4 GB',
+                'Partition Row Position' => '1',
+                'Starting Address' => '0x00000000000',
+                'Memory Array Mapped Address Handle' => '0x1301',
+                'Physical Device Handle' => '0x1100',
+                'Interleaved Data Depth' => '8',
+                'Interleave Position' => '1',
+                'Ending Address' => '0x000FFFFFFFF'
+            },
+            {
+                'Range Size' => '4 GB',
+                'Partition Row Position' => '1',
+                'Starting Address' => '0x00000000000',
+                'Memory Array Mapped Address Handle' => '0x1301',
+                'Physical Device Handle' => '0x1101',
+                'Interleaved Data Depth' => '8',
+                'Interleave Position' => '2',
+                'Ending Address' => '0x000FFFFFFFF'
+            }
+        ],
+        '8' => [
+            {
+                'Port Type' => 'Parallel Port PS/2',
+                'External Connector Type' => 'DB-25 female',
+                'Internal Reference Designator' => 'PARALLEL',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'Port Type' => 'Serial Port 16550A Compatible',
+                'External Connector Type' => 'DB-9 male',
+                'Internal Reference Designator' => 'SERIAL1',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'Port Type' => 'USB',
+                'External Connector Type' => 'Access Bus (USB)',
+                'Internal Reference Designator' => 'USB',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'Port Type' => 'Video Port',
+                'External Connector Type' => 'DB-15 female',
+                'Internal Reference Designator' => 'MONITOR',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'Port Type' => 'Firewire (IEEE P1394)',
+                'External Connector Type' => 'IEEE 1394',
+                'Internal Reference Designator' => 'FireWire',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'Port Type' => 'Modem Port',
+                'External Connector Type' => 'RJ-11',
+                'Internal Reference Designator' => 'Modem',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'Port Type' => 'Network Port',
+                'External Connector Type' => 'RJ-45',
+                'Internal Reference Designator' => 'Ethernet',
+                'Internal Connector Type' => 'None'
+            }
+        ],
+        '4' => [
+            {
+                'ID' => '76 06 01 00 FF FB EB BF',
+                'Socket Designation' => 'Microprocessor',
+                'Status' => 'Populated, Enabled',
+                'Max Speed' => '2534 MHz',
+                'Family' => 'Core 2 Duo',
+                'Thread Count' => '2',
+                'Current Speed' => '2534 MHz',
+                'L2 Cache Handle' => '0x0701',
+                'Type' => 'Central Processor',
+                'Signature' => 'Type 0, Family 6, Model 23, Stepping 6',
+                'L1 Cache Handle' => '0x0700',
+                'Manufacturer' => 'Intel',
+                'Core Enabled' => '2',
+                'External Clock' => '266 MHz',
+                'Upgrade' => 'None',
+                'Core Count' => '2',
+                'Voltage' => '3.3 V',
+                'L3 Cache Handle' => 'Not Provided'
+            }
+        ],
+        '10' => [
+            {
+                'Type' => 'Video',
+                'Status' => 'Enabled',
+                'Description' => 'NVIDIA Quadro FX 1700M'
+            },
+            {
+                'Type' => 'Sound',
+                'Status' => 'Enabled',
+                'Description' => 'IDT 92HD71'
+            }
+        ],
+        '19' => [
+            {
+                'Range Size' => '4 GB',
+                'Partition Width' => '1',
+                'Starting Address' => '0x00000000000',
+                'Physical Array Handle' => '0x1000',
+                'Ending Address' => '0x000FFFFFFFF'
+            }
+        ]
+    },
+    'windows-7' => {
+        '35' => [
+            {
+                'Threshold Handle' => '0x0035',
+                'Management Device Handle' => '0x0034',
+                'Description' => 'To Be Filled By O.E.M.',
+                'Component Handle' => '0x0034'
+            },
+            {
+                'Threshold Handle' => '0x0038',
+                'Management Device Handle' => '0x0034',
+                'Description' => 'To Be Filled By O.E.M.',
+                'Component Handle' => '0x0037'
+            },
+            {
+                'Threshold Handle' => '0x003B',
+                'Management Device Handle' => '0x0034',
+                'Description' => 'To Be Filled By O.E.M.',
+                'Component Handle' => '0x003A'
+            },
+            {
+                'Threshold Handle' => '0x003E',
+                'Management Device Handle' => '0x0034',
+                'Description' => 'To Be Filled By O.E.M.',
+                'Component Handle' => '0x003D'
+            },
+            {
+                'Threshold Handle' => '0x003E',
+                'Management Device Handle' => '0x0034',
+                'Description' => 'To Be Filled By O.E.M.',
+                'Component Handle' => '0x0040'
+            },
+            {
+                'Threshold Handle' => '0x0046',
+                'Management Device Handle' => '0x0045',
+                'Description' => 'To Be Filled By O.E.M.',
+                'Component Handle' => '0x0045'
+            },
+            {
+                'Threshold Handle' => '0x0049',
+                'Management Device Handle' => '0x0045',
+                'Description' => 'To Be Filled By O.E.M.',
+                'Component Handle' => '0x0048'
+            },
+            {
+                'Threshold Handle' => '0x004C',
+                'Management Device Handle' => '0x0045',
+                'Description' => 'To Be Filled By O.E.M.',
+                'Component Handle' => '0x004B'
+            },
+            {
+                'Threshold Handle' => '0x004F',
+                'Management Device Handle' => '0x0045',
+                'Description' => 'To Be Filled By O.E.M.',
+                'Component Handle' => '0x004E'
+            },
+            {
+                'Threshold Handle' => '0x0052',
+                'Management Device Handle' => '0x0045',
+                'Description' => 'To Be Filled By O.E.M.',
+                'Component Handle' => '0x0051'
+            },
+            {
+                'Threshold Handle' => '0x0055',
+                'Management Device Handle' => '0x0045',
+                'Description' => 'To Be Filled By O.E.M.',
+                'Component Handle' => '0x0054'
+            },
+            {
+                'Threshold Handle' => '0x0055',
+                'Management Device Handle' => '0x0045',
+                'Description' => 'To Be Filled By O.E.M.',
+                'Component Handle' => '0x0057'
+            },
+            {
+                'Threshold Handle' => '0x0055',
+                'Management Device Handle' => '0x0045',
+                'Description' => 'To Be Filled By O.E.M.',
+                'Component Handle' => '0x005A'
+            }
+        ],
+        '32' => [
+            {
+            'Status' => 'No errors detected'
+            }
+        ],
+        '11' => [
+            {
+            'String 1' => 'To Be Filled By O.E.M.'
+            }
+        ],
+        '7' => [
+            {
+                'Error Correction Type' => 'None',
+                'Installed Size' => '256 kB',
+                'Operational Mode' => 'Write Back',
+                'Socket Designation' => 'L1-Cache',
+                'Configuration' => 'Enabled, Not Socketed, Level 1',
+                'Installed SRAM Type' => 'Other',
+                'System Type' => 'Unified',
+                'Speed' => 'Unknown',
+                'Associativity' => '8-way Set-associative',
+                'Location' => 'Internal',
+                'Maximum Size' => '256 kB'
+            },
+            {
+                'Error Correction Type' => 'None',
+                'Installed Size' => '1024 kB',
+                'Operational Mode' => 'Varies With Memory Address',
+                'Socket Designation' => 'L2-Cache',
+                'Configuration' => 'Enabled, Not Socketed, Level 2',
+                'Installed SRAM Type' => 'Other',
+                'System Type' => 'Unified',
+                'Speed' => 'Unknown',
+                'Associativity' => '8-way Set-associative',
+                'Location' => 'Internal',
+                'Maximum Size' => '1024 kB'
+            },
+            {
+                'Error Correction Type' => 'None',
+                'Installed Size' => '6144 kB',
+                'Operational Mode' => 'Unknown',
+                'Socket Designation' => 'L3-Cache',
+                'Configuration' => 'Disabled, Not Socketed, Level 3',
+                'Installed SRAM Type' => 'Other',
+                'System Type' => 'Unified',
+                'Speed' => 'Unknown',
+                'Associativity' => 'Other',
+                'Location' => 'Internal',
+                'Maximum Size' => '6144 kB'
+            }
+        ],
+        '26' => [
+            {
+                'Nominal Value' => 'Unknown',
+                'Status' => '<OUT OF SPEC>',
+                'Minimum Value' => 'Unknown',
+                'OEM-specific Information' => '0x00000000',
+                'Accuracy' => 'Unknown',
+                'Maximum Value' => 'Unknown',
+                'Resolution' => 'Unknown',
+                'Location' => '<OUT OF SPEC>',
+                'Tolerance' => 'Unknown',
+                'Description' => 'LM78A'
+            },
+            {
+                'Nominal Value' => 'Unknown',
+                'Status' => '<OUT OF SPEC>',
+                'Minimum Value' => 'Unknown',
+                'OEM-specific Information' => '0x00000000',
+                'Accuracy' => 'Unknown',
+                'Maximum Value' => 'Unknown',
+                'Resolution' => 'Unknown',
+                'Location' => '<OUT OF SPEC>',
+                'Tolerance' => 'Unknown',
+                'Description' => 'LM78B'
+            },
+            {
+                'Nominal Value' => 'Unknown',
+                'Status' => '<OUT OF SPEC>',
+                'Minimum Value' => 'Unknown',
+                'OEM-specific Information' => '0x00000000',
+                'Accuracy' => 'Unknown',
+                'Maximum Value' => 'Unknown',
+                'Resolution' => 'Unknown',
+                'Location' => '<OUT OF SPEC>',
+                'Tolerance' => 'Unknown',
+                'Description' => 'LM78B'
+            }
+        ],
+        '17' => [
+            {
+                'Part Number' => 'Array1_PartNumber0',
+                'Serial Number' => 'SerNum0',
+                'Type Detail' => 'Synchronous',
+                'Set' => 'None',
+                'Type' => 'Unknown',
+                'Speed' => 'Unknown',
+                'Size' => 'No Module Installed',
+                'Manufacturer' => 'Manufacturer0',
+                'Bank Locator' => 'BANK0',
+                'Array Handle' => '0x0024',
+                'Data Width' => '64 bits',
+                'Total Width' => '64 bits',
+                'Asset Tag' => 'AssetTagNum0',
+                'Rank' => 'Unknown',
+                'Locator' => 'DIMM0',
+                'Error Information Handle' => 'No Error',
+                'Form Factor' => 'DIMM'
+            },
+            {
+                'Part Number' => 'F3-12800CL9-2GBXL',
+                'Serial Number' => '0000000',
+                'Type Detail' => 'Synchronous',
+                'Set' => 'None',
+                'Type' => '<OUT OF SPEC>',
+                'Speed' => '1600 MHz',
+                'Size' => '2048 MB',
+                'Manufacturer' => 'Undefined',
+                'Bank Locator' => 'BANK1',
+                'Array Handle' => '0x0024',
+                'Data Width' => '64 bits',
+                'Total Width' => '64 bits',
+                'Asset Tag' => 'AssetTagNum1',
+                'Rank' => '2',
+                'Locator' => 'DIMM1',
+                'Error Information Handle' => 'No Error',
+                'Form Factor' => 'DIMM'
+            },
+            {
+                'Part Number' => 'Array1_PartNumber2',
+                'Serial Number' => 'SerNum2',
+                'Type Detail' => 'Synchronous',
+                'Set' => 'None',
+                'Type' => 'Unknown',
+                'Speed' => 'Unknown',
+                'Size' => 'No Module Installed',
+                'Manufacturer' => 'Manufacturer2',
+                'Bank Locator' => 'BANK2',
+                'Array Handle' => '0x0024',
+                'Data Width' => '64 bits',
+                'Total Width' => '64 bits',
+                'Asset Tag' => 'AssetTagNum2',
+                'Rank' => 'Unknown',
+                'Locator' => 'DIMM2',
+                'Error Information Handle' => 'No Error',
+                'Form Factor' => 'DIMM'
+            },
+            {
+                'Part Number' => 'F3-12800CL9-2GBXL',
+                'Serial Number' => '0000000',
+                'Type Detail' => 'Synchronous',
+                'Set' => 'None',
+                'Type' => '<OUT OF SPEC>',
+                'Speed' => '1600 MHz',
+                'Size' => '2048 MB',
+                'Manufacturer' => 'Undefined',
+                'Bank Locator' => 'BANK3',
+                'Array Handle' => '0x0024',
+                'Data Width' => '64 bits',
+                'Total Width' => '64 bits',
+                'Asset Tag' => 'AssetTagNum3',
+                'Rank' => '2',
+                'Locator' => 'DIMM3',
+                'Error Information Handle' => 'No Error',
+                'Form Factor' => 'DIMM'
+            }
+        ],
+        '2' => [
+            {
+                'Product Name' => 'P8P67',
+                'Chassis Handle' => '0x0003',
+                'Serial Number' => 'MT7013K30709271',
+                'Asset Tag' => 'To be filled by O.E.M.',
+                'Version' => 'Rev 1.xx',
+                'Type' => 'Motherboard',
+                'Manufacturer' => 'ASUSTeK Computer INC.',
+                'Location In Chassis' => 'To be filled by O.E.M.',
+                'Contained Object Handles' => '0'
+            }
+        ],
+        '1' => [
+            {
+                'Product Name' => 'System Product Name',
+                'Family' => 'To be filled by O.E.M.',
+                'Serial Number' => 'System Serial Number',
+                'Version' => 'System Version',
+                'Wake-up Type' => 'Power Switch',
+                'SKU Number' => 'To be filled by O.E.M.',
+                'Manufacturer' => 'System manufacturer',
+                'UUID' => '1E00E6E0-008C-4400-9AAD-F46D04972D3E'
+            }
+        ],
+        '18' => [
+            {
+                'Memory Array Address' => 'Unknown',
+                'Vendor Syndrome' => 'Unknown',
+                'Granularity' => 'Unknown',
+                'Type' => 'OK',
+                'Resolution' => 'Unknown',
+                'Device Address' => 'Unknown',
+                'Operation' => 'Unknown'
+            },
+            {
+                'Memory Array Address' => 'Unknown',
+                'Vendor Syndrome' => 'Unknown',
+                'Granularity' => 'Unknown',
+                'Type' => 'OK',
+                'Resolution' => 'Unknown',
+                'Device Address' => 'Unknown',
+                'Operation' => 'Unknown'
+            },
+            {
+                'Memory Array Address' => 'Unknown',
+                'Vendor Syndrome' => 'Unknown',
+                'Granularity' => 'Unknown',
+                'Type' => 'OK',
+                'Resolution' => 'Unknown',
+                'Device Address' => 'Unknown',
+                'Operation' => 'Unknown'
+            },
+            {
+                'Memory Array Address' => 'Unknown',
+                'Vendor Syndrome' => 'Unknown',
+                'Granularity' => 'Unknown',
+                'Type' => 'OK',
+                'Resolution' => 'Unknown',
+                'Device Address' => 'Unknown',
+                'Operation' => 'Unknown'
+            },
+            {
+                'Memory Array Address' => 'Unknown',
+                'Vendor Syndrome' => 'Unknown',
+                'Granularity' => 'Unknown',
+                'Type' => 'OK',
+                'Resolution' => 'Unknown',
+                'Device Address' => 'Unknown',
+                'Operation' => 'Unknown'
+            }
+        ],
+        '0' => [
+            {
+                'Runtime Size' => '64 kB',
+                'Version' => '1503',
+                'BIOS Revision' => '4.6',
+                'Address' => '0xF0000',
+                'ROM Size' => '4096 kB',
+                'Release Date' => '03/10/2011',
+                'Vendor' => 'American Megatrends Inc.'
+            }
+        ],
+        '13' => [
+            {
+                'Installable Languages' => '6',
+                'Currently Installed Language' => 'eng'
+            }
+        ],
+        '16' => [
+            {
+                'Number Of Devices' => '4',
+                'Error Correction Type' => 'None',
+                'Error Information Handle' => 'No Error',
+                'Location' => 'System Board Or Motherboard',
+                'Maximum Capacity' => '32 GB',
+                'Use' => 'System Memory'
+            }
+        ],
+        '29' => [
+            {
+                'Nominal Value' => 'Unknown',
+                'Status' => '<OUT OF SPEC>',
+                'Minimum Value' => 'Unknown',
+                'OEM-specific Information' => '0x00000000',
+                'Accuracy' => 'Unknown',
+                'Maximum Value' => 'Unknown',
+                'Resolution' => 'Unknown',
+                'Location' => '<OUT OF SPEC>',
+                'Tolerance' => 'Unknown',
+                'Description' => 'ABC'
+            },
+            {
+                'Nominal Value' => 'Unknown',
+                'Status' => '<OUT OF SPEC>',
+                'Minimum Value' => 'Unknown',
+                'OEM-specific Information' => '0x00000000',
+                'Accuracy' => 'Unknown',
+                'Maximum Value' => 'Unknown',
+                'Resolution' => 'Unknown',
+                'Location' => '<OUT OF SPEC>',
+                'Tolerance' => 'Unknown',
+                'Description' => 'DEF'
+            },
+            {
+                'Nominal Value' => 'Unknown',
+                'Status' => '<OUT OF SPEC>',
+                'Minimum Value' => 'Unknown',
+                'OEM-specific Information' => '0x00000000',
+                'Accuracy' => 'Unknown',
+                'Maximum Value' => 'Unknown',
+                'Resolution' => 'Unknown',
+                'Location' => '<OUT OF SPEC>',
+                'Tolerance' => 'Unknown',
+                'Description' => 'GHI'
+            }
+        ],
+        '27' => [
+            {
+                'Temperature Probe Handle' => '0x0038',
+                'Type' => '<OUT OF SPEC>',
+                'Status' => '<OUT OF SPEC>',
+                'OEM-specific Information' => '0x00000000',
+                'Cooling Unit Group' => '1',
+                'Nominal Speed' => 'Unknown Or Non-rotating'
+            },
+            {
+                'Temperature Probe Handle' => '0x0038',
+                'Type' => '<OUT OF SPEC>',
+                'Status' => '<OUT OF SPEC>',
+                'OEM-specific Information' => '0x00000000',
+                'Cooling Unit Group' => '1',
+                'Nominal Speed' => 'Unknown Or Non-rotating'
+            },
+            {
+                'Temperature Probe Handle' => '0x004C',
+                'Type' => '<OUT OF SPEC>',
+                'Status' => '<OUT OF SPEC>',
+                'OEM-specific Information' => '0x00000000',
+                'Cooling Unit Group' => '1',
+                'Nominal Speed' => 'Unknown Or Non-rotating'
+            },
+            {
+                'Temperature Probe Handle' => '0x0052',
+                'Type' => '<OUT OF SPEC>',
+                'Status' => '<OUT OF SPEC>',
+                'OEM-specific Information' => '0x00000000',
+                'Cooling Unit Group' => '1',
+                'Nominal Speed' => 'Unknown Or Non-rotating'
+            }
+        ],
+        '39' => [
+            {
+                'Input Voltage Probe Handle' => '0x0035',
+                'Revision' => 'To Be Filled By O.E.M.',
+                'Input Voltage Range Switching' => '<OUT OF SPEC>',
+                'Serial Number' => 'To Be Filled By O.E.M.',
+                'Hot Replaceable' => 'No',
+                'Asset Tag' => 'To Be Filled By O.E.M.',
+                'Input Current Probe Handle' => '0x0041',
+                'Type' => '<OUT OF SPEC>',
+                'Model Part Number' => 'To Be Filled By O.E.M.',
+                'Cooling Device Handle' => '0x003B',
+                'Plugged' => 'Yes',
+                'Power Unit Group' => '1',
+                'Location' => 'To Be Filled By O.E.M.',
+                'Manufacturer' => 'To Be Filled By O.E.M.',
+                'Name' => 'To Be Filled By O.E.M.',
+                'Max Power Capacity' => 'Unknown'
+            },
+            {
+                'Input Voltage Probe Handle' => '0x0035',
+                'Revision' => 'To Be Filled By O.E.M.',
+                'Input Voltage Range Switching' => '<OUT OF SPEC>',
+                'Serial Number' => 'To Be Filled By O.E.M.',
+                'Hot Replaceable' => 'No',
+                'Asset Tag' => 'To Be Filled By O.E.M.',
+                'Input Current Probe Handle' => '0x0041',
+                'Type' => '<OUT OF SPEC>',
+                'Model Part Number' => 'To Be Filled By O.E.M.',
+                'Cooling Device Handle' => '0x003B',
+                'Plugged' => 'Yes',
+                'Power Unit Group' => '1',
+                'Location' => 'To Be Filled By O.E.M.',
+                'Manufacturer' => 'To Be Filled By O.E.M.',
+                'Name' => 'To Be Filled By O.E.M.',
+                'Max Power Capacity' => 'Unknown'
+            }
+        ],
+        '28' => [
+            {
+                'Nominal Value' => 'Unknown',
+                'Status' => '<OUT OF SPEC>',
+                'Minimum Value' => 'Unknown',
+                'OEM-specific Information' => '0x00000000',
+                'Accuracy' => 'Unknown',
+                'Maximum Value' => 'Unknown',
+                'Resolution' => 'Unknown',
+                'Location' => '<OUT OF SPEC>',
+                'Tolerance' => 'Unknown',
+                'Description' => 'LM78A'
+            },
+            {
+                'Nominal Value' => 'Unknown',
+                'Status' => '<OUT OF SPEC>',
+                'Minimum Value' => 'Unknown',
+                'OEM-specific Information' => '0x00000000',
+                'Accuracy' => 'Unknown',
+                'Maximum Value' => 'Unknown',
+                'Resolution' => 'Unknown',
+                'Location' => '<OUT OF SPEC>',
+                'Tolerance' => 'Unknown',
+                'Description' => 'LM78B'
+            },
+            {
+                'Nominal Value' => 'Unknown',
+                'Status' => '<OUT OF SPEC>',
+                'Minimum Value' => 'Unknown',
+                'OEM-specific Information' => '0x00000000',
+                'Accuracy' => 'Unknown',
+                'Maximum Value' => 'Unknown',
+                'Resolution' => 'Unknown',
+                'Location' => '<OUT OF SPEC>',
+                'Tolerance' => 'Unknown',
+                'Description' => 'LM78B'
+            }
+        ],
+        '36' => [
+            {
+                'Lower Non-critical Threshold' => '1',
+                'Upper Critical Threshold' => '4',
+                'Lower Critical Threshold' => '3',
+                'Lower Non-recoverable Threshold' => '5',
+                'Upper Non-recoverable Threshold' => '6',
+                'Upper Non-critical Threshold' => '2'
+            },
+            {
+                'Lower Non-critical Threshold' => '1',
+                'Upper Critical Threshold' => '4',
+                'Lower Critical Threshold' => '3',
+                'Lower Non-recoverable Threshold' => '5',
+                'Upper Non-recoverable Threshold' => '6',
+                'Upper Non-critical Threshold' => '2'
+            },
+            {
+                'Lower Non-critical Threshold' => '1',
+                'Upper Critical Threshold' => '4',
+                'Lower Critical Threshold' => '3',
+                'Lower Non-recoverable Threshold' => '5',
+                'Upper Non-recoverable Threshold' => '6',
+                'Upper Non-critical Threshold' => '2'
+            },
+            {
+                'Lower Non-critical Threshold' => '1',
+                'Upper Critical Threshold' => '4',
+                'Lower Critical Threshold' => '3',
+                'Lower Non-recoverable Threshold' => '5',
+                'Upper Non-recoverable Threshold' => '6',
+                'Upper Non-critical Threshold' => '2'
+            },
+            {
+                'Lower Non-critical Threshold' => '7',
+                'Upper Critical Threshold' => '10',
+                'Lower Critical Threshold' => '8',
+                'Lower Non-recoverable Threshold' => '11',
+                'Upper Non-recoverable Threshold' => '12',
+                'Upper Non-critical Threshold' => '8'
+            },
+            {
+                'Lower Non-critical Threshold' => '13',
+                'Upper Critical Threshold' => '16',
+                'Lower Critical Threshold' => '15',
+                'Lower Non-recoverable Threshold' => '17',
+                'Upper Non-recoverable Threshold' => '18',
+                'Upper Non-critical Threshold' => '14'
+            },
+            {
+                'Lower Non-critical Threshold' => '1',
+                'Upper Critical Threshold' => '4',
+                'Lower Critical Threshold' => '3',
+                'Lower Non-recoverable Threshold' => '5',
+                'Upper Non-recoverable Threshold' => '6',
+                'Upper Non-critical Threshold' => '2'
+            },
+            {
+                'Lower Non-critical Threshold' => '1',
+                'Upper Critical Threshold' => '4',
+                'Lower Critical Threshold' => '3',
+                'Lower Non-recoverable Threshold' => '5',
+                'Upper Non-recoverable Threshold' => '6',
+                'Upper Non-critical Threshold' => '2'
+            },
+            {
+                'Lower Non-critical Threshold' => '1',
+                'Upper Critical Threshold' => '4',
+                'Lower Critical Threshold' => '3',
+                'Lower Non-recoverable Threshold' => '5',
+                'Upper Non-recoverable Threshold' => '6',
+                'Upper Non-critical Threshold' => '2'
+            },
+            {
+                'Lower Non-critical Threshold' => '1',
+                'Upper Critical Threshold' => '4',
+                'Lower Critical Threshold' => '3',
+                'Lower Non-recoverable Threshold' => '5',
+                'Upper Non-recoverable Threshold' => '6',
+                'Upper Non-critical Threshold' => '2'
+            }
+        ],
+        '3' => [
+            {
+                'Height' => 'Unspecified',
+                'Power Supply State' => 'Safe',
+                'Serial Number' => 'Chassis Serial Number',
+                'Thermal State' => 'Safe',
+                'Contained Elements' => '0',
+                'Asset Tag' => 'Asset-1234567890',
+                'Type' => 'Desktop',
+                'Version' => 'Chassis Version',
+                'Number Of Power Cords' => '1',
+                'Security Status' => 'None',
+                'OEM Information' => '0x00000000',
+                'Manufacturer' => 'Chassis Manufacture',
+                'Boot-up State' => 'Safe'
+            }
+        ],
+        '9' => [
+            {
+                'Bus Address' => '0000:00:01.0',
+                'ID' => '1',
+                'Length' => 'Short',
+                'Designation' => 'PCIEX16_1',
+                'Type' => '32-bit PCI Express',
+                'Current Usage' => 'In Use'
+            },
+            {
+                'Bus Address' => '0000:00:1c.3',
+                'ID' => '2',
+                'Length' => 'Short',
+                'Designation' => 'PCIEX1_1',
+                'Type' => '32-bit PCI Express',
+                'Current Usage' => 'In Use'
+            },
+            {
+                'Bus Address' => '0000:00:1c.4',
+                'ID' => '3',
+                'Length' => 'Short',
+                'Designation' => 'PCIEX1_2',
+                'Type' => '32-bit PCI Express',
+                'Current Usage' => 'In Use'
+            },
+            {
+                'Bus Address' => '0000:00:1c.6',
+                'ID' => '4',
+                'Length' => 'Short',
+                'Designation' => 'PCI1',
+                'Type' => '32-bit PCI',
+                'Current Usage' => 'In Use'
+            }
+        ],
+        '41' => [
+            {
+                'Bus Address' => '0000:00:02.0',
+                'Type' => 'Video',
+                'Reference Designation' => ' Onboard IGD',
+                'Type Instance' => '1',
+                'Status' => 'Enabled'
+            },
+            {
+                'Bus Address' => '0000:00:19.0',
+                'Type' => 'Ethernet',
+                'Reference Designation' => ' Onboard LAN',
+                'Type Instance' => '1',
+                'Status' => 'Enabled'
+            },
+            {
+                'Bus Address' => '0000:03:1c.2',
+                'Type' => 'Other',
+                'Reference Designation' => ' Onboard 1394',
+                'Type Instance' => '1',
+                'Status' => 'Enabled'
+            }
+        ],
+        '12' => [
+            {
+                'Option 1' => 'To Be Filled By O.E.M.'
+            }
+        ],
+        '20' => [
+            {
+                'Memory Array Mapped Address Handle' => '0x0026',
+                'Range Size' => '2 GB',
+                'Physical Device Handle' => '0x002A',
+                'Partition Row Position' => '1',
+                'Starting Address' => '0x00000000000',
+                'Ending Address' => '0x0007FFFFFFF'
+            },
+            {
+                'Memory Array Mapped Address Handle' => '0x0026',
+                'Range Size' => '2 GB',
+                'Physical Device Handle' => '0x0030',
+                'Partition Row Position' => '1',
+                'Starting Address' => '0x00080000000',
+                'Ending Address' => '0x000FFFFFFFF'
+            }
+        ],
+        '8' => [
+            {
+                'External Reference Designator' => 'PS/2 Keyboard',
+                'Port Type' => 'Keyboard Port',
+                'External Connector Type' => 'PS/2',
+                'Internal Reference Designator' => 'PS/2 Keyboard',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'External Reference Designator' => 'USB9_10',
+                'Port Type' => 'USB',
+                'External Connector Type' => 'Access Bus (USB)',
+                'Internal Reference Designator' => 'USB9_10',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'External Reference Designator' => 'USB11_12',
+                'Port Type' => 'USB',
+                'External Connector Type' => 'Access Bus (USB)',
+                'Internal Reference Designator' => 'USB11_12',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'External Reference Designator' => 'GbE LAN',
+                'Port Type' => 'Network Port',
+                'External Connector Type' => 'RJ-45',
+                'Internal Reference Designator' => 'GbE LAN',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'External Reference Designator' => 'AUDIO',
+                'Port Type' => 'Audio Port',
+                'External Connector Type' => 'Other',
+                'Internal Reference Designator' => 'AUDIO',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'Port Type' => 'SATA',
+                'External Connector Type' => 'None',
+                'Internal Reference Designator' => 'SATA1',
+                'Internal Connector Type' => 'SAS/SATA Plug Receptacle'
+            },
+            {
+                'Port Type' => 'SATA',
+                'External Connector Type' => 'None',
+                'Internal Reference Designator' => 'SATA2',
+                'Internal Connector Type' => 'SAS/SATA Plug Receptacle'
+            },
+            {
+                'Port Type' => 'SATA',
+                'External Connector Type' => 'None',
+                'Internal Reference Designator' => 'SATA3',
+                'Internal Connector Type' => 'SAS/SATA Plug Receptacle'
+            },
+            {
+                'Port Type' => 'SATA',
+                'External Connector Type' => 'None',
+                'Internal Reference Designator' => 'SATA4',
+                'Internal Connector Type' => 'SAS/SATA Plug Receptacle'
+            },
+            {
+                'Port Type' => 'SATA',
+                'External Connector Type' => 'None',
+                'Internal Reference Designator' => 'SATA5',
+                'Internal Connector Type' => 'SAS/SATA Plug Receptacle'
+            },
+            {
+                'Port Type' => 'SATA',
+                'External Connector Type' => 'None',
+                'Internal Reference Designator' => 'SATA6',
+                'Internal Connector Type' => 'SAS/SATA Plug Receptacle'
+            },
+            {
+                'Port Type' => 'USB',
+                'External Connector Type' => 'None',
+                'Internal Reference Designator' => 'USB1_2',
+                'Internal Connector Type' => 'Access Bus (USB)'
+            },
+            {
+                'Port Type' => 'USB',
+                'External Connector Type' => 'None',
+                'Internal Reference Designator' => 'USB3_4',
+                'Internal Connector Type' => 'Access Bus (USB)'
+            },
+            {
+                'Port Type' => 'USB',
+                'External Connector Type' => 'None',
+                'Internal Reference Designator' => 'USB5_6',
+                'Internal Connector Type' => 'Access Bus (USB)'
+            },
+            {
+                'Port Type' => 'USB',
+                'External Connector Type' => 'None',
+                'Internal Reference Designator' => 'USB7_8',
+                'Internal Connector Type' => 'Access Bus (USB)'
+            },
+            {
+                'Port Type' => 'Audio Port',
+                'External Connector Type' => 'None',
+                'Internal Reference Designator' => 'AAFP',
+                'Internal Connector Type' => 'Mini Jack (headphones)'
+            },
+            {
+                'Port Type' => 'Other',
+                'External Connector Type' => 'None',
+                'Internal Reference Designator' => 'CPU_FAN',
+                'Internal Connector Type' => 'Other'
+            },
+            {
+                'Port Type' => 'Other',
+                'External Connector Type' => 'None',
+                'Internal Reference Designator' => 'CHA_FAN1',
+                'Internal Connector Type' => 'Other'
+            },
+            {
+                'Port Type' => 'Other',
+                'External Connector Type' => 'None',
+                'Internal Reference Designator' => 'PWR_FAN',
+                'Internal Connector Type' => 'Other'
+            },
+            {
+                'Port Type' => 'Other',
+                'External Connector Type' => 'None',
+                'Internal Reference Designator' => 'PATA_IDE',
+                'Internal Connector Type' => 'On Board IDE'
+            },
+            {
+                'Port Type' => 'SATA',
+                'External Connector Type' => 'None',
+                'Internal Reference Designator' => 'F_ESATA',
+                'Internal Connector Type' => 'SAS/SATA Plug Receptacle'
+            }
+        ],
+        '4' => [
+            {
+                'ID' => 'A7 06 02 00 FF FB EB BF',
+                'Socket Designation' => 'LGA1155',
+                'Part Number' => 'To Be Filled By O.E.M.',
+                'Status' => 'Populated, Enabled',
+                'Max Speed' => '3800 MHz',
+                'Serial Number' => 'To Be Filled By O.E.M.',
+                'Family' => 'Core 2 Duo',
+                'Current Speed' => '2800 MHz',
+                'L2 Cache Handle' => '0x0006',
+                'Type' => 'Central Processor',
+                'Signature' => 'Type 0, Family 6, Model 42, Stepping 7',
+                'L1 Cache Handle' => '0x0005',
+                'Manufacturer' => 'Intel',
+                'Core Enabled' => '1',
+                'External Clock' => '100 MHz',
+                'Asset Tag' => 'To Be Filled By O.E.M.',
+                'Version' => 'Intel(R) Core(TM) i5-2300 CPU @ 2.80GHz',
+                'Core Count' => '4',
+                'Upgrade' => 'Other',
+                'Voltage' => '1.0 V',
+                'L3 Cache Handle' => '0x0007'
+            }
+        ],
+        '34' => [
+            {
+                'Type' => 'LM78',
+                'Address Type' => 'I/O Port',
+                'Address' => '0x00000000',
+                'Description' => 'LM78-1'
+            },
+            {
+                'Type' => 'LM78',
+                'Address Type' => 'I/O Port',
+                'Address' => '0x00000000',
+                'Description' => '2'
+            }
+        ],
+        '10' => [
+            {
+                'Type' => 'Ethernet',
+                'Status' => 'Enabled',
+                'Description' => 'Onboard Ethernet'
+            }
+        ],
+        '19' => [
+            {
+                'Range Size' => '4 GB',
+                'Partition Width' => '0',
+                'Starting Address' => '0x00000000000',
+                'Physical Array Handle' => '0x0024',
+                'Ending Address' => '0x000FFFFFFFF'
+            }
+        ]
     }
 );
 
@@ -4779,6 +5934,30 @@ my %cpu_tests = (
             MANUFACTURER   => 'GenuineIntel',
             CORE           => undef
         }
+    ],
+    'windows-xppro' => [
+        {
+            ID             => '76 06 01 00 FF FB EB BF',
+            NAME           => 'Core 2 Duo',
+            EXTERNAL_CLOCK => '266',
+            SPEED          => '2534',
+            THREAD         => '2',
+            SERIAL         => undef,
+            MANUFACTURER   => 'Intel',
+            CORE           => '2'
+        }
+    ],
+    'windows-7' => [
+        {
+            ID             => 'A7 06 02 00 FF FB EB BF',
+            NAME           => 'Core 2 Duo',
+            EXTERNAL_CLOCK => '100',
+            SPEED          => '2800',
+            THREAD         => undef,
+            SERIAL         => 'To Be Filled By O.E.M.',
+            MANUFACTURER   => 'Intel',
+            CORE           => '4'
+        }
     ]
 );
 
@@ -5009,12 +6188,13 @@ foreach my $test (keys %dmidecode_tests) {
     my $file = "resources/generic/dmidecode/$test";
     my $infos = getDmidecodeInfos(file => $file);
     is_deeply($infos, $dmidecode_tests{$test}, "$test dmidecode parsing");
+    use Data::Dumper;
 }
 
 foreach my $test (keys %cpu_tests) {
     my $file = "resources/generic/dmidecode/$test";
     my @cpus = getCpusFromDmidecode(file => $file);
-    is_deeply(\@cpus, $cpu_tests{$test}, "$test dmidecode cpu extraction");
+    is_deeply(\@cpus, $cpu_tests{$test}, "$test dmidecode cpu extraction") or print Dumper(\@cpus);
 }
 
 foreach my $test (keys %lspci_tests) {

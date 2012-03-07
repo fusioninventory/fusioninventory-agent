@@ -59,6 +59,8 @@ sub doInventory {
                 $screen->{SERIAL} = $edid->{serial_number2}->[0];
             }
             $screen->{BASE64} = encode_base64($screen->{edid});
+
+            delete $screen->{edid};
         }
 
         $inventory->addEntry(
@@ -71,7 +73,7 @@ sub doInventory {
 sub _getScreensFromWindows {
     my ($logger) = @_;
 
-    FusionInventory::Agent::Tools::Win32->require();
+    FusionInventory::Agent::Tools::Win32->use();
     if ($EVAL_ERROR) {
         print
             "Failed to load FusionInventory::Agent::Tools::Win32: $EVAL_ERROR";
@@ -81,7 +83,7 @@ sub _getScreensFromWindows {
     my @screens;
 
     # Vista and upper, able to get the second screen
-    foreach my $object (FusionInventory::Agent::Tools::Win32::getWmiObjects(
+    foreach my $object (getWmiObjects(
         moniker    => 'winmgmts:{impersonationLevel=impersonate,authenticationLevel=Pkt}!//./root/wmi',
         class      => 'WMIMonitorID',
         properties => [ qw/InstanceName/ ]
@@ -95,7 +97,7 @@ sub _getScreensFromWindows {
     }
 
     # The generic Win32_DesktopMonitor class, the second screen will be missing
-    foreach my $object (FusionInventory::Agent::Tools::Win32::getWmiObjects(
+    foreach my $object (getWmiObjects(
         class => 'Win32_DesktopMonitor',
         properties => [ qw/
             Caption MonitorManufacturer MonitorType PNPDeviceID
@@ -107,38 +109,21 @@ sub _getScreensFromWindows {
 
         push @screens, {
             id           => $object->{PNPDeviceID},
-            name         => $object->{Caption},
-            type         => $object->{MonitorType},
-            manufacturer => $object->{MonitorManufacturer},
-            caption      => $object->{Caption}
+            NAME         => $object->{Caption},
+            TYPE         => $object->{MonitorType},
+            MANUFACTURER => $object->{MonitorManufacturer},
+            CAPTION      => $object->{Caption}
         };
     }
 
-    my $Registry;
-    Win32::TieRegistry->require();
-    Win32::TieRegistry->import(
-        Delimiter   => '/',
-        ArrayValues => 0,
-        TiedRef     => \$Registry
-    );
-
-    my $access = FusionInventory::Agent::Tools::Win32::is64bit() ?
-	Win32::TieRegistry::KEY_READ() |
-	    FusionInventory::Agent::Tools::Win32::KEY_WOW64_64() :
-	Win32::TieRegistry::KEY_READ();
-
     foreach my $screen (@screens) {
-
-        my $machKey = $Registry->Open('LMachine', {
-            Access => $access
-        } ) or $logger->fault(
-            "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR"
-        );
-
-        $screen->{edid} =
-            $machKey->{"SYSTEM/CurrentControlSet/Enum/$screen->{id}/Device Parameters/EDID"} || '';
+        next unless $screen->{id};
+        $screen->{edid} = getRegistryValue(
+            path => "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Enum/$screen->{id}/Device Parameters/EDID",
+            logger => $logger
+        ) || '';
         $screen->{edid} =~ s/^\s+$//;
-
+        delete $screen->{id};
     }
 
     return @screens;
@@ -146,19 +131,18 @@ sub _getScreensFromWindows {
 
 sub _getScreensFromUnix {
 
-    my $raw_edid =
+    my $edid =
         getFirstLine(command => 'monitor-get-edid-using-vbe') ||
         getFirstLine(command => 'monitor-get-edid');
 
-    if (!$raw_edid) {
+    if (!$edid) {
         foreach (1..5) { # Sometime get-edid return an empty string...
-            $raw_edid = getFirstLine(command => 'get-edid');
-            last if $raw_edid && (length($raw_edid) == 128 || length($raw_edid) == 256);
+            $edid = getFirstLine(command => 'get-edid');
+            last if $edid;
         }
     }
-    return unless length($raw_edid) == 128 || length($raw_edid) == 256;
 
-    return ( { edid => $raw_edid } );
+    return ( { edid => $edid } );
 }
 
 sub _getScreens {

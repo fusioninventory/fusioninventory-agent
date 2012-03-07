@@ -4,11 +4,6 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use Win32::TieRegistry (
-    Delimiter   => '/',
-    ArrayValues => 0,
-    qw/KEY_READ/
-);
 
 use FusionInventory::Agent::Tools::Win32;
 
@@ -52,6 +47,7 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     foreach my $object (getWmiObjects(
         class      => 'Win32_Printer',
@@ -76,7 +72,7 @@ sub doInventory {
                 $object->{VerticalResolution};
         }
 
-        $object->{Serial} = _getUSBPrinterSerial($object->{PortName})
+        $object->{Serial} = _getUSBPrinterSerial($object->{PortName}, $logger)
             if $object->{PortName} && $object->{PortName} =~ /USB/;
 
         $inventory->addEntry(
@@ -103,29 +99,30 @@ sub doInventory {
 }
 
 sub _getUSBPrinterSerial {
-    my ($portName) = @_;
+    my ($portName, $logger) = @_;
 
-    my $machKey = $Registry->Open('LMachine', { 
-        Access => KEY_READ | KEY_WOW64_64 ## no critic (ProhibitBitwise)
-    }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
-
-    # first, find the USB container ID for this printer
+    # find the ParentIdPrefix value for the printer matching given portname
     my $prefix = _getUSBPrefix(
-        $machKey->{"SYSTEM/CurrentControlSet/Enum/USBPRINT"},
+        getRegistryKey(
+            path => "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Enum/USBPRINT",
+            logger => $logger
+        ),
         $portName
     );
     return unless $prefix;
 
-    # second, get the serial number from the ID container entry
+    # find the key name for the device matching given parentIdPrefix
     my $serial = _getUSBSerial(
-        $machKey->{"SYSTEM/CurrentControlSet/Enum/USB"},
+        getRegistryKey(
+            path => "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Enum/USB",
+            logger => $logger
+        ),
         $prefix
     );
 
     return $serial;
 }
 
-# find the ParentIdPrefix value for the printer matching given portname
 sub _getUSBPrefix {
     my ($print, $portName) = @_;
 
@@ -153,7 +150,6 @@ sub _getUSBPrefix {
     return;
 }
 
-# find the key name for the device matching given parentIdPrefix
 sub _getUSBSerial {
     my ($usb, $prefix) = @_;
 

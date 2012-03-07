@@ -37,13 +37,14 @@ if ($OSNAME ne 'MSWin32') {
 }
 
 # test dependencies
-test_requires  'Test::More'                   => '0.93'; # subtest
-test_requires  'IPC::Run'                     => undef;
 test_requires  'HTTP::Proxy'                  => undef;
 test_requires  'HTTP::Server::Simple'         => undef;
 test_requires  'HTTP::Server::Simple::Authen' => undef;
 test_requires  'IO::Capture::Stderr'          => undef;
+test_requires  'IPC::Run'                     => undef;
 test_requires  'Test::Exception'              => undef;
+test_requires  'Test::MockModule'             => undef;
+test_requires  'Test::More'                   => '0.93'; # subtest
 test_requires  'YAML'                         => undef;
 
 install_script  'fusioninventory-agent';
@@ -201,17 +202,4 @@ fusioninventory-agent.1.html: fusioninventory-agent
 
 EOF
     return $manifypods;
-}
-
-sub test {
-    my ($self) = @_;
-    my $test = $self->SUPER::test(@_);
-
-    $test .= <<'EOF';
-%-junit.xml:
-	prove --lib --timer --recurse --formatter TAP::Formatter::JUnit t \
-	    > $@
-EOF
-
-    return $test;
 }

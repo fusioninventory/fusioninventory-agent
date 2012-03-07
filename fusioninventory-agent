@@ -33,6 +33,7 @@ GetOptions(
     'list-tasks',
     'setup',
     'local|l=s',
+    'local-inventory-format=s',
     'logger=s',
     'logfile=s',
     'logfile-maxsize=i',

@@ -207,6 +207,8 @@ sub checkParsedEdid {
 sub parseEdid {
     my ($raw_edid) = @_;
 
+    no warnings 'uninitialized';
+
     my %edid;
     my @vals = unpack(join('', map { $_->[0] } @edid_info), $raw_edid);
     my $i;

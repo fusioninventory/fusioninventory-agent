@@ -90,6 +90,125 @@ my %tests = (
             UUID      => '4ddac902-a4f6-4ccb-a1a4-73dd6c90c1b2',
             VCPU      => 1
         }
+    ],
+    sample2 => [
+        {
+            VMTYPE    => 'VirtualBox',
+            NAME      => 'FreeBSD8 i386',
+            SUBSYSTEM => 'Oracle VM VirtualBox',
+            STATUS    => 'running',
+            MEMORY    => '512MB',
+            UUID      => 'd1857d13-a67f-4ba9-a3e6-101e42f59268',
+            VCPU      => 1
+        },
+        {
+            VMTYPE    => 'VirtualBox',
+            NAME      => 'Windows2000 (fusion agent)',
+            SUBSYSTEM => 'Oracle VM VirtualBox',
+            STATUS    => 'off',
+            MEMORY    => '512MB',
+            UUID      => 'f8d4f838-aaa4-4f9b-b756-f95bc8d9cceb',
+            VCPU      => 1
+        },
+        {
+            VMTYPE    => 'VirtualBox',
+            NAME      => 'Centos',
+            SUBSYSTEM => 'Oracle VM VirtualBox',
+            STATUS    => 'off',
+            MEMORY    => '776MB',
+            UUID      => '2cbb51b4-503c-4b5e-a6a5-878851a04658',
+            VCPU      => 1
+        },
+        {
+            VMTYPE    => 'VirtualBox',
+            NAME      => 'windows 7 RU',
+            SUBSYSTEM => 'Oracle VM VirtualBox',
+            STATUS    => 'off',
+            MEMORY    => '512MB',
+            UUID      => 'c404fff7-67bf-4b9c-95cc-19c6b27bcd5f',
+            VCPU      => 1
+        },
+        {
+            VMTYPE    => 'VirtualBox',
+            NAME      => 'Windows XP',
+            SUBSYSTEM => 'Oracle VM VirtualBox',
+            STATUS    => 'running',
+            MEMORY    => '512MB',
+            UUID      => '3fd80a8f-ed78-4421-9192-c0af6f5f66d5',
+            VCPU      => 1
+        },
+        {
+            VMTYPE    => 'VirtualBox',
+            NAME      => 'windowsxp01',
+            SUBSYSTEM => 'Oracle VM VirtualBox',
+            STATUS    => 'off',
+            MEMORY    => '256MB',
+            UUID      => 'c7608d9d-c76c-4dab-8411-2784deb4eb1f',
+            VCPU      => 1
+        },
+        {
+            VMTYPE    => 'VirtualBox',
+            NAME      => 'windowsxp02',
+            SUBSYSTEM => 'Oracle VM VirtualBox',
+            STATUS    => 'off',
+            MEMORY    => '256MB',
+            UUID      => 'cd033191-26c3-49c9-afee-1e3affc933ee',
+            VCPU      => 1
+        },
+        {
+            VMTYPE    => 'VirtualBox',
+            NAME      => 'debian10023',
+            SUBSYSTEM => 'Oracle VM VirtualBox',
+            STATUS    => 'off',
+            MEMORY    => '200MB',
+            UUID      => 'ec43b1fc-0efc-487f-8188-a104473db0d5',
+            VCPU      => 1
+        },
+        {
+            VMTYPE    => 'VirtualBox',
+            NAME      => 'debian10024',
+            SUBSYSTEM => 'Oracle VM VirtualBox',
+            STATUS    => 'off',
+            MEMORY    => '200MB',
+            UUID      => 'd410a9a0-0b31-4bad-9a51-80ab37701d1d',
+            VCPU      => 1
+        },
+        {
+            VMTYPE    => 'VirtualBox',
+            NAME      => 'MacOSX 10.6',
+            SUBSYSTEM => 'Oracle VM VirtualBox',
+            STATUS    => 'off',
+            MEMORY    => '1024MB',
+            UUID      => '85b780f6-b3fd-44d3-bb94-d8583cd78770',
+            VCPU      => 1
+        },
+        {
+            VMTYPE    => 'VirtualBox',
+            NAME      => 'windows xp RU',
+            SUBSYSTEM => 'Oracle VM VirtualBox',
+            STATUS    => 'off',
+            MEMORY    => '306MB',
+            UUID      => 'fbc00535-0e8d-4955-8026-2bd50bf606e9',
+            VCPU      => 1
+        },
+        {
+            VMTYPE    => 'VirtualBox',
+            NAME      => 'Mandriva',
+            SUBSYSTEM => 'Oracle VM VirtualBox',
+            STATUS    => 'off',
+            MEMORY    => '512MB',
+            UUID      => 'c43f39f2-a970-40a0-9435-7b09b218efdf',
+            VCPU      => 1
+        },
+        {
+            VMTYPE    => 'VirtualBox',
+            NAME      => 'Macos',
+            SUBSYSTEM => 'Oracle VM VirtualBox',
+            STATUS    => 'off',
+            MEMORY    => '1365MB',
+            UUID      => 'd1fe6cfa-80c6-41ae-9f4b-2a15dbafcf2c',
+            VCPU      => 1
+        }
     ]
 );
 

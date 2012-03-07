@@ -52,6 +52,19 @@ my %fields = (
     PRINTERS    => [ qw/COMMENT DESCRIPTION DRIVER NAME NETWORK PORT RESOLUTION
                         SHARED STATUS ERRSTATUS SERVERNAME SHARENAME 
                         PRINTPROCESSOR SERIAL/ ],
+    BIOS             => [ qw/SMODEL SMANUFACTURER SSN BDATE BVERSION 
+                             BMANUFACTURER MMANUFACTURER MSN MMODEL ASSETTAG 
+                             ENCLOSURESERIAL BIOSSERIAL 
+                             TYPE SKUNUMBER/ ],
+    HARDWARE         => [ qw/USERID OSVERSION PROCESSORN OSCOMMENTS CHECKSUM
+                             PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME
+                             IPADDR WORKGROUP DESCRIPTION MEMORY UUID DNS 
+                             LASTLOGGEDUSER USERDOMAIN DATELASTLOGGEDUSER 
+                             DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
+                             WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE/ ],
+    OPERATINGSYSTEM  => [ qw/KERNEL_NAME KERNEL_VERSION NAME VERSION FULL_NAME 
+                            SERVICE_PACK INSTALL_DATE/ ],
+    ACCESSLOG        => [ qw/USERID LOGDATE/ ],
     VIRTUALMACHINES  => [ qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU
                              VMID MAC COMMENT OWNER/ ],
     LOGICAL_VOLUMES  => [ qw/LV_NAME VGN_AME ATTR SIZE LV_UUID SEG_COUNT 
@@ -60,7 +73,6 @@ my %fields = (
                              SIZE FREE PE_SIZE/ ],
     VOLUME_GROUPS    => [ qw/VG_NAME PV_COUNT LV_COUNT ATTR SIZE FREE VG_UUID 
                              VG_EXTENT_SIZE/ ],
-
 );
 
 my %checks = (
@@ -242,52 +254,58 @@ sub computeLegacyValues {
 sub setHardware {
     my ($self, $args) = @_;
 
-    foreach my $key (qw/USERID OSVERSION PROCESSORN OSCOMMENTS CHECKSUM
-        PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME IPADDR WORKGROUP
-        DESCRIPTION MEMORY UUID DNS LASTLOGGEDUSER USERDOMAIN
-        DATELASTLOGGEDUSER DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
-        WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE OSINSTALLDATE/) {
-# WINLANG: Windows Language, see MSDN Win32_OperatingSystem documentation
-        if (exists $args->{$key}) {
-            my $string = getSanitizedString($args->{$key});
-            $self->{content}{HARDWARE}{$key} = $string;
+    foreach my $field (keys %$args) {
+        if (!$fields{HARDWARE}->{$field}) {
+            $self->{logger}->debug("unknown field $field for section HARDWARE");
+            next
         }
+        $self->{content}->{HARDWARE}->{$field} =
+            getSanitizedString($args->{$field});
     }
 }
 
 sub setOperatingSystem {
     my ($self, $args) = @_;
 
-    foreach my $key (qw/KERNEL_NAME KERNEL_VERSION NAME VERSION FULL_NAME SERVICE_PACK/) {
-        next unless exists $args->{$key};
-
-        my $string = getSanitizedString($args->{$key});
-        $self->{content}{OPERATINGSYSTEM}{$key} = $string;
+    foreach my $field (keys %$args) {
+        if (!$fields{OPERATINGSYSTEM}->{$field}) {
+            $self->{logger}->debug(
+                "unknown field $field for section OPERATINGSYSTEM"
+            );
+            next
+        }
+        $self->{content}->{OPERATINGSYSTEM}->{$field} = 
+            getSanitizedString($args->{$field});
     }
 }
 
 sub setBios {
     my ($self, $args) = @_;
 
-    foreach my $key (qw/SMODEL SMANUFACTURER SSN BDATE BVERSION BMANUFACTURER
-        MMANUFACTURER MSN MMODEL ASSETTAG ENCLOSURESERIAL BASEBOARDSERIAL
-        BIOSSERIAL TYPE SKUNUMBER/) {
-
-        if (exists $args->{$key}) {
-            my $string = getSanitizedString($args->{$key});
-            $self->{content}{BIOS}{$key} = $string;
+    foreach my $field (keys %$args) {
+        if (!$fields{BIOS}->{$field}) {
+            $self->{logger}->debug("unknown field $field for section BIOS");
+            next
         }
+
+        $self->{content}->{BIOS}->{$field} =
+            getSanitizedString($args->{$field});
     }
 }
 
 sub setAccessLog {
     my ($self, $args) = @_;
 
-    foreach my $key (qw/USERID LOGDATE/) {
-
-        if (exists $args->{$key}) {
-            $self->{content}{ACCESSLOG}{$key} = $args->{$key};
+    foreach my $field (keys %$args) {
+        if (!$fields{ACCESSLOG}->{$field}) {
+            $self->{logger}->debug(
+                "unknown field $field for section ACCESSLOG"
+            );
+            next
         }
+
+        $self->{content}->{ACCESSLOG}->{$field} = 
+            getSanitizedString($args->{$field});
     }
 }
 
@@ -886,6 +904,10 @@ deprecated in the future.
 
 The Service Pack level reported by the operating system. This field is only
 present on systems which use this notion.
+
+=item INSTALL_DATE
+
+The operating system installation date.
 
 =back
 
