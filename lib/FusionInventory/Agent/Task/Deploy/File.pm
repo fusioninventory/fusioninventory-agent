@@ -42,28 +42,31 @@ sub getPartFilePath {
 
     my $filename = $1;
  
-    my @locToCheck = File::Glob::glob($self->{datastore}->{path}.'/fileparts/shared/*');
-    push @locToCheck, $self->{datastore}->{path}.'/fileparts/private';
+    my @storageDirs;
+    push @storageDirs, File::Glob::glob($self->{datastore}->{path}.'/fileparts/shared/*');
+    push @storageDirs, File::Glob::glob($self->{datastore}->{path}.'/fileparts/private/*');
 
-    foreach my $loc (@locToCheck) {
-        if (-f $loc.'/'.$subFilePath) {
-            return $loc.'/'.$subFilePath;
+    foreach my $dir (@storageDirs) {
+        if (-f $dir.'/'.$subFilePath) {
+            return $dir.'/'.$subFilePath;
         }
     }
+
+    my $retentionDuration = $self->{p2p}?$self->{p2p_retention_duration}:60 * 24 * 3;
 
     my $filePath = $self->{datastore}->{path}.'/fileparts/';
 # filepart not found
     if ($self->{p2p}) {
         $filePath .= 'shared/';
+    } else {
+        $filePath .= 'private/';
+    }
+
 # Compute a directory name that will be used to know
 # if the file must be purge. We don't want a new directory
 # everytime, so we use a 10h frame
-        $filePath .= int(time/10000)*10000 + ($self->{p2p_retention_duration} * 60);
-        $filePath .= '/'.$subFilePath;
-    } else {
-        $filePath .= 'private';
-        $filePath .= '/'.$subFilePath;
-    }
+    $filePath .= int(time/10000)*10000 + ($retentionDuration * 60);
+    $filePath .= '/'.$subFilePath;
 
     return $filePath;
 }
