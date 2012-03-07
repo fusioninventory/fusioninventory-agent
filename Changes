@@ -56,8 +56,10 @@ Major changes:
 
 Minor changes:
 * Add the HARDWARE/CHASSIS_TYPE information
-* Linux: Use /sbin/ip to get the interface IP addresses (#854)
+* local inventory file name now has .xml extension (#211)
+* Linux: report all IP addresses used by each interfaces (#854)
 * HPUX: don't report unoccupied memory slots
+* AIX: add LVM support
 
 2.1.14  Wed, 22 Feb 2012 14:56:51 -0000
 

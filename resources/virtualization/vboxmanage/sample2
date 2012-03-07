@@ -1,0 +1,877 @@
+Name:            FreeBSD8 i386
+Guest OS:        FreeBSD
+UUID:            d1857d13-a67f-4ba9-a3e6-101e42f59268
+Config file:     /home/ddurieux/.VirtualBox/Machines/FreeBSD8 i386/FreeBSD8 i386.xml
+Hardware UUID:   d1857d13-a67f-4ba9-a3e6-101e42f59268
+Memory size:     512MB
+Page Fusion:     off
+VRAM size:       7MB
+HPET:            off
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): DVD
+Boot Device (2): HardDisk
+Boot Device (3): Not Assigned
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          off
+PAE:             on
+Time offset:     0 ms
+RTC:             local time
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: on
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           running (since 2011-03-13T14:01:14.757000000)
+Monitor count:   1
+3D Acceleration: on
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            IDE Controller
+Storage Controller Type (0):            PIIX4
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+Storage Controller Name (1):            Floppy Controller
+Storage Controller Type (1):            I82078
+Storage Controller Instance Number (1): 0
+Storage Controller Max Port Count (1):  1
+Storage Controller Port Count (1):      1
+IDE Controller (0, 0): /Donnees/VirtualBox/freebsd8_amd64.vdi (UUID: 4fa8cc39-3258-43bb-ad83-53fd2a369cca)
+IDE Controller (1, 0): Empty
+Floppy Controller (0, 0): Empty
+NIC 1:           MAC: 080027D2B03A, Attachment: Bridged Interface 'em0', Cable connected: on, Trace: off (file: none), Type: 82540EM, Reported speed: 0 Mbps, Boot priority: 0
+NIC 2:           disabled
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: PS/2 Mouse
+Keyboard Device: PS/2 Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           enabled (Driver: OSS, Controller: AC97)
+Clipboard Mode:  Bidirectional
+USB:             disabled
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+
+Name:            Windows2000 (fusion agent)
+Guest OS:        Windows 2000
+UUID:            f8d4f838-aaa4-4f9b-b756-f95bc8d9cceb
+Config file:     /home/ddurieux/.VirtualBox/Machines/Windows2000 (fusion agent)/Windows2000 (fusion agent).xml
+Hardware UUID:   f8d4f838-aaa4-4f9b-b756-f95bc8d9cceb
+Memory size:     512MB
+Page Fusion:     off
+VRAM size:       16MB
+HPET:            off
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): Floppy
+Boot Device (2): DVD
+Boot Device (3): HardDisk
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          off
+PAE:             on
+Time offset:     0 ms
+RTC:             local time
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: on
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           powered off (since 2011-03-04T15:45:00.000000000)
+Monitor count:   1
+3D Acceleration: off
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            IDE Controller
+Storage Controller Type (0):            PIIX4
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+Storage Controller Name (1):            Floppy Controller
+Storage Controller Type (1):            I82078
+Storage Controller Instance Number (1): 0
+Storage Controller Max Port Count (1):  1
+Storage Controller Port Count (1):      1
+IDE Controller (0, 0): /Donnees/VirtualBox/Windows2000.vdi (UUID: caab3ce1-18ff-4de3-a69d-e5436fbcf208)
+IDE Controller (1, 0): Empty
+Floppy Controller (0, 0): Empty
+NIC 1:           MAC: 0800274249D6, Attachment: Bridged Interface 'em0', Cable connected: on, Trace: off (file: none), Type: Am79C973, Reported speed: 0 Mbps, Boot priority: 0
+NIC 2:           disabled
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: PS/2 Mouse
+Keyboard Device: PS/2 Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           enabled (Driver: OSS, Controller: AC97)
+Clipboard Mode:  Bidirectional
+USB:             disabled
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+
+Name:            Centos
+Guest OS:        Other Linux
+UUID:            2cbb51b4-503c-4b5e-a6a5-878851a04658
+Config file:     /home/ddurieux/.VirtualBox/Machines/Centos/Centos.xml
+Hardware UUID:   2cbb51b4-503c-4b5e-a6a5-878851a04658
+Memory size:     776MB
+Page Fusion:     off
+VRAM size:       12MB
+HPET:            off
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): Floppy
+Boot Device (2): DVD
+Boot Device (3): HardDisk
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          off
+PAE:             on
+Time offset:     0 ms
+RTC:             local time
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: on
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           powered off (since 2010-10-27T18:35:57.000000000)
+Monitor count:   1
+3D Acceleration: off
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            IDE Controller
+Storage Controller Type (0):            PIIX4
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+Storage Controller Name (1):            Floppy Controller
+Storage Controller Type (1):            I82078
+Storage Controller Instance Number (1): 0
+Storage Controller Max Port Count (1):  1
+Storage Controller Port Count (1):      1
+IDE Controller (1, 0): Empty
+Floppy Controller (0, 0): Empty
+NIC 1:           MAC: 080027433DD8, Attachment: Bridged Interface 're0', Cable connected: on, Trace: off (file: none), Type: Am79C973, Reported speed: 0 Mbps, Boot priority: 0
+NIC 2:           disabled
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: PS/2 Mouse
+Keyboard Device: PS/2 Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           enabled (Driver: OSS, Controller: AC97)
+Clipboard Mode:  Bidirectional
+USB:             disabled
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+
+Name:            windows 7 RU
+Guest OS:        Windows 7
+UUID:            c404fff7-67bf-4b9c-95cc-19c6b27bcd5f
+Config file:     /home/ddurieux/.VirtualBox/Machines/windows 7 RU/windows 7 RU.xml
+Hardware UUID:   c404fff7-67bf-4b9c-95cc-19c6b27bcd5f
+Memory size:     512MB
+Page Fusion:     off
+VRAM size:       16MB
+HPET:            off
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): DVD
+Boot Device (2): HardDisk
+Boot Device (3): Not Assigned
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          off
+PAE:             on
+Time offset:     0 ms
+RTC:             UTC
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: on
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           powered off (since 2011-03-10T23:59:30.000000000)
+Monitor count:   1
+3D Acceleration: off
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            IDE Controller
+Storage Controller Type (0):            PIIX4
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+Storage Controller Name (1):            SATA Controller
+Storage Controller Type (1):            IntelAhci
+Storage Controller Instance Number (1): 0
+Storage Controller Max Port Count (1):  30
+Storage Controller Port Count (1):      1
+IDE Controller (1, 0): /usr/local/lib/virtualbox/additions/VBoxGuestAdditions.iso (UUID: 4a07bd49-5a93-451e-a1ee-79e733e415b8)
+SATA Controller (0, 0): /Donnees/VirtualBox/windows7.vdi (UUID: 7c53566d-688d-45bf-ad8e-9ca30e9780b1)
+NIC 1:           MAC: 080027FDBC2F, Attachment: NAT, Cable connected: on, Trace: off (file: none), Type: 82540EM, Reported speed: 0 Mbps, Boot priority: 0
+NIC 1 Settings:  MTU: 0, Socket( send: 64, receive: 64), TCP Window( send:64, receive: 64)
+NIC 2:           disabled
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: PS/2 Mouse
+Keyboard Device: PS/2 Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           enabled (Driver: OSS, Controller: AC97)
+Clipboard Mode:  Bidirectional
+USB:             disabled
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+
+Name:            Windows XP
+Guest OS:        Windows XP
+UUID:            3fd80a8f-ed78-4421-9192-c0af6f5f66d5
+Config file:     /home/ddurieux/.VirtualBox/Machines/Windows XP/Windows XP.xml
+Hardware UUID:   3fd80a8f-ed78-4421-9192-c0af6f5f66d5
+Memory size:     512MB
+Page Fusion:     off
+VRAM size:       16MB
+HPET:            off
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): DVD
+Boot Device (2): HardDisk
+Boot Device (3): Not Assigned
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          off
+PAE:             on
+Time offset:     0 ms
+RTC:             local time
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: on
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           running (since 2011-03-13T14:00:58.778000000)
+Monitor count:   1
+3D Acceleration: off
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            IDE Controller
+Storage Controller Type (0):            PIIX4
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+IDE Controller (0, 0): /home/ddurieux/.VirtualBox/Machines/Windows XP/Snapshots/{b04c6003-0921-4fac-a3c0-e4082146b17a}.vdi (UUID: b04c6003-0921-4fac-a3c0-e4082146b17a)
+IDE Controller (1, 0): /usr/local/lib/virtualbox/additions/VBoxGuestAdditions.iso (UUID: 4a07bd49-5a93-451e-a1ee-79e733e415b8)
+NIC 1:           MAC: 080027B70ED3, Attachment: NAT, Cable connected: on, Trace: off (file: none), Type: Am79C973, Reported speed: 0 Mbps, Boot priority: 0
+NIC 1 Settings:  MTU: 0, Socket( send: 64, receive: 64), TCP Window( send:64, receive: 64)
+NIC 2:           disabled
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: PS/2 Mouse
+Keyboard Device: PS/2 Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           enabled (Driver: OSS, Controller: AC97)
+Clipboard Mode:  Bidirectional
+USB:             disabled
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+Snapshots:
+
+   Name: Finished install (UUID: a434889c-08c8-4ff6-8730-e3751224c03e) *
+
+Name:            windowsxp01
+Guest OS:        Windows XP
+UUID:            c7608d9d-c76c-4dab-8411-2784deb4eb1f
+Config file:     /home/ddurieux/.VirtualBox/Machines/windowsxp01/windowsxp01.xml
+Hardware UUID:   c7608d9d-c76c-4dab-8411-2784deb4eb1f
+Memory size:     256MB
+Page Fusion:     off
+VRAM size:       16MB
+HPET:            off
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): Floppy
+Boot Device (2): DVD
+Boot Device (3): HardDisk
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          off
+PAE:             off
+Time offset:     0 ms
+RTC:             local time
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: on
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           powered off (since 2010-07-20T17:53:58.000000000)
+Monitor count:   1
+3D Acceleration: off
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            IDE Controller
+Storage Controller Type (0):            PIIX4
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+IDE Controller (0, 0): /Donnees/VirtualBox/windowsxp01.vdi (UUID: c5c76d6c-c76f-427e-98ef-3ead16eba7dd)
+IDE Controller (1, 0): Empty
+NIC 1:           MAC: 0800277C5FA2, Attachment: NAT, Cable connected: on, Trace: off (file: none), Type: Am79C973, Reported speed: 0 Mbps, Boot priority: 0
+NIC 1 Settings:  MTU: 0, Socket( send: 64, receive: 64), TCP Window( send:64, receive: 64)
+NIC 2:           disabled
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: PS/2 Mouse
+Keyboard Device: PS/2 Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           enabled (Driver: OSS, Controller: AC97)
+Clipboard Mode:  Bidirectional
+USB:             disabled
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+
+Name:            windowsxp02
+Guest OS:        Windows XP
+UUID:            cd033191-26c3-49c9-afee-1e3affc933ee
+Config file:     /home/ddurieux/.VirtualBox/Machines/windowsxp02/windowsxp02.xml
+Hardware UUID:   cd033191-26c3-49c9-afee-1e3affc933ee
+Memory size:     256MB
+Page Fusion:     off
+VRAM size:       16MB
+HPET:            off
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): Floppy
+Boot Device (2): DVD
+Boot Device (3): HardDisk
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          off
+PAE:             off
+Time offset:     0 ms
+RTC:             local time
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: on
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           powered off (since 2010-07-22T19:20:25.000000000)
+Monitor count:   1
+3D Acceleration: off
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            IDE Controller
+Storage Controller Type (0):            PIIX4
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+IDE Controller (0, 0): /Donnees/VirtualBox/windowsxp01.vmdk (UUID: 7a77f89e-90fb-4986-abfc-535358c0622c)
+IDE Controller (1, 0): Empty
+NIC 1:           MAC: 0800277C5FA2, Attachment: NAT, Cable connected: on, Trace: off (file: none), Type: Am79C973, Reported speed: 0 Mbps, Boot priority: 0
+NIC 1 Settings:  MTU: 0, Socket( send: 64, receive: 64), TCP Window( send:64, receive: 64)
+NIC 2:           disabled
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: PS/2 Mouse
+Keyboard Device: PS/2 Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           enabled (Driver: OSS, Controller: AC97)
+Clipboard Mode:  Bidirectional
+USB:             disabled
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+
+Name:            debian10023
+Guest OS:        Debian
+UUID:            ec43b1fc-0efc-487f-8188-a104473db0d5
+Config file:     /home/ddurieux/.VirtualBox/Machines/debian10023/debian10023.xml
+Hardware UUID:   ec43b1fc-0efc-487f-8188-a104473db0d5
+Memory size:     200MB
+Page Fusion:     off
+VRAM size:       12MB
+HPET:            off
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): DVD
+Boot Device (2): HardDisk
+Boot Device (3): Not Assigned
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          off
+PAE:             on
+Time offset:     0 ms
+RTC:             UTC
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: on
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           powered off (since 2010-10-27T18:35:07.000000000)
+Monitor count:   1
+3D Acceleration: off
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            IDE Controller
+Storage Controller Type (0):            PIIX4
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+Storage Controller Name (1):            SATA Controller
+Storage Controller Type (1):            IntelAhci
+Storage Controller Instance Number (1): 0
+Storage Controller Max Port Count (1):  30
+Storage Controller Port Count (1):      1
+IDE Controller (1, 0): Empty
+SATA Controller (0, 0): /Donnees/VirtualBox/debian10023.vdi (UUID: 37a9d597-745f-4bc9-b597-8ad1465e8f39)
+NIC 1:           MAC: 080027E9D6D5, Attachment: Bridged Interface 're0', Cable connected: on, Trace: off (file: none), Type: 82540EM, Reported speed: 0 Mbps, Boot priority: 0
+NIC 2:           disabled
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: USB Tablet
+Keyboard Device: PS/2 Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           enabled (Driver: OSS, Controller: AC97)
+Clipboard Mode:  Bidirectional
+USB:             enabled
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+
+Name:            debian10024
+Guest OS:        Debian
+UUID:            d410a9a0-0b31-4bad-9a51-80ab37701d1d
+Config file:     /home/ddurieux/.VirtualBox/Machines/debian10024/debian10024.xml
+Hardware UUID:   d410a9a0-0b31-4bad-9a51-80ab37701d1d
+Memory size:     200MB
+Page Fusion:     off
+VRAM size:       12MB
+HPET:            off
+Number of CPUs:  2
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): DVD
+Boot Device (2): HardDisk
+Boot Device (3): Not Assigned
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          on
+PAE:             on
+Time offset:     0 ms
+RTC:             UTC
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: on
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           powered off (since 2010-10-11T07:01:24.000000000)
+Monitor count:   1
+3D Acceleration: off
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            IDE Controller
+Storage Controller Type (0):            PIIX4
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+Storage Controller Name (1):            SATA Controller
+Storage Controller Type (1):            IntelAhci
+Storage Controller Instance Number (1): 0
+Storage Controller Max Port Count (1):  30
+Storage Controller Port Count (1):      1
+IDE Controller (1, 0): Empty
+SATA Controller (0, 0): /Donnees/VirtualBox/debian10024.vdi (UUID: 253a1a78-4fe9-4f48-a0b2-fa19cc112863)
+NIC 1:           MAC: 080027CE41F7, Attachment: Bridged Interface 're0', Cable connected: on, Trace: off (file: none), Type: 82540EM, Reported speed: 0 Mbps, Boot priority: 0
+NIC 2:           disabled
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: USB Tablet
+Keyboard Device: PS/2 Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           enabled (Driver: OSS, Controller: AC97)
+Clipboard Mode:  Bidirectional
+USB:             enabled
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+
+Name:            MacOSX 10.6
+Guest OS:        Mac OS X Server
+UUID:            85b780f6-b3fd-44d3-bb94-d8583cd78770
+Config file:     /home/ddurieux/.VirtualBox/Machines/MacOSX 10.6/MacOSX 10.6.xml
+Hardware UUID:   85b780f6-b3fd-44d3-bb94-d8583cd78770
+Memory size:     1024MB
+Page Fusion:     off
+VRAM size:       7MB
+HPET:            on
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): DVD
+Boot Device (2): HardDisk
+Boot Device (3): Not Assigned
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          on
+PAE:             on
+Time offset:     0 ms
+RTC:             local time
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: on
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           powered off (since 2010-10-26T14:49:21.000000000)
+Monitor count:   1
+3D Acceleration: on
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            IDE Controller
+Storage Controller Type (0):            ICH6
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+IDE Controller (1, 0): Empty
+NIC 1:           MAC: 080027D314A0, Attachment: Bridged Interface 'alc0', Cable connected: on, Trace: off (file: none), Type: 82543GC, Reported speed: 0 Mbps, Boot priority: 0
+NIC 2:           disabled
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: USB Tablet
+Keyboard Device: USB Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           enabled (Driver: OSS, Controller: AC97)
+Clipboard Mode:  Bidirectional
+USB:             enabled
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+
+Name:            windows xp RU
+Guest OS:        Windows XP
+UUID:            fbc00535-0e8d-4955-8026-2bd50bf606e9
+Config file:     /home/ddurieux/.VirtualBox/Machines/windows xp RU/windows xp RU.xml
+Hardware UUID:   fbc00535-0e8d-4955-8026-2bd50bf606e9
+Memory size:     306MB
+Page Fusion:     off
+VRAM size:       16MB
+HPET:            off
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): DVD
+Boot Device (2): HardDisk
+Boot Device (3): Not Assigned
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          off
+PAE:             on
+Time offset:     0 ms
+RTC:             local time
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: on
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           powered off (since 2010-10-27T18:41:39.000000000)
+Monitor count:   1
+3D Acceleration: on
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            IDE Controller
+Storage Controller Type (0):            PIIX4
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+IDE Controller (0, 0): /Donnees/VirtualBox/windows xp RU.vdi (UUID: cd51263a-8ce3-4f3d-95f1-e0664463b50c)
+IDE Controller (1, 0): /Donnees/Temp/torrent/winxphomeoemrus.iso (UUID: 41e46fe2-5a37-41a0-9c27-1f99344455e4)
+NIC 1:           MAC: 080027D338FD, Attachment: NAT, Cable connected: on, Trace: off (file: none), Type: Am79C973, Reported speed: 0 Mbps, Boot priority: 0
+NIC 1 Settings:  MTU: 0, Socket( send: 64, receive: 64), TCP Window( send:64, receive: 64)
+NIC 2:           disabled
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: PS/2 Mouse
+Keyboard Device: PS/2 Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           enabled (Driver: OSS, Controller: AC97)
+Clipboard Mode:  Bidirectional
+USB:             disabled
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+
+Name:            Mandriva
+Guest OS:        Mandriva
+UUID:            c43f39f2-a970-40a0-9435-7b09b218efdf
+Config file:     /home/ddurieux/.VirtualBox/Machines/Mandriva/Mandriva.xml
+Hardware UUID:   c43f39f2-a970-40a0-9435-7b09b218efdf
+Memory size:     512MB
+Page Fusion:     off
+VRAM size:       12MB
+HPET:            off
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): Floppy
+Boot Device (2): DVD
+Boot Device (3): HardDisk
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          off
+PAE:             off
+Time offset:     0 ms
+RTC:             UTC
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: on
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           powered off (since 2010-10-27T18:37:31.000000000)
+Monitor count:   1
+3D Acceleration: off
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            IDE Controller
+Storage Controller Type (0):            PIIX4
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+Storage Controller Name (1):            SATA Controller
+Storage Controller Type (1):            IntelAhci
+Storage Controller Instance Number (1): 0
+Storage Controller Max Port Count (1):  30
+Storage Controller Port Count (1):      1
+IDE Controller (1, 0): Empty
+SATA Controller (0, 0): /Donnees/VirtualBox/Mandriva.vdi (UUID: 101029c3-3e6a-4f16-86e6-47fbf82ba37c)
+NIC 1:           MAC: 0800278A0380, Attachment: Bridged Interface 're0', Cable connected: on, Trace: off (file: none), Type: 82540EM, Reported speed: 0 Mbps, Boot priority: 0
+NIC 2:           disabled
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: USB Tablet
+Keyboard Device: PS/2 Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           enabled (Driver: OSS, Controller: AC97)
+Clipboard Mode:  Bidirectional
+USB:             enabled
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+
+Name:            Macos
+Guest OS:        Mac OS X Server
+UUID:            d1fe6cfa-80c6-41ae-9f4b-2a15dbafcf2c
+Config file:     /home/ddurieux/.VirtualBox/Machines/Macos/Macos.xml
+Hardware UUID:   d1fe6cfa-80c6-41ae-9f4b-2a15dbafcf2c
+Memory size:     1365MB
+Page Fusion:     off
+VRAM size:       18MB
+HPET:            on
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): DVD
+Boot Device (2): HardDisk
+Boot Device (3): Not Assigned
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          on
+PAE:             on
+Time offset:     0 ms
+RTC:             local time
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: on
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           powered off (since 2010-10-26T15:37:41.000000000)
+Monitor count:   1
+3D Acceleration: on
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            IDE Controller
+Storage Controller Type (0):            ICH6
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+IDE Controller (0, 0): /home/ddurieux/.VirtualBox/HardDisks/macosx.vdi (UUID: a9f2b31c-c4e6-4899-ad42-b03245c54f88)
+IDE Controller (1, 0): /Donnees/Temp/macos/MacOSX_Server_1047_InstallDVD.iso (UUID: c4d1f35c-585d-413c-9b59-f93efe1008e3)
+NIC 1:           MAC: 0800270039B8, Attachment: NAT, Cable connected: on, Trace: off (file: none), Type: 82543GC, Reported speed: 0 Mbps, Boot priority: 0
+NIC 1 Settings:  MTU: 0, Socket( send: 64, receive: 64), TCP Window( send:64, receive: 64)
+NIC 2:           disabled
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: USB Tablet
+Keyboard Device: USB Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           enabled (Driver: OSS, Controller: SB16)
+Clipboard Mode:  Bidirectional
+USB:             enabled
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+
