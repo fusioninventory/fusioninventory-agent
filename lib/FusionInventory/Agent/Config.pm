@@ -85,9 +85,10 @@ sub new {
     $self->_loadDefaults();
 
     my $backend =
-        $params{options}->{config} ? $params{options}->{config} :
-        $OSNAME eq 'MSWin32'       ? 'registry'                 :
-                                     'file';
+        $params{options}->{'conf-file'} ? 'file'                     :
+        $params{options}->{config}      ? $params{options}->{config} :
+        $OSNAME eq 'MSWin32'            ? 'registry'                 :
+                                          'file';
 
     SWITCH: {
         if ($backend eq 'registry') {
