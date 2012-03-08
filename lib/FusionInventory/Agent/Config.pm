@@ -93,12 +93,12 @@ sub new {
         if ($backend eq 'registry') {
             die "Unavailable configuration backend\n"
                 unless $OSNAME eq 'MSWin32';
-            $self->_loadFromWinRegistry();
+            $self->_loadFromRegistry();
             last SWITCH;
         }
 
         if ($backend eq 'file') {
-            $self->_loadFromCfgFile({
+            $self->_loadFromFile({
                 file      => $params{options}->{'conf-file'},
                 directory => $params{confdir},
             });
@@ -127,7 +127,7 @@ sub _loadDefaults {
     }
 }
 
-sub _loadFromWinRegistry {
+sub _loadFromRegistry {
     my ($self) = @_;
 
     my $Registry;
@@ -156,7 +156,7 @@ sub _loadFromWinRegistry {
     }
 }
 
-sub _loadFromCfgFile {
+sub _loadFromFile {
     my ($self, $params) = @_;
 
     my $file = $params->{file} ?
