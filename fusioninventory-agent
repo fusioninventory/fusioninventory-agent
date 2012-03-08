@@ -21,6 +21,7 @@ GetOptions(
     'ca-cert-dir=s',
     'ca-cert-file=s',
     'conf-file=s',
+    'config=s',
     'color',
     'daemon|d',
     'no-fork',
@@ -166,14 +167,15 @@ B<fusioninventory-agent> [options] [--server server|--local directory|--sdout]
     --httpd-trust=RANGE        trust requests from range without authentication token (false)
 
   Logging options
-    --logger                    Logger backend, either Stderr, File or Syslog (Stderr)
+    --logger=BACKEND            logger backend [Stderr|File|Syslog] (Stderr)
     --logfile=FILE              log file
     --logfile-maxsize=X         maximum size of the log file in MB (0)
     --logfacility=FACILITY      syslog facility (LOG_USER)
     --color                     use color in the console (false)
 
-  Agent setup options
-    --conf-file=FILE            path to an alternative config file
+  Configuration options
+    --config=BACKEND            configuration backend [file|registry|none]
+    --conf-file=FILE            configuration file
 
   Execution mode options
     -d --daemon                 run the agent as a daemon (false)
@@ -457,7 +459,7 @@ Trust requests from given range without authentication token (false).
 
 =over
 
-=item B<--logger>=I<LOGGER>
+=item B<--logger>=I<BACKEND>
 
 Logger backend to use. It can be:
 
@@ -501,15 +503,33 @@ This options is ignored on Windows.
 
 =back
 
-=head2 Agent setup options
+=head2 Configuration options
 
 =over
 
 =item B<--conf-file>=I<FILE>
 
-Path to an alternative configuration file.
+Use I<FILE> as configuration file (implies file configuration backend)
 
-This options is ignored on Windows.
+=item B<--config>=I<BACKEND>
+
+Configuration backend to use. It can be:
+
+=over 4
+
+=item
+
+file: read configuration from a file (default anywhere else as Windows)
+
+=item
+
+registry: read configuration from the registry (default on Windows)
+
+=item
+
+none: don't read any configuration
+
+=back
 
 =back
 

@@ -84,14 +84,34 @@ sub new {
     bless $self, $class;
     $self->_loadDefaults();
 
-    if ($OSNAME eq 'MSWin32') {
-        $self->_loadFromWinRegistry();
-    } else {
-        $self->_loadFromCfgFile({
-            file      => $params{options}->{'conf-file'},
-            directory => $params{confdir},
-        });
+    my $backend =
+        $params{options}->{config} ? $params{options}->{config} :
+        $OSNAME eq 'MSWin32'       ? 'registry'                 :
+                                     'file';
+
+    SWITCH: {
+        if ($backend eq 'registry') {
+            die "Unavailable configuration backend\n"
+                unless $OSNAME eq 'MSWin32';
+            $self->_loadFromWinRegistry();
+            last SWITCH;
+        }
+
+        if ($backend eq 'file') {
+            $self->_loadFromCfgFile({
+                file      => $params{options}->{'conf-file'},
+                directory => $params{confdir},
+            });
+            last SWITCH;
+        }
+
+        if ($backend eq 'none') {
+            last SWITCH;
+        }
+
+        die "Unknown configuration backend '$backend'\n";
     }
+
     $self->_loadUserParams($params{options});
 
     $self->_checkContent();
