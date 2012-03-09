@@ -60,7 +60,7 @@ print Dumper($self->{files});
             if ($part = gzopen($partFilePath, 'rb')) {
 
                 $logger->debug("reading $sha512");
-                while ($part->gzread($buf, 1024)) {
+                while ($part->gzread($buf, 1024) > 0) {
                     print $fh $buf;
                 }
                 $part->gzclose;
