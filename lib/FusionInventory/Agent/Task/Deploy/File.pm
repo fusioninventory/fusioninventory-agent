@@ -41,7 +41,7 @@ sub getPartFilePath {
     my $subFilePath = $1.'/'.$2.'/'.$3;
 
     my $filename = $1;
- 
+
     my @storageDirs;
     push @storageDirs, File::Glob::glob($self->{datastore}->{path}.'/fileparts/shared/*');
     push @storageDirs, File::Glob::glob($self->{datastore}->{path}.'/fileparts/private/*');
@@ -96,29 +96,31 @@ MULTIPART: foreach my $sha512 (@{$self->{multiparts}}) {
             }
         };
 
-        MIRROR: foreach my $mirror (@$p2pHostList, @$mirrorList) {
-            next unless $sha512 =~ /^(.)(.)/;
-            my $sha512dir = $1.'/'.$1.$2.'/';
 
-            $self->{logger}->debug($mirror.$sha512dir.$sha512);
+        my $lastGood;
+        my %remote = (p2p => $p2pHostList, mirror => $mirrorList);
+        foreach my $remoteType (qw/p2p mirror/)  {
+            foreach my $mirror ($lastGood, @{$remote{$remoteType}}) {
+                next unless $mirror;
 
-            my $request;
-            my $response;
+                next unless $sha512 =~ /^(.)(.)/;
+                my $sha512dir = $1.'/'.$1.$2.'/';
 
-            eval {
-                alarm 1800;
-                $request = HTTP::Request->new(GET => $mirror.$sha512dir.$sha512);
-                $response = $self->{client}->request($request, $partFilePath);
-                alarm 0;
-            };
+                $self->{logger}->debug($mirror.$sha512dir.$sha512);
 
-            if ($response && ($response->code == 200) && -f $partFilePath) {
-                if ($self->_getSha512ByFile($partFilePath) eq $sha512) {
-                    next MULTIPART;
+                my $request = HTTP::Request->new(GET => $mirror.$sha512dir.$sha512);
+                my $response = $self->{client}->request($request, $partFilePath);
+
+                if ($response && ($response->code == 200) && -f $partFilePath) {
+                    if ($self->_getSha512ByFile($partFilePath) eq $sha512) {
+                        $lastGood = $mirror if $remoteType eq 'p2p';
+                        next MULTIPART;
+                    }
+                    $self->{logger}->debug("sha512 failure: $sha512");
                 }
+    # bad file, drop it
+                unlink($partFilePath);
             }
-# bad file, drop it
-            unlink($partFilePath);
         }
     }
 
