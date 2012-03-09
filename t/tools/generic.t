@@ -4514,7 +4514,7 @@ my %dmidecode_tests = (
             }
         ]
     },
-    'windows-xppro' => {
+    'windows-xp' => {
         '32' => [
             {
                 'Status' => 'No errors detected'
@@ -5935,7 +5935,7 @@ my %cpu_tests = (
             CORE           => undef
         }
     ],
-    'windows-xppro' => [
+    'windows-xp' => [
         {
             ID             => '76 06 01 00 FF FB EB BF',
             NAME           => 'Core 2 Duo',

@@ -19,7 +19,7 @@ BEGIN {
 use FusionInventory::Agent::Task::Inventory::Input::Win32::Memory;
 
 my %tests = (
-    7 => [
+    '7' => [
         {
             NUMSLOTS     => 0,
             FORMFACTOR   => 'DIMM',
