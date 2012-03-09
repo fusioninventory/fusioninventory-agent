@@ -157,13 +157,21 @@ sub scan {
 
             return unless $ipToTest;
 
+            print ".";
+
             $_[KERNEL]->post(
                 "pinger", # Post the request to the "pingthing" component.
                 "ping",      # Ask it to "ping" an address.
                 "pong",      # Have it post an answer as a "pong" event.
                 $ipToTest,    # This is the address we want to ping.
                 );
-            $_[KERNEL]->delay(add => 0.1) if @ipToTestList;
+			
+            if (@ipToTestList && @ipFound < 30) {
+                $_[KERNEL]->delay(add => 0.1)
+            } else {
+                $_[KERNEL]->yield("shutdown");
+            }
+
 
             },
             pong => sub {
@@ -185,10 +193,6 @@ sub scan {
                     ConnectTimeout => 10,
                     Connected      => sub {
                         push @ipFound, "http://$addr:$port/deploy/getFile/";
-                        $_[KERNEL]->yield("shutdown");
-                    },
-                    ServerInput    => sub {
-                        $_[KERNEL]->yield("shutdown");
                     },
                 );
             },
