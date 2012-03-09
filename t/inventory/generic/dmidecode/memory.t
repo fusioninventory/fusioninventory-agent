@@ -908,7 +908,7 @@ my %tests = (
             MEMORYCORRECTION => 'None'
         }
     ],
-    'windows-xppro' => [
+    'windows-xp' => [
         {
             NUMSLOTS         => 1,
             SERIALNUMBER     => '14FA6621',
