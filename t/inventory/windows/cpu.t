@@ -19,7 +19,7 @@ BEGIN {
 use FusionInventory::Agent::Task::Inventory::Input::Win32::CPU;
 
 my %tests = (
-    7 => [
+    '7' => [
         {
             ID           => 'A7 06 02 00 FF FB EB BF',
             NAME         => 'Intel(R) Core(TM) i5-2300 CPU @ 2.80GHz',
@@ -77,13 +77,13 @@ my %tests = (
     ],
     'xp' => [
         {
-            ID           => 'BFEBFBFF00010676',
+            ID           => '76 06 01 00 FF FB EB BF',
             NAME         => 'Intel(R) Core(TM)2 Duo CPU     T9400  @ 2.53GHz',
             SERIAL       => undef,
             MANUFACTURER => 'Intel',
             DESCRIPTION  => 'x86 Family 6 Model 23 Stepping 6',
             SPEED        => '2530',
-            THREAD       => undef,
+            THREAD       => '2',
             CORE         => '2'
         }
     ]
