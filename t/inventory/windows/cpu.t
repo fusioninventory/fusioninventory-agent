@@ -30,6 +30,62 @@ my %tests = (
             THREAD       => undef,
             CORE         => '4'
         }
+    ],
+    '2003' => [
+        {
+            ID           => 'BFEBFBFF00000F29',
+            NAME         => 'Intel(R) Xeon(TM) CPU 3.06GHz',
+            SERIAL       => undef,
+            MANUFACTURER => 'Intel',
+            DESCRIPTION  => 'x86 Family 15 Model 2 Stepping 9',
+            SPEED        => '3060',
+            THREAD       => undef,
+            CORE         => undef
+        },
+        {
+            ID           => '0000000000000000',
+            NAME         => 'Intel(R) Xeon(TM) CPU 3.06GHz',
+            SERIAL       => undef,
+            MANUFACTURER => 'Intel',
+            DESCRIPTION  => 'x86 Family 15 Model 2 Stepping 9',
+            SPEED        => '3060',
+            THREAD       => undef,
+            CORE         => undef
+        }
+    ],
+    '2003SP2' => [
+        {
+            ID           => '0FEBBBFF00010676',
+            NAME         => 'Intel(R) Xeon(R) CPU           E5440  @ 2.83GHz',
+            SERIAL       => undef,
+            MANUFACTURER => 'Intel',
+            DESCRIPTION  => 'x86 Family 6 Model 23 Stepping 6',
+            SPEED        => '2830',
+            THREAD       => undef,
+            CORE         => undef
+        },
+        {
+            ID           => '0FEBBBFF00000676',
+            NAME         => 'Intel(R) Xeon(R) CPU           E5440  @ 2.83GHz',
+            SERIAL       => undef,
+            MANUFACTURER => 'Intel',
+            DESCRIPTION  => 'x86 Family 6 Model 23 Stepping 6',
+            SPEED        => '2830',
+            THREAD       => undef,
+            CORE         => undef
+        }
+    ],
+    'xp' => [
+        {
+            ID           => 'BFEBFBFF00010676',
+            NAME         => 'Intel(R) Core(TM)2 Duo CPU     T9400  @ 2.53GHz',
+            SERIAL       => undef,
+            MANUFACTURER => 'Intel',
+            DESCRIPTION  => 'x86 Family 6 Model 23 Stepping 6',
+            SPEED        => '2530',
+            THREAD       => undef,
+            CORE         => '2'
+        }
     ]
 );
 
@@ -48,10 +104,12 @@ foreach my $test (keys %tests) {
     $module->mock(
         'getCpusFromDmidecode',
         sub {
+            my $file = "resources/generic/dmidecode/windows-$test";
             return
+                -f $file ?
                 FusionInventory::Agent::Tools::Generic::getCpusFromDmidecode(
-                    file => "resources/generic/dmidecode/windows-$test"
-                );
+                    file => $file
+                ) : ();
         }
     );
 
