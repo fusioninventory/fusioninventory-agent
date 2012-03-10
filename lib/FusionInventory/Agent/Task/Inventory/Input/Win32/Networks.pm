@@ -22,16 +22,53 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my (@gateways, @dns, @ips);
+
+    foreach my $interface (_getInterfaces()) {
+        next if
+            !$interface->{IPADDRESS} &&
+            !$interface->{IPADDRESS6} &&
+            !$interface->{MACADDR};
+
+        push @gateways, $interface->{IPGATEWAY}
+            if $interface->{IPGATEWAY};
+
+        push @dns, $interface->{dns}
+            if $interface->{dns};
+
+        push @ips, @{$interface->{IPADDRESS}}
+            if $interface->{IPADDRESS};
+
+        delete $interface->{dns};
+
+        # flatten multivalued keys
+        foreach my $key (qw/IPADDRESS IPMASK IPSUBNET IPADDRESS6/) {
+            next unless $interface->{$key};
+            $interface->{$key} = join('/', @{$interface->{$key}});
+        }
+
+        $inventory->addEntry(
+            section => 'NETWORKS',
+            entry   => $interface
+        );
+    }
+
+    $inventory->setHardware({
+        DEFAULTGATEWAY => join('/', uniq @gateways),
+        DNS            => join('/', uniq @dns),
+        IPADDR         => join('/', uniq @ips),
+    });
+
+}
+
+sub _getInterfaces {
 
     my $WMIService = Win32::OLE->GetObject(
         'winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\cimv2'
     ) or die "WMI connection failed: " . Win32::OLE->LastError();
 
-    my %ips;
     my @ip6s;
     my @interfaces;
-    my %defaultgateways;
-    my %dns;
 
     my $nics = $WMIService->ExecQuery(
         'SELECT * FROM Win32_NetworkAdapterConfiguration'
@@ -45,16 +82,12 @@ sub doInventory {
             MTU         => $nic->MTU
         };
 
-        foreach (@{$nic->DefaultIPGateway || []}) {
-            $defaultgateways{$_} = 1;
-        }
-
-        if ($nic->DefaultIPGateway) {
+        if ($nic->DefaultIPGateway()) {
             $interface->{IPGATEWAY} = $nic->DefaultIPGateway()->[0];
         }
 
-        foreach (@{$nic->DNSServerSearchOrder || []}) {
-            $dns{$_} = 1;
+        if ($nic->DNSServerSearchOrder()) {
+            $interface->{dns} = $nic->DNSServerSearchOrder()->[0];
         }
 
         if ($nic->IPAddress) {
@@ -62,13 +95,11 @@ sub doInventory {
                 my $address = $nic->IPAddress->[$addrId];
                 my $mask = $nic->IPSubnet->[$addrId];
                 if ($address =~ /$ip_address_pattern/) {
-                    $ips{$address}=1;
                     push @{$interface->{IPADDRESS}}, $address;
                     push @{$interface->{IPMASK}}, $mask;
                     push @{$interface->{IPSUBNET}},
                         getSubnetAddress($address, $mask);
                 } elsif ($address =~ /\S+/) {
-                    push @ip6s, $address;
                     push @{$interface->{IPADDRESS6}}, $address;
                     push @{$interface->{IPMASK6}}, $mask;
                     push @{$interface->{IPSUBNET6}},
@@ -110,31 +141,7 @@ sub doInventory {
 
     }
 
-    foreach my $interface (@interfaces) {
-
-        next if
-            !$interface->{IPADDRESS} &&
-            !$interface->{IPADDRESS6} &&
-            !$interface->{MACADDR};
-
-        # flatten multivalued keys
-        foreach my $key (qw/IPADDRESS IPMASK IPSUBNET IPADDRESS6/) {
-            next unless $interface->{$key};
-            $interface->{$key} = join('/', @{$interface->{$key}});
-        }
-
-        $inventory->addEntry(
-            section => 'NETWORKS',
-            entry   => $interface
-        );
-    }
-
-    $inventory->setHardware({
-        DEFAULTGATEWAY => join ('/',keys %defaultgateways),
-        DNS            => join('/', keys %dns),
-        IPADDR         => join('/', keys %ips),
-    });
-
+    return @interfaces;
 }
 
 1;
