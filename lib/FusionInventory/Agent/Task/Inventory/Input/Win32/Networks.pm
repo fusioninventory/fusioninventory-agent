@@ -57,7 +57,6 @@ sub doInventory {
 
 sub _getInterfaces {
 
-    my @ip6s;
     my @interfaces;
 
     foreach my $object (getWmiObjects(
