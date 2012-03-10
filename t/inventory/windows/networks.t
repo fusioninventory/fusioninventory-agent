@@ -21,55 +21,6 @@ use FusionInventory::Agent::Task::Inventory::Input::Win32::Networks;
 my %tests = (
     7 => [
         {
-            MTU         => undef,
-            MACADDR     => undef,
-            STATUS      => 'Up',
-            DESCRIPTION => 'WAN Miniport (SSTP)',
-            IPDHCP      => undef
-        },
-        {
-            MTU         => undef,
-            MACADDR     => undef,
-            STATUS      => 'Up',
-            DESCRIPTION => 'WAN Miniport (IKEv2)',
-            IPDHCP      => undef
-        },
-        {
-            MTU         => undef,
-            MACADDR     => undef,
-            STATUS      => 'Up',
-            DESCRIPTION => 'WAN Miniport (L2TP)',
-            IPDHCP      => undef
-        },
-        {
-            MTU         => undef,
-            MACADDR     => undef,
-            STATUS      => 'Up',
-            DESCRIPTION => 'WAN Miniport (PPTP)',
-            IPDHCP      => undef
-        },
-        {
-            MTU         => undef,
-            MACADDR     => undef,
-            STATUS      => 'Up',
-            DESCRIPTION => 'WAN Miniport (PPPOE)',
-            IPDHCP      => undef
-        },
-        {
-            MTU         => undef,
-            MACADDR     => undef,
-            STATUS      => 'Up',
-            DESCRIPTION => 'WAN Miniport (IPv6)',
-            IPDHCP      => undef
-        },
-        {
-            MTU         => undef,
-            MACADDR     => undef,
-            STATUS      => 'Up',
-            DESCRIPTION => 'WAN Miniport (Network Monitor)',
-            IPDHCP      => undef
-        },
-        {
             'dns' => '192.168.0.254',
             'IPMASK6' => [
                        '64'
@@ -96,46 +47,11 @@ my %tests = (
         },
         {
             MTU         => undef,
-            MACADDR     => undef,
-            STATUS      => 'Up',
-            DESCRIPTION => 'WAN Miniport (IP)',
-            IPDHCP      => undef
-        },
-        {
-            MTU         => undef,
-            MACADDR     => undef,
-            STATUS      => 'Up',
-            DESCRIPTION => 'Carte Microsoft ISATAP',
-            IPDHCP      => undef
-        },
-        {
-            MTU         => undef,
-            MACADDR     => undef,
-            STATUS      => 'Up',
-            DESCRIPTION => 'RAS Async Adapter',
-            IPDHCP      => undef
-        },
-        {
-            MTU         => undef,
-            MACADDR     => undef,
-            STATUS      => 'Up',
-            DESCRIPTION => 'Microsoft Teredo Tunneling Adapter',
-            IPDHCP      => undef
-        },
-        {
-            MTU         => undef,
             MACADDR     => '00:26:83:12:FB:0B',
             STATUS      => 'Up',
-            DESCRIPTION => "P\x{e9}riph\x{e9}rique Bluetooth (r\x{e9}seau personnel)",
+            DESCRIPTION => "Périphérique Bluetooth (réseau personnel)",
             IPDHCP      => undef
         },
-        {
-            MTU         => undef,
-            MACADDR     => undef,
-            STATUS      => 'Up',
-            DESCRIPTION => 'Carte Microsoft ISATAP',
-            IPDHCP      => undef
-        }
     ],
 );
 

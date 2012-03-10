@@ -18,11 +18,6 @@ sub doInventory {
     my (@gateways, @dns, @ips);
 
     foreach my $interface (_getInterfaces()) {
-        next if
-            !$interface->{IPADDRESS} &&
-            !$interface->{IPADDRESS6} &&
-            !$interface->{MACADDR};
-
         push @gateways, $interface->{IPGATEWAY}
             if $interface->{IPGATEWAY};
 
@@ -133,7 +128,11 @@ sub _getInterfaces {
         }
     }
 
-    return @interfaces;
+    # exclude pure virtual interfaces
+    return
+        grep { $_->{IPADDRESS} || $_->{IPADDRESS6} || $_->{MACADDR} }
+        @interfaces;
+
 }
 
 1;
