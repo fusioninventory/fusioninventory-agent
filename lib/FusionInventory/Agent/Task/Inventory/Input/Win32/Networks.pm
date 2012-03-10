@@ -7,7 +7,6 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Tools::Win32;
  
-# http://techtasks.com/code/viewbookcode/1417
 sub isEnabled {
     return 1;
 }
