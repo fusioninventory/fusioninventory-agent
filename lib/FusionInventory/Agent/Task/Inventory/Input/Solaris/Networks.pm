@@ -135,7 +135,7 @@ sub _check_nic {
 
 # Function to test eri Fast-Ethernet (eri_).
 sub _check_eri {
-    my ($nic, $num) = @_;
+    my ($nic) = @_;
 
     my $speed = getFirstMatch(
         command => "/usr/sbin/ndd -get /dev/$nic link_speed",
