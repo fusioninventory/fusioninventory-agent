@@ -114,9 +114,9 @@ sub _getInterfaces {
         if (defined $object->{PhysicalAdapter}) {
             $interface->{VIRTUALDEV} = $object->{PhysicalAdapter} ? 0 : 1;
         # http://forge.fusioninventory.org/issues/1166 
-        } elsif ($interface->{description}
-              && $interface->{description} =~ /RAS/
-              && $interface->{description} =~ /Adapter/i) {
+        } elsif ($interface->{DESCRIPTION}
+              && $interface->{DESCRIPTION} =~ /RAS/
+              && $interface->{DESCRIPTION} =~ /Adapter/i) {
             $interface->{VIRTUALDEV} = 1;
         } else {
             $interface->{VIRTUALDEV} = $object->{PNPDeviceId} =~ /^ROOT/ ? 1 : 0;
