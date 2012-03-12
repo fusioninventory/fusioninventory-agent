@@ -131,13 +131,19 @@ sub _loadDefaults {
 sub _loadFromRegistry {
     my ($self) = @_;
 
-    FusionInventory::Agent::Tools::Win32->use();
-    die "Failed to load FusionInventory::Agent::Tools::Win32: $EVAL_ERROR"
-        if $EVAL_ERROR;
-
-    my $settings = getRegistryKey(
-        path => "HKEY_LOCAL_MACHINE/SOFTWARE/FusionInventory-Agent",
+    my $Registry;
+    Win32::TieRegistry->require();
+    Win32::TieRegistry->import(
+        Delimiter   => '/',
+        ArrayValues => 0,
+        TiedRef     => \$Registry
     );
+
+    my $machKey = $Registry->Open('LMachine', {
+        Access => Win32::TieRegistry::KEY_READ()
+    }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+
+    my $settings = $machKey->{"SOFTWARE/FusionInventory-Agent"};
 
     foreach my $rawKey (keys %$settings) {
         next unless $rawKey =~ /^\/(\S+)/;

@@ -61,8 +61,16 @@ sub loadWMIDump {
             my $key = $1;
             my $value = $2;
             next unless $properties{$key};
-            $value =~ s/&amp;/&/g;
-            $object->{$key} = $value;
+            if ($value =~ /{(".*")}/) {
+                # values list
+                my @values =
+                    map { /"([^"]+)"/ }
+                    split(/,/, $1);
+                $object->{$key} = \@values;
+            } else {
+                $value =~ s/&amp;/&/g;
+                $object->{$key} = $value;
+            }
             next;
         }
 
