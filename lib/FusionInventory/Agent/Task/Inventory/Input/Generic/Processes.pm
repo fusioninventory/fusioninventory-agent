@@ -9,8 +9,9 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
 
 sub isEnabled {
-    return if $OSNAME eq 'MSWin32';
-    return canRun('ps');
+    return 
+        $OSNAME ne 'MSWin32' &&
+        canRun('ps');
 }
 
 sub doInventory {
