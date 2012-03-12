@@ -131,10 +131,7 @@ sub _getInterfaces {
     # exclude pure virtual interfaces
     return
         grep {
-            ref($_) eq 'HASH'
-            &&
-            (defined($_->{PNPDEVICEID}) && $_->{PNPDEVICEID})
-            &&
+            ref($_) eq 'HASH' &&
             (
                 (defined($_->{IPADDRESS}) && $_->{IPADDRESS})
                     ||
