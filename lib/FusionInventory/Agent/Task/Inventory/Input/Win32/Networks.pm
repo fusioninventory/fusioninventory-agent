@@ -98,17 +98,17 @@ sub _getInterfaces {
 
     foreach my $object (getWmiObjects(
         class      => 'Win32_NetworkAdapter',
-        properties => [ qw/Index PNPDeviceId Speed MACAddress PhysicalAdapter 
+        properties => [ qw/Index PNPDeviceID Speed MACAddress PhysicalAdapter 
                            AdapterType/  ]
     )) {
         # http://comments.gmane.org/gmane.comp.monitoring.fusion-inventory.devel/34
-        next unless $object->{PNPDeviceId};
+        next unless $object->{PNPDeviceID};
 
         my $interface = $interfaces[$object->{Index}];
 
         $interface->{SPEED}       = $object->{Speed};
         $interface->{MACADDR}     = $object->{MACAddress};
-        $interface->{PNPDEVICEID} = $object->{PNPDeviceId};
+        $interface->{PNPDEVICEID} = $object->{PNPDeviceID};
 
         # PhysicalAdapter only work on OS > XP
         if (defined $object->{PhysicalAdapter}) {
@@ -119,7 +119,7 @@ sub _getInterfaces {
               && $interface->{DESCRIPTION} =~ /Adapter/i) {
             $interface->{VIRTUALDEV} = 1;
         } else {
-            $interface->{VIRTUALDEV} = $object->{PNPDeviceId} =~ /^ROOT/ ? 1 : 0;
+            $interface->{VIRTUALDEV} = $object->{PNPDeviceID} =~ /^ROOT/ ? 1 : 0;
         }
 
         if (defined $object->{AdapterType}) {
