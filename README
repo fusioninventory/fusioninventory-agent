@@ -37,10 +37,6 @@ collected.
 To avoid this situation, you can turn off the server, and run the agent with
 user privilege, for example during the login.
 
-On Windows, if you don't want to use the installer for Windows you can follow
-the installation process avalailable from
-http://forge.fusioninventory.org/projects/fusioninventory-agent/wiki/RunAgentWin32.
-
 Usage
 -----
 They are two different ways to run the agent:
