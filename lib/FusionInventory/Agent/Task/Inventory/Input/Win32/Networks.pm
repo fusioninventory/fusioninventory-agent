@@ -130,16 +130,7 @@ sub _getInterfaces {
 
     # exclude pure virtual interfaces
     return
-        grep {
-            ref($_) eq 'HASH' &&
-            (
-                (defined($_->{IPADDRESS}) && $_->{IPADDRESS})
-                    ||
-                (defined($_->{IPADDRESS6}) && $_->{IPADDRESS6})
-                    ||
-                (defined($_->{MACADDR}) && $_->{MACADDR})
-            ) 
-            }
+        grep { $_->{IPADDRESS} || $_->{IPADDRESS6} || $_->{MACADDR} }
         @interfaces;
 
 }
