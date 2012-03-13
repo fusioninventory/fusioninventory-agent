@@ -41,29 +41,32 @@ sub getPartFilePath {
     my $subFilePath = $1.'/'.$2.'/'.$3;
 
     my $filename = $1;
- 
-    my @locToCheck = File::Glob::glob($self->{datastore}->{path}.'/fileparts/shared/*');
-    push @locToCheck, $self->{datastore}->{path}.'/fileparts/private';
 
-    foreach my $loc (@locToCheck) {
-        if (-f $loc.'/'.$subFilePath) {
-            return $loc.'/'.$subFilePath;
+    my @storageDirs;
+    push @storageDirs, File::Glob::glob($self->{datastore}->{path}.'/fileparts/shared/*');
+    push @storageDirs, File::Glob::glob($self->{datastore}->{path}.'/fileparts/private/*');
+
+    foreach my $dir (@storageDirs) {
+        if (-f $dir.'/'.$subFilePath) {
+            return $dir.'/'.$subFilePath;
         }
     }
+
+    my $retentionDuration = $self->{p2p}?$self->{p2p_retention_duration}:60 * 24 * 3;
 
     my $filePath = $self->{datastore}->{path}.'/fileparts/';
 # filepart not found
     if ($self->{p2p}) {
         $filePath .= 'shared/';
+    } else {
+        $filePath .= 'private/';
+    }
+
 # Compute a directory name that will be used to know
 # if the file must be purge. We don't want a new directory
 # everytime, so we use a 10h frame
-        $filePath .= int(time/10000)*10000 + ($self->{p2p_retention_duration} * 60);
-        $filePath .= '/'.$subFilePath;
-    } else {
-        $filePath .= 'private';
-        $filePath .= '/'.$subFilePath;
-    }
+    $filePath .= int(time/10000)*10000 + ($retentionDuration * 60);
+    $filePath .= '/'.$subFilePath;
 
     return $filePath;
 }
@@ -93,29 +96,31 @@ MULTIPART: foreach my $sha512 (@{$self->{multiparts}}) {
             }
         };
 
-        MIRROR: foreach my $mirror (@$p2pHostList, @$mirrorList) {
-            next unless $sha512 =~ /^(.)(.)/;
-            my $sha512dir = $1.'/'.$1.$2.'/';
 
-            $self->{logger}->debug($mirror.$sha512dir.$sha512);
+        my $lastGood;
+        my %remote = (p2p => $p2pHostList, mirror => $mirrorList);
+        foreach my $remoteType (qw/p2p mirror/)  {
+            foreach my $mirror ($lastGood, @{$remote{$remoteType}}) {
+                next unless $mirror;
 
-            my $request;
-            my $response;
+                next unless $sha512 =~ /^(.)(.)/;
+                my $sha512dir = $1.'/'.$1.$2.'/';
 
-            eval {
-                alarm 1800;
-                $request = HTTP::Request->new(GET => $mirror.$sha512dir.$sha512);
-                $response = $self->{client}->request($request, $partFilePath);
-                alarm 0;
-            };
+                $self->{logger}->debug($mirror.$sha512dir.$sha512);
 
-            if ($response && ($response->code == 200) && -f $partFilePath) {
-                if ($self->_getSha512ByFile($partFilePath) eq $sha512) {
-                    next MULTIPART;
+                my $request = HTTP::Request->new(GET => $mirror.$sha512dir.$sha512);
+                my $response = $self->{client}->request($request, $partFilePath);
+
+                if ($response && ($response->code == 200) && -f $partFilePath) {
+                    if ($self->_getSha512ByFile($partFilePath) eq $sha512) {
+                        $lastGood = $mirror if $remoteType eq 'p2p';
+                        next MULTIPART;
+                    }
+                    $self->{logger}->debug("sha512 failure: $sha512");
                 }
+    # bad file, drop it
+                unlink($partFilePath);
             }
-# bad file, drop it
-            unlink($partFilePath);
         }
     }
 

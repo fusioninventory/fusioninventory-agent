@@ -38,19 +38,26 @@ sub cleanUp {
 
     return unless -d $self->{path};
 
+    my @storageDirs;
+    push @storageDirs, File::Glob::glob($self->{path}.'/fileparts/private/*');
+    push @storageDirs, File::Glob::glob($self->{path}.'/fileparts/shared/*');
+
     my $diskFull=$self->diskIsFull();
     if (-d $self->{path}.'/workdir/') {
         remove_tree( $self->{path}.'/workdir/', {error => \my $err} );
     }
-    if (-d $self->{path}.'/fileparts/private/') {
-        remove_tree( $self->{path}.'/fileparts/private/', {error => \my $err} );
-    }
-    if (-d $self->{path}.'/fileparts/shared/') {
-        foreach my $sharedSubDir (File::Glob::glob($self->{path}.'/fileparts/shared/*')) {
-            next unless $sharedSubDir =~ /(\d+)$/;
-            if (time > $1 || $diskFull) {
-                remove_tree( $sharedSubDir, {error => \my $err} );
-            }
+
+    foreach my $dir (@storageDirs) {
+
+        if (!-d $dir) {
+            unlink $dir;
+            next;
+        }
+
+        next unless $dir =~ /(\d+)$/;
+
+        if (time > $1 || $diskFull) {
+            remove_tree( $dir, {error => \my $err} );
         }
     }
 
