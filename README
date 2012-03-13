@@ -118,3 +118,15 @@ The available workaround:
   openssl and its perl bindings (Net::SSLeay)
 - disable server certificate checking on client
 
+Authors 
+-------
+* Gonéri Le Bouder <goneri@rulezlan.org>>
+* Guillaume Rousse <guillomovitch@gmail.com>
+
+Copyright 2006-2010 OCS Inventory contributors
+Copyright 2010-2012 FusionInventory Team
+
+License
+-------
+This software is licensed under the terms of GPLv2+, see LICENSE file for
+details.
