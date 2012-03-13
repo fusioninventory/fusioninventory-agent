@@ -26,6 +26,57 @@ Additional optional programs:
 - dmidecode, for hardware inventory
 - lspci, for hardware inventory
 
+Usage
+-----
+They are two different ways to run the agent:
+- as a temporary process, exiting after completing its run
+- as a permanent process, staying in memory permanently (daemon under Unix,
+  service under Windows)
+
+In the first case, the agent execution scheduling is controlled from local
+system, and the memory footprint between agent executions is zero.
+
+In second case, the agent execution scheduling is controlled from GLPI server,
+as the agent runs regulary according to a parameter initially set in its
+configuration (delaytime), overrided by the server at the first connection
+(PROLOG_FREQ). Additionaly, the server may also initiate additional
+out-of-schedule executions by sending HTTP requests if the web interface is
+used. However, it also mean you have a full perl interpreter loaded in memory
+constantly, and a network port open on your system with a process running with
+full system privileges attached to it.
+
+If you don't need to control agent execution from the server, and if you're
+able to periodically launch the agent without resorting to its internal
+scheduler, through cron on Unix systems, or scheduled tasks on Windows, you'd
+better use first execution mode. The various installation procedure may offer
+limited choice about initial configuration, but you should always be able to
+change it thereafter.
+
+When executing, the agent tries to runs every available task for every
+configured target. A task is a specific kind of work to perform (local
+inventory, network discovery, wake on lan, etc...), while a target is both a
+recipient for the result and a controller for this work (an OCS server, a GLPI
+server, a local directory, etc...). Only the local inventory task is compatible
+with all kind of targets, tough, all others require a GLPI server target, and
+will get discarded for other kind of target.
+
+System-specific informations
+----------------------------
+On Solaris/SPARC, you must install sneep and record the Serial Number with it.
+Download it from http://www.sun.com/download/products.xml?id=4304155a.
+
+On Windows, we use an additional dmidecode binary shipped in the windows
+distribution to retrieve many informations not available otherwise, including
+fine-grained multi-cores CPUs identification. Unfortunatly, this binary is not
+reliable enough to be used on Windows 2003, leading to less precise
+inventories.
+
+On any system, the privilege level used to run the agent will change inventory
+results. Generally speaking, this means less results when run with lesser
+privileges. On Windows, tough, running agent with SYSTEM privileges, which is
+implicit if running as a service, does sometimes gives less results, especially
+for shared printers only visible from a user account.
+
 SSL support
 -----------
 LWP (also known as libwww-perl) is able to use either Crypt::SSLeay or
@@ -56,41 +107,3 @@ The available workaround:
   openssl and its perl bindings (Net::SSLeay)
 - disable server certificate checking on client
 
-System-specific informations
-----------------------------
-On Solaris/SPARC, you must install sneep and record the Serial Number with it.
-Download it from http://www.sun.com/download/products.xml?id=4304155a.
-
-The Windows installer will run the agent with the SYSTEM account. If you use
-an user GPO to configure the printer, the information will hidden and so not
-collected.
-To avoid this situation, you can turn off the server, and run the agent with
-user privilege, for example during the login.
-
-On Windows, if you don't want to use the installer for Windows you can follow
-the installation process avalailable from
-http://forge.fusioninventory.org/projects/fusioninventory-agent/wiki/RunAgentWin32.
-
-Usage
------
-They are two different ways to run the agent:
-- as a temporary process, exiting after completing its run
-- as a permanent process, staying in memory permanently (daemon under Unix,
-  service under Windows)
-
-In the first case, the agent execution scheduling is controlled from local
-system, through cron under Unix, or scheduled tasks under Windows. In second
-case, the agent execution scheduling is controlled from GLPI server, as the
-agent runs regulary according to a parameter initially set in its
-configuration (delaytime), overrided by the server at the first connection
-(PROLOG_FREQ). Additionaly, the server may also initiate additional
-out-of-schedule executions by sending HTTP requests if the web interface is
-used.
-
-When executing, the agent tries to runs every available task for every
-configured target. A task is a specific kind of work to perform (local
-inventory, network discovery, wake on lan, etc...), while a target is both a
-recipient for the result and a controller for this work (an OCS server, a GLPI
-server, a local directory, etc...). Only the local inventory task is compatible
-with all kind of targets, tough, all others require a GLPI server target, and
-will get discarded for other kind of target.
