@@ -13,6 +13,14 @@ Dependencies
 This task requires a FusionInventory agent (minimal version 2.2.0), and can
 only be executed with a GLPI server with FusionInventory plugin.
 
-Copyright TECLIB' 2011
-Copyright Gonéri Le Bouder 2011
-License GPLv2+
+Authors 
+-------
+* Gonéri Le Bouder <goneri@rulezlan.org>>
+
+Copyright (C) 2011 FusionInventory project
+Copyright (C) 2011 TECLIB' ( http://www.teclib.com )
+
+License
+-------
+This software is licensed under the terms of GPLv2+, see LICENSE file for
+details.
