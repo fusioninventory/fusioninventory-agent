@@ -18,9 +18,14 @@ In this example, ../agent is a git clone of the 2.1.x branch of the agent:
   [info] Inventory saved in /tmp/esx-server-2011-01-25-14-11-07.ocs
   ../fusioninventory-agent/fusioninventory-injector -v --file /tmp/esx-server-2011-01-25-14-11-07.ocs -u https://myserver/ocsinventory
 
-http://www.FusionInventory.org
-
-License : GPLv2+
+Authors 
+-------
+* Goneri Le Bouder <goneri@rulezlan.org>>
 
 Copyright (C) 2011 FusionInventory project
 Copyright (C) 2011 TECLIB' ( http://www.teclib.com )
+
+License
+-------
+This software is licensed under the terms of GPLv2+, see LICENSE file for
+details.
