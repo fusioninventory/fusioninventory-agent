@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::NetDiscovery::Dictionnary;
+package FusionInventory::Agent::Task::NetDiscovery::Dictionary;
 
 use strict;
 use warnings;
@@ -78,7 +78,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::NetDiscovery::Dictionnary - SNMP model dictionary
+FusionInventory::Agent::Task::NetDiscovery::Dictionary - SNMP model dictionary
 
 =head1 DESCRIPTION
 

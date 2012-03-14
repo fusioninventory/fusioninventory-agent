@@ -23,7 +23,7 @@ use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
-use FusionInventory::Agent::Task::NetDiscovery::Dictionnary;
+use FusionInventory::Agent::Task::NetDiscovery::Dictionary;
 use FusionInventory::Agent::XML::Query;
 
 our $VERSION = '1.9901';
@@ -161,7 +161,7 @@ sub run {
     my $max_threads = $options->{PARAM}->[0]->{THREADS_DISCOVERY};
 
     # check discovery methods available
-    my ($nmap_parameters, $snmp_credentials, $snmp_dictionnary);
+    my ($nmap_parameters, $snmp_credentials, $snmp_dictionary);
 
     if (canRun('nmap')) {
        my ($major, $minor) = getFirstMatch(
@@ -192,9 +192,9 @@ sub run {
         );
     } else {
         $snmp_credentials = $self->_getCredentials($options);
-        $snmp_dictionnary = $self->_getDictionnary($options, $pid);
-        # abort immediatly if the dictionnary isn't up to date
-        return unless $snmp_dictionnary;
+        $snmp_dictionary = $self->_getDictionary($options, $pid);
+        # abort immediatly if the dictionary isn't up to date
+        return unless $snmp_dictionary;
     }
 
 
@@ -214,7 +214,7 @@ sub run {
             \@addresses,
             \@results,
             $snmp_credentials,
-            $snmp_dictionnary,
+            $snmp_dictionary,
             $nmap_parameters,
         )->detach();
     }
@@ -291,39 +291,39 @@ sub run {
 
 }
 
-sub _getDictionnary {
+sub _getDictionary {
     my ($self, $options, $pid) = @_;
 
-    my ($dictionnary, $hash);
+    my ($dictionary, $hash);
     my $storage = $self->{target}->getStorage();
 
     if ($options->{DICO}) {
-        # the server message contains a dictionnary, use it
+        # the server message contains a dictionary, use it
         # and save it for later use
-        $dictionnary = FusionInventory::Agent::Task::NetDiscovery::Dictionnary->new(
+        $dictionary = FusionInventory::Agent::Task::NetDiscovery::Dictionary->new(
             string => $options->{DICO}
         );
         $hash = $options->{DICOHASH};
 
         $storage->save(
-            name => 'dictionnary',
+            name => 'dictionary',
             data => {
-                dictionnary => $dictionnary,
-                hash        => $hash
+                dictionary => $dictionary,
+                hash       => $hash
             }
         );
     } else {
-        # no dictionnary in server message, retrieve last saved one
-        my $data = $storage->restore(name => 'dictionnary');
-        $dictionnary = $data->{dictionnary};
+        # no dictionary in server message, retrieve last saved one
+        my $data = $storage->restore(name => 'dictionary');
+        $dictionary = $data->{dictionary};
         $hash        = $data->{hash};
     }
 
     if ($options->{DICOHASH}) {
         if ($hash && $hash eq $options->{DICOHASH}) {
-            $self->{logger}->debug("Dictionnary is up to date.");
+            $self->{logger}->debug("Dictionary is up to date.");
         } else {
-            # Send dictionnary update request
+            # Send dictionary update request
             $self->_sendMessage({
                 AGENT => {
                     END => '1'
@@ -333,16 +333,16 @@ sub _getDictionnary {
                 DICO          => "REQUEST",
             });
             $self->{logger}->debug($hash ?
-                "Dictionnary is outdated, update request sent, exiting" :
-                "No dictionnary, update request sent, exiting"
+                "Dictionary is outdated, update request sent, exiting" :
+                "No dictionary, update request sent, exiting"
             );
             return;
         }
     }
 
-    $self->{logger}->debug("Dictionnary loaded.");
+    $self->{logger}->debug("Dictionary loaded.");
 
-    return $dictionnary;
+    return $dictionary;
 }
 
 sub _getCredentials {
@@ -366,7 +366,7 @@ sub _getCredentials {
 }
 
 sub _scanAddresses {
-    my ($self, $state, $addresses, $results, $snmp_credentials, $snmp_dictionnary, $nmap_parameters,) = @_;
+    my ($self, $state, $addresses, $results, $snmp_credentials, $snmp_dictionary, $nmap_parameters,) = @_;
 
     my $logger = $self->{logger};
     my $id     = threads->tid();
@@ -399,7 +399,7 @@ sub _scanAddresses {
                 ip               => $address,
                 nmap_parameters  => $nmap_parameters,
                 snmp_credentials => $snmp_credentials,
-                snmp_dictionnary => $snmp_dictionnary
+                snmp_dictionary  => $snmp_dictionary
             );
 
             if ($result) {
@@ -576,8 +576,8 @@ sub _scanAddressBySNMP {
 
         $device{DESCRIPTION} = $description;
 
-        # get model matching description from dictionnary
-        my $model = $params{snmp_dictionnary}->getModel($description);
+        # get model matching description from dictionary
+        my $model = $params{snmp_dictionary}->getModel($description);
 
         $device{SERIAL}    = _getSerial($snmp, $model);
         $device{MAC}       = _getMacAddress($snmp, $model) || _getMacAddress($snmp);
