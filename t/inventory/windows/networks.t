@@ -51,6 +51,102 @@ my %tests = (
             SPEED       => 0
         },
     ],
+    xp => [
+        {
+            VIRTUALDEV  => 1,
+            PNPDEVICEID => 'ROOT\\MS_PPTPMINIPORT\\0000',
+            MACADDR     => '50:50:54:50:30:30',
+            STATUS      => 'Up',
+            TYPE        => "Red de \x{e1}rea extensa (WAN)",
+            SPEED       => undef,
+            IPDHCP      => undef,
+            MTU         => undef,
+            DESCRIPTION => 'Minipuerto WAN (PPTP)'
+        },
+        {
+            VIRTUALDEV  => 1,
+            PNPDEVICEID => 'ROOT\\MS_PPPOEMINIPORT\\0000',
+            MACADDR     => '33:50:6F:45:30:30',
+            STATUS      => 'Up',
+            TYPE        => "Red de \x{e1}rea extensa (WAN)",
+            SPEED       => undef,
+            IPDHCP      => undef,
+            MTU         => undef,
+            DESCRIPTION => 'Minipuerto WAN (PPPOE)'
+        },
+        {
+            VIRTUALDEV  => 1,
+            PNPDEVICEID => 'ROOT\\MS_PSCHEDMP\\0000',
+            MACADDR     => '26:0F:20:52:41:53',
+            STATUS      => 'Up',
+            TYPE        => 'Ethernet',
+            SPEED       => undef,
+            IPDHCP      => undef,
+            MTU         => undef,
+            DESCRIPTION => 'Minipuerto del administrador de paquetes'
+        },
+        {
+            dns         => '10.36.6.200',
+            IPMASK      => [ '255.255.254.0' ],
+            IPGATEWAY   => '10.36.6.1',
+            MACADDR     => '00:14:C2:0D:B0:FB',
+            STATUS      => 'Up',
+            IPDHCP      => '10.36.6.200',
+            IPSUBNET    => [ '10.36.6.0' ],
+            MTU         => undef,
+            DESCRIPTION => 'Broadcom NetXtreme Gigabit Ethernet - Teefer2 Miniport',
+            'IPADDRESS' => [ '10.36.6.30' ]
+        },
+        {
+            dns         => '10.36.6.100',
+            IPMASK      => [ '255.255.254.0' ],
+            IPGATEWAY   => '10.36.6.1',
+            VIRTUALDEV  => 0,
+            PNPDEVICEID => 'PCI\\VEN_14E4&DEV_1677&SUBSYS_3006103C&REV_01\\4&1886B119&0&00E1',
+            MACADDR     => '00:14:C2:0D:B0:FB',
+            STATUS      => 'Up',
+            TYPE        => 'Ethernet',
+            SPEED       => undef,
+            IPDHCP      => '10.36.6.100',
+            IPSUBNET    => [ '10.36.6.0' ],
+            MTU         => undef,
+            DESCRIPTION => 'Broadcom NetXtreme Gigabit Ethernet - Teefer2 Miniport',
+            'IPADDRESS' => [ '10.36.6.30' ]
+        },
+        {
+            VIRTUALDEV  => 1,
+            PNPDEVICEID => 'ROOT\\MS_PSCHEDMP\\0002',
+            MACADDR     => '00:14:C2:0D:B0:FB',
+            STATUS      => 'Up',
+            TYPE        => 'Ethernet',
+            SPEED       => undef,
+            IPDHCP      => undef,
+            MTU         => undef,
+            DESCRIPTION => 'Minipuerto del administrador de paquetes'
+        },
+        {
+            VIRTUALDEV  => 1,
+            PNPDEVICEID => 'ROOT\\SYMC_TEEFER2MP\\0000',
+            MACADDR     => '00:14:C2:0D:B0:FB',
+            STATUS      => 'Up',
+            TYPE        => 'Ethernet',
+            SPEED       => undef,
+            IPDHCP      => undef,
+            MTU         => undef,
+            DESCRIPTION => 'Teefer2 Miniport'
+        },
+        {
+            VIRTUALDEV  => 1,
+            PNPDEVICEID => 'ROOT\\SYMC_TEEFER2MP\\0002',
+            MACADDR     => '26:0F:20:52:41:53',
+            STATUS      => 'Up',
+            TYPE        => 'Ethernet',
+            SPEED       => undef,
+            IPDHCP      => undef,
+            MTU         => undef,
+            DESCRIPTION => 'Teefer2 Miniport'
+        }
+    ]
 );
 
 plan tests => scalar keys %tests;
