@@ -12,7 +12,6 @@ sub setConnectedDevicesMacAddress {
     my $ports   = $params{ports};
     my $walks   = $params{walks};
 
-    my $i = 0;
     while (my ($oid, $mac) = each %{$results->{dot1dTpFdbAddress}}) {
         next unless $mac;
 

@@ -300,7 +300,6 @@ sub _queryDevices {
         delay(1);
     }
 
-    my $storage = $self->{target}->getStorage();
     # run: process available addresses until exhaustion
     $logger->debug("Thread $id switched to RUN state");
 
