@@ -24,6 +24,6 @@ if ($EVAL_ERROR) {
 }
 
 Test::Vars::all_vars_ok(
-    ignore_vars => { '$i' => 1, '%params' => 1, '$class' => 1 }
+    ignore_vars => { '%params' => 1, '$class' => 1 }
 );
 
