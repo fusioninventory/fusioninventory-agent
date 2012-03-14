@@ -128,9 +128,9 @@ sub _getInterfaces {
         }
     }
 
-    # exclude pure virtual interfaces
     return
         grep { $_->{IPADDRESS} || $_->{IPADDRESS6} || $_->{MACADDR} }
+        grep { $_ } # exclude slots left empty by indexed access
         @interfaces;
 
 }
