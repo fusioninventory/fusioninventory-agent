@@ -78,11 +78,11 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::NetDiscovery::Dictionnary - SNMP model dictionnary
+FusionInventory::Agent::Task::NetDiscovery::Dictionnary - SNMP model dictionary
 
 =head1 DESCRIPTION
 
-This dictionnary contains identification informations for SNMP devices.
+This dictionary contains identification information for SNMP devices.
 
 =head1 METHODS
 
@@ -109,7 +109,7 @@ The models list, as an hashref.
 
 =head2 getHash()
 
-Return the hash identifying this dictionnary content.
+Return the hash identifying this dictionary content.
 
 =head2 getModel($description)
 
