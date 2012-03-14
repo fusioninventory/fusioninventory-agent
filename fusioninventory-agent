@@ -269,9 +269,9 @@ The agent will launch each modules and pass the list of options found in the
 PROLOG RESP as parameter. The module can send information directly to the
 server (inventory, SNMP scan result, etc)
 
-=head2 Windows service or Deamon mode
+=head2 Server mode (Windows service or Unix daemon)
 
-In deamon mode, the agent wait during a period between the last PROLOG and
+In server mode, the agent wait during a period between the last PROLOG and
 PROLOG_FREQ. If PROLOG_FREQ is not set, it will use --delaytime value.
 The default value is 3600.
 

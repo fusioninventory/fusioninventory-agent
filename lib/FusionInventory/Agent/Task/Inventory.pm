@@ -364,4 +364,4 @@ FusionInventory::Agent::Task::Inventory - Inventory task for FusionInventory
 
 =head1 DESCRIPTION
 
-This task extract various hardware and software informations on the agent host.
+This task extract various hardware and software information on the agent host.
