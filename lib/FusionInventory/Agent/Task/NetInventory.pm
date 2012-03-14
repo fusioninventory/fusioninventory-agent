@@ -755,7 +755,7 @@ FusionInventory::Agent::Task::NetInventory - Remote inventory support for Fusion
 
 =head1 DESCRIPTION
 
-This task extracts various informations from remote hosts through SNMP
+This task extracts various information from remote hosts through SNMP
 protocol:
 
 =over
