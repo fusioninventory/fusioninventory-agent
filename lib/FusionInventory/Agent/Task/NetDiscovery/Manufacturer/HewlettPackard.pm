@@ -14,12 +14,12 @@ sub getDescription {
 
     my @infos = split(/;/, $result);
     foreach my $info (@infos) {
-        if ($_ =~ /^MDL:/) {
-            $_ =~ s/MDL://;
-            return $_;
-        } elsif ($_ =~ /^MODEL:/) {
-            $_ =~ s/MODEL://;
-            return $_;
+        if ($info =~ /^MDL:/) {
+            $info =~ s/MDL://;
+            return $info;
+        } elsif ($info =~ /^MODEL:/) {
+            $info =~ s/MODEL://;
+            return $info;
         }
     }
 }

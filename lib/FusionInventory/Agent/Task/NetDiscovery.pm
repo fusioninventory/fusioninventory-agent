@@ -366,7 +366,7 @@ sub _getCredentials {
 }
 
 sub _scanAddresses {
-    my ($self, $state, $addresses, $results, $snmp_credentials, $snmp_dictionary, $nmap_parameters,) = @_;
+    my ($self, $state, $addresses, $results, $snmp_credentials, $snmp_dictionary, $nmap_parameters) = @_;
 
     my $logger = $self->{logger};
     my $id     = threads->tid();
@@ -383,9 +383,6 @@ sub _scanAddresses {
         # run: process available addresses until exhaustion
         $$state = RUN;
         $logger->debug("Thread $id switched to RUN state");
-
-        my @results;
-        my $storage = $self->{target}->getStorage();
 
         INNER: while (1) {
             my $address;
