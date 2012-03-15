@@ -34,6 +34,7 @@ sub _computeIPToTest {
         my @end;
 
         foreach my $idx (0..3) {
+            ## no critic (ProhibitBitwise)
             push @start, $ip_bytes[$idx] & (255 & $mask_bytes[$idx]);
             push @end,   $ip_bytes[$idx] | (255 - $mask_bytes[$idx]);
         }
