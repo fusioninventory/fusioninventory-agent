@@ -17,7 +17,7 @@ sub new {
 
     my $self = {
         p2p                    => $params{data}->{p2p},
-        p2p_retention_duration => $params{data}->{'p2p-retention-duration'},
+        retention_duration     => $params{data}->{'p2p-retention-duration'} || 60 * 24 * 3,
         uncompress             => $params{data}->{'uncompress'},
         mirrors                => $params{data}->{mirrors},
         multiparts             => $params{data}->{multiparts},
@@ -50,8 +50,6 @@ sub getPartFilePath {
         }
     }
 
-    my $retentionDuration = $self->{p2p}?$self->{p2p_retention_duration}:60 * 24 * 3;
-
     my $filePath = $self->{datastore}->{path}.'/fileparts/';
 # filepart not found
     if ($self->{p2p}) {
@@ -63,7 +61,7 @@ sub getPartFilePath {
 # Compute a directory name that will be used to know
 # if the file must be purge. We don't want a new directory
 # everytime, so we use a 10h frame
-    $filePath .= int(time/10000)*10000 + ($retentionDuration * 60);
+    $filePath .= int(time/10000)*10000 + ($self->{retentionDuration} * 60);
     $filePath .= '/'.$subFilePath;
 
     return $filePath;
