@@ -2,28 +2,19 @@
 
 use strict;
 use warnings;
+
 use Test::More;
 use English qw(-no_match_vars);
 
-if (!$ENV{TEST_AUTHOR}) {
-    my $msg = 'Author test. Set $ENV{TEST_AUTHOR} to a true value to run.';
-    plan(skip_all => $msg);
-}
-
-# use mock modules for non-available ones
-if ($OSNAME eq 'MSWin32') {
-    push @INC, 't/fake/unix';
-} else {
-    push @INC, 't/fake/windows';
-}
+plan(skip_all => 'Author test, set $ENV{TEST_AUTHOR} to a true value to run')
+    if !$ENV{TEST_AUTHOR};
 
 eval { require Test::Vars; };
+plan(skip_all => 'Test::Vars required') if $EVAL_ERROR;
 
-if ($EVAL_ERROR) {
-    plan(skip_all => 'Test::Vars required to validate the code');
-}
+Test::Vars->import();
 
-Test::Vars::all_vars_ok(
+all_vars_ok(
     ignore_vars => { '%params' => 1, '$class' => 1 }
 );
 
