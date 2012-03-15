@@ -6188,13 +6188,12 @@ foreach my $test (keys %dmidecode_tests) {
     my $file = "resources/generic/dmidecode/$test";
     my $infos = getDmidecodeInfos(file => $file);
     is_deeply($infos, $dmidecode_tests{$test}, "$test dmidecode parsing");
-    use Data::Dumper;
 }
 
 foreach my $test (keys %cpu_tests) {
     my $file = "resources/generic/dmidecode/$test";
     my @cpus = getCpusFromDmidecode(file => $file);
-    is_deeply(\@cpus, $cpu_tests{$test}, "$test dmidecode cpu extraction") or print Dumper(\@cpus);
+    is_deeply(\@cpus, $cpu_tests{$test}, "$test dmidecode cpu extraction");
 }
 
 foreach my $test (keys %lspci_tests) {
