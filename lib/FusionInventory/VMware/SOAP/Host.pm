@@ -92,7 +92,6 @@ sub getCPUs {
 
     my @cpus;
     foreach (_asArray($cpuEntries)) {
-        my $thread;
         push @cpus,
           {
             CORE         => $totalCore / _asArray($cpuEntries),

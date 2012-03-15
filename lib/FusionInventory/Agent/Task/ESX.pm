@@ -14,7 +14,7 @@ use FusionInventory::VMware::SOAP;
 our $VERSION = "2.0.9901";
 
 sub isEnabled {
-    my ( $self, $response ) = @_;
+    my ($self) = @_;
 
     return $self->{target}->isa('FusionInventory::Agent::Target::Server');
 }
@@ -118,7 +118,6 @@ sub createInventory {
     #
     #    }
 
-    my %volumnMapping;
     foreach my $storage ($host->getStorages()) {
         # TODO
         #        $volumnMapping{$entry->{canonicalName}} = $entry->{deviceName};
@@ -254,7 +253,7 @@ sub run {
                 content  => $inventory->getContent()
             );
 
-            my $response = $ocsClient->send(
+            $ocsClient->send(
                 url     => $self->{target}->getUrl(),
                 message => $message
             );
