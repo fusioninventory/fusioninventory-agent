@@ -107,7 +107,6 @@ sub _getInterfaces {
         my $interface = $interfaces[$object->{Index}];
 
         $interface->{SPEED}       = $object->{Speed};
-        $interface->{MACADDR}     = $object->{MACAddress};
         $interface->{PNPDEVICEID} = $object->{PNPDeviceID};
 
         # PhysicalAdapter only work on OS > XP
