@@ -51,16 +51,16 @@ sub doInventory {
 
 sub _getInterfaces {
 
-    my @interfaces;
+    my @configurations;
 
     foreach my $object (getWmiObjects(
         class      => 'Win32_NetworkAdapterConfiguration',
-        properties => [ qw/Index Description IPEnabled DHCPServer MACAddress 
+        properties => [ qw/Index Description IPEnabled DHCPServer MACAddress
                            MTU DefaultIPGateway DNSServerSearchOrder IPAddress
                            IPSubnet/  ]
     )) {
 
-        my $interface = {
+        my $configuration = {
             DESCRIPTION => $object->{Description},
             STATUS      => $object->{IPEnabled} ? "Up" : "Down",
             IPDHCP      => $object->{DHCPServer},
@@ -69,45 +69,66 @@ sub _getInterfaces {
         };
 
         if ($object->{DefaultIPGateway}) {
-            $interface->{IPGATEWAY} = $object->{DefaultIPGateway}->[0];
+            $configuration->{IPGATEWAY} = $object->{DefaultIPGateway}->[0];
         }
 
         if ($object->{DNSServerSearchOrder}) {
-            $interface->{dns} = $object->{DNSServerSearchOrder}->[0];
+            $configuration->{dns} = $object->{DNSServerSearchOrder}->[0];
         }
 
         if ($object->{IPAddress}) {
             foreach my $address (@{$object->{IPAddress}}) {
                 my $mask = shift @{$object->{IPSubnet}};
                 if ($address =~ /$ip_address_pattern/) {
-                    push @{$interface->{IPADDRESS}}, $address;
-                    push @{$interface->{IPMASK}}, $mask;
-                    push @{$interface->{IPSUBNET}},
+                    push @{$configuration->{IPADDRESS}}, $address;
+                    push @{$configuration->{IPMASK}}, $mask;
+                    push @{$configuration->{IPSUBNET}},
                         getSubnetAddress($address, $mask);
                 } elsif ($address =~ /\S+/) {
-                    push @{$interface->{IPADDRESS6}}, $address;
-                    push @{$interface->{IPMASK6}}, $mask;
-                    push @{$interface->{IPSUBNET6}},
+                    push @{$configuration->{IPADDRESS6}}, $address;
+                    push @{$configuration->{IPMASK6}}, $mask;
+                    push @{$configuration->{IPSUBNET6}},
                         getSubnetAddressIPv6($address, $mask);
                 }
             }
         }
 
-        $interfaces[$object->{Index}] = $interface;
+        $configurations[$object->{Index}] = $configuration;
     }
+
+    my @interfaces;
 
     foreach my $object (getWmiObjects(
         class      => 'Win32_NetworkAdapter',
-        properties => [ qw/Index PNPDeviceID Speed MACAddress PhysicalAdapter 
-                           AdapterType/  ]
+        properties => [ qw/Index PNPDeviceID Speed PhysicalAdapter AdapterType/  ]
     )) {
         # http://comments.gmane.org/gmane.comp.monitoring.fusion-inventory.devel/34
         next unless $object->{PNPDeviceID};
 
-        my $interface = $interfaces[$object->{Index}];
+        my $configuration = $configurations[$object->{Index}];
 
-        $interface->{SPEED}       = $object->{Speed};
-        $interface->{PNPDEVICEID} = $object->{PNPDeviceID};
+        next unless 
+            $configuration->{IPADDRESS} ||
+            $configuration->{IPADDRESS6} ||
+            $configuration->{MACADDR};
+
+        my $interface = {
+            SPEED       => $object->{Speed},
+            PNPDEVICEID => $object->{PNPDeviceID},
+            MACADDR     => $configuration->{MACADDR},
+            DESCRIPTION => $configuration->{DESCRIPTION},
+            STATUS      => $configuration->{STATUS},
+            IPDHCP      => $configuration->{IPDHCP},
+            MTU         => $configuration->{MTU},
+            IPGATEWAY   => $configuration->{IPGATEWAY},
+            IPADDRESS   => $configuration->{IPADDRESS},
+            IPMASK      => $configuration->{IPMASK},
+            IPSUBNET    => $configuration->{IPSUBNET},
+            IPADDRESS6  => $configuration->{IPADDRESS6},
+            IPMASK6     => $configuration->{IPMASK6},
+            IPSUBNET6   => $configuration->{IPSUBNET6},
+            dns         => $configuration->{dns},
+        };
 
         # PhysicalAdapter only work on OS > XP
         if (defined $object->{PhysicalAdapter}) {
@@ -125,11 +146,11 @@ sub _getInterfaces {
             $interface->{TYPE} = $object->{AdapterType};
             $interface->{TYPE} =~ s/Ethernet.*/Ethernet/;
         }
+
+        push @interfaces, $interface;
     }
 
     return
-        grep { $_->{IPADDRESS} || $_->{IPADDRESS6} || $_->{MACADDR} }
-        grep { $_ } # exclude slots left empty by indexed access
         @interfaces;
 
 }

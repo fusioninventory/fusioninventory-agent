@@ -21,7 +21,7 @@ use FusionInventory::Agent::Task::Inventory::Input::Win32::Networks;
 my %tests = (
     7 => [
         {
-            'dns'       => '192.168.0.254',
+            dns         => '192.168.0.254',
             IPMASK6     => [ '64' ],
             IPMASK      => [ '255.255.255.0' ],
             IPGATEWAY   => '192.168.0.254',
@@ -40,6 +40,14 @@ my %tests = (
             TYPE        => 'Ethernet'
         },
         {
+            dns         => undef,
+            IPGATEWAY   => undef,
+            IPADDRESS6  => undef,
+            IPMASK6     => undef,
+            IPSUBNET6   => undef,
+            IPADDRESS   => undef,
+            IPMASK      => undef,
+            IPSUBNET    => undef,
             MTU         => undef,
             MACADDR     => '00:26:83:12:FB:0B',
             STATUS      => 'Up',
@@ -53,6 +61,14 @@ my %tests = (
     ],
     xp => [
         {
+            dns         => undef,
+            IPADDRESS6  => undef,
+            IPMASK6     => undef,
+            IPSUBNET6   => undef,
+            IPADDRESS   => undef,
+            IPMASK      => undef,
+            IPSUBNET    => undef,
+            IPGATEWAY   => undef,
             VIRTUALDEV  => 1,
             PNPDEVICEID => 'ROOT\\MS_PPTPMINIPORT\\0000',
             MACADDR     => '50:50:54:50:30:30',
@@ -64,6 +80,14 @@ my %tests = (
             DESCRIPTION => 'Minipuerto WAN (PPTP)'
         },
         {
+            dns         => undef,
+            IPADDRESS6  => undef,
+            IPMASK6     => undef,
+            IPSUBNET6   => undef,
+            IPADDRESS   => undef,
+            IPMASK      => undef,
+            IPSUBNET    => undef,
+            IPGATEWAY   => undef,
             VIRTUALDEV  => 1,
             PNPDEVICEID => 'ROOT\\MS_PPPOEMINIPORT\\0000',
             MACADDR     => '33:50:6F:45:30:30',
@@ -75,6 +99,14 @@ my %tests = (
             DESCRIPTION => 'Minipuerto WAN (PPPOE)'
         },
         {
+            dns         => undef,
+            IPADDRESS6  => undef,
+            IPMASK6     => undef,
+            IPSUBNET6   => undef,
+            IPADDRESS   => undef,
+            IPMASK      => undef,
+            IPSUBNET    => undef,
+            IPGATEWAY   => undef,
             VIRTUALDEV  => 1,
             PNPDEVICEID => 'ROOT\\MS_PSCHEDMP\\0000',
             MACADDR     => '26:0F:20:52:41:53',
@@ -84,18 +116,6 @@ my %tests = (
             IPDHCP      => undef,
             MTU         => undef,
             DESCRIPTION => 'Minipuerto del administrador de paquetes'
-        },
-        {
-            dns         => '10.36.6.200',
-            IPMASK      => [ '255.255.254.0' ],
-            IPGATEWAY   => '10.36.6.1',
-            MACADDR     => '00:14:C2:0D:B0:FB',
-            STATUS      => 'Up',
-            IPDHCP      => '10.36.6.200',
-            IPSUBNET    => [ '10.36.6.0' ],
-            MTU         => undef,
-            DESCRIPTION => 'Broadcom NetXtreme Gigabit Ethernet - Teefer2 Miniport',
-            'IPADDRESS' => [ '10.36.6.30' ]
         },
         {
             dns         => '10.36.6.100',
@@ -111,9 +131,20 @@ my %tests = (
             IPSUBNET    => [ '10.36.6.0' ],
             MTU         => undef,
             DESCRIPTION => 'Broadcom NetXtreme Gigabit Ethernet - Teefer2 Miniport',
-            'IPADDRESS' => [ '10.36.6.30' ]
+            IPADDRESS => [ '10.36.6.30' ],
+            IPADDRESS6  => undef,
+            IPMASK6     => undef,
+            IPSUBNET6   => undef,
         },
         {
+            dns         => undef,
+            IPADDRESS6  => undef,
+            IPMASK6     => undef,
+            IPSUBNET6   => undef,
+            IPADDRESS   => undef,
+            IPMASK      => undef,
+            IPSUBNET    => undef,
+            IPGATEWAY   => undef,
             VIRTUALDEV  => 1,
             PNPDEVICEID => 'ROOT\\MS_PSCHEDMP\\0002',
             MACADDR     => '00:14:C2:0D:B0:FB',
@@ -125,6 +156,14 @@ my %tests = (
             DESCRIPTION => 'Minipuerto del administrador de paquetes'
         },
         {
+            dns         => undef,
+            IPADDRESS6  => undef,
+            IPMASK6     => undef,
+            IPSUBNET6   => undef,
+            IPADDRESS   => undef,
+            IPMASK      => undef,
+            IPSUBNET    => undef,
+            IPGATEWAY   => undef,
             VIRTUALDEV  => 1,
             PNPDEVICEID => 'ROOT\\SYMC_TEEFER2MP\\0000',
             MACADDR     => '00:14:C2:0D:B0:FB',
@@ -136,6 +175,14 @@ my %tests = (
             DESCRIPTION => 'Teefer2 Miniport'
         },
         {
+            dns         => undef,
+            IPADDRESS6  => undef,
+            IPMASK6     => undef,
+            IPSUBNET6   => undef,
+            IPADDRESS   => undef,
+            IPMASK      => undef,
+            IPSUBNET    => undef,
+            IPGATEWAY   => undef,
             VIRTUALDEV  => 1,
             PNPDEVICEID => 'ROOT\\SYMC_TEEFER2MP\\0002',
             MACADDR     => '26:0F:20:52:41:53',
