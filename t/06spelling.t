@@ -2,21 +2,16 @@
 
 use strict;
 use warnings;
+
 use Test::More;
 use English qw(-no_match_vars);
 
-if (!$ENV{TEST_AUTHOR}) {
-    my $msg = 'Author test. Set $ENV{TEST_AUTHOR} to a true value to run.';
-    plan(skip_all => $msg);
-}
+plan(skip_all => 'Author test, set $ENV{TEST_AUTHOR} to a true value to run')
+    if !$ENV{TEST_AUTHOR};
 
 eval { require Test::Pod::Spelling::CommonMistakes; };
+plan(skip_all => 'Test::Pod::Spelling::CommonMistakes required') if $EVAL_ERROR;
 
-if ($EVAL_ERROR) {
-    plan(
-        skip_all =>
-        'Test::Pod::Spelling::CommonMistakes required to check speeling'
-    );
-}
+Test::Pod::Spelling::CommonMistakes->import();
 
-Test::Pod::Spelling::CommonMistakes::all_pod_files_ok();
+all_pod_files_ok();
