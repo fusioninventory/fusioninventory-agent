@@ -130,7 +130,6 @@ sub findPeer {
 sub scan {
     my ($params, @ipToTestList) = @_;
     my $port = $params->{port};
-    my $sha512 = $params->{sha512};
     my $logger = $params->{logger};
 
 
@@ -140,10 +139,6 @@ sub scan {
         Timeout => 5,           # defaults to 1 second
     );
 
-    my $found;
-    my $running = 0;
-
-    my @needCheck2 = 0;
     my $ipCpt = int(@ipToTestList);
     my @ipFound;
     POE::Session->create(
@@ -175,7 +170,7 @@ sub scan {
 
             },
             pong => sub {
-                my ($request, $response) = @_[ARG0, ARG1];
+                my ($response) = $_[ARG1];
 
                 my ($addr) = @$response;
 

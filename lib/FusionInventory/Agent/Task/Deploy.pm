@@ -22,7 +22,7 @@ use FusionInventory::Agent::Task::Deploy::Job;
 our $VERSION = '1.0.9901';
 
 sub isEnabled {
-    my ($self, $response) = @_;
+    my ($self) = @_;
 
     return $self->{target}->isa('FusionInventory::Agent::Target::Server');
 
@@ -90,7 +90,6 @@ sub processRemote {
     );
     $datastore->cleanUp();
 
-    my $ret = {};
     my $jobList = [];
     my $files;
 
@@ -467,7 +466,6 @@ sub run {
     return unless $globalRemoteConfig->{schedule};
     return unless ref( $globalRemoteConfig->{schedule} ) eq 'ARRAY';
 
-    my $deployRemote;
     foreach my $job ( @{ $globalRemoteConfig->{schedule} } ) {
         next unless $job->{task} eq "Deploy";
         $self->processRemote($job->{remote});

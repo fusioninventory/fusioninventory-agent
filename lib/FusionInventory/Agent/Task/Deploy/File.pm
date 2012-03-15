@@ -40,8 +40,6 @@ sub getPartFilePath {
     return unless $sha512 =~ /^(.)(.)(.{6})/;
     my $subFilePath = $1.'/'.$2.'/'.$3;
 
-    my $filename = $1;
-
     my @storageDirs;
     push @storageDirs, File::Glob::glob($self->{datastore}->{path}.'/fileparts/shared/*');
     push @storageDirs, File::Glob::glob($self->{datastore}->{path}.'/fileparts/private/*');
@@ -75,8 +73,6 @@ sub download {
     my ($self) = @_;
 
     die unless $self->{mirrors};
-
-    my $datastore = $self->{datastore};
 
     my $mirrorList =  $self->{mirrors};
 

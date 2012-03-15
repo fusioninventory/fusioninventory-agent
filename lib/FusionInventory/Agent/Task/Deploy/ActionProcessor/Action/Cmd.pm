@@ -63,8 +63,6 @@ sub do {
     my $exitStatus = $? >> 8;
     $logger->debug("exitStatus: ".$exitStatus);;
 
-    my @retChecks;
-
     my $logLineLimit =  $params->{logLineLimit} || 3;
 
     my @msg;
