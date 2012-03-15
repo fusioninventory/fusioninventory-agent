@@ -32,8 +32,8 @@ sub usage {
         EXAMPLE:
         fusioninventory-esx --host myesx --user foo --password bar --directory /tmp
 
-        Active Directory users, please note the AD authentification don't work. You must
-        create a account on the VMware server.
+        Active Directory users, please note the AD authentication doesn't work.
+        You must create a account on the VMware server.
 
         You can import the .ocs file in your inventory server with the fusioninventory-injector tool.
         fusioninventory-injector -v --file /tmp/*.ocs -u https://myserver/ocsinventory
@@ -134,7 +134,7 @@ Supported systems:
 =back
 
 
-Active Directory users, please note the AD authentification don't work. You must
+Active Directory users, please note the AD authentication doesn't work. You must
 create a account on the VMware server.
 
 =head1 AUTHORS
