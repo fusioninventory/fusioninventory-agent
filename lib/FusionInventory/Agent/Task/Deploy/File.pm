@@ -16,16 +16,16 @@ sub new {
     die "no sha512 parameter" unless $params{sha512};
 
     my $self = {
-        p2p                    => $params{data}->{p2p},
-        retention_duration     => $params{data}->{'p2p-retention-duration'} || 60 * 24 * 3,
-        uncompress             => $params{data}->{'uncompress'},
-        mirrors                => $params{data}->{mirrors},
-        multiparts             => $params{data}->{multiparts},
-        name                   => $params{data}->{name},
-        sha512                 => $params{sha512},
-        datastore              => $params{datastore},
-        client                 => $params{client},
-        logger                 => $params{logger}
+        p2p                => $params{data}->{p2p},
+        retention_duration => $params{data}->{'p2p-retention-duration'} || 60 * 24 * 3,
+        uncompress         => $params{data}->{uncompress},
+        mirrors            => $params{data}->{mirrors},
+        multiparts         => $params{data}->{multiparts},
+        name               => $params{data}->{name},
+        sha512             => $params{sha512},
+        datastore          => $params{datastore},
+        client             => $params{client},
+        logger             => $params{logger}
     };
 
     bless $self, $class;
@@ -34,8 +34,7 @@ sub new {
 }
 
 sub getPartFilePath {
-    my ($self, $sha512, ) = @_;
-
+    my ($self, $sha512) = @_;
 
     return unless $sha512 =~ /^(.)(.)(.{6})/;
     my $subFilePath = $1.'/'.$2.'/'.$3;
