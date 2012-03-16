@@ -171,7 +171,7 @@ sub getFilesystemsFromDf {
             $free       = $infos[4];
             $type       = $infos[6];
         } else {
-            $filesystem = $params{type},
+            $filesystem = $params{type};
             $total = $infos[1];
             $free  = $infos[3];
             $type  = $infos[5];
