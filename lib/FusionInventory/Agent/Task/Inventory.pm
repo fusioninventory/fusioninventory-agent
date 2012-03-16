@@ -181,7 +181,7 @@ sub _initModulesList {
         $self->{modules}->{$module}->{done}    = 0;
         $self->{modules}->{$module}->{used}    = 0;
 
-        no strict 'refs'; ## no critic
+        no strict 'refs'; ## no critic (ProhibitNoStrict)
         $self->{modules}->{$module}->{runAfter} = [ 
             $parent ? $parent : (),
             ${$module . '::runAfter'} ? @${$module . '::runAfter'} : ()
@@ -190,7 +190,8 @@ sub _initModulesList {
 
     # second pass: disable fallback modules
     foreach my $module (@modules) {
-        no strict 'refs'; ## no critic
+        ## no critic (ProhibitNoStrict ProhibitProlongedStrictureOverride)
+        no strict 'refs';
 
         # skip modules already disabled
         next unless $self->{modules}->{$module}->{enabled};

@@ -446,7 +446,7 @@ sub runFunction {
         local $SIG{ALRM} = sub { die "alarm\n" } if $params{timeout};
         alarm $params{timeout};
 
-        no strict 'refs'; ## no critic
+        no strict 'refs'; ## no critic (ProhibitNoStrict)
         $result = &{$params{module} . '::' . $params{function}}(
             ref $params{params} eq 'HASH'  ? %{$params{params}} :
             ref $params{params} eq 'ARRAY' ? @{$params{params}} :
