@@ -561,26 +561,19 @@ Print the version and exit.
 
 =back
 
+=head1 CONFIGURATION
 
-=head1 CONFIG FILE
+The agent is able to use multiple configuration backends. The registry backend
+is the default on Windows platform, and the file backend is the default
+everywhere else. Another backend can be specified using the B<--config> option.
 
-The agent initialize its settings from the configuration first.
+The I<file> backend reads configuration directives from a configuration file,
+whose default location is determined at installation time as
+PREFIX/etc/agent.cfg. An alternative location can also be given with
+B<--conf-file> option.
 
-On Unix, this configuration is loaded from a configuration file, the first
-found among the following locations:
-
-=over
-
-=item * F</etc/fusioninventory/agent.cfg>
-
-=item * F</usr/local/etc/fusioninventory/agent.cfg>
-
-=back
-
-An alternative configuration file can be specified with the B<--conf-file>
-parameter, and will be used instead.
-
-On Windows, the configuration is loaded from the registry, from an arch-dependant location:
+The I<registry> backend reads configuration directives from the Windows
+registry, with an arch-dependant location:
 
 =over
 
@@ -589,3 +582,6 @@ On Windows, the configuration is loaded from the registry, from an arch-dependan
 =item * F<HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\FusionInventory-Agent> for 64 bits machines
 
 =back
+
+The I<none> backend doesn't read any configuration directive at all, allowing
+to isolate the agent execution from any installed configuration.
