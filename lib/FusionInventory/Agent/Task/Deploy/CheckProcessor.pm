@@ -11,14 +11,15 @@ sub process {
     if ($check->{type} eq 'winkeyExists') {
         return unless $OSNAME eq 'MSWin32';
         require FusionInventory::Agent::Tools::Win32;
-        my $r = FusionInventory::Agent::Tools::Win32::getRegistryValue($check->{path});
+        my $r = FusionInventory::Agent::Tools::Win32::getRegistryValue(path => $check->{path});
+
         return defined $r ? 'ok' : $check->{return};
     }
 
     if ($check->{type} eq 'winkeyEquals') {
         return unless $OSNAME eq 'MSWin32';
         require FusionInventory::Agent::Tools::Win32;
-        my $r = FusionInventory::Agent::Tools::Win32::getValueFromRegistry($check->{path});
+        my $r = FusionInventory::Agent::Tools::Win32::getValueFromRegistry(path => $check->{path});
 
         return defined $r && $check->{value} eq $r ? 'ok' : $check->{return};
     }
@@ -26,7 +27,7 @@ sub process {
     if ($check->{type} eq 'winkeyMissing') {
         return unless $OSNAME eq 'MSWin32';
         require FusionInventory::Agent::Tools::Win32;
-        my $r = FusionInventory::Agent::Tools::Win32::getValueFromRegistry($check->{path});
+        my $r = FusionInventory::Agent::Tools::Win32::getValueFromRegistry(path => $check->{path});
 
         return defined $r ? $check->{return} : 'ok';
     } 
