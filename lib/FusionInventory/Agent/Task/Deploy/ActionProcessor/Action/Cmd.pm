@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Cmd;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 sub _evaluateRet {
     my ($retChecks, $buf, $exitStatus) = @_;
 
@@ -58,12 +60,10 @@ sub do {
     }
 
     my $buf = `$params->{exec} 2>&1` || '';
-    my $errMsg = $!;
+    my $errMsg = $ERRNO;
     $logger->debug("Run: ".$buf);
-    my $exitStatus = $? >> 8;
+    my $exitStatus = $CHILD_ERROR >> 8;
     $logger->debug("exitStatus: ".$exitStatus);;
-
-    my @retChecks;
 
     my $logLineLimit =  $params->{logLineLimit} || 3;
 

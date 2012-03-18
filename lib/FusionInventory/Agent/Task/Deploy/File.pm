@@ -16,16 +16,16 @@ sub new {
     die "no sha512 parameter" unless $params{sha512};
 
     my $self = {
-        p2p                    => $params{data}->{p2p},
-        p2p_retention_duration => $params{data}->{'p2p-retention-duration'},
-        uncompress             => $params{data}->{'uncompress'},
-        mirrors                => $params{data}->{mirrors},
-        multiparts             => $params{data}->{multiparts},
-        name                   => $params{data}->{name},
-        sha512                 => $params{sha512},
-        datastore              => $params{datastore},
-        client                 => $params{client},
-        logger                 => $params{logger}
+        p2p                => $params{data}->{p2p},
+        retention_duration => $params{data}->{'p2p-retention-duration'} || 60 * 24 * 3,
+        uncompress         => $params{data}->{uncompress},
+        mirrors            => $params{data}->{mirrors},
+        multiparts         => $params{data}->{multiparts},
+        name               => $params{data}->{name},
+        sha512             => $params{sha512},
+        datastore          => $params{datastore},
+        client             => $params{client},
+        logger             => $params{logger}
     };
 
     bless $self, $class;
@@ -34,25 +34,20 @@ sub new {
 }
 
 sub getPartFilePath {
-    my ($self, $sha512, ) = @_;
-
+    my ($self, $sha512) = @_;
 
     return unless $sha512 =~ /^(.)(.)(.{6})/;
     my $subFilePath = $1.'/'.$2.'/'.$3;
 
-    my $filename = $1;
-
-    my @storageDirs;
-    push @storageDirs, File::Glob::glob($self->{datastore}->{path}.'/fileparts/shared/*');
-    push @storageDirs, File::Glob::glob($self->{datastore}->{path}.'/fileparts/private/*');
+    my @storageDirs = 
+        File::Glob::glob($self->{datastore}->{path}.'/fileparts/shared/*'),
+        File::Glob::glob($self->{datastore}->{path}.'/fileparts/private/*');
 
     foreach my $dir (@storageDirs) {
         if (-f $dir.'/'.$subFilePath) {
             return $dir.'/'.$subFilePath;
         }
     }
-
-    my $retentionDuration = $self->{p2p}?$self->{p2p_retention_duration}:60 * 24 * 3;
 
     my $filePath = $self->{datastore}->{path}.'/fileparts/';
 # filepart not found
@@ -65,7 +60,7 @@ sub getPartFilePath {
 # Compute a directory name that will be used to know
 # if the file must be purge. We don't want a new directory
 # everytime, so we use a 10h frame
-    $filePath .= int(time/10000)*10000 + ($retentionDuration * 60);
+    $filePath .= int(time/10000)*10000 + ($self->{retentionDuration} * 60);
     $filePath .= '/'.$subFilePath;
 
     return $filePath;
@@ -75,8 +70,6 @@ sub download {
     my ($self) = @_;
 
     die unless $self->{mirrors};
-
-    my $datastore = $self->{datastore};
 
     my $mirrorList =  $self->{mirrors};
 
