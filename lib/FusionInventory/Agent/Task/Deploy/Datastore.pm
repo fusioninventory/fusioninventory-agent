@@ -12,6 +12,7 @@ use UNIVERSAL::require;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Deploy::Datastore::WorkDir;
+use FusionInventory::Agent::Task::Deploy::DiskFree;
 
 sub new {
     my ($class, %params) = @_;
@@ -102,10 +103,10 @@ sub diskIsFull {
 
     my $logger = $self->{logger};
 
-    my $freeSpace =
-        $OSNAME eq 'MSWin32' ? $self->_getFreeSpaceWindows() :
-        $OSNAME eq 'solaris' ? $self->_getFreeSpaceSolaris() :
-                               $self->_getFreeSpace()        ;
+    my $freeSpace = getFreeSpace(
+        path => $self->{path},
+        logger => $logger
+    );
 
     if (!$freeSpace) {
 	$logger->debug('$spaceFree is undef!');
@@ -117,64 +118,5 @@ sub diskIsFull {
     return ($freeSpace < 2000);
 }
 
-sub _getFreeSpaceWindows {
-    my ($self) = @_;
-
-    my $logger = $self->{logger};
-
-    FusionInventory::Agent::Tools::Win32->require();
-    if ($EVAL_ERROR) {
-        $logger->error(
-            "Failed to load FusionInventory::Agent::Tools::Win32: $EVAL_ERROR"
-        );
-        return;
-    }
-
-    my $letter;
-    if ($self->{path} !~ /^(\w):./) {
-        $logger->error("Path parse error: ".$self->{path});
-        return;
-    }
-    $letter = $1.':';
-
-    my $freeSpace;
-    foreach my $object (FusionInventory::Agent::Tools::Win32::getWmiObjects(
-        moniker    => 'winmgmts:{impersonationLevel=impersonate,(security)}!//./',
-        class      => 'Win32_LogicalDisk',
-        properties => [ qw/Caption FreeSpace/ ]
-    )) {
-        next unless lc($object->{Caption}) eq lc($letter);
-        my $t = $object->{FreeSpace};
-        if ($t && $t =~ /(\d+)\d{6}$/) {
-            $freeSpace = $1;
-        }
-    }
-
-    return $freeSpace;
-}
-
-sub _getFreeSpaceSolaris {
-    my ($self) = @_;
-
-    return unless -d $self->{path};
-
-    return getFirstMatch(
-        command => "df -b $self->{path}",
-        pattern => qr/^\S+\s+(\d+)\d{3}[^\d]/,
-        logger  => $self->{logger}
-    );
-}
-
-sub _getFreeSpace {
-    my ($self) = @_;
-
-    return unless -d $self->{path};
-
-    return getFirstMatch(
-        command => "df -Pk $self->{path}",
-        pattern => qr/^\S+\s+\S+\s+\S+\s+(\d+)\d{3}[^\d]/,
-        logger  => $self->{logger}
-    );
-}
 
 1;
