@@ -157,9 +157,11 @@ sub processRemote {
         if ( ref( $job->{checks} ) eq 'ARRAY' ) {
             foreach my $checknum ( 0 .. @{ $job->{checks} } ) {
                 next unless $job->{checks}[$checknum];
-                next if FusionInventory::Agent::Task::Deploy::CheckProcessor->process(
+                my $checkStatus = FusionInventory::Agent::Task::Deploy::CheckProcessor->process(
                     $job->{checks}[$checknum]
                 );
+                next if $checkStatus eq "ok";
+                next if $checkStatus eq "ignore";
 
                 $self->{client}->send(
                     url  => $remoteUrl,
@@ -170,7 +172,7 @@ sub processRemote {
                         uuid        => $job->{uuid},
                         currentStep => 'checking',
                         status      => 'ko',
-                        msg         => 'check failed',
+                        msg         => "failure of check #".($checknum+1)." ($checkStatus)",
                         cheknum     => $checknum
                     }
                 );
@@ -187,7 +189,7 @@ sub processRemote {
                 part        => 'job',
                 uuid        => $job->{uuid},
                 currentStep => 'checking',
-                status    => 'ok'
+                status      => 'ok'
             }
         );
 
@@ -211,12 +213,12 @@ sub processRemote {
                 $self->{client}->send(
                     url  => $remoteUrl,
                     args => {
-                        action    => "setStatus",
-                        machineid   => $self->{deviceid},
-                        part      => 'file',
-                        uuid        => $job->{uuid},
-                        sha512      => $file->{sha512},
-                        status    => 'ok',
+                        action     => "setStatus",
+                        machineid  => $self->{deviceid},
+                        part       => 'file',
+                        uuid       => $job->{uuid},
+                        sha512     => $file->{sha512},
+                        status     => 'ok',
                         currentStep => 'downloading'
                     }
                 );
@@ -354,7 +356,7 @@ sub processRemote {
                                 uuid        => $job->{uuid},
                                 currentStep => 'checking',
                                 status      => $checkStatus,
-                                msg         => 'check failed',
+                                msg         => "failure of check #".($checknum+1)." ($checkStatus)",
                                 actionnum   => $actionnum,
                                 cheknum     => $checknum
                             }
