@@ -97,7 +97,7 @@ sub getRegistryValue {
     my (%params) = @_;
 
     my ($root, $keyName, $valueName);
-    if ($params{path} =~ /^(HKEY_\S+)\/(.+)\/([^\/]+)/ ) {
+    if ($params{path} =~ /^(HKEY_[^\/\\]+)[\/\\](.+)[\/\\]([^\/]+)/ ) {
         $root      = $1;
         $keyName   = $2;
         $valueName = $3;
