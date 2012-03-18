@@ -4,6 +4,9 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use Digest::SHA;
+
+use FusionInventory::Agent::Task::Deploy::DiskFree;
 
 sub process {
     my ($self, $check) = @_;
@@ -44,13 +47,14 @@ sub process {
     if ($check->{type} eq 'fileSizeGreater') {
         my @s = stat($check->{path});
         return $check->{return} unless @s;
-        return $check->{value} > $s[7] ? 'ok' : 'ok';
+
+        return $check->{value} < $s[7] ? 'ok' : $check->{return};
     }
 
     if ($check->{type} eq 'fileSizeLower') {
         my @s = stat($check->{path});
         return $check->{return} unless @s;
-        return $check->{value} < $s[7] ? 'ok' : 'ok';
+        return $check->{value} > $s[7] ? 'ok' : $check->{return};
     }
     
     if ($check->{type} eq 'fileMissing') {
@@ -58,9 +62,23 @@ sub process {
     }
     
     if ($check->{type} eq 'freespaceGreater') {
-        return "ok";
+        my $freespace = getFreeSpace(path => $check->{path});
+        return $freespace>$check->{value}? "ok" : $check->{return};
     }
-    
+
+    if ($check->{type} eq 'fileSHA512') {
+        my $sha = Digest::SHA->new('512');
+
+        my $sha512 = "";
+        eval {
+            $sha->addfile($check->{path}, 'b');
+            $sha512 = $sha->hexdigest;
+        };
+
+
+        return $sha512 eq $check->{value} ? "ok" : $check->{return};
+    }
+
     print "Unknown check: `".$check->{type}."'\n";
 
     return "ok";
