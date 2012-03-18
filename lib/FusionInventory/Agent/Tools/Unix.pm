@@ -171,10 +171,10 @@ sub getFilesystemsFromDf {
             $free       = $infos[4];
             $type       = $infos[6];
         } else {
-            $filesystem = $params{type},
-            $total = $infos[1];
-            $free  = $infos[3];
-            $type  = $infos[5];
+            $filesystem = $params{type};
+            $total      = $infos[1];
+            $free       = $infos[3];
+            $type       = $infos[5];
         }
 
         # skip some virtual filesystems

@@ -59,10 +59,6 @@ makemaker_args(
     },
 );
 
-auto_install(
-    do_once => 1 # skip previously failed modules
-);
-
 WriteAll;
 
 # substitute prefix everywhere

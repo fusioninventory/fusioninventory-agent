@@ -93,6 +93,5 @@ plan tests => scalar keys %tests;
 foreach my $test (keys %tests) {
     my $file = "resources/macos/system_profiler/$test";
     my @storages = FusionInventory::Agent::Task::Inventory::Input::MacOS::Storages::_getStorages(file => $file);
-    is_deeply(\@storages, $tests{$test}, $test) or print Dumper(\@storages);
-    use Data::Dumper;
+    is_deeply(\@storages, $tests{$test}, $test);
 }

@@ -27,6 +27,7 @@ sub _extra_sock_opts {
     );
 }
 
+## no critic (ProhibitMultiplePackages)
 package FusionInventory::Agent::HTTP::Protocol::https::Socket;
 
 use base qw(Net::HTTPS LWP::Protocol::http::SocketMethods);

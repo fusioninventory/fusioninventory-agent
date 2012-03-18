@@ -448,7 +448,7 @@ sub runFunction {
            alarm $params{timeout};
        }
 
-        no strict 'refs'; ## no critic
+        no strict 'refs'; ## no critic (ProhibitNoStrict)
         $result = &{$params{module} . '::' . $params{function}}(
             ref $params{params} eq 'HASH'  ? %{$params{params}} :
             ref $params{params} eq 'ARRAY' ? @{$params{params}} :
