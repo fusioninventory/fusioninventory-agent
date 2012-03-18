@@ -20,5 +20,11 @@ if ($OSNAME eq 'MSWin32') {
 }
 
 all_vars_ok(
-    ignore_vars => { '%params' => 1, '$class' => 1 }
+    ignore_vars => {
+        '%params'   => 1,
+        '$class'    => 1,
+        '$request'  => 1, # FusionInventory::Agent::HTTP::Server
+        '$clientIp' => 1, # FusionInventory::Agent::HTTP::Server
+        '$num'      => 1  # Task::Inventory::Input::Solaris::Networks
+    }
 );
