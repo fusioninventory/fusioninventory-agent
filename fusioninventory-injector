@@ -32,6 +32,7 @@ sub loadfile {
     print "Loading $file..." if $options{verbose};
 
     open (my $fh, '<', $file) or die "can't open file $file: $ERRNO";
+    ## no critic (ProhibitBitwise)
     flock ($fh, LOCK_EX | LOCK_NB) or die "can't lock file $file: $ERRNO";
     local $RS;
     my $content = <$fh>;
