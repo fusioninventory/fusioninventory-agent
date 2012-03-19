@@ -190,8 +190,8 @@ sub _initModulesList {
 
     # second pass: disable fallback modules
     foreach my $module (@modules) {
-        ## no critic (ProhibitNoStrict ProhibitProlongedStrictureOverride)
-        no strict 'refs';
+        ## no critic (ProhibitProlongedStrictureOverride)
+        no strict 'refs'; ## no critic (ProhibitNoStrict)
 
         # skip modules already disabled
         next unless $self->{modules}->{$module}->{enabled};

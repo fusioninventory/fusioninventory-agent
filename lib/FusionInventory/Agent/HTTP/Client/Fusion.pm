@@ -36,7 +36,7 @@ sub _prepareVal {
     return uri_escape($val);
 }
 
-sub send {
+sub send { ## no critic (ProhibitBuiltinHomonyms)
     my ($self, %params) = @_;
 
     push @{$self->{msgStack}}, $params{args} if $self->{debug};
