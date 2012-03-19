@@ -154,6 +154,11 @@ sub init {
     my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
     my @tasks = keys %available;
 
+    $logger->debug("Available tasks:");
+    foreach my $task (keys %available) {
+        $logger->debug("- $task: $available{$task}");
+    }
+
     $self->{tasks} = \@tasks;
 
     # create HTTP interface
