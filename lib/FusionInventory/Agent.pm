@@ -150,6 +150,13 @@ sub init {
         }
     }
 
+    # compute list of allowed tasks
+    my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
+    my @tasks = keys %available;
+
+    $self->{tasks} = \@tasks;
+
+    # create HTTP interface
     if (($config->{daemon} || $config->{service}) && !$config->{'no-httpd'}) {
         FusionInventory::Agent::HTTP::Server->require();
         if ($EVAL_ERROR) {
@@ -177,12 +184,6 @@ sub init {
             );
         }
     }
-
-    # compute list of allowed tasks
-    my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
-    my @tasks = keys %available;
-
-    $self->{tasks} = \@tasks;
 
     $logger->debug("FusionInventory Agent initialised");
 }
