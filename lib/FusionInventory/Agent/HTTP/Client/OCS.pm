@@ -50,7 +50,7 @@ sub new {
     return $self;
 }
 
-sub send {
+sub send { ## no critic (ProhibitBuiltinHomonyms)
     my ($self, %params) = @_;
 
     my $url = ref $params{url} eq 'URI' ?
