@@ -35,7 +35,7 @@ sub _getFreeSpaceWindows {
     }
 
     my $letter;
-    if ($params{path} !~ /^(\w):./) {
+    if ($params{path} !~ /^(\w):/) {
         $logger->error("Path parse error: ".$params{path});
         return;
     }
