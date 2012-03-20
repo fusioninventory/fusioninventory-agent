@@ -29,10 +29,11 @@ my %fields = (
     MODEMS      => [ qw/DESCRIPTION NAME/ ],
     MONITORS    => [ qw/BASE64 CAPTION DESCRIPTION MANUFACTURER SERIAL
                         UUENCODE/ ],
-    NETWORKS    => [ qw/DESCRIPTION DRIVER IPADDRESS IPADDRESS6 IPDHCP IPGATEWAY
-                        IPMASK IPSUBNET MACADDR MTU PCISLOT PNPDEVICEID STATUS
-                        TYPE VIRTUALDEV SLAVES SPEED MANAGEMENT BSSID SSID WWN
-                        MANUFACTURER FIRMWARE MODEL/ ],
+    NETWORKS    => [ qw/BSSID DESCRIPTION DRIVER FIRMWARE IPADDRESS IPADDRESS6 
+                        IPDHCP IPGATEWAY IPMASK IPMASK6 IPSUBNET IPSUBNET6
+                        MANAGEMENT MANUFACTURER MACADDR MODEL MTU PCISLOT 
+                        PNPDEVICEID STATUS SLAVES SPEED SSID TYPE VIRTUALDEV  
+                        WWN/ ],
     PORTS       => [ qw/CAPTION DESCRIPTION NAME TYPE/ ],
     PROCESSES   => [ qw/USER PID CPUUSAGE MEM VIRTUALMEMORY TTY STARTED CMD/ ],
     REGISTRY    => [ qw/NAME REGVALUE HIVE/ ],
@@ -51,12 +52,27 @@ my %fields = (
     PRINTERS    => [ qw/COMMENT DESCRIPTION DRIVER NAME NETWORK PORT RESOLUTION
                         SHARED STATUS ERRSTATUS SERVERNAME SHARENAME 
                         PRINTPROCESSOR SERIAL/ ],
-    VIRTUALMACHINES => [ qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU
-                            VMID MAC COMMENT OWNER/ ],
-    LOGICAL_VOLUMES => [ qw/LV_NAME VGN_AME ATTR SIZE LV_UUID SEG_COUNT VG_UUID/ ],
-    PHYSICAL_VOLUMES => [ qw/DEVICE PV_NAME PV_PE_COUNT PV_UUID FORMAT ATTR SIZE FREE PE_SIZE/ ],
-    VOLUME_GROUPS => [ qw/VG_NAME PV_COUNT LV_COUNT ATTR SIZE FREE VG_UUID VG_EXTENT_SIZE/ ],
-
+    BIOS             => [ qw/SMODEL SMANUFACTURER SSN BDATE BVERSION 
+                             BMANUFACTURER MMANUFACTURER MSN MMODEL ASSETTAG 
+                             ENCLOSURESERIAL BIOSSERIAL 
+                             TYPE SKUNUMBER/ ],
+    HARDWARE         => [ qw/USERID OSVERSION PROCESSORN OSCOMMENTS CHECKSUM
+                             PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME
+                             IPADDR WORKGROUP DESCRIPTION MEMORY UUID DNS 
+                             LASTLOGGEDUSER USERDOMAIN DATELASTLOGGEDUSER 
+                             DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
+                             WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE/ ],
+    OPERATINGSYSTEM  => [ qw/KERNEL_NAME KERNEL_VERSION NAME VERSION FULL_NAME 
+                            SERVICE_PACK INSTALL_DATE/ ],
+    ACCESSLOG        => [ qw/USERID LOGDATE/ ],
+    VIRTUALMACHINES  => [ qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU
+                             VMID MAC COMMENT OWNER/ ],
+    LOGICAL_VOLUMES  => [ qw/LV_NAME VGN_AME ATTR SIZE LV_UUID SEG_COUNT 
+                             VG_UUID/ ],
+    PHYSICAL_VOLUMES => [ qw/DEVICE PV_NAME PV_PE_COUNT PV_UUID FORMAT ATTR 
+                             SIZE FREE PE_SIZE/ ],
+    VOLUME_GROUPS    => [ qw/VG_NAME PV_COUNT LV_COUNT ATTR SIZE FREE VG_UUID 
+                             VG_EXTENT_SIZE/ ],
 );
 
 my %checks = (
@@ -238,52 +254,58 @@ sub computeLegacyValues {
 sub setHardware {
     my ($self, $args) = @_;
 
-    foreach my $key (qw/USERID OSVERSION PROCESSORN OSCOMMENTS CHECKSUM
-        PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME IPADDR WORKGROUP
-        DESCRIPTION MEMORY UUID DNS LASTLOGGEDUSER USERDOMAIN
-        DATELASTLOGGEDUSER DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
-        WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE/) {
-# WINLANG: Windows Language, see MSDN Win32_OperatingSystem documentation
-        if (exists $args->{$key}) {
-            my $string = getSanitizedString($args->{$key});
-            $self->{content}{HARDWARE}{$key} = $string;
+    foreach my $field (keys %$args) {
+        if (!$fields{HARDWARE}->{$field}) {
+            $self->{logger}->debug("unknown field $field for section HARDWARE");
+            next
         }
+        $self->{content}->{HARDWARE}->{$field} =
+            getSanitizedString($args->{$field});
     }
 }
 
 sub setOperatingSystem {
     my ($self, $args) = @_;
 
-    foreach my $key (qw/KERNEL_NAME KERNEL_VERSION NAME VERSION FULL_NAME SERVICE_PACK/) {
-        next unless exists $args->{$key};
-
-        my $string = getSanitizedString($args->{$key});
-        $self->{content}{OPERATINGSYSTEM}{$key} = $string;
+    foreach my $field (keys %$args) {
+        if (!$fields{OPERATINGSYSTEM}->{$field}) {
+            $self->{logger}->debug(
+                "unknown field $field for section OPERATINGSYSTEM"
+            );
+            next
+        }
+        $self->{content}->{OPERATINGSYSTEM}->{$field} = 
+            getSanitizedString($args->{$field});
     }
 }
 
 sub setBios {
     my ($self, $args) = @_;
 
-    foreach my $key (qw/SMODEL SMANUFACTURER SSN BDATE BVERSION BMANUFACTURER
-        MMANUFACTURER MSN MMODEL ASSETTAG ENCLOSURESERIAL BASEBOARDSERIAL
-        BIOSSERIAL TYPE SKUNUMBER/) {
-
-        if (exists $args->{$key}) {
-            my $string = getSanitizedString($args->{$key});
-            $self->{content}{BIOS}{$key} = $string;
+    foreach my $field (keys %$args) {
+        if (!$fields{BIOS}->{$field}) {
+            $self->{logger}->debug("unknown field $field for section BIOS");
+            next
         }
+
+        $self->{content}->{BIOS}->{$field} =
+            getSanitizedString($args->{$field});
     }
 }
 
 sub setAccessLog {
     my ($self, $args) = @_;
 
-    foreach my $key (qw/USERID LOGDATE/) {
-
-        if (exists $args->{$key}) {
-            $self->{content}{ACCESSLOG}{$key} = $args->{$key};
+    foreach my $field (keys %$args) {
+        if (!$fields{ACCESSLOG}->{$field}) {
+            $self->{logger}->debug(
+                "unknown field $field for section ACCESSLOG"
+            );
+            next
         }
+
+        $self->{content}->{ACCESSLOG}->{$field} = 
+            getSanitizedString($args->{$field});
     }
 }
 
@@ -296,16 +318,6 @@ sub setTag {
         KEYNAME  => "TAG",
         KEYVALUE => $tag
     }];
-
-}
-
-sub checkContent {
-    my ($self, $args) = @_;
-
-    my $logger = $self->{logger};
-
-    my $missing = 0;
-    my $content = $self->{content};
 
 }
 
@@ -374,7 +386,7 @@ sub computeChecksum {
 }
 
 sub saveLastState {
-    my ($self, $args) = @_;
+    my ($self) = @_;
 
     my $logger = $self->{logger};
 
@@ -479,10 +491,6 @@ Set BIOS informations.
 
 What is that for? :)
 
-=head2 checkContent()
-
-Check inventory content.
-
 =head2 computeChecksum()
 
 Compute the inventory checksum. This information is used by the server to
@@ -547,8 +555,6 @@ Motherboard model
 =item ASSETTAG
 
 =item ENCLOSURESERIAL
-
-=item BASEBOARDSERIAL
 
 =item BIOSSERIAL
 
@@ -898,6 +904,10 @@ deprecated in the future.
 
 The Service Pack level reported by the operating system. This field is only
 present on systems which use this notion.
+
+=item INSTALL_DATE
+
+The operating system installation date.
 
 =back
 

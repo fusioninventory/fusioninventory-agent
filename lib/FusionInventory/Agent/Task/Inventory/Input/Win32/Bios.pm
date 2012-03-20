@@ -4,11 +4,6 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use Win32::TieRegistry (
-    Delimiter   => '/',
-    ArrayValues => 0,
-    qw/KEY_READ/
-);
 
 use FusionInventory::Agent::Tools::Win32;
 
@@ -74,9 +69,10 @@ sub doInventory {
                 SerialNumber Product Manufacturer
             / ]
     )) {
-        $bios->{BASEBOARDSERIAL} = $object->{SerialNumber};
-        $bios->{SSN}             = $object->{SerialNumber} unless $bios->{SSN};
+        $bios->{MSN}             = $object->{SerialNumber};
         $bios->{MMODEL}          = $object->{Product};
+        $bios->{SSN}             = $object->{SerialNumber}
+            unless $bios->{SSN};
         $bios->{SMANUFACTURER}   = $object->{Manufacturer}
             unless $bios->{SMANUFACTURER};
 
@@ -88,30 +84,36 @@ sub doInventory {
 
     $inventory->setBios($bios);
 
-    if (
-        ($bios->{VERSION} && ($bios->{VERSION} eq 'VirtualBox'))
-         ||
-        ($bios->{MMODEL} && ($bios->{MMODEL} eq 'VirtualBox'))
-       ) {
-        $inventory->setHardware ({
-            VMSYSTEM => 'VirtualBox'
-        });
-    } elsif (
-        ($bios->{BIOSSERIAL} && ($bios->{BIOSSERIAL} =~ /VMware/i))
-         ||
-        ($bios->{SMODEL} && ($bios->{SMODEL} eq 'VirtualBox'))
-       ) {
-        $inventory->setHardware ({
-            VMSYSTEM => 'VMware'
-        });
-    } elsif (
-        ($bios->{SMANUFACTURER} eq 'Xen')
-         ||
-        ($bios->{BMANUFACTURER} eq 'Xen')
-       ) {
-        $inventory->setHardware ({
-            VMSYSTEM => 'Xen'
-        });
+    SWITCH: {
+        if (
+            ($bios->{VERSION} && $bios->{VERSION} eq 'VirtualBox') ||
+            ($bios->{MMODEL}  && $bios->{MMODEL} eq 'VirtualBox')
+           ) {
+            $inventory->setHardware ({
+                VMSYSTEM => 'VirtualBox'
+            });
+            last SWITCH;
+        }
+
+        if (
+            ($bios->{BIOSSERIAL} && $bios->{BIOSSERIAL} =~ /VMware/i) ||
+            ($bios->{SMODEL}     && $bios->{SMODEL} eq 'VirtualBox')
+           ) {
+            $inventory->setHardware ({
+                VMSYSTEM => 'VMware'
+            });
+            last SWITCH;
+        }
+
+        if (
+            ($bios->{SMANUFACTURER} && $bios->{SMANUFACTURER} eq 'Xen') ||
+            ($bios->{BMANUFACTURER} && $bios->{BMANUFACTURER} eq 'Xen')
+           ) {
+            $inventory->setHardware ({
+                VMSYSTEM => 'Xen'
+            });
+            last SWITCH;
+        }
     }
 
 }

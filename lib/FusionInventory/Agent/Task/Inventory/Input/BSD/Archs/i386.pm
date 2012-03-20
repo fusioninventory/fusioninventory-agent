@@ -24,29 +24,25 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # sysctl infos
+    my $bios = {
+        SMODEL => getFirstLine(command => 'sysctl -n hw.model')
+    };
+    my $cpu = {
+        NAME  => getFirstLine(command => 'sysctl -n hw.machine'),
+        SPEED => (getCanonicalSpeed(split(/\s+/, $bios->{SMODEL})))[-1]
+    };
+    my $count = getFirstLine(command => 'sysctl -n hw.ncpu');
 
-    my $SystemModel = getFirstLine(command => 'sysctl -n hw.model');
-    my $processorn = getFirstLine(command => 'sysctl -n hw.ncpu');
-    my $processort = getFirstLine(command => 'sysctl -n hw.machine');
-    my $processors = getCanonicalSpeed(
-        (split(/\s+/, $SystemModel))[-1]
-    );
-
-    $inventory->setBios({
-        SMODEL => $SystemModel,
-    });
+    $inventory->setBios($bios);
 
     # don't deal with CPUs if information can be computed from dmidecode
     my $infos = getInfosFromDmidecode(logger => $logger);
     return if $infos->{4};
 
-    for my $i (1 .. $processorn) {
+    while ($count--) {
         $inventory->addEntry(
             section => 'CPUS',
-            entry   => {
-                NAME  => $processort,
-                SPEED => $processors,
-            }
+            entry   => $cpu
         );
     }
 

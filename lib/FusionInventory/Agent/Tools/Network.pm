@@ -86,7 +86,7 @@ sub alt2canonical {
 }
 
 sub getNetworkMask {
-    my ($address, $prefix) = @_;
+    my ($prefix) = @_;
 
     my $mask;
     $mask .= 1 foreach(1..$prefix);
@@ -143,6 +143,6 @@ Returns the subnet address for IPv4.
 
 Returns the subnet address for IPv6.
 
-=head2 getNetworkMask($address, $prefix)
+=head2 getNetworkMask($prefix)
 
 Returns the network mask.

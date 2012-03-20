@@ -37,6 +37,16 @@ my %memconf_tests = (
     ]
 );
 
+my %psrinfo_tests = (
+    sample1 => [
+        8,
+        {
+            NAME  => 'i386',
+            SPEED => 2133
+        }
+    ]
+);
+
 my %spec_tests = (
     'Sun Microsystems, Inc. Sun-Fire-T200 (Sun Fire T2000) (8-core quad-thread UltraSPARC-T1 1000MHz)' => [
         1,
@@ -140,12 +150,19 @@ my %spec_tests = (
 
 plan tests => 
     (scalar keys %memconf_tests) +
+    (scalar keys %psrinfo_tests) +
     (scalar keys %spec_tests)    ;
 
 foreach my $test (keys %memconf_tests) {
     my $file    = "resources/solaris/memconf/$test";
     my @results = FusionInventory::Agent::Task::Inventory::Input::Solaris::CPU::_getCPUFromMemconf(file => $file);
     is_deeply(\@results, $memconf_tests{$test}, "memconf parsing: $test" );
+}
+
+foreach my $test (keys %psrinfo_tests) {
+    my $file    = "resources/solaris/psrinfo/$test";
+    my @results = FusionInventory::Agent::Task::Inventory::Input::Solaris::CPU::_getCPUFromPsrinfo(file => $file);
+    is_deeply(\@results, $psrinfo_tests{$test}, "psrinfo parsing: $test" );
 }
 
 foreach my $test (keys %spec_tests) {

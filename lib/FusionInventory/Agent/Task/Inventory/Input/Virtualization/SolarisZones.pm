@@ -22,8 +22,8 @@ sub doInventory {
         getAllLines(command => '/usr/sbin/zoneadm list -p', logger => $logger);
 
     foreach my $zone (@zones) {
-        my ($zoneid, $zonename, $zonestatus, $pathroot , $uuid) = split(/:/, $zone);
-        # 
+        my ($zoneid, $zonename, $zonestatus, undef, $uuid) = split(/:/, $zone);
+         
         # Memory considerations depends on rcapd or project definitions
         # Little hack, I go directly in /etc/zones reading mcap physcap for each zone.
         my $zonefile = "/etc/zones/$zonename.xml";

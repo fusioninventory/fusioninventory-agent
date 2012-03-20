@@ -33,7 +33,7 @@ sub doInventory {
 }
 
 sub _getMachines {
-   my %params = @_;
+   my (%params) = @_;
 
     my $handle = getFileHandle(%params);
     return unless $handle;

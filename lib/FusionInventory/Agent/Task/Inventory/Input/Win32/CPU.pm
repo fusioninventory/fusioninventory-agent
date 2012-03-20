@@ -4,19 +4,10 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use Win32;
-use Win32::TieRegistry (
-    Delimiter   => '/',
-    ArrayValues => 0,
-    qw/KEY_READ/
-);
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
 use FusionInventory::Agent::Tools::Generic;
-
-our $runMeIfTheseChecksFailed =
-    ["FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode"];
 
 sub isEnabled {
     return 1;
@@ -28,94 +19,92 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $serial;
-    my $id;
-    my $speed;
+    my @cpus = _getCPUs($logger);
 
-    my @dmidecodeCpu = getCpusFromDmidecode();
+    foreach my $cpu (@cpus) {
+        $inventory->addEntry(
+            section => 'CPUS',
+            entry   => $cpu
+        );
+    }
 
-    my $vmsystem;
+    if (any { $_->{NAME} =~ /QEMU/i } @cpus) {
+        $inventory->setHardware ({
+            VMSYSTEM => 'QEMU'
+        });
+    }
+}
+
+sub _getCPUs {
+    my ($logger) = @_;
+
+    my @dmidecodeInfos = getCpusFromDmidecode();
+    # the CPU description in WMI is false, we use the registry instead
+    my $registryInfos = getRegistryKey(
+        path   => "HKEY_LOCAL_MACHINE/Hardware/Description/System/CentralProcessor",
+        logger => $logger
+    );
 
     my $cpuId = 0;
+    my @cpus;
+
     foreach my $object (getWmiObjects(
         class      => 'Win32_Processor',
         properties => [ qw/NumberOfCores ProcessorId MaxClockSpeed/ ]
     )) {
 
-        # the CPU description in WMI is false, we use the registry instead
-        # Hardware\Description\System\CentralProcessor\1
-        # thank you Nicolas Richard 
-        my $info = getRegistryValue(
-            path   => "HKEY_LOCAL_MACHINE/Hardware/Description/System/CentralProcessor/$cpuId",
-            logger => $logger
-        );
+        my $dmidecodeInfo = $dmidecodeInfos[$cpuId];
+        my $registryInfo  = $registryInfos->{"$cpuId/"};
 
-#        my $cache = $object->{L2CacheSize}+$object->{L3CacheSize};
-        my $core = $dmidecodeCpu[$cpuId]->{CORE} || $object->{NumberOfCores};
-        my $thread = $dmidecodeCpu[$cpuId]->{THREAD};
-        my $description = $info->{Identifier};
-        my $name = $info->{ProcessorNameString};
-        my $manufacturer = $info->{VendorIdentifier};
-        my $id = $dmidecodeCpu[$cpuId]->{ID} || $object->{ProcessorId};
-        my $speed = $dmidecodeCpu[$cpuId]->{SPEED} || $object->{MaxClockSpeed};
-        my $serial = $dmidecodeCpu[$cpuId]->{SERIAL};
-
+        my $cpu = {
+            CORE         => $dmidecodeInfo->{CORE} || $object->{NumberOfCores},
+            THREAD       => $dmidecodeInfo->{THREAD},
+            DESCRIPTION  => $registryInfo->{'/Identifier'},
+            NAME         => $registryInfo->{'/ProcessorNameString'},
+            MANUFACTURER => $registryInfo->{'/VendorIdentifier'},
+            SERIAL       => $dmidecodeInfo->{SERIAL},
+            SPEED        => $dmidecodeInfo->{SPEED} || $object->{MaxClockSpeed},
+            ID           => $dmidecodeInfo->{ID} || $object->{ProcessorId}
+        };
 
         # Some information are missing on Win2000
-        if (!$name) {
-            $name = $ENV{PROCESSOR_IDENTIFIER};
-            if ($name =~ s/,\s(\S+)$//) {
-                $manufacturer = $1;
+        if (!$cpu->{NAME}) {
+            $cpu->{NAME} = $ENV{PROCESSOR_IDENTIFIER};
+            if ($cpu->{NAME} =~ s/,\s(\S+)$//) {
+                $cpu->{MANUFACTURER} = $1;
             }
         }
 
-        if ($manufacturer) {
-            $manufacturer =~ s/Genuine//;
-            $manufacturer =~ s/(TMx86|TransmetaCPU)/Transmeta/;
-            $manufacturer =~ s/CyrixInstead/Cyrix/;
-            $manufacturer=~ s/CentaurHauls/VIA/;
-        }
-        if ($serial) {
-            $serial =~ s/\s//g;
+        if ($cpu->{MANUFACTURER}) {
+            $cpu->{MANUFACTURER} =~ s/Genuine//;
+            $cpu->{MANUFACTURER} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
+            $cpu->{MANUFACTURER} =~ s/CyrixInstead/Cyrix/;
+            $cpu->{MANUFACTURER} =~ s/CentaurHauls/VIA/;
         }
 
-        if ($name) {
-            $name =~ s/^\s+//;
-            $name =~ s/\s+$//;
+        if ($cpu->{SERIAL}) {
+            $cpu->{SERIAL} =~ s/\s//g;
+        }
 
-            $vmsystem = "QEMU"if $name =~ /QEMU/i;
+        if ($cpu->{NAME}) {
+            $cpu->{NAME} =~ s/^\s+//;
+            $cpu->{NAME} =~ s/\s+$//;
 
-            if ($name =~ /([\d\.]+)s*(GHZ)/i) {
-                $speed = {
+
+            if ($cpu->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
+                $cpu->{SPEED} = {
                     ghz => 1000,
                     mhz => 1,
-                }->{lc($2)}*$1;
+                }->{lc($2)} * $1;
             }
-
         }
 
-        $inventory->addEntry(
-            section => 'CPUS',
-            entry   => {
-                CORE         => $core,
-                THREAD       => $thread,
-                DESCRIPTION  => $description,
-                NAME         => $name,
-                MANUFACTURER => $manufacturer,
-                SERIAL       => $serial,
-                SPEED        => $speed,
-                ID           => $id
-            }
-        );
+        push @cpus, $cpu;
 
         $cpuId++;
     }
 
-    if ($vmsystem) {
-        $inventory->setHardware ({
-            VMSYSTEM => $vmsystem 
-        });
-    }
+    return @cpus;
 }
 
 1;

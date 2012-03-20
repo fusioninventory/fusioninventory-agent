@@ -15,12 +15,12 @@ use Win32::TieRegistry (
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
 
-my $seen;
+my $seen = {};
 
 sub isEnabled {
     my (%params) = @_;
 
-    return !$params{no_software};
+    return !$params{no_category}->{software};
 }
 
 sub doInventory {
@@ -37,7 +37,7 @@ sub doInventory {
 
         my $machKey64 = $Registry->Open('LMachine', {
             Access => KEY_READ | KEY_WOW64_64 ## no critic (ProhibitBitwise)
-        }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+        }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
 
         my $softwares64 =
             $machKey64->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
@@ -49,35 +49,36 @@ sub doInventory {
             _addSoftware(inventory => $inventory, entry => $software);
         }
         _processMSIE(
-            machKey => $machKey64,
+            machKey   => $machKey64,
             inventory => $inventory,
-            is64bit => 1
+            is64bit   => 1
         );
 
         my $machKey32 = $Registry->Open('LMachine', {
             Access => KEY_READ | KEY_WOW64_32 ## no critic (ProhibitBitwise)
-        }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+        }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
 
         my $softwares32 =
             $machKey32->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
 
         foreach my $software (_getSoftwares(
             softwares => $softwares32,
-            is64bit   => 0
+            is64bit   => 0,
+            logger => $logger
         )) {
             _addSoftware(inventory => $inventory, entry => $software);
         }
         _processMSIE(
-            machKey => $machKey64,
+            machKey   => $machKey32,
             inventory => $inventory,
-            is64bit => 0
+            is64bit   => 0
         );
 
 
     } else {
         my $machKey = $Registry->Open('LMachine', {
             Access => KEY_READ
-        }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+        }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
 
         my $softwares =
             $machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
@@ -89,39 +90,49 @@ sub doInventory {
             _addSoftware(inventory => $inventory, entry => $software);
         }
         _processMSIE(
-            machKey => $machKey,
+            machKey   => $machKey,
             inventory => $inventory,
-            is64bit => 0
+            is64bit   => 0
         );
     }
 }
 
 sub _dateFormat {
-    my ($date) = @_; 
+    my ($date) = @_;
 
     ## no critic (ExplicitReturnUndef)
     return undef unless $date;
 
-    return unless $date =~ /^(\d{4})(\d{2})(\d{2})/;
+    if ($date =~ /^(\d{4})(\d{1})(\d{2})$/) {
+	return "$3/0$2/$1";
+    }
 
-    return "$3/$2/$1";
+    if ($date =~ /^(\d{4})(\d{2})(\d{2})$/) {
+	return "$3/$2/$1";
+    }
+
+    return undef;
 }
 
 sub _getSoftwares {
     my (%params) = @_;
 
     my $softwares = $params{softwares};
-    my $is64bit   = $params{is64bit};
 
     my @softwares;
 
+    return unless $softwares;
+
     foreach my $rawGuid (keys %$softwares) {
         my $data = $softwares->{$rawGuid};
+
+        next unless $data;
+
         # odd, found on Win2003
         next unless keys %$data > 2;
 
         my $guid = $rawGuid;
-        $guid =~ s/\/$//; # drop the tailing / 
+        $guid =~ s/\/$//; # drop the tailing /
 
         my $software = {
             FROM             => "registry",
@@ -138,7 +149,7 @@ sub _getSoftwares {
             VERSION_MINOR    => hex2dec($data->{'/MinorVersion'}),
             VERSION_MAJOR    => hex2dec($data->{'/MajorVersion'}),
             NO_REMOVE        => hex2dec($data->{'/NoRemove'}),
-            IS64BIT          => $is64bit,
+            IS64BIT          => $params{is64bit},
             GUID             => $guid,
         };
 
@@ -152,40 +163,37 @@ sub _getSoftwares {
 }
 
 sub _addSoftware {
-    my %params = @_;
+    my (%params) = @_;
 
     my $entry = $params{entry};
 
-        # avoid duplicates
-        return if $seen->{$entry->{NAME}}->{$entry->{IS64BIT}}{$entry->{VERSION} || '_undef_'}++;
+    # avoid duplicates
+    return if $seen->{$entry->{NAME}}->{$entry->{IS64BIT}}{$entry->{VERSION} || '_undef_'}++;
 
     $params{inventory}->addEntry(section => 'SOFTWARES', entry => $entry);
 }
 
 sub _processMSIE {
-    my %params = @_;
+    my (%params) = @_;
 
-    my $inventory = $params{inventory};
-    my $is64bit = $params{is64bit} || 0;
-    my $machKey = $params{machKey};
+    my $name = $params{is64bit} ?
+        "Internet Explorer (64bit)" : "Internet Explorer";
+    my $version = 
+        $params{machKey}->{"SOFTWARE/Microsoft/Internet Explorer/Version"};
 
-        my $name = "Internet Explorer";
-    if ($is64bit) {
-        $name .= " (64bit)";
-    }
-    my $version = $params{machKey}->{"SOFTWARE/Microsoft/Internet Explorer/Version"};
+    return unless $version; # Not installed
 
     _addSoftware(
         inventory => $params{inventory},
-        entry => {
-            FROM => "registry",
-            IS64BIT => $is64bit,
-            NAME => $name,
-            VERSION => $version,
-        PUBLISHER => "Microsoft Corporation"
-    });
+        entry     => {
+            FROM      => "registry",
+            IS64BIT   => $params{is64bit},
+            NAME      => $name,
+            VERSION   => $version,
+            PUBLISHER => "Microsoft Corporation"
+        }
+    );
 
 }
-
 
 1;

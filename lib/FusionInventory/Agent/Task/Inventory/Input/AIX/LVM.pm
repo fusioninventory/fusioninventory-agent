@@ -2,9 +2,7 @@ package FusionInventory::Agent::Task::Inventory::Input::AIX::LVM;
 
 use FusionInventory::Agent::Tools;
 
-# LVM for AIX
 use strict;
-
 use warnings;
 
 use English qw(-no_match_vars);
@@ -13,194 +11,229 @@ sub isEnabled {
     canRun("lspv");
 }
 
-sub _parseLvs {
-
-    my @vs_elem;
-    my $vg;
-    my $ppsize;
-    my $status;
-    my $nblv;
-    my $typelv;
-    my $lvname;
-    my $entries = [];
-
-    foreach (`lsvg`) {
-        chomp;
-        foreach (`lsvg -l $_`) {
-            chomp;
-            if (/(\S+):.*/) {
-                $vg = $1;
-            }
-            if ( ( !/^LV NAME.*/ )
-                && /(\S+) *(\S+) *(\d+) *(\d+) *(\d+) *(\S+) *(\S+)/ )
-            {
-                $vs_elem[0] = $vg . "/" . $1;
-                $typelv     = $2;
-                $vs_elem[6] = 0;
-                $vs_elem[5] = $3;
-                $status     = "Type " . $2 . " ,PV: " . $5;
-                $lvname     = $1;
-                foreach (`lslv $1`) {
-                    if (/.*PP SIZE:\s+(\d+) .*/) {
-                        $ppsize = $1;
-                    }
-                    if (/LV IDENTIFIER:      (\S+)/) {
-                        $vs_elem[7] = $1;
-                    }
-                }
-#                print(  $lvname. " "
-#                      . $vg . " "
-#                      . $status . " "
-#                      . $vs_elem[5] . " "
-#                      . $vs_elem[7] . " "
-#                      . $vs_elem[5]
-#                      . "\n" );
-                push @$entries,
-                  {
-                    LV_NAME   => $lvname,
-                    VG_UUID   => $vg,
-                    ATTR      => $status,
-                    SIZE      => int( $vs_elem[5] * $ppsize || 0 ),
-                    LV_UUID   => $vs_elem[7],
-                    SEG_COUNT => $vs_elem[5],
-                  };
-            }
-        }
-    }
-    return $entries;
-}
-
-sub _parsePvs {
-
-    my @vs_elem;
-    my $vg;
-    my $ppsize;
-    my $status;
-    my $nblv;
-    my $typelv;
-
-    my $entries = [];
-    my $pvname  = "";
-
-    foreach (`lspv | cut -f1 -d' '`) {
-        chomp;
-        $pvname = $_;
-        foreach (`lspv $_`) {
-            chomp;
-            if (/PHYSICAL VOLUME:    (\S+)/) {
-                $vs_elem[0] = $1;
-            }
-            if (/FREE PPs:           (\d+) .*/) {
-                $vs_elem[5] = $1;
-            }
-            if (/TOTAL PPs:          (\d+) .*/) {
-                $vs_elem[4] = $1;
-            }
-            if (/VOLUME GROUP:     (\S+)/) {
-                $vg = $1;
-            }
-            if (/PP SIZE:            (\d+) .*/) {
-                $ppsize = $1;
-            }
-            if (/PV IDENTIFIER:      (\S+)/) {
-                $vs_elem[6] = $1;
-            }
-        }
-        push @$entries,
-          {
-            DEVICE      => "/dev/" . $pvname,
-            PV_NAME     => $pvname,
-            FORMAT      => "AIX PV " . $vs_elem[0],
-            ATTR        => "VG " . $vg,
-            SIZE        => $vs_elem[4] * $ppsize,
-            FREE        => $vs_elem[5] * $ppsize,
-            PV_UUID     => $vs_elem[6],
-            PV_PE_COUNT => $vs_elem[4],
-            PE_SIZE     => $ppsize,
-          }
-
-    }
-
-    return $entries;
-}
-
-sub _parseVgs {
-
-    my $entries = [];
-    my @vs_elem;
-    my $vg;
-    my $ppsize;
-    my $status;
-    my $nblv;
-    my $typelv;
-    my $nbpv;
-
-    foreach (`lsvg`) {
-        chomp;
-        $vg = $_;
-        foreach (`lsvg $_`) {
-            chomp;
-            if (/VOLUME GROUP:       (\S+) .* /) {
-                $vs_elem[0] = $1;
-            }
-            if (/TOTAL PPs:      (\d+) .*/) {
-                $vs_elem[5] = $1;
-            }
-            if (/FREE PPs:       (\d+) .*/) {
-                $vs_elem[6] = $1;
-            }
-            if (/VG IDENTIFIER:  (\S+)/) {
-                $vs_elem[7] = $1;
-            }
-            if (/PP SIZE:        (\d+) .*/) {
-                $ppsize = $1;
-            }
-            if (/LVs:                (\d+) .*/) {
-                $nblv = $1;
-            }
-            if (/ACTIVE PVs:\s+(\d+) .*/) {
-                $nbpv = $1;
-            }
-
-        }
-
-        push @$entries,
-          {
-            VG_NAME        => $vg,
-            PV_COUNT       => $nbpv,
-            LV_COUNT       => $nblv,
-            ATTR           => "",
-            SIZE           => $vs_elem[5],
-            FREE           => $vs_elem[6],
-            VG_UUID        => $vs_elem[7],
-            VG_EXTENT_SIZE => $ppsize,
-          };
-
-    }
-
-    return $entries;
-}
-
 sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
-    my $pvs       = _parsePvs();
-    foreach (@$pvs) {
-        $inventory->addEntry(section => 'PHYSICAL_VOLUMES', entry => $_);
+    foreach my $volume (_getPhysicalVolumes($logger)) {
+        $inventory->addEntry(section => 'PHYSICAL_VOLUMES', entry => $volume);
     }
 
-    my $lvs = _parseLvs();
-    foreach (@$lvs) {
-        $inventory->addEntry(section => 'LOGICAL_VOLUMES', entry => $_);
+    foreach my $volume (_getLogicalVolumes($logger)) {
+        $inventory->addEntry(section => 'LOGICAL_VOLUMES', entry => $volume);
     }
 
-    my $vgs = _parseVgs();
-    foreach (@$vgs) {
-        $inventory->addEntry(section => 'VOLUME_GROUPS', entry => $_);
+    foreach my $group (_getVolumeGroups($logger)) {
+        $inventory->addEntry(section => 'VOLUME_GROUPS', entry => $group);
     }
 
+}
+
+sub _getLogicalVolumes {
+    my ($logger) = @_;
+
+    my $handle = getFileHandle(
+        command => "lsvg",
+        logger  => $logger
+    );
+    return unless $handle;
+
+    my @volumes;
+
+    while (my $line = <$handle>) {
+        chomp $line;
+        push @volumes, _getLogicalVolume($logger, $line);
+    }
+    close $handle;
+
+    return @volumes;
+}
+
+sub _getLogicalVolume {
+    my ($logger, $name) = @_;
+
+    my $handle = getFileHandle(
+        command => "lsvg -l $name",
+        logger  => $logger
+    );
+    return unless $handle;
+
+    my $volume;
+
+    while (my $line = <$handle>) {
+        chomp $line;
+
+        if ($line =~ /(\S+):/) {
+            $volume->{VG_UUID} = $1;
+        }
+        if ($line !~ !/^LV NAME/ && $line =~ /(\S+) *(\S+) *(\d+) *(\d+) *(\d+) *(\S+) *(\S+)/) {
+            $volume->{LV_NAME}   = $1;
+            $volume->{SEG_COUNT} = $3;
+            $volume->{ATTR}      = "Type $2,PV: $5";
+        }
+    }
+    close $handle;
+
+    my ($size, $uuid) = _getVolumeInfo(
+        name   => $volume->{LV_NAME},
+        logger => $logger
+    );
+    $volume->{SIZE} = int($volume->{SEG_COUNT} * $size);
+    $volume->{LV_UUID} = $uuid;
+
+    return $volume;
+}
+
+sub _getVolumeInfo {
+    my (%params) = @_;
+
+    my $handle = getFileHandle( 
+        command => "lslv $params{name}",
+        logger  => $params{logger}
+    );
+    return unless $handle;
+
+    my ($size, $uuid);
+    while (my $line = <$handle>) {
+        if ($line =~ /.*PP SIZE:\s+(\d+) .*/) {
+            $size = $1;
+        }
+        if ($line =~ /LV IDENTIFIER:\s+(\S+)/) {
+            $uuid = $1;
+        }
+    }
+    close $handle;
+
+    return ($size, $uuid);
+}
+
+sub _getPhysicalVolumes {
+    my ($logger) = @_;
+
+    my $handle = getFileHandle(
+        command => "lspv | cut -f1 -d' '",
+        logger  => $logger
+    );
+    return unless $handle;
+
+    my @volumes;
+
+    while (my $line = <$handle>) {
+        chomp $line;
+        push @volumes, _getPhysicalVolume($logger, $line);
+    }
+    close $handle;
+
+    return @volumes;
+}
+
+sub _getPhysicalVolume {
+    my ($logger, $name) = @_;
+
+    my $handle = getFileHandle(
+        command => "lspv $name",
+        logger  => $logger
+    );
+    return unless $handle;
+
+    my $volume = {
+        DEVICE  => "/dev/$name",
+        PV_NAME => $name,
+    };
+
+    my ($free, $total);
+    while (my $line = <$handle>) {
+        chomp $line;
+
+        if ($line =~ /PHYSICAL VOLUME:\s+(\S+)/) {
+            $volume->{FORMAT} = "AIX PV $1";
+        }
+        if ($line =~ /FREE PPs:\s+(\d+)/) {
+            $free = $1;
+        }
+        if ($line =~ /TOTAL PPs:\s+(\d+)/) {
+            $total = $1;
+        }
+        if ($line =~ /VOLUME GROUP:\s+(\S+)/) {
+            $volume->{ATTR} = "VG $1";
+        }
+        if ($line =~ /PP SIZE:\s+(\d+)/) {
+            $volume->{PE_SIZE} = $1;
+        }
+        if ($line =~ /PV IDENTIFIER:\s+(\S+)/) {
+            $volume->{PV_UUID} = $1;
+        }
+    }
+    close $handle;
+
+    $volume->{SIZE} = $total * $volume->{PE_SIZE};
+    $volume->{FREE} = $free * $volume->{PE_SIZE};
+    $volume->{PV_PE_COUNT} = $total;
+
+    return $volume;
+}
+
+sub _getVolumeGroups {
+    my ($logger) = @_;
+
+    my $handle = getFileHandle(
+        command => 'lsvg',
+        logger  => $logger
+    );
+    return unless $handle;
+
+    my @groups;
+
+    while (my $line = <$handle>) {
+        chomp $line;
+        push @groups, _getVolumeGroup($logger, $line);
+    }
+    close $handle;
+
+    return @groups;
+}
+
+sub _getVolumeGroup {
+    my ($logger, $name) = @_;
+
+    my $handle = getFileHandle(
+        command => "lsvg $name",
+        logger  => $logger
+    );
+    return unless $handle;
+
+    my $group = {
+        VG_NAME => $name
+    };
+
+    while (my $line = <$handle>) {
+        chomp $line;
+
+        if ($line =~ /TOTAL PPs:\s+(\d+)/) {
+            $group->{SIZE} = $1;
+        }
+        if ($line =~ /FREE PPs:\s+(\d+)/) {
+            $group->{FREE} = $1;
+        }
+        if ($line =~ /VG IDENTIFIER:\s+(\S+)/) {
+            $group->{VG_UUID} = $1;
+        }
+        if ($line =~ /PP SIZE:\s+(\d+)/) {
+            $group->{VG_EXTENT_SIZE} = $1;
+        }
+        if ($line =~ /LVs:\s+(\d+)/) {
+            $group->{LV_COUNT} = $1;
+        }
+        if ($line =~/ACTIVE PVs:\s+(\d+)/) {
+            $group->{PV_COUNT} = $1;
+        }
+
+    }
+    close $handle;
+
+    return $group;
 }
 
 1;

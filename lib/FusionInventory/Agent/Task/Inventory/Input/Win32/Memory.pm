@@ -80,6 +80,16 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
+    foreach my $memory (_getMemories()) {
+        $inventory->addEntry(
+            section => 'MEMORIES',
+            entry   => $memory
+        );
+    }
+}
+
+sub _getMemories {
+
     my $cpt = 0;
     my @memories;
 
@@ -134,13 +144,7 @@ sub doInventory {
         }
     }
 
-    foreach my $memory (@memories) {
-        $inventory->addEntry(
-            section => 'MEMORIES',
-            entry   => $memory
-        );
-    }
-
+    return @memories;
 }
 
 1;

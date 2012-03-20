@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Input::Solaris::CPU;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Solaris;
 
@@ -24,15 +26,7 @@ sub doInventory {
             _getCPUFromMemconf(logger => $logger);
 
     # fallback on generic method
-    if (!$count) {
-        foreach (`psrinfo -v`) {
-            if (/^\s+The\s(\w+)\sprocessor\soperates\sat\s(\d+)\sMHz,/) {
-                $cpu->{NAME}  = $1;
-                $cpu->{SPEED} = $2;
-                $count++;
-            }
-        }
-    }
+    ($count, $cpu) = _getCPUFromPrsinfo(logger => $logger) if !$count;
 
     $cpu->{MANUFACTURER} = "SPARC";
 
@@ -68,21 +62,12 @@ sub _getCPUFromMemconf {
 sub _parseCoreString {
     my ($v) = @_;
 
-    if ($v =~ /Dual/i) {
-        return 2;
-    } elsif ($v =~ /Quad/i) {
-        return 4;
-    } elsif ($v =~ /(\d+)-(core|thread)/) {
-        return $1;
-    }elsif ($v =~ /^dual/) {
-        return 2;
-    } elsif ($v =~ /^quad/) {
-        return 4;
-    }
-
-    return $v;
+    return
+        $v =~ /dual/i               ? 2  :
+        $v =~ /quad/i               ? 4  :
+        $v =~ /(\d+)-(core|thread)/ ? $1 :
+        $v;
 }
-
 
 sub _parseSpec {
     my ($spec) = @_;
@@ -172,12 +157,43 @@ sub _parseSpec {
 
 }
 
-sub _getCPUFromPrtcl {
-    my ($count, $cpu);
+sub _getCPUFromPsrinfo {
+    my (%params) = (
+        command => 'psrinfo -v',
+        @_
+    );
 
-    foreach (`prctl -n zone.cpu-shares $$`) {
-        $cpu->{NAME} = $1 if /^zone.(\S+)$/;
-        $cpu->{NAME} .= " " . $1 if /^\s*privileged+\s*(\d+)/;
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my $count = 0;
+    my $cpu;
+    while (my $line = <$handle>) {
+        next unless $line =~ 
+            /^\s+The\s(\w+)\sprocessor\soperates\sat\s(\d+)\sMHz,/;
+
+        $cpu->{NAME}  = $1;
+        $cpu->{SPEED} = $2;
+        $count++;
+    }
+    close $handle;
+
+    return ($count, $cpu);
+}
+
+sub _getCPUFromPrtcl {
+    my (%params) = (
+        command => "prctl -n zone.cpu-shares $PID",
+        @_
+    );
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my ($count, $cpu);
+    while (my $line = <$handle>) {
+        $cpu->{NAME} = $1 if $line =~ /^zone.(\S+)$/;
+        $cpu->{NAME} .= " " . $1 if $line =~ /^\s*privileged+\s*(\d+)/;
         #$count = 1 if /^\s*privileged+\s*(\d+)/;
         foreach (`memconf 2>&1`) {
             if(/\s+\((\d+).*\s+(\d+)MHz/) {
@@ -186,6 +202,7 @@ sub _getCPUFromPrtcl {
             }
         }
     }
+    close $handle;
 
     return ($count, $cpu);
 }

@@ -70,7 +70,7 @@ sub doInventory {
 sub _getCPUsFromProc {
     my @cpus = getCPUsFromProc(@_);
 
-    my ($procs, $cpuNbr, $cores, $threads);
+    my ($procs, $cpuNbr);
 
     my @cpuList;
 

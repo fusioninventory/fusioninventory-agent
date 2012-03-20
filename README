@@ -58,14 +58,14 @@ The available workaround:
 
 System-specific informations
 ----------------------------
-
-On Solaris, Sun Studio seems to be needed to build the dependency. The
-generated Makefile needs gmake to be executed. The default installation will
-install the binary in /usr/perl5/5.XXXXX/bin, set your $PATH variable according
-to that.
-
 On Solaris/SPARC, you must install sneep and record the Serial Number with it.
 Download it from http://www.sun.com/download/products.xml?id=4304155a.
+
+The Windows installer will run the agent with the SYSTEM account. If you use
+an user GPO to configure the printer, the information will hidden and so not
+collected.
+To avoid this situation, you can turn off the server, and run the agent with
+user privilege, for example during the login.
 
 On Windows, if you don't want to use the installer for Windows you can follow
 the installation process avalailable from
@@ -78,10 +78,10 @@ They are two different ways to run the agent:
 - as a permanent process, staying in memory permanently (daemon under Unix,
   service under Windows)
 
-In the first case, the agent execution scheduling is completly controlled by
-the agent, through a dedicated system, such as cron under Unix, or XXX under
-Windows. In second case, the agent execution scheduling is server-controlled,
-as the agent runs regulary according to a parameter initially set in its
+In the first case, the agent execution scheduling is controlled from local
+system, through cron under Unix, or scheduled tasks under Windows. In second
+case, the agent execution scheduling is controlled from GLPI server, as the
+agent runs regulary according to a parameter initially set in its
 configuration (delaytime), overrided by the server at the first connection
 (PROLOG_FREQ). Additionaly, the server may also initiate additional
 out-of-schedule executions by sending HTTP requests if the web interface is

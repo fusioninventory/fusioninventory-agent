@@ -24,7 +24,7 @@ our @EXPORT = qw(
 memoize('getDevicesFromUdev');
 
 sub getDevicesFromUdev {
-    my %params = @_;
+    my (%params) = @_;
 
     my @devices;
 
@@ -45,7 +45,7 @@ sub getDevicesFromUdev {
 }
 
 sub _parseUdevEntry {
-    my %params = @_;
+    my (%params) = @_;
 
     my $handle = getFileHandle(%params);
     return unless $handle;
@@ -85,7 +85,7 @@ sub _parseUdevEntry {
 }
 
 sub getCPUsFromProc {
-    my %params = (
+    my (%params) = (
         file => '/proc/cpuinfo',
         @_
     );
@@ -120,7 +120,7 @@ sub _isValidCPU {
 
 
 sub getDevicesFromHal {
-    my %params = (
+    my (%params) = (
         command => '/usr/bin/lshal',
         @_
     );
@@ -164,14 +164,16 @@ sub getDevicesFromHal {
 }
 
 sub getDevicesFromProc {
-    my %params = @_;
+    my (%params) = @_;
+
+    my $logger = $params{logger};
 
     # compute list of devices
     my @names;
 
     foreach my $file (glob ("/sys/block/*")) {
-        next unless $file =~ /([sh]d[a-z]|fd\d)$/;
-        push(@names, $1);
+        next unless $file =~ /([shv]d[a-z]|fd\d)$/;
+        push @names, $1;
     }
 
     my $command = getFirstLine(command => '/sbin/fdisk -v') =~ '^GNU' ?
@@ -180,14 +182,14 @@ sub getDevicesFromProc {
 
     my $handle = getFileHandle(
         command => $command,
-        logger => $params{logger}
+        logger  => $logger
     );
 
     return unless $handle;
 
     while (my $line = <$handle>) {
-        next unless $line =~ (/^\/dev\/([sh]d[a-z])/);
-        push(@names, $1);
+        next unless $line =~ m{^/dev/([shv]d[a-z])};
+        push @names, $1;
     }
     close $handle;
 
@@ -198,25 +200,17 @@ sub getDevicesFromProc {
     # extract informations
     my @devices;
     foreach my $name (@names) {
-        my $device;
-        $device->{NAME}         = $name;
-        $device->{MANUFACTURER} = _getValueFromSysProc(
-            $params{logger}, $device, 'vendor'
-        );
-        $device->{MODEL}        = _getValueFromSysProc(
-            $params{logger}, $device, 'model'
-        );
-        $device->{FIRMWARE}     = _getValueFromSysProc(
-            $params{logger}, $device, 'rev'
-        );
-        $device->{SERIALNUMBER} = _getValueFromSysProc(
-            $params{logger}, $device, 'serial'
-        );
-        $device->{TYPE}         = _getValueFromSysProc(
-            $params{logger}, $device, 'removable'
-        ) ?
-            'removable' : 'disk';
-        push (@devices, $device);
+        my $device = {
+            NAME         => $name,
+            MANUFACTURER => _getValueFromSysProc($logger, $name, 'vendor'),
+            MODEL        => _getValueFromSysProc($logger, $name, 'model'),
+            FIRMWARE     => _getValueFromSysProc($logger, $name, 'rev'),
+            SERIALNUMBER => _getValueFromSysProc($logger, $name, 'serial'),
+            TYPE         =>
+                _getValueFromSysProc($logger, $name, 'removable') ?
+                    'removable' : 'disk'
+        };
+        push @devices, $device;
     }
 
     return @devices;
@@ -225,15 +219,17 @@ sub getDevicesFromProc {
 sub _getValueFromSysProc {
     my ($logger, $device, $key) = @_;
 
+    ## no critic (ExplicitReturnUndef)
+
     my $file =
         -f "/sys/block/$device/device/$key" ? "/sys/block/$device/device/$key" :
         -f "/proc/ide/$device/$key"         ? "/proc/ide/$device/$key" :
                                               undef;
 
-    return unless $file;
+    return undef unless $file;
 
     my $handle = getFileHandle(file => $file, logger => $logger);
-    return unless $handle;
+    return undef unless $handle;
 
     my $value = <$handle>;
     close $handle;
@@ -245,7 +241,7 @@ sub _getValueFromSysProc {
 }
 
 sub getSerialnumber {
-    my %params = @_;
+    my (%params) = @_;
 
     my ($serial) = getFirstMatch(
         command => $params{device} ? "smartctl -i $params{device}" : undef,
@@ -258,7 +254,7 @@ sub getSerialnumber {
 }
 
 sub getInterfacesFromIfconfig {
-    my %params = (
+    my (%params) = (
         command => '/sbin/ifconfig -a',
         @_
     );
@@ -307,7 +303,7 @@ sub getInterfacesFromIfconfig {
     return @interfaces;
 }
 sub getInterfacesFromIp {
-    my %params = (
+    my (%params) = (
         command => '/sbin/ip addr show',
         @_
     );
@@ -332,7 +328,7 @@ sub getInterfacesFromIp {
             $interface->{IPADDRESS6} = $1;
         } elsif ($line =~ /inet ($ip_address_pattern)\/(\d{1,3})/) {
             $interface->{IPADDRESS} = $1;
-            $interface->{IPMASK}    = getNetworkMask($1, $2);
+            $interface->{IPMASK}    = getNetworkMask($2);
             $interface->{IPSUBNET}  = getSubnetAddress(
                 $interface->{IPADDRESS}, $interface->{IPMASK}
             );

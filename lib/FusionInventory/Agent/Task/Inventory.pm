@@ -61,8 +61,18 @@ sub run {
         );
     }
 
-    $self->_initModulesList();
-    $self->_feedInventory($inventory);
+    if (not $ENV{PATH}) {
+        # set a minimal PATH if none is set (#1129)
+        $ENV{PATH} = '/sbin:/usr/sbin:/bin:/usr/bin';
+        $self->{logger}->debug(
+            "PATH is not set, using /sbin:/usr/sbin:/bin:/usr/bin as default"
+        );
+    }
+
+    my %disabled = map { $_ => 1 } @{$self->{config}->{'no-category'}};
+
+    $self->_initModulesList(\%disabled);
+    $self->_feedInventory($inventory, \%disabled);
 
     if ($self->{target}->isa('FusionInventory::Agent::Target::Stdout')) {
         $self->_printInventory(
@@ -124,11 +134,10 @@ sub run {
 }
 
 sub _initModulesList {
-    my ($self) = @_;
+    my ($self, $disabled) = @_;
 
     my $logger = $self->{logger};
     my $config = $self->{config};
-    my $storage = $self->{storage};
 
     my @modules = __PACKAGE__->getModules('Input');
     die "no inventory module found" if !@modules;
@@ -160,11 +169,10 @@ sub _initModulesList {
             logger => $logger,
             timeout  => $config->{'backend-collect-timeout'},
             params => {
+                no_category   => $disabled,
                 datadir       => $self->{datadir},
                 logger        => $self->{logger},
                 registry      => $self->{registry},
-                no_software   => $self->{config}->{'no-software'},
-                no_printer    => $self->{config}->{'no-printer'},
                 scan_homedirs => $self->{config}->{'scan-homedirs'},
             }
         );
@@ -203,15 +211,15 @@ sub _initModulesList {
             }
         }
 
-        unless ($failed) {
+        if ($failed) {
             $self->{modules}->{$module}->{enabled} = 0;
-            $logger->debug("module $module disabled: no depended module failed");
+            $logger->debug("module $module disabled because of $failed");
         }
     }
 }
 
 sub _runModule {
-    my ($self, $module, $inventory) = @_;
+    my ($self, $module, $inventory, $disabled) = @_;
 
     my $logger = $self->{logger};
 
@@ -230,7 +238,7 @@ sub _runModule {
         die "circular dependency between $module and $other_module"
             if $self->{modules}->{$other_module}->{used};
 
-        $self->_runModule($other_module, $inventory);
+        $self->_runModule($other_module, $inventory, $disabled);
     }
 
     $logger->debug("Running $module");
@@ -243,10 +251,9 @@ sub _runModule {
         params => {
             datadir       => $self->{datadir},
             inventory     => $inventory,
+            no_category   => $disabled,
             logger        => $self->{logger},
             registry      => $self->{registry},
-            no_software   => $self->{config}->{no_software},
-            no_printer    => $self->{config}->{no_printer},
             scan_homedirs => $self->{config}->{'scan-homedirs'},
         }
     );
@@ -282,8 +289,6 @@ sub _feedInventory {
 
     $inventory->computeLegacyValues();
     $inventory->computeChecksum();
-
-    $inventory->checkContent();
 }
 
 sub _injectContent {

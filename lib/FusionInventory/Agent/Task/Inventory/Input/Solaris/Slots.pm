@@ -32,7 +32,7 @@ sub doInventory {
 }
 
 sub _getSlots4 {
-    my %params = (
+    my (%params) = (
         command => 'prtdiag',
         @_
     );
@@ -57,7 +57,7 @@ sub _getSlots4 {
 }
 
 sub _getSlots5 {
-    my %params = (
+    my (%params) = (
         command => 'prtdiag',
         @_
     );
@@ -71,27 +71,26 @@ sub _getSlots5 {
     my $name;
     my $description;
     my $designation;
-    my $status;
 
-    while (<$handle>) {
-        last if /^\=+/ && $flag_pci && $flag;
+    while (my $line = <$handle>) {
+        last if $line =~ /^\=+/ && $flag_pci && $flag;
 
-        if (/^=+\S+\s+IO Cards/) {
+        if ($line =~ /^=+\S+\s+IO Cards/) {
             $flag_pci = 1;
         }
-        if ($flag_pci && /^-+/) {
+        if ($flag_pci && $line =~ /^-+/) {
             $flag = 1;
         }
 
         next unless $flag && $flag_pci;
 
-        if (/^\s+(\d+)/){
+        if ($line =~ /^\s+(\d+)/) {
             $name = "LSB " . $1;
         }
-        if(/^\s+\S+\s+(\S+)/){
+        if ($line =~ /^\s+\S+\s+(\S+)/) {
             $description = $1;
         }
-        if(/^\s+\S+\s+\S+\s+(\S+)/){
+        if ($line =~ /^\s+\S+\s+\S+\s+(\S+)/) {
             $designation = $1;
         }
 
@@ -107,12 +106,12 @@ sub _getSlots5 {
 }
 
 sub _getSlotsDefault {
-    my %params = (
+    my (%params) = (
         command => 'prtdiag',
         @_
     );
 
-    my $handle  = getFileHandle(%params);
+    my $handle = getFileHandle(%params);
     return unless $handle;
 
     my @slots;
@@ -123,28 +122,28 @@ sub _getSlotsDefault {
     my $designation;
     my $status;
 
-    while (<$handle>) {
-        last if /^\=+/ && $flag_pci;
-        next if /^\s+/ && $flag_pci;
-        if (/^=+\s+IO Cards/) {
+    while (my $line = <$handle>) {
+        last if $line =~ /^\=+/ && $flag_pci;
+        next if $line =~ /^\s+/ && $flag_pci;
+        if ($line =~ /^=+\s+IO Cards/) {
             $flag_pci = 1;
         }
-        if ($flag_pci && /^-+/) {
+        if ($flag_pci && $line =~ /^-+/) {
             $flag = 1;
         }
 
         next unless $flag && $flag_pci;
 
-        if(/^(\S+)\s+/){
+        if ($line =~ /^(\S+)\s+/){
             $name = $1;
         }
-        if(/(\S+)\s*$/){
+        if ($line =~ /(\S+)\s*$/){
             $designation = $1;
         }
-        if(/^\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+(\S+)/){
+        if ($line =~ /^\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+(\S+)/) {
             $description = $1;
         }
-        if(/^\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+(\S+)/){
+        if ($line =~ /^\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+(\S+)/) {
             $status = $1;
         }
         push @slots, {

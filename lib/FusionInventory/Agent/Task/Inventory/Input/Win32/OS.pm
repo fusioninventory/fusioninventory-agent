@@ -6,6 +6,7 @@ use integer;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::Tools::Win32;
 
@@ -27,30 +28,40 @@ sub doInventory {
             / ]
         )) {
 
-        my $key = _getXPkey();
+        my $key = _getXPkey(path => 'HKEY_LOCAL_MACHINE/Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId');
+        if (!$key) { # 582
+           $key = _getXPkey(path => 'HKEY_LOCAL_MACHINE/Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId4');
+        }
         my $description = encodeFromRegistry(getRegistryValue(
             path   => 'HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Services/lanmanserver/Parameters/srvcomment',
             logger => $logger
+        ));
+        my $installDate = getFormatedLocalTime(hex2dec(
+            encodeFromRegistry(getRegistryValue(
+                path   => 'HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion/InstallDate',
+                logger => $logger
+            ))
         ));
 
         $object->{TotalSwapSpaceSize} = int($object->{TotalSwapSpaceSize} / (1024 * 1024))
             if $object->{TotalSwapSpaceSize};
 
         $inventory->setHardware({
-            WINLANG     => $object->{OSLanguage},
-            OSNAME      => $object->{Caption},
-            OSVERSION   => $object->{Version},
-            WINPRODKEY  => $key,
-            WINPRODID   => $object->{SerialNumber},
-            WINCOMPANY  => $object->{Organization},
-            WINOWNER    => $object->{RegistredUser},
-            OSCOMMENTS  => $object->{CSDVersion},
-            SWAP        => $object->{TotalSwapSpaceSize},
-            DESCRIPTION => $description,
+            WINLANG       => $object->{OSLanguage},
+            OSNAME        => $object->{Caption},
+            OSVERSION     => $object->{Version},
+            WINPRODKEY    => $key,
+            WINPRODID     => $object->{SerialNumber},
+            WINCOMPANY    => $object->{Organization},
+            WINOWNER      => $object->{RegistredUser},
+            OSCOMMENTS    => $object->{CSDVersion},
+            SWAP          => $object->{TotalSwapSpaceSize},
+            DESCRIPTION   => $description,
         });
 
         $inventory->setOperatingSystem({
             NAME           => "Windows",
+            INSTALL_DATE   => $installDate,
     #        VERSION       => $OSVersion,
             KERNEL_VERSION => $object->{Version},
             FULL_NAME      => $object->{Caption},
@@ -111,10 +122,9 @@ sub doInventory {
 #http://www.perlmonks.org/?node_id=497616
 # Thanks William Gannon && Charles Clarkson
 sub _getXPkey {
-    my $key = getRegistryValue(
-        path => 'HKEY_LOCAL_MACHINE/Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId',
-    );
+    my $key = getRegistryValue(@_);
     return unless $key;
+
     my @encoded = ( unpack 'C*', $key )[ reverse 52 .. 66 ];
 
     # Get indices
@@ -139,6 +149,7 @@ sub _getXPkey {
         join '-',
         $cd_key =~ /(.{5})/g;
 
+    return if $cd_key =~ /^[B-]*$/;
     return $cd_key;
 }
 

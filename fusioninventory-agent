@@ -33,12 +33,12 @@ GetOptions(
     'list-tasks',
     'setup',
     'local|l=s',
+    'local-inventory-format=s',
     'logger=s',
     'logfile=s',
     'logfile-maxsize=i',
-    'no-printer',
+    'no-category=s',
     'no-httpd',
-    'no-software',
     'no-ssl-check',
     'no-task=s',
     'no-p2p',
@@ -54,6 +54,22 @@ GetOptions(
     'user|u=s',
     'version',
     'wait|w=s',
+    # deprecated options
+    'daemon-no-fork|D',
+    'devlib',
+    'no-ocsdeploy',
+    'no-inventory',
+    'no-wakeonlan',
+    'no-snmpquery',
+    'no-netdiscovery',
+    'no-printer',
+    'no-software',
+    'rpc-trust-localhost',
+    'rpc-port',
+    'rpc-ip',
+    'no-socket',
+    'realm',
+    'info|i',
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0) if $options->{help};
@@ -125,8 +141,7 @@ B<fusioninventory-agent> [options] [--server server|--local directory|--sdout]
     --no-task=TASK      do not run given task
 
   Inventory task specific options
-    --no-printer        do not list local printers (false)
-    --no-software       do not list installed software (false)
+    --no-category=CATEGORY do not list given category items
     --scan-homedirs     allow to scan use home directories (false)
     -f --force          always send data to server (false)
     -t --tag=TAG        mark the machine with given tag
@@ -343,13 +358,9 @@ List available tasks and exit
 
 =over
 
-=item B<--no-printer>
+=item B<--no-category>=I<CATEGORY>
 
-Do not list local printers in inventory.
-
-=item B<--no-software>
-
-Do not list installed software in inventory.
+Do not list given category items in inventory.
 
 =item B<--scan-homedirs>
 
