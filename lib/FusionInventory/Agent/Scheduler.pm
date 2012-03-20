@@ -70,6 +70,7 @@ sub getNextTarget {
     }
 
     foreach my $target (@{$self->{targets}}) {
+        next unless $target->{events};
         next unless @{$target->{events}};
         my $event = shift @{$target->{events}};
 
