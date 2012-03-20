@@ -158,7 +158,8 @@ sub processRemote {
             foreach my $checknum ( 0 .. @{ $job->{checks} } ) {
                 next unless $job->{checks}[$checknum];
                 my $checkStatus = FusionInventory::Agent::Task::Deploy::CheckProcessor->process(
-                    $job->{checks}[$checknum]
+                    check => $job->{checks}[$checknum],
+                    logger => $self->{logger}
                 );
                 next if $checkStatus eq "ok";
                 next if $checkStatus eq "ignore";
