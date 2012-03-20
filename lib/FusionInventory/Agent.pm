@@ -7,6 +7,7 @@ use Cwd;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 use File::Glob;
+use IO::Handle;
 
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::HTTP::Client::OCS;
@@ -344,17 +345,24 @@ sub getAvailableTasks {
         my $version;
         if ($self->{config}->{daemon} || $self->{config}->{service}) {
             # server mode: check each task version in a child process
-            my $pid = open(my $handle, '-|');
-            die "fork failed: $ERRNO" unless defined $pid;
+            my ($reader, $writer);
+            pipe($reader, $writer);
+            $writer->autoflush(1);
 
-            if ($pid) {
+            if (my $pid = fork()) {
                 # parent
-                $version = <$handle>;
-                close $handle;
+                close $writer;
+                $version = <$reader>;
+                close $reader;
+                waitpid($pid, 0);
             } else {
                 # child
+                die "fork failed: $ERRNO" unless defined $pid;
+
+                close $reader;
                 $version = $self->_getTaskVersion($module);
-                print $version if $version;
+                print $writer $version if $version;
+                close $writer;
                 exit(0);
             }
         } else {
