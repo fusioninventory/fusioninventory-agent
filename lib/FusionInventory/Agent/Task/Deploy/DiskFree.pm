@@ -5,8 +5,9 @@ use warnings;
 use base 'Exporter';
 
 use English qw(-no_match_vars);
+use FusionInventory::Agent::Tools;
 
-use FusionInventory::Agent::Tools::Win32;
+use UNIVERSAL::require;
 
 our @EXPORT = qw(
     getFreeSpace
@@ -25,6 +26,7 @@ sub _getFreeSpaceWindows {
     my (%params) = @_;
 
     my $logger = $params{logger};
+
 
     FusionInventory::Agent::Tools::Win32->require();
     if ($EVAL_ERROR) {
