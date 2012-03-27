@@ -43,7 +43,7 @@ sub _getDrives {
 
     foreach my $drive (@drives) {
         $drive->{FILESYSTEM} = $params{type};
-        $drive->{CREATEDATE} =  _getVxFSctime($drive->{VOLUMN}, $params{logger})
+        $drive->{CREATEDATE} =  _getVxFSctime($drive->{VOLUME}, $params{logger})
             if $params{type} eq 'vxfs';
     }
 
@@ -63,7 +63,7 @@ sub _parseBdf {
     while (my $line = <$handle>) {
         if ($line =~ /^(\S+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+%)\s+(\S+)/) {
             push @drives, {
-                VOLUMN     => $1,
+                VOLUME     => $1,
                 TOTAL      => $2,
                 FREE       => $3,
                 TYPE       => $6,
@@ -78,7 +78,7 @@ sub _parseBdf {
         
         if ($line =~ /(\d+)\s+(\d+)\s+(\d+)\s+(\d+%)\s+(\S+)/) {
             push @drives, {
-                VOLUMN     => $device,
+                VOLUME     => $device,
                 TOTAL      => $1,
                 FREE       => $3,
                 TYPE       => $5,

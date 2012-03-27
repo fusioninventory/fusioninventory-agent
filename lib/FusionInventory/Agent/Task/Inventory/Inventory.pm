@@ -20,7 +20,7 @@ my %fields = (
     CPUS        => [ qw/CACHE CORE DESCRIPTION MANUFACTURER NAME THREAD SERIAL
                         SPEED ID EXTERNAL_CLOCK/ ],
     DRIVES      => [ qw/CREATEDATE DESCRIPTION FREE FILESYSTEM LABEL LETTER 
-                        SERIAL SYSTEMDRIVE TOTAL TYPE VOLUMN/ ],
+                        SERIAL SYSTEMDRIVE TOTAL TYPE VOLUME/ ],
     ENVS        => [ qw/KEY VAL/ ],
     INPUTS      => [ qw/NAME MANUFACTURER CAPTION DESCRIPTION INTERFACE LAYOUT
 	                POINTINGTYPE TYPE/ ],
@@ -731,7 +731,7 @@ Total space available (MB)
 
 The mount point on UNIX.
 
-=item VOLUMN
+=item VOLUME
 
 System name of the partition (e.g: /dev/sda1 or server:/directory for NFS)
 

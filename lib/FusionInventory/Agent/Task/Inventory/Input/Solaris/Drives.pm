@@ -31,9 +31,9 @@ sub doInventory {
     # get filesystems list
     my @filesystems =
         # exclude solaris 10 specific devices
-        grep { $_->{VOLUMN} !~ /^\/(devices|platform)/ } 
+        grep { $_->{VOLUME} !~ /^\/(devices|platform)/ } 
         # keep physical devices or swap
-        grep { $_->{VOLUMN} =~ /^(\/|swap)/ } 
+        grep { $_->{VOLUME} =~ /^(\/|swap)/ } 
         # exclude cdrom mount
         grep { $_->{TYPE} !~ /cdrom/ } 
         # get all file systems
@@ -42,13 +42,13 @@ sub doInventory {
     # get additional informations
     foreach my $filesystem (@filesystems) {
 
-        if ($filesystem->{VOLUMN} eq 'swap') {
+        if ($filesystem->{VOLUME} eq 'swap') {
             $filesystem->{FILESYSTEM} = 'swap';
             next;
         }
 
         my $line = getFirstLine(
-            command => "zfs get org.opensolaris.libbe:uuid $filesystem->{VOLUMN}"
+            command => "zfs get org.opensolaris.libbe:uuid $filesystem->{VOLUME}"
         );
 
         if ($line && $line =~ /org.opensolaris.libbe:uuid\s+(\S{5}\S+)/) {
@@ -58,7 +58,7 @@ sub doInventory {
         }
 
         $filesystem->{FILESYSTEM} =
-            getFirstLine(command => "fstyp $filesystem->{VOLUMN}");
+            getFirstLine(command => "fstyp $filesystem->{VOLUME}");
     }
 
     # add filesystems to the inventory
