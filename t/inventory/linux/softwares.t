@@ -5,9 +5,9 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::Linux::Softwares::RPM;
-use FusionInventory::Agent::Task::Inventory::Input::Linux::Softwares::Deb;
-use FusionInventory::Agent::Task::Inventory::Input::Linux::Softwares::Gentoo;
+use FusionInventory::Agent::Task::Inventory::Input::Generic::Softwares::RPM;
+use FusionInventory::Agent::Task::Inventory::Input::Generic::Softwares::Deb;
+use FusionInventory::Agent::Task::Inventory::Input::Generic::Softwares::Gentoo;
 
 my $rpm_packages = [
     {
@@ -102,25 +102,25 @@ my $deb_packages = [
 plan tests => 4;
 
 my $packages;
-$packages = FusionInventory::Agent::Task::Inventory::Input::Linux::Softwares::RPM::_getPackagesList(
+$packages = FusionInventory::Agent::Task::Inventory::Input::Generic::Softwares::RPM::_getPackagesList(
     file => "resources/linux/packaging/rpm"
 );
 is_deeply($packages, $rpm_packages, 'rpm parsing');
 
-$packages = FusionInventory::Agent::Task::Inventory::Input::Linux::Softwares::Deb::_getPackagesList(
+$packages = FusionInventory::Agent::Task::Inventory::Input::Generic::Softwares::Deb::_getPackagesList(
     file => "resources/linux/packaging/dpkg"
 );
 is_deeply($packages, $deb_packages, 'dpkg parsing');
 
 ok(
-    !FusionInventory::Agent::Task::Inventory::Input::Linux::Softwares::Gentoo::_equeryNeedsWildcard(
+    !FusionInventory::Agent::Task::Inventory::Input::Generic::Softwares::Gentoo::_equeryNeedsWildcard(
         file => "resources/linux/equery/gentoo1"
     ),
     "old equery version"
 );
 
 ok(
-    FusionInventory::Agent::Task::Inventory::Input::Linux::Softwares::Gentoo::_equeryNeedsWildcard(
+    FusionInventory::Agent::Task::Inventory::Input::Generic::Softwares::Gentoo::_equeryNeedsWildcard(
         file => "resources/linux/equery/gentoo2"
     ),
     "new equery version"
