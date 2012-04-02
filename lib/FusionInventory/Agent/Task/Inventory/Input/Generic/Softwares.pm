@@ -4,7 +4,9 @@ use strict;
 use warnings;
 
 sub isEnabled {
-    return 1;
+    my (%params) = @_;
+
+    return !$params{no_category}->{software};
 }
 
 sub doInventory {}
