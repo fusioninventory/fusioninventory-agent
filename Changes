@@ -1,6 +1,6 @@
 Revision history for FusionInventory agent
 
-2.2.0
+2.2.0  Mon, 02 Apr 2012 14:52:02 +0200
 
 Major changes:
 * large speed improvement: up to 150% for a local inventory
