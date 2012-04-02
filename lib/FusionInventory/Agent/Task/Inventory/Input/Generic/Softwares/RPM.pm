@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::Input::Linux::Softwares::RPM;
+package FusionInventory::Agent::Task::Inventory::Input::Generic::Softwares::RPM;
 
 use strict;
 use warnings;

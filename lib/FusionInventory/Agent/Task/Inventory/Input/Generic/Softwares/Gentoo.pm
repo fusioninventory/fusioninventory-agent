@@ -1,12 +1,14 @@
-package FusionInventory::Agent::Task::Inventory::Input::Linux::Softwares::Deb;
+package FusionInventory::Agent::Task::Inventory::Input::Generic::Softwares::Gentoo;
 
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
-    return canRun('dpkg-query');
+    return canRun('equery');
 }
 
 sub doInventory {
@@ -15,18 +17,12 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $command =
-        'dpkg-query --show --showformat=\'' .
-        '${Package}\t' .
-        '${Version}\t'.
-        '${Installed-Size}\t' .
-        '${Description}\n' .
-        '\'';
+    my $command = _equeryNeedsWildcard() ?
+        "equery list -i '*'" : "equery list -i";
 
     my $packages = _getPackagesList(
         logger => $logger, command => $command
     );
-    return unless $packages;
 
     foreach my $package (@$packages) {
         $inventory->addEntry(
@@ -38,25 +34,31 @@ sub doInventory {
 
 sub _getPackagesList {
     my $handle = getFileHandle(@_);
-    return unless $handle;
 
     my @packages;
     while (my $line = <$handle>) {
-        # skip descriptions
-        next if $line =~ /^ /;
         chomp $line;
-        my @infos = split("\t", $line);
+        next unless $line =~ /^(.*)-([0-9]+.*)/;
         push @packages, {
-            NAME        => $infos[0],
-            VERSION     => $infos[1],
-            FILESIZE    => $infos[2],
-            COMMENTS    => $infos[3],
-            FROM        => 'deb'
+            NAME    => $1,
+            VERSION => $2,
         };
     }
     close $handle;
 
     return \@packages;
+}
+
+# http://forge.fusioninventory.org/issues/852
+sub _equeryNeedsWildcard {
+    my ($major, $minor) = getFirstMatch(
+        command => 'equery -V',
+        pattern => qr/^equery ?\((\d+)\.(\d+)\.\d+\)/,
+        @_
+    );
+
+    # true starting from version 0.3
+    return compareVersion($major, $minor, 0, 3);
 }
 
 1;
