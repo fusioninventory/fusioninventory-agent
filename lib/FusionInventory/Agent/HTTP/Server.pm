@@ -76,7 +76,7 @@ sub _handle {
         }
 
         # now request
-        if ($path =~ m{^/now(?:/(\S+))?$}) {
+        if ($path =~ m{^/now(?:/(\S*))?$}) {
             $self->_handle_now($client, $request, $clientIp, $1);
             last SWITCH;
         }
