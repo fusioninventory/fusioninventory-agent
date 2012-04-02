@@ -87,7 +87,7 @@ sub fisher_yates_shuffle {
 sub findPeer {
     my ( $port, $logger ) = @_;
 
-    $logger->debug("cachedate: ".$cache{date});
+#    $logger->debug("cachedate: ".$cache{date});
     $logger->info("looking for a peer in the network");
     return $cache{data} if $cache{date} + 600 > time;
 
