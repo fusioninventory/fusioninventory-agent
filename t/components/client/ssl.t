@@ -13,8 +13,15 @@ use FusionInventory::Agent::HTTP::Client;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
 
-if ($OSNAME eq 'MSWin32' || $OSNAME eq 'darwin') {
-    plan skip_all => 'non working test on Windows and MacOS';
+# check than 'localhost' resolves, to an IPv4 address only
+my $localhost_ok = test_localhost();
+
+if (!$localhost_ok) {
+    plan skip_all => 'non working test without pure IPv4 localhost';
+} elsif ($OSNAME eq 'MSWin32') {
+    plan skip_all => 'non working test on Windows';
+} elsif ($OSNAME eq 'darwin') {
+    plan skip_all => 'non working test on MacOS';
 } else {
     plan tests => 8;
 }
