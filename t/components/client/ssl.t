@@ -114,7 +114,7 @@ $server->background();
 
 
 SKIP: {
-skip "Too all LWP for alternate hostname", 1 unless $LWP::VERSION >= 6;
+skip "LWP version too old, skipping", 1 unless $LWP::VERSION >= 6;
 ok(
     $secure_client->request(HTTP::Request->new(GET => $url))->is_success(),
     'trusted certificate, alternate hostname: connection success'
@@ -200,8 +200,7 @@ ok(
 );
 
 SKIP: {
-skip "Check disabled on LWP<6", 1 unless $LWP::VERSION >= 6;
-# Unless you wan to fix this
+skip "LWP version too old, skipping", 1 unless $LWP::VERSION >= 6;
 ok(
     $unsafe_client->request(HTTP::Request->new(GET => $url))->is_success(),
     'untrusted certificate, correct hostname, no check: connection success'
