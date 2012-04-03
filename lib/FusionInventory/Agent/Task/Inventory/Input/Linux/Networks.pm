@@ -44,7 +44,7 @@ sub _getInterfaces {
 
     my $logger = $params{logger};
 
-    my @interfaces = canRun("/sbin/ip") ?
+    my @interfaces = canRun('/sbin/ip') ?
         getInterfacesFromIp(logger => $logger):
         getInterfacesFromIfconfig(logger => $logger);
 
