@@ -7,8 +7,11 @@ use base 'Exporter';
 use English qw(-no_match_vars);
 use Socket;
 
+use FusionInventory::Agent::Tools;
+
 our @EXPORT = qw(
     test_port
+    test_localhost
     mockGetWmiObjects
     mockGetRegistryKey
 );
@@ -27,6 +30,20 @@ sub test_port {
     }
 
     return 0;
+}
+
+sub test_localhost {
+
+    return 0 unless inet_aton('localhost');
+
+    my $ipv6;
+    eval {
+        my ($err, @result) = Socket::getaddrinfo("localhost", "http");
+        $ipv6 = any { $_->{family} == Socket::PF_INET6 } @result;
+    };
+    return 0 if $ipv6;
+
+    return 1;
 }
 
 sub mockGetWmiObjects {
