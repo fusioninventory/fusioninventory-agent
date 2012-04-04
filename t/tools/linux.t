@@ -674,7 +674,7 @@ my %ifconfig_tests = (
 my %ipaddrshow_tests = (
     'ip_addr-1' => [
         {
-            IPSUBNET    => undef,
+            IPSUBNET    => '127.0.0.0',
             IPMASK      => '255.0.0.0',
             DESCRIPTION => 'lo',
             STATUS      => 'Up',
@@ -686,7 +686,7 @@ my %ipaddrshow_tests = (
             IPADDRESS6  => '::1'
         },
         {
-            IPSUBNET    => undef,
+            IPSUBNET    => '192.168.0.0',
             IPMASK      => '255.255.255.0',
             MACADDR     => '00:23:18:91:db:8d',
             DESCRIPTION => 'eth0',
@@ -719,7 +719,7 @@ my %ipaddrshow_tests = (
             MACADDR     => 'e8:39:df:3f:7d:ef'
         },
         {
-            IPSUBNET    => undef,
+            IPSUBNET    => '172.28.218.0',
             IPMASK      => '255.255.255.0',
             MACADDR     => '8a:84:99:29:46:05',
             DESCRIPTION => 'tap0',
@@ -735,7 +735,7 @@ my %ipaddrshow_tests = (
     ],
     'ip_addr-2' => [
         {
-            IPSUBNET    => undef,
+            IPSUBNET    => '127.0.0.0',
             IPMASK      => '255.0.0.0',
             DESCRIPTION => 'lo',
             STATUS      => 'Up',
@@ -747,7 +747,7 @@ my %ipaddrshow_tests = (
             IPADDRESS6  => '::1'
         },
         {
-            IPSUBNET    => undef,
+            IPSUBNET    => '11.11.11.0',
             IPMASK      => '255.255.255.128',
             MACADDR     => '0f:0f:0f:0f:0f:0f',
             DESCRIPTION => 'eth0',
@@ -755,7 +755,7 @@ my %ipaddrshow_tests = (
             IPADDRESS   => '11.11.11.11'
         },
         {
-            IPSUBNET    => undef,
+            IPSUBNET    => '172.16.0.0',
             IPMASK      => '255.255.128.0',
             MACADDR     => '0f:0f:0f:0f:0f:0f',
             DESCRIPTION => 'eth0',
@@ -785,7 +785,7 @@ my %ipaddrshow_tests = (
     # RHEL 5.6
     'ip_addr-3' => [
         {
-            IPSUBNET    => undef,
+            IPSUBNET    => '127.0.0.0',
             IPMASK      => '255.0.0.0',
             DESCRIPTION => 'lo',
             STATUS      => 'Up',
@@ -797,7 +797,7 @@ my %ipaddrshow_tests = (
             IPADDRESS6  => '::1'
         },
         {
-            IPSUBNET    => undef,
+            IPSUBNET    => '10.40.1.0',
             IPMASK      => '255.255.255.0',
             MACADDR     => '00:50:56:8b:70:b7',
             DESCRIPTION => 'eth0',

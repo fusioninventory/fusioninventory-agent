@@ -347,13 +347,18 @@ sub getInterfacesFromIp {
         } elsif ($line =~ /link\/ether ($mac_address_pattern)/) {
             $interface->{MACADDR} = $1;
         } elsif ($line =~ /inet6 (\S+)\//) {
-            push @adresses, {IPADDRESS6 => $1}
+            push @adresses, {
+                IPADDRESS6 => $1
+            };
         } elsif ($line =~ /inet ($ip_address_pattern)\/(\d{1,3})/) {
-            my $ifAddr = {};
-            $ifAddr->{IPADDRESS} = $1;
-            $ifAddr->{IPMASK} = getNetworkMask($2);
-            $ifAddr->{IPSUBNET} = getSubnetAddress($interface->{IPADDRESS}, $interface->{IPMASK});
-            push @adresses, $ifAddr if $ifAddr->{IPADDRESS};
+            my $address = {
+                IPADDRESS => $1,
+                IPMASK    => getNetworkMask($2),
+            };
+            $address->{IPSUBNET} = getSubnetAddress(
+                $address->{IPADDRESS}, $address->{IPMASK}
+            );
+            push @adresses, $address;
         }
     }
 
