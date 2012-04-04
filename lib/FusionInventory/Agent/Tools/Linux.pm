@@ -313,25 +313,47 @@ sub getInterfacesFromIp {
 
     my @interfaces;
     my $interface;
+    my @adresses;
 
-    while (my $line = <$handle>) {
+    my @lines = <$handle>;
+    # We parse the output in the reverse order
+    while (my $line = pop(@lines)) {
         chomp $line;
-        if ($line =~ /^\d+:\s+(\S+): .*(UP|DOWN)/) {
-            push @interfaces, $interface if $interface;
-            $interface = {
-                DESCRIPTION => $1,
-                STATUS      => ucfirst(lc($2))
-            };
+        if ($line =~ /^\d+:\s+(\S+): .*<(.+?)>(.*)/) {
+            my $status;
+            $interface->{DESCRIPTION} = $1;
+
+            if ($3 =~ /state DOWN /) {
+                $interface->{STATUS} = 'Down';
+            } else {
+                foreach (split(/,/, $2)) {
+                    next unless /^(UP|DOWN)$/;
+                    $interface->{STATUS} = ucfirst(lc($1));
+                }
+            }
+
+            if (@adresses) {
+                foreach my $if (@adresses) {
+                    foreach (keys %$interface) {
+                        $if->{$_} = $interface->{$_};
+                    }
+                    unshift @interfaces, $if;
+                }
+            } else {
+                unshift @interfaces, $interface;
+            }
+            $interface = {};
+            @adresses = ();
         } elsif ($line =~ /link\/ether ($mac_address_pattern)/) {
             $interface->{MACADDR} = $1;
         } elsif ($line =~ /inet6 (\S+)\//) {
-            $interface->{IPADDRESS6} = $1;
+            push @adresses, {IPADDRESS6 => $1}
         } elsif ($line =~ /inet ($ip_address_pattern)\/(\d{1,3})/) {
-            $interface->{IPADDRESS} = $1;
-            $interface->{IPMASK}    = getNetworkMask($2);
-            $interface->{IPSUBNET}  = getSubnetAddress(
-                $interface->{IPADDRESS}, $interface->{IPMASK}
-            );
+            my $ifAddr = {};
+            $ifAddr->{IPADDRESS} = $1;
+            $ifAddr->{IPMASK} = getNetworkMask($2);
+            $ifAddr->{IPSUBNET} = getSubnetAddress($interface->{IPADDRESS}, $interface->{IPMASK});
+            push @adresses, $ifAddr if $ifAddr->{IPADDRESS};
         }
     }
 
