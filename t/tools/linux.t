@@ -678,12 +678,14 @@ my %ipaddrshow_tests = (
             IPMASK      => '255.0.0.0',
             DESCRIPTION => 'lo',
             STATUS      => 'Up',
-            IPADDRESS   => '127.0.0.1'
+            IPADDRESS   => '127.0.0.1',
+            MACADDR     => undef
         },
         {
             DESCRIPTION => 'lo',
             STATUS      => 'Up',
-            IPADDRESS6  => '::1'
+            IPADDRESS6  => '::1',
+            MACADDR     => undef
         },
         {
             IPSUBNET    => '192.168.0.0',
@@ -707,11 +709,19 @@ my %ipaddrshow_tests = (
         },
         {
             STATUS      => 'Up',
-            DESCRIPTION => 'tun0'
+            DESCRIPTION => 'tun0',
+            IPADDRESS   => '192.168.41.6',
+            IPSUBNET    => undef,
+            IPMASK      => undef,
+            MACADDR     => undef
         },
         {
             STATUS      => 'Up',
-            DESCRIPTION => 'tun1'
+            DESCRIPTION => 'tun1',
+            IPADDRESS   => '192.168.222.14',
+            IPSUBNET    => undef,
+            IPMASK      => undef,
+            MACADDR     => undef
         },
         {
             STATUS      => 'Down',
@@ -739,12 +749,14 @@ my %ipaddrshow_tests = (
             IPMASK      => '255.0.0.0',
             DESCRIPTION => 'lo',
             STATUS      => 'Up',
-            IPADDRESS   => '127.0.0.1'
+            IPADDRESS   => '127.0.0.1',
+            MACADDR     => undef
         },
         {
             DESCRIPTION => 'lo',
             STATUS      => 'Up',
-            IPADDRESS6  => '::1'
+            IPADDRESS6  => '::1',
+            MACADDR     => undef
         },
         {
             IPSUBNET    => '11.11.11.0',
@@ -770,11 +782,11 @@ my %ipaddrshow_tests = (
         },
         {
             STATUS      => 'Down',
-            DESCRIPTION => 'eql'
+            DESCRIPTION => 'eql',
         },
         {
             STATUS      => 'Down',
-            DESCRIPTION => 'sit0'
+            DESCRIPTION => 'sit0',
         },
         {
             STATUS      => 'Down',
@@ -789,12 +801,14 @@ my %ipaddrshow_tests = (
             IPMASK      => '255.0.0.0',
             DESCRIPTION => 'lo',
             STATUS      => 'Up',
-            IPADDRESS   => '127.0.0.1'
+            IPADDRESS   => '127.0.0.1',
+            MACADDR     => undef
         },
         {
             DESCRIPTION => 'lo',
             STATUS      => 'Up',
-            IPADDRESS6  => '::1'
+            IPADDRESS6  => '::1',
+            MACADDR     => undef
         },
         {
             IPSUBNET    => '10.40.1.0',
@@ -802,7 +816,7 @@ my %ipaddrshow_tests = (
             MACADDR     => '00:50:56:8b:70:b7',
             DESCRIPTION => 'eth0',
             STATUS      => 'Up',
-            IPADDRESS   => '10.40.1.16'
+            IPADDRESS   => '10.40.1.16',
         },
         {
             MACADDR     => '00:50:56:8b:70:b7',
@@ -810,9 +824,6 @@ my %ipaddrshow_tests = (
             STATUS      => 'Up',
             IPADDRESS6  => 'fe80::250:56ff:fe8b:70b7'
         },
-        {
-            DESCRIPTION => 'sit0'
-        }
     ]
 );
 
