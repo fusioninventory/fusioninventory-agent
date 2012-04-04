@@ -59,7 +59,7 @@ sub getBiosInfo {
         BVERSION      => $biosInfo->{biosVersion},
         SMODEL        => $systemInfo->{model},
         SMANUFACTURER => $systemInfo->{vendor},
-        ASSETTAG      => $systemInfo->{otherIdentifyingInfo}->{identifierValue}
+        ASSETTAG      => $identifierValue
     };
 }
 
