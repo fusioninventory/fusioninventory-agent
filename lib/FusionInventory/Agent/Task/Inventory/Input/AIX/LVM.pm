@@ -8,7 +8,7 @@ use warnings;
 use English qw(-no_match_vars);
 
 sub isEnabled {
-    canRun("lspv");
+    canRun('lspv');
 }
 
 sub doInventory {

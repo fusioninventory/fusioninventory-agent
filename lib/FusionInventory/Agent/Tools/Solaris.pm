@@ -38,7 +38,7 @@ memoize('getClass');
 
 sub getZone {
 
-    return 'global' unless canRun("zonename");
+    return 'global' unless canRun('zonename');
 
     my $zone = getFirstLine(command => 'zonename');
 

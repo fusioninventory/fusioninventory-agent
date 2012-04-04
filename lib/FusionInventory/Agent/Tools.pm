@@ -333,7 +333,9 @@ sub getLinesCount {
 sub canRun {
     my ($binary) = @_;
 
-    return scalar(which($binary));
+    return $binary =~ m{^/} ?
+        -x $binary :            # full path
+        scalar(which($binary)); # executable name
 }
 
 sub canRead {

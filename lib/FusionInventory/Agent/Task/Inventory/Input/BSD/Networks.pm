@@ -8,7 +8,7 @@ use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Tools::Unix;
 
 sub isEnabled {
-    return canRun("ifconfig");
+    return canRun('ifconfig');
 }
 
 sub doInventory {
