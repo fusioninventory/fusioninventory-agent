@@ -181,6 +181,5 @@ foreach my $test (keys %tests) {
         \@interfaces,
         $tests{$test},
         "$test sample"
-    ) or print Dumper(\@interfaces);
-use Data::Dumper;
+    );
 }
