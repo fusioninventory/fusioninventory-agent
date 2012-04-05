@@ -6000,7 +6000,7 @@ my %lspci_tests = (
         },
         {
             PCICLASS     => '0c03',
-            NAME         => 'USB Controller',
+            NAME         => 'USB controller',
             MANUFACTURER => 'Intel Corporation 82801I (ICH9 Family) USB UHCI Controller #4',
             REV          => '03',
             PCIID        => '8086:2937',
@@ -6009,7 +6009,7 @@ my %lspci_tests = (
         },
         {
             PCICLASS     => '0c03',
-            NAME         => 'USB Controller',
+            NAME         => 'USB controller',
             MANUFACTURER => 'Intel Corporation 82801I (ICH9 Family) USB UHCI Controller #5',
             REV          => '03',
             PCIID        => '8086:2938',
@@ -6018,7 +6018,7 @@ my %lspci_tests = (
         },
         {
             PCICLASS     => '0c03',
-            NAME         => 'USB Controller',
+            NAME         => 'USB controller',
             MANUFACTURER => 'Intel Corporation 82801I (ICH9 Family) USB UHCI Controller #6',
             REV          => '03',
             PCIID        => '8086:2939',
@@ -6027,7 +6027,7 @@ my %lspci_tests = (
         },
         {
             PCICLASS     => '0c03',
-            NAME         => 'USB Controller',
+            NAME         => 'USB controller',
             MANUFACTURER => 'Intel Corporation 82801I (ICH9 Family) USB2 EHCI Controller #2',
             REV          => '03',
             PCIID        => '8086:293c',
@@ -6040,7 +6040,7 @@ my %lspci_tests = (
             MANUFACTURER => 'Intel Corporation 82801I (ICH9 Family) HD Audio Controller',
             REV          => '03',
             PCIID        => '8086:293e',
-            DRIVER       => 'HDA',
+            DRIVER       => 'snd_hda_intel',
             PCISLOT      => '00:1b.0'
         },
         {
@@ -6072,7 +6072,7 @@ my %lspci_tests = (
         },
         {
             PCICLASS     => '0c03',
-            NAME         => 'USB Controller',
+            NAME         => 'USB controller',
             MANUFACTURER => 'Intel Corporation 82801I (ICH9 Family) USB UHCI Controller #1',
             REV          => '03',
             PCIID        => '8086:2934',
@@ -6081,7 +6081,7 @@ my %lspci_tests = (
         },
         {
             PCICLASS     => '0c03',
-            NAME         => 'USB Controller',
+            NAME         => 'USB controller',
             MANUFACTURER => 'Intel Corporation 82801I (ICH9 Family) USB UHCI Controller #2',
             REV          => '03',
             PCIID        => '8086:2935',
@@ -6090,7 +6090,7 @@ my %lspci_tests = (
         },
         {
             PCICLASS     => '0c03',
-            NAME         => 'USB Controller',
+            NAME         => 'USB controller',
             MANUFACTURER => 'Intel Corporation 82801I (ICH9 Family) USB UHCI Controller #3',
             REV          => '03',
             PCIID        => '8086:2936',
@@ -6099,7 +6099,7 @@ my %lspci_tests = (
         },
         {
             PCICLASS     => '0c03',
-            NAME         => 'USB Controller',
+            NAME         => 'USB controller',
             MANUFACTURER => 'Intel Corporation 82801I (ICH9 Family) USB2 EHCI Controller #1',
             REV          => '03',
             PCIID        => '8086:293a',
@@ -6121,15 +6121,6 @@ my %lspci_tests = (
             REV          => '03',
             PCIID        => '8086:2917',
             PCISLOT      => '00:1f.0'
-        },
-        {
-            PCICLASS     => '0104',
-            NAME         => 'RAID bus controller',
-            MANUFACTURER => 'Intel Corporation Mobile 82801 SATA RAID Controller',
-            REV          => '03',
-            PCIID        => '8086:282a',
-            DRIVER       => 'ahci',
-            PCISLOT      => '00:1f.2'
         },
         {
             PCICLASS     => '0c05',
@@ -6155,7 +6146,7 @@ my %lspci_tests = (
             MANUFACTURER => 'Texas Instruments PCIxx12 OHCI Compliant IEEE 1394 Host Controller',
             REV          => undef,
             PCIID        => '104c:803a',
-            DRIVER       => 'ohci1394',
+            DRIVER       => 'firewire_ohci',
             PCISLOT      => '02:01.1'
         },
         {
@@ -6170,10 +6161,10 @@ my %lspci_tests = (
         {
             PCICLASS     => '0280',
             NAME         => 'Network controller',
-            MANUFACTURER => 'Intel Corporation Wireless WiFi Link 5100',
+            MANUFACTURER => 'Intel Corporation WiFi Link 5100',
             REV          => undef,
             PCIID        => '8086:4232',
-            DRIVER       => 'iwlagn',
+            DRIVER       => 'iwlwifi',
             PCISLOT      => '0c:00.0'
         }
     ]
