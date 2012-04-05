@@ -313,49 +313,61 @@ sub getInterfacesFromIp {
 
     my @interfaces;
     my $interface;
-    my @adresses;
 
-    my @lines = <$handle>;
-    # We parse the output in the reverse order
-    while (my $line = pop(@lines)) {
-        chomp $line;
-        if ($line =~ /^\d+:\s+(\S+): .*<(.+?)>(.*)/) {
-            my $status;
-            $interface->{DESCRIPTION} = $1;
+    while (my $line = <$handle>) {
+        if ($line =~ /^\d+:\s+(\S+): <(.+?)>(.*)/) {
+            # push previous interface if down, as there was no related address
+            push @interfaces, $interface
+                if $interface           &&
+                   $interface->{STATUS} &&
+                   $interface->{STATUS} eq 'Down';
 
-            if ($3 =~ /state DOWN /) {
+            $interface = {
+                DESCRIPTION => $1
+            };
+
+            my $flags = $2;
+            my $remaining = $3;
+
+            if ($remaining =~ /state DOWN /) {
                 $interface->{STATUS} = 'Down';
             } else {
-                foreach (split(/,/, $2)) {
-                    next unless /^(UP|DOWN)$/;
-                    $interface->{STATUS} = ucfirst(lc($1));
+                foreach my $flag (split(/,/, $flags)) {
+                    next unless $flag eq 'UP' || $flag eq 'DOWN';
+                    $interface->{STATUS} = ucfirst(lc($flag));
                 }
             }
-
-            if (@adresses) {
-                foreach my $if (@adresses) {
-                    foreach (keys %$interface) {
-                        $if->{$_} = $interface->{$_};
-                    }
-                    unshift @interfaces, $if;
-                }
-            } else {
-                unshift @interfaces, $interface;
-            }
-            $interface = {};
-            @adresses = ();
         } elsif ($line =~ /link\/ether ($mac_address_pattern)/) {
             $interface->{MACADDR} = $1;
         } elsif ($line =~ /inet6 (\S+)\//) {
-            push @adresses, {IPADDRESS6 => $1}
-        } elsif ($line =~ /inet ($ip_address_pattern)\/(\d{1,3})/) {
-            my $ifAddr = {};
-            $ifAddr->{IPADDRESS} = $1;
-            $ifAddr->{IPMASK} = getNetworkMask($2);
-            $ifAddr->{IPSUBNET} = getSubnetAddress($interface->{IPADDRESS}, $interface->{IPMASK});
-            push @adresses, $ifAddr if $ifAddr->{IPADDRESS};
+            push @interfaces, {
+                IPADDRESS6  => $1,
+                STATUS      => $interface->{STATUS},
+                DESCRIPTION => $interface->{DESCRIPTION},
+                MACADDR     => $interface->{MACADDR}
+            };
+        } elsif ($line =~ /inet ($ip_address_pattern)(?:\/(\d{1,3}))?/) {
+            my $address = $1;
+            my $mask    = $2 ? getNetworkMask($2) : undef;
+            my $subnet  = $address && $mask ?
+                getSubnetAddress($address, $mask) : undef;
+
+            push @interfaces, {
+                IPADDRESS   => $address,
+                IPMASK      => $mask,
+                IPSUBNET    => $subnet,
+                STATUS      => $interface->{STATUS},
+                DESCRIPTION => $interface->{DESCRIPTION},
+                MACADDR     => $interface->{MACADDR}
+            };
         }
     }
+
+    # push last interface if down, as there was no related address
+    push @interfaces, $interface
+        if $interface           &&
+           $interface->{STATUS} &&
+           $interface->{STATUS} eq 'Down';
 
     return @interfaces;
 }
