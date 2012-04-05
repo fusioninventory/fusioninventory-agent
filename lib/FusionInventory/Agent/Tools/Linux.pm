@@ -315,7 +315,7 @@ sub getInterfacesFromIp {
     my $interface;
 
     while (my $line = <$handle>) {
-        if ($line =~ /^\d+:\s+(\S+): <(.+?)>(.*)/) {
+        if ($line =~ /^\d+:\s+(\S+): <([^>]+)>(.*)/) {
 
             $interface = {
                 DESCRIPTION => $1
