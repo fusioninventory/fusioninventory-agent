@@ -125,7 +125,7 @@ sub getCpusFromDmidecode {
 
 sub getPCIDevices {
     my (%params) = (
-        command => 'lspci -vvv -nn',
+        command => 'lspci -v -nn',
         @_
     );
     my $handle = getFileHandle(%params);
