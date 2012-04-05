@@ -79,17 +79,7 @@ sub _getInterfaces {
         if ($object->{IPAddress}) {
             foreach my $address (@{$object->{IPAddress}}) {
                 my $mask = shift @{$object->{IPSubnet}};
-                if ($address =~ /$ip_address_pattern/) {
-                    push @{$configuration->{IPADDRESS}}, $address;
-                    push @{$configuration->{IPMASK}}, $mask;
-                    push @{$configuration->{IPSUBNET}},
-                        getSubnetAddress($address, $mask);
-                } elsif ($address =~ /\S+/) {
-                    push @{$configuration->{IPADDRESS6}}, $address;
-                    push @{$configuration->{IPMASK6}}, $mask;
-                    push @{$configuration->{IPSUBNET6}},
-                        getSubnetAddressIPv6($address, $mask);
-                }
+                push @{$configuration->{addresses}}, [ $address, $mask ];
             }
         }
 
@@ -107,52 +97,98 @@ sub _getInterfaces {
 
         my $configuration = $configurations[$object->{Index}];
 
-        next unless 
-            $configuration->{IPADDRESS} ||
-            $configuration->{IPADDRESS6} ||
-            $configuration->{MACADDR};
+        if ($configuration->{addresses}) {
+            foreach my $address (@{$configuration->{addresses}}) {
 
-        my $interface = {
-            SPEED       => $object->{Speed},
-            PNPDEVICEID => $object->{PNPDeviceID},
-            MACADDR     => $configuration->{MACADDR},
-            DESCRIPTION => $configuration->{DESCRIPTION},
-            STATUS      => $configuration->{STATUS},
-            IPDHCP      => $configuration->{IPDHCP},
-            MTU         => $configuration->{MTU},
-            IPGATEWAY   => $configuration->{IPGATEWAY},
-            IPADDRESS   => $configuration->{IPADDRESS},
-            IPMASK      => $configuration->{IPMASK},
-            IPSUBNET    => $configuration->{IPSUBNET},
-            IPADDRESS6  => $configuration->{IPADDRESS6},
-            IPMASK6     => $configuration->{IPMASK6},
-            IPSUBNET6   => $configuration->{IPSUBNET6},
-            dns         => $configuration->{dns},
-        };
+                my $interface = {
+                    SPEED       => $object->{Speed},
+                    PNPDEVICEID => $object->{PNPDeviceID},
+                    MACADDR     => $configuration->{MACADDR},
+                    DESCRIPTION => $configuration->{DESCRIPTION},
+                    STATUS      => $configuration->{STATUS},
+                    IPDHCP      => $configuration->{IPDHCP},
+                    MTU         => $configuration->{MTU},
+                    IPGATEWAY   => $configuration->{IPGATEWAY},
+                    dns         => $configuration->{dns},
+                };
 
-        # PhysicalAdapter only work on OS > XP
-        if (defined $object->{PhysicalAdapter}) {
-            $interface->{VIRTUALDEV} = $object->{PhysicalAdapter} ? 0 : 1;
-        # http://forge.fusioninventory.org/issues/1166 
-        } elsif ($interface->{DESCRIPTION}
-              && $interface->{DESCRIPTION} =~ /RAS/
-              && $interface->{DESCRIPTION} =~ /Adapter/i) {
-            $interface->{VIRTUALDEV} = 1;
+                if ($address->[0] =~ /$ip_address_pattern/) {
+                    $interface->{IPADDRESS} = $address->[0];
+                    $interface->{IPMASK}    = $address->[1];
+                    $interface->{IPSUBNET}  = getSubnetAddress(
+                        $address->[0],
+                        $address->[1]
+                    );
+                } else {
+                    $interface->{IPADDRESS6} = $address->[0];
+                    $interface->{IPMASK6}    = $address->[1];
+                    $interface->{IPSUBNET6}  = getSubnetAddressIPv6(
+                        $address->[0],
+                        $address->[1]
+                    );
+                }
+
+                $interface->{VIRTUALDEV} = _isVirtual($object, $configuration);
+                $interface->{TYPE}       = _getType($object);
+
+                push @interfaces, $interface;
+            }
         } else {
-            $interface->{VIRTUALDEV} = $object->{PNPDeviceID} =~ /^ROOT/ ? 1 : 0;
+            next unless $configuration->{MACADDR};
+
+            my $interface = {
+                SPEED       => $object->{Speed},
+                PNPDEVICEID => $object->{PNPDeviceID},
+                MACADDR     => $configuration->{MACADDR},
+                DESCRIPTION => $configuration->{DESCRIPTION},
+                STATUS      => $configuration->{STATUS},
+                IPDHCP      => $configuration->{IPDHCP},
+                MTU         => $configuration->{MTU},
+                IPGATEWAY   => $configuration->{IPGATEWAY},
+                dns         => $configuration->{dns},
+            };
+
+            $interface->{VIRTUALDEV} = _isVirtual($object, $configuration);
+            $interface->{TYPE}       = _getType($object);
+
+            push @interfaces, $interface;
         }
 
-        if (defined $object->{AdapterType}) {
-            $interface->{TYPE} = $object->{AdapterType};
-            $interface->{TYPE} =~ s/Ethernet.*/Ethernet/;
-        }
-
-        push @interfaces, $interface;
     }
 
     return
         @interfaces;
 
+}
+
+sub _isVirtual {
+    my ($object, $configuration) = @_;
+
+    # PhysicalAdapter only work on OS > XP
+    if (defined $object->{PhysicalAdapter}) {
+        return $object->{PhysicalAdapter} ? 0 : 1;
+    }
+
+    # http://forge.fusioninventory.org/issues/1166 
+    if ($configuration->{DESCRIPTION} &&
+        $configuration->{DESCRIPTION} =~ /RAS/ &&
+        $configuration->{DESCRIPTION} =~ /Adapter/i
+    ) {
+          return 1;
+    }
+
+    return $object->{PNPDeviceID} =~ /^ROOT/ ? 1 : 0;
+}
+
+sub _getType {
+    my ($object) = @_;
+
+    return unless $object->{AdapterType};
+
+    my $type = $object->{AdapterType};
+    $type =~ s/Ethernet.*/Ethernet/;
+
+    return $type;
 }
 
 1;
