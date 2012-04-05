@@ -316,11 +316,6 @@ sub getInterfacesFromIp {
 
     while (my $line = <$handle>) {
         if ($line =~ /^\d+:\s+(\S+): <(.+?)>(.*)/) {
-            # push previous interface if down, as there was no related address
-            push @interfaces, $interface
-                if $interface           &&
-                   $interface->{STATUS} &&
-                   $interface->{STATUS} eq 'Down';
 
             $interface = {
                 DESCRIPTION => $1
@@ -337,8 +332,12 @@ sub getInterfacesFromIp {
                     $interface->{STATUS} = ucfirst(lc($flag));
                 }
             }
-        } elsif ($line =~ /link\/ether ($mac_address_pattern)/) {
+        } elsif ($line =~ /link\/\S+ ($mac_address_pattern)?/) {
             $interface->{MACADDR} = $1;
+
+            # if courrent interface is not up, there won't be any address lines
+            push @interfaces, $interface
+                unless $interface->{STATUS} && $interface->{STATUS} eq 'Up';
         } elsif ($line =~ /inet6 (\S+)\//) {
             push @interfaces, {
                 IPADDRESS6  => $1,
@@ -362,12 +361,6 @@ sub getInterfacesFromIp {
             };
         }
     }
-
-    # push last interface if down, as there was no related address
-    push @interfaces, $interface
-        if $interface           &&
-           $interface->{STATUS} &&
-           $interface->{STATUS} eq 'Down';
 
     return @interfaces;
 }

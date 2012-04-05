@@ -679,13 +679,13 @@ my %ipaddrshow_tests = (
             DESCRIPTION => 'lo',
             STATUS      => 'Up',
             IPADDRESS   => '127.0.0.1',
-            MACADDR     => undef
+            MACADDR     => '00:00:00:00:00:00',
         },
         {
             DESCRIPTION => 'lo',
             STATUS      => 'Up',
             IPADDRESS6  => '::1',
-            MACADDR     => undef
+            MACADDR     => '00:00:00:00:00:00',
         },
         {
             IPSUBNET    => '192.168.0.0',
@@ -750,13 +750,13 @@ my %ipaddrshow_tests = (
             DESCRIPTION => 'lo',
             STATUS      => 'Up',
             IPADDRESS   => '127.0.0.1',
-            MACADDR     => undef
+            MACADDR     => '00:00:00:00:00:00',
         },
         {
             DESCRIPTION => 'lo',
             STATUS      => 'Up',
             IPADDRESS6  => '::1',
-            MACADDR     => undef
+            MACADDR     => '00:00:00:00:00:00',
         },
         {
             IPSUBNET    => '11.11.11.0',
@@ -783,10 +783,12 @@ my %ipaddrshow_tests = (
         {
             STATUS      => 'Down',
             DESCRIPTION => 'eql',
+            MACADDR     => undef
         },
         {
             STATUS      => 'Down',
             DESCRIPTION => 'sit0',
+            MACADDR     => undef
         },
         {
             STATUS      => 'Down',
@@ -802,13 +804,13 @@ my %ipaddrshow_tests = (
             DESCRIPTION => 'lo',
             STATUS      => 'Up',
             IPADDRESS   => '127.0.0.1',
-            MACADDR     => undef
+            MACADDR     => '00:00:00:00:00:00',
         },
         {
             DESCRIPTION => 'lo',
             STATUS      => 'Up',
             IPADDRESS6  => '::1',
-            MACADDR     => undef
+            MACADDR     => '00:00:00:00:00:00',
         },
         {
             IPSUBNET    => '10.40.1.0',
@@ -823,6 +825,10 @@ my %ipaddrshow_tests = (
             DESCRIPTION => 'eth0',
             STATUS      => 'Up',
             IPADDRESS6  => 'fe80::250:56ff:fe8b:70b7'
+        },
+        {
+            DESCRIPTION => 'sit0',
+            MACADDR     => undef
         },
     ]
 );
