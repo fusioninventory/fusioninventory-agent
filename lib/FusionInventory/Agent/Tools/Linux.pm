@@ -340,9 +340,8 @@ sub getInterfacesFromIp {
                 unless $interface->{STATUS} && $interface->{STATUS} eq 'Up';
         } elsif ($line =~ /inet6 (\S+)\/(\d{1,2})/) {
             my $address = $1;
-            my $mask    = $2 ? getNetworkMaskIPv6($2) : undef;
-            my $subnet  = $address && $mask ?
-                getSubnetAddressIPv6($address, $mask) : undef;
+            my $mask    = getNetworkMaskIPv6($2);
+            my $subnet  = getSubnetAddressIPv6($address, $mask);
 
             push @interfaces, {
                 IPADDRESS6  => $address,
@@ -354,9 +353,8 @@ sub getInterfacesFromIp {
             };
         } elsif ($line =~ /inet ($ip_address_pattern)(?:\/(\d{1,3}))?/) {
             my $address = $1;
-            my $mask    = $2 ? getNetworkMask($2) : undef;
-            my $subnet  = $address && $mask ?
-                getSubnetAddress($address, $mask) : undef;
+            my $mask    = getNetworkMask($2);
+            my $subnet  = getSubnetAddress($address, $mask);
 
             push @interfaces, {
                 IPADDRESS   => $address,
