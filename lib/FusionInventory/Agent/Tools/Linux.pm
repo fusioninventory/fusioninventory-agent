@@ -338,9 +338,16 @@ sub getInterfacesFromIp {
             # if courrent interface is not up, there won't be any address lines
             push @interfaces, $interface
                 unless $interface->{STATUS} && $interface->{STATUS} eq 'Up';
-        } elsif ($line =~ /inet6 (\S+)\//) {
+        } elsif ($line =~ /inet6 (\S+)\/(\d{1,2})/) {
+            my $address = $1;
+            my $mask    = $2 ? getNetworkMaskIPv6($2) : undef;
+            my $subnet  = $address && $mask ?
+                getSubnetAddressIPv6($address, $mask) : undef;
+
             push @interfaces, {
-                IPADDRESS6  => $1,
+                IPADDRESS6  => $address,
+                IPMASK6     => $mask,
+                IPSUBNET6   => $subnet,
                 STATUS      => $interface->{STATUS},
                 DESCRIPTION => $interface->{DESCRIPTION},
                 MACADDR     => $interface->{MACADDR}

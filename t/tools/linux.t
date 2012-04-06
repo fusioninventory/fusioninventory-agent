@@ -685,6 +685,8 @@ my %ipaddrshow_tests = (
             DESCRIPTION => 'lo',
             STATUS      => 'Up',
             IPADDRESS6  => '::1',
+            IPMASK6     => 'fff0::',
+            IPSUBNET6   => '::',
             MACADDR     => '00:00:00:00:00:00',
         },
         {
@@ -699,13 +701,17 @@ my %ipaddrshow_tests = (
             MACADDR     => '00:23:18:91:db:8d',
             DESCRIPTION => 'eth0',
             STATUS      => 'Up',
-            IPADDRESS6  => '2a01:e34:ef9c:64d0:223:18ff:fe91:db8d'
+            IPADDRESS6  => '2a01:e34:ef9c:64d0:223:18ff:fe91:db8d',
+            IPMASK6     => 'ffff:ffff:ffff:ffff::',
+            IPSUBNET6   => '2a01:e34:ef9c:64d0::'
         },
         {
             MACADDR     => '00:23:18:91:db:8d',
             DESCRIPTION => 'eth0',
             STATUS      => 'Up',
-            IPADDRESS6  => 'fe80::223:18ff:fe91:db8d'
+            IPADDRESS6  => 'fe80::223:18ff:fe91:db8d',
+            IPMASK6     => 'ffff:ffff:ffff:ffff::',
+            IPSUBNET6   => 'fe80::'
         },
         {
             STATUS      => 'Up',
@@ -740,7 +746,9 @@ my %ipaddrshow_tests = (
             MACADDR     => '8a:84:99:29:46:05',
             DESCRIPTION => 'tap0',
             STATUS      => 'Up',
-            IPADDRESS6  => 'fe80::8884:99ff:fe29:4605'
+            IPADDRESS6  => 'fe80::8884:99ff:fe29:4605',
+            IPMASK6     => 'ffff:ffff:ffff:ffff::',
+            IPSUBNET6   => 'fe80::'
         }
     ],
     'ip_addr-2' => [
@@ -756,6 +764,8 @@ my %ipaddrshow_tests = (
             DESCRIPTION => 'lo',
             STATUS      => 'Up',
             IPADDRESS6  => '::1',
+            IPMASK6     => 'fff0::',
+            IPSUBNET6   => '::',
             MACADDR     => '00:00:00:00:00:00',
         },
         {
@@ -778,7 +788,9 @@ my %ipaddrshow_tests = (
             MACADDR     => '0f:0f:0f:0f:0f:0f',
             DESCRIPTION => 'eth0',
             STATUS      => 'Up',
-            IPADDRESS6  => 'fe80::201:29ff:fed1:feb4'
+            IPADDRESS6  => 'fe80::201:29ff:fed1:feb4',
+            IPMASK6     => 'ffff:ffff:ffff:ffff::',
+            IPSUBNET6   => 'fe80::'
         },
         {
             STATUS      => 'Down',
@@ -810,6 +822,8 @@ my %ipaddrshow_tests = (
             DESCRIPTION => 'lo',
             STATUS      => 'Up',
             IPADDRESS6  => '::1',
+            IPMASK6     => 'fff0::',
+            IPSUBNET6   => '::',
             MACADDR     => '00:00:00:00:00:00',
         },
         {
@@ -824,7 +838,9 @@ my %ipaddrshow_tests = (
             MACADDR     => '00:50:56:8b:70:b7',
             DESCRIPTION => 'eth0',
             STATUS      => 'Up',
-            IPADDRESS6  => 'fe80::250:56ff:fe8b:70b7'
+            IPADDRESS6  => 'fe80::250:56ff:fe8b:70b7',
+            IPMASK6     => 'ffff:ffff:ffff:ffff::',
+            IPSUBNET6   => 'fe80::'
         },
         {
             DESCRIPTION => 'sit0',
