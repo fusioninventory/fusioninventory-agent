@@ -78,8 +78,8 @@ sub _getInterfaces {
 
         if ($object->{IPAddress}) {
             foreach my $address (@{$object->{IPAddress}}) {
-                my $mask = shift @{$object->{IPSubnet}};
-                push @{$configuration->{addresses}}, [ $address, $mask ];
+                my $prefix = shift @{$object->{IPSubnet}};
+                push @{$configuration->{addresses}}, [ $address, $prefix ];
             }
         }
 
@@ -116,15 +116,15 @@ sub _getInterfaces {
                     $interface->{IPADDRESS} = $address->[0];
                     $interface->{IPMASK}    = $address->[1];
                     $interface->{IPSUBNET}  = getSubnetAddress(
-                        $address->[0],
-                        $address->[1]
+                        $interface->{IPADDRESS},
+                        $interface->{IPMASK}
                     );
                 } else {
                     $interface->{IPADDRESS6} = $address->[0];
-                    $interface->{IPMASK6}    = $address->[1];
+                    $interface->{IPMASK6}    = getNetworkMaskIPv6($address->[1]);
                     $interface->{IPSUBNET6}  = getSubnetAddressIPv6(
-                        $address->[0],
-                        $address->[1]
+                        $interface->{IPADDRESS6},
+                        $interface->{IPMASK6}
                     );
                 }
 
