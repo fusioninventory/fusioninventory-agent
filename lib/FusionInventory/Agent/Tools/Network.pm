@@ -48,7 +48,7 @@ our $network_pattern = qr/
 sub getSubnetAddress {
     my ($address, $mask) = @_;
 
-    return unless $address && $mask;
+    return undef unless $address && $mask; ## no critic (ExplicitReturnUndef)
 
     my $binaddress = ip_iptobin($address, 4);
     my $binmask    = ip_iptobin($mask, 4);
@@ -60,7 +60,7 @@ sub getSubnetAddress {
 sub getSubnetAddressIPv6 {
     my ($address, $mask) = @_;
 
-    return unless $address && $mask;
+    return undef unless $address && $mask; ## no critic (ExplicitReturnUndef)
 
     my $binaddress = ip_iptobin(ip_expand_address($address, 6), 6);
     my $binmask    = ip_iptobin(ip_expand_address($mask, 6), 6);
@@ -86,6 +86,8 @@ sub alt2canonical {
 sub getNetworkMask {
     my ($prefix) = @_;
 
+    return undef unless $prefix; ## no critic (ExplicitReturnUndef)
+
     my $mask;
     $mask .= 1 foreach(1..$prefix);
     $mask .= 0 foreach(1..(32-$prefix));
@@ -96,6 +98,8 @@ sub getNetworkMask {
 
 sub getNetworkMaskIPv6 {
     my ($prefix) = @_;
+
+    return undef unless $prefix; ## no critic (ExplicitReturnUndef)
 
     return ip_compress_address(ip_bintoip(ip_get_mask($prefix, 6), 6), 6);
 }
