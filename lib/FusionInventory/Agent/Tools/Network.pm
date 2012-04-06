@@ -62,14 +62,11 @@ sub getSubnetAddressIPv6 {
 
     return unless $address && $mask;
 
-    my $binaddress = ip_iptobin($address, 6);
-    my $binmask    = ip_iptobin($mask, 6);
-
-    return unless $binaddress && $binmask;
-
+    my $binaddress = ip_iptobin(ip_expand_address($address, 6), 6);
+    my $binmask    = ip_iptobin(ip_expand_address($mask, 6), 6);
     my $binsubnet  = $binaddress & $binmask; ## no critic (ProhibitBitwise)
 
-    return ip_bintoip($binsubnet, 6);
+    return ip_compress_address(ip_bintoip($binsubnet, 6), 6);
 }
 
 sub hex2canonical {
