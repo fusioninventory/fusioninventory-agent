@@ -17,6 +17,7 @@ our @EXPORT = qw(
     getSubnetAddress
     getSubnetAddressIPv6
     getNetworkMask
+    getNetworkMaskIPv6
     hex2canonical
     alt2canonical
 );
@@ -96,6 +97,12 @@ sub getNetworkMask {
     return join ('.', map { oct('0b' . $_) } @bytes);
 }
 
+sub getNetworkMaskIPv6 {
+    my ($prefix) = @_;
+
+    return ip_compress_address(ip_bintoip(ip_get_mask($prefix, 6), 6), 6);
+}
+
 1;
 __END__
 
@@ -145,4 +152,8 @@ Returns the subnet address for IPv6.
 
 =head2 getNetworkMask($prefix)
 
-Returns the network mask.
+Returns the network mask for IPv4.
+
+=head2 getNetworkMaskIPv6($prefix)
+
+Returns the network mask for IPv6.
