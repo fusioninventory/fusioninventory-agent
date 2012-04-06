@@ -88,12 +88,7 @@ sub getNetworkMask {
 
     return undef unless $prefix; ## no critic (ExplicitReturnUndef)
 
-    my $mask;
-    $mask .= 1 foreach(1..$prefix);
-    $mask .= 0 foreach(1..(32-$prefix));
-
-    my @bytes = $mask =~ /^(\d{8})(\d{8})(\d{8})(\d{8})$/;
-    return join ('.', map { oct('0b' . $_) } @bytes);
+    return ip_bintoip(ip_get_mask($prefix, 4), 4);
 }
 
 sub getNetworkMaskIPv6 {
