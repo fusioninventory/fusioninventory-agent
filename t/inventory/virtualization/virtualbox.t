@@ -209,6 +209,62 @@ my %tests = (
             UUID      => 'd1fe6cfa-80c6-41ae-9f4b-2a15dbafcf2c',
             VCPU      => 1
         }
+    ],
+    sample3 => [
+        {
+            VMTYPE    => 'VirtualBox',
+            NAME      => 'Node 1 : Debian',
+            SUBSYSTEM => 'Oracle VM VirtualBox',
+            STATUS    => 'off',
+            MEMORY    => '256MB',
+            UUID      => 'e8e1f52d-700b-4fe8-b024-db04550eaddc',
+            VCPU      => 1
+        },
+        {
+            VMTYPE    => 'VirtualBox',
+            NAME      => 'Node 2 : Debian',
+            SUBSYSTEM => 'Oracle VM VirtualBox',
+            STATUS    => 'off',
+            MEMORY    => '256MB',
+            UUID      => '1922b52b-aa28-4d4a-b384-2d3429e3a6ad',
+            VCPU      => 1
+        },
+        {
+            VMTYPE    => 'VirtualBox',
+            NAME      => 'Node 3 : CentOS',
+            SUBSYSTEM => 'Oracle VM VirtualBox',
+            STATUS    => 'off',
+            MEMORY    => '256MB',
+            UUID      => 'a93b30fb-c0f8-4dbf-b439-f6e26d923cf7',
+            VCPU      => 1
+        },
+        {
+            VMTYPE    => 'VirtualBox',
+            NAME      => 'Node 4 : CentOS',
+            SUBSYSTEM => 'Oracle VM VirtualBox',
+            STATUS    => 'off',
+            MEMORY    => '256MB',
+            UUID      => '677daaa1-3e7a-441a-91be-449e02c82dd0',
+            VCPU      => 1
+        },
+        {
+            VMTYPE    => 'VirtualBox',
+            NAME      => 'FormationCFengine',
+            SUBSYSTEM => 'Oracle VM VirtualBox',
+            STATUS    => 'off',
+            MEMORY    => '384MB',
+            UUID      => 'b8b35683-eb17-4689-8213-6a46b28b139f',
+            VCPU      => 1
+        },
+        {
+            VMTYPE    => 'VirtualBox',
+            NAME      => 'Debian Maître - Squeeze',
+            SUBSYSTEM => 'Oracle VM VirtualBox',
+            STATUS    => 'off',
+            MEMORY    => '1024MB',
+            UUID      => 'ab6afdd6-aa78-4a22-8fc9-02b471c9084c',
+            VCPU      => 1
+        }
     ]
 );
 
