@@ -88,6 +88,7 @@ MULTIPART: foreach my $sha512 (@{$self->{multiparts}}) {
                 $p2pHostList = FusionInventory::Agent::Task::Deploy::P2P::findPeer(62354, $self->{logger});
             }
         };
+        $self->{logger}->debug("failed to enable P2P: $@") if $@;
 
 
         my $lastGood;
