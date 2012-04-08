@@ -190,6 +190,7 @@ sub scan {
                     Connected      => sub {
                         push @ipFound, "http://$addr:$port/deploy/getFile/";
                     },
+		    ServerInput   => sub { }
                 );
             },
         },
