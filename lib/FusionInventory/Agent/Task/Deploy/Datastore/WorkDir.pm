@@ -38,8 +38,7 @@ sub prepare {
     my ($self) = @_;
 
     my $logger = $self->{logger};
-use Data::Dumper;
-print Dumper($self->{files});
+
     foreach my $file (@{$self->{files}}) {
         my $finalFilePath = $self->{path}.'/'.$file->{name};
 
