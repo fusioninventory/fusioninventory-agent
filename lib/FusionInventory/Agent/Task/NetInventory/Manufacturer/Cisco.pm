@@ -73,7 +73,7 @@ sub setConnectedDevices {
 
         my $port_number = getNextToLastElement($oid).".".getLastElement($oid, -1);
 
-	$ports->{$port_number}->{CONNECTIONS} = {
+	$ports->{getNextToLastElement($oid)}->{CONNECTIONS} = {
             CDP        => 1,
             CONNECTION => {
                 IP      => $ip,

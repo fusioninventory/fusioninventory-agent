@@ -75,9 +75,9 @@ sub setConnectedDevices {
             my $port_number = getNextToLastElement($oid).".".getLastElement($oid, -1);
 
             # already done through CDP 
-            next if $ports->{$port_number}->{CONNECTIONS};
+            next if $ports->{getNextToLastElement($oid)}->{CONNECTIONS};
 
-            $ports->{$port_number}->{CONNECTIONS} = {
+            $ports->{getNextToLastElement($oid)}->{CONNECTIONS} = {
                 CDP        => 1,
                 CONNECTION => {
                     SYSNAME => $chassisname,
