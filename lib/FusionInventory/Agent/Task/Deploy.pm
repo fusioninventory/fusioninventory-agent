@@ -19,7 +19,7 @@ use FusionInventory::Agent::Task::Deploy::Datastore;
 use FusionInventory::Agent::Task::Deploy::File;
 use FusionInventory::Agent::Task::Deploy::Job;
 
-our $VERSION = '1.0.9901';
+our $VERSION = '2.0.0';
 
 sub isEnabled {
     my ($self) = @_;
