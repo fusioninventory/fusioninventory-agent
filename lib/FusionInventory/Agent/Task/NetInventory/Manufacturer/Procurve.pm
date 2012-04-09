@@ -83,7 +83,7 @@ sub setConnectedDevices {
                 CONNECTION => {
                     SYSNAME => $chassisname,
                     IFDESCR => $results->{lldpCacheDevicePort}->{
-                        $walks->{lldpCacheDevicePort}->{OID} . $port_number
+                        $walks->{lldpCacheDevicePort}->{OID} . "." . $port_number
                     }
                 }
             };
