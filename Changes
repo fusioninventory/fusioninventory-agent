@@ -1,6 +1,6 @@
 Revision history for FusionInventory::Agent::Task::NetInventory
 
-2.0
+2.0     Mon, 09 Apr 2012 13:49:34 +0200
 	* adaptation to FusionInventory 2.2
 	* large code cleanup
 	* simplify and harmonize parallelism handling
