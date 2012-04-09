@@ -460,6 +460,7 @@ sub _setGenericProperties {
             $key eq 'NAME'        ? hex2char($raw_value)                 :
             $key eq 'OTHERSERIAL' ? hex2char($raw_value)                 :
             $key eq 'SERIAL'      ? getSanitizedSerialNumber($raw_value) :
+            $key eq 'MAC'         ? alt2canonical($raw_value)            :
             $key eq 'RAM'         ? int($raw_value / 1024 / 1024)        :
             $key eq 'MEMORY'      ? int($raw_value / 1024 / 1024)        :
                                     $raw_value                           ;
