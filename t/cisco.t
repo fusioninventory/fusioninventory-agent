@@ -14,10 +14,6 @@ my @mac_tests = (
     [
         {
             0 => {
-                CONNECTIONS => {
-                    CONNECTION => [
-                    ]
-                },
                 MAC => 'X',
             }
         },
@@ -37,8 +33,6 @@ my @mac_tests = (
         {
             0 => {
                 CONNECTIONS => {
-                    CONNECTION => [
-                    ],
                     CDP => 1,
                 },
                 MAC => 'X',
@@ -47,8 +41,6 @@ my @mac_tests = (
         {
             0 => {
                 CONNECTIONS => {
-                    CONNECTION => [
-                    ],
                     CDP => 1,
                 },
                 MAC => 'X',
@@ -59,18 +51,12 @@ my @mac_tests = (
     [
         {
             0 => {
-                CONNECTIONS => {
-                    CONNECTION => [
-                    ],
-                },
                 MAC => '00:1C:F6:C5:64:19',
             }
         },
         {
             0 => {
                 CONNECTIONS => {
-                    CONNECTION => [
-                    ],
                 },
                 MAC => '00:1C:F6:C5:64:19',
             }
