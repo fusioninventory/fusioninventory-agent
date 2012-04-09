@@ -25,7 +25,7 @@ my @mac_tests = (
             0 => {
                 CONNECTIONS => {
                     CONNECTION => [
-                        { MAC => '00 1C F6 C5 64 19' }
+                        { MAC => '00:1C:F6:C5:64:19' }
                     ]
                 },
                 MAC => 'X',
@@ -63,7 +63,7 @@ my @mac_tests = (
                     CONNECTION => [
                     ],
                 },
-                MAC => '00 1C F6 C5 64 19',
+                MAC => '00:1C:F6:C5:64:19',
             }
         },
         {
@@ -72,7 +72,7 @@ my @mac_tests = (
                     CONNECTION => [
                     ],
                 },
-                MAC => '00 1C F6 C5 64 19',
+                MAC => '00:1C:F6:C5:64:19',
             }
         },
         'connection mac address retrieval, same mac address as the port'
@@ -100,7 +100,7 @@ my $results = {
                 '.1.3.6.1.2.1.17.4.3.1.2.0.28.246.197.100.25' => 2307,
             },
             dot1dTpFdbAddress => {
-                '.1.3.6.1.2.1.17.4.3.1.1.0.28.246.197.100.25' => '00 1C F6 C5 64 19',
+                '.1.3.6.1.2.1.17.4.3.1.1.0.28.246.197.100.25' => '0x001CF6C56419',
             },
             dot1dBasePortIfIndex => {
                 '.1.3.6.1.2.17.1.4.1.2.2307' => 0,
