@@ -83,16 +83,16 @@ sub setConnectedDevices {
             CONNECTION => {
                 IP      => $ip,
                 IFDESCR => $results->{cdpCacheDevicePort}->{
-                    $walks->{cdpCacheDevicePort}->{OID} . $port_number
+                    $walks->{cdpCacheDevicePort}->{OID} . "." .$port_number
                 },
                 SYSDESCR => $results->{cdpCacheVersion}->{
-                    $walks->{cdpCacheVersion}->{OID} . $port_number
+                    $walks->{cdpCacheVersion}->{OID} . "." .$port_number
                 },
                 SYSNAME  => $results->{cdpCacheDeviceId}->{
-                    $walks->{cdpCacheDeviceId}->{OID} . $port_number
+                    $walks->{cdpCacheDeviceId}->{OID} . "." .$port_number
                 },
                 MODEL => $results->{cdpCachePlatform}->{
-                    $walks->{cdpCachePlatform}->{OID} . $port_number
+                    $walks->{cdpCachePlatform}->{OID} . "." .$port_number
                 }
             }
         };
