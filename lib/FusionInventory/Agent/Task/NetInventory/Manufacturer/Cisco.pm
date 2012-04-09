@@ -71,7 +71,8 @@ sub setConnectedDevices {
         my $ip = hex2canonical($ip_hex);
         next if $ip eq '0.0.0.0';
 
-        my $port_number = getNextToLastElement($oid).".".getLastElement($oid, -1);
+        my $port_number =
+            getNextToLastElement($oid) . "." . getLastElement($oid, -1);
 
 	$ports->{getNextToLastElement($oid)}->{CONNECTIONS} = {
             CDP        => 1,

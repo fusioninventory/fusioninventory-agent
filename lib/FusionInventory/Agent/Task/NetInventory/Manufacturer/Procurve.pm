@@ -72,7 +72,8 @@ sub setConnectedDevices {
     if (ref $results->{lldpCacheAddress} eq 'HASH') {
         while (my ($oid, $chassisname) = each %{$results->{lldpCacheAddress}}) {
 
-            my $port_number = getNextToLastElement($oid).".".getLastElement($oid, -1);
+            my $port_number =
+                getNextToLastElement($oid) . "." . getLastElement($oid, -1);
 
             # already done through CDP 
             next if $ports->{getNextToLastElement($oid)}->{CONNECTIONS};
