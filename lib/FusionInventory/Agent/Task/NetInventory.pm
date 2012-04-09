@@ -642,10 +642,12 @@ sub _setNetworkingProperties {
 
     # Detect VLAN
     if ($results->{vmvlan}) {
-        while (my ($oid, $data) = each %{$results->{vmvlan}}) {
-            my $name = $results->{vtpVlanName}->{$walks->{vtpVlanName}->{OID} . ".".$data};
-            $ports->{getLastElement($oid)}->{VLANS}->{VLAN} = {
-                NUMBER => $data,
+        while (my ($oid, $vlan_id) = each %{$results->{vmvlan}}) {
+            my $port_id  = getLastElement($oid);
+            my $vlan_oid = $walks->{vtpVlanName}->{OID} . "." . $vlan_id;
+            my $name = $results->{vtpVlanName}->{$vlan_oid};
+            $ports->{$port_id}->{VLANS}->{VLAN} = {
+                NUMBER => $vlan_id,
                 NAME   => $name
             };
         }
@@ -658,16 +660,14 @@ sub _setNetworkingProperties {
 
     if ($vlan_query) {
         while (my ($oid, $name) = each %{$results->{vtpVlanName}}) {
-            my $id = $oid;
-            $id =~ s/$walks->{vtpVlanName}->{OID}//;
-            $id =~ s/^.//;
+            my $vlan_id = getLastElement($oid);
             # initiate a new SNMP connection on this VLAN
             my $snmp;
             eval {
                 $snmp = FusionInventory::Agent::SNMP->new(
                     version      => $credentials->{VERSION},
                     hostname     => $host,
-                    community    => $credentials->{COMMUNITY}."@".$id,
+                    community    => $credentials->{COMMUNITY} . "@" . $vlan_id,
                     username     => $credentials->{USERNAME},
                     authpassword => $credentials->{AUTHPASSWORD},
                     authprotocol => $credentials->{AUTHPROTOCOL},
@@ -676,14 +676,19 @@ sub _setNetworkingProperties {
                 );
             };
             if ($EVAL_ERROR) {
-                $self->{logger}->error("Unable to create SNMP session for $host, VLAN $id: $EVAL_ERROR");
+                $self->{logger}->error(
+                    "Unable to create SNMP session for $host, VLAN $vlan_id: " .
+                    $EVAL_ERROR
+                );
                 return;
             }
 
             foreach my $variable (values %{$walks}) {
                 next unless $variable->{VLAN};
-                $results->{VLAN}->{$id}->{$variable->{OBJECT}} = $snmp->walk($variable->{OID});
+                $results->{VLAN}->{$vlan_id}->{$variable->{OBJECT}} =
+                    $snmp->walk($variable->{OID});
             }
+
             # Detect mac adress on each port
             if ($comments =~ /Cisco/) {
                 my $module = 'FusionInventory::Agent::Task::NetInventory::Manufacturer::Cisco';
@@ -694,7 +699,7 @@ sub _setNetworkingProperties {
                         results => $results,
                         ports   => $ports,
                         walks   => $walks,
-                        vlan_id => $id
+                        vlan_id => $vlan_id
                     },
                     load     => 1
                 );
