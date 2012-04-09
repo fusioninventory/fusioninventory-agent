@@ -1,0 +1,147 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use English qw(-no_match_vars);
+use Getopt::Long;
+use Pod::Usage;
+use XML::TreePP;
+
+use FusionInventory::Agent::Task::NetInventory;
+
+my $options = {
+    community => 'public'
+};
+
+GetOptions(
+    $options,
+    'model=s',
+    'host=s',
+    'community=s',
+    'help',
+) or pod2usage(-verbose => 0);
+
+pod2usage(-verbose => 0) if $options->{help};
+
+die "no model" unless $options->{model};
+die "no such model" unless -f $options->{model};
+die "no host" unless $options->{host};
+
+my $model = loadModel($options->{model});
+my $type =
+    $model->{TYPE} eq 'Printer' ?          'PRINTER'    : 
+    $model->{TYPE} eq 'NetworkEquipment' ? 'NETWORKING' : 
+                                           undef        ;
+
+my $netinventory = FusionInventory::Agent::Task::NetInventory->new(
+    target => FusionInventory::Agent::Task::NetInventory::Target->new()
+);
+
+$netinventory->{options} = {
+    NAME => 'SNMPQUERY',
+    PARAM => [
+        {
+            PID           => 1,
+            THREADS_QUERY => 1
+        }
+    ],
+    DEVICE => [
+        {
+            TYPE         => $type,
+            IP           => $options->{host},
+            AUTHSNMP_ID  => 1,
+            MODELSNMP_ID => 1
+        }
+    ],
+    MODEL => [ $model ],
+    AUTHENTICATION => [
+        {
+            ID        => 1,
+            COMMUNITY => $options->{community},
+        }
+    ]
+};
+$netinventory->{client} =
+    FusionInventory::Agent::Task::NetInventory::Client->new();
+$netinventory->{deviceid} = 'foo';
+
+$netinventory->run();
+
+sub loadModel {
+    my ($file) = @_;
+
+    my $model = XML::TreePP->new()->parsefile($file)->{model};
+
+    my @get = map {
+        {
+            OID    => $_->{oid},
+            OBJECT => $_->{mapping_name},
+            VLAN   => $_->{vlan},
+        }
+    } grep {
+        $_->{dynamicport} == 0
+    } @{$model->{oidlist}->{oidobject}};
+
+    my @walk = map {
+        {
+            OID    => $_->{oid},
+            OBJECT => $_->{mapping_name},
+            VLAN   => $_->{vlan},
+        }
+    } grep {
+        $_->{dynamicport} == 1
+    } @{$model->{oidlist}->{oidobject}};
+
+    return {
+        ID   => 1,
+        NAME => $model->{name},
+        TYPE => $model->{type},
+        GET  => \@get,
+        WALK => \@walk
+    }
+}
+
+package FusionInventory::Agent::Task::NetInventory::Client;
+
+sub new {
+    my ($class) = @_;
+
+    return bless {}, $class;
+}
+
+sub send {
+    my ($self, %params) = @_;
+
+    print $params{message}->getContent();
+}
+
+package FusionInventory::Agent::Task::NetInventory::Target;
+
+sub new {
+    my ($class) = @_;
+
+    return bless {}, $class;
+}
+
+sub getUrl {
+    my ($self, %params) = @_;
+
+    return undef;
+}
+
+__END__
+
+=head1 NAME
+
+fusioninventory-netinventory - Network inventory from command line
+
+=head1 SYNOPSIS
+
+fusioninventory-netinventory [options] [--host <host>] [--model <model>]
+
+  Options:
+    -h --help      this menu
+    --host host    host to inventorize
+    --model model  XML model file
+    --community    community string (default: public)
