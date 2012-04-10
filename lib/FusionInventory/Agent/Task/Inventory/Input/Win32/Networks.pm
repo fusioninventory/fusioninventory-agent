@@ -20,11 +20,10 @@ sub doInventory {
     foreach my $interface (_getInterfaces()) {
         push @gateways, $interface->{IPGATEWAY}
             if $interface->{IPGATEWAY};
-
         push @dns, $interface->{dns}
             if $interface->{dns};
 
-        push @ips, @{$interface->{IPADDRESS}}
+        push @ips, $interface->{IPADDRESS}
             if $interface->{IPADDRESS};
 
         delete $interface->{dns};
@@ -32,6 +31,7 @@ sub doInventory {
         # flatten multivalued keys
         foreach my $key (qw/IPADDRESS IPMASK IPSUBNET IPADDRESS6/) {
             next unless $interface->{$key};
+            next unless ref($interface->{$key}) eq 'ARRAY';
             $interface->{$key} = join('/', @{$interface->{$key}});
         }
 
