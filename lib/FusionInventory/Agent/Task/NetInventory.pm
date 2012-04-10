@@ -579,7 +579,10 @@ sub _setGenericProperties {
         }
     }
 
-    $datadevice->{PORTS}->{PORT} = $ports;
+    foreach (values %$ports) {
+        push @{$datadevice->{PORTS}{PORT}}, $_;
+    }
+
 }
 
 sub _setPrinterProperties {
