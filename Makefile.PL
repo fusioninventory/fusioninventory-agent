@@ -33,6 +33,8 @@ requires 'threads'                => undef;
 requires 'XML::TreePP'            => '0.26';
 requires 'Net::SNMP'              => undef;
 
+install_script 'fusioninventory-netinventory';
+
 WriteAll;
 
 # substitute prefix everywhere
@@ -61,9 +63,15 @@ sub constants {
     # for some reason, initialising variables from the global scope doesn't work
     %variables = (
         PREFIX               => '/usr/local',
+        INSTALLSCRIPT        => '$(PREFIX)/bin',
+        INSTALLSITESCRIPT    => '$(PREFIX)/bin',
+        INSTALLVENDORSCRIPT  => '$(PREFIX)/bin',
         INSTALLLIB           => '$(DATADIR)/lib',
         INSTALLSITELIB       => '$(DATADIR)/lib',
         INSTALLVENDORLIB     => '$(DATADIR)/lib',
+        INSTALLMAN1DIR       => '$(PREFIX)/share/man/man1',
+        INSTALLSITEMAN1DIR   => '$(PREFIX)/share/man/man1',
+        INSTALLVENDORMAN1DIR => '$(PREFIX)/share/man/man1',
         INSTALLMAN3DIR       => '$(PREFIX)/share/man/man3',
         INSTALLSITEMAN3DIR   => '$(PREFIX)/share/man/man3',
         INSTALLVENDORMAN3DIR => '$(PREFIX)/share/man/man3',
