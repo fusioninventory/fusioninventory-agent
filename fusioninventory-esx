@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Getopt::Long;
+use Pod::Usage;
 
 use FusionInventory::Agent::Task::ESX;
 use FusionInventory::Agent::Logger;
@@ -14,40 +15,11 @@ GetOptions(
     $args, 'host=s', 'user=s', 'password=s', 'directory=s', 'tag=s'
 );
 
-usage() unless $args->{host} and $args->{user} and $args->{password} and $args->{directory};
-
-sub usage {
-
-    print STDERR <<EOF;
-
-    A command line tool to create .ocs file from an vCenter,ESX and ESXi VMware server.
-
-        USAGE:
-        --host hostname        : hostname is the hostname of the IP address of the ESX server
-        --user username        : the user name
-        --password xxxx        : the password
-        --directory /somewhere : the location where the .ocs file must be written
-        --tag xxxx             : set a tag for the inventoried machine
-
-        EXAMPLE:
-        fusioninventory-esx --host myesx --user foo --password bar --directory /tmp
-
-        Active Directory users, please note the AD authentication doesn't work.
-        You must create a account on the VMware server.
-
-        You can import the .ocs file in your inventory server with the fusioninventory-injector tool.
-        fusioninventory-injector -v --file /tmp/*.ocs -u https://myserver/ocsinventory
-
-        The .ocs file can be imported in the following servers:
-        - ocsinventory
-        - GLPI using the FusionInventory for GLPI plugin
-        - Uranos
-
-        This tool is part of the FusionInventory distribution.
-EOF
-
-    exit(1);
-}
+pod2usage(-verbose => 0) unless
+    $args->{host} and
+    $args->{user} and
+    $args->{password} and
+    $args->{directory};
 
 
 my $esx = FusionInventory::Agent::Task::ESX->new(
@@ -92,11 +64,18 @@ __END__
 
 =head1 NAME
 
-fusioninventory-esx - vCenter/ESX/ESXi remote inventory for FusionInventory or OCSInventory
+fusioninventory-esx - vCenter/ESX/ESXi remote inventory from command line
 
 =head1 SYNOPSIS
 
 B<fusioninventory-esx> S<[ I<--host host> I<--user user> I<--password password> I<--directory /tmp> I<--tag tag>> ]
+
+  Options:
+    --host hostname        : hostname is the hostname of the IP address of the ESX server
+    --user username        : the user name
+    --password xxxx        : the password
+    --directory /somewhere : the location where the .ocs file must be written
+    --tag xxxx             : set a tag for the inventoried machine
 
 =head1 EXAMPLES
 
