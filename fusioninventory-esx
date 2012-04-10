@@ -19,7 +19,7 @@ GetOptions(
     'password=s',
     'directory=s',
     'tag=s'
-);
+) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0) unless
     $options->{host} and
