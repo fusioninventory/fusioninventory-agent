@@ -81,11 +81,11 @@ B<fusioninventory-esx> S<[ I<--host host> I<--user user> I<--password password> 
 
   Options:
     --help                 this menu
-    --host hostname        : hostname is the hostname of the IP address of the ESX server
-    --user username        : the user name
-    --password xxxx        : the password
-    --directory /somewhere : the location where the .ocs file must be written
-    --tag xxxx             : set a tag for the inventoried machine
+    --host hostname        ESX server hostname
+    --user username        user name
+    --password xxxx        user password
+    --directory directory  output directory
+    --tag xxxx             tag for the inventoried machine
 
 =head1 EXAMPLES
 
