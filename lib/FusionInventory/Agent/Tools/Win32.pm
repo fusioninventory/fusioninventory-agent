@@ -10,7 +10,7 @@ use constant KEY_WOW64_32 => 0x200;
 use Encode;
 use English qw(-no_match_vars);
 
-use Win32::OLE qw(in CP_UTF8);
+use Win32::OLE qw(in);
 use Win32::OLE::Const;
 use Win32::TieRegistry (
     Delimiter   => '/',
@@ -18,7 +18,7 @@ use Win32::TieRegistry (
     qw/KEY_READ/
 );
 
-Win32::OLE->Option(CP => 'CP_UTF8');
+Win32::OLE->Option(CP => Win32::OLE::CP_UTF8);
 
 use FusionInventory::Agent::Tools;
 
