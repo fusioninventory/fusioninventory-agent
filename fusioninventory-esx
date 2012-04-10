@@ -18,8 +18,11 @@ GetOptions(
     'user=s',
     'password=s',
     'directory=s',
-    'tag=s'
+    'tag=s',
+    'help',
 ) or pod2usage(-verbose => 0);
+
+pod2usage(-verbose => 0) if $options->{help};
 
 pod2usage(-verbose => 0) unless
     $options->{host} and
@@ -77,6 +80,7 @@ fusioninventory-esx - vCenter/ESX/ESXi remote inventory from command line
 B<fusioninventory-esx> S<[ I<--host host> I<--user user> I<--password password> I<--directory /tmp> I<--tag tag>> ]
 
   Options:
+    --help                 this menu
     --host hostname        : hostname is the hostname of the IP address of the ESX server
     --user username        : the user name
     --password xxxx        : the password
