@@ -28,13 +28,6 @@ sub doInventory {
 
         delete $interface->{dns};
 
-        # flatten multivalued keys
-        foreach my $key (qw/IPADDRESS IPMASK IPSUBNET IPADDRESS6/) {
-            next unless $interface->{$key};
-            next unless ref($interface->{$key}) eq 'ARRAY';
-            $interface->{$key} = join('/', @{$interface->{$key}});
-        }
-
         $inventory->addEntry(
             section => 'NETWORKS',
             entry   => $interface
