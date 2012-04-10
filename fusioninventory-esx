@@ -77,7 +77,7 @@ fusioninventory-esx - vCenter/ESX/ESXi remote inventory from command line
 
 =head1 SYNOPSIS
 
-B<fusioninventory-esx> S<[ I<--host host> I<--user user> I<--password password> I<--directory /tmp> I<--tag tag>> ]
+fusioninventory-esx --host <host> --user <user> --password <password> --directory <directory> --tag <tag>
 
   Options:
     --help                 this menu
@@ -85,7 +85,7 @@ B<fusioninventory-esx> S<[ I<--host host> I<--user user> I<--password password> 
     --user username        user name
     --password xxxx        user password
     --directory directory  output directory
-    --tag xxxx             tag for the inventoried machine
+    --tag tag              tag for the inventoried machine
 
 =head1 EXAMPLES
 
