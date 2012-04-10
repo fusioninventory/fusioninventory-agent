@@ -460,7 +460,10 @@ sub _setGenericProperties {
         next unless defined $raw_value;
         my $value =
             $key eq 'NAME'        ? hex2char($raw_value)                 :
-            $key eq 'OTHERSERIAL' ? hex2char($raw_value)                 :
+#            $key eq 'OTHERSERIAL' ? hex2char($raw_value)                 :
+# returns invalid char for example for:
+#  - 0x0115
+#  - 0xfde8
             $key eq 'SERIAL'      ? getSanitizedSerialNumber($raw_value) :
             $key eq 'MAC'         ? alt2canonical($raw_value)            :
             $key eq 'RAM'         ? int($raw_value / 1024 / 1024)        :
