@@ -47,12 +47,19 @@ sub getBiosInfo {
     my $biosInfo   = $hardware->{biosInfo};
     my $systemInfo = $hardware->{systemInfo};
 
+    return unless ref($biosInfo) eq 'HASH';
+
+    my $identifierValue;
+    if (ref($systemInfo->{otherIdentifyingInfo}) eq 'HASH') {
+        $identifierValue = $systemInfo->{otherIdentifyingInfo}->{identifierValue};
+    }
+
     return {
         BDATE         => $biosInfo->{releaseDate},
         BVERSION      => $biosInfo->{biosVersion},
         SMODEL        => $systemInfo->{model},
         SMANUFACTURER => $systemInfo->{vendor},
-        ASSETTAG      => $systemInfo->{otherIdentifyingInfo}->{identifierValue}
+        ASSETTAG      => $identifierValue
     };
 }
 
