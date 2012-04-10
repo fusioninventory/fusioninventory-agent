@@ -404,11 +404,13 @@ sub _queryDevice {
 
                 $model->{GET}->{"$object-capacitytype"} = {
                     OID  => $type_oid,
-                    VLAN => 0
+                    VLAN => 0,
+                    OBJECT => "$object-capacitytype"
                 };
                 $model->{GET}->{"$object-level"} = {
                     OID  => $level_oid,
-                    VLAN => 0
+                    VLAN => 0,
+                    OBJECT => "$object-capacitytype"
                 };
             }
         }
@@ -586,6 +588,9 @@ sub _setPrinterProperties {
     # consumable levels
     foreach my $key (keys %printer_cartridges_simple_properties) {
         my $property = $printer_cartridges_simple_properties{$key};
+
+        next unless defined($results->{$property . '-level'});
+
         $datadevice->{CARTRIDGES}->{$key} =
             $results->{$property . '-level'} == -3 ?
                 100 :
