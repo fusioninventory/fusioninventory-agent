@@ -3,16 +3,16 @@
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Task::ESX;
-#use FusionInventory::Agent::AccountInfo;
-use FusionInventory::Agent::Logger;
 use Getopt::Long;
+
+use FusionInventory::Agent::Task::ESX;
+use FusionInventory::Agent::Logger;
 
 my $args = {};
 
 GetOptions(
-        $args, 'host=s', 'user=s', 'password=s', 'directory=s', 'tag=s'
-        );
+    $args, 'host=s', 'user=s', 'password=s', 'directory=s', 'tag=s'
+);
 
 usage() unless $args->{host} and $args->{user} and $args->{password} and $args->{directory};
 
@@ -55,28 +55,18 @@ my $esx = FusionInventory::Agent::Task::ESX->new(
 );
 
 if (!$esx->connect({
-            host => $args->{host},
-            user => $args->{user},
-            password => $args->{password},
-            })) {
+    host => $args->{host},
+    user => $args->{user},
+    password => $args->{password},
+    })) {
     exit 1;
 }
 
-# Put ACCOUNTINFO values in the inventory
 my $logger = FusionInventory::Agent::Logger->new();
-#my $accountinfo = FusionInventory::Agent::AccountInfo->new({
-#    logger => $logger,
-#    config => {},
-##    target => $self,
-#    });
-#$accountinfo->set('TAG', $args->{tag});
 
 my $hostIds = $esx->getHostIds();
 foreach my $hostId (@$hostIds) {
     my $inventory = $esx->createInventory($hostId);
-    #$accountinfo->setAccountInfo($inventory);
-
-   # $inventory->writeXML();
 
     my $file =  $args->{directory} . '/' . $esx->createFakeDeviceid($esx->{vpbs}->getHostFullInfo($hostId)) . ".ocs";
 
