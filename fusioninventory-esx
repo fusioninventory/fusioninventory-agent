@@ -9,17 +9,23 @@ use Pod::Usage;
 use FusionInventory::Agent::Task::ESX;
 use FusionInventory::Agent::Logger;
 
-my $args = {};
+my $options = {
+};
 
 GetOptions(
-    $args, 'host=s', 'user=s', 'password=s', 'directory=s', 'tag=s'
+    $options,
+    'host=s',
+    'user=s',
+    'password=s',
+    'directory=s',
+    'tag=s'
 );
 
 pod2usage(-verbose => 0) unless
-    $args->{host} and
-    $args->{user} and
-    $args->{password} and
-    $args->{directory};
+    $options->{host} and
+    $options->{user} and
+    $options->{password} and
+    $options->{directory};
 
 
 my $esx = FusionInventory::Agent::Task::ESX->new(
@@ -27,9 +33,9 @@ my $esx = FusionInventory::Agent::Task::ESX->new(
 );
 
 if (!$esx->connect({
-    host => $args->{host},
-    user => $args->{user},
-    password => $args->{password},
+    host     => $options->{host},
+    user     => $options->{user},
+    password => $options->{password},
     })) {
     exit 1;
 }
@@ -40,7 +46,7 @@ my $hostIds = $esx->getHostIds();
 foreach my $hostId (@$hostIds) {
     my $inventory = $esx->createInventory($hostId);
 
-    my $file =  $args->{directory} . '/' . $esx->createFakeDeviceid($esx->{vpbs}->getHostFullInfo($hostId)) . ".ocs";
+    my $file =  $options->{directory} . '/' . $esx->createFakeDeviceid($esx->{vpbs}->getHostFullInfo($hostId)) . ".ocs";
 
     if (open my $handle, '>', $file) {
         my $tpp = XML::TreePP->new(indent => 2);
