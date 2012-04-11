@@ -451,8 +451,13 @@ sub _setGenericProperties {
     }
 
     if ($results->{firmware1}) {
-        $datadevice->{INFO}->{FIRMWARE} =
-            $results->{firmware1} . ' ' . $results->{firmware2};
+        $datadevice->{INFO}->{FIRMWARE} = $results->{firmware1};
+    }
+    if ($results->{firmware2}) {
+        if ($datadevice->{INFO}->{FIRMWARE}) {
+            $datadevice->{INFO}->{FIRMWARE} .= ' ' ;
+        }
+        $datadevice->{INFO}->{FIRMWARE} .= $results->{firmware2};
     }
 
     foreach my $key (keys %properties) {
