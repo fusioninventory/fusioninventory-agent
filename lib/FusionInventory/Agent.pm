@@ -385,7 +385,7 @@ sub _getTaskVersion {
     my $logger = $self->{logger};
 
     if (!$module->require()) {
-        $logger->debug2("module $module does not compile") if $logger;
+        $logger->debug2("module $module does not compile: $@") if $logger;
         return;
     }
 
