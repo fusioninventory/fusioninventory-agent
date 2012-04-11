@@ -439,6 +439,14 @@ sub _queryDevice {
     $self->_setNetworkingProperties($results, $datadevice, $model->{WALK}, $device->{IP}, $credentials)
         if $device->{TYPE} eq 'NETWORKING';
 
+    # convert ports hashref to an arrayref, sorted by interface number
+    my $ports = $datadevice->{PORTS}->{PORT};
+    $datadevice->{PORTS}->{PORT} = [
+        map { $ports->{$_} }
+        sort { $a <=> $b }
+        keys %{$ports}
+    ];
+
     return $datadevice;
 }
 
@@ -737,13 +745,6 @@ sub _setNetworkingProperties {
             }
         }
     }
-
-    # convert ports hashref to an arrayref, sorted by interface number
-    $datadevice->{PORTS}->{PORT} = [
-        map { $ports->{$_} }
-        sort { $a <=> $b }
-        keys %{$ports}
-    ];
 
 }
 
