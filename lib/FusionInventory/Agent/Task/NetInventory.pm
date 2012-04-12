@@ -410,7 +410,7 @@ sub _queryDevice {
                 $model->{GET}->{"$object-level"} = {
                     OID  => $level_oid,
                     VLAN => 0,
-                    OBJECT => "$object-capacitytype"
+                    OBJECT => "$object-level"
                 };
             }
         }
