@@ -71,6 +71,21 @@ sub _parseVBoxManage {
 
     my (@machines, $machine, $index);
 
+    my %status_list = (
+        'powered off' => 'off',
+        'saved'   => 'off',
+        'teleported'   => 'off',
+        'aborted'    => 'crashed',
+        'stuck' => 'blocked',
+        'teleporting'   => 'paused',
+        'live snapshotting'     => 'running',
+        'starting'   => 'running',
+        'stopping' => 'dying',
+        'saving' => 'dying',
+        'restoring' => 'running',
+        'running' => 'running',
+        'paused' => 'paused'
+    );
     while (my $line = <$handle>) {
         chomp $line;
 
@@ -93,7 +108,7 @@ sub _parseVBoxManage {
         } elsif ($line =~ m/^Memory size:\s+(.+)/ ) {
             $machine->{MEMORY} = $1;
         } elsif ($line =~ m/^State:\s+(.+) \(/) {
-            $machine->{STATUS} = $1 eq 'powered off' ? 'off' : $1;
+            $machine->{STATUS} = $status_list{$1};
         } elsif ($line =~ m/^Index:\s+(\d+)$/) {
             $index = $1;
         }
