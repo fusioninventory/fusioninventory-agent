@@ -33,12 +33,10 @@ sub doInventory {
 sub _getUUID {
     my (%params) = @_;
 
-        my $uuid = getFirstMatch(
-            pattern => qr/\s+.*uuid\s+([^\)]*)/,
-            %params
-        );
-
-    return $uuid;
+    return getFirstMatch(
+        pattern => qr/\s+.*uuid\s+([^\)]*)/,
+        %params
+    );
 }
 
 sub  _getVirtualMachines {
