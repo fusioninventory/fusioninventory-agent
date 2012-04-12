@@ -56,11 +56,27 @@ $discovery->{options} = {
         }
     ]
 };
+if ($options->{dictionnary}) {
+    die "no such file $options->{dictionnary}"
+        unless -f $options->{dictionnary};
+    $discovery->{options}->{DICO} = getDictionnary($options->{dictionnary});
+}
 $discovery->{client} =
     FusionInventory::Agent::Task::NetInventory::Client->new();
 $discovery->{deviceid} = 'foo';
 
 $discovery->run();
+
+sub getDictionnary {
+    my ($file) = @_;
+
+    open (my $handle, '<', $file) or die "Can't open $file: $ERRNO";
+    local $INPUT_RECORD_SEPARATOR;
+    my $string = <$handle>;
+    close $handle;
+
+    return $string;
+}
 
 package FusionInventory::Agent::Task::NetInventory::Client;
 
@@ -78,18 +94,10 @@ sub send {
 
 package FusionInventory::Agent::Task::NetInventory::Target;
 
-use File::Basename;
-use File::Temp qw/tempdir/;
-
-use FusionInventory::Agent::Storage;
-
 sub new {
     my ($class, %params) = @_;
 
-    my $storage = FusionInventory::Agent::Storage->new(
-        directory => $params{dictionnary} ?
-            dirname($params{dictionnary}) : tempdir(CLEANUP => 1)
-    );
+     my $storage = FusionInventory::Agent::Task::NetInventory::Storage->new();
 
     return bless {
         storage => $storage
@@ -106,6 +114,17 @@ sub getUrl {
     my ($self, %params) = @_;
 
     return undef;
+}
+
+package FusionInventory::Agent::Task::NetInventory::Storage;
+
+sub new {
+    my ($class) = @_;
+
+    return bless {}, $class;
+}
+
+sub save {
 }
 
 __END__
