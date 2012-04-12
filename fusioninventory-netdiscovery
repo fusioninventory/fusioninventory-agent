@@ -1,0 +1,145 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use English qw(-no_match_vars);
+use Getopt::Long;
+use Pod::Usage;
+
+use FusionInventory::Agent::Task::NetDiscovery;
+
+my $options = {
+    community => 'public'
+};
+
+GetOptions(
+    $options,
+    'first=s',
+    'last=s',
+    'dictionnary=s',
+    'community=s',
+    'help',
+) or pod2usage(-verbose => 0);
+
+pod2usage(-verbose => 0) if $options->{help};
+
+die "no first address" unless $options->{first};
+die "no last address" unless $options->{last};
+
+my $discovery = FusionInventory::Agent::Task::NetDiscovery->new(
+    target => FusionInventory::Agent::Task::NetInventory::Target->new(
+        dictionnary => $options->{dictionnary}
+    )
+);
+
+$discovery->{options} = {
+    NAME => 'NETDISCOVERY',
+    PARAM => [
+        {
+            PID               => 1,
+            THREADS_DISCOVERY => 1
+        }
+    ],
+    RANGE => [
+        {
+            ID      => 1,
+            IPSTART => $options->{first},
+            IPEND   => $options->{last},
+        }
+    ],
+    AUTHENTICATION => [
+        {
+            ID        => 1,
+            COMMUNITY => $options->{community},
+            VERSION   => 2
+        }
+    ]
+};
+if ($options->{dictionnary}) {
+    die "no such file $options->{dictionnary}"
+        unless -f $options->{dictionnary};
+    $discovery->{options}->{DICO} = getDictionnary($options->{dictionnary});
+}
+$discovery->{client} =
+    FusionInventory::Agent::Task::NetInventory::Client->new();
+$discovery->{deviceid} = 'foo';
+
+$discovery->run();
+
+sub getDictionnary {
+    my ($file) = @_;
+
+    open (my $handle, '<', $file) or die "Can't open $file: $ERRNO";
+    local $INPUT_RECORD_SEPARATOR;
+    my $string = <$handle>;
+    close $handle;
+
+    return $string;
+}
+
+package FusionInventory::Agent::Task::NetInventory::Client;
+
+sub new {
+    my ($class) = @_;
+
+    return bless {}, $class;
+}
+
+sub send {
+    my ($self, %params) = @_;
+
+    print $params{message}->getContent();
+}
+
+package FusionInventory::Agent::Task::NetInventory::Target;
+
+sub new {
+    my ($class, %params) = @_;
+
+     my $storage = FusionInventory::Agent::Task::NetInventory::Storage->new();
+
+    return bless {
+        storage => $storage
+    }, $class;
+}
+
+sub getStorage {
+    my ($self, %params) = @_;
+
+    return $self->{storage};
+}
+
+sub getUrl {
+    my ($self, %params) = @_;
+
+    return undef;
+}
+
+package FusionInventory::Agent::Task::NetInventory::Storage;
+
+sub new {
+    my ($class) = @_;
+
+    return bless {}, $class;
+}
+
+sub save {
+}
+
+__END__
+
+=head1 NAME
+
+fusioninventory-discovery - Network inventory from command line
+
+=head1 SYNOPSIS
+
+fusioninventory-discovery [options] --start <start> --stop <stop>
+
+  Options:
+    -h --help      this menu
+    --first start  IP range first address
+    --last stop    IP range last address
+    --dictionnary  dictionnary file
+    --community    community string (default: public)
