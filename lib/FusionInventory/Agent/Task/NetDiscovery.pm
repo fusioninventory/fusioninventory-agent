@@ -561,15 +561,18 @@ sub _scanAddressBySNMP {
                 next unless $description eq $entry->{match};
             }
 
-            $description = runFunction(
+            my $newDescription = runFunction(
                 module   => $entry->{module},
                 function => $entry->{function},
                 params   => $snmp,
                 load     => 1
             );
 
+            $description = $newDescription if $newDescription;
+
             last;
         }
+        next unless $description;
 
         $device{DESCRIPTION} = $description;
 
