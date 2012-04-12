@@ -34,7 +34,7 @@ sub _getUUID {
     my (%params) = @_;
 
     return getFirstMatch(
-        pattern => qr/\s+.*uuid\s+([^\)]*)/,
+        pattern => qr/\( uuid \s ([^)]+) \)/x,
         %params
     );
 }
