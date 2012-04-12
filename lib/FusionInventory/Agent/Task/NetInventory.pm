@@ -19,7 +19,7 @@ use FusionInventory::Agent::XML::Query;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 
-our $VERSION = '2.0';
+our $VERSION = '2.1';
 
 # list of devices properties, indexed by XML element name
 # the link to a specific OID is made by the model
