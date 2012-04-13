@@ -84,6 +84,25 @@ sub fisher_yates_shuffle {
     }
 }
 
+sub _parseWin32Route {
+    my @addresses;
+    foreach (@_) {
+        if (/\s+(255\.255\.\d{1,3}\.\d{1,3})\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s+\d+$/x) {
+            my $mask = $1;
+            my $ip = $2;
+
+            next if $mask =~ /255$/;
+
+            push @addresses, {
+                ip   => $ip,
+                mask => $mask
+            };
+        }
+    }
+
+    return @addresses;
+}
+
 sub findPeer {
     my ( $port, $logger ) = @_;
 
@@ -93,28 +112,21 @@ sub findPeer {
 
     my @addresses;
 
-       if ($OSNAME eq 'linux') {
-           FusionInventory::Agent::Tools::Linux->require();
-           @addresses =
-               map {
-                   {
-                       ip   => $_->{IPADDRESS},
-                       mask => $_->{IPMASK},
-                   }
+    if ($OSNAME eq 'linux') {
+        FusionInventory::Agent::Tools::Linux->require();
+        @addresses =
+           map {
+               {
+                   ip   => $_->{IPADDRESS},
+                   mask => $_->{IPMASK},
                }
-            grep { $_->{IPMASK} && $_->{IPMASK} =~ /^255\.255\.255/ }
-            grep { $_->{STATUS} eq 'Up' }
-            FusionInventory::Agent::Tools::Linux::getInterfacesFromIfconfig();
+            }
+        grep { $_->{IPMASK} && $_->{IPMASK} =~ /^255\.255\.255/ }
+        grep { $_->{STATUS} eq 'Up' }
+        FusionInventory::Agent::Tools::Linux::getInterfacesFromIfconfig();
 
     } elsif ($OSNAME eq 'MSWin32') {
-        foreach (`route print`) {
-            if (/^\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s+(255\.255\.\d{1,3}\.\d{1,3})/x) {
-                push @addresses, {
-                    ip   => $1,
-                    mask => $2
-                };
-            }
-        }
+        @addresses = _parseWin32Route(`route print`);
     }
 
     if (!@addresses) {
