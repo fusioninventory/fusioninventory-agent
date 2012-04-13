@@ -19,7 +19,7 @@ use FusionInventory::Agent::XML::Query;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 
-our $VERSION = '2.0';
+our $VERSION = '2.1';
 
 # list of devices properties, indexed by XML element name
 # the link to a specific OID is made by the model
@@ -410,7 +410,7 @@ sub _queryDevice {
                 $model->{GET}->{"$object-level"} = {
                     OID  => $level_oid,
                     VLAN => 0,
-                    OBJECT => "$object-capacitytype"
+                    OBJECT => "$object-level"
                 };
             }
         }
@@ -439,6 +439,14 @@ sub _queryDevice {
     $self->_setNetworkingProperties($results, $datadevice, $model->{WALK}, $device->{IP}, $credentials)
         if $device->{TYPE} eq 'NETWORKING';
 
+    # convert ports hashref to an arrayref, sorted by interface number
+    my $ports = $datadevice->{PORTS}->{PORT};
+    $datadevice->{PORTS}->{PORT} = [
+        map { $ports->{$_} }
+        sort { $a <=> $b }
+        keys %{$ports}
+    ];
+
     return $datadevice;
 }
 
@@ -451,8 +459,13 @@ sub _setGenericProperties {
     }
 
     if ($results->{firmware1}) {
-        $datadevice->{INFO}->{FIRMWARE} =
-            $results->{firmware1} . ' ' . $results->{firmware2};
+        $datadevice->{INFO}->{FIRMWARE} = $results->{firmware1};
+    }
+    if ($results->{firmware2}) {
+        if ($datadevice->{INFO}->{FIRMWARE}) {
+            $datadevice->{INFO}->{FIRMWARE} .= ' ' ;
+        }
+        $datadevice->{INFO}->{FIRMWARE} .= $results->{firmware2};
     }
 
     foreach my $key (keys %properties) {
@@ -582,10 +595,7 @@ sub _setGenericProperties {
         }
     }
 
-    foreach (values %$ports) {
-        push @{$datadevice->{PORTS}{PORT}}, $_;
-    }
-
+    $datadevice->{PORTS}->{PORT} = $ports;
 }
 
 sub _setPrinterProperties {
@@ -735,13 +745,6 @@ sub _setNetworkingProperties {
             }
         }
     }
-
-    # convert ports hashref to an arrayref, sorted by interface number
-    $datadevice->{PORTS}->{PORT} = [
-        map { $ports->{$_} }
-        sort { $a <=> $b }
-        keys %{$ports}
-    ];
 
 }
 

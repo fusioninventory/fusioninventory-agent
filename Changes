@@ -1,5 +1,11 @@
 Revision history for FusionInventory::Agent::Task::NetInventory
 
+2.1     Thu, 12 Apr 2012 21:02:51 +0200
+        * Fix cartridges level inventory
+        * Fix printer ports inventory
+        * Ignore OTHERSERIAL, hex2char() returns invalid UTF-8
+        * Avoid various warnings
+
 2.0     Mon, 09 Apr 2012 13:49:34 +0200
 	* adaptation to FusionInventory 2.2
 	* large code cleanup
