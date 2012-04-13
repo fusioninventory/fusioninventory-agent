@@ -49,7 +49,7 @@ sub doInventory {
     my $swapSize = getFirstMatch(
         command => 'swap -l',
         logger  => $logger,
-        pattern => qr/\s+(\S+)$/
+        pattern => qr/\s+(\d+)$/
     );
 
     $inventory->setHardware({
