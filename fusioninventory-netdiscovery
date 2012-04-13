@@ -9,6 +9,7 @@ use Getopt::Long;
 use Pod::Usage;
 
 use FusionInventory::Agent::Task::NetDiscovery;
+use FusionInventory::Agent::Logger;
 
 my $options = {
     community => 'public'
@@ -20,6 +21,7 @@ GetOptions(
     'last=s',
     'dictionnary=s',
     'community=s',
+    'verbose',
     'help',
 ) or pod2usage(-verbose => 0);
 
@@ -31,6 +33,9 @@ die "no last address" unless $options->{last};
 my $discovery = FusionInventory::Agent::Task::NetDiscovery->new(
     target => FusionInventory::Agent::Task::NetInventory::Target->new(
         dictionnary => $options->{dictionnary}
+    ),
+    logger =>  FusionInventory::Agent::Logger->new(
+        debug => $options->{verbose}
     )
 );
 
@@ -150,3 +155,4 @@ fusioninventory-discovery [options] --start <start> --stop <stop>
     --last stop    IP range last address
     --dictionnary  dictionnary file
     --community    community string (default: public)
+    --verbose      verbose output
