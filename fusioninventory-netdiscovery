@@ -128,6 +128,12 @@ sub new {
 sub save {
 }
 
+sub restore {
+    return {
+        dictionary => {}
+    };
+}
+
 __END__
 
 =head1 NAME
