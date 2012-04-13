@@ -300,9 +300,10 @@ sub _getDictionary {
     if ($options->{DICO}) {
         # the server message contains a dictionary, use it
         # and save it for later use
-        $dictionary = FusionInventory::Agent::Task::NetDiscovery::Dictionary->new(
-            string => $options->{DICO}
-        );
+        $dictionary =
+            FusionInventory::Agent::Task::NetDiscovery::Dictionary->new(
+                string => $options->{DICO}
+            );
         $hash = $options->{DICOHASH};
 
         $storage->save(
@@ -316,7 +317,7 @@ sub _getDictionary {
         # no dictionary in server message, retrieve last saved one
         my $data = $storage->restore(name => 'dictionary');
         $dictionary = $data->{dictionary};
-        $hash        = $data->{hash};
+        $hash       = $data->{hash};
     }
 
     if ($options->{DICOHASH}) {
