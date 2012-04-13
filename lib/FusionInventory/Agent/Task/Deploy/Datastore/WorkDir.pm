@@ -85,6 +85,7 @@ sub prepare {
             if(canRun('7z')) {
                 my $tarball;
                 foreach (`7z x -o\"$self->{path}\" \"$finalFilePath\"`) {
+                    chomp;
                     $logger->debug2("7z: $_");
                     if (/Extracting\s+(.*\.tar)$/) {
                         $tarball = $1;
@@ -92,6 +93,7 @@ sub prepare {
                 }
                 if ($tarball && ($finalFilePath =~ /tgz$/i || $finalFilePath =~ /tar\.(gz|xz|bz2)$/i)) {
                     foreach (`7z x -o\"$self->{path}\" \"$self->{path}/$tarball\"`) {
+                       chomp;
                         $logger->debug2("7z: $_");
                     }
                     unlink($self->{path}.'/'.$tarball);
