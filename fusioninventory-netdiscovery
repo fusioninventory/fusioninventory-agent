@@ -42,7 +42,7 @@ $discovery->{options} = {
             THREADS_DISCOVERY => 1
         }
     ],
-    RANGE => [
+    RANGEIP => [
         {
             ID      => 1,
             IPSTART => $options->{first},
@@ -53,7 +53,7 @@ $discovery->{options} = {
         {
             ID        => 1,
             COMMUNITY => $options->{community},
-            VERSION   => 2
+            VERSION   => '2c'
         }
     ]
 };
