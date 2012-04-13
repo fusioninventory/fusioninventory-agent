@@ -100,7 +100,6 @@ sub prepare {
                 }
             } else {
                 Archive::Extract->require;
-                $Archive::Extract::PREFER_BIN=1;
                 $Archive::Extract::DEBUG=1;
                 my $ae = Archive::Extract->new( archive => $finalFilePath );
                 if (!$ae) {
