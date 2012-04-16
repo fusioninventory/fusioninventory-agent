@@ -70,7 +70,7 @@ my %fields = (
     LOGICAL_VOLUMES  => [ qw/LV_NAME VGN_AME ATTR SIZE LV_UUID SEG_COUNT 
                              VG_UUID/ ],
     PHYSICAL_VOLUMES => [ qw/DEVICE PV_NAME PV_PE_COUNT PV_UUID FORMAT ATTR 
-                             SIZE FREE PE_SIZE/ ],
+                             SIZE FREE PE_SIZE VG_UUID/ ],
     VOLUME_GROUPS    => [ qw/VG_NAME PV_COUNT LV_COUNT ATTR SIZE FREE VG_UUID 
                              VG_EXTENT_SIZE/ ],
 );

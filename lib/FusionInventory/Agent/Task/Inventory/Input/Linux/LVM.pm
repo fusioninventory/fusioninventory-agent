@@ -25,7 +25,7 @@ sub doInventory {
     }
 
     foreach my $volume (_getPhysicalVolumes(
-        command => 'pvs --noheading --nosuffix --units M -o +pv_uuid,pv_pe_count,pv_size',
+        command => 'pvs --noheading --nosuffix --units M -o +pv_uuid,pv_pe_count,pv_size,vg_uuid',
         logger  => $logger
     )) {
         $inventory->addEntry(section => 'PHYSICAL_VOLUMES', entry => $volume);
@@ -79,7 +79,8 @@ sub _getPhysicalVolumes {
             FREE        => int($infos[6]||0),
             PV_UUID     => $infos[7],
             PV_PE_COUNT => $infos[8],
-            PE_SIZE     =>  int($infos[5] / $infos[8])
+            PE_SIZE     => int($infos[5] / $infos[8]),
+            VG_UUID     => $infos[10]
         };
     }
     close $handle;

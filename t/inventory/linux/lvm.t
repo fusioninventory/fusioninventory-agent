@@ -86,8 +86,9 @@ my %pvs = (
             DEVICE      => '/dev/sda5',
             PV_NAME     => 'lvm',
             PV_PE_COUNT => '3778',
+            PE_SIZE     => 4,
             PV_UUID     => 'MjsnP7-GaGC-NIo7-tS3o-gf2t-di2R-eP3Au7',
-            PE_SIZE     => 4
+            VG_UUID     => undef
         },
         {
             SIZE        => 2466,
@@ -97,8 +98,9 @@ my %pvs = (
             DEVICE      => '/dev/sdb1',
             PV_NAME     => 'lvm2',
             PV_PE_COUNT => '588',
+            PE_SIZE     => 4,
             PV_UUID     => 'LNDa6y-PQGQ-gtnc-c7Wc-W2lS-Soaf-Bwu2Me',
-            PE_SIZE     => 4
+            VG_UUID     => undef
         },
         {
             SIZE        => 2894,
@@ -108,8 +110,9 @@ my %pvs = (
             DEVICE      => '/dev/sdb2',
             PV_NAME     => 'lvm2',
             PV_PE_COUNT => '690',
+            PE_SIZE     => 4,
             PV_UUID     => 'xkxfmu-fQLt-DtKZ-YnkY-vwcj-JqC2-WmQddD',
-            PE_SIZE     => 4
+            VG_UUID     => undef
         }
     ],
     'linux-2' => [
@@ -122,7 +125,8 @@ my %pvs = (
             PV_NAME     => 'vg00',
             PV_PE_COUNT => 9282,
             PE_SIZE     => 33,
-            PV_UUID     => 'CnCKHH-tnlS-BFL5-qRMa-HaV2-10zm-kNIpEp'
+            PV_UUID     => 'CnCKHH-tnlS-BFL5-qRMa-HaV2-10zm-kNIpEp',
+            VG_UUID     => 'OFXZR2-dEjD-qVIj-VJnw-1dQY-wC57-O1TABn'
         },
         {
             SIZE        => 58921,
@@ -133,7 +137,8 @@ my %pvs = (
             PV_NAME     => 'vg00',
             PV_PE_COUNT => 1756,
             PE_SIZE     => 33,
-            PV_UUID     => 'XMzcNr-5qrL-pXk1-9Ycl-FyfN-nXPe-ndRvHF'
+            PV_UUID     => 'XMzcNr-5qrL-pXk1-9Ycl-FyfN-nXPe-ndRvHF',
+            VG_UUID     => 'OFXZR2-dEjD-qVIj-VJnw-1dQY-wC57-O1TABn'
         },
         {
             SIZE        => 500095,
@@ -144,7 +149,8 @@ my %pvs = (
             PV_NAME     => 'vg00',
             PV_PE_COUNT => 14904,
             PE_SIZE     => 33,
-            PV_UUID     => 'GnT78t-kb92-k8di-1uUv-28HK-H6za-SXe2EZ'
+            PV_UUID     => 'GnT78t-kb92-k8di-1uUv-28HK-H6za-SXe2EZ',
+            VG_UUID     => 'OFXZR2-dEjD-qVIj-VJnw-1dQY-wC57-O1TABn'
         }
     ]
 );
