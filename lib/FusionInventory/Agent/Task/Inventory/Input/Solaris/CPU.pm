@@ -53,7 +53,7 @@ sub doInventory {
 sub _getCPUFromMemconf {
     my $spec = getFirstMatch(
         command => 'memconf',
-        pattern => qr/^((Sun|Fujitsu|Intel).*\d+(G|M)Hz\)).*$/x,
+        pattern => qr/^((?:Sun|Fujitsu|Intel) .* \d+ [GM]Hz\))/x,
         @_
     );
     return _parseSpec($spec);
