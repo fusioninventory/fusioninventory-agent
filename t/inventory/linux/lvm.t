@@ -176,16 +176,18 @@ my %vgs = (
             VG_UUID        => 'ZHOqQg-SNQJ-a79U-Jfn1-Az84-e04w-d9zH23',
             LV_COUNT       => '2',
             VG_EXTENT_SIZE => '4.19'
-        },
+        }
+    ],
+    'linux-2' => [
         {
-            SIZE           => 5360,
-            ATTR           => 'wz--n-',
-            VG_NAME        => 'lvm2',
-            FREE           => 5150,
-            PV_COUNT       => '2',
-            VG_UUID        => 'ZHOqQg-SNQJ-a79U-Jfn1-Az84-e04w-d9zH23',
-            LV_COUNT       => '2',
-            VG_EXTENT_SIZE => '4.19'
+            'SIZE' => 870469,
+            'ATTR' => 'wz--n-',
+            'VG_NAME' => 'vg00',
+            'FREE' => 385137,
+            'PV_COUNT' => '3',
+            'VG_UUID' => 'OFXZR2-dEjD-qVIj-VJnw-1dQY-wC57-O1TABn',
+            'LV_COUNT' => '16',
+            'VG_EXTENT_SIZE' => '33.55'
         }
     ]
 );

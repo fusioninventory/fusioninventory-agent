@@ -32,7 +32,7 @@ sub doInventory {
     }
 
     foreach my $group (_getVolumeGroups(
-        command => 'vgs --noheading --nosuffix --units M -o +vg_uuid,vg_extent_size,pv_uuid',
+        command => 'vgs --noheading --nosuffix --units M -o +vg_uuid,vg_extent_size',
         logger  => $logger
     )) {
         $inventory->addEntry(section => 'VOLUME_GROUPS', entry => $group);
