@@ -43,21 +43,9 @@ sub getZone {
 }
 
 sub getModel {
-
-    my $zone = getZone();
-
-    my $model;
-    if ($zone) {
-        # first, we need determinate on which model of Sun Server we run,
-        # because prtdiags output (and with that memconfs output) is differend
-        # from server model to server model
-        # we try to classified our box in one of the known classes
-        $model = getFirstLine(command => 'uname -i');
-    } else {
-        $model = "Solaris Containers";
-    }
-
-    return $model;
+    return getZone() eq 'global' ?
+        getFirstLine(command => 'uname -i') :
+        'Solaris Containers';
 }
 
 sub getClass {
@@ -119,8 +107,8 @@ Returns current zone name, or 'global' if there is no defined zone.
 
 =head2 getModel()
 
-Returns system model.
+Returns system model, as a string.
 
 =head2 getclass()
 
-Returns system class.
+Returns system class, as a symbolic constant.
