@@ -17,6 +17,16 @@ my %memconf_tests = (
             CORE         => '2'
         },
     ],
+    sample3 => [
+        1,
+        {
+            NAME         => 'SPARC-T3 (16-Core 8-Thread)',
+            MANUFACTURER => 'Sun Microsystems',
+            SPEED        => '1649',
+            CORE         => '16',
+            THREAD       => '8'
+        },
+    ],
     sample2 => [
         1,
         {
