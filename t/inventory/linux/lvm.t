@@ -180,14 +180,14 @@ my %vgs = (
     ],
     'linux-2' => [
         {
-            'SIZE' => 870469,
-            'ATTR' => 'wz--n-',
-            'VG_NAME' => 'vg00',
-            'FREE' => 385137,
-            'PV_COUNT' => '3',
-            'VG_UUID' => 'OFXZR2-dEjD-qVIj-VJnw-1dQY-wC57-O1TABn',
-            'LV_COUNT' => '16',
-            'VG_EXTENT_SIZE' => '33.55'
+            SIZE           => 870469,
+            ATTR           => 'wz--n-',
+            VG_NAME        => 'vg00',
+            FREE           => 385137,
+            PV_COUNT       => '3',
+            VG_UUID        => 'OFXZR2-dEjD-qVIj-VJnw-1dQY-wC57-O1TABn',
+            LV_COUNT       => '16',
+            VG_EXTENT_SIZE => '33.55'
         }
     ]
 );
@@ -198,16 +198,16 @@ plan tests =>
     (scalar keys %vgs);
 
 foreach my $test (keys %pvs) {
-    my @pvs = FusionInventory::Agent::Task::Inventory::Input::Linux::LVM::_getPhysicalVolumes(file => 'resources/lvm/linux/pvs/'.$test);
-    is_deeply(\@pvs, $pvs{$test}, '_parsePvs()');
+    my @pvs = FusionInventory::Agent::Task::Inventory::Input::Linux::LVM::_getPhysicalVolumes(file => "resources/lvm/linux/pvs/$test");
+    is_deeply(\@pvs, $pvs{$test}, "physical volumes list: $test");
 }
 
 foreach my $test (keys %lvs) {
-    my @lvs = FusionInventory::Agent::Task::Inventory::Input::Linux::LVM::_getLogicalVolumes(file => 'resources/lvm/linux/lvs/'.$test);
-    is_deeply(\@lvs, $lvs{$test}, '_parseLvs()');
+    my @lvs = FusionInventory::Agent::Task::Inventory::Input::Linux::LVM::_getLogicalVolumes(file => "resources/lvm/linux/lvs/$test");
+    is_deeply(\@lvs, $lvs{$test}, "logical volumes list: $test");
 }
 
 foreach my $test (keys %vgs) {
-    my @vgs = FusionInventory::Agent::Task::Inventory::Input::Linux::LVM::_getVolumeGroups(file => 'resources/lvm/linux/vgs/'.$test);
-    is_deeply(\@vgs, $vgs{$test}, '_parseVgs()');
+    my @vgs = FusionInventory::Agent::Task::Inventory::Input::Linux::LVM::_getVolumeGroups(file => "resources/lvm/linux/vgs/$test");
+    is_deeply(\@vgs, $vgs{$test}, "volume groups list: $test");
 }
