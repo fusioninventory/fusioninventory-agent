@@ -1,14 +1,12 @@
 #!/usr/bin/perl
+
 use strict;
-
 use warnings;
-
-use FusionInventory::Agent::Task::Inventory::Input::Linux::LVM; 
 
 use Test::More;
 
+use FusionInventory::Agent::Task::Inventory::Input::Linux::LVM; 
 
-plan tests => 3;
 my %lvs = (
     'linux-1' => [
         {
@@ -113,6 +111,41 @@ my %pvs = (
             PV_UUID     => 'xkxfmu-fQLt-DtKZ-YnkY-vwcj-JqC2-WmQddD',
             PE_SIZE     => 4
         }
+    ],
+    'linux-2' => [
+        {
+            SIZE        => 311452,
+            FORMAT      => 'lvm2',
+            ATTR        => 'a--',
+            FREE        => 125694,
+            DEVICE      => '/dev/sda2',
+            PV_NAME     => 'vg00',
+            PV_PE_COUNT => 9282,
+            PE_SIZE     => 33,
+            PV_UUID     => 'CnCKHH-tnlS-BFL5-qRMa-HaV2-10zm-kNIpEp'
+        },
+        {
+            SIZE        => 58921,
+            FORMAT      => 'lvm2',
+            ATTR        => 'a--',
+            FREE        => 18119,
+            DEVICE      => '/dev/sdb2',
+            PV_NAME     => 'vg00',
+            PV_PE_COUNT => 1756,
+            PE_SIZE     => 33,
+            PV_UUID     => 'XMzcNr-5qrL-pXk1-9Ycl-FyfN-nXPe-ndRvHF'
+        },
+        {
+            SIZE        => 500095,
+            FORMAT      => 'lvm2',
+            ATTR        => 'a--',
+            FREE        => 241323,
+            DEVICE      => '/dev/sdc1',
+            PV_NAME     => 'vg00',
+            PV_PE_COUNT => 14904,
+            PE_SIZE     => 33,
+            PV_UUID     => 'GnT78t-kb92-k8di-1uUv-28HK-H6za-SXe2EZ'
+        }
     ]
 );
 
@@ -150,6 +183,11 @@ my %vgs = (
         }
     ]
 );
+
+plan tests =>
+    (scalar keys %pvs) +
+    (scalar keys %lvs) +
+    (scalar keys %vgs);
 
 foreach my $test (keys %pvs) {
     my @pvs = FusionInventory::Agent::Task::Inventory::Input::Linux::LVM::_getPhysicalVolumes(file => 'resources/lvm/linux/pvs/'.$test);
