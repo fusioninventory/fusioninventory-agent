@@ -37,12 +37,9 @@ memoize('getModel');
 memoize('getClass');
 
 sub getZone {
-
-    return 'global' unless canRun('zonename');
-
-    my $zone = getFirstLine(command => 'zonename');
-
-    return $zone;
+    return canRun('zonename') ?
+        getFirstLine(command => 'zonename') : # actual zone name
+        'global';                             # outside zone name
 }
 
 sub getModel {
@@ -118,7 +115,7 @@ This module provides some generic functions for Solaris.
 
 =head2 getZone()
 
-Returns system zone.
+Returns current zone name, or 'global' if there is no defined zone.
 
 =head2 getModel()
 
