@@ -478,7 +478,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::Deploy - Software deployment support for FusionInvnetory Agent
+FusionInventory::Agent::Task::Deploy - Software deployment support for FusionInventory Agent
 
 =head1 DESCRIPTION
 
