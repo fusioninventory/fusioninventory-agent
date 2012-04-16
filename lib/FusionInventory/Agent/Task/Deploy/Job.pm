@@ -11,6 +11,7 @@ sub new {
     my $self = {
         uuid            => $params{data}->{uuid},
         requires        => $params{data}->{requires},
+        checks          => $params{data}->{checks},
         actions         => $params{data}->{actions},
         associatedFiles => $params{associatedFiles}
     };

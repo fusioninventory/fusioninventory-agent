@@ -19,7 +19,7 @@ use FusionInventory::Agent::Task::Deploy::Datastore;
 use FusionInventory::Agent::Task::Deploy::File;
 use FusionInventory::Agent::Task::Deploy::Job;
 
-our $VERSION = '1.0.9901';
+our $VERSION = '2.0.0';
 
 sub isEnabled {
     my ($self) = @_;
@@ -149,7 +149,8 @@ sub processRemote {
                 machineid   => $self->{deviceid},
                 part        => 'job',
                 uuid        => $job->{uuid},
-                currentStep => 'checking'
+                currentStep => 'checking',
+                msg         => 'starting'
             }
         );
 
@@ -157,9 +158,12 @@ sub processRemote {
         if ( ref( $job->{checks} ) eq 'ARRAY' ) {
             foreach my $checknum ( 0 .. @{ $job->{checks} } ) {
                 next unless $job->{checks}[$checknum];
-                next if FusionInventory::Agent::Task::Deploy::CheckProcessor->process(
-                    $job->{checks}[$checknum]
+                my $checkStatus = FusionInventory::Agent::Task::Deploy::CheckProcessor->process(
+                    check => $job->{checks}[$checknum],
+                    logger => $self->{logger}
                 );
+                next if $checkStatus eq "ok";
+                next if $checkStatus eq "ignore";
 
                 $self->{client}->send(
                     url  => $remoteUrl,
@@ -170,7 +174,7 @@ sub processRemote {
                         uuid        => $job->{uuid},
                         currentStep => 'checking',
                         status      => 'ko',
-                        msg         => 'check failed',
+                        msg         => "failure of check #".($checknum+1)." ($checkStatus)",
                         cheknum     => $checknum
                     }
                 );
@@ -187,7 +191,8 @@ sub processRemote {
                 part        => 'job',
                 uuid        => $job->{uuid},
                 currentStep => 'checking',
-                status    => 'ok'
+                status      => 'ok',
+                msg         => 'all checks are ok'
             }
         );
 
@@ -201,7 +206,8 @@ sub processRemote {
                 machineid   => $self->{deviceid},
                 part        => 'job',
                 uuid        => $job->{uuid},
-                currentStep => 'downloading'
+                currentStep => 'downloading',
+                msg         => 'downloading files'
             }
         );
 
@@ -211,13 +217,14 @@ sub processRemote {
                 $self->{client}->send(
                     url  => $remoteUrl,
                     args => {
-                        action    => "setStatus",
-                        machineid   => $self->{deviceid},
-                        part      => 'file',
-                        uuid        => $job->{uuid},
-                        sha512      => $file->{sha512},
-                        status    => 'ok',
-                        currentStep => 'downloading'
+                        action     => "setStatus",
+                        machineid  => $self->{deviceid},
+                        part       => 'file',
+                        uuid       => $job->{uuid},
+                        sha512     => $file->{sha512},
+                        status     => 'ok',
+                        currentStep=> 'downloading',
+                        msg        => $file->{name}.' already downloaded'
                     }
                 );
 
@@ -232,7 +239,8 @@ sub processRemote {
                     part        => 'file',
                     uuid        => $job->{uuid},
                     sha512      => $file->{sha512},
-                    currentStep => 'downloading'
+                    currentStep => 'downloading',
+                    msg         => 'fetching '.$file->{name}
                 }
             );
 
@@ -248,7 +256,8 @@ sub processRemote {
                         uuid        => $job->{uuid},
                         sha512      => $file->{sha512},
                         currentStep => 'downloading',
-                        status      => 'ok'
+                        status      => 'ok',
+                        msg         => $file->{name}.' downloaded'
                     }
                 );
 
@@ -266,7 +275,7 @@ sub processRemote {
                         sha512      => $file->{sha512},
                         currentStep => 'downloading',
                         status      => 'ko',
-                        msg         => 'download failed'
+                        msg         => $file->{name}.' download failed'
                     }
                 );
                 next JOB;
@@ -280,7 +289,8 @@ sub processRemote {
                 part        => 'job',
                 uuid        => $job->{uuid},
                 currentStep => 'downloading',
-                status      => 'ok'
+                status      => 'ok',
+                msg         => 'success'
             }
         );
 
@@ -317,6 +327,7 @@ sub processRemote {
                     uuid        => $job->{uuid},
                     currentStep => 'prepare',
                     status      => 'ok',
+                    msg         => 'success'
                 }
             );
         }
@@ -354,7 +365,7 @@ sub processRemote {
                                 uuid        => $job->{uuid},
                                 currentStep => 'checking',
                                 status      => $checkStatus,
-                                msg         => 'check failed',
+                                msg         => "failure of check #".($checknum+1)." ($checkStatus)",
                                 actionnum   => $actionnum,
                                 cheknum     => $checknum
                             }
@@ -371,9 +382,6 @@ sub processRemote {
             $ret->{msg} = [] unless $ret->{msg};
             push @{$ret->{msg}}, $@ if $@;
             if ( !$ret->{status} || $self->{config}{debug} ) {
-                if ($self->{config}{debug}) {
-                    push @{$ret->{msg}}, "debug mode enabled, sending log";
-                }
                 $self->{client}->send(
                     url  => $remoteUrl,
                     args => {
@@ -397,7 +405,7 @@ sub processRemote {
                         currentStep => 'processing',
                         status      => 'ko',
                         actionnum   => $actionnum,
-                        msg         => 'action processing failure'
+                        msg         => "action #".($actionnum+1)." processing failure"
                     }
                 );
 
@@ -412,7 +420,8 @@ sub processRemote {
                     uuid        => $job->{uuid},
                     currentStep => 'processing',
                     status      => 'ok',
-                    actionnum   => $actionnum
+                    actionnum   => $actionnum,
+                    msg         => "action #".($actionnum+1)." processing success"
                 }
             );
 
@@ -426,7 +435,8 @@ sub processRemote {
                 machineid => $self->{deviceid},
                 part      => 'job',
                 uuid      => $job->{uuid},
-                status    => 'ok'
+                status    => 'ok',
+                msg       => "job successfully completed"
             }
         );
     }

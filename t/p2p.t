@@ -6,6 +6,40 @@ use warnings;
 use FusionInventory::Agent::Task::Deploy::P2P;
 use Test::More tests => 3;
 
+my @routePrintTest = (
+{
+
+    input => [
+'===========================================================================',
+'Interface List',
+'0x1 ........................... MS TCP Loopback interface',
+'0x2 ...52 54 00 17 24 56 ...... Realtek RTL8139 Family PCI Fast Ethernet NIC - Packet Scheduler Miniport',
+'0x10004 ...00 ff d8 2a 28 86 ...... Juniper Network Connect Virtual Adapter - Packet Scheduler Miniport',
+'===========================================================================',
+'===========================================================================',
+'Active Routes:',
+'Network Destination        Netmask          Gateway       Interface  Metric',
+'          0.0.0.0          0.0.0.0         10.0.2.2       10.0.2.15       20',
+'         10.0.2.0    255.255.255.0        10.0.2.15       10.0.2.15       20',
+'        10.0.2.15  255.255.255.255        127.0.0.1       127.0.0.1       20',
+'   10.255.255.255  255.255.255.255        10.0.2.15       10.0.2.15       20',
+'        127.0.0.0        255.0.0.0        127.0.0.1       127.0.0.1       1',
+'        224.0.0.0        240.0.0.0        10.0.2.15       10.0.2.15       20',
+'  255.255.255.255  255.255.255.255        10.0.2.15       10.0.2.15       1',
+'  255.255.255.255  255.255.255.255        10.0.2.15           10004       1',
+'Default Gateway:          10.0.2.2',
+'===========================================================================',
+'Persistent Routes:',
+'  None' ],
+     output => [
+            {
+                'ip' => '10.0.2.15',
+                'mask' => '255.255.255.0'
+            }
+        ]
+    }
+);
+
 my @tests = (
     {
         name => 'Ignore',
@@ -60,4 +94,10 @@ foreach my $test (@tests) {
         undef, # $logger
         $test->{test}, 6 );
     is_deeply(\@ret, $test->{ret}, $test->{name});
+}
+
+
+foreach my $test (@routePrintTest) {
+    my @ret = FusionInventory::Agent::Task::Deploy::P2P::_parseWin32Route(@{$test->{input}});
+    is_deeply(\@ret, $test->{output}, "Win32 'route print' parsing");
 }

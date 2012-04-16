@@ -65,7 +65,7 @@ sub do {
     my $exitStatus = $CHILD_ERROR >> 8;
     $logger->debug("exitStatus: ".$exitStatus);;
 
-    my $logLineLimit =  $params->{logLineLimit} || 3;
+    my $logLineLimit =  $params->{logLineLimit} || 10;
 
     my @msg;
     if($buf) {
