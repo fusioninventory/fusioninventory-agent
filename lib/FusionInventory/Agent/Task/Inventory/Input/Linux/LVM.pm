@@ -90,7 +90,7 @@ sub _getPhysicalVolumes {
 
 sub _getVolumeGroups {
     my (%params) = (
-        command => 'vgs --noheading --nosuffix --units M -o +vg_uuid,vg_extent_size',
+        command => 'vgs --noheading --nosuffix --units M -o vg_name,pv_count,lv_count,vg_attr,vg_size,vg_free,vg_uuid,vg_extent_size',
         @_
     );
 
@@ -105,11 +105,11 @@ sub _getVolumeGroups {
             VG_NAME        => $infos[1],
             PV_COUNT       => $infos[2],
             LV_COUNT       => $infos[3],
-            ATTR           => $infos[5],
-            SIZE           => int($infos[6]||0),
-            FREE           => int($infos[7]||0),
-            VG_UUID        => $infos[8],
-            VG_EXTENT_SIZE => $infos[9],
+            ATTR           => $infos[4],
+            SIZE           => int($infos[5]||0),
+            FREE           => int($infos[6]||0),
+            VG_UUID        => $infos[7],
+            VG_EXTENT_SIZE => $infos[8],
         };
     }
     close $handle;
