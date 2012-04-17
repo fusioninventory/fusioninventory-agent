@@ -1,0 +1,10 @@
+[Unit]
+Description=FusionInventory agent
+After=syslog.target network.target
+ 
+[Service]
+EnvironmentFile=/etc/sysconfig/fusioninventory-agent
+ExecStart=/usr/bin/fusioninventory-agent $OPTIONS
+ 
+[Install]
+WantedBy=multi-user.target
