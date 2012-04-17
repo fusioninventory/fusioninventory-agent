@@ -17,30 +17,26 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{inventory};
 
-    foreach my $volume (_getLogicalVolumes(
-        command => 'lvs -a --noheading --nosuffix --units M -o lv_name,vg_name,lv_attr,lv_size,lv_uuid,seg_count',
-        logger  => $logger
-    )) {
+    foreach my $volume (_getLogicalVolumes(logger => $logger)) {
         $inventory->addEntry(section => 'LOGICAL_VOLUMES', entry => $volume);
     }
 
-    foreach my $volume (_getPhysicalVolumes(
-        command => 'pvs --noheading --nosuffix --units M -o +pv_uuid,pv_pe_count,pv_size,vg_uuid',
-        logger  => $logger
-    )) {
+    foreach my $volume (_getPhysicalVolumes(logger => $logger)) {
         $inventory->addEntry(section => 'PHYSICAL_VOLUMES', entry => $volume);
     }
 
-    foreach my $group (_getVolumeGroups(
-        command => 'vgs --noheading --nosuffix --units M -o +vg_uuid,vg_extent_size',
-        logger  => $logger
-    )) {
+    foreach my $group (_getVolumeGroups(logger => $logger)) {
         $inventory->addEntry(section => 'VOLUME_GROUPS', entry => $group);
     }
 }
 
 sub _getLogicalVolumes {
-    my $handle = getFileHandle(@_);
+    my (%params) = (
+        command => 'lvs -a --noheading --nosuffix --units M -o lv_name,vg_name,lv_attr,lv_size,lv_uuid,seg_count',
+        @_
+    );
+
+    my $handle = getFileHandle(%params);
     return unless $handle;
 
     my @volumes;
@@ -63,7 +59,12 @@ sub _getLogicalVolumes {
 }
 
 sub _getPhysicalVolumes {
-    my $handle = getFileHandle(@_);
+    my (%params) = (
+        command => 'pvs --noheading --nosuffix --units M -o +pv_uuid,pv_pe_count,pv_size,vg_uuid',
+        @_
+    );
+
+    my $handle = getFileHandle(%params);
     return unless $handle;
 
     my @volumes;
@@ -88,7 +89,12 @@ sub _getPhysicalVolumes {
 }
 
 sub _getVolumeGroups {
-    my $handle = getFileHandle(@_);
+    my (%params) = (
+        command => 'vgs --noheading --nosuffix --units M -o +vg_uuid,vg_extent_size',
+        @_
+    );
+
+    my $handle = getFileHandle(%params);
     return unless $handle;
 
     my @groups;
