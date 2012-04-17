@@ -1,0 +1,7 @@
+re0: flags=8843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST> metric 0 mtu 1500
+        options=c01bb<RXCSUM,TXCSUM,VLAN_MTU,VLAN_HWTAGGING,JUMBO_MTU,VLAN_HWCSUM,TSO4,VLAN_HWTSO,LINKSTATE>
+        ether 00:ab:cd:ef:1a:00
+        inet 192.168.10.10 netmask 0xffffff00 broadcast 192.168.10.11
+        inet 192.168.10.11 netmask 0xffffffff broadcast 192.168.10.11
+        media: Ethernet autoselect (100baseTX <full-duplex>)
+        status: active
