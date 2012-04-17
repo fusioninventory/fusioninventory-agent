@@ -146,6 +146,41 @@ my %pvs = (
             PV_UUID     => 'GnT78t-kb92-k8di-1uUv-28HK-H6za-SXe2EZ',
             VG_UUID     => 'OFXZR2-dEjD-qVIj-VJnw-1dQY-wC57-O1TABn'
         }
+    ],
+    'linux-3' => [
+        {
+            SIZE        => 53791,
+            FORMAT      => 'lvm2',
+            ATTR        => 'a-',
+            FREE        => 18694,
+            DEVICE      => '/dev/sda5',
+            PV_PE_COUNT => 12825,
+            VG_UUID     => '4D8fsm-J18u-IBB8-0TDT-tdIc-qDWr-COXhld',
+            PE_SIZE     => 4,
+            PV_UUID     => 'wDobJX-zfTq-A1Ka-70Nz-caiV-uNbt-QZEsKS'
+        },
+        {
+            SIZE        => 182087,
+            FORMAT      => 'lvm2',
+            ATTR        => 'a-',
+            FREE        => 0,
+            DEVICE      => '/dev/sdb',
+            PV_PE_COUNT => 43413,
+            VG_UUID     => '8VYDvK-WrSD-5v8m-UgyR-g7GR-V4hK-y7q2On',
+            PE_SIZE     => 4,
+            PV_UUID     => 'HIQlf6-bTeX-douO-zHZQ-U1SG-637I-tsaxwL'
+        },
+        {
+            SIZE        => 182087,
+            FORMAT      => 'lvm2',
+            ATTR        => 'a-',
+            FREE        => 4,
+            DEVICE      => '/dev/sdc',
+            PV_PE_COUNT => 43413,
+            VG_UUID     => '8VYDvK-WrSD-5v8m-UgyR-g7GR-V4hK-y7q2On',
+            PE_SIZE     => 4,
+            PV_UUID     => 'FyNUgz-K2Qs-q8vt-1yO4-3TQy-3z1H-Xg6B0r'
+        }
     ]
 );
 
@@ -193,7 +228,8 @@ plan tests =>
 
 foreach my $test (keys %pvs) {
     my @pvs = FusionInventory::Agent::Task::Inventory::Input::Linux::LVM::_getPhysicalVolumes(file => "resources/lvm/linux/pvs/$test");
-    is_deeply(\@pvs, $pvs{$test}, "physical volumes list: $test");
+    is_deeply(\@pvs, $pvs{$test}, "physical volumes list: $test") or print Dumper(\@pvs);
+    use Data::Dumper;
 }
 
 foreach my $test (keys %lvs) {

@@ -60,7 +60,7 @@ sub _getLogicalVolumes {
 
 sub _getPhysicalVolumes {
     my (%params) = (
-        command => 'pvs --noheading --nosuffix --units M -o +pv_uuid,pv_pe_count,pv_size,vg_uuid',
+        command => 'pvs --noheading --nosuffix --units M -o pv_name,pv_fmt,pv_attr,pv_size,pv_free,pv_uuid,pv_pe_count,vg_uuid',
         @_
     );
 
@@ -73,14 +73,14 @@ sub _getPhysicalVolumes {
 
         push @volumes, {
             DEVICE      => $infos[1],
-            FORMAT      => $infos[3],
-            ATTR        => $infos[4],
-            SIZE        => int($infos[5]||0),
-            FREE        => int($infos[6]||0),
-            PV_UUID     => $infos[7],
-            PV_PE_COUNT => $infos[8],
-            PE_SIZE     => int($infos[5] / $infos[8]),
-            VG_UUID     => $infos[10]
+            FORMAT      => $infos[2],
+            ATTR        => $infos[3],
+            SIZE        => int($infos[4]||0),
+            FREE        => int($infos[5]||0),
+            PV_UUID     => $infos[6],
+            PV_PE_COUNT => $infos[7],
+            PE_SIZE     => int($infos[4] / $infos[7]),
+            VG_UUID     => $infos[8]
         };
     }
     close $handle;
