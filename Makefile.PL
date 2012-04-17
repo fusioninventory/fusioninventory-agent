@@ -24,14 +24,18 @@ eval {
     close $handle;
 
     die "agent too old (minimal version 2.2.0 required)\n" if $CHILD_ERROR;
+
+    # add agent lib directory to @INC;
+    unshift @INC, "$MY::setup{DATADIR}/lib";
 };
 warn "unable to check fusioninventory-agent setup: $EVAL_ERROR" if $EVAL_ERROR;
 
 # mandatory dependencies
-requires 'Net::IP'                => undef;
-requires 'threads'                => undef;
-requires 'XML::TreePP'            => '0.26';
-requires 'Net::SNMP'              => undef;
+requires 'threads'                      => undef;
+requires 'Net::IP'                      => undef;
+requires 'Net::SNMP'                    => undef;
+requires 'XML::TreePP'                  => '0.26';
+requires 'FusionInventory::Agent::SNMP' => undef;
 
 install_script 'fusioninventory-netinventory';
 
