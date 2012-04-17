@@ -218,6 +218,28 @@ my %vgs = (
             LV_COUNT       => '16',
             VG_EXTENT_SIZE => '33.55'
         }
+    ],
+    'linux-3' => [
+        {
+            SIZE           => 53791,
+            ATTR           => 'wz--n-',
+            VG_NAME        => 'vg0',
+            FREE           => 18694,
+            PV_COUNT       => '1',
+            VG_UUID        => '4D8fsm-J18u-IBB8-0TDT-tdIc-qDWr-COXhld',
+            LV_COUNT       => '5',
+            VG_EXTENT_SIZE => '4.19'
+        },
+        {
+            SIZE           => 364174,
+            ATTR           => 'wz--n-',
+            VG_NAME        => 'vg1',
+            FREE           => 4,
+            PV_COUNT       => '2',
+            VG_UUID        => '8VYDvK-WrSD-5v8m-UgyR-g7GR-V4hK-y7q2On',
+            LV_COUNT       => '1',
+            VG_EXTENT_SIZE => '4.19'
+        }
     ]
 );
 
@@ -228,8 +250,7 @@ plan tests =>
 
 foreach my $test (keys %pvs) {
     my @pvs = FusionInventory::Agent::Task::Inventory::Input::Linux::LVM::_getPhysicalVolumes(file => "resources/lvm/linux/pvs/$test");
-    is_deeply(\@pvs, $pvs{$test}, "physical volumes list: $test") or print Dumper(\@pvs);
-    use Data::Dumper;
+    is_deeply(\@pvs, $pvs{$test}, "physical volumes list: $test");
 }
 
 foreach my $test (keys %lvs) {
