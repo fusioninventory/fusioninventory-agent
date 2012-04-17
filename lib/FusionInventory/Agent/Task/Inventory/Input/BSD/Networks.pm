@@ -66,42 +66,77 @@ sub _parseIfconfig {
     my $handle = getFileHandle(@_);
     return unless $handle;
 
-    my @interfaces;
-    my $interface;
+    my @interfaces; # global list of interfaces
+    my @addresses;  # per-interface list of addresses
+    my $interface;  # current interface
 
     while (my $line = <$handle>) {
-        if ($line =~ /^(\S+):/) {
-            # new interface
-            push @interfaces, $interface if $interface;
+        if ($line =~ /^(\S+): flags=\d+<([^>]+)> metric \d+ mtu (\d+)/) {
+
+            if (@addresses) {
+                push @interfaces, @addresses;
+                undef @addresses;
+            } else {
+                push @interfaces, $interface if $interface;
+            }
+
             $interface = {
-                STATUS      => 'Down',
-                DESCRIPTION => $1
+                DESCRIPTION => $1,
+                MTU         => $3
             };
+            my $flags = $2;
+
+            foreach my $flag (split(/,/, $flags)) {
+                next unless $flag eq 'UP' || $flag eq 'DOWN';
+                $interface->{STATUS} = ucfirst(lc($flag));
+            }
+        } elsif ($line =~ /(?:address:|ether|lladdr) ($mac_address_pattern)/) {
+            $interface->{MACADDR} = $1;
+
+        } elsif ($line =~ /inet ($ip_address_pattern) (?:--> $ip_address_pattern )?netmask 0x($hex_ip_address_pattern)/) {
+            my $address = $1;
+            my $mask    = hex2canonical($2);
+            my $subnet  = getSubnetAddress($address, $mask);
+
+            push @addresses, {
+                IPADDRESS   => $address,
+                IPMASK      => $mask,
+                IPSUBNET    => $subnet,
+                STATUS      => $interface->{STATUS},
+                DESCRIPTION => $interface->{DESCRIPTION},
+                MACADDR     => $interface->{MACADDR},
+                MTU         => $interface->{MTU}
+            };
+        } elsif ($line =~ /inet6 ([\w:]+)\S* prefixlen (\d+)/) {
+            my $address = $1;
+            my $mask    = getNetworkMaskIPv6($2);
+            my $subnet  = getSubnetAddressIPv6($address, $mask);
+
+            push @addresses, {
+                IPADDRESS6  => $address,
+                IPMASK6     => $mask,
+                IPSUBNET6   => $subnet,
+                STATUS      => $interface->{STATUS},
+                DESCRIPTION => $interface->{DESCRIPTION},
+                MACADDR     => $interface->{MACADDR},
+                MTU         => $interface->{MTU}
+            };
+
         }
 
-        if ($line =~ /inet ($ip_address_pattern)/) {
-            $interface->{IPADDRESS} = $1;
-        }
-        if ($line =~ /netmask 0x($hex_ip_address_pattern)/) {
-            $interface->{IPMASK} = hex2canonical($1);
-        }
-        if ($line =~ /(?:address:|ether|lladdr) ($mac_address_pattern)/) {
-            $interface->{MACADDR} = $1;
-        }
-        if ($line =~ /mtu (\S+)/) {
-            $interface->{MTU} = $1;
-        }
         if ($line =~ /media (\S+)/) {
             $interface->{TYPE} = $1;
-        }
-        if ($line =~ /<UP/) {
-            $interface->{STATUS} = 'Up';
+            $_->{TYPE} = $1 foreach @addresses;
         }
     }
     close $handle;
 
     # last interface
-    push @interfaces, $interface if $interface;
+    if (@addresses) {
+        push @interfaces, @addresses;
+    } else {
+        push @interfaces, $interface if $interface;
+    }
 
     return @interfaces;
 }
