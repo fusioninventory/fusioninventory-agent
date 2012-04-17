@@ -72,7 +72,6 @@ sub _getPhysicalVolumes {
 
         push @volumes, {
             DEVICE      => $infos[1],
-            PV_NAME     => $infos[2],
             FORMAT      => $infos[3],
             ATTR        => $infos[4],
             SIZE        => int($infos[5]||0),
