@@ -32,7 +32,7 @@ sub doInventory {
 
 sub _getLogicalVolumes {
     my (%params) = (
-        command => 'lvs -a --noheading --nosuffix --units M -o lv_name,vg_name,lv_attr,lv_size,lv_uuid,seg_count',
+        command => 'lvs -a --noheading --nosuffix --units M -o lv_name,vg_uuid,lv_attr,lv_size,lv_uuid,seg_count',
         @_
     );
 
