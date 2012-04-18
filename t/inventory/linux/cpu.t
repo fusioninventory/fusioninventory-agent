@@ -37,8 +37,11 @@ my %i386 = (
         },
         cores => [
             {
-                THREAD => 1,
-                CORE   => 1
+                STEPPING     => 8,
+                FAMILYNUMBER => 6,
+                MODEL        => 13,
+                THREAD       => 1,
+                CORE         => 1
             }
         ]
     },
@@ -74,6 +77,9 @@ my %i386 = (
         },
         cores => [
             {
+                STEPPING     => 2,
+                FAMILYNUMBER => 6,
+                MODEL        => 28,
                 THREAD => '2',
                 CORE   => '1'
             }
@@ -111,6 +117,9 @@ my %i386 = (
         },
         cores => [
             {
+                STEPPING     => 2,
+                FAMILYNUMBER => 6,
+                MODEL        => 28,
                 THREAD => '2',
                 CORE => '1'
             }
@@ -151,6 +160,9 @@ my %i386 = (
         },
         cores => [
             {
+                STEPPING     => 5,
+                FAMILYNUMBER => 6,
+                MODEL        => 26,
                 THREAD => '1',
                 CORE   => '4'
             }
@@ -184,6 +196,9 @@ my %i386 = (
         },
         cores => [
             {
+                STEPPING     => 5,
+                FAMILYNUMBER => 6,
+                MODEL        => 37,
                 THREAD => '2',
                 CORE   => '2'
             }

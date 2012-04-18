@@ -4,23 +4,40 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::MacOS;
 
 sub isEnabled {
     return 
-        -r '/usr/sbin/system_profiler' &&
-        canLoad("Mac::SysProfile");
+        -r '/usr/sbin/system_profiler';
 }
 
 sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger = $params{logger};
 
-    my $prof = Mac::SysProfile->new();
-    my $info = $prof->gettype('SPHardwareDataType');
-    return unless ref $info eq 'HASH';
+    # System profiler informations
+    my $infos = getSystemProfilerInfos(@_);
 
-    $info = $info->{'Hardware Overview'};
+    # Get more informations from sysctl
+    my $handle = getFileHandle (
+        logger  => $logger,
+        command => 'sysctl -a machdep.cpu'
+    );
+
+
+    # add sysctl informations into profiler informations
+    my $info = $infos->{'Hardware'}->{'Hardware Overview'};
+
+    while (my $line = <$handle>) {
+        chomp $line;
+        if ($line =~ /(.+) : \s (.+)/x) {
+            $info->{$1}=$2;
+        }
+    }
+
+
 
     my $type  = $info->{'Processor Name'} ||
                 $info->{'CPU Type'};
@@ -29,9 +46,15 @@ sub doInventory {
                 1;
     my $speed = $info->{'Processor Speed'} ||
                 $info->{'CPU Speed'};
+
+    my $stepping = $info->{'machdep.cpu.stepping'};
+
+    my $family = $info->{'machdep.cpu.family'};
+
+    my $model =  $info->{'machdep.cpu.model'};
+
     # French Mac returns 2,60 Ghz instead of 2.60 Ghz :D
     $speed =~ s/,/./;
-
     if ($speed =~ /GHz$/i) {
         $speed =~ s/GHz//i;
         $speed = $speed * 1000;
@@ -57,6 +80,9 @@ sub doInventory {
                 MANUFACTURER => $manufacturer,
                 NAME         => $type,
                 THREAD       => 1,
+                FAMILYNUMBER => $family,
+                MODEL        => $model,
+                STEPPING     => $stepping,
                 SPEED        => $speed
             }
         );
