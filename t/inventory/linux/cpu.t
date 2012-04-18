@@ -221,6 +221,12 @@ my %arm = (
             ARCH => 'ARM',
             TYPE => 'XScale-80219 rev 0 (v5l)'
         }
+    ],
+    'linux-armel-2' => [
+        {
+            ARCH => 'ARM',
+            TYPE => 'Feroceon 88FR131 rev 1 (v5l)'
+        }
     ]
 );
 
@@ -303,7 +309,8 @@ foreach my $test (keys %mips) {
 foreach my $test (keys %arm) {
     my $file = "resources/linux/proc/cpuinfo/$test";
     my @cpus = FusionInventory::Agent::Task::Inventory::Input::Linux::Archs::ARM::_getCPUsFromProc(file => $file);
-    is_deeply(\@cpus, $arm{$test}, $test);
+    is_deeply(\@cpus, $arm{$test}, $test) or print Dumper(\@cpus);
+    use Data::Dumper;
 }
 
 foreach my $test (keys %ppc) {
