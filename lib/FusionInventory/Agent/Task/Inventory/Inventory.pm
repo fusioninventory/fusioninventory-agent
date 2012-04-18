@@ -18,7 +18,7 @@ my %fields = (
     CONTROLLERS => [ qw/CAPTION DRIVER NAME MANUFACTURER PCICLASS PCIID
                         PCISUBSYSTEMID PCISLOT TYPE REV/ ],
     CPUS        => [ qw/CACHE CORE DESCRIPTION MANUFACTURER NAME THREAD SERIAL
-                        SPEED ID EXTERNAL_CLOCK/ ],
+                        STEPPING FAMILYNAME FAMILYNUMBER MODEL SPEED ID EXTERNAL_CLOCK/ ],
     DRIVES      => [ qw/CREATEDATE DESCRIPTION FREE FILESYSTEM LABEL LETTER 
                         SERIAL SYSTEMDRIVE TOTAL TYPE VOLUMN/ ],
     ENVS        => [ qw/KEY VAL/ ],
@@ -684,6 +684,22 @@ Frequency in MHz
 =item ID
 
 The CPU ID: http://en.wikipedia.org/wiki/CPUID
+
+=item STEPPING
+
+Stepping value (Contained in CPUID)
+
+=item MODEL
+
+Model value (Contained in CPUID)
+
+=item FAMILYNUMBER
+
+Family value (Contained in CPUID)
+
+=item FAMILYNAME
+
+Family Name
 
 =back
 
