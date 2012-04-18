@@ -34,18 +34,15 @@ sub doInventory {
             my @shadow_line = getshadow(
                 user=>$splitted_line[0],
                 logger  => $logger
-                ); 
+                );
 
 	    my $time = time(); 
 	    my $date = int ($time/24/3600)-$shadow_line[2];
- 
-	    my $maxdate =  $shadow_line[4]-$date;
-	   
-       
+
 	    my %password_data= (
-                LAST_CHANGE_DATE => $date,
+                PASSWORD_AGE     => $date,
                 MINIMUM_AGE      => $shadow_line[3],
-                MAXIMUM_AGE      => $maxdate,
+                MAXIMUM_AGE      => $shadow_line[4],
                 WARNING_PERIOD   => $shadow_line[5],
                 INACTIVITY       => $shadow_line[6]
                 );
