@@ -84,6 +84,7 @@ sub getCpusFromDmidecode {
             ID     => $info->{ID},
             CORE   => $info->{'Core Count'} || $info->{'Core Enabled'},
             THREAD => $info->{'Thread Count'},
+	    FAMILY => {NAME => $info->{'Family'}}
         };
         $cpu->{MANUFACTURER} = $info->{'Manufacturer'} || $info->{'Processor Manufacturer'};
         $cpu->{NAME} =
