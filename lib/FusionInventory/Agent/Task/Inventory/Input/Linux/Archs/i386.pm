@@ -52,6 +52,18 @@ sub doInventory {
         if (!$cpu->{THREAD}) {
             $cpu->{THREAD} = $procList->[$cpt]{THREAD};
         }
+        if ($cpu->{ID}) {
+            my @id = split ("",$cpu->{ID});
+            $cpu->{STEPPING} = hex $id[1];
+	    # family number is composed of 3 hexadecimal number
+            $cpu->{FAMILY}->{NUMBER} = hex $id[9].$id[10].$id[4];
+            $cpu->{MODEL} = hex $id[7].$id[0];
+        }
+	else {
+            $cpu->{STEPPING} = $proc_cpu->{'stepping'};
+            $cpu->{FAMILY}->{NUMBER} =$proc_cpu->{'cpu family'};
+            $cpu->{MODEL} = $proc_cpu->{'model'};
+	}
         if ($cpu->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
             $cpu->{SPEED} = {
                ghz => 1000,
