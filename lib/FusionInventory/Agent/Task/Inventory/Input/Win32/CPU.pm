@@ -56,6 +56,9 @@ sub _getCPUs {
         my $dmidecodeInfo = $dmidecodeInfos[$cpuId];
         my $registryInfo  = $registryInfos->{"$cpuId/"};
 
+        # Split CPUID from its value inside registry
+        my @splitted_identifier = split(/ |\n/ ,$registryInfo->{'/Identifier'});
+
         my $cpu = {
             CORE         => $dmidecodeInfo->{CORE} || $object->{NumberOfCores},
             THREAD       => $dmidecodeInfo->{THREAD},
@@ -64,6 +67,9 @@ sub _getCPUs {
             MANUFACTURER => $registryInfo->{'/VendorIdentifier'},
             SERIAL       => $dmidecodeInfo->{SERIAL},
             SPEED        => $dmidecodeInfo->{SPEED} || $object->{MaxClockSpeed},
+            FAMILYNUMBER => $splitted_identifier[2],
+            MODEL        => $splitted_identifier[4],
+            STEPPING     => $splitted_identifier[6],
             ID           => $dmidecodeInfo->{ID} || $object->{ProcessorId}
         };
 
