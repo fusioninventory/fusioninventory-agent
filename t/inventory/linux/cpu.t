@@ -205,11 +205,11 @@ my %alpha = (
 my %sparc = (
     'linux-sparc-1' => [
         {
-            ARCH => 'ARM',
+            ARCH => 'SPARC',
             TYPE => 'TI UltraSparc IIIi (Jalapeno)'
         },
         {
-            ARCH => 'ARM',
+            ARCH => 'SPARC',
             TYPE => 'TI UltraSparc IIIi (Jalapeno)'
         }
     ]
