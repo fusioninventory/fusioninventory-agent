@@ -20,64 +20,71 @@ sub doInventory {
 
     my $handle = getFileHandle(
         logger  => $logger,
-        command => 'net user'
+        command => 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -command "([ADSI]\\"WinNT://localhost,computer\\" ).psbase.Children | ?{ $_.psbase.schemaclassname -eq \'user\' } | Format-List *"'
     );
     my @users;
 
     if ($handle) {
-
-	for (my $i = 0;$i<4; $i++){
-	    <$handle>;
+	
+	my @users; 
+	my $user;
+	while(my $line=<$handle>){
+	    if ($line =~ /^\n/) {
+		push @users,$user;
+		$user=();
+	    }
+	    elsif   ($line =~ m/^PasswordAge\s+:\s{(.+)}/){
+		my $age = int $1/24/3600;
+		$user->{PASSWORD}->{AGE} = $age;
+		print ("$age\n");
+	    } 
+	    elsif   ($line =~ m/^FullName\s+:\s{(.+)}/){
+		$user->{REALNAME} = $1;
+		print ("$1\n");
+	    }
+	     elsif   ($line =~ m/^ HomeDirectory\s+:\s{(.+)}/){
+		$user->{HOMEDIR} = $1;
+		print ("$1\n");
+	    }
+	    elsif   ($line =~ m/^LoginScript\s+:\s{(.+)}/){
+		$user->{COMMAND_INTERPRETER} = $1;
+		print ("$1\n");
+	    }
+	    elsif   ($line =~ m/^Name\s+:\s{(.+)}/){
+		$user->{NAME} = $1;
+		print ("$1\n");
+	    }
+	    elsif   ($line =~ m/^MaxPasswordAge\s+:\s{(.+)}/){
+		my $age = int $1/24/3600;
+		$user->{PASSWORD}->{MAXIMUM_AGE} = $age;
+		print ("$age\n");
+	    }
+	    elsif   ($line =~ m/^MinPasswordAge\s+:\s{(.+)}/){
+		my $age = int $1/24/3600;
+		$user->{PASSWORD}->{MINIMUM_AGE} = $age;
+		print ("$age\n");
+	    }	
+	    elsif   ($line =~ m/^Path\s+:\sWinNT:\/\/(.+)\/.*\/.*/){
+		$user->{REALM} = $1;
+		print ("$1\n");
+	    }
 	}
-	my $line1=<$handle>;
-	my $line2=<$handle>;
-	my $line3=<$handle>;
-	my @users;
-	do {
-	   my @splitted = split " ", $line1;
-	   push @users, @splitted;
-	    print "@users\n";
-	    $line1=$line2;
-	    $line2=$line3
-	    
-	}
-        while ($line3 = <$handle>);
+	my $registered = { USER => \@users};  
 
-	foreach my $user (@users){
-	    chomp $user;
-	    print $user;
-	    my $handle_user = getFileHandle(
-		logger  => $logger,
-		command => "net user $user"
-		);
-
-	    <$handle_user>;
-	    my $realname= <$handle_user>;
-	    my @real= (split /\s{2,}/, $realname);
-	    print "real is $real[1]\n";
-	    chomp $realname;
-	     <$handle_user>; <$handle_user>; <$handle_user>; <$handle_user>;
-	    my $expiration =  <$handle_user>;
-	    my @expi = (split /\s{2,}/, $expiration);
-	    print "expi is $expi[1]\n";
-	    <$handle_user>;
-	    chomp $expiration;
-	    my $last= (split /\s{2,}/,<$handle_user>)[1];
-	    chomp $last;
-	    my $max= (split /\s{2,}/,<$handle_user> )[1] ;
-	    chomp $max;
-	    my $min = (split /\s{2,}/,<$handle_user> )[1] ;
-	    chomp $min;
-	     <$handle_user>; <$handle_user>; <$handle_user>;<$handle_user>;
-	    my $script = (split /\s{2,}/,<$handle_user> )[1] ;
-	    chomp $script;
-	    <$handle_user>;
-	   my $homedir =  (split /\s{2,}/,<$handle_user>)[1];
-	    chomp $homedir;
-	    print("$realname\n$expiration\n$last\n$max\n$min\n$script\n$homedir\n");
-	}
+	$inventory->addEntry(
+            section => 'REGISTERED_USERS',
+            entry   => $registered
+            );
+	close $handle;
     }
-    close $handle;
 }
 
 1;
+
+=com
+lane is MaxPasswordAge             : {3628800}
+lane is MinPasswordAge             : {0}
+lane is Path                       : WinNT://WORKGROUP/localhost/useraaaaaaaaaaa
+aaaaa
+=cut	   
+
