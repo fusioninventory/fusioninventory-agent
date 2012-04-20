@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::Input::Generic::RegisteredUser;
+package FusionInventory::Agent::Task::Inventory::Input::Linux::RegisteredUser;
 
 use strict;
 use warnings;
@@ -36,7 +36,7 @@ sub doInventory {
                 logger  => $logger
                 );
 
-	    my $time = time(); 
+	    my $time = time();
 	    my $date = int ($time/24/3600)-$shadow_line[2];
 
 	    my %password_data= (
