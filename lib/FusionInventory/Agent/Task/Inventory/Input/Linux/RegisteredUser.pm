@@ -36,10 +36,10 @@ sub doInventory {
                 logger  => $logger
                 );
 
-	    my $time = time();
-	    my $date = int ($time/24/3600)-$shadow_line[2];
+            my $time = time();
+            my $date = int ($time/24/3600)-$shadow_line[2];
 
-	    my %password_data= (
+            my %password_data= (
                 PASSWORD_AGE     => $date,
                 MINIMUM_AGE      => $shadow_line[3],
                 MAXIMUM_AGE      => $shadow_line[4],
@@ -66,7 +66,7 @@ sub doInventory {
                 datas => \%user_data
                 );
 
-	    push @users,$user;
+            push @users,$user;
 	}
 
         my $registered = { USER => \@users};

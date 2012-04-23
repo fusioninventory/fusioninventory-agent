@@ -26,40 +26,40 @@ sub doInventory {
 
     if ($handle) {
 
-	my @users;
-	my $user;
-	while(my $line=<$handle>){
-	    if ($line =~ /^\n/) {
-		push @users,$user;
-		$user=();
-	    }
-	    elsif   ($line =~ m/^PasswordAge\s+:\s{(.+)}/){
-		my $age = int $1/24/3600;
-		$user->{PASSWORD}->{AGE} = $age;
-	    }
-	    elsif   ($line =~ m/^FullName\s+:\s{(.+)}/){
-		$user->{REALNAME} = $1;
-	    }
-	     elsif   ($line =~ m/^ HomeDirectory\s+:\s{(.+)}/){
-		$user->{HOMEDIR} = $1;
-	    }
-	    elsif   ($line =~ m/^LoginScript\s+:\s{(.+)}/){
-		$user->{COMMAND_INTERPRETER} = $1;
-	    }
-	    elsif   ($line =~ m/^Name\s+:\s{(.+)}/){
-		$user->{NAME} = $1;
-	    }
-	    elsif   ($line =~ m/^MaxPasswordAge\s+:\s{(.+)}/){
-		my $age = int $1/24/3600;
-		$user->{PASSWORD}->{MAXIMUM_AGE} = $age;
-	    }
-	    elsif   ($line =~ m/^MinPasswordAge\s+:\s{(.+)}/){
-		my $age = int $1/24/3600;
-		$user->{PASSWORD}->{MINIMUM_AGE} = $age;
-	    }
-	    elsif   ($line =~ m/^Path\s+:\sWinNT:\/\/(.+)\/.*\/.*/){
-		$user->{REALM} = $1;
-	    }
+        my @users;
+        my $user;
+        while(my $line=<$handle>){
+            if ($line =~ /^\n/) {
+                push @users,$user;
+                $user=();
+            }
+            elsif   ($line =~ m/^PasswordAge\s+:\s{(.+)}/){
+                my $age = int $1/24/3600;
+                $user->{PASSWORD}->{AGE} = $age;
+            }
+            elsif   ($line =~ m/^FullName\s+:\s{(.+)}/){
+                $user->{REALNAME} = $1;
+            }
+             elsif   ($line =~ m/^ HomeDirectory\s+:\s{(.+)}/){
+                $user->{HOMEDIR} = $1;
+            }
+            elsif   ($line =~ m/^LoginScript\s+:\s{(.+)}/){
+                $user->{COMMAND_INTERPRETER} = $1;
+            }
+            elsif   ($line =~ m/^Name\s+:\s{(.+)}/){
+                $user->{NAME} = $1;
+            }
+            elsif   ($line =~ m/^MaxPasswordAge\s+:\s{(.+)}/){
+                my $age = int $1/24/3600;
+                $user->{PASSWORD}->{MAXIMUM_AGE} = $age;
+            }
+            elsif   ($line =~ m/^MinPasswordAge\s+:\s{(.+)}/){
+                my $age = int $1/24/3600;
+                $user->{PASSWORD}->{MINIMUM_AGE} = $age;
+            }
+            elsif   ($line =~ m/^Path\s+:\sWinNT:\/\/(.+)\/.*\/.*/){
+                $user->{REALM} = $1;
+            }
 	}
 	my $registered = { USER => \@users};
 
