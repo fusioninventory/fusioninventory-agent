@@ -18,6 +18,7 @@ sub doInventory {
     my $command =
         'dpkg-query --show --showformat=\'' .
         '${Package}\t' .
+        '${Architecture}\t' .
         '${Version}\t'.
         '${Installed-Size}\t' .
         '${Description}\n' .
@@ -48,9 +49,10 @@ sub _getPackagesList {
         my @infos = split("\t", $line);
         push @packages, {
             NAME        => $infos[0],
-            VERSION     => $infos[1],
-            FILESIZE    => $infos[2],
-            COMMENTS    => $infos[3],
+            ARCH        => $infos[1],
+            VERSION     => $infos[2],
+            FILESIZE    => $infos[3],
+            COMMENTS    => $infos[4],
             FROM        => 'deb'
         };
     }

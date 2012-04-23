@@ -1,4 +1,10 @@
-specspo	13-1.el5	Wed Dec 22 23:26:02 2010	20486218	Red Hat, Inc.	Fedora package descriptions, summaries, and groups.
-mktemp	1.5-23.2.2	Wed Dec 22 23:26:17 2010	15712	Red Hat, Inc.	A small utility for safely making /tmp files.
-libICE	1.0.1-2.1	Wed Dec 22 23:26:18 2010	111181	Red Hat, Inc.	X.Org X11 libICE runtime library
-nspr	4.7.3-2.el5	Wed Dec 22 23:26:22 2010	253512	Red Hat, Inc.	Netscape Portable Runtime
+libpciaccess0	i586	0.12.1-1.mga1	mar. 19 juil. 2011 15:05:03 CEST	38452	Mageia.Org	Generic PCI access library (from X.org)
+firebird-devel	x86_64	2.5.1.26351.0-3.mga2	lun. 09 janv. 2012 09:24:00 CET	351554	Mageia.Org	Development Libraries for Firebird SQL Database
+gjs	x86_64	1.32.0-1.mga2	mar. 27 mars 2012 19:08:21 CEST	176167	Mageia.Org	JavaScript bindings based on gobject-introspection
+lib64nss3	x86_64	3.13.4-1.mga2	mer. 18 avril 2012 22:21:13 CEST	3346040	Mageia.Org	Network Security Services (NSS)
+ruby-term-ansicolor	noarch	1.0.5-3.mga1	ven. 29 juil. 2011 13:12:10 CEST	7211	Mageia.Org	Ruby library that colors strings using ANSI escape sequences
+lib64tidy-devel	x86_64	20090904-3.mga1	lun. 02 janv. 2012 13:12:46 CET	1930155	Mageia.Org	Headers for developing programs that will use tidy
+xfsprogs	x86_64	3.1.8-1.mga2	dim. 25 mars 2012 00:45:24 CET	3628382	Mageia.Org	Utilities for managing the XFS filesystem
+lib64swresample0	x86_64	0.10.2-2.mga2.tainted	jeu. 12 avril 2012 10:02:14 CEST	35016	Mageia.Org	Shared library part of ffmpeg
+lib64pyglib2.0_0	x86_64	2.28.6-6.mga2	jeu. 23 févr. 2012 10:25:31 CET	18672	Mageia.Org	Python Glib bindings shared library
+perl-Gtk2-ImageView	x86_64	0.50.0-4.mga2	mar. 03 avril 2012 16:38:46 CEST	153539	Mageia	Perl bindings to the GtkImageView image viewer widget

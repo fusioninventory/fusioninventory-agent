@@ -18,6 +18,7 @@ sub doInventory {
     my $command =
         'rpm -qa --queryformat \'' .
         '%{NAME}\t' .
+        '%{ARCH}\t' .
         '%{VERSION}-%{RELEASE}\t' .
         '%{INSTALLTIME:date}\t' .
         '%{SIZE}\t' .
@@ -48,11 +49,12 @@ sub _getPackagesList {
         my @infos = split("\t", $line);
         push @packages, {
             NAME        => $infos[0],
-            VERSION     => $infos[1],
-            INSTALLDATE => $infos[2],
-            FILESIZE    => $infos[3],
-            PUBLISHER   => $infos[4],
-            COMMENTS    => $infos[5],
+            ARCH        => $infos[1],
+            VERSION     => $infos[2],
+            INSTALLDATE => $infos[3],
+            FILESIZE    => $infos[4],
+            PUBLISHER   => $infos[5],
+            COMMENTS    => $infos[6],
             FROM        => 'rpm'
         };
     }
