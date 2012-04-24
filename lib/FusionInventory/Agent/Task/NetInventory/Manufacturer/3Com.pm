@@ -23,9 +23,12 @@ sub setConnectedDevicesMacAddress {
 
         my $port = $ports->{$ifIndex};
 
+        $mac = alt2canonical($mac);
+
         # create a new connection with this mac address
-        my $connections = $port->{CONNECTIONS}->{CONNECTION};
-        push @$connections, { MAC => $mac };
+        push
+            @{$port->{CONNECTIONS}->{CONNECTION}},
+            { MAC => $mac };
     }
 }
 

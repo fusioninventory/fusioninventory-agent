@@ -31,12 +31,16 @@ sub setConnectedDevicesMacAddress {
 
         # this device has already been processed through CDP/LLDP
         next if $port->{CONNECTIONS}->{CDP};
+
+        $mac = alt2canonical($mac);
+
         # this is port own mac address
         next if $port->{MAC} eq $mac;
 
         # create a new connection with this mac address
-        my $connections = $port->{CONNECTIONS}->{CONNECTION};
-        push @$connections, { MAC => $mac };
+        push
+            @{$port->{CONNECTIONS}->{CONNECTION}},
+            { MAC => $mac };
     }
 }
 
