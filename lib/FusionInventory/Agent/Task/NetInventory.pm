@@ -231,9 +231,11 @@ sub run {
         MODULEVERSION => $VERSION,
         PROCESSNUMBER => $pid
     });
+
+    # set all threads in RUN state
     $_ = RUN foreach @states;
 
-    # wait for all threads to reach STOP state
+    # wait for all threads to reach EXIT state
     while (any { $_ != EXIT } @states) {
         delay(1);
     }
