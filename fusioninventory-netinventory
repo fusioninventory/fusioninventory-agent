@@ -27,9 +27,15 @@ GetOptions(
 
 pod2usage(-verbose => 0) if $options->{help};
 
-die "no model" unless $options->{model};
-die "no such model" unless -f $options->{model};
-die "no host" unless $options->{host};
+pod2usage(
+    -message => "no model given, aborting\n", -verbose => 0
+) unless $options->{model};
+pod2usage(
+    -message => "invalid file '$options->{model}', aborting\n", -verbose => 0
+) unless -f $options->{model};
+pod2usage(
+    -message => "no host given, aborting\n", -verbose => 0
+) unless $options->{host};
 
 my $model = loadModel($options->{model});
 my $type =
