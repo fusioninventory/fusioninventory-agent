@@ -8,7 +8,6 @@ use base 'FusionInventory::Agent::Task';
 
 use constant DEVICE_PER_MESSAGE => 4;
 
-use constant UNKNOWN => 0;
 use constant START => 1;
 use constant RUN   => 2;
 use constant STOP  => 3;
@@ -205,7 +204,7 @@ sub run {
     my @states    :shared;
 
     for (my $i = 0; $i < $max_threads; $i++) {
-        $states[$i] = UNKNOWN;
+        $states[$i] = START;
 
         threads->create(
             '_scanAddresses',
@@ -219,10 +218,6 @@ sub run {
         )->detach();
     }
 
-    while (any { $_ != START } @states) {
-        delay(1);
-    }
-
     # send initial message to the server
     $self->_sendMessage({
         AGENT => {
@@ -232,6 +227,9 @@ sub run {
         MODULEVERSION => $VERSION,
         PROCESSNUMBER => $pid
     });
+
+    # set all threads in RUN state
+    $_ = RUN foreach @states;
 
     # proceed each given IP block
     foreach my $range (@{$options->{RANGEIP}}) {
@@ -261,8 +259,8 @@ sub run {
         while (any { $_ != STOP } @states) {
             delay(1);
 
+            # send results to the server
             while (my $result = shift @results) {
-# send results to the server
                 my $data = {
                     DEVICE        => [$result],
                     MODULEVERSION => $VERSION,
@@ -272,8 +270,6 @@ sub run {
                 $self->_sendMessage($data);
             }
         }
-
-
     }
 
     # set all threads in EXIT state
@@ -374,7 +370,6 @@ sub _scanAddresses {
     
     $logger->debug("Thread $id created");
 
-    $$state = START;
     # start: wait for state to change
     while ($$state == START) {
         delay(1);
@@ -382,7 +377,6 @@ sub _scanAddresses {
 
     OUTER: while (1) {
         # run: process available addresses until exhaustion
-        $$state = RUN;
         $logger->debug("Thread $id switched to RUN state");
 
         INNER: while (1) {
