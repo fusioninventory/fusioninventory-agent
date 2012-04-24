@@ -10,6 +10,7 @@ use Pod::Usage;
 use XML::TreePP;
 
 use FusionInventory::Agent::Task::NetInventory;
+use FusionInventory::Agent::Logger;
 
 my $options = {
     community => 'public'
@@ -20,6 +21,7 @@ GetOptions(
     'model=s',
     'host=s',
     'community=s',
+    'verbose',
     'help',
 ) or pod2usage(-verbose => 0);
 
@@ -36,7 +38,10 @@ my $type =
                                            undef        ;
 
 my $netinventory = FusionInventory::Agent::Task::NetInventory->new(
-    target => FusionInventory::Agent::Task::NetInventory::Target->new()
+    target => FusionInventory::Agent::Task::NetInventory::Target->new(),
+    logger =>  FusionInventory::Agent::Logger->new(
+        debug => $options->{verbose}
+    )
 );
 
 $netinventory->{options} = {
