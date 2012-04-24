@@ -27,8 +27,12 @@ GetOptions(
 
 pod2usage(-verbose => 0) if $options->{help};
 
-die "no first address" unless $options->{first};
-die "no last address" unless $options->{last};
+pod2usage(
+    -message => "no first address, aborting\n", -verbose => 0
+) unless $options->{first};
+pod2usage(
+    -message => "no last address, aborting\n", -verbose => 0
+) unless $options->{last};
 
 my $discovery = FusionInventory::Agent::Task::NetDiscovery->new(
     target => FusionInventory::Agent::Task::NetInventory::Target->new(
