@@ -12,7 +12,8 @@ use FusionInventory::Agent::Task::NetDiscovery;
 use FusionInventory::Agent::Logger;
 
 my $options = {
-    community => 'public'
+    community => 'public',
+    threads   => 1
 };
 
 GetOptions(
@@ -21,6 +22,7 @@ GetOptions(
     'last=s',
     'dictionnary=s',
     'community=s',
+    'threads=i',
     'verbose',
     'help',
 ) or pod2usage(-verbose => 0);
@@ -48,7 +50,7 @@ $discovery->{options} = {
     PARAM => [
         {
             PID               => 1,
-            THREADS_DISCOVERY => 1
+            THREADS_DISCOVERY => $options->{threads}
         }
     ],
     RANGEIP => [
@@ -159,4 +161,5 @@ fusioninventory-discovery [options] --start <start> --stop <stop>
     --last stop    IP range last address
     --dictionnary  dictionnary file
     --community    community string (default: public)
+    --threads nb   Number of discovery threads (default: 1)
     --verbose      verbose output
