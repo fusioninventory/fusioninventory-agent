@@ -8,10 +8,10 @@ use base 'FusionInventory::Agent::Task';
 
 use constant DEVICE_PER_MESSAGE => 4;
 
-use constant START => 1;
-use constant RUN   => 2;
-use constant STOP  => 3;
-use constant EXIT  => 4;
+use constant START => 0;
+use constant RUN   => 1;
+use constant STOP  => 2;
+use constant EXIT  => 3;
 
 use Data::Dumper;
 use English qw(-no_match_vars);
