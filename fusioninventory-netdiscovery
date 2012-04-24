@@ -25,7 +25,7 @@ GetOptions(
     'help',
 ) or pod2usage(-verbose => 0);
 
-pod2usage(-verbose => 0) if $options->{help};
+pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
 
 pod2usage(
     -message => "no first address, aborting\n", -verbose => 0
