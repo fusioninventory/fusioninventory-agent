@@ -37,14 +37,14 @@ my $type =
     $model->{TYPE} eq 'NetworkEquipment' ? 'NETWORKING' : 
                                            undef        ;
 
-my $netinventory = FusionInventory::Agent::Task::NetInventory->new(
+my $inventory = FusionInventory::Agent::Task::NetInventory->new(
     target => FusionInventory::Agent::Task::NetInventory::Target->new(),
     logger =>  FusionInventory::Agent::Logger->new(
         debug => $options->{verbose}
     )
 );
 
-$netinventory->{options} = {
+$inventory->{options} = {
     NAME => 'SNMPQUERY',
     PARAM => [
         {
@@ -68,11 +68,11 @@ $netinventory->{options} = {
         }
     ]
 };
-$netinventory->{client} =
+$inventory->{client} =
     FusionInventory::Agent::Task::NetInventory::Client->new();
-$netinventory->{deviceid} = 'foo';
+$inventory->{deviceid} = 'foo';
 
-$netinventory->run();
+$inventory->run();
 
 sub loadModel {
     my ($file) = @_;
