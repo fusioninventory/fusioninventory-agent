@@ -238,17 +238,16 @@ sub run {
     # wait for all threads to reach EXIT state
     while (any { $_ != EXIT } @states) {
         delay(1);
-    }
 
-    # send results to the server
-    foreach my $result (@results) {
-        my $data = {
-            DEVICE        => $result,
-            MODULEVERSION => $VERSION,
-            PROCESSNUMBER => $pid
-        };
-        $self->_sendMessage($data);
-        delay(1);
+        # send results to the server
+        while (my $result = shift @results) {
+            my $data = {
+                DEVICE        => $result,
+                MODULEVERSION => $VERSION,
+                PROCESSNUMBER => $pid
+            };
+            $self->_sendMessage($data);
+        }
     }
 
     # send final message to the server
