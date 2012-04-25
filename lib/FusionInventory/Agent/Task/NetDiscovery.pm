@@ -260,7 +260,7 @@ sub run {
             delay(1);
 
             # send results to the server
-            while (my $result = shift @results) {
+            while (my $result = do { lock @results; shift @results; }) {
                 my $data = {
                     DEVICE        => [$result],
                     MODULEVERSION => $VERSION,
