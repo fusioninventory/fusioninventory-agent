@@ -733,7 +733,7 @@ sub _setNetworkingProperties {
             foreach my $entry (@mac_dispatch_table) {
                 next unless $comments =~ $entry->{match};
 
-                $self->runFunction(
+                runFunction(
                     module   => $entry->{module},
                     function => $entry->{function},
                     params   => {
