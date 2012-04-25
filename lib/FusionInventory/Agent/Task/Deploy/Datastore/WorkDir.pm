@@ -110,6 +110,7 @@ sub prepare {
 # We ignore failure here because one my have activated the
 # extract flag on common file and this should be harmless
             }
+            unlink($finalFilePath);
         }
     }
 
