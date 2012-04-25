@@ -30,7 +30,7 @@ sub process {
         my $path = $params{check}->{path};
         $path =~ s{\\}{/}g;
 
-        my $r = FusionInventory::Agent::Tools::Win32::getValueFromRegistry(path => $path);
+        my $r = FusionInventory::Agent::Tools::Win32::getRegistryValue(path => $path);
 
         return defined $r && $params{check}->{value} eq $r ? 'ok' : $params{check}->{return};
     }
@@ -42,7 +42,7 @@ sub process {
         my $path = $params{check}->{path};
         $path =~ s{\\}{/}g;
 
-        my $r = FusionInventory::Agent::Tools::Win32::getValueFromRegistry(path => $path);
+        my $r = FusionInventory::Agent::Tools::Win32::getRegistryValue(path => $path);
 
         return defined $r ? $params{check}->{return} : 'ok';
     } 
