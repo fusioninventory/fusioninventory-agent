@@ -487,7 +487,9 @@ sub getManufacturerFromCode {
         "IFS" => "InFocus",
         "BOE" => "BOE Display Technology",
         "IQT" => "Hyundai",
-        "HSD" => "Hannspree Inc"
+        "HSD" => "Hannspree Inc",
+        "PRT" => "Princeton",
+        "PDC" => "Polaroid"
 
 
     };
