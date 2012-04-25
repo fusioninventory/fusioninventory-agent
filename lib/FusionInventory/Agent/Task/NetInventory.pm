@@ -128,12 +128,12 @@ my @mac_dispatch_table = (
     {
         match    => qr/3Com IntelliJack/,
         module   =>  __PACKAGE__ . '::Manufacturer::3Com',
-        function => 'RewritePortOf225',
+        function => 'RewritePortOf225'
     },
     {
         match    => qr/3Com/,
         module   => __PACKAGE__ . '::Manufacturer::3Com',
-        function => 'setConnectedDevicesMacAddress',
+        function => 'setConnectedDevicesMacAddress'
     },
     {
         match    => qr/ProCurve/,
