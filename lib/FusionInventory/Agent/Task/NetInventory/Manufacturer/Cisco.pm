@@ -46,8 +46,8 @@ sub setConnectedDevicesMacAddress {
 
         # create a new connection with this mac address
         push
-            @{$port->{CONNECTIONS}->{CONNECTION}},
-            { MAC => $mac };
+            @{$port->{CONNECTIONS}->{CONNECTION}->{MAC}},
+            $mac;
     }
 }
 

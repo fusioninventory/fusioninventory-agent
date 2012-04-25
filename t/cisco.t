@@ -20,9 +20,9 @@ my @devices_mac_addresses_tests = (
         {
             0 => {
                 CONNECTIONS => {
-                    CONNECTION => [
-                        { MAC => '00:1C:F6:C5:64:19' }
-                    ]
+                    CONNECTION => {
+                        MAC => [ '00:1C:F6:C5:64:19' ]
+                    }
                 },
                 MAC => 'X',
             }
