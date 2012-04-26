@@ -1,14 +1,18 @@
 Revision history for FusionInventory::Agent::Task::NetDiscovery
 
+2.2.0   Thu, 26 Apr 2012
+        * standalone binary for discovery without server
+        * small cleanup of threads handling
+
 2.1     Thu, 12 Apr 2012 21:48:35 +0200
         * do not overwrite basic description if vendor-specific function doesn't
-	  return anything
+          return anything
 
 2.0     Mon, 09 Apr 2012 11:51:58 +0200
-	* adaptation to FusionInventory 2.2
-	* large code cleanup
-	* simplify and harmonize parallelism handling
-	* don't ship any default SNMP models dictionnary, obsoleted by server one
+        * adaptation to FusionInventory 2.2
+        * large code cleanup
+        * simplify and harmonize parallelism handling
+        * don't ship any default SNMP models dictionnary, obsoleted by server one
 
 1.5    Thu, 05 May 2011 13:10:12 +0200
        * Don't crash if nmap is not installed
