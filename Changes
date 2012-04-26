@@ -1,5 +1,13 @@
 Revision history for FusionInventory::Agent::Task::NetInventory
 
+2.2.0   Thu, 26 Apr
+        * standalone binary for inventory without server
+        * send results to the server on the fly, not after all devices have
+          been processes
+        * fix connected devices mac address retrieval for non-cisco hardware
+        * fix output format for multiple connected devices mac address
+        * fix broken 3Com module
+
 2.1     Thu, 12 Apr 2012 21:02:51 +0200
         * Fix cartridges level inventory
         * Fix printer ports inventory
