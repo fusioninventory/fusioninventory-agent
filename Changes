@@ -1,7 +1,8 @@
 Revision history for FusionInventory::Agent::Task::NetDiscovery
 
 2.1     Thu, 12 Apr 2012 21:48:35 +0200
-        * Keep $description unchanged if runFunction() return 'undef'
+        * do not overwrite basic description if vendor-specific function doesn't
+	  return anything
 
 2.0     Mon, 09 Apr 2012 11:51:58 +0200
 	* adaptation to FusionInventory 2.2
