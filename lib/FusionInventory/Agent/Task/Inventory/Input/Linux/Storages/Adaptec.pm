@@ -80,7 +80,7 @@ sub _getDisksFromProc {
             $disk->{FIRMWARE} = $2;
 
             # that's the controller itself, not a disk
-            next if $disk->{MODEL} =~ 'raid';
+            next if $disk->{MODEL} =~ /(raid|RAID)/;
 
             $disk->{MANUFACTURER} = getCanonicalManufacturer(
                 $disk->{MODEL}
