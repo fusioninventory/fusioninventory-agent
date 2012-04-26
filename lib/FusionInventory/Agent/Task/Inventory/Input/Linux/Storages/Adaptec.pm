@@ -28,7 +28,9 @@ sub doInventory {
 
     foreach my $device (@devices) {
         next unless $device->{MANUFACTURER};
-        next unless $device->{MANUFACTURER} eq 'Adaptec';
+        next unless
+            $device->{MANUFACTURER} eq 'Adaptec' ||
+            $device->{MANUFACTURER} eq 'ServeRA';
 
         foreach my $disk (_getDisksFromProc(
                 controller => 'scsi' . $device->{SCSI_COID},
