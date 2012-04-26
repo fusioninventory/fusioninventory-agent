@@ -37,7 +37,7 @@ sub doInventory {
                     
         my @options = split (/-/, $process->{CMD});
         foreach my $option (@options) {
-            if ($option =~ m/^([fh]d[a-d]|cdrom) (\S+)/) {
+            if ($option =~ m/^([fhsv]d[a-d]|cdrom) (\S+)/) {
                 $name = $2 if !$name;
             } elsif ($option =~ m/^name (\S+)/) {
                 $name = $1;
