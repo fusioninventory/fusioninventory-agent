@@ -29,8 +29,11 @@ sub getDevicesFromUdev {
     my @devices;
 
     foreach my $file (glob ("/dev/.udev/db/*")) {
-        next unless $file =~ /([sh]d[a-z])$/;
-        my $device = $1;
+        my $device = getFirstMatch(
+            file    => $file,
+            pattern => qr/^N:(\S+)/
+        );
+        next unless $device =~ /([hsv]d[a-z]|sr\d+)$/;
         push (@devices, _parseUdevEntry(
                 logger => $params{logger}, file => $file, device => $device
             ));
