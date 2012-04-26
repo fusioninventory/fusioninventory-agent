@@ -115,7 +115,7 @@ my @ports_dispatch_table = (
     {
         match   => qr/ProCurve/,
         trunk   => __PACKAGE__ . '::Manufacturer::Cisco',
-        devices => __PACKAGE__ . '::Manufacturer::ProCurve',
+        devices => __PACKAGE__ . '::Manufacturer::Procurve',
     },
     {
         match   => qr/Nortel/,
@@ -137,7 +137,7 @@ my @mac_dispatch_table = (
     },
     {
         match    => qr/ProCurve/,
-        module   => __PACKAGE__ . '::Manufacturer::ProCurve',
+        module   => __PACKAGE__ . '::Manufacturer::Procurve',
         function => 'setConnectedDevicesMacAddress'
     },
     {
