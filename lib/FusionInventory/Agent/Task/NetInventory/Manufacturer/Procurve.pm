@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools::Network;
-use FusionInventory::Agent::SNMP qw(getLastElement getNextToLastElement);
+use FusionInventory::Agent::SNMP qw(getElement getLastElement getNextToLastElement);
     
 sub setConnectedDevicesMacAddress {
     my (%params) = @_;
@@ -64,7 +64,7 @@ sub setConnectedDevices {
 
             my $port_number =
                 getNextToLastElement($oid) . "." . getLastElement($oid, -1);
-
+                
             $ports->{getNextToLastElement($oid)}->{CONNECTIONS} = {
                 CDP        => 1,
                 CONNECTION => {
@@ -84,21 +84,16 @@ sub setConnectedDevices {
                 }
             };
         }
-    }
-
-    if (ref $results->{lldpCacheAddress} eq 'HASH') {
-        while (my ($oid, $chassisname) = each %{$results->{lldpCacheAddress}}) {
+    } elsif (ref $results->{lldpRemChassisId} eq 'HASH') {
+        while (my ($oid, $sysmac) = each %{$results->{lldpRemChassisId}}) {
 
             my $port_number =
-                getNextToLastElement($oid) . "." . getLastElement($oid, -1);
-
-            # already done through CDP 
-            next if $ports->{getNextToLastElement($oid)}->{CONNECTIONS};
+                getElement($oid, -3) . "." . getNextToLastElement($oid) . "." . getLastElement($oid, -1);
 
             $ports->{getNextToLastElement($oid)}->{CONNECTIONS} = {
                 CDP        => 1,
                 CONNECTION => {
-                    SYSNAME => $chassisname,
+                    SYSMAC => alt2canonical($sysmac),
                     IFDESCR => $results->{lldpRemPortDesc}->{
                         $walks->{lldpRemPortDesc}->{OID} . "." . $port_number
                     },
@@ -107,6 +102,9 @@ sub setConnectedDevices {
                     },
                     SYSNAME  => $results->{lldpRemSysName}->{
                         $walks->{lldpRemSysName}->{OID} . "." .$port_number
+                    },
+                    IFNUMBER => $results->{lldpRemPortId}->{
+                        $walks->{lldpRemPortId}->{OID} . "." .$port_number
                     }
                 }
             };
