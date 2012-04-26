@@ -59,14 +59,24 @@ sub setConnectedDevices {
             my $ip = hex2canonical($ip_hex);
             next if $ip eq '0.0.0.0';
 
-            my $port_number = getNextToLastElement($oid);
+            my $port_number =
+                getNextToLastElement($oid) . "." . getLastElement($oid, -1);
 
-            $ports->{$port_number}->{CONNECTIONS} = {
+            $ports->{getNextToLastElement($oid)}->{CONNECTIONS} = {
                 CDP        => 1,
                 CONNECTION => {
                     IP      => $ip,
                     IFDESCR => $results->{cdpCacheDevicePort}->{
-                        $walks->{cdpCacheDevicePort}->{OID} . $port_number
+                        $walks->{cdpCacheDevicePort}->{OID} . "." .$port_number
+                    },
+                    SYSDESCR => $results->{cdpCacheVersion}->{
+                        $walks->{cdpCacheVersion}->{OID} . "." .$port_number
+                    },
+                    SYSNAME  => $results->{cdpCacheDeviceId}->{
+                        $walks->{cdpCacheDeviceId}->{OID} . "." .$port_number
+                    },
+                    MODEL => $results->{cdpCachePlatform}->{
+                        $walks->{cdpCachePlatform}->{OID} . "." .$port_number
                     }
                 }
             };
@@ -86,8 +96,14 @@ sub setConnectedDevices {
                 CDP        => 1,
                 CONNECTION => {
                     SYSNAME => $chassisname,
-                    IFDESCR => $results->{lldpCacheDevicePort}->{
-                        $walks->{lldpCacheDevicePort}->{OID} . "." . $port_number
+                    IFDESCR => $results->{lldpRemPortDesc}->{
+                        $walks->{lldpRemPortDesc}->{OID} . "." . $port_number
+                    },
+                    SYSDESCR => $results->{lldpRemSysDesc}->{
+                        $walks->{lldpRemSysDesc}->{OID} . "." .$port_number
+                    },
+                    SYSNAME  => $results->{lldpRemSysName}->{
+                        $walks->{lldpRemSysName}->{OID} . "." .$port_number
                     }
                 }
             };
