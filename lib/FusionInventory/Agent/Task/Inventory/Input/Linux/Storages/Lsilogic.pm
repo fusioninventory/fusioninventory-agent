@@ -33,7 +33,7 @@ sub doInventory {
         );
         next unless $handle;
         while (my $line = <$handle>) {
-            next unless /phys_id:(\d+).*product_id:\s*(\S*)\s+revision:(\S+).*size\(GB\):(\d+)/;
+            next unless $line =~ /phys_id:(\d+).*product_id:\s*(\S*)\s+revision:(\S+).*size\(GB\):(\d+)/;
             my $id = $1;
 
             my $storage = {
