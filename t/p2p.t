@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Task::Deploy::P2P;
-use Test::More tests => 3;
+use Test::More tests => 4;
 
 my @routePrintTest = (
 {
