@@ -27,7 +27,8 @@ sub doInventory {
         logger => $logger, command => 'ps -ef'
     )) {
         # match only if an qemu instance
-        next unless $process->{CMD} =~ /(qemu|kvm|(qemu-kvm)).*\-([fh]d[a-d]|cdrom).*/;
+        next unless 
+            $process->{CMD} =~ /(qemu|kvm|(qemu-kvm)).*\-([fhsv]d[a-d]|cdrom).*/;
             
         my $name;
         my $mem = 0;
