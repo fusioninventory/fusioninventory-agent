@@ -6,11 +6,11 @@ use warnings;
 use Test::More;
 use FusionInventory::Agent::Task::NetInventory::Manufacturer::Cisco;
 
+# each item is an arrayref of three elements:
+# - input data structure (ports list)
+# - expected resulting data structure
+# - test explication
 my @devices_mac_addresses_tests = (
-    # each item is an arrayref of three elements:
-    # - input ports list
-    # - output ports list
-    # - test explication
     [
         {
             0 => {
@@ -65,11 +65,11 @@ my @devices_mac_addresses_tests = (
     ],
 );
 
+# each item is an arrayref of three elements:
+# - input data structure (ports list)
+# - expected resulting data structure
+# - test explication
 my @devices_tests = (
-    # each item is an arrayref of three elements:
-    # - input ports list
-    # - output ports list
-    # - test explication
     [
         {},
         {

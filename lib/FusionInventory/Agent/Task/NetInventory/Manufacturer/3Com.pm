@@ -33,11 +33,11 @@ sub setConnectedDevicesMacAddress {
 
         $mac = alt2canonical($mac);
 
+        # This mac is empty
+        next unless $mac;
+
         # this is port own mac address
         next if $port->{MAC} && $port->{MAC} eq $mac;
-
-        # This mac is empty
-        next if $mac eq '';
 
         # create a new connection with this mac address
         push
