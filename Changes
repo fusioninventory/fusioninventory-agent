@@ -3,7 +3,9 @@
 * Use 7z if avalaible to extract the archives
 * fix a segfault on Windows with registry key value check (#1621)
 * P2P: fix the IP range computation on Windows
-* fix a typo in the package description (#1592)
+* fix a typo in the package description (#1592),
+* fix some warnings in the test-suite (#1591) and thus some hidden
+  regression in code not used so far
 
 2.0.0  Sun, 08 Apr 2012 21:05:59 +0200
 
