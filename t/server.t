@@ -458,7 +458,7 @@ use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::Task::Deploy;
 use FindBin;
 use File::Path qw(make_path remove_tree);
-use Test::More tests => 23;
+use Test::More tests => 24;
 use Data::Dumper;
 
 remove_tree($tmpDirClient) if -d $tmpDirClient;
@@ -663,18 +663,18 @@ $last = pop @{$deploy->{client}{msgStack}};
 ok($last->{status} eq "ok", "false ignore + action");
 $deploy->{client}{msgStack} = [];
 
-SKIP: {
-   skip "not implemnted yet", 2;
-# Action with check that must return ignore and so get
-# the action to be ignored
+#SKIP: {
+#   skip "not implemnted yet", 2;
+# Action with check that must return 'ignore' status.
+# With such status, the action will be be ignored
 $deploy->processRemote('http://localhost:8080/deploy8');
 $last = pop @{$deploy->{client}{msgStack}};
-skip($last->{status} eq "ok", "true ignore + action, unimplemented");
+ok($last->{status} eq "ok", "true ignore + action, unimplemented");
 $last = pop @{$deploy->{client}{msgStack}};
 ok($last->{status} eq "ignore", "action has been ignored");
 ok(!-f $FindBin::Bin . "/../lib/FusionInventory/Agent/Task/Deploy.pm-shouldnotbethere", "action really ignored");
 $deploy->{client}{msgStack} = [];
-}
+#}
 
 # Try to copy a file
 unlink ($tmpDirServer.'/Deploy.pm');
