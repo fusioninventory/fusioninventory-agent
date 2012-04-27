@@ -21,6 +21,7 @@ use English '-no_match_vars';
 remove_tree($tmpDirServer) if -d $tmpDirServer;
 make_path($tmpDirServer);
 
+my $last;
 my %files;
 my %filePathByFilename;
 
@@ -76,6 +77,10 @@ close FILE;
 $sha->reset('512');
 $sha->addfile( $tmpDirServer . '/files.tar', 'b' );
 $files{ $sha->hexdigest } = \@parts;
+
+open EMPTY, '>'.$tmpDirServer . '/empty.txt' or die;
+print EMPTY "EMPTY\n";
+close EMPTY;
 
 my %actions = (
     getConfig => sub {
@@ -166,24 +171,17 @@ my %actions = (
 
 
         if ($testname eq 'deploy1') {
-#        my $cpt = 0;
-#        foreach my $sha512 ( keys %files ) {
-#            push @{ $ret->{jobs}[0]{associatedFiles} }, $sha512;
-#
-#            my $associatedFile = {
-#                'uncompress' => 0,
-#                'mirrors' => ['http://localhost:8080/?action=getFiles&name='],
-#                'multiparts'             => [],
-#                'p2p'                    => 0,
-#                'p2p-retention-duration' => 0,
-#                'name'                   => 'file-' . $cpt++ . '.test'
-#            };
-#            foreach ( @{ $files{$sha512} } ) {
-#                push @{ $associatedFile->{multiparts} },
-#                  { basename( $_->{path} ) => $_->{sha512} };
-#            }
-#            $ret->{associatedFiles}{$sha512} = $associatedFile;
-#        }
+            $ret->{jobs}[0]{checks}[1] = {
+                type => "fileSHA512",
+                            path => $tmpDirServer . '/empty.txt',
+                            value => '9f8e4a78eecc0391a5a86a669507d79d9756f589ffb679ff2209656022c9e3539064fec29d16251a1139c512bafcfc2051c4fa5f2a157dc8040b6b42f275712b'
+            };
+            $ret->{jobs}[0]{checks}[2] = {
+                type => "fileSHA512",
+                            path => $tmpDirServer . '/empty.txt',
+                            value => 'badSHA512'
+            };
+
         } elsif ($testname eq 'deploy2') {
             return ("", 500); # Invalid answer
 
@@ -438,7 +436,7 @@ use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::Task::Deploy;
 use FindBin;
 use File::Path qw(make_path remove_tree);
-use Test::More tests => 24;
+use Test::More tests => 26;
 use Data::Dumper;
 
 remove_tree($tmpDirClient) if -d $tmpDirClient;
@@ -587,6 +585,25 @@ $deploy->{client}{msgStack} = [];
 $deploy->{client}{msgStack} = [];
 
 # Invalid getJobs answer
+ok($deploy->processRemote('http://localhost:8080/deploy1'), "valid order with no action" );
+$ret =
+{
+    'cheknum' => 2,
+    'msg' => 'failure of check #3 (ko)',
+    'status' => 'ko',
+    'currentStep' => 'checking',
+    'part' => 'job',
+    'machineid' => 'fakeid',
+    'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650',
+    'action' => 'setStatus'
+}
+;
+$last = pop @{$deploy->{client}{msgStack}};
+is_deeply($last, $ret);
+$deploy->{client}{msgStack} = [];
+
+
+# Invalid getJobs answer
 ok(!$deploy->processRemote('http://localhost:8080/deploy2'), "invalid order, should generate an err 500" );
 $ret = [
           {
@@ -597,7 +614,6 @@ $ret = [
 is_deeply($deploy->{client}{msgStack}, $ret);
 $deploy->{client}{msgStack} = [];
 
-my $last;
 # Run perl and see 0 as success code and so
 # should flag the deployment as OK 
 $deploy->processRemote('http://localhost:8080/deploy3');
