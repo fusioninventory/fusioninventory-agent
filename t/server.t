@@ -184,26 +184,6 @@ my %actions = (
 #            }
 #            $ret->{associatedFiles}{$sha512} = $associatedFile;
 #        }
-        }
-        elsif ($testname eq 'deploy1.1') {
-#        my $cpt = 0;
-#        foreach my $sha512 ( keys %files ) {
-#            push @{ $ret->{jobs}[0]{associatedFiles} }, $sha512;
-#
-#            my $associatedFile = {
-#                'uncompress' => 0,
-#                'mirrors' => ['http://localhost:8080/?action=getFiles&name='],
-#                'multiparts'             => [],
-#                'p2p'                    => 0,
-#                'p2p-retention-duration' => 0,
-#                'name'                   => 'file-' . $cpt++ . '.test'
-#            };
-#            foreach ( @{ $files{$sha512} } ) {
-#                push @{ $associatedFile->{multiparts} },
-#                  { "bad" => "bad" };
-#            }
-#            $ret->{associatedFiles}{$sha512} = $associatedFile;
-#        }
         } elsif ($testname eq 'deploy2') {
             return ("", 500); # Invalid answer
 
