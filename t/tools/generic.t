@@ -5894,7 +5894,7 @@ my %cpu_tests = (
         {
             ID             => '42 0F 10 00 FF FB 8B 07',
             NAME           => undef,
-            SPEED          => '30000',
+            SPEED          => '2300',
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'AuthenticAMD',
