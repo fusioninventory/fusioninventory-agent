@@ -122,6 +122,10 @@ my @ports_dispatch_table = (
         trunk   => __PACKAGE__ . '::Manufacturer::Nortel',
         devices => __PACKAGE__ . '::Manufacturer::Nortel',
     },
+    {
+        match   => qr/Juniper/,
+        devices => __PACKAGE__ . '::Manufacturer::Juniper',
+    }
 );
 
 my @mac_dispatch_table = (
@@ -148,6 +152,11 @@ my @mac_dispatch_table = (
     {
         match    => qr/Allied Telesis/,
         module   => __PACKAGE__ . '::Manufacturer::AlliedTelesis',
+        function => 'setConnectedDevicesMacAddress'
+    },
+    {
+        match    => qr/Juniper/,
+        module   => __PACKAGE__ . '::Manufacturer::Juniper',
         function => 'setConnectedDevicesMacAddress'
     }
 );
@@ -643,12 +652,14 @@ sub _setNetworkingProperties {
         foreach my $entry (@ports_dispatch_table) {
             next unless $comments =~ $entry->{match};
 
-            runFunction(
-                module   => $entry->{trunk},
-                function => 'setTrunkPorts',
-                params   => { results => $results, ports => $ports },
-                load     => 1
-            );
+            if (defined $entry->{trunk}) {
+                runFunction(
+                    module   => $entry->{trunk},
+                    function => 'setTrunkPorts',
+                    params   => { results => $results, ports => $ports },
+                    load     => 1
+                );
+            }
 
             runFunction(
                 module   => $entry->{devices},
