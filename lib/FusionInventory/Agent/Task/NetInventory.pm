@@ -105,62 +105,6 @@ my %printer_pagecounters_properties = (
     FAXTOTAL   => 'pagecountertotalpages_fax',
 );
 
-
-my @ports_dispatch_table = (
-    {
-        match   => qr/Cisco/,
-        trunk   => __PACKAGE__ . '::Manufacturer::Cisco',
-        devices => __PACKAGE__ . '::Manufacturer::Cisco',
-    },
-    {
-        match   => qr/ProCurve/,
-        trunk   => __PACKAGE__ . '::Manufacturer::Cisco',
-        devices => __PACKAGE__ . '::Manufacturer::Procurve',
-    },
-    {
-        match   => qr/Nortel/,
-        trunk   => __PACKAGE__ . '::Manufacturer::Nortel',
-        devices => __PACKAGE__ . '::Manufacturer::Nortel',
-    },
-    {
-        match   => qr/Juniper/,
-        devices => __PACKAGE__ . '::Manufacturer::Juniper',
-    }
-);
-
-my @mac_dispatch_table = (
-    {
-        match    => qr/3Com IntelliJack/,
-        module   =>  __PACKAGE__ . '::Manufacturer::3Com',
-        function => 'RewritePortOf225'
-    },
-    {
-        match    => qr/3Com/,
-        module   => __PACKAGE__ . '::Manufacturer::3Com',
-        function => 'setConnectedDevicesMacAddress'
-    },
-    {
-        match    => qr/ProCurve/,
-        module   => __PACKAGE__ . '::Manufacturer::Procurve',
-        function => 'setConnectedDevicesMacAddress'
-    },
-    {
-        match    => qr/Nortel/,
-        module   => __PACKAGE__ . '::Manufacturer::Nortel',
-        function => 'setConnectedDevicesMacAddress'
-    },
-    {
-        match    => qr/Allied Telesis/,
-        module   => __PACKAGE__ . '::Manufacturer::AlliedTelesis',
-        function => 'setConnectedDevicesMacAddress'
-    },
-    {
-        match    => qr/Juniper/,
-        module   => __PACKAGE__ . '::Manufacturer::Juniper',
-        function => 'setConnectedDevicesMacAddress'
-    }
-);
-
 sub isEnabled {
     my ($self, $response) = @_;
 
@@ -647,32 +591,9 @@ sub _setNetworkingProperties {
     my $comments = $datadevice->{INFO}->{COMMENTS};
     my $ports = $datadevice->{PORTS}->{PORT};
 
-    # trunk & connected devices
-    if (defined $comments) {
-        foreach my $entry (@ports_dispatch_table) {
-            next unless $comments =~ $entry->{match};
+    _setTrunkPorts($comments, $results, $ports) if $comments;
 
-            if (defined $entry->{trunk}) {
-                runFunction(
-                    module   => $entry->{trunk},
-                    function => 'setTrunkPorts',
-                    params   => { results => $results, ports => $ports },
-                    load     => 1
-                );
-            }
-
-            runFunction(
-                module   => $entry->{devices},
-                function => 'setConnectedDevices',
-                params   => {
-                    results => $results, ports => $ports, walks => $walks
-                },
-                load     => 1
-            );
-
-            last;
-        }
-    }
+    _setConnectedDevices($comments, $results, $ports, $walks) if $comments;
 
     # Detect VLAN
     if ($results->{vmvlan}) {
@@ -693,6 +614,7 @@ sub _setNetworkingProperties {
         values %{$walks};
 
     if ($vlan_query) {
+        # set connected devices mac addresses for each VLAN
         while (my ($oid, $name) = each %{$results->{vtpVlanName}}) {
             my $vlan_id = getLastElement($oid);
             # initiate a new SNMP connection on this VLAN
@@ -723,41 +645,166 @@ sub _setNetworkingProperties {
                     $snmp->walk($variable->{OID});
             }
 
-            # Detect mac adress on each port
-            if ($comments =~ /Cisco/) {
-                my $module = 'FusionInventory::Agent::Task::NetInventory::Manufacturer::Cisco';
-                runFunction(
-                    module   => $module,
-                    function => 'setConnectedDevicesMacAddress',
-                    params   => {
-                        results => $results,
-                        ports   => $ports,
-                        walks   => $walks,
-                        vlan_id => $vlan_id
-                    },
-                    load     => 1
-                );
-            }
+            _setConnectedDevicesMacAddress(
+                $comments, $results, $ports, $walks, $vlan_id
+            ) if $comments;
         }
     } else {
-        if (defined $comments) {
-            foreach my $entry (@mac_dispatch_table) {
-                next unless $comments =~ $entry->{match};
-
-                runFunction(
-                    module   => $entry->{module},
-                    function => $entry->{function},
-                    params   => {
-                        results => $results, ports => $ports, walks => $walks
-                    },
-                    load     => 1
-                );
-
-                last;
-            }
-        }
+        # set connected devices mac addresses only once
+        _setConnectedDevicesMacAddress($comments, $results, $ports, $walks)
+            if $comments;
     }
 
+    # hardware-specific hacks
+    _performSpecificCleanup($comments, $results, $ports) if $comments;
+}
+
+sub _setTrunkPorts {
+    my ($description, $results, $ports) = @_;
+
+    my @dispatch_table = (
+        {
+            match  => qr/Cisco/,
+            module => __PACKAGE__ . '::Manufacturer::Cisco',
+        },
+        {
+            match  => qr/ProCurve/,
+            module => __PACKAGE__ . '::Manufacturer::Cisco',
+        },
+        {
+            match  => qr/Nortel/,
+            module => __PACKAGE__ . '::Manufacturer::Nortel',
+        },
+    );
+
+    foreach my $entry (@dispatch_table) {
+        next unless $description =~ $entry->{match};
+
+        runFunction(
+            module   => $entry->{module},
+            function => 'setTrunkPorts',
+            params   => { results => $results, ports => $ports },
+            load     => 1
+        );
+
+        last;
+    }
+
+}
+
+sub _setConnectedDevices {
+    my ($description, $results, $ports, $walks) = @_;
+
+    my @dispatch_table = (
+        {
+            match  => qr/Cisco/,
+            module => __PACKAGE__ . '::Manufacturer::Cisco',
+        },
+        {
+            match  => qr/ProCurve/,
+            module => __PACKAGE__ . '::Manufacturer::Procurve',
+        },
+        {
+            match  => qr/Nortel/,
+            module => __PACKAGE__ . '::Manufacturer::Nortel',
+        },
+        {
+            match  => qr/Juniper/,
+            module => __PACKAGE__ . '::Manufacturer::Juniper',
+        }
+    );
+
+    foreach my $entry (@dispatch_table) {
+        next unless $description =~ $entry->{match};
+
+        runFunction(
+            module   => $entry->{module},
+            function => 'setConnectedDevices',
+            params   => {
+                results => $results, ports => $ports, walks => $walks
+            },
+            load     => 1
+        );
+
+        last;
+    }
+}
+
+sub _setConnectedDevicesMacAddresses {
+    my ($description, $results, $ports, $walks, $vlan_id) = @_;
+
+    my @dispatch_table = (
+        {
+            match    => qr/Cisco/,
+            module   => __PACKAGE__ . '::Manufacturer::Cisco',
+        },
+        {
+            match    => qr/3Com/,
+            module   => __PACKAGE__ . '::Manufacturer::3Com',
+        },
+        {
+            match    => qr/ProCurve/,
+            module   => __PACKAGE__ . '::Manufacturer::Procurve',
+        },
+        {
+            match    => qr/Nortel/,
+            module   => __PACKAGE__ . '::Manufacturer::Nortel',
+        },
+        {
+            match    => qr/Allied Telesis/,
+            module   => __PACKAGE__ . '::Manufacturer::AlliedTelesis',
+        },
+        {
+            match    => qr/Juniper/,
+            module   => __PACKAGE__ . '::Manufacturer::Juniper',
+        }
+    );
+
+    foreach my $entry (@dispatch_table) {
+        next unless $description =~ $entry->{match};
+
+        runFunction(
+            module   => $entry->{module},
+            function => 'setConnectedDevicesMacAddress',
+            params   => {
+                results => $results,
+                ports   => $ports,
+                walks   => $walks,
+                vlan_id => $vlan_id
+            },
+            load     => 1
+        );
+
+        last;
+    }
+}
+
+sub _performSpecificCleanup {
+    my ($description, $results, $ports, $walks) = @_;
+
+    my @dispatch_table = (
+        {
+            match    => qr/3Com IntelliJack/,
+            module   =>  __PACKAGE__ . '::Manufacturer::3Com',
+            function => 'RewritePortOf225'
+        },
+    );
+
+    foreach my $entry (@dispatch_table) {
+        next unless $description =~ $entry->{match};
+
+        runFunction(
+            module   => $entry->{module},
+            function => $entry->{function},
+            params   => {
+                results => $results,
+                ports   => $ports
+            },
+            load     => 1
+        );
+
+        last;
+    }
 }
 
 sub _getPercentValue {
