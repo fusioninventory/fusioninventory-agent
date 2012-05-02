@@ -39,6 +39,9 @@ sub setConnectedDevicesMacAddress {
         # this device has already been processed through CDP/LLDP
         next if $port->{CONNECTIONS}->{CDP};
 
+        # This mac is empty
+        next unless $mac;
+
         $mac = alt2canonical($mac);
 
         # this is port own mac address

@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::NetInventory::Manufacturer::Procurve;
+package FusionInventory::Agent::Task::NetInventory::Manufacturer::Juniper;
 
 use strict;
 use warnings;
@@ -13,14 +13,18 @@ sub setConnectedDevicesMacAddress {
     my $ports   = $params{ports};
     my $walks   = $params{walks};
 
-    while (my ($oid, $mac) = each %{$results->{dot1dTpFdbAddress}}) {
-        next unless $mac;
+    while (my ($oid, $suffix) = each %{$results->{dot1dTpFdbAddress}}) {
 
-        my $suffix = $oid;
-        $suffix =~ s/$walks->{dot1dTpFdbAddress}->{OID}//;
+        my $mac = sprintf("%02x:%02x:%02x:%02x:%02x:%02x", getElement($oid, -6), 
+                          getElement($oid, -5),  
+                          getElement($oid, -4), 
+                          getElement($oid, -3), 
+                          getElement($oid, -2), 
+                          getElement($oid, -1)); 
+
         my $dot1dTpFdbPort = $walks->{dot1dTpFdbPort}->{OID};
 
-        my $portKey = $dot1dTpFdbPort . $suffix;
+        my $portKey = $dot1dTpFdbPort . '.' . $suffix;
         my $ifKey_part = $results->{dot1dTpFdbPort}->{$portKey};
         next unless defined $ifKey_part;
 
@@ -37,8 +41,6 @@ sub setConnectedDevicesMacAddress {
 
         # This mac is empty
         next unless $mac;
-
-        $mac = alt2canonical($mac);
 
         # this is port own mac address
         next if $port->{MAC} eq $mac;
