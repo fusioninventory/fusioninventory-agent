@@ -26,37 +26,48 @@ sub doInventory {
 
     my @devices = getDevicesFromUdev(logger => $logger);
 
-    foreach my $hd (@devices) {
-        my $handle = getFileHandle(
-            logger => $logger,
-            command => "mpt-status -n -i $hd->{SCSI_UNID}"
-        );
-        next unless $handle;
-        while (my $line = <$handle>) {
-            next unless $line =~ /phys_id:(\d+).*product_id:\s*(\S*)\s+revision:(\S+).*size\(GB\):(\d+)/;
-            my $id = $1;
-
-            my $storage = {
-                NAME => $hd->{NAME},
-                DESCRIPTION => 'SATA',
-                TYPE        => 'disk',
-                MODEL       => $2,
-                FIRMWARE    => $3,
-                SIZE        => $4 * 1024
-            };
-
-            $storage->{SERIALNUMBER} = getSerialnumber(
-                device => "/dev/sg$id"
+    foreach my $device (@devices) {
+        foreach my $disk (_getDiskFromMptStatus(
+            name    => $device->{NAME},
+            logger  => $logger,
+            command => "mpt-status -n -i $device->{SCSI_UNID}"
+        )) {
+            $disk->{SERIALNUMBER} = getSerialnumber(
+                device => "/dev/sg$disk->{id}"
             );
-            $storage->{MANUFACTURER} = getCanonicalManufacturer(
-                $storage->{MODEL}
-            );
-
-            $inventory->addEntry(section => 'STORAGES', entry => $storage);
+            delete $disk->{id};
+            $inventory->addEntry(section => 'STORAGES', entry => $disk);
         }
-        close $handle;
     }
 
+}
+
+sub _getDiskFromMptStatus {
+    my (%params) = @_;
+
+    my $handle = getFileHandle(%params);
+    next unless $handle;
+
+    my @disks;
+    while (my $line = <$handle>) {
+        next unless $line =~ /phys_id:(\d+).*product_id:\s*(\S*)\s+revision:(\S+).*size\(GB\):(\d+)/;
+
+        my $disk = {
+            NAME         => $params{name},
+            DESCRIPTION  => 'SATA',
+            TYPE         => 'disk',
+            id           => $1,
+            MODEL        => $2,
+            MANUFACTURER => getCanonicalManufacturer($2),
+            FIRMWARE     => $3,
+            SIZE         => $4 * 1024
+        };
+
+        push @disks, $disk;
+    }
+    close $handle;
+
+    return @disks;
 }
 
 1;
