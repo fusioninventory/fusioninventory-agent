@@ -50,7 +50,14 @@ sub _getDiskFromMptStatus {
 
     my @disks;
     while (my $line = <$handle>) {
-        next unless $line =~ /phys_id:(\d+).*product_id:\s*(\S*)\s+revision:(\S+).*size\(GB\):(\d+)/;
+        next unless $line =~ /
+            phys_id:(\d+) \s
+            scsi_id:\d+ \s
+            vendor:\S+ \s+
+            product_id:(\S+) \s+
+            revision:(\S+) \s+
+            size\(GB\):(\d+)
+        /x;
 
         my $disk = {
             NAME         => $params{name},
