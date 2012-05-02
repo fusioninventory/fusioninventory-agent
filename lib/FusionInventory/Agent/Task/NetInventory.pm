@@ -591,10 +591,6 @@ sub _setNetworkingProperties {
     my $comments = $datadevice->{INFO}->{COMMENTS};
     my $ports = $datadevice->{PORTS}->{PORT};
 
-    _setTrunkPorts($comments, $results, $ports) if $comments;
-
-    _setConnectedDevices($comments, $results, $ports, $walks) if $comments;
-
     # Detect VLAN
     if ($results->{vmvlan}) {
         while (my ($oid, $vlan_id) = each %{$results->{vmvlan}}) {
@@ -607,6 +603,13 @@ sub _setNetworkingProperties {
             };
         }
     }
+
+    # everything else is vendor-specific, and requires device description
+    return unless $comments;
+
+    _setTrunkPorts($comments, $results, $ports);
+
+    _setConnectedDevices($comments, $results, $ports, $walks);
 
     # check if vlan-specific queries are is needed
     my $vlan_query =
@@ -647,16 +650,15 @@ sub _setNetworkingProperties {
 
             _setConnectedDevicesMacAddress(
                 $comments, $results, $ports, $walks, $vlan_id
-            ) if $comments;
+            );
         }
     } else {
         # set connected devices mac addresses only once
-        _setConnectedDevicesMacAddress($comments, $results, $ports, $walks)
-            if $comments;
+        _setConnectedDevicesMacAddress($comments, $results, $ports, $walks);
     }
 
     # hardware-specific hacks
-    _performSpecificCleanup($comments, $results, $ports) if $comments;
+    _performSpecificCleanup($comments, $results, $ports);
 }
 
 sub _setTrunkPorts {
