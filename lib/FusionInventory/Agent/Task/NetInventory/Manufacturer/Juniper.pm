@@ -5,7 +5,7 @@ use warnings;
 
 use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::SNMP qw(getElement getLastElement getNextToLastElement);
-    
+
 sub setConnectedDevicesMacAddress {
     my (%params) = @_;
 
@@ -15,12 +15,12 @@ sub setConnectedDevicesMacAddress {
 
     while (my ($oid, $suffix) = each %{$results->{dot1dTpFdbAddress}}) {
 
-        my $mac = sprintf("%02x:%02x:%02x:%02x:%02x:%02x", getElement($oid, -6), 
-                          getElement($oid, -5),  
-                          getElement($oid, -4), 
-                          getElement($oid, -3), 
-                          getElement($oid, -2), 
-                          getElement($oid, -1)); 
+        my $mac = sprintf("%02x:%02x:%02x:%02x:%02x:%02x", getElement($oid, -6),
+                          getElement($oid, -5),
+                          getElement($oid, -4),
+                          getElement($oid, -3),
+                          getElement($oid, -2),
+                          getElement($oid, -1));
 
         my $dot1dTpFdbPort = $walks->{dot1dTpFdbPort}->{OID};
 
@@ -30,7 +30,7 @@ sub setConnectedDevicesMacAddress {
 
         my $ifIndex =
             $results->{dot1dBasePortIfIndex}->{
-                $walks->{dot1dBasePortIfIndex}->{OID} . '.' .  $ifKey_part
+                $walks->{dot1dBasePortIfIndex}->{OID} . '.' . $ifKey_part
             };
         next unless defined $ifIndex;
 
@@ -66,22 +66,22 @@ sub setConnectedDevices {
 
             my $port_number =
                 getNextToLastElement($oid) . "." . getLastElement($oid, -1);
-                
+
             $ports->{getNextToLastElement($oid)}->{CONNECTIONS} = {
                 CDP        => 1,
                 CONNECTION => {
                     IP      => $ip,
                     IFDESCR => $results->{cdpCacheDevicePort}->{
-                        $walks->{cdpCacheDevicePort}->{OID} . "." .$port_number
+                        $walks->{cdpCacheDevicePort}->{OID} . "." . $port_number
                     },
                     SYSDESCR => $results->{cdpCacheVersion}->{
-                        $walks->{cdpCacheVersion}->{OID} . "." .$port_number
+                        $walks->{cdpCacheVersion}->{OID} . "." . $port_number
                     },
                     SYSNAME  => $results->{cdpCacheDeviceId}->{
-                        $walks->{cdpCacheDeviceId}->{OID} . "." .$port_number
+                        $walks->{cdpCacheDeviceId}->{OID} . "." . $port_number
                     },
                     MODEL => $results->{cdpCachePlatform}->{
-                        $walks->{cdpCachePlatform}->{OID} . "." .$port_number
+                        $walks->{cdpCachePlatform}->{OID} . "." . $port_number
                     }
                 }
             };
@@ -100,13 +100,13 @@ sub setConnectedDevices {
                         $walks->{lldpRemPortDesc}->{OID} . "." . $port_number
                     },
                     SYSDESCR => $results->{lldpRemSysDesc}->{
-                        $walks->{lldpRemSysDesc}->{OID} . "." .$port_number
+                        $walks->{lldpRemSysDesc}->{OID} . "." . $port_number
                     },
                     SYSNAME  => $results->{lldpRemSysName}->{
-                        $walks->{lldpRemSysName}->{OID} . "." .$port_number
+                        $walks->{lldpRemSysName}->{OID} . "." . $port_number
                     },
                     IFNUMBER => $results->{lldpRemPortId}->{
-                        $walks->{lldpRemPortId}->{OID} . "." .$port_number
+                        $walks->{lldpRemPortId}->{OID} . "." . $port_number
                     }
                 }
             };
