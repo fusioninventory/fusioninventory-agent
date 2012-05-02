@@ -54,7 +54,7 @@ sub _getDiskFromMptStatus {
             phys_id:(\d+) \s
             scsi_id:\d+ \s
             vendor:\S+ \s+
-            product_id:(\S+) \s+
+            product_id:(\S.+\S) \s+
             revision:(\S+) \s+
             size\(GB\):(\d+)
         /x;
