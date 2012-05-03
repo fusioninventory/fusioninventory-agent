@@ -15,9 +15,7 @@ my %tests = (
                 FIRMWARE     => 'D',
                 MANUFACTURER => 'Seagate',
                 MODEL        => 'ST3160815AS',
-                DESCRIPTION  => 'SATA',
                 device       => '/dev/sg1',
-                TYPE         => 'disk'
             },
             {
                 SIZE         => '152576',
@@ -25,9 +23,7 @@ my %tests = (
                 FIRMWARE     => 'D',
                 MANUFACTURER => 'Seagate',
                 MODEL        => 'ST3160815AS',
-                DESCRIPTION  => 'SATA',
                 device       => '/dev/sg0',
-                TYPE         => 'disk'
           }
         ]
     },
@@ -40,9 +36,7 @@ my %tests = (
                 FIRMWARE     => 'C610',
                 MANUFACTURER => 'CBRCA146C3ETS0 N',
                 MODEL        => 'CBRCA146C3ETS0 N',
-                DESCRIPTION  => 'SATA',
                 device       => '/dev/sg5',
-                TYPE         => 'disk'
             },
             {
                 SIZE         => '139264',
@@ -50,9 +44,7 @@ my %tests = (
                 FIRMWARE     => 'C610',
                 MANUFACTURER => 'CBRCA146C3ETS0 N',
                 MODEL        => 'CBRCA146C3ETS0 N',
-                DESCRIPTION  => 'SATA',
                 device       => '/dev/sg4',
-                TYPE         => 'disk'
             },
             {
                 SIZE         => '139264',
@@ -60,9 +52,7 @@ my %tests = (
                 FIRMWARE     => 'B53C',
                 MANUFACTURER => 'Seagate',
                 MODEL        => 'ST9146803SS',
-                DESCRIPTION  => 'SATA',
                 device       => '/dev/sg3',
-                TYPE         => 'disk'
             },
             {
                 SIZE         => '139264',
@@ -70,9 +60,7 @@ my %tests = (
                 FIRMWARE     => 'C610',
                 MANUFACTURER => 'CBRCA146C3ETS0 N',
                 MODEL        => 'CBRCA146C3ETS0 N',
-                DESCRIPTION  => 'SATA',
                 device       => '/dev/sg2',
-                TYPE         => 'disk'
             },
             {
                 SIZE         => '139264',
@@ -80,9 +68,7 @@ my %tests = (
                 FIRMWARE     => 'C610',
                 MANUFACTURER => 'CBRCA146C3ETS0 N',
                 MODEL        => 'CBRCA146C3ETS0 N',
-                DESCRIPTION  => 'SATA',
                 device       => '/dev/sg1',
-                TYPE         => 'disk'
             },
             {
                 SIZE         => '139264',
@@ -90,9 +76,7 @@ my %tests = (
                 FIRMWARE     => 'C610',
                 MANUFACTURER => 'CBRCA146C3ETS0 N',
                 MODEL        => 'CBRCA146C3ETS0 N',
-                DESCRIPTION  => 'SATA',
                 device       => '/dev/sg0',
-                TYPE         => 'disk'
             }
         ]
     }

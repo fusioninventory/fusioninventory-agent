@@ -24,7 +24,11 @@ sub doInventory {
             logger  => $logger,
             command => "mpt-status -n -i $device->{SCSI_UNID}"
         )) {
-            $disk->{SERIALNUMBER} = getSerialnumber(device => $disk->{device});
+            # merge with smartctl info
+            my $info = getInfoFromSmartctl(device => $disk->{device});
+            foreach my $key (qw/SERIALNUMBER DESCRIPTION TYPE/) {
+                $disk->{$key} = $info->{$key};
+            }
             delete $disk->{device};
             $inventory->addEntry(section => 'STORAGES', entry => $disk);
         }
@@ -51,8 +55,6 @@ sub _getDiskFromMptStatus {
 
         my $disk = {
             NAME         => $params{name},
-            DESCRIPTION  => 'SATA',
-            TYPE         => 'disk',
             device       => "/dev/sg$1",
             MODEL        => $2,
             MANUFACTURER => getCanonicalManufacturer($2),

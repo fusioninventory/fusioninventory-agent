@@ -30,8 +30,12 @@ sub doInventory {
                 controller => 'scsi' . $device->{SCSI_COID},
                 name       => $device->{NAME},
                 logger     => $logger
-            )) {
-            $disk->{SERIALNUMBER} = getSerialnumber(device => $disk->{device});
+        )) {
+            # merge with smartctl info
+            my $info = getInfoFromSmartctl(device => $disk->{device});
+            foreach my $key (qw/SERIALNUMBER DESCRIPTION TYPE/) {
+                $disk->{$key} = $info->{$key};
+            }
             delete $disk->{device};
             $inventory->addEntry(section => 'STORAGES', entry => $disk);
         }
@@ -60,8 +64,6 @@ sub _getDisksFromProc {
                 # that's the controller we're looking for
                 $disk = {
                     NAME        => $params{name},
-                    DESCRIPTION => 'SATA',
-                    TYPE        => 'disk',
                 };
             } else {
                 # that's another controller
