@@ -7,19 +7,6 @@ use Test::More;
 use FusionInventory::Agent::Task::Inventory::Input::Linux::Storages::Adaptec;
 
 my %tests = (
-    linux1 => {
-        controller => 'scsi0',
-        name       => 'foo',
-        disks   => [
-            {
-                NAME         => 'foo',
-                MODEL        => 'SAMSUNG SSD PM80',
-                MANUFACTURER => 'Samsung',
-                FIRMWARE     => 'VBM2',
-                device       => '/dev/sg0'
-            }
-        ]
-    },
     linux2 => {
         controller => 'scsi0',
         name       => 'foo',
@@ -38,19 +25,6 @@ my %tests = (
                 FIRMWARE     => 'S3C0',
                 device       => '/dev/sg2'
             }
-        ]
-    },
-    linux3 => {
-        controller => 'scsi0',
-        name       => 'foo',
-        disks      => [
-            {
-                NAME         => 'foo',
-                MODEL        => 'UJDA782 DVD/CDRW',
-                MANUFACTURER => 'UJDA782 DVD/CDRW',
-                FIRMWARE     => 'VA13',
-                device       => '/dev/sg0'
-            },
         ]
     },
     linux4 => {
