@@ -1,0 +1,10 @@
+smartctl version 5.38 [x86_64-redhat-linux-gnu] Copyright (C) 2002-8 Bruce Allen
+Home page is http://smartmontools.sourceforge.net/
+
+Device: IBM-ESXS ST3300655SS      Version: BA23
+Serial number: 3LM0L0FJ00009733Y46W
+Device type: disk
+Transport protocol: SAS
+Local Time is: Sat Apr 28 12:03:55 2012 MSK
+Device supports SMART and is Enabled
+Temperature Warning Enabled
