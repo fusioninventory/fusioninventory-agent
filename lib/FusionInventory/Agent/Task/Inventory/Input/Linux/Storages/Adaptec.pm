@@ -8,12 +8,6 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Linux;
 
-# Tested on 2.6.* kernels
-#
-# Cards tested :
-#
-# Adaptec AAC-RAID
-
 sub isEnabled {
     return -r '/proc/scsi/scsi';
 }
