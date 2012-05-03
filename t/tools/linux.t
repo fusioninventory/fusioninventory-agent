@@ -533,7 +533,24 @@ my %hal_tests = (
 );
 
 my %smartctl_tests = (
-    'dell-xt2' => 'DFW1W11002SE002B3117'
+    sample1 => {
+        TYPE         => 'disk',
+        DESCRIPTION  => 'SATA',
+        SERIALNUMBER => 'DFW1W11002SE002B3117'
+    },
+    sample2 => {
+        TYPE         => 'disk',
+        DESCRIPTION  => 'SATA'
+    },
+    sample3 => {
+        TYPE         => 'disk',
+        DESCRIPTION  => 'SAS',
+        SERIALNUMBER => '3LM0L0FJ00009733Y46W',
+    },
+    sample4 => {
+        TYPE         => 'enclosure',
+        DESCRIPTION  => 'SATA'
+    },
 );
 
 my %ifconfig_tests = (
@@ -879,8 +896,8 @@ foreach my $test (keys %hal_tests) {
 
 foreach my $test (keys %smartctl_tests) {
     my $file = "resources/linux/smartctl/$test";
-    my $result = getSerialnumber(file => $file);
-    is($result, $smartctl_tests{$test}, "$test smartctl parsing");
+    my $result = getInfoFromSmartctl(file => $file);
+    is_deeply($result, $smartctl_tests{$test}, "$test smartctl parsing");
 }
 
 foreach my $test (keys %ifconfig_tests) {
