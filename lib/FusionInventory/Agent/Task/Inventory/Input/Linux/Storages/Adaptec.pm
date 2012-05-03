@@ -69,7 +69,7 @@ sub _getDisksFromProc {
             }
         }
 
-        if ($line =~ /Model:\s(\S+).*Rev:\s(\S+)/) {
+        if ($line =~ /Model: \s (\S.+\S) \s+ Rev: \s (\S+)/x) {
             next unless $disk;
             $disk->{MODEL}    = $1;
             $disk->{FIRMWARE} = $2;
