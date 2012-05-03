@@ -6,14 +6,6 @@ use warnings;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Linux;
 
-# Tested on 2.6.* kernels
-#
-# Cards tested :
-#
-# LSI Logic / Symbios Logic SAS1064E PCI-Express Fusion-MPT SAS
-#
-# mpt-status version : 1.2.0
-
 sub isEnabled {
     return canRun('mpt-status');
 }
@@ -26,37 +18,55 @@ sub doInventory {
 
     my @devices = getDevicesFromUdev(logger => $logger);
 
-    foreach my $hd (@devices) {
-        my $handle = getFileHandle(
-            logger => $logger,
-            command => "mpt-status -n -i $hd->{SCSI_UNID}"
-        );
-        next unless $handle;
-        while (my $line = <$handle>) {
-            next unless /phys_id:(\d+).*product_id:\s*(\S*)\s+revision:(\S+).*size\(GB\):(\d+)/;
-            my $id = $1;
-
-            my $storage = {
-                NAME => $hd->{NAME},
-                DESCRIPTION => 'SATA',
-                TYPE        => 'disk',
-                MODEL       => $2,
-                FIRMWARE    => $3,
-                SIZE        => $4 * 1024
-            };
-
-            $storage->{SERIALNUMBER} = getSerialnumber(
-                device => "/dev/sg$id"
-            );
-            $storage->{MANUFACTURER} = getCanonicalManufacturer(
-                $storage->{MODEL}
-            );
-
-            $inventory->addEntry(section => 'STORAGES', entry => $storage);
+    foreach my $device (@devices) {
+        foreach my $disk (_getDiskFromMptStatus(
+            name    => $device->{NAME},
+            logger  => $logger,
+            command => "mpt-status -n -i $device->{SCSI_UNID}"
+        )) {
+            # merge with smartctl info
+            my $info = getInfoFromSmartctl(device => $disk->{device});
+            foreach my $key (qw/SERIALNUMBER DESCRIPTION TYPE/) {
+                $disk->{$key} = $info->{$key};
+            }
+            delete $disk->{device};
+            $inventory->addEntry(section => 'STORAGES', entry => $disk);
         }
-        close $handle;
     }
 
+}
+
+sub _getDiskFromMptStatus {
+    my (%params) = @_;
+
+    my $handle = getFileHandle(%params);
+    next unless $handle;
+
+    my @disks;
+    while (my $line = <$handle>) {
+        next unless $line =~ /
+            phys_id:(\d+) \s
+            scsi_id:\d+ \s
+            vendor:\S+ \s+
+            product_id:(\S.+\S) \s+
+            revision:(\S+) \s+
+            size\(GB\):(\d+)
+        /x;
+
+        my $disk = {
+            NAME         => $params{name},
+            device       => "/dev/sg$1",
+            MODEL        => $2,
+            MANUFACTURER => getCanonicalManufacturer($2),
+            FIRMWARE     => $3,
+            SIZE         => $4 * 1024
+        };
+
+        push @disks, $disk;
+    }
+    close $handle;
+
+    return @disks;
 }
 
 1;

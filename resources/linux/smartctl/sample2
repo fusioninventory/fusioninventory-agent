@@ -1,0 +1,7 @@
+smartctl version 5.38 [x86_64-redhat-linux-gnu] Copyright (C) 2002-8 Bruce Allen
+Home page is http://smartmontools.sourceforge.net/
+
+Device: ServeRA  Drive 1          Version: V1.0
+scsiModePageOffset: response length too short, resp_len=4 offset=4 bd_len=0
+>> Terminate command early due to bad response to IEC mode page
+A mandatory SMART command failed: exiting. To continue, add one or more '-T permissive' options.
