@@ -1,0 +1,28 @@
+Attached devices:
+Host: scsi0 Channel: 00 Id: 00 Lun: 00
+  Vendor: ServeRA  Model: Drive 1          Rev: V1.0
+  Type:   Direct-Access                    ANSI SCSI revision: 02
+Host: scsi0 Channel: 00 Id: 01 Lun: 00
+  Vendor: ServeRA  Model: Drive 2          Rev: V1.0
+  Type:   Direct-Access                    ANSI SCSI revision: 02
+Host: scsi0 Channel: 01 Id: 00 Lun: 00
+  Vendor: IBM-ESXS Model: ST3300655SS      Rev: BA23
+  Type:   Direct-Access                    ANSI SCSI revision: 05
+Host: scsi0 Channel: 01 Id: 01 Lun: 00
+  Vendor: IBM-ESXS Model: ST3300655SS      Rev: BA23
+  Type:   Direct-Access                    ANSI SCSI revision: 05
+Host: scsi0 Channel: 01 Id: 02 Lun: 00
+  Vendor: IBM-ESXS Model: ST3300655SS      Rev: BA23
+  Type:   Direct-Access                    ANSI SCSI revision: 05
+Host: scsi0 Channel: 01 Id: 03 Lun: 00
+  Vendor: IBM-ESXS Model: ST3300655SS      Rev: BA23
+  Type:   Direct-Access                    ANSI SCSI revision: 05
+Host: scsi0 Channel: 01 Id: 04 Lun: 00
+  Vendor: IBM-ESXS Model: ST3300655SS      Rev: BA23
+  Type:   Direct-Access                    ANSI SCSI revision: 05
+Host: scsi0 Channel: 01 Id: 05 Lun: 00
+  Vendor: IBM-ESXS Model: ST3300655SS      Rev: BA23
+  Type:   Direct-Access                    ANSI SCSI revision: 05
+Host: scsi0 Channel: 03 Id: 00 Lun: 00
+  Vendor: IBM-ESXS Model: VSC7160          Rev: 1.06
+  Type:   Enclosure                        ANSI SCSI revision: 03
