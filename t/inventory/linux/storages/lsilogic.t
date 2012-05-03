@@ -5,8 +5,6 @@ use warnings;
 use FusionInventory::Agent::Task::Inventory::Input::Linux::Storages::Lsilogic;
 use Test::More;
 
-plan tests => 2;
-
 my %tests = (
     sample1 => {
         name       => 'foo',
@@ -99,6 +97,8 @@ my %tests = (
         ]
     }
 );
+
+plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/linux/mpt-status/$test";
