@@ -31,7 +31,8 @@ sub doInventory {
                 name       => $device->{NAME},
                 logger     => $logger
             )) {
-            $disk->{SERIALNUMBER} = getSerialnumber($disk->{device});
+            $disk->{SERIALNUMBER} = getSerialnumber(device => $disk->{device});
+            delete $disk->{device};
             $inventory->addEntry(section => 'STORAGES', entry => $disk);
         }
     }
@@ -79,7 +80,7 @@ sub _getDisksFromProc {
             $disk->{MANUFACTURER} = getCanonicalManufacturer(
                 $disk->{MODEL}
             );
-            $disk->{DEVICE} = "/dev/sg$count";
+            $disk->{device} = "/dev/sg$count";
 
             push @disks, $disk;
         }
