@@ -13,8 +13,6 @@ my %tests = (
         disks   => [
             {
                 NAME         => 'foo',
-                DESCRIPTION  => 'SATA',
-                TYPE         => 'disk',
                 MODEL        => 'SAMSUNG SSD PM80',
                 MANUFACTURER => 'Samsung',
                 FIRMWARE     => 'VBM2',
@@ -28,8 +26,6 @@ my %tests = (
         disks      => [
             {
                 NAME         => 'foo',
-                DESCRIPTION  => 'SATA',
-                TYPE         => 'disk',
                 MODEL        => 'HUS151436VL3800',
                 MANUFACTURER => 'Hitachi',
                 FIRMWARE     => 'S3C0',
@@ -37,8 +33,6 @@ my %tests = (
             },
             {
                 NAME         => 'foo',
-                DESCRIPTION  => 'SATA',
-                TYPE         => 'disk',
                 MODEL        => 'HUS151436VL3800',
                 MANUFACTURER => 'Hitachi',
                 FIRMWARE     => 'S3C0',
@@ -52,8 +46,6 @@ my %tests = (
         disks      => [
             {
                 NAME         => 'foo',
-                DESCRIPTION  => 'SATA',
-                TYPE         => 'disk',
                 MODEL        => 'UJDA782 DVD/CDRW',
                 MANUFACTURER => 'UJDA782 DVD/CDRW',
                 FIRMWARE     => 'VA13',
@@ -70,8 +62,6 @@ my %tests = (
                 FIRMWARE     => 'V1.0',
                 MANUFACTURER => 'Drive 1',
                 MODEL        => 'Drive 1',
-                DESCRIPTION  => 'SATA',
-                TYPE         => 'disk',
                 device       => '/dev/sg0'
             },
             {
@@ -79,8 +69,6 @@ my %tests = (
                 FIRMWARE     => 'V1.0',
                 MANUFACTURER => 'Drive 2',
                 MODEL        => 'Drive 2',
-                DESCRIPTION  => 'SATA',
-                TYPE         => 'disk',
                 device       => '/dev/sg1'
             },
             {
@@ -88,8 +76,6 @@ my %tests = (
                 FIRMWARE     => 'BA23',
                 MANUFACTURER => 'Seagate',
                 MODEL        => 'ST3300655SS',
-                DESCRIPTION  => 'SATA',
-                TYPE         => 'disk',
                 device       => '/dev/sg2'
                 },
                 {
@@ -97,8 +83,6 @@ my %tests = (
                 FIRMWARE     => 'BA23',
                 MANUFACTURER => 'Seagate',
                 MODEL        => 'ST3300655SS',
-                DESCRIPTION  => 'SATA',
-                TYPE         => 'disk',
                 device       => '/dev/sg3'
             },
             {
@@ -106,8 +90,6 @@ my %tests = (
                 FIRMWARE     => 'BA23',
                 MANUFACTURER => 'Seagate',
                 MODEL        => 'ST3300655SS',
-                DESCRIPTION  => 'SATA',
-                TYPE         => 'disk',
                 device       => '/dev/sg4'
             },
             {
@@ -115,8 +97,6 @@ my %tests = (
                 FIRMWARE     => 'BA23',
                 MANUFACTURER => 'Seagate',
                 MODEL        => 'ST3300655SS',
-                DESCRIPTION  => 'SATA',
-                TYPE         => 'disk',
                 device       => '/dev/sg5'
             },
             {
@@ -124,8 +104,6 @@ my %tests = (
                 FIRMWARE     => 'BA23',
                 MANUFACTURER => 'Seagate',
                 MODEL        => 'ST3300655SS',
-                DESCRIPTION  => 'SATA',
-                TYPE         => 'disk',
                 device       => '/dev/sg6'
             },
             {
@@ -133,8 +111,6 @@ my %tests = (
                 FIRMWARE     => 'BA23',
                 MANUFACTURER => 'Seagate',
                 MODEL        => 'ST3300655SS',
-                DESCRIPTION  => 'SATA',
-                TYPE         => 'disk',
                 device       => '/dev/sg7'
             },
             {
@@ -142,8 +118,6 @@ my %tests = (
                 FIRMWARE     => '1.06',
                 MANUFACTURER => 'VSC7160',
                 MODEL        => 'VSC7160',
-                DESCRIPTION  => 'SATA',
-                TYPE         => 'disk',
                 device       => '/dev/sg8'
             }
         ]
