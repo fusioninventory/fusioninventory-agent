@@ -6,14 +6,6 @@ use warnings;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Linux;
 
-# Tested on 2.6.* kernels
-#
-# Cards tested :
-#
-# LSI Logic / Symbios Logic SAS1064E PCI-Express Fusion-MPT SAS
-#
-# mpt-status version : 1.2.0
-
 sub isEnabled {
     return canRun('mpt-status');
 }
