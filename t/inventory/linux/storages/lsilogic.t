@@ -16,7 +16,7 @@ my %tests = (
                 MANUFACTURER => 'Seagate',
                 MODEL        => 'ST3160815AS',
                 DESCRIPTION  => 'SATA',
-                id           => '1',
+                device       => '/dev/sg1',
                 TYPE         => 'disk'
             },
             {
@@ -26,7 +26,7 @@ my %tests = (
                 MANUFACTURER => 'Seagate',
                 MODEL        => 'ST3160815AS',
                 DESCRIPTION  => 'SATA',
-                id           => '0',
+                device       => '/dev/sg0',
                 TYPE         => 'disk'
           }
         ]
@@ -41,7 +41,7 @@ my %tests = (
                 MANUFACTURER => 'CBRCA146C3ETS0 N',
                 MODEL        => 'CBRCA146C3ETS0 N',
                 DESCRIPTION  => 'SATA',
-                id           => '5',
+                device       => '/dev/sg5',
                 TYPE         => 'disk'
             },
             {
@@ -51,7 +51,7 @@ my %tests = (
                 MANUFACTURER => 'CBRCA146C3ETS0 N',
                 MODEL        => 'CBRCA146C3ETS0 N',
                 DESCRIPTION  => 'SATA',
-                id           => '4',
+                device       => '/dev/sg4',
                 TYPE         => 'disk'
             },
             {
@@ -61,7 +61,7 @@ my %tests = (
                 MANUFACTURER => 'Seagate',
                 MODEL        => 'ST9146803SS',
                 DESCRIPTION  => 'SATA',
-                id           => '3',
+                device       => '/dev/sg3',
                 TYPE         => 'disk'
             },
             {
@@ -71,7 +71,7 @@ my %tests = (
                 MANUFACTURER => 'CBRCA146C3ETS0 N',
                 MODEL        => 'CBRCA146C3ETS0 N',
                 DESCRIPTION  => 'SATA',
-                id           => '2',
+                device       => '/dev/sg2',
                 TYPE         => 'disk'
             },
             {
@@ -81,7 +81,7 @@ my %tests = (
                 MANUFACTURER => 'CBRCA146C3ETS0 N',
                 MODEL        => 'CBRCA146C3ETS0 N',
                 DESCRIPTION  => 'SATA',
-                id           => '1',
+                device       => '/dev/sg1',
                 TYPE         => 'disk'
             },
             {
@@ -91,7 +91,7 @@ my %tests = (
                 MANUFACTURER => 'CBRCA146C3ETS0 N',
                 MODEL        => 'CBRCA146C3ETS0 N',
                 DESCRIPTION  => 'SATA',
-                id           => '0',
+                device       => '/dev/sg0',
                 TYPE         => 'disk'
             }
         ]

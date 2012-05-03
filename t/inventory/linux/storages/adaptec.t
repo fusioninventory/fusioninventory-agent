@@ -18,7 +18,7 @@ my %tests = (
                 MODEL        => 'SAMSUNG',
                 MANUFACTURER => 'Samsung',
                 FIRMWARE     => 'VBM2',
-                DEVICE       => '/dev/sg0'
+                device       => '/dev/sg0'
             }
         ]
     },
@@ -33,7 +33,7 @@ my %tests = (
                 MODEL        => 'HUS151436VL3800',
                 MANUFACTURER => 'Hitachi',
                 FIRMWARE     => 'S3C0',
-                DEVICE       => '/dev/sg1'
+                device       => '/dev/sg1'
             },
             {
                 NAME         => 'foo',
@@ -42,7 +42,7 @@ my %tests = (
                 MODEL        => 'HUS151436VL3800',
                 MANUFACTURER => 'Hitachi',
                 FIRMWARE     => 'S3C0',
-                DEVICE       => '/dev/sg2'
+                device       => '/dev/sg2'
             }
         ]
     },
@@ -57,7 +57,7 @@ my %tests = (
                 MODEL        => 'UJDA782',
                 MANUFACTURER => 'UJDA782',
                 FIRMWARE     => 'VA13',
-                DEVICE       => '/dev/sg0'
+                device       => '/dev/sg0'
             },
         ]
     },
@@ -72,7 +72,7 @@ my %tests = (
                 MODEL        => 'Drive',
                 DESCRIPTION  => 'SATA',
                 TYPE         => 'disk',
-                DEVICE       => '/dev/sg0'
+                device       => '/dev/sg0'
             },
             {
                 NAME         => 'foo',
@@ -81,7 +81,7 @@ my %tests = (
                 MODEL        => 'Drive',
                 DESCRIPTION  => 'SATA',
                 TYPE         => 'disk',
-                DEVICE       => '/dev/sg1'
+                device       => '/dev/sg1'
             },
             {
                 NAME         => 'foo',
@@ -90,7 +90,7 @@ my %tests = (
                 MODEL        => 'ST3300655SS',
                 DESCRIPTION  => 'SATA',
                 TYPE         => 'disk',
-                DEVICE       => '/dev/sg2'
+                device       => '/dev/sg2'
                 },
                 {
                 NAME         => 'foo',
@@ -99,7 +99,7 @@ my %tests = (
                 MODEL        => 'ST3300655SS',
                 DESCRIPTION  => 'SATA',
                 TYPE         => 'disk',
-                DEVICE       => '/dev/sg3'
+                device       => '/dev/sg3'
             },
             {
                 NAME         => 'foo',
@@ -108,7 +108,7 @@ my %tests = (
                 MODEL        => 'ST3300655SS',
                 DESCRIPTION  => 'SATA',
                 TYPE         => 'disk',
-                DEVICE       => '/dev/sg4'
+                device       => '/dev/sg4'
             },
             {
                 NAME         => 'foo',
@@ -117,7 +117,7 @@ my %tests = (
                 MODEL        => 'ST3300655SS',
                 DESCRIPTION  => 'SATA',
                 TYPE         => 'disk',
-                DEVICE       => '/dev/sg5'
+                device       => '/dev/sg5'
             },
             {
                 NAME         => 'foo',
@@ -126,7 +126,7 @@ my %tests = (
                 MODEL        => 'ST3300655SS',
                 DESCRIPTION  => 'SATA',
                 TYPE         => 'disk',
-                DEVICE       => '/dev/sg6'
+                device       => '/dev/sg6'
             },
             {
                 NAME         => 'foo',
@@ -135,7 +135,7 @@ my %tests = (
                 MODEL        => 'ST3300655SS',
                 DESCRIPTION  => 'SATA',
                 TYPE         => 'disk',
-                DEVICE       => '/dev/sg7'
+                device       => '/dev/sg7'
             },
             {
                 NAME         => 'foo',
@@ -144,7 +144,7 @@ my %tests = (
                 MODEL        => 'VSC7160',
                 DESCRIPTION  => 'SATA',
                 TYPE         => 'disk',
-                DEVICE       => '/dev/sg8'
+                device       => '/dev/sg8'
             }
         ]
     }

@@ -24,10 +24,8 @@ sub doInventory {
             logger  => $logger,
             command => "mpt-status -n -i $device->{SCSI_UNID}"
         )) {
-            $disk->{SERIALNUMBER} = getSerialnumber(
-                device => "/dev/sg$disk->{id}"
-            );
-            delete $disk->{id};
+            $disk->{SERIALNUMBER} = getSerialnumber(device => $disk->{device});
+            delete $disk->{device};
             $inventory->addEntry(section => 'STORAGES', entry => $disk);
         }
     }
@@ -55,7 +53,7 @@ sub _getDiskFromMptStatus {
             NAME         => $params{name},
             DESCRIPTION  => 'SATA',
             TYPE         => 'disk',
-            id           => $1,
+            device       => "/dev/sg$1",
             MODEL        => $2,
             MANUFACTURER => getCanonicalManufacturer($2),
             FIRMWARE     => $3,
