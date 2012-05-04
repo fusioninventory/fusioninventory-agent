@@ -15,6 +15,7 @@ sub setConnectedDevicesMacAddress {
     my $vlan_id = $params{vlan_id};
 
     while (my ($oid, $mac) = each %{$results->{VLAN}->{$vlan_id}->{dot1dTpFdbAddress}}) {
+        $mac = alt2canonical($mac);
         next unless $mac;
 
         # get port key
@@ -40,11 +41,6 @@ sub setConnectedDevicesMacAddress {
 
         # this device has already been processed through CDP/LLDP
         next if $port->{CONNECTIONS}->{CDP};
-
-        # This mac is empty
-        next unless $mac;
-
-        $mac = alt2canonical($mac);
 
         # this is port own mac address
         next if $port->{MAC} eq $mac;

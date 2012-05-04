@@ -13,6 +13,7 @@ sub setConnectedDevicesMacAddress {
     my $walks   = $params{walks};
 
     while (my ($oid, $mac) = each %{$results->{dot1dTpFdbAddress}}) {
+        $mac = alt2canonical($mac);
         next unless $mac;
 
         # get port key
@@ -31,11 +32,6 @@ sub setConnectedDevicesMacAddress {
         next unless defined $ifIndex;
 
         my $port = $ports->{$ifIndex};
-
-        $mac = alt2canonical($mac);
-
-        # This mac is empty
-        next unless $mac;
 
         # this is port own mac address
         next if $port->{MAC} && $port->{MAC} eq $mac;

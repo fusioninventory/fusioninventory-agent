@@ -11,6 +11,7 @@ sub setConnectedDevicesMacAddress {
     my $walks   = $params{walks};
 
     while (my ($oid, $mac) = each %{$results->{dot1dTpFdbAddress}}) {
+        $mac = alt2canonical($mac);
         next unless $mac;
 
         # get port key
@@ -32,8 +33,6 @@ sub setConnectedDevicesMacAddress {
 
         # this device has already been processed through CDP/LLDP
         next if $port->{CONNECTIONS}->{CDP};
-
-        $mac = alt2canonical($mac);
 
         # this is port own mac address
         next if $port->{MAC} eq $mac;

@@ -14,7 +14,6 @@ sub setConnectedDevicesMacAddress {
     my $walks   = $params{walks};
 
     while (my ($oid, $suffix) = each %{$results->{dot1dTpFdbAddress}}) {
-
         my $mac =
             sprintf(
                 "%02x:%02x:%02x:%02x:%02x:%02x",
@@ -25,6 +24,7 @@ sub setConnectedDevicesMacAddress {
                 getElement($oid, -2),
                 getElement($oid, -1)
             );
+        next unless $mac;
 
         # get port key
         my $portKey = $walks->{dot1dTpFdbPort}->{OID} . '.' . $suffix;
@@ -42,9 +42,6 @@ sub setConnectedDevicesMacAddress {
 
         # this device has already been processed through CDP/LLDP
         next if $port->{CONNECTIONS}->{CDP};
-
-        # This mac is empty
-        next unless $mac;
 
         # this is port own mac address
         next if $port->{MAC} eq $mac;
