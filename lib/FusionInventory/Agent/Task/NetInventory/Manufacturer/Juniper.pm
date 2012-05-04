@@ -15,12 +15,16 @@ sub setConnectedDevicesMacAddress {
 
     while (my ($oid, $suffix) = each %{$results->{dot1dTpFdbAddress}}) {
 
-        my $mac = sprintf("%02x:%02x:%02x:%02x:%02x:%02x", getElement($oid, -6),
-                          getElement($oid, -5),
-                          getElement($oid, -4),
-                          getElement($oid, -3),
-                          getElement($oid, -2),
-                          getElement($oid, -1));
+        my $mac =
+            sprintf(
+                "%02x:%02x:%02x:%02x:%02x:%02x",
+                getElement($oid, -6),
+                getElement($oid, -5),
+                getElement($oid, -4),
+                getElement($oid, -3),
+                getElement($oid, -2),
+                getElement($oid, -1)
+            );
 
         # get port key
         my $portKey = $walks->{dot1dTpFdbPort}->{OID} . '.' . $suffix;
