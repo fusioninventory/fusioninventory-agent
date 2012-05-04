@@ -22,16 +22,16 @@ sub setConnectedDevicesMacAddress {
                           getElement($oid, -2),
                           getElement($oid, -1));
 
-        my $dot1dTpFdbPort = $walks->{dot1dTpFdbPort}->{OID};
+        # get port key
+        my $portKey = $walks->{dot1dTpFdbPort}->{OID} . '.' . $suffix;
 
-        my $portKey = $dot1dTpFdbPort . '.' . $suffix;
+        # get interface key from port key
         my $ifKey_part = $results->{dot1dTpFdbPort}->{$portKey};
         next unless defined $ifKey_part;
+        my $ifKey = $walks->{dot1dBasePortIfIndex}->{OID} . '.' . $ifKey_part;
 
-        my $ifIndex =
-            $results->{dot1dBasePortIfIndex}->{
-                $walks->{dot1dBasePortIfIndex}->{OID} . '.' . $ifKey_part
-            };
+        # get interface index
+        my $ifIndex = $results->{dot1dBasePortIfIndex}->{$ifKey};
         next unless defined $ifIndex;
 
         my $port = $ports->{$ifIndex};
