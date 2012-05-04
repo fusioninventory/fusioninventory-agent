@@ -12,9 +12,9 @@ sub setConnectedDevicesMacAddress {
     my $results = $params{results};
     my $ports   = $params{ports};
     my $walks   = $params{walks};
-    my $vlan_id = $params{vlan_id};
+    my $vlan_results = $results->{VLAN}->{$params{vlan_id}};
 
-    while (my ($oid, $mac) = each %{$results->{VLAN}->{$vlan_id}->{dot1dTpFdbAddress}}) {
+    while (my ($oid, $mac) = each %{$vlan_results->{dot1dTpFdbAddress}}) {
         $mac = alt2canonical($mac);
         next unless $mac;
 
@@ -27,14 +27,14 @@ sub setConnectedDevicesMacAddress {
 
         # get interface key from port key
         my $ifKey_part =
-            $results->{VLAN}->{$vlan_id}->{dot1dTpFdbPort}->{$portKey};
+            $vlan_results->{dot1dTpFdbPort}->{$portKey};
         next unless defined $ifKey_part;
         my $ifKey =
             $walks->{dot1dBasePortIfIndex}->{OID} . '.' . $ifKey_part;
 
         # get interface index
         my $ifIndex =
-            $results->{VLAN}->{$vlan_id}->{dot1dBasePortIfIndex}->{$ifKey};
+            $vlan_results->{dot1dBasePortIfIndex}->{$ifKey};
         next unless defined $ifIndex;
 
         my $port = $ports->{$ifIndex};
