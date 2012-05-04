@@ -41,7 +41,6 @@ our @EXPORT = qw(
 );
 
 sub is64bit {
-
     return
         any { $_->{AddressWidth} eq 64 } 
         getWmiObjects(
@@ -59,7 +58,6 @@ sub getLocalCodepage {
     }
 
     return $localCodepage;
-
 }
 
 sub encodeFromRegistry {
