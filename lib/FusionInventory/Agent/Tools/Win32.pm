@@ -51,15 +51,11 @@ sub is64bit {
 
 sub getLocalCodepage {
     if (!$localCodepage) {
-        my $lmachine = $Registry->Open('LMachine', {
-            Access => KEY_READ
-        }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
-
-        my $codepage =
-            $lmachine->{"SYSTEM\\CurrentControlSet\\Control\\Nls\\CodePage"}
-            or warn;
-
-            $localCodepage = "cp".$codepage->{ACP};
+        $localCodepage =
+            "cp" .
+            getRegistryValue(
+                path => "SYSTEM\CurrentControlSet\Control\Nls\CodePage\ACP"
+            );
     }
 
     return $localCodepage;
