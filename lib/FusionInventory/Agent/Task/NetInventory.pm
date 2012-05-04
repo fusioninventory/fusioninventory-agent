@@ -648,13 +648,13 @@ sub _setNetworkingProperties {
                     $snmp->walk($variable->{OID});
             }
 
-            _setConnectedDevicesMacAddress(
+            _setConnectedDevicesMacAddresses(
                 $comments, $results, $ports, $walks, $vlan_id
             );
         }
     } else {
         # set connected devices mac addresses only once
-        _setConnectedDevicesMacAddress($comments, $results, $ports, $walks);
+        _setConnectedDevicesMacAddresses($comments, $results, $ports, $walks);
     }
 
     # hardware-specific hacks
