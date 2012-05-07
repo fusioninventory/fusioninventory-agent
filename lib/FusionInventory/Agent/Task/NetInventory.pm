@@ -13,6 +13,7 @@ use constant EXIT  => 3;
 
 use Encode qw(encode);
 use English qw(-no_match_vars);
+use Scalar::Util qw(refaddr reftype); # _shared_clone
 
 use FusionInventory::Agent::SNMP qw(getSanitizedSerialNumber getLastElement);
 use FusionInventory::Agent::XML::Query;
@@ -153,7 +154,7 @@ sub run {
 
     # create the required number of threads, sharing variables
     # for synchronisation
-    my @devices :shared = map { shared_clone($_) } @{$options->{DEVICE}};
+    my @devices :shared = map { _shared_clone($_) } @{$options->{DEVICE}};
     my @results :shared;
     my @states  :shared;
 
@@ -266,7 +267,7 @@ sub _queryDevices {
 
         if ($result) {
             lock $results;
-            push @$results, shared_clone($result);
+            push @$results, _shared_clone($result);
         }
                  
         delay(1);
@@ -815,6 +816,65 @@ sub _getPercentValue {
 
 sub _isInteger {
     $_[0] =~ /^[+-]?\d+$/;
+}
+
+# lazily copied from thread::shared, because it requires version 1.21
+# which only appeared with perl 5.10.1
+sub _shared_clone {
+    my ($item, $cloned) = @_;
+
+    # Just return the item if:
+    # 1. Not a ref;
+    # 2. Already shared; or
+    # 3. Not running 'threads'.
+    return $item if (! ref($item) || is_shared($item) || ! $threads::threads);
+
+    # initialize clone checking hash if needed
+    $cloned = {} unless $cloned;
+
+    # Check for previously cloned references
+    #   (this takes care of circular refs as well)
+    my $addr = refaddr($item);
+    if (exists($cloned->{$addr})) {
+        # Return the already existing clone
+        return $cloned->{$addr};
+    }
+
+    # Make copies of array, hash and scalar refs
+    my $copy;
+    my $ref_type = reftype($item);
+
+    # Copy an array ref
+    if ($ref_type eq 'ARRAY') {
+        # Make empty shared array ref
+        $copy = &share([]);
+        # Add to clone checking hash
+        $cloned->{$addr} = $copy;
+        # Recursively copy and add contents
+        push(@$copy, map { _shared_clone($_, $cloned) } @$item);
+    }
+
+    # Copy a hash ref
+    elsif ($ref_type eq 'HASH') {
+        # Make empty shared hash ref
+        $copy = &share({});
+        # Add to clone checking hash
+        $cloned->{$addr} = $copy;
+        # Recursively copy and add contents
+        foreach my $key (keys(%{$item})) {
+            $copy->{$key} = _shared_clone($item->{$key}, $cloned);
+        }
+    }
+
+    # Copy a scalar ref
+    elsif ($ref_type eq 'SCALAR') {
+        $copy = \do{ my $scalar = $$item; };
+        share($copy);
+        # Add to clone checking hash
+        $cloned->{$addr} = $copy;
+    }
+
+    return $copy;
 }
 
 1;
