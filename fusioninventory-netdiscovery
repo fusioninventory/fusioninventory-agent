@@ -23,7 +23,7 @@ GetOptions(
     'dictionnary=s',
     'community=s',
     'threads=i',
-    'verbose',
+    'debug+',
     'help',
 ) or pod2usage(-verbose => 0);
 
@@ -41,7 +41,7 @@ my $discovery = FusionInventory::Agent::Task::NetDiscovery->new(
         dictionnary => $options->{dictionnary}
     ),
     logger =>  FusionInventory::Agent::Logger->new(
-        debug => $options->{verbose}
+        debug => $options->{debug}
     )
 );
 
