@@ -13,7 +13,6 @@ use constant RUN   => 1;
 use constant STOP  => 2;
 use constant EXIT  => 3;
 
-use Data::Dumper;
 use English qw(-no_match_vars);
 use Net::IP;
 use Scalar::Util qw(refaddr reftype); # _shared_clone
@@ -453,37 +452,44 @@ sub _scanAddress {
 
     if ($device{MAC} || $device{DNSHOSTNAME} || $device{NETBIOSNAME}) {
         $device{IP}     = $params{ip};
-        $logger->debug(
-            "thread $id: device found for $params{ip}\n" . Dumper(\%device)
-        );
+        $logger->debug("thread $id: device found for $params{ip}");
         return \%device;
+    } else {
+        $logger->debug("thread $id: nothing found for $params{ip}");
+        return;
     }
-
-    $logger->debug("thread $id: nothing found for $params{ip}");
-    return;
 }
 
 sub _scanAddressByNmap {
     my ($self, %params) = @_;
 
-    my $id = threads->tid();
-    $self->{logger}->debug2("thread $id: scanning $params{ip} with nmap");
-
     my $device = _parseNmap(
         command => "nmap $params{nmap_parameters} $params{ip} -oX -"
     );
+
+    $self->{logger}->debug2(
+        sprintf "thread %d: scanning %s with nmap: %s",
+        threads->tid(),
+        $params{ip},
+        $device ? 'success' : 'failure'
+    );
+
     return $device ? %$device : ();
 }
 
 sub _scanAddressByNetbios {
     my ($self, %params) = @_;
 
-    my $id = threads->tid();
-    $self->{logger}->debug2("thread $id: scanning $params{ip} with netbios");
-
     my $nb = Net::NBName->new();
 
     my $ns = $nb->node_status($params{ip});
+
+    $self->{logger}->debug2(
+        sprintf "thread %d: scanning %s with netbios: %s",
+        threads->tid(),
+        $params{ip},
+        $ns ? 'success' : 'failure'
+    );
     return unless $ns;
 
     my %device;
@@ -512,14 +518,11 @@ sub _scanAddressByNetbios {
 sub _scanAddressBySNMP {
     my ($self, %params) = @_;
 
-    my $id = threads->tid();
-
     my %device;
     foreach my $credential (@{$params{snmp_credentials}}) {
 
         my $snmp;
         eval {
-	    $self->{logger}->debug2("thread $id: scanning $params{ip} with snmp, using credentials $credential->{ID}");
             $snmp = FusionInventory::Agent::SNMP->new(
                 version      => $credential->{VERSION},
                 hostname     => $params{ip},
@@ -539,6 +542,15 @@ sub _scanAddressBySNMP {
         }
 
         my $description = $snmp->get('1.3.6.1.2.1.1.1.0');
+
+        $self->{logger}->debug2(
+            sprintf "thread %d: scanning %s with snmp credentials %d: %s",
+            threads->tid(),
+            $params{ip},
+            $credential->{ID},
+            $description ? 'success' : 'failure'
+        );
+
         next unless $description;
 
         foreach my $entry (@dispatch_table) {
