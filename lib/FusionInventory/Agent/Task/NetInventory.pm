@@ -827,7 +827,8 @@ sub _shared_clone {
     # 1. Not a ref;
     # 2. Already shared; or
     # 3. Not running 'threads'.
-    return $item if (! ref($item) || is_shared($item) || ! $threads::threads);
+    return $item
+        if (! ref($item) || threads::shared::_id($item) || ! $threads::threads);
 
     # initialize clone checking hash if needed
     $cloned = {} unless $cloned;
