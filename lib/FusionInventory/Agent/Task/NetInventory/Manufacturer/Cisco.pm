@@ -7,11 +7,11 @@ use FusionInventory::Agent::Task::NetInventory::Manufacturer;
 use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::SNMP qw(getLastElement getNextToLastElement);
 
-sub setConnectedDevicesMacAddress {
+sub setConnectedDevicesMacAddresses {
     my (%params) = @_;
 
     # use generic code, with vlan-specific results
-    FusionInventory::Agent::Task::NetInventory::Manufacturer::setConnectedDevicesMacAddress(
+    FusionInventory::Agent::Task::NetInventory::Manufacturer::setConnectedDevicesMacAddresses(
         ports   => $params{ports},
         walks   => $params{walks},
         results => $params{results}->{VLAN}->{$params{vlan_id}}
@@ -79,7 +79,7 @@ This is a class defining some functions specific to Cisco hardware.
 
 =head1 FUNCTIONS
 
-=head2 setConnectedDevicesMacAddress(%params)
+=head2 setConnectedDevicesMacAddresses(%params)
 
 Set mac addresses of connected devices.
 

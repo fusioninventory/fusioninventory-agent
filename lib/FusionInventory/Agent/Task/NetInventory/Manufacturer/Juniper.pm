@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::SNMP qw(getElement getLastElement getNextToLastElement);
 
-sub setConnectedDevicesMacAddress {
+sub setConnectedDevicesMacAddresses {
     my (%params) = @_;
 
     my $results = $params{results};
@@ -128,7 +128,7 @@ This is a class defining some functions specific to Procurve hardware.
 
 =head1 FUNCTIONS
 
-=head2 setConnectedDevicesMacAddress(%params)
+=head2 setConnectedDevicesMacAddresses(%params)
 
 Set mac addresses of connected devices.
 

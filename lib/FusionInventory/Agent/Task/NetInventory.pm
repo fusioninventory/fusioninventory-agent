@@ -760,7 +760,7 @@ sub _setConnectedDevicesMacAddresses {
 
         runFunction(
             module   => $entry->{module},
-            function => 'setConnectedDevicesMacAddress',
+            function => 'setConnectedDevicesMacAddresses',
             params   => {
                 results => $results,
                 ports   => $ports,

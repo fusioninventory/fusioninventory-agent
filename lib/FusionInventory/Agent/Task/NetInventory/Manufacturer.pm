@@ -5,7 +5,7 @@ use warnings;
 
 use FusionInventory::Agent::Tools::Network;
 
-sub setConnectedDevicesMacAddress {
+sub setConnectedDevicesMacAddresses {
     my (%params) = @_;
 
     my $results = $params{results};
@@ -60,7 +60,7 @@ This is the base class defining interface for all manufacturer-specific methods.
 
 =head1 METHODS
 
-=head2 setConnectedDevicesMacAddress($results, $ports, $walks, $vlan_id)
+=head2 setConnectedDevicesMacAddresses($results, $ports, $walks, $vlan_id)
 
 set mac addresses of connected devices.
 
