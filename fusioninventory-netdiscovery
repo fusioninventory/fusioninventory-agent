@@ -141,7 +141,8 @@ sub save {
 
 sub restore {
     return {
-        dictionary => {}
+        dictionary =>
+            FusionInventory::Agent::Task::NetDiscovery::Dictionary->new()
     };
 }
 
