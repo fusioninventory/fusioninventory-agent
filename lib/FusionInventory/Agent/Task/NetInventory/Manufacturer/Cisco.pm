@@ -3,53 +3,19 @@ package FusionInventory::Agent::Task::NetInventory::Manufacturer::Cisco;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Task::NetInventory::Manufacturer;
 use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::SNMP qw(getLastElement getNextToLastElement);
 
 sub setConnectedDevicesMacAddress {
     my (%params) = @_;
 
-    my $results = $params{results};
-    my $ports   = $params{ports};
-    my $walks   = $params{walks};
-    my $vlan_results = $results->{VLAN}->{$params{vlan_id}};
-
-    while (my ($oid, $mac) = each %{$vlan_results->{dot1dTpFdbAddress}}) {
-        $mac = alt2canonical($mac);
-        next unless $mac;
-
-        # get port key
-        my $portKey_part = $oid;
-        $portKey_part =~ s/$walks->{dot1dTpFdbAddress}->{OID}\.//;
-        next unless $portKey_part;
-        my $portKey =
-            $walks->{dot1dTpFdbPort}->{OID} . '.' . $portKey_part;
-
-        # get interface key from port key
-        my $ifKey_part =
-            $vlan_results->{dot1dTpFdbPort}->{$portKey};
-        next unless defined $ifKey_part;
-        my $ifKey =
-            $walks->{dot1dBasePortIfIndex}->{OID} . '.' . $ifKey_part;
-
-        # get interface index
-        my $ifIndex =
-            $vlan_results->{dot1dBasePortIfIndex}->{$ifKey};
-        next unless defined $ifIndex;
-
-        my $port = $ports->{$ifIndex};
-
-        # this device has already been processed through CDP/LLDP
-        next if $port->{CONNECTIONS}->{CDP};
-
-        # this is port own mac address
-        next if $port->{MAC} eq $mac;
-
-        # create a new connection with this mac address
-        push
-            @{$port->{CONNECTIONS}->{CONNECTION}->{MAC}},
-            $mac;
-    }
+    # use generic code, with vlan-specific results
+    FusionInventory::Agent::Task::NetInventory::Manufacturer::setConnectedDevicesMacAddress(
+        ports   => $params{ports},
+        walks   => $params{walks},
+        results => $params{results}->{VLAN}->{$params{vlan_id}}
+    );
 }
 
 sub setTrunkPorts {
