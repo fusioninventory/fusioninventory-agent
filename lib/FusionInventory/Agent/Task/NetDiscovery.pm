@@ -149,12 +149,16 @@ sub run {
 
     $self->{logger}->debug("FusionInventory NetDiscovery task $VERSION");
 
-    $self->{cnx}{user}         = $params{user};
-    $self->{cnx}{password}     = $params{password};
-    $self->{cnx}{proxy}        = $params{proxy};
-    $self->{cnx}{ca_cert_file} = $params{ca_cert_file};
-    $self->{cnx}{ca_cert_dir}  = $params{ca_cert_dir};
-    $self->{cnx}{no_ssl_check} = $params{no_ssl_check};
+    # task-specific client, if needed
+    $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
+        logger       => $self->{logger},
+        user         => $params{user},
+        password     => $params{password},
+        proxy        => $params{proxy},
+        ca_cert_file => $params{ca_cert_file},
+        ca_cert_dir  => $params{ca_cert_dir},
+        no_ssl_check => $params{no_ssl_check},
+    ) if !$self->{client};
 
     my $options     = $self->{options};
     my $pid         = $options->{PARAM}->[0]->{PID};
@@ -417,19 +421,6 @@ sub _scanAddresses {
 
 sub _sendMessage {
     my ($self, $content) = @_;
-
-    # task-specific client
-    if (!$self->{client}) {
-        $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
-            logger       => $self->{logger},
-            user         => $self->{cnx}{user},
-            password     => $self->{cnx}{password},
-            proxy        => $self->{cnx}{proxy},
-            ca_cert_file => $self->{cnx}{ca_cert_file},
-            ca_cert_dir  => $self->{cnx}{ca_cert_dir},
-            no_ssl_check => $self->{cnx}{no_ssl_check},
-        );
-    }
 
     my $message = FusionInventory::Agent::XML::Query->new(
         deviceid => $self->{deviceid},
