@@ -60,14 +60,17 @@ This is the base class defining interface for all manufacturer-specific methods.
 
 =head1 METHODS
 
-=head2 setConnectedDevicesMacAddresses($results, $ports, $walks, $vlan_id)
+=head2 setConnectedDevicesMacAddresses(%params)
 
 set mac addresses of connected devices.
 
-=head2 setTrunkPorts($results, $ports)
+=over
 
-set trunk bit on relevant ports.
+=item results raw values collected through SNMP
 
-=head2 setConnectedDevices($results, $ports, $walks)
+=item ports device ports list
 
-set connected devices, through CDP or LLDP.
+=item walks model walk branch
+
+=back
+
