@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use Test::More;
-use FusionInventory::Agent::Task::NetInventory::Manufacturer::Procurve;
+use FusionInventory::Agent::Task::NetInventory::Manufacturer;
 
 # each item is an arrayref of three elements:
 # - input data structure (ports list)
@@ -93,7 +93,7 @@ my $results = {
 };
 
 foreach my $test (@devices_mac_addresses_tests) {
-    FusionInventory::Agent::Task::NetInventory::Manufacturer::Procurve::setConnectedDevicesMacAddress(
+    FusionInventory::Agent::Task::NetInventory::Manufacturer::setConnectedDevicesMacAddress(
         results => $results, ports => $test->[0], walks => $walks
     );
 

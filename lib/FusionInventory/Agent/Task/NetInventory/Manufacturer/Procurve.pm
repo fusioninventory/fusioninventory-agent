@@ -6,47 +6,6 @@ use warnings;
 use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::SNMP qw(getElement getLastElement getNextToLastElement);
     
-sub setConnectedDevicesMacAddress {
-    my (%params) = @_;
-
-    my $results = $params{results};
-    my $ports   = $params{ports};
-    my $walks   = $params{walks};
-
-    while (my ($oid, $mac) = each %{$results->{dot1dTpFdbAddress}}) {
-        $mac = alt2canonical($mac);
-        next unless $mac;
-
-        # get port key
-        my $portKey_part = $oid;
-        $portKey_part =~ s/$walks->{dot1dTpFdbAddress}->{OID}\.//;
-        next unless $portKey_part;
-        my $portKey = $walks->{dot1dTpFdbPort}->{OID} . '.' . $portKey_part;
-
-        # get interface key from port key
-        my $ifKey_part = $results->{dot1dTpFdbPort}->{$portKey};
-        next unless defined $ifKey_part;
-        my $ifKey = $walks->{dot1dBasePortIfIndex}->{OID} . '.' . $ifKey_part;
-
-        # get interface index
-        my $ifIndex = $results->{dot1dBasePortIfIndex}->{$ifKey};
-        next unless defined $ifIndex;
-
-        my $port = $ports->{$ifIndex};
-
-        # this device has already been processed through CDP/LLDP
-        next if $port->{CONNECTIONS}->{CDP};
-
-        # this is port own mac address
-        next if $port->{MAC} eq $mac;
-
-        # create a new connection with this mac address
-        push
-            @{$port->{CONNECTIONS}->{CONNECTION}->{MAC}},
-            $mac;
-    }
-}
-
 sub setConnectedDevices {
     my (%params) = @_;
 

@@ -735,19 +735,19 @@ sub _setConnectedDevicesMacAddresses {
         },
         {
             match    => qr/3Com/,
-            module   => __PACKAGE__ . '::Manufacturer::3Com',
+            module   => __PACKAGE__ . '::Manufacturer',
         },
         {
             match    => qr/ProCurve/,
-            module   => __PACKAGE__ . '::Manufacturer::Procurve',
+            module   => __PACKAGE__ . '::Manufacturer',
         },
         {
             match    => qr/Nortel/,
-            module   => __PACKAGE__ . '::Manufacturer::Nortel',
+            module   => __PACKAGE__ . '::Manufacturer',
         },
         {
             match    => qr/Allied Telesis/,
-            module   => __PACKAGE__ . '::Manufacturer::AlliedTelesis',
+            module   => __PACKAGE__ . '::Manufacturer',
         },
         {
             match    => qr/Juniper/,
