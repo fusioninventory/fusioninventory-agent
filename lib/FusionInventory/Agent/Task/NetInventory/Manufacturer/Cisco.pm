@@ -5,7 +5,7 @@ use warnings;
 
 use FusionInventory::Agent::Task::NetInventory::Manufacturer;
 use FusionInventory::Agent::Tools::Network;
-use FusionInventory::Agent::SNMP qw(getLastElement getNextToLastElement);
+use FusionInventory::Agent::SNMP qw(getLastElement);
 
 sub setConnectedDevicesMacAddresses {
     my (%params) = @_;

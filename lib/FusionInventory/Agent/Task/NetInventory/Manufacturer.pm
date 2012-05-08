@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools::Network;
-use FusionInventory::Agent::SNMP qw(getElement getLastElement getNextToLastElement);
+use FusionInventory::Agent::SNMP qw(getElement getNextToLastElement);
 
 sub setConnectedDevicesMacAddresses {
     my (%params) = @_;
@@ -69,7 +69,8 @@ sub setConnectedDevicesUsingCDP {
         next if $ip eq '0.0.0.0';
 
         my $port_number =
-            getNextToLastElement($oid) . "." . getLastElement($oid, -1);
+            getElement($oid, -2) . "." .
+            getElement($oid, -1);
 
         $ports->{getNextToLastElement($oid)}->{CONNECTIONS} = {
             CDP        => 1,
@@ -102,7 +103,9 @@ sub setConnectedDevicesUsingLLDP {
     while (my ($oid, $mac) = each %{$results->{lldpRemChassisId}}) {
 
         my $port_number =
-            getElement($oid, -3) . "." . getNextToLastElement($oid) . "." . getLastElement($oid, -1);
+            getElement($oid, -3) . "." .
+            getElement($oid, -2) . "." .
+            getElement($oid, -1);
 
         $ports->{getNextToLastElement($oid)}->{CONNECTIONS} = {
             CDP        => 1,
