@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools::Network;
+use FusionInventory::Agent::SNMP qw(getElement);
 
 sub setTrunkPorts {
     my (%params) = @_;
@@ -13,9 +14,8 @@ sub setTrunkPorts {
 
     my $myports;
 
-    while (my ($oid, $trunkname) = each %{$results->{PortVlanIndex}}) {
-        my @array = split(/\./, $oid);
-        $myports->{$array[-2]}->{$array[-1]} = $trunkname;
+    while (my ($oid, $vlan) = each %{$results->{PortVlanIndex}}) {
+        $myports->{getElement($oid, -2)}->{getElement($oid, -1)} = $vlan;
     }
 
     while (my ($portnumber, $vlans) = each %{$myports}) {
@@ -43,15 +43,14 @@ sub setConnectedDevices {
 
     return unless ref $results->{lldpRemChassisId} eq "HASH";
 
-    while (my ($number, $chassisname) = each %{$results->{lldpRemChassisId}}) {
-        my $short_number = $number;
-        $short_number =~ s/$walks->{lldpRemChassisId}->{OID}//;
+    while (my ($oid, $chassisname) = each %{$results->{lldpRemChassisId}}) {
+        my $suffix = $oid;
+        $suffix =~ s/$walks->{lldpRemChassisId}->{OID}//;
 
-        my @array = split(/\./, $short_number);
         my $connections =
-            $ports->{$array[2]}->{CONNECTIONS};
+            $ports->{getElement($suffix, 2)}->{CONNECTIONS};
 
-        $connections->{CONNECTION}->{IFNUMBER} = $array[3];
+        $connections->{CONNECTION}->{IFNUMBER} = getElement($suffix, 3);
         $connections->{CONNECTION}->{SYSMAC} =
             alt2canonical($chassisname);
         $connections->{CDP} = 1;
