@@ -29,43 +29,6 @@ sub setTrunkPorts {
     }
 }
 
-sub setConnectedDevices {
-    my (%params) = @_;
-
-    my $results  = $params{results};
-    my $ports    = $params{ports};
-    my $walks    = $params{walks};
-
-    return unless ref $results->{cdpCacheAddress} eq 'HASH';
-
-    while (my ($oid, $ip_hex) = each %{$results->{cdpCacheAddress}}) {
-        my $ip = hex2canonical($ip_hex);
-        next if $ip eq '0.0.0.0';
-
-        my $port_number =
-            getNextToLastElement($oid) . "." . getLastElement($oid, -1);
-
-	$ports->{getNextToLastElement($oid)}->{CONNECTIONS} = {
-            CDP        => 1,
-            CONNECTION => {
-                IP      => $ip,
-                IFDESCR => $results->{cdpCacheDevicePort}->{
-                    $walks->{cdpCacheDevicePort}->{OID} . "." .$port_number
-                },
-                SYSDESCR => $results->{cdpCacheVersion}->{
-                    $walks->{cdpCacheVersion}->{OID} . "." .$port_number
-                },
-                SYSNAME  => $results->{cdpCacheDeviceId}->{
-                    $walks->{cdpCacheDeviceId}->{OID} . "." .$port_number
-                },
-                MODEL => $results->{cdpCachePlatform}->{
-                    $walks->{cdpCachePlatform}->{OID} . "." .$port_number
-                }
-            }
-        };
-    }
-}
-
 1;
 __END__
 
@@ -104,19 +67,5 @@ Set trunk bit on relevant ports.
 =item results raw values collected through SNMP
 
 =item ports device ports list
-
-=back
-
-=head2 setConnectedDevices(%params)
-
-Set connected devices, through CDP or LLDP.
-
-=over
-
-=item results raw values collected through SNMP
-
-=item ports device ports list
-
-=item walks model walk branch
 
 =back
