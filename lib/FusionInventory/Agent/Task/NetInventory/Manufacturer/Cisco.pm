@@ -18,17 +18,6 @@ sub setConnectedDevicesMacAddresses {
     );
 }
 
-sub setTrunkPorts {
-    my (%params) = @_;
-
-    my $results = $params{results};
-    my $ports   = $params{ports};
-
-    while (my ($oid, $trunk) = each %{$results->{vlanTrunkPortDynamicStatus}}) {
-        $ports->{getLastElement($oid)}->{TRUNK} = $trunk ? 1 : 0;
-    }
-}
-
 1;
 __END__
 
@@ -55,17 +44,5 @@ Set mac addresses of connected devices.
 =item walks model walk branch
 
 =item vlan_id VLAN identifier
-
-=back
-
-=head2 setTrunkPorts(%params)
-
-Set trunk bit on relevant ports.
-
-=over
-
-=item results raw values collected through SNMP
-
-=item ports device ports list
 
 =back

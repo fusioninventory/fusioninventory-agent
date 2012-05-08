@@ -128,6 +128,16 @@ sub setConnectedDevicesUsingLLDP {
     }
 }
 
+sub setTrunkPorts {
+    my (%params) = @_;
+
+    my $results = $params{results};
+    my $ports   = $params{ports};
+
+    while (my ($oid, $trunk) = each %{$results->{vlanTrunkPortDynamicStatus}}) {
+        $ports->{getLastElement($oid)}->{TRUNK} = $trunk ? 1 : 0;
+    }
+}
 
 1;
 __END__

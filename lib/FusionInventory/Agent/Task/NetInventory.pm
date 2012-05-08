@@ -660,11 +660,11 @@ sub _setTrunkPorts {
     my @dispatch_table = (
         {
             match  => qr/Cisco/,
-            module => __PACKAGE__ . '::Manufacturer::Cisco',
+            module => __PACKAGE__ . '::Manufacturer',
         },
         {
             match  => qr/ProCurve/,
-            module => __PACKAGE__ . '::Manufacturer::Cisco',
+            module => __PACKAGE__ . '::Manufacturer',
         },
         {
             match  => qr/Nortel/,
