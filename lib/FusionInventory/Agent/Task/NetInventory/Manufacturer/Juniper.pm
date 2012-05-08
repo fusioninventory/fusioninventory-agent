@@ -57,11 +57,11 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::NetInventory::Manufacturer::Procurve - Procurve-specific functions
+FusionInventory::Agent::Task::NetInventory::Manufacturer::Juniper - Juniper-specific functions
 
 =head1 DESCRIPTION
 
-This is a class defining some functions specific to Procurve hardware.
+This is a class defining some functions specific to Juniper hardware.
 
 =head1 FUNCTIONS
 
