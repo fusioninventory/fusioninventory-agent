@@ -659,11 +659,7 @@ sub _setTrunkPorts {
 
     my @dispatch_table = (
         {
-            match  => qr/Cisco/,
-            module => __PACKAGE__ . '::Manufacturer',
-        },
-        {
-            match  => qr/ProCurve/,
+            match  => qr/(Cisco|ProCurve)/,
             module => __PACKAGE__ . '::Manufacturer',
         },
         {
@@ -692,21 +688,13 @@ sub _setConnectedDevices {
 
     my @dispatch_table = (
         {
-            match  => qr/Cisco/,
-            module => __PACKAGE__ . '::Manufacturer',
-        },
-        {
-            match  => qr/ProCurve/,
+            match  => qr/(Cisco|ProCurve|Juniper)/,
             module => __PACKAGE__ . '::Manufacturer',
         },
         {
             match  => qr/Nortel/,
             module => __PACKAGE__ . '::Manufacturer::Nortel',
         },
-        {
-            match  => qr/Juniper/,
-            module => __PACKAGE__ . '::Manufacturer',
-        }
     );
 
     foreach my $entry (@dispatch_table) {
@@ -730,24 +718,12 @@ sub _setConnectedDevicesMacAddresses {
 
     my @dispatch_table = (
         {
+            match    => qr/(3Com|ProCurve|Nortel|Allied Telesis)/,
+            module   => __PACKAGE__ . '::Manufacturer',
+        },
+        {
             match    => qr/Cisco/,
             module   => __PACKAGE__ . '::Manufacturer::Cisco',
-        },
-        {
-            match    => qr/3Com/,
-            module   => __PACKAGE__ . '::Manufacturer',
-        },
-        {
-            match    => qr/ProCurve/,
-            module   => __PACKAGE__ . '::Manufacturer',
-        },
-        {
-            match    => qr/Nortel/,
-            module   => __PACKAGE__ . '::Manufacturer',
-        },
-        {
-            match    => qr/Allied Telesis/,
-            module   => __PACKAGE__ . '::Manufacturer',
         },
         {
             match    => qr/Juniper/,
