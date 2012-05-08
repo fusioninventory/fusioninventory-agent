@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Test::More;
+use FusionInventory::Agent::Task::NetInventory::Manufacturer;
 use FusionInventory::Agent::Task::NetInventory::Manufacturer::Cisco;
 
 # each item is an arrayref of three elements:
@@ -150,7 +151,7 @@ my $results = {
 };
 
 foreach my $test (@devices_mac_addresses_tests) {
-    FusionInventory::Agent::Task::NetInventory::Manufacturer::Cisco::setConnectedDevicesMacAddress(
+    FusionInventory::Agent::Task::NetInventory::Manufacturer::Cisco::setConnectedDevicesMacAddresses(
         results => $results, ports => $test->[0], walks => $walks, vlan_id => 1
     );
 
@@ -162,7 +163,7 @@ foreach my $test (@devices_mac_addresses_tests) {
 }
 
 foreach my $test (@devices_tests) {
-    FusionInventory::Agent::Task::NetInventory::Manufacturer::Cisco::setConnectedDevices(
+    FusionInventory::Agent::Task::NetInventory::Manufacturer::setConnectedDevices(
         results => $results, ports => $test->[0], walks => $walks
     );
 

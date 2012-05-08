@@ -93,7 +93,7 @@ my $results = {
 };
 
 foreach my $test (@devices_mac_addresses_tests) {
-    FusionInventory::Agent::Task::NetInventory::Manufacturer::setConnectedDevicesMacAddress(
+    FusionInventory::Agent::Task::NetInventory::Manufacturer::setConnectedDevicesMacAddresses(
         results => $results, ports => $test->[0], walks => $walks
     );
 
