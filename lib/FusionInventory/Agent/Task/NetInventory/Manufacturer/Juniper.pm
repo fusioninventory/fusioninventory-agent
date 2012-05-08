@@ -3,7 +3,6 @@ package FusionInventory::Agent::Task::NetInventory::Manufacturer::Juniper;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::SNMP qw(getElement);
 
 sub setConnectedDevicesMacAddresses {
