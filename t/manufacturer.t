@@ -5,12 +5,35 @@ use warnings;
 
 use Test::More;
 use FusionInventory::Agent::Task::NetInventory::Manufacturer;
+use FusionInventory::Agent::Task::NetInventory::Manufacturer::Cisco;
 
 # each item is an arrayref of three elements:
 # - input data structure (ports list)
 # - expected resulting data structure
 # - test explication
-my @devices_tests = (
+my @trunk_ports_tests = (
+    [
+        {},
+        {
+            0 => {
+                TRUNK => 1
+            },
+            1 => {
+                TRUNK => 0
+            },
+            2 => {
+                TRUNK => 1
+            },
+        },
+        'trunk ports retrieval'
+    ]
+);
+
+# each item is an arrayref of three elements:
+# - input data structure (ports list)
+# - expected resulting data structure
+# - test explication
+my @connected_devices_tests = (
     [
         {},
         {
@@ -35,7 +58,7 @@ my @devices_tests = (
 # - input data structure (ports list)
 # - expected resulting data structure
 # - test explication
-my @devices_mac_addresses_tests = (
+my @connected_devices_mac_addresses_tests = (
     [
         {
             52 => {
@@ -52,7 +75,7 @@ my @devices_mac_addresses_tests = (
                 MAC => 'X',
             }
         },
-        'connected devices mac address retrieval'
+        'connected devices mac addresses retrieval'
     ],
     [
         {
@@ -71,7 +94,7 @@ my @devices_mac_addresses_tests = (
                 MAC => 'X',
             }
         },
-        'connected devices mac address retrieval, connected device found by CDP'
+        'connected devices mac addresses retrieval, CDP exception'
     ],
     [
         {
@@ -86,13 +109,75 @@ my @devices_mac_addresses_tests = (
                 MAC => '00:00:74:D2:09:6A',
             }
         },
-        'connected devices mac address retrieval, same mac address as the port'
+        'connected devices mac addresses retrieval, same address exception'
+    ],
+);
+
+
+# each item is an arrayref of three elements:
+# - input data structure (ports list)
+# - expected resulting data structure
+# - test explication
+my @cisco_connected_devices_mac_addresses_tests = (
+    [
+        {
+            0 => {
+                MAC => 'X',
+            }
+        },
+        {
+            0 => {
+                CONNECTIONS => {
+                    CONNECTION => {
+                        MAC => [ '00:1C:F6:C5:64:19' ]
+                    }
+                },
+                MAC => 'X',
+            }
+        },
+        'connected devices mac addresses retrieval (cisco)'
+    ],
+    [
+        {
+            0 => {
+                CONNECTIONS => {
+                    CDP => 1,
+                },
+                MAC => 'X',
+            }
+        },
+        {
+            0 => {
+                CONNECTIONS => {
+                    CDP => 1,
+                },
+                MAC => 'X',
+            }
+        },
+        'connected devices mac addresses retrieval, CDP exception (cisco)'
+    ],
+    [
+        {
+            0 => {
+                MAC => '00:1C:F6:C5:64:19',
+            }
+        },
+        {
+            0 => {
+                CONNECTIONS => {
+                },
+                MAC => '00:1C:F6:C5:64:19',
+            }
+        },
+        'connected devices mac addresses retrieval, same address exception (cisco)'
     ],
 );
 
 plan tests => 
-    scalar @devices_tests +
-    scalar @devices_mac_addresses_tests;
+    scalar @trunk_ports_tests +
+    scalar @connected_devices_tests +
+    scalar @connected_devices_mac_addresses_tests +
+    scalar @cisco_connected_devices_mac_addresses_tests;
 
 my $walks = {
     cdpCacheDevicePort => {
@@ -119,6 +204,11 @@ my $walks = {
 };
 
 my $results = {
+    vlanTrunkPortDynamicStatus => {
+        '1.2.0' => 1,
+        '1.2.1' => 0,
+        '1.2.2' => 1
+    },
     cdpCacheAddress => {
         '.1.3.6.1.4.1.9.9.23.1.2.1.1.4.24.7' => '0xc0a8148b'
     },
@@ -145,7 +235,35 @@ my $results = {
     }
 };
 
-foreach my $test (@devices_tests) {
+my $cisco_results = {
+    VLAN => {
+        1 => {
+            dot1dTpFdbPort => {
+                '.1.3.6.1.2.1.17.4.3.1.2.0.28.246.197.100.25' => 2307,
+            },
+            dot1dTpFdbAddress => {
+                '.1.3.6.1.2.1.17.4.3.1.1.0.28.246.197.100.25' => '0x001CF6C56419',
+            },
+            dot1dBasePortIfIndex => {
+                '.1.3.6.1.2.17.1.4.1.2.2307' => 0,
+            }
+        }
+    }
+};
+
+foreach my $test (@trunk_ports_tests) {
+    FusionInventory::Agent::Task::NetInventory::Manufacturer::setTrunkPorts(
+        results => $results, ports => $test->[0], walks => $walks
+    );
+
+    is_deeply(
+        $test->[0],
+        $test->[1],
+        $test->[2],
+    );
+}
+
+foreach my $test (@connected_devices_tests) {
     FusionInventory::Agent::Task::NetInventory::Manufacturer::setConnectedDevices(
         results => $results, ports => $test->[0], walks => $walks
     );
@@ -157,9 +275,22 @@ foreach my $test (@devices_tests) {
     );
 }
 
-foreach my $test (@devices_mac_addresses_tests) {
+foreach my $test (@connected_devices_mac_addresses_tests) {
     FusionInventory::Agent::Task::NetInventory::Manufacturer::setConnectedDevicesMacAddresses(
         results => $results, ports => $test->[0], walks => $walks
+    );
+
+    is_deeply(
+        $test->[0],
+        $test->[1],
+        $test->[2],
+    );
+}
+
+
+foreach my $test (@cisco_connected_devices_mac_addresses_tests) {
+    FusionInventory::Agent::Task::NetInventory::Manufacturer::Cisco::setConnectedDevicesMacAddresses(
+        results => $cisco_results, ports => $test->[0], walks => $walks, vlan_id => 1
     );
 
     is_deeply(
