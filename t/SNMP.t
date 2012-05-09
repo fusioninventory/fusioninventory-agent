@@ -23,7 +23,7 @@ FusionInventory::Agent::SNMP->import(qw(
     getNextToLastElement
 ));
 
-plan tests => 14;
+plan tests => 15;
 
 my $snmp;
 throws_ok {
@@ -107,4 +107,9 @@ is_deeply(
     [ getElements($oid, 0, 3) ],
     [ qw/0 1 2 3/ ],
     'getElements with index 0 to 3'
+);
+is_deeply(
+    [ getElements($oid, -4, -1) ],
+    [ qw/6 7 8 9/ ],
+    'getElements with index -4 to -1'
 );
