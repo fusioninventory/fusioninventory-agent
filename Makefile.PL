@@ -35,7 +35,8 @@ requires 'threads'                      => undef;
 requires 'Net::IP'                      => undef;
 requires 'Net::SNMP'                    => undef;
 requires 'XML::TreePP'                  => '0.26';
-requires 'FusionInventory::Agent::SNMP' => undef;
+requires 'FusionInventory::Agent::SNMP'    => '1.1';
+requires 'FusionInventory::Agent::Threads' => undef;
 
 install_script 'fusioninventory-netinventory';
 
