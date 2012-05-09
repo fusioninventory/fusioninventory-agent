@@ -3,7 +3,7 @@ package FusionInventory::Agent::Task::NetInventory::Manufacturer::Juniper;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::SNMP qw(getElement);
+use FusionInventory::Agent::SNMP qw(getElements);
 
 sub setConnectedDevicesMacAddresses {
     my (%params) = @_;
@@ -14,15 +14,7 @@ sub setConnectedDevicesMacAddresses {
 
     while (my ($oid, $suffix) = each %{$results->{dot1dTpFdbAddress}}) {
         my $mac =
-            sprintf(
-                "%02x:%02x:%02x:%02x:%02x:%02x",
-                getElement($oid, -6),
-                getElement($oid, -5),
-                getElement($oid, -4),
-                getElement($oid, -3),
-                getElement($oid, -2),
-                getElement($oid, -1)
-            );
+            sprintf "%02x:%02x:%02x:%02x:%02x:%02x", getElements($oid, -6, -1);
         next unless $mac;
 
         # get port key
