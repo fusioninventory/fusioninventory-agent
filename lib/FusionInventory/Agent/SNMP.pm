@@ -11,6 +11,8 @@ use Net::SNMP;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 
+our $VERSION = '1.1';
+
 our @EXPORT_OK = qw(
     getSanitizedSerialNumber
     getSanitizedMacAddress
