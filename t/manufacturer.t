@@ -3,7 +3,10 @@
 use strict;
 use warnings;
 
+use Clone qw(clone);
 use Test::More;
+
+use FusionInventory::Agent::Task::NetInventory;
 use FusionInventory::Agent::Task::NetInventory::Manufacturer;
 use FusionInventory::Agent::Task::NetInventory::Manufacturer::Cisco;
 
@@ -25,7 +28,7 @@ my @trunk_ports_tests = (
                 TRUNK => 1
             },
         },
-        'trunk ports retrieval'
+        'trunk ports'
     ]
 );
 
@@ -50,7 +53,7 @@ my @connected_devices_tests = (
                 },
             },
         },
-        'connected devices list retrieval'
+        'connected devices'
     ],
 );
 
@@ -75,7 +78,7 @@ my @connected_devices_mac_addresses_tests = (
                 MAC => 'X',
             }
         },
-        'connected devices mac addresses retrieval'
+        'mac addresses'
     ],
     [
         {
@@ -94,7 +97,7 @@ my @connected_devices_mac_addresses_tests = (
                 MAC => 'X',
             }
         },
-        'connected devices mac addresses retrieval, CDP exception'
+        'mac addresses, CDP exception'
     ],
     [
         {
@@ -109,7 +112,7 @@ my @connected_devices_mac_addresses_tests = (
                 MAC => '00:00:74:D2:09:6A',
             }
         },
-        'connected devices mac addresses retrieval, same address exception'
+        'mac addresses, same address exception'
     ],
 );
 
@@ -135,7 +138,7 @@ my @cisco_connected_devices_mac_addresses_tests = (
                 MAC => 'X',
             }
         },
-        'connected devices mac addresses retrieval (cisco)'
+        'mac addresses, cisco'
     ],
     [
         {
@@ -154,7 +157,7 @@ my @cisco_connected_devices_mac_addresses_tests = (
                 MAC => 'X',
             }
         },
-        'connected devices mac addresses retrieval, CDP exception (cisco)'
+        'mac addresses, CDP exception, cisco'
     ],
     [
         {
@@ -169,15 +172,15 @@ my @cisco_connected_devices_mac_addresses_tests = (
                 MAC => '00:1C:F6:C5:64:19',
             }
         },
-        'connected devices mac addresses retrieval, same address exception (cisco)'
+        'mac addresses, same address exception, cisco'
     ],
 );
 
 plan tests => 
-    scalar @trunk_ports_tests +
-    scalar @connected_devices_tests +
-    scalar @connected_devices_mac_addresses_tests +
-    scalar @cisco_connected_devices_mac_addresses_tests;
+    scalar @trunk_ports_tests * 2 +
+    scalar @connected_devices_tests * 2 +
+    scalar @connected_devices_mac_addresses_tests * 2 +
+    scalar @cisco_connected_devices_mac_addresses_tests * 2;
 
 my $walks = {
     cdpCacheDevicePort => {
@@ -251,51 +254,116 @@ my $cisco_results = {
     }
 };
 
+# direct tests
 foreach my $test (@trunk_ports_tests) {
+    my $ports = clone($test->[0]);
     FusionInventory::Agent::Task::NetInventory::Manufacturer::setTrunkPorts(
-        results => $results, ports => $test->[0], walks => $walks
+        results => $results, ports => $ports, walks => $walks
     );
 
     is_deeply(
-        $test->[0],
+        $ports,
         $test->[1],
-        $test->[2],
+        $test->[2] . ' (direct)',
     );
 }
 
 foreach my $test (@connected_devices_tests) {
+    my $ports = clone($test->[0]);
+
     FusionInventory::Agent::Task::NetInventory::Manufacturer::setConnectedDevices(
-        results => $results, ports => $test->[0], walks => $walks
+        results => $results, ports => $ports, walks => $walks
     );
 
     is_deeply(
-        $test->[0],
+        $ports,
         $test->[1],
-        $test->[2],
+        $test->[2] . ' (direct)',
     );
 }
 
 foreach my $test (@connected_devices_mac_addresses_tests) {
+    my $ports = clone($test->[0]);
+
     FusionInventory::Agent::Task::NetInventory::Manufacturer::setConnectedDevicesMacAddresses(
-        results => $results, ports => $test->[0], walks => $walks
+        results => $results, ports => $ports, walks => $walks
     );
 
     is_deeply(
-        $test->[0],
+        $ports,
         $test->[1],
-        $test->[2],
+        $test->[2] . ' (direct)',
     );
 }
-
 
 foreach my $test (@cisco_connected_devices_mac_addresses_tests) {
+    my $ports = clone($test->[0]);
+
     FusionInventory::Agent::Task::NetInventory::Manufacturer::Cisco::setConnectedDevicesMacAddresses(
-        results => $cisco_results, ports => $test->[0], walks => $walks, vlan_id => 1
+        results => $cisco_results, ports => $ports, walks => $walks, vlan_id => 1
     );
 
     is_deeply(
-        $test->[0],
+        $ports,
         $test->[1],
-        $test->[2],
+        $test->[2] . ' (direct)',
     );
 }
+
+# indirect tests
+foreach my $test (@trunk_ports_tests) {
+    my $ports = clone($test->[0]);
+
+    FusionInventory::Agent::Task::NetInventory::_setTrunkPorts(
+        'Cisco', $results, $ports
+    );
+
+    is_deeply(
+        $ports,
+        $test->[1],
+        $test->[2] . ' (indirect)',
+    );
+}
+
+foreach my $test (@connected_devices_tests) {
+    my $ports = clone($test->[0]);
+
+    FusionInventory::Agent::Task::NetInventory::_setConnectedDevices(
+        'Cisco', $results, $ports, $walks
+    );
+
+    is_deeply(
+        $ports,
+        $test->[1],
+        $test->[2] . ' (indirect)',
+    );
+}
+
+foreach my $test (@connected_devices_mac_addresses_tests) {
+    my $ports = clone($test->[0]);
+
+    FusionInventory::Agent::Task::NetInventory::_setConnectedDevicesMacAddresses(
+        'ProCurve', $results, $ports, $walks
+    );
+
+    is_deeply(
+        $ports,
+        $test->[1],
+        $test->[2] . ' (indirect)',
+    );
+}
+
+foreach my $test (@cisco_connected_devices_mac_addresses_tests) {
+    my $ports = clone($test->[0]);
+
+    FusionInventory::Agent::Task::NetInventory::_setConnectedDevicesMacAddresses(
+        'Cisco', $cisco_results, $ports, $walks, 1
+    );
+
+    is_deeply(
+        $ports,
+        $test->[1],
+        $test->[2] . ' (indirect)',
+    );
+}
+
