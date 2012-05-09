@@ -6,7 +6,7 @@ Description
 This task allows the agent to perform software installation on its host.
 
 If the P2P option is turned on, the agent will looks for peer in its
-network. The network size will be limited at 255 machines.
+network. The network range size will be limited at 255 machines.
 
 Dependencies
 ------------
@@ -15,7 +15,7 @@ only be executed with a GLPI server with FusionInventory plugin.
 
 Authors 
 -------
-* Gonéri Le Bouder <goneri@rulezlan.org>>
+* Gonéri Le Bouder <goneri@rulezlan.org>
 
 Copyright (C) 2011 FusionInventory project
 Copyright (C) 2011 TECLIB' ( http://www.teclib.com )
