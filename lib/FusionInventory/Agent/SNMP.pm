@@ -17,6 +17,7 @@ our @EXPORT_OK = qw(
     getSanitizedSerialNumber
     getSanitizedMacAddress
     getElement
+    getElements
     getLastElement
     getNextToLastElement
 );
@@ -213,6 +214,13 @@ sub getNextToLastElement {
     return getElement($oid, -2);
 }
 
+sub getElements {
+    my ($oid, $first, $last) = @_;
+
+    my @array = split(/\./, $oid);
+    return @array[$first .. $last];
+}
+
 1;
 __END__
 
@@ -311,3 +319,7 @@ return the last element of an oid.
 =head2 getNextToLastElement($oid)
 
 return the next to last element of an oid.
+
+=head2 getElements($oid, $first, $last)
+
+return all elements of index in range $first to $last of an oid.
