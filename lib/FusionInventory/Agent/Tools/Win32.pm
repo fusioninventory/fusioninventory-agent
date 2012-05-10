@@ -53,7 +53,7 @@ sub getLocalCodepage {
         $localCodepage =
             "cp" .
             getRegistryValue(
-                path => "SYSTEM\CurrentControlSet\Control\Nls\CodePage\ACP"
+                path => 'SYSTEM\CurrentControlSet\Control\Nls\CodePage\ACP'
             );
     }
 
