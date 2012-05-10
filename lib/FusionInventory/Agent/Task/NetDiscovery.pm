@@ -269,11 +269,11 @@ sub run {
 
             # send results to the server
             while (my $result = do { lock @results; shift @results; }) {
+                $result->{ENTITY} = $range->{ENTITY} if $range->{ENTITY};
                 my $data = {
                     DEVICE        => [$result],
                     MODULEVERSION => $VERSION,
                     PROCESSNUMBER => $pid,
-                    ENTITY        => $range->{ENTITY}
                 };
                 $self->_sendMessage($data);
             }
