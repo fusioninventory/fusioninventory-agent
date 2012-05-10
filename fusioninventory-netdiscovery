@@ -22,6 +22,7 @@ GetOptions(
     'last=s',
     'dictionnary=s',
     'community=s',
+    'entity=s',
     'threads=i',
     'debug+',
     'help',
@@ -72,6 +73,9 @@ if ($options->{dictionnary}) {
     die "no such file $options->{dictionnary}"
         unless -f $options->{dictionnary};
     $discovery->{options}->{DICO} = getDictionnary($options->{dictionnary});
+}
+if ($options->{entity}) {
+    $discovery->{options}->{RANGEIP}->[0]->{ENTITY} = $options->{entity};
 }
 $discovery->{client} =
     FusionInventory::Agent::Task::NetInventory::Client->new();
