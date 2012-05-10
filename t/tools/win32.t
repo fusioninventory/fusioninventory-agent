@@ -3,10 +3,17 @@
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 use Test::More;
 
 use FusionInventory::Agent::Tools::Win32;
 
+if ($OSNAME ne 'MSWin32') {
+    plan skip_all => 'depend on Win32';
+} else {
+    plan 5;
+}
 my ($code, $fd) = runCommand(command => "perl -V");
 ok($code eq 0, "perl -V returns 0");
 my $seemOk;
