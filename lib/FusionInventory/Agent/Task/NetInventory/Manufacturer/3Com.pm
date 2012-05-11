@@ -5,47 +5,6 @@ use warnings;
 
 use FusionInventory::Agent::Tools::Network;
 
-sub setConnectedDevicesMacAddress {
-    my (%params) = @_;
-
-    my $results = $params{results};
-    my $ports   = $params{ports};
-    my $walks   = $params{walks};
-
-    while (my ($oid, $mac) = each %{$results->{dot1dTpFdbAddress}}) {
-        next unless $mac;
-
-        my $suffix = $oid;
-        $suffix =~ s/$walks->{dot1dTpFdbAddress}->{OID}//;
-        my $dot1dTpFdbPort = $walks->{dot1dTpFdbPort}->{OID};
-
-        my $portKey = $dot1dTpFdbPort . $suffix;
-        my $ifKey_part = $results->{dot1dTpFdbPort}->{$portKey};
-        next unless defined $ifKey_part;
-
-        my $ifIndex =
-            $results->{dot1dBasePortIfIndex}->{
-                $walks->{dot1dBasePortIfIndex}->{OID} . '.' .  $ifKey_part
-            };
-        next unless defined $ifIndex;
-
-        my $port = $ports->{$ifIndex};
-
-        $mac = alt2canonical($mac);
-
-        # This mac is empty
-        next unless $mac;
-
-        # this is port own mac address
-        next if $port->{MAC} && $port->{MAC} eq $mac;
-
-        # create a new connection with this mac address
-        push
-            @{$port->{CONNECTIONS}->{CONNECTION}->{MAC}},
-            $mac;
-    }
-}
-
 # In Intellijack 225, put mac address of port 'IntelliJack Ethernet Adapter' in port 'LAN Port'
 sub RewritePortOf225 {
     my (%params) = @_;
@@ -69,20 +28,6 @@ FusionInventory::Agent::Task::NetInventory::Manufacturer::3Com - 3Com-specific f
 This is a class defining some functions specific to 3Com hardware.
 
 =head1 FUNCTIONS
-
-=head2 setConnectedDevicesMacAddress(%params)
-
-Set mac addresses of connected devices.
-
-=over
-
-=item results raw values collected through SNMP
-
-=item ports device ports list
-
-=item walks model walk branch
-
-=back
 
 =head2 RewritePortOf225(%params)
 

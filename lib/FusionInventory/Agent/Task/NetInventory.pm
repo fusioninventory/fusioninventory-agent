@@ -19,6 +19,11 @@ use FusionInventory::Agent::XML::Query;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 
+# needed for perl < 5.10.1 compatbility
+if ($threads::shared::VERSION < 1.21) {
+    FusionInventory::Agent::Threads->use();
+}
+
 our $VERSION = '2.2.0';
 
 # list of devices properties, indexed by XML element name
@@ -130,12 +135,16 @@ sub run {
 
     $self->{logger}->debug("FusionInventory NetInventory task $VERSION");
 
-    $self->{cnx}{user}         = $params{user};
-    $self->{cnx}{password}     = $params{password};
-    $self->{cnx}{proxy}        = $params{proxy};
-    $self->{cnx}{ca_cert_file} = $params{ca_cert_file};
-    $self->{cnx}{ca_cert_dir}  = $params{ca_cert_dir};
-    $self->{cnx}{no_ssl_check} = $params{no_ssl_check};
+    # task-specific client, if needed
+    $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
+        logger       => $self->{logger},
+        user         => $params{user},
+        password     => $params{password},
+        proxy        => $params{proxy},
+        ca_cert_file => $params{ca_cert_file},
+        ca_cert_dir  => $params{ca_cert_dir},
+        no_ssl_check => $params{no_ssl_check},
+    ) if !$self->{client};
 
     my $options     = $self->{options};
     my $pid         = $options->{PARAM}->[0]->{PID};
@@ -216,18 +225,6 @@ sub run {
 sub _sendMessage {
     my ($self, $content) = @_;
 
-    # task-specific client
-    if (!$self->{client}) {
-        $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
-            logger       => $self->{logger},
-            user         => $self->{cnx}{user},
-            password     => $self->{cnx}{password},
-            proxy        => $self->{cnx}{proxy},
-            ca_cert_file => $self->{cnx}{ca_cert_file},
-            ca_cert_dir  => $self->{cnx}{ca_cert_dir},
-            no_ssl_check => $self->{cnx}{no_ssl_check},
-        );
-    }
 
    my $message = FusionInventory::Agent::XML::Query->new(
        deviceid => $self->{deviceid},
@@ -666,12 +663,8 @@ sub _setTrunkPorts {
 
     my @dispatch_table = (
         {
-            match  => qr/Cisco/,
-            module => __PACKAGE__ . '::Manufacturer::Cisco',
-        },
-        {
-            match  => qr/ProCurve/,
-            module => __PACKAGE__ . '::Manufacturer::Cisco',
+            match  => qr/(Cisco|ProCurve)/,
+            module => __PACKAGE__ . '::Manufacturer',
         },
         {
             match  => qr/Nortel/,
@@ -699,21 +692,13 @@ sub _setConnectedDevices {
 
     my @dispatch_table = (
         {
-            match  => qr/Cisco/,
-            module => __PACKAGE__ . '::Manufacturer::Cisco',
-        },
-        {
-            match  => qr/ProCurve/,
-            module => __PACKAGE__ . '::Manufacturer::Procurve',
+            match  => qr/(Cisco|ProCurve|Juniper)/,
+            module => __PACKAGE__ . '::Manufacturer',
         },
         {
             match  => qr/Nortel/,
             module => __PACKAGE__ . '::Manufacturer::Nortel',
         },
-        {
-            match  => qr/Juniper/,
-            module => __PACKAGE__ . '::Manufacturer::Juniper',
-        }
     );
 
     foreach my $entry (@dispatch_table) {
@@ -737,24 +722,12 @@ sub _setConnectedDevicesMacAddresses {
 
     my @dispatch_table = (
         {
+            match    => qr/(3Com|ProCurve|Nortel|Allied Telesis)/,
+            module   => __PACKAGE__ . '::Manufacturer',
+        },
+        {
             match    => qr/Cisco/,
             module   => __PACKAGE__ . '::Manufacturer::Cisco',
-        },
-        {
-            match    => qr/3Com/,
-            module   => __PACKAGE__ . '::Manufacturer::3Com',
-        },
-        {
-            match    => qr/ProCurve/,
-            module   => __PACKAGE__ . '::Manufacturer::Procurve',
-        },
-        {
-            match    => qr/Nortel/,
-            module   => __PACKAGE__ . '::Manufacturer::Nortel',
-        },
-        {
-            match    => qr/Allied Telesis/,
-            module   => __PACKAGE__ . '::Manufacturer::AlliedTelesis',
         },
         {
             match    => qr/Juniper/,
@@ -767,7 +740,7 @@ sub _setConnectedDevicesMacAddresses {
 
         runFunction(
             module   => $entry->{module},
-            function => 'setConnectedDevicesMacAddress',
+            function => 'setConnectedDevicesMacAddresses',
             params   => {
                 results => $results,
                 ports   => $ports,

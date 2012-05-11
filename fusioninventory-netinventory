@@ -21,7 +21,7 @@ GetOptions(
     'model=s',
     'host=s',
     'community=s',
-    'verbose',
+    'debug+',
     'help',
 ) or pod2usage(-verbose => 0);
 
@@ -46,7 +46,7 @@ my $type =
 my $inventory = FusionInventory::Agent::Task::NetInventory->new(
     target => FusionInventory::Agent::Task::NetInventory::Target->new(),
     logger =>  FusionInventory::Agent::Logger->new(
-        debug => $options->{verbose}
+        debug => $options->{debug}
     )
 );
 
