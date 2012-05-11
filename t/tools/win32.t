@@ -7,6 +7,11 @@ use English qw(-no_match_vars);
 
 use Test::More;
 
+BEGIN {
+    # use mock modules for non-available ones
+    push @INC, 't/fake/windows' if $OSNAME ne 'MSWin32';
+}
+
 use FusionInventory::Agent::Tools::Win32;
 
 if ($OSNAME ne 'MSWin32') {
