@@ -611,7 +611,7 @@ sub _setNetworkingProperties {
 
     _setConnectedDevices($comments, $results, $ports, $walks);
 
-    # check if vlan-specific queries are is needed
+    # check if vlan-specific queries are needed
     my $vlan_query =
         any { $_->{VLAN} }
         values %{$walks};
