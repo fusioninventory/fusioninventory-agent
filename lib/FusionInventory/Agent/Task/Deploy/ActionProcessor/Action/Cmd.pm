@@ -3,6 +3,9 @@ package FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Cmd;
 use strict;
 use warnings;
 
+use Fcntl qw(SEEK_END);
+use UNIVERSAL::require;
+
 use English qw(-no_match_vars);
 
 sub _evaluateRet {
@@ -45,6 +48,45 @@ sub _evaluateRet {
     return [ 0, '' ];
 }
 
+sub runOnUnix {
+    my ($params, $logger) = @_;
+
+    my $buf = `$params->{exec} 2>&1` || '';
+    my $errMsg = $ERRNO;
+    $logger->debug("Run: ".$buf);
+    my $exitStatus = $CHILD_ERROR >> 8;
+    $logger->debug("exitStatus: ".$exitStatus);
+
+    return ($buf, $errMsg, $exitStatus);
+}
+
+sub runOnWindows {
+    my ($params, $logger) = @_;
+
+    FusionInventory::Agent::Tools::Win32->require;  
+
+    my ($exitcode, $fd) = FusionInventory::Agent::Tools::Win32::runCommand(
+        command => $params->{exec}
+    );
+ 
+    
+    $fd->seek(-2000, SEEK_END);
+
+    my $buf;
+    while(my $line = readline($fd)) {
+        $buf .= $line;
+    }
+
+    my $errMsg;
+    if ($exitcode eq '293') {
+        $errMsg = "timeout";
+    }
+
+ 
+    return ($buf, $errMsg, $exitcode);
+}
+
+
 sub do {
     my ($params, $logger) = @_;
     return { 0, ["Internal agent error"]} unless $params->{exec};
@@ -59,11 +101,16 @@ sub do {
         }
     }
 
-    my $buf = `$params->{exec} 2>&1` || '';
-    my $errMsg = $ERRNO;
-    $logger->debug("Run: ".$buf);
-    my $exitStatus = $CHILD_ERROR >> 8;
-    $logger->debug("exitStatus: ".$exitStatus);;
+    my $buf;
+    my $errMsg;
+    my $exitStatus;
+
+
+    if ($OSNAME eq 'MSWin32') { 
+        ($buf, $errMsg, $exitStatus) = runOnWindows(@_);
+    } else {
+        ($buf, $errMsg, $exitStatus) = runOnUnix(@_);
+    }
 
     my $logLineLimit =  $params->{logLineLimit} || 10;
 
