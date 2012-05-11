@@ -8,6 +8,7 @@ use English qw(-no_match_vars);
 use File::Path qw(mkpath);
 use UNIVERSAL::require;
 use FusionInventory::Agent::Tools;
+use Encode;
 
 sub new {
     my ($class, %params) = @_;
@@ -41,7 +42,25 @@ sub prepare {
     my $logger = $self->{logger};
 
     foreach my $file (@{$self->{files}}) {
-        my $finalFilePath = $self->{path}.'/'.$file->{name};
+        $file->{name_local} = $file->{name};
+
+        if ($OSNAME eq 'MSWin32') {
+            FusionInventory::Agent::Tools::Win32->require;
+            my $localCodepage = FusionInventory::Agent::Tools::Win32::getLocalCodepage();
+            if (Encode::is_utf8($file->{name})) {
+                $file->{name_local} = encode($localCodepage, $file->{name});
+            }
+        }
+
+        # If the file will be extracted, we simplify its name to avoid problem during
+        # the extraction process
+        if ($file->{uncompress}) {
+            my $shortsha512 = substr($file->{sha512}, 0, 6);
+            $file->{name_local} =~ s/.*\.(tar\.gz|tar|gz|7z|bz2)/$shortsha512.$1/i
+        }
+
+
+        my $finalFilePath = $self->{path}.'/'.$file->{name_local};
 
         my $fh;
         if (!open($fh, '>', $finalFilePath)) {
@@ -79,7 +98,7 @@ sub prepare {
 
 
     foreach my $file (@{$self->{files}}) {
-        my $finalFilePath = $self->{path}.'/'.$file->{name};
+        my $finalFilePath = $self->{path}.'/'.$file->{name_local};
 
         if ($file->{uncompress}) {
             if(canRun('7z')) {
