@@ -41,7 +41,6 @@ our @EXPORT = qw(
 );
 
 sub is64bit {
-
     return
         any { $_->{AddressWidth} eq 64 } 
         getWmiObjects(
@@ -51,19 +50,14 @@ sub is64bit {
 
 sub getLocalCodepage {
     if (!$localCodepage) {
-        my $lmachine = $Registry->Open('LMachine', {
-            Access => KEY_READ
-        }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
-
-        my $codepage =
-            $lmachine->{"SYSTEM\\CurrentControlSet\\Control\\Nls\\CodePage"}
-            or warn;
-
-            $localCodepage = "cp".$codepage->{ACP};
+        $localCodepage =
+            "cp" .
+            getRegistryValue(
+                path => "SYSTEM\CurrentControlSet\Control\Nls\CodePage\ACP"
+            );
     }
 
     return $localCodepage;
-
 }
 
 sub encodeFromRegistry {
@@ -102,7 +96,7 @@ sub getRegistryValue {
     my (%params) = @_;
 
     my ($root, $keyName, $valueName);
-    if ($params{path} =~ /^(HKEY_[^\/\\]+)[\/\\](.+)[\/\\]([^\/]+)/ ) {
+    if ($params{path} =~ m{^(HKEY_\S+)/(.+)/([^/]+)} ) {
         $root      = $1;
         $keyName   = $2;
         $valueName = $3;
@@ -125,7 +119,7 @@ sub getRegistryKey {
     my (%params) = @_;
 
     my ($root, $keyName);
-    if ($params{path} =~ /^(HKEY_\S+)\/(.+)/ ) {
+    if ($params{path} =~ m{^(HKEY_\S+)/(.+)} ) {
         $root      = $1;
         $keyName   = $2;
     } else {

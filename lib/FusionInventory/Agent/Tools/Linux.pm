@@ -16,7 +16,7 @@ our @EXPORT = qw(
     getDevicesFromHal
     getDevicesFromProc
     getCPUsFromProc
-    getSerialnumber
+    getInfoFromSmartctl
     getInterfacesFromIfconfig
     getInterfacesFromIp
 );
@@ -29,8 +29,11 @@ sub getDevicesFromUdev {
     my @devices;
 
     foreach my $file (glob ("/dev/.udev/db/*")) {
-        next unless $file =~ /([sh]d[a-z])$/;
-        my $device = $1;
+        my $device = getFirstMatch(
+            file    => $file,
+            pattern => qr/^N:(\S+)/
+        );
+        next unless $device =~ /([hsv]d[a-z]|sr\d+)$/;
         push (@devices, _parseUdevEntry(
                 logger => $params{logger}, file => $file, device => $device
             ));
@@ -240,17 +243,39 @@ sub _getValueFromSysProc {
     return $value;
 }
 
-sub getSerialnumber {
+sub getInfoFromSmartctl {
     my (%params) = @_;
 
-    my ($serial) = getFirstMatch(
+    my $handle = getFileHandle(
+        %params,
         command => $params{device} ? "smartctl -i $params{device}" : undef,
-        file    => $params{file},
-        logger  => $params{logger},
-        pattern => qr/^Serial Number:\s+(\S*)/
     );
+    return unless $handle;
 
-    return $serial;
+    my $info = {
+        TYPE        => 'disk',
+        DESCRIPTION => 'SATA',
+    };
+
+    while (my $line = <$handle>) {
+        if ($line =~ /^Transport protocol: +(\S+)/i) {
+            $info->{DESCRIPTION} = $1;
+            next;
+        }
+
+        if ($line =~ /^Device type: +(\S+)/i) {
+            $info->{TYPE} = $1;
+            next;
+        }
+
+        if ($line =~ /^Serial number: +(\S+)/i) {
+            $info->{SERIALNUMBER} = $1;
+            next;
+        }
+    }
+    close $handle;
+
+    return $info;
 }
 
 sub getInterfacesFromIfconfig {
@@ -437,9 +462,9 @@ Availables parameters:
 
 =back
 
-=head2 getSerialnumber(%params)
+=head2 getInfoFromSmartctl(%params)
 
-Returns the serial number of a drive, using smartctl.
+Returns some informations about a drive, using smartctl.
 
 Availables parameters:
 
