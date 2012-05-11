@@ -35,7 +35,7 @@ sub getHostname {
 
     # GetComputerNameExW returns the string in UTF16, we have to change it
     # to UTF8
-    return encode("UTF-8", substr(decode("UCS-2le", $buffer), 0, ord $n));
+    return substr(decode("UCS-2le", $buffer), 0, ord $n);
 }
 
 1;
