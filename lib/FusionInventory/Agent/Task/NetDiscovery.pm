@@ -387,13 +387,7 @@ sub _scanAddresses {
         # run: process available addresses until exhaustion
         $logger->debug("Thread $id switched to RUN state");
 
-        INNER: while (1) {
-            my $address;
-            {
-                lock $addresses;
-                $address = shift @{$addresses};
-            }
-            last INNER unless $address;
+        while (my $address = do { lock @{$addresses}; shift @{$addresses}; }) {
 
             my $result = $self->_scanAddress(
                 ip               => $address,
