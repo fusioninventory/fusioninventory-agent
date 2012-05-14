@@ -51,6 +51,20 @@ sub doInventory {
                 datas => \%password_data
                 );
 
+	    my @info_line = split (/,/,$splitted_line[4]);
+
+            my %personnal_info = (
+                FULLNAME => $info_line[0],
+                ADDRESS => $info_line[1],
+                PHONE => $info_line[2],
+                OTHER => $info_line[3]
+                );
+
+
+            my $info = treat_datas(
+                datas => \%personnal_info
+                );
+
             my %user_data= (
                 NAME                => $splitted_line[0],
                 UID                 => $splitted_line[2],
@@ -59,7 +73,7 @@ sub doInventory {
                 HOMEDIR             => $splitted_line[5],
                 COMMAND_INTERPRETER => $splitted_line[6],
                 EXPIRATION_DATE     => $shadow_line[7],
-                REALNAME            => $splitted_line[4]
+                INFORMATION         => $info
                 );
 
             my $user = treat_datas(
