@@ -254,14 +254,7 @@ sub _queryDevices {
     # run: process available addresses until exhaustion
     $logger->debug("Thread $id switched to RUN state");
 
-    RUN: while (1) {
-
-        my $device;
-        {
-            lock $devices;
-            $device = pop @{$devices};
-        }
-        last RUN unless $device;
+    while (my $device = do { lock @{$devices}; pop @{$devices}; }) {
 
         my $result = $self->_queryDevice(
             device      => $device,
