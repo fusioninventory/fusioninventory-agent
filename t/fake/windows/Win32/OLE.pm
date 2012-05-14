@@ -3,6 +3,8 @@ package Win32::OLE;
 use strict;
 use warnings;
 
+use constant CP_UTF8 => 0;
+
 $INC{'Win32/OLE/Const.pm'} = 1;
 $INC{'Win32/OLE/Enum.pm'} = 1;
 $INC{'Win32/OLE/Variant.pm'} = 1;

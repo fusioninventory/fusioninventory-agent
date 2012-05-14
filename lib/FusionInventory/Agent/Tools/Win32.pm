@@ -18,6 +18,10 @@ use Win32::TieRegistry (
     qw/KEY_READ/
 );
 
+use File::Temp (); 
+use File::Temp qw/ :seekable /;
+use Win32::Job;
+
 Win32::OLE->Option(CP => Win32::OLE::CP_UTF8);
 
 use FusionInventory::Agent::Tools;
@@ -33,10 +37,10 @@ our @EXPORT = qw(
     getRegistryKey
     getWmiObjects
     getLocalCodepage
+    runCommand
 );
 
 sub is64bit {
-
     return
         any { $_->{AddressWidth} eq 64 } 
         getWmiObjects(
@@ -46,19 +50,14 @@ sub is64bit {
 
 sub getLocalCodepage {
     if (!$localCodepage) {
-        my $lmachine = $Registry->Open('LMachine', {
-            Access => KEY_READ
-        }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
-
-        my $codepage =
-            $lmachine->{"SYSTEM\\CurrentControlSet\\Control\\Nls\\CodePage"}
-            or warn;
-
-            $localCodepage = "cp".$codepage->{ACP};
+        $localCodepage =
+            "cp" .
+            getRegistryValue(
+                path => 'HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Control/Nls/CodePage/ACP'
+            );
     }
 
     return $localCodepage;
-
 }
 
 sub encodeFromRegistry {
@@ -97,7 +96,7 @@ sub getRegistryValue {
     my (%params) = @_;
 
     my ($root, $keyName, $valueName);
-    if ($params{path} =~ /^(HKEY_[^\/\\]+)[\/\\](.+)[\/\\]([^\/]+)/ ) {
+    if ($params{path} =~ m{^(HKEY_\S+)/(.+)/([^/]+)} ) {
         $root      = $1;
         $keyName   = $2;
         $valueName = $3;
@@ -120,7 +119,7 @@ sub getRegistryKey {
     my (%params) = @_;
 
     my ($root, $keyName);
-    if ($params{path} =~ /^(HKEY_\S+)\/(.+)/ ) {
+    if ($params{path} =~ m{^(HKEY_\S+)/(.+)} ) {
         $root      = $1;
         $keyName   = $2;
     } else {
@@ -154,6 +153,39 @@ sub _getRegistryKey {
     my $key = $rootKey->Open($params{keyName});
 
     return $key;
+}
+
+sub runCommand {
+    my (%params) = @_;
+
+
+    my $command = $params{command};
+    my $timeout = $params{timeout} || 3600*2;
+
+    my $job = Win32::Job->new;
+
+    my $buff = File::Temp->new();
+    my $void = File::Temp->new();
+
+
+    my $args = { stdout => $buff, no_window => 1 };
+    $args->{stderr} = $params{no_stderr}?$void:$buff;
+
+    $job->spawn($ENV{SYSTEMROOT}.'/system32/cmd.exe', "cmd.exe /c $command", $args);
+
+    $job->run($timeout);
+
+    $buff->seek(0, SEEK_SET);
+
+    my $exitcode;
+
+    my ($status) = $job->status();
+    foreach my $pid (%$status) {
+        $exitcode = $status->{$pid}{exitcode};
+        last;
+    }
+
+    return ($exitcode, $buff);
 }
 
 1;
@@ -222,3 +254,23 @@ E.g: HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion
 =item logger
 
 =back
+
+=head2 runCommand(%params)
+
+Returns a command in a Win32 Process
+
+=over
+
+=item command the command to run
+
+=item timeout a time in second, default is 3600*2 
+
+=item no_stderr ignore STDERR output, default is false
+=back
+
+Return an array
+
+=item exitcode the error code, 293 means a timeout occurred
+
+=item fd a file descriptor on the output
+

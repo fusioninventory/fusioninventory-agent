@@ -2,52 +2,103 @@
 
 use strict;
 use warnings;
-use FusionInventory::Agent::Task::Inventory::Input::Linux::Storages::Adaptec;
-use Test::More;
 
-plan tests => 2;
+use Test::More;
+use FusionInventory::Agent::Task::Inventory::Input::Linux::Storages::Adaptec;
 
 my %tests = (
-    linux1 => {
-        controller => 'scsi0',
-        name       => 'foo',
-        disks   => [
-            {
-                NAME         => 'foo',
-                DESCRIPTION  => 'SATA',
-                TYPE         => 'disk',
-                MODEL        => 'SAMSUNG',
-                MANUFACTURER => 'Samsung',
-                FIRMWARE     => 'VBM2',
-                DEVICE       => '/dev/sg0'
-            }
-        ]
-    },
     linux2 => {
         controller => 'scsi0',
         name       => 'foo',
         disks      => [
             {
                 NAME         => 'foo',
-                DESCRIPTION  => 'SATA',
-                TYPE         => 'disk',
                 MODEL        => 'HUS151436VL3800',
                 MANUFACTURER => 'Hitachi',
                 FIRMWARE     => 'S3C0',
-                DEVICE       => '/dev/sg1'
+                device       => '/dev/sg1'
             },
             {
                 NAME         => 'foo',
-                DESCRIPTION  => 'SATA',
-                TYPE         => 'disk',
                 MODEL        => 'HUS151436VL3800',
                 MANUFACTURER => 'Hitachi',
                 FIRMWARE     => 'S3C0',
-                DEVICE       => '/dev/sg2'
+                device       => '/dev/sg2'
+            }
+        ]
+    },
+    linux4 => {
+        controller => 'scsi0',
+        name       => 'foo',
+        disks      => [
+            {
+                NAME         => 'foo',
+                FIRMWARE     => 'V1.0',
+                MANUFACTURER => 'Drive 1',
+                MODEL        => 'Drive 1',
+                device       => '/dev/sg0'
+            },
+            {
+                NAME         => 'foo',
+                FIRMWARE     => 'V1.0',
+                MANUFACTURER => 'Drive 2',
+                MODEL        => 'Drive 2',
+                device       => '/dev/sg1'
+            },
+            {
+                NAME         => 'foo',
+                FIRMWARE     => 'BA23',
+                MANUFACTURER => 'Seagate',
+                MODEL        => 'ST3300655SS',
+                device       => '/dev/sg2'
+                },
+                {
+                NAME         => 'foo',
+                FIRMWARE     => 'BA23',
+                MANUFACTURER => 'Seagate',
+                MODEL        => 'ST3300655SS',
+                device       => '/dev/sg3'
+            },
+            {
+                NAME         => 'foo',
+                FIRMWARE     => 'BA23',
+                MANUFACTURER => 'Seagate',
+                MODEL        => 'ST3300655SS',
+                device       => '/dev/sg4'
+            },
+            {
+                NAME         => 'foo',
+                FIRMWARE     => 'BA23',
+                MANUFACTURER => 'Seagate',
+                MODEL        => 'ST3300655SS',
+                device       => '/dev/sg5'
+            },
+            {
+                NAME         => 'foo',
+                FIRMWARE     => 'BA23',
+                MANUFACTURER => 'Seagate',
+                MODEL        => 'ST3300655SS',
+                device       => '/dev/sg6'
+            },
+            {
+                NAME         => 'foo',
+                FIRMWARE     => 'BA23',
+                MANUFACTURER => 'Seagate',
+                MODEL        => 'ST3300655SS',
+                device       => '/dev/sg7'
+            },
+            {
+                NAME         => 'foo',
+                FIRMWARE     => '1.06',
+                MANUFACTURER => 'VSC7160',
+                MODEL        => 'VSC7160',
+                device       => '/dev/sg8'
             }
         ]
     }
 );
+
+plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/linux/proc/scsi/$test";

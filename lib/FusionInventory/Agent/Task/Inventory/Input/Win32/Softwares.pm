@@ -149,7 +149,7 @@ sub _getSoftwares {
             VERSION_MINOR    => hex2dec($data->{'/MinorVersion'}),
             VERSION_MAJOR    => hex2dec($data->{'/MajorVersion'}),
             NO_REMOVE        => hex2dec($data->{'/NoRemove'}),
-            IS64BIT          => $params{is64bit},
+            ARCH             => $params{is64bit} ? 'x86_64' : 'i586',
             GUID             => $guid,
         };
 
@@ -168,7 +168,7 @@ sub _addSoftware {
     my $entry = $params{entry};
 
     # avoid duplicates
-    return if $seen->{$entry->{NAME}}->{$entry->{IS64BIT}}{$entry->{VERSION} || '_undef_'}++;
+    return if $seen->{$entry->{NAME}}->{$entry->{ARCH}}{$entry->{VERSION} || '_undef_'}++;
 
     $params{inventory}->addEntry(section => 'SOFTWARES', entry => $entry);
 }
@@ -187,7 +187,7 @@ sub _processMSIE {
         inventory => $params{inventory},
         entry     => {
             FROM      => "registry",
-            IS64BIT   => $params{is64bit},
+            ARCH      => $params{is64bit} ? 'x86_64' : 'i586',
             NAME      => $name,
             VERSION   => $version,
             PUBLISHER => "Microsoft Corporation"
