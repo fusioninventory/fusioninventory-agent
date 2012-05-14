@@ -377,11 +377,25 @@ sub _queryDevice {
             TYPE => $device->{TYPE}
         }
     };
-    $self->_setGenericProperties($results, $datadevice, $model->{WALK});
-    $self->_setPrinterProperties($results, $datadevice)
-        if $device->{TYPE} eq 'PRINTER';
-    $self->_setNetworkingProperties($results, $datadevice, $model->{WALK}, $device->{IP}, $credentials)
-        if $device->{TYPE} eq 'NETWORKING';
+
+    $self->_setGenericProperties(
+        results => $results,
+        device  => $datadevice,
+        walks   => $model->{WALK}
+    );
+
+    $self->_setPrinterProperties(
+        results => $results,
+        device  => $datadevice,
+    ) if $device->{TYPE} eq 'PRINTER';
+
+    $self->_setNetworkingProperties(
+        results     => $results,
+        device      => $datadevice,
+        walks       => $model->{WALK},
+        host        => $device->{IP},
+        credentials => $credentials
+    ) if $device->{TYPE} eq 'NETWORKING';
 
     # convert ports hashref to an arrayref, sorted by interface number
     my $ports = $datadevice->{PORTS}->{PORT};
@@ -395,21 +409,24 @@ sub _queryDevice {
 }
 
 sub _setGenericProperties {
-    my ($self, $results, $datadevice, $walks) = @_;
+    my ($self, %params) = @_;
+
+    my $results = $params{results};
+    my $device  = $params{device};
 
     if ($results->{cpuuser}) {
-        $datadevice->{INFO}->{CPU} =
+        $device->{INFO}->{CPU} =
             $results->{cpuuser} + $results->{cpusystem};
     }
 
     if ($results->{firmware1}) {
-        $datadevice->{INFO}->{FIRMWARE} = $results->{firmware1};
+        $device->{INFO}->{FIRMWARE} = $results->{firmware1};
     }
     if ($results->{firmware2}) {
-        if ($datadevice->{INFO}->{FIRMWARE}) {
-            $datadevice->{INFO}->{FIRMWARE} .= ' ' ;
+        if ($device->{INFO}->{FIRMWARE}) {
+            $device->{INFO}->{FIRMWARE} .= ' ' ;
         }
-        $datadevice->{INFO}->{FIRMWARE} .= $results->{firmware2};
+        $device->{INFO}->{FIRMWARE} .= $results->{firmware2};
     }
 
     foreach my $key (keys %properties) {
@@ -426,11 +443,11 @@ sub _setGenericProperties {
             $key eq 'RAM'         ? int($raw_value / 1024 / 1024)        :
             $key eq 'MEMORY'      ? int($raw_value / 1024 / 1024)        :
                                     $raw_value                           ;
-        $datadevice->{INFO}->{$key} = $value;
+        $device->{INFO}->{$key} = $value;
     }
 
     if ($results->{ipAdEntAddr}) {
-        $datadevice->{INFO}->{IPS}->{IP} = [
+        $device->{INFO}->{IPS}->{IP} = [
             values %{$results->{ipAdEntAddr}}
         ];
     }
@@ -527,7 +544,7 @@ sub _setGenericProperties {
         while (my ($oid, $data) = each %{$results->{ifaddr}}) {
             next unless $data;
             my $address = $oid;
-            $address =~ s/$walks->{ifaddr}->{OID}//;
+            $address =~ s/$params{walks}->{ifaddr}->{OID}//;
             $address =~ s/^.//;
             $ports->{$data}->{IP} = $address;
         }
@@ -539,11 +556,14 @@ sub _setGenericProperties {
         }
     }
 
-    $datadevice->{PORTS}->{PORT} = $ports;
+    $device->{PORTS}->{PORT} = $ports;
 }
 
 sub _setPrinterProperties {
-    my ($self, $results, $datadevice) = @_;
+    my ($self, %params) = @_;
+
+    my $results = $params{results};
+    my $device  = $params{device};
 
     # consumable levels
     foreach my $key (keys %printer_cartridges_simple_properties) {
@@ -551,7 +571,7 @@ sub _setPrinterProperties {
 
         next unless defined($results->{$property . '-level'});
 
-        $datadevice->{CARTRIDGES}->{$key} =
+        $device->{CARTRIDGES}->{$key} =
             $results->{$property . '-level'} == -3 ?
                 100 :
                 _getPercentValue(
@@ -561,7 +581,7 @@ sub _setPrinterProperties {
     }
     foreach my $key (keys %printer_cartridges_percent_properties) {
         my $property = $printer_cartridges_percent_properties{$key};
-        $datadevice->{CARTRIDGES}->{$key} = _getPercentValue(
+        $device->{CARTRIDGES}->{$key} = _getPercentValue(
             $results->{$property . 'MAX'},
             $results->{$property . 'REMAIN'},
         );
@@ -570,16 +590,20 @@ sub _setPrinterProperties {
     # page counters
     foreach my $key (keys %printer_pagecounters_properties) {
         my $property = $printer_pagecounters_properties{$key};
-        $datadevice->{PAGECOUNTERS}->{$key} =
+        $device->{PAGECOUNTERS}->{$key} =
             $results->{$property};
     }
 }
 
 sub _setNetworkingProperties {
-    my ($self, $results, $datadevice, $walks, $host, $credentials) = @_;
+    my ($self, %params) = @_;
 
-    my $comments = $datadevice->{INFO}->{COMMENTS};
-    my $ports = $datadevice->{PORTS}->{PORT};
+    my $results = $params{results};
+    my $device  = $params{device};
+    my $walks   = $params{walks};
+
+    my $comments = $device->{INFO}->{COMMENTS};
+    my $ports    = $device->{PORTS}->{PORT};
 
     # Detect VLAN
     if ($results->{vmvlan}) {
@@ -607,6 +631,8 @@ sub _setNetworkingProperties {
         values %{$walks};
 
     if ($vlan_query) {
+        my $host        = $params{host};
+        my $credentials = $params{credentials};
         # set connected devices mac addresses for each VLAN
         while (my ($oid, $name) = each %{$results->{vtpVlanName}}) {
             my $vlan_id = getLastElement($oid);
