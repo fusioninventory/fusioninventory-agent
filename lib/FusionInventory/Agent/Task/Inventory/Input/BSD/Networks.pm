@@ -124,7 +124,7 @@ sub _parseIfconfig {
 
         }
 
-        if ($line =~ /media (\S+)/) {
+        if ($line =~ /media: (\S+)/) {
             $interface->{TYPE} = $1;
             $_->{TYPE} = $1 foreach @addresses;
         }

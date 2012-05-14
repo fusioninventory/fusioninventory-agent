@@ -1,0 +1,13 @@
+ioc:0 vol_id:1 type:IME raidlevel:RAID-1E num_disks:6 size(GB):407 state: OPTIMAL flags: ENABLED
+ioc:0 phys_id:5 scsi_id:7 vendor:IBM-ESXS product_id:CBRCA146C3ETS0 N revision:C610 size(GB):136 state: ONLINE flags: NONE sync_state: 100 ASC/ASCQ:0xff/0xff SMART ASC/ASCQ:0xff/0xff
+ioc:0 phys_id:4 scsi_id:2 vendor:IBM-ESXS product_id:CBRCA146C3ETS0 N revision:C610 size(GB):136 state: ONLINE flags: NONE sync_state: 100 ASC/ASCQ:0xff/0xff SMART ASC/ASCQ:0xff/0xff
+ioc:0 phys_id:3 scsi_id:3 vendor:IBM-ESXS product_id:ST9146803SS      revision:B53C size(GB):136 state: ONLINE flags: NONE sync_state: 100 ASC/ASCQ:0xff/0xff SMART ASC/ASCQ:0xff/0xff
+ioc:0 phys_id:2 scsi_id:4 vendor:IBM-ESXS product_id:CBRCA146C3ETS0 N revision:C610 size(GB):136 state: ONLINE flags: NONE sync_state: 100 ASC/ASCQ:0xff/0xff SMART ASC/ASCQ:0xff/0xff
+ioc:0 phys_id:1 scsi_id:5 vendor:IBM-ESXS product_id:CBRCA146C3ETS0 N revision:C610 size(GB):136 state: ONLINE flags: NONE sync_state: 100 ASC/ASCQ:0xff/0xff SMART ASC/ASCQ:0xff/0xff
+ioc:0 phys_id:0 scsi_id:6 vendor:IBM-ESXS product_id:CBRCA146C3ETS0 N revision:C610 size(GB):136 state: ONLINE flags: NONE sync_state: 100 ASC/ASCQ:0xff/0xff SMART ASC/ASCQ:0xff/0xff
+scsi_id:5 100%
+scsi_id:4 100%
+scsi_id:3 100%
+scsi_id:2 100%
+scsi_id:1 100%
+scsi_id:0 100%

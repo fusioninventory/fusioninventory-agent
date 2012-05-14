@@ -13,6 +13,7 @@ my %ifconfig_tests = (
             DESCRIPTION => 're0',
             STATUS      => 'Up',
             MTU         => '1500',
+            TYPE        => 'Ethernet',
             MACADDR     => 'c8:0a:a9:3f:35:fa',
             IPADDRESS   => '129.132.95.98',
             IPMASK      => '255.255.255.192',
@@ -71,23 +72,77 @@ my %ifconfig_tests = (
     ],
     'freebsd-bis' => [
         {
-            DESCRIPTION => 're0',
+            DESCRIPTION => 'bce0',
             STATUS      => 'Up',
             MTU         => '1500',
-            MACADDR     => '00:ab:cd:ef:1a:00',
-            IPADDRESS   => '192.168.10.10',
-            IPMASK      => '255.255.255.0',
-            IPSUBNET    => '192.168.10.0',
+            TYPE        => 'Ethernet',
+            MACADDR     => '00:16:18:87:ca:b5',
+            IPADDRESS   => '11.105.11.105',
+            IPMASK      => '255.255.255.192',
+            IPSUBNET    => '11.105.11.64',
 
         },
         {
-            DESCRIPTION => 're0',
+            DESCRIPTION => 'bce0',
             STATUS      => 'Up',
             MTU         => '1500',
-            MACADDR     => '00:ab:cd:ef:1a:00',
-            IPADDRESS   => '192.168.10.11',
+            TYPE        => 'Ethernet',
+            MACADDR     => '00:16:18:87:ca:b5',
+            IPADDRESS   => '11.105.11.110',
             IPMASK      => '255.255.255.255',
-            IPSUBNET    => '192.168.10.11',
+            IPSUBNET    => '11.105.11.110',
+
+        },
+        {
+            DESCRIPTION => 'bce0',
+            STATUS      => 'Up',
+            MTU         => '1500',
+            TYPE        => 'Ethernet',
+            MACADDR     => '00:16:18:87:ca:b5',
+            IPADDRESS   => '11.105.11.111',
+            IPMASK      => '255.255.255.255',
+            IPSUBNET    => '11.105.11.111',
+
+        },
+        {
+            DESCRIPTION => 'bce1',
+            STATUS      => 'Up',
+            MTU         => '1500',
+            TYPE        => 'Ethernet',
+            MACADDR     => '00:16:18:87:ca:b6',
+            IPADDRESS   => '192.168.12.105',
+            IPMASK      => '255.255.255.0',
+            IPSUBNET    => '192.168.12.0'
+
+        },
+        {
+            DESCRIPTION => 'lo0',
+            STATUS      => 'Up',
+            MTU         => '16384',
+            MACADDR     => undef,
+            IPADDRESS6  => 'fe80::1',
+            IPMASK6     => 'ffff:ffff:ffff:ffff::',
+            IPSUBNET6   => 'fe80::'
+
+        },
+        {
+            DESCRIPTION => 'lo0',
+            STATUS      => 'Up',
+            MTU         => '16384',
+            MACADDR     => undef,
+            IPADDRESS6  => '::1',
+            IPMASK6     => 'ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff',
+            IPSUBNET6   => '::1'
+
+        },
+        {
+            DESCRIPTION => 'lo0',
+            STATUS      => 'Up',
+            MTU         => '16384',
+            MACADDR     => undef,
+            IPADDRESS   => '127.0.0.1',
+            IPMASK      => '255.0.0.0',
+            IPSUBNET    => '127.0.0.0'
 
         }
     ]

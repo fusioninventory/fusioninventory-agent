@@ -1,0 +1,5 @@
+ioc:0 vol_id:0 type:IM raidlevel:RAID-1 num_disks:2 size(GB):148 state: OPTIMAL flags: ENABLED
+ioc:0 phys_id:1 scsi_id:2 vendor:ATA      product_id:ST3160815AS      revision:D    size(GB):149 state: ONLINE flags: NONE sync_state: 100 ASC/ASCQ:0xff/0xff SMART ASC/ASCQ:0xff/0xff
+ioc:0 phys_id:0 scsi_id:1 vendor:ATA      product_id:ST3160815AS      revision:D    size(GB):149 state: ONLINE flags: NONE sync_state: 100 ASC/ASCQ:0xff/0xff SMART ASC/ASCQ:0xff/0xff
+scsi_id:1 100%
+scsi_id:0 100%
