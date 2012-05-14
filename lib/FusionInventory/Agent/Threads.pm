@@ -45,7 +45,7 @@ sub shared_clone {
         # Add to clone checking hash
         $cloned->{$addr} = $copy;
         # Recursively copy and add contents
-        push(@$copy, map { _shared_clone($_, $cloned) } @$item);
+        push(@$copy, map { shared_clone($_, $cloned) } @$item);
     }
 
     # Copy a hash ref
@@ -56,7 +56,7 @@ sub shared_clone {
         $cloned->{$addr} = $copy;
         # Recursively copy and add contents
         foreach my $key (keys(%{$item})) {
-            $copy->{$key} = _shared_clone($item->{$key}, $cloned);
+            $copy->{$key} = shared_clone($item->{$key}, $cloned);
         }
     }
 
