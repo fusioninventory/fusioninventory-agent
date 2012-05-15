@@ -128,9 +128,9 @@ sub _getScreensFromUnix {
         };
 
         File::Find::find($wanted, '/sys');
-    }
 
-    return @screens if @screens;
+        return @screens if @screens;
+    }
 
     my $edid =
         getFirstLine(command => 'monitor-get-edid-using-vbe') ||
