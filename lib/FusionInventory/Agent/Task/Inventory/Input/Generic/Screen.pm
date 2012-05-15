@@ -7,6 +7,7 @@ use English qw(-no_match_vars);
 use MIME::Base64;
 use UNIVERSAL::require;
 
+use File::Find;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Screen;
 
@@ -14,6 +15,7 @@ sub isEnabled {
 
     return
         $OSNAME eq 'MSWin32'                 ||
+        -d '/sys'                            ||
         canRun('monitor-get-edid-using-vbe') ||
         canRun('monitor-get-edid')           ||
         canRun('get-edid');
@@ -42,8 +44,8 @@ sub doInventory {
             }
             $screen->{BASE64} = encode_base64($screen->{edid});
 
-            delete $screen->{edid};
         }
+        delete $screen->{edid};
 
         $inventory->addEntry(
             section => 'MONITORS',
@@ -113,18 +115,39 @@ sub _getScreensFromWindows {
 
 sub _getScreensFromUnix {
 
+    my @screens;
+
+    if (-d '/sys') {
+        my $wanted = sub {
+            return unless $File::Find::name =~ m{/edid$};
+            open my $handle, '<', $File::Find::name;
+            my $edid = <$handle>;
+            close $handle;
+
+            push @screens, { edid => $edid } if $edid;
+        };
+
+        File::Find::find($wanted, '/sys');
+
+        return @screens if @screens;
+    }
+
     my $edid =
         getFirstLine(command => 'monitor-get-edid-using-vbe') ||
         getFirstLine(command => 'monitor-get-edid');
+    push @screens, { edid => $edid };
 
-    if (!$edid) {
-        foreach (1..5) { # Sometime get-edid return an empty string...
-            $edid = getFirstLine(command => 'get-edid');
-            last if $edid;
+    return @screens if @screens;
+
+    foreach (1..5) { # Sometime get-edid return an empty string...
+        $edid = getFirstLine(command => 'get-edid');
+        if ($edid) {
+            push @screens, { edid => $edid };
+            last;
         }
     }
 
-    return ( { edid => $edid } );
+    return @screens;
 }
 
 sub _getScreens {

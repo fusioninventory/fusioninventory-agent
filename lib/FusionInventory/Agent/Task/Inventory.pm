@@ -89,7 +89,14 @@ sub run {
             $self->{deviceid} .
             $extension;
 
-        if (open my $handle, '>', $file) {
+        my $handle;
+        if (Win32::Unicode::File->require()) {
+            $handle = Win32::Unicode::File->new('w', $file);
+        } else {
+            open($handle, '>', $file);
+        }
+
+        if ($handle) {
             $self->_printInventory(
                 inventory => $inventory,
                 handle    => $handle,
