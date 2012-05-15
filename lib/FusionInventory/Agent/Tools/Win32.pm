@@ -18,7 +18,7 @@ use Win32::TieRegistry (
     qw/KEY_READ/
 );
 
-use File::Temp (); 
+use File::Temp ();
 use File::Temp qw/ :seekable /;
 use Win32::Job;
 
@@ -42,7 +42,7 @@ our @EXPORT = qw(
 
 sub is64bit {
     return
-        any { $_->{AddressWidth} eq 64 } 
+        any { $_->{AddressWidth} eq 64 }
         getWmiObjects(
             class => 'Win32_Processor', properties => [ qw/AddressWidth/ ]
         );
@@ -142,7 +142,7 @@ sub _getRegistryKey {
     ## no critic (ProhibitBitwise)
     my $rootKey = is64bit() ?
         $Registry->Open($params{root}, { Access=> KEY_READ | KEY_WOW64_64 } ) :
-	$Registry->Open($params{root}, { Access=> KEY_READ } )                ;
+        $Registry->Open($params{root}, { Access=> KEY_READ } )                ;
 
     if (!$rootKey) {
         $params{logger}->error(
@@ -263,7 +263,7 @@ Returns a command in a Win32 Process
 
 =item command the command to run
 
-=item timeout a time in second, default is 3600*2 
+=item timeout a time in second, default is 3600*2
 
 =item no_stderr ignore STDERR output, default is false
 =back
