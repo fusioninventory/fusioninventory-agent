@@ -162,7 +162,7 @@ sub runCommand {
     my $command = $params{command};
     my $timeout = $params{timeout} || 3600*2;
 
-    my $job = Win32::Job->new;
+    my $job = Win32::Job->new();
 
     my $buff = File::Temp->new();
     my $void = File::Temp->new();

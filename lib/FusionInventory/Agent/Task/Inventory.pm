@@ -90,7 +90,7 @@ sub run {
             $extension;
 
         my $handle;
-        if (Win32::Unicode::File->require) {
+        if (Win32::Unicode::File->require()) {
             $handle = Win32::Unicode::File->new('w', $file);
         } else {
             open($handle, '>', $file);
