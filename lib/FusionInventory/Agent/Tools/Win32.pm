@@ -166,8 +166,11 @@ sub runCommand {
     my $buff = File::Temp->new();
     my $void = File::Temp->new();
 
-    my $args = { stdout => $buff, no_window => 1 };
-    $args->{stderr} = $params{no_stderr}?$void:$buff;
+    my $args = {
+        stdout    => $buff,
+        stderr    => $params{no_stderr} ? $void : $buff,
+        no_window => 1
+    };
 
     $job->spawn(
         $ENV{SYSTEMROOT}.'/system32/cmd.exe',
