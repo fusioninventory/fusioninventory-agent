@@ -102,8 +102,8 @@ sub getRegistryValue {
         $valueName = $3;
     } else {
         $params{logger}->error(
-	    "Failed to parse '$params{path}'. Does it start with HKEY_?"
-	) if $params{logger};
+            "Failed to parse '$params{path}'. Does it start with HKEY_?"
+        ) if $params{logger};
         return;
     }
 
@@ -124,8 +124,8 @@ sub getRegistryKey {
         $keyName   = $2;
     } else {
         $params{logger}->error(
-	    "Failed to parse '$params{path}'. Does it start with HKEY_?"
-	) if $params{logger};
+            "Failed to parse '$params{path}'. Does it start with HKEY_?"
+        ) if $params{logger};
         return;
     }
 
