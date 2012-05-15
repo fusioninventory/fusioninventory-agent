@@ -156,24 +156,26 @@ sub _getRegistryKey {
 }
 
 sub runCommand {
-    my (%params) = @_;
-
-
-    my $command = $params{command};
-    my $timeout = $params{timeout} || 3600*2;
+    my (%params) = (
+        timeout => 3600 * 2,
+        @_
+    );
 
     my $job = Win32::Job->new();
 
     my $buff = File::Temp->new();
     my $void = File::Temp->new();
 
-
     my $args = { stdout => $buff, no_window => 1 };
     $args->{stderr} = $params{no_stderr}?$void:$buff;
 
-    $job->spawn($ENV{SYSTEMROOT}.'/system32/cmd.exe', "cmd.exe /c $command", $args);
+    $job->spawn(
+        $ENV{SYSTEMROOT}.'/system32/cmd.exe',
+        "cmd.exe /c $params{command}",
+        $args
+    );
 
-    $job->run($timeout);
+    $job->run($params{timeout});
 
     $buff->seek(0, SEEK_SET);
 
