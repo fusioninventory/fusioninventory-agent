@@ -6,6 +6,7 @@ use lib 't';
 
 use English qw(-no_match_vars);
 use HTTP::Request;
+
 use Test::More;
 use Test::Exception;
 
@@ -33,6 +34,9 @@ my $client = FusionInventory::Agent::HTTP::Client->new(
 
 # no connection tests
 BAIL_OUT("port aleady used") if test_port(8080);
+
+# check than 'localhost' resolves, to an IPv4 address only
+my $localhost_ok = test_localhost();
 
 subtest "no response" => sub {
     check_response_nok(
@@ -103,6 +107,7 @@ $server->stop();
 SKIP: {
 skip 'non working test under MacOS', 12 if $OSNAME eq 'darwin';
 skip 'non working test under Windows', 12 if $OSNAME eq 'MSWin32';
+skip 'non working test without pure IPv4 localhost', 12 if !$localhost_ok;
 # https connection tests
 
 $server = FusionInventory::Test::Server->new(
@@ -217,6 +222,7 @@ $server->stop();
 
 SKIP: {
 skip 'non working test under Windows', 18 if $OSNAME eq 'MSWin32';
+skip 'non working test without pure IPv4 localhost', 18 if !$localhost_ok;
 # http connection through proxy tests
 
 $server = FusionInventory::Test::Server->new(

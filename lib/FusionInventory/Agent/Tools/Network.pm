@@ -17,6 +17,7 @@ our @EXPORT = qw(
     getSubnetAddress
     getSubnetAddressIPv6
     getNetworkMask
+    getNetworkMaskIPv6
     hex2canonical
     alt2canonical
 );
@@ -47,7 +48,7 @@ our $network_pattern = qr/
 sub getSubnetAddress {
     my ($address, $mask) = @_;
 
-    return unless $address && $mask;
+    return undef unless $address && $mask; ## no critic (ExplicitReturnUndef)
 
     my $binaddress = ip_iptobin($address, 4);
     my $binmask    = ip_iptobin($mask, 4);
@@ -59,20 +60,18 @@ sub getSubnetAddress {
 sub getSubnetAddressIPv6 {
     my ($address, $mask) = @_;
 
-    return unless $address && $mask;
+    return undef unless $address && $mask; ## no critic (ExplicitReturnUndef)
 
-    my $binaddress = ip_iptobin($address, 6);
-    my $binmask    = ip_iptobin($mask, 6);
-
-    return unless $binaddress && $binmask;
-
+    my $binaddress = ip_iptobin(ip_expand_address($address, 6), 6);
+    my $binmask    = ip_iptobin(ip_expand_address($mask, 6), 6);
     my $binsubnet  = $binaddress & $binmask; ## no critic (ProhibitBitwise)
 
-    return ip_bintoip($binsubnet, 6);
+    return ip_compress_address(ip_bintoip($binsubnet, 6), 6);
 }
 
 sub hex2canonical {
     my ($address) = @_;
+    return unless $address;
 
     my @bytes = $address =~ /^(?:0x)?(..)(..)(..)(..)$/;
     return join('.', map { hex($_) } @bytes);
@@ -80,6 +79,7 @@ sub hex2canonical {
 
 sub alt2canonical {
     my ($address) = @_;
+    return unless $address;
 
     my @bytes = $address =~ /^(?:0x)?(..)(..)(..)(..)(..)(..)$/;
     return join(':', @bytes);
@@ -88,12 +88,17 @@ sub alt2canonical {
 sub getNetworkMask {
     my ($prefix) = @_;
 
-    my $mask;
-    $mask .= 1 foreach(1..$prefix);
-    $mask .= 0 foreach(1..(32-$prefix));
+    return undef unless $prefix; ## no critic (ExplicitReturnUndef)
 
-    my @bytes = $mask =~ /^(\d{8})(\d{8})(\d{8})(\d{8})$/;
-    return join ('.', map { oct('0b' . $_) } @bytes);
+    return ip_bintoip(ip_get_mask($prefix, 4), 4);
+}
+
+sub getNetworkMaskIPv6 {
+    my ($prefix) = @_;
+
+    return undef unless $prefix; ## no critic (ExplicitReturnUndef)
+
+    return ip_compress_address(ip_bintoip(ip_get_mask($prefix, 6), 6), 6);
 }
 
 1;
@@ -145,4 +150,8 @@ Returns the subnet address for IPv6.
 
 =head2 getNetworkMask($prefix)
 
-Returns the network mask.
+Returns the network mask for IPv4.
+
+=head2 getNetworkMaskIPv6($prefix)
+
+Returns the network mask for IPv6.

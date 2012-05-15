@@ -37,30 +37,15 @@ memoize('getModel');
 memoize('getClass');
 
 sub getZone {
-
-    return 'global' unless canRun("zonename");
-
-    my $zone = getFirstLine(command => 'zonename');
-
-    return $zone;
+    return canRun('zonename') ?
+        getFirstLine(command => 'zonename') : # actual zone name
+        'global';                             # outside zone name
 }
 
 sub getModel {
-
-    my $zone = getZone();
-
-    my $model;
-    if ($zone) {
-        # first, we need determinate on which model of Sun Server we run,
-        # because prtdiags output (and with that memconfs output) is differend
-        # from server model to server model
-        # we try to classified our box in one of the known classes
-        $model = getFirstLine(command => 'uname -i');
-    } else {
-        $model = "Solaris Containers";
-    }
-
-    return $model;
+    return getZone() eq 'global' ?
+        getFirstLine(command => 'uname -i') :
+        'Solaris Containers';
 }
 
 sub getClass {
@@ -118,12 +103,12 @@ This module provides some generic functions for Solaris.
 
 =head2 getZone()
 
-Returns system zone.
+Returns current zone name, or 'global' if there is no defined zone.
 
 =head2 getModel()
 
-Returns system model.
+Returns system model, as a string.
 
 =head2 getclass()
 
-Returns system class.
+Returns system class, as a symbolic constant.

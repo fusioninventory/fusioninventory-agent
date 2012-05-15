@@ -48,7 +48,7 @@ sub new {
     }
 
     $self->{ua}->agent($FusionInventory::Agent::AGENT_STRING);
-    $self->{ua}->timeout($params{timeout});
+    $self->{ua}->timeout($self->{timeout});
 
     return $self;
 }

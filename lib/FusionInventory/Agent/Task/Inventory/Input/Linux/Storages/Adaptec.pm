@@ -8,12 +8,6 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Linux;
 
-# Tested on 2.6.* kernels
-#
-# Cards tested :
-#
-# Adaptec AAC-RAID
-
 sub isEnabled {
     return -r '/proc/scsi/scsi';
 }
@@ -28,14 +22,21 @@ sub doInventory {
 
     foreach my $device (@devices) {
         next unless $device->{MANUFACTURER};
-        next unless $device->{MANUFACTURER} eq 'Adaptec';
+        next unless
+            $device->{MANUFACTURER} eq 'Adaptec' ||
+            $device->{MANUFACTURER} eq 'ServeRA';
 
         foreach my $disk (_getDisksFromProc(
                 controller => 'scsi' . $device->{SCSI_COID},
                 name       => $device->{NAME},
                 logger     => $logger
-            )) {
-            $disk->{SERIALNUMBER} = getSerialnumber($disk->{device});
+        )) {
+            # merge with smartctl info
+            my $info = getInfoFromSmartctl(device => $disk->{device});
+            foreach my $key (qw/SERIALNUMBER DESCRIPTION TYPE/) {
+                $disk->{$key} = $info->{$key};
+            }
+            delete $disk->{device};
             $inventory->addEntry(section => 'STORAGES', entry => $disk);
         }
     }
@@ -63,8 +64,6 @@ sub _getDisksFromProc {
                 # that's the controller we're looking for
                 $disk = {
                     NAME        => $params{name},
-                    DESCRIPTION => 'SATA',
-                    TYPE        => 'disk',
                 };
             } else {
                 # that's another controller
@@ -72,7 +71,7 @@ sub _getDisksFromProc {
             }
         }
 
-        if ($line =~ /Model:\s(\S+).*Rev:\s(\S+)/) {
+        if ($line =~ /Model: \s (\S.+\S) \s+ Rev: \s (\S+)/x) {
             next unless $disk;
             $disk->{MODEL}    = $1;
             $disk->{FIRMWARE} = $2;
@@ -83,7 +82,7 @@ sub _getDisksFromProc {
             $disk->{MANUFACTURER} = getCanonicalManufacturer(
                 $disk->{MODEL}
             );
-            $disk->{DEVICE} = "/dev/sg$count";
+            $disk->{device} = "/dev/sg$count";
 
             push @disks, $disk;
         }

@@ -1,1 +1,1 @@
-vgs --noheading --nosuffix --units M -o +vg_uuid,vg_extent_size,pv_uuid
+vgs --noheading --nosuffix --units M -o vg_name,pv_count,lv_count,vg_attr,vg_size,vg_free,vg_uuid,vg_extent_size

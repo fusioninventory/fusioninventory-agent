@@ -90,7 +90,14 @@ sub run {
             "." .
             $format;
 
-        if (open my $handle, '>', $file) {
+        my $handle;
+        if (Win32::Unicode::File->require()) {
+            $handle = Win32::Unicode::File->new('w', $file);
+        } else {
+            open($handle, '>', $file);
+        }
+
+        if ($handle) {
             $self->_printInventory(
                 inventory => $inventory,
                 handle    => $handle,
@@ -186,7 +193,7 @@ sub _initModulesList {
         $self->{modules}->{$module}->{done}    = 0;
         $self->{modules}->{$module}->{used}    = 0;
 
-        no strict 'refs'; ## no critic
+        no strict 'refs'; ## no critic (ProhibitNoStrict)
         $self->{modules}->{$module}->{runAfter} = [ 
             $parent ? $parent : (),
             ${$module . '::runAfter'} ? @${$module . '::runAfter'} : ()
@@ -195,7 +202,8 @@ sub _initModulesList {
 
     # second pass: disable fallback modules
     foreach my $module (@modules) {
-        no strict 'refs'; ## no critic
+        ## no critic (ProhibitProlongedStrictureOverride)
+        no strict 'refs'; ## no critic (ProhibitNoStrict)
 
         # skip modules already disabled
         next unless $self->{modules}->{$module}->{enabled};
@@ -402,4 +410,4 @@ FusionInventory::Agent::Task::Inventory - Inventory task for FusionInventory
 
 =head1 DESCRIPTION
 
-This task extract various hardware and software informations on the agent host.
+This task extract various hardware and software information on the agent host.

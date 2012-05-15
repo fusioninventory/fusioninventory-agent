@@ -21,6 +21,7 @@ GetOptions(
     'ca-cert-dir=s',
     'ca-cert-file=s',
     'conf-file=s',
+    'config=s',
     'color',
     'daemon|d',
     'no-fork',
@@ -167,14 +168,15 @@ B<fusioninventory-agent> [options] [--server server|--local directory|--sdout]
     --httpd-trust=RANGE        trust requests from range without authentication token (false)
 
   Logging options
-    --logger                    Logger backend, either Stderr, File or Syslog (Stderr)
+    --logger=BACKEND            logger backend [Stderr|File|Syslog] (Stderr)
     --logfile=FILE              log file
     --logfile-maxsize=X         maximum size of the log file in MB (0)
     --logfacility=FACILITY      syslog facility (LOG_USER)
     --color                     use color in the console (false)
 
-  Agent setup options
-    --conf-file=FILE            path to an alternative config file
+  Configuration options
+    --config=BACKEND            configuration backend [file|registry|none]
+    --conf-file=FILE            configuration file
 
   Execution mode options
     -d --daemon                 run the agent as a daemon (false)
@@ -268,9 +270,9 @@ The agent will launch each modules and pass the list of options found in the
 PROLOG RESP as parameter. The module can send information directly to the
 server (inventory, SNMP scan result, etc)
 
-=head2 Windows service or Deamon mode
+=head2 Server mode (Windows service or Unix daemon)
 
-In deamon mode, the agent wait during a period between the last PROLOG and
+In server mode, the agent wait during a period between the last PROLOG and
 PROLOG_FREQ. If PROLOG_FREQ is not set, it will use --delaytime value.
 The default value is 3600.
 
@@ -458,7 +460,7 @@ Trust requests from given range without authentication token (false).
 
 =over
 
-=item B<--logger>=I<LOGGER>
+=item B<--logger>=I<BACKEND>
 
 Logger backend to use. It can be:
 
@@ -502,15 +504,33 @@ This options is ignored on Windows.
 
 =back
 
-=head2 Agent setup options
+=head2 Configuration options
 
 =over
 
 =item B<--conf-file>=I<FILE>
 
-Path to an alternative configuration file.
+Use I<FILE> as configuration file (implies file configuration backend)
 
-This options is ignored on Windows.
+=item B<--config>=I<BACKEND>
+
+Configuration backend to use. It can be:
+
+=over 4
+
+=item
+
+file: read configuration from a file (default anywhere else as Windows)
+
+=item
+
+registry: read configuration from the registry (default on Windows)
+
+=item
+
+none: don't read any configuration
+
+=back
 
 =back
 
@@ -542,26 +562,19 @@ Print the version and exit.
 
 =back
 
+=head1 CONFIGURATION
 
-=head1 CONFIG FILE
+The agent is able to use multiple configuration backends. The registry backend
+is the default on Windows platform, and the file backend is the default
+everywhere else. Another backend can be specified using the B<--config> option.
 
-The agent initialize its settings from the configuration first.
+The I<file> backend reads configuration directives from a configuration file,
+whose default location is determined at installation time as
+PREFIX/etc/agent.cfg. An alternative location can also be given with
+B<--conf-file> option.
 
-On Unix, this configuration is loaded from a configuration file, the first
-found among the following locations:
-
-=over
-
-=item * F</etc/fusioninventory/agent.cfg>
-
-=item * F</usr/local/etc/fusioninventory/agent.cfg>
-
-=back
-
-An alternative configuration file can be specified with the B<--conf-file>
-parameter, and will be used instead.
-
-On Windows, the configuration is loaded from the registry, from an arch-dependant location:
+The I<registry> backend reads configuration directives from the Windows
+registry, with an arch-dependant location:
 
 =over
 
@@ -571,130 +584,5 @@ On Windows, the configuration is loaded from the registry, from an arch-dependan
 
 =back
 
-=head1 SECURITY
-
-Some modules like SNMPQuery needs to sent credential from the agent to the
-agent. We recommend to enable HTTPS support on the OCS or FusionInventory
-For GLPI server. We also recommend to use only trusted machine as agent in
-this case.
-
-=head1 AUTHORS
-
-The FusionInventory project L<fusioninventory-devel@lists.alioth.debian.org>
-
-The maintainer is Goneri LE BOUDER <goneri@rulezlan.org>
-
-Please read the AUTHORS, Changes and THANKS files to see who is behind
-FusionInventory.
-
-=head1 SEE ALSO
-
-=over 4
-
-=item
-
-FusionInventory website: L<http://www.FusionInventory.org/>
-
-=item
-
-project Forge: L<http://Forge.FusionInventory.org>
-
-=item
-
-The source code of the agent is available on:
-
-=over
-
-=item
-
-Gitorious: L<http://gitorious.org/fusioninventory>
-
-=item
-
-Github: L<http://github.com/fusinv/fusioninventory-agent>
-
-=back
-
-=item
-
-The mailing lists:
-
-=over
-
-=item
-
-L<http://lists.alioth.debian.org/mailman/listinfo/fusioninventory-devel>
-
-=item
-
-L<http://lists.alioth.debian.org/mailman/listinfo/fusioninventory-user>
-
-=back
-
-=item
-
-IRC: #FusionInventory on FreeNode IRC Network
-
-=back
-
-=head1 BUGS
-
-Please, use the mailing lists as much as possible. You can also use the bugtracker on
-http://forge.fusionInventory.org
-
-
-=head1 COPYRIGHT
-
-Copyright (C) 2006-2010 OCS Inventory contributors
-Copyright (C) 2010-2012 FusionInventory Team
-
- This program is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
-The memconf script is maintained by Tom Schmidt
-http://myweb.cableone.net/4schmidts/memconf.html
-Copyright © 1996-2009 Tom Schmidt
-
-memconf is free software; you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
-version.
-
-FusionInventory::Agent::Backend::Virtualization::Vmsystem uses code from
-imvirt:
-
-   Authors:
-     Thomas Liske <liske@ibh.de>
-
-   Copyright Holder:
-     2008 (C) IBH IT-Service GmbH [http://www.ibh.de/]
-
-   License:
-     This program is free software; you can redistribute it and/or modify
-     it under the terms of the GNU General Public License as published by
-     the Free Software Foundation; either version 2 of the License, or
-     (at your option) any later version.
-
-     This program is distributed in the hope that it will be useful,
-     but WITHOUT ANY WARRANTY; without even the implied warranty of
-     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
-
-     You should have received a copy of the GNU General Public License
-     along with this package; if not, write to the Free Software
-     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
-     USA
-
-
-=cut
+The I<none> backend doesn't read any configuration directive at all, allowing
+to isolate the agent execution from any installed configuration.

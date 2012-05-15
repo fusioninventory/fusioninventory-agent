@@ -7,6 +7,7 @@ use Cwd;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 use File::Glob;
+use IO::Handle;
 
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::HTTP::Client::Fusion;
@@ -21,7 +22,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::XML::Query::Prolog;
 
-our $VERSION = '2.1.9904';
+our $VERSION = '2.2.0';
 our $VERSION_STRING = 
     "FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
 our $AGENT_STRING =
@@ -95,6 +96,11 @@ sub init {
     my %available = $self->getAvailableTasks(
         disabledTasks => $config->{'no-task'}
     );
+    $logger->debug("Available tasks:");
+    foreach my $task (keys %available) {
+        $logger->debug("- $task: $available{$task}");
+    }
+
 
     $self->{scheduler} = FusionInventory::Agent::Scheduler->new(
         client     => $client,
@@ -167,6 +173,7 @@ sub init {
         }
     }
 
+    # create HTTP interface
     if (($config->{daemon} || $config->{service}) && !$config->{'no-httpd'}) {
         FusionInventory::Agent::HTTP::Server->require();
         if ($EVAL_ERROR) {
@@ -227,20 +234,10 @@ sub _runTarget {
 sub _runTask {
     my ($self, $target, $event) = @_;
 
-    my $class = "FusionInventory::Agent::Task::$event->{task}";
-    my $task = $class->new(
-        config       => $self->{config},
-        confdir      => $self->{confdir},
-        datadir      => $self->{datadir},
-        logger       => $self->{logger},
-        target       => $target,
-        deviceid     => $self->{deviceid}
-    );
-
     $self->{status} = "running task $event->{task}";
 
     if ($self->{config}->{daemon} || $self->{config}->{service}) {
-        # daemon mode: run each task in a child process
+        # server mode: run each task in a child process
         if (my $pid = fork()) {
             # parent
             waitpid($pid, 0);
@@ -251,30 +248,41 @@ sub _runTask {
             $self->{logger}->debug(
                 "running task $event->{task} in process $PID"
             );
-            $task->run(
-                user         => $self->{config}->{user},
-                password     => $self->{config}->{password},
-                proxy        => $self->{config}->{proxy},
-                ca_cert_file => $self->{config}->{'ca-cert-file'},
-                ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
-                no_ssl_check => $self->{config}->{'no-ssl-check'},
-                remote       => $event->{remote}
-                );
+            $self->_runTaskReal($target, $event);
             exit(0);
         }
     } else {
         # standalone mode: run each task directly
         $self->{logger}->debug("running task $event->{task}");
-        $task->run(
-            user         => $self->{config}->{user},
-            password     => $self->{config}->{password},
-            proxy        => $self->{config}->{proxy},
-            ca_cert_file => $self->{config}->{'ca-cert-file'},
-            ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
-            no_ssl_check => $self->{config}->{'no-ssl-check'},
-            remote       => $event->{remote}
-        );
+        $self->_runTaskReal($target, $event);
     }
+}
+
+sub _runTaskReal {
+    my ($self, $target, $event) = @_;
+
+    my $class = "FusionInventory::Agent::Task::$event->{task}";
+
+    $class->require();
+
+    my $task = $class->new(
+        config       => $self->{config},
+        confdir      => $self->{confdir},
+        datadir      => $self->{datadir},
+        logger       => $self->{logger},
+        target       => $target,
+        deviceid     => $self->{deviceid},
+    );
+
+    $task->run(
+        user         => $self->{config}->{user},
+        password     => $self->{config}->{password},
+        proxy        => $self->{config}->{proxy},
+        ca_cert_file => $self->{config}->{'ca-cert-file'},
+        ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
+        no_ssl_check => $self->{config}->{'no-ssl-check'},
+        remote       => $event->{remote}
+    );
 }
 
 sub getToken {
@@ -295,7 +303,6 @@ sub getStatus {
 sub getAvailableTasks {
     my ($self, %params) = @_;
 
-    my $logger = $self->{logger};
     my %tasks;
     my %disabled  = map { lc($_) => 1 } @{$params{disabledTasks}};
 
@@ -311,28 +318,65 @@ sub getAvailableTasks {
 
         next if $disabled{lc($name)};
 
-        # check module
-        # todo: use a child process when running as a server to save memory
-        if (!$module->require()) {
-            $logger->debug2("module $module does not compile") if $logger;
-            next;
-        }
-        if (!$module->isa('FusionInventory::Agent::Task')) {
-            $logger->debug2("module $module is not a task") if $logger;
-            next;
+        my $version;
+        if ($self->{config}->{daemon} || $self->{config}->{service}) {
+            # server mode: check each task version in a child process
+            my ($reader, $writer);
+            pipe($reader, $writer);
+            $writer->autoflush(1);
+
+            if (my $pid = fork()) {
+                # parent
+                close $writer;
+                $version = <$reader>;
+                close $reader;
+                waitpid($pid, 0);
+            } else {
+                # child
+                die "fork failed: $ERRNO" unless defined $pid;
+
+                close $reader;
+                $version = $self->_getTaskVersion($module);
+                print $writer $version if $version;
+                close $writer;
+                exit(0);
+            }
+        } else {
+            # standalone mode: check each task version directly
+            $version = $self->_getTaskVersion($module);
         }
 
-        # retrieve version
-        my $version;
-        {
-            no strict 'refs';  ## no critic
-            $version = ${$module . '::VERSION'};
-        }
+        # no version means non-functionning task
+        next unless $version;
 
         $tasks{$name} = $version;
     }
 
     return %tasks;
+}
+
+sub _getTaskVersion {
+    my ($self, $module) = @_;
+
+    my $logger = $self->{logger};
+
+    if (!$module->require()) {
+        $logger->debug2("module $module does not compile: $@") if $logger;
+        return;
+    }
+
+    if (!$module->isa('FusionInventory::Agent::Task')) {
+        $logger->debug2("module $module is not a task") if $logger;
+        return;
+    }
+
+    my $version;
+    {
+        no strict 'refs';  ## no critic
+        $version = ${$module . '::VERSION'};
+    }
+
+    return $version;
 }
 
 sub _isAlreadyRunning {

@@ -53,7 +53,7 @@ sub doInventory {
 sub _getCPUFromMemconf {
     my $spec = getFirstMatch(
         command => 'memconf',
-        pattern => qr/^((Sun\s|Fujitsu|Intel).*\d+(G|M)Hz\)).*$/x,
+        pattern => qr/^((?:Sun|Fujitsu|Intel) .* \d+ [GM]Hz\))/x,
         @_
     );
     return _parseSpec($spec);
@@ -63,9 +63,9 @@ sub _parseCoreString {
     my ($v) = @_;
 
     return
-        $v =~ /dual/i               ? 2  :
-        $v =~ /quad/i               ? 4  :
-        $v =~ /(\d+)-(core|thread)/ ? $1 :
+        $v =~ /dual/i     ? 2  :
+        $v =~ /quad/i     ? 4  :
+        $v =~ /(\d+)-\w+/ ? $1 :
         $v;
 }
 
@@ -75,9 +75,8 @@ sub _parseSpec {
     my $manufacturer;
     if ($spec =~ /(AMD|Fujitsu|Intel)\s/g) {
         $manufacturer = $1;
-    } elsif ($spec =~ /(Sun)\s/) {
-        $manufacturer = $1;
-        $manufacturer =~ s/.*Sun.*/Sun Microsystems/;
+    } elsif ($spec =~ /Sun/) {
+        $manufacturer = 'Sun Microsystems';
     }
 
     # 4 X UltraSPARC-III 750MHz
@@ -103,7 +102,8 @@ sub _parseSpec {
 
     # 8-core quad-thread UltraSPARC-T1 1000MHz
     # 8-core 8-thread UltraSPARC-T2 1165MHz
-    if ($spec =~ /(\d+ -core) \s (\S+) \s (\S+) \s (\d+) MHz/x) {
+    # 16-Core 8-Thread SPARC-T3 1649MHz
+    if ($spec =~ /(\d+ -[cC]ore) \s (\S+) \s (\S+) \s (\d+) MHz/x) {
         return 1, {
             MANUFACTURER => $manufacturer,
             NAME         => $3 . " (" . $1 . " " . $2 . ")",

@@ -76,7 +76,7 @@ sub _handle {
         }
 
         # now request
-        if ($path =~ m{^/now(?:/(\S+))?$}) {
+        if ($path =~ m{^/now(?:/(\S*))?$}) {
             $self->_handle_now($client, $request, $clientIp, $1);
             last SWITCH;
         }
@@ -362,7 +362,7 @@ the directory where HTML templates and static files are stored
 
 =item I<ip>
 
-the network adress to listen to (default: all)
+the network address to listen to (default: all)
 
 =item I<port>
 
@@ -370,7 +370,7 @@ the network port to listen to
 
 =item I<trust>
 
-an IP adress or an IP adress range from which to trust incoming requests
+an IP address or an IP address range from which to trust incoming requests
 without authentication token (default: none)
 
 =back

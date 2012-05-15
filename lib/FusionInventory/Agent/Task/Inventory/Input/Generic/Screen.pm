@@ -1,23 +1,5 @@
 package FusionInventory::Agent::Task::Inventory::Input::Generic::Screen;
-#     Copyright (C) 2005 Mandriva
-#     Copyright (C) 2007 Gonéri Le Bouder <goneri@rulezlan.org> 
-#     This program is free software; you can redistribute it and/or modify
-#     it under the terms of the GNU General Public License as published by
-#     the Free Software Foundation; either version 2 of the License, or
-#     (at your option) any later version.
 
-#     This program is distributed in the hope that it will be useful,
-#     but WITHOUT ANY WARRANTY; without even the implied warranty of
-#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#     GNU General Public License for more details.
-
-#     You should have received a copy of the GNU General Public License
-#     along with this program; if not, write to the Free Software
-#     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-#
-# Some part come from Mandriva's (great) monitor-edid
-# http://svn.mandriva.com/cgi-bin/viewvc.cgi/soft/monitor-edid/trunk/
-#
 use strict;
 use warnings;
 
@@ -25,6 +7,7 @@ use English qw(-no_match_vars);
 use MIME::Base64;
 use UNIVERSAL::require;
 
+use File::Find;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Screen;
 
@@ -32,6 +15,7 @@ sub isEnabled {
 
     return
         $OSNAME eq 'MSWin32'                 ||
+        -d '/sys'                            ||
         canRun('monitor-get-edid-using-vbe') ||
         canRun('monitor-get-edid')           ||
         canRun('get-edid');
@@ -60,8 +44,8 @@ sub doInventory {
             }
             $screen->{BASE64} = encode_base64($screen->{edid});
 
-            delete $screen->{edid};
         }
+        delete $screen->{edid};
 
         $inventory->addEntry(
             section => 'MONITORS',
@@ -131,18 +115,39 @@ sub _getScreensFromWindows {
 
 sub _getScreensFromUnix {
 
+    my @screens;
+
+    if (-d '/sys') {
+        my $wanted = sub {
+            return unless $File::Find::name =~ m{/edid$};
+            open my $handle, '<', $File::Find::name;
+            my $edid = <$handle>;
+            close $handle;
+
+            push @screens, { edid => $edid } if $edid;
+        };
+
+        File::Find::find($wanted, '/sys');
+
+        return @screens if @screens;
+    }
+
     my $edid =
         getFirstLine(command => 'monitor-get-edid-using-vbe') ||
         getFirstLine(command => 'monitor-get-edid');
+    push @screens, { edid => $edid };
 
-    if (!$edid) {
-        foreach (1..5) { # Sometime get-edid return an empty string...
-            $edid = getFirstLine(command => 'get-edid');
-            last if $edid;
+    return @screens if @screens;
+
+    foreach (1..5) { # Sometime get-edid return an empty string...
+        $edid = getFirstLine(command => 'get-edid');
+        if ($edid) {
+            push @screens, { edid => $edid };
+            last;
         }
     }
 
-    return ( { edid => $edid } );
+    return @screens;
 }
 
 sub _getScreens {

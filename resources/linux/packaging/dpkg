@@ -1,19 +1,4 @@
-acpi-support-base	0.109-11	88	scripts for handling base ACPI events such as the power button
- This package contains scripts to react to various base ACPI events
- such as the power button. For more extensive ACPI support, including support
- for suspend-to-RAM and for various laptop features, install the package
- "acpi-support".
-acpid	1.0.8-1lenny2	196	Utilities for using ACPI power management
- Modern computers support the Advanced Configuration and Power Interface (ACPI)
- to allow intelligent power management on your system and to query battery and
- configuration status.
- .
- ACPID is a completely flexible, totally extensible daemon for delivering
- ACPI events. It listens on a file (/proc/acpi/event) and when an event
- occurs, executes programs to handle the event. The programs it executes
- are configured through a set of configuration files, which can be
- dropped into place by packages or by the admin.
-adduser	3.110	944	add and remove users and groups
+adduser	all	3.112+nmu2	1228	add and remove users and groups
  This package includes the 'adduser' and 'deluser' commands for creating
  and removing users.
  .
@@ -34,30 +19,126 @@ adduser	3.110	944	add and remove users and groups
  .
   Development mailing list:
     http://lists.alioth.debian.org/mailman/listinfo/adduser-devel/
-apt	0.7.20.2+lenny2	4652	Advanced front-end for dpkg
+anthy-common	all	9100h-6	13068	input method for Japanese - common files and dictionary
+ Anthy is a Japanese input method working on X11 and Emacs. It converts
+ hiragana text to mixed kana and kanji. It is implemented as a library
+ and stores private information securely in ~/.anthy/.
+ Thus, Anthy is simple and secure (information is protected from
+ spoofing and snooping).
+ .
+ This package provides common files dictonary data for anthy.
+apache2	amd64	2.2.16-6+squeeze6	36	Apache HTTP Server metapackage
+ The Apache Software Foundation's goal is to build a secure, efficient and
+ extensible HTTP server as standards-compliant open source software. The
+ result has long been the number one web server on the Internet.
+ .
+ It features support for HTTPS, virtual hosting, CGI, SSI, IPv6, easy
+ scripting and database integration, request/response filtering, many
+ flexible authentication schemes, and more.
+apache2-mpm-prefork	amd64	2.2.16-6+squeeze6	68	Apache HTTP Server - traditional non-threaded model
+ Each Apache Multi-Processing Module provides a different "flavor" of
+ web server binary, compiled with a different processing model.
+ .
+ The prefork MPM provides a non-threaded, pre-forking implementation
+ that handles requests in a manner similar to Apache 1.3. It is not as
+ fast as threaded models, but is considered to be more stable. It is
+ appropriate for sites that need to maintain compatibility with
+ non-thread-safe libraries, and is the best MPM for isolating each
+ request, so that a problem with a single request will not affect any
+ other.
+apache2-utils	amd64	2.2.16-6+squeeze6	384	utility programs for webservers
+ Provides some add-on programs useful for any webserver.  These include:
+  - ab (Apache benchmark tool)
+  - logresolve (Resolve IP addresses to hostname in logfiles)
+  - htpasswd (Manipulate basic authentication files)
+  - htdigest (Manipulate digest authentication files)
+  - dbmmanage (Manipulate basic authentication files in DBM format, using perl)
+  - htdbm (Manipulate basic authentication files in DBM format, using APR)
+  - rotatelogs (Periodically stop writing to a logfile and open a new one)
+  - split-logfile (Split a single log including multiple vhosts)
+  - checkgid (Checks whether the caller can setgid to the specified group)
+  - check_forensic (Extract mod_log_forensic output from Apache log files)
+apache2.2-bin	amd64	2.2.16-6+squeeze6	3856	Apache HTTP Server common binary files
+ The Apache Software Foundation's goal is to build a secure, efficient and
+ extensible HTTP server as standards-compliant open source software. The
+ result has long been the number one web server on the Internet.
+ .
+ This package contains all binaries but no configuration or support scripts.
+ To get a stand-alone server, you need to install one of the apache2-mpm-*
+ packages, such as worker or prefork. Other packages like gnome-user-share
+ may bring their own Apache configuration, though.
+apache2.2-common	amd64	2.2.16-6+squeeze6	2144	Apache HTTP Server common files
+ The Apache Software Foundation's goal is to build a secure, efficient and
+ extensible HTTP server as standards-compliant open source software. The
+ result has long been the number one web server on the Internet.
+ .
+ This package contains the configuration and support scripts.
+ However, it does *not* include the server itself; for this you need to
+ install one of the apache2-mpm-* packages, such as worker or prefork.
+apt	amd64	0.8.10.3+squeeze1	5644	Advanced front-end for dpkg
  This is Debian's next generation front-end for the dpkg package manager.
  It provides the apt-get utility and APT dselect method that provides a
  simpler, safer way to install and upgrade packages.
  .
  APT features complete installation ordering, multiple source capability
  and several other unique features, see the Users Guide in apt-doc.
-apt-utils	0.7.20.2+lenny2	396	APT utility programs
+apt-utils	amd64	0.8.10.3+squeeze1	540	APT utility programs
  This package contains some APT utility programs such as apt-ftparchive,
  apt-sortpkgs and apt-extracttemplates.
  .
  apt-extracttemplates is used by debconf to prompt for configuration
  questions before installation. apt-ftparchive is used to create Package
  and other index files. apt-sortpkgs is a Package/Source file normalizer.
-aptitude	0.4.11.11-1~lenny1	9808	terminal-based package manager
- aptitude is a terminal-based package manager with a number of useful
- features, including: a mutt-like syntax for matching packages in a
- flexible manner, dselect-like persistence of user actions, the
- ability to retrieve and display the Debian changelog of most
- packages, and a command-line mode similar to that of apt-get.
+apt-xapian-index	all	0.41	376	maintenance and search tools for a Xapian index of Debian packages
+ This package provides update-apt-xapian-index, a tool to maintan a Xapian
+ index of Debian package information in /var/lib/apt-xapian-index, and
+ axi-search, a command line search tool that uses the index.
+ .
+ axi-cache allows to search packages very quickly, and it also interfaces with
+ the shell command line completion in a smart way, providing context-sensitive
+ keyword and tag suggestions even before the search command is actually run.
+ .
+ update-apt-xapian-index allows plugins to be installed in
+ /usr/share/apt-xapian-index to index all sorts of extra information, such as
+ Debtags tags, popcon information, package ratings and anything else that would
+ fit.
+ .
+ The index generated by update-apt-xapian-index is self-documenting, as it
+ contains an autogenerated README file with information on the index layout and
+ all the data that can be found in it.
+aptitude	amd64	0.6.3-3.2+squeeze1	11916	terminal-based package manager (terminal interface only)
+ aptitude is a package manager with a number of useful features,
+ including: a mutt-like syntax for matching packages in a flexible
+ manner, dselect-like persistence of user actions, the ability to
+ retrieve and display the Debian changelog of most packages, and a
+ command-line mode similar to that of apt-get.
  .
  aptitude is also Y2K-compliant, non-fattening, naturally cleansing,
  and housebroken.
-at	3.1.10.2	220	Delayed job execution and batch processing
+ .
+ This package contains a version of aptitude compiled with only the
+ classic terminal-based interface (using curses).  For an experimental
+ graphical interface, see the package aptitude-gtk.
+aspell	amd64	0.60.6-4	1184	GNU Aspell spell-checker
+ GNU Aspell is a spell-checker which can be used either as a standalone
+ application or embedded in other programs.  Its main feature is that it
+ does a much better job of suggesting possible spellings than just about
+ any other spell-checker available for the English language, including
+ Ispell and Microsoft Word.  It also has many other technical
+ enhancements over Ispell such as using shared memory for dictionaries
+ and intelligently handling personal dictionaries when more than one
+ Aspell process is open at once.
+ .
+ Aspell is designed to be a drop-in replacement for Ispell.
+aspell-en	all	6.0-0-6	548	English dictionary for GNU Aspell
+ This package contains all the required files to add support for English
+ language to the GNU Aspell spell checker.
+ .
+ American, British and Canadian spellings are included.
+aspell-fr	all	0.50-3-7	636	French dictionary for aspell
+ This package contains all the required files to add support
+ for French language to aspell spell checker.
+at	amd64	3.1.12-1	220	Delayed job execution and batch processing
  At and batch read shell commands from standard input
  storing them as a job to be scheduled for execution in the
  future.

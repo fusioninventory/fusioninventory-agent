@@ -20,7 +20,7 @@ sub doInventory {
 
     foreach my $device (_getDevices(logger => $logger)) {
         # avoid duplicates
-        next if $seen->{$device->{SERIAL}}++;
+        next if $device->{SERIAL} && $seen->{$device->{SERIAL}}++;
         $inventory->addEntry(
             section => 'USBDEVICES',
             entry   => $device,

@@ -4,10 +4,12 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Solaris;
 
 sub isEnabled { 
     return 
         canRun('zoneadm') &&
+        getZone() eq 'global' &&
         _check_solaris_valid_release('/etc/release');
 }
 

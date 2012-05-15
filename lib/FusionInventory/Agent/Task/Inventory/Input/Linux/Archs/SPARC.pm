@@ -39,7 +39,7 @@ sub _getCPUsFromProc {
     my @cpus;
     foreach (1 .. $cpu->{'ncpus probed'}) {
         push @cpus, {
-            ARCH => 'ARM',
+            ARCH => 'SPARC',
             TYPE => $cpu->{cpu},
         };
     }

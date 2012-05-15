@@ -14,14 +14,14 @@ sub _prepareVal {
     return '' unless length($val);
 
     # forbid too long argument.
-    while (length(uri_escape($val)) > 1500) {
+    while (length(URI::Escape::uri_escape_utf8($val)) > 1500) {
         $val =~ s/^.{5}/…/;
     }
 
-    return uri_escape($val);
+    return URI::Escape::uri_escape_utf8($val);
 }
 
-sub send {
+sub send { ## no critic (ProhibitBuiltinHomonyms)
     my ($self, %params) = @_;
 
     my $url = ref $params{url} eq 'URI' ?

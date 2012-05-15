@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::Input::Linux::Softwares::Pacman;
+package FusionInventory::Agent::Task::Inventory::Input::Generic::Softwares::Pacman;
 
 use strict;
 use warnings;

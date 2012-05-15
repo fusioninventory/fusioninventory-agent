@@ -40,6 +40,7 @@ if ($OSNAME ne 'MSWin32') {
 test_requires  'HTTP::Proxy'                  => undef;
 test_requires  'HTTP::Server::Simple'         => undef;
 test_requires  'HTTP::Server::Simple::Authen' => undef;
+test_requires  'IO::Socket::SSL'              => undef;
 test_requires  'IO::Capture::Stderr'          => undef;
 test_requires  'IPC::Run'                     => undef;
 test_requires  'Test::Exception'              => undef;

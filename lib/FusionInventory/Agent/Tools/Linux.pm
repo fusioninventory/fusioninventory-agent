@@ -16,7 +16,7 @@ our @EXPORT = qw(
     getDevicesFromHal
     getDevicesFromProc
     getCPUsFromProc
-    getSerialnumber
+    getInfoFromSmartctl
     getInterfacesFromIfconfig
     getInterfacesFromIp
 );
@@ -29,8 +29,11 @@ sub getDevicesFromUdev {
     my @devices;
 
     foreach my $file (glob ("/dev/.udev/db/*")) {
-        next unless $file =~ /([sh]d[a-z])$/;
-        my $device = $1;
+        my $device = getFirstMatch(
+            file    => $file,
+            pattern => qr/^N:(\S+)/
+        );
+        next unless $device =~ /([hsv]d[a-z]|sr\d+)$/;
         push (@devices, _parseUdevEntry(
                 logger => $params{logger}, file => $file, device => $device
             ));
@@ -240,17 +243,39 @@ sub _getValueFromSysProc {
     return $value;
 }
 
-sub getSerialnumber {
+sub getInfoFromSmartctl {
     my (%params) = @_;
 
-    my ($serial) = getFirstMatch(
+    my $handle = getFileHandle(
+        %params,
         command => $params{device} ? "smartctl -i $params{device}" : undef,
-        file    => $params{file},
-        logger  => $params{logger},
-        pattern => qr/^Serial Number:\s+(\S*)/
     );
+    return unless $handle;
 
-    return $serial;
+    my $info = {
+        TYPE        => 'disk',
+        DESCRIPTION => 'SATA',
+    };
+
+    while (my $line = <$handle>) {
+        if ($line =~ /^Transport protocol: +(\S+)/i) {
+            $info->{DESCRIPTION} = $1;
+            next;
+        }
+
+        if ($line =~ /^Device type: +(\S+)/i) {
+            $info->{TYPE} = $1;
+            next;
+        }
+
+        if ($line =~ /^Serial number: +(\S+)/i) {
+            $info->{SERIALNUMBER} = $1;
+            next;
+        }
+    }
+    close $handle;
+
+    return $info;
 }
 
 sub getInterfacesFromIfconfig {
@@ -315,23 +340,55 @@ sub getInterfacesFromIp {
     my $interface;
 
     while (my $line = <$handle>) {
-        chomp $line;
-        if ($line =~ /^\d+:\s+(\S+): .*(UP|DOWN)/) {
-            push @interfaces, $interface if $interface;
+        if ($line =~ /^\d+:\s+(\S+): <([^>]+)>(.*)/) {
+
             $interface = {
-                DESCRIPTION => $1,
-                STATUS      => ucfirst(lc($2))
+                DESCRIPTION => $1
             };
-        } elsif ($line =~ /link\/ether ($mac_address_pattern)/) {
+
+            my $flags = $2;
+            my $remaining = $3;
+
+            if ($remaining =~ /state DOWN /) {
+                $interface->{STATUS} = 'Down';
+            } else {
+                foreach my $flag (split(/,/, $flags)) {
+                    next unless $flag eq 'UP' || $flag eq 'DOWN';
+                    $interface->{STATUS} = ucfirst(lc($flag));
+                }
+            }
+        } elsif ($line =~ /link\/\S+ ($mac_address_pattern)?/) {
             $interface->{MACADDR} = $1;
-        } elsif ($line =~ /inet6 (\S+)\//) {
-            $interface->{IPADDRESS6} = $1;
-        } elsif ($line =~ /inet ($ip_address_pattern)\/(\d{1,3})/) {
-            $interface->{IPADDRESS} = $1;
-            $interface->{IPMASK}    = getNetworkMask($2);
-            $interface->{IPSUBNET}  = getSubnetAddress(
-                $interface->{IPADDRESS}, $interface->{IPMASK}
-            );
+
+            # if courrent interface is not up, there won't be any address lines
+            push @interfaces, $interface
+                unless $interface->{STATUS} && $interface->{STATUS} eq 'Up';
+        } elsif ($line =~ /inet6 (\S+)\/(\d{1,2})/) {
+            my $address = $1;
+            my $mask    = getNetworkMaskIPv6($2);
+            my $subnet  = getSubnetAddressIPv6($address, $mask);
+
+            push @interfaces, {
+                IPADDRESS6  => $address,
+                IPMASK6     => $mask,
+                IPSUBNET6   => $subnet,
+                STATUS      => $interface->{STATUS},
+                DESCRIPTION => $interface->{DESCRIPTION},
+                MACADDR     => $interface->{MACADDR}
+            };
+        } elsif ($line =~ /inet ($ip_address_pattern)(?:\/(\d{1,3}))?/) {
+            my $address = $1;
+            my $mask    = getNetworkMask($2);
+            my $subnet  = getSubnetAddress($address, $mask);
+
+            push @interfaces, {
+                IPADDRESS   => $address,
+                IPMASK      => $mask,
+                IPSUBNET    => $subnet,
+                STATUS      => $interface->{STATUS},
+                DESCRIPTION => $interface->{DESCRIPTION},
+                MACADDR     => $interface->{MACADDR}
+            };
         }
     }
 
@@ -405,9 +462,9 @@ Availables parameters:
 
 =back
 
-=head2 getSerialnumber(%params)
+=head2 getInfoFromSmartctl(%params)
 
-Returns the serial number of a drive, using smartctl.
+Returns some informations about a drive, using smartctl.
 
 Availables parameters:
 

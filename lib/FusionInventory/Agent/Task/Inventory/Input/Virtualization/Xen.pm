@@ -19,9 +19,8 @@ sub doInventory {
 
     my $command = 'xm list';
     foreach my $machine (_getVirtualMachines(command => $command, logger => $logger)) {
-        my $uuid = getFirstMatch(
+        my $uuid = _getUUID(
             command => "xm list -l $machine->{NAME}",
-            pattern => qr/\s+.*uuid\s+(.*)/,
             logger  => $logger
         );
         $machine->{UUID} = $uuid;
@@ -29,6 +28,15 @@ sub doInventory {
             section => 'VIRTUALMACHINES', entry => $machine
         );
     }
+}
+
+sub _getUUID {
+    my (%params) = @_;
+
+    return getFirstMatch(
+        pattern => qr/\( uuid \s ([^)]+) \)/x,
+        %params
+    );
 }
 
 sub  _getVirtualMachines {

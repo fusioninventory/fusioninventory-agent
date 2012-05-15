@@ -131,13 +131,13 @@ ok(
 
 ok(
     ref $content->{REQUEST}->{CONTENT}->{SOFTWARES} eq 'HASH',
-    'inventory has expected software list'
+    'inventory contains only one software'
 );
 
 ok(
     $content->{REQUEST}->{CONTENT}->{SOFTWARES}->{NAME} eq 'foo' &&
     $content->{REQUEST}->{CONTENT}->{SOFTWARES}->{VERSION} eq 'bar',
-    'expected software'
+    'inventory contains the expected software'
 );
 
 ok(

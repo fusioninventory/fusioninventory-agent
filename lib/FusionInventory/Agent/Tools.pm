@@ -185,7 +185,7 @@ sub getSanitizedString {
     $string =~ s/[[:cntrl:]]//g;
 
     # encode to utf-8 if needed
-    if ($string !~ m/\A(
+    if (!Encode::is_utf8($string) && $string !~ m/\A(
           [\x09\x0A\x0D\x20-\x7E]           # ASCII
         | [\xC2-\xDF][\x80-\xBF]            # non-overlong 2-byte
         | \xE0[\xA0-\xBF][\x80-\xBF]        # excluding overlongs
@@ -333,7 +333,9 @@ sub getLinesCount {
 sub canRun {
     my ($binary) = @_;
 
-    return scalar(which($binary));
+    return $binary =~ m{^/} ?
+        -x $binary :            # full path
+        scalar(which($binary)); # executable name
 }
 
 sub canRead {
@@ -442,11 +444,11 @@ sub runFunction {
 
     my $result;
     eval {
+        local $SIG{ALRM} = sub { die "alarm\n" };
         # set a timeout if needed
-        local $SIG{ALRM} = sub { die "alarm\n" } if $params{timeout};
-        alarm $params{timeout};
+        alarm $params{timeout} if $params{timeout};
 
-        no strict 'refs'; ## no critic
+        no strict 'refs'; ## no critic (ProhibitNoStrict)
         $result = &{$params{module} . '::' . $params{function}}(
             ref $params{params} eq 'HASH'  ? %{$params{params}} :
             ref $params{params} eq 'ARRAY' ? @{$params{params}} :

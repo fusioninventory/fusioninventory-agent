@@ -1,6 +1,6 @@
 Revision history for FusionInventory agent
 
-2.2.0
+2.2.0  Sat, 07 Apr 2012 18:57:49 +0200
 
 Major changes:
 * large speed improvement: up to 150% for a local inventory
@@ -45,6 +45,9 @@ Major changes:
     have been deprecated in favor of a generic --no-task option
   - --no-software, --no-printer options have been deprecated in favor of a
     generic --no-category option, and 'environment' value support has been added
+* new --config option allows to select configuration backend, allowing to use
+  file configuration if needed under windows, or to ignore any external
+  configuration
 * fusioninventory-agent-config executable has been dropped, in favor of better
   documentation
 * documentation has been reviewed for consistency in various places where it
@@ -56,7 +59,6 @@ Major changes:
 
 Minor changes:
 * Add the HARDWARE/CHASSIS_TYPE information
-* local inventory file name now has .xml extension (#211)
 * Linux: report all IP addresses used by each interfaces (#854)
 * HPUX: don't report unoccupied memory slots
 * AIX: add LVM support

@@ -3,7 +3,7 @@
 
 <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
 <title>FusionInventory-Agent</title>
-<link rel="stylesheet" href="/files/site.css" type="text/css" />
+<link rel="stylesheet" href="site.css" type="text/css" />
 
 </head>
 <body>

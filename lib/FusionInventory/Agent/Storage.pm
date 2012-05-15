@@ -75,7 +75,17 @@ sub restore {
     my $file = $self->_getFilePath(%params);
 
     return unless -f $file;
-    return retrieve($file);
+
+    my $result;
+    eval {
+        $result = retrieve($file);
+    };
+    if ($EVAL_ERROR) {
+        $self->{logger}->error("Can't read corrupted $file, removing it");
+        unlink $file;
+    }
+
+    return $result;
 }
 
 sub remove {

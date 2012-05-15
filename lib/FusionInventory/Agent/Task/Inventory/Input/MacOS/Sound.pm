@@ -22,14 +22,14 @@ sub doInventory {
 
     # add sound cards
     foreach my $x (keys %$info){
-        $inventory->addEntry({
+        $inventory->addEntry(
             section => 'SOUNDS',
             entry   => {
                 NAME         => $x,
                 MANUFACTURER => $x,
                 DESCRIPTION  => $x,
             }
-        });
+        );
     }
 }
 

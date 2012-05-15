@@ -1,0 +1,507 @@
+Name:            Node 1 : Debian
+Guest OS:        Debian (64 bit)
+UUID:            e8e1f52d-700b-4fe8-b024-db04550eaddc
+Config file:     /home/normation/VirtualBox VMs/Node 1 : Debian/Node 1 : Debian.vbox
+Snapshot folder: /home/normation/VirtualBox VMs/Node 1 : Debian/Snapshots
+Log folder:      /home/normation/VirtualBox VMs/Node 1 : Debian/Logs
+Hardware UUID:   e8e1f52d-700b-4fe8-b024-db04550eaddc
+Memory size:     256MB
+Page Fusion:     off
+VRAM size:       12MB
+CPU exec cap:    100%
+HPET:            off
+Chipset:         piix3
+Firmware:        BIOS
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): Floppy
+Boot Device (2): DVD
+Boot Device (3): HardDisk
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          on
+PAE:             off
+Time offset:     0 ms
+RTC:             UTC
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: on
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           powered off (since 2012-04-04T17:47:16.000000000)
+Monitor count:   1
+3D Acceleration: off
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            Contrôleur IDE
+Storage Controller Type (0):            PIIX4
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+Storage Controller Bootable (0):        on
+Storage Controller Name (1):            Contrôleur SATA
+Storage Controller Type (1):            IntelAhci
+Storage Controller Instance Number (1): 0
+Storage Controller Max Port Count (1):  30
+Storage Controller Port Count (1):      1
+Storage Controller Bootable (1):        on
+Contrôleur IDE (1, 0): Empty
+Contrôleur SATA (0, 0): /home/normation/VirtualBox VMs/Node 1 : Debian/Node 1 : Debian.vdi (UUID: 741fe4ad-0581-45c8-94b5-0d4cd6b23e14)
+NIC 1:           MAC: 0800272C26F0, Attachment: NAT, Cable connected: on, Trace: off (file: none), Type: 82540EM, Reported speed: 0 Mbps, Boot priority: 0, Promisc Policy: deny
+NIC 1 Settings:  MTU: 0, Socket (send: 64, receive: 64), TCP Window (send:64, receive: 64)
+NIC 2:           MAC: 0800270C5FB5, Attachment: Host-only Interface 'vboxnet0', Cable connected: on, Trace: off (file: none), Type: 82540EM, Reported speed: 0 Mbps, Boot priority: 0, Promisc Policy: deny
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: USB Tablet
+Keyboard Device: PS/2 Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           disabled
+Clipboard Mode:  Bidirectional
+VRDE:            disabled
+USB:             enabled
+
+USB Device Filters:
+
+<none>
+
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+
+Name:            Node 2 : Debian
+Guest OS:        Debian (64 bit)
+UUID:            1922b52b-aa28-4d4a-b384-2d3429e3a6ad
+Config file:     /home/normation/VirtualBox VMs/Node 2 : Debian/Node 2 : Debian.vbox
+Snapshot folder: /home/normation/VirtualBox VMs/Node 2 : Debian/Snapshots
+Log folder:      /home/normation/VirtualBox VMs/Node 2 : Debian/Logs
+Hardware UUID:   1922b52b-aa28-4d4a-b384-2d3429e3a6ad
+Memory size:     256MB
+Page Fusion:     off
+VRAM size:       12MB
+CPU exec cap:    100%
+HPET:            off
+Chipset:         piix3
+Firmware:        BIOS
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): Floppy
+Boot Device (2): DVD
+Boot Device (3): HardDisk
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          on
+PAE:             off
+Time offset:     0 ms
+RTC:             UTC
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: on
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           powered off (since 2012-04-01T15:33:33.000000000)
+Monitor count:   1
+3D Acceleration: off
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            Contrôleur IDE
+Storage Controller Type (0):            PIIX4
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+Storage Controller Bootable (0):        on
+Storage Controller Name (1):            Contrôleur SATA
+Storage Controller Type (1):            IntelAhci
+Storage Controller Instance Number (1): 0
+Storage Controller Max Port Count (1):  30
+Storage Controller Port Count (1):      1
+Storage Controller Bootable (1):        on
+Contrôleur IDE (1, 0): Empty
+Contrôleur SATA (0, 0): /home/normation/VirtualBox VMs/Node 2 : Debian/Node 2 : Debian.vdi (UUID: 2a667060-5634-44e2-8727-f9a9c44cdcc4)
+NIC 1:           MAC: 08002714E92D, Attachment: NAT, Cable connected: off, Trace: off (file: none), Type: 82540EM, Reported speed: 0 Mbps, Boot priority: 0, Promisc Policy: deny
+NIC 1 Settings:  MTU: 0, Socket (send: 64, receive: 64), TCP Window (send:64, receive: 64)
+NIC 2:           MAC: 0800271B1CE0, Attachment: Host-only Interface 'vboxnet0', Cable connected: on, Trace: off (file: none), Type: 82540EM, Reported speed: 0 Mbps, Boot priority: 0, Promisc Policy: deny
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: USB Tablet
+Keyboard Device: PS/2 Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           disabled
+Clipboard Mode:  Bidirectional
+VRDE:            disabled
+USB:             enabled
+
+USB Device Filters:
+
+<none>
+
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+
+Name:            Node 3 : CentOS
+Guest OS:        Red Hat (64 bit)
+UUID:            a93b30fb-c0f8-4dbf-b439-f6e26d923cf7
+Config file:     /home/normation/VirtualBox VMs/Node 3 : CentOS/Node 3 : CentOS.vbox
+Snapshot folder: /home/normation/VirtualBox VMs/Node 3 : CentOS/Snapshots
+Log folder:      /home/normation/VirtualBox VMs/Node 3 : CentOS/Logs
+Hardware UUID:   a93b30fb-c0f8-4dbf-b439-f6e26d923cf7
+Memory size:     256MB
+Page Fusion:     off
+VRAM size:       12MB
+CPU exec cap:    100%
+HPET:            off
+Chipset:         piix3
+Firmware:        BIOS
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): Floppy
+Boot Device (2): DVD
+Boot Device (3): HardDisk
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          on
+PAE:             on
+Time offset:     0 ms
+RTC:             UTC
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: on
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           powered off (since 2012-04-04T15:38:21.000000000)
+Monitor count:   1
+3D Acceleration: off
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            Contrôleur IDE
+Storage Controller Type (0):            PIIX4
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+Storage Controller Bootable (0):        on
+Storage Controller Name (1):            Contrôleur SATA
+Storage Controller Type (1):            IntelAhci
+Storage Controller Instance Number (1): 0
+Storage Controller Max Port Count (1):  30
+Storage Controller Port Count (1):      1
+Storage Controller Bootable (1):        on
+Contrôleur IDE (1, 0): Empty
+Contrôleur SATA (0, 0): /home/normation/VirtualBox VMs/Node 3 : CentOS/Node 3 : CentOS.vdi (UUID: 7e1f77f5-a17a-4fdd-9e23-f3547f8db25b)
+NIC 1:           MAC: 080027B572C5, Attachment: NAT, Cable connected: off, Trace: off (file: none), Type: 82540EM, Reported speed: 0 Mbps, Boot priority: 0, Promisc Policy: deny
+NIC 1 Settings:  MTU: 0, Socket (send: 64, receive: 64), TCP Window (send:64, receive: 64)
+NIC 2:           MAC: 080027243CFA, Attachment: Host-only Interface 'vboxnet0', Cable connected: on, Trace: off (file: none), Type: 82540EM, Reported speed: 0 Mbps, Boot priority: 0, Promisc Policy: deny
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: PS/2 Mouse
+Keyboard Device: PS/2 Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           disabled
+Clipboard Mode:  Bidirectional
+VRDE:            disabled
+USB:             enabled
+
+USB Device Filters:
+
+<none>
+
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+
+Name:            Node 4 : CentOS
+Guest OS:        Red Hat (64 bit)
+UUID:            677daaa1-3e7a-441a-91be-449e02c82dd0
+Config file:     /home/normation/VirtualBox VMs/Node 4 : CentOS/Node 4 : CentOS.vbox
+Snapshot folder: /home/normation/VirtualBox VMs/Node 4 : CentOS/Snapshots
+Log folder:      /home/normation/VirtualBox VMs/Node 4 : CentOS/Logs
+Hardware UUID:   677daaa1-3e7a-441a-91be-449e02c82dd0
+Memory size:     256MB
+Page Fusion:     off
+VRAM size:       12MB
+CPU exec cap:    100%
+HPET:            off
+Chipset:         piix3
+Firmware:        BIOS
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): Floppy
+Boot Device (2): DVD
+Boot Device (3): HardDisk
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          on
+PAE:             on
+Time offset:     0 ms
+RTC:             UTC
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: on
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           powered off (since 2012-04-01T15:33:47.000000000)
+Monitor count:   1
+3D Acceleration: off
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            Contrôleur IDE
+Storage Controller Type (0):            PIIX4
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+Storage Controller Bootable (0):        on
+Storage Controller Name (1):            Contrôleur SATA
+Storage Controller Type (1):            IntelAhci
+Storage Controller Instance Number (1): 0
+Storage Controller Max Port Count (1):  30
+Storage Controller Port Count (1):      1
+Storage Controller Bootable (1):        on
+Contrôleur IDE (1, 0): Empty
+Contrôleur SATA (0, 0): /home/normation/VirtualBox VMs/Node 4 : CentOS/Node 4 : CentOS.vdi (UUID: 771d6b7b-eb29-464b-b9eb-9e4d03e43ea9)
+NIC 1:           MAC: 080027C989C8, Attachment: NAT, Cable connected: off, Trace: off (file: none), Type: 82540EM, Reported speed: 0 Mbps, Boot priority: 0, Promisc Policy: deny
+NIC 1 Settings:  MTU: 0, Socket (send: 64, receive: 64), TCP Window (send:64, receive: 64)
+NIC 2:           MAC: 0800276684E9, Attachment: Host-only Interface 'vboxnet0', Cable connected: on, Trace: off (file: none), Type: 82540EM, Reported speed: 0 Mbps, Boot priority: 0, Promisc Policy: deny
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: PS/2 Mouse
+Keyboard Device: PS/2 Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           disabled
+Clipboard Mode:  Bidirectional
+VRDE:            disabled
+USB:             enabled
+
+USB Device Filters:
+
+<none>
+
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+
+Name:            FormationCFengine
+Guest OS:        Debian (64 bit)
+UUID:            b8b35683-eb17-4689-8213-6a46b28b139f
+Config file:     /home/normation/VirtualBox VMs/FormationCFengine/FormationCFengine.vbox
+Snapshot folder: /home/normation/VirtualBox VMs/FormationCFengine/Snapshots
+Log folder:      /home/normation/VirtualBox VMs/FormationCFengine/Logs
+Hardware UUID:   b8b35683-eb17-4689-8213-6a46b28b139f
+Memory size:     384MB
+Page Fusion:     off
+VRAM size:       12MB
+CPU exec cap:    100%
+HPET:            off
+Chipset:         piix3
+Firmware:        BIOS
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): HardDisk
+Boot Device (2): Not Assigned
+Boot Device (3): Not Assigned
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          on
+PAE:             off
+Time offset:     0 ms
+RTC:             UTC
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: on
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           powered off (since 2011-06-17T14:51:25.000000000)
+Monitor count:   1
+3D Acceleration: off
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            Contrôleur IDE
+Storage Controller Type (0):            PIIX4
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+Storage Controller Bootable (0):        on
+Storage Controller Name (1):            Contrôleur SATA
+Storage Controller Type (1):            IntelAhci
+Storage Controller Instance Number (1): 0
+Storage Controller Max Port Count (1):  30
+Storage Controller Port Count (1):      1
+Storage Controller Bootable (1):        on
+Contrôleur IDE (1, 0): /dev/sr0 (UUID: 00445644-0000-0000-2f64-65762f737230)
+Contrôleur SATA (0, 0): /home/normation/VirtualBox VMs/FormationCFengine/FormationCFengine.vdi (UUID: c126e75e-b5d5-41e6-b148-541eed583c96)
+NIC 1:           MAC: 0800279BA8C4, Attachment: NAT, Cable connected: on, Trace: off (file: none), Type: 82540EM, Reported speed: 0 Mbps, Boot priority: 0, Promisc Policy: deny
+NIC 1 Settings:  MTU: 0, Socket (send: 64, receive: 64), TCP Window (send:64, receive: 64)
+NIC 2:           MAC: 080027F037C9, Attachment: Host-only Interface 'vboxnet0', Cable connected: on, Trace: off (file: none), Type: 82540EM, Reported speed: 0 Mbps, Boot priority: 0, Promisc Policy: deny
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: USB Tablet
+Keyboard Device: PS/2 Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           enabled (Driver: PulseAudio, Controller: AC97)
+Clipboard Mode:  Bidirectional
+VRDE:            disabled
+USB:             enabled
+
+USB Device Filters:
+
+Index:            0
+Active:           yes
+Name:             USB DISK 2.0 [0100]
+VendorId:         13fe
+ProductId:        1a00
+Revision:         0100
+Manufacturer:             
+Product:          USB DISK 2.0    
+Remote:           0
+Serial Number:    07731D3906F9
+
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+
+Name:            Debian Maître - Squeeze
+Guest OS:        Debian (64 bit)
+UUID:            ab6afdd6-aa78-4a22-8fc9-02b471c9084c
+Config file:     /home/normation/VirtualBox VMs/Debian Maître - Squeeze/Debian Maître - Squeeze.vbox
+Snapshot folder: /home/normation/VirtualBox VMs/Debian Maître - Squeeze/Snapshots
+Log folder:      /home/normation/VirtualBox VMs/Debian Maître - Squeeze/Logs
+Hardware UUID:   ab6afdd6-aa78-4a22-8fc9-02b471c9084c
+Memory size:     1024MB
+Page Fusion:     off
+VRAM size:       12MB
+CPU exec cap:    100%
+HPET:            off
+Chipset:         piix3
+Firmware:        BIOS
+Number of CPUs:  1
+Synthetic Cpu:   off
+CPUID overrides: None
+Boot menu mode:  message and menu
+Boot Device (1): Floppy
+Boot Device (2): DVD
+Boot Device (3): HardDisk
+Boot Device (4): Not Assigned
+ACPI:            on
+IOAPIC:          on
+PAE:             off
+Time offset:     0 ms
+RTC:             UTC
+Hardw. virt.ext: on
+Hardw. virt.ext exclusive: on
+Nested Paging:   on
+Large Pages:     off
+VT-x VPID:       on
+State:           powered off (since 2012-04-04T17:47:33.000000000)
+Monitor count:   1
+3D Acceleration: off
+2D Video Acceleration: off
+Teleporter Enabled: off
+Teleporter Port: 0
+Teleporter Address: 
+Teleporter Password: 
+Storage Controller Name (0):            Contrôleur IDE
+Storage Controller Type (0):            PIIX4
+Storage Controller Instance Number (0): 0
+Storage Controller Max Port Count (0):  2
+Storage Controller Port Count (0):      2
+Storage Controller Bootable (0):        on
+Storage Controller Name (1):            Contrôleur SATA
+Storage Controller Type (1):            IntelAhci
+Storage Controller Instance Number (1): 0
+Storage Controller Max Port Count (1):  30
+Storage Controller Port Count (1):      1
+Storage Controller Bootable (1):        on
+Contrôleur IDE (1, 0): Empty
+Contrôleur SATA (0, 0): /home/normation/VirtualBox VMs/Debian Maître - Squeeze/Debian Maître - Squeeze.vdi (UUID: 19db8e90-4fd6-4294-81da-0a5d0d6cf94e)
+NIC 1:           MAC: 0800279FE582, Attachment: NAT, Cable connected: on, Trace: off (file: none), Type: 82540EM, Reported speed: 0 Mbps, Boot priority: 0, Promisc Policy: deny
+NIC 1 Settings:  MTU: 0, Socket (send: 64, receive: 64), TCP Window (send:64, receive: 64)
+NIC 2:           MAC: 080027DC79DF, Attachment: Host-only Interface 'vboxnet0', Cable connected: on, Trace: off (file: none), Type: 82540EM, Reported speed: 0 Mbps, Boot priority: 0, Promisc Policy: deny
+NIC 3:           disabled
+NIC 4:           disabled
+NIC 5:           disabled
+NIC 6:           disabled
+NIC 7:           disabled
+NIC 8:           disabled
+Pointing Device: USB Tablet
+Keyboard Device: PS/2 Keyboard
+UART 1:          disabled
+UART 2:          disabled
+Audio:           disabled
+Clipboard Mode:  Bidirectional
+VRDE:            disabled
+USB:             enabled
+
+USB Device Filters:
+
+<none>
+
+Shared folders:  <none>
+
+Guest:
+
+Configured memory balloon size:      0 MB
+
+

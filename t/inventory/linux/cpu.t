@@ -205,11 +205,11 @@ my %alpha = (
 my %sparc = (
     'linux-sparc-1' => [
         {
-            ARCH => 'ARM',
+            ARCH => 'SPARC',
             TYPE => 'TI UltraSparc IIIi (Jalapeno)'
         },
         {
-            ARCH => 'ARM',
+            ARCH => 'SPARC',
             TYPE => 'TI UltraSparc IIIi (Jalapeno)'
         }
     ]
@@ -218,8 +218,16 @@ my %sparc = (
 my %arm = (
     'linux-armel-1' => [
         {
-            ARCH => 'ARM',
-            TYPE => 'XScale-80219 rev 0 (v5l)'
+            ARCH  => 'ARM',
+            SPEED => '593.10',
+            TYPE  => 'XScale-80219 rev 0 (v5l)'
+        }
+    ],
+    'linux-armel-2' => [
+        {
+            ARCH  => 'ARM',
+            SPEED => '1192.75',
+            TYPE  => 'Feroceon 88FR131 rev 1 (v5l)'
         }
     ]
 );
@@ -303,7 +311,8 @@ foreach my $test (keys %mips) {
 foreach my $test (keys %arm) {
     my $file = "resources/linux/proc/cpuinfo/$test";
     my @cpus = FusionInventory::Agent::Task::Inventory::Input::Linux::Archs::ARM::_getCPUsFromProc(file => $file);
-    is_deeply(\@cpus, $arm{$test}, $test);
+    is_deeply(\@cpus, $arm{$test}, $test) or print Dumper(\@cpus);
+    use Data::Dumper;
 }
 
 foreach my $test (keys %ppc) {

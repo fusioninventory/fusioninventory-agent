@@ -1,1 +1,1 @@
-pvs --noheading --nosuffix --units M -o +pv_uuid,pv_pe_count,pv_size,pv_attr
+pvs --noheading --nosuffix --units M -o pv_name,pv_fmt,pv_attr,pv_size,pv_free,pv_uuid,pv_pe_count,vg_uuid

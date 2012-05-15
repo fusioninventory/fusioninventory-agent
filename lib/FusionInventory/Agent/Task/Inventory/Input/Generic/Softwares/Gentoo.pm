@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::Input::Linux::Softwares::Gentoo;
+package FusionInventory::Agent::Task::Inventory::Input::Generic::Softwares::Gentoo;
 
 use strict;
 use warnings;

@@ -31,7 +31,7 @@ sub addMessage {
             $format = "\033[1;31m[%s] %s\033[0m\n";
         } elsif ($level eq 'info') {
             $format = "\033[1;34m[%s]\033[0m %s\n";
-        } elsif ($level eq 'debug') {
+        } elsif ($level =~ /^debug/ ) {
             $format = "\033[1;1m[%s]\033[0m %s\n";
         }
     } else {

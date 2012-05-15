@@ -20,9 +20,7 @@ sub doInventory {
 
     my ($bios, $hardware);
 
-    my $zone = getZone();
-    if ($zone) {
-
+    if (getZone() eq 'global') {
         my $arch;
         if (canRun('showrev')) {
             my $infos = _parseShowRev(logger => $logger);

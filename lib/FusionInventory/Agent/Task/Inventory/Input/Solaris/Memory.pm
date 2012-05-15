@@ -16,10 +16,29 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
+    my $memorySize = getFirstMatch(
+        command => 'prtconf',
+        logger  => $logger,
+        pattern => qr/^Memory\ssize:\s+(\S+)/
+    );
+
+    my $swapSize = getFirstMatch(
+        command => 'swap -l',
+        logger  => $logger,
+        pattern => qr/\s+(\d+)$/
+    );
+
+    $inventory->setHardware({
+        MEMORY => $memorySize,
+        SWAP =>   $swapSize
+    });
+
     my $class = getClass();
 
     if (!$class) {
-        $logger->debug("sorry, unknown model, could not detect memory configuration");
+        $logger->debug(
+            "Unknown model, impossible to detect memory configuration"
+        );
         return;
     }
 
@@ -39,24 +58,6 @@ sub doInventory {
             entry   => $memory
         );
     }
-
-    my $memorySize = getFirstMatch(
-        command => 'prtconf',
-        logger  => $logger,
-        pattern => qr/^Memory\ssize:\s+(\S+)/
-    );
-
-    my $swapSize = getFirstMatch(
-        command => 'swap -l',
-        logger  => $logger,
-        pattern => qr/\s+(\S+)$/
-    );
-
-    $inventory->setHardware({
-        MEMORY => $memorySize,
-        SWAP =>   $swapSize
-    });
-
 }
 
 sub _getMemories1 {

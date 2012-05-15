@@ -533,7 +533,24 @@ my %hal_tests = (
 );
 
 my %smartctl_tests = (
-    'dell-xt2' => 'DFW1W11002SE002B3117'
+    sample1 => {
+        TYPE         => 'disk',
+        DESCRIPTION  => 'SATA',
+        SERIALNUMBER => 'DFW1W11002SE002B3117'
+    },
+    sample2 => {
+        TYPE         => 'disk',
+        DESCRIPTION  => 'SATA'
+    },
+    sample3 => {
+        TYPE         => 'disk',
+        DESCRIPTION  => 'SAS',
+        SERIALNUMBER => '3LM0L0FJ00009733Y46W',
+    },
+    sample4 => {
+        TYPE         => 'enclosure',
+        DESCRIPTION  => 'SATA'
+    },
 );
 
 my %ifconfig_tests = (
@@ -676,60 +693,176 @@ my %ipaddrshow_tests = (
         {
             IPSUBNET    => '127.0.0.0',
             IPMASK      => '255.0.0.0',
-            STATUS      => 'Up',
             DESCRIPTION => 'lo',
+            STATUS      => 'Up',
+            IPADDRESS   => '127.0.0.1',
+            MACADDR     => '00:00:00:00:00:00',
+        },
+        {
+            DESCRIPTION => 'lo',
+            STATUS      => 'Up',
             IPADDRESS6  => '::1',
-            IPADDRESS   => '127.0.0.1'
+            IPMASK6     => 'fff0::',
+            IPSUBNET6   => '::',
+            MACADDR     => '00:00:00:00:00:00',
         },
         {
             IPSUBNET    => '192.168.0.0',
             IPMASK      => '255.255.255.0',
             MACADDR     => '00:23:18:91:db:8d',
-            STATUS      => 'Up',
             DESCRIPTION => 'eth0',
-            IPADDRESS6  => 'fe80::223:18ff:fe91:db8d',
+            STATUS      => 'Up',
             IPADDRESS   => '192.168.0.10'
         },
         {
+            MACADDR     => '00:23:18:91:db:8d',
+            DESCRIPTION => 'eth0',
             STATUS      => 'Up',
-            DESCRIPTION => 'tun0'
+            IPADDRESS6  => '2a01:e34:ef9c:64d0:223:18ff:fe91:db8d',
+            IPMASK6     => 'ffff:ffff:ffff:ffff::',
+            IPSUBNET6   => '2a01:e34:ef9c:64d0::'
+        },
+        {
+            MACADDR     => '00:23:18:91:db:8d',
+            DESCRIPTION => 'eth0',
+            STATUS      => 'Up',
+            IPADDRESS6  => 'fe80::223:18ff:fe91:db8d',
+            IPMASK6     => 'ffff:ffff:ffff:ffff::',
+            IPSUBNET6   => 'fe80::'
         },
         {
             STATUS      => 'Up',
-            DESCRIPTION => 'tun1'
+            DESCRIPTION => 'tun0',
+            IPADDRESS   => '192.168.41.6',
+            IPSUBNET    => undef,
+            IPMASK      => undef,
+            MACADDR     => undef
         },
         {
-            MACADDR     => 'e8:39:df:3f:7d:ef',
+            STATUS      => 'Up',
+            DESCRIPTION => 'tun1',
+            IPADDRESS   => '192.168.222.14',
+            IPSUBNET    => undef,
+            IPMASK      => undef,
+            MACADDR     => undef
+        },
+        {
             STATUS      => 'Down',
-            DESCRIPTION => 'wlan0'
+            DESCRIPTION => 'wlan0',
+            MACADDR     => 'e8:39:df:3f:7d:ef'
+        },
+        {
+            IPSUBNET    => '172.28.218.0',
+            IPMASK      => '255.255.255.0',
+            MACADDR     => '8a:84:99:29:46:05',
+            DESCRIPTION => 'tap0',
+            STATUS      => 'Up',
+            IPADDRESS   => '172.28.218.101'
+        },
+        {
+            MACADDR     => '8a:84:99:29:46:05',
+            DESCRIPTION => 'tap0',
+            STATUS      => 'Up',
+            IPADDRESS6  => 'fe80::8884:99ff:fe29:4605',
+            IPMASK6     => 'ffff:ffff:ffff:ffff::',
+            IPSUBNET6   => 'fe80::'
         }
     ],
     'ip_addr-2' => [
         {
             IPSUBNET    => '127.0.0.0',
             IPMASK      => '255.0.0.0',
-            STATUS      => 'Up',
             DESCRIPTION => 'lo',
+            STATUS      => 'Up',
+            IPADDRESS   => '127.0.0.1',
+            MACADDR     => '00:00:00:00:00:00',
+        },
+        {
+            DESCRIPTION => 'lo',
+            STATUS      => 'Up',
             IPADDRESS6  => '::1',
-            IPADDRESS   => '127.0.0.1'
+            IPMASK6     => 'fff0::',
+            IPSUBNET6   => '::',
+            MACADDR     => '00:00:00:00:00:00',
+        },
+        {
+            IPSUBNET    => '11.11.11.0',
+            IPMASK      => '255.255.255.128',
+            MACADDR     => '0f:0f:0f:0f:0f:0f',
+            DESCRIPTION => 'eth0',
+            STATUS      => 'Up',
+            IPADDRESS   => '11.11.11.11'
         },
         {
             IPSUBNET    => '172.16.0.0',
             IPMASK      => '255.255.128.0',
             MACADDR     => '0f:0f:0f:0f:0f:0f',
-            STATUS      => 'Up',
             DESCRIPTION => 'eth0',
-            IPADDRESS6  => 'fe80::201:29ff:fed1:feb4',
+            STATUS      => 'Up',
             IPADDRESS   => '172.16.0.201'
         },
         {
-            STATUS      => 'Down',
-            DESCRIPTION => 'eql'
+            MACADDR     => '0f:0f:0f:0f:0f:0f',
+            DESCRIPTION => 'eth0',
+            STATUS      => 'Up',
+            IPADDRESS6  => 'fe80::201:29ff:fed1:feb4',
+            IPMASK6     => 'ffff:ffff:ffff:ffff::',
+            IPSUBNET6   => 'fe80::'
         },
         {
             STATUS      => 'Down',
-            DESCRIPTION => 'sit0'
+            DESCRIPTION => 'eql',
+            MACADDR     => undef
+        },
+        {
+            STATUS      => 'Down',
+            DESCRIPTION => 'sit0',
+            MACADDR     => undef
+        },
+        {
+            STATUS      => 'Down',
+            DESCRIPTION => 'wlan0',
+            MACADDR     => '0f:0f:0f:0f:0f:0f'
         }
+    ],
+    # RHEL 5.6
+    'ip_addr-3' => [
+        {
+            IPSUBNET    => '127.0.0.0',
+            IPMASK      => '255.0.0.0',
+            DESCRIPTION => 'lo',
+            STATUS      => 'Up',
+            IPADDRESS   => '127.0.0.1',
+            MACADDR     => '00:00:00:00:00:00',
+        },
+        {
+            DESCRIPTION => 'lo',
+            STATUS      => 'Up',
+            IPADDRESS6  => '::1',
+            IPMASK6     => 'fff0::',
+            IPSUBNET6   => '::',
+            MACADDR     => '00:00:00:00:00:00',
+        },
+        {
+            IPSUBNET    => '10.40.1.0',
+            IPMASK      => '255.255.255.0',
+            MACADDR     => '00:50:56:8b:70:b7',
+            DESCRIPTION => 'eth0',
+            STATUS      => 'Up',
+            IPADDRESS   => '10.40.1.16',
+        },
+        {
+            MACADDR     => '00:50:56:8b:70:b7',
+            DESCRIPTION => 'eth0',
+            STATUS      => 'Up',
+            IPADDRESS6  => 'fe80::250:56ff:fe8b:70b7',
+            IPMASK6     => 'ffff:ffff:ffff:ffff::',
+            IPSUBNET6   => 'fe80::'
+        },
+        {
+            DESCRIPTION => 'sit0',
+            MACADDR     => undef
+        },
     ]
 );
 
@@ -763,8 +896,8 @@ foreach my $test (keys %hal_tests) {
 
 foreach my $test (keys %smartctl_tests) {
     my $file = "resources/linux/smartctl/$test";
-    my $result = getSerialnumber(file => $file);
-    is($result, $smartctl_tests{$test}, "$test smartctl parsing");
+    my $result = getInfoFromSmartctl(file => $file);
+    is_deeply($result, $smartctl_tests{$test}, "$test smartctl parsing");
 }
 
 foreach my $test (keys %ifconfig_tests) {

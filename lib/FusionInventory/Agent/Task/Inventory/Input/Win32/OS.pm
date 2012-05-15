@@ -98,9 +98,16 @@ sub doInventory {
         $inventory->setHardware({
             MEMORY     => $object->{TotalPhysicalMemory},
             WORKGROUP  => $object->{Domain} || $object->{Workgroup},
-            WINOWNER   => $object->{PrimaryOwnerName},
-            NAME       => $object->{Name},
+            WINOWNER   => $object->{PrimaryOwnerName}
         });
+
+        if (!$name) {
+            $inventory->setHardware({
+                NAME       => $object->{Name},
+            });
+        }
+
+
     }
 
     foreach my $object (getWmiObjects(
