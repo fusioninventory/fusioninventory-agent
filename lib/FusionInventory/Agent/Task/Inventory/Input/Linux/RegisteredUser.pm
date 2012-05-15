@@ -7,10 +7,13 @@ use FusionInventory::Agent::Tools;
 
 my $seen;
 
+# inventory is enabled if you can read /etc/passwd
 sub isEnabled {
     return
         canRead("/etc/passwd");
 }
+
+
 
 sub doInventory {
     my (%params) = @_;
@@ -25,20 +28,25 @@ sub doInventory {
     my @users;
 
     if ($handle) {
+# read /etc/passwd until last line
         while (my $line = <$handle>) {
 
             next unless $line =~ /^(\S+)/;
 
             my @splitted_line = split (/:|\n/,$line);
 
-            my @shadow_line = getshadow(
+            # process password information
+            my @shadow_line = getpasswordinfo(
                 user=>$splitted_line[0],
                 logger  => $logger
                 );
 
-            my $time = time();
-            my $date = int ($time/24/3600)-$shadow_line[2];
 
+           # process password age (number of days since creation)
+            my $time = time();
+            my $passwordAge = int ($time/24/3600)-$shadow_line[2];
+
+            # password information hash datas
             my %password_data= (
                 PASSWORD_AGE     => $date,
                 MINIMUM_AGE      => $shadow_line[3],
@@ -51,8 +59,10 @@ sub doInventory {
                 datas => \%password_data
                 );
 
-	    my @info_line = split (/,/,$splitted_line[4]);
+            # process information on user
+            my @info_line = split (/,/,$splitted_line[4]);
 
+            # user information hash
             my %personnal_info = (
                 FULLNAME => $info_line[0],
                 ADDRESS => $info_line[1],
@@ -65,6 +75,8 @@ sub doInventory {
                 datas => \%personnal_info
                 );
 
+
+            # user data
             my %user_data= (
                 NAME                => $splitted_line[0],
                 UID                 => $splitted_line[2],
@@ -80,8 +92,9 @@ sub doInventory {
                 datas => \%user_data
                 );
 
+            #add that user into array
             push @users,$user;
-	}
+        }
 
         my $registered = { USER => \@users};
 
@@ -93,6 +106,8 @@ sub doInventory {
     close $handle;
 }
 
+
+# give information about password in /etc/shadow for a given user
 sub getshadow{
 
     my (%params) = @_;
@@ -116,6 +131,7 @@ sub getshadow{
     return undef;
 }
 
+# Remove empty value is hash
 sub treat_datas {
 
     my (%params) = @_;
@@ -124,26 +140,11 @@ sub treat_datas {
 
     while (my ($key,$value)= each %{$datas}){
 
-        $target= treat_param(
-            target => $target,
-            key => $key,
-            value => $value
-            );
-    }
+        if(defined $value) {
+            $target->{$key} = $value unless $value eq '';
+        }
 
-    return $target;
-}
-
-sub treat_param{
-
-    my (%params) = @_;
-    my $target = $params{target};
-    my $value = $params{value};
-    my $key = $params{key};
-
-   if(defined $value) {
-        $target->{$key} = $value unless $value eq '';
-    }
+   }
 
     return $target;
 }

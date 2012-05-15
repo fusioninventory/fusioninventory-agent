@@ -38,7 +38,7 @@ sub doInventory {
                 $user->{PASSWORD}->{AGE} = $age;
             }
             elsif   ($line =~ m/^FullName\s+:\s{(.+)}/){
-                $user->{REALNAME} = $1;
+                $user->{FULLNAME} = $1;
             }
              elsif   ($line =~ m/^ HomeDirectory\s+:\s{(.+)}/){
                 $user->{HOMEDIR} = $1;
