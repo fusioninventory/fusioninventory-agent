@@ -117,16 +117,16 @@ sub _getScreensFromUnix {
 
     my @screens;
 
-    my $wanted = sub {
-        return unless $File::Find::name =~ m{(/edid)$};
-        open my $t, "<$File::Find::name";
-        my $edid = <$t>;
-        close $t;
-
-        push @screens, { edid => $edid } if $edid;
-    };
-
     if (-d '/sys') {
+        my $wanted = sub {
+            return unless $File::Find::name =~ m{(/edid)$};
+            open my $t, "<$File::Find::name";
+            my $edid = <$t>;
+            close $t;
+
+            push @screens, { edid => $edid } if $edid;
+        };
+
         File::Find::find($wanted, '/sys');
     }
 
