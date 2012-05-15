@@ -182,7 +182,7 @@ sub getFilesystemsFromDf {
         next if $free  !~ /^\d+$/ || $free  == 0;
 
         push @filesystems, {
-            VOLUMN     => $infos[0],
+            VOLUME     => $infos[0],
             FILESYSTEM => $filesystem,
             TOTAL      => int($total / 1024),
             FREE       => int($free / 1024),

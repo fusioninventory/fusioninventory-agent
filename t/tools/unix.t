@@ -11,35 +11,35 @@ use FusionInventory::Agent::Tools::Unix;
 my %df_tests = (
     'freebsd' => [
         {
-            VOLUMN     => '/dev/ad4s1a',
+            VOLUME     => '/dev/ad4s1a',
             TOTAL      => '1447',
             FREE       => '965',
             TYPE       => '/',
             FILESYSTEM => 'ufs'
         },
         {
-            VOLUMN     => '/dev/ad4s1g',
+            VOLUME     => '/dev/ad4s1g',
             TOTAL      => '138968',
             FREE       => '12851',
             TYPE       => '/Donnees',
             FILESYSTEM => 'ufs'
         },
         {
-            VOLUMN     => '/dev/ad4s1e',
+            VOLUME     => '/dev/ad4s1e',
             TOTAL      => '495',
             FREE       => '397',
             TYPE       => '/tmp',
             FILESYSTEM => 'ufs'
         },
         {
-            VOLUMN     => '/dev/ad4s1f',
+            VOLUME     => '/dev/ad4s1f',
             TOTAL      => '19832',
             FREE       => '5118',
             TYPE       => '/usr',
             FILESYSTEM => 'ufs'
         },
         {
-            VOLUMN     => '/dev/ad4s1d',
+            VOLUME     => '/dev/ad4s1d',
             TOTAL      => '3880',
             FREE       => '2571',
             TYPE       => '/var',
@@ -48,21 +48,21 @@ my %df_tests = (
     ],
     'linux' => [
         {
-            VOLUMN     => '/dev/sda5',
+            VOLUME     => '/dev/sda5',
             TOTAL      => '12106',
             FREE       => '6528',
             TYPE       => '/',
             FILESYSTEM => 'ext4'
         },
         {
-            VOLUMN     => '/dev/sda3',
+            VOLUME     => '/dev/sda3',
             TOTAL      => '60002',
             FREE       => '40540',
             TYPE       => '/media/windows',
             FILESYSTEM => 'fuseblk'
         },
         {
-            VOLUMN     => '/dev/sda7',
+            VOLUME     => '/dev/sda7',
             TOTAL      => '44110',
             FREE       => '21930',
             TYPE       => '/home',
@@ -71,7 +71,7 @@ my %df_tests = (
     ],
     'netbsd' => [
           {
-            VOLUMN     => '/dev/wd0a',
+            VOLUME     => '/dev/wd0a',
             TOTAL      => '15112',
             FREE       => '3581',
             TYPE       => '/',
@@ -80,21 +80,21 @@ my %df_tests = (
     ],
     'openbsd' => [
         {
-            VOLUMN     => '/dev/wd0a',
+            VOLUME     => '/dev/wd0a',
             TOTAL      => '784',
             FREE       => '174',
             TYPE       => '/',
             FILESYSTEM => undef
         },
         {
-            VOLUMN     => '/dev/wd0e',
+            VOLUME     => '/dev/wd0e',
             TOTAL      => '251',
             FREE       => '239',
             TYPE       => '/home',
             FILESYSTEM => undef
         },
         {
-            VOLUMN     => '/dev/wd0d',
+            VOLUME     => '/dev/wd0d',
             TOTAL      => '892',
             FREE       => '224',
             TYPE       => '/usr',
@@ -103,56 +103,56 @@ my %df_tests = (
     ],
     'aix' => [
         {
-            VOLUMN     => '/dev/hd4',
+            VOLUME     => '/dev/hd4',
             TOTAL      => '2048',
             FREE       => '1065',
             TYPE       => '/',
             FILESYSTEM => undef
         },
         {
-            VOLUMN     => '/dev/hd2',
+            VOLUME     => '/dev/hd2',
             TOTAL      => '4864',
             FREE       => '2704',
             TYPE       => '/usr',
             FILESYSTEM => undef
         },
         {
-            VOLUMN     => '/dev/hd9var',
+            VOLUME     => '/dev/hd9var',
             TOTAL      => '256',
             FREE       => '177',
             TYPE       => '/var',
             FILESYSTEM => undef
         },
         {
-            VOLUMN     => '/dev/hd3',
+            VOLUME     => '/dev/hd3',
             TOTAL      => '4096',
             FREE       => '837',
             TYPE       => '/tmp',
             FILESYSTEM => undef
         },
         {
-            VOLUMN     => '/dev/fwdump',
+            VOLUME     => '/dev/fwdump',
             TOTAL      => '128',
             FREE       => '127',
             TYPE       => '/var/adm/ras/platform',
             FILESYSTEM => undef
         },
         {
-            VOLUMN     => '/dev/hd1',
+            VOLUME     => '/dev/hd1',
             TOTAL      => '2048',
             FREE       => '1027',
             TYPE       => '/home',
             FILESYSTEM => undef
         },
         {
-            VOLUMN     => '/dev/hd11admin',
+            VOLUME     => '/dev/hd11admin',
             TOTAL      => '128',
             FREE       => '127',
             TYPE       => '/admin',
             FILESYSTEM => undef
         },
         {
-            VOLUMN     => '/dev/hd10opt',
+            VOLUME     => '/dev/hd10opt',
             TOTAL      => '128',
             FREE       => '13',
             TYPE       => '/opt',

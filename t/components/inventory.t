@@ -223,7 +223,7 @@ $inventory->addEntry(
         SERIAL     => '7f8d8f98-15d7-4bdb-b402-46cbed25432b',
         TOTAL      => 18777,
         TYPE       => '/',
-        VOLUMN     => '/dev/sda2',
+        VOLUME     => '/dev/sda2',
     }
 );
 
@@ -236,7 +236,7 @@ is_deeply(
             SERIAL     => '7f8d8f98-15d7-4bdb-b402-46cbed25432b',
             TOTAL      => 18777,
             TYPE       => '/',
-            VOLUMN     => '/dev/sda2'
+            VOLUME     => '/dev/sda2'
         }
     ],
     'drive addition'

@@ -31,7 +31,7 @@ sub doInventory {
         );
     }
 
-    my %filesystems = map { $_->{VOLUMN} => $_ } @filesystems;
+    my %filesystems = map { $_->{VOLUME} => $_ } @filesystems;
 
     # get additional informations
     foreach (`diskutil list`) {

@@ -42,7 +42,7 @@ sub _getFilesystems {
         foreach my $filesystem (@filesystems) {
             $filesystem->{SERIAL} = getFirstMatch(
                 logger  => $logger,
-                command => "blkid $filesystem->{VOLUMN}",
+                command => "blkid $filesystem->{VOLUME}",
                 pattern => qr/\sUUID="(\S*)"\s/
             );
         }
@@ -70,7 +70,7 @@ sub _getFilesystems {
             if ($filesystem->{FILESYSTEM} =~ /^ext(2|3|4|4dev)/ && $has_dumpe2fs) {
                 my $handle = getFileHandle(
                     logger => $logger,
-                    command => "dumpe2fs -h $filesystem->{VOLUMN}"
+                    command => "dumpe2fs -h $filesystem->{VOLUME}"
                 );
                 next unless $handle;
                 while (my $line = <$handle>) {
@@ -89,12 +89,12 @@ sub _getFilesystems {
             if ($filesystem->{FILESYSTEM} eq 'xfs' && $has_xfs_db) {
                 $filesystem->{SERIAL} = getFirstMatch(
                     logger  => $logger,
-                    command => "xfs_db -r -c uuid $filesystem->{VOLUMN}",
+                    command => "xfs_db -r -c uuid $filesystem->{VOLUME}",
                     pattern => qr/^UUID =\s+(\S+)/
                 );
                 $filesystem->{LABEL} = getFirstMatch(
                     logger  => $logger,
-                    command => "xfs_db -r -c label $filesystem->{VOLUMN}",
+                    command => "xfs_db -r -c label $filesystem->{VOLUME}",
                     pattern => qr/^label =\s+"(\S+)"/
                 );
                 next;
@@ -103,7 +103,7 @@ sub _getFilesystems {
             if ($filesystem->{FILESYSTEM} eq 'vfat' && $has_dosfslabel) {
                 $filesystem->{LABEL} = getFirstLine(
                     logger  => $logger,
-                    command => "dosfslabel $filesystem->{VOLUMN}"
+                    command => "dosfslabel $filesystem->{VOLUME}"
                 );
                 next;
             }
@@ -113,11 +113,11 @@ sub _getFilesystems {
     # complete with hal if available
     if (canRun('lshal')) {
         my @hal_filesystems = _getFilesystemsFromHal();
-        my %hal_filesystems = map { $_->{VOLUMN} => $_ } @hal_filesystems;
+        my %hal_filesystems = map { $_->{VOLUME} => $_ } @hal_filesystems;
 
         foreach my $filesystem (@filesystems) {
             # retrieve hal informations for this drive
-            my $hal_filesystem = $hal_filesystems{$filesystem->{VOLUMN}};
+            my $hal_filesystem = $hal_filesystems{$filesystem->{VOLUME}};
             next unless $hal_filesystem;
 
             # take hal information if it doesn't exist already
@@ -159,7 +159,7 @@ sub _parseLshal {
             }
             undef $device;
         } elsif ($line =~ /^\s+ block.device \s = \s '([^']+)'/x) {
-            $device->{VOLUMN} = $1;
+            $device->{VOLUME} = $1;
         } elsif ($line =~ /^\s+ volume.fstype \s = \s '([^']+)'/x) {
             $device->{FILESYSTEM} = $1;
         } elsif ($line =~ /^\s+ volume.label \s = \s '([^']+)'/x) {
