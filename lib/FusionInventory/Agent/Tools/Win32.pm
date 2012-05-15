@@ -19,7 +19,7 @@ use Win32::TieRegistry (
 );
 
 use File::Temp ();
-use File::Temp qw/ :seekable /;
+use File::Temp qw(:seekable);
 use Win32::Job;
 
 Win32::OLE->Option(CP => Win32::OLE::CP_UTF8);
