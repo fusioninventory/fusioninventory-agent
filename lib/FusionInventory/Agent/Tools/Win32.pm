@@ -268,7 +268,11 @@ Returns a command in a Win32 Process
 
 =item command the command to run
 
+<<<<<<< HEAD
 =item timeout a time in second, default is 3600*2
+=======
+=item timeout a time in second, default is 3600*2 
+>>>>>>> forge/2.3.x
 
 =item no_stderr ignore STDERR output, default is false
 =back

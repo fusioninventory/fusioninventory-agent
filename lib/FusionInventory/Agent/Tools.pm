@@ -45,8 +45,6 @@ our @EXPORT = qw(
     delay
 );
 
-my $nowhere = $OSNAME eq 'MSWin32' ? 'nul' : '/dev/null';
-
 # this trigger some errors on Perl 5.12/Win32:
 # Anonymous function called in forbidden scalar context
 if ($OSNAME ne 'MSWin32') {
@@ -233,7 +231,16 @@ sub getFileHandle {
             last SWITCH;
         }
         if ($params{command}) {
-            if (!open $handle, '-|', $params{command} . " 2>$nowhere") {
+            if ($OSNAME eq 'MSWin32') {
+                FusionInventory::Agent::Tools::Win32->require;
+                (undef, $handle) = FusionInventory::Agent::Tools::Win32::runCommand(
+                        command => $params{command},
+                        no_stderr => 1
+                );
+                if (!$handle) {
+                    return;
+                }
+            } elsif (!open $handle, '-|', $params{command} . " 2>/dev/null") {
                 $params{logger}->error(
                     "Can't run command $params{command}: $ERRNO"
                 ) if $params{logger};
