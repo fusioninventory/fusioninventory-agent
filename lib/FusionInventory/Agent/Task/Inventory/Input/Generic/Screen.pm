@@ -120,7 +120,7 @@ sub _getScreensFromUnix {
     if (-d '/sys') {
         my $wanted = sub {
             return unless $File::Find::name =~ m{/edid$};
-            open my $t, "<$File::Find::name";
+            open my $t, '<', $File::Find::name;
             my $edid = <$t>;
             close $t;
 
