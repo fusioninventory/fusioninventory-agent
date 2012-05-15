@@ -6,6 +6,8 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
+
+    #If you can read /opt/rudder/etc/uuid.hive then you can do that inventory
     return
 	canRead("/opt/rudder/etc/uuid.hive");
 }
@@ -16,26 +18,27 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
+    # get Rudder UUID
     my $UUID = getFileHandle(
-	logger => $logger, file => '/opt/rudder/etc/uuid.hive'
-	);
-
+        logger => $logger, file => '/opt/rudder/etc/uuid.hive'
+        );
+    # get all agents running on that machine
     my @agents = _manageAgent(
-	logger => $logger, command => 'ls /var/rudder | grep cfengine'
-	);
- 
-   my $hostname =getFileHandle(
-	logger => $logger, command => 'hostname --fqd'
-	);
+        logger => $logger, command => 'ls /var/rudder | grep cfengine'
+        );
+    # get machine hostname
+    my $hostname =getFileHandle(
+        logger => $logger, command => 'hostname --fqd'
+        );
     my $rudder = {
-	HOSTNAME => <$hostname>,
-	UUID => <$UUID>,
-	AGENT => \@agents,
+        HOSTNAME => <$hostname>,
+        UUID => <$UUID>,
+        AGENT => \@agents,
     };
 
     $inventory->addEntry(
-	section => 'RUDDER', entry => $rudder
-	);
+        section => 'RUDDER', entry => $rudder
+        );
 }
 
 sub _manageAgent {
@@ -46,44 +49,48 @@ sub _manageAgent {
 
     my @agents;
 
-
+    # each line is a new agent
     while(my $line = <$handle>){
         chomp $line;
 
+        # get agent name
         my $name = $line;
+        next unless $name;
 
-        my $servHostname = getFileHandle
-            (logger => $logger,
+        # get policy server hostname
+        my $servHostname = getFileHandle (
+             logger => $logger,
              file => "/var/rudder/$line/policy_server.dat"
             );
-
-        my $cfengineKey = getFileHandle
-             (logger => $logger,
-              file => "/var/rudder/$line/ppkeys/localhost.pub"
-             );
-
         my $host =  <$servHostname>;
         chomp $host;
 
-        my $policy_file = getFileHandle(
-            logger => $logger, file => '/var/rudder/tmp/uuid.txt'
-        );
+        # get policy server uuid
+        my $policy_file = getFileHandle (
+            logger => $logger,
+            file => '/var/rudder/tmp/uuid.txt'
+            );
         my $policy = <$policy_file>;
         chomp $policy;
 
+        # get CFengine public key
+        my $cfengineKey = getFileHandle (
+            logger => $logger,
+            file => "/var/rudder/$line/ppkeys/localhost.pub"
+            );
         my $key;
         while (my $tmpkey = <$cfengineKey>){
             $key = $key.$tmpkey;
         }
         chomp $key;
 
-
-        my $ownerfile =  getFileHandle(
+        # get owner name
+        my $owner_info =  getFileHandle(
          logger => $logger, command => "ps aux | grep $name"
         );
-
         my $owner = (split " ", <$ownerfile>)[0];
 
+        # build agent from datas
         my $agent = {
             AGENT_NAME             => $name,
             POLICY_SERVER_HOSTNAME => $host,
