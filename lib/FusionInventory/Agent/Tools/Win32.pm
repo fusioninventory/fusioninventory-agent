@@ -173,7 +173,7 @@ sub runCommand {
     };
 
     $job->spawn(
-        $ENV{SYSTEMROOT}.'/system32/cmd.exe',
+        "$ENV{SYSTEMROOT}/system32/cmd.exe",
         "cmd.exe /c $params{command}",
         $args
     );
