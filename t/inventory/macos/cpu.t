@@ -17,7 +17,7 @@ my %tests = (
             FAMILYNUMBER => '6',
             MODEL        => '23',
             STEPPING     => '10',
-            SPEED        => '2260'  
+            SPEED        => '2260'
         },
     ]
     );

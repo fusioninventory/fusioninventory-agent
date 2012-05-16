@@ -178,7 +178,7 @@ my %tests = (
             CAPACITY     => '2000',
             CAPTION      => 'Status: OK'
         },
-    ],    
+    ],
     '10.6-intel' => [
         {
             NUMSLOTS     => 0,

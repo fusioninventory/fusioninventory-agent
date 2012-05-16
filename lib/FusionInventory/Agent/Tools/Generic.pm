@@ -100,8 +100,8 @@ sub getCpusFromDmidecode {
             # convert hexadecimal value
             $cpu->{STEPPING} = hex $id[1];
             # family number is composed of 3 hexadecimal number
-            $cpu->{FAMILYNUMBER} = hex $id[9].$id[10].$id[4];
-            $cpu->{MODEL} = hex $id[7].$id[0];
+            $cpu->{FAMILYNUMBER} = hex $id[9] . $id[10] . $id[4];
+            $cpu->{MODEL} = hex $id[7] . $id[0];
         }
 
         if ($info->{Version}) {
