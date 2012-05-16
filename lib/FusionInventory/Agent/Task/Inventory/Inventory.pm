@@ -685,6 +685,22 @@ Frequency in MHz
 
 The CPU ID: http://en.wikipedia.org/wiki/CPUID
 
+=item STEPPING
+
+Stepping value (Contained in CPUID)
+
+=item MODEL
+
+Model value (Contained in CPUID)
+
+=item FAMILYNUMBER
+
+Family value (Contained in CPUID)
+
+=item FAMILYNAME
+
+Family Name
+
 =back
 
 =head2 DRIVES
