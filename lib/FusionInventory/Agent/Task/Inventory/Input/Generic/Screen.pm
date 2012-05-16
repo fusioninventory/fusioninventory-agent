@@ -127,6 +127,7 @@ sub _getScreensFromUnix {
             push @screens, { edid => $edid } if $edid;
         };
 
+        no warnings 'File::Find';
         File::Find::find($wanted, '/sys');
 
         return @screens if @screens;
