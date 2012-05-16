@@ -1,5 +1,34 @@
 Revision history for FusionInventory agent
 
+2.2.1
+General:
+* failure encoding with UTF8 content when using Fusion protocol (#1663)
+* wrong CSS path (#1580)
+* missing test suite dependency (#1575)
+
+Windows:
+* various encoding issues (#1550)
+* network addresses collecting failure
+
+Virtualization:
+* wrong character in Xen machine ID (#1562)
+
+BSD:
+* multiple network addresses per interface support (#1565)
+
+Solaris:
+* no swap/memory informations for unknown hardware (#1594)
+* solaris container zone bug (#1586)
+* sparc T3-1 CPU support (#1583)
+* solaris 8/9/10 swap bug (#1577)
+* sparc arch mismatch (#1573)
+
+Linux:
+* bad name for physical volumes (#1587)
+* missing volume group ID (#1585)
+* wrong volume group ID (#1584)
+* duplicate volume groups (#1582)
+
 2.2.0  Sat, 07 Apr 2012 18:57:49 +0200
 
 Major changes:
