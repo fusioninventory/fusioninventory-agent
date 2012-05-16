@@ -140,7 +140,7 @@ sub _getSoftwares {
                                 encodeFromRegistry($guid), # folder name
             COMMENTS         => encodeFromRegistry($data->{'/Comments'}),
             HELPLINK         => encodeFromRegistry($data->{'/HelpLink'}),
-            RELEASETYPE      => encodeFromRegistry($data->{'/ReleaseType'}),
+            RELEASE_TYPE     => encodeFromRegistry($data->{'/ReleaseType'}),
             VERSION          => encodeFromRegistry($data->{'/DisplayVersion'}),
             PUBLISHER        => encodeFromRegistry($data->{'/Publisher'}),
             URL_INFO_ABOUT   => encodeFromRegistry($data->{'/URLInfoAbout'}),
