@@ -84,7 +84,7 @@ sub _getScreensFromWindows {
     foreach my $object (getWmiObjects(
         class => 'Win32_DesktopMonitor',
         properties => [ qw/
-            Caption MonitorManufacturer MonitorType PNPDeviceID
+            Caption MonitorManufacturer MonitorType PNPDeviceID Availability
         / ]
     )) {
         next unless $object->{Availability};
