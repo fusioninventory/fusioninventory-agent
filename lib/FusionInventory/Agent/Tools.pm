@@ -12,6 +12,7 @@ use File::stat;
 use File::Which;
 use Memoize;
 use UNIVERSAL::require;
+use HTML::Entities;
 
 our @EXPORT = qw(
     getDirectoryHandle
@@ -197,6 +198,8 @@ sub getSanitizedString {
         )*\z/x) {
         $string = encode("UTF-8", $string);
     };
+
+    return encode_entities($string);
 
     return $string;
 }
