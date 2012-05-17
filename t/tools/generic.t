@@ -5681,6 +5681,10 @@ my %cpu_tests = (
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'VIA',
+            STEPPING       => '9',
+            FAMILYNUMBER   => '6',
+            MODEL          => '10',
+            FAMILYNAME     => 'Other',
             CORE           => undef
         }
     ],
@@ -5693,6 +5697,10 @@ my %cpu_tests = (
             THREAD         => '4',
             SERIAL         => undef,
             MANUFACTURER   => 'Intel(R) Corporation',
+            STEPPING       => '2',
+            FAMILYNUMBER   => '6',
+            MODEL          => '37',
+            FAMILYNAME     => 'Core 2 Duo',
             CORE           => '2'
         }
     ],
@@ -5705,7 +5713,11 @@ my %cpu_tests = (
             THREAD         => '4',
             SERIAL         => undef,
             MANUFACTURER   => 'Intel',
-            CORE           => '4'
+            STEPPING       => '5',
+            FAMILYNUMBER   => '6',
+            MODEL          => '26',
+            CORE           => '4',
+            FAMILYNAME     => 'Xeon'
         }
     ],
     'rhel-2.1' => [
@@ -5715,6 +5727,7 @@ my %cpu_tests = (
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'Intel',
+            FAMILYNAME     => undef,
             CORE           => undef
         }
     ],
@@ -5727,6 +5740,10 @@ my %cpu_tests = (
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'Intel Corporation',
+            STEPPING       => '1',
+            FAMILYNUMBER   => '15',
+            MODEL          => '4',,
+            FAMILYNAME     => 'Xeon MP',
             CORE           => undef
         },
         {
@@ -5737,6 +5754,10 @@ my %cpu_tests = (
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'Intel Corporation',
+            STEPPING       => '1',
+            FAMILYNUMBER   => '15',
+            MODEL          => '4',
+            FAMILYNAME     => 'Xeon MP',
             CORE           => undef
         }
     ],
@@ -5751,6 +5772,10 @@ my %cpu_tests = (
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'Intel',
+            STEPPING       => '9',
+            FAMILYNUMBER   => '15',
+            MODEL          => '2',
+            FAMILYNAME     => 'Xeon',
             CORE           => undef
         },
         {
@@ -5761,6 +5786,10 @@ my %cpu_tests = (
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'Intel',
+            STEPPING       => '9',
+            FAMILYNUMBER   => '15',
+            MODEL          => '2',
+            FAMILYNAME     => 'Xeon',
             CORE           => undef
         }
     ],
@@ -5773,6 +5802,10 @@ my %cpu_tests = (
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'Intel',
+            STEPPING       => '6',
+            FAMILYNUMBER   => '6',
+            MODEL          => '23',
+            FAMILYNAME     => 'Xeon',
             CORE           => undef
         }
     ],
@@ -5785,6 +5818,10 @@ my %cpu_tests = (
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'Intel',
+            STEPPING       => '2',
+            FAMILYNUMBER   => '6',
+            MODEL          => '5',
+            FAMILYNAME     => 'Pentium II',
             CORE           => undef
         }
     ],
@@ -5797,6 +5834,10 @@ my %cpu_tests = (
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'Intel',
+            STEPPING       => '3',
+            FAMILYNUMBER   => '15',
+            MODEL          => '4',
+            FAMILYNAME     => 'Xeon',
             CORE           => undef
         }
     ],
@@ -5809,6 +5850,10 @@ my %cpu_tests = (
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'Intel',
+            STEPPING       => '9',
+            FAMILYNUMBER   => '15',
+            MODEL          => '2',,
+            FAMILYNAME     => 'Pentium 4',
             CORE           => undef
         }
     ],
@@ -5821,6 +5866,10 @@ my %cpu_tests = (
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'Intel(R) Corporation',
+            STEPPING       => '6',
+            FAMILYNUMBER   => '6',
+            MODEL          => '15',
+            FAMILYNAME     => '<OUT OF SPEC>',
             CORE           => undef
         }
     ],
@@ -5833,6 +5882,10 @@ my %cpu_tests = (
             THREAD         => '2',
             SERIAL         => undef,
             MANUFACTURER   => 'Intel(R) Corporation',
+            STEPPING       => '6',
+            FAMILYNUMBER   => '6',
+            MODEL          => '15',
+            FAMILYNAME     => 'Xeon',
             CORE           => '2'
         },
         {
@@ -5843,6 +5896,10 @@ my %cpu_tests = (
             THREAD         => '2',
             SERIAL         => undef,
             MANUFACTURER   => 'Intel(R) Corporation',
+            STEPPING       => '6',
+            FAMILYNUMBER   => '6',
+            MODEL          => '15',
+            FAMILYNAME     => 'Xeon',
             CORE           => '2'
         }
     ],
@@ -5855,6 +5912,10 @@ my %cpu_tests = (
             THREAD         => '2',
             SERIAL         => 'To Be Filled By O.E.M.',
             MANUFACTURER   => 'Intel',
+            STEPPING       => '10',
+            FAMILYNUMBER   => '6',
+            MODEL          => '23',
+            FAMILYNAME     => 'Core 2 Duo',
             CORE           => '2'
         }
     ],
@@ -5867,6 +5928,10 @@ my %cpu_tests = (
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'Intel',
+            STEPPING       => '8',
+            FAMILYNUMBER   => '6',
+            MODEL          => '13',
+            FAMILYNAME     => 'Pentium M',
             CORE           => undef
         }
     ],
@@ -5878,6 +5943,10 @@ my %cpu_tests = (
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'AuthenticAMD',
+            STEPPING       => '2',
+            FAMILYNUMBER   => '15',
+            MODEL          => '65',
+            FAMILYNAME     => 'Unknown',
             CORE           => undef
         },
         {
@@ -5887,6 +5956,10 @@ my %cpu_tests = (
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'GenuineIntel',
+            STEPPING       => '2',
+            FAMILYNUMBER   => '15',
+            MODEL          => '1',
+            FAMILYNAME     => 'Unknown',
             CORE           => undef
         }
     ],
@@ -5898,6 +5971,10 @@ my %cpu_tests = (
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'AuthenticAMD',
+            STEPPING       => '2',
+            FAMILYNUMBER   => '15',
+            MODEL          => '4',
+            FAMILYNAME     => 'Unknown',
             CORE           => undef
         }
     ],
@@ -5908,6 +5985,7 @@ my %cpu_tests = (
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'GenuineIntel',
+            FAMILYNAME     => undef,
             CORE           => undef
         }
     ],
@@ -5920,6 +5998,10 @@ my %cpu_tests = (
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'Intel Corporation',
+            STEPPING       => '4',
+            FAMILYNUMBER   => '15',
+            MODEL          => '2',
+            FAMILYNAME     => 'Pentium 4',
             CORE           => undef
         }
     ],
@@ -5932,6 +6014,10 @@ my %cpu_tests = (
             THREAD         => undef,
             SERIAL         => 'None',
             MANUFACTURER   => 'GenuineIntel',
+            STEPPING       => '10',
+            FAMILYNUMBER   => '6',
+            MODEL          => '23',
+            FAMILYNAME     => 'Xeon',
             CORE           => undef
         }
     ],
@@ -5944,6 +6030,10 @@ my %cpu_tests = (
             THREAD         => '2',
             SERIAL         => undef,
             MANUFACTURER   => 'Intel',
+            STEPPING       => '6',
+            FAMILYNUMBER   => '6',
+            MODEL          => '23',
+            FAMILYNAME     => 'Core 2 Duo',
             CORE           => '2'
         }
     ],
@@ -5955,7 +6045,11 @@ my %cpu_tests = (
             SPEED          => '2800',
             THREAD         => undef,
             SERIAL         => 'To Be Filled By O.E.M.',
+            STEPPING       => '7',
+            FAMILYNUMBER   => '6',
+            MODEL          => '42',
             MANUFACTURER   => 'Intel',
+            FAMILYNAME     => 'Core 2 Duo',
             CORE           => '4'
         }
     ]

@@ -52,6 +52,12 @@ sub doInventory {
         if (!$cpu->{THREAD}) {
             $cpu->{THREAD} = $procList->[$cpt]{THREAD};
         }
+
+	# Get directly informations from cpuinfo if not already processed in dmidecode
+	$cpu->{STEPPING} = $procList->[$cpt]{STEPPING} unless	$cpu->{STEPPING} ;
+	$cpu->{FAMILYNUMBER} = $procList->[$cpt]{FAMILYNUMBER} unless	$cpu->{FAMILYNUMBER};
+	$cpu->{MODEL} = $procList->[$cpt]{MODEL} unless	$cpu->{MODEL};
+
         if ($cpu->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
             $cpu->{SPEED} = {
                ghz => 1000,
@@ -81,12 +87,16 @@ sub _getCPUsFromProc {
         my $id = $cpu->{'physical id'};
         $hasPhysicalId = 0;
         if (defined $id) {
+            $cpus{$id}{STEPPING} = $cpu->{'stepping'};
+            $cpus{$id}{FAMILYNUMBER} = $cpu->{'cpu family'};
+            $cpus{$id}{MODEL} = $cpu->{'model'};
             $cpus{$id}{CORE} = $cpu->{'cpu cores'};
             $cpus{$id}{THREAD} = $cpu->{'siblings'} / ($cpu->{'cpu cores'} || 1);
             $hasPhysicalId = 1;
         }
 
-        push @cpuList, { CORE => 1, THREAD => 1 } unless $hasPhysicalId;
+        push @cpuList, {STEPPING => $cpu->{'stepping'},FAMILYNUMBER => $cpu->{'cpu family'},
+                        MODEL => $cpu->{'model'},   CORE => 1, THREAD => 1 } unless $hasPhysicalId;
     }
     if (!$cpuNbr) {
         $cpuNbr = keys %cpus;
