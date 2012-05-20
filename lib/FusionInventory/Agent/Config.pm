@@ -9,11 +9,54 @@ use Getopt::Long;
 use UNIVERSAL::require;
 
 my $default = {
-    'logger'                  => 'Stderr',
-    'logfacility'             => 'LOG_USER',
-    'delaytime'               => 3600,
+    'additional-content'      => undef,
     'backend-collect-timeout' => 30,
+    'ca-cert-dir'             => undef,
+    'ca-cert-file'            => undef,
+    'color'                   => undef,
+    'daemon'                  => undef,
+    'debug'                   => undef,
+    'delaytime'               => 3600,
+    'force'                   => undef,
+    'html'                    => undef,
+    'lazy'                    => undef,
+    'local'                   => undef,
+    'logger'                  => 'Stderr',
+    'logfile'                 => undef,
+    'logfacility'             => 'LOG_USER',
+    'logfile-maxsize'         => undef,
+    'no-category'             => undef,
+    'no-fork'                 => undef,
+    'no-httpd'                => undef,
+    'no-ssl-check'            => undef,
+    'no-task'                 => undef,
+    'no-p2p'                  => undef,
+    'password'                => undef,
+    'proxy'                   => undef,
+    'httpd-ip'                => undef,
     'httpd-port'              => 62354,
+    'httpd-trust'             => undef,
+    'scan-homedirs'           => undef,
+    'server'                  => undef,
+    'stdout'                  => undef,
+    'tag'                     => undef,
+    'user'                    => undef,
+    'wait'                    => undef,
+    # deprecated options
+    'daemon-no-fork'          => undef,
+    'no-ocsdeploy'            => undef,
+    'no-inventory'            => undef,
+    'no-wakeonlan'            => undef,
+    'no-snmpquery'            => undef,
+    'no-netdiscovery'         => undef,
+    'no-printer'              => undef,
+    'no-software'             => undef,
+    'rpc-trust-localhost'     => undef,
+    'rpc-port'                => undef,
+    'rpc-ip'                  => undef,
+    'no-socket'               => undef,
+    'realm'                   => undef,
+    'info'                    => undef,
 };
 
 my $deprecated = {
@@ -147,13 +190,18 @@ sub _loadFromRegistry {
 
     foreach my $rawKey (keys %$settings) {
         next unless $rawKey =~ /^\/(\S+)/;
-        my $key = $1;
+        my $key = lc($1);
         my $val = $settings->{$rawKey};
         # Remove the quotes
         $val =~ s/\s+$//;
         $val =~ s/^'(.*)'$/$1/;
         $val =~ s/^"(.*)"$/$1/;
-        $self->{lc($key)} = $val;
+
+        if (exists $default->{$key}) {
+            $self->{$key} = $val;
+        } else {
+            warn "unknown configuration directive $key";
+        }
     }
 }
 
@@ -181,11 +229,17 @@ sub _loadFromFile {
         if ($line =~ /([\w-]+)\s*=\s*(.+)/) {
             my $key = $1;
             my $val = $2;
+
             # Remove the quotes
             $val =~ s/\s+$//;
             $val =~ s/^'(.*)'$/$1/;
             $val =~ s/^"(.*)"$/$1/;
-            $self->{$key} = $val;
+
+            if (exists $default->{$key}) {
+                $self->{$key} = $val;
+            } else {
+                warn "unknown configuration directive $key";
+            }
         }
     }
     close $handle;
