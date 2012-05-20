@@ -16,7 +16,6 @@ Windows:
 * various encoding issues (#1550)
 * network addresses collecting failure (#1549)
 * inventory all the KB on Win Vista/7 (#1668, #197, #706)
-* upgrade Net::SNMP (#1666)
 * Store the XML file with the local codepage (#272)
 
 Virtualization:
