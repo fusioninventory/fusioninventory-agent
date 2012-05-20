@@ -80,10 +80,11 @@ sub getCpusFromDmidecode {
             ($proc_version      && $proc_version eq '00000000000000000000000000000000');
 
         my $cpu = {
-            SERIAL => $info->{'Serial Number'},
-            ID     => $info->{ID},
-            CORE   => $info->{'Core Count'} || $info->{'Core Enabled'},
-            THREAD => $info->{'Thread Count'},
+            SERIAL     => $info->{'Serial Number'},
+            ID         => $info->{ID},
+            CORE       => $info->{'Core Count'} || $info->{'Core Enabled'},
+            THREAD     => $info->{'Thread Count'},
+            FAMILYNAME => $info->{'Family'}
         };
         $cpu->{MANUFACTURER} = $info->{'Manufacturer'} || $info->{'Processor Manufacturer'};
         $cpu->{NAME} =
@@ -91,6 +92,17 @@ sub getCpusFromDmidecode {
             $info->{'Version'}                                     ||
             $info->{'Processor Family'}                            ||
             $info->{'Processor Version'};
+
+       if ($cpu->{ID}) {
+
+            # Split CPUID to get access to its content
+            my @id = split ("",$cpu->{ID});
+            # convert hexadecimal value
+            $cpu->{STEPPING} = hex $id[1];
+            # family number is composed of 3 hexadecimal number
+            $cpu->{FAMILYNUMBER} = hex $id[9] . $id[10] . $id[4];
+            $cpu->{MODEL} = hex $id[7] . $id[0];
+        }
 
         if ($info->{Version}) {
             if ($info->{Version} =~ /([\d\.]+)MHz$/) {

@@ -29,7 +29,11 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    if (is64bit()) {
+    my $is64bit = is64bit();
+
+    my $kbList = _getKB(is64bit => $is64bit);
+
+    if ($is64bit) {
 
         # I don't know why but on Vista 32bit, KEY_WOW64_64 is able to read
         # 32bit entries. This is not the case on Win2003 and if I correctly
@@ -44,7 +48,8 @@ sub doInventory {
 
         foreach my $software (_getSoftwares(
             softwares => $softwares64,
-            is64bit   => 1
+            is64bit   => 1,
+            kbList => $kbList
         )) {
             _addSoftware(inventory => $inventory, entry => $software);
         }
@@ -64,7 +69,8 @@ sub doInventory {
         foreach my $software (_getSoftwares(
             softwares => $softwares32,
             is64bit   => 0,
-            logger => $logger
+            logger => $logger,
+            kbList => $kbList
         )) {
             _addSoftware(inventory => $inventory, entry => $software);
         }
@@ -85,7 +91,8 @@ sub doInventory {
 
         foreach my $software (_getSoftwares(
             softwares => $softwares,
-            is64bit   => 0
+            is64bit   => 0,
+            kbList => $kbList
         )) {
             _addSoftware(inventory => $inventory, entry => $software);
         }
@@ -95,6 +102,11 @@ sub doInventory {
             is64bit   => 0
         );
     }
+
+    foreach (values %$kbList) {
+        _addSoftware(inventory => $inventory, entry => $_);
+    }
+
 }
 
 sub _dateFormat {
@@ -118,6 +130,7 @@ sub _getSoftwares {
     my (%params) = @_;
 
     my $softwares = $params{softwares};
+    my $kbList = $params{kbList};
 
     my @softwares;
 
@@ -140,7 +153,7 @@ sub _getSoftwares {
                                 encodeFromRegistry($guid), # folder name
             COMMENTS         => encodeFromRegistry($data->{'/Comments'}),
             HELPLINK         => encodeFromRegistry($data->{'/HelpLink'}),
-            RELEASETYPE      => encodeFromRegistry($data->{'/ReleaseType'}),
+            RELEASE_TYPE     => encodeFromRegistry($data->{'/ReleaseType'}),
             VERSION          => encodeFromRegistry($data->{'/DisplayVersion'}),
             PUBLISHER        => encodeFromRegistry($data->{'/Publisher'}),
             URL_INFO_ABOUT   => encodeFromRegistry($data->{'/URLInfoAbout'}),
@@ -156,10 +169,43 @@ sub _getSoftwares {
         # Workaround for #415
         $software->{VERSION} =~ s/[\000-\037].*// if $software->{VERSION};
 
+        if ($software->{NAME} =~ /KB(\d{4,10})/i) {
+            delete($kbList->{$1});
+        }
+
         push @softwares, $software;
     }
 
     return @softwares;
+}
+
+sub _getKB {
+    my (%params) = @_;
+
+    my $kbList = {};
+
+    foreach my $object (getWmiObjects(
+        class      => 'Win32_QuickFixEngineering',
+        properties => [ qw/HotFixID Description/  ]
+    )) {
+
+        my $releaseType;
+        if ($object->{Description} && $object->{Description} =~ /^(Security Update|Hotfix|Update)/) {
+            $releaseType = $1;
+        }
+
+        next unless $object->{HotFixID} =~ /KB(\d{4,10})/i;
+        $kbList->{$1} = {
+            NAME         => $object->{HotFixID},
+            COMMENTS     => $object->{Description},
+            FROM         => "WMI",
+            RELEASE_TYPE => $releaseType,
+            ARCH         => $params{is64bit} ? 'x86_64' : 'i586'
+        };
+
+    }
+
+    return $kbList;
 }
 
 sub _addSoftware {

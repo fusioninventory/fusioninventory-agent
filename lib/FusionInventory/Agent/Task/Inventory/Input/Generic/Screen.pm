@@ -84,7 +84,7 @@ sub _getScreensFromWindows {
     foreach my $object (getWmiObjects(
         class => 'Win32_DesktopMonitor',
         properties => [ qw/
-            Caption MonitorManufacturer MonitorType PNPDeviceID
+            Caption MonitorManufacturer MonitorType PNPDeviceID Availability
         / ]
     )) {
         next unless $object->{Availability};
@@ -127,6 +127,7 @@ sub _getScreensFromUnix {
             push @screens, { edid => $edid } if $edid;
         };
 
+        no warnings 'File::Find';
         File::Find::find($wanted, '/sys');
 
         return @screens if @screens;
