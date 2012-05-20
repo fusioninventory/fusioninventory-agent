@@ -6,7 +6,6 @@ General:
 * wrong CSS path (#1580)
 * missing test suite dependency (#1575)
 * improve CPU details (#1597)
-* XML content is correctly protected now (#1566)
 
 Windows:
 * various encoding issues (#1550)
