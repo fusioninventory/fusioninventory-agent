@@ -21,10 +21,20 @@ sub new {
 }
 
 sub getContent {
-    my ($self) = @_;
+    my ($self, %params) = @_;
 
     my $tpp = XML::TreePP->new(indent => 2);
-    return $tpp->write({ REQUEST => $self->{h} });
+
+    my $content;
+    if ($params{protect_utf8_hack}) {
+        $tpp->set( output_encoding => 'ASCII' );
+        $content = $tpp->write({ REQUEST => $self->{h} });
+        $content =~ s/ASCII/UTF-8/;
+    } else {
+        $content = $tpp->write({ REQUEST => $self->{h} });
+
+    }
+    return $content;
 }
 
 
