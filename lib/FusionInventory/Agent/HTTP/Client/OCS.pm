@@ -58,7 +58,7 @@ sub send { ## no critic (ProhibitBuiltinHomonyms)
     my $message = $params{message};
     my $logger  = $self->{logger};
 
-    my $request_content = $message->getContent(protect_utf8_hack => 1);
+    my $request_content = $message->getContent(encoding => 'ASCII');
     $logger->debug2($log_prefix . "sending message:\n $request_content");
 
     $request_content = $self->_compress($request_content);
