@@ -25,7 +25,8 @@ my %tests = (
 plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
-    my $file = "resources/macos/sysctl/$test";
-    my @cpus = FusionInventory::Agent::Task::Inventory::Input::MacOS::Memory::_getCpus(file => $file);
+    my $sysctl = "resources/macos/sysctl/$test";
+    my $file = "resources/macos/system_profiler/$test";
+    my @cpus = FusionInventory::Agent::Task::Inventory::Input::MacOS::CPU::_getCpus(file => $file,sysctl => $sysctl);
     is_deeply(\@cpus, $tests{$test}, $test);
 }
