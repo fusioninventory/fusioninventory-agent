@@ -15,6 +15,9 @@ use Win32::TieRegistry (
     qw/KEY_READ/
 );
 
+Win32::OLE->Option(CP => Win32::OLE::CP_UTF8);
+
+
 use FusionInventory::Agent::Tools::Win32;
 
 my $seen;
@@ -51,6 +54,9 @@ sub doInventory {
             LOGIN => $name->Get(),
             DOMAIN => $domain->Get()
         };
+
+        utf8::upgrade($user->{LOGIN});
+        utf8::upgrade($user->{DOMAIN});
 
         next if $seen->{$user->{LOGIN}}++;
 
