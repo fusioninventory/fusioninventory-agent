@@ -88,7 +88,7 @@ sub _manageAgent {
         my $owner_info =  getFileHandle(
          logger => $logger, command => "ps aux | grep $name"
         );
-        my $owner = (split " ", <$ownerfile>)[0];
+        my $owner = (split " ", <$owner_info>)[0];
 
         # build agent from datas
         my $agent = {
