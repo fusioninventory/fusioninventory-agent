@@ -108,7 +108,7 @@ sub doInventory {
 
 
 # give information about password in /etc/shadow for a given user
-sub getshadow{
+sub getpasswordinfo{
 
     my (%params) = @_;
     my $user = $params{user};
