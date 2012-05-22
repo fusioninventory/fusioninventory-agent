@@ -48,7 +48,7 @@ sub doInventory {
 
             # password information hash datas
             my %password_data= (
-                PASSWORD_AGE     => $password_age,
+                PASSWORD_AGE     => $passwordAge,
                 MINIMUM_AGE      => $shadow_line[3],
                 MAXIMUM_AGE      => $shadow_line[4],
                 WARNING_PERIOD   => $shadow_line[5],
