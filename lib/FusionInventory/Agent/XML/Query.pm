@@ -21,10 +21,9 @@ sub new {
 }
 
 sub getContent {
-    my ($self, %params) = @_;
+    my ($self) = @_;
 
     my $tpp = XML::TreePP->new(indent => 2);
-    $tpp->set(output_encoding => $params{encoding} || 'UTF-8');
 
     return $tpp->write({ REQUEST => $self->{h} });
 }

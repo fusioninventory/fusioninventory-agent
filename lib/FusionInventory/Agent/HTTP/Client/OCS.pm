@@ -8,6 +8,7 @@ use English qw(-no_match_vars);
 use HTTP::Request;
 use UNIVERSAL::require;
 use URI;
+use Encode;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::XML::Response;
@@ -58,10 +59,10 @@ sub send { ## no critic (ProhibitBuiltinHomonyms)
     my $message = $params{message};
     my $logger  = $self->{logger};
 
-    my $request_content = $message->getContent(encoding => 'ASCII');
+    my $request_content = $message->getContent();
     $logger->debug2($log_prefix . "sending message:\n $request_content");
 
-    $request_content = $self->_compress($request_content);
+    $request_content = $self->_compress(encode('UTF-8', $request_content));
     if (!$request_content) {
         $logger->error($log_prefix . 'inflating problem');
         return;
