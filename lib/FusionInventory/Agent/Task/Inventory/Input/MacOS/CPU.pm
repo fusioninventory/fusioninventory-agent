@@ -47,11 +47,12 @@ sub _getCpus{
 
     my (%params) = @_;
     my $logger = $params{logger};
-
+    my $sysctl = $params{sysctl};
     # Get more informations from sysctl
     my $sysctl = getFileHandle (
         logger  => $logger,
-        command => 'sysctl -a machdep.cpu'
+        command => 'sysctl -a machdep.cpu',
+	file    => $sysctl
     );
 
     # System profiler informations
