@@ -10,7 +10,7 @@ use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
 
-use Test::More tests => 37;
+use Test::More tests => 42;
 
 my ($out, $err, $rc);
 
@@ -42,7 +42,7 @@ like(
 );
 is($out, '', 'no target stdin');
 
-my $base_options = "--stdout --no-task ocsdeploy,wakeonlan,snmpquery,netdiscovery";
+my $base_options = "--stdout --debug --no-task ocsdeploy,wakeonlan,snmpquery,netdiscovery";
 
 my $content;
 # first inventory
@@ -50,6 +50,12 @@ my $content;
     "$base_options --no-category printer"
 );
 ok($rc == 0, 'exit status');
+
+unlike(
+    $err,
+    qr/module \S+ disabled: failure to load/,
+    'no broken module'
+);
 
 like(
     $out,
@@ -75,6 +81,12 @@ ok(
     "$base_options --no-category printer,software"
 );
 ok($rc == 0, 'exit status');
+
+unlike(
+    $err,
+    qr/module \S+ disabled: failure to load/,
+    'no broken module'
+);
 
 like(
     $out,
@@ -114,6 +126,12 @@ close($file);
     "$base_options --no-category printer,software --additional-content $file"
 );
 ok($rc == 0, 'exit status');
+
+unlike(
+    $err,
+    qr/module \S+ disabled: failure to load/,
+    'no broken module'
+);
 
 like(
     $out,
@@ -155,6 +173,12 @@ my $value = $ENV{$name};
 );
 ok($rc == 0, 'exit status');
 
+unlike(
+    $err,
+    qr/module \S+ disabled: failure to load/,
+    'no broken module'
+);
+
 like(
     $out,
     qr/^<\?xml version="1.0" encoding="UTF-8" \?>/,
@@ -186,6 +210,12 @@ ok(
     "$base_options --no-category printer,software,environment"
 );
 ok($rc == 0, 'exit status');
+
+unlike(
+    $err,
+    qr/module \S+ disabled: failure to load/,
+    'no broken module'
+);
 
 like(
     $out,

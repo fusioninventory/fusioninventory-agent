@@ -18,8 +18,8 @@ use Win32::TieRegistry (
     qw/KEY_READ/
 );
 
-use File::Temp (); 
-use File::Temp qw/ :seekable /;
+use File::Temp ();
+use File::Temp qw(:seekable);
 use Win32::Job;
 
 Win32::OLE->Option(CP => Win32::OLE::CP_UTF8);
@@ -42,7 +42,7 @@ our @EXPORT = qw(
 
 sub is64bit {
     return
-        any { $_->{AddressWidth} eq 64 } 
+        any { $_->{AddressWidth} eq 64 }
         getWmiObjects(
             class => 'Win32_Processor', properties => [ qw/AddressWidth/ ]
         );
@@ -102,8 +102,8 @@ sub getRegistryValue {
         $valueName = $3;
     } else {
         $params{logger}->error(
-	    "Failed to parse '$params{path}'. Does it start with HKEY_?"
-	) if $params{logger};
+            "Failed to parse '$params{path}'. Does it start with HKEY_?"
+        ) if $params{logger};
         return;
     }
 
@@ -124,8 +124,8 @@ sub getRegistryKey {
         $keyName   = $2;
     } else {
         $params{logger}->error(
-	    "Failed to parse '$params{path}'. Does it start with HKEY_?"
-	) if $params{logger};
+            "Failed to parse '$params{path}'. Does it start with HKEY_?"
+        ) if $params{logger};
         return;
     }
 
@@ -142,7 +142,7 @@ sub _getRegistryKey {
     ## no critic (ProhibitBitwise)
     my $rootKey = is64bit() ?
         $Registry->Open($params{root}, { Access=> KEY_READ | KEY_WOW64_64 } ) :
-	$Registry->Open($params{root}, { Access=> KEY_READ } )                ;
+        $Registry->Open($params{root}, { Access=> KEY_READ } )                ;
 
     if (!$rootKey) {
         $params{logger}->error(
@@ -156,24 +156,29 @@ sub _getRegistryKey {
 }
 
 sub runCommand {
-    my (%params) = @_;
+    my (%params) = (
+        timeout => 3600 * 2,
+        @_
+    );
 
-
-    my $command = $params{command};
-    my $timeout = $params{timeout} || 3600*2;
-
-    my $job = Win32::Job->new;
+    my $job = Win32::Job->new();
 
     my $buff = File::Temp->new();
     my $void = File::Temp->new();
 
+    my $args = {
+        stdout    => $buff,
+        stderr    => $params{no_stderr} ? $void : $buff,
+        no_window => 1
+    };
 
-    my $args = { stdout => $buff, no_window => 1 };
-    $args->{stderr} = $params{no_stderr}?$void:$buff;
+    $job->spawn(
+        "$ENV{SYSTEMROOT}/system32/cmd.exe",
+        "cmd.exe /c $params{command}",
+        $args
+    );
 
-    $job->spawn($ENV{SYSTEMROOT}.'/system32/cmd.exe', "cmd.exe /c $command", $args);
-
-    $job->run($timeout);
+    $job->run($params{timeout});
 
     $buff->seek(0, SEEK_SET);
 
@@ -263,7 +268,7 @@ Returns a command in a Win32 Process
 
 =item command the command to run
 
-=item timeout a time in second, default is 3600*2 
+=item timeout a time in second, default is 3600*2
 
 =item no_stderr ignore STDERR output, default is false
 =back

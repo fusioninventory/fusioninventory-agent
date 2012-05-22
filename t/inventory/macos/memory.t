@@ -7,6 +7,7 @@ use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::MacOS::Memory;
 
+my $zero = chr(0);
 my %tests = (
     '10.4-powerpc' => [
         {
@@ -158,11 +159,31 @@ my %tests = (
             CAPTION      => 'Status: Empty'
         }
     ],
+    '10.6-macmini' => [
+        {
+            NUMSLOTS     => 0,
+            SERIALNUMBER => '0x00000000',
+	    DESCRIPTION  => "$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero",
+            SPEED        => '1067',
+            TYPE         => 'DDR3',
+            CAPACITY     => '2000',
+            CAPTION      => 'Status: OK'
+        },
+       {
+            NUMSLOTS     => 0,
+            SERIALNUMBER => '0x00000000',
+	    DESCRIPTION  => "$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero",
+            SPEED        => '1067',
+            TYPE         => 'DDR3',
+            CAPACITY     => '2000',
+            CAPTION      => 'Status: OK'
+        },
+    ],
     '10.6-intel' => [
         {
             NUMSLOTS     => 0,
             SERIALNUMBER => '0xD5289015',
-            DESCRIPTION  => '8HTF12864HDY-667E1',
+            DESCRIPTION  => 'X38HTF12864HDY-667E1',
             SPEED        => '667',
             TYPE         => 'DDR2 SDRAM',
             CAPACITY     => '1000',

@@ -84,7 +84,7 @@ sub _getScreensFromWindows {
     foreach my $object (getWmiObjects(
         class => 'Win32_DesktopMonitor',
         properties => [ qw/
-            Caption MonitorManufacturer MonitorType PNPDeviceID
+            Caption MonitorManufacturer MonitorType PNPDeviceID Availability
         / ]
     )) {
         next unless $object->{Availability};
@@ -117,20 +117,21 @@ sub _getScreensFromUnix {
 
     my @screens;
 
-    my $wanted = sub {
-        return unless $File::Find::name =~ m{(/edid)$};
-        open my $t, "<$File::Find::name";
-        my $edid = <$t>;
-        close $t;
-
-        push @screens, { edid => $edid } if $edid;
-    };
-
     if (-d '/sys') {
-        File::Find::find($wanted, '/sys');
-    }
+        my $wanted = sub {
+            return unless $File::Find::name =~ m{/edid$};
+            open my $handle, '<', $File::Find::name;
+            my $edid = <$handle>;
+            close $handle;
 
-    return @screens if @screens;
+            push @screens, { edid => $edid } if $edid;
+        };
+
+        no warnings 'File::Find';
+        File::Find::find($wanted, '/sys');
+
+        return @screens if @screens;
+    }
 
     my $edid =
         getFirstLine(command => 'monitor-get-edid-using-vbe') ||
