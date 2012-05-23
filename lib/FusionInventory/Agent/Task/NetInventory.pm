@@ -586,20 +586,24 @@ sub _setPrinterProperties {
 
         next unless defined($results->{$property . '-level'});
 
-        $device->{CARTRIDGES}->{$key} =
+        my $value =
             $results->{$property . '-level'} == -3 ?
                 100 :
                 _getPercentValue(
                     $results->{$property . '-capacitytype'},
                     $results->{$property . '-level'},
                 );
+        next unless $value;
+        $device->{CARTRIDGES}->{$key} = $value;
     }
     foreach my $key (keys %printer_cartridges_percent_properties) {
         my $property = $printer_cartridges_percent_properties{$key};
-        $device->{CARTRIDGES}->{$key} = _getPercentValue(
+        my $value = _getPercentValue(
             $results->{$property . 'MAX'},
             $results->{$property . 'REMAIN'},
         );
+        next unless $value;
+        $device->{CARTRIDGES}->{$key} = $value;
     }
 
     # page counters
