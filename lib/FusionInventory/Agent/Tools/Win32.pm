@@ -68,7 +68,7 @@ sub encodeFromRegistry {
     ## no critic (ExplicitReturnUndef)
     return undef unless $string;
 
-    return $string if Encode::is_utf8($string); 
+    return $string if Encode::is_utf8($string);
 
     return decode(getLocalCodepage(), $string);
 }
@@ -91,10 +91,10 @@ sub getWmiObjects {
             if (!ref($instance->{$property}) && $instance->{$property}) {
                 # cast the Win32::OLE object in string
                 $object->{$property} = sprintf("%s", $instance->{$property});
-    
+
                 # because of the Win32::OLE->Option(CP => Win32::OLE::CP_UTF8);
                 # we know it's UTF8, let's flag the string according because
-                # Win32::OLE don't do it 
+                # Win32::OLE don't do it
                 utf8::upgrade($object->{$property});
             } else {
                 $object->{$property} = $instance->{$property};
