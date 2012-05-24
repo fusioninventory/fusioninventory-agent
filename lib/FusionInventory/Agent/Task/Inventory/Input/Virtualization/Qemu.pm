@@ -11,7 +11,7 @@ sub isEnabled {
     # Avoid duplicated entry with libvirt
     return if canRun('virsh');
 
-    return 
+    return
         canRun('qemu') ||
         canRun('kvm')  ||
         canRun('qemu-kvm');
@@ -27,14 +27,14 @@ sub doInventory {
         logger => $logger, command => 'ps -ef'
     )) {
         # match only if an qemu instance
-        next unless 
+        next unless
             $process->{CMD} =~ /(qemu|kvm|qemu-kvm) .* -([fhsv]d[a-d]|cdrom)/x;
-            
+
         my $name;
         my $mem = 0;
         my $uuid;
         my $vmtype = $1;
-                    
+
         my @options = split (/-/, $process->{CMD});
         foreach my $option (@options) {
             if ($option =~ m/^(?:[fhsv]d[a-d]|cdrom) (\S+)/) {
@@ -47,12 +47,12 @@ sub doInventory {
                 $uuid = $1;
             }
         }
-        
+
         if ($mem == 0 ) {
             # Default value
             $mem = 128;
         }
-        
+
         $inventory->addEntry(
             section => 'VIRTUALMACHINES',
             entry => {
