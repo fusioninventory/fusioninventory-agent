@@ -3,59 +3,86 @@
 use strict;
 use warnings;
 
+use Config;
 use Test::More;
 use Test::Exception;
 use XML::TreePP;
 
 use FusionInventory::Agent::XML::Query::Inventory;
+use FusionInventory::Agent::Task::Inventory::Inventory;
 
-plan tests => 5;
+plan tests => 6;
 
-my $inventory;
+my $query;
 throws_ok {
-    $inventory = FusionInventory::Agent::XML::Query::Inventory->new();
+    $query = FusionInventory::Agent::XML::Query::Inventory->new();
 } qr/^no content/, 'no content';
 
+my $inventory =  FusionInventory::Agent::Task::Inventory::Inventory->new();
 throws_ok {
-    $inventory = FusionInventory::Agent::XML::Query::Inventory->new(
-        content => {
-            HARDWARE => {
-                ARCHNAME => 'x86_64-linux-thread-multi',
-                VMSYSTEM => 'Physical'
-            },
-        },
+    $query = FusionInventory::Agent::XML::Query::Inventory->new(
+        content => $inventory->getContent()
     );
 } qr/^no deviceid/, 'no device id';
 
 lives_ok {
-    $inventory = FusionInventory::Agent::XML::Query::Inventory->new(
+    $query = FusionInventory::Agent::XML::Query::Inventory->new(
         deviceid => 'foo',
-        content => {
-            HARDWARE => {
-                ARCHNAME => 'x86_64-linux-thread-multi',
-                VMSYSTEM => 'Physical'
-            },
-        },
+        content  => $inventory->getContent()
     );
 } 'everything OK';
 
-isa_ok($inventory, 'FusionInventory::Agent::XML::Query::Inventory');
+isa_ok($query, 'FusionInventory::Agent::XML::Query::Inventory');
 
 my $tpp = XML::TreePP->new();
 
 is_deeply(
-    scalar $tpp->parse($inventory->getContent()),
+    scalar $tpp->parse($query->getContent()),
+    {
+        REQUEST => {
+            DEVICEID => 'foo',
+            QUERY    => 'INVENTORY',
+            CONTENT  => {
+                HARDWARE => {
+                    ARCHNAME => $Config{archname},
+                    VMSYSTEM => 'Physical'
+                },
+                VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING,
+            },
+        }
+    },
+    'empty inventory, expected content'
+);
+
+$inventory->addEntry(
+    section => 'SOFTWARES',
+    entry   => {
+        NAME => '<&>',
+    }
+);
+
+$query = FusionInventory::Agent::XML::Query::Inventory->new(
+    deviceid => 'foo',
+    content => $inventory->getContent()
+);
+
+is_deeply(
+    scalar $tpp->parse($query->getContent()),
     {
         REQUEST => {
             DEVICEID => 'foo',
             QUERY => 'INVENTORY',
             CONTENT => {
                 HARDWARE => {
-                    ARCHNAME => 'x86_64-linux-thread-multi',
+                    ARCHNAME => $Config{archname},
                     VMSYSTEM => 'Physical'
                 },
+                VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING,
+                SOFTWARES => {
+                    NAME => '<&>'
+                }
             },
         }
     },
-    'expected content'
+    'additional content with prohibited characters, expected content'
 );

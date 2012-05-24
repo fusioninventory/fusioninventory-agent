@@ -18,6 +18,8 @@ use Win32::TieRegistry (
     qw/KEY_READ/
 );
 
+use utf8;
+
 use File::Temp ();
 use File::Temp qw(:seekable);
 use Win32::Job;
@@ -66,7 +68,9 @@ sub encodeFromRegistry {
     ## no critic (ExplicitReturnUndef)
     return undef unless $string;
 
-    return encode("UTF-8", decode(getLocalCodepage(), $string));
+    return $string if Encode::is_utf8($string);
+
+    return decode(getLocalCodepage(), $string);
 }
 
 sub getWmiObjects {
@@ -84,7 +88,17 @@ sub getWmiObjects {
     )) {
         my $object;
         foreach my $property (@{$params{properties}}) {
-            $object->{$property} = $instance->{$property};
+            if (!ref($instance->{$property}) && $instance->{$property}) {
+                # cast the Win32::OLE object in string
+                $object->{$property} = sprintf("%s", $instance->{$property});
+
+                # because of the Win32::OLE->Option(CP => Win32::OLE::CP_UTF8);
+                # we know it's UTF8, let's flag the string according because
+                # Win32::OLE don't do it
+                utf8::upgrade($object->{$property});
+            } else {
+                $object->{$property} = $instance->{$property};
+            }
         }
         push @objects, $object;
     }

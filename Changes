@@ -1,17 +1,29 @@
 Revision history for FusionInventory agent
 
+2.3.0
+General:
+* various UTF8 encoding fixes
+
 2.2.1
 General:
 * failure encoding with UTF8 content when using Fusion protocol (#1663)
 * wrong CSS path (#1580)
 * missing test suite dependency (#1575)
+* improve CPU details (#1597)
+* --no-category process support (#1630)
+* replace IS64BIT software property with more general ARCH property (#1581)
+* sync EDID parsing code with mandriva
+* more EDID manufacturer codes
 
 Windows:
 * various encoding issues (#1550)
-* network addresses collecting failure
+* network addresses collecting failure (#1549)
+* inventory all the KB on Win Vista/7 (#1668, #197, #706)
+* Store the XML file with the local codepage (#272)
 
 Virtualization:
 * wrong character in Xen machine ID (#1562)
+* additional disk emulation types for qemu and kvm support (#1630)
 
 BSD:
 * multiple network addresses per interface support (#1565)
@@ -21,13 +33,17 @@ Solaris:
 * solaris container zone bug (#1586)
 * sparc T3-1 CPU support (#1583)
 * solaris 8/9/10 swap bug (#1577)
-* sparc arch mismatch (#1573)
 
 Linux:
 * bad name for physical volumes (#1587)
 * missing volume group ID (#1585)
 * wrong volume group ID (#1584)
 * duplicate volume groups (#1582)
+* fix Lsilogic raid controller support (#1630)
+* get device name from udev file content, not file name (#1630)
+* get more disk informations from smartctl (#1630)
+* sparc arch mismatch (#1573)
+* read EDID data directly from /sys when available
 
 2.2.0  Sat, 07 Apr 2012 18:57:49 +0200
 
