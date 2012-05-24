@@ -19,6 +19,7 @@ use Win32::TieRegistry (
 );
 
 use utf8;
+
 use File::Temp ();
 use File::Temp qw(:seekable);
 use Win32::Job;

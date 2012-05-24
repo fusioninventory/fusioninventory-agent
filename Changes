@@ -1,5 +1,9 @@
 Revision history for FusionInventory agent
 
+2.3.0
+General:
+* various UTF8 encoding fixes
+
 2.2.1
 General:
 * failure encoding with UTF8 content when using Fusion protocol (#1663)
@@ -10,7 +14,6 @@ General:
 * replace IS64BIT software property with more general ARCH property (#1581)
 * sync EDID parsing code with mandriva
 * more EDID manufacturer codes
-* various UTF8 encoding fixes
 
 Windows:
 * various encoding issues (#1550)
