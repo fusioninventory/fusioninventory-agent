@@ -4,7 +4,7 @@ Revision history for FusionInventory agent
 General:
 * various UTF8 encoding fixes
 
-2.2.1
+2.2.1  Thu, 24 May 2012 14:39:50 +0200
 General:
 * failure encoding with UTF8 content when using Fusion protocol (#1663)
 * wrong CSS path (#1580)

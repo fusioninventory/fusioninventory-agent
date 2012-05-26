@@ -27,6 +27,7 @@ recommends 'Compress::Zlib'   => undef;
 recommends 'HTTP::Daemon'     => undef;
 recommends 'Net::CUPS'        => 0.60;
 recommends 'IO::Socket::SSL'  => undef;
+recommends 'LWP::Protocol::https'  => undef;
 
 if ($OSNAME ne 'MSWin32') {
     recommends 'Proc::Daemon'     => undef;
@@ -47,6 +48,7 @@ test_requires  'Test::Exception'              => undef;
 test_requires  'Test::MockModule'             => undef;
 test_requires  'Test::More'                   => '0.93'; # subtest
 test_requires  'YAML'                         => undef;
+test_requires  'LWP::Protocol::https'          => undef;
 
 install_script  'fusioninventory-agent';
 install_script  'fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
