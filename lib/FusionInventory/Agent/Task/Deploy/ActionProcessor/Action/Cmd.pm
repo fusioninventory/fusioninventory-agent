@@ -63,13 +63,13 @@ sub runOnUnix {
 sub runOnWindows {
     my ($params, $logger) = @_;
 
-    FusionInventory::Agent::Tools::Win32->require;  
+    FusionInventory::Agent::Tools::Win32->require;
 
     my ($exitcode, $fd) = FusionInventory::Agent::Tools::Win32::runCommand(
         command => $params->{exec}
     );
- 
-    
+
+
     $fd->seek(-2000, SEEK_END);
 
     my $buf;
@@ -82,7 +82,7 @@ sub runOnWindows {
         $errMsg = "timeout";
     }
 
- 
+
     return ($buf, $errMsg, $exitcode);
 }
 
@@ -106,7 +106,7 @@ sub do {
     my $exitStatus;
 
 
-    if ($OSNAME eq 'MSWin32') { 
+    if ($OSNAME eq 'MSWin32') {
         ($buf, $errMsg, $exitStatus) = runOnWindows(@_);
     } else {
         ($buf, $errMsg, $exitStatus) = runOnUnix(@_);
