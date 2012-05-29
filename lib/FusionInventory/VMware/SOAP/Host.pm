@@ -298,6 +298,7 @@ sub getVirtualMachines {
         my $status =
             $machine->{summary}{runtime}{powerState} eq 'poweredOn'  ? 'running' :
             $machine->{summary}{runtime}{powerState} eq 'poweredOff' ? 'off'     :
+            $machine->{summary}{runtime}{powerState} eq 'suspended'  ? 'pause'   :
                                                                     undef     ;
         print "Unknown status\n" if !$status;
 
