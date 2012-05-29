@@ -32,10 +32,12 @@ sub do {
             $logger->debug($m);
         } else {
             File::Path::mkpath($dir_local);
-            $status = 0 unless -d $dir_local;
-            my $m = "Failed to create $dir directory";
-            push @$msg, $m;
-            $logger->debug($m);
+            if (!-d $dir_local) {
+                $status = 0;
+                my $m = "Failed to create $dir directory";
+                push @$msg, $m;
+                $logger->debug($m);
+            }
         }
     }
     return {
