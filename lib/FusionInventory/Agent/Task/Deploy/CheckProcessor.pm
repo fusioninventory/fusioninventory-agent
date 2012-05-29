@@ -22,7 +22,7 @@ sub process {
         my $path = $params{check}->{path};
         $path =~ s{\\}{/}g;
 
-        my $r = FusionInventory::Agent::Tools::Win32::getRegistryValue(path => $path);
+        my $r = FusionInventory::Agent::Tools::Win32::getRegistryKey(path => $path);
 
         return defined $r ? 'ok' : $failureCode;
     }
@@ -46,7 +46,7 @@ sub process {
         my $path = $params{check}->{path};
         $path =~ s{\\}{/}g;
 
-        my $r = FusionInventory::Agent::Tools::Win32::getRegistryValue(path => $path);
+        my $r = FusionInventory::Agent::Tools::Win32::getRegistryKey(path => $path);
 
         return defined $r ? $failureCode : 'ok';
     } 
