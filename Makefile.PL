@@ -23,7 +23,9 @@ eval {
     }
     close $handle;
 
-    die "agent too old (minimal version 2.2.0 required)\n" if $CHILD_ERROR;
+    push @INC, $MY::setup{LIBDIR};
+
+    die "agent too old (minimal version 2.2.1 required)\n" if $CHILD_ERROR;
 };
 warn "unable to check fusioninventory-agent setup: $EVAL_ERROR" if $EVAL_ERROR;
 
@@ -34,6 +36,7 @@ requires 'File::Copy::Recursive'  => undef;
 requires 'JSON'                   => undef;
 requires 'URI::Escape'            => undef;
 requires 'UNIVERSAL::require'     => undef;
+requires 'FusionInventory::Agent' => '2.2.1';
 
 recommends 'POE::Component::Client::Ping' => undef;
 
