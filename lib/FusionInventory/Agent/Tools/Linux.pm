@@ -33,6 +33,7 @@ sub getDevicesFromUdev {
             file    => $file,
             pattern => qr/^N:(\S+)/
         );
+        next unless $device;
         next unless $device =~ /([hsv]d[a-z]|sr\d+)$/;
         push (@devices, _parseUdevEntry(
                 logger => $params{logger}, file => $file, device => $device
