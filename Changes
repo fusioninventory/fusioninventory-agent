@@ -1,3 +1,10 @@
+2.0.2
+
+* Win32: properly support non ASCII characters
+* use Win32::Job on Windows to get the full return code
+* refresh the test-suite
+* CheckProcessor: ensure a code is always returned
+
 2.0.1  Thu, 26 Apr 2012 20:55:58 +0200
 
 * Use 7z if avalaible to extract the archives
