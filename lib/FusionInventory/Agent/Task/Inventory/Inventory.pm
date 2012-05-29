@@ -68,8 +68,8 @@ my %fields = (
                              DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
                              WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE/ ],
     OPERATINGSYSTEM  => [ qw/KERNEL_NAME KERNEL_VERSION NAME VERSION FULL_NAME 
-                            SERVICE_PACK INSTALL_DATE FQDN DNS_DOMAIN SSH_KEY
-                            ARCH/ ],
+                            SERVICE_PACK INSTALL_DATE FQDN DNS_DOMAIN
+                            SSH_KEY ARCH BOOT_TIME/ ],
     ACCESSLOG        => [ qw/USERID LOGDATE/ ],
     VIRTUALMACHINES  => [ qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU
                              VMID MAC COMMENT OWNER/ ],

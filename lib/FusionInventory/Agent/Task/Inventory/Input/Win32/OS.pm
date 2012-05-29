@@ -23,8 +23,9 @@ sub doInventory {
     foreach my $object (getWMIObjects(
             class      => 'Win32_OperatingSystem',
             properties => [ qw/
-                OSLanguage Caption Version SerialNumber Organization \
-                RegisteredUser CSDVersion TotalSwapSpaceSize OSArchitecture
+                OSLanguage Caption Version SerialNumber Organization
+                RegisteredUser CSDVersion TotalSwapSpaceSize
+                OSArchitecture LastBootUpTime
             / ]
         )) {
 
@@ -62,6 +63,12 @@ sub doInventory {
         my $osArchitecture =  $object->{OSArchitecture} || '32-bit';
         $osArchitecture =~ s/ /-/; # "64 bit" => "64-bit"
 
+        my $boottime;
+        if ($object->{LastBootUpTime} =~
+                /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/) {
+            $boottime = getFormatedDate($1, $2, $3, $4, $5, 6);
+        }
+
         $inventory->setOperatingSystem({
             NAME           => "Windows",
             INSTALL_DATE   => $installDate,
@@ -70,6 +77,7 @@ sub doInventory {
             FULL_NAME      => $object->{Caption},
             SERVICE_PACK   => $object->{CSDVersion},
             ARCH           => $osArchitecture,
+            BOOT_TIME      => $boottime,
         });
     }
 

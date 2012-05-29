@@ -34,6 +34,7 @@ sub doInventory {
     # never hurt
     my $OSComment = getFirstLine(command => 'uname -v');
     my $KernelVersion = getFirstLine(command => 'uname -r');
+    my $boottime = getFirstMatch(command => "sysctl -n kern.boottime", pattern => qr/sec = (\d+)/);
 
     $inventory->setHardware({
         OSNAME     => $OSName,
@@ -45,7 +46,8 @@ sub doInventory {
         NAME                 => "MacOSX",
         VERSION              => $OSVersion,
         KERNEL_VERSION       => $KernelVersion,
-        FULL_NAME            => $OSName
+        FULL_NAME            => $OSName,
+        BOOT_TIME            => getFormatedLocalTime($boottime)
     });
 }
 
