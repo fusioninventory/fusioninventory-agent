@@ -300,7 +300,7 @@ sub getVirtualMachines {
             $machine->{summary}{runtime}{powerState} eq 'poweredOff' ? 'off'     :
             $machine->{summary}{runtime}{powerState} eq 'suspended'  ? 'pause'   :
                                                                     undef     ;
-        print "Unknown status\n" if !$status;
+        print "Unknown status (".$machine->{summary}{runtime}{powerState}.")\n" if !$status;
 
         my @mac;
         foreach my $device (_asArray($machine->{config}{hardware}{device})) {
