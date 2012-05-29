@@ -24,6 +24,8 @@ sub doInventory {
     my $oscomment = getFirstLine(command => 'uname -v');
     my $systemId  = _getRHNSystemId('/etc/sysconfig/rhn/systemid');
 
+    my $boottime = time - getFirstMatch(file => '/proc/uptime', pattern => qr/^(\d+)/);
+
     $inventory->setHardware({
         OSVERSION  => $osversion,
         OSCOMMENTS => $oscomment,
@@ -31,7 +33,8 @@ sub doInventory {
     });
 
     $inventory->setOperatingSystem({
-        KERNEL_VERSION => $osversion
+        KERNEL_VERSION => $osversion,
+        BOOT_TIME      => getFormatedLocalTime($boottime)
     });
 
 }

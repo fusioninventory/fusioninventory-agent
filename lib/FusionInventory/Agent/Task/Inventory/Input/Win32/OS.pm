@@ -24,7 +24,7 @@ sub doInventory {
             class      => 'Win32_OperatingSystem',
             properties => [ qw/
                 OSLanguage Caption Version SerialNumber Organization \
-                RegisteredUser CSDVersion TotalSwapSpaceSize
+                RegisteredUser CSDVersion TotalSwapSpaceSize LastBootUpTime
             / ]
         )) {
 
@@ -59,13 +59,20 @@ sub doInventory {
             DESCRIPTION   => $description,
         });
 
+        my $boottime;
+        if ($object->{LastBootUpTime} =~
+                /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/) {
+            $boottime = getFormatedDate($1, $2, $3, $4, $5, 6);
+        }
+
         $inventory->setOperatingSystem({
             NAME           => "Windows",
             INSTALL_DATE   => $installDate,
     #        VERSION       => $OSVersion,
             KERNEL_VERSION => $object->{Version},
             FULL_NAME      => $object->{Caption},
-            SERVICE_PACK   => $object->{CSDVersion}
+            SERVICE_PACK   => $object->{CSDVersion},
+            BOOT_TIME      => $boottime
         });
     }
 
