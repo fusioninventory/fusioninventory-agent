@@ -24,6 +24,7 @@ sub getContent {
     my ($self) = @_;
 
     my $tpp = XML::TreePP->new(indent => 2);
+
     return $tpp->write({ REQUEST => $self->{h} });
 }
 
