@@ -2,6 +2,7 @@
 
 * Win32: properly support non ASCII characters
 * use Win32::Job on Windows to get the full return code
+* Win32: better Registry key check
 * refresh the test-suite
 * CheckProcessor: ensure a code is always returned
 
