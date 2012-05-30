@@ -282,7 +282,7 @@ sub checkParsedEdid {
 sub _build_detailed_timing {
     my ($pixel_clock, $vv) = @_;
 
-    my $h = get_many_bits($vv, 'detailed_timing');
+    my $h = _get_many_bits($vv, 'detailed_timing');
     $h->{pixel_clock} = $pixel_clock / 100; # to have it in MHz
     my %detailed_timing_field_size = map { $_->[1], $_->[0] } @{$subfields{detailed_timing}};
     foreach my $field (keys %detailed_timing_field_size) {
@@ -301,7 +301,7 @@ sub _add_standard_timing_modes {
 	'4/3', '5/4', '16/9',
     );
     $v = [ map {
-	my $h = get_many_bits($_, 'standard_timing');
+	my $h = _get_many_bits($_, 'standard_timing');
 	$h->{X} = ($h->{X} + 31) * 8;
 	if ($_ ne "\x20\x20" && $h->{X} > 256) { # cf VALID_TIMING in Xorg edid.h
 	    $h->{vfreq} += 60;
@@ -426,7 +426,7 @@ sub parseEdid {
 	    $dtd_offset -= 4;
 
 	    while ($dtd_offset > 0) {
-		my $h = get_many_bits($v, 'cea_data_block_collection');
+		my $h = _get_many_bits($v, 'cea_data_block_collection');
 		$dtd_offset -= $h->{size} + 1;
 
 		my $vv;
@@ -434,7 +434,7 @@ sub parseEdid {
 		if ($h->{type} == 0x02) { # Video Data Block
 		    my @vmodes = unpack("a" x $h->{size}, $vv);
 		    foreach my $vmode (@vmodes) {
-			$h = get_many_bits($vmode, 'cea_video_data_block');
+			$h = _get_many_bits($vmode, 'cea_video_data_block');
 			my $cea_mode = $cea_video_modes[$h->{mode} - 1];
 			if (!$cea_mode) {
 			    warn "parse_edid: unhandled CEA mode $h->{mode}\n" if $verbose;
@@ -504,7 +504,7 @@ sub parseEdid {
 	if ($error < 1 && $in_cm{vertical}) {
 	    # using it for the ratio
 	    $edid{ratio} = $in_cm{horizontal} / $in_cm{vertical};
-	    $edid{ratio_name} = ratio_name($in_cm{horizontal}, $in_cm{vertical}, 'mm');
+	    $edid{ratio_name} = _ratio_name($in_cm{horizontal}, $in_cm{vertical}, 'mm');
 	    $edid{ratio_precision} = 'mm';
 	}
 
@@ -533,7 +533,7 @@ sub parseEdid {
 	  $h->{pixel_clock} / $horizontal_total / $vertical_total * 1000 * 1000 * ($h->{interlaced} ? 2 : 1),
 	  $h->{pixel_clock} / $horizontal_total * 1000,
 	  $h->{interlaced} ? "interlaced, " : '',
-	  nearest_ratio($h->{horizontal_active} / $h->{vertical_active}, 0.01) || sprintf("%.2f", $h->{horizontal_active} / $h->{vertical_active}),
+	  _nearest_ratio($h->{horizontal_active} / $h->{vertical_active}, 0.01) || sprintf("%.2f", $h->{horizontal_active} / $h->{vertical_active}),
 	  $dpi_string ? ", $dpi_string" : '';
 	  
 	$h->{ModeLine} = sprintf qq("%dx%d" $h->{pixel_clock} %d %d %d %d %d %d %d %d %shsync %svsync%s),
