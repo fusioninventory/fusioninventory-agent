@@ -10,7 +10,7 @@ use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
 
-use Test::More tests => 42;
+use Test::More tests => 46;
 
 my ($out, $err, $rc);
 
@@ -54,7 +54,13 @@ ok($rc == 0, 'exit status');
 unlike(
     $err,
     qr/module \S+ disabled: failure to load/,
-    'no broken module'
+    'no broken module (loading)'
+);
+
+unlike(
+    $err,
+    qr/unexpected error in \S+/,
+    'no broken module (execution)'
 );
 
 like(
@@ -85,7 +91,13 @@ ok($rc == 0, 'exit status');
 unlike(
     $err,
     qr/module \S+ disabled: failure to load/,
-    'no broken module'
+    'no broken module (loading)'
+);
+
+unlike(
+    $err,
+    qr/unexpected error in \S+/,
+    'no broken module (execution)'
 );
 
 like(
@@ -130,7 +142,13 @@ ok($rc == 0, 'exit status');
 unlike(
     $err,
     qr/module \S+ disabled: failure to load/,
-    'no broken module'
+    'no broken module (loading)'
+);
+
+unlike(
+    $err,
+    qr/unexpected error in \S+/,
+    'no broken module (execution)'
 );
 
 like(
@@ -176,7 +194,13 @@ ok($rc == 0, 'exit status');
 unlike(
     $err,
     qr/module \S+ disabled: failure to load/,
-    'no broken module'
+    'no broken module (loading)'
+);
+
+unlike(
+    $err,
+    qr/unexpected error in \S+/,
+    'no broken module (execution)'
 );
 
 like(
