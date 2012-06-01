@@ -16,11 +16,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $slots = _getSlots(logger => $logger);
-
-    return unless $slots;
-
-    foreach my $slot (@$slots) {
+    foreach my $slot (_getSlots(logger => $logger)) {
         $inventory->addEntry(
             section => 'SLOTS',
             entry   => $slot
@@ -29,23 +25,21 @@ sub doInventory {
 }
 
 sub _getSlots {
-    my $infos = getDmidecodeInfos(@_);
+    my $parser = getDMIDecodeParser(@_);
 
-    return unless $infos->{9};
-
-    my $slots;
-    foreach my $info (@{$infos->{9}}) {
+    my @slots;
+    foreach my $handle ($parser->get_handles(dmitype => 9)) {
         my $slot = {
-            DESCRIPTION => $info->{'Type'},
-            DESIGNATION => $info->{'ID'},
-            NAME        => $info->{'Designation'},
-            STATUS      => $info->{'Current Usage'},
+            DESCRIPTION => getSanitizedValue($handle, 'slot-type'),
+            DESIGNATION => getSanitizedValue($handle, 'slot-id'),
+            NAME        => getSanitizedValue($handle, 'slot-designation'),
+            STATUS      => getSanitizedValue($handle, 'slot-current-usage'),
         };
 
-        push @$slots, $slot;
+        push @slots, $slot;
     }
 
-    return $slots;
+    return @slots;
 }
 
 1;

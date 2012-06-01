@@ -16,11 +16,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $ports = _getPorts(logger => $logger);
-
-    return unless $ports;
-
-    foreach my $port (@$ports) {
+    foreach my $port (_getPorts(logger => $logger)) {
         $inventory->addEntry(
             section => 'PORTS',
             entry   => $port
@@ -29,23 +25,25 @@ sub doInventory {
 }
 
 sub _getPorts {
-    my $infos = getDmidecodeInfos(@_);
+    my $parser = getDMIDecodeParser(@_);
 
-    return unless $infos->{8};
-
-    my $ports;
-    foreach my $info (@{$infos->{8}}) {
+    my @ports;
+    foreach my $handle ($parser->get_handles(dmitype => 8)) {
         my $port = {
-            CAPTION     => $info->{'External Connector Type'},
-            DESCRIPTION => $info->{'Internal Connector Type'},
-            NAME        => $info->{'Internal Reference Designator'},
-            TYPE        => $info->{'Port Type'},
+            CAPTION     => getSanitizedValue(
+                $handle, 'connector-external-connector-type'),
+            DESCRIPTION => getSanitizedValue(
+                $handle, 'connector-internal-connector-type'),
+            NAME        => getSanitizedValue(
+                $handle, 'connector-internal-reference-designator'),
+            TYPE        => getSanitizedValue(
+                $handle, 'connector-port-type'),
         };
 
-        push @$ports, $port;
+        push @ports, $port;
     }
 
-    return $ports;
+    return @ports;
 }
 
 1;

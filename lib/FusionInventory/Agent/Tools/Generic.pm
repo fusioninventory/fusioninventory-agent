@@ -6,60 +6,49 @@ use base 'Exporter';
 
 use English qw(-no_match_vars);
 use Memoize;
+use Parse::DMIDecode;
 
 use FusionInventory::Agent::Tools;
 
 our @EXPORT = qw(
-    getDmidecodeInfos
+    getDMIDecodeParser
+    getSanitizedValue
     getCpusFromDmidecode
     getPCIDevices
 );
 
-memoize('getDmidecodeInfos');
+memoize('getDMIDecodeParser');
 memoize('getPCIDevices');
 
-sub getDmidecodeInfos {
+sub getDMIDecodeParser {
     my (%params) = (
         command => 'dmidecode',
         @_
     );
 
+    my $parser = Parse::DMIDecode->new(nowarnings => 1);
+
+    local $RS = undef;
     my $handle = getFileHandle(%params);
-
-    my ($info, $block, $type);
-
-    while (my $line = <$handle>) {
-        chomp $line;
-
-        if ($line =~ /DMI type (\d+)/) {
-            # start of block
-
-            # push previous block in list
-            if ($block) {
-                push(@{$info->{$type}}, $block);
-                undef $block;
-            }
-
-            # switch type
-            $type = $1;
-
-            next;
-        }
-
-        next unless defined $type;
-
-        next unless $line =~ /^\s+ ([^:]+) : \s (.*\S)/x;
-
-        next if
-            $2 eq 'N/A'           ||
-            $2 eq 'Not Specified' ||
-            $2 eq 'Not Present'   ;
-
-        $block->{$1} = $2;
-    }
+    $parser->parse(<$handle>);
     close $handle;
 
-    return $info;
+    return $parser;
+}
+
+sub getSanitizedValue {
+    my ($parser, $keyword) = @_;
+
+    my $value = $parser->keyword($keyword);
+
+    return $value if
+        defined $value            &&
+        $value ne 'Not Specified' &&
+        $value ne 'Not Present'   &&
+        $value ne 'N/A'           &&
+        $value ne ''              ;
+
+    return undef;
 }
 
 sub getCpusFromDmidecode {

@@ -27,28 +27,30 @@ sub doInventory {
 }
 
 sub _getBattery {
-    my $infos = getDmidecodeInfos(@_);
+    my $parser = getDMIDecodeParser(@_);
 
-    return unless $infos->{22};
+    my @handles = $parser->get_handles(dmitype => 22);
+    return unless @handles;
 
-    my $info    = $infos->{22}->[0];
+    my $handle = $handles[0];
 
     my $battery = {
-        NAME         => $info->{'Name'},
-        MANUFACTURER => $info->{'Manufacturer'},
-        SERIAL       => $info->{'Serial Number'},
-        CHEMISTRY    => $info->{'Chemistry'},
+        NAME         => getSanitizedValue($handle, 'battery-name'),
+        MANUFACTURER => getSanitizedValue($handle, 'battery-manufacturer'),
+        SERIAL       => getSanitizedValue($handle, 'battery-serial-number'),
+        CHEMISTRY    => getSanitizedValue($handle, 'battery-chemistry'),
     };
 
-    if ($info->{'Manufacture Date'}) {
-        $battery->{DATE} = _parseDate($info->{'Manufacture Date'});
-    }
+    $battery->{DATE} =
+        _parseDate($handle->keyword('battery-manufacture-date'));
 
-    if ($info->{Capacity} && $info->{Capacity} =~ /(\d+) \s m(W|A)h$/x) {
+    my $capacity = $handle->keyword('battery-design-capacity');
+    if ($capacity && $capacity =~ /(\d+) \s m(W|A)h$/x) {
         $battery->{CAPACITY} = $1;
     }
 
-    if ($info->{Voltage} && $info->{Voltage} =~ /(\d+) \s mV$/x) {
+    my $voltage = $handle->keyword('battery-design-voltage');
+    if ($voltage && $voltage =~ /(\d+) \s mV$/x) {
         $battery->{VOLTAGE} = $1;
     }
 
@@ -57,6 +59,8 @@ sub _getBattery {
 
 sub _parseDate {
     my ($string) = @_;
+
+    return unless $string;
 
     my ($day, $month, $year);
     if ($string =~ /(\d{1,2}) [\/-] (\d{1,2}) [\/-] (\d{2})/x) {

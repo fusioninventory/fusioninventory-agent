@@ -23,37 +23,27 @@ sub doInventory {
 }
 
 sub _getBiosHardware {
-    my $infos = getDmidecodeInfos(@_);
-
-    my $bios_info    = $infos->{0}->[0];
-    my $system_info  = $infos->{1}->[0];
-    my $base_info    = $infos->{2}->[0];
-    my $chassis_info = $infos->{3}->[0];
+    my $parser = getDMIDecodeParser(@_);
 
     my $bios = {
-        BMANUFACTURER => $bios_info->{'Vendor'},
-        BDATE         => $bios_info->{'Release Date'},
-        BVERSION      => $bios_info->{'Version'},
-        ASSETTAG      => $chassis_info->{'Asset Tag'}
+        BMANUFACTURER => getSanitizedValue($parser, 'bios-vendor'),
+        BDATE         => getSanitizedValue($parser, 'bios-release-date'),
+        BVERSION      => getSanitizedValue($parser, 'bios-version'),
+        MSN           => getSanitizedValue($parser, 'baseboard-serial-number'),
+        MMODEL        => getSanitizedValue($parser, 'baseboard-product-name'),
+        MMANUFACTURER => getSanitizedValue($parser, 'baseboard-manufacturer'),
+        ASSETTAG      => getSanitizedValue($parser, 'chassis-asset-tag'),
+        SKUNUMBER     => getSanitizedValue($parser, 'system-sku-number'),
+        SSN           => getSanitizedValue($parser, 'system-serial-number'),
+        SMANUFACTURER => getSanitizedValue($parser, 'system-manufacturer') ||
+                         getSanitizedValue($parser, 'system-vendor'),
+        SMODEL        => getSanitizedValue($parser, 'system-product')      ||
+                         getSanitizedValue($parser, 'system-product-name'),
     };
 
-    $bios->{SMODEL} =
-        $system_info->{'Product'}      ||
-        $system_info->{'Product Name'};
-    $bios->{MMODEL} = $base_info->{'Product Name'};
-    $bios->{SKUNUMBER} = $system_info->{'SKU Number'};
-
-    $bios->{SMANUFACTURER} =
-        $system_info->{'Manufacturer'} ||
-        $system_info->{'Vendor'};
-    $bios->{MMANUFACTURER} = $base_info->{'Manufacturer'};
-
-    $bios->{SSN} = $system_info->{'Serial Number'};
-    $bios->{MSN} = $base_info->{'Serial Number'};
-
     my $hardware = {
-        UUID => $system_info->{'UUID'},
-        CHASSIS_TYPE  => $chassis_info->{'Type'}
+        UUID          => getSanitizedValue($parser,'system-uuid'),
+        CHASSIS_TYPE  => getSanitizedValue($parser,'chassis-type')
     };
 
     my $vmsystem;

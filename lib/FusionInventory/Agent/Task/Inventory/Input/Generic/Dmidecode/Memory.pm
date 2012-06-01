@@ -16,11 +16,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $memories = _getMemories(logger => $logger);
-
-    return unless $memories;
-
-    foreach my $memory (@$memories) {
+    foreach my $memory (_getMemories(logger => $logger)) {
         $inventory->addEntry(
             section => 'MEMORIES',
             entry   => $memory
@@ -29,60 +25,71 @@ sub doInventory {
 }
 
 sub _getMemories {
-    my $infos = getDmidecodeInfos(@_);
+    my $parser = getDMIDecodeParser(@_);
 
-    my ($memories, $slot);
+    my (@memories, $slot);
 
     my $memoryCorrection;
-    if ($infos->{16}) {
-        $memoryCorrection = $infos->{16}[0]{'Error Correction Type'};
-    }
-    if ($infos->{17}) {
-
-        foreach my $info (@{$infos->{17}}) {
-            $slot++;
-
-            # Flash is 'in general' an unrelated internal BIOS storage, See bug: #1334
-            next if $info->{'Type'} =~ /Flash/i;
-
-            my $description = $info->{'Form Factor'};
-            $description .= " ($memoryCorrection)" if $memoryCorrection;
-
-            my $memory = {
-                NUMSLOTS     => $slot,
-                DESCRIPTION  => $description,
-                CAPTION      => $info->{'Locator'},
-                SPEED        => $info->{'Speed'},
-                TYPE         => $info->{'Type'},
-                SERIALNUMBER => $info->{'Serial Number'},
-                MEMORYCORRECTION => $memoryCorrection
-            };
-
-            if ($info->{'Size'} && $info->{'Size'} =~ /^(\d+) \s MB$/x) {
-                $memory->{CAPACITY} = $1;
-            }
-
-            push @$memories, $memory;
-        }
-    } elsif ($infos->{6}) {
-
-        foreach my $info (@{$infos->{6}}) {
-            $slot++;
-
-            my $memory = {
-                NUMSLOTS => $slot,
-                TYPE     => $info->{'Type'},
-            };
-
-            if ($info->{'Installed Size'} && $info->{'Installed Size'} =~ /^(\d+)\s*(MB|Mbyte)/x) {
-                $memory->{CAPACITY} = $1;
-            }
-
-            push @$memories, $memory;
-        }
+    my @handles = $parser->get_handles(dmitype => 16);
+    if (@handles) {
+        $memoryCorrection =
+            $handles[0]->keyword('memory-error-correction-type');
     }
 
-    return $memories;
+    # start with memory devices
+    foreach my $handle ($parser->get_handles(dmitype => 17)) {
+        my $type = $handle->keyword('memory-type');
+        next unless $type;
+
+        $slot++;
+
+        # Flash is 'in general' an unrelated internal BIOS storage
+        # See bug #1334
+        next if $type =~ /Flash/i;
+
+        my $description = $handle->keyword('memory-form-factor');
+        $description .= " ($memoryCorrection)" if $memoryCorrection;
+
+        my $memory = {
+            NUMSLOTS         => $slot,
+            DESCRIPTION      => $description,
+            CAPTION          => getSanitizedValue($handle, 'memory-locator'),
+            SPEED            => getSanitizedValue($handle, 'memory-speed'),
+            TYPE             => getSanitizedValue($handle, 'memory-type'),
+            SERIALNUMBER     => getSanitizedValue(
+                                    $handle, 'memory-serial-number'
+                                ),
+            MEMORYCORRECTION => $memoryCorrection
+        };
+
+        my $size = $handle->keyword('memory-size');
+        if ($size && $size =~ /^(\d+) \s MB$/x) {
+            $memory->{CAPACITY} = $1;
+        }
+
+        push @memories, $memory;
+    }
+
+    return @memories if @memories;
+
+    # fallback on memory modules
+    foreach my $handle ($parser->get_handles(dmitype => 6)) {
+        $slot++;
+
+        my $memory = {
+            NUMSLOTS => $slot,
+            TYPE     => $handle->keyword('memory-type'),
+        };
+
+        my $size = $handle->keyword('memory-installed-size');
+        if ($size && $size =~ /^(\d+)\s*(MB|Mbyte)/x) {
+            $memory->{CAPACITY} = $1;
+        }
+
+        push @memories, $memory;
+    }
+
+    return @memories;
 }
 
 1;
