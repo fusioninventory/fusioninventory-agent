@@ -44,11 +44,13 @@ sub _getBattery {
         $battery->{DATE} = _parseDate($info->{'Manufacture Date'});
     }
 
-    if ($info->{Capacity} && $info->{Capacity} =~ /(\d+) \s m(W|A)h$/x) {
+    if ($info->{'Design Capacity'} &&
+        $info->{'Design Capacity'} =~ /(\d+) \s m(W|A)h$/x) {
         $battery->{CAPACITY} = $1;
     }
 
-    if ($info->{Voltage} && $info->{Voltage} =~ /(\d+) \s mV$/x) {
+    if ($info->{'Design Voltage'} &&
+        $info->{'Design Voltage'} =~ /(\d+) \s mV$/x) {
         $battery->{VOLTAGE} = $1;
     }
 

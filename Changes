@@ -1,5 +1,9 @@
 Revision history for FusionInventory agent
 
+2.2.3
+General:
+* Fix battery voltage and capacity retrieval
+
 2.2.2  Wed, 30 May 2012 16:56:43 +0200
 General:
 * Improve README
