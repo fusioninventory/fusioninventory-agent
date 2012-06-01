@@ -52,16 +52,17 @@ sub getSanitizedValue {
 }
 
 sub getCpusFromDmidecode {
-    my $infos = getDmidecodeInfos(@_);
-
-    return unless $infos->{4};
+    my $parser = getDMIDecodeParser(@_);
 
     my @cpus;
-    foreach my $info (@{$infos->{4}}) {
-        next if $info->{Status} && $info->{Status} =~ /Unpopulated/i;
+    foreach my $handle ($parser->get_handles(dmitype => 4)) {
+        my $status = getSanitizedValue($handle, 'processor-status');
+        next if $status && $status =~ /Unpopulated/i;
 
-        my $proc_manufacturer = $info->{'Processor Manufacturer'};
-        my $proc_version      = $info->{'Processor Version'};
+        my $proc_manufacturer =
+            getSanitizedValue($handle, 'processor-processor-manufacturer');
+        my $proc_version      =
+            getSanitizedValue($handle, 'processor-processor-version');
 
         # VMware
         next if
@@ -69,21 +70,24 @@ sub getCpusFromDmidecode {
             ($proc_version      && $proc_version eq '00000000000000000000000000000000');
 
         my $cpu = {
-            SERIAL     => $info->{'Serial Number'},
-            ID         => $info->{ID},
-            CORE       => $info->{'Core Count'} || $info->{'Core Enabled'},
-            THREAD     => $info->{'Thread Count'},
-            FAMILYNAME => $info->{'Family'}
+            SERIAL       => getSanitizedValue($handle, 'processor-serial-number'),
+            ID           => getSanitizedValue($handle, 'processor-id'),
+            CORE         => getSanitizedValue($handle, 'processor-core-count') ||
+                            getSanitizedValue($handle, 'processor-core-enabled'),
+            THREAD       => getSanitizedValue($handle, 'processor-thread-count'),
+            FAMILYNAME   => getSanitizedValue($handle, 'processor-family'),
+            MANUFACTURER => getSanitizedValue($handle, 'processor-manufacturer') ||
+                            getSanitizedValue($handle, 'processor-processor-manufacturer')
         };
-        $cpu->{MANUFACTURER} = $info->{'Manufacturer'} || $info->{'Processor Manufacturer'};
+
         $cpu->{NAME} =
-            ($cpu->{MANUFACTURER} =~ /Intel/ ? $info->{'Family'} : undef) ||
-            $info->{'Version'}                                     ||
-            $info->{'Processor Family'}                            ||
-            $info->{'Processor Version'};
+            ($cpu->{MANUFACTURER} =~ /Intel/ ?
+                getSanitizedValue($handle, 'processor-family') : undef ) ||
+            getSanitizedValue($handle, 'processor-version')              ||
+            getSanitizedValue($handle, 'processor-processor-family')     ||
+            getSanitizedValue($handle, 'processor-processor-version');
 
        if ($cpu->{ID}) {
-
             # Split CPUID to get access to its content
             my @id = split ("",$cpu->{ID});
             # convert hexadecimal value
@@ -93,34 +97,40 @@ sub getCpusFromDmidecode {
             $cpu->{MODEL} = hex $id[7] . $id[0];
         }
 
-        if ($info->{Version}) {
-            if ($info->{Version} =~ /([\d\.]+)MHz$/) {
+        my $version = getSanitizedValue($handle, 'processor-version');
+        if ($version) {
+            if ($version =~ /([\d\.]+)MHz$/) {
                 $cpu->{SPEED} = $1;
-            } elsif ($info->{Version} =~ /([\d\.]+)GHz$/) {
-                $cpu->{SPEED} = $1 * 1000;
-            }
-        }
-        if (!$cpu->{SPEED} && $info->{'Max Speed'}) {
-            # We only look for 3 digit Mhz frequency to avoid abvious bad
-            # value like 30000 (#633)
-            if ($info->{'Max Speed'} =~ /^\s*(\d{3,4})\s*Mhz/i) {
-                $cpu->{SPEED} = $1;
-            } elsif ($info->{'Max Speed'} =~ /^\s*(\d+)\s*Ghz/i) {
-                $cpu->{SPEED} = $1 * 1000;
-            }
-        }
-        if (!$cpu->{SPEED} && $info->{'Current Speed'}) {
-            if ($info->{'Current Speed'} =~ /^\s*(\d{3,4})\s*Mhz/i) {
-                $cpu->{SPEED} = $1;
-            } elsif ($info->{'Current Speed'} =~ /^\s*(\d+)\s*Ghz/i) {
+            } elsif ($version =~ /([\d\.]+)GHz$/) {
                 $cpu->{SPEED} = $1 * 1000;
             }
         }
 
-        if ($info->{'External Clock'}) {
-            if ($info->{'External Clock'} =~ /^\s*(\d+)\s*Mhz/i) {
+        my $max_speed = getSanitizedValue($handle, 'processor-max-speed');
+        if (!$cpu->{SPEED} && $max_speed) {
+            # We only look for 3 digit Mhz frequency to avoid abvious bad
+            # value like 30000 (#633)
+            if ($max_speed =~ /^\s*(\d{3,4})\s*Mhz/i) {
+                $cpu->{SPEED} = $1;
+            } elsif ($max_speed =~ /^\s*(\d+)\s*Ghz/i) {
+                $cpu->{SPEED} = $1 * 1000;
+            }
+        }
+
+        my $current_speed = getSanitizedValue($handle, 'processor-current-speed');
+        if (!$cpu->{SPEED} && $current_speed) {
+            if ($current_speed =~ /^\s*(\d{3,4})\s*Mhz/i) {
+                $cpu->{SPEED} = $1;
+            } elsif ($current_speed =~ /^\s*(\d+)\s*Ghz/i) {
+                $cpu->{SPEED} = $1 * 1000;
+            }
+        }
+
+        my $clock = getSanitizedValue($handle, 'processor-external-clock');
+        if ($clock) {
+            if ($clock =~ /^\s*(\d+)\s*Mhz/i) {
                 $cpu->{EXTERNAL_CLOCK} = $1;
-            } elsif ($info->{'External Clock'} =~ /^\s*(\d+)\s*Ghz/i) {
+            } elsif ($clock =~ /^\s*(\d+)\s*Ghz/i) {
                 $cpu->{EXTERNAL_CLOCK} = $1 * 1000;
             }
         }
