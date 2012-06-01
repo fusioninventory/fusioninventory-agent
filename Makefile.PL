@@ -14,6 +14,7 @@ requires 'Digest::MD5'        => undef;
 requires 'File::Which'        => undef;
 requires 'LWP'                => undef;
 requires 'Net::IP'            => undef;
+requires 'Parse::DMIDecode'   => undef;
 requires 'UNIVERSAL::require' => undef;
 requires 'Text::Template'     => undef;
 requires 'XML::TreePP'        => '0.26';
