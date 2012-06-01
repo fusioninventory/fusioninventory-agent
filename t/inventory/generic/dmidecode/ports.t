@@ -64,7 +64,8 @@ my %tests = (
             CAPTION     => 'Other'
         }
     ],
-    'freebsd-8.1' => undef,
+    'freebsd-8.1' => [
+    ],
     'linux-2.6' => [
          {
             NAME        => 'PARALLEL',
@@ -1305,6 +1306,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/generic/dmidecode/$test";
-    my $ports = FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Ports::_getPorts(file => $file);
-    is_deeply($ports, $tests{$test}, $test);
+    my @ports = FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Ports::_getPorts(file => $file);
+    is_deeply(\@ports, $tests{$test}, $test);
 }

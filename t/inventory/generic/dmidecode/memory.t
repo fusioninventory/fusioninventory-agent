@@ -277,6 +277,16 @@ my %tests = (
             CAPTION          => 'DIMM 2',
             CAPACITY         => '512',
             MEMORYCORRECTION => 'Single-bit ECC'
+        },
+        {
+            NUMSLOTS         => 3,
+            SERIALNUMBER     => undef,
+            DESCRIPTION      => 'DIMM (Single-bit ECC)',
+            SPEED            => '400 MHz (2.5 ns)',
+            TYPE             => 'DDR',
+            CAPTION          => 'DIMM 3',
+            CAPACITY         => '512',
+            MEMORYCORRECTION => 'Single-bit ECC'
         }
     ],
     'rhel-4.3' => [
@@ -1619,6 +1629,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/generic/dmidecode/$test";
-    my $memories = FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Memory::_getMemories(file => $file);
-    is_deeply($memories, $tests{$test}, $test);
+    my @memories = FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Memory::_getMemories(file => $file);
+    is_deeply(\@memories, $tests{$test}, $test);
 }

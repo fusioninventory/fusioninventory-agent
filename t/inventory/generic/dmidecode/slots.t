@@ -668,13 +668,14 @@ my %tests = (
             DESIGNATION => undef
         }
     ],
-    'windows-hyperV' => undef,
+    'windows-hyperV' => [
+    ]
 );
 
 plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/generic/dmidecode/$test";
-    my $slots = FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Slots::_getSlots(file => $file);
-    is_deeply($slots, $tests{$test}, $test);
+    my @slots = FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Slots::_getSlots(file => $file);
+    is_deeply(\@slots, $tests{$test}, $test);
 }

@@ -13,13 +13,19 @@ my %tests = (
         NAME         => 'EV06047',
         SERIAL       => undef,
         MANUFACTURER => 'LGC-LGC',
-        CHEMISTRY    => 'Lithium Ion'
+        CHEMISTRY    => 'Lithium Ion',
+        VOLTAGE      => 10800,
+        CAPACITY     => 4400,
+        DATE         => undef
     },
     'linux-2.6' => {
         NAME         => 'DELL C129563',
         MANUFACTURER => 'Samsung SDI',
         SERIAL       => undef,
-        CHEMISTRY    => undef
+        CHEMISTRY    => undef,
+        VOLTAGE      => 11100,
+        CAPACITY     => 48000,
+        DATE         => undef
     },
     'openbsd-3.7' => undef,
     'openbsd-3.8' => undef,
@@ -32,7 +38,9 @@ my %tests = (
         SERIAL       => '2000417915',
         DATE         => '09/19/2002',
         MANUFACTURER => 'TOSHIBA',
-        CHEMISTRY    => 'Lithium Ion'
+        CHEMISTRY    => 'Lithium Ion',
+        VOLTAGE      => 10800,
+        CAPACITY     => 0
     },
     'windows-hyperV' => undef
 );
