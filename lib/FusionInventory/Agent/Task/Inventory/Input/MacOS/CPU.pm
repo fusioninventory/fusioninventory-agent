@@ -30,7 +30,7 @@ sub doInventory {
 
 
     ### mem convert it to meg's if it comes back in gig's
-    my $mem = $sysprofile->{'Memory'};
+    my $mem = $sysprofile->{'Hardware'}{'Hardware Overview'}{'Memory'};
     if ($mem =~ /GB$/){
         $mem =~ s/\sGB$//;
         $mem = ($mem * 1024);
