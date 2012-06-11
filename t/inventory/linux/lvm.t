@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::Linux::LVM; 
+use FusionInventory::Agent::Task::Inventory::Input::Linux::LVM;
 
 my %lvs = (
     'linux-1' => [

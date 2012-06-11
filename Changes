@@ -4,7 +4,28 @@ Revision history for FusionInventory agent
 General:
 * various UTF8 encoding fixes
 
-2.2.1
+2.2.3
+General:
+* Fix battery voltage and capacity retrieval
+
+MacOSX:
+* Fix global memory and CPU inventory
+
+2.2.2  Wed, 30 May 2012 16:56:43 +0200
+General:
+* Improve README
+* Fix Screen.pm syntax error
+* Add a test_requires dependency on LWP::Protocol::https
+
+Windows:
+* fix command execution
+
+7ff3260 fix warning if getDevicesFromUdev returns nothing
+
+Linux:
+* detect Virtuozzo VM (Alexander Evseev)
+
+2.2.1  Thu, 24 May 2012 14:39:50 +0200
 General:
 * failure encoding with UTF8 content when using Fusion protocol (#1663)
 * wrong CSS path (#1580)

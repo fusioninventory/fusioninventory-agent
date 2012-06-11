@@ -234,14 +234,12 @@ my %arm = (
     'linux-armel-1' => [
         {
             ARCH  => 'ARM',
-            SPEED => '593.10',
             TYPE  => 'XScale-80219 rev 0 (v5l)'
         }
     ],
     'linux-armel-2' => [
         {
             ARCH  => 'ARM',
-            SPEED => '1192.75',
             TYPE  => 'Feroceon 88FR131 rev 1 (v5l)'
         }
     ]

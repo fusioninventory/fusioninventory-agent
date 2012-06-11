@@ -184,6 +184,19 @@ sub _getStatus {
     }
     return $result if $result;
 
+    # OpenVZ
+    if (-f '/proc/self/status') {
+        my $handle = getFileHandle(
+            file => '/proc/self/status',
+            logger => $logger
+        );
+        while (my $line = <$handle>) {
+            my ( $varID, $varValue ) = split( ":", $line );
+            $result = "Virtuozzo" if ( $varID eq 'envID' && $varValue > 0 );
+        }
+    }
+    return $result if $result;
+
     return 'Physical';
 }
 

@@ -53,10 +53,10 @@ sub doInventory {
             $cpu->{THREAD} = $procList->[$cpt]{THREAD};
         }
 
-	# Get directly informations from cpuinfo if not already processed in dmidecode
-	$cpu->{STEPPING} = $procList->[$cpt]{STEPPING} unless	$cpu->{STEPPING} ;
-	$cpu->{FAMILYNUMBER} = $procList->[$cpt]{FAMILYNUMBER} unless	$cpu->{FAMILYNUMBER};
-	$cpu->{MODEL} = $procList->[$cpt]{MODEL} unless	$cpu->{MODEL};
+        # Get directly informations from cpuinfo if not already processed in dmidecode
+        $cpu->{STEPPING} = $procList->[$cpt]{STEPPING} unless    $cpu->{STEPPING} ;
+        $cpu->{FAMILYNUMBER} = $procList->[$cpt]{FAMILYNUMBER} unless    $cpu->{FAMILYNUMBER};
+        $cpu->{MODEL} = $procList->[$cpt]{MODEL} unless    $cpu->{MODEL};
 
         if ($cpu->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
             $cpu->{SPEED} = {
