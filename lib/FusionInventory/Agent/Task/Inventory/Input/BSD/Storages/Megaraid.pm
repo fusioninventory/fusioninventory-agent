@@ -13,18 +13,10 @@ sub isEnabled {
     return canRun('mfiutil');
 }
 
-sub doInventory {
-    my (%params) = @_;
+sub _parseMfiutil {
+    my $handle = getFileHandle(@_);
 
-    my $inventory = $params{inventory};
-    my $logger    = $params{logger};
-
-    my $handle = getFileHandle(
-        logger => $logger,
-        command => 'mfiutil show drives'
-    );
-    return unless $handle;
-
+    my @storages;
     while (my $line = <$handle>) {
         unless ( $line =~ m/^[^(]*\(\s+(\d+\w+)\)\s+\S+\s+<(\S+)\s+(\S+)\s+\S+\s+serial=(\S+)>\s+(\S+)\s+.*$/ ) { next; }
         my ( $size, $vendor, $model, $serial, $type ) = ( $1, $2, $3, $4, $5 );
@@ -41,10 +33,24 @@ sub doInventory {
         $storage->{TYPE} = 'disk';
         $storage->{DISKSIZE} = $size;
         $storage->{SERIALNUMBER} = $serial;
-        
-        $inventory->addEntry(section => 'STORAGES', entry => $storage);
+
+        push @storages, $storage;    
     }
     close $handle;
+
+    return @storages;
+}
+
+sub doInventory {
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+
+    foreach my $storage (_parseMfiutil(
+                logger => $params{logger},
+                command => 'mfiutil show drives')) {
+        $inventory->addEntry(section => 'STORAGES', entry => $storage);
+    }
 }
 
 1;
