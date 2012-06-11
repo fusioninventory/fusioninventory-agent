@@ -4,6 +4,9 @@ Revision history for FusionInventory agent
 General:
 * Fix battery voltage and capacity retrieval
 
+MacOSX:
+* Fix global memory and CPU inventory
+
 2.2.2  Wed, 30 May 2012 16:56:43 +0200
 General:
 * Improve README
