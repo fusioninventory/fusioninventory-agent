@@ -10,7 +10,7 @@ use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
 
-use Test::More tests => 42;
+use Test::More tests => 27;
 
 my ($out, $err, $rc);
 
@@ -45,26 +45,15 @@ is($out, '', 'no target stdin');
 my $base_options = "--stdout --debug --no-task ocsdeploy,wakeonlan,snmpquery,netdiscovery";
 
 my $content;
+
 # first inventory
 ($out, $err, $rc) = run_agent(
     "$base_options --no-category printer"
 );
-ok($rc == 0, 'exit status');
 
-unlike(
-    $err,
-    qr/module \S+ disabled: failure to load/,
-    'no broken module'
-);
-
-like(
-    $out,
-    qr/^<\?xml version="1.0" encoding="UTF-8" \?>/,
-    'output has correct encoding'
-);
-
-$content = XML::TreePP->new()->parse($out);
-ok($content, 'output is valid XML');
+subtest "first inventory" => sub {
+    check_execution_ok($out, $err, $rc);
+};
 
 ok(
     exists $content->{REQUEST}->{CONTENT}->{SOFTWARES},
@@ -80,22 +69,10 @@ ok(
 ($out, $err, $rc) = run_agent(
     "$base_options --no-category printer,software"
 );
-ok($rc == 0, 'exit status');
 
-unlike(
-    $err,
-    qr/module \S+ disabled: failure to load/,
-    'no broken module'
-);
-
-like(
-    $out,
-    qr/^<\?xml version="1.0" encoding="UTF-8" \?>/,
-    'output has correct encoding'
-);
-
-$content = XML::TreePP->new()->parse($out);
-ok($content, 'output is valid XML');
+subtest "first inventory" => sub {
+    check_execution_ok($out, $err, $rc);
+};
 
 ok(
     !exists $content->{REQUEST}->{CONTENT}->{SOFTWARES},
@@ -122,25 +99,13 @@ print $file <<EOF;
 </REQUEST>
 EOF
 close($file);
+
 ($out, $err, $rc) = run_agent(
     "$base_options --no-category printer,software --additional-content $file"
 );
-ok($rc == 0, 'exit status');
-
-unlike(
-    $err,
-    qr/module \S+ disabled: failure to load/,
-    'no broken module'
-);
-
-like(
-    $out,
-    qr/^<\?xml version="1.0" encoding="UTF-8" \?>/,
-    'output has correct encoding'
-);
-
-$content = XML::TreePP->new()->parse($out);
-ok($content, 'output is valid XML');
+subtest "first inventory" => sub {
+    check_execution_ok($out, $err, $rc);
+};
 
 ok(
     exists $content->{REQUEST}->{CONTENT}->{SOFTWARES},
@@ -171,22 +136,10 @@ my $value = $ENV{$name};
 ($out, $err, $rc) = run_agent(
     "$base_options --no-category printer,software"
 );
-ok($rc == 0, 'exit status');
 
-unlike(
-    $err,
-    qr/module \S+ disabled: failure to load/,
-    'no broken module'
-);
-
-like(
-    $out,
-    qr/^<\?xml version="1.0" encoding="UTF-8" \?>/,
-    'output has correct encoding'
-);
-
-$content = XML::TreePP->new()->parse($out);
-ok($content, 'output is valid XML');
+subtest "first inventory" => sub {
+    check_execution_ok($out, $err, $rc);
+};
 
 ok(
     !exists $content->{REQUEST}->{CONTENT}->{SOFTWARES},
@@ -209,22 +162,10 @@ ok(
 ($out, $err, $rc) = run_agent(
     "$base_options --no-category printer,software,environment"
 );
-ok($rc == 0, 'exit status');
 
-unlike(
-    $err,
-    qr/module \S+ disabled: failure to load/,
-    'no broken module'
-);
-
-like(
-    $out,
-    qr/^<\?xml version="1.0" encoding="UTF-8" \?>/,
-    'output has correct encoding'
-);
-
-$content = XML::TreePP->new()->parse($out);
-ok($content, 'output is valid XML');
+subtest "first inventory" => sub {
+    check_execution_ok($out, $err, $rc);
+};
 
 ok(
     !exists $content->{REQUEST}->{CONTENT}->{SOFTWARES},
@@ -244,4 +185,31 @@ sub run_agent {
         \my ($in, $out, $err)
     );
     return ($out, $err, $CHILD_ERROR >> 8);
+}
+
+sub check_execution_ok {
+    my ($client, $url) = @_;
+
+    ok($rc == 0, 'exit status');
+
+    unlike(
+        $err,
+        qr/module \S+ disabled: failure to load/,
+        'no broken module (loading)'
+    );
+
+    unlike(
+        $err,
+        qr/unexpected error in \S+/,
+        'no broken module (execution)'
+    );
+
+    like(
+        $out,
+        qr/^<\?xml version="1.0" encoding="UTF-8" \?>/,
+        'output has correct encoding'
+    );
+
+    $content = XML::TreePP->new()->parse($out);
+    ok($content, 'output is valid XML');
 }
