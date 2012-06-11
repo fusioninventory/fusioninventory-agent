@@ -119,7 +119,7 @@ sub _getCpus{
         push @cpus, $cpu;
     }
 
-    return $cpu;
+    return @cpus;
 
 }
 
