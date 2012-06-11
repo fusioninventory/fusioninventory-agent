@@ -1,11 +1,15 @@
-package FusionInventory::Agent::Task::Inventory::Input::BSD::Storages::3ware;
+package FusionInventory::Agent::Task::Inventory::Input::Generic::Storages::3ware;
 
 use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Task::Inventory::Input::BSD::Storages;
+use FusionInventory::Agent::Tools::Linux;
 
+use English qw(-no_match_vars);
+
+# Tested on 2.6.* kernels
+#
 # Cards tested :
 #
 # 8006-2LP
@@ -24,12 +28,17 @@ sub isEnabled {
 
 sub doInventory {
     my (%params) = @_;
+
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
+    my @devices;
+
     foreach my $card (_getCards()) {
         foreach my $unit (_getUnits($card)) {
-            # Try do get unit's serial
+
+            # Try do get unit's serial in order to compare it to what was found
+            # in udev db.
             # Works only on newer cards.
             # Allow us to associate a node to a drive : sda -> WD-WMANS1648590
             my $sn = getFirstMatch(
@@ -41,6 +50,24 @@ sub doInventory {
             foreach my $port (_getPorts($card, $unit)) {
                 # Finally, getting drives' values.
                 my $storage = _getStorage($card, $port);
+
+                if ($OSNAME eq 'Linux') {
+
+                    @devices = getDevicesFromUdev(logger => $logger) unless @devices;
+
+                    foreach my $device (@devices) {
+# How does this work with multiple older cards
+# where serial for units is not implemented ?
+# Need to be tested on a system with multiple
+# 3ware cards.
+                        if (
+                                $device->{SERIALNUMBER} eq 'AMCC_' . $sn ||
+                                $device->{MODEL} eq 'Logical_Disk_' . $unit->{index}
+                           ) {
+                            $storage->{NAME} = $device->{NAME};
+                        }
+                    }
+                }
 
                 $inventory->addEntry(section => 'STORAGES', entry => $storage);
             }
