@@ -96,7 +96,10 @@ sub _getCpus{
 
     my $cores =
         $info->{'Total Number Of Cores'} ? $info->{'Total Number Of Cores'} / $procs :
-                                           1                                        ;
+                                           $info->{'machdep.cpu.core_count'};
+
+    my $threads = $info->{'machdep.cpu.thread_count'};
+
 
     my $manufacturer =
         $type =~ /Intel/i ? "Intel" :
@@ -108,7 +111,7 @@ sub _getCpus{
         CORE         => $cores,
 	MANUFACTURER => $manufacturer,
         NAME         => $type,
-        THREAD       => 1,
+        THREAD       => $threads,
         FAMILYNUMBER => $family,
         MODEL        => $model,
         STEPPING     => $stepping,
