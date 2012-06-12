@@ -7,8 +7,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::MacOS;
 
 sub isEnabled {
-    return 
-        -r '/usr/sbin/system_profiler';
+    return canRun('/usr/sbin/system_profiler');
 }
 
 sub doInventory {

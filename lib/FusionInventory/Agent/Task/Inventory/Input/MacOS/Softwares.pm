@@ -11,7 +11,7 @@ sub isEnabled {
 
     return
         !$params{no_category}->{software} &&
-        -r '/usr/sbin/system_profiler';
+        canRun('/usr/sbin/system_profiler');
 }
 
 sub doInventory {
