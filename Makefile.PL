@@ -15,6 +15,7 @@ requires 'File::Which'        => undef;
 requires 'LWP'                => undef;
 requires 'Net::IP'            => undef;
 requires 'UNIVERSAL::require' => undef;
+requires 'Parse::EDID'        => undef;
 requires 'Text::Template'     => undef;
 requires 'XML::TreePP'        => '0.26';
 
@@ -26,7 +27,6 @@ if ($OSNAME eq 'darwin') {
 recommends 'Compress::Zlib'   => undef;
 recommends 'HTTP::Daemon'     => undef;
 recommends 'Net::CUPS'        => 0.60;
-recommends 'Parse::EDID'      => undef;
 recommends 'IO::Socket::SSL'  => undef;
 recommends 'LWP::Protocol::https'  => undef;
 
