@@ -4,11 +4,11 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::MacOS;
 
 sub isEnabled {
     return 
-        -r '/usr/sbin/system_profiler' &&
-        canLoad("Mac::SysProfile");
+        -r '/usr/sbin/system_profiler';
 }
 
 sub doInventory {
@@ -16,11 +16,10 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $prof = Mac::SysProfile->new();
-    my $info = $prof->gettype('SPSoftwareDataType');
-    return unless ref $info eq 'HASH';
+    my $infos = getSystemProfilerInfos();
 
-    my $hostname = $info->{'System Software Overview'}->{'Computer Name'};
+    my $hostname =
+        $infos->{'Software'}->{'System Software Overview'}->{'Computer Name'};
 
     $inventory->setHardware({
         NAME => $hostname
