@@ -17,11 +17,11 @@ our @EXPORT = qw(
 memoize('getSystemProfilerInfos');
 
 sub getSystemProfilerInfos {
-    my (%params) = (
-        command => '/usr/sbin/system_profiler',
-        @_
-    );
-    my $handle = getFileHandle(%params);
+    my (%params) = @_;
+
+    my $command = $params{type} ?
+        "/usr/sbin/system_profiler $params{type}" : "/usr/sbin/system_profiler";
+    my $handle = getFileHandle(command => $command, %params);
 
     my $info = {};
 
