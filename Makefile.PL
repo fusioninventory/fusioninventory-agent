@@ -19,10 +19,6 @@ requires 'Parse::EDID'        => undef;
 requires 'Text::Template'     => undef;
 requires 'XML::TreePP'        => '0.26';
 
-if ($OSNAME eq 'darwin') {
-    requires 'Mac::SysProfile' => undef;
-}
-
 # optional dependencies
 recommends 'Compress::Zlib'   => undef;
 recommends 'HTTP::Daemon'     => undef;
