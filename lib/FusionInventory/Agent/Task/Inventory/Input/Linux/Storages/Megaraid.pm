@@ -13,18 +13,14 @@ sub isEnabled {
     return canRun('megasasctl');
 }
 
-sub doInventory {
-    my (%params) = @_;
-
-    my $inventory = $params{inventory};
-    my $logger    = $params{logger};
-
+sub _parseMegasasctl {
     my $handle = getFileHandle(
-        logger => $logger,
-        command => 'megasasctl -v'
+        command => 'megasasctl -v',
+        @_
     );
     return unless $handle;
 
+    my @storages;
     while (my $line = <$handle>) {
         unless( $line =~ /\s*([a-z]\d[a-z]\d+[a-z]\d+)\s+(\S+)\s+(\S+)\s*(\S+)\s+\S+\s+\S+\s*/ ){ next; }
         my ( $disk_addr, $vendor, $model, $size ) = ( $1, $2, $3, $4 );
@@ -39,10 +35,22 @@ sub doInventory {
         $storage->{TYPE} = 'disk';
         $storage->{DISKSIZE} = $size;
 
-        
-        $inventory->addEntry(section => 'STORAGES', entry => $storage);
+        push @storages, $storage;
     }
     close $handle;
+
+    return @storages;
+
+}
+
+sub doInventory {
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+
+    foreach my $storage (_parseMegasasctl(@_)) {
+        $inventory->addEntry(section => 'STORAGES', entry => $storage);
+    }
 }
 
 1;
