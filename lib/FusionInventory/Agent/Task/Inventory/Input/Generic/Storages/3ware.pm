@@ -1,10 +1,12 @@
-package FusionInventory::Agent::Task::Inventory::Input::Linux::Storages::3ware;
+package FusionInventory::Agent::Task::Inventory::Input::Generic::Storages::3ware;
 
 use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Linux;
+
+use English qw(-no_match_vars);
 
 # Tested on 2.6.* kernels
 #
@@ -30,7 +32,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my @devices = getDevicesFromUdev(logger => $logger);
+    my @devices;
 
     foreach my $card (_getCards()) {
         foreach my $unit (_getUnits($card)) {
@@ -49,16 +51,21 @@ sub doInventory {
                 # Finally, getting drives' values.
                 my $storage = _getStorage($card, $port);
 
-                foreach my $device (@devices) {
-                    # How does this work with multiple older cards
-                    # where serial for units is not implemented ?
-                    # Need to be tested on a system with multiple
-                    # 3ware cards.
-                    if (
-                        $device->{SERIALNUMBER} eq 'AMCC_' . $sn ||
-                        $device->{MODEL} eq 'Logical_Disk_' . $unit->{index}
-                    ) {
-                        $storage->{NAME} = $device->{NAME};
+                if ($OSNAME eq 'Linux') {
+
+                    @devices = getDevicesFromUdev(logger => $logger) unless @devices;
+
+                    foreach my $device (@devices) {
+# How does this work with multiple older cards
+# where serial for units is not implemented ?
+# Need to be tested on a system with multiple
+# 3ware cards.
+                        if (
+                                $device->{SERIALNUMBER} eq 'AMCC_' . $sn ||
+                                $device->{MODEL} eq 'Logical_Disk_' . $unit->{index}
+                           ) {
+                            $storage->{NAME} = $device->{NAME};
+                        }
                     }
                 }
 

@@ -36,6 +36,15 @@ Additional optional programs:
 - dmidecode, for hardware inventory
 - lspci, for hardware inventory
 
+The agent will looks for these tools in the PATH to do RAID controller
+inventory:
+- tw_cli
+- hpacucli
+- mpt-status
+- megasasctl
+- ipssend
+- mfiutil
+
 Usage
 -----
 They are two different ways to run the agent:
