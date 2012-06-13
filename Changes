@@ -4,6 +4,12 @@ Revision history for FusionInventory agent
 General:
 * various UTF8 encoding fixes
 
+BSD:
+* Megaraid and 3ware RAID controller support (Egor Morozov)
+
+Linux:
+* Megaraid controller support (Egor Morozov)
+
 2.2.3
 General:
 * Fix battery voltage and capacity retrieval
