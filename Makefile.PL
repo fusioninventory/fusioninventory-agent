@@ -44,7 +44,6 @@ test_requires  'IPC::Run'                     => undef;
 test_requires  'Test::Exception'              => undef;
 test_requires  'Test::MockModule'             => undef;
 test_requires  'Test::More'                   => '0.93'; # subtest
-test_requires  'YAML'                         => undef;
 test_requires  'LWP::Protocol::https'          => undef;
 
 install_script  'fusioninventory-agent';
