@@ -2459,5 +2459,9 @@ plan tests => scalar keys %tests;
 foreach my $test (keys %tests) {
     my $file = "resources/macos/system_profiler/$test.SPApplicationsDataType";
     my $softwares = FusionInventory::Agent::Task::Inventory::Input::MacOS::Softwares::_getSoftwaresList(file => $file);
-    is_deeply($softwares, $tests{$test}, $test);
+    is_deeply(
+        [ sort { $a->{NAME} cmp $b->{NAME} } @$softwares ],
+        [ sort { $a->{NAME} cmp $b->{NAME} } @{$tests{$test}} ],
+        $test
+    );
 }
