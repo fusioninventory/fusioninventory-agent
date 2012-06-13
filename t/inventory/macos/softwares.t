@@ -11,7 +11,7 @@ my %tests = (
     'sample2' => [
           {
             PUBLISHER => '1.1, Copyright 2007-2008 Apple Inc.',
-            NAME      => "Expose\x{cc}\x{81}",
+            NAME      => "Exposé",
             COMMENTS  => '[Universal]',
             VERSION   => '1.1'
           },
@@ -71,7 +71,7 @@ my %tests = (
           },
           {
             PUBLISHER => 'Apple Hardware Test Read Me',
-            NAME      => "A\x{cc}\x{80} propos d\x{e2}\x{80}\x{99}AHT",
+            NAME      => "À propos d’AHT",
             COMMENTS  => '[Universal]',
             VERSION   => '1.1'
           },
@@ -293,7 +293,7 @@ my %tests = (
           },
           {
             PUBLISHER => '4.6, Copyright 2008 Apple Computer, Inc.',
-            NAME      => "Outil d\x{e2}\x{80}\x{99}e\x{cc}\x{81}talonnage du moniteur",
+            NAME      => "Outil d’étalonnage du moniteur",
             COMMENTS  => '[Intel]',
             VERSION   => '4.6'
           },
@@ -377,7 +377,7 @@ my %tests = (
           },
           {
             PUBLISHER => "Software Update version 4.0, Copyright © 2000-2009, Apple Inc. All rights reserved.",
-            NAME      => "Mise a\x{cc}\x{80} jour de logiciels",
+            NAME      => "Mise à jour de logiciels",
             COMMENTS  => '[Universal]',
             VERSION   => '4.0.6'
           },
@@ -400,7 +400,7 @@ my %tests = (
             VERSION   => '2.1'
           },
           {
-            PUBLISHER => "12.1.0 (080205), © 2007 Microsoft Corporation.\x{c2}\x{a0}\x{c2}\x{a0}All rights reserved.",
+            PUBLISHER => "12.1.0 (080205), © 2007 Microsoft Corporation.  All rights reserved.",
             NAME      => 'Equation Editor',
             COMMENTS  => '[Universal]',
             VERSION   => '12.1.0'
@@ -425,7 +425,7 @@ my %tests = (
           },
           {
             PUBLISHER => "14.0.2 (101115), © 2010 Microsoft Corporation. All rights reserved.",
-            NAME      => "Centre de te\x{cc}\x{81}le\x{cc}\x{81}chargement Microsoft",
+            NAME      => "Centre de téléchargement Microsoft",
             COMMENTS  => '[Intel]',
             VERSION   => '14.0.2'
           },
@@ -443,7 +443,7 @@ my %tests = (
           },
           {
             PUBLISHER => '2.3.8, Copyright (c) 2010 Apple Inc. All rights reserved.',
-            NAME      => "Assistant re\x{cc}\x{81}glages Bluetooth",
+            NAME      => "Assistant réglages Bluetooth",
             COMMENTS  => '[Universal]',
             VERSION   => '2.3.8'
           },
@@ -551,7 +551,7 @@ my %tests = (
           },
           {
             PUBLISHER => undef,
-            NAME      => "Moniteur d\x{e2}\x{80}\x{99}activite\x{cc}\x{81}",
+            NAME      => "Moniteur d’activité",
             COMMENTS  => '[Intel]',
             VERSION   => '10.6'
           },
@@ -575,7 +575,7 @@ my %tests = (
           },
           {
             PUBLISHER => undef,
-            NAME      => "Trousseau d\x{e2}\x{80}\x{99}acce\x{cc}\x{80}s",
+            NAME      => "Trousseau d’accès",
             COMMENTS  => '[Intel]',
             VERSION   => '4.1'
           },
@@ -623,13 +623,13 @@ my %tests = (
           },
           {
             PUBLISHER => undef,
-            NAME      => "E\x{cc}\x{81}diteur AppleScript",
+            NAME      => "Éditeur AppleScript",
             COMMENTS  => '[Intel]',
             VERSION   => '2.3'
           },
           {
             PUBLISHER => undef,
-            NAME      => "Lanceur d\x{e2}\x{80}\x{99}applets",
+            NAME      => "Lanceur d’applets",
             COMMENTS  => '[Universal]',
             VERSION   => '13.4.0'
           },
@@ -677,7 +677,7 @@ my %tests = (
           },
           {
             PUBLISHER => "14.0.2 (101115), © 2010 Microsoft Corporation. All rights reserved.",
-            NAME      => "Utilitaire de base de donne\x{cc}\x{81}es Microsoft",
+            NAME      => "Utilitaire de base de données Microsoft",
             COMMENTS  => '[Intel]',
             VERSION   => '14.0.2'
           },
@@ -749,7 +749,7 @@ my %tests = (
           },
           {
             PUBLISHER => "Remote Install Mac OS X 1.1.1, Copyright © 2007-2009 Apple Inc. All rights reserved",
-            NAME      => "Installation a\x{cc}\x{80} distance de Mac\x{c2}\x{a0}OS\x{c2}\x{a0}X",
+            NAME      => "Installation à distance de Mac OS X",
             COMMENTS  => '[Intel]',
             VERSION   => '1.1.1'
           },
@@ -785,7 +785,7 @@ my %tests = (
           },
           {
             PUBLISHER => "Version 1.4.6, Copyright © 2000-2009 Apple Inc. All rights reserved.",
-            NAME      => "Utilitaire de re\x{cc}\x{81}seau",
+            NAME      => "Utilitaire de réseau",
             COMMENTS  => '[Intel]',
             VERSION   => '1.4.6'
           },
@@ -833,7 +833,7 @@ my %tests = (
           },
           {
             PUBLISHER => "12.2.8 (101117), © 2007 Microsoft Corporation. All rights reserved.",
-            NAME      => "Organigramme hie\x{cc}\x{81}rarchique",
+            NAME      => "Organigramme hiérarchique",
             COMMENTS  => '[Universal]',
             VERSION   => '12.2.8'
           },
@@ -863,7 +863,7 @@ my %tests = (
           },
           {
             PUBLISHER => '1.0, Copyright Apple Computer Inc. 2004',
-            NAME      => "Re\x{cc}\x{81}solution des conflits",
+            NAME      => "Résolution des conflits",
             COMMENTS  => '[Universal]',
             VERSION   => '5.2'
           },
@@ -899,7 +899,7 @@ my %tests = (
           },
           {
             PUBLISHER => "6.0, © Copyright 2003-2009 Apple  Inc., all rights reserved.",
-            NAME      => "Cre\x{cc}\x{81}ation de page Web",
+            NAME      => "Création de page Web",
             COMMENTS  => '[Universal]',
             VERSION   => '6.0'
           },
@@ -982,7 +982,7 @@ my %tests = (
             VERSION   => '4.1'
           },
           {
-            PUBLISHER => "6.2.1, Copyright © 2000\x{e2}\x{80}\x{93}2009 Apple Inc. All rights reserved.",
+            PUBLISHER => "6.2.1, Copyright © 2000–2009 Apple Inc. All rights reserved.",
             NAME      => 'Apple80211Agent',
             COMMENTS  => '[Universal]',
             VERSION   => '6.2.1'
@@ -1055,7 +1055,7 @@ my %tests = (
           },
           {
             PUBLISHER => undef,
-            NAME      => "Pre\x{cc}\x{81}fe\x{cc}\x{81}rences Java",
+            NAME      => "Préférences Java",
             COMMENTS  => '[Universal]',
             VERSION   => '13.4.0'
           },
@@ -1103,7 +1103,7 @@ my %tests = (
           },
           {
             PUBLISHER => '3.7.2, Copyright 2001-2008 Apple Inc. All Rights Reserved.',
-            NAME      => "Colorime\x{cc}\x{80}tre nume\x{cc}\x{81}rique",
+            NAME      => "Colorimètre numérique",
             COMMENTS  => '[Intel]',
             VERSION   => '3.7.2'
           },
@@ -1115,7 +1115,7 @@ my %tests = (
           },
           {
             PUBLISHER => "2.1.0 (100825), © 2010 Microsoft Corporation. All rights reserved.",
-            NAME      => "Connexion Bureau a\x{cc}\x{80} Distance",
+            NAME      => "Connexion Bureau à Distance",
             COMMENTS  => '[Intel]',
             VERSION   => '2.1.0'
           },
@@ -1169,7 +1169,7 @@ my %tests = (
           },
           {
             PUBLISHER => '5.0.1, Copyright 2002-2009 Apple Inc.',
-            NAME      => "Aperc\x{cc}\x{a7}u",
+            NAME      => "Aperçu",
             COMMENTS  => '[Intel]',
             VERSION   => '5.0.3'
           },
@@ -1187,7 +1187,7 @@ my %tests = (
           },
           {
             PUBLISHER => undef,
-            NAME      => "Diagnostic re\x{cc}\x{81}seau",
+            NAME      => "Diagnostic réseau",
             COMMENTS  => '[Universal]',
             VERSION   => '1.1.3'
           },
@@ -1211,7 +1211,7 @@ my %tests = (
           },
           {
             PUBLISHER => undef,
-            NAME      => "Pre\x{cc}\x{81}fe\x{cc}\x{81}rences Syste\x{cc}\x{80}me",
+            NAME      => "Préférences Système",
             COMMENTS  => '[Universal]',
             VERSION   => '7.0'
           },
@@ -1331,7 +1331,7 @@ my %tests = (
           },
           {
             PUBLISHER => "12.2.8 (101117), © 2007 Microsoft Corporation. All rights reserved.",
-            NAME      => "Bibliothe\x{cc}\x{80}que de projets Microsoft",
+            NAME      => "Bibliothèque de projets Microsoft",
             COMMENTS  => '[Universal]',
             VERSION   => '12.2.8'
           },
@@ -1378,7 +1378,7 @@ my %tests = (
             VERSION   => undef
           },
           {
-            PUBLISHER => "Adobe Updater 6.2.0.1474, Copyright \x{ef}\x{bf}\x{bd} 2002-2008 by Adobe Systems Incorporated. All rights reserved.",
+            PUBLISHER => "Adobe Updater 6.2.0.1474, Copyright � 2002-2008 by Adobe Systems Incorporated. All rights reserved.",
             NAME      => 'Adobe Updater',
             COMMENTS  => '[Intel]',
             VERSION   => 'Adobe Updater 6.2.0.1474'
@@ -1415,7 +1415,7 @@ my %tests = (
           },
           {
             PUBLISHER => undef,
-            NAME      => "Utilitaire d\x{e2}\x{80}\x{99}emplacement de me\x{cc}\x{81}moire",
+            NAME      => "Utilitaire d’emplacement de mémoire",
             COMMENTS  => '[Intel]',
             VERSION   => '1.4.1'
           },
@@ -1438,7 +1438,7 @@ my %tests = (
             VERSION   => '10.6.6'
           },
           {
-            PUBLISHER => "Adobe\x{c2}\x{ae} Acrobat\x{c2}\x{ae} 9.4.2, ©1984-2010 Adobe Systems Incorporated. All rights reserved.",
+            PUBLISHER => "Adobe® Acrobat® 9.4.2, ©1984-2010 Adobe Systems Incorporated. All rights reserved.",
             NAME      => 'Adobe Reader',
             COMMENTS  => '[Intel]',
             VERSION   => '9.4.2'
@@ -1451,7 +1451,7 @@ my %tests = (
           },
           {
             PUBLISHER => '2.3.8, Copyright (c) 2010 Apple Inc. All rights reserved.',
-            NAME      => "E\x{cc}\x{81}change de fichiers Bluetooth",
+            NAME      => "Échange de fichiers Bluetooth",
             COMMENTS  => '[Universal]',
             VERSION   => '2.3.8'
           },
@@ -1703,7 +1703,7 @@ my %tests = (
           },
           {
             PUBLISHER => "6.0, © Copyright 2000-2009 Apple Inc., all rights reserved.",
-            NAME      => "Transfert d\x{e2}\x{80}\x{99}images",
+            NAME      => "Transfert d’images",
             COMMENTS  => '[Intel]',
             VERSION   => '6.0.1'
           },
@@ -1727,7 +1727,7 @@ my %tests = (
           },
           {
             PUBLISHER => '1.0.4',
-            NAME      => "Zimbra Desktop de\x{cc}\x{81}sinstallateur",
+            NAME      => "Zimbra Desktop désinstallateur",
             COMMENTS  => '[Universal]',
             VERSION   => '1.0.4'
           },
@@ -1757,7 +1757,7 @@ my %tests = (
           },
           {
             PUBLISHER => undef,
-            NAME      => "Utilitaire d\x{e2}\x{80}\x{99}emplacement d\x{e2}\x{80}\x{99}extension",
+            NAME      => "Utilitaire d’emplacement d’extension",
             COMMENTS  => '[Intel]',
             VERSION   => '1.4.1'
           },
@@ -1775,7 +1775,7 @@ my %tests = (
           },
           {
             PUBLISHER => undef,
-            NAME      => "Aide-me\x{cc}\x{81}moire",
+            NAME      => "Aide-mémoire",
             COMMENTS  => '[Intel]',
             VERSION   => '7.0'
           },
@@ -1793,7 +1793,7 @@ my %tests = (
           },
           {
             PUBLISHER => undef,
-            NAME      => "Utilitaire d\x{e2}\x{80}\x{99}archive",
+            NAME      => "Utilitaire d’archive",
             COMMENTS  => '[Intel]',
             VERSION   => '10.6'
           },
@@ -1865,7 +1865,7 @@ my %tests = (
           },
           {
             PUBLISHER => '1.6',
-            NAME      => "Assistant re\x{cc}\x{81}glages de re\x{cc}\x{81}seau",
+            NAME      => "Assistant réglages de réseau",
             COMMENTS  => '[Intel]',
             VERSION   => '1.6'
           },
@@ -1895,7 +1895,7 @@ my %tests = (
           },
           {
             PUBLISHER => "1.1.1, Copyright © 2007-2009 Apple Inc., All Rights Reserved.",
-            NAME      => "Partage d\x{e2}\x{80}\x{99}e\x{cc}\x{81}cran",
+            NAME      => "Partage d’écran",
             COMMENTS  => '[Universal]',
             VERSION   => '1.1.1'
           },
@@ -1961,7 +1961,7 @@ my %tests = (
           },
           {
             PUBLISHER => "1.5.5 (155.2), Copyright © 2006-2009 Apple Inc. All Rights Reserved.",
-            NAME      => "Agent de la borne d\x{e2}\x{80}\x{99}acce\x{cc}\x{80}s AirPort",
+            NAME      => "Agent de la borne d’accès AirPort",
             COMMENTS  => '[Universal]',
             VERSION   => '1.5.5'
           },
@@ -2039,7 +2039,7 @@ my %tests = (
           },
           {
             PUBLISHER => '10.6.0, Copyright 1997-2009 Apple, Inc.',
-            NAME      => "Informations Syste\x{cc}\x{80}me",
+            NAME      => "Informations Système",
             COMMENTS  => '[Universal]',
             VERSION   => '10.6.0'
           },
@@ -2081,7 +2081,7 @@ my %tests = (
           },
           {
             PUBLISHER => undef,
-            NAME      => "MA\x{cc}\x{80}J du programme interne Bluetooth",
+            NAME      => "MÀJ du programme interne Bluetooth",
             COMMENTS  => '[Intel]',
             VERSION   => '2.0.1'
           },
@@ -2111,7 +2111,7 @@ my %tests = (
           },
           {
             PUBLISHER => undef,
-            NAME      => "Carnet d\x{e2}\x{80}\x{99}adresses",
+            NAME      => "Carnet d’adresses",
             COMMENTS  => '[Intel]',
             VERSION   => '5.0.3'
           },
@@ -2123,7 +2123,7 @@ my %tests = (
           },
           {
             PUBLISHER => "ver3.00, ©2005-2009 Brother Industries, Ltd. All Rights Reserved.",
-            NAME      => "Brother Contro\x{cc}\x{82}leur d'e\x{cc}\x{81}tat",
+            NAME      => "Brother Contrôleur d'état",
             COMMENTS  => '[Intel]',
             VERSION   => '3.00'
           },
@@ -2177,13 +2177,13 @@ my %tests = (
           },
           {
             PUBLISHER => '10.6',
-            NAME      => "Assistant re\x{cc}\x{81}glages",
+            NAME      => "Assistant réglages",
             COMMENTS  => '[Universal]',
             VERSION   => '10.6'
           },
           {
             PUBLISHER => "3.0, Copyright © 2000-2006 Apple Computer Inc., All Rights Reserved",
-            NAME      => "Programme d\x{e2}\x{80}\x{99}installation",
+            NAME      => "Programme d’installation",
             COMMENTS  => '[Universal]',
             VERSION   => '4.0'
           },
@@ -2195,7 +2195,7 @@ my %tests = (
           },
           {
             PUBLISHER => 'Summary Service Version  2',
-            NAME      => "Service de re\x{cc}\x{81}sume\x{cc}\x{81}",
+            NAME      => "Service de résumé",
             COMMENTS  => '[Intel]',
             VERSION   => '2.0'
           },
@@ -2225,7 +2225,7 @@ my %tests = (
           },
           {
             PUBLISHER => undef,
-            NAME      => "E\x{cc}\x{81}diteur d'e\x{cc}\x{81}quations Microsoft",
+            NAME      => "Éditeur d'équations Microsoft",
             COMMENTS  => '[Intel]',
             VERSION   => '14.0.0'
           },
@@ -2266,8 +2266,8 @@ my %tests = (
             VERSION   => '1.0'
           },
           {
-            PUBLISHER => "2.2, Copyright © 2001\x{e2}\x{80}\x{93}2008 Apple Inc.",
-            NAME      => "Utilitaire d\x{e2}\x{80}\x{99}annuaire",
+            PUBLISHER => "2.2, Copyright © 2001–2008 Apple Inc.",
+            NAME      => "Utilitaire d’annuaire",
             COMMENTS  => '[Intel]',
             VERSION   => '2.2'
           },
