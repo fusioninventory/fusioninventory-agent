@@ -31,10 +31,9 @@ sub doInventory {
 }
 
 sub _getSoftwaresList {
-    my (%params) = @_;
-
     my $infos = getSystemProfilerInfos(
-        logger => $params{logger}, type => 'SPApplicationsDataType'
+        type => 'SPApplicationsDataType',
+        @_
     );
     my $info = $infos->{Applications};
 

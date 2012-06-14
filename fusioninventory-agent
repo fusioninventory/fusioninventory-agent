@@ -51,6 +51,7 @@ GetOptions(
     'server|s=s',
     'stdout',
     'tag|t=s',
+    'timeout=i',
     'user|u=s',
     'version',
     'wait|w=s',
@@ -159,6 +160,7 @@ B<fusioninventory-agent> [options] [--server server|--local directory|--sdout]
     --ca-cert-dir=D     path to the CA certificates directory
     --ca-cert-file=F    path to the CA certificates file
     --no-ssl-check      do not check server SSL certificates (false)
+    --timeout           connection timeout (180)
 
   Web interface options
     --no-httpd                 disable embedded web server (false)

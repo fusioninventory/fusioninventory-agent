@@ -38,6 +38,7 @@ my $default = {
     'server'                  => undef,
     'stdout'                  => undef,
     'tag'                     => undef,
+    'timeout'                 => undef,
     'user'                    => undef,
     'wait'                    => undef,
     # deprecated options

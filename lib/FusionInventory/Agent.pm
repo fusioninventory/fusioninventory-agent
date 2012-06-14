@@ -218,6 +218,7 @@ sub _runTarget {
     if ($target->isa('FusionInventory::Agent::Target::Server')) {
         my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
             logger       => $self->{logger},
+            timeout      => $self->{timeout},
             user         => $self->{config}->{user},
             password     => $self->{config}->{password},
             proxy        => $self->{config}->{proxy},

@@ -5,7 +5,6 @@ use warnings;
 
 use English qw(-no_match_vars);
 use MIME::Base64;
-use Parse::EDID;
 use UNIVERSAL::require;
 
 use File::Find;
@@ -113,23 +112,26 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
+    Parse::EDID->requires();
+
     foreach my $screen (_getScreens($logger)) {
 
         if ($screen->{edid}) {
-            my $edid = parse_edid($screen->{edid});
-            if (my $err = check_parsed_edid($edid)) {
-                $logger->debug("check failed: bad edid: $err");
-            } else {
-                $screen->{CAPTION} =
-                    $edid->{monitor_name};
-                $screen->{DESCRIPTION} =
-                    $edid->{week} . "/" . $edid->{year};
-                $screen->{MANUFACTURER} =
-                    $manufacturers{$edid->{manufacturer_name}};
-                $screen->{SERIAL} = $edid->{serial_number2}->[0];
+            if ($INC{'Parse/Edid.pm'}) {
+                my $edid = Parse::EDID::parse_edid($screen->{edid});
+                if (my $err = Parse::EDID::check_parsed_edid($edid)) {
+                    $logger->debug("check failed: bad edid: $err");
+                } else {
+                    $screen->{CAPTION} =
+                        $edid->{monitor_name};
+                    $screen->{DESCRIPTION} =
+                        $edid->{week} . "/" . $edid->{year};
+                    $screen->{MANUFACTURER} =
+                        $manufacturers{$edid->{manufacturer_name}};
+                    $screen->{SERIAL} = $edid->{serial_number2}->[0];
+                }
             }
             $screen->{BASE64} = encode_base64($screen->{edid});
-
         }
         delete $screen->{edid};
 
