@@ -3,6 +3,7 @@ Revision history for FusionInventory agent
 2.2.3
 General:
 * Fix battery voltage and capacity retrieval
+* Add --timeout option
 
 MacOSX:
 * Fix global memory and CPU inventory

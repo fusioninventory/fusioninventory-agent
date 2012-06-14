@@ -14,6 +14,7 @@ my $default = {
     'delaytime'               => 3600,
     'backend-collect-timeout' => 30,
     'httpd-port'              => 62354,
+    'timeout'                 => 180,
 };
 
 my $deprecated = {
