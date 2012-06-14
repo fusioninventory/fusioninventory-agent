@@ -15,11 +15,11 @@ requires 'File::Which'        => undef;
 requires 'LWP'                => undef;
 requires 'Net::IP'            => undef;
 requires 'UNIVERSAL::require' => undef;
-requires 'Parse::EDID'        => undef;
 requires 'Text::Template'     => undef;
 requires 'XML::TreePP'        => '0.26';
 
 # optional dependencies
+recommends 'Parse::EDID'      => undef;
 recommends 'Compress::Zlib'   => undef;
 recommends 'HTTP::Daemon'     => undef;
 recommends 'Net::CUPS'        => 0.60;
