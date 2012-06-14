@@ -1,0 +1,11 @@
+a0       PERC H700 Integrated     bios:3.18.00_4.09.05. fw:2.100.03-1062 encl:1 ldrv:1  rbld:30% batt:good/4027mV/25C
+a0d0      1675GiB RAID 10  3x2  optimal
+      row  0:  a0e32s0   a0e32s1 
+      row  1:  a0e32s2   a0e32s3 
+      row  2:  a0e32s4   a0e32s5 
+a0e32s0   SEAGATE ST3600057SS         558GiB  a0d0  online  
+a0e32s1   SEAGATE ST3600057SS         558GiB  a0d0  online  
+a0e32s2   SEAGATE ST3600057SS         558GiB  a0d0  online  
+a0e32s3   SEAGATE ST3600057SS         558GiB  a0d0  online  
+a0e32s4   SEAGATE ST3600057SS         558GiB  a0d0  online  
+a0e32s5   SEAGATE ST3600057SS         558GiB  a0d0  online  

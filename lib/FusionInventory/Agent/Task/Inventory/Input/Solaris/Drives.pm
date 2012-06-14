@@ -22,6 +22,24 @@ sub _getDfCmd {
         "df -k";
 }
 
+sub _getFsTypeFromMount {
+
+    my %mountInfo;
+
+    my $handle = getFileHandle(
+        command => 'mount -v',
+        @_
+    );
+
+    while (my $line = <$handle>) {
+        next unless $line =~ /^(\S+)\son\s\S+\stype\s(\S+)/;
+
+        $mountInfo{$1} = $2;
+    }
+
+    return %mountInfo;
+}
+
 sub doInventory {
     my (%params) = @_;
 
@@ -39,6 +57,9 @@ sub doInventory {
         # get all file systems
         getFilesystemsFromDf(logger => $logger, command => _getDfCmd());
 
+
+    my %fsTypeFromMount = _getFsTypeFromMount();
+
     # get additional informations
     foreach my $filesystem (@filesystems) {
 
@@ -54,6 +75,11 @@ sub doInventory {
         if ($line && $line =~ /org.opensolaris.libbe:uuid\s+(\S{5}\S+)/) {
             $filesystem->{UUID} = $1;
             $filesystem->{FILESYSTEM} = 'zfs';
+            next;
+        }
+
+        if ($fsTypeFromMount{$filesystem->{VOLUMN}}) {
+            $filesystem->{FILESYSTEM} = $fsTypeFromMount{$filesystem->{VOLUMN}};
             next;
         }
 

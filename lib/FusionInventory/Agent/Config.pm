@@ -39,6 +39,7 @@ my $default = {
     'server'                  => undef,
     'stdout'                  => undef,
     'tag'                     => undef,
+    'timeout'                 => undef,
     'user'                    => undef,
     'wait'                    => undef,
     # deprecated options
@@ -55,6 +56,7 @@ my $default = {
     'no-socket'               => undef,
     'realm'                   => undef,
     'info'                    => undef,
+    'timeout'                 => 180,
 };
 
 my $deprecated = {

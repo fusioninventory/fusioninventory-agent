@@ -1,0 +1,4213 @@
+Applications:
+
+    Exposé:
+
+      Version: 1.1
+      Last Modified: 2/20/11 3:34 PM
+      Location: /Applications/Utilities/Expose.app
+      Get Info String: 1.1, Copyright 2007-2008 Apple Inc.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    g-coul:
+
+      Version: 6.5
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Users/lubrano/Library/Printers/g-coul.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    ARM Help:
+
+      Version: 4.7.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Library/Application Support/Shark/Helpers/ARM Help.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Vodafone Mobile Connect:
+
+      Version: Vodafone Mobile Connect 3G 2.11.04
+      Last Modified: 1/13/10 6:16 PM
+      Location: /Applications/Vodafone Mobile Connect/Vodafone Mobile Connect.app
+      Get Info String: Vodafone Mobile Connect 3G 2.11.04.00
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Microsoft Windows Media Configuration Utility:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:30 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Microsoft Windows Media Configuration Utility.app
+      Get Info String: 7.4, C:\\Program Files\\Windows Media Player\\setup_wm.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Microsoft Remote Assistance:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Microsoft Remote Assistance.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\rcimlby.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    MiniTerm:
+
+      Version: 1.5
+      Last Modified: 7/7/10 2:24 PM
+      Location: /usr/libexec/MiniTerm.app
+      Get Info String: Terminal window application for PPP
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Microsoft Ship Asserts:
+
+      Version: 1.1.0
+      Last Modified: 1/13/11 5:38 PM
+      Location: /Library/Application Support/Microsoft/MERP2.0/Microsoft Ship Asserts.app
+      Get Info String: 1.1.0 (101115), © 2010 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    SystemUIServer:
+
+      Version: 1.6
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/CoreServices/SystemUIServer.app
+      Get Info String: SystemUIServer version 1.6, Copyright 2000-2009 Apple Computer, Inc.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    VidyoDesktop Uninstaller:
+
+      Version: 2.0.0
+      Last Modified: 10/19/10 9:26 PM
+      Location: /Applications/Vidyo/Vidyo Desktop/VidyoDesktop Uninstaller.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Volume Control:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Volume Control.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\sndvol32.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    HPScanner:
+
+      Version: 1.1.52
+      Last Modified: 7/24/09 10:03 AM
+      Location: /Library/Image Capture/Devices/HPScanner.app
+      Get Info String: 1.1.52, Copyright 2009 Hewlett-Packard Company
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Open XML for Excel:
+
+      Version: 12.2.8
+      Last Modified: 12/27/10 2:23 PM
+      Location: /Library/Application Support/Microsoft/Office Converter Support/Open XML for Excel.app
+      Get Info String: 12.2.8 (101117), © 2007 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: PowerPC
+
+    À propos d’AHT:
+
+      Version: 1.1
+      Last Modified: 7/9/08 12:45 AM
+      Location: /Library/Documentation/User Guides And Information.localized/Apple Hardware Test Read Me.app
+      Get Info String: Apple Hardware Test Read Me
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Windows Update:
+
+      Version: 6.0
+      Last Modified: 1/18/11 12:48 AM
+      Location: /Users/lubrano/Applications/{562821f7-d815-425f-991d-234ba29349a6} Applications.localized/Windows Update.app
+      Get Info String: 6.0, C:\\Windows\\System32\\wuauclt.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    PowerPC Help:
+
+      Version: 4.7.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Library/Application Support/Shark/Helpers/PowerPC Help.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Apple Software Update:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Apple Software Update.app
+      Get Info String: 7.4, C:\\Program Files\\Apple Software Update\\SoftwareUpdate.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Assistant Enregistrement des paramètres personnels\\Profil de Microsoft Office:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Assistant Enregistrement des paramètres personnels\\Profil de Microsoft Office.app
+      Get Info String: 7.4, C:\\Program Files\\Microsoft Office\\OFFICE11\\PROFLWIZ.EXE
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Spotlight:
+
+      Version: 2.0
+      Last Modified: 7/24/09 4:18 AM
+      Location: /System/Library/Services/Spotlight.service
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    KoreanIM:
+
+      Version: 6.1
+      Last Modified: 5/5/09 6:41 PM
+      Location: /System/Library/Input Methods/KoreanIM.app
+      Get Info String: 6.0, Copyright © 1997-2006 Apple Computer Inc., All Rights Reserved
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Utilitaire AppleScript:
+
+      Version: 1.1.1
+      Last Modified: 5/19/09 7:34 AM
+      Location: /System/Library/CoreServices/AppleScript Utility.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    SolidWorks eDrawings:
+
+      Version: 1.0A
+      Last Modified: 6/26/07 10:15 AM
+      Location: /Applications/SolidWorks eDrawings.app
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Java Web Start:
+
+      Version: 13.4.0
+      Last Modified: 3/18/11 12:21 PM
+      Location: /System/Library/CoreServices/Java Web Start.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    SleepX:
+
+      Version: 2.7
+      Last Modified: 8/26/10 8:09 PM
+      Location: /Developer/Applications/Utilities/SleepX.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Canon IJ Printer Utility:
+
+      Version: 7.17.10
+      Last Modified: 6/15/09 9:22 AM
+      Location: /Library/Printers/Canon/BJPrinter/Utilities/BJPrinterUtility2.app
+      Get Info String: Canon IJ Printer Utility version 7.17.10, Copyright CANON INC. 2001-2009 All Rights Reserved.
+      64-Bit (Intel): No
+      Kind: Intel
+
+    TextEdit:
+
+      Version: 1.6
+      Last Modified: 6/27/09 8:06 AM
+      Location: /Applications/TextEdit.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    SpeechSynthesisServer:
+
+      Version: 3.10.35
+      Last Modified: 7/12/09 7:23 AM
+      Location: /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/SpeechSynthesis.framework/Versions/A/Resources/SpeechSynthesisServer.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    KeyboardViewer:
+
+      Version: 2.0
+      Last Modified: 6/11/09 8:11 AM
+      Location: /System/Library/Input Methods/KeyboardViewer.app
+      Get Info String: 2.0, Copyright © 2004-2009 Apple Inc., All Rights Reserved
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Spin Control:
+
+      Version: 0.9
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Performance Tools/Spin Control.app
+      Get Info String: Spin Control
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Yap:
+
+      Last Modified: 12/30/09 12:33 PM
+      Location: /opt/local/var/macports/sources/rsync.macports.org/release/ports/gnustep/Yap.app
+      64-Bit (Intel): No
+
+    AddressBookManager:
+
+      Version: 2.0.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Frameworks/AddressBook.framework/Versions/A/Resources/AddressBookManager.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Python Launcher:
+
+      Version: 2.5.4
+      Last Modified: 7/8/09 8:56 AM
+      Location: /System/Library/Frameworks/Python.framework/Versions/2.5/Resources/Python Launcher.app
+      Get Info String: 2.5.4, © 001-2006 Python Software Foundation
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Chess:
+
+      Version: 2.4.2
+      Last Modified: 5/19/09 8:09 AM
+      Location: /Applications/Chess.app
+      Get Info String: 2.4.2, Copyright 2003-2009 Apple Inc.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    EM64T Help:
+
+      Version: 4.7.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Library/Application Support/Shark/Helpers/EM64T Help.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    fax:
+
+      Version: 4.1
+      Last Modified: 4/23/10 11:36 AM
+      Location: /Library/Printers/hp/Fax/fax.backend
+      Get Info String: HP Fax 4.1, Copyright (c) 2009-2010 Hewlett-Packard Development Company, L.P.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    CCacheServer:
+
+      Version: 6.5.10
+      Last Modified: 7/7/10 2:24 PM
+      Location: /System/Library/CoreServices/CCacheServer.app
+      Get Info String: 6.5 Copyright © 2008 Massachusetts Institute of Technology
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Windows Tour Launcher:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Windows Tour Launcher.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\tourstart.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    hpdot4d:
+
+      Version: 3.7.2
+      Last Modified: 7/7/10 2:23 PM
+      Location: /Library/Printers/hp/Frameworks/HPDeviceModel.framework/Versions/3.0/Runtime/hpdot4d.app
+      Get Info String: hpdot4d 3.7.2, (c) Copyright 2005-2010 Hewlett-Packard Development Company, L.P.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Type5Camera:
+
+      Version: 6.0
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Image Capture/Devices/Type5Camera.app
+      Get Info String: 6.0, © Copyright 2001-2009 Apple Inc., all rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Front Row:
+
+      Version: 2.2.1
+      Last Modified: 7/22/09 10:50 AM
+      Location: /System/Library/CoreServices/Front Row.app
+      64-Bit (Intel): No
+      Kind: Universal
+
+    SyncDiagnostics:
+
+      Version: 5.2
+      Last Modified: 7/18/09 8:23 AM
+      Location: /System/Library/Frameworks/SyncServices.framework/Versions/A/Resources/SyncDiagnostics.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    eaptlstrust:
+
+      Version: 10.0
+      Last Modified: 5/19/09 7:34 AM
+      Location: /System/Library/PrivateFrameworks/EAP8021X.framework/Support/eaptlstrust.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Accessibility Verifier:
+
+      Version: 1.2
+      Last Modified: 8/26/10 8:09 PM
+      Location: /Developer/Applications/Utilities/Accessibility Tools/Accessibility Verifier.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Bonjour Printer Wizard:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Bonjour Printer Wizard.app
+      Get Info String: 7.4, C:\\Program Files\\Bonjour Print Services\\PrinterWizard.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    PreferenceSyncClient:
+
+      Version: 2.0
+      Last Modified: 7/2/09 8:17 AM
+      Location: /System/Library/CoreServices/PreferenceSyncClient.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    DivX Player:
+
+      Version: 7.2 (build 10_0_0_183)
+      Last Modified: 12/28/09 9:33 PM
+      Location: /Applications/DivX Player.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    UpdateChecker Module:
+
+      Version: Windows XP
+      Last Modified: 3/13/11 12:09 AM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/UpdateChecker Module.app
+      Get Info String: 7.4, C:\\Program Files\\Java\\j2re1.4.2_19\\bin\\jucheck.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Utilitaire RAID:
+
+      Version: 1.2
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Applications/Utilities/RAID Utility.app
+      Get Info String: RAID Utility 1.0 (121), Copyright © 2007-2009 Apple Inc.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    pdftopdf2:
+
+      Version: 8.02
+      Last Modified: 7/9/09 6:55 AM
+      Location: /Library/Printers/EPSON/InkjetPrinter2/Filter/pdftopdf2.app
+      Get Info String: pdftopdf2 version 8.02, Copyright (C) SEIKO EPSON CORPORATION 2001-2009. All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    ChineseTextConverterService:
+
+      Version: 1.2
+      Last Modified: 5/19/09 4:18 AM
+      Location: /System/Library/Services/ChineseTextConverterService.app
+      Get Info String: Chinese Text Converter 1.1
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    BluetoothAudioAgent:
+
+      Version: 2.3.8
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/CoreServices/BluetoothAudioAgent.app
+      Get Info String: 2.3.8, Copyright (c) 2010 Apple Inc. All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Microsoft Application Error Reporting:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Microsoft Application Error Reporting.app
+      Get Info String: 7.4, C:\\Program Files\\Common Files\\Microsoft Shared\\DW\\DW20.EXE
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Set Info:
+
+      Last Modified: 4/25/09 4:11 AM
+      Location: /Library/Scripts/ColorSync/Set Info.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    PMC Index:
+
+      Version: 4.5.0
+      Last Modified: 7/2/09 3:19 PM
+      Location: /Developer/Applications/Performance Tools/CHUD/PMC Index.app
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Type2Camera:
+
+      Version: 6.0
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Image Capture/Devices/Type2Camera.app
+      Get Info String: 6.0, © Copyright 2000-2009 Apple Inc., all rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Outlook Express:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Outlook Express.app
+      Get Info String: 7.4, C:\\Program Files\\Outlook Express\\msimn.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Utilitaire de l'imprimante Lexmark:
+
+      Version: 1.2.10
+      Last Modified: 7/1/09 7:28 AM
+      Location: /Library/Printers/Lexmark/Drivers/Lexmark Printer Utility.app
+      Get Info String: 1.0, Copyright 2008 Lexmark International, Inc. All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    VidyoDesktop:
+
+      Version: 1.0
+      Last Modified: 10/19/10 9:26 PM
+      Location: /Applications/Vidyo/Vidyo Desktop/VidyoDesktop.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Outil d’étalonnage du moniteur:
+
+      Version: 4.6
+      Last Modified: 5/19/09 8:01 AM
+      Location: /System/Library/ColorSync/Calibrators/Display Calibrator.app
+      Get Info String: 4.6, Copyright 2008 Apple Computer, Inc.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Inkjet8:
+
+      Version: 2.1
+      Last Modified: 6/16/09 11:59 AM
+      Location: /Library/Printers/hp/cups/Inkjet8.driver
+      Get Info String: HP Inkjet 8 Driver 2.1, Copyright (c) 1994-2009 Hewlett-Packard Development Company, L.P.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Canon IJScanner1:
+
+      Version: 1.0.0
+      Last Modified: 6/15/09 8:19 AM
+      Location: /Library/Image Capture/Devices/Canon IJScanner1.app
+      Get Info String: 1.0.0, Copyright CANON INC. 2009 All Rights Reserved
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    SRLanguageModeler:
+
+      Version: 1.9
+      Last Modified: 8/26/10 8:09 PM
+      Location: /Developer/Applications/Utilities/Speech/SRLanguageModeler.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    OBEXAgent:
+
+      Version: 2.3.8
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/CoreServices/OBEXAgent.app
+      Get Info String: 2.3.8, Copyright (c) 2010 Apple Inc. All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    h-coul:
+
+      Version: 6.5
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Users/lubrano/Library/Printers/h-coul.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Parallels Mounter:
+
+      Version: 6.0
+      Last Modified: 3/8/11 12:21 PM
+      Location: /Library/Parallels/Parallels Mounter.app
+      Get Info String: 6.0.11994.637942, Copyright 2005-2011 Parallels Holdings, Ltd. and its affiliates
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Windows Media Player:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Windows Media Player.app
+      Get Info String: 7.4, C:\\Program Files\\Windows Media Player\\wmplayer.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Windows Backup Utility:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Windows Backup Utility.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\ntbackup.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    AutoImporter:
+
+      Version: 6.0.1
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Image Capture/Support/Application/AutoImporter.app
+      Get Info String: 6.0, © Copyright 2000-2009 Apple Inc., all rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Photo Booth:
+
+      Version: 3.0.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Applications/Photo Booth.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Inkjet4:
+
+      Version: 2.2
+      Last Modified: 6/16/09 3:17 PM
+      Location: /Library/Printers/hp/cups/Inkjet4.driver
+      Get Info String: HP Inkjet 4 Driver 2.2, Copyright (c) 1994-2009 Hewlett-Packard Development Company, L.P.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    QuickTime Player 7:
+
+      Version: 7.6.6
+      Last Modified: 4/9/09 10:41 PM
+      Location: /Applications/Utilities/QuickTime Player 7.app
+      Get Info String: 7.6.6, Copyright © 1989-2009 Apple Inc. All Rights Reserved
+      64-Bit (Intel): No
+      Kind: Intel
+
+    DiskImageMounter:
+
+      Version: 10.6.5
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/CoreServices/DiskImageMounter.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    iTerm:
+
+      Version: 0.10
+      Last Modified: 10/7/09 11:14 PM
+      Location: /Applications/iTerm.app
+      Get Info String: 0.10
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Yahoo! Sync:
+
+      Version: 1.3
+      Last Modified: 5/19/09 8:56 AM
+      Location: /System/Library/PrivateFrameworks/YahooSync.framework/Versions/A/Resources/Yahoo! Sync.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    DiskImages UI Agent:
+
+      Version: 287
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/PrivateFrameworks/DiskImages.framework/Versions/A/Resources/DiskImages UI Agent.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Mise à jour de logiciels:
+
+      Version: 4.0.6
+      Last Modified: 2/20/11 3:34 PM
+      Location: /System/Library/CoreServices/Software Update.app
+      Get Info String: Software Update version 4.0, Copyright © 2000-2009, Apple Inc. All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Quartz Composer Visualizer:
+
+      Version: 1.2
+      Last Modified: 8/26/10 8:09 PM
+      Location: /Developer/Applications/Graphics Tools/Quartz Composer Visualizer.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Equation Editor:
+
+      Version: 12.1.0
+      Last Modified: 7/2/09 11:50 AM
+      Location: /Applications/Microsoft Office 2008/Office/Equation Editor.app
+      Get Info String: 12.1.0 (080205), © 2007 Microsoft Corporation.  All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Grapher:
+
+      Version: 2.1
+      Last Modified: 4/7/09 2:42 AM
+      Location: /Applications/Utilities/Grapher.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Embed:
+
+      Last Modified: 4/25/09 4:11 AM
+      Location: /Library/Scripts/ColorSync/Embed.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    CIJScannerRegister:
+
+      Version: 1.0.0
+      Last Modified: 6/15/09 8:19 AM
+      Location: /Library/Image Capture/Support/LegacyDeviceDiscoveryHelpers/CIJScannerRegister.app
+      Get Info String: CIJScannerRegister version 1.0.0, Copyright CANON INC. 2009 All Rights Reserved.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Uninstall Cisco Network Assistant:
+
+      Version: 8.0
+      Last Modified: 3/13/11 12:14 AM
+      Location: /Users/lubrano/Cisco_Network_Assistant/Uninstall_Cisco Network Assistant/Uninstall Cisco Network Assistant.app
+      Get Info String: InstallAnywhere 8.0, Copyright © 2006 Macrovision Corporation.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    VPNClient:
+
+      Version: 4.9.01.0180
+      Last Modified: 12/27/09 5:41 PM
+      Location: /Applications/VPNClient.app
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Centre de téléchargement Microsoft:
+
+      Version: 14.0.2
+      Last Modified: 1/13/11 5:38 PM
+      Location: /Applications/Microsoft Office 2011/Office/Microsoft Upload Center.app
+      Get Info String: 14.0.2 (101115), © 2010 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Intel
+
+    iStumbler:
+
+      Version: Release 98
+      Last Modified: 2/5/07 9:16 AM
+      Location: /Applications/iStumbler.app
+      Get Info String: iStumbler Release 98
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Microsoft Office InfoPath 2007:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Microsoft Office InfoPath 2007.app
+      Get Info String: 7.4, C:\\Program Files\\Microsoft Office\\Office12\\INFOPATH.EXE
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Assistant réglages Bluetooth:
+
+      Version: 2.3.8
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/CoreServices/Bluetooth Setup Assistant.app
+      Get Info String: 2.3.8, Copyright (c) 2010 Apple Inc. All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    SecurityFixer:
+
+      Version: 10.6
+      Last Modified: 5/19/09 4:17 AM
+      Location: /System/Library/CoreServices/SecurityFixer.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Type1Camera:
+
+      Version: 6.0
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Image Capture/Devices/Type1Camera.app
+      Get Info String: 6.0, © Copyright 2000-2009 Apple Inc., all rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    dotmacfx:
+
+      Version: 3.0
+      Last Modified: 7/7/10 2:24 PM
+      Location: /System/Library/Frameworks/SecurityFoundation.framework/Versions/A/dotmacfx.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    LexmarkCUPSDriver:
+
+      Version: 1.1.26
+      Last Modified: 7/1/09 7:26 AM
+      Location: /Library/Printers/Lexmark/Drivers/LexmarkCUPSDriver.app
+      Get Info String: 0.0.0 (v27), Copyright 2008 Lexmark International, Inc. All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    IA32 Help:
+
+      Version: 4.7.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Library/Application Support/Shark/Helpers/IA32 Help.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Type6Camera:
+
+      Version: 6.0
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Image Capture/Devices/Type6Camera.app
+      Get Info String: 6.0, © Copyright 2002-2009 Apple Inc., all rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Zone Datafile [3]:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Zone Datafile [3].app
+      Get Info String: 7.4, C:\\Program Files\\MSN Gaming Zone\\Windows\\Rvsezm.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    BluetoothUIServer:
+
+      Version: 2.3.8
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/CoreServices/BluetoothUIServer.app
+      Get Info String: 2.3.8, Copyright (c) 2010 Apple Inc. All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Database Events:
+
+      Version: 1.0.4
+      Last Modified: 5/19/09 11:07 AM
+      Location: /System/Library/CoreServices/Database Events.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    FontRegistryUIAgent:
+
+      Version: 1.1
+      Last Modified: 7/7/10 2:24 PM
+      Location: /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Support/FontRegistryUIAgent.app
+      Get Info String: Copyright © 2008 Apple Inc.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    DivX Products:
+
+      Version: 1.1.0
+      Last Modified: 11/17/09 12:47 AM
+      Location: /Applications/DivX/DivX Products.app
+      64-Bit (Intel): No
+      Kind: PowerPC
+
+    Bluetooth Explorer:
+
+      Version: 2.3.6
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Utilities/Bluetooth/Bluetooth Explorer.app
+      Get Info String: 2.3.6, Copyright (c) 2010 Apple Inc. All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Rappels Microsoft Office:
+
+      Version: 12.2.8
+      Last Modified: 12/27/10 2:23 PM
+      Location: /Applications/Microsoft Office 2008/Office/Microsoft Office Reminders.app
+      Get Info String: 12.2.8 (101117), © 2007 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    SpeakableItems:
+
+      Version: 3.7.8
+      Last Modified: 5/19/09 10:45 AM
+      Location: /System/Library/Speech/Recognizers/AppleSpeakableItems.SpeechRecognizer/Contents/Resources/SpeakableItems.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    CompactPhotosmart:
+
+      Version: 3.0
+      Last Modified: 6/16/09 1:50 PM
+      Location: /Library/Printers/hp/cups/CompactPhotosmart.driver
+      Get Info String: HP Compact Photosmart Driver 3.0, Copyright (c) 1994-2009 Hewlett-Packard Development Company, L.P.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Microsoft PowerPoint:
+
+      Version: 12.2.8
+      Last Modified: 12/27/10 2:23 PM
+      Location: /Applications/Microsoft Office 2008/Microsoft PowerPoint.app
+      Get Info String: 12.2.8 (101117), © 2007 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    MemoryCard Ejector:
+
+      Version: 1.1
+      Last Modified: 1/13/10 6:16 PM
+      Location: /Applications/Vodafone Mobile Connect/MemoryCard Ejector.app
+      64-Bit (Intel): No
+      Kind: PowerPC
+
+    TamilIM:
+
+      Version: 1.3
+      Last Modified: 5/19/09 7:36 AM
+      Location: /System/Library/Input Methods/TamilIM.app
+      Get Info String: Tamil Input Method 1.2
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Inkjet1:
+
+      Version: 2.1.2
+      Last Modified: 6/16/09 3:54 PM
+      Location: /Library/Printers/hp/cups/Inkjet1.driver
+      Get Info String: HP Inkjet 1 Driver 2.1.2, Copyright (c) 1994-2009 Hewlett-Packard Development Company, L.P.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Moniteur d’activité:
+
+      Version: 10.6
+      Last Modified: 7/31/09 9:18 AM
+      Location: /Applications/Utilities/Activity Monitor.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    CoreServicesUIAgent:
+
+      Version: 41.5
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/CoreServices/CoreServicesUIAgent.app
+      Get Info String: Copyright © 2009 Apple Inc.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Microsoft Accessibility Wizard:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Microsoft Accessibility Wizard.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\accwiz.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Trousseau d’accès:
+
+      Version: 4.1
+      Last Modified: 7/7/10 2:24 PM
+      Location: /Applications/Utilities/Keychain Access.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Syncrospector:
+
+      Version: 5.2
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Utilities/Syncrospector.app
+      Get Info String: Syncrospector 3.0, © 2004 Apple Computer, Inc., All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Microsoft Office Publisher:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Microsoft Office Publisher.app
+      Get Info String: 7.4, C:\\Program Files\\Microsoft Office\\Office12\\MSPUB.EXE
+      64-Bit (Intel): No
+      Kind: Intel
+
+    UserNotificationCenter:
+
+      Version: 3.1.0
+      Last Modified: 5/19/09 4:13 AM
+      Location: /System/Library/CoreServices/UserNotificationCenter.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Net configurator:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:30 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Net configurator.app
+      Get Info String: 7.4, C:\\Program Files\\Parallels\\Parallels Internet Security Powered by Kaspersky\\KLIMX86\\netcfg.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    SecurityAgent:
+
+      Version: 5.2
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/CoreServices/SecurityAgent.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    PhotosmartPro:
+
+      Version: 3.0
+      Last Modified: 6/16/09 11:32 AM
+      Location: /Library/Printers/hp/cups/PhotosmartPro.driver
+      Get Info String: HP Photosmart Pro Driver 3.0, Copyright (c) 1994-2009 Hewlett-Packard Development Company, L.P.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    ScreenReaderUIServer:
+
+      Version: 3.4.0
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/PrivateFrameworks/ScreenReader.framework/Versions/A/Resources/ScreenReaderUIServer.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    ZoneMonitor:
+
+      Version: 1.0
+      Last Modified: 7/2/09 3:19 PM
+      Location: /Developer/Applications/Performance Tools/ZoneMonitor.app
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Éditeur AppleScript:
+
+      Version: 2.3
+      Last Modified: 4/24/09 3:41 PM
+      Location: /Applications/Utilities/AppleScript Editor.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    TWAINBridge:
+
+      Version: 6.0.1
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Image Capture/Devices/TWAINBridge.app
+      Get Info String: 6.0.1, © Copyright 2000-2010 Apple Inc., all rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Hotfix Package:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:30 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Hotfix Package.app
+      Get Info String: 7.4, C:\\WINDOWS\\SoftwareDistribution\\Download\\Install\\WindowsXP-KB905474-ENU-x86.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    AppleMobileDeviceHelper:
+
+      Version: 3.1
+      Last Modified: 3/18/11 12:21 PM
+      Location: /System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/AppleMobileDeviceHelper.app
+      64-Bit (Intel): No
+      Kind: Universal
+
+    SpindownHD:
+
+      Version: 4.7.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Performance Tools/CHUD/Hardware Tools/SpindownHD.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Lanceur d’applets:
+
+      Version: 13.4.0
+      Last Modified: 3/18/11 12:21 PM
+      Location: /usr/share/java/Tools/Applet Launcher.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    FileMerge:
+
+      Version: 2.5
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Utilities/FileMerge.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Clipboard Viewer:
+
+      Version: 1.3
+      Last Modified: 7/2/09 3:19 PM
+      Location: /Developer/Applications/Utilities/Built Examples/Clipboard Viewer.app
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Jar Bundler:
+
+      Version: 13.4.0
+      Last Modified: 3/18/11 12:21 PM
+      Location: /usr/share/java/Tools/Jar Bundler.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Python:
+
+      Version: 2.5.4
+      Last Modified: 7/8/09 8:55 AM
+      Location: /System/Library/Frameworks/Python.framework/Versions/2.5/Resources/Python.app
+      Get Info String: 2.5.4a0, (c) 2004 Python Software Foundation.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    NetAuthAgent:
+
+      Version: 2.1
+      Last Modified: 7/7/10 2:24 PM
+      Location: /System/Library/CoreServices/NetAuthAgent.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Type8Camera:
+
+      Version: 6.0.1
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Image Capture/Devices/Type8Camera.app
+      Get Info String: 6.0.1, © Copyright 2002-2009 Apple Inc., all rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    commandtoescp:
+
+      Version: 8.02
+      Last Modified: 7/9/09 6:55 AM
+      Location: /Library/Printers/EPSON/InkjetPrinter2/Filter/commandtoescp.app
+      Get Info String: commandtoescp Copyright (C) SEIKO EPSON CORPORATION 2001-2009. All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Utilitaire de base de données Microsoft:
+
+      Version: 14.0.2
+      Last Modified: 1/13/11 5:38 PM
+      Location: /Applications/Microsoft Office 2011/Office/Microsoft Database Utility.app
+      Get Info String: 14.0.2 (101115), © 2010 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Application Loader:
+
+      Version: 1.4
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Utilities/Application Loader.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Microsoft Word:
+
+      Version: 12.2.8
+      Last Modified: 12/27/10 2:23 PM
+      Location: /Applications/Microsoft Office 2008/Microsoft Word.app
+      Get Info String: 12.2.8 (101117), © 2007 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Microsoft Office Word:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Microsoft Office Word.app
+      Get Info String: 7.4, C:\\Program Files\\Microsoft Office\\Office12\\WINWORD.EXE
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Instruments:
+
+      Version: 2.7
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Instruments.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    SpeechService:
+
+      Version: 3.10.35
+      Last Modified: 7/12/09 7:23 AM
+      Location: /System/Library/Services/SpeechService.service
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Keychain Scripting:
+
+      Version: 4.0.2
+      Last Modified: 7/7/10 2:24 PM
+      Location: /System/Library/ScriptingAdditions/Keychain Scripting.app
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Lecteur DVD:
+
+      Version: 5.4
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Applications/DVD Player.app
+      Get Info String: 5.4, Copyright © 2001-2010 by Apple Inc.  All Rights Reserved.
+      64-Bit (Intel): No
+      Kind: Intel
+
+    AppleGraphicsWarning:
+
+      Version: 2.0.3
+      Last Modified: 5/19/09 7:27 AM
+      Location: /System/Library/CoreServices/AppleGraphicsWarning.app
+      Get Info String: Version 2.0.3, Copyright Apple Inc., 2008
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Jar Launcher:
+
+      Version: 13.4.0
+      Last Modified: 3/18/11 12:21 PM
+      Location: /System/Library/CoreServices/Jar Launcher.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Image Capture Extension:
+
+      Version: 6.0.2
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Image Capture/Support/Image Capture Extension.app
+      Get Info String: 6.0.2, © Copyright 2000-2010 Apple Inc. All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Configuration audio et MIDI:
+
+      Version: 3.0.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Applications/Utilities/Audio MIDI Setup.app
+      Get Info String: 3.0.3, Copyright 2002-2010 Apple, Inc.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Match:
+
+      Last Modified: 4/25/09 4:11 AM
+      Location: /Library/Scripts/ColorSync/Match.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Installation à distance de Mac OS X:
+
+      Version: 1.1.1
+      Last Modified: 5/19/09 4:13 AM
+      Location: /Applications/Utilities/Remote Install Mac OS X.app
+      Get Info String: Remote Install Mac OS X 1.1.1, Copyright © 2007-2009 Apple Inc. All rights reserved
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    rastertoescpII:
+
+      Version: 8.02
+      Last Modified: 7/9/09 6:55 AM
+      Location: /Library/Printers/EPSON/InkjetPrinter2/Filter/rastertoescpII.app
+      Get Info String: rastertoescpII Copyright (C) SEIKO EPSON CORPORATION 2001-2009. All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    System Events:
+
+      Version: 1.3.4
+      Last Modified: 5/19/09 11:07 AM
+      Location: /System/Library/CoreServices/System Events.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    IncompatibleAppDisplay:
+
+      Version: 300.4
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/PrivateFrameworks/SystemMigration.framework/Versions/A/Resources/IncompatibleAppDisplay.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    TCIM:
+
+      Version: 6.3
+      Last Modified: 7/7/09 8:48 AM
+      Location: /System/Library/Input Methods/TCIM.app
+      Get Info String: 6.2, Copyright © 1997-2006 Apple Computer Inc., All Rights Reserved
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Utilitaire de réseau:
+
+      Version: 1.4.6
+      Last Modified: 6/25/09 4:25 AM
+      Location: /Applications/Utilities/Network Utility.app
+      Get Info String: Version 1.4.6, Copyright © 2000-2009 Apple Inc. All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    iChatAgent:
+
+      Version: 5.0.3
+      Last Modified: 7/7/10 2:24 PM
+      Location: /System/Library/Frameworks/IMCore.framework/iChatAgent.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Sound Recorder accessory:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Sound Recorder accessory.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\sndrec32.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    iMovie:
+
+      Version: 7.1.4
+      Last Modified: 7/1/09 3:59 PM
+      Location: /Applications/iMovie.app
+      Get Info String: 7.1.4, Copyright © 2007-2008 Apple Inc. All Rights Reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    iCal Helper:
+
+      Version: 4.0.4
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Frameworks/CalendarStore.framework/Versions/A/Resources/iCal Helper.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Parallels Desktop:
+
+      Version: 6.0
+      Last Modified: 3/8/11 12:21 PM
+      Location: /Applications/Parallels Desktop.app
+      Get Info String: 6.0.11994.637942, Copyright 2005-2011 Parallels Holdings, Ltd. and its affiliates
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Microsoft Clip Gallery:
+
+      Version: 14.0.2
+      Last Modified: 1/13/11 5:38 PM
+      Location: /Applications/Microsoft Office 2011/Office/Microsoft Clip Gallery.app
+      Get Info String: 14.0.2 (101115), © 2010 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Console:
+
+      Version: 10.6.3
+      Last Modified: 4/7/09 2:42 AM
+      Location: /Applications/Utilities/Console.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Zimbra Desktop:
+
+      Version: 1.0.4
+      Last Modified: 7/7/10 4:21 PM
+      Location: /Users/lubrano/zimbra/zdesktop/macos/Zimbra Desktop.app
+      Get Info String: Zimbra Desktop 1.0.4, (C) 2010 VMware Inc.
+      64-Bit (Intel): No
+      Kind: Intel
+
+    GarageBand:
+
+      Version: 4.1.2
+      Last Modified: 7/1/09 3:59 PM
+      Location: /Applications/GarageBand.app
+      Get Info String: GarageBand 4.1.2 (248.7), Copyright © 2007 by Apple Inc.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Organigramme hiérarchique:
+
+      Version: 12.2.8
+      Last Modified: 12/27/10 2:23 PM
+      Location: /Applications/Microsoft Office 2008/Office/Organization Chart.app
+      Get Info String: 12.2.8 (101117), © 2007 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Assistant Dépannage de diagnostic:
+
+      Version: 6.0
+      Last Modified: 1/18/11 12:48 AM
+      Location: /Users/lubrano/Applications/{562821f7-d815-425f-991d-234ba29349a6} Applications.localized/Assistant Dépannage de diagnostic.app
+      Get Info String: 6.0, C:\\Windows\\System32\\msdt.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    File Sync:
+
+      Version: 5.0.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/CoreServices/File Sync.app
+      Get Info String: © Copyright 2009 Apple Inc., all rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Capture:
+
+      Version: 1.5
+      Last Modified: 5/19/09 4:12 AM
+      Location: /Applications/Utilities/Grab.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Address Book:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Address Book.app
+      Get Info String: 7.4, C:\\Program Files\\Outlook Express\\wab.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Résolution des conflits:
+
+      Version: 5.2
+      Last Modified: 7/18/09 8:22 AM
+      Location: /System/Library/PrivateFrameworks/SyncServicesUI.framework/Versions/A/Resources/Conflict Resolver.app
+      Get Info String: 1.0, Copyright Apple Computer Inc. 2004
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    PSPP:
+
+      Version: @VERSION@
+      Last Modified: 12/30/09 12:33 PM
+      Location: /opt/local/var/macports/sources/rsync.macports.org/release/ports/math/pspp/files/PSPP.app
+      64-Bit (Intel): No
+
+    Inkjet5:
+
+      Version: 2.1
+      Last Modified: 6/16/09 2:00 PM
+      Location: /Library/Printers/hp/cups/Inkjet5.driver
+      Get Info String: HP Inkjet 5 Driver 2.1, Copyright (c) 1994-2009 Hewlett-Packard Development Company, L.P.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Meeting Center:
+
+      Version: 3.9.14.0
+      Last Modified: 2/22/11 9:28 AM
+      Location: /Users/lubrano/Library/Application Support/WebEx Folder/924/Meeting Center.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Microsoft AutoUpdate:
+
+      Version: 2.3.1
+      Last Modified: 1/13/11 5:38 PM
+      Location: /Library/Application Support/Microsoft/MAU2.0/Microsoft AutoUpdate.app
+      Get Info String: 2.3.1 (101115), © 2010 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Microsoft Database Utility:
+
+      Version: 12.2.8
+      Last Modified: 12/27/10 2:23 PM
+      Location: /Applications/Microsoft Office 2008/Office/Microsoft Database Utility.app
+      Get Info String: 12.2.8 (101117), © 2007 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Microsoft Cert Manager:
+
+      Version: 12.2.8
+      Last Modified: 12/27/10 2:23 PM
+      Location: /Applications/Microsoft Office 2008/Office/Microsoft Cert Manager.app
+      Get Info String: 12.2.8 (101117), © 2007 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    InkServer:
+
+      Version: 1.0
+      Last Modified: 5/19/09 4:18 AM
+      Location: /System/Library/Input Methods/InkServer.app
+      Get Info String: 1.0, Copyright 2008 Apple Inc.
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Création de page Web:
+
+      Version: 6.0
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Image Capture/Automatic Tasks/Build Web Page.app
+      Get Info String: 6.0, © Copyright 2003-2009 Apple  Inc., all rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    HP Printer Utility:
+
+      Version: 8.1.0
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Library/Printers/hp/Utilities/HP Printer Utility.app
+      Get Info String: HP Printer Utility version 8.1.0, Copyright (c) 2005-2010 Hewlett-Packard Development Company, L.P.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Utilitaire AirPort:
+
+      Version: 5.5.2
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Applications/Utilities/AirPort Utility.app
+      Get Info String: 5.5.2, Copyright 2001-2010 Apple Inc.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Wish:
+
+      Version: 8.4.19
+      Last Modified: 7/23/09 5:18 AM
+      Location: /System/Library/Frameworks/Tk.framework/Versions/8.4/Resources/Wish.app
+      Get Info String: Wish Shell 8.4.19,
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Utilitaire ColorSync:
+
+      Version: 4.6.2
+      Last Modified: 5/19/09 8:00 AM
+      Location: /Applications/Utilities/ColorSync Utility.app
+      Get Info String: 4.6.2, © Copyright 2009 Apple Inc.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    CrashReporterPrefs:
+
+      Version: 10.6.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Utilities/CrashReporterPrefs.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    KeyboardSetupAssistant:
+
+      Version: 10.5.0
+      Last Modified: 5/19/09 7:45 AM
+      Location: /System/Library/CoreServices/KeyboardSetupAssistant.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Property List Editor:
+
+      Version: 5.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Utilities/Property List Editor.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Microsoft Entourage:
+
+      Version: 12.2.8
+      Last Modified: 12/27/10 2:23 PM
+      Location: /Applications/Microsoft Office 2008/Microsoft Entourage.app
+      Get Info String: 12.2.8 (101117), © 2007 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Folder Actions Dispatcher:
+
+      Version: 1.0.2
+      Last Modified: 5/19/09 11:07 AM
+      Location: /System/Library/CoreServices/Folder Actions Dispatcher.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Mail:
+
+      Version: 4.4
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Applications/Mail.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Reggie SE:
+
+      Version: 4.7.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Performance Tools/CHUD/Hardware Tools/Reggie SE.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Microsoft Office 2003 component:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Microsoft Office 2003 component.app
+      Get Info String: 7.4, C:\\Program Files\\Microsoft Office\\OFFICE11\\SETLANG.EXE
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Apple80211Agent:
+
+      Version: 6.2.1
+      Last Modified: 7/21/09 9:41 AM
+      Location: /System/Library/CoreServices/Apple80211Agent.app
+      Get Info String: 6.2.1, Copyright © 2000–2009 Apple Inc. All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Quartz Debug:
+
+      Version: 4.1
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Performance Tools/Quartz Debug.app
+      Get Info String: Quartz Debug 4.1
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Free42-Binary:
+
+      Last Modified: 12/30/09 12:35 PM
+      Location: /opt/local/var/macports/sources/rsync.macports.org/release/ports/emulators/free42/files/Free42-Binary.app
+      64-Bit (Intel): No
+
+    Microsoft Query:
+
+      Version: 10.0.0
+      Last Modified: 12/6/07 1:00 AM
+      Location: /Applications/Microsoft Office 2008/Office/Microsoft Query
+      Get Info String: 10.0.0 (1204)  Copyright 1995-2002 Microsoft Corporation.  All rights reserved.
+      64-Bit (Intel): No
+      Kind: PowerPC
+
+    check_afp:
+
+      Version: 2.0
+      Last Modified: 7/3/09 2:46 AM
+      Location: /System/Library/Filesystems/AppleShare/check_afp.app
+      Get Info String: AFP Client Session Monitor, Copyright © 2000 - 2007, Apple Inc.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Paint:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Paint.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\mspaint.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Microsoft Graph:
+
+      Version: 12.2.8
+      Last Modified: 12/27/10 2:23 PM
+      Location: /Applications/Microsoft Office 2008/Office/Microsoft Graph.app
+      Get Info String: 12.2.8 (101117), © 2007 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Raster2CanonIJ:
+
+      Last Modified: 6/15/09 8:18 AM
+      Location: /Library/Printers/Canon/BJPrinter/Filters/Raster2CanonIJ/Raster2CanonIJ.bundle
+
+    Dictionnaire:
+
+      Version: 2.1.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Applications/Dictionary.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    DivX Support:
+
+      Version: 1.1.0
+      Last Modified: 11/17/09 12:47 AM
+      Location: /Applications/DivX/DivX Support.app
+      64-Bit (Intel): No
+      Kind: PowerPC
+
+    VirtualBox:
+
+      Version: 4.0.4
+      Last Modified: 3/12/11 8:23 PM
+      Location: /Applications/VirtualBox.app
+      Get Info String: Oracle VM VirtualBox Manager 4.0.4, © 2007-2011 Oracle Corporation
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Dock:
+
+      Version: 1.7
+      Last Modified: 2/20/11 3:34 PM
+      Location: /System/Library/CoreServices/Dock.app
+      Get Info String: Dock 1.7
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Entertainment Pack FreeCell Game:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Entertainment Pack FreeCell Game.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\freecell.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    ImageCaptureService:
+
+      Version: 6.0.1
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Services/ImageCaptureService.app
+      Get Info String: 6.0, © Copyright 2003-2009 Apple Inc., all rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Uninstall AnyConnect:
+
+      Version: 1.0
+      Last Modified: 2/15/10 4:08 PM
+      Location: /Applications/Cisco/Uninstall AnyConnect.app
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Préférences Java:
+
+      Version: 13.4.0
+      Last Modified: 3/18/11 12:21 PM
+      Location: /Applications/Utilities/Java Preferences.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Bluetooth Diagnostics Utility:
+
+      Version: 2.3.6
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Utilities/Bluetooth/Bluetooth Diagnostics Utility.app
+      Get Info String: 2.3.6, Copyright (c) 2010 Apple Inc. All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    System Information:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/System Information.app
+      Get Info String: 7.4, C:\\Program Files\\Common Files\\Microsoft Shared\\MSInfo\\msinfo32.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Inkjet:
+
+      Version: 3.0
+      Last Modified: 6/16/09 12:48 PM
+      Location: /Library/Printers/hp/cups/Inkjet.driver
+      Get Info String: HP Inkjet Driver 3.0, Copyright (c) 1994-2009 Hewlett-Packard Development Company, L.P.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Premiers contacts avec iMovie 08:
+
+      Version: 1.0.2
+      Last Modified: 7/1/09 3:59 PM
+      Location: /Library/Documentation/Applications/iMovie/iMovie 08 Getting Started.app
+      Get Info String: iMovie 08 Getting Started
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Automator:
+
+      Version: 2.1.1
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Applications/Automator.app
+      Get Info String: 2.1.1, Copyright © 2004-2009 Apple Inc. All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    HP Scanner 3:
+
+      Version: 3.2.9
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Library/Image Capture/Devices/HP Scanner 3.app
+      Get Info String: Copyright 2010 Hewlett-Packard Company
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    store_helper:
+
+      Version: 1.0
+      Last Modified: 2/20/11 3:34 PM
+      Location: /System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Resources/store_helper.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Solitaire Game Applet:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Solitaire Game Applet.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\sol.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    License:
+
+      Version: 11
+      Last Modified: 7/25/09 7:43 AM
+      Location: /Library/Documentation/License.app
+      Get Info String: License
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Colorimètre numérique:
+
+      Version: 3.7.2
+      Last Modified: 5/28/09 7:06 AM
+      Location: /Applications/Utilities/DigitalColor Meter.app
+      Get Info String: 3.7.2, Copyright 2001-2008 Apple Inc. All Rights Reserved.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Bienvenue sur Leopard:
+
+      Version: 8.1
+      Last Modified: 7/23/08 9:27 PM
+      Location: /Library/Documentation/User Guides And Information.localized/Welcome to Leopard.app
+      Get Info String: Welcome to Leopard
+      64-Bit (Intel): No
+      Kind: Universal
+
+    URL Access Scripting:
+
+      Version: 1.1.1
+      Last Modified: 5/19/09 7:34 AM
+      Location: /System/Library/ScriptingAdditions/URL Access Scripting.app
+      Get Info String: URL Access Scripting 1.1, Copyright © 2002-2004 Apple Computer, Inc.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    50onPaletteServer:
+
+      Version: 1.0.3
+      Last Modified: 6/30/09 7:29 AM
+      Location: /System/Library/Input Methods/50onPaletteServer.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Connexion Bureau à Distance:
+
+      Version: 2.1.0
+      Last Modified: 1/13/11 5:28 PM
+      Location: /Applications/Remote Desktop Connection.app
+      Get Info String: 2.1.0 (100825), © 2010 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Intel
+
+    VietnameseIM:
+
+      Version: 1.1
+      Last Modified: 5/19/09 8:12 AM
+      Location: /System/Library/Input Methods/VietnameseIM.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Saturn:
+
+      Version: 4.7.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Performance Tools/CHUD/Saturn.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    PubSubAgent:
+
+      Version: 1.0.5
+      Last Modified: 3/18/11 12:21 PM
+      Location: /System/Library/Frameworks/PubSub.framework/Versions/A/Resources/PubSubAgent.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    kcSync:
+
+      Version: 3.0.1
+      Last Modified: 7/7/10 2:24 PM
+      Location: /System/Library/Frameworks/SecurityFoundation.framework/Versions/A/kcSync.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Windows Update Manager for NT:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Windows Update Manager for NT.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\wupdmgr.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    asannotation2:
+
+      Version: 7.19.11.0
+      Last Modified: 2/22/11 9:29 AM
+      Location: /Users/lubrano/Library/Application Support/WebEx Folder/924/asannotation2.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    App Store:
+
+      Version: 1.0
+      Last Modified: 2/20/11 3:34 PM
+      Location: /Applications/App Store.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Premiers contacts avec iWeb:
+
+      Version: 1.0.2
+      Last Modified: 7/1/09 3:59 PM
+      Location: /Library/Documentation/Applications/iWeb/iWeb Getting Started.app
+      Get Info String: iWeb Getting Started
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Aperçu:
+
+      Version: 5.0.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Applications/Preview.app
+      Get Info String: 5.0.1, Copyright 2002-2009 Apple Inc.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    UtilMan EXE:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/UtilMan EXE.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\utilman.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Build Applet:
+
+      Version: 2.5.4
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Utilities/MacPython 2.5/Build Applet.app
+      Get Info String: 2.5.4a0, (c) 2004 Python Software Foundation.
+      64-Bit (Intel): No
+
+    Spider:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Spider.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\spider.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Diagnostic réseau:
+
+      Version: 1.1.3
+      Last Modified: 7/7/10 2:24 PM
+      Location: /System/Library/CoreServices/Network Diagnostics.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Microsoft Magnifier:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Microsoft Magnifier.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\magnify.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    CoreLocationAgent:
+
+      Version: 12.1
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/CoreServices/CoreLocationAgent.app
+      Get Info String: Copyright © 2009 Apple Inc.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Show Info:
+
+      Last Modified: 4/25/09 4:11 AM
+      Location: /Library/Scripts/ColorSync/Show Info.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Skype:
+
+      Version: 2.8.0.851
+      Last Modified: 2/8/10 3:15 PM
+      Location: /Applications/Skype.app
+      Get Info String: Skype version 2.8.0.851 (16248), Copyright © 2004-2010 Skype Technologies S.A.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Préférences Système:
+
+      Version: 7.0
+      Last Modified: 6/27/09 8:09 AM
+      Location: /Applications/System Preferences.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Zone Datafile [1]:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Zone Datafile [1].app
+      Get Info String: 7.4, C:\\Program Files\\MSN Gaming Zone\\Windows\\chkrzm.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Microsoft Sync Services:
+
+      Version: 12.2.8
+      Last Modified: 12/27/10 2:23 PM
+      Location: /Applications/Microsoft Office 2008/Office/Microsoft Sync Services.app
+      Get Info String: 12.2.8 (101117), © 2007 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    h-nb1:
+
+      Version: 6.5
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Users/lubrano/Library/Printers/h-nb1.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Java VisualVM:
+
+      Version: 13.4.0
+      Last Modified: 3/18/11 12:21 PM
+      Location: /usr/share/java/Tools/Java VisualVM.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Microsoft Office Outlook:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Microsoft Office Outlook.app
+      Get Info String: 7.4, C:\\Program Files\\Microsoft Office\\Office12\\OUTLOOK.EXE
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Inkjet6:
+
+      Version: 1.0
+      Last Modified: 6/16/09 10:36 AM
+      Location: /Library/Printers/hp/cups/Inkjet6.driver
+      Get Info String: HP Inkjet 6 Driver 1.0, Copyright (c) 1994-2009 Hewlett-Packard Development Company, L.P.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    HALLab:
+
+      Version: 1.6
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Audio/HALLab.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Thunderbird:
+
+      Version: 3.1.9
+      Last Modified: 3/6/11 3:02 PM
+      Location: /Applications/Thunderbird.app
+      Get Info String: Thunderbird 3.1.9
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Cisco AnyConnect VPN Client:
+
+      Version: 1.0
+      Last Modified: 2/15/10 4:08 PM
+      Location: /Applications/Cisco/Cisco AnyConnect VPN Client.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Windows Command Processor:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Windows Command Processor.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\cmd.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    CHUD Remover:
+
+      Version: 4.7.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Performance Tools/CHUD/CHUD Remover.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    DivXUpdater:
+
+      Version: 1.1
+      Last Modified: 11/17/09 12:47 AM
+      Location: /Library/Application Support/DivX/DivXUpdater.app
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Accessibility Inspector:
+
+      Version: 2.0
+      Last Modified: 8/26/10 8:09 PM
+      Location: /Developer/Applications/Utilities/Accessibility Tools/Accessibility Inspector.app
+      Get Info String: Accessibility Inspector 2.0, Copyright 2002-2009 Apple Inc.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    CharacterPalette:
+
+      Version: 1.0.4
+      Last Modified: 7/2/09 9:49 AM
+      Location: /System/Library/Input Methods/CharacterPalette.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Utilitaire VoiceOver:
+
+      Version: 3.4.0
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Applications/Utilities/VoiceOver Utility.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    EPIJAutoSetupTool2:
+
+      Version: 8.02
+      Last Modified: 7/9/09 6:55 AM
+      Location: /Library/Printers/EPSON/InkjetPrinter2/AutoSetupTool/EPIJAutoSetupTool2.app
+      Get Info String: EPIJAutoSetupTool2 Copyright (C) SEIKO EPSON CORPORATION 2001-2009. All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    VoiceOver:
+
+      Version: 3.4.0
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/CoreServices/VoiceOver.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    GoogleVoiceAndVideoUninstaller:
+
+      Version: 1.9.2.1599
+      Last Modified: 2/24/11 1:10 PM
+      Location: /Library/Application Support/Google/GoogleVoiceAndVideoUninstaller.app
+      Get Info String: v1.9.2.1599. Copyright 2007-2009 Google Inc. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Lexmark Scanner:
+
+      Version: 3.2.45
+      Last Modified: 7/1/09 7:26 AM
+      Location: /Library/Image Capture/Devices/Lexmark Scanner.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    AddPrinter:
+
+      Version: 6.5
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/CoreServices/AddPrinter.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Automator Runner:
+
+      Version: 1.1
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/CoreServices/Automator Runner.app
+      Get Info String: 1.1, Copyright © 2006-2009 Apple Inc. All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Zone Datafile [4]:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Zone Datafile [4].app
+      Get Info String: 7.4, C:\\Program Files\\MSN Gaming Zone\\Windows\\shvlzm.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    MallocDebug:
+
+      Version: 1.7.1
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Performance Tools/MallocDebug.app
+      64-Bit (Intel): No
+      Kind: Universal
+
+    System Restore Application:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/System Restore Application.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\Restore\\rstrui.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    SpeechFeedbackWindow:
+
+      Version: 3.8.1
+      Last Modified: 5/29/09 2:38 AM
+      Location: /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/SpeechRecognition.framework/Versions/A/Resources/SpeechFeedbackWindow.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Bibliothèque de projets Microsoft:
+
+      Version: 12.2.8
+      Last Modified: 12/27/10 2:23 PM
+      Location: /Applications/Microsoft Office 2008/Office/Microsoft Project Gallery.app
+      Get Info String: 12.2.8 (101117), © 2007 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    CIJAutoSetupTool:
+
+      Version: 1.7.1
+      Last Modified: 6/15/09 8:18 AM
+      Location: /Library/Printers/Canon/BJPrinter/Utilities/CIJAutoSetupTool.app
+      Get Info String: CIJAutoSetupTool.app version 1.7.0, Copyright CANON INC. 2007-2008 All Rights Reserved.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Alerts Daemon:
+
+      Version: 12.2.8
+      Last Modified: 12/27/10 2:23 PM
+      Location: /Applications/Microsoft Office 2008/Office/Alerts Daemon.app
+      Get Info String: 12.2.8 (101117), © 2007 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    DivX Converter:
+
+      Version: 1.3
+      Last Modified: 12/28/09 9:33 PM
+      Location: /Applications/DivX Converter.app
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Interpréteur de commandes Windows:
+
+      Version: 6.0
+      Last Modified: 1/18/11 12:48 AM
+      Location: /Users/lubrano/Applications/{562821f7-d815-425f-991d-234ba29349a6} Applications.localized/Interpréteur de commandes Windows.app
+      Get Info String: 6.0, C:\\Windows\\System32\\cmd.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Proof:
+
+      Last Modified: 4/25/09 4:11 AM
+      Location: /Library/Scripts/ColorSync/Proof.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    HPFaxBackend:
+
+      Version: 3.1.0
+      Last Modified: 7/25/09 8:52 AM
+      Location: /Library/Printers/hp/Fax/HPFaxBackend.app
+      Get Info String: 1.0, Copyright © 2009 Hewlett-Packard Development Company, L.P.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    HelpViewer:
+
+      Version: 5.0.3
+      Last Modified: 7/7/10 2:24 PM
+      Location: /System/Library/CoreServices/HelpViewer.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Adobe Updater:
+
+      Version: Adobe Updater 6.2.0.1474
+      Last Modified: 3/2/11 8:58 PM
+      Location: /Applications/Utilities/Adobe Utilities.localized/Adobe Updater6/Adobe Updater.app
+      Get Info String: Adobe Updater 6.2.0.1474, Copyright � 2002-2008 by Adobe Systems Incorporated. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Microsoft Narrator:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Microsoft Narrator.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\narrator.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    ServerJoiner:
+
+      Version: 10.6.3
+      Last Modified: 7/19/09 9:18 AM
+      Location: /System/Library/CoreServices/ServerJoiner.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Configuration actions de dossier:
+
+      Version: 1.1.4
+      Last Modified: 5/19/09 11:07 AM
+      Location: /System/Library/CoreServices/Folder Actions Setup.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    AU Lab:
+
+      Version: 2.2
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Audio/AU Lab.app
+      Get Info String: 2.2 ©2010, Apple, Inc
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    WMV Player:
+
+      Version: 2.3.1.2
+      Last Modified: 11/4/09 12:46 AM
+      Location: /Applications/Flip4Mac/WMV Player.app
+      Get Info String: 2.3.1.2 © 2005-2009 Telestream Inc. All Rights Reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Pixie:
+
+      Version: 2.3
+      Last Modified: 8/26/10 8:09 PM
+      Location: /Developer/Applications/Graphics Tools/Pixie.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    AppleScript Runner:
+
+      Version: 1.0.2
+      Last Modified: 5/19/09 11:07 AM
+      Location: /System/Library/CoreServices/AppleScript Runner.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Utilitaire d’emplacement de mémoire:
+
+      Version: 1.4.1
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/CoreServices/Memory Slot Utility.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    wxPerl:
+
+      Version: 1.0
+      Last Modified: 5/19/09 8:30 AM
+      Location: /System/Library/Perl/Extras/5.10.0/darwin-thread-multi-2level/auto/Wx/wxPerl.app
+      64-Bit (Intel): No
+      Kind: Universal
+
+    javaw.exe:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:30 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/javaw.exe.app
+      Get Info String: 7.4, C:\\Program Files\\Java\\j2re1.4.2_19\\bin\\javaw.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Problem Reporter:
+
+      Version: 10.6.6
+      Last Modified: 2/20/11 3:34 PM
+      Location: /System/Library/CoreServices/Problem Reporter.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Adobe Reader:
+
+      Version: 9.4.2
+      Last Modified: 9/23/10 1:46 PM
+      Location: /Applications/Adobe Reader 9/Adobe Reader.app
+      Get Info String: Adobe® Acrobat® 9.4.2, ©1984-2010 Adobe Systems Incorporated. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Intel
+
+    GoogleTalkPlugin:
+
+      Version: 1.9.2.1599
+      Last Modified: 2/24/11 1:10 PM
+      Location: /Library/Application Support/Google/GoogleTalkPlugin.app
+      Get Info String: v1.9.2.1599. Copyright 2007-2009 Google Inc. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Self-Extracting Cabinet:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:30 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Self-Extracting Cabinet.app
+      Get Info String: 7.4, C:\\WINDOWS\\SoftwareDistribution\\Download\\Install\\IE8-WindowsXP-x86-ENU.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Échange de fichiers Bluetooth:
+
+      Version: 2.3.8
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Applications/Utilities/Bluetooth File Exchange.app
+      Get Info String: 2.3.8, Copyright (c) 2010 Apple Inc. All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    IORegistryExplorer:
+
+      Version: 2.1
+      Last Modified: 8/26/10 8:09 PM
+      Location: /Developer/Applications/Utilities/IORegistryExplorer.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Microsoft Office Excel:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Microsoft Office Excel.app
+      Get Info String: 7.4, C:\\Program Files\\Microsoft Office\\Office12\\EXCEL.EXE
+      64-Bit (Intel): No
+      Kind: Intel
+
+    UnmountAssistantAgent:
+
+      Version: 1.0
+      Last Modified: 7/3/09 3:00 AM
+      Location: /System/Library/CoreServices/UnmountAssistantAgent.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    MassStorageCamera:
+
+      Version: 6.0.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Image Capture/Devices/MassStorageCamera.app
+      Get Info String: 6.0.3, © Copyright 2000-2010 Apple Inc. All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    rastertofax:
+
+      Version: 4.1
+      Last Modified: 4/23/10 11:36 AM
+      Location: /Library/Printers/hp/Fax/rastertofax.filter
+      Get Info String: HP Fax 4.1, Copyright (c) 2009-2010 Hewlett-Packard Development Company, L.P.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Windows Explorer:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Windows Explorer.app
+      Get Info String: 7.4, C:\\WINDOWS\\explorer.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    SpeechRecognitionServer:
+
+      Version: 3.11.1
+      Last Modified: 5/29/09 2:37 AM
+      Location: /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/SpeechRecognition.framework/Versions/A/Resources/SpeechRecognitionServer.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Firefox:
+
+      Version: 6.0
+      Last Modified: 1/18/11 12:48 AM
+      Location: /Users/lubrano/Applications/{562821f7-d815-425f-991d-234ba29349a6} Applications.localized/Firefox.app
+      Get Info String: 6.0, C:\\Program Files\\Mozilla Firefox\\firefox.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Network Connect:
+
+      Version: 17289
+      Last Modified: 3/9/11 10:12 AM
+      Location: /Applications/Network Connect.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    X11:
+
+      Version: 2.3.6
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Applications/Utilities/X11.app
+      Get Info String: org.x.X11
+      64-Bit (Intel): No
+
+    Assistant Installation de Microsoft Office:
+
+      Version: 14.0.0
+      Last Modified: 1/13/11 5:28 PM
+      Location: /Applications/Microsoft Office 2011/Office/Microsoft Office Setup Assistant.app
+      Get Info String: 14.0.0 (100825), © 2010 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Intel
+
+    quicklookd32:
+
+      Version: 2.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Frameworks/QuickLook.framework/Versions/A/Resources/quicklookd32.app
+      Get Info String: 1.0, Copyright Apple Inc. 2007
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Microsoft Office Diagnostics:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Microsoft Office Diagnostics.app
+      Get Info String: 7.4, C:\\Program Files\\Common Files\\Microsoft Shared\\OFFICE12\\OFFDIAG.EXE
+      64-Bit (Intel): No
+      Kind: Intel
+
+    iSync Plug-in Maker:
+
+      Version: 3.1
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Utilities/iSync Plug-in Maker.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Repeat After Me:
+
+      Version: 1.3
+      Last Modified: 8/26/10 8:09 PM
+      Location: /Developer/Applications/Utilities/Speech/Repeat After Me.app
+      Get Info String: 1.3, Copyright © 2002-2005 Apple Computer, Inc.
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Thread Viewer:
+
+      Version: 1.4
+      Last Modified: 7/2/09 3:19 PM
+      Location: /Developer/Applications/Performance Tools/Thread Viewer.app
+      Get Info String: Thread Viewer
+      64-Bit (Intel): No
+      Kind: Universal
+
+    HP Utility:
+
+      Version: 4.8.5
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Library/Printers/hp/Utilities/HP Utility.app
+      Get Info String: HP Utility version 4.8.5, Copyright (c) 2005-2010 Hewlett-Packard Development Company, L.P.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Windows Media Center:
+
+      Version: 6.0
+      Last Modified: 1/18/11 12:48 AM
+      Location: /Users/lubrano/Applications/{562821f7-d815-425f-991d-234ba29349a6} Applications.localized/Windows Media Center.app
+      Get Info String: 6.0, C:\\Windows\\ehome\\ehshell.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Livre des polices:
+
+      Version: 2.2.2
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Applications/Font Book.app
+      Get Info String: 2.2.2, Copyright © 2003-2010 Apple Inc.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    rcd:
+
+      Version: 2.6
+      Last Modified: 7/7/10 2:24 PM
+      Location: /System/Library/CoreServices/rcd.app
+      Get Info String: 2.6
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Automator Launcher:
+
+      Version: 1.2
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/CoreServices/Automator Launcher.app
+      Get Info String: 1.2, Copyright © 2004-2009 Apple Inc. All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    DivX Community:
+
+      Version: 1.1.0
+      Last Modified: 11/17/09 12:47 AM
+      Location: /Applications/DivX/DivX Community.app
+      64-Bit (Intel): No
+      Kind: PowerPC
+
+    Laserjet:
+
+      Version: 1.0
+      Last Modified: 6/22/09 2:27 PM
+      Location: /Library/Printers/hp/cups/Laserjet.driver
+      Get Info String: HP Laserjet Driver 1.0, Copyright (c) 1994-2009 Hewlett-Packard Development Company, L.P.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Deskjet:
+
+      Version: 3.0
+      Last Modified: 6/18/09 1:21 PM
+      Location: /Library/Printers/hp/cups/Deskjet.driver
+      Get Info String: HP Deskjet Driver 3.0, Copyright (c) 1994-2009 Hewlett-Packard Development Company, L.P.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    OpenGL Driver Monitor:
+
+      Version: 1.5
+      Last Modified: 8/26/10 8:09 PM
+      Location: /Developer/Applications/Graphics Tools/OpenGL Driver Monitor.app
+      Get Info String: 1.5, Copyright © 2009 Apple Inc.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    PrinterProxy:
+
+      Version: 6.5
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/Print.framework/Versions/A/Plugins/PrinterProxy.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Microsoft Office Picture Manager:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Microsoft Office Picture Manager.app
+      Get Info String: 7.4, C:\\Program Files\\Microsoft Office\\Office12\\OIS.EXE
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Core Image Fun House:
+
+      Version: 2.1.43
+      Last Modified: 8/26/10 8:09 PM
+      Location: /Developer/Applications/Graphics Tools/Core Image Fun House.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    USB Prober:
+
+      Version: 4.0.0
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Utilities/USB Prober.app
+      Get Info String: 4.0.0, Copyright © 2002-2010 Apple Inc. All Rights Reserved.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    BigTop:
+
+      Version: 4.7.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Performance Tools/BigTop.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    FontSyncScripting:
+
+      Version: 2.0.6
+      Last Modified: 5/19/09 4:17 AM
+      Location: /System/Library/ScriptingAdditions/FontSyncScripting.app
+      Get Info String: FontSync Scripting 2.0. Copyright © 2000-2008 Apple Inc.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    quicklookd:
+
+      Version: 2.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Frameworks/QuickLook.framework/Versions/A/Resources/quicklookd.app
+      Get Info String: 1.0, Copyright Apple Inc. 2007
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Assistant Installation de Microsoft Office 2008:
+
+      Version: 12.2.8
+      Last Modified: 12/27/10 2:23 PM
+      Location: /Applications/Microsoft Office 2008/Office/Microsoft Office Setup Assistant.app
+      Get Info String: 12.2.8 (101117), © 2007 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Microsoft Excel:
+
+      Version: 12.2.8
+      Last Modified: 12/27/10 2:23 PM
+      Location: /Applications/Microsoft Office 2008/Microsoft Excel.app
+      Get Info String: 12.2.8 (101117), © 2007 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Spaces:
+
+      Version: 1.1
+      Last Modified: 2/20/11 3:34 PM
+      Location: /Applications/Utilities/Spaces.app
+      Get Info String: 1.1, Copyright 2007-2008 Apple Inc.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    SyncServicesAgent:
+
+      Version: 14.0.2
+      Last Modified: 1/13/11 5:38 PM
+      Location: /Applications/Microsoft Office 2011/Office/SyncServicesAgent.app
+      Get Info String: 14.0.2 (101115), © 2010 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Remove:
+
+      Last Modified: 4/25/09 4:11 AM
+      Location: /Library/Scripts/ColorSync/Remove.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    iSync:
+
+      Version: 3.1.2
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Applications/iSync.app
+      Get Info String: 3.1.2, Copyright © 2003-2010 Apple Inc.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    KerberosAgent:
+
+      Version: 6.5.10
+      Last Modified: 7/7/10 2:24 PM
+      Location: /System/Library/CoreServices/KerberosAgent.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Type4Camera:
+
+      Version: 6.0.1
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Image Capture/Devices/Type4Camera.app
+      Get Info String: 6.0.1, © Copyright 2001-2010 Apple Inc. All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Cisco Network Assistant:
+
+      Version: 8.0
+      Last Modified: 3/13/11 12:14 AM
+      Location: /Users/lubrano/Cisco_Network_Assistant/Cisco Network Assistant.app
+      Get Info String: InstallAnywhere 8.0, Copyright © 2006 Macrovision Corporation.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Printer Setup Utility:
+
+      Version: 6.5
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/CoreServices/Printer Setup Utility.app
+      64-Bit (Intel): No
+      Kind: Universal
+
+    EPSON Scanner:
+
+      Version: 5.0
+      Last Modified: 7/9/09 6:57 AM
+      Location: /Library/Image Capture/Devices/EPSON Scanner.app
+      Get Info String: 5.0, Copyright 2003 EPSON
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    h-nb-toshiba- photocopieur multifonctions noir et blanc:
+
+      Version: 6.5
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Users/lubrano/Library/Printers/h-nb-toshiba- photocopieur multifonctions noir et blanc.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    PacketLogger:
+
+      Version: 2.3.6
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Utilities/Bluetooth/PacketLogger.app
+      Get Info String: 2.3.6, Copyright (c) 2010 Apple Inc. All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Entertainment Pack Minesweeper Game:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Entertainment Pack Minesweeper Game.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\winmine.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Adobe Flash Player Install Manager:
+
+      Version: 10.1.102.64
+      Last Modified: 11/11/10 7:54 PM
+      Location: /Applications/Utilities/Adobe Flash Player Install Manager.app
+      64-Bit (Intel): No
+      Kind: Universal
+
+    BluetoothCamera:
+
+      Version: 6.0
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Image Capture/Devices/BluetoothCamera.app
+      Get Info String: 6.0, © Copyright 2004-2009 Apple Inc., all rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    PluginIM:
+
+      Version: 1.1
+      Last Modified: 5/19/09 7:36 AM
+      Location: /System/Library/Input Methods/PluginIM.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Transfert d’images:
+
+      Version: 6.0.1
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Applications/Image Capture.app
+      Get Info String: 6.0, © Copyright 2000-2009 Apple Inc., all rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    AppleMobileSync:
+
+      Version: 3.1
+      Last Modified: 3/18/11 12:21 PM
+      Location: /System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/AppleMobileSync.app
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Windows Control Panel:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Windows Control Panel.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\control.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Zimbra Desktop désinstallateur:
+
+      Version: 1.0.4
+      Last Modified: 7/7/10 4:19 PM
+      Location: /Users/lubrano/zimbra/zdesktop/Zimbra Desktop désinstallateur.app
+      Get Info String: 1.0.4
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Adium:
+
+      Version: 1.4.1
+      Last Modified: 1/11/11 11:31 PM
+      Location: /Applications/Adium.app
+      Get Info String: 1.4.1, Copyright 2001-2010 The Adium Team
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Microsoft Help Viewer:
+
+      Version: 1.1.1
+      Last Modified: 11/11/10 2:54 PM
+      Location: /Library/Application Support/Microsoft/HV1.0/Microsoft Help Viewer.app
+      Get Info String: 1.1.1 (100910), © 2007 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Network Recording Player:
+
+      Version: 2.2.0
+      Last Modified: 2/25/10 9:36 PM
+      Location: /Users/lubrano/Library/Application Support/WebEx Folder/500/Network Recording Player.app
+      Get Info String: Network Recording Player version 2.2, Copyright WebEx Communications, Inc. 2006
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Install Helper:
+
+      Version: 1.0
+      Last Modified: 2/19/10 12:40 AM
+      Location: /System/Library/CoreServices/Install Helper.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Calculette:
+
+      Version: 4.5.3
+      Last Modified: 7/7/10 2:24 PM
+      Location: /Applications/Calculator.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Utilitaire d’emplacement d’extension:
+
+      Version: 1.4.1
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/CoreServices/Expansion Slot Utility.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    On-Screen Keyboard:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/On-Screen Keyboard.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\osk.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Dashcode:
+
+      Version: 3.0.2
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Dashcode.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    hprastertojpeg:
+
+      Version: 1.0.1
+      Last Modified: 3/30/09 12:51 PM
+      Location: /Library/Printers/hp/filter/hprastertojpeg.driver
+      Get Info String: HP Photosmart Compact Photo Printer driver 1.0.1, Copyright (c) 2007-2009 Hewlett-Packard Development Company, L.P.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Aide-mémoire:
+
+      Version: 7.0
+      Last Modified: 5/19/09 7:28 AM
+      Location: /Applications/Stickies.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    VoiceOver Quickstart:
+
+      Version: 3.4.0
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/PrivateFrameworks/ScreenReader.framework/Versions/A/Resources/VoiceOver Quickstart.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Windows Calculator application file:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Windows Calculator application file.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\calc.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Parallels Service:
+
+      Version: 6.0
+      Last Modified: 3/21/11 11:57 PM
+      Location: /Library/Parallels/Parallels Service.app
+      Get Info String: 6.0.11994.637942, Copyright 2005-2011 Parallels Holdings, Ltd. and its affiliates
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Utilitaire d’archive:
+
+      Version: 10.6
+      Last Modified: 6/18/09 7:01 AM
+      Location: /System/Library/CoreServices/Archive Utility.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    OpenGL Profiler:
+
+      Version: 4.2
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Graphics Tools/OpenGL Profiler.app
+      Get Info String: 4.2, Copyright 2003-2009 Apple, Inc.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Image Events:
+
+      Version: 1.1.4
+      Last Modified: 5/19/09 11:07 AM
+      Location: /System/Library/CoreServices/Image Events.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    PackageMaker:
+
+      Version: 3.0.4
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Utilities/PackageMaker.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Utilitaire de disque:
+
+      Version: 11.5.2
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Applications/Utilities/Disk Utility.app
+      Get Info String: Version 11.5.2, Copyright © 1999-2010 Apple Inc. All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    DockPlistEdit:
+
+      Version: 6.0
+      Last Modified: 3/8/11 12:21 PM
+      Location: /Library/Parallels/Uninstaller/Parallels Hypervisor/DockPlistEdit.app
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Assistant migration:
+
+      Version: 3.0
+      Last Modified: 7/1/09 9:17 AM
+      Location: /Applications/Utilities/Migration Assistant.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Session Timer:
+
+      Version: 17289
+      Last Modified: 3/9/11 10:12 AM
+      Location: /Library/Frameworks/net.juniper.DSApplicationServices.framework/Versions/7.0.0/Session Timer.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    The Microsoft Hearts Network:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/The Microsoft Hearts Network.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\mshearts.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Assistant réglages de réseau:
+
+      Version: 1.6
+      Last Modified: 5/19/09 11:15 AM
+      Location: /System/Library/CoreServices/Network Setup Assistant.app
+      Get Info String: 1.6
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Samsung Scanner:
+
+      Version: 2.00.29
+      Last Modified: 7/1/09 7:26 AM
+      Location: /Library/Image Capture/Devices/Samsung Scanner.app
+      Get Info String: Copyright (C) 2004-2009 Samsung Electronics Co., Ltd.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    P-touch Status Monitor:
+
+      Version: 2.00
+      Last Modified: 6/29/09 2:54 AM
+      Location: /Library/Printers/Brother/P-touch Utilities/P-touch Status Monitor.app
+      Get Info String: ver2.00, © 2005-2008 Brother Industries, Ltd.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Free42-Decimal:
+
+      Last Modified: 12/30/09 12:35 PM
+      Location: /opt/local/var/macports/sources/rsync.macports.org/release/ports/emulators/free42/files/Free42-Decimal.app
+      64-Bit (Intel): No
+
+    Microsoft Communicator:
+
+      Version: 13.0.0
+      Last Modified: 1/13/11 5:28 PM
+      Location: /Applications/Microsoft Communicator.app
+      Get Info String: 13.0.0 (100825), © 2010 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Intel
+
+    OpenOffice:
+
+      Version: 3.2.0
+      Last Modified: 2/1/10 6:33 PM
+      Location: /Applications/OpenOffice.org.app
+      Get Info String: OpenOffice.org 3.2.0 [320m8(Build:9472)]
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Epson Printer Utility Lite:
+
+      Version: 8.02
+      Last Modified: 7/9/09 6:55 AM
+      Location: /Library/Printers/EPSON/InkjetPrinter2/Utility/UTL/Epson Printer Utility Lite.app
+      Get Info String: Epson Printer Utility Lite version 8.02
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    TrueCrypt:
+
+      Version: 6.2.1
+      Last Modified: 7/1/09 4:27 PM
+      Location: /Applications/TrueCrypt.app
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Extract:
+
+      Last Modified: 4/25/09 4:11 AM
+      Location: /Library/Scripts/ColorSync/Extract.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Partage d’écran:
+
+      Version: 1.1.1
+      Last Modified: 7/2/09 8:11 AM
+      Location: /System/Library/CoreServices/Screen Sharing.app
+      Get Info String: 1.1.1, Copyright © 2007-2009 Apple Inc., All Rights Reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    WiFi Scanner:
+
+      Version: 1.0
+      Last Modified: 10/20/09 11:23 PM
+      Location: /Applications/WiFi Scanner.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Remote Desktop Connection:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Remote Desktop Connection.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\mstsc.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Nimbuzz:
+
+      Version: 1.2.0
+      Last Modified: 9/17/10 9:43 PM
+      Location: /Applications/Nimbuzz.app
+      Get Info String: Nimbuzz for Mac OS X, version 1.2.0
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Parallels Transporter:
+
+      Version: 6.0.11994.637942
+      Last Modified: 3/8/11 12:21 PM
+      Location: /Library/Parallels/Parallels Transporter.app
+      Get Info String: 6.0.11994.637942, Copyright 2005-2011 Parallels Holdings, Ltd. and its affiliates
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Language Chooser:
+
+      Version: 20
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/CoreServices/Language Chooser.app
+      Get Info String: System Language Initializer
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Microsoft Messenger:
+
+      Version: 6.0.3
+      Last Modified: 7/2/09 11:49 AM
+      Location: /Applications/Microsoft Office 2008/Microsoft Messenger.app
+      Get Info String: 6.0.3 (070803), © 2006 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    iCal:
+
+      Version: 4.0.4
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Applications/iCal.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    iTunes:
+
+      Version: 10.2.1
+      Last Modified: 3/18/11 12:21 PM
+      Location: /Applications/iTunes.app
+      Get Info String: iTunes 10.2.1, © 2000-2011 Apple Inc. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Finder:
+
+      Version: 10.6.7
+      Last Modified: 2/20/11 3:34 PM
+      Location: /System/Library/CoreServices/Finder.app
+      Get Info String: Mac OS X Finder 10.6.7
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    AppleFileServer:
+
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/CoreServices/AppleFileServer.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    vpndownloader:
+
+      Version: 1.0
+      Last Modified: 2/15/10 4:08 PM
+      Location: /opt/cisco/vpn/bin/vpndownloader.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Agent de la borne d’accès AirPort:
+
+      Version: 1.5.5
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/CoreServices/AirPort Base Station Agent.app
+      Get Info String: 1.5.5 (155.2), Copyright © 2006-2009 Apple Inc. All Rights Reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Dashboard:
+
+      Version: 1.7
+      Last Modified: 2/20/11 3:34 PM
+      Location: /Applications/Dashboard.app
+      Get Info String: 1.7, Copyright 2006-2008 Apple Inc.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Speech Startup:
+
+      Version: 3.8.1
+      Last Modified: 5/29/09 2:38 AM
+      Location: /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/SpeechRecognition.framework/Versions/A/Resources/Speech Startup.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Icon Composer:
+
+      Version: 2.1
+      Last Modified: 8/26/10 8:09 PM
+      Location: /Developer/Applications/Utilities/Icon Composer.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    ParentalControls:
+
+      Version: 2.0
+      Last Modified: 2/20/11 3:34 PM
+      Location: /System/Library/PrivateFrameworks/FamilyControls.framework/Versions/A/Resources/ParentalControls.app
+      Get Info String: 2.0, Copyright Apple Inc. 2007-2009
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Windows Service Pack Setup:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:30 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Windows Service Pack Setup.app
+      Get Info String: 7.4, C:\\WINDOWS\\SoftwareDistribution\\Download\\9866fb57abdc0ea2f5d4e132d055ba4e\\update\\update.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    ChineseHandwriting:
+
+      Version: 1.0.1
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Input Methods/ChineseHandwriting.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Assistant Boot Camp:
+
+      Version: 3.0.1
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Applications/Utilities/Boot Camp Assistant.app
+      Get Info String: Boot Camp Assistant 3.0.1, Copyright © 2009 Apple Inc. All rights reserved
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    prelaunch MFC Application:
+
+      Version: Windows XP
+      Last Modified: 3/13/11 12:09 AM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/prelaunch MFC Application.app
+      Get Info String: 7.4, C:\\Program Files\\Cisco Systems\\Cisco Network Assistant\\utilities\\prelaunch\\prelaunch.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    HyperTerminal Applet:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/HyperTerminal Applet.app
+      Get Info String: 7.4, C:\\Program Files\\Windows NT\\hypertrm.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Microsoft Document Connection:
+
+      Version: 12.2.8
+      Last Modified: 12/27/10 2:23 PM
+      Location: /Applications/Microsoft Office 2008/Microsoft Document Connection.app
+      Get Info String: 12.2.8 (101117), © 2009 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Microsoft Office Access:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Microsoft Office Access.app
+      Get Info String: 7.4, C:\\Program Files\\Microsoft Office\\Office12\\MSACCESS.EXE
+      64-Bit (Intel): No
+      Kind: Intel
+
+    ScreenSaverEngine:
+
+      Version: 3.0.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    SCIM:
+
+      Version: 4.3
+      Last Modified: 5/19/09 7:35 AM
+      Location: /System/Library/Input Methods/SCIM.app
+      Get Info String: 4.0, Copyright © 1997-2009 Apple Inc., All Rights Reserved
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    webdav_cert_ui:
+
+      Version: 1.8.1
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Filesystems/webdav.fs/Support/webdav_cert_ui.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Zone Datafile [2]:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Zone Datafile [2].app
+      Get Info String: 7.4, C:\\Program Files\\MSN Gaming Zone\\Windows\\hrtzzm.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Xcode:
+
+      Version: 3.2.5
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Xcode.app
+      Get Info String: Xcode version 3.2.5
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Informations Système:
+
+      Version: 10.6.0
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Applications/Utilities/System Profiler.app
+      Get Info String: 10.6.0, Copyright 1997-2009 Apple, Inc.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    ManagedClient:
+
+      Version: 2.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/CoreServices/ManagedClient.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Type7Camera:
+
+      Version: 6.0
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Image Capture/Devices/Type7Camera.app
+      Get Info String: 6.0, © Copyright 2002-2009 Apple Inc., all rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Adobe Reader Updater:
+
+      Version: 9.4.2
+      Last Modified: 3/23/11 12:46 PM
+      Location: /Users/lubrano/Library/Caches/com.adobe.Reader.ARM/925793fb327152fd34795896fa1fb9ffa268b2a852256fe56609efa3/Adobe Reader Updater.app
+      Get Info String: 9.4.2, ©2009-2010 Adobe Systems Incorporated. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    CPUPalette:
+
+      Version: 4.7.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Library/Application Support/HWPrefs/CPUPalette.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Kotoeri:
+
+      Version: 4.2.0
+      Last Modified: 6/11/09 4:33 AM
+      Location: /System/Library/Input Methods/Kotoeri.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Notepad:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Notepad.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\notepad.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    MÀJ du programme interne Bluetooth:
+
+      Version: 2.0.1
+      Last Modified: 8/1/09 1:21 AM
+      Location: /Applications/Utilities/Bluetooth Firmware Update.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Image Capture Web Server:
+
+      Version: 6.0
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Image Capture/Support/Image Capture Web Server.app
+      Get Info String: 6.0, © Copyright 2003-2009 Apple Inc., all rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    FileSyncAgent:
+
+      Version: 5.0.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/CoreServices/FileSyncAgent.app
+      Get Info String: © Copyright 2009 Apple Inc., all rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    h-color-hp- imprimante couleur:
+
+      Version: 6.5
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Users/lubrano/Library/Printers/h-color-hp- imprimante couleur.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Open XML for Charts:
+
+      Version: 12.2.8
+      Last Modified: 12/27/10 2:23 PM
+      Location: /Library/Application Support/Microsoft/Office Converter Support/Open XML for Charts.app
+      Get Info String: 12.2.8 (101117), © 2007 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: PowerPC
+
+    Create a self-signed digital certificate:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Create a self-signed digital certificate.app
+      Get Info String: 7.4, C:\\Program Files\\Microsoft Office\\OFFICE11\\SELFCERT.EXE
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Character Map:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Character Map.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\charmap.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    About Xcode:
+
+      Version: 169.2
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/About Xcode.app
+      Get Info String: About Xcode
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Safari:
+
+      Version: 5.0.4
+      Last Modified: 3/18/11 12:21 PM
+      Location: /Applications/Safari.app
+      Get Info String: 5.0.4, Copyright © 2003-2011 Apple Inc.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Windows Messenger:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Windows Messenger.app
+      Get Info String: 7.4, C:\\Program Files\\Messenger\\msmsgs.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Carnet d’adresses:
+
+      Version: 5.0.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Applications/Address Book.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Microsoft Office PowerPoint:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Microsoft Office PowerPoint.app
+      Get Info String: 7.4, C:\\Program Files\\Microsoft Office\\Office12\\POWERPNT.EXE
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Brother Contrôleur d'état:
+
+      Version: 3.00
+      Last Modified: 5/19/09 3:15 AM
+      Location: /Library/Printers/Brother/Utilities/BrStatusMonitor.app
+      Get Info String: ver3.00, ©2005-2009 Brother Industries, Ltd. All Rights Reserved.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Yahoo! Zimbra Desktop:
+
+      Last Modified: 11/12/09 10:20 PM
+      Location: /Users/lubrano/zimbra/zdesktop/macos/Yahoo! Zimbra Desktop.app
+      64-Bit (Intel): No
+
+    Zone Datafile:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Zone Datafile.app
+      Get Info String: 7.4, C:\\Program Files\\MSN Gaming Zone\\Windows\\bckgzm.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    iWeb:
+
+      Version: 2.0.4
+      Last Modified: 7/1/09 3:59 PM
+      Location: /Applications/iWeb.app
+      Get Info String: 2.0.4, Copyright 2008 Apple Inc.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Interface Builder:
+
+      Version: 3.2.5
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Interface Builder.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Assistant de certification:
+
+      Version: 3.0
+      Last Modified: 7/7/10 2:24 PM
+      Location: /System/Library/CoreServices/Certificate Assistant.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Bonjour Browser:
+
+      Version: 1.5.6
+      Last Modified: 7/18/06 8:00 AM
+      Location: /Applications/Bonjour Browser.app
+      64-Bit (Intel): No
+      Kind: Universal
+
+    MakePDF:
+
+      Version: 6.0
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Image Capture/Automatic Tasks/MakePDF.app
+      Get Info String: 6.0, © Copyright 2003-2009 Apple Inc., all rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Log Viewer:
+
+      Version: 17289
+      Last Modified: 3/9/11 10:12 AM
+      Location: /Library/Frameworks/net.juniper.DSApplicationServices.framework/Versions/7.0.0/Log Viewer.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Internet Explorer:
+
+      Version: 6.0
+      Last Modified: 1/18/11 12:48 AM
+      Location: /Users/lubrano/Applications/{562821f7-d815-425f-991d-234ba29349a6} Applications.localized/Internet Explorer.app
+      Get Info String: 6.0, C:\\Program Files\\Internet Explorer\\iexplore.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    WordPad MFC Application:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/WordPad MFC Application.app
+      Get Info String: 7.4, C:\\Program Files\\Windows NT\\Accessories\\wordpad.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Terminal:
+
+      Version: 2.1.1
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Applications/Utilities/Terminal.app
+      Get Info String: 2.1.1, © 1995-2009 Apple Inc. All Rights Reserved.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Assistant réglages:
+
+      Version: 10.6
+      Last Modified: 7/31/09 9:25 AM
+      Location: /System/Library/CoreServices/Setup Assistant.app
+      Get Info String: 10.6
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Canon IJScanner2:
+
+      Version: 1.0.0
+      Last Modified: 6/15/09 8:18 AM
+      Location: /Library/Image Capture/Devices/Canon IJScanner2.app
+      Get Info String: 1.0.0, Copyright CANON INC. 2009 All Rights Reserved
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Utilitaire de configuration Microsoft Windows Media:
+
+      Version: 6.0
+      Last Modified: 1/18/11 12:48 AM
+      Location: /Users/lubrano/Applications/{562821f7-d815-425f-991d-234ba29349a6} Applications.localized/Utilitaire de configuration Microsoft Windows Media.app
+      Get Info String: 6.0, C:\\Program Files\\Windows Media Player\\setup_wm.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Programme d’installation:
+
+      Version: 4.0
+      Last Modified: 6/27/09 8:18 AM
+      Location: /System/Library/CoreServices/Installer.app
+      Get Info String: 3.0, Copyright © 2000-2006 Apple Computer Inc., All Rights Reserved
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Service de résumé:
+
+      Version: 2.0
+      Last Modified: 5/19/09 7:27 AM
+      Location: /System/Library/Services/SummaryService.app
+      Get Info String: Summary Service Version  2
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    My Day:
+
+      Version: 12.2.8
+      Last Modified: 12/27/10 2:23 PM
+      Location: /Applications/Microsoft Office 2008/Office/My Day.app
+      Get Info String: 12.2.8 (101117), © 2007 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Wireshark:
+
+      Version: 1.2.0
+      Last Modified: 6/16/09 6:11 AM
+      Location: /Applications/Wireshark.app
+      Get Info String: 1.2.0, Copyright 1998-2009 Wireshark Development Team
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Run a DLL as an App:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Run a DLL as an App.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\rundll32.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Microsoft Outlook:
+
+      Version: 14.0.2
+      Last Modified: 1/13/11 5:38 PM
+      Location: /Applications/Microsoft Office 2011/Microsoft Outlook.app
+      Get Info String: 14.0.2 (101115), © 2010 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Microsoft Data Access - "ODBC Administrator:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Microsoft Data Access - "ODBC Administrator.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\odbcad32.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Microsoft Synchronization Manager:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Microsoft Synchronization Manager.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\mobsync.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    commandtohp:
+
+      Version: 1.11
+      Last Modified: 6/15/09 2:48 PM
+      Location: /Library/Printers/hp/cups/filters/commandtohp.filter
+      Get Info String: HP Command File Filter 1.11, Copyright (c) 2006-2010 Hewlett-Packard Development Company, L.P.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Parallels Internet Security Powered by Kaspersky:
+
+      Version: 6.0
+      Last Modified: 1/18/11 12:48 AM
+      Location: /Users/lubrano/Applications/{562821f7-d815-425f-991d-234ba29349a6} Applications.localized/Parallels Internet Security Powered by Kaspersky.app
+      Get Info String: 6.0, C:\\Program Files\\Parallels\\Parallels Internet Security Powered by Kaspersky\\avp.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Clip Organizer:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Clip Organizer.app
+      Get Info String: 7.4, C:\\Program Files\\Microsoft Office\\OFFICE11\\MSTORE.EXE
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Éditeur d'équations Microsoft:
+
+      Version: 14.0.0
+      Last Modified: 1/13/11 5:28 PM
+      Location: /Applications/Microsoft Office 2011/Office/Equation Editor.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    AddressBookSync:
+
+      Version: 2.0.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Frameworks/AddressBook.framework/Versions/A/Resources/AddressBookSync.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Inkjet3:
+
+      Version: 2.0
+      Last Modified: 6/16/09 3:21 PM
+      Location: /Library/Printers/hp/cups/Inkjet3.driver
+      Get Info String: HP Inkjet 3 Driver 2.0, Copyright (c) 1994-2009 Hewlett-Packard Development Company, L.P.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Win32 Cabinet Self-Extractor:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Win32 Cabinet Self-Extractor.app
+      Get Info String: 7.4, C:\\Program Files\\MSN\\MSNCoreFiles\\Install\\msnsusii.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Ticket Viewer:
+
+      Version: 1.0
+      Last Modified: 5/19/09 7:28 AM
+      Location: /System/Library/CoreServices/Ticket Viewer.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Files and Settings Transfer Wizard:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Files and Settings Transfer Wizard.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\usmt\\migwiz.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Supprimer Office:
+
+      Version: 12.2.8
+      Last Modified: 12/27/10 2:23 PM
+      Location: /Applications/Microsoft Office 2008/Outils supplémentaires/Supprimer Office/Remove Office.app
+      Get Info String: 12.2.8 (101117), © 2007 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Windows® installer:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Windows® installer.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\msiexec.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    WebKitPluginHost:
+
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/WebKit.framework/WebKitPluginHost.app
+      64-Bit (Intel): No
+
+    SLLauncher:
+
+      Version: 1.0
+      Last Modified: 1/20/11 11:50 PM
+      Location: /Library/Application Support/Microsoft/Silverlight/OutOfBrowser/SLLauncher.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Utilitaire d’annuaire:
+
+      Version: 2.2
+      Last Modified: 5/19/09 11:08 AM
+      Location: /System/Library/CoreServices/Directory Utility.app
+      Get Info String: 2.2, Copyright © 2001–2008 Apple Inc.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Uninstall DivX for Mac:
+
+      Version: 1.0
+      Last Modified: 11/17/09 12:47 AM
+      Location: /Applications/DivX/Uninstall DivX for Mac.app
+      64-Bit (Intel): No
+      Kind: Universal
+
+    pdftopdf:
+
+      Version: 1.3
+      Last Modified: 4/16/09 5:20 PM
+      Location: /Library/Printers/hp/cups/filters/pdftopdf.filter
+      Get Info String: HP PDF Filter 1.3, Copyright (c) 2001-2009 Hewlett-Packard Development Company, L.P.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Windows Movie Maker:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Windows Movie Maker.app
+      Get Info String: 7.4, C:\\Program Files\\Movie Maker\\moviemk.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    AVRCPAgent:
+
+      Version: 2.3.8
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/CoreServices/AVRCPAgent.app
+      Get Info String: 2.3.8, Copyright (c) 2010 Apple Inc. All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    syncuid:
+
+      Version: 5.2
+      Last Modified: 7/18/09 8:22 AM
+      Location: /System/Library/PrivateFrameworks/SyncServicesUI.framework/Versions/A/Resources/syncuid.app
+      Get Info String: 4.0, Copyright Apple Computer Inc. 2004
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Brother Scanner:
+
+      Version: 2.0.2
+      Last Modified: 6/29/09 2:52 AM
+      Location: /Library/Image Capture/Devices/Brother Scanner.app
+      Get Info String: 2.0.2, Copyright 2009 Brother Industries, LTD.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    ODSAgent:
+
+      Version: 1.4.1
+      Last Modified: 7/7/10 2:24 PM
+      Location: /System/Library/CoreServices/ODSAgent.app
+      Get Info String: 1.4.1 (141.6), Copyright © 2007-2009 Apple Inc. All Rights Reserved.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Premiers contacts avec GarageBand:
+
+      Version: 1.0.2
+      Last Modified: 7/1/09 3:59 PM
+      Location: /Library/Documentation/Applications/GarageBand/GarageBand Getting Started.app
+      Get Info String: GarageBand Getting Started
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Transfert de podcast:
+
+      Version: 2.0.1
+      Last Modified: 7/21/09 7:31 AM
+      Location: /Applications/Utilities/Podcast Capture.app
+      Get Info String: 2.0.1, Copyright © 2007-2009 Apple Inc.
+      64-Bit (Intel): No
+      Kind: Intel
+
+    iChat:
+
+      Version: 5.0.3
+      Last Modified: 7/7/10 2:24 PM
+      Location: /Applications/iChat.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Rename:
+
+      Last Modified: 4/25/09 4:11 AM
+      Location: /Library/Scripts/ColorSync/Rename.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Shark:
+
+      Version: 4.7.3
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Performance Tools/Shark.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    QuickTime Player:
+
+      Version: 10.0
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Applications/QuickTime Player.app
+      Get Info String: 10.0, Copyright © 2009-2010 Apple Inc. All Rights Reserved.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    javaws.exe:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/javaws.exe.app
+      Get Info String: 7.4, C:\\Program Files\\Java\\j2re1.4.2_19\\javaws\\javaws.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Disk Space Cleanup Manager for Windows:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Disk Space Cleanup Manager for Windows.app
+      Get Info String: 7.4, C:\\WINDOWS\\system32\\cleanmgr.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    ARDAgent:
+
+      Version: 3.4
+      Last Modified: 2/20/11 3:34 PM
+      Location: /System/Library/CoreServices/RemoteManagement/ARDAgent.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Quartz Composer:
+
+      Version: 4.0
+      Last Modified: 1/5/11 5:56 PM
+      Location: /Developer/Applications/Quartz Composer.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    SyncServer:
+
+      Version: 5.2
+      Last Modified: 7/18/09 8:22 AM
+      Location: /System/Library/Frameworks/SyncServices.framework/Versions/A/Resources/SyncServer.app
+      Get Info String: © 2002-2003 Apple
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Network Diagnostic Utility:
+
+      Version: 17289
+      Last Modified: 3/9/11 10:12 AM
+      Location: /Library/Frameworks/net.juniper.DSNetworkDiagnostics.framework/Versions/7.0.0/Network Diagnostic Utility.app
+      64-Bit (Intel): No
+      Kind: Intel
+
+    SecurityProxy:
+
+      Version: 1.0
+      Last Modified: 5/21/09 4:37 AM
+      Location: /System/Library/CoreServices/SecurityProxy.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    CocoaPacketAnalyzer:
+
+      Version: 0.66
+      Last Modified: 11/20/09 3:22 PM
+      Location: /Applications/CocoaPacketAnalyzer.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Microsoft Office Visio:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Microsoft Office Visio.app
+      Get Info String: 7.4, C:\\Program Files\\Microsoft Office\\Visio11\\VISIO.EXE
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Explorateur Windows:
+
+      Version: 6.0
+      Last Modified: 1/18/11 12:48 AM
+      Location: /Users/lubrano/Applications/{562821f7-d815-425f-991d-234ba29349a6} Applications.localized/Explorateur Windows.app
+      Get Info String: 6.0, C:\\Windows\\explorer.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Help Indexer:
+
+      Version: 4.0
+      Last Modified: 8/26/10 8:09 PM
+      Location: /Developer/Applications/Utilities/Help Indexer.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Program Compatibility Assistant User Interface:
+
+      Version: 6.0
+      Last Modified: 1/18/11 12:48 AM
+      Location: /Users/lubrano/Applications/{562821f7-d815-425f-991d-234ba29349a6} Applications.localized/Program Compatibility Assistant User Interface.app
+      Get Info String: 6.0, C:\\Windows\\System32\\pcaui.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Type3Camera:
+
+      Version: 6.0
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Image Capture/Devices/Type3Camera.app
+      Get Info String: 6.0, © Copyright 2001-2009 Apple Inc., all rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Time Machine:
+
+      Version: 1.1
+      Last Modified: 2/20/11 3:34 PM
+      Location: /Applications/Time Machine.app
+      Get Info String: 1.1, Copyright 2007-2008 Apple Inc.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Microsoft Chart Converter:
+
+      Version: 12.2.8
+      Last Modified: 12/27/10 2:23 PM
+      Location: /Applications/Microsoft Office 2008/Office/Microsoft Chart Converter.app
+      Get Info String: 12.2.8 (101117), © 2007 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    loginwindow:
+
+      Version: 6.1.1
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/CoreServices/loginwindow.app
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    hpPreProcessing:
+
+      Version: 1.0.0
+      Last Modified: 6/10/10 3:52 PM
+      Location: /Library/Printers/hp/filter/hpPreProcessing.filter
+      Get Info String: 1.0.0, (c) Copyright 2001-2010 Hewlett-Packard Development Company, L.P.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    OpenGL Shader Builder:
+
+      Version: 2.1
+      Last Modified: 8/26/10 8:09 PM
+      Location: /Developer/Applications/Graphics Tools/OpenGL Shader Builder.app
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Photosmart:
+
+      Version: 4.0
+      Last Modified: 6/16/09 12:03 PM
+      Location: /Library/Printers/hp/cups/Photosmart.driver
+      Get Info String: HP Photosmart Driver 4.0, Copyright (c) 1994-2009 Hewlett-Packard Development Company, L.P.
+      64-Bit (Intel): Yes
+      Kind: Intel
+
+    Microsoft Database Daemon:
+
+      Version: 12.2.8
+      Last Modified: 12/27/10 2:23 PM
+      Location: /Applications/Microsoft Office 2008/Office/Microsoft Database Daemon.app
+      Get Info String: 12.2.8 (101117), © 2007 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    Prism:
+
+      Version: 0.9.1
+      Last Modified: 1/26/10 5:57 PM
+      Location: /Users/lubrano/zimbra/zdesktop/macos/prism/Prism.app
+      Get Info String: Prism 0.9.1, © 2007 Contributors
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Signalement d'erreurs Microsoft:
+
+      Version: 2.2.5
+      Last Modified: 1/13/11 5:38 PM
+      Location: /Library/Application Support/Microsoft/MERP2.0/Microsoft Error Reporting.app
+      Get Info String: 2.2.5 (101115), © 2010 Microsoft Corporation. All rights reserved.
+      64-Bit (Intel): No
+      Kind: Universal
+
+    3D Pinball:
+
+      Version: Windows XP
+      Last Modified: 3/7/11 10:38 PM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/3D Pinball.app
+      Get Info String: 7.4, C:\\Program Files\\Windows NT\\Pinball\\PINBALL.EXE
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Java(TM) 2 Platform Standard Edition binary:
+
+      Version: Windows XP
+      Last Modified: 3/13/11 12:09 AM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Java(TM) 2 Platform Standard Edition binary.app
+      Get Info String: 7.4, C:\\Program Files\\Cisco Systems\\Cisco Network Assistant\\packages\\runtime-1.2\\bin\\javaw.exe
+      64-Bit (Intel): No
+      Kind: Intel
+
+    Composant Microsoft Office 2003:
+
+      Version: Windows XP
+      Last Modified: 3/8/11 1:17 AM
+      Location: /Users/lubrano/Applications/{62224c9e-25f7-4c47-bbb7-70acf05cd357} Applications.localized/Composant Microsoft Office 2003.app
+      Get Info String: 7.4, C:\\Program Files\\Microsoft Office\\OFFICE11\\1036\\MSOHELP.EXE
+      64-Bit (Intel): No
+      Kind: Intel
+
+    PTPCamera:
+
+      Version: 6.0.4
+      Last Modified: 1/5/11 5:56 PM
+      Location: /System/Library/Image Capture/Devices/PTPCamera.app
+      Get Info String: 6.0.4, © Copyright 2004-2010 Apple Inc. All rights reserved.
+      64-Bit (Intel): Yes
+      Kind: Universal
+
+    Officejet:
+
+      Version: 3.0
+      Last Modified: 6/16/09 2:48 PM
+      Location: /Library/Printers/hp/cups/Officejet.driver
+      Get Info String: HP Officejet Driver 3.0, Copyright (c) 1994-2009 Hewlett-Packard Development Company, L.P.
+      64-Bit (Intel): Yes
+      Kind: Intel
