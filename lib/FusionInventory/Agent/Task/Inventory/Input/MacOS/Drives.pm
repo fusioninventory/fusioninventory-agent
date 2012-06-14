@@ -69,7 +69,7 @@ sub _getPartitions {
     my @devices;
     while (my $line = <$handle>) {
         # partition identifiers look like disk0s1
-        next unless $line =~ /(disk \d+ s \d+)$/;
+        next unless $line =~ /(disk \d+ s \d+)$/x;
         push @devices, $1;
     }
     close $handle;
@@ -86,7 +86,7 @@ sub _getPartitionInfo {
 
     my $info;
     while (my $line = <$handle>) {
-        next unless $line =~ /^\s+(.*?):\s*(\S.*)/;
+        next unless $line =~ /(\S[^:]+) : \s+ (\S.+\S)/x;
         $info->{$1} = $2;
     }
     close $handle;
