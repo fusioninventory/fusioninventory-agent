@@ -63,18 +63,16 @@ sub _getInterfaces {
 
             if ($nic =~ /bge/ ) {
                 $interface->{SPEED} = _check_bge_nic($nic, $num);
-            } elsif ($nic =~ /ce/) {
-                $interface->{SPEED} = _check_ce($nic, $num);
-            } elsif ($nic =~ /hme/) {
-                $interface->{SPEED} = _check_nic($nic, $num);
             } elsif ($nic =~ /dmfe/) {
                 $interface->{SPEED} = _check_dmf_nic($nic, $num);
+            } elsif ($nic =~ /nxge/) {
+                $interface->{SPEED} = _check_nxge_nic($nic, $num);
+            } elsif ($nic =~ /ce/) {
+                $interface->{SPEED} = _check_ce($nic, $num);
             } elsif ($nic =~ /ipge/) {
                 $interface->{SPEED} = _check_ce($nic, $num);
             } elsif ($nic =~ /e1000g/) {
                 $interface->{SPEED} = _check_ce($nic, $num);
-            } elsif ($nic =~ /nxge/) {
-                $interface->{SPEED} = _check_nxge_nic($nic, $num);
             } elsif ($nic =~ /eri/) {
                 $interface->{SPEED} = _check_nic($nic, $num);
             } elsif ($nic =~ /aggr/) {
