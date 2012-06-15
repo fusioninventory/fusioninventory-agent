@@ -61,27 +61,15 @@ sub _getInterfaces {
             my $nic = $1;
             my $num = $2;
 
-            if ($nic =~ /bge/ ) {
-                $interface->{SPEED} = _check_bge_nic($nic, $num);
-            } elsif ($nic =~ /ce/) {
-                $interface->{SPEED} = _check_ce($nic, $num);
-            } elsif ($nic =~ /hme/) {
-                $interface->{SPEED} = _check_nic($nic, $num);
-            } elsif ($nic =~ /dmfe/) {
-                $interface->{SPEED} = _check_dmf_nic($nic, $num);
-            } elsif ($nic =~ /ipge/) {
-                $interface->{SPEED} = _check_ce($nic, $num);
-            } elsif ($nic =~ /e1000g/) {
-                $interface->{SPEED} = _check_ce($nic, $num);
-            } elsif ($nic =~ /nxge/) {
-                $interface->{SPEED} = _check_nxge_nic($nic, $num);
-            } elsif ($nic =~ /eri/) {
-                $interface->{SPEED} = _check_nic($nic, $num);
-            } elsif ($nic =~ /aggr/) {
-                $interface->{SPEED} = "";
-            } else {
-                $interface->{SPEED} = _check_nic($nic, $num);
-            }
+            $interface->{SPEED} = 
+                $nic =~ /aggr/   ? undef                       :
+                $nic =~ /dmfe/   ? undef                       :
+                $nic =~ /bge/    ? _check_bge_nic($nic, $num)  :
+                $nic =~ /nxge/   ? _check_nxge_nic($nic, $num) :
+                $nic =~ /ce/     ? _check_ce_nic($nic, $num)   :
+                $nic =~ /ipge/   ? _check_ce_nic($nic, $num)   :
+                $nic =~ /e1000g/ ? _check_ce_nic($nic, $num)   :
+                                   _check_nic($nic, $num);
         }
 
         $interface->{IPSUBNET} = getSubnetAddress(
@@ -133,26 +121,9 @@ sub _check_nic {
     return _get_link_info($speed, $duplex, $auto);
 }
 
-# Function to test eri Fast-Ethernet (eri_).
-sub _check_eri {
-    my ($nic) = @_;
-
-    my $speed = getFirstMatch(
-        command => "/usr/sbin/ndd -get /dev/$nic link_speed",
-        pattern => qr/^(\d+)/
-    );
-
-    my $duplex = getFirstMatch(
-        command => "/usr/sbin/ndd -get /dev/$nic link_mode",
-        pattern => qr/^(\d+)/
-    );
-
-    return _get_link_info($speed, $duplex, undef);
-}
-
 # Function to test a Gigabit-Ethernet (i.e. ce_).
 # Function to test a Intel 82571-based ethernet controller port (i.e. ipge_).
-sub _check_ce {
+sub _check_ce_nic {
     my ($nic, $num) = @_;
 
     my $speed = getFirstMatch(
@@ -203,15 +174,17 @@ sub _check_bge_nic {
 sub _check_nxge_nic {
     my ($nic, $num) = @_;
 
-    my $link_info;
-    foreach (`/usr/sbin/dladm show-dev $nic$num`) {
-        #nxge0           link: up        speed: 1000  Mbps       duplex: full
-        $link_info = $5." ".$6." ".$8 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
-    }
-    return $link_info;
-}
-
-sub _check_dmf_nic {
+    #nxge0           link: up        speed: 1000  Mbps       duplex: full
+    my ($speed, $unit, $duplex) = getFirstMatch(
+        command => "/usr/sbin/dladm show-dev $nic$num",
+        pattern => qr/
+            $nic$num \s+
+            link:   \s \S+   \s+
+            speed:  \s (\d+) \s+ (\S+) \s+
+            duplex: \s (\S+)
+        /x
+    );
+    return $speed . ' ' . $unit . ' ' . $duplex;
 }
 
 sub _get_link_info {

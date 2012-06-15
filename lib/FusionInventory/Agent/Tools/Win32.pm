@@ -20,8 +20,7 @@ use Win32::TieRegistry (
 
 use utf8;
 
-use File::Temp ();
-use File::Temp qw(:seekable);
+use File::Temp qw(:seekable tempfile);
 use Win32::Job;
 
 Win32::OLE->Option(CP => Win32::OLE::CP_UTF8);
@@ -180,6 +179,11 @@ sub runCommand {
     my $buff = File::Temp->new();
     my $void = File::Temp->new();
 
+    my ($fh, $filename) = File::Temp::tempfile( "$ENV{TEMP}/fusinvXXXXXXXXXXX", SUFFIX => '.bat');
+    print $fh $params{command}."\r\n";
+    print $fh "exit %ERRORLEVEL%\r\n";
+    close $fh;
+
     my $args = {
         stdout    => $buff,
         stderr    => $params{no_stderr} ? $void : $buff,
@@ -188,11 +192,12 @@ sub runCommand {
 
     $job->spawn(
         "$ENV{SYSTEMROOT}\\system32\\cmd.exe",
-        "cmd /c $params{command}",
+        "start /wait cmd /c $filename",
         $args
     );
 
     $job->run($params{timeout});
+    unlink($filename);
 
     $buff->seek(0, SEEK_SET);
 
