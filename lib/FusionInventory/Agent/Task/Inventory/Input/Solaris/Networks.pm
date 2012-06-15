@@ -64,7 +64,7 @@ sub _getInterfaces {
             if ($nic =~ /bge/ ) {
                 $interface->{SPEED} = _check_bge_nic($nic, $num);
             } elsif ($nic =~ /dmfe/) {
-                $interface->{SPEED} = _check_dmf_nic($nic, $num);
+                $interface->{SPEED} = undef;
             } elsif ($nic =~ /nxge/) {
                 $interface->{SPEED} = _check_nxge_nic($nic, $num);
             } elsif ($nic =~ /ce/) {
@@ -193,9 +193,6 @@ sub _check_nxge_nic {
         /x
     );
     return $speed . ' ' . $unit . ' ' . $duplex;
-}
-
-sub _check_dmf_nic {
 }
 
 sub _get_link_info {
