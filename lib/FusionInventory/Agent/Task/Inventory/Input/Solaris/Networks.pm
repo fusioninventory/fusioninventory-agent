@@ -203,12 +203,17 @@ sub _check_bge_nic {
 sub _check_nxge_nic {
     my ($nic, $num) = @_;
 
-    my $link_info;
-    foreach (`/usr/sbin/dladm show-dev $nic$num`) {
-        #nxge0           link: up        speed: 1000  Mbps       duplex: full
-        $link_info = $5." ".$6." ".$8 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
-    }
-    return $link_info;
+    #nxge0           link: up        speed: 1000  Mbps       duplex: full
+    my ($speed, $unit, $duplex) = getFirstMatch(
+        command => "/usr/sbin/dladm show-dev $nic$num",
+        pattern => qr/
+            $nic$num \s+
+            link:   \s \S+   \s+
+            speed:  \s (\d+) \s+ (\S+) \s+
+            duplex: \s (\S+)
+        /x
+    );
+    return $speed . ' ' . $unit . ' ' . $duplex;
 }
 
 sub _check_dmf_nic {
