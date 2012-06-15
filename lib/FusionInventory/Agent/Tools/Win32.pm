@@ -18,11 +18,8 @@ use Win32::TieRegistry (
     qw/KEY_READ/
 );
 
-use File::Temp ();
-use File::Temp qw(:seekable);
-use File::Temp qw/ tempfile /;
+use File::Temp qw(:seekable tempfile);
 use Win32::Job;
-use Win32::File;
 
 Win32::OLE->Option(CP => Win32::OLE::CP_UTF8);
 
@@ -156,6 +153,7 @@ sub _getRegistryKey {
 
     return $key;
 }
+use Cwd;
 
 sub runCommand {
     my (%params) = (
@@ -168,12 +166,16 @@ sub runCommand {
     my $buff = File::Temp->new();
     my $void = File::Temp->new();
 
-	my ($fh, $filename) = tempfile( "$ENV{TEMP}/fusinvXXXXXXXXXXX", SUFFIX => '.bat');
-	Win32::File::SetAttributes($filename, Win32::File::HIDDEN);
-	print $fh $params{command}."\r\n";
-	print $fh "exit %ERRORLEVEL%\r\n";
-	close $fh;
-	
+    my $winCwd = Cwd::getcwd();
+    $winCwd =~ s{/}{\\}g;
+
+    my ($fh, $filename) = File::Temp::tempfile( "$ENV{TEMP}\\fusinvXXXXXXXXXXX", SUFFIX => '.bat');
+
+    print $fh "cd \"".$winCwd."\"\r\n";
+    print $fh $params{command}."\r\n";
+    print $fh "exit %ERRORLEVEL%\r\n";
+    close $fh;
+
     my $args = {
         stdout    => $buff,
         stderr    => $params{no_stderr} ? $void : $buff,
@@ -187,7 +189,7 @@ sub runCommand {
     );
 
     $job->run($params{timeout});
-	unlink($filename);
+    #unlink($filename);
 
     $buff->seek(0, SEEK_SET);
 
@@ -198,6 +200,8 @@ sub runCommand {
         $exitcode = $status->{$pid}{exitcode};
         last;
     }
+    print "exitCode: $exitcode\n";
+    print $filename."\n";
 
     return ($exitcode, $buff);
 }
