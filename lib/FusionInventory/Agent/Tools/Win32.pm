@@ -21,6 +21,8 @@ use Win32::TieRegistry (
 use File::Temp qw(:seekable tempfile);
 use Win32::Job;
 
+use Cwd;
+
 Win32::OLE->Option(CP => Win32::OLE::CP_UTF8);
 
 use FusionInventory::Agent::Tools;
@@ -165,7 +167,11 @@ sub runCommand {
     my $buff = File::Temp->new();
     my $void = File::Temp->new();
 
-    my ($fh, $filename) = File::Temp::tempfile( "$ENV{TEMP}/fusinvXXXXXXXXXXX", SUFFIX => '.bat');
+    my $winCwd = Cwd::getcwd();
+    $winCwd =~ s{/}{\\}g;
+
+    my ($fh, $filename) = File::Temp::tempfile( "$ENV{TEMP}\\fusinvXXXXXXXXXXX", SUFFIX => '.bat');
+    print $fh "cd \"".$winCwd."\"\r\n";
     print $fh $params{command}."\r\n";
     print $fh "exit %ERRORLEVEL%\r\n";
     close $fh;
