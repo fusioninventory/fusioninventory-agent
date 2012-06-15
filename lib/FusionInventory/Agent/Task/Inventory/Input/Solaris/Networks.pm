@@ -129,23 +129,6 @@ sub _check_nic {
     return _get_link_info($speed, $duplex, $auto);
 }
 
-# Function to test eri Fast-Ethernet (eri_).
-sub _check_eri {
-    my ($nic) = @_;
-
-    my $speed = getFirstMatch(
-        command => "/usr/sbin/ndd -get /dev/$nic link_speed",
-        pattern => qr/^(\d+)/
-    );
-
-    my $duplex = getFirstMatch(
-        command => "/usr/sbin/ndd -get /dev/$nic link_mode",
-        pattern => qr/^(\d+)/
-    );
-
-    return _get_link_info($speed, $duplex, undef);
-}
-
 # Function to test a Gigabit-Ethernet (i.e. ce_).
 # Function to test a Intel 82571-based ethernet controller port (i.e. ipge_).
 sub _check_ce_nic {
