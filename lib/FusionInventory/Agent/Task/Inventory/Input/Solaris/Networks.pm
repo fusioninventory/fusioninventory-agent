@@ -68,11 +68,11 @@ sub _getInterfaces {
             } elsif ($nic =~ /nxge/) {
                 $interface->{SPEED} = _check_nxge_nic($nic, $num);
             } elsif ($nic =~ /ce/) {
-                $interface->{SPEED} = _check_ce($nic, $num);
+                $interface->{SPEED} = _check_ce_nic($nic, $num);
             } elsif ($nic =~ /ipge/) {
-                $interface->{SPEED} = _check_ce($nic, $num);
+                $interface->{SPEED} = _check_ce_nic($nic, $num);
             } elsif ($nic =~ /e1000g/) {
-                $interface->{SPEED} = _check_ce($nic, $num);
+                $interface->{SPEED} = _check_ce_nic($nic, $num);
             } elsif ($nic =~ /eri/) {
                 $interface->{SPEED} = _check_nic($nic, $num);
             } elsif ($nic =~ /aggr/) {
@@ -150,7 +150,7 @@ sub _check_eri {
 
 # Function to test a Gigabit-Ethernet (i.e. ce_).
 # Function to test a Intel 82571-based ethernet controller port (i.e. ipge_).
-sub _check_ce {
+sub _check_ce_nic {
     my ($nic, $num) = @_;
 
     my $speed = getFirstMatch(
