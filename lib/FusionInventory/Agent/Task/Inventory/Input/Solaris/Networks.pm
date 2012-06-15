@@ -73,8 +73,6 @@ sub _getInterfaces {
                 $interface->{SPEED} = _check_ce_nic($nic, $num);
             } elsif ($nic =~ /e1000g/) {
                 $interface->{SPEED} = _check_ce_nic($nic, $num);
-            } elsif ($nic =~ /eri/) {
-                $interface->{SPEED} = _check_nic($nic, $num);
             } elsif ($nic =~ /aggr/) {
                 $interface->{SPEED} = "";
             } else {
