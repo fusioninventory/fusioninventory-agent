@@ -55,6 +55,7 @@ my $default = {
     'no-socket'               => undef,
     'realm'                   => undef,
     'info'                    => undef,
+    'timeout'                 => 180,
 };
 
 my $deprecated = {
