@@ -61,23 +61,15 @@ sub _getInterfaces {
             my $nic = $1;
             my $num = $2;
 
-            if ($nic =~ /bge/ ) {
-                $interface->{SPEED} = _check_bge_nic($nic, $num);
-            } elsif ($nic =~ /dmfe/) {
-                $interface->{SPEED} = undef;
-            } elsif ($nic =~ /nxge/) {
-                $interface->{SPEED} = _check_nxge_nic($nic, $num);
-            } elsif ($nic =~ /ce/) {
-                $interface->{SPEED} = _check_ce_nic($nic, $num);
-            } elsif ($nic =~ /ipge/) {
-                $interface->{SPEED} = _check_ce_nic($nic, $num);
-            } elsif ($nic =~ /e1000g/) {
-                $interface->{SPEED} = _check_ce_nic($nic, $num);
-            } elsif ($nic =~ /aggr/) {
-                $interface->{SPEED} = undef;
-            } else {
-                $interface->{SPEED} = _check_nic($nic, $num);
-            }
+            $interface->{SPEED} = 
+                $nic =~ /aggr/   ? undef                       :
+                $nic =~ /dmfe/   ? undef                       :
+                $nic =~ /bge/    ? _check_bge_nic($nic, $num)  :
+                $nic =~ /nxge/   ? _check_nxge_nic($nic, $num) :
+                $nic =~ /ce/     ? _check_ce_nic($nic, $num)   :
+                $nic =~ /ipge/   ? _check_ce_nic($nic, $num)   :
+                $nic =~ /e1000g/ ? _check_ce_nic($nic, $num)   :
+                                   _check_nic($nic, $num);
         }
 
         $interface->{IPSUBNET} = getSubnetAddress(
