@@ -16,6 +16,7 @@ my @size_tests_nok = (
 my @size_tests_ok = (
     [ '1', 1 ],
     [ '1 mb', 1 ],
+    [ '1.1 mb', 1.1 ],
     [ '1 MB', 1 ],
     [ '1 gb', 1000 ],
     [ '1 GB', 1000 ],
