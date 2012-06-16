@@ -18,9 +18,10 @@ use Win32::TieRegistry (
     qw/KEY_READ/
 );
 
-use File::Temp ();
-use File::Temp qw(:seekable);
+use File::Temp qw(:seekable tempfile);
 use Win32::Job;
+
+use Cwd;
 
 Win32::OLE->Option(CP => Win32::OLE::CP_UTF8);
 
@@ -166,6 +167,15 @@ sub runCommand {
     my $buff = File::Temp->new();
     my $void = File::Temp->new();
 
+    my $winCwd = Cwd::getcwd();
+    $winCwd =~ s{/}{\\}g;
+
+    my ($fh, $filename) = File::Temp::tempfile( "$ENV{TEMP}\\fusinvXXXXXXXXXXX", SUFFIX => '.bat');
+    print $fh "cd \"".$winCwd."\"\r\n";
+    print $fh $params{command}."\r\n";
+    print $fh "exit %ERRORLEVEL%\r\n";
+    close $fh;
+
     my $args = {
         stdout    => $buff,
         stderr    => $params{no_stderr} ? $void : $buff,
@@ -174,11 +184,12 @@ sub runCommand {
 
     $job->spawn(
         "$ENV{SYSTEMROOT}\\system32\\cmd.exe",
-        "cmd /c $params{command}",
+        "start /wait cmd /c $filename",
         $args
     );
 
     $job->run($params{timeout});
+    unlink($filename);
 
     $buff->seek(0, SEEK_SET);
 
