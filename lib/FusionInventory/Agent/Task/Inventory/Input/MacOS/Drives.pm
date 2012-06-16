@@ -36,27 +36,30 @@ sub doInventory {
     # get additional informations
     foreach (`diskutil list`) {
         # partition identifiers look like disk0s1
-        next unless /(disk \d+ s \d+)$/;
+        next unless /(disk \d+ s \d+)$/x;
         my $id = $1;
         my $name = "/dev/$1";
 
+        my $filesystem = $filesystems{$name};
+        next unless $filesystem;
+
         my $device;
         foreach (`diskutil info $id`) {
-            next unless /^\s+(.*?):\s*(\S.*)/;
+            next unless /(\S[^:]+) : \s+ (\S.*\S)/x;
             $device->{$1} = $2;
         }
 
         my $size;
-        if ($device->{'Total Size'} =~ /^(.*) \s \(/x) {
+        if ($device->{'Total Size'} =~ /^([.\d]+ \s \S+)/x) {
             $size = getCanonicalSize($1);
         }
 
-        $filesystems{$name}->{TOTAL}      = $size;
-        $filesystems{$name}->{SERIAL}     = $device->{'Volume UUID'} ||
-                                       $device->{'UUID'};
-        $filesystems{$name}->{FILESYSTEM} = $device->{'File System'} ||
-                                       $device->{'Partition Type'};
-        $filesystems{$name}->{LABEL}      = $device->{'Volume Name'};
+        $filesystem->{TOTAL}      = $size;
+        $filesystem->{SERIAL}     = $device->{'Volume UUID'} ||
+                                    $device->{'UUID'};
+        $filesystem->{FILESYSTEM} = $device->{'File System'} ||
+                                    $device->{'Partition Type'};
+        $filesystem->{LABEL}      = $device->{'Volume Name'};
     }
 
     # add filesystems to the inventory
