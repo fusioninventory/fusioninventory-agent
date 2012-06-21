@@ -363,7 +363,27 @@ List available tasks and exit
 
 =item B<--no-category>=I<CATEGORY>
 
-Do not list given category items in inventory.
+Do not list given category items in inventory. It can be:
+
+=over 4
+
+=item
+
+printer
+
+=item
+
+software
+
+=item
+
+environment
+
+=item
+
+process
+
+=back 
 
 =item B<--scan-homedirs>
 
