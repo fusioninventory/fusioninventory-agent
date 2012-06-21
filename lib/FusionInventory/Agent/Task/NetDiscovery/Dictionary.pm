@@ -51,7 +51,10 @@ sub _init_from_hash {
     my ($self, $hash) = @_;
 
     foreach my $device (@{$hash->{SNMPDISCOVERY}->{DEVICE}}) {
-        my $md5 = md5_hex($device->{SYSDESCR});
+        my $sysdescr = $device->{SYSDESCR};
+        $sysdescr =~ s/\n//g;
+        $sysdescr =~ s/\r//g;
+        my $md5 = md5_hex($sysdescr);
         $self->{models}->{$md5} = $device;
     }
     $self->{hash} = md5_hex($hash);
