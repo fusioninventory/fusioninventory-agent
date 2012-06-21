@@ -161,10 +161,10 @@ fusioninventory-discovery - Network inventory from command line
 fusioninventory-discovery [options] --start <start> --stop <stop>
 
   Options:
-    -h --help      this menu
-    --first start  IP range first address
-    --last stop    IP range last address
-    --dictionnary  dictionnary file
-    --community    community string (default: public)
-    --threads nb   Number of discovery threads (default: 1)
-    --verbose      verbose output
+    -h --help       this menu
+    --first address IP range first address
+    --last address  IP range last address
+    --dictionnary   dictionnary file
+    --community     community string (default: public)
+    --threads nb    number of discovery threads (default: 1)
+    --debug         verbose output
