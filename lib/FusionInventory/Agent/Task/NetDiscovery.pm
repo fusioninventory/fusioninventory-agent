@@ -45,23 +45,19 @@ my @dispatch_table = (
     },
     {
         match    => qr/Linux/,
-        module   => __PACKAGE__ . '::Manufacturer::Ddwrt',
-        function => 'getDescription'
+        oid      => '.1.3.6.1.2.1.1.5.0'
     },
     {
         match    => 'Ethernet Switch',
-        module   => __PACKAGE__ . '::Manufacturer::Dell',
-        function => 'getDescription'
+        oid      => '.1.3.6.1.4.1.674.10895.3000.1.2.100.1.0'
     },
     {
         match    => qr/EPSON Built-in/,
-        module   => __PACKAGE__ . '::Manufacturer::Epson',
-        function => 'getDescriptionBuiltin'
+        oid      => '.1.3.6.1.4.1.1248.1.1.3.1.3.8.0'
     },
     {
         match    => qr/EPSON Internal 10Base-T/,
-        module   => __PACKAGE__ . '::Manufacturer::Epson',
-        function => 'getDescriptionInternal'
+        oid      => '.1.3.6.1.2.1.25.3.2.1.3.1'
     },
     {
         match    => qr/HP ETHERNET MULTI-ENVIRONMENT/,
@@ -75,8 +71,7 @@ my @dispatch_table = (
     },
     {
         match    => qr/,HP,JETDIRECT,J/,
-        module   => __PACKAGE__ . '::Manufacturer::Kyocera',
-        function => 'getDescriptionHP'
+        oid      => '.1.3.6.1.4.1.1229.2.2.2.1.15.1'
     },
     {
         match    => 'KYOCERA MITA Printing System',
@@ -97,18 +92,15 @@ my @dispatch_table = (
     },
         {
         match    => qr/RICOH NETWORK PRINTER/,
-        module   => __PACKAGE__ . '::Manufacturer::Ricoh',
-        function => 'getDescription'
+        oid     => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0'
     },
     {
         match   => qr/SAMSUNG NETWORK PRINTER,ROM/,
-        module  => __PACKAGE__ . '::Manufacturer::Samsung',
-        function => 'getDescription'
+        oid     => '.1.3.6.1.4.1.236.11.5.1.1.1.1.0'
     },
     {
         match   => qr/Samsung(.*);S\/N(.*)/,
-        module  => __PACKAGE__ . '::Manufacturer::Samsung',
-        function => 'getDescription'
+        oid     => '.1.3.6.1.4.1.236.11.5.1.1.1.1.0'
     },
     {
         match    => qr/Linux/,
@@ -558,12 +550,15 @@ sub _scanAddressBySNMP {
                 next unless $description eq $entry->{match};
             }
 
-            $description = runFunction(
-                module   => $entry->{module},
-                function => $entry->{function},
-                params   => $snmp,
-                load     => 1
-            ) || $description;
+            my $new_description = $entry->{oid} ?
+                $snmp->get($entry->{oid}) :
+                runFunction(
+                    module   => $entry->{module},
+                    function => $entry->{function},
+                    params   => $snmp,
+                    load     => 1
+                );
+            $description = $new_description if $new_description;
 
             last;
         }

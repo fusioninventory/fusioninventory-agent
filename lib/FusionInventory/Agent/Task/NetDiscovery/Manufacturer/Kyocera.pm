@@ -3,12 +3,6 @@ package FusionInventory::Agent::Task::NetDiscovery::Manufacturer::Kyocera;
 use strict;
 use warnings;
 
-sub getDescriptionHP {
-    my ($snmp) = @_;
-
-    return $snmp->get('.1.3.6.1.4.1.1229.2.2.2.1.15.1');
-}
-
 sub getDescriptionOther {
     my ($snmp) = @_;
 
