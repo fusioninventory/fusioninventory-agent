@@ -567,7 +567,6 @@ sub _scanAddressBySNMP {
 
             last;
         }
-        next unless $description;
 
         $device{DESCRIPTION} = $description;
 
