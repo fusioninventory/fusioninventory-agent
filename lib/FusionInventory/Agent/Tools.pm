@@ -45,6 +45,8 @@ our @EXPORT = qw(
     delay
 );
 
+my $nowhere = $OSNAME eq 'MSWin32' ? 'nul' : '/dev/null';
+
 # this trigger some errors on Perl 5.12/Win32:
 # Anonymous function called in forbidden scalar context
 if ($OSNAME ne 'MSWin32') {
@@ -125,7 +127,7 @@ sub getCanonicalSpeed {
 
     return 400 if $speed =~ /^PC3200U/;
 
-    return undef unless $speed =~ /^([\,\.\d]+) \s? (\S+)$/x;
+    return undef unless $speed =~ /^([,.\d]+) \s? (\S+)$/x;
     my $value = $1;
     my $unit = lc($2);
 
@@ -144,7 +146,7 @@ sub getCanonicalSize {
 
     return $size if $size =~ /^\d+$/;
 
-    return undef unless $size =~ /^(\d+) \s (\S+)$/x;
+    return undef unless $size =~ /^([,.\d]+) \s? (\S+)$/x;
     my $value = $1;
     my $unit = lc($2);
 
@@ -231,16 +233,7 @@ sub getFileHandle {
             last SWITCH;
         }
         if ($params{command}) {
-            if ($OSNAME eq 'MSWin32') {
-                FusionInventory::Agent::Tools::Win32->require;
-                (undef, $handle) = FusionInventory::Agent::Tools::Win32::runCommand(
-                        command => $params{command},
-                        no_stderr => 1
-                );
-                if (!$handle) {
-                    return;
-                }
-            } elsif (!open $handle, '-|', $params{command} . " 2>/dev/null") {
+            if (!open $handle, '-|', $params{command} . " 2>$nowhere") {
                 $params{logger}->error(
                     "Can't run command $params{command}: $ERRNO"
                 ) if $params{logger};
