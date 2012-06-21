@@ -549,26 +549,26 @@ sub _scanAddressBySNMP {
             next;
         }
 
-        my $description = $snmp->get('1.3.6.1.2.1.1.1.0');
+        my $sysdescr = $snmp->get('1.3.6.1.2.1.1.1.0');
 
         $self->{logger}->debug2(
             sprintf "thread %d: scanning %s with snmp credentials %d: %s",
             threads->tid(),
             $params{ip},
             $credential->{ID},
-            $description ? 'success' : 'failure'
+            $sysdescr ? 'success' : 'failure'
         );
 
-        next unless $description;
+        next unless $sysdescr;
 
         foreach my $rule (@description_rules) {
             if (ref $rule->{match} eq 'Regexp') {
-                next unless $description =~ $rule->{match};
+                next unless $sysdescr =~ $rule->{match};
             } else {
-                next unless $description eq $rule->{match};
+                next unless $sysdescr eq $rule->{match};
             }
 
-            my $new_description = $rule->{oid} ?
+            $device{DESCRIPTION} = $rule->{oid} ?
                 $snmp->get($rule->{oid}) :
                 runFunction(
                     module   => $rule->{module},
@@ -576,27 +576,26 @@ sub _scanAddressBySNMP {
                     params   => $snmp,
                     load     => 1
                 );
-            $description = $new_description if $new_description;
 
             last;
         }
 
         foreach my $rule (@vendor_rules) {
-            next unless $description =~ $rule->{match};
+            next unless $sysdescr =~ $rule->{match};
             $device{VENDOR} = $rule->{value};
             last;
         }
 
         foreach my $rule (@type_rules) {
-            next unless $description =~ $rule->{match};
+            next unless $sysdescr =~ $rule->{match};
             $device{TYPE} = $rule->{value};
             last;
         }
 
-        $device{DESCRIPTION} = $description;
+        $device{DESCRIPTION} = $sysdescr if !$device{DESCRIPTION};
 
         # get model matching description from dictionary
-        my $model = $params{snmp_dictionary}->getModel($description);
+        my $model = $params{snmp_dictionary}->getModel($sysdescr);
 
         $device{SERIAL}    = _getSerial($snmp, $model);
         $device{MAC}       = _getMacAddress($snmp, $model) || _getMacAddress($snmp);
