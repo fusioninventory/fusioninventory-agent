@@ -119,6 +119,24 @@ my @dispatch_table = (
     },
 );
 
+my @vendor_rules = (
+    {
+        match => qr/^Cisco/,
+        value => 'Cisco'
+    },
+    {
+        match => qr/^Zebranet/,
+        value => 'Zebranet'
+    }
+);
+
+my @type_rules = (
+    {
+        match => qr/^Cisco/,
+        value => 'NETWORKING'
+    },
+);
+
 sub isEnabled {
     my ($self, $response) = @_;
 
@@ -560,6 +578,18 @@ sub _scanAddressBySNMP {
                 );
             $description = $new_description if $new_description;
 
+            last;
+        }
+
+        foreach my $rule (@vendor_rules) {
+            next unless $description =~ $rule->{match};
+            $device{VENDOR} = $rule->{value};
+            last;
+        }
+
+        foreach my $rule (@type_rules) {
+            next unless $description =~ $rule->{match};
+            $device{TYPE} = $rule->{value};
             last;
         }
 
