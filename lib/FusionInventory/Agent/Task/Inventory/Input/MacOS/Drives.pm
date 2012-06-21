@@ -39,8 +39,9 @@ sub doInventory {
         my $info = _getPartitionInfo($partition);
 
         my $filesystem = $filesystems{$device};
+        next unless $filesystem;
 
-        if ($info->{'Total Size'} =~ /^(.*) \s \(/x) {
+        if ($info->{'Total Size'} =~ /^([.\d]+ \s \S+)/x) {
             $filesystem->{TOTAL} = getCanonicalSize($1);
         }
         $filesystem->{SERIAL}     = $info->{'Volume UUID'} ||
@@ -86,7 +87,7 @@ sub _getPartitionInfo {
 
     my $info;
     while (my $line = <$handle>) {
-        next unless $line =~ /(\S[^:]+) : \s+ (\S.+\S)/x;
+        next unless $line =~ /(\S[^:]+) : \s+ (\S.*\S)/x;
         $info->{$1} = $2;
     }
     close $handle;

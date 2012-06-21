@@ -127,7 +127,7 @@ sub getCanonicalSpeed {
 
     return 400 if $speed =~ /^PC3200U/;
 
-    return undef unless $speed =~ /^([\,\.\d]+) \s? (\S+)$/x;
+    return undef unless $speed =~ /^([,.\d]+) \s? (\S+)$/x;
     my $value = $1;
     my $unit = lc($2);
 
@@ -146,7 +146,7 @@ sub getCanonicalSize {
 
     return $size if $size =~ /^\d+$/;
 
-    return undef unless $size =~ /^(\d+) \s (\S+)$/x;
+    return undef unless $size =~ /^([,.\d]+) \s? (\S+)$/x;
     my $value = $1;
     my $unit = lc($2);
 
