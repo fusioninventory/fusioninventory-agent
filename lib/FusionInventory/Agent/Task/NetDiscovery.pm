@@ -74,21 +74,9 @@ my @description_rules = (
         oid      => '.1.3.6.1.4.1.1229.2.2.2.1.15.1'
     },
     {
-        match    => 'KYOCERA MITA Printing System',
+        match    => qr/^(KYOCERA (MITA Printing System|Print I\/F)|SB-110)$/,
         module   => __PACKAGE__ . '::Manufacturer::Kyocera',
         function => 'getDescriptionOther'
-    },
-    {
-        match    => 'KYOCERA Printer I/F',
-        module   => __PACKAGE__ . '::Manufacturer::Kyocera',
-        function => 'getDescriptionOther'
-
-    },
-    {
-        match    => 'SB-110',
-        module   => __PACKAGE__ . '::Manufacturer::Kyocera',
-        function => 'getDescriptionOther'
-
     },
         {
         match    => qr/RICOH NETWORK PRINTER/,
@@ -562,11 +550,7 @@ sub _scanAddressBySNMP {
         next unless $sysdescr;
 
         foreach my $rule (@description_rules) {
-            if (ref $rule->{match} eq 'Regexp') {
-                next unless $sysdescr =~ $rule->{match};
-            } else {
-                next unless $sysdescr eq $rule->{match};
-            }
+            next unless $sysdescr =~ $rule->{match};
 
             $device{DESCRIPTION} = $rule->{oid} ?
                 $snmp->get($rule->{oid}) :
