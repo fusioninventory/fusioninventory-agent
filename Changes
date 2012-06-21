@@ -17,6 +17,7 @@ General:
 
 MacOSX:
 * Fix global memory and CPU inventory
+* Fix drives inventory
 
 Linux:
 * LXC support (Egor Morozov)
