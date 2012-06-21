@@ -538,7 +538,38 @@ sub _scanAddressBySNMP {
             $sysdescr ? 'success' : 'failure'
         );
 
+        # unable to do anything without a sysdescr value
         next unless $sysdescr;
+
+        # try to get a matching model from the dictionary
+        my $model = $params{snmp_dictionary}->getModel($sysdescr);
+
+        if ($model) {
+            # use model as primary identification source
+
+            $device{SERIAL}    = _getSerial($snmp, $model);
+            $device{MAC}       = _getMacAddress($snmp, $model) || _getMacAddress($snmp);
+            $device{MODELSNMP} = $model->{MODELSNMP};
+            $device{TYPE}      = $model->{TYPE};
+        } else {
+            # use rules as fallback
+
+            $device{MAC} = _getMacAddress($snmp);
+
+            foreach my $rule (@vendor_rules) {
+                next unless $sysdescr =~ $rule->{match};
+                $device{VENDOR} = _apply_rule($rule, $snmp);
+                last;
+            }
+
+            foreach my $rule (@type_rules) {
+                next unless $sysdescr =~ $rule->{match};
+                $device{VENDOR} = _apply_rule($rule, $snmp);
+                last;
+            }
+        }
+
+        # always use description rules
 
         foreach my $rule (@description_rules) {
             next unless $sysdescr =~ $rule->{match};
@@ -546,30 +577,7 @@ sub _scanAddressBySNMP {
             last;
         }
 
-        foreach my $rule (@vendor_rules) {
-            next unless $sysdescr =~ $rule->{match};
-            $device{VENDOR} = _apply_rule($rule, $snmp);
-            last;
-        }
-
-        foreach my $rule (@type_rules) {
-            next unless $sysdescr =~ $rule->{match};
-            $device{VENDOR} = _apply_rule($rule, $snmp);
-            last;
-        }
-
         $device{DESCRIPTION} = $sysdescr if !$device{DESCRIPTION};
-
-        # get model matching description from dictionary
-        my $model = $params{snmp_dictionary}->getModel($sysdescr);
-
-        $device{SERIAL}    = _getSerial($snmp, $model);
-        $device{MAC}       = _getMacAddress($snmp, $model) || _getMacAddress($snmp);
-        $device{MODELSNMP} = $model->{MODELSNMP};
-        $device{TYPE}      = $model->{TYPE};
-
-        $device{AUTHSNMP}     = $credential->{ID};
-        $device{SNMPHOSTNAME} = $snmp->get('.1.3.6.1.2.1.1.5.0');
 
         last;
     }
