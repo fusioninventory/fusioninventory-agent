@@ -31,7 +31,7 @@ if ($threads::shared::VERSION < 1.21) {
 
 our $VERSION = '2.2.0';
 
-my @dispatch_table = (
+my @description_rules = (
     {
         match    => qr/^\S+ Service Release/,
         module   => __PACKAGE__ . '::Manufacturer::Alcatel',
@@ -561,18 +561,18 @@ sub _scanAddressBySNMP {
 
         next unless $description;
 
-        foreach my $entry (@dispatch_table) {
-            if (ref $entry->{match} eq 'Regexp') {
-                next unless $description =~ $entry->{match};
+        foreach my $rule (@description_rules) {
+            if (ref $rule->{match} eq 'Regexp') {
+                next unless $description =~ $rule->{match};
             } else {
-                next unless $description eq $entry->{match};
+                next unless $description eq $rule->{match};
             }
 
-            my $new_description = $entry->{oid} ?
-                $snmp->get($entry->{oid}) :
+            my $new_description = $rule->{oid} ?
+                $snmp->get($rule->{oid}) :
                 runFunction(
-                    module   => $entry->{module},
-                    function => $entry->{function},
+                    module   => $rule->{module},
+                    function => $rule->{function},
                     params   => $snmp,
                     load     => 1
                 );
