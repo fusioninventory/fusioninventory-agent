@@ -112,7 +112,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    Parse::EDID->requires();
+    Parse::EDID->require();
 
     foreach my $screen (_getScreens($logger)) {
 

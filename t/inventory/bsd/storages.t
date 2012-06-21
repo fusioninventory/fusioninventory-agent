@@ -72,12 +72,12 @@ my %tests_mfiutil = (
     ]
 );
 
-plan tests => scalar keys (%tests) + scalar keys (%tests_mfiutil);
+plan tests => scalar keys (%tests_fstab) + scalar keys (%tests_mfiutil);
 
 foreach my $test (keys %tests_fstab) {
     my $file = "resources/bsd/fstab/$test";
     my @results = FusionInventory::Agent::Task::Inventory::Input::BSD::Storages::_getDevicesFromFstab(file => $file);
-    is_deeply(\@results, $tests{$test}, $test);
+    is_deeply(\@results, $tests_fstab{$test}, $test);
 }
 
 foreach my $test (keys %tests_mfiutil) {
