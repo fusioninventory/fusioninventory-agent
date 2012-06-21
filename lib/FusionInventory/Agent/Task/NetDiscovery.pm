@@ -34,76 +34,67 @@ our $VERSION = '2.2.0';
 my @description_rules = (
     {
         match    => qr/^\S+ Service Release/,
-        module   => __PACKAGE__ . '::Manufacturer::Alcatel',
-        function => 'getDescription'
+        function => __PACKAGE__ . '::Manufacturer::Alcatel::getDescription',
     },
     {
         match    => qr/AXIS OfficeBasic Network Print Server/,
-        module   => __PACKAGE__ . '::Manufacturer::Axis',
-        function => 'getDescription'
-
+        function => __PACKAGE__ . '::Manufacturer::Axis::getDescription',
     },
     {
-        match    => qr/Linux/,
-        oid      => '.1.3.6.1.2.1.1.5.0'
+        match => qr/Linux/,
+        oid   => '.1.3.6.1.2.1.1.5.0'
     },
     {
-        match    => 'Ethernet Switch',
-        oid      => '.1.3.6.1.4.1.674.10895.3000.1.2.100.1.0'
+        match => 'Ethernet Switch',
+        oid   => '.1.3.6.1.4.1.674.10895.3000.1.2.100.1.0'
     },
     {
-        match    => qr/EPSON Built-in/,
-        oid      => '.1.3.6.1.4.1.1248.1.1.3.1.3.8.0'
+        match => qr/EPSON Built-in/,
+        oid   => '.1.3.6.1.4.1.1248.1.1.3.1.3.8.0'
     },
     {
-        match    => qr/EPSON Internal 10Base-T/,
-        oid      => '.1.3.6.1.2.1.25.3.2.1.3.1'
+        match => qr/EPSON Internal 10Base-T/,
+        oid   => '.1.3.6.1.2.1.25.3.2.1.3.1'
     },
     {
-        match    => qr/HP ETHERNET MULTI-ENVIRONMENT/,
-        module   => __PACKAGE__ . '::Manufacturer::HewlettPackard',
-        function => 'getDescription'
+        match => qr/HP ETHERNET MULTI-ENVIRONMENT/,
+        function => __PACKAGE__ . '::Manufacturer::HewlettPackard::getDescription',
     },
     {
         match    => qr/A SNMP proxy agent, EEPROM/,
-        module   => __PACKAGE__ . '::Manufacturer::HewlettPackard',
-        function => 'getDescription'
+        function => __PACKAGE__ . '::Manufacturer::HewlettPackard::getDescription',
     },
     {
-        match    => qr/,HP,JETDIRECT,J/,
-        oid      => '.1.3.6.1.4.1.1229.2.2.2.1.15.1'
+        match => qr/,HP,JETDIRECT,J/,
+        oid   => '.1.3.6.1.4.1.1229.2.2.2.1.15.1'
     },
     {
         match    => qr/^(KYOCERA (MITA Printing System|Print I\/F)|SB-110)$/,
-        module   => __PACKAGE__ . '::Manufacturer::Kyocera',
-        function => 'getDescriptionOther'
-    },
-        {
-        match    => qr/RICOH NETWORK PRINTER/,
-        oid     => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0'
+        function => __PACKAGE__ . '::Manufacturer::Kyocera::getDescriptionOther',
     },
     {
-        match   => qr/SAMSUNG NETWORK PRINTER,ROM/,
-        oid     => '.1.3.6.1.4.1.236.11.5.1.1.1.1.0'
+        match => qr/RICOH NETWORK PRINTER/,
+        oid   => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0'
     },
     {
-        match   => qr/Samsung(.*);S\/N(.*)/,
-        oid     => '.1.3.6.1.4.1.236.11.5.1.1.1.1.0'
+        match => qr/SAMSUNG NETWORK PRINTER,ROM/,
+        oid   => '.1.3.6.1.4.1.236.11.5.1.1.1.1.0'
     },
     {
-        match    => qr/Linux/,
-        module   => __PACKAGE__ . '::Manufacturer::Wyse',
-        function => 'getDescription'
+        match => qr/Samsung(.*);S\/N(.*)/,
+        oid   => '.1.3.6.1.4.1.236.11.5.1.1.1.1.0'
+    },
+    {
+        match => qr/Linux/,
+        module   => __PACKAGE__ . '::Manufacturer::Wyse::getDescription',
     },
     {
         match    => qr/ZebraNet PrintServer/,
-        module   => __PACKAGE__ . '::Manufacturer::Zebranet',
-        function => 'getDescription'
+        function => __PACKAGE__ . '::Manufacturer::Zebranet::getDescription',
     },
     {
         match    => qr/ZebraNet Wired PS/,
-        module   => __PACKAGE__ . '::Manufacturer::Zebranet',
-        function => 'getDescription'
+        function => __PACKAGE__ . '::Manufacturer::Zebranet::getDescription',
     },
 );
 
@@ -552,14 +543,24 @@ sub _scanAddressBySNMP {
         foreach my $rule (@description_rules) {
             next unless $sysdescr =~ $rule->{match};
 
-            $device{DESCRIPTION} = $rule->{oid} ?
-                $snmp->get($rule->{oid}) :
-                runFunction(
-                    module   => $rule->{module},
-                    function => $rule->{function},
-                    params   => $snmp,
-                    load     => 1
-                );
+            SWITCH: {
+                if ($rule->{oid}) {
+                    $device{DESCRIPTION} = $snmp->get($rule->{oid});
+                    last SWITCH;
+                }
+
+                if ($rule->{function}) {
+                    my ($module, $function) =
+                        $rule->{function} =~ /^(\S+)::(\S+)$/;
+                    $device{DESCRIPTION} = runFunction(
+                        module   => $module,
+                        function => $function,
+                        params   => $snmp,
+                        load     => 1
+                    );
+                    last SWITCH;
+                }
+            };
 
             last;
         }
