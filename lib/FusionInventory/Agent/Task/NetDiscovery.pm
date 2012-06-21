@@ -542,38 +542,19 @@ sub _scanAddressBySNMP {
 
         foreach my $rule (@description_rules) {
             next unless $sysdescr =~ $rule->{match};
-
-            SWITCH: {
-                if ($rule->{oid}) {
-                    $device{DESCRIPTION} = $snmp->get($rule->{oid});
-                    last SWITCH;
-                }
-
-                if ($rule->{function}) {
-                    my ($module, $function) =
-                        $rule->{function} =~ /^(\S+)::(\S+)$/;
-                    $device{DESCRIPTION} = runFunction(
-                        module   => $module,
-                        function => $function,
-                        params   => $snmp,
-                        load     => 1
-                    );
-                    last SWITCH;
-                }
-            };
-
+            $device{DESCRIPTION} = _apply_rule($rule, $snmp);
             last;
         }
 
         foreach my $rule (@vendor_rules) {
             next unless $sysdescr =~ $rule->{match};
-            $device{VENDOR} = $rule->{value};
+            $device{VENDOR} = _apply_rule($rule, $snmp);
             last;
         }
 
         foreach my $rule (@type_rules) {
             next unless $sysdescr =~ $rule->{match};
-            $device{TYPE} = $rule->{value};
+            $device{VENDOR} = _apply_rule($rule, $snmp);
             last;
         }
 
@@ -676,6 +657,29 @@ sub _parseNmap {
 
     return $result;
 }
+
+sub _apply_rule {
+    my ($rule, $snmp) = @_;
+
+    if ($rule->{value}) {
+        return $rule->{value};
+    }
+
+    if ($rule->{oid}) {
+        return $snmp->get($rule->{oid});
+    }
+
+    if ($rule->{function}) {
+        my ($module, $function) = $rule->{function} =~ /^(\S+)::(\S+)$/;
+        return runFunction(
+            module   => $module,
+            function => $function,
+            params   => $snmp,
+            load     => 1
+        );
+    }
+}
+
 
 1;
 
