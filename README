@@ -62,12 +62,12 @@ better use first execution mode. The various installation procedure may offer
 limited choice about initial configuration, but you should always be able to
 change it thereafter.
 
-When executing, the agent tries to runs every available task for every
+When executing, the agent tries to run every available task for every
 configured target. A task is a specific kind of work to perform (local
 inventory, network discovery, wake on lan, etc...), while a target is both a
 recipient for the result and a controller for this work (an OCS server, a GLPI
 server, a local directory, etc...). Only the local inventory task is compatible
-with all kind of targets, tough, all others require a GLPI server target, and
+with all kind of target, tough, all others require a GLPI server target, and
 will get discarded for other kind of target.
 
 System-specific informations
