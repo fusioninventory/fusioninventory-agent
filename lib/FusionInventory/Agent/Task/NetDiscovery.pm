@@ -602,7 +602,7 @@ sub _scanAddressBySNMP {
             $sysdescr ? 'success' : 'failure'
         );
 
-        # unable to do anything without a sysdescr value
+        # no sysdescr means invalid credentials
         next unless $sysdescr;
 
         # try to get a matching model from the dictionary
@@ -644,7 +644,9 @@ sub _scanAddressBySNMP {
             }
         }
 
-        $device{DESCRIPTION} = $sysdescr if !$device{DESCRIPTION};
+        $device{AUTHSNMP}     = $credential->{ID};
+        $device{SNMPHOSTNAME} = $snmp->get('1.3.6.1.2.1.1.5.0');
+        $device{DESCRIPTION}  = $sysdescr if !$device{DESCRIPTION};
 
         last;
     }
