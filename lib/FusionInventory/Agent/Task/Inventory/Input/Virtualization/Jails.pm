@@ -15,7 +15,6 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{inventory};
 
-    my $command = 'jls -n';
     foreach my $machine (_getVirtualMachines(logger => $logger)) {
         $inventory->addEntry(
             section => 'VIRTUALMACHINES', entry => $machine
@@ -38,8 +37,6 @@ sub  _getVirtualMachines {
         my $info;
         foreach my $item (split(' ', $line)) {
             next unless $item =~ /(\S+)=(\S+)/;
-            my $key   = $1;
-            my $value = $2;
             $info->{$1} = $2;
         }
 
