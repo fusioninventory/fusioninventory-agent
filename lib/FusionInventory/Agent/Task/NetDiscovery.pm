@@ -631,14 +631,14 @@ sub _scanAddressBySNMP {
             my $keyword = $hardware_keywords{lc($first_word)};
 
             if ($keyword) {
-                $device{VENDOR} = $keyword->{vendor};
-                $device{TYPE}   = $keyword->{type};
+                $device{MANUFACTURER} = $keyword->{vendor};
+                $device{TYPE}         = $keyword->{type};
             } else {
                 foreach my $rule (@hardware_rules) {
                     next unless $sysdescr =~ $rule->{match};
-                    $device{VENDOR}      = _apply_rule($rule->{vendor}, $snmp);
-                    $device{TYPE}        = _apply_rule($rule->{type}, $snmp);
-                    $device{DESCRIPTION} = _apply_rule($rule->{description}, $snmp);
+                    $device{MANUFACTURER} = _apply_rule($rule->{vendor}, $snmp);
+                    $device{TYPE}         = _apply_rule($rule->{type}, $snmp);
+                    $device{DESCRIPTION}  = _apply_rule($rule->{description}, $snmp);
                     last;
                 }
             }
