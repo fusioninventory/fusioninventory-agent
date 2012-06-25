@@ -15,7 +15,6 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{inventory};
 
-    my $command = 'jls -n';
     foreach my $machine (_getVirtualMachines(logger => $logger)) {
         $inventory->addEntry(
             section => 'VIRTUALMACHINES', entry => $machine
