@@ -28,7 +28,7 @@ ok($rc == 0, '--version exit status');
 is($err, '', '--version stderr');
 like(
     $out,
-    qr/^FusionInventory unified agent for UNIX, Linux and MacOSX/,
+    qr/^FusionInventory Agent/,
     '--version stdin'
 );
 
