@@ -37,8 +37,6 @@ sub  _getVirtualMachines {
         my $info;
         foreach my $item (split(' ', $line)) {
             next unless $item =~ /(\S+)=(\S+)/;
-            my $key   = $1;
-            my $value = $2;
             $info->{$1} = $2;
         }
 
