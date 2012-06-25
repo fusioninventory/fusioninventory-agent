@@ -613,8 +613,9 @@ sub _scanAddressBySNMP {
 
             $device{SERIAL}    = _getSerial($snmp, $model);
             $device{MAC}       = _getMacAddress($snmp, $model) || _getMacAddress($snmp);
-            $device{MODELSNMP} = $model->{MODELSNMP};
-            $device{TYPE}      = $model->{TYPE};
+            $device{MODELSNMP}    = $model->{MODELSNMP};
+            $device{TYPE}         = $model->{TYPE};
+            $device{MANUFACTURER} = $model->{MANUFACTURER};
 
             foreach my $rule (@hardware_rules) {
                 next unless $sysdescr =~ $rule->{match};
