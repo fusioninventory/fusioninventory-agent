@@ -223,22 +223,6 @@ sub run {
 
 sub _runTarget {
     my ($self, $target, $event) = @_;
-
-    # the prolog dialog must be done once for all tasks,
-    # but only for server targets
-    my $response;
-    if ($target->isa('FusionInventory::Agent::Target::Server')) {
-        my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
-            logger       => $self->{logger},
-            timeout      => $self->{timeout},
-            user         => $self->{config}->{user},
-            password     => $self->{config}->{password},
-            proxy        => $self->{config}->{proxy},
-            ca_cert_file => $self->{config}->{'ca-cert-file'},
-            ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
-            no_ssl_check => $self->{config}->{'no-ssl-check'},
-        );
-
     eval {
        $self->_runTask($target, $event);
     };
