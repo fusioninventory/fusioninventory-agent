@@ -14,8 +14,8 @@ if (!file_exists($file)) {
 }
 
 $xmlstr = file_get_contents($file);
-$doc = libxml_use_internal_errors(true);
-simplexml_load_string($xmlstr,'SimpleXMLElement', LIBXML_NOCDATA);
+libxml_use_internal_errors(true);
+$doc = @simplexml_load_string($xmlstr,'SimpleXMLElement', LIBXML_NOCDATA);
 $xml = explode("\n", $xmlstr);
 
 if (!$doc) {
@@ -26,8 +26,11 @@ if (!$doc) {
     }
 
     libxml_clear_errors();
+    exit(1);
+} else {
+    print "XML loaded successfully\n";
+    exit(0);
 }
-
 
 function display_xml_error($error, $xml)
 {
@@ -56,4 +59,3 @@ function display_xml_error($error, $xml)
 
     return "$return\n\n--------------------------------------------\n\n";
 }
-
