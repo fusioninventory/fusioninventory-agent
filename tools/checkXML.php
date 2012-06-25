@@ -13,9 +13,9 @@ if (!file_exists($file)) {
   exit(1);
 }
 
-
+$xmlstr = file_get_contents($file);
 $doc = libxml_use_internal_errors(true);
-simplexml_load_file($file,'SimpleXMLElement', LIBXML_NOCDATA);
+simplexml_load_string($xmlstr,'SimpleXMLElement', LIBXML_NOCDATA);
 $xml = explode("\n", $xmlstr);
 
 if (!$doc) {
