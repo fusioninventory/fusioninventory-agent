@@ -31,88 +31,152 @@ if ($threads::shared::VERSION < 1.21) {
 
 our $VERSION = '2.2.0';
 
-my @description_rules = (
-    {
-        match    => qr/^\S+ Service Release/,
-        function => __PACKAGE__ . '::Manufacturer::Alcatel::getDescription',
-    },
-    {
-        match    => qr/AXIS OfficeBasic Network Print Server/,
-        function => __PACKAGE__ . '::Manufacturer::Axis::getDescription',
-    },
-    {
-        match => qr/Linux/,
-        oid   => '.1.3.6.1.2.1.1.5.0'
-    },
-    {
-        match => 'Ethernet Switch',
-        oid   => '.1.3.6.1.4.1.674.10895.3000.1.2.100.1.0'
-    },
-    {
-        match => qr/EPSON Built-in/,
-        oid   => '.1.3.6.1.4.1.1248.1.1.3.1.3.8.0'
-    },
-    {
-        match => qr/EPSON Internal 10Base-T/,
-        oid   => '.1.3.6.1.2.1.25.3.2.1.3.1'
-    },
-    {
-        match => qr/HP ETHERNET MULTI-ENVIRONMENT/,
-        function => __PACKAGE__ . '::Manufacturer::HewlettPackard::getDescription',
-    },
-    {
-        match    => qr/A SNMP proxy agent, EEPROM/,
-        function => __PACKAGE__ . '::Manufacturer::HewlettPackard::getDescription',
-    },
-    {
-        match => qr/,HP,JETDIRECT,J/,
-        oid   => '.1.3.6.1.4.1.1229.2.2.2.1.15.1'
-    },
-    {
-        match    => qr/^(KYOCERA (MITA Printing System|Print I\/F)|SB-110)$/,
-        function => __PACKAGE__ . '::Manufacturer::Kyocera::getDescriptionOther',
-    },
-    {
-        match => qr/RICOH NETWORK PRINTER/,
-        oid   => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0'
-    },
-    {
-        match => qr/SAMSUNG NETWORK PRINTER,ROM/,
-        oid   => '.1.3.6.1.4.1.236.11.5.1.1.1.1.0'
-    },
-    {
-        match => qr/Samsung(.*);S\/N(.*)/,
-        oid   => '.1.3.6.1.4.1.236.11.5.1.1.1.1.0'
-    },
-    {
-        match => qr/Linux/,
-        module   => __PACKAGE__ . '::Manufacturer::Wyse::getDescription',
-    },
-    {
-        match    => qr/ZebraNet PrintServer/,
-        function => __PACKAGE__ . '::Manufacturer::Zebranet::getDescription',
-    },
-    {
-        match    => qr/ZebraNet Wired PS/,
-        function => __PACKAGE__ . '::Manufacturer::Zebranet::getDescription',
-    },
+my %hardware_keywords = (
+    '3com'           => { vendor => '3Com',            type => 'NETWORKING' },
+    'alcatel-lucent' => { vendor => 'Alcatel-Lucent',  type => 'NETWORKING' },
+    'allied'         => { vendor => 'Allied',          type => 'NETWORKING' },
+    'alteon'         => { vendor => 'Alteon',          type => 'NETWORKING' },
+    'apc'            => { vendor => 'APC',             type => 'NETWORKING' },
+    'apple'          => { vendor => 'Apple',           type => 'NETWORKING' },
+    'avaya'          => { vendor => 'Avaya',           type => 'NETWORKING' },
+    'axis'           => { vendor => 'Axis',            type => 'NETWORKING' },
+    'baystack'       => { vendor => 'Nortel',          type => 'NETWORKING' },
+    'broadband'      => { vendor => 'Broadband',       type => 'NETWORKING' },
+    'brocade'        => { vendor => 'Brocade',         type => 'NETWORKING' },
+    'brother'        => { vendor => 'Brother',         type => 'NETWORKING' },
+    'canon'          => { vendor => 'Canon',           type => 'PRINTER'    },
+    'cisco'          => { vendor => 'Cisco',           type => 'NETWORKING' },
+    'dell'           => { vendor => 'Dell',            type => 'NETWORKING' },
+    'designjet'      => { vendor => 'Hewlett Packard', type => 'PRINTER'    },
+    'deskjet'        => { vendor => 'Hewlett Packard', type => 'PRINTER'    },
+    'dlink'          => { vendor => 'Dlink',           type => 'NETWORKING' },
+    'eaton'          => { vendor => 'Eaton',           type => 'NETWORKING' },
+    'emc'            => { vendor => 'EMC',                                  },
+    'enterasys'      => { vendor => 'Enterasys',       type => 'NETWORKING' },
+    'epson'          => { vendor => 'Epson',           type => 'PRINTER'    },
+    'extreme'        => { vendor => 'Extrem networks', type => 'NETWORKING' },
+    'foundry'        => { vendor => 'Foundry',         type => 'NETWORKING' },
+    'fuji'           => { vendor => 'Fuji',            type => 'NETWORKING' },
+    'h3c'            => { vendor => 'H3C',             type => 'NETWORKING' },
+    'hp'             => { vendor => 'Hewlett Packard',                      },
+    'ibm'            => { vendor => 'IBM',             type => 'NETWORKING' },
+    'juniper'        => { vendor => 'Juniper',         type => 'NETWORKING' },
+    'konica'         => { vendor => 'Konica',          type => 'PRINTER'    },
+    'kyocera'        => { vendor => 'Kyocera',         type => 'PRINTER'    },
+    'lexmark'        => { vendor => 'Lexmark',         type => 'PRINTER'    },
+    'netapp'         => { vendor => 'NetApp',                               },
+    'netgear'        => { vendor => 'NetGear',         type => 'NETWORKING' },
+    'nortel'         => { vendor => 'Nortel',          type => 'NETWORKING' },
+    'nrg'            => { vendor => 'NRG',             type => 'NETWORKING' },
+    'officejet'      => { vendor => 'Hewlett Packard', type => 'PRINTER'    },
+    'oki'            => { vendor => 'OKI',             type => 'PRINTER'    },
+    'powerconnect'   => { vendor => 'PowerConnect',    type => 'NETWORKING' },
+    'procurve'       => { vendor => 'Hewlett Packard', type => 'NETWORKING' },
+    'ricoh'          => { vendor => 'Ricoh',           type => 'PRINTER'    },
+    'sagem'          => { vendor => 'Sagem',           type => 'NETWORKING' },
+    'samsung'        => { vendor => 'Samsung',         type => 'NETWORKING' },
+    'sharp'          => { vendor => 'Sharp',           type => 'NETWORKING' },
+    'toshiba'        => { vendor => 'Toshiba',         type => 'NETWORKING' },
+    'wyse'           => { vendor => 'Wyse',            type => 'NETWORKING' },
+    'xerox'          => { vendor => 'Xerox',           type => 'PRINTER'    },
+    'xirrus'         => { vendor => 'Xirrus',          type => 'NETWORKING' },
+    'zebranet'       => { vendor => 'Zebranet',        type => 'NETWORKING' },
+    'ztc'            => { vendor => 'ZTC',             type => 'NETWORKING' },
+    'zywall'         => { vendor => 'ZyWall',          type => 'NETWORKING' }
 );
 
-my @vendor_rules = (
+my @hardware_rules = (
     {
-        match => qr/^Cisco/,
-        value => 'Cisco'
+        match       => qr/^\S+ Service Release/,
+        description => { function => __PACKAGE__ . '::Manufacturer::Alcatel::getDescription' },
+        vendor      => { value    => 'Alcatel' }
     },
     {
-        match => qr/^Zebranet/,
-        value => 'Zebranet'
-    }
-);
-
-my @type_rules = (
+        match       => qr/AXIS OfficeBasic Network Print Server/,
+        description => { function => __PACKAGE__ . '::Manufacturer::Axis::getDescription' },
+        vendor      => { value    => 'Axis' },
+        type        => { value    => 'PRINTER' }
+    },
     {
-        match => qr/^Cisco/,
-        value => 'NETWORKING'
+        match       => qr/Linux/,
+        description => { oid   => '.1.3.6.1.2.1.1.5.0' },
+        vendor      => { value => 'Ddwrt' }
+    },
+    {
+        match       => qr/^Ethernet Switch$/,
+        description => { oid   => '.1.3.6.1.4.1.674.10895.3000.1.2.100.1.0' },
+        vendor      => { value => 'Dell' },
+        type        => { value => 'NETWORKING' }
+    },
+    {
+        match       => qr/EPSON Built-in/,
+        description => { oid   => '.1.3.6.1.4.1.1248.1.1.3.1.3.8.0' },
+        vendor      => { value => 'Epson' },
+    },
+    {
+        match       => qr/EPSON Internal 10Base-T/,
+        description => { oid   => '.1.3.6.1.2.1.25.3.2.1.3.1' },
+        vendor      => { value => 'Epson' },
+    },
+    {
+        match       => qr/HP ETHERNET MULTI-ENVIRONMENT/,
+        description => { function => __PACKAGE__ . '::Manufacturer::HewlettPackard::getDescription' },
+        vendor      => { value    => 'Hewlett-Packard' }
+    },
+    {
+        match       => qr/A SNMP proxy agent, EEPROM/,
+        description => { function => __PACKAGE__ . '::Manufacturer::HewlettPackard::getDescription' },
+        vendor      => { value    => 'Hewlett-Packard' }
+    },
+    {
+        match       => qr/,HP,JETDIRECT,J/,
+        description => { oid   => '.1.3.6.1.4.1.1229.2.2.2.1.15.1' },
+        vendor      => { value => 'Kyocera' },
+        type        => { value => 'PRINTER' }
+    },
+    {
+        match       => qr/^KYOCERA (MITA Printing System|Print I\/F)$/,
+        description => { function => __PACKAGE__ . '::Manufacturer::Kyocera::getDescriptionOther' },
+        vendor      => { value => 'Kyocera' },
+        type        => { value => 'PRINTER' }
+    },
+    {
+        match       => qr/^SB-110$/,
+        description => { function => __PACKAGE__ . '::Manufacturer::Kyocera::getDescriptionOther' },
+        vendor      => { value => 'Kyocera' },
+        type        => { value => 'PRINTER' }
+    },
+    {
+        match       => qr/RICOH NETWORK PRINTER/,
+        description => { oid => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0' },
+        vendor      => { value => 'Ricoh' },
+        type        => { value => 'PRINTER' }
+    },
+    {
+        match       => qr/SAMSUNG NETWORK PRINTER,ROM/,
+        description => { oid => '.1.3.6.1.4.1.236.11.5.1.1.1.1.0' },
+        vendor      => { value => 'Samsung' },
+        type        => { value => 'PRINTER' }
+    },
+    {
+        match       => qr/Samsung(.*);S\/N(.*)/,
+        description => { oid => '.1.3.6.1.4.1.236.11.5.1.1.1.1.0' }
+    },
+    {
+        match        => qr/Linux/,
+        description => { function => __PACKAGE__ . '::Manufacturer::Wyse::getDescription' },
+        vendor      => { value    => 'Wyse' },
+    },
+    {
+        match       => qr/ZebraNet PrintServer/,
+        description => { function => __PACKAGE__ . '::Manufacturer::Zebranet::getDescription' },
+        vendor      => { value    => 'Zebranet' },
+        type        => { value    => 'PRINTER' }
+    },
+    {
+        match       => qr/ZebraNet Wired PS/,
+        description => { function => __PACKAGE__ . '::Manufacturer::Zebranet::getDescription' },
+        vendor      => { value    => 'Zebranet' },
     },
 );
 
@@ -551,30 +615,32 @@ sub _scanAddressBySNMP {
             $device{MAC}       = _getMacAddress($snmp, $model) || _getMacAddress($snmp);
             $device{MODELSNMP} = $model->{MODELSNMP};
             $device{TYPE}      = $model->{TYPE};
+
+            foreach my $rule (@hardware_rules) {
+                next unless $sysdescr =~ $rule->{match};
+                $device{DESCRIPTION} = _apply_rule($rule->{description}, $snmp);
+                last;
+            }
         } else {
             # use rules as fallback
 
             $device{MAC} = _getMacAddress($snmp);
 
-            foreach my $rule (@vendor_rules) {
-                next unless $sysdescr =~ $rule->{match};
-                $device{VENDOR} = _apply_rule($rule, $snmp);
-                last;
+            my ($first_word) = $sysdescr =~ /^(\S+)/;
+            my $keyword = $hardware_keywords{lc($first_word)};
+
+            if ($keyword) {
+                $device{VENDOR} = $keyword->{vendor};
+                $device{TYPE}   = $keyword->{type};
+            } else {
+                foreach my $rule (@hardware_rules) {
+                    next unless $sysdescr =~ $rule->{match};
+                    $device{VENDOR}      = _apply_rule($rule->{vendor}, $snmp);
+                    $device{TYPE}        = _apply_rule($rule->{type}, $snmp);
+                    $device{DESCRIPTION} = _apply_rule($rule->{description}, $snmp);
+                    last;
+                }
             }
-
-            foreach my $rule (@type_rules) {
-                next unless $sysdescr =~ $rule->{match};
-                $device{VENDOR} = _apply_rule($rule, $snmp);
-                last;
-            }
-        }
-
-        # always use description rules
-
-        foreach my $rule (@description_rules) {
-            next unless $sysdescr =~ $rule->{match};
-            $device{DESCRIPTION} = _apply_rule($rule, $snmp);
-            last;
         }
 
         $device{DESCRIPTION} = $sysdescr if !$device{DESCRIPTION};
@@ -668,6 +734,8 @@ sub _parseNmap {
 
 sub _apply_rule {
     my ($rule, $snmp) = @_;
+
+    return unless $rule;
 
     if ($rule->{value}) {
         return $rule->{value};
