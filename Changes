@@ -10,7 +10,7 @@ BSD:
 Linux:
 * Megaraid controller support (Egor Morozov)
 
-2.2.3
+2.2.3  Mon, 25 Jun 2012 21:36:29 +0200
 General:
 * Fix battery voltage and capacity retrieval
 * Add --timeout option
