@@ -12,7 +12,6 @@ sub new {
         logger     => $params{logger} ||
                       FusionInventory::Agent::Logger->new(),
         lazy       => $params{lazy},
-        wait       => $params{wait},
         background => $params{background},
         targets    => []
     };
@@ -62,17 +61,6 @@ sub getNextTarget {
         }
     }
 
-    if ($self->{wait}) {
-        # return next target after waiting for a random delay
-        my $time = int rand($self->{wait});
-        $logger->info(
-            "[scheduler] sleeping for $time second(s) because of the wait " .
-            "parameter"
-        );
-        sleep $time;
-        return $target;
-    }
-
     # return next target immediatly
     return $target;
 }
@@ -111,11 +99,6 @@ the logger object to use (default: a new stderr logger)
 
 a flag to ensure targets whose next scheduled execution date has not been
 reached yet will get ignored. Only useful when I<background> flag is not set.
-
-=item I<wait>
-
-a number of second to wait before returning each target. Only useful when
-I<background> flag is not set.
 
 =item I<background>
 

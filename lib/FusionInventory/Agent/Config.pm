@@ -40,7 +40,6 @@ my $default = {
     'tag'                     => undef,
     'timeout'                 => undef,
     'user'                    => undef,
-    'wait'                    => undef,
     # deprecated options
     'no-ocsdeploy'            => undef,
     'no-inventory'            => undef,
