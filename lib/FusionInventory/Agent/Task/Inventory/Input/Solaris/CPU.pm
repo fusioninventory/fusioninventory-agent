@@ -26,7 +26,7 @@ sub doInventory {
             _getCPUFromMemconf(logger => $logger);
 
     # fallback on generic method
-    ($count, $cpu) = _getCPUFromPrsinfo(logger => $logger) if !$count;
+    ($count, $cpu) = _getCPUFromPsrinfo(logger => $logger) if !$count;
 
     $cpu->{MANUFACTURER} = "SPARC";
 
