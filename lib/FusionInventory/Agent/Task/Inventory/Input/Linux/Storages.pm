@@ -37,7 +37,8 @@ sub doInventory {
         }
     }
 
-    # fallback on sysfs if udev didn't worked
+    # fallback on sysfs if /dev/.udev is not available. That's the
+    # case on any up to date Linux system
     if (!@devices) {
         @devices = getDevicesFromProc(logger => $logger);
     }
