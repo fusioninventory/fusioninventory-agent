@@ -520,6 +520,6 @@ Get all available tasks found on the system, as a list of module / version
 pairs:
 
 %tasks = (
-    'FusionInventory::Agent::Task::Foo' => x,
-    'FusionInventory::Agent::Task::Bar' => y,
+    'Foo' => x,
+    'Bar' => y,
 );
