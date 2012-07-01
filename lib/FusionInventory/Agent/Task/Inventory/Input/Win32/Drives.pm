@@ -46,11 +46,13 @@ sub doInventory {
         $object->{Size} = int($object->{Size} / (1024 * 1024))
             if $object->{Size};
 
+        my $volume = $object->{VolumeName};
         my $filesystem = $object->{FileSystem};
         if ($object->{DriveType} == 4) {
-            if ($object->{ProviderName} =~ /\\DavWWWRoot\\/) {
+            $volume = $object->{ProviderName};
+            if ($volume =~ /\\DavWWWRoot\\/) {
                 $filesystem = "WebDav";
-            } elsif ($object->{ProviderName} =~ /^\\\\/) {
+            } elsif ($volume =~ /^\\\\/) {
                 $filesystem = "CIFS";
             }
         }
@@ -69,7 +71,7 @@ sub doInventory {
                 SYSTEMDRIVE => (lc($object->{DeviceID}) eq $systemDrive),
                 TOTAL       => $object->{Size},
                 TYPE        => $type[$object->{DriveType}],
-                VOLUMN      => $object->{VolumeName},
+                VOLUMN      => $volume,
             }
         );
     }
