@@ -3,6 +3,7 @@ Revision history for FusionInventory agent
 2.3.0
 General:
 * various UTF8 encoding fixes
+* Add DNS_DOMAIN and FQDN in OPERATINGSYSTEM section
 
 BSD:
 * Megaraid and 3ware RAID controller support (Egor Morozov)
