@@ -87,8 +87,9 @@ sub planifyEvents {
     return unless int($r->{configValidityPeriod});
 
     foreach my $event (@{$r->{schedule}}) {
+
         next unless int($event->{periodicity});
-        next unless $event->{task} =~ /^\S+$/;
+
         next unless $event->{remote} =~ /^\S+$/;
 
         if (!$params{tasks}->{$event->{task}}) {
