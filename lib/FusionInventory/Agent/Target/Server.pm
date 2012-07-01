@@ -94,6 +94,7 @@ sub planifyEvents {
 
         if (!$params{tasks}->{$event->{task}}) {
             $self->{logger}->error("Can't planify an event: the task '".$event->{task}."' is not available");
+            next;
         }
 
         my $when = time + $event->{periodicity};
