@@ -44,7 +44,7 @@ sub getNextTarget {
 
     return unless @{$self->{targets}};
 
-# Read settings from server
+# Retrieve settings from server
     foreach my $target (@{$self->{targets}}) {
         if ($target->{configValidityNextCheck} < time) {
             $target->planifyEvents(
