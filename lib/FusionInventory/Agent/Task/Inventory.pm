@@ -83,6 +83,8 @@ sub run {
     } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
         my $format = $self->{config}->{'local-inventory-format'};
 
+        $inventory->computeChecksum();
+
         my $file =
             $self->{config}->{local} .
             "/" .
@@ -294,9 +296,6 @@ sub _feedInventory {
 
     # Execution time
     $inventory->setHardware({ETIME => time() - $begin});
-
-    $inventory->computeLegacyValues();
-    $inventory->computeChecksum();
 }
 
 sub _injectContent {
@@ -361,6 +360,7 @@ sub _printInventory {
         if ($params{format} eq 'xml') {
 
             my $tpp = XML::TreePP->new(indent => 2);
+            my $content = $params{inventory}->{content};
             print {$params{handle}} $tpp->write({
                 REQUEST => {
                     CONTENT => $params{inventory}->{content},
