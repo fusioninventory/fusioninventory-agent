@@ -91,6 +91,10 @@ sub planifyEvents {
         next unless $event->{task} =~ /^\S+$/;
         next unless $event->{remote} =~ /^\S+$/;
 
+        if (!$params{tasks}->{$event->{task}}) {
+            $self->{logger}->error("Can't planify an event: the task '".$event->{task}."' is not available");
+        }
+
         my $when = time + $event->{periodicity};
 
         # The first time we are the delayStartup
