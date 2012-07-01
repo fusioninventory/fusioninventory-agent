@@ -22,7 +22,6 @@ Additional mandatory perl modules:
 - LWP
 - Net::IP
 - UNIVERSAL::require
-- Mac::SysProfile (MacOs only)
 
 Additional optional perl modules:
 - Compress::Zlib, for message compression
