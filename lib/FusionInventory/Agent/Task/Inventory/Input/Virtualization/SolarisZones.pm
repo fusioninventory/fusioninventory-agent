@@ -35,10 +35,14 @@ sub doInventory {
             pattern => qr/(.*mcap.*)/
         );
 
-        my $memcap = $line;
-        $memcap =~ s/[^\d]+//g;
-        my $memory = $memcap ?
-            $memcap / 1024 / 1024 : undef;
+        my $memory;
+
+        if ($line) {
+            my $memcap = $line;
+            $memcap =~ s/[^\d]+//g;
+            $memory = $memcap / 1024 / 1024;
+
+        }
 
         my $vcpu = getFirstLine(command => '/usr/sbin/psrinfo -p');
 
