@@ -201,7 +201,7 @@ sub getDevicesFromProc {
     my %seen;
     @names = grep { !$seen{$_}++ } @names;
 
-    # extract informations
+    # extract information
     my @devices;
     foreach my $name (@names) {
         my $device = {
@@ -411,7 +411,8 @@ This module provides some generic functions for Linux.
 
 =head2 getDevicesFromUdev(%params)
 
-Returns a list of devices, by parsing udev database.
+Returns a list of devices, by parsing /dev/.udev directory.
+This directory is not exported anymore with recent udev.
 
 Availables parameters:
 
@@ -465,7 +466,7 @@ Availables parameters:
 
 =head2 getInfoFromSmartctl(%params)
 
-Returns some informations about a drive, using smartctl.
+Returns some information about a drive, using smartctl.
 
 Availables parameters:
 

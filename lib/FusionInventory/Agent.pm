@@ -22,7 +22,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::XML::Query::Prolog;
 
-our $VERSION = '2.2.2';
+our $VERSION = '2.2.3';
 our $VERSION_STRING = 
     "FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
 our $AGENT_STRING =
@@ -520,6 +520,6 @@ Get all available tasks found on the system, as a list of module / version
 pairs:
 
 %tasks = (
-    'FusionInventory::Agent::Task::Foo' => x,
-    'FusionInventory::Agent::Task::Bar' => y,
+    'Foo' => x,
+    'Bar' => y,
 );
