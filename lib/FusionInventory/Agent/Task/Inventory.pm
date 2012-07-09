@@ -73,40 +73,51 @@ sub run {
     $self->_initModulesList(\%disabled);
     $self->_feedInventory($inventory, \%disabled);
 
-    if ($self->{target}->isa('FusionInventory::Agent::Target::Stdout')) {
+    if ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
+        my $path   = $self->{target}->getPath();
+        my $format = $self->{target}->{format};
+        my ($file, $handle);
+
+        SWITCH: {
+            if ($path eq '-') {
+                $handle = \*STDOUT;
+                last SWITCH;
+            }
+
+            if (-f $path) {
+                $file = $path;
+                last SWITCH;
+            }
+
+            if (-d $path) {
+                $file =
+                    $path . "/" . $self->{deviceid} .
+                    $format eq 'xml' ? '.ocs' : '.html';
+                last SWITCH;
+            }
+        }
+
+        if ($file) {
+            if (Win32::Unicode::File->require()) {
+                $handle = Win32::Unicode::File->new('w', $file);
+            } else {
+                open($handle, '>', $file);
+            }
+            $self->{logger}->error("Can't write to $file: $ERRNO")
+                unless $handle;
+        }
+
         $self->_printInventory(
             inventory => $inventory,
-            handle    => \*STDOUT,
-            format    => 'xml'
+            handle    => $handle,
+            format    => $format
         );
-    } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
-        my $format = $self->{target}->{format};
 
-        my $extension = $format eq 'xml' ? '.ocs' : '.html';
-        my $file =
-            $self->{config}->{local} .
-            "/" .
-            $self->{deviceid} .
-            $extension;
-
-        my $handle;
-        if (Win32::Unicode::File->require()) {
-            $handle = Win32::Unicode::File->new('w', $file);
-        } else {
-            open($handle, '>', $file);
-        }
-
-        if ($handle) {
-            $self->_printInventory(
-                inventory => $inventory,
-                handle    => $handle,
-                format    => $format
-            );
-            close $handle;
+        if ($file) {
             $self->{logger}->info("Inventory saved in $file");
-        } else {
-            $self->{logger}->error("Can't write to $file: $ERRNO");
+            close $handle;
         }
+
     } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
         my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
             logger       => $self->{logger},

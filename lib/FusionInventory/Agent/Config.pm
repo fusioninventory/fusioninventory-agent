@@ -116,6 +116,10 @@ my $deprecated = {
         message => 'use --no-category software option instead',
         new     => { 'no-category' => 'software' }
     },
+    'stdout' => {
+        message => 'use --local - option instead',
+        new     => { 'local' => '-' }
+    },
 };
 
 sub new {
@@ -294,6 +298,7 @@ sub _checkContent {
 
     # multi-values options
     $self->{logger} = [ split(/,/, $self->{logger}) ] if $self->{logger};
+    $self->{local}  = [ split(/,/, $self->{local})  ] if $self->{local};
     $self->{server} = [ split(/,/, $self->{server}) ] if $self->{server};
     $self->{'no-task'} = [ split(/,/, $self->{'no-task'}) ]
         if $self->{'no-task'};

@@ -49,13 +49,13 @@ GetOptions(
     'httpd-trust=s',
     'scan-homedirs',
     'server|s=s',
-    'stdout',
     'tag|t=s',
     'timeout=i',
     'user|u=s',
     'version',
     'wait|w=s',
     # deprecated options
+    'stdout',
     'daemon-no-fork|D',
     'devlib',
     'no-ocsdeploy',
@@ -130,12 +130,11 @@ fusioninventory-agent - FusionInventory agent For Linux/UNIX, Windows and MacOSX
 
 =head1 SYNOPSIS
 
-B<fusioninventory-agent> [options] [--server server|--local directory|--sdout]
+B<fusioninventory-agent> [options] [--server server|--local path]
 
   Target definition options
     -s --server=URI     send tasks result to a server
-    -l --local=DIR      write tasks results in a directory
-    --stdout            write tasks result on STDOUT
+    -l --local=PATH     write tasks results locally
 
   Target scheduling options
     --delaytime=DURATION        maximum initial delay before first target, in seconds (3600)
@@ -294,10 +293,9 @@ example, the two lines below are all equivalent:
 
 =over
 
-
 =item B<-s>, B<--server>=I<URI>
 
-Send results of tasks execution to given server.
+Send the results of tasks execution to given server.
 
 If I<URI> doesn't start with http:// or https://, the agent assume the
 parameter is a hostname and rewrite it as:
@@ -314,13 +312,29 @@ and FusionInventory for GLPI this one:
 
 Multiple values can be specified, using comma as a separator.
 
-=item B<-l>, B<--local>=I<DIR>
+=item B<-l>, B<--local>=I<PATH>
 
-Write the results of tasks execution to given directory.
+Write the results of tasks execution locally.
 
-=item B<--stdout>
+Exact behaviour according to given path:
 
-Write the results of tasks execution on stdout.
+=over
+
+=item *
+
+if I<PATH> is a directory, a file will be created therein
+
+=item *
+
+if I<PATH> is a file, it will be used directly
+
+=item *
+
+if I<PATH> is '-', STDOUT will be used
+
+=back
+
+Multiple values can be specified, using comma as a separator.
 
 =back
 
