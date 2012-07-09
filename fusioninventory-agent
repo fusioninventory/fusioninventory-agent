@@ -56,21 +56,6 @@ GetOptions(
     'wait|w=s',
     # deprecated options
     'stdout',
-    'daemon-no-fork|D',
-    'devlib',
-    'no-ocsdeploy',
-    'no-inventory',
-    'no-wakeonlan',
-    'no-snmpquery',
-    'no-netdiscovery',
-    'no-printer',
-    'no-software',
-    'rpc-trust-localhost',
-    'rpc-port',
-    'rpc-ip',
-    'no-socket',
-    'realm',
-    'info|i',
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0) if $options->{help};
