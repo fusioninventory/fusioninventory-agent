@@ -23,7 +23,7 @@ use FusionInventory::Agent::XML::Query::Prolog;
 
 our $VERSION = '2.3.0';
 our $VERSION_STRING = 
-    "FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
+    "FusionInventory Agent ($VERSION)";
 our $AGENT_STRING =
     "FusionInventory-Agent_v$VERSION";
 

@@ -30,7 +30,9 @@ sub _parseMegasasctl {
         }
 
         my $storage;
-        $storage->{NAME} = "$vendor $model";
+        $storage->{NAME} = $disk_addr;
+        $storage->{MANUFACTURER} = $vendor;
+        $storage->{MODEL} = $model;
         $storage->{DESCRIPTION} = 'SAS';
         $storage->{TYPE} = 'disk';
         $storage->{DISKSIZE} = $size;

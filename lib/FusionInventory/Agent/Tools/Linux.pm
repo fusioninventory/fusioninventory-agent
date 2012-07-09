@@ -201,7 +201,7 @@ sub getDevicesFromProc {
     my %seen;
     @names = grep { !$seen{$_}++ } @names;
 
-    # extract informations
+    # extract information
     my @devices;
     foreach my $name (@names) {
         my $device = {
@@ -465,7 +465,7 @@ Availables parameters:
 
 =head2 getInfoFromSmartctl(%params)
 
-Returns some informations about a drive, using smartctl.
+Returns some information about a drive, using smartctl.
 
 Availables parameters:
 
