@@ -174,97 +174,13 @@ B<fusioninventory-agent> [options] [--server server|--local path]
     --debug                     debug mode (false)
     --version                   print the version and exit
 
-=head1 EXAMPLES
-
-    % fusioninventory-agent --server localhost
-    # execute all available tasks required by a local server
-
-    % fusioninventory-agent --server http://localhost/ocsinventory2
-    # execute all available tasks required by a local server, using a specific
-    # URI
-
-    % fusioninventory-agent --server https://localhost/ocsinventory
-    # execute all available tasks required by a local server, using a secure
-    # connection
-
-    % fusioninventory-agent --server localhost --user test --password s3cr3t
-    # execute all available tasks required by a local server, using HTTP
-    # authentication
-
-    % fusioninventory-agent --local /tmp
-    # execute all available tasks and write the result in /tmp directory
-
-    % fusioninventory-agent --local /tmp --html
-    # execute all available tasks and write the result in /tmp directory in
-    # HTML format
-
 =head1 DESCRIPTION
 
-F<fusioninventory-agent> is an agent for OCS Inventory server and
-FusionInventory for GLPI servers. It creates local inventory of the machines
-(hardware and software) and send it to the server. It can also write it
-in a local XML file.
-This agent is the successor of the former linux_agent which was released with
-OCS 1.01 and prior. It also replaces the Solaris/AIX/BSD unofficial agents.
-
-Supported systems:
-
-=over 4
-
-=item F<Windows> (since Windows 2000)
-
-=item F<GNU/Linux>
-
-=item F<MacOSX>
-
-=item F<Solaris>
-
-=item F<FreeBSD>
-
-=item F<NetBSD>
-
-=item F<OpenBSD>
-
-=item F<AIX>
-
-=item F<HP-UX>
-
-=item F<GNU/kFreeBSD>
-
-=back
-
-=head1 OCS INVENTORY PROTOCOL
-
-FusionInventory Agent uses OCS Inventory protocol and is compatible with OCS
-Inventory server. The agent uses the same protocol with the FusionInventory
-For GLPI plugin.
-
-The OCS protocol is basicly an exchange of XML file done over HTTP(S).
-
-=head2 First, The PROLOG
-
-The agent send a first message to give it's ID (DEVICEID). The
-server send back to the agent an XML file with a list of parameter. It's the
-PROLOG RESP. You can see it if you're in Debug mode.
-In this PROLOG, the server send the PROLOG_FREQ. The agent will use it to
-know when it need to contact the server for the next time.
-
-The agent compute the next query date this way:
-
-     PROLOG_FREQ/2+RANDOM(PROLOG_FREQ/2)
-
-
-=head2 Module execution
-
-The agent will launch each modules and pass the list of options found in the
-PROLOG RESP as parameter. The module can send information directly to the
-server (inventory, SNMP scan result, etc)
-
-=head2 Server mode (Windows service or Unix daemon)
-
-In server mode, the agent wait during a period between the last PROLOG and
-PROLOG_FREQ. If PROLOG_FREQ is not set, it will use --delaytime value.
-The default value is 3600.
+The F<fusioninventory-agent> agent is a generic multi-platform agent. It can
+perform a large array of management tasks, such as local inventory, software
+deployment or network discovery. It can be used either standalone, or in
+combination with a compatible server (OCS, GLPI, OTRS) acting as a centralized
+control point.
 
 =head1 OPTIONS
 
@@ -567,28 +483,3 @@ Print the agent setup directories and exit.
 Print the version and exit.
 
 =back
-
-=head1 CONFIGURATION
-
-The agent is able to use multiple configuration backends. The registry backend
-is the default on Windows platform, and the file backend is the default
-everywhere else. Another backend can be specified using the B<--config> option.
-
-The I<file> backend reads configuration directives from a configuration file,
-whose default location is determined at installation time as
-PREFIX/etc/agent.cfg. An alternative location can also be given with
-B<--conf-file> option.
-
-The I<registry> backend reads configuration directives from the Windows
-registry, with an arch-dependant location:
-
-=over
-
-=item * F<HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent> for 32 bits machines
-
-=item * F<HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\FusionInventory-Agent> for 64 bits machines
-
-=back
-
-The I<none> backend doesn't read any configuration directive at all, allowing
-to isolate the agent execution from any installed configuration.
