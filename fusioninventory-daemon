@@ -7,6 +7,7 @@ use lib './lib';
 use English qw(-no_match_vars);
 use Getopt::Long;
 use Pod::Usage;
+use Proc::Daemon;
 
 use FusionInventory::Agent;
 
@@ -23,73 +24,55 @@ GetOptions(
     'conf-file=s',
     'config=s',
     'color',
+    'no-fork',
     'debug+',
     'delaytime=s',
     'force|f',
     'help|h',
     'html',
     'lazy',
-    'list-tasks',
-    'setup',
     'local|l=s',
     'logger=s',
     'logfile=s',
     'logfile-maxsize=i',
     'no-category=s',
+    'no-httpd',
     'no-ssl-check',
     'no-task=s',
     'no-p2p',
     'password|p=s',
     'proxy|P=s',
+    'httpd-ip=s',
+    'httpd-port=s',
+    'httpd-trust=s',
     'scan-homedirs',
     'server|s=s',
     'tag|t=s',
     'timeout=i',
     'user|u=s',
-    'version',
-    'wait|w=s',
-    # deprecated options
-    'stdout',
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0) if $options->{help};
 
-if ($options->{version}) {
-    print $FusionInventory::Agent::VERSION_STRING . "\n";
-    exit 0;
+Proc::PID::File->require();
+if (!$EVAL_ERROR) {
+    if (Proc::PID::File->running()) {
+        print STDERR "An agent is already runnnig, exiting...";
+        exit 1;
+    }
 }
 
-my %setup = (
+my $agent = FusionInventory::Agent->new(
     confdir => './etc',
     datadir => './share',
     libdir  => './lib',
     vardir  => './var',
 );
 
-if ($options->{setup}) {
-    foreach my $key (keys %setup) {
-        print "$key: $setup{$key}\n";
-    }
-    exit 0;
-}
-
-my $agent = FusionInventory::Agent->new(%setup);
-
-if ($options->{'list-tasks'}) {
-    my %tasks = $agent->getAvailableTasks();
-    foreach my $task (keys %tasks) {
-        print "$task (v$tasks{$task})\n";
-    }
-    exit 0;
-}
-
-if ($options->{wait}) {
-    my $time = int rand($options->{wait});
-    sleep $time;
-}
-
 eval {
-    $agent->init(options => $options);
+    $agent->init(options => { daemon => 1, %$options });
+    Proc::Daemon::Init() if !$options->{'no-fork'};
+    $agent->startHTTPServer();
     $agent->run();
 };
 
@@ -105,11 +88,11 @@ __END__
 
 =head1 NAME
 
-fusioninventory-agent - FusionInventory agent For Linux/UNIX, Windows and MacOSX
+fusioninventory-daemon - FusionInventory agent For Linux/UNIX, Windows and MacOSX
 
 =head1 SYNOPSIS
 
-B<fusioninventory-agent> [options] [--server server|--local path]
+B<fusioninventory-daemon> [options] [--server server|--local path]
 
   Target definition options
     -s --server=URI     send tasks result to a server
@@ -144,6 +127,12 @@ B<fusioninventory-agent> [options] [--server server|--local path]
     --no-ssl-check      do not check server SSL certificates (false)
     --timeout           connection timeout (180)
 
+  Web interface options
+    --no-httpd                 disable embedded web server (false)
+    --httpd-ip=IP              network interface to listen to
+    --httpd-port=PORT          network port to listen to (62354)
+    --httpd-trust=RANGE        trust requests from range without authentication token (false)
+
   Logging options
     --logger=BACKEND            logger backend [Stderr|File|Syslog] (Stderr)
     --logfile=FILE              log file
@@ -157,12 +146,13 @@ B<fusioninventory-agent> [options] [--server server|--local path]
 
   Execution mode options
     -w --wait=DURATION          maximum delay before execution, in seconds
+    --no-fork                   don't fork in background (false)
     --debug                     debug mode (false)
     --version                   print the version and exit
 
 =head1 DESCRIPTION
 
-The F<fusioninventory-agent> agent is a generic multi-platform agent. It can
+The F<FusionInventory> agent is a generic multi-platform agent. It can
 perform a large array of management tasks, such as local inventory, software
 deployment or network discovery. It can be used either standalone, or in
 combination with a compatible server (OCS, GLPI, OTRS) acting as a centralized
@@ -173,8 +163,8 @@ control point.
 Most of the options are available in a I<short> form and a I<long> form.  For
 example, the two lines below are all equivalent:
 
-    % fusioninventory-agent -s localhost
-    % fusioninventory-agent --server localhost
+    % fusioninventory-daemon -s localhost
+    % fusioninventory-daemon --server localhost
 
 =head2 Target definition options
 
@@ -459,13 +449,5 @@ This is only useful when running as a daemon.
 =item B<--debug>
 
 Turn the debug mode on.
-
-=item B<--setup>
-
-Print the agent setup directories and exit.
-
-=item B<--version>
-
-Print the version and exit.
 
 =back

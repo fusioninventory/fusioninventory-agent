@@ -124,23 +124,6 @@ sub init {
         exit 1;
     }
 
-    if ($config->{daemon} && !$config->{'no-fork'}) {
-
-        $logger->debug("Time to call Proc::Daemon");
-
-        Proc::Daemon->require();
-        if ($EVAL_ERROR) {
-            $logger->error("Can't load Proc::Daemon. Is the module installed?");
-            exit 1;
-        }
-        Proc::Daemon::Init();
-        $logger->debug("Daemon started");
-        if ($self->_isAlreadyRunning()) {
-            $logger->debug("An agent is already runnnig, exiting...");
-            exit 1;
-        }
-    }
-
     # compute list of allowed tasks
     my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
     my @tasks = keys %available;
@@ -152,36 +135,40 @@ sub init {
 
     $self->{tasks} = \@tasks;
 
-    # create HTTP interface
-    if (($config->{daemon} || $config->{service}) && !$config->{'no-httpd'}) {
-        FusionInventory::Agent::HTTP::Server->require();
-        if ($EVAL_ERROR) {
-            $logger->debug("Failed to load HTTP server: $EVAL_ERROR");
-        } else {
-            # make sure relevant variables are shared between threads
-            threads::shared->require();
-            # calling share(\$self->{status}) directly breaks in testing
-            # context, hence the need to use an intermediate variable
-            my $status = \$self->{status};
-            my $token = \$self->{token};
-            threads::shared::share($status);
-            threads::shared::share($token);
+    $logger->debug("FusionInventory Agent initialised");
+}
 
-            $_->setShared() foreach $scheduler->getTargets();
+sub startHTTPServer {
+    my ($self) = @_;
 
-            $self->{server} = FusionInventory::Agent::HTTP::Server->new(
-                logger          => $logger,
-                scheduler       => $scheduler,
-                agent           => $self,
-                htmldir         => $self->{datadir} . '/html',
-                ip              => $config->{'httpd-ip'},
-                port            => $config->{'httpd-port'},
-                trust           => $config->{'httpd-trust'},
-            );
-        }
+    return if $self->{config}->{'no-httpd'};
+
+    FusionInventory::Agent::HTTP::Server->require();
+    if ($EVAL_ERROR) {
+        $self->{logger}->debug("Failed to load HTTP server: $EVAL_ERROR");
+        return;
     }
 
-    $logger->debug("FusionInventory Agent initialised");
+    # make sure relevant variables are shared between threads
+    threads::shared->require();
+    # calling share(\$self->{status}) directly breaks in testing
+    # context, hence the need to use an intermediate variable
+    my $status = \$self->{status};
+    my $token = \$self->{token};
+    threads::shared::share($status);
+    threads::shared::share($token);
+
+    $_->setShared() foreach $self->{scheduler}->getTargets();
+
+    $self->{server} = FusionInventory::Agent::HTTP::Server->new(
+        logger          => $self->{logger},
+        scheduler       => $self->{scheduler},
+        agent           => $self,
+        htmldir         => $self->{datadir} . '/html',
+        ip              => $self->{config}->{'httpd-ip'},
+        port            => $self->{config}->{'httpd-port'},
+        trust           => $self->{config}->{'httpd-trust'},
+    );
 }
 
 sub run {
@@ -392,20 +379,6 @@ sub _getTaskVersion {
     }
 
     return $version;
-}
-
-sub _isAlreadyRunning {
-    my ($self) = @_;
-
-    Proc::PID::File->require();
-    if ($EVAL_ERROR) {
-        $self->{logger}->debug(
-            'Proc::PID::File unavailable, unable to check for running agent'
-        );
-        return 0;
-    }
-
-    return Proc::PID::File->running();
 }
 
 sub _loadState {
