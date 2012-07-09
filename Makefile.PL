@@ -18,6 +18,11 @@ requires 'UNIVERSAL::require' => undef;
 requires 'Text::Template'     => undef;
 requires 'XML::TreePP'        => '0.26';
 
+if ($OSNAME eq 'MSWin32') {
+    requires 'Win32::OLE'         => undef;
+    requires 'Win32::TieRegistry' => undef;
+}
+
 # optional dependencies
 recommends 'Parse::EDID'      => undef;
 recommends 'Compress::Zlib'   => undef;
@@ -25,14 +30,6 @@ recommends 'HTTP::Daemon'     => undef;
 recommends 'Net::CUPS'        => 0.60;
 recommends 'IO::Socket::SSL'  => undef;
 recommends 'LWP::Protocol::https'  => undef;
-
-if ($OSNAME ne 'MSWin32') {
-    recommends 'Proc::Daemon'     => undef;
-    recommends 'Proc::PID::File'  => undef;
-} else {
-    requires 'Win32::OLE' => undef;
-    requires 'Win32::TieRegistry' => undef;
-}
 
 # test dependencies
 test_requires  'HTTP::Proxy'                  => undef;
@@ -44,11 +41,20 @@ test_requires  'IPC::Run'                     => undef;
 test_requires  'Test::Exception'              => undef;
 test_requires  'Test::MockModule'             => undef;
 test_requires  'Test::More'                   => '0.93'; # subtest
-test_requires  'LWP::Protocol::https'          => undef;
+test_requires  'LWP::Protocol::https'         => undef;
 
 install_script  'fusioninventory-agent';
-install_script  'fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
 install_script  'fusioninventory-injector';
+
+if ($OSNAME ne 'MSWin32') {
+    recommends 'Proc::Daemon'    => undef;
+    recommends 'Proc::PID::File' => undef;
+    install_script 'fusioninventory-daemon';
+} else {
+    recommends 'Win32::Daemon' => undef;
+    install_script 'fusioninventory-service';
+}
+
 # memconf is needed by Solaris backend module
 install_script  'memconf' if $OSNAME eq 'solaris';
 
