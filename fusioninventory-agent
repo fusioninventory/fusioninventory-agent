@@ -483,15 +483,15 @@ Logger backend to use. It can be:
 
 =item
 
-Stderr: log messages directly in the console.
+stderr: log messages directly in the console.
 
 =item
 
-File: log messages in a file.
+file: log messages in a file.
 
 =item
 
-Syslog: log messages through the local syslog server
+syslog: log messages through the local syslog server
 
 =back
 
