@@ -14,7 +14,7 @@ sub new {
     die "unreadable file parameter" unless -r $params{file};
 
     my $self = {
-        file => $params{file},
+        values => _getIndexedValues($params{file})
     };
 
     bless $self, $class;
@@ -23,6 +23,20 @@ sub new {
 
 }
 
+sub _getIndexedValues {
+    my ($file) = @_;
+
+    my $values;
+    my $handle = getFileHandle(file => $file);
+    while (my $line = <$handle>) {
+       next unless $line =~ /^(\S+)\s=\s(\S+):\s(.*)/;
+       my $oid = _getSanitizedOid($1);
+       $values->{$oid} = [ $2, $3 ];
+    }
+    close ($handle);
+
+    return $values;
+}
 
 sub get {
     my ($self, $oid) = @_;
@@ -30,18 +44,10 @@ sub get {
     return unless $oid;
     $oid = _getSanitizedOid($oid);
 
-    my $value;
-    my $handle = getFileHandle(file => $self->{file});
-    while (my $line = <$handle>) {
-       next unless $line =~ /^(\S+)\s=\s(\S+):\s(.*)/;
-       my $current_oid = _getSanitizedOid($1);
-       next unless $current_oid eq $oid;
-       $value = _getSanitizedValue($2, $3);
-       last;
-    }
-    close ($handle);
-
-    return $value;
+    return _getSanitizedValue(
+        $self->{values}->{$oid}->[0],
+        $self->{values}->{$oid}->[1],
+    );
 }
 
 sub walk {
@@ -51,15 +57,13 @@ sub walk {
     $oid = _getSanitizedOid($oid);
 
     my $values;
-    my $handle = getFileHandle(file => $self->{file});
-    while (my $line = <$handle>) {
-       next unless $line =~ /^(\S+)\s=\s(\S+):\s(.*)/;
-       my $current_oid = _getSanitizedOid($1);
-       my ($type, $value) = ($2, $3);
-       next unless $current_oid =~ /^$oid\./;
-       $values->{$current_oid} = _getSanitizedValue($type, $value);
+    foreach my $key (keys %{$self->{values}}) {
+       next unless $key =~ /^$oid\./;
+       $values->{$key} = _getSanitizedValue(
+           $self->{values}->{$key}->[0],
+           $self->{values}->{$key}->[1]
+       );
     }
-    close ($handle);
 
     return $values;
 }
