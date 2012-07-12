@@ -19,41 +19,56 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $handle = getFileHandle(
-        logger  => $logger,
-        command => 'who'
+    my @users = _getLoggedUsers(logger => $logger);
+
+    foreach my $user (@users) {
+        # avoid duplicates
+        next if $seen->{$user->{LOGIN}}++;
+
+        $inventory->addEntry(
+            section => 'USERS',
+            entry   => $user
+        );
+    }
+
+    my $last = _getLastUser(logger => $logger);
+    $inventory->setHardware($last);
+}
+
+sub _getLoggedUsers {
+    my (%params) = (
+        command => 'who',
+        @_
     );
 
-    if ($handle) {
-        while (my $line = <$handle>) {
-            next unless $line =~ /^(\S+)/;
-            my $user = { LOGIN => $1 };
+    my $handle = getFileHandle(%params);
+    return unless $handle;
 
-            # avoid duplicates
-            next if $seen->{$user->{LOGIN}}++;
+    my @users;
 
-            $inventory->addEntry(
-                section => 'USERS',
-                entry   => $user
-            );
-        }
-        close $handle;
+    while (my $line = <$handle>) {
+        next unless $line =~ /^(\S+)/;
+        push @users, { LOGIN => $1 };
     }
 
-    my ($lastUser, $lastDate);
-    my $last = getFirstLine(command => 'last');
-    if ($last &&
-        $last =~ /^(\S+) \s+ \S+ \s+ \S+ \s+ (\S+ \s+ \S+ \s+ \S+ \s+ \S+)/x
-    ) {
-        $lastUser = $1;
-        $lastDate = $2;
-    }
+    return @users;
+}
 
-    $inventory->setHardware({
-        LASTLOGGEDUSER     => $lastUser,
-        DATELASTLOGGEDUSER => $lastDate
-    });
+sub _getLasUser {
+    my (%params) = (
+        command => 'last',
+        @_
+    );
 
+    my $last = getFirstLine(%params);
+    return unless $last;
+    return unless
+        $last =~ /^(\S+) \s+ \S+ \s+ \S+ \s+ (\S+ \s+ \S+ \s+ \S+ \s+ \S+)/x;
+
+    return {
+        LASTLOGGEDUSER     => $1,
+        DATELASTLOGGEDUSER => $2
+    };
 }
 
 1;
