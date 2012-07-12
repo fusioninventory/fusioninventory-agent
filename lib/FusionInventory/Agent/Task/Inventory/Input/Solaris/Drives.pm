@@ -48,11 +48,10 @@ sub doInventory {
         }
 
         my $line = getFirstLine(
-            command => "zfs get org.opensolaris.libbe:uuid $filesystem->{VOLUMN}"
+            command => "zfs get creation $filesystem->{VOLUMN}"
         );
 
-        if ($line && $line =~ /org.opensolaris.libbe:uuid\s+(\S{5}\S+)/) {
-            $filesystem->{UUID} = $1;
+        if ($line && $line =~ /creation\s+(\S.*\S+)\s-/) {
             $filesystem->{FILESYSTEM} = 'zfs';
             next;
         }
