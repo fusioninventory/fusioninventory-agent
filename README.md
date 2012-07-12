@@ -1,2 +1,0 @@
-fusioninventory-agent-task-network
-==================================

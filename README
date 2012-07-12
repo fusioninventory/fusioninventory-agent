@@ -1,0 +1,64 @@
+		FusionInventory agent network tasks
+		-----------------------------------
+
+Description 
+-----------
+This plugin for FusionInventory agent provides two additional tasks, for
+handling remote devices:
+
+- the NetDiscovery task allows the agent to scan the network to find remote
+  devices, through nmap, NetBios or SNMP, and to identify them
+- the NetInventory task allows the agent to extract various informations from
+  a remote device through SNMP protocol
+
+The NetDiscovery task use the following tools, if available, to scan IP networks:
+- nmap external command
+- Net::NBName perl module
+- Net::SNMP perl module
+This allows to discover remote devices, with a few additional information,
+such as mac address and hostname, but not to identify them.
+
+If the device replies to SNMP, an additional identification attempt is
+performed, by comparing its sysdescr field with a database of known values. If 
+there is an exact match, an SNMP description model can be assigned, allowing to
+immediatly identify the device category (printer, network device, etc...), and
+to use NetInventory task later to fetch additional informations.
+
+Wether identified or not, discovered devices are reported to GLPI as 'unknown
+device', and have to be imported in the inventory.
+
+The NetInventory task can be applied to any device already present in the
+inventory, provided it is assigned an SNMP description model. This model maps
+device features (ports list, for instance) with SNMP variables identifiers
+specific to a given combination of hardware and firmware. This is typically
+achieved through usage of NetDiscovery task, which automatically identifies
+known devices, and assign them the correct model. As device discovery uses the
+same database than device inventory, a failure to assign a model during the
+discovery phase means there isn't any relevant model for this device.
+
+Dependencies
+------------
+This task requires a FusionInventory agent (minimal version 2.2.0), and can
+only be executed with a GLPI server with FusionInventory plugin.
+
+Additional mandatory perl modules:
+- Net::SNMP
+
+Additional optional perl modules:
+- Net::NBName
+
+Additional optional programs:
+- nmap
+
+Authors 
+-------
+* David Durieux <d.durieux@siprossii.com>
+* Gonéri Le Bouder <goneri@rulezlan.org>
+* Guillaume Rousse <guillomovitch@gmail.com>
+
+Copyright 2010-2012 FusionInventory Team
+
+License
+-------
+This software is licensed under the terms of GPLv2+, see LICENSE file for
+details.
