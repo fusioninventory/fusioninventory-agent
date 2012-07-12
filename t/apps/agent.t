@@ -10,9 +10,9 @@ use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
 
-use Test::More tests => 27;
+use Test::More tests => 32;
 
-my ($out, $err, $rc);
+my ($content, $out, $err, $rc);
 
 ($out, $err, $rc) = run_agent('--help');
 ok($rc == 2, '--help exit status');
@@ -32,6 +32,24 @@ like(
     '--version stdin'
 );
 
+my $tmpFile = tmpnam();
+($out, $err, $rc) = run_agent('--local '. $tmpFile);
+ok($rc == 0, '--local exit status');
+like(
+    $err,
+    qr/Inventory saved in $tmpFile/,
+    '--local /tmp/somefile'
+);
+$content = XML::TreePP->new()->parsefile($tmpFile);
+ok($content, 'file output is valid XML');
+unlink($tmpFile);
+
+($out, $err, $rc) = run_agent('--local '. '-');
+ok($rc == 0, '--local exit status');
+$content = XML::TreePP->new()->parse($out);
+ok($content, 'STDOUT output is valid XML');
+unlink($tmpFile);
+
 
 ($out, $err, $rc) = run_agent();
 ok($rc == 1, 'no target exit status');
@@ -43,8 +61,6 @@ like(
 is($out, '', 'no target stdin');
 
 my $base_options = "--stdout --debug --no-task ocsdeploy,wakeonlan,snmpquery,netdiscovery";
-
-my $content;
 
 # first inventory
 ($out, $err, $rc) = run_agent(
