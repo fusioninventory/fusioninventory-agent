@@ -92,7 +92,7 @@ sub run {
             if (-d $path) {
                 $file =
                     $path . "/" . $self->{deviceid} .
-                    $format eq 'xml' ? '.ocs' : '.html';
+                    ($format eq 'xml' ? '.ocs' : '.html');
                 last SWITCH;
             }
         }
