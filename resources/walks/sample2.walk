@@ -1,0 +1,8 @@
+SNMPv2-MIB::sysDescr.0 = STRING: RICOH Aficio MP 171 1.00.1 / RICOH Network Printer C model / RICOH Network Scanner C model / RICOH Network Facsimile C model
+SNMPv2-MIB::sysObjectID.0 = OID: SNMPv2-SMI::enterprises.367.1.1
+DISMAN-EVENT-MIB::sysUpTimeInstance = Timeticks: (950925200) 110 days, 1:27:32.00
+SNMPv2-MIB::sysContact.0 = STRING: 
+SNMPv2-MIB::sysName.0 = STRING: Aficio MP 171
+SNMPv2-MIB::sysLocation.0 = STRING: C0172
+SNMPv2-MIB::sysServices.0 = INTEGER: 76
+
