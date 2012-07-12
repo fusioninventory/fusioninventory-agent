@@ -15,6 +15,7 @@ use Encode qw(encode);
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::SNMP qw(getSanitizedSerialNumber getLastElement);
+use FusionInventory::Agent::SNMP::Live;
 use FusionInventory::Agent::XML::Query;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
@@ -303,7 +304,7 @@ sub _queryDevice {
 
     my $snmp;
     eval {
-        $snmp = FusionInventory::Agent::SNMP->new(
+        $snmp = FusionInventory::Agent::SNMP::Live->new(
             version      => $credentials->{VERSION},
             hostname     => $device->{IP},
             community    => $credentials->{COMMUNITY},
@@ -639,7 +640,7 @@ sub _setNetworkingProperties {
             # initiate a new SNMP connection on this VLAN
             my $snmp;
             eval {
-                $snmp = FusionInventory::Agent::SNMP->new(
+                $snmp = FusionInventory::Agent::SNMP::Live->new(
                     version      => $credentials->{VERSION},
                     hostname     => $host,
                     community    => $credentials->{COMMUNITY} . "@" . $vlan_id,

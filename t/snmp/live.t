@@ -8,31 +8,21 @@ use Test::More;
 use Test::Exception;
 
 use FusionInventory::Agent::XML::Response;
-
-eval { require FusionInventory::Agent::SNMP; };
-
-if ($EVAL_ERROR) {
-    my $msg = 'Unable to load FusionInventory::Agent::SNMP';
-    plan(skip_all => $msg);
-}
-
-FusionInventory::Agent::SNMP->import(qw(
-    getElement
-    getElements
-    getLastElement
-    getNextToLastElement
-));
+use FusionInventory::Agent::SNMP qw/
+    getElement getElements getLastElement getNextToLastElement
+/;
+use FusionInventory::Agent::SNMP::Live;
 
 plan tests => 15;
 
 my $snmp;
 throws_ok {
-    $snmp = FusionInventory::Agent::SNMP->new();
+    $snmp = FusionInventory::Agent::SNMP::Live->new();
 } qr/^no hostname parameter/,
 'instanciation: no hostname parameter';
 
 throws_ok {
-    $snmp = FusionInventory::Agent::SNMP->new(
+    $snmp = FusionInventory::Agent::SNMP::Live->new(
         hostname => 'localhost',
         version  => 'foo'
     );
@@ -40,7 +30,7 @@ throws_ok {
 'instanciation: invalid version parameter';
 
 throws_ok {
-    $snmp = FusionInventory::Agent::SNMP->new(
+    $snmp = FusionInventory::Agent::SNMP::Live->new(
         hostname => 'localhost',
         version  => 5
     );
@@ -48,7 +38,7 @@ throws_ok {
 'instanciation: invalid version parameter';
 
 throws_ok {
-    $snmp = FusionInventory::Agent::SNMP->new(
+    $snmp = FusionInventory::Agent::SNMP::Live->new(
         hostname => 'localhost',
         version => 1
     );
@@ -56,7 +46,7 @@ throws_ok {
 'instanciation: undefined community';
 
 lives_ok {
-    $snmp = FusionInventory::Agent::SNMP->new(
+    $snmp = FusionInventory::Agent::SNMP::Live->new(
         version   => 1,
         community => 'public',
         hostname  => 'localhost'

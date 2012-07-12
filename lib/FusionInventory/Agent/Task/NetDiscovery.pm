@@ -244,11 +244,11 @@ sub run {
         );
     }
 
-    FusionInventory::Agent::SNMP->require();
+    FusionInventory::Agent::SNMP::Live->require();
     if ($EVAL_ERROR) {
         $self->{logger}->info(
-            "Can't load FusionInventory::Agent::SNMP, snmp detection can't " .
-            "be used"
+            "Can't load FusionInventory::Agent::SNMP::Live, snmp detection " .
+            "can't be used"
         );
     } else {
         $snmp_credentials = $self->_getCredentials($options);
@@ -574,7 +574,7 @@ sub _scanAddressBySNMP {
 
         my $snmp;
         eval {
-            $snmp = FusionInventory::Agent::SNMP->new(
+            $snmp = FusionInventory::Agent::SNMP::Live->new(
                 version      => $credential->{VERSION},
                 hostname     => $params{ip},
                 community    => $credential->{COMMUNITY},
