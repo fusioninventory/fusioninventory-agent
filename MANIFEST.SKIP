@@ -1,4 +1,3 @@
-CVS/
 .git
 ^00
 ^.gitignore$
@@ -21,9 +20,7 @@ CVS/
 \.#
 \.swp
 
-
 ^FusionInventory-Agent.*
 /tarballs/
-tools/build-perl-tree.sh
 ^setup.sh
 debian
