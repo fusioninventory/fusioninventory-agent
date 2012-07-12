@@ -15,6 +15,13 @@ plan(skip_all => 'Test::Vars required') if $EVAL_ERROR;
 Test::Vars->import();
 
 all_vars_ok(
-    ignore_vars => { '%params' => 1, '$class' => 1 }
+    ignore_vars => {
+        '%params' => 1,
+        '$class'  => 1,
+        '$walks'  => 1, # FusionInventory::Agent::Task::NetInventory
+        '$device' => 1, # FusionInventory::Agent::Manufacturer
+        '$oid'    => 1  # FusionInventory::Agent::Manufacturer
+    }
+
 );
 
