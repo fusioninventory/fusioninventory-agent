@@ -9,8 +9,9 @@ my $seen;
 
 sub isEnabled {
     return 
-        canRun('who') ||
-        canRun('last');
+        canRun('who')  ||
+        canRun('last') ||
+        canRead('/etc/passwd');
 }
 
 sub doInventory {
@@ -19,7 +20,10 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my @users = _getLoggedUsers(logger => $logger);
+    my @users = (
+        _getLoggedUsers(logger => $logger),
+        _getLocalUsers(logger => $logger)
+    );
 
     foreach my $user (@users) {
         # avoid duplicates
@@ -49,6 +53,28 @@ sub _getLoggedUsers {
     while (my $line = <$handle>) {
         next unless $line =~ /^(\S+)/;
         push @users, { LOGIN => $1 };
+    }
+
+    return @users;
+}
+
+sub _getLocalUsers {
+    my (%params) = (
+        file => '/etc/passwd',
+        @_
+    );
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my @users;
+
+    while (my $line = <$handle>) {
+        my ($login, undef, $uid) = split(/:/, $line);
+        # assume users with lower uid are system users
+        next if $uid < 500;
+        next if $login eq 'nobody';
+        push @users, { LOGIN => $login };
     }
 
     return @users;
