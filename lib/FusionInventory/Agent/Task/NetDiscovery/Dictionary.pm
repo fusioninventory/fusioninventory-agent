@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use Digest::MD5 qw(md5_hex);
-use English qw/-no_match_vars/;
+use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
 sub new {
