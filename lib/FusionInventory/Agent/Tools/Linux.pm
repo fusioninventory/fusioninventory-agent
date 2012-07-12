@@ -411,7 +411,8 @@ This module provides some generic functions for Linux.
 
 =head2 getDevicesFromUdev(%params)
 
-Returns a list of devices, by parsing udev database.
+Returns a list of devices, by parsing /dev/.udev directory.
+This directory is not exported anymore with recent udev.
 
 Availables parameters:
 
