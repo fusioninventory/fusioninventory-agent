@@ -38,8 +38,11 @@ discovery phase means there isn't any relevant model for this device.
 
 Dependencies
 ------------
-This task requires a FusionInventory agent (minimal version 2.2.0), and can
-only be executed with a GLPI server with FusionInventory plugin.
+This plugin requires a FusionInventory agent (minimal version 2.2.0), and is
+intended to be used with a GLPI server with FusionInventory plugin. Some
+standalone command-line tools allow to run NetDiscovery and NetInventory tasks
+without a running server, but they still requires some data files shipped in
+the server sources (SNMP dictionnary and SNMP description models).
 
 Additional mandatory perl modules:
 - Net::SNMP
