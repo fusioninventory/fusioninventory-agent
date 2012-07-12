@@ -14,11 +14,11 @@ use constant EXIT  => 3;
 use Encode qw(encode);
 use English qw(-no_match_vars);
 
-use FusionInventory::Agent::SNMP qw(getSanitizedSerialNumber getLastElement);
 use FusionInventory::Agent::SNMP::Live;
 use FusionInventory::Agent::XML::Query;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
+use FusionInventory::Agent::Tools::SNMP;
 
 # needed for perl < 5.10.1 compatbility
 if ($threads::shared::VERSION < 1.21) {

@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools::Network;
-use FusionInventory::Agent::SNMP qw(getElement);
+use FusionInventory::Agent::Tools::SNMP;
 
 sub setTrunkPorts {
     my (%params) = @_;
