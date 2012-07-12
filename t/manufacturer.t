@@ -6,9 +6,9 @@ use warnings;
 use Clone qw(clone);
 use Test::More;
 
+use FusionInventory::Agent::Manufacturer;
+use FusionInventory::Agent::Manufacturer::Cisco;
 use FusionInventory::Agent::Task::NetInventory;
-use FusionInventory::Agent::Task::NetInventory::Manufacturer;
-use FusionInventory::Agent::Task::NetInventory::Manufacturer::Cisco;
 
 # each item is an arrayref of three elements:
 # - input data structure (ports list)
@@ -257,7 +257,7 @@ my $cisco_results = {
 # direct tests
 foreach my $test (@trunk_ports_tests) {
     my $ports = clone($test->[0]);
-    FusionInventory::Agent::Task::NetInventory::Manufacturer::setTrunkPorts(
+    FusionInventory::Agent::Manufacturer::setTrunkPorts(
         results => $results, ports => $ports, walks => $walks
     );
 
@@ -271,7 +271,7 @@ foreach my $test (@trunk_ports_tests) {
 foreach my $test (@connected_devices_tests) {
     my $ports = clone($test->[0]);
 
-    FusionInventory::Agent::Task::NetInventory::Manufacturer::setConnectedDevices(
+    FusionInventory::Agent::Manufacturer::setConnectedDevices(
         results => $results, ports => $ports, walks => $walks
     );
 
@@ -285,7 +285,7 @@ foreach my $test (@connected_devices_tests) {
 foreach my $test (@connected_devices_mac_addresses_tests) {
     my $ports = clone($test->[0]);
 
-    FusionInventory::Agent::Task::NetInventory::Manufacturer::setConnectedDevicesMacAddresses(
+    FusionInventory::Agent::Manufacturer::setConnectedDevicesMacAddresses(
         results => $results, ports => $ports, walks => $walks
     );
 
@@ -299,7 +299,7 @@ foreach my $test (@connected_devices_mac_addresses_tests) {
 foreach my $test (@cisco_connected_devices_mac_addresses_tests) {
     my $ports = clone($test->[0]);
 
-    FusionInventory::Agent::Task::NetInventory::Manufacturer::Cisco::setConnectedDevicesMacAddresses(
+    FusionInventory::Agent::Manufacturer::Cisco::setConnectedDevicesMacAddresses(
         results => $cisco_results, ports => $ports, walks => $walks, vlan_id => 1
     );
 

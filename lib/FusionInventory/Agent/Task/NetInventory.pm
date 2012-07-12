@@ -684,11 +684,11 @@ sub _setTrunkPorts {
     my @dispatch_table = (
         {
             match  => qr/(Cisco|ProCurve)/,
-            module => __PACKAGE__ . '::Manufacturer',
+            module => 'FusionInventory::Agent::Manufacturer',
         },
         {
             match  => qr/Nortel/,
-            module => __PACKAGE__ . '::Manufacturer::Nortel',
+            module => 'FusionInventory::Agent::Manufacturer::Nortel',
         },
     );
 
@@ -713,11 +713,11 @@ sub _setConnectedDevices {
     my @dispatch_table = (
         {
             match  => qr/(Cisco|ProCurve|Juniper)/,
-            module => __PACKAGE__ . '::Manufacturer',
+            module => 'FusionInventory::Agent::Manufacturer',
         },
         {
             match  => qr/Nortel/,
-            module => __PACKAGE__ . '::Manufacturer::Nortel',
+            module => 'FusionInventory::Agent::Manufacturer::Nortel',
         },
     );
 
@@ -743,15 +743,15 @@ sub _setConnectedDevicesMacAddresses {
     my @dispatch_table = (
         {
             match    => qr/(3Com|ProCurve|Nortel|Allied Telesis)/,
-            module   => __PACKAGE__ . '::Manufacturer',
+            module   => 'FusionInventory::Agent::Manufacturer',
         },
         {
             match    => qr/Cisco/,
-            module   => __PACKAGE__ . '::Manufacturer::Cisco',
+            module   => 'FusionInventory::Agent::Manufacturer::Cisco',
         },
         {
             match    => qr/Juniper/,
-            module   => __PACKAGE__ . '::Manufacturer::Juniper',
+            module   => 'FusionInventory::Agent::Manufacturer::Juniper',
         }
     );
 
@@ -780,7 +780,7 @@ sub _performSpecificCleanup {
     my @dispatch_table = (
         {
             match    => qr/3Com IntelliJack/,
-            module   =>  __PACKAGE__ . '::Manufacturer::3Com',
+            module   => 'FusionInventory::Agent::Manufacturer::3Com',
             function => 'RewritePortOf225'
         },
     );
