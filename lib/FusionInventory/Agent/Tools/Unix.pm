@@ -308,7 +308,7 @@ sub getProcessesFromPs {
             my $start_month = $2;
             $begin = sprintf("%04d-%02d-%02d %s", $year, $month{$start_month}, $start_day, $time);
         } elsif (-f "/proc/$pid") {
-	    # this will work only under Linux
+	    # this will work only on OS with /proc/$pid like Linux and FreeBSD
 	    my $stat = stat("/proc/$pid");
 	    my ($sec, $min, $hour, $day, $month, $year, $wday, $yday, $isdst)
 		= localtime($stat->ctime());
