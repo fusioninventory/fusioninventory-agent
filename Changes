@@ -1,0 +1,20 @@
+Revision history for FusionInventory agent network tasks plugin
+
+1.0.0   Thu, 26 Apr 2012
+
+Major changes:
+* merge netdiscovery and netinventory plugins, for easier maintainance
+* add standalone binary for discovery and inventory without server
+* try to deduce vendor and type when discovering from sysdescr value
+  even if there is no matching SNMP model
+* send device inventory results to the server on the fly, instead of
+  waiting for all devices to have been processed
+* limit the maximum number of threads used for discovery to the number of
+  addresses to proceed (#94)
+
+Fixes:
+* ensure compatibility with earlier version of Thread module shipped
+  with perl 5.8 (#1649)
+* fix connected devices mac address retrieval for non-cisco hardware
+* fix output format for multiple connected devices mac address
+* fix broken 3Com module
