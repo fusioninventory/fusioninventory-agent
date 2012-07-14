@@ -158,7 +158,7 @@ fusioninventory-discovery - Network inventory from command line
 
 =head1 SYNOPSIS
 
-fusioninventory-discovery [options] --start <start> --stop <stop>
+fusioninventory-discovery [options] --first <start> --last <stop>
 
   Options:
     -h --help       this menu
