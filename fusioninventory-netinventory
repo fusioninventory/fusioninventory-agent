@@ -20,6 +20,7 @@ GetOptions(
     $options,
     'model=s',
     'host=s',
+    'file=s',
     'community=s',
     'debug+',
     'help',
@@ -34,8 +35,8 @@ pod2usage(
     -message => "invalid file '$options->{model}', aborting\n", -verbose => 0
 ) unless -f $options->{model};
 pod2usage(
-    -message => "no host given, aborting\n", -verbose => 0
-) unless $options->{host};
+    -message => "no host nor file given, aborting\n", -verbose => 0
+) unless $options->{host} or $options->{file};
 
 my $model = loadModel($options->{model});
 my $type =
@@ -62,6 +63,7 @@ $inventory->{options} = {
         {
             TYPE         => $type,
             IP           => $options->{host},
+            FILE         => $options->{file},
             AUTHSNMP_ID  => 1,
             MODELSNMP_ID => 1
         }
@@ -150,10 +152,12 @@ fusioninventory-netinventory - Network inventory from command line
 
 =head1 SYNOPSIS
 
-fusioninventory-netinventory [options] [--host <host>] [--model <model>]
+fusioninventory-netinventory [options] [--host <host>--file <file>]
+  [--model <model>]
 
   Options:
     -h --help      this menu
     --host host    host to inventorize
+    --file         snmpwalk output file
     --model model  XML model file
     --community    community string (default: public)
