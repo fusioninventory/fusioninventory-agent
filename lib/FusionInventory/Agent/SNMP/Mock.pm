@@ -42,7 +42,6 @@ sub get {
     my ($self, $oid) = @_;
 
     return unless $oid;
-    $oid = _getSanitizedOid($oid);
 
     return _getSanitizedValue(
         $self->{values}->{$oid}->[0],
@@ -54,7 +53,6 @@ sub walk {
     my ($self, $oid) = @_;
 
     return unless $oid;
-    $oid = _getSanitizedOid($oid);
 
     my $values;
     foreach my $key (keys %{$self->{values}}) {
