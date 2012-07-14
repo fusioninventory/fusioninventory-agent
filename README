@@ -3,15 +3,32 @@
 
 Description 
 -----------
-This plugin for FusionInventory agent provides two additional tasks, for
-handling remote devices:
+This plugin for the agent provides two tasks that were previously distributed
+separatly:
 
 - the NetDiscovery task allows the agent to scan the network to find remote
   devices, through nmap, NetBios or SNMP, and to identify them
 - the NetInventory task allows the agent to extract various informations from
   a remote device through SNMP protocol
 
-The NetDiscovery task use the following tools, if available, to scan IP networks:
+Dependencies
+------------
+This plugin requires a FusionInventory agent (minimal version 2.2.0), and is
+intended to be used with a GLPI server with FusionInventory plugin.
+
+Additional mandatory perl modules:
+- Net::SNMP
+
+Additional optional perl modules:
+- Net::NBName
+
+Additional optional programs:
+- nmap
+
+Usage
+-----
+The NetDiscovery task use the following tools, if available, to scan IP
+networks:
 - nmap external command
 - Net::NBName perl module
 - Net::SNMP perl module
@@ -36,22 +53,15 @@ known devices, and assign them the correct model. As device discovery uses the
 same database than device inventory, a failure to assign a model during the
 discovery phase means there isn't any relevant model for this device.
 
-Dependencies
-------------
-This plugin requires a FusionInventory agent (minimal version 2.2.0), and is
-intended to be used with a GLPI server with FusionInventory plugin. Some
-standalone command-line tools allow to run NetDiscovery and NetInventory tasks
-without a running server, but they still requires some data files shipped in
-the server sources (SNMP dictionnary and SNMP description models).
+Command-line usage
+------------------
+Two command-line tools are provided for testing purposes:
+- fusioninventory-netdiscovery
+- fusioninventory-netinventory
 
-Additional mandatory perl modules:
-- Net::SNMP
-
-Additional optional perl modules:
-- Net::NBName
-
-Additional optional programs:
-- nmap
+While allowing to perform the corresponding task without a running server, they
+still requires some data files shipped in the server sources (SNMP dictionnary
+and SNMP description models).
 
 Authors 
 -------
