@@ -30,8 +30,7 @@ sub _getIndexedValues {
     my $handle = getFileHandle(file => $file);
     while (my $line = <$handle>) {
        next unless $line =~ /^(\S+)\s=\s(\S+):\s(.*)/;
-       my $oid = _getSanitizedOid($1);
-       $values->{$oid} = [ $2, $3 ];
+       $values->{$1} = [ $2, $3 ];
     }
     close ($handle);
 
@@ -42,6 +41,7 @@ sub get {
     my ($self, $oid) = @_;
 
     return unless $oid;
+    return unless $self->{values}->{$oid};
 
     return _getSanitizedValue(
         $self->{values}->{$oid}->[0],
@@ -64,18 +64,6 @@ sub walk {
     }
 
     return $values;
-}
-
-sub _getSanitizedOid {
-    my ($oid) = @_;
-
-    $oid =~ s/^\.//;
-    $oid =~ s/^iso\./1./;
-    $oid =~ s/SNMPv2-MIB::sysDescr(\.\d+)/1.3.6.1.2.1.1.1.0/;
-    $oid =~ s/SNMPv2-MIB::sysName.0/1.3.6.1.2.1.1.5.0/;
-    $oid =~ s/DISMAN-EVENT-MIB::sysUpTimeInstance/1.3.6.1.2.1.1.3.0/;
-
-    return $oid;
 }
 
 sub _getSanitizedValue {
