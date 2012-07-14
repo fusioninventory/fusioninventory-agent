@@ -13,8 +13,8 @@ use constant EXIT  => 3;
 
 use Encode qw(encode);
 use English qw(-no_match_vars);
+use UNIVERSAL::require;
 
-use FusionInventory::Agent::SNMP::Live;
 use FusionInventory::Agent::XML::Query;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
@@ -303,21 +303,35 @@ sub _queryDevice {
     my $device      = $params{device};
 
     my $snmp;
-    eval {
-        $snmp = FusionInventory::Agent::SNMP::Live->new(
-            version      => $credentials->{VERSION},
-            hostname     => $device->{IP},
-            community    => $credentials->{COMMUNITY},
-            username     => $credentials->{USERNAME},
-            authpassword => $credentials->{AUTHPASSWORD},
-            authprotocol => $credentials->{AUTHPROTOCOL},
-            privpassword => $credentials->{PRIVPASSWORD},
-            privprotocol => $credentials->{PRIVPROTOCOL},
-        );
-    };
-    if ($EVAL_ERROR) {
-        $self->{logger}->error("Unable to create SNMP session for $device->{IP}: $EVAL_ERROR");
-        return;
+    if ($device->{FILE}) {
+        FusionInventory::Agent::SNMP::Mock->require();
+        eval {
+            $snmp = FusionInventory::Agent::SNMP::Mock->new(
+                file => $device->{FILE}
+            );
+        };
+        if ($EVAL_ERROR) {
+            $self->{logger}->error("Unable to create SNMP session for $device->{FILE}: $EVAL_ERROR");
+            return;
+        }
+    } else {
+        eval {
+            FusionInventory::Agent::SNMP::Live->require();
+            $snmp = FusionInventory::Agent::SNMP::Live->new(
+                version      => $credentials->{VERSION},
+                hostname     => $device->{IP},
+                community    => $credentials->{COMMUNITY},
+                username     => $credentials->{USERNAME},
+                authpassword => $credentials->{AUTHPASSWORD},
+                authprotocol => $credentials->{AUTHPROTOCOL},
+                privpassword => $credentials->{PRIVPASSWORD},
+                privprotocol => $credentials->{PRIVPROTOCOL},
+            );
+        };
+        if ($EVAL_ERROR) {
+            $self->{logger}->error("Unable to create SNMP session for $device->{IP}: $EVAL_ERROR");
+            return;
+        }
     }
 
     my $description = $snmp->get('.1.3.6.1.2.1.1.1.0');
