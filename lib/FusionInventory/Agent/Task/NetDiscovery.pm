@@ -264,6 +264,22 @@ sub run {
     my @results   :shared;
     my @states    :shared;
 
+    # compute blocks list
+    my $addresses_count = 0;
+    foreach my $range (@{$options->{RANGEIP}}) {
+        next unless $range->{IPSTART};
+        next unless $range->{IPEND};
+        $range->{block} = Net::IP->new(
+            $range->{IPSTART} . '-' . $range->{IPEND}
+        );
+        $addresses_count += $range->{block}->size();
+    }
+
+    # no need for more threads than addresses to scan
+    if ($max_threads > $addresses_count) {
+        $max_threads = $addresses_count;
+    }
+
     for (my $i = 0; $i < $max_threads; $i++) {
         $states[$i] = START;
 
@@ -294,16 +310,14 @@ sub run {
 
     # proceed each given IP block
     foreach my $range (@{$options->{RANGEIP}}) {
-        next unless $range->{IPSTART};
-        next unless $range->{IPEND};
-
-        # compute adresses list
-        my $block_string = $range->{IPSTART}.'-'.$range->{IPEND};
-        my $block = Net::IP->new($block_string);
+        my $block = $range->{block};
+        next unless $block;
         do {
             push @addresses, $block->ip(),
         } while (++$block);
-        $self->{logger}->debug("scanning range: $block_string");
+        $self->{logger}->debug(
+            "scanning range: $range->{IPSTART}-$range->{IPEND}"
+        );
 
         # send block size to the server
         $self->_sendMessage({
