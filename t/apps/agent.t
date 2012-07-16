@@ -15,13 +15,13 @@ use Test::More tests => 32;
 my ($content, $out, $err, $rc);
 
 ($out, $err, $rc) = run_agent('--help');
-ok($rc == 2, '--help exit status');
+ok($rc == 0, '--help exit status');
+is($err, '', '--help stderr');
 like(
-    $err,
+    $out,
     qr/^Usage:/,
-    '--help stderr'
+    '--help stdout'
 );
-is($out, '', '--help stdin');
 
 ($out, $err, $rc) = run_agent('--version');
 ok($rc == 0, '--version exit status');
@@ -29,7 +29,7 @@ is($err, '', '--version stderr');
 like(
     $out,
     qr/^FusionInventory Agent/,
-    '--version stdin'
+    '--version stdout'
 );
 
 my $tmpFile = tmpnam();
@@ -58,7 +58,7 @@ like(
     qr/No target defined/,
     'no target stderr'
 );
-is($out, '', 'no target stdin');
+is($out, '', 'no target stdout');
 
 my $base_options = "--stdout --debug --no-task ocsdeploy,wakeonlan,snmpquery,netdiscovery";
 

@@ -91,7 +91,7 @@ GetOptions(
 );
 
 $OUTPUT_AUTOFLUSH = 1;
-pod2usage() if $options{help};
+pod2usage(-verbose => 0, -exitstatus => 0) if $options{help};
 
 if ($options{file}) {
     die "file $options{file} does not exist" unless -f $options{file};

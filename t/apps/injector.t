@@ -11,14 +11,13 @@ use Test::More tests => 3;
 my ($out, $err, $rc);
 
 ($out, $err, $rc) = run_injector('--help');
-ok($rc == 2, '--help exit status');
+ok($rc == 0, '--help exit status');
+is($err, '', '--help stderr');
 like(
-    $err,
-    qr/^Usage/,
-    '--help'
+    $out,
+    qr/^Usage:/,
+    '--help stdout'
 );
-is($out, '', '--help stdin');
-
 
 sub run_injector {
     my ($args) = @_;
