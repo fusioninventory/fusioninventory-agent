@@ -28,6 +28,13 @@ sub _getIndexedValues {
 
     my $values;
     my $handle = getFileHandle(file => $file);
+
+    # check first line
+    my $first_line = <$handle>;
+    seek($handle, 0, 0);
+    die "invalid content: non-numerical oids"
+        if substr($first_line, 0, 1) ne '.';
+
     while (my $line = <$handle>) {
        next unless $line =~ /^(\S+)\s=\s(\S+):\s(.*)/;
        $values->{$1} = [ $2, $3 ];
@@ -35,6 +42,12 @@ sub _getIndexedValues {
     close ($handle);
 
     return $values;
+}
+
+sub _convertOid {
+    my ($oid) = @_;
+
+    return $oid;
 }
 
 sub get {
