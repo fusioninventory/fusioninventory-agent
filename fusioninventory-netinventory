@@ -171,3 +171,4 @@ fusioninventory-netinventory [options] [--host <host>--file <file>]
     --model model  XML model file
     --community    community string (default: public)
     --verbose      verbose output (control messages)
+    --debug        debug output (execution traces)
