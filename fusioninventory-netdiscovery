@@ -24,6 +24,7 @@ GetOptions(
     'community=s',
     'entity=s',
     'threads=i',
+    'verbose',
     'debug+',
     'help',
 ) or pod2usage(-verbose => 0);
@@ -78,7 +79,9 @@ if ($options->{entity}) {
     $discovery->{options}->{RANGEIP}->[0]->{ENTITY} = $options->{entity};
 }
 $discovery->{client} =
-    FusionInventory::Agent::Task::NetInventory::Client->new();
+    FusionInventory::Agent::Task::NetInventory::Client->new(
+        verbose => $options->{verbose}
+    );
 $discovery->{deviceid} = 'foo';
 
 $discovery->run();
@@ -97,13 +100,19 @@ sub getDictionnary {
 package FusionInventory::Agent::Task::NetInventory::Client;
 
 sub new {
-    my ($class) = @_;
+    my ($class, %params) = @_;
 
-    return bless {}, $class;
+    return bless {
+        verbose => $params{verbose}
+    }, $class;
 }
 
 sub send {
     my ($self, %params) = @_;
+
+    # don't display control message by default
+    return unless $self->{verbose}
+        or $params{message}->{h}->{CONTENT}->{DEVICE};
 
     print $params{message}->getContent();
 }
@@ -167,4 +176,5 @@ fusioninventory-discovery [options] --first <start> --last <stop>
     --dictionnary   dictionnary file
     --community     community string (default: public)
     --threads nb    number of discovery threads (default: 1)
-    --debug         verbose output
+    --verbose       verbose output (control messages)
+    --debug         debug output (execution traces)

@@ -22,6 +22,7 @@ GetOptions(
     'host=s',
     'file=s',
     'community=s',
+    'verbose',
     'debug+',
     'help',
 ) or pod2usage(-verbose => 0);
@@ -77,7 +78,9 @@ $inventory->{options} = {
     ]
 };
 $inventory->{client} =
-    FusionInventory::Agent::Task::NetInventory::Client->new();
+    FusionInventory::Agent::Task::NetInventory::Client->new(
+        verbose => $options->{verbose}
+    );
 $inventory->{deviceid} = 'foo';
 
 $inventory->run();
@@ -121,11 +124,17 @@ package FusionInventory::Agent::Task::NetInventory::Client;
 sub new {
     my ($class) = @_;
 
-    return bless {}, $class;
+    return bless {
+        verbose => $params{verbose}
+    }, $class;
 }
 
 sub send {
     my ($self, %params) = @_;
+
+    # don't display control message by default
+    return unless $self->{verbose}
+        or $params{message}->{h}->{CONTENT}->{DEVICE};
 
     print $params{message}->getContent();
 }
@@ -161,3 +170,4 @@ fusioninventory-netinventory [options] [--host <host>--file <file>]
     --file         snmpwalk output file
     --model model  XML model file
     --community    community string (default: public)
+    --verbose      verbose output (control messages)
