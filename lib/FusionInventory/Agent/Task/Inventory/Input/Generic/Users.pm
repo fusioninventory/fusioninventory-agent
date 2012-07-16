@@ -80,7 +80,7 @@ sub _getLocalUsers {
     return @users;
 }
 
-sub _getLasUser {
+sub _getLastUser {
     my (%params) = (
         command => 'last',
         @_
