@@ -14,6 +14,35 @@ my %options = (
     useragent => 'FusionInventory-Injector'
 );
 
+GetOptions(
+    \%options,
+    'help|h',
+    'directory|d=s',
+    'file|f=s',
+    'url|u=s',
+    'useragent=s',
+    'remove|r',
+    'verbose|v',
+    'stdin',
+);
+
+$OUTPUT_AUTOFLUSH = 1;
+pod2usage(-verbose => 0, -exitstatus => 0) if $options{help};
+
+if ($options{file}) {
+    die "file $options{file} does not exist" unless -f $options{file};
+    loadfile($options{file});
+} elsif ($options{stdin}) {
+    loadstdin();
+} elsif ($options{directory}) {
+    die "directory $options{directory} does not exist" unless -d $options{directory};
+   loaddirectory($options{directory});
+} else {
+    pod2usage();
+}
+
+exit(0);
+
 sub loadfile {
     my $file = shift;
 
@@ -77,35 +106,6 @@ sub sendContent {
         }
     }
 }
-
-GetOptions(
-    \%options,
-    'help|h',
-    'directory|d=s',
-    'file|f=s',
-    'url|u=s',
-    'useragent=s',
-    'remove|r',
-    'verbose|v',
-    'stdin',
-);
-
-$OUTPUT_AUTOFLUSH = 1;
-pod2usage(-verbose => 0, -exitstatus => 0) if $options{help};
-
-if ($options{file}) {
-    die "file $options{file} does not exist" unless -f $options{file};
-    loadfile($options{file});
-} elsif ($options{stdin}) {
-    loadstdin();
-} elsif ($options{directory}) {
-    die "directory $options{directory} does not exist" unless -d $options{directory};
-   loaddirectory($options{directory});
-} else {
-    pod2usage();
-}
-
-exit(0);
 
 __END__
 
