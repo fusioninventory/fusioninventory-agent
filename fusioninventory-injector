@@ -5,7 +5,7 @@ use warnings;
 
 use Compress::Zlib;
 use English qw(-no_match_vars);
-use Fcntl qw/:flock/;
+use Fcntl qw(:flock);
 use Getopt::Long;
 use LWP::UserAgent;
 use Pod::Usage;
