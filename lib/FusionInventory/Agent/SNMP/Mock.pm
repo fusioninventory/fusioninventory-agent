@@ -36,7 +36,7 @@ sub _getIndexedValues {
         if substr($first_line, 0, 1) ne '.';
 
     while (my $line = <$handle>) {
-       next unless $line =~ /^(\S+)\s=\s(\S+):\s(.*)/;
+       next unless $line =~ /^(\S+) \s = \s (\S+): \s (.*)/x;
        $values->{$1} = [ $2, $3 ];
     }
     close ($handle);
