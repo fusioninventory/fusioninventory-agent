@@ -258,6 +258,10 @@ url: http://myweb.cableone.net/4schmidts/memconf.html
 author: Tom Schmidt
 copyright: 1996-2009 Tom Schmidt
 
+The fusioninventory-injector script:
+author: Pascal Danek
+copyright: 2005 Pascal Danek
+
 FusionInventory::Agent::Task::Inventory::Input::Virtualization::Vmsystem
 contains code from imvirt:
 url: http://micky.ibh.net/~liske/imvirt.html
