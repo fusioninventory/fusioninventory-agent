@@ -26,28 +26,57 @@ sub new {
 sub _getIndexedValues {
     my ($file) = @_;
 
-    my $values;
     my $handle = getFileHandle(file => $file);
 
     # check first line
     my $first_line = <$handle>;
     seek($handle, 0, 0);
-    die "invalid content: non-numerical oids"
-        if substr($first_line, 0, 1) ne '.';
 
-    while (my $line = <$handle>) {
-       next unless $line =~ /^(\S+) \s = \s (\S+): \s (.*)/x;
-       $values->{$1} = [ $2, $3 ];
-    }
+    my $values = substr($first_line, 0, 1) eq '.' ?
+        _readNumericalOids($handle) :
+        _readSymbolicOids($handle)  ;
     close ($handle);
 
     return $values;
 }
 
-sub _convertOid {
-    my ($oid) = @_;
+sub _readNumericalOids {
+    my ($handle) = @_;
 
-    return $oid;
+    my $values;
+    while (my $line = <$handle>) {
+       next unless $line =~ /^(\S+) \s = \s (\S+): \s (.*)/x;
+       $values->{$1} = [ $2, $3 ];
+    }
+
+    return $values;
+}
+
+sub _readSymbolicOids {
+    my ($handle) = @_;
+
+    my %prefixes = (
+        'iso'                               => '.1',
+        'SNMPv2-MIB::sysDescr'              => '.1.3.6.1.2.1.1.1',
+        'SNMPv2-MIB::sysUpTime'             => '.1.3.6.1.2.1.1.3',
+        'SNMPv2-MIB::sysContact'            => '.1.3.6.1.2.1.1.4',
+        'SNMPv2-MIB::sysName'               => '.1.3.6.1.2.1.1.5',
+        'SNMPv2-MIB::sysLocation'           => '.1.3.6.1.2.1.1.6',
+        'SNMPv2-SMI::mib-2'                 => '.1.3.6.1.2.1',
+        'SNMPv2-SMI::enterprises'           => '.1.3.6.1.4.1',
+        'HOST-RESOURCES-MIB::hrDeviceDescr' => '.1.3.6.1.2.1.25.3.2.1.3',
+    );
+
+    my $values;
+    while (my $line = <$handle>) {
+       next unless $line =~ /^([^.]+) \. ([\d.]+) \s = \s (\S+): \s (.*)/x;
+       my ($mib, $suffix) = ($1, $2);
+       next unless $prefixes{$mib};
+       my $oid = $prefixes{$mib} . '.' . $suffix;
+       $values->{$oid} = [ $3, $4 ];
+    }
+
+    return $values;
 }
 
 sub get {
