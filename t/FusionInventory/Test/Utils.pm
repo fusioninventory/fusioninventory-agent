@@ -119,7 +119,7 @@ sub loadRegistryDump {
 
     my $root_offset;
     my $root_key = {};
-    my $current_key;
+    my $current_key = $root_key;
 
     open (my $handle, '<', $file) or die "can't open $file: $ERRNO";
 
