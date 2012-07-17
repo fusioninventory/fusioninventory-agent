@@ -67,7 +67,8 @@ sub loaddirectory {
 
     die "can't read directory $directory" unless -r $directory;
 
-    opendir (my $dh, $directory) or die "can't open directory $directory: $ERRNO";
+    opendir (my $dh, $directory)
+        or die "can't open directory $directory: $ERRNO";
     foreach ( readdir($dh) ) {
         loadfile("$directory/$_") if (/\.ocs$/);
     }
