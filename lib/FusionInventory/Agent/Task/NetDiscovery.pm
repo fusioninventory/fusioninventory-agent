@@ -607,7 +607,7 @@ sub _scanAddressBySNMP {
             next;
         }
 
-        my $sysdescr = $snmp->get('1.3.6.1.2.1.1.1.0');
+        my $sysdescr = $snmp->get('.1.3.6.1.2.1.1.1.0');
 
         $self->{logger}->debug2(
             sprintf "thread %d: scanning %s with snmp credentials %d: %s",
@@ -660,7 +660,7 @@ sub _scanAddressBySNMP {
         }
 
         $device{AUTHSNMP}     = $credential->{ID};
-        $device{SNMPHOSTNAME} = $snmp->get('1.3.6.1.2.1.1.5.0');
+        $device{SNMPHOSTNAME} = $snmp->get('.1.3.6.1.2.1.1.5.0');
         $device{DESCRIPTION}  = $sysdescr if !$device{DESCRIPTION};
 
         last;
