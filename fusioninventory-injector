@@ -84,8 +84,9 @@ sub loadstdin {
 sub sendContent {
     my $content = shift;
 
-    my $ua = LWP::UserAgent->new;
-    $ua->agent($options{useragent});
+    my $ua = LWP::UserAgent->new(
+        agent => $options{useragent}
+    );
     my $request = HTTP::Request->new( POST => $options{url} );
     $request->header(
         'Pragma' => 'no-cache',
