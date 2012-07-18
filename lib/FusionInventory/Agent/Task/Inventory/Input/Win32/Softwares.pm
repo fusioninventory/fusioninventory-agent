@@ -141,7 +141,6 @@ sub _getSoftwares {
 
         next unless $data;
 
-        # odd, found on Win2003
         eval { die unless keys (%$data) > 2 };
         next if $EVAL_ERROR;
 
