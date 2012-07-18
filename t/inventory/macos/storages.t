@@ -85,6 +85,28 @@ my %tests = (
             MODEL        => 'CD-RW  CW-8221',
             DESCRIPTION  => 'CD-ROM Drive'
         }
+    ],
+    'fiberchannel' => [
+        {
+            NAME         => 'SCSI Logical Unit @ 0',
+            FIRMWARE     => 'R001',
+            TYPE         => 'Fibre Channel',
+            SERIAL       => undef,
+            DISKSIZE     => 20010000,
+            MANUFACTURER => 'SCSI Logical Unit @ 0',
+            MODEL        => 'Production Backu',
+            DESCRIPTION  => 'Disk drive'
+        },
+        {
+            NAME         => 'SCSI Logical Unit @ 0',
+            FIRMWARE     => '1.0.',
+            TYPE         => 'Fibre Channel',
+            SERIAL       => undef,
+            DISKSIZE     => 20010000,
+            MANUFACTURER => 'SCSI Logical Unit @ 0',
+            MODEL        => 'UltraStorRS16FS',
+            DESCRIPTION  => 'Disk drive'
+        }
     ]
 );
 
