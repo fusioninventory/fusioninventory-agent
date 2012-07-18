@@ -18,12 +18,10 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my @devices;
-
-    # get informations from hal first, if available
-    if (canRun('lshal')) {
-        @devices = getDevicesFromHal(logger => $logger);
-    }
+    # get devices list from hal, if available, from sysfs otherwise
+    my @devices = canRun('lshal') ?
+        getDevicesFromHal(logger => $logger) :
+        getDevicesFromProc(logger => $logger);
 
     # index devices by name for comparaison
     my %devices = map { $_->{NAME} => $_ } @devices;
@@ -35,12 +33,6 @@ sub doInventory {
             $devices{$name}->{$key} = $device->{$key}
                 if !$devices{$name}->{$key};
         }
-    }
-
-    # fallback on sysfs if /dev/.udev is not available. That's the
-    # case on any up to date Linux system
-    if (!@devices) {
-        @devices = getDevicesFromProc(logger => $logger);
     }
 
     # get serial & firmware numbers from hdparm, if available
