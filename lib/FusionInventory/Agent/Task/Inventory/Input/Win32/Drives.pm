@@ -46,13 +46,11 @@ sub doInventory {
         $object->{Size} = int($object->{Size} / (1024 * 1024))
             if $object->{Size};
 
-        my $volume = $object->{VolumeName};
         my $filesystem = $object->{FileSystem};
         if ($object->{DriveType} == 4) {
-            $volume = $object->{ProviderName};
-            if ($volume =~ /\\DavWWWRoot\\/) {
+            if ($object->{ProviderName} =~ /\\DavWWWRoot\\/) {
                 $filesystem = "WebDav";
-            } elsif ($volume =~ /^\\\\/) {
+            } elsif (!$object->{FileSystem} || $object->{FileSystem} ne 'NFS') {
                 $filesystem = "CIFS";
             }
         }
