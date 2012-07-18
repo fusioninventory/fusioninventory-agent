@@ -10,7 +10,7 @@ use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
 
-use Test::More tests => 32;
+use Test::More tests => 31;
 
 my ($content, $out, $err, $rc);
 
@@ -32,24 +32,6 @@ like(
     '--version stdout'
 );
 
-my $tmpFile = tmpnam();
-($out, $err, $rc) = run_agent('--local '. $tmpFile);
-ok($rc == 0, '--local exit status');
-like(
-    $err,
-    qr/Inventory saved in $tmpFile/,
-    '--local /tmp/somefile'
-);
-$content = XML::TreePP->new()->parsefile($tmpFile);
-ok($content, 'file output is valid XML');
-unlink($tmpFile);
-
-($out, $err, $rc) = run_agent('--local '. '-');
-ok($rc == 0, '--local exit status');
-$content = XML::TreePP->new()->parse($out);
-ok($content, 'STDOUT output is valid XML');
-unlink($tmpFile);
-
 
 ($out, $err, $rc) = run_agent();
 ok($rc == 1, 'no target exit status');
@@ -60,11 +42,11 @@ like(
 );
 is($out, '', 'no target stdout');
 
-my $base_options = "--stdout --debug --no-task ocsdeploy,wakeonlan,snmpquery,netdiscovery";
+my $base_options = "--debug --no-task ocsdeploy,wakeonlan,snmpquery,netdiscovery";
 
 # first inventory
 ($out, $err, $rc) = run_agent(
-    "$base_options --no-category printer"
+    "$base_options --local - --no-category printer"
 );
 
 subtest "first inventory" => sub {
@@ -83,7 +65,7 @@ ok(
 
 # second inventory, without software
 ($out, $err, $rc) = run_agent(
-    "$base_options --no-category printer,software"
+    "$base_options --local - --no-category printer,software"
 );
 
 subtest "first inventory" => sub {
@@ -117,7 +99,7 @@ EOF
 close($file);
 
 ($out, $err, $rc) = run_agent(
-    "$base_options --no-category printer,software --additional-content $file"
+    "$base_options --local - --no-category printer,software --additional-content $file"
 );
 subtest "first inventory" => sub {
     check_execution_ok($out, $err, $rc);
@@ -150,7 +132,7 @@ my $name = $OSNAME eq 'MSWin32' ? 'PATHEXT' : 'PATH';
 my $value = $ENV{$name};
 
 ($out, $err, $rc) = run_agent(
-    "$base_options --no-category printer,software"
+    "$base_options --local - --no-category printer,software"
 );
 
 subtest "first inventory" => sub {
@@ -176,7 +158,7 @@ ok(
 );
 
 ($out, $err, $rc) = run_agent(
-    "$base_options --no-category printer,software,environment"
+    "$base_options --local - --no-category printer,software,environment"
 );
 
 subtest "first inventory" => sub {
@@ -192,6 +174,16 @@ ok(
     !exists $content->{REQUEST}->{CONTENT}->{ENVS},
     "inventory doesn't have any environment variables"
 );
+
+# output location tests
+my $dir = File::Temp->newdir(CLEANUP => 1);
+($out, $err, $rc) = run_agent("$base_options --local $dir");
+ok($rc == 0, '--local <directory> exit status');
+ok(<$dir/*.ocs>, '--local <directory> result file presence');
+
+($out, $err, $rc) = run_agent("$base_options --local $dir/foo");
+ok($rc == 0, '--local <file> exit status');
+ok(-f "$dir/foo", '--local <file> result file presence');
 
 sub run_agent {
     my ($args) = @_;
