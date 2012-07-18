@@ -205,8 +205,8 @@ sub _getSoftwares {
 
         next unless $data;
 
-        # odd, found on Win2003
-        next unless keys %$data > 2;
+        eval { die unless keys (%$data) > 2 };
+        next if $EVAL_ERROR;
 
         my $guid = $rawGuid;
         $guid =~ s/\/$//; # drop the tailing /
