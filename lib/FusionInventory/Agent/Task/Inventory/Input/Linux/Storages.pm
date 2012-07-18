@@ -23,15 +23,19 @@ sub doInventory {
         getDevicesFromHal(logger => $logger) :
         getDevicesFromProc(logger => $logger);
 
-    # index devices by name for comparaison
-    my %devices = map { $_->{NAME} => $_ } @devices;
 
-    # complete with udev for missing bits
-    foreach my $device (getDevicesFromUdev(logger => $logger)) {
-        my $name = $device->{NAME};
-        foreach my $key (keys %$device) {
-            $devices{$name}->{$key} = $device->{$key}
-                if !$devices{$name}->{$key};
+    # complete with udev for missing bits, if available
+    if (-d '/dev/.udev/db/') {
+
+        # index devices by name for comparaison
+        my %devices = map { $_->{NAME} => $_ } @devices;
+
+        foreach my $device (getDevicesFromUdev(logger => $logger)) {
+            my $name = $device->{NAME};
+            foreach my $key (keys %$device) {
+                $devices{$name}->{$key} = $device->{$key}
+                    if !$devices{$name}->{$key};
+            }
         }
     }
 
