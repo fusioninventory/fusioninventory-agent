@@ -34,8 +34,6 @@ sub doInventory {
         grep { $_->{VOLUMN} !~ /^\/(devices|platform)/ } 
         # exclude cdrom mount
         grep { $_->{TYPE} !~ /cdrom/ } 
-        # keep physical devices or swap
-#        grep { $_->{VOLUMN} =~ /^(\S+\s|swap)/ }  # i comment this to deal with all df lines
         # get all file systems
         getFilesystemsFromDf(logger => $logger, command => _getDfCmd());
 
