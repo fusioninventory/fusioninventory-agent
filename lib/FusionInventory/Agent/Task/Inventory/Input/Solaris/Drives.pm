@@ -32,10 +32,10 @@ sub doInventory {
     my @filesystems =
         # exclude solaris 10 specific devices
         grep { $_->{VOLUMN} !~ /^\/(devices|platform)/ } 
-        # keep physical devices or swap
-        grep { $_->{VOLUMN} =~ /^(\/|swap)/ } 
         # exclude cdrom mount
         grep { $_->{TYPE} !~ /cdrom/ } 
+        # keep physical devices or swap
+#        grep { $_->{VOLUMN} =~ /^(\S+\s|swap)/ }  # i comment this to deal with all df lines
         # get all file systems
         getFilesystemsFromDf(logger => $logger, command => _getDfCmd());
 
@@ -48,25 +48,26 @@ sub doInventory {
         }
 
         my $line = getFirstLine(
-            command => "zfs get creation $filesystem->{VOLUMN}"
+           command => "zfs get -H creation $filesystem->{VOLUMN}" # i add -H to not have header of zfs command
         );
-
         if ($line && $line =~ /creation\s+(\S.*\S+)\s*-/) {
             $filesystem->{FILESYSTEM} = 'zfs';
             next;
         }
 
-        $filesystem->{FILESYSTEM} =
-            getFirstLine(command => "fstyp $filesystem->{VOLUMN}");
-    }
+# i add this to analyse eache line and if ftsyp return error set fs type to undef
+        my $line2 = getFirstLine(command => "fstyp $filesystem->{VOLUMN}");
+        if ($line2 && $line2 !~ /^fstyp/) {
+            $filesystem->{FILESYSTEM} = $line2;
+        }
 
-    # add filesystems to the inventory
-    foreach my $filesystem (@filesystems) {
-        $inventory->addEntry(
-            section => 'DRIVES',
-            entry   => $filesystem
-        );
+# add filesystems to the inventory
+        foreach my $filesystem (@filesystems) {
+            $inventory->addEntry(
+                    section => 'DRIVES',
+                    entry   => $filesystem
+                    );
+        }
     }
 }
-
 1;
