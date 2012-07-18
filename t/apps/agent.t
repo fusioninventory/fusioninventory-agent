@@ -49,7 +49,7 @@ my $base_options = "--debug --no-task ocsdeploy,wakeonlan,snmpquery,netdiscovery
     "$base_options --local - --no-category printer"
 );
 
-subtest "first inventory" => sub {
+subtest "first inventory execution and content" => sub {
     check_execution_ok($err, $rc);
     check_content_ok($out);
 };
@@ -69,7 +69,7 @@ ok(
     "$base_options --local - --no-category printer,software"
 );
 
-subtest "second inventory" => sub {
+subtest "second inventory execution and content" => sub {
     check_execution_ok($err, $rc);
     check_content_ok($out);
 };
@@ -103,7 +103,7 @@ close($file);
 ($out, $err, $rc) = run_agent(
     "$base_options --local - --no-category printer,software --additional-content $file"
 );
-subtest "third inventory" => sub {
+subtest "third inventory execution and content" => sub {
     check_execution_ok($err, $rc);
     check_content_ok($out);
 };
@@ -138,7 +138,7 @@ my $value = $ENV{$name};
     "$base_options --local - --no-category printer,software"
 );
 
-subtest "fourth inventory" => sub {
+subtest "fourth inventory execution and content" => sub {
     check_execution_ok($err, $rc);
     check_content_ok($out);
 };
@@ -165,7 +165,7 @@ ok(
     "$base_options --local - --no-category printer,software,environment"
 );
 
-subtest "fifth inventory" => sub {
+subtest "fifth inventory execution and content" => sub {
     check_execution_ok($err, $rc);
     check_content_ok($out);
 };
@@ -183,11 +183,15 @@ ok(
 # output location tests
 my $dir = File::Temp->newdir(CLEANUP => 1);
 ($out, $err, $rc) = run_agent("$base_options --local $dir");
-ok($rc == 0, '--local <directory> exit status');
+subtest "--local <directory> inventory execution" => sub {
+    check_execution_ok($err, $rc);
+};
 ok(<$dir/*.ocs>, '--local <directory> result file presence');
 
 ($out, $err, $rc) = run_agent("$base_options --local $dir/foo");
-ok($rc == 0, '--local <file> exit status');
+subtest "--local <file> inventory execution" => sub {
+    check_execution_ok($err, $rc);
+};
 ok(-f "$dir/foo", '--local <file> result file presence');
 
 sub run_agent {
