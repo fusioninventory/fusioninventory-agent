@@ -50,7 +50,8 @@ my $base_options = "--debug --no-task ocsdeploy,wakeonlan,snmpquery,netdiscovery
 );
 
 subtest "first inventory" => sub {
-    check_execution_ok($out, $err, $rc);
+    check_execution_ok($err, $rc);
+    check_content_ok($out);
 };
 
 ok(
@@ -68,8 +69,9 @@ ok(
     "$base_options --local - --no-category printer,software"
 );
 
-subtest "first inventory" => sub {
-    check_execution_ok($out, $err, $rc);
+subtest "second inventory" => sub {
+    check_execution_ok($err, $rc);
+    check_content_ok($out);
 };
 
 ok(
@@ -101,8 +103,9 @@ close($file);
 ($out, $err, $rc) = run_agent(
     "$base_options --local - --no-category printer,software --additional-content $file"
 );
-subtest "first inventory" => sub {
-    check_execution_ok($out, $err, $rc);
+subtest "third inventory" => sub {
+    check_execution_ok($err, $rc);
+    check_content_ok($out);
 };
 
 ok(
@@ -135,8 +138,9 @@ my $value = $ENV{$name};
     "$base_options --local - --no-category printer,software"
 );
 
-subtest "first inventory" => sub {
-    check_execution_ok($out, $err, $rc);
+subtest "fourth inventory" => sub {
+    check_execution_ok($err, $rc);
+    check_content_ok($out);
 };
 
 ok(
@@ -161,8 +165,9 @@ ok(
     "$base_options --local - --no-category printer,software,environment"
 );
 
-subtest "first inventory" => sub {
-    check_execution_ok($out, $err, $rc);
+subtest "fifth inventory" => sub {
+    check_execution_ok($err, $rc);
+    check_content_ok($out);
 };
 
 ok(
@@ -196,7 +201,7 @@ sub run_agent {
 }
 
 sub check_execution_ok {
-    my ($client, $url) = @_;
+    my ($err, $rc) = @_;
 
     ok($rc == 0, 'exit status');
 
@@ -211,6 +216,10 @@ sub check_execution_ok {
         qr/unexpected error in \S+/,
         'no broken module (execution)'
     );
+}
+
+sub check_content_ok {
+    my ($out) = @_;
 
     like(
         $out,
