@@ -75,6 +75,13 @@ sub getSystemProfilerInfos {
 
             # create a new node, and push it to the stack
             my $parent_node = $parents[-1]->[0];
+
+            my $i;
+            my $keyL = $key;
+            while (defined($parent_node->{$key})) {
+                $key = $keyL . '_' . $i++;
+            }
+
             $parent_node->{$key} = {};
             push (@parents, [ $parent_node->{$key}, $level, $key ]);
         }
