@@ -122,7 +122,7 @@ sub loadModel {
 package FusionInventory::Agent::Task::NetInventory::Client;
 
 sub new {
-    my ($class) = @_;
+    my ($class, %params) = @_;
 
     return bless {
         verbose => $params{verbose}
