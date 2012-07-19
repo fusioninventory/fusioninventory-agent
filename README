@@ -27,22 +27,28 @@ Additional optional programs:
 
 Usage
 -----
-The NetDiscovery task use the following tools, if available, to scan IP
-networks:
-- nmap external command
-- Net::NBName perl module
-- Net::SNMP perl module
-This allows to discover remote devices, with a few additional information,
-such as mac address and hostname, but not to identify them.
+The NetDiscovery task uses the following methods to scan IP networks:
+- ICMP scan, using nmap external command
+- NetBIOS scan, using Net::NBName perl module
+- SNMP scan, using Net::SNMP perl module
+Any device replying to one of those protocols will be discovered, with just
+minimal information, such as mac address and hostname.
 
 If the device replies to SNMP, an additional identification attempt is
-performed, by comparing its sysdescr field with a database of known values. If 
-there is an exact match, an SNMP description model can be assigned, allowing to
-immediatly identify the device category (printer, network device, etc...), and
-to use NetInventory task later to fetch additional informations.
+performed, using the device system description (SNMPv2-MIB::sysDescr.0) field.
+First, this value is compared to a database of known values (the SNMP
+description models dictionnary). If there is an exact match, the device
+category (printer, network device, etc...) can be identified, and a SNMP
+description model assigned, to use with NetInventory later. If there is no such
+value in the database, various heuristics are used to guess the device category
+and vendor from the sysdescr field.
 
-Wether identified or not, discovered devices are reported to GLPI as 'unknown
-device', and have to be imported in the inventory.
+Discovered devices are then reported to the GLPI servers, where they will be 
+available for inventory import (import rules can be used to automatize this
+step). Warning, GLPI will consider every device as 'unknown', unless an SNMP
+description model has been assigned. This implies than only devices whose exact
+combination of harware/firmware is present in the SNMP description models
+dictionnary will be completly identified upon discovery step.
 
 The NetInventory task can be applied to any device already present in the
 inventory, provided it is assigned an SNMP description model. This model maps
