@@ -228,6 +228,7 @@ sub _checkContent {
     $self->{logger} = [ split(/,/, $self->{logger}) ] if $self->{logger};
     $self->{local}  = [ split(/,/, $self->{local})  ] if $self->{local};
     $self->{server} = [ split(/,/, $self->{server}) ] if $self->{server};
+    $self->{'httpd-trust'} = [ split(/,/, $self->{'httpd-trust'}) ] if $self->{'httpd-trust'};
     $self->{'no-task'} = [ split(/,/, $self->{'no-task'}) ]
         if $self->{'no-task'};
     $self->{'no-category'} = [ split(/,/, $self->{'no-category'}) ]

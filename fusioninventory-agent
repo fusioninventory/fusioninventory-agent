@@ -393,6 +393,10 @@ Trust requests from given range without authentication token (false).
 For example: "192.168.0.0/24", "192.68.168.0.5" or an IP range like
 "20.34.101.207 - 201.3.9.99". See L<Net::IP> documentation to get more example.
 
+Multiple values can be specified, using comma as a separator.
+
+Non-numeric hostname are also accepted.
+
 =back
 
 =head2 Logging options

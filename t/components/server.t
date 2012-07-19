@@ -49,7 +49,8 @@ lives_ok {
         scheduler => $scheduler,
         logger    => $logger,
         port      => 8080,
-        htmldir   => 'share/html'
+        htmldir   => 'share/html',
+        trust     => [ '192.168.0.0/24', '127.0.0.1' ]
     );
 } 'instanciation with specific port: ok';
 sleep 1;
@@ -93,5 +94,10 @@ ok(
     'server still listening after child process raised ALRM'
 );
 
+
+ok (
+    $server->_is_trusted('127.0.0.1'),
+    '_is_trusted() on a network range'
+);
 
 $server->terminate();
