@@ -27,14 +27,17 @@ sub doInventory {
     # complete with udev for missing bits, if available
     if (-d '/dev/.udev/db/') {
 
-        # index devices by name for comparaison
-        my %devices = map { $_->{NAME} => $_ } @devices;
+        my %udev_devices = map { $_->{NAME} => $_ }
+            getDevicesFromUdev(logger => $logger);
 
-        foreach my $device (getDevicesFromUdev(logger => $logger)) {
-            my $name = $device->{NAME};
-            foreach my $key (keys %$device) {
-                $devices{$name}->{$key} = $device->{$key}
-                    if !$devices{$name}->{$key};
+        foreach my $device (@devices) {
+            # find corresponding udev entry
+            my $udev_device = $udev_devices{$device->{NAME}};
+            next unless $udev_device;
+
+            foreach my $key (keys %$udev_device) {
+                next if $device->{$key};
+                $device->{$key} = $udev_device->{$key};
             }
         }
     }
