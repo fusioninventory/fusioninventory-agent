@@ -33,6 +33,9 @@ requires 'threads'       => undef;
 requires 'XML::TreePP'   => '0.26';
 requires 'Net::SNMP'     => undef;
 
+test_requires 'Clone'            => undef;
+test_requires 'Test::Compile'    => undef;
+
 # optional dependencies
 recommends 'Net::NBName' => undef;
 
