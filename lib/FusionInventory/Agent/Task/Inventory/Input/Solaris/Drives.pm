@@ -72,7 +72,7 @@ sub doInventory {
             command => "zfs get creation $filesystem->{VOLUMN}"
         );
 
-        if ($line && $line =~ /creation\s+(\S.*\S+)\s-/) {
+        if ($line && $line =~ /creation\s+(\S.*\S+)\s*-/) {
             $filesystem->{FILESYSTEM} = 'zfs';
             next;
         }
