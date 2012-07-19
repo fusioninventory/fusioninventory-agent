@@ -11,6 +11,10 @@ use Net::IP;
 use Text::Template;
 use File::Basename;
 
+use Socket qw( NI_NUMERICHOST NIx_NOSERV );
+use Socket::GetAddrInfo qw( getaddrinfo getnameinfo );
+
+
 use FusionInventory::Agent::Logger;
 
 my $log_prefix = "[http server] ";
@@ -236,13 +240,29 @@ sub _is_trusted {
 
     return 0 unless $self->{trust};
 
-    my $source  = Net::IP->new($address);
-    my $trusted = Net::IP->new($self->{trust});
-    my $result = $source->overlaps($trusted);
+    my @trusted;
 
-    return 
-        $result == $IP_A_IN_B_OVERLAP || # included in trusted range
-        $result == $IP_IDENTICAL;        # equals trusted address
+    foreach (split(/,/, $self->{trust})) {
+        my ( $err, @res ) = getaddrinfo( $_, "", { socktype => SOCK_RAW } );
+        $self->{logger}->error("Cannot getaddrinfo $_ - $err") if $err;
+
+        while( my $ai = shift @res ) {
+            my ( $err, $ipaddr ) = getnameinfo( $ai->{addr}, NI_NUMERICHOST, NIx_NOSERV );
+            $self->{logger}->error("Cannot getnameinfo - $err") if $err;
+
+            push @trusted, Net::IP->new($ipaddr);
+        }
+    }
+
+    my $source  = Net::IP->new($address);
+
+    foreach (@trusted) {
+        my $result = $source->overlaps($_);
+        return 1 if $result == $IP_A_IN_B_OVERLAP; # included in trusted range
+        return 1 if $result == $IP_IDENTICAL;      # equals trusted address
+    }
+
+    return 0;
 }
 
 sub _is_authenticated {
