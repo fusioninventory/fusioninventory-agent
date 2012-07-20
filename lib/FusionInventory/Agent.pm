@@ -143,8 +143,17 @@ sub init {
             $logger->error("Can't load Proc::Daemon. Is the module installed?");
             exit 1;
         }
+
+        my $cwd = getcwd();
         Proc::Daemon::Init();
         $logger->debug("Daemon started");
+
+
+        # If we use relative path, we must stay in the current directory
+        if (substr( $params{libdir}, 0, 1 ) ne '/') {
+            chdir($cwd);
+        }
+
         if ($self->_isAlreadyRunning()) {
             $logger->debug("An agent is already runnnig, exiting...");
             exit 1;
