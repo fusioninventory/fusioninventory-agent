@@ -88,6 +88,7 @@ sub _getMemories1 {
         if (/^-+/) {
             # delimiter, we set flag
             $flag = 1;
+            next;
         }
 
         if ($flag_mt && /^\s*\S+\s+\S+\s+\S+\s+\S+\s+(\S+)/) {
