@@ -175,6 +175,7 @@ fusioninventory-discovery [options] --first <start> --last <stop>
     --last address  IP range last address
     --dictionnary   dictionnary file
     --community     community string (default: public)
+    --entity        GLPI entity
     --threads nb    number of discovery threads (default: 1)
     --verbose       verbose output (control messages)
     --debug         debug output (execution traces)
