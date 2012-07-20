@@ -58,14 +58,14 @@ sub doInventory {
         if ($line2 && $line2 !~ /^fstyp/) {
             $filesystem->{FILESYSTEM} = $line2;
         }
+    }
 
-# add filesystems to the inventory
-        foreach my $filesystem (@filesystems) {
-            $inventory->addEntry(
-                    section => 'DRIVES',
-                    entry   => $filesystem
-                    );
-        }
+    # add filesystems to the inventory
+    foreach my $filesystem (@filesystems) {
+        $inventory->addEntry(
+            section => 'DRIVES',
+            entry   => $filesystem
+        );
     }
 }
 1;
