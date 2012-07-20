@@ -71,6 +71,7 @@ my $logger = FusionInventory::Agent::Logger->new();
 #    });
 #$accountinfo->set('TAG', $args->{tag});
 
+my $hasError = 0;
 my $hostIds = $esx->getHostIds();
 foreach my $hostId (@$hostIds) {
     my $inventory = $esx->createInventory($hostId);
@@ -90,14 +91,15 @@ foreach my $hostId (@$hostIds) {
             }
         });
 
-                close $handle;
+        close $handle;
         print("Inventory saved in $file\n");
     } else {
+        $hasError = 1;
         print("Can't write to $file: $?\n");
     }
 
 }
-exit(0);
+exit($hasError);
 __END__
 
 =head1 NAME
