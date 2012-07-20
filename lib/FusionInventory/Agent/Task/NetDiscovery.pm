@@ -628,7 +628,8 @@ sub _scanAddressBySNMP {
             # use model as primary identification source
 
             $device{SERIAL}    = _getSerial($snmp, $model);
-            $device{MAC}       = _getMacAddress($snmp, $model) || _getMacAddress($snmp);
+            $device{MAC}       = _getMacAddress($snmp, $model) ||
+                                 _getMacAddress($snmp);
             $device{MODELSNMP}    = $model->{MODELSNMP};
             $device{TYPE}         = $model->{TYPE};
             $device{MANUFACTURER} = $model->{MANUFACTURER};
