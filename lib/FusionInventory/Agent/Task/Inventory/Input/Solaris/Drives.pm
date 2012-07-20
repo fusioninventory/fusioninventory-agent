@@ -53,19 +53,18 @@ sub doInventory {
             next;
         }
 
-# i add this to analyse eache line and if ftsyp return error set fs type to undef
         my $line2 = getFirstLine(command => "fstyp $filesystem->{VOLUMN}");
         if ($line2 && $line2 !~ /^fstyp/) {
             $filesystem->{FILESYSTEM} = $line2;
         }
+    }
 
 # add filesystems to the inventory
-        foreach my $filesystem (@filesystems) {
-            $inventory->addEntry(
-                    section => 'DRIVES',
-                    entry   => $filesystem
-                    );
-        }
+    foreach my $filesystem (@filesystems) {
+        $inventory->addEntry(
+                section => 'DRIVES',
+                entry   => $filesystem
+                );
     }
 }
 1;
