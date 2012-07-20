@@ -45,18 +45,20 @@ sub doInventory {
             next;
         }
 
-        my $line = getFirstLine(
-           command => "zfs get -H creation $filesystem->{VOLUMN}" # i add -H to not have header of zfs command
+        # use -H to exclude headers
+        my $zfs_line = getFirstLine(
+            command => "zfs get -H creation $filesystem->{VOLUMN}"
         );
-        if ($line && $line =~ /creation\s+(\S.*\S+)\s*-/) {
+        if ($zfs_line && $zfs_line =~ /creation\s+(\S.*\S+)\s*-/) {
             $filesystem->{FILESYSTEM} = 'zfs';
             next;
         }
 
-# i add this to analyse eache line and if ftsyp return error set fs type to undef
-        my $line2 = getFirstLine(command => "fstyp $filesystem->{VOLUMN}");
-        if ($line2 && $line2 !~ /^fstyp/) {
-            $filesystem->{FILESYSTEM} = $line2;
+        # call fstype, and set filesystem type unless the output matches
+        # erroneous result
+        my $fstyp_line = getFirstLine(command => "fstyp $filesystem->{VOLUMN}");
+        if ($fstyp_line && $fstyp_line !~ /^fstyp/) {
+            $filesystem->{FILESYSTEM} = $fstyp_line;
         }
     }
 
