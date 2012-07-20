@@ -1,5 +1,24 @@
 Revision history for FusionInventory agent
 
+2.2.4
+General:
+* Fix: non blocking flock() on log file
+
+MacOSX:
+* Fix: STORAGES uses MiB instead GB
+* Fix: add Fiber Channel storage support
+* Fix: Don't ignore second screen, if both have the same name
+
+Linux:
+* Fix: collect qemu -drive information (Alexander Evseev)
+
+Windows:
+* Fix: OCS Inventory registry support
+* Fix: some time the softwares were not collected
+
+Solaris:
+* Fix: Collect ZFS drives properly
+
 2.2.3  Mon, 25 Jun 2012 21:36:29 +0200
 General:
 * Fix battery voltage and capacity retrieval
