@@ -1,0 +1,480 @@
+Fibre Channel:
+
+    Fibre Channel Domain 0:
+
+      Vendor: ATTO Technology
+      Product: ATTO Celerity FC-42ES
+      Revision: 6
+      Initiator Identifier: 65536
+      Node World Wide Name: 20:00:xx:10:86:02:xx:xx
+      Port World Wide Name: 21:00:xx:10:86:02:xx:xx
+      Description: Channel 1
+      Cable Type: Fiber Optic
+
+    Fibre Channel Domain 3:
+
+      Vendor: ATTO Technology
+      Product: ATTO Celerity FC-42ES
+      Revision: 6
+      Initiator Identifier: 65536
+      Node World Wide Name: 20:00:xx:10:86:02:xx:xx
+      Port World Wide Name: 21:00:xx:10:86:02:xx:xx
+      Address Identifier: 00:00:00
+      Description: Channel 0
+      Speed: Automatic (4 Gigabit)
+      Topology: Automatic (Arbitrated Loop)
+      Cable Type: Fiber Optic
+
+        SCSI Target Device @ 0:
+
+          Node World Wide Name: 20:00:00:13:78:AC:xx:xx
+          Port World Wide Name: 21:00:00:13:78:AC:xx:xx
+          Address Identifier: 00:00:00
+          SCSI Target Identifier: 0
+          SCSI Peripheral Device Type: 0
+          Manufacturer: ETIUSA
+          Model: UltraStorRS16FS
+          Revision: 1.0.
+
+            SCSI Logical Unit @ 0:
+
+              Capacity: 20,01 TB
+              SCSI Logical Unit Number: 0
+              Manufacturer: ETIUSA
+              Model: UltraStorRS16FS
+              Revision: 1.0.
+              Removable Media: Yes
+              Detachable Drive: No
+              BSD Name: disk5
+              Mac OS 9 Drivers: No
+              Partition Map Type: APM (Apple Partition Map)
+              S.M.A.R.T. status: Not Supported
+              Volumes:
+                Production:
+                  Capacity: 20,01 TB
+                  Available: 9,66 TB
+                  Writable: Yes
+                  File System: HFS+
+                  BSD Name: disk5s3
+                  Mount Point: /Volumes/Production
+              Volumes:
+                disk5s3:
+                  Capacity: 20,01 TB
+                  Available: 9,66 TB
+                  Writable: Yes
+                  File System: HFS+
+
+    Fibre Channel Domain 2:
+
+      Vendor: LSILogic
+      Product: LSI7204EP
+      Revision: Firmware 1.3.20.0
+      Bus: PCI
+      Slot: Slot-1
+      Initiator Identifier: 126
+      Node World Wide Name: 20:00:00:06:2B:14:xx:xx
+      Port World Wide Name: 10:00:00:06:2B:14:xx:xx
+      Description: Port 1
+      Speed: Automatic
+      Topology: Automatic
+      Status: No Link Established
+
+    Fibre Channel Domain 1:
+
+      Vendor: LSILogic
+      Product: LSI7204EP
+      Revision: Firmware 1.3.20.0
+      Bus: PCI
+      Slot: Slot-1
+      Initiator Identifier: 126
+      Node World Wide Name: 20:00:00:06:2B:14:xx:xx
+      Port World Wide Name: 10:00:00:06:2B:14:xx:xx
+      Address Identifier: 00:00:EF
+      Description: Port 0
+      Speed: Automatic (4 Gigabit)
+      Topology: Automatic (Arbitrated Loop)
+      Status: Link Established
+      Cable Type: Active Copper
+
+        SCSI Target Device @ 0:
+
+          Node World Wide Name: 20:00:00:1B:4D:00:73:xx
+          Port World Wide Name: 21:00:00:1B:4D:00:73:xx
+          Address Identifier: 00:00:01
+          SCSI Target Identifier: 0
+          SCSI Peripheral Device Type: 0
+          Manufacturer: 
+          Model: Production Backu
+          Revision: R001
+
+            SCSI Logical Unit @ 0:
+
+              Capacity: 20,01 TB
+              SCSI Logical Unit Number: 0
+              Manufacturer: 
+              Model: Production Backu
+              Revision: R001
+              Removable Media: Yes
+              Detachable Drive: No
+              BSD Name: disk4
+              Mac OS 9 Drivers: No
+              Partition Map Type: APM (Apple Partition Map)
+              S.M.A.R.T. status: Not Supported
+              Volumes:
+                Production_Backup:
+                  Capacity: 20,01 TB
+                  Available: 9,66 TB
+                  Writable: Yes
+                  File System: HFS+
+                  BSD Name: disk4s3
+                  Mount Point: /Volumes/Backup
+              Volumes:
+                disk4s3:
+                  Capacity: 20,01 TB
+                  Available: 9,66 TB
+                  Writable: Yes
+                  File System: HFS+
+
+FireWire:
+
+    FireWire Bus:
+
+      Maximum Speed: Up to 800 Mb/sec
+
+Graphics/Displays:
+
+    ATI Radeon X1300:
+
+      Chipset Model: ATY,RadeonX1300
+      Type: Display
+      Bus: PCIe
+      Slot: Mezzanine
+      PCIe Lane Width: x8
+      VRAM (Total): 64 MB
+      Vendor: ATI (0x1002)
+      Device ID: 0x7187
+      Revision ID: 0x0000
+      ROM Revision: 113-A6760F-233
+      EFI Driver Version: 01.00.233
+      Displays:
+        Display Connector:
+
+Memory:
+
+    Memory Slots:
+
+      ECC: Enabled
+
+        BRANCH 0 CHANNEL 0/DIMM 1:
+
+          Size: 1 GB
+          Type: DDR2 FB-DIMM
+          Speed: 800 MHz
+          Status: OK
+          Manufacturer: 0x80AD
+          Part Number: 0x48594D5035313246373243503844332D5335
+          Serial Number: 0x0706650E
+
+        BRANCH 0 CHANNEL 1/DIMM 2:
+
+          Size: 1 GB
+          Type: DDR2 FB-DIMM
+          Speed: 800 MHz
+          Status: OK
+          Manufacturer: 0x80AD
+          Part Number: 0x48594D5035313246373243503844332D5335
+          Serial Number: 0x0706630D
+
+        BRANCH 1 CHANNEL 0/DIMM 3:
+
+          Size: 1 GB
+          Type: DDR2 FB-DIMM
+          Speed: 800 MHz
+          Status: OK
+          Manufacturer: 0x80AD
+          Part Number: 0x48594D5035313246373243503844332D5335
+          Serial Number: 0x0706670C
+
+        BRANCH 1 CHANNEL 1/DIMM 4:
+
+          Size: 1 GB
+          Type: DDR2 FB-DIMM
+          Speed: 800 MHz
+          Status: OK
+          Manufacturer: 0x80AD
+          Part Number: 0x48594D5035313246373243503844332D5335
+          Serial Number: 0x0706640C
+
+        BRANCH 0 CHANNEL 0/DIMM 5:
+
+          Size: Empty
+          Type: Empty
+          Speed: Empty
+          Status: Empty
+          Manufacturer: Empty
+          Part Number: Empty
+          Serial Number: Empty
+
+        BRANCH 0 CHANNEL 1/DIMM 6:
+
+          Size: Empty
+          Type: Empty
+          Speed: Empty
+          Status: Empty
+          Manufacturer: Empty
+          Part Number: Empty
+          Serial Number: Empty
+
+        BRANCH 1 CHANNEL 0/DIMM 7:
+
+          Size: Empty
+          Type: Empty
+          Speed: Empty
+          Status: Empty
+          Manufacturer: Empty
+          Part Number: Empty
+          Serial Number: Empty
+
+        BRANCH 1 CHANNEL 1/DIMM 8:
+
+          Size: Empty
+          Type: Empty
+          Speed: Empty
+          Status: Empty
+          Manufacturer: Empty
+          Part Number: Empty
+          Serial Number: Empty
+
+PCI Cards:
+
+    pci-bridge:
+
+      Type: PCI-to-PCI Bridge
+      Driver Installed: Yes
+      Bus: PCI
+      Slot: Slot-2
+      Vendor ID: 0x8086
+      Device ID: 0x0341
+      Revision ID: 0x0009
+      Link Width: x4
+      Link Speed: 2.5 GT/s
+
+    pci-bridge:
+
+      Type: PCI-to-PCI Bridge
+      Driver Installed: Yes
+      Bus: PCI
+      Slot: Slot-2
+      Vendor ID: 0x8086
+      Device ID: 0x0340
+      Revision ID: 0x0009
+      Link Width: x4
+      Link Speed: 2.5 GT/s
+
+    ATTO Celerity FC-42ES:
+
+      Name: pci15bc,105
+      Type: Fibre Channel
+      Driver Installed: Yes
+      Bus: PCI
+      Slot: Slot-2@4,4,1
+      Vendor ID: 0x15bc
+      Device ID: 0x0105
+      Subsystem Vendor ID: 0x117c
+      Subsystem ID: 0x0026
+      Revision ID: 0x0006
+
+    ATTO Celerity FC-42ES:
+
+      Name: pci15bc,105
+      Type: Fibre Channel
+      Driver Installed: Yes
+      Bus: PCI
+      Slot: Slot-2@4,4,0
+      Vendor ID: 0x15bc
+      Device ID: 0x0105
+      Subsystem Vendor ID: 0x117c
+      Subsystem ID: 0x0026
+      Revision ID: 0x0006
+
+    ATY,RadeonX1300:
+
+      Name: ATY,Sphyrna
+      Type: display
+      Driver Installed: Yes
+      Bus: PCI
+      Slot: Mezzanine
+      Vendor ID: 0x1002
+      Device ID: 0x7187
+      Subsystem Vendor ID: 0x1002
+      Subsystem ID: 0x7187
+      Revision ID: 0x0000
+      Link Width: x8
+      Link Speed: 2.5 GT/s
+
+    pci1000,646:
+
+      Type: Fibre Channel
+      Driver Installed: Yes
+      Bus: PCI
+      Slot: Slot-1
+      Vendor ID: 0x1000
+      Device ID: 0x0646
+      Subsystem Vendor ID: 0x1000
+      Subsystem ID: 0x1240
+      Revision ID: 0x0002
+      Link Width: x8
+      Link Speed: 2.5 GT/s
+
+    pci1000,646:
+
+      Type: Fibre Channel
+      Driver Installed: Yes
+      Bus: PCI
+      Slot: Slot-1
+      Vendor ID: 0x1000
+      Device ID: 0x0646
+      Subsystem Vendor ID: 0x1000
+      Subsystem ID: 0x1240
+      Revision ID: 0x0002
+      Link Width: x8
+      Link Speed: 2.5 GT/s
+
+Power:
+
+    System Power Settings:
+
+      AC Power:
+          System Sleep Timer (Minutes): 0
+          Disk Sleep Timer (Minutes): 0
+          Display Sleep Timer (Minutes): 58
+          Sleep On Power Button: No
+          Automatic Restart On Power Loss: Yes
+          Wake On LAN: Yes
+
+    Hardware Configuration:
+
+      UPS Installed: No
+
+
+SAS:
+
+    SAS Domain 4:
+
+      Vendor: LSILogic
+      Product: Built In SAS
+      Revision: Firmware 1.18.0.0, NVData version 9
+      Initiator Identifier: 169
+
+        SCSI Target Device @ 3:
+
+          SAS Address: 09:2B:29:07:88:89:xx:xx
+          SCSI Target Identifier: 3
+          SCSI Peripheral Device Type: 0
+          Manufacturer: ATA
+          Model: ST380815AS N
+          Revision: BUCZ
+
+            SCSI Logical Unit @ 0:
+
+              Capacity: 76,34 GB
+              SCSI Logical Unit Number: 0
+              Model: ST380815AS N
+              Revision: 3.BUCZ
+              Serial Number: XXXXXXX
+              SATA Device: Yes
+              Removable Media: No
+              Detachable Drive: No
+              BSD Name: disk0
+              Mac OS 9 Drivers: No
+              Bay Name: "Bay 1"
+              Partition Map Type: GPT (GUID Partition Table)
+              S.M.A.R.T. status: Verified
+              Volumes:
+                OSX:
+                  Capacity: 128 MB
+                  Writable: Yes
+                  File System: HFS+
+                  BSD Name: disk0s3
+                  Mount Point: 
+              Volumes:
+                disk0s3:
+                  Capacity: 128 MB
+                  Writable: Yes
+                  File System: HFS+
+
+        SCSI Target Device @ 4:
+
+          SAS Address: 05:2B:29:08:66:8C:xx:xx
+          SCSI Target Identifier: 4
+          SCSI Peripheral Device Type: 0
+          Manufacturer: ATA
+          Model: ST380815AS N
+          Revision: BUCZ
+
+            SCSI Logical Unit @ 0:
+
+              Capacity: 76,34 GB
+              SCSI Logical Unit Number: 0
+              Model: ST380815AS N
+              Revision: 3.BUCZ
+              Serial Number: XXXXXXXX
+              SATA Device: Yes
+              Removable Media: No
+              Detachable Drive: No
+              BSD Name: disk1
+              Mac OS 9 Drivers: No
+              Bay Name: "Bay 2"
+              Partition Map Type: GPT (GUID Partition Table)
+              S.M.A.R.T. status: Verified
+              Volumes:
+                OSX:
+                  Capacity: 128 MB
+                  Writable: Yes
+                  File System: HFS+
+                  BSD Name: disk1s3
+                  Mount Point: 
+              Volumes:
+                disk1s3:
+                  Capacity: 128 MB
+                  Writable: Yes
+                  File System: HFS+
+
+        SCSI Target Device @ 5:
+
+          SAS Address: 09:2B:29:07:88:89:4A:6F
+          SCSI Target Identifier: 5
+          SCSI Peripheral Device Type: 0
+          Manufacturer: ATA
+          Model: ST380815AS N
+          Revision: BUCZ
+
+            SCSI Logical Unit @ 0:
+
+              Capacity: 76,34 GB
+              SCSI Logical Unit Number: 0
+              Model: ST380815AS N
+              Revision: 3.BUCZ
+              Serial Number: XXXXXXX
+              SATA Device: Yes
+              Removable Media: No
+              Detachable Drive: No
+              BSD Name: disk3
+              Mac OS 9 Drivers: No
+              Bay Name: "Bay 3"
+              Partition Map Type: GPT (GUID Partition Table)
+              S.M.A.R.T. status: Verified
+              Volumes:
+                Backup:
+                  Capacity: 76,01 GB
+                  Available: 63,44 GB
+                  Writable: Yes
+                  File System: Journaled HFS+
+                  BSD Name: disk3s2
+                  Mount Point: /Volumes/Backup
+              Volumes:
+                disk3s2:
+                  Capacity: 76,01 GB
+                  Available: 63,44 GB
+                  Writable: Yes
+                  File System: Journaled HFS+

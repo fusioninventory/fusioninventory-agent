@@ -127,7 +127,17 @@ sub getRegistryValue {
         root    => $root,
         keyName => $keyName
     );
-    return $key->{"/$valueName"};
+
+    if ($valueName eq '*') {
+        my %ret;
+        foreach (keys %$key) {
+            s{^/}{};
+            $ret{$_}=$key->{"/$_"};
+        }
+        return \%ret;
+    } else {
+        return $key->{"/$valueName"};
+    }
 }
 
 sub getRegistryKey {
@@ -273,7 +283,7 @@ E.g: HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProductName
 
 =head2 getRegistryKey(%params)
 
-Returns a key from the registry.
+Returns a key from the registry. If key name is '*', all the keys of the path are returned as a hash reference.
 
 =over
 

@@ -8,81 +8,41 @@ use Test::More;
 use FusionInventory::Agent::Task::Inventory::Input::MacOS::Videos;
 
 my %tests = (
-    '10.4-powerpc' => {
+
+    '10.6.5-dual-monitor' => {
         MONITORS => [
             {
-                DESCRIPTION  => 'ASUS VH222',
-                CAPTION      => 'ASUS VH222'
+                DESCRIPTION => 'E2441',
+                CAPTION     => 'E2441'
+            },
+            {
+                DESCRIPTION => 'E2441_0',
+                CAPTION     => 'E2441_0'
             }
         ],
         VIDEOS => [
             {
-                NAME       => 'NVIDIA GeForce 6600',
-                RESOLUTION => '1360x768',
-                CHIPSET    => 'GeForce 6600',
-                MEMORY     => '256',
-                PCISLOT    => 'SLOT-1'
-            }
-        ]
-    },
-    '10.5-powerpc' => 
-        {
-        MONITORS => [
+                NAME        => 'ATI Radeon HD 5770',
+                RESOLUTION  => '1920x1080',
+                CHIPSET     => 'ATI Radeon HD 5770',
+                MEMORY      => '1024',
+                PCISLOT     => 'Slot-1'
+            },
             {
-                DESCRIPTION  => 'ASUS VH222',
-                CAPTION      => 'ASUS VH222'
-            }
-        ],
-        VIDEOS => [
-            {
-                NAME       => 'NVIDIA GeForce 6600',
-                RESOLUTION => '1680x1050',
-                CHIPSET    => 'GeForce 6600',
-                MEMORY     => '256',
-                PCISLOT    => 'SLOT-1'
-            }
-        ]
-    },
-    '10.6-intel' => {
-        MONITORS => [
-            {
-                DESCRIPTION  => 'iMac',
-                CAPTION      => 'iMac'
-            }
-        ],
-        VIDEOS => [
-            {
-                NAME       => 'ATI Radeon HD 2600 Pro',
-                RESOLUTION => '1920x1200',
-                CHIPSET    => 'ATI,RadeonHD2600',
-                MEMORY     => '256',
-                PCISLOT    => undef
-            }
-        ]
-    },
-    '10.6.6-intel' => {
-        MONITORS => [
-            {
-                DESCRIPTION  => 'Color LCD',
-                CAPTION      => 'Color LCD'
-            }
-        ],
-        VIDEOS => [
-            {
-                NAME       => 'Intel GMA 950',
-                RESOLUTION => '1280x800',
-                CHIPSET    => 'GMA 950',
-                MEMORY     => '64',
-                PCISLOT    => undef
+                NAME        => 'ATI Radeon HD 5770',
+                RESOLUTION  => '1920x1080',
+                CHIPSET     => 'ATI Radeon HD 5770',
+                MEMORY      => '1024',
+                PCISLOT     => 'Slot-1'
             }
         ]
     }
 );
 
 plan tests => scalar keys %tests;
-
+use Data::Dumper;
 foreach my $test (keys %tests) {
     my $file = "resources/macos/system_profiler/$test";
     my %displays = FusionInventory::Agent::Task::Inventory::Input::MacOS::Videos::_getDisplays(file => $file);
-    is_deeply(\%displays, $tests{$test}, $test);
+    is_deeply(\%displays, $tests{$test}, $test) or print Dumper(\%displays);
 }

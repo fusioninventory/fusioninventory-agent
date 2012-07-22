@@ -37,8 +37,8 @@ sub _getStorages {
     #     └── key:value
 
     my @storages;
-
-    foreach my $busName (qw/ATA SERIAL-ATA USB FireWire/) {
+    my @section = ('ATA', 'SERIAL-ATA', 'USB', 'FireWire', 'Fibre Channel');
+    foreach my $busName (@section) {
         my $bus = $infos->{$busName};
         next unless $bus;
         foreach my $controllerName (keys %{$bus}) {
@@ -96,9 +96,13 @@ sub _getStorage {
     if ($storage->{DISKSIZE}) {
         #e.g: Capacity: 320,07 GB (320 072 933 376 bytes)
         $storage->{DISKSIZE} =~ s/\s*\(.*//;
-        $storage->{DISKSIZE} =~ s/ GB//;
         $storage->{DISKSIZE} =~ s/,/./;
-        $storage->{DISKSIZE} = int($storage->{DISKSIZE} * 1024);
+
+        if ($storage->{DISKSIZE} =~ s/\s*TB//) {
+            $storage->{DISKSIZE} = int($storage->{DISKSIZE} * 1000 * 1000);
+        } elsif ($storage->{DISKSIZE} =~ s/\s+GB$//) {
+            $storage->{DISKSIZE} = int($storage->{DISKSIZE} * 1000 * 1000);
+        }
     }
 
     if ($storage->{MODEL}) {

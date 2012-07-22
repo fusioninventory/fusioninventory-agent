@@ -4,13 +4,10 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use Win32::TieRegistry (
-    Delimiter   => "/",
-    ArrayValues => 0,
-    qw/KEY_READ/
-);
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Win32;
+
 
 my @hives = qw/
     HKEY_CLASSES_ROOT
@@ -27,12 +24,17 @@ sub isEnabled {
     return $params{registry};
 }
 
-sub doInventory {
+sub _getRegistryData {
     my (%params) = @_;
 
-    my $inventory = $params{inventory};
+    my @data;
 
-    foreach my $option (@{$params{registry}}) {
+    my @registrys = ref($params{registry}->{PARAM}) eq 'ARRAY' ?
+         @{$params{registry}->{PARAM}} :
+         ($params{registry}->{PARAM});
+
+    foreach my $option (@registrys) {
+
         my $name = $option->{NAME};
         my $regkey = $option->{REGKEY};
         my $regtree = $option->{REGTREE};
@@ -41,27 +43,47 @@ sub doInventory {
         # This should never append, err wait... 
         next unless $content;
 
-        my $machKey = $Registry->Open(
-            $hives[$regtree], { Access => KEY_READ }
-        ) or die "Can't open $hives[$regtree]: $EXTENDED_OS_ERROR";
+        $regkey =~ s{\\}{/}g;
+        my $value = getRegistryValue(
+            path   => $hives[$regtree]."/".$regkey."/".$content,
+            logger => $params{logger}
+        );
 
-        my $values = $machKey->{$regkey};
-
-        if ($content eq '*') {
-            foreach my $keyWithDelimiter ( keys %$values ) {
-                next unless $keyWithDelimiter =~ /^\/(.*)/;
-                $inventory->addRegistry({
-                    NAME => $name, 
-                    REGVALUE => $1."=".$values->{$keyWithDelimiter}."\n"
-                });
+        if (ref($value) eq "HASH") {
+            foreach ( keys %$value ) {
+                my $n = encodeFromRegistry($_) || '';
+                my $v = encodeFromRegistry($value->{$_}) || '';
+                push @data, { section => 'REGISTRY', entry => {
+                        NAME => $name, 
+                        REGVALUE => "$n=$v"
+                    }
+                };
             }
         } else {
-            $inventory->addRegistry({
-                NAME => $name, 
-                REGVALUE => $values->{$content}
-            });
+            push @data, {section => 'REGISTRY', entry => {
+                    NAME => $name, 
+                    REGVALUE => encodeFromRegistry($value)
+                }
+            };
         }
     }
+
+
+    return @data;
+}
+
+sub doInventory {
+    my (%params) = @_;
+
+    return unless $params{registry}->{NAME} eq 'REGISTRY';
+
+    foreach my $data (_getRegistryData(
+                registry => $params{registry},
+                logger => $params{logger}))
+    {
+        $params{inventory}->addEntry(%$data);
+    }
+
 
 }
 

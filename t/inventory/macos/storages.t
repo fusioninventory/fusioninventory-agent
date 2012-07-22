@@ -36,7 +36,7 @@ my %tests = (
             FIRMWARE     => undef,
             TYPE         => 'USB',
             SERIAL       => '110074973765',
-            DISKSIZE     => 2007,
+            DISKSIZE     => 1960000,
             MANUFACTURER => 'Flash Disk',
             MODEL        => undef,
             DESCRIPTION  => 'Disk drive'
@@ -46,7 +46,7 @@ my %tests = (
             FIRMWARE     => undef,
             TYPE         => 'USB',
             SERIAL       => '89980116200801151425097A',
-            DISKSIZE     => 3850,
+            DISKSIZE     => 3760000,
             MANUFACTURER => 'DataTraveler 2.0',
             MODEL        => undef,
             DESCRIPTION  => 'Disk drive'
@@ -68,7 +68,7 @@ my %tests = (
             FIRMWARE     => undef,
             TYPE         => 'USB',
             SERIAL       => '110074973765',
-            DISKSIZE     => 2160,
+            DISKSIZE     => 2110000,
             MANUFACTURER => 'Flash Disk      ',
             MODEL        => undef,
             DESCRIPTION  => 'Disk drive'
@@ -84,6 +84,28 @@ my %tests = (
             MANUFACTURER => 'Matshita',
             MODEL        => 'CD-RW  CW-8221',
             DESCRIPTION  => 'CD-ROM Drive'
+        }
+    ],
+    'fiberchannel' => [
+        {
+            NAME         => 'SCSI Logical Unit @ 0',
+            FIRMWARE     => 'R001',
+            TYPE         => 'Fibre Channel',
+            SERIAL       => undef,
+            DISKSIZE     => 20010000,
+            MANUFACTURER => 'SCSI Logical Unit @ 0',
+            MODEL        => 'Production Backu',
+            DESCRIPTION  => 'Disk drive'
+        },
+        {
+            NAME         => 'SCSI Logical Unit @ 0',
+            FIRMWARE     => '1.0.',
+            TYPE         => 'Fibre Channel',
+            SERIAL       => undef,
+            DISKSIZE     => 20010000,
+            MANUFACTURER => 'SCSI Logical Unit @ 0',
+            MODEL        => 'UltraStorRS16FS',
+            DESCRIPTION  => 'Disk drive'
         }
     ]
 );
