@@ -1,6 +1,6 @@
 Revision history for FusionInventory agent
 
-2.2.4
+2.2.4  Sun, 22 Jul 2012 23:23:12 +0200
 General:
 * Fix: non blocking flock() on log file
 
