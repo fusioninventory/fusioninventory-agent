@@ -24,7 +24,7 @@ sub doInventory {
 }
 
 sub _getUptime {
-    my ($days, $hours, $minutes) = getFirstMatch(
+    my (undef, $days, $hours, $minutes) = getFirstMatch(
         pattern => qr/up \s (:?(\d+)\sdays\D+)? (\d{1,2}) : (\d{1,2})/x,
         @_
     );
