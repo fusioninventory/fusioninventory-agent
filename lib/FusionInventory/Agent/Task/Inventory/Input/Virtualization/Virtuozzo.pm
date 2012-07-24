@@ -35,8 +35,37 @@ sub doInventory {
             pattern => qr/^SLMMEMORYLIMIT="\d+:(\d+)"$/,
             logger  => $logger,
         );
-        $memory = $memory / 1024 / 1024 if $memory;
- 
+        if ($memory) {
+          $memory = $memory / 1024 / 1024 if $memory;
+        } else {
+          $memory = getFirstMatch(
+            file    => "/etc/vz/conf/$uuid.conf",
+            pattern => qr/^PRIVVMPAGES="\d+:(\d+)"$/,
+            logger  => $logger,
+          );
+          if ($memory) {
+            $memory = $memory * 4 / 1024 if $memory;
+          } else {
+           $memory = getFirstMatch(
+            file    => "/etc/vz/conf/$uuid.conf",
+            pattern => qr/^PHYSPAGES="\d+:(\d+\w{0,1})"$/,
+            logger  => $logger,
+           );
+           if ($memory) {
+             $memory =~ /:(\d+)(\w{0,1})/;
+             if ($2 eq "M") {
+               $memory=$1;
+             } elsif ($2 eq "G") {
+               $memory=$1*1024;
+             } elsif ($2 eq "K") {
+               $memory=$1/1024;
+             } else {
+               $memory=$1/1024/1024;
+             }
+           };
+	  }	  
+        };
+
         $inventory->addEntry(
             section => 'VIRTUALMACHINES',
             entry => {
