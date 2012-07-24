@@ -85,7 +85,6 @@ $inventory->{client} =
     FusionInventory::Agent::Task::NetInventory::Client->new(
         verbose => $options->{verbose}
     );
-$inventory->{deviceid} = 'foo';
 
 $inventory->run();
 
