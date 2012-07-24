@@ -607,6 +607,7 @@ sub _scanAddressBySNMP {
             next;
         }
 
+        # SNMPv2-MIB::sysDescr.0
         my $sysdescr = $snmp->get('.1.3.6.1.2.1.1.1.0');
 
         $self->{logger}->debug2(
@@ -627,10 +628,13 @@ sub _scanAddressBySNMP {
             # use model as primary identification source
 
             $device{SERIAL}    = _getSerial($snmp, $model);
-            $device{MAC}       = _getMacAddress($snmp, $model) || _getMacAddress($snmp);
+            $device{MAC}       = _getMacAddress($snmp, $model) ||
+                                 _getMacAddress($snmp);
             $device{MODELSNMP}    = $model->{MODELSNMP};
             $device{TYPE}         = $model->{TYPE};
             $device{MANUFACTURER} = $model->{MANUFACTURER};
+            $device{FIRMWARE}     = $model->{FIRMWARE};
+            $device{MODEL}        = $model->{MODEL};
 
             foreach my $rule (@hardware_rules) {
                 next unless $sysdescr =~ $rule->{match};
@@ -660,6 +664,7 @@ sub _scanAddressBySNMP {
         }
 
         $device{AUTHSNMP}     = $credential->{ID};
+        # SNMPv2-MIB::sysName.0
         $device{SNMPHOSTNAME} = $snmp->get('.1.3.6.1.2.1.1.5.0');
         $device{DESCRIPTION}  = $sysdescr if !$device{DESCRIPTION};
 
@@ -703,9 +708,11 @@ sub _getMacAddress {
     } else {
         # use default oids
 
+        # SNMPv2-SMI::mib-2.17.1.1.0
         $macAddress = $snmp->getMacAddress(".1.3.6.1.2.1.17.1.1.0");
 
         if (!$macAddress || $macAddress !~ /^$mac_address_pattern$/) {
+            # IF-MIB::ifPhysAddress
             my $macs = $snmp->walkMacAddresses(".1.3.6.1.2.1.2.2.1.6");
             foreach my $value (values %{$macs}) {
                 next if !$value;
