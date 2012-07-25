@@ -1,0 +1,27 @@
+
+Name/          Interface Station          Sub-   Interface      Related
+ClassInstance  State     Address        system   Type           Interface
+============== ========= ============== ======== ============== =========
+lan0           UP        0x0017A4770428 iexgbe   10GBASE-KR     lan900
+lan1           UP        0x0017A477042A iexgbe   10GBASE-KR
+lan2           DOWN      0x0017A4770438 iexgbe   10GBASE-KR
+lan3           DOWN      0x0017A477043A iexgbe   10GBASE-KR
+lan4           DOWN      0x984BE15BD082 iexgbe   10GBASE-KR
+lan5           DOWN      0x984BE15BD086 iexgbe   10GBASE-KR
+lan6           DOWN      0x984BE15BD083 iexgbe   10GBASE-KR
+lan7           DOWN      0x984BE15BD087 iexgbe   10GBASE-KR
+lan8           UP        0x0017A477042C iexgbe   10GBASE-KR
+lan9           UP        0x0017A477042E iexgbe   10GBASE-KR
+lan10          UP        0x0017A4770446 iexgbe   10GBASE-KR     lan901
+lan11          UP        0x0017A4770448 iexgbe   10GBASE-KR     lan901
+lan12          DOWN      0x984BE15BD08A iexgbe   10GBASE-KR
+lan13          DOWN      0x984BE15BD08E iexgbe   10GBASE-KR
+lan14          DOWN      0x984BE15BD08B iexgbe   10GBASE-KR
+lan15          DOWN      0x984BE15BD08F iexgbe   10GBASE-KR
+lan900         UP        0x0017A4770428 hp_apa   hp_apa
+lan5000        UP        0x0017A4770428 vlan     vlan           lan900
+lan901         UP        0x0017A4770446 hp_apa   hp_apa
+lan5001        UP        0x0017A4770446 vlan     vlan           lan901
+lan902         DOWN      0x000000000000 hp_apa   hp_apa
+lan903         DOWN      0x000000000000 hp_apa   hp_apa
+lan904         DOWN      0x000000000000 hp_apa   hp_apa
