@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Unix;
 use FusionInventory::Agent::Tools::Network;
 
 #TODO Get driver pcislot virtualdev
@@ -75,7 +76,7 @@ sub _parseLanscan {
 
     my @interfaces;
     while (my $line = <$handle>) {
-        next unless /^0x($alt_mac_address_pattern)\s(\S+)\s(\S+)\s+(\S+)/;
+        next unless $line =~ /^0x($alt_mac_address_pattern)\s(\S+)\s(\S+)\s+(\S+)/;
         my $interface = {
             MACADDR => alt2canonical($1),
             STATUS => 'Down'
@@ -91,7 +92,6 @@ sub _parseLanscan {
         $interface->{SPEED}       = $lanadminInfo->{Speed} > 1000000 ?
                                         $lanadminInfo->{Speed} / 1000000 :
                                         $lanadminInfo->{Speed};
-
         my $ifconfigInfo = _getIfconfigInfo(
             command => "ifconfig $name", logger => $params{logger}
         );
