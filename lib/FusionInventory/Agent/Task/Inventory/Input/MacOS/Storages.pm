@@ -37,8 +37,8 @@ sub _getStorages {
     #     └── key:value
 
     my @storages;
-    my @section = ('ATA', 'SERIAL-ATA', 'USB', 'FireWire', 'Fibre Channel');
-    foreach my $busName (@section) {
+    my @busNames = ('ATA', 'SERIAL-ATA', 'USB', 'FireWire', 'Fibre Channel');
+    foreach my $busName (@busNames) {
         my $bus = $infos->{$busName};
         next unless $bus;
         foreach my $controllerName (keys %{$bus}) {

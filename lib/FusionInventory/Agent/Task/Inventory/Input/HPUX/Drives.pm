@@ -103,19 +103,20 @@ sub _getVxFSctime {
     #   version: 5
     #   .
     #   .
-    my $version = getFirstMach(
+    my $version = getFirstMatch(
         command => "fstyp -v $device",
         logger  => $logger,
-        pattern => /^version:\s+(\d+)$/
+        pattern => qr/^version:\s+(\d+)$/
     );
 
     my $offset =
         $version == 5 ? 8200 :
         $version == 6 ? 8208 :
+        $version == 7 ? 8208 :
                         undef;
 
     if (!$offset) {
-      $logger->error("unable to compute offset from fstyp output");
+      $logger->error("unable to compute offset from fstyp output ($device)");
       return;
     }
 
