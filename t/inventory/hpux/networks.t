@@ -565,7 +565,42 @@ my %netstatNrv_tests = (
                 'IPADDRESS'   => '127.0.0.1'
             }
           ]
-
+    },
+    hpux3 => {
+        'lan5000' => [
+            {
+                'MTU'         => '32808',
+                'IPGATEWAY'   => undef,
+                'IPMASK'      => '255.255.255.255',
+                'DESCRIPTION' => 'lan5000',
+                'IPADDRESS'   => '10.46.236.71'
+            },
+            {
+                'MTU'         => '32808',
+                'IPGATEWAY'   => undef,
+                'IPMASK'      => '255.255.255.255',
+                'DESCRIPTION' => 'lan5000',
+                'IPADDRESS'   => '10.46.236.121'
+            }
+        ],
+        'lan5001' => [
+            {
+                'MTU'         => '32808',
+                'IPGATEWAY'   => undef,
+                'IPMASK'      => '255.255.255.255',
+                'DESCRIPTION' => 'lan5001',
+                'IPADDRESS'   => '10.46.228.71'
+            }
+        ],
+        'lo0' => [
+            {
+                'MTU'         => '32808',
+                'IPGATEWAY'   => undef,
+                'IPMASK'      => '255.255.255.255',
+                'DESCRIPTION' => 'lo0',
+                'IPADDRESS'   => '127.0.0.1'
+            }
+        ]
     }
 );
 
@@ -910,10 +945,11 @@ foreach my $test (keys %nwmgr_tests) {
     is_deeply($info, $nwmgr_tests{$test}, "nwmgr parsing: $test");
 }
 
+use Data::Dumper;
 foreach my $test (keys %netstatNrv_tests) {
     my $file = "resources/hpux/netstat_-nrv/$test";
     my %interfaces = FusionInventory::Agent::Task::Inventory::Input::HPUX::Networks::_parseNetstatNrv(file => $file);
-    is_deeply(\%interfaces, $netstatNrv_tests{$test}, "netstat -nrv parsing: $test");
+    is_deeply(\%interfaces, $netstatNrv_tests{$test}, "netstat -nrv parsing: $test") or print Dumper(\%interfaces);
 }
 
 foreach my $test (keys %lanscan_tests) {

@@ -209,7 +209,7 @@ sub _parseNetstatNrv {
             (
                 \w+ # Interface name
             )
-            (|:\d) # ignore interface alias, e.g: lan0:1
+            (|:\d+) # ignore interface alias, e.g: lan0:1
             \s+
             (
                 \d+ # MTU
