@@ -181,7 +181,7 @@ the logger object to use
 
 =item I<maxDelay>
 
-the maximum delay before contacting the target, in seconds 
+the maximum delay before contacting the target, in seconds
 (default: 3600)
 
 =item I<basevardir>

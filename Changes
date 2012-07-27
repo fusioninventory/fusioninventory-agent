@@ -10,7 +10,7 @@ BSD:
 
 Linux:
 * Megaraid controller support (Egor Morozov)
-* Support new OpenVZ configuration (Alessandro Iurlano) 
+* Support new OpenVZ configuration (Alessandro Iurlano)
 
 2.2.4  Sun, 22 Jul 2012 23:23:12 +0200
 General:
@@ -208,7 +208,7 @@ WINDOWS
        commit:b59a09
      http://forge.fusioninventory.org/issues/1391
    thanks: Mario Gzuk
- ✔ Fix the CPU detection on Windows 
+ ✔ Fix the CPU detection on Windows
    thanks: Anthony Facchin
 
 2.1.12  Wed, 23 Nov 2011 18:14:52 +0100
@@ -319,11 +319,11 @@ HPUX
  ✔ HP-UX: typo in CPU name
        commit:050ead
      http://forge.fusioninventory.org/issues/760
- ✔ Serial and bios informations are missing on 11.31 
+ ✔ Serial and bios informations are missing on 11.31
        commit:2e5608
      http://forge.fusioninventory.org/issues/761
    thanks: yanick durant
- ✔ HPUX Superdome CPU not correctly identified 
+ ✔ HPUX Superdome CPU not correctly identified
        commit:0a9037
      http://forge.fusioninventory.org/issues/767
    thanks: yanick durant
@@ -431,7 +431,7 @@ WINDOWS
        commit:a63eba commit:1d18c6 commit:4afe98
      http://forge.fusioninventory.org/issues/889
    thanks: GuruNot
- ✔ GLPI plugin imports duplicate entries with software from Windows Agent 
+ ✔ GLPI plugin imports duplicate entries with software from Windows Agent
        commit:4553aa
      http://forge.fusioninventory.org/issues/927
    thanks: David Durieux, Peter Luk
@@ -583,10 +583,10 @@ WINDOWS
        * BSD/CPU: failback on CPU Family if Version is empty in dmidecode, closes: #439
          http://forge.fusioninventory.org/issues/439
        * Linux, distro detection: ensure /etc/issue is parsed last if lsb_release is
-         missing. This way /etc/debian_version is used on Debian 
+         missing. This way /etc/debian_version is used on Debian
        * Linux: correctly parse /etc/resolv.conf to identify the domain
        * Linux: don't save 2 time the same domain
-       * Linux/ARM: collect the Hardware information from /proc/cpuinfo 
+       * Linux/ARM: collect the Hardware information from /proc/cpuinfo
        * BSD: use sysctl -n hw.model to get the CPU name and frequency
        * MacOSX: Mem.pm, convert hex string to ASCII when needed, thanks Sylvain la Gravière
          for the bug report
@@ -604,7 +604,7 @@ WINDOWS
        * Win32: try to identify dual core CPU even if Windows thinks it two physical CPU
        * Win32: no need to change %PATH% anymore
          http://forge.fusioninventory.org/issues/151
-       * fusioninventory-agent-config, better question for server address 
+       * fusioninventory-agent-config, better question for server address
        * BIOS: clean up
           - do not mix motherboard and system information anymore
           - do not use CPU information do create fake serial anymore
@@ -756,7 +756,7 @@ WINDOWS
        * Win32: add Modem.pm
        * Fix: Virtuozzo containers memory unit (Jan JUNGMANN)
        * Win32: Ignore network it the network interface has no PNPDeviceID
-         http://comments.gmane.org/gmane.comp.monitoring.fusion-inventory.devel/34 
+         http://comments.gmane.org/gmane.comp.monitoring.fusion-inventory.devel/34
        * HP-UX: fix --no-software support
        * Win32: retrieve the Windows key on Windows 64 bit,
          http://forge.fusioninventory.org/issues/267
@@ -1163,9 +1163,9 @@ WINDOWS
        * POD documentation for FusionInventory::Agent::Network
        * POD documentation clean in FusionInventory::Agent::XML::Query::Inventory
        * POD documentation for FusionInventory::Agent::XML::Query::SimpleMessage
-       * Linux: Handle channel bonding interfaces (Stéphane URBANOVSKI) 
-       * XML: clean up addNetwork (Stéphane URBANOVSKI) 
-       * CPU: Add CORE/THREAD 
+       * Linux: Handle channel bonding interfaces (Stéphane URBANOVSKI)
+       * XML: clean up addNetwork (Stéphane URBANOVSKI)
+       * CPU: Add CORE/THREAD
        * Inventory: use the standard Inventory object
        * Inventory: correctly save OcsDeploy package ID
        * NetDiscover/SNMP: Various changes (David DURIEUX)
@@ -1277,8 +1277,8 @@ WINDOWS
        * OS::Linux::Storages, correctly retrieve the serial (Vladimir ELISSEEV)
        * load $http_proxy env settings and --proxy option is available
        * Add OS::Linux::Distro::NonLSB::ArchLinux (Julien SAFAR)
-       * New Backend OS::Generic::Processes 
-       * Linux/BSD: detect DNS servers config 
+       * New Backend OS::Generic::Processes
+       * Linux/BSD: detect DNS servers config
        * Solaris: Better output for $OSVErsion (Vladimir ELISSEEV)
        * Solaris: Sun Fire T1000 patches for memory (Vladimir ELISSEEV)
        * Solaris: memory SPARC Enterprise T5220 (Vladimir ELISSEEV)
@@ -1334,7 +1334,7 @@ WINDOWS
        * Solaris: add a warning if memconf is not in $PATH
        * Switch the XML content from ISO-8859-1 to UTF-8, BTW we force
          LC_ALL=C...
-       * Fix the history flood in Download.pm (Pascal DANEK) 
+       * Fix the history flood in Download.pm (Pascal DANEK)
          https://sourceforge.net/tracker/index.php?func=detail&aid=2806585&group_id=58373&atid=487492
        * Stores PCIID in CONTROLLERS/PCIID
        * Storage the monitor EDID string in BASE64 and UUENCODE
@@ -1345,7 +1345,7 @@ WINDOWS
        * Warns the user during the install process if one of
          the recommended module is not installed
        * Update out copy of memconf, thanks WeatherDave who notified the new
-         revision and of course Tom Schmidt who do a great job 
+         revision and of course Tom Schmidt who do a great job
        * MacOSX: Avoid a scalar used has hash ref error, thanks Adadov
        * Save VIDEOS/MEMORY and VIDEOS/RESOLUTION
        * MacOSX: Correctilly detect Up/Down network interfaces
@@ -1370,11 +1370,11 @@ WINDOWS
        * Always send tag, even if server already has one
        * Add the byHand software collect method (Sébastien DAGNICOURT)
        * add logging to can_read(), can_load() and can_run()
-       * use addUser() instead of setHardware() 
+       * use addUser() instead of setHardware()
        * Add the runcmd() in the Backend modules
 
 1.0.1    Sun, 22 Mar 2009 20:48:49 +0100
-       * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory 
+       * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory
 
 1.0    Sun, 22 Mar 2009 20:14:26 +0100
        * Hide warning messages when tw_cli or hpacucli are not present on CentOS
@@ -1401,9 +1401,9 @@ WINDOWS
          want to drop the old linux_agent
        * Backend::OS::Solaris::Memory: use the Logger instead of "print"
        * Solaris: Drop unwanted spaces around OSVERSION and STORAGES/DESCRIPTION
-       * Solaris: Avoid warning is the user can't use fstyp 
+       * Solaris: Avoid warning is the user can't use fstyp
        * MANIFEST.SKIP: ignore .git/ and .gitignore
-       * add a workaround for http://rt.cpan.org/Ticket/Display.html?id=38067 
+       * add a workaround for http://rt.cpan.org/Ticket/Display.html?id=38067
        * build-perl-tree.sh use cpanp and perl 5.10 now
        * Backend.pm: do a eval around require File::Find
        * Add a workaround to find the backend modules for PAR::Packer
@@ -1456,7 +1456,7 @@ WINDOWS
          with File::Find.
        * import the can_run, can_load and can_read functions in the Backend modules
        * the backend module can have no check function, in this case OCS assume it's ok
-       * apply a patch by Etienne GUILLAUMONT to fix CPU detection on AIX 4 
+       * apply a patch by Etienne GUILLAUMONT to fix CPU detection on AIX 4
        * standalone.sh checks PAR::Packer presence now
        * only inventory installed .deb
        * postinst.pl: accept another vardir if the first one was invalide
@@ -1516,7 +1516,7 @@ WINDOWS
        * add the --lazy parameter: send an inventory only if the a random delay between 0 and PROLOG_FREQ had been run over. Usefull for package maintainer (Remi COLLET)
        * return 1 to the shell is the agent failed to contact the server
        * postinst.pl asks for the basevardir
-       * postinst.pl write the modules.conf 
+       * postinst.pl write the modules.conf
        * OS::Linux::Network::Networks, correctly reset the ipaddress before every loop so
          now a network can't have the address of the previous one
        * rename the key $params->{conffile} to $params->{accountconfig}
@@ -1538,7 +1538,7 @@ WINDOWS
          yet by the server (egamin)
 
 0.0.8.1 02/20/2008
-       * postinst.pl, correctly save the realm, do not override the password 
+       * postinst.pl, correctly save the realm, do not override the password
        * Added "CAPTION" field to memory (Pascal DANEK)
        * Fix a bug with "NUMSLOTS" memory field (Pascal DANEK)
        * improve the parsing of the config file to accept quote and spaces in the value
@@ -1586,7 +1586,7 @@ WINDOWS
          - prologresp, the Ocsinventory::Agent::XML::Response::Prolog object returned by
            the prolog
          - storage: an hashref stored on the harddrive at the end of the execution of the module
-       * a backend module without a run function is accepted now 
+       * a backend module without a run function is accepted now
        * Inventory.pm: add addIpDiscoverEntry() to add host from the same network
        * @runMeIfTheseChecksFailed: new optional setting for Backend module
        * Ipdiscover is now a backend module and nmap can be used instead of ipdiscover
@@ -1600,7 +1600,7 @@ WINDOWS
        * change the way --server parameter is read. Now we can have a full URL, --remotedir
          is now useless
        * fix: correctly load the last_state
-       * improve the Makefile.PL by using inc::Module::Install and adding new check 
+       * improve the Makefile.PL by using inc::Module::Install and adding new check
        * add a --version parameter and improve the --help
        * come with bundled dependency to simply the build process
        * fix the login/passwd/realm authentification
@@ -1612,9 +1612,9 @@ WINDOWS
 
        * remove a debug "die" in the code
 
-0.0.6.1 06/12/2007 Bug fix release 
+0.0.6.1 06/12/2007 Bug fix release
        * Fix an undef value in Ocsinventory::Agent::Backend::OS::BSD::Mem
-       * AIX: retrieve correctly the MAC address of some FibberChannel card 
+       * AIX: retrieve correctly the MAC address of some FibberChannel card
        * now standalone.sh will try to find every module before the build to
          avoid unexplicated error
 
@@ -1635,7 +1635,7 @@ WINDOWS
        * remove a stupid check in Ocsinventory::Agent::AccountConfig, the
          accountconfig file was not written unless the file was already present
        * add a recMkdir function in ocsinventory-agent to create directory recursivly
-       * do not process checksum in local mode 
+       * do not process checksum in local mode
 
 0.0.5  04/17/2007
        * AIX: use lslpp -c -l to find installed packages
@@ -1666,4 +1666,4 @@ WINDOWS
        * don't write the last_state is the connexion failed
        * Deals correctly with the accountinfo if it's internaly stored in a
          array ref
-       * BSD support by Thierry Lacoste 
+       * BSD support by Thierry Lacoste

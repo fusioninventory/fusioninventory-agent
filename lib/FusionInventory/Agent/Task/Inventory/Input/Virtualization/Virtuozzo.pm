@@ -27,7 +27,7 @@ sub doInventory {
 
     while (my $line = <$handle>) {
 
-        chomp $line; 
+        chomp $line;
         my ($name, $uuid, $cpus, $status, $subsys) = split(/[ \t]+/, $line);
 
         my $memory = getFirstMatch(
@@ -63,7 +63,7 @@ sub doInventory {
 			$memory=$1/1024/1024;
 		    }
 		}
-	    }	  
+	    }
         }
 	
         $inventory->addEntry(
