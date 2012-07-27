@@ -142,7 +142,6 @@ sub run {
         );
 
         return unless $response;
-        $inventory->saveLastState();
 
     }
 

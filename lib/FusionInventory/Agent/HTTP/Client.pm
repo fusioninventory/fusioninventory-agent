@@ -7,6 +7,10 @@ use English qw(-no_match_vars);
 use HTTP::Status;
 use LWP::UserAgent;
 use UNIVERSAL::require;
+use JSON;
+use HTTP::Request;
+use URI::Escape;
+
 
 use FusionInventory::Agent::Logger;
 
@@ -182,17 +186,78 @@ sub _setSSLOptions {
     $self->{ssl_set} = 1;
 }
 
+sub _prepareVal {
+    my ($self, $val) = @_;
+
+    return '' unless length($val);
+
+    # forbid too long argument.
+    while (length(URI::Escape::uri_escape_utf8($val)) > 1500) {
+        $val =~ s/^.{5}/…/;
+    }
+
+    return URI::Escape::uri_escape_utf8($val);
+}
+
+sub send { ## no critic (ProhibitBuiltinHomonyms)
+    my ($self, %params) = @_;
+
+    my $url = $params{url};
+
+    $url .= '?action=' . uri_escape($params{args}->{action});
+
+    foreach my $arg (keys %{$params{args}}) {
+        my $value = $params{args}->{$arg};
+        if (ref $value eq 'ARRAY') {
+            foreach (@$value) {
+                $url .= '&' . $arg . '[]=' . $self->_prepareVal($_ || '');
+            }
+        } elsif (ref $value eq 'HASH') {
+            foreach (keys %$value) {
+                $url .= '&' . $arg . '[' . $_. ']=' . $self->_prepareVal($value->{$_});
+            }
+        } elsif ($arg ne 'action' && length($value)) {
+            $url .= '&' . $arg . '=' . $self->_prepareVal($value);
+        }
+    }
+
+    $self->{logger}->debug2($url) if $self->{logger};
+
+    my $request = HTTP::Request->new();
+    $request->header( 'Content-Type' => 'application/json' );
+
+
+    $request->uri($url);
+    if ($params{postData}) {
+        $request->content($params{postData});
+        $request->method('POST');
+    } else {
+        $request->method('GET');
+    }
+
+    my $response = $self->request($request);
+
+    return unless $response;
+
+    return eval { from_json( $response->content(), { utf8  => 1 } ) };
+}
+
+
+
 1;
 __END__
 
 =head1 NAME
 
-FusionInventory::Agent::HTTP::Client - An abstract HTTP client
+FusionInventory::Agent::HTTP::Client - An HTTP client using Fusion protocol
 
 =head1 DESCRIPTION
 
-This is an abstract class for HTTP clients. It can send messages through HTTP
-or HTTPS, directly or through a proxy, and validate SSL certificates.
+This is the object used by the agent to send messages to GLPI servers,
+using new Fusion protocol (JSON messages sent through GET requests).
+
+It can send messages through HTTP or HTTPS, directly or through a proxy,
+and validate SSL certificates.
 
 =head1 METHODS
 
@@ -237,3 +302,23 @@ the directory containing trusted certificates
 
 Send given HTTP::Request object, handling SSL checking and user authentication
 automatically if needed.
+
+=head2 send(%params)
+
+The following parameters are allowed, as keys of the %params
+hash:
+
+=over
+
+=item I<url>
+
+the url to send the message to (mandatory)
+
+=item I<args>
+
+A list of parameters to pass to the server. The action key is mandatory.
+Parameters can be hashref or arrayref.
+
+=back
+
+This method returns a perl data structure.
