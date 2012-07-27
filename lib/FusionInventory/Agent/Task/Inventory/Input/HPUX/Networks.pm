@@ -87,8 +87,8 @@ sub _getInterfaces {
 
     foreach my $interface (@interfaces) {
         if ($interface->{IPADDRESS} && $interface->{IPADDRESS} eq '0.0.0.0') {
-            $interface->{IPADDRESS} = "";
-            $interface->{IPMASK}    = "";
+            $interface->{IPADDRESS} = undef;
+            $interface->{IPMASK}    = undef;
         } else {
             $interface->{IPSUBNET} = getSubnetAddress(
                 $interface->{IPADDRESS},
