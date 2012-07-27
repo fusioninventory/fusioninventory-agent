@@ -11,6 +11,7 @@ use Win32::TieRegistry (
     ArrayValues => 0,
     qw/KEY_READ/
 );
+use File::Basename;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
@@ -22,6 +23,56 @@ sub isEnabled {
 
     return !$params{no_category}->{software};
 }
+
+sub _loadUserSoftware {
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $is64bit   = is64bit();
+
+
+    my $lmachine = $Registry->Open('LMachine');
+
+    my $profileList =
+        $lmachine->{"SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProfileList"};
+
+    return unless $profileList;
+
+    $Registry->AllowLoad(1);
+
+    foreach my $profileName (keys %$profileList) {
+        next unless length($profileName) > 10;
+
+        my $profilePath = $profileList->{$profileName}{'/ProfileImagePath'};
+        my $sid = $profileList->{$profileName}{'/Sid'};
+
+        next unless $sid;
+        next unless $profilePath;
+
+        $profilePath =~ s/%SystemDrive%/$ENV{SYSTEMDRIVE}/i;
+
+        my $user = basename($profilePath);
+        my $userKey = $is64bit ?
+            $Registry->Load($profilePath.'\ntuser.dat', { Access=> KEY_READ | KEY_WOW64_64 } ) :
+            $Registry->Load($profilePath.'\ntuser.dat', { Access=> KEY_READ } )                ;
+
+        my $softwares =
+            $userKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
+
+        foreach my $software (_getSoftwares(
+                    softwares => $softwares,
+                    is64bit   => 1,
+                    userid => $sid,
+                    username => $user
+                    )) {
+            _addSoftware(inventory => $inventory, entry => $software);
+        }
+
+    }
+    $Registry->AllowLoad(0);
+
+}
+
 
 sub doInventory {
     my (%params) = @_;
@@ -58,6 +109,10 @@ sub doInventory {
             inventory => $inventory,
             is64bit   => 1
         );
+        _loadUserSoftware(
+            inventory => $inventory,
+            is64bit   => 1
+        );
 
         my $machKey32 = $Registry->Open('LMachine', {
             Access => KEY_READ | KEY_WOW64_32 ## no critic (ProhibitBitwise)
@@ -76,6 +131,10 @@ sub doInventory {
         }
         _processMSIE(
             machKey   => $machKey32,
+            inventory => $inventory,
+            is64bit   => 0
+        );
+        _loadUserSoftware(
             inventory => $inventory,
             is64bit   => 0
         );
@@ -101,6 +160,11 @@ sub doInventory {
             inventory => $inventory,
             is64bit   => 0
         );
+        _loadUserSoftware(
+            inventory => $inventory,
+            is64bit   => 0
+        );
+
     }
 
     foreach (values %$kbList) {
@@ -130,7 +194,7 @@ sub _getSoftwares {
     my (%params) = @_;
 
     my $softwares = $params{softwares};
-    my $kbList = $params{kbList};
+    my $kbList = $params{kbList} || {};
 
     my @softwares;
 
@@ -141,8 +205,8 @@ sub _getSoftwares {
 
         next unless $data;
 
-        # odd, found on Win2003
-        next unless keys %$data > 2;
+        eval { die unless keys (%$data) > 2 };
+        next if $EVAL_ERROR;
 
         my $guid = $rawGuid;
         $guid =~ s/\/$//; # drop the tailing /
@@ -164,6 +228,8 @@ sub _getSoftwares {
             NO_REMOVE        => hex2dec($data->{'/NoRemove'}),
             ARCH             => $params{is64bit} ? 'x86_64' : 'i586',
             GUID             => $guid,
+            USERNAME         => $params{username},
+            USERID           => $params{userid},
         };
 
         # Workaround for #415

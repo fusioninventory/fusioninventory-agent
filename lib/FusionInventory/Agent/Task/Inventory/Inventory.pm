@@ -41,7 +41,7 @@ my %fields = (
     SOFTWARES   => [ qw/COMMENTS FILESIZE FOLDER FROM HELPLINK INSTALLDATE NAME
                         NO_REMOVE RELEASE_TYPE PUBLISHER UNINSTALL_STRING 
                         URL_INFO_ABOUT VERSION VERSION_MINOR VERSION_MAJOR 
-                        GUID ARCH/ ],
+                        GUID ARCH USERNAME USERID/ ],
     SOUNDS      => [ qw/CAPTION DESCRIPTION MANUFACTURER NAME/ ],
     STORAGES    => [ qw/DESCRIPTION DISKSIZE INTERFACE MANUFACTURER MODEL NAME
                         TYPE SERIAL SERIALNUMBER FIRMWARE SCSI_COID SCSI_CHID
@@ -63,7 +63,7 @@ my %fields = (
                              DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
                              WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE/ ],
     OPERATINGSYSTEM  => [ qw/KERNEL_NAME KERNEL_VERSION NAME VERSION FULL_NAME 
-                            SERVICE_PACK INSTALL_DATE/ ],
+                            SERVICE_PACK INSTALL_DATE FQDN DNS_DOMAIN/ ],
     ACCESSLOG        => [ qw/USERID LOGDATE/ ],
     VIRTUALMACHINES  => [ qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU
                              VMID MAC COMMENT OWNER/ ],
@@ -947,6 +947,14 @@ If the software is in 32 or 64bit, (1/0)
 =item GUID
 
 Windows software GUID
+
+=item USERNAME
+
+Name of the owner of the software.
+
+=item USERID
+
+ID of the owner of the software. SID on Windows.
 
 =back
 

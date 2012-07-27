@@ -1,0 +1,36 @@
+Graphics/Displays:
+
+    ATI Radeon HD 5770:
+
+      Chipset Model: ATI Radeon HD 5770
+      Type: GPU
+      Bus: PCIe
+      Slot: Slot-1
+      PCIe Lane Width: x16
+      VRAM (Total): 1024 MB
+      Vendor: ATI (0x1002)
+      Device ID: 0x68b8
+      Revision ID: 0x0000
+      ROM Revision: 113-C0160C-155
+      EFI Driver Version: 01.00.436
+      Displays:
+        E2441:
+          Resolution: 1920 x 1080 @ 60 Hz
+          Pixel Depth: 32-Bit Color (ARGB8888)
+          Display Serial Number:             
+          Main Display: Yes
+          Mirror: Off
+          Online: Yes
+          Rotation: Supported
+          Television: Yes
+        E2441:
+          Resolution: 1920 x 1080 @ 60 Hz
+          Pixel Depth: 32-Bit Color (ARGB8888)
+          Display Serial Number:             
+          Mirror: Off
+          Online: Yes
+          Rotation: Supported
+          Television: Yes
+        Display Connector:
+          Status: No Display Connected
+

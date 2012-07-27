@@ -15,10 +15,11 @@ sub new {
     bless $self, $class;
 
     my %backends;
-    foreach my $backend (
+    foreach (
         $params{backends} ? @{$params{backends}} : 'Stderr'
     ) {
-	next if $backends{$backend};
+        my $backend = ucfirst($_);
+        next if $backends{$backend};
         my $package = "FusionInventory::Agent::Logger::$backend";
         $package->require();
         if ($EVAL_ERROR) {

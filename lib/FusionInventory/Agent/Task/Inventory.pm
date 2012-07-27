@@ -74,42 +74,48 @@ sub run {
     $self->_initModulesList(\%disabled);
     $self->_feedInventory($inventory, \%disabled);
 
-    if ($self->{target}->isa('FusionInventory::Agent::Target::Stdout')) {
+    if ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
+        my $path   = $self->{target}->getPath();
+        my $format = $self->{target}->{format};
+        my ($file, $handle);
+
+        SWITCH: {
+            if ($path eq '-') {
+                $handle = \*STDOUT;
+                last SWITCH;
+            }
+
+            if (-d $path) {
+                $file =
+                    $path . "/" . $self->{deviceid} .
+                    ($format eq 'xml' ? '.ocs' : '.html');
+                last SWITCH;
+            }
+
+	    $file = $path;
+        }
+
+        if ($file) {
+            if (Win32::Unicode::File->require()) {
+                $handle = Win32::Unicode::File->new('w', $file);
+            } else {
+                open($handle, '>', $file);
+            }
+            $self->{logger}->error("Can't write to $file: $ERRNO")
+                unless $handle;
+        }
+
         $self->_printInventory(
             inventory => $inventory,
-            handle    => \*STDOUT,
-            format    => $self->{config}->{'local-inventory-format'}
+            handle    => $handle,
+            format    => $format
         );
-    } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
-        my $format = $self->{config}->{'local-inventory-format'};
 
-        $inventory->computeChecksum();
-
-        my $file =
-            $self->{config}->{local} .
-            "/" .
-            $self->{deviceid} .
-            "." .
-            $format;
-
-        my $handle;
-        if (Win32::Unicode::File->require()) {
-            $handle = Win32::Unicode::File->new('w', $file);
-        } else {
-            open($handle, '>', $file);
-        }
-
-        if ($handle) {
-            $self->_printInventory(
-                inventory => $inventory,
-                handle    => $handle,
-                format    => $self->{config}->{'local-inventory-format'}
-            );
-            close $handle;
+        if ($file) {
             $self->{logger}->info("Inventory saved in $file");
-        } else {
-            $self->{logger}->error("Can't write to $file: $ERRNO");
+            close $handle;
         }
+
     } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
         my $client = FusionInventory::Agent::HTTP::Client::Fusion->new(
             logger       => $self->{logger},
@@ -160,7 +166,7 @@ sub _initModulesList {
 
         # skip if parent is not allowed
         if ($parent && !$self->{modules}->{$parent}->{enabled}) {
-            $logger->debug("  $module disabled: implicit dependency $parent not enabled");
+            $logger->debug2("  $module disabled: implicit dependency $parent not enabled");
             $self->{modules}->{$module}->{enabled} = 0;
             next;
         }
@@ -186,7 +192,7 @@ sub _initModulesList {
             }
         );
         if (!$enabled) {
-            $logger->debug("module $module disabled");
+            $logger->debug2("module $module disabled");
             $self->{modules}->{$module}->{enabled} = 0;
             next;
         }

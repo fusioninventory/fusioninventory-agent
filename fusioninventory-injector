@@ -1,21 +1,11 @@
 #!/usr/bin/perl
-###############################################################################
-##Copyleft Pascal DANEK 2005
-##Copyleft Goneri Le Bouder 2006
-##Copyleft FusionInventory Project 2010-2012
-##Web : http://www.FusionInventory.org
-##
-##This code is open source and may be copied and modified as long as the source
-##code is always made freely available.
-##Please refer to the General Public Licence http://www.gnu.org/ or Licence.txt
-################################################################################
 
 use strict;
 use warnings;
 
 use Compress::Zlib;
 use English qw(-no_match_vars);
-use Fcntl qw/:flock/;
+use Fcntl qw(:flock);
 use Getopt::Long;
 use LWP::UserAgent;
 use Pod::Usage;
@@ -24,10 +14,38 @@ my %options = (
     useragent => 'FusionInventory-Injector'
 );
 
+GetOptions(
+    \%options,
+    'help|h',
+    'directory|d=s',
+    'file|f=s',
+    'url|u=s',
+    'useragent=s',
+    'remove|r',
+    'verbose|v',
+    'stdin',
+);
+
+$OUTPUT_AUTOFLUSH = 1;
+pod2usage(-verbose => 0, -exitstatus => 0) if $options{help};
+
+if ($options{file}) {
+    loadfile($options{file});
+} elsif ($options{stdin}) {
+    loadstdin();
+} elsif ($options{directory}) {
+   loaddirectory($options{directory});
+} else {
+    pod2usage();
+}
+
+exit(0);
+
 sub loadfile {
     my $file = shift;
 
-    die "can't read file $file" unless -r $file;
+    die "file $file does not exist" unless -f $file;
+    die "file $file is not readable" unless -r $file;
 
     print "Loading $file..." if $options{verbose};
 
@@ -44,9 +62,11 @@ sub loadfile {
 sub loaddirectory {
     my $directory = shift;
 
-    die "can't read directory $directory" unless -r $directory;
+    die "directory $directory does not exist" unless -d $directory;
+    die "directory $directory is not readable" unless -r $directory;
 
-    opendir (my $dh, $directory) or die "can't open directory $directory: $ERRNO";
+    opendir (my $dh, $directory)
+        or die "can't open directory $directory: $ERRNO";
     foreach ( readdir($dh) ) {
         loadfile("$directory/$_") if (/\.ocs$/);
     }
@@ -63,8 +83,9 @@ sub loadstdin {
 sub sendContent {
     my $content = shift;
 
-    my $ua = LWP::UserAgent->new;
-    $ua->agent($options{useragent});
+    my $ua = LWP::UserAgent->new(
+        agent => $options{useragent}
+    );
     my $request = HTTP::Request->new( POST => $options{url} );
     $request->header(
         'Pragma' => 'no-cache',
@@ -87,35 +108,6 @@ sub sendContent {
         }
     }
 }
-
-GetOptions(
-    \%options,
-    'help|h',
-    'directory|d=s',
-    'file|f=s',
-    'url|u=s',
-    'useragent=s',
-    'remove|r',
-    'verbose|v',
-    'stdin',
-);
-
-$OUTPUT_AUTOFLUSH = 1;
-pod2usage() if $options{help};
-
-if ($options{file}) {
-    die "file $options{file} does not exist" unless -f $options{file};
-    loadfile($options{file});
-} elsif ($options{stdin}) {
-    loadstdin();
-} elsif ($options{directory}) {
-    die "directory $options{directory} does not exist" unless -d $options{directory};
-   loaddirectory($options{directory});
-} else {
-    pod2usage();
-}
-
-exit(0);
 
 __END__
 

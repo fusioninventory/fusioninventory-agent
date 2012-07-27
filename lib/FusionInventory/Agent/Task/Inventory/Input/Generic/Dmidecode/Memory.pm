@@ -45,6 +45,28 @@ sub _getMemories {
             # Flash is 'in general' an unrelated internal BIOS storage, See bug: #1334
             next if $info->{'Type'} =~ /Flash/i;
 
+            my $manufacturer;
+            if (
+                $info->{'Manufacturer'}
+                    &&
+                ( $info->{'Manufacturer'} !~ /
+                  Manufacturer
+                      |
+                  Undefined
+                      |
+                  None
+                      |
+                  ^0x
+                      |
+                  00000
+                      |
+                  \sDIMM
+                  /ix )
+            ) {
+                $manufacturer = $info->{'Manufacturer'};
+            }
+
+
             my $description = $info->{'Form Factor'};
             $description .= " ($memoryCorrection)" if $memoryCorrection;
 
@@ -55,7 +77,8 @@ sub _getMemories {
                 SPEED        => $info->{'Speed'},
                 TYPE         => $info->{'Type'},
                 SERIALNUMBER => $info->{'Serial Number'},
-                MEMORYCORRECTION => $memoryCorrection
+                MEMORYCORRECTION => $memoryCorrection,
+                MANUFACTURER => $manufacturer
             };
 
             if ($info->{'Size'} && $info->{'Size'} =~ /^(\d+) \s MB$/x) {

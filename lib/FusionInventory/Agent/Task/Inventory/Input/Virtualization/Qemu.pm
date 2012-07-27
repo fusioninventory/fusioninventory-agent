@@ -28,7 +28,7 @@ sub doInventory {
     )) {
         # match only if an qemu instance
         next unless
-            $process->{CMD} =~ /(qemu|kvm|qemu-kvm) .* -([fhsv]d[a-d]|cdrom)/x;
+            $process->{CMD} =~ /(qemu|kvm|qemu-kvm) .* -([fhsv]d[a-z]|cdrom|drive)/x;
 
         my $name;
         my $mem = 0;

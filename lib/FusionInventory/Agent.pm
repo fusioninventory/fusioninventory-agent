@@ -17,7 +17,6 @@ use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Task;
 use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Target::Server;
-use FusionInventory::Agent::Target::Stdout;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::XML::Query::Prolog;
@@ -113,27 +112,19 @@ sub init {
     my $scheduler = $self->{scheduler};
 
     # create target list
-    if ($config->{stdout}) {
-        $scheduler->addTarget(
-            FusionInventory::Agent::Target::Stdout->new(
-                logger     => $logger,
-                deviceid   => $self->{deviceid},
-                delaytime  => $config->{delaytime},
-                basevardir => $self->{vardir},
-            )
-        );
-    }
-
     if ($config->{local}) {
-        $scheduler->addTarget(
-            FusionInventory::Agent::Target::Local->new(
-                logger     => $logger,
-                deviceid   => $self->{deviceid},
-                delaytime  => $config->{delaytime},
-                basevardir => $self->{vardir},
-                path       => $config->{local},
-            )
-        );
+        foreach my $path (@{$config->{local}}) {
+            $scheduler->addTarget(
+                FusionInventory::Agent::Target::Local->new(
+                    logger     => $logger,
+                    deviceid   => $self->{deviceid},
+                    delaytime  => $config->{delaytime},
+                    basevardir => $self->{vardir},
+                    path       => $path,
+                    html       => $config->{html},
+                )
+            );
+        }
     }
 
     if ($config->{server}) {
@@ -165,8 +156,17 @@ sub init {
             $logger->error("Can't load Proc::Daemon. Is the module installed?");
             exit 1;
         }
+
+        my $cwd = getcwd();
         Proc::Daemon::Init();
         $logger->debug("Daemon started");
+
+
+        # If we use relative path, we must stay in the current directory
+        if (substr( $params{libdir}, 0, 1 ) ne '/') {
+            chdir($cwd);
+        }
+
         if ($self->_isAlreadyRunning()) {
             $logger->debug("An agent is already runnnig, exiting...");
             exit 1;
@@ -494,6 +494,6 @@ Get all available tasks found on the system, as a list of module / version
 pairs:
 
 %tasks = (
-    'FusionInventory::Agent::Task::Foo' => x,
-    'FusionInventory::Agent::Task::Bar' => y,
+    'Foo' => x,
+    'Bar' => y,
 );

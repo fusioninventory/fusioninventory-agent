@@ -71,6 +71,11 @@ sub _getPhysicalVolumes {
     while (my $line = <$handle>) {
         my @infos = split(/\s+/, $line);
 
+        my $pe_size;
+        if ($infos[7] && $infos[7]>0) {
+            $pe_size = int($infos[4] / $infos[7]);
+        }
+
         push @volumes, {
             DEVICE      => $infos[1],
             FORMAT      => $infos[2],
@@ -79,7 +84,7 @@ sub _getPhysicalVolumes {
             FREE        => int($infos[5]||0),
             PV_UUID     => $infos[6],
             PV_PE_COUNT => $infos[7],
-            PE_SIZE     => int($infos[4] / $infos[7]),
+            PE_SIZE     => $pe_size,
             VG_UUID     => $infos[8]
         };
     }

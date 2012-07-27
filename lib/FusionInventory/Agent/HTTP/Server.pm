@@ -11,6 +11,12 @@ use Net::IP;
 use Text::Template;
 use File::Basename;
 
+use Socket qw( NI_NUMERICHOST NIx_NOSERV );
+use Socket::GetAddrInfo qw( getaddrinfo getnameinfo );
+
+use FusionInventory::Agent::Tools::Network;
+
+
 use FusionInventory::Agent::Logger;
 
 my $log_prefix = "[http server] ";
@@ -236,13 +242,49 @@ sub _is_trusted {
 
     return 0 unless $self->{trust};
 
-    my $source  = Net::IP->new($address);
-    my $trusted = Net::IP->new($self->{trust});
-    my $result = $source->overlaps($trusted);
+    my $sourceAddr  = Net::IP->new($address);
+    if (!$sourceAddr) {
+        $self->{logger}->error("Cannot parse “$address”");
+        return 0;
+    }
 
-    return 
-        $result == $IP_A_IN_B_OVERLAP || # included in trusted range
-        $result == $IP_IDENTICAL;        # equals trusted address
+    foreach my $trustedAddr (@{$self->{trust}}) {
+
+
+        my @trustedAddrToTest;
+
+        # Is it an numerical IPv4 host or network?
+        if ($trustedAddr =~ /^$ip_address_pattern(|\/\d+)/) {
+
+            push @trustedAddrToTest, Net::IP->new($trustedAddr);
+
+        # It's a host name, he retrieve the IPv4 addresses of the
+        # host.
+        } else {
+
+            my ( $err, @res ) = getaddrinfo( $trustedAddr, "", { socktype => SOCK_RAW } );
+            print("Cannot getaddrinfo $trustedAddr - $err") if $err;
+
+            while( my $ai = shift @res ) {
+
+                my ( $err, $nameinfo ) = getnameinfo( $ai->{addr}, NI_NUMERICHOST, NIx_NOSERV );
+                $self->{logger}->error("Cannot getnameinfo - $err") if $err;
+
+                push @trustedAddrToTest, Net::IP->new($nameinfo);
+
+            }
+        }
+
+        # And we compare
+        foreach (@trustedAddrToTest) {
+            my $result = $sourceAddr->overlaps($_);
+            return 1 if $result == $IP_A_IN_B_OVERLAP;
+            return 1 if $result == $IP_IDENTICAL;
+        }
+
+    }
+
+    return 0;
 }
 
 sub _is_authenticated {

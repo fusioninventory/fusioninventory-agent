@@ -9,8 +9,9 @@ my $seen;
 
 sub isEnabled {
     return 
-        canRun('who') ||
-        canRun('last');
+        canRun('who')  ||
+        canRun('last') ||
+        canRead('/etc/passwd');
 }
 
 sub doInventory {
@@ -19,41 +20,81 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $handle = getFileHandle(
-        logger  => $logger,
-        command => 'who'
+    my @users = (
+        _getLoggedUsers(logger => $logger),
+        _getLocalUsers(logger => $logger)
     );
 
-    if ($handle) {
-        while (my $line = <$handle>) {
-            next unless $line =~ /^(\S+)/;
-            my $user = { LOGIN => $1 };
+    foreach my $user (@users) {
+        # avoid duplicates
+        next if $seen->{$user->{LOGIN}}++;
 
-            # avoid duplicates
-            next if $seen->{$user->{LOGIN}}++;
-
-            $inventory->addEntry(
-                section => 'USERS',
-                entry   => $user
-            );
-        }
-        close $handle;
+        $inventory->addEntry(
+            section => 'USERS',
+            entry   => $user
+        );
     }
 
-    my ($lastUser, $lastDate);
-    my $last = getFirstLine(command => 'last');
-    if ($last &&
-        $last =~ /^(\S+) \s+ \S+ \s+ \S+ \s+ (\S+ \s+ \S+ \s+ \S+ \s+ \S+)/x
-    ) {
-        $lastUser = $1;
-        $lastDate = $2;
+    my $last = _getLastUser(logger => $logger);
+    $inventory->setHardware($last);
+}
+
+sub _getLoggedUsers {
+    my (%params) = (
+        command => 'who',
+        @_
+    );
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my @users;
+
+    while (my $line = <$handle>) {
+        next unless $line =~ /^(\S+)/;
+        push @users, { LOGIN => $1 };
     }
 
-    $inventory->setHardware({
-        LASTLOGGEDUSER     => $lastUser,
-        DATELASTLOGGEDUSER => $lastDate
-    });
+    return @users;
+}
 
+sub _getLocalUsers {
+    my (%params) = (
+        file => '/etc/passwd',
+        @_
+    );
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my @users;
+
+    while (my $line = <$handle>) {
+        my ($login, undef, $uid) = split(/:/, $line);
+        # assume users with lower uid are system users
+        next if $uid < 500;
+        next if $login eq 'nobody';
+        push @users, { LOGIN => $login };
+    }
+
+    return @users;
+}
+
+sub _getLastUser {
+    my (%params) = (
+        command => 'last',
+        @_
+    );
+
+    my $last = getFirstLine(%params);
+    return unless $last;
+    return unless
+        $last =~ /^(\S+) \s+ \S+ \s+ \S+ \s+ (\S+ \s+ \S+ \s+ \S+ \s+ \S+)/x;
+
+    return {
+        LASTLOGGEDUSER     => $1,
+        DATELASTLOGGEDUSER => $2
+    };
 }
 
 1;

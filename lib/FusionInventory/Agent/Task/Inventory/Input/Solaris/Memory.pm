@@ -43,12 +43,12 @@ sub doInventory {
     }
 
     my @memories =
-        $class == SOLARIS_FIRE         ? _getMemories1() :
-        $class == SOLARIS_FIRE_V       ? _getMemories2() :
-        $class == SOLARIS_FIRE_T       ? _getMemories3() :
-        $class == SOLARIS_ENTERPRISE_T ? _getMemories4() :
-        $class == SOLARIS_ENTERPRISE   ? _getMemories5() :
-        $class == SOLARIS_I86PC        ? _getMemories6() :
+        $class == SOLARIS_FIRE         ? _getMemories1('command => memconf') :
+        $class == SOLARIS_FIRE_V       ? _getMemories2('command => memconf') :
+        $class == SOLARIS_FIRE_T       ? _getMemories3('command => memconf') :
+        $class == SOLARIS_ENTERPRISE_T ? _getMemories4('command => memconf') :
+        $class == SOLARIS_ENTERPRISE   ? _getMemories5('command => memconf') :
+        $class == SOLARIS_I86PC        ? _getMemories6('command => memconf') :
         $class == SOLARIS_CONTAINER    ? _getMemories7() :
                                          ()              ;
 
@@ -61,6 +61,7 @@ sub doInventory {
 }
 
 sub _getMemories1 {
+    my $handle = getFileHandle(@_);
     my @memories;
 
     my $flag = 0;
@@ -74,7 +75,7 @@ sub _getMemories1 {
     my $type;
     my $numslots;
 
-    foreach(`memconf 2>&1`) {
+    foreach(<$handle>) {
         if (/^empty \w+:\s(\S+)/) {
             # the end, we unset flag
             $flag = 0;
@@ -88,6 +89,7 @@ sub _getMemories1 {
         if (/^-+/) {
             # delimiter, we set flag
             $flag = 1;
+            next;
         }
 
         if ($flag_mt && /^\s*\S+\s+\S+\s+\S+\s+\S+\s+(\S+)/) {
@@ -127,6 +129,7 @@ sub _getMemories1 {
 }
 
 sub _getMemories2 {
+    my $handle = getFileHandle(@_);
     my @memories;
 
     my $flag    = 0;
@@ -138,7 +141,7 @@ sub _getMemories2 {
     my $type;
     my $numslots;
 
-    foreach(`memconf 2>&1`) {
+    foreach(<$handle>) {
         if (/^empty sockets: (.+)/) {
             # a list of empty slots, from which we extract the slot names
             $capacity = "empty";
@@ -198,9 +201,10 @@ sub _getMemories2 {
 }
 
 sub _getMemories3 {
+    my $handle = getFileHandle(@_);
     my @memories;
 
-    foreach(`memconf 2>&1`) {
+    foreach(<$handle>) {
         if (/^empty sockets: (.+)/) {
             # a list of empty slots, from which we extract the slot names
             foreach my $caption (split(/ /, $1)) {
@@ -231,9 +235,10 @@ sub _getMemories3 {
 }
 
 sub _getMemories4 {
+    my $handle = getFileHandle(@_);
     my @memories;
 
-    foreach(`memconf 2>&1`) {
+    foreach(<$handle>) {
         if (/^empty sockets: (.+)/) {
             # a list of empty slots, from which we extract the slot names
             foreach my $caption (split(/ /, $1)) {
@@ -266,6 +271,7 @@ sub _getMemories4 {
 }
 
 sub _getMemories5 {
+    my $handle = getFileHandle(@_);
     my @memories;
 
     my $flag = 0;
@@ -281,7 +287,7 @@ sub _getMemories5 {
     my $type;
     my $numslots;
 
-    foreach(`memconf 2>&1`) {
+    foreach(<$handle>) {
         if (/^total memory:\s*(\S+)/) {
             $flag = 0;
         }
@@ -330,10 +336,11 @@ sub _getMemories5 {
 }
 
 sub _getMemories6 {
+    my $handle = getFileHandle(@_);
 
     my @memories;
 
-    foreach(`memconf 2>&1`) {
+    foreach(<$handle>) {
         if (/^empty memory sockets: (.+)/) {
             foreach my $caption (split(/, /, $1)) {
                 if ($caption eq "None") {

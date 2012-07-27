@@ -1,11 +1,13 @@
-			FusionInventory Agent
+			FusionInventory agent
 			---------------------
 
 Description
 -----------
-The FusionInventory agent is a generic management agent. It can perform a
-certain number of tasks, according to its own execution plan, or on behalf of a
-GLPI server with fusioninventory plugin, acting as a control point.
+The FusionInventory agent is a generic multi-platform agent. It can perform a
+large array of management tasks, such as local inventory, software deployment
+or network discovery. It can be used either standalone, or in combination 
+with a compatible server (OCS, GLPI, OTRS) acting as a centralized control
+point.
 
 Two of these tasks are included in agent source distribution, local inventory
 and wake on lan. Other tasks are distributed separatly, excepted for binary
@@ -22,7 +24,6 @@ Additional mandatory perl modules:
 - LWP
 - Net::IP
 - UNIVERSAL::require
-- Mac::SysProfile (MacOs only)
 
 Additional optional perl modules:
 - Compress::Zlib, for message compression
@@ -36,51 +37,21 @@ Additional optional programs:
 - dmidecode, for hardware inventory
 - lspci, for hardware inventory
 
-The agent will looks for these tools in the PATH to do RAID controller
-inventory:
-- tw_cli
-- hpacucli
-- mpt-status
-- megasasctl
-- ipssend
-- mfiutil
-
-Usage
------
-They are two different ways to run the agent:
-- as a temporary process, exiting after completing its run
-- as a permanent process, staying in memory permanently (daemon under Unix,
-  service under Windows)
-
-In the first case, the agent execution scheduling is controlled from local
-system, and the memory footprint between agent executions is zero.
-
-In second case, the agent execution scheduling is controlled from GLPI server,
-as the agent runs regulary according to a parameter initially set in its
-configuration (delaytime), overrided by the server at the first connection
-(PROLOG_FREQ). Additionaly, the server may also initiate additional
-out-of-schedule executions by sending HTTP requests if the web interface is
-used. However, it also mean you have a full perl interpreter loaded in memory
-constantly, and a network port open on your system with a process running with
-full system privileges attached to it.
-
-If you don't need to control agent execution from the server, and if you're
-able to periodically launch the agent without resorting to its internal
-scheduler, through cron on Unix systems, or scheduled tasks on Windows, you'd
-better use first execution mode. The various installation procedure may offer
-limited choice about initial configuration, but you should always be able to
-change it thereafter.
-
-When executing, the agent tries to runs every available task for every
-configured target. A task is a specific kind of work to perform (local
-inventory, network discovery, wake on lan, etc...), while a target is both a
-recipient for the result and a controller for this work (an OCS server, a GLPI
-server, a local directory, etc...). Only the local inventory task is compatible
-with all kind of targets, tough, all others require a GLPI server target, and
-will get discarded for other kind of target.
-
 System-specific informations
 ----------------------------
+
+Supported systems:
+- Windows (since Windows 2000)
+- GNU/Linux
+- MacOSX
+- Solaris
+- FreeBSD
+- NetBSD
+- OpenBSD
+- AIX
+- HP-UX
+- GNU/kFreeBSD
+
 On Solaris/SPARC, you must install sneep and record the Serial Number with it.
 Download it from http://www.sun.com/download/products.xml?id=4304155a.
 
@@ -95,6 +66,109 @@ results. Generally speaking, this means less results when run with lesser
 privileges. On Windows, tough, running agent with SYSTEM privileges, which is
 implicit if running as a service, does sometimes gives less results, especially
 for shared printers only visible from a user account.
+
+Usage
+-----
+They are two different ways to run the agent:
+- as a temporary process, exiting after completing its run
+- as a permanent process, staying in memory permanently (daemon under Unix,
+  service under Windows)
+
+In the first case, the agent execution scheduling is controlled from local
+system, and the memory footprint between agent executions is zero.
+
+In second case, the agent execution scheduling is remotelly controlled,
+as the agent runs regulary according to a parameter given by the server at the
+first connection (PROLOG_FREQ). Additionaly, the server may also initiate
+additional out-of-schedule executions by sending HTTP requests if the web
+interface is used. However, it also implies a full perl interpreter loaded in
+memory constantly, and a process running with full system privileges listening
+on the network.
+
+If you don't need to control agent execution from the server, and if you're
+able to periodically launch the agent without resorting to its internal
+scheduler, through cron on Unix systems, or scheduled tasks on Windows, you'd
+better use first execution mode. The various installation procedure may offer
+limited choice about initial configuration, but you should always be able to
+change it thereafter.
+
+When executing, the agent tries to run every available task for every
+configured target. A task is a specific kind of work to perform (local
+inventory, network discovery, wake on lan, etc...), while a target is both a
+recipient for the result and a controller for this work (an OCS server, a GLPI
+server, a local directory, etc...). Only the local inventory task is compatible
+with all kind of target, tough, all others require a GLPI server target, and
+will get discarded for other kind of target.
+
+Configuration
+-------------
+
+The agent is able to use multiple configuration backends. The registry backend
+is the default on Windows platform, and the file backend is the default
+everywhere else. Another backend can be specified using the --config command
+line option.
+
+The file backend reads configuration directives from a configuration file,
+whose default location is determined at installation time as
+<installation prefix>/etc/agent.cfg. An alternative location can also be given
+with --conf-file command-line option.
+
+The registry backend reads configuration directives from the Windows
+registry, with an arch-dependant location:
+- HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent for 32 bits machines
+- HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\FusionInventory-Agent for 64 bits machines
+
+The none backend doesn't read any configuration directive at all, allowing
+to isolate the agent execution from any installed configuration.
+
+Examples
+--------
+
+Execute all available tasks required by a local server:
+% fusioninventory-agent --server localhost
+
+Execute all available tasks required by a local server, using a specific
+URI:
+% fusioninventory-agent --server http://localhost/ocsinventory2
+
+Execute all available tasks required by a local server, using a secure
+connection:
+% fusioninventory-agent --server https://localhost/ocsinventory
+
+Execute all available tasks required by a local server, using HTTP
+authentication:
+% fusioninventory-agent --server localhost --user test --password s3cr3t
+
+Execute all available tasks and write the result in /tmp directory:
+% fusioninventory-agent --local /tmp
+
+Execute all available tasks and write the result in /tmp directory in
+HTML format:
+% fusioninventory-agent --local /tmp --html
+
+Server scheduling
+-----------------
+
+The FusionInventory agent communicates with its control server using the OCS
+Inventory protocol, which is based on XML exchanges over HTTP(s).
+
+Prologue
+
+The agent sends a first message with its identity (DEVICEID). The server
+replies with a list of tasks to execute immediatly, a list of parameters, and
+the maximum delay before next contact time, as PROLOG_FREQ parameter.
+
+Execution
+
+The agent runs every available tasks requested by the server during the
+prologue, and sends the results back to it.
+
+Sleep
+
+The agent then sleeps during a random delay bounded by PROLOG_FREQ parameter
+given by the server in the prologue. The exact moment occurs between half of
+the value and the full value. For instance, if PROLOG_FREQ value is 3600, the
+next contact will occurs between half an hour and an hour.
 
 Security
 --------
@@ -183,6 +257,10 @@ The memconf script:
 url: http://myweb.cableone.net/4schmidts/memconf.html
 author: Tom Schmidt
 copyright: 1996-2009 Tom Schmidt
+
+The fusioninventory-injector script:
+author: Pascal Danek
+copyright: 2005 Pascal Danek
 
 FusionInventory::Agent::Task::Inventory::Input::Virtualization::Vmsystem
 contains code from imvirt:

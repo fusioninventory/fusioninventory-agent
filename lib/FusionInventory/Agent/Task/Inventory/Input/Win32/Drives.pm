@@ -36,7 +36,7 @@ sub doInventory {
         class      => 'Win32_LogicalDisk',
         properties => [ qw/
             InstallDate Description FreeSpace FileSystem VolumeName Caption
-            VolumeSerialNumber DeviceID Size DriveType VolumeName
+            VolumeSerialNumber DeviceID Size DriveType VolumeName ProviderName
         / ]
     )) {
 
@@ -46,20 +46,30 @@ sub doInventory {
         $object->{Size} = int($object->{Size} / (1024 * 1024))
             if $object->{Size};
 
+        my $filesystem = $object->{FileSystem};
+        if ($object->{DriveType} == 4) {
+            if ($object->{ProviderName} =~ /\\DavWWWRoot\\/) {
+                $filesystem = "WebDav";
+            } elsif (!$object->{FileSystem} || $object->{FileSystem} ne 'NFS') {
+                $filesystem = "CIFS";
+            }
+        }
+
+
         $inventory->addEntry(
             section => 'DRIVES',
             entry   => {
                 CREATEDATE  => $object->{InstallDate},
                 DESCRIPTION => $object->{Description},
                 FREE        => $object->{FreeSpace},
-                FILESYSTEM  => $object->{FileSystem},
+                FILESYSTEM  => $filesystem,
                 LABEL       => $object->{VolumeName},
                 LETTER      => $object->{DeviceID} || $object->{Caption},
                 SERIAL      => $object->{VolumeSerialNumber},
                 SYSTEMDRIVE => (lc($object->{DeviceID}) eq $systemDrive),
                 TOTAL       => $object->{Size},
                 TYPE        => $type[$object->{DriveType}],
-                VOLUME      => $object->{VolumeName},
+                VOLUME      => $volume,
             }
         );
     }

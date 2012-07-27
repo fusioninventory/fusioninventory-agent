@@ -18,62 +18,63 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my @devices;
+    # get devices list from hal, if available, from sysfs otherwise
+    my @devices = canRun('lshal') ?
+        getDevicesFromHal(logger => $logger) :
+        getDevicesFromProc(logger => $logger);
 
-    # get informations from hal first, if available
-    if (canRun('lshal')) {
-        @devices = getDevicesFromHal(logger => $logger);
-    }
 
-    # index devices by name for comparaison
-    my %devices = map { $_->{NAME} => $_ } @devices;
+    # complete with udev for missing bits, if available
+    if (-d '/dev/.udev/db/') {
 
-    # complete with udev for missing bits
-    foreach my $device (getDevicesFromUdev(logger => $logger)) {
-        my $name = $device->{NAME};
-        foreach my $key (keys %$device) {
-            $devices{$name}->{$key} = $device->{$key}
-                if !$devices{$name}->{$key};
+        my %udev_devices = map { $_->{NAME} => $_ }
+            getDevicesFromUdev(logger => $logger);
+
+        foreach my $device (@devices) {
+            # find corresponding udev entry
+            my $udev_device = $udev_devices{$device->{NAME}};
+            next unless $udev_device;
+
+            foreach my $key (keys %$udev_device) {
+                next if $device->{$key};
+                $device->{$key} = $udev_device->{$key};
+            }
         }
-    }
-
-    # fallback on sysfs if udev didn't worked
-    if (!@devices) {
-        @devices = getDevicesFromProc(logger => $logger);
     }
 
     # get serial & firmware numbers from hdparm, if available
     if (_correctHdparmAvailable()) {
         foreach my $device (@devices) {
-            if (!$device->{SERIALNUMBER} || !$device->{FIRMWARE}) {
-                my $handle = getFileHandle(
-                    command => "hdparm -I /dev/$device->{NAME}",
-                    logger  => $logger
-                );
-                next unless $handle;
-                while (my $line = <$handle>) {
-                    if ($line =~ /^\s+Serial Number\s*:\s*(.+)/i) {
-                        my $value = $1;
-                        $value =~ s/\s+$//;
-                        $device->{SERIALNUMBER} = $value
-                            if !$device->{SERIALNUMBER};
-                        next;
-                    } elsif ($line =~ /^\s+Firmware Revision\s*:\s*(.+)/i) {
-                        my $value = $1;
-                        $value =~ s/\s+$//;
-                        $device->{FIRMWARE} = $value
-                            if !$device->{FIRMWARE};
-                        next;
-                    } elsif ($line =~ /^\s*Transport:.*(SCSI|SATA|USB)/) {
-                        $device->{DESCRIPTION} = $1;
-                    } elsif ($line =~ /^\s*Model Number:\s*(.*?)\s*$/) {
-                        $device->{MODEL} = $1;
-                    } elsif ($line =~ /Logical Unit WWN Device Identifier:\s*(.*?)\s*$/) {
-			$device->{WWN} = $1;
-		    }
+            next if $device->{SERIALNUMBER} && $device->{FIRMWARE};
+
+            my $handle = getFileHandle(
+                command => "hdparm -I /dev/$device->{NAME}",
+                logger  => $logger
+            );
+            next unless $handle;
+
+            while (my $line = <$handle>) {
+                if ($line =~ /^\s+Serial Number\s*:\s*(.+)/i) {
+                    my $value = $1;
+                    $value =~ s/\s+$//;
+                    $device->{SERIALNUMBER} = $value
+                        if !$device->{SERIALNUMBER};
+                    next;
+                } elsif ($line =~ /^\s+Firmware Revision\s*:\s*(.+)/i) {
+                    my $value = $1;
+                    $value =~ s/\s+$//;
+                    $device->{FIRMWARE} = $value
+                        if !$device->{FIRMWARE};
+                    next;
+                } elsif ($line =~ /^\s*Transport:.*(SCSI|SATA|USB)/) {
+                    $device->{DESCRIPTION} = $1;
+                } elsif ($line =~ /^\s*Model Number:\s*(.*?)\s*$/) {
+                    $device->{MODEL} = $1;
+                } elsif ($line =~ /Logical Unit WWN Device Identifier:\s*(.*?)\s*$/) {
+                    $device->{WWN} = $1;
                 }
-                close $handle;
             }
+            close $handle;
         }
     }
 

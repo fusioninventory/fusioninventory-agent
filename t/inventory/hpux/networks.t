@@ -167,9 +167,765 @@ my %ifconfig_tests = (
      },
 );
 
+my %nwmgr_tests = (
+    'sample1' => {
+        'lan7' => {
+            'media'      => '10GBASE',
+            'status'     => 'DOWN',
+            'mac'        => '98:4B:E1:5B:D0:87',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan13' => {
+            'media'      => '10GBASE',
+            'status'     => 'DOWN',
+            'mac'        => '98:4B:E1:5B:D0:8E',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan5000' => {
+            'media'      => 'vlan',
+            'status'     => 'UP',
+            'mac'        => '00:17:A4:77:04:28',
+            'related_if' => undef,
+            'driver'     => 'vlan'
+        },
+        'lan1' => {
+            'media'      => '10GBASE',
+            'status'     => 'UP',
+            'mac'        => '00:17:A4:77:04:2A',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan4' => {
+            'media'      => '10GBASE',
+            'status'     => 'DOWN',
+            'mac'        => '98:4B:E1:5B:D0:82',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan11' => {
+            'media'      => '10GBASE',
+            'status'     => 'UP',
+            'mac'        => '00:17:A4:77:04:48',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan0' => {
+            'media'      => '10GBASE',
+            'status'     => 'UP',
+            'mac'        => '00:17:A4:77:04:28',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan9' => {
+            'media'      => '10GBASE',
+            'status'     => 'UP',
+            'mac'        => '00:17:A4:77:04:2E',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan902' => {
+            'media'      => 'hp_apa',
+            'status'     => 'DOWN',
+            'mac'        => '00:00:00:00:00:00',
+            'related_if' => undef,
+            'driver'     => 'hp_apa'
+        },
+        'lan2' => {
+            'media'      => '10GBASE',
+            'status'     => 'DOWN',
+            'mac'        => '00:17:A4:77:04:38',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan10' => {
+            'media'      => '10GBASE',
+            'status'     => 'UP',
+            'mac'        => '00:17:A4:77:04:46',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan903' => {
+            'media'      => 'hp_apa',
+            'status'     => 'DOWN',
+            'mac'        => '00:00:00:00:00:00',
+            'related_if' => undef,
+            'driver'     => 'hp_apa'
+        },
+        'lan900' => {
+            'media'      => 'hp_apa',
+            'status'     => 'UP',
+            'mac'        => '00:17:A4:77:04:28',
+            'related_if' => undef,
+            'driver'     => 'hp_apa'
+        },
+        'lan3' => {
+            'media'      => '10GBASE',
+            'status'     => 'DOWN',
+            'mac'        => '00:17:A4:77:04:3A',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan14' => {
+            'media'      => '10GBASE',
+            'status'     => 'DOWN',
+            'mac'        => '98:4B:E1:5B:D0:8B',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan15' => {
+            'media'      => '10GBASE',
+            'status'     => 'DOWN',
+            'mac'        => '98:4B:E1:5B:D0:8F',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan5001' => {
+            'media'      => 'vlan',
+            'status'     => 'UP',
+            'mac'        => '00:17:A4:77:04:46',
+            'related_if' => undef,
+            'driver'     => 'vlan'
+        },
+        'lan8' => {
+            'media'      => '10GBASE',
+            'status'     => 'UP',
+            'mac'        => '00:17:A4:77:04:2C',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan6' => {
+            'media'      => '10GBASE',
+            'status'     => 'DOWN',
+            'mac'        => '98:4B:E1:5B:D0:83',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan12' => {
+            'media'      => '10GBASE',
+            'status'     => 'DOWN',
+            'mac'        => '98:4B:E1:5B:D0:8A',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan904' => {
+            'media'      => 'hp_apa',
+            'status'     => 'DOWN',
+            'mac'        => '00:00:00:00:00:00',
+            'related_if' => undef,
+            'driver'     => 'hp_apa'
+        },
+        'lan901' => {
+            'media'      => 'hp_apa',
+            'status'     => 'UP',
+            'mac'        => '00:17:A4:77:04:46',
+            'related_if' => undef,
+            'driver'     => 'hp_apa'
+        },
+        'lan5' => {
+            'media'      => '10GBASE',
+            'status'     => 'DOWN',
+            'mac'        => '98:4B:E1:5B:D0:86',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        }
+    },
+    'sample2' => {
+        'lan7' => {
+            'media'      => '10GBASE',
+            'status'     => 'DOWN',
+            'mac'        => '98:4B:E1:5B:73:2D',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan13' => {
+            'media'      => '10GBASE',
+            'status'     => 'DOWN',
+            'mac'        => '98:4B:E1:5B:73:34',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan5000' => {
+            'media'      => 'vlan',
+            'status'     => 'UP',
+            'mac'        => '00:17:A4:77:00:20',
+            'related_if' => undef,
+            'driver'     => 'vlan'
+        },
+        'lan1' => {
+            'media'      => '10GBASE',
+            'status'     => 'UP',
+            'mac'        => '00:17:A4:77:00:22',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan4' => {
+            'media'      => '10GBASE',
+            'status'     => 'DOWN',
+            'mac'        => '98:4B:E1:5B:73:28',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan11' => {
+            'media'      => '10GBASE',
+            'status'     => 'UP',
+            'mac'        => '00:17:A4:77:00:50',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan0' => {
+            'media'      => '10GBASE',
+            'status'     => 'UP',
+            'mac'        => '00:17:A4:77:00:20',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan9' => {
+            'media'      => '10GBASE',
+            'status'     => 'UP',
+            'mac'        => '00:17:A4:77:00:26',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan902' => {
+            'media'      => 'hp_apa',
+            'status'     => 'DOWN',
+            'mac'        => '00:00:00:00:00:00',
+            'related_if' => undef,
+            'driver'     => 'hp_apa'
+        },
+        'lan2' => {
+            'media'      => '10GBASE',
+            'status'     => 'DOWN',
+            'mac'        => '00:17:A4:77:00:42',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan10' => {
+            'media'      => '10GBASE',
+            'status'     => 'UP',
+            'mac'        => '00:17:A4:77:00:40',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan903' => {
+            'media'      => 'hp_apa',
+            'status'     => 'DOWN',
+            'mac'        => '00:00:00:00:00:00',
+            'related_if' => undef,
+            'driver'     => 'hp_apa'
+        },
+        'lan900' => {
+            'media'      => 'hp_apa',
+            'status'     => 'UP',
+            'mac'        => '00:17:A4:77:00:20',
+            'related_if' => undef,
+            'driver'     => 'hp_apa'
+        },
+        'lan3' => {
+            'media'      => '10GBASE',
+            'status'     => 'DOWN',
+            'mac'        => '00:17:A4:77:00:3E',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan14' => {
+            'media'      => '10GBASE',
+            'status'     => 'DOWN',
+            'mac'        => '98:4B:E1:5B:73:31',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan15' => {
+            'media'      => '10GBASE',
+            'status'     => 'DOWN',
+            'mac'        => '98:4B:E1:5B:73:35',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan5001' => {
+            'media'      => 'vlan',
+            'status'     => 'UP',
+            'mac'        => '00:17:A4:77:00:40',
+            'related_if' => undef,
+            'driver'     => 'vlan'
+        },
+        'lan8' => {
+            'media'      => '10GBASE',
+            'status'     => 'UP',
+            'mac'        => '00:17:A4:77:00:24',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan6' => {
+            'media'      => '10GBASE',
+            'status'     => 'DOWN',
+            'mac'        => '98:4B:E1:5B:73:29',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan12' => {
+            'media'      => '10GBASE',
+            'status'     => 'DOWN',
+            'mac'        => '98:4B:E1:5B:73:30',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        },
+        'lan904' => {
+            'media'      => 'hp_apa',
+            'status'     => 'DOWN',
+            'mac'        => '00:00:00:00:00:00',
+            'related_if' => undef,
+            'driver'     => 'hp_apa'
+        },
+        'lan901' => {
+            'media'      => 'hp_apa',
+            'status'     => 'UP',
+            'mac'        => '00:17:A4:77:00:40',
+            'related_if' => undef,
+            'driver'     => 'hp_apa'
+        },
+        'lan5' => {
+            'media'      => '10GBASE',
+            'status'     => 'DOWN',
+            'mac'        => '98:4B:E1:5B:73:2C',
+            'related_if' => undef,
+            'driver'     => 'iexgbe'
+        }
+    },
+);
+
+my %netstatNrv_tests = (
+    hpux => {
+        'lan0' => [
+            {
+                'MTU'         => '32808',
+                'IPGATEWAY'   => undef,
+                'IPMASK'      => '255.255.255.255',
+                'DESCRIPTION' => 'lan0',
+                'IPADDRESS'   => '172.24.70.121'
+            }
+        ],
+        'lo0' => [
+            {
+                'MTU'         => '32808',
+                'IPGATEWAY'   => undef,
+                'IPMASK'      => '255.255.255.255',
+                'DESCRIPTION' => 'lo0',
+                'IPADDRESS'   => '127.0.0.1'
+            }
+          ]
+
+    },
+    hpux1 => {
+        'lan0' => [
+            {
+                'MTU'         => '4136',
+                'IPGATEWAY'   => undef,
+                'IPMASK'      => '255.255.255.255',
+                'DESCRIPTION' => 'lan0',
+                'IPADDRESS'   => '10.0.4.55'
+            },
+            {
+                'MTU'         => '4136',
+                'IPGATEWAY'   => undef,
+                'IPMASK'      => '255.255.255.255',
+                'DESCRIPTION' => 'lan0',
+                'IPADDRESS'   => '10.0.4.56'
+            }
+        ],
+        'lo0' => [
+            {
+                'MTU'         => '4136',
+                'IPGATEWAY'   => undef,
+                'IPMASK'      => '255.255.255.255',
+                'DESCRIPTION' => 'lo0',
+                'IPADDRESS'   => '127.0.0.1'
+            }
+          ]
+
+    },
+    hpux2 => {
+        'lan0' => [
+            {
+                'MTU'         => '4136',
+                'IPGATEWAY'   => undef,
+                'IPMASK'      => '255.255.255.255',
+                'DESCRIPTION' => 'lan0',
+                'IPADDRESS'   => '10.0.3.60'
+            }
+        ],
+        'lo0' => [
+            {
+                'MTU'         => '4136',
+                'IPGATEWAY'   => undef,
+                'IPMASK'      => '255.255.255.255',
+                'DESCRIPTION' => 'lo0',
+                'IPADDRESS'   => '127.0.0.1'
+            }
+          ]
+    },
+    hpux3 => {
+        'lan5000' => [
+            {
+                'MTU'         => '32808',
+                'IPGATEWAY'   => undef,
+                'IPMASK'      => '255.255.255.255',
+                'DESCRIPTION' => 'lan5000',
+                'IPADDRESS'   => '10.46.236.71'
+            },
+            {
+                'MTU'         => '32808',
+                'IPGATEWAY'   => undef,
+                'IPMASK'      => '255.255.255.255',
+                'DESCRIPTION' => 'lan5000',
+                'IPADDRESS'   => '10.46.236.121'
+            }
+        ],
+        'lan5001' => [
+            {
+                'MTU'         => '32808',
+                'IPGATEWAY'   => undef,
+                'IPMASK'      => '255.255.255.255',
+                'DESCRIPTION' => 'lan5001',
+                'IPADDRESS'   => '10.46.228.71'
+            }
+        ],
+        'lo0' => [
+            {
+                'MTU'         => '32808',
+                'IPGATEWAY'   => undef,
+                'IPMASK'      => '255.255.255.255',
+                'DESCRIPTION' => 'lo0',
+                'IPADDRESS'   => '127.0.0.1'
+            }
+        ]
+    }
+);
+
+my %lanscan_tests = (
+    hpux => [
+        {
+            'lan_id'      => '1',
+            'DESCRIPTION' => 'lan1',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:17:A4:77:08:A4'
+        },
+        {
+            'lan_id'      => '10',
+            'DESCRIPTION' => 'lan10',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:17:A4:77:08:E8'
+        },
+        {
+            'lan_id'      => '11',
+            'DESCRIPTION' => 'lan11',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:17:A4:77:08:EC'
+        },
+        {
+            'lan_id'      => '12',
+            'DESCRIPTION' => 'lan12',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '1C:C1:DE:40:C6:BE'
+        },
+        {
+            'lan_id'      => '13',
+            'DESCRIPTION' => 'lan13',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '1C:C1:DE:40:C6:C2'
+        },
+        {
+            'lan_id'      => '14',
+            'DESCRIPTION' => 'lan14',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '1C:C1:DE:40:C6:BF'
+        },
+        {
+            'lan_id'      => '15',
+            'DESCRIPTION' => 'lan15',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '1C:C1:DE:40:C6:C3'
+        },
+        {
+            'lan_id'      => '2',
+            'DESCRIPTION' => 'lan2',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:17:A4:77:08:A8'
+        },
+        {
+            'lan_id'      => '3',
+            'DESCRIPTION' => 'lan3',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:17:A4:77:08:AC'
+        },
+        {
+            'lan_id'      => '16',
+            'DESCRIPTION' => 'lan16',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:17:A4:77:08:F0'
+        },
+        {
+            'lan_id'      => '17',
+            'DESCRIPTION' => 'lan17',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:17:A4:77:08:F4'
+        },
+        {
+            'lan_id'      => '18',
+            'DESCRIPTION' => 'lan18',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '1C:C1:DE:40:C6:C6'
+        },
+        {
+            'lan_id'      => '19',
+            'DESCRIPTION' => 'lan19',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '1C:C1:DE:40:C6:CA'
+        },
+        {
+            'lan_id'      => '20',
+            'DESCRIPTION' => 'lan20',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '1C:C1:DE:40:C6:C7'
+        },
+        {
+            'lan_id'      => '21',
+            'DESCRIPTION' => 'lan21',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '1C:C1:DE:40:C6:CB'
+        },
+        {
+            'lan_id'      => '22',
+            'DESCRIPTION' => 'lan22',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:17:A4:77:08:F8'
+        },
+        {
+            'lan_id'      => '37',
+            'DESCRIPTION' => 'lan37',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:17:A4:77:08:FC'
+        },
+        {
+            'lan_id'      => '23',
+            'DESCRIPTION' => 'lan23',
+            'STATUS'      => 'Down',
+            'MACADDR'     => 'D8:D3:85:D8:14:62'
+        },
+        {
+            'lan_id'      => '38',
+            'DESCRIPTION' => 'lan38',
+            'STATUS'      => 'Down',
+            'MACADDR'     => 'D8:D3:85:D8:14:66'
+        },
+        {
+            'lan_id'      => '24',
+            'DESCRIPTION' => 'lan24',
+            'STATUS'      => 'Down',
+            'MACADDR'     => 'D8:D3:85:D8:14:63'
+        },
+        {
+            'lan_id'      => '39',
+            'DESCRIPTION' => 'lan39',
+            'STATUS'      => 'Down',
+            'MACADDR'     => 'D8:D3:85:D8:14:67'
+        },
+        {
+            'lan_id'      => '6',
+            'DESCRIPTION' => 'lan6',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:17:A4:77:08:A2'
+        },
+        {
+            'lan_id'      => '7',
+            'DESCRIPTION' => 'lan7',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:17:A4:77:08:A6'
+        },
+        {
+            'lan_id'      => '25',
+            'DESCRIPTION' => 'lan25',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:17:A4:77:08:B2'
+        },
+        {
+            'lan_id'      => '26',
+            'DESCRIPTION' => 'lan26',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:17:A4:77:08:E6'
+        },
+        {
+            'lan_id'      => '27',
+            'DESCRIPTION' => 'lan27',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:17:A4:77:08:F2'
+        },
+        {
+            'lan_id'      => '28',
+            'DESCRIPTION' => 'lan28',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:17:A4:77:08:F6'
+        },
+        {
+            'lan_id'      => '29',
+            'DESCRIPTION' => 'lan29',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '1C:C1:DE:40:E6:4B'
+        },
+        {
+            'lan_id'      => '30',
+            'DESCRIPTION' => 'lan30',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '1C:C1:DE:40:E6:4F'
+        },
+        {
+            'lan_id'      => '8',
+            'DESCRIPTION' => 'lan8',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:17:A4:77:08:AA'
+        },
+        {
+            'lan_id'      => '9',
+            'DESCRIPTION' => 'lan9',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:17:A4:77:08:AE'
+        },
+        {
+            'lan_id'      => '31',
+            'DESCRIPTION' => 'lan31',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:17:A4:77:08:EA'
+        },
+        {
+            'lan_id'      => '32',
+            'DESCRIPTION' => 'lan32',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:17:A4:77:08:EE'
+        },
+        {
+            'lan_id'      => '33',
+            'DESCRIPTION' => 'lan33',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:17:A4:77:08:FA'
+        },
+        {
+            'lan_id'      => '34',
+            'DESCRIPTION' => 'lan34',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:17:A4:77:08:FE'
+        },
+        {
+            'lan_id'      => '35',
+            'DESCRIPTION' => 'lan35',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '1C:C1:DE:40:E6:53'
+        },
+        {
+            'lan_id'      => '36',
+            'DESCRIPTION' => 'lan36',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '1C:C1:DE:40:E6:57'
+        },
+        {
+            'lan_id'      => '900',
+            'DESCRIPTION' => 'lan900',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:17:A4:77:08:A0'
+        },
+        {
+            'lan_id'      => '901',
+            'DESCRIPTION' => 'lan901',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:00:00:00:00:00'
+        },
+        {
+            'lan_id'      => '902',
+            'DESCRIPTION' => 'lan902',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:17:A4:77:08:B0'
+        },
+        {
+            'lan_id'      => '903',
+            'DESCRIPTION' => 'lan903',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:00:00:00:00:00'
+        },
+        {
+            'lan_id'      => '904',
+            'DESCRIPTION' => 'lan904',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:00:00:00:00:00'
+        }
+    ],
+    hpux1 => [
+        {
+            'lan_id'      => '0',
+            'DESCRIPTION' => 'lan0',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:16:35:3E:AC:5C'
+        },
+        {
+            'lan_id'      => '1',
+            'DESCRIPTION' => 'lan1',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:16:35:3E:AC:5D'
+        }
+    ],
+    hpux2 => [
+        {
+            'lan_id'      => '0',
+            'DESCRIPTION' => 'lan0',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:16:35:3E:AC:44'
+        },
+        {
+            'lan_id'      => '1',
+            'DESCRIPTION' => 'lan1',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:16:35:3E:AC:45'
+        },
+        {
+            'lan_id'      => '900',
+            'DESCRIPTION' => 'lan900',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:00:00:00:00:00'
+        },
+        {
+            'lan_id'      => '901',
+            'DESCRIPTION' => 'lan901',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:00:00:00:00:00'
+        },
+        {
+            'lan_id'      => '902',
+            'DESCRIPTION' => 'lan902',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:00:00:00:00:00'
+        },
+        {
+            'lan_id'      => '903',
+            'DESCRIPTION' => 'lan903',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:00:00:00:00:00'
+        },
+        {
+            'lan_id'      => '904',
+            'DESCRIPTION' => 'lan904',
+            'STATUS'      => 'Down',
+            'MACADDR'     => '00:00:00:00:00:00'
+        }
+    ]
+);
+
 plan tests =>
     (scalar keys %lanadmin_tests) +
-    (scalar keys %ifconfig_tests);
+    (scalar keys %ifconfig_tests) +
+    (scalar keys %nwmgr_tests) +
+    (scalar keys %netstatNrv_tests) +
+    (scalar keys %lanscan_tests)
+;
 
 foreach my $test (keys %lanadmin_tests) {
     my $file = "resources/hpux/lanadmin/$test";
@@ -181,4 +937,23 @@ foreach my $test (keys %ifconfig_tests) {
     my $file = "resources/generic/ifconfig/$test";
     my $info = FusionInventory::Agent::Task::Inventory::Input::HPUX::Networks::_getIfconfigInfo(file => $file);
     is_deeply($info, $ifconfig_tests{$test}, "ifconfig parsing: $test");
+}
+
+foreach my $test (keys %nwmgr_tests) {
+    my $file = "resources/hpux/nwmgr/$test";
+    my $info = FusionInventory::Agent::Task::Inventory::Input::HPUX::Networks::_getNwmgrInfo(file => $file);
+    is_deeply($info, $nwmgr_tests{$test}, "nwmgr parsing: $test");
+}
+
+use Data::Dumper;
+foreach my $test (keys %netstatNrv_tests) {
+    my $file = "resources/hpux/netstat_-nrv/$test";
+    my %interfaces = FusionInventory::Agent::Task::Inventory::Input::HPUX::Networks::_parseNetstatNrv(file => $file);
+    is_deeply(\%interfaces, $netstatNrv_tests{$test}, "netstat -nrv parsing: $test") or print Dumper(\%interfaces);
+}
+
+foreach my $test (keys %lanscan_tests) {
+    my $file = "resources/hpux/lanscan//$test";
+    my @interfaces = FusionInventory::Agent::Task::Inventory::Input::HPUX::Networks::_parseLanscan(file => $file);
+    is_deeply(\@interfaces, $lanscan_tests{$test}, "lanscan -iap parsing: $test");
 }

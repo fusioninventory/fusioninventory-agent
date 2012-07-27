@@ -37,86 +37,17 @@ my $default = {
     'httpd-trust'             => undef,
     'scan-homedirs'           => undef,
     'server'                  => undef,
-    'stdout'                  => undef,
     'tag'                     => undef,
-    'timeout'                 => undef,
-    'user'                    => undef,
-    'wait'                    => undef,
-    # deprecated options
-    'no-ocsdeploy'            => undef,
-    'no-inventory'            => undef,
-    'no-wakeonlan'            => undef,
-    'no-snmpquery'            => undef,
-    'no-netdiscovery'         => undef,
-    'no-printer'              => undef,
-    'no-software'             => undef,
-    'rpc-trust-localhost'     => undef,
-    'rpc-port'                => undef,
-    'rpc-ip'                  => undef,
-    'no-socket'               => undef,
-    'realm'                   => undef,
-    'info'                    => undef,
     'timeout'                 => 180,
+    'user'                    => undef,
+    # deprecated options
+    'stdout'                  => undef,
 };
 
 my $deprecated = {
-    'info' => {
-        message => 'it was useless anyway'
-    },
-    'realm' => {
-        message => 'it is now useless'
-    },
-    'no-socket' => {
-        message => 'use --no-httpd option instead',
-        new     => 'no-httpd'
-    },
-    'rpc-ip' => {
-        message => 'use --httpd-ip option instead',
-        new     => 'httpd-ip'
-    },
-    'rpc-port' => {
-        message => 'use --httpd-port option instead',
-        new     => 'httpd-port'
-    },
-    'rpc-trust-localhost' => {
-        message => 'use --httpd-trust 127.0.0.1 option instead',
-        new     => { 'httpd-trust' => '127.0.0.1' }
-    },
-    'daemon-no-fork' => {
-        message => 'use --daemon and --no-fork options instead',
-        new     => [ 'daemon', 'no-fork' ]
-    },
-    'D' => {
-        message => 'use --daemon and --no-fork options instead',
-        new     => [ 'daemon', 'no-fork' ]
-    },
-    'no-inventory' => {
-        message => 'use --no-task inventory option instead',
-        new     => { 'no-task' => 'inventory' }
-    },
-    'no-wakeonlan' => {
-        message => 'use --no-task wakeonlan option instead',
-        new     => { 'no-task' => 'wakeonlan' }
-    },
-    'no-netdiscovery' => {
-        message => 'use --no-task netdiscovery option instead',
-        new     => { 'no-task' => 'netdiscovery' }
-    },
-    'no-snmpquery' => {
-        message => 'use --no-task snmpquery option instead',
-        new     => { 'no-task' => 'snmpquery' }
-    },
-    'no-ocsdeploy' => {
-        message => 'use --no-task ocsdeploy option instead',
-        new     => { 'no-task' => 'ocsdeploy' }
-    },
-    'no-printer' => {
-        message => 'use --no-category printer option instead',
-        new     => { 'no-category' => 'printer' }
-    },
-    'no-software' => {
-        message => 'use --no-category software option instead',
-        new     => { 'no-category' => 'software' }
+    'stdout' => {
+        message => 'use --local - option instead',
+        new     => { 'local' => '-' }
     },
 };
 
@@ -296,7 +227,9 @@ sub _checkContent {
 
     # multi-values options
     $self->{logger} = [ split(/,/, $self->{logger}) ] if $self->{logger};
+    $self->{local}  = [ split(/,/, $self->{local})  ] if $self->{local};
     $self->{server} = [ split(/,/, $self->{server}) ] if $self->{server};
+    $self->{'httpd-trust'} = [ split(/,/, $self->{'httpd-trust'}) ] if $self->{'httpd-trust'};
     $self->{'no-task'} = [ split(/,/, $self->{'no-task'}) ]
         if $self->{'no-task'};
     $self->{'no-category'} = [ split(/,/, $self->{'no-category'}) ]

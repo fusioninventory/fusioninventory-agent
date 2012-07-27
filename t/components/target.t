@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use threads;
 
+use Config;
 use English qw(-no_match_vars);
 use File::Temp qw/tempdir/;
 use Test::More;
@@ -12,7 +13,12 @@ use URI;
 
 use FusionInventory::Agent::Target::Server;
 
-plan tests => 11;
+# check thread support availability
+if ($Config{usethreads} ne 'define') {
+    plan skip_all => 'non working test without thread support';
+} else {
+    plan tests => 11;
+}
 
 my $target;
 throws_ok {

@@ -3,12 +3,33 @@ Revision history for FusionInventory agent
 2.3.0
 General:
 * various UTF8 encoding fixes
+* Add DNS_DOMAIN and FQDN in OPERATINGSYSTEM section
 
 BSD:
 * Megaraid and 3ware RAID controller support (Egor Morozov)
 
 Linux:
 * Megaraid controller support (Egor Morozov)
+* Support new OpenVZ configuration (Alessandro Iurlano) 
+
+2.2.4  Sun, 22 Jul 2012 23:23:12 +0200
+General:
+* Fix: non blocking flock() on log file
+
+MacOSX:
+* Fix: STORAGES uses MiB instead GB
+* Fix: add Fiber Channel storage support
+* Fix: Don't ignore second screen, if both have the same name
+
+Linux:
+* Fix: collect qemu -drive information (Alexander Evseev)
+
+Windows:
+* Fix: OCS Inventory registry support
+* Fix: some time the softwares were not collected
+
+Solaris:
+* Fix: Collect ZFS drives properly
 
 2.2.3  Mon, 25 Jun 2012 21:36:29 +0200
 General:
