@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::HPUX;
 use English qw(-no_match_vars);
 
 sub isEnabled { 
