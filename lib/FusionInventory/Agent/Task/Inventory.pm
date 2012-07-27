@@ -88,7 +88,7 @@ sub run {
             if (-d $path) {
                 $file =
                     $path . "/" . $self->{deviceid} .
-                    ($format eq 'xml' ? '.ocs' : '.html');
+                    ($format eq 'json' ? '.json' : '.html');
                 last SWITCH;
             }
 
@@ -363,20 +363,6 @@ sub _printInventory {
     my ($self, %params) = @_;
 
     SWITCH: {
-        if ($params{format} eq 'xml') {
-
-            my $tpp = XML::TreePP->new(indent => 2);
-            my $content = $params{inventory}->{content};
-            print {$params{handle}} $tpp->write({
-                REQUEST => {
-                    CONTENT => $params{inventory}->{content},
-                    DEVICEID => $self->{deviceid},
-                    QUERY => "INVENTORY",
-                }
-            });
-
-            last SWITCH;
-        }
 
         if ($params{format} eq 'json') {
 

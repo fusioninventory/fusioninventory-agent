@@ -20,7 +20,6 @@ my $default = {
     'html'                    => undef,
     'lazy'                    => undef,
     'local'                   => undef,
-    'local-inventory-format'  => 'xml',
     'logger'                  => 'Stderr',
     'logfile'                 => undef,
     'logfacility'             => 'LOG_USER',

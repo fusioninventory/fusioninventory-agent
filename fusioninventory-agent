@@ -34,7 +34,6 @@ GetOptions(
     'list-tasks',
     'setup',
     'local|l=s',
-    'local-inventory-format=s',
     'logger=s',
     'logfile=s',
     'logfile-maxsize=i',
@@ -137,7 +136,6 @@ B<fusioninventory-agent> [options] [--server server|--local path]
     -t --tag=TAG        mark the machine with given tag
     --backend-collect-timeout   timeout for inventory modules execution (30)
     --additional-content=FILE   additional inventory content
-    --local-inventory-fromat=html/xml/json  format to use, when generating a local inventory
 
   Package deployment task specific options
     --no-p2p            do not use peer to peer to download files (false)
@@ -180,7 +178,7 @@ B<fusioninventory-agent> [options] [--server server|--local path]
 The F<fusioninventory-agent> agent is a generic multi-platform agent. It can
 perform a large array of management tasks, such as local inventory, software
 deployment or network discovery. It can be used either standalone, or in
-combination with a compatible server (OCS, GLPI, OTRS) acting as a centralized
+combination with a compatible server (GLPI, OTRS) acting as a centralized
 control point.
 
 =head1 OPTIONS
@@ -197,20 +195,10 @@ example, the two lines below are all equivalent:
 
 =item B<-s>, B<--server>=I<URI>
 
-Send the results of tasks execution to given server.
+Send the results of tasks execution to given server. For example, for
+FusionInventory for GLPI this one:
 
-If I<URI> doesn't start with http:// or https://, the agent assume the
-parameter is a hostname and rewrite it as:
-
-    % --server=http://servername/ocsinventory
-
-In general, OCS Inventory server URL have this format:
-
-    http://servername/ocsinventory
-
-and FusionInventory for GLPI this one:
-
-    http://servername/glpi/plugins/fusioninventory/front/plugin_fusioninventory.communication.php
+    http://servername/glpi/plugins/fusioninventory/front/
 
 Multiple values can be specified, using comma as a separator.
 
@@ -304,12 +292,6 @@ process
 =item B<--scan-homedirs>
 
 Allow the agent to scan home directories for virtual machines.
-
-=item B<--local-inventory-format>=I<FORMAT>
-
-Save the inventory as I<FORMAT>. Format can be html, xml and json.
-
-This is only used for local inventories.
 
 =item B<-f>, B<--force>
 
