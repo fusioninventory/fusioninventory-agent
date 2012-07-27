@@ -107,7 +107,7 @@ sub planifyEvents {
         push @{$self->{events}}, {
             when      => $when,
             task      => $event->{task},
-            remoteURL => $event->{remote}
+            remote    => $event->{remote}
         };
     }
     $self->{configValidityNextCheck} = time + $r->{configValidityPeriod};
