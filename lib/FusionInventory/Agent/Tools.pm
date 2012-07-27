@@ -241,10 +241,10 @@ sub getFileHandle {
             }
             last SWITCH;
         }
-	if ($params{string}) {
-	    open $handle, "<", \$params{string} or die;
+        if ($params{string}) {
+            open $handle, "<", \$params{string} or die;
             last SWITCH;
-	}
+        }
         die "neither command, file or string parameter given";
     }
 
@@ -453,7 +453,7 @@ sub runFunction {
             ref $params{params} eq 'HASH'  ? %{$params{params}} :
             ref $params{params} eq 'ARRAY' ? @{$params{params}} :
                                                $params{params}
-	);
+        );
         alarm 0;
     };
 
