@@ -10,7 +10,7 @@ use File::Glob;
 use IO::Handle;
 
 use FusionInventory::Agent::Config;
-use FusionInventory::Agent::HTTP::Client::Fusion;
+use FusionInventory::Agent::HTTP::Client;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Scheduler;
 use FusionInventory::Agent::Storage;
@@ -80,7 +80,7 @@ sub init {
 
     $self->_saveState();
 
-    my $client = FusionInventory::Agent::HTTP::Client::Fusion->new(
+    my $client = FusionInventory::Agent::HTTP::Client->new(
           logger       => $self->{logger},
           user         => $self->{config}->{user},
           password     => $self->{config}->{password},

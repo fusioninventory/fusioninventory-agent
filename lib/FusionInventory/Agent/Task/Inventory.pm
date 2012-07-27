@@ -117,7 +117,7 @@ sub run {
         }
 
     } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
-        my $client = FusionInventory::Agent::HTTP::Client::Fusion->new(
+        my $client = FusionInventory::Agent::HTTP::Client->new(
             logger       => $self->{logger},
             user         => $params{user},
             password     => $params{password},

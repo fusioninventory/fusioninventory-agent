@@ -87,7 +87,7 @@ sub run {
 
     $self->{logger}->debug("FusionInventory WakeOnLan task $VERSION");
 
-    my $client = FusionInventory::Agent::HTTP::Client::Fusion->new(
+    my $client = FusionInventory::Agent::HTTP::Client->new(
         logger       => $self->{logger},
         user         => $params{user},
         password     => $params{password},

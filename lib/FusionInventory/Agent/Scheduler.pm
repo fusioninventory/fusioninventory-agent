@@ -148,7 +148,7 @@ a hash reference on a key/val list of available tasks.
 
 =item I<client>
 
-A I<FusionInventory::Agent::HTTP::Client::Fusion> instance.
+A I<FusionInventory::Agent::HTTP::Client> instance.
 
 
 =back
