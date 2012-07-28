@@ -112,6 +112,7 @@ sub _getVxFSctime {
     my $offset =
         $version == 5 ? 8200 :
         $version == 6 ? 8208 :
+        $version == 7 ? 8208 :
                         undef;
 
     if (!$offset) {

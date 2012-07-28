@@ -8,7 +8,7 @@ use Test::More;
 use FusionInventory::Agent::Task::Inventory::Input::HPUX::Uptime;
 
 my %tests = (
-    sample1 => undef 
+    sample1 => '00-04-02 23:35:00'
 );
 
 plan tests => scalar keys %tests;
