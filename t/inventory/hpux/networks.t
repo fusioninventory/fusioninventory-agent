@@ -496,7 +496,7 @@ my %nwmgr_tests = (
     },
 );
 
-my %netstatNrv_tests = (
+my %netstat_tests = (
     hpux => {
         'lan0' => [
             {
@@ -923,7 +923,7 @@ plan tests =>
     (scalar keys %lanadmin_tests) +
     (scalar keys %ifconfig_tests) +
     (scalar keys %nwmgr_tests) +
-    (scalar keys %netstatNrv_tests) +
+    (scalar keys %netstat_tests) +
     (scalar keys %lanscan_tests)
 ;
 
@@ -946,10 +946,10 @@ foreach my $test (keys %nwmgr_tests) {
 }
 
 use Data::Dumper;
-foreach my $test (keys %netstatNrv_tests) {
-    my $file = "resources/hpux/netstat_-nrv/$test";
+foreach my $test (keys %netstat_tests) {
+    my $file = "resources/hpux/netstat/$test";
     my %interfaces = FusionInventory::Agent::Task::Inventory::Input::HPUX::Networks::_parseNetstatNrv(file => $file);
-    is_deeply(\%interfaces, $netstatNrv_tests{$test}, "netstat -nrv parsing: $test") or print Dumper(\%interfaces);
+    is_deeply(\%interfaces, $netstat_tests{$test}, "netstat -nrv parsing: $test") or print Dumper(\%interfaces);
 }
 
 foreach my $test (keys %lanscan_tests) {
