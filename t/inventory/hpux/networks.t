@@ -945,15 +945,14 @@ foreach my $test (keys %nwmgr_tests) {
     is_deeply($info, $nwmgr_tests{$test}, "nwmgr parsing: $test");
 }
 
-use Data::Dumper;
 foreach my $test (keys %netstat_tests) {
     my $file = "resources/hpux/netstat/$test";
     my %interfaces = FusionInventory::Agent::Task::Inventory::Input::HPUX::Networks::_parseNetstatNrv(file => $file);
-    is_deeply(\%interfaces, $netstat_tests{$test}, "netstat -nrv parsing: $test") or print Dumper(\%interfaces);
+    is_deeply(\%interfaces, $netstat_tests{$test}, "netstat -nrv parsing: $test");
 }
 
 foreach my $test (keys %lanscan_tests) {
-    my $file = "resources/hpux/lanscan//$test";
+    my $file = "resources/hpux/lanscan/$test";
     my @interfaces = FusionInventory::Agent::Task::Inventory::Input::HPUX::Networks::_parseLanscan(file => $file);
     is_deeply(\@interfaces, $lanscan_tests{$test}, "lanscan -iap parsing: $test");
 }
