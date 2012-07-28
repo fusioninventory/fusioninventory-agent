@@ -35,29 +35,31 @@ Any device replying to one of those protocols will be discovered, with just
 minimal information, such as mac address and hostname.
 
 If the device replies to SNMP, an additional identification attempt is
-performed, using the device system description (SNMPv2-MIB::sysDescr.0) field.
+performed, using the device system description (SNMPv2-MIB::sysDescr.0) field.  
 First, this value is compared to a database of known values (the SNMP
-description models dictionnary). If there is an exact match, the device
-category (printer, network device, etc...) can be identified, and a SNMP
-description model assigned, to use with NetInventory later. If there is no such
-value in the database, various heuristics are used to guess the device category
-and vendor from the sysdescr field.
+dictionnary). If there is an exact match, an SNMP description model can be used
+to fully identify the device (model-based identification). If there is no exact
+match, various rules are used to partially identify the device (rule-based
+identification).
 
-Discovered devices are then reported to the GLPI servers, where they will be 
-available for inventory import (import rules can be used to automatize this
-step). Warning, GLPI will consider every device as 'unknown', unless an SNMP
-description model has been assigned. This implies than only devices whose exact
-combination of harware/firmware is present in the SNMP description models
-dictionnary will be completly identified upon discovery step.
+Discovered devices are then reported to the GLPI servers, and import rules are
+applied.  If the device type (printer, network device, etc...) has not been
+identified, they will be considered as 'unkown devices'.
 
 The NetInventory task can be applied to any device already present in the
-inventory, provided it is assigned an SNMP description model. This model maps
-device features (ports list, for instance) with SNMP variables identifiers
-specific to a given combination of hardware and firmware. This is typically
-achieved through usage of NetDiscovery task, which automatically identifies
-known devices, and assign them the correct model. As device discovery uses the
-same database than device inventory, a failure to assign a model during the
-discovery phase means there isn't any relevant model for this device.
+inventory, provided it is assigned an SNMP description model. If no such model
+has been automatically assigned during previous discovery phase, it can still
+be done manually though GLPI interface.
+
+SNMP description models
+-----------------------
+An SNMP description model maps specific device features (ports list, ink level,
+etc...) with SNMP OIDs. Given than manufacturers often change those OIDs
+between firmware releases, the same device model may have to use different
+description models depending of its firmware. This means than the agent will
+only assign description models to specific hardware/software combinations, as
+identified from device SysDescr value. No model assigned doesn't mean than 
+no one apply, but rather than no one is known to work in this specific case.
 
 Command-line usage
 ------------------
