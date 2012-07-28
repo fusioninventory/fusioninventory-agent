@@ -25,11 +25,11 @@ sub test_port {
     if (socket(my $socket, PF_INET, SOCK_STREAM, $proto)) {
         if (connect($socket, $paddr)) {
             close $socket;
-            return 1;
+            return 0;
         } 
     }
 
-    return 0;
+    return 1;
 }
 
 sub test_localhost {
