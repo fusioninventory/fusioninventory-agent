@@ -16,7 +16,18 @@ use FusionInventory::Test::Proxy;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
 
-plan tests => 36;
+# check than test port is available
+my $port_ok = test_port(8080);
+
+# check than 'localhost resolves, to an IPv4 address only
+my $localhost_ok = test_localhost();
+
+if (!$port_ok) {
+    plan skip_all => 'test port unavailable';
+} else {
+    plan tests => 36;
+}
+
 
 my $ok = sub {
     print "HTTP/1.0 200 OK\r\n";
@@ -32,11 +43,6 @@ my $client = FusionInventory::Agent::HTTP::Client->new(
     logger => $logger
 );
 
-# no connection tests
-BAIL_OUT("port aleady used") if test_port(8080);
-
-# check than 'localhost' resolves, to an IPv4 address only
-my $localhost_ok = test_localhost();
 
 subtest "no response" => sub {
     check_response_nok(
@@ -107,7 +113,7 @@ $server->stop();
 SKIP: {
 skip 'non working test under MacOS', 12 if $OSNAME eq 'darwin';
 skip 'non working test under Windows', 12 if $OSNAME eq 'MSWin32';
-skip 'non working test without pure IPv4 localhost', 12 if !$localhost_ok;
+skip 'IPv6 localhost resolution', 12 if !$localhost_ok;
 # https connection tests
 
 $server = FusionInventory::Test::Server->new(
@@ -222,7 +228,7 @@ $server->stop();
 
 SKIP: {
 skip 'non working test under Windows', 18 if $OSNAME eq 'MSWin32';
-skip 'non working test without pure IPv4 localhost', 18 if !$localhost_ok;
+skip 'IPv6 localhost resolution', 18 if !$localhost_ok;
 # http connection through proxy tests
 
 $server = FusionInventory::Test::Server->new(

@@ -15,7 +15,14 @@ use FusionInventory::Agent::XML::Query;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
 
-plan tests => 7;
+# check than test port is available
+my $port_ok = test_port(8080);
+
+if (!$port_ok) {
+    plan skip_all => 'test port unavailable';
+} else {
+    plan tests => 7;
+}
 
 my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'Test' ]
@@ -33,9 +40,6 @@ my $message = FusionInventory::Agent::XML::Query->new(
 my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
     logger => $logger
 );
-
-# no connection tests
-BAIL_OUT("port aleady used") if test_port(8080);
 
 # http connection tests
 my ($server, $response);
