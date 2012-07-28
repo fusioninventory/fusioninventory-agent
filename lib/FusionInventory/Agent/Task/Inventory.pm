@@ -92,7 +92,7 @@ sub run {
                 last SWITCH;
             }
 
-	    $file = $path;
+            $file = $path;
         }
 
         if ($file) {

@@ -13,11 +13,16 @@ use FusionInventory::Agent::HTTP::Client;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
 
-# check than 'localhost' resolves, to an IPv4 address only
+# check than test port is available
+my $port_ok = test_port(8080);
+
+# check than 'localhost' resolves to an IPv4 address only
 my $localhost_ok = test_localhost();
 
-if (!$localhost_ok) {
-    plan skip_all => 'non working test without pure IPv4 localhost';
+if (!$port_ok) {
+    plan skip_all => 'test port unavailable';
+} elsif (!$localhost_ok) {
+    plan skip_all => 'IPv6 localhost resolution';
 } elsif ($OSNAME eq 'MSWin32') {
     plan skip_all => 'non working test on Windows';
 } elsif ($OSNAME eq 'darwin') {
@@ -37,9 +42,6 @@ my $ok = sub {
 my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'Test' ]
 );
-
-# no connection tests
-BAIL_OUT("port aleady used") if test_port(8080);
 
 my $server;
 my $url = 'https://localhost:8080/public';

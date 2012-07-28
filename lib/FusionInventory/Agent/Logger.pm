@@ -27,7 +27,7 @@ sub new {
                 "Failed to load Logger backend $backend: ($EVAL_ERROR)\n";
             next;
         }
-	$backends{$backend} = 1;
+        $backends{$backend} = 1;
 
         $self->debug("Logger backend $backend initialised");
         push

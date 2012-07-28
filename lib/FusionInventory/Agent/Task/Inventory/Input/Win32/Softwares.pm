@@ -180,11 +180,11 @@ sub _dateFormat {
     return undef unless $date;
 
     if ($date =~ /^(\d{4})(\d{1})(\d{2})$/) {
-	return "$3/0$2/$1";
+        return "$3/0$2/$1";
     }
 
     if ($date =~ /^(\d{4})(\d{2})(\d{2})$/) {
-	return "$3/$2/$1";
+        return "$3/$2/$1";
     }
 
     return undef;

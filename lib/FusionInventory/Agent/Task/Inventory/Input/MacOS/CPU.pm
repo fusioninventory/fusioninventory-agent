@@ -108,7 +108,7 @@ sub _getCpus{
     my @cpus;
     my $cpu={
         CORE         => $cores,
-	MANUFACTURER => $manufacturer,
+        MANUFACTURER => $manufacturer,
         NAME         => $type,
         THREAD       => $threads,
         FAMILYNUMBER => $family,

@@ -46,7 +46,7 @@ sub new {
 
 sub _handle {
     my ($self, $client, $request, $clientIp) = @_;
-    
+
     my $logger = $self->{logger};
 
     if (!$request) {
@@ -73,7 +73,7 @@ sub _handle {
         if ($path eq '/') {
             $self->_handle_root($client, $request, $clientIp);
             last SWITCH;
-        } 
+        }
 
         # deploy request
         if ($path =~ m{^/deploy/getFile/./../([\w\d/-]+)$}) {
@@ -306,11 +306,11 @@ sub _listen {
         Reuse     => 1,
         Timeout   => 5
     );
-  
+
     if (!$daemon) {
         $logger->error($log_prefix . "failed to start the HTTPD service");
         return;
-    } 
+    }
 
     my $url = $self->{ip} ?
         "http://$self->{ip}:$self->{port}" :
