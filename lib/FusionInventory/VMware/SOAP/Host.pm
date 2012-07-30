@@ -312,6 +312,8 @@ sub getVirtualMachines {
         # hack to preserve  annotation / comment formating
         $comment =~ s/\n/&#10;/gm if $comment;
 
+        next if $_->[0]{summary}{config}{template} eq 'true';
+
         push @virtualMachines,
           {
             VMID    => $machine->{summary}{vm},
