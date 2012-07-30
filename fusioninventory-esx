@@ -2,52 +2,34 @@
 
 use strict;
 use warnings;
+use lib './lib';
+
+use Getopt::Long;
+use Pod::Usage;
 
 use FusionInventory::Agent::Task::ESX;
-#use FusionInventory::Agent::AccountInfo;
 use FusionInventory::Agent::Logger;
-use Getopt::Long;
 
-my $args = {};
+my $options = {
+};
 
 GetOptions(
-        $args, 'host=s', 'user=s', 'password=s', 'directory=s', 'tag=s'
-        );
+    $options,
+    'host=s',
+    'user=s',
+    'password=s',
+    'directory=s',
+    'tag=s',
+    'help',
+) or pod2usage(-verbose => 0);
 
-usage() unless $args->{host} and $args->{user} and $args->{password} and $args->{directory};
+pod2usage(-verbose => 0) if $options->{help};
 
-sub usage {
-
-    print STDERR <<EOF;
-
-    A command line tool to create .ocs file from an vCenter,ESX and ESXi VMware server.
-
-        USAGE:
-        --host hostname        : hostname is the hostname of the IP address of the ESX server
-        --user username        : the user name
-        --password xxxx        : the password
-        --directory /somewhere : the location where the .ocs file must be written
-        --tag xxxx             : set a tag for the inventoried machine
-
-        EXAMPLE:
-        fusioninventory-esx --host myesx --user foo --password bar --directory /tmp
-
-        Active Directory users, please note the AD authentication doesn't work.
-        You must create a account on the VMware server.
-
-        You can import the .ocs file in your inventory server with the fusioninventory-injector tool.
-        fusioninventory-injector -v --file /tmp/*.ocs -u https://myserver/ocsinventory
-
-        The .ocs file can be imported in the following servers:
-        - ocsinventory
-        - GLPI using the FusionInventory for GLPI plugin
-        - Uranos
-
-        This tool is part of the FusionInventory distribution.
-EOF
-
-    exit(1);
-}
+pod2usage(-verbose => 0) unless
+    $options->{host} and
+    $options->{user} and
+    $options->{password} and
+    $options->{directory};
 
 
 my $esx = FusionInventory::Agent::Task::ESX->new(
@@ -55,31 +37,21 @@ my $esx = FusionInventory::Agent::Task::ESX->new(
 );
 
 if (!$esx->connect({
-            host => $args->{host},
-            user => $args->{user},
-            password => $args->{password},
-            })) {
+    host     => $options->{host},
+    user     => $options->{user},
+    password => $options->{password},
+    })) {
     exit 1;
 }
 
-# Put ACCOUNTINFO values in the inventory
 my $logger = FusionInventory::Agent::Logger->new();
-#my $accountinfo = FusionInventory::Agent::AccountInfo->new({
-#    logger => $logger,
-#    config => {},
-##    target => $self,
-#    });
-#$accountinfo->set('TAG', $args->{tag});
 
 my $hasError = 0;
 my $hostIds = $esx->getHostIds();
 foreach my $hostId (@$hostIds) {
     my $inventory = $esx->createInventory($hostId);
-    #$accountinfo->setAccountInfo($inventory);
 
-   # $inventory->writeXML();
-
-    my $file =  $args->{directory} . '/' . $esx->createFakeDeviceid($esx->{vpbs}->getHostFullInfo($hostId)) . ".ocs";
+    my $file =  $options->{directory} . '/' . $esx->createFakeDeviceid($esx->{vpbs}->getHostFullInfo($hostId)) . ".ocs";
 
     if (open my $handle, '>', $file) {
         my $tpp = XML::TreePP->new(indent => 2);
@@ -104,11 +76,19 @@ __END__
 
 =head1 NAME
 
-fusioninventory-esx - vCenter/ESX/ESXi remote inventory for FusionInventory or OCSInventory
+fusioninventory-esx - vCenter/ESX/ESXi remote inventory from command line
 
 =head1 SYNOPSIS
 
-B<fusioninventory-esx> S<[ I<--host host> I<--user user> I<--password password> I<--directory /tmp> I<--tag tag>> ]
+fusioninventory-esx --host <host> --user <user> --password <password> --directory <directory> --tag <tag>
+
+  Options:
+    --help                 this menu
+    --host hostname        ESX server hostname
+    --user username        user name
+    --password xxxx        user password
+    --directory directory  output directory
+    --tag tag              tag for the inventoried machine
 
 =head1 EXAMPLES
 
@@ -139,91 +119,6 @@ Supported systems:
 Active Directory users, please note the AD authentication doesn't work. You must
 create a account on the VMware server.
 
-=head1 AUTHORS
-
-This module has been written by TECLIB'.
-
-The maintainer is Goneri LE BOUDER <goneri@rulezlan.org>
-
-The FusionInventory project L<fusioninventory-devel@lists.alioth.debian.org>
-
 =head1 SECURITY
 
 The SSL hostname check of the server is disabled.
-
-=head1 SEE ALSO
-
-=over 4
-
-=item
-
-FusionInventory website: L<http://www.FusionInventory.org/>
-
-=item
-
-project Forge: L<http://Forge.FusionInventory.org>
-
-=item
-
-The source code of the agent is available on:
-
-=over
-
-=item
-
-Gitorious: L<http://gitorious.org/fusioninventory>
-
-=item
-
-Github: Lhttps://github.com/fusinv/fusioninventory-agent-task-esx>
-
-=back
-
-=item
-
-The mailing lists:
-
-=over
-
-=item
-
-L<http://lists.alioth.debian.org/mailman/listinfo/fusioninventory-devel>
-
-=item
-
-L<http://lists.alioth.debian.org/mailman/listinfo/fusioninventory-user>
-
-=back
-
-=item
-
-IRC: #FusionInventory on FreeNode IRC Network
-
-=back
-
-=head1 BUGS
-
-Please, use the mailing lists as much as possible. You can also use the bugtracker on
-http://forge.fusionInventory.org
-
-
-=head1 COPYRIGHT
-
-Copyright (C) 2011-2012 FusionInventory project
-Copyright (C) 2011-2012 TECLIB' ( http://www.teclib.com )
-
- This program is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-
-=cut

@@ -53,6 +53,8 @@ EOF
 
 package MY;
 
+use English qw(-no_match_vars);
+
 our %setup;
 our %variables;
 
@@ -109,4 +111,21 @@ sub constants {
     }
 
     return join("\n", @code);
+}
+
+# ensure binaries get modified to use configured directories (on Unix only)
+sub installbin {
+    my ($self) = @_;
+    my $installbin = $self->SUPER::installbin(@_);
+
+    return $installbin if $OSNAME eq 'MSWin32';
+
+    $installbin =~ s|\t\$\(FIXIN\) (.*)\n|\t\$(FIXIN) $1\n\t\$(FINALIZE) $1\n|g;
+
+    $installbin .= <<'EOF';
+FINALIZE = $(ABSPERLRUN) -pi \
+    -e 's|use lib .*|use lib "$(DATADIR)/lib";|;' \
+    --
+EOF
+    return $installbin;
 }
