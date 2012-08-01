@@ -52,12 +52,12 @@ my $unsafe_client = FusionInventory::Agent::HTTP::Client->new(
 );
 my $secure_client = FusionInventory::Agent::HTTP::Client->new(
     logger       => $logger,
-    ca_cert_file => 't/ssl/crt/ca.pem',
+    ca_cert_file => 'resources/ssl/crt/ca.pem',
 );
 
 my $secure_sha256_client = FusionInventory::Agent::HTTP::Client->new(
     logger       => $logger,
-    ca_cert_file => 't/ssl/crt/ca.pem',
+    ca_cert_file => 'resources/ssl/crt/ca.pem',
 );
 
 # ensure the server get stopped even if an exception is thrown
@@ -70,8 +70,8 @@ $server = FusionInventory::Test::Server->new(
     realm    => 'test',
     password => 'test',
     ssl      => 1,
-    crt      => 't/ssl/crt/good.pem',
-    key      => 't/ssl/key/good.pem',
+    crt      => 'resources/ssl/crt/good.pem',
+    key      => 'resources/ssl/key/good.pem',
 );
 $server->set_dispatch({
     '/public'  => $ok,
@@ -92,8 +92,8 @@ $server = FusionInventory::Test::Server->new(
     realm    => 'test',
     password => 'test',
     ssl      => 1,
-    crt      => 't/ssl/crt/good-sha256.pem',
-    key      => 't/ssl/key/good-sha256.pem',
+    crt      => 'resources/ssl/crt/good-sha256.pem',
+    key      => 'resources/ssl/key/good-sha256.pem',
 );
 $server->set_dispatch({
     '/public'  => $ok,
@@ -114,8 +114,8 @@ $server = FusionInventory::Test::Server->new(
     realm    => 'test',
     password => 'test',
     ssl      => 1,
-    crt      => 't/ssl/crt/alternate.pem',
-    key      => 't/ssl/key/alternate.pem',
+    crt      => 'resources/ssl/crt/alternate.pem',
+    key      => 'resources/ssl/key/alternate.pem',
 );
 $server->set_dispatch({
     '/public'  => $ok,
@@ -144,8 +144,8 @@ SKIP: {
         realm    => 'test',
         password => 'test',
         ssl      => 1,
-        crt      => 't/ssl/crt/joker.pem',
-        key      => 't/ssl/key/joker.pem',
+        crt      => 'resources/ssl/crt/joker.pem',
+        key      => 'resources/ssl/key/joker.pem',
     );
     $server->set_dispatch({
         '/public'  => $ok,
@@ -169,8 +169,8 @@ $server = FusionInventory::Test::Server->new(
     realm    => 'test',
     password => 'test',
     ssl      => 1,
-    crt      => 't/ssl/crt/wrong.pem',
-    key      => 't/ssl/key/wrong.pem',
+    crt      => 'resources/ssl/crt/wrong.pem',
+    key      => 'resources/ssl/key/wrong.pem',
 );
 $server->set_dispatch({
     '/public'  => $ok,
@@ -196,8 +196,8 @@ $server = FusionInventory::Test::Server->new(
     realm    => 'test',
     password => 'test',
     ssl      => 1,
-    crt      => 't/ssl/crt/bad.pem',
-    key      => 't/ssl/key/bad.pem',
+    crt      => 'resources/ssl/crt/bad.pem',
+    key      => 'resources/ssl/key/bad.pem',
 );
 $server->set_dispatch({
     '/public'  => $ok,
