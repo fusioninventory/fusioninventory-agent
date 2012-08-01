@@ -22,24 +22,6 @@ sub _getDfCmd {
         "df -k";
 }
 
-sub _getFsTypeFromMount {
-
-    my %mountInfo;
-
-    my $handle = getFileHandle(
-        command => 'mount -v',
-        @_
-    );
-
-    while (my $line = <$handle>) {
-        next unless $line =~ /^(\S+)\son\s\S+\stype\s(\S+)/;
-
-        $mountInfo{$1} = $2;
-    }
-
-    return %mountInfo;
-}
-
 sub doInventory {
     my (%params) = @_;
 
@@ -55,8 +37,6 @@ sub doInventory {
         # get all file systems
         getFilesystemsFromDf(logger => $logger, command => _getDfCmd());
 
-
-    my %fsTypeFromMount = _getFsTypeFromMount();
 
     # get indexed list of ZFS filesystems
     my %zfs_filesystems =
