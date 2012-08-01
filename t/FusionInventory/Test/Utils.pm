@@ -34,16 +34,7 @@ sub test_port {
 
 sub test_localhost {
 
-    return 0 unless inet_aton('localhost');
-
-    my $ipv6;
-    eval {
-        my ($err, @result) = Socket::getaddrinfo("localhost", "http");
-        $ipv6 = any { $_->{family} == Socket::PF_INET6 } @result;
-    };
-    return 0 if $ipv6;
-
-    return 1;
+    return inet_aton('localhost');
 }
 
 sub mockGetWmiObjects {
