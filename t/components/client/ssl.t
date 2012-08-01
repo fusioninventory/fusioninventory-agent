@@ -66,9 +66,6 @@ $SIG{__DIE__}  = sub { $server->stop(); };
 # trusted certificate, correct hostname
 $server = FusionInventory::Test::Server->new(
     port     => $port,
-    user     => 'test',
-    realm    => 'test',
-    password => 'test',
     ssl      => 1,
     crt      => 'resources/ssl/crt/good.pem',
     key      => 'resources/ssl/key/good.pem',
@@ -88,9 +85,6 @@ $server->stop();
 # trusted sha256 certificate, correct hostname
 $server = FusionInventory::Test::Server->new(
     port     => $port,
-    user     => 'test',
-    realm    => 'test',
-    password => 'test',
     ssl      => 1,
     crt      => 'resources/ssl/crt/good-sha256.pem',
     key      => 'resources/ssl/key/good-sha256.pem',
@@ -110,9 +104,6 @@ $server->stop();
 # trusted certificate, alternate hostname
 $server = FusionInventory::Test::Server->new(
     port     => $port,
-    user     => 'test',
-    realm    => 'test',
-    password => 'test',
     ssl      => 1,
     crt      => 'resources/ssl/crt/alternate.pem',
     key      => 'resources/ssl/key/alternate.pem',
@@ -140,9 +131,6 @@ SKIP: {
 
     $server = FusionInventory::Test::Server->new(
         port     => $port,
-        user     => 'test',
-        realm    => 'test',
-        password => 'test',
         ssl      => 1,
         crt      => 'resources/ssl/crt/joker.pem',
         key      => 'resources/ssl/key/joker.pem',
@@ -165,9 +153,6 @@ SKIP: {
 # trusted certificate, wrong hostname
 $server = FusionInventory::Test::Server->new(
     port     => $port,
-    user     => 'test',
-    realm    => 'test',
-    password => 'test',
     ssl      => 1,
     crt      => 'resources/ssl/crt/wrong.pem',
     key      => 'resources/ssl/key/wrong.pem',
@@ -192,9 +177,6 @@ $server->stop();
 # untrusted certificate, correct hostname
 $server = FusionInventory::Test::Server->new(
     port     => $port,
-    user     => 'test',
-    realm    => 'test',
-    password => 'test',
     ssl      => 1,
     crt      => 'resources/ssl/crt/bad.pem',
     key      => 'resources/ssl/key/bad.pem',
