@@ -6,6 +6,7 @@ use lib 't';
 
 use Compress::Zlib;
 use English qw(-no_match_vars);
+use List::Util qw(first);
 use Test::More;
 use Test::Exception;
 
@@ -15,11 +16,11 @@ use FusionInventory::Agent::XML::Query;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
 
-# check than test port is available
-my $port_ok = test_port(8080);
+# find an available port
+my $port = first { test_port($_) } 8080 .. 8090;
 
-if (!$port_ok) {
-    plan skip_all => 'test port unavailable';
+if (!$port) {
+    plan skip_all => 'no available port';
 } else {
     plan tests => 7;
 }
@@ -45,7 +46,7 @@ my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
 my ($server, $response);
 
 $server = FusionInventory::Test::Server->new(
-    port => 8080,
+    port => $port,
 );
 my $header  = "HTTP/1.0 200 OK\r\n\r\n";
 my $xml_content  = "<REPLY><word>hello</word></REPLY>";
@@ -65,7 +66,7 @@ subtest "error response" => sub {
     check_response_nok(
         scalar $client->send(
             message => $message,
-            url     => 'http://localhost:8080/error',
+            url     => "http://localhost:$port/error",
         ),
         $logger,
         "[http client] communication error: 403 NOK",
@@ -76,7 +77,7 @@ subtest "empty content" => sub {
     check_response_nok(
         scalar $client->send(
             message => $message,
-            url     => 'http://localhost:8080/empty',
+            url     => "http://localhost:$port/empty",
         ),
         $logger,
         "[http client] unknown content format",
@@ -88,7 +89,7 @@ subtest "mixedhtml content" => sub {
     check_response_ok(
         scalar $client->send(
             message => $message,
-            url     => 'http://localhost:8080/mixedhtml',
+            url     => "http://localhost:$port/mixedhtml",
         ),
     );
 };
@@ -98,7 +99,7 @@ subtest "uncompressed content" => sub {
     check_response_nok(
         scalar $client->send(
             message => $message,
-            url     => 'http://localhost:8080/uncompressed',
+            url     => "http://localhost:$port/uncompressed",
         ),
         $logger,
         "[http client] unexpected content, starting with $html_content",
@@ -109,7 +110,7 @@ subtest "unexpected content" => sub {
     check_response_nok(
         scalar $client->send(
             message => $message,
-            url     => 'http://localhost:8080/unexpected',
+            url     => "http://localhost:$port/unexpected",
         ),
         $logger,
         "[http client] unexpected content, starting with $html_content",
@@ -120,7 +121,7 @@ subtest "correct response" => sub {
     check_response_ok(
         scalar $client->send(
             message => $message,
-            url     => 'http://localhost:8080/correct',
+            url     => "http://localhost:$port/correct",
         ),
     );
 };
@@ -129,7 +130,7 @@ subtest "altered response" => sub {
     check_response_ok(
         scalar $client->send(
             message => $message,
-            url     => 'http://localhost:8080/altered',
+            url     => "http://localhost:$port/altered",
         ),
     );
 };
