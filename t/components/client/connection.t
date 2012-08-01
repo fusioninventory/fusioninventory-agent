@@ -19,7 +19,7 @@ use FusionInventory::Test::Utils;
 # find an available port
 my $port = first { test_port($_) } 8080 .. 8090;
 
-# check than 'localhost resolves, to an IPv4 address only
+# check than localhost resolves correctly
 my $localhost_ok = test_localhost();
 
 if (!$port) {
@@ -112,7 +112,7 @@ $server->stop();
 SKIP: {
 skip 'non working test under MacOS', 12 if $OSNAME eq 'darwin';
 skip 'non working test under Windows', 12 if $OSNAME eq 'MSWin32';
-skip 'IPv6 localhost resolution', 12 if !$localhost_ok;
+skip 'localhost resolution failure', 12 if !$localhost_ok;
 # https connection tests
 
 $server = FusionInventory::Test::Server->new(
@@ -227,7 +227,7 @@ $server->stop();
 
 SKIP: {
 skip 'non working test under Windows', 18 if $OSNAME eq 'MSWin32';
-skip 'IPv6 localhost resolution', 18 if !$localhost_ok;
+skip 'localhost resolution failure', 18 if !$localhost_ok;
 # http connection through proxy tests
 
 $server = FusionInventory::Test::Server->new(
