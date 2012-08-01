@@ -17,13 +17,13 @@ use FusionInventory::Test::Utils;
 # find an available port
 my $port = first { test_port($_) } 8080 .. 8090;
 
-# check than 'localhost' resolves to an IPv4 address only
+# check than localhost resolves correctly
 my $localhost_ok = test_localhost();
 
 if (!$port) {
     plan skip_all => 'no available port';
 } elsif (!$localhost_ok) {
-    plan skip_all => 'IPv6 localhost resolution';
+    plan skip_all => 'localhost resolution failure';
 } elsif ($OSNAME eq 'MSWin32') {
     plan skip_all => 'non working test on Windows';
 } elsif ($OSNAME eq 'darwin') {
