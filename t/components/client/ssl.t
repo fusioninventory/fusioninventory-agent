@@ -5,6 +5,7 @@ use warnings;
 use lib 't';
 
 use English qw(-no_match_vars);
+use List::Util qw(first);
 use Test::More;
 use Test::Exception;
 
@@ -13,14 +14,14 @@ use FusionInventory::Agent::HTTP::Client;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
 
-# check than test port is available
-my $port_ok = test_port(8080);
+# find an available port
+my $port = first { test_port($_) } 8080 .. 8090;
 
 # check than 'localhost' resolves to an IPv4 address only
 my $localhost_ok = test_localhost();
 
-if (!$port_ok) {
-    plan skip_all => 'test port unavailable';
+if (!$port) {
+    plan skip_all => 'no available port';
 } elsif (!$localhost_ok) {
     plan skip_all => 'IPv6 localhost resolution';
 } elsif ($OSNAME eq 'MSWin32') {
@@ -44,7 +45,7 @@ my $logger = FusionInventory::Agent::Logger->new(
 );
 
 my $server;
-my $url = 'https://localhost:8080/public';
+my $url = "https://localhost:$port/public";
 my $unsafe_client = FusionInventory::Agent::HTTP::Client->new(
     logger       => $logger,
     no_ssl_check => 1,
@@ -64,7 +65,7 @@ $SIG{__DIE__}  = sub { $server->stop(); };
 
 # trusted certificate, correct hostname
 $server = FusionInventory::Test::Server->new(
-    port     => 8080,
+    port     => $port,
     user     => 'test',
     realm    => 'test',
     password => 'test',
@@ -86,7 +87,7 @@ $server->stop();
 
 # trusted sha256 certificate, correct hostname
 $server = FusionInventory::Test::Server->new(
-    port     => 8080,
+    port     => $port,
     user     => 'test',
     realm    => 'test',
     password => 'test',
@@ -108,7 +109,7 @@ $server->stop();
 
 # trusted certificate, alternate hostname
 $server = FusionInventory::Test::Server->new(
-    port     => 8080,
+    port     => $port,
     user     => 'test',
     realm    => 'test',
     password => 'test',
@@ -138,7 +139,7 @@ SKIP: {
         unless gethostbyname('localhost.localdomain');
 
     $server = FusionInventory::Test::Server->new(
-        port     => 8080,
+        port     => $port,
         user     => 'test',
         realm    => 'test',
         password => 'test',
@@ -153,7 +154,7 @@ SKIP: {
 
     ok(
         $secure_client->request(
-            HTTP::Request->new(GET => 'https://localhost.localdomain:8080/public')
+            HTTP::Request->new(GET => "https://localhost.localdomain:$port/public")
         )->is_success(),
         'trusted certificate, joker: connection success'
     );
@@ -163,7 +164,7 @@ SKIP: {
 
 # trusted certificate, wrong hostname
 $server = FusionInventory::Test::Server->new(
-    port     => 8080,
+    port     => $port,
     user     => 'test',
     realm    => 'test',
     password => 'test',
@@ -190,7 +191,7 @@ $server->stop();
 
 # untrusted certificate, correct hostname
 $server = FusionInventory::Test::Server->new(
-    port     => 8080,
+    port     => $port,
     user     => 'test',
     realm    => 'test',
     password => 'test',
