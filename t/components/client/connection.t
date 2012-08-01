@@ -121,8 +121,8 @@ $server = FusionInventory::Test::Server->new(
     realm    => 'test',
     password => 'test',
     ssl      => 1,
-    crt      => 't/ssl/crt/good.pem',
-    key      => 't/ssl/key/good.pem',
+    crt      => 'resources/ssl/crt/good.pem',
+    key      => 'resources/ssl/key/good.pem',
 );
 $server->set_dispatch({
     '/public'  => $ok,
@@ -179,7 +179,7 @@ subtest "correct response" => sub {
 lives_ok {
     $client = FusionInventory::Agent::HTTP::Client->new(
         logger       => $logger,
-        ca_cert_file => 't/ssl/crt/ca.pem',
+        ca_cert_file => 'resources/ssl/crt/ca.pem',
     );
 } 'instanciation: https';
 
@@ -193,7 +193,7 @@ subtest "correct response" => sub {
 lives_ok {
     $client = FusionInventory::Agent::HTTP::Client->new(
         logger       => $logger,
-        ca_cert_file => 't/ssl/crt/ca.pem',
+        ca_cert_file => 'resources/ssl/crt/ca.pem',
     );
 } 'instanciation: https, auth, no credentials';
 
@@ -211,7 +211,7 @@ lives_ok {
         user         => 'test',
         password     => 'test',
         logger       => $logger,
-        ca_cert_file => 't/ssl/crt/ca.pem',
+        ca_cert_file => 'resources/ssl/crt/ca.pem',
     );
 } 'instanciation: https, auth, credentials';
 
@@ -308,8 +308,8 @@ $server = FusionInventory::Test::Server->new(
     realm    => 'test',
     password => 'test',
     ssl      => 1,
-    crt      => 't/ssl/crt/good.pem',
-    key      => 't/ssl/key/good.pem',
+    crt      => 'resources/ssl/crt/good.pem',
+    key      => 'resources/ssl/key/good.pem',
 );
 $server->set_dispatch({
     '/public'  => sub { return $ok->(@_) if $ENV{HTTP_X_FORWARDED_FOR}; },
@@ -369,7 +369,7 @@ subtest "correct response" => sub {
 lives_ok {
     $client = FusionInventory::Agent::HTTP::Client->new(
         logger       => $logger,
-        ca_cert_file => 't/ssl/crt/ca.pem',
+        ca_cert_file => 'resources/ssl/crt/ca.pem',
         proxy        => $proxy->url(),
     );
 } 'instanciation: https, proxy';
@@ -384,7 +384,7 @@ subtest "correct response" => sub {
 lives_ok {
     $client = FusionInventory::Agent::HTTP::Client->new(
         logger       => $logger,
-        ca_cert_file => 't/ssl/crt/ca.pem',
+        ca_cert_file => 'resources/ssl/crt/ca.pem',
         proxy        => $proxy->url()
     );
 } 'instanciation: https, proxy, auth, no credentials';
@@ -403,7 +403,7 @@ lives_ok {
         user         => 'test',
         password     => 'test',
         logger       => $logger,
-        ca_cert_file => 't/ssl/crt/ca.pem',
+        ca_cert_file => 'resources/ssl/crt/ca.pem',
         proxy        => $proxy->url()
     );
 } 'instanciation: https, proxy, auth, credentials';
