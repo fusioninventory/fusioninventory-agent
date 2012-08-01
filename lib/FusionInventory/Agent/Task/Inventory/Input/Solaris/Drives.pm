@@ -37,7 +37,13 @@ sub doInventory {
         # get all file systems
         getFilesystemsFromDf(logger => $logger, command => _getDfCmd());
 
-    # get additional informations
+    # get indexed list of ZFS filesystems
+    my %zfs_filesystems =
+        map { $_ => 1 }
+        map { (split(/\s+/, $_))[0] }
+        getAllLines(command => 'zfs list -H');
+
+    # set filesystem type, using fstyp if needed
     foreach my $filesystem (@filesystems) {
 
         if ($filesystem->{VOLUMN} eq 'swap') {
@@ -45,20 +51,14 @@ sub doInventory {
             next;
         }
 
-        # use -H to exclude headers
-        my $zfs_line = getFirstLine(
-            command => "zfs get -H creation $filesystem->{VOLUMN}"
-        );
-        if ($zfs_line && $zfs_line =~ /creation\s+(\S.*\S+)\s*-/) {
+        if ($zfs_filesystems{$filesystem->{VOLUMN}}) {
             $filesystem->{FILESYSTEM} = 'zfs';
             next;
         }
 
-        # call fstype, and set filesystem type unless the output matches
-        # erroneous result
-        my $fstyp_line = getFirstLine(command => "fstyp $filesystem->{VOLUMN}");
-        if ($fstyp_line && $fstyp_line !~ /^fstyp/) {
-            $filesystem->{FILESYSTEM} = $fstyp_line;
+        my $type = getFirstLine(command => "fstyp $filesystem->{VOLUMN}");
+        if ($type && $type !~ /^fstyp/) {
+            $filesystem->{FILESYSTEM} = $type;
         }
     }
 
