@@ -10,18 +10,6 @@ sub isEnabled {
     return canRun('df');
 }
 
-sub _getDfCmd {
-    my $line = getFirstLine(
-        command => "df --version"
-    );
-
-# df --help is on STDERR on some system
-# so $line is undef
-    return ($line && $line =~ /GNU/) ?
-        "df -P -k" :
-        "df -k";
-}
-
 sub doInventory {
     my (%params) = @_;
 
@@ -29,14 +17,17 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # get filesystems list
+    my $line = getFirstLine(command => "df --version");
+    # df --help is on STDERR on some system, so $line may be undef
+    my $command = $line && $line =~ /GNU/ ? "df -P -k" : "df -k";
+
     my @filesystems =
         # exclude solaris 10 specific devices
         grep { $_->{VOLUMN} !~ /^\/(devices|platform)/ } 
         # exclude cdrom mount
         grep { $_->{TYPE} !~ /cdrom/ } 
         # get all file systems
-        getFilesystemsFromDf(logger => $logger, command => _getDfCmd());
-
+        getFilesystemsFromDf(logger => $logger, command => $command);
 
     # get indexed list of ZFS filesystems
     my %zfs_filesystems =
