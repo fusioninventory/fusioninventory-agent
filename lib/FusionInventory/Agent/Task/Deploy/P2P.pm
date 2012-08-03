@@ -87,7 +87,7 @@ sub fisher_yates_shuffle {
 sub _parseWin32Route {
     my @addresses;
     foreach (@_) {
-        if (/\s+(255\.255\.\d{1,3}\.\d{1,3})\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s+\d+$/x) {
+        if (/\s+(255\.255\.\d{1,3}\.\d{1,3})\s+\S+\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/x) {
             my $mask = $1;
             my $ip = $2;
 
