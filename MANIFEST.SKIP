@@ -7,3 +7,4 @@ Makefile.old$
 MANIFEST.*
 pm_to_blib
 FusionInventory-Agent-Task-Deploy-.*
+tmp*
