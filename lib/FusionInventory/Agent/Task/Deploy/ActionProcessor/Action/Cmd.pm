@@ -61,7 +61,7 @@ sub runOnUnix {
 }
 
 sub runOnWindows {
-    my ($params, $logger) = @_;
+    my ($params) = @_;
 
     FusionInventory::Agent::Tools::Win32->require;
 
