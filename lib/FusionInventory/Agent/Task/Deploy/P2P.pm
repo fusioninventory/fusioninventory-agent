@@ -8,6 +8,8 @@ use HTTP::Request::Common qw(GET);
 use Net::IP;
 use POE qw(Component::Client::TCP Component::Client::Ping);
 
+use FusionInventory::Agent::Task::Inventory::Input::Win32::Networks;
+
 # POE Debug
 #sub POE::Kernel::TRACE_REFCNT () { 1 }
 
@@ -84,25 +86,6 @@ sub fisher_yates_shuffle {
     }
 }
 
-sub _parseWin32Route {
-    my @addresses;
-    foreach (@_) {
-        if (/\s+(255\.255\.\d{1,3}\.\d{1,3})\s+\S+\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/x) {
-            my $mask = $1;
-            my $ip = $2;
-
-            next if $mask =~ /255$/;
-
-            push @addresses, {
-                ip   => $ip,
-                mask => $mask
-            };
-        }
-    }
-
-    return @addresses;
-}
-
 sub findPeer {
     my ( $port, $logger ) = @_;
 
@@ -126,7 +109,16 @@ sub findPeer {
         FusionInventory::Agent::Tools::Linux::getInterfacesFromIfconfig();
 
     } elsif ($OSNAME eq 'MSWin32') {
-        @addresses = _parseWin32Route(`route print`);
+        my @interfaces = FusionInventory::Agent::Task::Inventory::Input::Win32::Networks::_getInterfaces();
+        foreach my $interface (@interfaces) {
+            #if interface has both ip and netmask setup then push the address
+            if ( $interface->{IPADDRESS} && $interface->{IPMASK} ) {
+                push @addresses, {
+                            ip   => $interface->{IPADDRESS},
+                            mask => $interface->{IPMASK}
+                        };
+            }
+        }
     }
 
     if (!@addresses) {
