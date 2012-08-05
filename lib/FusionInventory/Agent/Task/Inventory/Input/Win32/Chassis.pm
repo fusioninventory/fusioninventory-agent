@@ -52,8 +52,8 @@ sub doInventory {
     return unless $enclosure;
 
     my $chassisTypeId = $enclosure->ChassisTypes->[0];
-    $inventory->setBios({
-        TYPE => $chassisType[$chassisTypeId]
+    $inventory->setHardware({
+        CHASSIS_TYPE => $chassisType[$chassisTypeId]
     });
 }
 
