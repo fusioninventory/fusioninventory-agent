@@ -355,6 +355,9 @@ sub computeChecksum {
                     $self->{last_state_file}
                 );
             }
+            if (ref($self->{last_state_content}) ne 'HASH') {
+                $self->{last_state_file} = {};
+            }
         } else {
             $logger->debug(
                 "last state file '$self->{last_state_file}' doesn't exist"
