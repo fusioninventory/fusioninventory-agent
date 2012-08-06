@@ -17,11 +17,10 @@ sub doInventory {
     my $inventory = $params{inventory};
 
     # Swap
-    my $swapSize;
-    my @bsd_swapctl = `swapctl -sk`;
-    foreach (@bsd_swapctl) {
-        $swapSize = $1 if /total:\s*(\d+)/i;
-    }
+    my $swapSize = getFirstMatch(
+        command => 'swapctl -sk',
+        pattern => qr/total:\s*(\d+)/i
+    );
 
     # RAM
     my $memorySize = getFirstLine(command => 'sysctl -n hw.physmem');

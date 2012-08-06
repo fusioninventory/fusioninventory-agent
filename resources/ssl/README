@@ -1,0 +1,5 @@
+Certificate creation:
+openssl req -new -keyout key/foo.pem -out foo.csr -config cnf/foo.cnf
+
+Certificate signature:
+openssl ca -config cnf/ca.cnf -in foo.csr -out crt/foo.pem
