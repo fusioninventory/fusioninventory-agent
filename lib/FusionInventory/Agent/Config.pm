@@ -15,6 +15,8 @@ my $default = {
     'backend-collect-timeout' => 30,
     'httpd-port'              => 62354,
     'timeout'                 => 180,
+    'no-task'                 => [],
+    'no-category'             => []
 };
 
 my $deprecated = {
@@ -244,10 +246,8 @@ sub _checkContent {
     # multi-values options
     $self->{logger} = [ split(/,/, $self->{logger}) ] if $self->{logger};
     $self->{server} = [ split(/,/, $self->{server}) ] if $self->{server};
-    $self->{'no-task'} = [ split(/,/, $self->{'no-task'}) ]
-        if $self->{'no-task'};
-    $self->{'no-category'} = [ split(/,/, $self->{'no-category'}) ]
-        if $self->{'no-category'};
+    $self->{'no-task'} = [ split(/,/, $self->{'no-task'}) ];
+    $self->{'no-category'} = [ split(/,/, $self->{'no-category'}) ];
 
     # files location
     $self->{'ca-cert-file'} =
