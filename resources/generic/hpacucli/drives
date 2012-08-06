@@ -1,0 +1,6 @@
+Smart Array E200 in Slot 2
+
+  array A
+
+     physicaldrive 2I:1:1 (port 2I:box 1:bay 1, SATA, 74.3 GB, OK)
+     physicaldrive 2I:1:2 (port 2I:box 1:bay 2, SATA, 74.3 GB, OK)
