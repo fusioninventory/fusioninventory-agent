@@ -1,0 +1,3 @@
+slots: hpacucli ctrl all show
+drives: hpacucli ctrl slot=2 pd all show
+storage: hpacucli ctrl slot=2 pd 2I:1:1 show

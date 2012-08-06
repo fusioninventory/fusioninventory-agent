@@ -1,0 +1,17 @@
+Smart Array E200 in Slot 2
+
+  array A
+
+     physicaldrive 1:1
+        Port: 2I
+        Box: 1
+        Bay: 1
+        Status: OK
+        Drive Type: Data Drive
+        Interface Type: SATA
+        Size: 74.3 GB
+        Firmware Revision: 21.07QR4
+        Serial Number:      WD-WMANS1732855
+        Model: ATA     WDC WD740ADFD-00
+        SATA NCQ Capable: False
+        PHY Count: 1
