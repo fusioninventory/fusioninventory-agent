@@ -41,7 +41,7 @@ sub getDevicesFromUdev {
     }
 
     foreach my $device (@devices) {
-        next if $device->{TYPE} eq 'cd';
+        next if $device->{TYPE} && $device->{TYPE} eq 'cd';
         $device->{DISKSIZE} = getDeviceCapacity(device => '/dev/' . $device->{NAME})
     }
 

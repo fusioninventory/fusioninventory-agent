@@ -122,7 +122,7 @@ sub doInventory {
                 $model = $1 if $line3 =~ /Model:\s(.*)/;
                 $description = $1 if $line3 =~ /Interface Type:\s(.*)/;
                 $media = $1 if $line3 =~ /Drive Type:\s(.*)/;
-                $capacity = 1000*$1 if $line3 =~ /Size:\s(.*)/;
+                $capacity = 1000*$1 if $line3 =~ /Size:\s(\S*)/;
                 $serialnumber = $1 if $line3 =~ /Serial Number:\s(.*)/;
                 $firmware = $1 if $line3 =~ /Firmware Revision:\s(.*)/;
             }
