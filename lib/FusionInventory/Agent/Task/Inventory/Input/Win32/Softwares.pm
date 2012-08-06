@@ -201,11 +201,12 @@ sub _getSoftwares {
     return unless $softwares;
 
     foreach my $rawGuid (keys %$softwares) {
-        my $data = $softwares->{$rawGuid};
+        # only keep subkeys
+        next unless $rawGuid =~ m{/$};
 
-        next unless $data;
-        # reject registry entries with less than 2 keys
-        next if keys %$data < 2;
+        # only keep subkeys with more than 1 value
+        my $data = $softwares->{$rawGuid};
+        next unless keys %$data > 1;
 
         my $guid = $rawGuid;
         $guid =~ s/\/$//; # drop the tailing /
