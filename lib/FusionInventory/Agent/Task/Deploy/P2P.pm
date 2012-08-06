@@ -8,7 +8,7 @@ use HTTP::Request::Common qw(GET);
 use Net::IP;
 use POE qw(Component::Client::TCP Component::Client::Ping);
 
-use FusionInventory::Agent::Task::Inventory::Input::Win32::Networks;
+use UNIVERSAL::require;
 
 # POE Debug
 #sub POE::Kernel::TRACE_REFCNT () { 1 }
@@ -109,6 +109,7 @@ sub findPeer {
         FusionInventory::Agent::Tools::Linux::getInterfacesFromIfconfig();
 
     } elsif ($OSNAME eq 'MSWin32') {
+        FusionInventory::Agent::Task::Inventory::Input::Win32::Networks->require();
         my @interfaces = FusionInventory::Agent::Task::Inventory::Input::Win32::Networks::_getInterfaces();
         foreach my $interface (@interfaces) {
             #if interface has both ip and netmask setup then push the address
