@@ -35,6 +35,7 @@ if ($OSNAME ne 'MSWin32') {
 } else {
     requires 'Win32::OLE' => undef;
     requires 'Win32::TieRegistry' => undef;
+    requires 'Win32::Job' => undef;
 }
 
 # test dependencies
