@@ -69,7 +69,8 @@ sub getDmidecodeInfos {
     }
     close $handle;
 
-    return if 2 > keys %$info;
+    # do not return anything if dmidecode output is obviously truncated
+    return if keys %$info < 2;
 
     return $info;
 }
