@@ -205,7 +205,7 @@ sub _getSoftwares {
 
         next unless $data;
 
-        eval { die unless keys (%$data) > 2 };
+        eval { die unless keys (%$data) > 1 };
         next if $EVAL_ERROR;
 
         my $guid = $rawGuid;
