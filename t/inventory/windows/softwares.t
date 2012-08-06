@@ -650,6 +650,23 @@ my %tests = (
                 USERNAME         => undef
             },
             {
+                PUBLISHER        => undef,
+                NAME             => 'Iceows V4.20a',
+                VERSION_MINOR    => undef,
+                COMMENTS         => undef,
+                INSTALLDATE      => undef,
+                NO_REMOVE        => undef,
+                GUID             => 'ICEOWS',
+                FROM             => 'registry',
+                RELEASE_TYPE     => undef,
+                HELPLINK         => undef,
+                URL_INFO_ABOUT   => undef,
+                VERSION_MAJOR    => undef,
+                VERSION          => undef,
+                UNINSTALL_STRING => 'C:\\\\Program Files\\\\ICEOWS\\\\Setup.exe /uninstall',
+                ARCH             => 'i586'
+            },
+            {
                 PUBLISHER        => 'Microsoft Corporation',
                 NAME             => 'Microsoft .NET Framework 3.5 SP1',
                 VERSION_MINOR    => undef,
@@ -1296,6 +1313,23 @@ my %tests = (
                 USERNAME         => undef
             },
             {
+                PUBLISHER        => undef,
+                NAME             => 'GPL Ghostscript 8.54',
+                VERSION_MINOR    => undef,
+                COMMENTS         => undef,
+                INSTALLDATE      => undef,
+                NO_REMOVE        => undef,
+                GUID             => 'GPL Ghostscript 8.54',
+                FROM             => 'registry',
+                RELEASE_TYPE     => undef,
+                HELPLINK         => undef,
+                URL_INFO_ABOUT   => undef,
+                VERSION_MAJOR    => undef,
+                VERSION          => undef,
+                UNINSTALL_STRING => 'C:\\\\gs\\\\uninstgs.exe \\',
+                ARCH             => 'i586'
+            },
+            {
                 PUBLISHER        => 'Sun Microsystems, Inc.',
                 NAME             => 'Java Auto Updater',
                 VERSION_MINOR    => undef,
@@ -1579,6 +1613,23 @@ my %tests = (
                 ARCH             => 'i586',
                 USERID           => undef,
                 USERNAME         => undef
+            },
+            {
+                PUBLISHER        => undef,
+                NAME             => 'PCHealth',
+                VERSION_MINOR    => undef,
+                COMMENTS         => undef,
+                INSTALLDATE      => undef,
+                NO_REMOVE        => undef,
+                GUID             => 'PCHealth',
+                FROM             => 'registry',
+                RELEASE_TYPE     => undef,
+                HELPLINK         => undef,
+                URL_INFO_ABOUT   => undef,
+                VERSION_MAJOR    => undef,
+                VERSION          => undef,
+                UNINSTALL_STRING => 'rundll32.exe setupapi.dll,InstallHinfSection DefaultUninstall 132 C:\\\\WINDOWS\\\\INF\\\\PCHealth.inf',
+                ARCH             => 'i586'
             },
             {
                 PUBLISHER        => 'ScriptLogic Corporation',
@@ -2721,6 +2772,40 @@ my %tests = (
                 USERNAME         => undef
             },
             {
+                PUBLISHER        => undef,
+                NAME             => 'FF&TB 1.5 + Plugins1',
+                VERSION_MINOR    => undef,
+                COMMENTS         => undef,
+                INSTALLDATE      => undef,
+                NO_REMOVE        => undef,
+                GUID             => 'FF&TB 1.5 + Plugins1',
+                FROM             => 'registry',
+                RELEASE_TYPE     => undef,
+                HELPLINK         => undef,
+                URL_INFO_ABOUT   => undef,
+                VERSION_MAJOR    => undef,
+                VERSION          => undef,
+                UNINSTALL_STRING => 'C:\\\\DOCUME~1\\\\ALLUSE~1\\\\APPLIC~1\\\\Symantec\\\\Ghost\\\\AUTOIN~1\\\\INSTAL~1\\\\~0000.exe cfg=\\',
+                ARCH             => 'i586'
+            },
+            {
+                PUBLISHER        => undef,
+                NAME             => 'NLSDownlevelMapping',
+                VERSION_MINOR    => undef,
+                COMMENTS         => undef,
+                INSTALLDATE      => undef,
+                NO_REMOVE        => undef,
+                GUID             => 'NLSDownlevelMapping',
+                FROM             => 'registry',
+                RELEASE_TYPE     => undef,
+                HELPLINK         => undef,
+                URL_INFO_ABOUT   => undef,
+                VERSION_MAJOR    => undef,
+                VERSION          => undef,
+                UNINSTALL_STRING => undef,
+                ARCH             => 'i586'
+            },
+            {
                 PUBLISHER        => 'Microsoft Corporation',
                 NAME             => 'Hotfix for Windows XP (KB976098-v2)',
                 VERSION_MINOR    => undef,
@@ -2890,6 +2975,23 @@ my %tests = (
                 ARCH             => 'i586',
                 USERID           => undef,
                 USERNAME         => undef
+            },
+            {
+                PUBLISHER        => undef,
+                NAME             => 'GPL Ghostscript Fonts',
+                VERSION_MINOR    => undef,
+                COMMENTS         => undef,
+                INSTALLDATE      => undef,
+                NO_REMOVE        => undef,
+                GUID             => 'GPL Ghostscript Fonts',
+                FROM             => 'registry',
+                RELEASE_TYPE     => undef,
+                HELPLINK         => undef,
+                URL_INFO_ABOUT   => undef,
+                VERSION_MAJOR    => undef,
+                VERSION          => undef,
+                UNINSTALL_STRING => 'C:\\\\gs\\\\uninstgs.exe \\',
+                ARCH             => 'i586'
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3289,6 +3391,23 @@ my %tests = (
                 ARCH             => 'i586',
                 USERID           => undef,
                 USERNAME         => undef
+            },
+                        {
+                PUBLISHER        => undef,
+                NAME             => 'Branding',
+                VERSION_MINOR    => undef,
+                COMMENTS         => undef,
+                INSTALLDATE      => undef,
+                NO_REMOVE        => undef,
+                GUID             => 'Branding',
+                FROM             => 'registry',
+                RELEASE_TYPE     => undef,
+                HELPLINK         => undef,
+                URL_INFO_ABOUT   => undef,
+                VERSION_MAJOR    => undef,
+                VERSION          => undef,
+                UNINSTALL_STRING => undef,
+                ARCH             => 'i586'
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -5438,6 +5557,23 @@ my %tests = (
                 USERNAME         => undef
             },
             {
+                PUBLISHER        => undef,
+                NAME             => 'GSview 4.8',
+                VERSION_MINOR    => undef,
+                COMMENTS         => undef,
+                INSTALLDATE      => undef,
+                NO_REMOVE        => undef,
+                GUID             => 'GSview 4.8',
+                FROM             => 'registry',
+                RELEASE_TYPE     => undef,
+                HELPLINK         => undef,
+                URL_INFO_ABOUT   => undef,
+                VERSION_MAJOR    => undef,
+                VERSION          => undef,
+                UNINSTALL_STRING => 'C:\\\\Program Files\\\\Ghostgum\\\\gsview\\\\uninstgs.exe \\',
+                ARCH             => 'i586'
+            },
+            {
                 PUBLISHER        => 'Microsoft Corporation',
                 NAME             => 'Security Update for Windows XP (KB969897)',
                 VERSION_MINOR    => undef,
@@ -5664,6 +5800,23 @@ my %tests = (
                 ARCH             => 'i586',
                 USERID           => undef,
                 USERNAME         => undef
+            },
+            {
+                PUBLISHER        => undef,
+                NAME             => 'ie7',
+                VERSION_MINOR    => undef,
+                COMMENTS         => undef,
+                INSTALLDATE      => undef,
+                NO_REMOVE        => undef,
+                GUID             => 'ie7',
+                FROM             => 'registry',
+                RELEASE_TYPE     => undef,
+                HELPLINK         => undef,
+                URL_INFO_ABOUT   => undef,
+                VERSION_MAJOR    => undef,
+                VERSION          => undef,
+                UNINSTALL_STRING => undef,
+                ARCH             => 'i586'
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -7395,6 +7548,23 @@ my %tests = (
                 USERNAME         => undef
             },
             {
+                PUBLISHER        => undef,
+                NAME             => 'IDNMitigationAPIs',
+                VERSION_MINOR    => undef,
+                COMMENTS         => undef,
+                INSTALLDATE      => undef,
+                NO_REMOVE        => undef,
+                GUID             => 'IDNMitigationAPIs',
+                FROM             => 'registry',
+                RELEASE_TYPE     => undef,
+                HELPLINK         => undef,
+                URL_INFO_ABOUT   => undef,
+                VERSION_MAJOR    => undef,
+                VERSION          => undef,
+                UNINSTALL_STRING => undef,
+                ARCH             => 'i586'
+            },
+            {
                 PUBLISHER        => 'Microsoft Corporation',
                 NAME             => 'Security Update for Windows XP (KB2476687)',
                 VERSION_MINOR    => undef,
@@ -7907,7 +8077,7 @@ my %tests = (
                 USERID           => undef,
                 USERNAME         => undef
             }
-        ]
+        ],
     },
     wmi => {
         xp => {
