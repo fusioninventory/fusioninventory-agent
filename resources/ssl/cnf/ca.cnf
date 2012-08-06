@@ -21,7 +21,7 @@ authorityKeyIdentifier = keyid:always,issuer:always
 default_ca      = default_ca
 
 [ default_ca ]
-dir             = t/ssl
+dir             = .
 certificate     = $dir/crt/ca.pem
 private_key     = $dir/key/ca.pem
 certs           = $dir/crt              # Where the issued certs are kept
@@ -31,7 +31,7 @@ database        = $dir/index.txt        # database index file.
 new_certs_dir   = $dir/new              # default place for new certs.
 crl_dir         = $dir/crl              # Where the issued crl are kept
 
-default_days    = 730                   # how long to certify for
+default_days    = 3650                  # how long to certify for
 default_crl_days= 30                    # how long before next CRL
 default_md      = md5                   # which md to use.
 preserve        = no                    # keep passed DN ordering

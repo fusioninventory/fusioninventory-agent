@@ -10,18 +10,6 @@ sub isEnabled {
     return canRun('df');
 }
 
-sub _getDfCmd {
-    my $line = getFirstLine(
-        command => "df --version"
-    );
-
-# df --help is on STDERR on some system
-# so $line is undef
-    return ($line && $line =~ /GNU/) ?
-        "df -P -k" :
-        "df -k";
-}
-
 sub doInventory {
     my (%params) = @_;
 
@@ -29,15 +17,25 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # get filesystems list
+    my $line = getFirstLine(command => "df --version");
+    # df --help is on STDERR on some system, so $line may be undef
+    my $command = $line && $line =~ /GNU/ ? "df -P -k" : "df -k";
+
     my @filesystems =
         # exclude solaris 10 specific devices
         grep { $_->{VOLUMN} !~ /^\/(devices|platform)/ } 
         # exclude cdrom mount
         grep { $_->{TYPE} !~ /cdrom/ } 
         # get all file systems
-        getFilesystemsFromDf(logger => $logger, command => _getDfCmd());
+        getFilesystemsFromDf(logger => $logger, command => $command);
 
-    # get additional informations
+    # get indexed list of ZFS filesystems
+    my %zfs_filesystems =
+        map { $_ => 1 }
+        map { (split(/\s+/, $_))[0] }
+        getAllLines(command => 'zfs list -H');
+
+    # set filesystem type, using fstyp if needed
     foreach my $filesystem (@filesystems) {
 
         if ($filesystem->{VOLUMN} eq 'swap') {
@@ -45,20 +43,14 @@ sub doInventory {
             next;
         }
 
-        # use -H to exclude headers
-        my $zfs_line = getFirstLine(
-            command => "zfs get -H creation $filesystem->{VOLUMN}"
-        );
-        if ($zfs_line && $zfs_line =~ /creation\s+(\S.*\S+)\s*-/) {
+        if ($zfs_filesystems{$filesystem->{VOLUMN}}) {
             $filesystem->{FILESYSTEM} = 'zfs';
             next;
         }
 
-        # call fstype, and set filesystem type unless the output matches
-        # erroneous result
-        my $fstyp_line = getFirstLine(command => "fstyp $filesystem->{VOLUMN}");
-        if ($fstyp_line && $fstyp_line !~ /^fstyp/) {
-            $filesystem->{FILESYSTEM} = $fstyp_line;
+        my $type = getFirstLine(command => "fstyp $filesystem->{VOLUMN}");
+        if ($type && $type !~ /^fstyp/) {
+            $filesystem->{FILESYSTEM} = $type;
         }
     }
 

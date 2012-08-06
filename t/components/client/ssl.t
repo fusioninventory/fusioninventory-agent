@@ -5,6 +5,7 @@ use warnings;
 use lib 't';
 
 use English qw(-no_match_vars);
+use List::Util qw(first);
 use Test::More;
 use Test::Exception;
 
@@ -13,16 +14,16 @@ use FusionInventory::Agent::HTTP::Client;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
 
-# check than test port is available
-my $port_ok = test_port(8080);
+# find an available port
+my $port = first { test_port($_) } 8080 .. 8090;
 
-# check than 'localhost' resolves to an IPv4 address only
+# check than localhost resolves correctly
 my $localhost_ok = test_localhost();
 
-if (!$port_ok) {
-    plan skip_all => 'test port unavailable';
+if (!$port) {
+    plan skip_all => 'no available port';
 } elsif (!$localhost_ok) {
-    plan skip_all => 'IPv6 localhost resolution';
+    plan skip_all => 'localhost resolution failure';
 } elsif ($OSNAME eq 'MSWin32') {
     plan skip_all => 'non working test on Windows';
 } elsif ($OSNAME eq 'darwin') {
@@ -44,19 +45,19 @@ my $logger = FusionInventory::Agent::Logger->new(
 );
 
 my $server;
-my $url = 'https://localhost:8080/public';
+my $url = "https://localhost:$port/public";
 my $unsafe_client = FusionInventory::Agent::HTTP::Client->new(
     logger       => $logger,
     no_ssl_check => 1,
 );
 my $secure_client = FusionInventory::Agent::HTTP::Client->new(
     logger       => $logger,
-    ca_cert_file => 't/ssl/crt/ca.pem',
+    ca_cert_file => 'resources/ssl/crt/ca.pem',
 );
 
 my $secure_sha256_client = FusionInventory::Agent::HTTP::Client->new(
     logger       => $logger,
-    ca_cert_file => 't/ssl/crt/ca.pem',
+    ca_cert_file => 'resources/ssl/crt/ca.pem',
 );
 
 # ensure the server get stopped even if an exception is thrown
@@ -64,13 +65,10 @@ $SIG{__DIE__}  = sub { $server->stop(); };
 
 # trusted certificate, correct hostname
 $server = FusionInventory::Test::Server->new(
-    port     => 8080,
-    user     => 'test',
-    realm    => 'test',
-    password => 'test',
+    port     => $port,
     ssl      => 1,
-    crt      => 't/ssl/crt/good.pem',
-    key      => 't/ssl/key/good.pem',
+    crt      => 'resources/ssl/crt/good.pem',
+    key      => 'resources/ssl/key/good.pem',
 );
 $server->set_dispatch({
     '/public'  => $ok,
@@ -86,13 +84,10 @@ $server->stop();
 
 # trusted sha256 certificate, correct hostname
 $server = FusionInventory::Test::Server->new(
-    port     => 8080,
-    user     => 'test',
-    realm    => 'test',
-    password => 'test',
+    port     => $port,
     ssl      => 1,
-    crt      => 't/ssl/crt/good-sha256.pem',
-    key      => 't/ssl/key/good-sha256.pem',
+    crt      => 'resources/ssl/crt/good-sha256.pem',
+    key      => 'resources/ssl/key/good-sha256.pem',
 );
 $server->set_dispatch({
     '/public'  => $ok,
@@ -108,13 +103,10 @@ $server->stop();
 
 # trusted certificate, alternate hostname
 $server = FusionInventory::Test::Server->new(
-    port     => 8080,
-    user     => 'test',
-    realm    => 'test',
-    password => 'test',
+    port     => $port,
     ssl      => 1,
-    crt      => 't/ssl/crt/alternate.pem',
-    key      => 't/ssl/key/alternate.pem',
+    crt      => 'resources/ssl/crt/alternate.pem',
+    key      => 'resources/ssl/key/alternate.pem',
 );
 $server->set_dispatch({
     '/public'  => $ok,
@@ -138,13 +130,10 @@ SKIP: {
         unless gethostbyname('localhost.localdomain');
 
     $server = FusionInventory::Test::Server->new(
-        port     => 8080,
-        user     => 'test',
-        realm    => 'test',
-        password => 'test',
+        port     => $port,
         ssl      => 1,
-        crt      => 't/ssl/crt/joker.pem',
-        key      => 't/ssl/key/joker.pem',
+        crt      => 'resources/ssl/crt/joker.pem',
+        key      => 'resources/ssl/key/joker.pem',
     );
     $server->set_dispatch({
         '/public'  => $ok,
@@ -153,7 +142,7 @@ SKIP: {
 
     ok(
         $secure_client->request(
-            HTTP::Request->new(GET => 'https://localhost.localdomain:8080/public')
+            HTTP::Request->new(GET => "https://localhost.localdomain:$port/public")
         )->is_success(),
         'trusted certificate, joker: connection success'
     );
@@ -163,13 +152,10 @@ SKIP: {
 
 # trusted certificate, wrong hostname
 $server = FusionInventory::Test::Server->new(
-    port     => 8080,
-    user     => 'test',
-    realm    => 'test',
-    password => 'test',
+    port     => $port,
     ssl      => 1,
-    crt      => 't/ssl/crt/wrong.pem',
-    key      => 't/ssl/key/wrong.pem',
+    crt      => 'resources/ssl/crt/wrong.pem',
+    key      => 'resources/ssl/key/wrong.pem',
 );
 $server->set_dispatch({
     '/public'  => $ok,
@@ -190,13 +176,10 @@ $server->stop();
 
 # untrusted certificate, correct hostname
 $server = FusionInventory::Test::Server->new(
-    port     => 8080,
-    user     => 'test',
-    realm    => 'test',
-    password => 'test',
+    port     => $port,
     ssl      => 1,
-    crt      => 't/ssl/crt/bad.pem',
-    key      => 't/ssl/key/bad.pem',
+    crt      => 'resources/ssl/crt/bad.pem',
+    key      => 'resources/ssl/key/bad.pem',
 );
 $server->set_dispatch({
     '/public'  => $ok,
