@@ -204,9 +204,7 @@ sub _getSoftwares {
         my $data = $softwares->{$rawGuid};
 
         next unless $data;
-
-        eval { die unless keys (%$data) > 1 };
-        next if $EVAL_ERROR;
+        next unless keys %$data > 1;
 
         my $guid = $rawGuid;
         $guid =~ s/\/$//; # drop the tailing /
