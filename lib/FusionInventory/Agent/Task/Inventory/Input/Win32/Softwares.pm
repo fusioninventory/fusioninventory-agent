@@ -140,7 +140,8 @@ sub _getSoftwares {
         my $data = $softwares->{$rawGuid};
 
         next unless $data;
-        next unless keys %$data > 1;
+        # reject registry entries with less than 2 keys
+        next if keys %$data < 2;
 
         my $guid = $rawGuid;
         $guid =~ s/\/$//; # drop the tailing /
