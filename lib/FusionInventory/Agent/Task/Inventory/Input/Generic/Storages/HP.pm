@@ -82,7 +82,7 @@ sub _getSlots {
 
     my @slots;
     while (my $line = <$handle>) {
-        next unless $line =~ /Slot\s(\d*)/;
+        next unless $line =~ /Slot (\d+)/;
         push @slots, $1;
     }
     close $handle;
@@ -100,7 +100,7 @@ sub _getDrives {
 
     my @drives;
     while (my $line = <$handle>) {
-        next unless $line =~ /physicaldrive\s(\S*)/;
+        next unless $line =~ /physicaldrive (\S+)/;
         push @drives, $1;
     }
     close $handle;
@@ -118,38 +118,35 @@ sub _getStorage {
 
     my $storage;
     while (my $line = <$handle>) {
-        if ($line =~ /Model:\s(.*)/) {
+        if ($line =~ /Model: (.+)/) {
             my $model = $1;
-            $model =~ s/^ATA\s+//; # ex: ATA     WDC WD740ADFD-00
-            $model =~ s/\s+/ /;
+            $model =~ s/^ATA\s+//;
             $storage->{NAME}  = $model;
             $storage->{MODEL} = $model;
             next;
         }
 
-        if ($line =~ /Interface Type:\s(.*)/) {
+        if ($line =~ /Interface Type: (.+)/) {
             $storage->{DESCRIPTION} = $1;
             next;
         }
 
-        if ($line =~ /Drive Type:\s(.*)/) {
+        if ($line =~ /Drive Type: (.+)/) {
             $storage->{TYPE} = $1 eq 'Data Drive' ? 'disk' : $1;
             next;
         }
 
-        if ($line =~ /Size:\s(\S*)/) {
+        if ($line =~ /Size: (\S+)/) {
             $storage->{DISKSIZE} = 1000 * $1;
             next;
         }
 
-        if ($line =~ /Serial Number:\s(.*)/) {
-            my $serialnumber = $1;
-            $serialnumber =~ s/^\s+//;
-            $storage->{SERIALNUMBER} = $serialnumber;
+        if ($line =~ /Serial Number: +(\S+)/) {
+            $storage->{SERIALNUMBER} = $1;
             next;
         }
 
-        if ($line =~ /Firmware Revision:\s(.*)/) {
+        if ($line =~ /Firmware Revision: (.+)/) {
             $storage->{FIRMWARE} = $1;
             next;
         }
