@@ -54,6 +54,7 @@ sub _getLoggedUsers {
         next unless $line =~ /^(\S+)/;
         push @users, { LOGIN => $1 };
     }
+    close $handle;
 
     return @users;
 }
@@ -76,6 +77,7 @@ sub _getLocalUsers {
         next if $login eq 'nobody';
         push @users, { LOGIN => $login };
     }
+    close $handle;
 
     return @users;
 }
