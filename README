@@ -32,6 +32,7 @@ Additional optional perl modules:
 - HTTP::Daemon, for web interface
 - IO::Socket::SSL, for HTTPS support with certificate validation
 - Net::CUPS (v0.60 minimum), for printers detection 
+- Parse::EDID, for screen identification
 - Proc::Daemon, for daemon mode (Unix only)
 - Proc::PID::File, for daemon mode (Unix only)
 
@@ -270,8 +271,3 @@ url: http://micky.ibh.net/~liske/imvirt.html
 author: Thomas Liske <liske@ibh.de>
 copyright: 2008 IBH IT-Service GmbH [http://www.ibh.de/]
 License: GPLv2+
-
-FusionInventory::Agent::Tools::Screen contains code from monitor-edid:
-url: http://svn.mandriva.com/cgi-bin/viewvc.cgi/soft/monitor-edid
-copyright: 2005 Mandriva
-license: GPLv2+
