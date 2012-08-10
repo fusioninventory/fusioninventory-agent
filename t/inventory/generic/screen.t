@@ -322,13 +322,7 @@ plan tests => scalar keys %tests;
 
 foreach my $test (sort keys %tests) {
     my $file = "resources/generic/edid/$test";
-
-    my $handle;
-    next unless open $handle, '<', $file;
-    local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
-    my $edid = <$handle>;
-    close $handle;
-
+    my $edid = getAllLines(file => $file);
     my $info = FusionInventory::Agent::Task::Inventory::Input::Generic::Screen::_getEdidInfo($edid);
     is_deeply($info, $tests{$test}, $test);
 }
