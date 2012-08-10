@@ -237,7 +237,7 @@ sub _getScreensFromUnix {
 
     if (-d '/sys/devices') {
         my $wanted = sub {
-            return unless $File::Find::name =~ m{/edid$};
+            return unless $_ eq 'edid';
             open my $handle, '<', $File::Find::name;
             my $edid = <$handle>;
             close $handle;
