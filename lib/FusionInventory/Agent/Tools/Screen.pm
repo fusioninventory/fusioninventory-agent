@@ -450,7 +450,7 @@ sub parseEdid {
             while (length($v) >= 18) {
 		(my $pixel_clock, my $vv, $v) = unpack("v a16 a*", $v);
 		last if !$pixel_clock;
-		my $h = build_detailed_timing($pixel_clock, $vv);
+		my $h = _build_detailed_timing($pixel_clock, $vv);
 		push @{$edid{detailed_timings}}, $h
 		    if $h->{horizontal_active} > 1 && $h->{vertical_active} > 1;
 	    }
