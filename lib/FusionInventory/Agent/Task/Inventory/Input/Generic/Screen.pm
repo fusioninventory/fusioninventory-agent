@@ -238,6 +238,7 @@ sub _getScreensFromUnix {
     if (-d '/sys/devices') {
         my $wanted = sub {
             return unless $_ eq 'edid';
+            return unless -s $File::Find::name;
             my $edid = getAllLines(file => $File::Find::name);
             push @screens, { edid => $edid } if $edid;
         };
