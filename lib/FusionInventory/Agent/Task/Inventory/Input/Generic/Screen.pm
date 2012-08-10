@@ -164,8 +164,8 @@ sub _getScreensFromUnix {
     }
 
     my $edid =
-        getFirstLine(command => 'monitor-get-edid-using-vbe') ||
-        getFirstLine(command => 'monitor-get-edid');
+        getAllLines(command => 'monitor-get-edid-using-vbe') ||
+        getAllLines(command => 'monitor-get-edid');
     push @screens, { edid => $edid };
 
     return @screens if @screens;
