@@ -147,7 +147,7 @@ sub _getScreensFromUnix {
 
     my @screens;
 
-    if (-d '/sys') {
+    if (-d '/sys/devices') {
         my $wanted = sub {
             return unless $File::Find::name =~ m{/edid$};
             open my $handle, '<', $File::Find::name;
@@ -158,7 +158,7 @@ sub _getScreensFromUnix {
         };
 
         no warnings 'File::Find';
-        File::Find::find($wanted, '/sys');
+        File::Find::find($wanted, '/sys/devices');
 
         return @screens if @screens;
     }
