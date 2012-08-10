@@ -152,7 +152,8 @@ sub _getEdidInfo {
     my $info = {
         CAPTION      => $edid->{monitor_name},
         DESCRIPTION  => $edid->{week} . "/" . $edid->{year},
-        MANUFACTURER => $manufacturers{$edid->{manufacturer_name}}
+        MANUFACTURER => $manufacturers{$edid->{manufacturer_name}} ||
+                        $edid->{manufacturer_name}
     };
 
     # they are two different serial numbers in EDID

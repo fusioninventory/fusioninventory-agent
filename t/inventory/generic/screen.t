@@ -41,7 +41,7 @@ my %tests = (
         DESCRIPTION  => '10/1999'
     },
     'crt.emc0313' => {
-        MANUFACTURER => undef,
+        MANUFACTURER => 'EMC',
         CAPTION      => undef,
         SERIAL       => '0000198a',
         DESCRIPTION  => '21/2001'
@@ -83,7 +83,7 @@ my %tests = (
         DESCRIPTION  => '10/2004'
     },
     'crt.med2914' => {
-        MANUFACTURER => undef,
+        MANUFACTURER => 'MED',
         CAPTION      => undef,
         SERIAL       => '108371572',
         DESCRIPTION  => '8/2001'
@@ -137,7 +137,7 @@ my %tests = (
         DESCRIPTION  => '45/2004'
     },
     'lcd.acer-asp1680' => {
-        MANUFACTURER => undef,
+        MANUFACTURER => 'QDS',
         CAPTION      => undef,
         SERIAL       => '00000000',
         DESCRIPTION  => '51/2004'
@@ -161,13 +161,13 @@ my %tests = (
         DESCRIPTION  => '35/2004'
     },
     'lcd.cmc-17-AD' => {
-        MANUFACTURER => undef,
+        MANUFACTURER => 'CMO',
         CAPTION      => 'CMC 17" AD',
         SERIAL       => '0',
         DESCRIPTION  => '34/2004'
     },
     'lcd.compaq-evo-n1020v' => {
-        MANUFACTURER => undef,
+        MANUFACTURER => 'LGP',
         CAPTION      => undef,
         SERIAL       => '00000000',
         DESCRIPTION  => '0/1990'
@@ -185,31 +185,31 @@ my %tests = (
         DESCRIPTION  => '0/2005',
     },
     'lcd.Elonex-PR600' => {
-        MANUFACTURER => undef,
+        MANUFACTURER => 'CMO',
         CAPTION      => undef,
         SERIAL       => '00000000',
         DESCRIPTION  => '9/2006',
     },
     'lcd.gericom-cy-96' => {
-        MANUFACTURER => undef,
+        MANUFACTURER => 'PTS',
         CAPTION      => 'CY965',
         SERIAL       => 'F3AJ3A0019190',
         DESCRIPTION  => '41/2003',
     },
     'lcd.hp-nx-7000' => {
-        MANUFACTURER => undef,
+        MANUFACTURER => 'LGP',
         CAPTION      => undef,
         SERIAL       => '00000000',
         DESCRIPTION  => '0/2003',
     },
     'lcd.hp-nx-7010' => {
-        MANUFACTURER => undef,
+        MANUFACTURER => 'LGP',
         CAPTION      => undef,
         SERIAL       => '00000000',
         DESCRIPTION  => '0/2003',
     },
     'lcd.HP-Pavilion-ZV6000' => {
-        MANUFACTURER => undef,
+        MANUFACTURER => 'QDS',
         CAPTION      => undef,
         SERIAL       => '00000000',
         DESCRIPTION  => '51/2004',
@@ -251,7 +251,7 @@ my %tests = (
         DESCRIPTION  => '27/2004',
     },
     'lcd.regis' => {
-        MANUFACTURER => undef,
+        MANUFACTURER => 'ENC',
         CAPTION      => 'L557',
         SERIAL       => '82522083',
         DESCRIPTION  => '33/2003',
@@ -311,7 +311,7 @@ my %tests = (
         DESCRIPTION  => '44/2004'
     },
     'IMP2262' => {
-        MANUFACTURER => undef,
+        MANUFACTURER => 'IMP',
         CAPTION      => '*22W1*',
         SERIAL       => '74701944',
         DESCRIPTION  => '47/2007'
