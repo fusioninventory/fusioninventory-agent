@@ -96,6 +96,11 @@ my %manufacturers = (
     PDC => "Polaroid"
 );
 
+# list of models with unsuited constant ASCII serial numbers
+my %blacklist = (
+    ACRad49 => 1
+);
+
 sub isEnabled {
 
     return
@@ -112,34 +117,58 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    Parse::EDID->require();
-
     foreach my $screen (_getScreens($logger)) {
 
         if ($screen->{edid}) {
-            if ($INC{'Parse/Edid.pm'}) {
-                my $edid = Parse::EDID::parse_edid($screen->{edid});
-                if (my $err = Parse::EDID::check_parsed_edid($edid)) {
-                    $logger->debug("check failed: bad edid: $err");
-                } else {
-                    $screen->{CAPTION} =
-                        $edid->{monitor_name};
-                    $screen->{DESCRIPTION} =
-                        $edid->{week} . "/" . $edid->{year};
-                    $screen->{MANUFACTURER} =
-                        $manufacturers{$edid->{manufacturer_name}};
-                    $screen->{SERIAL} = $edid->{serial_number2}->[0];
-                }
-            }
+            my $info = _getEdidInfo($screen->{edid}, $logger);
+            $screen->{CAPTION}      = $info->{CAPTION};
+            $screen->{DESCRIPTION}  = $info->{DESCRIPTION};
+            $screen->{MANUFACTURER} = $info->{MANUFACTURER};
+            $screen->{SERIAL}       = $info->{SERIAL};
+
             $screen->{BASE64} = encode_base64($screen->{edid});
+            delete $screen->{edid};
         }
-        delete $screen->{edid};
 
         $inventory->addEntry(
             section => 'MONITORS',
             entry   => $screen
         );
     }
+}
+
+sub _getEdidInfo {
+    my ($raw_edid, $logger) = @_;
+
+    Parse::EDID->require();
+    return if $EVAL_ERROR;
+
+    my $edid = Parse::EDID::parse_edid($raw_edid);
+    if (my $error = Parse::EDID::check_parsed_edid($edid)) {
+        $logger->debug("bad edid: $error");
+        return;
+    }
+
+    my $info = {
+        CAPTION      => $edid->{monitor_name},
+        DESCRIPTION  => $edid->{week} . "/" . $edid->{year},
+        MANUFACTURER => $manufacturers{$edid->{manufacturer_name}}
+    };
+
+    # they are two different serial numbers in EDID
+    # - a mandatory 4 bytes numeric value
+    # - an optional 13 bytes ASCII value
+    # we use the ASCII value if present, and if the model is not part of an
+    # exception, otherwise we use the numerical one, as an 8-length hex string
+    # References:
+    # http://forge.fusioninventory.org/issues/1607
+    # http://forge.fusioninventory.org/issues/1614
+    $info->{SERIAL} =
+        $edid->{serial_number2} && !$blacklist{$edid->{EISA_ID}} ?
+            $edid->{serial_number2}->[0]           :
+            sprintf("%08x", $edid->{serial_number});
+
+    return $info;
 }
 
 sub _getScreensFromWindows {
