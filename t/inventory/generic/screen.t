@@ -34,6 +34,18 @@ my %tests = (
         SERIAL       => '8757RH9QUY80',
         DESCRIPTION  => '33/2000'
     },
+    'crt.dell-p190s' => {
+        MANUFACTURER => 'Dell Computer Corp.',
+        CAPTION      => 'DELL P190S',
+        SERIAL       => 'CHRYK07UAGUS',
+        DESCRIPTION  => '30/2010'
+    },
+    'crt.dell-e190s' => {
+        MANUFACTURER => 'Dell Computer Corp.',
+        CAPTION      => 'DELL E190S',
+        SERIAL       => 'G448N08G0RYS',
+        DESCRIPTION  => '34/2010'
+    },
     'crt.E55' => {
         MANUFACTURER => 'Panasonic Comm. & Systems Co.',
         CAPTION      => undef,
@@ -136,11 +148,41 @@ my %tests = (
         SERIAL       => 'ETL2508043',
         DESCRIPTION  => '45/2004'
     },
+    'lcd.acer-al19161.1' => {
+        MANUFACTURER => 'Acer America Corp.',
+        CAPTION      => 'Acer AL1916',
+        SERIAL       => '719030c6',
+        DESCRIPTION  => '19/2007'
+    },
+    'lcd.acer-al19161.2' => {
+        MANUFACTURER => 'Acer America Corp.',
+        CAPTION      => 'Acer AL1916',
+        SERIAL       => '7190328f',
+        DESCRIPTION  => '19/2007'
+    },
+    'lcd.acer-al19161.3' => {
+        MANUFACTURER => 'Acer America Corp.',
+        CAPTION      => 'Acer AL1916',
+        SERIAL       => '71903291',
+        DESCRIPTION  => '19/2007'
+    },
+    'lcd.acer-al19161.4' => {
+        MANUFACTURER => 'Acer America Corp.',
+        CAPTION      => 'Acer AL1916',
+        SERIAL       => '71903290',
+        DESCRIPTION  => '19/2007'
+    },
     'lcd.acer-asp1680' => {
         MANUFACTURER => 'QDS',
         CAPTION      => undef,
         SERIAL       => '00000000',
         DESCRIPTION  => '51/2004'
+    },
+    'lcd.acer-x193hq' => {
+        MANUFACTURER => 'Acer America Corp.',
+        CAPTION      => 'X193HQ',
+        SERIAL       => 'LEK0D0998545',
+        DESCRIPTION  => '40/2009'
     },
     'lcd.b-101750' => {
         MANUFACTURER => 'Maxdata Computer GmbH',
@@ -184,11 +226,23 @@ my %tests = (
         SERIAL       => '00000000',
         DESCRIPTION  => '0/2005',
     },
+    'lcd.eizo-l997' => {
+        MANUFACTURER => 'ENC',
+        CAPTION      => 'L997',
+        SERIAL       => '21211015',
+        DESCRIPTION  => '5/2005'
+    },
     'lcd.Elonex-PR600' => {
         MANUFACTURER => 'CMO',
         CAPTION      => undef,
         SERIAL       => '00000000',
         DESCRIPTION  => '9/2006',
+    },
+    'lcd.fujitsu-a171' => {
+        MANUFACTURER => 'Fujitsu Siemens',
+        CAPTION      => 'A17-1',
+        SERIAL       => 'YEEP525344',
+        DESCRIPTION  => '34/2005'
     },
     'lcd.gericom-cy-96' => {
         MANUFACTURER => 'PTS',
@@ -213,6 +267,18 @@ my %tests = (
         CAPTION      => undef,
         SERIAL       => '00000000',
         DESCRIPTION  => '51/2004',
+    },
+    'lcd.hp-l1950' => {
+        MANUFACTURER => 'Hewlett Packard',
+        CAPTION      => 'HP L1950',
+        SERIAL       => 'CNK7420237',
+        DESCRIPTION  => '42/2007'
+    },
+    'lcd.iiyama-pl2409hd' => {
+        MANUFACTURER => 'Idek Iiyama North America, Inc.',
+        CAPTION      => 'PL2409HD',
+        SERIAL       => '11004M0C00313',
+        DESCRIPTION  => '49/2010'
     },
     'lcd.lenovo-3000-v100' => {
         MANUFACTURER => 'AU Optronics',
@@ -262,49 +328,19 @@ my %tests = (
         SERIAL       => 'HCHW600639',
         DESCRIPTION  => '23/2003'
     },
+    'lcd.samsung-2494hm' => {
+        MANUFACTURER => 'Samsung',
+        CAPTION      => 'SyncMaster',
+        SERIAL       => 'H9XS933672',
+        DESCRIPTION  => '39/2009'
+    },
     'lcd.tv.VQ32-1T' => {
         MANUFACTURER => 'Fujitsu Siemens',
         CAPTION      => 'VQ32-1T',
         SERIAL       => '00000001',
         DESCRIPTION  => '40/2006',
     },
-    'acer-AL19161-1' => {
-        MANUFACTURER => 'Acer America Corp.',
-        CAPTION      => 'Acer AL1916',
-        SERIAL       => '719030c6',
-        DESCRIPTION  => '19/2007'
-    },
-    'acer-AL19161-2' => {
-        MANUFACTURER => 'Acer America Corp.',
-        CAPTION      => 'Acer AL1916',
-        SERIAL       => '7190328f',
-        DESCRIPTION  => '19/2007'
-    },
-    'acer-AL19161-3' => {
-        MANUFACTURER => 'Acer America Corp.',
-        CAPTION      => 'Acer AL1916',
-        SERIAL       => '71903291',
-        DESCRIPTION  => '19/2007'
-    },
-    'acer-AL19161-4' => {
-        MANUFACTURER => 'Acer America Corp.',
-        CAPTION      => 'Acer AL1916',
-        SERIAL       => '71903290',
-        DESCRIPTION  => '19/2007'
-    },
-    'ivm-PL2409HD' => {
-        MANUFACTURER => 'Idek Iiyama North America, Inc.',
-        CAPTION      => 'PL2409HD',
-        SERIAL       => '11004M0C00313',
-        DESCRIPTION  => '49/2010'
-    },
-    'SAM04d3' => {
-        MANUFACTURER => 'Samsung',
-        CAPTION      => 'SyncMaster',
-        SERIAL       => 'H9XS933672',
-        DESCRIPTION  => '39/2009'
-    },
-    'VSC4319' => {
+    'lcd.viewsonic-vx715' => {
         MANUFACTURER => 'ViewSonic Corporation',
         CAPTION      => 'VX715',
         SERIAL       => 'P21044404507',
