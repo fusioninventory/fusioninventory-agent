@@ -86,7 +86,7 @@ sub _getInterfaces {
         );
 
         # Some cleanups
-        if ($interface->{IPADDRESS} && ($interface->{IPADDRESS} eq '0.0.0.0')) {
+        if ($interface->{IPADDRESS} && $interface->{IPADDRESS} eq '0.0.0.0') {
             $interface->{IPADDRESS} = "";
             $interface->{IPSUBNET} = "";
             $interface->{IPMASK} = "";
