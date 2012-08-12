@@ -70,7 +70,8 @@ sub _getInterfaces {
             }
         } else {
             my $ifconfigInfo = _getIfconfigInfo(
-                command => "ifconfig ".$ifLanScan->{DESCRIPTION}, logger => $params{logger}
+                command => "ifconfig $ifLanScan->{DESCRIPTION}",
+                logger  => $params{logger}
             );
             $ifLanScan->{STATUS}    = $ifconfigInfo->{status};
             $ifLanScan->{IPADDRESS} = $ifconfigInfo->{address};
