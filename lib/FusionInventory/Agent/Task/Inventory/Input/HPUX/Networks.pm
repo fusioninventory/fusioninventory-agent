@@ -105,12 +105,21 @@ sub _parseLanscan {
 
     my @interfaces;
     while (my $line = <$handle>) {
-        next unless $line =~ /^0x($alt_mac_address_pattern)\s(\S+)\s(\S+)\s+(\S+)/;
+        next unless $line =~ /^
+            0x($alt_mac_address_pattern)
+            \s
+            (\S+)
+            \s
+            (\S+)
+            \s+
+            (\S+)
+            /x;
+
         my $interface = {
-            MACADDR => alt2canonical($1),
-            STATUS => 'Down',
+            MACADDR     => alt2canonical($1),
+            STATUS      => 'Down',
             DESCRIPTION => $2,
-            lan_id  => $4,
+            lan_id      => $4,
         };
 
         push @interfaces, $interface;
