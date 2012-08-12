@@ -80,6 +80,7 @@ sub _getInterfaces {
             $prototype->{STATUS}    = $ifconfigInfo->{status};
             $prototype->{IPADDRESS} = $ifconfigInfo->{address};
             $prototype->{IPMASK}    = $ifconfigInfo->{netmask};
+            delete $prototype->{lan_id};
             push @interfaces, $prototype;
         }
     }
