@@ -174,17 +174,15 @@ sub _getNwmgrInfo {
 
     my $info;
     while (my $line = <$handle>) {
-        if ($line =~ /^(\w+)\s+(\w+)\s+0x(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})\s+(\w+)\s+(\w*)/) {
-            my $netif = $1;
+        next unless $line =~ /^(\w+)\s+(\w+)\s+0x(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})\s+(\w+)\s+(\w*)/x;
+        my $netif = $1;
 
-            $info->{$netif} = {
-                status => $2,
-                mac => join(':', ($3, $4, $5, $6, $7, $8)),
-                driver => $9,
-                media => $10,
-                related_if => $11
-
-            }
+        $info->{$netif} = {
+            status => $2,
+            mac => join(':', ($3, $4, $5, $6, $7, $8)),
+            driver => $9,
+            media => $10,
+            related_if => $11
 
         }
     }
