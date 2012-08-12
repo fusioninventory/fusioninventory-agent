@@ -64,7 +64,7 @@ sub _getInterfaces {
             # use the list of interfaces found there, using the prototype
             # to provide additional informations
             foreach my $interface (@{$ifStatNrv{$prototype->{DESCRIPTION}}}) {
-                foreach my $key (keys %$prototype) {
+                foreach my $key (qw/MACADDR STATUS TYPE SPEED/) {
                     next unless $prototype->{$key};
                     $interface->{$key} = $prototype->{$key};
                 }
