@@ -193,45 +193,43 @@ sub _parseNetstatNrv {
     my %interfaces;
     while (my $line = <$handle>) {
         next unless $line =~ /^
-            (
-                $ip_address_pattern
-            )
+            ($ip_address_pattern) # address
             \/
-            (
-                $ip_address_pattern
-            )
+            ($ip_address_pattern) # mask
             \s+
-            (
-                $ip_address_pattern # Gateway
-            )
+            ($ip_address_pattern) # gateway
             \s+
-            \w*H\w*   # Host only
-            .*\s
-            (
-                \w+ # Interface name
-            )
-            (|:\d+) # ignore interface alias, e.g: lan0:1
+            [A-Z]* H [A-Z]*       # host flag
             \s+
-            (
-                \d+ # MTU
-            )
-            $
-            /x;
+            \d
+            \s+
+            ([\w:]+)              # interface name
+            \s+
+            (\d+)                 # MTU
+            $/x;
 
-        my $ipgateway = $3 if $3 ne $1;
+        my $address   = $1;
+        my $mask      = $2;
+        my $gateway   = $3 if $3 ne $1;
+        my $interface = $4;
+        my $mtu       = $5;
 
-        push @{$interfaces{$4}}, {
-            IPADDRESS => $1,
-            IPMASK => $2,
-            IPGATEWAY => $ipgateway,
-            DESCRIPTION => $4,
-            MTU => $6
+        if ($interface =~ /^(\w+):/) {
+            # interface alias, eg: lan0:1
+            $interface = $1;
+        }
+
+        push @{$interfaces{$interface}}, {
+            IPADDRESS   => $address,
+            IPMASK      => $mask,
+            IPGATEWAY   => $gateway,
+            DESCRIPTION => $interface,
+            MTU         => $mtu
         }
     }
     close $handle;
 
     return %interfaces;
 }
-
 
 1;
