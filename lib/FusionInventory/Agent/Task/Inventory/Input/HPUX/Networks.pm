@@ -110,7 +110,7 @@ sub _parseLanscan {
             \s
             (\S+)
             \s
-            (\S+)
+            \S+
             \s+
             (\S+)
             /x;
@@ -119,7 +119,7 @@ sub _parseLanscan {
             MACADDR     => alt2canonical($1),
             STATUS      => 'Down',
             DESCRIPTION => $2,
-            lan_id      => $4,
+            lan_id      => $3,
         };
 
         push @interfaces, $interface;
