@@ -41,7 +41,7 @@ sub doInventory {
 sub _getInterfaces {
     my (%params) = @_;
 
-    my @ifLanScan = _parseLanscan(
+    my @prototypes = _parseLanscan(
         command => 'lanscan -iap',
         logger  => $params{logger}
     );
@@ -49,34 +49,38 @@ sub _getInterfaces {
     my %ifStatNrv = _parseNetstatNrv();
 
     my @interfaces;
-    foreach my $ifLanScan (@ifLanScan) {
+    foreach my $prototype (@prototypes) {
 
         my $lanadminInfo = _getLanadminInfo(
-            command => "lanadmin -g $ifLanScan->{lan_id}",
+            command => "lanadmin -g $prototype->{lan_id}",
             logger  => $params{logger}
         );
-        $ifLanScan->{TYPE}  = $lanadminInfo->{'Type (value)'};
-        $ifLanScan->{SPEED} = $lanadminInfo->{Speed} > 1000000 ?
+        $prototype->{TYPE}  = $lanadminInfo->{'Type (value)'};
+        $prototype->{SPEED} = $lanadminInfo->{Speed} > 1000000 ?
             $lanadminInfo->{Speed} / 1000000 : $lanadminInfo->{Speed};
 
-        # Interface found in "netstat -nrv", let's use it
-        if ($ifStatNrv{$ifLanScan->{DESCRIPTION}}) {
-            foreach my $ifStatNrv (@{$ifStatNrv{$ifLanScan->{DESCRIPTION}}}) {
-                foreach my $key (keys %$ifLanScan) {
-                    next unless $ifLanScan->{$key};
-                    $ifStatNrv->{$key} = $ifLanScan->{$key};
+        if ($ifStatNrv{$prototype->{DESCRIPTION}}) {
+            # if this interface name has been found in netstat output, let's
+            # use the list of interfaces found there, using the prototype
+            # to provide additional informations
+            foreach my $interface (@{$ifStatNrv{$prototype->{DESCRIPTION}}}) {
+                foreach my $key (keys %$prototype) {
+                    next unless $prototype->{$key};
+                    $interface->{$key} = $prototype->{$key};
                 }
-                push @interfaces, $ifStatNrv;
+                push @interfaces, $interface;
             }
         } else {
+            # otherwise, we promote this prototype to an interface, using
+            # ifconfig to provide additional informations
             my $ifconfigInfo = _getIfconfigInfo(
-                command => "ifconfig $ifLanScan->{DESCRIPTION}",
+                command => "ifconfig $prototype->{DESCRIPTION}",
                 logger  => $params{logger}
             );
-            $ifLanScan->{STATUS}    = $ifconfigInfo->{status};
-            $ifLanScan->{IPADDRESS} = $ifconfigInfo->{address};
-            $ifLanScan->{IPMASK}    = $ifconfigInfo->{netmask};
-            push @interfaces, $ifLanScan;
+            $prototype->{STATUS}    = $ifconfigInfo->{status};
+            $prototype->{IPADDRESS} = $ifconfigInfo->{address};
+            $prototype->{IPMASK}    = $ifconfigInfo->{netmask};
+            push @interfaces, $prototype;
         }
     }
 
