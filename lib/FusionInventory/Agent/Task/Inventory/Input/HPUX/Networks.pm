@@ -52,22 +52,22 @@ sub _getInterfaces {
     foreach my $ifLanScan (@ifLanScan) {
 
         my $lanadminInfo = _getLanadminInfo(
-            command => "lanadmin -g ".$ifLanScan->{lan_id}, logger => $params{logger}
+            command => "lanadmin -g $ifLanScan->{lan_id}",
+            logger  => $params{logger}
         );
-        $ifLanScan->{TYPE}        = $lanadminInfo->{'Type (value)'};
-        $ifLanScan->{SPEED}       = $lanadminInfo->{Speed} > 1000000 ?
-                                        $lanadminInfo->{Speed} / 1000000 :
-                                        $lanadminInfo->{Speed};
+        $ifLanScan->{TYPE}  = $lanadminInfo->{'Type (value)'};
+        $ifLanScan->{SPEED} = $lanadminInfo->{Speed} > 1000000 ?
+            $lanadminInfo->{Speed} / 1000000 : $lanadminInfo->{Speed};
 
         # Interface found in "netstat -nrv", let's use it
         if ($ifStatNrv{$ifLanScan->{DESCRIPTION}}) {
             foreach my $ifStatNrv (@{$ifStatNrv{$ifLanScan->{DESCRIPTION}}}) {
-                foreach (keys %$ifLanScan) {
-                $ifStatNrv->{$_} = $ifLanScan->{$_} if $ifLanScan->{$_};
+                foreach my $key (keys %$ifLanScan) {
+                    next unless $ifLanScan->{$key};
+                    $ifStatNrv->{$key} = $ifLanScan->{$key};
                 }
                 push @interfaces, $ifStatNrv;
             }
-        # O
         } else {
             my $ifconfigInfo = _getIfconfigInfo(
                 command => "ifconfig ".$ifLanScan->{DESCRIPTION}, logger => $params{logger}
