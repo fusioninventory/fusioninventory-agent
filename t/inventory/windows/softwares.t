@@ -19,8 +19,7 @@ BEGIN {
 
 use FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares;
 
-my %tests = (
-    registry => {
+my %softwares_tests = (
         xp => [
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -8098,84 +8097,86 @@ my %tests = (
                 USERNAME         => undef
             }
         ],
-    },
-    wmi => {
-        xp => [
-            {
-                FROM         => 'WMI',
-                NAME         => 'KB980195',
-                COMMENTS     => 'Security Update for Windows XP (KB980195)',
-                ARCH         => 'i586',
-                RELEASE_TYPE => 'Security Update'
-            },
-            {
-                FROM         => 'WMI',
-                NAME         => 'KB980232',
-                COMMENTS     => 'Security Update for Windows XP (KB980232)',
-                ARCH         => 'i586',
-                RELEASE_TYPE => 'Security Update'
-            },
-            {
-                FROM         => 'WMI',
-                NAME         => 'KB980436',
-                COMMENTS     => 'Security Update for Windows XP (KB980436)',
-                ARCH         => 'i586',
-                RELEASE_TYPE => 'Security Update'
-            },
-            {
-                FROM         => 'WMI',
-                NAME         => 'KB981322',
-                COMMENTS     => 'Security Update for Windows XP (KB981322)',
-                ARCH         => 'i586',
-                RELEASE_TYPE => 'Security Update'
-            },
-            {
-                FROM         => 'WMI',
-                NAME         => 'KB981349',
-                COMMENTS     => 'Security Update for Windows XP (KB981349)',
-                ARCH         => 'i586',
-                RELEASE_TYPE => 'Security Update'
-            },
-            {
-                FROM         => 'WMI',
-                NAME         => 'KB981852',
-                COMMENTS     => 'Security Update for Windows XP (KB981852)',
-                ARCH         => 'i586',
-                RELEASE_TYPE => 'Security Update'
-            },
-            {
-                FROM         => 'WMI',
-                NAME         => 'KB981997',
-                COMMENTS     => 'Security Update for Windows XP (KB981997)',
-                ARCH         => 'i586',
-                RELEASE_TYPE => 'Security Update'
-            },
-            {
-                FROM         => 'WMI',
-                NAME         => 'KB982132',
-                COMMENTS     => 'Security Update for Windows XP (KB982132)',
-                ARCH         => 'i586',
-                RELEASE_TYPE => 'Security Update'
-            },
-            {
-                FROM         => 'WMI',
-                NAME         => 'KB982214',
-                COMMENTS     => 'Security Update for Windows XP (KB982214)',
-                ARCH         => 'i586',
-                RELEASE_TYPE => 'Security Update'
-            },
-            {
-                FROM         => 'WMI',
-                NAME         => 'KB982665',
-                COMMENTS     => 'Security Update for Windows XP (KB982665)',
-                ARCH         => 'i586',
-                RELEASE_TYPE => 'Security Update'
-            }
-        ]
-    }
 );
 
-plan tests => 2;
+my %hotfixes_tests = (
+    xp => [
+        {
+            FROM         => 'WMI',
+            NAME         => 'KB980195',
+            COMMENTS     => 'Security Update for Windows XP (KB980195)',
+            ARCH         => 'i586',
+            RELEASE_TYPE => 'Security Update'
+        },
+        {
+            FROM         => 'WMI',
+            NAME         => 'KB980232',
+            COMMENTS     => 'Security Update for Windows XP (KB980232)',
+            ARCH         => 'i586',
+            RELEASE_TYPE => 'Security Update'
+        },
+        {
+            FROM         => 'WMI',
+            NAME         => 'KB980436',
+            COMMENTS     => 'Security Update for Windows XP (KB980436)',
+            ARCH         => 'i586',
+            RELEASE_TYPE => 'Security Update'
+        },
+        {
+            FROM         => 'WMI',
+            NAME         => 'KB981322',
+            COMMENTS     => 'Security Update for Windows XP (KB981322)',
+            ARCH         => 'i586',
+            RELEASE_TYPE => 'Security Update'
+        },
+        {
+            FROM         => 'WMI',
+            NAME         => 'KB981349',
+            COMMENTS     => 'Security Update for Windows XP (KB981349)',
+            ARCH         => 'i586',
+            RELEASE_TYPE => 'Security Update'
+        },
+        {
+            FROM         => 'WMI',
+            NAME         => 'KB981852',
+            COMMENTS     => 'Security Update for Windows XP (KB981852)',
+            ARCH         => 'i586',
+            RELEASE_TYPE => 'Security Update'
+        },
+        {
+            FROM         => 'WMI',
+            NAME         => 'KB981997',
+            COMMENTS     => 'Security Update for Windows XP (KB981997)',
+            ARCH         => 'i586',
+            RELEASE_TYPE => 'Security Update'
+        },
+        {
+            FROM         => 'WMI',
+            NAME         => 'KB982132',
+            COMMENTS     => 'Security Update for Windows XP (KB982132)',
+            ARCH         => 'i586',
+            RELEASE_TYPE => 'Security Update'
+        },
+        {
+            FROM         => 'WMI',
+            NAME         => 'KB982214',
+            COMMENTS     => 'Security Update for Windows XP (KB982214)',
+            ARCH         => 'i586',
+            RELEASE_TYPE => 'Security Update'
+        },
+        {
+            FROM         => 'WMI',
+            NAME         => 'KB982665',
+            COMMENTS     => 'Security Update for Windows XP (KB982665)',
+            ARCH         => 'i586',
+            RELEASE_TYPE => 'Security Update'
+        }
+    ]
+);
+
+plan tests =>
+    scalar (keys %softwares_tests) +
+    scalar (keys %hotfixes_tests)  ;
 
 my $module = Test::MockModule->new(
     'FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares'
@@ -8188,23 +8189,21 @@ $module->mock(
     }
 );
 
-###############
-foreach my $test (keys %{$tests{registry}}) {
-    my $softwares = FusionInventory::Test::Utils::loadRegistryDump(
+foreach my $test (keys %softwares_tests) {
+    my $softwaresKey = FusionInventory::Test::Utils::loadRegistryDump(
         "resources/win32/registry/$test-uninstall.reg"
     );
 
-    my $list = FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getSoftwaresList(softwares => $softwares);
+    my $softwares = FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getSoftwaresList(softwares => $softwaresKey);
 
     is_deeply(
-        $list,
-        $tests{registry}->{$test},
-        "$test registry sample"
+        $softwares,
+        $softwares_tests{$test},
+        "$test softwares list"
     );
 }
 
-###############
-foreach my $test (keys %{$tests{wmi}}) {
+foreach my $test (keys %hotfixes_tests) {
     $module->mock(
         'getWmiObjects',
         mockGetWmiObjects($test)
@@ -8213,7 +8212,7 @@ foreach my $test (keys %{$tests{wmi}}) {
     my $hotfixes = FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getHotfixesList(is64bit => 0);
     is_deeply(
         $hotfixes,
-        $tests{wmi}->{$test},
-        "$test WMI sample"
+        $hotfixes_tests{$test},
+        "$test hotfixes list"
     );
 }
