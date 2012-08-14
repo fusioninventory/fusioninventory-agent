@@ -83,7 +83,6 @@ sub doInventory {
 
     my $is64bit = is64bit();
 
-    my $hotfixes = _getHotfixesList(is64bit => $is64bit);
 
     if ($is64bit) {
 
@@ -99,7 +98,6 @@ sub doInventory {
         my $list64 =_getSoftwaresList(
             softwares => $softwares64,
             is64bit   => 1,
-            hotfixes  => $hotfixes
         );
         foreach my $software (@$list64) {
             _addSoftware(inventory => $inventory, entry => $software);
@@ -123,7 +121,6 @@ sub doInventory {
             softwares => $softwares32,
             is64bit   => 0,
             logger    => $logger,
-            hotfixes  => $hotfixes
         );
         foreach my $software (@$list32) {
             _addSoftware(inventory => $inventory, entry => $software);
@@ -146,7 +143,6 @@ sub doInventory {
         my $list = _getSoftwaresList(
             softwares => $softwares,
             is64bit   => 0,
-            hotfixes  => $hotfixes
         );
         foreach my $software (@$list) {
             _addSoftware(inventory => $inventory, entry => $software);
@@ -163,8 +159,12 @@ sub doInventory {
 
     }
 
-    foreach (values %$hotfixes) {
-        _addSoftware(inventory => $inventory, entry => $_);
+    my $hotfixes = _getHotfixesList(is64bit => $is64bit);
+    foreach my $hotfix (@$hotfixes) {
+        # skip fixes already found in generic software list,
+        # without checking version information
+        next if $seen->{$hotfix->{NAME}};
+        _addSoftware(inventory => $inventory, entry => $hotfix);
     }
 
 }
@@ -190,7 +190,6 @@ sub _getSoftwaresList {
     my (%params) = @_;
 
     my $softwares = $params{softwares};
-    my $hotfixes = $params{hotfixes} || {};
 
     my @list;
 
@@ -231,10 +230,6 @@ sub _getSoftwaresList {
         # Workaround for #415
         $software->{VERSION} =~ s/[\000-\037].*// if $software->{VERSION};
 
-        if ($software->{NAME} =~ /KB(\d{4,10})/i) {
-            delete($hotfixes->{$1});
-        }
-
         push @list, $software;
     }
 
@@ -257,7 +252,7 @@ sub _getHotfixesList {
         }
 
         next unless $object->{HotFixID} =~ /KB(\d{4,10})/i;
-        $list->{$1} = {
+        push @$list, {
             NAME         => $object->{HotFixID},
             COMMENTS     => $object->{Description},
             FROM         => "WMI",

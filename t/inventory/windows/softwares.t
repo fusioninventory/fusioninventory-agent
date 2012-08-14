@@ -8100,82 +8100,82 @@ my %tests = (
         ],
     },
     wmi => {
-        xp => {
-            '981852'     => {
-                FROM         => 'WMI',
-                NAME         => 'KB981852',
-                COMMENTS     => 'Security Update for Windows XP (KB981852)',
-                ARCH         => 'i586',
-                RELEASE_TYPE => 'Security Update'
-            },
-            '981349' => {
-                FROM         => 'WMI',
-                NAME         => 'KB981349',
-                COMMENTS     => 'Security Update for Windows XP (KB981349)',
-                ARCH         => 'i586',
-                RELEASE_TYPE => 'Security Update'
-            },
-            '981322' => {
-                FROM         => 'WMI',
-                NAME         => 'KB981322',
-                COMMENTS     => 'Security Update for Windows XP (KB981322)',
-                ARCH         => 'i586',
-                RELEASE_TYPE => 'Security Update'
-            },
-            '980232' => {
-                FROM         => 'WMI',
-                NAME         => 'KB980232',
-                COMMENTS     => 'Security Update for Windows XP (KB980232)',
-                ARCH         => 'i586',
-                RELEASE_TYPE => 'Security Update'
-            },
-            '980436' => {
-                FROM         => 'WMI',
-                NAME         => 'KB980436',
-                COMMENTS     => 'Security Update for Windows XP (KB980436)',
-                ARCH         => 'i586',
-                RELEASE_TYPE => 'Security Update'
-            },
-            '982132' => {
-                FROM         => 'WMI',
-                NAME         => 'KB982132',
-                COMMENTS     => 'Security Update for Windows XP (KB982132)',
-                ARCH         => 'i586',
-                RELEASE_TYPE => 'Security Update'
-            },
-            '980195' => {
+        xp => [
+            {
                 FROM         => 'WMI',
                 NAME         => 'KB980195',
                 COMMENTS     => 'Security Update for Windows XP (KB980195)',
                 ARCH         => 'i586',
                 RELEASE_TYPE => 'Security Update'
             },
-            '981997' => {
+            {
+                FROM         => 'WMI',
+                NAME         => 'KB980232',
+                COMMENTS     => 'Security Update for Windows XP (KB980232)',
+                ARCH         => 'i586',
+                RELEASE_TYPE => 'Security Update'
+            },
+            {
+                FROM         => 'WMI',
+                NAME         => 'KB980436',
+                COMMENTS     => 'Security Update for Windows XP (KB980436)',
+                ARCH         => 'i586',
+                RELEASE_TYPE => 'Security Update'
+            },
+            {
+                FROM         => 'WMI',
+                NAME         => 'KB981322',
+                COMMENTS     => 'Security Update for Windows XP (KB981322)',
+                ARCH         => 'i586',
+                RELEASE_TYPE => 'Security Update'
+            },
+            {
+                FROM         => 'WMI',
+                NAME         => 'KB981349',
+                COMMENTS     => 'Security Update for Windows XP (KB981349)',
+                ARCH         => 'i586',
+                RELEASE_TYPE => 'Security Update'
+            },
+            {
+                FROM         => 'WMI',
+                NAME         => 'KB981852',
+                COMMENTS     => 'Security Update for Windows XP (KB981852)',
+                ARCH         => 'i586',
+                RELEASE_TYPE => 'Security Update'
+            },
+            {
                 FROM         => 'WMI',
                 NAME         => 'KB981997',
                 COMMENTS     => 'Security Update for Windows XP (KB981997)',
                 ARCH         => 'i586',
                 RELEASE_TYPE => 'Security Update'
             },
-            '982214' => {
+            {
+                FROM         => 'WMI',
+                NAME         => 'KB982132',
+                COMMENTS     => 'Security Update for Windows XP (KB982132)',
+                ARCH         => 'i586',
+                RELEASE_TYPE => 'Security Update'
+            },
+            {
                 FROM         => 'WMI',
                 NAME         => 'KB982214',
                 COMMENTS     => 'Security Update for Windows XP (KB982214)',
                 ARCH         => 'i586',
                 RELEASE_TYPE => 'Security Update'
             },
-            '982665' => {
+            {
                 FROM         => 'WMI',
                 NAME         => 'KB982665',
                 COMMENTS     => 'Security Update for Windows XP (KB982665)',
                 ARCH         => 'i586',
                 RELEASE_TYPE => 'Security Update'
             }
-        }
+        ]
     }
 );
 
-plan tests => 3;
+plan tests => 2;
 
 my $module = Test::MockModule->new(
     'FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares'
@@ -8217,30 +8217,3 @@ foreach my $test (keys %{$tests{wmi}}) {
         "$test WMI sample"
     );
 }
-
-###############
-$module->mock(
-    'getWmiObjects',
-    mockGetWmiObjects("xp")
-);
-my $hotfixes = FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getHotfixesList(is64bit => 0);
-
-my $softwares = FusionInventory::Test::Utils::loadRegistryDump(
-        "resources/win32/registry/xp-uninstall.reg"
-        );
-FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getSoftwaresList(softwares => $softwares, is64bit => 0, hotfixes => $hotfixes );
-
-is_deeply(
-    $hotfixes,
-    {
-        '981349' => {
-            FROM         => 'WMI',
-            NAME         => 'KB981349',
-            COMMENTS     => 'Security Update for Windows XP (KB981349)',
-            ARCH         => 'i586',
-            RELEASE_TYPE => 'Security Update'
-        }
-    },
-    "duplicated KB found in the KB stack are deleted"
-);
-
