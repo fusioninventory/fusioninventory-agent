@@ -56,16 +56,16 @@ sub _loadUserSoftware {
             $Registry->Load($profilePath.'\ntuser.dat', { Access=> KEY_READ | KEY_WOW64_64 } ) :
             $Registry->Load($profilePath.'\ntuser.dat', { Access=> KEY_READ } )                ;
 
-        my $softwares =
+        my $softwaresKey =
             $userKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
 
-        my $list = _getSoftwaresList(
-            softwares => $softwares,
+        my $softwares = _getSoftwaresList(
+            softwares => $softwaresKey,
             is64bit   => 1,
             userid    => $sid,
             username  => $user
         );
-        foreach my $software (@$list) {
+        foreach my $software (@$softwares) {
             _addSoftware(inventory => $inventory, entry => $software);
         }
 
@@ -93,13 +93,13 @@ sub doInventory {
         my $machKey64 = $Registry->Open('LMachine', {
             Access => KEY_READ | KEY_WOW64_64 ## no critic (ProhibitBitwise)
         }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-        my $softwares64 =
+        my $softwaresKey64 =
             $machKey64->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
-        my $list64 =_getSoftwaresList(
-            softwares => $softwares64,
+        my $softwares64 =_getSoftwaresList(
+            softwares => $softwaresKey64,
             is64bit   => 1,
         );
-        foreach my $software (@$list64) {
+        foreach my $software (@$softwares64) {
             _addSoftware(inventory => $inventory, entry => $software);
         }
         _processMSIE(
@@ -115,14 +115,14 @@ sub doInventory {
         my $machKey32 = $Registry->Open('LMachine', {
             Access => KEY_READ | KEY_WOW64_32 ## no critic (ProhibitBitwise)
         }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-        my $softwares32 =
+        my $softwaresKey32 =
             $machKey32->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
-        my $list32 = _getSoftwaresList(
-            softwares => $softwares32,
+        my $softwares32 = _getSoftwaresList(
+            softwares => $softwaresKey32,
             is64bit   => 0,
             logger    => $logger,
         );
-        foreach my $software (@$list32) {
+        foreach my $software (@$softwares32) {
             _addSoftware(inventory => $inventory, entry => $software);
         }
         _processMSIE(
@@ -138,13 +138,13 @@ sub doInventory {
         my $machKey = $Registry->Open('LMachine', {
             Access => KEY_READ
         }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-        my $softwares =
+        my $softwaresKey =
             $machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
-        my $list = _getSoftwaresList(
-            softwares => $softwares,
+        my $softwares = _getSoftwaresList(
+            softwares => $softwaresKey,
             is64bit   => 0,
         );
-        foreach my $software (@$list) {
+        foreach my $software (@$softwares) {
             _addSoftware(inventory => $inventory, entry => $software);
         }
         _processMSIE(
