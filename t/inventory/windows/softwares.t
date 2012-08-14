@@ -664,7 +664,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => 'C:\\\\Program Files\\\\ICEOWS\\\\Setup.exe /uninstall',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1327,7 +1329,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => 'C:\\\\gs\\\\uninstgs.exe \\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Sun Microsystems, Inc.',
@@ -1629,7 +1633,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => 'rundll32.exe setupapi.dll,InstallHinfSection DefaultUninstall 132 C:\\\\WINDOWS\\\\INF\\\\PCHealth.inf',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'ScriptLogic Corporation',
@@ -2786,7 +2792,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => 'C:\\\\DOCUME~1\\\\ALLUSE~1\\\\APPLIC~1\\\\Symantec\\\\Ghost\\\\AUTOIN~1\\\\INSTAL~1\\\\~0000.exe cfg=\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => undef,
@@ -2803,7 +2811,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2991,7 +3001,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => 'C:\\\\gs\\\\uninstgs.exe \\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3407,7 +3419,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -5571,7 +5585,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => 'C:\\\\Program Files\\\\Ghostgum\\\\gsview\\\\uninstgs.exe \\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5816,7 +5832,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -7562,7 +7580,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
