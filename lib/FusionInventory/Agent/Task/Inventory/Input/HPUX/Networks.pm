@@ -222,7 +222,7 @@ sub _parseNetstatNrv {
             \s+
             \d
             \s+
-            ([\w:]+)              # interface name
+            (\w+) (?: :\d+)?      # interface name, with optional alias
             \s+
             (\d+)                 # MTU
             $/x;
@@ -232,11 +232,6 @@ sub _parseNetstatNrv {
         my $gateway   = $3 if $3 ne $1;
         my $interface = $4;
         my $mtu       = $5;
-
-        if ($interface =~ /^(\w+):/) {
-            # interface alias, eg: lan0:1
-            $interface = $1;
-        }
 
         push @{$interfaces{$interface}}, {
             IPADDRESS   => $address,
