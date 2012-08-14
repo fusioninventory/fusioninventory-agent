@@ -71,11 +71,9 @@ sub _manageAgent {
         chomp $serverUuid;
 
         # get CFengine public key
-        my $cfengineKey = join(
-        '',
-        getAllLines(
+        my $cfengineKey = getAllLines(
             file => "/var/rudder/$name/ppkeys/localhost.pub"
-       ));
+        );
 
         # get owner name
         my $owner = getFirstLine (
