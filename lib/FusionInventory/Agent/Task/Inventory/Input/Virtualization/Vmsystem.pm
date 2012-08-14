@@ -191,8 +191,8 @@ sub _getStatus {
             logger => $logger
         );
         while (my $line = <$handle>) {
-            my ( $varID, $varValue ) = split( ":", $line );
-            $result = "Virtuozzo" if ( $varID eq 'envID' && $varValue > 0 );
+            my ($key, $value) = split(/:/, $line);
+            $result = "Virtuozzo" if $key eq 'envID' && $value > 0;
         }
     }
     return $result if $result;
