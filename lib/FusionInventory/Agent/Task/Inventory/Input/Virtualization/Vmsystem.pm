@@ -98,9 +98,30 @@ sub doInventory {
         });
     }
 
-    $inventory->setHardware({
-        VMSYSTEM => $status,
-    });
+
+    my $uuid = 0;
+    my $vmid = 0;
+
+    if ( $status eq 'Virtuozzo' ) {
+        if (-f '/proc/self/status') {
+            my $handle = getFileHandle(
+                file => '/proc/self/status',
+                logger => $logger
+            );
+            while (my $line = <$handle>) {
+                my ( $varID, $varValue ) = split( ":", $line );
+                $vmid = $varValue if ( $varID eq 'envID' && $varValue > 0 );
+            }
+        }
+    }
+
+    my $h;
+
+    $h -> { VMSYSTEM } = $status;
+    $h -> { UUID } = $uuid if $uuid;
+    $h -> { VMID } = $vmid if $vmid;
+
+    $inventory->setHardware($h);
 
 }
 
