@@ -83,7 +83,7 @@ sub doInventory {
 
     my $is64bit = is64bit();
 
-    my $kbList = _getKB(is64bit => $is64bit);
+    my $hotfixes = _getHotfixesList(is64bit => $is64bit);
 
     if ($is64bit) {
 
@@ -99,7 +99,7 @@ sub doInventory {
         my $list64 =_getSoftwaresList(
             softwares => $softwares64,
             is64bit   => 1,
-            kbList    => $kbList
+            hotfixes  => $hotfixes
         );
         foreach my $software (@$list64) {
             _addSoftware(inventory => $inventory, entry => $software);
@@ -123,7 +123,7 @@ sub doInventory {
             softwares => $softwares32,
             is64bit   => 0,
             logger    => $logger,
-            kbList    => $kbList
+            hotfixes  => $hotfixes
         );
         foreach my $software (@$list32) {
             _addSoftware(inventory => $inventory, entry => $software);
@@ -146,7 +146,7 @@ sub doInventory {
         my $list = _getSoftwaresList(
             softwares => $softwares,
             is64bit   => 0,
-            kbList    => $kbList
+            hotfixes  => $hotfixes
         );
         foreach my $software (@$list) {
             _addSoftware(inventory => $inventory, entry => $software);
@@ -163,7 +163,7 @@ sub doInventory {
 
     }
 
-    foreach (values %$kbList) {
+    foreach (values %$hotfixes) {
         _addSoftware(inventory => $inventory, entry => $_);
     }
 
@@ -190,7 +190,7 @@ sub _getSoftwaresList {
     my (%params) = @_;
 
     my $softwares = $params{softwares};
-    my $kbList = $params{kbList} || {};
+    my $hotfixes = $params{hotfixes} || {};
 
     my @list;
 
@@ -232,7 +232,7 @@ sub _getSoftwaresList {
         $software->{VERSION} =~ s/[\000-\037].*// if $software->{VERSION};
 
         if ($software->{NAME} =~ /KB(\d{4,10})/i) {
-            delete($kbList->{$1});
+            delete($hotfixes->{$1});
         }
 
         push @list, $software;
@@ -241,10 +241,10 @@ sub _getSoftwaresList {
     return \@list;
 }
 
-sub _getKB {
+sub _getHotfixesList {
     my (%params) = @_;
 
-    my $kbList = {};
+    my $list;
 
     foreach my $object (getWmiObjects(
         class      => 'Win32_QuickFixEngineering',
@@ -257,7 +257,7 @@ sub _getKB {
         }
 
         next unless $object->{HotFixID} =~ /KB(\d{4,10})/i;
-        $kbList->{$1} = {
+        $list->{$1} = {
             NAME         => $object->{HotFixID},
             COMMENTS     => $object->{Description},
             FROM         => "WMI",
@@ -267,7 +267,7 @@ sub _getKB {
 
     }
 
-    return $kbList;
+    return $list;
 }
 
 sub _addSoftware {

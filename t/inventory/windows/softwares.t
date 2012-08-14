@@ -8210,9 +8210,9 @@ foreach my $test (keys %{$tests{wmi}}) {
         mockGetWmiObjects($test)
     );
 
-    my $kbList = FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getKB(is64bit => 0);
+    my $hotfixes = FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getHotfixesList(is64bit => 0);
     is_deeply(
-        $kbList,
+        $hotfixes,
         $tests{wmi}->{$test},
         "$test WMI sample"
     );
@@ -8223,15 +8223,15 @@ $module->mock(
     'getWmiObjects',
     mockGetWmiObjects("xp")
 );
-my $kbList = FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getKB(is64bit => 0);
+my $hotfixes = FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getHotfixesList(is64bit => 0);
 
 my $softwares = FusionInventory::Test::Utils::loadRegistryDump(
         "resources/win32/registry/xp-uninstall.reg"
         );
-FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getSoftwaresList(softwares => $softwares, is64bit => 0, kbList => $kbList );
+FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getSoftwaresList(softwares => $softwares, is64bit => 0, hotfixes => $hotfixes );
 
 is_deeply(
-    $kbList,
+    $hotfixes,
     {
         '981349' => {
             FROM         => 'WMI',
