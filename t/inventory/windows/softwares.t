@@ -8194,10 +8194,10 @@ foreach my $test (keys %{$tests{registry}}) {
         "resources/win32/registry/$test-uninstall.reg"
     );
 
-    my @softwares = FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getSoftwares(softwares => $softwares);
+    my $list = FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getSoftwaresList(softwares => $softwares);
 
     is_deeply(
-        \@softwares,
+        $list,
         $tests{registry}->{$test},
         "$test registry sample"
     );
@@ -8228,7 +8228,7 @@ my $kbList = FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_
 my $softwares = FusionInventory::Test::Utils::loadRegistryDump(
         "resources/win32/registry/xp-uninstall.reg"
         );
-FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getSoftwares(softwares => $softwares, is64bit => 0, kbList => $kbList );
+FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getSoftwaresList(softwares => $softwares, is64bit => 0, kbList => $kbList );
 
 is_deeply(
     $kbList,
