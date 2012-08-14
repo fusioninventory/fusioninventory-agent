@@ -24,57 +24,6 @@ sub isEnabled {
     return !$params{no_category}->{software};
 }
 
-sub _loadUserSoftware {
-    my (%params) = @_;
-
-    my $inventory = $params{inventory};
-    my $is64bit   = is64bit();
-
-
-    my $lmachine = $Registry->Open('LMachine');
-
-    my $profileList =
-        $lmachine->{"SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProfileList"};
-
-    return unless $profileList;
-
-    $Registry->AllowLoad(1);
-
-    foreach my $profileName (keys %$profileList) {
-        next unless length($profileName) > 10;
-
-        my $profilePath = $profileList->{$profileName}{'/ProfileImagePath'};
-        my $sid = $profileList->{$profileName}{'/Sid'};
-
-        next unless $sid;
-        next unless $profilePath;
-
-        $profilePath =~ s/%SystemDrive%/$ENV{SYSTEMDRIVE}/i;
-
-        my $user = basename($profilePath);
-        my $userKey = $is64bit ?
-            $Registry->Load($profilePath.'\ntuser.dat', { Access=> KEY_READ | KEY_WOW64_64 } ) :
-            $Registry->Load($profilePath.'\ntuser.dat', { Access=> KEY_READ } )                ;
-
-        my $softwaresKey =
-            $userKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
-
-        my $softwares = _getSoftwaresList(
-            softwares => $softwaresKey,
-            is64bit   => 1,
-            userid    => $sid,
-            username  => $user
-        );
-        foreach my $software (@$softwares) {
-            _addSoftware(inventory => $inventory, entry => $software);
-        }
-
-    }
-    $Registry->AllowLoad(0);
-
-}
-
-
 sub doInventory {
     my (%params) = @_;
 
@@ -168,6 +117,58 @@ sub doInventory {
     }
 
 }
+
+sub _loadUserSoftware {
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $is64bit   = is64bit();
+
+
+    my $lmachine = $Registry->Open('LMachine');
+
+    my $profileList =
+        $lmachine->{"SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProfileList"};
+
+    return unless $profileList;
+
+    $Registry->AllowLoad(1);
+
+    foreach my $profileName (keys %$profileList) {
+        next unless length($profileName) > 10;
+
+        my $profilePath = $profileList->{$profileName}{'/ProfileImagePath'};
+        my $sid = $profileList->{$profileName}{'/Sid'};
+
+        next unless $sid;
+        next unless $profilePath;
+
+        $profilePath =~ s/%SystemDrive%/$ENV{SYSTEMDRIVE}/i;
+
+        my $user = basename($profilePath);
+        my $userKey = $is64bit ?
+            $Registry->Load($profilePath.'\ntuser.dat', { Access=> KEY_READ | KEY_WOW64_64 } ) :
+            $Registry->Load($profilePath.'\ntuser.dat', { Access=> KEY_READ } )                ;
+
+        my $softwaresKey =
+            $userKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
+
+        my $softwares = _getSoftwaresList(
+            softwares => $softwaresKey,
+            is64bit   => 1,
+            userid    => $sid,
+            username  => $user
+        );
+        foreach my $software (@$softwares) {
+            _addSoftware(inventory => $inventory, entry => $software);
+        }
+
+    }
+    $Registry->AllowLoad(0);
+
+}
+
+
 
 sub _dateFormat {
     my ($date) = @_;
