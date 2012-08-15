@@ -2,10 +2,13 @@
 
 use strict;
 use warnings;
+
+use English qw(-no_match_vars);
 use Test::More;
 use Test::Exception;
+
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::XML::Response;
-use English qw(-no_match_vars);
 
 my %tests = (
     message1 => {
@@ -190,15 +193,10 @@ plan tests => 2 * (scalar keys %tests);
 
 foreach my $test (keys %tests) {
     my $file = "resources/xml/response/$test.xml";
-
-    my $handler;
-    next unless open $handler, '<', $file;
-    local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
-
+    my $string = getAllLines(file => $file);
     my $message = FusionInventory::Agent::XML::Response->new(
-        content => <$handler>
+        content => $string
     );
-    close $handler;
 
     my $content = $message->getContent();
     is_deeply($content, $tests{$test}, $test);

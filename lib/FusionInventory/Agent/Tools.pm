@@ -571,8 +571,9 @@ of line removed.
 
 =head2 getAllLines(%params)
 
-Returns all the lines of given command output or given file content, with end
-of line removed.
+Returns all the lines of given command output or given file content, as a list
+of strings with end of line removed in list context, as a single string
+otherwise.
 
 =over
 

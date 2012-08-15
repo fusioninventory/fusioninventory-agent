@@ -18,10 +18,12 @@ Minimum perl version: 5.8
 
 Additional mandatory perl modules:
 - Digest::MD5
-- XML::TreePP
+- File::Which
 - LWP
 - Net::IP
+- Text::Template
 - UNIVERSAL::require
+- XML::TreePP
 - Mac::SysProfile (MacOs only)
 
 Additional optional perl modules:

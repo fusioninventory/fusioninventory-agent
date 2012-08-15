@@ -137,12 +137,12 @@ sub _getSoftwares {
     return unless $softwares;
 
     foreach my $rawGuid (keys %$softwares) {
+        # only keep subkeys
+        next unless $rawGuid =~ m{/$};
+
+        # only keep subkeys with more than 1 value
         my $data = $softwares->{$rawGuid};
-
-        next unless $data;
-
-        eval { die unless keys (%$data) > 1 };
-        next if $EVAL_ERROR;
+        next unless keys %$data > 1;
 
         my $guid = $rawGuid;
         $guid =~ s/\/$//; # drop the tailing /
