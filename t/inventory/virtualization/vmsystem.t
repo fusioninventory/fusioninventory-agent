@@ -14,7 +14,7 @@ my %tests = (
 plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
-    my $file = "resources/linux/openvz/$test";
+    my $file = "resources/virtualization/openvz/$test";
     my $vmid = FusionInventory::Agent::Task::Inventory::Input::Virtualization::Vmsystem::_getOpenVZVmID(file => $file);
     is_deeply($vmid, $tests{$test}, $test);
 }
