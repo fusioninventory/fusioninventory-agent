@@ -55,11 +55,30 @@ SNMP description models
 -----------------------
 An SNMP description model maps specific device features (ports list, ink level,
 etc...) with SNMP OIDs. Given than manufacturers often change those OIDs
-between firmware releases, the same device model may have to use different
+between firmware releases, the same device may have to use different SNMP
 description models depending of its firmware. This means than the agent will
 only assign description models to specific hardware/software combinations, as
-identified from device SysDescr value. No model assigned doesn't mean than 
-no one apply, but rather than no one is known to work in this specific case.
+identified from device SysDescr value. No model automaticall assigned doesn't
+mean than no one applies, but rather than no one is known to work in this
+specific case.
+
+The SNMP description models database is constitued by two elements:
+- each model in defined in its own XML file, and have to be imported in GLPI
+  database before usage
+- the mappings between those models and known sysdescr values are defined in
+  another XML file, discovery.xml, which is used directly without prior import
+Those files are all distributed with the FusionInventory plugin for GLPI, as
+fusinvsnmp/models/*.xml and fusinvsnmp/tool/discovery.xml, respectively.
+
+If the network discovery is unable to automatically assign a suitable SNMP
+description model for your devices, your different options are:
+- use the SNMP description model generation tool, included in FusionInventory
+  for GLPI starting with version 0.83+2.0, to create a dedicated model
+- try a newer snapshot of the database, available from
+  http://fusioninventory.org/snmpmodels
+- try to use another model that seems close enough
+Only the first option brings some ensurance of full coverage of information:
+using an unadapted model may perfectly result in partial results.
 
 Command-line usage
 ------------------
