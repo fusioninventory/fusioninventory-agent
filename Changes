@@ -9,6 +9,7 @@ General:
 
 Windows:
 * Fix: do not run dmidecode.exe on Win2003
+* Fix: Software inventory
 
 Solaris:
 * Fix: improve ZFS support
