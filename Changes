@@ -1,11 +1,14 @@
 Revision history for FusionInventory agent
 
-2.2.5
+2.2.5  Thu, 16 Aug 2012 12:03:30 +0200
 General:
 * Fix: deal with broken last_state file
 * Fix: fix HP RAID size parsing
 * Fix: Virtual machine inventory with VMware desktop
 * Fix: add /usr/local/{bin,sbin} in default $PATH
+
+Windows:
+* Fix: do not run dmidecode.exe on Win2003
 
 Solaris:
 * Fix: improve ZFS support
