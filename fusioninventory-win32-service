@@ -13,8 +13,7 @@ use File::Basename;
 use English qw(-no_match_vars);
 use Win32;
 use Win32::Daemon;
-
-use FusionInventory::Agent;
+use UNIVERSAL::require;
 
 delete($ENV{PERL5LIB});
 delete($ENV{PERLLIB});
@@ -23,6 +22,8 @@ my $directory = dirname(File::Spec->rel2abs( __FILE__ ));
 # on Win2k, Windows do not chdir to the bin directory
 # we need to do it by ourself
 chdir($directory);
+
+FusionInventory::Agent->require;
 
 Win32::Daemon::StartService();
 
