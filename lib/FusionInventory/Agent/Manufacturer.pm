@@ -207,3 +207,15 @@ Set connected devices using LLDP
 =item walks model walk branch
 
 =back
+
+=head2 setTrunkPorts
+
+Set trunk flag on ports needing it.
+
+=over
+
+=item results raw values collected through SNMP
+
+=item ports device ports list
+
+=back
