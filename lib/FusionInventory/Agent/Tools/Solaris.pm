@@ -51,7 +51,7 @@ sub getModel {
 sub getClass {
     my $model = getModel();
 
-    if ($model =~ /SUNW,Sun-Fire-\d/ || $model =~ /SUNW,Sun-Fire-V240/) {
+    if ($model =~ /SUNW,Sun-Fire-\d/ || $model =~ /SUNW,Sun-Fire-V490/) {
         return SOLARIS_FIRE;
     }
 
