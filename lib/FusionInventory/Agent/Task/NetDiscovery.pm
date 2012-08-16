@@ -137,13 +137,13 @@ my @hardware_rules = (
     },
     {
         match       => qr/^KYOCERA (MITA Printing System|Print I\/F)$/,
-        description => { function => 'FusionInventory::Agent::Manufacturer::Kyocera::getDescriptionOther' },
+        description => { function => 'FusionInventory::Agent::Manufacturer::Kyocera::getDescription' },
         vendor      => { value    => 'Kyocera' },
         type        => { value    => 'PRINTER' }
     },
     {
         match       => qr/^SB-110$/,
-        description => { function => 'FusionInventory::Agent::Manufacturer::Kyocera::getDescriptionOther' },
+        description => { function => 'FusionInventory::Agent::Manufacturer::Kyocera::getDescription' },
         vendor      => { value    => 'Kyocera' },
         type        => { value    => 'PRINTER' }
     },

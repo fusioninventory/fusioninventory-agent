@@ -3,7 +3,7 @@ package FusionInventory::Agent::Manufacturer::Kyocera;
 use strict;
 use warnings;
 
-sub getDescriptionOther {
+sub getDescription {
     my ($snmp) = @_;
 
     my $result = $snmp->get('.1.3.6.1.4.1.1347.42.5.1.1.2.1');
