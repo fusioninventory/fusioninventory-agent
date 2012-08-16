@@ -72,6 +72,22 @@ my %module_patterns = (
     '^xen_\w+front\s' => 'Xen',
 );
 
+sub _getOpenVZVmID {
+    my $handle = getFileHandle(
+        file => '/proc/self/status',
+        @_
+    );
+
+    my $vmid;
+
+    while (my $line = <$handle>) {
+        next unless $line =~ /^envID:\s*(\d+)/;
+        $vmid = $1 if $1 > 0;
+    }
+
+    return $vmid;
+}
+
 sub isEnabled {
     return 1;
 }
@@ -99,29 +115,19 @@ sub doInventory {
     }
 
 
-    my $uuid = 0;
-    my $vmid = 0;
+    my $uuid;
+    my $vmid;
 
     if ( $status eq 'Virtuozzo' ) {
-        if (-f '/proc/self/status') {
-            my $handle = getFileHandle(
-                file => '/proc/self/status',
-                logger => $logger
-            );
-            while (my $line = <$handle>) {
-                my ( $varID, $varValue ) = split( ":", $line );
-                $vmid = $varValue if ( $varID eq 'envID' && $varValue > 0 );
-            }
-        }
+        $vmid = _getOpenVZVmID( logger => $logger );
     }
 
     if ( $status eq 'Xen' ) {
         if (-f '/sys/hypervisor/uuid') {
-            my $handle = getFileHandle(
+            $uuid = getFirstLine(
                 file => '/sys/hypervisor/uuid',
                 logger => $logger
             );
-            $uuid = <$handle>;
         }
     }
 
