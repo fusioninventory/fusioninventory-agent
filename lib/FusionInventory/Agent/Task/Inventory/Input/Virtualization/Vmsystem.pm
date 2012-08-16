@@ -100,6 +100,7 @@ sub doInventory {
 
 
     my $uuid = 0;
+    my $vmid = 0;
 
     if ( $status eq 'Virtuozzo' ) {
         if (-f '/proc/self/status') {
@@ -109,7 +110,7 @@ sub doInventory {
             );
             while (my $line = <$handle>) {
                 my ( $varID, $varValue ) = split( ":", $line );
-                $uuid = $varValue if ( $varID eq 'envID' && $varValue > 0 );
+                $vmid = $varValue if ( $varID eq 'envID' && $varValue > 0 );
             }
         }
     }
@@ -118,6 +119,7 @@ sub doInventory {
 
     $h -> { VMSYSTEM } = $status;
     $h -> { UUID } = $uuid if $uuid;
+    $h -> { VMID } = $vmid if $vmid;
 
     $inventory->setHardware($h);
 
