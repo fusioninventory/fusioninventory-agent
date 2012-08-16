@@ -1,11 +1,13 @@
-If you think you should be in this list,
-please drop me a mail:
+If you think you should be in this list, please drop us a mail:
   → goneri@rulezlan.org
+  → guillomovitch@gmail.com
 
+Alexander Evseev
 Alex Mauer: PNP monitor IDs
 Amir Pakdel: HP-UX maintainer
 Aurelien Bondis: Patch
 Barius Drubeck: documentation patch
+Benoit Campedel
 Benoit Machiavello: Beta tester
 Benoit Mortier: English wording
 Christian Lete: patch
@@ -17,9 +19,10 @@ Denis Linvinus: Cyrillic Windows
 Dennis Cabooter: FreeBSD maintainer
 Didier Liroulet: Installation script
 Dmitry Ilyin: Patches
-DuyLong LE: Solaris testing/debug
+DuyLong LE: Solaris testing/debug and much more
 Earl Flack: bug reports and testing
 Edouard Gamin: RAID devices support for Linux
+Egor Morozov: lxc-tools support and bug reports
 Emengao: Patch
 Eric Freyens: debuging
 Eric Meygret: AIX testing samples
@@ -30,15 +33,17 @@ François Mermet: HP-UX support
 Girish Navuda: Patches
 Guillaume Garson: debuging
 Guillaume Rousse: Agent developper
+Igor Polovinkin: patch
 Jan Jungmann: Virtuozzo support
-Jean Parpaillon: IPMI backends and patches
 Jean-François Boucher: Solaris patch
 Jean-Jacques Michel: Solaris patches
+Jean Parpaillon: IPMI backends and patches
 Jérome Lebas: Solaris patches
 Jon Clarke: patch
 Julien Safar: ArchLinux support
-Ludovic Hutin: patch
+Kevin Roy: patches
 Lucas Masse: Solaris Patches
+Ludovic Hutin: patch
 Mario Gzuk: helpful and friendly feedback
 Marty Riedling: HPUX corrections
 Matthieu Cerda: bug reports/prebuilts
@@ -46,12 +51,13 @@ Maurizio Bertaboni: Solaris Zone support
 Nicolas Charles: Beta tester
 Nicolas Dorfsman: Solaris patches
 Nicolas Eisen: patches
+Nicolas Richard: patches and bug reports
 Olivier Andreotti: AIX, Solaris patches
 Olivier Roussy: minor patches 
-Philippe Libat: patchs and Xen support
-Philippe Camelio: AIX testing samples
-Pierre Chifflier: Debian maintainer
 Pablo Nicola: AIX testing samples
+Philippe Camelio: AIX testing samples
+Philippe Libat: patchs and Xen support
+Pierre Chifflier: Debian maintainer
 Raphaël Surcouf: patch
 Remi Collet: code, bug fixes, Fedora/RedHat maintainer and much more
 Scott Hannahs: MacOSX patches
@@ -59,11 +65,13 @@ Sebastien Chapelant: AIX testing samples
 Sebastien Dagnicourt: AIX and Solaris patches
 Sébastien Prud'homme: bug reports and HPVM support
 Sergio Merino: patch
+Sofiane Marchoud: various bug fixes
 Stéphane Urbanovski: patchs
 Sylvain Luce: Sun M5000 and M4000 support
 Thierry Lacoste: BSD portage
-Tomás Abad: testing/debug
+Tomás Abad: testing/debug, patch, packaging, and much more
 Vincent Knecht: wording patch
+Vincent Membré: patches and bug reports
 Vladimir Elisseev: various patches
 Walery Wysotsky: bug reports and testing
 Walid Nouh: gave access to PowerPC hardware to help the portage, patches
