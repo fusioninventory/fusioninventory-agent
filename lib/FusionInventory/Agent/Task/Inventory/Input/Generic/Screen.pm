@@ -96,11 +96,6 @@ my %manufacturers = (
     PDC => "Polaroid"
 );
 
-# list of models with unsuited constant ASCII serial numbers
-my %blacklist = (
-    ACRad49 => 1
-);
-
 sub isEnabled {
 
     return
@@ -159,15 +154,24 @@ sub _getEdidInfo {
     # they are two different serial numbers in EDID
     # - a mandatory 4 bytes numeric value
     # - an optional 13 bytes ASCII value
-    # we use the ASCII value if present, and if the model is not part of an
-    # exception, otherwise we use the numerical one, as an 8-length hex string
+    # we use the ASCII value if present, the numeric value as an hex string
+    # unless for a few list of known exceptions deserving specific handling
     # References:
     # http://forge.fusioninventory.org/issues/1607
     # http://forge.fusioninventory.org/issues/1614
-    $info->{SERIAL} =
-        $edid->{serial_number2} && !$blacklist{$edid->{EISA_ID}} ?
+    if (
+        $edid->{EISA_ID} &&
+        $edid->{EISA_ID} =~ /^ACR(0018|0020|00A8|7883|ad49|adaf)$/
+    ) {
+        $info->{SERIAL} =
+            substr($edid->{serial_number2}->[0], 0, 8) .
+            sprintf("%08x", $edid->{serial_number})    .
+            substr($edid->{serial_number2}->[0], 8, 4) ;
+    } else {
+        $info->{SERIAL} = $edid->{serial_number2} ?
             $edid->{serial_number2}->[0]           :
             sprintf("%08x", $edid->{serial_number});
+    }
 
     return $info;
 }
