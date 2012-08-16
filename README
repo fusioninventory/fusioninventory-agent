@@ -32,6 +32,7 @@ Additional optional perl modules:
 - IO::Socket::SSL, for HTTPS support with certificate validation
 - Net::CUPS (v0.60 minimum), for printers detection 
 - Proc::Daemon, for daemon mode (Unix only)
+- Win32::Daemon, for Win32 service mode (Windows only)
 - Proc::PID::File, for daemon mode (Unix only)
 
 Additional optional programs:
