@@ -151,25 +151,25 @@ my %tests = (
     'lcd.acer-al19161.1' => {
         MANUFACTURER => 'Acer America Corp.',
         CAPTION      => 'Acer AL1916',
-        SERIAL       => '719030c6',
+        SERIAL       => 'L4908669719030c64237',
         DESCRIPTION  => '19/2007'
     },
     'lcd.acer-al19161.2' => {
         MANUFACTURER => 'Acer America Corp.',
         CAPTION      => 'Acer AL1916',
-        SERIAL       => '7190328f',
+        SERIAL       => 'L49086697190328f4237',
         DESCRIPTION  => '19/2007'
     },
     'lcd.acer-al19161.3' => {
         MANUFACTURER => 'Acer America Corp.',
         CAPTION      => 'Acer AL1916',
-        SERIAL       => '71903291',
+        SERIAL       => 'L4908669719032914237',
         DESCRIPTION  => '19/2007'
     },
     'lcd.acer-al19161.4' => {
         MANUFACTURER => 'Acer America Corp.',
         CAPTION      => 'Acer AL1916',
-        SERIAL       => '71903290',
+        SERIAL       => 'L4908669719032904237',
         DESCRIPTION  => '19/2007'
     },
     'lcd.acer-asp1680' => {
