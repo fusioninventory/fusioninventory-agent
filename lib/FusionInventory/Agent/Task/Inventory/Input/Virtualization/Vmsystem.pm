@@ -115,6 +115,16 @@ sub doInventory {
         }
     }
 
+    if ( $status eq 'Xen' ) {
+        if (-f '/sys/hypervisor/uuid') {
+            my $handle = getFileHandle(
+                file => '/sys/hypervisor/uuid',
+                logger => $logger
+            );
+            $uuid = <$handle>;
+        }
+    }
+
     my $h;
 
     $h -> { VMSYSTEM } = $status;
