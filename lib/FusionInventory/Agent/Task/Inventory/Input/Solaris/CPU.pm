@@ -9,7 +9,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Solaris;
 
 sub isEnabled {
-    return canRun('memconf');
+    return 1;
 }
 
 sub doInventory {
@@ -18,193 +18,112 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $class = getClass();
+    my $info = getPrtconfInfos(file => shift);
 
-    my ($count, $cpu) =
-        $class == SOLARIS_CONTAINER ?
-            _getCPUFromPrtcl(logger => $logger)  :
-            _getCPUFromMemconf(logger => $logger);
+    # extract cpu-specific nodes from prtconf output
+    # there is one such node foreach of cpu count * core count * thread count
+    my $root_node_key = first { /0x/ } keys %$info;
+    my $root_node = $info->{$root_node_key};
+    my @cpu_nodes = find_cpu_nodes($root_node);
 
-    # fallback on generic method
-    ($count, $cpu) = _getCPUFromPsrinfo(logger => $logger) if !$count;
+    # all nodes are equals
+    my $type = $cpu_nodes[0]->{compatible};
+    $type = $type->[0] if ref $type eq 'ARRAY';
+    $type =~ s/[A-Z]+,//;
+    my $speed  = int(hex($cpu_nodes[0]->{frequency}) / 10000 + 0.5);
 
-    $cpu->{MANUFACTURER} = "SPARC";
+    # get physical cpu count from prsinfo
+    my $cpus = getFirstLine(command => '/usr/sbin/psrinfo -p') || 1;
 
-    while ($count--) {
+    # deduce core and thread count from cpu type and nodes count
+    my $cores   = 1;
+    my $threads = 1;
+
+    if ($type =~ /MB86907/) {
+        $type = "TurboSPARC-II $type";
+    } elsif ($type =~ /MB86904|390S10/) {
+        $type = ($speed > 70) ? "microSPARC-II $type" : "microSPARC $type";
+    } elsif ($type =~ /,RT62[56]/) {
+        $type = "hyperSPARC $type";
+    } elsif ($type =~ /UltraSPARC-IV/) {
+        # Dual-Core US-IV & US-IV+
+        $cores = 2;
+    } elsif ($type =~ /UltraSPARC-T1\b/) {
+        # 4-Thread (4, 6, or 8 Core) Niagara
+        $threads = 4;
+        $cores = (scalar @cpu_nodes) / $cpus / $threads;
+    } elsif ($type =~ /UltraSPARC-T2\+/) {
+        # 8-Thread (4, 6, or 8 Core) Victoria Falls
+        $threads = 8;
+        $cores = (scalar @cpu_nodes) / $cpus / $threads;
+    } elsif ($type =~ /UltraSPARC-T2\b/) {
+        # 8-Thread (4 or 8 Core) Niagara-II
+        $threads = 8;
+        $cores = (scalar @cpu_nodes) / $cpus / $threads;
+    } elsif ($type =~ /SPARC-T3\b/) {
+        # 8-Thread (8 or 16 Core) Rainbow Falls
+        $threads = 8;
+        $cores = (scalar @cpu_nodes) / $cpus / $threads;
+    } elsif ($type =~ /SPARC64-VI\b/) {
+        # Dual-Core Dual-Thread Olympus-C SPARC64-VI
+        $cores = 2;
+        $threads = 2;
+        # $cpus = (scalar @cpu_nodes) / $cores / $threads;
+    } elsif ($type =~ /SPARC64-VII\+\+\b/) {
+        # Quad-Core Dual-Thread Jupiter++ SPARC64-VII++
+        $cores = 4;
+        $threads = 2;
+        # $cpus = (scalar @cpu_nodes) / $cores / $threads;
+    } elsif ($type =~ /SPARC64-VII\+\b/) {
+        # Quad-Core Dual-Thread Jupiter+ SPARC64-VII+
+        $cores = 4;
+        $threads = 2;
+        # $cpus = (scalar @cpu_nodes) / $cores / $threads;
+    } elsif ($type =~ /SPARC64-VII\b/) {
+        # Quad-Core Dual-Thread Jupiter SPARC64-VII
+        $cores = 4;
+        $threads = 2;
+        # $cpus = (scalar @cpu_nodes) / $cores / $threads;
+    } elsif ($type eq "SPARC64-VIII") {
+        # 8-Core Dual-Thread Venus SPARC64-VIII
+        $cores = 8;
+        $threads = 2;
+        # $cpus = (scalar @cpu_nodes) / $cores / $threads;
+    }
+
+    while ($cpus--) {
         $inventory->addEntry(
             section => 'CPUS',
-            entry   => $cpu
+            entry   => {
+                MANUFACTURER => 'SPARC',
+                NAME         => $type,
+                SPEED        => getCanonicalSpeed($speed),
+                CORE         => $cores,
+                THREAD       => $threads
+            }
         );
     }
 }
 
+sub _find_cpu_nodes {
+    my ($node) = @_;
 
-# Sun Microsystems, Inc. Sun Fire 880 (4 X UltraSPARC-III 750MHz)
-# Sun Microsystems, Inc. Sun Fire V490 (2 X dual-thread UltraSPARC-IV 1350MHz)
-# Sun Microsystems, Inc. Sun Fire V240 (UltraSPARC-IIIi 1002MHz)
-# Sun Microsystems, Inc. Sun-Fire-T200 (Sun Fire T2000) (8-core quad-thread UltraSPARC-T1 1000MHz)
-# Sun Microsystems, Inc. Sun-Fire-T200 (Sun Fire T2000) (4-core quad-thread UltraSPARC-T1 1000MHz)
-# Sun Microsystems, Inc. SPARC Enterprise T5120 (8-core 8-thread UltraSPARC-T2 1165MHz)
-# Sun Microsystems, Inc. SPARC Enterprise T5120 (4-core 8-thread UltraSPARC-T2 1165MHz)
-# Sun Microsystems, Inc. Sun SPARC Enterprise M5000 Server (6 X dual-core dual-thread SPARC64-VI 2150MHz)
-# Fujitsu SPARC Enterprise M4000 Server (4 X dual-core dual-thread SPARC64-VI 2150MHz)
-# Sun Microsystems, Inc. Sun Fire V20z (Solaris x86 machine) (2 X Dual Core AMD Opteron(tm) Processor 270 1993MHz)
+    my @cpu_nodes;
 
-sub _getCPUFromMemconf {
-    my $spec = getFirstMatch(
-        command => 'memconf',
-        pattern => qr/^((?:Sun|Fujitsu|Intel) .* \d+ [GM]Hz\))/x,
-        @_
-    );
-    return _parseSpec($spec);
-}
-
-sub _parseCoreString {
-    my ($v) = @_;
-
-    return
-        $v =~ /dual/i     ? 2  :
-        $v =~ /quad/i     ? 4  :
-        $v =~ /(\d+)-\w+/ ? $1 :
-        $v;
-}
-
-sub _parseSpec {
-    my ($spec) = @_;
-
-    my $manufacturer;
-    if ($spec =~ /(AMD|Fujitsu|Intel)\s/g) {
-        $manufacturer = $1;
-    } elsif ($spec =~ /Sun/) {
-        $manufacturer = 'Sun Microsystems';
+    # recurse
+    foreach my $key (grep { /0x/ } keys %$node) {
+        push @cpu_nodes, _find_cpu_nodes($node->{$key});
     }
 
-    # 4 X UltraSPARC-III 750MHz
-    if ($spec =~ /(\d+) \s X \s (\S+) \s (\d+ \s* .Hz)/x) {
-        return $1, {
-            MANUFACTURER => $manufacturer,
-            NAME         => $2,
-            SPEED        => getCanonicalSpeed($3),
-            CORE         => 1,
-        };
-    }
+    return unless $node->{device_type};
+    return unless $node->{device_type} eq 'cpu';
 
-    # 2 X dual-thread UltraSPARC-IV 1350MHz
-    if ($spec =~ /(\d+) \s X \s (\S+) \s (\S+) \s (\d+) MHz/x) {
-        return $1, {
-            MANUFACTURER => $manufacturer,
-            NAME         => $3 . " (" . $2 . ")",
-            SPEED        => $4,
-            CORE         => _parseCoreString($1),
-            THREAD       => _parseCoreString($2)
-        };
-    }
+    push @cpu_nodes, {
+        compatible => $node->{'compatible'},
+        frequency  => $node->{'clock-frequency'}
+    };
 
-    # 8-core quad-thread UltraSPARC-T1 1000MHz
-    # 8-core 8-thread UltraSPARC-T2 1165MHz
-    # 16-Core 8-Thread SPARC-T3 1649MHz
-    if ($spec =~ /(\d+ -[cC]ore) \s (\S+) \s (\S+) \s (\d+) MHz/x) {
-        return 1, {
-            MANUFACTURER => $manufacturer,
-            NAME         => $3 . " (" . $1 . " " . $2 . ")",
-            SPEED        => $4,
-            CORE         => _parseCoreString($1),
-            THREAD       => _parseCoreString($2)
-        };
-    }
-
-    # 6 X dual-core dual-thread SPARC64-VI 2150MHz
-    if ($spec =~ /(\d+) \s X \s (\S+) \s (\S+) \s (\S+) \s (\d+) MHz/x) {
-        return $1, {
-            MANUFACTURER => $manufacturer,
-            NAME         => $4 . " (" . $2 . " " . $3 . ")",
-            SPEED        => $5,
-            CORE         => _parseCoreString($2),
-            THREAD       => _parseCoreString($3)
-        };
-    }
-
-    # 2 X Dual Core AMD Opteron(tm) Processor 270 1993MHz
-    if ($spec =~ /(\d+) \s X \s (\S+) \s Core \s AMD \s (Opteron\(tm\) \s Processor \s \S+) \s ([\.\d]+ \s* .Hz)/x) {
-        return $1, {
-            MANUFACTURER => $manufacturer,
-            NAME         => $3,
-            SPEED        => getCanonicalSpeed($4),
-            CORE         => _parseCoreString($2),
-        };
-    }
-
-    # 2 X Quad-Core Intel(R) Xeon(R) E7320 @ 2.13GHz
-    if ($spec =~ /(\d+) \s X \s (\S+) \s Intel\(R\) \s (Xeon\(R\) \s E\d+) \s @ \s ([\d\.]+\s*.Hz)/x) {
-        return $1, {
-            MANUFACTURER => $manufacturer,
-            NAME         => $3,
-            SPEED        => getCanonicalSpeed($4),
-            CORE         => _parseCoreString($2),
-        };
-    }
-
-    # UltraSPARC-IIi 270MHz
-    # UltraSPARC-III 750MHz
-    if ($spec =~ /([^()\s]\S+) \s (\d+ \s* .Hz)/x) {
-        return 1, {
-            MANUFACTURER => $manufacturer,
-            NAME         => $1,
-            SPEED        => getCanonicalSpeed($2),
-            CORE         => 1,
-        };
-    }
-
-}
-
-sub _getCPUFromPsrinfo {
-    my (%params) = (
-        command => 'psrinfo -v',
-        @_
-    );
-
-    my $handle = getFileHandle(%params);
-    return unless $handle;
-
-    my $count = 0;
-    my $cpu;
-    while (my $line = <$handle>) {
-        next unless $line =~ 
-            /^\s+The\s(\w+)\sprocessor\soperates\sat\s(\d+)\sMHz,/;
-
-        $cpu->{NAME}  = $1;
-        $cpu->{SPEED} = $2;
-        $count++;
-    }
-    close $handle;
-
-    return ($count, $cpu);
-}
-
-sub _getCPUFromPrtcl {
-    my (%params) = (
-        command => "prctl -n zone.cpu-shares $PID",
-        @_
-    );
-
-    my $handle = getFileHandle(%params);
-    return unless $handle;
-
-    my ($count, $cpu);
-    while (my $line = <$handle>) {
-        $cpu->{NAME} = $1 if $line =~ /^zone.(\S+)$/;
-        $cpu->{NAME} .= " " . $1 if $line =~ /^\s*privileged+\s*(\d+)/;
-        #$count = 1 if /^\s*privileged+\s*(\d+)/;
-        foreach (`memconf 2>&1`) {
-            if(/\s+\((\d+).*\s+(\d+)MHz/) {
-                $count = $1;
-                $cpu->{SPEED} = $2;
-            }
-        }
-    }
-    close $handle;
-
-    return ($count, $cpu);
+    return @cpu_nodes;
 }
 
 1;
