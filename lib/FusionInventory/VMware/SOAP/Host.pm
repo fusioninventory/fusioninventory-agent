@@ -312,7 +312,13 @@ sub getVirtualMachines {
         # hack to preserve  annotation / comment formating
         $comment =~ s/\n/&#10;/gm if $comment;
 
-        next if $_->[0]{summary}{config}{template} eq 'true';
+        if (
+            defined($_->[0]{summary}{config}{template})
+            &&
+            $_->[0]{summary}{config}{template} eq 'true'
+            ) {
+            next;
+        }
 
         push @virtualMachines,
           {
