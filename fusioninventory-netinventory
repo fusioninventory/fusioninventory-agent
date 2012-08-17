@@ -154,7 +154,7 @@ sub new {
 sub getUrl {
     my ($self, %params) = @_;
 
-    return;
+    return undef;
 }
 
 __END__
