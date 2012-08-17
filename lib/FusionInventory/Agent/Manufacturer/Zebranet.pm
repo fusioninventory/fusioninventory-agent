@@ -9,7 +9,7 @@ sub getDescription {
     my $result = $snmp->get('.1.3.6.1.4.1.10642.1.1.0');
     return $result if $result;
 
-    my $result = $snmp->get('.1.3.6.1.4.1.11.2.3.9.1.1.7.0');
+    $result = $snmp->get('.1.3.6.1.4.1.11.2.3.9.1.1.7.0');
     return unless $result;
 
     my @infos = split(/;/, $result);

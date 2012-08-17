@@ -6,18 +6,6 @@ use warnings;
 use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Tools::SNMP;
 
-sub setDescription {
-    my ($device, $snmp, $oid) = @_;
-
-    return $snmp->get('.1.3.6.1.4.1.674.10895.3000.1.2.100.1.0');
-}
-
-sub setVendor {
-    my ($snmp) = @_;
-
-    return $snmp->get('.1.3.6.1.4.1.674.10895.3000.1.2.100.1.0');
-}
-
 sub setConnectedDevicesMacAddresses {
     my (%params) = @_;
 
@@ -217,5 +205,17 @@ Set connected devices using LLDP
 =item ports device ports list
 
 =item walks model walk branch
+
+=back
+
+=head2 setTrunkPorts
+
+Set trunk flag on ports needing it.
+
+=over
+
+=item results raw values collected through SNMP
+
+=item ports device ports list
 
 =back

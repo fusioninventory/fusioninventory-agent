@@ -138,7 +138,7 @@ sub getStorage {
 sub getUrl {
     my ($self, %params) = @_;
 
-    return undef;
+    return;
 }
 
 package FusionInventory::Agent::Task::NetInventory::Storage;
@@ -163,7 +163,7 @@ __END__
 
 =head1 NAME
 
-fusioninventory-discovery - Network inventory from command line
+fusioninventory-discovery - Network discovery from command line
 
 =head1 SYNOPSIS
 
