@@ -21,16 +21,21 @@ GetOptions(
     'directory=s',
     'tag=s',
     'help',
+    'version',
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 2) if $options->{help};
+
+if ($options->{version}) {
+    print "fusioninventory-esx $FusionInventory::Agent::Task::ESX::VERSION\n";
+    exit 0;
+}
 
 pod2usage(-verbose => 0) unless
     $options->{host} and
     $options->{user} and
     $options->{password} and
     $options->{directory};
-
 
 my $esx = FusionInventory::Agent::Task::ESX->new(
     target => {},
