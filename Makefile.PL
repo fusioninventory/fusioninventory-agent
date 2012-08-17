@@ -30,6 +30,8 @@ warn "unable to check fusioninventory-agent setup: $EVAL_ERROR" if $EVAL_ERROR;
 
 # mandatory dependencies
 requires 'JSON'                   => undef;
+requires 'Pod::Usage'             => undef;
+requires 'Getopt::Long'            => undef;
 
 test_requires 'Test::Exception'  => undef;
 test_requires 'Test::MockObject' => undef;
