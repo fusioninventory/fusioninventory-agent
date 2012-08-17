@@ -198,7 +198,7 @@ sub manifypods {
     $manifypods =~ s/manifypods : pure_all/manifypods : pure_all fusioninventory-agent.1.html/;
     $manifypods .= <<'EOF';
 fusioninventory-agent.1.html: fusioninventory-agent
-	pod2html --infile=$< --outfile=$@
+	pod2html --infile=fusioninventory-agent --outfile=fusioninventory-agent.1.html
 
 EOF
     return $manifypods;
