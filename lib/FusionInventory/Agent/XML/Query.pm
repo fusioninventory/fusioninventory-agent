@@ -8,7 +8,6 @@ use XML::TreePP;
 sub new {
     my ($class, %params) = @_;
 
-    die "no deviceid parameter" unless $params{deviceid};
     die "no query parameter" unless $params{query};
 
     my $self = {};
@@ -57,7 +56,7 @@ the logger object to use
 
 =item I<deviceid>
 
-the agent identifier (mandatory)
+the agent identifier (optional)
 
 =back
 
