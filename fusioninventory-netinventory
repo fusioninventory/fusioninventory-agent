@@ -44,6 +44,7 @@ my $model = loadModel($options->{model});
 my $type =
     $model->{TYPE} == 1 ? 'PRINTER'    :
     $model->{TYPE} == 2 ? 'NETWORKING' :
+    $model->{TYPE} == 3 ? 'PRINTER' :
                           undef        ;
 
 my $inventory = FusionInventory::Agent::Task::NetInventory->new(
