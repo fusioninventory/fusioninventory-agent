@@ -10,7 +10,6 @@ version_from 'lib/FusionInventory/Agent.pm';
 perl_version '5.008';
 
 # mandatory dependencies
-requires 'Digest::MD5'        => undef;
 requires 'File::Which'        => undef;
 requires 'LWP'                => '5.8';
 requires 'Net::IP'            => undef;
