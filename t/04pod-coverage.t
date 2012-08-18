@@ -4,13 +4,13 @@ use strict;
 use warnings;
 
 use Test::More;
-use English qw(-no_match_vars);
+use UNIVERSAL::require;
 
 plan(skip_all => 'Author test, set $ENV{TEST_AUTHOR} to a true value to run')
     if !$ENV{TEST_AUTHOR};
 
-eval { require Test::Pod::Coverage; };
-plan(skip_all => 'Test::Pod::Coverage required') if $EVAL_ERROR;
+plan(skip_all => 'Test::Pod::Coverage required')
+    unless Test::Pod::Coverage->require();
 
 Test::Pod::Coverage->import();
 
