@@ -138,6 +138,7 @@ sub getStorage {
 sub getUrl {
     my ($self, %params) = @_;
 
+    ## no critic (ExplicitReturnUndef)
     return undef;
 }
 
