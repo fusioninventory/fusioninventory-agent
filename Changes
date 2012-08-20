@@ -12,12 +12,16 @@ Linux:
 * Megaraid controller support (Egor Morozov)
 * Support new OpenVZ configuration (Alessandro Iurlano)
 
-2.2.5
+2.2.5  Thu, 16 Aug 2012 12:03:30 +0200
 General:
 * Fix: deal with broken last_state file
 * Fix: fix HP RAID size parsing
 * Fix: Virtual machine inventory with VMware desktop
 * Fix: add /usr/local/{bin,sbin} in default $PATH
+
+Windows:
+* Fix: do not run dmidecode.exe on Win2003
+* Fix: Software inventory
 
 Solaris:
 * Fix: improve ZFS support
@@ -29,9 +33,10 @@ HP-UX:
 * Fix: import VXFS 7 volumes
 
 Test suite:
-* Improve the SSL tests
-* add an AIX slot test
+* Add an AIX slot test
 * Deals properly with disabled thread support
+* use the first available TCP port for network tests
+* Enable SSL test even in IPv6 environment
 
 2.2.4  Sun, 22 Jul 2012 23:23:12 +0200
 General:
