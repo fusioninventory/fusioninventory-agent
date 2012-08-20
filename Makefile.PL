@@ -4,7 +4,7 @@ use English qw(-no_match_vars);
 name 'FusionInventory-Agent-Task-Network';
 include 'Module::AutoInstall';
 abstract 'FusionInventory Agent Network tasks';
-version '1.0.0';
+version '1.0.1';
 license 'gpl';
 perl_version '5.008';
 
