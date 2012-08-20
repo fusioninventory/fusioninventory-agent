@@ -1,6 +1,13 @@
 Revision history for FusionInventory agent network tasks plugin
 
-1.0.0   Thu, 26 Apr 2012
+1.0.1   Mon, 20 Aug 2012
+
+Fixes:
+* fix model property handling in inventory
+* fix warning for standalone binaries
+* fix release date in changelog
+
+1.0.0   Fri, 17 Aug 2012
 
 Major changes:
 * merge netdiscovery and netinventory plugins, for easier maintainance
