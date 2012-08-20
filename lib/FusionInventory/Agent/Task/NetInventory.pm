@@ -41,8 +41,6 @@ my %properties = (
     UPTIME       => 'uptime',
     SERIAL       => 'serial',
     NAME         => 'name',
-    MODEL        => 'model',
-    MODEL        => 'entPhysicalModelName',
     MANUFACTURER => 'enterprise',
     OTHERSERIAL  => 'otherserial',
     MEMORY       => 'memory',
@@ -580,6 +578,8 @@ sub _setPrinterProperties {
     my $results = $params{results};
     my $device  = $params{device};
 
+    $device->{INFO}->{MODEL} = $results->{model};
+
     # consumable levels
     foreach my $key (keys %printer_cartridges_simple_properties) {
         my $property = $printer_cartridges_simple_properties{$key};
@@ -620,6 +620,8 @@ sub _setNetworkingProperties {
     my $results = $params{results};
     my $device  = $params{device};
     my $walks   = $params{walks};
+
+    $device->{INFO}->{MODEL} = $results->{entPhysicalModelName};
 
     my $comments = $device->{INFO}->{COMMENTS};
     my $ports    = $device->{PORTS}->{PORT};
