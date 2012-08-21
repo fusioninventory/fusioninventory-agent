@@ -19,7 +19,7 @@ use FusionInventory::Agent::Logger;
 if ($Config{usethreads} ne 'define') {
     plan skip_all => 'non working test without thread support';
 } else {
-    plan tests => 7;
+    plan tests => 8;
 }
 
 my $logger = FusionInventory::Agent::Logger->new(
