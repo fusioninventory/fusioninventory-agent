@@ -11,7 +11,6 @@ use Net::IP;
 use Text::Template;
 use File::Basename;
 
-use Socket qw( NI_NUMERICHOST NIx_NOSERV );
 use Socket::GetAddrInfo qw( getaddrinfo getnameinfo );
 
 use FusionInventory::Agent::Tools::Network;
@@ -267,7 +266,7 @@ sub _is_trusted {
 
             while( my $ai = shift @res ) {
 
-                my ( $err, $nameinfo ) = getnameinfo( $ai->{addr}, NI_NUMERICHOST, NIx_NOSERV );
+                my ( $err, $nameinfo ) = getnameinfo( $ai->{addr} );
                 $self->{logger}->error("Cannot getnameinfo - $err") if $err;
 
                 push @trustedAddrToTest, Net::IP->new($nameinfo);
