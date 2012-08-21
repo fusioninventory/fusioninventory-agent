@@ -43,12 +43,11 @@ sub _getSlots4 {
     my @slots;
 
     while (my $line = <$handle>) {
-        next unless $line =~ /pci/;
-        my @pci = split(/ +/, $line);
+        next unless $line =~ /^(\S+) \s+ PCI[EX] \s+ (\S+) (?:\s+ (\S+))?/x;
         push @slots, {
-            DESCRIPTION => $pci[0] . " (" . $pci[1] . ")",
-            DESIGNATION => $pci[3],
-            NAME        => $pci[4] . " " . $pci[5],
+            NAME        => $1,
+            DESIGNATION => $2,
+            DESCRIPTION => $3
         };
     }
     close $handle;
