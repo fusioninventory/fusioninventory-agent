@@ -34,6 +34,7 @@ Additional optional perl modules:
 - Net::CUPS (v0.60 minimum), for printers detection 
 - Parse::EDID, for screen identification
 - Proc::Daemon, for daemon mode (Unix only)
+- Win32::Daemon, for Win32 service mode (Windows only)
 - Proc::PID::File, for daemon mode (Unix only)
 
 Additional optional programs:

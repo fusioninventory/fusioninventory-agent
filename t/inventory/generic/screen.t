@@ -340,6 +340,42 @@ my %tests = (
         SERIAL       => '00000001',
         DESCRIPTION  => '40/2006',
     },
+    'acer-AL19161-1' => {
+        MANUFACTURER => 'Acer America Corp.',
+        CAPTION      => 'Acer AL1916',
+        SERIAL       => 'L4908669719030c64237',
+        DESCRIPTION  => '19/2007'
+    },
+    'acer-AL19161-2' => {
+        MANUFACTURER => 'Acer America Corp.',
+        CAPTION      => 'Acer AL1916',
+        SERIAL       => 'L49086697190328f4237',
+        DESCRIPTION  => '19/2007'
+    },
+    'acer-AL19161-3' => {
+        MANUFACTURER => 'Acer America Corp.',
+        CAPTION      => 'Acer AL1916',
+        SERIAL       => 'L4908669719032914237',
+        DESCRIPTION  => '19/2007'
+    },
+    'acer-AL19161-4' => {
+        MANUFACTURER => 'Acer America Corp.',
+        CAPTION      => 'Acer AL1916',
+        SERIAL       => 'L4908669719032904237',
+        DESCRIPTION  => '19/2007'
+    },
+    'ivm-PL2409HD' => {
+        MANUFACTURER => 'Idek Iiyama North America, Inc.',
+        CAPTION      => 'PL2409HD',
+        SERIAL       => '11004M0C00313',
+        DESCRIPTION  => '49/2010'
+    },
+    'SAM04d3' => {
+        MANUFACTURER => 'Samsung',
+        CAPTION      => 'SyncMaster',
+        SERIAL       => 'H9XS933672',
+        DESCRIPTION  => '39/2009'
+    },
     'lcd.viewsonic-vx715' => {
         MANUFACTURER => 'ViewSonic Corporation',
         CAPTION      => 'VX715',

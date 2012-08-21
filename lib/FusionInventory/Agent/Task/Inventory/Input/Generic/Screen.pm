@@ -96,6 +96,11 @@ my %manufacturers = (
     PDC => "Polaroid"
 );
 
+# list of models with unsuited constant ASCII serial numbers
+my %blacklist = (
+    ACRad49 => 1
+);
+
 sub isEnabled {
 
     return
