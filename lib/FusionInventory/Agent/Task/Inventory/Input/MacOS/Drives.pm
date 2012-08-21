@@ -36,7 +36,7 @@ sub doInventory {
     foreach my $partition (_getPartitions()) {
         my $device = "/dev/$partition";
 
-        my $info = _getPartitionInfo($partition);
+        my $info = _getPartitionInfo(partition => $partition);
 
         my $filesystem = $filesystems{$device};
         next unless $filesystem;
@@ -81,7 +81,7 @@ sub _getPartitions {
 sub _getPartitionInfo {
     my (%params) = @_;
 
-    my $command = "diskutil info $params{id}";
+    my $command = "diskutil info $params{partition}";
     my $handle = getFileHandle(command => $command, %params);
     return unless $handle;
 
