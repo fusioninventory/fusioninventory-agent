@@ -71,6 +71,7 @@ sub _getLocalUsers {
     my @users;
 
     while (my $line = <$handle>) {
+        next if $line =~ /^#/;
         my ($login, undef, $uid) = split(/:/, $line);
         # assume users with lower uid are system users
         next if $uid < 500;
