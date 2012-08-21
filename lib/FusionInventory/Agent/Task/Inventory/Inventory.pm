@@ -981,19 +981,13 @@ This information is hardly reliable.
 
 =over
 
-=item CAPACITY
-
-=item CAPTION
-
-=item FORMFACTOR
-
-=item REMOVABLE
-
-=item PURPOSE
-
-=item TYPE
-
 =item DESCRIPTION
+
+=item DESIGNATION
+
+=item NAME
+
+=item STATUS
 
 =back
 
