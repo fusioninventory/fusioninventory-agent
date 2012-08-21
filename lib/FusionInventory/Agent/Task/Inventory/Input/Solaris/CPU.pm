@@ -18,26 +18,29 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $info = getPrtconfInfos(file => shift);
+    # get virtual cpus from psrinfo -v
+    my @vcpus = _getVirtualCPUs(logger => $logger);
 
-    # extract cpu-specific nodes from prtconf output
-    # there is one such node foreach of cpu count * core count * thread count
-    my $root_node_key = first { /0x/ } keys %$info;
-    my $root_node = $info->{$root_node_key};
-    my @cpu_nodes = find_cpu_nodes($root_node);
+    # get physical cpus from psrinfo -vp
+    my @pcpus = _getPhysicalCPUs(logger => $logger);
 
-    # all nodes are equals
-    my $type = $cpu_nodes[0]->{compatible};
-    $type = $type->[0] if ref $type eq 'ARRAY';
-    $type =~ s/[A-Z]+,//;
-    my $speed  = int(hex($cpu_nodes[0]->{frequency}) / 10000 + 0.5);
+    # consider all cpus as identical
+    my $type  = $pcpus[0]->{type}  || $vcpus[0]->{type};
+    my $speed = $pcpus[0]->{speed} || $vcpus[0]->{speed};
+    my $cpus  = scalar @pcpus;
 
-    # get physical cpu count from prsinfo
-    my $cpus = getFirstLine(command => '/usr/sbin/psrinfo -p') || 1;
-
-    # deduce core and thread count from cpu type and nodes count
-    my $cores   = 1;
-    my $threads = 1;
+    my ($cores, $threads) =
+        $type eq 'UltraSPARC-IV'  ? (2,     1) : # US-IV & US-IV+
+        $type eq 'UltraSPARC-T1'  ? (undef, 4) : # Niagara
+        $type eq 'UltraSPARC-T2'  ? (undef, 8) : # Niagara-II
+        $type eq 'UltraSPARC-T2+' ? (undef, 8) : # Victoria Falls
+        $type eq 'SPARC-T3'       ? (undef, 8) : # Rainbow Falls
+        $type eq 'SPARC64-VI'     ? (2,     2) : # Olympus-C SPARC64-VI
+        $type eq 'SPARC64-VII'    ? (4,     2) : # Jupiter SPARC64-VII
+        $type eq 'SPARC64-VII+'   ? (4,     2) : # Jupiter+ SPARC64-VII+
+        $type eq 'SPARC64-VII++'  ? (4,     2) : # Jupiter++ SPARC64-VII++
+        $type eq 'SPARC64-VIII'   ? (8,     2) : # Venus SPARC64-VIII
+                                    (1,     1) ;
 
     if ($type =~ /MB86907/) {
         $type = "TurboSPARC-II $type";
@@ -45,50 +48,12 @@ sub doInventory {
         $type = ($speed > 70) ? "microSPARC-II $type" : "microSPARC $type";
     } elsif ($type =~ /,RT62[56]/) {
         $type = "hyperSPARC $type";
-    } elsif ($type =~ /UltraSPARC-IV/) {
-        # Dual-Core US-IV & US-IV+
-        $cores = 2;
-    } elsif ($type =~ /UltraSPARC-T1\b/) {
-        # 4-Thread (4, 6, or 8 Core) Niagara
-        $threads = 4;
-        $cores = (scalar @cpu_nodes) / $cpus / $threads;
-    } elsif ($type =~ /UltraSPARC-T2\+/) {
-        # 8-Thread (4, 6, or 8 Core) Victoria Falls
-        $threads = 8;
-        $cores = (scalar @cpu_nodes) / $cpus / $threads;
-    } elsif ($type =~ /UltraSPARC-T2\b/) {
-        # 8-Thread (4 or 8 Core) Niagara-II
-        $threads = 8;
-        $cores = (scalar @cpu_nodes) / $cpus / $threads;
-    } elsif ($type =~ /SPARC-T3\b/) {
-        # 8-Thread (8 or 16 Core) Rainbow Falls
-        $threads = 8;
-        $cores = (scalar @cpu_nodes) / $cpus / $threads;
-    } elsif ($type =~ /SPARC64-VI\b/) {
-        # Dual-Core Dual-Thread Olympus-C SPARC64-VI
-        $cores = 2;
-        $threads = 2;
-        # $cpus = (scalar @cpu_nodes) / $cores / $threads;
-    } elsif ($type =~ /SPARC64-VII\+\+\b/) {
-        # Quad-Core Dual-Thread Jupiter++ SPARC64-VII++
-        $cores = 4;
-        $threads = 2;
-        # $cpus = (scalar @cpu_nodes) / $cores / $threads;
-    } elsif ($type =~ /SPARC64-VII\+\b/) {
-        # Quad-Core Dual-Thread Jupiter+ SPARC64-VII+
-        $cores = 4;
-        $threads = 2;
-        # $cpus = (scalar @cpu_nodes) / $cores / $threads;
-    } elsif ($type =~ /SPARC64-VII\b/) {
-        # Quad-Core Dual-Thread Jupiter SPARC64-VII
-        $cores = 4;
-        $threads = 2;
-        # $cpus = (scalar @cpu_nodes) / $cores / $threads;
-    } elsif ($type eq "SPARC64-VIII") {
-        # 8-Core Dual-Thread Venus SPARC64-VIII
-        $cores = 8;
-        $threads = 2;
-        # $cpus = (scalar @cpu_nodes) / $cores / $threads;
+    }
+
+    # deduce core numbers from number of virtual cpus if needed
+    if (!$cores) {
+        # todo: solaris zone
+        $cores = (scalar @vcpus) / $threads / $cpus;
     }
 
     while ($cpus--) {
@@ -97,7 +62,7 @@ sub doInventory {
             entry   => {
                 MANUFACTURER => 'SPARC',
                 NAME         => $type,
-                SPEED        => getCanonicalSpeed($speed),
+                SPEED        => $speed,
                 CORE         => $cores,
                 THREAD       => $threads
             }
@@ -105,25 +70,67 @@ sub doInventory {
     }
 }
 
-sub _find_cpu_nodes {
-    my ($node) = @_;
+sub _getVirtualCPUs {
+    my %params = (
+        command => '/usr/sbin/psrinfo -v',
+        @_
+    );
 
-    my @cpu_nodes;
+    my $handle = getFileHandle(%params);
+    return unless $handle;
 
-    # recurse
-    foreach my $key (grep { /0x/ } keys %$node) {
-        push @cpu_nodes, _find_cpu_nodes($node->{$key});
+    my @cpus;
+    while (my $line = <$handle>) {
+        if ($line =~ /The (\S+) processor operates at (\d+) MHz/) {
+            push @cpus, {
+                type  => $1,
+                speed => $2,
+            };
+            next;
+        }
     }
+    close $handle;
 
-    return unless $node->{device_type};
-    return unless $node->{device_type} eq 'cpu';
+    return @cpus;
+}
 
-    push @cpu_nodes, {
-        compatible => $node->{'compatible'},
-        frequency  => $node->{'clock-frequency'}
-    };
+sub _getPhysicalCPUs {
+    my %params = (
+        command => '/usr/sbin/psrinfo -vp',
+        @_
+    );
 
-    return @cpu_nodes;
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my @cpus;
+    while (my $line = <$handle>) {
+
+        if ($line =~ /^The physical processor has (\d+) virtual/) {
+            push @cpus, {
+                count => $1
+            };
+            next;
+        }
+
+        if ($line =~ /^The (\S+) physical processor has (\d+) virtual/) {
+            push @cpus, {
+                type  => $1,
+                count => $2
+            };
+            next;
+        }
+
+        if ($line =~ /(\S+) \(.* clock (\d+) MHz\)/) {
+            my $cpu = $cpus[-1];
+            $cpu->{type} = $1;
+            $cpu->{speed} = $2;
+            next;
+        }
+    }
+    close $handle;
+
+    return @cpus;
 }
 
 1;
