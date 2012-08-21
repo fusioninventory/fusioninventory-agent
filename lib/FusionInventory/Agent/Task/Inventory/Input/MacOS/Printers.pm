@@ -23,7 +23,7 @@ sub doInventory {
     my $info = $infos->{Printers};
 
     foreach my $printer (keys %$info) {
-        next if $printer =~ /^The printers list is empty/;
+        next unless ref($info->{printer}) eq 'HASH';
 
         $inventory->addEntry(
             section => 'PRINTERS',
