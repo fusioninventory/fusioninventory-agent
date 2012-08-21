@@ -229,7 +229,7 @@ sub _parseNetstatNrv {
 
         my $address   = $1;
         my $mask      = $2;
-        my $gateway   = $3 if $3 ne $1;
+        my $gateway   = ($3 ne $1) ? $3 : undef;
         my $interface = $4;
         my $mtu       = $5;
 
