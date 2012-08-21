@@ -26,9 +26,14 @@ GetOptions(
     'verbose',
     'debug+',
     'help',
+    'version',
 ) or pod2usage(-verbose => 0);
 
-pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
+if ($options->{version}) {
+  print "fusioninventory-netinventory $FusionInventory::Agent::Task::NetInventory::VERSION\n";
+  exit 0;
+}
+pod2usage(-verbose => 0) if $options->{help};
 
 pod2usage(
     -message => "no model given, aborting\n", -verbose => 0
@@ -177,3 +182,4 @@ fusioninventory-netinventory [options] [--host <host>--file <file>]
     --entity       GLPI entity
     --verbose      verbose output (control messages)
     --debug        debug output (execution traces)
+    --version      print the version

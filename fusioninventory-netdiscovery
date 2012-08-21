@@ -27,9 +27,14 @@ GetOptions(
     'verbose',
     'debug+',
     'help',
+    'version'
 ) or pod2usage(-verbose => 0);
 
-pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
+if ($options->{version}) {
+  print "fusioninventory-netinventory $FusionInventory::Agent::Task::NetDiscovery::VERSION\n";
+  exit 0;
+}
+pod2usage(-verbose => 0) if $options->{help};
 
 pod2usage(
     -message => "no first address, aborting\n", -verbose => 0
@@ -179,3 +184,4 @@ fusioninventory-discovery [options] --first <start> --last <stop>
     --threads nb    number of discovery threads (default: 1)
     --verbose       verbose output (control messages)
     --debug         debug output (execution traces)
+    --version       print the version
