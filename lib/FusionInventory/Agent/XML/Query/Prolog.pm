@@ -8,6 +8,7 @@ sub new {
     my ($class, %params) = @_;
 
     die "no token parameter" unless $params{token};
+    die "no deviceid parameter" unless $params{deviceid};
 
     return $class->SUPER::new(
         query => 'PROLOG',
