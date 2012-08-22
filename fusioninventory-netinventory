@@ -30,7 +30,7 @@ GetOptions(
 ) or pod2usage(-verbose => 0);
 
 if ($options->{version}) {
-  print "fusioninventory-netinventory $FusionInventory::Agent::Task::NetInventory::VERSION\n";
+  print "NetInventory task $FusionInventory::Agent::Task::NetInventory::VERSION\n";
   exit 0;
 }
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
