@@ -177,7 +177,6 @@ fusioninventory-netinventory [options] [--host <host>--file <file>]
   [--model <model>]
 
   Options:
-    -h --help      this menu
     --host host    host to inventorize
     --file         snmpwalk output file
     --model model  XML model file
@@ -185,7 +184,8 @@ fusioninventory-netinventory [options] [--host <host>--file <file>]
     --entity       GLPI entity
     --verbose      verbose output (control messages)
     --debug        debug output (execution traces)
-    --version      print the version
+    -h --help      print this message and exit
+    --version      print the task version and exit
 
 =head1 DESCRIPTION
 

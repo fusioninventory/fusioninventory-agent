@@ -176,7 +176,6 @@ fusioninventory-netdiscovery - Offline network discovery
 fusioninventory-netdiscovery [options] --first <start> --last <stop>
 
   Options:
-    -h --help       this menu
     --first address IP range first address
     --last address  IP range last address
     --dictionnary   dictionnary file
@@ -185,7 +184,8 @@ fusioninventory-netdiscovery [options] --first <start> --last <stop>
     --threads nb    number of discovery threads (default: 1)
     --verbose       verbose output (control messages)
     --debug         debug output (execution traces)
-    --version       print the version
+    -h --help       print this message and exit
+    --version       print the task version and exit
 
 =head1 DESCRIPTION
 
