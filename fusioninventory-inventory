@@ -1,0 +1,82 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use lib './lib';
+
+use English qw(-no_match_vars);
+use Getopt::Long;
+use File::Temp;
+use Pod::Usage;
+
+use FusionInventory::Agent::Task::Inventory;
+use FusionInventory::Agent::Target::Local;
+use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Config;
+
+my %setup = (
+    confdir => './etc',
+    datadir => './share',
+    libdir  => './lib',
+    vardir  => './var',
+);
+
+my $options = {
+    config => 'none'
+};
+
+GetOptions(
+    $options,
+    'additional-content=s',
+    'backend-collect-timeout=s',
+    'html',
+    'no-category=s',
+    'scan-homedirs',
+    'tag|t=s',
+    'verbose',
+    'debug+',
+    'help',
+) or pod2usage(-verbose => 0);
+
+pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
+
+my $config = FusionInventory::Agent::Config->new(
+    options => $options,
+);
+
+my $inventory = FusionInventory::Agent::Task::Inventory->new(
+    target => FusionInventory::Agent::Target::Local->new(
+        path       => '-',
+        html       => $options->{html},
+        basevardir => File::Temp->newdir(CLEANUP => 1),
+    ),
+    logger =>  FusionInventory::Agent::Logger->new(
+        debug => $options->{debug}
+    ),
+    datadir => $setup{datadir},
+    confdir => $setup{confdir},
+    config  => $config
+);
+
+$inventory->run();
+
+__END__
+
+=head1 NAME
+
+fusioninventory-inventory - Offline inventory
+
+=head1 SYNOPSIS
+
+fusioninventory-inventory [options]
+
+  Options:
+    -h --help                      this menu
+    --scan-homedirs                scan use home directories (false)
+    --html                         save the inventory as HTML (false)
+    -t --tag=TAG                   mark the machine with given tag
+    --backend-collect-timeout=TIME timeout for inventory modules
+                                     execution (30)
+    --additional-content=FILE      additional inventory content file
+    --verbose                      verbose output (control messages)
+    --debug                        debug output (execution traces)
