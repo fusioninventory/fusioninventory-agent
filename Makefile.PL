@@ -42,6 +42,12 @@ recommends 'Net::NBName' => undef;
 install_script 'fusioninventory-netdiscovery';
 install_script 'fusioninventory-netinventory';
 
+makemaker_args(
+    test => {
+        TESTS => join ' ', map { glob } qw(t/*.t t/*/*.t)
+    },
+);
+
 WriteAll;
 
 # substitute prefix everywhere
