@@ -24,11 +24,11 @@ if ($OSNAME eq 'darwin') {
 # optional dependencies
 recommends 'Compress::Zlib'   => undef;
 recommends 'HTTP::Daemon'     => undef;
-recommends 'Net::CUPS'        => 0.60;
 recommends 'IO::Socket::SSL'  => undef;
 recommends 'LWP::Protocol::https'  => undef;
 
 if ($OSNAME ne 'MSWin32') {
+    recommends 'Net::CUPS'        => 0.60;
     recommends 'Proc::Daemon'     => undef;
     recommends 'Proc::PID::File'  => undef;
 } else {
