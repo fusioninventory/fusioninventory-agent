@@ -169,7 +169,7 @@ __END__
 
 =head1 NAME
 
-fusioninventory-netinventory - Network inventory from command line
+fusioninventory-netinventory - Offline network inventory
 
 =head1 SYNOPSIS
 
@@ -186,3 +186,8 @@ fusioninventory-netinventory [options] [--host <host>--file <file>]
     --verbose      verbose output (control messages)
     --debug        debug output (execution traces)
     --version      print the version
+
+=head1 DESCRIPTION
+
+F<fusioninventory-netinventory> allows to run a network inventory task without
+a GLPI server.

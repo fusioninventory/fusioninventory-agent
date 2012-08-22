@@ -169,11 +169,11 @@ __END__
 
 =head1 NAME
 
-fusioninventory-discovery - Network discovery from command line
+fusioninventory-netdiscovery - Offline network discovery
 
 =head1 SYNOPSIS
 
-fusioninventory-discovery [options] --first <start> --last <stop>
+fusioninventory-netdiscovery [options] --first <start> --last <stop>
 
   Options:
     -h --help       this menu
@@ -186,3 +186,8 @@ fusioninventory-discovery [options] --first <start> --last <stop>
     --verbose       verbose output (control messages)
     --debug         debug output (execution traces)
     --version       print the version
+
+=head1 DESCRIPTION
+
+F<fusioninventory-netdiscovery> allows to run a network discovery task without a
+GLPI server.
