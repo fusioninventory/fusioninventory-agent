@@ -1,0 +1,1 @@
+sqlite3 -separator " <> " "/Library/Application Support/Adobe/Adobe PCD/cache/cache.db" "SELECT * FROM domain_data" > resources/generic/license/adobe/cache.db-sample1
