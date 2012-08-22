@@ -64,7 +64,6 @@ sub _scanOffice {
 
 sub doInventory {
     my (%params) = @_;
-return;
 
     my $machKey = $Registry->Open('LMachine', {
             Access => KEY_READ ## no critic (ProhibitBitwise)
@@ -74,21 +73,11 @@ return;
         $machKey->{"SOFTWARE/Microsoft/Office"};
 
     my @found;
-use Data::Dumper;
-
-_scanOffice($office, \@found);
-print "done\n";
-print Dumper(\@found);
+    _scanOffice($office, \@found);
      
-        foreach my $license (@found) {
+    foreach my $license (@found) {
         $params{inventory}->addEntry(section => 'LICENSES', entry => $license);
-}
-#    foreach my $k (keys %$office) {
-#        _scanOffice($office, \@result);
-#        print $k."\n";
-#
-#    }
-
+    }
 }
 
 1;
