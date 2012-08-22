@@ -76,6 +76,7 @@ my %fields = (
                              SIZE FREE PE_SIZE VG_UUID/ ],
     VOLUME_GROUPS    => [ qw/VG_NAME PV_COUNT LV_COUNT ATTR SIZE FREE VG_UUID 
                              VG_EXTENT_SIZE/ ],
+    LICENSES         => [ qw/NAME FULLNAME KEY COMPONENTS TRIAL UPDATE OEM ACTIVATION_DATE/ ]
 );
 
 my %checks = (
@@ -1580,3 +1581,29 @@ The free space.
 =item UUID
 
 The UUID
+
+=back
+
+=head2 LICENSES
+
+A license
+
+=over
+
+=item NAME
+
+The name of the license
+
+=item FULLNAME
+
+The full name of the license (optional)
+
+=item KEY
+
+The key used to register the license (optional)
+
+=item COMPONENTS
+
+The components covered by the license (optional)
+
+=back
