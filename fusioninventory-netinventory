@@ -26,8 +26,13 @@ GetOptions(
     'verbose',
     'debug+',
     'help',
+    'version',
 ) or pod2usage(-verbose => 0);
 
+if ($options->{version}) {
+  print "fusioninventory-netinventory $FusionInventory::Agent::Task::NetInventory::VERSION\n";
+  exit 0;
+}
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
 
 pod2usage(
@@ -86,6 +91,8 @@ $inventory->{client} =
     FusionInventory::Agent::Task::NetInventory::Client->new(
         verbose => $options->{verbose}
     );
+# TODO: need to be dropped the day we will depend on agent >= 2.3.0
+$inventory->{deviceid} = 'foo';
 
 $inventory->run();
 
@@ -178,3 +185,4 @@ fusioninventory-netinventory [options] [--host <host>--file <file>]
     --entity       GLPI entity
     --verbose      verbose output (control messages)
     --debug        debug output (execution traces)
+    --version      print the version
