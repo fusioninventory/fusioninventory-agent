@@ -20,6 +20,11 @@ requires 'XML::TreePP'        => '0.26';
 if ($OSNAME eq 'darwin') {
     requires 'Mac::SysProfile' => undef;
 }
+if ($OSNAME eq 'MSWin32') {
+    requires 'Win32::OLE'         => undef;
+    requires 'Win32::TieRegistry' => undef;
+    requires 'Win32::Job'         => undef;
+}
 
 # optional dependencies
 recommends 'Compress::Zlib'   => undef;
@@ -32,9 +37,6 @@ if ($OSNAME ne 'MSWin32') {
     recommends 'Proc::Daemon'     => undef;
     recommends 'Proc::PID::File'  => undef;
 } else {
-    requires 'Win32::OLE' => undef;
-    requires 'Win32::TieRegistry' => undef;
-    requires 'Win32::Job' => undef;
     recommends 'Win32::Daemon'    => undef;
 }
 
