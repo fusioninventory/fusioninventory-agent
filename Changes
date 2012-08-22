@@ -4,7 +4,8 @@ Revision history for FusionInventory agent network tasks plugin
 
 Fixes:
 * fix model property handling in inventory
-* fix warning for standalone binaries
+* fix warning for fusioninventory-net{inventory,discovery}
+* fix model category for fusioninventory-netinventory
 * fix release date in changelog
 
 1.0.0   Fri, 17 Aug 2012
