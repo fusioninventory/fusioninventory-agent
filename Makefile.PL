@@ -53,6 +53,7 @@ test_requires  'Test::More'                   => '0.93'; # subtest
 test_requires  'LWP::Protocol::https'          => undef;
 
 install_script  'fusioninventory-agent';
+install_script  'fusioninventory-inventory';
 install_script  'fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
 install_script  'fusioninventory-injector';
 # memconf is needed by Solaris backend module
