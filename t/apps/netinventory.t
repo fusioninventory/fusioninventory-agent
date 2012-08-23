@@ -5,8 +5,9 @@ use warnings;
 
 use English qw(-no_match_vars);
 use IPC::Run qw(run);
+use XML::TreePP;
 
-use Test::More tests => 12;
+use Test::More tests => 15;
 
 use FusionInventory::Agent::Task::NetInventory;
 
@@ -47,6 +48,15 @@ like(
     'no target stderr'
 );
 is($out, '', 'no target stdout');
+
+($out, $err, $rc) = run_netinventory('--file resources/walks/sample4.walk --model resources/models/sample1.xml');
+ok($rc == 0, 'success exit status');
+
+my $content = XML::TreePP->new()->parse($out);
+ok($content, 'valid output');
+
+my $result = XML::TreePP->new()->parsefile('resources/walks/sample4.result');
+is_deeply($content, $result, "expected output");
 
 sub run_netinventory {
     my ($args) = @_;
