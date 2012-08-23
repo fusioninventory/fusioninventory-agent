@@ -27,6 +27,10 @@ sub doInventory {
     # consider all cpus as identical
     my $type  = $pcpus[0]->{type}  || $vcpus[0]->{type};
     my $speed = $pcpus[0]->{speed} || $vcpus[0]->{speed};
+    my $manufacturer =
+        $type =~ /SPARC/ ? 'SPARC' :
+        $type =~ /Xeon/  ? 'Intel' :
+                           undef   ;
     my $cpus  = scalar @pcpus;
 
     my ($cores, $threads) =
@@ -60,7 +64,7 @@ sub doInventory {
         $inventory->addEntry(
             section => 'CPUS',
             entry   => {
-                MANUFACTURER => 'SPARC',
+                MANUFACTURER => $manufacturer,
                 NAME         => $type,
                 SPEED        => $speed,
                 CORE         => $cores,
