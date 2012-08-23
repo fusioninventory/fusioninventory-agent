@@ -28,13 +28,13 @@ GetOptions(
     'debug+',
     'help',
     'version'
-) or pod2usage(-verbose => 0, -exitval => 0);
+) or pod2usage(-verbose => 0);
 
 if ($options->{version}) {
   print "NetDiscovery task $FusionInventory::Agent::Task::NetDiscovery::VERSION\n";
   exit 0;
 }
-pod2usage(-verbose => 0) if $options->{help};
+pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
 
 pod2usage(
     -message => "no first address, aborting\n", -verbose => 0
@@ -169,7 +169,7 @@ __END__
 
 =head1 NAME
 
-fusioninventory-netdiscovery - Offline network discovery
+fusioninventory-netdiscovery - Standalone network discovery
 
 =head1 SYNOPSIS
 
