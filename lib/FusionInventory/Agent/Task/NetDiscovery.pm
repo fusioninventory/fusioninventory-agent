@@ -206,6 +206,53 @@ sub run {
 
     $self->{logger}->debug("FusionInventory NetDiscovery task $VERSION");
 
+    my $options     = $self->{options};
+    my $pid         = $options->{PARAM}->[0]->{PID};
+    my $max_threads = $options->{PARAM}->[0]->{THREADS_DISCOVERY};
+
+    # create the required number of threads, sharing variables
+    # for synchronisation
+    my @addresses :shared;
+    my @results   :shared;
+    my @states    :shared;
+
+    # check discovery methods available
+    my ($nmap_parameters, $snmp_credentials, $snmp_dictionary);
+
+    # compute blocks list
+    my $addresses_count = 0;
+    foreach my $range (@{$options->{RANGEIP}}) {
+        next unless $range->{IPSTART};
+        next unless $range->{IPEND};
+        $range->{block} = Net::IP->new(
+            $range->{IPSTART} . '-' . $range->{IPEND}
+        );
+        $addresses_count += $range->{block}->size();
+    }
+
+    # no need for more threads than addresses to scan
+    if ($max_threads > $addresses_count) {
+        $max_threads = $addresses_count;
+    }
+
+    for (my $i = 0; $i < $max_threads; $i++) {
+        $states[$i] = START;
+
+        threads->create(
+            '_scanAddresses',
+            $self,
+            \$states[$i],
+            \@addresses,
+            \@results,
+            $snmp_credentials,
+            $snmp_dictionary,
+            $nmap_parameters,
+        )->detach();
+    }
+
+
+
+
     # task-specific client, if needed
     $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
         logger       => $self->{logger},
@@ -216,13 +263,6 @@ sub run {
         ca_cert_dir  => $params{ca_cert_dir},
         no_ssl_check => $params{no_ssl_check},
     ) if !$self->{client};
-
-    my $options     = $self->{options};
-    my $pid         = $options->{PARAM}->[0]->{PID};
-    my $max_threads = $options->{PARAM}->[0]->{THREADS_DISCOVERY};
-
-    # check discovery methods available
-    my ($nmap_parameters, $snmp_credentials, $snmp_dictionary);
 
     if (canRun('nmap')) {
        my ($major, $minor) = getFirstMatch(
@@ -258,43 +298,6 @@ sub run {
         return unless $snmp_dictionary;
     }
 
-
-    # create the required number of threads, sharing variables
-    # for synchronisation
-    my @addresses :shared;
-    my @results   :shared;
-    my @states    :shared;
-
-    # compute blocks list
-    my $addresses_count = 0;
-    foreach my $range (@{$options->{RANGEIP}}) {
-        next unless $range->{IPSTART};
-        next unless $range->{IPEND};
-        $range->{block} = Net::IP->new(
-            $range->{IPSTART} . '-' . $range->{IPEND}
-        );
-        $addresses_count += $range->{block}->size();
-    }
-
-    # no need for more threads than addresses to scan
-    if ($max_threads > $addresses_count) {
-        $max_threads = $addresses_count;
-    }
-
-    for (my $i = 0; $i < $max_threads; $i++) {
-        $states[$i] = START;
-
-        threads->create(
-            '_scanAddresses',
-            $self,
-            \$states[$i],
-            \@addresses,
-            \@results,
-            $snmp_credentials,
-            $snmp_dictionary,
-            $nmap_parameters,
-        )->detach();
-    }
 
     # send initial message to the server
     $self->_sendMessage({
