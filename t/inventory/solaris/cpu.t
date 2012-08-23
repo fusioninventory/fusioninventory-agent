@@ -29,7 +29,7 @@ my %pcpu_tests = (
     ],
     unstable10x => [ 
         4,
-        { speed => '2333', type => 'x86', count => 1 }
+        { speed => '2333', type => 'Xeon E5410', count => 1 }
     ],
 );
 

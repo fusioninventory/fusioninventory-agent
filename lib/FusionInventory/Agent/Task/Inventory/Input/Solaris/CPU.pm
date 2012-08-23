@@ -127,6 +127,11 @@ sub _getPhysicalCPUs {
             $cpu->{speed} = $2;
             next;
         }
+
+        if ($line =~ /Intel\(r\) Xeon\(r\) CPU +(\S+)/) {
+            my $cpu = $cpus[-1];
+            $cpu->{type} = "Xeon $1";
+        }
     }
     close $handle;
 
