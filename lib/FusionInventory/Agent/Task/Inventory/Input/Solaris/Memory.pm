@@ -336,15 +336,18 @@ sub _getMemories6 {
                 push @memories, $memory;
             }
         }
-        if ($line =~ /^socket DIMM(\d+):\s+(\d+)MB\s(\S+)/) {
-            my $memory = {
-                CAPTION     => "DIMM$1",
-                DESCRIPTION => "DIMM$1",
-                NUMSLOTS    => $1,
-                CAPACITY    => $2,
-                TYPE        => $3
+        if ($line =~ /^
+            socket \s Memory \s Board \s ([A-Z]),
+            \s DIMM_(\d+):
+            \s \S+
+            \s (\d+)MB
+            /x) {
+            push @memories, {
+                CAPTION     => "Board $1",
+                NUMSLOTS    => $2,
+                DESCRIPTION => "DIMM",
+                CAPACITY    => $3,
             };
-            push @memories, $memory;
         }
     }
     close $handle;
