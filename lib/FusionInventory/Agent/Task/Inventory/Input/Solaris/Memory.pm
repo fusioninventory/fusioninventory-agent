@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Input::Solaris::Memory;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Solaris;
 
@@ -379,7 +381,7 @@ sub _getMemories6 {
 
 sub _getMemories7 {
     my $handle = getFileHandle(
-        command => "prctl -n project.max-shm-memory $$",
+        command => "prctl -n project.max-shm-memory $PID",
         @_
     );
 
