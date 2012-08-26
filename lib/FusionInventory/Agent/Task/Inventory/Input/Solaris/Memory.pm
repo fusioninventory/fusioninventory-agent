@@ -43,12 +43,12 @@ sub doInventory {
     }
 
     my @memories =
-        $class == SOLARIS_FIRE         ? _getMemories1(command => 'memconf') :
-        $class == SOLARIS_FIRE_V       ? _getMemories2(command => 'memconf') :
-        $class == SOLARIS_FIRE_T       ? _getMemories3(command => 'memconf') :
-        $class == SOLARIS_ENTERPRISE_T ? _getMemories4(command => 'memconf') :
-        $class == SOLARIS_ENTERPRISE   ? _getMemories5(command => 'memconf') :
-        $class == SOLARIS_I86PC        ? _getMemories6(command => 'memconf') :
+        $class == SOLARIS_FIRE         ? _getMemories1() :
+        $class == SOLARIS_FIRE_V       ? _getMemories2() :
+        $class == SOLARIS_FIRE_T       ? _getMemories3() :
+        $class == SOLARIS_ENTERPRISE_T ? _getMemories4() :
+        $class == SOLARIS_ENTERPRISE   ? _getMemories5() :
+        $class == SOLARIS_I86PC        ? _getMemories6() :
         $class == SOLARIS_CONTAINER    ? _getMemories7() :
                                          ()              ;
 
@@ -61,7 +61,7 @@ sub doInventory {
 }
 
 sub _getMemories1 {
-    my $handle = getFileHandle(@_);
+    my $handle = getFileHandle(command => 'memconf', @_);
     my @memories;
 
     my $flag = 0;
@@ -130,7 +130,7 @@ sub _getMemories1 {
 }
 
 sub _getMemories2 {
-    my $handle = getFileHandle(@_);
+    my $handle = getFileHandle(command => 'memconf', @_);
     my @memories;
 
     my $flag    = 0;
@@ -203,7 +203,7 @@ sub _getMemories2 {
 }
 
 sub _getMemories3 {
-    my $handle = getFileHandle(@_);
+    my $handle = getFileHandle(command => 'memconf', @_);
     my @memories;
 
     while (my $line = <$handle>) {
@@ -238,7 +238,7 @@ sub _getMemories3 {
 }
 
 sub _getMemories4 {
-    my $handle = getFileHandle(@_);
+    my $handle = getFileHandle(command => 'memconf', @_);
     my @memories;
 
     while (my $line = <$handle>) {
@@ -275,7 +275,7 @@ sub _getMemories4 {
 }
 
 sub _getMemories5 {
-    my $handle = getFileHandle(@_);
+    my $handle = getFileHandle(command => 'memconf', @_);
     my @memories;
 
     my $flag = 0;
@@ -341,7 +341,7 @@ sub _getMemories5 {
 }
 
 sub _getMemories6 {
-    my $handle = getFileHandle(@_);
+    my $handle = getFileHandle(command => 'memconf', @_);
 
     my @memories;
 
