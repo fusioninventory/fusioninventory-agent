@@ -5,8 +5,9 @@ use warnings;
 
 use English qw(-no_match_vars);
 use IPC::Run qw(run);
+use Test::More tests => 6;
 
-use Test::More tests => 3;
+use FusionInventory::Agent::Task::Inventory;
 
 my ($out, $err, $rc);
 
@@ -18,6 +19,15 @@ like(
     '--help stdout'
 );
 is($err, '', '--help stderr');
+
+($out, $err, $rc) = run_inventory('--version');
+ok($rc == 0, '--version exit status');
+is($err, '', '--version stderr');
+like(
+    $out,
+    qr/$FusionInventory::Agent::Task::Inventory::VERSION/,
+    '--version stdin'
+);
 
 sub run_inventory {
     my ($args) = @_;
