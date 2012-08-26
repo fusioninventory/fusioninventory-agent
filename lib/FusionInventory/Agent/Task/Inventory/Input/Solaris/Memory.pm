@@ -68,14 +68,7 @@ sub _getMemories1 {
 
     my $flag = 0;
     my $flag_mt = 0;
-    my $banksize;
-
-    my $capacity;
     my $description;
-    my $caption;
-    my $speed;
-    my $type;
-    my $numslots;
 
     while (my $line = <$handle>) {
         if ($line =~ /^empty \w+:\s(\S+)/) {
@@ -102,28 +95,26 @@ sub _getMemories1 {
 
         # only grap for information if flag is set
         next unless $flag;
-
-        if ($line =~ /^\s*(\S+)\s+(\S+)/) {
-            $caption = "Board " . $1 . " MemCtl " . $2;
-        }
-        if ($line =~ /^\s*\S+\s+\S+\s+(\S+)/) {
-            $numslots = $1;
-        }
-        if ($line =~ /^\s*\S+\s+\S+\s+\S+\s+(\d+)/) {
-            $banksize = $1;
-        }
-        if ($line =~ /^\s*\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+(\d+)/) {
-            $capacity = $1;
-        }
-        foreach (1 .. ($banksize / $capacity)) {
-            push @memories, {
-                CAPACITY => $capacity,
+        if ($line =~ /^
+            \s  ([A-Z])
+            \s+ (\d)
+            \s+ (\d)
+            \s+ (\d+)MB
+            \s+ \S+
+            \s+ (\d+)MB
+        /x) {
+            my $memory = {
+                CAPTION     => "Board $1 MemCtl $2",
+                CAPACITY    => $5,
                 DESCRIPTION => $description,
-                CAPTION => $caption,
-                SPEED => $speed,
-                TYPE => $type,
-                NUMSLOTS => $numslots
+                SPEED       => undef,
+                TYPE        => undef,
+                NUMSLOTS    => $3
             };
+            my $banksize = $4;
+            foreach (1 .. ($banksize / $memory->{CAPACITY})) {
+                push @memories, $memory;
+            }
         }
     }
     close $handle;
