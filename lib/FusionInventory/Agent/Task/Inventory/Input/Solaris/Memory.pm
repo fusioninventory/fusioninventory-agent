@@ -378,13 +378,18 @@ sub _getMemories6 {
 }
 
 sub _getMemories7 {
+    my $handle = getFileHandle(
+        command => "prctl -n project.max-shm-memory $$",
+        @_
+    );
 
     my @memories;
     my $memory;
 
-    foreach (`prctl -n project.max-shm-memory $$ 2>&1`) {
-        $memory->{DESCRIPTION} = $1 if /^project.(\S+)$/;
-        $memory->{CAPACITY} = $1 if /^\s*system+\s*(\d+)/;
+    while (my $line = <$handle>) {
+        $memory->{DESCRIPTION} = $1 if $line =~ /^project.(\S+)$/;
+        $memory->{CAPACITY} = $1 if $line =~ /^\s*system+\s*(\d+)/;
+
         if ($memory->{DESCRIPTION} && $memory->{CAPACITY}){
             $memory->{CAPACITY} = $memory->{CAPACITY} * 1024;
             $memory->{NUMSLOTS} = 1 ;
@@ -394,6 +399,7 @@ sub _getMemories7 {
             undef $memory;
         }
     }
+    close $handle;
 
     return @memories;
 }
