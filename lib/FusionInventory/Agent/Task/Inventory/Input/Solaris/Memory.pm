@@ -66,53 +66,37 @@ sub _getMemories1 {
     my $handle = getFileHandle(command => 'memconf', @_);
     my @memories;
 
-    my $flag = 0;
-    my $flag_mt = 0;
     my $description;
 
+    # parse headers
     while (my $line = <$handle>) {
-        if ($line =~ /^empty \w+:\s(\S+)/) {
-            # the end, we unset flag
-            $flag = 0;
-        }
-
-        # caption line
-        if ($line =~ /^\s+Logical  Logical  Logical/) {
-            $flag_mt = 1;
-        }
-
-        if ($line =~ /^-+/) {
-            # delimiter, we set flag
-            $flag = 1;
-            next;
-        }
-
-        if ($flag_mt && $line =~ /^\s*\S+\s+\S+\s+\S+\s+\S+\s+(\S+)/) {
-            # grep the type of memory modules from heading
-            $flag_mt = 0;
+    if ($line =~ /Bank \s+ Bank \s+ Bank \s+ (\S+)/x) {
             $description = $1;
         }
+        if ($line =~ /^-+/) {
+            last;
+        }
+    }
 
-        # only grap for information if flag is set
-        next unless $flag;
-        if ($line =~ /^
+    # parse rest of output
+    while (my $line = <$handle>) {
+        next unless $line =~ /^
             \s  ([A-Z])
             \s+ (\d)
             \s+ (\d)
             \s+ (\d+)MB
             \s+ \S+
             \s+ (\d+)MB
-        /x) {
-            my $memory = {
-                CAPTION     => "Board $1 MemCtl $2",
-                CAPACITY    => $5,
-                DESCRIPTION => $description,
-                NUMSLOTS    => $3
-            };
-            my $banksize = $4;
-            foreach (1 .. ($banksize / $memory->{CAPACITY})) {
-                push @memories, $memory;
-            }
+        /x;
+        my $memory = {
+            CAPTION     => "Board $1 MemCtl $2",
+            CAPACITY    => $5,
+            DESCRIPTION => $description,
+            NUMSLOTS    => $3
+        };
+        my $banksize = $4;
+        foreach (1 .. ($banksize / $memory->{CAPACITY})) {
+            push @memories, $memory;
         }
     }
     close $handle;
