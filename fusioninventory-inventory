@@ -36,8 +36,13 @@ GetOptions(
     'verbose',
     'debug+',
     'help',
+    'version',
 ) or pod2usage(-verbose => 0);
 
+if ($options->{version}) {
+  print "Inventory task $FusionInventory::Agent::Task::Inventory::VERSION\n";
+  exit 0;
+}
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
 
 my $config = FusionInventory::Agent::Config->new(
@@ -71,7 +76,6 @@ fusioninventory-inventory - Standalone inventory
 fusioninventory-inventory [options]
 
   Options:
-    -h --help                      this menu
     --scan-homedirs                scan use home directories (false)
     --html                         save the inventory as HTML (false)
     -t --tag=TAG                   mark the machine with given tag
@@ -80,6 +84,8 @@ fusioninventory-inventory [options]
     --additional-content=FILE      additional inventory content file
     --verbose                      verbose output (control messages)
     --debug                        debug output (execution traces)
+    -h --help                      print this message and exit
+    --version                      print the task version and exit
 
 =head1 DESCRIPTION
 
