@@ -12,256 +12,192 @@ my %memconf_class1_tests = (
         {
             NUMSLOTS    => '0',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board A MemCtl 0',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '0',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board A MemCtl 0',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '1',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board A MemCtl 0',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '1',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board A MemCtl 0',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '2',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board A MemCtl 0',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '2',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board A MemCtl 0',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '3',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board A MemCtl 0',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '3',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board A MemCtl 0',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '0',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board A MemCtl 2',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '0',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board A MemCtl 2',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '1',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board A MemCtl 2',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '1',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board A MemCtl 2',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '2',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board A MemCtl 2',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '2',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board A MemCtl 2',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '3',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board A MemCtl 2',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '3',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board A MemCtl 2',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '0',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board B MemCtl 1',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '0',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board B MemCtl 1',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '1',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board B MemCtl 1',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '1',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board B MemCtl 1',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '2',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board B MemCtl 1',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '2',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board B MemCtl 1',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '3',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board B MemCtl 1',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '3',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board B MemCtl 1',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '0',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board B MemCtl 3',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '0',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board B MemCtl 3',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '1',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board B MemCtl 3',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '1',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board B MemCtl 3',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '2',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board B MemCtl 3',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '2',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board B MemCtl 3',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '3',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board B MemCtl 3',
             CAPACITY    => 256
         },
         {
             NUMSLOTS    => '3',
             DESCRIPTION => 'DIMM',
-            TYPE        => undef,
-            SPEED       => undef,
             CAPTION     => 'Board B MemCtl 3',
             CAPACITY    => 256
         }

@@ -107,8 +107,6 @@ sub _getMemories1 {
                 CAPTION     => "Board $1 MemCtl $2",
                 CAPACITY    => $5,
                 DESCRIPTION => $description,
-                SPEED       => undef,
-                TYPE        => undef,
                 NUMSLOTS    => $3
             };
             my $banksize = $4;
