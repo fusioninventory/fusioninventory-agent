@@ -43,12 +43,12 @@ sub doInventory {
     }
 
     my @memories =
-        $class == SOLARIS_FIRE         ? _getMemories1('command => memconf') :
-        $class == SOLARIS_FIRE_V       ? _getMemories2('command => memconf') :
-        $class == SOLARIS_FIRE_T       ? _getMemories3('command => memconf') :
-        $class == SOLARIS_ENTERPRISE_T ? _getMemories4('command => memconf') :
-        $class == SOLARIS_ENTERPRISE   ? _getMemories5('command => memconf') :
-        $class == SOLARIS_I86PC        ? _getMemories6('command => memconf') :
+        $class == SOLARIS_FIRE         ? _getMemories1(command => 'memconf') :
+        $class == SOLARIS_FIRE_V       ? _getMemories2(command => 'memconf') :
+        $class == SOLARIS_FIRE_T       ? _getMemories3(command => 'memconf') :
+        $class == SOLARIS_ENTERPRISE_T ? _getMemories4(command => 'memconf') :
+        $class == SOLARIS_ENTERPRISE   ? _getMemories5(command => 'memconf') :
+        $class == SOLARIS_I86PC        ? _getMemories6(command => 'memconf') :
         $class == SOLARIS_CONTAINER    ? _getMemories7() :
                                          ()              ;
 
