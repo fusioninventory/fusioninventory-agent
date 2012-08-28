@@ -624,15 +624,36 @@ sub _scanAddressBySNMP {
         # try to get a matching model from the dictionary
         my $model = $params{snmp_dictionary}->getModel($sysdescr);
 
+        # use rules as fallback
+
+        $device{MAC} = _getMacAddress($snmp);
+
+        # first, we use generic information
+        my ($first_word) = $sysdescr =~ /^(\S+)/;
+        my $keyword = $hardware_keywords{lc($first_word)};
+
+        if ($keyword) {
+            $device{MANUFACTURER} = $keyword->{vendor};
+            $device{TYPE}         = $keyword->{type};
+        } else {
+            foreach my $rule (@hardware_rules) {
+                next unless $sysdescr =~ $rule->{match};
+                $device{MANUFACTURER} = _apply_rule($rule->{vendor}, $snmp);
+                $device{TYPE}         = _apply_rule($rule->{type}, $snmp);
+                $device{DESCRIPTION}  = _apply_rule($rule->{description}, $snmp);
+                last;
+            }
+        }
+
+        # then we use the available information from the model
         if ($model) {
-            # use model as primary identification source
 
             $device{SERIAL}    = _getSerial($snmp, $model);
             $device{MAC}       = _getMacAddress($snmp, $model) ||
                                  _getMacAddress($snmp);
             $device{MODELSNMP}    = $model->{MODELSNMP};
-            $device{TYPE}         = $model->{TYPE};
-            $device{MANUFACTURER} = $model->{MANUFACTURER};
+            $device{TYPE}         = $model->{TYPE} if $model->{TYPE};
+            $device{MANUFACTURER} = $model->{MANUFACTURER} if $model->{MANUFACTURER};
             $device{FIRMWARE}     = $model->{FIRMWARE};
             $device{MODEL}        = $model->{MODEL};
 
@@ -640,26 +661,6 @@ sub _scanAddressBySNMP {
                 next unless $sysdescr =~ $rule->{match};
                 $device{DESCRIPTION} = _apply_rule($rule->{description}, $snmp);
                 last;
-            }
-        } else {
-            # use rules as fallback
-
-            $device{MAC} = _getMacAddress($snmp);
-
-            my ($first_word) = $sysdescr =~ /^(\S+)/;
-            my $keyword = $hardware_keywords{lc($first_word)};
-
-            if ($keyword) {
-                $device{MANUFACTURER} = $keyword->{vendor};
-                $device{TYPE}         = $keyword->{type};
-            } else {
-                foreach my $rule (@hardware_rules) {
-                    next unless $sysdescr =~ $rule->{match};
-                    $device{MANUFACTURER} = _apply_rule($rule->{vendor}, $snmp);
-                    $device{TYPE}         = _apply_rule($rule->{type}, $snmp);
-                    $device{DESCRIPTION}  = _apply_rule($rule->{description}, $snmp);
-                    last;
-                }
             }
         }
 
