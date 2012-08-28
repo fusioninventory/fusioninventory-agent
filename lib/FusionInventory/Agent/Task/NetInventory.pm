@@ -387,9 +387,12 @@ sub _queryDevice {
     my $datadevice = {
         INFO => {
             ID   => $device->{ID},
-            TYPE => $device->{TYPE}
+            TYPE => $device->{TYPE},
+            getBasicInfoFromSysdescr($description, $snmp)
         }
     };
+
+
 
     $self->_setGenericProperties(
         results => $results,
