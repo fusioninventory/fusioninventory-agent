@@ -16,20 +16,20 @@ use Test::More tests => 10;
 my ($out, $err, $rc);
 
 ($out, $err, $rc) = run_app('--help');
-ok($rc == 2, '--help exit status');
+ok($rc == 0, '--help exit status');
 like(
-    $err,
+    $out,
     qr/Options:/,
     '--help stderr'
 );
-is($out, '', '--help stdin');
+is($err, '', '--help stdin');
 
 ($out, $err, $rc) = run_app('--version');
 ok($rc == 0, '--version exit status');
 is($err, '', '--version stderr');
 like(
     $out,
-    qr/^fusioninventory-netinventory $FusionInventory::Agent::Task::NetInventory::VERSION/,
+    qr/^NetInventory task $FusionInventory::Agent::Task::NetInventory::VERSION/,
     '--version stdin'
 );
 
