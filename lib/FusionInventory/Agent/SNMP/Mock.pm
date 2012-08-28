@@ -113,6 +113,7 @@ sub _getSanitizedValue {
 
     if ($format eq 'Hex-STRING') {
         $value =~ s/\s//g;
+        $value = "0x".$value;
     } else {
         $value =~ s/"(.*)"/$1/;
     }
