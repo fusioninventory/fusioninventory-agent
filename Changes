@@ -1,6 +1,6 @@
 Revision history for FusionInventory agent network tasks plugin
 
-1.0.1   Mon, 20 Aug 2012
+1.0.1   Wed, 29 Aug 2012
 
 Fixes:
 * fix model property handling in inventory
@@ -8,6 +8,9 @@ Fixes:
 * add a --version option to standalone binaires
 * fix printer model category in fusioninventory-netinventory
 * fix release date in changelog
+* fix set MANUFACTURER in NetInventory like in NetDiscovery
+* fix LOCATION was hex encoded
+* add a test for fusioninventory-netdiscovery
 
 1.0.0   Fri, 17 Aug 2012
 
