@@ -17,13 +17,10 @@ sub doInventory {
 
     my @found = getAdobeLicenses( command => 'sqlite3 -separator " <> " "/Library/Application Support/Adobe/Adobe PCD/cache/cache.db" "SELECT * FROM domain_data"');
 
-use Data::Dumper;
-print Dumper(\@found);
 
-
-        foreach my $license (@found) {
-		$params{inventory}->addEntry(section => 'LICENSES', entry => $license);
-}
+    foreach my $license (@found) {
+        $params{inventory}->addEntry(section => 'LICENSES', entry => $license);
+    }
 
 }
 
