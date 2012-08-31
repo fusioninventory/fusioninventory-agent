@@ -37,6 +37,7 @@ my %fields = (
     PORTS       => [ qw/CAPTION DESCRIPTION NAME TYPE/ ],
     PROCESSES   => [ qw/USER PID CPUUSAGE MEM VIRTUALMEMORY TTY STARTED CMD/ ],
     REGISTRY    => [ qw/NAME REGVALUE HIVE/ ],
+    RUDDER      => [ qw/AGENT UUID HOSTNAME/ ],
     SLOTS       => [ qw/DESCRIPTION DESIGNATION NAME STATUS/ ],
     SOFTWARES   => [ qw/COMMENTS FILESIZE FOLDER FROM HELPLINK INSTALLDATE NAME
                         NO_REMOVE RELEASE_TYPE PUBLISHER UNINSTALL_STRING 
@@ -63,7 +64,7 @@ my %fields = (
                              DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
                              WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE/ ],
     OPERATINGSYSTEM  => [ qw/KERNEL_NAME KERNEL_VERSION NAME VERSION FULL_NAME 
-                            SERVICE_PACK INSTALL_DATE FQDN DNS_DOMAIN/ ],
+                            SERVICE_PACK INSTALL_DATE FQDN DNS_DOMAIN SSH_KEY/ ],
     ACCESSLOG        => [ qw/USERID LOGDATE/ ],
     VIRTUALMACHINES  => [ qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU
                              VMID MAC COMMENT OWNER/ ],
@@ -821,19 +822,13 @@ This information is hardly reliable.
 
 =over
 
-=item CAPACITY
-
-=item CAPTION
-
-=item FORMFACTOR
-
-=item REMOVABLE
-
-=item PURPOSE
-
-=item TYPE
-
 =item DESCRIPTION
+
+=item DESIGNATION
+
+=item NAME
+
+=item STATUS
 
 =back
 

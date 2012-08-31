@@ -55,103 +55,107 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my ($serialnumber, $model, $capacity, $firmware, $description, $media, $manufacturer);
-
-    my $hpacuacliPath = canRun('hpacucli') ?
+    my $path = canRun('hpacucli') ?
         "hpacucli":
         _getHpacuacliFromWinRegistry($logger);
 
-    my $handle1 = getFileHandle(
-        logger => $logger,
-        command => "$hpacuacliPath ctrl all show"
-    );
-
-    return unless $handle1;
-
-# Example output :
-#    
-# Smart Array E200 in Slot 2    (sn: PA6C90K9SUH1ZA)
-    while (my $line1 = <$handle1>) {
-        next unless $line1 =~ /Slot\s(\d*)/;
-
-        my $slot = $1;
-        my $handle2 = getFileHandle(
-            logger => $logger,
-            command => "$hpacuacliPath ctrl slot=$slot pd all show"
-        );
-        next unless $handle2;
-
-# Example output :
-#
-# Smart Array E200 in Slot 2
-#
-#   array A
-#
-#      physicaldrive 2I:1:1 (port 2I:box 1:bay 1, SATA, 74.3 GB, OK)
-#      physicaldrive 2I:1:2 (port 2I:box 1:bay 2, SATA, 74.3 GB, OK)
-        while (my $line2 = <$handle2>) {
-            next unless $line2 =~ /physicaldrive\s(\S*)/;
-
-            my $pd = $1;
-            my $handle3 = getFileHandle(
-                logger => $logger,
-                command => "$hpacuacliPath ctrl slot=$slot pd $pd show"
-            );
-            next unless $handle3;
-
-# Example output :
-#  
-# Smart Array E200 in Slot 2
-#
-#   array A
-#
-#      physicaldrive 1:1
-#         Port: 2I
-#         Box: 1
-#         Bay: 1
-#         Status: OK
-#         Drive Type: Data Drive
-#         Interface Type: SATA
-#         Size: 74.3 GB
-#         Firmware Revision: 21.07QR4
-#         Serial Number:      WD-WMANS1732855
-#         Model: ATA     WDC WD740ADFD-00
-#         SATA NCQ Capable: False
-#         PHY Count: 1        
-            while (my $line3 = <$handle3>) {
-                $model = $1 if $line3 =~ /Model:\s(.*)/;
-                $description = $1 if $line3 =~ /Interface Type:\s(.*)/;
-                $media = $1 if $line3 =~ /Drive Type:\s(.*)/;
-                $capacity = 1000*$1 if $line3 =~ /Size:\s(.*)/;
-                $serialnumber = $1 if $line3 =~ /Serial Number:\s(.*)/;
-                $firmware = $1 if $line3 =~ /Firmware Revision:\s(.*)/;
-            }
-            close $handle3;
-            $serialnumber =~ s/^\s+//;
-            $model =~ s/^ATA\s+//; # ex: ATA     WDC WD740ADFD-00
-            $model =~ s/\s+/ /;
-            $manufacturer = getCanonicalManufacturer($model);
-            if ($media eq 'Data Drive') {
-                $media = 'disk';
-            }
+    foreach my $slot (_getSlots(path => $path)) {
+        foreach my $drive (_getDrives(path => $path, slot => $slot)) {
 
             $inventory->addEntry(
                 section => 'STORAGES',
-                entry   => {
-                    NAME         => $model,
-                    MANUFACTURER => $manufacturer,
-                    MODEL        => $model,
-                    DESCRIPTION  => $description,
-                    TYPE         => $media,
-                    DISKSIZE     => $capacity,
-                    SERIALNUMBER => $serialnumber,
-                    FIRMWARE     => $firmware
-                }
-            ); 
+                entry   => _getStorage(
+                    path => $path, slot => $slot, drive => $drive
+                )
+            );
         }
-        close $handle2;
     }
-    close $handle1;
+}
+
+sub _getSlots {
+    my %params = @_;
+
+    my $command = $params{path} ?
+        "%params{path} ctrl all show" : undef;
+    my $handle  = getFileHandle(%params, command => $command);
+    return unless $handle;
+
+    my @slots;
+    while (my $line = <$handle>) {
+        next unless $line =~ /Slot (\d+)/;
+        push @slots, $1;
+    }
+    close $handle;
+
+    return @slots;
+}
+
+sub _getDrives {
+    my %params = @_;
+
+    my $command = $params{path} && $params{slot} ?
+        "%params{path} ctrl slot=$params{slot} pd all show" : undef;
+    my $handle  = getFileHandle(%params, command => $command);
+    next unless $handle;
+
+    my @drives;
+    while (my $line = <$handle>) {
+        next unless $line =~ /physicaldrive (\S+)/;
+        push @drives, $1;
+    }
+    close $handle;
+
+    return @drives;
+}
+
+sub _getStorage {
+    my %params = @_;
+
+    my $command = $params{path} && $params{slot} && $params{drive} ?
+        "%params{path} ctrl slot=$params{slot} pd $params{drive} show" : undef;
+    my $handle  = getFileHandle(%params, command => $command);
+    next unless $handle;
+
+    my $storage;
+    while (my $line = <$handle>) {
+        if ($line =~ /Model: (.+)/) {
+            my $model = $1;
+            $model =~ s/^ATA\s+//;
+            $storage->{NAME}  = $model;
+            $storage->{MODEL} = $model;
+            next;
+        }
+
+        if ($line =~ /Interface Type: (.+)/) {
+            $storage->{DESCRIPTION} = $1;
+            next;
+        }
+
+        if ($line =~ /Drive Type: (.+)/) {
+            $storage->{TYPE} = $1 eq 'Data Drive' ? 'disk' : $1;
+            next;
+        }
+
+        if ($line =~ /Size: (\S+)/) {
+            $storage->{DISKSIZE} = 1000 * $1;
+            next;
+        }
+
+        if ($line =~ /Serial Number: +(\S+)/) {
+            $storage->{SERIALNUMBER} = $1;
+            next;
+        }
+
+        if ($line =~ /Firmware Revision: (.+)/) {
+            $storage->{FIRMWARE} = $1;
+            next;
+        }
+    }
+    close $handle;
+
+    $storage->{MANUFACTURER} = getCanonicalManufacturer($storage->{MODEL});
+
+    return $storage;
 }
 
 1;

@@ -69,7 +69,7 @@ sub doInventory {
                 SYSTEMDRIVE => (lc($object->{DeviceID}) eq $systemDrive),
                 TOTAL       => $object->{Size},
                 TYPE        => $type[$object->{DriveType}],
-                VOLUME      => $volume,
+                VOLUME      => $object->{VolumeName},
             }
         );
     }

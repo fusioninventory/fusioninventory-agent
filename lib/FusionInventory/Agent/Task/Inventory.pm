@@ -62,10 +62,11 @@ sub run {
     }
 
     if (not $ENV{PATH}) {
-        # set a minimal PATH if none is set (#1129)
-        $ENV{PATH} = '/sbin:/usr/sbin:/bin:/usr/bin';
+        # set a minimal PATH if none is set (#1129, #1747)
+        $ENV{PATH} =
+            '/sbin:/usr/sbin:/usr/local/sbin:/bin:/usr/bin:/usr/local/bin';
         $self->{logger}->debug(
-            "PATH is not set, using /sbin:/usr/sbin:/bin:/usr/bin as default"
+            "PATH is not set, using $ENV{PATH} as default"
         );
     }
 

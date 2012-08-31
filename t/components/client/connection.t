@@ -6,7 +6,7 @@ use lib 't';
 
 use English qw(-no_match_vars);
 use HTTP::Request;
-
+use List::Util qw(first);
 use Test::More;
 use Test::Exception;
 
@@ -16,18 +16,17 @@ use FusionInventory::Test::Proxy;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
 
-# check than test port is available
-my $port_ok = test_port(8080);
+# find an available port
+my $port = first { test_port($_) } 8080 .. 8090;
 
-# check than 'localhost resolves, to an IPv4 address only
+# check than localhost resolves correctly
 my $localhost_ok = test_localhost();
 
-if (!$port_ok) {
-    plan skip_all => 'test port unavailable';
+if (!$port) {
+    plan skip_all => 'no port available';
 } else {
     plan tests => 36;
 }
-
 
 my $ok = sub {
     print "HTTP/1.0 200 OK\r\n";
@@ -47,9 +46,9 @@ my $client = FusionInventory::Agent::HTTP::Client->new(
 subtest "no response" => sub {
     check_response_nok(
         $client,
-        'http://localhost:8080/public',
+        "http://localhost:$port/public",
         $logger,
-        qr/Can't connect to localhost:8080/
+        qr/Can't connect to localhost:$port/
     );
 };
 
@@ -60,7 +59,7 @@ my ($server, $response);
 $SIG{__DIE__}  = sub { $server->stop(); };
 
 $server = FusionInventory::Test::Server->new(
-    port     => 8080,
+    port     => $port,
     user     => 'test',
     realm    => 'test',
     password => 'test',
@@ -74,7 +73,7 @@ $server->background() or BAIL_OUT("can't launch the server");
 subtest "correct response" => sub {
     check_response_ok(
         $client,
-        'http://localhost:8080/public'
+        "http://localhost:$port/public"
     );
 };
 
@@ -87,7 +86,7 @@ lives_ok {
 subtest "no response" => sub {
     check_response_nok(
         $client,
-        'http://localhost:8080/private',
+        "http://localhost:$port/private",
         $logger,
         "[http client] authentication required, no credentials available",
     );
@@ -104,7 +103,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok(
         $client,
-        'http://localhost:8080/private'
+        "http://localhost:$port/private"
     );
 };
 
@@ -113,17 +112,17 @@ $server->stop();
 SKIP: {
 skip 'non working test under MacOS', 12 if $OSNAME eq 'darwin';
 skip 'non working test under Windows', 12 if $OSNAME eq 'MSWin32';
-skip 'IPv6 localhost resolution', 12 if !$localhost_ok;
+skip 'localhost resolution failure', 12 if !$localhost_ok;
 # https connection tests
 
 $server = FusionInventory::Test::Server->new(
-    port     => 8080,
+    port     => $port,
     user     => 'test',
     realm    => 'test',
     password => 'test',
     ssl      => 1,
-    crt      => 't/ssl/crt/good.pem',
-    key      => 't/ssl/key/good.pem',
+    crt      => 'resources/ssl/crt/good.pem',
+    key      => 'resources/ssl/key/good.pem',
 );
 $server->set_dispatch({
     '/public'  => $ok,
@@ -141,7 +140,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok(
         $client,
-        'https://localhost:8080/public'
+        "https://localhost:$port/public"
     );
 };
 
@@ -155,7 +154,7 @@ lives_ok {
 subtest "no response" => sub {
     check_response_nok(
         $client,
-        'https://localhost:8080/private',
+        "https://localhost:$port/private",
         $logger,
         "[http client] authentication required, no credentials available",
     );
@@ -173,35 +172,35 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok(
         $client,
-        'https://localhost:8080/private',
+        "https://localhost:$port/private",
     );
 };
 
 lives_ok {
     $client = FusionInventory::Agent::HTTP::Client->new(
         logger       => $logger,
-        ca_cert_file => 't/ssl/crt/ca.pem',
+        ca_cert_file => 'resources/ssl/crt/ca.pem',
     );
 } 'instanciation: https';
 
 subtest "correct response" => sub {
     check_response_ok(
         $client,
-        'https://localhost:8080/public',
+        "https://localhost:$port/public",
     ); 
 };
 
 lives_ok {
     $client = FusionInventory::Agent::HTTP::Client->new(
         logger       => $logger,
-        ca_cert_file => 't/ssl/crt/ca.pem',
+        ca_cert_file => 'resources/ssl/crt/ca.pem',
     );
 } 'instanciation: https, auth, no credentials';
 
 subtest "no response" => sub {
     check_response_nok(
         $client,
-        'https://localhost:8080/private',
+        "https://localhost:$port/private",
         $logger,
         "[http client] authentication required, no credentials available",
     );
@@ -212,14 +211,14 @@ lives_ok {
         user         => 'test',
         password     => 'test',
         logger       => $logger,
-        ca_cert_file => 't/ssl/crt/ca.pem',
+        ca_cert_file => 'resources/ssl/crt/ca.pem',
     );
 } 'instanciation: https, auth, credentials';
 
 subtest "correct response" => sub {
     check_response_ok(
         $client,
-        'https://localhost:8080/private',
+        "https://localhost:$port/private",
     );
 };
 
@@ -228,11 +227,11 @@ $server->stop();
 
 SKIP: {
 skip 'non working test under Windows', 18 if $OSNAME eq 'MSWin32';
-skip 'IPv6 localhost resolution', 18 if !$localhost_ok;
+skip 'localhost resolution failure', 18 if !$localhost_ok;
 # http connection through proxy tests
 
 $server = FusionInventory::Test::Server->new(
-    port     => 8080,
+    port     => $port,
     user     => 'test',
     realm    => 'test',
     password => 'test',
@@ -261,7 +260,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok(
         $client,
-        'http://localhost:8080/public',
+        "http://localhost:$port/public",
     );
 };
 
@@ -275,7 +274,7 @@ lives_ok {
 subtest "no response" => sub {
     check_response_nok(
         $client,
-        'http://localhost:8080/private',
+        "http://localhost:$port/private",
         $logger,
         "[http client] authentication required, no credentials available",
     ); 
@@ -293,7 +292,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok(
         $client,
-        'http://localhost:8080/private',
+        "http://localhost:$port/private",
     );
 };
 
@@ -304,13 +303,13 @@ skip 'non working test under MacOS', 12 if $OSNAME eq 'darwin';
 # https connection through proxy tests
 
 $server = FusionInventory::Test::Server->new(
-    port     => 8080,
+    port     => $port,
     user     => 'test',
     realm    => 'test',
     password => 'test',
     ssl      => 1,
-    crt      => 't/ssl/crt/good.pem',
-    key      => 't/ssl/key/good.pem',
+    crt      => 'resources/ssl/crt/good.pem',
+    key      => 'resources/ssl/key/good.pem',
 );
 $server->set_dispatch({
     '/public'  => sub { return $ok->(@_) if $ENV{HTTP_X_FORWARDED_FOR}; },
@@ -329,7 +328,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok(
         $client,
-        'https://localhost:8080/public',
+        "https://localhost:$port/public",
     );
 };
 
@@ -344,7 +343,7 @@ lives_ok {
 subtest "no response" => sub {
     check_response_nok(
         $client,
-        'https://localhost:8080/private',
+        "https://localhost:$port/private",
         $logger,
         "[http client] authentication required, no credentials available",
     );
@@ -363,14 +362,14 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok(
         $client,
-        'https://localhost:8080/private',
+        "https://localhost:$port/private",
     );
 };
 
 lives_ok {
     $client = FusionInventory::Agent::HTTP::Client->new(
         logger       => $logger,
-        ca_cert_file => 't/ssl/crt/ca.pem',
+        ca_cert_file => 'resources/ssl/crt/ca.pem',
         proxy        => $proxy->url(),
     );
 } 'instanciation: https, proxy';
@@ -378,14 +377,14 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok(
         $client,
-        'https://localhost:8080/public',
+        "https://localhost:$port/public",
     ); 
 };
 
 lives_ok {
     $client = FusionInventory::Agent::HTTP::Client->new(
         logger       => $logger,
-        ca_cert_file => 't/ssl/crt/ca.pem',
+        ca_cert_file => 'resources/ssl/crt/ca.pem',
         proxy        => $proxy->url()
     );
 } 'instanciation: https, proxy, auth, no credentials';
@@ -393,7 +392,7 @@ lives_ok {
 subtest "no response" => sub {
     check_response_nok(
         $client,
-        'https://localhost:8080/private',
+        "https://localhost:$port/private",
         $logger,
         "[http client] authentication required, no credentials available",
     ); 
@@ -404,7 +403,7 @@ lives_ok {
         user         => 'test',
         password     => 'test',
         logger       => $logger,
-        ca_cert_file => 't/ssl/crt/ca.pem',
+        ca_cert_file => 'resources/ssl/crt/ca.pem',
         proxy        => $proxy->url()
     );
 } 'instanciation: https, proxy, auth, credentials';
@@ -412,7 +411,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok(
         $client,
-        'https://localhost:8080/private',
+        "https://localhost:$port/private",
     );
 };
 

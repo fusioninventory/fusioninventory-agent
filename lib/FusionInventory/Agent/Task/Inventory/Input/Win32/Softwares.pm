@@ -24,6 +24,100 @@ sub isEnabled {
     return !$params{no_category}->{software};
 }
 
+sub doInventory {
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
+
+    my $is64bit = is64bit();
+
+
+    if ($is64bit) {
+
+        # I don't know why but on Vista 32bit, KEY_WOW64_64 is able to read
+        # 32bit entries. This is not the case on Win2003 and if I correctly
+        # understand MSDN, this sounds very odd
+
+        my $machKey64 = $Registry->Open('LMachine', {
+            Access => KEY_READ | KEY_WOW64_64 ## no critic (ProhibitBitwise)
+        }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+        my $softwaresKey64 =
+            $machKey64->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
+        my $softwares64 =_getSoftwaresList(
+            softwares => $softwaresKey64,
+            is64bit   => 1,
+        );
+        foreach my $software (@$softwares64) {
+            _addSoftware(inventory => $inventory, entry => $software);
+        }
+        _processMSIE(
+            machKey   => $machKey64,
+            inventory => $inventory,
+            is64bit   => 1
+        );
+        _loadUserSoftware(
+            inventory => $inventory,
+            is64bit   => 1
+        );
+
+        my $machKey32 = $Registry->Open('LMachine', {
+            Access => KEY_READ | KEY_WOW64_32 ## no critic (ProhibitBitwise)
+        }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+        my $softwaresKey32 =
+            $machKey32->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
+        my $softwares32 = _getSoftwaresList(
+            softwares => $softwaresKey32,
+            is64bit   => 0,
+            logger    => $logger,
+        );
+        foreach my $software (@$softwares32) {
+            _addSoftware(inventory => $inventory, entry => $software);
+        }
+        _processMSIE(
+            machKey   => $machKey32,
+            inventory => $inventory,
+            is64bit   => 0
+        );
+        _loadUserSoftware(
+            inventory => $inventory,
+            is64bit   => 0
+        );
+    } else {
+        my $machKey = $Registry->Open('LMachine', {
+            Access => KEY_READ
+        }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+        my $softwaresKey =
+            $machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
+        my $softwares = _getSoftwaresList(
+            softwares => $softwaresKey,
+            is64bit   => 0,
+        );
+        foreach my $software (@$softwares) {
+            _addSoftware(inventory => $inventory, entry => $software);
+        }
+        _processMSIE(
+            machKey   => $machKey,
+            inventory => $inventory,
+            is64bit   => 0
+        );
+        _loadUserSoftware(
+            inventory => $inventory,
+            is64bit   => 0
+        );
+
+    }
+
+    my $hotfixes = _getHotfixesList(is64bit => $is64bit);
+    foreach my $hotfix (@$hotfixes) {
+        # skip fixes already found in generic software list,
+        # without checking version information
+        next if $seen->{$hotfix->{NAME}};
+        _addSoftware(inventory => $inventory, entry => $hotfix);
+    }
+
+}
+
 sub _loadUserSoftware {
     my (%params) = @_;
 
@@ -56,15 +150,16 @@ sub _loadUserSoftware {
             $Registry->Load($profilePath.'\ntuser.dat', { Access=> KEY_READ | KEY_WOW64_64 } ) :
             $Registry->Load($profilePath.'\ntuser.dat', { Access=> KEY_READ } )                ;
 
-        my $softwares =
+        my $softwaresKey =
             $userKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
 
-        foreach my $software (_getSoftwares(
-                    softwares => $softwares,
-                    is64bit   => 1,
-                    userid => $sid,
-                    username => $user
-                    )) {
+        my $softwares = _getSoftwaresList(
+            softwares => $softwaresKey,
+            is64bit   => 1,
+            userid    => $sid,
+            username  => $user
+        );
+        foreach my $software (@$softwares) {
             _addSoftware(inventory => $inventory, entry => $software);
         }
 
@@ -74,104 +169,6 @@ sub _loadUserSoftware {
 }
 
 
-sub doInventory {
-    my (%params) = @_;
-
-    my $inventory = $params{inventory};
-    my $logger    = $params{logger};
-
-    my $is64bit = is64bit();
-
-    my $kbList = _getKB(is64bit => $is64bit);
-
-    if ($is64bit) {
-
-        # I don't know why but on Vista 32bit, KEY_WOW64_64 is able to read
-        # 32bit entries. This is not the case on Win2003 and if I correctly
-        # understand MSDN, this sounds very odd
-
-        my $machKey64 = $Registry->Open('LMachine', {
-            Access => KEY_READ | KEY_WOW64_64 ## no critic (ProhibitBitwise)
-        }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-
-        my $softwares64 =
-            $machKey64->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
-
-        foreach my $software (_getSoftwares(
-            softwares => $softwares64,
-            is64bit   => 1,
-            kbList => $kbList
-        )) {
-            _addSoftware(inventory => $inventory, entry => $software);
-        }
-        _processMSIE(
-            machKey   => $machKey64,
-            inventory => $inventory,
-            is64bit   => 1
-        );
-        _loadUserSoftware(
-            inventory => $inventory,
-            is64bit   => 1
-        );
-
-        my $machKey32 = $Registry->Open('LMachine', {
-            Access => KEY_READ | KEY_WOW64_32 ## no critic (ProhibitBitwise)
-        }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-
-        my $softwares32 =
-            $machKey32->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
-
-        foreach my $software (_getSoftwares(
-            softwares => $softwares32,
-            is64bit   => 0,
-            logger => $logger,
-            kbList => $kbList
-        )) {
-            _addSoftware(inventory => $inventory, entry => $software);
-        }
-        _processMSIE(
-            machKey   => $machKey32,
-            inventory => $inventory,
-            is64bit   => 0
-        );
-        _loadUserSoftware(
-            inventory => $inventory,
-            is64bit   => 0
-        );
-
-
-    } else {
-        my $machKey = $Registry->Open('LMachine', {
-            Access => KEY_READ
-        }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-
-        my $softwares =
-            $machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
-
-        foreach my $software (_getSoftwares(
-            softwares => $softwares,
-            is64bit   => 0,
-            kbList => $kbList
-        )) {
-            _addSoftware(inventory => $inventory, entry => $software);
-        }
-        _processMSIE(
-            machKey   => $machKey,
-            inventory => $inventory,
-            is64bit   => 0
-        );
-        _loadUserSoftware(
-            inventory => $inventory,
-            is64bit   => 0
-        );
-
-    }
-
-    foreach (values %$kbList) {
-        _addSoftware(inventory => $inventory, entry => $_);
-    }
-
-}
 
 sub _dateFormat {
     my ($date) = @_;
@@ -190,23 +187,22 @@ sub _dateFormat {
     return undef;
 }
 
-sub _getSoftwares {
+sub _getSoftwaresList {
     my (%params) = @_;
 
     my $softwares = $params{softwares};
-    my $kbList = $params{kbList} || {};
 
-    my @softwares;
+    my @list;
 
     return unless $softwares;
 
     foreach my $rawGuid (keys %$softwares) {
+        # only keep subkeys
+        next unless $rawGuid =~ m{/$};
+
+        # only keep subkeys with more than 1 value
         my $data = $softwares->{$rawGuid};
-
-        next unless $data;
-
-        eval { die unless keys (%$data) > 2 };
-        next if $EVAL_ERROR;
+        next unless keys %$data > 1;
 
         my $guid = $rawGuid;
         $guid =~ s/\/$//; # drop the tailing /
@@ -235,20 +231,16 @@ sub _getSoftwares {
         # Workaround for #415
         $software->{VERSION} =~ s/[\000-\037].*// if $software->{VERSION};
 
-        if ($software->{NAME} =~ /KB(\d{4,10})/i) {
-            delete($kbList->{$1});
-        }
-
-        push @softwares, $software;
+        push @list, $software;
     }
 
-    return @softwares;
+    return \@list;
 }
 
-sub _getKB {
+sub _getHotfixesList {
     my (%params) = @_;
 
-    my $kbList = {};
+    my $list;
 
     foreach my $object (getWmiObjects(
         class      => 'Win32_QuickFixEngineering',
@@ -261,7 +253,7 @@ sub _getKB {
         }
 
         next unless $object->{HotFixID} =~ /KB(\d{4,10})/i;
-        $kbList->{$1} = {
+        push @$list, {
             NAME         => $object->{HotFixID},
             COMMENTS     => $object->{Description},
             FROM         => "WMI",
@@ -271,7 +263,7 @@ sub _getKB {
 
     }
 
-    return $kbList;
+    return $list;
 }
 
 sub _addSoftware {

@@ -125,7 +125,7 @@ my %smbios_tests = (
 );
 
 my %prtconf_tests = (
-    'SPARC-1' => {
+    'sparc1' => {
         'compatible' => 'SUNW,Serengeti',
         'device_type' => 'gptwo',
         'banner-name' => 'Sun Fire E6900',

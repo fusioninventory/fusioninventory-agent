@@ -9,13 +9,9 @@ use XML::TreePP;
 
 use FusionInventory::Agent::XML::Query;
 
-plan tests => 8;
+plan tests => 7;
 
 my $message;
-throws_ok {
-    $message = FusionInventory::Agent::XML::Query->new();
-} qr/^no deviceid/, 'no device id';
-
 throws_ok {
     $message = FusionInventory::Agent::XML::Query->new(
         deviceid => 'foo',

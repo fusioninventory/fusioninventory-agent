@@ -38,14 +38,19 @@ sub _getDisks {
             pattern => qr/$device->{NAME}\.+lternate/
         );
 
-        foreach ( `diskinfo -v $device->{NAME} 2>/dev/null`) {
-            if ( /^\s+size:\s+(\S+)/ ) {
-                $device->{DISKSIZE} = int( $1/1024 );
+        my $handle = getFileHandle(
+            command => "diskinfo -v $device->{NAME}",
+            logger  => $logger
+        );
+        while (my $line = <$handle>) {
+            if ($line =~ /^\s+size:\s+(\S+)/) {
+                $device->{DISKSIZE} = int($1/1024);
             }
-            if ( /^\s+rev level:\s+(\S+)/ ) {
+            if ($line =~ /^\s+rev level:\s+(\S+)/) {
                 $device->{FIRMWARE} = $1;
             }
         }
+        close $handle;
 
         $device->{TYPE} = 'disk';
         push @disks, $device;

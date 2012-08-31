@@ -11,7 +11,7 @@ use XML::TreePP;
 use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::Task::Inventory::Inventory;
 
-plan tests => 6;
+plan tests => 5;
 
 my $query;
 throws_ok {
@@ -19,12 +19,6 @@ throws_ok {
 } qr/^no content/, 'no content';
 
 my $inventory =  FusionInventory::Agent::Task::Inventory::Inventory->new();
-throws_ok {
-    $query = FusionInventory::Agent::XML::Query::Inventory->new(
-        content => $inventory->getContent()
-    );
-} qr/^no deviceid/, 'no device id';
-
 lives_ok {
     $query = FusionInventory::Agent::XML::Query::Inventory->new(
         deviceid => 'foo',

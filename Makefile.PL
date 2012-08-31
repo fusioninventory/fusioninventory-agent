@@ -10,28 +10,38 @@ version_from 'lib/FusionInventory/Agent.pm';
 perl_version '5.008';
 
 # mandatory dependencies
-requires 'Digest::MD5'        => undef;
 requires 'File::Which'        => undef;
 requires 'LWP'                => '5.8';
 requires 'Net::IP'            => undef;
 requires 'UNIVERSAL::require' => undef;
 requires 'Text::Template'     => undef;
 requires 'XML::TreePP'        => '0.26';
+requires 'Socket::GetAddrInfo'=> undef;
+
+if ($OSNAME eq 'MSWin32') {
+    requires 'Win32::OLE'         => undef;
+    requires 'Win32::TieRegistry' => undef;
+    requires 'Win32::Job'         => undef;
+}
+if ($OSNAME eq 'MSWin32') {
+    requires 'Win32::OLE'         => undef;
+    requires 'Win32::TieRegistry' => undef;
+    requires 'Win32::Job'         => undef;
+}
 
 # optional dependencies
 recommends 'Parse::EDID'      => undef;
 recommends 'Compress::Zlib'   => undef;
 recommends 'HTTP::Daemon'     => undef;
-recommends 'Net::CUPS'        => 0.60;
 recommends 'IO::Socket::SSL'  => undef;
 recommends 'LWP::Protocol::https'  => undef;
 
 if ($OSNAME ne 'MSWin32') {
+    recommends 'Net::CUPS'        => 0.60;
     recommends 'Proc::Daemon'     => undef;
     recommends 'Proc::PID::File'  => undef;
 } else {
-    requires 'Win32::OLE' => undef;
-    requires 'Win32::TieRegistry' => undef;
+    recommends 'Win32::Daemon'    => undef;
 }
 
 # test dependencies
@@ -47,6 +57,7 @@ test_requires  'Test::More'                   => '0.93'; # subtest
 test_requires  'LWP::Protocol::https'          => undef;
 
 install_script  'fusioninventory-agent';
+install_script  'fusioninventory-inventory';
 install_script  'fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
 install_script  'fusioninventory-injector';
 # memconf is needed by Solaris backend module
@@ -145,7 +156,9 @@ sub install {
 
     # add dependency on data and configuration installation targets, and remove
     # dependency on perlocal installation target
+    # depending on MakeMaker version, the line to match changes
     $install =~ s/install :: pure_install doc_install/install :: pure_install config_install data_install/;
+    $install =~ s/install :: all pure_install doc_install/install :: all pure_install config_install data_install/;
 
     # suppress all lines related to packlist file installation
     $install =~ s/.*\.packlist \\\n//g;
@@ -197,7 +210,7 @@ sub manifypods {
     $manifypods =~ s/manifypods : pure_all/manifypods : pure_all fusioninventory-agent.1.html/;
     $manifypods .= <<'EOF';
 fusioninventory-agent.1.html: fusioninventory-agent
-	pod2html --infile=$< --outfile=$@
+	pod2html --infile=fusioninventory-agent --outfile=fusioninventory-agent.1.html
 
 EOF
     return $manifypods;

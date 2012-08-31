@@ -112,34 +112,68 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    Parse::EDID->require();
-
     foreach my $screen (_getScreens($logger)) {
 
         if ($screen->{edid}) {
-            if ($INC{'Parse/Edid.pm'}) {
-                my $edid = Parse::EDID::parse_edid($screen->{edid});
-                if (my $err = Parse::EDID::check_parsed_edid($edid)) {
-                    $logger->debug("check failed: bad edid: $err");
-                } else {
-                    $screen->{CAPTION} =
-                        $edid->{monitor_name};
-                    $screen->{DESCRIPTION} =
-                        $edid->{week} . "/" . $edid->{year};
-                    $screen->{MANUFACTURER} =
-                        $manufacturers{$edid->{manufacturer_name}};
-                    $screen->{SERIAL} = $edid->{serial_number2}->[0];
-                }
-            }
+            my $info = _getEdidInfo($screen->{edid}, $logger);
+            $screen->{CAPTION}      = $info->{CAPTION};
+            $screen->{DESCRIPTION}  = $info->{DESCRIPTION};
+            $screen->{MANUFACTURER} = $info->{MANUFACTURER};
+            $screen->{SERIAL}       = $info->{SERIAL};
+
             $screen->{BASE64} = encode_base64($screen->{edid});
+            delete $screen->{edid};
         }
-        delete $screen->{edid};
 
         $inventory->addEntry(
             section => 'MONITORS',
             entry   => $screen
         );
     }
+}
+
+sub _getEdidInfo {
+    my ($raw_edid, $logger) = @_;
+
+    Parse::EDID->require();
+    return if $EVAL_ERROR;
+
+    my $edid = Parse::EDID::parse_edid($raw_edid);
+    if (my $error = Parse::EDID::check_parsed_edid($edid)) {
+        $logger->debug("bad edid: $error");
+        return;
+    }
+
+    my $info = {
+        CAPTION      => $edid->{monitor_name},
+        DESCRIPTION  => $edid->{week} . "/" . $edid->{year},
+        MANUFACTURER => $manufacturers{$edid->{manufacturer_name}} ||
+                        $edid->{manufacturer_name}
+    };
+
+    # they are two different serial numbers in EDID
+    # - a mandatory 4 bytes numeric value
+    # - an optional 13 bytes ASCII value
+    # we use the ASCII value if present, the numeric value as an hex string
+    # unless for a few list of known exceptions deserving specific handling
+    # References:
+    # http://forge.fusioninventory.org/issues/1607
+    # http://forge.fusioninventory.org/issues/1614
+    if (
+        $edid->{EISA_ID} &&
+        $edid->{EISA_ID} =~ /^ACR(0018|0020|00A8|7883|ad49|adaf)$/
+    ) {
+        $info->{SERIAL} =
+            substr($edid->{serial_number2}->[0], 0, 8) .
+            sprintf("%08x", $edid->{serial_number})    .
+            substr($edid->{serial_number2}->[0], 8, 4) ;
+    } else {
+        $info->{SERIAL} = $edid->{serial_number2} ?
+            $edid->{serial_number2}->[0]           :
+            sprintf("%08x", $edid->{serial_number});
+    }
+
+    return $info;
 }
 
 sub _getScreensFromWindows {
@@ -205,25 +239,23 @@ sub _getScreensFromUnix {
 
     my @screens;
 
-    if (-d '/sys') {
+    if (-d '/sys/devices') {
         my $wanted = sub {
-            return unless $File::Find::name =~ m{/edid$};
-            open my $handle, '<', $File::Find::name;
-            my $edid = <$handle>;
-            close $handle;
-
+            return unless $_ eq 'edid';
+            return unless -s $File::Find::name;
+            my $edid = getAllLines(file => $File::Find::name);
             push @screens, { edid => $edid } if $edid;
         };
 
         no warnings 'File::Find';
-        File::Find::find($wanted, '/sys');
+        File::Find::find($wanted, '/sys/devices');
 
         return @screens if @screens;
     }
 
     my $edid =
-        getFirstLine(command => 'monitor-get-edid-using-vbe') ||
-        getFirstLine(command => 'monitor-get-edid');
+        getAllLines(command => 'monitor-get-edid-using-vbe') ||
+        getAllLines(command => 'monitor-get-edid');
     push @screens, { edid => $edid };
 
     return @screens if @screens;

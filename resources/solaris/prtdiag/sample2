@@ -1,0 +1,75 @@
+System Configuration:  Sun Microsystems  sun4u Sun Fire V890
+System clock frequency: 150 MHz
+Memory size: 32768 Megabytes
+
+========================= CPUs ===============================================
+
+           Run   E$  CPU    CPU  
+Brd  CPU   MHz   MB Impl.   Mask 
+--- ----- ---- ---- ------- ---- 
+ A  0, 16 1350 16.0 US-IV    3.1
+ B  1, 17 1350 16.0 US-IV    3.1
+ A  2, 18 1350 16.0 US-IV    3.1
+ B  3, 19 1350 16.0 US-IV    3.1
+ C  4, 20 1350 16.0 US-IV    3.1
+ D  5, 21 1350 16.0 US-IV    3.1
+ C  6, 22 1350 16.0 US-IV    3.1
+ D  7, 23 1350 16.0 US-IV    3.1
+
+========================= Memory Configuration ===============================
+
+           Logical  Logical  Logical 
+      MC   Bank     Bank     Bank         DIMM    Interleave  Interleaved
+ Brd  ID   num      size     Status       Size    Factor      with
+----  ---  ----     ------   -----------  ------  ----------  -----------
+  A    0     0      1024MB   no_status     512MB     8-way        0
+  A    0     1      1024MB   no_status     512MB     8-way        0
+  A    0     2      1024MB   no_status     512MB     8-way        0
+  A    0     3      1024MB   no_status     512MB     8-way        0
+  B    1     0      1024MB   no_status     512MB     8-way        1
+  B    1     1      1024MB   no_status     512MB     8-way        1
+  B    1     2      1024MB   no_status     512MB     8-way        1
+  B    1     3      1024MB   no_status     512MB     8-way        1
+  A    2     0      1024MB   no_status     512MB     8-way        0
+  A    2     1      1024MB   no_status     512MB     8-way        0
+  A    2     2      1024MB   no_status     512MB     8-way        0
+  A    2     3      1024MB   no_status     512MB     8-way        0
+  B    3     0      1024MB   no_status     512MB     8-way        1
+  B    3     1      1024MB   no_status     512MB     8-way        1
+  B    3     2      1024MB   no_status     512MB     8-way        1
+  B    3     3      1024MB   no_status     512MB     8-way        1
+  C    4     0      1024MB   no_status     512MB     8-way        2
+  C    4     1      1024MB   no_status     512MB     8-way        2
+  C    4     2      1024MB   no_status     512MB     8-way        2
+  C    4     3      1024MB   no_status     512MB     8-way        2
+  D    5     0      1024MB   no_status     512MB     8-way        3
+  D    5     1      1024MB   no_status     512MB     8-way        3
+  D    5     2      1024MB   no_status     512MB     8-way        3
+  D    5     3      1024MB   no_status     512MB     8-way        3
+  C    6     0      1024MB   no_status     512MB     8-way        2
+  C    6     1      1024MB   no_status     512MB     8-way        2
+  C    6     2      1024MB   no_status     512MB     8-way        2
+  C    6     3      1024MB   no_status     512MB     8-way        2
+  D    7     0      1024MB   no_status     512MB     8-way        3
+  D    7     1      1024MB   no_status     512MB     8-way        3
+  D    7     2      1024MB   no_status     512MB     8-way        3
+  D    7     3      1024MB   no_status     512MB     8-way        3
+
+========================= IO Cards =========================
+
+
+
+                         Bus  Max
+     IO   Port Bus       Freq Bus  Dev,
+Brd  Type  ID  Side Slot MHz  Freq Func State Name                              Model
+---- ---- ---- ---- ---- ---- ---- ---- ----- --------------------------------  ----------------------
+I/O  PCI   8    B    1    33   33  4,0  ok    scsi-pci1000,30.1000.10c0.8/disk+ LSI,1030              
+I/O  PCI   8    B    1    33   33  4,1  ok    scsi-pci1000,30.1000.10c0.8/disk+ LSI,1030              
+I/O  PCI   8    B    0    33   33  5,0  ok    scsi-pci1000,30.1000.10c0.8/disk+ LSI,1030              
+I/O  PCI   8    B    0    33   33  5,1  ok    scsi-pci1000,30.1000.10c0.8/disk+ LSI,1030              
+I/O  PCI   9    B    5    33   33  3,0  ok    SUNW,XVR-100                      SUNW,375-3181         
+
+
+No failures found in System
+===========================
+

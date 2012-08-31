@@ -24,10 +24,10 @@ my $default = {
     'logfile'                 => undef,
     'logfacility'             => 'LOG_USER',
     'logfile-maxsize'         => undef,
-    'no-category'             => undef,
+    'no-category'             => [],
     'no-httpd'                => undef,
     'no-ssl-check'            => undef,
-    'no-task'                 => undef,
+    'no-task'                 => [],
     'no-p2p'                  => undef,
     'password'                => undef,
     'proxy'                   => undef,
@@ -224,15 +224,19 @@ sub _checkContent {
         $self->{logger} .= ',File';
     }
 
-    # multi-values options
-    $self->{logger} = [ split(/,/, $self->{logger}) ] if $self->{logger};
-    $self->{local}  = [ split(/,/, $self->{local})  ] if $self->{local};
-    $self->{server} = [ split(/,/, $self->{server}) ] if $self->{server};
-    $self->{'httpd-trust'} = [ split(/,/, $self->{'httpd-trust'}) ] if $self->{'httpd-trust'};
-    $self->{'no-task'} = [ split(/,/, $self->{'no-task'}) ]
-        if $self->{'no-task'};
-    $self->{'no-category'} = [ split(/,/, $self->{'no-category'}) ]
-        if $self->{'no-category'};
+    # multi-values options, the default separator is a ','
+    foreach my $option (qw/
+            logger
+            local
+            server
+            httpd-trust
+            no-task
+            no-category
+            /) {
+        next unless $self->{$option};
+
+        $self->{$option} = [ split(/,/, $self->{$option}) ];
+    }
 
     # files location
     $self->{'ca-cert-file'} =

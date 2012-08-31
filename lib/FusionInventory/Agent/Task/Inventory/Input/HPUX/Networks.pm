@@ -41,7 +41,7 @@ sub doInventory {
 sub _getInterfaces {
     my (%params) = @_;
 
-    my @ifLanScan = _parseLanscan(
+    my @prototypes = _parseLanscan(
         command => 'lanscan -iap',
         logger  => $params{logger}
     );
@@ -49,36 +49,39 @@ sub _getInterfaces {
     my %ifStatNrv = _parseNetstatNrv();
 
     my @interfaces;
-    foreach my $ifLanScan (@ifLanScan) {
+    foreach my $prototype (@prototypes) {
 
         my $lanadminInfo = _getLanadminInfo(
-            command => "lanadmin -g $ifLanScan->{lan_id}",
+            command => "lanadmin -g $prototype->{lan_id}",
             logger  => $params{logger}
         );
-        $ifLanScan->{TYPE}  = $lanadminInfo->{'Type (value)'};
-        $ifLanScan->{SPEED} = $lanadminInfo->{Speed} > 1000000 ?
-            $lanadminInfo->{Speed} / 1000000 :
-            $lanadminInfo->{Speed};
+        $prototype->{TYPE}  = $lanadminInfo->{'Type (value)'};
+        $prototype->{SPEED} = $lanadminInfo->{Speed} > 1000000 ?
+            $lanadminInfo->{Speed} / 1000000 : $lanadminInfo->{Speed};
 
-        # Interface found in "netstat -nrv", let's use it
-        if ($ifStatNrv{$ifLanScan->{DESCRIPTION}}) {
-            foreach my $ifStatNrv (@{$ifStatNrv{$ifLanScan->{DESCRIPTION}}}) {
-                foreach my $key (keys %$ifLanScan) {
-                    next unless $ifLanScan->{$key};
-                    $ifStatNrv->{$key} = $ifLanScan->{$key};
+        if ($ifStatNrv{$prototype->{DESCRIPTION}}) {
+            # if this interface name has been found in netstat output, let's
+            # use the list of interfaces found there, using the prototype
+            # to provide additional informations
+            foreach my $interface (@{$ifStatNrv{$prototype->{DESCRIPTION}}}) {
+                foreach my $key (qw/MACADDR STATUS TYPE SPEED/) {
+                    next unless $prototype->{$key};
+                    $interface->{$key} = $prototype->{$key};
                 }
-                push @interfaces, $ifStatNrv;
+                push @interfaces, $interface;
             }
-        # O
         } else {
+            # otherwise, we promote this prototype to an interface, using
+            # ifconfig to provide additional informations
             my $ifconfigInfo = _getIfconfigInfo(
-                command => "ifconfig $ifLanScan->{DESCRIPTION}",
+                command => "ifconfig $prototype->{DESCRIPTION}",
                 logger  => $params{logger}
             );
-            $ifLanScan->{STATUS}    = $ifconfigInfo->{status};
-            $ifLanScan->{IPADDRESS} = $ifconfigInfo->{address};
-            $ifLanScan->{IPMASK}    = $ifconfigInfo->{netmask};
-            push @interfaces, $ifLanScan;
+            $prototype->{STATUS}    = $ifconfigInfo->{status};
+            $prototype->{IPADDRESS} = $ifconfigInfo->{address};
+            $prototype->{IPMASK}    = $ifconfigInfo->{netmask};
+            delete $prototype->{lan_id};
+            push @interfaces, $prototype;
         }
     }
 
@@ -105,12 +108,21 @@ sub _parseLanscan {
 
     my @interfaces;
     while (my $line = <$handle>) {
-        next unless $line =~ /^0x($alt_mac_address_pattern)\s(\S+)\s(\S+)\s+(\S+)/;
+        next unless $line =~ /^
+            0x($alt_mac_address_pattern)
+            \s
+            (\S+)
+            \s
+            \S+
+            \s+
+            (\S+)
+            /x;
+
         my $interface = {
-            MACADDR => alt2canonical($1),
-            STATUS => 'Down',
+            MACADDR     => alt2canonical($1),
+            STATUS      => 'Down',
             DESCRIPTION => $2,
-            lan_id  => $4,
+            lan_id      => $3,
         };
 
         push @interfaces, $interface;
@@ -162,18 +174,25 @@ sub _getNwmgrInfo {
 
     my $info;
     while (my $line = <$handle>) {
-        if ($line =~ /^(\w+)\s+(\w+)\s+0x(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})(\w{2})\s+(\w+)\s+(\w*)/) {
-            my $netif = $1;
+        next unless $line =~ /^
+            (\w+)
+            \s+
+            (\w+)
+            \s+
+            0x($alt_mac_address_pattern)
+            \s+
+            (\w+)
+            \s+
+            (\w*)
+            /x;
+        my $interface = $1;
 
-            $info->{$netif} = {
-                status => $2,
-                mac => join(':', ($3, $4, $5, $6, $7, $8)),
-                driver => $9,
-                media => $10,
-                related_if => $11
-
-            }
-
+        $info->{$interface} = {
+            status     => $2,
+            mac        => alt2canonical($3),
+            driver     => $4,
+            media      => $5,
+            related_if => undef
         }
     }
     close $handle;
@@ -193,45 +212,38 @@ sub _parseNetstatNrv {
     my %interfaces;
     while (my $line = <$handle>) {
         next unless $line =~ /^
-            (
-                $ip_address_pattern
-            )
+            ($ip_address_pattern) # address
             \/
-            (
-                $ip_address_pattern
-            )
+            ($ip_address_pattern) # mask
             \s+
-            (
-                $ip_address_pattern # Gateway
-            )
+            ($ip_address_pattern) # gateway
             \s+
-            \w*H\w*   # Host only
-            .*\s
-            (
-                \w+ # Interface name
-            )
-            (|:\d+) # ignore interface alias, e.g: lan0:1
+            [A-Z]* H [A-Z]*       # host flag
             \s+
-            (
-                \d+ # MTU
-            )
-            $
-            /x;
+            \d
+            \s+
+            (\w+) (?: :\d+)?      # interface name, with optional alias
+            \s+
+            (\d+)                 # MTU
+            $/x;
 
-        my $ipgateway = $3 if $3 ne $1;
+        my $address   = $1;
+        my $mask      = $2;
+        my $gateway   = ($3 ne $1) ? $3 : undef;
+        my $interface = $4;
+        my $mtu       = $5;
 
-        push @{$interfaces{$4}}, {
-            IPADDRESS => $1,
-            IPMASK => $2,
-            IPGATEWAY => $ipgateway,
-            DESCRIPTION => $4,
-            MTU => $6
+        push @{$interfaces{$interface}}, {
+            IPADDRESS   => $address,
+            IPMASK      => $mask,
+            IPGATEWAY   => $gateway,
+            DESCRIPTION => $interface,
+            MTU         => $mtu
         }
     }
     close $handle;
 
     return %interfaces;
 }
-
 
 1;

@@ -19,8 +19,7 @@ BEGIN {
 
 use FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares;
 
-my %tests = (
-    registry => {
+my %softwares_tests = (
         xp => [
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -37,7 +36,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Kay Bruns',
@@ -54,7 +55,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1.2.0.8',
                 UNINSTALL_STRING => 'C:\\\\WINDOWS\\\\SuRun.exe /UNINSTALL',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -71,7 +74,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -88,7 +93,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -105,7 +112,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -122,7 +131,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '14.0.6029.1000',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -139,7 +150,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -156,7 +169,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => 'C:\\\\windows\\\\Microsoft.NET\\\\Framework\\\\v4.0.30319\\\\SetupCache\\\\Client\\\\setup.exe /uninstallpatch {2CE2EB39-45C8-32D4-8A99-5529C38F1B99} /parameterfolder Client',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -173,7 +188,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -190,7 +207,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '14.0.6029.1000',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -207,7 +226,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'O&O Software GmbH',
@@ -224,7 +245,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '2.0.386',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -241,7 +264,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -258,7 +283,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -275,7 +302,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -292,7 +321,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '2',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -309,7 +340,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -326,7 +359,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -343,7 +378,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => 'c:\\\\windows\\\\Microsoft.NET\\\\Framework\\\\v4.0.30319\\\\SetupCache\\\\Extended\\\\setup.exe /uninstallpatch {4952F442-5C1A-38EB-8C23-B18EFE77E20C} /parameterfolder Extended',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -360,7 +397,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -377,7 +416,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -394,7 +435,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -411,7 +454,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -428,7 +473,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -445,7 +492,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '5',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -462,7 +511,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -479,7 +530,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Symantec Corporation',
@@ -496,7 +549,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '12.1.1000.157',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => undef,
@@ -513,7 +568,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -530,7 +587,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -547,7 +606,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -564,7 +625,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -581,7 +644,28 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
+            },
+            {
+                PUBLISHER        => undef,
+                NAME             => 'Iceows V4.20a',
+                VERSION_MINOR    => undef,
+                COMMENTS         => undef,
+                INSTALLDATE      => undef,
+                NO_REMOVE        => undef,
+                GUID             => 'ICEOWS',
+                FROM             => 'registry',
+                RELEASE_TYPE     => undef,
+                HELPLINK         => undef,
+                URL_INFO_ABOUT   => undef,
+                VERSION_MAJOR    => undef,
+                VERSION          => undef,
+                UNINSTALL_STRING => 'C:\\\\Program Files\\\\ICEOWS\\\\Setup.exe /uninstall',
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -598,7 +682,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '3.5.30729',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -615,7 +701,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => 'C:\\\\windows\\\\Microsoft.NET\\\\Framework\\\\v4.0.30319\\\\SetupCache\\\\Client\\\\setup.exe /uninstallpatch {3E0806DB-3085-378A-840A-F0D3AE3609D1} /parameterfolder Client',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -632,7 +720,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -649,7 +739,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '2',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -666,7 +758,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '14.0.6029.1000',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -683,7 +777,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -700,7 +796,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -717,7 +815,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'LogMeIn Inc.',
@@ -734,7 +834,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '9.00.175',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -751,7 +853,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -768,7 +872,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '14.0.6029.1000',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -785,7 +891,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -802,7 +910,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -819,7 +929,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '14.0.6029.1000',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -836,7 +948,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '20050502.101010',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -853,7 +967,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Adobe Systems Incorporated',
@@ -870,7 +986,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '10.1.2',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -887,7 +1005,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -904,7 +1024,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -921,7 +1043,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -938,7 +1062,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -955,7 +1081,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -972,7 +1100,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => 'C:\\\\windows\\\\Microsoft.NET\\\\Framework\\\\v4.0.30319\\\\SetupCache\\\\Client\\\\setup.exe /uninstallpatch {7E97AB83-C1FE-38DE-B848-877E0A4BD81E} /parameterfolder Client',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -989,7 +1119,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1006,7 +1138,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1023,7 +1157,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1040,7 +1176,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1057,7 +1195,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1074,7 +1214,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1091,7 +1233,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1108,7 +1252,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => undef,
@@ -1125,7 +1271,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '2.5.1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1142,7 +1290,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1159,7 +1309,28 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
+            },
+            {
+                PUBLISHER        => undef,
+                NAME             => 'GPL Ghostscript 8.54',
+                VERSION_MINOR    => undef,
+                COMMENTS         => undef,
+                INSTALLDATE      => undef,
+                NO_REMOVE        => undef,
+                GUID             => 'GPL Ghostscript 8.54',
+                FROM             => 'registry',
+                RELEASE_TYPE     => undef,
+                HELPLINK         => undef,
+                URL_INFO_ABOUT   => undef,
+                VERSION_MAJOR    => undef,
+                VERSION          => undef,
+                UNINSTALL_STRING => 'C:\\\\gs\\\\uninstgs.exe \\',
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Sun Microsystems, Inc.',
@@ -1176,7 +1347,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '2.0.7.1',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1193,7 +1366,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1210,7 +1385,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1227,7 +1404,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1244,7 +1423,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1261,7 +1442,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => 'C:\\\\WINDOWS\\\\system32\\\\msiexec.exe /package {CE2CDD62-0124-36CA-84D3-9F4DCF5C5BD9} /uninstall {B2AE9C82-DC7B-3641-BFC8-87275C4F3607} /qb+ REBOOTPROMPT=\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1278,7 +1461,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1295,7 +1480,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => undef,
@@ -1312,7 +1499,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => 'msiexec.exe /X {CB2F7EDD-9D1F-43C1-90FC-4F52EAE172A1}',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -1329,7 +1518,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1346,7 +1537,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '9.50.7523',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -1363,7 +1556,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -1380,7 +1575,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1397,7 +1594,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1414,7 +1613,28 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
+            },
+            {
+                PUBLISHER        => undef,
+                NAME             => 'PCHealth',
+                VERSION_MINOR    => undef,
+                COMMENTS         => undef,
+                INSTALLDATE      => undef,
+                NO_REMOVE        => undef,
+                GUID             => 'PCHealth',
+                FROM             => 'registry',
+                RELEASE_TYPE     => undef,
+                HELPLINK         => undef,
+                URL_INFO_ABOUT   => undef,
+                VERSION_MAJOR    => undef,
+                VERSION          => undef,
+                UNINSTALL_STRING => 'rundll32.exe setupapi.dll,InstallHinfSection DefaultUninstall 132 C:\\\\WINDOWS\\\\INF\\\\PCHealth.inf',
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'ScriptLogic Corporation',
@@ -1431,7 +1651,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '2.7.1.80',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Proxy Networks, Inc.',
@@ -1448,7 +1670,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '7.0.1515',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1465,7 +1689,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1482,7 +1708,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1499,7 +1727,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1516,7 +1746,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -1533,7 +1765,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1550,7 +1784,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -1567,7 +1803,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1584,7 +1822,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1601,7 +1841,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1618,7 +1860,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '2.2.30729',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1635,7 +1879,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -1652,7 +1898,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1669,7 +1917,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '2',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1686,7 +1936,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1703,7 +1955,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1720,7 +1974,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '3.0.6920.0',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1737,7 +1993,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1754,7 +2012,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1771,7 +2031,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '4.0.30319',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => undef,
@@ -1788,7 +2050,9 @@ my %tests = (
                 VERSION_MAJOR    => 4,
                 VERSION          => '4.1.0',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1805,7 +2069,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1822,7 +2088,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '2',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1839,7 +2107,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1856,7 +2126,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => 'C:\\\\windows\\\\Microsoft.NET\\\\Framework\\\\v4.0.30319\\\\SetupCache\\\\Client\\\\setup.exe /uninstallpatch {FD988F49-E1C8-3C84-9683-0448B6BB8E20} /parameterfolder Client',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1873,7 +2145,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -1890,7 +2164,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'O&O Software GmbH',
@@ -1907,7 +2183,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '11.5.4065',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1924,7 +2202,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1941,7 +2221,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1958,7 +2240,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1975,7 +2259,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -1992,7 +2278,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2009,7 +2297,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '4.20.9870.0',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2026,7 +2316,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -2043,7 +2335,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2060,7 +2354,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2077,7 +2373,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => 'C:\\\\windows\\\\system32\\\\msiexec.exe /package {CE2CDD62-0124-36CA-84D3-9F4DCF5C5BD9} /uninstall {F6F5AC31-9833-3E77-AC8E-8E910CAB39AE} /qb+ REBOOTPROMPT=\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2094,7 +2392,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -2111,7 +2411,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2128,7 +2430,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => 'C:\\\\windows\\\\Microsoft.NET\\\\Framework\\\\v4.0.30319\\\\SetupCache\\\\Client\\\\setup.exe /uninstallpatch {DB31DEDD-BF95-31E7-A9B7-5480561CEFF3} /parameterfolder Client',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2145,7 +2449,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2162,7 +2468,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '14.0.6029.1000',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2179,7 +2487,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Hummingbird Ltd.',
@@ -2196,7 +2506,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '11.0.28.0',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2213,7 +2525,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '2.1.0.2',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2230,7 +2544,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2247,7 +2563,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2264,7 +2582,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => undef,
@@ -2281,7 +2601,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -2298,7 +2620,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1.2.1.0',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2315,7 +2639,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2332,7 +2658,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1.5.0554.0',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2349,7 +2677,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2366,7 +2696,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2383,7 +2715,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2400,7 +2734,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2417,7 +2753,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Oracle',
@@ -2434,7 +2772,47 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '6.0.310',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
+            },
+            {
+                PUBLISHER        => undef,
+                NAME             => 'FF&TB 1.5 + Plugins1',
+                VERSION_MINOR    => undef,
+                COMMENTS         => undef,
+                INSTALLDATE      => undef,
+                NO_REMOVE        => undef,
+                GUID             => 'FF&TB 1.5 + Plugins1',
+                FROM             => 'registry',
+                RELEASE_TYPE     => undef,
+                HELPLINK         => undef,
+                URL_INFO_ABOUT   => undef,
+                VERSION_MAJOR    => undef,
+                VERSION          => undef,
+                UNINSTALL_STRING => 'C:\\\\DOCUME~1\\\\ALLUSE~1\\\\APPLIC~1\\\\Symantec\\\\Ghost\\\\AUTOIN~1\\\\INSTAL~1\\\\~0000.exe cfg=\\',
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
+            },
+            {
+                PUBLISHER        => undef,
+                NAME             => 'NLSDownlevelMapping',
+                VERSION_MINOR    => undef,
+                COMMENTS         => undef,
+                INSTALLDATE      => undef,
+                NO_REMOVE        => undef,
+                GUID             => 'NLSDownlevelMapping',
+                FROM             => 'registry',
+                RELEASE_TYPE     => undef,
+                HELPLINK         => undef,
+                URL_INFO_ABOUT   => undef,
+                VERSION_MAJOR    => undef,
+                VERSION          => undef,
+                UNINSTALL_STRING => undef,
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2451,7 +2829,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '2',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => undef,
@@ -2468,7 +2848,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -2485,7 +2867,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2502,7 +2886,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2519,7 +2905,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2536,7 +2924,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '6.10.1200.0',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Symantec Corporation',
@@ -2553,7 +2943,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '11.0.6235',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -2570,7 +2962,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'O&O Software GmbH',
@@ -2587,7 +2981,28 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '4.1.119',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
+            },
+            {
+                PUBLISHER        => undef,
+                NAME             => 'GPL Ghostscript Fonts',
+                VERSION_MINOR    => undef,
+                COMMENTS         => undef,
+                INSTALLDATE      => undef,
+                NO_REMOVE        => undef,
+                GUID             => 'GPL Ghostscript Fonts',
+                FROM             => 'registry',
+                RELEASE_TYPE     => undef,
+                HELPLINK         => undef,
+                URL_INFO_ABOUT   => undef,
+                VERSION_MAJOR    => undef,
+                VERSION          => undef,
+                UNINSTALL_STRING => 'C:\\\\gs\\\\uninstgs.exe \\',
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2604,7 +3019,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2621,7 +3038,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '14.0.6029.1000',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => undef,
@@ -2638,7 +3057,9 @@ my %tests = (
                 VERSION_MAJOR    => 7,
                 VERSION          => '7.1.0',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2655,7 +3076,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '14.0.6029.1000',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -2672,7 +3095,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2689,7 +3114,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2706,7 +3133,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2723,7 +3152,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2740,7 +3171,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2757,7 +3190,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2774,7 +3209,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => 'C:\\\\windows\\\\Microsoft.NET\\\\Framework\\\\v4.0.30319\\\\SetupCache\\\\Client\\\\setup.exe /uninstallpatch {8DDEFC7E-0C61-3D11-AFC6-5414F2DAFD01} /parameterfolder Client',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2791,7 +3228,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2808,7 +3247,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -2825,7 +3266,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -2842,7 +3285,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2859,7 +3304,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2876,7 +3323,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2893,7 +3342,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'LogMeIn Inc.',
@@ -2910,7 +3361,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '9.00.175',
                 UNINSTALL_STRING => 'C:\\\\Program Files\\\\Network Console\\\\NetworkConsole.exe uninstall /I{5B21BB9A-E23E-472b-AD2A-FB9B06A4727C}',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'FusionInventory Team',
@@ -2927,7 +3380,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '2.2.0-2',
                 UNINSTALL_STRING => 'C:\\\\Program Files\\\\FusionInventory-Agent\\\\uninstFI.exe',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2944,7 +3399,28 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
+            },
+            {
+                PUBLISHER        => undef,
+                NAME             => 'Branding',
+                VERSION_MINOR    => undef,
+                COMMENTS         => undef,
+                INSTALLDATE      => undef,
+                NO_REMOVE        => undef,
+                GUID             => 'Branding',
+                FROM             => 'registry',
+                RELEASE_TYPE     => undef,
+                HELPLINK         => undef,
+                URL_INFO_ABOUT   => undef,
+                VERSION_MAJOR    => undef,
+                VERSION          => undef,
+                UNINSTALL_STRING => undef,
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -2961,7 +3437,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2978,7 +3456,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -2995,7 +3475,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '14.0.6029.1000',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3012,7 +3494,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3029,7 +3513,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3046,7 +3532,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '8.0.61001',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3063,7 +3551,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -3080,7 +3570,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1.1.4322',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3097,7 +3589,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '14.0.6029.1000',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3114,7 +3608,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -3131,7 +3627,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3148,7 +3646,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3165,7 +3665,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => 'C:\\\\windows\\\\system32\\\\msiexec.exe /package {CE2CDD62-0124-36CA-84D3-9F4DCF5C5BD9} /uninstall {A7EEA2F2-BFCD-4A54-A575-7B81A786E658} /qb+ REBOOTPROMPT=\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3182,7 +3684,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -3199,7 +3703,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3216,7 +3722,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3233,7 +3741,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '4.0.30319',
                 UNINSTALL_STRING => 'C:\\\\windows\\\\Microsoft.NET\\\\Framework\\\\v4.0.30319\\\\SetupCache\\\\Extended\\\\Setup.exe /repair /x86 /parameterfolder Extended',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3250,7 +3760,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3267,7 +3779,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3284,7 +3798,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3301,7 +3817,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3318,7 +3836,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3335,7 +3855,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3352,7 +3874,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3369,7 +3893,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -3386,7 +3912,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -3403,7 +3931,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3420,7 +3950,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3437,7 +3969,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3454,7 +3988,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3471,7 +4007,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => undef,
@@ -3488,7 +4026,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3505,7 +4045,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '14.0.6029.1000',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3522,7 +4064,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => undef,
@@ -3539,7 +4083,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3556,7 +4102,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3573,7 +4121,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3590,7 +4140,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3607,7 +4159,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -3624,7 +4178,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3641,7 +4197,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3658,7 +4216,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'O&O Software GmbH',
@@ -3675,7 +4235,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '6.0.440',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -3692,7 +4254,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -3709,7 +4273,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3726,7 +4292,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3743,7 +4311,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3760,7 +4330,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3777,7 +4349,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -3794,7 +4368,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3811,7 +4387,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3828,7 +4406,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3845,7 +4425,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => 'c:\\\\windows\\\\Microsoft.NET\\\\Framework\\\\v4.0.30319\\\\SetupCache\\\\Extended\\\\setup.exe /uninstallpatch {5E9CF3A4-ADB3-3080-A8BF-976A28340758} /parameterfolder Extended',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3862,7 +4444,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => 'C:\\\\WINDOWS\\\\Microsoft.NET\\\\Framework\\\\v3.5\\\\Microsoft .NET Framework 3.5 SP1\\\\setup.exe',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'O&O Software GmbH',
@@ -3879,7 +4463,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1.0.270',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3896,7 +4482,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3913,7 +4501,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '14.0.6029.1000',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3930,7 +4520,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3947,7 +4539,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3964,7 +4558,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3981,7 +4577,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -3998,7 +4596,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '3',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'VS Revo Group',
@@ -4015,7 +4615,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1.93',
                 UNINSTALL_STRING => 'C:\\\\Program Files\\\\VS Revo Group\\\\Revo Uninstaller\\\\uninst.exe',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4032,7 +4634,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4049,7 +4653,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '14.0.6029.1000',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -4066,7 +4672,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4083,7 +4691,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4100,7 +4710,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4117,7 +4729,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => 'C:\\\\windows\\\\Microsoft.NET\\\\Framework\\\\v4.0.30319\\\\SetupCache\\\\Client\\\\setup.exe /uninstallpatch {9EC88EA8-4ABE-393C-87BD-90EABB1C4C9B} /parameterfolder Client',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4134,7 +4748,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4151,7 +4767,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4168,7 +4786,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4185,7 +4805,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4202,7 +4824,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4219,7 +4843,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1.6.30',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4236,7 +4862,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4253,7 +4881,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4270,7 +4900,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -4287,7 +4919,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1.5.2316.0',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4304,7 +4938,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => 'c:\\\\windows\\\\Microsoft.NET\\\\Framework\\\\v4.0.30319\\\\SetupCache\\\\Extended\\\\setup.exe /uninstallpatch {42A3562E-8B4E-39A4-B82D-CC12F82889E3} /parameterfolder Extended',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4321,7 +4957,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4338,7 +4976,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4355,7 +4995,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4372,7 +5014,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4389,7 +5033,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4406,7 +5052,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Adobe Systems Inc.',
@@ -4423,7 +5071,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1.0.8.4990',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4440,7 +5090,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '4.20.9876.0',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4457,7 +5109,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4474,7 +5128,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4491,7 +5147,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4508,7 +5166,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Symantec Corporation',
@@ -4525,7 +5185,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '11.0.6235',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4542,7 +5204,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4559,7 +5223,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4576,7 +5242,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -4593,7 +5261,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4610,7 +5280,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4627,7 +5299,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => undef,
@@ -4644,7 +5318,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4661,7 +5337,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1.7.0069.2',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4678,7 +5356,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4695,7 +5375,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4712,7 +5394,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Adobe Systems, Inc.',
@@ -4729,7 +5413,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '11',
                 UNINSTALL_STRING => 'C:\\\\WINDOWS\\\\system32\\\\adobe\\\\SHOCKW~1\\\\UNWISE.EXE C:\\\\WINDOWS\\\\system32\\\\Adobe\\\\SHOCKW~1\\\\Install.log',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4746,7 +5432,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4763,7 +5451,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4780,7 +5470,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4797,7 +5489,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4814,7 +5508,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4831,7 +5527,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Proxy Networks, Inc.',
@@ -4848,7 +5546,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '6.10.1374',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Simon Tatham',
@@ -4865,7 +5565,28 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '0.58',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
+            },
+            {
+                PUBLISHER        => undef,
+                NAME             => 'GSview 4.8',
+                VERSION_MINOR    => undef,
+                COMMENTS         => undef,
+                INSTALLDATE      => undef,
+                NO_REMOVE        => undef,
+                GUID             => 'GSview 4.8',
+                FROM             => 'registry',
+                RELEASE_TYPE     => undef,
+                HELPLINK         => undef,
+                URL_INFO_ABOUT   => undef,
+                VERSION_MAJOR    => undef,
+                VERSION          => undef,
+                UNINSTALL_STRING => 'C:\\\\Program Files\\\\Ghostgum\\\\gsview\\\\uninstgs.exe \\',
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4882,7 +5603,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4899,7 +5622,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Hummingbird Ltd.',
@@ -4916,7 +5641,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '11.0.6.0',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4933,7 +5660,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Adobe Systems Incorporated',
@@ -4950,7 +5679,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '11.1.102.62',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -4967,7 +5698,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'OCS Inventory NG Team',
@@ -4984,7 +5717,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '4.0.4.8',
                 UNINSTALL_STRING => 'C:\\\\Program Files\\\\OCS Inventory Agent\\\\uninst.exe',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5001,7 +5736,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '14.0.6029.1000',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5018,7 +5755,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5035,7 +5774,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5052,7 +5793,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5069,7 +5812,28 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => 'C:\\\\WINDOWS\\\\system32\\\\MacroMed\\\\Flash\\\\genuinst.exe C:\\\\WINDOWS\\\\system32\\\\MacroMed\\\\Flash\\\\KB923789.inf',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
+            },
+            {
+                PUBLISHER        => undef,
+                NAME             => 'ie7',
+                VERSION_MINOR    => undef,
+                COMMENTS         => undef,
+                INSTALLDATE      => undef,
+                NO_REMOVE        => undef,
+                GUID             => 'ie7',
+                FROM             => 'registry',
+                RELEASE_TYPE     => undef,
+                HELPLINK         => undef,
+                URL_INFO_ABOUT   => undef,
+                VERSION_MAJOR    => undef,
+                VERSION          => undef,
+                UNINSTALL_STRING => undef,
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -5086,7 +5850,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5103,7 +5869,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -5120,7 +5888,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -5137,7 +5907,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5154,7 +5926,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5171,7 +5945,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5188,7 +5964,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '3',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -5205,7 +5983,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5222,7 +6002,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5239,7 +6021,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5256,7 +6040,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Colin Harrison',
@@ -5273,7 +6059,9 @@ my %tests = (
                 VERSION_MAJOR    => 7,
                 VERSION          => '7.5.0.15',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -5290,7 +6078,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5307,7 +6097,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '14.0.6029.1000',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5324,7 +6116,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5341,7 +6135,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '20090308.140743',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5358,7 +6154,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -5375,7 +6173,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5392,7 +6192,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '3.2.30729',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5409,7 +6211,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5426,7 +6230,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5443,7 +6249,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => 'C:\\\\WINDOWS\\\\system32\\\\msiexec.exe /package {CE2CDD62-0124-36CA-84D3-9F4DCF5C5BD9} /uninstall  /qb+ REBOOTPROMPT=\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5460,7 +6268,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1.1.1905.1',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5477,7 +6287,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '2',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -5494,7 +6306,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5511,7 +6325,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5528,7 +6344,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5545,7 +6363,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '14.0.6029.1000',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5562,7 +6382,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => 'C:\\\\windows\\\\Microsoft.NET\\\\Framework\\\\v4.0.30319\\\\SetupCache\\\\Client\\\\setup.exe /uninstallpatch {728D9A6A-2206-31E8-9F65-C3EABEFCF53E} /parameterfolder Client',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5579,7 +6401,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5596,7 +6420,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -5613,7 +6439,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Adobe Systems Incorporated',
@@ -5630,7 +6458,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '9.0.0',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5647,7 +6477,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Oracle',
@@ -5664,7 +6496,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '10.1.2.3.0',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Opera Software ASA',
@@ -5681,7 +6515,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '11.52.1100',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5698,7 +6534,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -5715,7 +6553,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5732,7 +6572,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5749,7 +6591,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -5766,7 +6610,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5783,7 +6629,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5800,7 +6648,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => 'c:\\\\windows\\\\Microsoft.NET\\\\Framework\\\\v4.0.30319\\\\SetupCache\\\\Extended\\\\setup.exe /uninstallpatch {7A2C18A1-D2A2-3177-82F1-5FE9CC08ECB0} /parameterfolder Extended',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => undef,
@@ -5817,7 +6667,9 @@ my %tests = (
                 VERSION_MAJOR    => 2,
                 VERSION          => '2.0.2',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Frank Heindörfer, Philip Chinery',
@@ -5834,7 +6686,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1.2.1',
                 UNINSTALL_STRING => 'C:\\\\Program Files\\\\PDFCreator\\\\unins000.exe',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5851,7 +6705,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -5868,7 +6724,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5885,7 +6743,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5902,7 +6762,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5919,7 +6781,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => 'C:\\\\windows\\\\Microsoft.NET\\\\Framework\\\\v4.0.30319\\\\SetupCache\\\\Client\\\\setup.exe /uninstallpatch {4952F442-5C1A-38EB-8C23-B18EFE77E20C} /parameterfolder Client',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5936,7 +6800,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '2.1.0.2',
                 UNINSTALL_STRING => 'MsiExec.exe /X{0EFDF2F9-836D-4EB7-A32D-038BD3F1FB2A}',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5953,7 +6819,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5970,7 +6838,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -5987,7 +6857,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6004,7 +6876,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6021,7 +6895,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Piriform',
@@ -6038,7 +6914,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -6055,7 +6933,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6072,7 +6952,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Mozilla',
@@ -6089,7 +6971,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '10.0.2',
                 UNINSTALL_STRING => 'C:\\\\Program Files\\\\Mozilla Firefox\\\\uninstall\\\\helper.exe',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6106,7 +6990,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6123,7 +7009,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => 'C:\\\\WINDOWS\\\\system32\\\\msiexec.exe /promptrestart /uninstall {ECD292A0-0347-4244-8C24-5DBCE990FB40} /package {BAF78226-3200-4DB4-BE33-4D922A799840}',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6140,7 +7028,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '20050502.101010',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Colin Harrison',
@@ -6157,7 +7047,9 @@ my %tests = (
                 VERSION_MAJOR    => 7,
                 VERSION          => '7.5.0.25',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6174,7 +7066,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6191,7 +7085,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '14.0.6029.1000',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Cornell University',
@@ -6208,7 +7104,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '4.0.2',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -6225,7 +7123,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6242,7 +7142,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '14.0.6029.1000',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => undef,
@@ -6259,7 +7161,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6276,7 +7180,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6293,7 +7199,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6310,7 +7218,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6327,7 +7237,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '20080414.031525',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6344,7 +7256,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6361,7 +7275,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6378,7 +7294,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6395,7 +7313,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6412,7 +7332,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6429,7 +7351,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6446,7 +7370,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6463,7 +7389,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6480,7 +7408,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -6497,7 +7427,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6514,7 +7446,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6531,7 +7465,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6548,7 +7484,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -6565,7 +7503,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6582,7 +7522,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6599,7 +7541,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6616,7 +7560,28 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
+            },
+            {
+                PUBLISHER        => undef,
+                NAME             => 'IDNMitigationAPIs',
+                VERSION_MINOR    => undef,
+                COMMENTS         => undef,
+                INSTALLDATE      => undef,
+                NO_REMOVE        => undef,
+                GUID             => 'IDNMitigationAPIs',
+                FROM             => 'registry',
+                RELEASE_TYPE     => undef,
+                HELPLINK         => undef,
+                URL_INFO_ABOUT   => undef,
+                VERSION_MAJOR    => undef,
+                VERSION          => undef,
+                UNINSTALL_STRING => undef,
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6633,7 +7598,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6650,7 +7617,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '4.0.30319',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6667,7 +7636,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '2',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6684,7 +7655,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Identity Finder, LLC',
@@ -6701,7 +7674,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '4.6.1.0',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6718,7 +7693,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6735,7 +7712,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => 'C:\\\\windows\\\\Microsoft.NET\\\\Framework\\\\v4.0.30319\\\\SetupCache\\\\Client\\\\setup.exe /uninstallpatch {5E9CF3A4-ADB3-3080-A8BF-976A28340758} /parameterfolder Client',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6752,7 +7731,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6769,7 +7750,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '14.0.6029.1000',
                 UNINSTALL_STRING => undef,
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6786,7 +7769,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6803,7 +7788,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '3.0.0.0',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6820,7 +7807,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6837,7 +7826,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -6854,7 +7845,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6871,7 +7864,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6888,7 +7883,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6905,7 +7902,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6922,7 +7921,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6939,7 +7940,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6956,7 +7959,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Martin Prikryl',
@@ -6973,7 +7978,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '4.0.7',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -6990,7 +7997,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -7007,7 +8016,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -7024,7 +8035,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '4.0.30319',
                 UNINSTALL_STRING => 'C:\\\\windows\\\\Microsoft.NET\\\\Framework\\\\v4.0.30319\\\\SetupCache\\\\Client\\\\Setup.exe /repair /x86 /parameterfolder Client',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft',
@@ -7041,7 +8054,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => undef,
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Microsoft Corporation',
@@ -7058,7 +8073,9 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '1',
                 UNINSTALL_STRING => '\\',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             },
             {
                 PUBLISHER        => 'Mozilla',
@@ -7075,87 +8092,91 @@ my %tests = (
                 VERSION_MAJOR    => undef,
                 VERSION          => '2.0.0.23 (en-US)',
                 UNINSTALL_STRING => 'C:\\\\Program Files\\\\Mozilla Thunderbird\\\\uninstall\\\\helper.exe',
-                ARCH             => 'i586'
+                ARCH             => 'i586',
+                USERID           => undef,
+                USERNAME         => undef
             }
-        ]
-    },
-    wmi => {
-        xp => {
-            '981852'     => {
-                FROM         => 'WMI',
-                NAME         => 'KB981852',
-                COMMENTS     => 'Security Update for Windows XP (KB981852)',
-                ARCH         => 'i586',
-                RELEASE_TYPE => 'Security Update'
-            },
-            '981349' => {
-                FROM         => 'WMI',
-                NAME         => 'KB981349',
-                COMMENTS     => 'Security Update for Windows XP (KB981349)',
-                ARCH         => 'i586',
-                RELEASE_TYPE => 'Security Update'
-            },
-            '981322' => {
-                FROM         => 'WMI',
-                NAME         => 'KB981322',
-                COMMENTS     => 'Security Update for Windows XP (KB981322)',
-                ARCH         => 'i586',
-                RELEASE_TYPE => 'Security Update'
-            },
-            '980232' => {
-                FROM         => 'WMI',
-                NAME         => 'KB980232',
-                COMMENTS     => 'Security Update for Windows XP (KB980232)',
-                ARCH         => 'i586',
-                RELEASE_TYPE => 'Security Update'
-            },
-            '980436' => {
-                FROM         => 'WMI',
-                NAME         => 'KB980436',
-                COMMENTS     => 'Security Update for Windows XP (KB980436)',
-                ARCH         => 'i586',
-                RELEASE_TYPE => 'Security Update'
-            },
-            '982132' => {
-                FROM         => 'WMI',
-                NAME         => 'KB982132',
-                COMMENTS     => 'Security Update for Windows XP (KB982132)',
-                ARCH         => 'i586',
-                RELEASE_TYPE => 'Security Update'
-            },
-            '980195' => {
-                FROM         => 'WMI',
-                NAME         => 'KB980195',
-                COMMENTS     => 'Security Update for Windows XP (KB980195)',
-                ARCH         => 'i586',
-                RELEASE_TYPE => 'Security Update'
-            },
-            '981997' => {
-                FROM         => 'WMI',
-                NAME         => 'KB981997',
-                COMMENTS     => 'Security Update for Windows XP (KB981997)',
-                ARCH         => 'i586',
-                RELEASE_TYPE => 'Security Update'
-            },
-            '982214' => {
-                FROM         => 'WMI',
-                NAME         => 'KB982214',
-                COMMENTS     => 'Security Update for Windows XP (KB982214)',
-                ARCH         => 'i586',
-                RELEASE_TYPE => 'Security Update'
-            },
-            '982665' => {
-                FROM         => 'WMI',
-                NAME         => 'KB982665',
-                COMMENTS     => 'Security Update for Windows XP (KB982665)',
-                ARCH         => 'i586',
-                RELEASE_TYPE => 'Security Update'
-            }
-        }
-    }
+        ],
 );
 
-plan tests => 3;
+my %hotfixes_tests = (
+    xp => [
+        {
+            FROM         => 'WMI',
+            NAME         => 'KB980195',
+            COMMENTS     => 'Security Update for Windows XP (KB980195)',
+            ARCH         => 'i586',
+            RELEASE_TYPE => 'Security Update'
+        },
+        {
+            FROM         => 'WMI',
+            NAME         => 'KB980232',
+            COMMENTS     => 'Security Update for Windows XP (KB980232)',
+            ARCH         => 'i586',
+            RELEASE_TYPE => 'Security Update'
+        },
+        {
+            FROM         => 'WMI',
+            NAME         => 'KB980436',
+            COMMENTS     => 'Security Update for Windows XP (KB980436)',
+            ARCH         => 'i586',
+            RELEASE_TYPE => 'Security Update'
+        },
+        {
+            FROM         => 'WMI',
+            NAME         => 'KB981322',
+            COMMENTS     => 'Security Update for Windows XP (KB981322)',
+            ARCH         => 'i586',
+            RELEASE_TYPE => 'Security Update'
+        },
+        {
+            FROM         => 'WMI',
+            NAME         => 'KB981349',
+            COMMENTS     => 'Security Update for Windows XP (KB981349)',
+            ARCH         => 'i586',
+            RELEASE_TYPE => 'Security Update'
+        },
+        {
+            FROM         => 'WMI',
+            NAME         => 'KB981852',
+            COMMENTS     => 'Security Update for Windows XP (KB981852)',
+            ARCH         => 'i586',
+            RELEASE_TYPE => 'Security Update'
+        },
+        {
+            FROM         => 'WMI',
+            NAME         => 'KB981997',
+            COMMENTS     => 'Security Update for Windows XP (KB981997)',
+            ARCH         => 'i586',
+            RELEASE_TYPE => 'Security Update'
+        },
+        {
+            FROM         => 'WMI',
+            NAME         => 'KB982132',
+            COMMENTS     => 'Security Update for Windows XP (KB982132)',
+            ARCH         => 'i586',
+            RELEASE_TYPE => 'Security Update'
+        },
+        {
+            FROM         => 'WMI',
+            NAME         => 'KB982214',
+            COMMENTS     => 'Security Update for Windows XP (KB982214)',
+            ARCH         => 'i586',
+            RELEASE_TYPE => 'Security Update'
+        },
+        {
+            FROM         => 'WMI',
+            NAME         => 'KB982665',
+            COMMENTS     => 'Security Update for Windows XP (KB982665)',
+            ARCH         => 'i586',
+            RELEASE_TYPE => 'Security Update'
+        }
+    ]
+);
+
+plan tests =>
+    scalar (keys %softwares_tests) +
+    scalar (keys %hotfixes_tests)  ;
 
 my $module = Test::MockModule->new(
     'FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares'
@@ -7168,59 +8189,30 @@ $module->mock(
     }
 );
 
-###############
-foreach my $test (keys %{$tests{registry}}) {
-    my $softwares = FusionInventory::Test::Utils::loadRegistryDump(
+foreach my $test (keys %softwares_tests) {
+    my $softwaresKey = FusionInventory::Test::Utils::loadRegistryDump(
         "resources/win32/registry/$test-uninstall.reg"
     );
 
-    my @softwares = FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getSoftwares(softwares => $softwares);
-
+    my $softwares = FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getSoftwaresList(softwares => $softwaresKey);
+ 
     is_deeply(
-        \@softwares,
-        $tests{registry}->{$test},
-        "$test registry sample"
+        $softwares,
+        $softwares_tests{$test},
+        "$test softwares list"
     );
 }
 
-###############
-foreach my $test (keys %{$tests{wmi}}) {
+foreach my $test (keys %hotfixes_tests) {
     $module->mock(
         'getWmiObjects',
         mockGetWmiObjects($test)
     );
 
-    my $kbList = FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getKB(is64bit => 0);
+    my $hotfixes = FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getHotfixesList(is64bit => 0);
     is_deeply(
-        $kbList,
-        $tests{wmi}->{$test},
-        "$test WMI sample"
+        $hotfixes,
+        $hotfixes_tests{$test},
+        "$test hotfixes list"
     );
 }
-
-###############
-$module->mock(
-    'getWmiObjects',
-    mockGetWmiObjects("xp")
-);
-my $kbList = FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getKB(is64bit => 0);
-
-my $softwares = FusionInventory::Test::Utils::loadRegistryDump(
-        "resources/win32/registry/xp-uninstall.reg"
-        );
-FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getSoftwares(softwares => $softwares, is64bit => 0, kbList => $kbList );
-
-is_deeply(
-    $kbList,
-    {
-        '981349' => {
-            FROM         => 'WMI',
-            NAME         => 'KB981349',
-            COMMENTS     => 'Security Update for Windows XP (KB981349)',
-            ARCH         => 'i586',
-            RELEASE_TYPE => 'Security Update'
-        }
-    },
-    "duplicated KB found in the KB stack are deleted"
-);
-

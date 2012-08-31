@@ -7,7 +7,7 @@ use File::Temp qw(tempdir);
 use Test::More;
 use Test::Exception;
 
-use FusionInventory::Agent::Target::Stdout;
+use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Task::Inventory;
 use FusionInventory::Agent::Tools;
 
@@ -21,7 +21,8 @@ throws_ok {
 
 lives_ok {
     $task = FusionInventory::Agent::Task::Inventory->new(
-        target => FusionInventory::Agent::Target::Stdout->new(
+        target => FusionInventory::Agent::Target::Local->new(
+            path => tempdir(),
             basevardir => tempdir()
         ),
     );

@@ -24,8 +24,18 @@ sub getDmidecodeInfos {
         @_
     );
 
-    my $handle = getFileHandle(%params);
+    if ($OSNAME eq 'MSWin32') {
+        # don't run dmidecode on Win2003
+        # http://forge.fusioninventory.org/issues/379
+        Win32->require();
+        my @osver = Win32::GetOSVersion();
+        return if
+            $osver[4] == 2 &&
+            $osver[1] == 5 &&
+            $osver[2] == 2;
+    }
 
+    my $handle = getFileHandle(%params);
     my ($info, $block, $type);
 
     while (my $line = <$handle>) {
@@ -59,6 +69,9 @@ sub getDmidecodeInfos {
         $block->{$1} = $2;
     }
     close $handle;
+
+    # do not return anything if dmidecode output is obviously truncated
+    return if keys %$info < 2;
 
     return $info;
 }

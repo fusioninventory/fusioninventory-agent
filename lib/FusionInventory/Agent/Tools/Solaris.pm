@@ -22,6 +22,7 @@ our @EXPORT = qw(
     getZone
     getModel
     getClass
+    getPrtconfInfos
     SOLARIS_UNKNOWN
     SOLARIS_FIRE
     SOLARIS_FIRE_V
@@ -51,7 +52,7 @@ sub getModel {
 sub getClass {
     my $model = getModel();
 
-    if ($model =~ /SUNW,Sun-Fire-\d/ || $model =~ /SUNW,Sun-Fire-V240/) {
+    if ($model =~ /SUNW,Sun-Fire-\d/ || $model =~ /SUNW,Sun-Fire-V490/) {
         return SOLARIS_FIRE;
     }
 
@@ -87,6 +88,82 @@ sub getClass {
     return SOLARIS_UNKNOWN;
 }
 
+sub getPrtconfInfos {
+    my (%params) = (
+        command => '/usr/sbin/prtconf -vp',
+        @_
+    );
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my $info = {};
+
+    # a stack of nodes, as a list of couples [ node, level ]
+    my @parents = (
+        [ $info, -1 ]
+    );
+
+    while (my $line = <$handle>) {
+        chomp $line;
+
+        # new node
+        if ($line =~ /^(\s*)Node \s (0x[a-f\d]+)/x) {
+            my $level   = defined $1 ? length($1) : 0;
+            my $address = $2;
+
+            my $parent_level = $parents[-1]->[1];
+
+            # compare level with parent
+            if ($level > $parent_level) {
+                # down the tree: no change
+            } elsif ($level < $parent_level) {
+                # up the tree: unstack nodes until a suitable parent is found
+                while ($level <= $parents[-1]->[1]) {
+                    pop @parents;
+                }
+            } else {
+                # same level: unstack last node
+                pop @parents;
+            }
+
+            # attach a new node to parent node 
+            my $parent_node = $parents[-1]->[0];
+            $parent_node->{$address} = {};
+
+            # and push it to the stack
+            push (@parents, [ $parent_node->{$address}, $level ]);
+
+            next;
+        }
+
+        # value
+        if ($line =~ /(\S[^:]+): \s+ (\S.*)$/x) {
+            my $key       = $1;
+            my $raw_value = $2;
+            my $node = $parents[-1]->[0];
+
+            if ($raw_value =~ /^'[^']+'(?: \+ '[^']+')+$/) {
+                # list of string values
+                $node->{$key} = [
+                    map { /^'([^']+)'$/; $1 }
+                    split (/ \+ /, $raw_value)
+                ];
+            } elsif ($raw_value =~ /^'([^']+)'$/) {
+                # single string value
+                $node->{$key} = $1;
+            } else  {
+                # other kind of value
+                $node->{$key} = $raw_value;
+            }
+            next;
+        }
+
+    }
+    close $handle;
+
+    return $info;
+}
 
 1;
 __END__
@@ -112,3 +189,25 @@ Returns system model, as a string.
 =head2 getclass()
 
 Returns system class, as a symbolic constant.
+
+=head2 getPrtconfInfos(%params)
+
+Returns a structured view of prtconf output. Each information block is
+turned into a hashref, hierarchically organised.
+
+$info = {
+    'System Configuration' => 'Sun Microsystems  sun4u',
+    'Memory size' => '32768 Megabytes',
+    '0xf00298fc' => {
+        'banner-name' => 'Sun Fire V890',
+        'model' => 'SUNW,501-7199',
+        '0xf007c538' => {
+            'compatible' => [
+                'SUNW,UltraSPARC-III,mc',
+                'SUNW,mc'
+            ],
+        }
+    }
+}
+
+

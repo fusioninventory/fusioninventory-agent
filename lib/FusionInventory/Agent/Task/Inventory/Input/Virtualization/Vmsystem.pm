@@ -72,6 +72,22 @@ my %module_patterns = (
     '^xen_\w+front\s' => 'Xen',
 );
 
+sub _getOpenVZVmID {
+    my $handle = getFileHandle(
+        file => '/proc/self/status',
+        @_
+    );
+
+    my $vmid;
+
+    while (my $line = <$handle>) {
+        next unless $line =~ /^envID:\s*(\d+)/;
+        $vmid = $1 if $1 > 0;
+    }
+
+    return $vmid;
+}
+
 sub isEnabled {
     return 1;
 }
@@ -98,9 +114,30 @@ sub doInventory {
         });
     }
 
-    $inventory->setHardware({
-        VMSYSTEM => $status,
-    });
+
+    my $uuid;
+    my $vmid;
+
+    if ( $status eq 'Virtuozzo' ) {
+        $vmid = _getOpenVZVmID( logger => $logger );
+    }
+
+    if ( $status eq 'Xen' ) {
+        if (-f '/sys/hypervisor/uuid') {
+            $uuid = getFirstLine(
+                file => '/sys/hypervisor/uuid',
+                logger => $logger
+            );
+        }
+    }
+
+    my $h;
+
+    $h -> { VMSYSTEM } = $status;
+    $h -> { UUID } = $uuid if $uuid;
+    $h -> { VMID } = $vmid if $vmid;
+
+    $inventory->setHardware($h);
 
 }
 
@@ -191,8 +228,8 @@ sub _getStatus {
             logger => $logger
         );
         while (my $line = <$handle>) {
-            my ( $varID, $varValue ) = split( ":", $line );
-            $result = "Virtuozzo" if ( $varID eq 'envID' && $varValue > 0 );
+            my ($key, $value) = split(/:/, $line);
+            $result = "Virtuozzo" if $key eq 'envID' && $value > 0;
         }
     }
     return $result if $result;
