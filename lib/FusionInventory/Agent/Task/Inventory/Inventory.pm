@@ -1600,4 +1600,20 @@ The key used to register the license (optional)
 
 The components covered by the license (optional)
 
+=item TRIAL
+
+True if it's a trial version (optional)
+
+=item UPDATE
+
+True if it's an updated version (optional)
+
+=item OEM
+
+True if it's an OEM version (optional)
+
+=item ACTIVATION_DATE
+
+Date of the first activation of one of the component.
+
 =back
