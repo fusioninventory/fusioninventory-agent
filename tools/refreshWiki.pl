@@ -7,8 +7,7 @@ use File::Basename;
 use File::Path qw(make_path);
 use Pod::Markdown;
 
-my $parser = Pod::Markdown->new;
-
+my $wikiDir = "../wiki/";
 my @files = qw/
   fusioninventory-agent
   fusioninventory-injector
@@ -20,35 +19,34 @@ my @branches = qw/
   2.3.x
   /;
 
-my %matrice = (
-    '2.2.x:fusioninventory-agent' =>
-      'documentation/agent/references/agent/2.2.x/fusioninventory-agent.mdwn',
-    '2.3.x:fusioninventory-agent' =>
-      'documentation/agent/references/agent/2.3.x/fusioninventory-agent.mdwn',
-    'master:fusioninventory-agent' =>
-      'documentation/agent/references/agent/3.0.x/fusioninventory-agent.mdwn',
-    '2.2.x:fusioninventory-injector' =>
-'documentation/agent/references/agent/2.2.x/fusioninventory-injector.mdwn',
-    '2.3.x:fusioninventory-injector' =>
-'documentation/agent/references/agent/2.3.x/fusioninventory-injector.mdwn',
-    'master:fusioninventory-injector' =>
-      'documentation/agent/references/agent/3.0.x/fusioninventory-injector.mdwn'
-);
+my $indexContent =
+"# Reference documentation
+
+";
 
 foreach my $file (@files) {
+    $indexContent .= "\n##$file\n\n";
     foreach my $branch (@branches) {
 
-        my $mkdwnFile =
-          "../wiki/documentation/agent/references/agent/$branch/$file.mdwn";
-        print $mkdwnFile. "\n";
+        my $mdwnFile =
+          "documentation/references/agent/$branch/$file";
+        print $mdwnFile. "\n";
         open( FH, "-|", "git show $branch:$file" )
           or die "Can't start git show: $!";
 
+        my $parser = Pod::Markdown->new;
         $parser->parse_from_filehandle( \*FH );
-        make_path( dirname($mkdwnFile) );
-        open OUT, ">$mkdwnFile" or die "$!";
+        make_path( dirname($wikiDir.$mdwnFile.'.mdwn') );
+        open OUT, ">".$wikiDir.$mdwnFile.'.mdwn' or die "$!";
         print OUT $parser->as_markdown;
+        close OUT;
         close FH;
+        $indexContent .= "* [[$branch|$mdwnFile]]\n";
+
 
     }
 }
+
+open INDEX, ">".$wikiDir."documentation/references/agent.mdwn" or die;
+print INDEX $indexContent;
+close INDEX;
