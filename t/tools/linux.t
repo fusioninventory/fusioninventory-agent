@@ -685,6 +685,17 @@ my %ifconfig_tests = (
             TYPE        => 'Ethernet',
             IPADDRESS6  => 'fe80::fcff:ffff:feff:ffff/64'
         }
+    ],
+    'linux-fc17' => [
+        {
+            IPMASK      => '255.255.0.0',
+            MACADDR     => '00:23:ae:8c:33:b6',
+            DESCRIPTION => 'em1',
+            STATUS      => 'Up',
+            TYPE        => 'Ethernet',
+            IPADDRESS6  => 'fe80::223:aeff:fe8c:33b6',
+            IPADDRESS   => '10.1.65.145'
+        }
     ]
 );
 
