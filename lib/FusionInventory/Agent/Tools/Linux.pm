@@ -305,7 +305,7 @@ sub getInterfacesFromIfconfig {
             $ifname =~ s/:$//;
 
             my $status = 'Down';
-            if ($line =~ /<UP[>,]/) {
+            if ($line =~ /flags=.*[<,]UP[>,]/) {
                 $status = 'Up';
             }
 
