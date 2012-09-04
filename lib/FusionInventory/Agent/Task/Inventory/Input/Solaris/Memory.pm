@@ -45,14 +45,14 @@ sub doInventory {
     }
 
     my @memories =
-        $class == SOLARIS_FIRE         ? _getMemories1() :
-        $class == SOLARIS_FIRE_V       ? _getMemories2() :
-        $class == SOLARIS_FIRE_T       ? _getMemories3() :
-        $class == SOLARIS_ENTERPRISE_T ? _getMemories4() :
-        $class == SOLARIS_ENTERPRISE   ? _getMemories5() :
-        $class == SOLARIS_I86PC        ? _getMemories6() :
-        $class == SOLARIS_CONTAINER    ? _getMemories7() :
-                                         ()              ;
+        $class == SOLARIS_FIRE         ? _getMemoriesFire()        :
+        $class == SOLARIS_FIRE_V       ? _getMemoriesFireV()       :
+        $class == SOLARIS_FIRE_T       ? _getMemoriesFireT()       :
+        $class == SOLARIS_ENTERPRISE_T ? _getMemoriesEnterpriseT() :
+        $class == SOLARIS_ENTERPRISE   ? _getMemoriesEnterprise()  :
+        $class == SOLARIS_I86PC        ? _getMemoriesI86PC()       :
+        $class == SOLARIS_CONTAINER    ? _getMemoriesContainer()   :
+                                         ()                        ;
 
     foreach my $memory (@memories) {
         $inventory->addEntry(
@@ -62,7 +62,7 @@ sub doInventory {
     }
 }
 
-sub _getMemories1 {
+sub _getMemoriesFire {
     my $handle = getFileHandle(command => 'memconf', @_);
     my @memories;
 
@@ -104,7 +104,7 @@ sub _getMemories1 {
     return @memories;
 }
 
-sub _getMemories2 {
+sub _getMemoriesFireV {
     my $handle = getFileHandle(command => 'memconf', @_);
     my @memories;
 
@@ -177,7 +177,7 @@ sub _getMemories2 {
     return @memories;
 }
 
-sub _getMemories3 {
+sub _getMemoriesFireT {
     my $handle = getFileHandle(command => 'memconf', @_);
     my @memories;
 
@@ -212,7 +212,7 @@ sub _getMemories3 {
     return @memories;
 }
 
-sub _getMemories4 {
+sub _getMemoriesEnterpriseT {
     my $handle = getFileHandle(command => 'memconf', @_);
     my @memories;
 
@@ -249,7 +249,7 @@ sub _getMemories4 {
     return @memories;
 }
 
-sub _getMemories5 {
+sub _getMemoriesEnterprise {
     my $handle = getFileHandle(command => 'memconf', @_);
     my @memories;
 
@@ -315,7 +315,7 @@ sub _getMemories5 {
     return @memories;
 }
 
-sub _getMemories6 {
+sub _getMemoriesI86PC {
     my $handle = getFileHandle(command => 'memconf', @_);
 
     my @memories;
@@ -366,7 +366,7 @@ sub _getMemories6 {
     return @memories;
 }
 
-sub _getMemories7 {
+sub _getMemoriesContainer {
     my $handle = getFileHandle(
         command => "prctl -n project.max-shm-memory $PID",
         @_

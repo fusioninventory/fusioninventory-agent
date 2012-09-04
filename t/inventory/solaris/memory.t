@@ -7,7 +7,7 @@ use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::Solaris::Memory;
 
-my %memconf_class1_tests = (
+my %memconf_fire_tests = (
     sample5 => [
         {
             NUMSLOTS    => '0',
@@ -204,7 +204,7 @@ my %memconf_class1_tests = (
     ]
 );
 
-my %memconf_class6_tests = (
+my %memconf_i86pc_tests = (
     sample1 => [
         {
             NUMSLOTS    => '1',
@@ -345,28 +345,28 @@ my %memconf_class6_tests = (
 );
 
 plan tests => 
-    (scalar keys %memconf_class1_tests) +
-    (scalar keys %memconf_class6_tests) ;
+    (scalar keys %memconf_fire_tests) +
+    (scalar keys %memconf_i86pc_tests) ;
 
 
-foreach my $test (keys %memconf_class1_tests) {
+foreach my $test (keys %memconf_fire_tests) {
     my $file = "resources/solaris/memconf/$test";
     my @results =
-      FusionInventory::Agent::Task::Inventory::Input::Solaris::Memory::_getMemories1(file => $file);
+      FusionInventory::Agent::Task::Inventory::Input::Solaris::Memory::_getMemoriesFire(file => $file);
     is_deeply(
         \@results,
-        $memconf_class1_tests{$test},
+        $memconf_fire_tests{$test},
         "memconf parsing: $test"
     );
 }
 
-foreach my $test (keys %memconf_class6_tests) {
+foreach my $test (keys %memconf_i86pc_tests) {
     my $file = "resources/solaris/memconf/$test";
     my @results =
-      FusionInventory::Agent::Task::Inventory::Input::Solaris::Memory::_getMemories6(file => $file);
+      FusionInventory::Agent::Task::Inventory::Input::Solaris::Memory::_getMemoriesI86PC(file => $file);
     is_deeply(
         \@results,
-        $memconf_class6_tests{$test},
+        $memconf_i86pc_tests{$test},
         "memconf parsing: $test"
     );
 }
