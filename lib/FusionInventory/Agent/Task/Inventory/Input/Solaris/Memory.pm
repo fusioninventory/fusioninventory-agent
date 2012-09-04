@@ -111,7 +111,6 @@ sub _getMemoriesFireV {
     while (my $line = <$handle>) {
         if ($line =~ /^empty sockets: (.+)/) {
             foreach my $caption (split(/ /, $1)) {
-                # no empty slots -> exit loop
                 last if $caption eq "None";
 
                 push @memories, {
@@ -153,15 +152,12 @@ sub _getMemoriesFireT {
         if ($line =~ /^empty sockets: (.+)/) {
             # a list of empty slots, from which we extract the slot names
             foreach my $caption (split(/ /, $1)) {
-                # no empty slots -> exit loop
                 last if $caption eq "None";
 
-                my $memory = {
-                    CAPACITY    => "empty",
-                    NUMSLOTS    => 0,
+                push @memories, {
+                    DESCRIPTION => "empty",
                     CAPTION     => $caption
                 };
-                push @memories, $memory;
             }
         }
         if ($line =~ /^socket\s+(\S+) has a (\d+)MB\s+\(\S+\)\s+(\S+)/) {
@@ -192,8 +188,7 @@ sub _getMemoriesEnterpriseT {
                 last if $caption eq "None";
                 
                 my $memory = {
-                    CAPACITY    => "empty",
-                    NUMSLOTS    => 0,
+                    DESCRIPTION => "empty",
                     CAPTION     => $caption
                 };
                 push @memories, $memory;
@@ -291,17 +286,15 @@ sub _getMemoriesI86PC {
     while (my $line = <$handle>) {
         if ($line =~ /^empty memory sockets: (.+)/) {
             foreach my $caption (split(/, /, $1)) {
-                if ($caption eq "None") {
-                    # no empty slots -> exit loop
-                    last;
-                }
-                my $memory = {
+                last if $caption eq "None";
+
+                push @memories, {
                     DESCRIPTION => "empty",
                     CAPTION     => $caption
                 };
-                push @memories, $memory;
             }
         }
+
         if ($line =~ /^
             socket \s Memory \s Board \s ([A-Z]),
             \s DIMM_(\d+):
