@@ -204,6 +204,47 @@ my %memconf_fire_tests = (
     ]
 );
 
+my %memconf_firev_tests = (
+    'firev-sample1' => [
+        {
+            NUMSLOTS => '0',
+            CAPACITY => '512',
+            CAPTION => 'MB/P0/B0/D0'
+        },
+        {
+            NUMSLOTS => '0',
+            CAPACITY => '512',
+            CAPTION  => 'MB/P0/B0/D1'
+        },
+        {
+            NUMSLOTS => '1',
+            CAPACITY => '512',
+            CAPTION  => 'MB/P1/B0/D0'
+        },
+        {
+            NUMSLOTS => '1',
+            CAPACITY => '512',
+            CAPTION  => 'MB/P1/B0/D1'
+        },
+        {
+            DESCRIPTION => 'empty',
+            CAPTION     => 'MB/P0/B1/D0'
+        },
+        {
+            DESCRIPTION => 'empty',
+            CAPTION     => 'MB/P0/B1/D1'
+        },
+        {
+            DESCRIPTION => 'empty',
+            CAPTION     => 'MB/P1/B1/D0'
+        },
+        {
+            DESCRIPTION => 'empty',
+            CAPTION     => 'MB/P1/B1/D1'
+        }
+    ]
+);
+
 my %memconf_i86pc_tests = (
     'i86pc-sample1' => [
         {
@@ -346,6 +387,7 @@ my %memconf_i86pc_tests = (
 
 plan tests => 
     (scalar keys %memconf_fire_tests) +
+    (scalar keys %memconf_firev_tests) +
     (scalar keys %memconf_i86pc_tests) ;
 
 
@@ -356,6 +398,17 @@ foreach my $test (keys %memconf_fire_tests) {
     is_deeply(
         \@results,
         $memconf_fire_tests{$test},
+        "memconf parsing: $test"
+    );
+}
+
+foreach my $test (keys %memconf_firev_tests) {
+    my $file = "resources/solaris/memconf/$test";
+    my @results =
+      FusionInventory::Agent::Task::Inventory::Input::Solaris::Memory::_getMemoriesFireV(file => $file);
+    is_deeply(
+        \@results,
+        $memconf_firev_tests{$test},
         "memconf parsing: $test"
     );
 }
