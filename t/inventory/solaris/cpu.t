@@ -12,24 +12,39 @@ my %vpcu_tests = (
     unstable9x  => [  4, { speed => '2333', type => 'i386'    } ],
     unstable10s => [ 24, { speed => '1165', type => 'sparcv9' } ],
     unstable10x => [  4, { speed => '2333', type => 'i386'    } ],
+    unstable11s => [  4, { speed => '1165', type => 'sparcv9' } ],
+    unstable11x => [  4, { speed => '2326', type => 'i386'    } ],
+    giration    => [ 16, { speed => '1350', type => 'sparcv9' } ],
 );
 
 my %pcpu_tests = (
-    unstable9s => [ 
+    unstable9s => [
         1,
         { speed => '1165', type => 'UltraSPARC-T2', count => 24 }
     ],
-    unstable9x => [ 
+    unstable9x => [
         4,
         { type => 'i386', count => 1 }
     ],
-    unstable10s => [ 
+    unstable10s => [
         1,
         { speed => '1165', type => 'UltraSPARC-T2', count => 24 }
     ],
-    unstable10x => [ 
+    unstable10x => [
         4,
         { speed => '2333', type => 'Xeon E5410', count => 1 }
+    ],
+    unstable11s => [
+        1,
+        { speed => '1165', type => 'UltraSPARC-T2', count => 4 }
+    ],
+    unstable11x => [
+        4,
+        { speed => '2326', type => 'Xeon E5410', count => 1 }
+    ],
+    giration => [
+        8,
+        { speed => '1350', type => 'UltraSPARC-IV', count => 2 }
     ],
 );
 
