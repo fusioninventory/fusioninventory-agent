@@ -299,11 +299,10 @@ sub getInterfacesFromIfconfig {
 
         if ($line =~ /^([\w\d.]+)/) {
             # new interface
-            my $ifname = $1;
 
             $interface = {
                 STATUS      => 'Down',
-                DESCRIPTION => $ifname
+                DESCRIPTION => $1
             }
 
         }
