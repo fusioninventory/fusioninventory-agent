@@ -8,7 +8,7 @@ use Test::More;
 use FusionInventory::Agent::Task::Inventory::Input::Solaris::Memory;
 
 my %memconf_fire_tests = (
-    sample5 => [
+    'fire-sample1' => [
         {
             NUMSLOTS    => '0',
             DESCRIPTION => 'DIMM',
@@ -205,7 +205,7 @@ my %memconf_fire_tests = (
 );
 
 my %memconf_i86pc_tests = (
-    sample1 => [
+    'i86pc-sample1' => [
         {
             NUMSLOTS    => '1',
             DESCRIPTION => 'DIMM',
@@ -303,7 +303,7 @@ my %memconf_i86pc_tests = (
             CAPTION     => 'Board B'
         }
     ],
-    sample4 => [
+    'i86pc-sample2' => [
         {
             CAPTION     => 'cpu0.mem0',
             DESCRIPTION => 'DIMM',
