@@ -108,69 +108,37 @@ sub _getMemoriesFireV {
     my $handle = getFileHandle(command => 'memconf', @_);
     my @memories;
 
-    my $flag    = 0;
-    my $flag_mt = 0;
-
-    my $capacity;
-    my $caption;
-    my $speed;
-    my $type;
-    my $numslots;
-
     while (my $line = <$handle>) {
         if ($line =~ /^empty sockets: (.+)/) {
-            # a list of empty slots, from which we extract the slot names
-            $capacity = "empty";
-            $numslots = 0;
             foreach my $caption (split(/ /, $1)) {
                 # no empty slots -> exit loop
                 last if $caption eq "None";
 
                 push @memories, {
-                    CAPACITY => $capacity,
-#                            DESCRIPTION => $description,
-                    CAPTION => $caption,
-                    SPEED => $speed,
-                    TYPE => $type,
-                    NUMSLOTS => $numslots
+                    DESCRIPTION => "empty",
+                    CAPTION     => $caption
                 };
             }
-            # the end, we unset flag
-            $flag = 0;
         }
 
-        if ($line =~ /Memory Module Groups/) {
-            $flag = 0;
-            $flag_mt = 0;
+        if ($line =~ /^(\d+) \s \d+ \s (\S+) \s (\d+)MB/x) {
+            push @memories, {
+                NUMSLOTS => $1,
+                CAPTION  => $2,
+                CAPACITY => $3,
+            }
         }
 
-        if ($line =~ /^-+/) {
-            # delimiter, we set flag
-            $flag = 1;
+        # 0 0 MB/P0/B0/D0,MB/P0/B0/D1 2x512MB
+        if ($line =~ /^(\d+) \s \d+ \s (\S+) \s \d x (\d+)MB/x) {
+            foreach my $caption (split(/,/, $2)) {
+                push @memories, {
+                    NUMSLOTS => $1,
+                    CAPTION  => $caption,
+                    CAPACITY => $3,
+                }
+            }
         }
-
-        # only grap for information if flag is set
-        next unless $flag;
-
-        if ($line =~ /^\s*\S+\s+\S+\s+(\S+)/) {
-            $caption = $1;
-        }
-        if ($line =~ /^\s*(\S+)/) {
-            $numslots = $1;
-        }
-        if ($line =~ /^\s*\S+\s+\S+\s+\S+\s+(\d+)/){
-            $capacity = $1;
-        }
-        push @memories, {
-            CAPACITY => $capacity,
-#                        DESCRIPTION => "DIMM",
-            CAPTION => "Ram slot ".$numslots,
-            SPEED => $speed,
-            TYPE => $type,
-            NUMSLOTS => $numslots
-        };
-        # this is the caption line
-#            if (/^ID       ControllerID/) { $description = $1;}
     }
     close $handle;
 
