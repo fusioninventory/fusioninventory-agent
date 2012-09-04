@@ -329,9 +329,7 @@ sub _getMemories6 {
                 }
                 my $memory = {
                     DESCRIPTION => "empty",
-                    CAPACITY    => 0,
-                    NUMSLOTS    => 0,
-                    caption     => $caption
+                    CAPTION     => $caption
                 };
                 push @memories, $memory;
             }
@@ -340,13 +338,26 @@ sub _getMemories6 {
             socket \s Memory \s Board \s ([A-Z]),
             \s DIMM_(\d+):
             \s \S+
-            \s (\d+)MB
+            \s (\d+) ([GM]B)
             /x) {
             push @memories, {
                 CAPTION     => "Board $1",
                 NUMSLOTS    => $2,
                 DESCRIPTION => "DIMM",
-                CAPACITY    => $3,
+                CAPACITY    => ($4 eq 'GB' ? $3 * 1024 : $3)
+            };
+        }
+
+        if ($line =~ /^
+            socket
+            \s (\S+):
+            \s \S+
+            \s (\d+) ([GM]B)
+            /x) {
+            push @memories, {
+                CAPTION     => $1,
+                DESCRIPTION => "DIMM",
+                CAPACITY    => ($3 eq 'GB' ? $2 * 1024 : $2)
             };
         }
     }
