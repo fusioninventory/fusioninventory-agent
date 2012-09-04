@@ -19,7 +19,6 @@ Dependencies
 Minimum perl version: 5.8
 
 Additional mandatory perl modules:
-- Digest::MD5
 - File::Which
 - LWP
 - Net::IP

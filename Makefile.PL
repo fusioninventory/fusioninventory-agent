@@ -10,7 +10,6 @@ version_from 'lib/FusionInventory/Agent.pm';
 perl_version '5.008';
 
 # mandatory dependencies
-requires 'Digest::MD5'        => undef;
 requires 'File::Which'        => undef;
 requires 'LWP'                => '5.8';
 requires 'Net::IP'            => undef;
@@ -19,6 +18,11 @@ requires 'Text::Template'     => undef;
 requires 'XML::TreePP'        => '0.26';
 requires 'Socket::GetAddrInfo'=> undef;
 
+if ($OSNAME eq 'MSWin32') {
+    requires 'Win32::OLE'         => undef;
+    requires 'Win32::TieRegistry' => undef;
+    requires 'Win32::Job'         => undef;
+}
 if ($OSNAME eq 'MSWin32') {
     requires 'Win32::OLE'         => undef;
     requires 'Win32::TieRegistry' => undef;
