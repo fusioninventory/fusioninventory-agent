@@ -40,7 +40,7 @@ sub addMessage {
 
         # get an exclusive lock on log file
         flock($handle, LOCK_EX|LOCK_NB)
-            or die "can't get an exclusive lock on $self->{logfile}: $ERRNO";
+            or warn "can't get an exclusive lock on $self->{logfile}: $ERRNO";
 
         print {$handle}
             "[". localtime() ."]" .
