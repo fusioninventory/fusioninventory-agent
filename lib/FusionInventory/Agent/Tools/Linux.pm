@@ -300,18 +300,16 @@ sub getInterfacesFromIfconfig {
         if ($line =~ /^([\w\d.]+)/) {
             # new interface
             my $ifname = $1;
-# ifconfig on Fedora 17 generates line like this one
-#em1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
 
-            my $status = 'Down';
-            if ($line =~ /flags=.*[<,]UP[>,]/) {
-                $status = 'Up';
-            }
+            # ifconfig on Fedora 17 generates line like this one
+            #em1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+            my $status = ($line =~ /flags=.*[<,]UP[>,]/) ? 'Up' : 'Down';
 
             $interface = {
                 STATUS      => $status,
                 DESCRIPTION => $ifname
             }
+
         }
         if ($line =~ /inet\s($ip_address_pattern)
                 \s\snetmask\s($ip_address_pattern)
