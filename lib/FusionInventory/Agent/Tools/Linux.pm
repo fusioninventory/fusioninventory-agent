@@ -311,40 +311,48 @@ sub getInterfacesFromIfconfig {
             }
 
         }
-        if ($line =~ /inet\s($ip_address_pattern)
-                \s\snetmask\s($ip_address_pattern)
-                \s\sbroadcast\s$ip_address_pattern/x) {
+        if ($line =~ /
+            inet \s ($ip_address_pattern) \s+
+            netmask \s ($ip_address_pattern) \s+
+            broadcast \s $ip_address_pattern
+        /x) {
             $interface->{IPADDRESS} = $1;
             $interface->{IPMASK} = $2;
-
         }
-        if ($line =~ /ether\s($mac_address_pattern)
-                \s\s.*\s\s\((.*?)\)/x) {
+
+        if ($line =~ /
+            ether \s ($mac_address_pattern)
+            .+
+            \( ([^)]+) \)
+        /x) {
             $interface->{MACADDR} = $1;
             $interface->{TYPE} = $2;
-
         }
-        if ($line =~ /inet6\s(\S+)
-                \s\sprefixlen\s\d+\s\s/x) {
-            $interface->{IPADDRESS6} = $1;
 
+        if ($line =~ /inet6 \s (\S+)/x) {
+            $interface->{IPADDRESS6} = $1;
         }
 
         if ($line =~ /inet addr:($ip_address_pattern)/i) {
             $interface->{IPADDRESS} = $1;
         }
+
         if ($line =~ /Mask:($ip_address_pattern)/) {
             $interface->{IPMASK} = $1;
         }
+
         if ($line =~ /inet6 addr: (\S+)/i) {
             $interface->{IPADDRESS6} = $1;
         }
+
         if ($line =~ /hwadd?r\s+($mac_address_pattern)/i) {
             $interface->{MACADDR} = $1;
         }
+
         if ($line =~ /^\s+UP\s/) {
             $interface->{STATUS} = 'Up';
         }
+
         if ($line =~ /link encap:(\S+)/i) {
             $interface->{TYPE} = $1;
         }
