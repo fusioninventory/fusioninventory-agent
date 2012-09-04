@@ -302,6 +302,45 @@ my %memconf_class6_tests = (
             CAPACITY    => '2048',
             CAPTION     => 'Board B'
         }
+    ],
+    sample4 => [
+        {
+            CAPTION     => 'cpu0.mem0',
+            DESCRIPTION => 'DIMM',
+            CAPACITY    => '1024'
+        },
+        {
+            CAPTION     => 'cpu0.mem1',
+            DESCRIPTION => 'DIMM',
+            CAPACITY    => '1024'
+        },
+        {
+            CAPTION     => 'cpu1.mem0',
+            DESCRIPTION => 'DIMM',
+            CAPACITY    => '1024'
+        },
+        {
+            CAPTION     => 'cpu1.mem1',
+            DESCRIPTION => 'DIMM',
+            CAPACITY    => '1024'
+        },
+        {
+            CAPTION     => 'cpu0.mem2',
+            DESCRIPTION => 'empty',
+        },
+        {
+            CAPTION     => 'cpu0.mem3',
+            DESCRIPTION => 'empty',
+        },
+        {
+            CAPTION     => 'cpu1.mem2',
+            DESCRIPTION => 'empty',
+        },
+        {
+            CAPTION     => 'cpu1.mem3',
+            DESCRIPTION => 'empty',
+        }
+
     ]
 );
 
