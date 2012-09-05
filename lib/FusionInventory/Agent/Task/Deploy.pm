@@ -127,7 +127,7 @@ sub processRemote {
             foreach my $uuid ( @{ $_->{associatedFiles} } ) {
                 if ( !$files->{$uuid} ) {
                     die "unknow file: `" . $uuid
-                      . "'. Not found in YSON answer!";
+                      . "'. Not found in JSON answer!";
                 }
                 push @$associatedFiles, $files->{$uuid};
             }
