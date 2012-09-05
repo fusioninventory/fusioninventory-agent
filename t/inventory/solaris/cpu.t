@@ -15,6 +15,9 @@ my %vpcu_tests = (
     unstable11s => [  4, { speed => '1165', type => 'sparcv9' } ],
     unstable11x => [  4, { speed => '2326', type => 'i386'    } ],
     giration    => [ 16, { speed => '1350', type => 'sparcv9' } ],
+    v240        => [  2, { speed => '1280', type => 'sparcv9' } ],
+    v490        => [  8, { speed => '1350', type => 'sparcv9' } ],
+    t5120       => [ 32, { speed => '1165', type => 'sparcv9' } ],
 );
 
 my %pcpu_tests = (
@@ -45,6 +48,18 @@ my %pcpu_tests = (
     giration => [
         8,
         { speed => '1350', type => 'UltraSPARC-IV', count => 2 }
+    ],
+    v240 => [
+        2,
+        { type => 'UltraSPARC-IIIi', count => 1 }
+    ],
+    v490 => [
+        4,
+        { speed => '1350', type => 'UltraSPARC-IV', count => 2 }
+    ],
+    t5120 => [
+        1,
+        { speed => '1165', type => 'UltraSPARC-T2', count => 32 }
     ],
 );
 
