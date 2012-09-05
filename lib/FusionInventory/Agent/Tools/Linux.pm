@@ -297,57 +297,61 @@ sub getInterfacesFromIfconfig {
             next;
         }
 
-        if ($line =~ /^(\S+)/) {
+        if ($line =~ /^([\w\d.]+)/) {
             # new interface
-            my $ifname = $1;
-# ifconfig on Fedora 17 generates line like this one
-#em1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
-            $ifname =~ s/:$//;
-
-            my $status = 'Down';
-            if ($line =~ /flags=.*[<,]UP[>,]/) {
-                $status = 'Up';
-            }
 
             $interface = {
-                STATUS      => $status,
-                DESCRIPTION => $ifname
+                STATUS      => 'Down',
+                DESCRIPTION => $1
             }
+
         }
-        if ($line =~ /inet\s($ip_address_pattern)
-                \s\snetmask\s($ip_address_pattern)
-                \s\sbroadcast\s$ip_address_pattern/x) {
+        if ($line =~ /
+            inet \s ($ip_address_pattern) \s+
+            netmask \s ($ip_address_pattern) \s+
+            broadcast \s $ip_address_pattern
+        /x) {
             $interface->{IPADDRESS} = $1;
             $interface->{IPMASK} = $2;
-
         }
-        if ($line =~ /ether\s($mac_address_pattern)
-                \s\s.*\s\s\((.*?)\)/x) {
+
+        if ($line =~ /
+            ether \s ($mac_address_pattern)
+            .+
+            \( ([^)]+) \)
+        /x) {
             $interface->{MACADDR} = $1;
             $interface->{TYPE} = $2;
-
         }
-        if ($line =~ /inet6\s(\S+)
-                \s\sprefixlen\s\d+\s\s/x) {
-            $interface->{IPADDRESS6} = $1;
 
+        if ($line =~ /inet6 \s (\S+)/x) {
+            $interface->{IPADDRESS6} = $1;
         }
 
         if ($line =~ /inet addr:($ip_address_pattern)/i) {
             $interface->{IPADDRESS} = $1;
         }
+
         if ($line =~ /Mask:($ip_address_pattern)/) {
             $interface->{IPMASK} = $1;
         }
+
         if ($line =~ /inet6 addr: (\S+)/i) {
             $interface->{IPADDRESS6} = $1;
         }
+
         if ($line =~ /hwadd?r\s+($mac_address_pattern)/i) {
             $interface->{MACADDR} = $1;
         }
+
         if ($line =~ /^\s+UP\s/) {
             $interface->{STATUS} = 'Up';
         }
+
+        if ($line =~ /flags=.*[<,]UP[>,]/) {
+            $interface->{STATUS} = 'Up';
+        }
+
         if ($line =~ /link encap:(\S+)/i) {
             $interface->{TYPE} = $1;
         }
