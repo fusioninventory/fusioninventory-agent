@@ -18,11 +18,23 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
+    foreach my $cpu (_getCPUs()) {
+        $inventory->addEntry(
+            section => 'CPUS',
+            entry   => $cpu
+        );
+    }
+
+}
+
+sub _getCPUs {
+    my (%params) = @_;
+
     # get virtual cpus from psrinfo -v
-    my @vcpus = _getVirtualCPUs(logger => $logger);
+    my @vcpus = _getVirtualCPUs(logger => $params{logger});
 
     # get physical cpus from psrinfo -vp
-    my @pcpus = _getPhysicalCPUs(logger => $logger);
+    my @pcpus = _getPhysicalCPUs(logger => $params{logger});
 
     # consider all cpus as identical
     my $type  = $pcpus[0]->{type}  || $vcpus[0]->{type};
@@ -56,22 +68,20 @@ sub doInventory {
 
     # deduce core numbers from number of virtual cpus if needed
     if (!$cores) {
-        # todo: solaris zone
+        # cores may be < 1 in case of virtualisation
         $cores = (scalar @vcpus) / $threads / $cpus;
     }
 
-    while ($cpus--) {
-        $inventory->addEntry(
-            section => 'CPUS',
-            entry   => {
+    return
+        map { 
+            {
                 MANUFACTURER => $manufacturer,
                 NAME         => $type,
                 SPEED        => $speed,
                 CORE         => $cores,
                 THREAD       => $threads
             }
-        );
-    }
+        } 1 .. $cpus;
 }
 
 sub _getVirtualCPUs {
