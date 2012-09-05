@@ -35,6 +35,7 @@ requires 'Net::SNMP'     => undef;
 
 test_requires 'Clone'            => undef;
 test_requires 'Test::Compile'    => undef;
+test_requires 'Test::Exception'  => undef;
 
 # optional dependencies
 recommends 'Net::NBName' => undef;
