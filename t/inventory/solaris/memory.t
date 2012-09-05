@@ -245,6 +245,105 @@ my %memconf_firev_tests = (
     ]
 );
 
+my %memconf_firet_tests = (
+    'firet-sample1' => [
+        {
+            DESCRIPTION => 'DIMM',
+            CAPACITY    => '32',
+            CAPTION     => 'DIMM1'
+        },
+        {
+            DESCRIPTION => 'DIMM',
+            CAPACITY    => '32',
+            CAPTION     => 'DIMM2'
+        },
+        {
+            DESCRIPTION => 'DIMM',
+            CAPACITY    => '32',
+            CAPTION     => 'DIMM3'
+        },
+        {
+            DESCRIPTION => 'DIMM',
+            CAPACITY    => '32',
+            CAPTION     => 'DIMM4'
+        }
+    ],
+    'firet-sample2' => [
+        {
+            DESCRIPTION => 'DIMM',
+            CAPACITY    => '2048',
+            CAPTION     => 'MB/CMP0/BOB0/CH0/D0'
+        },
+        {
+            DESCRIPTION => 'DIMM',
+            CAPACITY    => '2048',
+            CAPTION     => 'MB/CMP0/BOB0/CH1/D0'
+        },
+        {
+            DESCRIPTION => 'DIMM',
+            CAPACITY    => '2048',
+            CAPTION     => 'MB/CMP0/BOB1/CH0/D0'
+        },
+        {
+            DESCRIPTION => 'DIMM',
+            CAPACITY    => '2048',
+            CAPTION     => 'MB/CMP0/BOB1/CH1/D0'
+        },
+        {
+            DESCRIPTION => 'DIMM',
+            CAPACITY    => '2048',
+            CAPTION     => 'MB/CMP0/BOB2/CH0/D0'
+        },
+        {
+            DESCRIPTION => 'DIMM',
+            CAPACITY    => '2048',
+            CAPTION     => 'MB/CMP0/BOB2/CH1/D0'
+        },
+        {
+            DESCRIPTION => 'DIMM',
+            CAPACITY    => '2048',
+            CAPTION     => 'MB/CMP0/BOB3/CH0/D0'
+        },
+        {
+            DESCRIPTION => 'DIMM',
+            CAPACITY    => '2048',
+            CAPTION     => 'MB/CMP0/BOB3/CH1/D0'
+        },
+        {
+            DESCRIPTION => 'empty',
+            CAPTION     => 'MB/CMP0/BOB0/CH1/D1'
+        },
+        {
+            DESCRIPTION => 'empty',
+            CAPTION     => 'MB/CMP0/BOB1/CH1/D1'
+        },
+        {
+            DESCRIPTION => 'empty',
+            CAPTION     => 'MB/CMP0/BOB2/CH1/D1'
+        },
+        {
+            DESCRIPTION => 'empty',
+            CAPTION     => 'MB/CMP0/BOB3/CH1/D1'
+        },
+        {
+            DESCRIPTION => 'empty',
+            CAPTION     => 'MB/CMP0/BOB0/CH0/D1'
+        },
+        {
+            DESCRIPTION => 'empty',
+            CAPTION     => 'MB/CMP0/BOB1/CH0/D1'
+        },
+        {
+            DESCRIPTION => 'empty',
+            CAPTION     => 'MB/CMP0/BOB2/CH0/D1'
+        },
+        {
+            DESCRIPTION => 'empty',
+            CAPTION     => 'MB/CMP0/BOB3/CH0/D1'
+        }
+    ]
+);
+
 my %memconf_i86pc_tests = (
     'i86pc-sample1' => [
         {
@@ -388,6 +487,7 @@ my %memconf_i86pc_tests = (
 plan tests => 
     (scalar keys %memconf_fire_tests) +
     (scalar keys %memconf_firev_tests) +
+    (scalar keys %memconf_firet_tests) +
     (scalar keys %memconf_i86pc_tests) ;
 
 
@@ -409,6 +509,17 @@ foreach my $test (keys %memconf_firev_tests) {
     is_deeply(
         \@results,
         $memconf_firev_tests{$test},
+        "memconf parsing: $test"
+    );
+}
+
+foreach my $test (keys %memconf_firet_tests) {
+    my $file = "resources/solaris/memconf/$test";
+    my @results =
+      FusionInventory::Agent::Task::Inventory::Input::Solaris::Memory::_getMemoriesFireT(file => $file);
+    is_deeply(
+        \@results,
+        $memconf_firet_tests{$test},
         "memconf parsing: $test"
     );
 }
