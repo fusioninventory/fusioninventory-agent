@@ -5,17 +5,13 @@ use warnings;
 
 use English qw(-no_match_vars);
 use Test::More;
+use UNIVERSAL::require;
 
 use lib 't';
 
-eval {
-    require Test::Compile;
-    Test::Compile->import();
-};
-if ($EVAL_ERROR) {
-    my $msg = 'Test::Compile required';
-    plan(skip_all => $msg);
-}
+plan(skip_all => 'Test::Compile required')
+    unless Test::Compile->require();
+Test::Compile->import();
 
 # use mock modules for non-available ones
 if ($OSNAME eq 'MSWin32') {
