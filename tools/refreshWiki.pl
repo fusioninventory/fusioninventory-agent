@@ -37,12 +37,12 @@ foreach my $file (@files) {
         open(my $in, '-|', "git show $branch:$file" )
           or die "Can't start git show: $!";
 
-        my $parser = Pod::Markdown->new;
+        my $parser = Pod::Markdown->new();
         $parser->parse_from_filehandle($in);
         make_path( dirname($mdwnFilePath) );
 
         open (my $out, '>', $mdwnFilePath) or die "$!";
-        print $out $parser->as_markdown;
+        print $out $parser->as_markdown();
         close $out;
 
         close $in;
