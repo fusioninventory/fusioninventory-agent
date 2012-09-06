@@ -31,22 +31,23 @@ foreach my $file (@files) {
         my $mdwnFile =
           "documentation/references/agent/$branch/$file";
         print $mdwnFile. "\n";
-        open( FH, "-|", "git show $branch:$file" )
+
+        open(my $in, '-|', "git show $branch:$file" )
           or die "Can't start git show: $!";
 
         my $parser = Pod::Markdown->new;
-        $parser->parse_from_filehandle( \*FH );
-        make_path( dirname($wikiDir.$mdwnFile.'.mdwn') );
-        open OUT, ">".$wikiDir.$mdwnFile.'.mdwn' or die "$!";
-        print OUT $parser->as_markdown;
-        close OUT;
-        close FH;
+        $parser->parse_from_filehandle($in);
+        make_path( dirname($wikiDir . $mdwnFile . '.mdwn') );
+
+        open (my $out, '>', $wikiDir . $mdwnFile . '.mdwn') or die "$!";
+        print $out $parser->as_markdown;
+        close $out;
+
+        close $in;
         $indexContent .= "* [[$branch|$mdwnFile]]\n";
-
-
     }
 }
 
-open INDEX, ">".$wikiDir."documentation/references/agent.mdwn" or die;
-print INDEX $indexContent;
-close INDEX;
+open (my $index, '>', $wikiDir . "documentation/references/agent.mdwn") or die;
+print $index $indexContent;
+close $index;
