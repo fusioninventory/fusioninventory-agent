@@ -5,9 +5,13 @@ use warnings;
 
 use English qw(-no_match_vars);
 use Test::More;
+use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::Inventory::Input::Generic::Screen;
+
+plan(skip_all => 'Parse::EDID required')
+    unless Parse::EDID->require();
 
 my %tests = (
     'crt.13' => {
