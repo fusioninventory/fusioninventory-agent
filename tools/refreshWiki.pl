@@ -31,15 +31,17 @@ foreach my $file (@files) {
         my $mdwnFile =
           "documentation/references/agent/$branch/$file";
         print $mdwnFile. "\n";
+        my $mdwnFilePath =
+          $wikiDir . $mdwnFile . '.mdwn';
 
         open(my $in, '-|', "git show $branch:$file" )
           or die "Can't start git show: $!";
 
         my $parser = Pod::Markdown->new;
         $parser->parse_from_filehandle($in);
-        make_path( dirname($wikiDir . $mdwnFile . '.mdwn') );
+        make_path( dirname($mdwnFilePath) );
 
-        open (my $out, '>', $wikiDir . $mdwnFile . '.mdwn') or die "$!";
+        open (my $out, '>', $mdwnFilePath) or die "$!";
         print $out $parser->as_markdown;
         close $out;
 
