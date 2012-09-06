@@ -19,7 +19,7 @@ use FusionInventory::Agent::Logger;
 if ($Config{usethreads} ne 'define') {
     plan skip_all => 'non working test without thread support';
 } else {
-    plan tests => 8;
+    plan tests => 11;
 }
 
 my $logger = FusionInventory::Agent::Logger->new(
@@ -47,7 +47,32 @@ ok(
     'server listening on default port'
 );
 
+ok (
+    !$server->_is_trusted('127.0.0.1'),
+    'server not trusting 127.0.0.1 address'
+);
+
 $server->terminate();
+
+lives_ok {
+    $server = FusionInventory::Agent::HTTP::Server->new(
+        agent     => FusionInventory::Test::Agent->new(),
+        scheduler => $scheduler,
+        logger    => $logger,
+        htmldir   => 'share/html',
+        trust     => [ '127.0.0.1', '192.168.0.0/24' ]
+    );
+} 'instanciation with a list of trusted address: ok';
+
+ok (
+    $server->_is_trusted('127.0.0.1'),
+    'server trusting 127.0.0.1 address'
+);
+
+ok (
+    $server->_is_trusted('192.168.0.1'),
+    'server trusting 192.168.0.1 address'
+);
 
 lives_ok {
     $server = FusionInventory::Agent::HTTP::Server->new(
@@ -56,7 +81,6 @@ lives_ok {
         logger    => $logger,
         port      => 8080,
         htmldir   => 'share/html',
-        trust     => [ '192.168.0.0/24', '127.0.0.1' ]
     );
 } 'instanciation with specific port: ok';
 sleep 1;
@@ -98,12 +122,6 @@ if (my $pid = fork()) {
 ok(
     $client->get('http://localhost:8080')->is_success(),
     'server still listening after child process raised ALRM'
-);
-
-
-ok (
-    $server->_is_trusted('127.0.0.1'),
-    '_is_trusted() on a network range'
 );
 
 $server->terminate();
