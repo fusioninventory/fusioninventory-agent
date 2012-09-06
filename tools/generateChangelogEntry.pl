@@ -39,11 +39,11 @@ sub getBug {
     }
 
     return {
-        id => $id,
-           title => $title,
-           thanks => $thanks,
-           categorie => $categorie,
-           commit => []
+       id        => $id,
+       title     => $title,
+       thanks    => $thanks,
+       categorie => $categorie,
+       commit    => []
     }
 };
 
@@ -104,7 +104,7 @@ foreach my $categorie(sort keys %categories) {
         print " ✔ ".$info->{title}."\n";
         print "      ";
         foreach (@{$info->{commit}}) {
-        print " commit:$_";
+            print " commit:$_";
         }
         print "\n";
         print "     http://forge.fusioninventory.org/issues/".$info->{id}."\n";
