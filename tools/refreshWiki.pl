@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
 use File::Basename;
 use File::Path qw(make_path);
 use Pod::Markdown;
@@ -35,14 +36,14 @@ foreach my $file (@files) {
           $wikiDir . $mdwnFile . '.mdwn';
 
         open(my $in, '-|', "git show $branch:$file" )
-          or die "Can't run git show $branch:$file: $!";
+          or die "Can't run git show $branch:$file: $ERRNO";
 
         my $parser = Pod::Markdown->new();
         $parser->parse_from_filehandle($in);
         make_path( dirname($mdwnFilePath) );
 
         open (my $out, '>', $mdwnFilePath)
-            or die "Can't open $mdwnFilePath: $!";
+            or die "Can't open $mdwnFilePath: $ERRNO";
         print $out $parser->as_markdown();
         close $out;
 
@@ -53,6 +54,6 @@ foreach my $file (@files) {
 
 my $indexPath = $wikiDir . "documentation/references/agent.mdwn";
 open (my $index, '>', $indexPath)
-    or die "Can't open $indexPath: $!";
+    or die "Can't open $indexPath: $ERRNO";
 print $index $indexContent;
 close $index;
