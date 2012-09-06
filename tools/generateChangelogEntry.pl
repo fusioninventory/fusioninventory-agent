@@ -20,7 +20,6 @@ sub getBug {
     my $url = "http://forge.fusioninventory.org/issues/$id";
     my $content = encode("UTF-8",(LWP::Simple::get($url)));
 
-    use XML::TreePP;
     my $tpp = XML::TreePP->new();
 
     my $title;
