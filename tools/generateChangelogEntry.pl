@@ -3,15 +3,11 @@
 use strict;
 use warnings;
 
-
 use Data::Dumper;
-use LWP::Simple;
-
-
 use DateTime;
 use DateTime::Format::Mail;
-
 use Encode;
+use LWP::Simple;
 use XML::TreePP;
 
 sub getBug {
