@@ -35,13 +35,14 @@ foreach my $file (@files) {
           $wikiDir . $mdwnFile . '.mdwn';
 
         open(my $in, '-|', "git show $branch:$file" )
-          or die "Can't start git show: $!";
+          or die "Can't run git show $branch:$file: $!";
 
         my $parser = Pod::Markdown->new();
         $parser->parse_from_filehandle($in);
         make_path( dirname($mdwnFilePath) );
 
-        open (my $out, '>', $mdwnFilePath) or die "$!";
+        open (my $out, '>', $mdwnFilePath)
+            or die "Can't open $mdwnFilePath: $!";
         print $out $parser->as_markdown();
         close $out;
 
@@ -50,6 +51,8 @@ foreach my $file (@files) {
     }
 }
 
-open (my $index, '>', $wikiDir . "documentation/references/agent.mdwn") or die;
+my $indexPath = $wikiDir . "documentation/references/agent.mdwn";
+open (my $index, '>', $indexPath)
+    or die "Can't open $indexPath: $!";
 print $index $indexContent;
 close $index;
