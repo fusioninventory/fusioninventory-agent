@@ -126,8 +126,7 @@ sub _getStorage {
     my $storage = {
         DESCRIPTION  => $data{'Interface Type'},
         SERIALNUMBER => $data{'Serial Number'},
-        FIRMWARE     => $data{'Firmware Revision'},
-        DISKSIZE     => $data{'Size'} * 1000
+        FIRMWARE     => $data{'Firmware Revision'}
     };
 
     my $model = $data{'Model'};
@@ -140,6 +139,12 @@ sub _getStorage {
     $storage->{TYPE} = $data{'Drive Type'} eq 'Data Drive' ?
         'disk' : $data{'Drive Type'};
 
+    my ($size, $unit) = $data{'Size'} =~ /(\d+) \s (\S+)/x;
+    $storage->{DISKSIZE} =
+        $unit eq 'TB' ? $size * 1024 * 1024 * 1024 :
+        $unit eq 'GB' ? $size * 1024 * 1024        :
+        $unit eq 'MB' ? $size * 1024               :
+                        $size                      ;
     return $storage;
 }
 
