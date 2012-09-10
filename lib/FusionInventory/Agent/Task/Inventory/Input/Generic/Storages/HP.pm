@@ -116,44 +116,29 @@ sub _getStorage {
     my $handle  = getFileHandle(%params, command => $command);
     next unless $handle;
 
-    my $storage;
+    my %data;
     while (my $line = <$handle>) {
-        if ($line =~ /Model: (.+)/) {
-            my $model = $1;
-            $model =~ s/^ATA\s+//;
-            $storage->{NAME}  = $model;
-            $storage->{MODEL} = $model;
-            next;
-        }
-
-        if ($line =~ /Interface Type: (.+)/) {
-            $storage->{DESCRIPTION} = $1;
-            next;
-        }
-
-        if ($line =~ /Drive Type: (.+)/) {
-            $storage->{TYPE} = $1 eq 'Data Drive' ? 'disk' : $1;
-            next;
-        }
-
-        if ($line =~ /Size: (\S+)/) {
-            $storage->{DISKSIZE} = 1000 * $1;
-            next;
-        }
-
-        if ($line =~ /Serial Number: +(\S+)/) {
-            $storage->{SERIALNUMBER} = $1;
-            next;
-        }
-
-        if ($line =~ /Firmware Revision: (.+)/) {
-            $storage->{FIRMWARE} = $1;
-            next;
-        }
+        next unless $line =~ /(\S[^:]+) : \s+ (.+)/x;
+        $data{$1} = $2;
     }
     close $handle;
 
-    $storage->{MANUFACTURER} = getCanonicalManufacturer($storage->{MODEL});
+    my $storage = {
+        DESCRIPTION  => $data{'Interface Type'},
+        SERIALNUMBER => $data{'Serial Number'},
+        FIRMWARE     => $data{'Firmware Revision'},
+        DISKSIZE     => $data{'Size'} * 1000
+    };
+
+    my $model = $data{'Model'};
+    $model =~ s/^ATA\s+//; # ex: ATA     WDC WD740ADFD-00
+    $model =~ s/\s+/ /;
+    $storage->{MANUFACTURER} = getCanonicalManufacturer($model);
+    $storage->{NAME}  = $model;
+    $storage->{MODEL} = $model;
+
+    $storage->{TYPE} = $data{'Drive Type'} eq 'Data Drive' ?
+        'disk' : $data{'Drive Type'};
 
     return $storage;
 }
