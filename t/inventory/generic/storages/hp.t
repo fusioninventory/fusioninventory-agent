@@ -2,45 +2,72 @@
 
 use strict;
 use warnings;
-use FusionInventory::Agent::Task::Inventory::Input::Generic::Storages::HP;
+
 use Test::More;
 
-plan tests => 3;
+use FusionInventory::Agent::Task::Inventory::Input::Generic::Storages::HP;
 
-my @slots = qw/
-    2
-/;
-
-my @drives = qw/
-    2I:1:1
-    2I:1:2
-/;
-
-my $storage = {
-    NAME         => 'WDC WD740ADFD-00',
-    FIRMWARE     => '21.07QR4',
-    SERIALNUMBER => 'WD-WMANS1732855',
-    TYPE         => 'disk',
-    DISKSIZE     => '74300',
-    DESCRIPTION  => 'SATA',
-    MODEL        => 'WDC WD740ADFD-00',
-    MANUFACTURER => 'Western Digital'
-};
-
-is_deeply(
-    [ FusionInventory::Agent::Task::Inventory::Input::Generic::Storages::HP::_getSlots(file => 'resources/generic/hpacucli/slots') ],
-    [ @slots ],
-    'slots extraction'
+my %slots_tests = (
+    sample1 => [ 2 ],
+    sample2 => [ 3, 0 ]
 );
 
-is_deeply(
-    [ FusionInventory::Agent::Task::Inventory::Input::Generic::Storages::HP::_getDrives(file => 'resources/generic/hpacucli/drives') ],
-    [ @drives ],
-    'drives extraction'
+my %drives_tests = (
+    sample1 => [ '2I:1:1', '2I:1:2' ],
+    sample2 => [ '1I:1:1', '1I:1:2' ],
 );
 
-is_deeply(
-    FusionInventory::Agent::Task::Inventory::Input::Generic::Storages::HP::_getStorage(file => 'resources/generic/hpacucli/storage'),
-    $storage,
-    'storage extraction'
+my %storage_tests = (
+    sample1 => {
+        NAME         => 'WDC WD740ADFD-00',
+        FIRMWARE     => '21.07QR4',
+        SERIALNUMBER => 'WD-WMANS1732855',
+        TYPE         => 'disk',
+        DISKSIZE     => '74300',
+        DESCRIPTION  => 'SATA',
+        MODEL        => 'WDC WD740ADFD-00',
+        MANUFACTURER => 'Western Digital'
+    },
+    sample2 => {
+        NAME         => 'Hitachi HUA72201',
+        MODEL        => 'Hitachi HUA72201',
+        FIRMWARE     => 'JP4OA3MA',
+        DISKSIZE     => 1000,
+        MANUFACTURER => 'Hitachi',
+        SERIALNUMBER => 'JPW9K0N02UPXHL',
+        DESCRIPTION  => 'SATA',
+        TYPE         => 'disk'
+    }
 );
+
+plan tests => 
+    (scalar keys %slots_tests) +
+    (scalar keys %drives_tests) +
+    (scalar keys %storage_tests);
+
+foreach my $test (keys %slots_tests) {
+    my $file  = "resources/generic/hpacucli/$test-slots";
+    is_deeply(
+        [ FusionInventory::Agent::Task::Inventory::Input::Generic::Storages::HP::_getSlots(file => $file) ],
+        $slots_tests{$test},
+        "$test: slots extraction"
+    );
+}
+
+foreach my $test (keys %drives_tests) {
+    my $file  = "resources/generic/hpacucli/$test-drives";
+    is_deeply(
+        [ FusionInventory::Agent::Task::Inventory::Input::Generic::Storages::HP::_getDrives(file => $file) ],
+        $drives_tests{$test},
+        "$test: drives extraction"
+    );
+}
+
+foreach my $test (keys %storage_tests) {
+    my $file  = "resources/generic/hpacucli/$test-storage";
+    is_deeply(
+        FusionInventory::Agent::Task::Inventory::Input::Generic::Storages::HP::_getStorage(file => $file),
+        $storage_tests{$test},
+        'storage extraction'
+    );
+}
