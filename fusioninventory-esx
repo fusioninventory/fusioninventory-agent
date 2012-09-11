@@ -116,7 +116,11 @@ Supported systems:
 
 =item F<ESX and ESXi 4.1>
 
+=item F<ESXi 5.0>
+
 =item F<vCenter 4.1>
+
+=item F<vCenter 5.0>
 
 =back
 
