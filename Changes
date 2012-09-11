@@ -1,5 +1,19 @@
 Revision history for FusionInventory agent
 
+2.2.6
+Installation:
+* fix installation with older MakeMaker versions
+* do not generate html version of man pages
+* minor fixes to dependencies list
+
+General:
+* better fix for size parsing with HP RAID controllers, avoiding warnings
+  (#1807)
+* implement model-specific hack for ACER screens serials (#1607)
+
+Linux:
+* fix parsing of newer ifconfig output, such as used on Fedora 17
+
 2.2.5  Thu, 16 Aug 2012 12:03:30 +0200
 General:
 * Fix: deal with broken last_state file
