@@ -1,7 +1,5 @@
 Smart Array E200 in Slot 2
-
   array A
-
      physicaldrive 1:1
         Port: 2I
         Box: 1
