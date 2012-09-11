@@ -4,16 +4,16 @@ Revision history for FusionInventory agent
 General:
 * Fix: deal with broken last_state file
 * Fix: fix HP RAID size parsing
-* Fix: Virtual machine inventory with VMware desktop
+* Fix: virtual machine inventory with VMware desktop
 * Fix: add /usr/local/{bin,sbin} in default $PATH
 
 Windows:
 * Fix: do not run dmidecode.exe on Win2003
-* Fix: Software inventory
+* Fix: software inventory
 
 Solaris:
 * Fix: improve ZFS support
-Fix: get memory on solaris on Sun-Fire-V490
+* Fix: get memory on solaris on Sun-Fire-V490
 
 HP-UX:
 * Fix: variou syntax issues (Drives, Uptime, etc)
