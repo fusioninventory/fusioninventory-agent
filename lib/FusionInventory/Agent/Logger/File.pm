@@ -36,22 +36,29 @@ sub addMessage {
     }
 
     my $handle;
-    if (open $handle, '>>', $self->{logfile}) {
-
-        # get an exclusive lock on log file
-        flock($handle, LOCK_EX|LOCK_NB)
-            or warn "can't get an exclusive lock on $self->{logfile}: $ERRNO";
-
-        print {$handle}
-            "[". localtime() ."]" .
-            "[$level]" .
-            " $message\n";
-
-        # closing handle release the lock automatically
-        close $handle;
-    } else {
+    if (!open $handle, '>>', $self->{logfile}) {
         die "can't open $self->{logfile}: $ERRNO";
     }
+
+    my $locked;
+    my $retryTill = time + 60;
+
+    while ($retryTill > time && !$locked) {
+        # get an exclusive lock on log file
+        $locked = 1 if flock($handle, LOCK_EX|LOCK_NB);
+    }
+
+    if (!$locked) {
+        die "can't get an exclusive lock on $self->{logfile}: $ERRNO";
+    }
+
+    print {$handle}
+        "[". localtime() ."]" .
+        "[$level]" .
+        " $message\n";
+
+    # closing handle release the lock automatically
+    close $handle;
 
 }
 
