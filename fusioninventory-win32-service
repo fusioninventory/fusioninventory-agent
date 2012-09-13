@@ -1,27 +1,23 @@
 #!/usr/bin/perl
 
-# See http://forge.fusioninventory.org/issues/1810
+use strict;
+use warnings;
+use lib './lib';
+use threads;
+use threads::shared;
+use constant SERVICE_SLEEP_TIME => 2000; # 20 milliseconds
+
+use File::Spec;
+use File::Basename;
+
+use English qw(-no_match_vars);
+use Win32;
+use Win32::Daemon;
+
+use FusionInventory::Agent;
+
 delete($ENV{PERL5LIB});
 delete($ENV{PERLLIB});
-
-eval {
-    use strict;
-    use warnings;
-    use lib './lib';
-    use threads;
-    use threads::shared;
-    use constant SERVICE_SLEEP_TIME => 2000; # 20 milliseconds
-
-    use File::Spec;
-    use File::Basename;
-
-    use English qw(-no_match_vars);
-    use Win32;
-    use Win32::Daemon;
-
-    use FusionInventory::Agent;
-};
-die $@ if $@;
 
 my $directory = dirname(File::Spec->rel2abs( __FILE__ ));
 # on Win2k, Windows do not chdir to the bin directory
