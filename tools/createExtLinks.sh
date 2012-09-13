@@ -7,5 +7,7 @@ for task in Deploy Network ESX; do
 done
 ln -f -v -s "$PWD/../agent-task-esx/lib/FusionInventory/VMware" lib/FusionInventory/VMware
 ln -f -v -s $PWD/../agent-task-network/lib/FusionInventory/Agent/SNMP.pm lib/FusionInventory/Agent/SNMP.pm
+mkdir -p lib/FusionInventory/Agent/SNMP
+ln -f -v -s $PWD/../agent-task-network/lib/FusionInventory/Agent/SNMP/Live.pm lib/FusionInventory/Agent/SNMP/Live.pm
 ln -f -v -s $PWD/../agent-task-network/lib/FusionInventory/Agent/Tools/* lib/FusionInventory/Agent/Tools/
 ln -f -v -s $PWD/../agent-task-esx/fusioninventory-esx .
