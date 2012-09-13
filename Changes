@@ -1,3 +1,9 @@
+This is FusionInventory Agent Task Deploy changelog:
+
+2.0.3  Thu, 13 Sep 2012 12:18:53 +0200
+
+* Don't give up if download file, but retry 5 times in a row
+
 2.0.2  Wed, 30 May 2012 17:38:18 +0200
 
 * Win32: properly support non ASCII characters

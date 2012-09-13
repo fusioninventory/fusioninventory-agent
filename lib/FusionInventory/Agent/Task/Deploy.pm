@@ -19,7 +19,7 @@ use FusionInventory::Agent::Task::Deploy::Datastore;
 use FusionInventory::Agent::Task::Deploy::File;
 use FusionInventory::Agent::Task::Deploy::Job;
 
-our $VERSION = '2.0.2';
+our $VERSION = '2.0.3';
 
 sub isEnabled {
     my ($self) = @_;
@@ -244,8 +244,14 @@ sub processRemote {
                 }
             );
 
-            $file->download();
-            if ( $file->filePartsExists() ) {
+            my $downloadIsOK = 0;
+            # Retry the download 5 times in a row and then
+            # give up
+            for (my $i = 0; !$downloadIsOK && $i < 5; $i++) {
+                $file->download();
+                $downloadIsOK = $file->filePartsExists();
+            }
+            if ( $downloadIsOK ) {
 
                 $self->{client}->send(
                     url  => $remoteUrl,
