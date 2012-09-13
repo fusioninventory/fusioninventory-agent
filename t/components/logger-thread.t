@@ -2,32 +2,28 @@
 
 use strict;
 use warnings;
-
-use Test::More tests => 4;
-
-use File::Temp qw(tempdir);
-use File::stat;
-use FusionInventory::Agent::Logger::File;
-
-use English qw(-no_match_vars);
-
 use threads;
 use threads::shared;
 
-my $failure :shared;
+use English qw(-no_match_vars);
+use File::Temp qw(tempdir);
+use File::stat;
+use Test::More tests => 4;
 
+use FusionInventory::Agent::Logger::File;
+
+my $failure :shared;
 my $maxsize = 1; # 1MB
 
 my $fileTemp = tempdir( CLEANUP => 0 ).'/file.log'; 
 my $logger = FusionInventory::Agent::Logger::File->new(
     config => {
-        'logfile' => $fileTemp,
+        'logfile'         => $fileTemp,
         'logfile-maxsize' => $maxsize,
     }
 );
 
-sub _func {
-
+my $sub = sub {
     eval {
         for (my $i = 0; $i< 4000; $i++) {
             $logger->addMessage(level => 'debug', message => 'message');
@@ -35,15 +31,13 @@ sub _func {
     };
     $failure = 1 if $EVAL_ERROR;
 
-}
+};
 
-my @threadList;
-while (@threadList < 10) {
-    push @threadList, threads->create( '_func'  );
+my @threads;
+while (@threads < 10) {
+    push @threads, threads->create($sub);
 }
-foreach (@threadList) {
-    $_->join();
-}
+$_->join() foreach @threads;
 
 my $s = stat($fileTemp);
 
