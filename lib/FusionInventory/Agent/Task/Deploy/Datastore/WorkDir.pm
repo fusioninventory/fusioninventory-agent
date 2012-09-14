@@ -32,8 +32,6 @@ sub addFile {
 
     push @{$self->{files}}, $file;
 
-
-
 }
 
 sub prepare {
@@ -41,6 +39,7 @@ sub prepare {
 
     my $logger = $self->{logger};
 
+    # Rebuild the complet file from the filepart
     foreach my $file (@{$self->{files}}) {
         $file->{name_local} = $file->{name};
 
@@ -99,7 +98,7 @@ sub prepare {
 
     }
 
-
+    # Now uncompress
     foreach my $file (@{$self->{files}}) {
         my $finalFilePath = $self->{path}.'/'.$file->{name_local};
 
