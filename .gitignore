@@ -22,3 +22,7 @@ fusioninventory-esx
 lib/FusionInventory/VMware
 *.swp
 *.swo
+share/pci.ids
+MYMETA.json
+MYMETA.yml
+var/
