@@ -211,8 +211,11 @@ sub processRemote {
             }
         );
 
+        my $retry = 5;
         my $workdir = $datastore->createWorkDir( $job->{uuid} );
-        foreach my $file ( @{ $job->{associatedFiles} } ) {
+        FETCHFILE: foreach my $file ( @{ $job->{associatedFiles} } ) {
+
+            # File exists, no need to download
             if ( $file->filePartsExists() ) {
                 $self->{client}->send(
                     url  => $remoteUrl,
@@ -231,6 +234,8 @@ sub processRemote {
                 $workdir->addFile($file);
                 next;
             }
+
+            # File doesn't exist, lets try or retry a download
             $self->{client}->send(
                 url  => $remoteUrl,
                 args => {
@@ -244,13 +249,11 @@ sub processRemote {
                 }
             );
 
-            my $downloadIsOK = 0;
-            # Retry the download 5 times in a row and then
-            # give up
-            for (my $i = 0; !$downloadIsOK && $i < 5; $i++) {
-                $file->download();
-                $downloadIsOK = $file->filePartsExists();
-            }
+            $file->download();
+
+            # Are all the fileparts here?
+            my $downloadIsOK = $file->filePartsExists();
+
             if ( $downloadIsOK ) {
 
                 $self->{client}->send(
@@ -268,25 +271,51 @@ sub processRemote {
                 );
 
                 $workdir->addFile($file);
+                next;
             }
-            else {
 
-                $self->{client}->send(
-                    url  => $remoteUrl,
-                    args => {
-                        action      => "setStatus",
-                        machineid   => $self->{deviceid},
-                        part        => 'file',
-                        uuid        => $job->{uuid},
-                        sha512      => $file->{sha512},
-                        currentStep => 'downloading',
-                        status      => 'ko',
-                        msg         => $file->{name}.' download failed'
-                    }
-                );
-                next JOB;
+            # Retry the download 5 times in a row and then give up
+            if ( !$downloadIsOK ) {
+
+                if ($retry--) { # Retry
+# OK, retry!
+                    $self->{client}->send(
+                        url  => $remoteUrl,
+                        args => {
+                            action      => "setStatus",
+                            machineid   => $self->{deviceid},
+                            part        => 'file',
+                            uuid        => $job->{uuid},
+                            sha512      => $file->{sha512},
+                            currentStep => 'downloading',
+                            msg         => 'retrying '.$file->{name}
+                        }
+                    );
+
+                    redo FETCHFILE;
+                } else { # Give up...
+
+                    $self->{client}->send(
+                        url  => $remoteUrl,
+                        args => {
+                            action      => "setStatus",
+                            machineid   => $self->{deviceid},
+                            part        => 'file',
+                            uuid        => $job->{uuid},
+                            sha512      => $file->{sha512},
+                            currentStep => 'downloading',
+                            status      => 'ko',
+                            msg         => $file->{name}.' download failed'
+                        }
+                    );
+
+                    next JOB;
+                }
             }
+
         }
+
+
         $self->{client}->send(
             url  => $remoteUrl,
             args => {
