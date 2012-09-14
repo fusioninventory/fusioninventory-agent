@@ -93,34 +93,35 @@ sub findPeer {
     $logger->info("looking for a peer in the network");
     return $cache{data} if $cache{date} + 600 > time;
 
-    my @addresses;
+    my @interfaces;
+
 
     if ($OSNAME eq 'linux') {
         FusionInventory::Agent::Tools::Linux->require();
-        @addresses =
-           map {
-               {
-                   ip   => $_->{IPADDRESS},
-                   mask => $_->{IPMASK},
-               }
-            }
-        grep { $_->{IPMASK} && $_->{IPMASK} =~ /^255\.255\.255/ }
-        grep { $_->{STATUS} eq 'Up' }
-        FusionInventory::Agent::Tools::Linux::getInterfacesFromIfconfig();
+        @interfaces = FusionInventory::Agent::Tools::Linux::getInterfacesFromIfconfig();
 
     } elsif ($OSNAME eq 'MSWin32') {
         FusionInventory::Agent::Task::Inventory::Input::Win32::Networks->require();
-        my @interfaces = FusionInventory::Agent::Task::Inventory::Input::Win32::Networks::_getInterfaces();
-        foreach my $interface (@interfaces) {
-            #if interface has both ip and netmask setup then push the address
-            if ( $interface->{IPADDRESS} && $interface->{IPMASK} ) {
-                push @addresses, {
-                            ip   => $interface->{IPADDRESS},
-                            mask => $interface->{IPMASK}
-                        };
-            }
-        }
+        @interfaces = FusionInventory::Agent::Task::Inventory::Input::Win32::Networks::_getInterfaces();
     }
+
+
+    my @addresses;
+
+    foreach my $interface (@interfaces) {
+#if interface has both ip and netmask setup then push the address
+        next unless $interface->{IPADDRESS};
+        next unless $interface->{IPMASK};
+        next unless lc($interface->{STATUS}) eq 'up';
+        next if $interface->{IPADDRESS} =~ /^127\./;
+
+
+        push @addresses, {
+            ip   => $interface->{IPADDRESS},
+            mask => $interface->{IPMASK}
+        };
+    }
+
 
     if (!@addresses) {
         $logger->info("No network to scan...");
