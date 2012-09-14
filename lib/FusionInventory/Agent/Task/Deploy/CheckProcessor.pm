@@ -95,6 +95,15 @@ sub process {
         return $sha512 eq $params{check}->{value} ? "ok" : $failureCode;
     }
 
+    if ($params{check}->{type} eq 'directoryExists') {
+        return -d $params{check}->{path} ? 'ok' : $failureCode;
+    }
+
+    if ($params{check}->{type} eq 'directoryMissing') {
+        return -d $params{check}->{path} ? $failureCode : 'ok';
+    }
+
+
     print "Unknown check: `".$params{check}->{type}."'\n";
 
     return "ok";

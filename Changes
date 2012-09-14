@@ -4,6 +4,7 @@ This is FusionInventory Agent Task Deploy changelog:
 
 * Don't give up if download failed, but retry 5 times in a row
 * Fix P2P on Linux
+* Add directoryExists and directoryMissing test
 
 2.0.2  Wed, 30 May 2012 17:38:18 +0200
 
