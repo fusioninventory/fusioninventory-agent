@@ -16,14 +16,15 @@ Minimum perl version: 5.8
 
 Additional mandatory perl modules:
 
-*  File::Which
-*  LWP
-*  Net::IP
-*  Text::Template
-*  UNIVERSAL::require
-*  XML::TreePP
+* File::Which
+* LWP
+* Net::IP
+* Text::Template
+* UNIVERSAL::require
+* XML::TreePP
 
 Additional optional perl modules:
+
 * Compress::Zlib, for message compression
 * HTTP::Daemon, for web interface
 * IO::Socket::SSL, for HTTPS support with certificate validation
@@ -35,8 +36,8 @@ Additional optional perl modules:
 
 Additional optional programs:
 
-*  dmidecode, for hardware inventory
-*  lspci, for hardware inventory
+* dmidecode, for hardware inventory
+* lspci, for hardware inventory
 
 # Contacts
 
@@ -73,17 +74,20 @@ details.
 # Additional pieces of software
 
 The memconf script:
-url: <http://myweb.cableone.net/4schmidts/memconf.html>
-author: Tom Schmidt
-copyright: 1996-2009 Tom Schmidt
+
+* url: <http://myweb.cableone.net/4schmidts/memconf.html>
+* author: Tom Schmidt
+* copyright: 1996-2009 Tom Schmidt
 
 The fusioninventory-injector script:
-author: Pascal Danek
-copyright: 2005 Pascal Danek
+
+* author: Pascal Danek
+* copyright: 2005 Pascal Danek
 
 FusionInventory::Agent::Task::Inventory::Input::Virtualization::Vmsystem
 contains code from imvirt:
-url: <http://micky.ibh.net/~liske/imvirt.html>
-author: Thomas Liske <liske@ibh.de>
-copyright: 2008 IBH IT-Service GmbH <http://www.ibh.de/>
-License: GPLv2+
+
+* url: <http://micky.ibh.net/~liske/imvirt.html>
+* author: Thomas Liske <liske@ibh.de>
+* copyright: 2008 IBH IT-Service GmbH <http://www.ibh.de/>
+* License: GPLv2+
