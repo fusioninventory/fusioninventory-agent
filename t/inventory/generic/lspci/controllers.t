@@ -54,7 +54,7 @@ my %tests = (
         },
         {
             NAME         => '82801I (ICH9 Family) USB UHCI Controller #4',
-            TYPE         => 'USB Controller',
+            TYPE         => 'USB controller',
             CAPTION      => '82801I (ICH9 Family) USB UHCI Controller #4',
             DRIVER       => 'uhci_hcd',
             PCISLOT      => '00:1a.0',
@@ -65,7 +65,7 @@ my %tests = (
         },
         {
             NAME         => '82801I (ICH9 Family) USB UHCI Controller #5',
-            TYPE         => 'USB Controller',
+            TYPE         => 'USB controller',
             CAPTION      => '82801I (ICH9 Family) USB UHCI Controller #5',
             DRIVER       => 'uhci_hcd',
             PCISLOT      => '00:1a.1',
@@ -76,7 +76,7 @@ my %tests = (
         },
         {
             NAME         => '82801I (ICH9 Family) USB UHCI Controller #6',
-            TYPE         => 'USB Controller',
+            TYPE         => 'USB controller',
             CAPTION      => '82801I (ICH9 Family) USB UHCI Controller #6',
             DRIVER       => 'uhci_hcd',
             PCISLOT      => '00:1a.2',
@@ -87,7 +87,7 @@ my %tests = (
         },
         {
             NAME         => '82801I (ICH9 Family) USB2 EHCI Controller #2',
-            TYPE         => 'USB Controller',
+            TYPE         => 'USB controller',
             CAPTION      => '82801I (ICH9 Family) USB2 EHCI Controller #2',
             DRIVER       => 'ehci_hcd',
             PCISLOT      => '00:1a.7',
@@ -142,7 +142,7 @@ my %tests = (
         },
         {
             NAME         => '82801I (ICH9 Family) USB UHCI Controller #1',
-            TYPE         => 'USB Controller',
+            TYPE         => 'USB controller',
             CAPTION      => '82801I (ICH9 Family) USB UHCI Controller #1',
             DRIVER       => 'uhci_hcd',
             PCISLOT      => '00:1d.0',
@@ -153,7 +153,7 @@ my %tests = (
         },
         {
             NAME         => '82801I (ICH9 Family) USB UHCI Controller #2',
-            TYPE         => 'USB Controller',
+            TYPE         => 'USB controller',
             CAPTION      => '82801I (ICH9 Family) USB UHCI Controller #2',
             DRIVER       => 'uhci_hcd',
             PCISLOT      => '00:1d.1',
@@ -164,7 +164,7 @@ my %tests = (
         },
         {
             NAME         => '82801I (ICH9 Family) USB UHCI Controller #3',
-            TYPE         => 'USB Controller',
+            TYPE         => 'USB controller',
             CAPTION      => '82801I (ICH9 Family) USB UHCI Controller #3',
             DRIVER       => 'uhci_hcd',
             PCISLOT      => '00:1d.2',
@@ -175,7 +175,7 @@ my %tests = (
         },
         {
             NAME         => '82801I (ICH9 Family) USB2 EHCI Controller #1',
-            TYPE         => 'USB Controller',
+            TYPE         => 'USB controller',
             CAPTION      => '82801I (ICH9 Family) USB2 EHCI Controller #1',
             DRIVER       => 'ehci_hcd',
             PCISLOT      => '00:1d.7',
