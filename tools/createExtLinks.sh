@@ -1,18 +1,13 @@
 #!/bin/sh
 # Create symblink to the subi task modules
-set -e
 
 for task in Deploy Network ESX; do
     taskLcName=`perl -e" print lc \"$task\""`
-    ln -s $PWD/../agent-task-$taskLcName/lib/FusionInventory/Agent/Task/* lib/FusionInventory/Agent/Task/
+    ln -f -v -s $PWD/../agent-task-$taskLcName/lib/FusionInventory/Agent/Task/* lib/FusionInventory/Agent/Task/
 done
-if [ ! -e lib/FusionInventory/VMware ]; then
-    ln -s "$PWD/../agent-task-esx/lib/FusionInventory/VMware" lib/FusionInventory/VMware
-fi
-if [ ! -e lib/FusionInventory/Agent/SNMP.pm ]; then
-    ln -s $PWD/../agent-task-netdiscovery/lib/FusionInventory/Agent/SNMP.pm lib/FusionInventory/Agent/SNMP.pm
-fi
-
-if [ ! -e fusioninventory-esx ]; then
-    ln -s $PWD/../agent-task-esx/fusioninventory-esx .
-fi
+ln -f -v -s "$PWD/../agent-task-esx/lib/FusionInventory/VMware" lib/FusionInventory/VMware
+ln -f -v -s $PWD/../agent-task-network/lib/FusionInventory/Agent/SNMP.pm lib/FusionInventory/Agent/SNMP.pm
+mkdir -p lib/FusionInventory/Agent/SNMP
+ln -f -v -s $PWD/../agent-task-network/lib/FusionInventory/Agent/SNMP/Live.pm lib/FusionInventory/Agent/SNMP/Live.pm
+ln -f -v -s $PWD/../agent-task-network/lib/FusionInventory/Agent/Tools/* lib/FusionInventory/Agent/Tools/
+ln -f -v -s $PWD/../agent-task-esx/fusioninventory-esx .

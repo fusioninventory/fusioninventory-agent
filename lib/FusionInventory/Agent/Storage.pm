@@ -15,13 +15,11 @@ sub new {
     my ($class, %params) = @_;
 
     die "no directory parameter" unless $params{directory};
-
     if (!-d $params{directory}) {
-        mkpath($params{directory}, {error => \my $err});
-        if (@$err) {
-            my (undef, $message) = %{$err->[0]};
-            die "Can't create $params{directory}: $message";
-        }
+        # {error => \my $err} is not supported on RHEL 5,
+        # we let mkpath call die() itself
+        # http://forge.fusioninventory.org/issues/1817
+        mkpath($params{directory});
     }
 
     if (! -w $params{directory}) {
