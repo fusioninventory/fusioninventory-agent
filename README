@@ -1,36 +1,40 @@
-		FusionInventory agent network tasks
-		-----------------------------------
+# FusionInventory agent network tasks
 
-Description 
------------
+## Description
+
 This plugin for the agent provides two tasks that were previously distributed
 separatly:
 
-- the NetDiscovery task allows the agent to scan the network to find remote
+* the NetDiscovery task allows the agent to scan the network to find remote
   devices, through nmap, NetBios or SNMP, and to identify them
-- the NetInventory task allows the agent to extract various informations from
+* the NetInventory task allows the agent to extract various informations from
   a remote device through SNMP protocol
 
-Dependencies
-------------
+## Dependencies
+
 This plugin requires a FusionInventory agent (minimal version 2.2.0), and is
 intended to be used with a GLPI server with FusionInventory plugin.
 
 Additional mandatory perl modules:
-- Net::SNMP
+
+* [[!cpan Net::SNMP]]
 
 Additional optional perl modules:
-- Net::NBName
+
+* [[!cpan Net::NBName]]
 
 Additional optional programs:
-- nmap
 
-Usage
------
+* [[nmap|http://www.nmap.org]]
+
+## Usage
+
 The NetDiscovery task uses the following methods to scan IP networks:
-- ICMP scan, using nmap external command
-- NetBIOS scan, using Net::NBName perl module
-- SNMP scan, using Net::SNMP perl module
+
+* ICMP scan, using nmap external command
+* NetBIOS scan, using [[!cpan Net::NBName]] perl module
+* SNMP scan, using [[!Net::SNMP]] perl module
+
 Any device replying to one of those protocols will be discovered, with just
 minimal information, such as mac address and hostname.
 
@@ -51,8 +55,8 @@ inventory, provided it is assigned an SNMP description model. If no such model
 has been automatically assigned during previous discovery phase, it can still
 be done manually though GLPI interface.
 
-SNMP description models
------------------------
+## SNMP description models
+
 An SNMP description model maps specific device features (ports list, ink level,
 etc...) with SNMP OIDs. Given than manufacturers often change those OIDs
 between firmware releases, the same device may have to use different SNMP
@@ -63,42 +67,47 @@ mean than no one applies, but rather than no one is known to work in this
 specific case.
 
 The SNMP description models database is constitued by two elements:
-- the models, each of them defined in its own XML file, which have to be
+
+* the models, each of them defined in its own XML file, which have to be
   imported in GLPI database before usage
-- the dictionnary, mapping those models to known sysdescr values,  defined in
+* the dictionnary, mapping those models to known sysdescr values,  defined in
   another XML file, discovery.xml, which is used directly without prior import
+
 Those files are all distributed with the FusionInventory plugin for GLPI, in
 fusinvsnmp directory.
 
 If the network discovery is unable to automatically assign a suitable SNMP
 description model for your devices, your different options are:
-- use the SNMP description model generation tool, included in FusionInventory
+
+* use the SNMP description model generation tool, included in FusionInventory
   for GLPI starting with version 0.83+2.0, to create a dedicated model
-- try a newer snapshot of the database, available from
-  http://fusioninventory.org/snmpmodels
-- try to use another model that seems close enough
+* try a newer snapshot of the database, available from
+  <http://fusioninventory.org/snmpmodels>
+* try to use another model that seems close enough
+
 Only the first option brings some ensurance of full coverage of information:
 using an unadapted model may perfectly result in partial results.
 
-Command-line usage
-------------------
+## Command-line usage
+
 Two command-line tools are provided for testing purposes:
-- fusioninventory-netdiscovery
-- fusioninventory-netinventory
+
+* [[fusioninventory-netdiscovery|documentation/references/agent-task-network/master/fusioninventory-netdiscovery]]
+* [[fusioninventory-netinventory|documentation/references/agent-task-network/master/fusioninventory-netinventory]]
 
 While allowing to perform the corresponding task without a running server, they
 still requires some data files shipped in the server sources (SNMP dictionnary
 and SNMP description models).
 
-Authors 
--------
+## Authors
+
 * David Durieux <d.durieux@siprossii.com>
 * Gonéri Le Bouder <goneri@rulezlan.org>
 * Guillaume Rousse <guillomovitch@gmail.com>
 
 Copyright 2010-2012 FusionInventory Team
 
-License
--------
+## License
+
 This software is licensed under the terms of GPLv2+, see LICENSE file for
 details.
