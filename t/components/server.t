@@ -10,15 +10,16 @@ use LWP::UserAgent;
 use Socket;
 use Test::More;
 use Test::Exception;
+use UNIVERSAL::require;
 
 use FusionInventory::Test::Agent;
-use FusionInventory::Agent::HTTP::Server;
 use FusionInventory::Agent::Logger;
 
 # check thread support availability
 if ($Config{usethreads} ne 'define') {
     plan skip_all => 'non working test without thread support';
 } else {
+    FusionInventory::Agent::HTTP::Server->use();
     plan tests => 7;
 }
 

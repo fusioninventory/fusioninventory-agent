@@ -2,15 +2,24 @@
 
 use strict;
 use warnings;
-use threads;
-use threads::shared;
 
+use Config;
 use English qw(-no_match_vars);
 use File::Temp qw(tempdir);
 use File::stat;
-use Test::More tests => 4;
+use Test::More;
+use UNIVERSAL::require;
 
 use FusionInventory::Agent::Logger::File;
+
+# check thread support availability
+if ($Config{usethreads} ne 'define') {
+    plan skip_all => 'non working test without thread support';
+} else {
+    threads->use();
+    threads::shared->use();
+    plan tests => 4;
+}
 
 my $failure :shared;
 my $maxsize = 1; # 1MB
