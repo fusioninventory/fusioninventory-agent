@@ -125,6 +125,16 @@ sub constants {
     return join("\n", @code);
 }
 
+# suppress all lines related to packlist file installation
+sub install {
+    my ($self) = @_;
+    my $install = $self->SUPER::install(@_);
+
+    $install =~ s/.*\.packlist \\\n//g;
+
+    return $install;
+}
+
 # ensure binaries get modified to use configured directories (on Unix only)
 sub installbin {
     my ($self) = @_;
