@@ -74,7 +74,7 @@ my %fields = (
                              SIZE FREE PE_SIZE VG_UUID/ ],
     VOLUME_GROUPS    => [ qw/VG_NAME PV_COUNT LV_COUNT ATTR SIZE FREE VG_UUID 
                              VG_EXTENT_SIZE/ ],
-    LICENSES         => [ qw/NAME FULLNAME KEY COMPONENTS TRIAL UPDATE OEM ACTIVATION_DATE/ ]
+    LICENSEINFOS     => [ qw/NAME FULLNAME KEY COMPONENTS TRIAL UPDATE OEM ACTIVATION_DATE/ ]
 );
 
 my %checks = (
@@ -1578,7 +1578,7 @@ The UUID
 
 =back
 
-=head2 LICENSES
+=head2 LICENSEINFOS
 
 A license
 

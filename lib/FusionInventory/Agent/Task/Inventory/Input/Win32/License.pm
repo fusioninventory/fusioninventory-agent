@@ -12,6 +12,7 @@ use Win32::TieRegistry (
 
 
 use FusionInventory::Agent::Tools::Win32;
+use FusionInventory::Agent::Tools::Generic::License;
 
 sub isEnabled {
     return 1;
@@ -24,7 +25,7 @@ sub _scanOffice {
     if ($currentKey->{'ProductID'}) {
         $license{'KEY'} = $currentKey->{ProductID};
     } elsif ($currentKey->{DigitalProductID}) {
-        $license{'KEY'} = getLicenseKey($currentKey->{DigitalProductID});
+        $license{'KEY'} = decodeWinKey($currentKey->{DigitalProductID});
     }
     if ($currentKey->{ConvertToEdition}) {
         $license{'FULLNAME'} = encodeFromRegistry($currentKey->{ConvertToEdition});
@@ -79,7 +80,7 @@ sub doInventory {
     my @found;
     _scanOffice($office, \@found);
     foreach my $license (@found) {
-        $params{inventory}->addEntry(section => 'LICENSES', entry => $license);
+        $params{inventory}->addEntry(section => 'LICENSEINFOS', entry => $license);
     }
 }
 
