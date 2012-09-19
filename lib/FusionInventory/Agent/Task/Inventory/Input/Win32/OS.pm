@@ -9,6 +9,7 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::Tools::Win32;
+use FusionInventory::Agent::Tools::Generic::License;
 
 sub isEnabled {
     return 1;
@@ -28,9 +29,9 @@ sub doInventory {
             / ]
         )) {
 
-        my $key = _getXPkey(path => 'HKEY_LOCAL_MACHINE/Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId');
+        my $key = decodeWinKey(getRegistryValue(path => 'HKEY_LOCAL_MACHINE/Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId'));
         if (!$key) { # 582
-           $key = _getXPkey(path => 'HKEY_LOCAL_MACHINE/Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId4');
+           $key = decodeWinKey(getRegistryValue(path => 'HKEY_LOCAL_MACHINE/Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId4'));
         }
         my $description = encodeFromRegistry(getRegistryValue(
             path   => 'HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Services/lanmanserver/Parameters/srvcomment',
@@ -124,53 +125,6 @@ sub doInventory {
     }
 
 
-}
-
-#http://www.perlmonks.org/?node_id=497616
-# Thanks William Gannon && Charles Clarkson
-sub _getXPkey {
-    my $key = getRegistryValue(@_);
-    return unless $key;
-
-    my @encoded = ( unpack 'C*', $key )[ reverse 52 .. 66 ];
-
-    # Get indices
-    my @indices;
-    foreach ( 0 .. 24 ) {
-        my $index = 0;
-
-        # Shift off remainder
-        ( $index, $_ ) = _quotient( $index, $_ ) foreach @encoded;
-
-        # Store index.
-        unshift @indices, $index;
-    }
-
-    # translate base 24 "digits" to characters
-    my $cd_key =
-        join '',
-        qw( B C D F G H J K M P Q R T V W X Y 2 3 4 6 7 8 9 )[ @indices ];
-
-    # Add seperators
-    $cd_key =
-        join '-',
-        $cd_key =~ /(.{5})/g;
-
-    return if $cd_key =~ /^[B-]*$/;
-    return $cd_key;
-}
-
-sub _quotient {
-    my($index, $encoded) = @_;
-
-    # Same as $index * 256 + $product_key ???
-    my $dividend = $index * 256 ^ $encoded; ## no critic (ProhibitBitwise)
-
-    # return modulus and integer quotient
-    return(
-        $dividend % 24,
-        $dividend / 24,
-    );
 }
 
 
