@@ -706,3 +706,6 @@ Run a function whose name is computed at runtime and return its result.
 
 Wait for $second. It uses sleep() or Win32::Sleep() depending
 on the Operating System.
+
+=back
+
