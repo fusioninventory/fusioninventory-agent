@@ -32,9 +32,9 @@ if ($options->{version}) {
 }
 
 pod2usage(-verbose => 0) unless
-    $options->{host} and
-    $options->{user} and
-    $options->{password} and
+    $options->{host}      and
+    $options->{user}      and
+    $options->{password}  and
     $options->{directory};
 
 my $esx = FusionInventory::Agent::Task::ESX->new(
@@ -45,7 +45,7 @@ if (!$esx->connect({
     host     => $options->{host},
     user     => $options->{user},
     password => $options->{password},
-    })) {
+})) {
     exit 1;
 }
 
@@ -61,10 +61,10 @@ foreach my $hostId (@$hostIds) {
     if (open my $handle, '>', $file) {
         my $tpp = XML::TreePP->new(indent => 2);
         print $handle $tpp->write({
-            REQUEST => {
-            CONTENT => $inventory->{content},
-            DEVICEID => $esx->{deviceid},
-            QUERY => "INVENTORY",
+            REQUEST  => {
+                CONTENT  => $inventory->{content},
+                DEVICEID => $esx->{deviceid},
+                QUERY    => "INVENTORY",
             }
         });
 
