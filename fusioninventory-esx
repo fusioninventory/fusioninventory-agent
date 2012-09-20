@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use lib './lib';
 
+use English qw(-no_match_vars) ;
 use Getopt::Long;
 use Pod::Usage;
 
@@ -72,7 +73,7 @@ foreach my $hostId (@$hostIds) {
         print("Inventory saved in $file\n");
     } else {
         $hasError = 1;
-        print("Can't write to $file: $?\n");
+        print("Can't write to $file: $ERRNO\n");
     }
 
 }
