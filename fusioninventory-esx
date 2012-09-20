@@ -42,11 +42,11 @@ my $esx = FusionInventory::Agent::Task::ESX->new(
     target => {},
 );
 
-if (!$esx->connect({
+if (!$esx->connect(
     host     => $options->{host},
     user     => $options->{user},
     password => $options->{password},
-})) {
+)) {
     exit 1;
 }
 

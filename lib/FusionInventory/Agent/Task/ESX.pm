@@ -20,13 +20,13 @@ sub isEnabled {
 }
 
 sub connect {
-    my ( $self, $job ) = @_;
+    my ( $self, %params ) = @_;
 
-    my $url = 'https://' . $job->{host} . '/sdk/vimService';
+    my $url = 'https://' . $params{host} . '/sdk/vimService';
 
     my $vpbs =
       FusionInventory::VMware::SOAP->new(url => $url, vcenter => 1 );
-    if ( !$vpbs->connect( $job->{user}, $job->{password} ) ) {
+    if ( !$vpbs->connect( $params{user}, $params{password} ) ) {
         $self->{lastError} = $vpbs->{lastError};
         return;
     }
@@ -228,7 +228,11 @@ sub run {
 
     foreach my $job ( @{ $jobs->{jobs} } ) {
 
-        if ( !$self->connect($job) ) {
+        if ( !$self->connect(
+                host     => $job->{host},
+                user     => $job->{user},
+                password => $job->{password}
+        )) {
             $self->{client}->send(
                 "url" => $self->{esxRemote},
                 args  => {
