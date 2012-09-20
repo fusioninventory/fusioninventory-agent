@@ -56,7 +56,7 @@ my $hostIds = $esx->getHostIds();
 foreach my $hostId (@$hostIds) {
     my $inventory = $esx->createInventory($hostId);
 
-    my $file =  $options->{directory} . '/' . $esx->createFakeDeviceid($esx->{vpbs}->getHostFullInfo($hostId)) . ".ocs";
+    my $file =  $options->{directory} . '/' . $esx->{deviceid} . ".ocs";
 
     if (open my $handle, '>', $file) {
         my $tpp = XML::TreePP->new(indent => 2);
