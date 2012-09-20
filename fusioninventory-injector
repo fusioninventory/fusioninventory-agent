@@ -84,7 +84,10 @@ sub sendContent {
     my $content = shift;
 
     my $ua = LWP::UserAgent->new(
-        agent => $options{useragent}
+        agent => $options{useragent},
+        parse_head => 0, # No need to parse HTML
+        keep_alive => 1,
+        requests_redirectable => ['POST', 'GET', 'HEAD']
     );
     my $request = HTTP::Request->new( POST => $options{url} );
     $request->header(
