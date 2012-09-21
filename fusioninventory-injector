@@ -56,7 +56,10 @@ sub loadfile {
     my $content = <$handle>;
     close $handle or die "Can't close file $file: $ERRNO";
 
-    sendContent($content);
+    my $success = sendContent($content);
+    if ($success && $options{remove}) {
+        unlink $file or print STDERR "Can't remove $file: $ERRNO\n"
+    }
 }
 
 sub loaddirectory {
@@ -102,14 +105,14 @@ sub sendContent {
 
     if ($res->is_success()) {
         print "OK\n" if $options{verbose};
-        print STDERR "Can't remove $options{file}: $ERRNO\n"
-            if ($options{remove} && (!unlink $options{file}));
     } else {
         if ($options{verbose}) {
             print "ERROR: ";
             print $res->status_line(), "\n";
         }
     }
+
+    return $res->is_success();
 }
 
 __END__
