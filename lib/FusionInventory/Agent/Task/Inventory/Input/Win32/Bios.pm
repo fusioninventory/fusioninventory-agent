@@ -31,7 +31,7 @@ sub doInventory {
     foreach my $object (getWmiObjects(
         class      => 'Win32_Bios',
         properties => [ qw/
-            SerialNumber Version Manufacturer SMBIOSBIOSVersion BIOSVersion
+            SerialNumber Version Manufacturer SMBIOSBIOSVersion BIOSVersion ReleaseDate
         / ]
     )) {
         $bios->{BIOSSERIAL}    = $object->{SerialNumber};
@@ -40,6 +40,7 @@ sub doInventory {
         $bios->{BVERSION}      = $object->{SMBIOSBIOSVersion} || 
                                  $object->{BIOSVersion}       || 
                                  $object->{Version};
+        $bios->{BDATE}         = $object->{ReleaseDate};
     }
 
     foreach my $object (getWmiObjects(
