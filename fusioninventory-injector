@@ -49,12 +49,12 @@ sub loadfile {
 
     print "Loading $file..." if $options{verbose};
 
-    open (my $handle, '<', $file) or die "can't open file $file: $ERRNO";
+    open (my $handle, '<', $file) or die "can't open file $file: $ERRNO\n";
     ## no critic (ProhibitBitwise)
-    flock ($handle, LOCK_EX | LOCK_NB) or die "can't lock file $file: $ERRNO";
+    flock ($handle, LOCK_EX | LOCK_NB) or die "can't lock file $file: $ERRNO\n";
     local $RS;
     my $content = <$handle>;
-    close $handle or die "Can't close file $file: $ERRNO";
+    close $handle or die "Can't close file $file: $ERRNO\n";
 
     my $success = sendContent($content);
     if ($success && $options{remove}) {
@@ -69,7 +69,7 @@ sub loaddirectory {
     die "directory $directory is not readable" unless -r $directory;
 
     opendir (my $handle, $directory)
-        or die "can't open directory $directory: $ERRNO";
+        or die "can't open directory $directory: $ERRNO\n";
     foreach my $file (readdir($handle)) {
         loadfile("$directory/$file") if $file =~ /\.ocs$/;
     }
