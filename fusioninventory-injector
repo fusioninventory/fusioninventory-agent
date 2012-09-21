@@ -103,13 +103,9 @@ sub sendContent {
     $request->content(compress($content));
     my $res = $ua->request($request);
 
-    if ($res->is_success()) {
-        print "OK\n" if $options{verbose};
-    } else {
-        if ($options{verbose}) {
-            print "ERROR: ";
-            print $res->status_line(), "\n";
-        }
+    if ($options{verbose}) {
+        print $res->is_success() ?
+            "OK\n" : "ERROR: " . $res->status_line() . "\n";
     }
 
     return $res->is_success();
