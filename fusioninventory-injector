@@ -120,7 +120,7 @@ fusioninventory-injector - A tool to push inventory in an OCS Inventory or compa
 
 =head1 SYNOPSIS
 
-fusioninventory-injector [options] [--file <file>|--directory <directory|--stdin]
+fusioninventory-injector [options] [--file <file>|--directory <directory>|--stdin]
 
   Options:
     -h --help      this menu
