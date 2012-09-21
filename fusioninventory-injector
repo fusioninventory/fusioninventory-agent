@@ -39,12 +39,12 @@ GetOptions(
 $OUTPUT_AUTOFLUSH = 1;
 pod2usage() if $options{help};
 
-if ($options{file}) {
+if ($options{stdin}) {
+    loadstdin();
+} elsif ($options{file}) {
     die "file $options{file} does not exist"
         unless -f $options{file};
     loadfile($options{file});
-} elsif ($options{stdin}) {
-    loadstdin();
 } elsif ($options{directory}) {
     die "directory $options{directory} does not exist"
         unless -d $options{directory};
