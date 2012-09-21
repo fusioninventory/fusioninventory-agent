@@ -29,10 +29,10 @@ GetOptions(
 $OUTPUT_AUTOFLUSH = 1;
 pod2usage(-verbose => 0, -exitstatus => 0) if $options{help};
 
-if ($options{file}) {
-    loadfile($options{file});
-} elsif ($options{stdin}) {
+if ($options{stdin}) {
     loadstdin();
+} elsif ($options{file}) {
+    loadfile($options{file});
 } elsif ($options{directory}) {
    loaddirectory($options{directory});
 } else {
