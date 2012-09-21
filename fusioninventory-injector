@@ -42,35 +42,35 @@ if ($options{file}) {
 exit(0);
 
 sub loadfile {
-    my $file = shift;
+    my ($file) = @_;
 
     die "file $file does not exist" unless -f $file;
     die "file $file is not readable" unless -r $file;
 
     print "Loading $file..." if $options{verbose};
 
-    open (my $fh, '<', $file) or die "can't open file $file: $ERRNO";
+    open (my $handle, '<', $file) or die "can't open file $file: $ERRNO";
     ## no critic (ProhibitBitwise)
-    flock ($fh, LOCK_EX | LOCK_NB) or die "can't lock file $file: $ERRNO";
+    flock ($handle, LOCK_EX | LOCK_NB) or die "can't lock file $file: $ERRNO";
     local $RS;
-    my $content = <$fh>;
-    close $fh or die "Can't close file $file: $ERRNO";
+    my $content = <$handle>;
+    close $handle or die "Can't close file $file: $ERRNO";
 
     sendContent($content);
 }
 
 sub loaddirectory {
-    my $directory = shift;
+    my ($directory) = @_;
 
     die "directory $directory does not exist" unless -d $directory;
     die "directory $directory is not readable" unless -r $directory;
 
-    opendir (my $dh, $directory)
+    opendir (my $handle, $directory)
         or die "can't open directory $directory: $ERRNO";
-    foreach ( readdir($dh) ) {
-        loadfile("$directory/$_") if (/\.ocs$/);
+    foreach my $file (readdir($handle)) {
+        loadfile("$directory/$file") if $file =~ /\.ocs$/;
     }
-    closedir $dh;
+    closedir $handle;
 }
 
 sub loadstdin {
