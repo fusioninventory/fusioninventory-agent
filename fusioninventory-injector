@@ -69,7 +69,7 @@ sub loadfile {
 
     my $success = sendContent($content);
     if ($success && $options{remove}) {
-        unlink $file or print STDERR "Can't remove $file: $ERRNO\n"
+        unlink $file or warn "Can't remove $file: $ERRNO\n"
     }
 }
 
