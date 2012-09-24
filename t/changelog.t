@@ -5,10 +5,12 @@ use warnings;
 
 use Test::More;
 use English qw(-no_match_vars);
-use DateTime::Format::Mail;
 
 plan(skip_all => 'Author test, set $ENV{TEST_AUTHOR} to a true value to run')
     if !$ENV{TEST_AUTHOR};
+
+eval { require DateTime::Format::Mail; };
+plan(skip_all => 'DateTime::Format::Mail') if $EVAL_ERROR;
 
 plan tests => 1;
 
