@@ -235,14 +235,18 @@ sub _is_trusted {
     my ($self, $address) = @_;
 
     return 0 unless $self->{trust};
+    foreach my $trust (@{$self->{trust}}) { 
+        my $trusted = Net::IP->new($trust);
+        my $result = $source->overlaps($trusted);
 
-    my $source  = Net::IP->new($address);
-    my $trusted = Net::IP->new($self->{trust});
-    my $result = $source->overlaps($trusted);
+        if (
+            $result == $IP_A_IN_B_OVERLAP || # included in trusted range
+            $result == $IP_IDENTICAL) {        # equals trusted address
+                return 1;
+        }
+    }
 
-    return 
-        $result == $IP_A_IN_B_OVERLAP || # included in trusted range
-        $result == $IP_IDENTICAL;        # equals trusted address
+    return 0;
 }
 
 sub _is_authenticated {

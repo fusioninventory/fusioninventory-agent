@@ -14,6 +14,7 @@ my $default = {
     'delaytime'               => 3600,
     'backend-collect-timeout' => 30,
     'httpd-port'              => 62354,
+    'httpd-trusted'           => [],
     'timeout'                 => 180,
     'no-task'                 => [],
     'no-category'             => []
@@ -244,6 +245,7 @@ sub _checkContent {
     }
 
     # multi-values options
+    $self->{'httpd-trust'} = [ split(/,/, $self->{'httpd-trust'}) ] if $self->{'httpd-trust'};
     $self->{logger} = [ split(/,/, $self->{logger}) ] if $self->{logger};
     $self->{server} = [ split(/,/, $self->{server}) ] if $self->{server};
     $self->{'no-task'} = [ split(/,/, $self->{'no-task'}) ];
