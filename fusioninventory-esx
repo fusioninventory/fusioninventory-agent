@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use lib './lib';
 
+use English qw(-no_match_vars) ;
 use Getopt::Long;
 use Pod::Usage;
 
@@ -32,20 +33,20 @@ if ($options->{version}) {
 }
 
 pod2usage(-verbose => 0) unless
-    $options->{host} and
-    $options->{user} and
-    $options->{password} and
+    $options->{host}      and
+    $options->{user}      and
+    $options->{password}  and
     $options->{directory};
 
 my $esx = FusionInventory::Agent::Task::ESX->new(
     target => {},
 );
 
-if (!$esx->connect({
+if (!$esx->connect(
     host     => $options->{host},
     user     => $options->{user},
     password => $options->{password},
-    })) {
+)) {
     exit 1;
 }
 
@@ -56,15 +57,15 @@ my $hostIds = $esx->getHostIds();
 foreach my $hostId (@$hostIds) {
     my $inventory = $esx->createInventory($hostId);
 
-    my $file =  $options->{directory} . '/' . $esx->createFakeDeviceid($esx->{vpbs}->getHostFullInfo($hostId)) . ".ocs";
+    my $file =  $options->{directory} . '/' . $esx->{deviceid} . ".ocs";
 
     if (open my $handle, '>', $file) {
         my $tpp = XML::TreePP->new(indent => 2);
         print $handle $tpp->write({
-            REQUEST => {
-            CONTENT => $inventory->{content},
-            DEVICEID => $inventory->{deviceid},
-            QUERY => "INVENTORY",
+            REQUEST  => {
+                CONTENT  => $inventory->{content},
+                DEVICEID => $esx->{deviceid},
+                QUERY    => "INVENTORY",
             }
         });
 
@@ -72,7 +73,7 @@ foreach my $hostId (@$hostIds) {
         print("Inventory saved in $file\n");
     } else {
         $hasError = 1;
-        print("Can't write to $file: $?\n");
+        print("Can't write to $file: $ERRNO\n");
     }
 
 }
