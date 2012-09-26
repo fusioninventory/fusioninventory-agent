@@ -11,18 +11,15 @@ You can import the generated files in:
  - ocsinventory
  - Uranos
 
-For the moment, only GLPI 0.80 can display the virtual machines / host relations.
-
-In this example, ../agent is a git clone of the 2.1.x branch of the agent:
-  perl -I../fusioninventory-agent/lib -Ilib ./fusioninventory-esx --user root --password password --host esx-server --directory /tmp
-  [info] Inventory saved in /tmp/esx-server-2011-01-25-14-11-07.ocs
-  ../fusioninventory-agent/fusioninventory-injector -v --file /tmp/esx-server-2011-01-25-14-11-07.ocs -u https://myserver/ocsinventory
+fusioninventory-esx --user root --password password --host esx-server --directory /tmp
+[info] Inventory saved in /tmp/esx-server-2011-01-25-14-11-07.ocs
+fusioninventory-injector -v --file /tmp/esx-server-2011-01-25-14-11-07.ocs -u https://myserver/ocsinventory
 
 Authors 
 -------
 * Gonéri Le Bouder <goneri@rulezlan.org>>
 
-Copyright (C) 2011 FusionInventory project
+Copyright (C) 2012 FusionInventory project
 Copyright (C) 2011 TECLIB' ( http://www.teclib.com )
 
 License
