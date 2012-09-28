@@ -233,7 +233,6 @@ sub _checkContent {
             no-task
             no-category
             /) {
-        next unless $self->{$option};
 
         $self->{$option} = [ split(/,/, $self->{$option}) ];
     }
