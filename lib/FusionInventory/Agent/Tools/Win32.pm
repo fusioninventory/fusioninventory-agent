@@ -202,7 +202,6 @@ sub runCommand {
 
     my $args = {
         stdout    => $buff,
-        stderr    => $params{no_stderr} ? $void : $buff,
         no_window => 1
     };
 
@@ -305,7 +304,6 @@ Returns a command in a Win32 Process
 
 =item timeout a time in second, default is 3600*2
 
-=item no_stderr ignore STDERR output, default is false
 =back
 
 Return an array
