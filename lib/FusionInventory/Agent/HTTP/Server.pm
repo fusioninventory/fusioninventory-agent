@@ -278,14 +278,14 @@ sub _handle_status {
 }
 
 sub _is_trusted {
-    my ($self, $address) = @_;
+    my ($self, $clientIp) = @_;
 
     my $logger = $self->{logger};
 
-    my $source  = Net::IP->new($address);
+    my $source  = Net::IP->new($clientIp);
 
     if (!$source) {
-        $logger->error("Not well formatted source IP: $address");
+        $logger->error("Not well formatted source IP: $clientIp");
         return;
     }
 
