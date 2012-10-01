@@ -20,7 +20,7 @@ if ($Config{usethreads} ne 'define') {
     plan skip_all => 'non working test without thread support';
 } else {
     FusionInventory::Agent::HTTP::Server->use();
-    plan tests => 11;
+    plan tests => 14;
 }
 
 my $logger = FusionInventory::Agent::Logger->new(
@@ -73,6 +73,26 @@ ok (
 ok (
     $server->_is_trusted('192.168.0.1'),
     'server trusting 192.168.0.1 address'
+);
+
+lives_ok {
+    $server = FusionInventory::Agent::HTTP::Server->new(
+        agent     => FusionInventory::Test::Agent->new(),
+        scheduler => $scheduler,
+        logger    => $logger,
+        htmldir   => 'share/html',
+        trust     => [ '127.0.0.1', 'localhost', 'th1sIsNowh3re' ]
+    );
+} 'instanciation with a list of trusted address: ok';
+
+ok (
+    $server->_is_trusted('127.0.0.1'),
+    'server trusting localhost address'
+);
+
+ok (
+    !$server->_is_trusted('1.2.3.4'),
+    'do not trust unknown host 1.2.3.4'
 );
 
 lives_ok {
