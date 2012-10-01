@@ -29,15 +29,16 @@ sub _scanOffice {
     if ($currentKey->{ConvertToEdition}) {
         $license{'FULLNAME'} = encodeFromRegistry($currentKey->{ConvertToEdition});
     }
+    if ($currentKey->{ProductNameNonQualified}) {
+        $license{'NAME'} = encodeFromRegistry($currentKey->{ProductNameNonQualified});
+    } elsif ($currentKey->{ProductNameVersion}) {
+        $license{'NAME'} = encodeFromRegistry($currentKey->{ProductNameVersion});
+    } 
+
     if ($currentKey->{ProductName}) {
         $license{'FULLNAME'} = encodeFromRegistry($currentKey->{ProductName});
     }
-    if ($currentKey->{ProductNameVersion}) {
-        $license{'NAME'} = encodeFromRegistry($currentKey->{ProductNameVersion});
-    }
-    if ($currentKey->{ProductNameNonQualified}) {
-        $license{'NAME'} = encodeFromRegistry($currentKey->{ProductNameNonQualified});
-    }
+
     if ($currentKey->{TrialType} && $currentKey->{TrialType} =~ /(\d+)$/) {
         $license{'TRIAL'} = int($1);
     }
@@ -47,6 +48,7 @@ sub _scanOffice {
     if ($currentKey->{OEM}) {
         $license{'OEM'} = $currentKey->{OEM};
     }
+
     my @products;
     foreach(keys %$currentKey) {
         next unless s/\/(\w+)NameVersion$//;
@@ -77,10 +79,13 @@ sub doInventory {
         $machKey->{"SOFTWARE/Microsoft/Office"};
 
     my @found;
+
     _scanOffice($office, \@found);
+     
     foreach my $license (@found) {
-        $params{inventory}->addEntry(section => 'LICENSES', entry => $license);
+        $params{inventory}->addEntry(section => 'LICENSEINFOS', entry => $license);
     }
+
 }
 
 1;
