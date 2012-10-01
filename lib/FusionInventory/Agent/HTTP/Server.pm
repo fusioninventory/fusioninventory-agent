@@ -290,17 +290,11 @@ sub _is_trusted {
     }
 
     return 0 unless $source;
-
     return 0 unless $self->{trust};
-    foreach my $trust (@{$self->{trust}}) { 
-        my $trusted = Net::IP->new($trust);
 
-        if (!$trusted) {
-            $logger->error("Not well formatted httpd-trust IP: $trust");
-            next;
-        }
+    foreach my $trust (@{$self->{trust}}) {
 
-        my $result = $source->overlaps($trusted);
+        my $result = $source->overlaps($trust);
 
         # included in trusted range
         return 1 if $result == $IP_A_IN_B_OVERLAP;
