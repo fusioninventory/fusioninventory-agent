@@ -234,8 +234,6 @@ sub _handle_status {
 sub _is_trusted {
     my ($self, $address) = @_;
 
-    my $source  = Net::IP->new($address);
-
     return 0 unless $self->{trust};
     foreach my $trust (@{$self->{trust}}) { 
         my $trusted = Net::IP->new($trust);
