@@ -52,31 +52,31 @@ my $deprecated = {
     },
     'no-inventory' => {
         message => 'use --no-task inventory option instead',
-        new     => { 'no-task' => 'inventory' }
+        new     => { 'no-task' => '+inventory' }
     },
     'no-wakeonlan' => {
         message => 'use --no-task wakeonlan option instead',
-        new     => { 'no-task' => 'wakeonlan' }
+        new     => { 'no-task' => '+wakeonlan' }
     },
     'no-netdiscovery' => {
         message => 'use --no-task netdiscovery option instead',
-        new     => { 'no-task' => 'netdiscovery' }
+        new     => { 'no-task' => '+netdiscovery' }
     },
     'no-snmpquery' => {
         message => 'use --no-task snmpquery option instead',
-        new     => { 'no-task' => 'snmpquery' }
+        new     => { 'no-task' => '+snmpquery' }
     },
     'no-ocsdeploy' => {
         message => 'use --no-task ocsdeploy option instead',
-        new     => { 'no-task' => 'ocsdeploy' }
+        new     => { 'no-task' => '+ocsdeploy' }
     },
     'no-printer' => {
         message => 'use --no-category printer option instead',
-        new     => { 'no-category' => 'printer' }
+        new     => { 'no-category' => '+printer' }
     },
     'no-software' => {
         message => 'use --no-category software option instead',
-        new     => { 'no-category' => 'software' }
+        new     => { 'no-category' => '+software' }
     },
 };
 
@@ -217,19 +217,25 @@ sub _checkContent {
         # transfer the value to the new option, if possible
         if ($handler->{new}) {
             if (ref $handler->{new} eq 'HASH') {
-                # list of new options with new values
+                # old boolean option replaced by new non-boolean options
                 foreach my $key (keys %{$handler->{new}}) {
-                    $self->{$key} = $self->{$key} ?
-                        $self->{$key} . ',' . $handler->{new}->{$key} :
-                        $handler->{new}->{$key};
+                    my $value = $handler->{new}->{$key};
+                    if ($value =~ /^\+(\S+)/) {
+                        # multiple values: add it to exiting one
+                        $self->{$key} = $self->{$key} ?
+                            $self->{$key} . ',' . $1 : $1;
+                    } else {
+                        # unique value: replace exiting value
+                        $self->{$key} = $value;
+                    }
                 }
             } elsif (ref $handler->{new} eq 'ARRAY') {
-                # list of new options, with same value
+                # old boolean option replaced by new boolean options
                 foreach my $new (@{$handler->{new}}) {
                     $self->{$new} = $self->{$old};
                 }
             } else {
-                # new option, with same value
+                # old non-boolean option replaced by new option
                 $self->{$handler->{new}} = $self->{$old};
             }
         }
