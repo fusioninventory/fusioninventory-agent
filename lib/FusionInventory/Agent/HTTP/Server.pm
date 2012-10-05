@@ -234,26 +234,11 @@ sub _handle_status {
 sub _is_trusted {
     my ($self, $address) = @_;
 
-    my $logger = $self->{logger};
-
     my $source  = Net::IP->new($address);
-
-    if (!$source) {
-        $logger->error("Not well formatted source IP: $address");
-        return;
-    }
-
-    return 0 unless $source;
 
     return 0 unless $self->{trust};
     foreach my $trust (@{$self->{trust}}) { 
         my $trusted = Net::IP->new($trust);
-
-        if (!$trusted) {
-            $logger->error("Not well formatted httpd-trust IP: $trust");
-            next;
-        }
-
         my $result = $source->overlaps($trusted);
 
         if (
