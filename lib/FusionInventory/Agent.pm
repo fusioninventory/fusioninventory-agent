@@ -51,6 +51,8 @@ sub init {
         options => $params{options},
     );
     $self->{config} = $config;
+use Data::Dumper;
+print Dumper($self->{config});
 
     my $logger = FusionInventory::Agent::Logger->new(
         config   => $config,
