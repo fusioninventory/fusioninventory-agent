@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::BSD::Networks;
+use FusionInventory::Agent::Tools::BSD;
 
 my %ifconfig_tests = (
     'freebsd-8.1' => [
@@ -152,6 +152,6 @@ plan tests => scalar keys %ifconfig_tests;
 
 foreach my $test (keys %ifconfig_tests) {
     my $file = "resources/generic/ifconfig/$test";
-    my @results = FusionInventory::Agent::Task::Inventory::Input::BSD::Networks::_parseIfconfig(file => $file);
-    is_deeply(\@results, $ifconfig_tests{$test}, $test);
+    my @interfaces = getInterfacesFromIfconfig(file => $file);
+    is_deeply(\@interfaces, $ifconfig_tests{$test}, $test);
 }
