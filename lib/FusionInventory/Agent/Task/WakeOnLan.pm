@@ -112,6 +112,8 @@ sub _send_magic_packet_udp {
 
     socket(SOCKET, PF_INET, SOCK_DGRAM, getprotobyname('udp'))
         or die "can't open socket: $ERRNO\n";
+    setsockopt(SOCKET, SOL_SOCKET, SO_BROADCAST, 1)
+        or die "can't do setsockopt: $ERRNO\n";
 
     my $magic_packet = 
         chr(0xFF) x 6 .
