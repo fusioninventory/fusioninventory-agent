@@ -52,21 +52,18 @@ sub run {
     my $target  = $options->{PARAM}->[0]->{MAC};
     $target =~ s/://g;
 
-    eval {
-        $self->_send_magic_packet_ethernet($target);
-    };
-    return unless $EVAL_ERROR;
-    $self->{logger}->error(
-        "Impossible to use ethernet magic packet: $EVAL_ERROR"
-    );
+    my @methods = $params{methods} ? @{$params{methods}} : qw/ethernet udp/;
 
-    eval {
-        $self->_send_magic_packet_udp($target);
-    };
-    return unless $EVAL_ERROR;
-    $self->{logger}->error(
-        "Impossible to use UDP magic packet: $EVAL_ERROR"
-    );
+    foreach my $method (@methods) {
+        eval {
+            my $function = '_send_magic_packet_' . $method;
+            $self->$function($target);
+        };
+        return unless $EVAL_ERROR;
+        $self->{logger}->error(
+            "Impossible to use $method magic packet: $EVAL_ERROR"
+        );
+    }
 
     # For Windows, I don't know, just test
     # See http://msdn.microsoft.com/en-us/library/ms740548(VS.85).aspx

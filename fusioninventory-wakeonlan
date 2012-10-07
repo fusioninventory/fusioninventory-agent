@@ -17,6 +17,7 @@ my $options = {};
 GetOptions(
     $options,
     'mac=s',
+    'methods=s',
     'debug+',
     'help',
     'version',
@@ -50,7 +51,9 @@ $task->{options} = {
     ],
 };
 
-$task->run();
+my %params = $options->{methods} ?
+    (methods => [ split(/,/, $options->{methods}) ]) : ();
+$task->run(%params);
 
 __END__
 
@@ -63,10 +66,11 @@ fusioninventory-wakeonlan - Standalone wake-on-lan
 fusioninventory-wakeonlan [options]
 
   Options:
-    --mac=MAC    target mac address
-    --debug      debug output (execution traces)
-    -h --help    print this message and exit
-    --version   print the task version and exit
+    --mac=MAC         target mac address
+    --methods=METHODS methods to use
+    --debug           debug output (execution traces)
+    -h --help         print this message and exit
+    --version         print the task version and exit
 
 =head1 DESCRIPTION
 
