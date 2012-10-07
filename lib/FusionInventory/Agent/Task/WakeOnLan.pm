@@ -4,7 +4,6 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
-use constant ETH_P_ALL => 0x0003;
 use constant PF_PACKET => 17;
 use constant SOCK_PACKET => 10;
 
