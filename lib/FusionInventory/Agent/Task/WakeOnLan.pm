@@ -71,7 +71,8 @@ sub run {
 sub _send_magic_packet_ethernet {
     my ($self,  $target) = @_;
 
-    socket(SOCKET, PF_PACKET, SOCK_PACKET, 0);
+    socket(SOCKET, PF_PACKET, SOCK_PACKET, 0)
+        or die "can't open socket: $ERRNO\n";
     setsockopt(SOCKET, SOL_SOCKET, SO_BROADCAST, 1)
         or warn "Can't do setsockopt: $ERRNO\n";
 
@@ -108,7 +109,8 @@ sub _send_magic_packet_ethernet {
 sub _send_magic_packet_udp {
     my ($self,  $target) = @_;
 
-    socket(SOCKET, PF_INET, SOCK_DGRAM, getprotobyname('udp'));
+    socket(SOCKET, PF_INET, SOCK_DGRAM, getprotobyname('udp'))
+        or die "can't open socket: $ERRNO\n";
 
     my $magic_packet = 
         chr(0xFF) x 6 .
