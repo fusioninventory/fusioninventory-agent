@@ -52,12 +52,12 @@ sub run {
     $target =~ s/://g;
 
     eval {
-        $self->send_magic_packet_ethernet($target);
+        $self->_send_magic_packet_ethernet($target);
     };
     return unless $EVAL_ERROR;
 
     eval {
-        $self->send_magic_packet_udp($target);
+        $self->_send_magic_packet_udp($target);
     };
     return unless $EVAL_ERROR;
 
