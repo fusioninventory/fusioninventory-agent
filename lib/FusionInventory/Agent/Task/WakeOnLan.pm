@@ -12,7 +12,6 @@ use English qw(-no_match_vars);
 use Socket;
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::Linux;
 use FusionInventory::Agent::Tools::Network;
 
 our $VERSION = '1.0';
@@ -76,6 +75,16 @@ sub _send_magic_packet_ethernet {
     setsockopt(SOCKET, SOL_SOCKET, SO_BROADCAST, 1)
         or warn "Can't do setsockopt: $ERRNO\n";
 
+    SWITCH: {
+        if ($OSNAME eq 'linux') {
+            FusionInventory::Agent::Tools::Linux->use();
+            last;
+        }
+        if ($OSNAME =~ /freebsd|openbsd|netbsd|gnukfreebsd|gnuknetbsd|dragonfly/) {
+            FusionInventory::Agent::Tools::BSD->use();
+            last;
+        }
+    }
     my $interface =
         first { $_->{MACADDR} }
         getInterfacesFromIfconfig(logger => $self->{logger});
@@ -94,7 +103,6 @@ sub _send_magic_packet_ethernet {
     my $destination = pack("Sa14", 0, $interface->{DESCRIPTION});
     send(SOCKET, $magic_packet, 0, $destination)
         or warn "Couldn't send packet: $ERRNO";
-    # TODO : For FreeBSD, send to /dev/bpf ....
 }
 
 sub _send_magic_packet_udp {
