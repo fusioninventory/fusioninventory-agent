@@ -105,6 +105,7 @@ sub _send_magic_packet_ethernet {
     );
     send(SOCKET, $magic_packet, 0, $destination)
         or die "can't send packet: $ERRNO\n";
+    close(SOCKET);
 }
 
 sub _send_magic_packet_udp {
@@ -125,6 +126,7 @@ sub _send_magic_packet_udp {
     );
     send(SOCKET, $magic_packet, 0, $destination)
         or die "can't send packet: $ERRNO\n";
+    close(SOCKET);
 }
 
 1;
