@@ -56,13 +56,17 @@ sub run {
         $self->_send_magic_packet_ethernet($target);
     };
     return unless $EVAL_ERROR;
+    $self->{logger}->error(
+        "Impossible to use ethernet magic packet: $EVAL_ERROR"
+    );
 
     eval {
         $self->_send_magic_packet_udp($target);
     };
     return unless $EVAL_ERROR;
-
-    $self->{logger}->debug("Impossible to send magic packet...");
+    $self->{logger}->error(
+        "Impossible to use UDP magic packet: $EVAL_ERROR"
+    );
 
     # For Windows, I don't know, just test
     # See http://msdn.microsoft.com/en-us/library/ms740548(VS.85).aspx
@@ -74,7 +78,7 @@ sub _send_magic_packet_ethernet {
     socket(SOCKET, PF_PACKET, SOCK_PACKET, 0)
         or die "can't open socket: $ERRNO\n";
     setsockopt(SOCKET, SOL_SOCKET, SO_BROADCAST, 1)
-        or warn "Can't do setsockopt: $ERRNO\n";
+        or die "can't do setsockopt: $ERRNO\n";
 
     SWITCH: {
         if ($OSNAME eq 'linux') {
@@ -103,7 +107,7 @@ sub _send_magic_packet_ethernet {
         "Sending magic packet to $target as ethernet frame"
     );
     send(SOCKET, $magic_packet, 0, $destination)
-        or warn "Couldn't send packet: $ERRNO";
+        or die "can't send packet: $ERRNO\n";
 }
 
 sub _send_magic_packet_udp {
@@ -120,7 +124,8 @@ sub _send_magic_packet_udp {
     $self->{logger}->debug(
         "Sending magic packet to $target as UDP packet"
     );
-    send(SOCKET, $magic_packet, 0, $destination);
+    send(SOCKET, $magic_packet, 0, $destination)
+        or die "can't send packet: $ERRNO\n";
 }
 
 1;
