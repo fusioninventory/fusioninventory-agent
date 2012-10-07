@@ -15,7 +15,7 @@ use Socket;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 
-our $VERSION = '1.0';
+our $VERSION = '1.1';
 
 sub isEnabled {
     my ($self, $response) = @_;
