@@ -86,6 +86,8 @@ sub run {
     # degraded WOL by UDP
     eval {
         socket(SOCKET, PF_INET, SOCK_DGRAM, getprotobyname('udp'));
+        setsockopt(SOCKET, SOL_SOCKET, SO_BROADCAST, 1)
+            or warn "Can't do setsockopt: $ERRNO\n";
         my $magic_packet = 
             chr(0xFF) x 6 .
             (pack('H12', $target) x 16);
