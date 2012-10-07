@@ -61,7 +61,7 @@ sub run {
         };
         return unless $EVAL_ERROR;
         $self->{logger}->error(
-            "Impossible to use $method magic packet: $EVAL_ERROR"
+            "Impossible to use $method method: $EVAL_ERROR"
         );
     }
 
