@@ -9,6 +9,7 @@ use constant PF_PACKET => 17;
 use constant SOCK_PACKET => 10;
 
 use English qw(-no_match_vars);
+use List::Util qw(first);
 use Socket;
 
 use FusionInventory::Agent::Tools;
