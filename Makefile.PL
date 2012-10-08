@@ -36,7 +36,6 @@ requires 'File::Copy::Recursive'  => undef;
 requires 'JSON'                   => undef;
 requires 'URI::Escape'            => undef;
 requires 'UNIVERSAL::require'     => undef;
-requires 'FusionInventory::Agent' => '2.2.1';
 
 recommends 'POE::Component::Client::Ping' => undef;
 
