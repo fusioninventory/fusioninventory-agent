@@ -145,6 +145,82 @@ my %ifconfig_tests = (
             IPSUBNET    => '127.0.0.0'
 
         }
+    ],
+    'freebsd-ter' => [
+        {
+            MTU         => '1500',
+            MACADDR     => '00:23:18:cf:0d:93',
+            STATUS      => 'Up',
+            DESCRIPTION => 'em0',
+            TYPE        => 'Ethernet'
+        },
+        {
+            MTU         => '16384',
+            IPMASK6     => 'ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff',
+            MACADDR     => undef,
+            DESCRIPTION => 'lo0',
+            STATUS      => 'Up',
+            IPSUBNET6   => '::1',
+            IPADDRESS6  => '::1'
+        },
+        {
+            MTU         => '16384',
+            IPMASK6     => 'ffff:ffff:ffff:ffff::',
+            MACADDR     => undef,
+            DESCRIPTION => 'lo0',
+            STATUS      => 'Up',
+            IPSUBNET6   => 'fe80::',
+            IPADDRESS6  => 'fe80::1'
+        },
+        {
+            MTU         => '16384',
+            IPSUBNET    => '127.0.0.0',
+            IPMASK      => '255.0.0.0',
+            MACADDR     => undef,
+            DESCRIPTION => 'lo0',
+            STATUS      => 'Up',
+            IPADDRESS   => '127.0.0.1'
+        },
+        {
+            MTU         => '16384',
+            IPSUBNET    => '10.0.0.0',
+            IPMASK      => '255.255.255.0',
+            MACADDR     => undef,
+            DESCRIPTION => 'lo1',
+            STATUS      => 'Up',
+            IPADDRESS   => '10.0.0.254'
+        },
+        {
+            MTU         => '16384',
+            IPSUBNET    => '10.0.0.0',
+            IPMASK      => '255.255.255.0',
+            MACADDR     => undef,
+            DESCRIPTION => 'lo1',
+            STATUS      => 'Up',
+            IPADDRESS   => '10.0.0.1'
+        },
+        {
+            MTU         => '2290',
+            MACADDR     => '4c:ed:de:2c:9d:9a',
+            STATUS      => 'Up',
+            DESCRIPTION => 'ndis0',
+            TYPE        => 'IEEE'
+        },
+        {
+            MTU         => '1500',
+            IPSUBNET    => '192.168.0.0',
+            IPMASK      => '255.255.255.0',
+            MACADDR     => '4c:ed:de:2c:9d:9a',
+            DESCRIPTION => 'wlan0',
+            STATUS      => 'Up',
+            TYPE        => 'IEEE',
+            IPADDRESS   => '192.168.0.158'
+        },
+        {
+            MTU         => '1500',
+            MACADDR     => '0a:00:27:00:00:00',
+            DESCRIPTION => 'vboxnet0'
+        }
     ]
 );
 
