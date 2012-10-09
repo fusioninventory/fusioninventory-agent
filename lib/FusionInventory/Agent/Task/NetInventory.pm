@@ -460,10 +460,18 @@ sub _setGenericProperties {
             #  - 0x0115
             #  - 0xfde8
             $key eq 'OTHERSERIAL' ? getSanitizedSerialNumber($raw_value)           :
-            $key eq 'MAC'         ? alt2canonical($raw_value)                      :
             $key eq 'RAM'         ? int($raw_value / 1024 / 1024)                  :
             $key eq 'MEMORY'      ? int($raw_value / 1024 / 1024)                  :
                                     hex2char($raw_value)                           ;
+
+        if ($key eq 'MAC') {
+            if ($raw_value =~ $mac_address_pattern) {
+                $value = $raw_value;
+            } else {
+                alt2canonical($raw_value);
+            }
+        }
+
         $device->{INFO}->{$key} = $value;
     }
 
