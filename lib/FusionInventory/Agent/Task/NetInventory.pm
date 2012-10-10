@@ -446,6 +446,9 @@ sub _setGenericProperties {
     }
 
     foreach my $key (keys %properties) {
+        # don't overwrite known values
+        next if $device->{INFO}->{$key};
+
         my $raw_value = $results->{$properties{$key}};
         next unless defined $raw_value;
         my $value =
