@@ -62,8 +62,8 @@ ok($data[0]->{entry}{NAME} eq 'CurrentVersion', "unique entry: NAME");
     }
 );
 
-ok(@data > 4, "Wildcare test");
-ok($data[0]->{entry}{REGVALUE}, "Wildcare test: REGVALUE");
-ok($data[0]->{entry}{NAME} eq 'ProductID', "Wildcare test NAME (1/3)");
-ok($data[1]->{entry}{NAME} eq 'CurrentVersion', "Wildcare test NAME (2/3)");
-ok($data[2]->{entry}{NAME} eq 'CurrentVersion', "Wildcare test NAME (3/3)");
+ok(@data > 4, "Wildcard test");
+ok($data[0]->{entry}{REGVALUE}, "Wildcard test: REGVALUE");
+ok($data[0]->{entry}{NAME} eq 'ProductID', "Wildcard test NAME (1/3)");
+ok($data[1]->{entry}{NAME} eq 'CurrentVersion', "Wildcard test NAME (2/3)");
+ok($data[2]->{entry}{NAME} eq 'CurrentVersion', "Wildcard test NAME (3/3)");
