@@ -19,7 +19,10 @@ sub new {
         # {error => \my $err} is not supported on RHEL 5,
         # we let mkpath call die() itself
         # http://forge.fusioninventory.org/issues/1817
-        mkpath($params{directory});
+        eval {
+            mkpath($params{directory});
+        };
+        die "Can't create $params{directory}: $EVAL_ERROR" if $EVAL_ERROR;
     }
 
     if (! -w $params{directory}) {
