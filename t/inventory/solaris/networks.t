@@ -74,40 +74,40 @@ my %ifconfig_tests = (
     ],
     'opensolaris' => [
         {
-          'IPSUBNET' => '127.0.0.0',
-          'IPMASK' => '255.0.0.0',
-          'DESCRIPTION' => 'lo0',
-          'STATUS' => 'Up',
-          'SPEED' => undef,
-          'IPADDRESS' => '127.0.0.1'
+            IPSUBNET    => '127.0.0.0',
+            IPMASK      => '255.0.0.0',
+            DESCRIPTION => 'lo0',
+            STATUS      => 'Up',
+            SPEED       => undef,
+            IPADDRESS   => '127.0.0.1'
         },
         {
-          'IPMASK' => '255.255.255.0',
-          'MACADDR' => '08:00:27:fc:ad:56',
-          'STATUS' => 'Up',
-          'SPEED' => undef,
-          'IPSUBNET' => '192.168.0.0',
-          'DESCRIPTION' => 'e1000g0',
-          'IPADDRESS' => '192.168.0.41'
+            IPMASK      => '255.255.255.0',
+            MACADDR     => '08:00:27:fc:ad:56',
+            STATUS      => 'Up',
+            SPEED       => undef,
+            IPSUBNET    => '192.168.0.0',
+            DESCRIPTION => 'e1000g0',
+            IPADDRESS   => '192.168.0.41'
         },
         {
-          'IPSUBNET' => undef,
-          'DESCRIPTION' => 'lo0',
-          'STATUS' => 'Up',
-          'SPEED' => undef
+            IPSUBNET    => undef,
+            DESCRIPTION => 'lo0',
+            STATUS      => 'Up',
+            SPEED       => undef
         },
         {
-          'IPSUBNET' => undef,
-          'MACADDR' => '08:00:27:fc:ad:56',
-          'DESCRIPTION' => 'e1000g0',
-          'STATUS' => 'Up',
-          'SPEED' => undef
+            IPSUBNET    => undef,
+            MACADDR     => '08:00:27:fc:ad:56',
+            DESCRIPTION => 'e1000g0',
+            STATUS      => 'Up',
+            SPEED       => undef
         },
         {
-          'IPSUBNET' => undef,
-          'DESCRIPTION' => 'e1000g0:1',
-          'STATUS' => 'Up',
-          'SPEED' => undef
+            IPSUBNET    => undef,
+            DESCRIPTION => 'e1000g0:1',
+            STATUS      => 'Up',
+            SPEED       => undef
         }
     ]
 
@@ -124,26 +124,26 @@ foreach my $test (keys %ifconfig_tests) {
 
 my @parsefcinfo = (
       {
-        'FIRMWARE' => '05.03.02',
-        'STATUS' => 'Up',
-        'SPEED' => '4Gb',
-        'TYPE' => 'HBA',
-        'DRIVER' => 'qlc',
-        'DESCRIPTION' => 'HBA_Port_WWN_1 /dev/cfg/c0',
-        'MANUFACTURER' => 'QLogic Corp.',
-        'MODEL' => 'QLE2462',
-        'WWN' => '200000e08b94b4a3'
+            FIRMWARE     => '05.03.02',
+            STATUS       => 'Up',
+            SPEED        => '4Gb',
+            TYPE         => 'HBA',
+            DRIVER       => 'qlc',
+            DESCRIPTION  => 'HBA_Port_WWN_1 /dev/cfg/c0',
+            MANUFACTURER => 'QLogic Corp.',
+            MODEL        => 'QLE2462',
+            WWN          => '200000e08b94b4a3'
       },
       {
-        'FIRMWARE' => '05.03.02',
-        'STATUS' => 'Up',
-        'SPEED' => '4Gb',
-        'TYPE' => 'HBA',
-        'DRIVER' => 'qlc',
-        'DESCRIPTION' => 'HBA_Port_WWN_2 /dev/cfg/c1',
-        'MANUFACTURER' => 'QLogic Corp.',
-        'MODEL' => 'QLE2462',
-        'WWN' => '200100e08bb4b4a3'
+            FIRMWARE     => '05.03.02',
+            STATUS       => 'Up',
+            SPEED        => '4Gb',
+            TYPE         => 'HBA',
+            DRIVER       => 'qlc',
+            DESCRIPTION  => 'HBA_Port_WWN_2 /dev/cfg/c1',
+            MANUFACTURER => 'QLogic Corp.',
+            MODEL        => 'QLE2462',
+            WWN          => '200100e08bb4b4a3'
       }
 );
 my $file = "resources/solaris/fcinfo_hba-port/sample-1";
