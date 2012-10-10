@@ -14,7 +14,7 @@ BEGIN {
 use FusionInventory::Agent::Tools::Win32;
 
 if ($OSNAME ne 'MSWin32') {
-    plan skip_all => 'depend on Win32';
+    plan skip_all => 'Windows-specific test';
 } else {
     plan tests => 5;
 }

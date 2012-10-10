@@ -20,7 +20,7 @@ use FusionInventory::Agent::Task::Inventory::Input::Win32::Registry;
 
 
 if ($OSNAME ne 'MSWin32') {
-    plan skip_all => "Depends on Windows";
+    plan skip_all => 'Windows-specific test';
 } else {
     plan tests => 8;
 }
