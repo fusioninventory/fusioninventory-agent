@@ -182,6 +182,18 @@ my %tests = (
         SERIAL       => '00000000',
         DESCRIPTION  => '51/2004'
     },
+    'lcd.acer-v193.1' => {
+        MANUFACTURER => 'Acer America Corp.',
+        CAPTION      => 'Acer V193',
+        SERIAL       => 'LBZ081610080b6974233',
+        DESCRIPTION  => '8/2010'
+    },
+    'lcd.acer-v193.2' => {
+        MANUFACTURER => 'Acer America Corp.',
+        CAPTION      => 'Acer V193',
+        SERIAL       => 'LBZ081610050c5b24233',
+        DESCRIPTION  => '5/2010'
+    },
     'lcd.acer-x193hq' => {
         MANUFACTURER => 'Acer America Corp.',
         CAPTION      => 'X193HQ',
