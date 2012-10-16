@@ -296,6 +296,18 @@ my %tests = (
         SERIAL       => '11004M0C00313',
         DESCRIPTION  => '49/2010'
     },
+    'lcd.lg-l1960.1' => {
+        MANUFACTURER => 'LG Electronics Inc. (GoldStar Technology, Inc.)',
+        CAPTION      => 'L1960TR ',
+        SERIAL       => '9Y670',
+        DESCRIPTION  => '11/2007'
+    },
+    'lcd.lg-l1960.2' => {
+        MANUFACTURER => 'LG Electronics Inc. (GoldStar Technology, Inc.)',
+        CAPTION      => 'L1960TR ',
+        SERIAL       => '9Y676',
+        DESCRIPTION  => '11/2007'
+    },
     'lcd.lenovo-3000-v100' => {
         MANUFACTURER => 'AU Optronics',
         CAPTION      => undef,
