@@ -22,9 +22,9 @@ sub _scanOffice {
 
     my %license;
     if ($currentKey->{'ProductID'}) {
-        $license{'KEY'} = $currentKey->{ProductID};
-    } elsif ($currentKey->{DigitalProductID}) {
-        $license{'KEY'} = getLicenseKey($currentKey->{DigitalProductID});
+        $license{'PRODUCTID'} = $currentKey->{ProductID};
+    } if ($currentKey->{DigitalProductID}) {
+        $license{'KEY'} = parseProductKey($currentKey->{DigitalProductID});
     }
     if ($currentKey->{ConvertToEdition}) {
         $license{'FULLNAME'} = encodeFromRegistry($currentKey->{ConvertToEdition});
