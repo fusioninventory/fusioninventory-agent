@@ -420,7 +420,7 @@ sub processRemote {
             eval { $ret = $actionProcessor->process($actionName, $params, $self->{logger}); };
             $ret->{msg} = [] unless $ret->{msg};
             push @{$ret->{msg}}, $@ if $@;
-            if ( !$ret->{status} || $self->{config}{debug} ) {
+            if ( !$ret->{status} ) {
                 $self->{client}->send(
                     url  => $remoteUrl,
                     args => {
@@ -431,9 +431,7 @@ sub processRemote {
                         actionnum => $actionnum,
                     }
                 );
-            }
 
-            if ( !$ret->{status} ) {
                 $self->{client}->send(
                     url  => $remoteUrl,
                     args => {
