@@ -11,6 +11,7 @@ sub isEnabled {
     return unless -f "/Library/Application Support/Adobe/Adobe PCD/cache/cache.db";
 }
 
+# Transmit 4.1.7
 sub _getTransmitLicenses {
     my (%params) = @_;
 
