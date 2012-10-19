@@ -11,7 +11,6 @@ sub isEnabled {
     return unless -f "/Library/Application Support/Adobe/Adobe PCD/cache/cache.db";
 }
 
-# Transmit 4.1.7
 sub _getTransmitLicenses {
     my (%params) = @_;
 
@@ -45,10 +44,10 @@ sub doInventory {
     my $inventory    = $params{inventory};
     my $scanhomedirs = $params{scan_homedirs};
 
-
+    ### Adobe
     my @found = getAdobeLicenses( command => 'sqlite3 -separator " <> " "/Library/Application Support/Adobe/Adobe PCD/cache/cache.db" "SELECT * FROM domain_data"');
 
-
+    ### Transmit
     my @transmitFiles = File::Glob::bsd_glob('/System/Library/User Template/*.lproj/Library/Preferences/com.panic.Transmit.plist');
     if ($params{scan_homedirs}) {
         push (@transmitFiles, File::Glob::bsd_glob('/Users/*/Library/Preferences/com.panic.Transmit.plist'));
@@ -59,6 +58,32 @@ sub doInventory {
         next unless $info;
         push @found, $info;
         last; # One installation per machine
+    }
+
+    ### VMware
+    my @vmwareFiles = File::Glob::bsd_glob('/Library/Application Support/VMware Fusion/license-*');
+    foreach my $vmwareFile (@vmwareFiles) {
+        my %info;
+        # e.g:
+        # LicenseType = "Site"
+        my $handle = getFileHandle(file => $vmwareFile);
+        foreach (<$handle>) {
+            next unless /^(\S+)\s=\s"(.*)"/;
+            $info{$1}=$2;
+        }
+        next unless $info{Serial};
+
+        my $date;
+        if ($info{LastModified} =~ /(^2\d{3})-(\d{1,2})-(\d{1,2}) @ (\d{1,2}):(\d{1,2})/) {
+            $date = getFormatedDate($1, $2, $3, $4, $5, 0);
+        }
+
+        push @found, {
+            NAME => $info{ProductID},
+            FULLNAME => $info{ProductID}." (".$info{LicenseVersion}.")",
+            KEY => $info{Serial},
+            ACTIVATION_DATE => $date
+        }
     }
 
     foreach my $license (@found) {
