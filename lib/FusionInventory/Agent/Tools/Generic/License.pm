@@ -54,6 +54,8 @@ sub getAdobeLicenses {
         chomp($line);
 
         my @f = split(/ <> /, $line);
+
+	next unless $f[3];
  
         $f[1] =~ s/\{\|\}.*//;
         $f[2] =~ s/\{\|\}.*//;
