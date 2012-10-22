@@ -72,7 +72,8 @@ sub _getLocalUsers {
 
     while (my $line = <$handle>) {
         next if $line =~ /^#/;
-        my ($login, undef, $uid, $gid, $gecos, $home) = split(/:/, $line);
+        my ($login, undef, $uid, $gid, $gecos, $home, $shell) =
+            split(/:/, $line);
         # assume users with lower uid are system users
         next if $uid < 500;
         next if $login eq 'nobody';
@@ -81,7 +82,8 @@ sub _getLocalUsers {
             UID   => $uid,
             GID   => $gid,
             NAME  => $gecos,
-            HOME  => $home
+            HOME  => $home,
+            SHELL => $shell
         };
     }
     close $handle;
