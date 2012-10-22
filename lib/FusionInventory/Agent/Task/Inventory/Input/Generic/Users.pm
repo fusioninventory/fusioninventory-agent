@@ -21,8 +21,8 @@ sub doInventory {
     my $logger    = $params{logger};
 
     my @users = (
-        _getLoggedUsers(logger => $logger),
-        _getLocalUsers(logger => $logger)
+        _getLocalUsers(logger => $logger),
+        _getLoggedUsers(logger => $logger)
     );
 
     foreach my $user (@users) {
@@ -72,11 +72,17 @@ sub _getLocalUsers {
 
     while (my $line = <$handle>) {
         next if $line =~ /^#/;
-        my ($login, undef, $uid) = split(/:/, $line);
+        my ($login, undef, $uid, $gid, $gecos, $home) = split(/:/, $line);
         # assume users with lower uid are system users
         next if $uid < 500;
         next if $login eq 'nobody';
-        push @users, { LOGIN => $login };
+        push @users, {
+            LOGIN => $login,
+            UID   => $uid,
+            GID   => $gid,
+            NAME  => $gecos,
+            HOME  => $home
+        };
     }
     close $handle;
 
