@@ -1,5 +1,16 @@
 Revision history for FusionInventory agent
 
+2.2.7
+
+General:
+* additional hack for LG screens (#1848)
+* additional model for ACER screens hack (#1840)
+* fix directory creation error handling with older File::Path versions (#1817)
+* fix initial delay randomness (#1809)
+
+Windows:
+* fix missing bios release date on some machines (#1820, #1825)
+
 2.2.6  Fri, 14 Sep 2012 16:49:13 +0200
 
 Installation:
