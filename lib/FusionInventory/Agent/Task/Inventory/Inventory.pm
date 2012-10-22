@@ -64,7 +64,8 @@ my %fields = (
                              DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
                              WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE/ ],
     OPERATINGSYSTEM  => [ qw/KERNEL_NAME KERNEL_VERSION NAME VERSION FULL_NAME 
-                            SERVICE_PACK INSTALL_DATE FQDN DNS_DOMAIN SSH_KEY/ ],
+                            SERVICE_PACK INSTALL_DATE FQDN DNS_DOMAIN SSH_KEY
+                            ARCH/ ],
     ACCESSLOG        => [ qw/USERID LOGDATE/ ],
     VIRTUALMACHINES  => [ qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU
                              VMID MAC COMMENT OWNER/ ],
@@ -928,6 +929,10 @@ present on systems which use this notion.
 =item INSTALL_DATE
 
 The operating system installation date.
+
+=item ARCH
+
+Operating system architecture.
 
 =back
 

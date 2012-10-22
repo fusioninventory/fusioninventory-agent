@@ -24,7 +24,7 @@ sub doInventory {
             class      => 'Win32_OperatingSystem',
             properties => [ qw/
                 OSLanguage Caption Version SerialNumber Organization \
-                RegisteredUser CSDVersion TotalSwapSpaceSize
+                RegisteredUser CSDVersion TotalSwapSpaceSize OSArchitecture
             / ]
         )) {
 
@@ -65,7 +65,8 @@ sub doInventory {
     #        VERSION       => $OSVersion,
             KERNEL_VERSION => $object->{Version},
             FULL_NAME      => $object->{Caption},
-            SERVICE_PACK   => $object->{CSDVersion}
+            SERVICE_PACK   => $object->{CSDVersion},
+            ARCH          => $object->{OSArchitecture} || 'x86',
         });
     }
 
