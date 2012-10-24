@@ -5,8 +5,6 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
-my $seen;
-
 sub isEnabled {
     return 
         canRun('who')  ||
@@ -20,15 +18,9 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my @users = (
-        _getLocalUsers(logger => $logger),
-        _getLoggedUsers(logger => $logger)
-    );
+    my @users = _getLocalUsers(logger => $logger);
 
     foreach my $user (@users) {
-        # avoid duplicates
-        next if $seen->{$user->{LOGIN}}++;
-
         $inventory->addEntry(
             section => 'USERS',
             entry   => $user
@@ -37,26 +29,6 @@ sub doInventory {
 
     my $last = _getLastUser(logger => $logger);
     $inventory->setHardware($last);
-}
-
-sub _getLoggedUsers {
-    my (%params) = (
-        command => 'who',
-        @_
-    );
-
-    my $handle = getFileHandle(%params);
-    return unless $handle;
-
-    my @users;
-
-    while (my $line = <$handle>) {
-        next unless $line =~ /^(\S+)/;
-        push @users, { LOGIN => $1 };
-    }
-    close $handle;
-
-    return @users;
 }
 
 sub _getLocalUsers {
