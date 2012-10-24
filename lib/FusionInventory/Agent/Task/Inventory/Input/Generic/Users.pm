@@ -52,7 +52,7 @@ sub _getLocalUsers {
         push @users, {
             LOGIN => $login,
             UID   => $uid,
-            GID   => $gid,
+            GROUP => scalar getgrgid($gid),
             NAME  => $gecos,
             HOME  => $home,
             SHELL => $shell
