@@ -56,7 +56,7 @@ sub _getLocalUsers {
 
         push @users, {
             LOGIN => $login,
-            UID   => $uid,
+            ID    => $uid,
             GROUP => \@groups,
             NAME  => $gecos,
             HOME  => $home,
