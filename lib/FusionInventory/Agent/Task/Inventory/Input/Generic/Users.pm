@@ -41,23 +41,18 @@ sub _getLocalUsers {
     return unless $handle;
 
     my @users;
-    my %groups = _getLocalGroups(logger => $params{logger});
 
     while (my $line = <$handle>) {
         next if $line =~ /^#/;
-        my ($login, undef, $uid, $gid, $gecos, $home, $shell) =
+        my ($login, undef, $uid, undef, $gecos, $home, $shell) =
             split(/:/, $line);
         # assume users with lower uid are system users
         next if $uid < 500;
         next if $login eq 'nobody';
 
-        my @groups = scalar getgrgid($gid); # primary group
-        push @groups, @{$groups{$login}} if $groups{$login};
-
         push @users, {
             LOGIN => $login,
             ID    => $uid,
-            GROUP => \@groups,
             NAME  => $gecos,
             HOME  => $home,
             SHELL => $shell
@@ -66,31 +61,6 @@ sub _getLocalUsers {
     close $handle;
 
     return @users;
-}
-
-sub _getLocalGroups {
-    my (%params) = (
-        file => '/etc/group',
-        @_
-    );
-
-    my $handle = getFileHandle(%params);
-    return unless $handle;
-
-    my %groups;
-
-    while (my $line = <$handle>) {
-        next if $line =~ /^#/;
-        chomp $line;
-        my ($group, undef, undef, $members) = split(/:/, $line);
-        my @members = split(/,/, $members);
-        foreach my $member (@members) {
-            push @{$groups{$member}}, $group;
-        }
-    }
-    close $handle;
-
-    return %groups;
 }
 
 sub _getLastUser {
