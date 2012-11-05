@@ -98,6 +98,6 @@ informations.
 
 =head1 FUNCTIONS
 
-=head2 getAdobeLicense
+=head2 getAdobeLicenses
 
 Returns a structured view of Adobe license.
