@@ -533,7 +533,7 @@ System Serial number
 
 =item BDATE
 
-BIOS release date
+BIOS release date in the Month/Day/Year format (e.g: 09/27/2010)
 
 =item BVERSION
 
