@@ -71,6 +71,7 @@ sub _scanOffice {
 sub doInventory {
     my (%params) = @_;
 
+    # TODO: 64/32 bit support
     my $machKey = $Registry->Open('LMachine', {
             Access => KEY_READ ## no critic (ProhibitBitwise)
             }) or $params{logger}->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");

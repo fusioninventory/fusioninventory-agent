@@ -59,6 +59,9 @@ sub doInventory {
             DESCRIPTION   => $description,
         });
 
+        my $osArchitecture =  $object->{OSArchitecture} || '32-bit';
+        $osArchitecture =~ s/ /-/; # "64 bit" => "64-bit"
+
         $inventory->setOperatingSystem({
             NAME           => "Windows",
             INSTALL_DATE   => $installDate,
@@ -66,7 +69,7 @@ sub doInventory {
             KERNEL_VERSION => $object->{Version},
             FULL_NAME      => $object->{Caption},
             SERVICE_PACK   => $object->{CSDVersion},
-            ARCH          => $object->{OSArchitecture} || 'x86',
+            ARCH           => $osArchitecture,
         });
     }
 
