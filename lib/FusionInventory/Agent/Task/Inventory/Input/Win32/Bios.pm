@@ -15,6 +15,16 @@ sub isEnabled {
     return 1;
 }
 
+sub _dateFromIntString {
+    my ($string) = @_;
+
+    if ($string && $string =~ /^(\d{4})(\d{2})(\d{2})/) {
+        return "$2/$3/$1";
+    }
+
+    return $string;
+}
+
 sub doInventory {
     my (%params) = @_;
 
@@ -22,16 +32,16 @@ sub doInventory {
     my $logger    = $params{logger};
 
     my $bios = {
-        BDATE => getRegistryValue(
+        BDATE => _dateFromIntString(getRegistryValue(
             path   => "HKEY_LOCAL_MACHINE/Hardware/Description/System/BIOS/BIOSReleaseDate",
             logger => $logger
-        )
+        ))
     };
 
     foreach my $object (getWmiObjects(
         class      => 'Win32_Bios',
         properties => [ qw/
-            SerialNumber Version Manufacturer SMBIOSBIOSVersion BIOSVersion
+            SerialNumber Version Manufacturer SMBIOSBIOSVersion BIOSVersion ReleaseDate
         / ]
     )) {
         $bios->{BIOSSERIAL}    = $object->{SerialNumber};
@@ -40,6 +50,7 @@ sub doInventory {
         $bios->{BVERSION}      = $object->{SMBIOSBIOSVersion} || 
                                  $object->{BIOSVersion}       || 
                                  $object->{Version};
+        $bios->{BDATE}         = _dateFromIntString($object->{ReleaseDate});
     }
 
     foreach my $object (getWmiObjects(

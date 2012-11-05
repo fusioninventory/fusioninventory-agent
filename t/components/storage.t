@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use File::Temp qw/tempdir/;
+use File::Temp qw(tempdir);
 use Test::More;
 use Test::Exception;
 

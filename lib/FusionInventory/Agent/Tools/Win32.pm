@@ -41,6 +41,7 @@ our @EXPORT = qw(
     getWmiObjects
     getLocalCodepage
     runCommand
+    parseProductKey
 );
 
 sub is64bit {
@@ -189,7 +190,6 @@ sub runCommand {
     my $job = Win32::Job->new();
 
     my $buff = File::Temp->new();
-    my $void = File::Temp->new();
 
     my $winCwd = Cwd::getcwd();
     $winCwd =~ s{/}{\\}g;
@@ -202,7 +202,6 @@ sub runCommand {
 
     my $args = {
         stdout    => $buff,
-        stderr    => $params{no_stderr} ? $void : $buff,
         no_window => 1
     };
 
@@ -226,6 +225,53 @@ sub runCommand {
     }
 
     return ($exitcode, $buff);
+}
+
+sub _quotient {
+    my($index, $encoded) = @_;
+
+    # Same as $index * 256 + $product_key ???
+    my $dividend = $index * 256 ^ $encoded; ## no critic (ProhibitBitwise)
+
+    # return modulus and integer quotient
+    return(
+        $dividend % 24,
+        $dividend / 24,
+    );
+}
+
+#http://www.perlmonks.org/?node_id=497616
+# Thanks William Gannon && Charles Clarkson
+sub parseProductKey {
+    my ($key) = @_;
+    return unless $key;
+
+    my @encoded = ( unpack 'C*', $key )[ reverse 52 .. 66 ];
+
+    # Get indices
+    my @indices;
+    foreach ( 0 .. 24 ) {
+        my $index = 0;
+
+        # Shift off remainder
+        ( $index, $_ ) = _quotient( $index, $_ ) foreach @encoded;
+
+        # Store index.
+        unshift @indices, $index;
+    }
+
+    # translate base 24 "digits" to characters
+    my $cd_key =
+        join '',
+        qw( B C D F G H J K M P Q R T V W X Y 2 3 4 6 7 8 9 )[ @indices ];
+
+    # Add seperators
+    $cd_key =
+        join '-',
+        $cd_key =~ /(.{5})/g;
+
+    return if $cd_key =~ /^[B-]*$/;
+    return $cd_key;
 }
 
 1;
@@ -305,12 +351,18 @@ Returns a command in a Win32 Process
 
 =item timeout a time in second, default is 3600*2
 
-=item no_stderr ignore STDERR output, default is false
 =back
 
 Return an array
+
+=over
 
 =item exitcode the error code, 293 means a timeout occurred
 
 =item fd a file descriptor on the output
 
+=back
+
+=head2 parseProductKey($string)
+
+Return a Parsed binary product key (XP, office, etc)

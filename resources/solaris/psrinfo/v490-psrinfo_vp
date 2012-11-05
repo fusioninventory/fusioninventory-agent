@@ -1,0 +1,8 @@
+The physical processor has 2 virtual processors (0 16)
+  UltraSPARC-IV (portid 0 impl 0x18 ver 0x31 clock 1350 MHz)
+The physical processor has 2 virtual processors (1 17)
+  UltraSPARC-IV (portid 1 impl 0x18 ver 0x31 clock 1350 MHz)
+The physical processor has 2 virtual processors (2 18)
+  UltraSPARC-IV (portid 2 impl 0x18 ver 0x31 clock 1350 MHz)
+The physical processor has 2 virtual processors (3 19)
+  UltraSPARC-IV (portid 3 impl 0x18 ver 0x31 clock 1350 MHz)

@@ -1,0 +1,4 @@
+Smart Array P410i in Slot 0 (Embedded)
+  array A
+     physicaldrive 1I:1:1 (port 1I:box 1:bay 1, SATA, 1 TB, OK)
+     physicaldrive 1I:1:2 (port 1I:box 1:bay 2, SATA, 1 TB, OK)

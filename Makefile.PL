@@ -23,11 +23,6 @@ if ($OSNAME eq 'MSWin32') {
     requires 'Win32::TieRegistry' => undef;
     requires 'Win32::Job'         => undef;
 }
-if ($OSNAME eq 'MSWin32') {
-    requires 'Win32::OLE'         => undef;
-    requires 'Win32::TieRegistry' => undef;
-    requires 'Win32::Job'         => undef;
-}
 
 # optional dependencies
 recommends 'Parse::EDID'      => undef;
@@ -202,16 +197,4 @@ FINALIZE = $(ABSPERLRUN) -pi \
     --
 EOF
     return $installbin;
-}
-
-sub manifypods {
-    my ($self) = @_;
-    my $manifypods = $self->SUPER::manifypods(@_);
-    $manifypods =~ s/manifypods : pure_all/manifypods : pure_all fusioninventory-agent.1.html/;
-    $manifypods .= <<'EOF';
-fusioninventory-agent.1.html: fusioninventory-agent
-	pod2html --infile=fusioninventory-agent --outfile=fusioninventory-agent.1.html
-
-EOF
-    return $manifypods;
 }

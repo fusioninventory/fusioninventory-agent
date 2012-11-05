@@ -31,9 +31,11 @@ sub new {
         htmldir   => $params{htmldir},
         ip        => $params{ip},
         port      => $params{port} || 62354,
-        trust     => $params{trust}
     };
     bless $self, $class;
+
+    $self->{trust} = $self->_parseAddresses($params{trust})
+        if $params{trust};
 
     $self->{stop} = 0;
     my $stop = \$self->{stop};
@@ -41,6 +43,45 @@ sub new {
     $self->{listener} = threads->create('_listen', $self);
 
     return $self;
+}
+
+sub _parseAddresses {
+    my ($self, $strings) = @_;
+
+    return unless $strings;
+
+    my @addresses;
+
+    foreach my $string (@$strings) {
+
+        # push ip addresses directly in the list
+        if ($string =~ /^$ip_address_pattern/) {
+            push @addresses, Net::IP->new($string);
+            next;
+        }
+
+        # resolve host names
+        my ($error, @results) = getaddrinfo(
+            $string, "", { socktype => SOCK_RAW }
+        );
+
+        if ($error) {
+            $self->{logger}->error("unable to resolve $string: $error");
+            next;
+        }
+
+        # and push all of their addresses in the list
+        foreach my $result (@results) {
+            my ($error, $host) = getnameinfo($result->{addr});
+            if ($error) {
+                $self->{logger}->error("unable to get host address: $error");
+                next;
+            }
+            push @addresses, Net::IP->new($host);
+        }
+    }
+
+    return \@addresses;
 }
 
 sub _handle {
@@ -237,49 +278,29 @@ sub _handle_status {
 }
 
 sub _is_trusted {
-    my ($self, $address) = @_;
+    my ($self, $clientIp) = @_;
 
-    return 0 unless $self->{trust};
+    my $logger = $self->{logger};
 
-    my $sourceAddr  = Net::IP->new($address);
-    if (!$sourceAddr) {
-        $self->{logger}->error("Cannot parse “$address”");
-        return 0;
+    my $source  = Net::IP->new($clientIp);
+
+    if (!$source) {
+        $logger->error("Not well formatted source IP: $clientIp");
+        return;
     }
 
-    foreach my $trustedAddr (@{$self->{trust}}) {
+    return 0 unless $source;
+    return 0 unless $self->{trust};
 
+    foreach my $trust (@{$self->{trust}}) {
 
-        my @trustedAddrToTest;
+        my $result = $source->overlaps($trust);
 
-        # Is it an numerical IPv4 host or network?
-        if ($trustedAddr =~ /^$ip_address_pattern(|\/\d+)/) {
+        # included in trusted range
+        return 1 if $result == $IP_A_IN_B_OVERLAP;
 
-            push @trustedAddrToTest, Net::IP->new($trustedAddr);
-
-        # It's a host name, he retrieve the IPv4 addresses of the
-        # host.
-        } else {
-
-            my ( $err, @res ) = getaddrinfo( $trustedAddr, "", { socktype => SOCK_RAW } );
-            print("Cannot getaddrinfo $trustedAddr - $err") if $err;
-
-            while( my $ai = shift @res ) {
-
-                my ( $err, $nameinfo ) = getnameinfo( $ai->{addr} );
-                $self->{logger}->error("Cannot getnameinfo - $err") if $err;
-
-                push @trustedAddrToTest, Net::IP->new($nameinfo);
-
-            }
-        }
-
-        # And we compare
-        foreach (@trustedAddrToTest) {
-            my $result = $sourceAddr->overlaps($_);
-            return 1 if $result == $IP_A_IN_B_OVERLAP;
-            return 1 if $result == $IP_IDENTICAL;
-        }
+        # equals trusted address
+        return 1 if $result == $IP_IDENTICAL;
 
     }
 

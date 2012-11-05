@@ -1,0 +1,19 @@
+Smart Array P410i in Slot 0 (Embedded)
+  array A
+     physicaldrive 1I:1:1
+        Port: 1I
+        Box: 1
+        Bay: 1
+        Status: OK
+        Drive Type: Data Drive
+        Interface Type: SATA
+        Size: 1 TB
+        Firmware Revision: JP4OA3MA
+        Serial Number:       JPW9K0N02UPXHL
+        Model: ATA     Hitachi HUA72201
+        SATA NCQ Capable: True
+        SATA NCQ Enabled: True
+        Current Temperature (C): 31
+        Maximum Temperature (C): 35
+        PHY Count: 1
+        PHY Transfer Rate: 3.0GBPS

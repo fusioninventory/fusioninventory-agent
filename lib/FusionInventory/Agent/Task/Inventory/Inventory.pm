@@ -25,7 +25,8 @@ my %fields = (
     INPUTS      => [ qw/NAME MANUFACTURER CAPTION DESCRIPTION INTERFACE LAYOUT
                         POINTINGTYPE TYPE/ ],
     MEMORIES    => [qw/CAPACITY CAPTION FORMFACTOR REMOVABLE PURPOSE SPEED
-                       SERIALNUMBER TYPE DESCRIPTION NUMSLOTS MEMORYCORRECTION/ ],
+                       SERIALNUMBER TYPE DESCRIPTION NUMSLOTS MEMORYCORRECTION
+                       MANUFACTURER/ ],
     MODEMS      => [ qw/DESCRIPTION NAME/ ],
     MONITORS    => [ qw/BASE64 CAPTION DESCRIPTION MANUFACTURER SERIAL
                         UUENCODE/ ],
@@ -49,7 +50,7 @@ my %fields = (
                         SCSI_UNID SCSI_LUN WWN/ ],
     VIDEOS      => [ qw/CHIPSET MEMORY NAME RESOLUTION PCISLOT/ ],
     USBDEVICES  => [ qw/VENDORID PRODUCTID SERIAL CLASS SUBCLASS NAME/ ],
-    USERS       => [ qw/LOGIN DOMAIN/ ],
+    USERS       => [ qw/LOGIN DOMAIN ID GROUP NAME HOME SHELL/ ],
     PRINTERS    => [ qw/COMMENT DESCRIPTION DRIVER NAME NETWORK PORT RESOLUTION
                         SHARED STATUS ERRSTATUS SERVERNAME SHARENAME 
                         PRINTPROCESSOR SERIAL/ ],
@@ -64,7 +65,8 @@ my %fields = (
                              DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
                              WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE/ ],
     OPERATINGSYSTEM  => [ qw/KERNEL_NAME KERNEL_VERSION NAME VERSION FULL_NAME 
-                            SERVICE_PACK INSTALL_DATE FQDN DNS_DOMAIN SSH_KEY/ ],
+                            SERVICE_PACK INSTALL_DATE FQDN DNS_DOMAIN SSH_KEY
+                            ARCH/ ],
     ACCESSLOG        => [ qw/USERID LOGDATE/ ],
     VIRTUALMACHINES  => [ qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU
                              VMID MAC COMMENT OWNER/ ],
@@ -74,6 +76,7 @@ my %fields = (
                              SIZE FREE PE_SIZE VG_UUID/ ],
     VOLUME_GROUPS    => [ qw/VG_NAME PV_COUNT LV_COUNT ATTR SIZE FREE VG_UUID 
                              VG_EXTENT_SIZE/ ],
+    LICENSEINFOS     => [ qw/NAME FULLNAME KEY COMPONENTS TRIAL UPDATE OEM ACTIVATION_DATE PRODUCTID/ ]
 );
 
 my %checks = (
@@ -375,7 +378,7 @@ System Serial number
 
 =item BDATE
 
-BIOS release date
+BIOS release date in the Month/Day/Year format (e.g: 09/27/2010)
 
 =item BVERSION
 
@@ -769,6 +772,10 @@ present on systems which use this notion.
 =item INSTALL_DATE
 
 The operating system installation date.
+
+=item ARCH
+
+Operating system architecture.
 
 =back
 
@@ -1415,3 +1422,33 @@ The free space.
 =item UUID
 
 The UUID
+
+=back
+
+=head2 LICENSEINFOS
+
+A license
+
+=over
+
+=item NAME
+
+The name of the license
+
+=item FULLNAME
+
+The full name of the license (optional)
+
+=item KEY
+
+The key used to register the license (optional)
+
+=item COMPONENTS
+
+The components covered by the license (optional)
+
+=item PRODUCTID
+
+The ID of the installation (optional)
+
+=back

@@ -1,273 +1,93 @@
-			FusionInventory agent
-			---------------------
+# FusionInventory Agent
 
-Description
------------
-The FusionInventory agent is a generic multi-platform agent. It can perform a
-large array of management tasks, such as local inventory, software deployment
-or network discovery. It can be used either standalone, or in combination 
-with a compatible server (OCS, GLPI, OTRS) acting as a centralized control
-point.
+## Description
+
+The FusionInventory agent is a generic management agent. It can perform a
+certain number of tasks, according to its own execution plan, or on behalf of a
+GLPI server with fusioninventory plugin, acting as a control point.
 
 Two of these tasks are included in agent source distribution, local inventory
 and wake on lan. Other tasks are distributed separatly, excepted for binary
 distributions where they are bundled together.
 
-Dependencies
-------------
+## Dependencies
 
 Minimum perl version: 5.8
 
 Additional mandatory perl modules:
-- File::Which
-- LWP
-- Net::IP
-- Text::Template
-- UNIVERSAL::require
-- XML::TreePP
+
+* File::Which
+* LWP
+* Net::IP
+* Text::Template
+* UNIVERSAL::require
+* XML::TreePP
 
 Additional optional perl modules:
-- Compress::Zlib, for message compression
-- HTTP::Daemon, for web interface
-- IO::Socket::SSL, for HTTPS support with certificate validation
-- Net::CUPS (v0.60 minimum), for printers detection 
-- Parse::EDID, for screen identification
-- Proc::Daemon, for daemon mode (Unix only)
-- Win32::Daemon, for Win32 service mode (Windows only)
-- Proc::PID::File, for daemon mode (Unix only)
+
+* Compress::Zlib, for message compression
+* HTTP::Daemon, for web interface
+* IO::Socket::SSL, for HTTPS support with certificate validation
+* Net::CUPS (v0.60 minimum), for printers detection 
+* Parse::EDID, for screen identification
+* Proc::Daemon, for daemon mode (Unix only)
+* Win32::Daemon, for Win32 service mode (Windows only)
+* Proc::PID::File, for daemon mode (Unix only)
 
 Additional optional programs:
-- dmidecode, for hardware inventory
-- lspci, for hardware inventory
 
-System-specific informations
-----------------------------
+* dmidecode, for hardware inventory
+* lspci, for hardware inventory
 
-Supported systems:
-- Windows (since Windows 2000)
-- GNU/Linux
-- MacOSX
-- Solaris
-- FreeBSD
-- NetBSD
-- OpenBSD
-- AIX
-- HP-UX
-- GNU/kFreeBSD
+# Contacts
 
-On Solaris/SPARC, you must install sneep and record the Serial Number with it.
-Download it from http://www.sun.com/download/products.xml?id=4304155a.
-
-On Windows, we use an additional dmidecode binary shipped in the windows
-distribution to retrieve many informations not available otherwise, including
-fine-grained multi-cores CPUs identification. Unfortunatly, this binary is not
-reliable enough to be used on Windows 2003, leading to less precise
-inventories.
-
-On any system, the privilege level used to run the agent will change inventory
-results. Generally speaking, this means less results when run with lesser
-privileges. On Windows, tough, running agent with SYSTEM privileges, which is
-implicit if running as a service, does sometimes gives less results, especially
-for shared printers only visible from a user account.
-
-Usage
------
-They are two different ways to run the agent:
-- as a temporary process, exiting after completing its run
-- as a permanent process, staying in memory permanently (daemon under Unix,
-  service under Windows)
-
-In the first case, the agent execution scheduling is controlled from local
-system, and the memory footprint between agent executions is zero.
-
-In second case, the agent execution scheduling is remotelly controlled,
-as the agent runs regulary according to a parameter given by the server at the
-first connection (PROLOG_FREQ). Additionaly, the server may also initiate
-additional out-of-schedule executions by sending HTTP requests if the web
-interface is used. However, it also implies a full perl interpreter loaded in
-memory constantly, and a process running with full system privileges listening
-on the network.
-
-If you don't need to control agent execution from the server, and if you're
-able to periodically launch the agent without resorting to its internal
-scheduler, through cron on Unix systems, or scheduled tasks on Windows, you'd
-better use first execution mode. The various installation procedure may offer
-limited choice about initial configuration, but you should always be able to
-change it thereafter.
-
-When executing, the agent tries to run every available task for every
-configured target. A task is a specific kind of work to perform (local
-inventory, network discovery, wake on lan, etc...), while a target is both a
-recipient for the result and a controller for this work (an OCS server, a GLPI
-server, a local directory, etc...). Only the local inventory task is compatible
-with all kind of target, tough, all others require a GLPI server target, and
-will get discarded for other kind of target.
-
-Configuration
--------------
-
-The agent is able to use multiple configuration backends. The registry backend
-is the default on Windows platform, and the file backend is the default
-everywhere else. Another backend can be specified using the --config command
-line option.
-
-The file backend reads configuration directives from a configuration file,
-whose default location is determined at installation time as
-<installation prefix>/etc/agent.cfg. An alternative location can also be given
-with --conf-file command-line option.
-
-The registry backend reads configuration directives from the Windows
-registry, with an arch-dependant location:
-- HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent for 32 bits machines
-- HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\FusionInventory-Agent for 64 bits machines
-
-The none backend doesn't read any configuration directive at all, allowing
-to isolate the agent execution from any installed configuration.
-
-Examples
---------
-
-Execute all available tasks required by a local server:
-% fusioninventory-agent --server localhost
-
-Execute all available tasks required by a local server, using a specific
-URI:
-% fusioninventory-agent --server http://localhost/ocsinventory2
-
-Execute all available tasks required by a local server, using a secure
-connection:
-% fusioninventory-agent --server https://localhost/ocsinventory
-
-Execute all available tasks required by a local server, using HTTP
-authentication:
-% fusioninventory-agent --server localhost --user test --password s3cr3t
-
-Execute all available tasks and write the result in /tmp directory:
-% fusioninventory-agent --local /tmp
-
-Execute all available tasks and write the result in /tmp directory in
-HTML format:
-% fusioninventory-agent --local /tmp --html
-
-Server scheduling
------------------
-
-The FusionInventory agent communicates with its control server using the OCS
-Inventory protocol, which is based on XML exchanges over HTTP(s).
-
-Prologue
-
-The agent sends a first message with its identity (DEVICEID). The server
-replies with a list of tasks to execute immediatly, a list of parameters, and
-the maximum delay before next contact time, as PROLOG_FREQ parameter.
-
-Execution
-
-The agent runs every available tasks requested by the server during the
-prologue, and sends the results back to it.
-
-Sleep
-
-The agent then sleeps during a random delay bounded by PROLOG_FREQ parameter
-given by the server in the prologue. The exact moment occurs between half of
-the value and the full value. For instance, if PROLOG_FREQ value is 3600, the
-next contact will occurs between half an hour and an hour.
-
-Security
---------
-They are several potential security issues in fusioninventory.
-
-First, the server automatically trust any received message, using the
-identifier found in the message (unfortunatly called DEVICEID) to identify the
-sending agent. If you want to protect your machine inventory from rogue
-reports, you have to restrict access to the plugin location on your GLPI
-server, typically using HTTP authentication. And preferentially over HTTPS,
-to prevent password sniffing.
-
-Second, some messages between the server and the agent may contain sensible
-informations. For instance, NetInventory tasks involves sending SNMP
-credentials from the server to the agent. In this case, HTTPS usage ensures
-proper communication encryption.
-
-Third, some tasks are explicitely designed to make the agent execute arbitrary
-commands on its host. For instance, the Deploy task is used to install
-software on agent side. In this case, HTTPS usage ensures proper server
-authentication.
-
-SSL support
------------
-LWP (also known as libwww-perl) is able to use either Crypt::SSLeay or
-IO::Socket::SSL transparently as underlying socket implementation for HTTPS
-support. However, only the second one is able to perform server certificate
-validation. As a consequence, the agent will refuse to use HTTPS, and exit
-immediatly if IO::Socket::SSL is not available, unless certificate checking has
-been explicitely disabled (--no-ssl-check command line parameter, or
-no-ssl-check configuration parameter).
-
-The SSL protocol version supported by the agent is dependant of openssl
-version. In particular, usage of specific certificate signature algorithms such
-as SHA requires at least openssl 0.9.8o, as it is supposed to be allowed
-starting from TLS 1.1 only. Failure to comply will result in error message such
-as:
-warning: TLS library problem: 14710:error:0D0C50A1:asn1 encoding
-routines:ASN1_item_verify:unknown message digest algorithm:a_verify.c:146:
-
-This can be controlled in the certificate itself:
-[guillaume@beria ~]$ openssl x509 -noout -text -in cert.pem | grep Signature
-Signature Algorithm: sha256WithRSAEncryption
-Signature Algorithm: sha256WithRSAEncryption
-
-The available workaround:
-- ensure server certificate complies with clients capacities, using controlled
-  certificate generation parameters
-- ensure clients capacities matches server certificate properties, upgrading
-  openssl and its perl bindings (Net::SSLeay)
-- disable server certificate checking on client
-
-Contacts
---------
 
 Project websites:
-* main site: http://www.fusioninventory.org
-* forge: http://forge.fusioninventory.org
+
+* main site: <http://www.fusioninventory.org>
+* forge: <http://forge.fusioninventory.org>
 
 Project mailing lists:
-* http://lists.alioth.debian.org/mailman/listinfo/fusioninventory-user
-* http://lists.alioth.debian.org/mailman/listinfo/fusioninventory-devel
+
+* <http://lists.alioth.debian.org/mailman/listinfo/fusioninventory-user>
+* <http://lists.alioth.debian.org/mailman/listinfo/fusioninventory-devel>
 
 Project IRC channel:
+
 * #FusionInventory on FreeNode IRC Network
 
 Please report any issues on project forge bugtracker.
 
-Authors 
--------
+# Authors 
+
 * Gonéri Le Bouder <goneri@rulezlan.org>
 * Guillaume Rousse <guillomovitch@gmail.com>
 
 Copyright 2006-2010 OCS Inventory contributors
 Copyright 2010-2012 FusionInventory Team
 
-License
--------
+# License
+
 This software is licensed under the terms of GPLv2+, see LICENSE file for
 details.
 
-Additional pieces of software
------------------------------
+# Additional pieces of software
 
 The memconf script:
-url: http://myweb.cableone.net/4schmidts/memconf.html
-author: Tom Schmidt
-copyright: 1996-2009 Tom Schmidt
+
+* url: <http://myweb.cableone.net/4schmidts/memconf.html>
+* author: Tom Schmidt
+* copyright: 1996-2009 Tom Schmidt
 
 The fusioninventory-injector script:
-author: Pascal Danek
-copyright: 2005 Pascal Danek
+
+* author: Pascal Danek
+* copyright: 2005 Pascal Danek
 
 FusionInventory::Agent::Task::Inventory::Input::Virtualization::Vmsystem
 contains code from imvirt:
-url: http://micky.ibh.net/~liske/imvirt.html
-author: Thomas Liske <liske@ibh.de>
-copyright: 2008 IBH IT-Service GmbH [http://www.ibh.de/]
-License: GPLv2+
+
+* url: <http://micky.ibh.net/~liske/imvirt.html>
+* author: Thomas Liske <liske@ibh.de>
+* copyright: 2008 IBH IT-Service GmbH <http://www.ibh.de/>
+* License: GPLv2+

@@ -12,20 +12,47 @@ Linux:
 * Megaraid controller support (Egor Morozov)
 * Support new OpenVZ configuration (Alessandro Iurlano)
 
+2.2.7
+
+General:
+* additional hack for LG screens (#1848)
+* additional model for ACER screens hack (#1840)
+* fix directory creation error handling with older File::Path versions (#1817)
+* fix initial delay randomness (#1809)
+* fix spurious null character in decoded strings (#1837) 
+
+Windows:
+* fix missing bios release date on some machines (#1820, #1825)
+
+2.2.6  Fri, 14 Sep 2012 16:49:13 +0200
+
+Installation:
+* fix installation with older MakeMaker versions
+* do not generate html version of man pages
+* minor fixes to dependencies list
+
+General:
+* better fix for size parsing with HP RAID controllers, avoiding warnings
+  (#1807)
+* implement model-specific hack for ACER screens serials (#1607)
+
+Linux:
+* fix parsing of newer ifconfig output, such as used on Fedora 17
+
 2.2.5  Thu, 16 Aug 2012 12:03:30 +0200
 General:
 * Fix: deal with broken last_state file
 * Fix: fix HP RAID size parsing
-* Fix: Virtual machine inventory with VMware desktop
+* Fix: virtual machine inventory with VMware desktop
 * Fix: add /usr/local/{bin,sbin} in default $PATH
 
 Windows:
 * Fix: do not run dmidecode.exe on Win2003
-* Fix: Software inventory
+* Fix: software inventory
 
 Solaris:
 * Fix: improve ZFS support
-Fix: get memory on solaris on Sun-Fire-V490
+* Fix: get memory on solaris on Sun-Fire-V490
 
 HP-UX:
 * Fix: variou syntax issues (Drives, Uptime, etc)

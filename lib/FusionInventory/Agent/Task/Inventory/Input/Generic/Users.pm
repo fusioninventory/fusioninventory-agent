@@ -5,8 +5,6 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
-my $seen;
-
 sub isEnabled {
     return 
         canRun('who')  ||
@@ -20,15 +18,9 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my @users = (
-        _getLoggedUsers(logger => $logger),
-        _getLocalUsers(logger => $logger)
-    );
+    my @users = _getLocalUsers(logger => $logger);
 
     foreach my $user (@users) {
-        # avoid duplicates
-        next if $seen->{$user->{LOGIN}}++;
-
         $inventory->addEntry(
             section => 'USERS',
             entry   => $user
@@ -37,26 +29,6 @@ sub doInventory {
 
     my $last = _getLastUser(logger => $logger);
     $inventory->setHardware($last);
-}
-
-sub _getLoggedUsers {
-    my (%params) = (
-        command => 'who',
-        @_
-    );
-
-    my $handle = getFileHandle(%params);
-    return unless $handle;
-
-    my @users;
-
-    while (my $line = <$handle>) {
-        next unless $line =~ /^(\S+)/;
-        push @users, { LOGIN => $1 };
-    }
-    close $handle;
-
-    return @users;
 }
 
 sub _getLocalUsers {
@@ -69,18 +41,56 @@ sub _getLocalUsers {
     return unless $handle;
 
     my @users;
+    my %groups = _getLocalGroups(logger => $params{logger});
 
     while (my $line = <$handle>) {
         next if $line =~ /^#/;
-        my ($login, undef, $uid) = split(/:/, $line);
+        my ($login, undef, $uid, $gid, $gecos, $home, $shell) =
+            split(/:/, $line);
         # assume users with lower uid are system users
         next if $uid < 500;
         next if $login eq 'nobody';
-        push @users, { LOGIN => $login };
+
+        my @groups = scalar getgrgid($gid); # primary group
+        push @groups, @{$groups{$login}} if $groups{$login};
+
+        push @users, {
+            LOGIN => $login,
+            ID    => $uid,
+            GROUP => \@groups,
+            NAME  => $gecos,
+            HOME  => $home,
+            SHELL => $shell
+        };
     }
     close $handle;
 
     return @users;
+}
+
+sub _getLocalGroups {
+    my (%params) = (
+        file => '/etc/group',
+        @_
+    );
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my %groups;
+
+    while (my $line = <$handle>) {
+        next if $line =~ /^#/;
+        chomp $line;
+        my ($group, undef, undef, $members) = split(/:/, $line);
+        my @members = split(/,/, $members);
+        foreach my $member (@members) {
+            push @{$groups{$member}}, $group;
+        }
+    }
+    close $handle;
+
+    return %groups;
 }
 
 sub _getLastUser {

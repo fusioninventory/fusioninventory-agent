@@ -13,7 +13,6 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger    = $params{logger};
 
     my $ssh_key = getFirstMatch(
         command => 'ssh-keyscan 127.0.0.1',

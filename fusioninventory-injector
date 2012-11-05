@@ -29,10 +29,10 @@ GetOptions(
 $OUTPUT_AUTOFLUSH = 1;
 pod2usage(-verbose => 0, -exitstatus => 0) if $options{help};
 
-if ($options{file}) {
-    loadfile($options{file});
-} elsif ($options{stdin}) {
+if ($options{stdin}) {
     loadstdin();
+} elsif ($options{file}) {
+    loadfile($options{file});
 } elsif ($options{directory}) {
    loaddirectory($options{directory});
 } else {
@@ -42,35 +42,38 @@ if ($options{file}) {
 exit(0);
 
 sub loadfile {
-    my $file = shift;
+    my ($file) = @_;
 
     die "file $file does not exist" unless -f $file;
     die "file $file is not readable" unless -r $file;
 
     print "Loading $file..." if $options{verbose};
 
-    open (my $fh, '<', $file) or die "can't open file $file: $ERRNO";
+    open (my $handle, '<', $file) or die "can't open file $file: $ERRNO\n";
     ## no critic (ProhibitBitwise)
-    flock ($fh, LOCK_EX | LOCK_NB) or die "can't lock file $file: $ERRNO";
+    flock ($handle, LOCK_EX | LOCK_NB) or die "can't lock file $file: $ERRNO\n";
     local $RS;
-    my $content = <$fh>;
-    close $fh or die "Can't close file $file: $ERRNO";
+    my $content = <$handle>;
+    close $handle or die "Can't close file $file: $ERRNO\n";
 
-    sendContent($content);
+    my $success = sendContent($content);
+    if ($success && $options{remove}) {
+        unlink $file or warn "Can't remove $file: $ERRNO\n"
+    }
 }
 
 sub loaddirectory {
-    my $directory = shift;
+    my ($directory) = @_;
 
     die "directory $directory does not exist" unless -d $directory;
     die "directory $directory is not readable" unless -r $directory;
 
-    opendir (my $dh, $directory)
-        or die "can't open directory $directory: $ERRNO";
-    foreach ( readdir($dh) ) {
-        loadfile("$directory/$_") if (/\.ocs$/);
+    opendir (my $handle, $directory)
+        or die "can't open directory $directory: $ERRNO\n";
+    foreach my $file (readdir($handle)) {
+        loadfile("$directory/$file") if $file =~ /\.ocs$/;
     }
-    closedir $dh;
+    closedir $handle;
 }
 
 sub loadstdin {
@@ -84,7 +87,10 @@ sub sendContent {
     my $content = shift;
 
     my $ua = LWP::UserAgent->new(
-        agent => $options{useragent}
+        agent => $options{useragent},
+        parse_head => 0, # No need to parse HTML
+        keep_alive => 1,
+        requests_redirectable => ['POST', 'GET', 'HEAD']
     );
     my $request = HTTP::Request->new( POST => $options{url} );
     $request->header(
@@ -97,16 +103,12 @@ sub sendContent {
     $request->content(compress($content));
     my $res = $ua->request($request);
 
-    if ($res->is_success()) {
-        print "OK\n" if $options{verbose};
-        print STDERR "Can't remove $options{file}: $ERRNO\n"
-            if ($options{remove} && (!unlink $options{file}));
-    } else {
-        if ($options{verbose}) {
-            print "ERROR: ";
-            print $res->status_line(), "\n";
-        }
+    if ($options{verbose}) {
+        print $res->is_success() ?
+            "OK\n" : "ERROR: " . $res->status_line() . "\n";
     }
+
+    return $res->is_success();
 }
 
 __END__
@@ -117,7 +119,7 @@ fusioninventory-injector - A tool to push inventory in an OCS Inventory or compa
 
 =head1 SYNOPSIS
 
-fusioninventory-injector [options] [--file <file>|--directory <directory|--stdin]
+fusioninventory-injector [options] [--file <file>|--directory <directory>|--stdin]
 
   Options:
     -h --help      this menu

@@ -27,31 +27,41 @@ sub addMessage {
     my $level = $params{level};
     my $message = $params{message};
 
+    my $handle;
     if ($self->{logfile_maxsize}) {
         my $stat = stat($self->{logfile});
         if ($stat && $stat->size() > $self->{logfile_maxsize}) {
-            unlink $self->{logfile}
-                or warn "Can't unlink $self->{logfile}: $ERRNO";
+            if (!open $handle, '>', $self->{logfile}) {
+                warn "Can't open $self->{logfile}: $ERRNO";
+                return;
+            }
         }
     }
 
-    my $handle;
-    if (open $handle, '>>', $self->{logfile}) {
-
-        # get an exclusive lock on log file
-        flock($handle, LOCK_EX|LOCK_NB)
-            or die "can't get an exclusive lock on $self->{logfile}: $ERRNO";
-
-        print {$handle}
-            "[". localtime() ."]" .
-            "[$level]" .
-            " $message\n";
-
-        # closing handle release the lock automatically
-        close $handle;
-    } else {
-        die "can't open $self->{logfile}: $ERRNO";
+    if (!$handle && !open $handle, '>>', $self->{logfile}) {
+        warn "can't open $self->{logfile}: $ERRNO";
+        return;
     }
+
+    my $locked;
+    my $retryTill = time + 60;
+
+    while ($retryTill > time && !$locked) {
+        # get an exclusive lock on log file
+        $locked = 1 if flock($handle, LOCK_EX|LOCK_NB);
+    }
+
+    if (!$locked) {
+        die "can't get an exclusive lock on $self->{logfile}: $ERRNO";
+    }
+
+    print {$handle}
+        "[". localtime() ."]" .
+        "[$level]" .
+        " $message\n";
+
+    # closing handle release the lock automatically
+    close $handle;
 
 }
 

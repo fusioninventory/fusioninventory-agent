@@ -94,7 +94,7 @@ sub _computeNextRunDate {
 
     my $ret;
     if ($self->{initialDelay}) {
-        $ret = time + $self->{initialDelay};
+        $ret = time + ($self->{initialDelay} / 2) + int rand($self->{initialDelay} / 2);
         $self->{initialDelay} = undef;
     } else {
         $ret =

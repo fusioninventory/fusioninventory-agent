@@ -46,7 +46,6 @@ sub run {
 
     my $inventory = FusionInventory::Agent::Task::Inventory::Inventory->new(
         deviceid => $self->{deviceid},
-#        statedir => $self->{target}->getStorage()->getDirectory(),
         logger   => $self->{logger},
         tag      => $self->{config}->{'tag'}
     );

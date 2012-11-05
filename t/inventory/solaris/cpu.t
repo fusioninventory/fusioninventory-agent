@@ -4,178 +4,215 @@ use strict;
 use warnings;
 
 use Test::More;
+use Test::MockModule;
 
 use FusionInventory::Agent::Task::Inventory::Input::Solaris::CPU;
 
-my %memconf_tests = (
-    sample4 => [
-        2,
-        {
-            NAME         => 'Opteron(tm) Processor 270',
-            MANUFACTURER => 'AMD',
-            SPEED        => '1993',
-            CORE         => '2'
-        },
-    ],
-    sample3 => [
-        1,
-        {
-            NAME         => 'SPARC-T3 (16-Core 8-Thread)',
-            MANUFACTURER => 'Sun Microsystems',
-            SPEED        => '1649',
-            CORE         => '16',
-            THREAD       => '8'
-        },
-    ],
-    sample2 => [
-        1,
-        {
-            NAME         => 'UltraSPARC-IIi',
-            MANUFACTURER => 'Sun Microsystems',
-            SPEED        => '270',
-            CORE         => '1'
-        },
-    ],
-    sample1 => [
-        2,
-        {
-            NAME         => 'Xeon(R) E7320',
-            MANUFACTURER => 'Intel',
-            SPEED        => '2130',
-            CORE         => '4'
-        },
-    ]
+my %vpcu_tests = (
+    unstable9s  => [ 24, { speed => '1165', type => 'sparcv9' } ],
+    unstable9x  => [  4, { speed => '2333', type => 'i386'    } ],
+    unstable10s => [ 24, { speed => '1165', type => 'sparcv9' } ],
+    unstable10x => [  4, { speed => '2333', type => 'i386'    } ],
+    unstable11s => [  4, { speed => '1165', type => 'sparcv9' } ],
+    unstable11x => [  4, { speed => '2326', type => 'i386'    } ],
+    giration    => [ 16, { speed => '1350', type => 'sparcv9' } ],
+    v240        => [  2, { speed => '1280', type => 'sparcv9' } ],
+    v490        => [  8, { speed => '1350', type => 'sparcv9' } ],
+    t5120       => [ 32, { speed => '1165', type => 'sparcv9' } ],
 );
 
-my %psrinfo_tests = (
-    sample1 => [
+my %pcpu_tests = (
+    unstable9s => [
+        1,
+        { speed => '1165', type => 'UltraSPARC-T2', count => 24 }
+    ],
+    unstable9x => [
+        4,
+        { type => 'i386', count => 1 }
+    ],
+    unstable10s => [
+        1,
+        { speed => '1165', type => 'UltraSPARC-T2', count => 24 }
+    ],
+    unstable10x => [
+        4,
+        { speed => '2333', type => 'Xeon E5410', count => 1 }
+    ],
+    unstable11s => [
+        1,
+        { speed => '1165', type => 'UltraSPARC-T2', count => 4 }
+    ],
+    unstable11x => [
+        4,
+        { speed => '2326', type => 'Xeon E5410', count => 1 }
+    ],
+    giration => [
+        8,
+        { speed => '1350', type => 'UltraSPARC-IV', count => 2 }
+    ],
+    v240 => [
+        2,
+        { type => 'UltraSPARC-IIIi', count => 1 }
+    ],
+    v490 => [
+        4,
+        { speed => '1350', type => 'UltraSPARC-IV', count => 2 }
+    ],
+    t5120 => [
+        1,
+        { speed => '1165', type => 'UltraSPARC-T2', count => 32 }
+    ],
+);
+
+my %cpu_tests = (
+    unstable9s => [
+        1,
+        { 
+            NAME         => 'UltraSPARC-T2',
+            MANUFACTURER => 'SPARC',
+            SPEED        => '1165',
+            THREAD       => 8,
+            CORE         => 3
+        }
+    ],
+    unstable9x => [
+        4,
+        { 
+            NAME         => 'i386',
+            MANUFACTURER => undef,
+            SPEED        => '2333',
+            THREAD       => 1,
+            CORE         => 1
+        }
+    ],
+    unstable10s => [
+        1,
+        {
+            NAME         => 'UltraSPARC-T2',
+            MANUFACTURER => 'SPARC',
+            SPEED        => '1165',
+            THREAD       => 8,
+            CORE         => 3
+        }
+    ],
+    unstable10x => [
+        4,
+        { 
+            NAME         => 'Xeon E5410',
+            MANUFACTURER => 'Intel',
+            SPEED        => '2333',
+            THREAD       => 1,
+            CORE         => 1
+        }
+    ],
+    unstable11s => [
+        1,
+        { 
+            NAME         => 'UltraSPARC-T2',
+            MANUFACTURER => 'SPARC',
+            SPEED        => '1165',
+            THREAD       => 8,
+            CORE         => 0.5
+        }
+    ],
+    unstable11x => [
+        4,
+        { 
+            NAME         => 'Xeon E5410',
+            MANUFACTURER => 'Intel',
+            SPEED        => '2326',
+            THREAD       => 1,
+            CORE         => 1
+        }
+    ],
+    giration => [
         8,
         {
-            NAME  => 'i386',
-            SPEED => 2133
-        }
-    ]
-);
-
-my %spec_tests = (
-    'Sun Microsystems, Inc. Sun-Fire-T200 (Sun Fire T2000) (8-core quad-thread UltraSPARC-T1 1000MHz)' => [
-        1,
-        {
-            NAME         => 'UltraSPARC-T1 (8-core quad-thread)',
-            MANUFACTURER => 'Sun Microsystems',
-            SPEED        => '1000',
-            THREAD       => '4',
-            CORE         => '8'
+            NAME         => 'UltraSPARC-IV',
+            MANUFACTURER => 'SPARC',
+            SPEED        => '1350',
+            THREAD       => 1,
+            CORE         => 2
         }
     ],
-    'Sun Microsystems, Inc. Sun Fire 880 (4 X UltraSPARC-III 750MHz)' => [
-        4,
-        {
-            NAME         => 'UltraSPARC-III',
-            MANUFACTURER => 'Sun Microsystems',
-            SPEED        => '750',
-            CORE         => '1'
-        }
-    ],
-    'Sun Microsystems, Inc. SPARC Enterprise T5120 (8-core 8-thread UltraSPARC-T2 1165MHz)' => [
-        1,
-        {
-            NAME         => 'UltraSPARC-T2 (8-core 8-thread)',
-            MANUFACTURER => 'Sun Microsystems',
-            SPEED        => '1165',
-            THREAD       => '8',
-            CORE         => '8'
-        }
-    ],
-    'Sun Microsystems, Inc. Sun Fire V240 (UltraSPARC-IIIi 1002MHz)' => [
-        1,
-        {
-            NAME         => 'UltraSPARC-IIIi',
-            MANUFACTURER => 'Sun Microsystems',
-            SPEED        => '1002',
-            CORE         => '1'
-        }
-    ],
-    'Sun Microsystems, Inc. Sun SPARC Enterprise M5000 Server (6 X dual-core dual-thread SPARC64-VI 2150MHz)' => [
-        6,
-        {
-            NAME         => 'SPARC64-VI (dual-core dual-thread)',
-            MANUFACTURER => 'Sun Microsystems',
-            SPEED        => '2150',
-            THREAD       => '2',
-            CORE         => '2'
-        }
-    ],
-    'Sun Microsystems, Inc. Sun Fire V490 (2 X dual-thread UltraSPARC-IV 1350MHz)' => [
+    v240 => [
         2,
         {
-            NAME         => 'UltraSPARC-IV (dual-thread)',
-            MANUFACTURER => 'Sun Microsystems',
+            NAME         => 'UltraSPARC-IIIi',
+            MANUFACTURER => 'SPARC',
+            SPEED        => '1280',
+            THREAD       => 1,
+            CORE         => 1
+        }
+    ],
+    v490 => [
+        4,
+        { 
+            NAME         => 'UltraSPARC-IV',
+            MANUFACTURER => 'SPARC',
             SPEED        => '1350',
-            THREAD       => '2',
-            CORE         => '2'
+            THREAD       => 1,
+            CORE         => 2
         }
     ],
-    'Sun Microsystems, Inc. Sun Fire V20z (Solaris x86 machine) (2 X Dual Core AMD Opteron(tm) Processor 270 1993MHz)' => [
-        '2',
-        {
-            NAME         => 'Opteron(tm) Processor 270',
-            MANUFACTURER => 'AMD',
-            SPEED        => '1993',
-            CORE         => '2'
-        }
-    ],
-    'Fujitsu SPARC Enterprise M4000 Server (4 X dual-core dual-thread SPARC64-VI 2150MHz)' => [
-        '4',
-        {
-            NAME         => 'SPARC64-VI (dual-core dual-thread)',
-            MANUFACTURER => 'Fujitsu',
-            SPEED        => '2150',
-            THREAD       => '2',
-            CORE         => '2'
-        }
-    ],
-    'Sun Microsystems, Inc. Sun-Fire-T200 (Sun Fire T2000) (4-core quad-thread UltraSPARC-T1 1000MHz)'
-      => [
+    t5120 => [
         1,
         {
-            NAME         => 'UltraSPARC-T1 (4-core quad-thread)',
-            MANUFACTURER => 'Sun Microsystems',
-            SPEED        => '1000',
-            THREAD       => '4',
-            CORE         => '4'
-        }
-    ],
-    'Sun Microsystems, Inc. SPARC Enterprise T5120 (4-core 8-thread UltraSPARC-T2 1165MHz)' => [
-        1,
-        {
-            NAME         => 'UltraSPARC-T2 (4-core 8-thread)',
-            MANUFACTURER => 'Sun Microsystems',
-            SPEED        => '1165',
-            THREAD       => '8',
-            CORE         => '4'
+            NAME         => 'UltraSPARC-T2',
+            MANUFACTURER => 'SPARC',
+            SPEED        => 1165,
+            THREAD       => 8,
+            CORE         => 4
         }
     ]
 );
 
 plan tests => 
-    (scalar keys %memconf_tests) +
-    (scalar keys %psrinfo_tests) +
-    (scalar keys %spec_tests)    ;
+    2 * (scalar keys %vpcu_tests) +
+    2 * (scalar keys %pcpu_tests) +
+    2 * (scalar keys %cpu_tests) ;
 
-foreach my $test (keys %memconf_tests) {
-    my $file    = "resources/solaris/memconf/$test";
-    my @results = FusionInventory::Agent::Task::Inventory::Input::Solaris::CPU::_getCPUFromMemconf(file => $file);
-    is_deeply(\@results, $memconf_tests{$test}, "memconf parsing: $test" );
+foreach my $test (keys %vpcu_tests) {
+    my $file = "resources/solaris/psrinfo/$test-psrinfo_v";
+    my @cpus = FusionInventory::Agent::Task::Inventory::Input::Solaris::CPU::_getVirtualCPUs(file => $file);
+    is(scalar @cpus,    $vpcu_tests{$test}->[0], "virtual cpus count: $test");
+    is_deeply($cpus[0], $vpcu_tests{$test}->[1], "virtual cpus values: $test");
 }
 
-foreach my $test (keys %psrinfo_tests) {
-    my $file    = "resources/solaris/psrinfo/$test";
-    my @results = FusionInventory::Agent::Task::Inventory::Input::Solaris::CPU::_getCPUFromPsrinfo(file => $file);
-    is_deeply(\@results, $psrinfo_tests{$test}, "psrinfo parsing: $test" );
+foreach my $test (keys %pcpu_tests) {
+    my $file = "resources/solaris/psrinfo/$test-psrinfo_vp";
+    my @cpus = FusionInventory::Agent::Task::Inventory::Input::Solaris::CPU::_getPhysicalCPUs(file => $file);
+    is(scalar @cpus,    $pcpu_tests{$test}->[0], "physical cpus count: $test" );
+    is_deeply($cpus[0], $pcpu_tests{$test}->[1], "physical cpus values: $test");
 }
 
-foreach my $test (keys %spec_tests) {
-    my @results = FusionInventory::Agent::Task::Inventory::Input::Solaris::CPU::_parseSpec($test);
-    is_deeply(\@results, $spec_tests{$test}, "spec parsing: $test" );
+my $module = Test::MockModule->new(
+    'FusionInventory::Agent::Task::Inventory::Input::Solaris::CPU'
+);
+
+foreach my $test (keys %cpu_tests) {
+    $module->mock(
+        '_getVirtualCPUs',
+        sub {
+            my $original = $module->original('_getVirtualCPUs');
+            return $original->(
+                file => "resources/solaris/psrinfo/$test-psrinfo_v"
+            );
+        }
+    );
+
+    $module->mock(
+        '_getPhysicalCPUs',
+        sub {
+            my $original = $module->original('_getPhysicalCPUs');
+            return $original->(
+                file => "resources/solaris/psrinfo/$test-psrinfo_vp"
+            );
+        }
+    );
+
+    my @cpus = FusionInventory::Agent::Task::Inventory::Input::Solaris::CPU::_getCPUs();
+    is(scalar @cpus,    $cpu_tests{$test}->[0], "cpus count: $test" );
+    is_deeply($cpus[0], $cpu_tests{$test}->[1], "cpus values: $test");
 }
+
