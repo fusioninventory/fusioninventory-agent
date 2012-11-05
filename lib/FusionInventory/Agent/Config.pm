@@ -198,19 +198,25 @@ sub _checkContent {
         # transfer the value to the new option, if possible
         if ($handler->{new}) {
             if (ref $handler->{new} eq 'HASH') {
-                # list of new options with new values
+                # old boolean option replaced by new non-boolean options
                 foreach my $key (keys %{$handler->{new}}) {
-                    $self->{$key} = $self->{$key} ?
-                        $self->{$key} . ',' . $handler->{new}->{$key} :
-                        $handler->{new}->{$key};
+                    my $value = $handler->{new}->{$key};
+                    if ($value =~ /^\+(\S+)/) {
+                        # multiple values: add it to exiting one
+                        $self->{$key} = $self->{$key} ?
+                            $self->{$key} . ',' . $1 : $1;
+                    } else {
+                        # unique value: replace exiting value
+                        $self->{$key} = $value;
+                    }
                 }
             } elsif (ref $handler->{new} eq 'ARRAY') {
-                # list of new options, with same value
+                # old boolean option replaced by new boolean options
                 foreach my $new (@{$handler->{new}}) {
                     $self->{$new} = $self->{$old};
                 }
             } else {
-                # new option, with same value
+                # old non-boolean option replaced by new option
                 $self->{$handler->{new}} = $self->{$old};
             }
         }
