@@ -101,5 +101,3 @@ informations.
 =head2 getAdobeLicense
 
 Returns a structured view of Adobe license.
-
-=back

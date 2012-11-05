@@ -356,6 +356,8 @@ Returns a command in a Win32 Process
 
 Return an array
 
+=over
+
 =item exitcode the error code, 293 means a timeout occurred
 
 =item fd a file descriptor on the output
