@@ -23,11 +23,6 @@ if ($OSNAME eq 'MSWin32') {
     requires 'Win32::TieRegistry' => undef;
     requires 'Win32::Job'         => undef;
 }
-if ($OSNAME eq 'MSWin32') {
-    requires 'Win32::OLE'         => undef;
-    requires 'Win32::TieRegistry' => undef;
-    requires 'Win32::Job'         => undef;
-}
 
 # optional dependencies
 recommends 'Parse::EDID'      => undef;
