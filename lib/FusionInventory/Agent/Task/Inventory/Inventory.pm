@@ -296,10 +296,6 @@ The constructor. The following parameters are allowed, as keys of the
 
 a logger object
 
-=item I<statedir>
-
-a path to a writable directory containing the last serialized inventory
-
 =item I<tag>
 
 an arbitrary label, used for server-side filtering
