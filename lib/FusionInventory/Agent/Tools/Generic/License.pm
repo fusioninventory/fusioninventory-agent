@@ -19,7 +19,6 @@ sub _parseAdobeSerial {
 # Thanks to Brandon Mulcahy
 # http://www.a1vbcode.com/snippet-4796.asp
 # http://blog.eka808.com/?p=251
-    my $final = "";
     my @subCipherKey = qw/
         0000000001 5038647192 1456053789 2604371895
         4753896210 8145962073 0319728564 7901235846

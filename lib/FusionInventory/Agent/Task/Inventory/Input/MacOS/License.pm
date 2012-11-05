@@ -42,7 +42,6 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory    = $params{inventory};
-    my $scanhomedirs = $params{scan_homedirs};
 
     ### Adobe
     my @found = getAdobeLicenses( command => 'sqlite3 -separator " <> " "/Library/Application Support/Adobe/Adobe PCD/cache/cache.db" "SELECT * FROM domain_data"');

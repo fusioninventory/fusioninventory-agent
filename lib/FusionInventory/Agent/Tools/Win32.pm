@@ -190,7 +190,6 @@ sub runCommand {
     my $job = Win32::Job->new();
 
     my $buff = File::Temp->new();
-    my $void = File::Temp->new();
 
     my $winCwd = Cwd::getcwd();
     $winCwd =~ s{/}{\\}g;
