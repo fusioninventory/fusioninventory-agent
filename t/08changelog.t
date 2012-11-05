@@ -23,6 +23,6 @@ open CHANGES, 'Changes' or die;
 my $line = <CHANGES>;
 
 $line =~ /^[\d\.]+\s+(\S.*)/;
-ok(DateTime::Format::Mail->parse_datetime($1), "RFC822 date format (date -R)");
+ok($1 && DateTime::Format::Mail->parse_datetime($1), "RFC822 date format (date -R)");
 
 
