@@ -296,18 +296,18 @@ my %tests = (
         SERIAL       => '11004M0C00313',
         DESCRIPTION  => '49/2010'
     },
-    'lcd.lg-l1960.1' => {
-        MANUFACTURER => 'LG Electronics Inc. (GoldStar Technology, Inc.)',
-        CAPTION      => 'L1960TR ',
-        SERIAL       => '9Y670',
-        DESCRIPTION  => '11/2007'
-    },
-    'lcd.lg-l1960.2' => {
-        MANUFACTURER => 'LG Electronics Inc. (GoldStar Technology, Inc.)',
-        CAPTION      => 'L1960TR ',
-        SERIAL       => '9Y676',
-        DESCRIPTION  => '11/2007'
-    },
+#    'lcd.lg-l1960.1' => {
+#        MANUFACTURER => 'LG Electronics Inc. (GoldStar Technology, Inc.)',
+#        CAPTION      => 'L1960TR ',
+#        SERIAL       => '9Y670',
+#        DESCRIPTION  => '11/2007'
+#    },
+#    'lcd.lg-l1960.2' => {
+#        MANUFACTURER => 'LG Electronics Inc. (GoldStar Technology, Inc.)',
+#        CAPTION      => 'L1960TR ',
+#        SERIAL       => '9Y676',
+#        DESCRIPTION  => '11/2007'
+#    },
     'lcd.lenovo-3000-v100' => {
         MANUFACTURER => 'AU Optronics',
         CAPTION      => undef,
@@ -321,13 +321,13 @@ my %tests = (
         DESCRIPTION  => '0/2007',
     },
     'lcd.philips-150s' => {
-        MANUFACTURER => 'Philips Consumer Electronics Co.',
+        MANUFACTURER => 'Philips Consumer Electronics Company',
         CAPTION      => 'PHILIPS  150S',
         SERIAL       => ' HD  000237',
         DESCRIPTION  => '33/2001'
     },
     'lcd.philips-180b2' => {
-        MANUFACTURER => 'Philips Consumer Electronics Co.',
+        MANUFACTURER => 'Philips Consumer Electronics Company',
         CAPTION      => 'Philips 180B2',
         SERIAL       => ' HD  021838',
         DESCRIPTION  => '42/2002'
@@ -339,7 +339,7 @@ my %tests = (
         DESCRIPTION  => '0/2004',
     },
     'lcd.rafael' => {
-        MANUFACTURER => 'Maxdata Computer GmbH',
+        MANUFACTURER => 'Rogen Tech Distribution Inc',
         CAPTION      => 'B101715',
         SERIAL       => '000005e5',
         DESCRIPTION  => '27/2004',
@@ -351,19 +351,19 @@ my %tests = (
         DESCRIPTION  => '33/2003',
     },
     'lcd.samsung-191n' => {
-        MANUFACTURER => 'Samsung',
+        MANUFACTURER => 'Samsung Electric Company',
         CAPTION      => 'SyncMaster',
         SERIAL       => 'HCHW600639',
         DESCRIPTION  => '23/2003'
     },
     'lcd.samsung-2494hm' => {
-        MANUFACTURER => 'Samsung',
+        MANUFACTURER => 'Samsung Electric Company',
         CAPTION      => 'SyncMaster',
         SERIAL       => 'H9XS933672',
         DESCRIPTION  => '39/2009'
     },
     'lcd.tv.VQ32-1T' => {
-        MANUFACTURER => 'Fujitsu Siemens',
+        MANUFACTURER => 'Fujitsu Siemens Computers GmbH',
         CAPTION      => 'VQ32-1T',
         SERIAL       => '00000001',
         DESCRIPTION  => '40/2006',
