@@ -324,8 +324,7 @@ foreach my $test (keys %mips) {
 foreach my $test (keys %arm) {
     my $file = "resources/linux/proc/cpuinfo/$test";
     my @cpus = FusionInventory::Agent::Task::Inventory::Input::Linux::Archs::ARM::_getCPUsFromProc(file => $file);
-    is_deeply(\@cpus, $arm{$test}, $test) or print Dumper(\@cpus);
-    use Data::Dumper;
+    is_deeply(\@cpus, $arm{$test}, $test);
 }
 
 foreach my $test (keys %ppc) {

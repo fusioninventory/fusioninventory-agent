@@ -396,7 +396,6 @@ SKIP: {
     foreach my $test (sort keys %edid_tests) {
         my $file = "resources/generic/edid/$test";
         my $edid = getAllLines(file => $file);
-        print "test: $test\n";
         my $info = FusionInventory::Agent::Task::Inventory::Input::Generic::Screen::_getEdidInfo($edid);
         is_deeply($info, $edid_tests{$test}, $test);
     }

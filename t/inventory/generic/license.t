@@ -2,7 +2,6 @@
 
 use strict;
 use warnings;
-use Data::Dumper;
 use Test::More;
 
 use FusionInventory::Agent::Tools::Generic::License;
@@ -29,7 +28,7 @@ plan tests => scalar keys %adobe_tests;
 foreach my $test (keys %adobe_tests) {
     my $file = "resources/generic/license/adobe/cache.db-$test";
     my @licenses = FusionInventory::Agent::Tools::Generic::License::getAdobeLicenses(file => $file);
-    is_deeply(\@licenses, $adobe_tests{$test}, $test) or print Dumper(\@licenses);
+    is_deeply(\@licenses, $adobe_tests{$test}, $test);
 }
 
 1;
