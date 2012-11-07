@@ -10,9 +10,6 @@ use UNIVERSAL::require;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::Inventory::Input::Generic::Screen;
 
-plan(skip_all => 'Parse::EDID required')
-    unless Parse::EDID->require();
-
 my %edid_tests = (
     'crt.13' => {
         MANUFACTURER => 'Litronic Inc',
@@ -391,12 +388,18 @@ plan tests =>
     (scalar keys %edid_tests)        +
     (scalar keys %manufacturer_tests);
 
-foreach my $test (sort keys %edid_tests) {
-    my $file = "resources/generic/edid/$test";
-    my $edid = getAllLines(file => $file);
-    print "test: $test\n";
-    my $info = FusionInventory::Agent::Task::Inventory::Input::Generic::Screen::_getEdidInfo($edid);
-    is_deeply($info, $edid_tests{$test}, $test);
+SKIP: {
+
+    skip "Parse::EDID required", scalar keys %edid_tests
+        unless Parse::EDID->require();
+
+    foreach my $test (sort keys %edid_tests) {
+        my $file = "resources/generic/edid/$test";
+        my $edid = getAllLines(file => $file);
+        print "test: $test\n";
+        my $info = FusionInventory::Agent::Task::Inventory::Input::Generic::Screen::_getEdidInfo($edid);
+        is_deeply($info, $edid_tests{$test}, $test);
+    }
 }
 
 foreach my $test (sort keys %manufacturer_tests) {
@@ -406,4 +409,3 @@ foreach my $test (sort keys %manufacturer_tests) {
         "manufacturer identification: $test"
     );
 }
-
