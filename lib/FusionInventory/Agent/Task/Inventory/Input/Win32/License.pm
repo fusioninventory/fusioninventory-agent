@@ -61,11 +61,11 @@ sub _scanOffice {
     }
 
     my @products;
-    foreach(keys %$currentKey) {
-        next unless s/\/(\w+)NameVersion$//;
+    foreach my $entry (keys %$currentKey) {
+        next unless $entry =~ s/\/(\w+)NameVersion$//;
         my $product = $1;
         next unless $currentKey->{$product."NameVersion"};
-        push @products, $1;
+        push @products, $product;
     }
     if (@products) {
         $license{COMPONENTS} = join('/', @products);
