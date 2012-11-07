@@ -33,7 +33,7 @@ sub _scanOffice {
         $license{'NAME'} = encodeFromRegistry($currentKey->{ProductNameNonQualified});
     } elsif ($currentKey->{ProductNameVersion}) {
         $license{'NAME'} = encodeFromRegistry($currentKey->{ProductNameVersion});
-    } 
+    }
 
     if ($currentKey->{ProductName}) {
         $license{'FULLNAME'} = encodeFromRegistry($currentKey->{ProductName});
@@ -82,7 +82,7 @@ sub doInventory {
     my @found;
 
     _scanOffice($office, \@found);
-     
+
     foreach my $license (@found) {
         $params{inventory}->addEntry(section => 'LICENSEINFOS', entry => $license);
     }
