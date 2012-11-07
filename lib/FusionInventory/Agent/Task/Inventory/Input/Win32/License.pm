@@ -28,11 +28,9 @@ sub doInventory {
 
     my $office = $machKey->{"SOFTWARE/Microsoft/Office"};
 
-    my @found;
+    my @licenses = _scanOffice($office);
 
-    _scanOffice($office, \@found);
-
-    foreach my $license (@found) {
+    foreach my $license (@licenses) {
         $params{inventory}->addEntry(
             section => 'LICENSEINFOS',
             entry   => $license
@@ -42,7 +40,7 @@ sub doInventory {
 }
 
 sub _scanOffice {
-    my ($currentKey, $found) = @_;
+    my ($currentKey) = @_;
 
     my %license;
     if ($currentKey->{ProductID}) {
@@ -83,12 +81,16 @@ sub _scanOffice {
     if (@products) {
         $license{COMPONENTS} = join('/', @products);
     }
-    push @$found, \%license if $license{KEY};
+
+    my @licenses;
+    push @licenses, \%license if $license{KEY};
 
     foreach my $subKey (  $currentKey->SubKeyNames  ) {
         next if $subKey =~ /\//; # Oops, that's our delimitator
-        _scanOffice($currentKey->{$subKey}, $found);
+        push @licenses, _scanOffice($currentKey->{$subKey});
     }
+
+    return @licenses;
 }
 
 1;
