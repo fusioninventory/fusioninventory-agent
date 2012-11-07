@@ -471,11 +471,12 @@ sub _setGenericProperties {
             if ($raw_value =~ $mac_address_pattern) {
                 $value = $raw_value;
             } else {
-                alt2canonical($raw_value);
+                $value = alt2canonical($raw_value);
             }
         }
 
         $device->{INFO}->{$key} = $value;
+
     }
 
     if ($results->{ipAdEntAddr}) {
