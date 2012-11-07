@@ -40,31 +40,31 @@ sub doInventory {
 }
 
 sub _scanOffice {
-    my ($currentKey) = @_;
+    my ($key) = @_;
 
     my %license = {
-        PRODUCTID => $currentKey->{ProductID},
-        UPDATE    => $currentKey->{SPLevel},
-        OEM       => $currentKey->{OEM},
-        FULLNAME  => encodeFromRegistry($currentKey->{ProductName}) ||
-                     encodeFromRegistry($currentKey->{ConvertToEdition}),
-        NAME      => encodeFromRegistry($currentKey->{ProductNameNonQualified}) ||
-                     encodeFromRegistry($currentKey->{ProductNameVersion})
+        PRODUCTID => $key->{ProductID},
+        UPDATE    => $key->{SPLevel},
+        OEM       => $key->{OEM},
+        FULLNAME  => encodeFromRegistry($key->{ProductName}) ||
+                     encodeFromRegistry($key->{ConvertToEdition}),
+        NAME      => encodeFromRegistry($key->{ProductNameNonQualified}) ||
+                     encodeFromRegistry($key->{ProductNameVersion})
     };
 
-    if ($currentKey->{DigitalProductID}) {
-        $license{KEY} = parseProductKey($currentKey->{DigitalProductID});
+    if ($key->{DigitalProductID}) {
+        $license{KEY} = parseProductKey($key->{DigitalProductID});
     }
 
-    if ($currentKey->{TrialType} && $currentKey->{TrialType} =~ /(\d+)$/) {
+    if ($key->{TrialType} && $key->{TrialType} =~ /(\d+)$/) {
         $license{TRIAL} = int($1);
     }
 
     my @products;
-    foreach my $entry (keys %$currentKey) {
+    foreach my $entry (keys %$key) {
         next unless $entry =~ s/\/(\w+)NameVersion$//;
         my $product = $1;
-        next unless $currentKey->{$product."NameVersion"};
+        next unless $key->{$product."NameVersion"};
         push @products, $product;
     }
     if (@products) {
@@ -74,9 +74,9 @@ sub _scanOffice {
     my @licenses;
     push @licenses, \%license if $license{KEY};
 
-    foreach my $subKey ($currentKey->SubKeyNames()) {
+    foreach my $subKey ($key->SubKeyNames()) {
         next if $subKey =~ /\//; # Oops, that's our delimitator
-        push @licenses, _scanOffice($currentKey->{$subKey});
+        push @licenses, _scanOffice($key->{$subKey});
     }
 
     return @licenses;
