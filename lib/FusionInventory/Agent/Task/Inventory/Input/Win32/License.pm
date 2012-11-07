@@ -21,18 +21,22 @@ sub doInventory {
 
     # TODO: 64/32 bit support
     my $machKey = $Registry->Open('LMachine', {
-            Access => KEY_READ ## no critic (ProhibitBitwise)
-            }) or $params{logger}->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+        Access => KEY_READ ## no critic (ProhibitBitwise)
+    }) or $params{logger}->error(
+        "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR"
+    );
 
-    my $office =
-        $machKey->{"SOFTWARE/Microsoft/Office"};
+    my $office = $machKey->{"SOFTWARE/Microsoft/Office"};
 
     my @found;
 
     _scanOffice($office, \@found);
 
     foreach my $license (@found) {
-        $params{inventory}->addEntry(section => 'LICENSEINFOS', entry => $license);
+        $params{inventory}->addEntry(
+            section => 'LICENSEINFOS',
+            entry   => $license
+        );
     }
 
 }
@@ -86,6 +90,5 @@ sub _scanOffice {
         _scanOffice($currentKey->{$subKey}, $found);
     }
 }
-
 
 1;
