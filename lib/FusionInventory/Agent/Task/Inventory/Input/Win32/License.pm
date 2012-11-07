@@ -42,33 +42,22 @@ sub doInventory {
 sub _scanOffice {
     my ($currentKey) = @_;
 
-    my %license;
-    if ($currentKey->{ProductID}) {
-        $license{PRODUCTID} = $currentKey->{ProductID};
-    } if ($currentKey->{DigitalProductID}) {
-        $license{KEY} = parseProductKey($currentKey->{DigitalProductID});
-    }
-    if ($currentKey->{ConvertToEdition}) {
-        $license{FULLNAME} = encodeFromRegistry($currentKey->{ConvertToEdition});
-    }
-    if ($currentKey->{ProductNameNonQualified}) {
-        $license{NAME} = encodeFromRegistry($currentKey->{ProductNameNonQualified});
-    } elsif ($currentKey->{ProductNameVersion}) {
-        $license{NAME} = encodeFromRegistry($currentKey->{ProductNameVersion});
-    }
+    my %license = {
+        PRODUCTID => $currentKey->{ProductID},
+        UPDATE    => $currentKey->{SPLevel},
+        OEM       => $currentKey->{OEM},
+        FULLNAME  => encodeFromRegistry($currentKey->{ProductName}) ||
+                     encodeFromRegistry($currentKey->{ConvertToEdition}),
+        NAME      => encodeFromRegistry($currentKey->{ProductNameNonQualified}) ||
+                     encodeFromRegistry($currentKey->{ProductNameVersion})
+    };
 
-    if ($currentKey->{ProductName}) {
-        $license{FULLNAME} = encodeFromRegistry($currentKey->{ProductName});
+    if ($currentKey->{DigitalProductID}) {
+        $license{KEY} = parseProductKey($currentKey->{DigitalProductID});
     }
 
     if ($currentKey->{TrialType} && $currentKey->{TrialType} =~ /(\d+)$/) {
         $license{TRIAL} = int($1);
-    }
-    if ($currentKey->{SPLevel}) {
-        $license{UPDATE} = $currentKey->{SPLevel};
-    }
-    if ($currentKey->{OEM}) {
-        $license{OEM} = $currentKey->{OEM};
     }
 
     my @products;
