@@ -240,7 +240,7 @@ sub _checkContent {
             no-category
             /) {
 
-        $self->{$option} = [ split(/,/, $self->{$option}) ];
+        $self->{$option} = [ split(/,/, $self->{$option} || '') ];
     }
 
     # files location
