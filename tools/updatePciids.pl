@@ -5,7 +5,10 @@ use warnings;
 
 use LWP::UserAgent;
 
-my $ua = LWP::UserAgent->new;
+my $ua = LWP::UserAgent->new();
 
-my $response = $ua->mirror("http://pciids.sourceforge.net/pci.ids", "share/pci.ids");
-die unless $response->is_success;
+my $response = $ua->mirror(
+    "http://pciids.sourceforge.net/pci.ids",
+    "share/pci.ids"
+);
+die unless $response->is_success();
