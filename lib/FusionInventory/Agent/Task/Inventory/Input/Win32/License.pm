@@ -21,32 +21,32 @@ sub _scanOffice {
     my ($currentKey, $found) = @_;
 
     my %license;
-    if ($currentKey->{'ProductID'}) {
-        $license{'PRODUCTID'} = $currentKey->{ProductID};
+    if ($currentKey->{ProductID}) {
+        $license{PRODUCTID} = $currentKey->{ProductID};
     } if ($currentKey->{DigitalProductID}) {
-        $license{'KEY'} = parseProductKey($currentKey->{DigitalProductID});
+        $license{KEY} = parseProductKey($currentKey->{DigitalProductID});
     }
     if ($currentKey->{ConvertToEdition}) {
-        $license{'FULLNAME'} = encodeFromRegistry($currentKey->{ConvertToEdition});
+        $license{FULLNAME} = encodeFromRegistry($currentKey->{ConvertToEdition});
     }
     if ($currentKey->{ProductNameNonQualified}) {
-        $license{'NAME'} = encodeFromRegistry($currentKey->{ProductNameNonQualified});
+        $license{NAME} = encodeFromRegistry($currentKey->{ProductNameNonQualified});
     } elsif ($currentKey->{ProductNameVersion}) {
-        $license{'NAME'} = encodeFromRegistry($currentKey->{ProductNameVersion});
+        $license{NAME} = encodeFromRegistry($currentKey->{ProductNameVersion});
     }
 
     if ($currentKey->{ProductName}) {
-        $license{'FULLNAME'} = encodeFromRegistry($currentKey->{ProductName});
+        $license{FULLNAME} = encodeFromRegistry($currentKey->{ProductName});
     }
 
     if ($currentKey->{TrialType} && $currentKey->{TrialType} =~ /(\d+)$/) {
-        $license{'TRIAL'} = int($1);
+        $license{TRIAL} = int($1);
     }
     if ($currentKey->{SPLevel}) {
-        $license{'UPDATE'} = $currentKey->{SPLevel};
+        $license{UPDATE} = $currentKey->{SPLevel};
     }
     if ($currentKey->{OEM}) {
-        $license{'OEM'} = $currentKey->{OEM};
+        $license{OEM} = $currentKey->{OEM};
     }
 
     my @products;
@@ -57,9 +57,9 @@ sub _scanOffice {
         push @products, $1;
     }
     if (@products) {
-        $license{'COMPONENTS'} = join('/', @products);
+        $license{COMPONENTS} = join('/', @products);
     }
-    push @$found, \%license if $license{'KEY'};
+    push @$found, \%license if $license{KEY};
 
     foreach my $subKey (  $currentKey->SubKeyNames  ) {
         next if $subKey =~ /\//; # Oops, that's our delimitator
