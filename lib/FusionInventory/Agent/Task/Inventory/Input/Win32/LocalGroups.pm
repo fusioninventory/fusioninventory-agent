@@ -42,7 +42,7 @@ sub doInventory {
  
     foreach my $group (in $processes) {
   my $members = $WMIService->ExecQuery(
-        "SELECT * FROM Win32_GroupUser where GroupComponent like \"_Name=\"$group->{Name}\"", "WQL",
+        "SELECT * FROM Win32_GroupUser where GroupComponent =\"Win32_Group.Name=\"$group->{Name}\" ", "WQL",
         wbemFlagReturnImmediately | wbemFlagForwardOnly ## no critic (ProhibitBitwise)
     );
     foreach my $member (in $members) {
