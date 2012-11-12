@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use lib './lib';
 
+eval { use Carp::Always; };
+
 use English qw(-no_match_vars);
 use Getopt::Long;
 use Pod::Usage;
