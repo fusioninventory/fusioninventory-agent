@@ -119,11 +119,17 @@ sub run {
     # compute blocks list
     my $addresses_count = 0;
     foreach my $range (@{$options->{RANGEIP}}) {
-        next unless $range->{IPSTART};
-        next unless $range->{IPEND};
-        $range->{block} = Net::IP->new(
+        my $block = Net::IP->new(
             $range->{IPSTART} . '-' . $range->{IPEND}
         );
+        if (!$block || $block->{binip} !~ /1/) {
+            $self->{logger}->error(
+                "IPv4 range not supported by Net::IP: ".
+                $range->{IPSTART} . '-' . $range->{IPEND}
+            );
+            next;
+        }
+        $range->{block} = $block;
         $addresses_count += $range->{block}->size();
     }
 
