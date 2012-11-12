@@ -39,17 +39,17 @@ sub doInventory {
         wbemFlagReturnImmediately | wbemFlagForwardOnly ## no critic (ProhibitBitwise)
     );
 
-    my $members = $WMIService->ExecQuery(
-        "SELECT * FROM Win32_GroupUser", "WQL",
+ 
+    foreach my $group (in $processes) {
+  my $members = $WMIService->ExecQuery(
+        "SELECT * FROM Win32_GroupUser where GroupComponent = $group", "WQL",
         wbemFlagReturnImmediately | wbemFlagForwardOnly ## no critic (ProhibitBitwise)
     );
     foreach my $member (in $members) {
       print "Group: $member->{GroupComponent}\n";
       print "user: $member->{PartComponent}\n";
     } 
-    foreach my $group (in $processes) {
-
-
+      print "group is $group\n"
       print "Local Account: $group->{LocalAccount}\n";
       print "Name: $group->{Name}\n";
       print "SID: $group->{SID}\n";
