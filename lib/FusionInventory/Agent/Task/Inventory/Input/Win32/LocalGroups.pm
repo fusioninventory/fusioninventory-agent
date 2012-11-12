@@ -49,7 +49,7 @@ sub doInventory {
       print "Group: $member->{GroupComponent}\n";
       print "user: $member->{PartComponent}\n";
     } 
-      print "group is $group\n"
+  print "group is $group\n";
       print "Local Account: $group->{LocalAccount}\n";
       print "Name: $group->{Name}\n";
       print "SID: $group->{SID}\n";
