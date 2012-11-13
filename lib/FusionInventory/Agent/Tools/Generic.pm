@@ -13,7 +13,12 @@ our @EXPORT = qw(
     getDmidecodeInfos
     getCpusFromDmidecode
     getPCIDevices
+    getPCIDeviceVendor
+    getPCIDeviceClass
 );
+
+my %PCIVendors;
+my %PCIClasses;
 
 memoize('getDmidecodeInfos');
 memoize('getPCIDevices');
@@ -205,6 +210,61 @@ sub getPCIDevices {
     return @controllers;
 }
 
+sub getPCIDeviceVendor {
+    my (%params) = @_;
+
+    _loadPCIDatabase(%params) if !%PCIVendors;
+
+    return unless $params{id};
+    return $PCIVendors{$params{id}};
+}
+
+sub getPCIDeviceClass {
+    my (%params) = @_;
+
+    _loadPCIDatabase(%params) if !%PCIClasses;
+
+    return unless $params{id};
+    return $PCIClasses{$params{id}};
+}
+
+sub _loadPCIDatabase {
+    my (%params) = @_;
+
+    my $handle = getFileHandle(
+        file   => "$params{datadir}/pci.ids",
+        logger => $params{logger}
+    );
+    return unless $handle;
+
+    my ($vendor_id, $device_id, $class_id);
+    while (my $line = <$handle>) {
+
+        if ($line =~ /^\t (\S{4}) \s+ (.*)/x) {
+            # Device ID
+            $device_id = $1;
+            $PCIVendors{$vendor_id}->{devices}->{$device_id}->{name} = $2;
+        } elsif ($line =~ /^\t\t (\S{4}) \s+ (\S{4}) \s+ (.*)/x) {
+            # Subdevice ID
+            my $subdevice_id = "$1:$2";
+            $PCIVendors{$vendor_id}->{devices}->{$device_id}->{subdevices}->{$subdevice_id}->{name} = $3;
+        } elsif ($line =~ /^(\S{4}) \s+ (.*)/x) {
+            # Vendor ID
+            $vendor_id = $1;
+            $PCIVendors{$vendor_id}->{name} = $2;
+        } elsif ($line =~ /^C \s+ (\S{2}) \s+ (.*)/x) {
+            # Class ID
+            $class_id = $1;
+            $PCIClasses{$class_id}->{name} = $2;
+        } elsif ($line =~ /^\t (\S{2}) \s+ (.*)/x) {
+            # SubClass ID
+            my $subclass_id = $1;
+            $PCIClasses{$class_id}->{subclasses}->{$subclass_id}->{name} = $2;
+        }
+    }
+    close $handle;
+}
+
 1;
 __END__
 
@@ -251,5 +311,33 @@ output.
 =item command the exact command to use (default: lspci -vvv -nn)
 
 =item file the file to use, as an alternative to the command
+
+=back
+
+=head2 getPCIDeviceVendor(%params)
+
+Returns the vendor matching this ID.
+
+=over
+
+=item id the vendor id
+
+=item logger a logger object
+
+=item datadir the directory holding the PCI database
+
+=back
+
+=head2 getPCIDeviceClass(%params)
+
+Returns the class matching this ID.
+
+=over
+
+=item id the class id
+
+=item logger a logger object
+
+=item datadir the directory holding the PCI database
 
 =back
