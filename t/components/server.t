@@ -6,14 +6,16 @@ use lib 't';
 
 use Config;
 use English qw(-no_match_vars);
+use List::Util qw(first);
 use LWP::UserAgent;
 use Socket;
 use Test::More;
 use Test::Exception;
 use UNIVERSAL::require;
 
-use FusionInventory::Test::Agent;
 use FusionInventory::Agent::Logger;
+use FusionInventory::Test::Agent;
+use FusionInventory::Test::Utils;
 
 # check thread support availability
 if ($Config{usethreads} ne 'define') {
@@ -95,12 +97,15 @@ ok (
     'do not trust unknown host 1.2.3.4'
 );
 
+# find an available port
+my $port = first { test_port($_) } 8080 .. 8090;
+
 lives_ok {
     $server = FusionInventory::Agent::HTTP::Server->new(
         agent     => FusionInventory::Test::Agent->new(),
         scheduler => $scheduler,
         logger    => $logger,
-        port      => 8080,
+        port      => $port,
         htmldir   => 'share/html',
     );
 } 'instanciation with specific port: ok';
@@ -112,7 +117,7 @@ ok(
 );
 
 ok(
-    $client->get('http://localhost:8080')->is_success(),
+    $client->get("http://localhost:$port")->is_success(),
     'server listening on specific port'
 );
 
@@ -126,7 +131,7 @@ if (my $pid = fork()) {
 }
 
 ok(
-    $client->get('http://localhost:8080')->is_success(),
+    $client->get("http://localhost:$port")->is_success(),
     'server still listening after child process exit'
 );
 
@@ -141,7 +146,7 @@ if (my $pid = fork()) {
 }
 
 ok(
-    $client->get('http://localhost:8080')->is_success(),
+    $client->get("http://localhost:$port")->is_success(),
     'server still listening after child process raised ALRM'
 );
 
