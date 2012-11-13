@@ -46,7 +46,7 @@ sub doInventory {
     foreach my $group (in $processes) {
 
     foreach my $member (in $members) {
-	if ($member->{GroupComponent}~= /*Name=\"$group->{Name}\"/ {
+	if ($member->{GroupComponent} ~= /*Name=\"$group->{Name}\"/) {
 	    print "Group: $member->{GroupComponent}\n";
 	    print "user: $member->{PartComponent}\n";
 	    }
