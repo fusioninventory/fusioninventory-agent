@@ -18,11 +18,9 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my @users = _getLocalUsers(logger => $logger);
-
-    foreach my $user (@users) {
+    foreach my $user (_getLocalUsers(logger => $logger)) {
         $inventory->addEntry(
-            section => 'USERS',
+            section => 'LOCALUSERS',
             entry   => $user
         );
     }
