@@ -25,6 +25,13 @@ sub doInventory {
         );
     }
 
+    foreach my $user (_getLoggedUsers(logger => $logger)) {
+        $inventory->addEntry(
+            section => 'USERS',
+            entry   => $user
+        );
+    }
+
     my $last = _getLastUser(logger => $logger);
     $inventory->setHardware($last);
 }
@@ -89,6 +96,28 @@ sub _getLocalGroups {
     close $handle;
 
     return %groups;
+}
+
+sub _getLoggedUsers {
+    my (%params) = (
+        command => 'who',
+        @_
+    );
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my @users;
+    my $seen;
+
+    while (my $line = <$handle>) {
+        next unless $line =~ /^(\S+)/;
+        next if $seen->{$1}++;
+        push @users, { LOGIN => $1 };
+    }
+    close $handle;
+
+    return @users;
 }
 
 sub _getLastUser {
