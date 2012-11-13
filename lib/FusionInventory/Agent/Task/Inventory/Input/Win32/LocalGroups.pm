@@ -46,8 +46,9 @@ sub doInventory {
     foreach my $group (in $processes) {
 
 	foreach my $member (in $members) {
-	    if ($member->{GroupComponent} =~ /*Name=\"$group->{Name}\"/) 
+	    if ($member->{GroupComponent} =~ /*Name=\"$group->{Name}\"/) {
 		print "member: $member->{PartComponent}\n";
+	    }
 	}
 	print "query is \"%Name=\"$group->{Name}\"";
 	print "Local Account: $group->{LocalAccount}\n";
