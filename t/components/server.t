@@ -97,6 +97,8 @@ ok (
     'do not trust unknown host 1.2.3.4'
 );
 
+$server->terminate();
+
 # find an available port
 my $port = first { test_port($_) } 8080 .. 8090;
 
