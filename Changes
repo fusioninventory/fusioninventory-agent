@@ -1,6 +1,6 @@
 Revision history for FusionInventory agent
 
-2.2.7
+2.2.7  Tue, 13 Nov 2012 14:22:34 +0100
 
 General:
 * additional hack for LG screens (#1848)
@@ -10,7 +10,7 @@ General:
 * fix spurious null character in decoded strings (#1837)
 
 Windows:
-* fix missing bios release date on some machines (#1820, #1825)
+* fix missing bios release information on some machines (#1820, #1825)
 
 2.2.6  Fri, 14 Sep 2012 16:49:13 +0200
 
