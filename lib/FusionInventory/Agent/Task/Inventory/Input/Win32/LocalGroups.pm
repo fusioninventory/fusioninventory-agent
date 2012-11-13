@@ -45,16 +45,14 @@ sub doInventory {
  
     foreach my $group (in $processes) {
 
-    foreach my $member (in $members) {
-	if ($member->{GroupComponent} ~= /*Name=\"$group->{Name}\"/) {
-	    print "Group: $member->{GroupComponent}\n";
-	    print "user: $member->{PartComponent}\n";
-	    }
-    } 
-  print "query is \"%Name=\"$group->{Name}\"";
-      print "Local Account: $group->{LocalAccount}\n";
-      print "Name: $group->{Name}\n";
-      print "SID: $group->{SID}\n";
+	foreach my $member (in $members) {
+	    if $member->{GroupComponent} ~= /*Name=\"$group->{Name}\"/ 
+		print "member: $member->{PartComponent}\n";
+	}
+	print "query is \"%Name=\"$group->{Name}\"";
+	print "Local Account: $group->{LocalAccount}\n";
+	print "Name: $group->{Name}\n";
+	print "SID: $group->{SID}\n";
 
      
     }
