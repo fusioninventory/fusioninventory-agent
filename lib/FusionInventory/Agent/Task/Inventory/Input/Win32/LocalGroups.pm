@@ -38,16 +38,18 @@ sub doInventory {
         "SELECT * FROM Win32_Group  Where LocalAccount = True", "WQL",
         wbemFlagReturnImmediately | wbemFlagForwardOnly ## no critic (ProhibitBitwise)
     );
-
- 
-    foreach my $group (in $processes) {
-  my $members = $WMIService->ExecQuery(
-        "SELECT * FROM Win32_GroupUser where GroupComponent like \"%Name=\"$group->{Name}\"\"", "WQL",
+    my $members = $WMIService->ExecQuery(
+        "SELECT * FROM Win32_GroupUser", "WQL",
         wbemFlagReturnImmediately | wbemFlagForwardOnly ## no critic (ProhibitBitwise)
     );
+ 
+    foreach my $group (in $processes) {
+
     foreach my $member (in $members) {
-      print "Group: $member->{GroupComponent}\n";
-      print "user: $member->{PartComponent}\n";
+	if ($membrer->{GroupComponent}~= /*Name=\"$group\"/ {
+	    print "Group: $member->{GroupComponent}\n";
+	    print "user: $member->{PartComponent}\n";
+	    }
     } 
   print "query is \"%Name=\"$group->{Name}\"";
       print "Local Account: $group->{LocalAccount}\n";
