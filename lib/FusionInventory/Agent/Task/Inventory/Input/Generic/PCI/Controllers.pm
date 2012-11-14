@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::Input::Generic::Lspci::Controllers;
+package FusionInventory::Agent::Task::Inventory::Input::Generic::PCI::Controllers;
 
 use strict;
 use warnings;

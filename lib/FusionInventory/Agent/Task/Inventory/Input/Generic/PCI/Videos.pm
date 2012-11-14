@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::Input::Generic::Lspci::Videos;
+package FusionInventory::Agent::Task::Inventory::Input::Generic::PCI::Videos;
 
 use strict;
 use warnings;

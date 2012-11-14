@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::Input::Generic::Lspci::Sounds;
+package FusionInventory::Agent::Task::Inventory::Input::Generic::PCI::Sounds;
 
 use strict;
 use warnings;

@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::Generic::Lspci::Sounds;
+use FusionInventory::Agent::Task::Inventory::Input::Generic::PCI::Sounds;
 
 my %tests = (
     'dell-xt2' => [
@@ -21,6 +21,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/generic/lspci/$test";
-    my @sounds = FusionInventory::Agent::Task::Inventory::Input::Generic::Lspci::Sounds::_getSounds(file => $file);
+    my @sounds = FusionInventory::Agent::Task::Inventory::Input::Generic::PCI::Sounds::_getSounds(file => $file);
     is_deeply(\@sounds, $tests{$test}, $test);
 }

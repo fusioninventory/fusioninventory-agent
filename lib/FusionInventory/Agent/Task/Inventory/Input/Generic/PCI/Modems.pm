@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::Input::Generic::Lspci::Modems;
+package FusionInventory::Agent::Task::Inventory::Input::Generic::PCI::Modems;
 
 use strict;
 use warnings;
