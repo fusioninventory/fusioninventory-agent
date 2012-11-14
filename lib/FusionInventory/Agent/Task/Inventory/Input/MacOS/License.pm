@@ -8,7 +8,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Generic::License;
 
 sub isEnabled {
-    return unless -f "/Library/Application Support/Adobe/Adobe PCD/cache/cache.db";
+    return 1;
 }
 
 sub _getTransmitLicenses {
