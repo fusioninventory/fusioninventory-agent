@@ -4,6 +4,10 @@ Revision history for FusionInventory agent
 General:
 * various UTF8 encoding fixes
 * Add DNS_DOMAIN and FQDN in OPERATINGSYSTEM section
+* Collect public SSH keys
+
+Windows:
+* Collect license key for MS Office
 
 BSD:
 * Megaraid and 3ware RAID controller support (Egor Morozov)
@@ -11,6 +15,9 @@ BSD:
 Linux:
 * Megaraid controller support (Egor Morozov)
 * Support new OpenVZ configuration (Alessandro Iurlano)
+
+MacOSX:
+* Collect license key for Adobe suite, Panic's Transit, VMware Fusion
 
 2.2.7
 
