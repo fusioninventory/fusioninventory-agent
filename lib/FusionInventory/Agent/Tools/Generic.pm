@@ -17,12 +17,14 @@ our @EXPORT = qw(
     getPCIDeviceClass
     getUSBDeviceVendor
     getUSBDeviceClass
+    getEDIDVendor
 );
 
 my $PCIVendors;
 my $PCIClasses;
 my $USBVendors;
 my $USBClasses;
+my $EDIDVendors;
 
 memoize('getDmidecodeInfos');
 memoize('getPCIDevices');
@@ -250,6 +252,15 @@ sub getUSBDeviceClass {
     return $USBClasses->{$params{id}};
 }
 
+sub getEDIDVendor {
+    my (%params) = @_;
+
+    _loadEDIDDatabase(%params) if !$EDIDVendors;
+
+    return unless $params{id};
+    return $EDIDVendors->{$params{id}};
+}
+
 sub _loadPCIDatabase {
     my (%params) = @_;
 
@@ -299,6 +310,21 @@ sub _loadDatabase {
     close $handle;
 
     return ($vendors, $classes);
+}
+
+
+sub _loadEDIDDatabase {
+    my (%params) = @_;
+
+    my $handle = getFileHandle(file => "$params{datadir}/edid.ids");
+    return unless $handle;
+
+    foreach my $line (<$handle>) {
+       next unless $line =~ /^([A-Z]{3}) __ (.*)$/;
+       $EDIDVendors->{$1} = $2;
+   }
+
+   return;
 }
 
 1;
@@ -403,5 +429,19 @@ Returns the USB class matching this ID.
 =item logger a logger object
 
 =item datadir the directory holding the USB database
+
+=back
+
+=head2 getEDIDVendor(%params)
+
+Returns the EDID vendor matching this ID.
+
+=over
+
+=item id the vendor id
+
+=item logger a logger object
+
+=item datadir the directory holding the edid vendors database
 
 =back

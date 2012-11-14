@@ -6264,10 +6264,16 @@ my %lspci_tests = (
     ]
 );
 
+my %edid_vendor_tests = (
+    NVD => 'Nvidia',
+    XQU => 'SHANGHAI SVA-DAV ELECTRONICS CO., LTD',
+);
+
 plan tests =>
     (scalar keys %dmidecode_tests) +
     (scalar keys %cpu_tests)       +
-    (scalar keys %lspci_tests);
+    (scalar keys %lspci_tests)     +
+    (scalar keys %edid_vendor_tests);
 
 foreach my $test (keys %dmidecode_tests) {
     my $file = "resources/generic/dmidecode/$test";
@@ -6285,4 +6291,12 @@ foreach my $test (keys %lspci_tests) {
     my $file = "resources/generic/lspci/$test";
     my @devices = getPCIDevices(file => $file);
     is_deeply(\@devices, $lspci_tests{$test}, "$test lspci parsing");
+}
+
+foreach my $test (keys %edid_vendor_tests) {
+    is(
+        getEDIDVendor(id => $test, datadir => './share'),
+        $edid_vendor_tests{$test},
+        "edid vendor identification: $test"
+    );
 }
