@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Generic;
 
 sub isEnabled {
     return canRun('lsusb');
@@ -26,6 +27,18 @@ sub doInventory {
 
         if (defined($device->{SERIAL}) && length($device->{SERIAL}) < 5) {
             $device->{SERIAL} = undef;
+        }
+
+        my $vendor = getUSBDeviceVendor(
+            id => $device->{VENDORID}, datadir => $params{datadir}
+        );
+        if ($vendor) {
+            $device->{MANUFACTURER} = $vendor->{name};
+
+            my $entry = $vendor->{devices}->{$device->{PRODUCTID}};
+            if ($entry) {
+                $device->{CAPTION} = $entry->{name};
+            }
         }
 
         $inventory->addEntry(
