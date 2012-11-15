@@ -11,33 +11,6 @@ sub isEnabled {
     return 1;
 }
 
-sub _getTransmitLicenses {
-    my (%params) = @_;
-
-    my $handle = getFileHandle(%params);
-
-    my %val;
-    my $in;
-    foreach my $line (<$handle>) {
-        if ($in) {
-            $val{$in} = $1 if $line =~ /<string>([\d\w\.-]+)<\/string>/;
-            $in = undef;
-        } elsif ($line =~ /<key>SerialNumber2/) {
-            $in = "KEY";
-        } elsif ($line =~ /<key>PreferencesVersion<\/key>/) {
-            $in = "VERSION";
-        }
-    }
-
-    return unless $val{KEY};
-
-    return {
-        NAME     => "Transmit",
-        FULLNAME => "Panic's Transmit",
-        KEY      => $val{KEY}
-    };
-}
-
 sub doInventory {
     my (%params) = @_;
 
@@ -88,6 +61,33 @@ sub doInventory {
     foreach my $license (@found) {
         $inventory->addEntry(section => 'LICENSEINFOS', entry => $license);
     }
+}
+
+sub _getTransmitLicenses {
+    my (%params) = @_;
+
+    my $handle = getFileHandle(%params);
+
+    my %val;
+    my $in;
+    foreach my $line (<$handle>) {
+        if ($in) {
+            $val{$in} = $1 if $line =~ /<string>([\d\w\.-]+)<\/string>/;
+            $in = undef;
+        } elsif ($line =~ /<key>SerialNumber2/) {
+            $in = "KEY";
+        } elsif ($line =~ /<key>PreferencesVersion<\/key>/) {
+            $in = "VERSION";
+        }
+    }
+
+    return unless $val{KEY};
+
+    return {
+        NAME     => "Transmit",
+        FULLNAME => "Panic's Transmit",
+        KEY      => $val{KEY}
+    };
 }
 
 1;
