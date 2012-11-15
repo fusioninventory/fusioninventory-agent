@@ -3,7 +3,6 @@ package FusionInventory::Agent::Task::Inventory::Input::MacOS::License;
 use strict;
 use warnings;
 
-use File::Glob;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Generic::License;
 
@@ -20,9 +19,9 @@ sub doInventory {
     my @found = getAdobeLicenses(command => 'sqlite3 -separator " <> " "/Library/Application Support/Adobe/Adobe PCD/cache/cache.db" "SELECT * FROM domain_data"');
 
     # Transmit
-    my @transmitFiles = File::Glob::bsd_glob('/System/Library/User Template/*.lproj/Library/Preferences/com.panic.Transmit.plist');
+    my @transmitFiles = glob('/System/Library/User Template/*.lproj/Library/Preferences/com.panic.Transmit.plist');
     if ($params{scan_homedirs}) {
-        push (@transmitFiles, File::Glob::bsd_glob('/Users/*/Library/Preferences/com.panic.Transmit.plist'));
+        push (@transmitFiles, glob('/Users/*/Library/Preferences/com.panic.Transmit.plist'));
     }
 
     foreach my $transmitFile (@transmitFiles) {
@@ -33,7 +32,7 @@ sub doInventory {
     }
 
     # VMware
-    my @vmwareFiles = File::Glob::bsd_glob('/Library/Application Support/VMware Fusion/license-*');
+    my @vmwareFiles = glob('/Library/Application Support/VMware Fusion/license-*');
     foreach my $vmwareFile (@vmwareFiles) {
         my %info;
         # e.g:

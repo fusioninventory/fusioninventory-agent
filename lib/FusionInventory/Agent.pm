@@ -335,7 +335,7 @@ sub getAvailableTasks {
     $directory =~ s,\\,/,g;
     my $subdirectory = "FusionInventory/Agent/Task";
     # look for all perl modules here
-    foreach my $file (File::Glob::glob("$directory/$subdirectory/*.pm")) {
+    foreach my $file (glob("$directory/$subdirectory/*.pm")) {
         next unless $file =~ m{($subdirectory/(\S+)\.pm)$};
         my $module = file2module($1);
         my $name = file2module($2);
