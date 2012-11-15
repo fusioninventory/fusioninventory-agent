@@ -32,9 +32,9 @@ sub _getTransmitLicenses {
     return unless $val{KEY};
 
     return {
-        NAME => "Transmit",
+        NAME     => "Transmit",
         FULLNAME => "Panic's Transmit",
-                KEY => $val{KEY}
+        KEY      => $val{KEY}
     };
 }
 
