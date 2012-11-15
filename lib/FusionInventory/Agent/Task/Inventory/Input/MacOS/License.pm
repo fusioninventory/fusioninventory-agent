@@ -24,7 +24,7 @@ sub _getTransmitLicenses {
             $in = undef;
         } elsif ($line =~ /<key>SerialNumber2/) {
             $in = "KEY";
-            } elsif ($line =~ /<key>PreferencesVersion<\/key>/) {
+        } elsif ($line =~ /<key>PreferencesVersion<\/key>/) {
             $in = "VERSION";
         }
     }
@@ -41,12 +41,12 @@ sub _getTransmitLicenses {
 sub doInventory {
     my (%params) = @_;
 
-    my $inventory    = $params{inventory};
+    my $inventory = $params{inventory};
 
-    ### Adobe
-    my @found = getAdobeLicenses( command => 'sqlite3 -separator " <> " "/Library/Application Support/Adobe/Adobe PCD/cache/cache.db" "SELECT * FROM domain_data"');
+    # Adobe
+    my @found = getAdobeLicenses(command => 'sqlite3 -separator " <> " "/Library/Application Support/Adobe/Adobe PCD/cache/cache.db" "SELECT * FROM domain_data"');
 
-    ### Transmit
+    # Transmit
     my @transmitFiles = File::Glob::bsd_glob('/System/Library/User Template/*.lproj/Library/Preferences/com.panic.Transmit.plist');
     if ($params{scan_homedirs}) {
         push (@transmitFiles, File::Glob::bsd_glob('/Users/*/Library/Preferences/com.panic.Transmit.plist'));
@@ -59,7 +59,7 @@ sub doInventory {
         last; # One installation per machine
     }
 
-    ### VMware
+    # VMware
     my @vmwareFiles = File::Glob::bsd_glob('/Library/Application Support/VMware Fusion/license-*');
     foreach my $vmwareFile (@vmwareFiles) {
         my %info;
@@ -68,7 +68,7 @@ sub doInventory {
         my $handle = getFileHandle(file => $vmwareFile);
         foreach (<$handle>) {
             next unless /^(\S+)\s=\s"(.*)"/;
-            $info{$1}=$2;
+            $info{$1} = $2;
         }
         next unless $info{Serial};
 
@@ -78,9 +78,9 @@ sub doInventory {
         }
 
         push @found, {
-            NAME => $info{ProductID},
-            FULLNAME => $info{ProductID}." (".$info{LicenseVersion}.")",
-            KEY => $info{Serial},
+            NAME            => $info{ProductID},
+            FULLNAME        => $info{ProductID}." (".$info{LicenseVersion}.")",
+            KEY             => $info{Serial},
             ACTIVATION_DATE => $date
         }
     }
