@@ -129,6 +129,10 @@ Supported systems:
 Active Directory users, please note the AD authentication doesn't work. You must
 create a account on the VMware server.
 
+=head1 LIMITATION
+
+So far, ESX serial number are not collected.
+
 =head1 SECURITY
 
 The SSL hostname check of the server is disabled.
