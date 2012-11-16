@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::Input::Win32::User;
+package FusionInventory::Agent::Task::Inventory::Input::Win32::Users;
 
 use strict;
 use warnings;
