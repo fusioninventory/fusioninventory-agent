@@ -30,6 +30,14 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
+
+    foreach my $user (_getLocalUsers(logger => $logger)) {
+        $inventory->addEntry(
+            section => 'LOCALUSERS',
+            entry   => $user
+        );
+    }
 
     my $WMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2")
         or die "WMI connection failed: " . Win32::OLE->LastError();
@@ -82,6 +90,26 @@ sub doInventory {
         });
     }
 
+}
+
+sub _getLocalUsers {
+
+    my @users;
+    foreach my $object (getWmiObjects(
+        class      => 'Win32_UserAccount',
+        properties => [ qw/LocalAccount Name SID Disabled Lockout/ ]
+    )) {
+        next unless $object->{LocalAccount};
+        next if $object->{Disabled};
+        next if $object->{Lockout};
+
+        push @users, {
+            NAME => $object->{Name},
+            ID   => $object->{SID},
+        };
+    }
+
+    return @users;
 }
 
 1;
