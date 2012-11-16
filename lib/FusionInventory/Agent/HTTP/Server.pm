@@ -197,12 +197,11 @@ sub _handle_deploy {
     return unless $sha512 =~ /^(.)(.)(.{6})/;
     my $subFilePath = $1.'/'.$2.'/'.$3;
 
-    File::Glob->require();
     Digest::SHA->require();
 
     my $path;
     LOOP: foreach my $target ($self->{scheduler}->getTargets()) {
-        foreach (File::Glob::glob($target->{storage}->getDirectory()."/deploy/fileparts/shared/*")) {
+        foreach (glob($target->{storage}->getDirectory()."/deploy/fileparts/shared/*")) {
             next unless -f $_.'/'.$subFilePath;
 
             my $sha = Digest::SHA->new('512');

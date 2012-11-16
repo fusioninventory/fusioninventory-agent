@@ -3,13 +3,16 @@ package FusionInventory::Agent::Tools::Win32;
 use strict;
 use warnings;
 use base 'Exporter';
+use utf8;
 
 use constant KEY_WOW64_64 => 0x100;
 use constant KEY_WOW64_32 => 0x200;
 
+use Cwd;
 use Encode;
 use English qw(-no_match_vars);
-
+use File::Temp qw(:seekable tempfile);
+use Win32::Job;
 use Win32::OLE qw(in);
 use Win32::OLE::Const;
 use Win32::TieRegistry (
@@ -18,16 +21,9 @@ use Win32::TieRegistry (
     qw/KEY_READ/
 );
 
-use utf8;
-
-use File::Temp qw(:seekable tempfile);
-use Win32::Job;
-
-use Cwd;
+use FusionInventory::Agent::Tools;
 
 Win32::OLE->Option(CP => Win32::OLE::CP_UTF8);
-
-use FusionInventory::Agent::Tools;
 
 my $localCodepage;
 
