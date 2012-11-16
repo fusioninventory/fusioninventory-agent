@@ -37,6 +37,13 @@ sub doInventory {
         );
     }
 
+    foreach my $group (_getLocalGroups(logger => $logger)) {
+        $inventory->addEntry(
+            section => 'LOCALGROUPS',
+            entry   => $group
+        );
+    }
+
     foreach my $user (_getLoggedUsers(logger => $logger)) {
         $inventory->addEntry(
             section => 'USERS',
@@ -67,6 +74,24 @@ sub _getLocalUsers {
     }
 
     return @users;
+}
+
+sub _getLocalGroups {
+
+    my @groups;
+    foreach my $object (getWmiObjects(
+        class      => 'Win32_Group',
+        properties => [ qw/LocalAccount Name SID/ ]
+    )) {
+        next unless $object->{LocalAccount};
+
+        push @groups, {
+            NAME => $object->{Name},
+            ID   => $object->{SID},
+        };
+    }
+
+    return @groups;
 }
 
 sub _getLoggedUsers {
