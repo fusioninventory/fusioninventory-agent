@@ -125,7 +125,7 @@ sub _getScreensFromWindows {
     my @screens;
 
     # Vista and upper, able to get the second screen
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         moniker    => 'winmgmts:{impersonationLevel=impersonate,authenticationLevel=Pkt}!//./root/wmi',
         class      => 'WMIMonitorID',
         properties => [ qw/InstanceName/ ]
@@ -139,7 +139,7 @@ sub _getScreensFromWindows {
     }
 
     # The generic Win32_DesktopMonitor class, the second screen will be missing
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class => 'Win32_DesktopMonitor',
         properties => [ qw/
             Caption MonitorManufacturer MonitorType PNPDeviceID Availability

@@ -8205,8 +8205,8 @@ foreach my $test (keys %softwares_tests) {
 
 foreach my $test (keys %hotfixes_tests) {
     $module->mock(
-        'getWmiObjects',
-        mockGetWmiObjects($test)
+        'getWMIObjects',
+        mockGetWMIObjects($test)
     );
 
     my $hotfixes = FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getHotfixesList(is64bit => 0);

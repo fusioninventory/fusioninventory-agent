@@ -20,7 +20,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
             class      => 'Win32_OperatingSystem',
             properties => [ qw/
                 OSLanguage Caption Version SerialNumber Organization \
@@ -89,7 +89,7 @@ sub doInventory {
         WORKGROUP  => $domain
     });
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_ComputerSystem',
         properties => [ qw/
             Name Domain Workgroup UserName PrimaryOwnerName TotalPhysicalMemory
@@ -114,7 +114,7 @@ sub doInventory {
 
     }
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_ComputerSystemProduct',
         properties => [ qw/UUID/ ]
     )) {

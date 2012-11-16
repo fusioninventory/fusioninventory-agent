@@ -115,8 +115,8 @@ my $module = Test::MockModule->new(
 
 foreach my $test (keys %tests) {
     $module->mock(
-        'getWmiObjects',
-        mockGetWmiObjects($test)
+        'getWMIObjects',
+        mockGetWMIObjects($test)
     );
 
     $module->mock(

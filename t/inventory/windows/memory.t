@@ -114,8 +114,8 @@ my $module = Test::MockModule->new(
 
 foreach my $test (keys %tests) {
     $module->mock(
-        'getWmiObjects',
-        mockGetWmiObjects($test)
+        'getWMIObjects',
+        mockGetWMIObjects($test)
     );
 
     my @memories = FusionInventory::Agent::Task::Inventory::Input::Win32::Memory::_getMemories();

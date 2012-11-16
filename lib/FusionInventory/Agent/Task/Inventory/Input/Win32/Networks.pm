@@ -46,7 +46,7 @@ sub _getInterfaces {
 
     my @configurations;
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_NetworkAdapterConfiguration',
         properties => [ qw/Index Description IPEnabled DHCPServer MACAddress
                            MTU DefaultIPGateway DNSServerSearchOrder IPAddress
@@ -81,7 +81,7 @@ sub _getInterfaces {
 
     my @interfaces;
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_NetworkAdapter',
         properties => [ qw/Index PNPDeviceID Speed PhysicalAdapter AdapterType/  ]
     )) {

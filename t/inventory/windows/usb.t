@@ -97,8 +97,8 @@ my $module = Test::MockModule->new(
 
 foreach my $test (keys %tests) {
     $module->mock(
-        'getWmiObjects',
-        mockGetWmiObjects($test)
+        'getWMIObjects',
+        mockGetWMIObjects($test)
     );
 
     my @devices = FusionInventory::Agent::Task::Inventory::Input::Win32::USB::_getUSBDevices();

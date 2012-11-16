@@ -12,7 +12,7 @@ use FusionInventory::Agent::Tools;
 our @EXPORT = qw(
     test_port
     test_localhost
-    mockGetWmiObjects
+    mockGetWMIObjects
     mockGetRegistryKey
 );
 
@@ -37,7 +37,7 @@ sub test_localhost {
     return inet_aton('localhost');
 }
 
-sub mockGetWmiObjects {
+sub mockGetWMIObjects {
     my ($test) = @_;
 
     return sub {

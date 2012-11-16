@@ -21,7 +21,7 @@ sub doInventory {
         Win32_1394Controller Win32_PCMCIAController CIM_LogicalDevice
     /) {
 
-        foreach my $object (getWmiObjects(
+        foreach my $object (getWMIObjects(
             class      => $class,
             properties => [ qw/
                 Name Manufacturer Caption Description DeviceID HardwareVersion

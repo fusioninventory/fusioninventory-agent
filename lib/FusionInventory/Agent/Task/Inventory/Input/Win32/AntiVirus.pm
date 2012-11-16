@@ -21,7 +21,7 @@ sub doInventory {
     foreach my $instance (qw/SecurityCenter SecurityCenter2/) {
         my $moniker = "winmgmts:{impersonationLevel=impersonate,(security)}!//./root/$instance";
 
-        foreach my $object (getWmiObjects(
+        foreach my $object (getWMIObjects(
                 moniker    => $moniker,
                 class      => "AntiVirusProduct",
                 properties => [ qw/

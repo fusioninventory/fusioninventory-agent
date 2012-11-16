@@ -31,7 +31,7 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_Keyboard',
         properties => [ qw/Name Caption Manufacturer Description Layout/ ]
     )) {
@@ -52,7 +52,7 @@ sub doInventory {
         );
     }
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_PointingDevice',
         properties => [ qw/Name Caption Manufacturer Description PointingType DeviceInterface/ ]
     )) {

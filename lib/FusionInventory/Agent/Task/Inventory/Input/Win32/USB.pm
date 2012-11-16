@@ -28,7 +28,7 @@ sub _getUSBDevices {
 
     my @devices;
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'CIM_LogicalDevice',
         properties => [ qw/DeviceID Name/ ]
     )) {

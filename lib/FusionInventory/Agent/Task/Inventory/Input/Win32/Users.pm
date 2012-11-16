@@ -59,7 +59,7 @@ sub doInventory {
 sub _getLocalUsers {
 
     my @users;
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_UserAccount',
         properties => [ qw/LocalAccount Name SID Disabled Lockout/ ]
     )) {
@@ -79,7 +79,7 @@ sub _getLocalUsers {
 sub _getLocalGroups {
 
     my @groups;
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_Group',
         properties => [ qw/LocalAccount Name SID/ ]
     )) {

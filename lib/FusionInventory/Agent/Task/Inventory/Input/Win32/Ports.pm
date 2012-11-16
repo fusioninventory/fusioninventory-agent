@@ -144,7 +144,7 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_SerialPort',
         properties => [ qw/Name Caption Description/ ]
     )) {
@@ -159,7 +159,7 @@ sub doInventory {
         );
     }
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_ParallelPort',
         properties => [ qw/Name Caption Description/ ]
     )) {
@@ -175,7 +175,7 @@ sub doInventory {
         );
     }
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_PortConnector',
         properties => [ qw/ConnectorType InternalReferenceDesignator/ ]
     )) {

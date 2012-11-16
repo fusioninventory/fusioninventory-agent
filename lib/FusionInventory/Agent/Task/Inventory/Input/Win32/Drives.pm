@@ -25,14 +25,14 @@ sub doInventory {
     my $inventory = $params{inventory};
 
     my $systemDrive;
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_OperatingSystem',
         properties => [ qw/SystemDrive/ ]
     )) {
         $systemDrive = lc($object->{SystemDrive});
     }
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_LogicalDisk',
         properties => [ qw/
             InstallDate Description FreeSpace FileSystem VolumeName Caption

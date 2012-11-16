@@ -49,7 +49,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_Printer',
         properties => [ qw/
             ExtendedDetectedErrorState HorizontalResolution VerticalResolution Name

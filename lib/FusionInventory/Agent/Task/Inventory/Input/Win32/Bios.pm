@@ -38,7 +38,7 @@ sub doInventory {
         ))
     };
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_Bios',
         properties => [ qw/
             SerialNumber Version Manufacturer SMBIOSBIOSVersion BIOSVersion ReleaseDate
@@ -53,7 +53,7 @@ sub doInventory {
         $bios->{BDATE}         = _dateFromIntString($object->{ReleaseDate});
     }
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_ComputerSystem',
         properties => [ qw/
             Manufacturer Model
@@ -63,7 +63,7 @@ sub doInventory {
         $bios->{SMODEL}        = $object->{Model};
     }
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
             class      => 'Win32_SystemEnclosure',
             properties => [ qw/
                 SerialNumber SMBIOSAssetTag
@@ -74,7 +74,7 @@ sub doInventory {
         $bios->{ASSETTAG}        = $object->{SMBIOSAssetTag};
     }
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
             class => 'Win32_BaseBoard',
             properties => [ qw/
                 SerialNumber Product Manufacturer

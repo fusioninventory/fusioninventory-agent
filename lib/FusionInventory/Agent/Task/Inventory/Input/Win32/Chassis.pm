@@ -52,7 +52,7 @@ sub _getChassis {
 
     my $chassis;
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_SystemEnclosure',
         properties => [ qw/ChassisTypes/ ]
     )) {
