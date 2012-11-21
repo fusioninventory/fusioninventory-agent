@@ -26,8 +26,37 @@ sub doInventory {
 }
 
 sub _getControllers {
+    my (%params) = @_;
+
     my @controllers;
     my %seen;
+
+    foreach my $controller (_getControllersFromWMI(%params)) {
+
+        if ($controller->{deviceid} =~ /PCI\\VEN_(\S{4})&DEV_(\S{4})/) {
+            $controller->{PCIID} = lc($1 . ':' . $2);
+        }
+
+        if ($controller->{deviceid} =~ /&SUBSYS_(\S{4})(\S{4})/) {
+            $controller->{PCISUBSYSTEMID} = lc($2 . ':' . $1);
+        }
+
+        # only devices with a PCIID sounds resonable
+        next unless $controller->{PCIID};
+
+        # avoid duplicates
+        next if $seen{$controller->{PCIID}}++;
+
+        delete $controller->{deviceid};
+
+        push @controllers, $controller;
+    }
+
+    return @controllers;
+}
+
+sub _getControllersFromWMI {
+    my @controllers;
 
     foreach my $class (qw/
         Win32_FloppyController Win32_IDEController Win32_SCSIController
@@ -39,52 +68,20 @@ sub _getControllers {
             class      => $class,
             properties => [ qw/
                 Name Manufacturer Caption Description DeviceID HardwareVersion
-            /] 
+            /]
         )) {
 
-            my ($pciid, $pcisubsystemid) = _getPciIDFromDeviceID(
-                $object->{DeviceID}
-            );
-
-            # I scan CIM_LogicalDevice to identify more devices but I don't want
-            # everything. Only devices with a PCIID sounds resonable
-            if ($class eq 'CIM_LogicalDevice') {
-                next unless $pciid;
-                next if $seen{$pciid};
-            }
-
-            if ($pciid) {
-                $seen{$pciid} = 1;
-            }
             push @controllers, {
-                NAME           => $object->{Name},
-                MANUFACTURER   => $object->{Manufacturer},
-                CAPTION        => $object->{Caption},
-                PCIID          => $pciid,
-                PCISUBSYSTEMID => $pcisubsystemid,
-                TYPE           => $object->{Caption},
+                NAME         => $object->{Name},
+                MANUFACTURER => $object->{Manufacturer},
+                CAPTION      => $object->{Caption},
+                TYPE         => $object->{Caption},
+                deviceid     => $object->{DeviceID},
             };
         }
     }
 
     return @controllers;
-}
-
-sub _getPciIDFromDeviceID {
-    my ($DeviceID) = @_;
-
-    my $pciid;
-    my $pcisubsystemid;
-
-    if ($DeviceID =~ /PCI\\VEN_(\S{4})&DEV_(\S{4})/) {
-        $pciid = lc($1.':'.$2);
-    }
-
-    if ($DeviceID =~ /&SUBSYS_(\S{4})(\S{4})/) {
-        $pcisubsystemid = lc($2.':'.$1);
-    }
-
-    return ($pciid, $pcisubsystemid);
 }
 
 1;
