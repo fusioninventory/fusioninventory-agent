@@ -5,8 +5,6 @@ use warnings;
 
 use FusionInventory::Agent::Tools::Win32;
 
-my $seen;
-
 sub isEnabled {
     return 1;
 }
@@ -26,6 +24,7 @@ sub doInventory {
 
 sub _getDevices {
     my @devices;
+    my $seen;
 
     foreach my $object (getWMIObjects(
         class      => 'CIM_LogicalDevice',
