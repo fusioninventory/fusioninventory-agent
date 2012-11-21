@@ -3,6 +3,7 @@ package FusionInventory::Agent::Task::Inventory::Input::Win32::Controllers;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools::Generic;
 use FusionInventory::Agent::Tools::Win32;
 
 sub isEnabled {
@@ -48,6 +49,25 @@ sub _getControllers {
         next if $seen{$controller->{PCIID}}++;
 
         delete $controller->{deviceid};
+
+        my ($vendor_id, $device_id) = split (/:/, $controller->{PCIID});
+        my $subdevice_id = $controller->{PCISUBSYSTEMID};
+
+        my $vendor = getPCIDeviceVendor(id => $vendor_id, %params);
+        if ($vendor) {
+            $controller->{MANUFACTURER} = $vendor->{name};
+
+            if ($vendor->{devices}->{$device_id}) {
+                my $entry = $vendor->{devices}->{$device_id};
+                $controller->{CAPTION} = $entry->{name};
+
+                $controller->{NAME} =
+                    $subdevice_id && $entry->{subdevices}->{$subdevice_id} ?
+
+                    $entry->{subdevices}->{$subdevice_id}->{name} :
+                    $entry->{name};
+            }
+        }
 
         push @controllers, $controller;
     }
