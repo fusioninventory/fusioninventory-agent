@@ -18,8 +18,8 @@ use FusionInventory::Test::Agent;
 use FusionInventory::Test::Utils;
 
 # check thread support availability
-if ($Config{usethreads} ne 'define') {
-    plan skip_all => 'non working test without thread support';
+if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
+    plan skip_all => 'thread support required';
 } else {
     FusionInventory::Agent::HTTP::Server->use();
     plan tests => 7;

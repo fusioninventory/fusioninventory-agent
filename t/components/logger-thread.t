@@ -13,8 +13,8 @@ use UNIVERSAL::require;
 use FusionInventory::Agent::Logger::File;
 
 # check thread support availability
-if ($Config{usethreads} ne 'define') {
-    plan skip_all => 'non working test without thread support';
+if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
+    plan skip_all => 'thread support required';
 } else {
     threads->use();
     threads::shared->use();
