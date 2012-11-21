@@ -85,7 +85,7 @@ sub _getControllersFromWMI {
         foreach my $object (getWMIObjects(
             class      => $class,
             properties => [ qw/
-                Name Manufacturer Caption Description DeviceID HardwareVersion
+                Name Manufacturer Caption DeviceID
             /]
         )) {
 
