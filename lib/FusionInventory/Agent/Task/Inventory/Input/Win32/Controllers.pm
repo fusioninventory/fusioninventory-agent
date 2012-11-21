@@ -13,6 +13,20 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+
+    foreach my $controller (_getControllers(
+            logger  => $params{logger},
+            datadir => $params{datadir}
+    )) {
+        $inventory->addEntry(
+            section => 'CONTROLLERS',
+            entry   => $controller
+        );
+    }
+}
+
+sub _getControllers {
+    my @controllers;
     my %seen;
 
     foreach my $class (qw/
@@ -42,21 +56,20 @@ sub doInventory {
             if ($pciid) {
                 $seen{$pciid} = 1;
             }
-            $inventory->addEntry(
-                section => 'CONTROLLERS',
-                entry => {
-                    NAME           => $object->{Name},
-                    MANUFACTURER   => $object->{Manufacturer},
-                    CAPTION        => $object->{Caption},
-                    #DESCRIPTION    => $object->{Description},
-                    PCIID          => $pciid,
-                    PCISUBSYSTEMID => $pcisubsystemid,
-                    #VERSION        => $object->{HardwareVersion},
-                    TYPE           => $object->{Caption},
-                }
-            );
+            push @controllers, {
+                NAME           => $object->{Name},
+                MANUFACTURER   => $object->{Manufacturer},
+                CAPTION        => $object->{Caption},
+                #DESCRIPTION    => $object->{Description},
+                PCIID          => $pciid,
+                PCISUBSYSTEMID => $pcisubsystemid,
+                #VERSION        => $object->{HardwareVersion},
+                TYPE           => $object->{Caption},
+            };
         }
     }
+
+    return @controllers;
 }
 
 sub _getPciIDFromDeviceID {
