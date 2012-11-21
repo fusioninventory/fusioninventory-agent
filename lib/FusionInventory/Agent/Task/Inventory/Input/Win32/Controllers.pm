@@ -60,10 +60,8 @@ sub _getControllers {
                 NAME           => $object->{Name},
                 MANUFACTURER   => $object->{Manufacturer},
                 CAPTION        => $object->{Caption},
-                #DESCRIPTION    => $object->{Description},
                 PCIID          => $pciid,
                 PCISUBSYSTEMID => $pcisubsystemid,
-                #VERSION        => $object->{HardwareVersion},
                 TYPE           => $object->{Caption},
             };
         }
