@@ -21,14 +21,18 @@ use FusionInventory::Agent::Task::Inventory::Input::Win32::USB;
 my %tests = (
     7 => [
         {
-            NAME      => 'Generic USB Hub',
-            VENDORID  => '8087',
-            PRODUCTID => '0024'
+            NAME         => 'Generic USB Hub',
+            VENDORID     => '8087',
+            PRODUCTID    => '0024',
+            MANUFACTURER => 'Intel Corp.',
+            CAPTION      => 'Integrated Rate Matching Hub'
         },
         {
-            NAME      => 'Generic USB Hub',
-            VENDORID  => '8087',
-            PRODUCTID => '0024'
+            NAME         => 'Generic USB Hub',
+            VENDORID     => '8087',
+            PRODUCTID    => '0024',
+            MANUFACTURER => 'Intel Corp.',
+            CAPTION      => 'Integrated Rate Matching Hub'
         },
         {
             NAME      => 'ASUS Bluetooth',
@@ -101,7 +105,7 @@ foreach my $test (keys %tests) {
         mockGetWMIObjects($test)
     );
 
-    my @devices = FusionInventory::Agent::Task::Inventory::Input::Win32::USB::_getDevices();
+    my @devices = FusionInventory::Agent::Task::Inventory::Input::Win32::USB::_getDevices(datadir => './share');
     is_deeply(
         \@devices,
         $tests{$test},
