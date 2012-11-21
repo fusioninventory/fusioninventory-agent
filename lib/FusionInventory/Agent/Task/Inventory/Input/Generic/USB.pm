@@ -16,6 +16,19 @@ sub doInventory {
     my $inventory = $params{inventory};
 
     foreach my $device (_getDevices(logger => $params{logger})) {
+        $inventory->addEntry(
+            section => 'USBDEVICES',
+            entry   => $device,
+        );
+    }
+}
+
+sub _getDevices {
+    my (%params) = @_;
+
+    my @devices;
+
+    foreach my $device (_getDevicesFromLsusb(%params)) {
         next unless $device->{PRODUCTID};
         next unless $device->{VENDORID};
 
@@ -40,14 +53,13 @@ sub doInventory {
             }
         }
 
-        $inventory->addEntry(
-            section => 'USBDEVICES',
-            entry   => $device,
-        );
+        push @devices, $device;
     }
+
+    return @devices;
 }
 
-sub _getDevices {
+sub _getDevicesFromLsusb {
     my $handle = getFileHandle(
         @_,
         command => 'lsusb -v',

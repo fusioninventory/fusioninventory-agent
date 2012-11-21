@@ -23,22 +23,12 @@ sub doInventory {
 }
 
 sub _getDevices {
+    my (%params) = @_;
+
     my @devices;
     my $seen;
 
-    foreach my $object (getWMIObjects(
-        class      => 'CIM_LogicalDevice',
-        properties => [ qw/DeviceID Name/ ]
-    )) {
-        next unless $object->{DeviceID} =~ /^USB\\VID_(\w+)&PID_(\w+)\\(.*)/;
-
-        my $device = {
-            NAME      => $object->{Name},
-            VENDORID  => $1,
-            PRODUCTID => $2,
-            SERIAL    => $3
-        };
-
+    foreach my $device (_getDevicesFromWMI(%params)) {
         next if $device->{VENDORID} =~ /^0+$/;
 
         # avoid duplicates
@@ -48,6 +38,26 @@ sub _getDevices {
         delete $device->{SERIAL} if $device->{SERIAL} =~ /&/;
 
         push @devices, $device;
+    }
+
+    return @devices;
+}
+
+sub _getDevicesFromWMI {
+    my @devices;
+
+    foreach my $object (getWMIObjects(
+        class      => 'CIM_LogicalDevice',
+        properties => [ qw/DeviceID Name/ ]
+    )) {
+        next unless $object->{DeviceID} =~ /^USB\\VID_(\w+)&PID_(\w+)\\(.*)/;
+
+        push @devices, {
+            NAME      => $object->{Name},
+            VENDORID  => $1,
+            PRODUCTID => $2,
+            SERIAL    => $3
+        };
     }
 
     return @devices;
