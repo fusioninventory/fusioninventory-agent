@@ -14,9 +14,8 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger    = $params{logger};
 
-    foreach my $device (_getDevices(logger => $logger)) {
+    foreach my $device (_getDevices(logger => $params{logger})) {
         next unless $device->{PRODUCTID};
         next unless $device->{VENDORID};
 

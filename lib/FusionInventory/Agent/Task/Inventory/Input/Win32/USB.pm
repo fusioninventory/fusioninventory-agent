@@ -16,7 +16,7 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    foreach my $device (_getDevices()) {
+    foreach my $device (_getDevices(logger => $params{logger})) {
         $inventory->addEntry(
             section => 'USBDEVICES',
             entry   => $device
@@ -25,7 +25,6 @@ sub doInventory {
 }
 
 sub _getDevices {
-
     my @devices;
 
     foreach my $object (getWMIObjects(
