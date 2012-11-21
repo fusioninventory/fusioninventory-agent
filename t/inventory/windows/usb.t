@@ -101,7 +101,7 @@ foreach my $test (keys %tests) {
         mockGetWMIObjects($test)
     );
 
-    my @devices = FusionInventory::Agent::Task::Inventory::Input::Win32::USB::_getUSBDevices();
+    my @devices = FusionInventory::Agent::Task::Inventory::Input::Win32::USB::_getDevices();
     is_deeply(
         \@devices,
         $tests{$test},

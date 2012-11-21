@@ -16,7 +16,7 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    foreach my $device (_getUSBDevices()) {
+    foreach my $device (_getDevices()) {
         $inventory->addEntry(
             section => 'USBDEVICES',
             entry   => $device
@@ -24,7 +24,7 @@ sub doInventory {
     }
 }
 
-sub _getUSBDevices {
+sub _getDevices {
 
     my @devices;
 
