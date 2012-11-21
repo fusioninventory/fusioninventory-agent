@@ -24,11 +24,9 @@ sub doInventory {
 }
 
 sub _getDevices {
-    my (%params) = @_;
-
     my @devices;
 
-    foreach my $device (_getDevicesFromLsusb(%params)) {
+    foreach my $device (_getDevicesFromLsusb(@_)) {
         next unless $device->{PRODUCTID};
         next unless $device->{VENDORID};
 
@@ -41,9 +39,7 @@ sub _getDevices {
             $device->{SERIAL} = undef;
         }
 
-        my $vendor = getUSBDeviceVendor(
-            id => $device->{VENDORID}, datadir => $params{datadir}
-        );
+        my $vendor = getUSBDeviceVendor(id => $device->{VENDORID}, @_);
         if ($vendor) {
             $device->{MANUFACTURER} = $vendor->{name};
 
