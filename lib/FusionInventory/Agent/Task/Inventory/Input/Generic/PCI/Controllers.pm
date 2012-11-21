@@ -16,8 +16,8 @@ sub doInventory {
     my $inventory = $params{inventory};
 
     foreach my $controller (_getControllers(
-            logger  => $params{logger},
-            datadir => $params{datadir}
+        logger  => $params{logger},
+        datadir => $params{datadir}
     )) {
         $inventory->addEntry(
             section => 'CONTROLLERS',
