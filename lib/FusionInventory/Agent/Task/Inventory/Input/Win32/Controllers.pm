@@ -27,12 +27,10 @@ sub doInventory {
 }
 
 sub _getControllers {
-    my (%params) = @_;
-
     my @controllers;
     my %seen;
 
-    foreach my $controller (_getControllersFromWMI(%params)) {
+    foreach my $controller (_getControllersFromWMI(@_)) {
 
         if ($controller->{deviceid} =~ /PCI\\VEN_(\S{4})&DEV_(\S{4})/) {
             $controller->{PCIID} = lc($1 . ':' . $2);
@@ -53,7 +51,7 @@ sub _getControllers {
         my ($vendor_id, $device_id) = split (/:/, $controller->{PCIID});
         my $subdevice_id = $controller->{PCISUBSYSTEMID};
 
-        my $vendor = getPCIDeviceVendor(id => $vendor_id, %params);
+        my $vendor = getPCIDeviceVendor(id => $vendor_id, @_);
         if ($vendor) {
             $controller->{MANUFACTURER} = $vendor->{name};
 
