@@ -1,5 +1,14 @@
 Revision history for FusionInventory agent network tasks plugin
 
+1.0.2   Wed, 28 Nov 2012
+
+Fixes:
+* work around Net::IP bug 71510 (#1880)
+* fix mac address double normalisation
+* don't overwrite already computed values (#1837)
+* don't install packlist files
+* add Test::Exception as test dependency
+
 1.0.1   Wed, 29 Aug 2012
 
 Fixes:
