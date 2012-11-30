@@ -1,0 +1,46 @@
+From 4526c3be3db95cf593023660a91d2bd9d82ef0cf Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Vincent=20Membr=C3=A9?= <vincent.membre@normation.com>
+Date: Thu, 29 Nov 2012 16:29:53 +0100
+Subject: [PATCH] Add SuSE.pm to handle Service Pack values of SLES
+
+---
+ .../Task/Inventory/Input/Linux/Distro/SuSE.pm      |   27 ++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+ create mode 100644 lib/FusionInventory/Agent/Task/Inventory/Input/Linux/Distro/SuSE.pm
+
+diff --git a/lib/FusionInventory/Agent/Task/Inventory/Input/Linux/Distro/SuSE.pm b/lib/FusionInventory/Agent/Task/Inventory/Input/Linux/Distro/SuSE.pm
+new file mode 100644
+index 0000000..cdaa6db
+--- /dev/null
++++ b/lib/FusionInventory/Agent/Task/Inventory/Input/Linux/Distro/SuSE.pm
+@@ -0,0 +1,27 @@
++package FusionInventory::Agent::Task::Inventory::Input::Linux::Distro::SuSE;
++
++use strict;
++use warnings;
++
++use English qw(-no_match_vars);
++use FusionInventory::Agent::Tools;
++
++# This module is used to detect SuSE's service pack level
++
++sub isEnabled {
++    return canRead('/etc/SuSE-release');
++}
++
++sub doInventory {
++    my (%params) = @_;
++    my $inventory = $params{inventory};
++
++    my $service_pack  = getFirstMatch(
++            file    => '/etc/SuSE-release',
++            pattern => qr/^PATCHLEVEL = ([0-9]+)/
++        );
++    $inventory->setOperatingSystem({ SERVICE_PACK => $service_pack});
++
++}
++
++1;
+-- 
+1.7.10.4
+
