@@ -68,7 +68,7 @@ sub _getLogicalVolume {
         if ($line =~ /(\S+):/) {
             $volume->{VG_UUID} = $1;
         }
-        if ($line !~ !/^LV NAME/ && $line =~ /(\S+) *(\S+) *(\d+) *(\d+) *(\d+) *(\S+) *(\S+)/) {
+        if ($line !~ /^LV NAME/ && $line =~ /(\S+) *(\S+) *(\d+) *(\d+) *(\d+) *(\S+) *(\S+)/) {
             $volume->{LV_NAME}   = $1;
             $volume->{SEG_COUNT} = $3;
             $volume->{ATTR}      = "Type $2,PV: $5";
