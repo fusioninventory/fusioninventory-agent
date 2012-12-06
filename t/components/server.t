@@ -103,7 +103,7 @@ ok (
 $server->terminate();
 
 # find an available port
-my $port = first { test_port($_) } 8080 .. 8090;
+$port = first { test_port($_) } 8080 .. 8090;
 
 lives_ok {
     $server = FusionInventory::Agent::HTTP::Server->new(
