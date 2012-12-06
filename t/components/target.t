@@ -14,8 +14,8 @@ use URI;
 use FusionInventory::Agent::Target::Server;
 
 # check thread support availability
-if ($Config{usethreads} ne 'define') {
-    plan skip_all => 'non working test without thread support';
+if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
+    plan skip_all => 'thread support required';
 } else {
     threads->use();
     plan tests => 11;
