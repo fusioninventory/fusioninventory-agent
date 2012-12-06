@@ -1,5 +1,10 @@
 Revision history for FusionInventory agent
 
+2.2.8
+
+AIX:
+* minor fixes in LVM support
+
 2.2.7  Tue, 13 Nov 2012 14:22:34 +0100
 
 General:
