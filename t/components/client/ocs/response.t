@@ -16,6 +16,8 @@ use FusionInventory::Agent::XML::Query;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
 
+unsetProxyEnvVar();
+
 # find an available port
 my $port = first { test_port($_) } 8080 .. 8090;
 
