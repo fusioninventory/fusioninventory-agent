@@ -139,8 +139,7 @@ sub _getPhysicalVolume {
     return unless $handle;
 
     my $volume = {
-        DEVICE  => "/dev/$name",
-        PV_NAME => $name,
+        DEVICE  => "/dev/$name"
     };
 
     my ($free, $total);
