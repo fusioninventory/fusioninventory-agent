@@ -147,7 +147,7 @@ sub _getPhysicalVolume {
         chomp $line;
 
         if ($line =~ /PHYSICAL VOLUME:\s+(\S+)/) {
-            $volume->{FORMAT} = "AIX PV $1";
+            $volume->{FORMAT} = "AIX PV";
         }
         if ($line =~ /FREE PPs:\s+(\d+)/) {
             $free = $1;
