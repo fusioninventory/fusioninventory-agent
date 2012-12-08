@@ -68,9 +68,9 @@ sub run {
 sub _send_magic_packet_ethernet {
     my ($self,  $target) = @_;
 
-    socket(SOCKET, PF_INET, SOCK_RAW, getprotobyname('icmp'))
+    socket(my $socket, PF_INET, SOCK_RAW, getprotobyname('icmp'))
         or die "can't open socket: $ERRNO\n";
-    setsockopt(SOCKET, SOL_SOCKET, SO_BROADCAST, 1)
+    setsockopt($socket, SOL_SOCKET, SO_BROADCAST, 1)
         or die "can't do setsockopt: $ERRNO\n";
 
     SWITCH: {
@@ -99,17 +99,17 @@ sub _send_magic_packet_ethernet {
     $self->{logger}->debug(
         "Sending magic packet to $target as ethernet frame"
     );
-    send(SOCKET, $magic_packet, 0, $destination)
+    send($socket, $magic_packet, 0, $destination)
         or die "can't send packet: $ERRNO\n";
-    close(SOCKET);
+    close($socket);
 }
 
 sub _send_magic_packet_udp {
     my ($self,  $target) = @_;
 
-    socket(SOCKET, PF_INET, SOCK_DGRAM, getprotobyname('udp'))
+    socket(my $socket, PF_INET, SOCK_DGRAM, getprotobyname('udp'))
         or die "can't open socket: $ERRNO\n";
-    setsockopt(SOCKET, SOL_SOCKET, SO_BROADCAST, 1)
+    setsockopt($socket, SOL_SOCKET, SO_BROADCAST, 1)
         or die "can't do setsockopt: $ERRNO\n";
 
     my $magic_packet = 
@@ -120,9 +120,9 @@ sub _send_magic_packet_udp {
     $self->{logger}->debug(
         "Sending magic packet to $target as UDP packet"
     );
-    send(SOCKET, $magic_packet, 0, $destination)
+    send($socket, $magic_packet, 0, $destination)
         or die "can't send packet: $ERRNO\n";
-    close(SOCKET);
+    close($socket);
 }
 
 1;
