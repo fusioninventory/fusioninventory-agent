@@ -88,6 +88,9 @@ my %checks = (
     },
     VIRTUALMACHINES => {
         STATUS => qr/^(running|idle|paused|shutdown|crashed|dying|off)$/
+    },
+    NETWORKS => {
+        TYPE => qr/^(ethernet|wifi)$/
     }
 );
 
