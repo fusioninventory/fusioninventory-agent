@@ -4,9 +4,6 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
-use constant PF_PACKET => 17;
-use constant SOCK_PACKET => 10;
-
 use English qw(-no_match_vars);
 use List::Util qw(first);
 use Socket;
@@ -71,7 +68,7 @@ sub run {
 sub _send_magic_packet_ethernet {
     my ($self,  $target) = @_;
 
-    socket(SOCKET, PF_PACKET, SOCK_PACKET, 0)
+    socket(SOCKET, PF_INET, SOCK_RAW, getprotobyname('icmp'))
         or die "can't open socket: $ERRNO\n";
     setsockopt(SOCKET, SOL_SOCKET, SO_BROADCAST, 1)
         or die "can't do setsockopt: $ERRNO\n";
