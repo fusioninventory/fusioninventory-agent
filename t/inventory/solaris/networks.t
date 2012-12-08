@@ -13,6 +13,7 @@ my %ifconfig_tests = (
             IPSUBNET    => '127.0.0.0',
             IPMASK      => '255.0.0.0',
             DESCRIPTION => 'lo0',
+            TYPE        => 'ethernet',
             STATUS      => 'Up',
             SPEED       => undef,
             IPADDRESS   => '127.0.0.1'
@@ -24,6 +25,7 @@ my %ifconfig_tests = (
             SPEED       => undef,
             IPSUBNET    => '130.79.0.0',
             DESCRIPTION => 'aggr1',
+            TYPE        => 'ethernet',
             IPADDRESS   => '130.79.0.1'
         },
         {
@@ -33,6 +35,7 @@ my %ifconfig_tests = (
             SPEED       => undef,
             IPSUBNET    => '130.79.0.0',
             DESCRIPTION => 'e1000g0',
+            TYPE        => 'ethernet',
             IPADDRESS   => '130.79.0.2'
         },
         {
@@ -42,6 +45,7 @@ my %ifconfig_tests = (
             SPEED       => undef,
             IPSUBNET    => '130.79.0.0',
             DESCRIPTION => 'e1000g2',
+            TYPE        => 'ethernet',
             IPADDRESS   => '130.79.0.3'
         },
         {
@@ -51,6 +55,7 @@ my %ifconfig_tests = (
             SPEED       => undef,
             IPSUBNET    => '192.168.19.0',
             DESCRIPTION => 'e1000g3',
+            TYPE        => 'ethernet',
             IPADDRESS   => '192.168.19.1'
         },
         {
@@ -60,6 +65,7 @@ my %ifconfig_tests = (
             SPEED       => undef,
             IPSUBNET    => '130.79.255.0',
             DESCRIPTION => 'e1000g4',
+            TYPE        => 'ethernet',
             IPADDRESS   => '130.79.255.1'
         },
         {
@@ -69,6 +75,7 @@ my %ifconfig_tests = (
             SPEED       => undef,
             IPSUBNET    => '192.168.20.0',
             DESCRIPTION => 'igb0',
+            TYPE        => 'ethernet',
             IPADDRESS   => '192.168.20.1'
         }
     ],
@@ -77,6 +84,7 @@ my %ifconfig_tests = (
             IPSUBNET    => '127.0.0.0',
             IPMASK      => '255.0.0.0',
             DESCRIPTION => 'lo0',
+            TYPE        => 'ethernet',
             STATUS      => 'Up',
             SPEED       => undef,
             IPADDRESS   => '127.0.0.1'
@@ -88,11 +96,13 @@ my %ifconfig_tests = (
             SPEED       => undef,
             IPSUBNET    => '192.168.0.0',
             DESCRIPTION => 'e1000g0',
+            TYPE        => 'ethernet',
             IPADDRESS   => '192.168.0.41'
         },
         {
             IPSUBNET    => undef,
             DESCRIPTION => 'lo0',
+            TYPE        => 'ethernet',
             STATUS      => 'Up',
             SPEED       => undef
         },
@@ -100,12 +110,14 @@ my %ifconfig_tests = (
             IPSUBNET    => undef,
             MACADDR     => '08:00:27:fc:ad:56',
             DESCRIPTION => 'e1000g0',
+            TYPE        => 'ethernet',
             STATUS      => 'Up',
             SPEED       => undef
         },
         {
             IPSUBNET    => undef,
             DESCRIPTION => 'e1000g0:1',
+            TYPE        => 'ethernet',
             STATUS      => 'Up',
             SPEED       => undef
         }
@@ -127,7 +139,6 @@ my @parsefcinfo = (
             FIRMWARE     => '05.03.02',
             STATUS       => 'Up',
             SPEED        => '4Gb',
-            TYPE         => 'HBA',
             DRIVER       => 'qlc',
             DESCRIPTION  => 'HBA_Port_WWN_1 /dev/cfg/c0',
             MANUFACTURER => 'QLogic Corp.',
@@ -138,7 +149,6 @@ my @parsefcinfo = (
             FIRMWARE     => '05.03.02',
             STATUS       => 'Up',
             SPEED        => '4Gb',
-            TYPE         => 'HBA',
             DRIVER       => 'qlc',
             DESCRIPTION  => 'HBA_Port_WWN_2 /dev/cfg/c1',
             MANUFACTURER => 'QLogic Corp.',
