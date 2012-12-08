@@ -1,6 +1,6 @@
 Revision history for FusionInventory agent network tasks plugin
 
-1.0.2   Wed, 28 Nov 2012
+1.0.2  Sat, 08 Dec 2012 14:06:06 +0100
 
 Fixes:
 * work around Net::IP bug 71510 (#1880)
