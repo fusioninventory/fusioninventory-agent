@@ -3,8 +3,6 @@
 use strict;
 use warnings;
 
-eval { use Carp::Always; };
-
 use Compress::Zlib;
 use English qw(-no_match_vars);
 use Fcntl qw(:flock);

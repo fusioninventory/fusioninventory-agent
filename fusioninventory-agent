@@ -8,8 +8,6 @@ use English qw(-no_match_vars);
 use Getopt::Long;
 use Pod::Usage;
 
-eval { use Carp::Always; };
-
 use FusionInventory::Agent;
 
 Getopt::Long::Configure( "no_ignorecase" );
