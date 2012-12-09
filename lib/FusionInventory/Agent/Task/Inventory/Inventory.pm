@@ -942,6 +942,10 @@ The operating system installation date.
 
 Operating system architecture.
 
+=item BOOT_TIME
+
+The date of the boot of the computer, e.g: 2012-12-09 15:58:20
+
 =back
 
 =head2 MONITORS
