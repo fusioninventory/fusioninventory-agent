@@ -558,7 +558,7 @@ my %ifconfig_tests = (
         {
             MACADDR     => 'A4:BA:DB:A5:F5:FA',
             STATUS      => 'Up',
-            TYPE        => 'Ethernet',
+            TYPE        => 'ethernet',
             DESCRIPTION => 'eth0',
             IPMASK      => '255.255.255.0',
             IPADDRESS   => '192.168.0.5',
@@ -567,7 +567,7 @@ my %ifconfig_tests = (
         {
             DESCRIPTION => 'lo',
             STATUS      => 'Up',
-            TYPE        => 'Local',
+            TYPE        => undef,
             IPMASK      => '255.0.0.0',
             IPADDRESS   => '127.0.0.1',
             IPADDRESS6  => '::1/128',
@@ -576,17 +576,17 @@ my %ifconfig_tests = (
             MACADDR     => '4E:8C:81:ED:9B:35',
             DESCRIPTION => 'pan0',
             STATUS      => 'Down',
-            TYPE        => 'Ethernet',
+            TYPE        => 'ethernet',
         },
         {
             DESCRIPTION => 'sit0',
             STATUS      => 'Down',
-            TYPE        => 'IPv6-in-IPv4',
+            TYPE        => undef,
         },
         {
             MACADDR     => '00:24:D6:6F:81:3A',
             STATUS      => 'Up',
-            TYPE        => 'Ethernet',
+            TYPE        => 'ethernet',
             DESCRIPTION => 'wlan0',
             IPMASK      => '255.255.192.0',
             IPADDRESS   => '78.251.91.204',
@@ -599,7 +599,7 @@ my %ifconfig_tests = (
             MACADDR     => '00:50:56:AD:00:0E',
             DESCRIPTION => 'bond0',
             STATUS      => 'Up',
-            TYPE        => 'Ethernet',
+            TYPE        => 'ethernet',
             IPADDRESS6  => 'fe80::250:56ff:fead:e/64',
             IPADDRESS   => '192.168.1.181'
         },
@@ -607,13 +607,13 @@ my %ifconfig_tests = (
             MACADDR     => '00:50:56:AD:00:0E',
             DESCRIPTION => 'eth0',
             STATUS      => 'Up',
-            TYPE       => 'Ethernet'
+            TYPE        => 'ethernet'
         },
         {
             IPMASK      => '255.0.0.0',
             DESCRIPTION => 'lo',
             STATUS      => 'Up',
-            TYPE        => 'Local',
+            TYPE        => undef,
             IPADDRESS6  => '::1/128',
             IPADDRESS   => '127.0.0.1'
         } 
@@ -624,7 +624,7 @@ my %ifconfig_tests = (
             MACADDR     => '00:1E:68:2F:85:D8',
             DESCRIPTION => 'eth0',
             STATUS      => 'Up',
-            TYPE        => 'Ethernet',
+            TYPE        => 'ethernet',
             IPADDRESS6  => 'fe80::21e:68ff:fe2f:85d8/64',
             IPADDRESS   => '10.202.0.31'
         },
@@ -632,7 +632,7 @@ my %ifconfig_tests = (
             IPMASK      => '255.0.0.0',
             DESCRIPTION => 'lo',
             STATUS      => 'Up',
-            TYPE        => 'Local',
+            TYPE        => undef,
             IPADDRESS6  => '::1/128',
             IPADDRESS   => '127.0.0.1'
         },
@@ -640,49 +640,49 @@ my %ifconfig_tests = (
             MACADDR     => '00:1E:68:2F:85:D8',
             DESCRIPTION => 'peth0',
             STATUS      => 'Up',
-            TYPE        => 'Ethernet',
+            TYPE        => 'ethernet',
             IPADDRESS6  => 'fe80::21e:68ff:fe2f:85d8/64'
         },
         {
             MACADDR     => 'FE:FF:FF:FF:FF:FF',
             DESCRIPTION => 'vif1.0',
             STATUS      => 'Up',
-            TYPE        => 'Ethernet',
+            TYPE        => 'ethernet',
             IPADDRESS6  => 'fe80::fcff:ffff:feff:ffff/64'
         },
         {
             MACADDR     => 'FE:FF:FF:FF:FF:FF',
             DESCRIPTION => 'vif2.0',
             STATUS      => 'Up',
-            TYPE        => 'Ethernet',
+            TYPE        => 'ethernet',
             IPADDRESS6  => 'fe80::fcff:ffff:feff:ffff/64'
         },
         {
             MACADDR     => 'FE:FF:FF:FF:FF:FF',
             DESCRIPTION => 'vif3.0',
             STATUS      => 'Up',
-            TYPE        => 'Ethernet',
+            TYPE        => 'ethernet',
             IPADDRESS6  => 'fe80::fcff:ffff:feff:ffff/64'
         },
         {
             MACADDR     => 'FE:FF:FF:FF:FF:FF',
             DESCRIPTION => 'vif4.0',
             STATUS      => 'Up',
-            TYPE        => 'Ethernet',
+            TYPE        => 'ethernet',
             IPADDRESS6  => 'fe80::fcff:ffff:feff:ffff/64'
         },
         {
             MACADDR     => 'FE:FF:FF:FF:FF:FF',
             DESCRIPTION => 'vif5.0',
             STATUS      => 'Up',
-            TYPE        => 'Ethernet',
+            TYPE        => 'ethernet',
             IPADDRESS6  => 'fe80::fcff:ffff:feff:ffff/64'
         },
         {
             MACADDR     => 'FE:FF:FF:FF:FF:FF',
             DESCRIPTION => 'vif6.0',
             STATUS      => 'Up',
-            TYPE        => 'Ethernet',
+            TYPE        => 'ethernet',
             IPADDRESS6  => 'fe80::fcff:ffff:feff:ffff/64'
         }
     ],
@@ -692,7 +692,7 @@ my %ifconfig_tests = (
             MACADDR     => '00:23:ae:8c:33:b6',
             DESCRIPTION => 'em1',
             STATUS      => 'Up',
-            TYPE        => 'Ethernet',
+            TYPE        => 'ethernet',
             IPADDRESS6  => 'fe80::223:aeff:fe8c:33b6',
             IPADDRESS   => '10.1.65.145'
         }

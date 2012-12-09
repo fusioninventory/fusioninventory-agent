@@ -4,9 +4,6 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
-use constant PF_PACKET => 17;
-use constant SOCK_PACKET => 10;
-
 use English qw(-no_match_vars);
 use List::Util qw(first);
 use Socket;
@@ -71,24 +68,12 @@ sub run {
 sub _send_magic_packet_ethernet {
     my ($self,  $target) = @_;
 
-    socket(SOCKET, PF_PACKET, SOCK_PACKET, 0)
+    socket(my $socket, PF_INET, SOCK_RAW, getprotobyname('icmp'))
         or die "can't open socket: $ERRNO\n";
-    setsockopt(SOCKET, SOL_SOCKET, SO_BROADCAST, 1)
+    setsockopt($socket, SOL_SOCKET, SO_BROADCAST, 1)
         or die "can't do setsockopt: $ERRNO\n";
 
-    SWITCH: {
-        if ($OSNAME eq 'linux') {
-            FusionInventory::Agent::Tools::Linux->use();
-            last;
-        }
-        if ($OSNAME =~ /freebsd|openbsd|netbsd|gnukfreebsd|gnuknetbsd|dragonfly/) {
-            FusionInventory::Agent::Tools::BSD->use();
-            last;
-        }
-    }
-    my $interface =
-        first { $_->{MACADDR} }
-        getInterfacesFromIfconfig(logger => $self->{logger});
+    my $interface = $self->_getInterface();
     my $source = $interface->{MACADDR};
     $source =~ s/://g;
 
@@ -102,17 +87,17 @@ sub _send_magic_packet_ethernet {
     $self->{logger}->debug(
         "Sending magic packet to $target as ethernet frame"
     );
-    send(SOCKET, $magic_packet, 0, $destination)
+    send($socket, $magic_packet, 0, $destination)
         or die "can't send packet: $ERRNO\n";
-    close(SOCKET);
+    close($socket);
 }
 
 sub _send_magic_packet_udp {
     my ($self,  $target) = @_;
 
-    socket(SOCKET, PF_INET, SOCK_DGRAM, getprotobyname('udp'))
+    socket(my $socket, PF_INET, SOCK_DGRAM, getprotobyname('udp'))
         or die "can't open socket: $ERRNO\n";
-    setsockopt(SOCKET, SOL_SOCKET, SO_BROADCAST, 1)
+    setsockopt($socket, SOL_SOCKET, SO_BROADCAST, 1)
         or die "can't do setsockopt: $ERRNO\n";
 
     my $magic_packet = 
@@ -123,9 +108,39 @@ sub _send_magic_packet_udp {
     $self->{logger}->debug(
         "Sending magic packet to $target as UDP packet"
     );
-    send(SOCKET, $magic_packet, 0, $destination)
+    send($socket, $magic_packet, 0, $destination)
         or die "can't send packet: $ERRNO\n";
-    close(SOCKET);
+    close($socket);
+}
+
+sub _getInterface {
+    my ($self) = @_;
+
+    # get system-specific interfaces retrieval functions
+    my $function;
+    SWITCH: {
+        if ($OSNAME eq 'linux') {
+            FusionInventory::Agent::Tools::Linux->require();
+	    $function = \&FusionInventory::Agent::Tools::Linux::getInterfacesFromIfconfig;
+            last;
+        }
+        if ($OSNAME =~ /freebsd|openbsd|netbsd|gnukfreebsd|gnuknetbsd|dragonfly/) {
+            FusionInventory::Agent::Tools::BSD->require();
+            $function = \&FusionInventory::Agent::Tools::BSD::getInterfacesFromIfconfig;
+            last;
+        }
+        if ($OSNAME eq 'MSWin32') {
+	    FusionInventory::Agent::Task::Inventory::Input::Win32::Networks->require();
+            $function = \&FusionInventory::Agent::Task::Inventory::Input::Win32::Networks::_getInterfaces;
+            last;
+        }
+    }
+
+    my $interface =
+	first { $_->{MACADDR} }
+	$function->(logger => $self->{logger});
+
+    return $interface;
 }
 
 1;
