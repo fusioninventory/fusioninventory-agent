@@ -26,7 +26,7 @@ sub doInventory {
         delete $user->{gid};
 
         $inventory->addEntry(
-            section => 'LOCALUSERS',
+            section => 'LOCAL_USERS',
             entry   => $user
         );
     }
@@ -37,7 +37,7 @@ sub doInventory {
             if $users{$group->{ID}};
 
         $inventory->addEntry(
-            section => 'LOCALGROUPS',
+            section => 'LOCAL_GROUPS',
             entry   => $group
         );
     }

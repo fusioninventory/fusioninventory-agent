@@ -32,14 +32,14 @@ sub doInventory {
 
     foreach my $user (_getLocalUsers(logger => $logger)) {
         $inventory->addEntry(
-            section => 'LOCALUSERS',
+            section => 'LOCAL_USERS',
             entry   => $user
         );
     }
 
     foreach my $group (_getLocalGroups(logger => $logger)) {
         $inventory->addEntry(
-            section => 'LOCALGROUPS',
+            section => 'LOCAL_GROUPS',
             entry   => $group
         );
     }
