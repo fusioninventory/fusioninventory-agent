@@ -15,7 +15,7 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    foreach my $device (_getDevices(logger => $params{logger})) {
+    foreach my $device (_getDevices(logger => $params{logger}, datadir => $params{datadir})) {
         $inventory->addEntry(
             section => 'USBDEVICES',
             entry   => $device,
