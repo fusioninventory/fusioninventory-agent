@@ -14,6 +14,7 @@ our @EXPORT = qw(
     test_localhost
     mockGetWMIObjects
     mockGetRegistryKey
+    unsetProxyEnvVar
 );
 
 sub test_port {
@@ -158,4 +159,10 @@ sub loadRegistryDump {
     close $handle;
 
     return $root_key;
+}
+
+sub unsetProxyEnvVar {
+    foreach my $key (qw(http_proxy https_proxy HTTP_PROXY HTTPS_PROXY)) {
+         $ENV{$key}=undef;
+    }
 }
