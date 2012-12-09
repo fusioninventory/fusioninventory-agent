@@ -20,26 +20,30 @@ sub doInventory {
 
     my %users;
 
-    foreach my $user (_getLocalUsers(logger => $logger)) {
-        # record user -> primary group relationship
-        push @{$users{$user->{gid}}}, $user->{LOGIN};
-        delete $user->{gid};
+    if (!$params{no_category}->{local_user}) {
+        foreach my $user (_getLocalUsers(logger => $logger)) {
+            # record user -> primary group relationship
+            push @{$users{$user->{gid}}}, $user->{LOGIN};
+            delete $user->{gid};
 
-        $inventory->addEntry(
-            section => 'LOCAL_USERS',
-            entry   => $user
-        );
+            $inventory->addEntry(
+                section => 'LOCAL_USERS',
+                entry   => $user
+            );
+        }
     }
 
-    foreach my $group (_getLocalGroups(logger => $logger)) {
-        # add users having this group as primary group, if any
-        push @{$group->{MEMBER}}, @{$users{$group->{ID}}}
-            if $users{$group->{ID}};
+    if (!$params{no_category}->{local_group}) {
+        foreach my $group (_getLocalGroups(logger => $logger)) {
+            # add users having this group as primary group, if any
+            push @{$group->{MEMBER}}, @{$users{$group->{ID}}}
+                if $users{$group->{ID}};
 
-        $inventory->addEntry(
-            section => 'LOCAL_GROUPS',
-            entry   => $group
-        );
+            $inventory->addEntry(
+                section => 'LOCAL_GROUPS',
+                entry   => $group
+            );
+        }
     }
 
     foreach my $user (_getLoggedUsers(logger => $logger)) {

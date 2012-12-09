@@ -30,18 +30,22 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    foreach my $user (_getLocalUsers(logger => $logger)) {
-        $inventory->addEntry(
-            section => 'LOCAL_USERS',
-            entry   => $user
-        );
+    if (!$params{no_category}->{local_user}) {
+        foreach my $user (_getLocalUsers(logger => $logger)) {
+            $inventory->addEntry(
+                section => 'LOCAL_USERS',
+                entry   => $user
+            );
+        }
     }
 
-    foreach my $group (_getLocalGroups(logger => $logger)) {
-        $inventory->addEntry(
-            section => 'LOCAL_GROUPS',
-            entry   => $group
-        );
+    if (!$params{no_category}->{local_group}) {
+        foreach my $group (_getLocalGroups(logger => $logger)) {
+            $inventory->addEntry(
+                section => 'LOCAL_GROUPS',
+                entry   => $group
+            );
+        }
     }
 
     foreach my $user (_getLoggedUsers(logger => $logger)) {
