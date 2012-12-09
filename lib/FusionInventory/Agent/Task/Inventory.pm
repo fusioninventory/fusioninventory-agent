@@ -273,7 +273,7 @@ sub _runModule {
 }
 
 sub _feedInventory {
-    my ($self, $inventory) = @_;
+    my ($self, $inventory, $disabled) = @_;
 
     my $begin = time();
     my @modules =
@@ -281,7 +281,7 @@ sub _feedInventory {
         keys %{$self->{modules}};
 
     foreach my $module (sort @modules) {
-        $self->_runModule($module, $inventory);
+        $self->_runModule($module, $inventory, $disabled);
     }
 
     if (-d $self->{confdir} . '/softwares') {
