@@ -25,6 +25,11 @@ sub getInterfacesFromIfconfig {
     my @addresses;  # per-interface list of addresses
     my $interface;  # current interface
 
+    my %types = (
+        Ethernet => 'ethernet',
+        IEEE     => 'wifi'
+    );
+
     while (my $line = <$handle>) {
         if ($line =~ /^(\S+): flags=\d+<([^>]+)> metric \d+ mtu (\d+)/) {
 
@@ -80,8 +85,8 @@ sub getInterfacesFromIfconfig {
         }
 
         if ($line =~ /media: (\S+)/) {
-            $interface->{TYPE} = $1;
-            $_->{TYPE} = $1 foreach @addresses;
+            $interface->{TYPE} = $types{$1};
+            $_->{TYPE} = $types{$1} foreach @addresses;
         }
     }
     close $handle;

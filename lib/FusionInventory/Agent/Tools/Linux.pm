@@ -290,6 +290,10 @@ sub getInterfacesFromIfconfig {
     my @interfaces;
     my $interface;
 
+    my %types = (
+        Ethernet => 'ethernet',
+    );
+
     while (my $line = <$handle>) {
         if ($line =~ /^$/) {
             # end of interface section
@@ -318,10 +322,10 @@ sub getInterfacesFromIfconfig {
         if ($line =~ /
             ether \s ($mac_address_pattern)
             .+
-            \( ([^)]+) \)
+            \( Ethernet \)
         /x) {
             $interface->{MACADDR} = $1;
-            $interface->{TYPE} = $2;
+            $interface->{TYPE} = 'ethernet';
         }
 
         if ($line =~ /inet6 \s (\S+)/x) {
@@ -352,8 +356,8 @@ sub getInterfacesFromIfconfig {
             $interface->{STATUS} = 'Up';
         }
 
-        if ($line =~ /link encap:(\S+)/i) {
-            $interface->{TYPE} = $1;
+        if ($line =~ /Link encap:(\S+)/) {
+            $interface->{TYPE} = $types{$1};
         }
 
     }
