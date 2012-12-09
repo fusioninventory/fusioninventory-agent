@@ -73,19 +73,7 @@ sub _send_magic_packet_ethernet {
     setsockopt($socket, SOL_SOCKET, SO_BROADCAST, 1)
         or die "can't do setsockopt: $ERRNO\n";
 
-    SWITCH: {
-        if ($OSNAME eq 'linux') {
-            FusionInventory::Agent::Tools::Linux->use();
-            last;
-        }
-        if ($OSNAME =~ /freebsd|openbsd|netbsd|gnukfreebsd|gnuknetbsd|dragonfly/) {
-            FusionInventory::Agent::Tools::BSD->use();
-            last;
-        }
-    }
-    my $interface =
-        first { $_->{MACADDR} }
-        getInterfacesFromIfconfig(logger => $self->{logger});
+    my $interface = $self->_getInterface();
     my $source = $interface->{MACADDR};
     $source =~ s/://g;
 
@@ -123,6 +111,36 @@ sub _send_magic_packet_udp {
     send($socket, $magic_packet, 0, $destination)
         or die "can't send packet: $ERRNO\n";
     close($socket);
+}
+
+sub _getInterface {
+    my ($self) = @_;
+
+    # get system-specific interfaces retrieval functions
+    my $function;
+    SWITCH: {
+        if ($OSNAME eq 'linux') {
+            FusionInventory::Agent::Tools::Linux->require();
+	    $function = \&FusionInventory::Agent::Tools::Linux::getInterfacesFromIfconfig;
+            last;
+        }
+        if ($OSNAME =~ /freebsd|openbsd|netbsd|gnukfreebsd|gnuknetbsd|dragonfly/) {
+            FusionInventory::Agent::Tools::BSD->require();
+            $function = \&FusionInventory::Agent::Tools::BSD::getInterfacesFromIfconfig;
+            last;
+        }
+        if ($OSNAME eq 'MSWin32') {
+	    FusionInventory::Agent::Task::Inventory::Input::Win32::Networks->require();
+            $function = \&FusionInventory::Agent::Task::Inventory::Input::Win32::Networks::_getInterfaces;
+            last;
+        }
+    }
+
+    my $interface =
+	first { $_->{MACADDR} }
+	$function->(logger => $self->{logger});
+
+    return $interface;
 }
 
 1;
