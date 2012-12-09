@@ -3,7 +3,7 @@ Revision history for FusionInventory agent
 2.3.0
 General:
 * various UTF8 encoding fixes
-* Add DNS_DOMAIN and FQDN in OPERATINGSYSTEM section
+* Add DNS_DOMAIN, BOOT_TIME and FQDN in OPERATINGSYSTEM section
 * Collect public SSH keys
 
 Windows:
