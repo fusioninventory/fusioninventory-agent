@@ -7,7 +7,111 @@ use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::Generic::USB;
 
-my %tests = (
+my %lsusb_tests = (
+    'dell-xt2' => [
+        {
+            VENDORID   => '1d6b',
+            SUBCLASS   => '0',
+            CLASS      => '9',
+            PRODUCTID  => '0001',
+            SERIAL     => '0000',
+        },
+        {
+            VENDORID   => '0a5c',
+            SUBCLASS   => '0',
+            CLASS      => '9',
+            PRODUCTID  => '4500',
+        },
+        {
+            VENDORID   => '413c',
+            SUBCLASS   => '1',
+            CLASS      => '3',
+            PRODUCTID  => '8161',
+        },
+        {
+            VENDORID   => '413c',
+            SUBCLASS   => '1',
+            CLASS      => '3',
+            PRODUCTID  => '8162',
+        },
+        {
+            VENDORID   => '413c',
+            SUBCLASS   => '1',
+            CLASS      => '254',
+            PRODUCTID  => '8160',
+        },
+        {
+            CLASS     => '9',
+            SERIAL    => '0000',
+            SUBCLASS  => '0',
+            VENDORID  => '1d6b',
+            PRODUCTID => '0001'
+        },
+        {
+            CLASS     => '9',
+            SERIAL    => '0000',
+            SUBCLASS  => '0',
+            VENDORID  => '1d6b',
+            PRODUCTID => '0001'
+        },
+        {
+            VENDORID  => '0a5c',
+            SERIAL    => '0123456789ABCD',
+            SUBCLASS  => '0',
+            CLASS     => '254',
+            PRODUCTID => '5801',
+        },
+        {
+            CLASS     => '9',
+            SERIAL    => '0000',
+            SUBCLASS  => '0',
+            VENDORID  => '1d6b',
+            PRODUCTID => '0001'
+        },
+        {
+            CLASS     => '9',
+            SERIAL    => '0000',
+            SUBCLASS  => '0',
+            VENDORID  => '1d6b',
+            PRODUCTID => '0001'
+        },
+        {
+            CLASS     => '0',
+            SUBCLASS  => '0',
+            VENDORID  => '1b96',
+            PRODUCTID => '0001'
+        },
+        {
+            CLASS     => '9',
+            SERIAL    => '0000',
+            SUBCLASS  => '0',
+            VENDORID  => '1d6b',
+            PRODUCTID => '0001'
+        },
+        {
+            VENDORID  => '047d',
+            SUBCLASS  => '1',
+            CLASS     => '3',
+            PRODUCTID => '101f',
+        },
+        {
+            CLASS     => '9',
+            SERIAL    => '0000',
+            SUBCLASS  => '0',
+            VENDORID  => '1d6b',
+            PRODUCTID => '0002'
+        },
+        {
+            CLASS     => '9',
+            SERIAL    => '0000',
+            SUBCLASS  => '0',
+            VENDORID  => '1d6b',
+            PRODUCTID => '0002'
+        }
+    ]
+);
+
+my %usb_tests = (
     'dell-xt2' => [
         {
             VENDORID     => '0a5c',
@@ -61,10 +165,16 @@ my %tests = (
     ]
 );
 
-plan tests => scalar keys %tests;
+plan tests => (scalar keys %lsusb_tests) + (scalar keys %usb_tests);
 
-foreach my $test (keys %tests) {
+foreach my $test (keys %lsusb_tests) {
+    my $file = "resources/generic/lsusb/$test";
+    my @devices = FusionInventory::Agent::Task::Inventory::Input::Generic::USB::_getDevicesFromLsusb(file => $file);
+    is_deeply(\@devices, $lsusb_tests{$test}, "$test lsusb parsing");
+}
+
+foreach my $test (keys %usb_tests) {
     my $file = "resources/generic/lsusb/$test";
     my @devices = FusionInventory::Agent::Task::Inventory::Input::Generic::USB::_getDevices(file => $file, datadir => './share');
-    is_deeply(\@devices, $tests{$test}, $test);
+    is_deeply(\@devices, $usb_tests{$test}, "$test usb devices retrieval");
 }
