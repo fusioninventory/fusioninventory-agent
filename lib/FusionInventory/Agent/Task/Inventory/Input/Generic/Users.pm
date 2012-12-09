@@ -68,9 +68,6 @@ sub _getLocalUsers {
         next if $line =~ /^#/;
         my ($login, undef, $uid, $gid, $gecos, $home, $shell) =
             split(/:/, $line);
-        # assume users with lower uid are system users
-        next if $uid < 500;
-        next if $login eq 'nobody';
 
         push @users, {
             LOGIN => $login,
@@ -101,9 +98,6 @@ sub _getLocalGroups {
         next if $line =~ /^#/;
         chomp $line;
         my ($name, undef, $gid, $members) = split(/:/, $line);
-        # assume groups with lower gid are system groups
-        next if $gid < 500;
-        next if $name eq 'nogroup';
 
         my @members = split(/,/, $members);
 
