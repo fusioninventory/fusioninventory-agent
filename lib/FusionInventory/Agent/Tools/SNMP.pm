@@ -68,7 +68,7 @@ my %hardware_keywords = (
     'ricoh'          => { vendor => 'Ricoh',           type => 'PRINTER'    },
     'sagem'          => { vendor => 'Sagem',           type => 'NETWORKING' },
     'samsung'        => { vendor => 'Samsung',         type => 'NETWORKING' },
-    'sharp'          => { vendor => 'Sharp',           type => 'NETWORKING' },
+    'sharp'          => { vendor => 'Sharp',                                },
     'toshiba'        => { vendor => 'Toshiba',         type => 'NETWORKING' },
     'wyse'           => { vendor => 'Wyse',            type => 'NETWORKING' },
     'xerox'          => { vendor => 'Xerox',           type => 'PRINTER'    },
