@@ -73,7 +73,7 @@ my %hardware_keywords = (
     'wyse'           => { vendor => 'Wyse',            type => 'NETWORKING' },
     'xerox'          => { vendor => 'Xerox',           type => 'PRINTER'    },
     'xirrus'         => { vendor => 'Xirrus',          type => 'NETWORKING' },
-    'zebranet'       => { vendor => 'Zebranet',        type => 'NETWORKING' },
+    'zebranet'       => { vendor => 'Zebranet'                              },
     'ztc'            => { vendor => 'ZTC',             type => 'NETWORKING' },
     'zywall'         => { vendor => 'ZyWall',          type => 'NETWORKING' }
 );
