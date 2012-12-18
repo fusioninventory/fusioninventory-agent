@@ -42,7 +42,7 @@ sub doInventory {
 sub _scanOffice {
     my ($key) = @_;
 
-    my %license = {
+    my %license = (
         PRODUCTID => $key->{ProductID},
         UPDATE    => $key->{SPLevel},
         OEM       => $key->{OEM},
@@ -50,7 +50,7 @@ sub _scanOffice {
                      encodeFromRegistry($key->{ConvertToEdition}),
         NAME      => encodeFromRegistry($key->{ProductNameNonQualified}) ||
                      encodeFromRegistry($key->{ProductNameVersion})
-    };
+    );
 
     if ($key->{DigitalProductID}) {
         $license{KEY} = parseProductKey($key->{DigitalProductID});
