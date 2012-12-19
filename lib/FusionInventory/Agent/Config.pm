@@ -15,8 +15,9 @@ my $default = {
     'backend-collect-timeout' => 30,
     'httpd-port'              => 62354,
     'timeout'                 => 180,
-    'no-task'                 => [],
-    'no-category'             => []
+    # multi-values options that will be converted to array ref
+    'no-task'                 => "",
+    'no-category'             => ""
 };
 
 my $deprecated = {
@@ -86,7 +87,6 @@ sub new {
     my $self = {};
     bless $self, $class;
     $self->_loadDefaults();
-
     my $backend =
         $params{options}->{'conf-file'} ? 'file'                     :
         $params{options}->{config}      ? $params{options}->{config} :
@@ -162,7 +162,6 @@ sub _loadFromRegistry {
 
 sub _loadFromFile {
     my ($self, $params) = @_;
-
     my $file = $params->{file} ?
         $params->{file} : $params->{directory} . '/agent.cfg';
 
@@ -208,6 +207,8 @@ sub _checkContent {
     # check for deprecated options
     foreach my $old (keys %$deprecated) {
         next unless defined $self->{$old};
+
+        next if $old =~ /^no-/ and !$self->{$old};
 
         my $handler = $deprecated->{$old};
 
