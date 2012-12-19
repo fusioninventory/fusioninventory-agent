@@ -37,6 +37,9 @@ sub doInventory {
             $screen->{SERIAL}       = $info->{SERIAL};
 
             $screen->{BASE64} = encode_base64($screen->{edid});
+        }
+
+        if (defined($screen->{edid})) {
             delete $screen->{edid};
         }
 
