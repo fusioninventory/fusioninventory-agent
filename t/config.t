@@ -12,15 +12,18 @@ use FusionInventory::Agent::Config;
 my %config = (
     'sample1' => {
         'no-task' => ['snmpquery', 'wakeonlan'],
-        'no-category' => []
+        'no-category' => [],
+        'httpd-trust' => []
     },
     'sample2' => {
         'no-task' => [],
-        'no-category' => ['printer']
+        'no-category' => ['printer'],
+        'httpd-trust' => ['example', '127.0.0.1', 'foobar', '123.0.0.0/10']
     },
     'sample3' => {
         'no-task' => [],
-        'no-category' => []
+        'no-category' => [],
+        'httpd-trust' => []
     }
 
 );
@@ -32,15 +35,7 @@ foreach my $test (keys %config) {
         'conf-file' => "t/config/$test/agent.cfg"
     });
 
-    is_deeply($c->{'no-task'}, $config{$test}->{'no-task'}, "no-task");
-    is_deeply($c->{'no-category'}, $config{$test}->{'no-category'}, "no-category");
+    foreach my $k (qw/ no-task no-category httpd-trust /) {
+        is_deeply($c->{$k}, $config{$test}->{$k}, $test." ".$k);
+    }
 }
-
-#$config = FusionInventory::Agent::Config->new(options => {
-#    'conf-file' => 't/config/sample2/agent.cfg'
-#
-#});
-#
-#is_deeply($config->{'no-task'}, , "no-task");
-#is_deeply($config->{'no-category'}, , "no-category is not empty");
-#
