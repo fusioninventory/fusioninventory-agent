@@ -39,3 +39,4 @@ foreach my $test (keys %config) {
         is_deeply($c->{$k}, $config{$test}->{$k}, $test." ".$k);
     }
 }
+
