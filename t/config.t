@@ -36,11 +36,3 @@ foreach my $test (keys %config) {
     is_deeply($c->{'no-category'}, $config{$test}->{'no-category'}, "no-category");
 }
 
-#$config = FusionInventory::Agent::Config->new(options => {
-#    'conf-file' => 't/config/sample2/agent.cfg'
-#
-#});
-#
-#is_deeply($config->{'no-task'}, , "no-task");
-#is_deeply($config->{'no-category'}, , "no-category is not empty");
-#
