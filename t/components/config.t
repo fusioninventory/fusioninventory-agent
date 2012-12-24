@@ -31,7 +31,7 @@ plan tests => (scalar keys %config) * 3;
 
 foreach my $test (keys %config) {
     my $c = FusionInventory::Agent::Config->new(options => {
-        'conf-file' => "t/config/$test/agent.cfg"
+        'conf-file' => "resources/config/$test"
     });
 
     foreach my $k (qw/ no-task no-category httpd-trust /) {
