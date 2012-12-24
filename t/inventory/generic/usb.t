@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Test::More;
+use Test::Deep;
 
 use FusionInventory::Agent::Task::Inventory::Input::Generic::USB;
 
@@ -119,7 +120,7 @@ my %usb_tests = (
             CLASS        => '9',
             PRODUCTID    => '4500',
             MANUFACTURER => 'Broadcom Corp.',
-            CAPTION      => 'BCM2046B1 USB 2.0 Hub (part of BCM2046 Bluetooth)'
+            CAPTION      => re('^BCM2046B1 USB 2.0 Hub')
         },
         {
             VENDORID     => '413c',
@@ -127,7 +128,7 @@ my %usb_tests = (
             CLASS        => '3',
             PRODUCTID    => '8161',
             MANUFACTURER => 'Dell Computer Corp.',
-            CAPTION      => 'Integrated Keyboard'
+            CAPTION      => re('^Integrated Keyboard')
         },
         {
             VENDORID     => '413c',
@@ -135,7 +136,7 @@ my %usb_tests = (
             CLASS        => '3',
             PRODUCTID    => '8162',
             MANUFACTURER => 'Dell Computer Corp.',
-            CAPTION      => 'Integrated Touchpad [Synaptics]'
+            CAPTION      => re('^Integrated Touchpad')
         },
         {
             VENDORID     => '413c',
@@ -143,7 +144,7 @@ my %usb_tests = (
             CLASS        => '254',
             PRODUCTID    => '8160',
             MANUFACTURER => 'Dell Computer Corp.',
-            CAPTION      => 'Wireless 365 Bluetooth'
+            CAPTION      => re('^Wireless 365 Bluetooth')
         },
         {
             VENDORID     => '0a5c',
@@ -152,7 +153,7 @@ my %usb_tests = (
             CLASS        => '254',
             PRODUCTID    => '5801',
             MANUFACTURER => 'Broadcom Corp.',
-            CAPTION      => 'BCM5880 Secure Applications Processor with fingerprint swipe sensor'
+            CAPTION      => re('^BCM5880 Secure Applications Processor')
         },
         {
             VENDORID     => '047d',
@@ -160,7 +161,7 @@ my %usb_tests = (
             CLASS        => '3',
             PRODUCTID    => '101f',
             MANUFACTURER => 'Kensington',
-            CAPTION      => 'PocketMouse Pro'
+            CAPTION      => re('^PocketMouse Pro')
         }
     ]
 );
@@ -170,11 +171,11 @@ plan tests => (scalar keys %lsusb_tests) + (scalar keys %usb_tests);
 foreach my $test (keys %lsusb_tests) {
     my $file = "resources/generic/lsusb/$test";
     my @devices = FusionInventory::Agent::Task::Inventory::Input::Generic::USB::_getDevicesFromLsusb(file => $file);
-    is_deeply(\@devices, $lsusb_tests{$test}, "$test lsusb parsing");
+    cmp_deeply(\@devices, $lsusb_tests{$test}, "$test lsusb parsing");
 }
 
 foreach my $test (keys %usb_tests) {
     my $file = "resources/generic/lsusb/$test";
     my @devices = FusionInventory::Agent::Task::Inventory::Input::Generic::USB::_getDevices(file => $file, datadir => './share');
-    is_deeply(\@devices, $usb_tests{$test}, "$test usb devices retrieval");
+    cmp_deeply(\@devices, $usb_tests{$test}, "$test usb devices retrieval");
 }
