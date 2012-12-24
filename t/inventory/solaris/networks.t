@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::Solaris::Networks;
@@ -131,7 +132,7 @@ plan tests =>
 foreach my $test (keys %ifconfig_tests) {
     my $file = "resources/generic/ifconfig/$test";
     my @results = FusionInventory::Agent::Task::Inventory::Input::Solaris::Networks::_getInterfaces(file => $file);
-    is_deeply(\@results, $ifconfig_tests{$test}, $test);
+    cmp_deeply(\@results, $ifconfig_tests{$test}, $test);
 }
 
 my @parsefcinfo = (
@@ -158,4 +159,4 @@ my @parsefcinfo = (
 );
 my $file = "resources/solaris/fcinfo_hba-port/sample-1";
 my @result = FusionInventory::Agent::Task::Inventory::Input::Solaris::Networks::_parsefcinfo(file => $file);
-is_deeply(\@result, \@parsefcinfo, "_parsefcinfo");
+cmp_deeply(\@result, \@parsefcinfo, "_parsefcinfo");

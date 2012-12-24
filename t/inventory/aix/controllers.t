@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::AIX::Controllers;
@@ -184,5 +185,5 @@ plan tests => scalar keys %tests;
 foreach my $test (keys %tests) {
     my $file = "resources/aix/lsdev/$test-adapter";
     my @controllers = FusionInventory::Agent::Task::Inventory::Input::AIX::Controllers::_getControllers(file => $file);
-    is_deeply(\@controllers, $tests{$test}, "controllers: $test");
+    cmp_deeply(\@controllers, $tests{$test}, "controllers: $test");
 }

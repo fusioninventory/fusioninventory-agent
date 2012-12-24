@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use lib 't';
 
-use File::Temp;
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Config;
@@ -36,7 +36,7 @@ foreach my $test (keys %config) {
     });
 
     foreach my $k (qw/ no-task no-category httpd-trust /) {
-        is_deeply($c->{$k}, $config{$test}->{$k}, $test." ".$k);
+        cmp_deeply($c->{$k}, $config{$test}->{$k}, $test." ".$k);
     }
 }
 

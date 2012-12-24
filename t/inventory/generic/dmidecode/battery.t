@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Battery;
@@ -48,5 +49,5 @@ plan tests => scalar keys %tests;
 foreach my $test (keys %tests) {
     my $file = "resources/generic/dmidecode/$test";
     my $battery = FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Battery::_getBattery(file => $file);
-    is_deeply($battery, $tests{$test}, $test);
+    cmp_deeply($battery, $tests{$test}, $test);
 }

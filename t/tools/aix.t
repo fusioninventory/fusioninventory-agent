@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Tools::AIX;
@@ -2218,11 +2219,11 @@ plan tests =>
 foreach my $test (keys %lsvpd_tests) {
     my $file = "resources/aix/lsvpd/$test";
     my @infos = getLsvpdInfos(file => $file);
-    is_deeply(\@infos, $lsvpd_tests{$test}, "$test lsvpd parsing");
+    cmp_deeply(\@infos, $lsvpd_tests{$test}, "$test lsvpd parsing");
 }
 
 foreach my $test (keys %lsdev_tests) {
     my $file = "resources/aix/lsdev/$test-adapter";
     my @adapters = getAdaptersFromLsdev(file => $file);
-    is_deeply(\@adapters, $lsdev_tests{$test}, "$test lsdev parsing");
+    cmp_deeply(\@adapters, $lsdev_tests{$test}, "$test lsdev parsing");
 }

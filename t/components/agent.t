@@ -5,6 +5,7 @@ use warnings;
 
 use File::Path;
 use File::Temp qw(tempdir);
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent;
@@ -23,7 +24,7 @@ use base qw(FusionInventory::Agent::Task);
 our $VERSION = 42;
 EOF
 %tasks = $agent->getAvailableTasks();
-is_deeply (
+cmp_deeply (
     \%tasks,
     { 'Task1' => 42 },
     "single task"
@@ -35,7 +36,7 @@ use base qw(FusionInventory::Agent::Task);
 our $VERSION = 42;
 EOF
 %tasks = $agent->getAvailableTasks();
-is_deeply (
+cmp_deeply (
     \%tasks,
     { 
         'Task1' => 42,
@@ -51,7 +52,7 @@ use Does::Not::Exists;
 our $VERSION = 42;
 EOF
 %tasks = $agent->getAvailableTasks();
-is_deeply(
+cmp_deeply(
     \%tasks,
     { 
         'Task1' => 42,
@@ -65,7 +66,7 @@ package FusionInventory::Agent::Task::Test4;
 our $VERSION = 42;
 EOF
 %tasks = $agent->getAvailableTasks();
-is_deeply(
+cmp_deeply(
     \%tasks,
     { 
         'Task1' => 42,

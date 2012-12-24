@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Tools::Solaris;
@@ -1955,5 +1956,5 @@ plan tests => scalar (keys %prtconf_tests);
 foreach my $test (keys %prtconf_tests) {
     my $file = "resources/solaris/prtconf/$test";
     my $info = getPrtconfInfos(file => $file);
-    is_deeply($info, $prtconf_tests{$test}, "$test prtconf parsing");
+    cmp_deeply($info, $prtconf_tests{$test}, "$test prtconf parsing");
 }

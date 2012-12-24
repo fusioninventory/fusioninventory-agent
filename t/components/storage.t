@@ -5,8 +5,9 @@ use warnings;
 
 use English qw(-no_match_vars);
 use File::Temp qw(tempdir);
-use Test::More;
+use Test::Deep;
 use Test::Exception;
+use Test::More;
 
 use FusionInventory::Agent::Storage;
 
@@ -81,7 +82,7 @@ throws_ok {
 $storage->save(name => 'test', data => { foo => "bar" });
 
 ok($storage->has(name => 'test'), "content existence");
-is_deeply(
+cmp_deeply(
     $storage->restore(name => 'test'),
     { foo => "bar" },
     "content retrieval"

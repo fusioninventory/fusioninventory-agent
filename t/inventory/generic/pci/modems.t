@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::Generic::PCI::Modems;
@@ -16,5 +17,5 @@ plan tests => scalar keys %tests;
 foreach my $test (keys %tests) {
     my $file = "resources/generic/lspci/$test";
     my @modems = FusionInventory::Agent::Task::Inventory::Input::Generic::PCI::Modems::_getModems(file => $file);
-    is_deeply(\@modems, $tests{$test}, $test);
+    cmp_deeply(\@modems, $tests{$test}, $test);
 }

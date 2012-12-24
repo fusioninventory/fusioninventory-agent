@@ -6,8 +6,9 @@ use utf8;
 use lib 't';
 
 use English qw(-no_match_vars);
-use Test::More;
+use Test::Deep;
 use Test::MockModule;
+use Test::More;
 
 use FusionInventory::Test::Utils;
 
@@ -119,7 +120,7 @@ foreach my $test (keys %tests) {
     );
 
     my @memories = FusionInventory::Agent::Task::Inventory::Input::Win32::Memory::_getMemories();
-    is_deeply(
+    cmp_deeply(
         \@memories,
         $tests{$test},
         "$test sample"

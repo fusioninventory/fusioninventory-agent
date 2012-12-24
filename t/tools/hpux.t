@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Tools::HPUX;
@@ -169,5 +170,5 @@ plan tests =>
 foreach my $test (keys %machinfo_tests) {
     my $file = "resources/hpux/machinfo/$test";
     my $info = getInfoFromMachinfo(file => $file);
-    is_deeply($info, $machinfo_tests{$test}, "machinfo parsing: $test");
+    cmp_deeply($info, $machinfo_tests{$test}, "machinfo parsing: $test");
 }

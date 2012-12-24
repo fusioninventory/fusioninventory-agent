@@ -3,8 +3,9 @@
 use strict;
 use warnings;
 
-use Test::More;
+use Test::Deep;
 use Test::MockModule;
+use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::Solaris::CPU;
 
@@ -184,13 +185,13 @@ plan tests =>
 foreach my $test (keys %vpcu_tests) {
     my $file = "resources/solaris/psrinfo/$test-psrinfo_v";
     my @cpus = FusionInventory::Agent::Task::Inventory::Input::Solaris::CPU::_getVirtualCPUs(file => $file);
-    is_deeply(\@cpus, $vpcu_tests{$test}, "virtual cpus: $test");
+    cmp_deeply(\@cpus, $vpcu_tests{$test}, "virtual cpus: $test");
 }
 
 foreach my $test (keys %pcpu_tests) {
     my $file = "resources/solaris/psrinfo/$test-psrinfo_vp";
     my @cpus = FusionInventory::Agent::Task::Inventory::Input::Solaris::CPU::_getPhysicalCPUs(file => $file);
-    is_deeply(\@cpus, $pcpu_tests{$test}, "physical cpus: $test");
+    cmp_deeply(\@cpus, $pcpu_tests{$test}, "physical cpus: $test");
 }
 
 my $module = Test::MockModule->new(
@@ -219,7 +220,7 @@ foreach my $test (keys %cpu_tests) {
     );
 
     my @cpus = FusionInventory::Agent::Task::Inventory::Input::Solaris::CPU::_getCPUs();
-    is_deeply(\@cpus, $cpu_tests{$test}, "cpus values: $test");
+    cmp_deeply(\@cpus, $cpu_tests{$test}, "cpus values: $test");
 }
 
 

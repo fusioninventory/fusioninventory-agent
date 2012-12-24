@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::Solaris::Memory;
@@ -495,7 +496,7 @@ foreach my $test (keys %memconf_fire_tests) {
     my $file = "resources/solaris/memconf/$test";
     my @results =
       FusionInventory::Agent::Task::Inventory::Input::Solaris::Memory::_getMemoriesFire(file => $file);
-    is_deeply(
+    cmp_deeply(
         \@results,
         $memconf_fire_tests{$test},
         "memconf parsing: $test"
@@ -506,7 +507,7 @@ foreach my $test (keys %memconf_firev_tests) {
     my $file = "resources/solaris/memconf/$test";
     my @results =
       FusionInventory::Agent::Task::Inventory::Input::Solaris::Memory::_getMemoriesFireV(file => $file);
-    is_deeply(
+    cmp_deeply(
         \@results,
         $memconf_firev_tests{$test},
         "memconf parsing: $test"
@@ -517,7 +518,7 @@ foreach my $test (keys %memconf_firet_tests) {
     my $file = "resources/solaris/memconf/$test";
     my @results =
       FusionInventory::Agent::Task::Inventory::Input::Solaris::Memory::_getMemoriesFireT(file => $file);
-    is_deeply(
+    cmp_deeply(
         \@results,
         $memconf_firet_tests{$test},
         "memconf parsing: $test"
@@ -528,7 +529,7 @@ foreach my $test (keys %memconf_i86pc_tests) {
     my $file = "resources/solaris/memconf/$test";
     my @results =
       FusionInventory::Agent::Task::Inventory::Input::Solaris::Memory::_getMemoriesI86PC(file => $file);
-    is_deeply(
+    cmp_deeply(
         \@results,
         $memconf_i86pc_tests{$test},
         "memconf parsing: $test"

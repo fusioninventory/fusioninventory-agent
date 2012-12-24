@@ -6,8 +6,9 @@ use utf8;
 use lib 't';
 
 use English qw(-no_match_vars);
-use Test::More;
+use Test::Deep;
 use Test::MockModule;
+use Test::More;
 
 use FusionInventory::Test::Utils;
 
@@ -106,7 +107,7 @@ foreach my $test (keys %tests) {
     );
 
     my @devices = FusionInventory::Agent::Task::Inventory::Input::Win32::USB::_getDevices(datadir => './share');
-    is_deeply(
+    cmp_deeply(
         \@devices,
         $tests{$test},
         "$test sample"

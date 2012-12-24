@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Ports;
@@ -1306,5 +1307,5 @@ plan tests => scalar keys %tests;
 foreach my $test (keys %tests) {
     my $file = "resources/generic/dmidecode/$test";
     my $ports = FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Ports::_getPorts(file => $file);
-    is_deeply($ports, $tests{$test}, $test);
+    cmp_deeply($ports, $tests{$test}, $test);
 }

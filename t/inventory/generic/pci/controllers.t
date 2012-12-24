@@ -3,8 +3,8 @@
 use strict;
 use warnings;
 
-use Test::More;
 use Test::Deep;
+use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::Generic::PCI::Controllers;
 

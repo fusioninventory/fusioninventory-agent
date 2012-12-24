@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::Virtualization::Jails;
@@ -41,5 +42,5 @@ plan tests => scalar keys %tests;
 foreach my $test (keys %tests) {
     my $file = "resources/virtualization/jails/$test";
     my @machines = FusionInventory::Agent::Task::Inventory::Input::Virtualization::Jails::_getVirtualMachines(file => $file);
-    is_deeply(\@machines, $tests{$test}, $test);
+    cmp_deeply(\@machines, $tests{$test}, $test);
 }

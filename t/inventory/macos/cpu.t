@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::MacOS::CPU;
@@ -28,5 +29,5 @@ foreach my $test (keys %tests) {
     my $sysctl = "resources/macos/sysctl/$test";
     my $file = "resources/macos/system_profiler/$test";
     my @cpus = FusionInventory::Agent::Task::Inventory::Input::MacOS::CPU::_getCpus(file => $file,sysctl => $sysctl);
-    is_deeply(\@cpus, $tests{$test}, $test);
+    cmp_deeply(\@cpus, $tests{$test}, $test);
 }

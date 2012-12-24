@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Tools::Linux;
@@ -890,35 +891,35 @@ foreach my $test (keys %udev_tests) {
     my $result = FusionInventory::Agent::Tools::Linux::_parseUdevEntry(
         file => $file, device => 'sda'
     );
-    is_deeply($result, $udev_tests{$test}, "$test udev parsing");
+    cmp_deeply($result, $udev_tests{$test}, "$test udev parsing");
 }
 
 foreach my $test (keys %cpuinfo_tests) {
     my $file = "resources/linux/proc/cpuinfo/$test";
     my @cpus = getCPUsFromProc(file => $file);
-    is_deeply(\@cpus, $cpuinfo_tests{$test}, "$test cpuinfo parsing");
+    cmp_deeply(\@cpus, $cpuinfo_tests{$test}, "$test cpuinfo parsing");
 }
 
 foreach my $test (keys %hal_tests) {
     my $file = "resources/linux/hal/$test";
     my @devices = getDevicesFromHal(file => $file);
-    is_deeply(\@devices, $hal_tests{$test}, "$test hal parsing");
+    cmp_deeply(\@devices, $hal_tests{$test}, "$test hal parsing");
 }
 
 foreach my $test (keys %smartctl_tests) {
     my $file = "resources/linux/smartctl/$test";
     my $result = getInfoFromSmartctl(file => $file);
-    is_deeply($result, $smartctl_tests{$test}, "$test smartctl parsing");
+    cmp_deeply($result, $smartctl_tests{$test}, "$test smartctl parsing");
 }
 
 foreach my $test (keys %ifconfig_tests) {
     my $file = "resources/generic/ifconfig/$test";
     my @interfaces = getInterfacesFromIfconfig(file => $file);
-    is_deeply(\@interfaces, $ifconfig_tests{$test}, $test);
+    cmp_deeply(\@interfaces, $ifconfig_tests{$test}, $test);
 }
 
 foreach my $test (keys %ipaddrshow_tests) {
     my $file = "resources/linux/ip/$test";
     my @interfaces = getInterfacesFromIp(file => $file);
-    is_deeply(\@interfaces, $ipaddrshow_tests{$test}, $test);
+    cmp_deeply(\@interfaces, $ipaddrshow_tests{$test}, $test);
 }

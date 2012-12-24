@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::Generic::PCI::Videos;
@@ -25,5 +26,5 @@ plan tests => scalar keys %tests;
 foreach my $test (keys %tests) {
     my $file = "resources/generic/lspci/$test";
     my @videos = FusionInventory::Agent::Task::Inventory::Input::Generic::PCI::Videos::_getVideos(file => $file);
-    is_deeply(\@videos, $tests{$test}, $test);
+    cmp_deeply(\@videos, $tests{$test}, $test);
 }

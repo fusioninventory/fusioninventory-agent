@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Tools::MacOS;
@@ -3379,11 +3380,11 @@ plan tests =>
 foreach my $test (keys %system_profiler_tests) {
     my $file = "resources/macos/system_profiler/$test";
     my $infos = getSystemProfilerInfos(file => $file);
-    is_deeply($infos, $system_profiler_tests{$test}, "$test system profiler parsing");
+    cmp_deeply($infos, $system_profiler_tests{$test}, "$test system profiler parsing");
 }
 
 foreach my $test (@ioreg_tests) {
     my $file = "resources/macos/ioreg/$test->{file}";
     my @devices = getIODevices(file => $file, class => $test->{class});
-    is_deeply(\@devices, $test->{results}, "$test->{file} ioreg parsing");
+    cmp_deeply(\@devices, $test->{results}, "$test->{file} ioreg parsing");
 }

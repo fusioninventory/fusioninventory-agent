@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Slots;
@@ -676,5 +677,5 @@ plan tests => scalar keys %tests;
 foreach my $test (keys %tests) {
     my $file = "resources/generic/dmidecode/$test";
     my $slots = FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Slots::_getSlots(file => $file);
-    is_deeply($slots, $tests{$test}, $test);
+    cmp_deeply($slots, $tests{$test}, $test);
 }

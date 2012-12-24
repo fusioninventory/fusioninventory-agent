@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Tools::BSD;
@@ -229,5 +230,5 @@ plan tests => scalar keys %ifconfig_tests;
 foreach my $test (keys %ifconfig_tests) {
     my $file = "resources/generic/ifconfig/$test";
     my @interfaces = getInterfacesFromIfconfig(file => $file);
-    is_deeply(\@interfaces, $ifconfig_tests{$test}, $test);
+    cmp_deeply(\@interfaces, $ifconfig_tests{$test}, $test);
 }
