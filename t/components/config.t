@@ -28,7 +28,7 @@ my %config = (
 
 );
 
-plan tests => (scalar keys %config) * 2;
+plan tests => (scalar keys %config) * 3;
 
 foreach my $test (keys %config) {
     my $c = FusionInventory::Agent::Config->new(options => {
