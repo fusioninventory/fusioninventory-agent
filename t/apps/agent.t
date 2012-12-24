@@ -6,11 +6,12 @@ use warnings;
 use English qw(-no_match_vars);
 use File::Temp;
 use IPC::Run qw(run);
+use Test::More;
 use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
 
-use Test::More tests => 31;
+plan tests => 31;
 
 my ($content, $out, $err, $rc);
 
