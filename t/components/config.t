@@ -2,7 +2,6 @@
 
 use strict;
 use warnings;
-use lib 't';
 
 use Test::Deep;
 use Test::More;
