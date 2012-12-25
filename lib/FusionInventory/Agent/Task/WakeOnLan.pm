@@ -77,17 +77,17 @@ sub _send_magic_packet_ethernet {
     my $source = $interface->{MACADDR};
     $source =~ s/://g;
 
-    my $magic_packet =
-        (pack('H12', $target)) .
-        (pack('H12', $source)) .
-        (pack('H4', "0842"));
-    $magic_packet .= $self->_getPayload($target);
+    my $packet =
+        pack('H12', $target) .
+        pack('H12', $source) .
+        pack('H4', "0842")   .
+        $self->_getPayload($target);
     my $destination = pack("Sa14", 0, $interface->{DESCRIPTION});
 
     $self->{logger}->debug(
         "Sending magic packet to $target as ethernet frame"
     );
-    send($socket, $magic_packet, 0, $destination)
+    send($socket, $packet, 0, $destination)
         or die "can't send packet: $ERRNO\n";
     close($socket);
 }
@@ -100,13 +100,13 @@ sub _send_magic_packet_udp {
     setsockopt($socket, SOL_SOCKET, SO_BROADCAST, 1)
         or die "can't do setsockopt: $ERRNO\n";
 
-    my $magic_packet = $self->_getPayload($target);
+    my $packet = $self->_getPayload($target);
     my $destination = sockaddr_in("9", inet_aton("255.255.255.255"));
 
     $self->{logger}->debug(
         "Sending magic packet to $target as UDP packet"
     );
-    send($socket, $magic_packet, 0, $destination)
+    send($socket, $packet, 0, $destination)
         or die "can't send packet: $ERRNO\n";
     close($socket);
 }
