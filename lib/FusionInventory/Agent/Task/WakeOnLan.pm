@@ -69,8 +69,8 @@ sub run {
 sub _send_magic_packet_ethernet {
     my ($self, $target) = @_;
 
-    die "root privileges needed" unless $UID == 0;
-    die "Net::Write module needed" unless Net::Write::Layer2->require();
+    die "root privileges needed\n" unless $UID == 0;
+    die "Net::Write module needed\n" unless Net::Write::Layer2->require();
 
     my $interface = $self->_getInterface();
     my $source = $interface->{MACADDR};
