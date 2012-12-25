@@ -7,6 +7,7 @@ use base 'FusionInventory::Agent::Task';
 use English qw(-no_match_vars);
 use List::Util qw(first);
 use Socket;
+use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
@@ -68,10 +69,8 @@ sub run {
 sub _send_magic_packet_ethernet {
     my ($self, $target) = @_;
 
-    socket(my $socket, PF_INET, SOCK_RAW, getprotobyname('icmp'))
-        or die "can't open socket: $ERRNO\n";
-    setsockopt($socket, SOL_SOCKET, SO_BROADCAST, 1)
-        or die "can't do setsockopt: $ERRNO\n";
+    die "root privileges needed" unless $UID == 0;
+    die "Net::Write module needed" unless Net::Write::Layer2->require();
 
     my $interface = $self->_getInterface();
     my $source = $interface->{MACADDR};
@@ -82,14 +81,18 @@ sub _send_magic_packet_ethernet {
         pack('H12', $source) .
         pack('H4', "0842")   .
         $self->_getPayload($target);
-    my $destination = pack("Sa14", 0, $interface->{DESCRIPTION});
 
     $self->{logger}->debug(
         "Sending magic packet to $target as ethernet frame"
     );
-    send($socket, $packet, 0, $destination)
-        or die "can't send packet: $ERRNO\n";
-    close($socket);
+
+    my $writer = Net::Write::Layer2->new(
+       dev => $interface->{DESCRIPTION}
+    );
+
+    $writer->open();
+    $writer->send($packet);
+    $writer->close();
 }
 
 sub _send_magic_packet_udp {
