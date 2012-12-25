@@ -66,7 +66,7 @@ sub run {
 }
 
 sub _send_magic_packet_ethernet {
-    my ($self,  $target) = @_;
+    my ($self, $target) = @_;
 
     socket(my $socket, PF_INET, SOCK_RAW, getprotobyname('icmp'))
         or die "can't open socket: $ERRNO\n";
@@ -81,7 +81,7 @@ sub _send_magic_packet_ethernet {
         (pack('H12', $target)) .
         (pack('H12', $source)) .
         (pack('H4', "0842"));
-    $magic_packet .= chr(0xFF) x 6 . (pack('H12', $target) x 16);
+    $magic_packet .= $self->_getPayload($target);
     my $destination = pack("Sa14", 0, $interface->{DESCRIPTION});
 
     $self->{logger}->debug(
@@ -100,9 +100,7 @@ sub _send_magic_packet_udp {
     setsockopt($socket, SOL_SOCKET, SO_BROADCAST, 1)
         or die "can't do setsockopt: $ERRNO\n";
 
-    my $magic_packet = 
-        chr(0xFF) x 6 .
-        (pack('H12', $target) x 16);
+    my $magic_packet = $self->_getPayload($target);
     my $destination = sockaddr_in("9", inet_aton("255.255.255.255"));
 
     $self->{logger}->debug(
@@ -141,6 +139,14 @@ sub _getInterface {
 	$function->(logger => $self->{logger});
 
     return $interface;
+}
+
+sub _getPayload {
+    my ($self, $target) = @_;
+
+    return
+        pack('H12', 'FF' x 6) .
+        pack('H12', $target) x 16;
 }
 
 1;
