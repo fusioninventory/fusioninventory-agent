@@ -137,8 +137,13 @@ sub _getInterface {
         }
     }
 
+    # let's take the first interface with an IP adress, a MAC address
+    # different from the loopback
+    $ENV{LC_ALL} = 'C';
     my $interface =
-	first { $_->{MACADDR} }
+	first { $_->{DESCRIPTION} ne 'lo' }
+	grep { $_->{IPADDRESS} }
+	grep { $_->{MACADDR} }
 	$function->(logger => $self->{logger});
 
     return $interface;
