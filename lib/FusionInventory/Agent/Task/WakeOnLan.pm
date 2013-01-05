@@ -146,6 +146,10 @@ sub _getInterface {
 	grep { $_->{MACADDR} }
 	$function->(logger => $self->{logger});
 
+    # on Windows, we have to use internal device name instead of litteral name
+    $interface->{DESCRIPTION} = _getWin32DeviceId($interface->{PNPDEVICEID})
+        if $OSNAME eq 'MSWin32';
+
     return $interface;
 }
 
@@ -155,6 +159,33 @@ sub _getPayload {
     return
         pack('H12', 'FF' x 6) .
         pack('H12', $target) x 16;
+}
+
+sub _getWin32DeviceId {
+    my ($pnpid) = @_;
+
+    FusionInventory::Agent::Tools::Win32->require();
+
+    my $key = FusionInventory::Agent::Tools::Win32::getRegistryKey(
+        path => "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Control/Network",
+    );
+
+    foreach my $subkey_id (keys %$key) {
+        # we're only interested in GUID subkeys
+        next unless $subkey_id =~ /^\{\S+\}\/$/;
+        my $subkey = $key->{$subkey_id};
+        foreach my $subsubkey_id (keys %$subkey) {
+            my $subsubkey = $subkey->{$subsubkey_id};
+            next unless $subsubkey->{'Connection/'};
+            next unless $subsubkey->{'Connection/'}->{'/PnpInstanceId'};
+            next unless $subsubkey->{'Connection/'}->{'/PnpInstanceId'} eq $pnpid;
+            my $device_id = $subsubkey_id;
+            $device_id =~ s{/$}{};
+
+            return '\Device\NPF_' . $device_id;
+        }
+    }
+
 }
 
 1;
