@@ -144,7 +144,8 @@ sub _getInterface {
         $function->(logger => $self->{logger});
 
     # on Windows, we have to use internal device name instead of litteral name
-    $interface->{DESCRIPTION} = _getWin32DeviceId($interface->{PNPDEVICEID})
+    $interface->{DESCRIPTION} =
+        $self->_getWin32InterfaceId($interface->{PNPDEVICEID})
         if $OSNAME eq 'MSWin32';
 
     return $interface;
@@ -158,8 +159,8 @@ sub _getPayload {
         pack('H12', $target) x 16;
 }
 
-sub _getWin32DeviceId {
-    my ($pnpid) = @_;
+sub _getWin32InterfaceId {
+    my ($self, $pnpid) = @_;
 
     FusionInventory::Agent::Tools::Win32->require();
 
