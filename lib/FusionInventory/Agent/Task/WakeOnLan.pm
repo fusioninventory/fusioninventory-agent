@@ -174,8 +174,8 @@ sub _getWin32DeviceId {
         foreach my $subsubkey_id (keys %$subkey) {
             my $subsubkey = $subkey->{$subsubkey_id};
             next unless $subsubkey->{'Connection/'};
-            next unless $subsubkey->{'Connection/'}->{'/PnpInstanceId'};
-            next unless $subsubkey->{'Connection/'}->{'/PnpInstanceId'} eq $pnpid;
+            next unless $subsubkey->{'Connection/'}->{'/PnpInstanceID'};
+            next unless $subsubkey->{'Connection/'}->{'/PnpInstanceID'} eq $pnpid;
             my $device_id = $subsubkey_id;
             $device_id =~ s{/$}{};
 
