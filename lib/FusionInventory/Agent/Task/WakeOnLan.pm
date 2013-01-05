@@ -122,7 +122,7 @@ sub _getInterface {
     SWITCH: {
         if ($OSNAME eq 'linux') {
             FusionInventory::Agent::Tools::Linux->require();
-	    $function = \&FusionInventory::Agent::Tools::Linux::getInterfacesFromIfconfig;
+        $function = \&FusionInventory::Agent::Tools::Linux::getInterfacesFromIfconfig;
             last;
         }
         if ($OSNAME =~ /freebsd|openbsd|netbsd|gnukfreebsd|gnuknetbsd|dragonfly/) {
@@ -131,7 +131,7 @@ sub _getInterface {
             last;
         }
         if ($OSNAME eq 'MSWin32') {
-	    FusionInventory::Agent::Task::Inventory::Input::Win32::Networks->require();
+            FusionInventory::Agent::Task::Inventory::Input::Win32::Networks->require();
             $function = \&FusionInventory::Agent::Task::Inventory::Input::Win32::Networks::_getInterfaces;
             last;
         }
@@ -141,10 +141,10 @@ sub _getInterface {
     # different from the loopback
     $ENV{LC_ALL} = 'C';
     my $interface =
-	first { $_->{DESCRIPTION} ne 'lo' }
-	grep { $_->{IPADDRESS} }
-	grep { $_->{MACADDR} }
-	$function->(logger => $self->{logger});
+        first { $_->{DESCRIPTION} ne 'lo' }
+        grep { $_->{IPADDRESS} }
+        grep { $_->{MACADDR} }
+        $function->(logger => $self->{logger});
 
     # on Windows, we have to use internal device name instead of litteral name
     $interface->{DESCRIPTION} = _getWin32DeviceId($interface->{PNPDEVICEID})
