@@ -21,16 +21,20 @@ my @payload_tests = (
     'A4BADBA5F5FA'
 );
 
-my %win32deviceid_tests = (
+my %interfaceid_tests = (
     7 => {
         'PCI\VEN_10EC&DEV_8168&SUBSYS_84321043&REV_06\4&87D54EE&0&00E5'
-            => '\Device\NPF_{442CDFAD-10E9-45B6-8CF9-C829034793B0}'
+            => '\Device\NPF_{442CDFAD-10E9-45B6-8CF9-C829034793B0}',
+        'BTH\\MS_BTHPAN\7&42D85A8&0&2'
+            => '\Device\NPF_{DDE01862-B0C0-4715-AF6C-51D31172EBF9}'
     }
 );
 
-plan tests =>
-    (scalar @payload_tests * 2) +
-    (scalar keys %win32deviceid_tests);
+my $plan = scalar @payload_tests * 2;
+foreach my $test (keys %interfaceid_tests) {
+    $plan += scalar (keys %{$interfaceid_tests{$test}});
+}
+plan tests => $plan;
 
 foreach my $test (@payload_tests) {
     my $payload = FusionInventory::Agent::Task::WakeOnLan->_getPayload($test);
@@ -43,20 +47,19 @@ my $module = Test::MockModule->new(
     'FusionInventory::Agent::Tools::Win32'
 );
 
-foreach my $sample (keys %win32deviceid_tests) {
+foreach my $sample (keys %interfaceid_tests) {
     $module->mock(
         'getRegistryKey',
         mockGetRegistryKey($sample)
     );
 
-    foreach my $pnpid (keys %{$win32deviceid_tests{$sample}}) {
-        my $deviceid =
-            FusionInventory::Agent::Task::WakeOnLan::_getWin32DeviceId($pnpid);
+    foreach my $pnpid (keys %{$interfaceid_tests{$sample}}) {
         is(
-            $deviceid,
-            $win32deviceid_tests{$sample}->{$pnpid},
-            "$sample sample, $pnpid device"
+            FusionInventory::Agent::Task::WakeOnLan->_getWin32InterfaceId(
+                $pnpid
+            ),
+            $interfaceid_tests{$sample}->{$pnpid},
+            "sample $sample, device $pnpid"
         );
     }
 }
-
