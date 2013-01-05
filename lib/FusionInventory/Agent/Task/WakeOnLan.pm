@@ -61,9 +61,6 @@ sub run {
             "Impossible to use $method method: $EVAL_ERROR"
         );
     }
-
-    # For Windows, I don't know, just test
-    # See http://msdn.microsoft.com/en-us/library/ms740548(VS.85).aspx
 }
 
 sub _send_magic_packet_ethernet {
