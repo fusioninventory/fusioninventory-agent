@@ -12,7 +12,7 @@ use UNIVERSAL::require;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 
-our $VERSION = '1.1';
+our $VERSION = '2.0';
 
 sub isEnabled {
     my ($self, $response) = @_;
