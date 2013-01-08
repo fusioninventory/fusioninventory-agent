@@ -64,7 +64,7 @@ foreach my $hostId (@$hostIds) {
         print $handle $tpp->write({
             REQUEST  => {
                 CONTENT  => $inventory->{content},
-                DEVICEID => $esx->{deviceid},
+                DEVICEID => $inventory->{deviceid},
                 QUERY    => "INVENTORY",
             }
         });
