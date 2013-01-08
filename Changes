@@ -1,3 +1,8 @@
+2.2.1  Tue, 08 Jan 2013 13:04:25 +0100
+
+* ensure the DEVICEID is correctly set
+* convert the Change file to markdown format
+
 2.2.0  Fri, 17 Aug 2012 13:19:30 +0200
 
 * code clean up
