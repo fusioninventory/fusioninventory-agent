@@ -45,7 +45,7 @@ sub _getBattery {
     }
 
     if ($info->{'Design Capacity'} &&
-        $info->{'Design Capacity'} =~ /(\d+) \s m(W|A)h$/x) {
+        $info->{'Design Capacity'} =~ /(\d+) \s m[WA]h$/x) {
         $battery->{CAPACITY} = $1;
     }
 
