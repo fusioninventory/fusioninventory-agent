@@ -179,6 +179,7 @@ sub _getFromWMI {
     my @objs = FusionInventory::Agent::Tools::Win32::getWmiObjects(%params);
 
     foreach my $obj (@objs) {
+        print Dumper($obj);
         push @return, $obj; 
     }
 
@@ -242,14 +243,13 @@ sub run {
     );
     print "JOBS:" . Dumper($jobs);
 
-    $jobs = [ 
-{
-      "function" => "getFromWMI",
-      "class" => "Win32_Keyboard",
-      "properties" => [ "Name", "Caption", "Manufacturer", "Description", "Layout" ],
-      "uuid" => "xxxx3"
-},
-
+#    $jobs = [ 
+#{
+#      "function" => "getFromWMI",
+#      "class" => "Win32_Keyboard",
+#      "properties" => [ "Name", "Caption", "Manufacturer", "Description", "Layout" ],
+#      "uuid" => "xxxx3"
+#},
 #        {
 #            "function" => "runCommand",
 #            "dir"      => "/",                # Where to run the command
@@ -257,14 +257,14 @@ sub run {
 #            "uuid"     => "xxxx3",
 #            "filter" => { "firstMatch" => '(Windows.*)' }
 #        },
-        {
-            "recursive" => 0,
-            "function"  => "getFromRegistry",
-            "64bit"     => 0,
-            "path" =>
-"HKEY_LOCAL_MACHINE/SOFTWARE/FusionInventory-Agent/*",
-            "uuid" => "xxxx1"
-        },
+#        {
+#            "recursive" => 0,
+#            "function"  => "getFromRegistry",
+#            "64bit"     => 0,
+#            "path" =>
+#"HKEY_LOCAL_MACHINE/SOFTWARE/FusionInventory-Agent/*",
+#            "uuid" => "xxxx1"
+#        },
 #        {
 #            "function" => "findFile",
 #            "dir"      => "/windows",       # Default is, every where
@@ -286,7 +286,7 @@ sub run {
 #
 #        }
 
-    ];
+#    ];
 
     return unless $jobs;
     return unless ref($jobs) eq 'ARRAY';
@@ -308,10 +308,12 @@ sub run {
 
         my @result = &{ $functions{ $job->{function} } }(%$job);
 
+print Dumper(\@result);
+
         next unless @result;
 
         foreach my $r (@result) {
-            die unless ref($r) eq 'HASH';
+            next unless ref($r) eq 'HASH';
             next unless keys %$r;
             $r->{uuid}   = $job->{uuid};
             $r->{action} = "setAnswer";
