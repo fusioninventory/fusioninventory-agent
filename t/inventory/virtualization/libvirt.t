@@ -3,9 +3,10 @@
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Task::Inventory::Input::Virtualization::Libvirt;
-
+use Test::Deep;
 use Test::More;
+
+use FusionInventory::Agent::Task::Inventory::Input::Virtualization::Libvirt;
 
 my %list_tests = (
     list1 => [
@@ -109,11 +110,11 @@ plan tests =>
 foreach my $test (keys %list_tests) {
     my $file = "resources/virtualization/virsh/$test";
     my @machines = FusionInventory::Agent::Task::Inventory::Input::Virtualization::Libvirt::_parseList(file => $file);
-    is_deeply(\@machines, $list_tests{$test}, "virst list parsing: $test");
+    cmp_deeply(\@machines, $list_tests{$test}, "virst list parsing: $test");
 }
 
 foreach my $test (keys %dumpxml_tests) {
     my $file = "resources/virtualization/virsh/$test";
     my %infos = FusionInventory::Agent::Task::Inventory::Input::Virtualization::Libvirt::_parseDumpxml(file => $file);
-    is_deeply(\%infos, $dumpxml_tests{$test}, "virsh dumpxml parsing: $test");
+    cmp_deeply(\%infos, $dumpxml_tests{$test}, "virsh dumpxml parsing: $test");
 }

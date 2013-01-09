@@ -24,7 +24,6 @@ sub doInventory {
 
     my $inventory    = $params{inventory};
     my $logger       = $params{logger};
-    my $scanhomedirs = $params{scan_homedirs};
 
     my $command = "VBoxManage -nologo list --long vms";
 
@@ -36,7 +35,7 @@ sub doInventory {
         );
     }
 
-    return unless $scanhomedirs == 1 && $REAL_USER_ID == 0;
+    return unless $params{scan_homedirs} && $REAL_USER_ID == 0;
 
     # assume all system users with a suitable homedir is an actual human user
     my $pattern = $OSNAME eq 'darwin' ?

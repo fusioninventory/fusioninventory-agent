@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Generic;
 
 sub isEnabled {
     return canRun('lsusb');
@@ -13,9 +14,22 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger    = $params{logger};
 
-    foreach my $device (_getDevices(logger => $logger)) {
+    foreach my $device (_getDevices(
+        logger  => $params{logger},
+        datadir => $params{datadir})
+    ) {
+        $inventory->addEntry(
+            section => 'USBDEVICES',
+            entry   => $device,
+        );
+    }
+}
+
+sub _getDevices {
+    my @devices;
+
+    foreach my $device (_getDevicesFromLsusb(@_)) {
         next unless $device->{PRODUCTID};
         next unless $device->{VENDORID};
 
@@ -28,14 +42,23 @@ sub doInventory {
             $device->{SERIAL} = undef;
         }
 
-        $inventory->addEntry(
-            section => 'USBDEVICES',
-            entry   => $device,
-        );
+        my $vendor = getUSBDeviceVendor(id => $device->{VENDORID}, @_);
+        if ($vendor) {
+            $device->{MANUFACTURER} = $vendor->{name};
+
+            my $entry = $vendor->{devices}->{$device->{PRODUCTID}};
+            if ($entry) {
+                $device->{CAPTION} = $entry->{name};
+            }
+        }
+
+        push @devices, $device;
     }
+
+    return @devices;
 }
 
-sub _getDevices {
+sub _getDevicesFromLsusb {
     my $handle = getFileHandle(
         @_,
         command => 'lsusb -v',

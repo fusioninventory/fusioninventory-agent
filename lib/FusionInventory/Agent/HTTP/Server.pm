@@ -11,6 +11,11 @@ use Net::IP;
 use Text::Template;
 use File::Basename;
 
+use Socket::GetAddrInfo qw( getaddrinfo getnameinfo );
+
+use FusionInventory::Agent::Tools::Network;
+
+
 use FusionInventory::Agent::Logger;
 
 my $log_prefix = "[http server] ";
@@ -26,9 +31,11 @@ sub new {
         htmldir   => $params{htmldir},
         ip        => $params{ip},
         port      => $params{port} || 62354,
-        trust     => $params{trust}
     };
     bless $self, $class;
+
+    $self->{trust} = $self->_parseAddresses($params{trust})
+        if $params{trust};
 
     $self->{stop} = 0;
     my $stop = \$self->{stop};
@@ -38,9 +45,48 @@ sub new {
     return $self;
 }
 
+sub _parseAddresses {
+    my ($self, $strings) = @_;
+
+    return unless $strings;
+
+    my @addresses;
+
+    foreach my $string (@$strings) {
+
+        # push ip addresses directly in the list
+        if ($string =~ /^$ip_address_pattern/) {
+            push @addresses, Net::IP->new($string);
+            next;
+        }
+
+        # resolve host names
+        my ($error, @results) = getaddrinfo(
+            $string, "", { socktype => SOCK_RAW }
+        );
+
+        if ($error) {
+            $self->{logger}->error("unable to resolve $string: $error");
+            next;
+        }
+
+        # and push all of their addresses in the list
+        foreach my $result (@results) {
+            my ($error, $host) = getnameinfo($result->{addr});
+            if ($error) {
+                $self->{logger}->error("unable to get host address: $error");
+                next;
+            }
+            push @addresses, Net::IP->new($host);
+        }
+    }
+
+    return \@addresses;
+}
+
 sub _handle {
     my ($self, $client, $request, $clientIp) = @_;
-    
+
     my $logger = $self->{logger};
 
     if (!$request) {
@@ -67,7 +113,7 @@ sub _handle {
         if ($path eq '/') {
             $self->_handle_root($client, $request, $clientIp);
             last SWITCH;
-        } 
+        }
 
         # deploy request
         if ($path =~ m{^/deploy/getFile/./../([\w\d/-]+)$}) {
@@ -151,12 +197,11 @@ sub _handle_deploy {
     return unless $sha512 =~ /^(.)(.)(.{6})/;
     my $subFilePath = $1.'/'.$2.'/'.$3;
 
-    File::Glob->require();
     Digest::SHA->require();
 
     my $path;
     LOOP: foreach my $target ($self->{scheduler}->getTargets()) {
-        foreach (File::Glob::glob($target->{storage}->getDirectory()."/deploy/fileparts/shared/*")) {
+        foreach (glob($target->{storage}->getDirectory()."/deploy/fileparts/shared/*")) {
             next unless -f $_.'/'.$subFilePath;
 
             my $sha = Digest::SHA->new('512');
@@ -232,17 +277,33 @@ sub _handle_status {
 }
 
 sub _is_trusted {
-    my ($self, $address) = @_;
+    my ($self, $clientIp) = @_;
 
+    my $logger = $self->{logger};
+
+    my $source  = Net::IP->new($clientIp);
+
+    if (!$source) {
+        $logger->error("Not well formatted source IP: $clientIp");
+        return;
+    }
+
+    return 0 unless $source;
     return 0 unless $self->{trust};
 
-    my $source  = Net::IP->new($address);
-    my $trusted = Net::IP->new($self->{trust});
-    my $result = $source->overlaps($trusted);
+    foreach my $trust (@{$self->{trust}}) {
 
-    return 
-        $result == $IP_A_IN_B_OVERLAP || # included in trusted range
-        $result == $IP_IDENTICAL;        # equals trusted address
+        my $result = $source->overlaps($trust);
+
+        # included in trusted range
+        return 1 if $result == $IP_A_IN_B_OVERLAP;
+
+        # equals trusted address
+        return 1 if $result == $IP_IDENTICAL;
+
+    }
+
+    return 0;
 }
 
 sub _is_authenticated {
@@ -264,11 +325,11 @@ sub _listen {
         Reuse     => 1,
         Timeout   => 5
     );
-  
+
     if (!$daemon) {
         $logger->error($log_prefix . "failed to start the HTTPD service");
         return;
-    } 
+    }
 
     my $url = $self->{ip} ?
         "http://$self->{ip}:$self->{port}" :

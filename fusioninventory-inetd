@@ -1,0 +1,45 @@
+#!/usr/bin/perl -w
+
+#service fusioninventory
+#{
+#    type           = UNLISTED
+#    disabled       = no
+#    flag           = REUSE
+#    port           = 62354
+#    socket_type    = stream
+#    protocol       = tcp
+#    wait           = no
+#    user           = root
+#    server         = /home/goneri/fusioninventory/agent/fusioninventory-inetd
+#}
+#
+
+use strict;
+use warnings;
+
+use lib '/home/goneri/fusioninventory/agent/lib';
+
+use Socket;
+use HTTP::Request;
+use FusionInventory::Agent::HTTP::Server;
+
+use Data::Dumper;
+my $request;
+my $server = $ENV{REMOTE_HOST};
+my $port;
+my $client;
+if ( my $hersockaddr = getpeername(STDOUT) ) {
+    my $client_n;
+    ( $port, $client_n ) = sockaddr_in($hersockaddr);
+    $client = inet_ntoa($client_n);
+}
+if ( <STDIN> =~ /^GET\s(\/\S+)\s/ ) {
+    $request = HTTP::Request->new( 'GET', "http://$server:$port$1" );
+}
+
+print "HTTP/1.1 200 OK\n";
+print "Content-type: text/html\n\n";
+print
+
+my $path = $request->uri()->path();
+print "request $path from client $client\n";

@@ -93,7 +93,7 @@ sub _getMemories {
     my $cpt = 0;
     my @memories;
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_PhysicalMemory',
         properties => [ qw/
             Capacity Caption Description FormFactor Removable Speed MemoryType
@@ -122,7 +122,7 @@ sub _getMemories {
         }
     }
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_PhysicalMemoryArray', 
         properties => [ qw/
             MemoryDevices SerialNumber PhysicalMemoryCorrection

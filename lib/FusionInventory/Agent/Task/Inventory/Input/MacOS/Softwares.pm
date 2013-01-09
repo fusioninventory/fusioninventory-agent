@@ -4,14 +4,14 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::MacOS;
 
 sub isEnabled {
     my (%params) = @_;
 
     return
         !$params{no_category}->{software} &&
-        -r '/usr/sbin/system_profiler' &&
-        canLoad("Mac::SysProfile");
+        canRun('/usr/sbin/system_profiler');
 }
 
 sub doInventory {
@@ -19,11 +19,7 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $prof = Mac::SysProfile->new();
-    my $info = $prof->gettype('SPApplicationsDataType');
-    return unless ref $info eq 'HASH';
-
-    my $softwares = _getSoftwaresList($info);
+    my $softwares = _getSoftwaresList(logger => $params{logger});
     return unless $softwares;
 
     foreach my $software (@$softwares) {
@@ -35,7 +31,11 @@ sub doInventory {
 }
 
 sub _getSoftwaresList {
-    my ($info) = @_;
+    my $infos = getSystemProfilerInfos(
+        type => 'SPApplicationsDataType',
+        @_
+    );
+    my $info = $infos->{Applications};
 
     my @softwares;
     foreach my $name (keys %$info) {

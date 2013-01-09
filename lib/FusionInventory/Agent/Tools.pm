@@ -187,7 +187,7 @@ sub getSanitizedString {
     $string =~ s/[[:cntrl:]]//g;
 
     # encode to utf-8 if needed
-    if ($string !~ m/\A(
+    if (!Encode::is_utf8($string) && $string !~ m/\A(
           [\x09\x0A\x0D\x20-\x7E]           # ASCII
         | [\xC2-\xDF][\x80-\xBF]            # non-overlong 2-byte
         | \xE0[\xA0-\xBF][\x80-\xBF]        # excluding overlongs
@@ -243,10 +243,10 @@ sub getFileHandle {
             }
             last SWITCH;
         }
-	if ($params{string}) {
-	    open $handle, "<", \$params{string} or die;
+        if ($params{string}) {
+            open $handle, "<", \$params{string} or die;
             last SWITCH;
-	}
+        }
         die "neither command, file or string parameter given";
     }
 
@@ -455,8 +455,8 @@ sub runFunction {
         $result = &{$params{module} . '::' . $params{function}}(
             ref $params{params} eq 'HASH'  ? %{$params{params}} :
             ref $params{params} eq 'ARRAY' ? @{$params{params}} :
-                                               $params{params} 
-	);
+                                               $params{params}
+        );
         alarm 0;
     };
 

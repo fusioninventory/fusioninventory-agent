@@ -23,9 +23,10 @@ my %fields = (
                         SERIAL SYSTEMDRIVE TOTAL TYPE VOLUMN/ ],
     ENVS        => [ qw/KEY VAL/ ],
     INPUTS      => [ qw/NAME MANUFACTURER CAPTION DESCRIPTION INTERFACE LAYOUT
-	                POINTINGTYPE TYPE/ ],
+                        POINTINGTYPE TYPE/ ],
     MEMORIES    => [qw/CAPACITY CAPTION FORMFACTOR REMOVABLE PURPOSE SPEED
-                       SERIALNUMBER TYPE DESCRIPTION NUMSLOTS MEMORYCORRECTION/ ],
+                       SERIALNUMBER TYPE DESCRIPTION NUMSLOTS MEMORYCORRECTION
+                       MANUFACTURER/ ],
     MODEMS      => [ qw/DESCRIPTION NAME/ ],
     MONITORS    => [ qw/BASE64 CAPTION DESCRIPTION MANUFACTURER SERIAL
                         UUENCODE/ ],
@@ -37,18 +38,22 @@ my %fields = (
     PORTS       => [ qw/CAPTION DESCRIPTION NAME TYPE/ ],
     PROCESSES   => [ qw/USER PID CPUUSAGE MEM VIRTUALMEMORY TTY STARTED CMD/ ],
     REGISTRY    => [ qw/NAME REGVALUE HIVE/ ],
+    RUDDER      => [ qw/AGENT UUID HOSTNAME/ ],
     SLOTS       => [ qw/DESCRIPTION DESIGNATION NAME STATUS/ ],
     SOFTWARES   => [ qw/COMMENTS FILESIZE FOLDER FROM HELPLINK INSTALLDATE NAME
                         NO_REMOVE RELEASE_TYPE PUBLISHER UNINSTALL_STRING 
                         URL_INFO_ABOUT VERSION VERSION_MINOR VERSION_MAJOR 
-                        GUID ARCH/ ],
+                        GUID ARCH USERNAME USERID/ ],
     SOUNDS      => [ qw/CAPTION DESCRIPTION MANUFACTURER NAME/ ],
     STORAGES    => [ qw/DESCRIPTION DISKSIZE INTERFACE MANUFACTURER MODEL NAME
                         TYPE SERIAL SERIALNUMBER FIRMWARE SCSI_COID SCSI_CHID
                         SCSI_UNID SCSI_LUN WWN/ ],
     VIDEOS      => [ qw/CHIPSET MEMORY NAME RESOLUTION PCISLOT/ ],
-    USBDEVICES  => [ qw/VENDORID PRODUCTID SERIAL CLASS SUBCLASS NAME/ ],
+    USBDEVICES  => [ qw/VENDORID PRODUCTID MANUFACTURER CAPTION SERIAL CLASS 
+                        SUBCLASS NAME/ ],
     USERS       => [ qw/LOGIN DOMAIN/ ],
+    LOCAL_USERS  => [ qw/LOGIN ID NAME HOME SHELL/ ],
+    LOCAL_GROUPS => [ qw/NAME ID MEMBER/ ],
     PRINTERS    => [ qw/COMMENT DESCRIPTION DRIVER NAME NETWORK PORT RESOLUTION
                         SHARED STATUS ERRSTATUS SERVERNAME SHARENAME 
                         PRINTPROCESSOR SERIAL/ ],
@@ -63,7 +68,8 @@ my %fields = (
                              DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
                              WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE/ ],
     OPERATINGSYSTEM  => [ qw/KERNEL_NAME KERNEL_VERSION NAME VERSION FULL_NAME 
-                            SERVICE_PACK INSTALL_DATE/ ],
+                            SERVICE_PACK INSTALL_DATE FQDN DNS_DOMAIN
+                            SSH_KEY ARCH BOOT_TIME/ ],
     ACCESSLOG        => [ qw/USERID LOGDATE/ ],
     VIRTUALMACHINES  => [ qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU
                              VMID MAC COMMENT OWNER/ ],
@@ -73,6 +79,7 @@ my %fields = (
                              SIZE FREE PE_SIZE VG_UUID/ ],
     VOLUME_GROUPS    => [ qw/VG_NAME PV_COUNT LV_COUNT ATTR SIZE FREE VG_UUID 
                              VG_EXTENT_SIZE/ ],
+    LICENSEINFOS     => [ qw/NAME FULLNAME KEY COMPONENTS TRIAL UPDATE OEM ACTIVATION_DATE PRODUCTID/ ]
 );
 
 my %checks = (
@@ -81,6 +88,9 @@ my %checks = (
     },
     VIRTUALMACHINES => {
         STATUS => qr/^(running|idle|paused|shutdown|crashed|dying|off)$/
+    },
+    NETWORKS => {
+        TYPE => qr/^(ethernet|wifi)$/
     }
 );
 
@@ -928,6 +938,14 @@ present on systems which use this notion.
 
 The operating system installation date.
 
+=item ARCH
+
+Operating system architecture.
+
+=item BOOT_TIME
+
+The date of the boot of the computer, e.g: 2012-12-09 15:58:20
+
 =back
 
 =head2 MONITORS
@@ -980,19 +998,13 @@ This information is hardly reliable.
 
 =over
 
-=item CAPACITY
-
-=item CAPTION
-
-=item FORMFACTOR
-
-=item REMOVABLE
-
-=item PURPOSE
-
-=item TYPE
-
 =item DESCRIPTION
+
+=item DESIGNATION
+
+=item NAME
+
+=item STATUS
 
 =back
 
@@ -1106,6 +1118,14 @@ If the software is in 32 or 64bit, (1/0)
 =item GUID
 
 Windows software GUID
+
+=item USERNAME
+
+Name of the owner of the software.
+
+=item USERID
+
+ID of the owner of the software. SID on Windows.
 
 =back
 
@@ -1571,3 +1591,33 @@ The free space.
 =item UUID
 
 The UUID
+
+=back
+
+=head2 LICENSEINFOS
+
+A license
+
+=over
+
+=item NAME
+
+The name of the license
+
+=item FULLNAME
+
+The full name of the license (optional)
+
+=item KEY
+
+The key used to register the license (optional)
+
+=item COMPONENTS
+
+The components covered by the license (optional)
+
+=item PRODUCTID
+
+The ID of the installation (optional)
+
+=back

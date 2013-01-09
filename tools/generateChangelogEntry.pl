@@ -1,17 +1,13 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 
 use strict;
 use warnings;
 
-
 use Data::Dumper;
-use LWP::Simple;
-
-
 use DateTime;
 use DateTime::Format::Mail;
-
 use Encode;
+use LWP::Simple;
 use XML::TreePP;
 
 sub getBug {
@@ -20,7 +16,6 @@ sub getBug {
     my $url = "http://forge.fusioninventory.org/issues/$id";
     my $content = encode("UTF-8",(LWP::Simple::get($url)));
 
-    use XML::TreePP;
     my $tpp = XML::TreePP->new();
 
     my $title;
@@ -44,11 +39,11 @@ sub getBug {
     }
 
     return {
-        id => $id,
-           title => $title,
-           thanks => $thanks,
-           categorie => $categorie,
-           commit => []
+       id        => $id,
+       title     => $title,
+       thanks    => $thanks,
+       categorie => $categorie,
+       commit    => []
     }
 };
 
@@ -109,7 +104,7 @@ foreach my $categorie(sort keys %categories) {
         print " ✔ ".$info->{title}."\n";
         print "      ";
         foreach (@{$info->{commit}}) {
-        print " commit:$_";
+            print " commit:$_";
         }
         print "\n";
         print "     http://forge.fusioninventory.org/issues/".$info->{id}."\n";

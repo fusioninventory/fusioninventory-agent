@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::Linux::LVM;
@@ -250,15 +251,15 @@ plan tests =>
 
 foreach my $test (keys %pvs) {
     my @pvs = FusionInventory::Agent::Task::Inventory::Input::Linux::LVM::_getPhysicalVolumes(file => "resources/lvm/linux/pvs/$test");
-    is_deeply(\@pvs, $pvs{$test}, "physical volumes list: $test");
+    cmp_deeply(\@pvs, $pvs{$test}, "physical volumes list: $test");
 }
 
 foreach my $test (keys %lvs) {
     my @lvs = FusionInventory::Agent::Task::Inventory::Input::Linux::LVM::_getLogicalVolumes(file => "resources/lvm/linux/lvs/$test");
-    is_deeply(\@lvs, $lvs{$test}, "logical volumes list: $test");
+    cmp_deeply(\@lvs, $lvs{$test}, "logical volumes list: $test");
 }
 
 foreach my $test (keys %vgs) {
     my @vgs = FusionInventory::Agent::Task::Inventory::Input::Linux::LVM::_getVolumeGroups(file => "resources/lvm/linux/vgs/$test");
-    is_deeply(\@vgs, $vgs{$test}, "volume groups list: $test");
+    cmp_deeply(\@vgs, $vgs{$test}, "volume groups list: $test");
 }

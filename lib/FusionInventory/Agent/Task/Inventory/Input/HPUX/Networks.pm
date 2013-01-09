@@ -118,10 +118,12 @@ sub _parseLanscan {
             (\S+)
             /x;
 
+        # quick assertion: nothing else as ethernet interface
         my $interface = {
             MACADDR     => alt2canonical($1),
             STATUS      => 'Down',
             DESCRIPTION => $2,
+            TYPE        => 'ethernet',
             lan_id      => $3,
         };
 
@@ -233,11 +235,13 @@ sub _parseNetstatNrv {
         my $interface = $4;
         my $mtu       = $5;
 
+        # quick assertion: nothing else as ethernet interface
         push @{$interfaces{$interface}}, {
             IPADDRESS   => $address,
             IPMASK      => $mask,
             IPGATEWAY   => $gateway,
             DESCRIPTION => $interface,
+            TYPE        => 'ethernet',
             MTU         => $mtu
         }
     }

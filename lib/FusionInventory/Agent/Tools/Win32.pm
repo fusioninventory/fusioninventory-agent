@@ -3,13 +3,16 @@ package FusionInventory::Agent::Tools::Win32;
 use strict;
 use warnings;
 use base 'Exporter';
+use utf8;
 
 use constant KEY_WOW64_64 => 0x100;
 use constant KEY_WOW64_32 => 0x200;
 
+use Cwd;
 use Encode;
 use English qw(-no_match_vars);
-
+use File::Temp qw(:seekable tempfile);
+use Win32::Job;
 use Win32::OLE qw(in);
 use Win32::OLE::Const;
 use Win32::TieRegistry (
@@ -18,14 +21,9 @@ use Win32::TieRegistry (
     qw/KEY_READ/
 );
 
-use File::Temp qw(:seekable tempfile);
-use Win32::Job;
-
-use Cwd;
+use FusionInventory::Agent::Tools;
 
 Win32::OLE->Option(CP => Win32::OLE::CP_UTF8);
-
-use FusionInventory::Agent::Tools;
 
 my $localCodepage;
 
@@ -36,15 +34,16 @@ our @EXPORT = qw(
     KEY_WOW64_32
     getRegistryValue
     getRegistryKey
-    getWmiObjects
+    getWMIObjects
     getLocalCodepage
     runCommand
+    parseProductKey
 );
 
 sub is64bit {
     return
         any { $_->{AddressWidth} eq 64 }
-        getWmiObjects(
+        getWMIObjects(
             class => 'Win32_Processor', properties => [ qw/AddressWidth/ ]
         );
 }
@@ -67,10 +66,12 @@ sub encodeFromRegistry {
     ## no critic (ExplicitReturnUndef)
     return undef unless $string;
 
-    return encode("UTF-8", decode(getLocalCodepage(), $string));
+    return $string if Encode::is_utf8($string);
+
+    return decode(getLocalCodepage(), $string);
 }
 
-sub getWmiObjects {
+sub getWMIObjects {
     my (%params) = (
         moniker => 'winmgmts:{impersonationLevel=impersonate,(security)}!//./',
         @_
@@ -85,7 +86,17 @@ sub getWmiObjects {
     )) {
         my $object;
         foreach my $property (@{$params{properties}}) {
-            $object->{$property} = $instance->{$property};
+            if (!ref($instance->{$property}) && $instance->{$property}) {
+                # cast the Win32::OLE object in string
+                $object->{$property} = sprintf("%s", $instance->{$property});
+
+                # because of the Win32::OLE->Option(CP => Win32::OLE::CP_UTF8);
+                # we know it's UTF8, let's flag the string according because
+                # Win32::OLE don't do it
+                utf8::upgrade($object->{$property});
+            } else {
+                $object->{$property} = $instance->{$property};
+            }
         }
         push @objects, $object;
     }
@@ -206,7 +217,6 @@ sub runCommand {
     my $job = Win32::Job->new();
 
     my $buff = File::Temp->new();
-    my $void = File::Temp->new();
 
     my $winCwd = Cwd::getcwd();
     $winCwd =~ s{/}{\\}g;
@@ -219,7 +229,6 @@ sub runCommand {
 
     my $args = {
         stdout    => $buff,
-        stderr    => $params{no_stderr} ? $void : $buff,
         no_window => 1
     };
 
@@ -245,6 +254,53 @@ sub runCommand {
     return ($exitcode, $buff);
 }
 
+sub _quotient {
+    my($index, $encoded) = @_;
+
+    # Same as $index * 256 + $product_key ???
+    my $dividend = $index * 256 ^ $encoded; ## no critic (ProhibitBitwise)
+
+    # return modulus and integer quotient
+    return(
+        $dividend % 24,
+        $dividend / 24,
+    );
+}
+
+#http://www.perlmonks.org/?node_id=497616
+# Thanks William Gannon && Charles Clarkson
+sub parseProductKey {
+    my ($key) = @_;
+    return unless $key;
+
+    my @encoded = ( unpack 'C*', $key )[ reverse 52 .. 66 ];
+
+    # Get indices
+    my @indices;
+    foreach ( 0 .. 24 ) {
+        my $index = 0;
+
+        # Shift off remainder
+        ( $index, $_ ) = _quotient( $index, $_ ) foreach @encoded;
+
+        # Store index.
+        unshift @indices, $index;
+    }
+
+    # translate base 24 "digits" to characters
+    my $cd_key =
+        join '',
+        qw( B C D F G H J K M P Q R T V W X Y 2 3 4 6 7 8 9 )[ @indices ];
+
+    # Add seperators
+    $cd_key =
+        join '-',
+        $cd_key =~ /(.{5})/g;
+
+    return if $cd_key =~ /^[B-]*$/;
+    return $cd_key;
+}
+
 1;
 __END__
 
@@ -266,7 +322,7 @@ Returns true if the OS is 64bit or false.
 
 Returns the local codepage.
 
-=head2 getWmiObjects(%params)
+=head2 getWMIObjects(%params)
 
 Returns the list of objects from given WMI class, with given properties, properly encoded.
 
@@ -328,12 +384,18 @@ Returns a command in a Win32 Process
 
 =item timeout a time in second, default is 3600*2
 
-=item no_stderr ignore STDERR output, default is false
 =back
 
 Return an array
+
+=over
 
 =item exitcode the error code, 293 means a timeout occurred
 
 =item fd a file descriptor on the output
 
+=back
+
+=head2 parseProductKey($string)
+
+Return a Parsed binary product key (XP, office, etc)

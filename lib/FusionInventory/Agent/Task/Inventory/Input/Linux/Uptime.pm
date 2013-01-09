@@ -16,10 +16,9 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $arch = getFirstLine(command => 'uname -m');
     my $uptime = _getUptime(file => '/proc/uptime');
-    $inventory->setHardware({
-        DESCRIPTION => "$arch/$uptime"
+    $inventory->setOperatingSystem({
+        BOOT_TIME  => "$uptime"
     });
 }
 
@@ -30,7 +29,7 @@ sub _getUptime {
     );
     return unless $uptime;
 
-    return getFormatedGmTime($uptime);
+    return getFormatedLocalTime(int(time - $uptime));
 }
 
 1;

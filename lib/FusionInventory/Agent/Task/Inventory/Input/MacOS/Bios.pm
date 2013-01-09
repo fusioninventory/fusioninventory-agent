@@ -7,9 +7,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::MacOS;
 
 sub isEnabled {
-    return 
-        -r '/usr/sbin/system_profiler' &&
-        canLoad("Mac::SysProfile");
+    return canRun('/usr/sbin/system_profiler');
 }
 
 sub doInventory {
@@ -18,11 +16,8 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $prof = Mac::SysProfile->new();
-    my $info = $prof->gettype('SPHardwareDataType');
-    return unless ref $info eq 'HASH';
-
-    $info = $info->{'Hardware Overview'};
+    my $infos = getSystemProfilerInfos();
+    my $info = $infos->{'Hardware'}->{'Hardware Overview'};
 
     my ($device) = getIODevices(
         class => 'IOPlatformExpertDevice',
@@ -32,12 +27,14 @@ sub doInventory {
     # set the bios informaiton from the apple system profiler
     $inventory->setBios({
         SMANUFACTURER => $device->{'manufacturer'} || 'Apple Inc', # duh
-        SMODEL        => $info->{'Model Identifier'} || $info->{'Machine Model'},
-        #       SSN             => $h->{'Serial Number'}
+        SMODEL        => $info->{'Model Identifier'} ||
+                         $info->{'Machine Model'},
         # New method to get the SSN, because of MacOS 10.5.7 update
         # system_profiler gives 'Serial Number (system): XXXXX' where 10.5.6
         # and lower give 'Serial Number: XXXXX'
-        SSN           => $info->{'Serial Number'} || $info->{'Serial Number (system)'} || $device->{'serial-number'},
+        SSN           => $info->{'Serial Number'}          ||
+                         $info->{'Serial Number (system)'} ||
+                         $device->{'serial-number'},
         BVERSION      => $info->{'Boot ROM Version'},
     });
 

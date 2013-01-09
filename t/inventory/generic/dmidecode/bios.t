@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Bios;
@@ -416,6 +417,6 @@ plan tests => 2 * keys %tests;
 foreach my $test (keys %tests) {
     my $file = "resources/generic/dmidecode/$test";
     my ($bios, $hardware) = FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Bios::_getBiosHardware(file => $file);
-    is_deeply($bios, $tests{$test}->{bios}, "bios: $test");
-    is_deeply($hardware, $tests{$test}->{hardware}, "hardware: $test");
+    cmp_deeply($bios, $tests{$test}->{bios}, "bios: $test");
+    cmp_deeply($hardware, $tests{$test}->{hardware}, "hardware: $test");
 }

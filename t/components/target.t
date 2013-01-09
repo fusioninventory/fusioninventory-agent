@@ -5,7 +5,7 @@ use warnings;
 
 use Config;
 use English qw(-no_match_vars);
-use File::Temp qw/tempdir/;
+use File::Temp qw(tempdir);
 use Test::More;
 use Test::Exception;
 use UNIVERSAL::require;

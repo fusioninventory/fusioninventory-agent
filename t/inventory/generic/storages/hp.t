@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::Generic::Storages::HP;
@@ -47,7 +48,7 @@ plan tests =>
 
 foreach my $test (keys %slots_tests) {
     my $file  = "resources/generic/hpacucli/$test-slots";
-    is_deeply(
+    cmp_deeply(
         [ FusionInventory::Agent::Task::Inventory::Input::Generic::Storages::HP::_getSlots(file => $file) ],
         $slots_tests{$test},
         "$test: slots extraction"
@@ -56,7 +57,7 @@ foreach my $test (keys %slots_tests) {
 
 foreach my $test (keys %drives_tests) {
     my $file  = "resources/generic/hpacucli/$test-drives";
-    is_deeply(
+    cmp_deeply(
         [ FusionInventory::Agent::Task::Inventory::Input::Generic::Storages::HP::_getDrives(file => $file) ],
         $drives_tests{$test},
         "$test: drives extraction"
@@ -65,7 +66,7 @@ foreach my $test (keys %drives_tests) {
 
 foreach my $test (keys %storage_tests) {
     my $file  = "resources/generic/hpacucli/$test-storage";
-    is_deeply(
+    cmp_deeply(
         FusionInventory::Agent::Task::Inventory::Input::Generic::Storages::HP::_getStorage(file => $file),
         $storage_tests{$test},
         'storage extraction'

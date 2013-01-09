@@ -18,7 +18,7 @@ use FusionInventory::Agent::Tools::Win32;
 if ($OSNAME ne 'MSWin32') {
     plan skip_all => 'Windows-specific test';
 } else {
-    plan tests => 5;
+    plan tests => 4;
 }
 my ($code, $fd) = runCommand(command => "perl -V");
 ok($code eq 0, "perl -V returns 0");
@@ -34,10 +34,5 @@ my $command = "perl -BAD";
 ($code, $fd) = runCommand(
     command => $command,
     no_stderr => 1
-);
-ok(!defined(<$fd>), "no_stderr=1: don't catch STDERR output");
-($code, $fd) = runCommand(
-    command => $command,
-    no_stderr => 0
 );
 ok(defined(<$fd>), "no_stderr=0: catch STDERR output");

@@ -8,6 +8,7 @@ use English qw(-no_match_vars);
 use HTTP::Request;
 use UNIVERSAL::require;
 use URI;
+use Encode;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::XML::Response;
@@ -27,7 +28,7 @@ sub new {
         $self->{compression} = 'zlib';
         $self->{ua}->default_header('Content-type' => 'application/x-compress-zlib');
         $self->{logger}->debug(
-            $log_prefix . 
+            $log_prefix .
             'Using Compress::Zlib for compression'
         );
     } elsif (canRun('gzip')) {
@@ -35,14 +36,14 @@ sub new {
         $self->{compression} = 'gzip';
         $self->{ua}->default_header('Content-type' => 'application/x-compress-gzip');
         $self->{logger}->debug(
-            $log_prefix . 
+            $log_prefix .
             'Using gzip for compression'
         );
     } else {
         $self->{compression} = 'none';
         $self->{ua}->default_header('Content-type' => 'application/xml');
         $self->{logger}->debug(
-            $log_prefix . 
+            $log_prefix .
             'Not using compression'
         );
     }
@@ -61,7 +62,7 @@ sub send { ## no critic (ProhibitBuiltinHomonyms)
     my $request_content = $message->getContent();
     $logger->debug2($log_prefix . "sending message:\n $request_content");
 
-    $request_content = $self->_compress($request_content);
+    $request_content = $self->_compress(encode('UTF-8', $request_content));
     if (!$request_content) {
         $logger->error($log_prefix . 'inflating problem');
         return;
@@ -112,7 +113,7 @@ sub send { ## no critic (ProhibitBuiltinHomonyms)
 sub _compress {
     my ($self, $data) = @_;
 
-    return 
+    return
         $self->{compression} eq 'zlib' ? $self->_compressZlib($data) :
         $self->{compression} eq 'gzip' ? $self->_compressGzip($data) :
                                          $data;

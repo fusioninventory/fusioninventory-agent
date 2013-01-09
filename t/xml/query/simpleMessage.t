@@ -3,19 +3,16 @@
 use strict;
 use warnings;
 
-use Test::More;
+use Test::Deep;
 use Test::Exception;
+use Test::More;
 use XML::TreePP;
 
 use FusionInventory::Agent::XML::Query;
 
-plan tests => 8;
+plan tests => 7;
 
 my $message;
-throws_ok {
-    $message = FusionInventory::Agent::XML::Query->new();
-} qr/^no deviceid/, 'no device id';
-
 throws_ok {
     $message = FusionInventory::Agent::XML::Query->new(
         deviceid => 'foo',
@@ -34,7 +31,7 @@ isa_ok($message, 'FusionInventory::Agent::XML::Query');
 
 my $tpp = XML::TreePP->new();
 
-is_deeply(
+cmp_deeply(
     scalar $tpp->parse($message->getContent()),
     {
         REQUEST => {
@@ -66,7 +63,7 @@ lives_ok {
 
 isa_ok($message, 'FusionInventory::Agent::XML::Query');
 
-is_deeply(
+cmp_deeply(
     scalar $tpp->parse($message->getContent()),
     {
         REQUEST => {

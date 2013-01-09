@@ -4,11 +4,10 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::MacOS;
 
 sub isEnabled {
-    return 
-        -r '/usr/sbin/system_profiler' &&
-        canLoad("Mac::SysProfile");
+    return canRun('/usr/sbin/system_profiler');
 }
 
 sub doInventory {
@@ -16,18 +15,16 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $prof = Mac::SysProfile->new();
-    my $info = $prof->gettype('SPAudioDataType');
-    return unless ref $info eq 'HASH';
+    my $infos = getSystemProfilerInfos();
+    my $info = $infos->{'Audio (Built In)'};
 
-    # add sound cards
-    foreach my $x (keys %$info){
+    foreach my $sound (keys %$info){
         $inventory->addEntry(
             section => 'SOUNDS',
             entry   => {
-                NAME         => $x,
-                MANUFACTURER => $x,
-                DESCRIPTION  => $x,
+                NAME         => $sound,
+                MANUFACTURER => $sound,
+                DESCRIPTION  => $sound,
             }
         );
     }

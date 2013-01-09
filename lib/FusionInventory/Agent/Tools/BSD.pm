@@ -1,0 +1,131 @@
+package FusionInventory::Agent::Tools::BSD;
+
+use strict;
+use warnings;
+use base 'Exporter';
+
+use English qw(-no_match_vars);
+
+use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Network;
+
+our @EXPORT = qw(
+    getInterfacesFromIfconfig
+);
+
+sub getInterfacesFromIfconfig {
+    my (%params) = (
+        command => '/sbin/ifconfig -a',
+        @_
+    );
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my @interfaces; # global list of interfaces
+    my @addresses;  # per-interface list of addresses
+    my $interface;  # current interface
+
+    my %types = (
+        Ethernet => 'ethernet',
+        IEEE     => 'wifi'
+    );
+
+    while (my $line = <$handle>) {
+        if ($line =~ /^(\S+): flags=\d+<([^>]+)> metric \d+ mtu (\d+)/) {
+
+            if (@addresses) {
+                push @interfaces, @addresses;
+                undef @addresses;
+            } else {
+                push @interfaces, $interface if $interface;
+            }
+
+            $interface = {
+                DESCRIPTION => $1,
+                MTU         => $3
+            };
+            my $flags = $2;
+
+            foreach my $flag (split(/,/, $flags)) {
+                next unless $flag eq 'UP' || $flag eq 'DOWN';
+                $interface->{STATUS} = ucfirst(lc($flag));
+            }
+        } elsif ($line =~ /(?:address:|ether|lladdr) ($mac_address_pattern)/) {
+            $interface->{MACADDR} = $1;
+
+        } elsif ($line =~ /inet ($ip_address_pattern) (?:--> $ip_address_pattern )?netmask 0x($hex_ip_address_pattern)/) {
+            my $address = $1;
+            my $mask    = hex2canonical($2);
+            my $subnet  = getSubnetAddress($address, $mask);
+
+            push @addresses, {
+                IPADDRESS   => $address,
+                IPMASK      => $mask,
+                IPSUBNET    => $subnet,
+                STATUS      => $interface->{STATUS},
+                DESCRIPTION => $interface->{DESCRIPTION},
+                MACADDR     => $interface->{MACADDR},
+                MTU         => $interface->{MTU}
+            };
+        } elsif ($line =~ /inet6 ([\w:]+)\S* prefixlen (\d+)/) {
+            my $address = $1;
+            my $mask    = getNetworkMaskIPv6($2);
+            my $subnet  = getSubnetAddressIPv6($address, $mask);
+
+            push @addresses, {
+                IPADDRESS6  => $address,
+                IPMASK6     => $mask,
+                IPSUBNET6   => $subnet,
+                STATUS      => $interface->{STATUS},
+                DESCRIPTION => $interface->{DESCRIPTION},
+                MACADDR     => $interface->{MACADDR},
+                MTU         => $interface->{MTU}
+            };
+
+        }
+
+        if ($line =~ /media: (\S+)/) {
+            $interface->{TYPE} = $types{$1};
+            $_->{TYPE} = $types{$1} foreach @addresses;
+        }
+    }
+    close $handle;
+
+    # last interface
+    if (@addresses) {
+        push @interfaces, @addresses;
+    } else {
+        push @interfaces, $interface if $interface;
+    }
+
+    return @interfaces;
+}
+
+1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Tools::BSD - BSD generic functions
+
+=head1 DESCRIPTION
+
+This module provides some generic functions for BSD.
+
+=head1 FUNCTIONS
+
+=head2 getInterfacesFromIfconfig(%params)
+
+Returns the list of interfaces, by parsing ifconfig command output.
+
+Availables parameters:
+
+=over
+
+=item logger a logger object
+
+=item command the command to use (default: /sbin/ifconfig -a)
+
+=item file the file to use
+
+=back

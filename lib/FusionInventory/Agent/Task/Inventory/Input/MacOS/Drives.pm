@@ -33,33 +33,22 @@ sub doInventory {
 
     my %filesystems = map { $_->{VOLUMN} => $_ } @filesystems;
 
-    # get additional informations
-    foreach (`diskutil list`) {
-        # partition identifiers look like disk0s1
-        next unless /(disk \d+ s \d+)$/x;
-        my $id = $1;
-        my $name = "/dev/$1";
+    foreach my $partition (_getPartitions()) {
+        my $device = "/dev/$partition";
 
-        my $filesystem = $filesystems{$name};
+        my $info = _getPartitionInfo(partition => $partition);
+
+        my $filesystem = $filesystems{$device};
         next unless $filesystem;
 
-        my $device;
-        foreach (`diskutil info $id`) {
-            next unless /(\S[^:]+) : \s+ (\S.*\S)/x;
-            $device->{$1} = $2;
+        if ($info->{'Total Size'} =~ /^([.\d]+ \s \S+)/x) {
+            $filesystem->{TOTAL} = getCanonicalSize($1);
         }
-
-        my $size;
-        if ($device->{'Total Size'} =~ /^([.\d]+ \s \S+)/x) {
-            $size = getCanonicalSize($1);
-        }
-
-        $filesystem->{TOTAL}      = $size;
-        $filesystem->{SERIAL}     = $device->{'Volume UUID'} ||
-                                    $device->{'UUID'};
-        $filesystem->{FILESYSTEM} = $device->{'File System'} ||
-                                    $device->{'Partition Type'};
-        $filesystem->{LABEL}      = $device->{'Volume Name'};
+        $filesystem->{SERIAL}     = $info->{'Volume UUID'} ||
+                                    $info->{'UUID'};
+        $filesystem->{FILESYSTEM} = $info->{'File System'} ||
+                                    $info->{'Partition Type'};
+        $filesystem->{LABEL}      = $info->{'Volume Name'};
     }
 
     # add filesystems to the inventory
@@ -69,6 +58,41 @@ sub doInventory {
             entry   => $filesystems{$key}
         );
     }
+}
+
+sub _getPartitions {
+    my (%params) = @_;
+
+    my $command = "diskutil list";
+    my $handle = getFileHandle(command => $command, %params);
+    return unless $handle;
+
+    my @devices;
+    while (my $line = <$handle>) {
+        # partition identifiers look like disk0s1
+        next unless $line =~ /(disk \d+ s \d+)$/x;
+        push @devices, $1;
+    }
+    close $handle;
+
+    return @devices;
+}
+
+sub _getPartitionInfo {
+    my (%params) = @_;
+
+    my $command = "diskutil info $params{partition}";
+    my $handle = getFileHandle(command => $command, %params);
+    return unless $handle;
+
+    my $info;
+    while (my $line = <$handle>) {
+        next unless $line =~ /(\S[^:]+) : \s+ (\S.*\S)/x;
+        $info->{$1} = $2;
+    }
+    close $handle;
+
+    return $info;
 }
 
 1;

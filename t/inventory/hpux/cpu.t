@@ -3,9 +3,10 @@
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Task::Inventory::Input::HPUX::CPU;
-
+use Test::Deep;
 use Test::More;
+
+use FusionInventory::Agent::Task::Inventory::Input::HPUX::CPU;
 
 my %machinfo_tests = (
     'hpux_11.31_3xia64' => {
@@ -74,11 +75,11 @@ plan tests =>
 foreach my $test (keys %machinfo_tests) {
     my $file = "resources/hpux/machinfo/$test";
     my $results = FusionInventory::Agent::Task::Inventory::Input::HPUX::CPU::_parseMachinInfo(file => $file);
-    is_deeply($results, $machinfo_tests{$test}, "machinfo parsing: $test");
+    cmp_deeply($results, $machinfo_tests{$test}, "machinfo parsing: $test");
 }
 
 foreach my $test (keys %cprop_tests) {
     my $file = "resources/hpux/cprop/$test-cpu";
     my @cpus = FusionInventory::Agent::Task::Inventory::Input::HPUX::CPU::_parseCprop(file => $file);
-    is_deeply(\@cpus, $cprop_tests{$test}, "cprop parsing: $test");
+    cmp_deeply(\@cpus, $cprop_tests{$test}, "cprop parsing: $test");
 }

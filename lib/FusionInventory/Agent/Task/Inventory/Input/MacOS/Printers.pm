@@ -4,14 +4,14 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::MacOS;
 
 sub isEnabled {
     my (%params) = @_;
 
     return 
         !$params{no_category}->{printer} &&
-        -r '/usr/sbin/system_profiler' &&
-        canLoad("Mac::SysProfile");
+        canRun('/usr/sbin/system_profiler');
 }
 
 sub doInventory {
@@ -19,29 +19,18 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $prof = Mac::SysProfile->new();
-    my $info = $prof->gettype('SPPrintersDataType');
-    return unless ref $info eq 'HASH';
+    my $infos = getSystemProfilerInfos();
+    my $info = $infos->{Printers};
 
     foreach my $printer (keys %$info) {
-        if ($printer && (
-            $printer =~ /list is empty/
-            ||
-            $printer =~ /^Status/
-            ||
-            $printer =~ /^CUPS Version/
-            )            ) {
-#http://forge.fusioninventory.org/issues/169
-#https://bugs.launchpad.net/bugs/901570
-                next;
-        }
+        next unless ref($info->{printer}) eq 'HASH';
 
         $inventory->addEntry(
             section => 'PRINTERS',
             entry   => {
                 NAME    => $printer,
-                DRIVER  => $info->{$printer}->{'PPD'},
-                PORT    => $info->{$printer}->{'URI'},
+                DRIVER  => $info->{$printer}->{PPD},
+                PORT    => $info->{$printer}->{URI},
             }
         );
     }

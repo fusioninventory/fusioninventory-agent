@@ -16,10 +16,8 @@ requires 'Net::IP'            => undef;
 requires 'UNIVERSAL::require' => undef;
 requires 'Text::Template'     => undef;
 requires 'XML::TreePP'        => '0.26';
+requires 'Socket::GetAddrInfo'=> undef;
 
-if ($OSNAME eq 'darwin') {
-    requires 'Mac::SysProfile' => undef;
-}
 if ($OSNAME eq 'MSWin32') {
     requires 'Win32::OLE'         => undef;
     requires 'Win32::TieRegistry' => undef;
@@ -27,6 +25,7 @@ if ($OSNAME eq 'MSWin32') {
 }
 
 # optional dependencies
+recommends 'Parse::EDID'      => undef;
 recommends 'Compress::Zlib'   => undef;
 recommends 'HTTP::Daemon'     => undef;
 recommends 'IO::Socket::SSL'  => undef;
@@ -47,13 +46,14 @@ test_requires  'HTTP::Server::Simple::Authen' => undef;
 test_requires  'IO::Socket::SSL'              => undef;
 test_requires  'IO::Capture::Stderr'          => undef;
 test_requires  'IPC::Run'                     => undef;
+test_requires  'Test::Deep'                   => undef;
 test_requires  'Test::Exception'              => undef;
 test_requires  'Test::MockModule'             => undef;
 test_requires  'Test::More'                   => '0.93'; # subtest
-test_requires  'YAML'                         => undef;
-test_requires  'LWP::Protocol::https'          => undef;
+test_requires  'LWP::Protocol::https'         => undef;
 
 install_script  'fusioninventory-agent';
+install_script  'fusioninventory-inventory';
 install_script  'fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
 install_script  'fusioninventory-injector';
 # memconf is needed by Solaris backend module

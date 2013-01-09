@@ -90,11 +90,14 @@ sub _parseLscfg {
     my @interfaces;
     my $interface;
     while (my $line = <$handle>) {
-        if ($line =~ /^\s+ ent(\d+) \s+ \S+ \s+ (.+)/x) {
+        if ($line =~ /^\s+ ent(\d+) \s+ \S+ \s+/x) {
             push @interfaces, $interface if $interface;
             undef $interface;
-            $interface->{TYPE} = $2;
-            $interface->{DESCRIPTION} = "en$1";
+            # quick assertion: nothing else as ethernet interface
+            $interface = {
+                DESCRIPTION => "en$1",
+                TYPE        => 'ethernet'
+            };
         }
         if ($line =~ /Network Address\.+($alt_mac_address_pattern)/) {
             $interface->{MACADDR} = alt2canonical($1);

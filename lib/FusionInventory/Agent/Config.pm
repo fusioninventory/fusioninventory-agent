@@ -9,75 +9,48 @@ use Getopt::Long;
 use UNIVERSAL::require;
 
 my $default = {
-    'logger'                  => 'Stderr',
-    'logfacility'             => 'LOG_USER',
-    'delaytime'               => 3600,
+    'additional-content'      => undef,
     'backend-collect-timeout' => 30,
+    'ca-cert-dir'             => undef,
+    'ca-cert-file'            => undef,
+    'color'                   => undef,
+    'debug'                   => undef,
+    'delaytime'               => 3600,
+    'force'                   => undef,
+    'html'                    => undef,
+    'lazy'                    => undef,
+    'local'                   => undef,
+    'logger'                  => 'Stderr',
+    'logfile'                 => undef,
+    'logfacility'             => 'LOG_USER',
+    'logfile-maxsize'         => undef,
+    'no-category'             => [],
+    'no-httpd'                => undef,
+    'no-ssl-check'            => undef,
+    'no-task'                 => [],
+    'no-p2p'                  => undef,
+    'password'                => undef,
+    'proxy'                   => undef,
+    'httpd-ip'                => undef,
     'httpd-port'              => 62354,
+    'httpd-trust'             => [],
+    'scan-homedirs'           => undef,
+    'server'                  => undef,
+    'tag'                     => undef,
     'timeout'                 => 180,
+    'user'                    => undef,
+    # deprecated options
+    'stdout'                  => undef,
     # multi-values options that will be converted to array ref
+    'httpd-trust'             => "",
     'no-task'                 => "",
     'no-category'             => ""
 };
 
 my $deprecated = {
-    'info' => {
-        message => 'it was useless anyway'
-    },
-    'realm' => {
-        message => 'it is now useless'
-    },
-    'no-socket' => {
-        message => 'use --no-httpd option instead',
-        new     => 'no-httpd'
-    },
-    'rpc-ip' => {
-        message => 'use --httpd-ip option instead',
-        new     => 'httpd-ip'
-    },
-    'rpc-port' => {
-        message => 'use --httpd-port option instead',
-        new     => 'httpd-port'
-    },
-    'rpc-trust-localhost' => {
-        message => 'use --httpd-trust 127.0.0.1 option instead',
-        new     => { 'httpd-trust' => '127.0.0.1' }
-    },
-    'daemon-no-fork' => {
-        message => 'use --daemon and --no-fork options instead',
-        new     => [ 'daemon', 'no-fork' ]
-    },
-    'D' => {
-        message => 'use --daemon and --no-fork options instead',
-        new     => [ 'daemon', 'no-fork' ]
-    },
-    'no-inventory' => {
-        message => 'use --no-task inventory option instead',
-        new     => { 'no-task' => '+inventory' }
-    },
-    'no-wakeonlan' => {
-        message => 'use --no-task wakeonlan option instead',
-        new     => { 'no-task' => '+wakeonlan' }
-    },
-    'no-netdiscovery' => {
-        message => 'use --no-task netdiscovery option instead',
-        new     => { 'no-task' => '+netdiscovery' }
-    },
-    'no-snmpquery' => {
-        message => 'use --no-task snmpquery option instead',
-        new     => { 'no-task' => '+snmpquery' }
-    },
-    'no-ocsdeploy' => {
-        message => 'use --no-task ocsdeploy option instead',
-        new     => { 'no-task' => '+ocsdeploy' }
-    },
-    'no-printer' => {
-        message => 'use --no-category printer option instead',
-        new     => { 'no-category' => '+printer' }
-    },
-    'no-software' => {
-        message => 'use --no-category software option instead',
-        new     => { 'no-category' => '+software' }
+    'stdout' => {
+        message => 'use --local - option instead',
+        new     => { 'local' => '-' }
     },
 };
 
@@ -150,13 +123,18 @@ sub _loadFromRegistry {
 
     foreach my $rawKey (keys %$settings) {
         next unless $rawKey =~ /^\/(\S+)/;
-        my $key = $1;
+        my $key = lc($1);
         my $val = $settings->{$rawKey};
         # Remove the quotes
         $val =~ s/\s+$//;
         $val =~ s/^'(.*)'$/$1/;
         $val =~ s/^"(.*)"$/$1/;
-        $self->{lc($key)} = $val;
+
+        if (exists $default->{$key}) {
+            $self->{$key} = $val;
+        } else {
+            warn "unknown configuration directive $key";
+        }
     }
 }
 
@@ -183,11 +161,17 @@ sub _loadFromFile {
         if ($line =~ /([\w-]+)\s*=\s*(.+)/) {
             my $key = $1;
             my $val = $2;
+
             # Remove the quotes
             $val =~ s/\s+$//;
             $val =~ s/^'(.*)'$/$1/;
             $val =~ s/^"(.*)"$/$1/;
-            $self->{$key} = $val;
+
+            if (exists $default->{$key}) {
+                $self->{$key} = $val;
+            } else {
+                warn "unknown configuration directive $key";
+            }
         }
     }
     close $handle;
@@ -250,11 +234,22 @@ sub _checkContent {
         $self->{logger} .= ',File';
     }
 
-    # multi-values options
-    $self->{logger} = [ split(/,/, $self->{logger}) ] if $self->{logger};
-    $self->{server} = [ split(/,/, $self->{server}) ] if $self->{server};
-    $self->{'no-task'} = [ split(/,/, $self->{'no-task'}) ];
-    $self->{'no-category'} = [ split(/,/, $self->{'no-category'}) ];
+    # multi-values options, the default separator is a ','
+    foreach my $option (qw/
+            logger
+            local
+            server
+            httpd-trust
+            no-task
+            no-category
+            /) {
+
+        if ($self->{$option}) {
+            $self->{$option} = [split(/,/, $self->{$option})];
+        } else {
+            $self->{$option} = [];
+        }
+    }
 
     # files location
     $self->{'ca-cert-file'} =

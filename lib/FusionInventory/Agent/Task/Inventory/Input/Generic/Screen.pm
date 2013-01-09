@@ -9,7 +9,7 @@ use UNIVERSAL::require;
 
 use File::Find;
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::Screen;
+use FusionInventory::Agent::Tools::Generic;
 
 sub isEnabled {
 
@@ -25,12 +25,17 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger    = $params{logger};
 
-    foreach my $screen (_getScreens($logger)) {
+    foreach my $screen (_getScreens(
+        logger  => $params{logger},
+    )) {
 
         if ($screen->{edid}) {
-            my $info = _getEdidInfo($screen->{edid}, $logger);
+            my $info = _getEdidInfo(
+                edid    => $screen->{edid},
+                logger  => $params{logger},
+                datadir => $params{datadir},
+            );
             $screen->{CAPTION}      = $info->{CAPTION};
             $screen->{DESCRIPTION}  = $info->{DESCRIPTION};
             $screen->{MANUFACTURER} = $info->{MANUFACTURER};
@@ -51,19 +56,24 @@ sub doInventory {
 }
 
 sub _getEdidInfo {
-    my ($raw_edid, $logger) = @_;
+    my (%params) = @_;
 
-    my $edid = parseEdid($raw_edid);
-    if (my $error = checkParsedEdid($edid)) {
-        $logger->debug("bad edid: $error");
+    Parse::EDID->require();
+    return if $EVAL_ERROR;
+
+    my $edid = Parse::EDID::parse_edid($params{edid});
+    if (my $error = Parse::EDID::check_parsed_edid($edid)) {
+        $params{logger}->debug("bad edid: $error") if $params{logger};
         return;
     }
 
     my $info = {
         CAPTION      => $edid->{monitor_name},
         DESCRIPTION  => $edid->{week} . "/" . $edid->{year},
-        MANUFACTURER => getManufacturerFromCode($edid->{manufacturer_name}) ||
-                        $edid->{manufacturer_name}
+        MANUFACTURER => getEDIDVendor(
+                            id      => $edid->{manufacturer_name},
+                            datadir => $params{datadir}
+                        ) || $edid->{manufacturer_name}
     };
 
     # they are two different serial numbers in EDID
@@ -106,7 +116,7 @@ sub _getEdidInfo {
 }
 
 sub _getScreensFromWindows {
-    my ($logger) = @_;
+    my (%params) = @_;
 
     FusionInventory::Agent::Tools::Win32->use();
     if ($EVAL_ERROR) {
@@ -118,7 +128,7 @@ sub _getScreensFromWindows {
     my @screens;
 
     # Vista and upper, able to get the second screen
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         moniker    => 'winmgmts:{impersonationLevel=impersonate,authenticationLevel=Pkt}!//./root/wmi',
         class      => 'WMIMonitorID',
         properties => [ qw/InstanceName/ ]
@@ -132,7 +142,7 @@ sub _getScreensFromWindows {
     }
 
     # The generic Win32_DesktopMonitor class, the second screen will be missing
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class => 'Win32_DesktopMonitor',
         properties => [ qw/
             Caption MonitorManufacturer MonitorType PNPDeviceID Availability
@@ -155,7 +165,7 @@ sub _getScreensFromWindows {
         next unless $screen->{id};
         $screen->{edid} = getRegistryValue(
             path => "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Enum/$screen->{id}/Device Parameters/EDID",
-            logger => $logger
+            logger => $params{logger}
         ) || '';
         $screen->{edid} =~ s/^\s+$//;
         delete $screen->{id};
@@ -165,6 +175,7 @@ sub _getScreensFromWindows {
 }
 
 sub _getScreensFromUnix {
+    my (%params) = @_;
 
     my @screens;
 
@@ -201,10 +212,8 @@ sub _getScreensFromUnix {
 }
 
 sub _getScreens {
-    my ($logger) = @_;
-
     return $OSNAME eq 'MSWin32' ?
-        _getScreensFromWindows($logger) : _getScreensFromUnix($logger);
+        _getScreensFromWindows(@_) : _getScreensFromUnix(@_);
 }
 
 1;

@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::Solaris::Storages;
@@ -1726,5 +1727,5 @@ plan tests => scalar keys %tests;
 foreach my $test (keys %tests) {
     my $file = "resources/solaris/iostat/$test";
     my @storages = FusionInventory::Agent::Task::Inventory::Input::Solaris::Storages::_getStorages(file => $file);
-    is_deeply(\@storages, $tests{$test}, $test);
+    cmp_deeply(\@storages, $tests{$test}, $test);
 }

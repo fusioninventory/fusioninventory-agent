@@ -11,6 +11,7 @@ use Win32::TieRegistry (
     ArrayValues => 0,
     qw/KEY_READ/
 );
+use File::Basename;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
@@ -31,7 +32,6 @@ sub doInventory {
 
     my $is64bit = is64bit();
 
-    my $kbList = _getKB(is64bit => $is64bit);
 
     if ($is64bit) {
 
@@ -42,15 +42,13 @@ sub doInventory {
         my $machKey64 = $Registry->Open('LMachine', {
             Access => KEY_READ | KEY_WOW64_64 ## no critic (ProhibitBitwise)
         }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-
-        my $softwares64 =
+        my $softwaresKey64 =
             $machKey64->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
-
-        foreach my $software (_getSoftwares(
-            softwares => $softwares64,
+        my $softwares64 =_getSoftwaresList(
+            softwares => $softwaresKey64,
             is64bit   => 1,
-            kbList => $kbList
-        )) {
+        );
+        foreach my $software (@$softwares64) {
             _addSoftware(inventory => $inventory, entry => $software);
         }
         _processMSIE(
@@ -58,20 +56,22 @@ sub doInventory {
             inventory => $inventory,
             is64bit   => 1
         );
+        _loadUserSoftware(
+            inventory => $inventory,
+            is64bit   => 1
+        );
 
         my $machKey32 = $Registry->Open('LMachine', {
             Access => KEY_READ | KEY_WOW64_32 ## no critic (ProhibitBitwise)
         }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-
-        my $softwares32 =
+        my $softwaresKey32 =
             $machKey32->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
-
-        foreach my $software (_getSoftwares(
-            softwares => $softwares32,
+        my $softwares32 = _getSoftwaresList(
+            softwares => $softwaresKey32,
             is64bit   => 0,
-            logger => $logger,
-            kbList => $kbList
-        )) {
+            logger    => $logger,
+        );
+        foreach my $software (@$softwares32) {
             _addSoftware(inventory => $inventory, entry => $software);
         }
         _processMSIE(
@@ -79,21 +79,21 @@ sub doInventory {
             inventory => $inventory,
             is64bit   => 0
         );
-
-
+        _loadUserSoftware(
+            inventory => $inventory,
+            is64bit   => 0
+        );
     } else {
         my $machKey = $Registry->Open('LMachine', {
             Access => KEY_READ
         }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-
-        my $softwares =
+        my $softwaresKey =
             $machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
-
-        foreach my $software (_getSoftwares(
-            softwares => $softwares,
+        my $softwares = _getSoftwaresList(
+            softwares => $softwaresKey,
             is64bit   => 0,
-            kbList => $kbList
-        )) {
+        );
+        foreach my $software (@$softwares) {
             _addSoftware(inventory => $inventory, entry => $software);
         }
         _processMSIE(
@@ -101,13 +101,74 @@ sub doInventory {
             inventory => $inventory,
             is64bit   => 0
         );
+        _loadUserSoftware(
+            inventory => $inventory,
+            is64bit   => 0
+        );
+
     }
 
-    foreach (values %$kbList) {
-        _addSoftware(inventory => $inventory, entry => $_);
+    my $hotfixes = _getHotfixesList(is64bit => $is64bit);
+    foreach my $hotfix (@$hotfixes) {
+        # skip fixes already found in generic software list,
+        # without checking version information
+        next if $seen->{$hotfix->{NAME}};
+        _addSoftware(inventory => $inventory, entry => $hotfix);
     }
 
 }
+
+sub _loadUserSoftware {
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $is64bit   = is64bit();
+
+
+    my $lmachine = $Registry->Open('LMachine');
+
+    my $profileList =
+        $lmachine->{"SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProfileList"};
+
+    return unless $profileList;
+
+    $Registry->AllowLoad(1);
+
+    foreach my $profileName (keys %$profileList) {
+        next unless length($profileName) > 10;
+
+        my $profilePath = $profileList->{$profileName}{'/ProfileImagePath'};
+        my $sid = $profileList->{$profileName}{'/Sid'};
+
+        next unless $sid;
+        next unless $profilePath;
+
+        $profilePath =~ s/%SystemDrive%/$ENV{SYSTEMDRIVE}/i;
+
+        my $user = basename($profilePath);
+        my $userKey = $is64bit ?
+            $Registry->Load($profilePath.'\ntuser.dat', { Access=> KEY_READ | KEY_WOW64_64 } ) :
+            $Registry->Load($profilePath.'\ntuser.dat', { Access=> KEY_READ } )                ;
+
+        my $softwaresKey =
+            $userKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
+
+        my $softwares = _getSoftwaresList(
+            softwares => $softwaresKey,
+            is64bit   => 1,
+            userid    => $sid,
+            username  => $user
+        );
+        foreach my $software (@$softwares) {
+            _addSoftware(inventory => $inventory, entry => $software);
+        }
+
+    }
+    $Registry->AllowLoad(0);
+
+}
+
+
 
 sub _dateFormat {
     my ($date) = @_;
@@ -116,23 +177,22 @@ sub _dateFormat {
     return undef unless $date;
 
     if ($date =~ /^(\d{4})(\d{1})(\d{2})$/) {
-	return "$3/0$2/$1";
+        return "$3/0$2/$1";
     }
 
     if ($date =~ /^(\d{4})(\d{2})(\d{2})$/) {
-	return "$3/$2/$1";
+        return "$3/$2/$1";
     }
 
     return undef;
 }
 
-sub _getSoftwares {
+sub _getSoftwaresList {
     my (%params) = @_;
 
     my $softwares = $params{softwares};
-    my $kbList = $params{kbList};
 
-    my @softwares;
+    my @list;
 
     return unless $softwares;
 
@@ -164,27 +224,25 @@ sub _getSoftwares {
             NO_REMOVE        => hex2dec($data->{'/NoRemove'}),
             ARCH             => $params{is64bit} ? 'x86_64' : 'i586',
             GUID             => $guid,
+            USERNAME         => $params{username},
+            USERID           => $params{userid},
         };
 
         # Workaround for #415
         $software->{VERSION} =~ s/[\000-\037].*// if $software->{VERSION};
 
-        if ($software->{NAME} =~ /KB(\d{4,10})/i) {
-            delete($kbList->{$1});
-        }
-
-        push @softwares, $software;
+        push @list, $software;
     }
 
-    return @softwares;
+    return \@list;
 }
 
-sub _getKB {
+sub _getHotfixesList {
     my (%params) = @_;
 
-    my $kbList = {};
+    my $list;
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_QuickFixEngineering',
         properties => [ qw/HotFixID Description/  ]
     )) {
@@ -195,7 +253,7 @@ sub _getKB {
         }
 
         next unless $object->{HotFixID} =~ /KB(\d{4,10})/i;
-        $kbList->{$1} = {
+        push @$list, {
             NAME         => $object->{HotFixID},
             COMMENTS     => $object->{Description},
             FROM         => "WMI",
@@ -205,7 +263,7 @@ sub _getKB {
 
     }
 
-    return $kbList;
+    return $list;
 }
 
 sub _addSoftware {

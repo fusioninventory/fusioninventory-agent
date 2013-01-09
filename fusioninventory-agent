@@ -49,31 +49,16 @@ GetOptions(
     'httpd-trust=s',
     'scan-homedirs',
     'server|s=s',
-    'stdout',
     'tag|t=s',
     'timeout=i',
     'user|u=s',
     'version',
     'wait|w=s',
     # deprecated options
-    'daemon-no-fork|D',
-    'devlib',
-    'no-ocsdeploy',
-    'no-inventory',
-    'no-wakeonlan',
-    'no-snmpquery',
-    'no-netdiscovery',
-    'no-printer',
-    'no-software',
-    'rpc-trust-localhost',
-    'rpc-port',
-    'rpc-ip',
-    'no-socket',
-    'realm',
-    'info|i',
+    'stdout',
 ) or pod2usage(-verbose => 0);
 
-pod2usage(-verbose => 0) if $options->{help};
+pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
 
 if ($options->{version}) {
     print $FusionInventory::Agent::VERSION_STRING . "\n";
@@ -104,6 +89,11 @@ if ($options->{'list-tasks'}) {
     exit 0;
 }
 
+if ($options->{wait}) {
+    my $time = int rand($options->{wait});
+    sleep $time;
+}
+
 eval {
     $agent->init(options => $options);
     $agent->run();
@@ -125,157 +115,81 @@ fusioninventory-agent - FusionInventory agent For Linux/UNIX, Windows and MacOSX
 
 =head1 SYNOPSIS
 
-B<fusioninventory-agent> [options] [--server server|--local directory|--sdout]
+B<fusioninventory-agent> [options] [--server server|--local path]
 
-  Target definition options
-    -s --server=URI     send tasks result to a server
-    -l --local=DIR      write tasks results in a directory
-    --stdout            write tasks result on STDOUT
+  Target definition options:
+    -s --server=URI                send tasks result to a server
+    -l --local=PATH                write tasks results locally
 
-  Target scheduling options
-    --delaytime=DURATION        maximum initial delay before first target, in seconds (3600)
-    -w --wait=DURATION          maximum delay between each target, in seconds
-    --lazy                      do not contact the target before next scheduled time
+  Target scheduling options:
+    --delaytime=LIMIT              maximum delay before first target,
+                                     in seconds (3600)
+    --lazy                         do not contact the target before
+                                   next scheduled time
 
-  Task selection options
-    --list-tasks        list available tasks and exit
-    --no-task=TASK      do not run given task
+  Task selection options:
+    --list-tasks                   list available tasks and exit
+    --no-task=TASK                 do not run given task
 
-  Inventory task specific options
-    --no-category=CATEGORY do not list given category items
-    --scan-homedirs     allow to scan use home directories (false)
-    --html              save the inventory as HTML (false)
-    -f --force          always send data to server (false)
-    -t --tag=TAG        mark the machine with given tag
-    --backend-collect-timeout   timeout for inventory modules execution (30)
-    --additional-content=FILE   additional inventory content
+  Inventory task specific options:
+    --no-category=CATEGORY         do not list given category items
+    --scan-homedirs                scan use home directories (false)
+    --html                         save the inventory as HTML (false)
+    -f --force                     always send data to server (false)
+    -t --tag=TAG                   mark the machine with given tag
+    --backend-collect-timeout=TIME timeout for inventory modules
+                                     execution (30)
+    --additional-content=FILE      additional inventory content file
 
-  Package deployment task specific options
-    --no-p2p            do not use peer to peer to download files (false)
+  Package deployment task specific options:
+    --no-p2p                       do not use peer to peer to download
+                                     files (false)
 
   Network options:
-    -P --proxy=PROXY    proxy address
-    -u --user=USER      user name for server authentication
-    -p --password=PWD   password for server authentication
-    --ca-cert-dir=D     path to the CA certificates directory
-    --ca-cert-file=F    path to the CA certificates file
-    --no-ssl-check      do not check server SSL certificates (false)
-    --timeout           connection timeout (180)
+    -P --proxy=PROXY               proxy address
+    -u --user=USER                 user name for server authentication
+    -p --password=PASSWORD         password for server authentication
+    --ca-cert-dir=DIRECTORY        CA certificates directory
+    --ca-cert-file=FILE            CA certificates file
+    --no-ssl-check                 do not check server SSL certificate
+                                     (false)
+    --timeout=TIME                 connection timeout, in seconds (180)
 
-  Web interface options
-    --no-httpd                 disable embedded web server (false)
-    --httpd-ip=IP              network interface to listen to
-    --httpd-port=PORT          network port to listen to (62354)
-    --httpd-trust=RANGE        trust requests from range without authentication token (false)
+  Web interface options:
+    --no-httpd                     disable embedded web server (false)
+    --httpd-ip=IP                  network interface to listen to (all)
+    --httpd-port=PORT              network port to listen to (62354)
+    --httpd-trust=IP               trust requests without authentication
+                                     token (false)
 
-  Logging options
-    --logger=BACKEND            logger backend [Stderr|File|Syslog] (Stderr)
-    --logfile=FILE              log file
-    --logfile-maxsize=X         maximum size of the log file in MB (0)
-    --logfacility=FACILITY      syslog facility (LOG_USER)
-    --color                     use color in the console (false)
+  Logging options:
+    --logger=BACKEND               logger backend (stderr)
+    --logfile=FILE                 log file
+    --logfile-maxsize=SIZE         maximum size of the log file in MB (0)
+    --logfacility=FACILITY         syslog facility (LOG_USER)
+    --color                        use color in the console (false)
 
-  Configuration options
-    --config=BACKEND            configuration backend [file|registry|none]
-    --conf-file=FILE            configuration file
+  Configuration options:
+    --config=BACKEND               configuration backend
+    --conf-file=FILE               configuration file
 
-  Execution mode options
-    -d --daemon                 run the agent as a daemon (false)
-    --no-fork                   don't fork in background (false)
-    --debug                     debug mode (false)
-    --version                   print the version and exit
-
-=head1 EXAMPLES
-
-    % fusioninventory-agent --server localhost
-    # execute all available tasks required by a local server
-
-    % fusioninventory-agent --server http://localhost/ocsinventory2
-    # execute all available tasks required by a local server, using a specific
-    # URI
-
-    % fusioninventory-agent --server https://localhost/ocsinventory
-    # execute all available tasks required by a local server, using a secure
-    # connection
-
-    % fusioninventory-agent --server localhost --user test --password s3cr3t
-    # execute all available tasks required by a local server, using HTTP
-    # authentication
-
-    % fusioninventory-agent --local /tmp
-    # execute all available tasks and write the result in /tmp directory
-
-    % fusioninventory-agent --local /tmp --html
-    # execute all available tasks and write the result in /tmp directory in
-    # HTML format
+  Execution mode options:
+    -w --wait=LIMIT                maximum delay before execution,
+                                     in seconds
+    -d --daemon                    run the agent as a daemon (false)
+    --no-fork                      don't fork in background (false)
+    --debug                        debug mode (false)
+    --setup                        print the agent setup directories
+                                     and exit
+    --version                      print the version and exit
 
 =head1 DESCRIPTION
 
-F<fusioninventory-agent> is an agent for OCS Inventory server and
-FusionInventory for GLPI servers. It creates local inventory of the machines
-(hardware and software) and send it to the server. It can also write it
-in a local XML file.
-This agent is the successor of the former linux_agent which was released with
-OCS 1.01 and prior. It also replaces the Solaris/AIX/BSD unofficial agents.
-
-Supported systems:
-
-=over 4
-
-=item F<Windows> (since Windows 2000)
-
-=item F<GNU/Linux>
-
-=item F<MacOSX>
-
-=item F<Solaris>
-
-=item F<FreeBSD>
-
-=item F<NetBSD>
-
-=item F<OpenBSD>
-
-=item F<AIX>
-
-=item F<HP-UX>
-
-=item F<GNU/kFreeBSD>
-
-=back
-
-=head1 OCS INVENTORY PROTOCOL
-
-FusionInventory Agent uses OCS Inventory protocol and is compatible with OCS
-Inventory server. The agent uses the same protocol with the FusionInventory
-For GLPI plugin.
-
-The OCS protocol is basicly an exchange of XML file done over HTTP(S).
-
-=head2 First, The PROLOG
-
-The agent send a first message to give it's ID (DEVICEID). The
-server send back to the agent an XML file with a list of parameter. It's the
-PROLOG RESP. You can see it if you're in Debug mode.
-In this PROLOG, the server send the PROLOG_FREQ. The agent will use it to
-know when it need to contact the server for the next time.
-
-The agent compute the next query date this way:
-
-     PROLOG_FREQ/2+RANDOM(PROLOG_FREQ/2)
-
-
-=head2 Module execution
-
-The agent will launch each modules and pass the list of options found in the
-PROLOG RESP as parameter. The module can send information directly to the
-server (inventory, SNMP scan result, etc)
-
-=head2 Server mode (Windows service or Unix daemon)
-
-In server mode, the agent wait during a period between the last PROLOG and
-PROLOG_FREQ. If PROLOG_FREQ is not set, it will use --delaytime value.
-The default value is 3600.
+The F<fusioninventory-agent> agent is a generic multi-platform agent. It can
+perform a large array of management tasks, such as local inventory, software
+deployment or network discovery. It can be used either standalone, or in
+combination with a compatible server (OCS, GLPI, OTRS) acting as a centralized
+control point.
 
 =head1 OPTIONS
 
@@ -289,10 +203,9 @@ example, the two lines below are all equivalent:
 
 =over
 
-
 =item B<-s>, B<--server>=I<URI>
 
-Send results of tasks execution to given server.
+Send the results of tasks execution to given server.
 
 If I<URI> doesn't start with http:// or https://, the agent assume the
 parameter is a hostname and rewrite it as:
@@ -309,13 +222,29 @@ and FusionInventory for GLPI this one:
 
 Multiple values can be specified, using comma as a separator.
 
-=item B<-l>, B<--local>=I<DIR>
+=item B<-l>, B<--local>=I<PATH>
 
-Write the results of tasks execution to given directory.
+Write the results of tasks execution locally.
 
-=item B<--stdout>
+Exact behaviour according to given path:
 
-Write the results of tasks execution on stdout.
+=over
+
+=item *
+
+if I<PATH> is a directory, a file will be created therein
+
+=item *
+
+if I<PATH> is a file, it will be used directly
+
+=item *
+
+if I<PATH> is '-', STDOUT will be used
+
+=back
+
+Multiple values can be specified, using comma as a separator.
 
 =back
 
@@ -330,11 +259,6 @@ between LIMIT / 2 and LIMIT seconds. This setting is ignored for server targets
 after the initial contact, in favor of server-specified parameter
 (PROLOG_FREQ).
 
-=item B<-w> I<LIMIT>, B<--wait>=I<LIMIT>
-
-Set a delay between each targets, whose value is computed randomly between 0
-and LIMIT seconds.
-
 =item B<--lazy>
 
 Do not contact the target before next scheduled time.
@@ -347,13 +271,16 @@ This option is only available when the agent is not run as a server.
 
 =over
 
-=item B<--no-task>=I<TASK>
-
-Disable the given task
-
 =item B<--list-tasks>
 
 List available tasks and exit
+
+=item B<--no-task>=I<TASK>
+
+Do not run given task.
+
+Multiple values can be specified, using comma as a separator. See option
+I<--list-tasks> for the list of available tasks.
 
 =back
 
@@ -363,7 +290,10 @@ List available tasks and exit
 
 =item B<--no-category>=I<CATEGORY>
 
-Do not list given category items in inventory. It can be:
+Do not list given category items in inventory.
+
+Multiple values can be specified, using comma as a separator. The available
+categories are:
 
 =over 4
 
@@ -407,6 +337,13 @@ Mark the machine with given tag.
 
 Timeout for inventory modules execution.
 
+=item B<--additional-content>=I<FILE>
+
+Additional inventory content file.
+
+This file should be an XML file, using same syntax as the one produced by the
+agent.
+
 =back
 
 =head2 Package deployment task specific options
@@ -437,20 +374,21 @@ Use I<USER> for server authentication.
 
 Use I<PASSWORD> for server authentication.
 
-=item B<--ca-cert-dir>=I<PATH>
+=item B<--ca-cert-dir>=I<DIRECTORY>
 
-Path to the CA certificates directory.
+CA certificates directory.
 
 =item B<--ca-cert-file>=I<FILE>
 
-Path to the CA certificates file.
+CA certificates file.
 
 =item B<--no-ssl-check>
 
-Do not check server SSL certificates.
+Do not check server SSL certificate.
 
-Hint: you can set HTTPS_DEBUG environment variable to get SSL error messages in
-the console.
+=item B<--timeout>=I<TIME>
+
+Timeout for server connections.
 
 =back
 
@@ -464,19 +402,21 @@ Disable the embedded web server.
 
 =item B<--httpd-ip>=I<IP>
 
-The network interface to use for the embedded web server (all 
-available interfaces).
+The network interface to use for the embedded web server (all).
 
 =item B<--httpd-port>=I<PORT>
 
 The network port to use for the embedded web server (62354).
 
-=item B<--httpd-trust>=I<RANGE>
+=item B<--httpd-trust>=I<IP>
 
-Trust requests from given range without authentication token (false).
+Trust requests from given addresses without authentication token (false).
 
-For example: "192.168.0.0/24", "192.68.168.0.5" or an IP range like
-"20.34.101.207 - 201.3.9.99". See L<Net::IP> documentation to get more example.
+For example: "192.168.0.0/24", "192.168.168.0.5" or an IP range like
+"20.34.101.207 - 201.3.9.99". Hostnames are also accepted. See L<Net::IP>
+documentation to get more example.
+
+Multiple values can be specified, using comma as a separator.
 
 =back
 
@@ -486,21 +426,24 @@ For example: "192.168.0.0/24", "192.68.168.0.5" or an IP range like
 
 =item B<--logger>=I<BACKEND>
 
-Logger backend to use. It can be:
+Logger backend to use.
+
+Multiple values can be specified, using comma as a separator. The available
+backends are:
 
 =over 4
 
 =item
 
-Stderr: log messages directly in the console.
+stderr: log messages directly in the console.
 
 =item
 
-File: log messages in a file.
+file: log messages in a file.
 
 =item
 
-Syslog: log messages through the local syslog server
+syslog: log messages through the local syslog server.
 
 =back
 
@@ -508,9 +451,9 @@ Multiple values can be specified, using comma as a separator.
 
 =item B<--logfile>=I<FILE>
 
-Log message in I<FILE> (implies File logger backend)
+Log message in I<FILE> (implies File logger backend).
 
-=item B<--logfile-maxsize>=I<FILE>
+=item B<--logfile-maxsize>=I<SIZE>
 
 Max logfile size in MB, default is unlimited. When the max size is reached, the
 file is truncated. This is only useful if there is no log rotation mechanism on
@@ -518,7 +461,7 @@ the system.
 
 =item B<--logfacility>=I<FACILITY>
 
-Syslog facility to use (default LOG_USER)
+Syslog facility to use (default LOG_USER).
 
 =item B<--color>
 
@@ -532,35 +475,44 @@ This options is ignored on Windows.
 
 =over
 
-=item B<--conf-file>=I<FILE>
-
-Use I<FILE> as configuration file (implies file configuration backend)
 
 =item B<--config>=I<BACKEND>
 
-Configuration backend to use. It can be:
+Configuration backend to use.
+
+The available backends are:
 
 =over 4
 
 =item
 
-file: read configuration from a file (default anywhere else as Windows)
+file: read configuration from a file (default anywhere else as Windows).
 
 =item
 
-registry: read configuration from the registry (default on Windows)
+registry: read configuration from the registry (default on Windows).
 
 =item
 
-none: don't read any configuration
+none: don't read any configuration.
 
 =back
+
+=item B<--conf-file>=I<FILE>
+
+Use I<FILE> as configuration file (implies file configuration backend).
 
 =back
 
 =head2 Execution mode options
 
 =over
+
+=item B<-w> I<LIMIT>, B<--wait>=I<LIMIT>
+
+Wait a random delay whose value is computed randomly between 0 and LIMIT
+seconds, before execution. This is useful when execution is triggered from some
+kind of system scheduling on multiple clients, to spread the server load.
 
 =item B<-d>, B<--daemon>
 
@@ -585,28 +537,3 @@ Print the agent setup directories and exit.
 Print the version and exit.
 
 =back
-
-=head1 CONFIGURATION
-
-The agent is able to use multiple configuration backends. The registry backend
-is the default on Windows platform, and the file backend is the default
-everywhere else. Another backend can be specified using the B<--config> option.
-
-The I<file> backend reads configuration directives from a configuration file,
-whose default location is determined at installation time as
-PREFIX/etc/agent.cfg. An alternative location can also be given with
-B<--conf-file> option.
-
-The I<registry> backend reads configuration directives from the Windows
-registry, with an arch-dependant location:
-
-=over
-
-=item * F<HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent> for 32 bits machines
-
-=item * F<HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\FusionInventory-Agent> for 64 bits machines
-
-=back
-
-The I<none> backend doesn't read any configuration directive at all, allowing
-to isolate the agent execution from any installed configuration.

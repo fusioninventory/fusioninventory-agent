@@ -17,14 +17,13 @@ use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Task;
 use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Target::Server;
-use FusionInventory::Agent::Target::Stdout;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::XML::Query::Prolog;
 
-our $VERSION = '2.2.7';
+our $VERSION = '2.3.0';
 our $VERSION_STRING = 
-    "FusionInventory unified agent for UNIX, Linux and MacOSX ($VERSION)";
+    "FusionInventory Agent ($VERSION)";
 our $AGENT_STRING =
     "FusionInventory-Agent_v$VERSION";
 
@@ -90,28 +89,19 @@ sub init {
     my $scheduler = $self->{scheduler};
 
     # create target list
-    if ($config->{stdout}) {
-        $scheduler->addTarget(
-            FusionInventory::Agent::Target::Stdout->new(
-                logger     => $logger,
-                deviceid   => $self->{deviceid},
-                delaytime  => $config->{delaytime},
-                basevardir => $self->{vardir},
-            )
-        );
-    }
-
     if ($config->{local}) {
-        $scheduler->addTarget(
-            FusionInventory::Agent::Target::Local->new(
-                logger     => $logger,
-                deviceid   => $self->{deviceid},
-                delaytime  => $config->{delaytime},
-                basevardir => $self->{vardir},
-                path       => $config->{local},
-                html       => $config->{html},
-            )
-        );
+        foreach my $path (@{$config->{local}}) {
+            $scheduler->addTarget(
+                FusionInventory::Agent::Target::Local->new(
+                    logger     => $logger,
+                    deviceid   => $self->{deviceid},
+                    delaytime  => $config->{delaytime},
+                    basevardir => $self->{vardir},
+                    path       => $path,
+                    html       => $config->{html},
+                )
+            );
+        }
     }
 
     if ($config->{server}) {
@@ -345,7 +335,7 @@ sub getAvailableTasks {
     $directory =~ s,\\,/,g;
     my $subdirectory = "FusionInventory/Agent/Task";
     # look for all perl modules here
-    foreach my $file (File::Glob::glob("$directory/$subdirectory/*.pm")) {
+    foreach my $file (glob("$directory/$subdirectory/*.pm")) {
         next unless $file =~ m{($subdirectory/(\S+)\.pm)$};
         my $module = file2module($1);
         my $name = file2module($2);

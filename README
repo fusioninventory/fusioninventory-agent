@@ -16,27 +16,28 @@ Minimum perl version: 5.8
 
 Additional mandatory perl modules:
 
-*  File::Which
-*  LWP
-*  Net::IP
-*  Text::Template
-*  UNIVERSAL::require
-*  XML::TreePP
-*  Mac::SysProfile (MacOs only)
+* File::Which
+* LWP
+* Net::IP
+* Text::Template
+* UNIVERSAL::require
+* XML::TreePP
 
 Additional optional perl modules:
-*  Compress::Zlib, for message compression
-*  HTTP::Daemon, for web interface
-*  IO::Socket::SSL, for HTTPS support with certificate validation
-*  Net::CUPS (v0.60 minimum), for printers detection 
-*  Proc::Daemon, for daemon mode (Unix only)
-*  Win32::Daemon, for Win32 service mode (Windows only)
-*  Proc::PID::File, for daemon mode (Unix only)
+
+* Compress::Zlib, for message compression
+* HTTP::Daemon, for web interface
+* IO::Socket::SSL, for HTTPS support with certificate validation
+* Net::CUPS (v0.60 minimum), for printers detection 
+* Parse::EDID, for screen identification
+* Proc::Daemon, for daemon mode (Unix only)
+* Win32::Daemon, for Win32 service mode (Windows only)
+* Proc::PID::File, for daemon mode (Unix only)
 
 Additional optional programs:
 
-*  dmidecode, for hardware inventory
-*  lspci, for hardware inventory
+* dmidecode, for hardware inventory
+* lspci, for hardware inventory
 
 # Contacts
 
@@ -73,18 +74,20 @@ details.
 # Additional pieces of software
 
 The memconf script:
-url: <http://myweb.cableone.net/4schmidts/memconf.html>
-author: Tom Schmidt
-copyright: 1996-2009 Tom Schmidt
+
+* url: <http://myweb.cableone.net/4schmidts/memconf.html>
+* author: Tom Schmidt
+* copyright: 1996-2009 Tom Schmidt
+
+The fusioninventory-injector script:
+
+* author: Pascal Danek
+* copyright: 2005 Pascal Danek
 
 FusionInventory::Agent::Task::Inventory::Input::Virtualization::Vmsystem
 contains code from imvirt:
-url: <http://micky.ibh.net/~liske/imvirt.html>
-author: Thomas Liske <liske@ibh.de>
-copyright: 2008 IBH IT-Service GmbH <http://www.ibh.de/>
-License: GPLv2+
 
-FusionInventory::Agent::Tools::Screen contains code from monitor-edid:
-url: <http://svn.mandriva.com/cgi-bin/viewvc.cgi/soft/monitor-edid>
-copyright: 2005 Mandriva
-license: GPLv2+
+* url: <http://micky.ibh.net/~liske/imvirt.html>
+* author: Thomas Liske <liske@ibh.de>
+* copyright: 2008 IBH IT-Service GmbH <http://www.ibh.de/>
+* License: GPLv2+

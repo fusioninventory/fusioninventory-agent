@@ -15,7 +15,7 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_SystemSlot',
         properties => [ qw/Name Description SlotDesignation Status/ ]
     )) {

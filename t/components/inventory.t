@@ -5,8 +5,9 @@ use warnings;
 use lib 't';
 
 use Config;
-use Test::More;
+use Test::Deep;
 use Test::Exception;
+use Test::More;
 
 use FusionInventory::Agent;
 use FusionInventory::Agent::Logger;
@@ -29,7 +30,7 @@ lives_ok {
 
 isa_ok($inventory, 'FusionInventory::Agent::Task::Inventory::Inventory');
 
-is_deeply(
+cmp_deeply(
     $inventory->{content},
     {
         HARDWARE => {
@@ -71,7 +72,7 @@ $inventory->addEntry(
 
 my $content;
 
-is_deeply(
+cmp_deeply(
     $inventory->{content}->{ENVS},
     [
         { KEY => 'key1', VAL => 'val1' }
@@ -87,7 +88,7 @@ $inventory->addEntry(
     }
 );
 
-is_deeply(
+cmp_deeply(
     $inventory->{content}->{ENVS},
     [
         { KEY => 'key1', VAL => 'val1' },
@@ -104,7 +105,7 @@ $inventory->addEntry(
     }
 );
 
-is_deeply(
+cmp_deeply(
     $inventory->{content}->{ENVS},
     [
         { KEY => 'key1', VAL => 'val1' },
@@ -122,7 +123,7 @@ $inventory->addEntry(
     }
 );
 
-is_deeply(
+cmp_deeply(
     $inventory->{content}->{ENVS},
     [
         { KEY => 'key1', VAL => 'val1' },
@@ -141,7 +142,7 @@ $inventory->addEntry(
     }
 );
 
-is_deeply(
+cmp_deeply(
     $inventory->{content}->{ENVS},
     [
         { KEY => 'key1', VAL => 'val1' },
@@ -172,7 +173,7 @@ $inventory->addEntry(
     }
 );
 
-is_deeply(
+cmp_deeply(
     $inventory->{content}->{CPUS},
     [
         {
@@ -227,7 +228,7 @@ $inventory->addEntry(
     }
 );
 
-is_deeply(
+cmp_deeply(
     $inventory->{content}->{DRIVES},
     [
         {
@@ -264,7 +265,7 @@ is(
     'invalid value logged'
 );
 
-is_deeply(
+cmp_deeply(
     $inventory->{content}->{STORAGES},
     [
         {
@@ -300,7 +301,7 @@ $inventory->mergeContent(
     }
 );
 
-is_deeply(
+cmp_deeply(
     $inventory->{content}->{SOFTWARES},
     [
         {
@@ -315,7 +316,7 @@ is_deeply(
     'empty list section merge'
 );
 
-is_deeply(
+cmp_deeply(
     $inventory->{content}->{STORAGES},
     [
         {

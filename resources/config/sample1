@@ -1,0 +1,3 @@
+#no-inventory=1
+no-task=snmpquery,wakeonlan
+#no-software=1

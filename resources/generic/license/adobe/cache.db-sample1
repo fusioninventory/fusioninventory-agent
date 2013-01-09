@@ -1,0 +1,229 @@
+1 <> 012356789613366430657732 <> ADOBEID <> 1
+1 <> 012356789613366430657732 <> LineCV 15 <> 2831B3ED6C8AE288212345AC024ECA74F7FE7F41928BB4043B88
+1 <> 012356789613366430657732 <> ClaimStatus <> Success
+1 <> DesignSuitePremium-CS5.5-Mac-GM <> EULA_ACCEPTED <> 1
+1 <> DesignSuitePremium-CS5.5-Mac-GM <> EULA_PHASE <> launch
+1 <> DesignSuitePremium-CS5.5-Mac-GM <> EULA_LANGUAGE <> fr_FR
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> SN <> 012356789613366430657732
+1 <> ALM-GUID-List-Serialization{|}3.5 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> 407
+1 <> DesignSuitePremium-CS5.5-Mac-GM <> ALM_LicInfo_Entitlement{|}407 <> DUMMY-1.0-ALL-PS-RET
+1 <> DesignSuitePremium-CS5.5-Mac-GM <> ALM_LicInfo_EpicAppName{|}407 <> Creative Suite 5.5 Design Premium
+1 <> DesignSuitePremium-CS5.5-Mac-GM <> ACTIVATION_FYI_SHOWED <> 1
+1 <> Photoshop-CS5.5-Mac-GM{|}fr_FR <> FLMap <> DesignSuitePremium-CS5.5-Mac-GM
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> AfterEffects_Base_10.5 <> unlicensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> Bridge_Base_4.0 <> licensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> Bridge_CameraRaw_4.0 <> licensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> Bridge_ColorSettings_4.0 <> licensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> Bridge_MiniBridge_1.0 <> licensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> Contribute_Base_6.0 <> unlicensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> Dreamweaver_Base_11.5 <> licensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> CreativeSuite_DVADynamicLink_4.5 <> unlicensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> Encore_Base_5.0 <> unlicensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> Fireworks_Base_11.0 <> licensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> Flash_Base_11.5 <> licensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> Flash_Pro_11.5 <> licensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> FlashBuilder_Base_4.5 <> unlicensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> FlashCatalyst_Base_1.5 <> licensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> Illustrator_Base_15.0 <> licensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> InDesign_Base_7.5 <> licensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> MediaEncoder_Base_2.5 <> licensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> MobileCenter_Base_3.0 <> licensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> OnLocation_Base_5.0 <> unlicensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> Photoshop_Base_12.0 <> licensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> Photoshop_Premium_12.0 <> licensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> Premiere_Base_5.5 <> unlicensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> FlashBuilder_Prem_4.5 <> unlicensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> MediaEncoder_Addtnl_Exporter_2.5 <> unlicensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> Audition_Base_4.0 <> unlicensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> FlashBuilder_PHP_4.5 <> unlicensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> AMT_ALLOW_DRAGDROP_INSTALL_3.0 <> unlicensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> AMT_REQUEST_NO_TAMPERPROOFING_3.3 <> unlicensed
+1 <> Photoshop-CS5.5-Mac-GM <> ACTIVATION_DATE <> 2012-03-12T15:11:47+01:00
+1 <> AcrobatPro-AS1-Mac-GM{|}fr_FR <> FLMap <> DesignSuitePremium-CS5.5-Mac-GM
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> Acrobat_10.0 <> licensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> Acrobat_Viewer_10.0 <> unlicensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> Acrobat_Distiller_10.0 <> licensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> Shared_Designer_10.0 <> unlicensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> Acrobat_DeepExploration_10.0 <> unlicensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> AMT_SERIALIZE_ONLY_APP_1.0 <> licensed
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> Acrobat_Presenter_10.0 <> unlicensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> LineCV 3 <> 0123567892
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> MobileCenter_Base_3.0 <> licensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> AfterEffects_Base_10.5 <> unlicensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> Bridge_Base_4.0 <> licensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> Bridge_CameraRaw_4.0 <> licensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> Bridge_ColorSettings_4.0 <> licensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> Bridge_MiniBridge_1.0 <> licensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> Contribute_Base_6.0 <> unlicensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> Dreamweaver_Base_11.5 <> licensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> CreativeSuite_DVADynamicLink_4.5 <> unlicensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> Encore_Base_5.0 <> unlicensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> Fireworks_Base_11.0 <> licensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> Flash_Base_11.5 <> licensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> Flash_Pro_11.5 <> licensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> FlashBuilder_Base_4.5 <> unlicensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> FlashCatalyst_Base_1.5 <> licensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> Illustrator_Base_15.0 <> licensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> InDesign_Base_7.5 <> licensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> MediaEncoder_Base_2.5 <> licensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> OnLocation_Base_5.0 <> unlicensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> Photoshop_Base_12.0 <> licensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> Photoshop_Premium_12.0 <> licensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> Premiere_Base_5.5 <> unlicensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> FlashBuilder_Prem_4.5 <> unlicensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> MediaEncoder_Addtnl_Exporter_2.5 <> unlicensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> Audition_Base_4.0 <> unlicensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> FlashBuilder_PHP_4.5 <> unlicensed
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> AMT_PASSIVE_ACTIVATION_0.0 <> unlicensed
+1 <> Dreamweaver-CS5.5-Mac-GM{|}fr_FR <> FLMap <> DesignSuitePremium-CS5.5-Mac-GM
+1 <> Fireworks-CS5.5-Mac-GM{|}fr_FR <> FLMap <> DesignSuitePremium-CS5.5-Mac-GM
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> Fireworks_11.0 <> licensed
+1 <> FlashCatalyst-CS5.5-Mac-GM{|}fr_FR <> FLMap <> DesignSuitePremium-CS5.5-Mac-GM
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> Placeholder_1.5 <> unlicensed
+1 <> FlashPro-CS5.5-Mac-GM{|}fr_FR <> FLMap <> DesignSuitePremium-CS5.5-Mac-GM
+1 <> Illustrator-CS5.5-Mac-GM{|}fr_FR <> FLMap <> DesignSuitePremium-CS5.5-Mac-GM
+1 <> InDesign-CS5.5-Mac-GM{|}fr_FR <> FLMap <> DesignSuitePremium-CS5.5-Mac-GM
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> IsProductActivation <> 0
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> LineCV 8 <> 0
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> InCopy_Base_7.5 <> unlicensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> LineCV 3 <> 0123567896
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> AMT_PASSIVE_ACTIVATION_2.5 <> unlicensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> AfterEffects_Base_10.5 <> unlicensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> Bridge_Base_4.0 <> licensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> Bridge_CameraRaw_4.0 <> licensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> Bridge_ColorSettings_4.0 <> licensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> Bridge_MiniBridge_1.0 <> licensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> Contribute_Base_6.0 <> unlicensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> Dreamweaver_Base_11.5 <> licensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> CreativeSuite_DVADynamicLink_4.5 <> unlicensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> Encore_Base_5.0 <> unlicensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> Fireworks_Base_11.0 <> licensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> Flash_Base_11.5 <> licensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> Flash_Pro_11.5 <> licensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> FlashBuilder_Base_4.5 <> unlicensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> FlashCatalyst_Base_1.5 <> licensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> Illustrator_Base_15.0 <> licensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> InDesign_Base_7.5 <> licensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> MediaEncoder_Base_2.5 <> licensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> MobileCenter_Base_3.0 <> licensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> OnLocation_Base_5.0 <> unlicensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> Photoshop_Base_12.0 <> licensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> Photoshop_Premium_12.0 <> licensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> Premiere_Base_5.5 <> unlicensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> FlashBuilder_Prem_4.5 <> unlicensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> MediaEncoder_Addtnl_Exporter_2.5 <> unlicensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> Audition_Base_4.0 <> unlicensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> FlashBuilder_PHP_4.5 <> unlicensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> MediaEncoder_Feature1_2.5 <> unlicensed
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> MediaEncoder_Feature2_2.5 <> unlicensed
+1 <> 012356789102969834966898 <> ADOBEID <> 1
+1 <> 012356789102969834966898 <> LineCV 15 <> 5858CE60C0753CF0DE1814FB4B58E78FA8DD945D2652EBCAFBD6
+1 <> ADOBEIDWTTS <> DATA <> 012356789102969834966898=FGRDGDFRDGTFHGFGTGFTGFTGTFFF84C3=1332408990{|}954ESFRDFRDGRDFDRGFRDF32=FDRFRDFDRFDRFRDDFCC7FCE246FF84C3=1331292426
+1 <> 012356789102969834966898 <> ClaimStatus <> Success
+1 <> InCopy-CS5.5-Mac-GM <> EULA_ACCEPTED <> 1
+1 <> InCopy-CS5.5-Mac-GM <> EULA_PHASE <> launch
+1 <> InCopy-CS5.5-Mac-GM <> EULA_LANGUAGE <> fr_FR
+1 <> InCopy-CS5.5-Mac-GM{|}fr_FR <> SN <> 012356789102969834966898
+1 <> ALM-GUID-List-Serialization{|}3.5 <> InCopy-CS5.5-Mac-GM{|}fr_FR <> 36
+1 <> InCopy-CS5.5-Mac-GM <> ALM_LicInfo_Entitlement{|}36 <> DUMMY-1.0-ALL-PS-RET
+1 <> InCopy-CS5.5-Mac-GM <> ALM_LicInfo_EpicAppName{|}36 <> Adobe InCopy CS5.5
+1 <> InCopy-CS5.5-Mac-GM <> ACTIVATION_FYI_SHOWED <> 1
+1 <> InCopy-CS5.5-Mac-GM{|}fr_FR <> FLMap <> InCopy-CS5.5-Mac-GM
+1 <> InCopy-CS5.5-Mac-GM{|}fr_FR <> IsProductActivation <> 0
+1 <> InCopy-CS5.5-Mac-GM{|}fr_FR <> LineCV 8 <> 0
+1 <> InCopy-CS5.5-Mac-GM{|}fr_FR <> LineCV 3 <> 0123567893
+1 <> 012356789102969834966898 <> ADOBEID_EXT_PROFILE_NOT_INVOKED <> 1
+1 <> 012356789102969834966898 <> ADOBEID_EXT_PROFILE_NAG_TIME <> 1332409023
+1 <> InCopy-CS5.5-Mac-GM{|}fr_FR <> InDesign_Base_7.5 <> unlicensed
+1 <> InCopy-CS5.5-Mac-GM{|}fr_FR <> InCopy_Base_7.5 <> licensed
+1 <> InCopy-CS5.5-Mac-GM <> ACTIVATION_DATE <> 2012-03-22T10:45:57+01:00
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> LineCV 3 <> 0123567892
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> Bridge_Base_4.0 <> licensed
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> LineCV 4 <> 0123567894
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> LineCV 5 <> 0123567892
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> Bridge_ColorSettings_4.0 <> licensed
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> Bridge_CameraRaw_4.0 <> licensed
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> Illustrator_Base_15.0 <> licensed
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> Photoshop_Base_12.0 <> licensed
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> InDesign_Base_7.0 <> unlicensed
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> Premiere_Base_5.0 <> unlicensed
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> Flash_Base_11.0 <> unlicensed
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> Encore_Base_5.0 <> unlicensed
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> Fireworks_Base_11.0 <> licensed
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> AfterEffects_Base_10.0 <> unlicensed
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> Soundbooth_Base_3.0 <> unlicensed
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> Contribute_Base_6.0 <> unlicensed
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> DreamWeaver_Base_11.0 <> unlicensed
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> Acrobat_Viewer_10.0 <> unlicensed
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> Bridge_PhotoshopElements_4.0 <> unlicensed
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> CreateSuite_DesignStandard_5.0 <> unlicensed
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> CreativeSuite_DesignPremium_5.0 <> unlicensed
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> CreativeSuite_WebStandard_5.0 <> unlicensed
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> CreativeSuite_WebPremium_5.0 <> unlicensed
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> CreativeSuite_VideoPremuim_5.0 <> unlicensed
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> CreativeSuite_MasterCollection_5.0 <> unlicensed
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> AMT_PASSIVE_ACTIVATION_1.0 <> unlicensed
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> LineCV 6 <> 0
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> LineCV 7 <> 0
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> LineCV 1 <> 012356789
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> LineCV 2 <> 012356789
+1 <> Bridge-CS5.5-Mac-GM{|}ALL <> LineCU 2 <> 3
+1 <> 012356789613366430657732 <> ADOBEID_EXT_PROFILE <> 1
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> LineCV 4 <> 0123567895
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> LineCV 5 <> 0123567896
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> LineCV 6 <> 0
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> LineCV 7 <> 0
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> LineCV 1 <> 012356789
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> LineCV 2 <> 0123567892
+1 <> DeviceCentral-CS5.5-Mac-GM{|}ALL <> LineCU 2 <> 3
+1 <> InCopy-CS5.5-Mac-GM{|}fr_FR <> LineCV 4 <> 0123567899
+1 <> InCopy-CS5.5-Mac-GM{|}fr_FR <> LineCV 5 <> 0123567893
+1 <> InCopy-CS5.5-Mac-GM{|}fr_FR <> LineCV 6 <> 0
+1 <> InCopy-CS5.5-Mac-GM{|}fr_FR <> LineCV 7 <> 0
+1 <> InCopy-CS5.5-Mac-GM{|}fr_FR <> LineCV 1 <> 012356789
+1 <> InCopy-CS5.5-Mac-GM{|}fr_FR <> LineCV 2 <> 0123567895
+1 <> InCopy-CS5.5-Mac-GM{|}fr_FR <> CacheStatus <> valid
+1 <> 012356789102969834966898 <> PPAID <> 1
+1 <> 012356789102969834966898 <> PPCGO <> 1
+1 <> 012356789102969834966898 <> PPLCSTAT <> 2
+1 <> 012356789102969834966898 <> PPDR <> 32767
+1 <> 012356789102969834966898 <> PPDL <> 32767
+1 <> 012356789102969834966898 <> PPAPP <> Adobe InCopy CS5.5
+1 <> 012356789102969834966898 <> PPREF <> 0
+1 <> 012356789102969834966898 <> PPGM <> 0
+1 <> 012356789102969834966898 <> PPMOD <> 2
+1 <> 012356789102969834966898 <> PPEXP <> 0
+1 <> 012356789102969834966898 <> PPACT <> 0
+1 <> 012356789102969834966898 <> PPSRZ <> 513940
+1 <> 012356789102969834966898 <> PPSUITE <> SINGLEAPP
+1 <> InCopy-CS5.5-Mac-GM{|}fr_FR <> LineCU 2 <> 3
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> LineCV 4 <> 0123567899
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> LineCV 5 <> 0123567899
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> LineCV 6 <> 0
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> LineCV 7 <> 0
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> LineCV 1 <> 012356789
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> LineCV 2 <> 0123567898
+1 <> AdobeMediaEncoder-CS5.5-Mac-GM{|}ALL <> LineCU 2 <> 3
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> LineCV 3 <> 0123567893
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> LineCV 4 <> 0123567895
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> LineCV 5 <> 0123567896
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> LineCV 6 <> 0
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> LineCV 7 <> 0
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> LineCV 1 <> 012356789
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> LineCV 2 <> 012356789
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> CacheStatus <> valid
+1 <> Illustrator-CS5.5-Mac-GM <> ACTIVATION_DATE <> 2012-08-21T15:56:38+02:00
+1 <> 012356789613366430657732 <> PPAID <> 1
+1 <> 012356789613366430657732 <> PPCGO <> 1
+1 <> 012356789613366430657732 <> PPLCSTAT <> 2
+1 <> 012356789613366430657732 <> PPDR <> 32767
+1 <> 012356789613366430657732 <> PPDL <> 32767
+1 <> 012356789613366430657732 <> PPAPP <> Creative Suite 5.5 Design Premium
+1 <> 012356789613366430657732 <> PPREF <> 0
+1 <> 012356789613366430657732 <> PPGM <> 0
+1 <> 012356789613366430657732 <> PPMOD <> 2
+1 <> 012356789613366430657732 <> PPEXP <> 0
+1 <> 012356789613366430657732 <> PPACT <> 0
+1 <> 012356789613366430657732 <> PPSRZ <> 134
+1 <> 012356789613366430657732 <> PPSUITE <> SUITE
+1 <> DesignSuitePremium-CS5.5-Mac-GM{|}fr_FR <> LineCU 2 <> 3

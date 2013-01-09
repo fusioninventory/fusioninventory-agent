@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::Generic::Softwares::RPM;
@@ -240,12 +241,12 @@ my $packages;
 $packages = FusionInventory::Agent::Task::Inventory::Input::Generic::Softwares::RPM::_getPackagesList(
     file => "resources/linux/packaging/rpm"
 );
-is_deeply($packages, $rpm_packages, 'rpm parsing');
+cmp_deeply($packages, $rpm_packages, 'rpm parsing');
 
 $packages = FusionInventory::Agent::Task::Inventory::Input::Generic::Softwares::Deb::_getPackagesList(
     file => "resources/linux/packaging/dpkg"
 );
-is_deeply($packages, $deb_packages, 'dpkg parsing');
+cmp_deeply($packages, $deb_packages, 'dpkg parsing');
 
 ok(
     !FusionInventory::Agent::Task::Inventory::Input::Generic::Softwares::Gentoo::_equeryNeedsWildcard(

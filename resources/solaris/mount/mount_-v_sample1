@@ -1,0 +1,10 @@
+/ on / type vxfs read/write/setuid/devices/delaylog/largefiles/ioerror=mwdisable/dev=48884d0 on Mon May 14 09:08:17 2012
+/dev on /dev type lofs read/write/setuid/devices/zonedevfs/dev=5640003 on Mon May 14 09:10:50 2012
+proc on /proc type proc read/write/setuid/nodevices/zone=TWSTDWC/dev=5300005 on Mon May 14 09:11:01 2012
+ctfs on /system/contract type ctfs read/write/setuid/nodevices/zone=TWSTDWC/dev=52c0006 on Mon May 14 09:11:01 2012
+mnttab on /etc/mnttab type mntfs read/write/setuid/nodevices/zone=TWSTDWC/dev=5340006 on Mon May 14 09:11:01 2012
+objfs on /system/object type objfs read/write/setuid/nodevices/zone=TWSTDWC/dev=53c0006 on Mon May 14 09:11:01 2012
+swap on /etc/svc/volatile type tmpfs read/write/setuid/nodevices/xattr/zone=TWSTDWC/dev=538000a on Mon May 14 09:11:01 2012
+fd on /dev/fd type fd read/write/setuid/nodevices/zone=TWSTDWC/dev=5540004 on Mon May 14 09:11:07 2012
+swap on /tmp type tmpfs read/write/setuid/nodevices/xattr/zone=TWSTDWC/dev=5380012 on Mon May 14 09:11:07 2012
+swap on /var/run type tmpfs read/write/setuid/nodevices/xattr/zone=TWSTDWC/dev=5380013 on Mon May 14 09:11:07 2012

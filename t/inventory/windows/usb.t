@@ -6,8 +6,9 @@ use utf8;
 use lib 't';
 
 use English qw(-no_match_vars);
-use Test::More;
+use Test::Deep;
 use Test::MockModule;
+use Test::More;
 
 use FusionInventory::Test::Utils;
 
@@ -21,14 +22,18 @@ use FusionInventory::Agent::Task::Inventory::Input::Win32::USB;
 my %tests = (
     7 => [
         {
-            NAME      => 'Generic USB Hub',
-            VENDORID  => '8087',
-            PRODUCTID => '0024'
+            NAME         => 'Generic USB Hub',
+            VENDORID     => '8087',
+            PRODUCTID    => '0024',
+            MANUFACTURER => 'Intel Corp.',
+            CAPTION      => 'Integrated Rate Matching Hub'
         },
         {
-            NAME      => 'Generic USB Hub',
-            VENDORID  => '8087',
-            PRODUCTID => '0024'
+            NAME         => 'Generic USB Hub',
+            VENDORID     => '8087',
+            PRODUCTID    => '0024',
+            MANUFACTURER => 'Intel Corp.',
+            CAPTION      => 'Integrated Rate Matching Hub'
         },
         {
             NAME      => 'ASUS Bluetooth',
@@ -97,12 +102,12 @@ my $module = Test::MockModule->new(
 
 foreach my $test (keys %tests) {
     $module->mock(
-        'getWmiObjects',
-        mockGetWmiObjects($test)
+        'getWMIObjects',
+        mockGetWMIObjects($test)
     );
 
-    my @devices = FusionInventory::Agent::Task::Inventory::Input::Win32::USB::_getUSBDevices();
-    is_deeply(
+    my @devices = FusionInventory::Agent::Task::Inventory::Input::Win32::USB::_getDevices(datadir => './share');
+    cmp_deeply(
         \@devices,
         $tests{$test},
         "$test sample"

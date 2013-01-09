@@ -46,7 +46,7 @@ sub _getInterfaces {
 
     my @configurations;
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_NetworkAdapterConfiguration',
         properties => [ qw/Index Description IPEnabled DHCPServer MACAddress
                            MTU DefaultIPGateway DNSServerSearchOrder IPAddress
@@ -81,9 +81,10 @@ sub _getInterfaces {
 
     my @interfaces;
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_NetworkAdapter',
-        properties => [ qw/Index PNPDeviceID Speed PhysicalAdapter AdapterType/  ]
+        properties => [ qw/Index PNPDeviceID Speed PhysicalAdapter
+                           AdapterTypeId/  ]
     )) {
         # http://comments.gmane.org/gmane.comp.monitoring.fusion-inventory.devel/34
         next unless $object->{PNPDeviceID};
@@ -176,12 +177,16 @@ sub _isVirtual {
 sub _getType {
     my ($object) = @_;
 
-    return unless $object->{AdapterType};
+    return unless defined $object->{AdapterTypeId};
 
-    my $type = $object->{AdapterType};
-    $type =~ s/Ethernet.*/Ethernet/;
-
-    return $type;
+    # available adapter types:
+    # http://msdn.microsoft.com/en-us/library/windows/desktop/aa394216%28v=vs.85%29.aspx
+    # don't bother discriminating between wired and wireless ethernet adapters
+    # for sake of simplicity
+    return
+        $object->{AdapterTypeId} == 0 ? 'ethernet' :
+        $object->{AdapterTypeId} == 9 ? 'wifi'     :
+                                        undef      ;
 }
 
 1;

@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::AIX::Modems;
@@ -22,5 +23,5 @@ plan tests => scalar keys %tests;
 foreach my $test (keys %tests) {
     my $file = "resources/aix/lsdev/$test-adapter";
     my @modems = FusionInventory::Agent::Task::Inventory::Input::AIX::Modems::_getModems(file => $file);
-    is_deeply(\@modems, $tests{$test}, "modems: $test");
+    cmp_deeply(\@modems, $tests{$test}, "modems: $test");
 }

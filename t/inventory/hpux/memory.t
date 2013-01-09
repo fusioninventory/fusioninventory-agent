@@ -3,9 +3,9 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::Inventory::Input::HPUX::Memory;
 
 my %cstm_tests = (
@@ -260,17 +260,17 @@ plan tests =>
 foreach my $test (keys %cstm_tests) {
     my $file = "resources/hpux/cstm/$test-mem";
     my @memories = FusionInventory::Agent::Task::Inventory::Input::HPUX::Memory::_parseCstm(file => $file);
-    is_deeply(\@memories, $cstm_tests{$test}, "cstm parsing: $test");
+    cmp_deeply(\@memories, $cstm_tests{$test}, "cstm parsing: $test");
 }
 
 foreach my $test (keys %cstm64_tests) {
     my $file = "resources/hpux/cstm/$test-MEMORY";
     my @memories = FusionInventory::Agent::Task::Inventory::Input::HPUX::Memory::_parseCstm64(file => $file);
-    is_deeply(\@memories, $cstm64_tests{$test}, "cstm 64 parsing: $test");
+    cmp_deeply(\@memories, $cstm64_tests{$test}, "cstm 64 parsing: $test");
 }
 
 foreach my $test (keys %cprop_tests) {
     my $file = "resources/hpux/cprop/$test-memory";
     my @memories = FusionInventory::Agent::Task::Inventory::Input::HPUX::Memory::_parseCprop(file => $file);
-    is_deeply(\@memories, $cprop_tests{$test}, "cprop parsing: $test");
+    cmp_deeply(\@memories, $cprop_tests{$test}, "cprop parsing: $test");
 }

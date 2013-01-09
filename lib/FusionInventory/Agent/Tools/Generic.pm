@@ -13,7 +13,18 @@ our @EXPORT = qw(
     getDmidecodeInfos
     getCpusFromDmidecode
     getPCIDevices
+    getPCIDeviceVendor
+    getPCIDeviceClass
+    getUSBDeviceVendor
+    getUSBDeviceClass
+    getEDIDVendor
 );
+
+my $PCIVendors;
+my $PCIClasses;
+my $USBVendors;
+my $USBClasses;
+my $EDIDVendors;
 
 memoize('getDmidecodeInfos');
 memoize('getPCIDevices');
@@ -63,6 +74,7 @@ sub getDmidecodeInfos {
         next if
             $2 eq 'N/A'           ||
             $2 eq 'Not Specified' ||
+            $2 eq '<BAD INDEX>'   ||
             $2 eq 'Not Present'   ;
 
         $block->{$1} = $2;
@@ -204,6 +216,117 @@ sub getPCIDevices {
     return @controllers;
 }
 
+sub getPCIDeviceVendor {
+    my (%params) = @_;
+
+    _loadPCIDatabase(%params) if !$PCIVendors;
+
+    return unless $params{id};
+    return $PCIVendors->{$params{id}};
+}
+
+sub getPCIDeviceClass {
+    my (%params) = @_;
+
+    _loadPCIDatabase(%params) if !$PCIClasses;
+
+    return unless $params{id};
+    return $PCIClasses->{$params{id}};
+}
+
+sub getUSBDeviceVendor {
+    my (%params) = @_;
+
+    _loadUSBDatabase(%params) if !$USBVendors;
+
+    return unless $params{id};
+    return $USBVendors->{$params{id}};
+}
+
+sub getUSBDeviceClass {
+    my (%params) = @_;
+
+    _loadUSBDatabase(%params) if !$USBClasses;
+
+    return unless $params{id};
+    return $USBClasses->{$params{id}};
+}
+
+sub getEDIDVendor {
+    my (%params) = @_;
+
+    _loadEDIDDatabase(%params) if !$EDIDVendors;
+
+    return unless $params{id};
+    return $EDIDVendors->{$params{id}};
+}
+
+sub _loadPCIDatabase {
+    my (%params) = @_;
+
+    ($PCIVendors, $PCIClasses) = _loadDatabase(
+        file => "$params{datadir}/pci.ids"
+    );
+}
+
+sub _loadUSBDatabase {
+    my (%params) = @_;
+
+    ($USBVendors, $USBClasses) = _loadDatabase(
+        file => "$params{datadir}/usb.ids"
+    );
+}
+
+sub _loadDatabase {
+    my $handle = getFileHandle(@_);
+    return unless $handle;
+
+    my ($vendors, $classes);
+    my ($vendor_id, $device_id, $class_id);
+    while (my $line = <$handle>) {
+
+        if ($line =~ /^\t (\S{4}) \s+ (.*)/x) {
+            # Device ID
+            $device_id = $1;
+            $vendors->{$vendor_id}->{devices}->{$device_id}->{name} = $2;
+        } elsif ($line =~ /^\t\t (\S{4}) \s+ (\S{4}) \s+ (.*)/x) {
+            # Subdevice ID
+            my $subdevice_id = "$1:$2";
+            $vendors->{$vendor_id}->{devices}->{$device_id}->{subdevices}->{$subdevice_id}->{name} = $3;
+        } elsif ($line =~ /^(\S{4}) \s+ (.*)/x) {
+            # Vendor ID
+            $vendor_id = $1;
+            $vendors->{$vendor_id}->{name} = $2;
+        } elsif ($line =~ /^C \s+ (\S{2}) \s+ (.*)/x) {
+            # Class ID
+            $class_id = $1;
+            $classes->{$class_id}->{name} = $2;
+        } elsif ($line =~ /^\t (\S{2}) \s+ (.*)/x) {
+            # SubClass ID
+            my $subclass_id = $1;
+            $classes->{$class_id}->{subclasses}->{$subclass_id}->{name} = $2;
+        }
+    }
+    close $handle;
+
+    return ($vendors, $classes);
+}
+
+
+sub _loadEDIDDatabase {
+    my (%params) = @_;
+
+    my $handle = getFileHandle(file => "$params{datadir}/edid.ids");
+    return unless $handle;
+
+    foreach my $line (<$handle>) {
+       next unless $line =~ /^([A-Z]{3}) __ (.*)$/;
+       $EDIDVendors->{$1} = $2;
+   }
+
+   return;
+}
+
 1;
 __END__
 
@@ -250,5 +373,75 @@ output.
 =item command the exact command to use (default: lspci -vvv -nn)
 
 =item file the file to use, as an alternative to the command
+
+=back
+
+=head2 getPCIDeviceVendor(%params)
+
+Returns the PCI vendor matching this ID.
+
+=over
+
+=item id the vendor id
+
+=item logger a logger object
+
+=item datadir the directory holding the PCI database
+
+=back
+
+=head2 getPCIDeviceClass(%params)
+
+Returns the PCI class matching this ID.
+
+=over
+
+=item id the class id
+
+=item logger a logger object
+
+=item datadir the directory holding the PCI database
+
+=back
+
+=head2 getUSBDeviceVendor(%params)
+
+Returns the USB vendor matching this ID.
+
+=over
+
+=item id the vendor id
+
+=item logger a logger object
+
+=item datadir the directory holding the USB database
+
+=back
+
+=head2 getUSBDeviceClass(%params)
+
+Returns the USB class matching this ID.
+
+=over
+
+=item id the class id
+
+=item logger a logger object
+
+=item datadir the directory holding the USB database
+
+=back
+
+=head2 getEDIDVendor(%params)
+
+Returns the EDID vendor matching this ID.
+
+=over
+
+=item id the vendor id
+
+=item logger a logger object
+
+=item datadir the directory holding the edid vendors database
 
 =back

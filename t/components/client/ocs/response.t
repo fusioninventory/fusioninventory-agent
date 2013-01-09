@@ -7,14 +7,17 @@ use lib 't';
 use Compress::Zlib;
 use English qw(-no_match_vars);
 use List::Util qw(first);
-use Test::More;
+use Test::Deep;
 use Test::Exception;
+use Test::More;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::HTTP::Client::OCS;
 use FusionInventory::Agent::XML::Query;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
+
+unsetProxyEnvVar();
 
 # find an available port
 my $port = first { test_port($_) } 8080 .. 8090;
@@ -148,7 +151,7 @@ sub check_response_ok {
         'response class'
     );
     my $content = $response->getContent();
-    is_deeply(
+    cmp_deeply(
         $content,
         { word => 'hello' },
         'response content'

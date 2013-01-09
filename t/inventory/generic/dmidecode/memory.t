@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Memory;
@@ -17,6 +18,7 @@ my %tests = (
             TYPE             => 'Unknown',
             CAPTION          => 'A0',
             CAPACITY         => '512',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
 
         }
@@ -30,6 +32,7 @@ my %tests = (
             SPEED            => '1067 MHz',
             CAPACITY         => '2048',
             CAPTION          => 'Bottom - Slot 1',
+            MANUFACTURER     => 'Hynix',
             MEMORYCORRECTION => 'None'
         },
         {
@@ -40,6 +43,7 @@ my %tests = (
             SPEED            => '1067 MHz',
             CAPACITY         => '2048',
             CAPTION          => 'Bottom - Slot 2',
+            MANUFACTURER     => 'Hynix',
             MEMORYCORRECTION => 'None'
 
         }
@@ -53,6 +57,7 @@ my %tests = (
             SPEED            => '1066 MHz',
             CAPACITY         => '1024',
             CAPTION          => 'DIMM0',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
         },
         {
@@ -63,6 +68,7 @@ my %tests = (
             SPEED            => '1066 MHz',
             CAPACITY         => '1024',
             CAPTION          => 'DIMM1',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
 
         },
@@ -74,6 +80,7 @@ my %tests = (
             SPEED            => '1066 MHz',
             CAPACITY         => '1024',
             CAPTION          => 'DIMM2',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
 
         },
@@ -85,6 +92,7 @@ my %tests = (
             SPEED            => '1066 MHz',
             CAPACITY         => '1024',
             CAPTION          => 'DIMM3',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
 
         }
@@ -98,6 +106,7 @@ my %tests = (
             TYPE             => 'DDR',
             CAPTION          => 'DIMM_A',
             CAPACITY         => '1024',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
         },
         {
@@ -108,6 +117,7 @@ my %tests = (
             TYPE             => 'DDR',
             CAPTION          => 'DIMM_B',
             CAPACITY         => '1024',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
         }
     ],
@@ -153,6 +163,7 @@ my %tests = (
             TYPE             => '<OUT OF SPEC>',
             CAPTION          => 'DIMM1_A',
             CAPACITY         => '512',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
@@ -163,6 +174,7 @@ my %tests = (
             TYPE             => '<OUT OF SPEC>',
             CAPTION          => 'DIMM1_B',
             CAPACITY         => '512',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
@@ -172,6 +184,7 @@ my %tests = (
             SPEED            => '400 MHz (2.5 ns)',
             TYPE             => '<OUT OF SPEC>',
             CAPTION          => 'DIMM2_A',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
@@ -181,6 +194,7 @@ my %tests = (
             SPEED            => '400 MHz (2.5 ns)',
             TYPE             => '<OUT OF SPEC>',
             CAPTION          => 'DIMM2_B',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Multi-bit ECC'
 
         },
@@ -191,6 +205,7 @@ my %tests = (
             SPEED            => '400 MHz (2.5 ns)',
             TYPE             => '<OUT OF SPEC>',
             CAPTION          => 'DIMM3_A',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
@@ -200,6 +215,7 @@ my %tests = (
             SPEED            => '400 MHz (2.5 ns)',
             TYPE             => '<OUT OF SPEC>',
             CAPTION          => 'DIMM3_B',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Multi-bit ECC'
         }
     ],
@@ -212,6 +228,7 @@ my %tests = (
             SPEED            => '266 MHz',
             CAPACITY         => '512',
             CAPTION          => 'DIMM A',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Multi-bit ECC'
 
         },
@@ -222,6 +239,7 @@ my %tests = (
             TYPE             => 'DDR',
             SPEED            => '266 MHz',
             CAPTION          => 'DIMM B',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Multi-bit ECC'
 
         },
@@ -232,6 +250,7 @@ my %tests = (
             TYPE             => 'DDR',
             SPEED            => '266 MHz',
             CAPTION          => 'DIMM C',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Multi-bit ECC'
 
         },
@@ -242,6 +261,7 @@ my %tests = (
             TYPE             => 'DDR',
             SPEED            => '266 MHz',
             CAPTION          => 'DIMM D',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Multi-bit ECC'
 
         }
@@ -266,6 +286,7 @@ my %tests = (
             TYPE             => 'DDR',
             CAPTION          => 'DIMM 1',
             CAPACITY         => '512',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Single-bit ECC'
         },
         {
@@ -276,6 +297,7 @@ my %tests = (
             TYPE             => 'DDR',
             CAPTION          => 'DIMM 2',
             CAPACITY         => '512',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Single-bit ECC'
         }
     ],
@@ -288,6 +310,7 @@ my %tests = (
             TYPE             => 'DDR',
             CAPTION          => 'DIMM1',
             CAPACITY         => '512',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
@@ -298,6 +321,7 @@ my %tests = (
             TYPE             => 'DDR',
             CAPTION          => 'DIMM2',
             CAPACITY         => '512',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
@@ -308,6 +332,7 @@ my %tests = (
             TYPE             => 'DDR',
             CAPTION          => 'DIMM3',
             CAPACITY         => '512',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
@@ -318,6 +343,7 @@ my %tests = (
             TYPE             => 'DDR',
             CAPTION          => 'DIMM4',
             CAPACITY         => '512',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Multi-bit ECC'
         }
     ],
@@ -330,6 +356,7 @@ my %tests = (
             TYPE             => '<OUT OF SPEC>',
             CAPTION          => 'DIMM 1A',
             CAPACITY         => '512',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Single-bit ECC'
 
         },
@@ -341,6 +368,7 @@ my %tests = (
             TYPE             => '<OUT OF SPEC>',
             CAPTION          => 'DIMM 2B',
             CAPACITY         => '1024',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Single-bit ECC'
         },
         {
@@ -351,6 +379,7 @@ my %tests = (
             TYPE             => '<OUT OF SPEC>',
             CAPTION          => 'DIMM 3C',
             CAPACITY         => '1024',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Single-bit ECC'
         },
         {
@@ -360,6 +389,7 @@ my %tests = (
             SPEED            => 'Unknown',
             TYPE             => '<OUT OF SPEC>',
             CAPTION          => 'DIMM 4D',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Single-bit ECC'
         },
         {
@@ -370,6 +400,7 @@ my %tests = (
             TYPE             => '<OUT OF SPEC>',
             CAPTION          => 'DIMM 5A',
             CAPACITY         => '512',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Single-bit ECC'
         },
         {
@@ -380,6 +411,7 @@ my %tests = (
             TYPE             => '<OUT OF SPEC>',
             CAPTION          => 'DIMM 6B',
             CAPACITY         => '1024',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Single-bit ECC'
         },
         {
@@ -390,6 +422,7 @@ my %tests = (
             TYPE             => '<OUT OF SPEC>',
             CAPTION          => 'DIMM 7C',
             CAPACITY         => '1024',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Single-bit ECC'
         },
         {
@@ -399,6 +432,7 @@ my %tests = (
             SPEED            => 'Unknown',
             TYPE             => '<OUT OF SPEC>',
             CAPTION          => 'DIMM 8D',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Single-bit ECC'
         }
     ],
@@ -411,6 +445,7 @@ my %tests = (
             SPEED            => '1333 MHz (0.8 ns)',
             CAPACITY         => '2048',
             CAPTION          => 'PROC 1 DIMM 2A',
+            MANUFACTURER     => 'Micron',
             MEMORYCORRECTION => 'Single-bit ECC'
 
         },
@@ -421,6 +456,7 @@ my %tests = (
             TYPE             => '<OUT OF SPEC>',
             SPEED            => 'Unknown',
             CAPTION          => 'PROC 1 DIMM 1D',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Single-bit ECC'
         },
         {
@@ -431,6 +467,7 @@ my %tests = (
             SPEED            => '1333 MHz (0.8 ns)',
             CAPACITY         => '2048',
             CAPTION          => 'PROC 1 DIMM 4B',
+            MANUFACTURER     => 'Micron',
             MEMORYCORRECTION => 'Single-bit ECC'
         },
         {
@@ -440,6 +477,7 @@ my %tests = (
             TYPE             => '<OUT OF SPEC>',
             SPEED            => 'Unknown',
             CAPTION          => 'PROC 1 DIMM 3E',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Single-bit ECC'
         },
         {
@@ -449,6 +487,7 @@ my %tests = (
             TYPE             => '<OUT OF SPEC>',
             SPEED            => 'Unknown',
             CAPTION          => 'PROC 1 DIMM 6C',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Single-bit ECC'
         },
         {
@@ -458,6 +497,7 @@ my %tests = (
             TYPE             => '<OUT OF SPEC>',
             SPEED            => 'Unknown',
             CAPTION          => 'PROC 1 DIMM 5F',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Single-bit ECC'
         },
         {
@@ -467,6 +507,7 @@ my %tests = (
             TYPE             => '<OUT OF SPEC>',
             SPEED            => 'Unknown',
             CAPTION          => 'PROC 2 DIMM 2A',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Single-bit ECC'
         },
         {
@@ -476,6 +517,7 @@ my %tests = (
             TYPE             => '<OUT OF SPEC>',
             SPEED            => 'Unknown',
             CAPTION          => 'PROC 2 DIMM 1D',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Single-bit ECC'
         },
         {
@@ -485,6 +527,7 @@ my %tests = (
             TYPE             => '<OUT OF SPEC>',
             SPEED            => 'Unknown',
             CAPTION          => 'PROC 2 DIMM 4B',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Single-bit ECC'
         },
         {
@@ -494,6 +537,7 @@ my %tests = (
             TYPE             => '<OUT OF SPEC>',
             SPEED            => 'Unknown',
             CAPTION          => 'PROC 2 DIMM 3E',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Single-bit ECC'
         },
         {
@@ -503,6 +547,7 @@ my %tests = (
             TYPE             => '<OUT OF SPEC>',
             SPEED            => 'Unknown',
             CAPTION          => 'PROC 2 DIMM 6C',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Single-bit ECC'
         },
         {
@@ -512,6 +557,7 @@ my %tests = (
             TYPE             => '<OUT OF SPEC>',
             SPEED            => 'Unknown',
             CAPTION          => 'PROC 2 DIMM 5F',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Single-bit ECC'
         }
     ],
@@ -524,6 +570,7 @@ my %tests = (
             SPEED            => '533 MHz (1.9 ns)',
             CAPACITY         => '1024',
             CAPTION          => 'J8J1',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
 
         },
@@ -535,6 +582,7 @@ my %tests = (
             SPEED            => '533 MHz (1.9 ns)',
             CAPACITY         => '2048',
             CAPTION          => 'J8J2',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
 
         },
@@ -546,6 +594,7 @@ my %tests = (
             SPEED            => '533 MHz (1.9 ns)',
             CAPACITY         => '1024',
             CAPTION          => 'J9J1',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
 
         },
@@ -556,6 +605,7 @@ my %tests = (
             TYPE             => 'DDR2',
             SPEED            => 'Unknown',
             CAPTION          => 'J9J2',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
 
         }
@@ -569,6 +619,7 @@ my %tests = (
             SPEED            => '667 MHz (1.5 ns)',
             CAPACITY         => '1024',
             CAPTION          => 'ONBOARD DIMM_A1',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
@@ -579,6 +630,7 @@ my %tests = (
             SPEED            => '667 MHz (1.5 ns)',
             CAPACITY         => '1024',
             CAPTION          => 'ONBOARD DIMM_A2',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
@@ -589,6 +641,7 @@ my %tests = (
             SPEED            => '667 MHz (1.5 ns)',
             CAPACITY         => '1024',
             CAPTION          => 'ONBOARD DIMM_A3',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
@@ -599,6 +652,7 @@ my %tests = (
             SPEED            => '667 MHz (1.5 ns)',
             CAPACITY         => '1024',
             CAPTION          => 'ONBOARD DIMM_A4',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
@@ -609,6 +663,7 @@ my %tests = (
             SPEED            => '667 MHz (1.5 ns)',
             CAPACITY         => '1024',
             CAPTION          => 'ONBOARD DIMM_B1',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
@@ -619,6 +674,7 @@ my %tests = (
             SPEED            => '667 MHz (1.5 ns)',
             CAPACITY         => '1024',
             CAPTION          => 'ONBOARD DIMM_B2',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
@@ -629,6 +685,7 @@ my %tests = (
             SPEED            => '667 MHz (1.5 ns)',
             CAPACITY         => '1024',
             CAPTION          => 'ONBOARD DIMM_B3',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
@@ -639,6 +696,7 @@ my %tests = (
             SPEED            => '667 MHz (1.5 ns)',
             CAPACITY         => '1024',
             CAPTION          => 'ONBOARD DIMM_B4',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Multi-bit ECC'
         }
     ],
@@ -651,6 +709,7 @@ my %tests = (
             SPEED            => 'Unknown',
             CAPACITY         => '2048',
             CAPTION          => 'RAM slot #0',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
 
         },
@@ -661,6 +720,7 @@ my %tests = (
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #1',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
 
         },
@@ -671,6 +731,7 @@ my %tests = (
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #2',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
 
         },
@@ -681,6 +742,7 @@ my %tests = (
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #3',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
 
         }
@@ -694,6 +756,7 @@ my %tests = (
             SPEED            => 'Unknown',
             CAPACITY         => '2048',
             CAPTION          => 'RAM slot #0',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
         },
         {
@@ -703,6 +766,7 @@ my %tests = (
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #1',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
         },
         {
@@ -712,6 +776,7 @@ my %tests = (
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #2',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
         },
         {
@@ -721,6 +786,7 @@ my %tests = (
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #3',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
         },
         {
@@ -730,6 +796,7 @@ my %tests = (
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #4',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
         },
         {
@@ -739,6 +806,7 @@ my %tests = (
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #5',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
         },
         {
@@ -748,6 +816,7 @@ my %tests = (
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #6',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
         },
         {
@@ -757,6 +826,7 @@ my %tests = (
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #7',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
         },
         {
@@ -766,6 +836,7 @@ my %tests = (
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #8',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
         },
         {
@@ -775,6 +846,7 @@ my %tests = (
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #9',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
         },
         {
@@ -784,6 +856,7 @@ my %tests = (
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #10',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
         },
         {
@@ -793,6 +866,7 @@ my %tests = (
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #11',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
         },
         {
@@ -802,6 +876,7 @@ my %tests = (
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #12',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
         },
         {
@@ -811,6 +886,7 @@ my %tests = (
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #13',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
         },
         {
@@ -820,6 +896,7 @@ my %tests = (
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #14',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
         }
     ],
@@ -827,7 +904,7 @@ my %tests = (
         {
             NUMSLOTS         => 1,
             TYPE             => 'EDO DIMM',
-            CAPACITY         => '1024'
+            CAPACITY         => '1024',
         },
         {
             NUMSLOTS         => 2,
@@ -895,6 +972,7 @@ my %tests = (
             TYPE             => 'SDRAM',
             CAPTION          => 'DIMM 0',
             CAPACITY         => '256',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
         },
         {
@@ -905,6 +983,7 @@ my %tests = (
             TYPE             => 'SDRAM',
             CAPTION          => 'DIMM 1',
             CAPACITY         => '512',
+            MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
         }
     ],
@@ -917,6 +996,7 @@ my %tests = (
             CAPTION          => 'DIMM_A',
             MEMORYCORRECTION => 'None',
             DESCRIPTION      => 'DIMM (None)',
+            MANUFACTURER     => undef,
             CAPACITY         => '2048'
         },
         {
@@ -927,6 +1007,7 @@ my %tests = (
             CAPTION          => 'DIMM_B',
             MEMORYCORRECTION => 'None',
             DESCRIPTION      => 'DIMM (None)',
+            MANUFACTURER     => undef,
             CAPACITY         => '2048'
         }
     ],
@@ -938,6 +1019,7 @@ my %tests = (
             DESCRIPTION      => 'DIMM (None)',
             TYPE             => 'Unknown',
             SPEED            => 'Unknown',
+            MANUFACTURER     => undef,
             CAPTION          => 'DIMM0'
         },
         {
@@ -948,6 +1030,7 @@ my %tests = (
             CAPTION          => 'DIMM1',
             MEMORYCORRECTION => 'None',
             DESCRIPTION      => 'DIMM (None)',
+            MANUFACTURER     => undef,
             CAPACITY         => '2048'
         },
         {
@@ -957,6 +1040,7 @@ my %tests = (
             DESCRIPTION      => 'DIMM (None)',
             TYPE             => 'Unknown',
             SPEED            => 'Unknown',
+            MANUFACTURER     => undef,
             CAPTION          => 'DIMM2'
         },
         {
@@ -967,6 +1051,7 @@ my %tests = (
             CAPTION          => 'DIMM3',
             MEMORYCORRECTION => 'None',
             DESCRIPTION      => 'DIMM (None)',
+            MANUFACTURER     => undef,
             CAPACITY         => '2048'
         }
     ],
@@ -979,6 +1064,7 @@ my %tests = (
             SPEED            => 'Unknown',
             CAPACITY         => '1024',
             CAPTION          => 'M0',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -989,6 +1075,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M1',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -999,6 +1086,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M2',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1009,6 +1097,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M3',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1019,6 +1108,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M4',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1029,6 +1119,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M5',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1039,6 +1130,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M6',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1049,6 +1141,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M7',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1059,6 +1152,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M8',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1069,6 +1163,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M9',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1079,6 +1174,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M10',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1089,6 +1185,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M11',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1099,6 +1196,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M12',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1109,6 +1207,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M13',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1119,6 +1218,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M14',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1129,6 +1229,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M15',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1139,6 +1240,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M16',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1149,6 +1251,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M17',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1159,6 +1262,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M18',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1169,6 +1273,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M19',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1179,6 +1284,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M20',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1189,6 +1295,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M21',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1199,6 +1306,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M22',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1209,6 +1317,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M23',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1219,6 +1328,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M24',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1229,6 +1339,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M25',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1239,6 +1350,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M26',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1249,6 +1361,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M27',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1259,6 +1372,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M28',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1269,6 +1383,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M29',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1279,6 +1394,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M30',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1289,6 +1405,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M31',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1299,6 +1416,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M32',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1309,6 +1427,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M33',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1319,6 +1438,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M34',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1329,6 +1449,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M35',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1339,6 +1460,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M36',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1349,6 +1471,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M37',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1359,6 +1482,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M38',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1369,6 +1493,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M39',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1379,6 +1504,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M40',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1389,6 +1515,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M41',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1399,6 +1526,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M42',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1409,6 +1537,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M43',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1419,6 +1548,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M44',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1429,6 +1559,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M45',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1439,6 +1570,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M46',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1449,6 +1581,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M47',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1459,6 +1592,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M48',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1469,6 +1603,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M49',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1479,6 +1614,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M50',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1489,6 +1625,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M51',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1499,6 +1636,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M52',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1509,6 +1647,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M53',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1519,6 +1658,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M54',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1529,6 +1669,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M55',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1539,6 +1680,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M56',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1549,6 +1691,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M57',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1559,6 +1702,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M58',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1569,6 +1713,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M59',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1579,6 +1724,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M60',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1589,6 +1735,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M61',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1599,6 +1746,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M62',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         },
@@ -1609,6 +1757,7 @@ my %tests = (
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M63',
+            MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
 
         }
@@ -1620,5 +1769,5 @@ plan tests => scalar keys %tests;
 foreach my $test (keys %tests) {
     my $file = "resources/generic/dmidecode/$test";
     my $memories = FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Memory::_getMemories(file => $file);
-    is_deeply($memories, $tests{$test}, $test);
+    cmp_deeply($memories, $tests{$test}, $test);
 }

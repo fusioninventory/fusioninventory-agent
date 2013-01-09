@@ -61,27 +61,15 @@ sub _getInterfaces {
             my $nic = $1;
             my $num = $2;
 
-            if ($nic =~ /bge/ ) {
-                $interface->{SPEED} = _check_bge_nic($nic, $num);
-            } elsif ($nic =~ /ce/) {
-                $interface->{SPEED} = _check_ce($nic, $num);
-            } elsif ($nic =~ /hme/) {
-                $interface->{SPEED} = _check_nic($nic, $num);
-            } elsif ($nic =~ /dmfe/) {
-                $interface->{SPEED} = _check_dmf_nic($nic, $num);
-            } elsif ($nic =~ /ipge/) {
-                $interface->{SPEED} = _check_ce($nic, $num);
-            } elsif ($nic =~ /e1000g/) {
-                $interface->{SPEED} = _check_ce($nic, $num);
-            } elsif ($nic =~ /nxge/) {
-                $interface->{SPEED} = _check_nxge_nic($nic, $num);
-            } elsif ($nic =~ /eri/) {
-                $interface->{SPEED} = _check_nic($nic, $num);
-            } elsif ($nic =~ /aggr/) {
-                $interface->{SPEED} = "";
-            } else {
-                $interface->{SPEED} = _check_nic($nic, $num);
-            }
+            $interface->{SPEED} = 
+                $nic =~ /aggr/   ? undef                       :
+                $nic =~ /dmfe/   ? undef                       :
+                $nic =~ /bge/    ? _check_bge_nic($nic, $num)  :
+                $nic =~ /nxge/   ? _check_nxge_nic($nic, $num) :
+                $nic =~ /ce/     ? _check_ce_nic($nic, $num)   :
+                $nic =~ /ipge/   ? _check_ce_nic($nic, $num)   :
+                $nic =~ /e1000g/ ? _check_ce_nic($nic, $num)   :
+                                   _check_nic($nic, $num);
         }
 
         $interface->{IPSUBNET} = getSubnetAddress(
@@ -133,26 +121,9 @@ sub _check_nic {
     return _get_link_info($speed, $duplex, $auto);
 }
 
-# Function to test eri Fast-Ethernet (eri_).
-sub _check_eri {
-    my ($nic) = @_;
-
-    my $speed = getFirstMatch(
-        command => "/usr/sbin/ndd -get /dev/$nic link_speed",
-        pattern => qr/^(\d+)/
-    );
-
-    my $duplex = getFirstMatch(
-        command => "/usr/sbin/ndd -get /dev/$nic link_mode",
-        pattern => qr/^(\d+)/
-    );
-
-    return _get_link_info($speed, $duplex, undef);
-}
-
 # Function to test a Gigabit-Ethernet (i.e. ce_).
 # Function to test a Intel 82571-based ethernet controller port (i.e. ipge_).
-sub _check_ce {
+sub _check_ce_nic {
     my ($nic, $num) = @_;
 
     my $speed = getFirstMatch(
@@ -203,15 +174,17 @@ sub _check_bge_nic {
 sub _check_nxge_nic {
     my ($nic, $num) = @_;
 
-    my $link_info;
-    foreach (`/usr/sbin/dladm show-dev $nic$num`) {
-        #nxge0           link: up        speed: 1000  Mbps       duplex: full
-        $link_info = $5." ".$6." ".$8 if /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
-    }
-    return $link_info;
-}
-
-sub _check_dmf_nic {
+    #nxge0           link: up        speed: 1000  Mbps       duplex: full
+    my ($speed, $unit, $duplex) = getFirstMatch(
+        command => "/usr/sbin/dladm show-dev $nic$num",
+        pattern => qr/
+            $nic$num \s+
+            link:   \s \S+   \s+
+            speed:  \s (\d+) \s+ (\S+) \s+
+            duplex: \s (\S+)
+        /x
+    );
+    return $speed . ' ' . $unit . ' ' . $duplex;
 }
 
 sub _get_link_info {
@@ -257,16 +230,20 @@ sub _parseIfconfig {
         if ($line =~ /^(\S+):(\S+):/) {
             # new interface
             push @interfaces, $interface if $interface;
+            # quick assertion: nothing else as ethernet interface
             $interface = {
                 STATUS      => 'Down',
-                DESCRIPTION => $1 . ':' . $2
+                DESCRIPTION => $1 . ':' . $2,
+                TYPE        => 'ethernet'
             };
         } elsif ($line =~ /^(\S+):/) {
             # new interface
             push @interfaces, $interface if $interface;
+            # quick assertion: nothing else as ethernet interface
             $interface = {
                 STATUS      => 'Down',
-                DESCRIPTION => $1
+                DESCRIPTION => $1,
+                TYPE        => 'ethernet'
             };
         }
 
@@ -275,12 +252,6 @@ sub _parseIfconfig {
         }
         if ($line =~ /netmask ($hex_ip_address_pattern)/i) {
             $interface->{IPMASK} = hex2canonical($1);
-        }
-        if ($line =~ /groupname\s+(\S+)/i) {
-            $interface->{TYPE} = $1;
-        }
-        if ($line =~ /zone\s+(\S+)/) {
-            $interface->{TYPE} = $1;
         }
         if ($line =~ /ether\s+(\S+)/i) {
             # https://sourceforge.net/tracker/?func=detail&atid=487492&aid=1819948&group_id=58373
@@ -337,7 +308,6 @@ sub _parsefcinfo {
         $interface->{SPEED} = $1 if $line =~ /Current Speed:\s+(\S+)/;
         $interface->{WWN} = $1 if $line =~ /Node WWN:\s+(\S+)/;
         $interface->{DRIVER} = $1 if $line =~ /Driver Name:\s+(\S+)/i;
-        $interface->{TYPE} = "HBA";
         $interface->{MANUFACTURER} = $1 if $line =~ /Manufacturer:\s+(.*)$/;
         $interface->{MODEL} = $1 if $line =~ /Model:\s+(.*)$/;
         $interface->{FIRMWARE} = $1 if $line =~ /Firmware Version:\s+(.*)$/;

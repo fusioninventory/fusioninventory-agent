@@ -22,7 +22,7 @@ if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
     plan skip_all => 'thread support required';
 } else {
     FusionInventory::Agent::HTTP::Server->use();
-    plan tests => 7;
+    plan tests => 14;
 }
 
 my $logger = FusionInventory::Agent::Logger->new(
@@ -50,6 +50,11 @@ ok(
     'server listening on default port'
 );
 
+ok (
+    !$server->_is_trusted('127.0.0.1'),
+    'server not trusting 127.0.0.1 address'
+);
+
 $server->terminate();
 
 # find an available port
@@ -60,8 +65,53 @@ lives_ok {
         agent     => FusionInventory::Test::Agent->new(),
         scheduler => $scheduler,
         logger    => $logger,
+        htmldir   => 'share/html',
+        trust     => [ '127.0.0.1', '192.168.0.0/24' ]
+    );
+} 'instanciation with a list of trusted address: ok';
+
+ok (
+    $server->_is_trusted('127.0.0.1'),
+    'server trusting 127.0.0.1 address'
+);
+
+ok (
+    $server->_is_trusted('192.168.0.1'),
+    'server trusting 192.168.0.1 address'
+);
+
+lives_ok {
+    $server = FusionInventory::Agent::HTTP::Server->new(
+        agent     => FusionInventory::Test::Agent->new(),
+        scheduler => $scheduler,
+        logger    => $logger,
+        htmldir   => 'share/html',
+        trust     => [ '127.0.0.1', 'localhost', 'th1sIsNowh3re' ]
+    );
+} 'instanciation with a list of trusted address: ok';
+
+ok (
+    $server->_is_trusted('127.0.0.1'),
+    'server trusting localhost address'
+);
+
+ok (
+    !$server->_is_trusted('1.2.3.4'),
+    'do not trust unknown host 1.2.3.4'
+);
+
+$server->terminate();
+
+# find an available port
+$port = first { test_port($_) } 8080 .. 8090;
+
+lives_ok {
+    $server = FusionInventory::Agent::HTTP::Server->new(
+        agent     => FusionInventory::Test::Agent->new(),
+        scheduler => $scheduler,
+        logger    => $logger,
         port      => $port,
-        htmldir   => 'share/html'
+        htmldir   => 'share/html',
     );
 } 'instanciation with specific port: ok';
 sleep 1;
@@ -104,6 +154,5 @@ ok(
     $client->get("http://localhost:$port")->is_success(),
     'server still listening after child process raised ALRM'
 );
-
 
 $server->terminate();

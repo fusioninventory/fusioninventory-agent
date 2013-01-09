@@ -288,7 +288,9 @@ sub getProcessesFromPs {
         my $time = $10;
         my $cmd = $11;
 
-	# try to get a consistant time format
+        my $emailPattern = join ('|', keys %month);
+
+        # try to get a consistant time format
         my $begin;
         if ($started =~ /^(\d{1,2}):(\d{2})/) {
             # 10:00PM
@@ -297,24 +299,24 @@ sub getProcessesFromPs {
             # Sat03PM
             my $start_day = $2;
             $begin = sprintf("%04d-%02d-%02d %s", $year, $month, $start_day, $time);
-        } elsif ($started =~ /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)(\d{2})/) {
+        } elsif ($started =~ /^($emailPattern)(\d{2})/) {
             # Apr03
             my $start_month = $1;
             my $start_day = $2;
             $begin = sprintf("%04d-%02d-%02d %s", $year, $month{$start_month}, $start_day, $time);
-        } elsif ($started =~ /^(\d{1,2})(\w{3})\d{1,2}/) {
+        } elsif ($started =~ /^(\d{1,2})($emailPattern)\d{1,2}/) {
             # 5Oct10
             my $start_day = $1;
             my $start_month = $2;
             $begin = sprintf("%04d-%02d-%02d %s", $year, $month{$start_month}, $start_day, $time);
         } elsif (-f "/proc/$pid") {
-	    # this will work only under Linux
-	    my $stat = stat("/proc/$pid");
-	    my ($sec, $min, $hour, $day, $month, $year, $wday, $yday, $isdst)
-		= localtime($stat->ctime());
-	    $year = $year + 1900;
+            # this will work only on OS with /proc/$pid like Linux and FreeBSD
+            my $stat = stat("/proc/$pid");
+            my ($sec, $min, $hour, $day, $month, $year, $wday, $yday, $isdst)
+                = localtime($stat->ctime());
+            $year = $year + 1900;
             $begin = sprintf("%04d-%02d-%02d %s:%s", $year, $month + 1, $day, $hour, $min); 
-	}
+        }
         push @processes, {
             USER          => $user,
             PID           => $pid,

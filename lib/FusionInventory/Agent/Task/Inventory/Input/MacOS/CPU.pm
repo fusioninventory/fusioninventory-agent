@@ -7,8 +7,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::MacOS;
 
 sub isEnabled {
-    return 
-        -r '/usr/sbin/system_profiler';
+    return canRun('/usr/sbin/system_profiler');
 }
 
 sub doInventory {
@@ -109,7 +108,7 @@ sub _getCpus{
     my @cpus;
     my $cpu={
         CORE         => $cores,
-	MANUFACTURER => $manufacturer,
+        MANUFACTURER => $manufacturer,
         NAME         => $type,
         THREAD       => $threads,
         FAMILYNUMBER => $family,

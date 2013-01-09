@@ -1,0 +1,78 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use lib './lib';
+
+use English qw(-no_match_vars);
+use Getopt::Long;
+use Pod::Usage;
+
+use FusionInventory::Agent::Task::WakeOnLan;
+use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Tools::Network;
+
+my $options = {};
+
+GetOptions(
+    $options,
+    'mac=s',
+    'methods=s',
+    'debug+',
+    'help',
+    'version',
+) or pod2usage(-verbose => 0);
+
+if ($options->{version}) {
+  print "WakeOnLan task $FusionInventory::Agent::Task::WakeOnLan::VERSION\n";
+  exit 0;
+}
+pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
+pod2usage(
+    -message => "no mac address given, aborting\n", -verbose => 0
+) unless $options->{mac};
+pod2usage(
+    -message => "invalid mac address given, aborting\n", -verbose => 0
+) if $options->{mac} !~ /^$mac_address_pattern$/;
+
+my $task = FusionInventory::Agent::Task::WakeOnLan->new(
+    target => {},
+    logger =>  FusionInventory::Agent::Logger->new(
+        debug => $options->{debug}
+    )
+);
+
+$task->{options} = {
+    NAME => 'WAKEONLAN',
+    PARAM => [
+        {
+            MAC           => $options->{mac},
+        }
+    ],
+};
+
+my %params = $options->{methods} ?
+    (methods => [ split(/,/, $options->{methods}) ]) : ();
+$task->run(%params);
+
+__END__
+
+=head1 NAME
+
+fusioninventory-wakeonlan - Standalone wake-on-lan
+
+=head1 SYNOPSIS
+
+fusioninventory-wakeonlan [options]
+
+  Options:
+    --mac=MAC         target mac address
+    --methods=METHODS comma-separated list of methods to use (ethernet, udp)
+    --debug           debug output (execution traces)
+    -h --help         print this message and exit
+    --version         print the task version and exit
+
+=head1 DESCRIPTION
+
+F<fusioninventory-wakeonlan> allows to run a wakeonlan task without a GLPI
+server.

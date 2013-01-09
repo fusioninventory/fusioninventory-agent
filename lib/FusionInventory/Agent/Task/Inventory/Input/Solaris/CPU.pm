@@ -9,202 +9,178 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Solaris;
 
 sub isEnabled {
-    return canRun('memconf');
+    return 1;
 }
 
 sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger    = $params{logger};
 
-    my $class = getClass();
-
-    my ($count, $cpu) =
-        $class == SOLARIS_CONTAINER ?
-            _getCPUFromPrtcl(logger => $logger)  :
-            _getCPUFromMemconf(logger => $logger);
-
-    # fallback on generic method
-    ($count, $cpu) = _getCPUFromPrsinfo(logger => $logger) if !$count;
-
-    $cpu->{MANUFACTURER} = "SPARC";
-
-    while ($count--) {
+    foreach my $cpu (_getCPUs()) {
         $inventory->addEntry(
             section => 'CPUS',
             entry   => $cpu
         );
     }
-}
-
-
-# Sun Microsystems, Inc. Sun Fire 880 (4 X UltraSPARC-III 750MHz)
-# Sun Microsystems, Inc. Sun Fire V490 (2 X dual-thread UltraSPARC-IV 1350MHz)
-# Sun Microsystems, Inc. Sun Fire V240 (UltraSPARC-IIIi 1002MHz)
-# Sun Microsystems, Inc. Sun-Fire-T200 (Sun Fire T2000) (8-core quad-thread UltraSPARC-T1 1000MHz)
-# Sun Microsystems, Inc. Sun-Fire-T200 (Sun Fire T2000) (4-core quad-thread UltraSPARC-T1 1000MHz)
-# Sun Microsystems, Inc. SPARC Enterprise T5120 (8-core 8-thread UltraSPARC-T2 1165MHz)
-# Sun Microsystems, Inc. SPARC Enterprise T5120 (4-core 8-thread UltraSPARC-T2 1165MHz)
-# Sun Microsystems, Inc. Sun SPARC Enterprise M5000 Server (6 X dual-core dual-thread SPARC64-VI 2150MHz)
-# Fujitsu SPARC Enterprise M4000 Server (4 X dual-core dual-thread SPARC64-VI 2150MHz)
-# Sun Microsystems, Inc. Sun Fire V20z (Solaris x86 machine) (2 X Dual Core AMD Opteron(tm) Processor 270 1993MHz)
-
-sub _getCPUFromMemconf {
-    my $spec = getFirstMatch(
-        command => 'memconf',
-        pattern => qr/^((?:Sun|Fujitsu|Intel) .* \d+ [GM]Hz\))/x,
-        @_
-    );
-    return _parseSpec($spec);
-}
-
-sub _parseCoreString {
-    my ($v) = @_;
-
-    return
-        $v =~ /dual/i     ? 2  :
-        $v =~ /quad/i     ? 4  :
-        $v =~ /(\d+)-\w+/ ? $1 :
-        $v;
-}
-
-sub _parseSpec {
-    my ($spec) = @_;
-
-    my $manufacturer;
-    if ($spec =~ /(AMD|Fujitsu|Intel)\s/g) {
-        $manufacturer = $1;
-    } elsif ($spec =~ /Sun/) {
-        $manufacturer = 'Sun Microsystems';
-    }
-
-    # 4 X UltraSPARC-III 750MHz
-    if ($spec =~ /(\d+) \s X \s (\S+) \s (\d+ \s* .Hz)/x) {
-        return $1, {
-            MANUFACTURER => $manufacturer,
-            NAME         => $2,
-            SPEED        => getCanonicalSpeed($3),
-            CORE         => 1,
-        };
-    }
-
-    # 2 X dual-thread UltraSPARC-IV 1350MHz
-    if ($spec =~ /(\d+) \s X \s (\S+) \s (\S+) \s (\d+) MHz/x) {
-        return $1, {
-            MANUFACTURER => $manufacturer,
-            NAME         => $3 . " (" . $2 . ")",
-            SPEED        => $4,
-            CORE         => _parseCoreString($1),
-            THREAD       => _parseCoreString($2)
-        };
-    }
-
-    # 8-core quad-thread UltraSPARC-T1 1000MHz
-    # 8-core 8-thread UltraSPARC-T2 1165MHz
-    # 16-Core 8-Thread SPARC-T3 1649MHz
-    if ($spec =~ /(\d+ -[cC]ore) \s (\S+) \s (\S+) \s (\d+) MHz/x) {
-        return 1, {
-            MANUFACTURER => $manufacturer,
-            NAME         => $3 . " (" . $1 . " " . $2 . ")",
-            SPEED        => $4,
-            CORE         => _parseCoreString($1),
-            THREAD       => _parseCoreString($2)
-        };
-    }
-
-    # 6 X dual-core dual-thread SPARC64-VI 2150MHz
-    if ($spec =~ /(\d+) \s X \s (\S+) \s (\S+) \s (\S+) \s (\d+) MHz/x) {
-        return $1, {
-            MANUFACTURER => $manufacturer,
-            NAME         => $4 . " (" . $2 . " " . $3 . ")",
-            SPEED        => $5,
-            CORE         => _parseCoreString($2),
-            THREAD       => _parseCoreString($3)
-        };
-    }
-
-    # 2 X Dual Core AMD Opteron(tm) Processor 270 1993MHz
-    if ($spec =~ /(\d+) \s X \s (\S+) \s Core \s AMD \s (Opteron\(tm\) \s Processor \s \S+) \s ([\.\d]+ \s* .Hz)/x) {
-        return $1, {
-            MANUFACTURER => $manufacturer,
-            NAME         => $3,
-            SPEED        => getCanonicalSpeed($4),
-            CORE         => _parseCoreString($2),
-        };
-    }
-
-    # 2 X Quad-Core Intel(R) Xeon(R) E7320 @ 2.13GHz
-    if ($spec =~ /(\d+) \s X \s (\S+) \s Intel\(R\) \s (Xeon\(R\) \s E\d+) \s @ \s ([\d\.]+\s*.Hz)/x) {
-        return $1, {
-            MANUFACTURER => $manufacturer,
-            NAME         => $3,
-            SPEED        => getCanonicalSpeed($4),
-            CORE         => _parseCoreString($2),
-        };
-    }
-
-    # UltraSPARC-IIi 270MHz
-    # UltraSPARC-III 750MHz
-    if ($spec =~ /([^()\s]\S+) \s (\d+ \s* .Hz)/x) {
-        return 1, {
-            MANUFACTURER => $manufacturer,
-            NAME         => $1,
-            SPEED        => getCanonicalSpeed($2),
-            CORE         => 1,
-        };
-    }
 
 }
 
-sub _getCPUFromPsrinfo {
-    my (%params) = (
-        command => 'psrinfo -v',
+sub _getCPUs {
+    my (%params) = @_;
+
+    # get virtual CPUs from psrinfo -v
+    my @all_virtual_cpus = _getVirtualCPUs(logger => $params{logger});
+
+    # get physical CPUs from psrinfo -vp
+    my @all_physical_cpus = _getPhysicalCPUs(logger => $params{logger});
+
+    # count the different speed values
+    # undef is temporarily mapped to 0, to avoid warnings
+    my @physical_speeds =
+        map { $_ ? $_ : undef }
+        sort { $a <=> $b }
+        uniq
+        map { $_->{speed} || 0 }
+        @all_physical_cpus;
+
+    my @virtual_speeds =
+        map { $_ ? $_ : undef }
+        sort { $a <=> $b }
+        uniq
+        map { $_->{speed} || 0 }
+        @all_virtual_cpus;
+
+    my @cpus;
+
+    # process CPUs by groups, according to their speed
+    while (@physical_speeds) {
+        my $physical_speed = shift @physical_speeds;
+        my $virtual_speed  = shift @virtual_speeds;
+
+        my @physical_cpus = $physical_speed ?
+            grep { $_->{speed} eq $physical_speed } @all_physical_cpus:
+            grep { ! defined $_->{speed}          } @all_physical_cpus;
+        my @virtual_cpus  = $virtual_speed ?
+            grep { $_->{speed} eq $virtual_speed } @all_virtual_cpus:
+            grep { ! defined $_->{speed}         } @all_virtual_cpus;
+
+        my $speed = $physical_cpus[0]->{speed} || $virtual_cpus[0]->{speed};
+        my $type  = $physical_cpus[0]->{type}  || $virtual_cpus[0]->{type};
+        my $manufacturer =
+            $type =~ /SPARC/ ? 'SPARC' :
+            $type =~ /Xeon/  ? 'Intel' :
+                               undef   ;
+        my $cpus  = scalar @physical_cpus;
+
+        my ($cores, $threads) =
+            $type eq 'UltraSPARC-IV'  ? (2,     1) : # US-IV & US-IV+
+            $type eq 'UltraSPARC-T1'  ? (undef, 4) : # Niagara
+            $type eq 'UltraSPARC-T2'  ? (undef, 8) : # Niagara-II
+            $type eq 'UltraSPARC-T2+' ? (undef, 8) : # Victoria Falls
+            $type eq 'SPARC-T3'       ? (undef, 8) : # Rainbow Falls
+            $type eq 'SPARC64-VI'     ? (2,     2) : # Olympus-C SPARC64-VI
+            $type eq 'SPARC64-VII'    ? (4,     2) : # Jupiter SPARC64-VII
+            $type eq 'SPARC64-VII+'   ? (4,     2) : # Jupiter+ SPARC64-VII+
+            $type eq 'SPARC64-VII++'  ? (4,     2) : # Jupiter++ SPARC64-VII++
+            $type eq 'SPARC64-VIII'   ? (8,     2) : # Venus SPARC64-VIII
+                                        (1,     1) ;
+
+        if ($type =~ /MB86907/) {
+            $type = "TurboSPARC-II $type";
+        } elsif ($type =~ /MB86904|390S10/) {
+            $type = ($speed > 70) ? "microSPARC-II $type" : "microSPARC $type";
+        } elsif ($type =~ /,RT62[56]/) {
+            $type = "hyperSPARC $type";
+        }
+
+        # deduce core numbers from number of virtual cpus if needed
+        if (!$cores) {
+            # cores may be < 1 in case of virtualisation
+            $cores = (scalar @virtual_cpus) / $threads / $cpus;
+        }
+
+        for my $i (1 .. $cpus) {
+            push @cpus, 
+                {
+                    MANUFACTURER => $manufacturer,
+                    NAME         => $type,
+                    SPEED        => $speed,
+                    CORE         => $cores,
+                    THREAD       => $threads
+                };
+        }
+    }
+
+    return @cpus;
+}
+
+sub _getVirtualCPUs {
+    my %params = (
+        command => '/usr/sbin/psrinfo -v',
         @_
     );
 
     my $handle = getFileHandle(%params);
     return unless $handle;
 
-    my $count = 0;
-    my $cpu;
+    my @cpus;
     while (my $line = <$handle>) {
-        next unless $line =~ 
-            /^\s+The\s(\w+)\sprocessor\soperates\sat\s(\d+)\sMHz,/;
-
-        $cpu->{NAME}  = $1;
-        $cpu->{SPEED} = $2;
-        $count++;
-    }
-    close $handle;
-
-    return ($count, $cpu);
-}
-
-sub _getCPUFromPrtcl {
-    my (%params) = (
-        command => "prctl -n zone.cpu-shares $PID",
-        @_
-    );
-
-    my $handle = getFileHandle(%params);
-    return unless $handle;
-
-    my ($count, $cpu);
-    while (my $line = <$handle>) {
-        $cpu->{NAME} = $1 if $line =~ /^zone.(\S+)$/;
-        $cpu->{NAME} .= " " . $1 if $line =~ /^\s*privileged+\s*(\d+)/;
-        #$count = 1 if /^\s*privileged+\s*(\d+)/;
-        foreach (`memconf 2>&1`) {
-            if(/\s+\((\d+).*\s+(\d+)MHz/) {
-                $count = $1;
-                $cpu->{SPEED} = $2;
-            }
+        if ($line =~ /The (\S+) processor operates at (\d+) MHz/) {
+            push @cpus, {
+                type  => $1,
+                speed => $2,
+            };
+            next;
         }
     }
     close $handle;
 
-    return ($count, $cpu);
+    return @cpus;
+}
+
+sub _getPhysicalCPUs {
+    my %params = (
+        command => '/usr/sbin/psrinfo -vp',
+        @_
+    );
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my @cpus;
+    while (my $line = <$handle>) {
+
+        if ($line =~ /^The physical processor has (\d+) virtual/) {
+            push @cpus, {
+                count => $1
+            };
+            next;
+        }
+
+        if ($line =~ /^The (\S+) physical processor has (\d+) virtual/) {
+            push @cpus, {
+                type  => $1,
+                count => $2
+            };
+            next;
+        }
+
+        if ($line =~ /(\S+) \(.* clock (\d+) MHz\)/) {
+            my $cpu = $cpus[-1];
+            $cpu->{type} = $1;
+            $cpu->{speed} = $2;
+            next;
+        }
+
+        if ($line =~ /Intel\(r\) Xeon\(r\) CPU +(\S+)/) {
+            my $cpu = $cpus[-1];
+            $cpu->{type} = "Xeon $1";
+        }
+    }
+    close $handle;
+
+    return @cpus;
 }
 
 1;

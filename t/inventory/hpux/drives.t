@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::HPUX::Drives;
@@ -157,5 +158,5 @@ plan tests => scalar keys %tests;
 foreach my $test (keys %tests) {
     my $file = "resources/hpux/bdf/$test";
     my @drives = FusionInventory::Agent::Task::Inventory::Input::HPUX::Drives::_parseBdf(file => $file);
-    is_deeply(\@drives, $tests{$test}, "$test bdf parsing");
+    cmp_deeply(\@drives, $tests{$test}, "$test bdf parsing");
 }

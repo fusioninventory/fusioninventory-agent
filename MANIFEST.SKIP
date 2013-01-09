@@ -27,7 +27,6 @@ CVS/
 
 ^FusionInventory-Agent.*
 /tarballs/
-tools/build-perl-tree.sh
 ^setup.sh
 
 .*\.tmp

@@ -4,14 +4,15 @@ use strict;
 use warnings;
 
 use Config;
-use Test::More;
+use Test::Deep;
 use Test::Exception;
+use Test::More;
 use XML::TreePP;
 
 use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::Task::Inventory::Inventory;
 
-plan tests => 6;
+plan tests => 5;
 
 my $query;
 throws_ok {
@@ -19,12 +20,6 @@ throws_ok {
 } qr/^no content/, 'no content';
 
 my $inventory =  FusionInventory::Agent::Task::Inventory::Inventory->new();
-throws_ok {
-    $query = FusionInventory::Agent::XML::Query::Inventory->new(
-        content => $inventory->getContent()
-    );
-} qr/^no deviceid/, 'no device id';
-
 lives_ok {
     $query = FusionInventory::Agent::XML::Query::Inventory->new(
         deviceid => 'foo',
@@ -36,7 +31,7 @@ isa_ok($query, 'FusionInventory::Agent::XML::Query::Inventory');
 
 my $tpp = XML::TreePP->new();
 
-is_deeply(
+cmp_deeply(
     scalar $tpp->parse($query->getContent()),
     {
         REQUEST => {
@@ -66,7 +61,7 @@ $query = FusionInventory::Agent::XML::Query::Inventory->new(
     content => $inventory->getContent()
 );
 
-is_deeply(
+cmp_deeply(
     scalar $tpp->parse($query->getContent()),
     {
         REQUEST => {

@@ -3,9 +3,10 @@
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Task::Inventory::Input::Virtualization::Parallels;
-
+use Test::Deep;
 use Test::More;
+
+use FusionInventory::Agent::Task::Inventory::Input::Virtualization::Parallels;
 
 my %tests = (
     sample1 => [
@@ -24,5 +25,5 @@ plan tests => scalar keys %tests;
 foreach my $test (keys %tests) {
     my $file = "resources/virtualization/prlctl/$test";
     my @machines = FusionInventory::Agent::Task::Inventory::Input::Virtualization::Parallels::_parsePrlctlA(file => $file);
-    is_deeply(\@machines, $tests{$test}, $test);
+    cmp_deeply(\@machines, $tests{$test}, $test);
 }
