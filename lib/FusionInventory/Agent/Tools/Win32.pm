@@ -93,6 +93,41 @@ sub getWmiObjects {
     return @objects;
 }
 
+sub getRegistryValues {
+    my (%params) = @_;
+
+    my ($root, $keyName, $valueName);
+    if ($params{path} =~ m{^(HKEY_\S+)/(.+)/([^/]+)} ) {
+        $root      = $1;
+        $keyName   = $2;
+        $valueName = $3;
+    } else {
+        $params{logger}->error(
+            "Failed to parse '$params{path}'. Does it start with HKEY_?"
+        ) if $params{logger};
+        return;
+    }
+
+    my $key = _getRegistryKey(
+        logger  => $params{logger},
+        root    => $root,
+        keyName => $keyName
+    );
+
+    return unless $key;
+
+    if ($valueName eq '*') {
+        my %ret;
+        foreach (keys %$key) {
+            s{^/}{};
+            $ret{$_}=$key->{"/$_"};
+        }
+        return \%ret;
+    } else {
+        return { $valueName => $key->{"/$valueName"} };
+    }
+}
+
 sub getRegistryValue {
     my (%params) = @_;
 
@@ -114,17 +149,13 @@ sub getRegistryValue {
         keyName => $keyName
     );
 
-    if ($valueName eq '*') {
-        my %ret;
-        foreach (keys %$key) {
-            s{^/}{};
-            $ret{$_}=$key->{"/$_"};
-        }
-        return \%ret;
-    } else {
-        return $key->{"/$valueName"};
-    }
+    return unless $key;
+
+    return $key->{"/$valueName"};
 }
+
+
+
 
 sub getRegistryKey {
     my (%params) = @_;
@@ -256,6 +287,12 @@ Ensure given registry content is properly encoded to utf-8.
 =head2 getRegistryValue(%params)
 
 Returns a value from the registry.
+
+=over
+
+=head2 getRegistryValues(%params)
+
+Much like getRegistryValue but accept wildcare and return a hash ref (key => value).
 
 =over
 

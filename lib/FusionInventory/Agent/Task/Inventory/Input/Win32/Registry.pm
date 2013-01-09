@@ -44,12 +44,14 @@ sub _getRegistryData {
         next unless $content;
 
         $regkey =~ s{\\}{/}g;
-        my $value = getRegistryValue(
+        my $value = getRegistryValues(
             path   => $hives[$regtree]."/".$regkey."/".$content,
             logger => $params{logger}
         );
 
-        if (ref($value) eq "HASH") {
+        return unless ref($value) eq "HASH";
+
+        if (keys %$value >  1) { # compat with OCS odd data structur
             foreach ( keys %$value ) {
                 my $n = encodeFromRegistry($_) || '';
                 my $v = encodeFromRegistry($value->{$_}) || '';
@@ -62,7 +64,7 @@ sub _getRegistryData {
         } else {
             push @data, {section => 'REGISTRY', entry => {
                     NAME => $name, 
-                    REGVALUE => encodeFromRegistry($value)
+                    REGVALUE => encodeFromRegistry($value->{name})
                 }
             };
         }
