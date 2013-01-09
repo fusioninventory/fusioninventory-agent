@@ -27,10 +27,23 @@ sub _getFromRegistry {
 
     return unless $OSNAME eq 'MSWin32';
 
+    use Data::Dumper;
+    print Dumper( \%params );
+
+
     FusionInventory::Agent::Tools::Win32->require();
 
-    FusionInventory::Agent::Tools::Win32::getRegistryKey();
+    my $values = FusionInventory::Agent::Tools::Win32::getRegistryValues(path => $params{path});
 
+    my $result;
+    if (ref($values) eq 'HASH') { # I don't like that. We should always get href
+        foreach my $k (keys %$values) {
+            my $v = FusionInventory::Agent::Tools::Win32::encodeFromRegistry($values->{$k});
+            $result->{$k}=$v;
+        }
+    }
+
+    return ($result);
 }
 
 sub _findFile {
@@ -39,14 +52,22 @@ sub _findFile {
     my $dir   = $params{dir}   || '/';
     my $limit = $params{limit} || 50;
 
+    return unless -d $dir;
+
     my @result;
 
-    use Data::Dumper;
-    print Dumper( \%params );
-
+    my $dirCpt;
     File::Find::find(
         {
+            preprocess => sub {
+                if (!$params{recursive}) {
+                  $dirCpt++;
+                  return if $dirCpt > 1;
+               }
+               return @_;
+            },
             wanted => sub {
+                    print $File::Find::name."\n";
                 if (   $params{filter}{is_dir}
                     && !$params{filter}{checkSumSHA512}
                     && !$params{filter}{checkSumSHA2} )
@@ -145,10 +166,31 @@ sub _runCommand {
     return ( { output => $line } );
 }
 
+sub _getFromWMI {
+    my %params = @_;
+
+    FusionInventory::Agent::Tools::Win32->require();
+
+    return unless $params{properties};
+    return unless $params{class};
+
+    my @return;
+
+    my @objs = FusionInventory::Agent::Tools::Win32::getWmiObjects(%params);
+
+    foreach my $obj (@objs) {
+        push @return, $obj; 
+    }
+
+    return @return;
+}
+
+
 my %functions = (
     getFromRegistry => \&_getFromRegistry,
     findFile        => \&_findFile,
-    runCommand      => \&_runCommand
+    runCommand      => \&_runCommand,
+    getFromWMI      => \&_getFromWMI
 );
 
 sub run {
@@ -200,42 +242,49 @@ sub run {
     );
     print "JOBS:" . Dumper($jobs);
 
-    $jobs = [
-        {
-            "function" => "runCommand",
-            "dir"      => "/",                # Where to run the command
-            "command"  => "/sbin/ifconfig",
-            "uuid"     => "xxxx3",
-            "filter" => { "firstMatch" => '(eth\d)' }
-        },
+    $jobs = [ 
+{
+      "function" => "getFromWMI",
+      "class" => "Win32_Keyboard",
+      "properties" => [ "Name", "Caption", "Manufacturer", "Description", "Layout" ],
+      "uuid" => "xxxx3"
+},
+
+#        {
+#            "function" => "runCommand",
+#            "dir"      => "/",                # Where to run the command
+#            "command"  => "ipconfig",
+#            "uuid"     => "xxxx3",
+#            "filter" => { "firstMatch" => '(Windows.*)' }
+#        },
         {
             "recursive" => 0,
             "function"  => "getFromRegistry",
             "64bit"     => 0,
             "path" =>
-"HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Control/Session Manager",
+"HKEY_LOCAL_MACHINE/SOFTWARE/FusionInventory-Agent/*",
             "uuid" => "xxxx1"
         },
-        {
-            "function" => "findFile",
-            "dir"      => "/etc",       # Default is, every where
-            "limit"     => 5,    # Number of entry to look for, default is 50
-            "recursive" => 0,
-            "filter" =>          # filter and its content is optional
-              {
-                regex => 'fs',    # regex done on the full path
-
-                #                    sizeEquals     => 445635,
-                sizeGreater => 3,
-                sizeLower   => 12454545656,
-                checkSumSHA512 =>
-'558d4e78bff78241c25bc3cb45b700ae9a29552a1439f9b07420ba54313f03e1f5883b099984a94955adbc3c21bcbd7c8194d70c494cfcd5d83e21adc3e58ab9',
-                name  => 'fstab',
-                iname => 'FStab'    # case insensitive
-              },
-            "uuid" => "xxxx3"
-
-        }
+#        {
+#            "function" => "findFile",
+#            "dir"      => "/windows",       # Default is, every where
+#            "limit"     => 5,    # Number of entry to look for, default is 50
+#            "recursive" => 0,
+#            "filter" =>          # filter and its content is optional
+#              {
+#                regex => 'fs',    # regex done on the full path
+#
+#                #                    sizeEquals     => 445635,
+#                sizeGreater => 3,
+#                sizeLower   => 12454545656,
+#                checkSumSHA512 =>
+#'558d4e78bff78241c25bc3cb45b700ae9a29552a1439f9b07420ba54313f03e1f5883b099984a94955adbc3c21bcbd7c8194d70c494cfcd5d83e21adc3e58ab9',
+#                name  => 'fstab',
+#                iname => 'FStab'    # case insensitive
+#              },
+#            "uuid" => "xxxx3"
+#
+#        }
 
     ];
 
@@ -263,6 +312,7 @@ sub run {
 
         foreach my $r (@result) {
             die unless ref($r) eq 'HASH';
+            next unless keys %$r;
             $r->{uuid}   = $job->{uuid};
             $r->{action} = "setAnswer";
             $self->{client}->send(
