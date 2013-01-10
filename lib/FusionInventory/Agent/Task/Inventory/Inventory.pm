@@ -61,7 +61,7 @@ my %fields = (
                              IPADDR WORKGROUP DESCRIPTION MEMORY UUID DNS 
                              LASTLOGGEDUSER USERDOMAIN DATELASTLOGGEDUSER 
                              DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
-                             WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE/ ],
+                             WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE VMID/ ],
     OPERATINGSYSTEM  => [ qw/KERNEL_NAME KERNEL_VERSION NAME VERSION FULL_NAME 
                             SERVICE_PACK INSTALL_DATE/ ],
     ACCESSLOG        => [ qw/USERID LOGDATE/ ],
@@ -867,7 +867,17 @@ Can be:
 
 =item Hyper-V
 
+=item AIX_LPAR
+
 =back
+
+=item VMID
+
+The ID of the Virtual machine on the hypervisor (VM only).
+
+=item VMNAME
+
+The name of the Virtual machine on the hypervisor (VM only).
 
 =item WINOWNER
 
