@@ -49,10 +49,6 @@ sub run {
         tag      => $self->{config}->{'tag'}
     );
 
-    # Turn off localised output for commands
-    $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
-    $ENV{LANG} = 'C'; # Turn off localised output for commands
-
     if (not $self->{config}->{'scan-homedirs'}) {
         $self->{logger}->debug(
             "--scan-homedirs missing. Don't scan user directories"

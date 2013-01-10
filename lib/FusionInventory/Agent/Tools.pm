@@ -235,6 +235,9 @@ sub getFileHandle {
             last SWITCH;
         }
         if ($params{command}) {
+            # Turn off localised output for commands
+            local $ENV{LC_ALL} = 'C';
+            local $ENV{LANG} = 'C';
             if (!open $handle, '-|', $params{command} . " 2>$nowhere") {
                 $params{logger}->error(
                     "Can't run command $params{command}: $ERRNO"

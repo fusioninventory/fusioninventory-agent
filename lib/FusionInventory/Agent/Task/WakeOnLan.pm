@@ -136,7 +136,6 @@ sub _getInterface {
 
     # let's take the first interface with an IP adress, a MAC address
     # different from the loopback
-    $ENV{LC_ALL} = 'C';
     my $interface =
         first { $_->{DESCRIPTION} ne 'lo' }
         grep { $_->{IPADDRESS} }
