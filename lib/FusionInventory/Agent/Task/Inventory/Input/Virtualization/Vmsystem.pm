@@ -1,27 +1,5 @@
 package FusionInventory::Agent::Task::Inventory::Input::Virtualization::Vmsystem;
 
-# Contains code from imvirt:
-# URL: http://micky.ibh.net/~liske/imvirt.html
-# Authors:  Thomas Liske <liske@ibh.de>
-# Copyright: 2008 IBH IT-Service GmbH [http://www.ibh.de/]
-# License: GPLv2+
-
-
-##
-#
-# Outputs:
-#   Xen
-#   VirtualBox
-#   Virtual Machine
-#   VMware
-#   QEMU
-#   SolarisZone
-#
-# If no virtualization has been detected:
-#   Physical
-#
-##
-
 use strict;
 use warnings;
 
