@@ -216,20 +216,11 @@ sub _matchPatterns {
 }
 
 sub _getOpenVZVmID {
-    my $handle = getFileHandle(
-        file => '/proc/self/status',
+    return getFirstMatch(
+        file    => '/proc/self/status',
+        pattern => qr/^envID:\s*(\d+)/,
         @_
     );
-
-    my $vmid;
-
-    while (my $line = <$handle>) {
-        next unless $line =~ /^envID:\s*(\d+)/;
-        $vmid = $1 if $1 > 0;
-    }
-
-    return $vmid;
 }
-
 
 1;
