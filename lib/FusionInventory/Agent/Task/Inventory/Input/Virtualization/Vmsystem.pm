@@ -50,22 +50,6 @@ my %module_patterns = (
     '^xen_\w+front\s' => 'Xen',
 );
 
-sub _getOpenVZVmID {
-    my $handle = getFileHandle(
-        file => '/proc/self/status',
-        @_
-    );
-
-    my $vmid;
-
-    while (my $line = <$handle>) {
-        next unless $line =~ /^envID:\s*(\d+)/;
-        $vmid = $1 if $1 > 0;
-    }
-
-    return $vmid;
-}
-
 sub isEnabled {
     return 1;
 }
@@ -233,5 +217,22 @@ sub _matchPatterns {
         return 'Xen'             if $line =~ $xen_pattern;
     }
 }
+
+sub _getOpenVZVmID {
+    my $handle = getFileHandle(
+        file => '/proc/self/status',
+        @_
+    );
+
+    my $vmid;
+
+    while (my $line = <$handle>) {
+        next unless $line =~ /^envID:\s*(\d+)/;
+        $vmid = $1 if $1 > 0;
+    }
+
+    return $vmid;
+}
+
 
 1;
