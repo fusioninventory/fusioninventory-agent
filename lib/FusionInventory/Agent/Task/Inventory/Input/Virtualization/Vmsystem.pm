@@ -76,22 +76,11 @@ sub doInventory {
         });
     }
 
+    my $vmid = $type eq 'Virtuozzo' ?
+        _getOpenVZVmID(logger => $logger) : undef;
 
-    my $uuid;
-    my $vmid;
-
-    if ($type eq 'Virtuozzo') {
-        $vmid = _getOpenVZVmID( logger => $logger );
-    }
-
-    if ($type eq 'Xen') {
-        if (-f '/sys/hypervisor/uuid') {
-            $uuid = getFirstLine(
-                file => '/sys/hypervisor/uuid',
-                logger => $logger
-            );
-        }
-    }
+    my $uuid = $type eq 'Xen' ?
+        _getXenUUID(logger => $logger) : undef;
 
     $inventory->setHardware({
         VMSYSTEM => $type,
@@ -219,6 +208,13 @@ sub _getOpenVZVmID {
     return getFirstMatch(
         file    => '/proc/self/status',
         pattern => qr/^envID:\s*(\d+)/,
+        @_
+    );
+}
+
+sub _getXenUUID {
+    return getFirstLine(
+        file => '/sys/hypervisor/uuid',
         @_
     );
 }
