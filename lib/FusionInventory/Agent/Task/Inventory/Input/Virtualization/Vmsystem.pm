@@ -93,14 +93,11 @@ sub doInventory {
         }
     }
 
-    my $h;
-
-    $h -> { VMSYSTEM } = $status;
-    $h -> { UUID } = $uuid if $uuid;
-    $h -> { VMID } = $vmid if $vmid;
-
-    $inventory->setHardware($h);
-
+    $inventory->setHardware({
+        VMSYSTEM => $status,
+        UUID     => $uuid,
+        VMID     => $vmid
+    });
 }
 
 sub _getStatus {
