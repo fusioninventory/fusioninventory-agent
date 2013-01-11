@@ -23,7 +23,6 @@ sub doInventory {
         getDevicesFromHal(logger => $logger) :
         getDevicesFromProc(logger => $logger);
 
-
     # complete with udev for missing bits, if available
     if (-d '/dev/.udev/db/') {
 
@@ -115,7 +114,7 @@ sub _getDescription {
             ($serialnumber && $serialnumber =~ /ATA/) ||
             ($description && $description =~ /ATA/)
         ) {
-            return  "SATA";
+            return "SATA";
         } else {
             return "SCSI";
         }
