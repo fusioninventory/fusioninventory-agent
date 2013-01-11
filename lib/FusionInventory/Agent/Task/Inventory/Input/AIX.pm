@@ -25,19 +25,22 @@ sub doInventory {
     $OSVersion =~ s/(.0)*$//;
 
     my $OSLevel = getFirstLine(command => 'oslevel -r');
-    my @tabOS = split(/-/,$OSLevel);
-    my $OSComment = "Maintenance Level : $tabOS[1]";
+    my @OSLevelParts = split(/-/, $OSLevel);
+
+    my $Revision = getFirstLine(command => 'oslevel -s');
+    my @RevisionParts = split(/-/, $Revision);
 
     $inventory->setHardware({
         OSNAME     => "$OSName $OSVersion",
         OSVERSION  => $OSLevel,
-        OSCOMMENTS => $OSComment,
+        OSCOMMENTS => "Maintenance Level: $OSLevelParts[1]"
     });
 
     $inventory->setOperatingSystem({
-        NAME      => "AIX",
-        VERSION   => $OSVersion,
-        FULL_NAME => "$OSName $OSVersion"
+        NAME         => "AIX",
+        VERSION      => $OSVersion,
+        SERVICE_PACK => "$RevisionParts[2]-$RevisionParts[3]",
+        FULL_NAME    => "$OSName $OSVersion"
     });
 }
 
