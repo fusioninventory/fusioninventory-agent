@@ -63,11 +63,11 @@ sub doInventory {
     # return immediatly if vm type has already been found
     return if $inventory->{content}{HARDWARE}{VMSYSTEM} ne "Physical";
 
-    my $status = _getStatus($logger);
+    my $type = _getType($logger);
 
     # for consistency with HVM domU
     if (
-        $status eq 'Xen' &&
+        $type eq 'Xen' &&
         !$inventory->{h}{CONTENT}{BIOS}{SMANUFACTURER}
     ) {
         $inventory->setBios({
@@ -80,11 +80,11 @@ sub doInventory {
     my $uuid;
     my $vmid;
 
-    if ( $status eq 'Virtuozzo' ) {
+    if ($type eq 'Virtuozzo') {
         $vmid = _getOpenVZVmID( logger => $logger );
     }
 
-    if ( $status eq 'Xen' ) {
+    if ($type eq 'Xen') {
         if (-f '/sys/hypervisor/uuid') {
             $uuid = getFirstLine(
                 file => '/sys/hypervisor/uuid',
@@ -94,13 +94,13 @@ sub doInventory {
     }
 
     $inventory->setHardware({
-        VMSYSTEM => $status,
+        VMSYSTEM => $type,
         UUID     => $uuid,
         VMID     => $vmid
     });
 }
 
-sub _getStatus {
+sub _getType {
     my ($logger) = @_;
 
     # Solaris zones
