@@ -57,6 +57,8 @@ if ($OSNAME ne 'MSWin32') {
 sub getFormatedLocalTime {
     my ($time) = @_;
 
+    return unless $time;
+
     my ($year, $month , $day, $hour, $min, $sec) =
         (localtime ($time))[5, 4, 3, 2, 1, 0];
 

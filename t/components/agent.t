@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use File::Path qw(make_path);
+use File::Path;
 use File::Temp qw(tempdir);
 use Test::More;
 
@@ -77,7 +77,7 @@ is_deeply(
 sub create_file {
     my ($directory, $file, $content) = @_;
 
-    make_path($directory);
+    mkpath($directory);
 
     open (my $fh, '>', "$directory/$file")
         or die "can't create $directory/$file: $!";

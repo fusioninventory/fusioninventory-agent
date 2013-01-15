@@ -36,12 +36,16 @@ sub _getBattery {
     my $battery = {
         NAME         => $info->{'Name'},
         MANUFACTURER => $info->{'Manufacturer'},
-        SERIAL       => $info->{'Serial Number'},
-        CHEMISTRY    => $info->{'Chemistry'},
+        SERIAL       => $info->{'Serial Number'} ||
+                        $info->{'SBDS Serial Number'},
+        CHEMISTRY    => $info->{'Chemistry'} ||
+                        $info->{'SBDS Chemistry'},
     };
 
-    if ($info->{'Manufacture Date'}) {
+    if      ($info->{'Manufacture Date'}) {
         $battery->{DATE} = _parseDate($info->{'Manufacture Date'});
+    } elsif ($info->{'SBDS Manufacture Date'}) {
+        $battery->{DATE} = _parseDate($info->{'SBDS Manufacture Date'});
     }
 
     if ($info->{'Design Capacity'} &&
