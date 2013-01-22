@@ -1,5 +1,7 @@
 Revision history for FusionInventory agent network tasks plugin
 
+* Toshiba devices can be printer, do not flag them as network devices
+
 1.0.2  Sat, 08 Dec 2012
 
 Fixes:
