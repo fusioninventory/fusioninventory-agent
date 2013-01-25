@@ -8,6 +8,7 @@ General:
 
 Windows:
 * Collect license key for MS Office
+* Collect software from user profile (#1674)
 
 BSD:
 * Megaraid and 3ware RAID controller support (Egor Morozov)
