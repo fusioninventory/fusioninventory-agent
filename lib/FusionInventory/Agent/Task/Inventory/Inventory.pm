@@ -61,7 +61,8 @@ my %fields = (
                              IPADDR WORKGROUP DESCRIPTION MEMORY UUID DNS 
                              LASTLOGGEDUSER USERDOMAIN DATELASTLOGGEDUSER 
                              DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
-                             WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE VMID/ ],
+                             WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE VMID
+                             VMNAME VMHOSTSERIAL/ ],
     OPERATINGSYSTEM  => [ qw/KERNEL_NAME KERNEL_VERSION NAME VERSION FULL_NAME 
                             SERVICE_PACK INSTALL_DATE/ ],
     ACCESSLOG        => [ qw/USERID LOGDATE/ ],
