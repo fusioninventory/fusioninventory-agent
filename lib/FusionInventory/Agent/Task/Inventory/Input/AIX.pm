@@ -54,14 +54,9 @@ sub doInventory {
         $vmid = $1;
         $vmname = $2;
         $vmhostserial = $vpd->{SE};
+        $ssn = "aixlpar-$vmhostserial-$vmid";
     } else {
-        $inventory->setBios({
-            BMANUFACTURER => 'IBM',
-            SMANUFACTURER => 'IBM',
-            SMODEL        => $vpd->{TM},
-            SSN           => $vpd->{SE},
-            BVERSION      => $bersion,
-        });
+        $ssn = $vpd->{SE};
     }
 
     $inventory->setHardware({
@@ -78,6 +73,14 @@ sub doInventory {
         NAME                 => "AIX",
         VERSION              => $OSVersion,
         FULL_NAME            => "$OSName $OSVersion"
+    });
+
+    $inventory->setBios({
+        BMANUFACTURER => 'IBM',
+        SMANUFACTURER => 'IBM',
+        SMODEL        => $vpd->{TM},
+        SSN           => $ssn,
+        BVERSION      => $bersion,
     });
 
 }
