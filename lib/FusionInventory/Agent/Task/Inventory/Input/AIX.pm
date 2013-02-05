@@ -5,7 +5,10 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use List::Util qw(first);
+
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::AIX;
 
 our $runAfter = ["FusionInventory::Agent::Task::Inventory::Input::Generic"];
 
@@ -17,6 +20,7 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger = $params{logger};
 
     # Operating system informations
     my $OSName = getFirstLine(command => 'uname -s');
@@ -28,10 +32,11 @@ sub doInventory {
     my @tabOS = split(/-/,$OSLevel);
     my $OSComment = "Maintenance Level : $tabOS[1]";
 
-
+    my $ssn;
     my $vmsystem;
     my $vmid;
     my $vmname;
+    my $vmhostserial;
 
     my @infos = getLsvpdInfos(logger => $logger);
 
@@ -80,7 +85,7 @@ sub doInventory {
         SMANUFACTURER => 'IBM',
         SMODEL        => $vpd->{TM},
         SSN           => $ssn,
-        BVERSION      => $bersion,
+        BVERSION      => $bversion,
     });
 
 }
