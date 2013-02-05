@@ -20,6 +20,9 @@ Linux:
 MacOSX:
 * Collect license key for Adobe suite, Panic's Transit, VMware Fusion
 
+AIX:
+* AIX LPAR support
+
 2.2.8
 
 AIX:
