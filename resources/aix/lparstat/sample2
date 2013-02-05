@@ -1,0 +1,43 @@
+Node Name                                  : sample2 
+Partition Name                             : sample2 
+Partition Number                           : 61
+Type                                       : Shared-SMT-4
+Mode                                       : Uncapped
+Entitled Capacity                          : 0.30
+Partition Group-ID                         : 32829
+Shared Pool ID                             : 5
+Online Virtual CPUs                        : 1
+Maximum Virtual CPUs                       : 1
+Minimum Virtual CPUs                       : 1
+Online Memory                              : 16384 MB
+Maximum Memory                             : 16384 MB
+Minimum Memory                             : 16384 MB
+Variable Capacity Weight                   : 128
+Minimum Capacity                           : 0.20
+Maximum Capacity                           : 1.00
+Capacity Increment                         : 0.01
+Maximum Physical CPUs in system            : 64
+Active Physical CPUs in system             : 64
+Active CPUs in Pool                        : 2
+Shared Physical CPUs in system             : 64
+Maximum Capacity of Pool                   : 200
+Entitled Capacity of Pool                  : 130
+Unallocated Capacity                       : 0.00
+Physical CPU Percentage                    : 30.00%
+Unallocated Weight                         : 0
+Memory Mode                                : Dedicated
+Total I/O Memory Entitlement               : -
+Variable Memory Capacity Weight            : -
+Memory Pool ID                             : -
+Physical Memory in the Pool                : -
+Hypervisor Page Size                       : -
+Unallocated Variable Memory Capacity Weight: -
+Unallocated I/O Memory entitlement         : -
+Memory Group ID of LPAR                    : -
+Desired Virtual CPUs                       : 1
+Desired Memory                             : 16384 MB
+Desired Variable Capacity Weight           : 128
+Desired Capacity                           : 0.30
+Target Memory Expansion Factor             : -
+Target Memory Expansion Size               : -
+Power Saving Mode                          : Disabled

@@ -1,0 +1,24 @@
+Node Name                                  : sample3
+Partition Name                            : sample3
+Partition Number                           : 2
+Type                                       : Dedicated-SMT
+Mode                                       : Capped
+Entitled Capacity                          : 1.00
+Partition Group-ID                         : 32770
+Shared Pool ID                             : -
+Online Virtual CPUs                        : 1
+Maximum Virtual CPUs                       : 4
+Minimum Virtual CPUs                       : 1
+Online Memory                              : 3072 MB
+Maximum Memory                             : 4096 MB
+Minimum Memory                             : 128 MB
+Variable Capacity Weight                   : -
+Minimum Capacity                           : 1.00
+Maximum Capacity                           : 4.00
+Capacity Increment                         : 1.00
+Maximum Physical CPUs in system            : 4
+Active Physical CPUs in system             : 4
+Active CPUs in Pool                        : -
+Unallocated Capacity                       : -
+Physical CPU Percentage                    : 100.00%
+Unallocated Weight                         : -
