@@ -8,6 +8,7 @@ General:
 
 Windows:
 * Collect license key for MS Office
+* Collect software from user profile (#1674)
 
 BSD:
 * Megaraid and 3ware RAID controller support (Egor Morozov)
@@ -18,6 +19,9 @@ Linux:
 
 MacOSX:
 * Collect license key for Adobe suite, Panic's Transit, VMware Fusion
+
+AIX:
+* AIX LPAR support
 
 2.2.8
 
