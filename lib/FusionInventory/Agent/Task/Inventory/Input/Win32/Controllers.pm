@@ -33,7 +33,8 @@ sub _getControllers {
     foreach my $controller (_getControllersFromWMI(@_)) {
 
         if ($controller->{deviceid} =~ /PCI\\VEN_(\S{4})&DEV_(\S{4})/) {
-            $controller->{PCIID} = lc($1 . ':' . $2);
+            $controller->{VENDORID} = lc($1);
+            $controller->{DEVICEID} = lc($2);
         }
 
         if ($controller->{deviceid} =~ /&SUBSYS_(\S{4})(\S{4})/) {
@@ -41,14 +42,15 @@ sub _getControllers {
         }
 
         # only devices with a PCIID sounds resonable
-        next unless $controller->{PCIID};
+        next unless $controller->{VENDORID} && $controller->{DEVICEID};
 
         # avoid duplicates
-        next if $seen{$controller->{PCIID}}++;
+        next if $seen{$controller->{VENDORID}}->{$controller->{DEVICEID}}++;
 
         delete $controller->{deviceid};
 
-        my ($vendor_id, $device_id) = split (/:/, $controller->{PCIID});
+        my $vendor_id    = $controller->{VENDORID};
+        my $device_id    = $controller->{DEVICEID};
         my $subdevice_id = $controller->{PCISUBSYSTEMID};
 
         my $vendor = getPCIDeviceVendor(id => $vendor_id, @_);

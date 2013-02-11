@@ -39,7 +39,6 @@ sub _getControllers {
             NAME         => $device->{NAME},
             MANUFACTURER => $device->{MANUFACTURER},
             REV          => $device->{REV},
-            PCIID        => $device->{PCIID},
             PCISLOT      => $device->{PCISLOT},
         };
         $controller->{DRIVER} = $device->{DRIVER}
@@ -48,6 +47,8 @@ sub _getControllers {
             if $device->{PCISUBSYSTEMID};
 
         my ($vendor_id, $device_id) = split (/:/, $device->{PCIID});
+        $controller->{VENDORID} = $vendor_id;
+        $controller->{DEVICEID} = $device_id;
         my $subdevice_id = $device->{PCISUBSYSTEMID};
 
         my $vendor = getPCIDeviceVendor(id => $vendor_id, @_);
