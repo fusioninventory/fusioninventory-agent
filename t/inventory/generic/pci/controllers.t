@@ -20,7 +20,7 @@ my %tests = (
             MANUFACTURER => 'Intel Corporation',
             REV          => '07',
             VENDORID     => '8086',
-            DEVICEID     => '2a40',
+            PRODUCTID    => '2a40',
         },
         {
             NAME         => re('^Mobile 4 Series Chipset Integrated Graphics Controller'),
@@ -32,7 +32,7 @@ my %tests = (
             MANUFACTURER => 'Intel Corporation',
             REV          => '07',
             VENDORID     => '8086',
-            DEVICEID     => '2a42'
+            PRODUCTID    => '2a42'
         },
         {
             NAME         => re('^Mobile 4 Series Chipset Integrated Graphics Controller'),
@@ -43,7 +43,7 @@ my %tests = (
             MANUFACTURER => 'Intel Corporation',
             REV          => '07',
             VENDORID     => '8086',
-            DEVICEID     => '2a43'
+            PRODUCTID    => '2a43'
         },
         {
             NAME         => re('^82567LM Gigabit Network Connection'),
@@ -55,7 +55,7 @@ my %tests = (
             MANUFACTURER => 'Intel Corporation',
             REV          => '03',
             VENDORID     => '8086',
-            DEVICEID     => '10f5'
+            PRODUCTID    => '10f5'
         },
         {
             NAME         => re('^82801I \([^)]+\) USB UHCI Controller #4'),
@@ -67,7 +67,7 @@ my %tests = (
             MANUFACTURER => 'Intel Corporation',
             REV          => '03',
             VENDORID     => '8086',
-            DEVICEID     => '2937'
+            PRODUCTID    => '2937'
         },
         {
             NAME         => re('^82801I \([^)]+\) USB UHCI Controller #5'),
@@ -79,7 +79,7 @@ my %tests = (
             MANUFACTURER => 'Intel Corporation',
             REV          => '03',
             VENDORID     => '8086',
-            DEVICEID     => '2938'
+            PRODUCTID    => '2938'
         },
         {
             NAME         => re('^82801I \([^)]+\) USB UHCI Controller #6'),
@@ -91,7 +91,7 @@ my %tests = (
             MANUFACTURER => 'Intel Corporation',
             REV          => '03',
             VENDORID     => '8086',
-            DEVICEID     => '2939'
+            PRODUCTID    => '2939'
         },
         {
             NAME         => re('^82801I \([^)]+\) USB2 EHCI Controller #2'),
@@ -103,7 +103,7 @@ my %tests = (
             MANUFACTURER => 'Intel Corporation',
             REV          => '03',
             VENDORID     => '8086',
-            DEVICEID     => '293c'
+            PRODUCTID    => '293c'
         },
         {
             NAME         => re('^82801I \([^)]+\) HD Audio Controller'),
@@ -115,7 +115,7 @@ my %tests = (
             MANUFACTURER => 'Intel Corporation',
             REV          => '03',
             VENDORID     => '8086',
-            DEVICEID     => '293e'
+            PRODUCTID    => '293e'
         },
         {
             NAME         => re('^82801I \([^)]+\) PCI Express Port 1'),
@@ -127,7 +127,7 @@ my %tests = (
             MANUFACTURER => 'Intel Corporation',
             REV          => '03',
             VENDORID     => '8086',
-            DEVICEID     => '2940'
+            PRODUCTID    => '2940'
         },
         {
             NAME         => re('^82801I \([^)]+\) PCI Express Port 2'),
@@ -139,7 +139,7 @@ my %tests = (
             MANUFACTURER => 'Intel Corporation',
             REV          => '03',
             VENDORID     => '8086',
-            DEVICEID     => '2942'
+            PRODUCTID    => '2942'
         },
         {
             NAME         => re('^82801I \([^)]+\) PCI Express Port 4'),
@@ -151,7 +151,7 @@ my %tests = (
             MANUFACTURER => 'Intel Corporation',
             REV          => '03',
             VENDORID     => '8086',
-            DEVICEID     => '2946'
+            PRODUCTID    => '2946'
         },
         {
             NAME         => re('^82801I \([^)]+\) USB UHCI Controller #1'),
@@ -163,7 +163,7 @@ my %tests = (
             MANUFACTURER => 'Intel Corporation',
             REV          => '03',
             VENDORID     => '8086',
-            DEVICEID     => '2934'
+            PRODUCTID    => '2934'
         },
         {
             NAME         => re('^82801I \([^)]+\) USB UHCI Controller #2'),
@@ -175,7 +175,7 @@ my %tests = (
             MANUFACTURER => 'Intel Corporation',
             REV          => '03',
             VENDORID     => '8086',
-            DEVICEID     => '2935'
+            PRODUCTID    => '2935'
         },
         {
             NAME         => re('^82801I \([^)]+\) USB UHCI Controller #3'),
@@ -187,7 +187,7 @@ my %tests = (
             MANUFACTURER => 'Intel Corporation',
             REV          => '03',
             VENDORID     => '8086',
-            DEVICEID     => '2936'
+            PRODUCTID    => '2936'
         },
         {
             NAME         => re('^82801I \([^)]+\) USB2 EHCI Controller #1'),
@@ -199,7 +199,7 @@ my %tests = (
             MANUFACTURER => 'Intel Corporation',
             REV          => '03',
             VENDORID     => '8086',
-            DEVICEID     => '293a'
+            PRODUCTID    => '293a'
         },
         {
             NAME         => re('^82801 Mobile PCI Bridge'),
@@ -210,7 +210,7 @@ my %tests = (
             MANUFACTURER => 'Intel Corporation',
             REV          => '93',
             VENDORID     => '8086',
-            DEVICEID     => '2448'
+            PRODUCTID    => '2448'
         },
         {
             NAME         => re('^ICH9M-E LPC Interface Controller'),
@@ -221,7 +221,7 @@ my %tests = (
             MANUFACTURER => 'Intel Corporation',
             REV          => '03',
             VENDORID     => '8086',
-            DEVICEID     => '2917'
+            PRODUCTID    => '2917'
         },
         {
             NAME         => re('^82801I \([^)]+\) SMBus Controller'),
@@ -233,7 +233,7 @@ my %tests = (
             MANUFACTURER => 'Intel Corporation',
             REV          => '03',
             VENDORID     => '8086',
-            DEVICEID     => '2930'
+            PRODUCTID    => '2930'
         },
         {
             NAME         => re('^PCIxx12 Cardbus Controller'),
@@ -245,7 +245,7 @@ my %tests = (
             MANUFACTURER => 'Texas Instruments',
             REV          => undef,
             VENDORID     => '104c',
-            DEVICEID     => '8039'
+            PRODUCTID    => '8039'
         },
         {
             NAME         => re('^PCIxx12 OHCI Compliant IEEE 1394 Host Controller'),
@@ -257,7 +257,7 @@ my %tests = (
             MANUFACTURER => 'Texas Instruments',
             REV          => undef,
             VENDORID     => '104c',
-            DEVICEID     => '803a'
+            PRODUCTID    => '803a'
         },
         {
             NAME         => re('^PCIxx12 SDA Standard Compliant SD Host Controller'),
@@ -269,7 +269,7 @@ my %tests = (
             MANUFACTURER => 'Texas Instruments',
             REV          => undef,
             VENDORID     => '104c',
-            DEVICEID     => '803c'
+            PRODUCTID    => '803c'
         },
         {
             NAME         => re('^WiFi Link 5100'),
@@ -281,7 +281,7 @@ my %tests = (
             MANUFACTURER => 'Intel Corporation',
             REV          => undef,
             VENDORID     => '8086',
-            DEVICEID     => '4232'
+            PRODUCTID    => '4232'
         }
     ]
 );

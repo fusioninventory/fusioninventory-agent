@@ -34,7 +34,7 @@ sub _getControllers {
 
         if ($controller->{deviceid} =~ /PCI\\VEN_(\S{4})&DEV_(\S{4})/) {
             $controller->{VENDORID} = lc($1);
-            $controller->{DEVICEID} = lc($2);
+            $controller->{PRODUCTID} = lc($2);
         }
 
         if ($controller->{deviceid} =~ /&SUBSYS_(\S{4})(\S{4})/) {
@@ -42,15 +42,15 @@ sub _getControllers {
         }
 
         # only devices with a PCIID sounds resonable
-        next unless $controller->{VENDORID} && $controller->{DEVICEID};
+        next unless $controller->{VENDORID} && $controller->{PRODUCTID};
 
         # avoid duplicates
-        next if $seen{$controller->{VENDORID}}->{$controller->{DEVICEID}}++;
+        next if $seen{$controller->{VENDORID}}->{$controller->{PRODUCTID}}++;
 
         delete $controller->{deviceid};
 
         my $vendor_id    = $controller->{VENDORID};
-        my $device_id    = $controller->{DEVICEID};
+        my $device_id    = $controller->{PRODUCTID};
         my $subdevice_id = $controller->{PCISUBSYSTEMID};
 
         my $vendor = getPCIDeviceVendor(id => $vendor_id, @_);

@@ -47,8 +47,8 @@ sub _getControllers {
             if $device->{PCISUBSYSTEMID};
 
         my ($vendor_id, $device_id) = split (/:/, $device->{PCIID});
-        $controller->{VENDORID} = $vendor_id;
-        $controller->{DEVICEID} = $device_id;
+        $controller->{VENDORID}  = $vendor_id;
+        $controller->{PRODUCTID} = $device_id;
         my $subdevice_id = $device->{PCISUBSYSTEMID};
 
         my $vendor = getPCIDeviceVendor(id => $vendor_id, @_);
