@@ -194,7 +194,7 @@ sub run {
 
             # send results to the server
             while (my $result = do { lock @results; shift @results; }) {
-                $result->{ENTITY} = $range->{ENTITY} if $range->{ENTITY};
+                $result->{ENTITY} = $range->{ENTITY} if defined($range->{ENTITY});
                 my $data = {
                     DEVICE        => [$result],
                     MODULEVERSION => $VERSION,

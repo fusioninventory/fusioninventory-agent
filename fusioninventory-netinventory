@@ -84,7 +84,7 @@ $inventory->{options} = {
         }
     ]
 };
-if ($options->{entity}) {
+if (defined($options->{entity})) {
     $inventory->{options}->{DEVICE}->[0]->{ENTITY} = $options->{entity};
 }
 $inventory->{client} =
