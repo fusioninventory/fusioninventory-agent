@@ -240,7 +240,9 @@ sub getBasicInfoFromSysdescr {
     if ($keyword) {
         $device{MANUFACTURER} = $keyword->{vendor};
         $device{TYPE}         = $keyword->{type};
-    } elsif($snmp) {
+    }
+
+    if($snmp) {
         foreach my $rule (@hardware_rules) {
             next unless $sysdescr =~ $rule->{match};
             $device{MANUFACTURER} = _apply_rule($rule->{vendor}, $snmp);
