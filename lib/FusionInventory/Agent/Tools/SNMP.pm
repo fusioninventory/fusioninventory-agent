@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use base 'Exporter';
 
+use FusionInventory::Agent::Tools; # runFunction
+
 our @EXPORT = qw(
     getSanitizedSerialNumber
     getSanitizedMacAddress
