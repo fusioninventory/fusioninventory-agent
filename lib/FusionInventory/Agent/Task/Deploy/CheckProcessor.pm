@@ -15,11 +15,17 @@ sub process {
     # the default is 'ko'
     my $failureCode = $params{check}->{return} || "ko";
 
+    my $path = $params{check}->{path};
+
+    # Expend the env vars from the path
+    $path =~ s#\$(\w+)#$ENV{$1}#ge;
+    $path =~ s#%(\w+)%#$ENV{$1}#ge;
+
     if ($params{check}->{type} eq 'winkeyExists') {
         return unless $OSNAME eq 'MSWin32';
         require FusionInventory::Agent::Tools::Win32;
 
-        my $path = $params{check}->{path};
+        my $path = $path;
         $path =~ s{\\}{/}g;
 
         my $r = FusionInventory::Agent::Tools::Win32::getRegistryKey(path => $path);
@@ -31,7 +37,6 @@ sub process {
         return unless $OSNAME eq 'MSWin32';
         require FusionInventory::Agent::Tools::Win32;
 
-        my $path = $params{check}->{path};
         $path =~ s{\\}{/}g;
 
         my $r = FusionInventory::Agent::Tools::Win32::getRegistryValue(path => $path);
@@ -43,7 +48,7 @@ sub process {
         return unless $OSNAME eq 'MSWin32';
         require FusionInventory::Agent::Tools::Win32;
 
-        my $path = $params{check}->{path};
+        my $path = $path;
         $path =~ s{\\}{/}g;
 
         my $r = FusionInventory::Agent::Tools::Win32::getRegistryKey(path => $path);
@@ -52,33 +57,33 @@ sub process {
     } 
 
     if ($params{check}->{type} eq 'fileExists') {
-        return -f $params{check}->{path} ? 'ok' : $failureCode;
+        return -f $path ? 'ok' : $failureCode;
     }
 
     if ($params{check}->{type} eq 'fileSizeEquals') {
-        my @s = stat($params{check}->{path});
+        my @s = stat($path);
         return @s ? 'ok' : $failureCode;
     }
 
     if ($params{check}->{type} eq 'fileSizeGreater') {
-        my @s = stat($params{check}->{path});
+        my @s = stat($path);
         return $failureCode unless @s;
 
         return $params{check}->{value} < $s[7] ? 'ok' : $failureCode;
     }
 
     if ($params{check}->{type} eq 'fileSizeLower') {
-        my @s = stat($params{check}->{path});
+        my @s = stat($path);
         return $failureCode unless @s;
         return $params{check}->{value} > $s[7] ? 'ok' : $failureCode;
     }
     
     if ($params{check}->{type} eq 'fileMissing') {
-        return -f $params{check}->{path} ? $failureCode : 'ok';
+        return -f $path ? $failureCode : 'ok';
     }
     
     if ($params{check}->{type} eq 'freespaceGreater') {
-        my $freespace = getFreeSpace(logger => $params{logger}, path => $params{check}->{path});
+        my $freespace = getFreeSpace(logger => $params{logger}, path => $path);
         return $freespace>$params{check}->{value}? "ok" : $failureCode;
     }
 
@@ -87,7 +92,7 @@ sub process {
 
         my $sha512 = "";
         eval {
-            $sha->addfile($params{check}->{path}, 'b');
+            $sha->addfile($path, 'b');
             $sha512 = $sha->hexdigest;
         };
 
@@ -96,11 +101,11 @@ sub process {
     }
 
     if ($params{check}->{type} eq 'directoryExists') {
-        return -d $params{check}->{path} ? 'ok' : $failureCode;
+        return -d $path ? 'ok' : $failureCode;
     }
 
     if ($params{check}->{type} eq 'directoryMissing') {
-        return -d $params{check}->{path} ? $failureCode : 'ok';
+        return -d $path ? $failureCode : 'ok';
     }
 
 
