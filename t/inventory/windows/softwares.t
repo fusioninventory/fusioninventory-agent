@@ -7,8 +7,9 @@ use lib 't';
 
 use Encode;
 use English qw(-no_match_vars);
-use Test::More;
+use Test::Deep;
 use Test::MockModule;
+use Test::More;
 
 use FusionInventory::Test::Utils;
 
@@ -8196,7 +8197,7 @@ foreach my $test (keys %softwares_tests) {
 
     my $softwares = FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getSoftwaresList(softwares => $softwaresKey);
  
-    is_deeply(
+    cmp_deeply(
         $softwares,
         $softwares_tests{$test},
         "$test softwares list"
@@ -8205,12 +8206,12 @@ foreach my $test (keys %softwares_tests) {
 
 foreach my $test (keys %hotfixes_tests) {
     $module->mock(
-        'getWmiObjects',
-        mockGetWmiObjects($test)
+        'getWMIObjects',
+        mockGetWMIObjects($test)
     );
 
     my $hotfixes = FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getHotfixesList(is64bit => 0);
-    is_deeply(
+    cmp_deeply(
         $hotfixes,
         $hotfixes_tests{$test},
         "$test hotfixes list"

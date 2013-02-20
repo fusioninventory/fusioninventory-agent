@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Memory;
@@ -1768,5 +1769,5 @@ plan tests => scalar keys %tests;
 foreach my $test (keys %tests) {
     my $file = "resources/generic/dmidecode/$test";
     my $memories = FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Memory::_getMemories(file => $file);
-    is_deeply($memories, $tests{$test}, $test);
+    cmp_deeply($memories, $tests{$test}, $test);
 }

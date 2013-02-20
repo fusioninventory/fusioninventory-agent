@@ -57,6 +57,8 @@ if ($OSNAME ne 'MSWin32') {
 sub getFormatedLocalTime {
     my ($time) = @_;
 
+    return unless $time;
+
     my ($year, $month , $day, $hour, $min, $sec) =
         (localtime ($time))[5, 4, 3, 2, 1, 0];
 
@@ -233,6 +235,9 @@ sub getFileHandle {
             last SWITCH;
         }
         if ($params{command}) {
+            # Turn off localised output for commands
+            local $ENV{LC_ALL} = 'C';
+            local $ENV{LANG} = 'C';
             if (!open $handle, '-|', $params{command} . " 2>$nowhere") {
                 $params{logger}->error(
                     "Can't run command $params{command}: $ERRNO"

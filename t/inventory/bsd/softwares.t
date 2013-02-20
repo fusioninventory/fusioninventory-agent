@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::BSD::Softwares;
@@ -187,5 +188,5 @@ plan tests => scalar keys %pkg_info_tests;
 foreach my $test (keys %pkg_info_tests) {
     my $file = "resources/bsd/pkg_info/$test";
     my $results = FusionInventory::Agent::Task::Inventory::Input::BSD::Softwares::_getPackagesListFromPkgInfo(file => $file);
-    is_deeply($results, $pkg_info_tests{$test}, $test);
+    cmp_deeply($results, $pkg_info_tests{$test}, $test);
 }

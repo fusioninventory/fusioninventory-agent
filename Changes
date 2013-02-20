@@ -3,7 +3,13 @@ Revision history for FusionInventory agent
 2.3.0
 General:
 * various UTF8 encoding fixes
-* Add DNS_DOMAIN and FQDN in OPERATINGSYSTEM section
+* Add DNS_DOMAIN, BOOT_TIME and FQDN in OPERATINGSYSTEM section
+* Collect public SSH keys
+* Deploy, Network and ESX tasks are now integrated in the distribution
+
+Windows:
+* Collect license key for MS Office
+* Collect software from user profile (#1674)
 
 BSD:
 * Megaraid and 3ware RAID controller support (Egor Morozov)
@@ -12,17 +18,28 @@ Linux:
 * Megaraid controller support (Egor Morozov)
 * Support new OpenVZ configuration (Alessandro Iurlano)
 
-2.2.7
+MacOSX:
+* Collect license key for Adobe suite, Panic's Transit, VMware Fusion
+
+AIX:
+* AIX LPAR support
+
+2.2.8
+
+AIX:
+* minor fixes in LVM support
+
+2.2.7  Tue, 13 Nov 2012 14:22:34 +0100
 
 General:
 * additional hack for LG screens (#1848)
 * additional model for ACER screens hack (#1840)
 * fix directory creation error handling with older File::Path versions (#1817)
 * fix initial delay randomness (#1809)
-* fix spurious null character in decoded strings (#1837) 
+* fix spurious null character in decoded strings (#1837)
 
 Windows:
-* fix missing bios release date on some machines (#1820, #1825)
+* fix missing bios release information on some machines (#1820, #1825)
 
 2.2.6  Fri, 14 Sep 2012 16:49:13 +0200
 

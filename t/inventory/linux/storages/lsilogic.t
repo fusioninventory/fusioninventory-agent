@@ -2,8 +2,11 @@
 
 use strict;
 use warnings;
-use FusionInventory::Agent::Task::Inventory::Input::Linux::Storages::Lsilogic;
+
+use Test::Deep;
 use Test::More;
+
+use FusionInventory::Agent::Task::Inventory::Input::Linux::Storages::Lsilogic;
 
 my %tests = (
     sample1 => {
@@ -90,5 +93,5 @@ foreach my $test (keys %tests) {
         file       => $file,
         name       => $tests{$test}->{name},
     );
-    is_deeply(\@disks, $tests{$test}->{disks}, $test);
+    cmp_deeply(\@disks, $tests{$test}->{disks}, $test);
 }

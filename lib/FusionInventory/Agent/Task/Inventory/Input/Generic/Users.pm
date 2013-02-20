@@ -18,9 +18,35 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my @users = _getLocalUsers(logger => $logger);
+    my %users;
 
-    foreach my $user (@users) {
+    if (!$params{no_category}->{local_user}) {
+        foreach my $user (_getLocalUsers(logger => $logger)) {
+            # record user -> primary group relationship
+            push @{$users{$user->{gid}}}, $user->{LOGIN};
+            delete $user->{gid};
+
+            $inventory->addEntry(
+                section => 'LOCAL_USERS',
+                entry   => $user
+            );
+        }
+    }
+
+    if (!$params{no_category}->{local_group}) {
+        foreach my $group (_getLocalGroups(logger => $logger)) {
+            # add users having this group as primary group, if any
+            push @{$group->{MEMBER}}, @{$users{$group->{ID}}}
+                if $users{$group->{ID}};
+
+            $inventory->addEntry(
+                section => 'LOCAL_GROUPS',
+                entry   => $group
+            );
+        }
+    }
+
+    foreach my $user (_getLoggedUsers(logger => $logger)) {
         $inventory->addEntry(
             section => 'USERS',
             entry   => $user
@@ -41,23 +67,16 @@ sub _getLocalUsers {
     return unless $handle;
 
     my @users;
-    my %groups = _getLocalGroups(logger => $params{logger});
 
     while (my $line = <$handle>) {
         next if $line =~ /^#/;
         my ($login, undef, $uid, $gid, $gecos, $home, $shell) =
             split(/:/, $line);
-        # assume users with lower uid are system users
-        next if $uid < 500;
-        next if $login eq 'nobody';
-
-        my @groups = scalar getgrgid($gid); # primary group
-        push @groups, @{$groups{$login}} if $groups{$login};
 
         push @users, {
             LOGIN => $login,
             ID    => $uid,
-            GROUP => \@groups,
+            gid   => $gid,
             NAME  => $gecos,
             HOME  => $home,
             SHELL => $shell
@@ -77,20 +96,46 @@ sub _getLocalGroups {
     my $handle = getFileHandle(%params);
     return unless $handle;
 
-    my %groups;
+    my @groups;
 
     while (my $line = <$handle>) {
         next if $line =~ /^#/;
         chomp $line;
-        my ($group, undef, undef, $members) = split(/:/, $line);
+        my ($name, undef, $gid, $members) = split(/:/, $line);
+
         my @members = split(/,/, $members);
-        foreach my $member (@members) {
-            push @{$groups{$member}}, $group;
-        }
+
+        push @groups, {
+            ID     => $gid,
+            NAME   => $name,
+            MEMBER => \@members,
+        };
     }
     close $handle;
 
-    return %groups;
+    return @groups;
+}
+
+sub _getLoggedUsers {
+    my (%params) = (
+        command => 'who',
+        @_
+    );
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my @users;
+    my $seen;
+
+    while (my $line = <$handle>) {
+        next unless $line =~ /^(\S+)/;
+        next if $seen->{$1}++;
+        push @users, { LOGIN => $1 };
+    }
+    close $handle;
+
+    return @users;
 }
 
 sub _getLastUser {

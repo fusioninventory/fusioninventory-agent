@@ -230,16 +230,20 @@ sub _parseIfconfig {
         if ($line =~ /^(\S+):(\S+):/) {
             # new interface
             push @interfaces, $interface if $interface;
+            # quick assertion: nothing else as ethernet interface
             $interface = {
                 STATUS      => 'Down',
-                DESCRIPTION => $1 . ':' . $2
+                DESCRIPTION => $1 . ':' . $2,
+                TYPE        => 'ethernet'
             };
         } elsif ($line =~ /^(\S+):/) {
             # new interface
             push @interfaces, $interface if $interface;
+            # quick assertion: nothing else as ethernet interface
             $interface = {
                 STATUS      => 'Down',
-                DESCRIPTION => $1
+                DESCRIPTION => $1,
+                TYPE        => 'ethernet'
             };
         }
 
@@ -248,12 +252,6 @@ sub _parseIfconfig {
         }
         if ($line =~ /netmask ($hex_ip_address_pattern)/i) {
             $interface->{IPMASK} = hex2canonical($1);
-        }
-        if ($line =~ /groupname\s+(\S+)/i) {
-            $interface->{TYPE} = $1;
-        }
-        if ($line =~ /zone\s+(\S+)/) {
-            $interface->{TYPE} = $1;
         }
         if ($line =~ /ether\s+(\S+)/i) {
             # https://sourceforge.net/tracker/?func=detail&atid=487492&aid=1819948&group_id=58373
@@ -310,7 +308,6 @@ sub _parsefcinfo {
         $interface->{SPEED} = $1 if $line =~ /Current Speed:\s+(\S+)/;
         $interface->{WWN} = $1 if $line =~ /Node WWN:\s+(\S+)/;
         $interface->{DRIVER} = $1 if $line =~ /Driver Name:\s+(\S+)/i;
-        $interface->{TYPE} = "HBA";
         $interface->{MANUFACTURER} = $1 if $line =~ /Manufacturer:\s+(.*)$/;
         $interface->{MODEL} = $1 if $line =~ /Model:\s+(.*)$/;
         $interface->{FIRMWARE} = $1 if $line =~ /Firmware Version:\s+(.*)$/;

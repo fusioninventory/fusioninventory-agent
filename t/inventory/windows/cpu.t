@@ -6,8 +6,9 @@ use utf8;
 use lib 't';
 
 use English qw(-no_match_vars);
-use Test::More;
+use Test::Deep;
 use Test::MockModule;
+use Test::More;
 
 use FusionInventory::Test::Utils;
 
@@ -115,8 +116,8 @@ my $module = Test::MockModule->new(
 
 foreach my $test (keys %tests) {
     $module->mock(
-        'getWmiObjects',
-        mockGetWmiObjects($test)
+        'getWMIObjects',
+        mockGetWMIObjects($test)
     );
 
     $module->mock(
@@ -137,7 +138,7 @@ foreach my $test (keys %tests) {
     );
 
     my @cpus = FusionInventory::Agent::Task::Inventory::Input::Win32::CPU::_getCPUs();
-    is_deeply(
+    cmp_deeply(
         \@cpus,
         $tests{$test},
         "$test sample"

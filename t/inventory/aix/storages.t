@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::AIX::Storages;
@@ -375,7 +376,7 @@ plan tests =>
 foreach my $test (keys %lsdev_tests) {
     my $file = "resources/aix/lsdev/$test";
     my @devices = FusionInventory::Agent::Task::Inventory::Input::AIX::Storages::_parseLsdev(file => $file, pattern => qr/^(.+):(.+)/);
-    is_deeply(\@devices, $lsdev_tests{$test}, "lsdev parsing: $test");
+    cmp_deeply(\@devices, $lsdev_tests{$test}, "lsdev parsing: $test");
 }
 
 foreach my $test (keys %disk_tests) {
@@ -383,5 +384,5 @@ foreach my $test (keys %disk_tests) {
     my $lsdev_file = "resources/aix/lsdev/$test-disk-$disk_tests{$test}->{type}";
     my $infos = FusionInventory::Agent::Task::Inventory::Input::AIX::Storages::_getIndexedLsvpdInfos(file => $lsvpd_file);
     my @disks = FusionInventory::Agent::Task::Inventory::Input::AIX::Storages::_getDisks(file => $lsdev_file, infos => $infos);
-    is_deeply(\@disks, $disk_tests{$test}->{disks}, "disk extraction: $test");
+    cmp_deeply(\@disks, $disk_tests{$test}->{disks}, "disk extraction: $test");
 }

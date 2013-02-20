@@ -50,10 +50,6 @@ sub run {
         tag      => $self->{config}->{'tag'}
     );
 
-    # Turn off localised output for commands
-    $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
-    $ENV{LANG} = 'C'; # Turn off localised output for commands
-
     if (not $self->{config}->{'scan-homedirs'}) {
         $self->{logger}->debug(
             "--scan-homedirs missing. Don't scan user directories"
@@ -277,7 +273,7 @@ sub _runModule {
 }
 
 sub _feedInventory {
-    my ($self, $inventory) = @_;
+    my ($self, $inventory, $disabled) = @_;
 
     my $begin = time();
     my @modules =
@@ -285,7 +281,7 @@ sub _feedInventory {
         keys %{$self->{modules}};
 
     foreach my $module (sort @modules) {
-        $self->_runModule($module, $inventory);
+        $self->_runModule($module, $inventory, $disabled);
     }
 
     if (-d $self->{confdir} . '/softwares') {

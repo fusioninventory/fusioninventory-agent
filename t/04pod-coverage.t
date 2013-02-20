@@ -6,6 +6,7 @@ use lib 't';
 
 use Test::More;
 use UNIVERSAL::require;
+
 use English qw(-no_match_vars);
 
 plan(skip_all => 'Author test, set $ENV{TEST_AUTHOR} to a true value to run')
@@ -41,3 +42,4 @@ sub filter {
     return 0 if $_ =~ m{FusionInventory::Agent::Task};
     return 1;
 }
+

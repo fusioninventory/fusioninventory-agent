@@ -16,6 +16,8 @@ CVS/
 ^MANIFEST\.
 ^pm_to_blib$
 ^run-postinst
+^tmon.out
+^nytprof
 
 ~$
 \.bak$
@@ -32,11 +34,8 @@ CVS/
 .*\.tmp
 var/
 
-lib/FusionInventory/Agent/Task/OcsDeploy.pm
-lib/FusionInventory/Agent/Task/SNMPQuery
-lib/FusionInventory/Agent/Task/NetDiscovery
-lib/FusionInventory/Agent/Task/Deploy
-lib/FusionInventory/Agent/Task/ESX
-lib/FusionInventory/VMware
-fusioninventory-esx
 ^tools*
+^FusionInventory-Agent.*
+/tarballs/
+^setup.sh
+debian

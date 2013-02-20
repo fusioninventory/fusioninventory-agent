@@ -40,6 +40,8 @@ sub doInventory {
     }
     close $handle;
 
+    my $boottime = getFirstMatch(command => "sysctl -n kern.boottime", pattern => qr/sec = (\d+)/);
+
     my $OSName = $OSNAME;
     if (canRun('lsb_release')) {
         $OSName = getFirstMatch(
@@ -58,7 +60,8 @@ sub doInventory {
         NAME                 => $OSName,
         VERSION              => $OSVersion,
         KERNEL_VERSION       => $OSVersion,
-        FULL_NAME            => $OSNAME
+        FULL_NAME            => $OSNAME,
+        BOOT_TIME            => getFormatedLocalTime($boottime)
     });
 }
 

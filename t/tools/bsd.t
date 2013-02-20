@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Tools::BSD;
@@ -13,7 +14,7 @@ my %ifconfig_tests = (
             DESCRIPTION => 're0',
             STATUS      => 'Up',
             MTU         => '1500',
-            TYPE        => 'Ethernet',
+            TYPE        => 'ethernet',
             MACADDR     => 'c8:0a:a9:3f:35:fa',
             IPADDRESS   => '129.132.95.98',
             IPMASK      => '255.255.255.192',
@@ -75,7 +76,7 @@ my %ifconfig_tests = (
             DESCRIPTION => 'bce0',
             STATUS      => 'Up',
             MTU         => '1500',
-            TYPE        => 'Ethernet',
+            TYPE        => 'ethernet',
             MACADDR     => '00:16:18:87:ca:b5',
             IPADDRESS   => '11.105.11.105',
             IPMASK      => '255.255.255.192',
@@ -86,7 +87,7 @@ my %ifconfig_tests = (
             DESCRIPTION => 'bce0',
             STATUS      => 'Up',
             MTU         => '1500',
-            TYPE        => 'Ethernet',
+            TYPE        => 'ethernet',
             MACADDR     => '00:16:18:87:ca:b5',
             IPADDRESS   => '11.105.11.110',
             IPMASK      => '255.255.255.255',
@@ -97,7 +98,7 @@ my %ifconfig_tests = (
             DESCRIPTION => 'bce0',
             STATUS      => 'Up',
             MTU         => '1500',
-            TYPE        => 'Ethernet',
+            TYPE        => 'ethernet',
             MACADDR     => '00:16:18:87:ca:b5',
             IPADDRESS   => '11.105.11.111',
             IPMASK      => '255.255.255.255',
@@ -108,7 +109,7 @@ my %ifconfig_tests = (
             DESCRIPTION => 'bce1',
             STATUS      => 'Up',
             MTU         => '1500',
-            TYPE        => 'Ethernet',
+            TYPE        => 'ethernet',
             MACADDR     => '00:16:18:87:ca:b6',
             IPADDRESS   => '192.168.12.105',
             IPMASK      => '255.255.255.0',
@@ -152,7 +153,7 @@ my %ifconfig_tests = (
             MACADDR     => '00:23:18:cf:0d:93',
             STATUS      => 'Up',
             DESCRIPTION => 'em0',
-            TYPE        => 'Ethernet'
+            TYPE        => 'ethernet'
         },
         {
             MTU         => '16384',
@@ -204,7 +205,7 @@ my %ifconfig_tests = (
             MACADDR     => '4c:ed:de:2c:9d:9a',
             STATUS      => 'Up',
             DESCRIPTION => 'ndis0',
-            TYPE        => 'IEEE'
+            TYPE        => 'wifi'
         },
         {
             MTU         => '1500',
@@ -213,7 +214,7 @@ my %ifconfig_tests = (
             MACADDR     => '4c:ed:de:2c:9d:9a',
             DESCRIPTION => 'wlan0',
             STATUS      => 'Up',
-            TYPE        => 'IEEE',
+            TYPE        => 'wifi',
             IPADDRESS   => '192.168.0.158'
         },
         {
@@ -229,5 +230,5 @@ plan tests => scalar keys %ifconfig_tests;
 foreach my $test (keys %ifconfig_tests) {
     my $file = "resources/generic/ifconfig/$test";
     my @interfaces = getInterfacesFromIfconfig(file => $file);
-    is_deeply(\@interfaces, $ifconfig_tests{$test}, $test);
+    cmp_deeply(\@interfaces, $ifconfig_tests{$test}, $test);
 }

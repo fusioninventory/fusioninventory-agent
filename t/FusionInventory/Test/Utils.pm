@@ -12,8 +12,9 @@ use FusionInventory::Agent::Tools;
 our @EXPORT = qw(
     test_port
     test_localhost
-    mockGetWmiObjects
+    mockGetWMIObjects
     mockGetRegistryKey
+    unsetProxyEnvVar
 );
 
 sub test_port {
@@ -37,7 +38,7 @@ sub test_localhost {
     return inet_aton('localhost');
 }
 
-sub mockGetWmiObjects {
+sub mockGetWMIObjects {
     my ($test) = @_;
 
     return sub {
@@ -145,12 +146,15 @@ sub loadRegistryDump {
         }
 
         if ($line =~ /^ " ([^"]+) " = dword:(\d+)/x) {
-            $current_key->{'/' . $1} = "0x$2";
+            my ($key, $value) = ($1, $2);
+            $current_key->{'/' . $key} = "0x$value";
             next;
         }
 
         if ($line =~ /^ " ([^"]+) " = " ([^"]+) "/x) {
-            $current_key->{'/' . $1} = $2;
+            my ($key, $value) = ($1, $2);
+            $value =~ s{\\\\}{\\}g;
+            $current_key->{'/' . $key} = $value;
             next;
         }
 
@@ -158,4 +162,10 @@ sub loadRegistryDump {
     close $handle;
 
     return $root_key;
+}
+
+sub unsetProxyEnvVar {
+    foreach my $key (qw(http_proxy https_proxy HTTP_PROXY HTTPS_PROXY)) {
+         $ENV{$key}=undef;
+    }
 }

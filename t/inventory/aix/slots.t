@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::AIX::Slots;
@@ -290,5 +291,5 @@ plan tests => scalar keys %tests;
 foreach my $test (keys %tests) {
     my $file = "resources/aix/lsdev/$test-adapter";
     my @slots = FusionInventory::Agent::Task::Inventory::Input::AIX::Slots::_getSlots(file => $file);
-    is_deeply(\@slots, $tests{$test}, "slots: $test");
+    cmp_deeply(\@slots, $tests{$test}, "slots: $test");
 }

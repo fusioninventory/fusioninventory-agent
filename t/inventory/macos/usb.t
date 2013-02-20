@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::MacOS::USB;
@@ -107,5 +108,5 @@ plan tests => scalar keys %tests;
 foreach my $test (keys %tests) {
     my $file = "resources/macos/ioreg/$test";
     my @devices = FusionInventory::Agent::Task::Inventory::Input::MacOS::USB::_getDevices(file => $file);
-    is_deeply(\@devices, $tests{$test}, $test);
+    cmp_deeply(\@devices, $tests{$test}, $test);
 }

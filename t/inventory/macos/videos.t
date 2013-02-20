@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::MacOS::Videos;
@@ -40,9 +41,8 @@ my %tests = (
 );
 
 plan tests => scalar keys %tests;
-use Data::Dumper;
 foreach my $test (keys %tests) {
     my $file = "resources/macos/system_profiler/$test";
     my %displays = FusionInventory::Agent::Task::Inventory::Input::MacOS::Videos::_getDisplays(file => $file);
-    is_deeply(\%displays, $tests{$test}, $test) or print Dumper(\%displays);
+    cmp_deeply(\%displays, $tests{$test}, $test);
 }

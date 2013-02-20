@@ -6,8 +6,9 @@ use utf8;
 use lib 't';
 
 use English qw(-no_match_vars);
-use Test::More;
+use Test::Deep;
 use Test::MockModule;
+use Test::More;
 
 use FusionInventory::Test::Utils;
 
@@ -34,7 +35,7 @@ my %tests = (
             VIRTUALDEV  => 0,
             SPEED       => 100000000,
             PNPDEVICEID => 'PCI\VEN_10EC&DEV_8168&SUBSYS_84321043&REV_06\4&87D54EE&0&00E5',
-            TYPE        => 'Ethernet'
+            TYPE        => 'ethernet'
         },
         {
             dns         => '192.168.0.254',
@@ -50,7 +51,7 @@ my %tests = (
             VIRTUALDEV  => 0,
             SPEED       => 100000000,
             PNPDEVICEID => 'PCI\VEN_10EC&DEV_8168&SUBSYS_84321043&REV_06\4&87D54EE&0&00E5',
-            TYPE        => 'Ethernet'
+            TYPE        => 'ethernet'
         },
         {
             dns         => undef,
@@ -62,7 +63,7 @@ my %tests = (
             IPDHCP      => undef,
             VIRTUALDEV  => 0,
             PNPDEVICEID => 'BTH\MS_BTHPAN\7&42D85A8&0&2',
-            TYPE        => 'Ethernet',
+            TYPE        => 'ethernet',
             SPEED       => 0
         },
     ],
@@ -74,7 +75,7 @@ my %tests = (
             PNPDEVICEID => 'ROOT\\MS_PPTPMINIPORT\\0000',
             MACADDR     => '50:50:54:50:30:30',
             STATUS      => 'Up',
-            TYPE        => "Red de \x{e1}rea extensa (WAN)",
+            TYPE        => undef,
             SPEED       => undef,
             IPDHCP      => undef,
             MTU         => undef,
@@ -87,7 +88,7 @@ my %tests = (
             PNPDEVICEID => 'ROOT\\MS_PPPOEMINIPORT\\0000',
             MACADDR     => '33:50:6F:45:30:30',
             STATUS      => 'Up',
-            TYPE        => "Red de \x{e1}rea extensa (WAN)",
+            TYPE        => undef,
             SPEED       => undef,
             IPDHCP      => undef,
             MTU         => undef,
@@ -100,7 +101,7 @@ my %tests = (
             PNPDEVICEID => 'ROOT\\MS_PSCHEDMP\\0000',
             MACADDR     => '26:0F:20:52:41:53',
             STATUS      => 'Up',
-            TYPE        => 'Ethernet',
+            TYPE        => 'ethernet',
             SPEED       => undef,
             IPDHCP      => undef,
             MTU         => undef,
@@ -114,7 +115,7 @@ my %tests = (
             PNPDEVICEID => 'PCI\\VEN_14E4&DEV_1677&SUBSYS_3006103C&REV_01\\4&1886B119&0&00E1',
             MACADDR     => '00:14:C2:0D:B0:FB',
             STATUS      => 'Up',
-            TYPE        => 'Ethernet',
+            TYPE        => 'ethernet',
             SPEED       => undef,
             IPDHCP      => '10.36.6.100',
             IPSUBNET    => '10.36.6.0',
@@ -129,7 +130,7 @@ my %tests = (
             PNPDEVICEID => 'ROOT\\MS_PSCHEDMP\\0002',
             MACADDR     => '00:14:C2:0D:B0:FB',
             STATUS      => 'Up',
-            TYPE        => 'Ethernet',
+            TYPE        => 'ethernet',
             SPEED       => undef,
             IPDHCP      => undef,
             MTU         => undef,
@@ -142,7 +143,7 @@ my %tests = (
             PNPDEVICEID => 'ROOT\\SYMC_TEEFER2MP\\0000',
             MACADDR     => '00:14:C2:0D:B0:FB',
             STATUS      => 'Up',
-            TYPE        => 'Ethernet',
+            TYPE        => 'ethernet',
             SPEED       => undef,
             IPDHCP      => undef,
             MTU         => undef,
@@ -155,7 +156,7 @@ my %tests = (
             PNPDEVICEID => 'ROOT\\SYMC_TEEFER2MP\\0002',
             MACADDR     => '26:0F:20:52:41:53',
             STATUS      => 'Up',
-            TYPE        => 'Ethernet',
+            TYPE        => 'ethernet',
             SPEED       => undef,
             IPDHCP      => undef,
             MTU         => undef,
@@ -172,12 +173,12 @@ my $module = Test::MockModule->new(
 
 foreach my $test (keys %tests) {
     $module->mock(
-        'getWmiObjects',
-        mockGetWmiObjects($test)
+        'getWMIObjects',
+        mockGetWMIObjects($test)
     );
 
     my @interfaces = FusionInventory::Agent::Task::Inventory::Input::Win32::Networks::_getInterfaces();
-    is_deeply(
+    cmp_deeply(
         \@interfaces,
         $tests{$test},
         "$test sample"

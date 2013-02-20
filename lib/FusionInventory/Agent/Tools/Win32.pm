@@ -3,13 +3,16 @@ package FusionInventory::Agent::Tools::Win32;
 use strict;
 use warnings;
 use base 'Exporter';
+use utf8;
 
 use constant KEY_WOW64_64 => 0x100;
 use constant KEY_WOW64_32 => 0x200;
 
+use Cwd;
 use Encode;
 use English qw(-no_match_vars);
-
+use File::Temp qw(:seekable tempfile);
+use Win32::Job;
 use Win32::OLE qw(in);
 use Win32::OLE::Const;
 use Win32::TieRegistry (
@@ -18,16 +21,9 @@ use Win32::TieRegistry (
     qw/KEY_READ/
 );
 
-use utf8;
-
-use File::Temp qw(:seekable tempfile);
-use Win32::Job;
-
-use Cwd;
+use FusionInventory::Agent::Tools;
 
 Win32::OLE->Option(CP => Win32::OLE::CP_UTF8);
-
-use FusionInventory::Agent::Tools;
 
 my $localCodepage;
 
@@ -38,7 +34,7 @@ our @EXPORT = qw(
     KEY_WOW64_32
     getRegistryValue
     getRegistryKey
-    getWmiObjects
+    getWMIObjects
     getLocalCodepage
     runCommand
     parseProductKey
@@ -47,7 +43,7 @@ our @EXPORT = qw(
 sub is64bit {
     return
         any { $_->{AddressWidth} eq 64 }
-        getWmiObjects(
+        getWMIObjects(
             class => 'Win32_Processor', properties => [ qw/AddressWidth/ ]
         );
 }
@@ -75,7 +71,7 @@ sub encodeFromRegistry {
     return decode(getLocalCodepage(), $string);
 }
 
-sub getWmiObjects {
+sub getWMIObjects {
     my (%params) = (
         moniker => 'winmgmts:{impersonationLevel=impersonate,(security)}!//./',
         @_
@@ -295,7 +291,7 @@ Returns true if the OS is 64bit or false.
 
 Returns the local codepage.
 
-=head2 getWmiObjects(%params)
+=head2 getWMIObjects(%params)
 
 Returns the list of objects from given WMI class, with given properties, properly encoded.
 

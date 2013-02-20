@@ -1,27 +1,5 @@
 package FusionInventory::Agent::Task::Inventory::Input::Virtualization::Vmsystem;
 
-# Contains code from imvirt:
-# URL: http://micky.ibh.net/~liske/imvirt.html
-# Authors:  Thomas Liske <liske@ibh.de>
-# Copyright: 2008 IBH IT-Service GmbH [http://www.ibh.de/]
-# License: GPLv2+
-
-
-##
-#
-# Outputs:
-#   Xen
-#   VirtualBox
-#   Virtual Machine
-#   VMware
-#   QEMU
-#   SolarisZone
-#
-# If no virtualization has been detected:
-#   Physical
-#
-##
-
 use strict;
 use warnings;
 
@@ -72,22 +50,6 @@ my %module_patterns = (
     '^xen_\w+front\s' => 'Xen',
 );
 
-sub _getOpenVZVmID {
-    my $handle = getFileHandle(
-        file => '/proc/self/status',
-        @_
-    );
-
-    my $vmid;
-
-    while (my $line = <$handle>) {
-        next unless $line =~ /^envID:\s*(\d+)/;
-        $vmid = $1 if $1 > 0;
-    }
-
-    return $vmid;
-}
-
 sub isEnabled {
     return 1;
 }
@@ -101,11 +63,11 @@ sub doInventory {
     # return immediatly if vm type has already been found
     return if $inventory->{content}{HARDWARE}{VMSYSTEM} ne "Physical";
 
-    my $status = _getStatus($logger);
+    my $type = _getType($logger);
 
     # for consistency with HVM domU
     if (
-        $status eq 'Xen' &&
+        $type eq 'Xen' &&
         !$inventory->{h}{CONTENT}{BIOS}{SMANUFACTURER}
     ) {
         $inventory->setBios({
@@ -114,34 +76,20 @@ sub doInventory {
         });
     }
 
+    my $vmid = $type eq 'Virtuozzo' ?
+        _getOpenVZVmID(logger => $logger) : undef;
 
-    my $uuid;
-    my $vmid;
+    my $uuid = $type eq 'Xen' ?
+        _getXenUUID(logger => $logger) : undef;
 
-    if ( $status eq 'Virtuozzo' ) {
-        $vmid = _getOpenVZVmID( logger => $logger );
-    }
-
-    if ( $status eq 'Xen' ) {
-        if (-f '/sys/hypervisor/uuid') {
-            $uuid = getFirstLine(
-                file => '/sys/hypervisor/uuid',
-                logger => $logger
-            );
-        }
-    }
-
-    my $h;
-
-    $h -> { VMSYSTEM } = $status;
-    $h -> { UUID } = $uuid if $uuid;
-    $h -> { VMID } = $vmid if $vmid;
-
-    $inventory->setHardware($h);
-
+    $inventory->setHardware({
+        VMSYSTEM => $type,
+        UUID     => $uuid,
+        VMID     => $vmid
+    });
 }
 
-sub _getStatus {
+sub _getType {
     my ($logger) = @_;
 
     # Solaris zones
@@ -254,6 +202,21 @@ sub _matchPatterns {
         return 'VirtualBox'      if $line =~ $virtualbox_pattern;
         return 'Xen'             if $line =~ $xen_pattern;
     }
+}
+
+sub _getOpenVZVmID {
+    return getFirstMatch(
+        file    => '/proc/self/status',
+        pattern => qr/^envID:\s*(\d+)/,
+        @_
+    );
+}
+
+sub _getXenUUID {
+    return getFirstLine(
+        file => '/sys/hypervisor/uuid',
+        @_
+    );
 }
 
 1;

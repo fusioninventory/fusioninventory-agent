@@ -48,7 +48,7 @@ sub _getCPUs {
     my $cpuId = 0;
     my @cpus;
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_Processor',
         properties => [ qw/NumberOfCores ProcessorId MaxClockSpeed/ ]
     )) {

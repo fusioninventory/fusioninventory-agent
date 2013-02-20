@@ -4,8 +4,9 @@ use strict;
 use warnings;
 
 use Config;
-use Test::More;
+use Test::Deep;
 use Test::Exception;
+use Test::More;
 use XML::TreePP;
 
 use FusionInventory::Agent::XML::Query::Inventory;
@@ -30,7 +31,7 @@ isa_ok($query, 'FusionInventory::Agent::XML::Query::Inventory');
 
 my $tpp = XML::TreePP->new();
 
-is_deeply(
+cmp_deeply(
     scalar $tpp->parse($query->getContent()),
     {
         REQUEST => {
@@ -60,7 +61,7 @@ $query = FusionInventory::Agent::XML::Query::Inventory->new(
     content => $inventory->getContent()
 );
 
-is_deeply(
+cmp_deeply(
     scalar $tpp->parse($query->getContent()),
     {
         REQUEST => {

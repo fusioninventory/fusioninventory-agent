@@ -46,10 +46,10 @@ sub doInventory {
     });
 
     $inventory->setOperatingSystem({
-        NAME                 => "Solaris",
-        VERSION              => $OSLevel,
-        KERNEL_VERSION       => $OSComment,
-        FULL_NAME            => "$OSName $OSLevel"
+        NAME           => "Solaris",
+        VERSION        => $OSLevel,
+        KERNEL_VERSION => $OSComment,
+        FULL_NAME      => "$OSName $OSLevel"
     });
 }
 

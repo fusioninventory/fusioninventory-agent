@@ -16,7 +16,7 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_VideoController',
         properties => [ qw/
             CurrentHorizontalResolution CurrentVerticalResolution VideoProcessor

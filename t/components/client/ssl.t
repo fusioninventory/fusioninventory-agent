@@ -14,6 +14,8 @@ use FusionInventory::Agent::HTTP::Client;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
 
+unsetProxyEnvVar();
+
 # find an available port
 my $port = first { test_port($_) } 8080 .. 8090;
 
@@ -73,7 +75,10 @@ $server = FusionInventory::Test::Server->new(
 $server->set_dispatch({
     '/public'  => $ok,
 });
-$server->background();
+eval {
+    $server->background();
+};
+BAIL_OUT("can't launch the server: $EVAL_ERROR") if $EVAL_ERROR;
 
 ok(
     $secure_client->request(HTTP::Request->new(GET => $url))->is_success(),
@@ -92,7 +97,10 @@ $server = FusionInventory::Test::Server->new(
 $server->set_dispatch({
     '/public'  => $ok,
 });
-$server->background();
+eval {
+    $server->background();
+};
+BAIL_OUT("can't launch the server: $EVAL_ERROR") if $EVAL_ERROR;
 
 ok(
     $secure_sha256_client->request(HTTP::Request->new(GET => $url))->is_success(),
@@ -111,7 +119,10 @@ $server = FusionInventory::Test::Server->new(
 $server->set_dispatch({
     '/public'  => $ok,
 });
-$server->background();
+eval {
+    $server->background();
+};
+BAIL_OUT("can't launch the server: $EVAL_ERROR") if $EVAL_ERROR;
 
 
 SKIP: {
@@ -138,7 +149,10 @@ SKIP: {
     $server->set_dispatch({
         '/public'  => $ok,
     });
-    $server->background();
+    eval {
+        $server->background();
+    };
+    BAIL_OUT("can't launch the server: $EVAL_ERROR") if $EVAL_ERROR;
 
     ok(
         $secure_client->request(
@@ -160,7 +174,10 @@ $server = FusionInventory::Test::Server->new(
 $server->set_dispatch({
     '/public'  => $ok,
 });
-$server->background();
+eval {
+    $server->background();
+};
+BAIL_OUT("can't launch the server: $EVAL_ERROR") if $EVAL_ERROR;
 
 ok(
     !$secure_client->request(HTTP::Request->new(GET => $url))->is_success(),
@@ -184,7 +201,10 @@ $server = FusionInventory::Test::Server->new(
 $server->set_dispatch({
     '/public'  => $ok,
 });
-$server->background();
+eval {
+    $server->background();
+};
+BAIL_OUT("can't launch the server: $EVAL_ERROR") if $EVAL_ERROR;
 
 ok(
     !$secure_client->request(HTTP::Request->new(GET => $url))->is_success(),

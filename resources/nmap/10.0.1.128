@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<?xml-stylesheet href="file:///usr/share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 5.21 scan initiated Sat Mar 26 18:38:29 2011 as: nmap -v -v -v -sP -PP -&#45;system-dns -&#45;max-retries 1 -&#45;max-rtt-timeout 1000ms -oX - 10.0.1.1 10.0.1.128 -->
+<nmaprun scanner="nmap" args="nmap -v -v -v -sP -PP -&#45;system-dns -&#45;max-retries 1 -&#45;max-rtt-timeout 1000ms -oX - 10.0.1.1 10.0.1.128" start="1301161109" startstr="Sat Mar 26 18:38:29 2011" version="5.21" xmloutputversion="1.03">
+<verbose level="3" />
+<debugging level="0" />
+<taskbegin task="ARP Ping Scan" time="1301161109" />
+<taskend task="ARP Ping Scan" time="1301161109" extrainfo="1 total hosts" />
+<taskbegin task="System DNS resolution of 1 host." time="1301161109" />
+<taskend task="System DNS resolution of 1 host." time="1301161109" />
+<host><status state="up" reason="arp-response"/>
+<address addr="10.0.1.1" addrtype="ipv4" />
+<address addr="00:1D:7E:43:96:57" addrtype="mac" vendor="Cisco-Linksys" />
+<hostnames>
+<hostname name="dd-wrt.lan" type="PTR"/>
+</hostnames>
+<times srtt="4438" rttvar="5000" to="100000" />
+</host>
+<taskbegin task="System DNS resolution of 1 host." time="1301161109" />
+<taskend task="System DNS resolution of 1 host." time="1301161109" />
+<host><status state="up" reason="localhost-response"/>
+<address addr="10.0.1.128" addrtype="ipv4" />
+<hostnames>
+<hostname name="tosh-r630.local" type="PTR"/>
+</hostnames>
+</host>
+<runstats><finished time="1301161109" timestr="Sat Mar 26 18:38:29 2011" elapsed="0.13"/><hosts up="2" down="0" total="2" />
+<!-- Nmap done at Sat Mar 26 18:38:29 2011; 2 IP addresses (2 hosts up) scanned in 0.13 seconds -->
+</runstats></nmaprun>

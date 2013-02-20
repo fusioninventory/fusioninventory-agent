@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::Solaris::Slots;
@@ -62,5 +63,5 @@ plan tests => scalar keys %slots4_tests;
 foreach my $test (keys %slots4_tests) {
     my $file = "resources/solaris/prtdiag/$test";
     my @slots = FusionInventory::Agent::Task::Inventory::Input::Solaris::Slots::_getSlots4(file => $file);
-    is_deeply(\@slots, $slots4_tests{$test}, $test);
+    cmp_deeply(\@slots, $slots4_tests{$test}, $test);
 }

@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::Linux::Archs::i386;
@@ -299,37 +300,36 @@ plan tests =>
 foreach my $test (keys %i386) {
     my $file = "resources/linux/proc/cpuinfo/$test";
     my ($procs, $cores) = FusionInventory::Agent::Task::Inventory::Input::Linux::Archs::i386::_getCPUsFromProc(file => $file);
-    is_deeply($procs, $i386{$test}->{procs}, "procs: ".$test);
-    is_deeply($cores, $i386{$test}->{cores}, "cores: ".$test);
+    cmp_deeply($procs, $i386{$test}->{procs}, "procs: ".$test);
+    cmp_deeply($cores, $i386{$test}->{cores}, "cores: ".$test);
 }
 
 foreach my $test (keys %alpha) {
     my $file = "resources/linux/proc/cpuinfo/$test";
     my @cpus = FusionInventory::Agent::Task::Inventory::Input::Linux::Archs::Alpha::_getCPUsFromProc(file => $file);
-    is_deeply(\@cpus, $alpha{$test}, $test);
+    cmp_deeply(\@cpus, $alpha{$test}, $test);
 }
 
 foreach my $test (keys %sparc) {
     my $file = "resources/linux/proc/cpuinfo/$test";
     my @cpus = FusionInventory::Agent::Task::Inventory::Input::Linux::Archs::SPARC::_getCPUsFromProc(file => $file);
-    is_deeply(\@cpus, $sparc{$test}, $test);
+    cmp_deeply(\@cpus, $sparc{$test}, $test);
 }
 
 foreach my $test (keys %mips) {
     my $file = "resources/linux/proc/cpuinfo/$test";
     my @cpus = FusionInventory::Agent::Task::Inventory::Input::Linux::Archs::MIPS::_getCPUsFromProc(file => $file);
-    is_deeply(\@cpus, $mips{$test}, $test);
+    cmp_deeply(\@cpus, $mips{$test}, $test);
 }
 
 foreach my $test (keys %arm) {
     my $file = "resources/linux/proc/cpuinfo/$test";
     my @cpus = FusionInventory::Agent::Task::Inventory::Input::Linux::Archs::ARM::_getCPUsFromProc(file => $file);
-    is_deeply(\@cpus, $arm{$test}, $test) or print Dumper(\@cpus);
-    use Data::Dumper;
+    cmp_deeply(\@cpus, $arm{$test}, $test);
 }
 
 foreach my $test (keys %ppc) {
     my $file = "resources/linux/proc/cpuinfo/$test";
     my @cpus = FusionInventory::Agent::Task::Inventory::Input::Linux::Archs::PowerPC::_getCPUsFromProc(file => $file);
-    is_deeply(\@cpus, $ppc{$test}, $test);
+    cmp_deeply(\@cpus, $ppc{$test}, $test);
 }

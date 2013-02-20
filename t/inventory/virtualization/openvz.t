@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::Virtualization::VirtualBox;
@@ -273,5 +274,5 @@ plan tests => scalar keys %tests;
 foreach my $test (keys %tests) {
     my $file = "resources/virtualization/vboxmanage/$test";
     my @machines = FusionInventory::Agent::Task::Inventory::Input::Virtualization::VirtualBox::_parseVBoxManage(file => $file);
-    is_deeply(\@machines, $tests{$test}, $test);
+    cmp_deeply(\@machines, $tests{$test}, $test);
 }

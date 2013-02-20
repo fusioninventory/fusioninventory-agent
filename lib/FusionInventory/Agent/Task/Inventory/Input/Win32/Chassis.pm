@@ -3,7 +3,7 @@ package FusionInventory::Agent::Task::Inventory::Input::Win32::Chassis;
 use strict;
 use warnings;
 
-use Win32::OLE qw(in);
+use FusionInventory::Agent::Tools::Win32;
 
 my @chassisType = (
     'Unknown',
@@ -42,19 +42,24 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $WMIService = Win32::OLE->GetObject(
-        'winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\cimv2'
-    ) or die "WMI connection failed: " . Win32::OLE->LastError();
-
-    my $enclosures = $WMIService->ExecQuery('SELECT * FROM Win32_SystemEnclosure');
-    my ($enclosure) = (in $enclosures);
-
-    return unless $enclosure;
-
-    my $chassisTypeId = $enclosure->ChassisTypes->[0];
     $inventory->setHardware({
-        CHASSIS_TYPE => $chassisType[$chassisTypeId]
+        CHASSIS_TYPE => _getChassis(logger => $params{logger})
     });
+}
+
+sub _getChassis {
+    my (%params) = @_;
+
+    my $chassis;
+
+    foreach my $object (getWMIObjects(
+        class      => 'Win32_SystemEnclosure',
+        properties => [ qw/ChassisTypes/ ]
+    )) {
+        $chassis = $chassisType[$object->{ChassisTypes}->[0]];
+    }
+
+    return $chassis;
 }
 
 1;

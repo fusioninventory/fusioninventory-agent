@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::AIX::Softwares;
@@ -15011,5 +15012,5 @@ plan tests => scalar keys %tests;
 foreach my $test (keys %tests) {
     my $file = "resources/aix/lslpp/$test";
     my $softwares = FusionInventory::Agent::Task::Inventory::Input::AIX::Softwares::_getSoftwaresList(file => $file);
-    is_deeply($softwares, $tests{$test}, "software: $test");
+    cmp_deeply($softwares, $tests{$test}, "software: $test");
 }

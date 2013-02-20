@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::HPUX::Networks;
@@ -504,6 +505,7 @@ my %netstat_tests = (
                 IPGATEWAY   => undef,
                 IPMASK      => '255.255.255.255',
                 DESCRIPTION => 'lan0',
+                TYPE        => 'ethernet',
                 IPADDRESS   => '172.24.70.121'
             }
         ],
@@ -513,6 +515,7 @@ my %netstat_tests = (
                 IPGATEWAY   => undef,
                 IPMASK      => '255.255.255.255',
                 DESCRIPTION => 'lo0',
+                TYPE        => 'ethernet',
                 IPADDRESS   => '127.0.0.1'
             }
           ]
@@ -525,6 +528,7 @@ my %netstat_tests = (
                 IPGATEWAY   => undef,
                 IPMASK      => '255.255.255.255',
                 DESCRIPTION => 'lan0',
+                TYPE        => 'ethernet',
                 IPADDRESS   => '10.0.4.55'
             },
             {
@@ -532,6 +536,7 @@ my %netstat_tests = (
                 IPGATEWAY   => undef,
                 IPMASK      => '255.255.255.255',
                 DESCRIPTION => 'lan0',
+                TYPE        => 'ethernet',
                 IPADDRESS   => '10.0.4.56'
             }
         ],
@@ -541,6 +546,7 @@ my %netstat_tests = (
                 IPGATEWAY   => undef,
                 IPMASK      => '255.255.255.255',
                 DESCRIPTION => 'lo0',
+                TYPE        => 'ethernet',
                 IPADDRESS   => '127.0.0.1'
             }
           ]
@@ -553,6 +559,7 @@ my %netstat_tests = (
                 IPGATEWAY   => undef,
                 IPMASK      => '255.255.255.255',
                 DESCRIPTION => 'lan0',
+                TYPE        => 'ethernet',
                 IPADDRESS   => '10.0.3.60'
             }
         ],
@@ -562,6 +569,7 @@ my %netstat_tests = (
                 IPGATEWAY   => undef,
                 IPMASK      => '255.255.255.255',
                 DESCRIPTION => 'lo0',
+                TYPE        => 'ethernet',
                 IPADDRESS   => '127.0.0.1'
             }
           ]
@@ -573,6 +581,7 @@ my %netstat_tests = (
                 IPGATEWAY   => undef,
                 IPMASK      => '255.255.255.255',
                 DESCRIPTION => 'lan5000',
+                TYPE        => 'ethernet',
                 IPADDRESS   => '10.46.236.71'
             },
             {
@@ -580,6 +589,7 @@ my %netstat_tests = (
                 IPGATEWAY   => undef,
                 IPMASK      => '255.255.255.255',
                 DESCRIPTION => 'lan5000',
+                TYPE        => 'ethernet',
                 IPADDRESS   => '10.46.236.121'
             }
         ],
@@ -589,6 +599,7 @@ my %netstat_tests = (
                 IPGATEWAY   => undef,
                 IPMASK      => '255.255.255.255',
                 DESCRIPTION => 'lan5001',
+                TYPE        => 'ethernet',
                 IPADDRESS   => '10.46.228.71'
             }
         ],
@@ -598,6 +609,7 @@ my %netstat_tests = (
                 IPGATEWAY   => undef,
                 IPMASK      => '255.255.255.255',
                 DESCRIPTION => 'lo0',
+                TYPE        => 'ethernet',
                 IPADDRESS   => '127.0.0.1'
             }
         ]
@@ -609,252 +621,294 @@ my %lanscan_tests = (
         {
             lan_id      => '1',
             DESCRIPTION => 'lan1',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:17:A4:77:08:A4'
         },
         {
             lan_id      => '10',
             DESCRIPTION => 'lan10',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:17:A4:77:08:E8'
         },
         {
             lan_id      => '11',
             DESCRIPTION => 'lan11',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:17:A4:77:08:EC'
         },
         {
             lan_id      => '12',
             DESCRIPTION => 'lan12',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '1C:C1:DE:40:C6:BE'
         },
         {
             lan_id      => '13',
             DESCRIPTION => 'lan13',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '1C:C1:DE:40:C6:C2'
         },
         {
             lan_id      => '14',
             DESCRIPTION => 'lan14',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '1C:C1:DE:40:C6:BF'
         },
         {
             lan_id      => '15',
             DESCRIPTION => 'lan15',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '1C:C1:DE:40:C6:C3'
         },
         {
             lan_id      => '2',
             DESCRIPTION => 'lan2',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:17:A4:77:08:A8'
         },
         {
             lan_id      => '3',
             DESCRIPTION => 'lan3',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:17:A4:77:08:AC'
         },
         {
             lan_id      => '16',
             DESCRIPTION => 'lan16',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:17:A4:77:08:F0'
         },
         {
             lan_id      => '17',
             DESCRIPTION => 'lan17',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:17:A4:77:08:F4'
         },
         {
             lan_id      => '18',
             DESCRIPTION => 'lan18',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '1C:C1:DE:40:C6:C6'
         },
         {
             lan_id      => '19',
             DESCRIPTION => 'lan19',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '1C:C1:DE:40:C6:CA'
         },
         {
             lan_id      => '20',
             DESCRIPTION => 'lan20',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '1C:C1:DE:40:C6:C7'
         },
         {
             lan_id      => '21',
             DESCRIPTION => 'lan21',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '1C:C1:DE:40:C6:CB'
         },
         {
             lan_id      => '22',
             DESCRIPTION => 'lan22',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:17:A4:77:08:F8'
         },
         {
             lan_id      => '37',
             DESCRIPTION => 'lan37',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:17:A4:77:08:FC'
         },
         {
             lan_id      => '23',
             DESCRIPTION => 'lan23',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => 'D8:D3:85:D8:14:62'
         },
         {
             lan_id      => '38',
             DESCRIPTION => 'lan38',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => 'D8:D3:85:D8:14:66'
         },
         {
             lan_id      => '24',
             DESCRIPTION => 'lan24',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => 'D8:D3:85:D8:14:63'
         },
         {
             lan_id      => '39',
             DESCRIPTION => 'lan39',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => 'D8:D3:85:D8:14:67'
         },
         {
             lan_id      => '6',
             DESCRIPTION => 'lan6',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:17:A4:77:08:A2'
         },
         {
             lan_id      => '7',
             DESCRIPTION => 'lan7',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:17:A4:77:08:A6'
         },
         {
             lan_id      => '25',
             DESCRIPTION => 'lan25',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:17:A4:77:08:B2'
         },
         {
             lan_id      => '26',
             DESCRIPTION => 'lan26',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:17:A4:77:08:E6'
         },
         {
             lan_id      => '27',
             DESCRIPTION => 'lan27',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:17:A4:77:08:F2'
         },
         {
             lan_id      => '28',
             DESCRIPTION => 'lan28',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:17:A4:77:08:F6'
         },
         {
             lan_id      => '29',
             DESCRIPTION => 'lan29',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '1C:C1:DE:40:E6:4B'
         },
         {
             lan_id      => '30',
             DESCRIPTION => 'lan30',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '1C:C1:DE:40:E6:4F'
         },
         {
             lan_id      => '8',
             DESCRIPTION => 'lan8',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:17:A4:77:08:AA'
         },
         {
             lan_id      => '9',
             DESCRIPTION => 'lan9',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:17:A4:77:08:AE'
         },
         {
             lan_id      => '31',
             DESCRIPTION => 'lan31',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:17:A4:77:08:EA'
         },
         {
             lan_id      => '32',
             DESCRIPTION => 'lan32',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:17:A4:77:08:EE'
         },
         {
             lan_id      => '33',
             DESCRIPTION => 'lan33',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:17:A4:77:08:FA'
         },
         {
             lan_id      => '34',
             DESCRIPTION => 'lan34',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:17:A4:77:08:FE'
         },
         {
             lan_id      => '35',
             DESCRIPTION => 'lan35',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '1C:C1:DE:40:E6:53'
         },
         {
             lan_id      => '36',
             DESCRIPTION => 'lan36',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '1C:C1:DE:40:E6:57'
         },
         {
             lan_id      => '900',
             DESCRIPTION => 'lan900',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:17:A4:77:08:A0'
         },
         {
             lan_id      => '901',
             DESCRIPTION => 'lan901',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:00:00:00:00:00'
         },
         {
             lan_id      => '902',
             DESCRIPTION => 'lan902',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:17:A4:77:08:B0'
         },
         {
             lan_id      => '903',
             DESCRIPTION => 'lan903',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:00:00:00:00:00'
         },
         {
             lan_id      => '904',
             DESCRIPTION => 'lan904',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:00:00:00:00:00'
         }
@@ -863,12 +917,14 @@ my %lanscan_tests = (
         {
             lan_id      => '0',
             DESCRIPTION => 'lan0',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:16:35:3E:AC:5C'
         },
         {
             lan_id      => '1',
             DESCRIPTION => 'lan1',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:16:35:3E:AC:5D'
         }
@@ -877,42 +933,49 @@ my %lanscan_tests = (
         {
             lan_id      => '0',
             DESCRIPTION => 'lan0',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:16:35:3E:AC:44'
         },
         {
             lan_id      => '1',
             DESCRIPTION => 'lan1',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:16:35:3E:AC:45'
         },
         {
             lan_id      => '900',
             DESCRIPTION => 'lan900',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:00:00:00:00:00'
         },
         {
             lan_id      => '901',
             DESCRIPTION => 'lan901',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:00:00:00:00:00'
         },
         {
             lan_id      => '902',
             DESCRIPTION => 'lan902',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:00:00:00:00:00'
         },
         {
             lan_id      => '903',
             DESCRIPTION => 'lan903',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:00:00:00:00:00'
         },
         {
             lan_id      => '904',
             DESCRIPTION => 'lan904',
+            TYPE        => 'ethernet',
             STATUS      => 'Down',
             MACADDR     => '00:00:00:00:00:00'
         }
@@ -930,29 +993,29 @@ plan tests =>
 foreach my $test (keys %lanadmin_tests) {
     my $file = "resources/hpux/lanadmin/$test";
     my $info = FusionInventory::Agent::Task::Inventory::Input::HPUX::Networks::_getLanadminInfo(file => $file);
-    is_deeply($info, $lanadmin_tests{$test}, "lanadmin parsing: $test");
+    cmp_deeply($info, $lanadmin_tests{$test}, "lanadmin parsing: $test");
 }
 
 foreach my $test (keys %ifconfig_tests) {
     my $file = "resources/generic/ifconfig/$test";
     my $info = FusionInventory::Agent::Task::Inventory::Input::HPUX::Networks::_getIfconfigInfo(file => $file);
-    is_deeply($info, $ifconfig_tests{$test}, "ifconfig parsing: $test");
+    cmp_deeply($info, $ifconfig_tests{$test}, "ifconfig parsing: $test");
 }
 
 foreach my $test (keys %nwmgr_tests) {
     my $file = "resources/hpux/nwmgr/$test";
     my $info = FusionInventory::Agent::Task::Inventory::Input::HPUX::Networks::_getNwmgrInfo(file => $file);
-    is_deeply($info, $nwmgr_tests{$test}, "nwmgr parsing: $test");
+    cmp_deeply($info, $nwmgr_tests{$test}, "nwmgr parsing: $test");
 }
 
 foreach my $test (keys %netstat_tests) {
     my $file = "resources/hpux/netstat/$test";
     my %interfaces = FusionInventory::Agent::Task::Inventory::Input::HPUX::Networks::_parseNetstatNrv(file => $file);
-    is_deeply(\%interfaces, $netstat_tests{$test}, "netstat -nrv parsing: $test");
+    cmp_deeply(\%interfaces, $netstat_tests{$test}, "netstat -nrv parsing: $test");
 }
 
 foreach my $test (keys %lanscan_tests) {
     my $file = "resources/hpux/lanscan/$test";
     my @interfaces = FusionInventory::Agent::Task::Inventory::Input::HPUX::Networks::_parseLanscan(file => $file);
-    is_deeply(\@interfaces, $lanscan_tests{$test}, "lanscan -iap parsing: $test");
+    cmp_deeply(\@interfaces, $lanscan_tests{$test}, "lanscan -iap parsing: $test");
 }

@@ -1,0 +1,44 @@
+Revision history for FusionInventory agent network tasks plugin
+
+* Toshiba devices can be printer, do not flag them as network devices
+
+1.0.2  Sat, 08 Dec 2012
+
+Fixes:
+* work around Net::IP bug 71510 (#1880)
+* fix mac address double normalisation
+* don't overwrite already computed values (#1837)
+* don't install packlist files
+* add Test::Exception as test dependency
+
+1.0.1   Wed, 29 Aug 2012
+
+Fixes:
+* fix model property handling in inventory
+* fix some warnings in standalone binaires
+* add a --version option to standalone binaires
+* fix printer model category in fusioninventory-netinventory
+* fix release date in changelog
+* fix set MANUFACTURER in NetInventory like in NetDiscovery
+* fix LOCATION was hex encoded
+* add a test for fusioninventory-netdiscovery
+
+1.0.0   Fri, 17 Aug 2012
+
+Major changes:
+* merge netdiscovery and netinventory plugins, for easier maintainance
+* add standalone binary for discovery and inventory without server
+* try to deduce vendor and type when discovering from sysdescr value
+  even if there is no matching SNMP model
+* send device inventory results to the server on the fly, instead of
+  waiting for all devices to have been processed
+* limit the maximum number of threads used for discovery to the number of
+  addresses to proceed (#94)
+
+Fixes:
+* ensure compatibility with earlier version of Thread module shipped
+  with perl 5.8 (#1649)
+* fix connected devices mac address retrieval for non-cisco hardware
+* fix output format for multiple connected devices mac address
+* fix broken 3Com module
+

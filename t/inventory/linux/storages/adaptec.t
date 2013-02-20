@@ -3,7 +3,9 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
+
 use FusionInventory::Agent::Task::Inventory::Input::Linux::Storages::Adaptec;
 
 my %tests = (
@@ -107,5 +109,5 @@ foreach my $test (keys %tests) {
         controller => $tests{$test}->{controller},
         name       => $tests{$test}->{name},
     );
-    is_deeply(\@disks, $tests{$test}->{disks}, $test);
+    cmp_deeply(\@disks, $tests{$test}->{disks}, $test);
 }

@@ -13,7 +13,7 @@ use FusionInventory::Agent::Task::Inventory::Input::Generic::Screen;
 plan(skip_all => 'Parse::EDID required')
     unless Parse::EDID->require();
 
-my %tests = (
+my %edid_tests = (
     'crt.13' => {
         MANUFACTURER => 'Litronic Inc',
         CAPTION      => 'A1554NEL',
@@ -382,16 +382,11 @@ my %tests = (
     },
 );
 
-plan tests => 2 + scalar keys %tests;
+plan tests => scalar keys %edid_tests;
 
-foreach my $test (sort keys %tests) {
+foreach my $test (sort keys %edid_tests) {
     my $file = "resources/generic/edid/$test";
     my $edid = getAllLines(file => $file);
-    print "test: $test\n";
-    my $info = FusionInventory::Agent::Task::Inventory::Input::Generic::Screen::_getEdidInfo($edid);
-    is_deeply($info, $tests{$test}, $test);
+    my $info = FusionInventory::Agent::Task::Inventory::Input::Generic::Screen::_getEdidInfo(edid => $edid, datadir => './share');
+    is_deeply($info, $edid_tests{$test}, $test);
 }
-
-ok(FusionInventory::Agent::Task::Inventory::Input::Generic::Screen::_getManufacturerFromCode("NVD") eq 'Nvidia', '_getManufacturerFromCode("NVD")');
-ok(FusionInventory::Agent::Task::Inventory::Input::Generic::Screen::_getManufacturerFromCode("XQU") eq 'SHANGHAI SVA-DAV ELECTRONICS CO., LTD', '_getManufacturerFromCode("XQU")');
-

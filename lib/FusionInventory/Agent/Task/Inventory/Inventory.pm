@@ -49,8 +49,11 @@ my %fields = (
                         TYPE SERIAL SERIALNUMBER FIRMWARE SCSI_COID SCSI_CHID
                         SCSI_UNID SCSI_LUN WWN/ ],
     VIDEOS      => [ qw/CHIPSET MEMORY NAME RESOLUTION PCISLOT/ ],
-    USBDEVICES  => [ qw/VENDORID PRODUCTID SERIAL CLASS SUBCLASS NAME/ ],
-    USERS       => [ qw/LOGIN DOMAIN ID GROUP NAME HOME SHELL/ ],
+    USBDEVICES  => [ qw/VENDORID PRODUCTID MANUFACTURER CAPTION SERIAL CLASS 
+                        SUBCLASS NAME/ ],
+    USERS       => [ qw/LOGIN DOMAIN/ ],
+    LOCAL_USERS  => [ qw/LOGIN ID NAME HOME SHELL/ ],
+    LOCAL_GROUPS => [ qw/NAME ID MEMBER/ ],
     PRINTERS    => [ qw/COMMENT DESCRIPTION DRIVER NAME NETWORK PORT RESOLUTION
                         SHARED STATUS ERRSTATUS SERVERNAME SHARENAME 
                         PRINTPROCESSOR SERIAL/ ],
@@ -60,13 +63,14 @@ my %fields = (
                              TYPE SKUNUMBER/ ],
     HARDWARE         => [ qw/USERID OSVERSION PROCESSORN OSCOMMENTS CHECKSUM
                              PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME
-                             IPADDR WORKGROUP DESCRIPTION MEMORY UUID DNS 
+                             IPADDR WORKGROUP DESCRIPTION MEMORY UUID VMID DNS 
                              LASTLOGGEDUSER USERDOMAIN DATELASTLOGGEDUSER 
                              DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
-                             WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE/ ],
+                             WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE VMID
+                             VMNAME VMHOSTSERIAL/ ],
     OPERATINGSYSTEM  => [ qw/KERNEL_NAME KERNEL_VERSION NAME VERSION FULL_NAME 
-                            SERVICE_PACK INSTALL_DATE FQDN DNS_DOMAIN SSH_KEY
-                            ARCH/ ],
+                            SERVICE_PACK INSTALL_DATE FQDN DNS_DOMAIN
+                            SSH_KEY ARCH BOOT_TIME/ ],
     ACCESSLOG        => [ qw/USERID LOGDATE/ ],
     VIRTUALMACHINES  => [ qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU
                              VMID MAC COMMENT OWNER/ ],
@@ -85,6 +89,9 @@ my %checks = (
     },
     VIRTUALMACHINES => {
         STATUS => qr/^(running|idle|paused|shutdown|crashed|dying|off)$/
+    },
+    NETWORKS => {
+        TYPE => qr/^(ethernet|wifi)$/
     }
 );
 
@@ -708,7 +715,17 @@ Can be:
 
 =item Hyper-V
 
+=item AIX_LPAR
+
 =back
+
+=item VMID
+
+The ID of the Virtual machine on the hypervisor (VM only).
+
+=item VMNAME
+
+The name of the Virtual machine on the hypervisor (VM only).
 
 =item WINOWNER
 
@@ -772,6 +789,10 @@ The operating system installation date.
 =item ARCH
 
 Operating system architecture.
+
+=item BOOT_TIME
+
+The date of the boot of the computer, e.g: 2012-12-09 15:58:20
 
 =back
 

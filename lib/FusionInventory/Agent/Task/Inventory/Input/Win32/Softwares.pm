@@ -242,7 +242,7 @@ sub _getHotfixesList {
 
     my $list;
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_QuickFixEngineering',
         properties => [ qw/HotFixID Description/  ]
     )) {

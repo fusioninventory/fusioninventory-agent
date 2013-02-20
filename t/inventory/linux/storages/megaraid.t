@@ -2,8 +2,11 @@
 
 use strict;
 use warnings;
-use FusionInventory::Agent::Task::Inventory::Input::Linux::Storages::Megaraid;
+
+use Test::Deep;
 use Test::More;
+
+use FusionInventory::Agent::Task::Inventory::Input::Linux::Storages::Megaraid;
 
 my %tests = (
     sample => [
@@ -65,5 +68,5 @@ foreach my $test (keys %tests) {
     my @disks = FusionInventory::Agent::Task::Inventory::Input::Linux::Storages::Megaraid::_parseMegasasctl(
         file       => $file
     );
-    is_deeply(\@disks, $tests{$test}, $test);
+    cmp_deeply(\@disks, $tests{$test}, $test);
 }

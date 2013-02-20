@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Input::Linux::Drives;
@@ -80,5 +81,5 @@ plan tests => scalar keys %hal_tests;
 foreach my $test (keys %hal_tests) {
     my $file = "resources/linux/hal/$test";
     my $results = FusionInventory::Agent::Task::Inventory::Input::Linux::Drives::_parseLshal(file => $file);
-    is_deeply($results, $hal_tests{$test}, $test);
+    cmp_deeply($results, $hal_tests{$test}, $test);
 }

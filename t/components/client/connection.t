@@ -16,6 +16,8 @@ use FusionInventory::Test::Proxy;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
 
+unsetProxyEnvVar();
+
 # find an available port
 my $port = first { test_port($_) } 8080 .. 8090;
 
@@ -68,7 +70,10 @@ $server->set_dispatch({
     '/public'  => $ok,
     '/private' => sub { return $ok->(@_) if $server->authenticate(); }
 });
-$server->background() or BAIL_OUT("can't launch the server");
+eval {
+    $server->background();
+};
+BAIL_OUT("can't launch the server: $EVAL_ERROR") if $EVAL_ERROR;
 
 subtest "correct response" => sub {
     check_response_ok(
@@ -128,7 +133,10 @@ $server->set_dispatch({
     '/public'  => $ok,
     '/private' => sub { return $ok->(@_) if $server->authenticate(); }
 });
-$server->background();
+eval {
+    $server->background();
+};
+BAIL_OUT("can't launch the server: $EVAL_ERROR") if $EVAL_ERROR;
 
 lives_ok {
     $client = FusionInventory::Agent::HTTP::Client->new(
@@ -245,7 +253,10 @@ $server->set_dispatch({
                             $server->authenticate();
     }
 });
-$server->background();
+eval {
+    $server->background();
+};
+BAIL_OUT("can't launch the server: $EVAL_ERROR") if $EVAL_ERROR;
 
 my $proxy = FusionInventory::Test::Proxy->new();
 $proxy->background();
@@ -315,7 +326,10 @@ $server->set_dispatch({
     '/public'  => sub { return $ok->(@_) if $ENV{HTTP_X_FORWARDED_FOR}; },
     '/private' => sub { return $ok->(@_) if $ENV{HTTP_X_FORWARDED_FOR} && $server->authenticate(); }
 });
-$server->background();
+eval {
+    $server->background();
+};
+BAIL_OUT("can't launch the server: $EVAL_ERROR") if $EVAL_ERROR;
 
 lives_ok {
     $client = FusionInventory::Agent::HTTP::Client->new(

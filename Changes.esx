@@ -1,0 +1,46 @@
+2.2.1  Tue, 08 Jan 2013 13:04:25 +0100
+
+* ensure the DEVICEID is correctly set
+* convert the Change file to markdown format
+
+2.2.0  Fri, 17 Aug 2012 13:19:30 +0200
+
+* code clean up
+* do not inventory VM template
+* suspended VM power status is reported as “pause”
+
+2.1.0  Mon, 09 Apr 2012 10:30:43 +0200
+
+* compat with 2.2.0 agent
+
+1.1.3  Fri, 16 Dec 2011 14:48:27 +0100
+
+* Improve the network inventory
+  thanks Stefan Stefanov
+
+1.1.2  Mon, 27 Jun 2011 15:44:56 +0200
+
+* fix fusioninventory-esx
+* add the JSON dependency
+
+1.1.1  Wed, 22 Jun 2011 18:25:37 +0200
+
+* Add t/app.t
+* fusioninventory-esx fix a syntax error
+* improvement to be able to embed the tool in the
+   package from http://prebuilt.fusioninventory.org
+
+1.1.0  Tue, 14 Jun 2011 21:46:33 +0200
+
+* Add REST interface support
+* Disable SSL check
+* Support ESX in maintenance mode
+* Add --tag parameter
+
+1.0.1  Wed, 30 Mar 2011 19:59:12 +0200
+
+* add LICENSE file
+
+1.0.0  Fri, 25 Mar 2011 16:33:34 +0100
+  - Initial release
+

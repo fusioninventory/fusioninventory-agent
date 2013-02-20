@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Tools::Unix;
@@ -163,14 +164,14 @@ my %df_tests = (
 
 my @dhcp_leases_test = (
     {
-        file => 'dhclient-wlan0-1.lease',
+        file   => 'dhclient-wlan0-1.lease',
         result => '192.168.0.254',
-        if => 'wlan0'
+        if     => 'wlan0'
     },
     {
-        file => 'dhclient-wlan0-2.lease',
+        file   => 'dhclient-wlan0-2.lease',
         result => '192.168.10.1',
-        if => 'wlan0'
+        if     => 'wlan0'
     },
 );
 
@@ -2352,9 +2353,9 @@ my %netstat_tests = (
     },
     macosx1 => {
         '192.168.0.254' => 'f4:ca:e5:42:38:37',
-        '127.0.0.1' => '127.0.0.1',
-        '192.168.0.27' => '127.0.0.1',
-        'default' => '192.168.0.254'
+        '127.0.0.1'     => '127.0.0.1',
+        '192.168.0.27'  => '127.0.0.1',
+        'default'       => '192.168.0.254'
     }
 );
 
@@ -2374,13 +2375,13 @@ plan tests =>
 foreach my $test (keys %df_tests) {
     my $file = "resources/generic/df/$test";
     my @infos = getFilesystemsFromDf(file => $file);
-    is_deeply(\@infos, $df_tests{$test}, "$test df parsing");
+    cmp_deeply(\@infos, $df_tests{$test}, "$test df parsing");
 }
 
 foreach my $test (keys %ps_tests) {
     my $file = "resources/generic/ps/$test";
     my @infos = getProcessesFromPs(file => $file);
-    is_deeply(\@infos, $ps_tests{$test}, "$test ps parsing");
+    cmp_deeply(\@infos, $ps_tests{$test}, "$test ps parsing");
 }
 
 foreach my $test (@dhcp_leases_test) {
@@ -2395,11 +2396,11 @@ foreach my $test (@dhcp_leases_test) {
 foreach my $test (keys %netstat_tests) {
     my $file = "resources/generic/netstat/$test";
     my $routes = getRoutingTable(file => $file);
-    is_deeply($routes, $netstat_tests{$test}, $test);
+    cmp_deeply($routes, $netstat_tests{$test}, $test);
 }
 
 foreach my $test (keys %mount_tests) {
     my $file = "resources/generic/mount/$test";
     my @types = getFilesystemsTypesFromMount(file => $file);
-    is_deeply(\@types, $mount_tests{$test}, $test);
+    cmp_deeply(\@types, $mount_tests{$test}, $test);
 }

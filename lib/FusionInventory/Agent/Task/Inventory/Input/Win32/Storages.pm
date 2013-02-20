@@ -15,7 +15,7 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_DiskDrive', 
         properties => [ qw/
             Name Manufacturer Model MediaType InterfaceType FirmwareRevision
@@ -52,7 +52,7 @@ sub doInventory {
         );
     }
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_CDROMDrive',
         properties => [ qw/
             Manufacturer Caption Description Name MediaType InterfaceType
@@ -89,7 +89,7 @@ sub doInventory {
         );
     }
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_TapeDrive',
         properties => [ qw/
             Manufacturer Caption Description Name MediaType InterfaceType

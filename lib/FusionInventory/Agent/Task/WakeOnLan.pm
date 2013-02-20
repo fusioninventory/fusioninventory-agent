@@ -4,17 +4,15 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
-use constant PF_PACKET => 17;
-use constant SOCK_PACKET => 10;
-
 use English qw(-no_match_vars);
 use List::Util qw(first);
 use Socket;
+use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 
-our $VERSION = '1.1';
+our $VERSION = '2.0';
 
 sub isEnabled {
     my ($self, $response) = @_;
@@ -63,69 +61,128 @@ sub run {
             "Impossible to use $method method: $EVAL_ERROR"
         );
     }
-
-    # For Windows, I don't know, just test
-    # See http://msdn.microsoft.com/en-us/library/ms740548(VS.85).aspx
 }
 
 sub _send_magic_packet_ethernet {
-    my ($self,  $target) = @_;
+    my ($self, $target) = @_;
 
-    socket(SOCKET, PF_PACKET, SOCK_PACKET, 0)
-        or die "can't open socket: $ERRNO\n";
-    setsockopt(SOCKET, SOL_SOCKET, SO_BROADCAST, 1)
-        or die "can't do setsockopt: $ERRNO\n";
+    die "root privileges needed\n" unless $UID == 0;
+    die "Net::Write module needed\n" unless Net::Write::Layer2->require();
 
-    SWITCH: {
-        if ($OSNAME eq 'linux') {
-            FusionInventory::Agent::Tools::Linux->use();
-            last;
-        }
-        if ($OSNAME =~ /freebsd|openbsd|netbsd|gnukfreebsd|gnuknetbsd|dragonfly/) {
-            FusionInventory::Agent::Tools::BSD->use();
-            last;
-        }
-    }
-    my $interface =
-        first { $_->{MACADDR} }
-        getInterfacesFromIfconfig(logger => $self->{logger});
+    my $interface = $self->_getInterface();
     my $source = $interface->{MACADDR};
     $source =~ s/://g;
 
-    my $magic_packet =
-        (pack('H12', $target)) .
-        (pack('H12', $source)) .
-        (pack('H4', "0842"));
-    $magic_packet .= chr(0xFF) x 6 . (pack('H12', $target) x 16);
-    my $destination = pack("Sa14", 0, $interface->{DESCRIPTION});
+    my $packet =
+        pack('H12', $target) .
+        pack('H12', $source) .
+        pack('H4', "0842")   .
+        $self->_getPayload($target);
 
     $self->{logger}->debug(
         "Sending magic packet to $target as ethernet frame"
     );
-    send(SOCKET, $magic_packet, 0, $destination)
-        or die "can't send packet: $ERRNO\n";
-    close(SOCKET);
+
+    my $writer = Net::Write::Layer2->new(
+       dev => $interface->{DESCRIPTION}
+    );
+
+    $writer->open();
+    $writer->send($packet);
+    $writer->close();
 }
 
 sub _send_magic_packet_udp {
     my ($self,  $target) = @_;
 
-    socket(SOCKET, PF_INET, SOCK_DGRAM, getprotobyname('udp'))
+    socket(my $socket, PF_INET, SOCK_DGRAM, getprotobyname('udp'))
         or die "can't open socket: $ERRNO\n";
-    setsockopt(SOCKET, SOL_SOCKET, SO_BROADCAST, 1)
+    setsockopt($socket, SOL_SOCKET, SO_BROADCAST, 1)
         or die "can't do setsockopt: $ERRNO\n";
 
-    my $magic_packet = 
-        chr(0xFF) x 6 .
-        (pack('H12', $target) x 16);
+    my $packet = $self->_getPayload($target);
     my $destination = sockaddr_in("9", inet_aton("255.255.255.255"));
 
     $self->{logger}->debug(
         "Sending magic packet to $target as UDP packet"
     );
-    send(SOCKET, $magic_packet, 0, $destination)
+    send($socket, $packet, 0, $destination)
         or die "can't send packet: $ERRNO\n";
-    close(SOCKET);
+    close($socket);
+}
+
+sub _getInterface {
+    my ($self) = @_;
+
+    # get system-specific interfaces retrieval functions
+    my $function;
+    SWITCH: {
+        if ($OSNAME eq 'linux') {
+            FusionInventory::Agent::Tools::Linux->require();
+        $function = \&FusionInventory::Agent::Tools::Linux::getInterfacesFromIfconfig;
+            last;
+        }
+        if ($OSNAME =~ /freebsd|openbsd|netbsd|gnukfreebsd|gnuknetbsd|dragonfly/) {
+            FusionInventory::Agent::Tools::BSD->require();
+            $function = \&FusionInventory::Agent::Tools::BSD::getInterfacesFromIfconfig;
+            last;
+        }
+        if ($OSNAME eq 'MSWin32') {
+            FusionInventory::Agent::Task::Inventory::Input::Win32::Networks->require();
+            $function = \&FusionInventory::Agent::Task::Inventory::Input::Win32::Networks::_getInterfaces;
+            last;
+        }
+    }
+
+    # let's take the first interface with an IP adress, a MAC address
+    # different from the loopback
+    my $interface =
+        first { $_->{DESCRIPTION} ne 'lo' }
+        grep { $_->{IPADDRESS} }
+        grep { $_->{MACADDR} }
+        $function->(logger => $self->{logger});
+
+    # on Windows, we have to use internal device name instead of litteral name
+    $interface->{DESCRIPTION} =
+        $self->_getWin32InterfaceId($interface->{PNPDEVICEID})
+        if $OSNAME eq 'MSWin32';
+
+    return $interface;
+}
+
+sub _getPayload {
+    my ($self, $target) = @_;
+
+    return
+        pack('H12', 'FF' x 6) .
+        pack('H12', $target) x 16;
+}
+
+sub _getWin32InterfaceId {
+    my ($self, $pnpid) = @_;
+
+    FusionInventory::Agent::Tools::Win32->require();
+
+    my $key = FusionInventory::Agent::Tools::Win32::getRegistryKey(
+        path => "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Control/Network",
+    );
+
+    foreach my $subkey_id (keys %$key) {
+        # we're only interested in GUID subkeys
+        next unless $subkey_id =~ /^\{\S+\}\/$/;
+        my $subkey = $key->{$subkey_id};
+        foreach my $subsubkey_id (keys %$subkey) {
+            my $subsubkey = $subkey->{$subsubkey_id};
+            next unless $subsubkey->{'Connection/'};
+            next unless $subsubkey->{'Connection/'}->{'/PnpInstanceID'};
+            next unless $subsubkey->{'Connection/'}->{'/PnpInstanceID'} eq $pnpid;
+            my $device_id = $subsubkey_id;
+            $device_id =~ s{/$}{};
+
+            return '\Device\NPF_' . $device_id;
+        }
+    }
+
 }
 
 1;

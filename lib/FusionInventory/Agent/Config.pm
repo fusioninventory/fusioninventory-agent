@@ -41,6 +41,10 @@ my $default = {
     'user'                    => undef,
     # deprecated options
     'stdout'                  => undef,
+    # multi-values options that will be converted to array ref
+    'httpd-trust'             => "",
+    'no-task'                 => "",
+    'no-category'             => ""
 };
 
 my $deprecated = {
@@ -56,7 +60,6 @@ sub new {
     my $self = {};
     bless $self, $class;
     $self->_loadDefaults();
-
     my $backend =
         $params{options}->{'conf-file'} ? 'file'                     :
         $params{options}->{config}      ? $params{options}->{config} :
@@ -137,7 +140,6 @@ sub _loadFromRegistry {
 
 sub _loadFromFile {
     my ($self, $params) = @_;
-
     my $file = $params->{file} ?
         $params->{file} : $params->{directory} . '/agent.cfg';
 
@@ -190,6 +192,8 @@ sub _checkContent {
     foreach my $old (keys %$deprecated) {
         next unless defined $self->{$old};
 
+        next if $old =~ /^no-/ and !$self->{$old};
+
         my $handler = $deprecated->{$old};
 
         # notify user of deprecation
@@ -240,7 +244,11 @@ sub _checkContent {
             no-category
             /) {
 
-        $self->{$option} = [ split(/,/, $self->{$option} || '') ];
+        if ($self->{$option}) {
+            $self->{$option} = [split(/,/, $self->{$option})];
+        } else {
+            $self->{$option} = [];
+        }
     }
 
     # files location

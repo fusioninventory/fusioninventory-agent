@@ -14,7 +14,7 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    foreach my $object (getWmiObjects(
+    foreach my $object (getWMIObjects(
         class      => 'Win32_SoundDevice',
         properties => [ qw/
             Name Manufacturer Caption Description

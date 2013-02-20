@@ -3,8 +3,9 @@
 use strict;
 use warnings;
 
-use Test::More;
+use Test::Deep;
 use Test::Exception;
+use Test::More;
 use XML::TreePP;
 
 use FusionInventory::Agent::XML::Query::Prolog;
@@ -33,7 +34,7 @@ isa_ok($message, 'FusionInventory::Agent::XML::Query::Prolog');
 
 my $tpp = XML::TreePP->new();
 
-is_deeply(
+cmp_deeply(
     scalar $tpp->parse($message->getContent()),
     {
         REQUEST => {
