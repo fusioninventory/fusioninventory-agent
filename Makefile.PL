@@ -73,6 +73,12 @@ test_requires 'Test::HTTP::Server::Simple' => undef;
 test_requires 'Test::Compile' => undef;
 test_requires 'POE::Component::Client::Ping' => undef;
 
+# Network
+
+requires 'Net::SNMP'     => undef;
+requires 'Net::NBName'     => undef;
+
+
 makemaker_args(
     test => {
         TESTS => join ' ', map { glob } qw(t/*.t t/*/*.t t/*/*/*.t t/*/*/*/*.t)
