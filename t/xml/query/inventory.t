@@ -9,8 +9,8 @@ use Test::Exception;
 use Test::More;
 use XML::TreePP;
 
+use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::XML::Query::Inventory;
-use FusionInventory::Agent::Task::Inventory::Inventory;
 
 plan tests => 5;
 
@@ -19,7 +19,7 @@ throws_ok {
     $query = FusionInventory::Agent::XML::Query::Inventory->new();
 } qr/^no content/, 'no content';
 
-my $inventory =  FusionInventory::Agent::Task::Inventory::Inventory->new();
+my $inventory =  FusionInventory::Agent::Inventory->new();
 lives_ok {
     $query = FusionInventory::Agent::XML::Query::Inventory->new(
         deviceid => 'foo',

@@ -7,7 +7,7 @@ use base 'FusionInventory::Agent::Task';
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::HTTP::Client::Fusion;
 use FusionInventory::Agent::Logger;
-use FusionInventory::Agent::Task::Inventory::Inventory;
+use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::VMware::SOAP;
 
@@ -74,7 +74,7 @@ sub createInventory {
     my $host;
     $host = $vpbs->getHostFullInfo($id);
 
-    my $inventory = FusionInventory::Agent::Task::Inventory::Inventory->new(
+    my $inventory = FusionInventory::Agent::Inventory->new(
         logger => $self->{logger},
         config => $self->{config},
     );

@@ -11,7 +11,7 @@ use Test::More;
 
 use FusionInventory::Agent;
 use FusionInventory::Agent::Logger;
-use FusionInventory::Agent::Task::Inventory::Inventory;
+use FusionInventory::Agent::Inventory;
 
 plan tests => 24;
 
@@ -23,12 +23,12 @@ my $logger = FusionInventory::Agent::Logger->new(
 my $inventory;
 
 lives_ok {
-    $inventory = FusionInventory::Agent::Task::Inventory::Inventory->new(
+    $inventory = FusionInventory::Agent::Inventory->new(
         logger => $logger
     );
 } 'everything OK';
 
-isa_ok($inventory, 'FusionInventory::Agent::Task::Inventory::Inventory');
+isa_ok($inventory, 'FusionInventory::Agent::Inventory');
 
 cmp_deeply(
     $inventory->{content},

@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::Inventory;
+package FusionInventory::Agent::Inventory;
 
 use strict;
 use warnings;
@@ -427,7 +427,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::Inventory::Inventory - Inventory data structure
+FusionInventory::Agent::Inventory - Inventory data structure
 
 =head1 DESCRIPTION
 
