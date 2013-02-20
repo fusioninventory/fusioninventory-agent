@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use Test::Deep qw(cmp_deeply);
 use Test::Exception;
 use Test::More;
 
@@ -199,13 +200,13 @@ foreach my $test (keys %tests) {
     );
 
     my $content = $message->getContent();
-    is_deeply($content, $tests{$test}, $test);
+    cmp_deeply($content, $tests{$test}, $test);
 
     subtest 'options' => sub {
         my $options = $content->{OPTION};
         plan tests => scalar @$options;
         foreach my $option (@$options) {
-            is_deeply(
+            cmp_deeply(
                 $message->getOptionsInfoByName($option->{NAME}),
                 $option,
                 "$test option $option->{NAME}"

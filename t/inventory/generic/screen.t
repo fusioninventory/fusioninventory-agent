@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use Test::Deep qw(cmp_deeply);
 use Test::More;
 use UNIVERSAL::require;
 
@@ -388,5 +389,5 @@ foreach my $test (sort keys %edid_tests) {
     my $file = "resources/generic/edid/$test";
     my $edid = getAllLines(file => $file);
     my $info = FusionInventory::Agent::Task::Inventory::Input::Generic::Screen::_getEdidInfo(edid => $edid, datadir => './share');
-    is_deeply($info, $edid_tests{$test}, $test);
+    cmp_deeply($info, $edid_tests{$test}, $test);
 }

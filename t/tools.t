@@ -5,6 +5,7 @@ use warnings;
 use lib 't';
 
 use File::Temp;
+use Test::Deep qw(cmp_deeply);
 use Test::More;
 
 use FusionInventory::Agent::Tools;
@@ -249,7 +250,7 @@ is(
     3,
     "lines count, command reading"
 );
-is_deeply(
+cmp_deeply(
     [ getAllLines(file => $tmp) ],
     [ qw/foo bar baz/ ],
     "all lines, file reading, list context"
@@ -259,7 +260,7 @@ is(
     "foo\nbar\nbaz\n",
     "all lines, file reading, scalar context"
 );
-is_deeply(
+cmp_deeply(
     [ getAllLines(command => 'perl -e "print qq{foo\nbar\nbaz\n}"') ],
     [ qw/foo bar baz/ ],
     "all lines, command reading, list context"
@@ -269,7 +270,7 @@ is(
     "foo\nbar\nbaz\n",
     "all lines, command reading, scalar context"
 );
-is_deeply(
+cmp_deeply(
     [ getFirstMatch(file => $tmp, pattern => qr/^(b\w+)$/) ],
     [ qw/bar/ ],
     "first match, file reading, list context"
@@ -279,7 +280,7 @@ is(
     'bar',
     "first match, file reading, scalar context"
 );
-is_deeply(
+cmp_deeply(
     [ getFirstMatch(command => 'perl -e "print qq{foo\nbar\nbaz\n}"', pattern => qr/^(b\w+)$/) ],
     [ qw/bar/ ],
     "first match, command reading, list context"
