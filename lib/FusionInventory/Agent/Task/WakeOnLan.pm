@@ -128,8 +128,8 @@ sub _getInterface {
             last;
         }
         if ($OSNAME eq 'MSWin32') {
-            FusionInventory::Agent::Task::Inventory::Input::Win32::Networks->require();
-            $function = \&FusionInventory::Agent::Task::Inventory::Input::Win32::Networks::_getInterfaces;
+            FusionInventory::Agent::Tools::Win32->require();
+            $function = \&FusionInventory::Agent::Tools::Win32::getInterfaces;
             last;
         }
     }

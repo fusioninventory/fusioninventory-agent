@@ -101,8 +101,8 @@ sub findPeer {
         @interfaces = FusionInventory::Agent::Tools::Linux::getInterfacesFromIfconfig();
 
     } elsif ($OSNAME eq 'MSWin32') {
-        FusionInventory::Agent::Task::Inventory::Input::Win32::Networks->require();
-        @interfaces = FusionInventory::Agent::Task::Inventory::Input::Win32::Networks::_getInterfaces();
+        FusionInventory::Agent::Tools::Win32->require();
+        @interfaces = FusionInventory::Agent::Tools::Win32::getInterfaces();
     }
 
 
