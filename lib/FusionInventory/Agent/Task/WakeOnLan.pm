@@ -114,22 +114,30 @@ sub _send_magic_packet_udp {
 sub _getInterface {
     my ($self) = @_;
 
-    # get system-specific interfaces retrieval functions
-    my $function;
+    my @interfaces;
+
     SWITCH: {
         if ($OSNAME eq 'linux') {
             FusionInventory::Agent::Tools::Linux->require();
-        $function = \&FusionInventory::Agent::Tools::Linux::getInterfacesFromIfconfig;
+            @interfaces = FusionInventory::Agent::Tools::Linux::getInterfacesFromIfconfig(
+                logger => $self->{logger}
+            );
             last;
         }
+
         if ($OSNAME =~ /freebsd|openbsd|netbsd|gnukfreebsd|gnuknetbsd|dragonfly/) {
             FusionInventory::Agent::Tools::BSD->require();
-            $function = \&FusionInventory::Agent::Tools::BSD::getInterfacesFromIfconfig;
+            @interfaces = FusionInventory::Agent::Tools::BSD::getInterfacesFromIfconfig(
+                logger => $self->{logger}
+            );
             last;
         }
+
         if ($OSNAME eq 'MSWin32') {
             FusionInventory::Agent::Tools::Win32->require();
-            $function = \&FusionInventory::Agent::Tools::Win32::getInterfaces;
+            @interfaces = FusionInventory::Agent::Tools::Win32::getInterfaces(
+                logger => $self->{logger}
+            );
             last;
         }
     }
@@ -140,7 +148,7 @@ sub _getInterface {
         first { $_->{DESCRIPTION} ne 'lo' }
         grep { $_->{IPADDRESS} }
         grep { $_->{MACADDR} }
-        $function->(logger => $self->{logger});
+        @interfaces;
 
     # on Windows, we have to use internal device name instead of litteral name
     $interface->{DESCRIPTION} =
