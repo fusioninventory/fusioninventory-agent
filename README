@@ -115,5 +115,30 @@ Copyright (C) 2011 TECLIB' ( http://www.teclib.com )
 
 ## License
 
+# FusionInventory agent ESX task
+
+## Description
+
+This task allows the agent to perform remote inventory of ESX, ESXi, vCenter
+server using the SOAP interface.
+
+You can import the generated files in:
+ - GLPI with FusionInventory for GLPI
+ - ocsinventory
+ - Uranos
+
+fusioninventory-esx --user root --password password --host esx-server --directory /tmp
+[info] Inventory saved in /tmp/esx-server-2011-01-25-14-11-07.ocs
+fusioninventory-injector -v --file /tmp/esx-server-2011-01-25-14-11-07.ocs -u https://myserver/ocsinventory
+
+## Authors 
+
+* Gonéri Le Bouder <goneri@rulezlan.org>>
+
+Copyright (C) 2012 FusionInventory project
+Copyright (C) 2011 TECLIB' ( http://www.teclib.com )
+
+## License
+
 This software is licensed under the terms of GPLv2+, see LICENSE file for
 details.
