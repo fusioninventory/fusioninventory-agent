@@ -5,6 +5,7 @@ General:
 * various UTF8 encoding fixes
 * Add DNS_DOMAIN, BOOT_TIME and FQDN in OPERATINGSYSTEM section
 * Collect public SSH keys
+* Deploy, Network and ESX tasks are now integrated in the distribution
 
 Windows:
 * Collect license key for MS Office
