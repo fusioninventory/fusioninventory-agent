@@ -6,17 +6,7 @@ Makefile
 run-postinst
 FusionInventory-Agent*
 blib
-lib/FusionInventory/Agent/Task/OcsDeploy.pm
-lib/FusionInventory/Agent/Task/NetDiscovery.pm
-lib/FusionInventory/Agent/Task/NetDiscovery
-lib/FusionInventory/Agent/Task/SNMPQuery.pm
-lib/FusionInventory/Agent/Task/SNMPQuery
-lib/FusionInventory/Agent/Task/Deploy
-lib/FusionInventory/Agent/Task/Deploy.pm
-lib/FusionInventory/Agent/Task/ESX.pm
-lib/FusionInventory/Agent/SNMP.pm
 pm_to_blib
-./README
 *~
 fusioninventory-esx
 lib/FusionInventory/VMware

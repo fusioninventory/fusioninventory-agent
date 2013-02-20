@@ -1,0 +1,91 @@
+This is FusionInventory Agent Task Deploy changelog:
+
+2.0.4  Sun, 09 Dec 2012 12:32:28 +0100
+
+* Fix: test-suite was broken because of a missing dependency on
+  DateTime::Format::Mail
+* Always send full log, not only in debug mode
+
+2.0.3  Thu, 13 Sep 2012 12:18:53 +0200
+
+* Don't give up if download failed, but retry 5 times in a row
+* Fix P2P on Linux
+* Add directoryExists and directoryMissing test
+
+2.0.2  Wed, 30 May 2012 17:38:18 +0200
+
+* Win32: properly support non ASCII characters
+* use Win32::Job on Windows to get the full return code
+* Win32: better Registry key check
+* refresh the test-suite
+* CheckProcessor: ensure a code is always returned
+
+2.0.1  Thu, 26 Apr 2012 20:55:58 +0200
+
+* Use 7z if avalaible to extract the archives
+* fix a segfault on Windows with registry key value check (#1621)
+* P2P: fix the IP range computation on Windows
+* fix a typo in the package description (#1592),
+* fix some warnings in the test-suite (#1591) and thus some hidden
+  regression in code not used so far
+
+2.0.0  Sun, 08 Apr 2012 21:05:59 +0200
+
+9543480 increase end user log verbosity
+412483c drop a debug print
+f7ba5bd POE::C:C::TCP needs ServerInput callback to load
+f46a753 log the reason why P2P.pm loading failed
+27a9c7b drop an useless debug() call
+fcc2766 conditional Tools::Win32 loading
+64236c3 pass $logger to CheckProcessor
+a037fff as decided getRegistry*() expect a path with / only
+9df475e getFreeSpaceWindows: accept only a drive letter+:
+3eb802c avoid a failure if mkdir is done on an existing dir
+1c39423 various fixes in the CheckProcessor
+5df4c05 improve the log format
+b8d26cb fix: support the lastAPI changes from the agent
+ca2fbe1 increase the size of the default log size to 10 lines
+1ee5583 fix: retention_duration instead of retentionDuration
+5723cc5 initialize files->checks
+16274e4 Merge remote-tracking branch 'origin/master'
+8192380 clean up
+167fde2 move the disk free part in DiskFree.pm
+eb4181c make perlcritic happy
+210e758 various small syntax harmonisation
+92bfb5d minor cleanup
+3e6178d don't set default values deep in the code, but right from the constructor
+791059a simplification
+e8097d3 use plain english name for magic variables
+290481d drop unused variables
+543d099 Merge remote-tracking branch 'origin/master'
+6bae44e include authors directly in README file
+d026443 Merge remote-tracking branch 'origin/master'
+27e136a improve P2P scan
+3eb0994 stack up to 30 peer IP address
+4656a05 no endless loop if gzreaad fail
+f657d02 keep the private downloaded files for 3 days
+2248bd3 harmonize README file
+2199dcd fix: Agent P2P downloaded files part should be kept
+5c18e7b add a 1800sec per file download
+b2a50fb use internal logger when instead of 'print'
+4f99eb7 turn off localised output for commands
+648eaff use logger to store extraction errors
+6647bc4 restore some keys in File object
+6485b85 always send logs to server if --debug is on
+047cde2 store in log the Action errors
+514a375 use File::Path::mkpath instead of mk_path
+77ca8e3 add Test::Compiler
+6122e09 refresh the dependency list
+
+1.0.9901  Wed, 01 Feb 2012 18:22:31 +0100
+  * Various fixes
+
+1.0.2
+  * Scan only the IP around the machine
+
+1.0.1  Tue, 20 Sep 2011 21:02:28 +0200
+  * Various fixes
+
+1.0.0  Thu, 08 Sep 2011 16:42:14 +0200
+  * Initial release
+
