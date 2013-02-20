@@ -91,3 +91,29 @@ contains code from imvirt:
 * author: Thomas Liske <liske@ibh.de>
 * copyright: 2008 IBH IT-Service GmbH <http://www.ibh.de/>
 * License: GPLv2+
+
+# FusionInventory agent Deploy task
+
+## Description
+
+This task allows the agent to perform software installation on its host.
+
+If the P2P option is turned on, the agent will looks for peer in its
+network. The network range size will be limited at 255 machines.
+
+## Dependencies
+
+This task requires a FusionInventory agent (minimal version 2.2.0), and can
+only be executed with a GLPI server with FusionInventory plugin.
+
+## Authors 
+
+* Gonéri Le Bouder <goneri@rulezlan.org>
+
+Copyright (C) 2011 FusionInventory project
+Copyright (C) 2011 TECLIB' ( http://www.teclib.com )
+
+## License
+
+This software is licensed under the terms of GPLv2+, see LICENSE file for
+details.

@@ -59,6 +59,20 @@ install_script  'fusioninventory-injector';
 # memconf is needed by Solaris backend module
 install_script  'memconf' if $OSNAME eq 'solaris';
 
+# Deploy
+requires 'Archive::Extract'       => undef;
+requires 'Digest::SHA'            => undef;
+requires 'File::Copy::Recursive'  => undef;
+requires 'JSON'                   => undef;
+requires 'URI::Escape'            => undef;
+requires 'UNIVERSAL::require'     => undef;
+
+recommends 'POE::Component::Client::Ping' => undef;
+
+test_requires 'Test::HTTP::Server::Simple' => undef;
+test_requires 'Test::Compile' => undef;
+test_requires 'POE::Component::Client::Ping' => undef;
+
 makemaker_args(
     test => {
         TESTS => join ' ', map { glob } qw(t/*.t t/*/*.t t/*/*/*.t t/*/*/*/*.t)

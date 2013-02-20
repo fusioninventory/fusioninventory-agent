@@ -27,8 +27,9 @@ all_pm_files_ok(@files);
 
 # filename-based filter
 sub filter {
-    return 0 if $_ =~ m{FusionInventory/VMware};
-    return 1 if $_ =~ m{FusionInventory/Agent/Task/(Inventory|WakeOnLan)};
-    return 0 if $_ =~ m{FusionInventory/Agent/Task};
+# TODO: not required since the tasks merge
+#    return 0 if $_ =~ m{FusionInventory/VMware};
+#    return 1 if $_ =~ m{FusionInventory/Agent/Task/(Inventory|WakeOnLan)};
+#    return 0 if $_ =~ m{FusionInventory/Agent/Task};
     return 1;
 }
