@@ -65,6 +65,7 @@ Please report any issues on project forge bugtracker.
 
 Copyright 2006-2010 OCS Inventory contributors
 Copyright 2010-2012 FusionInventory Team
+Copyright 2011 TECLIB' ( http://www.teclib.com )
 
 # License
 
@@ -106,15 +107,6 @@ network. The network range size will be limited at 255 machines.
 This task requires a FusionInventory agent (minimal version 2.2.0), and can
 only be executed with a GLPI server with FusionInventory plugin.
 
-## Authors 
-
-* Gonéri Le Bouder <goneri@rulezlan.org>
-
-Copyright (C) 2011 FusionInventory project
-Copyright (C) 2011 TECLIB' ( http://www.teclib.com )
-
-## License
-
 # FusionInventory agent ESX task
 
 ## Description
@@ -131,13 +123,6 @@ fusioninventory-esx --user root --password password --host esx-server --director
 [info] Inventory saved in /tmp/esx-server-2011-01-25-14-11-07.ocs
 fusioninventory-injector -v --file /tmp/esx-server-2011-01-25-14-11-07.ocs -u https://myserver/ocsinventory
 
-## Authors 
-
-* Gonéri Le Bouder <goneri@rulezlan.org>>
-
-Copyright (C) 2012 FusionInventory project
-Copyright (C) 2011 TECLIB' ( http://www.teclib.com )
-
 # FusionInventory agent network tasks
 
 ## Description
@@ -149,23 +134,6 @@ separatly:
   devices, through nmap, NetBios or SNMP, and to identify them
 * the NetInventory task allows the agent to extract various informations from
   a remote device through SNMP protocol
-
-## Dependencies
-
-This plugin requires a FusionInventory agent (minimal version 2.2.0), and is
-intended to be used with a GLPI server with FusionInventory plugin.
-
-Additional mandatory perl modules:
-
-* [[!cpan Net::SNMP]]
-
-Additional optional perl modules:
-
-* [[!cpan Net::NBName]]
-
-Additional optional programs:
-
-* [[nmap|http://www.nmap.org]]
 
 ## Usage
 
@@ -239,15 +207,3 @@ While allowing to perform the corresponding task without a running server, they
 still requires some data files shipped in the server sources (SNMP dictionnary
 and SNMP description models).
 
-## Authors
-
-* David Durieux <d.durieux@siprossii.com>
-* Gonéri Le Bouder <goneri@rulezlan.org>
-* Guillaume Rousse <guillomovitch@gmail.com>
-
-Copyright 2010-2012 FusionInventory Team
-
-## License
-
-This software is licensed under the terms of GPLv2+, see LICENSE file for
-details.
