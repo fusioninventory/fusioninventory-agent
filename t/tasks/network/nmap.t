@@ -43,4 +43,3 @@ foreach my $test (keys %tests) {
     );
     is_deeply($result, $tests{$test}, $test);
 }
-

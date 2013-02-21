@@ -15,7 +15,7 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    
+
     my $bios = {
         SMANUFACTURER => 'SGI',
     };
@@ -29,7 +29,7 @@ sub doInventory {
     my $count = getFirstLine(command => 'sysctl -n hw.ncpu');
 
     # dmesg infos
-    
+
     # I) Indy
     # NetBSD:
     # mainbus0 (root): SGI-IP22 [SGI, 6906e152], 1 processor

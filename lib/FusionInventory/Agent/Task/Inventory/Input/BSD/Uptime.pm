@@ -25,7 +25,7 @@ sub _getUptime {
     my $line = getFirstLine(@_);
 
     # the output of 'sysctl -n kern.boottime' differs between BSD flavours
-    my $boottime = 
+    my $boottime =
         $line =~ /^(\d+)/      ? $1 : # OpenBSD format
         $line =~ /sec = (\d+)/ ? $1 : # FreeBSD format
         undef;

@@ -6,14 +6,14 @@ use warnings;
 use FusionInventory::Agent::Tools::Win32;
 
 my @type = (
-    'Unknown', 
+    'Unknown',
     'No Root Directory',
     'Removable Disk',
     'Local Disk',
     'Network Drive',
     'Compact Disc',
     'RAM Disk'
-); 
+);
 
 sub isEnabled {
     return 1;

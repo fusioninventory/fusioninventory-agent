@@ -302,7 +302,7 @@ sub getStderrOutput {
 sub getFileOutput {
     my ($file, $callback) = @_;
 
-    my $stat = stat $file; 
+    my $stat = stat $file;
 
     $callback->();
 

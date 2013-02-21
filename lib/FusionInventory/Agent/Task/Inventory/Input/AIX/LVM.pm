@@ -89,7 +89,7 @@ sub _getLogicalVolume {
 sub _getVolumeInfo {
     my (%params) = @_;
 
-    my $handle = getFileHandle( 
+    my $handle = getFileHandle(
         command => "lslv $params{name}",
         logger  => $params{logger}
     );

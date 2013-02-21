@@ -14,7 +14,7 @@ our @EXPORT = qw(
 );
 
 sub getFreeSpace {
-    my $freeSpace = 
+    my $freeSpace =
         $OSNAME eq 'MSWin32' ? _getFreeSpaceWindows(@_) :
         $OSNAME eq 'solaris' ? _getFreeSpaceSolaris(@_) :
         _getFreeSpace(@_);

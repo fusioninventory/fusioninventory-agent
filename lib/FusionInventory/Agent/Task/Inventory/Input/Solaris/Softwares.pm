@@ -8,7 +8,7 @@ use FusionInventory::Agent::Tools;
 sub isEnabled {
     my (%params) = @_;
 
-    return 
+    return
         !$params{no_category}->{software} &&
         canRun('pkginfo');
 }

@@ -16,7 +16,7 @@ my @hives = qw/
     HKEY_USERS
     HKEY_CURRENT_CONFIG
     HKEY_DYN_DATA
-/; 
+/;
 
 sub isEnabled {
     my (%params) = @_;
@@ -40,7 +40,7 @@ sub _getRegistryData {
         my $regtree = $option->{REGTREE};
         my $content = $option->{content};
 
-        # This should never append, err wait... 
+        # This should never append, err wait...
         next unless $content;
 
         $regkey =~ s{\\}{/}g;
@@ -54,14 +54,14 @@ sub _getRegistryData {
                 my $n = encodeFromRegistry($_) || '';
                 my $v = encodeFromRegistry($value->{$_}) || '';
                 push @data, { section => 'REGISTRY', entry => {
-                        NAME => $name, 
+                        NAME => $name,
                         REGVALUE => "$n=$v"
                     }
                 };
             }
         } else {
             push @data, {section => 'REGISTRY', entry => {
-                    NAME => $name, 
+                    NAME => $name,
                     REGVALUE => encodeFromRegistry($value)
                 }
             };

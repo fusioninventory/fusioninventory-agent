@@ -8,7 +8,7 @@
 # administrators can use to monitor system health and manage the
 # system. The IPMI consists of a main controller called the Baseboard
 # Management Controller (BMC) and other satellite controllers.
-# 
+#
 # The BMC can be fetched through client like OpenIPMI drivers or
 # through the network. Though, the BMC hold a proper MAC address.
 #

@@ -176,7 +176,7 @@ my @cisco_connected_devices_mac_addresses_tests = (
     ],
 );
 
-plan tests => 
+plan tests =>
     scalar @trunk_ports_tests * 2 +
     scalar @connected_devices_tests * 2 +
     scalar @connected_devices_mac_addresses_tests * 2 +
@@ -366,4 +366,3 @@ foreach my $test (@cisco_connected_devices_mac_addresses_tests) {
         $test->[2] . ' (indirect)',
     );
 }
-

@@ -37,7 +37,7 @@ sub _getMemories {
 
     my @memories;
     foreach my $key (sort keys %$parent_node) {
-        next unless $key =~ /DIMM(\d)/; 
+        next unless $key =~ /DIMM(\d)/;
         my $slot = $1;
 
         my $info = $parent_node->{$key};

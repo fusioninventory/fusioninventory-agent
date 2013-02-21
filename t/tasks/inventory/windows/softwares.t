@@ -8196,7 +8196,7 @@ foreach my $test (keys %softwares_tests) {
     );
 
     my $softwares = FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getSoftwaresList(softwares => $softwaresKey);
- 
+
     cmp_deeply(
         $softwares,
         $softwares_tests{$test},

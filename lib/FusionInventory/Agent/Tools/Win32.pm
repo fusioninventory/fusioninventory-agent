@@ -393,7 +393,7 @@ sub _isVirtual {
         return $object->{PhysicalAdapter} ? 0 : 1;
     }
 
-    # http://forge.fusioninventory.org/issues/1166 
+    # http://forge.fusioninventory.org/issues/1166
     if ($configuration->{DESCRIPTION} &&
         $configuration->{DESCRIPTION} =~ /RAS/ &&
         $configuration->{DESCRIPTION} =~ /Adapter/i

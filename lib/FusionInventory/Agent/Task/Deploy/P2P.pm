@@ -167,7 +167,7 @@ sub scan {
                 "pong",      # Have it post an answer as a "pong" event.
                 $ipToTest,    # This is the address we want to ping.
                 );
-			
+
             if (@ipToTestList && @ipFound < 30) {
                 $_[KERNEL]->delay(add => 0.1)
             } else {
@@ -196,7 +196,7 @@ sub scan {
                     Connected      => sub {
                         push @ipFound, "http://$addr:$port/deploy/getFile/";
                     },
-		    ServerInput   => sub { }
+                    ServerInput   => sub { }
                 );
             },
         },

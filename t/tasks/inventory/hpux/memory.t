@@ -253,7 +253,7 @@ my %cprop_tests = (
 );
 
 plan tests =>
-    (scalar keys %cstm_tests)   + 
+    (scalar keys %cstm_tests)   +
     (scalar keys %cstm64_tests) +
     (scalar keys %cprop_tests);
 

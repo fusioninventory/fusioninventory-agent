@@ -101,7 +101,7 @@ sub _getCPUs {
         }
 
         for my $i (1 .. $cpus) {
-            push @cpus, 
+            push @cpus,
                 {
                     MANUFACTURER => $manufacturer,
                     NAME         => $type,

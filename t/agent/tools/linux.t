@@ -617,7 +617,7 @@ my %ifconfig_tests = (
             TYPE        => undef,
             IPADDRESS6  => '::1/128',
             IPADDRESS   => '127.0.0.1'
-        } 
+        }
     ],
     'linux-rhel5.6' => [
         {
@@ -878,7 +878,7 @@ my %ipaddrshow_tests = (
     ]
 );
 
-plan tests => 
+plan tests =>
     (scalar keys %udev_tests)     +
     (scalar keys %cpuinfo_tests)  +
     (scalar keys %hal_tests)      +

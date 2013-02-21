@@ -34,7 +34,7 @@ sub _parseMfiutil {
         $storage->{DISKSIZE} = $size;
         $storage->{SERIALNUMBER} = $serial;
 
-        push @storages, $storage;    
+        push @storages, $storage;
     }
     close $handle;
 

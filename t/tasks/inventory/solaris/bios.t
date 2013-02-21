@@ -134,7 +134,7 @@ my %prtconf_tests = (
     }
 );
 
-plan tests => 
+plan tests =>
     (scalar keys %showrev_tests) +
     (scalar keys %smbios_tests)  +
     (scalar keys %prtconf_tests);

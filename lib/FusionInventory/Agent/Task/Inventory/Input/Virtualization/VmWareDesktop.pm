@@ -9,7 +9,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
-    return 
+    return
         canRun('/Library/Application Support/VMware Fusion/vmrun') ||
         canRun('vmrun');
 }
@@ -19,7 +19,7 @@ sub doInventory {
 
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
-    
+
     my $command = canRun('vmrun') ?
         'vmrun list' : "'/Library/Application Support/VMware Fusion/vmrun' list";
 

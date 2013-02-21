@@ -19,7 +19,7 @@ my %fields = (
                         PRODUCTID PCISUBSYSTEMID PCISLOT TYPE REV/ ],
     CPUS        => [ qw/CACHE CORE DESCRIPTION MANUFACTURER NAME THREAD SERIAL
                         STEPPING FAMILYNAME FAMILYNUMBER MODEL SPEED ID EXTERNAL_CLOCK/ ],
-    DRIVES      => [ qw/CREATEDATE DESCRIPTION FREE FILESYSTEM LABEL LETTER 
+    DRIVES      => [ qw/CREATEDATE DESCRIPTION FREE FILESYSTEM LABEL LETTER
                         SERIAL SYSTEMDRIVE TOTAL TYPE VOLUMN/ ],
     ENVS        => [ qw/KEY VAL/ ],
     INPUTS      => [ qw/NAME MANUFACTURER CAPTION DESCRIPTION INTERFACE LAYOUT
@@ -30,10 +30,10 @@ my %fields = (
     MODEMS      => [ qw/DESCRIPTION NAME/ ],
     MONITORS    => [ qw/BASE64 CAPTION DESCRIPTION MANUFACTURER SERIAL
                         UUENCODE/ ],
-    NETWORKS    => [ qw/BSSID DESCRIPTION DRIVER FIRMWARE IPADDRESS IPADDRESS6 
+    NETWORKS    => [ qw/BSSID DESCRIPTION DRIVER FIRMWARE IPADDRESS IPADDRESS6
                         IPDHCP IPGATEWAY IPMASK IPMASK6 IPSUBNET IPSUBNET6
-                        MANAGEMENT MANUFACTURER MACADDR MODEL MTU PCISLOT 
-                        PNPDEVICEID STATUS SLAVES SPEED SSID TYPE VIRTUALDEV  
+                        MANAGEMENT MANUFACTURER MACADDR MODEL MTU PCISLOT
+                        PNPDEVICEID STATUS SLAVES SPEED SSID TYPE VIRTUALDEV
                         WWN/ ],
     PORTS       => [ qw/CAPTION DESCRIPTION NAME TYPE/ ],
     PROCESSES   => [ qw/USER PID CPUUSAGE MEM VIRTUALMEMORY TTY STARTED CMD/ ],
@@ -41,44 +41,44 @@ my %fields = (
     RUDDER      => [ qw/AGENT UUID HOSTNAME/ ],
     SLOTS       => [ qw/DESCRIPTION DESIGNATION NAME STATUS/ ],
     SOFTWARES   => [ qw/COMMENTS FILESIZE FOLDER FROM HELPLINK INSTALLDATE NAME
-                        NO_REMOVE RELEASE_TYPE PUBLISHER UNINSTALL_STRING 
-                        URL_INFO_ABOUT VERSION VERSION_MINOR VERSION_MAJOR 
+                        NO_REMOVE RELEASE_TYPE PUBLISHER UNINSTALL_STRING
+                        URL_INFO_ABOUT VERSION VERSION_MINOR VERSION_MAJOR
                         GUID ARCH USERNAME USERID/ ],
     SOUNDS      => [ qw/CAPTION DESCRIPTION MANUFACTURER NAME/ ],
     STORAGES    => [ qw/DESCRIPTION DISKSIZE INTERFACE MANUFACTURER MODEL NAME
                         TYPE SERIAL SERIALNUMBER FIRMWARE SCSI_COID SCSI_CHID
                         SCSI_UNID SCSI_LUN WWN/ ],
     VIDEOS      => [ qw/CHIPSET MEMORY NAME RESOLUTION PCISLOT/ ],
-    USBDEVICES  => [ qw/VENDORID PRODUCTID MANUFACTURER CAPTION SERIAL CLASS 
+    USBDEVICES  => [ qw/VENDORID PRODUCTID MANUFACTURER CAPTION SERIAL CLASS
                         SUBCLASS NAME/ ],
     USERS       => [ qw/LOGIN DOMAIN/ ],
     LOCAL_USERS  => [ qw/LOGIN ID NAME HOME SHELL/ ],
     LOCAL_GROUPS => [ qw/NAME ID MEMBER/ ],
     PRINTERS    => [ qw/COMMENT DESCRIPTION DRIVER NAME NETWORK PORT RESOLUTION
-                        SHARED STATUS ERRSTATUS SERVERNAME SHARENAME 
+                        SHARED STATUS ERRSTATUS SERVERNAME SHARENAME
                         PRINTPROCESSOR SERIAL/ ],
-    BIOS             => [ qw/SMODEL SMANUFACTURER SSN BDATE BVERSION 
-                             BMANUFACTURER MMANUFACTURER MSN MMODEL ASSETTAG 
-                             ENCLOSURESERIAL BIOSSERIAL 
+    BIOS             => [ qw/SMODEL SMANUFACTURER SSN BDATE BVERSION
+                             BMANUFACTURER MMANUFACTURER MSN MMODEL ASSETTAG
+                             ENCLOSURESERIAL BIOSSERIAL
                              TYPE SKUNUMBER/ ],
     HARDWARE         => [ qw/USERID OSVERSION PROCESSORN OSCOMMENTS CHECKSUM
                              PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME
-                             IPADDR WORKGROUP DESCRIPTION MEMORY UUID VMID DNS 
-                             LASTLOGGEDUSER USERDOMAIN DATELASTLOGGEDUSER 
+                             IPADDR WORKGROUP DESCRIPTION MEMORY UUID VMID DNS
+                             LASTLOGGEDUSER USERDOMAIN DATELASTLOGGEDUSER
                              DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
                              WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE VMID
                              VMNAME VMHOSTSERIAL/ ],
-    OPERATINGSYSTEM  => [ qw/KERNEL_NAME KERNEL_VERSION NAME VERSION FULL_NAME 
+    OPERATINGSYSTEM  => [ qw/KERNEL_NAME KERNEL_VERSION NAME VERSION FULL_NAME
                             SERVICE_PACK INSTALL_DATE FQDN DNS_DOMAIN
                             SSH_KEY ARCH BOOT_TIME/ ],
     ACCESSLOG        => [ qw/USERID LOGDATE/ ],
     VIRTUALMACHINES  => [ qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU
                              VMID MAC COMMENT OWNER/ ],
-    LOGICAL_VOLUMES  => [ qw/LV_NAME VGN_AME ATTR SIZE LV_UUID SEG_COUNT 
+    LOGICAL_VOLUMES  => [ qw/LV_NAME VGN_AME ATTR SIZE LV_UUID SEG_COUNT
                              VG_UUID/ ],
     PHYSICAL_VOLUMES => [ qw/DEVICE PV_PE_COUNT PV_UUID FORMAT ATTR
                              SIZE FREE PE_SIZE VG_UUID/ ],
-    VOLUME_GROUPS    => [ qw/VG_NAME PV_COUNT LV_COUNT ATTR SIZE FREE VG_UUID 
+    VOLUME_GROUPS    => [ qw/VG_NAME PV_COUNT LV_COUNT ATTR SIZE FREE VG_UUID
                              VG_EXTENT_SIZE/ ],
     LICENSEINFOS     => [ qw/NAME FULLNAME KEY COMPONENTS TRIAL UPDATE OEM ACTIVATION_DATE PRODUCTID/ ]
 );
@@ -285,7 +285,7 @@ sub setOperatingSystem {
             );
             next
         }
-        $self->{content}->{OPERATINGSYSTEM}->{$field} = 
+        $self->{content}->{OPERATINGSYSTEM}->{$field} =
             getSanitizedString($args->{$field});
     }
 }
@@ -315,7 +315,7 @@ sub setAccessLog {
             next
         }
 
-        $self->{content}->{ACCESSLOG}->{$field} = 
+        $self->{content}->{ACCESSLOG}->{$field} =
             getSanitizedString($args->{$field});
     }
 }
@@ -382,7 +382,7 @@ sub computeChecksum {
             md5_base64(Dumper($self->{content}->{$section}));
 
         # check if the section did change since the last run
-        next if 
+        next if
             $self->{last_state_content}->{$section} &&
             $self->{last_state_content}->{$section} eq $hash;
 
@@ -1255,13 +1255,13 @@ Environment variables
 
 =back
 
-=head2 UPDATES 
+=head2 UPDATES
 
 Windows updates
 
 =over
 
-=item ID 
+=item ID
 
 Update Id
 
@@ -1271,17 +1271,17 @@ List of KB, delimiter is '/'
 
 =back
 
-=head2 USBDEVICES 
+=head2 USBDEVICES
 
 USB Devices
 
 =over
 
-=item VENDORID 
+=item VENDORID
 
 Vendor USB ID. 4 hexa char.
 
-=item PRODUCTID 
+=item PRODUCTID
 
 Product USB ID. 4 hexa char.
 

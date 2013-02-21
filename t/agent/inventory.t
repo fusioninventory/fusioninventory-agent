@@ -64,7 +64,7 @@ throws_ok {
 
 $inventory->addEntry(
     section => 'ENVS',
-    entry   => { 
+    entry   => {
         KEY => 'key1',
         VAL => 'val1'
     }
@@ -82,7 +82,7 @@ cmp_deeply(
 
 $inventory->addEntry(
     section => 'ENVS',
-    entry   => { 
+    entry   => {
         KEY => 'key2',
         VAL => 'val2'
     }
@@ -99,7 +99,7 @@ cmp_deeply(
 
 $inventory->addEntry(
     section => 'ENVS',
-    entry   => { 
+    entry   => {
         KEY => 'key3',
         VAL => undef
     }
@@ -117,7 +117,7 @@ cmp_deeply(
 
 $inventory->addEntry(
     section => 'ENVS',
-    entry   => { 
+    entry   => {
         KEY => 'key4',
         VAL => "val4\x12"
     }
@@ -136,7 +136,7 @@ cmp_deeply(
 
 $inventory->addEntry(
     section => 'ENVS',
-    entry   => { 
+    entry   => {
         KEY => 'key5',
         LAV => 'val5'
     }

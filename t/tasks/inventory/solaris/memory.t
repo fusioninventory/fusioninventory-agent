@@ -485,7 +485,7 @@ my %memconf_i86pc_tests = (
     ]
 );
 
-plan tests => 
+plan tests =>
     (scalar keys %memconf_fire_tests) +
     (scalar keys %memconf_firev_tests) +
     (scalar keys %memconf_firet_tests) +

@@ -61,7 +61,7 @@ sub _getInterfaces {
             my $nic = $1;
             my $num = $2;
 
-            $interface->{SPEED} = 
+            $interface->{SPEED} =
                 $nic =~ /aggr/   ? undef                       :
                 $nic =~ /dmfe/   ? undef                       :
                 $nic =~ /bge/    ? _check_bge_nic($nic, $num)  :

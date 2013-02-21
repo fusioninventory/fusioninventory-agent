@@ -47,8 +47,8 @@ sub doInventory {
         $bios->{BIOSSERIAL}    = $object->{SerialNumber};
         $bios->{SSN}           = $object->{SerialNumber};
         $bios->{BMANUFACTURER} = $object->{Manufacturer};
-        $bios->{BVERSION}      = $object->{SMBIOSBIOSVersion} || 
-                                 $object->{BIOSVersion}       || 
+        $bios->{BVERSION}      = $object->{SMBIOSBIOSVersion} ||
+                                 $object->{BIOSVersion}       ||
                                  $object->{Version};
         $bios->{BDATE}         = _dateFromIntString($object->{ReleaseDate});
     }

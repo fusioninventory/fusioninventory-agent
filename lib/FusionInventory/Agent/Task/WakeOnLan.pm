@@ -198,7 +198,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::WakeOnLan - Wake-on-lan task for FusionInventory 
+FusionInventory::Agent::Task::WakeOnLan - Wake-on-lan task for FusionInventory
 
 =head1 DESCRIPTION
 

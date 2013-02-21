@@ -260,7 +260,7 @@ my %actions = (
                   {
                       path => $FindBin::Bin . "/../lib/FusionInventory/Agent/Task/Deploy.pm",
                       type => "fileExists",
-                      return => "ignore" 
+                      return => "ignore"
                   }
                   ],
                   "retChecks" => [
@@ -280,7 +280,7 @@ my %actions = (
                   {
                       path => $FindBin::Bin . "/../lib/FusionInventory/Agent/Task/Deploy.pm-missing",
                       type => "fileExists",
-                      return => "ignore" 
+                      return => "ignore"
                   }
                   ],
                   copy => [
@@ -297,7 +297,7 @@ my %actions = (
                   {
                       path => $FindBin::Bin . "/../lib/FusionInventory/Agent/Task/Deploy.pm-missing",
                       type => "fileExists",
-                      return => "ignore" 
+                      return => "ignore"
                   }
                   ],
                   "retChecks" => [
@@ -315,7 +315,7 @@ my %actions = (
               copy => {
                   from =>  $FindBin::Bin . "/../lib/FusionInventory/Agent/Task/Deploy.pm",
                   to =>  $tmpDirServer
-              } 
+              }
           };
         }
     elsif ( $testname eq 'deploy10' ) {
@@ -358,7 +358,7 @@ my %actions = (
         }
     elsif ( $testname eq 'deploy14' ) {
           $ret->{jobs}[0]{actions}[0] = {
-              mkdir => { 
+              mkdir => {
                 list => [
                 $tmpDirServer.'/test-dir1',
                 $tmpDirServer.'/test-dir2',
@@ -369,7 +369,7 @@ my %actions = (
         }
     elsif ( $testname eq 'deploy15' ) {
           $ret->{jobs}[0]{actions}[0] = {
-              delete => { 
+              delete => {
                 list => [
                 $tmpDirServer.'/dir-to-delete',
                 $tmpDirServer.'/file-to-delete',
@@ -471,7 +471,7 @@ ok( $deploy->{client}, "loading Client object" );
 my $ret;
 #ok( $deploy->processRemote('http://localhost:8080/deploy1'), "processRemote()" );
 
-# $ret = 
+# $ret =
 #[
 #          {
 #            'action' => 'getJobs',
@@ -574,7 +574,7 @@ $deploy->{client}{msgStack} = [];
 #            'machineid' => 'fakeid',
 #            'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
 #          }
-#        ]; 
+#        ];
 #
 #foreach(0..@$ret) {
 ## We ignore uuid since we don't know it.
@@ -615,7 +615,7 @@ is_deeply($deploy->{client}{msgStack}, $ret);
 $deploy->{client}{msgStack} = [];
 
 # Run perl and see 0 as success code and so
-# should flag the deployment as OK 
+# should flag the deployment as OK
 $deploy->processRemote('http://localhost:8080/deploy3');
 $last = pop @{$deploy->{client}{msgStack}};
 ok(
@@ -631,7 +631,7 @@ $last = pop @{$deploy->{client}{msgStack}};
 ok(($last->{status} eq "ko") && ($last->{actionnum} == 0), "Cmd errorCode");
 $deploy->{client}{msgStack} = [];
 
-# ensure we got only 10 lines of log 
+# ensure we got only 10 lines of log
 $deploy->processRemote('http://localhost:8080/deploy4.1');
 pop @{$deploy->{client}{msgStack}};
 $last = pop @{$deploy->{client}{msgStack}};

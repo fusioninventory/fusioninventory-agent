@@ -75,7 +75,7 @@ sub _getControllers {
 
         my $class = getPCIDeviceClass(id => $class_id, @_);
         if ($class) {
-            $controller->{TYPE} = 
+            $controller->{TYPE} =
                 $subclass_id && $class->{subclasses}->{$subclass_id} ?
                     $class->{subclasses}->{$subclass_id}->{name} :
                     $class->{name};

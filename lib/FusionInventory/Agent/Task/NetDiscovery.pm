@@ -281,15 +281,15 @@ sub _getCredentials {
     my @credentials;
 
     foreach my $credential (@{$options->{AUTHENTICATION}}) {
-	if ($credential->{VERSION} eq '3') {
-	    # a user name is required
-	    next unless $credential->{USERNAME};
-	    # DES support is required
-	    next unless Crypt::DES->require();
-	} else {
-	    next unless $credential->{COMMUNITY};
-	}
-	push @credentials, $credential;
+        if ($credential->{VERSION} eq '3') {
+            # a user name is required
+            next unless $credential->{USERNAME};
+            # DES support is required
+            next unless Crypt::DES->require();
+        } else {
+            next unless $credential->{COMMUNITY};
+        }
+        push @credentials, $credential;
     }
 
     return \@credentials;
@@ -300,7 +300,7 @@ sub _scanAddresses {
 
     my $logger = $self->{logger};
     my $id     = threads->tid();
-    
+
     $logger->debug("Thread $id created");
 
     # start: wait for state to change
@@ -433,7 +433,7 @@ sub _scanAddressByNetbios {
     }
 
     $device{MAC} = $ns->mac_address();
-    $device{MAC} =~ tr/-/:/; 
+    $device{MAC} =~ tr/-/:/;
 
     return %device;
 }

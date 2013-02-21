@@ -10,27 +10,27 @@ use FusionInventory::Agent::Task::Inventory::Input::Linux::Videos;
 
 my %ddcprobe = (
     '98LMTF053166' => {
-	eisa        => 'ACI22ab',
-	input       => 'sync on green, analog signal.',
-	mode        => '640x480x64k',
-	monitorserial => '98LMTF053166',
-	edid        => '1 3',
-	monitorrange => '30-85, 55-75',
-	id          => '22ab',
-	dtiming     => '1920x1080@67',
-	serial      => '0000cfae',
-	oem         => 'Intel(r) 82945GM Chipset Family Graphics Chip Accelerated VGA BIOS',
-	ctiming     => '1920x1200@60',
-	gamma       => '2.200000',
-	memory      => '7872kb',
-	timing      => '1280x1024@75 (VESA)',
-	monitorname => 'ASUS VH222',
-	screensize  => '47 26',
-	manufacture => '32 2009',
-	dpms        => 'RGB, active off, no suspend, no standby',
-	product     => 'Intel(r) 82945GM Chipset Family Graphics Controller Hardware Version 0.0',
-	vendor      => 'Intel Corporation',
-	vbe         => 'VESA 3.0 detected.'
+        eisa        => 'ACI22ab',
+        input       => 'sync on green, analog signal.',
+        mode        => '640x480x64k',
+        monitorserial => '98LMTF053166',
+        edid        => '1 3',
+        monitorrange => '30-85, 55-75',
+        id          => '22ab',
+        dtiming     => '1920x1080@67',
+        serial      => '0000cfae',
+        oem         => 'Intel(r) 82945GM Chipset Family Graphics Chip Accelerated VGA BIOS',
+        ctiming     => '1920x1200@60',
+        gamma       => '2.200000',
+        memory      => '7872kb',
+        timing      => '1280x1024@75 (VESA)',
+        monitorname => 'ASUS VH222',
+        screensize  => '47 26',
+        manufacture => '32 2009',
+        dpms        => 'RGB, active off, no suspend, no standby',
+        product     => 'Intel(r) 82945GM Chipset Family Graphics Controller Hardware Version 0.0',
+        vendor      => 'Intel Corporation',
+        vbe         => 'VESA 3.0 detected.'
     },
     'B101AW03' => {
         eisa        => 'AUO30d2',
@@ -122,7 +122,7 @@ my %ddcprobe = (
         dpms        => 'RGB, no active off, no suspend, no standby',
         product     => 'Intel(r)GM965/PM965/GL960 Graphics Controller Hardware Version 0.0',
         vendor      => 'Intel Corporation',
-        vbe         => 'VESA 3.0 detected.'	
+        vbe         => 'VESA 3.0 detected.'
     }
 );
 
@@ -134,8 +134,8 @@ my %xorg = (
     },
     'linux-intel-2' => {
         pcislot    => '00:02.0',
-	resolution => '1024x600',
-	name       => 'Intel(R) 945GME'
+        resolution => '1024x600',
+        name       => 'Intel(R) 945GME'
     },
     'linux-intel-3' => {
         pcislot    => '00:02.0',
@@ -184,8 +184,8 @@ my %xorg = (
         product    => 'MACH64GM'
     },
     'linux-nouveau' => {
-	'resolution' => '1680x1050',
-	'product' => 'NVIDIA NV86'
+        'resolution' => '1680x1050',
+        'product' => 'NVIDIA NV86'
     }
 
 );

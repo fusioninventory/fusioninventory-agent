@@ -43,7 +43,7 @@ sub process {
 
         return defined $r && $params{check}->{value} eq $r ? 'ok' : $failureCode;
     }
-    
+
     if ($params{check}->{type} eq 'winkeyMissing') {
         return unless $OSNAME eq 'MSWin32';
         require FusionInventory::Agent::Tools::Win32;
@@ -54,7 +54,7 @@ sub process {
         my $r = FusionInventory::Agent::Tools::Win32::getRegistryKey(path => $path);
 
         return defined $r ? $failureCode : 'ok';
-    } 
+    }
 
     if ($params{check}->{type} eq 'fileExists') {
         return -f $path ? 'ok' : $failureCode;
@@ -77,11 +77,11 @@ sub process {
         return $failureCode unless @s;
         return $params{check}->{value} > $s[7] ? 'ok' : $failureCode;
     }
-    
+
     if ($params{check}->{type} eq 'fileMissing') {
         return -f $path ? $failureCode : 'ok';
     }
-    
+
     if ($params{check}->{type} eq 'freespaceGreater') {
         my $freespace = getFreeSpace(logger => $params{logger}, path => $path);
         return $freespace>$params{check}->{value}? "ok" : $failureCode;
@@ -96,7 +96,6 @@ sub process {
             $sha512 = $sha->hexdigest;
         };
 
-
         return $sha512 eq $params{check}->{value} ? "ok" : $failureCode;
     }
 
@@ -107,7 +106,6 @@ sub process {
     if ($params{check}->{type} eq 'directoryMissing') {
         return -d $path ? $failureCode : 'ok';
     }
-
 
     print "Unknown check: `".$params{check}->{type}."'\n";
 

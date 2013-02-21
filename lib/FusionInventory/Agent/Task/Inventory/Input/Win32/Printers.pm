@@ -53,7 +53,7 @@ sub doInventory {
         class      => 'Win32_Printer',
         properties => [ qw/
             ExtendedDetectedErrorState HorizontalResolution VerticalResolution Name
-            Comment DescriptionDriverName DriverName PortName Network Shared 
+            Comment DescriptionDriverName DriverName PortName Network Shared
             PrinterStatus ServerName ShareName PrintProcessor
         / ]
     )) {
@@ -95,7 +95,7 @@ sub doInventory {
             }
         );
 
-    }    
+    }
 }
 
 sub _getUSBPrinterSerial {
@@ -136,7 +136,7 @@ sub _getUSBPrefix {
     foreach my $device (values %$print) {
         foreach my $subdeviceName (keys %$device) {
             my $subdevice = $device->{$subdeviceName};
-            next unless 
+            next unless
                 $subdevice->{'Device Parameters/'}                &&
                 $subdevice->{'Device Parameters/'}->{'/PortName'} &&
                 $subdevice->{'Device Parameters/'}->{'/PortName'} eq $portName;

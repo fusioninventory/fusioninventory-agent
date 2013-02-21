@@ -38,4 +38,3 @@ foreach my $test (keys %config) {
         cmp_deeply($c->{$k}, $config{$test}->{$k}, $test." ".$k);
     }
 }
-

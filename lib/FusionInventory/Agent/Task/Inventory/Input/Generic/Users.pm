@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
-    return 
+    return
         canRun('who')  ||
         canRun('last') ||
         canRead('/etc/passwd');

@@ -6,8 +6,8 @@ use warnings;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Solaris;
 
-sub isEnabled { 
-    return 
+sub isEnabled {
+    return
         canRun('zoneadm') &&
         getZone() eq 'global' &&
         _check_solaris_valid_release('/etc/release');
@@ -25,7 +25,7 @@ sub doInventory {
 
     foreach my $zone (@zones) {
         my ($zoneid, $zonename, $zonestatus, undef, $uuid) = split(/:/, $zone);
-         
+
         # Memory considerations depends on rcapd or project definitions
         # Little hack, I go directly in /etc/zones reading mcap physcap for each zone.
         my $zonefile = "/etc/zones/$zonename.xml";

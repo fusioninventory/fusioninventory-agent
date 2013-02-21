@@ -10,7 +10,7 @@ use FusionInventory::Agent::Tools;
 sub isEnabled {
     my (%params) = @_;
 
-    return 
+    return
         # we use system profiler on MacOS
         $OSNAME ne 'darwin' &&
         !$params{no_category}->{printer} &&

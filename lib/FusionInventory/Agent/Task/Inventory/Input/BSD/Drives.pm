@@ -17,7 +17,7 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # get filesystem types
-    my @types = 
+    my @types =
         grep { ! /^(?:fdesc|devfs|procfs|linprocfs|linsysfs|tmpfs|fdescfs)$/ }
         getFilesystemsTypesFromMount(logger => $logger);
 

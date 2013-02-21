@@ -24,7 +24,7 @@ if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
 my $failure :shared;
 my $maxsize = 1; # 1MB
 
-my $fileTemp = tempdir( CLEANUP => 0 ).'/file.log'; 
+my $fileTemp = tempdir( CLEANUP => 0 ).'/file.log';
 my $logger = FusionInventory::Agent::Logger::File->new(
     config => {
         'logfile'         => $fileTemp,

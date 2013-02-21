@@ -7,7 +7,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::HPUX;
 use English qw(-no_match_vars);
 
-sub isEnabled { 
+sub isEnabled {
     return 1;
 }
 
@@ -162,7 +162,7 @@ sub _parseCstm {
                 $ok = 0;
                 $capacity = 0;
             } # $ok eq 1
-        } # /Serial\s+Number\.*:\s*(\S+)\s+/ 
+        } # /Serial\s+Number\.*:\s*(\S+)\s+/
 
     }
     close $handle;

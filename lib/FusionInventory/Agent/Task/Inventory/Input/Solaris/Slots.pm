@@ -18,10 +18,10 @@ sub doInventory {
 
     my $class = getClass();
 
-    my @slots = 
+    my @slots =
         $class == SOLARIS_ENTERPRISE_T ? _getSlots4(logger => $logger) :
         $class == SOLARIS_ENTERPRISE   ? _getSlots5(logger => $logger) :
-                                         _getSlotsDefault(logger => $logger) ;
+                                         _getSlotsDefault(logger => $logger);
 
     foreach my $slot (@slots) {
         $inventory->addEntry(

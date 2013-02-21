@@ -11,7 +11,7 @@ use FusionInventory::Agent::Tools::Unix;
 sub isEnabled {
     my (%params) = @_;
 
-    return 
+    return
         $OSNAME ne 'MSWin32' &&
         !$params{no_category}->{process} &&
         canRun('ps');

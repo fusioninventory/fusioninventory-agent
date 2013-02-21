@@ -41,7 +41,7 @@ my %storage_tests = (
     }
 );
 
-plan tests => 
+plan tests =>
     (scalar keys %slots_tests) +
     (scalar keys %drives_tests) +
     (scalar keys %storage_tests);

@@ -79,9 +79,6 @@ sub _getBiosHardware {
     }
     $hardware->{VMSYSTEM} = $vmsystem if $vmsystem;
 
-    
-
-
     return $bios, $hardware;
 }
 

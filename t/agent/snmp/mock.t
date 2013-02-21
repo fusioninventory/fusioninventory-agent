@@ -56,7 +56,7 @@ plan tests => $testCpt;
 
 foreach my $walk (keys %walks) {
     my $snmp = FusionInventory::Agent::SNMP::Mock->new(
-        file => "resources/walks/$walk.walk" 
+        file => "resources/walks/$walk.walk"
     );
 
     foreach my $oid (keys %{$walks{$walk}->{get}}) {

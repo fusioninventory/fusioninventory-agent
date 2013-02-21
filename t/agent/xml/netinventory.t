@@ -1,4 +1,4 @@
-#!/usr/bin/perl 
+#!/usr/bin/perl
 
 use strict;
 use warnings;
@@ -97,5 +97,3 @@ foreach my $test (@tests) {
     );
     is($message->getContent(), $test->[1], $test->[2]);
 }
-
-

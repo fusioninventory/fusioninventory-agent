@@ -70,13 +70,13 @@ my @manufacturer_tests_nok = (
 );
 
 my @version_tests_ok = (
-    [ 1, 0, 1, 0 ], 
-    [ 1, 1, 1, 0 ], 
-    [ 2, 0, 1, 0 ], 
+    [ 1, 0, 1, 0 ],
+    [ 1, 1, 1, 0 ],
+    [ 2, 0, 1, 0 ],
 );
 
 my @version_tests_nok = (
-    [ 0, 9, 1, 0 ], 
+    [ 0, 9, 1, 0 ],
 );
 
 my @sanitization_tests = (

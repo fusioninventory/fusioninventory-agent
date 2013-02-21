@@ -23,7 +23,7 @@ sub doInventory {
         '%{INSTALLTIME:date}\t' .
         '%{SIZE}\t' .
         '%{VENDOR}\t' .
-        '%{SUMMARY}\n' . 
+        '%{SUMMARY}\n' .
         '\'';
 
     my $packages = _getPackagesList(

@@ -96,4 +96,3 @@ the server URL (mandatory)
 =head2 getUrl()
 
 Return the server URL for this target.
-

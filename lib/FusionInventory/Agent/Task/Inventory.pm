@@ -193,7 +193,7 @@ sub _initModulesList {
         $self->{modules}->{$module}->{used}    = 0;
 
         no strict 'refs'; ## no critic (ProhibitNoStrict)
-        $self->{modules}->{$module}->{runAfter} = [ 
+        $self->{modules}->{$module}->{runAfter} = [
             $parent ? $parent : (),
             ${$module . '::runAfter'} ? @${$module . '::runAfter'} : ()
         ];
@@ -206,7 +206,7 @@ sub _initModulesList {
 
         # skip modules already disabled
         next unless $self->{modules}->{$module}->{enabled};
-        # skip non-fallback modules 
+        # skip non-fallback modules
         next unless ${$module . '::runMeIfTheseChecksFailed'};
 
         my $failed;
@@ -372,7 +372,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::Inventory - Inventory task for FusionInventory 
+FusionInventory::Agent::Task::Inventory - Inventory task for FusionInventory
 
 =head1 DESCRIPTION
 

@@ -5,7 +5,7 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
-sub isEnabled { 
+sub isEnabled {
     return canRun('vmware-cmd');
 }
 

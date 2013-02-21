@@ -9,7 +9,7 @@ our $runMeIfTheseChecksFailed =
     ["FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode"];
 
 my @formFactorVal = qw/
-    Unknown 
+    Unknown
     Other
     SIP
     DIP
@@ -60,7 +60,7 @@ my @memoryTypeVal = qw/
     DDR-2
 /;
 
-my @memoryErrorProtection = ( 
+my @memoryErrorProtection = (
     undef,
     'Other',
     undef,
@@ -104,8 +104,8 @@ sub _getMemories {
         my $type = $memoryTypeVal[$object->{MemoryType}];
         next if $type && $type eq 'ROM';
         next if $type && $type eq 'Flash';
-       
-        my $capacity; 
+
+        my $capacity;
         $capacity = $object->{Capacity} / (1024 * 1024)
             if $object->{Capacity};
 
@@ -123,7 +123,7 @@ sub _getMemories {
     }
 
     foreach my $object (getWMIObjects(
-        class      => 'Win32_PhysicalMemoryArray', 
+        class      => 'Win32_PhysicalMemoryArray',
         properties => [ qw/
             MemoryDevices SerialNumber PhysicalMemoryCorrection
         / ]

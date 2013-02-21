@@ -67,7 +67,7 @@ my %pcpu_tests = (
 my %cpu_tests = (
     unstable9s => [
         _map(1,
-            { 
+            {
                 NAME         => 'UltraSPARC-T2',
                 MANUFACTURER => 'SPARC',
                 SPEED        => '1165',
@@ -78,7 +78,7 @@ my %cpu_tests = (
     ],
     unstable9x => [
         _map(4,
-            { 
+            {
                 NAME         => 'i386',
                 MANUFACTURER => undef,
                 SPEED        => '2333',
@@ -100,7 +100,7 @@ my %cpu_tests = (
     ],
     unstable10x => [
         _map(4,
-            { 
+            {
                 NAME         => 'Xeon E5410',
                 MANUFACTURER => 'Intel',
                 SPEED        => '2333',
@@ -111,7 +111,7 @@ my %cpu_tests = (
     ],
     unstable11s => [
         _map(1,
-            { 
+            {
                 NAME         => 'UltraSPARC-T2',
                 MANUFACTURER => 'SPARC',
                 SPEED        => '1165',
@@ -122,7 +122,7 @@ my %cpu_tests = (
     ],
     unstable11x => [
         _map(4,
-            { 
+            {
                 NAME         => 'Xeon E5410',
                 MANUFACTURER => 'Intel',
                 SPEED        => '2326',
@@ -155,7 +155,7 @@ my %cpu_tests = (
     ],
     v490 => [
         _map(4,
-            { 
+            {
                 NAME         => 'UltraSPARC-IV',
                 MANUFACTURER => 'SPARC',
                 SPEED        => '1350',
@@ -177,7 +177,7 @@ my %cpu_tests = (
     ]
 );
 
-plan tests => 
+plan tests =>
     (scalar keys %vpcu_tests) +
     (scalar keys %pcpu_tests) +
     (scalar keys %cpu_tests) ;

@@ -9,7 +9,7 @@ sub isEnabled {
     my (%params) = @_;
 
     # We don't want to scan user directories unless --scan-homedirs is used
-    return 
+    return
         canRun('prlctl') &&
         $params{scan_homedirs};
 }
@@ -71,7 +71,7 @@ sub _parsePrlctlA {
 
     my @machines;
     while (my $line = <$handle>) {
-        chomp $line; 
+        chomp $line;
         my @info = split(/\s+/, $line, 4);
         my $uuid   = $info[0];
         my $status = $status_list{$info[1]};

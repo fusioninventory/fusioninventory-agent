@@ -61,4 +61,3 @@ foreach my $test (@tests) {
         $test->{test}, 6 );
     is_deeply(\@ret, $test->{ret}, $test->{name});
 }
-

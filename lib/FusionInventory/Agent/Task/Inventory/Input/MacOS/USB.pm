@@ -30,7 +30,7 @@ sub doInventory {
 
 sub _getDevices {
 
-    return 
+    return
         map {
             {
                 VENDORID  => dec2hex($_->{'idVendor'}),

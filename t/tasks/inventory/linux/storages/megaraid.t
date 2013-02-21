@@ -58,7 +58,7 @@ my %tests = (
             'MANUFACTURER' => 'SEAGATE',
             'TYPE' => 'disk'
         }
-    ] 
+    ]
 );
 
 plan tests => scalar keys %tests;

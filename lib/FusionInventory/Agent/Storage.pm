@@ -1,5 +1,5 @@
 package FusionInventory::Agent::Storage;
-        
+
 use strict;
 use warnings;
 

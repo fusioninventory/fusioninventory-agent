@@ -9,7 +9,7 @@ use FusionInventory::Agent::Tools::Generic;
 
 sub isEnabled {
     # both windows and linux have dedicated modules
-    return 
+    return
         $OSNAME ne 'MSWin32' &&
         $OSNAME ne 'linux';
 }

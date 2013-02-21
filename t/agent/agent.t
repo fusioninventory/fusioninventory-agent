@@ -38,7 +38,7 @@ EOF
 %tasks = $agent->getAvailableTasks();
 cmp_deeply (
     \%tasks,
-    { 
+    {
         'Task1' => 42,
         'Task2' => 42
     },
@@ -54,7 +54,7 @@ EOF
 %tasks = $agent->getAvailableTasks();
 cmp_deeply(
     \%tasks,
-    { 
+    {
         'Task1' => 42,
         'Task2' => 42
     },
@@ -68,7 +68,7 @@ EOF
 %tasks = $agent->getAvailableTasks();
 cmp_deeply(
     \%tasks,
-    { 
+    {
         'Task1' => 42,
         'Task2' => 42
     },

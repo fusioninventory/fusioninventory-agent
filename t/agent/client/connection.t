@@ -195,7 +195,7 @@ subtest "correct response" => sub {
     check_response_ok(
         $client,
         "https://localhost:$port/public",
-    ); 
+    );
 };
 
 lives_ok {
@@ -288,7 +288,7 @@ subtest "no response" => sub {
         "http://localhost:$port/private",
         $logger,
         "[http client] authentication required, no credentials available",
-    ); 
+    );
 };
 
 lives_ok {
@@ -392,7 +392,7 @@ subtest "correct response" => sub {
     check_response_ok(
         $client,
         "https://localhost:$port/public",
-    ); 
+    );
 };
 
 lives_ok {
@@ -409,7 +409,7 @@ subtest "no response" => sub {
         "https://localhost:$port/private",
         $logger,
         "[http client] authentication required, no credentials available",
-    ); 
+    );
 };
 
 lives_ok {

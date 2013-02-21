@@ -33,7 +33,7 @@ sub doInventory {
         NAME                 => "HP-UX",
         VERSION              => $OSRelease,
         KERNEL_VERSION       => $OSRelease,
-#        FULL_NAME            => TODO 
+#        FULL_NAME            => TODO
     });
 }
 

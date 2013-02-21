@@ -22,7 +22,7 @@ sub doInventory {
     my %infos =
         map  { $_->{AX} => $_ }
         grep { $_->{AX} }
-        getLsvpdInfos(logger => $logger);  
+        getLsvpdInfos(logger => $logger);
 
     foreach my $slot (_getSlots(
         command => 'lsdev -Cc bus -F "name:description"',

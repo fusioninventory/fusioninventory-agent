@@ -69,8 +69,8 @@ sub _getStorages {
 sub _isStorage {
     my ($device) = @_;
 
-    return 
-        ($device->{'BSD Name'} && $device->{'BSD Name'} =~ /^disk\d+$/) || 
+    return
+        ($device->{'BSD Name'} && $device->{'BSD Name'} =~ /^disk\d+$/) ||
         ($device->{'Protocol'} && $device->{'Socket Type'});
 }
 

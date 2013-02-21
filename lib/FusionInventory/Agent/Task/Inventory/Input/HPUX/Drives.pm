@@ -75,7 +75,7 @@ sub _parseBdf {
             $device = $1;
             next;
         }
-        
+
         if ($line =~ /(\d+)\s+(\d+)\s+(\d+)\s+(\d+%)\s+(\S+)/) {
             push @drives, {
                 VOLUMN     => $device,
@@ -123,7 +123,7 @@ sub _getVxFSctime {
     # read value
     open (my $handle, "<:raw:bytes", $device)
         or die "Can't open $device in raw mode: $ERRNO";
-    seek($handle, $offset, 0) 
+    seek($handle, $offset, 0)
         or die "Can't seek offset $offset on device $device: $ERRNO";
     my $raw;
     read($handle, $raw, 4)

@@ -9,7 +9,7 @@ use FusionInventory::Agent::Tools::MacOS;
 sub isEnabled {
     my (%params) = @_;
 
-    return 
+    return
         !$params{no_category}->{printer} &&
         canRun('/usr/sbin/system_profiler');
 }

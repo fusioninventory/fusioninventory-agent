@@ -76,4 +76,3 @@ foreach my $test (keys %tests_getUUID) {
     my $uuid = FusionInventory::Agent::Task::Inventory::Input::Virtualization::Xen::_getUUID(file => $file);
     cmp_deeply($uuid, $tests_getUUID{$test}, $test);
 }
-

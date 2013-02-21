@@ -36,4 +36,3 @@ foreach my $test (keys %tests) {
     my $results = FusionInventory::Agent::Task::Inventory::Input::Linux::iLO::_parseHponcfg(file => $file);
     cmp_deeply($results, $tests{$test}, $test);
 }
-

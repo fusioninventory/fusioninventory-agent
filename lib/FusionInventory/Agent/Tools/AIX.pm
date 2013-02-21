@@ -44,7 +44,7 @@ sub getLsvpdInfos {
 
         chomp $line;
         next unless $line =~ /^\* ([A-Z]{2}) \s+ (.*\S)/x;
-        $device->{$1} = $2; 
+        $device->{$1} = $2;
     }
     close $handle;
 

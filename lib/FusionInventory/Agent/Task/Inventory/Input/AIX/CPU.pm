@@ -57,7 +57,7 @@ sub _getCPUs {
 
         # drop headers
         shift @lsattr;
-        
+
         # use first line to compute name, frequency and number of threads
         my @infos = split(/:/, $lsattr[0]);
 
@@ -65,7 +65,7 @@ sub _getCPUs {
         $cpu->{NAME} =~ s/_/ /;
 
         if ($aixversion >= 5) {
-            $cpu->{SPEED} = ($infos[1] % 1000000) >= 50000 ? 
+            $cpu->{SPEED} = ($infos[1] % 1000000) >= 50000 ?
                 int($infos[1] / 1000000) + 1 : int($infos[1] / 1000000);
         } else {
             # On older models, frequency is based on cpu model and uname

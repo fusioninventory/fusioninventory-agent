@@ -10,7 +10,7 @@ use FusionInventory::Agent::Task::Inventory::Input::Linux::Storages;
 #
 # Cards tested :
 #
-# IBM ServeRAID-6M 
+# IBM ServeRAID-6M
 # IBM ServeRAID-6i
 
 sub isEnabled {
@@ -89,4 +89,3 @@ sub doInventory {
 }
 
 1;
-

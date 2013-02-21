@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Tools::Win32;
- 
+
 sub isEnabled {
     return 1;
 }

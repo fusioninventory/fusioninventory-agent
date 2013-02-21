@@ -195,7 +195,7 @@ my %tests = (
             BVERSION      => 'VirtualBox'
         },
         hardware => {
-	    UUID     => 'AE698CFC-492A-4C7B-848F-8C17D24BC76E',
+            UUID     => 'AE698CFC-492A-4C7B-848F-8C17D24BC76E',
             VMSYSTEM => 'VirtualBox',
             CHASSIS_TYPE => undef
         }

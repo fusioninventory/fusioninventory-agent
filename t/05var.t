@@ -30,4 +30,3 @@ all_vars_ok(
         '$num'      => 1  # Task::Inventory::Input::Solaris::Networks
     }
 );
-

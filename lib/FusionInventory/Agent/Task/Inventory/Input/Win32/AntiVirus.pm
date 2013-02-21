@@ -61,4 +61,3 @@ sub doInventory {
 }
 
 1;
-

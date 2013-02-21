@@ -167,7 +167,7 @@ sub _getStorage {
     # Assuming only IDE drives can be plugged in
     # 5xxx/6xxx cards and
     # SATA drives only to 7xxx/8xxx/9xxxx cards
-    $storage->{DESCRIPTION} = 
+    $storage->{DESCRIPTION} =
         $card->{model} =~ /^[56]/  ? 'IDE'  :
         $card->{model} =~ /^[789]/ ? 'SATA' :
         undef;

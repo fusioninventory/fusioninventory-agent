@@ -66,7 +66,7 @@ sub _getStorages {
 
             ## To be removed when SERIALNUMBER will be supported
             if ($storage->{SERIALNUMBER}) {
-                $storage->{DESCRIPTION} = $storage->{DESCRIPTION} ? 
+                $storage->{DESCRIPTION} = $storage->{DESCRIPTION} ?
                 $storage->{DESCRIPTION} . " S/N:" . $storage->{SERIALNUMBER} :
                                            "S/N:" . $storage->{SERIALNUMBER} ;
 
