@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use lib 't';
+use lib 't/lib';
 
 use English qw(-no_match_vars);
 use List::Util qw(first);

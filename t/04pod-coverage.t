@@ -2,7 +2,6 @@
 
 use strict;
 use warnings;
-use lib 't';
 
 use Test::More;
 use UNIVERSAL::require;
@@ -18,9 +17,9 @@ plan(skip_all => 'Test::Pod::Coverage required')
 Test::Pod::Coverage->import();
 
 if ($OSNAME eq 'MSWin32') {
-    push @INC, 't/fake/unix';
+    push @INC, 't/lib/fake/unix';
 } else {
-    push @INC, 't/fake/windows';
+    push @INC, 't/lib/fake/windows';
 }
 
 my @modules = grep { filter($_) } all_modules('lib');

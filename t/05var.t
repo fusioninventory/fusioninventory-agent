@@ -16,9 +16,9 @@ plan(skip_all => 'Test::Vars required')
 Test::Vars->import();
 
 if ($OSNAME eq 'MSWin32') {
-    push @INC, 't/fake/unix';
+    push @INC, 't/lib/fake/unix';
 } else {
-    push @INC, 't/fake/windows';
+    push @INC, 't/lib/fake/windows';
 }
 
 all_vars_ok(

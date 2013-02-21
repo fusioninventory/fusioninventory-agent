@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 use utf8;
-use lib 't';
+use lib 't/lib';
 
 use English qw(-no_match_vars);
 use Test::Deep;
@@ -14,7 +14,7 @@ use FusionInventory::Test::Utils;
 
 BEGIN {
     # use mock modules for non-available ones
-    push @INC, 't/fake/windows' if $OSNAME ne 'MSWin32';
+    push @INC, 't/lib/fake/windows' if $OSNAME ne 'MSWin32';
 }
 
 use FusionInventory::Agent::Task::Inventory::Input::Win32::CPU;

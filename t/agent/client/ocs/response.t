@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use lib 't';
+use lib 't/lib';
 
 use Compress::Zlib;
 use English qw(-no_match_vars);

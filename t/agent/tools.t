@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use lib 't';
+use lib 't/lib';
 
 use File::Temp;
 use Test::Deep qw(cmp_deeply);
