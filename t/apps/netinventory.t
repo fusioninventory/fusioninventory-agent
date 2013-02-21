@@ -62,7 +62,7 @@ sub run_netinventory {
     my ($args) = @_;
     my @args = $args ? split(/\s+/, $args) : ();
     run(
-        [ $EXECUTABLE_NAME, 'fusioninventory-netinventory', @args ],
+        [ $EXECUTABLE_NAME, 'bin/fusioninventory-netinventory', @args ],
         \my ($in, $out, $err)
     );
     return ($out, $err, $CHILD_ERROR >> 8);

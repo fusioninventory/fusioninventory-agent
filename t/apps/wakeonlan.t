@@ -33,7 +33,7 @@ sub run_wakeonlan {
     my ($args) = @_;
     my @args = $args ? split(/\s+/, $args) : ();
     run(
-        [ $EXECUTABLE_NAME, 'fusioninventory-wakeonlan', @args ],
+        [ $EXECUTABLE_NAME, 'bin/fusioninventory-wakeonlan', @args ],
         \my ($in, $out, $err)
     );
     return ($out, $err, $CHILD_ERROR >> 8);

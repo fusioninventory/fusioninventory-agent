@@ -52,7 +52,7 @@ sub run_netdiscovery {
     my ($args) = @_;
     my @args = $args ? split(/\s+/, $args) : ();
     run(
-        [ $EXECUTABLE_NAME, 'fusioninventory-netdiscovery', @args ],
+        [ $EXECUTABLE_NAME, 'bin/fusioninventory-netdiscovery', @args ],
         \my ($in, $out, $err)
     );
     return ($out, $err, $CHILD_ERROR >> 8);
