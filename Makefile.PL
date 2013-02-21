@@ -50,12 +50,6 @@ test_requires 'Test::MockModule'             => undef;
 test_requires 'Test::More'                   => '0.93'; # subtest
 test_requires 'LWP::Protocol::https'         => undef;
 
-install_script  'bin/fusioninventory-agent';
-install_script  'bin/fusioninventory-inventory';
-install_script  'bin/fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
-install_script  'bin/fusioninventory-injector';
-# memconf is needed by Solaris backend module
-install_script  'bin/memconf' if $OSNAME eq 'solaris';
 
 # Inventory
 recommends 'Parse::EDID' => undef;
@@ -75,6 +69,17 @@ test_requires 'POE::Component::Client::Ping' => undef;
 # Network
 recommends 'Net::SNMP'   => undef;
 recommends 'Net::NBName' => undef;
+
+install_script 'bin/fusioninventory-agent';
+install_script 'bin/fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
+install_script 'bin/fusioninventory-injector';
+install_script 'bin/fusioninventory-inventory';
+install_script 'bin/fusioninventory-wakeonlan';
+install_script 'bin/fusioninventory-netdiscovery';
+install_script 'bin/fusioninventory-netinventory';
+install_script 'bin/fusioninventory-esx';
+# memconf is needed by Solaris backend module
+install_script 'bin/memconf' if $OSNAME eq 'solaris';
 
 
 makemaker_args(
