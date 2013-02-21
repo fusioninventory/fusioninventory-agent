@@ -34,6 +34,6 @@ is($err, '', '--version stderr');
 like(
     $out,
     qr{fusioninventory-esx $FusionInventory::Agent::Task::ESX::VERSION},
-    '--version stdin'
+    '--version stdout'
 );
 

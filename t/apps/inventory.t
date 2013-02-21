@@ -26,7 +26,7 @@ is($err, '', '--version stderr');
 like(
     $out,
     qr/$FusionInventory::Agent::Task::Inventory::VERSION/,
-    '--version stdin'
+    '--version stdout'
 );
 
 sub run_inventory {

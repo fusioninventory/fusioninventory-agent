@@ -27,5 +27,5 @@ is($err, '', '--version stderr');
 like(
     $out,
     qr/$FusionInventory::Agent::Task::WakeOnLan::VERSION/,
-    '--version stdin'
+    '--version stdout'
 );

@@ -28,7 +28,7 @@ is($err, '', '--version stderr');
 like(
     $out,
     qr/$FusionInventory::Agent::Task::NetDiscovery::VERSION/,
-    '--version stdin'
+    '--version stdout'
 );
 
 ($out, $err, $rc) = run_executable('fusioninventory-netdiscovery', );
