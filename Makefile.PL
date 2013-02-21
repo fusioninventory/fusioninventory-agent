@@ -24,15 +24,12 @@ if ($OSNAME eq 'MSWin32') {
     requires 'Win32::Job'         => undef;
 }
 
-# optional dependencies
-recommends 'Parse::EDID'      => undef;
-recommends 'Compress::Zlib'   => undef;
-recommends 'HTTP::Daemon'     => undef;
-recommends 'IO::Socket::SSL'  => undef;
-recommends 'LWP::Protocol::https'  => undef;
+recommends 'Compress::Zlib'       => undef;
+recommends 'HTTP::Daemon'         => undef;
+recommends 'IO::Socket::SSL'      => undef;
+recommends 'LWP::Protocol::https' => undef;
 
 if ($OSNAME ne 'MSWin32') {
-    recommends 'Net::CUPS'        => 0.60;
     recommends 'Proc::Daemon'     => undef;
     recommends 'Proc::PID::File'  => undef;
 } else {
@@ -40,17 +37,18 @@ if ($OSNAME ne 'MSWin32') {
 }
 
 # test dependencies
-test_requires  'HTTP::Proxy'                  => undef;
-test_requires  'HTTP::Server::Simple'         => undef;
-test_requires  'HTTP::Server::Simple::Authen' => undef;
-test_requires  'IO::Socket::SSL'              => undef;
-test_requires  'IO::Capture::Stderr'          => undef;
-test_requires  'IPC::Run'                     => undef;
-test_requires  'Test::Deep'                   => undef;
-test_requires  'Test::Exception'              => undef;
-test_requires  'Test::MockModule'             => undef;
-test_requires  'Test::More'                   => '0.93'; # subtest
-test_requires  'LWP::Protocol::https'         => undef;
+test_requires 'HTTP::Proxy'                  => undef;
+test_requires 'HTTP::Server::Simple'         => undef;
+test_requires 'HTTP::Server::Simple::Authen' => undef;
+test_requires 'IO::Socket::SSL'              => undef;
+test_requires 'IO::Capture::Stderr'          => undef;
+test_requires 'IPC::Run'                     => undef;
+test_requires 'Test::Compile'                => undef;
+test_requires 'Test::Deep'                   => undef;
+test_requires 'Test::Exception'              => undef;
+test_requires 'Test::MockModule'             => undef;
+test_requires 'Test::More'                   => '0.93'; # subtest
+test_requires 'LWP::Protocol::https'         => undef;
 
 install_script  'fusioninventory-agent';
 install_script  'fusioninventory-inventory';
@@ -59,24 +57,24 @@ install_script  'fusioninventory-injector';
 # memconf is needed by Solaris backend module
 install_script  'memconf' if $OSNAME eq 'solaris';
 
-# Deploy
-requires 'Archive::Extract'       => undef;
-requires 'Digest::SHA'            => undef;
-requires 'File::Copy::Recursive'  => undef;
-requires 'JSON'                   => undef;
-requires 'URI::Escape'            => undef;
-requires 'UNIVERSAL::require'     => undef;
+# Inventory
+recommends 'Parse::EDID' => undef;
+recommends 'Net::CUPS'   => 0.60 if $OSNAME ne 'MSWin32';
 
+# Deploy
+recommends 'Archive::Extract'             => undef;
+recommends 'Digest::SHA'                  => undef;
+recommends 'File::Copy::Recursive'        => undef;
+recommends 'JSON'                         => undef;
+recommends 'URI::Escape'                  => undef;
 recommends 'POE::Component::Client::Ping' => undef;
 
-test_requires 'Test::HTTP::Server::Simple' => undef;
-test_requires 'Test::Compile' => undef;
+test_requires 'Test::HTTP::Server::Simple'   => undef;
 test_requires 'POE::Component::Client::Ping' => undef;
 
 # Network
-
-requires 'Net::SNMP'     => undef;
-requires 'Net::NBName'     => undef;
+recommends 'Net::SNMP'   => undef;
+recommends 'Net::NBName' => undef;
 
 
 makemaker_args(
