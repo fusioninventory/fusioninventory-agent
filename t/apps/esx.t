@@ -2,19 +2,38 @@
 
 use strict;
 use warnings;
-
-use FusionInventory::Agent::Task::ESX;
+use lib 't';
 
 use English qw(-no_match_vars);
 
-use Test::More tests => 3;
+use FusionInventory::Agent::Task::ESX;
+use FusionInventory::Test::Utils;
 
-my $help = `$EXECUTABLE_NAME bin/fusioninventory-esx --help 2>&1`;
-like($help, qr{vCenter/ESX/ESXi remote inventory from command}, '--help');
+use Test::More tests => 7;
 
-my $unknownHost = `$EXECUTABLE_NAME bin/fusioninventory-esx --host unknowndevice --user a --password a --directory /tmp 2>&1`;
-like($unknownHost, qr/500\s\S/, 'Bad hostname');
+my ($out, $err, $rc);
 
-my $version = `$EXECUTABLE_NAME bin/fusioninventory-esx --version 2>&1`;
-like($version, qr{fusioninventory-esx $FusionInventory::Agent::Task::ESX::VERSION}, '--version');
+($out, $err, $rc) = run_executable('fusioninventory-esx', '--help');
+ok($rc == 0, '--help exit status');
+is($err, '', '--help stderr');
+like(
+    $out,
+    qr{vCenter/ESX/ESXi remote inventory from command},
+    '--help stdout'
+);
+
+($out, $err, $rc) = run_executable(
+    'fusioninventory-esx',
+    '--host unknowndevice --user a --password a --directory /tmp'
+);
+like($err, qr/500\s\S/, 'Bad hostname');
+
+($out, $err, $rc) = run_executable('fusioninventory-esx', '--version');
+ok($rc == 0, '--version exit status');
+is($err, '', '--version stderr');
+like(
+    $out,
+    qr{fusioninventory-esx $FusionInventory::Agent::Task::ESX::VERSION},
+    '--version stdin'
+);
 

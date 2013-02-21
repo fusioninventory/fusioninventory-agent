@@ -2,20 +2,21 @@
 
 use strict;
 use warnings;
+use lib 't';
 
 use English qw(-no_match_vars);
 use File::Temp;
-use IPC::Run qw(run);
 use Test::More;
 use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Test::Utils;
 
 plan tests => 31;
 
 my ($content, $out, $err, $rc);
 
-($out, $err, $rc) = run_agent('--help');
+($out, $err, $rc) = run_executable('fusioninventory-agent', '--help');
 ok($rc == 0, '--help exit status');
 is($err, '', '--help stderr');
 like(
@@ -24,7 +25,7 @@ like(
     '--help stdout'
 );
 
-($out, $err, $rc) = run_agent('--version');
+($out, $err, $rc) = run_executable('fusioninventory-agent', '--version');
 ok($rc == 0, '--version exit status');
 is($err, '', '--version stderr');
 like(
@@ -34,7 +35,7 @@ like(
 );
 
 
-($out, $err, $rc) = run_agent();
+($out, $err, $rc) = run_executable('fusioninventory-agent', );
 ok($rc == 1, 'no target exit status');
 like(
     $err,
@@ -46,7 +47,8 @@ is($out, '', 'no target stdout');
 my $base_options = "--debug --no-task ocsdeploy,wakeonlan,snmpquery,netdiscovery";
 
 # first inventory
-($out, $err, $rc) = run_agent(
+($out, $err, $rc) = run_executable(
+    'fusioninventory-agent', 
     "$base_options --local - --no-category printer"
 );
 
@@ -66,7 +68,8 @@ ok(
 );
 
 # second inventory, without software
-($out, $err, $rc) = run_agent(
+($out, $err, $rc) = run_executable(
+    'fusioninventory-agent', 
     "$base_options --local - --no-category printer,software"
 );
 
@@ -101,7 +104,8 @@ print $file <<EOF;
 EOF
 close($file);
 
-($out, $err, $rc) = run_agent(
+($out, $err, $rc) = run_executable(
+    'fusioninventory-agent', 
     "$base_options --local - --no-category printer,software --additional-content $file"
 );
 subtest "third inventory execution and content" => sub {
@@ -135,7 +139,8 @@ ok(
 my $name = $OSNAME eq 'MSWin32' ? 'PATHEXT' : 'PATH';
 my $value = $ENV{$name};
 
-($out, $err, $rc) = run_agent(
+($out, $err, $rc) = run_executable(
+    'fusioninventory-agent', 
     "$base_options --local - --no-category printer,software"
 );
 
@@ -162,7 +167,8 @@ ok(
     'inventory has expected environment variable value'
 );
 
-($out, $err, $rc) = run_agent(
+($out, $err, $rc) = run_executable(
+    'fusioninventory-agent', 
     "$base_options --local - --no-category printer,software,environment"
 );
 
@@ -183,27 +189,22 @@ ok(
 
 # output location tests
 my $dir = File::Temp->newdir(CLEANUP => 1);
-($out, $err, $rc) = run_agent("$base_options --local $dir");
+($out, $err, $rc) = run_executable(
+    'fusioninventory-agent',
+    "$base_options --local $dir"
+);
 subtest "--local <directory> inventory execution" => sub {
     check_execution_ok($err, $rc);
 };
 ok(<$dir/*.ocs>, '--local <directory> result file presence');
 
-($out, $err, $rc) = run_agent("$base_options --local $dir/foo");
+($out, $err, $rc) = run_executable(
+    'fusioninventory-agent', "$base_options --local $dir/foo"
+);
 subtest "--local <file> inventory execution" => sub {
     check_execution_ok($err, $rc);
 };
 ok(-f "$dir/foo", '--local <file> result file presence');
-
-sub run_agent {
-    my ($args) = @_;
-    my @args = $args ? split(/\s+/, $args) : ();
-    run(
-        [ $EXECUTABLE_NAME, 'bin/fusioninventory-agent', @args ],
-        \my ($in, $out, $err)
-    );
-    return ($out, $err, $CHILD_ERROR >> 8);
-}
 
 sub check_execution_ok {
     my ($err, $rc) = @_;

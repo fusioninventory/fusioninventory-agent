@@ -2,17 +2,18 @@
 
 use strict;
 use warnings;
+use lib 't';
 
 use English qw(-no_match_vars);
-use IPC::Run qw(run);
 
 use Test::More tests => 12;
 
 use FusionInventory::Agent::Task::NetDiscovery;
+use FusionInventory::Test::Utils;
 
 my ($out, $err, $rc);
 
-($out, $err, $rc) = run_netdiscovery('--help');
+($out, $err, $rc) = run_executable('fusioninventory-netdiscovery', '--help');
 ok($rc == 0, '--help exit status');
 like(
     $out,
@@ -21,7 +22,7 @@ like(
 );
 is($err, '', '--help stderr');
 
-($out, $err, $rc) = run_netdiscovery('--version');
+($out, $err, $rc) = run_executable('fusioninventory-netdiscovery', '--version');
 ok($rc == 0, '--version exit status');
 is($err, '', '--version stderr');
 like(
@@ -30,7 +31,7 @@ like(
     '--version stdin'
 );
 
-($out, $err, $rc) = run_netdiscovery();
+($out, $err, $rc) = run_executable('fusioninventory-netdiscovery', );
 ok($rc == 2, 'no first address exit status');
 like(
     $err,
@@ -39,7 +40,7 @@ like(
 );
 is($out, '', 'no target stdout');
 
-($out, $err, $rc) = run_netdiscovery('--first 192.168.0.1');
+($out, $err, $rc) = run_executable('fusioninventory-netdiscovery', '--first 192.168.0.1');
 ok($rc == 2, 'no last address exit status');
 like(
     $err,

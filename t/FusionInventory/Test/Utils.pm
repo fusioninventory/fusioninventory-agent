@@ -5,11 +5,13 @@ use warnings;
 use base 'Exporter';
 
 use English qw(-no_match_vars);
+use IPC::Run qw(run);
 use Socket;
 
 use FusionInventory::Agent::Tools;
 
 our @EXPORT = qw(
+    run_executable
     test_port
     test_localhost
     mockGetWMIObjects
@@ -168,4 +170,15 @@ sub unsetProxyEnvVar {
     foreach my $key (qw(http_proxy https_proxy HTTP_PROXY HTTPS_PROXY)) {
          $ENV{$key}=undef;
     }
+}
+
+sub run_executable {
+    my ($executable, $args) = @_;
+
+    my @args = $args ? split(/\s+/, $args) : ();
+    run(
+        [ $EXECUTABLE_NAME, 'bin/' . $executable, @args ],
+        \my ($in, $out, $err)
+    );
+    return ($out, $err, $CHILD_ERROR >> 8);
 }
