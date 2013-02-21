@@ -10,12 +10,12 @@ use Getopt::Long;
 use LWP::UserAgent;
 use Pod::Usage;
 
-my %options = (
+my $options = {
     useragent => 'FusionInventory-Injector'
-);
+};
 
 GetOptions(
-    \%options,
+    $options,
     'help|h',
     'directory|d=s',
     'file|f=s',
@@ -27,14 +27,14 @@ GetOptions(
 );
 
 $OUTPUT_AUTOFLUSH = 1;
-pod2usage(-verbose => 0, -exitstatus => 0) if $options{help};
+pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
 
-if ($options{stdin}) {
+if ($options->{stdin}) {
     loadstdin();
-} elsif ($options{file}) {
-    loadfile($options{file});
-} elsif ($options{directory}) {
-   loaddirectory($options{directory});
+} elsif ($options->{file}) {
+    loadfile($options->{file});
+} elsif ($options->{directory}) {
+   loaddirectory($options->{directory});
 } else {
     pod2usage();
 }
@@ -47,7 +47,7 @@ sub loadfile {
     die "file $file does not exist" unless -f $file;
     die "file $file is not readable" unless -r $file;
 
-    print "Loading $file..." if $options{verbose};
+    print "Loading $file..." if $options->{verbose};
 
     open (my $handle, '<', $file) or die "can't open file $file: $ERRNO\n";
     ## no critic (ProhibitBitwise)
@@ -57,7 +57,7 @@ sub loadfile {
     close $handle or die "Can't close file $file: $ERRNO\n";
 
     my $success = sendContent($content);
-    if ($success && $options{remove}) {
+    if ($success && $options->{remove}) {
         unlink $file or warn "Can't remove $file: $ERRNO\n"
     }
 }
@@ -87,12 +87,12 @@ sub sendContent {
     my $content = shift;
 
     my $ua = LWP::UserAgent->new(
-        agent => $options{useragent},
+        agent => $options->{useragent},
         parse_head => 0, # No need to parse HTML
         keep_alive => 1,
         requests_redirectable => ['POST', 'GET', 'HEAD']
     );
-    my $request = HTTP::Request->new( POST => $options{url} );
+    my $request = HTTP::Request->new( POST => $options->{url} );
     $request->header(
         'Pragma' => 'no-cache',
         'Content-type', 'Application/x-compress'
@@ -103,7 +103,7 @@ sub sendContent {
     $request->content(compress($content));
     my $res = $ua->request($request);
 
-    if ($options{verbose}) {
+    if ($options->{verbose}) {
         print $res->is_success() ?
             "OK\n" : "ERROR: " . $res->status_line() . "\n";
     }
