@@ -18,7 +18,7 @@ ok($rc == 0, '--help exit status');
 is($err, '', '--help stderr');
 like(
     $out,
-    qr{vCenter/ESX/ESXi remote inventory from command},
+    qr/^Usage:/,
     '--help stdout'
 );
 

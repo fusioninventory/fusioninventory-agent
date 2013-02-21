@@ -25,7 +25,7 @@ GetOptions(
     'version',
 ) or pod2usage(-verbose => 0);
 
-pod2usage(-verbose => 2) if $options->{help};
+pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
 
 if ($options->{version}) {
     print "fusioninventory-esx $FusionInventory::Agent::Task::ESX::VERSION\n";
