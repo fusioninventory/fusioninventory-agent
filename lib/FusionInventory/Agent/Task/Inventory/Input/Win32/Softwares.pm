@@ -146,6 +146,7 @@ sub _loadUserSoftware {
         $profilePath =~ s/%SystemDrive%/$ENV{SYSTEMDRIVE}/i;
 
         my $user = basename($profilePath);
+        ## no critic (ProhibitBitwise)
         my $userKey = $is64bit ?
             $Registry->Load($profilePath.'\ntuser.dat', { Access=> KEY_READ | KEY_WOW64_64 } ) :
             $Registry->Load($profilePath.'\ntuser.dat', { Access=> KEY_READ } )                ;
