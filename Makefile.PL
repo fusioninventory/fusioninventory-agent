@@ -50,12 +50,12 @@ test_requires 'Test::MockModule'             => undef;
 test_requires 'Test::More'                   => '0.93'; # subtest
 test_requires 'LWP::Protocol::https'         => undef;
 
-install_script  'fusioninventory-agent';
-install_script  'fusioninventory-inventory';
-install_script  'fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
-install_script  'fusioninventory-injector';
+install_script  'bin/fusioninventory-agent';
+install_script  'bin/fusioninventory-inventory';
+install_script  'bin/fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
+install_script  'bin/fusioninventory-injector';
 # memconf is needed by Solaris backend module
-install_script  'memconf' if $OSNAME eq 'solaris';
+install_script  'bin/memconf' if $OSNAME eq 'solaris';
 
 # Inventory
 recommends 'Parse::EDID' => undef;
