@@ -5,9 +5,11 @@ use warnings;
 
 use English qw(-no_match_vars);
 use IPC::Run qw(run);
-use Test::More tests => 6;
+use Test::More;
 
 use FusionInventory::Agent::Task::Inventory;
+
+plan tests => 6;
 
 my ($out, $err, $rc);
 

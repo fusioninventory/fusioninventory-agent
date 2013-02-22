@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use JSON;
-use Test::More tests => 14;
+use Test::More;
 
 use FusionInventory::Agent::Task::Deploy;
 
@@ -45,6 +45,8 @@ my @tests = (
             msg => "Missing key `p2p' in associatedFiles"
        },
 );
+
+plan tests => scalar @tests;
 
 foreach my $test (@tests) {
     my $msg;

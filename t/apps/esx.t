@@ -5,11 +5,12 @@ use warnings;
 use lib 't/lib';
 
 use English qw(-no_match_vars);
+use Test::More;
 
 use FusionInventory::Agent::Task::ESX;
 use FusionInventory::Test::Utils;
 
-use Test::More tests => 7;
+plan tests => 7;
 
 my ($out, $err, $rc);
 

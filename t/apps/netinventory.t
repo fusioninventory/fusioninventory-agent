@@ -5,13 +5,14 @@ use warnings;
 use lib 't/lib';
 
 use English qw(-no_match_vars);
-use XML::TreePP;
-
 use Test::Deep;
-use Test::More tests => 15;
+use Test::More;
+use XML::TreePP;
 
 use FusionInventory::Agent::Task::NetInventory;
 use FusionInventory::Test::Utils;
+
+plan tests => 15;
 
 my ($out, $err, $rc);
 

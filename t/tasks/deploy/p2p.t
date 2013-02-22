@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use Test::Deep;
-use Test::More tests => 3;
+use Test::More;
 
 use FusionInventory::Agent::Task::Deploy::P2P;
 
@@ -56,6 +56,8 @@ my @tests = (
     },
 
 );
+
+plan tests => scalar @tests;
 
 foreach my $test (@tests) {
     my @ret = FusionInventory::Agent::Task::Deploy::P2P::_computeIPToTest(
