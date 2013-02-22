@@ -8,7 +8,6 @@ use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::MacOS::Memory;
 
-my $zero = chr(0);
 my %tests = (
     '10.4-powerpc' => [
         {
@@ -164,7 +163,7 @@ my %tests = (
         {
             NUMSLOTS     => 0,
             SERIALNUMBER => '0x00000000',
-            DESCRIPTION  => "$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero",
+            DESCRIPTION  => "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00",
             SPEED        => '1067',
             TYPE         => 'DDR3',
             CAPACITY     => '2000',
@@ -173,7 +172,7 @@ my %tests = (
        {
             NUMSLOTS     => 0,
             SERIALNUMBER => '0x00000000',
-            DESCRIPTION  => "$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero",
+            DESCRIPTION  => "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00",
             SPEED        => '1067',
             TYPE         => 'DDR3',
             CAPACITY     => '2000',
