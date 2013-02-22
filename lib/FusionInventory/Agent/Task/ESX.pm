@@ -9,7 +9,7 @@ use FusionInventory::Agent::HTTP::Client::Fusion;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::XML::Query::Inventory;
-use FusionInventory::VMware::SOAP;
+use FusionInventory::Agent::SOAP::VMware;
 
 our $VERSION = "2.2.1";
 
@@ -25,7 +25,7 @@ sub connect {
     my $url = 'https://' . $params{host} . '/sdk/vimService';
 
     my $vpbs =
-      FusionInventory::VMware::SOAP->new(url => $url, vcenter => 1 );
+      FusionInventory::Agent::SOAP::VMWare->new(url => $url, vcenter => 1 );
     if ( !$vpbs->connect( $params{user}, $params{password} ) ) {
         $self->{lastError} = $vpbs->{lastError};
         return;
