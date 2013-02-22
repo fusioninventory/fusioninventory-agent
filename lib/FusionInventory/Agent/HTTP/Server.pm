@@ -6,17 +6,14 @@ use threads;
 use threads::shared;
 
 use English qw(-no_match_vars);
+use File::Basename;
 use HTTP::Daemon;
 use Net::IP;
-use Text::Template;
-use File::Basename;
-
 use Socket::GetAddrInfo qw( getaddrinfo getnameinfo );
-
-use FusionInventory::Agent::Tools::Network;
-
+use Text::Template;
 
 use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Tools::Network;
 
 my $log_prefix = "[http server] ";
 
