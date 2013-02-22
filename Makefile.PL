@@ -68,6 +68,7 @@ test_requires 'POE::Component::Client::Ping' => undef;
 # Network
 recommends 'Net::SNMP'   => undef;
 recommends 'Net::NBName' => undef;
+recommends 'Digest::MD5' => undef;
 
 # Wake-On-LAN
 recommends => 'Net::Write::Layer2' => undef;
