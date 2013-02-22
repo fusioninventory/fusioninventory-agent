@@ -12,7 +12,7 @@ use Test::Exception;
 use Test::MockObject::Extends;
 use Test::MockModule;
 
-use FusionInventory::VMware::SOAP;
+use FusionInventory::Agent::SOAP::VMware;
 
 my %tests = (
     'esx-4.1.0-1' => {
@@ -501,7 +501,7 @@ foreach my $test (keys %tests) {
     # ensure a calll to LWP::UserAgent->new() return our mock agent
     $module->mock(new => sub { return $mock; });
 
-    my $vpbs = FusionInventory::VMware::SOAP->new(
+    my $vpbs = FusionInventory::Agent::SOAP::VMware->new(
         user => 'foo',
     );
 

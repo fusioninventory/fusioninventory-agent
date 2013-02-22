@@ -1,4 +1,4 @@
-package FusionInventory::VMware::SOAP;
+package FusionInventory::Agent::SOAP::VMware;
 
 use strict;
 use warnings;
@@ -9,7 +9,7 @@ use LWP::UserAgent;
 use HTTP::Cookies;
 
 use FusionInventory::Agent;
-use FusionInventory::VMware::SOAP::Host;
+use FusionInventory::Agent::SOAP::VMware::Host;
 
 sub new {
     my ($class, %params) = @_;
@@ -261,7 +261,7 @@ sub getHostFullInfo {
         push @$vms, $self->_getVirtualMachineById($id);
     }
 
-    my $host = FusionInventory::VMware::SOAP::Host->new(
+    my $host = FusionInventory::Agent::SOAP::VMware::Host->new(
         hash => $ref, vms => $vms
     );
     return $host;
