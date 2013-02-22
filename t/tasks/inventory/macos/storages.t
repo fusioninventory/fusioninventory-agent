@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::MacOS::Storages;
+use FusionInventory::Agent::Task::Inventory::MacOS::Storages;
 
 my %tests = (
     '10.4-powerpc' => [
@@ -115,6 +115,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/macos/system_profiler/$test";
-    my @storages = FusionInventory::Agent::Task::Inventory::Input::MacOS::Storages::_getStorages(file => $file);
+    my @storages = FusionInventory::Agent::Task::Inventory::MacOS::Storages::_getStorages(file => $file);
     cmp_deeply(\@storages, $tests{$test}, $test);
 }

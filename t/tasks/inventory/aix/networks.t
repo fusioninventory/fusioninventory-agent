@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::AIX::Networks;
+use FusionInventory::Agent::Task::Inventory::AIX::Networks;
 
 my %tests = (
     'aix-4.3.1' => [
@@ -114,6 +114,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/aix/lscfg/$test-en";
-    my @interfaces = FusionInventory::Agent::Task::Inventory::Input::AIX::Networks::_parseLscfg(file => $file);
+    my @interfaces = FusionInventory::Agent::Task::Inventory::AIX::Networks::_parseLscfg(file => $file);
     cmp_deeply(\@interfaces, $tests{$test}, "interfaces: $test");
 }

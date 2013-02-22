@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::Solaris::Bios;
+use FusionInventory::Agent::Task::Inventory::Solaris::Bios;
 
 my %showrev_tests = (
     'SPARC-1' => {
@@ -141,18 +141,18 @@ plan tests =>
 
 foreach my $test (keys %showrev_tests) {
     my $file   = "resources/solaris/showrev/$test";
-    my $result = FusionInventory::Agent::Task::Inventory::Input::Solaris::Bios::_parseShowRev(file => $file);
+    my $result = FusionInventory::Agent::Task::Inventory::Solaris::Bios::_parseShowRev(file => $file);
     cmp_deeply($result, $showrev_tests{$test}, "showrev parsing: $test");
 }
 
 foreach my $test (keys %smbios_tests) {
     my $file   = "resources/solaris/smbios/$test";
-    my $result = FusionInventory::Agent::Task::Inventory::Input::Solaris::Bios::_parseSmbios(file => $file);
+    my $result = FusionInventory::Agent::Task::Inventory::Solaris::Bios::_parseSmbios(file => $file);
     cmp_deeply($result, $smbios_tests{$test}, "smbios parsing: $test");
 }
 
 foreach my $test (keys %prtconf_tests) {
     my $file   = "resources/solaris/prtconf/$test";
-    my $result = FusionInventory::Agent::Task::Inventory::Input::Solaris::Bios::_parsePrtconf(file => $file);
+    my $result = FusionInventory::Agent::Task::Inventory::Solaris::Bios::_parsePrtconf(file => $file);
     cmp_deeply($result, $prtconf_tests{$test}, "prtconf parsing: $test");
 }

@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::BSD::Softwares;
+use FusionInventory::Agent::Task::Inventory::BSD::Softwares;
 
 my %pkg_info_tests = (
     'sample1' => [
@@ -187,6 +187,6 @@ plan tests => scalar keys %pkg_info_tests;
 
 foreach my $test (keys %pkg_info_tests) {
     my $file = "resources/bsd/pkg_info/$test";
-    my $results = FusionInventory::Agent::Task::Inventory::Input::BSD::Softwares::_getPackagesListFromPkgInfo(file => $file);
+    my $results = FusionInventory::Agent::Task::Inventory::BSD::Softwares::_getPackagesListFromPkgInfo(file => $file);
     cmp_deeply($results, $pkg_info_tests{$test}, $test);
 }

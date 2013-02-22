@@ -15,7 +15,7 @@ BEGIN {
     push @INC, 't/lib/fake/windows' if $OSNAME ne 'MSWin32';
 }
 
-use FusionInventory::Agent::Task::Inventory::Input::Win32::Printers;
+use FusionInventory::Agent::Task::Inventory::Win32::Printers;
 
 my %tests = (
     xppro1 => {
@@ -40,7 +40,7 @@ foreach my $test (keys %tests) {
 plan tests => $plan;
 
 my $module = Test::MockModule->new(
-    'FusionInventory::Agent::Task::Inventory::Input::Win32::Printers'
+    'FusionInventory::Agent::Task::Inventory::Win32::Printers'
 );
 
 foreach my $test (keys %tests) {
@@ -51,7 +51,7 @@ foreach my $test (keys %tests) {
 
     foreach my $port (keys %{$tests{$test}}) {
         is(
-            FusionInventory::Agent::Task::Inventory::Input::Win32::Printers::_getUSBPrinterSerial($port),
+            FusionInventory::Agent::Task::Inventory::Win32::Printers::_getUSBPrinterSerial($port),
             $tests{$test}->{$port},
             "$test sample, $port printer"
         );

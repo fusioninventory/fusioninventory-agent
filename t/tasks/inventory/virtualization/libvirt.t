@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::Virtualization::Libvirt;
+use FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt;
 
 my %list_tests = (
     list1 => [
@@ -109,12 +109,12 @@ plan tests =>
 
 foreach my $test (keys %list_tests) {
     my $file = "resources/virtualization/virsh/$test";
-    my @machines = FusionInventory::Agent::Task::Inventory::Input::Virtualization::Libvirt::_parseList(file => $file);
+    my @machines = FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt::_parseList(file => $file);
     cmp_deeply(\@machines, $list_tests{$test}, "virst list parsing: $test");
 }
 
 foreach my $test (keys %dumpxml_tests) {
     my $file = "resources/virtualization/virsh/$test";
-    my %infos = FusionInventory::Agent::Task::Inventory::Input::Virtualization::Libvirt::_parseDumpxml(file => $file);
+    my %infos = FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt::_parseDumpxml(file => $file);
     cmp_deeply(\%infos, $dumpxml_tests{$test}, "virsh dumpxml parsing: $test");
 }

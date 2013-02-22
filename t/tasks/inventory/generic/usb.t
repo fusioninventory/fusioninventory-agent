@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::Generic::USB;
+use FusionInventory::Agent::Task::Inventory::Generic::USB;
 
 my %lsusb_tests = (
     'dell-xt2' => [
@@ -170,12 +170,12 @@ plan tests => (scalar keys %lsusb_tests) + (scalar keys %usb_tests);
 
 foreach my $test (keys %lsusb_tests) {
     my $file = "resources/generic/lsusb/$test";
-    my @devices = FusionInventory::Agent::Task::Inventory::Input::Generic::USB::_getDevicesFromLsusb(file => $file);
+    my @devices = FusionInventory::Agent::Task::Inventory::Generic::USB::_getDevicesFromLsusb(file => $file);
     cmp_deeply(\@devices, $lsusb_tests{$test}, "$test lsusb parsing");
 }
 
 foreach my $test (keys %usb_tests) {
     my $file = "resources/generic/lsusb/$test";
-    my @devices = FusionInventory::Agent::Task::Inventory::Input::Generic::USB::_getDevices(file => $file, datadir => './share');
+    my @devices = FusionInventory::Agent::Task::Inventory::Generic::USB::_getDevices(file => $file, datadir => './share');
     cmp_deeply(\@devices, $usb_tests{$test}, "$test usb devices retrieval");
 }

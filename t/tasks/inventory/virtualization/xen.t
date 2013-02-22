@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::Virtualization::Xen;
+use FusionInventory::Agent::Task::Inventory::Virtualization::Xen;
 
 my %tests_xm_list = (
     xm_list => [
@@ -67,12 +67,12 @@ plan tests => scalar keys (%tests_xm_list) + scalar keys (%tests_getUUID);
 
 foreach my $test (keys %tests_xm_list) {
     my $file = "resources/virtualization/xm/$test";
-    my @machines = FusionInventory::Agent::Task::Inventory::Input::Virtualization::Xen::_getVirtualMachines(file => $file);
+    my @machines = FusionInventory::Agent::Task::Inventory::Virtualization::Xen::_getVirtualMachines(file => $file);
     cmp_deeply(\@machines, $tests_xm_list{$test}, $test);
 }
 
 foreach my $test (keys %tests_getUUID) {
     my $file = "resources/virtualization/xm/$test";
-    my $uuid = FusionInventory::Agent::Task::Inventory::Input::Virtualization::Xen::_getUUID(file => $file);
+    my $uuid = FusionInventory::Agent::Task::Inventory::Virtualization::Xen::_getUUID(file => $file);
     cmp_deeply($uuid, $tests_getUUID{$test}, $test);
 }

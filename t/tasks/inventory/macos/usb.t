@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::MacOS::USB;
+use FusionInventory::Agent::Task::Inventory::MacOS::USB;
 
 my %tests = (
     IOUSBDevice1 => [
@@ -107,6 +107,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/macos/ioreg/$test";
-    my @devices = FusionInventory::Agent::Task::Inventory::Input::MacOS::USB::_getDevices(file => $file);
+    my @devices = FusionInventory::Agent::Task::Inventory::MacOS::USB::_getDevices(file => $file);
     cmp_deeply(\@devices, $tests{$test}, $test);
 }

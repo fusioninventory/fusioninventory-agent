@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::Linux::iLO;
+use FusionInventory::Agent::Task::Inventory::Linux::iLO;
 
 my %tests = (
     'sample1' => {
@@ -33,6 +33,6 @@ plan tests => int (keys %tests);
 
 foreach my $test (keys %tests) {
     my $file = "resources/linux/hponcfg/$test";
-    my $results = FusionInventory::Agent::Task::Inventory::Input::Linux::iLO::_parseHponcfg(file => $file);
+    my $results = FusionInventory::Agent::Task::Inventory::Linux::iLO::_parseHponcfg(file => $file);
     cmp_deeply($results, $tests{$test}, $test);
 }

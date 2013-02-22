@@ -17,7 +17,7 @@ BEGIN {
     push @INC, 't/lib/fake/windows' if $OSNAME ne 'MSWin32';
 }
 
-use FusionInventory::Agent::Task::Inventory::Input::Win32::USB;
+use FusionInventory::Agent::Task::Inventory::Win32::USB;
 
 my %tests = (
     7 => [
@@ -97,7 +97,7 @@ my %tests = (
 plan tests => scalar keys %tests;
 
 my $module = Test::MockModule->new(
-    'FusionInventory::Agent::Task::Inventory::Input::Win32::USB'
+    'FusionInventory::Agent::Task::Inventory::Win32::USB'
 );
 
 foreach my $test (keys %tests) {
@@ -106,7 +106,7 @@ foreach my $test (keys %tests) {
         mockGetWMIObjects($test)
     );
 
-    my @devices = FusionInventory::Agent::Task::Inventory::Input::Win32::USB::_getDevices(datadir => './share');
+    my @devices = FusionInventory::Agent::Task::Inventory::Win32::USB::_getDevices(datadir => './share');
     cmp_deeply(
         \@devices,
         $tests{$test},

@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::Linux::LVM;
+use FusionInventory::Agent::Task::Inventory::Linux::LVM;
 
 my %lvs = (
     'linux-1' => [
@@ -250,16 +250,16 @@ plan tests =>
     (scalar keys %vgs);
 
 foreach my $test (keys %pvs) {
-    my @pvs = FusionInventory::Agent::Task::Inventory::Input::Linux::LVM::_getPhysicalVolumes(file => "resources/lvm/linux/pvs/$test");
+    my @pvs = FusionInventory::Agent::Task::Inventory::Linux::LVM::_getPhysicalVolumes(file => "resources/lvm/linux/pvs/$test");
     cmp_deeply(\@pvs, $pvs{$test}, "physical volumes list: $test");
 }
 
 foreach my $test (keys %lvs) {
-    my @lvs = FusionInventory::Agent::Task::Inventory::Input::Linux::LVM::_getLogicalVolumes(file => "resources/lvm/linux/lvs/$test");
+    my @lvs = FusionInventory::Agent::Task::Inventory::Linux::LVM::_getLogicalVolumes(file => "resources/lvm/linux/lvs/$test");
     cmp_deeply(\@lvs, $lvs{$test}, "logical volumes list: $test");
 }
 
 foreach my $test (keys %vgs) {
-    my @vgs = FusionInventory::Agent::Task::Inventory::Input::Linux::LVM::_getVolumeGroups(file => "resources/lvm/linux/vgs/$test");
+    my @vgs = FusionInventory::Agent::Task::Inventory::Linux::LVM::_getVolumeGroups(file => "resources/lvm/linux/vgs/$test");
     cmp_deeply(\@vgs, $vgs{$test}, "volume groups list: $test");
 }

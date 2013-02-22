@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::MacOS::Videos;
+use FusionInventory::Agent::Task::Inventory::MacOS::Videos;
 
 my %tests = (
 
@@ -43,6 +43,6 @@ my %tests = (
 plan tests => scalar keys %tests;
 foreach my $test (keys %tests) {
     my $file = "resources/macos/system_profiler/$test";
-    my %displays = FusionInventory::Agent::Task::Inventory::Input::MacOS::Videos::_getDisplays(file => $file);
+    my %displays = FusionInventory::Agent::Task::Inventory::MacOS::Videos::_getDisplays(file => $file);
     cmp_deeply(\%displays, $tests{$test}, $test);
 }

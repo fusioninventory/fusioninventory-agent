@@ -17,7 +17,7 @@ BEGIN {
     push @INC, 't/lib/fake/windows' if $OSNAME ne 'MSWin32';
 }
 
-use FusionInventory::Agent::Task::Inventory::Input::Win32::CPU;
+use FusionInventory::Agent::Task::Inventory::Win32::CPU;
 
 my %tests = (
     '7' => [
@@ -111,7 +111,7 @@ my %tests = (
 plan tests => scalar keys %tests;
 
 my $module = Test::MockModule->new(
-    'FusionInventory::Agent::Task::Inventory::Input::Win32::CPU'
+    'FusionInventory::Agent::Task::Inventory::Win32::CPU'
 );
 
 foreach my $test (keys %tests) {
@@ -137,7 +137,7 @@ foreach my $test (keys %tests) {
         mockGetRegistryKey($test)
     );
 
-    my @cpus = FusionInventory::Agent::Task::Inventory::Input::Win32::CPU::_getCPUs();
+    my @cpus = FusionInventory::Agent::Task::Inventory::Win32::CPU::_getCPUs();
     cmp_deeply(
         \@cpus,
         $tests{$test},

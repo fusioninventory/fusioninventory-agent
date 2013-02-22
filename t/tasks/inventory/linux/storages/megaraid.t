@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::Linux::Storages::Megaraid;
+use FusionInventory::Agent::Task::Inventory::Linux::Storages::Megaraid;
 
 my %tests = (
     sample => [
@@ -65,7 +65,7 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/linux/megasasctl/$test";
-    my @disks = FusionInventory::Agent::Task::Inventory::Input::Linux::Storages::Megaraid::_parseMegasasctl(
+    my @disks = FusionInventory::Agent::Task::Inventory::Linux::Storages::Megaraid::_parseMegasasctl(
         file       => $file
     );
     cmp_deeply(\@disks, $tests{$test}, $test);

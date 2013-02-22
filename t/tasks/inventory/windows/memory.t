@@ -17,7 +17,7 @@ BEGIN {
     push @INC, 't/lib/fake/windows' if $OSNAME ne 'MSWin32';
 }
 
-use FusionInventory::Agent::Task::Inventory::Input::Win32::Memory;
+use FusionInventory::Agent::Task::Inventory::Win32::Memory;
 
 my %tests = (
     '7' => [
@@ -110,7 +110,7 @@ my %tests = (
 plan tests => scalar keys %tests;
 
 my $module = Test::MockModule->new(
-    'FusionInventory::Agent::Task::Inventory::Input::Win32::Memory'
+    'FusionInventory::Agent::Task::Inventory::Win32::Memory'
 );
 
 foreach my $test (keys %tests) {
@@ -119,7 +119,7 @@ foreach my $test (keys %tests) {
         mockGetWMIObjects($test)
     );
 
-    my @memories = FusionInventory::Agent::Task::Inventory::Input::Win32::Memory::_getMemories();
+    my @memories = FusionInventory::Agent::Task::Inventory::Win32::Memory::_getMemories();
     cmp_deeply(
         \@memories,
         $tests{$test},

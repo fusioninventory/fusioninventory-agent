@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::Generic::PCI::Controllers;
+use FusionInventory::Agent::Task::Inventory::Generic::PCI::Controllers;
 
 my %tests = (
     'dell-xt2' => [
@@ -290,6 +290,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/generic/lspci/$test";
-    my @controllers = FusionInventory::Agent::Task::Inventory::Input::Generic::PCI::Controllers::_getControllers(file => $file, datadir => 'share');
+    my @controllers = FusionInventory::Agent::Task::Inventory::Generic::PCI::Controllers::_getControllers(file => $file, datadir => 'share');
     cmp_deeply(\@controllers, $tests{$test}, $test);
 }

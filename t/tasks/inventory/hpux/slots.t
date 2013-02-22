@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::HPUX::Slots;
+use FusionInventory::Agent::Task::Inventory::HPUX::Slots;
 
 my %tests = (
     'hpux2-ioa' => [
@@ -103,6 +103,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/hpux/ioscan/$test";
-    my @slots = FusionInventory::Agent::Task::Inventory::Input::HPUX::Slots::_getSlots(file => $file);
+    my @slots = FusionInventory::Agent::Task::Inventory::HPUX::Slots::_getSlots(file => $file);
     cmp_deeply(\@slots, $tests{$test}, "$test ioscan parsing");
 }

@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::HPUX::Controllers;
+use FusionInventory::Agent::Task::Inventory::HPUX::Controllers;
 
 my %tests = (
     'hpux2-ext_bus' => [
@@ -118,6 +118,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/hpux/ioscan/$test";
-    my @controllers = FusionInventory::Agent::Task::Inventory::Input::HPUX::Controllers::_getControllers(file => $file);
+    my @controllers = FusionInventory::Agent::Task::Inventory::HPUX::Controllers::_getControllers(file => $file);
     cmp_deeply(\@controllers, $tests{$test}, "$test ioscan parsing");
 }

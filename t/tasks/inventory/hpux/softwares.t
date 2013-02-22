@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::HPUX::Softwares;
+use FusionInventory::Agent::Task::Inventory::HPUX::Softwares;
 
 my %tests = (
     hpux1 => [
@@ -1015,6 +1015,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/hpux/swlist/$test";
-    my $softwares = FusionInventory::Agent::Task::Inventory::Input::HPUX::Softwares::_getSoftwaresList(file => $file);
+    my $softwares = FusionInventory::Agent::Task::Inventory::HPUX::Softwares::_getSoftwaresList(file => $file);
     cmp_deeply($softwares, $tests{$test}, "software: $test");
 }

@@ -18,7 +18,7 @@ BEGIN {
     push @INC, 't/lib/fake/windows' if $OSNAME ne 'MSWin32';
 }
 
-use FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares;
+use FusionInventory::Agent::Task::Inventory::Win32::Softwares;
 
 my %softwares_tests = (
         xp => [
@@ -8180,7 +8180,7 @@ plan tests =>
     scalar (keys %hotfixes_tests)  ;
 
 my $module = Test::MockModule->new(
-    'FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares'
+    'FusionInventory::Agent::Task::Inventory::Win32::Softwares'
 );
 $module->mock(
     'encodeFromRegistry',
@@ -8195,7 +8195,7 @@ foreach my $test (keys %softwares_tests) {
         "resources/win32/registry/$test-uninstall.reg"
     );
 
-    my $softwares = FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getSoftwaresList(softwares => $softwaresKey);
+    my $softwares = FusionInventory::Agent::Task::Inventory::Win32::Softwares::_getSoftwaresList(softwares => $softwaresKey);
 
     cmp_deeply(
         $softwares,
@@ -8210,7 +8210,7 @@ foreach my $test (keys %hotfixes_tests) {
         mockGetWMIObjects($test)
     );
 
-    my $hotfixes = FusionInventory::Agent::Task::Inventory::Input::Win32::Softwares::_getHotfixesList(is64bit => 0);
+    my $hotfixes = FusionInventory::Agent::Task::Inventory::Win32::Softwares::_getHotfixesList(is64bit => 0);
     cmp_deeply(
         $hotfixes,
         $hotfixes_tests{$test},

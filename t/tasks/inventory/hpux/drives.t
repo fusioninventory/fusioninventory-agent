@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::HPUX::Drives;
+use FusionInventory::Agent::Task::Inventory::HPUX::Drives;
 
 my %tests = (
     'hpux1-nfs' => [
@@ -157,6 +157,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/hpux/bdf/$test";
-    my @drives = FusionInventory::Agent::Task::Inventory::Input::HPUX::Drives::_parseBdf(file => $file);
+    my @drives = FusionInventory::Agent::Task::Inventory::HPUX::Drives::_parseBdf(file => $file);
     cmp_deeply(\@drives, $tests{$test}, "$test bdf parsing");
 }

@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::Solaris::Slots;
+use FusionInventory::Agent::Task::Inventory::Solaris::Slots;
 
 my %slots4_tests = (
     'sample1' => [
@@ -62,6 +62,6 @@ plan tests => scalar keys %slots4_tests;
 
 foreach my $test (keys %slots4_tests) {
     my $file = "resources/solaris/prtdiag/$test";
-    my @slots = FusionInventory::Agent::Task::Inventory::Input::Solaris::Slots::_getSlots4(file => $file);
+    my @slots = FusionInventory::Agent::Task::Inventory::Solaris::Slots::_getSlots4(file => $file);
     cmp_deeply(\@slots, $slots4_tests{$test}, $test);
 }

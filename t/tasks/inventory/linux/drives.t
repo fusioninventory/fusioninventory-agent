@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::Linux::Drives;
+use FusionInventory::Agent::Task::Inventory::Linux::Drives;
 
 my %hal_tests = (
     'dell-xt2' => [
@@ -80,6 +80,6 @@ plan tests => scalar keys %hal_tests;
 
 foreach my $test (keys %hal_tests) {
     my $file = "resources/linux/hal/$test";
-    my $results = FusionInventory::Agent::Task::Inventory::Input::Linux::Drives::_parseLshal(file => $file);
+    my $results = FusionInventory::Agent::Task::Inventory::Linux::Drives::_parseLshal(file => $file);
     cmp_deeply($results, $hal_tests{$test}, $test);
 }

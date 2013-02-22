@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::Generic::Storages::3ware;
+use FusionInventory::Agent::Task::Inventory::Generic::Storages::3ware;
 
 plan tests => 4;
 
@@ -46,25 +46,25 @@ my @storages = (
 );
 
 cmp_deeply(
-    [ FusionInventory::Agent::Task::Inventory::Input::Generic::Storages::3ware::_getCards('resources/generic/tw_cli/cards') ],
+    [ FusionInventory::Agent::Task::Inventory::Generic::Storages::3ware::_getCards('resources/generic/tw_cli/cards') ],
     [ @cards ],
     'cards extraction'
 );
 
 cmp_deeply(
-    [ FusionInventory::Agent::Task::Inventory::Input::Generic::Storages::3ware::_getUnits({ id => 'c0' }, 'resources/generic/tw_cli/units') ],
+    [ FusionInventory::Agent::Task::Inventory::Generic::Storages::3ware::_getUnits({ id => 'c0' }, 'resources/generic/tw_cli/units') ],
     [ @units ],
     'units extraction'
 );
 
 cmp_deeply(
-    [ FusionInventory::Agent::Task::Inventory::Input::Generic::Storages::3ware::_getPorts({ id => 'c0' }, { id => 'u0' }, 'resources/generic/tw_cli/ports') ],
+    [ FusionInventory::Agent::Task::Inventory::Generic::Storages::3ware::_getPorts({ id => 'c0' }, { id => 'u0' }, 'resources/generic/tw_cli/ports') ],
     [ @ports ],
     'ports extraction'
 );
 
 cmp_deeply(
-    [ FusionInventory::Agent::Task::Inventory::Input::Generic::Storages::3ware::_getStorage({ id => 'c0', model => '9650SE-2LP' }, { id => 'p0' }, 'resources/generic/tw_cli/storage') ],
+    [ FusionInventory::Agent::Task::Inventory::Generic::Storages::3ware::_getStorage({ id => 'c0', model => '9650SE-2LP' }, { id => 'p0' }, 'resources/generic/tw_cli/storage') ],
     [ @storages ],
     'storages extraction'
 );

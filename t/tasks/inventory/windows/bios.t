@@ -16,7 +16,7 @@ BEGIN {
     push @INC, 't/lib/fake/windows' if $OSNAME ne 'MSWin32';
 }
 
-use FusionInventory::Agent::Task::Inventory::Input::Win32::Bios;
+use FusionInventory::Agent::Task::Inventory::Win32::Bios;
 
 my %tests = (
     "20050927******.******+***" => "09/27/2005",
@@ -27,5 +27,5 @@ plan tests => scalar keys %tests;
 foreach my $input (keys %tests) {
     my $result = $tests{$input};
 
-    ok(FusionInventory::Agent::Task::Inventory::Input::Win32::Bios::_dateFromIntString($input) eq $result, "_dateFromIntString($input)");
+    ok(FusionInventory::Agent::Task::Inventory::Win32::Bios::_dateFromIntString($input) eq $result, "_dateFromIntString($input)");
 }

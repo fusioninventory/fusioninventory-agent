@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::Solaris::Networks;
+use FusionInventory::Agent::Task::Inventory::Solaris::Networks;
 
 my %ifconfig_tests = (
     'solaris-10' => [
@@ -131,7 +131,7 @@ plan tests =>
 
 foreach my $test (keys %ifconfig_tests) {
     my $file = "resources/generic/ifconfig/$test";
-    my @results = FusionInventory::Agent::Task::Inventory::Input::Solaris::Networks::_getInterfaces(file => $file);
+    my @results = FusionInventory::Agent::Task::Inventory::Solaris::Networks::_getInterfaces(file => $file);
     cmp_deeply(\@results, $ifconfig_tests{$test}, $test);
 }
 
@@ -158,5 +158,5 @@ my @parsefcinfo = (
       }
 );
 my $file = "resources/solaris/fcinfo_hba-port/sample-1";
-my @result = FusionInventory::Agent::Task::Inventory::Input::Solaris::Networks::_parsefcinfo(file => $file);
+my @result = FusionInventory::Agent::Task::Inventory::Solaris::Networks::_parsefcinfo(file => $file);
 cmp_deeply(\@result, \@parsefcinfo, "_parsefcinfo");

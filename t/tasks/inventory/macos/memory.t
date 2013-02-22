@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::MacOS::Memory;
+use FusionInventory::Agent::Task::Inventory::MacOS::Memory;
 
 my $zero = chr(0);
 my %tests = (
@@ -226,6 +226,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/macos/system_profiler/$test";
-    my @memories = FusionInventory::Agent::Task::Inventory::Input::MacOS::Memory::_getMemories(file => $file);
+    my @memories = FusionInventory::Agent::Task::Inventory::MacOS::Memory::_getMemories(file => $file);
     cmp_deeply(\@memories, $tests{$test}, $test);
 }

@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Bios;
+use FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Bios;
 
 my %tests = (
     'freebsd-6.2' => {
@@ -416,7 +416,7 @@ plan tests => 2 * keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/generic/dmidecode/$test";
-    my ($bios, $hardware) = FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Bios::_getBiosHardware(file => $file);
+    my ($bios, $hardware) = FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Bios::_getBiosHardware(file => $file);
     cmp_deeply($bios, $tests{$test}->{bios}, "bios: $test");
     cmp_deeply($hardware, $tests{$test}->{hardware}, "hardware: $test");
 }

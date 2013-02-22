@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::Generic::PCI::Videos;
+use FusionInventory::Agent::Task::Inventory::Generic::PCI::Videos;
 
 my %tests = (
     'dell-xt2' => [
@@ -25,6 +25,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/generic/lspci/$test";
-    my @videos = FusionInventory::Agent::Task::Inventory::Input::Generic::PCI::Videos::_getVideos(file => $file);
+    my @videos = FusionInventory::Agent::Task::Inventory::Generic::PCI::Videos::_getVideos(file => $file);
     cmp_deeply(\@videos, $tests{$test}, $test);
 }

@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::AIX::Memory;
+use FusionInventory::Agent::Task::Inventory::AIX::Memory;
 
 my %tests = (
     'aix-5.3a' => [
@@ -297,6 +297,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/aix/lsvpd/$test";
-    my @memories = FusionInventory::Agent::Task::Inventory::Input::AIX::Memory::_getMemories(file => $file);
+    my @memories = FusionInventory::Agent::Task::Inventory::AIX::Memory::_getMemories(file => $file);
     cmp_deeply(\@memories, $tests{$test}, "memories: $test");
 }

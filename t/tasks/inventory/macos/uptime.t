@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::MacOS::Uptime;
+use FusionInventory::Agent::Task::Inventory::MacOS::Uptime;
 
 my %tests = (
         '1325070226' => '1325070226',
@@ -15,6 +15,6 @@ my %tests = (
 plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
- my $r = FusionInventory::Agent::Task::Inventory::Input::MacOS::Uptime::_getBootTime(string => $test);
+ my $r = FusionInventory::Agent::Task::Inventory::MacOS::Uptime::_getBootTime(string => $test);
     ok($r eq $tests{$test});
 }

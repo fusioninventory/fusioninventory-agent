@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::Linux::Videos;
+use FusionInventory::Agent::Task::Inventory::Linux::Videos;
 
 my %ddcprobe = (
     '98LMTF053166' => {
@@ -194,12 +194,12 @@ plan tests => scalar keys (%ddcprobe) + scalar keys (%xorg);
 
 foreach my $test (keys %ddcprobe) {
     my $file = "resources/linux/ddcprobe/$test";
-    my $result = FusionInventory::Agent::Task::Inventory::Input::Linux::Videos::_getDdcprobeData(file => $file);
+    my $result = FusionInventory::Agent::Task::Inventory::Linux::Videos::_getDdcprobeData(file => $file);
     cmp_deeply($result, $ddcprobe{$test}, $test);
 }
 
 foreach my $test (keys %xorg) {
     my $file = "resources/generic/xorg/$test";
-    my $result = FusionInventory::Agent::Task::Inventory::Input::Linux::Videos::_parseXorgFd(file => $file);
+    my $result = FusionInventory::Agent::Task::Inventory::Linux::Videos::_parseXorgFd(file => $file);
     cmp_deeply($result, $xorg{$test}, $test);
 }

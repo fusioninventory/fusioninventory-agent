@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::Linux::Storages::Lsilogic;
+use FusionInventory::Agent::Task::Inventory::Linux::Storages::Lsilogic;
 
 my %tests = (
     sample1 => {
@@ -89,7 +89,7 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/linux/mpt-status/$test";
-    my @disks = FusionInventory::Agent::Task::Inventory::Input::Linux::Storages::Lsilogic::_getDiskFromMptStatus(
+    my @disks = FusionInventory::Agent::Task::Inventory::Linux::Storages::Lsilogic::_getDiskFromMptStatus(
         file       => $file,
         name       => $tests{$test}->{name},
     );

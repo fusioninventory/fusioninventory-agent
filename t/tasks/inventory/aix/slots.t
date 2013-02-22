@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::AIX::Slots;
+use FusionInventory::Agent::Task::Inventory::AIX::Slots;
 
 my %tests = (
     'aix-5.3a' => [
@@ -290,6 +290,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/aix/lsdev/$test-adapter";
-    my @slots = FusionInventory::Agent::Task::Inventory::Input::AIX::Slots::_getSlots(file => $file);
+    my @slots = FusionInventory::Agent::Task::Inventory::AIX::Slots::_getSlots(file => $file);
     cmp_deeply(\@slots, $tests{$test}, "slots: $test");
 }

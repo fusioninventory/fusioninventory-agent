@@ -145,14 +145,14 @@ sub _initModulesList {
     my $logger = $self->{logger};
     my $config = $self->{config};
 
-    my @modules = __PACKAGE__->getModules('Input');
+    my @modules = __PACKAGE__->getModules('');
     die "no inventory module found" if !@modules;
 
     # first pass: compute all relevant modules
     foreach my $module (sort @modules) {
         # compute parent module:
         my @components = split('::', $module);
-        my $parent = @components > 6 ?
+        my $parent = @components > 5 ?
             join('::', @components[0 .. $#components -1]) : '';
 
         # skip if parent is not allowed

@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::MacOS::Softwares;
+use FusionInventory::Agent::Task::Inventory::MacOS::Softwares;
 
 my %tests = (
     'sample2' => [
@@ -2459,7 +2459,7 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/macos/system_profiler/$test.SPApplicationsDataType";
-    my $softwares = FusionInventory::Agent::Task::Inventory::Input::MacOS::Softwares::_getSoftwaresList(file => $file);
+    my $softwares = FusionInventory::Agent::Task::Inventory::MacOS::Softwares::_getSoftwaresList(file => $file);
     cmp_deeply(
         $softwares,
         $tests{$test},

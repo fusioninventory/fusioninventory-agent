@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::HPUX::Storages;
+use FusionInventory::Agent::Task::Inventory::HPUX::Storages;
 
 my %tests = (
     'hpux1-tape' => [
@@ -255,6 +255,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/hpux/ioscan/$test";
-    my @devices = FusionInventory::Agent::Task::Inventory::Input::HPUX::Storages::_parseIoscan(file => $file);
+    my @devices = FusionInventory::Agent::Task::Inventory::HPUX::Storages::_parseIoscan(file => $file);
     cmp_deeply(\@devices, $tests{$test}, "$test ioscan parsing");
 }

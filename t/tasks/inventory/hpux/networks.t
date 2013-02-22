@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::HPUX::Networks;
+use FusionInventory::Agent::Task::Inventory::HPUX::Networks;
 
 my %lanadmin_tests = (
     'hpux1-0' => {
@@ -992,30 +992,30 @@ plan tests =>
 
 foreach my $test (keys %lanadmin_tests) {
     my $file = "resources/hpux/lanadmin/$test";
-    my $info = FusionInventory::Agent::Task::Inventory::Input::HPUX::Networks::_getLanadminInfo(file => $file);
+    my $info = FusionInventory::Agent::Task::Inventory::HPUX::Networks::_getLanadminInfo(file => $file);
     cmp_deeply($info, $lanadmin_tests{$test}, "lanadmin parsing: $test");
 }
 
 foreach my $test (keys %ifconfig_tests) {
     my $file = "resources/generic/ifconfig/$test";
-    my $info = FusionInventory::Agent::Task::Inventory::Input::HPUX::Networks::_getIfconfigInfo(file => $file);
+    my $info = FusionInventory::Agent::Task::Inventory::HPUX::Networks::_getIfconfigInfo(file => $file);
     cmp_deeply($info, $ifconfig_tests{$test}, "ifconfig parsing: $test");
 }
 
 foreach my $test (keys %nwmgr_tests) {
     my $file = "resources/hpux/nwmgr/$test";
-    my $info = FusionInventory::Agent::Task::Inventory::Input::HPUX::Networks::_getNwmgrInfo(file => $file);
+    my $info = FusionInventory::Agent::Task::Inventory::HPUX::Networks::_getNwmgrInfo(file => $file);
     cmp_deeply($info, $nwmgr_tests{$test}, "nwmgr parsing: $test");
 }
 
 foreach my $test (keys %netstat_tests) {
     my $file = "resources/hpux/netstat/$test";
-    my %interfaces = FusionInventory::Agent::Task::Inventory::Input::HPUX::Networks::_parseNetstatNrv(file => $file);
+    my %interfaces = FusionInventory::Agent::Task::Inventory::HPUX::Networks::_parseNetstatNrv(file => $file);
     cmp_deeply(\%interfaces, $netstat_tests{$test}, "netstat -nrv parsing: $test");
 }
 
 foreach my $test (keys %lanscan_tests) {
     my $file = "resources/hpux/lanscan/$test";
-    my @interfaces = FusionInventory::Agent::Task::Inventory::Input::HPUX::Networks::_parseLanscan(file => $file);
+    my @interfaces = FusionInventory::Agent::Task::Inventory::HPUX::Networks::_parseLanscan(file => $file);
     cmp_deeply(\@interfaces, $lanscan_tests{$test}, "lanscan -iap parsing: $test");
 }

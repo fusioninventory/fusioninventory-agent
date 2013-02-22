@@ -9,7 +9,7 @@ use Test::More;
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Task::Inventory::Input::Generic::Screen;
+use FusionInventory::Agent::Task::Inventory::Generic::Screen;
 
 plan(skip_all => 'Parse::EDID required')
     unless Parse::EDID->require();
@@ -388,6 +388,6 @@ plan tests => scalar keys %edid_tests;
 foreach my $test (sort keys %edid_tests) {
     my $file = "resources/generic/edid/$test";
     my $edid = getAllLines(file => $file);
-    my $info = FusionInventory::Agent::Task::Inventory::Input::Generic::Screen::_getEdidInfo(edid => $edid, datadir => './share');
+    my $info = FusionInventory::Agent::Task::Inventory::Generic::Screen::_getEdidInfo(edid => $edid, datadir => './share');
     cmp_deeply($info, $edid_tests{$test}, $test);
 }

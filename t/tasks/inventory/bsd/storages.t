@@ -6,8 +6,8 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::BSD::Storages;
-use FusionInventory::Agent::Task::Inventory::Input::BSD::Storages::Megaraid;
+use FusionInventory::Agent::Task::Inventory::BSD::Storages;
+use FusionInventory::Agent::Task::Inventory::BSD::Storages::Megaraid;
 
 my %tests_fstab = (
     'freebsd-1' => [
@@ -77,12 +77,12 @@ plan tests => scalar keys (%tests_fstab) + scalar keys (%tests_mfiutil);
 
 foreach my $test (keys %tests_fstab) {
     my $file = "resources/bsd/fstab/$test";
-    my @results = FusionInventory::Agent::Task::Inventory::Input::BSD::Storages::_getDevicesFromFstab(file => $file);
+    my @results = FusionInventory::Agent::Task::Inventory::BSD::Storages::_getDevicesFromFstab(file => $file);
     cmp_deeply(\@results, $tests_fstab{$test}, $test);
 }
 
 foreach my $test (keys %tests_mfiutil) {
     my $file = "resources/bsd/storages/$test";
-    my @results = FusionInventory::Agent::Task::Inventory::Input::BSD::Storages::Megaraid::_parseMfiutil(file => $file);
+    my @results = FusionInventory::Agent::Task::Inventory::BSD::Storages::Megaraid::_parseMfiutil(file => $file);
     cmp_deeply(\@results, $tests_mfiutil{$test}, $test);
 }

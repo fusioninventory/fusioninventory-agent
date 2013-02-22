@@ -16,7 +16,7 @@ BEGIN {
     push @INC, 't/lib/fake/windows' if $OSNAME ne 'MSWin32';
 }
 
-use FusionInventory::Agent::Task::Inventory::Input::Win32::Registry;
+use FusionInventory::Agent::Task::Inventory::Win32::Registry;
 
 
 if ($OSNAME ne 'MSWin32') {
@@ -27,7 +27,7 @@ if ($OSNAME ne 'MSWin32') {
 
 my @data;
 
-@data = FusionInventory::Agent::Task::Inventory::Input::Win32::Registry::_getRegistryData(
+@data = FusionInventory::Agent::Task::Inventory::Win32::Registry::_getRegistryData(
     registry => {
         NAME => 'REGISTRY',
         PARAM => {
@@ -42,7 +42,7 @@ ok(@data == 1, "unique entry");
 ok($data[0]->{entry}{REGVALUE}, "unique entry: REGVALUE");
 ok($data[0]->{entry}{NAME} eq 'CurrentVersion', "unique entry: NAME");
 
-@data = FusionInventory::Agent::Task::Inventory::Input::Win32::Registry::_getRegistryData(
+@data = FusionInventory::Agent::Task::Inventory::Win32::Registry::_getRegistryData(
     registry => {
         NAME => 'REGISTRY',
         PARAM => [

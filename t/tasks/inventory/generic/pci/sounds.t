@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::Generic::PCI::Sounds;
+use FusionInventory::Agent::Task::Inventory::Generic::PCI::Sounds;
 
 my %tests = (
     'dell-xt2' => [
@@ -22,6 +22,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/generic/lspci/$test";
-    my @sounds = FusionInventory::Agent::Task::Inventory::Input::Generic::PCI::Sounds::_getSounds(file => $file);
+    my @sounds = FusionInventory::Agent::Task::Inventory::Generic::PCI::Sounds::_getSounds(file => $file);
     cmp_deeply(\@sounds, $tests{$test}, $test);
 }

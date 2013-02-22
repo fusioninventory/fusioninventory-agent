@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Memory;
+use FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Memory;
 
 my %tests = (
     'freebsd-6.2' => [
@@ -1768,6 +1768,6 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/generic/dmidecode/$test";
-    my $memories = FusionInventory::Agent::Task::Inventory::Input::Generic::Dmidecode::Memory::_getMemories(file => $file);
+    my $memories = FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Memory::_getMemories(file => $file);
     cmp_deeply($memories, $tests{$test}, $test);
 }
