@@ -36,7 +36,7 @@ sub _parseHponcfg {
         }
         if ($line =~ /<NIC_SPEED VALUE="([0-9]+)"\/>/) {
             $interface->{SPEED} = $1;
-        } 
+        }
         if ($line =~ /<ENABLE_NIC VALUE="Y"\/>/) {
             $interface->{STATUS} = 'Up';
         }

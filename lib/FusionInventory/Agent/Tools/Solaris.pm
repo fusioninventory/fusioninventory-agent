@@ -127,7 +127,7 @@ sub getPrtconfInfos {
                 pop @parents;
             }
 
-            # attach a new node to parent node 
+            # attach a new node to parent node
             my $parent_node = $parents[-1]->[0];
             $parent_node->{$address} = {};
 

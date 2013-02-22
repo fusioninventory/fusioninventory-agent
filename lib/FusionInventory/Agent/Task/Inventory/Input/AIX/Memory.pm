@@ -58,7 +58,7 @@ sub doInventory {
 
     $inventory->setHardware({
         MEMORY => $memorySize,
-        SWAP   => $swapSize 
+        SWAP   => $swapSize
     });
 
 }

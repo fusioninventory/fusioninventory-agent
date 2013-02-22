@@ -48,7 +48,7 @@ my $base_options = "--debug --no-task ocsdeploy,wakeonlan,snmpquery,netdiscovery
 
 # first inventory
 ($out, $err, $rc) = run_executable(
-    'fusioninventory-agent', 
+    'fusioninventory-agent',
     "$base_options --local - --no-category printer"
 );
 
@@ -69,7 +69,7 @@ ok(
 
 # second inventory, without software
 ($out, $err, $rc) = run_executable(
-    'fusioninventory-agent', 
+    'fusioninventory-agent',
     "$base_options --local - --no-category printer,software"
 );
 
@@ -105,7 +105,7 @@ EOF
 close($file);
 
 ($out, $err, $rc) = run_executable(
-    'fusioninventory-agent', 
+    'fusioninventory-agent',
     "$base_options --local - --no-category printer,software --additional-content $file"
 );
 subtest "third inventory execution and content" => sub {
@@ -140,7 +140,7 @@ my $name = $OSNAME eq 'MSWin32' ? 'PATHEXT' : 'PATH';
 my $value = $ENV{$name};
 
 ($out, $err, $rc) = run_executable(
-    'fusioninventory-agent', 
+    'fusioninventory-agent',
     "$base_options --local - --no-category printer,software"
 );
 
@@ -161,14 +161,14 @@ ok(
 
 ok(
     (any
-        { $_->{KEY} eq $name && $_->{VAL} eq $value } 
+        { $_->{KEY} eq $name && $_->{VAL} eq $value }
         @{$content->{REQUEST}->{CONTENT}->{ENVS}}
     ),
     'inventory has expected environment variable value'
 );
 
 ($out, $err, $rc) = run_executable(
-    'fusioninventory-agent', 
+    'fusioninventory-agent',
     "$base_options --local - --no-category printer,software,environment"
 );
 

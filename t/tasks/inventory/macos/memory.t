@@ -164,7 +164,7 @@ my %tests = (
         {
             NUMSLOTS     => 0,
             SERIALNUMBER => '0x00000000',
-	    DESCRIPTION  => "$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero",
+            DESCRIPTION  => "$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero",
             SPEED        => '1067',
             TYPE         => 'DDR3',
             CAPACITY     => '2000',
@@ -173,7 +173,7 @@ my %tests = (
        {
             NUMSLOTS     => 0,
             SERIALNUMBER => '0x00000000',
-	    DESCRIPTION  => "$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero",
+            DESCRIPTION  => "$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero$zero",
             SPEED        => '1067',
             TYPE         => 'DDR3',
             CAPACITY     => '2000',

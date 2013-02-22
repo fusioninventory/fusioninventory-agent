@@ -38,7 +38,7 @@ sub doInventory {
                     TYPE        => $device->{type},
                 };
             }
-    
+
             $device = {};
         } elsif ($in) {
             if ($line =~ /^P: Phys=.*(button).*/i) {

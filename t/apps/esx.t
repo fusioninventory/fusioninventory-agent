@@ -36,4 +36,3 @@ like(
     qr{fusioninventory-esx $FusionInventory::Agent::Task::ESX::VERSION},
     '--version stdout'
 );
-

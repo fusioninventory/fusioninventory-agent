@@ -25,7 +25,7 @@ sub doInventory {
         my @lines = getAllLines(
             logger => $logger, command => "lsfs -c $filesystem->{TYPE}"
         );
-        my @info = split /:/, $lines[1];     
+        my @info = split /:/, $lines[1];
         $filesystem->{FILESYSTEM} = $info[2];
     }
 

@@ -52,4 +52,3 @@ foreach my $test (@tests) {
     ok(($ret ? 0 : 1) == ($test->{ret} ? 0 : 1), "returned code");
     is($msg,  $test->{msg}, "returned msg");
 }
-

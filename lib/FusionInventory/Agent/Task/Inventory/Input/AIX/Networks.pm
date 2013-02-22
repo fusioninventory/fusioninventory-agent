@@ -65,12 +65,12 @@ sub _getInterfaces {
             $interface->{IPMASK} = $1
                 if $line =~ /^netmask \s+ ($ip_address_pattern)/x;
             $interface->{STATUS} = $1
-                if $line =~ /^state \s+ (\w+)/x; 
+                if $line =~ /^state \s+ (\w+)/x;
         }
         close $handle;
     }
 
-    foreach my $interface (@interfaces) { 
+    foreach my $interface (@interfaces) {
         $interface->{STATUS} = "Down" unless $interface->{IPADDRESS};
         $interface->{IPDHCP} = "No";
 

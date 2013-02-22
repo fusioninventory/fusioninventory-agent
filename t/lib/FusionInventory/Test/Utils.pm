@@ -29,7 +29,7 @@ sub test_port {
         if (connect($socket, $paddr)) {
             close $socket;
             return 0;
-        } 
+        }
     }
 
     return 1;

@@ -8,7 +8,7 @@ use Config;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Linux;
 
-sub isEnabled { 
+sub isEnabled {
     return $Config{archname} =~ /^arm/ &&
            -r '/proc/cpuinfo';
 }

@@ -41,4 +41,3 @@ sub filter {
     return 0 if $_ =~ m{FusionInventory::Agent::Task};
     return 1;
 }
-

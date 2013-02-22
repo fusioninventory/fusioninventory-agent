@@ -21,7 +21,7 @@ sub new {
 sub _asArray {
     my $h = shift;
 
-    return 
+    return
         ref $h eq 'ARRAY' ? @$h  :
             $h            ? ($h) :
                             ()   ;

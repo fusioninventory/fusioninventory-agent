@@ -64,7 +64,7 @@ sub doInventory {
 }
 
 sub _getIndexedLsvpdInfos {
-    my %infos = 
+    my %infos =
         map  { $_->{AX} => $_ }
         grep { $_->{AX} }
         getLsvpdInfos(@_);

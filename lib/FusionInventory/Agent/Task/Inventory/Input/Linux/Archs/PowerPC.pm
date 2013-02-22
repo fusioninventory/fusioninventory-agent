@@ -64,7 +64,7 @@ sub doInventory {
     if ($copyright && $copyright =~ /Apple/) {
         # What about the Apple clone?
         $bios->{BMANUFACTURER} = "Apple Computer, Inc.";
-        $bios->{SMANUFACTURER} = "Apple Computer, Inc." 
+        $bios->{SMANUFACTURER} = "Apple Computer, Inc."
     }
 
     $inventory->setBios($bios);
