@@ -50,7 +50,6 @@ test_requires 'Test::MockModule'             => undef;
 test_requires 'Test::More'                   => '0.93'; # subtest
 test_requires 'LWP::Protocol::https'         => undef;
 
-
 # Inventory
 recommends 'Parse::EDID' => undef;
 recommends 'Net::CUPS'   => 0.60 if $OSNAME ne 'MSWin32';
@@ -69,6 +68,9 @@ test_requires 'POE::Component::Client::Ping' => undef;
 # Network
 recommends 'Net::SNMP'   => undef;
 recommends 'Net::NBName' => undef;
+
+# Wake-On-LAN
+recommends => 'Net::Write::Layer2' => undef;
 
 install_script 'bin/fusioninventory-agent';
 install_script 'bin/fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
