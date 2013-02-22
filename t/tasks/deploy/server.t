@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 
 my $tmpDirClient = $FindBin::Bin . "/../tmp/deploy-test/client";
 my $tmpDirServer = $FindBin::Bin . "/../tmp/deploy-test/server";
