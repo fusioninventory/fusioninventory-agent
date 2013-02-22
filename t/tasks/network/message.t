@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::XML::Response;
@@ -125,7 +126,7 @@ foreach my $test (keys %messages) {
         content => slurp($file)
     );
     my $options = $message->getOptionsInfoByName('SNMPQUERY');
-    is_deeply(
+    cmp_deeply(
         FusionInventory::Agent::Task::NetInventory::_getIndexedModels($options->{MODEL}),
         $messages{$test}->{models},
         $test

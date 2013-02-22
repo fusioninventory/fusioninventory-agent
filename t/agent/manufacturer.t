@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Clone qw(clone);
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Manufacturer;
@@ -261,7 +262,7 @@ foreach my $test (@trunk_ports_tests) {
         results => $results, ports => $ports, walks => $walks
     );
 
-    is_deeply(
+    cmp_deeply(
         $ports,
         $test->[1],
         $test->[2] . ' (direct)',
@@ -275,7 +276,7 @@ foreach my $test (@connected_devices_tests) {
         results => $results, ports => $ports, walks => $walks
     );
 
-    is_deeply(
+    cmp_deeply(
         $ports,
         $test->[1],
         $test->[2] . ' (direct)',
@@ -289,7 +290,7 @@ foreach my $test (@connected_devices_mac_addresses_tests) {
         results => $results, ports => $ports, walks => $walks
     );
 
-    is_deeply(
+    cmp_deeply(
         $ports,
         $test->[1],
         $test->[2] . ' (direct)',
@@ -303,7 +304,7 @@ foreach my $test (@cisco_connected_devices_mac_addresses_tests) {
         results => $cisco_results, ports => $ports, walks => $walks, vlan_id => 1
     );
 
-    is_deeply(
+    cmp_deeply(
         $ports,
         $test->[1],
         $test->[2] . ' (direct)',
@@ -318,7 +319,7 @@ foreach my $test (@trunk_ports_tests) {
         'Cisco', $results, $ports
     );
 
-    is_deeply(
+    cmp_deeply(
         $ports,
         $test->[1],
         $test->[2] . ' (indirect)',
@@ -332,7 +333,7 @@ foreach my $test (@connected_devices_tests) {
         'Cisco', $results, $ports, $walks
     );
 
-    is_deeply(
+    cmp_deeply(
         $ports,
         $test->[1],
         $test->[2] . ' (indirect)',
@@ -346,7 +347,7 @@ foreach my $test (@connected_devices_mac_addresses_tests) {
         'ProCurve', $results, $ports, $walks
     );
 
-    is_deeply(
+    cmp_deeply(
         $ports,
         $test->[1],
         $test->[2] . ' (indirect)',
@@ -360,7 +361,7 @@ foreach my $test (@cisco_connected_devices_mac_addresses_tests) {
         'Cisco', $cisco_results, $ports, $walks, 1
     );
 
-    is_deeply(
+    cmp_deeply(
         $ports,
         $test->[1],
         $test->[2] . ' (indirect)',

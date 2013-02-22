@@ -4,8 +4,9 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use Test::More;
+use Test::Deep;
 use Test::Exception;
+use Test::More;
 
 use FusionInventory::Agent::XML::Response;
 use FusionInventory::Agent::SNMP::Live;
@@ -69,7 +70,7 @@ is(
     'simple value query'
 );
 
-is_deeply(
+cmp_deeply(
     $snmp->walk('1.3.6.1.2.1.1.9.1.3'),
     {
         '1.3.6.1.2.1.1.9.1.3.1' => 'The MIB for Message Processing and Dispatching.',

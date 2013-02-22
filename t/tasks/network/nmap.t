@@ -4,6 +4,7 @@ use warnings;
 use strict;
 
 use File::Basename;
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Task::NetDiscovery;
@@ -41,5 +42,5 @@ foreach my $test (keys %tests) {
     my $result = FusionInventory::Agent::Task::NetDiscovery::_parseNmap(
         file => $file
     );
-    is_deeply($result, $tests{$test}, $test);
+    cmp_deeply($result, $tests{$test}, $test);
 }

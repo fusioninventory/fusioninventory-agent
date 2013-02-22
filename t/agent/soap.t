@@ -7,6 +7,7 @@ use LWP::UserAgent;
 use English qw(-no_match_vars);
 use HTTP::Response;
 use Test::More;
+use Test::Deep;
 use Test::Exception;
 use Test::MockObject::Extends;
 use Test::MockModule;
@@ -509,14 +510,14 @@ foreach my $test (keys %tests) {
         $result = $vpbs->connect('foo', 'bar')
     } "$test connect()";
 
-    is_deeply($result, $tests{$test}->{connect}, 'connect()');
+    cmp_deeply($result, $tests{$test}->{connect}, 'connect()');
 
     lives_ok {
         $result = $vpbs->getHostFullInfo()
     } "$test getHostFullInfo()";
 
     foreach my $method (@methods) {
-        is_deeply(
+        cmp_deeply(
             [ $result->$method() ],
             $tests{$test}->{$method},
             "$test $method()"

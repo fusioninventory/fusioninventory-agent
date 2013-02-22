@@ -7,6 +7,7 @@ use lib 't/lib';
 use English qw(-no_match_vars);
 use XML::TreePP;
 
+use Test::Deep;
 use Test::More tests => 15;
 
 use FusionInventory::Agent::Task::NetInventory;
@@ -62,4 +63,4 @@ my $content = XML::TreePP->new()->parse($out);
 ok($content, 'valid output');
 
 my $result = XML::TreePP->new()->parsefile('resources/walks/sample4.result');
-is_deeply($content, $result, "expected output");
+cmp_deeply($content, $result, "expected output");

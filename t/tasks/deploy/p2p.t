@@ -3,8 +3,10 @@
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Task::Deploy::P2P;
+use Test::Deep;
 use Test::More tests => 3;
+
+use FusionInventory::Agent::Task::Deploy::P2P;
 
 my @tests = (
     {
@@ -59,5 +61,5 @@ foreach my $test (@tests) {
     my @ret = FusionInventory::Agent::Task::Deploy::P2P::_computeIPToTest(
         undef, # $logger
         $test->{test}, 6 );
-    is_deeply(\@ret, $test->{ret}, $test->{name});
+    cmp_deeply(\@ret, $test->{ret}, $test->{name});
 }

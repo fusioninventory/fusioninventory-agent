@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::SNMP::Mock;
@@ -64,7 +65,7 @@ foreach my $walk (keys %walks) {
     }
 
     foreach my $oid (keys %{$walks{$walk}->{walk}}) {
-        is_deeply($snmp->walk($oid), $walks{$walk}->{walk}{$oid}, $oid);
+        cmp_deeply($snmp->walk($oid), $walks{$walk}->{walk}{$oid}, $oid);
     }
 
 }
