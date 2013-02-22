@@ -30,7 +30,7 @@ my $thread;
 my $state;
 my $previousState = SERVICE_START_PENDING;
 
-while (($state = Win32::Daemon::State()) != SERVICE_STOPPED) { 
+while (($state = Win32::Daemon::State()) != SERVICE_STOPPED) {
     if ($state == SERVICE_START_PENDING) {
         # Initialization code
         startAgent();

@@ -313,7 +313,7 @@ environment
 
 process
 
-=back 
+=back
 
 =item B<--scan-homedirs>
 
