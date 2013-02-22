@@ -511,3 +511,7 @@ Return an array
 =head2 parseProductKey($string)
 
 Return a Parsed binary product key (XP, office, etc)
+
+=head2 getInterfaces()
+
+Returns the list of network interfaces.
