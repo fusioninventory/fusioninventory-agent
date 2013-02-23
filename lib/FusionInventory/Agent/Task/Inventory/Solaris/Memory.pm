@@ -9,7 +9,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Solaris;
 
 sub isEnabled {
-    return canRun('memconf');
+    return 1;
 }
 
 sub doInventory {
@@ -45,14 +45,8 @@ sub doInventory {
     }
 
     my @memories =
-        $class == SOLARIS_FIRE         ? _getMemoriesFire()        :
-        $class == SOLARIS_FIRE_V       ? _getMemoriesFireV()       :
-        $class == SOLARIS_FIRE_T       ? _getMemoriesFireT()       :
-        $class == SOLARIS_ENTERPRISE_T ? _getMemoriesFireT()       :
-        $class == SOLARIS_ENTERPRISE   ? _getMemoriesEnterprise()  :
-        $class == SOLARIS_I86PC        ? _getMemoriesI86PC()       :
-        $class == SOLARIS_CONTAINER    ? _getMemoriesContainer()   :
-                                         ()                        ;
+        $class == SOLARIS_CONTAINER ? _getMemoriesPrctl()   :
+                                      _getMemoriesPrtdiag() ;
 
     foreach my $memory (@memories) {
         $inventory->addEntry(
@@ -62,238 +56,84 @@ sub doInventory {
     }
 }
 
-sub _getMemoriesFire {
-    my $handle = getFileHandle(command => 'memconf', @_);
+sub _getMemoriesPrtdiag {
+    my $handle = getFileHandle(command => 'prtdiag', @_);
     my @memories;
 
-    my $description;
+    # reach memory section
+    while (my $line = <$handle>) {
+        next unless $line =~ /^=+ [\w\s]+ Memory [\w\s]+ =+$/x;
+        last;
+    }
 
     # parse headers
+    my %headers;
     while (my $line = <$handle>) {
-    if ($line =~ /Bank \s+ Bank \s+ Bank \s+ (\S+)/x) {
-            $description = $1;
+
+        # first header line
+        next unless $line =~ /Bank/;
+        while ($line =~ /(\S+)/g) {
+            my $offset = $LAST_MATCH_START[0];
+            $headers{$offset} = lc($1);
         }
-        if ($line =~ /^-+/) {
-            last;
+
+        # second header line
+        $line = <$handle>;
+        while ($line =~ /(\S+)/g) {
+            my $offset = $LAST_MATCH_START[0];
+            $headers{$offset} = $headers{$offset} ?
+                $headers{$offset} . '_' . lc($1) :
+                lc($1);
         }
+
+        # intermediate line
+        $line = <$handle>;
+        last;
     }
 
-    # parse rest of output
-    while (my $line = <$handle>) {
-        next unless $line =~ /^
-            \s  ([A-Z])
-            \s+ (\d)
-            \s+ (\d)
-            \s+ (\d+)MB
-            \s+ \S+
-            \s+ (\d+)MB
-        /x;
-        my $memory = {
-            CAPTION     => "Board $1 MemCtl $2",
-            CAPACITY    => $5,
-            DESCRIPTION => $description,
-            NUMSLOTS    => $3
+    # compute offset and length of interesting columns
+    my @offsets = sort keys %headers;
+    my %columns;
+    foreach my $i (0 .. $#offsets) {
+        my $offset = $offsets[$i];
+        my $length = $offsets[$i + 1] ?
+            $offsets[$i + 1] - $offsets[$i] :
+            78               - $offsets[$i] ; # assume 78 chars output
+        my $header = $headers{$offset};
+
+        $columns{$header} = {
+            offset => $offset,
+            length => $length
         };
-        my $banksize = $4;
-        foreach (1 .. ($banksize / $memory->{CAPACITY})) {
-            push @memories, $memory;
-        }
     }
-    close $handle;
 
-    return @memories;
-}
-
-sub _getMemoriesFireV {
-    my $handle = getFileHandle(command => 'memconf', @_);
-    my @memories;
-
+    my $slot = 0;
     while (my $line = <$handle>) {
-        if ($line =~ /^empty sockets: (.+)/) {
-            foreach my $caption (split(/ /, $1)) {
-                last if $caption eq "None";
+        last if $line =~ /^$/;
 
-                push @memories, {
-                    DESCRIPTION => "empty",
-                    CAPTION     => $caption
-                };
-            }
-        }
+        my $capacity = substr(
+            $line,
+            $columns{bank_size}->{offset},
+            $columns{bank_size}->{length}
+        );
 
-        if ($line =~ /^(\d+) \s \d+ \s (\S+) \s (\d+)MB/x) {
-            push @memories, {
-                NUMSLOTS => $1,
-                CAPTION  => $2,
-                CAPACITY => $3,
-            }
-        }
+        $capacity =~ s/^\s+//;
+        $capacity =~ s/\s+$//;
 
-        # 0 0 MB/P0/B0/D0,MB/P0/B0/D1 2x512MB
-        if ($line =~ /^(\d+) \s \d+ \s (\S+) \s \d x (\d+)MB/x) {
-            foreach my $caption (split(/,/, $2)) {
-                push @memories, {
-                    NUMSLOTS => $1,
-                    CAPTION  => $caption,
-                    CAPACITY => $3,
-                }
-            }
+        $capacity = getCanonicalSize($capacity);
+
+        push @memories, {
+            NUMSLOTS => $slot++,
+            CAPACITY => $capacity
         }
     }
+
     close $handle;
 
     return @memories;
 }
 
-sub _getMemoriesFireT {
-    my $handle = getFileHandle(command => 'memconf', @_);
-    my @memories;
-
-    while (my $line = <$handle>) {
-        if ($line =~ /^empty sockets: (.+)/) {
-            # a list of empty slots, from which we extract the slot names
-            foreach my $caption (split(/ /, $1)) {
-                last if $caption eq "None";
-
-                push @memories, {
-                    DESCRIPTION => "empty",
-                    CAPTION     => $caption
-                };
-            }
-        }
-
-        # socket DIMM4 has a 32MB DIMM
-        # socket MB/CMP0/BR0/CH0/D0 has a Samsung 501-7953-01 Rev 05 2GB FB-DIMM
-        # socket MB/CMP0/BOB0/CH0/D0 has a Samsung 511-1616 2GB DDR3 DIMM
-        if ($line =~ /^socket\s+(\S+) has a .*\b(\d+)([GM]B)\b/) {
-            my $memory = {
-                CAPTION     => $1,
-                CAPACITY    => ($3 eq 'GB' ? $2 * 1024 : $2),
-                DESCRIPTION => "DIMM",
-            };
-            push @memories, $memory;
-        }
-    }
-    close $handle;
-
-    return @memories;
-}
-
-sub _getMemoriesEnterprise {
-    my $handle = getFileHandle(command => 'memconf', @_);
-    my @memories;
-
-    my $flag = 0;
-    my $flag_mt = 0;
-
-    my $module_count = 0;
-    my $banksize;
-
-    my $capacity;
-    my $description;
-    my $caption;
-    my $speed;
-    my $type;
-    my $numslots;
-
-    while (my $line = <$handle>) {
-        if ($line =~ /^total memory:\s*(\S+)/) {
-            $flag = 0;
-        }
-
-        if ($line =~ $flag_mt && /^\s+\S+\s+\S+\s+\S+\s+(\S+)/) {
-            $flag_mt  = 0;
-            $description = $1;
-        }
-
-        # Caption Line
-        if ($line =~ /^Sun Microsystems/) {
-            $flag_mt  = 1;
-            $flag = 1;
-        }
-
-        # only grap for information if flag is set
-        next unless $flag;
-
-        if ($line =~ /^\s(\S+)\s+(\S+)/) {
-            $numslots = "LSB " . $1 . " Group " . $2;
-            $caption  = "LSB " . $1 . " Group " . $2;
-        }
-        if ($line =~ /^\s+\S+\s+\S\s+\S+\s+\S+\s+(\d+)/) {
-            $capacity = $1;
-        }
-        if ($line =~ /^\s+\S+\s+\S\s+(\d+)/) {
-            $banksize = $1;
-        }
-        if ($capacity > 1 ) {
-            foreach (1 .. ($banksize / $capacity)) {
-                push @memories, {
-                    CAPACITY => $capacity,
-                    DESCRIPTION => $description,
-                    CAPTION => $caption,
-                    SPEED => $speed,
-                    TYPE => $type,
-                    NUMSLOTS => $module_count
-                };
-            }
-            $module_count++;
-        }
-
-    }
-    close $handle;
-
-    return @memories;
-}
-
-sub _getMemoriesI86PC {
-    my $handle = getFileHandle(command => 'memconf', @_);
-
-    my @memories;
-
-    while (my $line = <$handle>) {
-        if ($line =~ /^empty memory sockets: (.+)/) {
-            foreach my $caption (split(/, /, $1)) {
-                last if $caption eq "None";
-
-                push @memories, {
-                    DESCRIPTION => "empty",
-                    CAPTION     => $caption
-                };
-            }
-        }
-
-        if ($line =~ /^
-            socket \s Memory \s Board \s ([A-Z]),
-            \s DIMM_(\d+):
-            \s \S+
-            \s (\d+) ([GM]B)
-            /x) {
-            push @memories, {
-                CAPTION     => "Board $1",
-                NUMSLOTS    => $2,
-                DESCRIPTION => "DIMM",
-                CAPACITY    => ($4 eq 'GB' ? $3 * 1024 : $3)
-            };
-        }
-
-        if ($line =~ /^
-            socket
-            \s (\S+):
-            \s \S+
-            \s (\d+) ([GM]B)
-            /x) {
-            push @memories, {
-                CAPTION     => $1,
-                DESCRIPTION => "DIMM",
-                CAPACITY    => ($3 eq 'GB' ? $2 * 1024 : $2)
-            };
-        }
-    }
-    close $handle;
-
-    return @memories;
-}
-
-sub _getMemoriesContainer {
+sub _getMemoriesPrctl {
     my $handle = getFileHandle(
         command => "prctl -n project.max-shm-memory $PID",
         @_
