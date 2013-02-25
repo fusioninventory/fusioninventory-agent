@@ -148,6 +148,8 @@ class PluginFusioninventoryStaticmisc {
                          'name'    => $LANG['plugin_fusioninventory']['profile'][5]),
                    array('profil'  => 'unknowndevice',
                          'name'    => $LANG['plugin_fusioninventory']['profile'][6]),
+                   array('profil'  => 'collect',
+                         'name'    => $LANG['plugin_fusioninventory']['profile'][7]),                   
                    array('profil'  => 'task',
                          'name'    => $LANG['plugin_fusioninventory']['task'][18]),
                    array('profil'  => 'iprange',

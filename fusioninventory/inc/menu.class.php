@@ -122,6 +122,12 @@ class PluginFusioninventoryMenu {
 
       }
 
+      if (PluginFusioninventoryProfile::haveRight("fusioninventory", "collect", "r")) {
+         $a_menu[9]['name'] = $LANG['plugin_fusioninventory']['menu'][8];
+         $a_menu[9]['pic']  = $CFG_GLPI['root_doc']."/plugins/fusioninventory/pics/menu_task.png";
+         $a_menu[9]['link'] = getItemTypeSearchURL('PluginFusioninventoryCollect');
+      }      
+
       echo "<div align='center' style='z-index: 1;position:absolute;width: 100%; margin: 0 auto;'>";
       echo "<table width='100%'>";
 

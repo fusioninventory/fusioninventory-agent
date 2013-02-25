@@ -65,6 +65,7 @@ $LANG['plugin_fusioninventory']['agents'][42]="Useragent";
 $LANG['plugin_fusioninventory']['agents'][43]="Informations pour la configuration de l'agent";
 $LANG['plugin_fusioninventory']['agents'][44]="Url de communication du serveur";
 $LANG['plugin_fusioninventory']['agents'][45]="Exceptions";
+$LANG['plugin_fusioninventory']['agents'][46]="Collect manager";
 $LANG['plugin_fusioninventory']['agents'][4]="Dernier contact de l'agent";
 $LANG['plugin_fusioninventory']['agents'][6]="Désactivé";
 
@@ -127,6 +128,7 @@ $LANG['plugin_fusioninventory']['menu'][4]="Matériel inconnu";
 $LANG['plugin_fusioninventory']['menu'][5]="Authentification pour les matériels distants (VMware)";
 $LANG['plugin_fusioninventory']['menu'][6]="Matériels distants à inventorier (VMware)";
 $LANG['plugin_fusioninventory']['menu'][7]="Actions en cours d'exécution";
+$LANG['plugin_fusioninventory']['menu'][8]="Gestion des collectes";
 
 $LANG['plugin_fusioninventory']['processes'][1]="PID";
 $LANG['plugin_fusioninventory']['processes'][38]="Numéro de process";
@@ -137,6 +139,7 @@ $LANG['plugin_fusioninventory']['profile'][3]="Controle à distance des agents";
 $LANG['plugin_fusioninventory']['profile'][4]="Configuration";
 $LANG['plugin_fusioninventory']['profile'][5]="WakeOnLan";
 $LANG['plugin_fusioninventory']['profile'][6]="Matériel inconnu";
+$LANG['plugin_fusioninventory']['profile'][7]="Collect manager";
 
 $LANG['plugin_fusioninventory']['rules'][10]="n'existe pas";
 $LANG['plugin_fusioninventory']['rules'][13]="Numéro de série du disque dur";
@@ -233,4 +236,6 @@ $LANG['plugin_fusioninventory']['xml'][0]="XML";
 $LANG['plugin_fusioninventory']['common'][0]="Déplier";
 $LANG['plugin_fusioninventory']['common'][1]="Replier";
 $LANG['plugin_fusioninventory']['common'][2]="élément(s)";
+
+$LANG['plugin_fusioninventory']['collect'][0]="Type";
 ?>

@@ -129,6 +129,7 @@ function plugin_init_fusioninventory() {
                OR PluginFusioninventoryProfile::haveRight("fusioninventory", "wol","r")
                OR PluginFusioninventoryProfile::haveRight("fusioninventory", "unknowndevice","r")
                OR PluginFusioninventoryProfile::haveRight("fusioninventory", "task","r")
+               OR PluginFusioninventoryProfile::haveRight("fusioninventory", "collect","r")
                ) {
             
                $PLUGIN_HOOKS['menu_entry']['fusioninventory'] = true;
@@ -151,6 +152,16 @@ function plugin_init_fusioninventory() {
          $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['search']['ruleimportequipment']
             = 'front/ruleimportequipment.php';
          
+         if (PluginFusioninventoryProfile::haveRight("fusioninventory", "collect","w")) {
+             $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['add']['collect'] = 'front/collect.form.php?add=1';
+             $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['search']['collect'] = 'front/collect.php';
+             $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['add']['rulemanagecollect']
+            = 'front/rulemanagecollect.form.php';
+         $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['search']['rulemanagecollect']
+            = 'front/rulemanagecollect.php';
+          }
+
+
          $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['search']['agents'] = 'front/agent.php';
 
 
