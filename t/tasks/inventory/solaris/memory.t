@@ -11,6 +11,9 @@ use FusionInventory::Agent::Task::Inventory::Solaris::Memory;
 my %tests = (
     sample1 => [ _gen(4,  'NUMSLOTS', { CAPACITY => '1000' }) ],
     sample2 => [ _gen(32, 'NUMSLOTS', { CAPACITY => '1024' }) ],
+    sample3 => [ _gen(16, 'NUMSLOTS', { TYPE     => 'DDR2' }) ],
+    sample4 => [ _gen(8,  'NUMSLOTS', { TYPE     => 'DDR'  }) ],
+    sample5 => [ _gen(2,  'NUMSLOTS', { TYPE     => 'DRAM' }) ],
 );
 
 plan tests => scalar keys %tests;
