@@ -61,66 +61,53 @@ sub _getMemoriesPrtdiag {
     my @memories;
 
     # reach memory section
+    my $section;
     while (my $line = <$handle>) {
-        next unless $line =~ /^=+ [\w\s]+ Memory [\w\s]+ =+$/x;
-        last;
+        next unless $line =~ /^=+ \s ([\w\s]+) \s =+$/x;
+        $section = $1;
+        last if $section =~ /Memory/;
     }
 
-    # parse headers
-    my %headers;
-    while (my $line = <$handle>) {
-
-        # first header line
-        next unless $line =~ /Bank/;
-        while ($line =~ /(\S+)/g) {
-            my $offset = $LAST_MATCH_START[0];
-            $headers{$offset} = lc($1);
+    SWITCH: {
+        if ($section eq 'Physical Memory Configuration') {
+            @memories = _parsePhysicalMemoryConfiguration($handle);
+            last;
         }
 
-        # second header line
-        $line = <$handle>;
-        while ($line =~ /(\S+)/g) {
-            my $offset = $LAST_MATCH_START[0];
-            $headers{$offset} = $headers{$offset} ?
-                $headers{$offset} . '_' . lc($1) :
-                lc($1);
+        if ($section eq 'Memory Configuration') {
+            @memories = _parseMemoryConfiguration($handle);
+            last;
         }
 
-        # intermediate line
-        $line = <$handle>;
-        last;
+        if ($section eq 'Memory Device Sockets') {
+            @memories = _parseMemoryDeviceSockets($handle);
+            last;
+        }
     }
 
-    # compute offset and length of interesting columns
-    my @offsets = sort keys %headers;
-    my %columns;
-    foreach my $i (0 .. $#offsets) {
-        my $offset = $offsets[$i];
-        my $length = $offsets[$i + 1] ?
-            $offsets[$i + 1] - $offsets[$i] :
-            78               - $offsets[$i] ; # assume 78 chars output
-        my $header = $headers{$offset};
+    close $handle;
 
-        $columns{$header} = {
-            offset => $offset,
-            length => $length
-        };
+    return @memories;
+}
+
+sub _parsePhysicalMemoryConfiguration {
+    my ($handle) = @_;
+
+    # skip headers
+    foreach my $i (1 .. 5) {
+        <$handle>;
     }
 
+    # parse content
+    my @memories;
     my $slot = 0;
     while (my $line = <$handle>) {
-        last if $line =~ /^$/;
+        last if $line !~ /
+            (\d+ \s [MG]B) \s+
+            \S+
+        $/x;
 
-        my $capacity = substr(
-            $line,
-            $columns{bank_size}->{offset},
-            $columns{bank_size}->{length}
-        );
-
-        $capacity =~ s/^\s+//;
-        $capacity =~ s/\s+$//;
-
-        $capacity = getCanonicalSize($capacity);
+        my $capacity = getCanonicalSize($1);
 
         push @memories, {
             NUMSLOTS => $slot++,
@@ -128,7 +115,67 @@ sub _getMemoriesPrtdiag {
         }
     }
 
-    close $handle;
+    return @memories;
+}
+
+sub _parseMemoryConfiguration {
+    my ($handle) = @_;
+
+    my @memories;
+
+    # skip headers
+    foreach my $i (1 .. 5) {
+        <$handle>;
+    }
+
+    # parse content
+    my $slot = 0;
+    while (my $line = <$handle>) {
+        last if $line !~ /
+            (\d+ [MG]B) \s+
+            \S+         \s+
+            (\d+ [MG]B) \s+
+            \S+         \s+
+            \d
+        $/x;
+
+        my $capacity = getCanonicalSize($1);
+
+        push @memories, {
+            NUMSLOTS => $slot++,
+            CAPACITY => $capacity
+        }
+    }
+
+    return @memories;
+}
+
+sub _parseMemoryDeviceSockets {
+    my ($handle) = @_;
+    
+     # skip headers
+    foreach my $i (0 .. 2) {
+        <$handle>;
+    }
+
+    # parse content
+    my $slot = 0;
+    my @memories;
+    while (my $line = <$handle>) {
+        last if $line !~ /^
+        (\w+)             \s+
+        (empty|in \s use) \s+
+        \d                \s+
+        \w+ (?:\s \w+)*
+        /x;
+        next if $2 eq 'empty';
+
+        push @memories, {
+            NUMSLOTS => $slot++,
+            TYPE     => $1
+        }
+    }
+
 
     return @memories;
 }
