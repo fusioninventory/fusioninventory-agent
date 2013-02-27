@@ -35,18 +35,11 @@ sub doInventory {
         SWAP =>   $swapSize
     });
 
-    my $class = getClass();
+    my $zone = getZone();
 
-    if (!$class) {
-        $logger->debug(
-            "Unknown model, impossible to detect memory configuration"
-        );
-        return;
-    }
-
-    my @memories =
-        $class == SOLARIS_CONTAINER ? _getMemoriesPrctl()   :
-                                      _getMemoriesPrtdiag() ;
+    my @memories = $zone eq 'global' ?
+        _getMemoriesPrtdiag() :
+        _getMemoriesPrctl()   ;
 
     foreach my $memory (@memories) {
         $inventory->addEntry(
