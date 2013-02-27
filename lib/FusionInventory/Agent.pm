@@ -22,7 +22,7 @@ use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::XML::Query::Prolog;
 
 our $VERSION = '2.3.0';
-our $VERSION_STRING = 
+our $VERSION_STRING =
     "FusionInventory Agent ($VERSION)";
 our $AGENT_STRING =
     "FusionInventory-Agent_v$VERSION";

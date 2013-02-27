@@ -9,7 +9,7 @@ use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Task::Inventory::Inventory;
+use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::XML::Query::Inventory;
 
 our $VERSION = '1.0';
@@ -43,7 +43,7 @@ sub run {
 
     $self->{modules} = {};
 
-    my $inventory = FusionInventory::Agent::Task::Inventory::Inventory->new(
+    my $inventory = FusionInventory::Agent::Inventory->new(
         statedir => $self->{target}->getStorage()->getDirectory(),
         logger   => $self->{logger},
         tag      => $self->{config}->{'tag'}
@@ -145,14 +145,14 @@ sub _initModulesList {
     my $logger = $self->{logger};
     my $config = $self->{config};
 
-    my @modules = __PACKAGE__->getModules('Input');
+    my @modules = __PACKAGE__->getModules('');
     die "no inventory module found" if !@modules;
 
     # first pass: compute all relevant modules
     foreach my $module (sort @modules) {
         # compute parent module:
         my @components = split('::', $module);
-        my $parent = @components > 6 ?
+        my $parent = @components > 5 ?
             join('::', @components[0 .. $#components -1]) : '';
 
         # skip if parent is not allowed
@@ -193,7 +193,7 @@ sub _initModulesList {
         $self->{modules}->{$module}->{used}    = 0;
 
         no strict 'refs'; ## no critic (ProhibitNoStrict)
-        $self->{modules}->{$module}->{runAfter} = [ 
+        $self->{modules}->{$module}->{runAfter} = [
             $parent ? $parent : (),
             ${$module . '::runAfter'} ? @${$module . '::runAfter'} : ()
         ];
@@ -206,7 +206,7 @@ sub _initModulesList {
 
         # skip modules already disabled
         next unless $self->{modules}->{$module}->{enabled};
-        # skip non-fallback modules 
+        # skip non-fallback modules
         next unless ${$module . '::runMeIfTheseChecksFailed'};
 
         my $failed;
@@ -372,7 +372,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::Inventory - Inventory task for FusionInventory 
+FusionInventory::Agent::Task::Inventory - Inventory task for FusionInventory
 
 =head1 DESCRIPTION
 

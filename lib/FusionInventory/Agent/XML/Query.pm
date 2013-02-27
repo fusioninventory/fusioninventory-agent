@@ -63,4 +63,3 @@ the agent identifier (optional)
 =head2 getContent
 
 Get XML content.
-

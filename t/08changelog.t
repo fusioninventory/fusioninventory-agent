@@ -24,5 +24,3 @@ my $line = <CHANGES>;
 
 $line =~ /^[\d\.]+\s+(\S.*)/;
 ok($1 && DateTime::Format::Mail->parse_datetime($1), "RFC822 date format (date -R)");
-
-

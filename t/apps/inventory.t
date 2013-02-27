@@ -5,9 +5,11 @@ use warnings;
 
 use English qw(-no_match_vars);
 use IPC::Run qw(run);
-use Test::More tests => 6;
+use Test::More;
 
 use FusionInventory::Agent::Task::Inventory;
+
+plan tests => 6;
 
 my ($out, $err, $rc);
 
@@ -26,14 +28,14 @@ is($err, '', '--version stderr');
 like(
     $out,
     qr/$FusionInventory::Agent::Task::Inventory::VERSION/,
-    '--version stdin'
+    '--version stdout'
 );
 
 sub run_inventory {
     my ($args) = @_;
     my @args = $args ? split(/\s+/, $args) : ();
     run(
-        [ $EXECUTABLE_NAME, 'fusioninventory-inventory', @args ],
+        [ $EXECUTABLE_NAME, 'bin/fusioninventory-inventory', @args ],
         \my ($in, $out, $err)
     );
     return ($out, $err, $CHILD_ERROR >> 8);

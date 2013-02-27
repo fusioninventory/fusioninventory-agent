@@ -72,7 +72,7 @@ sub _findDhcpLeaseFile {
             push @files,
                 grep { -s $_ }
                 glob("$directory/$pattern");
-        } 
+        }
     }
 
     return unless @files;
@@ -119,7 +119,7 @@ sub _parseDhcpLeaseFile {
         next unless $dhcp;
 
         if (
-            $line =~ 
+            $line =~
             /option \s+ dhcp-server-identifier \s+ (\d{1,3}(?:\.\d{1,3}){3})/x
         ) {
             # server IP
@@ -149,7 +149,7 @@ sub getFilesystemsFromDf {
     my $handle = getFileHandle(%params);
 
     my @filesystems;
-    
+
     # get headers line first
     my $line = <$handle>;
     return unless $line;
@@ -161,7 +161,7 @@ sub getFilesystemsFromDf {
         chomp $line;
         my @infos = split(/\s+/, $line);
 
-        # depending on the df implementation, and how it is called 
+        # depending on the df implementation, and how it is called
         # the filesystem type may appear as second colum, or be missing
         # in the second case, it has to be given by caller
         my ($filesystem, $total, $free, $type);
@@ -223,7 +223,7 @@ sub getFilesystemsTypesFromMount {
 
     ### raw result: @types
 
-    return 
+    return
         uniq
         @types;
 }
@@ -315,7 +315,7 @@ sub getProcessesFromPs {
             my ($sec, $min, $hour, $day, $month, $year, $wday, $yday, $isdst)
                 = localtime($stat->ctime());
             $year = $year + 1900;
-            $begin = sprintf("%04d-%02d-%02d %s:%s", $year, $month + 1, $day, $hour, $min); 
+            $begin = sprintf("%04d-%02d-%02d %s:%s", $year, $month + 1, $day, $hour, $min);
         }
         push @processes, {
             USER          => $user,

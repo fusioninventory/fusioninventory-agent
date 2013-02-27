@@ -101,8 +101,8 @@ sub findPeer {
         @interfaces = FusionInventory::Agent::Tools::Linux::getInterfacesFromIfconfig();
 
     } elsif ($OSNAME eq 'MSWin32') {
-        FusionInventory::Agent::Task::Inventory::Input::Win32::Networks->require();
-        @interfaces = FusionInventory::Agent::Task::Inventory::Input::Win32::Networks::_getInterfaces();
+        FusionInventory::Agent::Tools::Win32->require();
+        @interfaces = FusionInventory::Agent::Tools::Win32::getInterfaces();
     }
 
 
@@ -167,7 +167,7 @@ sub scan {
                 "pong",      # Have it post an answer as a "pong" event.
                 $ipToTest,    # This is the address we want to ping.
                 );
-			
+
             if (@ipToTestList && @ipFound < 30) {
                 $_[KERNEL]->delay(add => 0.1)
             } else {
@@ -196,7 +196,7 @@ sub scan {
                     Connected      => sub {
                         push @ipFound, "http://$addr:$port/deploy/getFile/";
                     },
-		    ServerInput   => sub { }
+                    ServerInput   => sub { }
                 );
             },
         },

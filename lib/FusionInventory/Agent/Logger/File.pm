@@ -47,6 +47,7 @@ sub addMessage {
     my $retryTill = time + 60;
 
     while ($retryTill > time && !$locked) {
+        ## no critic (ProhibitBitwise)
         # get an exclusive lock on log file
         $locked = 1 if flock($handle, LOCK_EX|LOCK_NB);
     }

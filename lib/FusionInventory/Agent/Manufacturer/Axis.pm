@@ -23,3 +23,19 @@ sub getDescription {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Manufacturer::Axis - Axis-specific functions
+
+=head1 DESCRIPTION
+
+This is a class defining some functions specific to Axis hardware.
+
+=head1 FUNCTIONS
+
+=head2 getDescription()
+
+Get a better description for some specific devices than the one retrieved
+directly through SNMP.

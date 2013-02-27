@@ -91,8 +91,8 @@ sub diskIsFull {
     );
 
     if (!$freeSpace) {
-	$logger->debug('$spaceFree is undef!');
-	$freeSpace = 0;
+        $logger->debug('$spaceFree is undef!');
+        $freeSpace = 0;
     }
 
     $logger->debug("Free space on $self->{path}: $freeSpace");

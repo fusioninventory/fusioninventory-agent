@@ -17,4 +17,3 @@ my $config = File::Spec->catfile('t', 'perlcriticrc');
 Test::Perl::Critic->import(-profile => $config);
 
 all_critic_ok();
-

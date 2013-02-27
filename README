@@ -1,14 +1,14 @@
 # FusionInventory Agent
 
-## Description
+## Summary
 
 The FusionInventory agent is a generic management agent. It can perform a
 certain number of tasks, according to its own execution plan, or on behalf of a
 GLPI server with fusioninventory plugin, acting as a control point.
 
-Two of these tasks are included in agent source distribution, local inventory
-and wake on lan. Other tasks are distributed separatly, excepted for binary
-distributions where they are bundled together.
+## Description
+
+TODO.
 
 ## Dependencies
 
@@ -39,8 +39,7 @@ Additional optional programs:
 * dmidecode, for hardware inventory
 * lspci, for hardware inventory
 
-# Contacts
-
+## Contacts
 
 Project websites:
 
@@ -58,7 +57,7 @@ Project IRC channel:
 
 Please report any issues on project forge bugtracker.
 
-# Authors 
+## Authors 
 
 * Gonéri Le Bouder <goneri@rulezlan.org>
 * Guillaume Rousse <guillomovitch@gmail.com>
@@ -67,12 +66,12 @@ Copyright 2006-2010 OCS Inventory contributors
 Copyright 2010-2012 FusionInventory Team
 Copyright 2011 TECLIB' ( http://www.teclib.com )
 
-# License
+## License
 
 This software is licensed under the terms of GPLv2+, see LICENSE file for
 details.
 
-# Additional pieces of software
+## Additional pieces of software
 
 The memconf script:
 
@@ -92,118 +91,3 @@ contains code from imvirt:
 * author: Thomas Liske <liske@ibh.de>
 * copyright: 2008 IBH IT-Service GmbH <http://www.ibh.de/>
 * License: GPLv2+
-
-# FusionInventory agent Deploy task
-
-## Description
-
-This task allows the agent to perform software installation on its host.
-
-If the P2P option is turned on, the agent will looks for peer in its
-network. The network range size will be limited at 255 machines.
-
-## Dependencies
-
-This task requires a FusionInventory agent (minimal version 2.2.0), and can
-only be executed with a GLPI server with FusionInventory plugin.
-
-# FusionInventory agent ESX task
-
-## Description
-
-This task allows the agent to perform remote inventory of ESX, ESXi, vCenter
-server using the SOAP interface.
-
-You can import the generated files in:
- - GLPI with FusionInventory for GLPI
- - ocsinventory
- - Uranos
-
-fusioninventory-esx --user root --password password --host esx-server --directory /tmp
-[info] Inventory saved in /tmp/esx-server-2011-01-25-14-11-07.ocs
-fusioninventory-injector -v --file /tmp/esx-server-2011-01-25-14-11-07.ocs -u https://myserver/ocsinventory
-
-# FusionInventory agent network tasks
-
-## Description
-
-This plugin for the agent provides two tasks that were previously distributed
-separatly:
-
-* the NetDiscovery task allows the agent to scan the network to find remote
-  devices, through nmap, NetBios or SNMP, and to identify them
-* the NetInventory task allows the agent to extract various informations from
-  a remote device through SNMP protocol
-
-## Usage
-
-The NetDiscovery task uses the following methods to scan IP networks:
-
-* ICMP scan, using nmap external command
-* NetBIOS scan, using [[!cpan Net::NBName]] perl module
-* SNMP scan, using [[!Net::SNMP]] perl module
-
-Any device replying to one of those protocols will be discovered, with just
-minimal information, such as mac address and hostname.
-
-If the device replies to SNMP, an additional identification attempt is
-performed, using the device system description (SNMPv2-MIB::sysDescr.0) field.  
-First, this value is compared to a database of known values (the SNMP
-dictionnary). If there is an exact match, an SNMP description model can be used
-to fully identify the device (model-based identification). If there is no exact
-match, various rules are used to partially identify the device (rule-based
-identification).
-
-Discovered devices are then reported to the GLPI servers, and import rules are
-applied.  If the device type (printer, network device, etc...) has not been
-identified, they will be considered as 'unkown devices'.
-
-The NetInventory task can be applied to any device already present in the
-inventory, provided it is assigned an SNMP description model. If no such model
-has been automatically assigned during previous discovery phase, it can still
-be done manually though GLPI interface.
-
-## SNMP description models
-
-An SNMP description model maps specific device features (ports list, ink level,
-etc...) with SNMP OIDs. Given than manufacturers often change those OIDs
-between firmware releases, the same device may have to use different SNMP
-description models depending of its firmware. This means than the agent will
-only assign description models to specific hardware/software combinations, as
-identified from device SysDescr value. No model automaticall assigned doesn't
-mean than no one applies, but rather than no one is known to work in this
-specific case.
-
-The SNMP description models database is constitued by two elements:
-
-* the models, each of them defined in its own XML file, which have to be
-  imported in GLPI database before usage
-* the dictionnary, mapping those models to known sysdescr values,  defined in
-  another XML file, discovery.xml, which is used directly without prior import
-
-Those files are all distributed with the FusionInventory plugin for GLPI, in
-fusinvsnmp directory.
-
-If the network discovery is unable to automatically assign a suitable SNMP
-description model for your devices, your different options are:
-
-* use the SNMP description model generation tool, included in FusionInventory
-  for GLPI starting with version 0.83+2.0, to create a dedicated model
-* try a newer snapshot of the database, available from
-  <http://fusioninventory.org/snmpmodels>
-* try to use another model that seems close enough
-
-Only the first option brings some ensurance of full coverage of information:
-using an unadapted model may perfectly result in partial results.
-
-## Command-line usage
-
-Two command-line tools are provided for testing purposes:
-
-* [[fusioninventory-netdiscovery|documentation/references/agent-task-network/master/fusioninventory-netdiscovery]]
-* [[fusioninventory-netinventory|documentation/references/agent-task-network/master/fusioninventory-netinventory]]
-
-While allowing to perform the corresponding task without a running server, they
-still requires some data files shipped in the server sources (SNMP dictionnary
-and SNMP description models).
-

@@ -60,7 +60,7 @@ sub request {
 
     my $url = $request->uri();
     my $scheme = $url->scheme();
-    $self->_setSSLOptions() if $scheme eq 'https' && !$self->{ssl_set}; 
+    $self->_setSSLOptions() if $scheme eq 'https' && !$self->{ssl_set};
 
     my $result;
     eval {
@@ -152,7 +152,7 @@ sub _setSSLOptions {
                 if $self->{ca_cert_dir};
         } else {
             # SSL_verifycn_scheme and SSL_verifycn_name are required
-            die 
+            die
                 "IO::Socket::SSL $IO::Socket::SSL::VERSION is too old, "     .
                 "version 1.14 is required for SSL certificate validation.\n" .
                 " You can use 'no-ssl-check' option to disable SSL it."
@@ -163,7 +163,7 @@ sub _setSSLOptions {
                 ca_cert_file => $self->{ca_cert_file},
                 ca_cert_dir  => $self->{ca_cert_dir},
             );
-            die 
+            die
                 "failed to load FusionInventory::Agent::HTTP::Protocol::https" .
                 ", unable to perform SSL certificate validation.\n"            .
                 "You can use 'no-ssl-check' option to disable it."
