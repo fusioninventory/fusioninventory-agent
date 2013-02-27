@@ -263,7 +263,61 @@ sub _parseMemorySection {
 sub _parseSlotsSection {
     my ($section, $handle) = @_;
 
-    return;
+    my ($offset, $callback);
+
+    SWITCH: {
+        if ($section eq 'IO Devices') {
+            $offset  = 3;
+            $callback = sub {
+                my ($line) = @_;
+                return unless $line =~ /^
+                    (\S+) \s+
+                    PCI[EX] \s+
+                    (\S+)
+                    (?:\s+ (\S+))?
+                /x;
+                return {
+                    NAME        => $1,
+                    DESIGNATION => $2,
+                    DESCRIPTION => $3
+                };
+            };
+            last SWITCH;
+        }
+
+        if ($section eq 'IO Cards') {
+            $offset  = 7;
+            $callback = sub {
+                my ($line) = @_;
+                return unless $line =~ /
+                    (\S+) \s+
+                    (\S+) \s*
+                $/x;
+                return {
+                    DESIGNATION => $1,
+                    DESCRIPTION => $2
+                };
+            };
+            last SWITCH;
+        }
+
+        return;
+    };
+
+    # skip headers
+    foreach my $i (1 .. $offset) {
+        <$handle>;
+    }
+
+    my @slots;
+    while (my $line = <$handle>) {
+        last if $line =~ /^$/;
+        chomp $line;
+        my $slot = $callback->($line);
+        push @slots, $slot if $slot;
+    }
+
+    return \@slots;
 }
 
 1;
