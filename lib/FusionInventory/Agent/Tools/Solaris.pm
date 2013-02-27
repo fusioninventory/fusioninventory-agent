@@ -191,21 +191,7 @@ sub _parseMemorySection {
         return;
     }
 
-    # skip headers
-    foreach my $i (1 .. $offset) {
-        <$handle>;
-    }
-
-    # parse content
-    my @memories;
-    while (my $line = <$handle>) {
-        last if $line =~ /^$/;
-        chomp $line;
-        my $memory = $callback->($line);
-        push @memories, $memory if $memory;
-    }
-
-    return \@memories;
+    return _parseAnySection($handle, $offset, $callback);
 }
 
 sub _parseSlotsSection {
@@ -252,20 +238,27 @@ sub _parseSlotsSection {
         return;
     };
 
+    return _parseAnySection($handle, $offset, $callback);
+}
+
+sub _parseAnySection {
+    my ($handle, $offset, $callback) = @_;
+
     # skip headers
     foreach my $i (1 .. $offset) {
         <$handle>;
     }
 
-    my @slots;
+    # parse content
+    my @items;
     while (my $line = <$handle>) {
         last if $line =~ /^$/;
         chomp $line;
-        my $slot = $callback->($line);
-        push @slots, $slot if $slot;
+        my $item = $callback->($line);
+        push @items, $item if $item;
     }
 
-    return \@slots;
+    return \@items;
 }
 
 1;
