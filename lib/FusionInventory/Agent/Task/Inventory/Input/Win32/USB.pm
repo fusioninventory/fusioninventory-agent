@@ -32,6 +32,7 @@ sub _getUSBDevices {
         class      => 'CIM_LogicalDevice',
         properties => [ qw/DeviceID Name/ ]
     )) {
+        next unless $object->{DeviceID};
         next unless $object->{DeviceID} =~ /^USB\\VID_(\w+)&PID_(\w+)\\(.*)/;
 
         my $device = {
