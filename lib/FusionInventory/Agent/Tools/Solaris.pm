@@ -23,6 +23,7 @@ our @EXPORT = qw(
     getModel
     getClass
     getPrtconfInfos
+    getPrtdiagInfos
     SOLARIS_UNKNOWN
     SOLARIS_FIRE
     SOLARIS_FIRE_V
@@ -163,6 +164,106 @@ sub getPrtconfInfos {
     close $handle;
 
     return $info;
+}
+
+sub getPrtdiagInfos {
+    my (%params) = (
+        command => 'prtdiag',
+        @_
+    );
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my $info = {};
+
+    while (my $line = <$handle>) {
+        next unless $line =~ /^=+ \s ([\w\s]+) \s =+$/x;
+        my $section = $1;
+        $info->{memories} = _parseMemorySection($section, $handle)
+            if $section =~ /Memory/;
+        $info->{slots}  = _parseSlotsSection($section, $handle)
+            if $section =~ /IO/;
+    }
+    close $handle;
+
+    return $info;
+}
+
+sub _parseMemorySection {
+    my ($section, $handle) = @_;
+
+    my ($offset, $pattern, $callback);
+
+    SWITCH: {
+        if ($section eq 'Physical Memory Configuration') {
+            $offset  = 5;
+            $pattern = qr/
+                (\d+ \s [MG]B) \s+
+                \S+
+            $/x;
+            $callback = sub {
+                return { CAPACITY => getCanonicalSize($_[0]) };
+            };
+            last SWITCH;
+        }
+
+        if ($section eq 'Memory Configuration') {
+            $offset  = 5;
+            $pattern = qr/
+                (\d+ [MG]B) \s+
+                \S+         \s+
+                (\d+ [MG]B) \s+
+                \S+         \s+
+                \d
+            $/x;
+            $callback = sub {
+                return { CAPACITY => getCanonicalSize($_[0]) };
+            };
+            last SWITCH;
+        }
+
+        if ($section eq 'Memory Device Sockets') {
+            $offset  = 3;
+            $pattern = qr/^
+                (\w+)             \s+
+                (empty|in \s use) \s+
+                \d                \s+
+                \w+ (?:\s \w+)*
+            /x;
+            $callback = sub {
+                return $_[1] eq 'empty' ? undef: { TYPE => $_[0] };
+            };
+            last SWITCH;
+        }
+
+        return;
+    }
+
+    # skip headers
+    foreach my $i (1 .. $offset) {
+        <$handle>;
+    }
+
+    # parse content
+    my @memories;
+    my $i = 0;
+    while (my $line = <$handle>) {
+        my @results = $line =~ $pattern;
+        last unless @results;
+        my $memory = $callback->(@results);
+        next unless $memory;
+        $memory->{NUMSLOTS} = $i++;
+        push @memories, $memory;
+    }
+
+    return \@memories;
+}
+
+sub _parseSlotsSection {
+    my ($section, $handle) = @_;
+
+    return;
 }
 
 1;
