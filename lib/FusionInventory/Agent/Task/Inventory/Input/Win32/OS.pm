@@ -36,12 +36,6 @@ sub doInventory {
             path   => 'HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Services/lanmanserver/Parameters/srvcomment',
             logger => $logger
         ));
-        my $installDate = getFormatedLocalTime(hex2dec(
-            encodeFromRegistry(getRegistryValue(
-                path   => 'HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion/InstallDate',
-                logger => $logger
-            ))
-        ));
 
         $object->{TotalSwapSpaceSize} = int($object->{TotalSwapSpaceSize} / (1024 * 1024))
             if $object->{TotalSwapSpaceSize};
@@ -61,7 +55,7 @@ sub doInventory {
 
         $inventory->setOperatingSystem({
             NAME           => "Windows",
-            INSTALL_DATE   => $installDate,
+            INSTALL_DATE   => _getInstallDate(),
     #        VERSION       => $OSVersion,
             KERNEL_VERSION => $object->{Version},
             FULL_NAME      => $object->{Caption},
@@ -125,5 +119,65 @@ sub doInventory {
 
 
 }
+
+sub _getInstallDate {
+    my $installDate = getRegistryValue(
+        path   => 'HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion/InstallDate'
+    );
+    return unless $installDate;
+
+    my $dec = hex2dec($installDate);
+    return unless $dec;
+
+    return getFormatedLocalTime($dec);
+}
+
+#http://www.perlmonks.org/?node_id=497616
+# Thanks William Gannon && Charles Clarkson
+sub _getXPkey {
+    my $key = getRegistryValue(@_);
+    return unless $key;
+
+    my @encoded = ( unpack 'C*', $key )[ reverse 52 .. 66 ];
+
+    # Get indices
+    my @indices;
+    foreach ( 0 .. 24 ) {
+        my $index = 0;
+
+        # Shift off remainder
+        ( $index, $_ ) = _quotient( $index, $_ ) foreach @encoded;
+
+        # Store index.
+        unshift @indices, $index;
+    }
+
+    # translate base 24 "digits" to characters
+    my $cd_key =
+        join '',
+        qw( B C D F G H J K M P Q R T V W X Y 2 3 4 6 7 8 9 )[ @indices ];
+
+    # Add seperators
+    $cd_key =
+        join '-',
+        $cd_key =~ /(.{5})/g;
+
+    return if $cd_key =~ /^[B-]*$/;
+    return $cd_key;
+}
+
+sub _quotient {
+    my($index, $encoded) = @_;
+
+    # Same as $index * 256 + $product_key ???
+    my $dividend = $index * 256 ^ $encoded; ## no critic (ProhibitBitwise)
+
+    # return modulus and integer quotient
+    return(
+        $dividend % 24,
+        $dividend / 24,
+    );
+}
+
 
 1;
