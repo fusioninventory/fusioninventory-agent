@@ -16,6 +16,8 @@ our @EXPORT = qw(
 );
 
 memoize('getZone');
+memoize('getPrtconfInfos');
+memoize('getPrtdiagInfos');
 
 sub getZone {
     return canRun('zonename') ?
