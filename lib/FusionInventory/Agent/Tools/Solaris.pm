@@ -129,46 +129,61 @@ sub getPrtdiagInfos {
 sub _parseMemorySection {
     my ($section, $handle) = @_;
 
-    my ($offset, $pattern, $callback);
+    my ($offset, $callback);
 
     SWITCH: {
         if ($section eq 'Physical Memory Configuration') {
-            $offset  = 5;
-            $pattern = qr/
-                (\d+ \s [MG]B) \s+
-                \S+
-            $/x;
+            my $i = 0;
+            $offset = 5;
             $callback = sub {
-                return { CAPACITY => getCanonicalSize($_[0]) };
+                my ($line) = @_;
+                return unless $line =~ qr/
+                    (\d+ \s [MG]B) \s+
+                    \S+
+                $/x;
+                return {
+                    NUMSLOTS => $i++,
+                    CAPACITY => getCanonicalSize($1)
+                };
             };
             last SWITCH;
         }
 
         if ($section eq 'Memory Configuration') {
-            $offset  = 5;
-            $pattern = qr/
-                (\d+ [MG]B) \s+
-                \S+         \s+
-                (\d+ [MG]B) \s+
-                \S+         \s+
-                \d
-            $/x;
+            my $i = 0;
+            $offset = 5;
             $callback = sub {
-                return { CAPACITY => getCanonicalSize($_[0]) };
+                my ($line) = @_;
+                return unless $line =~ qr/
+                    (\d+ [MG]B) \s+
+                    \S+         \s+
+                    (\d+ [MG]B) \s+
+                    \S+         \s+
+                    \d
+                $/x;
+                return {
+                    NUMSLOTS => $i++,
+                    CAPACITY => getCanonicalSize($1)
+                };
             };
             last SWITCH;
         }
 
         if ($section eq 'Memory Device Sockets') {
-            $offset  = 3;
-            $pattern = qr/^
-                (\w+)             \s+
-                (empty|in \s use) \s+
-                \d                \s+
-                \w+ (?:\s \w+)*
-            /x;
+            my $i = 0;
+            $offset = 3;
             $callback = sub {
-                return $_[1] eq 'empty' ? undef: { TYPE => $_[0] };
+                my ($line) = @_;
+                return unless $line =~ qr/^
+                    (\w+)           \s+
+                    in \s use       \s+
+                    \d              \s+
+                    \w+ (?:\s \w+)*
+                /x;
+                return {
+                    NUMSLOTS => $i++,
+                    TYPE     => $1
+                };
             };
             last SWITCH;
         }
@@ -183,14 +198,11 @@ sub _parseMemorySection {
 
     # parse content
     my @memories;
-    my $i = 0;
     while (my $line = <$handle>) {
-        my @results = $line =~ $pattern;
-        last unless @results;
-        my $memory = $callback->(@results);
-        next unless $memory;
-        $memory->{NUMSLOTS} = $i++;
-        push @memories, $memory;
+        last if $line =~ /^$/;
+        chomp $line;
+        my $memory = $callback->($line);
+        push @memories, $memory if $memory;
     }
 
     return \@memories;
