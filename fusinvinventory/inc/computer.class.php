@@ -149,8 +149,8 @@ class PluginFusinvinventoryComputer extends CommonDBTM {
          foreach($result as $row) {
 
             $resultRegistry = $o_RegKey->find('computers_id = '.$computers_id.' AND 
-                                            glpi_plugin_fusioninventory_collectcontents_id = '.
-                                            $row['id']);
+                                            name = "'.
+                                            $row['name'].'"');
 
             if (count($resultRegistry) == 0) continue;
 
@@ -188,7 +188,7 @@ class PluginFusinvinventoryComputer extends CommonDBTM {
                $key['value'] = $LANG['plugin_fusioninventory']['collect'][4];
             }
 
-            $o_CollectContent->getFromDB($key['glpi_plugin_fusioninventory_collectcontents_id']);
+            $o_CollectContent->getFromDB($key['plugin_fusioninventory_collectcontents_id']);
             $details = json_decode($o_CollectContent->fields['details']);
             echo '<tr class="tab_bg_1">';
             echo '<td><em style="font-weight:bold;"><acronym title="HKEY_LOCAL_MACHINE/';

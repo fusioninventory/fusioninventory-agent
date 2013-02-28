@@ -67,7 +67,6 @@ class PluginFusinvinventoryImport_Registry extends CommonDBTM  {
       } else {
          $tmpArray = reset($result);
          $registryNameId = $tmpArray['id'];
-
       }
 
       if(!isset($array['REGVALUE'])) {
@@ -91,7 +90,7 @@ class PluginFusinvinventoryImport_Registry extends CommonDBTM  {
       $registryValues = array(
          'name'         => $array['NAME'],
          'computers_id' => $idmachine,
-         'types_id'      => '1', //force to 1 because only registry are active on 0.80
+         'plugin_fusioninventory_collectcontents_id' => $registryNameId,
          'value'        => $array['REGVALUE']
       );
 
