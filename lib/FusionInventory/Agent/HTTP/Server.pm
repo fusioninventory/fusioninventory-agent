@@ -168,7 +168,7 @@ sub _handle_root {
 
     my $hash = {
         version => $FusionInventory::Agent::VERSION,
-        trust   => $self->_is_trusted($clientIp),
+        trust   => $self->_isTrusted($clientIp),
         status  => $self->{agent}->getStatus(),
         targets => [
             map { $_->getStatus() } $self->{agent}->getTargets()
@@ -224,8 +224,8 @@ sub _handle_now {
 
     my ($code, $message, $trace);
     if (
-        $self->_is_trusted($clientIp) ||
-        $self->_is_authenticated($token)
+        $self->_isTrusted($clientIp) ||
+        $self->_isAuthenticated($token)
     ) {
         foreach my $target ($self->{agent}->getTargets()) {
             $target->setNextRunDate(1);
@@ -272,7 +272,7 @@ sub _handle_status {
     $client->send_response($response);
 }
 
-sub _is_trusted {
+sub _isTrusted {
     my ($self, $clientIp) = @_;
 
     my $logger = $self->{logger};
@@ -302,7 +302,7 @@ sub _is_trusted {
     return 0;
 }
 
-sub _is_authenticated {
+sub _isAuthenticated {
     my ($self, $token) = @_;
 
     return 0 unless $token;
