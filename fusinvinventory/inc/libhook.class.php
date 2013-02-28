@@ -559,6 +559,16 @@ class PluginFusinvinventoryLibhook {
                array_push($sectionsId,$section['sectionName']."/".$id_user);
                break;
 
+            case 'REGISTRY':
+               $pfImport_Registry = new PluginFusinvinventoryImport_Registry();
+               $id_registrykey = $pfImport_Registry->AddRegistry($idmachine, $dataSection);
+               if (empty($id_registrykey)) {
+                  $id_registrykey = $j;
+                  $j--;
+               }
+               array_push($sectionsId,$section['sectionName']."/".$id_registrykey);
+               break;
+
             // TODO :
             /*
              *

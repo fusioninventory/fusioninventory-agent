@@ -112,8 +112,96 @@ class PluginFusinvinventoryComputer extends CommonDBTM {
       echo '</tr>';
             
       echo '</table>';
+      $this->showActiveCampaignRegistryKeys($computers_id);
       echo '</div>';      
-   }   
+   }
+
+/**
+    * Display informations about active campaign register keys
+    * 
+    * @global type $LANG
+    * @param type $computers_id 
+    */
+   function showActiveCampaignRegistryKeys($computers_id) {
+      global $LANG, $DB;
+
+      $collectObject = new PluginFusioninventoryCollect();
+      $sqlCollectCampaign  = "plugin_fusioninventory_collecttypes_id = 1";
+      $sqlCollectCampaign .= " AND is_active = 1";
+      $resultCollectCampaign = $collectObject->find($sqlCollectCampaign);
+
+      if(count($resultCollectCampaign) === 0) return false;
+
+      $campaigns = array();
+      foreach($resultCollectCampaign as $campaign) {
+
+         $campaignId = $campaign['id'];
+         
+         $o_CollectContent = new PluginFusioninventoryCollectcontent();
+         $result = $o_CollectContent->find('plugin_fusioninventory_collects_id = '.$campaignId);
+
+         $o_RegKey = new PluginFusioninventoryCollectregistrykey();
+         
+         if (count($result) == 0) 
+            continue;
+      
+         $registryKeys = array();
+         foreach($result as $row) {
+
+            $resultRegistry = $o_RegKey->find('computers_id = '.$computers_id.' AND 
+                                            glpi_plugin_fusioninventory_collectcontents_id = '.
+                                            $row['id']);
+
+            if (count($resultRegistry) == 0) continue;
+
+            foreach($resultRegistry as $rowReg) 
+               $registryKeys[] = $rowReg;
+
+         }
+
+
+         $campaigns[$campaignId] = $registryKeys;
+      }
+
+      if(count($campaigns) === 0) 
+         return false;
+
+      echo '<table class="tab_cadre_fixe" style="margin: 0; margin-top: 5px;">';
+
+      foreach($campaigns as $cId => $campaign) {
+         
+         $collectObject->getFromDB($cId);
+
+         echo '<tr class="tab_bg_1">';
+         echo '<th colspan="3">'.$LANG['plugin_fusioninventory']['collect'][3].' : ';
+         echo $collectObject->fields['name'].'</th>';
+         echo '</tr>';
+
+         echo '<tr class="tab_bg_1">';
+         echo '<th>'.$LANG['plugin_fusioninventory']['collect']['fields'][1].'</th>';
+         echo '<th>'.$LANG['rulesengine'][13].'</th>';
+         echo '</tr>';
+
+         foreach ($campaign as $key) {
+
+            if(empty($key['value'])) {
+               $key['value'] = $LANG['plugin_fusioninventory']['collect'][4];
+            }
+
+            $o_CollectContent->getFromDB($key['glpi_plugin_fusioninventory_collectcontents_id']);
+            $details = json_decode($o_CollectContent->fields['details']);
+            echo '<tr class="tab_bg_1">';
+            echo '<td><em style="font-weight:bold;"><acronym title="HKEY_LOCAL_MACHINE/';
+            echo $details->path.'">'.$key['name'];
+            echo '</acronym></em></td>';
+            echo '<td><em style="font-weight:bold;">'.$key['value'].'</em></td>';
+            echo '</tr>';
+         }
+
+      }
+
+      echo "</table>";
+   }
 }
 
 ?>

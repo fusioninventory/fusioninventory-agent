@@ -529,10 +529,10 @@ class PluginFusioninventoryCommunication {
    function addRegistry($items_id) {
 
 
-      $pfAgentmodule = new PluginFusioninventoryAgentmodule();
-      if (!$pfAgentmodule->getAgentCanDo('COLLECT', $items_id)) {
-         return;
-      }
+      // $pfAgentmodule = new PluginFusioninventoryAgentmodule();
+      // if (!$pfAgentmodule->getAgentCanDo('COLLECT', $items_id)) {
+      //    return;
+      // }
 
       // Get getFromRegistry ID
       $collectTypeObject = new PluginFusioninventoryCollecttype();
@@ -603,8 +603,6 @@ class PluginFusioninventoryCommunication {
          $xmlParam->addAttribute('REGKEY', $registryKey['REGKEY']);
          $xmlParam->addAttribute('REGTREE', $registryKey['REGTREE']);
       }
-      logInFile('php-errors', serialize($this->sxml));
-
    }
 
 }

@@ -313,7 +313,7 @@ CREATE TABLE `glpi_plugin_fusioninventory_collecttypes` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `glpi_plugin_fusioninventory_collecttypes`(`id`,`name`)
-VALUES (1,'getFromRegistry'),(2,'getFromWMI'),(3,'findFile'),(4,'runCommand');
+VALUES (1,'getFromRegistry');
 
 DROP TABLE IF EXISTS `glpi_plugin_fusioninventory_collectcontents`;
 
