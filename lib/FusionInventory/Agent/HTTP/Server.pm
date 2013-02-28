@@ -24,7 +24,6 @@ sub new {
         logger    => $params{logger} ||
                      FusionInventory::Agent::Logger->new(),
         agent     => $params{agent},
-        scheduler => $params{scheduler},
         htmldir   => $params{htmldir},
         ip        => $params{ip},
         port      => $params{port} || 62354,
@@ -172,7 +171,7 @@ sub _handle_root {
         trust   => $self->_is_trusted($clientIp),
         status  => $self->{agent}->getStatus(),
         targets => [
-            map { $_->getStatus() } $self->{scheduler}->getTargets()
+            map { $_->getStatus() } $self->{agent}->getTargets()
         ]
     };
 
@@ -197,7 +196,7 @@ sub _handle_deploy {
     Digest::SHA->require();
 
     my $path;
-    LOOP: foreach my $target ($self->{scheduler}->getTargets()) {
+    LOOP: foreach my $target ($self->{agent}->getTargets()) {
         foreach (glob($target->{storage}->getDirectory()."/deploy/fileparts/shared/*")) {
             next unless -f $_.'/'.$subFilePath;
 
@@ -228,7 +227,7 @@ sub _handle_now {
         $self->_is_trusted($clientIp) ||
         $self->_is_authenticated($token)
     ) {
-        foreach my $target ($self->{scheduler}->getTargets()) {
+        foreach my $target ($self->{agent}->getTargets()) {
             $target->setNextRunDate(1);
         }
         $self->{agent}->resetToken();
@@ -405,10 +404,6 @@ hash:
 =item I<logger>
 
 the logger object to use
-
-=item I<scheduler>
-
-the scheduler object to use
 
 =item I<agent>
 
