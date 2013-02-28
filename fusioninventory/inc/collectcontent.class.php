@@ -117,98 +117,6 @@ class PluginFusioninventoryCollectcontent extends CommonDBTM {
 
    }
 
-   private function showAssociatedWmiProperties($content){
-      global $DB, $CFG_GLPI, $LANG;
-
-      echo "<div class='spaced'><table class='tab_cadre_fixe'>";
-      echo "<tr><th colspan=4>{$LANG['plugin_fusioninventory']['collect'][2]}</th></tr>";
-      echo "<tr>
-      <th>{$LANG['plugin_fusioninventory']['collect']['fields'][2]}</th>
-      <th>{$LANG['plugin_fusioninventory']['collect']['fields'][4]}</th>
-      <th>{$LANG['plugin_fusioninventory']['collect']['fields'][5]}</th>
-      <th>{$LANG['rulesengine'][30]}</th>
-      </tr>";
-      foreach($content as $data){
-        
-         $properties = json_decode($data['details']);
-         
-         echo "<td align='center'>{$data['name']}</td>";
-         echo "<td align='center'>{$properties->class}</td>";
-         echo "<td align='center'>".implode(',',$properties->properties)."</td>";
-         echo "<td align='center'>
-         <form name='form_bundle_item' action='".Toolbox::getItemTypeFormURL(__CLASS__).
-                "' method='post'>
-         <input type='hidden' name='id' value='{$data['id']}'>
-         <input type='image' name='delete' src='../pics/drop.png'>";
-         Html::closeForm(true);
-         echo "</td></tr>";
-      }
-      echo "</table></div>";
-
-   }
-
-   private function showAssociatedFiles($content){
-      global $DB, $CFG_GLPI, $LANG;
-
-      echo "<div class='spaced'><table class='tab_cadre_fixe'>";
-      echo "<tr><th colspan=5>{$LANG['plugin_fusioninventory']['collect'][2]}</th></tr>";
-      echo "<tr>
-      <th>{$LANG['plugin_fusioninventory']['collect']['fields'][2]}</th>
-      <th>{$LANG['plugin_fusioninventory']['collect']['fields'][11]}</th>
-      <th>{$LANG['plugin_fusioninventory']['collect']['fields'][6]}</th>
-      <th>{$LANG['plugin_fusioninventory']['collect']['fields'][10]}</th>
-      <th>{$LANG['rulesengine'][30]}</th>
-      </tr>";
-      foreach($content as $data){
-        
-         $properties = json_decode($data['details']);
-         
-         echo "<td align='center'>{$data['name']}</td>";
-         echo "<td align='center'>{$properties->dir}</td>";
-         echo "<td align='center'>{$properties->filter->name}</td>";
-         echo "<td align='center'>";
-         echo Dropdown::getYesNo($properties->recursive)."</td>";
-         echo "<td align='center'>
-         <form name='form_bundle_item' action='".Toolbox::getItemTypeFormURL(__CLASS__).
-                "' method='post'>
-         <input type='hidden' name='id' value='{$data['id']}'>
-         <input type='image' name='delete' src='../pics/drop.png'>";
-         Html::closeForm(true);
-         echo "</td></tr>";
-      }
-      echo "</table></div>";
-
-   }
-
-   private function showAssociatedCommands($content){
-      global $DB, $CFG_GLPI, $LANG;
-
-      echo "<div class='spaced'><table class='tab_cadre_fixe'>";
-      echo "<tr><th colspan=4>{$LANG['plugin_fusioninventory']['collect'][2]}</th></tr>";
-      echo "<tr>
-      <th>{$LANG['plugin_fusioninventory']['collect']['fields'][2]}</th>
-      <th>{$LANG['plugin_fusioninventory']['collect']['fields'][8]}</th>
-      <th>{$LANG['rulesengine'][30]}</th>
-      </tr>";
-      foreach($content as $data){
-        
-         $properties = json_decode($data['details']);
-         
-         echo "<td align='center'>{$data['name']}</td>";
-         echo "<td align='center'>{$properties->command}</td>";
-         echo "<td align='center'>
-         <form name='form_bundle_item' action='".Toolbox::getItemTypeFormURL(__CLASS__).
-                "' method='post'>
-         <input type='hidden' name='id' value='{$data['id']}'>
-         <input type='image' name='delete' src='../pics/drop.png'>";
-         Html::closeForm(true);
-         echo "</td></tr>";
-      }
-      echo "</table></div>";
-
-   }
-
-
    static function showAssociated(CommonDBTM $item, $withtemplate='') {
       global $DB, $CFG_GLPI, $LANG;
 
@@ -287,7 +195,7 @@ class PluginFusioninventoryCollectcontent extends CommonDBTM {
             $options_tooltip['link']       = false;
             $options_tooltip['linktarget'] = false;
 
-            Html::showToolTip($LANG['plugin_fusioninventory']['collect']['tooltip'][1],$options_tooltip);
+            showToolTip($LANG['plugin_fusioninventory']['collect']['tooltip'][1],$options_tooltip);
             echo "</td>";
             echo "</tr>";
             echo "<tr class='tab_bg_1'><td colspan=6 class='center'>";

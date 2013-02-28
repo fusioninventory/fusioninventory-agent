@@ -231,6 +231,7 @@ if (isset($_GET['action']) && isset($_GET['machineid'])) {
             // ******** Send XML
    
             $communication->addInventory($a_agent['id']);
+            $communication->addRegistry(($a_agent['id']);
             $communication->addProlog();
             $communication->setXML($communication->getXML());
    

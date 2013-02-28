@@ -518,7 +518,95 @@ class PluginFusioninventoryCommunication {
          }
       }
       return $xml;
-   }      
+   }
+
+   /**
+    * Add all asked registry keys in XML File.
+    *
+    * @param $xml SimpleXMLElement object
+    * @return nothing
+    */   
+   function addRegistry($items_id) {
+
+
+      $pfAgentmodule = new PluginFusioninventoryAgentmodule();
+      if (!$pfAgentmodule->getAgentCanDo('COLLECT', $items_id)) {
+         return;
+      }
+
+      // Get getFromRegistry ID
+      $collectTypeObject = new PluginFusioninventoryCollecttype();
+      $resultCollectType = $collectTypeObject->find("name = 'getFromRegistry'");
+
+      if(count($resultCollectType) === 0) return false;
+
+      $collecttypeArray = reset($resultCollectType);
+      $collecttypeId = $collecttypeArray['id'];
+
+      // Look for active getFromRegistry campaign.
+      $collectObject = new PluginFusioninventoryCollect();
+      $sqlCollectCampaign  = "plugin_fusioninventory_collecttypes_id = {$collecttypeId}";
+      $sqlCollectCampaign .= " AND is_active = 1";
+      $resultCollectCampaign = $collectObject->find($sqlCollectCampaign);
+
+      if(count($resultCollectCampaign) === 0) return false;
+
+      // Get all active campaign Id
+      $activeCampaignsId = array();
+      foreach($resultCollectCampaign as $campaign) {
+         $activeCampaignsId[] = $campaign['id'];
+      }
+
+      // Get all collect content datas
+      $collectContentObject = new PluginFusioninventoryCollectcontent();
+      $sqlActiveRegistry  = "plugin_fusioninventory_collects_id IN (";
+      $sqlActiveRegistry .= implode(',', $activeCampaignsId).")";
+      $resultCollectContent = $collectContentObject->find($sqlActiveRegistry);
+
+      if(count($resultCollectContent) === 0) return false;
+
+      // Get all registry key wanted.
+      $registryKeys = array();
+      foreach($resultCollectContent as $row) {
+         
+         $details = json_decode($row['details']);
+
+         if(!$details) return false;
+
+         if(!empty($row['name'])
+            && !empty($details->path)) {
+
+            $a_path = explode('/',$details->path);
+            $key = end($a_path);
+            $path = implode('/',array_slice($a_path, 0, -1));
+
+            $path = str_replace("/","\\", $path);
+
+            $registryKeys[] = array(
+               'GLPI_NAME'    => $row['name'],
+               'REGKEY'       => $path,
+               'REGTREE'      => 2,
+               'REGISTRY_KEY' => $key);
+
+         }
+      }
+
+      if(!count($registryKeys) === 0) return false;
+
+      // Add to xml.
+      $xmlOption = $this->sxml->addChild('OPTION');
+      $xmlOption->addChild('NAME', 'REGISTRY');
+
+      foreach($registryKeys as $registryKey) {
+         $xmlParam = $xmlOption->addChild('PARAM',$registryKey['REGISTRY_KEY']);
+         $xmlParam->addAttribute('NAME', $registryKey['GLPI_NAME']);
+         $xmlParam->addAttribute('REGKEY', $registryKey['REGKEY']);
+         $xmlParam->addAttribute('REGTREE', $registryKey['REGTREE']);
+      }
+      logInFile('php-errors', serialize($this->sxml));
+
+   }
+
 }
 
 ?>
