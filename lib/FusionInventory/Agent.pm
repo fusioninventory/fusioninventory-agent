@@ -295,7 +295,7 @@ sub _runTaskReal {
     );
 
     if (!$task->isEnabled($response)) {
-        $self->{logger}->info("task $name is not enabled");
+        $self->{logger}->info("task $name execution not requested");
         return;
     }
 
