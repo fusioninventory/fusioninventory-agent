@@ -7,7 +7,6 @@ use base 'FusionInventory::Agent::XML::Query';
 sub new {
     my ($class, %params) = @_;
 
-    die "no token parameter" unless $params{token};
     die "no deviceid parameter" unless $params{deviceid};
 
     return $class->SUPER::new(
@@ -38,9 +37,5 @@ from the base class C<FusionInventory::Agent::XML::Query>, as keys of the
 %params hash:
 
 =over
-
-=item I<token>
-
-the authentication token for the web interface (mandatory)
 
 =back

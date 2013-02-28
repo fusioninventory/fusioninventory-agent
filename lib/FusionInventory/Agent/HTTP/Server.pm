@@ -219,15 +219,12 @@ sub _handle_deploy {
 }
 
 sub _handle_now {
-    my ($self, $client, $request, $clientIp, $token) = @_;
+    my ($self, $client, $request, $clientIp) = @_;
 
     my $logger = $self->{logger};
 
     my ($code, $message, $trace);
-    if (
-        $self->_is_trusted($clientIp) ||
-        $self->_is_authenticated($token)
-    ) {
+    if ($self->_is_trusted($clientIp)) {
         foreach my $target ($self->{scheduler}->getTargets()) {
             $target->setNextRunDate(1);
         }
@@ -238,7 +235,7 @@ sub _handle_now {
     } else {
         $code    = 403;
         $message = "Access denied";
-        $trace   = "invalid request (bad token or bad address)";
+        $trace   = "invalid request (untrusted address)";
     }
 
     my $template = Text::Template->new(
@@ -301,14 +298,6 @@ sub _is_trusted {
     }
 
     return 0;
-}
-
-sub _is_authenticated {
-    my ($self, $token) = @_;
-
-    return 0 unless $token;
-
-    return $token eq $self->{agent}->getToken();
 }
 
 sub _listen {
@@ -389,9 +378,8 @@ requests are accepted:
 
 =back
 
-Authentication is based on a token created by the agent, and sent to the
-server at initial connection. Connection from addresses matching the trust
-parameter are trusted without token.
+Authentication is based on connection source address: trusted requests are
+accepted, other are rejected.
 
 =head1 METHODS
 
@@ -429,7 +417,7 @@ the network port to listen to
 =item I<trust>
 
 an IP address or an IP address range from which to trust incoming requests
-without authentication token (default: none)
+(default: none)
 
 =back
 
