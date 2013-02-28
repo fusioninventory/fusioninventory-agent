@@ -186,54 +186,42 @@ sub run {
 
     $self->{status} = 'waiting';
 
-    # endless loop in server mode
-    while (my $target = $self->_getNextTarget()) {
-        eval {
-            $self->_runTarget($target);
-        };
-        $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
-        $target->resetNextRunDate();
-    }
-}
-
-sub _getNextTarget {
-    my ($self) = @_;
-
-    return unless @{$self->{targets}};
-
     if ($self->{config}->{daemon} || $self->{config}->{service}) {
-        # block until a target is eligible to run, then return it
+        # background mode: check each targets every 10 seconds
         while (1) {
+            my $time = time();
             foreach my $target (@{$self->{targets}}) {
-                if (time > $target->getNextRunDate()) {
-                    return $target;
-                }
+
+                next if $time < $target->getNextRunDate();
+
+                eval {
+                    $self->_runTarget($target);
+                };
+                $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
+                $target->resetNextRunDate();
             }
             sleep(10);
         }
-    }
+    } else {
+        # foreground mode: check each targets once
+        my $time = time();
+        foreach my $target (@{$self->{targets}}) {
 
-    my $logger = $self->{logger};
-    my $target = shift @{$self->{targets}};
+            if ($self->{config}->{lazy} && $time < $target->getNextRunDate()) {
+                $self->{logger}->info(
+                    "$target->{id} is not ready yet, next server contact " .
+                    "planned for " . localtime($target->getNextRunDate())
+                );
+                next;
+            }
 
-    if ($self->{config}->{lazy}) {
-        # return next target if eligible, nothing otherwise
-        if (time > $target->getNextRunDate()) {
-            $logger->debug("$target->{id} is ready");
-            return $target;
-        } else {
-            $logger->info(
-                "$target->{id} is not ready yet, next server " .
-                "contact planned for " . localtime($target->getNextRunDate())
-            );
-            return;
+            eval {
+                $self->_runTarget($target);
+            };
+            $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
         }
     }
-
-    # return next target immediatly
-    return $target;
 }
-
 
 sub _runTarget {
     my ($self, $target) = @_;
