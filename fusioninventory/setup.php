@@ -67,6 +67,10 @@ function plugin_init_fusioninventory() {
       Plugin::registerClass('PluginFusioninventoryAgentmodule');
       Plugin::registerClass('PluginFusioninventoryIPRange');
       Plugin::registerClass('PluginFusioninventoryCredential');
+
+      Plugin::registerClass('PluginFusioninventoryRuleManageCollect');
+      Plugin::registerClass('PluginFusioninventoryRuleManageCollectCollection',
+                            array('rulecollections_types'=>true));
    
       // ##### 3. get informations of the plugin #####
 
@@ -152,6 +156,9 @@ function plugin_init_fusioninventory() {
          $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['search']['ruleimportequipment']
             = 'front/ruleimportequipment.php';
          
+         $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['options']['rulemanagecollect']['title'] = $LANG['plugin_fusioninventory']['rules'][32];
+         $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['options']['rulemanagecollect']['page']  = '/plugins/fusioninventory/front/rulemanagecollect.php';
+
          if (PluginFusioninventoryProfile::haveRight("fusioninventory", "collect","w")) {
              $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['add']['collect'] = 'front/collect.form.php?add=1';
              $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['search']['collect'] = 'front/collect.php';

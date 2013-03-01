@@ -73,12 +73,12 @@ class PluginFusinvinventoryImport_Registry extends CommonDBTM  {
          return false;
       }
 
-      // $rulecollection = new PluginFusioninventoryRuleManageCollectCollection();
-      // $res_rule = $rulecollection->processAllRules(array('type' => 'getFromRegistry',
-      //                                                    'name' => $array['NAME'],
-      //                                                    'key_id' => $registryNameId,
-      //                                                    'value' => $array['REGVALUE']), null, 
-      //                                              array('computers_id'=>$idmachine));
+      $rulecollection = new PluginFusioninventoryRuleManageCollectCollection();
+      $res_rule = $rulecollection->processAllRules(array('type' => 'getFromRegistry',
+                                                         'name' => $array['NAME'],
+                                                         'key_id' => $registryNameId,
+                                                         'value' => $array['REGVALUE']), null, 
+                                                   array('computers_id'=>$idmachine));
 
       $registrykeyObject = new PluginFusioninventoryCollectregistrykey();
 

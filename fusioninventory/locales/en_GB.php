@@ -97,6 +97,17 @@ $LANG['plugin_fusioninventory']['rules'][16] = "FusionInventory tag";
 $LANG['plugin_fusioninventory']['rules'][17] = "Import denied";
 $LANG['plugin_fusioninventory']['rules'][18] = "Device created";
 
+$LANG['plugin_fusioninventory']['rules'][32] = "Advanced information import";
+$LANG['plugin_fusioninventory']['rules'][33] = "Status";
+$LANG['plugin_fusioninventory']['rules'][34] = "Software";
+$LANG['plugin_fusioninventory']['rules'][35] = "Software version";
+$LANG['plugin_fusioninventory']['rules'][36] = "Assign to : User";
+$LANG['plugin_fusioninventory']['rules'][37] = "Assign to : Location";
+$LANG['plugin_fusioninventory']['rules'][38] = "Assign to : Operating system";
+$LANG['plugin_fusioninventory']['rules'][39] = "Assign to : Operating System version";
+$LANG['plugin_fusioninventory']['rules'][40] = "Assign to : Computer type";
+$LANG['plugin_fusioninventory']['rules'][41] = "Assign to : Computer model";
+
 $LANG['plugin_fusioninventory']['rulesengine'][152] = "Assets to import";
 
 $LANG['plugin_fusioninventory']['choice'][0] = "No";
