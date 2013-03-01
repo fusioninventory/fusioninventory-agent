@@ -261,6 +261,8 @@ sub getProcessesFromPs {
         localtime(time);
     $year = $year + 1900;
     $month = $month + 1;
+    my $emailPattern = join ('|', keys %month);
+
     my @processes;
 
     while ($line = <$handle>) {
@@ -287,8 +289,6 @@ sub getProcessesFromPs {
         my $started = $7;
         my $time    = $8;
         my $cmd     = $9;
-
-        my $emailPattern = join ('|', keys %month);
 
         # try to get a consistant time format
         my $begin;
