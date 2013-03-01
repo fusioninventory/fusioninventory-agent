@@ -271,22 +271,22 @@ sub getProcessesFromPs {
             (\S+) \s+
             (\S+) \s+
             (\S+) \s+
+             \S+  \s+
             (\S+) \s+
-            (\S+) \s+
-            (\S+) \s+
+             \S+  \s+
             (\S+) \s+
             (\S+) \s+
             (.*\S)
             /x;
-        my $user = $1;
-        my $pid = $2;
-        my $cpu = $3;
-        my $mem = $4;
-        my $vsz = $5;
-        my $tty = $7;
-        my $started = $9;
-        my $time = $10;
-        my $cmd = $11;
+        my $user    = $1;
+        my $pid     = $2;
+        my $cpu     = $3;
+        my $mem     = $4;
+        my $vsz     = $5;
+        my $tty     = $6;
+        my $started = $7;
+        my $time    = $8;
+        my $cmd     = $9;
 
         my $emailPattern = join ('|', keys %month);
 
