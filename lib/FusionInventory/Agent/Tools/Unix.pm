@@ -6,6 +6,7 @@ use base 'Exporter';
 
 use English qw(-no_match_vars);
 use File::stat;
+use File::Which;
 use Memoize;
 use Time::Local;
 
@@ -229,13 +230,59 @@ sub getFilesystemsTypesFromMount {
 }
 
 sub getProcessesFromPs {
-    my (%params) = @_;
+    my $ps = which('ps');
+    return -l $ps && readlink($ps) eq 'busybox' ? _getProcessesBusybox(@_) :
+                                                  _getProcessesOther(@_)   ;
+}
 
-    if (!$params{command}) {
-        $params{command}= $OSNAME eq 'solaris' ?
-            'ps -A -o user,pid,pcpu,pmem,vsz,tty,stime,time,comm'    :
-            'ps -A -o user,pid,pcpu,pmem,vsz,tty,stime,time,command' ;
+sub _getProcessesBusybox {
+    my (%params) = (
+        command => 'ps',
+        @_
+    );
+
+    my $handle = getFileHandle(%params);
+
+    # skip headers
+    my $line = <$handle>;
+
+    my @processes;
+
+    while ($line = <$handle>) {
+        next unless $line =~
+            /^
+            \s* (\S+)
+            \s+ (\S+)
+            \s+ (\S+)
+            \s+ ...
+            \s+ (\S.+)
+            /x;
+        my $pid   = $1;
+        my $user  = $2;
+        my $vsz   = $3;
+        my $cmd   = $4;
+
+        push @processes, {
+            USER          => $user,
+            PID           => $pid,
+            VIRTUALMEMORY => $vsz,
+            CMD           => $cmd
+        };
     }
+
+    close $handle;
+
+    return @processes;
+}
+
+sub _getProcessesOther {
+    my (%params) = (
+        command =>
+            'ps -A -o user,pid,pcpu,pmem,vsz,tty,stime,time,' .
+            ($OSNAME eq 'solaris' ? 'comm' : 'command'),
+        @_
+    );
+
     my $handle = getFileHandle(%params);
 
     # skip headers
