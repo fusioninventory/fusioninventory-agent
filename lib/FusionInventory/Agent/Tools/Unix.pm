@@ -257,7 +257,7 @@ sub getProcessesFromPs {
             (\S+) \s+
             (\S+) \s+
             (\S+) \s+
-            (\S+) \s+
+             \S+ \s+
             (.*\S)
             /x;
         my $user  = $1;
@@ -267,8 +267,7 @@ sub getProcessesFromPs {
         my $vsz   = $5;
         my $tty   = $6;
         my $start = $7;
-        my $time  = $8;
-        my $cmd   = $9;
+        my $cmd   = $8;
 
         push @processes, {
             USER          => $user,
@@ -277,7 +276,7 @@ sub getProcessesFromPs {
             MEM           => $mem,
             VIRTUALMEMORY => $vsz,
             TTY           => $tty,
-            STARTED       => _getProcessStartTime($start, $time, $day, $month, $year, $pid),
+            STARTED       => _getProcessStartTime($start, $day, $month, $year, $pid),
             CMD           => $cmd
         };
     }
@@ -314,7 +313,7 @@ my $monthPattern = join ('|', keys %month);
 
 # consistant time format
 sub _getProcessStartTime {
-    my ($start, $time, $day, $month, $year, $pid) = @_;
+    my ($start, $day, $month, $year, $pid) = @_;
 
     if ($start =~ /^(\d{1,2}):(\d{2})/) {
         # 10:00PM
@@ -324,21 +323,21 @@ sub _getProcessStartTime {
     if ($start =~ /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)(\d{2})[AP]M/) {
         # Sat03PM
         my $start_day = $2;
-        return sprintf("%04d-%02d-%02d %s", $year, $month, $start_day, $time);
+        return sprintf("%04d-%02d-%02d", $year, $month, $start_day);
     }
 
     if ($start =~ /^($monthPattern)(\d{2})/) {
         # Apr03
         my $start_month = $month{$1};
         my $start_day = $2;
-        return sprintf("%04d-%02d-%02d %s", $year, $start_month, $start_day, $time);
+        return sprintf("%04d-%02d-%02d", $year, $start_month, $start_day);
     }
 
     if ($start =~ /^(\d{1,2})($monthPattern)\d{1,2}/) {
         # 5Oct10
         my $start_day = $1;
         my $start_month = $month{$2};
-        return sprintf("%04d-%02d-%02d %s", $year, $start_month, $start_day, $time);
+        return sprintf("%04d-%02d-%02d", $year, $start_month, $start_day);
     }
 
     if (-f "/proc/$pid") {
