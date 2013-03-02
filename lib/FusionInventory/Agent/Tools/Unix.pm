@@ -233,8 +233,8 @@ sub getProcessesFromPs {
 
     if (!$params{command}) {
         $params{command}= $OSNAME eq 'solaris' ?
-            'ps -A -o user,pid,pcpu,pmem,vsz,rss,tty,s,stime,time,comm' :
-            'ps aux';
+            'ps -A -o user,pid,pcpu,pmem,vsz,tty,stime,time,comm'    :
+            'ps -A -o user,pid,pcpu,pmem,vsz,tty,stime,time,command' ;
     }
     my $handle = getFileHandle(%params);
 
@@ -280,9 +280,7 @@ sub getProcessesFromPs {
             (\S+) \s+
             (\S+) \s+
             (\S+) \s+
-             \S+  \s+
             (\S+) \s+
-             \S+  \s+
             (\S+) \s+
             (\S+) \s+
             (.*\S)
