@@ -229,7 +229,14 @@ sub getFilesystemsTypesFromMount {
 }
 
 sub getProcessesFromPs {
-    my $handle = getFileHandle(@_);
+    my (%params) = @_;
+
+    if (!$params{command}) {
+        $params{command}= $OSNAME eq 'solaris' ?
+            'ps -A -o user,pid,pcpu,pmem,vsz,rss,tty,s,stime,time,comm' :
+            'ps aux';
+    }
+    my $handle = getFileHandle(%params);
 
     # skip headers
     my $line = <$handle>;
