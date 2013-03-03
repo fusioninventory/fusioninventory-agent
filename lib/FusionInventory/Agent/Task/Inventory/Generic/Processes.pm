@@ -23,7 +23,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    foreach my $process (getProcessesFromPs(logger => $logger)) {
+    foreach my $process (getProcesses(logger => $logger)) {
         $inventory->addEntry(
             section => 'PROCESSES',
             entry   => $process

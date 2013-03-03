@@ -18,11 +18,11 @@ our @EXPORT = qw(
     getIpDhcp
     getFilesystemsFromDf
     getFilesystemsTypesFromMount
-    getProcessesFromPs
+    getProcesses
     getRoutingTable
 );
 
-memoize('getProcessesFromPs');
+memoize('getProcesses');
 
 sub getDeviceCapacity {
     my (%params) = @_;
@@ -229,7 +229,7 @@ sub getFilesystemsTypesFromMount {
         @types;
 }
 
-sub getProcessesFromPs {
+sub getProcesses {
     my $ps = which('ps');
     return -l $ps && readlink($ps) eq 'busybox' ? _getProcessesBusybox(@_) :
                                                   _getProcessesOther(@_)   ;
