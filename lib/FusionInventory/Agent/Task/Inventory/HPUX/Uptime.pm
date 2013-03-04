@@ -34,7 +34,7 @@ sub _getUptime {
     $uptime += $hours * 3600;
     $uptime += $minutes * 60;
 
-    return getFormatedGmTime($uptime);
+    return getFormatedGMTTime($uptime);
 }
 
 1;
