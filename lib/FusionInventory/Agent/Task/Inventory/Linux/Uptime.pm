@@ -18,7 +18,7 @@ sub doInventory {
 
     my $uptime = _getUptime(file => '/proc/uptime');
     $inventory->setOperatingSystem({
-        BOOT_TIME  => "$uptime"
+        BOOT_TIME => $uptime
     });
 }
 
