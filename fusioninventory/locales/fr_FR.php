@@ -29,7 +29,7 @@
 
    @package   FusionInventory
    @author    David Durieux
-   @co-author 
+   @co-author
    @comment   Not translate this file, use https://www.transifex.net/projects/p/FusionInventory/
    @copyright Copyright (c) 2010-2012 FusionInventory team
    @license   AGPL License 3.0 or (at your option) any later version
@@ -156,6 +156,17 @@ $LANG['plugin_fusioninventory']['rules'][6]="Liaison si possible, sinon import r
 $LANG['plugin_fusioninventory']['rules'][7]="Liaison si possible, sinon création du matériel";
 $LANG['plugin_fusioninventory']['rules'][8]="Envoyer";
 $LANG['plugin_fusioninventory']['rules'][9]="existe";
+
+$LANG['plugin_fusioninventory']['rules'][32] = "Advanced information import";
+$LANG['plugin_fusioninventory']['rules'][33] = "Status";
+$LANG['plugin_fusioninventory']['rules'][34] = "Software";
+$LANG['plugin_fusioninventory']['rules'][35] = "Software version";
+$LANG['plugin_fusioninventory']['rules'][36] = "Assign to : User";
+$LANG['plugin_fusioninventory']['rules'][37] = "Assign to : Location";
+$LANG['plugin_fusioninventory']['rules'][38] = "Assign to : Operating system";
+$LANG['plugin_fusioninventory']['rules'][39] = "Assign to : Operating System version";
+$LANG['plugin_fusioninventory']['rules'][40] = "Assign to : Computer type";
+$LANG['plugin_fusioninventory']['rules'][41] = "Assign to : Computer model";
 
 $LANG['plugin_fusioninventory']['rulesengine'][152]="Matériel à importer";
 

@@ -29,7 +29,7 @@
 
    @package   FusionInventory
    @author    David Durieux
-   @co-author 
+   @co-author
    @copyright Copyright (c) 2010-2012 FusionInventory team
    @license   AGPL License 3.0 or (at your option) any later version
               http://www.gnu.org/licenses/agpl-3.0-standalone.html
@@ -118,7 +118,7 @@ class PluginFusioninventoryStaticmisc {
       foreach ($a_modules as $data) {
          $class = $class= PluginFusioninventoryStaticmisc::getStaticmiscClass($data['directory']);
          if (is_callable(array($class, 'task_methods'))) {
-            $a_methods = array_merge($a_methods, 
+            $a_methods = array_merge($a_methods,
                call_user_func(array($class, 'task_methods')));
          }
       }
@@ -149,7 +149,7 @@ class PluginFusioninventoryStaticmisc {
                    array('profil'  => 'unknowndevice',
                          'name'    => $LANG['plugin_fusioninventory']['profile'][6]),
                    array('profil'  => 'collect',
-                         'name'    => $LANG['plugin_fusioninventory']['profile'][7]),                   
+                         'name'    => $LANG['plugin_fusioninventory']['profile'][7]),
                    array('profil'  => 'task',
                          'name'    => $LANG['plugin_fusioninventory']['task'][18]),
                    array('profil'  => 'iprange',
@@ -165,7 +165,7 @@ class PluginFusioninventoryStaticmisc {
    /**
     * Get name of the staticmisc class for a module
     * @param module the module name
-    * 
+    *
     * @return the name of the staticmisc class associated with it
     */
    static function getStaticMiscClass($module) {
