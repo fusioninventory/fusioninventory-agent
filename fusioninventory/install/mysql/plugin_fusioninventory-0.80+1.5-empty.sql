@@ -380,3 +380,100 @@ INSERT INTO `glpi_displaypreferences` (`id`, `itemtype`, `num`, `rank`, `users_i
           (NULL,'PluginFusioninventoryTaskjob', '3', '3', '0'),
           (NULL,'PluginFusioninventoryTaskjob', '4', '4', '0'),
           (NULL,'PluginFusioninventoryTaskjob', '5', '5', '0');
+
+## Collect tables
+DROP TABLE IF EXISTS `glpi_plugin_fusioninventory_collects`;
+
+CREATE TABLE `glpi_plugin_fusioninventory_collects` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `plugin_fusioninventory_collecttypes_id` int(11) NOT NULL DEFAULT '0',
+  `is_active` int(11) NOT NULL DEFAULT '0',
+  `comment` text,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TABLE IF EXISTS `glpi_plugin_fusioninventory_collecttypes`;
+
+CREATE TABLE `glpi_plugin_fusioninventory_collecttypes` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `glpi_plugin_fusioninventory_collecttypes`(`id`,`name`)
+VALUES (1,'getFromRegistry'),(2,'getFromWMI'),(3,'findFile'),(4,'runCommand');
+
+DROP TABLE IF EXISTS `glpi_plugin_fusioninventory_collectcontents`;
+
+CREATE TABLE `glpi_plugin_fusioninventory_collectcontents` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `plugin_fusioninventory_collects_id` int(11) NOT NULL DEFAULT '0',
+  `plugin_fusioninventory_collecttypes_id` int(11) NOT NULL DEFAULT '0',
+  `name` varchar(255) DEFAULT NULL,
+  `details`    text,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+DROP TABLE IF EXISTS `glpi_plugin_fusioninventory_collectjobs`;
+
+CREATE TABLE `glpi_plugin_fusioninventory_collectjobs` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
+  `computers_id` int(11) NOT NULL DEFAULT '0',
+  `glpi_plugin_fusioninventory_collectcontents_id` text COLLATE utf8_unicode_ci,
+  `log` varchar(255) DEFAULT NULL,
+  `date_mod` datetime DEFAULT NULL,
+  `iteration` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+DROP TABLE IF EXISTS `glpi_plugin_fusioninventory_collectregistrykeys`;
+
+CREATE TABLE `glpi_plugin_fusioninventory_collectregistrykeys` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
+  `computers_id` int(11) NOT NULL DEFAULT '0',
+  `glpi_plugin_fusioninventory_collectcontents_id` int(11) NOT NULL DEFAULT '0',
+  `types_id` int(11) NOT NULL DEFAULT '0',
+  `value` text COLLATE utf8_unicode_ci,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+DROP TABLE IF EXISTS `glpi_plugin_fusioninventory_collectfiles`;
+
+CREATE TABLE `glpi_plugin_fusioninventory_collectfiles` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
+  `computers_id` int(11) NOT NULL DEFAULT '0',
+  `glpi_plugin_fusioninventory_collectcontents_id` int(11) NOT NULL DEFAULT '0',
+  `size` int(11) NOT NULL DEFAULT '0',
+  `path` text COLLATE utf8_unicode_ci,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TABLE IF EXISTS `glpi_plugin_fusioninventory_collectcommandresults`;
+
+CREATE TABLE `glpi_plugin_fusioninventory_collectcommandresults` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
+  `computers_id` int(11) NOT NULL DEFAULT '0',
+  `glpi_plugin_fusioninventory_collectcontents_id` int(11) NOT NULL DEFAULT '0',
+  `output` text COLLATE utf8_unicode_ci,
+  `error` text COLLATE utf8_unicode_ci,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TABLE IF EXISTS `glpi_plugin_fusioninventory_collectwmis`;
+
+CREATE TABLE `glpi_plugin_fusioninventory_collectwmis` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
+  `computers_id` int(11) NOT NULL DEFAULT '0',
+  `glpi_plugin_fusioninventory_collectcontents_id` int(11) NOT NULL DEFAULT '0',
+  `value` text COLLATE utf8_unicode_ci,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

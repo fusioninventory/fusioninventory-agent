@@ -249,4 +249,36 @@ $LANG['plugin_fusioninventory']['common'][1]="Replier";
 $LANG['plugin_fusioninventory']['common'][2]="élément(s)";
 
 $LANG['plugin_fusioninventory']['collect'][0]="Type";
+$LANG['plugin_fusioninventory']['collect'][1]="New Content item";
+$LANG['plugin_fusioninventory']['collect'][2]="Content";
+$LANG['plugin_fusioninventory']['collect'][3]="Collect";
+$LANG['plugin_fusioninventory']['collect'][4]="Key not found";
+$LANG['plugin_fusioninventory']['collect'][5]="filename is mandatory";
+
+$LANG['plugin_fusioninventory']['collect']['fields'][0]="Hive";
+$LANG['plugin_fusioninventory']['collect']['fields'][1]="Path";
+$LANG['plugin_fusioninventory']['collect']['fields'][2]="Name";
+$LANG['plugin_fusioninventory']['collect']['fields'][3]="Key";
+$LANG['plugin_fusioninventory']['collect']['fields'][4]="Class";
+$LANG['plugin_fusioninventory']['collect']['fields'][5]="Properties";
+$LANG['plugin_fusioninventory']['collect']['fields'][6]="Filename";
+$LANG['plugin_fusioninventory']['collect']['fields'][7]="Get content?";
+$LANG['plugin_fusioninventory']['collect']['fields'][8]="Command";
+$LANG['plugin_fusioninventory']['collect']['fields'][9]="64 bits?";
+$LANG['plugin_fusioninventory']['collect']['fields'][10]="Recursive?";
+$LANG['plugin_fusioninventory']['collect']['fields'][11]="Search root directory";
+$LANG['plugin_fusioninventory']['collect']['fields'][12]="Size";
+$LANG['plugin_fusioninventory']['collect']['fields'][13]="Output";
+$LANG['plugin_fusioninventory']['collect']['fields'][14]="Error";
+
+$LANG['plugin_fusioninventory']['collect']['hive'][0] = "HKEY_CLASSES_ROOT";
+$LANG['plugin_fusioninventory']['collect']['hive'][1] = "HKEY_CURRENT_USER";
+$LANG['plugin_fusioninventory']['collect']['hive'][2] = "HKEY_LOCAL_MACHINE";
+$LANG['plugin_fusioninventory']['collect']['hive'][3] = "HKEY_USERS";
+$LANG['plugin_fusioninventory']['collect']['hive'][4] = "HKEY_CURRENT_CONFIG";
+$LANG['plugin_fusioninventory']['collect']['hive'][5] = "HKEY_DYN_DATA";
+
+$LANG['plugin_fusioninventory']['collect']['tooltip'][1] = "You can add multiple properties separated by comma";
+$LANG['plugin_fusioninventory']['collect']['tooltip'][2] = "You can't modify the collect type while there is entries.";
+
 ?>

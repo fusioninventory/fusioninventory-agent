@@ -29,7 +29,7 @@
 
    @package   FusionInventory
    @author    David Durieux
-   @co-author 
+   @co-author
    @copyright Copyright (c) 2010-2012 FusionInventory team
    @license   AGPL License 3.0 or (at your option) any later version
               http://www.gnu.org/licenses/agpl-3.0-standalone.html
@@ -40,7 +40,7 @@
    ------------------------------------------------------------------------
  */
 
-define ("PLUGIN_FUSIONINVENTORY_VERSION","0.80+1.5");
+define ("PLUGIN_FUSIONINVENTORY_VERSION","0.80+1.6");
 
 define ("PLUGIN_FUSIONINVENTORY_OFFICIAL_RELEASE","1");
 
@@ -113,7 +113,7 @@ function plugin_init_fusioninventory() {
          $PLUGIN_HOOKS['item_purge']['fusioninventory'] = $p;
 
          
-         $PLUGIN_HOOKS['item_update']['fusioninventory'] = 
+         $PLUGIN_HOOKS['item_update']['fusioninventory'] =
                                  array('Computer'         => 'plugin_item_update_fusioninventory',
                                        'NetworkEquipment' => 'plugin_item_update_fusioninventory',
                                        'Printer'          => 'plugin_item_update_fusioninventory',
@@ -209,15 +209,15 @@ function plugin_init_fusioninventory() {
          $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['options']['ruleimportequipment']['title'] = $LANG['plugin_fusioninventory']['rules'][2];
          $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['options']['ruleimportequipment']['page']  = '/plugins/fusioninventory/front/ruleimportequipment.php';
 
-         $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['options']['iprange']['title'] = 
+         $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['options']['iprange']['title'] =
             $LANG['plugin_fusioninventory']['menu'][2];
-         $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['options']['iprange']['page']  = 
+         $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['options']['iprange']['page']  =
             '/plugins/fusioninventory/front/iprange.php';
 
          if (PluginFusioninventoryProfile::haveRight("fusioninventory", "iprange","w")) {
-            $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['add']['iprange'] = 
+            $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['add']['iprange'] =
                '../fusioninventory/front/iprange.form.php?add=1';
-            $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['search']['iprange'] = 
+            $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['search']['iprange'] =
                '../fusioninventory/front/iprange.php';
          }
 
@@ -230,17 +230,17 @@ function plugin_init_fusioninventory() {
          
          if (PluginFusioninventoryCredential::hasAlLeastOneType()) {
             if (PluginFusioninventoryProfile::haveRight("fusioninventory", "credential","w")) {
-               $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['add']['PluginFusioninventoryCredential'] = 
+               $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['add']['PluginFusioninventoryCredential'] =
                   '../fusioninventory/front/credential.form.php?add=1';
-               $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['search']['PluginFusioninventoryCredential'] = 
+               $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['search']['PluginFusioninventoryCredential'] =
                   '../fusioninventory/front/credential.php';
 
             }
 
             if (PluginFusioninventoryProfile::haveRight("fusioninventory", "credential","w")) {
-               $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['add']['PluginFusioninventoryCredentialIp'] = 
+               $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['add']['PluginFusioninventoryCredentialIp'] =
                   '../fusioninventory/front/credentialip.form.php?add=1';
-               $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['search']['PluginFusioninventoryCredentialIp'] = 
+               $PLUGIN_HOOKS['submenu_entry']['fusioninventory']['search']['PluginFusioninventoryCredentialIp'] =
                   '../fusioninventory/front/credentialip.php';
    
             }
@@ -254,9 +254,9 @@ function plugin_init_fusioninventory() {
    }
 
    // Check for uninstall
-   if (isset($_GET['id']) 
+   if (isset($_GET['id'])
       && ($_GET['id'] == $moduleId)
-         && (isset($_GET['action']) 
+         && (isset($_GET['action'])
             && $_GET['action'] == 'uninstall')
                && (strstr($_SERVER['HTTP_REFERER'], "front/plugin.php"))) {
 
@@ -305,7 +305,7 @@ function plugin_fusioninventory_check_prerequisites() {
 /**
  * Check if HTTP request comes from an inventory agent (Fusion or legacy OCS)
  * @param useragent the user agent coming from $_SERVER
- * 
+ *
  * @return bool : true if request comes from an agent, false otherwise
  */
 function isFusioninventoryUserAgent($useragent = '') {

@@ -29,7 +29,7 @@
 
    @package   FusionInventory
    @author    David Durieux
-   @co-author 
+   @co-author
    @copyright Copyright (c) 2010-2012 FusionInventory team
    @license   AGPL License 3.0 or (at your option) any later version
               http://www.gnu.org/licenses/agpl-3.0-standalone.html
@@ -40,7 +40,7 @@
    ------------------------------------------------------------------------
  */
 
-define ("PLUGIN_FUSINVINVENTORY_VERSION","0.80+1.5");
+define ("PLUGIN_FUSINVINVENTORY_VERSION","0.80+1.6");
 
 // Init the hooks of fusinvdeploy
 function plugin_init_fusinvinventory() {
@@ -51,7 +51,7 @@ function plugin_init_fusinvinventory() {
    $plugin = new Plugin;
    if (!$plugin->isActivated("fusioninventory")) {
       $plugin->getFromDBbyDir("fusinvinventory");
-      if (isset($_GET['id']) 
+      if (isset($_GET['id'])
             AND isset($_GET['action'])
             AND $_GET['id'] == $plugin->fields['id']
             AND strstr($_SERVER['HTTP_REFERER'], "front/plugin.php")) {
