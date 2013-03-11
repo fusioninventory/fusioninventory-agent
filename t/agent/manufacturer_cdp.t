@@ -9,7 +9,22 @@ use FusionInventory::Agent::Manufacturer;
 
 plan tests => 2;
 
-my $results = {
+my $walks = {
+    cdpCacheDevicePort => {
+        OID => '.1.3.6.1.4.1.9.9.23.1.2.1.1.7'
+    },
+    cdpCacheVersion => {
+        OID => '.1.3.6.1.4.1.9.9.23.1.2.1.1.5'
+    },
+    cdpCacheDeviceId => {
+        OID => '.1.3.6.1.4.1.9.9.23.1.2.1.1.6'
+    },
+    cdpCachePlatform => {
+        OID => '.1.3.6.1.4.1.9.9.23.1.2.1.1.8'
+    },
+};
+
+my $results1 = {
     cdpCacheAddress => {
         '.1.3.6.1.4.1.9.9.23.1.2.1.1.4.24.7' => '0xc0a8148b'
     },
@@ -27,47 +42,37 @@ my $results = {
     },
 };
 
-my $ports = {};
-my $walks = {
-    cdpCacheDevicePort => {
-        OID => '.1.3.6.1.4.1.9.9.23.1.2.1.1.7'
-    },
-    cdpCacheVersion => {
-        OID => '.1.3.6.1.4.1.9.9.23.1.2.1.1.5'
-    },
-    cdpCacheDeviceId => {
-        OID => '.1.3.6.1.4.1.9.9.23.1.2.1.1.6'
-    },
-    cdpCachePlatform => {
-        OID => '.1.3.6.1.4.1.9.9.23.1.2.1.1.8'
-    },
-};
+my $ports1 = {};
 
-FusionInventory::Agent::Manufacturer::setConnectedDevicesUsingCDP(results => $results, ports => $ports, walks => $walks);
-
-my $test = {
+my $expected1 = {
     '24' => {
         'CONNECTIONS' => {
-            'CDP' => 1,
-            'CONNECTION' => {
-                'SYSDESCR' => '7.4.9c',
-                'IFDESCR' => 'Port 1',
-                'MODEL' => 'Cisco IP Phone SPA508G',
-                'IP' => '192.168.20.139',
-                'SYSNAME' => 'SIPE05FB981A7A7'
+            CDP => 1,
+            CONNECTION => {
+                SYSDESCR => '7.4.9c',
+                IFDESCR  => 'Port 1',
+                MODEL    => 'Cisco IP Phone SPA508G',
+                IP       => '192.168.20.139',
+                SYSNAME  => 'SIPE05FB981A7A7'
              }
          }
      }
 };
 
+FusionInventory::Agent::Manufacturer::setConnectedDevicesUsingCDP(
+    walks   => $walks,
+    results => $results1,
+    ports   => $ports1,
+);
+
 is_deeply(
-    $ports,
-    $test,
+    $ports1,
+    $expected1,
     'test CDP complete',
 );
 
 
-$results = {
+my $results2 = {
     cdpCacheAddress => {
         '.1.3.6.1.4.1.9.9.23.1.2.1.1.4.24.7' => '0xc0a8148b'
     },
@@ -84,14 +89,18 @@ $results = {
         '.1.3.6.1.4.1.9.9.23.1.2.1.1.8.24.7' => ''
     },
 };
-$ports = {};
 
-FusionInventory::Agent::Manufacturer::setConnectedDevicesUsingCDP(results => $results, ports => $ports, walks => $walks);
+my $ports2 = {};
+my $expected2 = {};
 
-$test = {};
+FusionInventory::Agent::Manufacturer::setConnectedDevicesUsingCDP(
+    walks   => $walks,
+    results => $results2,
+    ports   => $ports2,
+);
 
 is_deeply(
-    $ports,
-    $test,
+    $ports2,
+    $expected2,
     'test CDP notcomplete, so not valid',
 );
