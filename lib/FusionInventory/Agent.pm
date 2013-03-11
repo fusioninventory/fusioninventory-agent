@@ -75,7 +75,6 @@ sub init {
     $self->_loadState();
 
     $self->{deviceid} = _computeDeviceId() if !$self->{deviceid};
-    $self->{token}    = _computeToken()    if !$self->{token};
 
     $self->_saveState();
 
@@ -161,11 +160,17 @@ sub init {
             # calling share(\$self->{status}) directly breaks in testing
             # context, hence the need to use an intermediate variable
             my $status = \$self->{status};
-            my $token = \$self->{token};
             threads::shared::share($status);
-            threads::shared::share($token);
 
             $_->setShared() foreach @{$self->{targets}};
+
+            # compute trusted addresses
+            my $trust = $config->{'httpd-trust'};
+            if ($config->{server}) {
+                foreach my $url (@{$config->{server}}) {
+                    push @{$config->{'httpd-trust'}}, URI->new($url)->host();
+                }
+            }
 
             $self->{server} = FusionInventory::Agent::HTTP::Server->new(
                 logger          => $logger,
@@ -173,7 +178,7 @@ sub init {
                 htmldir         => $self->{datadir} . '/html',
                 ip              => $config->{'httpd-ip'},
                 port            => $config->{'httpd-port'},
-                trust           => $config->{'httpd-trust'},
+                trust           => $trust
             );
         }
     }
@@ -242,7 +247,6 @@ sub _runTarget {
         );
 
         my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
-            token    => $self->{token},
             deviceid => $self->{deviceid},
         );
 
@@ -322,16 +326,6 @@ sub _runTaskReal {
         ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
         no_ssl_check => $self->{config}->{'no-ssl-check'},
     );
-}
-
-sub getToken {
-    my ($self) = @_;
-    return $self->{token};
-}
-
-sub resetToken {
-    my ($self) = @_;
-    $self->{token} = _computeToken();
 }
 
 sub getStatus {
@@ -443,7 +437,6 @@ sub _loadState {
 
     my $data = $self->{storage}->restore(name => 'FusionInventory-Agent');
 
-    $self->{token}    = $data->{token}    if $data->{token};
     $self->{deviceid} = $data->{deviceid} if $data->{deviceid};
 }
 
@@ -453,16 +446,9 @@ sub _saveState {
     $self->{storage}->save(
         name => 'FusionInventory-Agent',
         data => {
-            token    => $self->{token},
             deviceid => $self->{deviceid},
         }
     );
-}
-
-# compute a random token
-sub _computeToken {
-    my @chars = ('A'..'Z');
-    return join('', map { $chars[rand @chars] } 1..8);
 }
 
 # compute an unique agent identifier, based on host name and current time
@@ -521,14 +507,6 @@ Initialize the agent.
 =head2 run()
 
 Run the agent.
-
-=head2 getToken()
-
-Get the current authentication token.
-
-=head2 resetToken()
-
-Set the current authentication token to a random value.
 
 =head2 getStatus()
 
