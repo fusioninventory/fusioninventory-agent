@@ -10,22 +10,17 @@ use XML::TreePP;
 
 use FusionInventory::Agent::XML::Query::Prolog;
 
-plan tests => 5;
+plan tests => 4;
 
 my $message;
-throws_ok {
-    $message = FusionInventory::Agent::XML::Query::Prolog->new();
-} qr/^no token/, 'no token';
 
 throws_ok {
     $message = FusionInventory::Agent::XML::Query::Prolog->new(
-        token => 'foo'
     );
 } qr/^no deviceid/, 'no device id';
 
 lives_ok {
     $message = FusionInventory::Agent::XML::Query::Prolog->new(
-        token    => 'foo',
         deviceid => 'foo',
     );
 } 'everything OK';
@@ -40,7 +35,6 @@ cmp_deeply(
         REQUEST => {
             DEVICEID => 'foo',
             QUERY    => 'PROLOG',
-            TOKEN    => 'foo',
         }
     },
     'expected content'
