@@ -652,10 +652,12 @@ sub _setNetworkingProperties {
             my $port_id  = getLastElement($oid);
             my $vlan_oid = $walks->{vtpVlanName}->{OID} . "." . $vlan_id;
             my $name = $results->{vtpVlanName}->{$vlan_oid};
-            $ports->{$port_id}->{VLANS}->{VLAN} = {
-                NUMBER => $vlan_id,
-                NAME   => $name
-            };
+            push
+                @{$ports->{$port_id}->{VLANS}->{VLAN}},
+                    {
+                        NUMBER => $vlan_id,
+                        NAME   => $name
+                    };
         }
     }
 
