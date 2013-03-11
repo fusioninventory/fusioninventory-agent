@@ -8,7 +8,7 @@ use Test::Deep;
 
 use FusionInventory::Agent::Manufacturer;
 
-plan tests => 2;
+plan tests => 3;
 
 my $walks = {
     cdpCacheDevicePort => {
@@ -25,7 +25,7 @@ my $walks = {
     },
 };
 
-my $results1 = {
+my $results = {
     cdpCacheAddress => {
         '.1.3.6.1.4.1.9.9.23.1.2.1.1.4.24.7' => '0xc0a8148b'
     },
@@ -43,11 +43,11 @@ my $results1 = {
     },
 };
 
-my $ports1 = {};
+my $ports = {};
 
-my $expected1 = {
-    '24' => {
-        'CONNECTIONS' => {
+my $expected = {
+    24 => {
+        CONNECTIONS => {
             CDP => 1,
             CONNECTION => {
                 SYSDESCR => '7.4.9c',
@@ -62,46 +62,50 @@ my $expected1 = {
 
 FusionInventory::Agent::Manufacturer::setConnectedDevicesUsingCDP(
     walks   => $walks,
-    results => $results1,
-    ports   => $ports1,
+    results => $results,
+    ports   => $ports,
 );
 
 cmp_deeply(
-    $ports1,
-    $expected1,
-    'test CDP complete',
+    $ports,
+    $expected,
+    'all CDP informations, full result',
 );
 
+{
+    local $results->{cdpCacheVersion} = undef;
 
-my $results2 = {
-    cdpCacheAddress => {
-        '.1.3.6.1.4.1.9.9.23.1.2.1.1.4.24.7' => '0xc0a8148b'
-    },
-    cdpCacheDevicePort => {
-        '.1.3.6.1.4.1.9.9.23.1.2.1.1.7.24.7' => 'Port 1'
-    },
-    cdpCacheVersion => {
-        '.1.3.6.1.4.1.9.9.23.1.2.1.1.5.24.7' => ''
-    },
-    cdpCacheDeviceId => {
-        '.1.3.6.1.4.1.9.9.23.1.2.1.1.6.24.7' => 'SIPE05FB981A7A7'
-    },
-    cdpCachePlatform => {
-        '.1.3.6.1.4.1.9.9.23.1.2.1.1.8.24.7' => ''
-    },
-};
+    $ports    = {};
+    $expected = {};
 
-my $ports2 = {};
-my $expected2 = {};
+    FusionInventory::Agent::Manufacturer::setConnectedDevicesUsingCDP(
+        walks   => $walks,
+        results => $results,
+        ports   => $ports,
+    );
 
-FusionInventory::Agent::Manufacturer::setConnectedDevicesUsingCDP(
-    walks   => $walks,
-    results => $results2,
-    ports   => $ports2,
-);
+    cmp_deeply(
+        $ports,
+        $expected,
+        'missing CDP cache version, no result',
+    );
+}
 
-cmp_deeply(
-    $ports2,
-    $expected2,
-    'test CDP notcomplete, so not valid',
-);
+{
+    local $results->{cdpCachePlatform} = undef;
+
+    $ports    = {};
+    $expected = {};
+
+    FusionInventory::Agent::Manufacturer::setConnectedDevicesUsingCDP(
+        walks   => $walks,
+        results => $results,
+        ports   => $ports,
+    );
+
+    cmp_deeply(
+        $ports,
+        $expected,
+        'missing CDP cache platform, no result',
+    );
+}
