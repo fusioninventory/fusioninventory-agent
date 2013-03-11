@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Test::More;
+use Test::Deep;
 
 use FusionInventory::Agent::Manufacturer;
 
@@ -65,7 +66,7 @@ FusionInventory::Agent::Manufacturer::setConnectedDevicesUsingCDP(
     ports   => $ports1,
 );
 
-is_deeply(
+cmp_deeply(
     $ports1,
     $expected1,
     'test CDP complete',
@@ -99,7 +100,7 @@ FusionInventory::Agent::Manufacturer::setConnectedDevicesUsingCDP(
     ports   => $ports2,
 );
 
-is_deeply(
+cmp_deeply(
     $ports2,
     $expected2,
     'test CDP notcomplete, so not valid',
