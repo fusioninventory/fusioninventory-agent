@@ -31,12 +31,6 @@ sub getPath {
     return $self->{path};
 }
 
-sub getDescription {
-    my ($self) = @_;
-
-    return "local, $self->{path}";
-}
-
 1;
 
 __END__

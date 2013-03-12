@@ -170,9 +170,17 @@ sub _handle_root {
         version => $FusionInventory::Agent::VERSION,
         trust   => $self->_isTrusted($clientIp),
         status  => $self->{agent}->getStatus(),
-        targets => [
-            map { $_->getStatus() } $self->{agent}->getTargets()
+        server_targets => [
+            map { { url => $_->getUrl(), status => $_->getStatus() } }
+            grep { $_->isa('FusionInventory::Agent::Target::Server') }
+            $self->{agent}->getTargets()
+        ],
+        local_targets => [
+            map { { path => $_->getPath(), status => $_->getStatus() } }
+            grep { $_->isa('FusionInventory::Agent::Target::Local') }
+            $self->{agent}->getTargets()
         ]
+
     };
 
     my $response = HTTP::Response->new(
