@@ -8,6 +8,7 @@ use English qw(-no_match_vars);
 use UNIVERSAL::require;
 use File::Glob;
 use IO::Handle;
+use IO::Select;
 
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::HTTP::Client::OCS;
@@ -155,15 +156,6 @@ sub init {
         if ($EVAL_ERROR) {
             $logger->debug("Failed to load HTTP server: $EVAL_ERROR");
         } else {
-            # make sure relevant variables are shared between threads
-            threads::shared->require();
-            # calling share(\$self->{status}) directly breaks in testing
-            # context, hence the need to use an intermediate variable
-            my $status = \$self->{status};
-            threads::shared::share($status);
-
-            $_->setShared() foreach @{$self->{targets}};
-
             # compute trusted addresses
             my $trust = $config->{'httpd-trust'};
             if ($config->{server}) {
@@ -174,12 +166,12 @@ sub init {
 
             $self->{server} = FusionInventory::Agent::HTTP::Server->new(
                 logger          => $logger,
-                agent           => $self,
                 htmldir         => $self->{datadir} . '/html',
                 ip              => $config->{'httpd-ip'},
                 port            => $config->{'httpd-port'},
                 trust           => $trust
             );
+            $self->{server}->run();
         }
     }
 
@@ -192,26 +184,37 @@ sub run {
     $self->{status} = 'waiting';
 
     if ($self->{config}->{daemon} || $self->{config}->{service}) {
-        # background mode: check each targets every 10 seconds
+
+        my $select;
+        if ($self->{server}) {
+            $select = IO::Select->new();
+            $select->add($self->{server}->{reader});
+        }
+
+        # background mode:
         while (1) {
             my $time = time();
-            foreach my $target (@{$self->{targets}}) {
 
-                next if $time < $target->getNextRunDate();
+            # check each target every 10 seconds
+            if ($time % 10 == 0) {
+                foreach my $target (@{$self->{targets}}) {
+                    next if $time < $target->getNextRunDate();
 
-                eval {
-                    $self->_runTarget($target);
-                };
-                $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
-                $target->resetNextRunDate();
+                    eval {
+                        $self->_runTarget($target);
+                    };
+                    $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
+                    $target->resetNextRunDate();
+                }
             }
-            sleep(10);
+
+            # check for http interface messages
+            $self->_handleRequest() if $select && $select->can_read();
         }
     } else {
         # foreground mode: check each targets once
         my $time = time();
         foreach my $target (@{$self->{targets}}) {
-
             if ($self->{config}->{lazy} && $time < $target->getNextRunDate()) {
                 $self->{logger}->info(
                     "$target->{id} is not ready yet, next server contact " .
@@ -460,6 +463,34 @@ sub _computeDeviceId {
 
     return sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
         $hostname, $year + 1900, $month + 1, $day, $hour, $min, $sec;
+}
+
+sub _handleRequest {
+    my ($self) = @_;
+
+    my $reader = $self->{server}->{reader};
+    my $request = <$reader>;
+    chomp $request;
+
+    $self->{logger}->debug("handling request $request");
+
+    my $writer = $self->{server}->{writer};
+    SWITCH: {
+        if ($request eq 'STATUS') {
+            $self->{logger}->debug("writing '$self->{status}'");
+            print {$writer} $self->{status} . "\n";
+            last;
+        }
+
+        if ($request eq 'TARGETS') {
+            my $targets =
+                join(',', map { $_->serialize() } @{$self->{targets}});
+
+            $self->{logger}->debug("writing '$targets'");
+            print {$writer} $targets . "\n";
+            last;
+        }
+    };
 }
 
 1;
