@@ -227,7 +227,6 @@ sub _handle_now {
         foreach my $target ($self->{agent}->getTargets()) {
             $target->setNextRunDate(1);
         }
-        $self->{agent}->resetToken();
         $code    = 200;
         $message = "OK";
         $trace   = "valid request, forcing execution right now";
