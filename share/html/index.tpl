@@ -26,7 +26,7 @@ The current status is {$status}<br />
         $OUT .=  "Next server target execution planned for:\n";
         $OUT .=  "<ul>\n";
         foreach my $target (@server_targets) {
-           $OUT .= "<li>$target->{url}: $target->{status}</li>\n";
+           $OUT .= "<li>$target->{name}: $target->{date}</li>\n";
         }
         $OUT .=  "</ul>\n";
     } else {
@@ -39,7 +39,7 @@ The current status is {$status}<br />
         $OUT .=  "Next local target execution planned for:\n";
         $OUT .=  "<ul>\n";
         foreach my $target (@local_targets) {
-           $OUT .= "<li>$target->{path}: $target->{status}</li>\n";
+           $OUT .= "<li>$target->{name}: $target->{date}</li>\n";
         }
         $OUT .=  "</ul>\n";
     } else {

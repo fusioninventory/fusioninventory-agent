@@ -166,21 +166,22 @@ sub _handle_root {
         return;
     }
 
-    my $hash = {
-        version => $FusionInventory::Agent::VERSION,
-        trust   => $self->_isTrusted($clientIp),
-        status  => $self->{agent}->getStatus(),
-        server_targets => [
-            map { { url => $_->getUrl(), status => $_->getStatus() } }
-            grep { $_->isa('FusionInventory::Agent::Target::Server') }
-            $self->{agent}->getTargets()
-        ],
-        local_targets => [
-            map { { path => $_->getPath(), status => $_->getStatus() } }
-            grep { $_->isa('FusionInventory::Agent::Target::Local') }
-            $self->{agent}->getTargets()
-        ]
+    my @server_targets =
+        map { { name => $_->getUrl(), date => $_->getFormatedNextRunDate() } }
+        grep { $_->isa('FusionInventory::Agent::Target::Server') }
+        $self->{agent}->getTargets();
 
+    my @local_targets =
+        map { { name => $_->getPath(), date => $_->getFormatedNextRunDate() } }
+        grep { $_->isa('FusionInventory::Agent::Target::Local') }
+        $self->{agent}->getTargets();
+
+    my $hash = {
+        version        => $FusionInventory::Agent::VERSION,
+        trust          => $self->_isTrusted($clientIp),
+        status         => $self->{agent}->getStatus(),
+        server_targets => \@server_targets,
+        local_targets  => \@local_targets
     };
 
     my $response = HTTP::Response->new(
