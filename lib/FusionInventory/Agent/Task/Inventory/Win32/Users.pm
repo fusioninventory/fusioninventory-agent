@@ -131,6 +131,8 @@ sub _getLoggedUsers {
         utf8::upgrade($user->{DOMAIN});
 
         next if $seen->{$user->{LOGIN}}++;
+
+        push @users, $user;
     }
 
     return @users;
