@@ -223,7 +223,7 @@ sub _handle_now {
     my $logger = $self->{logger};
 
     my ($code, $message, $trace);
-    if ($self->_is_trusted($clientIp)) {
+    if ($self->_isTrusted($clientIp)) {
         foreach my $target ($self->{agent}->getTargets()) {
             $target->setNextRunDate(1);
         }
