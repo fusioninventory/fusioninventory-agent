@@ -22,12 +22,8 @@ sub doInventory {
 
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
-    my $command   = $OSNAME eq 'solaris' ?
-        'ps -A -o user,pid,pcpu,pmem,vsz,rss,tty,s,stime,time,comm' : 'ps aux';
 
-    foreach my $process (getProcessesFromPs(
-        logger => $logger, command => $command
-    )) {
+    foreach my $process (getProcesses(logger => $logger)) {
         $inventory->addEntry(
             section => 'PROCESSES',
             entry   => $process

@@ -1,0 +1,150 @@
+  PID USER       VSZ STAT COMMAND
+    1 root      2536 S    init
+    2 root         0 SW   [kthreadd]
+    3 root         0 SW   [ksoftirqd/0]
+    6 root         0 SW   [migration/0]
+    7 root         0 SW   [migration/1]
+    9 root         0 SW   [ksoftirqd/1]
+   11 root         0 SW   [migration/2]
+   13 root         0 SW   [ksoftirqd/2]
+   14 root         0 SW   [migration/3]
+   16 root         0 SW   [ksoftirqd/3]
+   17 root         0 SW<  [khelper]
+  138 root         0 SW   [sync_supers]
+  140 root         0 SW   [bdi-default]
+  141 root         0 SW<  [kintegrityd]
+  142 root         0 SW<  [kblockd]
+  249 root         0 SW<  [ata_sff]
+  257 root         0 SW<  [md]
+  366 root         0 SW<  [rpciod]
+  408 root         0 SW   [kswapd0]
+  409 root         0 SW   [fsnotify_mark]
+  410 root         0 SW<  [nfsiod]
+  597 nobody   96192 S    /usr/syno/apache/bin/httpd -DHAVE_PHP
+  800 nobody   95672 S    /usr/syno/apache/bin/httpd -DHAVE_PHP
+  871 root         0 SW   [kworker/0:0]
+  983 root         0 SW<  [iscsi_eh]
+ 1004 root         0 SW   [scsi_eh_0]
+ 1007 root         0 SW   [scsi_eh_1]
+ 1010 root         0 SW   [scsi_eh_2]
+ 1013 root         0 SW   [scsi_eh_3]
+ 1016 root         0 SW   [scsi_eh_4]
+ 1019 root         0 SW   [scsi_eh_5]
+ 1025 root         0 SW   [kworker/u:5]
+ 1026 root         0 SW   [kworker/u:6]
+ 1037 root         0 SW   [scsi_eh_6]
+ 1040 root         0 SW   [scsi_eh_7]
+ 1136 root         0 SW   [md0_raid1]
+ 1143 root         0 SW   [md1_raid1]
+ 1501 root         0 SW   [jbd2/md0-8]
+ 1502 root         0 SW<  [ext4-dio-unwrit]
+ 2058 root         0 SW   [kworker/0:1]
+ 2307 root     12912 S    sshd: root@pts/1
+ 2345 root      4752 S    -ash
+ 2437 root     11852 S    /usr/syno/bin/synonetbkpd -D
+ 2518 root         0 SW   [kworker/3:2]
+ 2708 root         0 SW   [khubd]
+ 2826 root         0 SW<  [crypto]
+ 3068 root         0 SW   [ecryptfs-kthrea]
+ 3124 nobody   95908 S    /usr/syno/apache/bin/httpd -DHAVE_PHP
+ 3180 nobody   98.1m S    /usr/syno/apache/bin/httpd -DHAVE_PHP
+ 3439 root      1472 S    /sbin/dhcpcd -n eth0 -t 30
+ 3475 root      2536 S    /sbin/syslogd -S
+ 3480 root      2536 S    /sbin/klogd
+ 3981 nobody   95644 S    /usr/syno/apache/bin/httpd -DHAVE_PHP
+ 4089 root     12264 S    /usr/syno/apache/bin/httpd -f /usr/syno/apache/conf/httpd.conf-sys
+ 4286 root     12264 S    /usr/syno/apache/bin/httpd -f /usr/syno/apache/conf/httpd.conf-sys
+ 4307 admin    55416 S    /usr/syno/mysql/libexec/mysqld --basedir=/usr/syno/mysql --datadir=/volume1/@database/mysql --user=admin --max_allowed_packet=8M
+ 4476 root     12264 S    /usr/syno/apache/bin/httpd -f /usr/syno/apache/conf/httpd.conf-sys
+ 4766 root     12256 S    /usr/syno/apache/bin/httpd -f /usr/syno/apache/conf/httpd.conf-sys
+ 4785 root     10908 S <  /usr/syno/bin/findhostd
+ 4811 root     25228 S    /usr/syno/sbin/smbd -D
+ 4819 root     12092 S    /usr/syno/apache/bin/httpd -f /usr/syno/apache/conf/httpd.conf-sys
+ 4820 root     12092 S    /usr/syno/apache/bin/httpd -f /usr/syno/apache/conf/httpd.conf-sys
+ 4821 root     12092 S    /usr/syno/apache/bin/httpd -f /usr/syno/apache/conf/httpd.conf-sys
+ 4822 root      4752 R    ps
+ 5489 root         0 SW   [kworker/2:1]
+ 5571 root      9188 S    /usr/sbin/ntpd -p /var/run/ntpd.pid -g
+ 5573 root      9188 S    /usr/sbin/ntpd -p /var/run/ntpd.pid -g
+ 5574 root      9188 S    /usr/sbin/ntpd -p /var/run/ntpd.pid -g
+ 6038 root         0 SW   [kworker/3:1]
+ 6115 root         0 SW   [flush-9:0]
+ 6116 root         0 SW   [flush-9:2]
+ 6184 root     13376 S    scemd
+ 6306 root     13376 S    scemd
+ 6311 root     13376 S    scemd
+ 7321 root         0 SW   [scsi_eh_8]
+ 7339 root         0 SW   [usb-storage]
+ 7843 root         0 SW   [kworker/1:1]
+ 8035 root      2540 S    /sbin/getty 115200 console
+ 8357 root     11988 S    /usr/syno/sbin/hotplugd
+ 8371 root      4748 S    /usr/sbin/inetd
+ 8384 root     13148 S    /usr/syno/sbin/snmpd -Ln -c /usr/syno/etc/snmpd.conf -p /var/run/snmpd.pid udp:161,udp6:161,tcp:161,tcp6:161
+ 8587 root     11696 S N  /usr/syno/sbin/fileindexd
+ 8635 root     95228 S    /usr/syno/apache/bin/httpd -DHAVE_PHP
+ 9466 root     11292 S    /usr/syno/sbin/synosnmpcd
+ 9507 root     12092 S    /usr/syno/apache/bin/httpd -f /usr/syno/apache/conf/httpd.conf-sys
+14163 root      2232 S    avahi-daemon: running [nas.local]
+14994 root         0 SW<  [LIO_rd_dr]
+15005 root         0 SW<  [iscsi_trx/1]
+15006 root         0 SW<  [iscsi_ttx/1]
+15007 root         0 SW<  [iscsi_trx/2]
+15008 root         0 SW<  [iscsi_ttx/2]
+15009 root         0 SW<  [iscsi_trx/3]
+15010 root         0 SW<  [iscsi_ttx/3]
+15011 root         0 SW<  [iscsi_trx/4]
+15012 root         0 SW<  [iscsi_ttx/4]
+15269 root         0 SW<  [iscsi_np]
+15272 root         0 SW<  [iscsi_np]
+15303 root         0 SW<  [LIO_fileio]
+16466 root     18264 S    /usr/syno/sbin/nmbd -D
+16482 root     22548 S    /usr/syno/sbin/winbindd -D
+16493 root     22624 S    /usr/syno/sbin/winbindd -D
+16516 root     22100 S    /usr/syno/sbin/winbindd -D
+16517 root     22540 S    /usr/syno/sbin/winbindd -D
+16521 root     22136 S    /usr/syno/sbin/winbindd -D
+16531 root     24676 S    /usr/syno/sbin/smbd -D
+16538 root     24788 S    /usr/syno/sbin/smbd -D
+17219 1         1448 S    /sbin/portmap
+17222 root         0 SW   [lockd]
+17223 root         0 SW<  [nfsd4]
+17224 root         0 SW<  [nfsd4_callbacks]
+17225 root         0 SW   [nfsd]
+17226 root         0 SW   [nfsd]
+17227 root         0 SW   [nfsd]
+17228 root         0 SW   [nfsd]
+17229 root         0 SW   [nfsd]
+17230 root         0 SW   [nfsd]
+17231 root         0 SW   [nfsd]
+17232 root         0 SW   [nfsd]
+17235 root      7028 S    /usr/sbin/statd
+17238 root      7096 S    /usr/sbin/mountd -p 892
+17401 root      4748 S    /usr/sbin/crond
+17406 root     20328 S N  /usr/syno/bin/synomkthumbd
+17412 root     20324 S N  /usr/syno/sbin/synomkflvd
+18978 root     13048 S    sshd: root@pts/0
+18984 root      4752 S    -ash
+19872 root         0 SW   [kworker/2:0]
+21228 root         0 SW   [md2_raid5]
+25854 root         0 SW   [kworker/1:2]
+28886 root     12264 S    /usr/syno/apache/bin/httpd -f /usr/syno/apache/conf/httpd.conf-sys
+29849 root         0 SW   [jbd2/md2-8]
+29850 root         0 SW<  [ext4-dio-unwrit]
+29896 root      7188 S    /usr/syno/sbin/cupsd -C /usr/local/cups/cupsd.conf
+29971 admin    33336 S    /usr/syno/pgsql/bin/postgres -D /var/services/pgsql --config_file=/usr/syno/pgsql/etc/postgresql.conf --hba_file=/usr/syno/pgsql/
+29973 admin    33336 S    postgres: writer process   
+29974 admin    33336 S    postgres: wal writer process   
+30086 root     25132 S N  /usr/syno/sbin/synoindexd
+30639 root      2536 S    /bin/sh /usr/syno/mysql/bin/mysqld_safe --datadir=/volume1/@database/mysql --pid-file=/tmp/mysqld.pid --datadir=/volume1/@databas
+30706 admin    55416 S    /usr/syno/mysql/libexec/mysqld --basedir=/usr/syno/mysql --datadir=/volume1/@database/mysql --user=admin --max_allowed_packet=8M
+30707 admin    55416 S    /usr/syno/mysql/libexec/mysqld --basedir=/usr/syno/mysql --datadir=/volume1/@database/mysql --user=admin --max_allowed_packet=8M
+30708 admin    55416 S    /usr/syno/mysql/libexec/mysqld --basedir=/usr/syno/mysql --datadir=/volume1/@database/mysql --user=admin --max_allowed_packet=8M
+30709 admin    55416 S    /usr/syno/mysql/libexec/mysqld --basedir=/usr/syno/mysql --datadir=/volume1/@database/mysql --user=admin --max_allowed_packet=8M
+30710 admin    55416 S    /usr/syno/mysql/libexec/mysqld --basedir=/usr/syno/mysql --datadir=/volume1/@database/mysql --user=admin --max_allowed_packet=8M
+30711 admin    55416 S    /usr/syno/mysql/libexec/mysqld --basedir=/usr/syno/mysql --datadir=/volume1/@database/mysql --user=admin --max_allowed_packet=8M
+30712 admin    55416 S    /usr/syno/mysql/libexec/mysqld --basedir=/usr/syno/mysql --datadir=/volume1/@database/mysql --user=admin --max_allowed_packet=8M
+30713 admin    55416 S    /usr/syno/mysql/libexec/mysqld --basedir=/usr/syno/mysql --datadir=/volume1/@database/mysql --user=admin --max_allowed_packet=8M
+30714 admin    55416 S    /usr/syno/mysql/libexec/mysqld --basedir=/usr/syno/mysql --datadir=/volume1/@database/mysql --user=admin --max_allowed_packet=8M
+30715 admin    55416 S    /usr/syno/mysql/libexec/mysqld --basedir=/usr/syno/mysql --datadir=/volume1/@database/mysql --user=admin --max_allowed_packet=8M
+30716 admin    55416 S    /usr/syno/mysql/libexec/mysqld --basedir=/usr/syno/mysql --datadir=/volume1/@database/mysql --user=admin --max_allowed_packet=8M
+30968 root      9948 S    /usr/syno/sbin/sshd

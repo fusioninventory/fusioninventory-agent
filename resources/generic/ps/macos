@@ -1,55 +1,55 @@
-USER       PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
-rousse    1794   3.4  0.9  2817480  19644   ??  R    Sat03PM   2:32.62 /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal -psn_0_548998
-rousse    1688   0.5  6.4  5186628 134056   ??  S    Sat03PM   6:42.73 /Applications/Safari.app/Contents/MacOS/Safari -psn_0_483446
-_windowserver  1614   0.4  1.5  2771404  31560   ??  Ss   Sat03PM   2:48.21 /System/Library/Frameworks/ApplicationServices.framework/Frameworks/CoreGraphics.framework/Resources/WindowServer -daemon
-root        15   0.1  0.2  2452160   4588   ??  Rs    5Oct10   0:24.75 /usr/sbin/DirectoryService
-rousse   28820   0.0  0.1  2435468   1112 s002  S+   10:08PM   0:00.20 -bash
-root     28819   0.0  0.1  2436056   1576 s002  Ss   10:08PM   0:00.05 login -pf rousse
-rousse   28611   0.0  0.5  2493424  11180   ??  Ss    9:57PM   0:16.91 /Applications/MacVim.app/Contents/MacOS/Vim -f -g lib/FusionInventory/Agent/Tools/Unix.pm
-rousse   28437   0.0  0.1  2449852   2348 s001  S     9:48PM   0:00.63 t/transmitter/connection.t (proxy)   
-rousse   26235   0.0  0.5  2756744  10764   ??  S    Mon09PM   0:02.78 /System/Library/CoreServices/SystemUIServer.app/Contents/MacOS/SystemUIServer
-root     25404   0.0  0.3  2470032   5972   ??  Ss   Sat05PM   1:08.05 /usr/libexec/kextd
-rousse    1902   0.0  0.1  2457284   1284   ??  S    Sat03PM   0:00.29 /usr/bin/ssh-agent -l
-rousse    1891   0.0  0.0  2435468    916 s001  S    Sat03PM   0:01.54 -bash
-root      1890   0.0  0.0  2436056    680 s001  Ss   Sat03PM   0:00.03 login -pf rousse
-rousse    1875   0.0  0.0  2435468    852 s000  S+   Sat03PM   0:00.05 bash
-rousse    1798   0.0  0.0  2435468    436 s000  S    Sat03PM   0:00.05 -bash
-root      1797   0.0  0.0  2436056    680 s000  Ss   Sat03PM   0:00.03 login -pf rousse
-rousse    1732   0.0  0.7  2787440  14164   ??  S    Sat03PM   2:53.53 /Applications/MacVim.app/Contents/MacOS/MacVim -psn_0_524416
-rousse    1725   0.0  0.1  2467120   1904   ??  S    Sat03PM   0:00.24 /System/Library/Services/AppleSpell.service/Contents/MacOS/AppleSpell -psn_0_520319
-rousse    1720   0.0  0.2  2772440   4496   ??  S    Sat03PM   0:00.73 /Applications/TextEdit.app/Contents/MacOS/TextEdit -psn_0_512125
-rousse    1697   0.0  0.0  2457564    632   ??  S    Sat03PM   0:00.02 /System/Library/Frameworks/WebKit.framework/WebKitPluginAgent
-rousse    1657   0.0  0.1  2463248   1496   ??  S    Sat03PM   0:00.25 /Applications/iTunes.app/Contents/Resources/iTunesHelper.app/Contents/MacOS/iTunesHelper -psn_0_458864
-rousse    1655   0.0  0.1  2731864   2484   ??  S    Sat03PM   0:00.32 /System/Library/CoreServices/AirPort Base Station Agent.app/Contents/MacOS/AirPort Base Station Agent -launchd -allowquit
-rousse    1649   0.0  0.2  2460332   3324   ??  S    Sat03PM   0:01.03 /usr/libexec/UserEventAgent -l Aqua
-rousse    1644   0.0  0.0  2435928    488   ??  S    Sat03PM   0:00.01 /usr/sbin/pboard
-rousse    1638   0.0  0.1  2480636   2772   ??  S    Sat03PM   0:01.16 /System/Library/Frameworks/ApplicationServices.framework/Frameworks/ATS.framework/Support/fontd
-rousse    1634   0.0  1.0  2831524  21828   ??  S    Sat03PM   0:20.88 /System/Library/CoreServices/Finder.app/Contents/MacOS/Finder
-rousse    1632   0.0  0.6  2799120  13500   ??  S    Sat03PM   0:06.06 /System/Library/CoreServices/Dock.app/Contents/MacOS/Dock
-rousse    1613   0.0  0.3  2775356   6032   ??  Ss   Sat03PM   0:01.81 /System/Library/CoreServices/loginwindow.app/Contents/MacOS/loginwindow console
-root       590   0.0  0.1  2458512   2028   ??  Ss    5Oct10   0:02.39 /usr/sbin/cupsd -l
-rousse     100   0.0  0.0  2456172    860   ??  Ss    5Oct10   0:03.83 /sbin/launchd
-_coreaudiod    76   0.0  0.3  2453812   5512   ??  Ss    5Oct10   0:04.00 /usr/sbin/coreaudiod
-root        67   0.0  0.0  2438060    632   ??  Ss    5Oct10   0:00.04 /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/cvmsServ
-root        50   0.0  1.1  2497488  23580   ??  Ss    5Oct10   0:09.12 /System/Library/CoreServices/coreservicesd
-root        41   0.0  0.0  2445648    660   ??  Ss    5Oct10   0:00.28 autofsd
-root        35   0.0  0.0  2434784    416   ??  Ss    5Oct10   0:00.01 /sbin/dynamic_pager -F /private/var/vm/swapfile
-root        33   0.0  0.1  2451468   3068   ??  Ss    5Oct10   0:11.29 /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/CarbonCore.framework/Versions/A/Support/fseventsd
-root        32   0.0  0.0  2446680    592   ??  Ss    5Oct10   0:00.22 /usr/libexec/hidd
-root        30   0.0  0.0  2446768    696   ??  Ss    5Oct10   0:00.51 /usr/sbin/KernelEventAgent
-_mdnsresponder    28   0.0  0.1  2459112   1684   ??  Ss    5Oct10   0:03.57 /usr/sbin/mDNSResponder -launchd
-root        27   0.0  1.5  2594096  31364   ??  Ss    5Oct10   4:18.74 /System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Support/mds
-root        24   0.0  0.1  2459872   2716   ??  Ss    5Oct10   0:00.72 /usr/sbin/securityd -i
-_usbmuxd    21   0.0  0.0    90960    748   ??  Ss    5Oct10   0:00.37 /System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/Resources/usbmuxd -launchd
-root        19   0.0  0.0  2435212    720   ??  Ss    5Oct10   0:03.03 /usr/sbin/ntpd -c /private/etc/ntp-restrict.conf -n -g -p /var/run/ntpd.pid -f /var/db/ntp.drift
-root        17   0.0  0.1  2461200   2292   ??  Ss    5Oct10   0:01.63 /usr/sbin/blued
-daemon      16   0.0  0.0  2446660   1036   ??  Ss    5Oct10   0:01.86 /usr/sbin/distnoted
-root        14   0.0  0.0  2457096    616   ??  Ss    5Oct10   0:01.45 /usr/sbin/syslogd
-root        13   0.0  0.1  2474544   2464   ??  Ss    5Oct10   0:09.21 /usr/libexec/configd
-root        12   0.0  0.1  2446808   1368   ??  Ss    5Oct10   0:01.35 /usr/sbin/diskarbitrationd
-root        11   0.0  0.0  2444544    436   ??  Ss    5Oct10   0:03.22 /usr/sbin/notifyd
-root     29474   0.0  0.0  2434788    388 s001  R+   11:09PM   0:00.00 ps aux
-root         1   0.0  0.1  2456680   1136   ??  Ss    5Oct10   0:51.06 /sbin/launchd
-_spotlight 29442   0.0  0.2  2465304   3312   ??  SNs  11:07PM   0:00.07 /System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker MDSImporterWorker com.apple.Spotlight.ImporterWorker.89
-rousse   29325   0.0  0.4  2492400   8500   ??  Ss   11:02PM   0:00.65 /Applications/MacVim.app/Contents/MacOS/Vim -f -g lib/FusionInventory/Agent/Task/Inventory/OS/Generic/Processes.pm
-rousse   28994   0.0  0.5  2479516  10680   ??  SNs  10:55PM   0:00.24 /System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker MDSImporterWorker com.apple.Spotlight.ImporterWorker.501
+USER       PID  %CPU %MEM      VSZ   TT  STARTED      TIME COMMAND
+rousse    1794   3.4  0.9  2817480   ??  Sat03PM   2:32.62 /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal -psn_0_548998
+rousse    1688   0.5  6.4  5186628   ??  Sat03PM   6:42.73 /Applications/Safari.app/Contents/MacOS/Safari -psn_0_483446
+_windowserver  1614   0.4  1.5  2771404   ??  Sat03PM   2:48.21 /System/Library/Frameworks/ApplicationServices.framework/Frameworks/CoreGraphics.framework/Resources/WindowServer -daemon
+root        15   0.1  0.2  2452160   ??   5Oct10   0:24.75 /usr/sbin/DirectoryService
+rousse   28820   0.0  0.1  2435468 s002  10:08PM   0:00.20 -bash
+root     28819   0.0  0.1  2436056 s002  10:08PM   0:00.05 login -pf rousse
+rousse   28611   0.0  0.5  2493424   ??   9:57PM   0:16.91 /Applications/MacVim.app/Contents/MacOS/Vim -f -g lib/FusionInventory/Agent/Tools/Unix.pm
+rousse   28437   0.0  0.1  2449852 s001   9:48PM   0:00.63 t/transmitter/connection.t (proxy)   
+rousse   26235   0.0  0.5  2756744   ??  Mon09PM   0:02.78 /System/Library/CoreServices/SystemUIServer.app/Contents/MacOS/SystemUIServer
+root     25404   0.0  0.3  2470032   ??  Sat05PM   1:08.05 /usr/libexec/kextd
+rousse    1902   0.0  0.1  2457284   ??  Sat03PM   0:00.29 /usr/bin/ssh-agent -l
+rousse    1891   0.0  0.0  2435468 s001  Sat03PM   0:01.54 -bash
+root      1890   0.0  0.0  2436056 s001  Sat03PM   0:00.03 login -pf rousse
+rousse    1875   0.0  0.0  2435468 s000  Sat03PM   0:00.05 bash
+rousse    1798   0.0  0.0  2435468 s000  Sat03PM   0:00.05 -bash
+root      1797   0.0  0.0  2436056 s000  Sat03PM   0:00.03 login -pf rousse
+rousse    1732   0.0  0.7  2787440   ??  Sat03PM   2:53.53 /Applications/MacVim.app/Contents/MacOS/MacVim -psn_0_524416
+rousse    1725   0.0  0.1  2467120   ??  Sat03PM   0:00.24 /System/Library/Services/AppleSpell.service/Contents/MacOS/AppleSpell -psn_0_520319
+rousse    1720   0.0  0.2  2772440   ??  Sat03PM   0:00.73 /Applications/TextEdit.app/Contents/MacOS/TextEdit -psn_0_512125
+rousse    1697   0.0  0.0  2457564   ??  Sat03PM   0:00.02 /System/Library/Frameworks/WebKit.framework/WebKitPluginAgent
+rousse    1657   0.0  0.1  2463248   ??  Sat03PM   0:00.25 /Applications/iTunes.app/Contents/Resources/iTunesHelper.app/Contents/MacOS/iTunesHelper -psn_0_458864
+rousse    1655   0.0  0.1  2731864   ??  Sat03PM   0:00.32 /System/Library/CoreServices/AirPort Base Station Agent.app/Contents/MacOS/AirPort Base Station Agent -launchd -allowquit
+rousse    1649   0.0  0.2  2460332   ??  Sat03PM   0:01.03 /usr/libexec/UserEventAgent -l Aqua
+rousse    1644   0.0  0.0  2435928   ??  Sat03PM   0:00.01 /usr/sbin/pboard
+rousse    1638   0.0  0.1  2480636   ??  Sat03PM   0:01.16 /System/Library/Frameworks/ApplicationServices.framework/Frameworks/ATS.framework/Support/fontd
+rousse    1634   0.0  1.0  2831524   ??  Sat03PM   0:20.88 /System/Library/CoreServices/Finder.app/Contents/MacOS/Finder
+rousse    1632   0.0  0.6  2799120   ??  Sat03PM   0:06.06 /System/Library/CoreServices/Dock.app/Contents/MacOS/Dock
+rousse    1613   0.0  0.3  2775356   ??  Sat03PM   0:01.81 /System/Library/CoreServices/loginwindow.app/Contents/MacOS/loginwindow console
+root       590   0.0  0.1  2458512   ??   5Oct10   0:02.39 /usr/sbin/cupsd -l
+rousse     100   0.0  0.0  2456172   ??   5Oct10   0:03.83 /sbin/launchd
+_coreaudiod    76   0.0  0.3  2453812   ??   5Oct10   0:04.00 /usr/sbin/coreaudiod
+root        67   0.0  0.0  2438060   ??   5Oct10   0:00.04 /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/cvmsServ
+root        50   0.0  1.1  2497488   ??   5Oct10   0:09.12 /System/Library/CoreServices/coreservicesd
+root        41   0.0  0.0  2445648   ??   5Oct10   0:00.28 autofsd
+root        35   0.0  0.0  2434784   ??   5Oct10   0:00.01 /sbin/dynamic_pager -F /private/var/vm/swapfile
+root        33   0.0  0.1  2451468   ??   5Oct10   0:11.29 /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/CarbonCore.framework/Versions/A/Support/fseventsd
+root        32   0.0  0.0  2446680   ??   5Oct10   0:00.22 /usr/libexec/hidd
+root        30   0.0  0.0  2446768   ??   5Oct10   0:00.51 /usr/sbin/KernelEventAgent
+_mdnsresponder    28   0.0  0.1  2459112   ??   5Oct10   0:03.57 /usr/sbin/mDNSResponder -launchd
+root        27   0.0  1.5  2594096   ??   5Oct10   4:18.74 /System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Support/mds
+root        24   0.0  0.1  2459872   ??   5Oct10   0:00.72 /usr/sbin/securityd -i
+_usbmuxd    21   0.0  0.0    90960   ??   5Oct10   0:00.37 /System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/Resources/usbmuxd -launchd
+root        19   0.0  0.0  2435212   ??   5Oct10   0:03.03 /usr/sbin/ntpd -c /private/etc/ntp-restrict.conf -n -g -p /var/run/ntpd.pid -f /var/db/ntp.drift
+root        17   0.0  0.1  2461200   ??   5Oct10   0:01.63 /usr/sbin/blued
+daemon      16   0.0  0.0  2446660   ??   5Oct10   0:01.86 /usr/sbin/distnoted
+root        14   0.0  0.0  2457096   ??   5Oct10   0:01.45 /usr/sbin/syslogd
+root        13   0.0  0.1  2474544   ??   5Oct10   0:09.21 /usr/libexec/configd
+root        12   0.0  0.1  2446808   ??   5Oct10   0:01.35 /usr/sbin/diskarbitrationd
+root        11   0.0  0.0  2444544   ??   5Oct10   0:03.22 /usr/sbin/notifyd
+root     29474   0.0  0.0  2434788 s001  11:09PM   0:00.00 ps aux
+root         1   0.0  0.1  2456680   ??   5Oct10   0:51.06 /sbin/launchd
+_spotlight 29442   0.0  0.2  2465304   ??  11:07PM   0:00.07 /System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker MDSImporterWorker com.apple.Spotlight.ImporterWorker.89
+rousse   29325   0.0  0.4  2492400   ??  11:02PM   0:00.65 /Applications/MacVim.app/Contents/MacOS/Vim -f -g lib/FusionInventory/Agent/Task/Inventory/OS/Generic/Processes.pm
+rousse   28994   0.0  0.5  2479516   ??  10:55PM   0:00.24 /System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker MDSImporterWorker com.apple.Spotlight.ImporterWorker.501

@@ -23,10 +23,7 @@ sub doInventory {
     my $xorgData;
 
     my $xorgPid;
-    foreach my $process (getProcessesFromPs(
-        command => 'ps aux',
-        logger  => $logger
-    )) {
+    foreach my $process (getProcesses(logger  => $logger)) {
         next unless $process->{CMD} =~ m{
             ^
             (?:

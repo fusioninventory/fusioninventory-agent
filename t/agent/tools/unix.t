@@ -71,7 +71,7 @@ my %df_tests = (
         }
     ],
     'netbsd' => [
-          {
+        {
             VOLUMN     => '/dev/wd0a',
             TOTAL      => '15112',
             FREE       => '3581',
@@ -175,13 +175,911 @@ my @dhcp_leases_test = (
     },
 );
 
+my %busybox_ps_tests = (
+    busybox => [
+        {
+            VIRTUALMEMORY => '2536',
+            PID           => '1',
+            CMD           => 'init',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '2',
+            CMD           => '[kthreadd]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '3',
+            CMD           => '[ksoftirqd/0]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '6',
+            CMD           => '[migration/0]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '7',
+            CMD           => '[migration/1]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '9',
+            CMD           => '[ksoftirqd/1]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '11',
+            CMD           => '[migration/2]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '13',
+            CMD           => '[ksoftirqd/2]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '14',
+            CMD           => '[migration/3]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '16',
+            CMD           => '[ksoftirqd/3]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '17',
+            CMD           => '[khelper]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '138',
+            CMD           => '[sync_supers]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '140',
+            CMD           => '[bdi-default]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '141',
+            CMD           => '[kintegrityd]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '142',
+            CMD           => '[kblockd]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '249',
+            CMD           => '[ata_sff]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '257',
+            CMD           => '[md]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '366',
+            CMD           => '[rpciod]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '408',
+            CMD           => '[kswapd0]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '409',
+            CMD           => '[fsnotify_mark]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '410',
+            CMD           => '[nfsiod]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '96192',
+            PID           => '597',
+            CMD           => '/usr/syno/apache/bin/httpd -DHAVE_PHP',
+            USER          => 'nobody'
+        },
+        {
+            VIRTUALMEMORY => '95672',
+            PID           => '800',
+            CMD           => '/usr/syno/apache/bin/httpd -DHAVE_PHP',
+            USER          => 'nobody'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '871',
+            CMD           => '[kworker/0:0]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '983',
+            CMD           => '[iscsi_eh]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '1004',
+            CMD           => '[scsi_eh_0]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '1007',
+            CMD           => '[scsi_eh_1]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '1010',
+            CMD           => '[scsi_eh_2]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '1013',
+            CMD           => '[scsi_eh_3]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '1016',
+            CMD           => '[scsi_eh_4]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '1019',
+            CMD           => '[scsi_eh_5]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '1025',
+            CMD           => '[kworker/u:5]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '1026',
+            CMD           => '[kworker/u:6]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '1037',
+            CMD           => '[scsi_eh_6]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '1040',
+            CMD           => '[scsi_eh_7]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '1136',
+            CMD           => '[md0_raid1]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '1143',
+            CMD           => '[md1_raid1]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '1501',
+            CMD           => '[jbd2/md0-8]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '1502',
+            CMD           => '[ext4-dio-unwrit]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '2058',
+            CMD           => '[kworker/0:1]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '12912',
+            PID           => '2307',
+            CMD           => 'sshd: root@pts/1',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '4752',
+            PID           => '2345',
+            CMD           => '-ash',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '11852',
+            PID           => '2437',
+            CMD           => '/usr/syno/bin/synonetbkpd -D',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '2518',
+            CMD           => '[kworker/3:2]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '2708',
+            CMD           => '[khubd]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '2826',
+            CMD           => '[crypto]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '3068',
+            CMD           => '[ecryptfs-kthrea]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '95908',
+            PID           => '3124',
+            CMD           => '/usr/syno/apache/bin/httpd -DHAVE_PHP',
+            USER          => 'nobody'
+        },
+        {
+            VIRTUALMEMORY => '98.1m',
+            PID           => '3180',
+            CMD           => '/usr/syno/apache/bin/httpd -DHAVE_PHP',
+            USER          => 'nobody'
+        },
+        {
+            VIRTUALMEMORY => '1472',
+            PID           => '3439',
+            CMD           => '/sbin/dhcpcd -n eth0 -t 30',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '2536',
+            PID           => '3475',
+            CMD           => '/sbin/syslogd -S',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '2536',
+            PID           => '3480',
+            CMD           => '/sbin/klogd',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '95644',
+            PID           => '3981',
+            CMD           => '/usr/syno/apache/bin/httpd -DHAVE_PHP',
+            USER          => 'nobody'
+        },
+        {
+            VIRTUALMEMORY => '12264',
+            PID           => '4089',
+            CMD           => '/usr/syno/apache/bin/httpd -f /usr/syno/apache/conf/httpd.conf-sys',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '12264',
+            PID           => '4286',
+            CMD           => '/usr/syno/apache/bin/httpd -f /usr/syno/apache/conf/httpd.conf-sys',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '55416',
+            PID           => '4307',
+            CMD           => '/usr/syno/mysql/libexec/mysqld --basedir=/usr/syno/mysql --datadir=/volume1/@database/mysql --user=admin --max_allowed_packet=8M',
+            USER          => 'admin'
+        },
+        {
+            VIRTUALMEMORY => '12264',
+            PID           => '4476',
+            CMD           => '/usr/syno/apache/bin/httpd -f /usr/syno/apache/conf/httpd.conf-sys',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '12256',
+            PID           => '4766',
+            CMD           => '/usr/syno/apache/bin/httpd -f /usr/syno/apache/conf/httpd.conf-sys',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '10908',
+            PID           => '4785',
+            CMD           => '/usr/syno/bin/findhostd',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '25228',
+            PID           => '4811',
+            CMD           => '/usr/syno/sbin/smbd -D',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '12092',
+            PID           => '4819',
+            CMD           => '/usr/syno/apache/bin/httpd -f /usr/syno/apache/conf/httpd.conf-sys',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '12092',
+            PID           => '4820',
+            CMD           => '/usr/syno/apache/bin/httpd -f /usr/syno/apache/conf/httpd.conf-sys',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '12092',
+            PID           => '4821',
+            CMD           => '/usr/syno/apache/bin/httpd -f /usr/syno/apache/conf/httpd.conf-sys',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '4752',
+            PID           => '4822',
+            CMD           => 'ps',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '5489',
+            CMD           => '[kworker/2:1]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '9188',
+            PID           => '5571',
+            CMD           => '/usr/sbin/ntpd -p /var/run/ntpd.pid -g',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '9188',
+            PID           => '5573',
+            CMD           => '/usr/sbin/ntpd -p /var/run/ntpd.pid -g',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '9188',
+            PID           => '5574',
+            CMD           => '/usr/sbin/ntpd -p /var/run/ntpd.pid -g',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '6038',
+            CMD           => '[kworker/3:1]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '6115',
+            CMD           => '[flush-9:0]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '6116',
+            CMD           => '[flush-9:2]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '13376',
+            PID           => '6184',
+            CMD           => 'scemd',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '13376',
+            PID           => '6306',
+            CMD           => 'scemd',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '13376',
+            PID           => '6311',
+            CMD           => 'scemd',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '7321',
+            CMD           => '[scsi_eh_8]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '7339',
+            CMD           => '[usb-storage]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '0',
+            PID           => '7843',
+            CMD           => '[kworker/1:1]',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '2540',
+            PID           => '8035',
+            CMD           => '/sbin/getty 115200 console',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '11988',
+            PID           => '8357',
+            CMD           => '/usr/syno/sbin/hotplugd',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '4748',
+            PID           => '8371',
+            CMD           => '/usr/sbin/inetd',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '13148',
+            PID           => '8384',
+            CMD           => '/usr/syno/sbin/snmpd -Ln -c /usr/syno/etc/snmpd.conf -p /var/run/snmpd.pid udp:161,udp6:161,tcp:161,tcp6:161',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '11696',
+            PID           => '8587',
+            CMD           => '/usr/syno/sbin/fileindexd',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '95228',
+            PID           => '8635',
+            CMD           => '/usr/syno/apache/bin/httpd -DHAVE_PHP',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '11292',
+            PID           => '9466',
+            CMD           => '/usr/syno/sbin/synosnmpcd',
+            USER          => 'root'
+        },
+        {
+            VIRTUALMEMORY => '12092',
+            PID           => '9507',
+            CMD           => '/usr/syno/apache/bin/httpd -f /usr/syno/apache/conf/httpd.conf-sys',
+            USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '2232',
+                PID           => '14163',
+                CMD           => 'avahi-daemon: running [nas.local]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '14994',
+                CMD           => '[LIO_rd_dr]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '15005',
+                CMD           => '[iscsi_trx/1]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '15006',
+                CMD           => '[iscsi_ttx/1]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '15007',
+                CMD           => '[iscsi_trx/2]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '15008',
+                CMD           => '[iscsi_ttx/2]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '15009',
+                CMD           => '[iscsi_trx/3]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '15010',
+                CMD           => '[iscsi_ttx/3]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '15011',
+                CMD           => '[iscsi_trx/4]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '15012',
+                CMD           => '[iscsi_ttx/4]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '15269',
+                CMD           => '[iscsi_np]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '15272',
+                CMD           => '[iscsi_np]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '15303',
+                CMD           => '[LIO_fileio]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '18264',
+                PID           => '16466',
+                CMD           => '/usr/syno/sbin/nmbd -D',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '22548',
+                PID           => '16482',
+                CMD           => '/usr/syno/sbin/winbindd -D',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '22624',
+                PID           => '16493',
+                CMD           => '/usr/syno/sbin/winbindd -D',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '22100',
+                PID           => '16516',
+                CMD           => '/usr/syno/sbin/winbindd -D',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '22540',
+                PID           => '16517',
+                CMD           => '/usr/syno/sbin/winbindd -D',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '22136',
+                PID           => '16521',
+                CMD           => '/usr/syno/sbin/winbindd -D',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '24676',
+                PID           => '16531',
+                CMD           => '/usr/syno/sbin/smbd -D',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '24788',
+                PID           => '16538',
+                CMD           => '/usr/syno/sbin/smbd -D',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '1448',
+                PID           => '17219',
+                CMD           => '/sbin/portmap',
+                USER          => '1'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '17222',
+                CMD           => '[lockd]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '17223',
+                CMD           => '[nfsd4]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '17224',
+                CMD           => '[nfsd4_callbacks]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '17225',
+                CMD           => '[nfsd]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '17226',
+                CMD           => '[nfsd]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '17227',
+                CMD           => '[nfsd]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '17228',
+                CMD           => '[nfsd]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '17229',
+                CMD           => '[nfsd]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '17230',
+                CMD           => '[nfsd]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '17231',
+                CMD           => '[nfsd]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '17232',
+                CMD           => '[nfsd]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '7028',
+                PID           => '17235',
+                CMD           => '/usr/sbin/statd',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '7096',
+                PID           => '17238',
+                CMD           => '/usr/sbin/mountd -p 892',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '4748',
+                PID           => '17401',
+                CMD           => '/usr/sbin/crond',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '20328',
+                PID           => '17406',
+                CMD           => '/usr/syno/bin/synomkthumbd',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '20324',
+                PID           => '17412',
+                CMD           => '/usr/syno/sbin/synomkflvd',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '13048',
+                PID           => '18978',
+                CMD           => 'sshd: root@pts/0',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '4752',
+                PID           => '18984',
+                CMD           => '-ash',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '19872',
+                CMD           => '[kworker/2:0]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '21228',
+                CMD           => '[md2_raid5]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '25854',
+                CMD           => '[kworker/1:2]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '12264',
+                PID           => '28886',
+                CMD           => '/usr/syno/apache/bin/httpd -f /usr/syno/apache/conf/httpd.conf-sys',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '29849',
+                CMD           => '[jbd2/md2-8]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '0',
+                PID           => '29850',
+                CMD           => '[ext4-dio-unwrit]',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '7188',
+                PID           => '29896',
+                CMD           => '/usr/syno/sbin/cupsd -C /usr/local/cups/cupsd.conf',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '33336',
+                PID           => '29971',
+                CMD           => '/usr/syno/pgsql/bin/postgres -D /var/services/pgsql --config_file=/usr/syno/pgsql/etc/postgresql.conf --hba_file=/usr/syno/pgsql/',
+                USER          => 'admin'
+        },
+        {
+                VIRTUALMEMORY => '33336',
+                PID           => '29973',
+                CMD           => 'postgres: writer process   ',
+                USER          => 'admin'
+        },
+        {
+                VIRTUALMEMORY => '33336',
+                PID           => '29974',
+                CMD           => 'postgres: wal writer process   ',
+                USER          => 'admin'
+        },
+        {
+                VIRTUALMEMORY => '25132',
+                PID           => '30086',
+                CMD           => '/usr/syno/sbin/synoindexd',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '2536',
+                PID           => '30639',
+                CMD           => '/bin/sh /usr/syno/mysql/bin/mysqld_safe --datadir=/volume1/@database/mysql --pid-file=/tmp/mysqld.pid --datadir=/volume1/@databas',
+                USER          => 'root'
+        },
+        {
+                VIRTUALMEMORY => '55416',
+                PID           => '30706',
+                CMD           => '/usr/syno/mysql/libexec/mysqld --basedir=/usr/syno/mysql --datadir=/volume1/@database/mysql --user=admin --max_allowed_packet=8M',
+                USER          => 'admin'
+        },
+        {
+                VIRTUALMEMORY => '55416',
+                PID           => '30707',
+                CMD           => '/usr/syno/mysql/libexec/mysqld --basedir=/usr/syno/mysql --datadir=/volume1/@database/mysql --user=admin --max_allowed_packet=8M',
+                USER          => 'admin'
+        },
+        {
+                VIRTUALMEMORY => '55416',
+                PID           => '30708',
+                CMD           => '/usr/syno/mysql/libexec/mysqld --basedir=/usr/syno/mysql --datadir=/volume1/@database/mysql --user=admin --max_allowed_packet=8M',
+                USER          => 'admin'
+        },
+        {
+                VIRTUALMEMORY => '55416',
+                PID           => '30709',
+                CMD           => '/usr/syno/mysql/libexec/mysqld --basedir=/usr/syno/mysql --datadir=/volume1/@database/mysql --user=admin --max_allowed_packet=8M',
+                USER          => 'admin'
+        },
+        {
+                VIRTUALMEMORY => '55416',
+                PID           => '30710',
+                CMD           => '/usr/syno/mysql/libexec/mysqld --basedir=/usr/syno/mysql --datadir=/volume1/@database/mysql --user=admin --max_allowed_packet=8M',
+                USER          => 'admin'
+        },
+        {
+                VIRTUALMEMORY => '55416',
+                PID           => '30711',
+                CMD           => '/usr/syno/mysql/libexec/mysqld --basedir=/usr/syno/mysql --datadir=/volume1/@database/mysql --user=admin --max_allowed_packet=8M',
+                USER          => 'admin'
+        },
+        {
+                VIRTUALMEMORY => '55416',
+                PID           => '30712',
+                CMD           => '/usr/syno/mysql/libexec/mysqld --basedir=/usr/syno/mysql --datadir=/volume1/@database/mysql --user=admin --max_allowed_packet=8M',
+                USER          => 'admin'
+        },
+        {
+                VIRTUALMEMORY => '55416',
+                PID           => '30713',
+                CMD           => '/usr/syno/mysql/libexec/mysqld --basedir=/usr/syno/mysql --datadir=/volume1/@database/mysql --user=admin --max_allowed_packet=8M',
+                USER          => 'admin'
+        },
+        {
+                VIRTUALMEMORY => '55416',
+                PID           => '30714',
+                CMD           => '/usr/syno/mysql/libexec/mysqld --basedir=/usr/syno/mysql --datadir=/volume1/@database/mysql --user=admin --max_allowed_packet=8M',
+                USER          => 'admin'
+        },
+        {
+                VIRTUALMEMORY => '55416',
+                PID           => '30715',
+                CMD           => '/usr/syno/mysql/libexec/mysqld --basedir=/usr/syno/mysql --datadir=/volume1/@database/mysql --user=admin --max_allowed_packet=8M',
+                USER          => 'admin'
+        },
+        {
+                VIRTUALMEMORY => '55416',
+                PID           => '30716',
+                CMD           => '/usr/syno/mysql/libexec/mysqld --basedir=/usr/syno/mysql --datadir=/volume1/@database/mysql --user=admin --max_allowed_packet=8M',
+                USER          => 'admin'
+        },
+        {
+                VIRTUALMEMORY => '9948',
+                PID           => '30968',
+                CMD           => '/usr/syno/sbin/sshd',
+                USER          => 'root'
+        }
+    ]
+);
 
 my ($sec, $min, $hour, $day, $month, $year, $wday, $yday, $isdst) = localtime(time);
 my $format = "%04d-%02d-%02d";
 my $today    = sprintf($format, $year + 1900, $month + 1, $day);
 my $this_day = sprintf($format, $year + 1900, $month + 1, 3);
 my $this_year = sprintf("%04d", $year + 1900);
-my %ps_tests = (
+my %other_ps_tests = (
     linux => [
         {
             VIRTUALMEMORY => '3984',
@@ -1701,7 +2599,7 @@ my %ps_tests = (
             PID           => '1794',
             CMD           => '/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal -psn_0_548998',
             TTY           => '??',
-            STARTED       => $this_day . ' 2:32.62',
+            STARTED       => $this_day,
             USER          => 'rousse',
             MEM           => '0.9'
         },
@@ -1711,7 +2609,7 @@ my %ps_tests = (
             PID           => '1688',
             CMD           => '/Applications/Safari.app/Contents/MacOS/Safari -psn_0_483446',
             TTY           => '??',
-            STARTED       => $this_day . ' 6:42.73',
+            STARTED       => $this_day,
             USER          => 'rousse',
             MEM           => '6.4'
         },
@@ -1721,7 +2619,7 @@ my %ps_tests = (
             PID           => '1614',
             CMD           => '/System/Library/Frameworks/ApplicationServices.framework/Frameworks/CoreGraphics.framework/Resources/WindowServer -daemon',
             TTY           => '??',
-            STARTED       => $this_day . ' 2:48.21',
+            STARTED       => $this_day,
             USER          => '_windowserver',
             MEM           => '1.5'
         },
@@ -1731,7 +2629,7 @@ my %ps_tests = (
             PID           => '15',
             CMD           => '/usr/sbin/DirectoryService',
             TTY           => '??',
-            STARTED       => $this_year . '-10-05 0:24.75',
+            STARTED       => $this_year . '-10-05',
             USER          => 'root',
             MEM           => '0.2'
         },
@@ -1781,7 +2679,7 @@ my %ps_tests = (
             PID           => '26235',
             CMD           => '/System/Library/CoreServices/SystemUIServer.app/Contents/MacOS/SystemUIServer',
             TTY           => '??',
-            STARTED       => sprintf($format, $year + 1900, $month + 1, 9).' 0:02.78',
+            STARTED       => sprintf($format, $year + 1900, $month + 1, 9),
             USER          => 'rousse',
             MEM           => '0.5'
         },
@@ -1791,7 +2689,7 @@ my %ps_tests = (
             PID           => '25404',
             CMD           => '/usr/libexec/kextd',
             TTY           => '??',
-            STARTED       => sprintf($format, $year + 1900, $month + 1, 5).' 1:08.05',
+            STARTED       => sprintf($format, $year + 1900, $month + 1, 5),
             USER          => 'root',
             MEM           => '0.3'
         },
@@ -1801,7 +2699,7 @@ my %ps_tests = (
             PID           => '1902',
             CMD           => '/usr/bin/ssh-agent -l',
             TTY           => '??',
-            STARTED       => $this_day . ' 0:00.29',
+            STARTED       => $this_day,
             USER          => 'rousse',
             MEM           => '0.1'
         },
@@ -1811,7 +2709,7 @@ my %ps_tests = (
             PID           => '1891',
             CMD           => '-bash',
             TTY           => 's001',
-            STARTED       => $this_day . ' 0:01.54',
+            STARTED       => $this_day,
             USER          => 'rousse',
             MEM           => '0.0'
         },
@@ -1821,7 +2719,7 @@ my %ps_tests = (
             PID           => '1890',
             CMD           => 'login -pf rousse',
             TTY           => 's001',
-            STARTED       => $this_day . ' 0:00.03',
+            STARTED       => $this_day,
             USER          => 'root',
             MEM           => '0.0'
         },
@@ -1831,7 +2729,7 @@ my %ps_tests = (
             PID           => '1875',
             CMD           => 'bash',
             TTY           => 's000',
-            STARTED       => $this_day . ' 0:00.05',
+            STARTED       => $this_day,
             USER          => 'rousse',
             MEM           => '0.0'
         },
@@ -1841,7 +2739,7 @@ my %ps_tests = (
             PID           => '1798',
             CMD           => '-bash',
             TTY           => 's000',
-            STARTED       => $this_day . ' 0:00.05',
+            STARTED       => $this_day,
             USER          => 'rousse',
             MEM           => '0.0'
         },
@@ -1851,7 +2749,7 @@ my %ps_tests = (
             PID           => '1797',
             CMD           => 'login -pf rousse',
             TTY           => 's000',
-            STARTED       => $this_day . ' 0:00.03',
+            STARTED       => $this_day,
             USER          => 'root',
             MEM           => '0.0'
         },
@@ -1861,7 +2759,7 @@ my %ps_tests = (
             PID           => '1732',
             CMD           => '/Applications/MacVim.app/Contents/MacOS/MacVim -psn_0_524416',
             TTY           => '??',
-            STARTED       => $this_day . ' 2:53.53',
+            STARTED       => $this_day,
             USER          => 'rousse',
             MEM           => '0.7'
         },
@@ -1871,7 +2769,7 @@ my %ps_tests = (
             PID           => '1725',
             CMD           => '/System/Library/Services/AppleSpell.service/Contents/MacOS/AppleSpell -psn_0_520319',
             TTY           => '??',
-            STARTED       => $this_day . ' 0:00.24',
+            STARTED       => $this_day,
             USER          => 'rousse',
             MEM           => '0.1'
         },
@@ -1881,7 +2779,7 @@ my %ps_tests = (
             PID           => '1720',
             CMD           => '/Applications/TextEdit.app/Contents/MacOS/TextEdit -psn_0_512125',
             TTY           => '??',
-            STARTED       => $this_day . ' 0:00.73',
+            STARTED       => $this_day,
             USER          => 'rousse',
             MEM           => '0.2'
         },
@@ -1891,7 +2789,7 @@ my %ps_tests = (
             PID           => '1697',
             CMD           => '/System/Library/Frameworks/WebKit.framework/WebKitPluginAgent',
             TTY           => '??',
-            STARTED       => $this_day . ' 0:00.02',
+            STARTED       => $this_day,
             USER          => 'rousse',
             MEM           => '0.0'
         },
@@ -1901,7 +2799,7 @@ my %ps_tests = (
             PID           => '1657',
             CMD           => '/Applications/iTunes.app/Contents/Resources/iTunesHelper.app/Contents/MacOS/iTunesHelper -psn_0_458864',
             TTY           => '??',
-            STARTED       => $this_day . ' 0:00.25',
+            STARTED       => $this_day,
             USER          => 'rousse',
             MEM           => '0.1'
         },
@@ -1911,7 +2809,7 @@ my %ps_tests = (
             PID           => '1655',
             CMD           => '/System/Library/CoreServices/AirPort Base Station Agent.app/Contents/MacOS/AirPort Base Station Agent -launchd -allowquit',
             TTY           => '??',
-            STARTED       => $this_day . ' 0:00.32',
+            STARTED       => $this_day,
             USER          => 'rousse',
             MEM           => '0.1'
         },
@@ -1921,7 +2819,7 @@ my %ps_tests = (
             PID           => '1649',
             CMD           => '/usr/libexec/UserEventAgent -l Aqua',
             TTY           => '??',
-            STARTED       => $this_day . ' 0:01.03',
+            STARTED       => $this_day,
             USER          => 'rousse',
             MEM           => '0.2'
         },
@@ -1931,7 +2829,7 @@ my %ps_tests = (
             PID           => '1644',
             CMD           => '/usr/sbin/pboard',
             TTY           => '??',
-            STARTED       => $this_day . ' 0:00.01',
+            STARTED       => $this_day,
             USER          => 'rousse',
             MEM           => '0.0'
         },
@@ -1941,7 +2839,7 @@ my %ps_tests = (
             PID           => '1638',
             CMD           => '/System/Library/Frameworks/ApplicationServices.framework/Frameworks/ATS.framework/Support/fontd',
             TTY           => '??',
-            STARTED       => $this_day . ' 0:01.16',
+            STARTED       => $this_day,
             USER          => 'rousse',
             MEM           => '0.1'
         },
@@ -1951,7 +2849,7 @@ my %ps_tests = (
             PID           => '1634',
             CMD           => '/System/Library/CoreServices/Finder.app/Contents/MacOS/Finder',
             TTY           => '??',
-            STARTED       => $this_day . ' 0:20.88',
+            STARTED       => $this_day,
             USER          => 'rousse',
             MEM           => '1.0'
         },
@@ -1961,7 +2859,7 @@ my %ps_tests = (
             PID           => '1632',
             CMD           => '/System/Library/CoreServices/Dock.app/Contents/MacOS/Dock',
             TTY           => '??',
-            STARTED       => $this_day . ' 0:06.06',
+            STARTED       => $this_day,
             USER          => 'rousse',
             MEM           => '0.6'
         },
@@ -1971,7 +2869,7 @@ my %ps_tests = (
             PID           => '1613',
             CMD           => '/System/Library/CoreServices/loginwindow.app/Contents/MacOS/loginwindow console',
             TTY           => '??',
-            STARTED       => $this_day . ' 0:01.81',
+            STARTED       => $this_day,
             USER          => 'rousse',
             MEM           => '0.3'
         },
@@ -1981,7 +2879,7 @@ my %ps_tests = (
             PID           => '590',
             CMD           => '/usr/sbin/cupsd -l',
             TTY           => '??',
-            STARTED       => $this_year . '-10-05 0:02.39',
+            STARTED       => $this_year . '-10-05',
             USER          => 'root',
             MEM           => '0.1'
         },
@@ -1991,7 +2889,7 @@ my %ps_tests = (
             PID           => '100',
             CMD           => '/sbin/launchd',
             TTY           => '??',
-            STARTED       => $this_year . '-10-05 0:03.83',
+            STARTED       => $this_year . '-10-05',
             USER          => 'rousse',
             MEM           => '0.0'
         },
@@ -2001,7 +2899,7 @@ my %ps_tests = (
             PID           => '76',
             CMD           => '/usr/sbin/coreaudiod',
             TTY           => '??',
-            STARTED       => $this_year . '-10-05 0:04.00',
+            STARTED       => $this_year . '-10-05',
             USER          => '_coreaudiod',
             MEM           => '0.3'
         },
@@ -2011,7 +2909,7 @@ my %ps_tests = (
             PID           => '67',
             CMD           => '/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/cvmsServ',
             TTY           => '??',
-            STARTED       => $this_year . '-10-05 0:00.04',
+            STARTED       => $this_year . '-10-05',
             USER          => 'root',
             MEM           => '0.0'
         },
@@ -2021,7 +2919,7 @@ my %ps_tests = (
             PID           => '50',
             CMD           => '/System/Library/CoreServices/coreservicesd',
             TTY           => '??',
-            STARTED       => $this_year . '-10-05 0:09.12',
+            STARTED       => $this_year . '-10-05',
             USER          => 'root',
             MEM           => '1.1'
         },
@@ -2031,7 +2929,7 @@ my %ps_tests = (
             PID           => '41',
             CMD           => 'autofsd',
             TTY           => '??',
-            STARTED       => $this_year . '-10-05 0:00.28',
+            STARTED       => $this_year . '-10-05',
             USER          => 'root',
             MEM           => '0.0'
         },
@@ -2041,7 +2939,7 @@ my %ps_tests = (
             PID           => '35',
             CMD           => '/sbin/dynamic_pager -F /private/var/vm/swapfile',
             TTY           => '??',
-            STARTED       => $this_year . '-10-05 0:00.01',
+            STARTED       => $this_year . '-10-05',
             USER          => 'root',
             MEM           => '0.0'
         },
@@ -2051,7 +2949,7 @@ my %ps_tests = (
             PID           => '33',
             CMD           => '/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/CarbonCore.framework/Versions/A/Support/fseventsd',
             TTY           => '??',
-            STARTED       => $this_year . '-10-05 0:11.29',
+            STARTED       => $this_year . '-10-05',
             USER          => 'root',
             MEM           => '0.1'
         },
@@ -2061,7 +2959,7 @@ my %ps_tests = (
             PID           => '32',
             CMD           => '/usr/libexec/hidd',
             TTY           => '??',
-            STARTED       => $this_year . '-10-05 0:00.22',
+            STARTED       => $this_year . '-10-05',
             USER          => 'root',
             MEM           => '0.0'
         },
@@ -2071,7 +2969,7 @@ my %ps_tests = (
             PID           => '30',
             CMD           => '/usr/sbin/KernelEventAgent',
             TTY           => '??',
-            STARTED       => $this_year . '-10-05 0:00.51',
+            STARTED       => $this_year . '-10-05',
             USER          => 'root',
             MEM           => '0.0'
         },
@@ -2081,7 +2979,7 @@ my %ps_tests = (
             PID           => '28',
             CMD           => '/usr/sbin/mDNSResponder -launchd',
             TTY           => '??',
-            STARTED       => $this_year . '-10-05 0:03.57',
+            STARTED       => $this_year . '-10-05',
             USER          => '_mdnsresponder',
             MEM           => '0.1'
         },
@@ -2091,7 +2989,7 @@ my %ps_tests = (
             PID           => '27',
             CMD           => '/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Support/mds',
             TTY           => '??',
-            STARTED       => $this_year . '-10-05 4:18.74',
+            STARTED       => $this_year . '-10-05',
             USER          => 'root',
             MEM           => '1.5'
         },
@@ -2101,7 +2999,7 @@ my %ps_tests = (
             PID           => '24',
             CMD           => '/usr/sbin/securityd -i',
             TTY           => '??',
-            STARTED       => $this_year . '-10-05 0:00.72',
+            STARTED       => $this_year . '-10-05',
             USER          => 'root',
             MEM           => '0.1'
         },
@@ -2111,7 +3009,7 @@ my %ps_tests = (
             PID           => '21',
             CMD           => '/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/Resources/usbmuxd -launchd',
             TTY           => '??',
-            STARTED       => $this_year . '-10-05 0:00.37',
+            STARTED       => $this_year . '-10-05',
             USER          => '_usbmuxd',
             MEM           => '0.0'
         },
@@ -2121,7 +3019,7 @@ my %ps_tests = (
             PID           => '19',
             CMD           => '/usr/sbin/ntpd -c /private/etc/ntp-restrict.conf -n -g -p /var/run/ntpd.pid -f /var/db/ntp.drift',
             TTY           => '??',
-            STARTED       => $this_year . '-10-05 0:03.03',
+            STARTED       => $this_year . '-10-05',
             USER          => 'root',
             MEM           => '0.0'
         },
@@ -2131,7 +3029,7 @@ my %ps_tests = (
             PID           => '17',
             CMD           => '/usr/sbin/blued',
             TTY           => '??',
-            STARTED       => $this_year . '-10-05 0:01.63',
+            STARTED       => $this_year . '-10-05',
             USER          => 'root',
             MEM           => '0.1'
         },
@@ -2141,7 +3039,7 @@ my %ps_tests = (
             PID           => '16',
             CMD           => '/usr/sbin/distnoted',
             TTY           => '??',
-            STARTED       => $this_year . '-10-05 0:01.86',
+            STARTED       => $this_year . '-10-05',
             USER          => 'daemon',
             MEM           => '0.0'
         },
@@ -2151,7 +3049,7 @@ my %ps_tests = (
             PID           => '14',
             CMD           => '/usr/sbin/syslogd',
             TTY           => '??',
-            STARTED       => $this_year . '-10-05 0:01.45',
+            STARTED       => $this_year . '-10-05',
             USER          => 'root',
             MEM           => '0.0'
         },
@@ -2161,7 +3059,7 @@ my %ps_tests = (
             PID           => '13',
             CMD           => '/usr/libexec/configd',
             TTY           => '??',
-            STARTED       => $this_year . '-10-05 0:09.21',
+            STARTED       => $this_year . '-10-05',
             USER          => 'root',
             MEM           => '0.1'
         },
@@ -2171,7 +3069,7 @@ my %ps_tests = (
             PID           => '12',
             CMD           => '/usr/sbin/diskarbitrationd',
             TTY           => '??',
-            STARTED       => $this_year . '-10-05 0:01.35',
+            STARTED       => $this_year . '-10-05',
             USER          => 'root',
             MEM           => '0.1'
         },
@@ -2181,7 +3079,7 @@ my %ps_tests = (
             PID           => '11',
             CMD           => '/usr/sbin/notifyd',
             TTY           => '??',
-            STARTED       => $this_year . '-10-05 0:03.22',
+            STARTED       => $this_year . '-10-05',
             USER          => 'root',
             MEM           => '0.0'
         },
@@ -2201,7 +3099,7 @@ my %ps_tests = (
             PID           => '1',
             CMD           => '/sbin/launchd',
             TTY           => '??',
-            STARTED       => $this_year . '-10-05 0:51.06',
+            STARTED       => $this_year . '-10-05',
             USER          => 'root',
             MEM           => '0.1'
         },
@@ -2366,10 +3264,11 @@ my %mount_tests = (
 );
 
 plan tests =>
-    (scalar keys %df_tests)      +
-    (scalar keys %ps_tests)      +
-    (scalar keys %netstat_tests) +
-    (scalar keys %mount_tests)   +
+    (scalar keys %df_tests)         +
+    (scalar keys %busybox_ps_tests) +
+    (scalar keys %other_ps_tests)   +
+    (scalar keys %netstat_tests)    +
+    (scalar keys %mount_tests)      +
     (scalar @dhcp_leases_test);
 
 foreach my $test (keys %df_tests) {
@@ -2378,10 +3277,16 @@ foreach my $test (keys %df_tests) {
     cmp_deeply(\@infos, $df_tests{$test}, "$test df parsing");
 }
 
-foreach my $test (keys %ps_tests) {
+foreach my $test (keys %busybox_ps_tests) {
     my $file = "resources/generic/ps/$test";
-    my @infos = getProcessesFromPs(file => $file);
-    cmp_deeply(\@infos, $ps_tests{$test}, "$test ps parsing");
+    my @processes = FusionInventory::Agent::Tools::Unix::_getProcessesBusybox(file => $file);
+    cmp_deeply(\@processes, $busybox_ps_tests{$test}, "$test ps parsing");
+}
+
+foreach my $test (keys %other_ps_tests) {
+    my $file = "resources/generic/ps/$test";
+    my @processes = FusionInventory::Agent::Tools::Unix::_getProcessesOther(file => $file);
+    cmp_deeply(\@processes, $other_ps_tests{$test}, "$test ps parsing");
 }
 
 foreach my $test (@dhcp_leases_test) {

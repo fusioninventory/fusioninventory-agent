@@ -17,7 +17,7 @@ our @EXPORT = qw(
     getDirectoryHandle
     getFileHandle
     getFormatedLocalTime
-    getFormatedGmTime
+    getFormatedGMTTime
     getFormatedDate
     getCanonicalManufacturer
     getCanonicalSpeed
@@ -67,7 +67,7 @@ sub getFormatedLocalTime {
     );
 }
 
-sub getFormatedGmTime {
+sub getFormatedGMTTime {
     my ($time) = @_;
 
     my ($year, $month , $day, $hour, $min, $sec) =
@@ -502,7 +502,7 @@ This module provides some OS-independant generic functions.
 
 Returns a formated date from given Unix timestamp.
 
-=head2 getFormatedGmTime($time)
+=head2 getFormatedGMTTime($time)
 
 Returns a formated date from given Unix timestamp.
 

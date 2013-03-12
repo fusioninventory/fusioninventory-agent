@@ -6,6 +6,7 @@ use base 'Exporter';
 
 use English qw(-no_match_vars);
 use File::stat;
+use File::Which;
 use Memoize;
 use Time::Local;
 
@@ -17,11 +18,11 @@ our @EXPORT = qw(
     getIpDhcp
     getFilesystemsFromDf
     getFilesystemsTypesFromMount
-    getProcessesFromPs
+    getProcesses
     getRoutingTable
 );
 
-memoize('getProcessesFromPs');
+memoize('getProcesses');
 
 sub getDeviceCapacity {
     my (%params) = @_;
@@ -228,39 +229,69 @@ sub getFilesystemsTypesFromMount {
         @types;
 }
 
-sub getProcessesFromPs {
-    my $handle = getFileHandle(@_);
+sub getProcesses {
+    my $ps = which('ps');
+    return -l $ps && readlink($ps) eq 'busybox' ? _getProcessesBusybox(@_) :
+                                                  _getProcessesOther(@_)   ;
+}
+
+sub _getProcessesBusybox {
+    my (%params) = (
+        command => 'ps',
+        @_
+    );
+
+    my $handle = getFileHandle(%params);
 
     # skip headers
     my $line = <$handle>;
 
-    my %month = (
-        Jan => '01',
-        Feb => '02',
-        Mar => '03',
-        Apr => '04',
-        May => '05',
-        Jun => '06',
-        Jul => '07',
-        Aug => '08',
-        Sep => '09',
-        Oct => '10',
-        Nov => '11',
-        Dec => '12',
+    my @processes;
+
+    while ($line = <$handle>) {
+        next unless $line =~
+            /^
+            \s* (\S+)
+            \s+ (\S+)
+            \s+ (\S+)
+            \s+ ...
+            \s+ (\S.+)
+            /x;
+        my $pid   = $1;
+        my $user  = $2;
+        my $vsz   = $3;
+        my $cmd   = $4;
+
+        push @processes, {
+            USER          => $user,
+            PID           => $pid,
+            VIRTUALMEMORY => $vsz,
+            CMD           => $cmd
+        };
+    }
+
+    close $handle;
+
+    return @processes;
+}
+
+sub _getProcessesOther {
+    my (%params) = (
+        command =>
+            'ps -A -o user,pid,pcpu,pmem,vsz,tty,stime,time,' .
+            ($OSNAME eq 'solaris' ? 'comm' : 'command'),
+        @_
     );
-    my %day = (
-        Mon => '01',
-        Tue => '02',
-        Wed => '03',
-        Thu => '04',
-        Fry => '05',
-        Sat => '06',
-        Sun => '07',
-    );
-    my ($sec, $min, $hour, $day, $month, $year, $wday, $yday, $isdst) =
-        localtime(time);
+
+    my $handle = getFileHandle(%params);
+
+    # skip headers
+    my $line = <$handle>;
+
+    my (undef, undef, undef, $day, $month, $year) = localtime(time());
     $year = $year + 1900;
     $month = $month + 1;
+
     my @processes;
 
     while ($line = <$handle>) {
@@ -273,50 +304,18 @@ sub getProcessesFromPs {
             (\S+) \s+
             (\S+) \s+
             (\S+) \s+
-            (\S+) \s+
-            (\S+) \s+
-            (\S+) \s+
+             \S+ \s+
             (.*\S)
             /x;
-        my $user = $1;
-        my $pid = $2;
-        my $cpu = $3;
-        my $mem = $4;
-        my $vsz = $5;
-        my $tty = $7;
-        my $started = $9;
-        my $time = $10;
-        my $cmd = $11;
+        my $user  = $1;
+        my $pid   = $2;
+        my $cpu   = $3;
+        my $mem   = $4;
+        my $vsz   = $5;
+        my $tty   = $6;
+        my $start = $7;
+        my $cmd   = $8;
 
-        my $emailPattern = join ('|', keys %month);
-
-        # try to get a consistant time format
-        my $begin;
-        if ($started =~ /^(\d{1,2}):(\d{2})/) {
-            # 10:00PM
-            $begin = sprintf("%04d-%02d-%02d %s", $year, $month, $day, $started);
-        } elsif ($started =~ /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)(\d{2})[AP]M/) {
-            # Sat03PM
-            my $start_day = $2;
-            $begin = sprintf("%04d-%02d-%02d %s", $year, $month, $start_day, $time);
-        } elsif ($started =~ /^($emailPattern)(\d{2})/) {
-            # Apr03
-            my $start_month = $1;
-            my $start_day = $2;
-            $begin = sprintf("%04d-%02d-%02d %s", $year, $month{$start_month}, $start_day, $time);
-        } elsif ($started =~ /^(\d{1,2})($emailPattern)\d{1,2}/) {
-            # 5Oct10
-            my $start_day = $1;
-            my $start_month = $2;
-            $begin = sprintf("%04d-%02d-%02d %s", $year, $month{$start_month}, $start_day, $time);
-        } elsif (-f "/proc/$pid") {
-            # this will work only on OS with /proc/$pid like Linux and FreeBSD
-            my $stat = stat("/proc/$pid");
-            my ($sec, $min, $hour, $day, $month, $year, $wday, $yday, $isdst)
-                = localtime($stat->ctime());
-            $year = $year + 1900;
-            $begin = sprintf("%04d-%02d-%02d %s:%s", $year, $month + 1, $day, $hour, $min);
-        }
         push @processes, {
             USER          => $user,
             PID           => $pid,
@@ -324,7 +323,7 @@ sub getProcessesFromPs {
             MEM           => $mem,
             VIRTUALMEMORY => $vsz,
             TTY           => $tty,
-            STARTED       => $begin,
+            STARTED       => _getProcessStartTime($start, $day, $month, $year, $pid),
             CMD           => $cmd
         };
     }
@@ -332,6 +331,70 @@ sub getProcessesFromPs {
     close $handle;
 
     return @processes;
+}
+
+my %month = (
+    Jan => '01',
+    Feb => '02',
+    Mar => '03',
+    Apr => '04',
+    May => '05',
+    Jun => '06',
+    Jul => '07',
+    Aug => '08',
+    Sep => '09',
+    Oct => '10',
+    Nov => '11',
+    Dec => '12',
+);
+my %day = (
+    Mon => '01',
+    Tue => '02',
+    Wed => '03',
+    Thu => '04',
+    Fry => '05',
+    Sat => '06',
+    Sun => '07',
+);
+my $monthPattern = join ('|', keys %month);
+
+# consistant time format
+sub _getProcessStartTime {
+    my ($start, $day, $month, $year, $pid) = @_;
+
+    if ($start =~ /^(\d{1,2}):(\d{2})/) {
+        # 10:00PM
+        return sprintf("%04d-%02d-%02d %s", $year, $month, $day, $start);
+    }
+
+    if ($start =~ /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)(\d{2})[AP]M/) {
+        # Sat03PM
+        my $start_day = $2;
+        return sprintf("%04d-%02d-%02d", $year, $month, $start_day);
+    }
+
+    if ($start =~ /^($monthPattern)(\d{2})/) {
+        # Apr03
+        my $start_month = $month{$1};
+        my $start_day = $2;
+        return sprintf("%04d-%02d-%02d", $year, $start_month, $start_day);
+    }
+
+    if ($start =~ /^(\d{1,2})($monthPattern)\d{1,2}/) {
+        # 5Oct10
+        my $start_day = $1;
+        my $start_month = $month{$2};
+        return sprintf("%04d-%02d-%02d", $year, $start_month, $start_day);
+    }
+
+    if (-f "/proc/$pid") {
+        # this will work only on OS with /proc/$pid like Linux and FreeBSD
+        my $stat = stat("/proc/$pid");
+        my ($sec, $min, $hour, $day, $month, $year) = localtime($stat->ctime());
+        $year = $year + 1900;
+        $month = $month + 1;
+        return sprintf("%04d-%02d-%02d %s:%s", $year, $month, $day, $hour, $min);
+    }
 }
 
 sub getRoutingTable {

@@ -59,12 +59,6 @@ sub getUrl {
     return $self->{url};
 }
 
-sub getDescription {
-    my ($self) = @_;
-
-    return "server, $self->{url}";
-}
-
 1;
 
 __END__

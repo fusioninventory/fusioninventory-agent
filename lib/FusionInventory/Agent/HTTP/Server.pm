@@ -24,7 +24,6 @@ sub new {
         logger    => $params{logger} ||
                      FusionInventory::Agent::Logger->new(),
         agent     => $params{agent},
-        scheduler => $params{scheduler},
         htmldir   => $params{htmldir},
         ip        => $params{ip},
         port      => $params{port} || 62354,
@@ -167,13 +166,22 @@ sub _handle_root {
         return;
     }
 
+    my @server_targets =
+        map { { name => $_->getUrl(), date => $_->getFormatedNextRunDate() } }
+        grep { $_->isa('FusionInventory::Agent::Target::Server') }
+        $self->{agent}->getTargets();
+
+    my @local_targets =
+        map { { name => $_->getPath(), date => $_->getFormatedNextRunDate() } }
+        grep { $_->isa('FusionInventory::Agent::Target::Local') }
+        $self->{agent}->getTargets();
+
     my $hash = {
-        version => $FusionInventory::Agent::VERSION,
-        trust   => $self->_is_trusted($clientIp),
-        status  => $self->{agent}->getStatus(),
-        targets => [
-            map { $_->getStatus() } $self->{scheduler}->getTargets()
-        ]
+        version        => $FusionInventory::Agent::VERSION,
+        trust          => $self->_isTrusted($clientIp),
+        status         => $self->{agent}->getStatus(),
+        server_targets => \@server_targets,
+        local_targets  => \@local_targets
     };
 
     my $response = HTTP::Response->new(
@@ -197,7 +205,7 @@ sub _handle_deploy {
     Digest::SHA->require();
 
     my $path;
-    LOOP: foreach my $target ($self->{scheduler}->getTargets()) {
+    LOOP: foreach my $target ($self->{agent}->getTargets()) {
         foreach (glob($target->{storage}->getDirectory()."/deploy/fileparts/shared/*")) {
             next unless -f $_.'/'.$subFilePath;
 
@@ -219,26 +227,22 @@ sub _handle_deploy {
 }
 
 sub _handle_now {
-    my ($self, $client, $request, $clientIp, $token) = @_;
+    my ($self, $client, $request, $clientIp) = @_;
 
     my $logger = $self->{logger};
 
     my ($code, $message, $trace);
-    if (
-        $self->_is_trusted($clientIp) ||
-        $self->_is_authenticated($token)
-    ) {
-        foreach my $target ($self->{scheduler}->getTargets()) {
+    if ($self->_isTrusted($clientIp)) {
+        foreach my $target ($self->{agent}->getTargets()) {
             $target->setNextRunDate(1);
         }
-        $self->{agent}->resetToken();
         $code    = 200;
         $message = "OK";
         $trace   = "valid request, forcing execution right now";
     } else {
         $code    = 403;
         $message = "Access denied";
-        $trace   = "invalid request (bad token or bad address)";
+        $trace   = "invalid request (untrusted address)";
     }
 
     my $template = Text::Template->new(
@@ -273,7 +277,7 @@ sub _handle_status {
     $client->send_response($response);
 }
 
-sub _is_trusted {
+sub _isTrusted {
     my ($self, $clientIp) = @_;
 
     my $logger = $self->{logger};
@@ -301,14 +305,6 @@ sub _is_trusted {
     }
 
     return 0;
-}
-
-sub _is_authenticated {
-    my ($self, $token) = @_;
-
-    return 0 unless $token;
-
-    return $token eq $self->{agent}->getToken();
 }
 
 sub _listen {
@@ -389,9 +385,8 @@ requests are accepted:
 
 =back
 
-Authentication is based on a token created by the agent, and sent to the
-server at initial connection. Connection from addresses matching the trust
-parameter are trusted without token.
+Authentication is based on connection source address: trusted requests are
+accepted, other are rejected.
 
 =head1 METHODS
 
@@ -405,10 +400,6 @@ hash:
 =item I<logger>
 
 the logger object to use
-
-=item I<scheduler>
-
-the scheduler object to use
 
 =item I<agent>
 
@@ -429,7 +420,7 @@ the network port to listen to
 =item I<trust>
 
 an IP address or an IP address range from which to trust incoming requests
-without authentication token (default: none)
+(default: none)
 
 =back
 

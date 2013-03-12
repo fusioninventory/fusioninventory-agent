@@ -106,13 +106,11 @@ sub setMaxDelay {
     $self->_saveState();
 }
 
-sub getStatus {
+sub getFormatedNextRunDate {
     my ($self) = @_;
 
-    return
-        $self->getDescription() .
-        ': '                    .
-         ($self->{nextRunDate} > 1 ? localtime($self->{nextRunDate}) : "now" );
+    return $self->{nextRunDate} > 1 ?
+        scalar localtime($self->{nextRunDate}) : "now";
 }
 
 # compute a run date, as current date and a random delay
@@ -198,6 +196,10 @@ Ensure the target can be shared among threads
 
 Get nextRunDate attribute.
 
+=head2 getFormatedNextRunDate()
+
+Get nextRunDate attribute as a formated string.
+
 =head2 setNextRunDate($nextRunDate)
 
 Set next execution date.
@@ -218,10 +220,3 @@ Set maxDelay attribute.
 
 Return the storage object for this target.
 
-=head2 getDescription()
-
-Return a string description of the target.
-
-=head2 getStatus()
-
-Return a string status for the target.

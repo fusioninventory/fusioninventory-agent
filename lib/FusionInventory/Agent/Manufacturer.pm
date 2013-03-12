@@ -72,23 +72,27 @@ sub setConnectedDevicesUsingCDP {
             getElement($oid, -2) . "." .
             getElement($oid, -1);
 
+        my $connection = {
+            IP      => $ip,
+            IFDESCR => $results->{cdpCacheDevicePort}->{
+                $walks->{cdpCacheDevicePort}->{OID} . "." . $port_number
+            },
+            SYSDESCR => $results->{cdpCacheVersion}->{
+                $walks->{cdpCacheVersion}->{OID} . "." . $port_number
+            },
+            SYSNAME  => $results->{cdpCacheDeviceId}->{
+                $walks->{cdpCacheDeviceId}->{OID} . "." . $port_number
+            },
+            MODEL => $results->{cdpCachePlatform}->{
+                $walks->{cdpCachePlatform}->{OID} . "." . $port_number
+            }
+        };
+
+        next if !$connection->{SYSDESCR} || !$connection->{MODEL};
+
         $ports->{getNextToLastElement($oid)}->{CONNECTIONS} = {
             CDP        => 1,
-            CONNECTION => {
-                IP      => $ip,
-                IFDESCR => $results->{cdpCacheDevicePort}->{
-                    $walks->{cdpCacheDevicePort}->{OID} . "." . $port_number
-                },
-                SYSDESCR => $results->{cdpCacheVersion}->{
-                    $walks->{cdpCacheVersion}->{OID} . "." . $port_number
-                },
-                SYSNAME  => $results->{cdpCacheDeviceId}->{
-                    $walks->{cdpCacheDeviceId}->{OID} . "." . $port_number
-                },
-                MODEL => $results->{cdpCachePlatform}->{
-                    $walks->{cdpCachePlatform}->{OID} . "." . $port_number
-                }
-            }
+            CONNECTION => $connection
         };
     }
 }
@@ -117,9 +121,9 @@ sub setConnectedDevicesUsingLLDP {
                 SYSDESCR => $results->{lldpRemSysDesc}->{
                     $walks->{lldpRemSysDesc}->{OID} . "." . $port_number
                 },
-                SYSNAME  => $results->{lldpRemSysName}->{
+                SYSNAME  => alt2canonical($results->{lldpRemSysName}->{
                     $walks->{lldpRemSysName}->{OID} . "." . $port_number
-                },
+                }),
                 IFNUMBER => $results->{lldpRemPortId}->{
                     $walks->{lldpRemPortId}->{OID} . "." . $port_number
                 }

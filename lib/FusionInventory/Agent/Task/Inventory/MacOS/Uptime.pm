@@ -35,7 +35,7 @@ sub _getUptime {
     return unless $boottime;
 
     my $uptime = time() - $boottime;
-    return getFormatedGmTime($uptime);
+    return getFormatedGMTTime($uptime);
 }
 
 1;
