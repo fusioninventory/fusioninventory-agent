@@ -47,6 +47,7 @@ sub getDmidecodeInfos {
     }
 
     my $handle = getFileHandle(%params);
+    return unless $handle;
     my ($info, $block, $type);
 
     while (my $line = <$handle>) {
