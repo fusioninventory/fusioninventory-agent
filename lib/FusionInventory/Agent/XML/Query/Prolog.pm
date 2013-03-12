@@ -11,6 +11,7 @@ sub new {
 
     return $class->SUPER::new(
         query => 'PROLOG',
+        token => '12345678',
         %params
     );
 

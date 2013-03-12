@@ -34,6 +34,7 @@ cmp_deeply(
     {
         REQUEST => {
             DEVICEID => 'foo',
+            TOKEN    => '12345678',
             QUERY    => 'PROLOG',
         }
     },
