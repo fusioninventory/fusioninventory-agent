@@ -8,7 +8,6 @@ use English qw(-no_match_vars);
 use UNIVERSAL::require;
 use File::Glob;
 use IO::Handle;
-use IO::Select;
 
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::HTTP::Client::OCS;
@@ -166,12 +165,13 @@ sub init {
 
             $self->{server} = FusionInventory::Agent::HTTP::Server->new(
                 logger          => $logger,
+                agent           => $self,
                 htmldir         => $self->{datadir} . '/html',
                 ip              => $config->{'httpd-ip'},
                 port            => $config->{'httpd-port'},
                 trust           => $trust
             );
-            $self->{server}->run();
+            $self->{server}->init();
         }
     }
 
@@ -184,12 +184,6 @@ sub run {
     $self->{status} = 'waiting';
 
     if ($self->{config}->{daemon} || $self->{config}->{service}) {
-
-        my $select;
-        if ($self->{server}) {
-            $select = IO::Select->new();
-            $select->add($self->{server}->{reader});
-        }
 
         # background mode:
         while (1) {
@@ -209,7 +203,7 @@ sub run {
             }
 
             # check for http interface messages
-            $self->_handleRequest() if $select && $select->can_read();
+            $self->{server}->handleRequests() if $self->{server};
         }
     } else {
         # foreground mode: check each targets once
@@ -463,34 +457,6 @@ sub _computeDeviceId {
 
     return sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
         $hostname, $year + 1900, $month + 1, $day, $hour, $min, $sec;
-}
-
-sub _handleRequest {
-    my ($self) = @_;
-
-    my $reader = $self->{server}->{reader};
-    my $request = <$reader>;
-    chomp $request;
-
-    $self->{logger}->debug("handling request $request");
-
-    my $writer = $self->{server}->{writer};
-    SWITCH: {
-        if ($request eq 'STATUS') {
-            $self->{logger}->debug("writing '$self->{status}'");
-            print {$writer} $self->{status} . "\n";
-            last;
-        }
-
-        if ($request eq 'TARGETS') {
-            my $targets =
-                join(',', map { $_->serialize() } @{$self->{targets}});
-
-            $self->{logger}->debug("writing '$targets'");
-            print {$writer} $targets . "\n";
-            last;
-        }
-    };
 }
 
 1;

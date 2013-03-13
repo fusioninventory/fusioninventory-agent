@@ -22,6 +22,7 @@ sub new {
     my $self = {
         logger    => $params{logger} ||
                      FusionInventory::Agent::Logger->new(),
+        agent     => $params{agent},
         htmldir   => $params{htmldir},
         ip        => $params{ip},
         port      => $params{port} || 62354,
@@ -159,15 +160,22 @@ sub _handle_root {
         return;
     }
 
-    my $status  = $self->_getAgentStatus();
-    my @targets = $self->_getAgentTargets();
+    my @server_targets =
+        map { { name => $_->getUrl(), date => $_->getFormatedNextRunDate() } }
+        grep { $_->isa('FusionInventory::Agent::Target::Server') }
+        $self->{agent}->getTargets();
+
+    my @local_targets =
+        map { { name => $_->getPath(), date => $_->getFormatedNextRunDate() } }
+        grep { $_->isa('FusionInventory::Agent::Target::Local') }
+        $self->{agent}->getTargets();
 
     my $hash = {
-        version => $FusionInventory::Agent::VERSION,
-        trust   => $self->_isTrusted($clientIp),
-        status  => $status,
-        server_targets => [ grep { $_->{type} eq 'server' } @targets ],
-        local_targets  => [ grep { $_->{type} eq 'local' } @targets ]
+        version        => $FusionInventory::Agent::VERSION,
+        trust          => $self->_isTrusted($clientIp),
+        status         => $self->{agent}->getStatus(),
+        server_targets => \@server_targets,
+        local_targets  => \@local_targets
     };
 
     my $response = HTTP::Response->new(
@@ -191,8 +199,8 @@ sub _handle_deploy {
     Digest::SHA->require();
 
     my $path;
-    LOOP: foreach my $target ($self->_getAgentTargets()) {
-        foreach (glob($target->{directory} . "/deploy/fileparts/shared/*")) {
+    LOOP: foreach my $target ($self->{agent}->getTargets()) {
+        foreach (glob($target->{storage}->getDirectory() . "/deploy/fileparts/shared/*")) {
             next unless -f $_.'/'.$subFilePath;
 
             my $sha = Digest::SHA->new('512');
@@ -219,7 +227,9 @@ sub _handle_now {
 
     my ($code, $message, $trace);
     if ($self->_isTrusted($clientIp)) {
-        $self->_forceAgentExecution();
+        foreach my $target ($self->{agent}->getTargets()) {
+            $target->setNextRunDate(1);
+        }
         $code    = 200;
         $message = "OK";
         $trace   = "valid request, forcing execution right now";
@@ -291,44 +301,19 @@ sub _isTrusted {
     return 0;
 }
 
-sub run {
+sub init {
     my ($self) = @_;
 
-    # prepare a couple of socket pairs
-    my ($parent_reader, $parent_writer, $child_reader, $child_writer);
-    pipe($parent_reader, $child_writer);
-    pipe($child_reader, $parent_writer);
-    $child_writer->autoflush(1);
-    $parent_writer->autoflush(1);
-
-    if (my $pid = fork()) {
-        # parent
-        close $parent_reader;
-        close $parent_writer;
-        $self->{reader} = $child_reader;
-        $self->{writer} = $child_writer;
-        $self->{child_pid} = $pid;
-        return;
-     } else {
-        # child
-        die "fork failed: $ERRNO" unless defined $pid;
-        close $child_reader;
-        close $child_writer;
-        $self->{reader} = $parent_reader;
-        $self->{writer} = $parent_writer;
-    }
-
     my $logger = $self->{logger};
-    $self->{logger}->debug($log_prefix . "running in process $PID");
 
-    my $daemon = HTTP::Daemon->new(
+    $self->{listener} = HTTP::Daemon->new(
         LocalAddr => $self->{ip},
         LocalPort => $self->{port},
         Reuse     => 1,
         Timeout   => 5
     );
 
-    if (!$daemon) {
+    if (!$self->{listener}) {
         $logger->error($log_prefix . "failed to start the HTTPD service");
         return;
     }
@@ -338,63 +323,18 @@ sub run {
         "http://localhost:$self->{port}" ;
 
     $logger->info($log_prefix . "HTTPD service started at $url");
-
-    while (1) {
-        my ($client, $socket) = $daemon->accept();
-        next unless $socket;
-        my (undef, $iaddr) = sockaddr_in($socket);
-        my $clientIp = inet_ntoa($iaddr);
-        my $request = $client->get_request();
-        $self->_handle($client, $request, $clientIp);
-    }
 }
 
-sub _getAgentStatus {
+sub handleRequests {
     my ($self) = @_;
 
-    $self->{logger}->debug($log_prefix . "requesting status");
-    print {$self->{writer}} 'STATUS' . "\n";
+    my ($client, $socket) = $self->{listener}->accept();
+    return unless $socket;
 
-    my $reader = $self->{reader};
-    my $line = <$reader>;
-    chomp $line;
-
-    $self->{logger}->debug($log_prefix . "reading '$line'");
-
-    return $line;
-}
-
-sub _getAgentTargets {
-    my ($self) = @_;
-
-    $self->{logger}->debug($log_prefix ."requesting targets list");
-    print {$self->{writer}} 'TARGETS' . "\n";
-
-    my $reader = $self->{reader};
-    my $line = <$reader>;
-    chomp $line;
-
-    $self->{logger}->debug($log_prefix . "reading '$line'");
-
-    my @targets;
-    foreach my $target (split(',', $line)) {
-        next unless $target =~ /^\{
-            id     \s => \s '([^']+)' \s
-            type   \s => \s '([^']+)' \s
-            name   \s => \s '([^']+)' \s
-            status \s => \s '([^']+)'
-        \}$/x;
-        push @targets, { id => $1, type => $2, name => $3, status => $4 };
-    }
-
-    return @targets;
-}
-
-sub _forceAgentExecution {
-    my ($self) = @_;
-
-    $self->{logger}->debug($log_prefix ."requesting agent execution");
-    print {$self->{writer}} 'RUN';
+    my (undef, $iaddr) = sockaddr_in($socket);
+    my $clientIp = inet_ntoa($iaddr);
+    my $request = $client->get_request();
+    $self->_handle($client, $request, $clientIp);
 }
 
 1;

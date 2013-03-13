@@ -80,6 +80,13 @@ sub getNextRunDate {
     return $self->{nextRunDate};
 }
 
+sub getFormatedNextRunDate {
+    my ($self) = @_;
+
+    return $self->{nextRunDate} > 1 ?
+        scalar localtime($self->{nextRunDate}) : "now";
+}
+
 sub getMaxDelay {
     my ($self) = @_;
 
@@ -93,23 +100,6 @@ sub setMaxDelay {
     $self->_saveState();
 }
 
-sub serialize {
-    my ($self) = @_;
-
-    return sprintf
-        "{id => '%s' type => '%s' name => '%s' status => '%s'}",
-        $self->{id},
-        $self->_getType(),
-        $self->_getName(),
-        $self->getStatus();
-}
-
-sub getStatus {
-    my ($self) = @_;
-
-    return $self->{nextRunDate} > 1 ?
-        scalar localtime($self->{nextRunDate}) : "now";
-}
 
 # compute a run date, as current date and a random delay
 # between maxDelay / 2 and maxDelay
