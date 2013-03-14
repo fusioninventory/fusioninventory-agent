@@ -27,6 +27,7 @@ sub doInventory {
                 Name Manufacturer Caption Description DeviceID HardwareVersion
             /] 
         )) {
+            next unless $object->{DeviceID};
 
             my ($pciid, $pcisubsystemid) = _getPciIDFromDeviceID(
                 $object->{DeviceID}
