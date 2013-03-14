@@ -49,7 +49,7 @@ sub _getRegistryData {
             logger => $params{logger}
         );
 
-        return unless ref($value) eq "HASH";
+        next unless ref($value) eq "HASH";
 
         if (keys %$value >  1) { # compat with OCS odd data structur
             foreach ( keys %$value ) {
