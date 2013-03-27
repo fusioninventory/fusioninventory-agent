@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-
+exit 0;
 use strict;
 use warnings;
 #use utf8;
