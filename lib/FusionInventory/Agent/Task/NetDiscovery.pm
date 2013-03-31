@@ -250,29 +250,27 @@ sub _getDictionary {
     }
 
     if ($options->{DICOHASH}) {
-        if ($hash && $hash eq $options->{DICOHASH}) {
+        if ($dictionary && $hash && $hash eq $options->{DICOHASH}) {
             $self->{logger}->debug("Dictionary is up to date.");
-        } else {
-            # Send dictionary update request
-            $self->_sendMessage({
-                AGENT => {
-                    END => '1'
-                },
-                MODULEVERSION => $VERSION,
-                PROCESSNUMBER => $pid,
-                DICO          => "REQUEST",
-            });
-            $self->{logger}->debug($hash ?
-                "Dictionary is outdated, update request sent, exiting" :
-                "No dictionary, update request sent, exiting"
-            );
-            return;
+	    return $dictionary;
         }
     }
 
-    $self->{logger}->debug("Dictionary loaded.");
 
-    return $dictionary;
+    # Send dictionary update request
+    $self->_sendMessage({
+        AGENT => {
+            END => '1'
+        },
+        MODULEVERSION => $VERSION,
+        PROCESSNUMBER => $pid,
+        DICO          => "REQUEST",
+    });
+    $self->{logger}->debug($hash ?
+        "Dictionary is outdated, update request sent, exiting" :
+        "No dictionary, update request sent, exiting"
+    );
+    return;
 }
 
 sub _getCredentials {

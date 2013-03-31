@@ -37,12 +37,6 @@ sub doInventory {
             path   => 'HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Services/lanmanserver/Parameters/srvcomment',
             logger => $logger
         ));
-        my $installDate = getFormatedLocalTime(hex2dec(
-            encodeFromRegistry(getRegistryValue(
-                path   => 'HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion/InstallDate',
-                logger => $logger
-            ))
-        ));
 
         $object->{TotalSwapSpaceSize} = int($object->{TotalSwapSpaceSize} / (1024 * 1024))
             if $object->{TotalSwapSpaceSize};
@@ -71,7 +65,7 @@ sub doInventory {
 
         $inventory->setOperatingSystem({
             NAME           => "Windows",
-            INSTALL_DATE   => $installDate,
+            INSTALL_DATE   => _getInstallDate(),
     #        VERSION       => $OSVersion,
             KERNEL_VERSION => $object->{Version},
             FULL_NAME      => $object->{Caption},

@@ -11,7 +11,7 @@ sub new {
 
     my $tpp = XML::TreePP->new(
         force_array   => [ qw/
-            OPTION PARAM MODEL AUTHENTICATION RANGEIP DEVICE
+            OPTION PARAM MODEL AUTHENTICATION RANGEIP DEVICE GET WALK
             / ],
         attr_prefix   => '',
         text_node_key => 'content'
