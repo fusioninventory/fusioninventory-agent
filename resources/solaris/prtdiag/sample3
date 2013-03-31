@@ -1,0 +1,52 @@
+System Configuration: Sun Microsystems     Sun Fire X4540
+BIOS Configuration: American Megatrends Inc. 0ABNF032 05/19/2009
+BMC Configuration: IPMI 2.0 (KCS: Keyboard Controller Style)
+
+==== Processor Sockets ====================================
+
+Version                          Location Tag
+-------------------------------- --------------------------
+Six-Core AMD Opteron(tm) Processor 2435 CPU 1
+Six-Core AMD Opteron(tm) Processor 2435 CPU 2
+
+==== Memory Device Sockets ================================
+
+Type    Status Set Device Locator      Bank Locator
+------- ------ --- ------------------- --------------------
+DDR2    in use 0   DIMM0               BANK0
+DDR2    in use 0   DIMM1               BANK1
+DDR2    in use 0   DIMM2               BANK2
+DDR2    in use 0   DIMM3               BANK3
+DDR2    in use 0   DIMM4               BANK4
+DDR2    in use 0   DIMM5               BANK5
+DDR2    in use 0   DIMM6               BANK6
+DDR2    in use 0   DIMM7               BANK7
+DDR2    in use 0   DIMM8               BANK8
+DDR2    in use 0   DIMM9               BANK9
+DDR2    in use 0   DIMM10              BANK10
+DDR2    in use 0   DIMM11              BANK11
+DDR2    in use 0   DIMM12              BANK12
+DDR2    in use 0   DIMM13              BANK13
+DDR2    in use 0   DIMM14              BANK14
+DDR2    in use 0   DIMM15              BANK15
+
+==== On-Board Devices =====================================
+ Gigabit Ethernet #0
+ Gigabit Ethernet #1
+ Gigabit Ethernet #2
+ Gigabit Ethernet #3
+ AST2000 VGA
+ LSI SCSI 1068-e #0
+ LSI SCSI 1068-e #1
+ LSI SCSI 1068-e #2
+ LSI SCSI 1068-e #3
+ LSI SCSI 1068-e #4
+ LSI SCSI 1068-e #5
+
+==== Upgradeable Slots ====================================
+
+ID  Status    Type             Description
+--- --------- ---------------- ----------------------------
+1   available PCI Express      PCIExp SLOT0
+2   available PCI Express      PCIExp SLOT1
+3   available PCI Express      PCIExp SLOT2

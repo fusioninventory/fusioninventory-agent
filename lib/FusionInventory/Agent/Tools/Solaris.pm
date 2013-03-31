@@ -4,15 +4,6 @@ use strict;
 use warnings;
 use base 'Exporter';
 
-use constant SOLARIS_UNKNOWN      => 0;
-use constant SOLARIS_FIRE         => 1;
-use constant SOLARIS_FIRE_V       => 2;
-use constant SOLARIS_FIRE_T       => 3;
-use constant SOLARIS_ENTERPRISE_T => 4;
-use constant SOLARIS_ENTERPRISE   => 5;
-use constant SOLARIS_I86PC        => 6;
-use constant SOLARIS_CONTAINER    => 7;
-
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
@@ -20,72 +11,18 @@ use Memoize;
 
 our @EXPORT = qw(
     getZone
-    getModel
-    getClass
     getPrtconfInfos
-    SOLARIS_UNKNOWN
-    SOLARIS_FIRE
-    SOLARIS_FIRE_V
-    SOLARIS_FIRE_T
-    SOLARIS_ENTERPRISE_T
-    SOLARIS_ENTERPRISE
-    SOLARIS_I86PC
-    SOLARIS_CONTAINER
+    getPrtdiagInfos
 );
 
 memoize('getZone');
-memoize('getModel');
-memoize('getClass');
+memoize('getPrtconfInfos');
+memoize('getPrtdiagInfos');
 
 sub getZone {
     return canRun('zonename') ?
         getFirstLine(command => 'zonename') : # actual zone name
         'global';                             # outside zone name
-}
-
-sub getModel {
-    return getZone() eq 'global' ?
-        getFirstLine(command => 'uname -i') :
-        'Solaris Containers';
-}
-
-sub getClass {
-    my $model = getModel();
-
-    if ($model =~ /SUNW,Sun-Fire-\d/ || $model =~ /SUNW,Sun-Fire-V490/) {
-        return SOLARIS_FIRE;
-    }
-
-    if (
-        $model =~ /SUNW,Sun-Fire-V/ or
-        $model =~ /SUNW,Netra-T/    or
-        $model =~ /SUNW,Ultra-250/
-    ) {
-        return SOLARIS_FIRE_V;
-    }
-
-    if (
-        $model =~ /SUNW,Sun-Fire-T\d/ or
-        $model =~ /SUNW,T\d/
-    ) {
-        return SOLARIS_FIRE_T;
-    }
-
-    if ($model =~ /SUNW,SPARC-Enterprise-T\d/) {
-        return SOLARIS_ENTERPRISE_T;
-    }
-    if ($model =~ /SUNW,SPARC-Enterprise/) {
-        return SOLARIS_ENTERPRISE;
-    }
-    if ($model eq "i86pc") {
-        return SOLARIS_I86PC;
-    }
-    if ($model =~ /Solaris Containers/) {
-        return SOLARIS_CONTAINER;
-    }
-
-    # unknown class
-    return SOLARIS_UNKNOWN;
 }
 
 sub getPrtconfInfos {
@@ -163,6 +100,165 @@ sub getPrtconfInfos {
     close $handle;
 
     return $info;
+}
+
+sub getPrtdiagInfos {
+    my (%params) = (
+        command => 'prtdiag',
+        @_
+    );
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my $info = {};
+
+    while (my $line = <$handle>) {
+        next unless $line =~ /^=+ \s ([\w\s]+) \s =+$/x;
+        my $section = $1;
+        $info->{memories} = _parseMemorySection($section, $handle)
+            if $section =~ /Memory/;
+        $info->{slots}  = _parseSlotsSection($section, $handle)
+            if $section =~ /IO/;
+    }
+    close $handle;
+
+    return $info;
+}
+
+sub _parseMemorySection {
+    my ($section, $handle) = @_;
+
+    my ($offset, $callback);
+
+    SWITCH: {
+        if ($section eq 'Physical Memory Configuration') {
+            my $i = 0;
+            $offset = 5;
+            $callback = sub {
+                my ($line) = @_;
+                return unless $line =~ qr/
+                    (\d+ \s [MG]B) \s+
+                    \S+
+                $/x;
+                return {
+                    NUMSLOTS => $i++,
+                    CAPACITY => getCanonicalSize($1)
+                };
+            };
+            last SWITCH;
+        }
+
+        if ($section eq 'Memory Configuration') {
+            my $i = 0;
+            $offset = 5;
+            $callback = sub {
+                my ($line) = @_;
+                return unless $line =~ qr/
+                    (\d+ [MG]B) \s+
+                    \S+         \s+
+                    (\d+ [MG]B) \s+
+                    \S+         \s+
+                    \d
+                $/x;
+                return {
+                    NUMSLOTS => $i++,
+                    CAPACITY => getCanonicalSize($1)
+                };
+            };
+            last SWITCH;
+        }
+
+        if ($section eq 'Memory Device Sockets') {
+            my $i = 0;
+            $offset = 3;
+            $callback = sub {
+                my ($line) = @_;
+                return unless $line =~ qr/^
+                    (\w+)           \s+
+                    in \s use       \s+
+                    \d              \s+
+                    \w+ (?:\s \w+)*
+                /x;
+                return {
+                    NUMSLOTS => $i++,
+                    TYPE     => $1
+                };
+            };
+            last SWITCH;
+        }
+
+        return;
+    }
+
+    return _parseAnySection($handle, $offset, $callback);
+}
+
+sub _parseSlotsSection {
+    my ($section, $handle) = @_;
+
+    my ($offset, $callback);
+
+    SWITCH: {
+        if ($section eq 'IO Devices') {
+            $offset  = 3;
+            $callback = sub {
+                my ($line) = @_;
+                return unless $line =~ /^
+                    (\S+) \s+
+                    PCI[EX] \s+
+                    (\S+)
+                    (?:\s+ (\S+))?
+                /x;
+                return {
+                    NAME        => $1,
+                    DESIGNATION => $2,
+                    DESCRIPTION => $3
+                };
+            };
+            last SWITCH;
+        }
+
+        if ($section eq 'IO Cards') {
+            $offset  = 7;
+            $callback = sub {
+                my ($line) = @_;
+                return unless $line =~ /
+                    (\S+) \s+
+                    (\S+) \s*
+                $/x;
+                return {
+                    DESIGNATION => $1,
+                    DESCRIPTION => $2
+                };
+            };
+            last SWITCH;
+        }
+
+        return;
+    };
+
+    return _parseAnySection($handle, $offset, $callback);
+}
+
+sub _parseAnySection {
+    my ($handle, $offset, $callback) = @_;
+
+    # skip headers
+    foreach my $i (1 .. $offset) {
+        <$handle>;
+    }
+
+    # parse content
+    my @items;
+    while (my $line = <$handle>) {
+        last if $line =~ /^$/;
+        chomp $line;
+        my $item = $callback->($line);
+        push @items, $item if $item;
+    }
+
+    return \@items;
 }
 
 1;

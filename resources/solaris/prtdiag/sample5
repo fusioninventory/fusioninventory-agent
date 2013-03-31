@@ -1,0 +1,94 @@
+System Configuration: VMware, Inc. VMware Virtual Platform
+BIOS Configuration: Phoenix Technologies LTD 6.00 06/22/2012
+
+==== Processor Sockets ====================================
+
+Version                          Location Tag
+-------------------------------- --------------------------
+                                 CPU socket #0
+                                 CPU socket #1
+
+==== Memory Device Sockets ================================
+
+Type    Status Set Device Locator      Bank Locator
+------- ------ --- ------------------- --------------------
+DRAM    in use 0   RAM slot #0         RAM slot #0
+DRAM    in use 0   RAM slot #1         RAM slot #1
+DRAM    empty  0   RAM slot #2         RAM slot #2
+DRAM    empty  0   RAM slot #3         RAM slot #3
+DRAM    empty  0   RAM slot #4         RAM slot #4
+DRAM    empty  0   RAM slot #5         RAM slot #5
+DRAM    empty  0   RAM slot #6         RAM slot #6
+DRAM    empty  0   RAM slot #7         RAM slot #7
+DRAM    empty  0   RAM slot #8         RAM slot #8
+DRAM    empty  0   RAM slot #9         RAM slot #9
+DRAM    empty  0   RAM slot #10        RAM slot #10
+DRAM    empty  0   RAM slot #11        RAM slot #11
+DRAM    empty  0   RAM slot #12        RAM slot #12
+DRAM    empty  0   RAM slot #13        RAM slot #13
+DRAM    empty  0   RAM slot #14        RAM slot #14
+DRAM    empty  0   RAM slot #15        RAM slot #15
+DRAM    empty  0   RAM slot #16        RAM slot #16
+DRAM    empty  0   RAM slot #17        RAM slot #17
+DRAM    empty  0   RAM slot #18        RAM slot #18
+DRAM    empty  0   RAM slot #19        RAM slot #19
+DRAM    empty  0   RAM slot #20        RAM slot #20
+DRAM    empty  0   RAM slot #21        RAM slot #21
+DRAM    empty  0   RAM slot #22        RAM slot #22
+DRAM    empty  0   RAM slot #23        RAM slot #23
+DRAM    empty  0   RAM slot #24        RAM slot #24
+DRAM    empty  0   RAM slot #25        RAM slot #25
+DRAM    empty  0   RAM slot #26        RAM slot #26
+DRAM    empty  0   RAM slot #27        RAM slot #27
+DRAM    empty  0   RAM slot #28        RAM slot #28
+DRAM    empty  0   RAM slot #29        RAM slot #29
+DRAM    empty  0   RAM slot #30        RAM slot #30
+DRAM    empty  0   RAM slot #31        RAM slot #31
+DRAM    empty  0   RAM slot #32        RAM slot #32
+DRAM    empty  0   RAM slot #33        RAM slot #33
+DRAM    empty  0   RAM slot #34        RAM slot #34
+DRAM    empty  0   RAM slot #35        RAM slot #35
+DRAM    empty  0   RAM slot #36        RAM slot #36
+DRAM    empty  0   RAM slot #37        RAM slot #37
+DRAM    empty  0   RAM slot #38        RAM slot #38
+DRAM    empty  0   RAM slot #39        RAM slot #39
+DRAM    empty  0   RAM slot #40        RAM slot #40
+DRAM    empty  0   RAM slot #41        RAM slot #41
+DRAM    empty  0   RAM slot #42        RAM slot #42
+DRAM    empty  0   RAM slot #43        RAM slot #43
+DRAM    empty  0   RAM slot #44        RAM slot #44
+DRAM    empty  0   RAM slot #45        RAM slot #45
+DRAM    empty  0   RAM slot #46        RAM slot #46
+DRAM    empty  0   RAM slot #47        RAM slot #47
+DRAM    empty  0   RAM slot #48        RAM slot #48
+DRAM    empty  0   RAM slot #49        RAM slot #49
+DRAM    empty  0   RAM slot #50        RAM slot #50
+DRAM    empty  0   RAM slot #51        RAM slot #51
+DRAM    empty  0   RAM slot #52        RAM slot #52
+DRAM    empty  0   RAM slot #53        RAM slot #53
+DRAM    empty  0   RAM slot #54        RAM slot #54
+DRAM    empty  0   RAM slot #55        RAM slot #55
+DRAM    empty  0   RAM slot #56        RAM slot #56
+DRAM    empty  0   RAM slot #57        RAM slot #57
+DRAM    empty  0   RAM slot #58        RAM slot #58
+DRAM    empty  0   RAM slot #59        RAM slot #59
+DRAM    empty  0   RAM slot #60        RAM slot #60
+DRAM    empty  0   RAM slot #61        RAM slot #61
+DRAM    empty  0   RAM slot #62        RAM slot #62
+DRAM    empty  0   RAM slot #63        RAM slot #63
+
+==== On-Board Devices =====================================
+VMware SVGA II
+ES1371
+
+==== Upgradeable Slots ====================================
+
+ID  Status    Type             Description
+--- --------- ---------------- ----------------------------
+0   unknown   ISA              ISA Slot J8
+0   unknown   ISA              ISA Slot J9
+0   unknown   ISA              ISA Slot J10
+1   in use    PCI              PCI Slot J11
+2   in use    PCI              PCI Slot J12
+3   in use    PCI              PCI Slot J13
+4   available PCI              PCI Slot J14

@@ -8,7 +8,7 @@ use Test::More;
 
 use FusionInventory::Agent::Task::Inventory::Solaris::Slots;
 
-my %slots4_tests = (
+my %tests = (
     'sample1' => [
         {
             NAME        => 'MB/NET0',
@@ -56,12 +56,34 @@ my %slots4_tests = (
             DESCRIPTION => undef
         }
     ],
+    'sample2' => [
+        {
+            DESIGNATION => 'scsi-pci1000,30.1000.10c0.8/disk+',
+            DESCRIPTION => 'LSI,1030'
+        },
+        {
+            DESIGNATION => 'scsi-pci1000,30.1000.10c0.8/disk+',
+            DESCRIPTION => 'LSI,1030'
+        },
+        {
+            DESIGNATION => 'scsi-pci1000,30.1000.10c0.8/disk+',
+            DESCRIPTION => 'LSI,1030'
+        },
+        {
+            DESIGNATION => 'scsi-pci1000,30.1000.10c0.8/disk+',
+            DESCRIPTION => 'LSI,1030'
+        },
+        {
+            DESIGNATION => 'SUNW,XVR-100',
+            DESCRIPTION => 'SUNW,375-3181'
+        },
+    ]
 );
 
-plan tests => scalar keys %slots4_tests;
+plan tests => scalar keys %tests;
 
-foreach my $test (keys %slots4_tests) {
+foreach my $test (keys %tests) {
     my $file = "resources/solaris/prtdiag/$test";
-    my @slots = FusionInventory::Agent::Task::Inventory::Solaris::Slots::_getSlots4(file => $file);
-    cmp_deeply(\@slots, $slots4_tests{$test}, $test);
+    my @slots = FusionInventory::Agent::Task::Inventory::Solaris::Slots::_getSlots(file => $file);
+    cmp_deeply(\@slots, $tests{$test}, $test);
 }
