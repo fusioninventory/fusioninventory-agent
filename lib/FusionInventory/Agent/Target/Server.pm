@@ -59,6 +59,18 @@ sub getUrl {
     return $self->{url};
 }
 
+sub _getName {
+    my ($self) = @_;
+
+    return $self->{url};
+}
+
+sub _getType {
+    my ($self) = @_;
+
+    return 'server';
+}
+
 1;
 
 __END__

@@ -155,15 +155,6 @@ sub init {
         if ($EVAL_ERROR) {
             $logger->debug("Failed to load HTTP server: $EVAL_ERROR");
         } else {
-            # make sure relevant variables are shared between threads
-            threads::shared->require();
-            # calling share(\$self->{status}) directly breaks in testing
-            # context, hence the need to use an intermediate variable
-            my $status = \$self->{status};
-            threads::shared::share($status);
-
-            $_->setShared() foreach @{$self->{targets}};
-
             # compute trusted addresses
             my $trust = $config->{'httpd-trust'};
             if ($config->{server}) {
@@ -180,6 +171,7 @@ sub init {
                 port            => $config->{'httpd-port'},
                 trust           => $trust
             );
+            $self->{server}->init();
         }
     }
 
@@ -192,26 +184,31 @@ sub run {
     $self->{status} = 'waiting';
 
     if ($self->{config}->{daemon} || $self->{config}->{service}) {
-        # background mode: check each targets every 10 seconds
+
+        # background mode:
         while (1) {
             my $time = time();
-            foreach my $target (@{$self->{targets}}) {
 
-                next if $time < $target->getNextRunDate();
+            # check each target every 10 seconds
+            if ($time % 10 == 0) {
+                foreach my $target (@{$self->{targets}}) {
+                    next if $time < $target->getNextRunDate();
 
-                eval {
-                    $self->_runTarget($target);
-                };
-                $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
-                $target->resetNextRunDate();
+                    eval {
+                        $self->_runTarget($target);
+                    };
+                    $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
+                    $target->resetNextRunDate();
+                }
             }
-            sleep(10);
+
+            # check for http interface messages
+            $self->{server}->handleRequests() if $self->{server};
         }
     } else {
         # foreground mode: check each targets once
         my $time = time();
         foreach my $target (@{$self->{targets}}) {
-
             if ($self->{config}->{lazy} && $time < $target->getNextRunDate()) {
                 $self->{logger}->info(
                     "$target->{id} is not ready yet, next server contact " .

@@ -8,7 +8,8 @@ sub new {
     my ($class) = @_;
 
     my $self = {
-        status => 'ok'
+        status  => 'ok',
+        targets => [],
     };
     bless $self, $class;
 
