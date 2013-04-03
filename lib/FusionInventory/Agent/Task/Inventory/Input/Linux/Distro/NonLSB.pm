@@ -36,6 +36,9 @@ my @distributions = (
     # mandrake-release contains something like "Mandrakelinux release 10.1 (Community) for i586"
     [ '/etc/mandrake-release',  'Mandrake',                   'release ([\d.]+)', '%s'],
 
+    # oracle-release contains something like "Oracle Linux Server release 6.3"
+    [ '/etc/oracle-release',    'Oracle Linux Server',        'release ([\d.]+)', '%s' ],
+
     # centos-release contains something like "CentOS Linux release 6.0 (Final)
     [ '/etc/centos-release',    'CentOS',                     'release ([\d.]+)', '%s' ],
 
