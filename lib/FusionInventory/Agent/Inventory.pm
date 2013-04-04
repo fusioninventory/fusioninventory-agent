@@ -270,6 +270,10 @@ sub setHardware {
             $self->{logger}->debug("unknown field $field for section HARDWARE");
             next
         }
+
+        # Do not overwrite existing value with undef
+        next unless $args->{$field};
+
         $self->{content}->{HARDWARE}->{$field} =
             getSanitizedString($args->{$field});
     }
