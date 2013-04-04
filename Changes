@@ -1,28 +1,32 @@
 Revision history for FusionInventory agent
 
 2.3.0
-General:
-* various UTF8 encoding fixes
-* Add DNS_DOMAIN, BOOT_TIME and FQDN in OPERATINGSYSTEM section
-* Collect public SSH keys
+distribution:
 * Deploy, Network and ESX tasks are now integrated in the distribution
+* new fusioninventory-inventory executable, dedicated to inventory task
 
-Windows:
-* Collect license key for MS Office
-* Collect software from user profile (#1674)
+core:
+* no more thread usage for HTTP interface
+* no more token usage for HTTP interface, request source address is enough
+* --httpd-trust option now allows multiple values
+* --daemon and --no-fork options are now available from command-line only 
 
-BSD:
-* Megaraid and 3ware RAID controller support (Egor Morozov)
+inventory task:
+* add DNS_DOMAIN, BOOT_TIME and FQDN in OPERATINGSYSTEM section
+* collect public SSH keys
+* various UTF8 encoding fixes
+* collect license key for MS Office on Windows
+* collect software from user profile on Windows(#1674)
+* Megaraid and 3ware RAID controller support on BSD (Egor Morozov)
+* Megaraid controller support on Linux (Egor Morozov)
+* support new OpenVZ configuration on Linux (Alessandro Iurlano)
+* collect license key for Adobe suite, Panic's Transit, VMware Fusion on MacOs
+* LPAR support on AIX
+* no more memconf usage on Solaris
+* no more Mac::SysProfile usage on MacOS
 
-Linux:
-* Megaraid controller support (Egor Morozov)
-* Support new OpenVZ configuration (Alessandro Iurlano)
-
-MacOSX:
-* Collect license key for Adobe suite, Panic's Transit, VMware Fusion
-
-AIX:
-* AIX LPAR support
+wake-on-lan task:
+* ethernet and udp methods support on all systems
 
 2.2.8
 

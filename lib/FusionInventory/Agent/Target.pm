@@ -52,19 +52,6 @@ sub _init {
 
 }
 
-sub setShared {
-    my ($self) = @_;
-
-    # make sure relevant attributes are shared between threads
-    threads::shared->require();
-    # calling share(\$self->{status}) directly breaks in testing
-    # context, hence the need to use an intermediate variable
-    my $nextRunDate = \$self->{nextRunDate};
-    threads::shared::share($nextRunDate);
-
-    $self->{shared} = 1;
-}
-
 sub getStorage {
     my ($self) = @_;
 
@@ -93,6 +80,13 @@ sub getNextRunDate {
     return $self->{nextRunDate};
 }
 
+sub getFormatedNextRunDate {
+    my ($self) = @_;
+
+    return $self->{nextRunDate} > 1 ?
+        scalar localtime($self->{nextRunDate}) : "now";
+}
+
 sub getMaxDelay {
     my ($self) = @_;
 
@@ -104,13 +98,6 @@ sub setMaxDelay {
 
     $self->{maxDelay} = $maxDelay;
     $self->_saveState();
-}
-
-sub getFormatedNextRunDate {
-    my ($self) = @_;
-
-    return $self->{nextRunDate} > 1 ?
-        scalar localtime($self->{nextRunDate}) : "now";
 }
 
 # compute a run date, as current date and a random delay
@@ -187,10 +174,6 @@ the maximum delay before contacting the target, in seconds
 the base directory of the storage area (mandatory)
 
 =back
-
-=head2 setShared()
-
-Ensure the target can be shared among threads
 
 =head2 getNextRunDate()
 

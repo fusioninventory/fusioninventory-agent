@@ -82,9 +82,6 @@ install_script 'bin/fusioninventory-wakeonlan';
 install_script 'bin/fusioninventory-netdiscovery';
 install_script 'bin/fusioninventory-netinventory';
 install_script 'bin/fusioninventory-esx';
-# memconf is needed by Solaris backend module
-install_script 'bin/memconf' if $OSNAME eq 'solaris';
-
 
 makemaker_args(
     test => {

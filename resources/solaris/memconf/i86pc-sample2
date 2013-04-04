@@ -1,8 +1,0 @@
-hostname: lpss32
-Sun Microsystems, Inc. Sun Fire V20z (Solaris x86 machine) (2 X Dual Core AMD Opteron(tm) Processor 270 1993MHz)
-socket cpu0.mem0: 7f40000000000000 1GB DDR400 (PC3200) ECC
-socket cpu0.mem1: 7f40000000000000 1GB DDR400 (PC3200) ECC
-socket cpu1.mem0: 7f40000000000000 1GB DDR400 (PC3200) ECC
-socket cpu1.mem1: 7f40000000000000 1GB DDR400 (PC3200) ECC
-empty memory sockets: cpu0.mem2, cpu0.mem3, cpu1.mem2, cpu1.mem3
-total memory = 4096MB (4GB)

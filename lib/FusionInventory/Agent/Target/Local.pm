@@ -31,6 +31,18 @@ sub getPath {
     return $self->{path};
 }
 
+sub _getName {
+    my ($self) = @_;
+
+    return $self->{path};
+}
+
+sub _getType {
+    my ($self) = @_;
+
+    return 'local';
+}
+
 1;
 
 __END__

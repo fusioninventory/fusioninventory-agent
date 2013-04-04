@@ -2,12 +2,11 @@ package FusionInventory::Agent::HTTP::Server;
 
 use strict;
 use warnings;
-use threads;
-use threads::shared;
 
 use English qw(-no_match_vars);
 use File::Basename;
 use HTTP::Daemon;
+use IO::Handle;
 use Net::IP;
 use Socket::GetAddrInfo qw( getaddrinfo getnameinfo );
 use Text::Template;
@@ -32,11 +31,6 @@ sub new {
 
     $self->{trust} = $self->_parseAddresses($params{trust})
         if $params{trust};
-
-    $self->{stop} = 0;
-    my $stop = \$self->{stop};
-    threads::shared::share($stop);
-    $self->{listener} = threads->create('_listen', $self);
 
     return $self;
 }
@@ -206,7 +200,7 @@ sub _handle_deploy {
 
     my $path;
     LOOP: foreach my $target ($self->{agent}->getTargets()) {
-        foreach (glob($target->{storage}->getDirectory()."/deploy/fileparts/shared/*")) {
+        foreach (glob($target->{storage}->getDirectory() . "/deploy/fileparts/shared/*")) {
             next unless -f $_.'/'.$subFilePath;
 
             my $sha = Digest::SHA->new('512');
@@ -307,19 +301,19 @@ sub _isTrusted {
     return 0;
 }
 
-sub _listen {
+sub init {
     my ($self) = @_;
 
     my $logger = $self->{logger};
 
-    my $daemon = HTTP::Daemon->new(
+    $self->{listener} = HTTP::Daemon->new(
         LocalAddr => $self->{ip},
         LocalPort => $self->{port},
         Reuse     => 1,
         Timeout   => 5
     );
 
-    if (!$daemon) {
+    if (!$self->{listener}) {
         $logger->error($log_prefix . "failed to start the HTTPD service");
         return;
     }
@@ -329,35 +323,18 @@ sub _listen {
         "http://localhost:$self->{port}" ;
 
     $logger->info($log_prefix . "HTTPD service started at $url");
-
-    while (1) {
-        my ($client, $socket) = $daemon->accept();
-        last if $self->{stop};
-        next unless $socket;
-        my (undef, $iaddr) = sockaddr_in($socket);
-        my $clientIp = inet_ntoa($iaddr);
-        my $request = $client->get_request();
-        $self->_handle($client, $request, $clientIp);
-    }
 }
 
-sub terminate {
+sub handleRequests {
     my ($self) = @_;
 
-    lock $self->{stop};
-    $self->{stop} = 1;
-}
+    my ($client, $socket) = $self->{listener}->accept();
+    return unless $socket;
 
-sub DESTROY {
-    my ($self) = @_;
-
-    return unless $self->{listener};
-
-    if ($self->{listener}->is_joinable()) {
-        $self->{listener}->join();
-    } elsif (!$self->{listener}->is_detached()) {
-        $self->{listener}->detach();
-    }
+    my (undef, $iaddr) = sockaddr_in($socket);
+    my $clientIp = inet_ntoa($iaddr);
+    my $request = $client->get_request();
+    $self->_handle($client, $request, $clientIp);
 }
 
 1;
@@ -400,10 +377,6 @@ hash:
 =item I<logger>
 
 the logger object to use
-
-=item I<agent>
-
-the agent object
 
 =item I<htmldir>
 
