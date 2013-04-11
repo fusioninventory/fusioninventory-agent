@@ -910,6 +910,10 @@ Language code of the Windows
 
 The computer chassis format (e.g: Notebook, Laptop, Server, etc)
 
+=item ARCHNAME
+
+Architecture of the perl binary used to call the agent, MSWin32-x86-multi-thread.
+
 =back
 
 =head2 OPERATINGSYSTEM
