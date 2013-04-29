@@ -784,7 +784,7 @@ sub _setConnectedDevicesMacAddresses {
 
     my @dispatch_table = (
         {
-            match    => qr/(3Com|ProCurve|Nortel|Allied Telesis)/,
+            match    => qr/(3Com|ProCurve|Nortel|Allied Telesis|ExtremeXOS)/,
             module   => 'FusionInventory::Agent::Manufacturer',
         },
         {
