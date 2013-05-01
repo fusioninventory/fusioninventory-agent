@@ -20,6 +20,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Tools::SNMP;
 
+
 # needed for perl < 5.10.1 compatbility
 if ($threads::shared::VERSION < 1.21) {
     FusionInventory::Agent::Threads->use();
@@ -149,6 +150,8 @@ sub run {
     my $pid         = $options->{PARAM}->[0]->{PID};
     my $max_threads = $options->{PARAM}->[0]->{THREADS_QUERY};
 
+
+
     # SNMP models
     my $models = _getIndexedModels($options->{MODEL});
 
@@ -276,6 +279,8 @@ sub _queryDevices {
 sub _getIndexedModels {
     my ($models) = @_;
 
+    return unless $models;
+
     foreach my $model (@{$models}) {
         # index GET and WALK properties
         $model->{GET}  = { map { $_->{OBJECT} => $_ } @{$model->{GET}}  };
@@ -293,6 +298,43 @@ sub _getIndexedCredentials {
     return { map { $_->{ID} => $_ } @{$credentials} };
 }
 
+sub _findModelInDir {
+    my ($self, $sysdescr, $device, $model) = @_;
+
+    $sysdescr =~ s/\n//g;
+    $sysdescr =~ s/\r//g;
+
+    print "looking for $sysdescr\n";
+
+    FILE: foreach my $file (glob($self->{models_dir}."/*.xml")) {
+        my $tpp = XML::TreePP->new( force_array => [qw( sysdescr )] );
+        my $tree = $tpp->parsefile( $file );
+        my $stringList = $tree->{model}{devices}{sysdescr};
+        next unless $sysdescr;
+
+        foreach my $m (@{$stringList}) {
+            $m =~ s{\r|\n|\\\\}{}g;
+
+            next unless $sysdescr eq $m;
+
+            print "Model found: $file\n";
+            $model = $self->loadModel($file);
+            $model->{GET}  = { map { $_->{OBJECT} => $_ } @{$model->{GET}}  };
+            $model->{WALK} = { map { $_->{OBJECT} => $_ } @{$model->{WALK}} };
+
+            $device->{TYPE} =
+            $model->{TYPE} == 1 ? 'COMPUTER'   :
+            $model->{TYPE} == 2 ? 'NETWORKING' :
+            $model->{TYPE} == 3 ? 'PRINTER'    :
+            undef        ;
+
+            last FILE;
+        }
+    }
+
+    return ($device, $model);
+}
+
 sub _queryDevice {
     my ($self, %params) = @_;
 
@@ -300,6 +342,8 @@ sub _queryDevice {
     my $model       = $params{model};
     my $device      = $params{device};
 
+
+    print "FILE: ".$device->{FILE}."\n";
     my $snmp;
     if ($device->{FILE}) {
         FusionInventory::Agent::SNMP::Mock->require();
@@ -338,13 +382,16 @@ sub _queryDevice {
             ERROR => {
                 ID      => $device->{ID},
                 TYPE    => $device->{TYPE},
-                MESSAGE => "No response from remote host"
+                MESSAGE => "No response from remote host (.1.3.6.1.2.1.1.1.0)"
             }
         };
     }
 
+    ($device, $model) = $self->_findModelInDir($description, $device, $model);
+
+
     # automatically extend model for cartridge support
-    if ($device->{TYPE} eq "PRINTER") {
+    if ($device->{TYPE} && $device->{TYPE} eq "PRINTER") {
         foreach my $variable (values %{$model->{GET}}) {
             my $object = $variable->{OBJECT};
             if (
@@ -400,18 +447,24 @@ sub _queryDevice {
         walks   => $model->{WALK}
     );
 
-    $self->_setPrinterProperties(
-        results => $results,
-        device  => $datadevice,
-    ) if $device->{TYPE} eq 'PRINTER';
+    if ($device->{TYPE}) {
+        if ($device->{TYPE} eq 'printer') {
+            $self->_setPrinterProperties(
+                results => $results,
+                device  => $datadevice,
+            );
+        }
 
-    $self->_setNetworkingProperties(
-        results     => $results,
-        device      => $datadevice,
-        walks       => $model->{WALK},
-        host        => $device->{IP},
-        credentials => $credentials
-    ) if $device->{TYPE} eq 'NETWORKING';
+        if ($device->{TYPE} eq 'NETWORKING') {
+            $self->_setNetworkingProperties(
+                results     => $results,
+                device      => $datadevice,
+                walks       => $model->{WALK},
+                host        => $device->{IP},
+                credentials => $credentials
+            )
+        }
+    }
 
     # convert ports hashref to an arrayref, sorted by interface number
     my $ports = $datadevice->{PORTS}->{PORT};
@@ -673,7 +726,7 @@ sub _setNetworkingProperties {
         any { $_->{VLAN} }
         values %{$walks};
 
-    if ($vlan_query) {
+    if ($vlan_query && !$device->{FILE}) {
         my $host        = $params{host};
         my $credentials = $params{credentials};
         # set connected devices mac addresses for each VLAN
@@ -859,6 +912,43 @@ sub _getPercentValue {
 sub _isInteger {
     $_[0] =~ /^[+-]?\d+$/;
 }
+
+sub loadModel {
+    my ($self, $file) = @_;
+
+    my $model = XML::TreePP->new()->parsefile($file)->{model};
+
+    my @get = map {
+        {
+            OID    => $_->{oid},
+            OBJECT => $_->{mapping_name},
+            VLAN   => $_->{vlan},
+        }
+    } grep {
+        $_->{dynamicport} == 0
+    } @{$model->{oidlist}->{oidobject}};
+
+    my @walk = map {
+        {
+            OID    => $_->{oid},
+            OBJECT => $_->{mapping_name},
+            VLAN   => $_->{vlan},
+        }
+    } grep {
+        $_->{dynamicport} == 1
+    } @{$model->{oidlist}->{oidobject}};
+
+    return {
+        ID   => 1,
+        NAME => $model->{name},
+        TYPE => $model->{type},
+        GET  => \@get,
+        WALK => \@walk
+    }
+}
+
+
+
 
 1;
 

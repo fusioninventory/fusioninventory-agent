@@ -25,13 +25,11 @@ sub new {
 
 sub _getIndexedValues {
     my ($file) = @_;
-
     my $handle = getFileHandle(file => $file);
 
     # check first line
     my $first_line = <$handle>;
     seek($handle, 0, 0);
-
     my $values = substr($first_line, 0, 1) eq '.' ?
         _readNumericalOids($handle) :
         _readSymbolicOids($handle)  ;
@@ -45,10 +43,13 @@ sub _readNumericalOids {
 
     my $values;
     while (my $line = <$handle>) {
-       next unless $line =~ /^(\S+) \s = \s (\S+): \s (.*)/x;
+       # Get multi-line block
+       while ($line =~ /\r\n$/) {
+           $line .= <$handle>;
+       }
+       next unless $line =~ /^(\S+) \s = \s (\S+): \s (.*)/sx;
        $values->{$1} = [ $2, $3 ];
     }
-
     return $values;
 }
 

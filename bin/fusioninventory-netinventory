@@ -21,6 +21,7 @@ GetOptions(
     'model=s',
     'host=s',
     'file=s',
+    'models-dir=s',
     'community=s',
     'entity=s',
     'verbose',
@@ -37,20 +38,16 @@ pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
 
 pod2usage(
     -message => "no model given, aborting\n", -verbose => 0
-) unless $options->{model};
+) if (!$options->{model} && !$options->{'models-dir'});
+
 pod2usage(
-    -message => "invalid file '$options->{model}', aborting\n", -verbose => 0
-) unless -f $options->{model};
+    -message => "invalid dir '".$options->{'models-dir'}."', aborting\n", -verbose => 0
+) if $options->{'models-dir'} && !-d $options->{'models-dir'};
+
 pod2usage(
     -message => "no host nor file given, aborting\n", -verbose => 0
 ) unless $options->{host} or $options->{file};
 
-my $model = loadModel($options->{model});
-my $type =
-    $model->{TYPE} == 1 ? 'COMPUTER'   :
-    $model->{TYPE} == 2 ? 'NETWORKING' :
-    $model->{TYPE} == 3 ? 'PRINTER'    :
-                          undef        ;
 
 my $inventory = FusionInventory::Agent::Task::NetInventory->new(
     target => FusionInventory::Agent::Task::NetInventory::Target->new(),
@@ -58,6 +55,22 @@ my $inventory = FusionInventory::Agent::Task::NetInventory->new(
         debug => $options->{debug}
     )
 );
+
+my $model;
+my $type;
+if ($options->{model}) {
+    pod2usage(
+        -message => "invalid file '$options->{model}', aborting\n", -verbose => 0
+    ) unless -f $options->{model};
+    $model = $inventory->loadModel($options->{model});
+
+    $type =
+        $model->{TYPE} == 1 ? 'COMPUTER'   :
+        $model->{TYPE} == 2 ? 'NETWORKING' :
+        $model->{TYPE} == 3 ? 'PRINTER'    :
+                          undef        ;
+
+}
 
 $inventory->{options} = {
     NAME => 'SNMPQUERY',
@@ -76,7 +89,7 @@ $inventory->{options} = {
             MODELSNMP_ID => 1
         }
     ],
-    MODEL => [ $model ],
+    MODEL => $model?[ $model ]:undef,
     AUTHENTICATION => [
         {
             ID        => 1,
@@ -84,6 +97,8 @@ $inventory->{options} = {
         }
     ]
 };
+
+$inventory->{models_dir} = $options->{'models-dir'};
 if (defined($options->{entity})) {
     $inventory->{options}->{DEVICE}->[0]->{ENTITY} = $options->{entity};
 }
@@ -95,40 +110,6 @@ $inventory->{client} =
 $inventory->{deviceid} = 'foo';
 
 $inventory->run();
-
-sub loadModel {
-    my ($file) = @_;
-
-    my $model = XML::TreePP->new()->parsefile($file)->{model};
-
-    my @get = map {
-        {
-            OID    => $_->{oid},
-            OBJECT => $_->{mapping_name},
-            VLAN   => $_->{vlan},
-        }
-    } grep {
-        $_->{dynamicport} == 0
-    } @{$model->{oidlist}->{oidobject}};
-
-    my @walk = map {
-        {
-            OID    => $_->{oid},
-            OBJECT => $_->{mapping_name},
-            VLAN   => $_->{vlan},
-        }
-    } grep {
-        $_->{dynamicport} == 1
-    } @{$model->{oidlist}->{oidobject}};
-
-    return {
-        ID   => 1,
-        NAME => $model->{name},
-        TYPE => $model->{type},
-        GET  => \@get,
-        WALK => \@walk
-    }
-}
 
 package FusionInventory::Agent::Task::NetInventory::Client;
 
