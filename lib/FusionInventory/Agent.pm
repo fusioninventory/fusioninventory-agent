@@ -8,6 +8,7 @@ use English qw(-no_match_vars);
 use UNIVERSAL::require;
 use File::Glob;
 use IO::Handle;
+use POSIX ":sys_wait_h"; # WNOHANG
 
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::HTTP::Client::OCS;
@@ -278,7 +279,10 @@ sub _runTask {
         # server mode: run each task in a child process
         if (my $pid = fork()) {
             # parent
-            waitpid($pid, 0);
+            while (waitpid($pid, WNOHANG) == 0) {
+                $self->{server}->handleRequests() if $self->{server};
+                delay(1);
+            }
         } else {
             # child
             die "fork failed: $ERRNO" unless defined $pid;
