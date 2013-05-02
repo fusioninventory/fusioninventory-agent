@@ -477,6 +477,7 @@ sub _scanAddressBySNMP {
         next unless $sysdescr;
 
         # try to get a matching model from the dictionary
+        # TODO move bellow, once we've got the final description returned by getBasicInfoFromSysdescr()
         my $model = $params{snmp_dictionary}->getModel($sysdescr);
 
         # first, we initialize with some generic information
