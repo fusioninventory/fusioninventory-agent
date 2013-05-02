@@ -13,6 +13,7 @@ use Socket::GetAddrInfo qw( getaddrinfo getnameinfo );
 use IO::Socket;
 #use Socket::GetAddrInfo qw( getaddrinfo getnameinfo );
 use Text::Template;
+use File::Glob;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools::Network;
@@ -202,7 +203,7 @@ sub _handle_deploy {
 
     my $path;
     LOOP: foreach my $target ($self->{agent}->getTargets()) {
-        foreach (glob($target->{storage}->getDirectory() . "/deploy/fileparts/shared/*")) {
+        foreach (File::Glob::glob($target->{storage}->getDirectory() . "/deploy/fileparts/shared/*")) {
             next unless -f $_.'/'.$subFilePath;
 
             my $sha = Digest::SHA->new('512');
