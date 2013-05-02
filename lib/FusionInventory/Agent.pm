@@ -189,18 +189,14 @@ sub run {
         # background mode:
         while (1) {
             my $time = time();
+            foreach my $target (@{$self->{targets}}) {
+                next if $time < $target->getNextRunDate();
 
-            # check each target every 10 seconds
-            if ($time % 10 == 0) {
-                foreach my $target (@{$self->{targets}}) {
-                    next if $time < $target->getNextRunDate();
-
-                    eval {
-                        $self->_runTarget($target);
-                    };
-                    $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
-                    $target->resetNextRunDate();
-                }
+                eval {
+                    $self->_runTarget($target);
+                };
+                $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
+                $target->resetNextRunDate();
             }
 
             # check for http interface messages
