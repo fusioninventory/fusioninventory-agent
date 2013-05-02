@@ -299,14 +299,16 @@ sub _getIndexedCredentials {
 }
 
 sub _findModelInDir {
-    my ($self, $sysdescr, $device, $model) = @_;
+    my ($self, $device) = @_;
+
+    my $sysdescr = $device->{DESCRIPTION};
 
     $sysdescr =~ s/\n//g;
     $sysdescr =~ s/\r//g;
 
     print "looking for $sysdescr\n";
 
-    FILE: foreach my $file (glob($self->{models_dir}."/*.xml")) {
+    foreach my $file (glob($self->{models_dir}."/*.xml")) {
         my $tpp = XML::TreePP->new( force_array => [qw( sysdescr )] );
         my $tree = $tpp->parsefile( $file );
         my $stringList = $tree->{model}{devices}{sysdescr};
@@ -318,21 +320,13 @@ sub _findModelInDir {
             next unless $sysdescr eq $m;
 
             print "Model found: $file\n";
-            $model = $self->loadModel($file);
+            my $model = $self->loadModel($file);
             $model->{GET}  = { map { $_->{OBJECT} => $_ } @{$model->{GET}}  };
             $model->{WALK} = { map { $_->{OBJECT} => $_ } @{$model->{WALK}} };
 
-            $device->{TYPE} =
-            $model->{TYPE} == 1 ? 'COMPUTER'   :
-            $model->{TYPE} == 2 ? 'NETWORKING' :
-            $model->{TYPE} == 3 ? 'PRINTER'    :
-            undef        ;
-
-            last FILE;
+            return $model;
         }
     }
-
-    return ($device, $model);
 }
 
 sub _queryDevice {
@@ -340,20 +334,20 @@ sub _queryDevice {
 
     my $credentials = $params{credentials};
     my $model       = $params{model};
-    my $device      = $params{device};
+    my %device      = %{$params{device}};
 
 
-    print "FILE: ".$device->{FILE}."\n";
+    print "FILE: ".$device{FILE}."\n";
     my $snmp;
-    if ($device->{FILE}) {
+    if ($device{FILE}) {
         FusionInventory::Agent::SNMP::Mock->require();
         eval {
             $snmp = FusionInventory::Agent::SNMP::Mock->new(
-                file => $device->{FILE}
+                file => $device{FILE}
             );
         };
         if ($EVAL_ERROR) {
-            $self->{logger}->error("Unable to create SNMP session for $device->{FILE}: $EVAL_ERROR");
+            $self->{logger}->error("Unable to create SNMP session for $device{FILE}: $EVAL_ERROR");
             return;
         }
     } else {
@@ -361,7 +355,7 @@ sub _queryDevice {
             FusionInventory::Agent::SNMP::Live->require();
             $snmp = FusionInventory::Agent::SNMP::Live->new(
                 version      => $credentials->{VERSION},
-                hostname     => $device->{IP},
+                hostname     => $device{IP},
                 community    => $credentials->{COMMUNITY},
                 username     => $credentials->{USERNAME},
                 authpassword => $credentials->{AUTHPASSWORD},
@@ -371,7 +365,7 @@ sub _queryDevice {
             );
         };
         if ($EVAL_ERROR) {
-            $self->{logger}->error("Unable to create SNMP session for $device->{IP}: $EVAL_ERROR");
+            $self->{logger}->error("Unable to create SNMP session for $device{IP}: $EVAL_ERROR");
             return;
         }
     }
@@ -380,18 +374,22 @@ sub _queryDevice {
     if (!$description) {
         return {
             ERROR => {
-                ID      => $device->{ID},
-                TYPE    => $device->{TYPE},
-                MESSAGE => "No response from remote host (.1.3.6.1.2.1.1.1.0)"
+                ID      => $device{ID},
+                TYPE    => $device{TYPE},
+                MESSAGE => "No response from remote host"
             }
         };
     }
 
-    ($device, $model) = $self->_findModelInDir($description, $device, $model);
+    %device = (
+        %device,
+        getBasicInfoFromSysdescr($description, $snmp)
+    );
 
+    $model = $self->_findModelInDir(\%device);
 
     # automatically extend model for cartridge support
-    if ($device->{TYPE} && $device->{TYPE} eq "PRINTER") {
+    if ($device{TYPE} && $device{TYPE} eq "PRINTER") {
         foreach my $variable (values %{$model->{GET}}) {
             my $object = $variable->{OBJECT};
             if (
@@ -430,16 +428,19 @@ sub _queryDevice {
         $results->{$variable->{OBJECT}} = $snmp->walk($variable->{OID});
     }
 
+    $device{TYPE} =
+    $model->{TYPE} == 1 ? 'COMPUTER'   :
+    $model->{TYPE} == 2 ? 'NETWORKING' :
+    $model->{TYPE} == 3 ? 'PRINTER'    :
+    undef        ;
+
+
     # second, use results to build the object
     my $datadevice = {
         INFO => {
-            ID   => $device->{ID},
-            TYPE => $device->{TYPE},
-            getBasicInfoFromSysdescr($description, $snmp)
+            %device
         }
     };
-
-
 
     $self->_setGenericProperties(
         results => $results,
@@ -447,20 +448,20 @@ sub _queryDevice {
         walks   => $model->{WALK}
     );
 
-    if ($device->{TYPE}) {
-        if ($device->{TYPE} eq 'printer') {
+    if ($device{TYPE}) {
+        if ($device{TYPE} eq 'printer') {
             $self->_setPrinterProperties(
                 results => $results,
                 device  => $datadevice,
             );
         }
 
-        if ($device->{TYPE} eq 'NETWORKING') {
+        if ($device{TYPE} eq 'NETWORKING') {
             $self->_setNetworkingProperties(
                 results     => $results,
                 device      => $datadevice,
                 walks       => $model->{WALK},
-                host        => $device->{IP},
+                host        => $device{IP},
                 credentials => $credentials
             )
         }
