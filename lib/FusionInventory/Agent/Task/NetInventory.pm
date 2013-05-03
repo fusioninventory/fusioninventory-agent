@@ -294,6 +294,8 @@ sub _getIndexedModels {
 sub _getIndexedCredentials {
     my ($credentials) = @_;
 
+    return unless $credentials;
+
     # index credentials by their ID
     return { map { $_->{ID} => $_ } @{$credentials} };
 }
