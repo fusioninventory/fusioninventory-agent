@@ -308,7 +308,9 @@ sub _findModelInDir {
     $sysdescr =~ s/\n//g;
     $sysdescr =~ s/\r//g;
 
-    foreach my $file (glob($self->{models_dir}."/*.xml")) {
+    my $model = {};
+
+    FILE: foreach my $file (glob($self->{models_dir}."/*.xml")) {
         my $tpp = XML::TreePP->new( force_array => [qw( sysdescr )] );
         my $tree = $tpp->parsefile( $file );
         my $stringList = $tree->{model}{devices}{sysdescr};
@@ -321,13 +323,15 @@ sub _findModelInDir {
 
             print STDERR "local model found: $file\n";
             $self->{logger}->debug("local model found: $file");
-            my $model = $self->loadModel($file);
+            $model = $self->loadModel($file);
             $model->{GET}  = { map { $_->{OBJECT} => $_ } @{$model->{GET}}  };
             $model->{WALK} = { map { $_->{OBJECT} => $_ } @{$model->{WALK}} };
 
-            return $model;
+            last FILE;
         }
     }
+
+    return $model;
 }
 
 sub _queryDevice {
