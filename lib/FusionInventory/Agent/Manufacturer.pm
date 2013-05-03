@@ -80,9 +80,9 @@ sub setConnectedDevicesUsingCDP {
             SYSDESCR => $results->{cdpCacheVersion}->{
                 $walks->{cdpCacheVersion}->{OID} . "." . $port_number
             },
-            SYSNAME  => $results->{cdpCacheDeviceId}->{
+            SYSNAME  => alt2canonical($results->{cdpCacheDeviceId}->{
                 $walks->{cdpCacheDeviceId}->{OID} . "." . $port_number
-            },
+            }),
             MODEL => $results->{cdpCachePlatform}->{
                 $walks->{cdpCachePlatform}->{OID} . "." . $port_number
             }
