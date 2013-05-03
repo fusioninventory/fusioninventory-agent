@@ -923,6 +923,11 @@ sub loadModel {
 
     my $model = XML::TreePP->new()->parsefile($file)->{model};
 
+    if (!$model) {
+        $self->{logger}->debug("Fails to parse `$file'");
+        return;
+    }
+
     my @get = map {
         {
             OID    => $_->{oid},
