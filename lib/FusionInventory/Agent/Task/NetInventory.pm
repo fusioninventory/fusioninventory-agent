@@ -308,8 +308,6 @@ sub _findModelInDir {
     $sysdescr =~ s/\n//g;
     $sysdescr =~ s/\r//g;
 
-    print "looking for $sysdescr\n";
-
     foreach my $file (glob($self->{models_dir}."/*.xml")) {
         my $tpp = XML::TreePP->new( force_array => [qw( sysdescr )] );
         my $tree = $tpp->parsefile( $file );
@@ -321,7 +319,8 @@ sub _findModelInDir {
 
             next unless $sysdescr eq $m;
 
-            print "Model found: $file\n";
+            print STDERR "local model found: $file\n";
+            $self->{logger}->debug("local model found: $file");
             my $model = $self->loadModel($file);
             $model->{GET}  = { map { $_->{OBJECT} => $_ } @{$model->{GET}}  };
             $model->{WALK} = { map { $_->{OBJECT} => $_ } @{$model->{WALK}} };
@@ -338,8 +337,6 @@ sub _queryDevice {
     my $model       = $params{model};
     my %device      = %{$params{device}};
 
-
-    print "FILE: ".$device{FILE}."\n";
     my $snmp;
     if ($device{FILE}) {
         FusionInventory::Agent::SNMP::Mock->require();
