@@ -431,12 +431,11 @@ sub _queryDevice {
         $results->{$variable->{OBJECT}} = $snmp->walk($variable->{OID});
     }
 
-    $device{TYPE} =
-    $model->{TYPE} == 1 ? 'COMPUTER'   :
-    $model->{TYPE} == 2 ? 'NETWORKING' :
-    $model->{TYPE} == 3 ? 'PRINTER'    :
-    undef        ;
-
+    $device{TYPE} = {
+        1 => 'COMPUTER',
+        2 => 'NETWORKING',
+        3 => 'PRINTER'
+    }->{$model->{TYPE}} if $model->{TYPE};
 
     # second, use results to build the object
     my $datadevice = {
