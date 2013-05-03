@@ -382,9 +382,9 @@ sub _queryDevice {
 
     %device = (
         %device,
+        DESCRIPTION => $description,
         getBasicInfoFromSysdescr($description, $snmp)
     );
-
     $model = $self->_findModelInDir(\%device);
 
     # automatically extend model for cartridge support
