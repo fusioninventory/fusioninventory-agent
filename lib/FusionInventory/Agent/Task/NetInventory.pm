@@ -461,6 +461,7 @@ sub _queryDevice {
                 device      => $datadevice,
                 walks       => $model->{WALK},
                 host        => $device{IP},
+                offline     => $device{FILE}?1:undef,
                 credentials => $credentials
             )
         }
@@ -693,6 +694,7 @@ sub _setNetworkingProperties {
     my $results = $params{results};
     my $device  = $params{device};
     my $walks   = $params{walks};
+    my $offline = $params{offline};
 
     $device->{INFO}->{MODEL} = $results->{entPhysicalModelName};
 
@@ -726,7 +728,7 @@ sub _setNetworkingProperties {
         any { $_->{VLAN} }
         values %{$walks};
 
-    if ($vlan_query && !$device->{FILE}) {
+    if ($vlan_query && !$offline) {
         my $host        = $params{host};
         my $credentials = $params{credentials};
         # set connected devices mac addresses for each VLAN
