@@ -85,14 +85,14 @@ $inventory->{options} = {
             TYPE         => $type,
             IP           => $options->{host},
             FILE         => $options->{file},
-            AUTHSNMP_ID  => 1,
-            MODELSNMP_ID => 1
+            AUTHSNMP_ID  => 'local',
+            MODELSNMP_ID => 'local'
         }
     ],
     MODEL => $model?[ $model ]:undef,
     AUTHENTICATION => [
         {
-            ID        => 1,
+            ID        => 'local', # not to confuse with the ID from the server
             COMMUNITY => $options->{community},
         }
     ]
