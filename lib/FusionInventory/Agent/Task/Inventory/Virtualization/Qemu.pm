@@ -40,6 +40,8 @@ sub _parseProcessList {
             $values->{mem} = $1;
         } elsif ($option =~ m/^uuid (\S+)/) {
             $values->{uuid} = $1;
+        } elsif ($option =~ m/^name (\S+)/) {
+            $values->{name} = $1;
         }
 
         if ($option =~ /smbios/) {
