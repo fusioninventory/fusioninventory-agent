@@ -283,8 +283,9 @@ sub _getIndexedModels {
 
     foreach my $model (@{$models}) {
         # index GET and WALK properties
-        $model->{GET}  = { map { $_->{OBJECT} => $_ } @{$model->{GET}}  };
-        $model->{WALK} = { map { $_->{OBJECT} => $_ } @{$model->{WALK}} };
+        $model->{GET}  = { map { $_->{OBJECT} => $_ } grep { $_->{OBJECT} } @{$model->{GET}}  };
+        $model->{WALK} = { map { $_->{OBJECT} => $_ } grep { $_->{OBJECT} } @{$model->{WALK}} };
+
     }
 
     # index models by their ID
@@ -324,8 +325,9 @@ sub _findModelInDir {
             print STDERR "local model found: $file\n";
             $self->{logger}->debug("local model found: $file");
             $model = $self->loadModel($file);
-            $model->{GET}  = { map { $_->{OBJECT} => $_ } @{$model->{GET}}  };
-            $model->{WALK} = { map { $_->{OBJECT} => $_ } @{$model->{WALK}} };
+            return unless $model;
+            $model->{GET}  = { map { $_->{OBJECT} => $_ } grep { $_->{OBJECT} } @{$model->{GET}}  };
+            $model->{WALK} = { map { $_->{OBJECT} => $_ } grep { $_->{OBJECT} } @{$model->{WALK}} };
 
             last FILE;
         }
