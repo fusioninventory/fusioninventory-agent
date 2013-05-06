@@ -12,7 +12,7 @@ sub setConnectedDevicesMacAddresses {
     FusionInventory::Agent::Manufacturer::setConnectedDevicesMacAddresses(
         ports   => $params{ports},
         walks   => $params{walks},
-        results => $params{results}->{VLAN}->{$params{vlan_id}}
+        results => $params{results}->{VLAN}->{$params{vlan_id}} || undef
     );
 }
 
