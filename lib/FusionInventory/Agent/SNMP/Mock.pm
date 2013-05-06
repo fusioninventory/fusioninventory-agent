@@ -29,6 +29,8 @@ sub _getIndexedValues {
 
     # check first line
     my $first_line = <$handle>;
+    return unless $first_line;
+
     seek($handle, 0, 0);
     my $values = substr($first_line, 0, 1) eq '.' ?
         _readNumericalOids($handle) :
