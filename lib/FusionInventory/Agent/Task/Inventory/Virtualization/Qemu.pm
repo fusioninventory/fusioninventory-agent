@@ -17,6 +17,49 @@ sub isEnabled {
         canRun('qemu-kvm');
 }
 
+sub _parseProcessList {
+    my ($process) = @_;
+
+    return unless $process->{CMD} =~ /(qemu|kvm|qemu-kvm|qemu-system\S+) .*\S/x;
+
+    my $values = {};
+
+    my $name;
+    my $mem = 0;
+    my $uuid;
+    my $vmtype = $1;
+
+    my @options = split (/ -/, $process->{CMD});
+
+    foreach my $option (@options) {
+        if ($option =~ m/^(?:[fhsv]d[a-d]|cdrom) (\S+)/) {
+            $values->{name} = $1 if !$values->{name};
+        } elsif ($option =~ m/^name (\S+)/) {
+            $values->{name} = $1;
+        } elsif ($option =~ m/^m (\S+)/) {
+            $values->{mem} = $1;
+        } elsif ($option =~ m/^uuid (\S+)/) {
+            $values->{uuid} = $1;
+        }
+
+        if ($option =~ /smbios/) {
+            if ($option =~ m/smbios.*uuid=([a-zA-Z0-9-]+)/) {
+                $values->{uuid} = $1;
+            }
+            if ($option =~ m/smbios.*serial=([a-zA-Z0-9-]+)/) {
+                $values->{serial} = $1;
+            }
+        }
+    }
+
+    if ($values->{mem} == 0 ) {
+        # Default value
+        $values->{mem} = 128;
+    }
+
+    return $values;
+}
+
 sub doInventory {
     my (%params) = @_;
 
@@ -25,42 +68,21 @@ sub doInventory {
 
     foreach my $process (getProcesses(logger => $logger)) {
         # match only if an qemu instance
-        next unless
-            $process->{CMD} =~ /(qemu|kvm|qemu-kvm) .* -([fhsv]d[a-z]|cdrom|drive)/x;
 
-        my $name;
-        my $mem = 0;
-        my $uuid;
-        my $vmtype = $1;
-
-        my @options = split (/ -/, $process->{CMD});
-        foreach my $option (@options) {
-            if ($option =~ m/^(?:[fhsv]d[a-d]|cdrom) (\S+)/) {
-                $name = $1 if !$name;
-            } elsif ($option =~ m/^name (\S+)/) {
-                $name = $1;
-            } elsif ($option =~ m/^m (\S+)/) {
-                $mem = $1;
-            } elsif ($option =~ m/^uuid (\S+)/) {
-                $uuid = $1;
-            }
-        }
-
-        if ($mem == 0 ) {
-            # Default value
-            $mem = 128;
-        }
+        my $values = _parseProcessList($process);
+        next unless $values;
 
         $inventory->addEntry(
             section => 'VIRTUALMACHINES',
             entry => {
-                NAME      => $name,
-                UUID      => $uuid,
+                NAME      => $values->{name},
+                UUID      => $values->{uuid},
                 VCPU      => 1,
-                MEMORY    => $mem,
+                MEMORY    => $values->{mem},
                 STATUS    => "running",
-                SUBSYSTEM => $vmtype,
-                VMTYPE    => $vmtype,
+                SUBSYSTEM => $values->{vmtype},
+                VMTYPE    => $values->{vmtype},
+                SERIAL    => $values->{serial},
             }
         );
     }
