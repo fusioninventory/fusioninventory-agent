@@ -21,6 +21,8 @@ Win32::OLE->Option(CP => Win32::OLE::CP_UTF8);
 use FusionInventory::Agent::Tools::Win32;
 
 sub isEnabled {
+    return if $params{no_category}->{process};
+
     return 1;
 }
 
