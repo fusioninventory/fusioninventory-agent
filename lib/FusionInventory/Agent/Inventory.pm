@@ -73,7 +73,7 @@ my %fields = (
                             SSH_KEY ARCH BOOT_TIME/ ],
     ACCESSLOG        => [ qw/USERID LOGDATE/ ],
     VIRTUALMACHINES  => [ qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU
-                             VMID MAC COMMENT OWNER/ ],
+                             VMID MAC COMMENT OWNER SERIAL/ ],
     LOGICAL_VOLUMES  => [ qw/LV_NAME VGN_AME ATTR SIZE LV_UUID SEG_COUNT
                              VG_UUID/ ],
     PHYSICAL_VOLUMES => [ qw/DEVICE PV_PE_COUNT PV_UUID FORMAT ATTR
