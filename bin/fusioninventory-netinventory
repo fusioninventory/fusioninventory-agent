@@ -98,6 +98,10 @@ $inventory->{options} = {
     ]
 };
 
+my $redis = Redis->new(server => '127.0.0.1:6379');
+$redis->select(1);
+exit if $redis->get($options->{file}) == 1;
+
 $inventory->{models_dir} = $options->{'models-dir'};
 if (defined($options->{entity})) {
     $inventory->{options}->{DEVICE}->[0]->{ENTITY} = $options->{entity};

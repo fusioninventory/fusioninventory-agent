@@ -305,30 +305,53 @@ sub _findModelInDir {
 
     my $sysdescr = $device->{DESCRIPTION};
 
+    return {} unless $sysdescr;
+
     $sysdescr =~ s/\n//g;
     $sysdescr =~ s/\r//g;
 
+    my $file;
+    use Redis;
+    my $redis = Redis->new(server => '127.0.0.1:6379');
+    $file = $redis->get($sysdescr);
+    if ($file && $file eq "missing") {
+        return {};
+    }
+
+    if (!$file) {
+        print "let's go\n";
+        FILE: foreach my $f (glob($self->{models_dir}."/*.xml")) {
+            my $tpp = XML::TreePP->new( force_array => [qw( sysdescr )] );
+            my $tree = $tpp->parsefile( $f );
+            my $stringList = $tree->{model}{devices}{sysdescr};
+            next unless $sysdescr;
+
+            foreach my $m (@{$stringList}) {
+                $m =~ s{\r|\n|\\\\}{}g;
+
+                $redis->set($m, $f);
+
+                next unless $sysdescr eq $m;
+
+                $file = $f; 
+
+                last FILE;
+            }
+        }
+    }
+    $redis->set($sysdescr, "missing");
+
     my $model = {};
 
-    FILE: foreach my $file (glob($self->{models_dir}."/*.xml")) {
-        my $tpp = XML::TreePP->new( force_array => [qw( sysdescr )] );
-        my $tree = $tpp->parsefile( $file );
-        my $stringList = $tree->{model}{devices}{sysdescr};
-        next unless $sysdescr;
+    if ($file) {
+        print STDERR "local model found: `$file'\n";
+        $self->{logger}->debug("local model found: $file");
+        $model = $self->loadModel($file);
+    }
 
-        foreach my $m (@{$stringList}) {
-            $m =~ s{\r|\n|\\\\}{}g;
-
-            next unless $sysdescr eq $m;
-
-            print STDERR "local model found: $file\n";
-            $self->{logger}->debug("local model found: $file");
-            $model = $self->loadModel($file);
-            $model->{GET}  = { map { $_->{OBJECT} => $_ } @{$model->{GET}}  };
-            $model->{WALK} = { map { $_->{OBJECT} => $_ } @{$model->{WALK}} };
-
-            last FILE;
-        }
+    if ($model) {
+        $model->{GET}  = { map { $_->{OBJECT} => $_ } @{$model->{GET}}  };
+        $model->{WALK} = { map { $_->{OBJECT} => $_ } @{$model->{WALK}} };
     }
 
     return $model;
@@ -343,6 +366,8 @@ sub _queryDevice {
 
     my $snmp;
     if ($device{FILE}) {
+
+
         FusionInventory::Agent::SNMP::Mock->require();
         eval {
             $snmp = FusionInventory::Agent::SNMP::Mock->new(
@@ -390,6 +415,13 @@ sub _queryDevice {
         getBasicInfoFromSysdescr($description, $snmp)
     );
     $model = $self->_findModelInDir(\%device);
+if ($model) {
+    my $redis = Redis->new(server => '127.0.0.1:6379');
+    $redis->select(1);
+    $redis->set($device{FILE},1);
+}
+
+
 
     # automatically extend model for cartridge support
     if ($device{TYPE} && $device{TYPE} eq "PRINTER") {
@@ -921,7 +953,10 @@ sub _isInteger {
 sub loadModel {
     my ($self, $file) = @_;
 
-    my $model = XML::TreePP->new()->parsefile($file)->{model};
+    my $model;
+    eval {
+        $model = XML::TreePP->new()->parsefile($file)->{model};
+    };
 
     if (!$model) {
         $self->{logger}->debug("Fails to parse `$file'");
