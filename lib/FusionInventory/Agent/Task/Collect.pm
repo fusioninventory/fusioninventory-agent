@@ -27,10 +27,6 @@ sub _getFromRegistry {
 
     return unless $OSNAME eq 'MSWin32';
 
-    use Data::Dumper;
-    print Dumper( \%params );
-
-
     FusionInventory::Agent::Tools::Win32->require();
 
     my $values = FusionInventory::Agent::Tools::Win32::getRegistryValues(path => $params{path});
@@ -67,7 +63,7 @@ sub _findFile {
                return @_;
             },
             wanted => sub {
-                    print $File::Find::name."\n";
+#                    print $File::Find::name."\n";
                 if (   $params{filter}{is_dir}
                     && !$params{filter}{checkSumSHA512}
                     && !$params{filter}{checkSumSHA2} )
@@ -96,7 +92,7 @@ sub _findFile {
 
                 my $st   = stat($File::Find::name);
                 my $size = $st->size;
-                print "name: $File::Find::name\n";
+#                print "name: $File::Find::name\n";
                 if ( $params{filter}{sizeEquals} ) {
                     return unless $size == $params{filter}{sizeEquals};
                 }
@@ -145,7 +141,6 @@ sub _runCommand {
     my $line;
 
     if ( $params{filter}{firstMatch} ) {
-        print "toto\n";
         $line = getFirstMatch(
             command => $params{command},
             pattern => $params{filter}{firstMatch}
@@ -179,7 +174,6 @@ sub _getFromWMI {
     my @objs = FusionInventory::Agent::Tools::Win32::getWmiObjects(%params);
 
     foreach my $obj (@objs) {
-        print Dumper($obj);
         push @return, $obj; 
     }
 
@@ -223,8 +217,6 @@ sub run {
     return unless $globalRemoteConfig->{schedule};
     return unless ref( $globalRemoteConfig->{schedule} ) eq 'ARRAY';
 
-    use Data::Dumper;
-    print Dumper($globalRemoteConfig);
     foreach my $job ( @{ $globalRemoteConfig->{schedule} } ) {
         next unless $job->{task} eq "Collect";
         $self->{collectRemote} = $job->{remote};
@@ -241,7 +233,6 @@ sub run {
             machineid => $self->{deviceid}
         }
     );
-    print "JOBS:" . Dumper($jobs);
 
 #    $jobs = [ 
 #{
@@ -291,11 +282,9 @@ sub run {
     return unless $jobs;
     return unless ref($jobs) eq 'ARRAY';
 
-    use Data::Dumper;
     $self->{logger}->info( "Got " . int( @{$jobs} ) . " collect order(s)." );
 
     foreach my $job (@$jobs) {
-        print Dumper($job);
         if ( !$job->{uuid} ) {
             $self->{logger}->error("UUID key missing");
             next;
@@ -307,8 +296,6 @@ sub run {
         }
 
         my @result = &{ $functions{ $job->{function} } }(%$job);
-
-print Dumper(\@result);
 
         next unless @result;
 
