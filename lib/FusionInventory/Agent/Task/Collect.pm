@@ -164,6 +164,8 @@ sub _runCommand {
 sub _getFromWMI {
     my %params = @_;
 
+    return unless $OSNAME eq 'MSWin32';
+
     FusionInventory::Agent::Tools::Win32->require();
 
     return unless $params{properties};
