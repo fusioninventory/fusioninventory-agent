@@ -8,6 +8,7 @@ use English qw(-no_match_vars);
 use UNIVERSAL::require;
 use File::Glob;
 use IO::Handle;
+use POSIX ":sys_wait_h"; # WNOHANG
 
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::HTTP::Client::OCS;
@@ -188,18 +189,14 @@ sub run {
         # background mode:
         while (1) {
             my $time = time();
+            foreach my $target (@{$self->{targets}}) {
+                next if $time < $target->getNextRunDate();
 
-            # check each target every 10 seconds
-            if ($time % 10 == 0) {
-                foreach my $target (@{$self->{targets}}) {
-                    next if $time < $target->getNextRunDate();
-
-                    eval {
-                        $self->_runTarget($target);
-                    };
-                    $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
-                    $target->resetNextRunDate();
-                }
+                eval {
+                    $self->_runTarget($target);
+                };
+                $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
+                $target->resetNextRunDate();
             }
 
             # check for http interface messages
@@ -278,7 +275,10 @@ sub _runTask {
         # server mode: run each task in a child process
         if (my $pid = fork()) {
             # parent
-            waitpid($pid, 0);
+            while (waitpid($pid, WNOHANG) == 0) {
+                $self->{server}->handleRequests() if $self->{server};
+                delay(1);
+            }
         } else {
             # child
             die "fork failed: $ERRNO" unless defined $pid;
@@ -347,7 +347,7 @@ sub getAvailableTasks {
     $directory =~ s,\\,/,g;
     my $subdirectory = "FusionInventory/Agent/Task";
     # look for all perl modules here
-    foreach my $file (glob("$directory/$subdirectory/*.pm")) {
+    foreach my $file (File::Glob::glob("$directory/$subdirectory/*.pm")) {
         next unless $file =~ m{($subdirectory/(\S+)\.pm)$};
         my $module = file2module($1);
         my $name = file2module($2);

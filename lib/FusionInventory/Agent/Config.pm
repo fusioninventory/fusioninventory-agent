@@ -10,7 +10,7 @@ use UNIVERSAL::require;
 
 my $default = {
     'additional-content'      => undef,
-    'backend-collect-timeout' => 30,
+    'backend-collect-timeout' => 180,
     'ca-cert-dir'             => undef,
     'ca-cert-file'            => undef,
     'color'                   => undef,

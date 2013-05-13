@@ -69,11 +69,16 @@ sub _readSymbolicOids {
 
     my $values;
     while (my $line = <$handle>) {
-       next unless $line =~ /^([^.]+) \. ([\d.]+) \s = \s (\S+): \s (.*)/x;
+       # Get multi-line block
+       while ($line =~ /\r\n$/) {
+           $line .= <$handle>;
+       }
+       next unless $line =~ /^([^.]+) \. ([\d.]+) \s = \s (\S+): \s (.*)/sx;
        my ($mib, $suffix) = ($1, $2);
        next unless $prefixes{$mib};
        my $oid = $prefixes{$mib} . '.' . $suffix;
        $values->{$oid} = [ $3, $4 ];
+
     }
 
     return $values;
@@ -111,11 +116,13 @@ sub walk {
 sub _getSanitizedValue {
     my ($format, $value) = @_;
 
+    chomp($value);
     if ($format eq 'Hex-STRING') {
         $value =~ s/\s//g;
         $value = "0x".$value;
     } else {
-        $value =~ s/"(.*)"/$1/;
+        $value =~ s/"(.*)"/$1/s;
+        $value =~ s/\r\n/\n/g;
     }
 
     return $value;

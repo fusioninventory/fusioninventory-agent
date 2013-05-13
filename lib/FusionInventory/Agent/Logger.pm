@@ -51,6 +51,8 @@ sub log {
     return if $level eq 'debug2' && $self->{debug} < 2;
     return if $level eq 'debug'  && $self->{debug} < 1;
 
+    chomp($message);
+
     foreach my $backend (@{$self->{backends}}) {
         $backend->addMessage (
             level => $level,

@@ -128,8 +128,20 @@ sub doInventory {
         });
 
     }
-
-
 }
+
+sub _getInstallDate {
+    my $installDate = getRegistryValue(
+        path   => 'HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion/InstallDate'
+    );
+    return unless $installDate;
+
+    my $dec = hex2dec($installDate);
+    return unless $dec;
+
+    return getFormatedLocalTime($dec);
+}
+
+
 
 1;

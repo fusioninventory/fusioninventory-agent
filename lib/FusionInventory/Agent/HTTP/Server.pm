@@ -8,8 +8,12 @@ use File::Basename;
 use HTTP::Daemon;
 use IO::Handle;
 use Net::IP;
+use Socket qw( SOCK_STREAM );
 use Socket::GetAddrInfo qw( getaddrinfo getnameinfo );
+use IO::Socket;
+#use Socket::GetAddrInfo qw( getaddrinfo getnameinfo );
 use Text::Template;
+use File::Glob;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools::Network;
@@ -54,7 +58,6 @@ sub _parseAddresses {
         my ($error, @results) = getaddrinfo(
             $string, "", { socktype => SOCK_RAW }
         );
-
         if ($error) {
             $self->{logger}->error("unable to resolve $string: $error");
             next;
@@ -62,7 +65,7 @@ sub _parseAddresses {
 
         # and push all of their addresses in the list
         foreach my $result (@results) {
-            my ($error, $host) = getnameinfo($result->{addr});
+            my ($error, $host) = getnameinfo($result->{addr}, Socket::GetAddrInfo::NI_NUMERICHOST, Socket::GetAddrInfo::NIx_NOSERV);
             if ($error) {
                 $self->{logger}->error("unable to get host address: $error");
                 next;
@@ -200,7 +203,7 @@ sub _handle_deploy {
 
     my $path;
     LOOP: foreach my $target ($self->{agent}->getTargets()) {
-        foreach (glob($target->{storage}->getDirectory() . "/deploy/fileparts/shared/*")) {
+        foreach (File::Glob::glob($target->{storage}->getDirectory() . "/deploy/fileparts/shared/*")) {
             next unless -f $_.'/'.$subFilePath;
 
             my $sha = Digest::SHA->new('512');
@@ -287,8 +290,12 @@ sub _isTrusted {
     return 0 unless $self->{trust};
 
     foreach my $trust (@{$self->{trust}}) {
-
         my $result = $source->overlaps($trust);
+
+	if (!$result) {
+            $logger->debug("Server: ".Net::IP::Error());
+	    next;
+	}
 
         # included in trusted range
         return 1 if $result == $IP_A_IN_B_OVERLAP;
