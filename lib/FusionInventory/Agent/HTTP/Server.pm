@@ -292,10 +292,10 @@ sub _isTrusted {
     foreach my $trust (@{$self->{trust}}) {
         my $result = $source->overlaps($trust);
 
-	if (!$result) {
+        if (!$result && Net::IP::Error()) {
             $logger->debug("Server: ".Net::IP::Error());
-	    next;
-	}
+            next;
+        }
 
         # included in trusted range
         return 1 if $result == $IP_A_IN_B_OVERLAP;
