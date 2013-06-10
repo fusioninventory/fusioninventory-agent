@@ -62,6 +62,8 @@ sub _getBiosHardware {
         $bios->{SMODEL} &&
         $bios->{SMODEL} =~ /Virtual Machine/) {
         $vmsystem = 'Hyper-V';
+         $bios->{SMODEL} = 'Hyper-V';
+         $bios->{MMODEL} = 'Hyper-V';
     } elsif ($bios->{BMANUFACTURER}) {
         $vmsystem =
             $bios->{BMANUFACTURER} =~ /(QEMU|Bochs)/         ? 'QEMU'       :
