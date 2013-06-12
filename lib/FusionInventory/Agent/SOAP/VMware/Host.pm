@@ -2,6 +2,7 @@ package FusionInventory::Agent::SOAP::VMware::Host;
 
 use strict;
 use warnings;
+use Data::Dumper;
 
 use FusionInventory::Agent::Tools;
 
@@ -312,6 +313,25 @@ sub getVirtualMachines {
         # hack to preserve  annotation / comment formating
         $comment =~ s/\n/&#10;/gm if $comment;
 
+        my @networks;
+        foreach my $network (_asArray($machine->{guest}{net})) {
+            if ($network->{ipAddress}) {
+               foreach my $ipaddress (_asArray($network->{ipAddress})) {
+                   push @networks, 
+                     {
+                       DESCRIPTION => $network->{network},
+                       MACADDR     => $network->{macAddress},
+                       IPADDRESS   => $ipaddress
+                     };
+                }
+            } else {
+                push @networks, 
+                  {
+                    DESCRIPTION => $network->{network},
+                    MACADDR     => $network->{macAddress}
+                  };
+            }
+        }
         if (
             defined($_->[0]{summary}{config}{template})
             &&
@@ -320,17 +340,36 @@ sub getVirtualMachines {
             next;
         }
 
+        my $customvalues;
+        foreach my $cvalues (_asArray($machine->{summary}{customValue})) {
+            $customvalues->{$cvalues->{key}} = $cvalues->{value};
+        }
+
+        my @customfields;
+        foreach my $cfields (_asArray($machine->{availableField}{CustomFieldDef})) {
+            if ($cfields->{key}) {
+                push @customfields, 
+                    {
+                      NAME   => $cfields->{name},
+                      VALUE  => $customvalues->{$cfields->{key}}
+                    };
+            }
+        }
+
         push @virtualMachines,
           {
-            VMID    => $machine->{summary}{vm},
-            NAME    => $machine->{name},
-            STATUS  => $status,
-            UUID    => $machine->{summary}{config}{uuid},
-            MEMORY  => $machine->{summary}{config}{memorySizeMB},
-            VMTYPE  => 'VMware',
-            VCPU    => $machine->{summary}{config}{numCpu},
-            MAC     => join( '/', @mac ),
-            COMMENT => $comment
+            VMID            => $machine->{summary}{vm},
+            NAME            => $machine->{name},
+            STATUS          => $status,
+            UUID            => $machine->{summary}{config}{uuid},
+            MEMORY          => $machine->{summary}{config}{memorySizeMB},
+            VMTYPE          => 'VMware',
+            VCPU            => $machine->{summary}{config}{numCpu},
+            MAC             => join( '/', @mac ),
+            COMMENT         => $comment,
+            OPERATINGSYSTEM => $machine->{summary}{config}{guestFullName},
+            NETWORKS        => \@networks,
+            CUSTOMFIELDS    => \@customfields
           };
     }
 
