@@ -11,6 +11,7 @@ use Test::Exception;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::HTTP::Client;
+use FusionInventory::Test::Proxy;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
 
@@ -31,7 +32,7 @@ if (!$port) {
 } elsif ($OSNAME eq 'darwin') {
     plan skip_all => 'non working test on MacOS';
 } else {
-    plan tests => 8;
+    plan tests => 9;
 }
 
 my $ok = sub {
@@ -46,14 +47,24 @@ my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'Test' ]
 );
 
+my $proxy = FusionInventory::Test::Proxy->new();
+$proxy->background();
+
 my $server;
 my $url = "https://localhost:$port/public";
 my $unsafe_client = FusionInventory::Agent::HTTP::Client->new(
     logger       => $logger,
     no_ssl_check => 1,
 );
+
 my $secure_client = FusionInventory::Agent::HTTP::Client->new(
     logger       => $logger,
+    ca_cert_file => 'resources/ssl/crt/ca.pem',
+);
+
+my $secure_proxy_client = FusionInventory::Agent::HTTP::Client->new(
+    logger => $logger,
+    proxy  => $proxy->url(),
     ca_cert_file => 'resources/ssl/crt/ca.pem',
 );
 
@@ -105,6 +116,11 @@ BAIL_OUT("can't launch the server: $EVAL_ERROR") if $EVAL_ERROR;
 ok(
     $secure_sha256_client->request(HTTP::Request->new(GET => $url))->is_success(),
     'trusted certificate (sha256), correct hostname: connection success'
+);
+
+ok(
+    !$secure_proxy_client->request(HTTP::Request->new(GET => $url))->is_success(),
+    'HTTPS over a proxy'
 );
 
 $server->stop();
