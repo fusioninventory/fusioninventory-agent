@@ -124,6 +124,7 @@ ok(
 );
 
 $server->stop();
+$proxy->stop();
 
 # trusted certificate, alternate hostname
 $server = FusionInventory::Test::Server->new(
