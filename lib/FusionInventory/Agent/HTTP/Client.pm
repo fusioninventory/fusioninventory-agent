@@ -62,7 +62,7 @@ sub request {
     my $scheme = $url->scheme();
     $self->_setSSLOptions() if $scheme eq 'https' && !$self->{ssl_set}; 
 
-    my $result;
+    my $result = HTTP::Response->new( 500 );
     eval {
         if ($OSNAME eq 'MSWin32' && $scheme eq 'https') {
             alarm $self->{timeout};
