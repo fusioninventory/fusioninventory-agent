@@ -44,7 +44,7 @@ sub _getFreeSpaceWindows {
     $letter = $1.':';
 
     my $freeSpace;
-    foreach my $object (FusionInventory::Agent::Tools::Win32::getWmiObjects(
+    foreach my $object (FusionInventory::Agent::Tools::Win32::getWMIObjects(
         moniker    => 'winmgmts:{impersonationLevel=impersonate,(security)}!//./',
         class      => 'Win32_LogicalDisk',
         properties => [ qw/Caption FreeSpace/ ]

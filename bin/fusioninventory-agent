@@ -313,6 +313,10 @@ environment
 
 process
 
+=item
+
+user
+
 =back
 
 =item B<--scan-homedirs>

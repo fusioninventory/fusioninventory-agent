@@ -24,6 +24,7 @@ inventory task:
 * LPAR support on AIX
 * no more memconf usage on Solaris
 * no more Mac::SysProfile usage on MacOS
+* better Qemu support
 
 wake-on-lan task:
 * ethernet and udp methods support on all systems

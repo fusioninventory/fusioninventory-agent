@@ -9,7 +9,7 @@ sub isEnabled {
     my (%params) = @_;
 
     return
-        !$params{no_category} &&
+        !$params{no_category}->{software} &&
         canRun('lslpp');
 }
 

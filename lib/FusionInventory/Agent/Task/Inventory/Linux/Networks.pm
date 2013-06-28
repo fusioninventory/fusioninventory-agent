@@ -50,7 +50,7 @@ sub _getInterfaces {
 
     foreach my $interface (@interfaces) {
         if (_isWifi($logger, $interface->{DESCRIPTION})) {
-            $interface->{TYPE} = "Wifi";
+            $interface->{TYPE} = "wifi";
         }
 
         $interface->{IPSUBNET} = getSubnetAddress(

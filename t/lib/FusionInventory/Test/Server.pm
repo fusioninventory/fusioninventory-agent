@@ -164,6 +164,7 @@ sub stop {
     my $signal = ($OSNAME eq 'MSWin32') ? 9 : 15;
     if ($pid) {
         kill($signal, $pid) unless $EXCEPTIONS_BEING_CAUGHT;
+        waitpid($pid, 0);
         undef $pid;
     }
 
