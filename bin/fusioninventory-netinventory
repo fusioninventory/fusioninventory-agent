@@ -98,7 +98,9 @@ $inventory->{options} = {
     ]
 };
 
-$inventory->{models_dir} = $options->{'models-dir'};
+if ($options->{'models-dir'} && -d $options->{'models-dir'}) {
+    $inventory->{models_dir} = $options->{'models-dir'};
+}
 if (defined($options->{entity})) {
     $inventory->{options}->{DEVICE}->[0]->{ENTITY} = $options->{entity};
 }

@@ -306,6 +306,8 @@ sub _findModelInDir {
 
     my $sysdescr = $device->{DESCRIPTION};
 
+    return unless $self->{models_dir};
+
     $sysdescr =~ s/\n//g;
     $sysdescr =~ s/\r//g;
 
