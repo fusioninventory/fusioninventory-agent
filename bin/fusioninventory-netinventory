@@ -86,7 +86,7 @@ $inventory->{options} = {
             IP           => $options->{host},
             FILE         => $options->{file},
             AUTHSNMP_ID  => 'local',
-            MODELSNMP_ID => 'local'
+            MODELSNMP_ID => $model->{ID}
         }
     ],
     MODEL => $model?[ $model ]:undef,
@@ -161,7 +161,7 @@ fusioninventory-netinventory [options] [--host <host>--file <file>]
 
   Options:
     --host host    host to inventorize
-    --file         snmpwalk output file
+    --file         a snmpwalk of the device
     --model model  XML model file
     --community    community string (default: public)
     --entity       GLPI entity
@@ -174,3 +174,17 @@ fusioninventory-netinventory [options] [--host <host>--file <file>]
 
 F<fusioninventory-netinventory> allows to run a network inventory task without
 a GLPI server.
+
+=head2 Parameters
+
+=over
+
+=item B<--file>
+
+parameter is useful to work offline. You can reuse the snmpwalk command to
+generate a full list of the OID of the device. Then you can use this file
+as a cache.
+
+    snmpwalk -v 1 -c public -Cc -On mydevice.localdomain .1 > mydevice.walk
+
+=back
