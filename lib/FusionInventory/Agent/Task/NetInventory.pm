@@ -393,7 +393,12 @@ sub _queryDevice {
         DESCRIPTION => $description,
         getBasicInfoFromSysdescr($description, $snmp)
     );
-    $model = $self->_findModelInDir(\%device);
+
+    if (!$model && $self->{models_dir}) {
+        # if a local model repository exists, we look for a proper
+        # model within
+        $model = $self->_findModelInDir(\%device);
+    }
 
     # automatically extend model for cartridge support
     if ($device{TYPE} && $device{TYPE} eq "PRINTER") {
