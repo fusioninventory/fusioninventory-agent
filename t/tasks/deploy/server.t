@@ -471,118 +471,9 @@ ok( $deploy->{client}, "loading Client object" );
 
 
 my $ret;
-#ok( $deploy->processRemote('http://localhost:8080/deploy1'), "processRemote()" );
-
-# $ret =
-#[
-#          {
-#            'action' => 'getJobs',
-#            'machineid' => 'fakeid'
-#          },
-#          {
-#            'currentStep' => 'checking',
-#            'action' => 'setStatus',
-#            'part' => 'job',
-#            'machineid' => 'fakeid',
-#            'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
-#          },
-#          {
-#            'currentStep' => 'downloading',
-#            'action' => 'setStatus',
-#            'part' => 'job',
-#            'machineid' => 'fakeid',
-#            'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
-#          },
-#          {
-#            'sha512' => '2a3f70d6e9c8720ab854190838fb8739f5a23d34023d28255f3e4b673e7c987421c5bc93160b5446111b7fdf5c2ca1bbd455d8d24e1683eedee7050d151e2526',
-#            'currentStep' => 'downloading',
-#            'action' => 'setStatus',
-#            'part' => 'file',
-#            'machineid' => 'fakeid',
-#            'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
-#          },
-#          {
-#            'sha512' => '2a3f70d6e9c8720ab854190838fb8739f5a23d34023d28255f3e4b673e7c987421c5bc93160b5446111b7fdf5c2ca1bbd455d8d24e1683eedee7050d151e2526',
-#            'currentStep' => 'downloading',
-#            'status' => 'ok',
-#            'action' => 'setStatus',
-#            'part' => 'file',
-#            'machineid' => 'fakeid',
-#            'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
-#          },
-#          {
-#            'currentStep' => 'downloading',
-#            'status' => 'ok',
-#            'action' => 'setStatus',
-#            'part' => 'job',
-#            'machineid' => 'fakeid',
-#            'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
-#          },
-#          {
-#            'status' => 'ok',
-#            'action' => 'setStatus',
-#            'part' => 'job',
-#            'machineid' => 'fakeid',
-#            'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
-#          }
-#        ];
-#use Data::Dumper;
-#print Dumper($ret);
-#foreach(0..@$ret) {
-## We ignore uuid since we don't know it.
-#    $ret->[$_]{sha512} = $deploy->{client}{msgStack}[$_]{sha512} = 'ignore';
-#    is_deeply($ret->[$_], $deploy->{client}{msgStack}[$_]);
-#}
 
 $deploy->{client}{msgStack} = [];
 
-
-#ok( $deploy->processRemote('http://localhost:8080/deploy1.1'), "processRemote()" );
-
-#$ret = [
-#          {
-#            'action' => 'getJobs',
-#            'machineid' => 'fakeid'
-#          },
-#          {
-#            'currentStep' => 'checking',
-#            'part' => 'job',
-#            'action' => 'setStatus',
-#            'machineid' => 'fakeid',
-#            'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
-#          },
-#          {
-#            'currentStep' => 'downloading',
-#            'part' => 'job',
-#            'action' => 'setStatus',
-#            'machineid' => 'fakeid',
-#            'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
-#          },
-#          {
-#            'sha512' => 'dee62337e981d7c859e6bb7d65ddd30530721b29687d3a85dafb9bb1850a7c2a4e13193bf8bf9e2d2dc4b8fbb679c74a0262479e8acf907f64bfea96ebaf20a1',
-#            'currentStep' => 'downloading',
-#            'part' => 'file',
-#            'action' => 'setStatus',
-#            'machineid' => 'fakeid',
-#            'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
-#          },
-#          {
-#            'msg' => 'download failed',
-#            'sha512' => 'dee62337e981d7c859e6bb7d65ddd30530721b29687d3a85dafb9bb1850a7c2a4e13193bf8bf9e2d2dc4b8fbb679c74a0262479e8acf907f64bfea96ebaf20a1',
-#            'status' => 'ko',
-#            'currentStep' => 'downloading',
-#            'part' => 'file',
-#            'action' => 'setStatus',
-#            'machineid' => 'fakeid',
-#            'uuid' => '0fae2958-24d5-0651-c49c-d1fec1766af650'
-#          }
-#        ];
-#
-#foreach(0..@$ret) {
-## We ignore uuid since we don't know it.
-#    $ret->[$_]{sha512} = $deploy->{client}{msgStack}[$_]{sha512} = 'ignore';
-#    is_deeply($ret->[$_], $deploy->{client}{msgStack}[$_]);
-#}
 
 $deploy->{client}{msgStack} = [];
 
@@ -729,10 +620,5 @@ ok (
   !-e $tmpDirServer.'/file-to-delete'
 , "delete file and directory");
 $deploy->{client}{msgStack} = [];
-
-
-#ok( $deploy->processRemote('http://localhost:8080/deploy3'), "processRemote()" );
-#ok( $deploy->processRemote('http://localhost:8080/deploy4'), "processRemote()" );
-#ok( $deploy->processRemote('http://localhost:8080/deploy5'), "processRemote()" );
 
 ok ($deploy->run(), "running the task");
