@@ -72,17 +72,22 @@ sub setConnectedDevicesUsingCDP {
             getElement($oid, -2) . "." .
             getElement($oid, -1);
 
+        my $mac;
+        my $sysname = $results->{cdpCacheDeviceId}->{$walks->{cdpCacheDeviceId}->{OID} . "." . $port_number};
+        if ($sysname =~ /^SIP([A-F0-9a-f]*)$/) {
+            $mac = alt2canonical("0x".$1);
+        }
+
         my $connection = {
             IP      => $ip,
+            MAC     => $mac,
             IFDESCR => $results->{cdpCacheDevicePort}->{
                 $walks->{cdpCacheDevicePort}->{OID} . "." . $port_number
             },
             SYSDESCR => $results->{cdpCacheVersion}->{
                 $walks->{cdpCacheVersion}->{OID} . "." . $port_number
             },
-            SYSNAME  => alt2canonical($results->{cdpCacheDeviceId}->{
-                $walks->{cdpCacheDeviceId}->{OID} . "." . $port_number
-            }),
+            SYSNAME  => $sysname,
             MODEL => $results->{cdpCachePlatform}->{
                 $walks->{cdpCachePlatform}->{OID} . "." . $port_number
             }

@@ -45,6 +45,7 @@ my @connected_devices_tests = (
                 CONNECTIONS => {
                     CONNECTION => {
                         IP       => '192.168.20.139',
+                        MAC      => 'E0:5F:B9:81:A7:A7',
                         IFDESCR  => 'Port 1',
                         SYSDESCR => '7.4.9c',
                         SYSNAME  => 'SIPE05FB981A7A7',
