@@ -46,7 +46,7 @@ my @tests = (
        },
 );
 
-plan tests => scalar @tests;
+plan tests => scalar @tests * 2;
 
 foreach my $test (@tests) {
     my $msg;
