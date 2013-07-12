@@ -533,6 +533,9 @@ This is only useful when running as a daemon.
 Turn the debug mode on. You can use the parameter up to 3 times in a row
 to increase the verbosity (e.g: B<--debug --debug>).
 
+Level 3 turns on the debug mode of some external libraries like Net::SSLeay.
+These messages will only be be printed on STDERR.
+
 =item B<--setup>
 
 Print the agent setup directories and exit.
