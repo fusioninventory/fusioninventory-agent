@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use Test::Deep;
+use Test::Deep qw(cmp_deeply);
 use Test::More;
 
 use FusionInventory::Agent::Tools;
