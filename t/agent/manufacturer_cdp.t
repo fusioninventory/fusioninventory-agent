@@ -50,6 +50,7 @@ my $expected = {
         CONNECTIONS => {
             CDP => 1,
             CONNECTION => {
+                MAC      => 'E0:5F:B9:81:A7:A7',
                 SYSDESCR => '7.4.9c',
                 IFDESCR  => 'Port 1',
                 MODEL    => 'Cisco IP Phone SPA508G',
