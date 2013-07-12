@@ -123,4 +123,3 @@ if (my $pid = fork()) {
     my $client = LWP::UserAgent->new(timeout => 2);
     exit $client->get("http://localhost:$port")->is_success();
 }
-
