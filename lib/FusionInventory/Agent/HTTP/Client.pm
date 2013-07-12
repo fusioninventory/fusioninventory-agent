@@ -145,6 +145,10 @@ sub _setSSLOptions {
             "You can use 'no-ssl-check' option to disable it."
             if $EVAL_ERROR;
 
+        if ($self->{logger}{debug} >= 3) {
+            $Net::SSLeay::trace = 2;
+        }
+
         if ($LWP::VERSION >= 6) {
             $self->{ua}->ssl_opts(SSL_ca_file => $self->{ca_cert_file})
                 if $self->{ca_cert_file};

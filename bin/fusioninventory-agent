@@ -530,7 +530,8 @@ This is only useful when running as a daemon.
 
 =item B<--debug>
 
-Turn the debug mode on.
+Turn the debug mode on. You can use the parameter up to 3 times in a row
+to increase the verbosity (e.g: B<--debug --debug>).
 
 =item B<--setup>
 
