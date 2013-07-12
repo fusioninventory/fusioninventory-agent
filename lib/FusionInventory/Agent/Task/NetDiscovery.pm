@@ -252,7 +252,7 @@ sub _getDictionary {
     if ($options->{DICOHASH}) {
         if ($dictionary && $hash && $hash eq $options->{DICOHASH}) {
             $self->{logger}->debug("Dictionary is up to date.");
-	    return $dictionary;
+            return $dictionary;
         }
     }
 

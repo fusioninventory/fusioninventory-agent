@@ -15,4 +15,3 @@ use FusionInventory::Agent::Task::Deploy::DiskFree;
 my $tmp = tempdir(CLEANUP => $ENV{TEST_DEBUG} ? 0 : 1);
 
 ok(getFreeSpace(path => $tmp) > 0, "getFreeSpace()");
-
