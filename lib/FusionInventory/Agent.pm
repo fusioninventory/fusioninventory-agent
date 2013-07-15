@@ -210,6 +210,7 @@ sub run {
 
             # check for http interface messages
             $self->{server}->handleRequests() if $self->{server};
+            delay(1);
         }
     } else {
         # foreground mode: check each targets once
