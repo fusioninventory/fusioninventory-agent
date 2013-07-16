@@ -52,6 +52,7 @@ test_requires 'LWP::Protocol::https'         => undef;
 test_requires 'Clone'                        => undef;
 test_requires 'Test::MockObject'             => undef;
 test_requires 'JSON'                         => undef;
+test_requires 'Net::SNMP'                    => undef;
 
 # Inventory
 recommends 'Parse::EDID' => undef;
