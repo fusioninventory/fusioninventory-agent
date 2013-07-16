@@ -38,10 +38,10 @@ my %tests = (
 # check thread support availability
 if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
     plan skip_all => 'thread support required';
-} else {
-    FusionInventory::Agent::Task::NetDiscovery->use();
-    plan tests => scalar keys %tests;
 }
+
+FusionInventory::Agent::Task::NetDiscovery->use();
+plan tests => scalar keys %tests;
 
 
 foreach my $test (keys %tests) {
