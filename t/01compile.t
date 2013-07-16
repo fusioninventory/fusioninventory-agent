@@ -6,6 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 use Test::More;
 use UNIVERSAL::require;
+use Config;
 
 plan(skip_all => 'Test::Compile required')
     unless Test::Compile->require();
@@ -25,9 +26,12 @@ all_pm_files_ok(@files);
 
 # filename-based filter
 sub filter {
-# TODO: not required since the tasks merge
-#    return 0 if $_ =~ m{FusionInventory/VMware};
-#    return 1 if $_ =~ m{FusionInventory/Agent/Task/(Inventory|WakeOnLan)};
-#    return 0 if $_ =~ m{FusionInventory/Agent/Task};
+
+    if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
+        return 0 if $_ =~ m{FusionInventory/Agent/Task/NetInventory.pm};
+        return 0 if $_ =~ m{FusionInventory/Agent/Task/NetDiscovery.pm};
+        return 0 if $_ =~ m{FusionInventory/Agent/Threads.pm};
+    }
+
     return 1;
 }
