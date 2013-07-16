@@ -6,10 +6,10 @@ use warnings;
 use English qw(-no_match_vars);
 use Test::Deep qw(cmp_deeply);
 use Test::More;
+use Config;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::XML::Response;
-use FusionInventory::Agent::Task::NetInventory;
 
 my %messages = (
     message2 => {
@@ -118,6 +118,12 @@ my %messages = (
         }
     }
 );
+
+# check thread support availability
+if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
+    plan skip_all => 'thread support required';
+}
+FusionInventory::Agent::Task::NetInventory->use();
 
 plan tests => scalar keys %messages;
 

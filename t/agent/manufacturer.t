@@ -6,10 +6,11 @@ use warnings;
 use Clone qw(clone);
 use Test::Deep;
 use Test::More;
+use UNIVERSAL::require;
+use Config;
 
 use FusionInventory::Agent::Manufacturer;
 use FusionInventory::Agent::Manufacturer::Cisco;
-use FusionInventory::Agent::Task::NetInventory;
 
 # each item is an arrayref of three elements:
 # - input data structure (ports list)
@@ -177,6 +178,14 @@ my @cisco_connected_devices_mac_addresses_tests = (
         'mac addresses, same address exception, cisco'
     ],
 );
+
+# check thread support availability
+if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
+    plan skip_all => 'thread support required';
+}
+
+
+FusionInventory::Agent::Task::NetInventory->use();
 
 plan tests =>
     scalar @trunk_ports_tests * 2 +

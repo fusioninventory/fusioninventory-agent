@@ -8,11 +8,19 @@ use English qw(-no_match_vars);
 use Test::Deep;
 use Test::More;
 use XML::TreePP;
+use UNIVERSAL::require;
+use Config;
 
-use FusionInventory::Agent::Task::NetInventory;
 use FusionInventory::Test::Utils;
 
+# check thread support availability
+if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
+    plan skip_all => 'thread support required';
+}
+
 plan tests => 15;
+
+FusionInventory::Agent::Task::NetInventory->use();
 
 my ($out, $err, $rc);
 
