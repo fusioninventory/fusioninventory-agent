@@ -130,7 +130,6 @@ $server->stop();
 
 # trusted certificate, joker
 SKIP: {
-    skip "Known to fail, has to be fixed. see: http://forge.fusioninventory.org/issues/2181", 1 unless $ENV{TEST_AUTHOR};
     skip 'unable to resolve localhost.localdomain', 1
         unless gethostbyname('localhost.localdomain');
 
