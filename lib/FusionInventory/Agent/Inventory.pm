@@ -1011,7 +1011,8 @@ Serial, Parallel, SATA, etc
 
 =head2 SLOTS
 
-Represents physical connection points including ports, motherboard slots and peripherals, and proprietary connection points.
+Represents physical connection points including ports, motherboard slots and
+peripherals, and proprietary connection points.
 
 This information is hardly reliable.
 
@@ -1019,9 +1020,13 @@ This information is hardly reliable.
 
 =item DESCRIPTION
 
+The bus type.
+
 =item DESIGNATION
 
 =item NAME
+
+The slot identifier.
 
 =item STATUS
 
