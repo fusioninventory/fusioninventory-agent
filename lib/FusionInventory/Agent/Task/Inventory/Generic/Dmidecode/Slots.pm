@@ -6,6 +6,12 @@ use warnings;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Generic;
 
+my %status = (
+    'Unknown'   => undef,
+    'In Use'    => 'used',
+    'Available' => 'free'
+);
+
 sub isEnabled {
     return 1;
 }
@@ -39,7 +45,8 @@ sub _getSlots {
             DESCRIPTION => $info->{'Type'},
             DESIGNATION => $info->{'ID'},
             NAME        => $info->{'Designation'},
-            STATUS      => $info->{'Current Usage'},
+            STATUS      => $info->{'Current Usage'} ?
+                $status{$info->{'Current Usage'}} : undef,
         };
 
         push @$slots, $slot;

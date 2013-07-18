@@ -90,6 +90,9 @@ my %checks = (
     VIRTUALMACHINES => {
         STATUS => qr/^(running|idle|paused|shutdown|crashed|dying|off)$/
     },
+    SLOTS => {
+        STATUS => qr/^(free|used)$/
+    },
     NETWORKS => {
         TYPE => qr/^(ethernet|wifi)$/
     }
@@ -1029,6 +1032,8 @@ The bus type.
 The slot identifier.
 
 =item STATUS
+
+The slot usage status (free or used).
 
 =back
 
