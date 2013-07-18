@@ -37,7 +37,6 @@ sub _getSlots {
         my @info = split(/:/, $line);
         push @slots, {
             DESIGNATION => $info[17],
-            STATUS      => "OK",
         };
     }
     close $handle;
