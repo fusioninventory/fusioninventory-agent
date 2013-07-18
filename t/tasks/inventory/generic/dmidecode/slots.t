@@ -171,13 +171,13 @@ my %tests = (
         {
             NAME        => 'SLOT2',
             STATUS      => 'free',
-            DESCRIPTION => '<OUT OF SPEC><OUT OF SPEC>',
+            DESCRIPTION => undef,
             DESIGNATION => undef
         },
         {
             NAME        => 'SLOT3',
             STATUS      => 'free',
-            DESCRIPTION => '<OUT OF SPEC><OUT OF SPEC>',
+            DESCRIPTION => undef,
             DESIGNATION => undef
         },
         {
@@ -341,19 +341,19 @@ my %tests = (
         {
             NAME        => 'PCI-E Slot 4',
             STATUS      => 'free',
-            DESCRIPTION => '<OUT OF SPEC><OUT OF SPEC>',
+            DESCRIPTION => undef,
             DESIGNATION => undef,
         },
         {
             NAME        => 'PCI-E Slot 5',
             STATUS      => 'free',
-            DESCRIPTION => '<OUT OF SPEC><OUT OF SPEC>',
+            DESCRIPTION => undef,
             DESIGNATION => undef,
         },
         {
             NAME        => 'PCI-E Slot 6',
             STATUS      => 'free',
-            DESCRIPTION => '<OUT OF SPEC><OUT OF SPEC>',
+            DESCRIPTION => undef,
             DESIGNATION => undef,
         }
     ],
