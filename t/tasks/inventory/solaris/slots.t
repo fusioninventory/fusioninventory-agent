@@ -82,6 +82,78 @@ my %tests = (
             DESCRIPTION => 'PCI',
             DESIGNATION => 'SUNW,XVR-100',
         },
+    ],
+    'sample3' => [
+        {
+            NAME        => 1,
+            STATUS      => 'free',
+            DESCRIPTION => 'PCI Express',
+            DESIGNATION => 'PCIExp SLOT0'
+        },
+        {
+            NAME        => 2,
+            STATUS      => 'free',
+            DESCRIPTION => 'PCI Express',
+            DESIGNATION => 'PCIExp SLOT1'
+        },
+        {
+            NAME        => 3,
+            STATUS      => 'free',
+            DESCRIPTION => 'PCI Express',
+            DESIGNATION => 'PCIExp SLOT2'
+        },
+    ],
+    'sample4' => [
+        {
+            NAME        => 1,
+            STATUS      => 'free',
+            DESCRIPTION => 'PCI Express',
+            DESIGNATION => 'PCIE1'
+        },
+    ],
+    'sample5' => [
+        {
+            NAME        => 0,
+            STATUS      => undef,
+            DESCRIPTION => 'ISA',
+            DESIGNATION => 'ISA Slot J8'
+        },
+        {
+            NAME        => 0,
+            STATUS      => undef,
+            DESCRIPTION => 'ISA',
+            DESIGNATION => 'ISA Slot J9'
+        },
+        {
+            NAME        => 0,
+            STATUS      => undef,
+            DESCRIPTION => 'ISA',
+            DESIGNATION => 'ISA Slot J10'
+        },
+        {
+            NAME        => 1,
+            STATUS      => 'used',
+            DESCRIPTION => 'PCI',
+            DESIGNATION => 'PCI Slot J11'
+        },
+        {
+            NAME        => 2,
+            STATUS      => 'used',
+            DESCRIPTION => 'PCI',
+            DESIGNATION => 'PCI Slot J12'
+        },
+        {
+            NAME        => 3,
+            STATUS      => 'used',
+            DESCRIPTION => 'PCI',
+            DESIGNATION => 'PCI Slot J13'
+        },
+        {
+            NAME        => 4,
+            STATUS      => 'free',
+            DESCRIPTION => 'PCI',
+            DESIGNATION => 'PCI Slot J14'
+        }
     ]
 );
 
