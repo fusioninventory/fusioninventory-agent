@@ -206,14 +206,13 @@ sub _parseSlotsSection {
                 my ($line) = @_;
                 return unless $line =~ /^
                     (\S+) \s+
-                    PCI[EX] \s+
+                    (PCI[EX]?) \s+
                     (\S+)
-                    (?:\s+ (\S+))?
                 /x;
                 return {
                     NAME        => $1,
-                    DESIGNATION => $2,
-                    DESCRIPTION => $3
+                    DESCRIPTION => $2,
+                    DESIGNATION => $3,
                 };
             };
             last SWITCH;
@@ -223,13 +222,22 @@ sub _parseSlotsSection {
             $offset  = 7;
             $callback = sub {
                 my ($line) = @_;
-                return unless $line =~ /
+                return unless $line =~ /^
+                    \S+ \s+
+                    (PCI[EX]?) \s+
+                    \S+ \s+
+                    \S+ \s+
                     (\S+) \s+
-                    (\S+) \s*
-                $/x;
+                    \S+ \s+
+                    \S+ \s+
+                    \S+ \s+
+                    \S+ \s+
+                    (\S+) \s+
+                /x;
                 return {
-                    DESIGNATION => $1,
-                    DESCRIPTION => $2
+                    NAME        => $2,
+                    DESCRIPTION => $1,
+                    DESIGNATION => $3,
                 };
             };
             last SWITCH;
