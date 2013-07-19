@@ -20,7 +20,6 @@ GetOptions(
     'user=s',
     'password=s',
     'directory=s',
-    'tag=s',
     'help',
     'version',
 ) or pod2usage(-verbose => 0);
@@ -86,7 +85,7 @@ fusioninventory-esx - vCenter/ESX/ESXi remote inventory from command line
 
 =head1 SYNOPSIS
 
-fusioninventory-esx --host <host> --user <user> --password <password> --directory <directory> --tag <tag>
+fusioninventory-esx --host <host> --user <user> --password <password> --directory <directory>
 
   Options:
     --help                 this menu
@@ -94,7 +93,6 @@ fusioninventory-esx --host <host> --user <user> --password <password> --director
     --user username        user name
     --password xxxx        user password
     --directory directory  output directory
-    --tag tag              tag for the inventoried machine
 
 =head1 EXAMPLES
 
