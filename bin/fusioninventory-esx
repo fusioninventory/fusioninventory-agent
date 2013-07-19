@@ -54,7 +54,7 @@ my $logger = FusionInventory::Agent::Logger->new();
 my $hasError = 0;
 my $hostIds = $esx->getHostIds();
 foreach my $hostId (@$hostIds) {
-    my $inventory = $esx->createInventory($hostId);
+    my $inventory = $esx->createInventory($hostId, $options->{tag});
 
     my $file =  $options->{directory} . '/' . $inventory->{deviceid} . ".ocs";
 
