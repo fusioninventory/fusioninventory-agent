@@ -76,7 +76,6 @@ sub createInventory {
 
     my $inventory = FusionInventory::Agent::Inventory->new(
         logger => $self->{logger},
-        config => $self->{config},
     );
     $inventory->{deviceid} = $self->createFakeDeviceid($host);
 
