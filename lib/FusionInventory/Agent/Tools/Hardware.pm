@@ -166,31 +166,27 @@ my @hardware_rules = (
 
 my @trunk_ports_rules = (
     {
-        match  => qr/(Cisco|ProCurve)/,
-        module => 'FusionInventory::Agent::Tools::Hardware::Generic',
-    },
-    {
         match  => qr/Nortel/,
         module => 'FusionInventory::Agent::Tools::Hardware::Nortel',
+    },
+    {
+        match  => qr/.*/,
+        module => 'FusionInventory::Agent::Tools::Hardware::Generic',
     },
 );
 
 my @connected_devices_rules = (
     {
-        match  => qr/(Cisco|ProCurve|Juniper)/,
-        module => 'FusionInventory::Agent::Tools::Hardware::Generic',
-    },
-    {
         match  => qr/Nortel/,
         module => 'FusionInventory::Agent::Tools::Hardware::Nortel',
+    },
+    {
+        match  => qr/.*/,
+        module => 'FusionInventory::Agent::Tools::Hardware::Generic',
     },
 );
 
 my @connected_devices_mac_addresses_rules = (
-    {
-        match    => qr/(3Com|ProCurve|Nortel|Allied Telesis|ExtremeXOS)/,
-        module   => 'FusionInventory::Agent::Tools::Hardware::Generic',
-    },
     {
         match    => qr/Cisco/,
         module   => 'FusionInventory::Agent::Tools::Hardware::Cisco',
@@ -198,7 +194,11 @@ my @connected_devices_mac_addresses_rules = (
     {
         match    => qr/Juniper/,
         module   => 'FusionInventory::Agent::Tools::Hardware::Juniper',
-    }
+    },
+    {
+        match    => qr/.*/,
+        module   => 'FusionInventory::Agent::Tools::Hardware::Generic',
+    },
 );
 
 my @specific_cleanup_rules = (
@@ -208,7 +208,6 @@ my @specific_cleanup_rules = (
         function => 'RewritePortOf225'
     },
 );
-
 
 sub getBasicInfoFromSysdescr {
     my ($sysdescr, $snmp) = @_;
