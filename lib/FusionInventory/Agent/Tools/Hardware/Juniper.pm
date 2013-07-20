@@ -12,7 +12,8 @@ sub setConnectedDevicesMacAddresses {
     my $ports   = $params{ports};
     my $walks   = $params{walks};
 
-    while (my ($oid, $suffix) = each %{$results->{dot1dTpFdbAddress}}) {
+    foreach my $oid (sort keys %{$results->{dot1dTpFdbAddress}}) {
+        my $suffix = $results->{dot1dTpFdbAddress}->{$oid};
         my $mac =
             sprintf "%02x:%02x:%02x:%02x:%02x:%02x", getElements($oid, -6, -1);
         next unless $mac;

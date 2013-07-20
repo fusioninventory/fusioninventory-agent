@@ -13,7 +13,8 @@ sub setConnectedDevicesMacAddresses {
     my $ports   = $params{ports};
     my $walks   = $params{walks};
 
-    while (my ($oid, $mac) = each %{$results->{dot1dTpFdbAddress}}) {
+    foreach my $oid (sort keys %{$results->{dot1dTpFdbAddress}}) {
+        my $mac = $results->{dot1dTpFdbAddress}->{$oid};
         $mac = alt2canonical($mac);
         next unless $mac;
 

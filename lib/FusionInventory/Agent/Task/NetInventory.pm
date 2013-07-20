@@ -481,8 +481,8 @@ sub _setGenericProperties {
     }
 
     if ($results->{ipAdEntAddr}) {
-        $device->{INFO}->{IPS}->{IP} = [
-            values %{$results->{ipAdEntAddr}}
+        $device->{INFO}->{IPS}->{IP} =  [
+            sort values %{$results->{ipAdEntAddr}}
         ];
     }
 
