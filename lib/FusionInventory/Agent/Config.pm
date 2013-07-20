@@ -234,6 +234,11 @@ sub _checkContent {
         $self->{logger} .= ',File';
     }
 
+    # ca-cert-file and ca-cert-dir are antagonists
+    if ($self->{'ca-cert-file'} && $self->{'ca-cert-dir'}) {
+        die "use either 'ca-cert-file' or 'ca-cert-dir' option, not both\n";
+    }
+
     # multi-values options, the default separator is a ','
     foreach my $option (qw/
             logger
