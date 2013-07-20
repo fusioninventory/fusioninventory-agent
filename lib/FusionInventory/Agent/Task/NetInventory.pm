@@ -665,9 +665,9 @@ sub _setNetworkingProperties {
     # everything else is vendor-specific, and requires device description
     return unless $comments;
 
-    _setTrunkPorts($comments, $results, $ports);
+    setTrunkPorts($comments, $results, $ports);
 
-    _setConnectedDevices($comments, $results, $ports, $walks);
+    setConnectedDevices($comments, $results, $ports, $walks);
 
     # check if vlan-specific queries are needed
     my $vlan_query =
@@ -708,141 +708,17 @@ sub _setNetworkingProperties {
                     $snmp->walk($variable->{OID});
             }
 
-            _setConnectedDevicesMacAddresses(
+            setConnectedDevicesMacAddresses(
                 $comments, $results, $ports, $walks, $vlan_id
             );
         }
     } else {
         # set connected devices mac addresses only once
-        _setConnectedDevicesMacAddresses($comments, $results, $ports, $walks);
+        setConnectedDevicesMacAddresses($comments, $results, $ports, $walks);
     }
 
     # hardware-specific hacks
-    _performSpecificCleanup($comments, $results, $ports);
-}
-
-sub _setTrunkPorts {
-    my ($description, $results, $ports) = @_;
-
-    my @dispatch_table = (
-        {
-            match  => qr/(Cisco|ProCurve)/,
-            module => 'FusionInventory::Agent::Tools::Hardware::Generic',
-        },
-        {
-            match  => qr/Nortel/,
-            module => 'FusionInventory::Agent::Tools::Hardware::Nortel',
-        },
-    );
-
-    foreach my $entry (@dispatch_table) {
-        next unless $description =~ $entry->{match};
-
-        runFunction(
-            module   => $entry->{module},
-            function => 'setTrunkPorts',
-            params   => { results => $results, ports => $ports },
-            load     => 1
-        );
-
-        last;
-    }
-
-}
-
-sub _setConnectedDevices {
-    my ($description, $results, $ports, $walks) = @_;
-
-    my @dispatch_table = (
-        {
-            match  => qr/(Cisco|ProCurve|Juniper)/,
-            module => 'FusionInventory::Agent::Tools::Hardware::Generic',
-        },
-        {
-            match  => qr/Nortel/,
-            module => 'FusionInventory::Agent::Tools::Hardware::Nortel',
-        },
-    );
-
-    foreach my $entry (@dispatch_table) {
-        next unless $description =~ $entry->{match};
-
-        runFunction(
-            module   => $entry->{module},
-            function => 'setConnectedDevices',
-            params   => {
-                results => $results, ports => $ports, walks => $walks
-            },
-            load     => 1
-        );
-
-        last;
-    }
-}
-
-sub _setConnectedDevicesMacAddresses {
-    my ($description, $results, $ports, $walks, $vlan_id) = @_;
-
-    my @dispatch_table = (
-        {
-            match    => qr/(3Com|ProCurve|Nortel|Allied Telesis|ExtremeXOS)/,
-            module   => 'FusionInventory::Agent::Tools::Hardware::Generic',
-        },
-        {
-            match    => qr/Cisco/,
-            module   => 'FusionInventory::Agent::Tools::Hardware::Cisco',
-        },
-        {
-            match    => qr/Juniper/,
-            module   => 'FusionInventory::Agent::Tools::Hardware::Juniper',
-        }
-    );
-
-    foreach my $entry (@dispatch_table) {
-        next unless $description =~ $entry->{match};
-
-        runFunction(
-            module   => $entry->{module},
-            function => 'setConnectedDevicesMacAddresses',
-            params   => {
-                results => $results,
-                ports   => $ports,
-                walks   => $walks,
-                vlan_id => $vlan_id
-            },
-            load     => 1
-        );
-
-        last;
-    }
-}
-
-sub _performSpecificCleanup {
-    my ($description, $results, $ports, $walks) = @_;
-
-    my @dispatch_table = (
-        {
-            match    => qr/3Com IntelliJack/,
-            module   => 'FusionInventory::Agent::Tools::Hardware::3Com',
-            function => 'RewritePortOf225'
-        },
-    );
-
-    foreach my $entry (@dispatch_table) {
-        next unless $description =~ $entry->{match};
-
-        runFunction(
-            module   => $entry->{module},
-            function => $entry->{function},
-            params   => {
-                results => $results,
-                ports   => $ports
-            },
-            load     => 1
-        );
-
-        last;
-    }
+    performSpecificCleanup($comments, $results, $ports);
 }
 
 sub _getPercentValue {

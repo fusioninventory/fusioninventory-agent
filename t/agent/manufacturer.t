@@ -6,9 +6,8 @@ use warnings;
 use Clone qw(clone);
 use Test::Deep;
 use Test::More;
-use UNIVERSAL::require;
-use Config;
 
+use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::Tools::Hardware::Generic;
 use FusionInventory::Agent::Tools::Hardware::Cisco;
 
@@ -179,14 +178,6 @@ my @cisco_connected_devices_mac_addresses_tests = (
     ],
 );
 
-# check thread support availability
-if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
-    plan skip_all => 'thread support required';
-}
-
-
-FusionInventory::Agent::Task::NetInventory->use();
-
 plan tests =>
     scalar @trunk_ports_tests * 2 +
     scalar @connected_devices_tests * 2 +
@@ -325,7 +316,7 @@ foreach my $test (@cisco_connected_devices_mac_addresses_tests) {
 foreach my $test (@trunk_ports_tests) {
     my $ports = clone($test->[0]);
 
-    FusionInventory::Agent::Task::NetInventory::_setTrunkPorts(
+    setTrunkPorts(
         'Cisco', $results, $ports
     );
 
@@ -339,7 +330,7 @@ foreach my $test (@trunk_ports_tests) {
 foreach my $test (@connected_devices_tests) {
     my $ports = clone($test->[0]);
 
-    FusionInventory::Agent::Task::NetInventory::_setConnectedDevices(
+    setConnectedDevices(
         'Cisco', $results, $ports, $walks
     );
 
@@ -353,7 +344,7 @@ foreach my $test (@connected_devices_tests) {
 foreach my $test (@connected_devices_mac_addresses_tests) {
     my $ports = clone($test->[0]);
 
-    FusionInventory::Agent::Task::NetInventory::_setConnectedDevicesMacAddresses(
+    setConnectedDevicesMacAddresses(
         'ProCurve', $results, $ports, $walks
     );
 
@@ -367,7 +358,7 @@ foreach my $test (@connected_devices_mac_addresses_tests) {
 foreach my $test (@cisco_connected_devices_mac_addresses_tests) {
     my $ports = clone($test->[0]);
 
-    FusionInventory::Agent::Task::NetInventory::_setConnectedDevicesMacAddresses(
+    setConnectedDevicesMacAddresses(
         'Cisco', $cisco_results, $ports, $walks, 1
     );
 

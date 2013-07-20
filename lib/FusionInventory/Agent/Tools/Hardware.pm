@@ -8,6 +8,10 @@ use FusionInventory::Agent::Tools; # runFunction
 
 our @EXPORT = qw(
     getBasicInfoFromSysdescr
+    setTrunkPorts
+    setConnectedDevices
+    setConnectedDevicesMacAddresses
+    performSpecificCleanup
 );
 
 my %hardware_keywords = (
@@ -160,6 +164,52 @@ my @hardware_rules = (
     },
 );
 
+my @trunk_ports_rules = (
+    {
+        match  => qr/(Cisco|ProCurve)/,
+        module => 'FusionInventory::Agent::Tools::Hardware::Generic',
+    },
+    {
+        match  => qr/Nortel/,
+        module => 'FusionInventory::Agent::Tools::Hardware::Nortel',
+    },
+);
+
+my @connected_devices_rules = (
+    {
+        match  => qr/(Cisco|ProCurve|Juniper)/,
+        module => 'FusionInventory::Agent::Tools::Hardware::Generic',
+    },
+    {
+        match  => qr/Nortel/,
+        module => 'FusionInventory::Agent::Tools::Hardware::Nortel',
+    },
+);
+
+my @connected_devices_mac_addresses_rules = (
+    {
+        match    => qr/(3Com|ProCurve|Nortel|Allied Telesis|ExtremeXOS)/,
+        module   => 'FusionInventory::Agent::Tools::Hardware::Generic',
+    },
+    {
+        match    => qr/Cisco/,
+        module   => 'FusionInventory::Agent::Tools::Hardware::Cisco',
+    },
+    {
+        match    => qr/Juniper/,
+        module   => 'FusionInventory::Agent::Tools::Hardware::Juniper',
+    }
+);
+
+my @specific_cleanup_rules = (
+    {
+        match    => qr/3Com IntelliJack/,
+        module   => 'FusionInventory::Agent::Tools::Hardware::3Com',
+        function => 'RewritePortOf225'
+    },
+);
+
+
 sub getBasicInfoFromSysdescr {
     my ($sysdescr, $snmp) = @_;
 
@@ -207,6 +257,84 @@ sub _apply_rule {
             params   => $snmp,
             load     => 1
         );
+    }
+}
+
+sub setTrunkPorts {
+    my ($description, $results, $ports) = @_;
+
+    foreach my $rule (@trunk_ports_rules) {
+        next unless $description =~ $rule->{match};
+
+        runFunction(
+            module   => $rule->{module},
+            function => 'setTrunkPorts',
+            params   => { results => $results, ports => $ports },
+            load     => 1
+        );
+
+        last;
+    }
+
+}
+sub setConnectedDevices {
+    my ($description, $results, $ports, $walks) = @_;
+
+    foreach my $rule (@connected_devices_rules) {
+        next unless $description =~ $rule->{match};
+
+        runFunction(
+            module   => $rule->{module},
+            function => 'setConnectedDevices',
+            params   => {
+                results => $results, ports => $ports, walks => $walks
+            },
+            load     => 1
+        );
+
+        last;
+    }
+}
+
+sub setConnectedDevicesMacAddresses {
+    my ($description, $results, $ports, $walks, $vlan_id) = @_;
+
+    foreach my $rule (@connected_devices_mac_addresses_rules) {
+        next unless $description =~ $rule->{match};
+
+        runFunction(
+            module   => $rule->{module},
+            function => 'setConnectedDevicesMacAddresses',
+            params   => {
+                results => $results,
+                ports   => $ports,
+                walks   => $walks,
+                vlan_id => $vlan_id
+            },
+            load     => 1
+        );
+
+        last;
+    }
+}
+
+sub performSpecificCleanup {
+    my ($description, $results, $ports, $walks) = @_;
+
+    foreach my $rule (@specific_cleanup_rules) {
+        next unless $description =~ $rule->{match};
+
+        runFunction(
+            module   => $rule->{module},
+            function => $rule->{function},
+            params   => {
+                results => $results,
+                ports   => $ports
+            },
+            load     => 1
+        );
+
+        last;
     }
 }
 
