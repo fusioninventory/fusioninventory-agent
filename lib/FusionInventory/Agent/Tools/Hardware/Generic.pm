@@ -153,11 +153,11 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Tools::Hardware::Generic - Generic hardware functions
+FusionInventory::Agent::Tools::Hardware::Generic - Generic hardware-relatedfunctions
 
 =head1 DESCRIPTION
 
-This module provides some generic hardware functions.
+This module provides some generic implementation of hardware-related functions.
 
 =head1 FUNCTIONS
 

@@ -340,6 +340,84 @@ sub performSpecificCleanup {
 1;
 __END__
 
+=head1 NAME
+
+FusionInventory::Agent::Tools::Hardware - Hardware-related functions
+
+=head1 DESCRIPTION
+
+This module provides some hardware-related functions.
+
+=head1 FUNCTIONS
+
 =head2 getBasicInfoFromSysdescr($sysdescr)
 
 return a hash initialized from sysdescr information.
+
+=head2 setConnectedDevicesMacAddresses(%params)
+
+set mac addresses of connected devices.
+
+=over
+
+=item results raw values collected through SNMP
+
+=item ports device ports list
+
+=item walks model walk branch
+
+=back
+
+=head2 setConnectedDevices
+
+Set connected devices using CDP if available, LLDP otherwise.
+
+=over
+
+=item results raw values collected through SNMP
+
+=item ports device ports list
+
+=item walks model walk branch
+
+=back
+
+=head2 setConnectedDevicesUsingCDP
+
+Set connected devices using CDP
+
+=over
+
+=item results raw values collected through SNMP
+
+=item ports device ports list
+
+=item walks model walk branch
+
+=back
+
+=head2 setConnectedDevicesUsingLLDP
+
+Set connected devices using LLDP
+
+=over
+
+=item results raw values collected through SNMP
+
+=item ports device ports list
+
+=item walks model walk branch
+
+=back
+
+=head2 setTrunkPorts
+
+Set trunk flag on ports needing it.
+
+=over
+
+=item results raw values collected through SNMP
+
+=item ports device ports list
+
+=back
