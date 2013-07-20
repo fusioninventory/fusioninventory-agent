@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Manufacturer::Kyocera;
+package FusionInventory::Agent::Tools::Hardware::Axis;
 
 use strict;
 use warnings;
@@ -6,13 +6,8 @@ use warnings;
 sub getDescription {
     my ($snmp) = @_;
 
-    my $result = $snmp->get('.1.3.6.1.4.1.1347.42.5.1.1.2.1');
-    return $result if $result;
+    my $result = $snmp->get('.1.3.6.1.4.1.2699.1.2.1.2.1.1.3.1');
 
-    $result = $snmp->get('.1.3.6.1.4.1.1347.43.5.1.1.1.1');
-    return $result if $result;
-
-    $result = $snmp->get('.1.3.6.1.4.1.11.2.3.9.1.1.7.0');
     return unless $result;
 
     my @infos = split(/;/, $result);
@@ -32,11 +27,11 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Manufacturer::Kyocera - Kyocera-specific functions
+FusionInventory::Agent::Tools::Hardware::Axis - Axis-specific functions
 
 =head1 DESCRIPTION
 
-This is a class defining some functions specific to Kyocera hardware.
+This is a class defining some functions specific to Axis hardware.
 
 =head1 FUNCTIONS
 

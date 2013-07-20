@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Manufacturer::Nortel;
+package FusionInventory::Agent::Tools::Hardware::Nortel;
 
 use strict;
 use warnings;
@@ -60,7 +60,7 @@ sub setConnectedDevices {
 1;
 =head1 NAME
 
-FusionInventory::Agent::Manufacturer::Nortel - Nortel-specific functions
+FusionInventory::Agent::Tools::Hardware::Nortel - Nortel-specific functions
 
 =head1 DESCRIPTION
 

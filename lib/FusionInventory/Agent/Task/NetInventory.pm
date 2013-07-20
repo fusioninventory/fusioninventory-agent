@@ -727,11 +727,11 @@ sub _setTrunkPorts {
     my @dispatch_table = (
         {
             match  => qr/(Cisco|ProCurve)/,
-            module => 'FusionInventory::Agent::Manufacturer',
+            module => 'FusionInventory::Agent::Tools::Hardware::Generic',
         },
         {
             match  => qr/Nortel/,
-            module => 'FusionInventory::Agent::Manufacturer::Nortel',
+            module => 'FusionInventory::Agent::Tools::Hardware::Nortel',
         },
     );
 
@@ -756,11 +756,11 @@ sub _setConnectedDevices {
     my @dispatch_table = (
         {
             match  => qr/(Cisco|ProCurve|Juniper)/,
-            module => 'FusionInventory::Agent::Manufacturer',
+            module => 'FusionInventory::Agent::Tools::Hardware::Generic',
         },
         {
             match  => qr/Nortel/,
-            module => 'FusionInventory::Agent::Manufacturer::Nortel',
+            module => 'FusionInventory::Agent::Tools::Hardware::Nortel',
         },
     );
 
@@ -786,15 +786,15 @@ sub _setConnectedDevicesMacAddresses {
     my @dispatch_table = (
         {
             match    => qr/(3Com|ProCurve|Nortel|Allied Telesis|ExtremeXOS)/,
-            module   => 'FusionInventory::Agent::Manufacturer',
+            module   => 'FusionInventory::Agent::Tools::Hardware::Generic',
         },
         {
             match    => qr/Cisco/,
-            module   => 'FusionInventory::Agent::Manufacturer::Cisco',
+            module   => 'FusionInventory::Agent::Tools::Hardware::Cisco',
         },
         {
             match    => qr/Juniper/,
-            module   => 'FusionInventory::Agent::Manufacturer::Juniper',
+            module   => 'FusionInventory::Agent::Tools::Hardware::Juniper',
         }
     );
 
@@ -823,7 +823,7 @@ sub _performSpecificCleanup {
     my @dispatch_table = (
         {
             match    => qr/3Com IntelliJack/,
-            module   => 'FusionInventory::Agent::Manufacturer::3Com',
+            module   => 'FusionInventory::Agent::Tools::Hardware::3Com',
             function => 'RewritePortOf225'
         },
     );

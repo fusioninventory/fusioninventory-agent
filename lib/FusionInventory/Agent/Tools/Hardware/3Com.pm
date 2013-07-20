@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Manufacturer::3Com;
+package FusionInventory::Agent::Tools::Hardware::3Com;
 
 use strict;
 use warnings;
@@ -21,7 +21,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Manufacturer::3Com - 3Com-specific functions
+FusionInventory::Agent::Tools::Hardware::3Com - 3Com-specific functions
 
 =head1 DESCRIPTION
 

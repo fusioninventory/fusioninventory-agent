@@ -6,7 +6,7 @@ use warnings;
 use Test::More;
 use Test::Deep;
 
-use FusionInventory::Agent::Manufacturer;
+use FusionInventory::Agent::Tools::Hardware::Generic;
 
 plan tests => 3;
 
@@ -61,7 +61,7 @@ my $expected = {
      }
 };
 
-FusionInventory::Agent::Manufacturer::setConnectedDevicesUsingCDP(
+FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesUsingCDP(
     walks   => $walks,
     results => $results,
     ports   => $ports,
@@ -79,7 +79,7 @@ cmp_deeply(
     $ports    = {};
     $expected = {};
 
-    FusionInventory::Agent::Manufacturer::setConnectedDevicesUsingCDP(
+    FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesUsingCDP(
         walks   => $walks,
         results => $results,
         ports   => $ports,
@@ -98,7 +98,7 @@ cmp_deeply(
     $ports    = {};
     $expected = {};
 
-    FusionInventory::Agent::Manufacturer::setConnectedDevicesUsingCDP(
+    FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesUsingCDP(
         walks   => $walks,
         results => $results,
         ports   => $ports,

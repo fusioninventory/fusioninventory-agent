@@ -68,12 +68,12 @@ my %hardware_keywords = (
 my @hardware_rules = (
     {
         match       => qr/^\S+ Service Release/,
-        description => { function => 'FusionInventory::Agent::Manufacturer::Alcatel::getDescription' },
+        description => { function => 'FusionInventory::Agent::Tools::Hardware::Alcatel::getDescription' },
         vendor      => { value    => 'Alcatel' }
     },
     {
         match       => qr/AXIS OfficeBasic Network Print Server/,
-        description => { function => 'FusionInventory::Agent::Manufacturer::Axis::getDescription' },
+        description => { function => 'FusionInventory::Agent::Tools::Hardware::Axis::getDescription' },
         vendor      => { value    => 'Axis' },
         type        => { value    => 'PRINTER' }
     },
@@ -100,12 +100,12 @@ my @hardware_rules = (
     },
     {
         match       => qr/HP ETHERNET MULTI-ENVIRONMENT/,
-        description => { function => 'FusionInventory::Agent::Manufacturer::HewlettPackard::getDescription' },
+        description => { function => 'FusionInventory::Agent::Tools::Hardware::HewlettPackard::getDescription' },
         vendor      => { value    => 'Hewlett-Packard' }
     },
     {
         match       => qr/A SNMP proxy agent, EEPROM/,
-        description => { function => 'FusionInventory::Agent::Manufacturer::HewlettPackard::getDescription' },
+        description => { function => 'FusionInventory::Agent::Tools::Hardware::HewlettPackard::getDescription' },
         vendor      => { value    => 'Hewlett-Packard' }
     },
     {
@@ -116,13 +116,13 @@ my @hardware_rules = (
     },
     {
         match       => qr/^KYOCERA (MITA Printing System|Print I\/F)$/,
-        description => { function => 'FusionInventory::Agent::Manufacturer::Kyocera::getDescription' },
+        description => { function => 'FusionInventory::Agent::Tools::Hardware::Kyocera::getDescription' },
         vendor      => { value    => 'Kyocera' },
         type        => { value    => 'PRINTER' }
     },
     {
         match       => qr/^SB-110$/,
-        description => { function => 'FusionInventory::Agent::Manufacturer::Kyocera::getDescription' },
+        description => { function => 'FusionInventory::Agent::Tools::Hardware::Kyocera::getDescription' },
         vendor      => { value    => 'Kyocera' },
         type        => { value    => 'PRINTER' }
     },
@@ -144,18 +144,18 @@ my @hardware_rules = (
     },
     {
         match        => qr/Linux/,
-        description => { function => 'FusionInventory::Agent::Manufacturer::Wyse::getDescription' },
+        description => { function => 'FusionInventory::Agent::Tools::Hardware::Wyse::getDescription' },
         vendor      => { value    => 'Wyse' },
     },
     {
         match       => qr/ZebraNet PrintServer/,
-        description => { function => 'FusionInventory::Agent::::Manufacturer::Zebranet::getDescription' },
+        description => { function => 'FusionInventory::Agent::::Tools::Hardware::Zebranet::getDescription' },
         vendor      => { value    => 'Zebranet' },
         type        => { value    => 'PRINTER' }
     },
     {
         match       => qr/ZebraNet Wired PS/,
-        description => { function => 'FusionInventory::Agent::Manufacturer::Zebranet::getDescription' },
+        description => { function => 'FusionInventory::Agent::Tools::Hardware::Zebranet::getDescription' },
         vendor      => { value    => 'Zebranet' },
     },
 );

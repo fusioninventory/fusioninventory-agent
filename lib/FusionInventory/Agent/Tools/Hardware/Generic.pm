@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Manufacturer;
+package FusionInventory::Agent::Tools::Hardware::Generic;
 
 use strict;
 use warnings;
@@ -153,11 +153,11 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Manufacturer - Manufacturer-specific functions
+FusionInventory::Agent::Tools::Hardware::Generic - Generic hardware functions
 
 =head1 DESCRIPTION
 
-This module provides some manufacturer-specific functions.
+This module provides some generic hardware functions.
 
 =head1 FUNCTIONS
 

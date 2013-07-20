@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Manufacturer::Juniper;
+package FusionInventory::Agent::Tools::Hardware::Juniper;
 
 use strict;
 use warnings;
@@ -49,7 +49,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Manufacturer::Juniper - Juniper-specific functions
+FusionInventory::Agent::Tools::Hardware::Juniper - Juniper-specific functions
 
 =head1 DESCRIPTION
 

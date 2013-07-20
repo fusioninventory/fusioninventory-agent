@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Manufacturer::Alcatel;
+package FusionInventory::Agent::Tools::Hardware::Alcatel;
 
 use strict;
 use warnings;
@@ -15,7 +15,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Manufacturer::Alcatel - Alcatel-specific functions
+FusionInventory::Agent::Tools::Hardware::Alcatel - Alcatel-specific functions
 
 =head1 DESCRIPTION
 
