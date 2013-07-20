@@ -13,15 +13,6 @@ our @EXPORT = qw(
     getNextToLastElement
 );
 
-my @bad_oids = qw(
-    .1.3.6.1.2.1.2.2.1.6
-    .1.3.6.1.2.1.4.22.1.2
-    .1.3.6.1.2.1.17.1.1.0
-    .1.3.6.1.2.1.17.4.3.1.1
-    .1.3.6.1.4.1.9.9.23.1.2.1.1.4
-);
-my $bad_oids_pattern = '^(' . join('|', map { quotemeta($_) } @bad_oids) . ')';
-
 sub getSanitizedMacAddress {
     my ($value) = @_;
 
