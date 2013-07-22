@@ -53,7 +53,7 @@ foreach my $test (@tests) {
     my $struct = eval {decode_json($test->{json})};
     my $ret = FusionInventory::Agent::Task::Deploy::_validateAnswer(
         \$msg,
-        $struct 
+        $struct
     );
     ok(($ret ? 0 : 1) == ($test->{ret} ? 0 : 1), "returned code");
     is($msg,  $test->{msg}, "returned msg");
