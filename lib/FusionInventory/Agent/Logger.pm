@@ -4,7 +4,8 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use UNIVERSAL::require;
+
+use FusionInventory::Agent::Tools;
 
 sub new {
     my ($class, %params) = @_;
@@ -15,24 +16,26 @@ sub new {
     bless $self, $class;
 
     my %backends;
-    foreach (
+    foreach my $type (
         $params{backends} ? @{$params{backends}} : 'Stderr'
     ) {
-        my $backend = ucfirst($_);
-        next if $backends{$backend};
-        my $package = "FusionInventory::Agent::Logger::$backend";
-        $package->require();
+        next if $backends{$type};
+
+        my $backend;
+        eval {
+            $backend = getInstance(
+                class => 'FusionInventory::Agent::Logger::' . ucfirst($type),
+                params => \%params
+            );
+        };
         if ($EVAL_ERROR) {
-            print STDERR
-                "Failed to load Logger backend $backend: ($EVAL_ERROR)\n";
+            warn "Unable to load logger backend $type: $EVAL_ERROR\n";
             next;
         }
-        $backends{$backend} = 1;
+        $backends{$type} = 1;
 
-        $self->debug("Logger backend $backend initialised");
-        push
-            @{$self->{backends}},
-            $package->new(%params);
+        $self->debug("Logger backend $type initialised");
+        push @{$self->{backends}}, $backend;
     }
 
     $self->debug($FusionInventory::Agent::VERSION_STRING);
