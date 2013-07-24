@@ -42,6 +42,7 @@ our @EXPORT = qw(
     file2module
     module2file
     runFunction
+    getInstance
     delay
     slurp
 );
@@ -474,6 +475,32 @@ sub runFunction {
     return $result;
 }
 
+sub getInstance {
+    my (%params) = @_;
+
+    $params{class}->require();
+    if ($EVAL_ERROR) {
+        my $file = module2file($params{class});
+        if ($EVAL_ERROR =~ /^Can't locate $file/) {
+            # failure to locate the file corresponding to the desired class
+            # means it doesn't exist
+            die "no such class $params{class}\n";
+        } else {
+            # otherwise it exists, but can't be loaded for whatever reason
+            die "unable to load class $params{class}\n";
+        }
+    }
+    my $instance;
+    
+    eval {
+        $instance = $params{class}->new(%{$params{params}});
+    };
+    die "unable to instanciate class $params{class}\n"
+        if $EVAL_ERROR;
+
+    return $instance;
+}
+
 sub delay {
     my ($delay) = @_;
 
@@ -704,6 +731,11 @@ Converts a perl module name to a perl file name ( Foo::Bar -> Foo/Bar.pm)
 =head2 runFunction(%params)
 
 Run a function whose name is computed at runtime and return its result.
+
+=head2 getInstance(%params)
+
+Create a new instance of a class whose name is computed at runtime and return
+it.
 
 =over
 
