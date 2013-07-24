@@ -12,7 +12,7 @@ use XML::TreePP;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Test::Utils;
 
-plan tests => 31;
+plan tests => 34;
 
 my ($content, $out, $err, $rc);
 
@@ -34,7 +34,6 @@ like(
     '--version stdout'
 );
 
-
 ($out, $err, $rc) = run_executable('fusioninventory-agent', );
 ok($rc == 1, 'no target exit status');
 like(
@@ -43,6 +42,18 @@ like(
     'no target stderr'
 );
 is($out, '', 'no target stdout');
+
+($out, $err, $rc) = run_executable(
+    'fusioninventory-agent',
+    '--config none --conf-file /foo/bar'
+);
+ok($rc == 1, 'incompatible options exit status');
+like(
+    $err,
+    qr/don't use --conf-file/,
+    'incompatible options stderr'
+);
+is($out, '', 'incompatible options stdout');
 
 my $base_options = "--debug --no-task ocsdeploy,wakeonlan,snmpquery,netdiscovery";
 

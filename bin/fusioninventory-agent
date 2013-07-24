@@ -79,6 +79,18 @@ if ($options->{setup}) {
     exit 0;
 }
 
+if ($options->{'conf-file'}) {
+    if ($options->{config}) {
+        if ($options->{config} ne 'file') {
+            print STDERR
+                "don't use --conf-file with $options->{config} backend";
+            exit 1;
+        }
+    } else {
+        $options->{config} = 'file';
+    }
+}
+
 my $agent = FusionInventory::Agent->new(%setup);
 
 if ($options->{'list-tasks'}) {
