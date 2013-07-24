@@ -13,9 +13,9 @@ use Test::More;
 use Test::Exception;
 use UNIVERSAL::require;
 
+use FusionInventory::Test::Agent;
 use FusionInventory::Agent::HTTP::Server;
 use FusionInventory::Agent::Logger;
-use FusionInventory::Test::Agent;
 use FusionInventory::Test::Utils;
 
 plan tests => 12;
