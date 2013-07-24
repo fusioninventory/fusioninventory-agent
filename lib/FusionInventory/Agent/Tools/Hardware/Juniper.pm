@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Manufacturer::Juniper;
+package FusionInventory::Agent::Tools::Hardware::Juniper;
 
 use strict;
 use warnings;
@@ -12,7 +12,8 @@ sub setConnectedDevicesMacAddresses {
     my $ports   = $params{ports};
     my $walks   = $params{walks};
 
-    while (my ($oid, $suffix) = each %{$results->{dot1dTpFdbAddress}}) {
+    foreach my $oid (sort keys %{$results->{dot1dTpFdbAddress}}) {
+        my $suffix = $results->{dot1dTpFdbAddress}->{$oid};
         my $mac =
             sprintf "%02x:%02x:%02x:%02x:%02x:%02x", getElements($oid, -6, -1);
         next unless $mac;
@@ -49,7 +50,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Manufacturer::Juniper - Juniper-specific functions
+FusionInventory::Agent::Tools::Hardware::Juniper - Juniper-specific functions
 
 =head1 DESCRIPTION
 

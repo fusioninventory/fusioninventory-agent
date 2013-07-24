@@ -43,6 +43,7 @@ our @EXPORT = qw(
     module2file
     runFunction
     delay
+    slurp
 );
 
 my $nowhere = $OSNAME eq 'MSWin32' ? 'nul' : '/dev/null';
@@ -484,6 +485,16 @@ sub delay {
     }
 }
 
+sub slurp {
+    my($file) = @_;
+
+    my $handler;
+    return unless open $handler, '<', $file;
+    local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
+    my $content = <$handler>;
+    close $handler;
+    return $content;
+}
 
 1;
 __END__
@@ -712,3 +723,7 @@ Run a function whose name is computed at runtime and return its result.
 
 Wait for $second. It uses sleep() or Win32::Sleep() depending
 on the Operating System.
+
+=head2 slurp($file)
+
+Return the content of a given file.

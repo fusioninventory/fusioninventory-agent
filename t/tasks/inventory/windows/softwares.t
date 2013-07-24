@@ -18,6 +18,20 @@ BEGIN {
     push @INC, 't/lib/fake/windows' if $OSNAME ne 'MSWin32';
 }
 
+sub sort_result {
+    my ($before) = @_;
+
+    my @after = sort {
+        $a->{NAME} cmp $b->{NAME}
+            or
+        $a->{GUID} cmp $b->{GUID}
+            or
+        $a->{PUBLISHER} cmp $b->{PUBLISHER}
+    } @$before;
+
+    return \@after;
+}
+
 use FusionInventory::Agent::Task::Inventory::Win32::Softwares;
 
 my %softwares_tests = (
@@ -8197,9 +8211,10 @@ foreach my $test (keys %softwares_tests) {
 
     my $softwares = FusionInventory::Agent::Task::Inventory::Win32::Softwares::_getSoftwaresList(softwares => $softwaresKey);
 
+    my @sortedExpected = sort_result($softwares_tests{$test});
     cmp_deeply(
-        $softwares,
-        $softwares_tests{$test},
+        sort_result($softwares),
+        sort_result($softwares_tests{$test}),
         "$test softwares list"
     );
 }

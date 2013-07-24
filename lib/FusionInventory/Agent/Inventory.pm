@@ -90,6 +90,9 @@ my %checks = (
     VIRTUALMACHINES => {
         STATUS => qr/^(running|idle|paused|shutdown|crashed|dying|off)$/
     },
+    SLOTS => {
+        STATUS => qr/^(free|used)$/
+    },
     NETWORKS => {
         TYPE => qr/^(ethernet|wifi)$/
     }
@@ -1011,7 +1014,8 @@ Serial, Parallel, SATA, etc
 
 =head2 SLOTS
 
-Represents physical connection points including ports, motherboard slots and peripherals, and proprietary connection points.
+Represents physical connection points including ports, motherboard slots and
+peripherals, and proprietary connection points.
 
 This information is hardly reliable.
 
@@ -1019,11 +1023,17 @@ This information is hardly reliable.
 
 =item DESCRIPTION
 
+The bus type.
+
 =item DESIGNATION
 
 =item NAME
 
+The slot identifier.
+
 =item STATUS
+
+The slot usage status (free or used).
 
 =back
 

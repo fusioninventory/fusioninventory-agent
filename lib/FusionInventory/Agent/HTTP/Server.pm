@@ -335,6 +335,8 @@ sub init {
 sub handleRequests {
     my ($self) = @_;
 
+    return unless $self->{listener}; # init() call failed
+
     my ($client, $socket) = $self->{listener}->accept();
     return unless $socket;
 

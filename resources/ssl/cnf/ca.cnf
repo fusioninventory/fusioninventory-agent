@@ -37,6 +37,7 @@ default_md      = md5                   # which md to use.
 preserve        = no                    # keep passed DN ordering
 
 policy          = ca_default_policy
+copy_extensions = copy
 
 [ ca_default_policy ]
 organizationName        = match

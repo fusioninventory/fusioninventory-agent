@@ -1,15 +1,15 @@
-package FusionInventory::Agent::Manufacturer::Cisco;
+package FusionInventory::Agent::Tools::Hardware::Cisco;
 
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Manufacturer;
+use FusionInventory::Agent::Tools::Hardware::Generic;
 
 sub setConnectedDevicesMacAddresses {
     my (%params) = @_;
 
     # use generic code, with vlan-specific results
-    FusionInventory::Agent::Manufacturer::setConnectedDevicesMacAddresses(
+    FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(
         ports   => $params{ports},
         walks   => $params{walks},
         results => $params{results}->{VLAN}->{$params{vlan_id}} || undef
@@ -21,7 +21,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Manufacturer::Cisco - Cisco-specific functions
+FusionInventory::Agent::Tools::Hardware::Cisco - Cisco-specific functions
 
 =head1 DESCRIPTION
 

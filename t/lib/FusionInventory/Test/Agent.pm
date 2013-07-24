@@ -2,9 +2,6 @@ package FusionInventory::Test::Agent;
 
 use strict;
 use warnings;
-
-use FusionInventory::Agent;
-
 use base qw(FusionInventory::Agent);
 
 sub new {

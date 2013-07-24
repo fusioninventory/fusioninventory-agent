@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Manufacturer::Nortel;
+package FusionInventory::Agent::Tools::Hardware::Nortel;
 
 use strict;
 use warnings;
@@ -14,14 +14,14 @@ sub setTrunkPorts {
 
     my $myports;
 
-    while (my ($oid, $vlan) = each %{$results->{PortVlanIndex}}) {
+    while (my ($oid, $vlan) = sort each %{$results->{PortVlanIndex}}) {
         $myports->{getElement($oid, -2)}->{getElement($oid, -1)} = $vlan;
     }
 
-    while (my ($portnumber, $vlans) = each %{$myports}) {
+    while (my ($portnumber, $vlans) = sort each %{$myports}) {
         if (keys %{$vlans} == 1) {
             # a single vlan
-            while (my ($id, $name) = each %{$vlans}) {
+            while (my ($id, $name) = sort each %{$vlans}) {
                 $ports->{$ports->{$portnumber}}->{VLANS}->{VLAN}->[0] = {
                     NAME   => $name,
                     NUMBER => $id
@@ -43,7 +43,7 @@ sub setConnectedDevices {
 
     return unless ref $results->{lldpRemChassisId} eq "HASH";
 
-    while (my ($oid, $chassisname) = each %{$results->{lldpRemChassisId}}) {
+    while (my ($oid, $chassisname) = sort each %{$results->{lldpRemChassisId}}) {
         my $suffix = $oid;
         $suffix =~ s/$walks->{lldpRemChassisId}->{OID}//;
 
@@ -60,7 +60,7 @@ sub setConnectedDevices {
 1;
 =head1 NAME
 
-FusionInventory::Agent::Manufacturer::Nortel - Nortel-specific functions
+FusionInventory::Agent::Tools::Hardware::Nortel - Nortel-specific functions
 
 =head1 DESCRIPTION
 

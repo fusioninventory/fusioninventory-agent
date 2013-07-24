@@ -65,7 +65,7 @@ sub createFakeDeviceid {
 }
 
 sub createInventory {
-    my ( $self, $id ) = @_;
+    my ( $self, $id, $tag ) = @_;
 
     die unless $self->{vpbs};
 
@@ -76,7 +76,7 @@ sub createInventory {
 
     my $inventory = FusionInventory::Agent::Inventory->new(
         logger => $self->{logger},
-        config => $self->{config},
+        tag    => $tag
     );
     $inventory->{deviceid} = $self->createFakeDeviceid($host);
 
@@ -250,7 +250,9 @@ sub run {
 
         my $hostIds = $self->getHostIds();
         foreach my $hostId (@$hostIds) {
-            my $inventory = $self->createInventory($hostId);
+            my $inventory = $self->createInventory(
+                $hostId, $self->{config}->{tag}
+            );
 
             my $message = FusionInventory::Agent::XML::Query::Inventory->new(
                 deviceid => $self->{deviceid},

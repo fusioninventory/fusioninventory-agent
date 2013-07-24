@@ -46,11 +46,15 @@ my @tests = (
        },
 );
 
-plan tests => scalar @tests;
+plan tests => scalar @tests * 2;
 
 foreach my $test (@tests) {
     my $msg;
-    my $ret = FusionInventory::Agent::Task::Deploy::_validateAnswer(\$msg, eval {decode_json($test->{json})});
+    my $struct = eval {decode_json($test->{json})};
+    my $ret = FusionInventory::Agent::Task::Deploy::_validateAnswer(
+        \$msg,
+        $struct
+    );
     ok(($ret ? 0 : 1) == ($test->{ret} ? 0 : 1), "returned code");
     is($msg,  $test->{msg}, "returned msg");
 }

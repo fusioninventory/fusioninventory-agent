@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Manufacturer;
+package FusionInventory::Agent::Tools::Hardware::Generic;
 
 use strict;
 use warnings;
@@ -13,7 +13,8 @@ sub setConnectedDevicesMacAddresses {
     my $ports   = $params{ports};
     my $walks   = $params{walks};
 
-    while (my ($oid, $mac) = each %{$results->{dot1dTpFdbAddress}}) {
+    foreach my $oid (sort keys %{$results->{dot1dTpFdbAddress}}) {
+        my $mac = $results->{dot1dTpFdbAddress}->{$oid};
         $mac = alt2canonical($mac);
         next unless $mac;
 
@@ -72,17 +73,22 @@ sub setConnectedDevicesUsingCDP {
             getElement($oid, -2) . "." .
             getElement($oid, -1);
 
+        my $mac;
+        my $sysname = $results->{cdpCacheDeviceId}->{$walks->{cdpCacheDeviceId}->{OID} . "." . $port_number};
+        if ($sysname =~ /^SIP([A-F0-9a-f]*)$/) {
+            $mac = alt2canonical("0x".$1);
+        }
+
         my $connection = {
             IP      => $ip,
+            MAC     => $mac,
             IFDESCR => $results->{cdpCacheDevicePort}->{
                 $walks->{cdpCacheDevicePort}->{OID} . "." . $port_number
             },
             SYSDESCR => $results->{cdpCacheVersion}->{
                 $walks->{cdpCacheVersion}->{OID} . "." . $port_number
             },
-            SYSNAME  => alt2canonical($results->{cdpCacheDeviceId}->{
-                $walks->{cdpCacheDeviceId}->{OID} . "." . $port_number
-            }),
+            SYSNAME  => $sysname,
             MODEL => $results->{cdpCachePlatform}->{
                 $walks->{cdpCachePlatform}->{OID} . "." . $port_number
             }
@@ -148,11 +154,11 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Manufacturer - Manufacturer-specific functions
+FusionInventory::Agent::Tools::Hardware::Generic - Generic hardware-relatedfunctions
 
 =head1 DESCRIPTION
 
-This module provides some manufacturer-specific functions.
+This module provides some generic implementation of hardware-related functions.
 
 =head1 FUNCTIONS
 

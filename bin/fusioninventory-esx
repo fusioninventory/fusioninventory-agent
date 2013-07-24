@@ -55,7 +55,7 @@ my $logger = FusionInventory::Agent::Logger->new();
 my $hasError = 0;
 my $hostIds = $esx->getHostIds();
 foreach my $hostId (@$hostIds) {
-    my $inventory = $esx->createInventory($hostId);
+    my $inventory = $esx->createInventory($hostId, $options->{tag});
 
     my $file =  $options->{directory} . '/' . $inventory->{deviceid} . ".ocs";
 
@@ -86,7 +86,7 @@ fusioninventory-esx - vCenter/ESX/ESXi remote inventory from command line
 
 =head1 SYNOPSIS
 
-fusioninventory-esx --host <host> --user <user> --password <password> --directory <directory> --tag <tag>
+fusioninventory-esx --host <host> --user <user> --password <password> --directory <directory>
 
   Options:
     --help                 this menu

@@ -6,7 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 use File::Glob;
 use File::Spec;
-use File::Path qw(mkpath remove_tree);
+use File::Path qw(mkpath rmtree);
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
@@ -100,5 +100,10 @@ sub diskIsFull {
     return ($freeSpace < 2000);
 }
 
+# imported from File-Path-2.09
+sub remove_tree {
+    push @_, {} unless @_ and UNIVERSAL::isa($_[-1],'HASH');
+    goto &rmtree;
+}
 
 1;

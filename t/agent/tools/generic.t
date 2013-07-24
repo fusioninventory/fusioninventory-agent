@@ -307,7 +307,6 @@ my %dmidecode_tests = (
                 'Serial Number' => '1A1541FC',
                 'Type Detail' => 'Synchronous',
                 'Set' => 'None',
-                'Type' => '<OUT OF SPEC>',
                 'Speed' => '1067 MHz',
                 'Size' => '2048 MB',
                 'Manufacturer' => 'Hynix',
@@ -326,7 +325,6 @@ my %dmidecode_tests = (
                 'Serial Number' => '1A554239',
                 'Type Detail' => 'Synchronous',
                 'Set' => 'None',
-                'Type' => '<OUT OF SPEC>',
                 'Speed' => '1067 MHz',
                 'Size' => '2048 MB',
                 'Manufacturer' => 'Hynix',
@@ -1310,7 +1308,6 @@ my %dmidecode_tests = (
                  'Set' => '1',
                  'Asset Tag' => '010552',
                  'Total Width' => '72 bits',
-                 'Type' => '<OUT OF SPEC>',
                  'Speed' => '400 MHz (2.5 ns)',
                  'Size' => '512 MB',
                  'Error Information Handle' => 'Not Provided',
@@ -1327,7 +1324,6 @@ my %dmidecode_tests = (
                  'Set' => '1',
                  'Asset Tag' => '010552',
                  'Total Width' => '72 bits',
-                 'Type' => '<OUT OF SPEC>',
                  'Speed' => '400 MHz (2.5 ns)',
                  'Size' => '512 MB',
                  'Error Information Handle' => 'Not Provided',
@@ -1341,7 +1337,6 @@ my %dmidecode_tests = (
                  'Type Detail' => 'Synchronous',
                  'Set' => '2',
                  'Total Width' => '72 bits',
-                 'Type' => '<OUT OF SPEC>',
                  'Speed' => '400 MHz (2.5 ns)',
                  'Size' => 'No Module Installed',
                  'Error Information Handle' => 'Not Provided',
@@ -1354,7 +1349,6 @@ my %dmidecode_tests = (
                  'Type Detail' => 'Synchronous',
                  'Set' => '2',
                  'Total Width' => '72 bits',
-                 'Type' => '<OUT OF SPEC>',
                  'Speed' => '400 MHz (2.5 ns)',
                  'Size' => 'No Module Installed',
                  'Error Information Handle' => 'Not Provided',
@@ -1367,7 +1361,6 @@ my %dmidecode_tests = (
                  'Type Detail' => 'Synchronous',
                  'Set' => '3',
                  'Total Width' => '72 bits',
-                 'Type' => '<OUT OF SPEC>',
                  'Speed' => '400 MHz (2.5 ns)',
                  'Size' => 'No Module Installed',
                  'Error Information Handle' => 'Not Provided',
@@ -1380,7 +1373,6 @@ my %dmidecode_tests = (
                  'Type Detail' => 'Synchronous',
                  'Set' => '3',
                  'Total Width' => '72 bits',
-                 'Type' => '<OUT OF SPEC>',
                  'Speed' => '400 MHz (2.5 ns)',
                  'Size' => 'No Module Installed',
                  'Error Information Handle' => 'Not Provided',
@@ -1455,13 +1447,11 @@ my %dmidecode_tests = (
             {
                 'Length' => 'Long',
                 'Designation' => 'SLOT2',
-                'Type' => '<OUT OF SPEC><OUT OF SPEC>',
                 'Current Usage' => 'Available'
             },
             {
                 'Length' => 'Long',
                 'Designation' => 'SLOT3',
-                'Type' => '<OUT OF SPEC><OUT OF SPEC>',
                 'Current Usage' => 'Available'
             },
             {
@@ -4270,7 +4260,6 @@ my %dmidecode_tests = (
                 'Memory Array Mapped Address Handle' => '0x001A',
                 'Range Size' => '1048577 kB',
                 'Physical Device Handle' => '0x001C',
-                'Partition Row Position' => '<OUT OF SPEC>',
                 'Starting Address' => '0x00000000000',
                 'Ending Address' => '0x000400003FF'
             }
@@ -4940,37 +4929,31 @@ my %dmidecode_tests = (
         '26' => [
             {
                 'Nominal Value' => 'Unknown',
-                'Status' => '<OUT OF SPEC>',
                 'Minimum Value' => 'Unknown',
                 'OEM-specific Information' => '0x00000000',
                 'Accuracy' => 'Unknown',
                 'Maximum Value' => 'Unknown',
                 'Resolution' => 'Unknown',
-                'Location' => '<OUT OF SPEC>',
                 'Tolerance' => 'Unknown',
                 'Description' => 'LM78A'
             },
             {
                 'Nominal Value' => 'Unknown',
-                'Status' => '<OUT OF SPEC>',
                 'Minimum Value' => 'Unknown',
                 'OEM-specific Information' => '0x00000000',
                 'Accuracy' => 'Unknown',
                 'Maximum Value' => 'Unknown',
                 'Resolution' => 'Unknown',
-                'Location' => '<OUT OF SPEC>',
                 'Tolerance' => 'Unknown',
                 'Description' => 'LM78B'
             },
             {
                 'Nominal Value' => 'Unknown',
-                'Status' => '<OUT OF SPEC>',
                 'Minimum Value' => 'Unknown',
                 'OEM-specific Information' => '0x00000000',
                 'Accuracy' => 'Unknown',
                 'Maximum Value' => 'Unknown',
                 'Resolution' => 'Unknown',
-                'Location' => '<OUT OF SPEC>',
                 'Tolerance' => 'Unknown',
                 'Description' => 'LM78B'
             }
@@ -5000,7 +4983,6 @@ my %dmidecode_tests = (
                 'Serial Number' => '0000000',
                 'Type Detail' => 'Synchronous',
                 'Set' => 'None',
-                'Type' => '<OUT OF SPEC>',
                 'Speed' => '1600 MHz',
                 'Size' => '2048 MB',
                 'Manufacturer' => 'Undefined',
@@ -5038,7 +5020,6 @@ my %dmidecode_tests = (
                 'Serial Number' => '0000000',
                 'Type Detail' => 'Synchronous',
                 'Set' => 'None',
-                'Type' => '<OUT OF SPEC>',
                 'Speed' => '1600 MHz',
                 'Size' => '2048 MB',
                 'Manufacturer' => 'Undefined',
@@ -5155,37 +5136,31 @@ my %dmidecode_tests = (
         '29' => [
             {
                 'Nominal Value' => 'Unknown',
-                'Status' => '<OUT OF SPEC>',
                 'Minimum Value' => 'Unknown',
                 'OEM-specific Information' => '0x00000000',
                 'Accuracy' => 'Unknown',
                 'Maximum Value' => 'Unknown',
                 'Resolution' => 'Unknown',
-                'Location' => '<OUT OF SPEC>',
                 'Tolerance' => 'Unknown',
                 'Description' => 'ABC'
             },
             {
                 'Nominal Value' => 'Unknown',
-                'Status' => '<OUT OF SPEC>',
                 'Minimum Value' => 'Unknown',
                 'OEM-specific Information' => '0x00000000',
                 'Accuracy' => 'Unknown',
                 'Maximum Value' => 'Unknown',
                 'Resolution' => 'Unknown',
-                'Location' => '<OUT OF SPEC>',
                 'Tolerance' => 'Unknown',
                 'Description' => 'DEF'
             },
             {
                 'Nominal Value' => 'Unknown',
-                'Status' => '<OUT OF SPEC>',
                 'Minimum Value' => 'Unknown',
                 'OEM-specific Information' => '0x00000000',
                 'Accuracy' => 'Unknown',
                 'Maximum Value' => 'Unknown',
                 'Resolution' => 'Unknown',
-                'Location' => '<OUT OF SPEC>',
                 'Tolerance' => 'Unknown',
                 'Description' => 'GHI'
             }
@@ -5193,32 +5168,24 @@ my %dmidecode_tests = (
         '27' => [
             {
                 'Temperature Probe Handle' => '0x0038',
-                'Type' => '<OUT OF SPEC>',
-                'Status' => '<OUT OF SPEC>',
                 'OEM-specific Information' => '0x00000000',
                 'Cooling Unit Group' => '1',
                 'Nominal Speed' => 'Unknown Or Non-rotating'
             },
             {
                 'Temperature Probe Handle' => '0x0038',
-                'Type' => '<OUT OF SPEC>',
-                'Status' => '<OUT OF SPEC>',
                 'OEM-specific Information' => '0x00000000',
                 'Cooling Unit Group' => '1',
                 'Nominal Speed' => 'Unknown Or Non-rotating'
             },
             {
                 'Temperature Probe Handle' => '0x004C',
-                'Type' => '<OUT OF SPEC>',
-                'Status' => '<OUT OF SPEC>',
                 'OEM-specific Information' => '0x00000000',
                 'Cooling Unit Group' => '1',
                 'Nominal Speed' => 'Unknown Or Non-rotating'
             },
             {
                 'Temperature Probe Handle' => '0x0052',
-                'Type' => '<OUT OF SPEC>',
-                'Status' => '<OUT OF SPEC>',
                 'OEM-specific Information' => '0x00000000',
                 'Cooling Unit Group' => '1',
                 'Nominal Speed' => 'Unknown Or Non-rotating'
@@ -5228,12 +5195,10 @@ my %dmidecode_tests = (
             {
                 'Input Voltage Probe Handle' => '0x0035',
                 'Revision' => 'To Be Filled By O.E.M.',
-                'Input Voltage Range Switching' => '<OUT OF SPEC>',
                 'Serial Number' => 'To Be Filled By O.E.M.',
                 'Hot Replaceable' => 'No',
                 'Asset Tag' => 'To Be Filled By O.E.M.',
                 'Input Current Probe Handle' => '0x0041',
-                'Type' => '<OUT OF SPEC>',
                 'Model Part Number' => 'To Be Filled By O.E.M.',
                 'Cooling Device Handle' => '0x003B',
                 'Plugged' => 'Yes',
@@ -5246,12 +5211,10 @@ my %dmidecode_tests = (
             {
                 'Input Voltage Probe Handle' => '0x0035',
                 'Revision' => 'To Be Filled By O.E.M.',
-                'Input Voltage Range Switching' => '<OUT OF SPEC>',
                 'Serial Number' => 'To Be Filled By O.E.M.',
                 'Hot Replaceable' => 'No',
                 'Asset Tag' => 'To Be Filled By O.E.M.',
                 'Input Current Probe Handle' => '0x0041',
-                'Type' => '<OUT OF SPEC>',
                 'Model Part Number' => 'To Be Filled By O.E.M.',
                 'Cooling Device Handle' => '0x003B',
                 'Plugged' => 'Yes',
@@ -5265,37 +5228,31 @@ my %dmidecode_tests = (
         '28' => [
             {
                 'Nominal Value' => 'Unknown',
-                'Status' => '<OUT OF SPEC>',
                 'Minimum Value' => 'Unknown',
                 'OEM-specific Information' => '0x00000000',
                 'Accuracy' => 'Unknown',
                 'Maximum Value' => 'Unknown',
                 'Resolution' => 'Unknown',
-                'Location' => '<OUT OF SPEC>',
                 'Tolerance' => 'Unknown',
                 'Description' => 'LM78A'
             },
             {
                 'Nominal Value' => 'Unknown',
-                'Status' => '<OUT OF SPEC>',
                 'Minimum Value' => 'Unknown',
                 'OEM-specific Information' => '0x00000000',
                 'Accuracy' => 'Unknown',
                 'Maximum Value' => 'Unknown',
                 'Resolution' => 'Unknown',
-                'Location' => '<OUT OF SPEC>',
                 'Tolerance' => 'Unknown',
                 'Description' => 'LM78B'
             },
             {
                 'Nominal Value' => 'Unknown',
-                'Status' => '<OUT OF SPEC>',
                 'Minimum Value' => 'Unknown',
                 'OEM-specific Information' => '0x00000000',
                 'Accuracy' => 'Unknown',
                 'Maximum Value' => 'Unknown',
                 'Resolution' => 'Unknown',
-                'Location' => '<OUT OF SPEC>',
                 'Tolerance' => 'Unknown',
                 'Description' => 'LM78B'
             }
@@ -5859,7 +5816,7 @@ my %cpu_tests = (
     'S3000AHLX' => [
         {
             ID             => 'F6 06 00 00 FF FB EB BF',
-            NAME           => '<OUT OF SPEC>',
+            NAME           => 'Intel(R) Core(TM)2 CPU          6600  @ 2.40GHz',
             EXTERNAL_CLOCK => '266',
             SPEED          => '2400',
             THREAD         => undef,
@@ -5868,7 +5825,7 @@ my %cpu_tests = (
             STEPPING       => '6',
             FAMILYNUMBER   => '6',
             MODEL          => '15',
-            FAMILYNAME     => '<OUT OF SPEC>',
+            FAMILYNAME     => undef,
             CORE           => undef
         }
     ],

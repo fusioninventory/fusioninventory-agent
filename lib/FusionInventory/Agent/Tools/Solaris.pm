@@ -119,7 +119,7 @@ sub getPrtdiagInfos {
         $info->{memories} = _parseMemorySection($section, $handle)
             if $section =~ /Memory/;
         $info->{slots}  = _parseSlotsSection($section, $handle)
-            if $section =~ /IO/;
+            if $section =~ /(IO|Slots)/;
     }
     close $handle;
 
@@ -205,15 +205,14 @@ sub _parseSlotsSection {
             $callback = sub {
                 my ($line) = @_;
                 return unless $line =~ /^
-                    (\S+) \s+
-                    PCI[EX] \s+
+                    (\S+)    \s+
+                    ([A-Z]+) \s+
                     (\S+)
-                    (?:\s+ (\S+))?
                 /x;
                 return {
                     NAME        => $1,
-                    DESIGNATION => $2,
-                    DESCRIPTION => $3
+                    DESCRIPTION => $2,
+                    DESIGNATION => $3,
                 };
             };
             last SWITCH;
@@ -223,13 +222,52 @@ sub _parseSlotsSection {
             $offset  = 7;
             $callback = sub {
                 my ($line) = @_;
-                return unless $line =~ /
-                    (\S+) \s+
-                    (\S+) \s*
-                $/x;
+                return unless $line =~ /^
+                    \S+      \s+
+                    ([A-Z]+) \s+
+                    \S+      \s+
+                    \S+      \s+
+                    (\d)     \s+
+                    \S+      \s+
+                    \S+      \s+
+                    \S+      \s+
+                    \S+      \s+
+                    (\S+)
+                /x;
                 return {
-                    DESIGNATION => $1,
-                    DESCRIPTION => $2
+                    NAME        => $2,
+                    DESCRIPTION => $1,
+                    DESIGNATION => $3,
+                };
+            };
+            last SWITCH;
+        }
+
+        if ($section eq 'Upgradeable Slots') {
+            $offset  = 3;
+            # use a column-based strategy, as most values include spaces
+            $callback = sub {
+                my ($line) = @_;
+
+                my $name        = substr($line, 0, 1);
+                my $status      = substr($line, 4, 9);
+                my $description = substr($line, 14, 16);
+                my $designation = substr($line, 31, 28);
+
+                $status      =~ s/\s+$//;
+                $description =~ s/\s+$//;
+                $designation =~ s/\s+$//;
+
+                $status =
+                    $status eq 'in use'    ? 'used' :
+                    $status eq 'available' ? 'free' :
+                                              undef;
+
+                return {
+                    NAME        => $name,
+                    STATUS      => $status,
+                    DESCRIPTION => $description,
+                    DESIGNATION => $designation,
                 };
             };
             last SWITCH;

@@ -35,7 +35,7 @@ my @tests = (
     },
 );
 
-plan tests => scalar keys @tests;
+plan tests => scalar @tests;
 
 foreach my $test (@tests) {
     my $values =

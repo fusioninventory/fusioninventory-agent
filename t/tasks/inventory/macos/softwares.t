@@ -2461,8 +2461,8 @@ foreach my $test (keys %tests) {
     my $file = "resources/macos/system_profiler/$test.SPApplicationsDataType";
     my $softwares = FusionInventory::Agent::Task::Inventory::MacOS::Softwares::_getSoftwaresList(file => $file);
     cmp_deeply(
-        $softwares,
-        $tests{$test},
+        [ sort { $a->{NAME} cmp $b->{NAME} } @{$softwares} ],
+        [ sort { $a->{NAME} cmp $b->{NAME} } @{$tests{$test}} ],
         $test
     );
 }

@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Manufacturer::Wyse;
+package FusionInventory::Agent::Tools::Hardware::Wyse;
 
 use strict;
 use warnings;
@@ -20,7 +20,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Manufacturer::Wyse - Wyse-specific functions
+FusionInventory::Agent::Tools::Hardware::Wyse - Wyse-specific functions
 
 =head1 DESCRIPTION
 

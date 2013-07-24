@@ -21,11 +21,20 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::XML::Query::Prolog;
 
-our $VERSION = '2.3.0';
-our $VERSION_STRING =
-    "FusionInventory Agent ($VERSION)";
-our $AGENT_STRING =
-    "FusionInventory-Agent_v$VERSION";
+our $VERSION = '2.2.9901';
+our $VERSION_STRING = versionString($VERSION);
+our $AGENT_STRING = "FusionInventory-Agent_v$VERSION";
+
+sub versionString {
+    my ($VERSION) = @_;
+
+    my $string = "FusionInventory Agent ($VERSION)";
+    if ($VERSION =~ /^\d\.\d\.99(\d\d)/) {
+        $string .= " **THIS IS A DEVELOPMENT RELEASE **";
+    }
+
+    return $string;
+}
 
 sub new {
     my ($class, %params) = @_;
@@ -201,6 +210,7 @@ sub run {
 
             # check for http interface messages
             $self->{server}->handleRequests() if $self->{server};
+            delay(1);
         }
     } else {
         # foreground mode: check each targets once

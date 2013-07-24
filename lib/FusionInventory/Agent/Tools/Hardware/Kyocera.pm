@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Manufacturer::Zebranet;
+package FusionInventory::Agent::Tools::Hardware::Kyocera;
 
 use strict;
 use warnings;
@@ -6,7 +6,10 @@ use warnings;
 sub getDescription {
     my ($snmp) = @_;
 
-    my $result = $snmp->get('.1.3.6.1.4.1.10642.1.1.0');
+    my $result = $snmp->get('.1.3.6.1.4.1.1347.42.5.1.1.2.1');
+    return $result if $result;
+
+    $result = $snmp->get('.1.3.6.1.4.1.1347.43.5.1.1.1.1');
     return $result if $result;
 
     $result = $snmp->get('.1.3.6.1.4.1.11.2.3.9.1.1.7.0');
@@ -22,7 +25,6 @@ sub getDescription {
             return $_;
         }
     }
-
 }
 
 1;
@@ -30,11 +32,11 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Manufacturer::Zebranet - Zebranet-specific functions
+FusionInventory::Agent::Tools::Hardware::Kyocera - Kyocera-specific functions
 
 =head1 DESCRIPTION
 
-This is a class defining some functions specific to Zebranet hardware.
+This is a class defining some functions specific to Kyocera hardware.
 
 =head1 FUNCTIONS
 

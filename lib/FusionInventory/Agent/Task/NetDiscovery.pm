@@ -22,6 +22,7 @@ use XML::TreePP;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::SNMP;
 use FusionInventory::Agent::Tools::Network;
+use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::Task::NetDiscovery::Dictionary;
 use FusionInventory::Agent::XML::Query;
 
@@ -252,7 +253,7 @@ sub _getDictionary {
     if ($options->{DICOHASH}) {
         if ($dictionary && $hash && $hash eq $options->{DICOHASH}) {
             $self->{logger}->debug("Dictionary is up to date.");
-	    return $dictionary;
+            return $dictionary;
         }
     }
 

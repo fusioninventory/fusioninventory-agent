@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Manufacturer::Axis;
+package FusionInventory::Agent::Tools::Hardware::Zebranet;
 
 use strict;
 use warnings;
@@ -6,8 +6,10 @@ use warnings;
 sub getDescription {
     my ($snmp) = @_;
 
-    my $result = $snmp->get('.1.3.6.1.4.1.2699.1.2.1.2.1.1.3.1');
+    my $result = $snmp->get('.1.3.6.1.4.1.10642.1.1.0');
+    return $result if $result;
 
+    $result = $snmp->get('.1.3.6.1.4.1.11.2.3.9.1.1.7.0');
     return unless $result;
 
     my @infos = split(/;/, $result);
@@ -20,6 +22,7 @@ sub getDescription {
             return $_;
         }
     }
+
 }
 
 1;
@@ -27,11 +30,11 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Manufacturer::Axis - Axis-specific functions
+FusionInventory::Agent::Tools::Hardware::Zebranet - Zebranet-specific functions
 
 =head1 DESCRIPTION
 
-This is a class defining some functions specific to Axis hardware.
+This is a class defining some functions specific to Zebranet hardware.
 
 =head1 FUNCTIONS
 

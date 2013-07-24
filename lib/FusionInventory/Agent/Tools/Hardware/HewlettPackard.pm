@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Manufacturer::HewlettPackard;
+package FusionInventory::Agent::Tools::Hardware::HewlettPackard;
 
 use strict;
 use warnings;
@@ -29,7 +29,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Manufacturer::Hewlett-Packard - Hewlett-Packard-specific functions
+FusionInventory::Agent::Tools::Hardware::Hewlett-Packard - Hewlett-Packard-specific functions
 
 =head1 DESCRIPTION
 

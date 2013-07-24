@@ -13,70 +13,147 @@ my %tests = (
         {
             NAME        => 'MB/NET0',
             DESIGNATION => 'network-pciex8086,105e',
-            DESCRIPTION => undef
+            DESCRIPTION => 'PCIE'
         },
         {
             NAME        => 'MB/NET1',
             DESIGNATION => 'network-pciex8086,105e',
-            DESCRIPTION => undef
+            DESCRIPTION => 'PCIE'
         },
         {
             NAME        => 'MB/NET2',
             DESIGNATION => 'network-pciex8086,105e',
-            DESCRIPTION => undef
+            DESCRIPTION => 'PCIE'
         },
             {
             NAME        => 'MB/NET3',
             DESIGNATION => 'network-pciex8086,105e',
-            DESCRIPTION => undef
+            DESCRIPTION => 'PCIE'
         },
         {
             NAME        => 'MB/SASHBA',
             DESIGNATION => 'scsi-pciex1000,58',
-            DESCRIPTION => 'LSI,1068E'
+            DESCRIPTION => 'PCIE'
         },
         {
             NAME        => 'MB/RISER0/PCIE0',
             DESIGNATION => 'SUNW,qlc-pciex1077,2432',
-            DESCRIPTION => 'QLE2460'
+            DESCRIPTION => 'PCIE'
         },
         {
             NAME        => 'MB',
             DESIGNATION => 'usb-pciclass,0c0310',
-            DESCRIPTION => undef
+            DESCRIPTION => 'PCIX'
         },
         {
             NAME        => 'MB',
             DESIGNATION => 'usb-pciclass,0c0310',
-            DESCRIPTION => undef
+            DESCRIPTION => 'PCIX'
         },
         {
             NAME        => 'MB',
             DESIGNATION => 'usb-pciclass,0c0320',
-            DESCRIPTION => undef
+            DESCRIPTION => 'PCIX'
         }
     ],
     'sample2' => [
         {
+            NAME        => 1,
+            DESCRIPTION => 'PCI',
             DESIGNATION => 'scsi-pci1000,30.1000.10c0.8/disk+',
-            DESCRIPTION => 'LSI,1030'
         },
         {
+            NAME        => 1,
+            DESCRIPTION => 'PCI',
             DESIGNATION => 'scsi-pci1000,30.1000.10c0.8/disk+',
-            DESCRIPTION => 'LSI,1030'
         },
         {
+            NAME        => 0,
+            DESCRIPTION => 'PCI',
             DESIGNATION => 'scsi-pci1000,30.1000.10c0.8/disk+',
-            DESCRIPTION => 'LSI,1030'
         },
         {
+            NAME        => 0,
+            DESCRIPTION => 'PCI',
             DESIGNATION => 'scsi-pci1000,30.1000.10c0.8/disk+',
-            DESCRIPTION => 'LSI,1030'
         },
         {
+            NAME        => 5,
+            DESCRIPTION => 'PCI',
             DESIGNATION => 'SUNW,XVR-100',
-            DESCRIPTION => 'SUNW,375-3181'
         },
+    ],
+    'sample3' => [
+        {
+            NAME        => 1,
+            STATUS      => 'free',
+            DESCRIPTION => 'PCI Express',
+            DESIGNATION => 'PCIExp SLOT0'
+        },
+        {
+            NAME        => 2,
+            STATUS      => 'free',
+            DESCRIPTION => 'PCI Express',
+            DESIGNATION => 'PCIExp SLOT1'
+        },
+        {
+            NAME        => 3,
+            STATUS      => 'free',
+            DESCRIPTION => 'PCI Express',
+            DESIGNATION => 'PCIExp SLOT2'
+        },
+    ],
+    'sample4' => [
+        {
+            NAME        => 1,
+            STATUS      => 'free',
+            DESCRIPTION => 'PCI Express',
+            DESIGNATION => 'PCIE1'
+        },
+    ],
+    'sample5' => [
+        {
+            NAME        => 0,
+            STATUS      => undef,
+            DESCRIPTION => 'ISA',
+            DESIGNATION => 'ISA Slot J8'
+        },
+        {
+            NAME        => 0,
+            STATUS      => undef,
+            DESCRIPTION => 'ISA',
+            DESIGNATION => 'ISA Slot J9'
+        },
+        {
+            NAME        => 0,
+            STATUS      => undef,
+            DESCRIPTION => 'ISA',
+            DESIGNATION => 'ISA Slot J10'
+        },
+        {
+            NAME        => 1,
+            STATUS      => 'used',
+            DESCRIPTION => 'PCI',
+            DESIGNATION => 'PCI Slot J11'
+        },
+        {
+            NAME        => 2,
+            STATUS      => 'used',
+            DESCRIPTION => 'PCI',
+            DESIGNATION => 'PCI Slot J12'
+        },
+        {
+            NAME        => 3,
+            STATUS      => 'used',
+            DESCRIPTION => 'PCI',
+            DESIGNATION => 'PCI Slot J13'
+        },
+        {
+            NAME        => 4,
+            STATUS      => 'free',
+            DESCRIPTION => 'PCI',
+            DESIGNATION => 'PCI Slot J14'
+        }
     ]
 );
 

@@ -4,11 +4,12 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use Test::Deep;
+use Test::Deep qw(cmp_deeply);
 use Test::More;
+use Config;
 
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::XML::Response;
-use FusionInventory::Agent::Task::NetInventory;
 
 my %messages = (
     message2 => {
@@ -118,6 +119,12 @@ my %messages = (
     }
 );
 
+# check thread support availability
+if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
+    plan skip_all => 'thread support required';
+}
+FusionInventory::Agent::Task::NetInventory->use();
+
 plan tests => scalar keys %messages;
 
 foreach my $test (keys %messages) {
@@ -131,15 +138,4 @@ foreach my $test (keys %messages) {
         $messages{$test}->{models},
         $test
     );
-}
-
-sub slurp {
-    my($file) = @_;
-
-    my $handler;
-    return unless open $handler, '<', $file;
-    local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
-    my $content = <$handler>;
-    close $handler;
-    return $content;
 }
