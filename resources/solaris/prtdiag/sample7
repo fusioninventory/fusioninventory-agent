@@ -1,0 +1,53 @@
+System Configuration: Sun Microsystems  sun4u Sun Fire V215
+System clock frequency: 188 MHZ
+Memory size: 2GB        
+
+==================================== CPUs ====================================
+               E$          CPU                    CPU
+CPU  Freq      Size        Implementation         Mask    Status      Location
+---  --------  ----------  ---------------------  -----   ------      --------
+0    1504 MHz  1MB         SUNW,UltraSPARC-IIIi    3.4    on-line     MB/P0
+
+================================= IO Devices =================================
+Bus     Freq  Slot +      Name +
+Type    MHz   Status      Path                          Model
+------  ----  ----------  ----------------------------  --------------------
+pci     188   MB          pci10b9,5229 (ide)                               
+              okay        /pci@1e,600000/pci@0/pci@1/pci@0/ide@1f
+
+pci     188   MB          pci14e4,1668 (network)                           
+              okay        /pci@1e,600000/pci@0/pci@9/pci@0/network@4
+
+pci     188   MB          pci14e4,1668 (network)                           
+              okay        /pci@1e,600000/pci@0/pci@9/pci@0/network@4,1
+
+pci     188   MB          pci14e4,1668 (network)                           
+              okay        /pci@1e,600000/pci@0/pci@a/pci@0/network@4
+
+pci     188   MB          pci14e4,1668 (network)                           
+              okay        /pci@1e,600000/pci@0/pci@a/pci@0/network@4,1
+
+pci     188   MB          scsi-pci1000,50 (scsi-2)      LSI,1064           
+              okay        /pci@1e,600000/pci@0/pci@a/pci@0/pci@8/scsi@1
+
+
+============================ Memory Configuration ============================
+Segment Table:
+-----------------------------------------------------------------------
+Base Address       Size       Interleave Factor  Contains
+-----------------------------------------------------------------------
+0x200000000        2GB               1           BankIDs 0
+
+Bank Table:
+-----------------------------------------------------------
+           Physical Location
+ID       ControllerID  GroupID   Size       Interleave Way
+-----------------------------------------------------------
+0        0             1         2GB             0
+
+Memory Module Groups:
+--------------------------------------------------
+ControllerID   GroupID  Labels         Status
+--------------------------------------------------
+0              1        MB/P0/B1/D0    okay
+0              1        MB/P0/B1/D1    okay

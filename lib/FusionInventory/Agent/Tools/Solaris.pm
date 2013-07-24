@@ -150,22 +150,51 @@ sub _parseMemorySection {
         }
 
         if ($section eq 'Memory Configuration') {
-            my $i = 0;
-            $offset = 5;
-            $callback = sub {
-                my ($line) = @_;
-                return unless $line =~ qr/
-                    (\d+ [MG]B) \s+
-                    \S+         \s+
-                    (\d+ [MG]B) \s+
-                    \S+         \s+
-                    \d
-                $/x;
-                return {
-                    NUMSLOTS => $i++,
-                    CAPACITY => getCanonicalSize($1)
+            # use next line to determine actual format
+            my $next_line = <$handle>;
+
+            if ($next_line =~ /^Segment Table/) {
+                # multi-table format: reach bank table
+                while ($next_line = <$handle>) {
+                    last if $next_line =~ /^Bank Table/;
+                }
+
+                # then parse using callback
+                my $i = 0;
+                $offset = 4;
+                $callback = sub {
+                    my ($line) = @_;
+                    return unless $line =~ qr/
+                        \d+         \s+
+                        \S+         \s+
+                        \S+         \s+
+                        (\d+ [MG]B)
+                    /x;
+                    return {
+                        NUMSLOTS => $i++,
+                        CAPACITY => getCanonicalSize($1)
+                    };
                 };
-            };
+            } else {
+                # single-table format: start using callback directly
+                my $i = 0;
+                $offset = 4;
+                $callback = sub {
+                    my ($line) = @_;
+                    return unless $line =~ qr/
+                        (\d+ [MG]B) \s+
+                        \S+         \s+
+                        (\d+ [MG]B) \s+
+                        \S+         \s+
+                        \d
+                    $/x;
+                    return {
+                        NUMSLOTS => $i++,
+                        CAPACITY => getCanonicalSize($1)
+                    };
+                };
+            }
+
             last SWITCH;
         }
 

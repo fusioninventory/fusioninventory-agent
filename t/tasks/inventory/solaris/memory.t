@@ -14,6 +14,8 @@ my %tests = (
     sample3 => [ _gen(16, 'NUMSLOTS', { TYPE     => 'DDR2' }) ],
     sample4 => [ _gen(8,  'NUMSLOTS', { TYPE     => 'DDR'  }) ],
     sample5 => [ _gen(2,  'NUMSLOTS', { TYPE     => 'DRAM' }) ],
+    sample6 => [ _gen(8,  'NUMSLOTS', { CAPACITY => '512'  }) ],
+    sample7 => [ _gen(1,  'NUMSLOTS', { CAPACITY => '2000' }) ],
 );
 
 plan tests => scalar keys %tests;
