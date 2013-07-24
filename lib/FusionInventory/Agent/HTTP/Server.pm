@@ -11,7 +11,6 @@ use Net::IP;
 use Socket qw( SOCK_STREAM );
 use Socket::GetAddrInfo qw( getaddrinfo getnameinfo );
 use IO::Socket;
-#use Socket::GetAddrInfo qw( getaddrinfo getnameinfo );
 use Text::Template;
 use File::Glob;
 
@@ -65,7 +64,10 @@ sub _parseAddresses {
 
         # and push all of their addresses in the list
         foreach my $result (@results) {
-            my ($error, $host) = getnameinfo($result->{addr}, Socket::GetAddrInfo::NI_NUMERICHOST, Socket::GetAddrInfo::NIx_NOSERV);
+            my ($error, $host) = getnameinfo(
+                $result->{addr},
+                Socket::GetAddrInfo::NI_NUMERICHOST,
+            );
             if ($error) {
                 $self->{logger}->error("unable to get host address: $error");
                 next;
