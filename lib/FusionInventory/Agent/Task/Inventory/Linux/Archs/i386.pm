@@ -95,12 +95,11 @@ sub _getCPUsFromProc {
     );
     my @cpus = getCPUsFromProc(%params);
 
-    my ($procs, $cpuNbr);
-
+    my $procs;
     my @cpuList;
-
     my %cpus;
     my $hasPhysicalId;
+
     foreach my $cpu (@cpus) {
         $procs = $cpu;
         my $id = $cpu->{'physical id'};
@@ -122,9 +121,6 @@ sub _getCPUsFromProc {
             THREAD       => 1
         } unless $hasPhysicalId;
     }
-    if (!$cpuNbr) {
-        $cpuNbr = keys %cpus;
-    }
 
     # physical id may not start at 0!
     if ($hasPhysicalId) {
@@ -132,6 +128,7 @@ sub _getCPUsFromProc {
             push @cpuList, $cpus{$_};
         }
     }
+
     return $procs, \@cpuList;
 }
 
