@@ -14,8 +14,9 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
-    my $infos = getSystemProfilerInfos();
+    my $infos = getSystemProfilerInfos(logger => $logger);
     my $info = $infos->{'Audio (Built In)'};
 
     foreach my $sound (keys %$info){

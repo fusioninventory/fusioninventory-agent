@@ -25,7 +25,9 @@ sub doInventory {
 }
 
 sub _getStorages {
-    my $infos = getSystemProfilerInfos(@_);
+    my (%params) = @_;
+
+    my $infos = getSystemProfilerInfos(logger => $params{logger});
 
     # system profiler data structure:
     # bus

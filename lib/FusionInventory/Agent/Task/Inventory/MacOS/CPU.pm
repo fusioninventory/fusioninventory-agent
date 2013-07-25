@@ -14,7 +14,7 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger = $params{logger};
+    my $logger    = $params{logger};
 
     foreach my $cpu (_getCpus(logger => $logger)) {
         $inventory->addEntry(
@@ -24,10 +24,10 @@ sub doInventory {
     }
 }
 
-sub _getCpus{
-
+sub _getCpus {
     my (%params) = @_;
-    my $logger = $params{logger};
+
+    my $logger      = $params{logger};
     my $sysctlfile  = $params{sysctl};
 
    # Get more informations from sysctl
@@ -38,11 +38,10 @@ sub _getCpus{
     );
 
     # System profiler informations
-    my $sysprofile = getSystemProfilerInfos(@_);
-
+    my $infos = getSystemProfilerInfos(logger => $logger);
 
     #add sysctl informations into profiler informations
-    my $info = $sysprofile->{'Hardware'}->{'Hardware Overview'};
+    my $info = $infos->{'Hardware'}->{'Hardware Overview'};
 
     while (my $line = <$sysctl>) {
         chomp $line;

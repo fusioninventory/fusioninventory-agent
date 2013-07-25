@@ -23,9 +23,9 @@ sub doInventory {
         );
     }
 
-    my $sysprofile = getSystemProfilerInfos(@_);
-    ### mem convert it to meg's if it comes back in gig's
-    my $mem = $sysprofile->{'Hardware'}{'Hardware Overview'}{'Memory'};
+    my $infos = getSystemProfilerInfos(logger => $logger);
+    my $mem = $infos->{'Hardware'}{'Hardware Overview'}{'Memory'};
+
     if ($mem =~ /GB$/){
         $mem =~ s/\sGB$//;
         $mem = ($mem * 1024);
@@ -39,7 +39,9 @@ sub doInventory {
 }
 
 sub _getMemories {
-    my $infos = getSystemProfilerInfos(@_);
+    my (%params) = @_;
+
+    my $infos = getSystemProfilerInfos(logger => $params{logger});
 
     return unless $infos->{Memory};
 
