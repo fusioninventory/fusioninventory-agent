@@ -22,6 +22,20 @@ sub doInventory {
             entry   => $memory
         );
     }
+
+    my $sysprofile = getSystemProfilerInfos(@_);
+    ### mem convert it to meg's if it comes back in gig's
+    my $mem = $sysprofile->{'Hardware'}{'Hardware Overview'}{'Memory'};
+    if ($mem =~ /GB$/){
+        $mem =~ s/\sGB$//;
+        $mem = ($mem * 1024);
+    } elsif ($mem =~ /MB$/){
+        $mem =~ s/\sMB$//;
+    }
+
+    $inventory->setHardware({
+        MEMORY => $mem,
+    });
 }
 
 sub _getMemories {
