@@ -171,7 +171,7 @@ plan tests =>
     (2 * scalar keys %arm)   +
     (2 * scalar keys %mips)  +
     (2 * scalar keys %ppc)   +
-    (1 * scalar keys %i386);
+    (2 * scalar keys %i386);
 
 my $logger    = FusionInventory::Agent::Logger->new(
     backends => [ 'fatal' ],
@@ -183,6 +183,9 @@ foreach my $test (keys %i386) {
     my $file = "resources/linux/proc/cpuinfo/$test";
     my @cpus = FusionInventory::Agent::Task::Inventory::Linux::Archs::i386::_getCPUs(file => $file);
     cmp_deeply(\@cpus, $i386{$test}, "cpus: ".$test);
+    lives_ok {
+        $inventory->addEntry(section => 'CPUS', entry => $_) foreach @cpus;
+    } 'no unknown fields';
 }
 
 foreach my $test (keys %alpha) {
