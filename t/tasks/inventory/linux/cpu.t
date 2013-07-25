@@ -48,6 +48,18 @@ my %i386 = (
                 THREAD       => 1,
                 CORE         => 1
             }
+        ],
+        cpus => [
+            {
+                THREAD       => 1,
+                MANUFACTURER => 'Intel',
+                NAME         => 'Intel(R) Pentium(R) M processor 1.73GHz',
+                CORE         => 1,
+                STEPPING     => '8',
+                SPEED        => '1730',
+                MODEL        => '13',
+                FAMILYNUMBER => '6'
+            }
         ]
     },
     'linux-686-samsung-nc10-1' => {
@@ -85,8 +97,20 @@ my %i386 = (
                 STEPPING     => 2,
                 FAMILYNUMBER => 6,
                 MODEL        => 28,
-                THREAD => '2',
-                CORE   => '1'
+                THREAD       => '2',
+                CORE         => '1'
+            }
+        ],
+        cpus => [
+            {
+                CORE         => '1',
+                SPEED        => '1600',
+                THREAD       => '2',
+                NAME         => 'Intel(R) Atom(TM) CPU N270   @ 1.60GHz',
+                MODEL        => '28',
+                MANUFACTURER => 'Intel',
+                FAMILYNUMBER => '6',
+                STEPPING     => '2'
             }
         ]
     },
@@ -127,6 +151,18 @@ my %i386 = (
                 MODEL        => 28,
                 THREAD => '2',
                 CORE => '1'
+            }
+        ],
+        cpus => [
+            {
+                NAME         => 'Intel(R) Atom(TM) CPU N270   @ 1.60GHz',
+                THREAD       => '2',
+                SPEED        => '1600',
+                STEPPING     => '2',
+                CORE         => '1',
+                FAMILYNUMBER => '6',
+                MANUFACTURER => 'Intel',
+                MODEL        => '28'
             }
         ]
     },
@@ -171,6 +207,18 @@ my %i386 = (
                 THREAD => '1',
                 CORE   => '4'
             }
+        ],
+        cpus => [
+            {
+                FAMILYNUMBER => 6,
+                SPEED        => 2000,
+                STEPPING     => 5,
+                MANUFACTURER => 'Intel',
+                CORE         => '4',
+                NAME         => 'Intel(R) Xeon(R) CPU           E5504  @ 2.00GHz',
+                MODEL        => 26,
+                THREAD       => '1',
+            }
         ]
     },
     'toshiba-r630-2-core' => {
@@ -206,6 +254,18 @@ my %i386 = (
                 MODEL        => 37,
                 THREAD => '2',
                 CORE   => '2'
+            }
+        ],
+        cpus => [
+            {
+                THREAD       => '2',
+                NAME         => 'Intel(R) Core(TM) i3 CPU       M 350  @ 2.27GHz',
+                CORE         => '2',
+                MODEL        => '37',
+                STEPPING     => '5',
+                SPEED        => '2270',
+                MANUFACTURER => 'Intel',
+                FAMILYNUMBER => '6'
             }
         ]
     }
@@ -299,7 +359,7 @@ plan tests =>
     (2 * scalar keys %arm)   +
     (2 * scalar keys %mips)  +
     (2 * scalar keys %ppc)   +
-    (2 * scalar keys %i386);
+    (3 * scalar keys %i386);
 
 my $logger    = FusionInventory::Agent::Logger->new(
     backends => [ 'fatal' ],
@@ -312,6 +372,8 @@ foreach my $test (keys %i386) {
     my ($procs, $cores) = FusionInventory::Agent::Task::Inventory::Linux::Archs::i386::_getCPUsFromProc(file => $file);
     cmp_deeply($procs, $i386{$test}->{procs}, "procs: ".$test);
     cmp_deeply($cores, $i386{$test}->{cores}, "cores: ".$test);
+    my @cpus = FusionInventory::Agent::Task::Inventory::Linux::Archs::i386::_getCPUs(file => $file);
+    cmp_deeply(\@cpus, $i386{$test}->{cpus}, "cpus: ".$test);
 }
 
 foreach my $test (keys %alpha) {
