@@ -23,13 +23,25 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
+    foreach my $cpu (_getCPUs(logger => $logger)) {
+        $inventory->addEntry(
+            section => 'CPUS',
+            entry   => $cpu
+        );
+    }
+}
+
+sub _getCPUs {
+    my (%params) = @_;
+
     my @cpusFromDmidecode = getCpusFromDmidecode();
 
-    my ($proc_cpu, $procList) = _getCPUsFromProc(
-        logger => $logger, file => '/proc/cpuinfo'
-    );
+    my ($proc_cpu, $procList) = _getCPUsFromProc(%params);
+
     my $cpt = 0;
-    my @baseCpuList = @cpusFromDmidecode?@cpusFromDmidecode:@$procList;
+    my @baseCpuList = @cpusFromDmidecode ? @cpusFromDmidecode : @$procList;
+    my @cpus;
+
     foreach my $cpu (@baseCpuList) {
 
         if ($proc_cpu->{vendor_id}) {
@@ -65,16 +77,19 @@ sub doInventory {
             }->{lc($2)} * $1;
         }
 
-        $inventory->addEntry(
-            section => 'CPUS',
-            entry   => $cpu
-        );
+        push @cpus, $cpu;
         $cpt++;
     }
+
+    return @cpus;
 }
 
 sub _getCPUsFromProc {
-    my @cpus = getCPUsFromProc(@_);
+    my %params = (
+        file => '/proc/cpuinfo',
+        @_
+    );
+    my @cpus = getCPUsFromProc(%params);
 
     my ($procs, $cpuNbr);
 
@@ -87,16 +102,21 @@ sub _getCPUsFromProc {
         my $id = $cpu->{'physical id'};
         $hasPhysicalId = 0;
         if (defined $id) {
-            $cpus{$id}{STEPPING} = $cpu->{'stepping'};
+            $cpus{$id}{STEPPING}     = $cpu->{'stepping'};
             $cpus{$id}{FAMILYNUMBER} = $cpu->{'cpu family'};
-            $cpus{$id}{MODEL} = $cpu->{'model'};
-            $cpus{$id}{CORE} = $cpu->{'cpu cores'};
-            $cpus{$id}{THREAD} = $cpu->{'siblings'} / ($cpu->{'cpu cores'} || 1);
+            $cpus{$id}{MODEL}        = $cpu->{'model'};
+            $cpus{$id}{CORE}         = $cpu->{'cpu cores'};
+            $cpus{$id}{THREAD}       = $cpu->{'siblings'} / ($cpu->{'cpu cores'} || 1);
             $hasPhysicalId = 1;
         }
 
-        push @cpuList, {STEPPING => $cpu->{'stepping'},FAMILYNUMBER => $cpu->{'cpu family'},
-                        MODEL => $cpu->{'model'},   CORE => 1, THREAD => 1 } unless $hasPhysicalId;
+        push @cpuList, {
+            STEPPING     => $cpu->{'stepping'},
+            FAMILYNUMBER => $cpu->{'cpu family'},
+            MODEL        => $cpu->{'model'},
+            CORE         => 1,
+            THREAD       => 1
+        } unless $hasPhysicalId;
     }
     if (!$cpuNbr) {
         $cpuNbr = keys %cpus;
