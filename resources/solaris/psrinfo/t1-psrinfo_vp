@@ -1,0 +1,2 @@
+The physical processor has 16 virtual processors (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15)
+  UltraSPARC-T1 (cpuid 0 clock 1000 MHz)

@@ -19,6 +19,7 @@ my %vpcu_tests = (
     giration    => [ _map(16, { speed => '1350', type => 'sparcv9' }) ],
     v240        => [ _map( 2, { speed => '1280', type => 'sparcv9' }) ],
     v490        => [ _map( 8, { speed => '1350', type => 'sparcv9' }) ],
+    t1          => [ _map(16, { speed => '1000', type => 'sparcv9' }) ],
     t5120       => [ _map(32, { speed => '1165', type => 'sparcv9' }) ],
     e6900       => [
         _map(8, { speed => '1350', type => 'sparcv9' }) ,
@@ -54,6 +55,9 @@ my %pcpu_tests = (
     ],
     v490 => [
         _map(4, { speed => '1350', type => 'UltraSPARC-IV', count => 2 })
+    ],
+    t1   => [
+        _map(1, { speed => '1000', type => 'UltraSPARC-T1', count => 16 })
     ],
     t5120 => [
         _map(1, { speed => '1165', type => 'UltraSPARC-T2', count => 32 })
@@ -161,6 +165,17 @@ my %cpu_tests = (
                 SPEED        => '1350',
                 THREAD       => 1,
                 CORE         => 2
+            }
+        )
+    ],
+    t1 => [
+        _map(1,
+            {
+                NAME         => 'UltraSPARC-T1',
+                MANUFACTURER => 'SPARC',
+                SPEED        => 1000,
+                THREAD       => 4,
+                CORE         => 4
             }
         )
     ],
