@@ -732,7 +732,7 @@ sub _setNetworkingProperties {
     # everything else is vendor-specific, and requires device description
     return unless $comments;
 
-    setTrunkPorts($comments, $results, $ports);
+    setTrunkPorts(results => $results, ports => $ports);
 
     setConnectedDevices(
         results => $results, ports => $ports, walks => $walks
