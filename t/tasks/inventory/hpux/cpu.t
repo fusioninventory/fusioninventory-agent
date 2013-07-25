@@ -2,10 +2,14 @@
 
 use strict;
 use warnings;
+use lib 't/lib';
 
 use Test::Deep;
+use Test::Exception;
 use Test::More;
 
+use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Task::Inventory::HPUX::CPU;
 
 my %machinfo_tests = (
@@ -69,17 +73,30 @@ my %cprop_tests = (
 );
 
 plan tests =>
-    (scalar keys %machinfo_tests) +
-    (scalar keys %cprop_tests);
+    (2 * scalar keys %machinfo_tests) +
+    (2 * scalar keys %cprop_tests);
+
+my $logger = FusionInventory::Agent::Logger->new(
+    backends => [ 'fatal' ],
+    debug    => 1
+);
+my $inventory = FusionInventory::Agent::Inventory->new(logger => $logger);
 
 foreach my $test (keys %machinfo_tests) {
     my $file = "resources/hpux/machinfo/$test";
-    my $results = FusionInventory::Agent::Task::Inventory::HPUX::CPU::_parseMachinInfo(file => $file);
-    cmp_deeply($results, $machinfo_tests{$test}, "machinfo parsing: $test");
+    my $cpus = FusionInventory::Agent::Task::Inventory::HPUX::CPU::_parseMachinInfo(file => $file);
+    cmp_deeply($cpus, $machinfo_tests{$test}, "machinfo parsing: $test");
+    delete $cpus->{CPUcount};
+    lives_ok {
+        $inventory->addEntry(section => 'CPUS', entry => $cpus);
+    } "$test: registering";
 }
 
 foreach my $test (keys %cprop_tests) {
     my $file = "resources/hpux/cprop/$test-cpu";
     my @cpus = FusionInventory::Agent::Task::Inventory::HPUX::CPU::_parseCprop(file => $file);
     cmp_deeply(\@cpus, $cprop_tests{$test}, "cprop parsing: $test");
+    lives_ok {
+        $inventory->addEntry(section => 'CPUS', entry => $_) foreach @cpus;
+    } "$test: registering";
 }

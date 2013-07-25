@@ -8,9 +8,12 @@ use lib 't/lib';
 use Encode;
 use English qw(-no_match_vars);
 use Test::Deep;
+use Test::Exception;
 use Test::MockModule;
 use Test::More;
 
+use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Inventory;
 use FusionInventory::Test::Utils;
 
 BEGIN {
@@ -8190,8 +8193,14 @@ my %hotfixes_tests = (
 );
 
 plan tests =>
-    scalar (keys %softwares_tests) +
+    scalar (2 * keys %softwares_tests) +
     scalar (keys %hotfixes_tests)  ;
+
+    my $logger    = FusionInventory::Agent::Logger->new(
+    backends => [ 'fatal' ],
+    debug    => 1
+);
+my $inventory = FusionInventory::Agent::Inventory->new(logger => $logger);
 
 my $module = Test::MockModule->new(
     'FusionInventory::Agent::Task::Inventory::Win32::Softwares'
@@ -8215,8 +8224,12 @@ foreach my $test (keys %softwares_tests) {
     cmp_deeply(
         sort_result($softwares),
         sort_result($softwares_tests{$test}),
-        "$test softwares list"
+        "$test: parsing"
     );
+    lives_ok {
+        $inventory->addEntry(section => 'SOFTWARES', entry => $_)
+            foreach @$softwares;
+    } "$test: registering";
 }
 
 foreach my $test (keys %hotfixes_tests) {

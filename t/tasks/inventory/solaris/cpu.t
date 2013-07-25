@@ -2,11 +2,15 @@
 
 use strict;
 use warnings;
+use lib 't/lib';
 
 use Test::Deep;
+use Test::Exception;
 use Test::MockModule;
 use Test::More;
 
+use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Task::Inventory::Solaris::CPU;
 
 my %vpcu_tests = (
@@ -195,7 +199,13 @@ my %cpu_tests = (
 plan tests =>
     (scalar keys %vpcu_tests) +
     (scalar keys %pcpu_tests) +
-    (scalar keys %cpu_tests) ;
+    (2 * scalar keys %cpu_tests) ;
+
+my $logger    = FusionInventory::Agent::Logger->new(
+    backends => [ 'fatal' ],
+    debug    => 1
+);
+my $inventory = FusionInventory::Agent::Inventory->new(logger => $logger);
 
 foreach my $test (keys %vpcu_tests) {
     my $file = "resources/solaris/psrinfo/$test-psrinfo_v";
@@ -235,7 +245,11 @@ foreach my $test (keys %cpu_tests) {
     );
 
     my @cpus = FusionInventory::Agent::Task::Inventory::Solaris::CPU::_getCPUs();
-    cmp_deeply(\@cpus, $cpu_tests{$test}, "cpus values: $test");
+    cmp_deeply(\@cpus, $cpu_tests{$test}, "$test: cpus values");
+    lives_ok {
+        $inventory->addEntry(section => 'CPUS', entry => $_) foreach @cpus;
+    } "$test: registering";
+
 }
 
 

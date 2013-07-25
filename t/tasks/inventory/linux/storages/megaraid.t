@@ -2,10 +2,14 @@
 
 use strict;
 use warnings;
+use lib 't/lib';
 
 use Test::Deep;
+use Test::Exception;
 use Test::More;
 
+use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Task::Inventory::Linux::Storages::Megaraid;
 
 my %tests = (
@@ -61,12 +65,21 @@ my %tests = (
     ]
 );
 
-plan tests => scalar keys %tests;
+plan tests => 2 * scalar keys %tests;
+
+my $logger = FusionInventory::Agent::Logger->new(
+    backends => [ 'fatal' ],
+    debug    => 1
+);
+my $inventory = FusionInventory::Agent::Inventory->new(logger => $logger);
 
 foreach my $test (keys %tests) {
     my $file = "resources/linux/megasasctl/$test";
     my @disks = FusionInventory::Agent::Task::Inventory::Linux::Storages::Megaraid::_parseMegasasctl(
         file       => $file
     );
-    cmp_deeply(\@disks, $tests{$test}, $test);
+    cmp_deeply(\@disks, $tests{$test}, "$test: parsing");
+    lives_ok {
+        $inventory->addEntry(section => 'STORAGES', entry => $_) foreach @disks;
+    } "$test: registering";
 }

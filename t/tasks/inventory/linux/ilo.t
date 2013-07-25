@@ -2,10 +2,14 @@
 
 use strict;
 use warnings;
+use lib 't/lib';
 
 use Test::Deep;
+use Test::Exception;
 use Test::More;
 
+use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Task::Inventory::Linux::iLO;
 
 my %tests = (
@@ -29,10 +33,19 @@ my %tests = (
     }
 );
 
-plan tests => int (keys %tests);
+plan tests => 2 * scalar keys %tests;
+
+my $logger = FusionInventory::Agent::Logger->new(
+    backends => [ 'fatal' ],
+    debug    => 1
+);
+my $inventory = FusionInventory::Agent::Inventory->new(logger => $logger);
 
 foreach my $test (keys %tests) {
     my $file = "resources/linux/hponcfg/$test";
-    my $results = FusionInventory::Agent::Task::Inventory::Linux::iLO::_parseHponcfg(file => $file);
-    cmp_deeply($results, $tests{$test}, $test);
+    my $interface = FusionInventory::Agent::Task::Inventory::Linux::iLO::_parseHponcfg(file => $file);
+    cmp_deeply($interface, $tests{$test}, $test);
+    lives_ok {
+        $inventory->addEntry(section => 'NETWORKS', entry => $interface);
+    } 'no unknown fields';
 }

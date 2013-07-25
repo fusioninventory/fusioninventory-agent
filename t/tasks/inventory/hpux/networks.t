@@ -2,10 +2,14 @@
 
 use strict;
 use warnings;
+use lib 't/lib';
 
 use Test::Deep;
+use Test::Exception;
 use Test::More;
 
+use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Task::Inventory::HPUX::Networks;
 
 my %lanadmin_tests = (
@@ -987,8 +991,13 @@ plan tests =>
     (scalar keys %ifconfig_tests) +
     (scalar keys %nwmgr_tests) +
     (scalar keys %netstat_tests) +
-    (scalar keys %lanscan_tests)
-;
+    (2 * scalar keys %lanscan_tests);
+
+my $logger = FusionInventory::Agent::Logger->new(
+    backends => [ 'fatal' ],
+    debug    => 1
+);
+my $inventory = FusionInventory::Agent::Inventory->new(logger => $logger);
 
 foreach my $test (keys %lanadmin_tests) {
     my $file = "resources/hpux/lanadmin/$test";
@@ -1018,4 +1027,9 @@ foreach my $test (keys %lanscan_tests) {
     my $file = "resources/hpux/lanscan/$test";
     my @interfaces = FusionInventory::Agent::Task::Inventory::HPUX::Networks::_parseLanscan(file => $file);
     cmp_deeply(\@interfaces, $lanscan_tests{$test}, "lanscan -iap parsing: $test");
+    delete $_->{lan_id} foreach @interfaces;
+    lives_ok {
+        $inventory->addEntry(section => 'NETWORKS', entry => $_)
+            foreach @interfaces;
+    } "$test: registering";
 }

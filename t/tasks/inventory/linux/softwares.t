@@ -2,10 +2,14 @@
 
 use strict;
 use warnings;
+use lib 't/lib';
 
 use Test::Deep;
+use Test::Exception;
 use Test::More;
 
+use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Task::Inventory::Generic::Softwares::RPM;
 use FusionInventory::Agent::Task::Inventory::Generic::Softwares::Deb;
 use FusionInventory::Agent::Task::Inventory::Generic::Softwares::Gentoo;
@@ -235,18 +239,32 @@ my $deb_packages = [
     }
 ];
 
-plan tests => 4;
+plan tests => 6;
+
+my $logger = FusionInventory::Agent::Logger->new(
+    backends => [ 'fatal' ],
+    debug    => 1
+);
+my $inventory = FusionInventory::Agent::Inventory->new(logger => $logger);
 
 my $packages;
 $packages = FusionInventory::Agent::Task::Inventory::Generic::Softwares::RPM::_getPackagesList(
     file => "resources/linux/packaging/rpm"
 );
-cmp_deeply($packages, $rpm_packages, 'rpm parsing');
+cmp_deeply($packages, $rpm_packages, 'rpm: parsing');
+lives_ok {
+    $inventory->addEntry(section => 'SOFTWARES', entry => $_)
+        foreach @$packages;
+} 'rpm: registering';
 
 $packages = FusionInventory::Agent::Task::Inventory::Generic::Softwares::Deb::_getPackagesList(
     file => "resources/linux/packaging/dpkg"
 );
-cmp_deeply($packages, $deb_packages, 'dpkg parsing');
+cmp_deeply($packages, $deb_packages, 'dpkg: parsing');
+lives_ok {
+    $inventory->addEntry(section => 'SOFTWARES', entry => $_)
+        foreach @$packages;
+} 'dpkg: registering';
 
 ok(
     !FusionInventory::Agent::Task::Inventory::Generic::Softwares::Gentoo::_equeryNeedsWildcard(

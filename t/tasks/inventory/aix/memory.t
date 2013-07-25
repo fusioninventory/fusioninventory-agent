@@ -2,10 +2,14 @@
 
 use strict;
 use warnings;
+use lib 't/lib';
 
 use Test::Deep;
+use Test::Exception;
 use Test::More;
 
+use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Task::Inventory::AIX::Memory;
 
 my %tests = (
@@ -293,10 +297,19 @@ my %tests = (
     ]
 );
 
-plan tests => scalar keys %tests;
+plan tests => 2 * scalar keys %tests;
+
+my $logger = FusionInventory::Agent::Logger->new(
+    backends => [ 'fatal' ],
+    debug    => 1
+);
+my $inventory = FusionInventory::Agent::Inventory->new(logger => $logger);
 
 foreach my $test (keys %tests) {
     my $file = "resources/aix/lsvpd/$test";
     my @memories = FusionInventory::Agent::Task::Inventory::AIX::Memory::_getMemories(file => $file);
-    cmp_deeply(\@memories, $tests{$test}, "memories: $test");
+    cmp_deeply(\@memories, $tests{$test}, "$test: parsing");
+    lives_ok {
+        $inventory->addEntry(section => 'MEMORIES', entry => $_) foreach @memories;
+    } "$test: registering";
 }

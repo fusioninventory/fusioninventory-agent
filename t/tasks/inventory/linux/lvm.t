@@ -2,10 +2,14 @@
 
 use strict;
 use warnings;
+use lib 't/lib';
 
 use Test::Deep;
+use Test::Exception;
 use Test::More;
 
+use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Task::Inventory::Linux::LVM;
 
 my %lvs = (
@@ -245,21 +249,39 @@ my %vgs = (
 );
 
 plan tests =>
-    (scalar keys %pvs) +
-    (scalar keys %lvs) +
-    (scalar keys %vgs);
+    (2 * scalar keys %pvs) +
+    (2 * scalar keys %lvs) +
+    (2 * scalar keys %vgs);
+
+my $logger = FusionInventory::Agent::Logger->new(
+    backends => [ 'fatal' ],
+    debug    => 1
+);
+my $inventory = FusionInventory::Agent::Inventory->new(logger => $logger);
 
 foreach my $test (keys %pvs) {
     my @pvs = FusionInventory::Agent::Task::Inventory::Linux::LVM::_getPhysicalVolumes(file => "resources/lvm/linux/pvs/$test");
-    cmp_deeply(\@pvs, $pvs{$test}, "physical volumes list: $test");
+    cmp_deeply(\@pvs, $pvs{$test}, "$test: parsing");
+    lives_ok {
+        $inventory->addEntry(section => 'PHYSICAL_VOLUMES', entry => $_)
+            foreach @pvs;
+    } "$test: registering";
 }
 
 foreach my $test (keys %lvs) {
     my @lvs = FusionInventory::Agent::Task::Inventory::Linux::LVM::_getLogicalVolumes(file => "resources/lvm/linux/lvs/$test");
-    cmp_deeply(\@lvs, $lvs{$test}, "logical volumes list: $test");
+    cmp_deeply(\@lvs, $lvs{$test}, "$test: parsing");
+    lives_ok {
+        $inventory->addEntry(section => 'LOGICAL_VOLUMES', entry => $_)
+            foreach @lvs;
+    } "$test: registering";
 }
 
 foreach my $test (keys %vgs) {
     my @vgs = FusionInventory::Agent::Task::Inventory::Linux::LVM::_getVolumeGroups(file => "resources/lvm/linux/vgs/$test");
-    cmp_deeply(\@vgs, $vgs{$test}, "volume groups list: $test");
+    cmp_deeply(\@vgs, $vgs{$test}, "$test: parsing");
+    lives_ok {
+        $inventory->addEntry(section => 'VOLUME_GROUPS', entry => $_)
+            foreach @vgs;
+    } "$test: registering";
 }

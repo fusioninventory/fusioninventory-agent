@@ -2,10 +2,14 @@
 
 use strict;
 use warnings;
+use lib 't/lib';
 
 use Test::Deep;
+use Test::Exception;
 use Test::More;
 
+use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Task::Inventory::Solaris::Networks;
 
 my %ifconfig_tests = (
@@ -127,12 +131,22 @@ my %ifconfig_tests = (
 );
 
 plan tests =>
-    int (1 + keys %ifconfig_tests);
+    int (2 + 2 * keys %ifconfig_tests);
+
+my $logger    = FusionInventory::Agent::Logger->new(
+    backends => [ 'fatal' ],
+    debug    => 1
+);
+my $inventory = FusionInventory::Agent::Inventory->new(logger => $logger);
 
 foreach my $test (keys %ifconfig_tests) {
     my $file = "resources/generic/ifconfig/$test";
-    my @results = FusionInventory::Agent::Task::Inventory::Solaris::Networks::_getInterfaces(file => $file);
-    cmp_deeply(\@results, $ifconfig_tests{$test}, $test);
+    my @interfaces = FusionInventory::Agent::Task::Inventory::Solaris::Networks::_getInterfaces(file => $file);
+    cmp_deeply(\@interfaces, $ifconfig_tests{$test}, "$test: parsing");
+    lives_ok {
+        $inventory->addEntry(section => 'NETWORKS', entry => $_)
+            foreach @interfaces;
+    } "$test: registering";
 }
 
 my @parsefcinfo = (
@@ -158,5 +172,9 @@ my @parsefcinfo = (
       }
 );
 my $file = "resources/solaris/fcinfo_hba-port/sample-1";
-my @result = FusionInventory::Agent::Task::Inventory::Solaris::Networks::_parsefcinfo(file => $file);
-cmp_deeply(\@result, \@parsefcinfo, "_parsefcinfo");
+my @interfaces = FusionInventory::Agent::Task::Inventory::Solaris::Networks::_parsefcinfo(file => $file);
+cmp_deeply(\@interfaces, \@parsefcinfo, "fcinfo: parsing");
+lives_ok {
+    $inventory->addEntry(section => 'NETWORKS', entry => $_)
+        foreach @interfaces;
+} "fcinfo: registering;"
