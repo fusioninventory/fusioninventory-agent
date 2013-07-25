@@ -94,42 +94,32 @@ sub _getCPUsFromProc {
         @_
     );
     my @cpus = getCPUsFromProc(%params);
-
-    my $procs;
-    my @cpuList;
+    my @physical_cpus;
     my %cpus;
-    my $hasPhysicalId;
 
     foreach my $cpu (@cpus) {
-        $procs = $cpu;
         my $id = $cpu->{'physical id'};
-        $hasPhysicalId = 0;
         if (defined $id) {
             $cpus{$id}{STEPPING}     = $cpu->{'stepping'};
             $cpus{$id}{FAMILYNUMBER} = $cpu->{'cpu family'};
             $cpus{$id}{MODEL}        = $cpu->{'model'};
             $cpus{$id}{CORE}         = $cpu->{'cpu cores'};
             $cpus{$id}{THREAD}       = $cpu->{'siblings'} / ($cpu->{'cpu cores'} || 1);
-            $hasPhysicalId = 1;
+        } else {
+            push @physical_cpus, {
+                STEPPING     => $cpu->{'stepping'},
+                FAMILYNUMBER => $cpu->{'cpu family'},
+                MODEL        => $cpu->{'model'},
+                CORE         => 1,
+                THREAD       => 1
+            }
         }
-
-        push @cpuList, {
-            STEPPING     => $cpu->{'stepping'},
-            FAMILYNUMBER => $cpu->{'cpu family'},
-            MODEL        => $cpu->{'model'},
-            CORE         => 1,
-            THREAD       => 1
-        } unless $hasPhysicalId;
     }
 
     # physical id may not start at 0!
-    if ($hasPhysicalId) {
-        foreach (keys %cpus) {
-            push @cpuList, $cpus{$_};
-        }
-    }
+    push @physical_cpus, values %cpus if %cpus;
 
-    return $procs, \@cpuList;
+    return $cpus[-1], \@physical_cpus;
 }
 
 1;
