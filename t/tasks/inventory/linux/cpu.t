@@ -2,10 +2,14 @@
 
 use strict;
 use warnings;
+use lib 't/lib';
 
 use Test::Deep;
+use Test::Exception;
 use Test::More;
 
+use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Task::Inventory::Linux::Archs::i386;
 use FusionInventory::Agent::Task::Inventory::Linux::Archs::Alpha;
 use FusionInventory::Agent::Task::Inventory::Linux::Archs::SPARC;
@@ -243,7 +247,7 @@ my %arm = (
             ARCH  => 'ARM',
             TYPE  => 'Feroceon 88FR131 rev 1 (v5l)'
         }
-    ]
+    ],
 );
 
 my %mips = (
@@ -290,12 +294,18 @@ my %ppc = (
 );
 
 plan tests =>
-    (scalar keys %alpha) +
-    (scalar keys %sparc) +
-    (scalar keys %arm)   +
-    (scalar keys %mips)  +
-    (scalar keys %ppc)   +
+    (2 * scalar keys %alpha) +
+    (2 * scalar keys %sparc) +
+    (2 * scalar keys %arm)   +
+    (2 * scalar keys %mips)  +
+    (2 * scalar keys %ppc)   +
     (2 * scalar keys %i386);
+
+my $logger    = FusionInventory::Agent::Logger->new(
+    backends => [ 'fatal' ],
+    debug    => 1
+);
+my $inventory = FusionInventory::Agent::Inventory->new(logger => $logger);
 
 foreach my $test (keys %i386) {
     my $file = "resources/linux/proc/cpuinfo/$test";
@@ -308,28 +318,43 @@ foreach my $test (keys %alpha) {
     my $file = "resources/linux/proc/cpuinfo/$test";
     my @cpus = FusionInventory::Agent::Task::Inventory::Linux::Archs::Alpha::_getCPUsFromProc(file => $file);
     cmp_deeply(\@cpus, $alpha{$test}, $test);
+    lives_ok {
+        $inventory->addEntry(section => 'CPUS', entry => $_) foreach @cpus;
+    } 'no unknown fields';
 }
 
 foreach my $test (keys %sparc) {
     my $file = "resources/linux/proc/cpuinfo/$test";
     my @cpus = FusionInventory::Agent::Task::Inventory::Linux::Archs::SPARC::_getCPUsFromProc(file => $file);
     cmp_deeply(\@cpus, $sparc{$test}, $test);
+    lives_ok {
+        $inventory->addEntry(section => 'CPUS', entry => $_) foreach @cpus;
+    } 'no unknown fields';
 }
 
 foreach my $test (keys %mips) {
     my $file = "resources/linux/proc/cpuinfo/$test";
     my @cpus = FusionInventory::Agent::Task::Inventory::Linux::Archs::MIPS::_getCPUsFromProc(file => $file);
     cmp_deeply(\@cpus, $mips{$test}, $test);
+    lives_ok {
+        $inventory->addEntry(section => 'CPUS', entry => $_) foreach @cpus;
+    } 'no unknown fields';
 }
 
 foreach my $test (keys %arm) {
     my $file = "resources/linux/proc/cpuinfo/$test";
     my @cpus = FusionInventory::Agent::Task::Inventory::Linux::Archs::ARM::_getCPUsFromProc(file => $file);
     cmp_deeply(\@cpus, $arm{$test}, $test);
+    lives_ok {
+        $inventory->addEntry(section => 'CPUS', entry => $_) foreach @cpus;
+    } 'no unknown fields';
 }
 
 foreach my $test (keys %ppc) {
     my $file = "resources/linux/proc/cpuinfo/$test";
     my @cpus = FusionInventory::Agent::Task::Inventory::Linux::Archs::PowerPC::_getCPUsFromProc(file => $file);
     cmp_deeply(\@cpus, $ppc{$test}, $test);
+    lives_ok {
+        $inventory->addEntry(section => 'CPUS', entry => $_) foreach @cpus;
+    } 'no unknown fields';
 }
