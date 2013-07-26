@@ -2,11 +2,14 @@
 
 use strict;
 use warnings;
+use lib 't/lib';
 
 use Test::Deep;
+use Test::Exception;
 use Test::More;
 use Test::NoWarnings;
 
+use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Memory;
 
 my %tests = (
@@ -1765,10 +1768,16 @@ my %tests = (
     ]
 );
 
-plan tests => (scalar keys %tests) + 1;
+plan tests => (2 * scalar keys %tests) + 1;
+
+my $inventory = FusionInventory::Test::Inventory->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/generic/dmidecode/$test";
     my $memories = FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Memory::_getMemories(file => $file);
-    cmp_deeply($memories, $tests{$test}, $test);
+    cmp_deeply($memories, $tests{$test}, "$test: parsing");
+    lives_ok {
+        $inventory->addEntry(section => 'MEMORIES', entry => $_)
+            foreach @$memories;
+    } "$test: registering";
 }

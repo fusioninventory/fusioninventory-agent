@@ -2,11 +2,14 @@
 
 use strict;
 use warnings;
+use lib 't/lib';
 
 use Test::Deep;
+use Test::Exception;
 use Test::More;
 use Test::NoWarnings;
 
+use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Battery;
 
 my %tests = (
@@ -47,10 +50,19 @@ my %tests = (
     'windows-hyperV' => undef
 );
 
-plan tests => (scalar keys %tests) + 1;
+plan tests =>
+    (scalar keys %tests)               +
+    (scalar grep { $_ } values %tests) +
+    1;
+
+my $inventory = FusionInventory::Test::Inventory->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/generic/dmidecode/$test";
     my $battery = FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Battery::_getBattery(file => $file);
-    cmp_deeply($battery, $tests{$test}, $test);
+    cmp_deeply($battery, $tests{$test}, "$test: parsing");
+    next unless $battery;
+    lives_ok {
+        $inventory->addEntry(section => 'BATTERIES', entry => $battery);
+    } "$test: registering";
 }
