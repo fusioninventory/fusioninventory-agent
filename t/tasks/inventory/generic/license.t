@@ -5,6 +5,7 @@ use warnings;
 
 use Test::Deep;
 use Test::More;
+use Test::NoWarnings;
 
 use FusionInventory::Agent::Tools::Generic::License;
 
@@ -25,7 +26,7 @@ my %adobe_tests = (
     ]
 );
 
-plan tests => scalar keys %adobe_tests;
+plan tests => (scalar keys %adobe_tests) + 1;
 
 foreach my $test (keys %adobe_tests) {
     my $file = "resources/generic/license/adobe/cache.db-$test";

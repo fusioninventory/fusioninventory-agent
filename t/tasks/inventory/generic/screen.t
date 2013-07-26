@@ -6,6 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 use Test::Deep qw(cmp_deeply);
 use Test::More;
+use Test::NoWarnings;
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
@@ -383,7 +384,7 @@ my %edid_tests = (
     },
 );
 
-plan tests => scalar keys %edid_tests;
+plan tests => (scalar keys %edid_tests) + 1;
 
 foreach my $test (sort keys %edid_tests) {
     my $file = "resources/generic/edid/$test";

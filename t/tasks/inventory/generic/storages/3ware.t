@@ -5,10 +5,9 @@ use warnings;
 
 use Test::Deep;
 use Test::More;
+use Test::NoWarnings;
 
 use FusionInventory::Agent::Task::Inventory::Generic::Storages::3ware;
-
-plan tests => 4;
 
 my @cards = (
     {
@@ -44,6 +43,8 @@ my @storages = (
         TYPE         => 'disk'
     }
 );
+
+plan tests => 4 + 1;
 
 cmp_deeply(
     [ FusionInventory::Agent::Task::Inventory::Generic::Storages::3ware::_getCards('resources/generic/tw_cli/cards') ],

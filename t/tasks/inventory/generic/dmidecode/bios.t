@@ -5,6 +5,7 @@ use warnings;
 
 use Test::Deep;
 use Test::More;
+use Test::NoWarnings;
 
 use FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Bios;
 
@@ -412,7 +413,7 @@ my %tests = (
     }
 );
 
-plan tests => 2 * keys %tests;
+plan tests => (2 * keys %tests) + 1;
 
 foreach my $test (keys %tests) {
     my $file = "resources/generic/dmidecode/$test";

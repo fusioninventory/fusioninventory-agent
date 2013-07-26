@@ -5,6 +5,7 @@ use warnings;
 
 use Test::Deep;
 use Test::More;
+use Test::NoWarnings;
 
 use FusionInventory::Agent::Task::Inventory::Generic::USB;
 
@@ -166,7 +167,10 @@ my %usb_tests = (
     ]
 );
 
-plan tests => (scalar keys %lsusb_tests) + (scalar keys %usb_tests);
+plan tests =>
+    (scalar keys %lsusb_tests) +
+    (scalar keys %usb_tests)   +
+    1;
 
 foreach my $test (keys %lsusb_tests) {
     my $file = "resources/generic/lsusb/$test";

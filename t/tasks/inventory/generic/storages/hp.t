@@ -5,6 +5,7 @@ use warnings;
 
 use Test::Deep;
 use Test::More;
+use Test::NoWarnings;
 
 use FusionInventory::Agent::Task::Inventory::Generic::Storages::HP;
 
@@ -42,9 +43,10 @@ my %storage_tests = (
 );
 
 plan tests =>
-    (scalar keys %slots_tests) +
-    (scalar keys %drives_tests) +
-    (scalar keys %storage_tests);
+    (scalar keys %slots_tests)   +
+    (scalar keys %drives_tests)  +
+    (scalar keys %storage_tests) +
+    1;
 
 foreach my $test (keys %slots_tests) {
     my $file  = "resources/generic/hpacucli/$test-slots";
