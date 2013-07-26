@@ -5,6 +5,7 @@ use warnings;
 
 use Test::Deep;
 use Test::More;
+use Test::NoWarnings;
 
 use FusionInventory::Agent::Task::Inventory::MacOS::Videos;
 
@@ -39,7 +40,7 @@ my %tests = (
     }
 );
 
-plan tests => 2 * scalar keys %tests;
+plan tests => (2 * scalar keys %tests) + 1;
 
 foreach my $test (keys %tests) {
     my $file = "resources/macos/system_profiler/$test";

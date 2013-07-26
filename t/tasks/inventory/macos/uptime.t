@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Test::More;
+use Test::NoWarnings;
 
 use FusionInventory::Agent::Task::Inventory::MacOS::Uptime;
 
@@ -12,7 +13,7 @@ my %tests = (
         'sec = 1325070226' => '1325070226'
 );
 
-plan tests => scalar keys %tests;
+plan tests => (scalar keys %tests) + 1;
 
 foreach my $test (keys %tests) {
  my $r = FusionInventory::Agent::Task::Inventory::MacOS::Uptime::_getBootTime(string => $test);
