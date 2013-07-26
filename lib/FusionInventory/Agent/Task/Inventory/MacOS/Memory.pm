@@ -41,7 +41,10 @@ sub doInventory {
 sub _getMemories {
     my (%params) = @_;
 
-    my $infos = getSystemProfilerInfos(logger => $params{logger});
+    my $infos = getSystemProfilerInfos(
+        logger => $params{logger},
+        file   => $params{file}
+    );
 
     return unless $infos->{Memory};
 

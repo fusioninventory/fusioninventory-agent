@@ -35,7 +35,7 @@ sub _getCpus {
 
     my $sysprofile_info = $infos->{'Hardware'}->{'Hardware Overview'};
 
-   # more informations from sysctl
+    # more informations from sysctl
     my $handle = getFileHandle(
         logger  => $params{logger},
         command => 'sysctl -a machdep.cpu',
