@@ -10,8 +10,7 @@ use Test::MockModule;
 use Test::More;
 use Test::NoWarnings;
 
-use FusionInventory::Agent::Logger;
-use FusionInventory::Agent::Inventory;
+use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::Solaris::CPU;
 
 my %vpcu_tests = (
@@ -203,11 +202,7 @@ plan tests =>
     (2 * scalar keys %cpu_tests) +
     1;
 
-my $logger    = FusionInventory::Agent::Logger->new(
-    backends => [ 'fatal' ],
-    debug    => 1
-);
-my $inventory = FusionInventory::Agent::Inventory->new(logger => $logger);
+my $inventory = FusionInventory::Test::Inventory->new();
 
 foreach my $test (keys %vpcu_tests) {
     my $file = "resources/solaris/psrinfo/$test-psrinfo_v";

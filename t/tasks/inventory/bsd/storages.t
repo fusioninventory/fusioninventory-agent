@@ -9,7 +9,6 @@ use Test::Exception;
 use Test::More;
 use Test::NoWarnings;
 
-use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Task::Inventory::BSD::Storages;
 use FusionInventory::Agent::Task::Inventory::BSD::Storages::Megaraid;
@@ -83,11 +82,7 @@ plan tests =>
     (2 * scalar keys %tests_mfiutil) + 
     1;
 
-my $logger    = FusionInventory::Agent::Logger->new(
-    backends => [ 'fatal' ],
-    debug    => 1
-);
-my $inventory = FusionInventory::Agent::Inventory->new(logger => $logger);
+my $inventory = FusionInventory::Agent::Inventory->new();
 
 foreach my $test (keys %tests_fstab) {
     my $file = "resources/bsd/fstab/$test";

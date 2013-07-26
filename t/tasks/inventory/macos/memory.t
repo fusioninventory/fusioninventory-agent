@@ -9,8 +9,7 @@ use Test::Exception;
 use Test::More;
 use Test::NoWarnings;
 
-use FusionInventory::Agent::Logger;
-use FusionInventory::Agent::Inventory;
+use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::MacOS::Memory;
 
 my %memories_tests = (
@@ -238,11 +237,7 @@ plan tests =>
     (scalar keys %memory_tests)       +
     1;
 
-my $logger = FusionInventory::Agent::Logger->new(
-    backends => [ 'fatal' ],
-    debug    => 1
-);
-my $inventory = FusionInventory::Agent::Inventory->new(logger => $logger);
+my $inventory = FusionInventory::Test::Inventory->new();
 
 foreach my $test (keys %memories_tests) {
     my $file = "resources/macos/system_profiler/$test";

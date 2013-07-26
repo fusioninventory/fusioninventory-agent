@@ -9,8 +9,7 @@ use Test::Exception;
 use Test::More;
 use Test::NoWarnings;
 
-use FusionInventory::Agent::Logger;
-use FusionInventory::Agent::Inventory;
+use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::Solaris::Networks;
 
 my %ifconfig_tests = (
@@ -133,11 +132,7 @@ my %ifconfig_tests = (
 
 plan tests => (2 * keys %ifconfig_tests) + 3;
 
-my $logger    = FusionInventory::Agent::Logger->new(
-    backends => [ 'fatal' ],
-    debug    => 1
-);
-my $inventory = FusionInventory::Agent::Inventory->new(logger => $logger);
+my $inventory = FusionInventory::Test::Inventory->new();
 
 foreach my $test (keys %ifconfig_tests) {
     my $file = "resources/generic/ifconfig/$test";
