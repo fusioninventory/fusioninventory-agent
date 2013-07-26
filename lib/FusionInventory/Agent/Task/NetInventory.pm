@@ -395,7 +395,7 @@ sub _queryDevice {
         getBasicInfoFromSysdescr($description, $snmp)
     );
 
-    if (!$model && $self->{models_dir}) {
+    if (!%{$model->{GET}} && !%{$model->{WALK}} && $self->{models_dir}) {
         # if a local model repository exists, we look for a proper
         # model within
         $model = $self->_findModelInDir(\%device);
