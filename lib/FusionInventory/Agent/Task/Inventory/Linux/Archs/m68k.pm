@@ -36,7 +36,7 @@ sub _getCPUsFromProc {
 
         push @cpus, {
             ARCH  => 'm68k',
-            TYPE  => $cpu->{'cpu'},
+            NAME  => $cpu->{'cpu'},
             SPEED => $cpu->{'clocking'}
         };
     }

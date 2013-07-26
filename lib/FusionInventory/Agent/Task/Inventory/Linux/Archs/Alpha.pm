@@ -43,7 +43,7 @@ sub _getCPUsFromProc {
 
         push @cpus, {
             ARCH   => 'Alpha',
-            TYPE   => $cpu->{processor},
+            NAME   => $cpu->{processor},
             SERIAL => $cpu->{'cpu serial number'},
             SPEED  => $speed
         };
