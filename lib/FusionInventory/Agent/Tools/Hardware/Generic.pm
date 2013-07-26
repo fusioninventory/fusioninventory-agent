@@ -96,7 +96,7 @@ sub setConnectedDevicesUsingCDP {
 
         next if !$connection->{SYSDESCR} || !$connection->{MODEL};
 
-        $ports->{getNextToLastElement($oid)}->{CONNECTIONS} = {
+        $ports->{getElement($oid, -2)}->{CONNECTIONS} = {
             CDP        => 1,
             CONNECTION => $connection
         };
@@ -117,7 +117,7 @@ sub setConnectedDevicesUsingLLDP {
             getElement($oid, -2) . "." .
             getElement($oid, -1);
 
-        $ports->{getNextToLastElement($oid)}->{CONNECTIONS} = {
+        $ports->{getElement($oid, -2)}->{CONNECTIONS} = {
             CDP        => 1,
             CONNECTION => {
                 SYSMAC => alt2canonical($mac),

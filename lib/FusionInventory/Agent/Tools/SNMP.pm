@@ -10,7 +10,6 @@ our @EXPORT = qw(
     getElement
     getElements
     getLastElement
-    getNextToLastElement
 );
 
 sub getSanitizedMacAddress {
@@ -52,12 +51,6 @@ sub getLastElement {
     return getElement($oid, -1);
 }
 
-sub getNextToLastElement {
-    my ($oid) = @_;
-
-    return getElement($oid, -2);
-}
-
 sub getElements {
     my ($oid, $first, $last) = @_;
 
@@ -93,10 +86,6 @@ return the $index element of an oid.
 =head2 getLastElement($oid)
 
 return the last element of an oid.
-
-=head2 getNextToLastElement($oid)
-
-return the next to last element of an oid.
 
 =head2 getElements($oid, $first, $last)
 
