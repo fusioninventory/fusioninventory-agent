@@ -84,16 +84,10 @@ sub _getMemory {
         file   => $params{file}
     );
 
-    my $memory = $infos->{'Hardware'}{'Hardware Overview'}{'Memory'};
-
-    if ($memory =~ /GB$/){
-        $memory =~ s/\sGB$//;
-        $memory = ($memory * 1024);
-    } elsif ($memory =~ /MB$/){
-        $memory =~ s/\sMB$//;
-    }
-
-    return $memory;
+    return getCanonicalSize(
+        $infos->{'Hardware'}{'Hardware Overview'}{'Memory'},
+        1024
+    );
 }
 
 1;
