@@ -8,6 +8,7 @@ use lib 't/lib';
 use English qw(-no_match_vars);
 use Test::More;
 use Test::MockModule;
+use Test::NoWarnings;
 
 use FusionInventory::Test::Utils;
 
@@ -22,7 +23,7 @@ my %tests = (
     "20050927******.******+***" => "09/27/2005",
     "foobar" => "foobar"
 );
-plan tests => scalar keys %tests;
+plan tests => (scalar keys %tests) + 1;
 
 foreach my $input (keys %tests) {
     my $result = $tests{$input};

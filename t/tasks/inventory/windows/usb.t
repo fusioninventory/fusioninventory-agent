@@ -10,6 +10,7 @@ use Test::Deep;
 use Test::Exception;
 use Test::MockModule;
 use Test::More;
+use Test::NoWarnings;
 
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Test::Utils;
@@ -96,7 +97,7 @@ my %tests = (
     ]
 );
 
-plan tests => 2 * scalar keys %tests;
+plan tests => (2 * scalar keys %tests) + 1;
 
 my $inventory = FusionInventory::Agent::Inventory->new();
 

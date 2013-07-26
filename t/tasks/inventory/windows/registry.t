@@ -8,6 +8,7 @@ use lib 't/lib';
 use English qw(-no_match_vars);
 use Test::More;
 use Test::MockModule;
+use Test::NoWarnings;
 
 use FusionInventory::Test::Utils;
 
@@ -22,7 +23,7 @@ use FusionInventory::Agent::Task::Inventory::Win32::Registry;
 if ($OSNAME ne 'MSWin32') {
     plan skip_all => 'Windows-specific test';
 } else {
-    plan tests => 8;
+    plan tests => 9;
 }
 
 my @data;

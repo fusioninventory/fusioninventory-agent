@@ -11,6 +11,7 @@ use Test::Deep;
 use Test::Exception;
 use Test::MockModule;
 use Test::More;
+use Test::NoWarnings;
 
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Test::Utils;
@@ -8180,7 +8181,8 @@ my %hotfixes_tests = (
 
 plan tests =>
     scalar (2 * keys %softwares_tests) +
-    scalar (keys %hotfixes_tests)  ;
+    scalar (keys %hotfixes_tests)      +
+    1;
 
 my $inventory = FusionInventory::Agent::Inventory->new();
 
