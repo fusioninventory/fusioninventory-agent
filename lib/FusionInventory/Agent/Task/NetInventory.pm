@@ -431,11 +431,6 @@ sub _setGenericProperties {
     my $results = $params{results};
     my $device  = $params{device};
 
-    if ($results->{cpuuser}) {
-        $device->{INFO}->{CPU} =
-            $results->{cpuuser} + $results->{cpusystem};
-    }
-
     if ($results->{firmware1}) {
         $device->{INFO}->{FIRMWARE} = $results->{firmware1};
     }
