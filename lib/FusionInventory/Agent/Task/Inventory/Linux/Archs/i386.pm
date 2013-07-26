@@ -81,6 +81,8 @@ sub _getCPUs {
             }->{lc($2)} * $1;
         }
 
+        $cpu->{ARCH} = 'i386';
+
         push @cpus, $cpu;
         $cpt++;
     }
