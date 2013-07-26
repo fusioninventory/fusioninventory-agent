@@ -90,6 +90,7 @@ sub _getCPUsFromProc {
         }
 
         push @cpus, {
+            ARCH         => 'ppc',
             NAME         => $cpu->{cpu},
             MANUFACTURER => $manufacturer,
             SPEED        => $speed
