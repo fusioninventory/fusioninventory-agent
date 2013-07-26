@@ -821,7 +821,7 @@ sub loadModel {
             VLAN   => $_->{vlan},
         }
     } grep {
-        $_->{dynamicport} == 0
+        $_->{dynamicport} == 0 && !$_->{mapping_name} =~ /^lldpRem/
     } @{$model->{oidlist}->{oidobject}};
 
     my @walk = map {
@@ -831,7 +831,7 @@ sub loadModel {
             VLAN   => $_->{vlan},
         }
     } grep {
-        $_->{dynamicport} == 1
+        $_->{dynamicport} == 1 || $_->{mapping_name} =~ /^lldpRem/
     } @{$model->{oidlist}->{oidobject}};
 
     return {
