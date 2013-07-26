@@ -711,7 +711,7 @@ sub _setNetworkingProperties {
 
     $device->{INFO}->{MODEL} = $results->{entPhysicalModelName};
 
-    my $comments = $device->{INFO}->{COMMENTS};
+    my $comments = $device->{INFO}->{DESCRIPTION} || $device->{INFO}->{COMMENTS};
     my $ports    = $device->{PORTS}->{PORT};
 
     # Detect VLAN
