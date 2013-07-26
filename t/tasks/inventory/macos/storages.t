@@ -127,9 +127,19 @@ my $inventory = FusionInventory::Agent::Inventory->new(logger => $logger);
 foreach my $test (keys %tests) {
     my $file = "resources/macos/system_profiler/$test";
     my @storages = FusionInventory::Agent::Task::Inventory::MacOS::Storages::_getStorages(file => $file);
-    cmp_deeply(\@storages, $tests{$test}, "$test: parsing");
+    cmp_deeply(
+        [ sort { normalize() } @storages ],
+        [ sort { normalize() } @{$tests{$test}} ],
+        "$test: parsing"
+    );
     lives_ok {
         $inventory->addEntry(section => 'STORAGES', entry => $_)
             foreach @storages;
     } "$test: registering";
+}
+
+sub normalize {
+    return
+        $a->{NAME}  cmp $b->{NAME} ||
+        $a->{MODEL} cmp $b->{MODEL};
 }
