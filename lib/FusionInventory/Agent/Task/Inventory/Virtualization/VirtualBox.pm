@@ -71,19 +71,19 @@ sub _parseVBoxManage {
     my (@machines, $machine, $index);
 
     my %status_list = (
-        'powered off' => 'off',
-        'saved'   => 'off',
-        'teleported'   => 'off',
-        'aborted'    => 'crashed',
-        'stuck' => 'blocked',
-        'teleporting'   => 'paused',
-        'live snapshotting'     => 'running',
-        'starting'   => 'running',
-        'stopping' => 'dying',
-        'saving' => 'dying',
-        'restoring' => 'running',
-        'running' => 'running',
-        'paused' => 'paused'
+        'powered off'       => 'off',
+        'saved'             => 'off',
+        'teleported'        => 'off',
+        'aborted'           => 'crashed',
+        'stuck'             => 'blocked',
+        'teleporting'       => 'paused',
+        'live snapshotting' => 'running',
+        'starting'          => 'running',
+        'stopping'          => 'dying',
+        'saving'            => 'dying',
+        'restoring'         => 'running',
+        'running'           => 'running',
+        'paused'            => 'paused'
     );
     while (my $line = <$handle>) {
         chomp $line;
