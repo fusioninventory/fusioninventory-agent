@@ -13,7 +13,7 @@ use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Task::Inventory::MacOS::Memory;
 
-my %tests = (
+my %memories_tests = (
     '10.4-powerpc' => [
         {
             NUMSLOTS     => '0',
@@ -226,7 +226,17 @@ my %tests = (
     ]
 );
 
-plan tests => (2 * scalar keys %tests) + 1;
+my %memory_tests = (
+    '10.4-powerpc' => 2048,
+    '10.5-powerpc' => 2048,
+    '10.6-macmini' => 4096,
+    '10.6-intel'   => 2048,
+);
+
+plan tests =>
+    (2 * scalar keys %memories_tests) +
+    (scalar keys %memory_tests)       +
+    1;
 
 my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'fatal' ],
@@ -234,12 +244,18 @@ my $logger = FusionInventory::Agent::Logger->new(
 );
 my $inventory = FusionInventory::Agent::Inventory->new(logger => $logger);
 
-foreach my $test (keys %tests) {
+foreach my $test (keys %memories_tests) {
     my $file = "resources/macos/system_profiler/$test";
     my @memories = FusionInventory::Agent::Task::Inventory::MacOS::Memory::_getMemories(file => $file);
-    cmp_deeply(\@memories, $tests{$test}, $test);
+    cmp_deeply(\@memories, $memories_tests{$test}, "$test: parsing");
     lives_ok {
         $inventory->addEntry(section => 'MEMORIES', entry => $_)
             foreach @memories;
     } "$test: registering";
 }
+
+foreach my $test (keys %memory_tests) {
+    my $file = "resources/macos/system_profiler/$test";
+    my $memory = FusionInventory::Agent::Task::Inventory::MacOS::Memory::_getMemory(file => $file);
+    is($memory, $memory_tests{$test}, $test);
+};
