@@ -5,6 +5,7 @@ use warnings;
 
 use Test::Deep;
 use Test::More;
+use Test::NoWarnings;
 
 use FusionInventory::Agent::Task::Inventory::AIX::Videos;
 
@@ -26,7 +27,7 @@ my %tests = (
     ]
 );
 
-plan tests => scalar keys %tests;
+plan tests => (scalar keys %tests) + 1;
 
 foreach my $test (keys %tests) {
     my $file = "resources/aix/lsdev/$test-adapter";

@@ -5,6 +5,7 @@ use warnings;
 
 use Test::Deep;
 use Test::More;
+use Test::NoWarnings;
 
 use FusionInventory::Agent::Task::Inventory::Solaris::Bios;
 
@@ -137,7 +138,8 @@ my %prtconf_tests = (
 plan tests =>
     (scalar keys %showrev_tests) +
     (scalar keys %smbios_tests)  +
-    (scalar keys %prtconf_tests);
+    (scalar keys %prtconf_tests) +
+    1;
 
 foreach my $test (keys %showrev_tests) {
     my $file   = "resources/solaris/showrev/$test";

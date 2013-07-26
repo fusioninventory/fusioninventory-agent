@@ -7,6 +7,7 @@ use lib 't/lib';
 use Test::Deep;
 use Test::Exception;
 use Test::More;
+use Test::NoWarnings;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Inventory;
@@ -991,7 +992,8 @@ plan tests =>
     (scalar keys %ifconfig_tests) +
     (scalar keys %nwmgr_tests) +
     (scalar keys %netstat_tests) +
-    (2 * scalar keys %lanscan_tests);
+    (2 * scalar keys %lanscan_tests) +
+    1;
 
 my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'fatal' ],

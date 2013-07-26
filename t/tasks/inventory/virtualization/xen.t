@@ -7,6 +7,7 @@ use lib 't/lib';
 use Test::Deep;
 use Test::Exception;
 use Test::More;
+use Test::NoWarnings;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Inventory;
@@ -69,7 +70,8 @@ my %tests_getUUID = (
 
 plan tests =>
     (2 * scalar keys %tests_xm_list) +
-    (scalar keys %tests_getUUID);
+    (scalar keys %tests_getUUID)     +
+    1;
 
 my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'fatal' ],

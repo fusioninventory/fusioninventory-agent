@@ -8,6 +8,7 @@ use Test::Deep;
 use Test::Exception;
 use Test::MockModule;
 use Test::More;
+use Test::NoWarnings;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Inventory;
@@ -197,9 +198,10 @@ my %cpu_tests = (
 );
 
 plan tests =>
-    (scalar keys %vpcu_tests) +
-    (scalar keys %pcpu_tests) +
-    (2 * scalar keys %cpu_tests) ;
+    (scalar keys %vpcu_tests)    +
+    (scalar keys %pcpu_tests)    +
+    (2 * scalar keys %cpu_tests) +
+    1;
 
 my $logger    = FusionInventory::Agent::Logger->new(
     backends => [ 'fatal' ],

@@ -5,6 +5,7 @@ use warnings;
 
 use Test::Deep;
 use Test::More;
+use Test::NoWarnings;
 
 use FusionInventory::Agent::Task::Inventory::Virtualization::Lxc;
 
@@ -24,7 +25,7 @@ my $result_config = {
     VCPU   => 4
 };
 
-plan tests => 3;
+plan tests => 4;
 
 my $vms = FusionInventory::Agent::Task::Inventory::Virtualization::Lxc::_getVirtualMachines(
     file => 'resources/virtualization/lxc/lxc-ls_-1'

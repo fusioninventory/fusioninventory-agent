@@ -7,6 +7,7 @@ use lib 't/lib';
 use Test::Deep;
 use Test::Exception;
 use Test::More;
+use Test::NoWarnings;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Inventory;
@@ -251,7 +252,8 @@ my %vgs = (
 plan tests =>
     (2 * scalar keys %pvs) +
     (2 * scalar keys %lvs) +
-    (2 * scalar keys %vgs);
+    (2 * scalar keys %vgs) +
+    1;
 
 my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'fatal' ],
