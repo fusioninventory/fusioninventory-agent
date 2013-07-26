@@ -88,7 +88,7 @@ my %checks = (
         INTERFACE => qr/^(SCSI|HDC|IDE|USB|1394|Serial-ATA|SAS)$/
     },
     VIRTUALMACHINES => {
-        STATUS => qr/^(running|idle|paused|shutdown|crashed|dying|off)$/
+        STATUS => qr/^(running|blocked|idle|paused|shutdown|crashed|dying|off)$/
     },
     SLOTS => {
         STATUS => qr/^(free|used)$/
