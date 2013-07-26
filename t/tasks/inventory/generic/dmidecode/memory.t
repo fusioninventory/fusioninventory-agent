@@ -14,7 +14,7 @@ my %tests = (
         {
             NUMSLOTS         => 1,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             SPEED            => 'Unknown',
             TYPE             => 'Unknown',
             CAPTION          => 'A0',
@@ -28,7 +28,7 @@ my %tests = (
         {
             NUMSLOTS         => 1,
             SERIALNUMBER     => '1A1541FC',
-            DESCRIPTION      => 'SODIMM (None)',
+            DESCRIPTION      => 'SODIMM',
             TYPE             => undef,
             SPEED            => '1067 MHz',
             CAPACITY         => '2048',
@@ -39,7 +39,7 @@ my %tests = (
         {
             NUMSLOTS         => 2,
             SERIALNUMBER     => '1A554239',
-            DESCRIPTION      => 'SODIMM (None)',
+            DESCRIPTION      => 'SODIMM',
             TYPE             => undef,
             SPEED            => '1067 MHz',
             CAPACITY         => '2048',
@@ -53,7 +53,7 @@ my %tests = (
         {
             NUMSLOTS         => 1,
             SERIALNUMBER     => 'SerNum00',
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DDR2',
             SPEED            => '1066 MHz',
             CAPACITY         => '1024',
@@ -64,7 +64,7 @@ my %tests = (
         {
             NUMSLOTS         => 2,
             SERIALNUMBER     => 'SerNum01',
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DDR2',
             SPEED            => '1066 MHz',
             CAPACITY         => '1024',
@@ -76,7 +76,7 @@ my %tests = (
         {
             NUMSLOTS         => 3,
             SERIALNUMBER     => 'SerNum02',
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DDR2',
             SPEED            => '1066 MHz',
             CAPACITY         => '1024',
@@ -88,7 +88,7 @@ my %tests = (
         {
             NUMSLOTS         => 4,
             SERIALNUMBER     => 'SerNum03',
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DDR2',
             SPEED            => '1066 MHz',
             CAPACITY         => '1024',
@@ -102,7 +102,7 @@ my %tests = (
         {
             NUMSLOTS         => 1,
             SERIALNUMBER     => '02132010',
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             SPEED            => '533 MHz (1.9 ns)',
             TYPE             => 'DDR',
             CAPTION          => 'DIMM_A',
@@ -113,7 +113,7 @@ my %tests = (
         {
             NUMSLOTS         => 2,
             SERIALNUMBER     => '02132216',
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             SPEED            => '533 MHz (1.9 ns)',
             TYPE             => 'DDR',
             CAPTION          => 'DIMM_B',
@@ -159,7 +159,7 @@ my %tests = (
         {
             NUMSLOTS         => 1,
             SERIALNUMBER     => '50075483',
-            DESCRIPTION      => 'DIMM (Multi-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             SPEED            => '400 MHz (2.5 ns)',
             TYPE             => undef,
             CAPTION          => 'DIMM1_A',
@@ -170,7 +170,7 @@ my %tests = (
         {
             NUMSLOTS         => 2,
             SERIALNUMBER     => '500355A1',
-            DESCRIPTION      => 'DIMM (Multi-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             SPEED            => '400 MHz (2.5 ns)',
             TYPE             => undef,
             CAPTION          => 'DIMM1_B',
@@ -181,7 +181,7 @@ my %tests = (
         {
             NUMSLOTS         => 3,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (Multi-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             SPEED            => '400 MHz (2.5 ns)',
             TYPE             => undef,
             CAPTION          => 'DIMM2_A',
@@ -191,7 +191,7 @@ my %tests = (
         {
             NUMSLOTS         => 4,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (Multi-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             SPEED            => '400 MHz (2.5 ns)',
             TYPE             => undef,
             CAPTION          => 'DIMM2_B',
@@ -202,7 +202,7 @@ my %tests = (
         {
             NUMSLOTS         => 5,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (Multi-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             SPEED            => '400 MHz (2.5 ns)',
             TYPE             => undef,
             CAPTION          => 'DIMM3_A',
@@ -212,7 +212,7 @@ my %tests = (
         {
             NUMSLOTS         => 6,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (Multi-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             SPEED            => '400 MHz (2.5 ns)',
             TYPE             => undef,
             CAPTION          => 'DIMM3_B',
@@ -224,7 +224,7 @@ my %tests = (
         {
             NUMSLOTS         => 1,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (Multi-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DDR',
             SPEED            => '266 MHz',
             CAPACITY         => '512',
@@ -236,7 +236,7 @@ my %tests = (
         {
             NUMSLOTS         => 2,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (Multi-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DDR',
             SPEED            => '266 MHz',
             CAPTION          => 'DIMM B',
@@ -247,7 +247,7 @@ my %tests = (
         {
             NUMSLOTS         => 3,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (Multi-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DDR',
             SPEED            => '266 MHz',
             CAPTION          => 'DIMM C',
@@ -258,7 +258,7 @@ my %tests = (
         {
             NUMSLOTS         => 4,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (Multi-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DDR',
             SPEED            => '266 MHz',
             CAPTION          => 'DIMM D',
@@ -282,7 +282,7 @@ my %tests = (
         {
             NUMSLOTS         => 1,
             SERIALNUMBER     => '460360BB',
-            DESCRIPTION      => 'DIMM (Single-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             SPEED            => '400 MHz (2.5 ns)',
             TYPE             => 'DDR',
             CAPTION          => 'DIMM 1',
@@ -293,7 +293,7 @@ my %tests = (
         {
             NUMSLOTS         => 2,
             SERIALNUMBER     => '460360E8',
-            DESCRIPTION      => 'DIMM (Single-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             SPEED            => '400 MHz (2.5 ns)',
             TYPE             => 'DDR',
             CAPTION          => 'DIMM 2',
@@ -306,7 +306,7 @@ my %tests = (
         {
             NUMSLOTS         => 1,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (Multi-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             SPEED            => undef,
             TYPE             => 'DDR',
             CAPTION          => 'DIMM1',
@@ -317,7 +317,7 @@ my %tests = (
         {
             NUMSLOTS         => 2,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (Multi-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             SPEED            => undef,
             TYPE             => 'DDR',
             CAPTION          => 'DIMM2',
@@ -328,7 +328,7 @@ my %tests = (
         {
             NUMSLOTS         => 3,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (Multi-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             SPEED            => undef,
             TYPE             => 'DDR',
             CAPTION          => 'DIMM3',
@@ -339,7 +339,7 @@ my %tests = (
         {
             NUMSLOTS         => 4,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (Multi-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             SPEED            => undef,
             TYPE             => 'DDR',
             CAPTION          => 'DIMM4',
@@ -352,7 +352,7 @@ my %tests = (
         {
             NUMSLOTS         => 1,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => ' (Single-bit ECC)',
+            DESCRIPTION      => undef,
             SPEED            => '667 MHz (1.5 ns)',
             TYPE             => undef,
             CAPTION          => 'DIMM 1A',
@@ -364,7 +364,7 @@ my %tests = (
         {
             NUMSLOTS         => 2,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => ' (Single-bit ECC)',
+            DESCRIPTION      => undef,
             SPEED            => '667 MHz (1.5 ns)',
             TYPE             => undef,
             CAPTION          => 'DIMM 2B',
@@ -375,7 +375,7 @@ my %tests = (
         {
             NUMSLOTS         => 3,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => ' (Single-bit ECC)',
+            DESCRIPTION      => undef,
             SPEED            => '667 MHz (1.5 ns)',
             TYPE             => undef,
             CAPTION          => 'DIMM 3C',
@@ -386,7 +386,7 @@ my %tests = (
         {
             NUMSLOTS         => 4,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => ' (Single-bit ECC)',
+            DESCRIPTION      => undef,
             SPEED            => 'Unknown',
             TYPE             => undef,
             CAPTION          => 'DIMM 4D',
@@ -396,7 +396,7 @@ my %tests = (
         {
             NUMSLOTS         => 5,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => ' (Single-bit ECC)',
+            DESCRIPTION      => undef,
             SPEED            => '667 MHz (1.5 ns)',
             TYPE             => undef,
             CAPTION          => 'DIMM 5A',
@@ -407,7 +407,7 @@ my %tests = (
         {
             NUMSLOTS         => 6,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => ' (Single-bit ECC)',
+            DESCRIPTION      => undef,
             SPEED            => '667 MHz (1.5 ns)',
             TYPE             => undef,
             CAPTION          => 'DIMM 6B',
@@ -418,7 +418,7 @@ my %tests = (
         {
             NUMSLOTS         => 7,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => ' (Single-bit ECC)',
+            DESCRIPTION      => undef,
             SPEED            => '667 MHz (1.5 ns)',
             TYPE             => undef,
             CAPTION          => 'DIMM 7C',
@@ -429,7 +429,7 @@ my %tests = (
         {
             NUMSLOTS         => 8,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => ' (Single-bit ECC)',
+            DESCRIPTION      => undef,
             SPEED            => 'Unknown',
             TYPE             => undef,
             CAPTION          => 'DIMM 8D',
@@ -441,7 +441,7 @@ my %tests = (
         {
             NUMSLOTS         => 1,
             SERIALNUMBER     => '94D657D7',
-            DESCRIPTION      => 'DIMM (Single-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => undef,
             SPEED            => '1333 MHz (0.8 ns)',
             CAPACITY         => '2048',
@@ -453,7 +453,7 @@ my %tests = (
         {
             NUMSLOTS         => 2,
             SERIALNUMBER     => 'SerNum01',
-            DESCRIPTION      => 'DIMM (Single-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => undef,
             SPEED            => 'Unknown',
             CAPTION          => 'PROC 1 DIMM 1D',
@@ -463,7 +463,7 @@ my %tests = (
         {
             NUMSLOTS         => 3,
             SERIALNUMBER     => '93D657D7',
-            DESCRIPTION      => 'DIMM (Single-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => undef,
             SPEED            => '1333 MHz (0.8 ns)',
             CAPACITY         => '2048',
@@ -474,7 +474,7 @@ my %tests = (
         {
             NUMSLOTS         => 4,
             SERIALNUMBER     => 'SerNum03',
-            DESCRIPTION      => 'DIMM (Single-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => undef,
             SPEED            => 'Unknown',
             CAPTION          => 'PROC 1 DIMM 3E',
@@ -484,7 +484,7 @@ my %tests = (
         {
             NUMSLOTS         => 5,
             SERIALNUMBER     => 'SerNum04',
-            DESCRIPTION      => 'DIMM (Single-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => undef,
             SPEED            => 'Unknown',
             CAPTION          => 'PROC 1 DIMM 6C',
@@ -494,7 +494,7 @@ my %tests = (
         {
             NUMSLOTS         => 6,
             SERIALNUMBER     => 'SerNum05',
-            DESCRIPTION      => 'DIMM (Single-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => undef,
             SPEED            => 'Unknown',
             CAPTION          => 'PROC 1 DIMM 5F',
@@ -504,7 +504,7 @@ my %tests = (
         {
             NUMSLOTS         => 7,
             SERIALNUMBER     => 'SerNum06',
-            DESCRIPTION      => 'DIMM (Single-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => undef,
             SPEED            => 'Unknown',
             CAPTION          => 'PROC 2 DIMM 2A',
@@ -514,7 +514,7 @@ my %tests = (
         {
             NUMSLOTS         => 8,
             SERIALNUMBER     => 'SerNum07',
-            DESCRIPTION      => 'DIMM (Single-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => undef,
             SPEED            => 'Unknown',
             CAPTION          => 'PROC 2 DIMM 1D',
@@ -524,7 +524,7 @@ my %tests = (
         {
             NUMSLOTS         => 9,
             SERIALNUMBER     => 'SerNum08',
-            DESCRIPTION      => 'DIMM (Single-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => undef,
             SPEED            => 'Unknown',
             CAPTION          => 'PROC 2 DIMM 4B',
@@ -534,7 +534,7 @@ my %tests = (
         {
             NUMSLOTS         => 10,
             SERIALNUMBER     => 'SerNum09',
-            DESCRIPTION      => 'DIMM (Single-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => undef,
             SPEED            => 'Unknown',
             CAPTION          => 'PROC 2 DIMM 3E',
@@ -544,7 +544,7 @@ my %tests = (
         {
             NUMSLOTS         => 11,
             SERIALNUMBER     => 'SerNum10',
-            DESCRIPTION      => 'DIMM (Single-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => undef,
             SPEED            => 'Unknown',
             CAPTION          => 'PROC 2 DIMM 6C',
@@ -554,7 +554,7 @@ my %tests = (
         {
             NUMSLOTS         => 12,
             SERIALNUMBER     => 'SerNum11',
-            DESCRIPTION      => 'DIMM (Single-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => undef,
             SPEED            => 'Unknown',
             CAPTION          => 'PROC 2 DIMM 5F',
@@ -566,7 +566,7 @@ my %tests = (
         {
             NUMSLOTS         => 1,
             SERIALNUMBER     => '0x750174F7',
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DDR2',
             SPEED            => '533 MHz (1.9 ns)',
             CAPACITY         => '1024',
@@ -578,7 +578,7 @@ my %tests = (
         {
             NUMSLOTS         => 2,
             SERIALNUMBER     => '0x9DCCE4ED',
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DDR2',
             SPEED            => '533 MHz (1.9 ns)',
             CAPACITY         => '2048',
@@ -590,7 +590,7 @@ my %tests = (
         {
             NUMSLOTS         => 3,
             SERIALNUMBER     => '0x750174FF',
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DDR2',
             SPEED            => '533 MHz (1.9 ns)',
             CAPACITY         => '1024',
@@ -602,7 +602,7 @@ my %tests = (
         {
             NUMSLOTS         => 4,
             SERIALNUMBER     => 'NO DIMM',
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DDR2',
             SPEED            => 'Unknown',
             CAPTION          => 'J9J2',
@@ -615,7 +615,7 @@ my %tests = (
         {
             NUMSLOTS         => 1,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (Multi-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DDR2',
             SPEED            => '667 MHz (1.5 ns)',
             CAPACITY         => '1024',
@@ -626,7 +626,7 @@ my %tests = (
         {
             NUMSLOTS         => 2,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (Multi-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DDR2',
             SPEED            => '667 MHz (1.5 ns)',
             CAPACITY         => '1024',
@@ -637,7 +637,7 @@ my %tests = (
         {
             NUMSLOTS         => 3,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (Multi-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DDR2',
             SPEED            => '667 MHz (1.5 ns)',
             CAPACITY         => '1024',
@@ -648,7 +648,7 @@ my %tests = (
         {
             NUMSLOTS         => 4,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (Multi-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DDR2',
             SPEED            => '667 MHz (1.5 ns)',
             CAPACITY         => '1024',
@@ -659,7 +659,7 @@ my %tests = (
         {
             NUMSLOTS         => 5,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (Multi-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DDR2',
             SPEED            => '667 MHz (1.5 ns)',
             CAPACITY         => '1024',
@@ -670,7 +670,7 @@ my %tests = (
         {
             NUMSLOTS         => 6,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (Multi-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DDR2',
             SPEED            => '667 MHz (1.5 ns)',
             CAPACITY         => '1024',
@@ -681,7 +681,7 @@ my %tests = (
         {
             NUMSLOTS         => 7,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (Multi-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DDR2',
             SPEED            => '667 MHz (1.5 ns)',
             CAPACITY         => '1024',
@@ -692,7 +692,7 @@ my %tests = (
         {
             NUMSLOTS         => 8,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (Multi-bit ECC)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DDR2',
             SPEED            => '667 MHz (1.5 ns)',
             CAPACITY         => '1024',
@@ -705,7 +705,7 @@ my %tests = (
         {
             NUMSLOTS         => 1,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPACITY         => '2048',
@@ -717,7 +717,7 @@ my %tests = (
         {
             NUMSLOTS         => 2,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #1',
@@ -728,7 +728,7 @@ my %tests = (
         {
             NUMSLOTS         => 3,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #2',
@@ -739,7 +739,7 @@ my %tests = (
         {
             NUMSLOTS         => 4,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #3',
@@ -752,7 +752,7 @@ my %tests = (
         {
             NUMSLOTS         => 1,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPACITY         => '2048',
@@ -763,7 +763,7 @@ my %tests = (
         {
             NUMSLOTS         => 2,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #1',
@@ -773,7 +773,7 @@ my %tests = (
         {
             NUMSLOTS         => 3,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #2',
@@ -783,7 +783,7 @@ my %tests = (
         {
             NUMSLOTS         => 4,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #3',
@@ -793,7 +793,7 @@ my %tests = (
         {
             NUMSLOTS         => 5,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #4',
@@ -803,7 +803,7 @@ my %tests = (
         {
             NUMSLOTS         => 6,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #5',
@@ -813,7 +813,7 @@ my %tests = (
         {
             NUMSLOTS         => 7,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #6',
@@ -823,7 +823,7 @@ my %tests = (
         {
             NUMSLOTS         => 8,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #7',
@@ -833,7 +833,7 @@ my %tests = (
         {
             NUMSLOTS         => 9,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #8',
@@ -843,7 +843,7 @@ my %tests = (
         {
             NUMSLOTS         => 10,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #9',
@@ -853,7 +853,7 @@ my %tests = (
         {
             NUMSLOTS         => 11,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #10',
@@ -863,7 +863,7 @@ my %tests = (
         {
             NUMSLOTS         => 12,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #11',
@@ -873,7 +873,7 @@ my %tests = (
         {
             NUMSLOTS         => 13,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #12',
@@ -883,7 +883,7 @@ my %tests = (
         {
             NUMSLOTS         => 14,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #13',
@@ -893,7 +893,7 @@ my %tests = (
         {
             NUMSLOTS         => 15,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'DRAM',
             SPEED            => 'Unknown',
             CAPTION          => 'RAM slot #14',
@@ -968,7 +968,7 @@ my %tests = (
         {
             NUMSLOTS         => 1,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'SODIMM (None)',
+            DESCRIPTION      => 'SODIMM',
             SPEED            => 'Unknown',
             TYPE             => 'SDRAM',
             CAPTION          => 'DIMM 0',
@@ -979,7 +979,7 @@ my %tests = (
         {
             NUMSLOTS         => 2,
             SERIALNUMBER     => undef,
-            DESCRIPTION      => 'SODIMM (None)',
+            DESCRIPTION      => 'SODIMM',
             SPEED            => 'Unknown',
             TYPE             => 'SDRAM',
             CAPTION          => 'DIMM 1',
@@ -996,7 +996,7 @@ my %tests = (
             SPEED            => '800 MHz',
             CAPTION          => 'DIMM_A',
             MEMORYCORRECTION => 'None',
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             MANUFACTURER     => undef,
             CAPACITY         => '2048'
         },
@@ -1007,7 +1007,7 @@ my %tests = (
             SPEED            => '800 MHz',
             CAPTION          => 'DIMM_B',
             MEMORYCORRECTION => 'None',
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             MANUFACTURER     => undef,
             CAPACITY         => '2048'
         }
@@ -1017,7 +1017,7 @@ my %tests = (
             NUMSLOTS         => 1,
             MEMORYCORRECTION => 'None',
             SERIALNUMBER     => 'SerNum0',
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'Unknown',
             SPEED            => 'Unknown',
             MANUFACTURER     => undef,
@@ -1030,7 +1030,7 @@ my %tests = (
             SPEED            => '1600 MHz',
             CAPTION          => 'DIMM1',
             MEMORYCORRECTION => 'None',
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             MANUFACTURER     => undef,
             CAPACITY         => '2048'
         },
@@ -1038,7 +1038,7 @@ my %tests = (
             NUMSLOTS         => 3,
             MEMORYCORRECTION => 'None',
             SERIALNUMBER     => 'SerNum2',
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             TYPE             => 'Unknown',
             SPEED            => 'Unknown',
             MANUFACTURER     => undef,
@@ -1051,7 +1051,7 @@ my %tests = (
             SPEED            => '1600 MHz',
             CAPTION          => 'DIMM3',
             MEMORYCORRECTION => 'None',
-            DESCRIPTION      => 'DIMM (None)',
+            DESCRIPTION      => 'DIMM',
             MANUFACTURER     => undef,
             CAPACITY         => '2048'
         }
@@ -1060,7 +1060,7 @@ my %tests = (
         {
             NUMSLOTS         => 1,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPACITY         => '1024',
@@ -1072,7 +1072,7 @@ my %tests = (
         {
             NUMSLOTS         => 2,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M1',
@@ -1083,7 +1083,7 @@ my %tests = (
         {
             NUMSLOTS         => 3,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M2',
@@ -1094,7 +1094,7 @@ my %tests = (
         {
             NUMSLOTS         => 4,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M3',
@@ -1105,7 +1105,7 @@ my %tests = (
         {
             NUMSLOTS         => 5,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M4',
@@ -1116,7 +1116,7 @@ my %tests = (
         {
             NUMSLOTS         => 6,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M5',
@@ -1127,7 +1127,7 @@ my %tests = (
         {
             NUMSLOTS         => 7,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M6',
@@ -1138,7 +1138,7 @@ my %tests = (
         {
             NUMSLOTS         => 8,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M7',
@@ -1149,7 +1149,7 @@ my %tests = (
         {
             NUMSLOTS         => 9,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M8',
@@ -1160,7 +1160,7 @@ my %tests = (
         {
             NUMSLOTS         => 10,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M9',
@@ -1171,7 +1171,7 @@ my %tests = (
         {
             NUMSLOTS         => 11,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M10',
@@ -1182,7 +1182,7 @@ my %tests = (
         {
             NUMSLOTS         => 12,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M11',
@@ -1193,7 +1193,7 @@ my %tests = (
         {
             NUMSLOTS         => 13,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M12',
@@ -1204,7 +1204,7 @@ my %tests = (
         {
             NUMSLOTS         => 14,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M13',
@@ -1215,7 +1215,7 @@ my %tests = (
         {
             NUMSLOTS         => 15,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M14',
@@ -1226,7 +1226,7 @@ my %tests = (
         {
             NUMSLOTS         => 16,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M15',
@@ -1237,7 +1237,7 @@ my %tests = (
         {
             NUMSLOTS         => 17,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M16',
@@ -1248,7 +1248,7 @@ my %tests = (
         {
             NUMSLOTS         => 18,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M17',
@@ -1259,7 +1259,7 @@ my %tests = (
         {
             NUMSLOTS         => 19,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M18',
@@ -1270,7 +1270,7 @@ my %tests = (
         {
             NUMSLOTS         => 20,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M19',
@@ -1281,7 +1281,7 @@ my %tests = (
         {
             NUMSLOTS         => 21,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M20',
@@ -1292,7 +1292,7 @@ my %tests = (
         {
             NUMSLOTS         => 22,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M21',
@@ -1303,7 +1303,7 @@ my %tests = (
         {
             NUMSLOTS         => 23,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M22',
@@ -1314,7 +1314,7 @@ my %tests = (
         {
             NUMSLOTS         => 24,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M23',
@@ -1325,7 +1325,7 @@ my %tests = (
         {
             NUMSLOTS         => 25,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M24',
@@ -1336,7 +1336,7 @@ my %tests = (
         {
             NUMSLOTS         => 26,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M25',
@@ -1347,7 +1347,7 @@ my %tests = (
         {
             NUMSLOTS         => 27,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M26',
@@ -1358,7 +1358,7 @@ my %tests = (
         {
             NUMSLOTS         => 28,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M27',
@@ -1369,7 +1369,7 @@ my %tests = (
         {
             NUMSLOTS         => 29,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M28',
@@ -1380,7 +1380,7 @@ my %tests = (
         {
             NUMSLOTS         => 30,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M29',
@@ -1391,7 +1391,7 @@ my %tests = (
         {
             NUMSLOTS         => 31,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M30',
@@ -1402,7 +1402,7 @@ my %tests = (
         {
             NUMSLOTS         => 32,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M31',
@@ -1413,7 +1413,7 @@ my %tests = (
         {
             NUMSLOTS         => 33,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M32',
@@ -1424,7 +1424,7 @@ my %tests = (
         {
             NUMSLOTS         => 34,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M33',
@@ -1435,7 +1435,7 @@ my %tests = (
         {
             NUMSLOTS         => 35,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M34',
@@ -1446,7 +1446,7 @@ my %tests = (
         {
             NUMSLOTS         => 36,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M35',
@@ -1457,7 +1457,7 @@ my %tests = (
         {
             NUMSLOTS         => 37,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M36',
@@ -1468,7 +1468,7 @@ my %tests = (
         {
             NUMSLOTS         => 38,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M37',
@@ -1479,7 +1479,7 @@ my %tests = (
         {
             NUMSLOTS         => 39,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M38',
@@ -1490,7 +1490,7 @@ my %tests = (
         {
             NUMSLOTS         => 40,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M39',
@@ -1501,7 +1501,7 @@ my %tests = (
         {
             NUMSLOTS         => 41,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M40',
@@ -1512,7 +1512,7 @@ my %tests = (
         {
             NUMSLOTS         => 42,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M41',
@@ -1523,7 +1523,7 @@ my %tests = (
         {
             NUMSLOTS         => 43,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M42',
@@ -1534,7 +1534,7 @@ my %tests = (
         {
             NUMSLOTS         => 44,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M43',
@@ -1545,7 +1545,7 @@ my %tests = (
         {
             NUMSLOTS         => 45,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M44',
@@ -1556,7 +1556,7 @@ my %tests = (
         {
             NUMSLOTS         => 46,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M45',
@@ -1567,7 +1567,7 @@ my %tests = (
         {
             NUMSLOTS         => 47,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M46',
@@ -1578,7 +1578,7 @@ my %tests = (
         {
             NUMSLOTS         => 48,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M47',
@@ -1589,7 +1589,7 @@ my %tests = (
         {
             NUMSLOTS         => 49,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M48',
@@ -1600,7 +1600,7 @@ my %tests = (
         {
             NUMSLOTS         => 50,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M49',
@@ -1611,7 +1611,7 @@ my %tests = (
         {
             NUMSLOTS         => 51,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M50',
@@ -1622,7 +1622,7 @@ my %tests = (
         {
             NUMSLOTS         => 52,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M51',
@@ -1633,7 +1633,7 @@ my %tests = (
         {
             NUMSLOTS         => 53,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M52',
@@ -1644,7 +1644,7 @@ my %tests = (
         {
             NUMSLOTS         => 54,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M53',
@@ -1655,7 +1655,7 @@ my %tests = (
         {
             NUMSLOTS         => 55,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M54',
@@ -1666,7 +1666,7 @@ my %tests = (
         {
             NUMSLOTS         => 56,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M55',
@@ -1677,7 +1677,7 @@ my %tests = (
         {
             NUMSLOTS         => 57,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M56',
@@ -1688,7 +1688,7 @@ my %tests = (
         {
             NUMSLOTS         => 58,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M57',
@@ -1699,7 +1699,7 @@ my %tests = (
         {
             NUMSLOTS         => 59,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M58',
@@ -1710,7 +1710,7 @@ my %tests = (
         {
             NUMSLOTS         => 60,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M59',
@@ -1721,7 +1721,7 @@ my %tests = (
         {
             NUMSLOTS         => 61,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M60',
@@ -1732,7 +1732,7 @@ my %tests = (
         {
             NUMSLOTS         => 62,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M61',
@@ -1743,7 +1743,7 @@ my %tests = (
         {
             NUMSLOTS         => 63,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M62',
@@ -1754,7 +1754,7 @@ my %tests = (
         {
             NUMSLOTS         => 64,
             SERIALNUMBER     => 'None',
-            DESCRIPTION      => 'Unknown (None)',
+            DESCRIPTION      => 'Unknown',
             TYPE             => 'Other',
             SPEED            => 'Unknown',
             CAPTION          => 'M63',

@@ -67,13 +67,9 @@ sub _getMemories {
                 $manufacturer = $info->{'Manufacturer'};
             }
 
-
-            my $description = $info->{'Form Factor'};
-            $description .= " ($memoryCorrection)" if $memoryCorrection;
-
             my $memory = {
                 NUMSLOTS     => $slot,
-                DESCRIPTION  => $description,
+                DESCRIPTION  => $info->{'Form Factor'},
                 CAPTION      => $info->{'Locator'},
                 SPEED        => $info->{'Speed'},
                 TYPE         => $info->{'Type'},
