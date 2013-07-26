@@ -734,9 +734,7 @@ sub _setNetworkingProperties {
 
     setTrunkPorts(results => $results, ports => $ports);
 
-    setConnectedDevices(
-        results => $results, ports => $ports, walks => $walks
-    );
+    setConnectedDevices($comments, $results, $ports, $walks);
 
     # check if vlan-specific queries are needed
     my $vlan_query =
