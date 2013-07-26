@@ -94,7 +94,7 @@ my %checks = (
         STATUS => qr/^(free|used)$/
     },
     NETWORKS => {
-        TYPE => qr/^(ethernet|wifi)$/
+        TYPE => qr/^(ethernet|wifi|aggregate|alias|dialup)$/
     },
     CPUS => {
         ARCH => qr/^(MIPS|MIPS64|Alpha|SPARC|SPARC64|m68k|i386|x86_64|PowerPC|PowerPC64|ARM|AArch64)$/
