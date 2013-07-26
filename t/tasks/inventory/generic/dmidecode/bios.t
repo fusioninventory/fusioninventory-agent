@@ -399,10 +399,10 @@ my %tests = (
             ASSETTAG      => '4568-2345-6432-9324-3433-2346-47',
             BMANUFACTURER => 'American Megatrends Inc.',
             MSN           => '2349-2347-2234-2340-2341-3240-48',
-            SMODEL        => 'Virtual Machine',
+            SMODEL        => 'Hyper-V',
             SMANUFACTURER => 'Microsoft Corporation',
             BDATE         => '03/19/2009',
-            MMODEL        => 'Virtual Machine',
+            MMODEL        => 'Hyper-V',
             BVERSION      => '090004'
         },
         hardware => {
