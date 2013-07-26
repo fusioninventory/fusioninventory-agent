@@ -21,6 +21,7 @@ use FusionInventory::Agent::Task::Inventory::Linux::Archs::PowerPC;
 my %i386 = (
     'linux-686-1' => [
         {
+            ARCH         => 'i386',
             THREAD       => 1,
             MANUFACTURER => 'Intel',
             NAME         => 'Intel(R) Pentium(R) M processor 1.73GHz',
@@ -33,6 +34,7 @@ my %i386 = (
     ],
     'linux-686-samsung-nc10-1' => [
         {
+            ARCH         => 'i386',
             CORE         => '1',
             SPEED        => '1600',
             THREAD       => '2',
@@ -45,6 +47,7 @@ my %i386 = (
     ],
     'linux-2.6.35-1-core-2-thread' => [
         {
+            ARCH         => 'i386',
             NAME         => 'Intel(R) Atom(TM) CPU N270   @ 1.60GHz',
             THREAD       => '2',
             SPEED        => '1600',
@@ -60,6 +63,7 @@ my %i386 = (
 # please see bug: #505
     'linux-hp-dl180' => [
         {
+            ARCH         => 'i386',
             FAMILYNUMBER => 6,
             SPEED        => 2000,
             STEPPING     => 5,
@@ -72,6 +76,7 @@ my %i386 = (
     ],
     'toshiba-r630-2-core' => [
         {
+            ARCH         => 'i386',
             THREAD       => '2',
             NAME         => 'Intel(R) Core(TM) i3 CPU       M 350  @ 2.27GHz',
             CORE         => '2',
@@ -90,7 +95,7 @@ my %alpha = (
             SERIAL => 'JA30502089',
             ARCH   => 'Alpha',
             SPEED  => '1250',
-            TYPE   => undef
+            NAME   => undef
         }
     ]
 );
@@ -99,11 +104,11 @@ my %sparc = (
     'linux-sparc-1' => [
         {
             ARCH => 'SPARC',
-            TYPE => 'TI UltraSparc IIIi (Jalapeno)'
+            NAME => 'TI UltraSparc IIIi (Jalapeno)'
         },
         {
             ARCH => 'SPARC',
-            TYPE => 'TI UltraSparc IIIi (Jalapeno)'
+            NAME => 'TI UltraSparc IIIi (Jalapeno)'
         }
     ]
 );
@@ -112,13 +117,13 @@ my %arm = (
     'linux-armel-1' => [
         {
             ARCH  => 'ARM',
-            TYPE  => 'XScale-80219 rev 0 (v5l)'
+            NAME  => 'XScale-80219 rev 0 (v5l)'
         }
     ],
     'linux-armel-2' => [
         {
             ARCH  => 'ARM',
-            TYPE  => 'Feroceon 88FR131 rev 1 (v5l)'
+            NAME  => 'Feroceon 88FR131 rev 1 (v5l)'
         }
     ],
 );
@@ -135,6 +140,7 @@ my %mips = (
 my %ppc = (
     'linux-ppc-1' => [
         {
+            ARCH         => 'ppc',
             NAME         => '604r',
             MANUFACTURER => undef,
             SPEED        => undef
@@ -142,11 +148,13 @@ my %ppc = (
     ],
     'linux-ppc-2' => [
         {
+            ARCH         => 'ppc',
             NAME         => 'POWER4+ (gq)',
             MANUFACTURER => undef,
             SPEED        => '1452'
         },
         {
+            ARCH         => 'ppc',
             NAME         => 'POWER4+ (gq)',
             MANUFACTURER => undef,
             SPEED        => '1452'
@@ -154,11 +162,13 @@ my %ppc = (
     ],
     'linux-ppc-3' => [
         {
+            ARCH         => 'ppc',
             NAME         => 'PPC970FX, altivec supported',
             MANUFACTURER => undef,
             SPEED        => '2700'
         },
         {
+            ARCH         => 'ppc',
             NAME         => 'PPC970FX, altivec supported',
             MANUFACTURER => undef,
             SPEED        => '2700'
