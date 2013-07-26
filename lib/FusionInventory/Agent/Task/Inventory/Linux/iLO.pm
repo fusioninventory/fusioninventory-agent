@@ -19,7 +19,7 @@ sub _parseHponcfg {
 
     my $interface = {
         DESCRIPTION => 'Management Interface - HP iLO',
-        TYPE        => 'Ethernet',
+        TYPE        => 'ethernet',
         MANAGEMENT  => 'iLO',
         STATUS      => 'Down',
     };

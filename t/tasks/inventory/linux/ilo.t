@@ -19,7 +19,7 @@ my %tests = (
         IPMASK      => '255.255.248.0',
         STATUS      => 'Up',
         SPEED       => '10',
-        TYPE        => 'Ethernet',
+        TYPE        => 'ethernet',
         IPSUBNET    => '192.168.8.0',
         MANAGEMENT  => 'iLO',
         DESCRIPTION => 'Management Interface - HP iLO',
@@ -27,7 +27,7 @@ my %tests = (
     },
     'sample2' => {
         STATUS      => 'Down',
-        TYPE        => 'Ethernet',
+        TYPE        => 'ethernet',
         MANAGEMENT  => 'iLO',
         DESCRIPTION => 'Management Interface - HP iLO',
         IPSUBNET    => undef
