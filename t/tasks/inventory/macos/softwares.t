@@ -2472,12 +2472,17 @@ foreach my $test (keys %tests) {
     my $file = "resources/macos/system_profiler/$test.SPApplicationsDataType";
     my $softwares = FusionInventory::Agent::Task::Inventory::MacOS::Softwares::_getSoftwaresList(file => $file);
     cmp_deeply(
-        [ sort { $a->{NAME} cmp $b->{NAME} } @{$softwares} ],
-        [ sort { $a->{NAME} cmp $b->{NAME} } @{$tests{$test}} ],
+        [ sort { compare() } @{$softwares} ],
+        [ sort { compare() } @{$tests{$test}} ],
         "$test: parsing"
     );
     lives_ok {
         $inventory->addEntry(section => 'SOFTWARES', entry => $_)
             foreach @$softwares;
     } "$test: registering";
+}
+
+sub compare {
+    return
+        $a->{NAME}  cmp $b->{NAME};
 }

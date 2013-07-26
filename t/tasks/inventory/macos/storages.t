@@ -128,8 +128,8 @@ foreach my $test (keys %tests) {
     my $file = "resources/macos/system_profiler/$test";
     my @storages = FusionInventory::Agent::Task::Inventory::MacOS::Storages::_getStorages(file => $file);
     cmp_deeply(
-        [ sort { normalize() } @storages ],
-        [ sort { normalize() } @{$tests{$test}} ],
+        [ sort { compare() } @storages ],
+        [ sort { compare() } @{$tests{$test}} ],
         "$test: parsing"
     );
     lives_ok {
@@ -138,7 +138,7 @@ foreach my $test (keys %tests) {
     } "$test: registering";
 }
 
-sub normalize {
+sub compare {
     return
         $a->{NAME}  cmp $b->{NAME} ||
         $a->{MODEL} cmp $b->{MODEL};

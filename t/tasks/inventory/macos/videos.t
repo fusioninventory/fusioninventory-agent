@@ -46,13 +46,23 @@ foreach my $test (keys %tests) {
     my $file = "resources/macos/system_profiler/$test";
     my %displays = FusionInventory::Agent::Task::Inventory::MacOS::Videos::_getDisplays(file => $file);
     cmp_deeply(
-        [ sort { $a->{CAPTION} cmp $b->{CAPTION} } @{$displays{MONITORS}} ],
-        [ sort { $a->{CAPTION} cmp $b->{CAPTION} } @{$tests{$test}{MONITORS}} ],
+        [ sort { compare_monitor() } @{$displays{MONITORS}} ],
+        [ sort { compare_monitor() } @{$tests{$test}{MONITORS}} ],
         "$test monitors"
     );
     cmp_deeply(
-        [ sort { $a->{NAME} cmp $b->{NAME} } @{$displays{VIDEOS}} ],
-        [ sort { $a->{NAME} cmp $b->{NAME} } @{$tests{$test}{VIDEOS}} ],
+        [ sort { compare_video() } @{$displays{VIDEOS}} ],
+        [ sort { compare_video() } @{$tests{$test}{VIDEOS}} ],
         "$test videos"
     );
+}
+
+sub compare_video {
+    return 
+        $a->{NAME} cmp $b->{NAME};
+}
+
+sub compare_monitor {
+    return 
+        $a->{CAPTION} cmp $b->{CAPTION};
 }
