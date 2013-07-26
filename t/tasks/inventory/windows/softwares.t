@@ -8233,7 +8233,7 @@ foreach my $test (keys %hotfixes_tests) {
 }
 
 sub compare {
-    return 
+    return
         $a->{NAME}      cmp $b->{NAME}     ||
         $a->{GUID}      cmp $b->{GUID}     ||
         $a->{PUBLISHER} cmp $b->{PUBLISHER};

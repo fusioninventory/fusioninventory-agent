@@ -36,7 +36,10 @@ sub doInventory {
 sub _getDisplays {
     my (%params) = @_;
 
-    my $infos = getSystemProfilerInfos(logger => $params{logger});
+    my $infos = getSystemProfilerInfos(
+        logger => $params{logger},
+        file   => $params{file}
+    );
 
     my @monitors;
     my @videos;

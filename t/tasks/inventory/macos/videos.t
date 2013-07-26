@@ -58,11 +58,11 @@ foreach my $test (keys %tests) {
 }
 
 sub compare_video {
-    return 
+    return
         $a->{NAME} cmp $b->{NAME};
 }
 
 sub compare_monitor {
-    return 
+    return
         $a->{CAPTION} cmp $b->{CAPTION};
 }
