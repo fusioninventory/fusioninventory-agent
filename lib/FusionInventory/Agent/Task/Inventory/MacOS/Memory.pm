@@ -23,19 +23,11 @@ sub doInventory {
         );
     }
 
-    my $infos = getSystemProfilerInfos(logger => $logger);
-    my $mem = $infos->{'Hardware'}{'Hardware Overview'}{'Memory'};
-
-    if ($mem =~ /GB$/){
-        $mem =~ s/\sGB$//;
-        $mem = ($mem * 1024);
-    } elsif ($mem =~ /MB$/){
-        $mem =~ s/\sMB$//;
-    }
-
+    my $memory = _getMemory(logger => $logger);
     $inventory->setHardware({
-        MEMORY => $mem,
+        MEMORY => $memory,
     });
+
 }
 
 sub _getMemories {
@@ -82,6 +74,26 @@ sub _getMemories {
     }
 
     return @memories;
+}
+
+sub _getMemory {
+    my (%params) = @_;
+
+    my $infos = getSystemProfilerInfos(
+        logger => $params{logger},
+        file   => $params{file}
+    );
+
+    my $memory = $infos->{'Hardware'}{'Hardware Overview'}{'Memory'};
+
+    if ($memory =~ /GB$/){
+        $memory =~ s/\sGB$//;
+        $memory = ($memory * 1024);
+    } elsif ($memory =~ /MB$/){
+        $memory =~ s/\sMB$//;
+    }
+
+    return $memory;
 }
 
 1;
