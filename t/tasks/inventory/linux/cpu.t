@@ -140,7 +140,7 @@ my %mips = (
 my %ppc = (
     'linux-ppc-1' => [
         {
-            ARCH         => 'ppc',
+            ARCH         => 'PowerPC',
             NAME         => '604r',
             MANUFACTURER => undef,
             SPEED        => undef
@@ -148,13 +148,13 @@ my %ppc = (
     ],
     'linux-ppc-2' => [
         {
-            ARCH         => 'ppc',
+            ARCH         => 'PowerPC',
             NAME         => 'POWER4+ (gq)',
             MANUFACTURER => undef,
             SPEED        => '1452'
         },
         {
-            ARCH         => 'ppc',
+            ARCH         => 'PowerPC',
             NAME         => 'POWER4+ (gq)',
             MANUFACTURER => undef,
             SPEED        => '1452'
@@ -162,13 +162,13 @@ my %ppc = (
     ],
     'linux-ppc-3' => [
         {
-            ARCH         => 'ppc',
+            ARCH         => 'PowerPC',
             NAME         => 'PPC970FX, altivec supported',
             MANUFACTURER => undef,
             SPEED        => '2700'
         },
         {
-            ARCH         => 'ppc',
+            ARCH         => 'PowerPC',
             NAME         => 'PPC970FX, altivec supported',
             MANUFACTURER => undef,
             SPEED        => '2700'
