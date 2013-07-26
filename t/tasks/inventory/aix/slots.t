@@ -251,5 +251,5 @@ foreach my $test (keys %tests) {
     cmp_deeply(\@slots, $tests{$test}, "$test: parsing");
     lives_ok {
         $inventory->addEntry(section => 'SLOTS', entry => $_) foreach @slots;
-    } "$test: registering"';
+    } "$test: registering";
 }
