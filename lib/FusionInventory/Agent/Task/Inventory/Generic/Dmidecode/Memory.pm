@@ -33,10 +33,6 @@ sub _getMemories {
 
     my ($memories, $slot);
 
-    my $memoryCorrection;
-    if ($infos->{16}) {
-        $memoryCorrection = $infos->{16}[0]{'Error Correction Type'};
-    }
     if ($infos->{17}) {
 
         foreach my $info (@{$infos->{17}}) {
@@ -68,14 +64,14 @@ sub _getMemories {
             }
 
             my $memory = {
-                NUMSLOTS     => $slot,
-                DESCRIPTION  => $info->{'Form Factor'},
-                CAPTION      => $info->{'Locator'},
-                SPEED        => $info->{'Speed'},
-                TYPE         => $info->{'Type'},
-                SERIALNUMBER => $info->{'Serial Number'},
-                MEMORYCORRECTION => $memoryCorrection,
-                MANUFACTURER => $manufacturer
+                NUMSLOTS         => $slot,
+                DESCRIPTION      => $info->{'Form Factor'},
+                CAPTION          => $info->{'Locator'},
+                SPEED            => $info->{'Speed'},
+                TYPE             => $info->{'Type'},
+                SERIALNUMBER     => $info->{'Serial Number'},
+                MEMORYCORRECTION => $infos->{16}[0]{'Error Correction Type'},
+                MANUFACTURER     => $manufacturer
             };
 
             if ($info->{'Size'} && $info->{'Size'} =~ /^(\d+) \s MB$/x) {
