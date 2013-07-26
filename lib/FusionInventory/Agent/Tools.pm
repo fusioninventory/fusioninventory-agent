@@ -141,7 +141,8 @@ sub getCanonicalSpeed {
 }
 
 sub getCanonicalSize {
-    my ($size) = @_;
+    my ($size, $base) = @_;
+    $base ||= 1000;
 
     ## no critic (ExplicitReturnUndef)
 
@@ -154,11 +155,11 @@ sub getCanonicalSize {
     my $unit = lc($2);
 
     return
-        $unit eq 'tb' ? $value * 1000 * 1000 :
-        $unit eq 'gb' ? $value * 1000        :
-        $unit eq 'mb' ? $value               :
-        $unit eq 'kb' ? $value * 0.001       :
-                        undef                ;
+        $unit eq 'tb' ? $value * $base * $base :
+        $unit eq 'gb' ? $value * $base         :
+        $unit eq 'mb' ? $value                 :
+        $unit eq 'kb' ? $value * (1/$base)     :
+                        undef                  ;
 }
 
 sub compareVersion {
@@ -529,7 +530,7 @@ Returns a normalized manufacturer value for given one.
 
 Returns a normalized speed value (in Mhz) for given one.
 
-=head2 getCanonicalSize($size)
+=head2 getCanonicalSize($size, $base)
 
 Returns a normalized size value (in Mb) for given one.
 
