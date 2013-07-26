@@ -42,8 +42,9 @@ sub _getMemories {
         foreach my $info (@{$infos->{17}}) {
             $slot++;
 
-            # Flash is 'in general' an unrelated internal BIOS storage, See bug: #1334
-            next if $info->{'Type'} =~ /Flash/i;
+            # Flash is 'in general' an unrelated internal BIOS storage
+            # See bug: #1334
+            next if $info->{'Type'} && $info->{'Type'} =~ /Flash/i;
 
             my $manufacturer;
             if (
