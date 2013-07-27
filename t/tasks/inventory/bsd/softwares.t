@@ -9,7 +9,6 @@ use Test::Exception;
 use Test::More;
 use Test::NoWarnings;
 
-use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Task::Inventory::BSD::Softwares;
 
@@ -190,11 +189,7 @@ my %pkg_info_tests = (
 
 plan tests => (2 * scalar keys %pkg_info_tests) + 1;
 
-my $logger    = FusionInventory::Agent::Logger->new(
-    backends => [ 'fatal' ],
-    debug    => 1
-);
-my $inventory = FusionInventory::Agent::Inventory->new(logger => $logger);
+my $inventory = FusionInventory::Agent::Inventory->new();
 
 foreach my $test (keys %pkg_info_tests) {
     my $file = "resources/bsd/pkg_info/$test";

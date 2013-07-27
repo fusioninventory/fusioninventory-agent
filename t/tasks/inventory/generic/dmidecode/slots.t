@@ -2,11 +2,14 @@
 
 use strict;
 use warnings;
+use lib 't/lib';
 
 use Test::Deep;
+use Test::Exception;
 use Test::More;
 use Test::NoWarnings;
 
+use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Slots;
 
 my %tests = (
@@ -673,10 +676,16 @@ my %tests = (
     'windows-hyperV' => undef,
 );
 
-plan tests => (scalar keys %tests) + 1;
+plan tests => (2 * scalar keys %tests) + 1;
+
+my $inventory = FusionInventory::Test::Inventory->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/generic/dmidecode/$test";
     my $slots = FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Slots::_getSlots(file => $file);
-    cmp_deeply($slots, $tests{$test}, $test);
+    cmp_deeply($slots, $tests{$test}, "$test: parsing");
+    lives_ok {
+        $inventory->addEntry(section => 'SLOTS', entry => $_)
+            foreach @$slots;
+    } "$test: registering";
 }

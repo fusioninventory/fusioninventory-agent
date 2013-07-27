@@ -2,11 +2,14 @@
 
 use strict;
 use warnings;
+use lib 't/lib';
 
 use Test::Deep;
+use Test::Exception;
 use Test::More;
 use Test::NoWarnings;
 
+use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::Generic::Storages::3ware;
 
 my @cards = (
@@ -44,28 +47,53 @@ my @storages = (
     }
 );
 
-plan tests => 4 + 1;
+plan tests => 6;
+
+my $inventory = FusionInventory::Test::Inventory->new();
 
 cmp_deeply(
-    [ FusionInventory::Agent::Task::Inventory::Generic::Storages::3ware::_getCards('resources/generic/tw_cli/cards') ],
+    [
+        FusionInventory::Agent::Task::Inventory::Generic::Storages::3ware::_getCards('resources/generic/tw_cli/cards')
+    ],
     [ @cards ],
     'cards extraction'
 );
 
 cmp_deeply(
-    [ FusionInventory::Agent::Task::Inventory::Generic::Storages::3ware::_getUnits({ id => 'c0' }, 'resources/generic/tw_cli/units') ],
+    [
+        FusionInventory::Agent::Task::Inventory::Generic::Storages::3ware::_getUnits(
+            { id => 'c0' },
+            'resources/generic/tw_cli/units'
+        )
+    ],
     [ @units ],
     'units extraction'
 );
 
 cmp_deeply(
-    [ FusionInventory::Agent::Task::Inventory::Generic::Storages::3ware::_getPorts({ id => 'c0' }, { id => 'u0' }, 'resources/generic/tw_cli/ports') ],
+    [ FusionInventory::Agent::Task::Inventory::Generic::Storages::3ware::_getPorts(
+            { id => 'c0' },
+            { id => 'u0' },
+            'resources/generic/tw_cli/ports'
+        )
+    ],
     [ @ports ],
     'ports extraction'
 );
 
 cmp_deeply(
-    [ FusionInventory::Agent::Task::Inventory::Generic::Storages::3ware::_getStorage({ id => 'c0', model => '9650SE-2LP' }, { id => 'p0' }, 'resources/generic/tw_cli/storage') ],
+    [
+        FusionInventory::Agent::Task::Inventory::Generic::Storages::3ware::_getStorage(
+            { id => 'c0', model => '9650SE-2LP' },
+            { id => 'p0' },
+            'resources/generic/tw_cli/storage'
+        )
+    ],
     [ @storages ],
     'storages extraction'
 );
+
+lives_ok {
+    $inventory->addEntry(section => 'STORAGES', entry => $_)
+        foreach @storages;
+} "registering";

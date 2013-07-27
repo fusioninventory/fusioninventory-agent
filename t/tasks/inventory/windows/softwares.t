@@ -11,8 +11,8 @@ use Test::Deep;
 use Test::Exception;
 use Test::MockModule;
 use Test::More;
+use Test::NoWarnings;
 
-use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Test::Utils;
 
@@ -8181,13 +8181,10 @@ my %hotfixes_tests = (
 
 plan tests =>
     scalar (2 * keys %softwares_tests) +
-    scalar (keys %hotfixes_tests)  ;
+    scalar (keys %hotfixes_tests)      +
+    1;
 
-    my $logger    = FusionInventory::Agent::Logger->new(
-    backends => [ 'fatal' ],
-    debug    => 1
-);
-my $inventory = FusionInventory::Agent::Inventory->new(logger => $logger);
+my $inventory = FusionInventory::Agent::Inventory->new();
 
 my $module = Test::MockModule->new(
     'FusionInventory::Agent::Task::Inventory::Win32::Softwares'

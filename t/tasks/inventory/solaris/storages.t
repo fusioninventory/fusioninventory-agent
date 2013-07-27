@@ -9,8 +9,7 @@ use Test::Exception;
 use Test::More;
 use Test::NoWarnings;
 
-use FusionInventory::Agent::Logger;
-use FusionInventory::Agent::Inventory;
+use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::Solaris::Storages;
 
 my %tests = (
@@ -1729,17 +1728,14 @@ my %tests = (
 
 plan tests => (2 * scalar keys %tests) + 1;
 
-my $logger    = FusionInventory::Agent::Logger->new(
-    backends => [ 'fatal' ],
-    debug    => 1
-);
-my $inventory = FusionInventory::Agent::Inventory->new(logger => $logger);
+my $inventory = FusionInventory::Test::Inventory->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/solaris/iostat/$test";
     my @storages = FusionInventory::Agent::Task::Inventory::Solaris::Storages::_getStorages(file => $file);
     cmp_deeply(\@storages, $tests{$test}, "$test: parsing");
     lives_ok {
-        $inventory->addEntry(section => 'STORAGES', entry => $_) foreach @storages;
+        $inventory->addEntry(section => 'STORAGES', entry => $_)
+            foreach @storages;
     } "$test: registering";
 }

@@ -9,8 +9,7 @@ use Test::Exception;
 use Test::More;
 use Test::NoWarnings;
 
-use FusionInventory::Agent::Logger;
-use FusionInventory::Agent::Inventory;
+use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::Generic::Softwares::RPM;
 use FusionInventory::Agent::Task::Inventory::Generic::Softwares::Deb;
 use FusionInventory::Agent::Task::Inventory::Generic::Softwares::Gentoo;
@@ -242,11 +241,7 @@ my $deb_packages = [
 
 plan tests => 7;
 
-my $logger = FusionInventory::Agent::Logger->new(
-    backends => [ 'fatal' ],
-    debug    => 1
-);
-my $inventory = FusionInventory::Agent::Inventory->new(logger => $logger);
+my $inventory = FusionInventory::Test::Inventory->new();
 
 my $packages;
 $packages = FusionInventory::Agent::Task::Inventory::Generic::Softwares::RPM::_getPackagesList(
