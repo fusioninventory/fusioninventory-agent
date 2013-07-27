@@ -24,11 +24,6 @@ sub _parseProcessList {
 
     my $values = {};
 
-    my $name;
-    my $mem = 0;
-    my $uuid;
-    my $vmtype = $1;
-
     my @options = split (/ -/, $process->{CMD});
 
     foreach my $option (@options) {

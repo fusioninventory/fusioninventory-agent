@@ -79,7 +79,7 @@ my %tests_mfiutil = (
 
 plan tests =>
     (2 * scalar keys %tests_fstab)   +
-    (2 * scalar keys %tests_mfiutil) + 
+    (2 * scalar keys %tests_mfiutil) +
     1;
 
 my $inventory = FusionInventory::Agent::Inventory->new();
