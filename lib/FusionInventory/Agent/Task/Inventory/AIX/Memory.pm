@@ -74,7 +74,6 @@ sub _getMemories {
         push @memories, {
             DESCRIPTION => $info->{DS},
             CAPACITY    => $info->{SZ},
-            TYPE        => $info->{PN},
             CAPTION     => 'Slot ' . $info->{YL},
             SERIALNUMBER=> $info->{SN},
             NUMSLOTS    => $numslots++
