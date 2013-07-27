@@ -70,7 +70,7 @@ sub _readSymbolicOids {
     my $values;
     while (my $line = <$handle>) {
        # Get multi-line block
-       while ($line =~ /\r\n$/) {
+       while (!eof($handle) && $line =~ /\r\n$/) {
            $line .= <$handle>;
        }
        next unless $line =~ /^([^.]+) \. ([\d.]+) \s = \s (\S+): \s (.*)/sx;
