@@ -8,7 +8,7 @@ use Test::Deep;
 use Test::Exception;
 use Test::More;
 use Test::NoWarnings;
- 
+
 use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt;
 

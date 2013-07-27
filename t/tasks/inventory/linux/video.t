@@ -191,7 +191,7 @@ my %xorg = (
 
 );
 
-plan tests => 
+plan tests =>
     (scalar keys %ddcprobe) +
     (scalar keys %xorg)     +
     1;
