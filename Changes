@@ -1,5 +1,10 @@
 Revision history for FusionInventory agent
 
+2.2.9902
+distribution:
+* fix the test-suite (perl 5.8, missing dependencies, etc)
+* renable t/agent/http/client/ssl.t
+
 2.2.9901  Fri, 12 Jul 2013 15:27:26 +0200
 distribution:
 * Deploy, Network and ESX tasks are now integrated in the distribution
