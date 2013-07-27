@@ -1,9 +1,10 @@
 Revision history for FusionInventory agent
 
-2.2.9902
+2.2.9902  Sat, 27 Jul 2013 11:37:03 +0200
 distribution:
 * fix the test-suite (perl 5.8, missing dependencies, etc)
 * renable t/agent/http/client/ssl.t
+* check the link for 404 error in the doc
 
 2.2.9901  Fri, 12 Jul 2013 15:27:26 +0200
 distribution:
