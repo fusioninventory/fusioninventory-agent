@@ -16,7 +16,9 @@ sub doInventory {
     my $inventory = $params{inventory};
 
     # Adobe
-    my @found = getAdobeLicenses(command => 'sqlite3 -separator " <> " "/Library/Application Support/Adobe/Adobe PCD/cache/cache.db" "SELECT * FROM domain_data"');
+    my @found = getAdobeLicenses(
+        command => 'sqlite3 -separator " <> " "/Library/Application Support/Adobe/Adobe PCD/cache/cache.db" "SELECT * FROM domain_data"'
+    );
 
     # Transmit
     my @transmitFiles = glob('/System/Library/User Template/*.lproj/Library/Preferences/com.panic.Transmit.plist');
@@ -25,7 +27,9 @@ sub doInventory {
     }
 
     foreach my $transmitFile (@transmitFiles) {
-        my $info = _getTransmitLicenses( command => "plutil -convert xml1 -o - '$transmitFile'" );
+        my $info = _getTransmitLicenses(
+            command => "plutil -convert xml1 -o - '$transmitFile'"
+        );
         next unless $info;
         push @found, $info;
         last; # One installation per machine
