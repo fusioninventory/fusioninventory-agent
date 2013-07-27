@@ -318,7 +318,7 @@ sub setConnectedDevicesMacAddresses {
 }
 
 sub performSpecificCleanup {
-    my ($description, $results, $ports, $walks) = @_;
+    my ($description, $results, $ports) = @_;
 
     foreach my $rule (@specific_cleanup_rules) {
         next unless $description =~ $rule->{match};
