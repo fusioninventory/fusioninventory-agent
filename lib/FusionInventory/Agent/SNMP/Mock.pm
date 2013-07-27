@@ -67,6 +67,7 @@ sub _readSymbolicOids {
         'HOST-RESOURCES-MIB::hrDeviceDescr' => '.1.3.6.1.2.1.25.3.2.1.3',
     );
 
+    binmode($hande);
     my $values;
     while (my $line = <$handle>) {
        # Get multi-line block
