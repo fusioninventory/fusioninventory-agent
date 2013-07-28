@@ -59,9 +59,9 @@ sub doInventory {
         );
     }
 
-    $inventory->setHardware(
-        _getLastUser(logger => $logger)
-    );
+    $inventory->setHardware({
+        USERID => _getLastUser(logger => $logger)
+    });
 }
 
 sub _getLocalUsers {
