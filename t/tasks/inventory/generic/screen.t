@@ -6,7 +6,6 @@ use warnings;
 use English qw(-no_match_vars);
 use Test::Deep qw(cmp_deeply);
 use Test::More;
-use Test::NoWarnings;
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
@@ -14,6 +13,8 @@ use FusionInventory::Agent::Task::Inventory::Generic::Screen;
 
 plan(skip_all => 'Parse::EDID required')
     unless Parse::EDID->require();
+
+Test::NoWarnings->use();
 
 my %edid_tests = (
     'crt.13' => {
