@@ -477,35 +477,45 @@ sub _scanAddressBySNMP {
         # no sysdescr means invalid credentials
         next unless $sysdescr;
 
-        # try to get a matching model from the dictionary
-        my $model = $params{snmp_dictionary}->getModel($sysdescr);
-
-        # first, we initialize with some generic information
-        %device = getBasicInfoFromSysdescr($sysdescr, $snmp);
-
-        $device{MAC} = _getMacAddress($snmp);
-
-
-        # then we use the available information from the model
-        if ($model) {
-
-            $device{SERIAL}    = _getSerial($snmp, $model);
-            $device{MAC}       = _getMacAddress($snmp, $model) ||
-                                 _getMacAddress($snmp);
-            $device{MODELSNMP}    = $model->{MODELSNMP};
-            $device{TYPE}         = $model->{TYPE} if $model->{TYPE};
-            $device{MANUFACTURER} = $model->{MANUFACTURER} if $model->{MANUFACTURER};
-            $device{FIRMWARE}     = $model->{FIRMWARE};
-            $device{MODEL}        = $model->{MODEL};
-
-        }
-
-        $device{AUTHSNMP}     = $credential->{ID};
-        # SNMPv2-MIB::sysName.0
-        $device{SNMPHOSTNAME} = $snmp->get('.1.3.6.1.2.1.1.5.0');
-        $device{DESCRIPTION}  = $sysdescr if !$device{DESCRIPTION};
+        %device = _getDeviceBySNMP(
+            $sysdescr, $snmp, $params{snmp_dictionary}
+        );
+        $device{AUTHSNMP} = $credential->{ID};
 
         last;
+    }
+
+    return %device;
+}
+
+sub _getDeviceBySNMP {
+    my ($sysdescr, $snmp, $dictionary) = @_;
+
+    # the device is initialized with basic informations
+    # deduced from its sysdescr
+    my %device = getBasicInfoFromSysdescr($sysdescr, $snmp);
+
+    # then we complete the device with constant information
+    # SNMPv2-MIB::sysName.0
+    $device{SNMPHOSTNAME} = $snmp->get('.1.3.6.1.2.1.1.5.0');
+    $device{DESCRIPTION}  = $sysdescr if !$device{DESCRIPTION};
+
+    # then, we try to get a matching model from the dictionary
+    my $model = $dictionary ? $dictionary->getModel($sysdescr) : undef;
+
+    if ($model) {
+        # if found, we complete the device with model information
+        $device{SERIAL}       = _getSerial($snmp, $model);
+        $device{MAC}          = _getMacAddress($snmp, $model) ||
+                                _getMacAddress($snmp);
+        $device{MODELSNMP}    = $model->{MODELSNMP};
+        $device{TYPE}         = $model->{TYPE} if $model->{TYPE};
+        $device{MANUFACTURER} = $model->{MANUFACTURER} if $model->{MANUFACTURER};
+        $device{FIRMWARE}     = $model->{FIRMWARE};
+        $device{MODEL}        = $model->{MODEL};
+    } else {
+        # otherwise, we complet the device with default information
+        $device{MAC}          = _getMacAddress($snmp);
     }
 
     return %device;
