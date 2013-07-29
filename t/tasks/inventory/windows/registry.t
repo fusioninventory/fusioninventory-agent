@@ -34,9 +34,9 @@ my @data;
         NAME => 'REGISTRY',
         PARAM => {
             NAME    => 'CurrentVersion',
-            content => 'ProductId',
+            content => 'Identifier',
             REGTREE => '2',
-            REGKEY  => 'SOFTWARE\\Microsoft\\Windows\\CurrentVersion'
+            REGKEY  => 'HARDWARE\\DESCRIPTION\\System'
         }
     }
 );
@@ -50,15 +50,15 @@ ok($data[0]->{entry}{NAME} eq 'CurrentVersion', "unique entry: NAME");
         PARAM => [
             {
                 NAME    => 'ProductID',
-                content => 'ProductId',
+                content => 'Identifier',
                 REGTREE => '2',
-                REGKEY  => 'SOFTWARE\\Microsoft\\Windows\\CurrentVersion'
+                REGKEY  => 'HARDWARE\\DESCRIPTION\\System'
             },
             {
                  NAME    => 'CurrentVersion',
                  content => '*',
                  REGTREE => '2',
-                 REGKEY  => 'SOFTWARE\\Microsoft\\Windows\\CurrentVersion'
+                 REGKEY  => 'HARDWARE\\DESCRIPTION\\System'
             }
         ]
     }
