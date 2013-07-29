@@ -10,8 +10,8 @@ sub new {
     my ($class, %params) = @_;
 
     die "no file parameter" unless $params{file};
-    die "non-existing file parameter" unless -f $params{file};
-    die "unreadable file parameter" unless -r $params{file};
+    die "non-existing $params{file} file parameter" unless -f $params{file};
+    die "unreadable $params{file} file parameter" unless -r $params{file};
 
     my $self = {
         values => _getIndexedValues($params{file})
