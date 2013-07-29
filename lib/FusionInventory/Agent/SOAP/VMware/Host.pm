@@ -46,6 +46,7 @@ sub getBiosInfo {
     my $hardware   = $self->{hash}[0]{hardware};
     my $biosInfo   = $hardware->{biosInfo};
     my $systemInfo = $hardware->{systemInfo};
+    my $ssn;
 
     return unless ref($biosInfo) eq 'HASH';
 
@@ -53,13 +54,22 @@ sub getBiosInfo {
     if (ref($systemInfo->{otherIdentifyingInfo}) eq 'HASH') {
         $identifierValue = $systemInfo->{otherIdentifyingInfo}->{identifierValue};
     }
+    elsif (ref($systemInfo->{otherIdentifyingInfo}) eq 'ARRAY') {
+        foreach (@{$systemInfo->{otherIdentifyingInfo}}) {
+            if ($_->{identifierType}->{key} eq 'ServiceTag') {
+                $ssn = $_->{identifierValue};
+                last;
+            }
+        }
+    }
 
     return {
         BDATE         => $biosInfo->{releaseDate},
         BVERSION      => $biosInfo->{biosVersion},
         SMODEL        => $systemInfo->{model},
         SMANUFACTURER => $systemInfo->{vendor},
-        ASSETTAG      => $identifierValue
+        ASSETTAG      => $identifierValue,
+        SSN           => $ssn
     };
 }
 
