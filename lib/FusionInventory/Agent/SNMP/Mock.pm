@@ -45,7 +45,11 @@ sub _readNumericalOids {
 
     my $values;
     while (my $line = <$handle>) {
-       next unless $line =~ /^(\S+) \s = \s (\S+): \s (.*)/x;
+       # Get multi-line block
+       while (!eof($handle) && $line =~ /\r\n$/) {
+           $line .= <$handle>;
+       }
+       next unless $line =~ /^(\S+) \s = \s (\S+): \s (.*)/sx;
        $values->{$1} = [ $2, $3 ];
     }
 
