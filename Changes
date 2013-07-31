@@ -59,6 +59,7 @@ test suite:
 * check the link for 404 error in the doc
 * check for warnings generated during parsing
 * check entries generated from parsing match expected inventory format
+* normalize list before comparaison, for perl 5.18 hash randomisation
 
 2.2.8
 
