@@ -5,9 +5,11 @@ use warnings;
 use base 'Exporter';
 
 use FusionInventory::Agent::Tools; # runFunction
+use FusionInventory::Agent::Tools::Network;
 
 our @EXPORT = qw(
-    getBasicInfoFromSysdescr
+    getDeviceBaseInfo
+    getDeviceInfo
     setTrunkPorts
     setConnectedDevices
     setConnectedDevicesMacAddresses
@@ -209,20 +211,36 @@ my @specific_cleanup_rules = (
     },
 );
 
-sub getBasicInfoFromSysdescr {
-    my ($sysdescr, $snmp) = @_;
+sub getDeviceBaseInfo {
+    my ($snmp) = @_;
 
+    # retrieve sysdescr value, as it is our primary identification key
+    my $sysdescr = $snmp->get('.1.3.6.1.2.1.1.1.0'); # SNMPv2-MIB::sysDescr.0
+
+    # failure eithers means a network or a credential issue
+    return unless $sysdescr;
+
+    # initialize device with constant informations
+    my %device = (
+        DESCRIPTION  => $sysdescr,
+        SNMPHOSTNAME => $snmp->get('.1.3.6.1.2.1.1.5.0') # SNMPv2-MIB::sysName.0
+    );
+
+    # first heuristic:
+    # try to deduce manufacturer and type from first sysdescr word
     my ($first_word) = $sysdescr =~ /^(\S+)/;
     my $keyword = $hardware_keywords{lc($first_word)};
-
-    my %device;
 
     if ($keyword) {
         $device{MANUFACTURER} = $keyword->{vendor};
         $device{TYPE}         = $keyword->{type};
     }
 
-    if($snmp) {
+    # second heuristic:
+    # try to deduce manufacturer, type and a better identification key from a
+    # set of custom rules matched against full sysdescr value
+    # the first matching rule wins
+    if ($snmp) {
         foreach my $rule (@hardware_rules) {
             next unless $sysdescr =~ $rule->{match};
             $device{MANUFACTURER} = _apply_rule($rule->{vendor}, $snmp);
@@ -230,6 +248,74 @@ sub getBasicInfoFromSysdescr {
             $device{DESCRIPTION}  = _apply_rule($rule->{description}, $snmp);
             last;
         }
+    }
+
+    return %device;
+}
+
+sub _getSerial {
+    my ($snmp, $model) = @_;
+
+    return unless $model->{SERIAL};
+    return $snmp->getSerialNumber($model->{SERIAL});
+}
+
+sub _getMacAddress {
+    my ($snmp, $model) = @_;
+
+    my $mac_oid =
+        $model->{MAC} ||
+        ".1.3.6.1.2.1.17.1.1.0"; # SNMPv2-SMI::mib-2.17.1.1.0
+    my $dynmac_oid =
+        $model->{DYNMAC} ||
+        ".1.3.6.1.2.1.2.2.1.6";  # IF-MIB::ifPhysAddress
+
+    my $address = $snmp->getMacAddress($mac_oid);
+
+    if (!$address || $address !~ /^$mac_address_pattern$/) {
+        my $macs = $snmp->walkMacAddresses($dynmac_oid);
+        foreach my $value (values %{$macs}) {
+            next if !$value;
+            next if $value eq '0:0:0:0:0:0';
+            next if $value eq '00:00:00:00:00:00';
+            $address = $value;
+        }
+    }
+
+    return $address;
+}
+
+sub getDeviceInfo {
+     my ($snmp, $dictionary) = @_;
+
+    # the device is initialized with basic informations
+    # deduced from its sysdescr
+    my %device = getDeviceBaseInfo($snmp);
+
+    # then, we try to get a matching model from the dictionary,
+    # using its current description as identification key
+    my $model = $dictionary ?
+        $dictionary->getModel($device{DESCRIPTION}) : undef;
+
+    if ($model) {
+        # if found, we complete the device with model-defined mappings
+        $device{MANUFACTURER} = $model->{MANUFACTURER}
+            if $model->{MANUFACTURER};
+        $device{TYPE}         =
+            $model->{TYPE} == 1 ? 'COMPUTER'   :
+            $model->{TYPE} == 2 ? 'NETWORKING' :
+            $model->{TYPE} == 3 ? 'PRINTER'    :
+                                  undef
+            if $model->{TYPE};
+
+        $device{MAC}       = _getMacAddress($snmp, $model);
+        $device{SERIAL}    = _getSerial($snmp, $model);
+        $device{MODELSNMP} = $model->{MODELSNMP};
+        $device{FIRMWARE}  = $model->{FIRMWARE};
+        $device{MODEL}     = $model->{MODEL};
+    } else {
+        # otherwise, we fallback on default mappings
+        $device{MAC} = _getMacAddress($snmp);
     }
 
     return %device;
@@ -350,74 +436,75 @@ This module provides some hardware-related functions.
 
 =head1 FUNCTIONS
 
-=head2 getBasicInfoFromSysdescr($sysdescr)
+=head2 getDeviceBaseInfo($snmp)
 
-return a hash initialized from sysdescr information.
+return a minimal set of informations for a device through SNMP, according to a
+set of rules hardcoded in the agent.
 
-=head2 setConnectedDevicesMacAddresses(%params)
+=head2 getDeviceInfo($snmp, $dictionnary)
+
+return a minimal set of informations for a device through SNMP, according to a
+set of rules hardcoded in the agent and the usage of an additional knowledge
+base, the dictionary.
+
+=head2 setConnectedDevicesMacAddresses($description, $results, $ports, $walks, $vlan_id)
 
 set mac addresses of connected devices.
 
 =over
 
-=item results raw values collected through SNMP
+=item * description: device identification key
 
-=item ports device ports list
+=item * results: raw values collected through SNMP
 
-=item walks model walk branch
+=item * ports: device ports list
+
+=item * walks: model walk branch
+
+=item * vlan_id: VLAN identifier
 
 =back
 
-=head2 setConnectedDevices
+=head2 setConnectedDevices($description, $results, $ports, $walks)
 
 Set connected devices using CDP if available, LLDP otherwise.
 
 =over
 
-=item results raw values collected through SNMP
+=item * description: device identification key
 
-=item ports device ports list
+=item * results: raw values collected through SNMP
 
-=item walks model walk branch
+=item * ports: device ports list
 
-=back
-
-=head2 setConnectedDevicesUsingCDP
-
-Set connected devices using CDP
-
-=over
-
-=item results raw values collected through SNMP
-
-=item ports device ports list
-
-=item walks model walk branch
+=item * walks: model walk branch
 
 =back
 
-=head2 setConnectedDevicesUsingLLDP
-
-Set connected devices using LLDP
-
-=over
-
-=item results raw values collected through SNMP
-
-=item ports device ports list
-
-=item walks model walk branch
-
-=back
-
-=head2 setTrunkPorts
+=head2 setTrunkPorts($description, $results, $ports)
 
 Set trunk flag on ports needing it.
 
 =over
 
-=item results raw values collected through SNMP
+=item * description: device identification key
 
-=item ports device ports list
+=item * results: raw values collected through SNMP
+
+=item * ports: device ports list
+
+=back
+
+=head2 performSpecificCleanup($description, $results, $ports)
+
+Perform device-specific miscaelanous cleanups
+
+=over
+
+=item * description: device identification key
+
+=item * results: raw values collected through SNMP
+
+=item * ports: device ports list
 
 =back

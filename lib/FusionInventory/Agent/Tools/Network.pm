@@ -194,4 +194,4 @@ Returns the network mask for IPv6.
 
 =head2 resolv($string)
 
-Returns an array of Net::IP for the given $string 
+Returns an array of Net::IP for the given $string

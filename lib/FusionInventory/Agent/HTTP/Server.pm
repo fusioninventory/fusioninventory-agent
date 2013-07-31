@@ -353,7 +353,7 @@ requests are accepted:
 Authentication is based on connection source address: trusted requests are
 accepted, other are rejected.
 
-=head1 METHODS
+=head1 CLASS METHODS
 
 =head2 new(%params)
 
@@ -385,6 +385,12 @@ an IP address or an IP address range from which to trust incoming requests
 
 =back
 
-=head2 terminate
+=head1 INSTANCE METHODS
 
-Ensure the listening thread terminates.
+=head2 $server->init()
+
+Start the server internal listener.
+
+=head2 $server->handleRequests()
+
+Check if there any incoming request, and honours it if needed.

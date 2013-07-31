@@ -333,8 +333,10 @@ sub _queryDevice {
         }
     }
 
-    my $description = $snmp->get('.1.3.6.1.2.1.1.1.0');
-    if (!$description) {
+    # first, let's retrieve basic device informations
+    my %info = getDeviceBaseInfo($snmp);
+
+    if (!%info) {
         return {
             ERROR => {
                 ID      => $device->{ID},
@@ -389,11 +391,9 @@ sub _queryDevice {
         INFO => {
             ID   => $device->{ID},
             TYPE => $device->{TYPE},
-            getBasicInfoFromSysdescr($description, $snmp)
+            %info
         }
     };
-
-
 
     $self->_setGenericProperties(
         results => $results,
