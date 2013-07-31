@@ -316,3 +316,11 @@ Returns a VMware object.
 =head2 connect( $self, $user, $password )
 
 Connect the VMware object with the given credentials.
+
+=head2 getHostFullInfo ( $self, $id )
+
+Returns a large hash structure with the host information.
+
+=head2 getHostIds ( $self )
+
+Returns the list of the virtual machine ID in an array reference.
