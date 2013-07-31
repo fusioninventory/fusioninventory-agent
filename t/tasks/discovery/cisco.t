@@ -1412,9 +1412,8 @@ foreach my $test (sort keys %tests) {
     my $snmp = FusionInventory::Agent::SNMP::Mock->new(
         file => "$ENV{SNMPWALK_DATABASE}/$test"
     );
-    my $sysdescr = $snmp->get('.1.3.6.1.2.1.1.1.0');
-    my %device0 = getDeviceInfo($sysdescr, $snmp);
-    my %device1 = getDeviceInfo($sysdescr, $snmp, $dictionary);
+    my %device0 = getDeviceInfo($snmp);
+    my %device1 = getDeviceInfo($snmp, $dictionary);
     cmp_deeply(\%device0, $tests{$test}->[0], $test);
     cmp_deeply(\%device1, $tests{$test}->[1], $test);
 }

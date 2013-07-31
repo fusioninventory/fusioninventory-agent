@@ -290,7 +290,11 @@ sub _getMacAddress {
 }
 
 sub getDeviceInfo {
-     my ($sysdescr, $snmp, $dictionary) = @_;
+     my ($snmp, $dictionary) = @_;
+
+     # SNMPv2-MIB::sysDescr.0
+    my $sysdescr = $snmp->get('.1.3.6.1.2.1.1.1.0');
+    return unless $sysdescr;
 
     # the device is initialized with basic informations
     # deduced from its sysdescr
@@ -450,7 +454,7 @@ This module provides some hardware-related functions.
 return a minimal set of informations for a device through SNMP, according to a
 set of rules hardcoded in the agent.
 
-=head2 getDeviceInfo($sysdescr, $snmp, $dictionnary)
+=head2 getDeviceInfo($snmp, $dictionnary)
 
 return a minimal set of informations for a device through SNMP, according to a
 set of rules hardcoded in the agent and the usage of an additional knowledge

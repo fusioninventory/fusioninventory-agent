@@ -463,23 +463,21 @@ sub _scanAddressBySNMP {
             next;
         }
 
-        # SNMPv2-MIB::sysDescr.0
-        my $sysdescr = $snmp->get('.1.3.6.1.2.1.1.1.0');
+        %device = getDeviceInfo(
+            $snmp, $params{snmp_dictionary}
+        );
 
+        # no device just means invalid credentials
         $self->{logger}->debug2(
             sprintf "thread %d: scanning %s with snmp credentials %d: %s",
             threads->tid(),
             $params{ip},
             $credential->{ID},
-            $sysdescr ? 'success' : 'failure'
+            %device ? 'success' : 'failure'
         );
 
-        # no sysdescr means invalid credentials
-        next unless $sysdescr;
+        next unless %device;
 
-        %device = getDeviceInfo(
-            $sysdescr, $snmp, $params{snmp_dictionary}
-        );
         $device{AUTHSNMP} = $credential->{ID};
 
         last;
