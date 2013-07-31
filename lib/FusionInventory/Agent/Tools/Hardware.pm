@@ -8,7 +8,7 @@ use FusionInventory::Agent::Tools; # runFunction
 use FusionInventory::Agent::Tools::Network;
 
 our @EXPORT = qw(
-    getBasicInfoFromSysdescr
+    getDeviceBaseInfo
     getDeviceInfo
     setTrunkPorts
     setConnectedDevices
@@ -211,7 +211,7 @@ my @specific_cleanup_rules = (
     },
 );
 
-sub getBasicInfoFromSysdescr {
+sub getDeviceBaseInfo {
     my ($sysdescr, $snmp) = @_;
 
     my ($first_word) = $sysdescr =~ /^(\S+)/;
@@ -294,7 +294,7 @@ sub getDeviceInfo {
 
     # the device is initialized with basic informations
     # deduced from its sysdescr
-    my %device = getBasicInfoFromSysdescr($sysdescr, $snmp);
+    my %device = getDeviceBaseInfo($sysdescr, $snmp);
 
     # then we complete the device with constant information
     # SNMPv2-MIB::sysName.0
@@ -445,9 +445,16 @@ This module provides some hardware-related functions.
 
 =head1 FUNCTIONS
 
-=head2 getBasicInfoFromSysdescr($sysdescr)
+=head2 getDeviceBaseInfo($sysdescr, $snmp)
 
-return a hash initialized from sysdescr information.
+return a minimal set of informations for a device through SNMP, according to a
+set of rules hardcoded in the agent.
+
+=head2 getDeviceInfo($sysdescr, $snmp, $dictionnary)
+
+return a minimal set of informations for a device through SNMP, according to a
+set of rules hardcoded in the agent and the usage of an additional knowledge
+base, the dictionary.
 
 =head2 setConnectedDevicesMacAddresses(%params)
 

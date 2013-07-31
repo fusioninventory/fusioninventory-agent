@@ -389,7 +389,7 @@ sub _queryDevice {
         INFO => {
             ID   => $device->{ID},
             TYPE => $device->{TYPE},
-            getBasicInfoFromSysdescr($description, $snmp)
+            getDeviceBaseInfo($description, $snmp)
         }
     };
 
