@@ -18,22 +18,47 @@ core:
 * --daemon and --no-fork options are now available from command-line only 
 
 inventory task:
-* add DNS_DOMAIN, BOOT_TIME and FQDN in OPERATINGSYSTEM section
+* add DNS_DOMAIN, BOOT_TIME and FQDN in OPERATINGSYSTEM section (#1197, #1347, #1358)
 * collect public SSH keys
-* various UTF8 encoding fixes
-* collect license key for MS Office on Windows
+* collect local users and groups (#1570, #1870)
+* collect license key for MS Office on Windows (#152)
 * collect software from user profile on Windows(#1674)
+* collect license key for Adobe suite, Panic's Transit, VMware Fusion on MacOs
+* collect service package version on AIX (#1896)
+* collect manufacturer information for memories (#1735)
+* enforce consistent handling of USB and PCI identifiers (#1861)
+* enforce consistent TYPE values for network interfaces (#1838)
+* various UTF8 encoding fixes
+* better stripping of bogus values
 * Megaraid and 3ware RAID controller support on BSD (Egor Morozov)
 * Megaraid controller support on Linux (Egor Morozov)
 * support new OpenVZ configuration on Linux (Alessandro Iurlano)
-* collect license key for Adobe suite, Panic's Transit, VMware Fusion on MacOs
-* LPAR support on AIX
+* LPAR support on AIX (#950, #952)
+* FreeBSD jail support on BSD (#736, #1555)
+* better caching of system_profiler output (#2076)
+* better Qemu support (#2106)
+* better OpenVM support (#1774)
+* better HyperV support (#1989, #1990, #1991)
+* fix CPU inventory for non-i386 arches on Linux (#2172)
+* better CPU inventory on Solaris (#1741, #1905, #2152)
+* better memory inventory on Solaris (#1711, #1714, #1737)
+* better slot inventory on Solaris (#1730)
+* fix VXFS filesystem identification on Solaris (#1696)
+* minimal support for busybox-specific command output (#1372)
 * no more memconf usage on Solaris
-* no more Mac::SysProfile usage on MacOS
-* better Qemu support
+* no more Mac::SysProfile usage on MacOS (#1646)
 
 wake-on-lan task:
 * ethernet and udp methods support on all systems
+
+netdiscovery task:
+* fix for regression introduced during code refactoring regarding printers
+  identification
+
+test suite:
+* check the link for 404 error in the doc
+* check for warnings generated during parsing
+* check entries generated from parsing match expected inventory format
 
 2.2.8
 
