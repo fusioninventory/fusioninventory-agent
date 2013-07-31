@@ -6,7 +6,7 @@ use Test::More;
 use Test::Deep;
 
 use FusionInventory::Agent::SNMP::Mock;
-use FusionInventory::Agent::Task::NetDiscovery;
+use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::Task::NetDiscovery::Dictionary;
 
 my %tests = (
@@ -1207,13 +1207,8 @@ foreach my $test (sort keys %tests) {
         file => "$ENV{SNMPWALK_DATABASE}/$test"
     );
     my $sysdescr = $snmp->get('.1.3.6.1.2.1.1.1.0');
-    my %device0 = FusionInventory::Agent::Task::NetDiscovery::_getDeviceBySNMP(
-        $sysdescr, $snmp
-    );
-    my %device1 = FusionInventory::Agent::Task::NetDiscovery::_getDeviceBySNMP(
-        $sysdescr, $snmp, $dictionary
-    );
+    my %device0 = getDeviceInfo($sysdescr, $snmp);
+    my %device1 = getDeviceInfo($sysdescr, $snmp, $dictionary);
     cmp_deeply(\%device0, $tests{$test}->[0], $test);
-    cmp_deeply(\%device1, $tests{$test}->[1], $test) or print Dumper(\%device1);
-    use Data::Dumper;
+    cmp_deeply(\%device1, $tests{$test}->[1], $test);
 }
