@@ -348,3 +348,62 @@ sub getVirtualMachines {
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::SOAP::VMware::Host - VMware Host abstraction layer
+
+=head1 DESCRIPTION
+
+The module is an abstraction layer to access the VMware host.
+
+=head1 FUNCTIONS
+
+=head2 new($class, %params)
+
+Returns an object.
+
+=head2 getBootTime( $self )
+
+Returns the date in the following format: 2012-12-31T12:59:59
+
+=head2 getHostname( $self )
+
+Returns the host name.
+
+=head2 getBiosInfo( $self )
+
+Returns the BIOS (BDATE, BVERSION, SMODEL, SMANUFACTURER, ASSETTAG, SSN)
+information in an HASH reference.
+
+=head2 getHardwareInfo( $self )
+
+Returns hardware informations in a hash reference.
+
+=head2 getCPUs( $self )
+
+Returns CPU informations (hash ref) in an array.
+
+=head2 getControllers( $self )
+
+Returns PCI controller informations (hash ref) in an
+array.
+
+=head2 getNetworks( $self )
+
+Returns the networks configuration in an array.
+
+
+=head2 getStorages( $self )
+
+Returns the storage devices in an array.
+
+=head2 getDrives( $self )
+
+Returns the hard drive partitions in an array.
+
+=head2 getVirtualMachines( $self )
+
+Retuns the Virtual Machines in an array.
