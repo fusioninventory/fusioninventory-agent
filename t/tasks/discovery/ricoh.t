@@ -36,7 +36,7 @@ my %tests = (
         },
         {
             MANUFACTURER => 'Ricoh',
-            TYPE         => '3',
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'RICOH Aficio MP C2050 1.17 / RICOH Network Printer C model / RICOH Network Scanner C model',
             SNMPHOSTNAME => 'Aficio MP C2050',
             MAC          => '00:00:74:F8:BA:6F',

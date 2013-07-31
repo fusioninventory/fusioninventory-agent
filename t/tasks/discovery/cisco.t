@@ -23,7 +23,7 @@ Compiled Thu 11-Aug-11 02:58 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C1040 Software (C1140-K9W7-M), Version 12.4(25d)JA1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
@@ -49,7 +49,7 @@ Compiled Wed 19-Mar-08 18:08 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C1130 Software (C1130-K9W7-M), Version 12.4(10b)JA3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2008 by Cisco Systems, Inc.
@@ -75,7 +75,7 @@ Compiled Wed 19-Mar-08 18:08 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C1130 Software (C1130-K9W7-M), Version 12.4(10b)JA3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2008 by Cisco Systems, Inc.
@@ -101,7 +101,7 @@ Compiled Wed 16-Sep-09 18:36 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C1130 Software (C1130-K9W7-M), Version 12.4(21a)JA1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
@@ -127,7 +127,7 @@ Compiled Wed 16-Sep-09 18:36 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C1130 Software (C1130-K9W7-M), Version 12.4(21a)JA1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
@@ -153,7 +153,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
@@ -179,7 +179,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
@@ -205,7 +205,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
@@ -231,7 +231,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
@@ -257,7 +257,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
@@ -283,7 +283,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
@@ -309,7 +309,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
@@ -335,7 +335,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2012 by Cisco Systems, Inc.
@@ -361,7 +361,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2012 by Cisco Systems, Inc.
@@ -387,7 +387,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2012 by Cisco Systems, Inc.
@@ -413,7 +413,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2012 by Cisco Systems, Inc.
@@ -439,7 +439,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2012 by Cisco Systems, Inc.
@@ -465,7 +465,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2012 by Cisco Systems, Inc.
@@ -491,7 +491,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2012 by Cisco Systems, Inc.
@@ -517,7 +517,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2012 by Cisco Systems, Inc.
@@ -543,7 +543,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2012 by Cisco Systems, Inc.
@@ -569,7 +569,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2012 by Cisco Systems, Inc.
@@ -595,7 +595,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2012 by Cisco Systems, Inc.
@@ -621,7 +621,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2012 by Cisco Systems, Inc.
@@ -647,7 +647,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(50)SE5, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2010 by Cisco Systems, Inc.
@@ -673,7 +673,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(50)SE5, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2010 by Cisco Systems, Inc.
@@ -699,7 +699,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(50)SE5, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2010 by Cisco Systems, Inc.
@@ -725,7 +725,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(50)SE5, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2010 by Cisco Systems, Inc.
@@ -751,7 +751,7 @@ Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(50)SE4, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2010 by Cisco Systems, Inc.
@@ -776,7 +776,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
@@ -800,7 +800,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
@@ -824,7 +824,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
@@ -848,7 +848,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
@@ -872,7 +872,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
@@ -896,7 +896,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
@@ -920,7 +920,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
@@ -944,7 +944,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
@@ -968,7 +968,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
@@ -992,7 +992,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
@@ -1016,7 +1016,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
@@ -1040,7 +1040,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
@@ -1064,7 +1064,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
@@ -1088,7 +1088,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
@@ -1112,7 +1112,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
@@ -1136,7 +1136,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
@@ -1160,7 +1160,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
@@ -1184,7 +1184,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
@@ -1208,7 +1208,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
@@ -1232,7 +1232,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
@@ -1256,7 +1256,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
@@ -1280,7 +1280,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
@@ -1305,7 +1305,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960S Software (C2960S-UNIVERSALK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
@@ -1331,7 +1331,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960S Software (C2960S-UNIVERSALK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
@@ -1357,7 +1357,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco Internetwork Operating System Software 
 IOS (tm) C3550 Software (C3550-I5Q3L2-M), Version 12.1(20)EA1a, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2004 by cisco Systems, Inc.
@@ -1383,7 +1383,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
         },
         {
             MANUFACTURER => 'Cisco',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco Internetwork Operating System Software 
 IOS (tm) C3550 Software (C3550-I5Q3L2-M), Version 12.1(20)EA1a, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2004 by cisco Systems, Inc.

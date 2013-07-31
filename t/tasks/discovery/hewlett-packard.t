@@ -52,7 +52,7 @@ my %tests = (
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => '3',
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'hp LaserJet 1320 series',
             SNMPHOSTNAME => 'NPI61044B',
             MAC          => undef,
@@ -72,7 +72,7 @@ my %tests = (
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => '3',
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'hp LaserJet 1320 series',
             SNMPHOSTNAME => 'NPI9A3FC7',
             MAC          => undef,
@@ -92,7 +92,7 @@ my %tests = (
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => '3',
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'hp LaserJet 1320 series',
             SNMPHOSTNAME => 'NPIC68F5E',
             MAC          => undef,
@@ -480,7 +480,7 @@ my %tests = (
         },
         {
             MANUFACTURER => 'Hewlett Packard',
-            TYPE         => '2',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_',
             SNMPHOSTNAME => 'oyapock CR2',
             MAC          => '00:18:71:C1:E0:00',

@@ -19,15 +19,15 @@ my %tests = (
             MAC          => undef,
         },
         {
-            MANUFACTURER  => 'Canon',
-            TYPE          => '3',
-            DESCRIPTION   => 'Canon LBP7660C /P',
-            SNMPHOSTNAME  => 'LBP7660C',
-            MAC           => undef,
-            MODELSNMP     => 'Printer0790',
-            MODEL         => undef,
-            FIRMWARE      => undef,
-            SERIAL        => undef
+            MANUFACTURER => 'Canon',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'Canon LBP7660C /P',
+            SNMPHOSTNAME => 'LBP7660C',
+            MAC          => undef,
+            MODELSNMP    => 'Printer0790',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => undef
         },
     ],
     'canon/MF4500_Series_P.walk' => [

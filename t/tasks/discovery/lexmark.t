@@ -19,15 +19,15 @@ my %tests = (
             MAC          => '00:04:00:9C:6C:25',
         },
         {
-            MANUFACTURER  => 'Lexmark',
-            TYPE          => '3',
-            DESCRIPTION   => 'Lexmark T622 version 54.30.06 kernel 2.4.0-test6 All-N-1',
-            SNMPHOSTNAME  => 'LXK3936A4',
-            MAC           => '00:04:00:9C:6C:25',
-            MODELSNMP     => 'Printer0643',
-            MODEL         => undef,
-            FIRMWARE      => undef,
-            SERIAL        => 'LXK3936A4'
+            MANUFACTURER => 'Lexmark',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'Lexmark T622 version 54.30.06 kernel 2.4.0-test6 All-N-1',
+            SNMPHOSTNAME => 'LXK3936A4',
+            MAC          => '00:04:00:9C:6C:25',
+            MODELSNMP    => 'Printer0643',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'LXK3936A4'
         },
     ],
     'lexmark/X792.walk' => [

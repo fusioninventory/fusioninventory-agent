@@ -20,7 +20,7 @@ my %tests = (
         },
         {
             MANUFACTURER => 'Kyocera',
-            TYPE         => '3',
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'TASKalfa 820',
             SNMPHOSTNAME => '',
             MAC          => undef,
@@ -40,7 +40,7 @@ my %tests = (
         },
         {
             MANUFACTURER => 'Kyocera',
-            TYPE         => '3',
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'TASKalfa 181',
             SNMPHOSTNAME => '',
             MAC          => undef,
@@ -60,7 +60,7 @@ my %tests = (
         },
         {
             MANUFACTURER => 'Kyocera',
-            TYPE         => '3',
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'FS-2000D',
             SNMPHOSTNAME => '',
             MAC          => undef,
@@ -80,7 +80,7 @@ my %tests = (
         },
         {
             MANUFACTURER => 'Kyocera',
-            TYPE         => '3',
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'FS-2000D',
             SNMPHOSTNAME => '',
             MAC          => undef,
