@@ -241,7 +241,6 @@ sub _getSerial {
     my ($snmp, $model) = @_;
 
     # the model is mandatory for the serial number
-    return unless $model;
     return unless $model->{SERIAL};
 
     return $snmp->getSerialNumber($model->{SERIAL});
@@ -250,43 +249,27 @@ sub _getSerial {
 sub _getMacAddress {
     my ($snmp, $model) = @_;
 
-    my $macAddress;
+    my $mac_oid =
+        $model->{MAC} ||
+        ".1.3.6.1.2.1.17.1.1.0"; # SNMPv2-SMI::mib-2.17.1.1.0
+    my $dynmac_oid =
+        $model->{DYNMAC} ||
+        ".1.3.6.1.2.1.2.2.1.6";  # IF-MIB::ifPhysAddress
 
-    if ($model) {
-        # use model-specific oids
+    # SNMPv2-SMI::mib-2.17.1.1.0
+    my $address = $snmp->getMacAddress($mac_oid);
 
-        if ($model->{MAC}) {
-            $macAddress = $snmp->getMacAddress($model->{MAC});
-        }
-
-        if (!$macAddress || $macAddress !~ /^$mac_address_pattern$/) {
-            my $macs = $snmp->walkMacAddresses($model->{MACDYN});
-            foreach my $value (values %{$macs}) {
-                next if !$value;
-                next if $value eq '0:0:0:0:0:0';
-                next if $value eq '00:00:00:00:00:00';
-                $macAddress = $value;
-            }
-        }
-    } else {
-        # use default oids
-
-        # SNMPv2-SMI::mib-2.17.1.1.0
-        $macAddress = $snmp->getMacAddress(".1.3.6.1.2.1.17.1.1.0");
-
-        if (!$macAddress || $macAddress !~ /^$mac_address_pattern$/) {
-            # IF-MIB::ifPhysAddress
-            my $macs = $snmp->walkMacAddresses(".1.3.6.1.2.1.2.2.1.6");
-            foreach my $value (values %{$macs}) {
-                next if !$value;
-                next if $value eq '0:0:0:0:0:0';
-                next if $value eq '00:00:00:00:00:00';
-                $macAddress = $value;
-            }
+    if (!$address || $address !~ /^$mac_address_pattern$/) {
+        my $macs = $snmp->walkMacAddresses($dynmac_oid);
+        foreach my $value (values %{$macs}) {
+            next if !$value;
+            next if $value eq '0:0:0:0:0:0';
+            next if $value eq '00:00:00:00:00:00';
+            $address = $value;
         }
     }
 
-    return $macAddress;
+    return $address;
 }
 
 sub getDeviceInfo {
@@ -320,15 +303,14 @@ sub getDeviceInfo {
                                   undef
             if $model->{TYPE};
 
+        $device{MAC}          = _getMacAddress($snmp, $model);
         $device{SERIAL}       = _getSerial($snmp, $model);
-        $device{MAC}          = _getMacAddress($snmp, $model) ||
-                                _getMacAddress($snmp);
         $device{MODELSNMP}    = $model->{MODELSNMP};
         $device{FIRMWARE}     = $model->{FIRMWARE};
         $device{MODEL}        = $model->{MODEL};
     } else {
-        # otherwise, we complet the device with default information
-        $device{MAC}          = _getMacAddress($snmp);
+        # otherwise, we complete the device with default information
+        $device{MAC} = _getMacAddress($snmp);
     }
 
     return %device;
