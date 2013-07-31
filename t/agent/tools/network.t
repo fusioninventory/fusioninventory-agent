@@ -75,7 +75,7 @@ foreach my $test (@mask_tests) {
 }
 
 SKIP: {
-skip 'Author test', 2 unless $ENV{AUTHOR_TEST};
+skip 'Author test', 2 unless $ENV{TEST_AUTHOR};
 
 ok(
     resolv("localhost"),
