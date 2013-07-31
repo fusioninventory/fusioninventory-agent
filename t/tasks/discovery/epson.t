@@ -20,10 +20,14 @@ my %tests = (
         },
         {
             MANUFACTURER => 'Epson',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-C4200',
             SNMPHOSTNAME => 'AL-C4200-0ED50E',
-            MAC          => undef
+            MAC          => undef,
+            MODELSNMP    => 'Printer0125',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'GMYZ106952'
         },
     ],
     'epson/AL-C4200.2.walk' => [
@@ -36,10 +40,14 @@ my %tests = (
         },
         {
             MANUFACTURER => 'Epson',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-C4200',
             SNMPHOSTNAME => 'AL-C4200-D14BC7',
             MAC          => undef,
+            MODELSNMP    => 'Printer0125',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'GMYZ106565'
         },
     ],
     'epson/AL-C4200.3.walk' => [
@@ -52,10 +60,14 @@ my %tests = (
         },
         {
             MANUFACTURER => 'Epson',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-C4200',
             SNMPHOSTNAME => 'AL-C4200-D1C30E',
             MAC          => undef,
+            MODELSNMP    => 'Printer0125',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'GMYZ106833'
         },
     ],
     'epson/AL-C4200.4.walk' => [
@@ -68,10 +80,14 @@ my %tests = (
         },
         {
             MANUFACTURER => 'Epson',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-C4200',
             SNMPHOSTNAME => 'AL-C4200-D362D2',
             MAC          => undef,
+            MODELSNMP    => 'Printer0125',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'GMYZ108184'
         },
     ],
     'epson/AL-C3900.walk' => [

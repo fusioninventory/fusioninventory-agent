@@ -489,19 +489,25 @@ sub _scanAddressBySNMP {
 }
 
 sub _getDeviceBySNMP {
-    my ($sysdescr, $snmp, $dictionary) = @_;
+    my ($identifier, $snmp, $dictionary) = @_;
 
     # the device is initialized with basic informations
-    # deduced from its sysdescr
-    my %device = getBasicInfoFromSysdescr($sysdescr, $snmp);
+    # deduced from its sysdescr value
+    my %device = getBasicInfoFromSysdescr($identifier, $snmp);
 
-    # then we complete the device with constant information
+    # if the device description has been set, update identifier,
+    # otherwise set the description
+    if ($device{DESCRIPTION}) {
+        $identifier = $device{DESCRIPTION};
+    } else {
+        $device{DESCRIPTION} = $identifier;
+    }
+
     # SNMPv2-MIB::sysName.0
     $device{SNMPHOSTNAME} = $snmp->get('.1.3.6.1.2.1.1.5.0');
-    $device{DESCRIPTION}  = $sysdescr if !$device{DESCRIPTION};
 
     # then, we try to get a matching model from the dictionary
-    my $model = $dictionary ? $dictionary->getModel($sysdescr) : undef;
+    my $model = $dictionary ? $dictionary->getModel($identifier) : undef;
 
     if ($model) {
         # if found, we complete the device with model information
