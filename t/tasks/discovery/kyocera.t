@@ -24,10 +24,6 @@ my %tests = (
             DESCRIPTION  => 'TASKalfa 820',
             SNMPHOSTNAME => '',
             MAC          => undef,
-            MODELSNMP    => 'Printer0669',
-            MODEL        => undef,
-            FIRMWARE     => undef,
-            SERIAL       => 'QJX9400014',
         },
     ],
     'kyocera/TASKalfa-181.walk' => [
@@ -44,10 +40,6 @@ my %tests = (
             DESCRIPTION  => 'TASKalfa 181',
             SNMPHOSTNAME => '',
             MAC          => undef,
-            MODELSNMP    => 'Printer0669',
-            MODEL        => undef,
-            FIRMWARE     => undef,
-            SERIAL       => 'QQM0701192',
         },
     ],
     'kyocera/FS-2000D.1.walk' => [
