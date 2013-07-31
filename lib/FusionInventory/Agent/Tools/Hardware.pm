@@ -237,7 +237,7 @@ sub getDeviceBaseInfo {
     }
 
     # second heuristic:
-    # try to deduce manufacturer, type and a better identification key from a 
+    # try to deduce manufacturer, type and a better identification key from a
     # set of custom rules matched against full sysdescr value
     # the first matching rule wins
     if ($snmp) {
