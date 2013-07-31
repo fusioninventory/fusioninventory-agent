@@ -380,15 +380,15 @@ information in an HASH reference.
 
 =head2 getHardwareInfo( $self )
 
-Returns hardware informations in a hash reference.
+Returns hardware information in a hash reference.
 
 =head2 getCPUs( $self )
 
-Returns CPU informations (hash ref) in an array.
+Returns CPU information (hash ref) in an array.
 
 =head2 getControllers( $self )
 
-Returns PCI controller informations (hash ref) in an
+Returns PCI controller information (hash ref) in an
 array.
 
 =head2 getNetworks( $self )

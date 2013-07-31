@@ -220,7 +220,7 @@ sub getDeviceBaseInfo {
     # failure eithers means a network or a credential issue
     return unless $sysdescr;
 
-    # initialize device with constant informations
+    # initialize device with constant information
     my %device = (
         DESCRIPTION  => $sysdescr,
         SNMPHOSTNAME => $snmp->get('.1.3.6.1.2.1.1.5.0') # SNMPv2-MIB::sysName.0
@@ -288,7 +288,7 @@ sub _getMacAddress {
 sub getDeviceInfo {
      my ($snmp, $dictionary) = @_;
 
-    # the device is initialized with basic informations
+    # the device is initialized with basic information
     # deduced from its sysdescr
     my %device = getDeviceBaseInfo($snmp);
 
@@ -438,12 +438,12 @@ This module provides some hardware-related functions.
 
 =head2 getDeviceBaseInfo($snmp)
 
-return a minimal set of informations for a device through SNMP, according to a
+return a minimal set of information for a device through SNMP, according to a
 set of rules hardcoded in the agent.
 
 =head2 getDeviceInfo($snmp, $dictionnary)
 
-return a minimal set of informations for a device through SNMP, according to a
+return a minimal set of information for a device through SNMP, according to a
 set of rules hardcoded in the agent and the usage of an additional knowledge
 base, the dictionary.
 
