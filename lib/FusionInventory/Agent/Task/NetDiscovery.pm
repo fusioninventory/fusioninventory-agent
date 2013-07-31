@@ -505,12 +505,18 @@ sub _getDeviceBySNMP {
 
     if ($model) {
         # if found, we complete the device with model information
+        $device{MANUFACTURER} = $model->{MANUFACTURER}
+            if $model->{MANUFACTURER};
+        $device{TYPE}         =
+            $model->{TYPE} == 1 ? 'COMPUTER'   :
+            $model->{TYPE} == 2 ? 'NETWORKING' :
+            $model->{TYPE} == 3 ? 'PRINTER'    :
+                                  undef
+            if $model->{TYPE};
         $device{SERIAL}       = _getSerial($snmp, $model);
         $device{MAC}          = _getMacAddress($snmp, $model) ||
                                 _getMacAddress($snmp);
         $device{MODELSNMP}    = $model->{MODELSNMP};
-        $device{TYPE}         = $model->{TYPE} if $model->{TYPE};
-        $device{MANUFACTURER} = $model->{MANUFACTURER} if $model->{MANUFACTURER};
         $device{FIRMWARE}     = $model->{FIRMWARE};
         $device{MODEL}        = $model->{MODEL};
     } else {

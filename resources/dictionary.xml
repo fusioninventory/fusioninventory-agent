@@ -10109,25 +10109,25 @@
   <DEVICE>
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2070</MODELSNMP>
-    <SYSDESCR>Summit48si - Version 7.8.2 (Build 1) by Release_Master 03/11/09 06:48:45\\</SYSDESCR>
+    <SYSDESCR>Summit48si - Version 7.8.2 (Build 1) by Release_Master 03/11/09 06:48:45</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2071</MODELSNMP>
-    <SYSDESCR>HP Comware Platform Software, Software Version 5.20 Release 2208\\HP A5500-48G EI Switch with 2 Interface Slots\\Copyright (c) 2010-2011 Hewlett-Packard Development Company, L.P.\\</SYSDESCR>
+    <SYSDESCR>HP Comware Platform Software, Software Version 5.20 Release 2208HP A5500-48G EI Switch with 2 Interface SlotsCopyright (c) 2010-2011 Hewlett-Packard Development Company, L.P.</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2071</MODELSNMP>
-    <SYSDESCR>H3C Comware Platform Software, Software Version 5.20 Release 2208\\H3C S5500-52C-EI\\Copyright (c) 2004-2010 Hangzhou H3C Tech. Co., Ltd. All rights reserved.\\</SYSDESCR>
+    <SYSDESCR>H3C Comware Platform Software, Software Version 5.20 Release 2208H3C S5500-52C-EICopyright (c) 2004-2010 Hangzhou H3C Tech. Co., Ltd. All rights reserved.</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2072</MODELSNMP>
-    <SYSDESCR>Summit48si - Version 7.2.0 (Build 25) by Release_Master 03/23/04 15:55:45\\\\</SYSDESCR>
+    <SYSDESCR>Summit48si - Version 7.2.0 (Build 25) by Release_Master 03/23/04 15:55:45</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -10146,7 +10146,7 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2074</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1</SERIAL>
-    <SYSDESCR>HP V1910-16G Switch Software Version 5.20 Release 1108P01 \\Copyright (c) 2004-2011 Hewlett-Packard Development Company, L.P.</SYSDESCR>
+    <SYSDESCR>HP V1910-16G Switch Software Version 5.20 Release 1108P01 Copyright (c) 2004-2011 Hewlett-Packard Development Company, L.P.</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -10306,7 +10306,7 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2079</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1</SERIAL>
-    <SYSDESCR>\\\&quot;ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+    <SYSDESCR>\&quot;ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -10341,14 +10341,14 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2082</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1</SERIAL>
-    <SYSDESCR>Cisco Internetwork Operating System Software \\IOS (tm) C3500XL Software (C3500XL-C3H2S-M), Version 12.0(5)WC17, RELEASE SOFTWARE (fc1)\\Copyright (c) 1986-2007 by cisco Systems, Inc.</SYSDESCR>
+    <SYSDESCR>Cisco Internetwork Operating System Software IOS (tm) C3500XL Software (C3500XL-C3H2S-M), Version 12.0(5)WC17, RELEASE SOFTWARE (fc1)Copyright (c) 1986-2007 by cisco Systems, Inc.</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2083</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1</SERIAL>
-    <SYSDESCR>Cisco Internetwork Operating System Software \\IOS (tm) C2900XL Software (C2900XL-C3H2S-M), Version 12.0(5)WC10, RELEASE SOFTWARE (fc1)\\Copyright (c) 1986-2004 by cisco Systems, Inc.\\Compiled Fri 28-May-04 09:52 by antonino</SYSDESCR>
+    <SYSDESCR>Cisco Internetwork Operating System Software IOS (tm) C2900XL Software (C2900XL-C3H2S-M), Version 12.0(5)WC10, RELEASE SOFTWARE (fc1)Copyright (c) 1986-2004 by cisco Systems, Inc.Compiled Fri 28-May-04 09:52 by antonino</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -10537,7 +10537,7 @@
   <DEVICE>
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2091</MODELSNMP>
-    <SYSDESCR>Cisco IOS Software, C3750 Software (C3750-IPBASEK9-M), Version 12.2(53)SE1, RELEASE SOFTWARE (fc2)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2010 by Cisco Systems, Inc.\\Compiled Fri 12-Mar-10 15:50 by prod_rel_team\\</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C3750 Software (C3750-IPBASEK9-M), Version 12.2(53)SE1, RELEASE SOFTWARE (fc2)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2010 by Cisco Systems, Inc.Compiled Fri 12-Mar-10 15:50 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -10556,7 +10556,7 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2093</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1001</SERIAL>
-    <SYSDESCR>Cisco IOS Software, C3750 Software (C3750-IPBASEK9-M), Version 12.2(53)SE1, RELEASE SOFTWARE (fc2)\\\Technical Support: http://www.cisco.com/techsupport\\\Copyright (c) 1986-2010 by Cisco Systems, Inc.\\\Compiled Fri 12-Mar-10 15:50 by prod_rel_team</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C3750 Software (C3750-IPBASEK9-M), Version 12.2(53)SE1, RELEASE SOFTWARE (fc2)\Technical Support: http://www.cisco.com/techsupport\Copyright (c) 1986-2010 by Cisco Systems, Inc.\Compiled Fri 12-Mar-10 15:50 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -10574,14 +10574,14 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2098</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1001</SERIAL>
-    <SYSDESCR>Cisco IOS Software, C3750 Software (C3750-IPSERVICESK9-M), Version 12.2(58)SE2, RELEASE SOFTWARE (fc1)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2011 by Cisco Systems, Inc.\\Compiled Thu 21-Jul-11 01:53 by prod_rel_team</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C3750 Software (C3750-IPSERVICESK9-M), Version 12.2(58)SE2, RELEASE SOFTWARE (fc1)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2011 by Cisco Systems, Inc.Compiled Thu 21-Jul-11 01:53 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2099</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1001</SERIAL>
-    <SYSDESCR>Cisco IOS Software, C3560 Software (C3560-IPSERVICESK9-M), Version 12.2(58)SE2, RELEASE SOFTWARE (fc1)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2011 by Cisco Systems, Inc.\\Compiled Thu 21-Jul-11 01:44 by prod_rel_team</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C3560 Software (C3560-IPSERVICESK9-M), Version 12.2(58)SE2, RELEASE SOFTWARE (fc1)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2011 by Cisco Systems, Inc.Compiled Thu 21-Jul-11 01:44 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -10598,24 +10598,24 @@
   </DEVICE>
   <DEVICE>
     <MODELSNMP>Networking2104</MODELSNMP>
-    <SYSDESCR>Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(44)SE6, RELEASE SOFTWARE (fc1)\\Copyright (c) 1986-2009 by Cisco Systems, Inc.\\Compiled Mon 09-Mar-09 18:10 by gereddy</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(44)SE6, RELEASE SOFTWARE (fc1)Copyright (c) 1986-2009 by Cisco Systems, Inc.Compiled Mon 09-Mar-09 18:10 by gereddy</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
     <MODELSNMP>Networking2104</MODELSNMP>
-    <SYSDESCR>	Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(35)SE, RELEASE SOFTWARE (fc2)\\Copyright (c) 1986-2006 by Cisco Systems, Inc.\\Compiled Sun 03-Dec-06 14:28 by yenanh</SYSDESCR>
+    <SYSDESCR>	Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(35)SE, RELEASE SOFTWARE (fc2)Copyright (c) 1986-2006 by Cisco Systems, Inc.Compiled Sun 03-Dec-06 14:28 by yenanh</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
     <MODELSNMP>Networking2104</MODELSNMP>
-    <SYSDESCR>Cisco IOS Software, C3560 Software (C3560-IPBASEK9-M), Version 12.2(37)SE1, RELEASE SOFTWARE (fc1)\\Copyright (c) 1986-2007 by Cisco Systems, Inc.\\Compiled Thu 05-Jul-07 22:22 by antonino</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C3560 Software (C3560-IPBASEK9-M), Version 12.2(37)SE1, RELEASE SOFTWARE (fc1)Copyright (c) 1986-2007 by Cisco Systems, Inc.Compiled Thu 05-Jul-07 22:22 by antonino</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2105</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1001</SERIAL>
-    <SYSDESCR>Cisco Internetwork Operating System Software\\IOS (tm) C3750 Software (C3750-I9-M), Version 12.2(20)SE4, RELEASE SOFTWARE (fc1)\\Copyright (c) 1986-2005 by cisco Systems, Inc.\\Compiled Sun 09-Jan-05 00:09 by antonino</SYSDESCR>
+    <SYSDESCR>Cisco Internetwork Operating System SoftwareIOS (tm) C3750 Software (C3750-I9-M), Version 12.2(20)SE4, RELEASE SOFTWARE (fc1)Copyright (c) 1986-2005 by cisco Systems, Inc.Compiled Sun 09-Jan-05 00:09 by antonino</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -10627,7 +10627,7 @@
   </DEVICE>
   <DEVICE>
     <MODELSNMP>Networking2126</MODELSNMP>
-    <SYSDESCR>Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(44)SE3, RELEASE SOFTWARE (fc2)\\Copyright (c) 1986-2008 by Cisco Systems, Inc.\\Compiled Sun 28-Sep-08 21:15 by nachen</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(44)SE3, RELEASE SOFTWARE (fc2)Copyright (c) 1986-2008 by Cisco Systems, Inc.Compiled Sun 28-Sep-08 21:15 by nachen</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -10641,7 +10641,7 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2127</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1</SERIAL>
-    <SYSDESCR>Cisco Internetwork Operating System Software \\IOS (tm) C2900XL Software (C2900XL-C3H2S-M), Version 12.0(5)WC14, RELEASE SOFTWARE (fc1)\\Copyright (c) 1986-2006 by cisco Systems, Inc.\\Compiled Thu 16-Feb-06 14:39 by antonino</SYSDESCR>
+    <SYSDESCR>Cisco Internetwork Operating System Software IOS (tm) C2900XL Software (C2900XL-C3H2S-M), Version 12.0(5)WC14, RELEASE SOFTWARE (fc1)Copyright (c) 1986-2006 by cisco Systems, Inc.Compiled Thu 16-Feb-06 14:39 by antonino</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -10667,7 +10667,7 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2133</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1</SERIAL>
-    <SYSDESCR>Cisco Internetwork Operating System Software\\IOS (tm) C2950 Software (C2950-I6Q4L2-M), Version 12.1(22)EA2, RELEASE SOFTWARE (fc1)\\Copyright (c) 1986-2004 by cisco Systems, Inc.\\Compiled Sun 07-Nov-04 23:14 by antonino</SYSDESCR>
+    <SYSDESCR>Cisco Internetwork Operating System SoftwareIOS (tm) C2950 Software (C2950-I6Q4L2-M), Version 12.1(22)EA2, RELEASE SOFTWARE (fc1)Copyright (c) 1986-2004 by cisco Systems, Inc.Compiled Sun 07-Nov-04 23:14 by antonino</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -10695,7 +10695,7 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2138</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1001</SERIAL>
-    <SYSDESCR>Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(44)SE6, RELEASE SOFTWARE (fc1)\\\Copyright (c) 1986-2009 by Cisco Systems, Inc.\\\Compiled Mon 09-Mar-09 18:10 by gereddy</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(44)SE6, RELEASE SOFTWARE (fc1)\Copyright (c) 1986-2009 by Cisco Systems, Inc.\Compiled Mon 09-Mar-09 18:10 by gereddy</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -10725,7 +10725,7 @@
   </DEVICE>
   <DEVICE>
     <MODELSNMP>Networking2143</MODELSNMP>
-    <SYSDESCR>Cisco Internetwork Operating System Software \\IOS (tm) C2900XL Software (C2900XL-H2S-M), Version 12.0(5.1)XP, MAINTENANCE INTERIM SOFTWARE\\Copyright (c) 1986-1999 by cisco Systems, Inc.\\Compiled Fri 10-Dec-99 10:57 by cchang</SYSDESCR>
+    <SYSDESCR>Cisco Internetwork Operating System Software IOS (tm) C2900XL Software (C2900XL-H2S-M), Version 12.0(5.1)XP, MAINTENANCE INTERIM SOFTWARECopyright (c) 1986-1999 by cisco Systems, Inc.Compiled Fri 10-Dec-99 10:57 by cchang</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -10768,7 +10768,7 @@
   </DEVICE>
   <DEVICE>
     <MODELSNMP>Networking2152</MODELSNMP>
-    <SYSDESCR>Apple AirPort - Apple Inc., 2006-2010.  All rights Reserved.\\</SYSDESCR>
+    <SYSDESCR>Apple AirPort - Apple Inc., 2006-2010.  All rights Reserved.</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -10788,7 +10788,7 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2155</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1001</SERIAL>
-    <SYSDESCR> Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(44)SE2, RELEASE SOFTWARE (fc2)\\Copyright (c) 1986-2008 by Cisco Systems, Inc.\\Compiled Thu 01-May-08 12:45 by antonino</SYSDESCR>
+    <SYSDESCR> Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(44)SE2, RELEASE SOFTWARE (fc2)Copyright (c) 1986-2008 by Cisco Systems, Inc.Compiled Thu 01-May-08 12:45 by antonino</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -10892,35 +10892,35 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2175</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1</SERIAL>
-    <SYSDESCR>Cisco IOS Software, Catalyst 4500 L3 Switch Software (cat4500-IPBASEK9-M), Version 12.2(53)SG1, RELEASE SOFTWARE (fc1)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2009 by Cisco Systems, Inc.\\Compiled Fri 30-Oct-09 14:39 by pr</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, Catalyst 4500 L3 Switch Software (cat4500-IPBASEK9-M), Version 12.2(53)SG1, RELEASE SOFTWARE (fc1)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2009 by Cisco Systems, Inc.Compiled Fri 30-Oct-09 14:39 by pr</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
     <MAC>.1.3.6.1.4.1.9.9.269.1.1.1.1.1.1</MAC>
     <MODELSNMP>Networking2176</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1</SERIAL>
-    <SYSDESCR>Cisco IOS Software, C1130 Software (C1130-K9W7-M), Version 12.4(10b)JA3, RELEASE SOFTWARE (fc1)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2008 by Cisco Systems, Inc.\\Compiled Wed 19-Mar-08 18:08 by prod_rel_team</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C1130 Software (C1130-K9W7-M), Version 12.4(10b)JA3, RELEASE SOFTWARE (fc1)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2008 by Cisco Systems, Inc.Compiled Wed 19-Mar-08 18:08 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2177</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1001</SERIAL>
-    <SYSDESCR>Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2011 by Cisco Systems, Inc.\\Compiled Thu 05-May-11 02:53 by prod_rel_team</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2011 by Cisco Systems, Inc.Compiled Thu 05-May-11 02:53 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
     <MAC>.1.3.6.1.4.1.9.9.269.1.1.1.1.1.1</MAC>
     <MODELSNMP>Networking2178</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1</SERIAL>
-    <SYSDESCR>Cisco IOS Software, C1040 Software (C1140-K9W7-M), Version 12.4(25d)JA1, RELEASE SOFTWARE (fc1)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2011 by Cisco Systems, Inc.\\Compiled Thu 11-Aug-11 02:58 by prod_rel_team</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C1040 Software (C1140-K9W7-M), Version 12.4(25d)JA1, RELEASE SOFTWARE (fc1)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2011 by Cisco Systems, Inc.Compiled Thu 11-Aug-11 02:58 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2179</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1001</SERIAL>
-    <SYSDESCR>Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2012 by Cisco Systems, Inc.\\Compiled Wed 30-May-12 14:26 by prod_rel_team</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2012 by Cisco Systems, Inc.Compiled Wed 30-May-12 14:26 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -10937,21 +10937,21 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2182</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1001</SERIAL>
-    <SYSDESCR>Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)\\\\\\\\Copyright (c) 1986-2009 by Cisco Systems, Inc.\\\\\\\\Compiled Fri 27-Feb-09 23:25 by weiliu</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)Copyright (c) 1986-2009 by Cisco Systems, Inc.Compiled Fri 27-Feb-09 23:25 by weiliu</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2183</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1001</SERIAL>
-    <SYSDESCR>Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(50)SE5, RELEASE SOFTWARE (fc1)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2010 by Cisco Systems, Inc.\\Compiled Tue 28-Sep-10 13:44 by prod_rel_team</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(50)SE5, RELEASE SOFTWARE (fc1)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2010 by Cisco Systems, Inc.Compiled Tue 28-Sep-10 13:44 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2184</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1001</SERIAL>
-    <SYSDESCR>Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(50)SE4, RELEASE SOFTWARE (fc1)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2010 by Cisco Systems, Inc.\\Compiled Fri 26-Mar-10 09:14 by prod_rel_team</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(50)SE4, RELEASE SOFTWARE (fc1)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2010 by Cisco Systems, Inc.Compiled Fri 26-Mar-10 09:14 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -10965,7 +10965,7 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2186</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1001</SERIAL>
-    <SYSDESCR>Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)\\Copyright (c) 1986-2009 by Cisco Systems, Inc.\\Compiled Fri 27-Feb-09 23:25 by weiliu</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)Copyright (c) 1986-2009 by Cisco Systems, Inc.Compiled Fri 27-Feb-09 23:25 by weiliu</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -10993,7 +10993,7 @@
     <MAC>.1.3.6.1.4.1.9.9.269.1.1.1.1.1.1</MAC>
     <MODELSNMP>Networking2191</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1</SERIAL>
-    <SYSDESCR>Cisco IOS Software, C1130 Software (C1130-K9W7-M), Version 12.4(21a)JA1, RELEASE SOFTWARE (fc1)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2009 by Cisco Systems, Inc.\\Compiled Wed 16-Sep-09 18:36 by prod_rel_team</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C1130 Software (C1130-K9W7-M), Version 12.4(21a)JA1, RELEASE SOFTWARE (fc1)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2009 by Cisco Systems, Inc.Compiled Wed 16-Sep-09 18:36 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -11027,14 +11027,14 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2195</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1</SERIAL>
-    <SYSDESCR>Cisco Internetwork Operating System Software \\IOS (tm) C3500XL Software (C3500XL-C3H2S-M), Version 12.0(5)WC17, RELEASE SOFTWARE (fc1)\\Copyright (c) 1986-2007 by cisco Systems, Inc.\\Compiled Tue 13-Feb-07 15:04 by antonino</SYSDESCR>
+    <SYSDESCR>Cisco Internetwork Operating System Software IOS (tm) C3500XL Software (C3500XL-C3H2S-M), Version 12.0(5)WC17, RELEASE SOFTWARE (fc1)Copyright (c) 1986-2007 by cisco Systems, Inc.Compiled Tue 13-Feb-07 15:04 by antonino</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
     <MAC>.1.3.6.1.2.1.2.2.1.6</MAC>
     <MODELSNMP>Networking2197</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1001</SERIAL>
-    <SYSDESCR>Cisco IOS Software, C2960S Software (C2960S-UNIVERSALK9-M), Version 12.2(55)SE5, RELEASE SOFTWARE (fc1)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2012 by Cisco Systems, Inc.\\Compiled Thu 09-Feb-12 19:22 by prod_rel_team</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C2960S Software (C2960S-UNIVERSALK9-M), Version 12.2(55)SE5, RELEASE SOFTWARE (fc1)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2012 by Cisco Systems, Inc.Compiled Thu 09-Feb-12 19:22 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -11053,12 +11053,12 @@
   </DEVICE>
   <DEVICE>
     <MODELSNMP>Networking2200</MODELSNMP>
-    <SYSDESCR>Cisco IOS Software, C1310 Software (C1310-K9W7-M), Version 12.4(10b)JA1, RELEASE SOFTWARE (fc2)\\\\</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C1310 Software (C1310-K9W7-M), Version 12.4(10b)JA1, RELEASE SOFTWARE (fc2)</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
     <MODELSNMP>Networking2201</MODELSNMP>
-    <SYSDESCR>robotdell\\</SYSDESCR>
+    <SYSDESCR>robotdell</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -11116,7 +11116,7 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2215</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1</SERIAL>
-    <SYSDESCR>Cisco IOS Software, 2800 Software (C2800NM-ADVENTERPRISEK9_IVS-M), Version 12.4(24)T1, RELEASE SOFTWARE (fc3)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2009 by Cisco Systems, Inc.\\Compiled Fri 19-Jun-09 15:12 by prod_rel_te</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, 2800 Software (C2800NM-ADVENTERPRISEK9_IVS-M), Version 12.4(24)T1, RELEASE SOFTWARE (fc3)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2009 by Cisco Systems, Inc.Compiled Fri 19-Jun-09 15:12 by prod_rel_te</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -11136,7 +11136,7 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2217</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1</SERIAL>
-    <SYSDESCR>Cisco Internetwork Operating System Software \\IOS (tm) C3500XL Software (C3500XL-C3H2S-M), Version 12.0(5)WC16, RELEASE SOFTWARE (fc1)\\Copyright (c) 1986-2006 by cisco Systems, Inc.\\Compiled Thu 21-Sep-06 12:51 by antonino</SYSDESCR>
+    <SYSDESCR>Cisco Internetwork Operating System Software IOS (tm) C3500XL Software (C3500XL-C3H2S-M), Version 12.0(5)WC16, RELEASE SOFTWARE (fc1)Copyright (c) 1986-2006 by cisco Systems, Inc.Compiled Thu 21-Sep-06 12:51 by antonino</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -11170,7 +11170,7 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2221</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1</SERIAL>
-    <SYSDESCR>Summit48si - Version 7.8.2 (Build 1) by Release_Master 03/11/09 05:31:09\\</SYSDESCR>
+    <SYSDESCR>Summit48si - Version 7.8.2 (Build 1) by Release_Master 03/11/09 05:31:09</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -11184,7 +11184,7 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2223</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1001</SERIAL>
-    <SYSDESCR>Cisco IOS Software, C3750 Software (C3750-IPBASEK9-M), Version 12.2(35)SE2, RELEASE SOFTWARE (fc1)\\Copyright (c) 1986-2007 by Cisco Systems, Inc.\\Compiled Tue 06-Feb-07 05:07 by antonino</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C3750 Software (C3750-IPBASEK9-M), Version 12.2(35)SE2, RELEASE SOFTWARE (fc1)Copyright (c) 1986-2007 by Cisco Systems, Inc.Compiled Tue 06-Feb-07 05:07 by antonino</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -11219,7 +11219,7 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2229</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1</SERIAL>
-    <SYSDESCR>HP Comware Platform Software, Software Version 5.20 Release 2208\\HP A5500-48G EI Switch with 2 Interface Slots\\Copyright (c) 2010-2011 Hewlett-Packard Development Company, L.P.</SYSDESCR>
+    <SYSDESCR>HP Comware Platform Software, Software Version 5.20 Release 2208HP A5500-48G EI Switch with 2 Interface SlotsCopyright (c) 2010-2011 Hewlett-Packard Development Company, L.P.</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -11268,7 +11268,7 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2237</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1001</SERIAL>
-    <SYSDESCR>Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(53)SE1, RELEASE SOFTWARE (fc2)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2010 by Cisco Systems, Inc.\\Compiled Fri 12-Mar-10 17:38 by prod_rel_team\\</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(53)SE1, RELEASE SOFTWARE (fc2)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2010 by Cisco Systems, Inc.Compiled Fri 12-Mar-10 17:38 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -11382,14 +11382,14 @@
     <MAC>.1.3.6.1.2.1.2.2.1.6</MAC>
     <MODELSNMP>Networking2259</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.2.2.1.6.1</SERIAL>
-    <SYSDESCR>Cisco IOS Software, C3750 Software (C3750-IPBASEK9-M), Version 12.2(53)SE, RELEASE SOFTWARE (fc2)\\</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C3750 Software (C3750-IPBASEK9-M), Version 12.2(53)SE, RELEASE SOFTWARE (fc2)</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2260</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1</SERIAL>
-    <SYSDESCR>HP V1910-24G Switch Software Version 5.20 Release 1111 \\Copyright (c) 2004-2012 Hewlett-Packard Development Company, L.P.</SYSDESCR>
+    <SYSDESCR>HP V1910-24G Switch Software Version 5.20 Release 1111 Copyright (c) 2004-2012 Hewlett-Packard Development Company, L.P.</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -11427,14 +11427,14 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2267</MODELSNMP>
     <SERIAL>.1.3.6.1.4.1.9.3.6.3.0</SERIAL>
-    <SYSDESCR>Cisco Internetwork Operating System Software \\IOS (tm) C3500XL Software (C3500XL-C3H2S-M), Version 12.0(5.3)WC(1), MAINTENANCE INTERIM SOFTWARE\\Copyright (c) 1986-2001 by cisco Systems, Inc.\\Compiled Mon 30-Apr-01 07:51 by devgoyal</SYSDESCR>
+    <SYSDESCR>Cisco Internetwork Operating System Software IOS (tm) C3500XL Software (C3500XL-C3H2S-M), Version 12.0(5.3)WC(1), MAINTENANCE INTERIM SOFTWARECopyright (c) 1986-2001 by cisco Systems, Inc.Compiled Mon 30-Apr-01 07:51 by devgoyal</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
     <MAC>.1.3.6.1.4.1.9.9.269.1.1.1.1.1.1</MAC>
     <MODELSNMP>Networking2268</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1</SERIAL>
-    <SYSDESCR>Cisco IOS Software, C1240 Software (C1240-K9W7-M), Version 12.4(21a)JA1, RELEASE SOFTWARE (fc1)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2009 by Cisco Systems, Inc.\\Compiled Wed 16-Sep-09 19:06 by prod_rel_team</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C1240 Software (C1240-K9W7-M), Version 12.4(21a)JA1, RELEASE SOFTWARE (fc1)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2009 by Cisco Systems, Inc.Compiled Wed 16-Sep-09 19:06 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -11478,7 +11478,7 @@
   </DEVICE>
   <DEVICE>
     <MODELSNMP>Networking2280</MODELSNMP>
-    <SYSDESCR>\\\&quot;HP Onboard Administrator\\\&quot;</SYSDESCR>
+    <SYSDESCR>\&quot;HP Onboard Administrator\&quot;</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -11493,7 +11493,7 @@
   </DEVICE>
   <DEVICE>
     <MODELSNMP>Networking2280</MODELSNMP>
-    <SYSDESCR>DXi6500\\\\</SYSDESCR>
+    <SYSDESCR>DXi6500</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -11545,7 +11545,7 @@
   <DEVICE>
     <MAC>.1.3.6.1.2.1.2.2.1.6</MAC>
     <MODELSNMP>Networking2285</MODELSNMP>
-    <SYSDESCR>DXi4500\\</SYSDESCR>
+    <SYSDESCR>DXi4500</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -11659,7 +11659,7 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2308</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1001</SERIAL>
-    <SYSDESCR>HP J9576A 3800-48G-4SFP\\\\  Switch, revision KA.15.09.0009, ROM KA.15.06 (/ws/swbuildm/KA_rel_hartford_qaoff/code/build/tam(KA_rel_hartford_qaoff)) (Formerly ProCurve)</SYSDESCR>
+    <SYSDESCR>HP J9576A 3800-48G-4SFP  Switch, revision KA.15.09.0009, ROM KA.15.06 (/ws/swbuildm/KA_rel_hartford_qaoff/code/build/tam(KA_rel_hartford_qaoff)) (Formerly ProCurve)</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -11688,7 +11688,7 @@
   </DEVICE>
   <DEVICE>
     <MODELSNMP>Networking2313</MODELSNMP>
-    <SYSDESCR>HP Comware Platform Software, Software Version 5.20.99, Release 2101P01\\HP A3600-24 v2 SI Switch\\Copyright (c) 2010-2011 Hewlett-Packard Development Company, L.P.</SYSDESCR>
+    <SYSDESCR>HP Comware Platform Software, Software Version 5.20.99, Release 2101P01HP A3600-24 v2 SI SwitchCopyright (c) 2010-2011 Hewlett-Packard Development Company, L.P.</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -11700,21 +11700,21 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2314</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.2</SERIAL>
-    <SYSDESCR>HP Comware Platform Software, Software Version 5.20 Release 2208\\HP A5500-28C-EI\\Copyright (c) 2010 Hewlett-Packard Development Company, L.P.</SYSDESCR>
+    <SYSDESCR>HP Comware Platform Software, Software Version 5.20 Release 2208HP A5500-28C-EICopyright (c) 2010 Hewlett-Packard Development Company, L.P.</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2315</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.2</SERIAL>
-    <SYSDESCR>HP Comware Platform Software, Software Version 5.20 Release 2208\\HP A5500-52C-EI\\Copyright (c) 2010 Hewlett-Packard Development Company, L.P.</SYSDESCR>
+    <SYSDESCR>HP Comware Platform Software, Software Version 5.20 Release 2208HP A5500-52C-EICopyright (c) 2010 Hewlett-Packard Development Company, L.P.</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2316</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.2</SERIAL>
-    <SYSDESCR>HP Comware Platform Software, Software Version 5.20.99, Release 2101P01\\HP A3600-48 v2 SI Switch\\Copyright (c) 2010-2011 Hewlett-Packard Development Company, L.P.</SYSDESCR>
+    <SYSDESCR>HP Comware Platform Software, Software Version 5.20.99, Release 2101P01HP A3600-48 v2 SI SwitchCopyright (c) 2010-2011 Hewlett-Packard Development Company, L.P.</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -11811,7 +11811,7 @@
   </DEVICE>
   <DEVICE>
     <MODELSNMP>Networking2337</MODELSNMP>
-    <SYSDESCR>Cisco IOS Software, C3750E Software (C3750E-UNIVERSALK9-M), Version 12.2(53)SE2, RELEASE SOFTWARE (fc3)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2010 by Cisco Systems, Inc.\\Compiled Wed 21-Apr-10 05:11 by prod_rel_team</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C3750E Software (C3750E-UNIVERSALK9-M), Version 12.2(53)SE2, RELEASE SOFTWARE (fc3)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2010 by Cisco Systems, Inc.Compiled Wed 21-Apr-10 05:11 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -11896,7 +11896,7 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2353</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.2</SERIAL>
-    <SYSDESCR>3Com Switch 4210 52-Port Software Version 3.10 Release 2212\\</SYSDESCR>
+    <SYSDESCR>3Com Switch 4210 52-Port Software Version 3.10 Release 2212</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -11965,7 +11965,7 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2365</MODELSNMP>
     <SERIAL>.1.3.6.1.4.1.9.3.6.3.0</SERIAL>
-    <SYSDESCR>Cisco IOS Software, C3750 Software (C3750-IPBASEK9-M), Version 12.2(25)SEE4, RELEASE SOFTWARE (fc1)\\Copyright (c) 1986-2007 by Cisco Systems, Inc.\\Compiled Mon 16-Jul-07 03:24 by myl</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C3750 Software (C3750-IPBASEK9-M), Version 12.2(25)SEE4, RELEASE SOFTWARE (fc1)Copyright (c) 1986-2007 by Cisco Systems, Inc.Compiled Mon 16-Jul-07 03:24 by myl</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -11995,7 +11995,7 @@
   </DEVICE>
   <DEVICE>
     <MODELSNMP>Networking2370</MODELSNMP>
-    <SYSDESCR>Cisco IOS Software, Catalyst 4500 L3 Switch Software (cat4500-ENTSERVICESK9-M), Version 12.2(31)SGA, RELEASE SOFTWARE (fc3)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2006 by Cisco Systems, Inc.\\Compiled Fri 08-Sep-06 10:13 </SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, Catalyst 4500 L3 Switch Software (cat4500-ENTSERVICESK9-M), Version 12.2(31)SGA, RELEASE SOFTWARE (fc3)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2006 by Cisco Systems, Inc.Compiled Fri 08-Sep-06 10:13 </SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -12034,7 +12034,7 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2377</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1</SERIAL>
-    <SYSDESCR>Cisco Internetwork Operating System Software \\IOS (tm) C3550 Software (C3550-I9Q3L2-M), Version 12.1(11)EA1, RELEASE SOFTWARE (fc1)\\Copyright (c) 1986-2002 by cisco Systems, Inc.\\Compiled Wed 28-Aug-02 09:33 by antonino</SYSDESCR>
+    <SYSDESCR>Cisco Internetwork Operating System Software IOS (tm) C3550 Software (C3550-I9Q3L2-M), Version 12.1(11)EA1, RELEASE SOFTWARE (fc1)Copyright (c) 1986-2002 by cisco Systems, Inc.Compiled Wed 28-Aug-02 09:33 by antonino</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -12048,14 +12048,14 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2379</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1</SERIAL>
-    <SYSDESCR>Cisco Internetwork Operating System Software \\IOS (tm) C2950 Software (C2950-I6Q4L2-M), Version 12.1(22)EA8a, RELEASE SOFTWARE (fc1)\\Copyright (c) 1986-2006 by cisco Systems, Inc.\\Compiled Fri 28-Jul-06 15:16 by weiliu</SYSDESCR>
+    <SYSDESCR>Cisco Internetwork Operating System Software IOS (tm) C2950 Software (C2950-I6Q4L2-M), Version 12.1(22)EA8a, RELEASE SOFTWARE (fc1)Copyright (c) 1986-2006 by cisco Systems, Inc.Compiled Fri 28-Jul-06 15:16 by weiliu</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2380</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1</SERIAL>
-    <SYSDESCR>Cisco IOS Software, Catalyst 4000 L3 Switch Software (cat4000-I5S-M), Version 12.2(25)EWA6, RELEASE SOFTWARE (fc1)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2006 by Cisco Systems, Inc.\\Compiled Fri 02-Jun-06 16:18 by ssearc</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, Catalyst 4000 L3 Switch Software (cat4000-I5S-M), Version 12.2(25)EWA6, RELEASE SOFTWARE (fc1)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2006 by Cisco Systems, Inc.Compiled Fri 02-Jun-06 16:18 by ssearc</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -12074,7 +12074,7 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2384</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1001</SERIAL>
-    <SYSDESCR>Cisco IOS Software, C3560 Software (C3560-IPBASEK9-M), Version 12.2(55)SE, RELEASE SOFTWARE (fc2)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2010 by Cisco Systems, Inc.\\Compiled Sat 07-Aug-10 22:26 by prod_rel_team</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C3560 Software (C3560-IPBASEK9-M), Version 12.2(55)SE, RELEASE SOFTWARE (fc2)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2010 by Cisco Systems, Inc.Compiled Sat 07-Aug-10 22:26 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -12108,7 +12108,7 @@
   </DEVICE>
   <DEVICE>
     <MODELSNMP>Networking2387</MODELSNMP>
-    <SYSDESCR>STRING: \\\&quot;Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(55)SE5, RELEASE SOFTWARE (fc1)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2012 by Cisco Systems, Inc.\\Compiled Thu 09-Feb-12 19:11 by prod_rel_team</SYSDESCR>
+    <SYSDESCR>STRING: \&quot;Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(55)SE5, RELEASE SOFTWARE (fc1)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2012 by Cisco Systems, Inc.Compiled Thu 09-Feb-12 19:11 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -12149,7 +12149,7 @@
     <MAC>.1.3.6.1.2.1.2.2.1.6</MAC>
     <MODELSNMP>Networking2395</MODELSNMP>
     <SERIAL>.1.3.6.1.4.1.9.3.6.3.0</SERIAL>
-    <SYSDESCR>Cisco IOS Software, C2900 Software (C2900-UNIVERSALK9-M), Version 15.1(4)M1, RELEASE SOFTWARE (fc1)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2011 by Cisco Systems, Inc.\\Compiled Tue 14-Jun-11 19:25 by prod_rel_team</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C2900 Software (C2900-UNIVERSALK9-M), Version 15.1(4)M1, RELEASE SOFTWARE (fc1)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2011 by Cisco Systems, Inc.Compiled Tue 14-Jun-11 19:25 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -12191,17 +12191,17 @@
   </DEVICE>
   <DEVICE>
     <MODELSNMP>Networking2402</MODELSNMP>
-    <SYSDESCR>Cisco IOS Software, C3560 Software (C3560-IPBASEK9-M), Version 15.0(2)SE, RELEASE SOFTWARE (fc1)\\\\\\Technical Support: http://www.cisco.com/techsupport\\\\\\Copyright (c) 1986-2012 by Cisco Systems, Inc.\\\\\\Compiled Sat 28-Jul-12 00:01 by prod_rel_team\\\\\\</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C3560 Software (C3560-IPBASEK9-M), Version 15.0(2)SE, RELEASE SOFTWARE (fc1)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2012 by Cisco Systems, Inc.Compiled Sat 28-Jul-12 00:01 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
     <MODELSNMP>Networking2402</MODELSNMP>
-    <SYSDESCR>Cisco IOS Software, C3560 Software (C3560-IPBASEK9-M), Version 15.0(2)SE, RELEASE SOFTWARE (fc1)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2012 by Cisco Systems, Inc.</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C3560 Software (C3560-IPBASEK9-M), Version 15.0(2)SE, RELEASE SOFTWARE (fc1)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2012 by Cisco Systems, Inc.</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
     <MODELSNMP>Networking2403</MODELSNMP>
-    <SYSDESCR>Cisco IOS Software, C3560 Software (C3560-IPBASEK9-M), Version 15.0(2)SE, RELEASE SOFTWARE (fc1)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2012 by Cisco Systems, Inc.\\Compiled Sat 28-Jul-12 00:01 by prod_rel_team\\</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C3560 Software (C3560-IPBASEK9-M), Version 15.0(2)SE, RELEASE SOFTWARE (fc1)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2012 by Cisco Systems, Inc.Compiled Sat 28-Jul-12 00:01 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -12244,7 +12244,7 @@
   </DEVICE>
   <DEVICE>
     <MODELSNMP>Networking2414</MODELSNMP>
-    <SYSDESCR>Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(55)SE5, RELEASE SOFTWARE (fc1)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2012 by Cisco Systems, Inc.\\Compiled Thu 09-Feb-12 19:11 by prod_rel_team</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(55)SE5, RELEASE SOFTWARE (fc1)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2012 by Cisco Systems, Inc.Compiled Thu 09-Feb-12 19:11 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -12261,7 +12261,7 @@
   </DEVICE>
   <DEVICE>
     <MODELSNMP>Networking2416</MODELSNMP>
-    <SYSDESCR>Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\Copyright (c) 1986-2009 by Cisco Systems, Inc.\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\Compiled Fri 27-Feb-09 23:25 by weiliu</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)Copyright (c) 1986-2009 by Cisco Systems, Inc.Compiled Fri 27-Feb-09 23:25 by weiliu</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -12281,7 +12281,7 @@
   </DEVICE>
   <DEVICE>
     <MODELSNMP>Networking2422</MODELSNMP>
-    <SYSDESCR>Cisco IOS Software, C2970 Software (C2970-LANBASEK9-M), Version 12.2(25)SEB2, RELEASE SOFTWARE (fc1)\\Copyright (c) 1986-2005 by Cisco Systems, Inc.\\Compiled Wed 08-Jun-05 03:13 by yenanh</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C2970 Software (C2970-LANBASEK9-M), Version 12.2(25)SEB2, RELEASE SOFTWARE (fc1)Copyright (c) 1986-2005 by Cisco Systems, Inc.Compiled Wed 08-Jun-05 03:13 by yenanh</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -12308,7 +12308,7 @@
     <MAC>.1.3.6.1.2.1.2.2.1.6</MAC>
     <MODELSNMP>Networking2426</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1001</SERIAL>
-    <SYSDESCR>Cisco IOS Software, C2960S Software (C2960S-UNIVERSALK9-M), Version 15.0(2)SE3, RELEASE SOFTWARE (fc1)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2013 by Cisco Systems, Inc.\\Compiled Fri 24-May-13 05:52 by prod_rel_team</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C2960S Software (C2960S-UNIVERSALK9-M), Version 15.0(2)SE3, RELEASE SOFTWARE (fc1)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2013 by Cisco Systems, Inc.Compiled Fri 24-May-13 05:52 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -12438,7 +12438,7 @@
     <MAC>.1.3.6.1.2.1.2.2.1.6</MAC>
     <MODELSNMP>Networking2445</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1</SERIAL>
-    <SYSDESCR>3Com Baseline Switch 2920-SFP Plus Software Version 5.20 Release 1101P07 \\Copyright (c) 2004-2009 3Com Corporation. All rights reserved.</SYSDESCR>
+    <SYSDESCR>3Com Baseline Switch 2920-SFP Plus Software Version 5.20 Release 1101P07 Copyright (c) 2004-2009 3Com Corporation. All rights reserved.</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -12591,7 +12591,7 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2472</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.2</SERIAL>
-    <SYSDESCR>HP Comware Platform Software, Software Version 5.20, Release 1211P01\\HP A5800-24G Switch\\Copyright (c) 2010-2011 Hewlett-Packard Development Company, L.P.</SYSDESCR>
+    <SYSDESCR>HP Comware Platform Software, Software Version 5.20, Release 1211P01HP A5800-24G SwitchCopyright (c) 2010-2011 Hewlett-Packard Development Company, L.P.</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -12623,7 +12623,7 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2477</MODELSNMP>
     <SERIAL>.1.3.6.1.4.1.9.3.6.3.0</SERIAL>
-    <SYSDESCR>Cisco IOS Software, C3750 Software (C3750-IPSERVICESK9-M), Version 12.2(55)SE7, RELEASE SOFTWARE (fc1)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2013 by Cisco Systems, Inc.\\Compiled Mon 28-Jan-13 10:16 by prod_rel_team</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C3750 Software (C3750-IPSERVICESK9-M), Version 12.2(55)SE7, RELEASE SOFTWARE (fc1)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2013 by Cisco Systems, Inc.Compiled Mon 28-Jan-13 10:16 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -12860,7 +12860,7 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2490</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1001</SERIAL>
-    <SYSDESCR>Cisco IOS Software, C3560 Software (C3560-IPSERVICESK9-M), Version 12.2(53)SE, RELEASE SOFTWARE (fc2)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2009 by Cisco Systems, Inc.\\Compiled Sun 13-Dec-09 15:45 by prod_rel_team</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C3560 Software (C3560-IPSERVICESK9-M), Version 12.2(53)SE, RELEASE SOFTWARE (fc2)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2009 by Cisco Systems, Inc.Compiled Sun 13-Dec-09 15:45 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -12880,14 +12880,14 @@
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2492</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.47.1.1.1.1.11.1</SERIAL>
-    <SYSDESCR>Cisco IOS Software, 2800 Software (C2800NM-IPVOICEK9-M), Version 12.4(25c), RELEASE SOFTWARE (fc2)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2010 by Cisco Systems, Inc.\\Compiled Thu 11-Feb-10 23:55 by prod_rel_team</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, 2800 Software (C2800NM-IPVOICEK9-M), Version 12.4(25c), RELEASE SOFTWARE (fc2)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2010 by Cisco Systems, Inc.Compiled Thu 11-Feb-10 23:55 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
     <MAC>.1.3.6.1.2.1.17.1.1.0</MAC>
     <MODELSNMP>Networking2493</MODELSNMP>
     <SERIAL>.1.3.6.1.4.1.9.3.6.3.0</SERIAL>
-    <SYSDESCR>Cisco IOS Software, C3750E Software (C3750E-UNIVERSALK9-M), Version 15.0(1)SE2, RELEASE SOFTWARE (fc3)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2011 by Cisco Systems, Inc.\\Compiled Thu 22-Dec-11 00:05 by prod_rel_team</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C3750E Software (C3750E-UNIVERSALK9-M), Version 15.0(1)SE2, RELEASE SOFTWARE (fc3)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2011 by Cisco Systems, Inc.Compiled Thu 22-Dec-11 00:05 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
@@ -12945,7 +12945,7 @@
   </DEVICE>
   <DEVICE>
     <MODELSNMP>Printer0640</MODELSNMP>
-    <SYSDESCR>KONICA MINOLTA bizhub C360\\</SYSDESCR>
+    <SYSDESCR>KONICA MINOLTA bizhub C360</SYSDESCR>
     <TYPE>3</TYPE>
   </DEVICE>
   <DEVICE>
@@ -13121,7 +13121,7 @@
   </DEVICE>
   <DEVICE>
     <MODELSNMP>Printer0667</MODELSNMP>
-    <SYSDESCR>HP Designjet T770 (44\\</SYSDESCR>
+    <SYSDESCR>HP Designjet T770 (44</SYSDESCR>
     <TYPE>3</TYPE>
   </DEVICE>
   <DEVICE>
@@ -13133,7 +13133,7 @@
   <DEVICE>
     <MODELSNMP>Printer0669</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.43.5.1.1.17.1</SERIAL>
-    <SYSDESCR>KYOCERA MITA Printing System\\</SYSDESCR>
+    <SYSDESCR>KYOCERA MITA Printing System</SYSDESCR>
     <TYPE>3</TYPE>
   </DEVICE>
   <DEVICE>
@@ -13198,7 +13198,7 @@
   <DEVICE>
     <MODELSNMP>Printer0680</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.43.15.1.1.4.1.1</SERIAL>
-    <SYSDESCR>NRG DSm415 0.29.04 / NRG Network Printer C model / NRG Network Scanner C model / NRG Network Facsimile C model\\</SYSDESCR>
+    <SYSDESCR>NRG DSm415 0.29.04 / NRG Network Printer C model / NRG Network Scanner C model / NRG Network Facsimile C model</SYSDESCR>
     <TYPE>3</TYPE>
   </DEVICE>
   <DEVICE>
@@ -13263,7 +13263,7 @@
   <DEVICE>
     <MODELSNMP>Printer0691</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.43.15.1.1.4.1.1</SERIAL>
-    <SYSDESCR>SHARP MX-M453N\\</SYSDESCR>
+    <SYSDESCR>SHARP MX-M453N</SYSDESCR>
     <TYPE>3</TYPE>
   </DEVICE>
   <DEVICE>
@@ -13274,7 +13274,7 @@
   <DEVICE>
     <MODELSNMP>Printer0693</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.43.15.1.1.4.1.1</SERIAL>
-    <SYSDESCR>KONICA MINOLTA bizhub C454\\</SYSDESCR>
+    <SYSDESCR>KONICA MINOLTA bizhub C454</SYSDESCR>
     <TYPE>3</TYPE>
   </DEVICE>
   <DEVICE>
@@ -13457,7 +13457,7 @@
   <DEVICE>
     <MODELSNMP>Printer0725</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.2.2.1.6.1</SERIAL>
-    <SYSDESCR>Samsung ML-451x 501x Series; V2.20.02.19 04-11-2012;Engine V1.01.01V4.01.09 04-16-2012;NIC V4.01.09 04-16-2012\\</SYSDESCR>
+    <SYSDESCR>Samsung ML-451x 501x Series; V2.20.02.19 04-11-2012;Engine V1.01.01V4.01.09 04-16-2012;NIC V4.01.09 04-16-2012</SYSDESCR>
     <TYPE>3</TYPE>
   </DEVICE>
   <DEVICE>
@@ -13516,7 +13516,7 @@
   <DEVICE>
     <MODELSNMP>Printer0735</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.2.2.1.6.1</SERIAL>
-    <SYSDESCR>KONICA MINOLTA 163\\</SYSDESCR>
+    <SYSDESCR>KONICA MINOLTA 163</SYSDESCR>
     <TYPE>3</TYPE>
   </DEVICE>
   <DEVICE>
@@ -13767,7 +13767,7 @@
   <DEVICE>
     <MODELSNMP>Printer0778</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.43.5.1.1.17.1</SERIAL>
-    <SYSDESCR>Brother NC-190h, Firmware Ver.0.09 ,MID 8CA-J36-001\\</SYSDESCR>
+    <SYSDESCR>Brother NC-190h, Firmware Ver.0.09 ,MID 8CA-J36-001</SYSDESCR>
     <TYPE>3</TYPE>
   </DEVICE>
   <DEVICE>
@@ -13791,7 +13791,7 @@
   <DEVICE>
     <MODELSNMP>Printer0782</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.43.5.1.1.17.1</SERIAL>
-    <SYSDESCR>Xerox WorkCentre 4260; System Software Version 30.103.33.000, Main Controller 2.50.03.33, Network Controller 4.01.67, Image Output Terminal 0.41.69, User Interface 0.040.15.176, DADF \\1.01</SYSDESCR>
+    <SYSDESCR>Xerox WorkCentre 4260; System Software Version 30.103.33.000, Main Controller 2.50.03.33, Network Controller 4.01.67, Image Output Terminal 0.41.69, User Interface 0.040.15.176, DADF 1.01</SYSDESCR>
     <TYPE>3</TYPE>
   </DEVICE>
   <DEVICE>
@@ -13969,7 +13969,7 @@
   <DEVICE>
     <MODELSNMP>Printer0809</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.43.5.1.1.17.1</SERIAL>
-    <SYSDESCR>RICOH Aficio MP C2800 2.00 / RICOH Network Printer C model / RICOH Network Scanner C model\\</SYSDESCR>
+    <SYSDESCR>RICOH Aficio MP C2800 2.00 / RICOH Network Printer C model / RICOH Network Scanner C model</SYSDESCR>
     <TYPE>3</TYPE>
   </DEVICE>
   <DEVICE>
@@ -14037,7 +14037,7 @@
   <DEVICE>
     <MODELSNMP>Printer0821</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.43.5.1.1.17.1</SERIAL>
-    <SYSDESCR>\\\&quot;ML-3470 Series\\\&quot;</SYSDESCR>
+    <SYSDESCR>\&quot;ML-3470 Series\&quot;</SYSDESCR>
     <TYPE>3</TYPE>
   </DEVICE>
   <DEVICE>
@@ -14049,7 +14049,7 @@
   <DEVICE>
     <MODELSNMP>Printer0823</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.1.5.0</SERIAL>
-    <SYSDESCR>ZTC HC100-300dpi ZPL\\\&quot;</SYSDESCR>
+    <SYSDESCR>ZTC HC100-300dpi ZPL\&quot;</SYSDESCR>
     <TYPE>3</TYPE>
   </DEVICE>
   <DEVICE>
@@ -14178,7 +14178,7 @@
     <MAC>.1.0.8802.1.1.2.1.3.2.0</MAC>
     <MODELSNMP>Networking2504</MODELSNMP>
     <SERIAL>.1.3.6.1.2.1.2.2.1.6.1</SERIAL>
-    <SYSDESCR>Cisco IOS Software, C2960S Software (C2960S-UNIVERSALK9-M), Version 15.0(2)SE, RELEASE SOFTWARE\\ (fc1)\\Technical Support: http://www.cisco.com/techsupport\\Copyright (c) 1986-2012 by Cisco Systems, Inc.\\Compiled Sat 28-Jul-12 00:42 by prod_rel_team</SYSDESCR>
+    <SYSDESCR>Cisco IOS Software, C2960S Software (C2960S-UNIVERSALK9-M), Version 15.0(2)SE, RELEASE SOFTWARE (fc1)Technical Support: http://www.cisco.com/techsupportCopyright (c) 1986-2012 by Cisco Systems, Inc.Compiled Sat 28-Jul-12 00:42 by prod_rel_team</SYSDESCR>
     <TYPE>2</TYPE>
   </DEVICE>
   <DEVICE>
