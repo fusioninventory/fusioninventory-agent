@@ -8,9 +8,6 @@ use File::Basename;
 use HTTP::Daemon;
 use IO::Handle;
 use Net::IP;
-use Socket qw( SOCK_STREAM );
-use Socket::GetAddrInfo qw( getaddrinfo getnameinfo );
-use IO::Socket;
 use Text::Template;
 use File::Glob;
 
@@ -53,27 +50,7 @@ sub _parseAddresses {
             next;
         }
 
-        # resolve host names
-        my ($error, @results) = getaddrinfo(
-            $string, "", { socktype => SOCK_RAW }
-        );
-        if ($error) {
-            $self->{logger}->error("unable to resolve $string: $error");
-            next;
-        }
-
-        # and push all of their addresses in the list
-        foreach my $result (@results) {
-            my ($error, $host) = getnameinfo(
-                $result->{addr},
-                Socket::GetAddrInfo::NI_NUMERICHOST,
-            );
-            if ($error) {
-                $self->{logger}->error("unable to get host address: $error");
-                next;
-            }
-            push @addresses, Net::IP->new($host);
-        }
+        push @addresses, resolv($string);
     }
 
     return \@addresses;

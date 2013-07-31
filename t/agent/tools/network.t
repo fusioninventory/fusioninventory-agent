@@ -72,3 +72,17 @@ foreach my $test (@mask_tests) {
         "$test->[0]/$test->[1] mask extraction"
     );
 }
+
+SKIP: {
+skip 'Auhor test', 2 unless $ENV{AUTHOR_TEST};
+
+ok(
+    resolv("localhost"),
+    "Can resolv localhost"
+);
+
+ok(
+    resolv("www.google.com") > 2,
+    "Can resolv www.google.com"
+);
+}
