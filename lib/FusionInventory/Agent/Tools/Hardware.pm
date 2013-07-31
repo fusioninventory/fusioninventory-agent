@@ -447,70 +447,64 @@ return a minimal set of informations for a device through SNMP, according to a
 set of rules hardcoded in the agent and the usage of an additional knowledge
 base, the dictionary.
 
-=head2 setConnectedDevicesMacAddresses(%params)
+=head2 setConnectedDevicesMacAddresses($description, $results, $ports, $walks, $vlan_id)
 
 set mac addresses of connected devices.
 
 =over
 
-=item results raw values collected through SNMP
+=item * description: device identification key
 
-=item ports device ports list
+=item * results: raw values collected through SNMP
 
-=item walks model walk branch
+=item * ports: device ports list
+
+=item * walks: model walk branch
+
+=item * vlan_id: VLAN identifier
 
 =back
 
-=head2 setConnectedDevices
+=head2 setConnectedDevices($description, $results, $ports, $walks)
 
 Set connected devices using CDP if available, LLDP otherwise.
 
 =over
 
-=item results raw values collected through SNMP
+=item * description: device identification key
 
-=item ports device ports list
+=item * results: raw values collected through SNMP
 
-=item walks model walk branch
+=item * ports: device ports list
 
-=back
-
-=head2 setConnectedDevicesUsingCDP
-
-Set connected devices using CDP
-
-=over
-
-=item results raw values collected through SNMP
-
-=item ports device ports list
-
-=item walks model walk branch
+=item * walks: model walk branch
 
 =back
 
-=head2 setConnectedDevicesUsingLLDP
-
-Set connected devices using LLDP
-
-=over
-
-=item results raw values collected through SNMP
-
-=item ports device ports list
-
-=item walks model walk branch
-
-=back
-
-=head2 setTrunkPorts
+=head2 setTrunkPorts($description, $results, $ports)
 
 Set trunk flag on ports needing it.
 
 =over
 
-=item results raw values collected through SNMP
+=item * description: device identification key
 
-=item ports device ports list
+=item * results: raw values collected through SNMP
+
+=item * ports: device ports list
+
+=back
+
+=head2 performSpecificCleanup($description, $results, $ports)
+
+Perform device-specific miscaelanous cleanups
+
+=over
+
+=item * description: device identification key
+
+=item * results: raw values collected through SNMP
+
+=item * ports: device ports list
 
 =back
