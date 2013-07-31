@@ -222,6 +222,110 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
         {
             MANUFACTURER => 'Cisco',
             TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2011 by Cisco Systems, Inc.
+Compiled Thu 05-May-11 02:53 by prod_rel_team',
+            SNMPHOSTNAME => 'AP-P101-59.mgmt.dauphine.fr',
+            MAC          => '00:24:13:CE:D7:00',
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2011 by Cisco Systems, Inc.
+Compiled Thu 05-May-11 02:53 by prod_rel_team',
+            SNMPHOSTNAME => 'AP-P101-59.mgmt.dauphine.fr',
+            MAC          => '00:24:13:CE:D7:00',
+            MODELSNMP    => 'Networking2177',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'FOC1247X5D4'
+        }
+    ],
+    'cisco/C2960.5.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2011 by Cisco Systems, Inc.
+Compiled Thu 05-May-11 02:53 by prod_rel_team',
+            SNMPHOSTNAME => 'AP-P101-59.mgmt.dauphine.fr',
+            MAC          => '00:24:13:CE:D7:00',
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2011 by Cisco Systems, Inc.
+Compiled Thu 05-May-11 02:53 by prod_rel_team',
+            SNMPHOSTNAME => 'AP-P101-59.mgmt.dauphine.fr',
+            MAC          => '00:24:13:CE:D7:00',
+            MODELSNMP    => 'Networking2177',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'FOC1247X5D4'
+        }
+    ],
+    'cisco/C2960.6.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2011 by Cisco Systems, Inc.
+Compiled Thu 05-May-11 02:53 by prod_rel_team',
+            SNMPHOSTNAME => 'CP-P101-37.mgmt.dauphine.fr',
+            MAC          => '00:1B:54:D6:39:00',
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2011 by Cisco Systems, Inc.
+Compiled Thu 05-May-11 02:53 by prod_rel_team',
+            SNMPHOSTNAME => 'CP-P101-37.mgmt.dauphine.fr',
+            MAC          => '00:1B:54:D6:39:00',
+            MODELSNMP    => 'Networking2177',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'FOC1113X1PE',
+        }
+    ],
+    'cisco/C2960.7.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2011 by Cisco Systems, Inc.
+Compiled Thu 05-May-11 02:53 by prod_rel_team',
+            SNMPHOSTNAME => 'CB-27.mgmt.dauphine.fr',
+            MAC          => '00:24:13:EA:A7:00',
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2011 by Cisco Systems, Inc.
+Compiled Thu 05-May-11 02:53 by prod_rel_team',
+            SNMPHOSTNAME => 'CB-27.mgmt.dauphine.fr',
+            MAC          => '00:24:13:EA:A7:00',
+            MODELSNMP    => 'Networking2177',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'FOC1247X5DX'
+        }
+    ],
+    'cisco/C2960.8.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2012 by Cisco Systems, Inc.
@@ -244,7 +348,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
             SERIAL       => 'FOC1511W1A2',
         }
     ],
-    'cisco/C2960.5.walk' => [
+    'cisco/C2960.9.walk' => [
         {
             MANUFACTURER => 'Cisco',
             TYPE         => 'NETWORKING',
@@ -270,7 +374,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
             SERIAL       => 'FOC1511W19F',
         }
     ],
-    'cisco/C2960.6.walk' => [
+    'cisco/C2960.10.walk' => [
         {
             MANUFACTURER => 'Cisco',
             TYPE         => 'NETWORKING',
@@ -296,7 +400,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
             SERIAL       => 'FCQ1605X4UZ',
         }
     ],
-    'cisco/C2960.7.walk' => [
+    'cisco/C2960.11.walk' => [
         {
             MANUFACTURER => 'Cisco',
             TYPE         => 'NETWORKING',
@@ -322,7 +426,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
             SERIAL       => 'FCQ1605X4VP',
         }
     ],
-    'cisco/C2960.8.walk' => [
+    'cisco/C2960.12.walk' => [
     {
             MANUFACTURER => 'Cisco',
             TYPE         => 'NETWORKING',
@@ -348,7 +452,189 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
             SERIAL       => 'FOC1511W1CB'
         }
     ],
-    'cisco/C2960.9.walk' => [
+    'cisco/C2960.13.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2012 by Cisco Systems, Inc.
+Compiled Wed 30-May-12 14:26 by prod_rel_team',
+            SNMPHOSTNAME => 'CB-C005-208.Dauphine',
+            MAC          => '64:D9:89:8D:B1:80',
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2012 by Cisco Systems, Inc.
+Compiled Wed 30-May-12 14:26 by prod_rel_team',
+            SNMPHOSTNAME => 'CB-C005-208.Dauphine',
+            MAC          => '64:D9:89:8D:B1:80',
+            MODELSNMP    => 'Networking2179',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'FOC1511W19F',
+        }
+    ],
+    'cisco/C2960.14.walk' => [
+    {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2012 by Cisco Systems, Inc.
+Compiled Wed 30-May-12 14:26 by prod_rel_team',
+            SNMPHOSTNAME => 'CB-C005-205.Dauphine',
+            MAC          => 'C4:0A:CB:22:E5:80',
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2012 by Cisco Systems, Inc.
+Compiled Wed 30-May-12 14:26 by prod_rel_team',
+            SNMPHOSTNAME => 'CB-C005-205.Dauphine',
+            MAC          => 'C4:0A:CB:22:E5:80',
+            MODELSNMP    => 'Networking2179',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'FOC1511W1CB'
+        }
+    ],
+    'cisco/C2960.15.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2012 by Cisco Systems, Inc.
+Compiled Wed 30-May-12 14:26 by prod_rel_team',
+            SNMPHOSTNAME => 'AP-74.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:CD:86:00',
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2012 by Cisco Systems, Inc.
+Compiled Wed 30-May-12 14:26 by prod_rel_team',
+            SNMPHOSTNAME => 'AP-74.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:CD:86:00',
+            MODELSNMP    => 'Networking2179',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'FOC1511W1A2'
+        }
+    ],
+    'cisco/C2960.16.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2012 by Cisco Systems, Inc.
+Compiled Wed 30-May-12 14:26 by prod_rel_team',
+            SNMPHOSTNAME => 'CB-C005-207.Dauphine',
+            MAC          => '2C:36:F8:7D:06:80',
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2012 by Cisco Systems, Inc.
+Compiled Wed 30-May-12 14:26 by prod_rel_team',
+            SNMPHOSTNAME => 'CB-C005-207.Dauphine',
+            MAC          => '2C:36:F8:7D:06:80',
+            MODELSNMP    => 'Networking2179',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'FCQ1605X4VP'
+        }
+    ],
+    'cisco/C2960.17.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2012 by Cisco Systems, Inc.
+Compiled Wed 30-May-12 14:26 by prod_rel_team',
+            SNMPHOSTNAME => 'CB-C005-208.Dauphine',
+            MAC          => '64:D9:89:8D:B1:80',
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2012 by Cisco Systems, Inc.
+Compiled Wed 30-May-12 14:26 by prod_rel_team',
+            SNMPHOSTNAME => 'CB-C005-208.Dauphine',
+            MAC          => '64:D9:89:8D:B1:80',
+            MODELSNMP    => 'Networking2179',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'FOC1511W19F',
+        }
+    ],
+    'cisco/C2960.18.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2012 by Cisco Systems, Inc.
+Compiled Wed 30-May-12 14:26 by prod_rel_team',
+            SNMPHOSTNAME => 'CB-C005-205.Dauphine',
+            MAC          => 'C4:0A:CB:22:E5:80',
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2012 by Cisco Systems, Inc.
+Compiled Wed 30-May-12 14:26 by prod_rel_team',
+            SNMPHOSTNAME => 'CB-C005-205.Dauphine',
+            MAC          => 'C4:0A:CB:22:E5:80',
+            MODELSNMP    => 'Networking2179',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'FOC1511W1CB',
+        }
+    ],
+    'cisco/C2960.19.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2012 by Cisco Systems, Inc.
+Compiled Wed 30-May-12 14:26 by prod_rel_team',
+            SNMPHOSTNAME => 'AP-74.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:CD:86:00',
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2012 by Cisco Systems, Inc.
+Compiled Wed 30-May-12 14:26 by prod_rel_team',
+            SNMPHOSTNAME => 'AP-74.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:CD:86:00',
+            MODELSNMP    => 'Networking2179',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'FOC1511W1A2',
+        }
+    ],
+    'cisco/C2960.20.walk' => [
         {
             MANUFACTURER => 'Cisco',
             TYPE         => 'NETWORKING',
@@ -374,7 +660,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
             SERIAL       => 'FOC1508V4B5',
         }
     ],
-    'cisco/C2960.10.walk' => [
+    'cisco/C2960.21.walk' => [
         {
             MANUFACTURER => 'Cisco',
             TYPE         => 'NETWORKING',
@@ -400,7 +686,59 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
             SERIAL       => 'FOC1508V4B5',
         }
     ],
-    'cisco/C2960.11.walk' => [
+    'cisco/C2960.22.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(50)SE5, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2010 by Cisco Systems, Inc.
+Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
+            SNMPHOSTNAME => 'Scol-tmp-65.mgmt.dauphine.fr',
+            MAC          => 'E8:40:40:AA:73:80',
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(50)SE5, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2010 by Cisco Systems, Inc.
+Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
+            SNMPHOSTNAME => 'Scol-tmp-65.mgmt.dauphine.fr',
+            MAC          => 'E8:40:40:AA:73:80',
+            MODELSNMP    => 'Networking2183',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'FOC1511W532'
+        }
+    ],
+    'cisco/C2960.23.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(50)SE5, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2010 by Cisco Systems, Inc.
+Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
+            SNMPHOSTNAME => 'default-40.mgmt.dauphine.fr',
+            MAC          => '04:C5:A4:42:F2:80',
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(50)SE5, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2010 by Cisco Systems, Inc.
+Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
+            SNMPHOSTNAME => 'default-40.mgmt.dauphine.fr',
+            MAC          => '04:C5:A4:42:F2:80',
+            MODELSNMP    => 'Networking2183',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'FOC1508V4B5',
+        }
+    ],
+    'cisco/C2960.24.walk' => [
         {
             MANUFACTURER => 'Cisco',
             TYPE         => 'NETWORKING',
@@ -426,7 +764,7 @@ Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
             SERIAL       => 'FOC1501V1PS'
         }
     ],
-    'cisco/C2960.12.walk' => [
+    'cisco/C2960.25.walk' => [
         {
             MANUFACTURER => 'Cisco',
             TYPE         => 'NETWORKING',
@@ -450,7 +788,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
             FIRMWARE     => undef,
         }
     ],
-    'cisco/C2960.13.walk' => [
+    'cisco/C2960.26.walk' => [
         {
             MANUFACTURER => 'Cisco',
             TYPE         => 'NETWORKING',
@@ -474,7 +812,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
             SERIAL       => undef,
         }
     ],
-    'cisco/C2960.14.walk' => [
+    'cisco/C2960.27.walk' => [
         {
             MANUFACTURER => 'Cisco',
             TYPE         => 'NETWORKING',
@@ -498,7 +836,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
             FIRMWARE     => undef,
         }
     ],
-    'cisco/C2960.15.walk' => [
+    'cisco/C2960.28.walk' => [
         {
             MANUFACTURER => 'Cisco',
             TYPE         => 'NETWORKING',
@@ -522,7 +860,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
             FIRMWARE     => undef,
         }
     ],
-    'cisco/C2960.16.walk' => [
+    'cisco/C2960.29.walk' => [
         {
             MANUFACTURER => 'Cisco',
             TYPE         => 'NETWORKING',
@@ -546,7 +884,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
             SERIAL       => undef,
         }
     ],
-    'cisco/C2960.17.walk' => [
+    'cisco/C2960.30.walk' => [
         {
             MANUFACTURER => 'Cisco',
             TYPE         => 'NETWORKING',
@@ -570,7 +908,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
             SERIAL       => undef,
         }
     ],
-    'cisco/C2960.18.walk' => [
+    'cisco/C2960.31.walk' => [
         {
             MANUFACTURER => 'Cisco',
             TYPE         => 'NETWORKING',
@@ -594,7 +932,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
             SERIAL       => undef
         }
     ],
-    'cisco/C2960.19.walk' => [
+    'cisco/C2960.32.walk' => [
     {
             MANUFACTURER => 'Cisco',
             TYPE         => 'NETWORKING',
@@ -618,7 +956,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
             SERIAL       => undef
         }
     ],
-    'cisco/C2960.20.walk' => [
+    'cisco/C2960.33.walk' => [
     {
             MANUFACTURER => 'Cisco',
             TYPE         => 'NETWORKING',
@@ -636,6 +974,318 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             MAC          => 'C4:0A:CB:BA:6C:00',
             SNMPHOSTNAME => 'AP-73.mgmt.dauphine.fr',
+            MODELSNMP    => 'Networking2416',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => undef
+        }
+    ],
+    'cisco/C2960.34.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 27-Feb-09 23:25 by weiliu',
+            SNMPHOSTNAME => 'CB-243.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:E6:E8:80',
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 27-Feb-09 23:25 by weiliu',
+            SNMPHOSTNAME => 'CB-243.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:E6:E8:80',
+            MODELSNMP    => 'Networking2416',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => undef
+        }
+    ],
+    'cisco/C2960.35.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 27-Feb-09 23:25 by weiliu',
+            SNMPHOSTNAME => 'CP-138.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:BA:6E:80',
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 27-Feb-09 23:25 by weiliu',
+            SNMPHOSTNAME => 'CP-138.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:BA:6E:80',
+            MODELSNMP    => 'Networking2416',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => undef
+        }
+    ],
+    'cisco/C2960.36.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 27-Feb-09 23:25 by weiliu',
+            SNMPHOSTNAME => 'CP-129.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:CD:88:00',
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 27-Feb-09 23:25 by weiliu',
+            SNMPHOSTNAME => 'CP-129.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:CD:88:00',
+            MODELSNMP    => 'Networking2416',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => undef
+        }
+    ],
+    'cisco/C2960.37.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 27-Feb-09 23:25 by weiliu',
+            SNMPHOSTNAME => 'CP-106.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:CD:8B:80',
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 27-Feb-09 23:25 by weiliu',
+            SNMPHOSTNAME => 'CP-106.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:CD:8B:80',
+            MODELSNMP    => 'Networking2416',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => undef
+        }
+    ],
+    'cisco/C2960.38.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 27-Feb-09 23:25 by weiliu',
+            SNMPHOSTNAME => 'AP-71.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:AB:68:80',
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 27-Feb-09 23:25 by weiliu',
+            SNMPHOSTNAME => 'AP-71.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:AB:68:80',
+            MODELSNMP    => 'Networking2416',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => undef
+        }
+    ],
+    'cisco/C2960.39.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 27-Feb-09 23:25 by weiliu',
+            SNMPHOSTNAME => 'AP-72.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:E6:F0:00'
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 27-Feb-09 23:25 by weiliu',
+            SNMPHOSTNAME => 'AP-72.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:E6:F0:00',
+            MODELSNMP    => 'Networking2416',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => undef
+        }
+    ],
+    'cisco/C2960.40.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 27-Feb-09 23:25 by weiliu',
+            SNMPHOSTNAME => 'AP-73.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:BA:6C:00',
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 27-Feb-09 23:25 by weiliu',
+            SNMPHOSTNAME => 'AP-73.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:BA:6C:00',
+            MODELSNMP    => 'Networking2416',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => undef
+        }
+    ],
+    'cisco/C2960.41.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 27-Feb-09 23:25 by weiliu',
+            SNMPHOSTNAME => 'AP-73.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:BA:6C:00',
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 27-Feb-09 23:25 by weiliu',
+            SNMPHOSTNAME => 'AP-73.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:BA:6C:00',
+            MODELSNMP    => 'Networking2416',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => undef
+        }
+    ],
+    'cisco/C2960.42.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 27-Feb-09 23:25 by weiliu',
+            SNMPHOSTNAME => 'AP-72.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:E6:F0:00',
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 27-Feb-09 23:25 by weiliu',
+            SNMPHOSTNAME => 'AP-72.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:E6:F0:00',
+            MODELSNMP    => 'Networking2416',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => undef
+        }
+    ],
+    'cisco/C2960.43.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 27-Feb-09 23:25 by weiliu',
+            SNMPHOSTNAME => 'AP-71.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:AB:68:80',
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 27-Feb-09 23:25 by weiliu',
+            SNMPHOSTNAME => 'AP-71.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:AB:68:80',
+            MODELSNMP    => 'Networking2416',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => undef
+        }
+    ],
+    'cisco/C2960.44.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 27-Feb-09 23:25 by weiliu',
+            SNMPHOSTNAME => 'CB-243.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:E6:E8:80',
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 27-Feb-09 23:25 by weiliu',
+            SNMPHOSTNAME => 'CB-243.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:E6:E8:80',
+            MODELSNMP    => 'Networking2416',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => undef
+        }
+    ],
+    'cisco/C2960.45.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 27-Feb-09 23:25 by weiliu',
+            SNMPHOSTNAME => 'CB-242.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:CD:73:00',
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 27-Feb-09 23:25 by weiliu',
+            SNMPHOSTNAME => 'CB-242.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:CD:73:00',
+            MODELSNMP    => 'Networking2416',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => undef
+        }
+    ],
+    'cisco/C2960.46.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 27-Feb-09 23:25 by weiliu',
+            SNMPHOSTNAME => 'CP-129.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:CD:88:00',
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Fri 27-Feb-09 23:25 by weiliu',
+            SNMPHOSTNAME => 'CP-129.mgmt.dauphine.fr',
+            MAC          => 'C4:0A:CB:CD:88:00',
             MODELSNMP    => 'Networking2416',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -694,24 +1344,56 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
             SERIAL       => 'FOC1440Z0HG'
         }
     ],
-    'cisco/toto19.walk' => [
+    'cisco/C3550.1.walk' => [
         {
-            MANUFACTURER => 'Alcatel-Lucent',
+            MANUFACTURER => 'Cisco',
             TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'Alcatel-Lucent 6.4.4.342.R01 GA, April 18, 2011.',
-            SNMPHOSTNAME => 'CB-C005-127-os6400',
-            MAC          => 'E8:E7:32:2B:C1:E2',
+            DESCRIPTION  => 'Cisco Internetwork Operating System Software 
+IOS (tm) C3550 Software (C3550-I5Q3L2-M), Version 12.1(20)EA1a, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2004 by cisco Systems, Inc.
+Compiled Mon 19-Apr-04 21:50 by yenanh',
+            SNMPHOSTNAME => 'CB-Federateur.mgmt.dauphine.fr',
+            MAC          => undef,
         },
         {
-            MANUFACTURER => 'Alcatel-Lucent',
+            MANUFACTURER => 'Cisco',
             TYPE         => '2',
-            DESCRIPTION  => 'Alcatel-Lucent 6.4.4.342.R01 GA, April 18, 2011.',
-            SNMPHOSTNAME => 'CB-C005-127-os6400',
-            MAC          => 'E8:E7:32:2B:C1:E2',
-            MODELSNMP    => 'Networking2189',
+            DESCRIPTION  => 'Cisco Internetwork Operating System Software 
+IOS (tm) C3550 Software (C3550-I5Q3L2-M), Version 12.1(20)EA1a, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2004 by cisco Systems, Inc.
+Compiled Mon 19-Apr-04 21:50 by yenanh',
+            SNMPHOSTNAME => 'CB-Federateur.mgmt.dauphine.fr',
+            MAC          => undef,
+            MODELSNMP    => 'Networking2034',
             MODEL        => undef,
             FIRMWARE     => undef,
-            SERIAL       => 'M4682816',
+            SERIAL       => 'CAT0647X118',
+        }
+    ],
+    'cisco/C3550.2.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco Internetwork Operating System Software 
+IOS (tm) C3550 Software (C3550-I5Q3L2-M), Version 12.1(20)EA1a, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2004 by cisco Systems, Inc.
+Compiled Mon 19-Apr-04 21:50 by yenanh',
+            SNMPHOSTNAME => 'CB-Federateur.mgmt.dauphine.fr',
+            MAC          => undef,
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => '2',
+            DESCRIPTION  => 'Cisco Internetwork Operating System Software 
+IOS (tm) C3550 Software (C3550-I5Q3L2-M), Version 12.1(20)EA1a, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2004 by cisco Systems, Inc.
+Compiled Mon 19-Apr-04 21:50 by yenanh',
+            SNMPHOSTNAME => 'CB-Federateur.mgmt.dauphine.fr',
+            MAC          => undef,
+            MODELSNMP    => 'Networking2034',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'CAT0647X118',
         }
     ],
 );
