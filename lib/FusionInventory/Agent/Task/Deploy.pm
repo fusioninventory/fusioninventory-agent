@@ -537,4 +537,16 @@ to point F<--ca-cert-file> or F<--ca-cert-dir> to your public certificat.
 
 If the P2P option is turned on, the agent will looks for peer in its network. The network size will be limited at 255 machines.
 
-=cut
+=head1 FUNCTIONS
+
+=head2 isEnabled ( $self )
+
+Returns true if the task is enabled.
+
+=head2 processRemote ( $self, $remoteUrl )
+
+Process orders from a remote server.
+
+=head2 run ( $self, %params )
+
+Run the task.
