@@ -346,6 +346,11 @@ sub _queryDevice {
         };
     }
 
+    # unfortunatly, some elements differs between discovery
+    # and inventory response
+    delete $info{DESCRIPTION};
+    delete $info{SNMPHOSTNAME};
+
     # automatically extend model for cartridge support
     if ($device->{TYPE} eq "PRINTER") {
         foreach my $variable (values %{$model->{GET}}) {
