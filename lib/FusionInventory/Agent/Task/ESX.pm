@@ -290,3 +290,34 @@ sub run {
 #}
 
 1;
+
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::SOAP::VMware - Access to VMware hypervisor
+
+=head1 DESCRIPTION
+
+This module allow access to VMware hypervisor using VMware SOAP API
+and _WITHOUT_ their Perl library.
+
+=head1 FUNCTIONS
+
+=head2 connect ( $self, %params )
+
+Connect the task to the VMware ESX, ESXi or vCenter.
+
+=head2 createFakeDeviceid ( $self, $host )
+
+Generate a fake deviceid based on the machine name and the
+boot date.
+
+=head2 createInventory ( $self, $id, $tag )
+
+Returns an FusionInventory::Agent::Inventory object for a given
+host id.
+
+=head2 getHostIds
+
+Returns the list of the host id.

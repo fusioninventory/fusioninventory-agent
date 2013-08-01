@@ -295,3 +295,32 @@ sub getHostIds {
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::SOAP::VMware - Access to VMware hypervisor
+
+=head1 DESCRIPTION
+
+This module allow access to VMware hypervisor using VMware SOAP API
+and _WITHOUT_ their Perl library.
+
+=head1 FUNCTIONS
+
+=head2 new($class, %params)
+
+Returns a VMware object.
+
+=head2 connect( $self, $user, $password )
+
+Connect the VMware object with the given credentials.
+
+=head2 getHostFullInfo ( $self, $id )
+
+Returns a large hash structure with the host information.
+
+=head2 getHostIds ( $self )
+
+Returns the list of the virtual machine ID in an array reference.

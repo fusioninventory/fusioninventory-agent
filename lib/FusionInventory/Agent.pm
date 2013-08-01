@@ -22,10 +22,10 @@ use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::XML::Query::Prolog;
 
 our $VERSION = '2.2.9902';
-our $VERSION_STRING = versionString($VERSION);
+our $VERSION_STRING = _versionString($VERSION);
 our $AGENT_STRING = "FusionInventory-Agent_v$VERSION";
 
-sub versionString {
+sub _versionString {
     my ($VERSION) = @_;
 
     my $string = "FusionInventory Agent ($VERSION)";
