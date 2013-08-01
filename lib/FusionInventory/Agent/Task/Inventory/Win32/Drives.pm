@@ -48,7 +48,7 @@ sub doInventory {
 
         my $filesystem = $object->{FileSystem};
         if ($object->{DriveType} == 4) {
-            if ($object->{ProviderName} =~ /\\DavWWWRoot\\/) {
+            if ($object->{ProviderName} && $object->{ProviderName} =~ /\\DavWWWRoot\\/) {
                 $filesystem = "WebDav";
             } elsif (!$object->{FileSystem} || $object->{FileSystem} ne 'NFS') {
                 $filesystem = "CIFS";
