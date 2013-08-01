@@ -10,6 +10,102 @@ use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::Task::NetDiscovery::Dictionary;
 
 my %tests = (
+    'hewlett-packard/unknown.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => undef,
+            DESCRIPTION  => undef,
+            SNMPHOSTNAME => 'NPI419F6E',
+            MAC          => undef,
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => undef,
+            SNMPHOSTNAME => 'NPI419F6E',
+            MAC          => undef,
+            MODELSNMP    => 'Networking2205',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => undef
+        }
+    ],
+    'hewlett-packard/Inkjet_2800.1.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => undef,
+            DESCRIPTION  => 'HP Business Inkjet 2800',
+            SNMPHOSTNAME => 'HPIJ2800-02',
+            MAC          => '00:11:0A:F5:CC:DC',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP Business Inkjet 2800',
+            SNMPHOSTNAME => 'HPIJ2800-02',
+            MAC          => '00:11:0A:F5:CC:DC',
+            MODELSNMP    => 'Printer0248',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => undef
+        }
+    ],
+    'hewlett-packard/Inkjet_2800.2.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => undef,
+            DESCRIPTION  => 'HP Business Inkjet 2800',
+            SNMPHOSTNAME => 'HPIJ2800-01',
+            MAC          => '00:11:0A:F5:1A:CC',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP Business Inkjet 2800',
+            SNMPHOSTNAME => 'HPIJ2800-01',
+            MAC          => '00:11:0A:F5:1A:CC',
+            MODELSNMP    => 'Printer0248',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => undef,
+        }
+    ],
+    'hewlett-packard/OfficeJet_Pro_K5400.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => undef,
+            DESCRIPTION  => 'Officejet Pro K5400',
+            SNMPHOSTNAME => 'HP560332',
+            MAC          => undef,
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'Officejet Pro K5400',
+            SNMPHOSTNAME => 'HP560332',
+            MAC          => undef,
+            MODELSNMP    => 'Printer0285',
+            MODEL        => undef,
+            SERIAL       => undef,
+            FIRMWARE     => undef,
+        }
+    ],
+    'hewlett-packard/OfficeJet_Pro_8600.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => undef,
+            DESCRIPTION  => 'Officejet Pro 8600 N911g',
+            SNMPHOSTNAME => 'HP8C0C51',
+            MAC          => undef,
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => undef,
+            DESCRIPTION  => 'Officejet Pro 8600 N911g',
+            SNMPHOSTNAME => 'HP8C0C51',
+            MAC          => undef,
+        }
+    ],
     'hewlett-packard/LaserJet_100_colorMFP_M175nw.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
