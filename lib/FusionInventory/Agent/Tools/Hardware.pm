@@ -220,11 +220,7 @@ sub getDeviceBaseInfo {
     # failure eithers means a network or a credential issue
     return unless $sysdescr;
 
-    # initialize device with constant information
-    my %device = (
-        DESCRIPTION  => $sysdescr,
-        SNMPHOSTNAME => $snmp->get('.1.3.6.1.2.1.1.5.0') # SNMPv2-MIB::sysName.0
-    );
+    my %device;
 
     # first heuristic:
     # try to deduce manufacturer and type from first sysdescr word
@@ -237,8 +233,8 @@ sub getDeviceBaseInfo {
     }
 
     # second heuristic:
-    # try to deduce manufacturer, type and a better identification key from a
-    # set of custom rules matched against full sysdescr value
+    # try to deduce manufacturer, type and a more specific identification key
+    # from a set of custom rules matched against full sysdescr value
     # the first matching rule wins
     if ($snmp) {
         foreach my $rule (@hardware_rules) {
@@ -249,6 +245,12 @@ sub getDeviceBaseInfo {
             last;
         }
     }
+
+    # use sysdescr as default identification key
+    $device{DESCRIPTION}  = $sysdescr if !$device{DESCRIPTION};
+
+    # SNMPv2-MIB::sysName.0
+    $device{SNMPHOSTNAME} = $snmp->get('.1.3.6.1.2.1.1.5.0');
 
     return %device;
 }
