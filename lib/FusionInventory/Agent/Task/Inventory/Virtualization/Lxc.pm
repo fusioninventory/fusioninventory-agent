@@ -18,31 +18,12 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{inventory};
 
-    my $vms = _getVirtualMachines(
+    my @machines = _getVirtualMachines(
         command => '/usr/bin/lxc-ls -1',
         logger => $logger
     );
-    foreach my $vm ( keys %{$vms}) {
 
-        my $state = _getVirtualMachineState(
-            command => "/usr/bin/lxc-info -n $vm",
-            logger => $logger
-        );
-
-        my $config = _getVirtualMachineConfig(
-            file => "/var/lib/lxc/$vm/config",
-            logger => $logger
-        );
-
-        my $machine = {
-            NAME   => $vm,
-            VMTYPE => 'LXC',
-            VMID   => $state->{VMID},
-            STATUS => $state->{STATUS},
-            VCPU   => $config->{VCPU},
-            MEMORY => $config->{MEMORY},
-        };
-
+    foreach my $machine (@machines) {
         $inventory->addEntry(
             section => 'VIRTUALMACHINES', entry => $machine
         );
@@ -122,16 +103,36 @@ sub  _getVirtualMachines {
     my $handle = getFileHandle(%params);
     return unless $handle;
 
-    my $vms;
+    my @machines;
 
     while(my $line = <$handle>) {
         chomp $line;
         next unless $line =~ m/^(\S+)$/;
-        $vms->{$1} = 1;
+
+        my $name = $1;
+
+        my $state = _getVirtualMachineState(
+            command => "/usr/bin/lxc-info -n $name",
+            logger => $params{logger}
+        );
+
+        my $config = _getVirtualMachineConfig(
+            file => "/var/lib/lxc/$name/config",
+            logger => $params{logger}
+        );
+
+        push @machines, {
+            NAME   => $name,
+            VMTYPE => 'LXC',
+            VMID   => $state->{VMID},
+            STATUS => $state->{STATUS},
+            VCPU   => $config->{VCPU},
+            MEMORY => $config->{MEMORY},
+        };
     }
     close $handle;
 
-    return $vms;
+    return @machines;
 }
 
 1;
