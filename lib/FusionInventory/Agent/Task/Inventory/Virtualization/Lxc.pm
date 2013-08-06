@@ -18,111 +18,120 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{inventory};
 
-    my $vms = _getVirtualMachines( command => '/usr/bin/lxc-ls -1', logger => $logger );
+    my $vms = _getVirtualMachines(
+        command => '/usr/bin/lxc-ls -1',
+        logger => $logger
+    );
     foreach my $vm ( keys %{$vms}) {
 
-        my $state = _getVirtualMachineState( command => "/usr/bin/lxc-info -n $vm", logger => $logger );
-        my $conf = _getVirtualMachineConfig( file => "/var/lib/lxc/$vm/config", logger => $logger );
+        my $state = _getVirtualMachineState(
+            command => "/usr/bin/lxc-info -n $vm",
+            logger => $logger
+        );
 
-        my %entry = ();
-        $entry{'NAME'} = $vm;
-        $entry{'VMTYPE'} = 'LXC';
-        $entry{'VMID'} = $state->{'VMID'};
-        $entry{'STATUS'} = $state->{'STATUS'};
-        $entry{'VCPU'} = $conf->{'VCPU'};
-        $entry{'MEMORY'} = $conf->{'MEMORY'};
+        my $config = _getVirtualMachineConfig(
+            file => "/var/lib/lxc/$vm/config",
+            logger => $logger
+        );
+
+        my $machine = {
+            NAME   => $vm,
+            VMTYPE => 'LXC',
+            VMID   => $state->{VMID},
+            STATUS => $state->{STATUS},
+            VCPU   => $config->{VCPU},
+            MEMORY => $config->{MEMORY},
+        };
 
         $inventory->addEntry(
-            section => 'VIRTUALMACHINES', entry => \%entry
+            section => 'VIRTUALMACHINES', entry => $machine
         );
     }
 }
 
 sub  _getVirtualMachineState {
-    my (%params) = (
-        @_
-    );
+    my (%params) = @_;
 
-    my ( %state, %info );
-
-    my $handle = getFileHandle( %params );
+    my $handle = getFileHandle(%params);
     return unless $handle;
-    while( <$handle> ){
-        chomp;
-        if( $_ =~ m/^(\S+):\s*(\S+)$/ ){ $info{$1} = $2; }
+
+    my %info;
+    while (my $line = <$handle>){
+        chomp $line;
+        next unless $line =~ m/^(\S+):\s*(\S+)$/;
+        $info{$1} = $2;
     }
     close $handle;
 
-    $state{'VMID'} = $info{'pid'};
-    if ( $info{'state'} eq 'RUNNING' ){
-        $state{'STATUS'} = lc( $info{'state'} );
-    } elsif ( $info{'state'} eq 'FROZEN' ){
-        $state{'STATUS'} = 'paused';
-    } elsif ( $info{'state'} eq 'STOPPED' ){
-        $state{'STATUS'} = 'off';
-    } else {
-        $state{'STATUS'} = $info{'state'};
-    }
+    my $state;
+    $state->{VMID} = $info{pid};
+    $state->{STATUS} =
+        $info{state} eq 'RUNNING' ? 'running' :
+        $info{state} eq 'FROZEN'  ? 'paused'  :
+        $info{state} eq 'STOPPED' ? 'off'     :
+        $info{state};
 
-    return \%state;
+    return $state;
 }
 
 sub  _getVirtualMachineConfig {
-    my (%params) = (
-        @_
-    );
+    my (%params) = @_;
 
-    my %conf = ();
-    $conf{'VCPU'} = 0;
-
-    my $handle = getFileHandle( %params );
+    my $handle = getFileHandle(%params);
     return unless $handle;
-    while( <$handle> ){
-        chomp;
-        s/^\s*//g;
-        s/\s*$//g;
-        s/^#.*//g;
-        if ( $_ =~ m/^(\S+)\s*=\s*(\S+)\s*$/ ){
-            my $key = $1;
-            my $val = $2;
-            if ( $key eq 'lxc.network.hwaddr' ){ $conf{'MAC'} = $val; }
-            if ( $key eq 'lxc.cgroup.memory.limit_in_bytes' ){ $conf{'MEMORY'} = $val; }
-            if ( $key eq 'lxc.cgroup.cpuset.cpus' ){
-                ###eg: lxc.cgroup.cpuset.cpus = 0,3-5,7,2,1
-                foreach my $cpu ( split( /,/, $val ) ){
-                    if ( $cpu =~ /(\d+)-(\d+)/ ){
-                        my @tmp = ($1..$2);
-                        $conf{'VCPU'} += $#tmp + 1;
-                    } else {
-                        $conf{'VCPU'} += 1;
-                    }
+
+    my $config = {
+        VCPU => 0
+    };
+
+    while (my $line = <$handle>) {
+        chomp $line;
+        next if $line =~ /^#.*/;
+        next unless $line =~ m/^\s*(\S+)\s*=\s*(\S+)\s*$/;
+
+        my $key = $1;
+        my $val = $2;
+        if ($key eq 'lxc.network.hwaddr') {
+            $config->{MAC} = $val;
+        }
+
+        if ($key eq 'lxc.cgroup.memory.limit_in_bytes') {
+            $config->{MEMORY} = $val;
+        }
+
+        if ($key eq 'lxc.cgroup.cpuset.cpus') {
+            ###eg: lxc.cgroup.cpuset.cpus = 0,3-5,7,2,1
+            foreach my $cpu ( split( /,/, $val ) ){
+                if ( $cpu =~ /(\d+)-(\d+)/ ){
+                    my @tmp = ($1..$2);
+                    $config->{VCPU} += $#tmp + 1;
+                } else {
+                    $config->{VCPU} += 1;
                 }
             }
         }
     }
     close $handle;
 
-    return \%conf;
+    return $config;
 }
 
 sub  _getVirtualMachines {
-    my (%params) = (
-        @_
-    );
+    my (%params) = @_;
 
-    my %vms = ();
-
-    my $handle = getFileHandle( %params );
+    my $handle = getFileHandle(%params);
     return unless $handle;
 
-    while( <$handle> ){
-        chomp;
-        unless ( m/^(\S+)$/ ){ next; }
-        $vms{$1} = 1;
+    my $vms;
+
+    while(my $line = <$handle>) {
+        chomp $line;
+        next unless $line =~ m/^(\S+)$/;
+        $vms->{$1} = 1;
     }
     close $handle;
 
-    return \%vms;
+    return $vms;
 }
 
 1;
