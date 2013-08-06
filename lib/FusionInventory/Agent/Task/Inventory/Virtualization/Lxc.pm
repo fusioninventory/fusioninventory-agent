@@ -73,6 +73,7 @@ sub  _getVirtualMachineConfig {
     );
 
     my %conf = ();
+    $conf{'VCPU'} = 0;
 
     my $handle = getFileHandle( %params );
     return unless $handle;
@@ -88,16 +89,14 @@ sub  _getVirtualMachineConfig {
             if ( $key eq 'lxc.cgroup.memory.limit_in_bytes' ){ $conf{'MEMORY'} = $val; }
             if ( $key eq 'lxc.cgroup.cpuset.cpus' ){
                 ###eg: lxc.cgroup.cpuset.cpus = 0,3-5,7,2,1
-                my $cpu_num = 0;
                 foreach my $cpu ( split( /,/, $val ) ){
                     if ( $cpu =~ /(\d+)-(\d+)/ ){
                         my @tmp = ($1..$2);
-                        $cpu_num += $#tmp + 1;
+                        $conf{'VCPU'} += $#tmp + 1;
                     } else {
-                        $cpu_num += 1;
+                        $conf{'VCPU'} += 1;
                     }
                 }
-                $conf{'VCPU'} = $cpu_num;
             }
         }
     }
