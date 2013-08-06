@@ -14,20 +14,16 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => undef,
-            DESCRIPTION  => undef,
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114,CIDATE 11/17/2011',
             SNMPHOSTNAME => 'NPI419F6E',
             MAC          => undef,
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'NETWORKING',
-            DESCRIPTION  => undef,
+            TYPE         => undef,
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114,CIDATE 11/17/2011',
             SNMPHOSTNAME => 'NPI419F6E',
             MAC          => undef,
-            MODELSNMP    => 'Networking2205',
-            MODEL        => undef,
-            FIRMWARE     => undef,
-            SERIAL       => undef
         }
     ],
     'hewlett-packard/Inkjet_2800.1.walk' => [
