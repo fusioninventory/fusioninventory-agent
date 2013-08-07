@@ -170,12 +170,14 @@ my %tests = (
 
 if (!$ENV{SNMPWALK_DATABASE}) {
     plan skip_all => 'SNMP walks database required';
+} elsif (!$ENV{SNMPMODEL_DATABASE}) {
+    plan skip_all => 'SNMP models database required';
 } else {
     plan tests => 2 * scalar keys %tests;
 }
 
 my $dictionary = FusionInventory::Agent::Task::NetDiscovery::Dictionary->new(
-    file => 'resources/dictionary.xml'
+    file => "$ENV{SNMPMODEL_DATABASE}/dictionary.xml"
 );
 
 foreach my $test (sort keys %tests) {

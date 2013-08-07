@@ -105,7 +105,7 @@ my %tests = (
 if (!$ENV{SNMPWALK_DATABASE}) {
     plan skip_all => 'SNMP walks database required';
 } elsif (!$ENV{SNMPMODEL_DATABASE}) {
-    plan skip_all => 'SNMP models database required'
+    plan skip_all => 'SNMP models database required';
 } else {
     plan tests => 3 * scalar keys %tests;
 }
