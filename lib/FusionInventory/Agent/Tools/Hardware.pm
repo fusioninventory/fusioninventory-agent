@@ -9,6 +9,7 @@ use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools; # runFunction
 use FusionInventory::Agent::Tools::Network;
+use FusionInventory::Agent::Tools::SNMP;
 
 our @EXPORT = qw(
     getDeviceBaseInfo
@@ -880,7 +881,7 @@ sub _setNetworkingProperties {
     # everything else is vendor-specific, and requires device description
     return unless $comments;
 
-    setTrunkPorts($comments, $results, $ports);
+    _setTrunkPorts($comments, $results, $ports);
 
     _setConnectedDevices($comments, $results, $ports, $walks);
 
