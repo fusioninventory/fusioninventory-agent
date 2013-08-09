@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 
 use strict;
+use lib 't/lib';
 
 use Test::More;
 use Test::Deep;
@@ -9,6 +10,7 @@ use YAML qw(LoadFile);
 use FusionInventory::Agent::SNMP::Mock;
 use FusionInventory::Agent::Task::NetDiscovery::Dictionary;
 use FusionInventory::Agent::Tools::Hardware;
+use FusionInventory::Test::Utils;
 
 my %tests = (
     'canon/LBP7660C_P.walk' => [
@@ -137,38 +139,4 @@ foreach my $test (sort keys %tests) {
         model => $model
     );
     cmp_deeply($device3, $tests{$test}->[2], $test);
-}
-
-sub loadModel {
-    my ($file) = @_;
-
-    my $model = XML::TreePP->new()->parsefile($file)->{model};
-
-    my @get = map {
-        {
-            OID    => $_->{oid},
-            OBJECT => $_->{mapping_name},
-            VLAN   => $_->{vlan},
-        }
-    } grep {
-        $_->{dynamicport} == 0
-    } @{$model->{oidlist}->{oidobject}};
-
-    my @walk = map {
-        {
-            OID    => $_->{oid},
-            OBJECT => $_->{mapping_name},
-            VLAN   => $_->{vlan},
-        }
-    } grep {
-        $_->{dynamicport} == 1
-    } @{$model->{oidlist}->{oidobject}};
-
-    return {
-        ID   => 1,
-        NAME => $model->{name},
-        TYPE => $model->{type},
-        GET  => { map { $_->{OBJECT} => $_ } @get  },
-        WALK => { map { $_->{OBJECT} => $_ } @walk }
-    }
 }
