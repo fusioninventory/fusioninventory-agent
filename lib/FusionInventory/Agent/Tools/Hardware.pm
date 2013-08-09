@@ -17,6 +17,12 @@ our @EXPORT = qw(
     getDeviceFullInfo
 );
 
+my %types = (
+    1 => 'COMPUTER',
+    2 => 'NETWORKING',
+    3 => 'PRINTER'
+);
+
 my %hardware_keywords = (
     '3com'           => { vendor => '3Com',            type => 'NETWORKING' },
     'alcatel-lucent' => { vendor => 'Alcatel-Lucent',  type => 'NETWORKING' },
@@ -512,6 +518,7 @@ sub getDeviceFullInfo {
     my $snmp   = $params{snmp};
     my $model  = $params{model};
     my $logger = $params{logget};
+    my $type   = $model ? $types{$model->{TYPE}} : $params{type};
 
     # first, let's retrieve basic device informations
     my %info = getDeviceBaseInfo($snmp);
@@ -523,7 +530,7 @@ sub getDeviceFullInfo {
     delete $info{SNMPHOSTNAME};
 
     # automatically extend model for cartridge support
-    if ($params{type} eq "PRINTER") {
+    if ($type && $type eq 'PRINTER') {
         foreach my $variable (values %{$model->{GET}}) {
             my $object = $variable->{OBJECT};
             next unless $object;
@@ -568,7 +575,7 @@ sub getDeviceFullInfo {
     my $device = {
         INFO => {
             ID   => $params{id},
-            TYPE => $params{type},
+            TYPE => $type,
             %info
         }
     };
@@ -582,7 +589,7 @@ sub getDeviceFullInfo {
     _setPrinterProperties(
         results => $results,
         device  => $device,
-    ) if $params{type} eq 'PRINTER';
+    ) if $type && $type eq 'PRINTER';
 
     _setNetworkingProperties(
         results     => $results,
@@ -590,7 +597,7 @@ sub getDeviceFullInfo {
         device      => $device,
         walks       => $model->{WALK},
         logger      => $logger
-    ) if $params{type} eq 'NETWORKING';
+    ) if $type && $type eq 'NETWORKING';
 
     # convert ports hashref to an arrayref, sorted by interface number
     my $ports = $device->{PORTS}->{PORT};

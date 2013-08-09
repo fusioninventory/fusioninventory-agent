@@ -32,26 +32,11 @@ my %tests = (
             INFO => {
                 MANUFACTURER => 'Dell',
                 TYPE         => undef,
-                MODEL        => undef,
                 ID           => undef,
             },
             PORTS => {
                 PORT => []
             },
-            PAGECOUNTERS => {
-                COPYBLACK  => undef,
-                COPYCOLOR  => undef,
-                BLACK      => undef,
-                COPYTOTAL  => undef,
-                FAXTOTAL   => undef,
-                SCANNED    => undef,
-                PRINTBLACK => undef,
-                PRINTCOLOR => undef,
-                COLOR      => undef,
-                TOTAL      => undef,
-                RECTOVERSO => undef,
-                PRINTTOTAL => undef
-            }
         }
     ],
     'dell/M5200.2.walk' => [
@@ -73,26 +58,11 @@ my %tests = (
             INFO => {
                 MANUFACTURER => 'Dell',
                 TYPE         => undef,
-                MODEL        => undef,
                 ID           => undef,
             },
             PORTS => {
                 PORT => []
             },
-            PAGECOUNTERS => {
-                COPYBLACK  => undef,
-                COPYCOLOR  => undef,
-                BLACK      => undef,
-                COPYTOTAL  => undef,
-                FAXTOTAL   => undef,
-                SCANNED    => undef,
-                PRINTBLACK => undef,
-                PRINTCOLOR => undef,
-                COLOR      => undef,
-                TOTAL      => undef,
-                RECTOVERSO => undef,
-                PRINTTOTAL => undef
-            }
         }
     ],
     'dell/unknown.walk' => [
@@ -114,26 +84,11 @@ my %tests = (
             INFO => {
                 MANUFACTURER => 'Dell',
                 TYPE         => undef,
-                MODEL        => undef,
                 ID           => undef,
             },
             PORTS => {
                 PORT => []
             },
-            PAGECOUNTERS => {
-                COPYBLACK  => undef,
-                COPYCOLOR  => undef,
-                BLACK      => undef,
-                COPYTOTAL  => undef,
-                FAXTOTAL   => undef,
-                SCANNED    => undef,
-                PRINTBLACK => undef,
-                PRINTCOLOR => undef,
-                COLOR      => undef,
-                TOTAL      => undef,
-                RECTOVERSO => undef,
-                PRINTTOTAL => undef
-            }
         }
     ],
 );
@@ -169,7 +124,6 @@ foreach my $test (sort keys %tests) {
     my $device3 = FusionInventory::Agent::Tools::Hardware::getDeviceFullInfo(
         snmp  => $snmp,
         model => $model,
-        type  => 'PRINTER',
     );
     cmp_deeply($device3, $tests{$test}->[2], $test);
 }

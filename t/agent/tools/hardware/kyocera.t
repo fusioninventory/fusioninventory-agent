@@ -33,21 +33,6 @@ my %tests = (
                 MANUFACTURER => 'Kyocera',
                 TYPE         => 'PRINTER',
                 ID           => undef,
-                MODEL        => undef
-            },
-            PAGECOUNTERS => {
-                COPYTOTAL  => undef,
-                RECTOVERSO => undef,
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                FAXTOTAL   => undef,
-                COPYCOLOR  => undef,
-                PRINTBLACK => undef,
-                COPYBLACK  => undef,
-                BLACK      => undef,
-                TOTAL      => undef,
-                PRINTTOTAL => undef,
-                COLOR      => undef
             },
             PORTS => {
                 PORT => []
@@ -74,21 +59,6 @@ my %tests = (
                 MANUFACTURER => 'Kyocera',
                 TYPE         => 'PRINTER',
                 ID           => undef,
-                MODEL        => undef
-            },
-            PAGECOUNTERS => {
-                COPYTOTAL  => undef,
-                RECTOVERSO => undef,
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                FAXTOTAL   => undef,
-                COPYCOLOR  => undef,
-                PRINTBLACK => undef,
-                COPYBLACK  => undef,
-                BLACK      => undef,
-                TOTAL      => undef,
-                PRINTTOTAL => undef,
-                COLOR      => undef
             },
             PORTS => {
                 PORT => []
@@ -251,7 +221,6 @@ foreach my $test (sort keys %tests) {
     my $device3 = FusionInventory::Agent::Tools::Hardware::getDeviceFullInfo(
         snmp  => $snmp,
         model => $model,
-        type  => 'PRINTER',
     );
     cmp_deeply($device3, $tests{$test}->[2], $test);
 }

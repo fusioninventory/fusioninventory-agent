@@ -33,21 +33,6 @@ my %tests = (
                 MANUFACTURER => 'Konica',
                 TYPE         => 'PRINTER',
                 ID           => undef,
-                MODEL        => undef,
-            },
-            PAGECOUNTERS => {
-                FAXTOTAL   => undef,
-                PRINTTOTAL => undef,
-                COPYCOLOR  => undef,
-                COPYBLACK  => undef,
-                TOTAL      => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
-                RECTOVERSO => undef,
-                PRINTCOLOR => undef,
-                BLACK      => undef,
-                PRINTBLACK => undef,
-                COLOR      => undef
             },
             PORTS => {
                 PORT => []
@@ -74,21 +59,6 @@ my %tests = (
                 MANUFACTURER => 'Konica',
                 TYPE         => 'PRINTER',
                 ID           => undef,
-                MODEL        => undef,
-            },
-            PAGECOUNTERS => {
-                FAXTOTAL   => undef,
-                PRINTTOTAL => undef,
-                COPYCOLOR  => undef,
-                COPYBLACK  => undef,
-                TOTAL      => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
-                RECTOVERSO => undef,
-                PRINTCOLOR => undef,
-                BLACK      => undef,
-                PRINTBLACK => undef,
-                COLOR      => undef
             },
             PORTS => {
                 PORT => []
@@ -115,21 +85,6 @@ my %tests = (
                 MANUFACTURER => 'Konica',
                 TYPE         => 'PRINTER',
                 ID           => undef,
-                MODEL        => undef,
-            },
-            PAGECOUNTERS => {
-                FAXTOTAL   => undef,
-                PRINTTOTAL => undef,
-                COPYCOLOR  => undef,
-                COPYBLACK  => undef,
-                TOTAL      => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
-                RECTOVERSO => undef,
-                PRINTCOLOR => undef,
-                BLACK      => undef,
-                PRINTBLACK => undef,
-                COLOR      => undef
             },
             PORTS => {
                 PORT => []
@@ -168,7 +123,6 @@ foreach my $test (sort keys %tests) {
     my $device3 = FusionInventory::Agent::Tools::Hardware::getDeviceFullInfo(
         snmp  => $snmp,
         model => $model,
-        type  => 'PRINTER',
     );
     cmp_deeply($device3, $tests{$test}->[2], $test);
 }

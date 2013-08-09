@@ -33,21 +33,6 @@ my %tests = (
                 TYPE         => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 ID           => undef,
-                MODEL        => undef
-            },
-            PAGECOUNTERS => {
-                BLACK      => undef,
-                COLOR      => undef,
-                RECTOVERSO => undef,
-                PRINTTOTAL => undef,
-                TOTAL      => undef,
-                COPYCOLOR  => undef,
-                SCANNED    => undef,
-                FAXTOTAL   => undef,
-                PRINTBLACK => undef,
-                COPYTOTAL  => undef,
-                PRINTCOLOR => undef,
-                COPYBLACK  => undef
             },
             PORTS => {
                 PORT => []
@@ -260,23 +245,8 @@ my %tests = (
         {
             INFO => {
                 MANUFACTURER => 'Hewlett-Packard',
-                MODEL        => undef,
                 TYPE         => undef,
                 ID           => undef
-            },
-            PAGECOUNTERS => {
-                FAXTOTAL   => undef,
-                RECTOVERSO => undef,
-                PRINTTOTAL => undef,
-                COLOR      => undef,
-                COPYCOLOR  => undef,
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                BLACK      => undef,
-                COPYBLACK  => undef,
-                PRINTBLACK => undef,
-                COPYTOTAL  => undef,
-                TOTAL      => undef
             },
             PORTS => {
                 PORT => []
@@ -573,26 +543,11 @@ my %tests = (
             INFO => {
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => undef,
-                MODEL        => undef,
                 ID           => undef,
             },
             PORTS => {
                 PORT => []
             },
-            PAGECOUNTERS => {
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                PRINTTOTAL => undef,
-                COLOR      => undef,
-                COPYBLACK  => undef,
-                BLACK      => undef,
-                RECTOVERSO => undef,
-                COPYTOTAL  => undef,
-                PRINTCOLOR => undef,
-                COPYCOLOR  => undef,
-                SCANNED    => undef,
-                TOTAL      => undef
-            }
         }
     ],
     'hewlett-packard/LaserJet_2100.2.walk' => [
@@ -614,26 +569,11 @@ my %tests = (
             INFO => {
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => undef,
-                MODEL        => undef,
                 ID           => undef,
             },
             PORTS => {
                 PORT => []
             },
-            PAGECOUNTERS => {
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                PRINTTOTAL => undef,
-                COLOR      => undef,
-                COPYBLACK  => undef,
-                BLACK      => undef,
-                RECTOVERSO => undef,
-                COPYTOTAL  => undef,
-                PRINTCOLOR => undef,
-                COPYCOLOR  => undef,
-                SCANNED    => undef,
-                TOTAL      => undef
-            }
         }
     ],
     'hewlett-packard/LaserJet_2600n.walk' => [
@@ -1821,19 +1761,10 @@ my %tests = (
         },
         {
             INFO => {
-                MANUFACTURER => 'Hewlett Packard',
-                TYPE         => 'NETWORKING',
-                COMMENTS     => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_',
-                FIRMWARE     => 'K.15.28 K.15.04.0015m',
-                ID           => undef,
-                SERIAL       => 'SG707SU03Y',
-                MAC          => '00:18:71:C1:E0:00',
-                CONTACT      => 'systeme@ac-guyane.fr',
-                LOCATION     => 'datacenter',
-                UPTIME       => '(293555959) 33 days, 23:25:59.59',
-                MODEL        => undef,
-                NAME         => 'oyapock CR2',
-                IPS          => {
+                MODEL => 'J8697A',
+                UPTIME => '(293555959) 33 days, 23:25:59.59',
+                CONTACT => 'systeme@ac-guyane.fr',
+                IPS => {
                     IP => [
                         '127.0.0.1',
                         '172.27.192.226',
@@ -1852,1815 +1783,4696 @@ my %tests = (
                         '192.168.227.246'
                     ]
                 },
-            },
-            PAGECOUNTERS => {
-                BLACK      => undef,
-                COLOR      => undef,
-                RECTOVERSO => undef,
-                PRINTTOTAL => undef,
-                TOTAL      => undef,
-                SCANNED    => undef,
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef,
-                PRINTCOLOR => undef,
-                FAXTOTAL   => undef,
-                PRINTBLACK => undef,
-                COPYBLACK  => undef
+                COMMENTS => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_',
+                LOCATION => 'datacenter',
+                MAC => '00:18:71:C1:E0:00',
+                SERIAL => 'SG707SU03Y',
+                TYPE => 'NETWORKING',
+                FIRMWARE => 'K.15.28 K.15.04.0015m',
+                ID => undef,
+                MANUFACTURER => 'Hewlett Packard',
+                NAME => 'oyapock CR2'
             },
             PORTS => {
                 PORT => [
                     {
+                        IFNAME => 'A1',
                         IFOUTERRORS => '0',
-                        IFSTATUS => '1',
-                        IFINERRORS => '0',
-                        IFDESCR => 'A1',
-                        MAC => '00:18:71:C1:F0:FF',
                         IFSPEED => '1000000000',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '1349379502',
-                        IFMTU => '1500',
+                        CONNECTIONS => {
+                            CDP => 1,
+                            CONNECTION => {
+                                IP => '172.31.196.140',
+                                MAC => undef,
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME => '0x0019BB010B00',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IFDESCR => '141'
+                            }
+                        },
                         IFLASTCHANGE => '(137791) 0:22:57.91',
-                        IFINOCTETS => '2281257823',
+                        MAC => '00:18:71:C1:F0:FF',
+                        IFINERRORS => '0',
                         IFTYPE => '6',
+                        IFDESCR => 'A1',
                         IFNUMBER => '1',
-                        IFNAME => 'A1'
+                        IFSTATUS => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFINOCTETS => '2281257823',
+                        IFMTU => '1500',
+                        IFOUTOCTETS => '1349379502'
                     },
                     {
-                        IFOUTERRORS => '0',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFDESCR => 'A2',
-                        MAC => '00:18:71:C1:F0:FE',
-                        IFSPEED => '1000000000',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '351638347',
-                        IFMTU => '1500',
-                        IFLASTCHANGE => '(137791) 0:22:57.91',
                         IFINOCTETS => '1790849661',
-                        IFNUMBER => '2',
+                        IFMTU => '1500',
+                        IFOUTOCTETS => '351638347',
+                        MAC => '00:18:71:C1:F0:FE',
                         IFTYPE => '6',
+                        IFINERRORS => '0',
+                        IFSPEED => '1000000000',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                IP => '172.31.196.140',
+                                MAC => undef,
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME => '0x0019BB010B00',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IFDESCR => '143'
+                            },
+                            CDP => 1
+                        },
+                        IFLASTCHANGE => '(137791) 0:22:57.91',
+                        IFSTATUS => '1',
+                        IFNUMBER => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFDESCR => 'A2',
+                        IFOUTERRORS => '0',
                         IFNAME => 'A2'
                     },
                     {
-                        IFSPEED => '1000000000',
-                        IFOUTOCTETS => '1368455180',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500',
-                        IFLASTCHANGE => '(140056) 0:23:20.56',
-                        IFINOCTETS => '2596611853',
-                        IFTYPE => '6',
-                        IFNUMBER => '3',
-                        IFNAME => 'A3',
-                        IFOUTERRORS => '0',
                         IFINERRORS => '0',
+                        MAC => '00:18:71:C1:F0:FD',
+                        IFTYPE => '6',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                MAC => undef,
+                                IFDESCR => '141',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME => '0x0019BB0D8100',
+                                IP => '172.31.196.141'
+                            },
+                            CDP => 1
+                        },
+                        IFSPEED => '1000000000',
+                        IFLASTCHANGE => '(140056) 0:23:20.56',
+                        IFNUMBER => '3',
+                        IFINTERNALSTATUS => '1',
                         IFSTATUS => '1',
                         IFDESCR => 'A3',
-                        MAC => '00:18:71:C1:F0:FD'
+                        IFINOCTETS => '2596611853',
+                        IFMTU => '1500',
+                        IFOUTOCTETS => '1368455180',
+                        IFNAME => 'A3',
+                        IFOUTERRORS => '0'
                     },
                     {
                         IFOUTOCTETS => '205027037',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500',
-                        IFSPEED => '1000000000',
-                        IFTYPE => '6',
-                        IFNUMBER => '4',
-                        IFNAME => 'A4',
-                        IFLASTCHANGE => '(140106) 0:23:21.06',
                         IFINOCTETS => '2096487256',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
+                        IFMTU => '1500',
                         IFDESCR => 'A4',
+                        IFSTATUS => '1',
+                        IFNUMBER => '4',
+                        IFINTERNALSTATUS => '1',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                SYSNAME => '0x0019BB0D8100',
+                                IFDESCR => '143',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                MAC => undef,
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP => '172.31.196.141'
+                            },
+                            CDP => 1
+                        },
+                        IFSPEED => '1000000000',
+                        IFLASTCHANGE => '(140106) 0:23:21.06',
+                        IFTYPE => '6',
+                        MAC => '00:18:71:C1:F0:FC',
+                        IFINERRORS => '0',
                         IFOUTERRORS => '0',
-                        MAC => '00:18:71:C1:F0:FC'
+                        IFNAME => 'A4'
                     },
                     {
-                        IFNAME => 'A5',
-                        IFNUMBER => '5',
-                        IFTYPE => '6',
-                        IFINOCTETS => '2759835685',
-                        IFLASTCHANGE => '(98419) 0:16:24.19',
-                        IFMTU => '1500',
-                        IFINTERNALSTATUS => '1',
                         IFOUTOCTETS => '2189748070',
-                        IFSPEED => '1000000000',
-                        MAC => '00:18:71:C1:F0:FB',
-                        IFINERRORS => '0',
+                        IFINOCTETS => '2759835685',
+                        IFMTU => '1500',
                         IFDESCR => 'A5',
+                        IFNUMBER => '5',
                         IFSTATUS => '1',
-                        IFOUTERRORS => '0'
-                    },
-                    {
+                        IFINTERNALSTATUS => '1',
+                        IFSPEED => '1000000000',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                MAC => undef,
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME => '0x0016B9138000',
+                                IFDESCR => '141',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP => '172.31.196.142'
+                            },
+                            CDP => 1
+                        },
                         IFLASTCHANGE => '(98419) 0:16:24.19',
-                        IFINOCTETS => '710340837',
+                        MAC => '00:18:71:C1:F0:FB',
                         IFTYPE => '6',
-                        IFNUMBER => '6',
-                        IFNAME => 'A6',
-                        IFSPEED => '1000000000',
-                        IFOUTOCTETS => '1497261298',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500',
-                        MAC => '00:18:71:C1:F0:FA',
-                        IFOUTERRORS => '0',
-                        IFDESCR => 'A6',
                         IFINERRORS => '0',
-                        IFSTATUS => '1'
+                        IFOUTERRORS => '0',
+                        IFNAME => 'A5'
                     },
                     {
-                        MAC => '00:18:71:C1:F0:F9',
+                        IFNAME => 'A6',
                         IFOUTERRORS => '0',
-                        IFSTATUS => '1',
+                        MAC => '00:18:71:C1:F0:FA',
                         IFINERRORS => '0',
-                        IFDESCR => 'A7',
-                        IFINOCTETS => '264235442',
-                        IFLASTCHANGE => '(133722) 0:22:17.22',
-                        IFNAME => 'A7',
                         IFTYPE => '6',
-                        IFNUMBER => '7',
                         IFSPEED => '1000000000',
-                        IFMTU => '1500',
+                        CONNECTIONS => {
+                            CDP => 1,
+                            CONNECTION => {
+                                SYSNAME => '0x0016B9138000',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IFDESCR => '143',
+                                MAC => undef,
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP => '172.31.196.142'
+                            }
+                        },
+                        IFLASTCHANGE => '(98419) 0:16:24.19',
+                        IFSTATUS => '1',
+                        IFNUMBER => '6',
                         IFINTERNALSTATUS => '1',
+                        IFDESCR => 'A6',
+                        IFINOCTETS => '710340837',
+                        IFMTU => '1500',
+                        IFOUTOCTETS => '1497261298'
+                    },
+                    {
+                        IFNAME => 'A7',
+                        IFOUTERRORS => '0',
+                        IFSPEED => '1000000000',
+                        CONNECTIONS => {
+                            CDP => 1,
+                            CONNECTION => {
+                                IP => '172.31.196.143',
+                                IFDESCR => '141',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME => '0x0016B9142B00',
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                MAC => undef
+                            }
+                        },
+                        IFLASTCHANGE => '(133722) 0:22:17.22',
+                        MAC => '00:18:71:C1:F0:F9',
+                        IFINERRORS => '0',
+                        IFTYPE => '6',
+                        IFDESCR => 'A7',
+                        IFSTATUS => '1',
+                        IFNUMBER => '7',
+                        IFINTERNALSTATUS => '1',
+                        IFMTU => '1500',
+                        IFINOCTETS => '264235442',
                         IFOUTOCTETS => '1045414825'
                     },
                     {
-                        MAC => '00:18:71:C1:F0:F8',
-                        IFOUTERRORS => '0',
-                        IFDESCR => 'A8',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFLASTCHANGE => '(133722) 0:22:17.22',
-                        IFINOCTETS => '2740877036',
-                        IFNUMBER => '8',
-                        IFTYPE => '6',
                         IFNAME => 'A8',
-                        IFSPEED => '1000000000',
+                        IFOUTERRORS => '0',
                         IFINTERNALSTATUS => '1',
+                        IFSTATUS => '1',
+                        IFNUMBER => '8',
+                        IFDESCR => 'A8',
+                        MAC => '00:18:71:C1:F0:F8',
+                        IFTYPE => '6',
+                        IFINERRORS => '0',
+                        IFSPEED => '1000000000',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                MAC => undef,
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME => '0x0016B9142B00',
+                                IFDESCR => '143',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP => '172.31.196.143'
+                            },
+                            CDP => 1
+                        },
+                        IFLASTCHANGE => '(133722) 0:22:17.22',
                         IFOUTOCTETS => '1496580095',
+                        IFINOCTETS => '2740877036',
                         IFMTU => '1500'
                     },
                     {
-                        IFINOCTETS => '1383661651',
                         IFLASTCHANGE => '(171654) 0:28:36.54',
-                        IFNAME => 'A9',
-                        IFTYPE => '6',
-                        IFNUMBER => '9',
+                        CONNECTIONS => {
+                            CDP => 1,
+                            CONNECTION => {
+                                IP => '172.31.196.150',
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                MAC => undef,
+                                IFDESCR => '141',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME => '0x0019BB1B4D00'
+                            }
+                        },
                         IFSPEED => '1000000000',
-                        IFMTU => '1500',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '1593815865',
                         MAC => '00:18:71:C1:F0:F7',
-                        IFOUTERRORS => '0',
+                        IFTYPE => '6',
                         IFINERRORS => '0',
                         IFDESCR => 'A9',
-                        IFSTATUS => '1'
-                    },
-                    {
-                        IFDESCR => 'A10',
-                        IFINERRORS => '0',
                         IFSTATUS => '1',
-                        IFOUTERRORS => '0',
-                        MAC => '00:18:71:C1:F0:F6',
+                        IFNUMBER => '9',
+                        IFINTERNALSTATUS => '1',
+                        IFINOCTETS => '1383661651',
                         IFMTU => '1500',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '1552508202',
-                        IFSPEED => '1000000000',
-                        IFNAME => 'A10',
-                        IFTYPE => '6',
-                        IFNUMBER => '10',
-                        IFINOCTETS => '2224332599',
-                        IFLASTCHANGE => '(171654) 0:28:36.54'
-                    },
-                    {
-                        MAC => '00:18:71:C1:F0:F5',
-                        IFINERRORS => '0',
-                        IFSTATUS => '2',
-                        IFOUTERRORS => '0',
-                        IFNUMBER => '11',
-                        IFTYPE => '6',
-                        IFNAME => 'A11',
-                        IFLASTCHANGE => '(0) 0:00:00.00',
-                        IFINOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '0',
-                        IFMTU => '0',
-                        IFSPEED => '0'
-                    },
-                    {
-                        IFINOCTETS => '0',
-                        IFLASTCHANGE => '(0) 0:00:00.00',
-                        IFNAME => 'A12',
-                        IFTYPE => '6',
-                        IFNUMBER => '12',
-                        IFSPEED => '0',
-                        IFMTU => '0',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        MAC => '00:18:71:C1:F0:F4',
-                        IFOUTERRORS => '0',
-                        IFINERRORS => '0',
-                        IFSTATUS => '2'
-                    },
-                    {
-                        IFMTU => '1500',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '2302731832',
-                        IFSPEED => '1000000000',
-                        IFNAME => 'A13',
-                        IFTYPE => '6',
-                        IFNUMBER => '13',
-                        IFINOCTETS => '3735158120',
-                        IFLASTCHANGE => '(147598) 0:24:35.98',
-                        IFDESCR => 'A13',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFOUTERRORS => '0',
-                        MAC => '00:18:71:C1:F0:F3'
-                    },
-                    {
-                        IFNAME => 'A14',
-                        IFNUMBER => '14',
-                        IFTYPE => '6',
-                        IFINOCTETS => '0',
-                        IFLASTCHANGE => '(0) 0:00:00.00',
-                        IFMTU => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '0',
-                        IFSPEED => '0',
-                        MAC => '00:18:71:C1:F0:F2',
-                        IFINERRORS => '0',
-                        IFSTATUS => '2',
+                        IFOUTOCTETS => '1593815865',
+                        IFNAME => 'A9',
                         IFOUTERRORS => '0'
                     },
                     {
-                        IFOUTERRORS => '0',
-                        IFDESCR => 'A15',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        MAC => '00:18:71:C1:F0:F1',
-                        IFSPEED => '1000000000',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '284146569',
                         IFMTU => '1500',
-                        IFLASTCHANGE => '(154728) 0:25:47.28',
-                        IFINOCTETS => '3361365604',
+                        IFINOCTETS => '2224332599',
+                        IFOUTOCTETS => '1552508202',
                         IFTYPE => '6',
-                        IFNUMBER => '15',
-                        IFNAME => 'A15'
+                        MAC => '00:18:71:C1:F0:F6',
+                        IFINERRORS => '0',
+                        IFSPEED => '1000000000',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                IP => '172.31.196.150',
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                MAC => undef,
+                                IFDESCR => '143',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME => '0x0019BB1B4D00'
+                            },
+                            CDP => 1
+                        },
+                        IFLASTCHANGE => '(171654) 0:28:36.54',
+                        IFNUMBER => '10',
+                        IFSTATUS => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFDESCR => 'A10',
+                        IFOUTERRORS => '0',
+                        IFNAME => 'A10'
                     },
                     {
+                        IFTYPE => '6',
+                        MAC => '00:18:71:C1:F0:F5',
+                        IFINERRORS => '0',
                         IFLASTCHANGE => '(0) 0:00:00.00',
-                        IFINOCTETS => '0',
-                        IFTYPE => '6',
-                        IFNUMBER => '16',
-                        IFNAME => 'A16',
                         IFSPEED => '0',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '0',
-                        MAC => '00:18:71:C1:F0:F0',
-                        IFOUTERRORS => '0',
+                        IFNUMBER => '11',
                         IFSTATUS => '2',
-                        IFINERRORS => '0'
-                    },
-                    {
-                        MAC => '00:18:71:C1:F0:EF',
-                        IFINERRORS => '0',
-                        IFDESCR => 'A17',
-                        IFSTATUS => '1',
-                        IFOUTERRORS => '0',
-                        IFNAME => 'A17',
-                        IFTYPE => '6',
-                        IFNUMBER => '17',
-                        IFINOCTETS => '348605692',
-                        IFLASTCHANGE => '(152568) 0:25:25.68',
-                        IFMTU => '1500',
-                        IFOUTOCTETS => '2435360597',
                         IFINTERNALSTATUS => '1',
-                        IFSPEED => '1000000000'
-                    },
-                    {
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
+                        VLANS => {
+                            VLAN => [
+                                {
+                                    NUMBER => '1',
+                                    NAME => 'DEFAULT_VLAN'
+                                }
+                            ]
+                        },
                         IFMTU => '0',
+                        IFINOCTETS => '0',
+                        IFOUTOCTETS => '0',
+                        IFNAME => 'A11',
+                        IFOUTERRORS => '0'
+                    },
+                    {
+                        VLANS => {
+                            VLAN => [
+                                {
+                                    NAME => 'DEFAULT_VLAN',
+                                    NUMBER => '1'
+                                }
+                            ]
+                        },
+                        IFMTU => '0',
+                        IFINOCTETS => '0',
+                        IFOUTOCTETS => '0',
                         IFSPEED => '0',
-                        IFTYPE => '6',
-                        IFNUMBER => '18',
-                        IFNAME => 'A18',
                         IFLASTCHANGE => '(0) 0:00:00.00',
-                        IFINOCTETS => '0',
-                        IFSTATUS => '2',
-                        IFINERRORS => '0',
-                        IFOUTERRORS => '0',
-                        MAC => '00:18:71:C1:F0:EE'
-                    },
-                    {
-                        MAC => '00:18:71:C1:F0:ED',
-                        IFDESCR => 'A19',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFOUTERRORS => '0',
-                        IFNAME => 'A19',
                         IFTYPE => '6',
-                        IFNUMBER => '19',
-                        IFINOCTETS => '28689859',
-                        IFLASTCHANGE => '(143621) 0:23:56.21',
-                        IFMTU => '1500',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '1786194494',
-                        IFSPEED => '1000000000'
-                    },
-                    {
-                        IFSPEED => '0',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '0',
-                        IFLASTCHANGE => '(0) 0:00:00.00',
-                        IFINOCTETS => '0',
-                        IFNUMBER => '20',
-                        IFTYPE => '6',
-                        IFNAME => 'A20',
-                        IFOUTERRORS => '0',
+                        MAC => '00:18:71:C1:F0:F4',
                         IFINERRORS => '0',
                         IFSTATUS => '2',
-                        MAC => '00:18:71:C1:F0:EC'
-                    },
-                    {
-                        IFINOCTETS => '2943397531',
-                        IFLASTCHANGE => '(94699) 0:15:46.99',
-                        IFNAME => 'A21',
-                        IFNUMBER => '21',
-                        IFTYPE => '6',
-                        IFSPEED => '1000000000',
-                        IFMTU => '1500',
-                        IFOUTOCTETS => '1009676074',
                         IFINTERNALSTATUS => '1',
-                        MAC => '00:18:71:C1:F0:EB',
+                        IFNUMBER => '12',
                         IFOUTERRORS => '0',
-                        IFDESCR => 'A21',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1'
+                        IFNAME => 'A12'
                     },
                     {
-                        MAC => '00:18:71:C1:F0:EA',
+                        IFNAME => 'A13',
                         IFOUTERRORS => '0',
-                        IFINERRORS => '0',
+                        IFDESCR => 'A13',
                         IFSTATUS => '1',
-                        IFDESCR => 'A22',
-                        IFINOCTETS => '3614341248',
-                        IFLASTCHANGE => '(57936) 0:09:39.36',
-                        IFNAME => 'A22',
-                        IFNUMBER => '22',
-                        IFTYPE => '6',
+                        IFINTERNALSTATUS => '1',
+                        IFNUMBER => '13',
+                        IFLASTCHANGE => '(147598) 0:24:35.98',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                IP => '172.31.196.151',
+                                MAC => undef,
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME => '0x0019BB1ACC00',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IFDESCR => '141'
+                            },
+                            CDP => 1
+                        },
                         IFSPEED => '1000000000',
-                        IFMTU => '1500',
-                        IFOUTOCTETS => '372261477',
-                        IFINTERNALSTATUS => '1'
-                    },
-                    {
-                        IFSPEED => '1000000000',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '3322662505',
-                        IFMTU => '1500',
-                        IFLASTCHANGE => '(57936) 0:09:39.36',
-                        IFINOCTETS => '1968825162',
                         IFTYPE => '6',
-                        IFNUMBER => '23',
-                        IFNAME => 'A23',
-                        IFOUTERRORS => '0',
-                        IFDESCR => 'A23',
+                        MAC => '00:18:71:C1:F0:F3',
                         IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        MAC => '00:18:71:C1:F0:E9'
-                    },
-                    {
-                        IFOUTERRORS => '0',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFDESCR => 'A24',
-                        MAC => '00:18:71:C1:F0:E8',
-                        IFSPEED => '1000000000',
-                        IFOUTOCTETS => '2284145698',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500',
-                        IFLASTCHANGE => '(57936) 0:09:39.36',
-                        IFINOCTETS => '3412112397',
-                        IFNUMBER => '24',
-                        IFTYPE => '6',
-                        IFNAME => 'A24'
-                    },
-                    {
-                        IFSPEED => '1000000000',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '1169469549',
-                        IFMTU => '1500',
-                        IFLASTCHANGE => '(147667) 0:24:36.67',
-                        IFINOCTETS => '1056898244',
-                        IFNUMBER => '25',
-                        IFTYPE => '6',
-                        IFNAME => 'B1',
-                        IFOUTERRORS => '0',
-                        IFDESCR => 'B1',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        MAC => '00:18:71:C1:F0:E7'
-                    },
-                    {
-                        IFINOCTETS => '3042721785',
-                        IFLASTCHANGE => '(147617) 0:24:36.17',
-                        IFNAME => 'B2',
-                        IFNUMBER => '26',
-                        IFTYPE => '6',
-                        IFSPEED => '1000000000',
-                        IFMTU => '1500',
-                        IFOUTOCTETS => '558861009',
-                        IFINTERNALSTATUS => '1',
-                        MAC => '00:18:71:C1:F0:E6',
-                        IFOUTERRORS => '0',
-                        IFINERRORS => '0',
-                        IFDESCR => 'B2',
-                        IFSTATUS => '1'
-                    },
-                    {
-                        MAC => '00:18:71:C1:F0:E5',
-                        IFINERRORS => '0',
-                        IFDESCR => 'B3',
-                        IFSTATUS => '1',
-                        IFOUTERRORS => '0',
-                        IFNAME => 'B3',
-                        IFNUMBER => '27',
-                        IFTYPE => '6',
-                        IFINOCTETS => '3237184662',
-                        IFLASTCHANGE => '(154748) 0:25:47.48',
-                        IFMTU => '1500',
-                        IFOUTOCTETS => '146927983',
-                        IFINTERNALSTATUS => '1',
-                        IFSPEED => '1000000000'
-                    },
-                    {
-                        IFSPEED => '1000000000',
-                        IFOUTOCTETS => '3299335483',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500',
-                        IFLASTCHANGE => '(154797) 0:25:47.97',
-                        IFINOCTETS => '2288807394',
-                        IFNUMBER => '28',
-                        IFTYPE => '6',
-                        IFNAME => 'B4',
-                        IFOUTERRORS => '0',
-                        IFSTATUS => '1',
-                        IFINERRORS => '0',
-                        IFDESCR => 'B4',
-                        MAC => '00:18:71:C1:F0:E4'
-                    },
-                    {
-                        MAC => '00:18:71:C1:F0:E3',
-                        IFINERRORS => '0',
-                        IFDESCR => 'B5',
-                        IFSTATUS => '1',
-                        IFOUTERRORS => '0',
-                        IFTYPE => '6',
-                        IFNUMBER => '29',
-                        IFNAME => 'B5',
-                        IFLASTCHANGE => '(152588) 0:25:25.88',
-                        IFINOCTETS => '3318685559',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '2809203793',
-                        IFMTU => '1500',
-                        IFSPEED => '1000000000'
-                    },
-                    {
-                        IFOUTERRORS => '0',
-                        IFINERRORS => '0',
-                        IFSTATUS => '2',
-                        IFDESCR => 'B6',
-                        MAC => '00:18:71:C1:F0:E2',
-                        IFSPEED => '1000000000',
-                        IFMTU => '1500',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '0',
-                        IFINOCTETS => '0',
-                        IFLASTCHANGE => '(2632) 0:00:26.32',
-                        IFNAME => 'B6',
-                        IFNUMBER => '30',
-                        IFTYPE => '6'
-                    },
-                    {
-                        MAC => '00:18:71:C1:F0:E1',
-                        IFOUTERRORS => '0',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFDESCR => 'B7',
-                        IFLASTCHANGE => '(143699) 0:23:56.99',
-                        IFINOCTETS => '3012845819',
-                        IFNUMBER => '31',
-                        IFTYPE => '6',
-                        IFNAME => 'B7',
-                        IFSPEED => '1000000000',
-                        IFOUTOCTETS => '2231577010',
-                        IFINTERNALSTATUS => '1',
+                        IFOUTOCTETS => '2302731832',
+                        IFINOCTETS => '3735158120',
                         IFMTU => '1500'
                     },
                     {
-                        IFSTATUS => '1',
-                        IFINERRORS => '0',
-                        IFDESCR => 'B8',
-                        IFOUTERRORS => '0',
-                        MAC => '00:18:71:C1:F0:E0',
+                        IFNUMBER => '14',
                         IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '3764354101',
-                        IFMTU => '1500',
-                        IFSPEED => '1000000000',
-                        IFTYPE => '6',
-                        IFNUMBER => '32',
-                        IFNAME => 'B8',
-                        IFLASTCHANGE => '(143699) 0:23:56.99',
-                        IFINOCTETS => '3323194516'
-                    },
-                    {
-                        IFSPEED => '1000000000',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '20030667',
-                        IFMTU => '1500',
-                        IFLASTCHANGE => '(94732) 0:15:47.32',
-                        IFINOCTETS => '3754573618',
-                        IFTYPE => '6',
-                        IFNUMBER => '33',
-                        IFNAME => 'B9',
-                        IFOUTERRORS => '0',
-                        IFDESCR => 'B9',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        MAC => '00:18:71:C1:F0:DF'
-                    },
-                    {
-                        IFMTU => '1500',
-                        IFOUTOCTETS => '2884232004',
-                        IFINTERNALSTATUS => '1',
-                        IFSPEED => '1000000000',
-                        IFNAME => 'B10',
-                        IFTYPE => '6',
-                        IFNUMBER => '34',
-                        IFINOCTETS => '1557689030',
-                        IFLASTCHANGE => '(94732) 0:15:47.32',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFDESCR => 'B10',
-                        IFOUTERRORS => '0',
-                        MAC => '00:18:71:C1:F0:DE'
-                    },
-                    {
-                        IFLASTCHANGE => '(0) 0:00:00.00',
-                        IFINOCTETS => '0',
-                        IFNUMBER => '35',
-                        IFTYPE => '6',
-                        IFNAME => 'B11',
-                        IFSPEED => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '0',
-                        IFMTU => '0',
-                        MAC => '00:18:71:C1:F0:DD',
-                        IFOUTERRORS => '0',
-                        IFINERRORS => '0',
-                        IFSTATUS => '2'
-                    },
-                    {
-                        IFSPEED => '0',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '0',
-                        IFLASTCHANGE => '(0) 0:00:00.00',
-                        IFINOCTETS => '0',
-                        IFNUMBER => '36',
-                        IFTYPE => '6',
-                        IFNAME => 'B12',
-                        IFOUTERRORS => '0',
                         IFSTATUS => '2',
-                        IFINERRORS => '0',
-                        MAC => '00:18:71:C1:F0:DC'
-                    },
-                    {
-                        IFSPEED => '1000000000',
-                        IFMTU => '1500',
-                        IFOUTOCTETS => '1019288656',
-                        IFINTERNALSTATUS => '1',
-                        IFINOCTETS => '1205644070',
-                        IFLASTCHANGE => '(137672) 0:22:56.72',
-                        IFNAME => 'B13',
-                        IFNUMBER => '37',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(0) 0:00:00.00',
                         IFTYPE => '6',
-                        IFOUTERRORS => '0',
+                        MAC => '00:18:71:C1:F0:F2',
                         IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFDESCR => 'B13',
-                        MAC => '00:18:71:C1:F0:DB'
+                        IFOUTOCTETS => '0',
+                        VLANS => {
+                            VLAN => [
+                                {
+                                    NUMBER => '1',
+                                    NAME => 'DEFAULT_VLAN'
+                                }
+                            ]
+                        },
+                        IFMTU => '0',
+                        IFINOCTETS => '0',
+                        IFNAME => 'A14',
+                        IFOUTERRORS => '0'
                     },
                     {
+                        IFNAME => 'A15',
                         IFOUTERRORS => '0',
+                        IFDESCR => 'A15',
+                        IFINTERNALSTATUS => '1',
+                        IFSTATUS => '1',
+                        IFNUMBER => '15',
+                        CONNECTIONS => {
+                            CDP => 1,
+                            CONNECTION => {
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IFDESCR => '118',
+                                SYSNAME => '0x0019BB01A600',
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                MAC => undef,
+                                IP => '172.31.196.160'
+                            }
+                        },
+                        IFSPEED => '1000000000',
+                        IFLASTCHANGE => '(154728) 0:25:47.28',
+                        MAC => '00:18:71:C1:F0:F1',
+                        IFINERRORS => '0',
+                        IFTYPE => '6',
+                        IFOUTOCTETS => '284146569',
+                        IFINOCTETS => '3361365604',
+                        IFMTU => '1500'
+                    },
+                    {
+                        IFNAME => 'A16',
+                        IFOUTERRORS => '0',
+                        IFLASTCHANGE => '(0) 0:00:00.00',
+                        IFSPEED => '0',
+                        IFTYPE => '6',
+                        MAC => '00:18:71:C1:F0:F0',
                         IFINERRORS => '0',
                         IFSTATUS => '2',
-                        MAC => '00:18:71:C1:F0:DA',
-                        IFSPEED => '0',
-                        IFMTU => '0',
-                        IFOUTOCTETS => '0',
+                        IFNUMBER => '16',
                         IFINTERNALSTATUS => '1',
+                        VLANS => {
+                            VLAN => [
+                                {
+                                    NAME => 'DEFAULT_VLAN',
+                                    NUMBER => '1'
+                                }
+                            ]
+                        },
+                        IFMTU => '0',
                         IFINOCTETS => '0',
+                        IFOUTOCTETS => '0'
+                    },
+                    {
+                        IFOUTOCTETS => '2435360597',
+                        IFINOCTETS => '348605692',
+                        IFMTU => '1500',
+                        IFINTERNALSTATUS => '1',
+                        IFNUMBER => '17',
+                        IFSTATUS => '1',
+                        IFDESCR => 'A17',
+                        IFTYPE => '6',
+                        MAC => '00:18:71:C1:F0:EF',
+                        IFINERRORS => '0',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                IP => '172.31.196.161',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IFDESCR => '118',
+                                SYSNAME => '0x0019BB058200',
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                MAC => undef
+                            },
+                            CDP => 1
+                        },
+                        IFSPEED => '1000000000',
+                        IFLASTCHANGE => '(152568) 0:25:25.68',
+                        IFOUTERRORS => '0',
+                        IFNAME => 'A17'
+                    },
+                    {
+                        IFOUTOCTETS => '0',
+                        VLANS => {
+                            VLAN => [
+                                {
+                                    NAME => 'DEFAULT_VLAN',
+                                    NUMBER => '1'
+                                }
+                            ]
+                        },
+                        IFMTU => '0',
+                        IFINOCTETS => '0',
+                        IFNUMBER => '18',
+                        IFINTERNALSTATUS => '1',
+                        IFSTATUS => '2',
+                        IFSPEED => '0',
                         IFLASTCHANGE => '(0) 0:00:00.00',
-                        IFNAME => 'B14',
-                        IFNUMBER => '38',
+                        MAC => '00:18:71:C1:F0:EE',
+                        IFTYPE => '6',
+                        IFINERRORS => '0',
+                        IFOUTERRORS => '0',
+                        IFNAME => 'A18'
+                    },
+                    {
+                        IFDESCR => 'A19',
+                        IFSTATUS => '1',
+                        IFNUMBER => '19',
+                        IFINTERNALSTATUS => '1',
+                        CONNECTIONS => {
+                            CDP => 1,
+                            CONNECTION => {
+                                SYSNAME => '0x0018FEF9A800',
+                                IFDESCR => '262',
+                                SYSDESCR => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                MAC => undef,
+                                MODEL => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP => '172.31.196.162'
+                            }
+                        },
+                        IFLASTCHANGE => '(143621) 0:23:56.21',
+                        IFSPEED => '1000000000',
+                        IFTYPE => '6',
+                        MAC => '00:18:71:C1:F0:ED',
+                        IFINERRORS => '0',
+                        IFOUTOCTETS => '1786194494',
+                        IFINOCTETS => '28689859',
+                        IFMTU => '1500',
+                        IFNAME => 'A19',
+                        IFOUTERRORS => '0'
+                    },
+                    {
+                        IFMTU => '0',
+                        VLANS => {
+                            VLAN => [
+                                {
+                                    NAME => 'DEFAULT_VLAN',
+                                    NUMBER => '1'
+                                }
+                            ]
+                        },
+                        IFINOCTETS => '0',
+                        IFOUTOCTETS => '0',
+                        IFLASTCHANGE => '(0) 0:00:00.00',
+                        IFSPEED => '0',
+                        MAC => '00:18:71:C1:F0:EC',
+                        IFINERRORS => '0',
+                        IFTYPE => '6',
+                        IFNUMBER => '20',
+                        IFSTATUS => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFOUTERRORS => '0',
+                        IFNAME => 'A20'
+                    },
+                    {
+                        IFOUTERRORS => '0',
+                        IFNAME => 'A21',
+                        IFINOCTETS => '2943397531',
+                        IFMTU => '1500',
+                        IFOUTOCTETS => '1009676074',
+                        IFSPEED => '1000000000',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                IP => '172.31.196.163',
+                                MODEL => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                MAC => undef,
+                                IFDESCR => '262',
+                                SYSDESCR => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME => '0x001C2EE58B00'
+                            },
+                            CDP => 1
+                        },
+                        IFLASTCHANGE => '(94699) 0:15:46.99',
+                        MAC => '00:18:71:C1:F0:EB',
+                        IFTYPE => '6',
+                        IFINERRORS => '0',
+                        IFDESCR => 'A21',
+                        IFNUMBER => '21',
+                        IFSTATUS => '1',
+                        IFINTERNALSTATUS => '1'
+                    },
+                    {
+                        IFNAME => 'A22',
+                        IFOUTERRORS => '0',
+                        IFSPEED => '1000000000',
+                        CONNECTIONS => {
+                            CDP => 1,
+                            CONNECTION => {
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                MAC => undef,
+                                IFDESCR => '22',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME => '0x0019BB172200',
+                                IP => '172.31.192.245'
+                            }
+                        },
+                        IFLASTCHANGE => '(57936) 0:09:39.36',
+                        IFTYPE => '6',
+                        MAC => '00:18:71:C1:F0:EA',
+                        IFINERRORS => '0',
+                        IFDESCR => 'A22',
+                        IFSTATUS => '1',
+                        IFNUMBER => '22',
+                        IFINTERNALSTATUS => '1',
+                        IFINOCTETS => '3614341248',
+                        IFMTU => '1500',
+                        IFOUTOCTETS => '372261477'
+                    },
+                    {
+                        IFOUTERRORS => '0',
+                        IFNAME => 'A23',
+                        IFOUTOCTETS => '3322662505',
+                        IFINOCTETS => '1968825162',
+                        IFMTU => '1500',
+                        IFDESCR => 'A23',
+                        IFINTERNALSTATUS => '1',
+                        IFSTATUS => '1',
+                        IFNUMBER => '23',
+                        CONNECTIONS => {
+                            CDP => 1,
+                            CONNECTION => {
+                                MAC => undef,
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME => '0x0019BB172200',
+                                IFDESCR => '23',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP => '172.31.192.245'
+                            }
+                        },
+                        IFLASTCHANGE => '(57936) 0:09:39.36',
+                        IFSPEED => '1000000000',
+                        IFINERRORS => '0',
+                        MAC => '00:18:71:C1:F0:E9',
                         IFTYPE => '6'
                     },
                     {
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '3131610378',
-                        IFMTU => '1500',
-                        IFSPEED => '1000000000',
-                        IFTYPE => '6',
-                        IFNUMBER => '39',
-                        IFNAME => 'B15',
-                        IFLASTCHANGE => '(139982) 0:23:19.82',
-                        IFINOCTETS => '2981067194',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFDESCR => 'B15',
+                        IFNAME => 'A24',
                         IFOUTERRORS => '0',
-                        MAC => '00:18:71:C1:F0:D9'
+                        IFINTERNALSTATUS => '1',
+                        IFNUMBER => '24',
+                        IFSTATUS => '1',
+                        IFDESCR => 'A24',
+                        IFINERRORS => '0',
+                        MAC => '00:18:71:C1:F0:E8',
+                        IFTYPE => '6',
+                        CONNECTIONS => {
+                            CDP => 1,
+                            CONNECTION => {
+                                IP => '172.31.192.245',
+                                MAC => undef,
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME => '0x0019BB172200',
+                                IFDESCR => '24',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))'
+                            }
+                        },
+                        IFSPEED => '1000000000',
+                        IFLASTCHANGE => '(57936) 0:09:39.36',
+                        IFOUTOCTETS => '2284145698',
+                        IFINOCTETS => '3412112397',
+                        IFMTU => '1500'
                     },
                     {
+                        IFNAME => 'B1',
+                        IFOUTERRORS => '0',
+                        IFSTATUS => '1',
+                        IFNUMBER => '25',
+                        IFINTERNALSTATUS => '1',
+                        IFDESCR => 'B1',
+                        IFTYPE => '6',
+                        MAC => '00:18:71:C1:F0:E7',
+                        IFINERRORS => '0',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                IP => '172.31.196.151',
+                                IFDESCR => '143',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME => '0x0019BB1ACC00',
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                MAC => undef
+                            },
+                            CDP => 1
+                        },
+                        IFSPEED => '1000000000',
+                        IFLASTCHANGE => '(147667) 0:24:36.67',
+                        IFOUTOCTETS => '1169469549',
+                        IFINOCTETS => '1056898244',
+                        IFMTU => '1500'
+                    },
+                    {
+                        IFINTERNALSTATUS => '1',
+                        IFNUMBER => '26',
+                        IFSTATUS => '1',
+                        IFDESCR => 'B2',
+                        MAC => '00:18:71:C1:F0:E6',
+                        IFINERRORS => '0',
+                        IFTYPE => '6',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                IP => '172.31.196.151',
+                                IFDESCR => '118',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME => '0x0019BB1ACC00',
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                MAC => undef
+                            },
+                            CDP => 1
+                        },
+                        IFLASTCHANGE => '(147617) 0:24:36.17',
+                        IFSPEED => '1000000000',
+                        IFOUTOCTETS => '558861009',
+                        IFMTU => '1500',
+                        IFINOCTETS => '3042721785',
+                        IFNAME => 'B2',
+                        IFOUTERRORS => '0'
+                    },
+                    {
+                        IFLASTCHANGE => '(154748) 0:25:47.48',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                IFDESCR => '141',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME => '0x0019BB01A600',
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                MAC => undef,
+                                IP => '172.31.196.160'
+                            },
+                            CDP => 1
+                        },
+                        IFSPEED => '1000000000',
+                        IFINERRORS => '0',
+                        MAC => '00:18:71:C1:F0:E5',
+                        IFTYPE => '6',
+                        IFDESCR => 'B3',
+                        IFSTATUS => '1',
+                        IFNUMBER => '27',
+                        IFINTERNALSTATUS => '1',
+                        IFINOCTETS => '3237184662',
+                        IFMTU => '1500',
+                        IFOUTOCTETS => '146927983',
+                        IFNAME => 'B3',
+                        IFOUTERRORS => '0'
+                    },
+                    {
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IFDESCR => '143',
+                                SYSNAME => '0x0019BB01A600',
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                MAC => undef,
+                                IP => '172.31.196.160'
+                            },
+                            CDP => 1
+                        },
+                        IFLASTCHANGE => '(154797) 0:25:47.97',
+                        IFSPEED => '1000000000',
+                        MAC => '00:18:71:C1:F0:E4',
+                        IFINERRORS => '0',
+                        IFTYPE => '6',
+                        IFDESCR => 'B4',
+                        IFNUMBER => '28',
+                        IFSTATUS => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFMTU => '1500',
+                        IFINOCTETS => '2288807394',
+                        IFOUTOCTETS => '3299335483',
+                        IFNAME => 'B4',
+                        IFOUTERRORS => '0'
+                    },
+                    {
+                        IFDESCR => 'B5',
+                        IFNUMBER => '29',
+                        IFSTATUS => '1',
+                        IFINTERNALSTATUS => '1',
+                        CONNECTIONS => {
+                            CDP => 1,
+                            CONNECTION => {
+                                MAC => undef,
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME => '0x0019BB058200',
+                                IFDESCR => '141',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP => '172.31.196.161'
+                            }
+                        },
+                        IFLASTCHANGE => '(152588) 0:25:25.88',
+                        IFSPEED => '1000000000',
+                        MAC => '00:18:71:C1:F0:E3',
+                        IFTYPE => '6',
+                        IFINERRORS => '0',
+                        IFOUTOCTETS => '2809203793',
+                        IFMTU => '1500',
+                        IFINOCTETS => '3318685559',
+                        IFNAME => 'B5',
+                        IFOUTERRORS => '0'
+                    },
+                    {
+                        IFMTU => '1500',
+                        IFINOCTETS => '0',
+                        IFOUTOCTETS => '0',
+                        IFTYPE => '6',
+                        MAC => '00:18:71:C1:F0:E2',
+                        IFINERRORS => '0',
+                        IFLASTCHANGE => '(2632) 0:00:26.32',
+                        IFSPEED => '1000000000',
+                        IFSTATUS => '2',
+                        IFNUMBER => '30',
+                        IFINTERNALSTATUS => '1',
+                        IFDESCR => 'B6',
+                        IFOUTERRORS => '0',
+                        IFNAME => 'B6'
+                    },
+                    {
+                        IFOUTOCTETS => '2231577010',
+                        IFMTU => '1500',
+                        IFINOCTETS => '3012845819',
+                        IFINTERNALSTATUS => '1',
+                        IFSTATUS => '1',
+                        IFNUMBER => '31',
+                        IFDESCR => 'B7',
+                        MAC => '00:18:71:C1:F0:E1',
+                        IFINERRORS => '0',
+                        IFTYPE => '6',
+                        IFSPEED => '1000000000',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                IP => '172.31.196.162',
+                                SYSNAME => '0x0018FEF9A800',
+                                IFDESCR => '285',
+                                SYSDESCR => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                MAC => undef,
+                                MODEL => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))'
+                            },
+                            CDP => 1
+                        },
+                        IFLASTCHANGE => '(143699) 0:23:56.99',
+                        IFOUTERRORS => '0',
+                        IFNAME => 'B7'
+                    },
+                    {
+                        IFDESCR => 'B8',
+                        IFNUMBER => '32',
+                        IFSTATUS => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE => '(143699) 0:23:56.99',
+                        CONNECTIONS => {
+                            CDP => 1,
+                            CONNECTION => {
+                                IP => '172.31.196.162',
+                                IFDESCR => '287',
+                                SYSDESCR => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME => '0x0018FEF9A800',
+                                MODEL => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                MAC => undef
+                            }
+                        },
+                        IFSPEED => '1000000000',
+                        IFTYPE => '6',
+                        MAC => '00:18:71:C1:F0:E0',
+                        IFINERRORS => '0',
+                        IFOUTOCTETS => '3764354101',
+                        IFMTU => '1500',
+                        IFINOCTETS => '3323194516',
+                        IFNAME => 'B8',
+                        IFOUTERRORS => '0'
+                    },
+                    {
+                        CONNECTIONS => {
+                            CDP => 1,
+                            CONNECTION => {
+                                IFDESCR => '285',
+                                SYSDESCR => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME => '0x001C2EE58B00',
+                                MODEL => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                MAC => undef,
+                                IP => '172.31.196.163'
+                            }
+                        },
+                        IFLASTCHANGE => '(94732) 0:15:47.32',
+                        IFSPEED => '1000000000',
+                        IFINERRORS => '0',
+                        MAC => '00:18:71:C1:F0:DF',
+                        IFTYPE => '6',
+                        IFDESCR => 'B9',
+                        IFNUMBER => '33',
+                        IFSTATUS => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFMTU => '1500',
+                        IFINOCTETS => '3754573618',
+                        IFOUTOCTETS => '20030667',
+                        IFNAME => 'B9',
+                        IFOUTERRORS => '0'
+                    },
+                    {
+                        IFNAME => 'B10',
+                        IFOUTERRORS => '0',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                MODEL => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                MAC => undef,
+                                IFDESCR => '287',
+                                SYSDESCR => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME => '0x001C2EE58B00',
+                                IP => '172.31.196.163'
+                            },
+                            CDP => 1
+                        },
+                        IFLASTCHANGE => '(94732) 0:15:47.32',
+                        IFSPEED => '1000000000',
+                        MAC => '00:18:71:C1:F0:DE',
+                        IFINERRORS => '0',
+                        IFTYPE => '6',
+                        IFDESCR => 'B10',
+                        IFINTERNALSTATUS => '1',
+                        IFNUMBER => '34',
+                        IFSTATUS => '1',
+                        IFMTU => '1500',
+                        IFINOCTETS => '1557689030',
+                        IFOUTOCTETS => '2884232004'
+                    },
+                    {
+                        IFOUTERRORS => '0',
+                        IFNAME => 'B11',
+                        IFINOCTETS => '0',
+                        VLANS => {
+                            VLAN => [
+                                {
+                                    NAME => 'DEFAULT_VLAN',
+                                    NUMBER => '1'
+                                }
+                            ]
+                        },
                         IFMTU => '0',
                         IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFSPEED => '0',
-                        IFNAME => 'B16',
-                        IFNUMBER => '40',
-                        IFTYPE => '6',
-                        IFINOCTETS => '0',
-                        IFLASTCHANGE => '(0) 0:00:00.00',
+                        MAC => '00:18:71:C1:F0:DD',
                         IFINERRORS => '0',
+                        IFTYPE => '6',
+                        IFLASTCHANGE => '(0) 0:00:00.00',
+                        IFSPEED => '0',
                         IFSTATUS => '2',
-                        IFOUTERRORS => '0',
-                        MAC => '00:18:71:C1:F0:D8'
+                        IFINTERNALSTATUS => '1',
+                        IFNUMBER => '35'
                     },
                     {
-                        IFINERRORS => '0',
-                        IFDESCR => 'B17',
-                        IFSTATUS => '1',
-                        IFOUTERRORS => '0',
-                        MAC => '00:18:71:C1:F0:D7',
                         IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '1435860196',
-                        IFMTU => '1500',
-                        IFSPEED => '1000000000',
-                        IFNUMBER => '41',
-                        IFTYPE => '6',
-                        IFNAME => 'B17',
-                        IFLASTCHANGE => '(98347) 0:16:23.47',
-                        IFINOCTETS => '2496990832'
-                    },
-                    {
-                        MAC => '00:18:71:C1:F0:D6',
-                        IFOUTERRORS => '0',
+                        IFNUMBER => '36',
                         IFSTATUS => '2',
-                        IFINERRORS => '0',
-                        IFLASTCHANGE => '(0) 0:00:00.00',
-                        IFINOCTETS => '0',
-                        IFTYPE => '6',
-                        IFNUMBER => '42',
-                        IFNAME => 'B18',
                         IFSPEED => '0',
-                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE => '(0) 0:00:00.00',
+                        MAC => '00:18:71:C1:F0:DC',
+                        IFINERRORS => '0',
+                        IFTYPE => '6',
                         IFOUTOCTETS => '0',
+                        IFINOCTETS => '0',
+                        VLANS => {
+                            VLAN => [
+                                {
+                                    NAME => 'DEFAULT_VLAN',
+                                    NUMBER => '1'
+                                }
+                            ]
+                        },
+                        IFMTU => '0',
+                        IFNAME => 'B12',
+                        IFOUTERRORS => '0'
+                    },
+                    {
+                        IFNAME => 'B13',
+                        IFOUTERRORS => '0',
+                        IFNUMBER => '37',
+                        IFSTATUS => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFDESCR => 'B13',
+                        MAC => '00:18:71:C1:F0:DB',
+                        IFTYPE => '6',
+                        IFINERRORS => '0',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                MAC => undef,
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME => '0x0019BB010B00',
+                                IFDESCR => '118',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP => '172.31.196.140'
+                            },
+                            CDP => 1
+                        },
+                        IFSPEED => '1000000000',
+                        IFLASTCHANGE => '(137672) 0:22:56.72',
+                        IFOUTOCTETS => '1019288656',
+                        IFMTU => '1500',
+                        IFINOCTETS => '1205644070'
+                    },
+                    {
+                        IFNAME => 'B14',
+                        IFOUTERRORS => '0',
+                        IFINTERNALSTATUS => '1',
+                        IFSTATUS => '2',
+                        IFNUMBER => '38',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(0) 0:00:00.00',
+                        MAC => '00:18:71:C1:F0:DA',
+                        IFINERRORS => '0',
+                        IFTYPE => '6',
+                        IFOUTOCTETS => '0',
+                        IFINOCTETS => '0',
+                        VLANS => {
+                            VLAN => [
+                                {
+                                    NAME => 'DEFAULT_VLAN',
+                                    NUMBER => '1'
+                                }
+                            ]
+                        },
                         IFMTU => '0'
                     },
                     {
-                        IFOUTERRORS => '0',
+                        IFDESCR => 'B15',
+                        IFNUMBER => '39',
+                        IFINTERNALSTATUS => '1',
+                        IFSTATUS => '1',
+                        CONNECTIONS => {
+                            CDP => 1,
+                            CONNECTION => {
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                MAC => undef,
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IFDESCR => '118',
+                                SYSNAME => '0x0019BB0D8100',
+                                IP => '172.31.196.141'
+                            }
+                        },
+                        IFSPEED => '1000000000',
+                        IFLASTCHANGE => '(139982) 0:23:19.82',
                         IFINERRORS => '0',
+                        MAC => '00:18:71:C1:F0:D9',
+                        IFTYPE => '6',
+                        IFOUTOCTETS => '3131610378',
+                        IFINOCTETS => '2981067194',
+                        IFMTU => '1500',
+                        IFNAME => 'B15',
+                        IFOUTERRORS => '0'
+                    },
+                    {
+                        IFOUTERRORS => '0',
+                        IFNAME => 'B16',
+                        IFOUTOCTETS => '0',
+                        IFMTU => '0',
+                        VLANS => {
+                            VLAN => [
+                                {
+                                    NAME => 'DEFAULT_VLAN',
+                                    NUMBER => '1'
+                                }
+                            ]
+                        },
+                        IFINOCTETS => '0',
+                        IFNUMBER => '40',
+                        IFINTERNALSTATUS => '1',
+                        IFSTATUS => '2',
+                        MAC => '00:18:71:C1:F0:D8',
+                        IFTYPE => '6',
+                        IFINERRORS => '0',
+                        IFLASTCHANGE => '(0) 0:00:00.00',
+                        IFSPEED => '0'
+                    },
+                    {
+                        IFSTATUS => '1',
+                        IFNUMBER => '41',
+                        IFINTERNALSTATUS => '1',
+                        IFDESCR => 'B17',
+                        IFTYPE => '6',
+                        MAC => '00:18:71:C1:F0:D7',
+                        IFINERRORS => '0',
+                        CONNECTIONS => {
+                            CDP => 1,
+                            CONNECTION => {
+                                IP => '172.31.196.142',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IFDESCR => '118',
+                                SYSNAME => '0x0016B9138000',
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                MAC => undef
+                            }
+                        },
+                        IFSPEED => '1000000000',
+                        IFLASTCHANGE => '(98347) 0:16:23.47',
+                        IFOUTOCTETS => '1435860196',
+                        IFINOCTETS => '2496990832',
+                        IFMTU => '1500',
+                        IFNAME => 'B17',
+                        IFOUTERRORS => '0'
+                    },
+                    {
+                        IFNAME => 'B18',
+                        IFOUTERRORS => '0',
+                        IFNUMBER => '42',
+                        IFINTERNALSTATUS => '1',
+                        IFSTATUS => '2',
+                        MAC => '00:18:71:C1:F0:D6',
+                        IFINERRORS => '0',
+                        IFTYPE => '6',
+                        IFLASTCHANGE => '(0) 0:00:00.00',
+                        IFSPEED => '0',
+                        IFOUTOCTETS => '0',
+                        IFMTU => '0',
+                        VLANS => {
+                            VLAN => [
+                                {
+                                    NUMBER => '1',
+                                    NAME => 'DEFAULT_VLAN'
+                                }
+                            ]
+                        },
+                        IFINOCTETS => '0'
+                    },
+                    {
+                        IFNUMBER => '43',
+                        IFINTERNALSTATUS => '1',
                         IFSTATUS => '1',
                         IFDESCR => 'B19',
                         MAC => '00:18:71:C1:F0:D5',
+                        IFINERRORS => '0',
+                        IFTYPE => '6',
+                        IFLASTCHANGE => '(133655) 0:22:16.55',
+                        CONNECTIONS => {
+                            CDP => 1,
+                            CONNECTION => {
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                MAC => undef,
+                                IFDESCR => '118',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME => '0x0016B9142B00',
+                                IP => '172.31.196.143'
+                            }
+                        },
                         IFSPEED => '1000000000',
                         IFOUTOCTETS => '2304461112',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500',
-                        IFLASTCHANGE => '(133655) 0:22:16.55',
                         IFINOCTETS => '3225589631',
-                        IFTYPE => '6',
-                        IFNUMBER => '43',
-                        IFNAME => 'B19'
-                    },
-                    {
-                        IFSPEED => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '0',
-                        IFMTU => '0',
-                        IFLASTCHANGE => '(0) 0:00:00.00',
-                        IFINOCTETS => '0',
-                        IFTYPE => '6',
-                        IFNUMBER => '44',
-                        IFNAME => 'B20',
-                        IFOUTERRORS => '0',
-                        IFSTATUS => '2',
-                        IFINERRORS => '0',
-                        MAC => '00:18:71:C1:F0:D4'
-                    },
-                    {
-                        IFSPEED => '1000000000',
                         IFMTU => '1500',
-                        IFOUTOCTETS => '4215478562',
-                        IFINTERNALSTATUS => '1',
-                        IFINOCTETS => '3403667845',
-                        IFLASTCHANGE => '(171619) 0:28:36.19',
-                        IFNAME => 'B21',
+                        IFNAME => 'B19',
+                        IFOUTERRORS => '0'
+                    },
+                    {
                         IFTYPE => '6',
+                        MAC => '00:18:71:C1:F0:D4',
+                        IFINERRORS => '0',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(0) 0:00:00.00',
+                        IFSTATUS => '2',
+                        IFNUMBER => '44',
+                        IFINTERNALSTATUS => '1',
+                        VLANS => {
+                            VLAN => [
+                                {
+                                    NUMBER => '1',
+                                    NAME => 'DEFAULT_VLAN'
+                                }
+                            ]
+                        },
+                        IFMTU => '0',
+                        IFINOCTETS => '0',
+                        IFOUTOCTETS => '0',
+                        IFNAME => 'B20',
+                        IFOUTERRORS => '0'
+                    },
+                    {
+                        IFSTATUS => '1',
                         IFNUMBER => '45',
-                        IFOUTERRORS => '0',
+                        IFINTERNALSTATUS => '1',
                         IFDESCR => 'B21',
                         IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        MAC => '00:18:71:C1:F0:D3'
+                        MAC => '00:18:71:C1:F0:D3',
+                        IFTYPE => '6',
+                        IFLASTCHANGE => '(171619) 0:28:36.19',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                IP => '172.31.196.150',
+                                SYSNAME => '0x0019BB1B4D00',
+                                IFDESCR => '118',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                MAC => undef,
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))'
+                            },
+                            CDP => 1
+                        },
+                        IFSPEED => '1000000000',
+                        IFOUTOCTETS => '4215478562',
+                        IFMTU => '1500',
+                        IFINOCTETS => '3403667845',
+                        IFNAME => 'B21',
+                        IFOUTERRORS => '0'
                     },
                     {
-                        IFINOCTETS => '2524887906',
-                        IFLASTCHANGE => '(57873) 0:09:38.73',
-                        IFNAME => 'B22',
-                        IFNUMBER => '46',
-                        IFTYPE => '6',
-                        IFSPEED => '1000000000',
                         IFMTU => '1500',
-                        IFINTERNALSTATUS => '1',
+                        IFINOCTETS => '2524887906',
                         IFOUTOCTETS => '986787144',
+                        CONNECTIONS => {
+                            CDP => 1,
+                            CONNECTION => {
+                                SYSNAME => '0x0019BB172200',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IFDESCR => '46',
+                                MAC => undef,
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP => '172.31.192.245'
+                            }
+                        },
+                        IFLASTCHANGE => '(57873) 0:09:38.73',
+                        IFSPEED => '1000000000',
                         MAC => '00:18:71:C1:F0:D2',
-                        IFOUTERRORS => '0',
+                        IFTYPE => '6',
                         IFINERRORS => '0',
                         IFDESCR => 'B22',
-                        IFSTATUS => '1'
+                        IFNUMBER => '46',
+                        IFSTATUS => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFOUTERRORS => '0',
+                        IFNAME => 'B22'
                     },
                     {
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '1527530290',
-                        IFMTU => '1500',
-                        IFSPEED => '1000000000',
-                        IFNUMBER => '47',
-                        IFTYPE => '6',
                         IFNAME => 'B23',
-                        IFLASTCHANGE => '(57873) 0:09:38.73',
-                        IFINOCTETS => '1647940696',
-                        IFSTATUS => '1',
-                        IFINERRORS => '0',
+                        IFOUTERRORS => '0',
                         IFDESCR => 'B23',
-                        IFOUTERRORS => '0',
-                        MAC => '00:18:71:C1:F0:D1'
-                    },
-                    {
-                        MAC => '00:18:71:C1:F0:D0',
-                        IFDESCR => 'B24',
-                        IFINERRORS => '0',
                         IFSTATUS => '1',
-                        IFOUTERRORS => '0',
-                        IFNAME => 'B24',
-                        IFNUMBER => '48',
-                        IFTYPE => '6',
-                        IFINOCTETS => '2411859653',
+                        IFNUMBER => '47',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE => '(57873) 0:09:38.73',
-                        IFMTU => '1500',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                IP => '172.31.192.245',
+                                SYSNAME => '0x0019BB172200',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IFDESCR => '47',
+                                MAC => undef,
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))'
+                            },
+                            CDP => 1
+                        },
+                        IFSPEED => '1000000000',
+                        IFTYPE => '6',
+                        MAC => '00:18:71:C1:F0:D1',
+                        IFINERRORS => '0',
+                        IFOUTOCTETS => '1527530290',
+                        IFINOCTETS => '1647940696',
+                        IFMTU => '1500'
+                    },
+                    {
                         IFOUTOCTETS => '2515291862',
+                        IFMTU => '1500',
+                        IFINOCTETS => '2411859653',
+                        IFDESCR => 'B24',
+                        IFSTATUS => '1',
+                        IFNUMBER => '48',
                         IFINTERNALSTATUS => '1',
-                        IFSPEED => '1000000000'
+                        CONNECTIONS => {
+                            CDP => 1,
+                            CONNECTION => {
+                                MAC => undef,
+                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME => '0x0019BB172200',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IFDESCR => '48',
+                                IP => '172.31.192.245'
+                            }
+                        },
+                        IFSPEED => '1000000000',
+                        IFLASTCHANGE => '(57873) 0:09:38.73',
+                        MAC => '00:18:71:C1:F0:D0',
+                        IFTYPE => '6',
+                        IFINERRORS => '0',
+                        IFOUTERRORS => '0',
+                        IFNAME => 'B24'
                     },
                     {
-                        MAC => '00:18:71:C1:E0:00',
-                        IFOUTERRORS => '0',
-                        IFDESCR => 'Trk2',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
+                        IFMTU => '1500',
                         IFLASTCHANGE => '(140222) 0:23:22.22',
-                        IFINOCTETS => '3379199007',
-                        IFNUMBER => '291',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                MAC => [
+                                    '00:19:BB:0D:81:00',
+                                    '00:19:BB:0D:91:71',
+                                    '00:19:BB:0D:91:73',
+                                    '00:19:BB:0D:91:8A',
+                                    '00:05:1E:BF:07:E0',
+                                    '00:50:56:00:00:06',
+                                    '00:50:56:70:C4:44',
+                                    '00:50:56:7B:AA:A5',
+                                    '00:50:56:46:51:9D',
+                                    '00:50:56:49:71:8C',
+                                    '02:A0:98:12:B5:20'
+                                ]
+                            }
+                        },
+                        IFINERRORS => '0',
                         IFTYPE => '161',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFDESCR => 'Trk2',
+                        IFSTATUS => '1',
+                        IFOUTERRORS => '0',
                         IFNAME => 'Trk2',
-                        IFSPEED => '3000000000',
+                        VLANS => {
+                            VLAN => [
+                                {
+                                    NUMBER => '1',
+                                    NAME => 'DEFAULT_VLAN'
+                                },
+                                {
+                                    NAME => 'PERIPHERIQUES',
+                                    NUMBER => '201'
+                                },
+                                {
+                                    NUMBER => '171',
+                                    NAME => 'DATA_POLY'
+                                },
+                                {
+                                    NAME => 'UTIL_INVITES',
+                                    NUMBER => '214'
+                                },
+                                {
+                                    NUMBER => '154',
+                                    NAME => 'FW-INTERCO-FOUNDRY'
+                                },
+                                {
+                                    NAME => 'DATA_CEPE',
+                                    NUMBER => '172'
+                                },
+                                {
+                                    NAME => 'FW-Libre_Service',
+                                    NUMBER => '156'
+                                },
+                                {
+                                    NAME => 'FW-PUG-DRRT',
+                                    NUMBER => '159'
+                                },
+                                {
+                                    NUMBER => '3000',
+                                    NAME => 'COLLECTE-TEST'
+                                },
+                                {
+                                    NUMBER => '150',
+                                    NAME => 'RENATER'
+                                },
+                                {
+                                    NUMBER => '170',
+                                    NAME => 'DATA_RIHDA'
+                                },
+                                {
+                                    NAME => 'INT_EQUANT_ETABLISSEMENTS',
+                                    NUMBER => '18'
+                                },
+                                {
+                                    NUMBER => '204',
+                                    NAME => 'UTIL_FORMATION'
+                                },
+                                {
+                                    NAME => 'INTERCO_RACINE_API',
+                                    NUMBER => '4'
+                                },
+                                {
+                                    NUMBER => '153',
+                                    NAME => 'FW-VLAN-LIBRE'
+                                },
+                                {
+                                    NAME => 'FW-DMZ-PEDA',
+                                    NUMBER => '157'
+                                },
+                                {
+                                    NUMBER => '190',
+                                    NAME => 'postesIP_RIHDA'
+                                },
+                                {
+                                    NAME => 'TEST-ETAB',
+                                    NUMBER => '3007'
+                                },
+                                {
+                                    NUMBER => '215',
+                                    NAME => 'UTIL_SYST_RESEAUX'
+                                },
+                                {
+                                    NUMBER => '22',
+                                    NAME => 'DMZ_HD'
+                                },
+                                {
+                                    NUMBER => '5',
+                                    NAME => 'DMZ'
+                                },
+                                {
+                                    NUMBER => '158',
+                                    NAME => 'FW-DMZ-INFRA2'
+                                },
+                                {
+                                    NAME => 'RESEAU_DRRT-PUG',
+                                    NUMBER => '30'
+                                },
+                                {
+                                    NUMBER => '162',
+                                    NAME => 'LIBR_SERVICE'
+                                },
+                                {
+                                    NUMBER => '180',
+                                    NAME => 'video_RIHDA'
+                                },
+                                {
+                                    NUMBER => '205',
+                                    NAME => 'UTIL_CATI'
+                                },
+                                {
+                                    NAME => 'FW-DMZ-INFRA',
+                                    NUMBER => '152'
+                                },
+                                {
+                                    NAME => 'VLAN401',
+                                    NUMBER => '401'
+                                },
+                                {
+                                    NUMBER => '16',
+                                    NAME => 'SERVEUR-CSS'
+                                },
+                                {
+                                    NAME => 'ACCUEIL_ETABLISSEMENTS',
+                                    NUMBER => '7'
+                                },
+                                {
+                                    NUMBER => '402',
+                                    NAME => 'wifi_recteur'
+                                },
+                                {
+                                    NAME => 'FW-DMZ',
+                                    NUMBER => '155'
+                                },
+                                {
+                                    NAME => 'COLLECTE_IP_RIHDA',
+                                    NUMBER => '149'
+                                },
+                                {
+                                    NAME => 'UTIL_NVEAU_BAT',
+                                    NUMBER => '202'
+                                },
+                                {
+                                    NAME => 'TEST-APPLI',
+                                    NUMBER => '3002'
+                                },
+                                {
+                                    NAME => 'DMZ227',
+                                    NUMBER => '14'
+                                },
+                                {
+                                    NAME => 'ZONE_PUBLIQUE',
+                                    NUMBER => '3'
+                                },
+                                {
+                                    NUMBER => '17',
+                                    NAME => 'INTER_EQUANT_RECTORAT'
+                                },
+                                {
+                                    NAME => 'SERVERS',
+                                    NUMBER => '2'
+                                },
+                                {
+                                    NUMBER => '160',
+                                    NAME => 'ToIP_RIHDA'
+                                },
+                                {
+                                    NAME => 'VOIP_ASTERISK',
+                                    NUMBER => '13'
+                                },
+                                {
+                                    NUMBER => '6',
+                                    NAME => 'AGRIATES'
+                                },
+                                {
+                                    NAME => 'TEST-AGRIATE',
+                                    NUMBER => '3006'
+                                },
+                                {
+                                    NAME => 'ADMIN_RESEAU',
+                                    NUMBER => '196'
+                                },
+                                {
+                                    NUMBER => '15',
+                                    NAME => 'INTERCO-CSS'
+                                },
+                                {
+                                    NUMBER => '403',
+                                    NAME => 'DMZ_ELGG'
+                                }
+                            ]
+                        },
+                        IFINOCTETS => '3379199007',
                         IFOUTOCTETS => '410125299',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500'
-                    },
-                    {
-                        IFOUTERRORS => '0',
-                        IFINERRORS => '0',
-                        IFDESCR => 'Trk4',
-                        IFSTATUS => '1',
-                        MAC => '00:18:71:C1:E0:00',
                         IFSPEED => '3000000000',
-                        IFMTU => '1500',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '949597094',
-                        IFINOCTETS => '3667291251',
-                        IFLASTCHANGE => '(152649) 0:25:26.49',
-                        IFNAME => 'Trk4',
-                        IFTYPE => '161',
-                        IFNUMBER => '293'
-                    },
-                    {
-                        IFSPEED => '3000000000',
-                        IFOUTOCTETS => '4031062390',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500',
-                        IFLASTCHANGE => '(147706) 0:24:37.06',
-                        IFINOCTETS => '3539810853',
-                        IFTYPE => '161',
-                        IFNUMBER => '295',
-                        IFNAME => 'Trk6',
-                        IFOUTERRORS => '0',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFDESCR => 'Trk6',
-                        MAC => '00:18:71:C1:E0:00'
-                    },
-                    {
-                        IFINERRORS => '0',
-                        IFDESCR => 'Trk8',
-                        IFSTATUS => '1',
-                        IFOUTERRORS => '0',
-                        MAC => '00:18:71:C1:E0:00',
-                        IFMTU => '1500',
-                        IFOUTOCTETS => '3066835333',
-                        IFINTERNALSTATUS => '1',
-                        IFSPEED => '3000000000',
-                        IFNAME => 'Trk8',
-                        IFNUMBER => '297',
-                        IFTYPE => '161',
-                        IFINOCTETS => '2716694799',
-                        IFLASTCHANGE => '(171701) 0:28:37.01'
-                    },
-                    {
-                        MAC => '00:18:71:C1:E0:00',
-                        IFOUTERRORS => '0',
-                        IFDESCR => 'Trk10',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFINOCTETS => '2069762898',
-                        IFLASTCHANGE => '(143756) 0:23:57.56',
-                        IFNAME => 'Trk10',
-                        IFTYPE => '161',
-                        IFNUMBER => '299',
-                        IFSPEED => '3000000000',
-                        IFMTU => '1500',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '3487158309'
-                    },
-                    {
-                        IFINERRORS => '0',
-                        IFDESCR => 'Trk12',
-                        IFSTATUS => '1',
-                        IFOUTERRORS => '0',
-                        MAC => '00:18:71:C1:E0:00',
-                        IFMTU => '1500',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '2720306505',
-                        IFSPEED => '3000000000',
-                        IFNAME => 'Trk12',
-                        IFNUMBER => '301',
-                        IFTYPE => '161',
-                        IFINOCTETS => '982784258',
-                        IFLASTCHANGE => '(137833) 0:22:58.33'
-                    },
-                    {
-                        IFOUTERRORS => '0',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFDESCR => 'Trk14',
-                        MAC => '00:18:71:C1:E0:00',
-                        IFSPEED => '3000000000',
-                        IFMTU => '1500',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '551488736',
-                        IFINOCTETS => '1935734813',
-                        IFLASTCHANGE => '(133781) 0:22:17.81',
-                        IFNAME => 'Trk14',
-                        IFTYPE => '161',
-                        IFNUMBER => '303'
-                    },
-                    {
-                        MAC => '00:18:71:C1:E0:00',
-                        IFOUTERRORS => '0',
-                        IFDESCR => 'Trk16',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFLASTCHANGE => '(98455) 0:16:24.55',
-                        IFINOCTETS => '1672200058',
-                        IFNUMBER => '305',
-                        IFTYPE => '161',
-                        IFNAME => 'Trk16',
-                        IFSPEED => '3000000000',
-                        IFOUTOCTETS => '827902268',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500'
-                    },
-                    {
-                        IFSPEED => '3000000000',
-                        IFMTU => '1500',
-                        IFOUTOCTETS => '3913938745',
-                        IFINTERNALSTATUS => '1',
-                        IFINOCTETS => '3960692883',
-                        IFLASTCHANGE => '(94806) 0:15:48.06',
-                        IFNAME => 'Trk18',
-                        IFTYPE => '161',
-                        IFNUMBER => '307',
-                        IFOUTERRORS => '0',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFDESCR => 'Trk18',
-                        MAC => '00:18:71:C1:E0:00'
-                    },
-                    {
-                        IFNUMBER => '309',
-                        IFTYPE => '161',
-                        IFNAME => 'Trk20',
-                        IFLASTCHANGE => '(154845) 0:25:48.45',
-                        IFINOCTETS => '297423068',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '3730410035',
-                        IFMTU => '1500',
-                        IFSPEED => '3000000000',
-                        MAC => '00:18:71:C1:E0:00',
-                        IFINERRORS => '0',
-                        IFDESCR => 'Trk20',
-                        IFSTATUS => '1',
-                        IFOUTERRORS => '0'
-                    },
-                    {
-                        IFNAME => 'Trk21',
-                        IFNUMBER => '310',
-                        IFTYPE => '161',
-                        IFINOCTETS => '2695065174',
-                        IFLASTCHANGE => '(57970) 0:09:39.70',
-                        IFMTU => '1500',
-                        IFOUTOCTETS => '2418744384',
-                        IFINTERNALSTATUS => '1',
-                        IFSPEED => '4294967295',
-                        MAC => '00:18:71:C1:E0:00',
-                        IFINERRORS => '0',
-                        IFDESCR => 'Trk21',
-                        IFSTATUS => '1',
-                        IFOUTERRORS => '0'
-                    },
-                    {
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500',
-                        IFSPEED => '0',
-                        IFTYPE => '53',
-                        IFNUMBER => '578',
-                        IFNAME => 'DEFAULT_VLAN',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
-                        IFINOCTETS => '0',
-                        IFDESCR => 'DEFAULT_VLAN',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFOUTERRORS => '0',
-                        MAC => '00:18:71:C1:E0:00'
-                    },
-                    {
-                        IFOUTERRORS => '0',
-                        IFDESCR => 'VLAN2',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        MAC => '00:18:71:C1:E0:00',
-                        IFSPEED => '0',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
-                        IFINOCTETS => '0',
-                        IFNUMBER => '579',
-                        IFTYPE => '53',
-                        IFNAME => 'VLAN2'
-                    },
-                    {
-                        IFINERRORS => '0',
-                        IFDESCR => 'VLAN3',
-                        IFSTATUS => '1',
-                        IFOUTERRORS => '0',
-                        MAC => '00:18:71:C1:E0:00',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500',
-                        IFSPEED => '0',
-                        IFNUMBER => '580',
-                        IFTYPE => '53',
-                        IFNAME => 'VLAN3',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
-                        IFINOCTETS => '0'
-                    },
-                    {
-                        MAC => '00:18:71:C1:E0:00',
-                        IFOUTERRORS => '0',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFDESCR => 'VLAN4',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
-                        IFINOCTETS => '0',
-                        IFTYPE => '53',
-                        IFNUMBER => '581',
-                        IFNAME => 'VLAN4',
-                        IFSPEED => '0',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500'
-                    },
-                    {
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFDESCR => 'VLAN5',
-                        IFOUTERRORS => '0',
-                        MAC => '00:18:71:C1:E0:00',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500',
-                        IFSPEED => '0',
-                        IFTYPE => '53',
-                        IFNUMBER => '582',
-                        IFNAME => 'VLAN5',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
-                        IFINOCTETS => '0'
-                    },
-                    {
-                        IFINOCTETS => '0',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
-                        IFNAME => 'VLAN6',
-                        IFNUMBER => '583',
-                        IFTYPE => '53',
-                        IFSPEED => '0',
-                        IFMTU => '1500',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        MAC => '00:18:71:C1:E0:00',
-                        IFOUTERRORS => '0',
-                        IFINERRORS => '0',
-                        IFDESCR => 'VLAN6',
-                        IFSTATUS => '1'
-                    },
-                    {
-                        IFINOCTETS => '0',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
-                        IFNAME => 'VLAN7',
-                        IFTYPE => '53',
-                        IFNUMBER => '584',
-                        IFSPEED => '0',
-                        IFMTU => '1500',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '0',
-                        MAC => '00:18:71:C1:E0:00',
-                        IFOUTERRORS => '0',
-                        IFDESCR => 'VLAN7',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1'
-                    },
-                    {
-                        IFOUTERRORS => '0',
-                        IFSTATUS => '1',
-                        IFINERRORS => '0',
-                        IFDESCR => 'VLAN13',
-                        MAC => '00:18:71:C1:E0:00',
-                        IFSPEED => '0',
-                        IFMTU => '1500',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '0',
-                        IFINOCTETS => '0',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
-                        IFNAME => 'VLAN13',
-                        IFTYPE => '53',
-                        IFNUMBER => '590'
-                    },
-                    {
-                        IFNAME => 'VLAN14',
-                        IFTYPE => '53',
-                        IFNUMBER => '591',
-                        IFINOCTETS => '0',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
-                        IFMTU => '1500',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '0',
-                        IFSPEED => '0',
-                        MAC => '00:18:71:C1:E0:00',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFDESCR => 'VLAN14',
-                        IFOUTERRORS => '0'
-                    },
-                    {
-                        IFMTU => '1500',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFSPEED => '0',
-                        IFNAME => 'VLAN15',
-                        IFNUMBER => '592',
-                        IFTYPE => '53',
-                        IFINOCTETS => '0',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
-                        IFSTATUS => '1',
-                        IFINERRORS => '0',
-                        IFDESCR => 'VLAN15',
-                        IFOUTERRORS => '0',
-                        MAC => '00:18:71:C1:E0:00'
-                    },
-                    {
-                        IFTYPE => '53',
-                        IFNUMBER => '593',
-                        IFNAME => 'VLAN16',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
-                        IFINOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '0',
-                        IFMTU => '1500',
-                        IFSPEED => '0',
-                        MAC => '00:18:71:C1:E0:00',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFDESCR => 'VLAN16',
-                        IFOUTERRORS => '0'
-                    },
-                    {
-                        IFTYPE => '53',
-                        IFNUMBER => '594',
-                        IFNAME => 'VLAN17',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
-                        IFINOCTETS => '0',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500',
-                        IFSPEED => '0',
-                        MAC => '00:18:71:C1:E0:00',
-                        IFSTATUS => '1',
-                        IFINERRORS => '0',
-                        IFDESCR => 'VLAN17',
-                        IFOUTERRORS => '0'
-                    },
-                    {
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500',
-                        IFSPEED => '0',
-                        IFTYPE => '53',
-                        IFNUMBER => '595',
-                        IFNAME => 'VLAN18',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
-                        IFINOCTETS => '0',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFDESCR => 'VLAN18',
-                        IFOUTERRORS => '0',
-                        MAC => '00:18:71:C1:E0:00'
-                    },
-                    {
-                        IFTYPE => '53',
-                        IFNUMBER => '599',
-                        IFNAME => 'VLAN22',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
-                        IFINOCTETS => '0',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500',
-                        IFSPEED => '0',
-                        MAC => '00:18:71:C1:E0:00',
-                        IFDESCR => 'VLAN22',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFOUTERRORS => '0'
-                    },
-                    {
-                        IFOUTERRORS => '0',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFDESCR => 'VLAN30',
-                        MAC => '00:18:71:C1:E0:00',
-                        IFSPEED => '0',
-                        IFMTU => '1500',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFINOCTETS => '0',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
-                        IFNAME => 'VLAN30',
-                        IFTYPE => '53',
-                        IFNUMBER => '607'
-                    },
-                    {
-                        IFNUMBER => '726',
-                        IFTYPE => '53',
-                        IFNAME => 'VLAN149',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
-                        IFINOCTETS => '0',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500',
-                        IFSPEED => '0',
-                        MAC => '00:18:71:C1:E0:00',
-                        IFINERRORS => '0',
-                        IFDESCR => 'VLAN149',
-                        IFSTATUS => '1',
-                        IFOUTERRORS => '0'
-                    },
-                    {
-                        MAC => '00:18:71:C1:E0:00',
-                        IFDESCR => 'VLAN150',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFOUTERRORS => '0',
-                        IFNAME => 'VLAN150',
-                        IFNUMBER => '727',
-                        IFTYPE => '53',
-                        IFINOCTETS => '0',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
-                        IFMTU => '1500',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '0',
-                        IFSPEED => '0'
-                    },
-                    {
-                        MAC => '00:18:71:C1:E0:00',
-                        IFSTATUS => '1',
-                        IFINERRORS => '0',
-                        IFDESCR => 'VLAN152',
-                        IFOUTERRORS => '0',
-                        IFNAME => 'VLAN152',
-                        IFNUMBER => '729',
-                        IFTYPE => '53',
-                        IFINOCTETS => '0',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
-                        IFMTU => '1500',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFSPEED => '0'
-                    },
-                    {
-                        IFOUTERRORS => '0',
-                        IFSTATUS => '1',
-                        IFINERRORS => '0',
-                        IFDESCR => 'VLAN153',
-                        MAC => '00:18:71:C1:E0:00',
-                        IFSPEED => '0',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
-                        IFINOCTETS => '0',
-                        IFTYPE => '53',
-                        IFNUMBER => '730',
-                        IFNAME => 'VLAN153'
-                    },
-                    {
-                        MAC => '00:18:71:C1:E0:00',
-                        IFOUTERRORS => '0',
-                        IFDESCR => 'VLAN154',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFINOCTETS => '0',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
-                        IFNAME => 'VLAN154',
-                        IFNUMBER => '731',
-                        IFTYPE => '53',
-                        IFSPEED => '0',
-                        IFMTU => '1500',
-                        IFOUTOCTETS => '0',
+                        IFNUMBER => '291',
                         IFINTERNALSTATUS => '1'
                     },
                     {
-                        MAC => '00:18:71:C1:E0:00',
-                        IFSTATUS => '1',
-                        IFINERRORS => '0',
-                        IFDESCR => 'VLAN155',
-                        IFOUTERRORS => '0',
-                        IFNAME => 'VLAN155',
-                        IFNUMBER => '732',
-                        IFTYPE => '53',
-                        IFINOCTETS => '0',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
                         IFMTU => '1500',
-                        IFOUTOCTETS => '0',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                MAC => [
+                                    '00:00:F0:AC:EA:A9',
+                                    '00:19:BB:05:82:00',
+                                    '00:19:BB:05:92:73',
+                                    '00:19:BB:05:92:8A',
+                                    '00:19:DB:A9:28:04',
+                                    '00:1E:68:5D:33:46',
+                                    '00:1E:68:5E:3D:B6',
+                                    '00:21:5A:97:2A:B7',
+                                    '00:22:F3:9D:20:4B',
+                                    '00:22:F3:C7:D7:8B',
+                                    '00:23:7D:76:E3:8C',
+                                    '00:25:B3:F4:FC:F6',
+                                    '00:26:22:D3:A0:29',
+                                    '00:08:5D:13:57:D2',
+                                    '00:08:5D:2B:65:12',
+                                    '00:08:5D:2C:C0:02',
+                                    '10:78:D2:E8:73:41'
+                                ]
+                            }
+                        },
+                        IFLASTCHANGE => '(152649) 0:25:26.49',
+                        IFTYPE => '161',
+                        IFINERRORS => '0',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFDESCR => 'Trk4',
+                        IFSTATUS => '1',
+                        IFINOCTETS => '3667291251',
+                        VLANS => {
+                            VLAN => [
+                                {
+                                    NAME => 'INTERCO-CSS',
+                                    NUMBER => '15'
+                                },
+                                {
+                                    NAME => 'video_RIHDA',
+                                    NUMBER => '180'
+                                },
+                                {
+                                    NAME => 'RESEAU_DRRT-PUG',
+                                    NUMBER => '30'
+                                },
+                                {
+                                    NUMBER => '16',
+                                    NAME => 'SERVEUR-CSS'
+                                },
+                                {
+                                    NAME => 'DATA_RIHDA',
+                                    NUMBER => '170'
+                                },
+                                {
+                                    NAME => 'ZONE_PUBLIQUE',
+                                    NUMBER => '3'
+                                },
+                                {
+                                    NUMBER => '172',
+                                    NAME => 'DATA_CEPE'
+                                },
+                                {
+                                    NUMBER => '402',
+                                    NAME => 'wifi_recteur'
+                                },
+                                {
+                                    NAME => 'FW-DMZ',
+                                    NUMBER => '155'
+                                },
+                                {
+                                    NAME => 'COLLECTE_IP_RIHDA',
+                                    NUMBER => '149'
+                                },
+                                {
+                                    NUMBER => '159',
+                                    NAME => 'FW-PUG-DRRT'
+                                },
+                                {
+                                    NUMBER => '17',
+                                    NAME => 'INTER_EQUANT_RECTORAT'
+                                },
+                                {
+                                    NAME => 'UTIL_INVITES',
+                                    NUMBER => '214'
+                                },
+                                {
+                                    NUMBER => '160',
+                                    NAME => 'ToIP_RIHDA'
+                                },
+                                {
+                                    NUMBER => '171',
+                                    NAME => 'DATA_POLY'
+                                },
+                                {
+                                    NAME => 'FW-Libre_Service',
+                                    NUMBER => '156'
+                                },
+                                {
+                                    NAME => 'RENATER',
+                                    NUMBER => '150'
+                                },
+                                {
+                                    NUMBER => '153',
+                                    NAME => 'FW-VLAN-LIBRE'
+                                },
+                                {
+                                    NAME => 'DMZ',
+                                    NUMBER => '5'
+                                },
+                                {
+                                    NAME => 'INTERCO_RACINE_API',
+                                    NUMBER => '4'
+                                },
+                                {
+                                    NUMBER => '215',
+                                    NAME => 'UTIL_SYST_RESEAUX'
+                                },
+                                {
+                                    NAME => 'DEFAULT_VLAN',
+                                    NUMBER => '1'
+                                },
+                                {
+                                    NAME => 'DMZ_ELGG',
+                                    NUMBER => '403'
+                                },
+                                {
+                                    NUMBER => '14',
+                                    NAME => 'DMZ227'
+                                },
+                                {
+                                    NAME => 'ACCUEIL_ETABLISSEMENTS',
+                                    NUMBER => '7'
+                                },
+                                {
+                                    NAME => 'FW-DMZ-INFRA',
+                                    NUMBER => '152'
+                                },
+                                {
+                                    NAME => 'INT_EQUANT_ETABLISSEMENTS',
+                                    NUMBER => '18'
+                                },
+                                {
+                                    NAME => 'DMZ_HD',
+                                    NUMBER => '22'
+                                },
+                                {
+                                    NAME => 'FW-DMZ-PEDA',
+                                    NUMBER => '157'
+                                },
+                                {
+                                    NAME => 'UTIL_FORMATION',
+                                    NUMBER => '204'
+                                },
+                                {
+                                    NAME => 'UTIL_CATI',
+                                    NUMBER => '205'
+                                },
+                                {
+                                    NAME => 'FW-INTERCO-FOUNDRY',
+                                    NUMBER => '154'
+                                },
+                                {
+                                    NAME => 'ADMIN_RESEAU',
+                                    NUMBER => '196'
+                                },
+                                {
+                                    NAME => 'PERIPHERIQUES',
+                                    NUMBER => '201'
+                                },
+                                {
+                                    NAME => 'postesIP_RIHDA',
+                                    NUMBER => '190'
+                                },
+                                {
+                                    NAME => 'FW-DMZ-INFRA2',
+                                    NUMBER => '158'
+                                },
+                                {
+                                    NAME => 'VOIP_ASTERISK',
+                                    NUMBER => '13'
+                                },
+                                {
+                                    NAME => 'UTIL_NVEAU_BAT',
+                                    NUMBER => '202'
+                                },
+                                {
+                                    NAME => 'VLAN401',
+                                    NUMBER => '401'
+                                },
+                                {
+                                    NAME => 'LIBR_SERVICE',
+                                    NUMBER => '162'
+                                },
+                                {
+                                    NAME => 'AGRIATES',
+                                    NUMBER => '6'
+                                },
+                                {
+                                    NUMBER => '2',
+                                    NAME => 'SERVERS'
+                                }
+                            ]
+                        },
+                        IFOUTOCTETS => '949597094',
+                        IFSPEED => '3000000000',
+                        IFNUMBER => '293',
                         IFINTERNALSTATUS => '1',
-                        IFSPEED => '0'
+                        IFOUTERRORS => '0',
+                        IFNAME => 'Trk4'
                     },
                     {
-                        MAC => '00:18:71:C1:E0:00',
-                        IFOUTERRORS => '0',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFDESCR => 'VLAN156',
-                        IFINOCTETS => '0',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
-                        IFNAME => 'VLAN156',
-                        IFTYPE => '53',
-                        IFNUMBER => '733',
-                        IFSPEED => '0',
-                        IFMTU => '1500',
+                        IFNUMBER => '295',
                         IFINTERNALSTATUS => '1',
+                        IFSPEED => '3000000000',
+                        IFOUTOCTETS => '4031062390',
+                        VLANS => {
+                            VLAN => [
+                                {
+                                    NAME => 'DMZ_ELGG',
+                                    NUMBER => '403'
+                                },
+                                {
+                                    NUMBER => '153',
+                                    NAME => 'FW-VLAN-LIBRE'
+                                },
+                                {
+                                    NUMBER => '170',
+                                    NAME => 'DATA_RIHDA'
+                                },
+                                {
+                                    NAME => 'DATA_POLY',
+                                    NUMBER => '171'
+                                },
+                                {
+                                    NAME => 'UTIL_FORMATION',
+                                    NUMBER => '204'
+                                },
+                                {
+                                    NAME => 'ACCUEIL_ETABLISSEMENTS',
+                                    NUMBER => '7'
+                                },
+                                {
+                                    NUMBER => '5',
+                                    NAME => 'DMZ'
+                                },
+                                {
+                                    NAME => 'INTER_EQUANT_RECTORAT',
+                                    NUMBER => '17'
+                                },
+                                {
+                                    NAME => 'video_RIHDA',
+                                    NUMBER => '180'
+                                },
+                                {
+                                    NAME => 'UTIL_NVEAU_BAT',
+                                    NUMBER => '202'
+                                },
+                                {
+                                    NUMBER => '149',
+                                    NAME => 'COLLECTE_IP_RIHDA'
+                                },
+                                {
+                                    NAME => 'AGRIATES',
+                                    NUMBER => '6'
+                                },
+                                {
+                                    NAME => 'UTIL_INVITES',
+                                    NUMBER => '214'
+                                },
+                                {
+                                    NUMBER => '2',
+                                    NAME => 'SERVERS'
+                                },
+                                {
+                                    NUMBER => '1',
+                                    NAME => 'DEFAULT_VLAN'
+                                },
+                                {
+                                    NAME => 'DATA_CEPE',
+                                    NUMBER => '172'
+                                },
+                                {
+                                    NUMBER => '30',
+                                    NAME => 'RESEAU_DRRT-PUG'
+                                },
+                                {
+                                    NAME => 'VOIP_ASTERISK',
+                                    NUMBER => '13'
+                                },
+                                {
+                                    NAME => 'FW-PUG-DRRT',
+                                    NUMBER => '159'
+                                },
+                                {
+                                    NAME => 'FW-DMZ',
+                                    NUMBER => '155'
+                                },
+                                {
+                                    NAME => 'PERIPHERIQUES',
+                                    NUMBER => '201'
+                                },
+                                {
+                                    NAME => 'FW-DMZ-INFRA2',
+                                    NUMBER => '158'
+                                },
+                                {
+                                    NUMBER => '150',
+                                    NAME => 'RENATER'
+                                },
+                                {
+                                    NUMBER => '152',
+                                    NAME => 'FW-DMZ-INFRA'
+                                },
+                                {
+                                    NUMBER => '22',
+                                    NAME => 'DMZ_HD'
+                                },
+                                {
+                                    NAME => 'INT_EQUANT_ETABLISSEMENTS',
+                                    NUMBER => '18'
+                                },
+                                {
+                                    NAME => 'wifi_recteur',
+                                    NUMBER => '402'
+                                },
+                                {
+                                    NUMBER => '401',
+                                    NAME => 'VLAN401'
+                                },
+                                {
+                                    NUMBER => '157',
+                                    NAME => 'FW-DMZ-PEDA'
+                                },
+                                {
+                                    NAME => 'UTIL_SYST_RESEAUX',
+                                    NUMBER => '215'
+                                },
+                                {
+                                    NUMBER => '162',
+                                    NAME => 'LIBR_SERVICE'
+                                },
+                                {
+                                    NUMBER => '160',
+                                    NAME => 'ToIP_RIHDA'
+                                },
+                                {
+                                    NUMBER => '154',
+                                    NAME => 'FW-INTERCO-FOUNDRY'
+                                },
+                                {
+                                    NUMBER => '190',
+                                    NAME => 'postesIP_RIHDA'
+                                },
+                                {
+                                    NUMBER => '205',
+                                    NAME => 'UTIL_CATI'
+                                },
+                                {
+                                    NAME => 'INTERCO-CSS',
+                                    NUMBER => '15'
+                                },
+                                {
+                                    NAME => 'ZONE_PUBLIQUE',
+                                    NUMBER => '3'
+                                },
+                                {
+                                    NAME => 'SERVEUR-CSS',
+                                    NUMBER => '16'
+                                },
+                                {
+                                    NUMBER => '14',
+                                    NAME => 'DMZ227'
+                                },
+                                {
+                                    NUMBER => '196',
+                                    NAME => 'ADMIN_RESEAU'
+                                },
+                                {
+                                    NUMBER => '4',
+                                    NAME => 'INTERCO_RACINE_API'
+                                },
+                                {
+                                    NAME => 'FW-Libre_Service',
+                                    NUMBER => '156'
+                                }
+                            ]
+                        },
+                        IFINOCTETS => '3539810853',
+                        IFNAME => 'Trk6',
+                        IFOUTERRORS => '0',
+                        IFSTATUS => '1',
+                        IFDESCR => 'Trk6',
+                        IFINERRORS => '0',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '161',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                MAC => [
+                                    '00:00:F0:A9:62:13',
+                                    '00:0B:84:00:6C:8A',
+                                    '00:13:72:F6:E2:4E',
+                                    '00:14:7C:2B:86:20',
+                                    '00:16:17:C2:E9:F0',
+                                    '00:18:71:85:A3:9B',
+                                    '00:19:BB:1A:CC:00',
+                                    '00:19:BB:1A:DC:71',
+                                    '00:19:BB:1A:DC:73',
+                                    '00:19:BB:1A:DC:8A',
+                                    '00:19:DB:7A:B6:94',
+                                    '00:19:DB:88:99:46',
+                                    '00:19:DB:BC:81:F8',
+                                    '00:19:DB:BC:82:F3',
+                                    '00:1A:4B:19:26:0D',
+                                    '00:1D:92:DC:F6:68',
+                                    '00:1D:92:DD:6B:F0',
+                                    '00:1D:92:DF:6F:AE',
+                                    '00:1F:29:99:CB:BB',
+                                    '00:1F:29:99:DB:41',
+                                    '00:1F:29:14:87:74',
+                                    '00:21:85:D0:32:C9',
+                                    '00:21:85:D0:32:08',
+                                    '00:21:85:D0:33:7B',
+                                    '00:22:F3:9D:1F:C7',
+                                    '00:22:F3:C7:D7:86',
+                                    '00:22:F3:C8:02:CF',
+                                    '00:22:F3:C8:02:2E',
+                                    '00:22:F3:C8:04:16',
+                                    '00:23:EA:DB:05:48',
+                                    '00:23:47:25:AA:C0',
+                                    '00:04:00:9D:44:34',
+                                    '00:04:00:B9:19:C4',
+                                    '00:04:00:CD:D3:85',
+                                    '00:08:5D:86:D5:65',
+                                    '00:08:5D:86:D7:64',
+                                    '00:08:5D:13:42:22',
+                                    '00:08:5D:13:56:D1',
+                                    '00:08:5D:13:57:E1',
+                                    '00:08:5D:13:57:F4',
+                                    '00:08:5D:13:58:16',
+                                    '00:08:5D:13:58:1B',
+                                    '00:08:5D:13:58:1C',
+                                    '00:08:5D:13:58:1D',
+                                    '00:08:5D:13:58:1E',
+                                    '00:08:5D:13:58:1F',
+                                    '00:08:5D:13:58:22',
+                                    '00:08:5D:13:58:25',
+                                    '00:08:5D:13:59:97',
+                                    '00:08:5D:1B:73:36',
+                                    '00:08:5D:1B:75:0F',
+                                    '00:08:5D:1B:75:14',
+                                    '00:08:5D:1B:7B:33',
+                                    '00:08:5D:24:CE:50',
+                                    '00:08:5D:24:CF:84',
+                                    '00:08:5D:24:CF:89',
+                                    '00:08:5D:24:CF:A4',
+                                    '00:08:5D:24:CF:5F',
+                                    '00:08:5D:24:CF:62',
+                                    '00:08:5D:2B:F1:8B',
+                                    '00:08:5D:2B:F1:91',
+                                    '00:08:5D:2C:C2:68',
+                                    '00:50:FC:6D:A5:52',
+                                    '00:60:2E:02:13:61',
+                                    '10:78:D2:E3:8B:91',
+                                    '10:78:D2:E3:8B:B9',
+                                    '10:78:D2:E6:DF:CB',
+                                    '10:78:D2:E9:8F:BC',
+                                    '10:1F:74:47:EF:CF',
+                                    'B8:AC:6F:23:1A:05',
+                                    'B8:AC:6F:25:C8:40',
+                                    'B8:AC:6F:3E:36:5F',
+                                    '08:00:71:03:DD:41',
+                                    '08:2E:5F:32:7A:91'
+                                ]
+                            }
+                        },
+                        IFLASTCHANGE => '(147706) 0:24:37.06',
+                        IFMTU => '1500'
+                    },
+                    {
+                        IFLASTCHANGE => '(171701) 0:28:37.01',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                MAC => [
+                                    '00:0B:82:08:65:49',
+                                    '00:0B:84:00:6D:33',
+                                    '00:11:0A:FC:D2:D4',
+                                    '00:16:17:5C:BE:45',
+                                    '00:E0:D8:0A:A8:E1',
+                                    '00:E0:D8:0A:A8:E2',
+                                    '00:E0:D8:0A:2E:1F',
+                                    '00:18:FE:A5:0D:FD',
+                                    '00:19:BB:1B:4D:00',
+                                    '00:19:BB:1B:5D:71',
+                                    '00:19:BB:1B:5D:73',
+                                    '00:19:BB:1B:5D:8A',
+                                    '00:19:DB:7A:B5:F3',
+                                    '00:19:DB:C0:D8:AE',
+                                    '00:1D:92:DC:F6:BA',
+                                    '00:1D:92:DD:74:B6',
+                                    '00:1F:29:25:4C:AD',
+                                    '00:22:F3:C7:D6:A2',
+                                    '00:23:18:91:DB:8D',
+                                    '00:24:21:0C:3A:FB',
+                                    '00:24:21:0C:3D:6A',
+                                    '00:24:21:0C:3D:5B',
+                                    '00:04:F2:E4:26:4F',
+                                    '00:08:5D:1B:7B:25',
+                                    '00:08:5D:1B:7B:2D',
+                                    '00:08:5D:1B:7B:34',
+                                    '00:08:5D:1B:7B:38',
+                                    '00:08:5D:1B:7C:66',
+                                    '00:08:5D:2C:C7:00',
+                                    '00:08:5D:2C:C7:1F',
+                                    '00:08:5D:2C:C7:32',
+                                    '10:78:D2:E3:8B:C7',
+                                    '10:78:D2:E6:E2:78',
+                                    'B8:AC:6F:23:19:08'
+                                ]
+                            }
+                        },
+                        MAC => '00:18:71:C1:E0:00',
+                        IFINERRORS => '0',
+                        IFTYPE => '161',
+                        IFDESCR => 'Trk8',
+                        IFSTATUS => '1',
+                        IFMTU => '1500',
+                        IFNAME => 'Trk8',
+                        IFOUTERRORS => '0',
+                        IFSPEED => '3000000000',
+                        IFNUMBER => '297',
+                        IFINTERNALSTATUS => '1',
+                        VLANS => {
+                            VLAN => [
+                                {
+                                    NAME => 'FW-DMZ',
+                                    NUMBER => '155'
+                                },
+                                {
+                                    NUMBER => '5',
+                                    NAME => 'DMZ'
+                                },
+                                {
+                                    NAME => 'video_RIHDA',
+                                    NUMBER => '180'
+                                },
+                                {
+                                    NAME => 'INTERCO-CSS',
+                                    NUMBER => '15'
+                                },
+                                {
+                                    NUMBER => '156',
+                                    NAME => 'FW-Libre_Service'
+                                },
+                                {
+                                    NAME => 'PERIPHERIQUES',
+                                    NUMBER => '201'
+                                },
+                                {
+                                    NAME => 'INTERCO_RACINE_API',
+                                    NUMBER => '4'
+                                },
+                                {
+                                    NAME => 'COLLECTE_IP_RIHDA',
+                                    NUMBER => '149'
+                                },
+                                {
+                                    NAME => 'UTIL_NVEAU_BAT',
+                                    NUMBER => '202'
+                                },
+                                {
+                                    NUMBER => '13',
+                                    NAME => 'VOIP_ASTERISK'
+                                },
+                                {
+                                    NUMBER => '158',
+                                    NAME => 'FW-DMZ-INFRA2'
+                                },
+                                {
+                                    NUMBER => '172',
+                                    NAME => 'DATA_CEPE'
+                                },
+                                {
+                                    NAME => 'VLAN401',
+                                    NUMBER => '401'
+                                },
+                                {
+                                    NAME => 'FW-PUG-DRRT',
+                                    NUMBER => '159'
+                                },
+                                {
+                                    NAME => 'SERVERS',
+                                    NUMBER => '2'
+                                },
+                                {
+                                    NUMBER => '162',
+                                    NAME => 'LIBR_SERVICE'
+                                },
+                                {
+                                    NAME => 'SERVEUR-CSS',
+                                    NUMBER => '16'
+                                },
+                                {
+                                    NUMBER => '14',
+                                    NAME => 'DMZ227'
+                                },
+                                {
+                                    NUMBER => '170',
+                                    NAME => 'DATA_RIHDA'
+                                },
+                                {
+                                    NUMBER => '196',
+                                    NAME => 'ADMIN_RESEAU'
+                                },
+                                {
+                                    NAME => 'postesIP_RIHDA',
+                                    NUMBER => '190'
+                                },
+                                {
+                                    NAME => 'DMZ_ELGG',
+                                    NUMBER => '403'
+                                },
+                                {
+                                    NUMBER => '160',
+                                    NAME => 'ToIP_RIHDA'
+                                },
+                                {
+                                    NAME => 'wifi_recteur',
+                                    NUMBER => '402'
+                                },
+                                {
+                                    NAME => 'ZONE_PUBLIQUE',
+                                    NUMBER => '3'
+                                },
+                                {
+                                    NUMBER => '205',
+                                    NAME => 'UTIL_CATI'
+                                },
+                                {
+                                    NUMBER => '6',
+                                    NAME => 'AGRIATES'
+                                },
+                                {
+                                    NUMBER => '171',
+                                    NAME => 'DATA_POLY'
+                                },
+                                {
+                                    NUMBER => '150',
+                                    NAME => 'RENATER'
+                                },
+                                {
+                                    NUMBER => '17',
+                                    NAME => 'INTER_EQUANT_RECTORAT'
+                                },
+                                {
+                                    NAME => 'INT_EQUANT_ETABLISSEMENTS',
+                                    NUMBER => '18'
+                                },
+                                {
+                                    NAME => 'DMZ_HD',
+                                    NUMBER => '22'
+                                },
+                                {
+                                    NAME => 'FW-INTERCO-FOUNDRY',
+                                    NUMBER => '154'
+                                },
+                                {
+                                    NUMBER => '30',
+                                    NAME => 'RESEAU_DRRT-PUG'
+                                },
+                                {
+                                    NAME => 'UTIL_SYST_RESEAUX',
+                                    NUMBER => '215'
+                                },
+                                {
+                                    NUMBER => '157',
+                                    NAME => 'FW-DMZ-PEDA'
+                                },
+                                {
+                                    NUMBER => '152',
+                                    NAME => 'FW-DMZ-INFRA'
+                                },
+                                {
+                                    NAME => 'ACCUEIL_ETABLISSEMENTS',
+                                    NUMBER => '7'
+                                },
+                                {
+                                    NUMBER => '1',
+                                    NAME => 'DEFAULT_VLAN'
+                                },
+                                {
+                                    NUMBER => '153',
+                                    NAME => 'FW-VLAN-LIBRE'
+                                },
+                                {
+                                    NUMBER => '214',
+                                    NAME => 'UTIL_INVITES'
+                                },
+                                {
+                                    NUMBER => '204',
+                                    NAME => 'UTIL_FORMATION'
+                                }
+                            ]
+                        },
+                        IFINOCTETS => '2716694799',
+                        IFOUTOCTETS => '3066835333'
+                    },
+                    {
+                        IFDESCR => 'Trk10',
+                        IFSTATUS => '1',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                MAC => [
+                                    '00:14:38:4A:D0:31',
+                                    '00:16:17:A5:09:24',
+                                    '00:16:17:C4:6E:55',
+                                    '00:16:17:E3:9C:68',
+                                    '00:16:17:E3:23:EE',
+                                    '00:17:08:86:1A:84',
+                                    '00:18:71:88:A6:54',
+                                    '00:18:FE:F9:A8:00',
+                                    '00:18:FE:F9:A8:E1',
+                                    '00:18:FE:F9:A8:E3',
+                                    '00:18:FE:F9:A8:FA',
+                                    '00:1B:78:25:73:B6',
+                                    '00:1B:78:09:58:79',
+                                    '00:1D:92:DD:6B:EC',
+                                    '00:1D:92:DD:6F:B1',
+                                    '00:1D:92:DD:75:8E',
+                                    '00:1E:0B:0C:89:DB',
+                                    '00:1F:29:99:BB:9D',
+                                    '00:1F:29:16:44:44',
+                                    '00:21:85:D0:32:F9',
+                                    '00:22:F3:9D:0F:D9',
+                                    '00:22:F3:9D:20:56',
+                                    '00:22:F3:C7:D8:20',
+                                    '00:04:00:9D:84:A8',
+                                    '00:04:00:9D:F8:E0',
+                                    '00:04:00:AD:E9:50',
+                                    '00:08:5D:13:57:05',
+                                    '00:08:5D:2C:C0:6A',
+                                    '00:08:5D:2C:C0:CF',
+                                    '00:08:5D:2C:C0:27',
+                                    '10:78:D2:E9:8E:4B',
+                                    'B8:AC:6F:22:AA:E0'
+                                ]
+                            }
+                        },
+                        IFLASTCHANGE => '(143756) 0:23:57.56',
+                        IFINERRORS => '0',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '161',
+                        IFMTU => '1500',
+                        IFNUMBER => '299',
+                        IFINTERNALSTATUS => '1',
+                        IFSPEED => '3000000000',
+                        IFOUTOCTETS => '3487158309',
+                        IFINOCTETS => '2069762898',
+                        VLANS => {
+                            VLAN => [
+                                {
+                                    NAME => 'RESEAU_DRRT-PUG',
+                                    NUMBER => '30'
+                                },
+                                {
+                                    NUMBER => '172',
+                                    NAME => 'DATA_CEPE'
+                                },
+                                {
+                                    NAME => 'PERIPHERIQUES',
+                                    NUMBER => '201'
+                                },
+                                {
+                                    NAME => 'FW-Libre_Service',
+                                    NUMBER => '156'
+                                },
+                                {
+                                    NAME => 'RENATER',
+                                    NUMBER => '150'
+                                },
+                                {
+                                    NUMBER => '15',
+                                    NAME => 'INTERCO-CSS'
+                                },
+                                {
+                                    NUMBER => '13',
+                                    NAME => 'VOIP_ASTERISK'
+                                },
+                                {
+                                    NAME => 'FW-DMZ-INFRA',
+                                    NUMBER => '152'
+                                },
+                                {
+                                    NAME => 'UTIL_NVEAU_BAT',
+                                    NUMBER => '202'
+                                },
+                                {
+                                    NUMBER => '153',
+                                    NAME => 'FW-VLAN-LIBRE'
+                                },
+                                {
+                                    NAME => 'VLAN401',
+                                    NUMBER => '401'
+                                },
+                                {
+                                    NUMBER => '214',
+                                    NAME => 'UTIL_INVITES'
+                                },
+                                {
+                                    NAME => 'LIBR_SERVICE',
+                                    NUMBER => '162'
+                                },
+                                {
+                                    NAME => 'FW-INTERCO-FOUNDRY',
+                                    NUMBER => '154'
+                                },
+                                {
+                                    NAME => 'ToIP_RIHDA',
+                                    NUMBER => '160'
+                                },
+                                {
+                                    NAME => 'DEFAULT_VLAN',
+                                    NUMBER => '1'
+                                },
+                                {
+                                    NAME => 'ACCUEIL_ETABLISSEMENTS',
+                                    NUMBER => '7'
+                                },
+                                {
+                                    NUMBER => '171',
+                                    NAME => 'DATA_POLY'
+                                },
+                                {
+                                    NUMBER => '5',
+                                    NAME => 'DMZ'
+                                },
+                                {
+                                    NAME => 'SERVERS',
+                                    NUMBER => '2'
+                                },
+                                {
+                                    NAME => 'FW-DMZ-PEDA',
+                                    NUMBER => '157'
+                                },
+                                {
+                                    NAME => 'wifi_recteur',
+                                    NUMBER => '402'
+                                },
+                                {
+                                    NUMBER => '215',
+                                    NAME => 'UTIL_SYST_RESEAUX'
+                                },
+                                {
+                                    NAME => 'DMZ227',
+                                    NUMBER => '14'
+                                },
+                                {
+                                    NUMBER => '204',
+                                    NAME => 'UTIL_FORMATION'
+                                },
+                                {
+                                    NAME => 'COLLECTE_IP_RIHDA',
+                                    NUMBER => '149'
+                                },
+                                {
+                                    NUMBER => '170',
+                                    NAME => 'DATA_RIHDA'
+                                },
+                                {
+                                    NAME => 'postesIP_RIHDA',
+                                    NUMBER => '190'
+                                },
+                                {
+                                    NUMBER => '205',
+                                    NAME => 'UTIL_CATI'
+                                },
+                                {
+                                    NAME => 'FW-DMZ-INFRA2',
+                                    NUMBER => '158'
+                                },
+                                {
+                                    NAME => 'INT_EQUANT_ETABLISSEMENTS',
+                                    NUMBER => '18'
+                                },
+                                {
+                                    NAME => 'video_RIHDA',
+                                    NUMBER => '180'
+                                },
+                                {
+                                    NAME => 'DMZ_ELGG',
+                                    NUMBER => '403'
+                                },
+                                {
+                                    NUMBER => '17',
+                                    NAME => 'INTER_EQUANT_RECTORAT'
+                                },
+                                {
+                                    NUMBER => '159',
+                                    NAME => 'FW-PUG-DRRT'
+                                },
+                                {
+                                    NUMBER => '155',
+                                    NAME => 'FW-DMZ'
+                                },
+                                {
+                                    NAME => 'ADMIN_RESEAU',
+                                    NUMBER => '196'
+                                },
+                                {
+                                    NUMBER => '6',
+                                    NAME => 'AGRIATES'
+                                },
+                                {
+                                    NAME => 'SERVEUR-CSS',
+                                    NUMBER => '16'
+                                },
+                                {
+                                    NAME => 'DMZ_HD',
+                                    NUMBER => '22'
+                                },
+                                {
+                                    NUMBER => '4',
+                                    NAME => 'INTERCO_RACINE_API'
+                                },
+                                {
+                                    NUMBER => '3',
+                                    NAME => 'ZONE_PUBLIQUE'
+                                }
+                            ]
+                        },
+                        IFNAME => 'Trk10',
+                        IFOUTERRORS => '0'
+                    },
+                    {
+                        IFNAME => 'Trk12',
+                        IFOUTERRORS => '0',
+                        IFINTERNALSTATUS => '1',
+                        IFNUMBER => '301',
+                        IFSPEED => '3000000000',
+                        IFOUTOCTETS => '2720306505',
+                        VLANS => {
+                            VLAN => [
+                                {
+                                    NAME => 'PERIPHERIQUES',
+                                    NUMBER => '201'
+                                },
+                                {
+                                    NAME => 'FW-DMZ-INFRA',
+                                    NUMBER => '152'
+                                },
+                                {
+                                    NAME => 'FW-VLAN-LIBRE',
+                                    NUMBER => '153'
+                                },
+                                {
+                                    NUMBER => '3002',
+                                    NAME => 'TEST-APPLI'
+                                },
+                                {
+                                    NUMBER => '180',
+                                    NAME => 'video_RIHDA'
+                                },
+                                {
+                                    NUMBER => '158',
+                                    NAME => 'FW-DMZ-INFRA2'
+                                },
+                                {
+                                    NAME => 'ADMIN_RESEAU',
+                                    NUMBER => '196'
+                                },
+                                {
+                                    NAME => 'FW-INTERCO-FOUNDRY',
+                                    NUMBER => '154'
+                                },
+                                {
+                                    NUMBER => '150',
+                                    NAME => 'RENATER'
+                                },
+                                {
+                                    NAME => 'TEST-ETAB',
+                                    NUMBER => '3007'
+                                },
+                                {
+                                    NUMBER => '170',
+                                    NAME => 'DATA_RIHDA'
+                                },
+                                {
+                                    NAME => 'DMZ',
+                                    NUMBER => '5'
+                                },
+                                {
+                                    NAME => 'DATA_CEPE',
+                                    NUMBER => '172'
+                                },
+                                {
+                                    NAME => 'UTIL_SYST_RESEAUX',
+                                    NUMBER => '215'
+                                },
+                                {
+                                    NUMBER => '202',
+                                    NAME => 'UTIL_NVEAU_BAT'
+                                },
+                                {
+                                    NAME => 'ACCUEIL_ETABLISSEMENTS',
+                                    NUMBER => '7'
+                                },
+                                {
+                                    NAME => 'FW-DMZ-PEDA',
+                                    NUMBER => '157'
+                                },
+                                {
+                                    NUMBER => '162',
+                                    NAME => 'LIBR_SERVICE'
+                                },
+                                {
+                                    NUMBER => '155',
+                                    NAME => 'FW-DMZ'
+                                },
+                                {
+                                    NUMBER => '160',
+                                    NAME => 'ToIP_RIHDA'
+                                },
+                                {
+                                    NAME => 'AGRIATES',
+                                    NUMBER => '6'
+                                },
+                                {
+                                    NAME => 'DEFAULT_VLAN',
+                                    NUMBER => '1'
+                                },
+                                {
+                                    NAME => 'SERVEUR-CSS',
+                                    NUMBER => '16'
+                                },
+                                {
+                                    NUMBER => '14',
+                                    NAME => 'DMZ227'
+                                },
+                                {
+                                    NUMBER => '171',
+                                    NAME => 'DATA_POLY'
+                                },
+                                {
+                                    NAME => 'VLAN401',
+                                    NUMBER => '401'
+                                },
+                                {
+                                    NAME => 'VOIP_ASTERISK',
+                                    NUMBER => '13'
+                                },
+                                {
+                                    NUMBER => '190',
+                                    NAME => 'postesIP_RIHDA'
+                                },
+                                {
+                                    NAME => 'FW-Libre_Service',
+                                    NUMBER => '156'
+                                },
+                                {
+                                    NAME => 'UTIL_CATI',
+                                    NUMBER => '205'
+                                },
+                                {
+                                    NAME => 'INT_EQUANT_ETABLISSEMENTS',
+                                    NUMBER => '18'
+                                },
+                                {
+                                    NAME => 'FW-PUG-DRRT',
+                                    NUMBER => '159'
+                                },
+                                {
+                                    NUMBER => '214',
+                                    NAME => 'UTIL_INVITES'
+                                },
+                                {
+                                    NUMBER => '3',
+                                    NAME => 'ZONE_PUBLIQUE'
+                                },
+                                {
+                                    NAME => 'DMZ_ELGG',
+                                    NUMBER => '403'
+                                },
+                                {
+                                    NUMBER => '402',
+                                    NAME => 'wifi_recteur'
+                                },
+                                {
+                                    NAME => 'COLLECTE_IP_RIHDA',
+                                    NUMBER => '149'
+                                },
+                                {
+                                    NUMBER => '204',
+                                    NAME => 'UTIL_FORMATION'
+                                },
+                                {
+                                    NUMBER => '15',
+                                    NAME => 'INTERCO-CSS'
+                                },
+                                {
+                                    NUMBER => '2',
+                                    NAME => 'SERVERS'
+                                },
+                                {
+                                    NUMBER => '3006',
+                                    NAME => 'TEST-AGRIATE'
+                                },
+                                {
+                                    NAME => 'RESEAU_DRRT-PUG',
+                                    NUMBER => '30'
+                                },
+                                {
+                                    NAME => 'COLLECTE-TEST',
+                                    NUMBER => '3000'
+                                },
+                                {
+                                    NUMBER => '4',
+                                    NAME => 'INTERCO_RACINE_API'
+                                },
+                                {
+                                    NAME => 'DMZ_HD',
+                                    NUMBER => '22'
+                                },
+                                {
+                                    NUMBER => '17',
+                                    NAME => 'INTER_EQUANT_RECTORAT'
+                                }
+                            ]
+                        },
+                        IFINOCTETS => '982784258',
+                        IFSTATUS => '1',
+                        IFDESCR => 'Trk12',
+                        IFINERRORS => '0',
+                        IFTYPE => '161',
+                        MAC => '00:18:71:C1:E0:00',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                MAC => [
+                                    '00:19:BB:01:0B:00',
+                                    '00:19:BB:01:1B:71',
+                                    '00:19:BB:01:1B:73',
+                                    '00:19:BB:01:1B:8A',
+                                    '00:50:56:72:2C:1A',
+                                    '00:50:56:7E:E7:85',
+                                    '00:50:56:8B:65:0A',
+                                    '00:50:56:8B:29:26',
+                                    '00:50:56:44:71:B5',
+                                    '00:50:56:47:E1:B4'
+                                ]
+                            }
+                        },
+                        IFLASTCHANGE => '(137833) 0:22:58.33',
+                        IFMTU => '1500'
+                    },
+                    {
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                MAC => [
+                                    '00:16:B9:14:2B:00',
+                                    '00:16:B9:14:3B:71',
+                                    '00:16:B9:14:3B:73',
+                                    '00:16:B9:14:3B:8A',
+                                    '00:1E:C9:B7:B8:B3',
+                                    '00:1E:C9:B7:B8:F4',
+                                    '00:50:56:72:D9:74',
+                                    '00:50:56:44:DF:2D'
+                                ]
+                            }
+                        },
+                        IFLASTCHANGE => '(133781) 0:22:17.81',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFINERRORS => '0',
+                        IFTYPE => '161',
+                        IFDESCR => 'Trk14',
+                        IFSTATUS => '1',
+                        IFMTU => '1500',
+                        IFSPEED => '3000000000',
+                        IFINTERNALSTATUS => '1',
+                        IFNUMBER => '303',
+                        IFINOCTETS => '1935734813',
+                        VLANS => {
+                            VLAN => [
+                                {
+                                    NAME => 'LIBR_SERVICE',
+                                    NUMBER => '162'
+                                },
+                                {
+                                    NAME => 'AGRIATES',
+                                    NUMBER => '6'
+                                },
+                                {
+                                    NUMBER => '2',
+                                    NAME => 'SERVERS'
+                                },
+                                {
+                                    NUMBER => '402',
+                                    NAME => 'wifi_recteur'
+                                },
+                                {
+                                    NAME => 'VLAN401',
+                                    NUMBER => '401'
+                                },
+                                {
+                                    NAME => 'FW-Libre_Service',
+                                    NUMBER => '156'
+                                },
+                                {
+                                    NUMBER => '171',
+                                    NAME => 'DATA_POLY'
+                                },
+                                {
+                                    NAME => 'UTIL_SYST_RESEAUX',
+                                    NUMBER => '215'
+                                },
+                                {
+                                    NAME => 'ADMIN_RESEAU',
+                                    NUMBER => '196'
+                                },
+                                {
+                                    NUMBER => '7',
+                                    NAME => 'ACCUEIL_ETABLISSEMENTS'
+                                },
+                                {
+                                    NUMBER => '22',
+                                    NAME => 'DMZ_HD'
+                                },
+                                {
+                                    NUMBER => '152',
+                                    NAME => 'FW-DMZ-INFRA'
+                                },
+                                {
+                                    NAME => 'FW-INTERCO-FOUNDRY',
+                                    NUMBER => '154'
+                                },
+                                {
+                                    NAME => 'ZONE_PUBLIQUE',
+                                    NUMBER => '3'
+                                },
+                                {
+                                    NAME => 'TEST-ETAB',
+                                    NUMBER => '3007'
+                                },
+                                {
+                                    NAME => 'PERIPHERIQUES',
+                                    NUMBER => '201'
+                                },
+                                {
+                                    NUMBER => '5',
+                                    NAME => 'DMZ'
+                                },
+                                {
+                                    NAME => 'FW-VLAN-LIBRE',
+                                    NUMBER => '153'
+                                },
+                                {
+                                    NAME => 'UTIL_INVITES',
+                                    NUMBER => '214'
+                                },
+                                {
+                                    NAME => 'FW-DMZ-INFRA2',
+                                    NUMBER => '158'
+                                },
+                                {
+                                    NUMBER => '3000',
+                                    NAME => 'COLLECTE-TEST'
+                                },
+                                {
+                                    NAME => 'TEST-APPLI',
+                                    NUMBER => '3002'
+                                },
+                                {
+                                    NUMBER => '204',
+                                    NAME => 'UTIL_FORMATION'
+                                },
+                                {
+                                    NUMBER => '205',
+                                    NAME => 'UTIL_CATI'
+                                },
+                                {
+                                    NAME => 'COLLECTE_IP_RIHDA',
+                                    NUMBER => '149'
+                                },
+                                {
+                                    NUMBER => '17',
+                                    NAME => 'INTER_EQUANT_RECTORAT'
+                                },
+                                {
+                                    NAME => 'DATA_CEPE',
+                                    NUMBER => '172'
+                                },
+                                {
+                                    NAME => 'VOIP_ASTERISK',
+                                    NUMBER => '13'
+                                },
+                                {
+                                    NUMBER => '3006',
+                                    NAME => 'TEST-AGRIATE'
+                                },
+                                {
+                                    NAME => 'postesIP_RIHDA',
+                                    NUMBER => '190'
+                                },
+                                {
+                                    NAME => 'INT_EQUANT_ETABLISSEMENTS',
+                                    NUMBER => '18'
+                                },
+                                {
+                                    NUMBER => '159',
+                                    NAME => 'FW-PUG-DRRT'
+                                },
+                                {
+                                    NUMBER => '30',
+                                    NAME => 'RESEAU_DRRT-PUG'
+                                },
+                                {
+                                    NAME => 'video_RIHDA',
+                                    NUMBER => '180'
+                                },
+                                {
+                                    NAME => 'FW-DMZ',
+                                    NUMBER => '155'
+                                },
+                                {
+                                    NUMBER => '150',
+                                    NAME => 'RENATER'
+                                },
+                                {
+                                    NAME => 'DMZ227',
+                                    NUMBER => '14'
+                                },
+                                {
+                                    NAME => 'ToIP_RIHDA',
+                                    NUMBER => '160'
+                                },
+                                {
+                                    NAME => 'SERVEUR-CSS',
+                                    NUMBER => '16'
+                                },
+                                {
+                                    NAME => 'DMZ_ELGG',
+                                    NUMBER => '403'
+                                },
+                                {
+                                    NAME => 'INTERCO_RACINE_API',
+                                    NUMBER => '4'
+                                },
+                                {
+                                    NAME => 'DEFAULT_VLAN',
+                                    NUMBER => '1'
+                                },
+                                {
+                                    NAME => 'UTIL_NVEAU_BAT',
+                                    NUMBER => '202'
+                                },
+                                {
+                                    NUMBER => '170',
+                                    NAME => 'DATA_RIHDA'
+                                },
+                                {
+                                    NUMBER => '15',
+                                    NAME => 'INTERCO-CSS'
+                                },
+                                {
+                                    NAME => 'FW-DMZ-PEDA',
+                                    NUMBER => '157'
+                                }
+                            ]
+                        },
+                        IFOUTOCTETS => '551488736',
+                        IFNAME => 'Trk14',
+                        IFOUTERRORS => '0'
+                    },
+                    {
+                        IFSTATUS => '1',
+                        IFDESCR => 'Trk16',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFINERRORS => '0',
+                        IFTYPE => '161',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                MAC => [
+                                    '00:16:B9:13:80:00',
+                                    '00:16:B9:13:90:71',
+                                    '00:16:B9:13:90:73',
+                                    '00:16:B9:13:90:8A',
+                                    '00:E0:86:07:6B:79',
+                                    '00:05:1E:BD:62:DB',
+                                    '00:50:56:73:17:D4',
+                                    '00:50:56:76:7E:16',
+                                    '00:50:56:76:FC:2F',
+                                    '00:50:56:8B:72:94',
+                                    '00:50:56:8B:45:38',
+                                    '00:50:56:42:5B:6B',
+                                    '00:50:56:4D:F7:97',
+                                    '00:50:56:4F:3B:1C',
+                                    '02:A0:98:12:7A:68'
+                                ]
+                            }
+                        },
+                        IFLASTCHANGE => '(98455) 0:16:24.55',
+                        IFMTU => '1500',
+                        IFNUMBER => '305',
+                        IFINTERNALSTATUS => '1',
+                        IFSPEED => '3000000000',
+                        IFOUTOCTETS => '827902268',
+                        IFINOCTETS => '1672200058',
+                        VLANS => {
+                            VLAN => [
+                                {
+                                    NAME => 'LIBR_SERVICE',
+                                    NUMBER => '162'
+                                },
+                                {
+                                    NAME => 'TEST-AGRIATE',
+                                    NUMBER => '3006'
+                                },
+                                {
+                                    NAME => 'TEST-ETAB',
+                                    NUMBER => '3007'
+                                },
+                                {
+                                    NUMBER => '3000',
+                                    NAME => 'COLLECTE-TEST'
+                                },
+                                {
+                                    NAME => 'FW-DMZ-PEDA',
+                                    NUMBER => '157'
+                                },
+                                {
+                                    NUMBER => '401',
+                                    NAME => 'VLAN401'
+                                },
+                                {
+                                    NUMBER => '159',
+                                    NAME => 'FW-PUG-DRRT'
+                                },
+                                {
+                                    NUMBER => '204',
+                                    NAME => 'UTIL_FORMATION'
+                                },
+                                {
+                                    NAME => 'DATA_POLY',
+                                    NUMBER => '171'
+                                },
+                                {
+                                    NAME => 'DEFAULT_VLAN',
+                                    NUMBER => '1'
+                                },
+                                {
+                                    NUMBER => '5',
+                                    NAME => 'DMZ'
+                                },
+                                {
+                                    NUMBER => '2',
+                                    NAME => 'SERVERS'
+                                },
+                                {
+                                    NUMBER => '202',
+                                    NAME => 'UTIL_NVEAU_BAT'
+                                },
+                                {
+                                    NAME => 'FW-DMZ-INFRA2',
+                                    NUMBER => '158'
+                                },
+                                {
+                                    NUMBER => '196',
+                                    NAME => 'ADMIN_RESEAU'
+                                },
+                                {
+                                    NAME => 'TEST-APPLI',
+                                    NUMBER => '3002'
+                                },
+                                {
+                                    NUMBER => '150',
+                                    NAME => 'RENATER'
+                                },
+                                {
+                                    NUMBER => '149',
+                                    NAME => 'COLLECTE_IP_RIHDA'
+                                },
+                                {
+                                    NAME => 'DATA_CEPE',
+                                    NUMBER => '172'
+                                },
+                                {
+                                    NUMBER => '403',
+                                    NAME => 'DMZ_ELGG'
+                                },
+                                {
+                                    NAME => 'DMZ_HD',
+                                    NUMBER => '22'
+                                },
+                                {
+                                    NUMBER => '154',
+                                    NAME => 'FW-INTERCO-FOUNDRY'
+                                },
+                                {
+                                    NAME => 'INTERCO-CSS',
+                                    NUMBER => '15'
+                                },
+                                {
+                                    NAME => 'DMZ227',
+                                    NUMBER => '14'
+                                },
+                                {
+                                    NAME => 'UTIL_CATI',
+                                    NUMBER => '205'
+                                },
+                                {
+                                    NAME => 'wifi_recteur',
+                                    NUMBER => '402'
+                                },
+                                {
+                                    NAME => 'UTIL_INVITES',
+                                    NUMBER => '214'
+                                },
+                                {
+                                    NUMBER => '17',
+                                    NAME => 'INTER_EQUANT_RECTORAT'
+                                },
+                                {
+                                    NAME => 'RESEAU_DRRT-PUG',
+                                    NUMBER => '30'
+                                },
+                                {
+                                    NUMBER => '6',
+                                    NAME => 'AGRIATES'
+                                },
+                                {
+                                    NUMBER => '16',
+                                    NAME => 'SERVEUR-CSS'
+                                },
+                                {
+                                    NAME => 'postesIP_RIHDA',
+                                    NUMBER => '190'
+                                },
+                                {
+                                    NUMBER => '18',
+                                    NAME => 'INT_EQUANT_ETABLISSEMENTS'
+                                },
+                                {
+                                    NUMBER => '170',
+                                    NAME => 'DATA_RIHDA'
+                                },
+                                {
+                                    NUMBER => '160',
+                                    NAME => 'ToIP_RIHDA'
+                                },
+                                {
+                                    NUMBER => '153',
+                                    NAME => 'FW-VLAN-LIBRE'
+                                },
+                                {
+                                    NAME => 'FW-DMZ-INFRA',
+                                    NUMBER => '152'
+                                },
+                                {
+                                    NUMBER => '4',
+                                    NAME => 'INTERCO_RACINE_API'
+                                },
+                                {
+                                    NAME => 'VOIP_ASTERISK',
+                                    NUMBER => '13'
+                                },
+                                {
+                                    NAME => 'ZONE_PUBLIQUE',
+                                    NUMBER => '3'
+                                },
+                                {
+                                    NUMBER => '155',
+                                    NAME => 'FW-DMZ'
+                                },
+                                {
+                                    NUMBER => '215',
+                                    NAME => 'UTIL_SYST_RESEAUX'
+                                },
+                                {
+                                    NUMBER => '156',
+                                    NAME => 'FW-Libre_Service'
+                                },
+                                {
+                                    NAME => 'video_RIHDA',
+                                    NUMBER => '180'
+                                },
+                                {
+                                    NAME => 'PERIPHERIQUES',
+                                    NUMBER => '201'
+                                },
+                                {
+                                    NUMBER => '7',
+                                    NAME => 'ACCUEIL_ETABLISSEMENTS'
+                                }
+                            ]
+                        },
+                        IFNAME => 'Trk16',
+                        IFOUTERRORS => '0'
+                    },
+                    {
+                        IFSTATUS => '1',
+                        IFDESCR => 'Trk18',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFINERRORS => '0',
+                        IFTYPE => '161',
+                        IFLASTCHANGE => '(94806) 0:15:48.06',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                MAC => [
+                                    '00:00:85:BB:5F:E9',
+                                    '00:14:38:E1:1D:33',
+                                    '00:15:99:1F:52:CD',
+                                    '00:16:17:E2:35:6A',
+                                    '00:19:DB:A7:6F:DC',
+                                    '00:19:DB:A7:70:84',
+                                    '00:19:DB:AA:F4:65',
+                                    '00:19:DB:AD:68:BB',
+                                    '00:19:DB:BC:82:DC',
+                                    '00:1A:4B:32:21:62',
+                                    '00:1C:2E:E5:8B:00',
+                                    '00:1C:2E:E5:8B:E1',
+                                    '00:1C:2E:E5:8B:E3',
+                                    '00:1C:2E:E5:8B:FA',
+                                    '00:1D:92:DD:6B:F5',
+                                    '00:1D:92:DD:6E:3B',
+                                    '00:1D:92:DD:75:F5',
+                                    '00:1D:92:DD:76:D1',
+                                    '00:1F:29:16:34:B2',
+                                    '00:21:85:D0:32:DD',
+                                    '00:22:F3:9D:1B:8F',
+                                    '00:22:F3:C7:D7:03',
+                                    '00:22:F3:C8:04:99',
+                                    '00:23:7D:75:A5:00',
+                                    '00:23:7D:76:E3:42',
+                                    '00:25:B3:F4:EC:86',
+                                    '00:04:00:67:C7:7C',
+                                    '00:04:00:9C:6C:25',
+                                    '00:30:05:5D:68:4F',
+                                    '00:08:5D:13:42:8C',
+                                    '00:08:5D:24:D0:DD',
+                                    '00:08:5D:2C:C0:D2',
+                                    '78:E7:D1:AA:AF:A3',
+                                    '10:78:D2:E3:8B:66',
+                                    'B8:AC:6F:25:D9:BC',
+                                    'B8:AC:6F:3E:3B:09',
+                                    'F0:DE:F1:00:E3:76',
+                                    'F0:DE:F1:00:E3:C5',
+                                    '1C:75:08:75:F0:C2',
+                                    '1C:C1:DE:CB:7D:95',
+                                    '44:1E:A1:34:0B:A0'
+                                ]
+                            }
+                        },
+                        IFMTU => '1500',
+                        IFNUMBER => '307',
+                        IFINTERNALSTATUS => '1',
+                        IFSPEED => '3000000000',
+                        IFOUTOCTETS => '3913938745',
+                        VLANS => {
+                            VLAN => [
+                                {
+                                    NUMBER => '156',
+                                    NAME => 'FW-Libre_Service'
+                                },
+                                {
+                                    NAME => 'UTIL_SYST_RESEAUX',
+                                    NUMBER => '215'
+                                },
+                                {
+                                    NUMBER => '401',
+                                    NAME => 'VLAN401'
+                                },
+                                {
+                                    NAME => 'INTERCO_RACINE_API',
+                                    NUMBER => '4'
+                                },
+                                {
+                                    NUMBER => '153',
+                                    NAME => 'FW-VLAN-LIBRE'
+                                },
+                                {
+                                    NUMBER => '149',
+                                    NAME => 'COLLECTE_IP_RIHDA'
+                                },
+                                {
+                                    NAME => 'INTER_EQUANT_RECTORAT',
+                                    NUMBER => '17'
+                                },
+                                {
+                                    NAME => 'FW-DMZ-INFRA',
+                                    NUMBER => '152'
+                                },
+                                {
+                                    NAME => 'PERIPHERIQUES',
+                                    NUMBER => '201'
+                                },
+                                {
+                                    NAME => 'DATA_CEPE',
+                                    NUMBER => '172'
+                                },
+                                {
+                                    NAME => 'UTIL_FORMATION',
+                                    NUMBER => '204'
+                                },
+                                {
+                                    NAME => 'DMZ227',
+                                    NUMBER => '14'
+                                },
+                                {
+                                    NUMBER => '155',
+                                    NAME => 'FW-DMZ'
+                                },
+                                {
+                                    NAME => 'DMZ_ELGG',
+                                    NUMBER => '403'
+                                },
+                                {
+                                    NUMBER => '1',
+                                    NAME => 'DEFAULT_VLAN'
+                                },
+                                {
+                                    NAME => 'wifi_recteur',
+                                    NUMBER => '402'
+                                },
+                                {
+                                    NUMBER => '170',
+                                    NAME => 'DATA_RIHDA'
+                                },
+                                {
+                                    NAME => 'UTIL_INVITES',
+                                    NUMBER => '214'
+                                },
+                                {
+                                    NUMBER => '154',
+                                    NAME => 'FW-INTERCO-FOUNDRY'
+                                },
+                                {
+                                    NUMBER => '13',
+                                    NAME => 'VOIP_ASTERISK'
+                                },
+                                {
+                                    NAME => 'UTIL_CATI',
+                                    NUMBER => '205'
+                                },
+                                {
+                                    NAME => 'ZONE_PUBLIQUE',
+                                    NUMBER => '3'
+                                },
+                                {
+                                    NAME => 'DMZ',
+                                    NUMBER => '5'
+                                },
+                                {
+                                    NUMBER => '16',
+                                    NAME => 'SERVEUR-CSS'
+                                },
+                                {
+                                    NAME => 'LIBR_SERVICE',
+                                    NUMBER => '162'
+                                },
+                                {
+                                    NAME => 'video_RIHDA',
+                                    NUMBER => '180'
+                                },
+                                {
+                                    NAME => 'SERVERS',
+                                    NUMBER => '2'
+                                },
+                                {
+                                    NAME => 'ADMIN_RESEAU',
+                                    NUMBER => '196'
+                                },
+                                {
+                                    NUMBER => '171',
+                                    NAME => 'DATA_POLY'
+                                },
+                                {
+                                    NUMBER => '22',
+                                    NAME => 'DMZ_HD'
+                                },
+                                {
+                                    NAME => 'FW-DMZ-PEDA',
+                                    NUMBER => '157'
+                                },
+                                {
+                                    NAME => 'postesIP_RIHDA',
+                                    NUMBER => '190'
+                                },
+                                {
+                                    NAME => 'ToIP_RIHDA',
+                                    NUMBER => '160'
+                                },
+                                {
+                                    NUMBER => '30',
+                                    NAME => 'RESEAU_DRRT-PUG'
+                                },
+                                {
+                                    NAME => 'UTIL_NVEAU_BAT',
+                                    NUMBER => '202'
+                                },
+                                {
+                                    NUMBER => '18',
+                                    NAME => 'INT_EQUANT_ETABLISSEMENTS'
+                                },
+                                {
+                                    NAME => 'FW-DMZ-INFRA2',
+                                    NUMBER => '158'
+                                },
+                                {
+                                    NAME => 'RENATER',
+                                    NUMBER => '150'
+                                },
+                                {
+                                    NUMBER => '6',
+                                    NAME => 'AGRIATES'
+                                },
+                                {
+                                    NUMBER => '15',
+                                    NAME => 'INTERCO-CSS'
+                                },
+                                {
+                                    NAME => 'ACCUEIL_ETABLISSEMENTS',
+                                    NUMBER => '7'
+                                },
+                                {
+                                    NAME => 'FW-PUG-DRRT',
+                                    NUMBER => '159'
+                                }
+                            ]
+                        },
+                        IFINOCTETS => '3960692883',
+                        IFNAME => 'Trk18',
+                        IFOUTERRORS => '0'
+                    },
+                    {
+                        IFLASTCHANGE => '(154845) 0:25:48.45',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                MAC => [
+                                    '00:0B:84:00:1F:7D',
+                                    '00:13:21:EF:3F:59',
+                                    '00:16:76:2D:72:2F',
+                                    '00:16:35:65:BF:8C',
+                                    '00:19:BB:01:A6:00',
+                                    '00:19:BB:01:B6:71',
+                                    '00:19:BB:01:B6:73',
+                                    '00:19:BB:01:B6:8A',
+                                    '00:1D:92:DC:F5:DE',
+                                    '00:1D:92:DD:6B:C6',
+                                    '00:1D:92:DD:6B:D5',
+                                    '00:1D:92:DD:6B:E0',
+                                    '00:1F:29:28:88:E4',
+                                    '00:21:5A:7C:EC:35',
+                                    '00:21:5A:97:1B:32',
+                                    '00:22:F3:9D:1F:3B',
+                                    '00:08:5D:2B:F1:48',
+                                    'B8:AC:6F:3E:3A:C5'
+                                ]
+                            }
+                        },
+                        IFINERRORS => '0',
+                        IFTYPE => '161',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFDESCR => 'Trk20',
+                        IFSTATUS => '1',
+                        IFMTU => '1500',
+                        IFNAME => 'Trk20',
+                        IFOUTERRORS => '0',
+                        IFSPEED => '3000000000',
+                        IFNUMBER => '309',
+                        IFINTERNALSTATUS => '1',
+                        VLANS => {
+                            VLAN => [
+                                {
+                                    NAME => 'AGRIATES',
+                                    NUMBER => '6'
+                                },
+                                {
+                                    NUMBER => '149',
+                                    NAME => 'COLLECTE_IP_RIHDA'
+                                },
+                                {
+                                    NAME => 'FW-DMZ-INFRA2',
+                                    NUMBER => '158'
+                                },
+                                {
+                                    NAME => 'UTIL_SYST_RESEAUX',
+                                    NUMBER => '215'
+                                },
+                                {
+                                    NAME => 'DATA_CEPE',
+                                    NUMBER => '172'
+                                },
+                                {
+                                    NUMBER => '17',
+                                    NAME => 'INTER_EQUANT_RECTORAT'
+                                },
+                                {
+                                    NAME => 'DEFAULT_VLAN',
+                                    NUMBER => '1'
+                                },
+                                {
+                                    NUMBER => '202',
+                                    NAME => 'UTIL_NVEAU_BAT'
+                                },
+                                {
+                                    NUMBER => '190',
+                                    NAME => 'postesIP_RIHDA'
+                                },
+                                {
+                                    NUMBER => '13',
+                                    NAME => 'VOIP_ASTERISK'
+                                },
+                                {
+                                    NAME => 'LIBR_SERVICE',
+                                    NUMBER => '162'
+                                },
+                                {
+                                    NAME => 'RESEAU_DRRT-PUG',
+                                    NUMBER => '30'
+                                },
+                                {
+                                    NUMBER => '16',
+                                    NAME => 'SERVEUR-CSS'
+                                },
+                                {
+                                    NUMBER => '403',
+                                    NAME => 'DMZ_ELGG'
+                                },
+                                {
+                                    NUMBER => '170',
+                                    NAME => 'DATA_RIHDA'
+                                },
+                                {
+                                    NAME => 'wifi_recteur',
+                                    NUMBER => '402'
+                                },
+                                {
+                                    NUMBER => '150',
+                                    NAME => 'RENATER'
+                                },
+                                {
+                                    NAME => 'ToIP_RIHDA',
+                                    NUMBER => '160'
+                                },
+                                {
+                                    NUMBER => '155',
+                                    NAME => 'FW-DMZ'
+                                },
+                                {
+                                    NAME => 'FW-PUG-DRRT',
+                                    NUMBER => '159'
+                                },
+                                {
+                                    NAME => 'PERIPHERIQUES',
+                                    NUMBER => '201'
+                                },
+                                {
+                                    NUMBER => '2',
+                                    NAME => 'SERVERS'
+                                },
+                                {
+                                    NAME => 'VLAN401',
+                                    NUMBER => '401'
+                                },
+                                {
+                                    NAME => 'UTIL_INVITES',
+                                    NUMBER => '214'
+                                },
+                                {
+                                    NUMBER => '156',
+                                    NAME => 'FW-Libre_Service'
+                                },
+                                {
+                                    NUMBER => '3',
+                                    NAME => 'ZONE_PUBLIQUE'
+                                },
+                                {
+                                    NAME => 'INT_EQUANT_ETABLISSEMENTS',
+                                    NUMBER => '18'
+                                },
+                                {
+                                    NAME => 'UTIL_CATI',
+                                    NUMBER => '205'
+                                },
+                                {
+                                    NAME => 'ACCUEIL_ETABLISSEMENTS',
+                                    NUMBER => '7'
+                                },
+                                {
+                                    NAME => 'INTERCO_RACINE_API',
+                                    NUMBER => '4'
+                                },
+                                {
+                                    NAME => 'DMZ_HD',
+                                    NUMBER => '22'
+                                },
+                                {
+                                    NUMBER => '180',
+                                    NAME => 'video_RIHDA'
+                                },
+                                {
+                                    NUMBER => '154',
+                                    NAME => 'FW-INTERCO-FOUNDRY'
+                                },
+                                {
+                                    NAME => 'FW-DMZ-PEDA',
+                                    NUMBER => '157'
+                                },
+                                {
+                                    NAME => 'UTIL_FORMATION',
+                                    NUMBER => '204'
+                                },
+                                {
+                                    NUMBER => '153',
+                                    NAME => 'FW-VLAN-LIBRE'
+                                },
+                                {
+                                    NUMBER => '152',
+                                    NAME => 'FW-DMZ-INFRA'
+                                },
+                                {
+                                    NUMBER => '14',
+                                    NAME => 'DMZ227'
+                                },
+                                {
+                                    NAME => 'INTERCO-CSS',
+                                    NUMBER => '15'
+                                },
+                                {
+                                    NAME => 'DMZ',
+                                    NUMBER => '5'
+                                },
+                                {
+                                    NAME => 'ADMIN_RESEAU',
+                                    NUMBER => '196'
+                                },
+                                {
+                                    NUMBER => '171',
+                                    NAME => 'DATA_POLY'
+                                }
+                            ]
+                        },
+                        IFINOCTETS => '297423068',
+                        IFOUTOCTETS => '3730410035'
+                    },
+                    {
+                        IFOUTERRORS => '0',
+                        IFNAME => 'Trk21',
+                        IFINOCTETS => '2695065174',
+                        VLANS => {
+                            VLAN => [
+                                {
+                                    NAME => 'INT_EQUANT_ETABLISSEMENTS',
+                                    NUMBER => '18'
+                                },
+                                {
+                                    NUMBER => '154',
+                                    NAME => 'FW-INTERCO-FOUNDRY'
+                                },
+                                {
+                                    NUMBER => '402',
+                                    NAME => 'wifi_recteur'
+                                },
+                                {
+                                    NAME => 'FW-Libre_Service',
+                                    NUMBER => '156'
+                                },
+                                {
+                                    NUMBER => '160',
+                                    NAME => 'ToIP_RIHDA'
+                                },
+                                {
+                                    NUMBER => '150',
+                                    NAME => 'RENATER'
+                                },
+                                {
+                                    NUMBER => '202',
+                                    NAME => 'UTIL_NVEAU_BAT'
+                                },
+                                {
+                                    NUMBER => '3',
+                                    NAME => 'ZONE_PUBLIQUE'
+                                },
+                                {
+                                    NUMBER => '159',
+                                    NAME => 'FW-PUG-DRRT'
+                                },
+                                {
+                                    NAME => 'DATA_CEPE',
+                                    NUMBER => '172'
+                                },
+                                {
+                                    NAME => 'INTERCO_RACINE_API',
+                                    NUMBER => '4'
+                                },
+                                {
+                                    NUMBER => '155',
+                                    NAME => 'FW-DMZ'
+                                },
+                                {
+                                    NAME => 'UTIL_FORMATION',
+                                    NUMBER => '204'
+                                },
+                                {
+                                    NUMBER => '171',
+                                    NAME => 'DATA_POLY'
+                                },
+                                {
+                                    NUMBER => '170',
+                                    NAME => 'DATA_RIHDA'
+                                },
+                                {
+                                    NUMBER => '401',
+                                    NAME => 'VLAN401'
+                                },
+                                {
+                                    NUMBER => '215',
+                                    NAME => 'UTIL_SYST_RESEAUX'
+                                },
+                                {
+                                    NAME => 'PERIPHERIQUES',
+                                    NUMBER => '201'
+                                },
+                                {
+                                    NUMBER => '17',
+                                    NAME => 'INTER_EQUANT_RECTORAT'
+                                },
+                                {
+                                    NAME => 'COLLECTE_IP_RIHDA',
+                                    NUMBER => '149'
+                                },
+                                {
+                                    NUMBER => '16',
+                                    NAME => 'SERVEUR-CSS'
+                                },
+                                {
+                                    NUMBER => '1',
+                                    NAME => 'DEFAULT_VLAN'
+                                },
+                                {
+                                    NAME => 'SERVERS',
+                                    NUMBER => '2'
+                                },
+                                {
+                                    NUMBER => '153',
+                                    NAME => 'FW-VLAN-LIBRE'
+                                },
+                                {
+                                    NUMBER => '13',
+                                    NAME => 'VOIP_ASTERISK'
+                                },
+                                {
+                                    NUMBER => '22',
+                                    NAME => 'DMZ_HD'
+                                },
+                                {
+                                    NUMBER => '14',
+                                    NAME => 'DMZ227'
+                                },
+                                {
+                                    NAME => 'video_RIHDA',
+                                    NUMBER => '180'
+                                },
+                                {
+                                    NAME => 'ACCUEIL_ETABLISSEMENTS',
+                                    NUMBER => '7'
+                                },
+                                {
+                                    NUMBER => '403',
+                                    NAME => 'DMZ_ELGG'
+                                },
+                                {
+                                    NUMBER => '30',
+                                    NAME => 'RESEAU_DRRT-PUG'
+                                },
+                                {
+                                    NUMBER => '5',
+                                    NAME => 'DMZ'
+                                },
+                                {
+                                    NAME => 'UTIL_INVITES',
+                                    NUMBER => '214'
+                                },
+                                {
+                                    NAME => 'LIBR_SERVICE',
+                                    NUMBER => '162'
+                                },
+                                {
+                                    NUMBER => '157',
+                                    NAME => 'FW-DMZ-PEDA'
+                                },
+                                {
+                                    NAME => 'FW-DMZ-INFRA',
+                                    NUMBER => '152'
+                                },
+                                {
+                                    NUMBER => '15',
+                                    NAME => 'INTERCO-CSS'
+                                },
+                                {
+                                    NAME => 'postesIP_RIHDA',
+                                    NUMBER => '190'
+                                },
+                                {
+                                    NAME => 'FW-DMZ-INFRA2',
+                                    NUMBER => '158'
+                                },
+                                {
+                                    NUMBER => '6',
+                                    NAME => 'AGRIATES'
+                                },
+                                {
+                                    NUMBER => '205',
+                                    NAME => 'UTIL_CATI'
+                                },
+                                {
+                                    NAME => 'ADMIN_RESEAU',
+                                    NUMBER => '196'
+                                }
+                            ]
+                        },
+                        IFOUTOCTETS => '2418744384',
+                        IFSPEED => '4294967295',
+                        IFNUMBER => '310',
+                        IFINTERNALSTATUS => '1',
+                        IFMTU => '1500',
+                        IFTYPE => '161',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFINERRORS => '0',
+                        CONNECTIONS => {
+                            CONNECTION => {
+                                MAC => [
+                                    '00:00:00:00:FE:00',
+                                    '00:00:00:00:FE:01',
+                                    '00:00:5E:00:01:01',
+                                    '00:00:5E:00:01:0A',
+                                    '00:00:5E:00:01:0B',
+                                    '00:00:5E:00:01:0C',
+                                    '00:00:5E:00:01:0D',
+                                    '00:00:5E:00:01:02',
+                                    '00:00:5E:00:01:17',
+                                    '00:00:5E:00:01:1A',
+                                    '00:00:5E:00:01:1B',
+                                    '00:00:5E:00:01:1E',
+                                    '00:00:5E:00:01:1F',
+                                    '00:00:5E:00:01:07',
+                                    '00:00:5E:00:01:08',
+                                    '00:0C:29:21:58:A3',
+                                    '00:0D:A2:10:26:66',
+                                    '00:90:FB:2E:03:32',
+                                    '00:90:FB:2E:03:33',
+                                    '00:90:FB:2E:03:34',
+                                    '00:90:FB:2E:03:35',
+                                    '00:90:FB:2E:03:36',
+                                    '00:12:F2:7C:72:30',
+                                    '00:12:F2:7C:39:D0',
+                                    '00:13:7F:F5:55:D8',
+                                    '00:13:D4:81:69:4B',
+                                    '00:14:5E:DE:C3:4F',
+                                    '00:19:BB:17:22:00',
+                                    '00:19:BB:17:32:D0',
+                                    '00:19:BB:17:32:D1',
+                                    '00:19:BB:17:32:D2',
+                                    '00:19:BB:17:32:E8',
+                                    '00:19:BB:17:32:E9',
+                                    '00:19:BB:17:32:EA',
+                                    '00:1A:4B:30:67:61',
+                                    '00:03:A0:8A:52:18',
+                                    '00:1E:C9:B9:0C:6E',
+                                    '00:1E:C9:B9:11:CD',
+                                    '00:22:19:5C:65:F6',
+                                    '00:26:B9:8A:F1:0A',
+                                    '00:26:B9:8E:4A:11',
+                                    '00:30:05:38:78:53',
+                                    '00:30:05:38:78:5B',
+                                    '00:50:56:00:00:01',
+                                    '00:50:56:00:00:02',
+                                    '00:50:56:00:00:03',
+                                    '00:50:56:00:00:04',
+                                    '00:50:56:00:00:08',
+                                    '00:50:56:8B:64:98',
+                                    '00:50:56:8B:64:F3',
+                                    '00:50:56:8B:68:41',
+                                    '00:50:56:8B:6A:F8',
+                                    '00:50:56:8B:6B:43',
+                                    '00:50:56:8B:70:48',
+                                    '00:50:56:8B:72:CB',
+                                    '00:50:56:8B:76:A6',
+                                    '00:50:56:8B:78:F1',
+                                    '00:50:56:8B:7E:A7',
+                                    '00:50:56:8B:7F:71',
+                                    '00:50:56:8B:0E:1F',
+                                    '00:50:56:8B:10:D2',
+                                    '00:50:56:8B:13:0E',
+                                    '00:50:56:8B:1B:1B',
+                                    '00:50:56:8B:1D:11',
+                                    '00:50:56:8B:03:D4',
+                                    '00:50:56:8B:21:BA',
+                                    '00:50:56:8B:23:4F',
+                                    '00:50:56:8B:24:E6',
+                                    '00:50:56:8B:29:6D',
+                                    '00:50:56:8B:30:70',
+                                    '00:50:56:8B:32:35',
+                                    '00:50:56:8B:35:1C',
+                                    '00:50:56:8B:38:FE',
+                                    '00:50:56:8B:3A:66',
+                                    '00:50:56:8B:3E:65',
+                                    '00:50:56:8B:42:2B',
+                                    '00:50:56:8B:4D:90',
+                                    '00:50:56:8B:52:11',
+                                    '00:50:56:8B:5C:9A',
+                                    '00:50:56:8B:5D:3F',
+                                    '00:50:56:8B:5E:39',
+                                    '00:09:0F:09:3F:02',
+                                    '00:09:0F:09:3F:03',
+                                    '00:09:0F:09:3F:04',
+                                    '02:12:F2:7C:72:3A',
+                                    '02:12:F2:7C:72:3B',
+                                    '02:12:F2:7C:72:3C',
+                                    '02:12:F2:7C:72:3D',
+                                    '02:12:F2:7C:72:3E',
+                                    '02:12:F2:7C:72:3F',
+                                    '02:12:F2:7C:39:DA',
+                                    '02:12:F2:7C:39:DB',
+                                    '02:12:F2:7C:39:DC',
+                                    '02:12:F2:7C:39:DD',
+                                    '02:12:F2:7C:39:DE',
+                                    '02:12:F2:7C:39:DF',
+                                    '02:12:F2:A8:DF:FA',
+                                    '02:12:F2:A8:DF:FB',
+                                    '02:12:F2:62:E2:22',
+                                    '02:12:F2:62:E2:23',
+                                    '02:12:F2:62:E2:24',
+                                    '02:12:F2:62:E2:26',
+                                    '02:12:F2:62:E2:27',
+                                    '02:12:F2:62:E2:28',
+                                    '02:12:F2:62:E2:29',
+                                    '02:12:F2:62:E2:2A',
+                                    '02:12:F2:62:E2:2B',
+                                    '02:12:F2:62:E2:2C',
+                                    '02:12:F2:62:E2:2D',
+                                    '02:12:F2:62:E2:2E',
+                                    '02:12:F2:62:E2:2F',
+                                    '02:12:F2:62:E2:30',
+                                    '02:12:F2:62:E2:31',
+                                    '02:12:F2:62:E2:32',
+                                    '02:12:F2:62:E2:33',
+                                    '02:12:F2:62:E2:34',
+                                    '02:12:F2:62:E2:35',
+                                    '02:12:F2:62:E2:36',
+                                    '02:12:F2:62:E2:39',
+                                    '02:12:F2:62:E2:3A',
+                                    '02:12:F2:62:E2:3B',
+                                    '02:E0:52:76:0E:16',
+                                    '02:E0:52:20:5E:10',
+                                    'D4:BE:D9:AF:75:1B'
+                                ]
+                            }
+                        },
+                        IFLASTCHANGE => '(57970) 0:09:39.70',
+                        IFSTATUS => '1',
+                        IFDESCR => 'Trk21'
+                    },
+                    {
+                        IFNAME => 'DEFAULT_VLAN',
+                        IFOUTERRORS => '0',
+                        IFNUMBER => '578',
+                        IFSTATUS => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFDESCR => 'DEFAULT_VLAN',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '53',
+                        IFINERRORS => '0',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
+                        IFOUTOCTETS => '0',
+                        IFINOCTETS => '0',
+                        IFMTU => '1500'
+                    },
+                    {
+                        IFOUTERRORS => '0',
+                        IFNAME => 'VLAN2',
+                        IFOUTOCTETS => '0',
+                        IFMTU => '1500',
+                        IFINOCTETS => '0',
+                        IFDESCR => 'VLAN2',
+                        IFSTATUS => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFNUMBER => '579',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFINERRORS => '0',
+                        IFTYPE => '53'
+                    },
+                    {
+                        IFMTU => '1500',
+                        IFINOCTETS => '0',
+                        IFOUTOCTETS => '0',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '53',
+                        IFINERRORS => '0',
+                        IFDESCR => 'VLAN3',
+                        IFSTATUS => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFNUMBER => '580',
+                        IFOUTERRORS => '0',
+                        IFNAME => 'VLAN3'
+                    },
+                    {
+                        IFINERRORS => '0',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '53',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
+                        IFSPEED => '0',
+                        IFSTATUS => '1',
+                        IFNUMBER => '581',
+                        IFINTERNALSTATUS => '1',
+                        IFDESCR => 'VLAN4',
+                        IFMTU => '1500',
+                        IFINOCTETS => '0',
+                        IFOUTOCTETS => '0',
+                        IFNAME => 'VLAN4',
+                        IFOUTERRORS => '0'
+                    },
+                    {
+                        IFNAME => 'VLAN5',
+                        IFOUTERRORS => '0',
+                        IFDESCR => 'VLAN5',
+                        IFNUMBER => '582',
+                        IFINTERNALSTATUS => '1',
+                        IFSTATUS => '1',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
+                        IFSPEED => '0',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '53',
+                        IFINERRORS => '0',
+                        IFOUTOCTETS => '0',
+                        IFINOCTETS => '0',
+                        IFMTU => '1500'
+                    },
+                    {
+                        IFNAME => 'VLAN6',
+                        IFOUTERRORS => '0',
+                        IFDESCR => 'VLAN6',
+                        IFNUMBER => '583',
+                        IFSTATUS => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '53',
+                        IFINERRORS => '0',
+                        IFOUTOCTETS => '0',
+                        IFINOCTETS => '0',
+                        IFMTU => '1500'
+                    },
+                    {
+                        IFINERRORS => '0',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '53',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
+                        IFSTATUS => '1',
+                        IFNUMBER => '584',
+                        IFINTERNALSTATUS => '1',
+                        IFDESCR => 'VLAN7',
+                        IFMTU => '1500',
+                        IFINOCTETS => '0',
+                        IFOUTOCTETS => '0',
+                        IFNAME => 'VLAN7',
+                        IFOUTERRORS => '0'
+                    },
+                    {
+                        IFNAME => 'VLAN13',
+                        IFOUTERRORS => '0',
+                        IFNUMBER => '590',
+                        IFINTERNALSTATUS => '1',
+                        IFSTATUS => '1',
+                        IFDESCR => 'VLAN13',
+                        IFINERRORS => '0',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '53',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
+                        IFSPEED => '0',
+                        IFOUTOCTETS => '0',
+                        IFINOCTETS => '0',
+                        IFMTU => '1500'
+                    },
+                    {
+                        IFOUTOCTETS => '0',
+                        IFMTU => '1500',
+                        IFINOCTETS => '0',
+                        IFDESCR => 'VLAN14',
+                        IFSTATUS => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFNUMBER => '591',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
+                        IFSPEED => '0',
+                        IFTYPE => '53',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFINERRORS => '0',
+                        IFOUTERRORS => '0',
+                        IFNAME => 'VLAN14'
+                    },
+                    {
+                        IFNAME => 'VLAN15',
+                        IFOUTERRORS => '0',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFINERRORS => '0',
+                        IFTYPE => '53',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
+                        IFSTATUS => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFNUMBER => '592',
+                        IFDESCR => 'VLAN15',
+                        IFINOCTETS => '0',
+                        IFMTU => '1500',
                         IFOUTOCTETS => '0'
                     },
                     {
-                        IFINERRORS => '0',
-                        IFDESCR => 'VLAN157',
+                        IFNUMBER => '593',
                         IFSTATUS => '1',
-                        IFOUTERRORS => '0',
-                        MAC => '00:18:71:C1:E0:00',
                         IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '0',
-                        IFMTU => '1500',
-                        IFSPEED => '0',
+                        IFDESCR => 'VLAN16',
                         IFTYPE => '53',
-                        IFNUMBER => '734',
-                        IFNAME => 'VLAN157',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
-                        IFINOCTETS => '0'
-                    },
-                    {
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500',
-                        IFSPEED => '0',
-                        IFNUMBER => '735',
-                        IFTYPE => '53',
-                        IFNAME => 'VLAN158',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
-                        IFINOCTETS => '0',
-                        IFSTATUS => '1',
-                        IFINERRORS => '0',
-                        IFDESCR => 'VLAN158',
-                        IFOUTERRORS => '0',
-                        MAC => '00:18:71:C1:E0:00'
-                    },
-                    {
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500',
-                        IFSPEED => '0',
-                        IFNUMBER => '736',
-                        IFTYPE => '53',
-                        IFNAME => 'VLAN159',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
-                        IFINOCTETS => '0',
-                        IFINERRORS => '0',
-                        IFDESCR => 'VLAN159',
-                        IFSTATUS => '1',
-                        IFOUTERRORS => '0',
-                        MAC => '00:18:71:C1:E0:00'
-                    },
-                    {
-                        IFSTATUS => '1',
-                        IFINERRORS => '0',
-                        IFDESCR => 'VLAN160',
-                        IFOUTERRORS => '0',
-                        MAC => '00:18:71:C1:E0:00',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500',
-                        IFSPEED => '0',
-                        IFTYPE => '53',
-                        IFNUMBER => '737',
-                        IFNAME => 'VLAN160',
-                        IFLASTCHANGE => '(2663) 0:00:26.63',
-                        IFINOCTETS => '0'
-                    },
-                    {
-                        IFNAME => 'VLAN162',
-                        IFNUMBER => '739',
-                        IFTYPE => '53',
-                        IFINOCTETS => '0',
-                        IFLASTCHANGE => '(110183700) 12 days, 18:03:57.00',
-                        IFMTU => '1500',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '0',
-                        IFSPEED => '0',
                         MAC => '00:18:71:C1:E0:00',
                         IFINERRORS => '0',
-                        IFDESCR => 'VLAN162',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
+                        IFSPEED => '0',
+                        IFOUTOCTETS => '0',
+                        IFMTU => '1500',
+                        IFINOCTETS => '0',
+                        IFNAME => 'VLAN16',
+                        IFOUTERRORS => '0'
+                    },
+                    {
                         IFSTATUS => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFNUMBER => '594',
+                        IFDESCR => 'VLAN17',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '53',
+                        IFINERRORS => '0',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
+                        IFOUTOCTETS => '0',
+                        IFMTU => '1500',
+                        IFINOCTETS => '0',
+                        IFNAME => 'VLAN17',
                         IFOUTERRORS => '0'
                     },
                     {
                         IFOUTERRORS => '0',
-                        IFINERRORS => '0',
-                        IFDESCR => 'VLAN170',
+                        IFNAME => 'VLAN18',
+                        IFOUTOCTETS => '0',
+                        IFMTU => '1500',
+                        IFINOCTETS => '0',
+                        IFINTERNALSTATUS => '1',
                         IFSTATUS => '1',
+                        IFNUMBER => '595',
+                        IFDESCR => 'VLAN18',
                         MAC => '00:18:71:C1:E0:00',
+                        IFINERRORS => '0',
+                        IFTYPE => '53',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
+                        IFSPEED => '0'
+                    },
+                    {
+                        IFINOCTETS => '0',
+                        IFMTU => '1500',
+                        IFOUTOCTETS => '0',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '53',
+                        IFINERRORS => '0',
+                        IFDESCR => 'VLAN22',
+                        IFINTERNALSTATUS => '1',
+                        IFSTATUS => '1',
+                        IFNUMBER => '599',
+                        IFOUTERRORS => '0',
+                        IFNAME => 'VLAN22'
+                    },
+                    {
+                        IFNAME => 'VLAN30',
+                        IFOUTERRORS => '0',
+                        IFDESCR => 'VLAN30',
+                        IFSTATUS => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFNUMBER => '607',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
+                        IFSPEED => '0',
+                        IFTYPE => '53',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFINERRORS => '0',
+                        IFOUTOCTETS => '0',
+                        IFMTU => '1500',
+                        IFINOCTETS => '0'
+                    },
+                    {
+                        IFSTATUS => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFNUMBER => '726',
+                        IFDESCR => 'VLAN149',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFINERRORS => '0',
+                        IFTYPE => '53',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
+                        IFOUTOCTETS => '0',
+                        IFMTU => '1500',
+                        IFINOCTETS => '0',
+                        IFNAME => 'VLAN149',
+                        IFOUTERRORS => '0'
+                    },
+                    {
+                        IFMTU => '1500',
+                        IFINOCTETS => '0',
+                        IFOUTOCTETS => '0',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
+                        IFTYPE => '53',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFINERRORS => '0',
+                        IFDESCR => 'VLAN150',
+                        IFSTATUS => '1',
+                        IFNUMBER => '727',
+                        IFINTERNALSTATUS => '1',
+                        IFOUTERRORS => '0',
+                        IFNAME => 'VLAN150'
+                    },
+                    {
+                        IFOUTERRORS => '0',
+                        IFNAME => 'VLAN152',
+                        IFMTU => '1500',
+                        IFINOCTETS => '0',
+                        IFOUTOCTETS => '0',
+                        IFTYPE => '53',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFINERRORS => '0',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
+                        IFSPEED => '0',
+                        IFSTATUS => '1',
+                        IFNUMBER => '729',
+                        IFINTERNALSTATUS => '1',
+                        IFDESCR => 'VLAN152'
+                    },
+                    {
+                        IFNAME => 'VLAN153',
+                        IFOUTERRORS => '0',
+                        IFNUMBER => '730',
+                        IFSTATUS => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFDESCR => 'VLAN153',
+                        IFINERRORS => '0',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '53',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
                         IFSPEED => '0',
                         IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500',
-                        IFLASTCHANGE => '(2663) 0:00:26.63',
                         IFINOCTETS => '0',
+                        IFMTU => '1500'
+                    },
+                    {
+                        IFOUTERRORS => '0',
+                        IFNAME => 'VLAN154',
+                        IFINOCTETS => '0',
+                        IFMTU => '1500',
+                        IFOUTOCTETS => '0',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFINERRORS => '0',
                         IFTYPE => '53',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
+                        IFNUMBER => '731',
+                        IFINTERNALSTATUS => '1',
+                        IFSTATUS => '1',
+                        IFDESCR => 'VLAN154'
+                    },
+                    {
+                        IFOUTERRORS => '0',
+                        IFNAME => 'VLAN155',
+                        IFINOCTETS => '0',
+                        IFMTU => '1500',
+                        IFOUTOCTETS => '0',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFINERRORS => '0',
+                        IFTYPE => '53',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
+                        IFSPEED => '0',
+                        IFSTATUS => '1',
+                        IFNUMBER => '732',
+                        IFINTERNALSTATUS => '1',
+                        IFDESCR => 'VLAN155'
+                    },
+                    {
+                        IFOUTOCTETS => '0',
+                        IFMTU => '1500',
+                        IFINOCTETS => '0',
+                        IFDESCR => 'VLAN156',
+                        IFNUMBER => '733',
+                        IFSTATUS => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
+                        IFSPEED => '0',
+                        IFINERRORS => '0',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '53',
+                        IFOUTERRORS => '0',
+                        IFNAME => 'VLAN156'
+                    },
+                    {
+                        IFMTU => '1500',
+                        IFINOCTETS => '0',
+                        IFOUTOCTETS => '0',
+                        IFINERRORS => '0',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '53',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
+                        IFSPEED => '0',
+                        IFSTATUS => '1',
+                        IFNUMBER => '734',
+                        IFINTERNALSTATUS => '1',
+                        IFDESCR => 'VLAN157',
+                        IFOUTERRORS => '0',
+                        IFNAME => 'VLAN157'
+                    },
+                    {
+                        MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '53',
+                        IFINERRORS => '0',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
+                        IFSPEED => '0',
+                        IFNUMBER => '735',
+                        IFSTATUS => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFDESCR => 'VLAN158',
+                        IFINOCTETS => '0',
+                        IFMTU => '1500',
+                        IFOUTOCTETS => '0',
+                        IFNAME => 'VLAN158',
+                        IFOUTERRORS => '0'
+                    },
+                    {
+                        IFINOCTETS => '0',
+                        IFMTU => '1500',
+                        IFOUTOCTETS => '0',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFINERRORS => '0',
+                        IFTYPE => '53',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
+                        IFSPEED => '0',
+                        IFNUMBER => '736',
+                        IFINTERNALSTATUS => '1',
+                        IFSTATUS => '1',
+                        IFDESCR => 'VLAN159',
+                        IFOUTERRORS => '0',
+                        IFNAME => 'VLAN159'
+                    },
+                    {
+                        IFOUTERRORS => '0',
+                        IFNAME => 'VLAN160',
+                        IFMTU => '1500',
+                        IFINOCTETS => '0',
+                        IFOUTOCTETS => '0',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(2663) 0:00:26.63',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFINERRORS => '0',
+                        IFTYPE => '53',
+                        IFDESCR => 'VLAN160',
+                        IFINTERNALSTATUS => '1',
+                        IFNUMBER => '737',
+                        IFSTATUS => '1'
+                    },
+                    {
+                        IFMTU => '1500',
+                        IFINOCTETS => '0',
+                        IFOUTOCTETS => '0',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '53',
+                        IFINERRORS => '0',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(110183700) 12 days, 18:03:57.00',
+                        IFINTERNALSTATUS => '1',
+                        IFSTATUS => '1',
+                        IFNUMBER => '739',
+                        IFDESCR => 'VLAN162',
+                        IFOUTERRORS => '0',
+                        IFNAME => 'VLAN162'
+                    },
+                    {
+                        IFINOCTETS => '0',
+                        IFMTU => '1500',
+                        IFOUTOCTETS => '0',
+                        IFLASTCHANGE => '(2663) 0:00:26.63',
+                        IFSPEED => '0',
+                        IFTYPE => '53',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFINERRORS => '0',
+                        IFDESCR => 'VLAN170',
+                        IFINTERNALSTATUS => '1',
                         IFNUMBER => '747',
+                        IFSTATUS => '1',
+                        IFOUTERRORS => '0',
                         IFNAME => 'VLAN170'
                     },
                     {
+                        IFNAME => 'VLAN171',
                         IFOUTERRORS => '0',
-                        IFSTATUS => '1',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(2663) 0:00:26.63',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '53',
                         IFINERRORS => '0',
                         IFDESCR => 'VLAN171',
-                        MAC => '00:18:71:C1:E0:00',
-                        IFSPEED => '0',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500',
-                        IFLASTCHANGE => '(2663) 0:00:26.63',
-                        IFINOCTETS => '0',
+                        IFSTATUS => '1',
                         IFNUMBER => '748',
-                        IFTYPE => '53',
-                        IFNAME => 'VLAN171'
-                    },
-                    {
-                        MAC => '00:18:71:C1:E0:00',
-                        IFOUTERRORS => '0',
-                        IFDESCR => 'VLAN172',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFLASTCHANGE => '(2663) 0:00:26.63',
-                        IFINOCTETS => '0',
-                        IFNUMBER => '749',
-                        IFTYPE => '53',
-                        IFNAME => 'VLAN172',
-                        IFSPEED => '0',
-                        IFOUTOCTETS => '0',
                         IFINTERNALSTATUS => '1',
-                        IFMTU => '1500'
-                    },
-                    {
-                        MAC => '00:18:71:C1:E0:00',
-                        IFDESCR => 'VLAN180',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFOUTERRORS => '0',
-                        IFNUMBER => '757',
-                        IFTYPE => '53',
-                        IFNAME => 'VLAN180',
-                        IFLASTCHANGE => '(2663) 0:00:26.63',
                         IFINOCTETS => '0',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
                         IFMTU => '1500',
-                        IFSPEED => '0'
-                    },
-                    {
-                        MAC => '00:18:71:C1:E0:00',
-                        IFOUTERRORS => '0',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFDESCR => 'VLAN190',
-                        IFLASTCHANGE => '(2663) 0:00:26.63',
-                        IFINOCTETS => '0',
-                        IFNUMBER => '767',
-                        IFTYPE => '53',
-                        IFNAME => 'VLAN190',
-                        IFSPEED => '0',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500'
-                    },
-                    {
-                        IFTYPE => '53',
-                        IFNUMBER => '773',
-                        IFNAME => 'VLAN196',
-                        IFLASTCHANGE => '(2663) 0:00:26.63',
-                        IFINOCTETS => '0',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500',
-                        IFSPEED => '0',
-                        MAC => '00:18:71:C1:E0:00',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFDESCR => 'VLAN196',
-                        IFOUTERRORS => '0'
-                    },
-                    {
-                        IFOUTERRORS => '0',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFDESCR => 'VLAN201',
-                        MAC => '00:18:71:C1:E0:00',
-                        IFSPEED => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '0',
-                        IFMTU => '1500',
-                        IFLASTCHANGE => '(2663) 0:00:26.63',
-                        IFINOCTETS => '0',
-                        IFTYPE => '53',
-                        IFNUMBER => '778',
-                        IFNAME => 'VLAN201'
-                    },
-                    {
-                        IFNAME => 'VLAN202',
-                        IFNUMBER => '779',
-                        IFTYPE => '53',
-                        IFINOCTETS => '0',
-                        IFLASTCHANGE => '(2663) 0:00:26.63',
-                        IFMTU => '1500',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFSPEED => '0',
-                        MAC => '00:18:71:C1:E0:00',
-                        IFDESCR => 'VLAN202',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFOUTERRORS => '0'
-                    },
-                    {
-                        MAC => '00:18:71:C1:E0:00',
-                        IFDESCR => 'VLAN204',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFOUTERRORS => '0',
-                        IFNAME => 'VLAN204',
-                        IFNUMBER => '781',
-                        IFTYPE => '53',
-                        IFINOCTETS => '0',
-                        IFLASTCHANGE => '(2663) 0:00:26.63',
-                        IFMTU => '1500',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFSPEED => '0'
-                    },
-                    {
-                        MAC => '00:18:71:C1:E0:00',
-                        IFOUTERRORS => '0',
-                        IFINERRORS => '0',
-                        IFDESCR => 'VLAN205',
-                        IFSTATUS => '1',
-                        IFINOCTETS => '0',
-                        IFLASTCHANGE => '(2663) 0:00:26.63',
-                        IFNAME => 'VLAN205',
-                        IFTYPE => '53',
-                        IFNUMBER => '782',
-                        IFSPEED => '0',
-                        IFMTU => '1500',
-                        IFINTERNALSTATUS => '1',
                         IFOUTOCTETS => '0'
                     },
                     {
-                        IFTYPE => '53',
-                        IFNUMBER => '791',
-                        IFNAME => 'VLAN214',
-                        IFLASTCHANGE => '(2663) 0:00:26.63',
+                        IFOUTERRORS => '0',
+                        IFNAME => 'VLAN172',
                         IFINOCTETS => '0',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
                         IFMTU => '1500',
-                        IFSPEED => '0',
-                        MAC => '00:18:71:C1:E0:00',
+                        IFOUTOCTETS => '0',
                         IFINERRORS => '0',
-                        IFDESCR => 'VLAN214',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '53',
+                        IFLASTCHANGE => '(2663) 0:00:26.63',
+                        IFSPEED => '0',
+                        IFINTERNALSTATUS => '1',
                         IFSTATUS => '1',
-                        IFOUTERRORS => '0'
+                        IFNUMBER => '749',
+                        IFDESCR => 'VLAN172'
                     },
                     {
-                        IFNUMBER => '792',
+                        IFOUTOCTETS => '0',
+                        IFMTU => '1500',
+                        IFINOCTETS => '0',
+                        IFNUMBER => '757',
+                        IFSTATUS => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFDESCR => 'VLAN180',
                         IFTYPE => '53',
-                        IFNAME => 'VLAN215',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFINERRORS => '0',
                         IFLASTCHANGE => '(2663) 0:00:26.63',
-                        IFINOCTETS => '0',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500',
                         IFSPEED => '0',
-                        MAC => '00:18:71:C1:E0:00',
-                        IFDESCR => 'VLAN215',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFOUTERRORS => '0'
-                    },
-                    {
-                        IFNAME => 'VLAN401',
-                        IFTYPE => '53',
-                        IFNUMBER => '978',
-                        IFINOCTETS => '0',
-                        IFLASTCHANGE => '(110183690) 12 days, 18:03:56.90',
-                        IFMTU => '1500',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '0',
-                        IFSPEED => '0',
-                        MAC => '00:18:71:C1:E0:00',
-                        IFDESCR => 'VLAN401',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFOUTERRORS => '0'
+                        IFOUTERRORS => '0',
+                        IFNAME => 'VLAN180'
                     },
                     {
                         IFOUTERRORS => '0',
-                        IFINERRORS => '0',
-                        IFDESCR => 'VLAN402',
-                        IFSTATUS => '1',
+                        IFNAME => 'VLAN190',
+                        IFMTU => '1500',
+                        IFINOCTETS => '0',
+                        IFOUTOCTETS => '0',
                         MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '53',
+                        IFINERRORS => '0',
+                        IFLASTCHANGE => '(2663) 0:00:26.63',
                         IFSPEED => '0',
                         IFINTERNALSTATUS => '1',
+                        IFNUMBER => '767',
+                        IFSTATUS => '1',
+                        IFDESCR => 'VLAN190'
+                    },
+                    {
+                        IFDESCR => 'VLAN196',
+                        IFNUMBER => '773',
+                        IFINTERNALSTATUS => '1',
+                        IFSTATUS => '1',
+                        IFLASTCHANGE => '(2663) 0:00:26.63',
+                        IFSPEED => '0',
+                        IFTYPE => '53',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFINERRORS => '0',
                         IFOUTOCTETS => '0',
                         IFMTU => '1500',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
                         IFINOCTETS => '0',
-                        IFNUMBER => '979',
+                        IFNAME => 'VLAN196',
+                        IFOUTERRORS => '0'
+                    },
+                    {
+                        IFSTATUS => '1',
+                        IFNUMBER => '778',
+                        IFINTERNALSTATUS => '1',
+                        IFDESCR => 'VLAN201',
+                        MAC => '00:18:71:C1:E0:00',
                         IFTYPE => '53',
+                        IFINERRORS => '0',
+                        IFLASTCHANGE => '(2663) 0:00:26.63',
+                        IFSPEED => '0',
+                        IFOUTOCTETS => '0',
+                        IFMTU => '1500',
+                        IFINOCTETS => '0',
+                        IFNAME => 'VLAN201',
+                        IFOUTERRORS => '0'
+                    },
+                    {
+                        IFNAME => 'VLAN202',
+                        IFOUTERRORS => '0',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(2663) 0:00:26.63',
+                        IFTYPE => '53',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFINERRORS => '0',
+                        IFDESCR => 'VLAN202',
+                        IFSTATUS => '1',
+                        IFNUMBER => '779',
+                        IFINTERNALSTATUS => '1',
+                        IFINOCTETS => '0',
+                        IFMTU => '1500',
+                        IFOUTOCTETS => '0'
+                    },
+                    {
+                        IFNAME => 'VLAN204',
+                        IFOUTERRORS => '0',
+                        IFLASTCHANGE => '(2663) 0:00:26.63',
+                        IFSPEED => '0',
+                        IFINERRORS => '0',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '53',
+                        IFDESCR => 'VLAN204',
+                        IFSTATUS => '1',
+                        IFNUMBER => '781',
+                        IFINTERNALSTATUS => '1',
+                        IFMTU => '1500',
+                        IFINOCTETS => '0',
+                        IFOUTOCTETS => '0'
+                    },
+                    {
+                        IFOUTERRORS => '0',
+                        IFNAME => 'VLAN205',
+                        IFOUTOCTETS => '0',
+                        IFINOCTETS => '0',
+                        IFMTU => '1500',
+                        IFDESCR => 'VLAN205',
+                        IFINTERNALSTATUS => '1',
+                        IFSTATUS => '1',
+                        IFNUMBER => '782',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(2663) 0:00:26.63',
+                        IFINERRORS => '0',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '53'
+                    },
+                    {
+                        MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '53',
+                        IFINERRORS => '0',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(2663) 0:00:26.63',
+                        IFNUMBER => '791',
+                        IFINTERNALSTATUS => '1',
+                        IFSTATUS => '1',
+                        IFDESCR => 'VLAN214',
+                        IFMTU => '1500',
+                        IFINOCTETS => '0',
+                        IFOUTOCTETS => '0',
+                        IFNAME => 'VLAN214',
+                        IFOUTERRORS => '0'
+                    },
+                    {
+                        IFINERRORS => '0',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '53',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(2663) 0:00:26.63',
+                        IFSTATUS => '1',
+                        IFNUMBER => '792',
+                        IFINTERNALSTATUS => '1',
+                        IFDESCR => 'VLAN215',
+                        IFINOCTETS => '0',
+                        IFMTU => '1500',
+                        IFOUTOCTETS => '0',
+                        IFNAME => 'VLAN215',
+                        IFOUTERRORS => '0'
+                    },
+                    {
+                        IFINOCTETS => '0',
+                        IFMTU => '1500',
+                        IFOUTOCTETS => '0',
+                        IFLASTCHANGE => '(110183690) 12 days, 18:03:56.90',
+                        IFSPEED => '0',
+                        IFTYPE => '53',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFINERRORS => '0',
+                        IFDESCR => 'VLAN401',
+                        IFSTATUS => '1',
+                        IFNUMBER => '978',
+                        IFINTERNALSTATUS => '1',
+                        IFOUTERRORS => '0',
+                        IFNAME => 'VLAN401'
+                    },
+                    {
+                        IFOUTOCTETS => '0',
+                        IFINOCTETS => '0',
+                        IFMTU => '1500',
+                        IFSTATUS => '1',
+                        IFNUMBER => '979',
+                        IFINTERNALSTATUS => '1',
+                        IFDESCR => 'VLAN402',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '53',
+                        IFINERRORS => '0',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
+                        IFOUTERRORS => '0',
                         IFNAME => 'VLAN402'
                     },
                     {
-                        IFSPEED => '0',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU => '1500',
-                        IFLASTCHANGE => '(2658) 0:00:26.58',
-                        IFINOCTETS => '0',
-                        IFTYPE => '53',
-                        IFNUMBER => '980',
-                        IFNAME => 'VLAN403',
-                        IFOUTERRORS => '0',
-                        IFSTATUS => '1',
-                        IFINERRORS => '0',
                         IFDESCR => 'VLAN403',
-                        MAC => '00:18:71:C1:E0:00'
-                    },
-                    {
-                        IFINERRORS => '0',
-                        IFDESCR => 'VLAN3000',
-                        IFSTATUS => '1',
-                        IFOUTERRORS => '0',
-                        MAC => '00:18:71:C1:E0:00',
-                        IFMTU => '1500',
+                        IFNUMBER => '980',
                         IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '0',
+                        IFSTATUS => '1',
+                        IFLASTCHANGE => '(2658) 0:00:26.58',
                         IFSPEED => '0',
-                        IFNAME => 'VLAN3000',
-                        IFNUMBER => '3577',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFINERRORS => '0',
                         IFTYPE => '53',
+                        IFOUTOCTETS => '0',
                         IFINOCTETS => '0',
-                        IFLASTCHANGE => '(57880) 0:09:38.80'
+                        IFMTU => '1500',
+                        IFNAME => 'VLAN403',
+                        IFOUTERRORS => '0'
                     },
                     {
-                        IFINERRORS => '0',
-                        IFDESCR => 'VLAN3002',
-                        IFSTATUS => '1',
-                        IFOUTERRORS => '0',
-                        MAC => '00:18:71:C1:E0:00',
                         IFINTERNALSTATUS => '1',
+                        IFNUMBER => '3577',
+                        IFSTATUS => '1',
+                        IFDESCR => 'VLAN3000',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '53',
+                        IFINERRORS => '0',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(57880) 0:09:38.80',
+                        IFOUTOCTETS => '0',
+                        IFINOCTETS => '0',
+                        IFMTU => '1500',
+                        IFNAME => 'VLAN3000',
+                        IFOUTERRORS => '0'
+                    },
+                    {
+                        IFOUTERRORS => '0',
+                        IFNAME => 'VLAN3002',
+                        IFMTU => '1500',
+                        IFINOCTETS => '0',
+                        IFOUTOCTETS => '0',
+                        IFINERRORS => '0',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '53',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(57880) 0:09:38.80',
+                        IFNUMBER => '3579',
+                        IFINTERNALSTATUS => '1',
+                        IFSTATUS => '1',
+                        IFDESCR => 'VLAN3002'
+                    },
+                    {
+                        IFNAME => 'VLAN3006',
+                        IFOUTERRORS => '0',
+                        IFSTATUS => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFNUMBER => '3583',
+                        IFDESCR => 'VLAN3006',
+                        IFINERRORS => '0',
+                        MAC => '00:18:71:C1:E0:00',
+                        IFTYPE => '53',
+                        IFLASTCHANGE => '(57880) 0:09:38.80',
+                        IFSPEED => '0',
                         IFOUTOCTETS => '0',
                         IFMTU => '1500',
-                        IFSPEED => '0',
-                        IFNUMBER => '3579',
-                        IFTYPE => '53',
-                        IFNAME => 'VLAN3002',
-                        IFLASTCHANGE => '(57880) 0:09:38.80',
                         IFINOCTETS => '0'
                     },
                     {
-                        IFSPEED => '0',
-                        IFMTU => '1500',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFINOCTETS => '0',
-                        IFLASTCHANGE => '(57880) 0:09:38.80',
-                        IFNAME => 'VLAN3006',
-                        IFTYPE => '53',
-                        IFNUMBER => '3583',
                         IFOUTERRORS => '0',
-                        IFDESCR => 'VLAN3006',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        MAC => '00:18:71:C1:E0:00'
-                    },
-                    {
-                        MAC => '00:18:71:C1:E0:00',
-                        IFSTATUS => '1',
-                        IFINERRORS => '0',
-                        IFDESCR => 'VLAN3007',
-                        IFOUTERRORS => '0',
-                        IFNUMBER => '3584',
-                        IFTYPE => '53',
                         IFNAME => 'VLAN3007',
-                        IFLASTCHANGE => '(57880) 0:09:38.80',
-                        IFINOCTETS => '0',
-                        IFINTERNALSTATUS => '1',
                         IFOUTOCTETS => '0',
                         IFMTU => '1500',
-                        IFSPEED => '0'
-                    },
-                    {
-                        IFOUTERRORS => '0',
-                        IFDESCR => 'HP ProCurve Switch software loopback interface',
-                        IFINERRORS => '0',
-                        IFSTATUS => '1',
-                        IFLASTCHANGE => '(0) 0:00:00.00',
-                        IFINOCTETS => '7893971',
-                        IFNUMBER => '4672',
-                        IFTYPE => '24',
-                        IFNAME => 'lo0',
-                        IFSPEED => '0',
+                        IFINOCTETS => '0',
+                        IFNUMBER => '3584',
                         IFINTERNALSTATUS => '1',
-                        IFOUTOCTETS => '7774747',
-                        IFMTU => '65535'
-                    },
-                    {
+                        IFSTATUS => '1',
+                        IFDESCR => 'VLAN3007',
+                        MAC => '00:18:71:C1:E0:00',
                         IFINERRORS => '0',
-                        IFSTATUS => '2',
-                        IFDESCR => 'HP ProCurve Switch software loopback interface',
-                        IFOUTERRORS => '0',
-                        IFTYPE => '24',
-                        IFNUMBER => '4673',
-                        IFNAME => 'lo1',
-                        IFLASTCHANGE => '(0) 0:00:00.00',
-                        IFINOCTETS => '0',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '2',
-                        IFMTU => '9198',
+                        IFTYPE => '53',
+                        IFLASTCHANGE => '(57880) 0:09:38.80',
                         IFSPEED => '0'
                     },
                     {
-                        IFSPEED => '0',
-                        IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '2',
-                        IFMTU => '9198',
-                        IFLASTCHANGE => '(0) 0:00:00.00',
-                        IFINOCTETS => '0',
-                        IFNUMBER => '4674',
+                        IFMTU => '65535',
+                        IFINOCTETS => '7893971',
+                        IFOUTOCTETS => '7774747',
                         IFTYPE => '24',
+                        IFINERRORS => '0',
+                        IFLASTCHANGE => '(0) 0:00:00.00',
+                        IFSPEED => '0',
+                        IFNUMBER => '4672',
+                        IFSTATUS => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFDESCR => 'HP ProCurve Switch software loopback interface',
+                        IFOUTERRORS => '0',
+                        IFNAME => 'lo0'
+                    },
+                    {
+                        IFOUTERRORS => '0',
+                        IFNAME => 'lo1',
+                        IFMTU => '9198',
+                        IFINOCTETS => '0',
+                        IFOUTOCTETS => '0',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(0) 0:00:00.00',
+                        IFINERRORS => '0',
+                        IFTYPE => '24',
+                        IFDESCR => 'HP ProCurve Switch software loopback interface',
+                        IFSTATUS => '2',
+                        IFINTERNALSTATUS => '2',
+                        IFNUMBER => '4673'
+                    },
+                    {
+                        IFOUTERRORS => '0',
                         IFNAME => 'lo2',
-                        IFOUTERRORS => '0',
-                        IFINERRORS => '0',
+                        IFOUTOCTETS => '0',
+                        IFINOCTETS => '0',
+                        IFMTU => '9198',
+                        IFNUMBER => '4674',
                         IFSTATUS => '2',
-                        IFDESCR => 'HP ProCurve Switch software loopback interface'
+                        IFINTERNALSTATUS => '2',
+                        IFDESCR => 'HP ProCurve Switch software loopback interface',
+                        IFTYPE => '24',
+                        IFINERRORS => '0',
+                        IFLASTCHANGE => '(0) 0:00:00.00',
+                        IFSPEED => '0'
                     },
                     {
-                        IFOUTERRORS => '0',
                         IFINERRORS => '0',
-                        IFSTATUS => '2',
-                        IFDESCR => 'HP ProCurve Switch software loopback interface',
-                        IFINOCTETS => '0',
-                        IFLASTCHANGE => '(0) 0:00:00.00',
-                        IFNAME => 'lo3',
                         IFTYPE => '24',
+                        IFLASTCHANGE => '(0) 0:00:00.00',
+                        IFSPEED => '0',
                         IFNUMBER => '4675',
-                        IFSPEED => '0',
+                        IFINTERNALSTATUS => '2',
+                        IFSTATUS => '2',
+                        IFDESCR => 'HP ProCurve Switch software loopback interface',
+                        IFINOCTETS => '0',
                         IFMTU => '9198',
                         IFOUTOCTETS => '0',
-                        IFINTERNALSTATUS => '2'
+                        IFNAME => 'lo3',
+                        IFOUTERRORS => '0'
                     },
                     {
-                        IFMTU => '9198',
-                        IFINTERNALSTATUS => '2',
                         IFOUTOCTETS => '0',
-                        IFSPEED => '0',
-                        IFNAME => 'lo4',
+                        IFINOCTETS => '0',
+                        IFMTU => '9198',
+                        IFSTATUS => '2',
+                        IFINTERNALSTATUS => '2',
                         IFNUMBER => '4676',
-                        IFTYPE => '24',
-                        IFINOCTETS => '0',
-                        IFLASTCHANGE => '(0) 0:00:00.00',
-                        IFINERRORS => '0',
-                        IFSTATUS => '2',
                         IFDESCR => 'HP ProCurve Switch software loopback interface',
-                        IFOUTERRORS => '0'
+                        IFTYPE => '24',
+                        IFINERRORS => '0',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(0) 0:00:00.00',
+                        IFOUTERRORS => '0',
+                        IFNAME => 'lo4'
                     },
                     {
-                        IFNAME => 'lo5',
+                        IFTYPE => '24',
+                        IFINERRORS => '0',
+                        IFSPEED => '0',
+                        IFLASTCHANGE => '(0) 0:00:00.00',
+                        IFSTATUS => '2',
                         IFNUMBER => '4677',
-                        IFTYPE => '24',
-                        IFINOCTETS => '0',
-                        IFLASTCHANGE => '(0) 0:00:00.00',
-                        IFMTU => '9198',
                         IFINTERNALSTATUS => '2',
-                        IFOUTOCTETS => '0',
-                        IFSPEED => '0',
                         IFDESCR => 'HP ProCurve Switch software loopback interface',
-                        IFINERRORS => '0',
-                        IFSTATUS => '2',
+                        IFINOCTETS => '0',
+                        IFMTU => '9198',
+                        IFOUTOCTETS => '0',
+                        IFNAME => 'lo5',
                         IFOUTERRORS => '0'
                     },
                     {
-                        IFINTERNALSTATUS => '2',
-                        IFOUTOCTETS => '0',
-                        IFMTU => '9198',
-                        IFSPEED => '0',
-                        IFTYPE => '24',
-                        IFNUMBER => '4678',
+                        IFOUTERRORS => '0',
                         IFNAME => 'lo6',
-                        IFLASTCHANGE => '(0) 0:00:00.00',
                         IFINOCTETS => '0',
+                        IFMTU => '9198',
+                        IFOUTOCTETS => '0',
+                        IFLASTCHANGE => '(0) 0:00:00.00',
+                        IFSPEED => '0',
+                        IFTYPE => '24',
                         IFINERRORS => '0',
                         IFDESCR => 'HP ProCurve Switch software loopback interface',
+                        IFINTERNALSTATUS => '2',
                         IFSTATUS => '2',
-                        IFOUTERRORS => '0'
+                        IFNUMBER => '4678'
                     },
                     {
-                        IFINTERNALSTATUS => '2',
-                        IFOUTOCTETS => '0',
-                        IFMTU => '9198',
-                        IFSPEED => '0',
-                        IFNUMBER => '4679',
-                        IFTYPE => '24',
-                        IFNAME => 'lo7',
-                        IFLASTCHANGE => '(0) 0:00:00.00',
                         IFINOCTETS => '0',
-                        IFSTATUS => '2',
+                        IFMTU => '9198',
+                        IFOUTOCTETS => '0',
+                        IFLASTCHANGE => '(0) 0:00:00.00',
+                        IFSPEED => '0',
                         IFINERRORS => '0',
+                        IFTYPE => '24',
                         IFDESCR => 'HP ProCurve Switch software loopback interface',
-                        IFOUTERRORS => '0'
+                        IFINTERNALSTATUS => '2',
+                        IFSTATUS => '2',
+                        IFNUMBER => '4679',
+                        IFOUTERRORS => '0',
+                        IFNAME => 'lo7'
                     }
                 ]
-            },
+            }
         }
-
     ],
     'hewlett-packard/LaserJet_CP1025nw.walk' => [
         {
@@ -4994,23 +7806,8 @@ my %tests = (
         {
             INFO => {
                 MANUFACTURER => 'Hewlett-Packard',
-                MODEL        => undef,
+                TYPE         => undef,
                 ID           => undef,
-                TYPE         => undef
-            },
-            PAGECOUNTERS => {
-                SCANNED    => undef,
-                COLOR      => undef,
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                BLACK      => undef,
-                PRINTTOTAL => undef,
-                COPYTOTAL  => undef,
-                COPYCOLOR  => undef,
-                RECTOVERSO => undef,
-                PRINTCOLOR => undef,
-                COPYBLACK  => undef,
-                TOTAL      => undef
             },
             PORTS => {
                 PORT => []
@@ -5035,23 +7832,8 @@ my %tests = (
         {
             INFO => {
                 MANUFACTURER => 'Hewlett-Packard',
-                MODEL        => undef,
+                TYPE         => undef,
                 ID           => undef,
-                TYPE         => undef
-            },
-            PAGECOUNTERS => {
-                SCANNED    => undef,
-                COLOR      => undef,
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                BLACK      => undef,
-                PRINTTOTAL => undef,
-                COPYTOTAL  => undef,
-                COPYCOLOR  => undef,
-                RECTOVERSO => undef,
-                PRINTCOLOR => undef,
-                COPYBLACK  => undef,
-                TOTAL      => undef
             },
             PORTS => {
                 PORT => []
@@ -5236,21 +8018,6 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => undef,
                 ID           => undef,
-                MODEL        => undef,
-            },
-            PAGECOUNTERS => {
-                PRINTTOTAL => undef,
-                COLOR      => undef,
-                TOTAL      => undef,
-                SCANNED    => undef,
-                COPYBLACK  => undef,
-                RECTOVERSO => undef,
-                BLACK      => undef,
-                FAXTOTAL   => undef,
-                PRINTCOLOR => undef,
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef,
-                PRINTBLACK => undef
             },
             PORTS => {
                 PORT => []
@@ -5288,7 +8055,6 @@ foreach my $test (sort keys %tests) {
     my $device3 = FusionInventory::Agent::Tools::Hardware::getDeviceFullInfo(
         snmp  => $snmp,
         model => $model,
-        type  => 'PRINTER'
     );
     cmp_deeply($device3, $tests{$test}->[2], $test);
 }

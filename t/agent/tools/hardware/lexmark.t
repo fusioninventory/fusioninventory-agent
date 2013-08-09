@@ -103,26 +103,11 @@ my %tests = (
             INFO => {
                 MANUFACTURER => 'Lexmark',
                 TYPE         => 'PRINTER',
-                MODEL        => undef,
                 ID           => undef,
             },
             PORTS => {
                 PORT => []
             },
-            PAGECOUNTERS => {
-                COLOR      => undef,
-                FAXTOTAL   => undef,
-                PRINTCOLOR => undef,
-                TOTAL      => undef,
-                RECTOVERSO => undef,
-                COPYCOLOR  => undef,
-                PRINTBLACK => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                SCANNED    => undef,
-                BLACK      => undef,
-                PRINTTOTAL => undef
-            }
         }
     ],
 );
@@ -157,7 +142,6 @@ foreach my $test (sort keys %tests) {
     my $device3 = FusionInventory::Agent::Tools::Hardware::getDeviceFullInfo(
         snmp  => $snmp,
         model => $model,
-        type  => 'PRINTER',
     );
     cmp_deeply($device3, $tests{$test}->[2], $test);
 }

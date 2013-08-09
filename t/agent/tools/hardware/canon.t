@@ -81,21 +81,6 @@ my %tests = (
                 MANUFACTURER => 'Canon',
                 TYPE         => 'PRINTER',
                 ID           => undef,
-                MODEL        => undef,
-            },
-            PAGECOUNTERS => {
-                BLACK      => undef,
-                COPYCOLOR  => undef,
-                PRINTCOLOR => undef,
-                TOTAL      => undef,
-                PRINTTOTAL => undef,
-                FAXTOTAL   => undef,
-                COLOR      => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                PRINTBLACK => undef,
-                SCANNED    => undef,
-                RECTOVERSO => undef
             },
             PORTS => {
                 PORT => []
@@ -134,10 +119,6 @@ foreach my $test (sort keys %tests) {
     my $device3 = FusionInventory::Agent::Tools::Hardware::getDeviceFullInfo(
         snmp  => $snmp,
         model => $model,
-        device => {
-            FILE => "$ENV{SNMPWALK_DATABASE}/$test",
-            TYPE => 'PRINTER',
-        },
     );
     cmp_deeply($device3, $tests{$test}->[2], $test);
 }
