@@ -509,42 +509,10 @@ sub _performSpecificCleanup {
 sub getDeviceFullInfo {
     my (%params) = @_;
 
-    my $credentials = $params{credentials};
-    my $model       = $params{model};
-    my $device      = $params{device};
-    my $logger      = $params{logget};
-
-    my $snmp;
-    if ($device->{FILE}) {
-        FusionInventory::Agent::SNMP::Mock->require();
-        eval {
-            $snmp = FusionInventory::Agent::SNMP::Mock->new(
-                file => $device->{FILE}
-            );
-        };
-        if ($EVAL_ERROR) {
-            $logger->error("Unable to create SNMP session for $device->{FILE}: $EVAL_ERROR");
-            return;
-        }
-    } else {
-        eval {
-            FusionInventory::Agent::SNMP::Live->require();
-            $snmp = FusionInventory::Agent::SNMP::Live->new(
-                version      => $credentials->{VERSION},
-                hostname     => $device->{IP},
-                community    => $credentials->{COMMUNITY},
-                username     => $credentials->{USERNAME},
-                authpassword => $credentials->{AUTHPASSWORD},
-                authprotocol => $credentials->{AUTHPROTOCOL},
-                privpassword => $credentials->{PRIVPASSWORD},
-                privprotocol => $credentials->{PRIVPROTOCOL},
-            );
-        };
-        if ($EVAL_ERROR) {
-            $logger->error("Unable to create SNMP session for $device->{IP}: $EVAL_ERROR");
-            return;
-        }
-    }
+    my $snmp   = $params{snmp};
+    my $model  = $params{model};
+    my $device = $params{device};
+    my $logger = $params{logget};
 
     # first, let's retrieve basic device informations
     my %info = getDeviceBaseInfo($snmp);

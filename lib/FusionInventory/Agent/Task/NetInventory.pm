@@ -13,6 +13,7 @@ use constant EXIT  => 3;
 
 use Encode qw(encode);
 use English qw(-no_match_vars);
+use UNIVERSAL::require;
 
 use FusionInventory::Agent::XML::Query;
 use FusionInventory::Agent::Tools;
@@ -183,6 +184,14 @@ sub _queryDevices {
             credentials => $credentials
         );
 
+        $result = {
+            ERROR => {
+                    ID      => $device->{ID},
+                    TYPE    => $device->{TYPE},
+                    MESSAGE => "No response from remote host"
+                }
+        } if !$result;
+
         if ($result) {
             lock $results;
             push @$results, shared_clone($result);
@@ -203,20 +212,44 @@ sub _queryDevice {
     my $id     = threads->tid();
     $logger->debug("thread $id: scanning $device->{ID}");
 
-    my $result = getDeviceFullInfo(
-         device      => $device,
-         model       => $params{models}->{$device->{MODELSNMP_ID}},
-         credentials => $params{credentials}->{$device->{AUTHSNMP_ID}},
-         logger      => $self->{logger}
-    );
+    my $snmp;
+    if ($device->{FILE}) {
+        FusionInventory::Agent::SNMP::Mock->require();
+        eval {
+            $snmp = FusionInventory::Agent::SNMP::Mock->new(
+                file => $device->{FILE}
+            );
+        };
+        if ($EVAL_ERROR) {
+            $logger->error("Unable to create SNMP session for $device->{FILE}: $EVAL_ERROR");
+            return;
+        }
+    } else {
+        eval {
+            FusionInventory::Agent::SNMP::Live->require();
+            $snmp = FusionInventory::Agent::SNMP::Live->new(
+                version      => $credentials->{VERSION},
+                hostname     => $device->{IP},
+                community    => $credentials->{COMMUNITY},
+                username     => $credentials->{USERNAME},
+                authpassword => $credentials->{AUTHPASSWORD},
+                authprotocol => $credentials->{AUTHPROTOCOL},
+                privpassword => $credentials->{PRIVPASSWORD},
+                privprotocol => $credentials->{PRIVPROTOCOL},
+            );
+        };
+        if ($EVAL_ERROR) {
+            $logger->error("Unable to create SNMP session for $device->{IP}: $EVAL_ERROR");
+            return;
+        }
+    }
 
-    $result = {
-        ERROR => {
-                ID      => $device->{ID},
-                TYPE    => $device->{TYPE},
-                MESSAGE => "No response from remote host"
-            }
-    } if !$result;
+    my $result = getDeviceFullInfo(
+         device => $device,
+         snmp   => $snmp,
+         model  => $params{models}->{$device->{MODELSNMP_ID}},
+         logger => $self->{logger}
+    );
 
     return $result;
 }
