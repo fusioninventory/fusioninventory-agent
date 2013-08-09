@@ -619,10 +619,9 @@ sub getDeviceFullInfo {
 
     _setNetworkingProperties(
         results     => $results,
+        snmp        => $snmp,
         device      => $datadevice,
         walks       => $model->{WALK},
-        host        => $device->{IP},
-        credentials => $credentials,
         logger      => $logger
     ) if $device->{TYPE} eq 'NETWORKING';
 
@@ -883,32 +882,13 @@ sub _setNetworkingProperties {
         values %{$walks};
 
     if ($vlan_query) {
-        my $host        = $params{host};
-        my $credentials = $params{credentials};
-        # set connected devices mac addresses for each VLAN
+        my $snmp = $params{snmp};
+
+        # set connected devices mac addresses for each VLAN,
+        # using VLAN-specific SNMP connections
         while (my ($oid, $name) = each %{$results->{vtpVlanName}}) {
             my $vlan_id = getLastElement($oid);
-            # initiate a new SNMP connection on this VLAN
-            my $snmp;
-            eval {
-                $snmp = FusionInventory::Agent::SNMP::Live->new(
-                    version      => $credentials->{VERSION},
-                    hostname     => $host,
-                    community    => $credentials->{COMMUNITY} . "@" . $vlan_id,
-                    username     => $credentials->{USERNAME},
-                    authpassword => $credentials->{AUTHPASSWORD},
-                    authprotocol => $credentials->{AUTHPROTOCOL},
-                    privpassword => $credentials->{PRIVPASSWORD},
-                    privprotocol => $credentials->{PRIVPROTOCOL},
-                );
-            };
-            if ($EVAL_ERROR) {
-                $logger->error(
-                    "Unable to create SNMP session for $host, VLAN $vlan_id: " .
-                    $EVAL_ERROR
-                );
-                return;
-            }
+            $snmp->switch_community("@" . $vlan_id);
 
             foreach my $variable (values %{$walks}) {
                 next unless $variable->{VLAN};
