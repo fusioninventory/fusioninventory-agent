@@ -245,7 +245,8 @@ sub _queryDevice {
     }
 
     my $result = getDeviceFullInfo(
-         device => $device,
+         id     => $device->{ID}
+         type   => $device->{TYPE},
          snmp   => $snmp,
          model  => $params{models}->{$device->{MODELSNMP_ID}},
          logger => $self->{logger}

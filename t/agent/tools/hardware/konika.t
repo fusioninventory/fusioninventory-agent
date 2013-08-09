@@ -168,10 +168,7 @@ foreach my $test (sort keys %tests) {
     my $device3 = FusionInventory::Agent::Tools::Hardware::getDeviceFullInfo(
         snmp  => $snmp,
         model => $model,
-        device => {
-            FILE => "$ENV{SNMPWALK_DATABASE}/$test",
-            TYPE => 'PRINTER',
-        },
+        type  => 'PRINTER',
     );
     cmp_deeply($device3, $tests{$test}->[2], $test);
 }

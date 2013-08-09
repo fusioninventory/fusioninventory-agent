@@ -5,7 +5,7 @@ use warnings;
 use base 'Exporter';
 
 use English qw(-no_match_vars);
-use UNIVERSAL::require;
+
 
 use FusionInventory::Agent::Tools; # runFunction
 use FusionInventory::Agent::Tools::Network;
@@ -511,7 +511,6 @@ sub getDeviceFullInfo {
 
     my $snmp   = $params{snmp};
     my $model  = $params{model};
-    my $device = $params{device};
     my $logger = $params{logget};
 
     # first, let's retrieve basic device informations
@@ -524,7 +523,7 @@ sub getDeviceFullInfo {
     delete $info{SNMPHOSTNAME};
 
     # automatically extend model for cartridge support
-    if ($device->{TYPE} eq "PRINTER") {
+    if ($params{type} eq "PRINTER") {
         foreach my $variable (values %{$model->{GET}}) {
             my $object = $variable->{OBJECT};
             next unless $object;
@@ -566,42 +565,42 @@ sub getDeviceFullInfo {
     }
 
     # second, use results to build the object
-    my $datadevice = {
+    my $device = {
         INFO => {
-            ID   => $device->{ID},
-            TYPE => $device->{TYPE},
+            ID   => $params{id},
+            TYPE => $params{type},
             %info
         }
     };
 
     _setGenericProperties(
         results => $results,
-        device  => $datadevice,
+        device  => $device,
         walks   => $model->{WALK}
     );
 
     _setPrinterProperties(
         results => $results,
-        device  => $datadevice,
-    ) if $device->{TYPE} eq 'PRINTER';
+        device  => $device,
+    ) if $params{type} eq 'PRINTER';
 
     _setNetworkingProperties(
         results     => $results,
         snmp        => $snmp,
-        device      => $datadevice,
+        device      => $device,
         walks       => $model->{WALK},
         logger      => $logger
-    ) if $device->{TYPE} eq 'NETWORKING';
+    ) if $params{type} eq 'NETWORKING';
 
     # convert ports hashref to an arrayref, sorted by interface number
-    my $ports = $datadevice->{PORTS}->{PORT};
-    $datadevice->{PORTS}->{PORT} = [
+    my $ports = $device->{PORTS}->{PORT};
+    $device->{PORTS}->{PORT} = [
         map { $ports->{$_} }
         sort { $a <=> $b }
         keys %{$ports}
     ];
 
-    return $datadevice;
+    return $device;
 }
 
 sub _setGenericProperties {
