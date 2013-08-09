@@ -197,6 +197,8 @@ sub loadModel {
         }
     } grep {
         $_->{dynamicport} == 0
+    } grep {
+        $_->{mapping_name}
     } @{$model->{oidlist}->{oidobject}};
 
     my @walk = map {
@@ -207,6 +209,8 @@ sub loadModel {
         }
     } grep {
         $_->{dynamicport} == 1
+    } grep {
+        $_->{mapping_name}
     } @{$model->{oidlist}->{oidobject}};
 
     return {
