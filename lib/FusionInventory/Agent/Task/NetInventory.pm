@@ -183,6 +183,14 @@ sub _queryDevices {
             credentials => $credentials->{$device->{AUTHSNMP_ID}},
             logger      => $self->{logger}
         );
+        
+        $result = {
+            ERROR => {
+                    ID      => $device->{ID},
+                    TYPE    => $device->{TYPE},
+                    MESSAGE => "No response from remote host"
+                }
+        } if !$result;
 
         if ($result) {
             lock $results;

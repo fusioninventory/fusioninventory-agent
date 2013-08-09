@@ -373,6 +373,7 @@ sub getDeviceInfo {
     # the device is initialized with basic information
     # deduced from its sysdescr
     my %device = getDeviceBaseInfo($snmp);
+    return unless %device;
 
     # then, we try to get a matching model from the dictionary,
     # using its current description as identification key
@@ -547,16 +548,7 @@ sub getDeviceFullInfo {
 
     # first, let's retrieve basic device informations
     my %info = getDeviceBaseInfo($snmp);
-
-    if (!%info) {
-        return {
-            ERROR => {
-                ID      => $device->{ID},
-                TYPE    => $device->{TYPE},
-                MESSAGE => "No response from remote host"
-            }
-        };
-    }
+    return unless %info;
 
     # unfortunatly, some elements differs between discovery
     # and inventory response
