@@ -177,20 +177,11 @@ sub _queryDevices {
 
     while (my $device = do { lock @{$devices}; shift @{$devices}; }) {
 
-        my $result = getDeviceFullInfo(
+        my $result = $self->_queryDevice(
             device      => $device,
-            model       => $models->{$device->{MODELSNMP_ID}},
-            credentials => $credentials->{$device->{AUTHSNMP_ID}},
-            logger      => $self->{logger}
+            models      => $models,
+            credentials => $credentials
         );
-        
-        $result = {
-            ERROR => {
-                    ID      => $device->{ID},
-                    TYPE    => $device->{TYPE},
-                    MESSAGE => "No response from remote host"
-                }
-        } if !$result;
 
         if ($result) {
             lock $results;
@@ -202,6 +193,32 @@ sub _queryDevices {
 
     $$state = EXIT;
     $logger->debug("Thread $id switched to EXIT state");
+}
+
+sub _queryDevice {
+    my ($self, %params) = @_;
+
+    my $device = $params{device};
+    my $logger = $self->{logger};
+    my $id     = threads->tid();
+    $logger->debug("thread $id: scanning $device->{ID}");
+
+    my $result = getDeviceFullInfo(
+         device      => $device,
+         model       => $params{models}->{$device->{MODELSNMP_ID}},
+         credentials => $params{credentials}->{$device->{AUTHSNMP_ID}},
+         logger      => $self->{logger}
+    );
+
+    $result = {
+        ERROR => {
+                ID      => $device->{ID},
+                TYPE    => $device->{TYPE},
+                MESSAGE => "No response from remote host"
+            }
+    } if !$result;
+
+    return $result;
 }
 
 sub _getIndexedModels {
