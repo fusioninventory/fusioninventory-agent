@@ -17,7 +17,6 @@ our @EXPORT = qw(
     mockGetWMIObjects
     mockGetRegistryKey
     unsetProxyEnvVar
-    loadModel
 );
 
 sub test_port {
@@ -182,42 +181,4 @@ sub run_executable {
         \my ($in, $out, $err)
     );
     return ($out, $err, $CHILD_ERROR >> 8);
-}
-
-sub loadModel {
-    my ($file) = @_;
-
-    my $model = XML::TreePP->new()->parsefile($file)->{model};
-
-    my @get = map {
-        {
-            OID    => $_->{oid},
-            OBJECT => $_->{mapping_name},
-            VLAN   => $_->{vlan},
-        }
-    } grep {
-        $_->{dynamicport} == 0
-    } grep {
-        $_->{mapping_name}
-    } @{$model->{oidlist}->{oidobject}};
-
-    my @walk = map {
-        {
-            OID    => $_->{oid},
-            OBJECT => $_->{mapping_name},
-            VLAN   => $_->{vlan},
-        }
-    } grep {
-        $_->{dynamicport} == 1
-    } grep {
-        $_->{mapping_name}
-    } @{$model->{oidlist}->{oidobject}};
-
-    return {
-        ID   => 1,
-        NAME => $model->{name},
-        TYPE => $model->{type},
-        GET  => { map { $_->{OBJECT} => $_ } @get  },
-        WALK => { map { $_->{OBJECT} => $_ } @walk }
-    }
 }
