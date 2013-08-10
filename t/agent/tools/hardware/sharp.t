@@ -240,14 +240,12 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNAME => 'Ethernet',
-                        IFTYPE => '6',
-                        MAC => '00:22:F3:C8:04:99',
-                        IFNUMBER => '1'
+                        IFNAME   => 'Ethernet',
+                        IFTYPE   => '6',
+                        MAC      => '00:22:F3:C8:04:99',
+                        IFNUMBER => '1',
+                        IP       => '172.31.201.123'
                     },
-                    {
-                        IP => '172.31.201.123'
-                    }
                 ]
             }
         }

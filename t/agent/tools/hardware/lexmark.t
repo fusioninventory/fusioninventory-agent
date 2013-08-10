@@ -59,20 +59,16 @@ my %tests = (
                         IFTYPE   => '24',
                         MAC      => '00:00:00:00:00:00',
                         IFNUMBER => '1',
-                        IFNAME   => 'lo0'
+                        IFNAME   => 'lo0',
+                        IP       => '127.0.0.1'
                     },
                     {
                         IFTYPE   => '6',
                         IFNUMBER => '2',
                         MAC      => '00:04:00:9C:6C:25',
-                        IFNAME   => 'eth0'
+                        IFNAME   => 'eth0',
+                        IP       => '172.31.201.21'
                     },
-                    {
-                        IP => '127.0.0.1'
-                    },
-                    {
-                        IP => '172.31.201.21'
-                    }
                 ]
             }
         }

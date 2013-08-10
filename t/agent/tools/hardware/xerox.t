@@ -303,20 +303,16 @@ my %tests = (
                         MAC      => '00:00:AA:CF:9E:5A',
                         IFNUMBER => '1',
                         IFTYPE   => '6',
-                        IFNAME   => 'Xerox Embedded Ethernet Controller, 10/100/1000 Mbps, v1.0, RJ45, 100 Mbps full duplex'
+                        IFNAME   => 'Xerox Embedded Ethernet Controller, 10/100/1000 Mbps, v1.0, RJ45, 100 Mbps full duplex',
+                        IP       => '129.181.20.136'
                     },
                     {
                         MAC      => '00:00:00:00:00:00',
                         IFNUMBER => '2',
                         IFTYPE   => '24',
-                        IFNAME   => 'Xerox internal TCP Software Loopback Interface, v2.0'
+                        IFNAME   => 'Xerox internal TCP Software Loopback Interface, v2.0',
+                        IP       => '127.0.0.1'
                     },
-                    {
-                        IP => '127.0.0.1'
-                    },
-                    {
-                        IP => '129.181.20.136'
-                    }
                 ]
             }
         }
@@ -357,22 +353,18 @@ my %tests = (
                 PORT => [
                     {
                         IFNUMBER => '1',
-                        IFNAME => 'Xerox Embedded Ethernet Controller, 10/100/1000 Mbps, v1.0, RJ45, 100 Mbps full duplex',
-                        MAC => '00:00:AA:CF:84:10',
-                        IFTYPE => '6'
+                        IFNAME   => 'Xerox Embedded Ethernet Controller, 10/100/1000 Mbps, v1.0, RJ45, 100 Mbps full duplex',
+                        MAC      => '00:00:AA:CF:84:10',
+                        IFTYPE   => '6',
+                        IP       => '129.181.20.135'
                     },
                     {
-                        IFTYPE => '24',
-                        MAC => '00:00:00:00:00:00',
-                        IFNAME => 'Xerox internal TCP Software Loopback Interface, v2.0',
-                        IFNUMBER => '2'
+                        IFTYPE   => '24',
+                        MAC      => '00:00:00:00:00:00',
+                        IFNAME   => 'Xerox internal TCP Software Loopback Interface, v2.0',
+                        IFNUMBER => '2',
+                        IP       => '127.0.0.1'
                     },
-                    {
-                        IP => '127.0.0.1'
-                    },
-                    {
-                        IP => '129.181.20.135'
-                    }
                 ]
             },
             CARTRIDGES => {
