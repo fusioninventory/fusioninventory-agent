@@ -39,7 +39,7 @@ sub setConnectedDevicesMacAddresses {
         next if $port->{CONNECTIONS}->{CDP};
 
         # this is port own mac address
-        next if $port->{MAC} eq $mac;
+        next if $port->{MAC} && $port->{MAC} eq $mac;
 
         # create a new connection with this mac address
         push
