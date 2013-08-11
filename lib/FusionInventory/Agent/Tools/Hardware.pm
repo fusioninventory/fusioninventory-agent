@@ -770,8 +770,9 @@ sub _setNetworkingProperties {
 
     # Detect VLAN
     if ($results->{vmvlan}) {
-        while (my ($oid, $vlan_id) = each %{$results->{vmvlan}}) {
+        foreach my $oid (sort keys %{$results->{vmvlan}}) {
             my $port_id  = getLastElement($oid);
+            my $vlan_id  = $results->{vmvlan}->{$oid};
             my $vlan_oid = $walks->{vtpVlanName}->{OID} . "." . $vlan_id;
             my $name = $results->{vtpVlanName}->{$vlan_oid};
             push
