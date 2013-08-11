@@ -10,7 +10,7 @@ sub setConnectedDevicesMacAddresses {
 
     my $results = $params{results};
     my $ports   = $params{ports};
-    my $walks   = $params{walks};
+    my $model   = $params{model};
 
     foreach my $oid (sort keys %{$results->{dot1dTpFdbAddress}}) {
         my $suffix = $results->{dot1dTpFdbAddress}->{$oid};
@@ -19,12 +19,12 @@ sub setConnectedDevicesMacAddresses {
         next unless $mac;
 
         # get port key
-        my $portKey = $walks->{dot1dTpFdbPort}->{OID} . '.' . $suffix;
+        my $portKey = $model->{WALK}->{dot1dTpFdbPort}->{OID} . '.' . $suffix;
 
         # get interface key from port key
         my $ifKey_part = $results->{dot1dTpFdbPort}->{$portKey};
         next unless defined $ifKey_part;
-        my $ifKey = $walks->{dot1dBasePortIfIndex}->{OID} . '.' . $ifKey_part;
+        my $ifKey = $model->{WALK}->{dot1dBasePortIfIndex}->{OID} . '.' . $ifKey_part;
 
         # get interface index
         my $ifIndex = $results->{dot1dBasePortIfIndex}->{$ifKey};
@@ -68,6 +68,6 @@ Set mac addresses of connected devices.
 
 =item ports device ports list
 
-=item walks model walk branch
+=item model model
 
 =back

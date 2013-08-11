@@ -11,7 +11,7 @@ sub setConnectedDevicesMacAddresses {
     # use generic code, with vlan-specific results
     FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(
         ports   => $params{ports},
-        walks   => $params{walks},
+        model   => $params{model},
         results => $params{results}->{VLAN}->{$params{vlan_id}}
     );
 }

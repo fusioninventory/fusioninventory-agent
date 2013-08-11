@@ -11,7 +11,7 @@ sub setConnectedDevicesMacAddresses {
 
     my $results = $params{results};
     my $ports   = $params{ports};
-    my $walks   = $params{walks};
+    my $model   = $params{model};
 
     foreach my $oid (sort keys %{$results->{dot1dTpFdbAddress}}) {
         my $mac = $results->{dot1dTpFdbAddress}->{$oid};
@@ -20,14 +20,14 @@ sub setConnectedDevicesMacAddresses {
 
         # get port key
         my $portKey_part = $oid;
-        $portKey_part =~ s/$walks->{dot1dTpFdbAddress}->{OID}\.//;
+        $portKey_part =~ s/$model->{WALK}->{dot1dTpFdbAddress}->{OID}\.//;
         next unless $portKey_part;
-        my $portKey = $walks->{dot1dTpFdbPort}->{OID} . '.' . $portKey_part;
+        my $portKey = $model->{WALK}->{dot1dTpFdbPort}->{OID} . '.' . $portKey_part;
 
         # get interface key from port key
         my $ifKey_part = $results->{dot1dTpFdbPort}->{$portKey};
         next unless defined $ifKey_part;
-        my $ifKey = $walks->{dot1dBasePortIfIndex}->{OID} . '.' . $ifKey_part;
+        my $ifKey = $model->{WALK}->{dot1dBasePortIfIndex}->{OID} . '.' . $ifKey_part;
 
         # get interface index
         my $ifIndex = $results->{dot1dBasePortIfIndex}->{$ifKey};
@@ -63,7 +63,7 @@ sub setConnectedDevicesUsingCDP {
 
     my $results = $params{results};
     my $ports   = $params{ports};
-    my $walks   = $params{walks};
+    my $model   = $params{model};
 
     while (my ($oid, $ip) = each %{$results->{cdpCacheAddress}}) {
         $ip = hex2canonical($ip);
@@ -74,7 +74,7 @@ sub setConnectedDevicesUsingCDP {
             getElement($oid, -1);
 
         my $mac;
-        my $sysname = $results->{cdpCacheDeviceId}->{$walks->{cdpCacheDeviceId}->{OID} . "." . $port_number};
+        my $sysname = $results->{cdpCacheDeviceId}->{$model->{WALK}->{cdpCacheDeviceId}->{OID} . "." . $port_number};
         if ($sysname =~ /^SIP([A-F0-9a-f]*)$/) {
             $mac = alt2canonical("0x".$1);
         }
@@ -83,14 +83,14 @@ sub setConnectedDevicesUsingCDP {
             IP      => $ip,
             MAC     => $mac,
             IFDESCR => $results->{cdpCacheDevicePort}->{
-                $walks->{cdpCacheDevicePort}->{OID} . "." . $port_number
+                $model->{WALK}->{cdpCacheDevicePort}->{OID} . "." . $port_number
             },
             SYSDESCR => $results->{cdpCacheVersion}->{
-                $walks->{cdpCacheVersion}->{OID} . "." . $port_number
+                $model->{WALK}->{cdpCacheVersion}->{OID} . "." . $port_number
             },
             SYSNAME  => $sysname,
             MODEL => $results->{cdpCachePlatform}->{
-                $walks->{cdpCachePlatform}->{OID} . "." . $port_number
+                $model->{WALK}->{cdpCachePlatform}->{OID} . "." . $port_number
             }
         };
 
@@ -108,7 +108,7 @@ sub setConnectedDevicesUsingLLDP {
 
     my $results = $params{results};
     my $ports   = $params{ports};
-    my $walks   = $params{walks};
+    my $model   = $params{model};
 
     while (my ($oid, $mac) = each %{$results->{lldpRemChassisId}}) {
 
@@ -122,16 +122,16 @@ sub setConnectedDevicesUsingLLDP {
             CONNECTION => {
                 SYSMAC => alt2canonical($mac),
                 IFDESCR => $results->{lldpRemPortDesc}->{
-                    $walks->{lldpRemPortDesc}->{OID} . "." . $port_number
+                    $model->{WALK}->{lldpRemPortDesc}->{OID} . "." . $port_number
                 },
                 SYSDESCR => $results->{lldpRemSysDesc}->{
-                    $walks->{lldpRemSysDesc}->{OID} . "." . $port_number
+                    $model->{WALK}->{lldpRemSysDesc}->{OID} . "." . $port_number
                 },
                 SYSNAME  => alt2canonical($results->{lldpRemSysName}->{
-                    $walks->{lldpRemSysName}->{OID} . "." . $port_number
+                    $model->{WALK}->{lldpRemSysName}->{OID} . "." . $port_number
                 }),
                 IFNUMBER => $results->{lldpRemPortId}->{
-                    $walks->{lldpRemPortId}->{OID} . "." . $port_number
+                    $model->{WALK}->{lldpRemPortId}->{OID} . "." . $port_number
                 }
             }
         };

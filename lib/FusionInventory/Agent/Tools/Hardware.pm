@@ -471,7 +471,7 @@ sub _setTrunkPorts {
 
 }
 sub _setConnectedDevices {
-    my ($description, $results, $ports, $walks) = @_;
+    my ($description, $results, $ports, $model) = @_;
 
     foreach my $rule (@connected_devices_rules) {
         next unless $description =~ $rule->{match};
@@ -480,7 +480,7 @@ sub _setConnectedDevices {
             module   => $rule->{module},
             function => 'setConnectedDevices',
             params   => {
-                results => $results, ports => $ports, walks => $walks
+                results => $results, ports => $ports, model => $model
             },
             load     => 1
         );
@@ -490,7 +490,7 @@ sub _setConnectedDevices {
 }
 
 sub _setConnectedDevicesMacAddresses {
-    my ($description, $results, $ports, $walks, $vlan_id) = @_;
+    my ($description, $results, $ports, $model, $vlan_id) = @_;
 
     foreach my $rule (@connected_devices_mac_addresses_rules) {
         next unless $description =~ $rule->{match};
@@ -501,7 +501,7 @@ sub _setConnectedDevicesMacAddresses {
             params   => {
                 results => $results,
                 ports   => $ports,
-                walks   => $walks,
+                model   => $model,
                 vlan_id => $vlan_id
             },
             load     => 1
@@ -602,7 +602,7 @@ sub getDeviceFullInfo {
     _setGenericProperties(
         results => $results,
         device  => $device,
-        walks   => $model->{WALK}
+        model   => $model
     );
 
     _setPrinterProperties(
@@ -614,7 +614,7 @@ sub getDeviceFullInfo {
         results     => $results,
         snmp        => $snmp,
         device      => $device,
-        walks       => $model->{WALK},
+        model       => $model,
         logger      => $logger
     ) if $type && $type eq 'NETWORKING';
 
@@ -704,7 +704,7 @@ sub _setGenericProperties {
         while (my ($oid, $data) = each %{$results->{ifaddr}}) {
             next unless $data;
             my $address = $oid;
-            $address =~ s/$params{walks}->{ifaddr}->{OID}//;
+            $address =~ s/$params{model}->{WALK}->{ifaddr}->{OID}//;
             $address =~ s/^.//;
             $ports->{$data}->{IP} = $address;
         }
@@ -760,7 +760,7 @@ sub _setNetworkingProperties {
 
     my $results = $params{results};
     my $device  = $params{device};
-    my $walks   = $params{walks};
+    my $model   = $params{model};
     my $logger  = $params{logger};
 
     $device->{INFO}->{MODEL} = $results->{entPhysicalModelName};
@@ -773,7 +773,7 @@ sub _setNetworkingProperties {
         foreach my $oid (sort keys %{$results->{vmvlan}}) {
             my $port_id  = getLastElement($oid);
             my $vlan_id  = $results->{vmvlan}->{$oid};
-            my $vlan_oid = $walks->{vtpVlanName}->{OID} . "." . $vlan_id;
+            my $vlan_oid = $model->{WALK}->{vtpVlanName}->{OID} . "." . $vlan_id;
             my $name = $results->{vtpVlanName}->{$vlan_oid};
             push
                 @{$ports->{$port_id}->{VLANS}->{VLAN}},
@@ -789,12 +789,12 @@ sub _setNetworkingProperties {
 
     _setTrunkPorts($comments, $results, $ports);
 
-    _setConnectedDevices($comments, $results, $ports, $walks);
+    _setConnectedDevices($comments, $results, $ports, $model);
 
     # check if vlan-specific queries are needed
     my $vlan_query =
         any { $_->{VLAN} }
-        values %{$walks};
+        values %{$model->{WALK}};
 
     if ($vlan_query) {
         my $snmp = $params{snmp};
@@ -805,19 +805,19 @@ sub _setNetworkingProperties {
             my $vlan_id = getLastElement($oid);
             $snmp->switch_community("@" . $vlan_id);
 
-            foreach my $variable (values %{$walks}) {
+            foreach my $variable (values %{$model->{WALK}}) {
                 next unless $variable->{VLAN};
                 $results->{VLAN}->{$vlan_id}->{$variable->{OBJECT}} =
                     $snmp->walk($variable->{OID});
             }
 
             _setConnectedDevicesMacAddresses(
-                $comments, $results, $ports, $walks, $vlan_id
+                $comments, $results, $ports, $model, $vlan_id
             );
         }
     } else {
         # set connected devices mac addresses only once
-        _setConnectedDevicesMacAddresses($comments, $results, $ports, $walks);
+        _setConnectedDevicesMacAddresses($comments, $results, $ports, $model);
     }
 
     # hardware-specific hacks
@@ -864,7 +864,7 @@ return a minimal set of information for a device through SNMP, according to a
 set of rules hardcoded in the agent and the usage of an additional knowledge
 base, the dictionary.
 
-=head2 setConnectedDevicesMacAddresses($description, $results, $ports, $walks, $vlan_id)
+=head2 setConnectedDevicesMacAddresses($description, $results, $ports, $model, $vlan_id)
 
 set mac addresses of connected devices.
 
@@ -876,13 +876,13 @@ set mac addresses of connected devices.
 
 =item * ports: device ports list
 
-=item * walks: model walk branch
+=item * model: model
 
 =item * vlan_id: VLAN identifier
 
 =back
 
-=head2 setConnectedDevices($description, $results, $ports, $walks)
+=head2 setConnectedDevices($description, $results, $ports, $model)
 
 Set connected devices using CDP if available, LLDP otherwise.
 
@@ -894,7 +894,7 @@ Set connected devices using CDP if available, LLDP otherwise.
 
 =item * ports: device ports list
 
-=item * walks: model walk branch
+=item * model: model
 
 =back
 

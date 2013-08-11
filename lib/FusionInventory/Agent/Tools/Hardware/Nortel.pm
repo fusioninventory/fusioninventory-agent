@@ -39,13 +39,13 @@ sub setConnectedDevices {
 
     my $results = $params{results};
     my $ports   = $params{ports};
-    my $walks   = $params{walks};
+    my $model   = $params{model};
 
     return unless ref $results->{lldpRemChassisId} eq "HASH";
 
     while (my ($oid, $chassisname) = sort each %{$results->{lldpRemChassisId}}) {
         my $suffix = $oid;
-        $suffix =~ s/$walks->{lldpRemChassisId}->{OID}//;
+        $suffix =~ s/$model->{WALK}->{lldpRemChassisId}->{OID}//;
 
         my $connections =
             $ports->{getElement($suffix, 2)}->{CONNECTIONS};
@@ -90,6 +90,6 @@ Set connected devices, through CDP or LLDP.
 
 =item ports device ports list
 
-=item walks model walk branch
+=item model model
 
 =back
