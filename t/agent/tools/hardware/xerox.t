@@ -421,20 +421,20 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFTYPE => 'iso88023Csmacd(7)',
+                        IFTYPE   => 'iso88023Csmacd(7)',
                         IFNUMBER => '1',
-                        IFNAME => 'Xerox Embedded Ethernet Controller, 10/100 Mbps, v1.0, RJ45, auto',
-                        MAC => ''
+                        IFNAME   => 'Xerox Embedded Ethernet Controller, 10/100 Mbps, v1.0, RJ45, auto',
+                        MAC      => ''
                     },
                     {
-                        IFTYPE => 'usb(160)',
-                        IFNAME => 'Xerox USB-1 - Network Interface',
-                        IFNUMBER => '2'
+                        IFTYPE   => 'usb(160)',
+                        IFNAME   => 'Xerox USB-1 - Network Interface',
+                        IFNUMBER => '2',
                     },
                     {
-                        IFTYPE => 'softwareLoopback(24)',
+                        IFTYPE   => 'softwareLoopback(24)',
                         IFNUMBER => '3',
-                        IFNAME => 'Xerox Internal TCP Software Loopback Interface'
+                        IFNAME => 'Xerox Internal TCP Software Loopback Interface',
                     }
                 ]
             },
