@@ -546,37 +546,6 @@ sub getDeviceFullInfo {
     delete $info{DESCRIPTION};
     delete $info{SNMPHOSTNAME};
 
-    # automatically extend model for cartridge support
-    if ($type && $type eq 'PRINTER') {
-        foreach my $variable (values %{$model->{GET}}) {
-            my $object = $variable->{OBJECT};
-            next unless $object;
-            if (
-                $object eq "wastetoner"     ||
-                $object eq "maintenancekit" ||
-                $object =~ /^toner/         ||
-                $object =~ /^cartridge/     ||
-                $object =~ /^drum/
-            ) {
-                my $type_oid = $variable->{OID};
-                $type_oid =~ s/43.11.1.1.6/43.11.1.1.8/;
-                my $level_oid = $variable->{OID};
-                $level_oid =~ s/43.11.1.1.6/43.11.1.1.9/;
-
-                $model->{GET}->{"$object-capacitytype"} = {
-                    OID  => $type_oid,
-                    VLAN => 0,
-                    OBJECT => "$object-capacitytype"
-                };
-                $model->{GET}->{"$object-level"} = {
-                    OID  => $level_oid,
-                    VLAN => 0,
-                    OBJECT => "$object-level"
-                };
-            }
-        }
-    }
-
     # second, use results to build the object
     my $device = {
         INFO => {
@@ -716,6 +685,35 @@ sub _setPrinterProperties {
     my $model  = $params{model};
 
     $device->{INFO}->{MODEL} = $snmp->get($model->{GET}->{model}->{OID});
+
+    # automatically extend model for cartridge support
+    foreach my $variable (values %{$model->{GET}}) {
+        my $object = $variable->{OBJECT};
+        next unless $object;
+        if (
+            $object eq "wastetoner"     ||
+            $object eq "maintenancekit" ||
+            $object =~ /^toner/         ||
+            $object =~ /^cartridge/     ||
+            $object =~ /^drum/
+        ) {
+            my $type_oid = $variable->{OID};
+            $type_oid =~ s/43.11.1.1.6/43.11.1.1.8/;
+            my $level_oid = $variable->{OID};
+            $level_oid =~ s/43.11.1.1.6/43.11.1.1.9/;
+
+            $model->{GET}->{"$object-capacitytype"} = {
+                OID  => $type_oid,
+                VLAN => 0,
+                OBJECT => "$object-capacitytype"
+            };
+            $model->{GET}->{"$object-level"} = {
+                OID  => $level_oid,
+                VLAN => 0,
+                OBJECT => "$object-level"
+            };
+        }
+    }
 
     # consumable levels
     foreach my $key (keys %printer_cartridges_simple_variables) {
