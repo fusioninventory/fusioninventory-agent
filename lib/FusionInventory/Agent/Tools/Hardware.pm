@@ -593,14 +593,14 @@ sub _setGenericProperties {
     my $snmp   = $params{snmp};
     my $model  = $params{model};
 
-    if ($model->{GET}->{firmware1}) {
-        $device->{INFO}->{FIRMWARE} = $snmp->get($model->{GET}->{firmware1}->{OID});
+    if ($model->{oids}->{firmware1}) {
+        $device->{INFO}->{FIRMWARE} = $snmp->get($model->{oids}->{firmware1});
     }
-    if ($model->{GET}->{firmware2}) {
+    if ($model->{oids}->{firmware2}) {
         if ($device->{INFO}->{FIRMWARE}) {
             $device->{INFO}->{FIRMWARE} .= ' ' ;
         }
-        $device->{INFO}->{FIRMWARE} .= $snmp->get($model->{GET}->{firmware2}->{OID});
+        $device->{INFO}->{FIRMWARE} .= $snmp->get($model->{oids}->{firmware2});
     }
 
     foreach my $key (keys %base_variables) {
@@ -609,9 +609,9 @@ sub _setGenericProperties {
 
         # skip undefined variable
         my $variable = $base_variables{$key};
-        next unless $model->{GET}->{$variable};
+        next unless $model->{oids}->{$variable};
 
-        my $raw_value = $snmp->get($model->{GET}->{$variable}->{OID});
+        my $raw_value = $snmp->get($model->{oids}->{$variable});
         next unless defined $raw_value;
         my $value =
             $key eq 'NAME'        ? hex2char($raw_value)                           :
@@ -641,8 +641,8 @@ sub _setGenericProperties {
 
     }
 
-    if ($model->{WALK}->{ipAdEntAddr}) {
-        my $results = $snmp->walk($model->{WALK}->{ipAdEntAddr}->{OID});
+    if ($model->{oids}->{ipAdEntAddr}) {
+        my $results = $snmp->walk($model->{oids}->{ipAdEntAddr});
         $device->{INFO}->{IPS}->{IP} =  [
             sort values %{$results}
         ] if $results;
@@ -653,7 +653,7 @@ sub _setGenericProperties {
 
     foreach my $key (keys %interface_variables) {
         my $variable = $interface_variables{$key};
-        my $results = $snmp->walk($model->{WALK}->{$variable}->{OID});
+        my $results = $snmp->walk($model->{oids}->{$variable});
         next unless $results;
         while (my ($oid, $data) = each %{$results}) {
             if ($key eq 'MAC') {
@@ -664,12 +664,12 @@ sub _setGenericProperties {
         }
     }
 
-    if ($model->{WALK}->{ifaddr}) {
-        my $results = $snmp->walk($model->{WALK}->{ifaddr}->{OID});
+    if ($model->{oids}->{ifaddr}) {
+        my $results = $snmp->walk($model->{oids}->{ifaddr});
         while (my ($oid, $data) = each %{$results}) {
             next unless $data;
             my $address = $oid;
-            $address =~ s/$model->{WALK}->{ifaddr}->{OID}//;
+            $address =~ s/$model->{oids}->{ifaddr}//;
             $address =~ s/^.//;
             $ports->{$data}->{IP} = $address;
         }
@@ -685,18 +685,18 @@ sub _setPrinterProperties {
     my $snmp   = $params{snmp};
     my $model  = $params{model};
 
-    $device->{INFO}->{MODEL} = $snmp->get($model->{GET}->{model}->{OID});
+    $device->{INFO}->{MODEL} = $snmp->get($model->{oids}->{model});
 
     # consumable levels
     foreach my $key (keys %printer_cartridges_simple_variables) {
         my $variable = $printer_cartridges_simple_variables{$key};
-        next unless $model->{GET}->{$variable};
+        next unless $model->{oids}->{$variable};
 
-        my $type_oid = $model->{GET}->{$variable}->{OID};
+        my $type_oid = $model->{oids}->{$variable};
         $type_oid =~ s/43.11.1.1.6/43.11.1.1.8/;
         my $type_value  = $snmp->get($type_oid);
 
-        my $level_oid = $model->{GET}->{$variable}->{OID};
+        my $level_oid = $model->{oids}->{$variable};
         $level_oid =~ s/43.11.1.1.6/43.11.1.1.9/;
         my $level_value = $snmp->get($level_oid);
         next unless defined $level_value;
@@ -714,8 +714,8 @@ sub _setPrinterProperties {
 
     foreach my $key (keys %printer_cartridges_percent_variables) {
         my $variable     = $printer_cartridges_percent_variables{$key};
-        my $max_value    = $snmp->get($model->{GET}->{$variable . 'MAX'}->{OID});
-        my $remain_value = $snmp->get($model->{GET}->{$variable . 'REMAIN'}->{OID});
+        my $max_value    = $snmp->get($model->{oids}->{$variable . 'MAX'});
+        my $remain_value = $snmp->get($model->{oids}->{$variable . 'REMAIN'});
         my $value = _getPercentValue($max_value, $remain_value);
         next unless $value;
         $device->{CARTRIDGES}->{$key} = $value;
@@ -724,7 +724,7 @@ sub _setPrinterProperties {
     # page counters
     foreach my $key (keys %printer_pagecounters_variables) {
         my $variable = $printer_pagecounters_variables{$key};
-        my $value    = $snmp->get($model->{GET}->{$variable}->{OID});
+        my $value    = $snmp->get($model->{oids}->{$variable});
         $device->{PAGECOUNTERS}->{$key} = $value;
     }
 }
@@ -737,20 +737,20 @@ sub _setNetworkingProperties {
     my $model  = $params{model};
     my $logger = $params{logger};
 
-    $device->{INFO}->{MODEL} = $snmp->get($model->{GET}->{entPhysicalModelName}->{OID});
+    $device->{INFO}->{MODEL} = $snmp->get($model->{oids}->{entPhysicalModelName});
 
     my $comments = $device->{INFO}->{DESCRIPTION} || $device->{INFO}->{COMMENTS};
     my $ports    = $device->{PORTS}->{PORT};
 
-    my $vlans = $snmp->walk($model->{WALK}->{vtpVlanName}->{OID});
+    my $vlans = $snmp->walk($model->{oids}->{vtpVlanName});
 
     # Detect VLAN
-    if ($model->{WALK}->{vmvlan}) {
-        my $results = $snmp->walk($model->{WALK}->{vmvlan}->{OID});
+    if ($model->{oids}->{vmvlan}) {
+        my $results = $snmp->walk($model->{oids}->{vmvlan});
         foreach my $oid (sort keys %{$results}) {
             my $port_id  = getLastElement($oid);
             my $vlan_id  = $results->{$oid};
-            my $vlan_oid = $model->{WALK}->{vtpVlanName}->{OID} . "." . $vlan_id;
+            my $vlan_oid = $model->{oids}->{vtpVlanName} . "." . $vlan_id;
             my $name     = $vlans->{$vlan_oid};
             push
                 @{$ports->{$port_id}->{VLANS}->{VLAN}},
@@ -771,7 +771,7 @@ sub _setNetworkingProperties {
     # check if vlan-specific queries are needed
     my $vlan_query =
         any { $_->{VLAN} }
-        values %{$model->{WALK}};
+        @{$model->{WALK}};
 
     if ($vlan_query) {
         # set connected devices mac addresses for each VLAN,
@@ -837,12 +837,18 @@ sub loadModel {
         $_->{mapping_name}
     } @{$model->{oidlist}->{oidobject}};
 
+    my %oids =
+        map  { $_->{mapping_name} => $_->{oid} }
+        grep { $_->{mapping_name} }
+        @{$model->{oidlist}->{oidobject}};
+
     return {
         ID   => 1,
         NAME => $model->{name},
         TYPE => $model->{type},
-        GET  => { map { $_->{OBJECT} => $_ } @get  },
-        WALK => { map { $_->{OBJECT} => $_ } @walk }
+        GET  => \@get,
+        WALK => \@walk,
+        oids => \%oids
     }
 }
 

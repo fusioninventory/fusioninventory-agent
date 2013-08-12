@@ -12,9 +12,9 @@ sub setConnectedDevicesMacAddresses {
     my $model = $params{model};
     my $ports = $params{ports};
 
-    my $dot1dTpFdbAddress    = $snmp->walk($model->{WALK}->{dot1dTpFdbAddress}->{OID});
-    my $dot1dTpFdbPort       = $snmp->walk($model->{WALK}->{dot1dTpFdbPort}->{OID});
-    my $dot1dBasePortIfIndex = $snmp->walk($model->{WALK}->{dot1dBasePortIfIndex}->{OID});
+    my $dot1dTpFdbAddress    = $snmp->walk($model->{oids}->{dot1dTpFdbAddress});
+    my $dot1dTpFdbPort       = $snmp->walk($model->{oids}->{dot1dTpFdbPort});
+    my $dot1dBasePortIfIndex = $snmp->walk($model->{oids}->{dot1dBasePortIfIndex});
 
 
     foreach my $oid (sort keys %{$dot1dTpFdbAddress}) {
@@ -24,12 +24,12 @@ sub setConnectedDevicesMacAddresses {
         next unless $mac;
 
         # get port key
-        my $portKey = $model->{WALK}->{dot1dTpFdbPort}->{OID} . '.' . $suffix;
+        my $portKey = $model->{oids}->{dot1dTpFdbPort} . '.' . $suffix;
 
         # get interface key from port key
         my $ifKey_part = $dot1dTpFdbPort->{$portKey};
         next unless defined $ifKey_part;
-        my $ifKey = $model->{WALK}->{dot1dBasePortIfIndex}->{OID} . '.' . $ifKey_part;
+        my $ifKey = $model->{oids}->{dot1dBasePortIfIndex} . '.' . $ifKey_part;
 
         # get interface index
         my $ifIndex = $dot1dBasePortIfIndex->{$ifKey};

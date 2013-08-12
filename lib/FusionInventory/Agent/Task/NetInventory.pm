@@ -259,9 +259,11 @@ sub _getIndexedModels {
     my ($models) = @_;
 
     foreach my $model (@{$models}) {
-        # index GET and WALK properties
-        $model->{GET}  = { map { $_->{OBJECT} => $_ } @{$model->{GET}}  };
-        $model->{WALK} = { map { $_->{OBJECT} => $_ } @{$model->{WALK}} };
+        # index oids
+        $model->{oids} = { 
+            map { $_->{OBJECT} => $_->{OID} }
+            @{$model->{GET}}, @{$model->{WALK}}
+        };
     }
 
     # index models by their ID

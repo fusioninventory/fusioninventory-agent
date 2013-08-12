@@ -13,7 +13,7 @@ sub setTrunkPorts {
     my $model = $params{model};
     my $ports = $params{ports};
 
-     my $results = $snmp->walk($model->{WALK}->{PortVlanIndex}->{OID});
+     my $results = $snmp->walk($model->{oids}->{PortVlanIndex});
 
     my $myports;
 
@@ -44,11 +44,11 @@ sub setConnectedDevices {
     my $model = $params{model};
     my $ports = $params{ports};
 
-    my $lldpRemChassisId = $snmp->walk($model->{WALK}->{lldpRemChassisId}->{OID});
+    my $lldpRemChassisId = $snmp->walk($model->{oids}->{lldpRemChassisId});
 
     while (my ($oid, $chassisname) = sort each %{$lldpRemChassisId}) {
         my $suffix = $oid;
-        $suffix =~ s/$model->{WALK}->{lldpRemChassisId}->{OID}//;
+        $suffix =~ s/$model->{oids}->{lldpRemChassisId}//;
 
         my $connections =
             $ports->{getElement($suffix, 2)}->{CONNECTIONS};
