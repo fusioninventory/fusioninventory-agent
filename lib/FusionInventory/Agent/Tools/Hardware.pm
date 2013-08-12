@@ -218,8 +218,8 @@ my @specific_cleanup_rules = (
     },
 );
 
-# generic properties
-my %properties = (
+# common base variables
+my %base_variables = (
     MAC          => 'macaddr',
     CPU          => 'cpu',
     LOCATION     => 'location',
@@ -235,8 +235,8 @@ my %properties = (
     RAM          => 'ram',
 );
 
-# interface properties
-my %interface_properties = (
+# common interface variables
+my %interface_variables = (
     IFNUMBER         => 'ifIndex',
     IFDESCR          => 'ifdescr',
     IFNAME           => 'ifName',
@@ -254,8 +254,8 @@ my %interface_properties = (
     IFPORTDUPLEX     => 'portDuplex',
 );
 
-# printer catridge simple properties
-my %printer_cartridges_simple_properties = (
+# printer-specific cartridge simple variables
+my %printer_cartridges_simple_variables = (
     TONERBLACK            => 'tonerblack',
     TONERBLACK2           => 'tonerblack2',
     TONERCYAN             => 'tonercyan',
@@ -276,8 +276,8 @@ my %printer_cartridges_simple_properties = (
     DRUMYELLOW            => 'drumyellow',
 );
 
-# printer cartridge percent properties
-my %printer_cartridges_percent_properties = (
+# printer-specific cartridge percent variables
+my %printer_cartridges_percent_variables = (
     BLACK                 => 'cartridgesblack',
     CYAN                  => 'cartridgescyan',
     YELLOW                => 'cartridgesyellow',
@@ -300,8 +300,8 @@ my %printer_cartridges_percent_properties = (
     MAINTENANCEKIT        => 'cartridgesmaintenancekit',
 );
 
-# printer page counter properties
-my %printer_pagecounters_properties = (
+# printer-specific page counter variables
+my %printer_pagecounters_variables = (
     TOTAL      => 'pagecountertotalpages',
     BLACK      => 'pagecounterblackpages',
     COLOR      => 'pagecountercolorpages',
@@ -633,13 +633,15 @@ sub _setGenericProperties {
         $device->{INFO}->{FIRMWARE} .= $snmp->get($model->{GET}->{firmware2}->{OID});
     }
 
-    foreach my $key (keys %properties) {
+    foreach my $key (keys %base_variables) {
         # don't overwrite known values
         next if $device->{INFO}->{$key};
-        # undefined variable
-        next unless $model->{GET}->{$properties{$key}};
 
-        my $raw_value = $snmp->get($model->{GET}->{$properties{$key}}->{OID});
+        # skip undefined variable
+        my $variable = $base_variables{$key};
+        next unless $model->{GET}->{$variable};
+
+        my $raw_value = $snmp->get($model->{GET}->{$variable}->{OID});
         next unless defined $raw_value;
         my $value =
             $key eq 'NAME'        ? hex2char($raw_value)                           :
@@ -679,8 +681,8 @@ sub _setGenericProperties {
     # ports is a sparse list of network ports, indexed by native port number
     my $ports;
 
-    foreach my $key (keys %interface_properties) {
-        my $variable = $interface_properties{$key};
+    foreach my $key (keys %interface_variables) {
+        my $variable = $interface_variables{$key};
         my $results = $snmp->walk($model->{WALK}->{$variable}->{OID});
         next unless $results;
         while (my ($oid, $data) = each %{$results}) {
@@ -716,8 +718,8 @@ sub _setPrinterProperties {
     $device->{INFO}->{MODEL} = $snmp->get($model->{GET}->{model}->{OID});
 
     # consumable levels
-    foreach my $key (keys %printer_cartridges_simple_properties) {
-        my $variable    = $printer_cartridges_simple_properties{$key};
+    foreach my $key (keys %printer_cartridges_simple_variables) {
+        my $variable    = $printer_cartridges_simple_variables{$key};
         my $level_value = $snmp->get($model->{GET}->{$variable . '-level'}->{OID});
         my $type_value  = $snmp->get($model->{GET}->{$variable . '-capacitytype'}->{OID});
         next unless defined $level_value;
@@ -733,8 +735,8 @@ sub _setPrinterProperties {
         $device->{CARTRIDGES}->{$key} = $value;
     }
 
-    foreach my $key (keys %printer_cartridges_percent_properties) {
-        my $variable     = $printer_cartridges_percent_properties{$key};
+    foreach my $key (keys %printer_cartridges_percent_variables) {
+        my $variable     = $printer_cartridges_percent_variables{$key};
         my $max_value    = $snmp->get($model->{GET}->{$variable . 'MAX'}->{OID});
         my $remain_value = $snmp->get($model->{GET}->{$variable . 'REMAIN'}->{OID});
         my $value = _getPercentValue($max_value, $remain_value);
@@ -743,8 +745,8 @@ sub _setPrinterProperties {
     }
 
     # page counters
-    foreach my $key (keys %printer_pagecounters_properties) {
-        my $variable = $printer_pagecounters_properties{$key};
+    foreach my $key (keys %printer_pagecounters_variables) {
+        my $variable = $printer_pagecounters_variables{$key};
         my $value    = $snmp->get($model->{GET}->{$variable}->{OID});
         $device->{PAGECOUNTERS}->{$key} = $value;
     }
