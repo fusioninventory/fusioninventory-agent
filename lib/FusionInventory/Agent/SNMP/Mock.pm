@@ -9,17 +9,30 @@ use FusionInventory::Agent::Tools;
 sub new {
     my ($class, %params) = @_;
 
-    die "no file parameter" unless $params{file};
-    die "non-existing $params{file} file parameter" unless -f $params{file};
-    die "unreadable $params{file} file parameter" unless -r $params{file};
-
-    my $self = {
-        values => _getIndexedValues($params{file})
-    };
-
+    my $self = {};
     bless $self, $class;
 
+    SWITCH: {
+        if ($params{file}) {
+            die "non-existing $params{file} file parameter"
+                unless -f $params{file};
+            die "unreadable $params{file} file parameter"
+                unless -r $params{file};
+            $self->{values} = _getIndexedValues($params{file});
+            last SWITCH;
+        }
+
+        if ($params{hash}) {
+            $self->{values} = $params{hash};
+            last SWITCH;
+        }
+    }
+
     return $self;
+}
+
+sub _init_from_file {
+    my ($self, $file) = @_;
 
 }
 
