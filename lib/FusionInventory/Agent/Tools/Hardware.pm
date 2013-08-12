@@ -15,6 +15,7 @@ our @EXPORT = qw(
     getDeviceBaseInfo
     getDeviceInfo
     getDeviceFullInfo
+    loadModel
 );
 
 my %types = (
@@ -805,6 +806,44 @@ sub _getPercentValue {
 
 sub _isInteger {
     $_[0] =~ /^[+-]?\d+$/;
+}
+
+sub loadModel {
+    my ($file) = @_;
+
+    my $model = XML::TreePP->new()->parsefile($file)->{model};
+
+    my @get = map {
+        {
+            OID    => $_->{oid},
+            OBJECT => $_->{mapping_name},
+            VLAN   => $_->{vlan},
+        }
+    } grep {
+        $_->{dynamicport} == 0
+    } grep {
+        $_->{mapping_name}
+    } @{$model->{oidlist}->{oidobject}};
+
+    my @walk = map {
+        {
+            OID    => $_->{oid},
+            OBJECT => $_->{mapping_name},
+            VLAN   => $_->{vlan},
+        }
+    } grep {
+        $_->{dynamicport} == 1
+    } grep {
+        $_->{mapping_name}
+    } @{$model->{oidlist}->{oidobject}};
+
+    return {
+        ID   => 1,
+        NAME => $model->{name},
+        TYPE => $model->{type},
+        GET  => { map { $_->{OBJECT} => $_ } @get  },
+        WALK => { map { $_->{OBJECT} => $_ } @walk }
+    }
 }
 
 1;

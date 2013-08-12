@@ -75,7 +75,7 @@ sub runInventoryTests {
 
         my $model_id = $tests{$test}->[1]->{MODELSNMP};
         my $model = $model_id ?
-            _loadModel("$ENV{SNMPMODEL_DATABASE}/$index->{$model_id}") : undef;
+            loadModel("$ENV{SNMPMODEL_DATABASE}/$index->{$model_id}") : undef;
 
         my $device3 = FusionInventory::Agent::Tools::Hardware::getDeviceFullInfo(
             snmp  => $snmp,
@@ -86,40 +86,4 @@ sub runInventoryTests {
     }
 }
 
-sub _loadModel {
-    my ($file) = @_;
 
-    my $model = XML::TreePP->new()->parsefile($file)->{model};
-
-    my @get = map {
-        {
-            OID    => $_->{oid},
-            OBJECT => $_->{mapping_name},
-            VLAN   => $_->{vlan},
-        }
-    } grep {
-        $_->{dynamicport} == 0
-    } grep {
-        $_->{mapping_name}
-    } @{$model->{oidlist}->{oidobject}};
-
-    my @walk = map {
-        {
-            OID    => $_->{oid},
-            OBJECT => $_->{mapping_name},
-            VLAN   => $_->{vlan},
-        }
-    } grep {
-        $_->{dynamicport} == 1
-    } grep {
-        $_->{mapping_name}
-    } @{$model->{oidlist}->{oidobject}};
-
-    return {
-        ID   => 1,
-        NAME => $model->{name},
-        TYPE => $model->{type},
-        GET  => { map { $_->{OBJECT} => $_ } @get  },
-        WALK => { map { $_->{OBJECT} => $_ } @walk }
-    }
-}
