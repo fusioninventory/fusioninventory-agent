@@ -8,12 +8,17 @@ use FusionInventory::Agent::Tools::SNMP;
 sub setConnectedDevicesMacAddresses {
     my (%params) = @_;
 
-    my $results = $params{results};
-    my $ports   = $params{ports};
-    my $model   = $params{model};
+    my $snmp  = $params{snmp};
+    my $model = $params{model};
+    my $ports = $params{ports};
 
-    foreach my $oid (sort keys %{$results->{dot1dTpFdbAddress}}) {
-        my $suffix = $results->{dot1dTpFdbAddress}->{$oid};
+    my $dot1dTpFdbAddress    = $snmp->walk($model->{WALK}->{dot1dTpFdbAddress}->{OID});
+    my $dot1dTpFdbPort       = $snmp->walk($model->{WALK}->{dot1dTpFdbPort}->{OID});
+    my $dot1dBasePortIfIndex = $snmp->walk($model->{WALK}->{dot1dBasePortIfIndex}->{OID});
+
+
+    foreach my $oid (sort keys %{$dot1dTpFdbAddress}) {
+        my $suffix = $dot1dTpFdbAddress->{$oid};
         my $mac =
             sprintf "%02x:%02x:%02x:%02x:%02x:%02x", getElements($oid, -6, -1);
         next unless $mac;
@@ -22,12 +27,12 @@ sub setConnectedDevicesMacAddresses {
         my $portKey = $model->{WALK}->{dot1dTpFdbPort}->{OID} . '.' . $suffix;
 
         # get interface key from port key
-        my $ifKey_part = $results->{dot1dTpFdbPort}->{$portKey};
+        my $ifKey_part = $dot1dTpFdbPort->{$portKey};
         next unless defined $ifKey_part;
         my $ifKey = $model->{WALK}->{dot1dBasePortIfIndex}->{OID} . '.' . $ifKey_part;
 
         # get interface index
-        my $ifIndex = $results->{dot1dBasePortIfIndex}->{$ifKey};
+        my $ifIndex = $dot1dBasePortIfIndex->{$ifKey};
         next unless defined $ifIndex;
 
         my $port = $ports->{$ifIndex};

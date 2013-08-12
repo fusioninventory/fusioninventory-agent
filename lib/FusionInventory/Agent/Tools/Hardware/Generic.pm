@@ -9,12 +9,16 @@ use FusionInventory::Agent::Tools::SNMP;
 sub setConnectedDevicesMacAddresses {
     my (%params) = @_;
 
-    my $results = $params{results};
-    my $ports   = $params{ports};
-    my $model   = $params{model};
+    my $snmp  = $params{snmp};
+    my $model = $params{model};
+    my $ports = $params{ports};
 
-    foreach my $oid (sort keys %{$results->{dot1dTpFdbAddress}}) {
-        my $mac = $results->{dot1dTpFdbAddress}->{$oid};
+    my $dot1dTpFdbAddress    = $snmp->walk($model->{WALK}->{dot1dTpFdbAddress}->{OID});
+    my $dot1dTpFdbPort       = $snmp->walk($model->{WALK}->{dot1dTpFdbPort}->{OID});
+    my $dot1dBasePortIfIndex = $snmp->walk($model->{WALK}->{dot1dBasePortIfIndex}->{OID});
+
+    foreach my $oid (sort keys %{$dot1dTpFdbAddress}) {
+        my $mac = $dot1dTpFdbAddress->{$oid};
         $mac = alt2canonical($mac);
         next unless $mac;
 
@@ -25,12 +29,12 @@ sub setConnectedDevicesMacAddresses {
         my $portKey = $model->{WALK}->{dot1dTpFdbPort}->{OID} . '.' . $portKey_part;
 
         # get interface key from port key
-        my $ifKey_part = $results->{dot1dTpFdbPort}->{$portKey};
+        my $ifKey_part = $dot1dTpFdbPort->{$portKey};
         next unless defined $ifKey_part;
         my $ifKey = $model->{WALK}->{dot1dBasePortIfIndex}->{OID} . '.' . $ifKey_part;
 
         # get interface index
-        my $ifIndex = $results->{dot1dBasePortIfIndex}->{$ifKey};
+        my $ifIndex = $dot1dBasePortIfIndex->{$ifKey};
         next unless defined $ifIndex;
 
         my $port = $ports->{$ifIndex};
@@ -51,9 +55,11 @@ sub setConnectedDevicesMacAddresses {
 sub setConnectedDevices {
     my (%params) = @_;
 
-    if      ($params{results}->{cdpCacheAddress}) {
+    my $model = $params{model};
+
+    if      ($model->{WALK}->{cdpCacheAddress}) {
         setConnectedDevicesUsingCDP(%params);
-    } elsif ($params{results}->{lldpRemChassisId}) {
+    } elsif ($model->{WALK}->{lldpRemChassisId}) {
         setConnectedDevicesUsingLLDP(%params);
     }
 }
@@ -61,11 +67,17 @@ sub setConnectedDevices {
 sub setConnectedDevicesUsingCDP {
     my (%params) = @_;
 
-    my $results = $params{results};
-    my $ports   = $params{ports};
-    my $model   = $params{model};
+    my $snmp  = $params{snmp};
+    my $model = $params{model};
+    my $ports = $params{ports};
 
-    while (my ($oid, $ip) = each %{$results->{cdpCacheAddress}}) {
+    my $cdpCacheAddress    = $snmp->walk($model->{WALK}->{cdpCacheAddress}->{OID});
+    my $cdpCacheDeviceId   = $snmp->walk($model->{WALK}->{cdpCacheDeviceId}->{OID});
+    my $cdpCacheDevicePort = $snmp->walk($model->{WALK}->{cdpCacheDevicePort}->{OID});
+    my $cdpCacheVersion    = $snmp->walk($model->{WALK}->{cdpCacheVersion}->{OID});
+    my $cdpCachePlatform   = $snmp->walk($model->{WALK}->{cdpCachePlatform}->{OID});
+
+    while (my ($oid, $ip) = each %{$cdpCacheAddress}) {
         $ip = hex2canonical($ip);
         next if $ip eq '0.0.0.0';
 
@@ -74,7 +86,7 @@ sub setConnectedDevicesUsingCDP {
             getElement($oid, -1);
 
         my $mac;
-        my $sysname = $results->{cdpCacheDeviceId}->{$model->{WALK}->{cdpCacheDeviceId}->{OID} . "." . $port_number};
+        my $sysname = $cdpCacheDeviceId->{$model->{WALK}->{cdpCacheDeviceId}->{OID} . "." . $port_number};
         if ($sysname =~ /^SIP([A-F0-9a-f]*)$/) {
             $mac = alt2canonical("0x".$1);
         }
@@ -82,14 +94,14 @@ sub setConnectedDevicesUsingCDP {
         my $connection = {
             IP      => $ip,
             MAC     => $mac,
-            IFDESCR => $results->{cdpCacheDevicePort}->{
+            IFDESCR => $cdpCacheDevicePort->{
                 $model->{WALK}->{cdpCacheDevicePort}->{OID} . "." . $port_number
             },
-            SYSDESCR => $results->{cdpCacheVersion}->{
+            SYSDESCR => $cdpCacheVersion->{
                 $model->{WALK}->{cdpCacheVersion}->{OID} . "." . $port_number
             },
             SYSNAME  => $sysname,
-            MODEL => $results->{cdpCachePlatform}->{
+            MODEL => $cdpCachePlatform->{
                 $model->{WALK}->{cdpCachePlatform}->{OID} . "." . $port_number
             }
         };
@@ -106,11 +118,17 @@ sub setConnectedDevicesUsingCDP {
 sub setConnectedDevicesUsingLLDP {
     my (%params) = @_;
 
-    my $results = $params{results};
-    my $ports   = $params{ports};
-    my $model   = $params{model};
+    my $snmp  = $params{snmp};
+    my $model = $params{model};
+    my $ports = $params{ports};
 
-    while (my ($oid, $mac) = each %{$results->{lldpRemChassisId}}) {
+    my $lldpRemChassisId = $snmp->walk($model->{WALK}->{lldpRemChassisId}->{OID});
+    my $lldpRemPortDesc  = $snmp->walk($model->{WALK}->{lldpRemPortDesc}->{OID});
+    my $lldpRemSysDesc   = $snmp->walk($model->{WALK}->{lldpRemSysDesc}->{OID});
+    my $lldpRemSysName   = $snmp->walk($model->{WALK}->{lldpRemSysName}->{OID});
+    my $lldpRemPortId    = $snmp->walk($model->{WALK}->{lldpRemPortId}->{OID});
+
+    while (my ($oid, $mac) = each %{$lldpRemChassisId}) {
 
         my $port_number =
             getElement($oid, -3) . "." .
@@ -121,16 +139,16 @@ sub setConnectedDevicesUsingLLDP {
             CDP        => 1,
             CONNECTION => {
                 SYSMAC => alt2canonical($mac),
-                IFDESCR => $results->{lldpRemPortDesc}->{
+                IFDESCR => $lldpRemPortDesc->{
                     $model->{WALK}->{lldpRemPortDesc}->{OID} . "." . $port_number
                 },
-                SYSDESCR => $results->{lldpRemSysDesc}->{
+                SYSDESCR => $lldpRemSysDesc->{
                     $model->{WALK}->{lldpRemSysDesc}->{OID} . "." . $port_number
                 },
-                SYSNAME  => alt2canonical($results->{lldpRemSysName}->{
+                SYSNAME  => alt2canonical($lldpRemSysName->{
                     $model->{WALK}->{lldpRemSysName}->{OID} . "." . $port_number
                 }),
-                IFNUMBER => $results->{lldpRemPortId}->{
+                IFNUMBER => $lldpRemPortId->{
                     $model->{WALK}->{lldpRemPortId}->{OID} . "." . $port_number
                 }
             }
@@ -141,10 +159,12 @@ sub setConnectedDevicesUsingLLDP {
 sub setTrunkPorts {
     my (%params) = @_;
 
-    my $results = $params{results};
-    my $ports   = $params{ports};
+    my $snmp  = $params{snmp};
+    my $model = $params{model};
+    my $ports = $params{ports};
 
-    while (my ($oid, $trunk) = each %{$results->{vlanTrunkPortDynamicStatus}}) {
+    my $results = $snmp->walk($model->{WALK}->{vlanTrunkPortDynamicStatus}->{OID});
+    while (my ($oid, $trunk) = each %{$results}) {
         $ports->{getLastElement($oid)}->{TRUNK} = $trunk ? 1 : 0;
     }
 }

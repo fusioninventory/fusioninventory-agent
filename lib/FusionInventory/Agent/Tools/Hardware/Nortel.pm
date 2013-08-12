@@ -9,12 +9,15 @@ use FusionInventory::Agent::Tools::SNMP;
 sub setTrunkPorts {
     my (%params) = @_;
 
-    my $results = $params{results};
-    my $ports   = $params{ports};
+    my $snmp  = $params{snmp};
+    my $model = $params{model};
+    my $ports = $params{ports};
+
+     my $results = $snmp->walk($model->{WALK}->{PortVlanIndex}->{OID});
 
     my $myports;
 
-    while (my ($oid, $vlan) = sort each %{$results->{PortVlanIndex}}) {
+    while (my ($oid, $vlan) = sort each %{$results}) {
         $myports->{getElement($oid, -2)}->{getElement($oid, -1)} = $vlan;
     }
 
@@ -37,13 +40,13 @@ sub setTrunkPorts {
 sub setConnectedDevices {
     my (%params) = @_;
 
-    my $results = $params{results};
-    my $ports   = $params{ports};
-    my $model   = $params{model};
+    my $snmp  = $params{snmp};
+    my $model = $params{model};
+    my $ports = $params{ports};
 
-    return unless ref $results->{lldpRemChassisId} eq "HASH";
+    my $lldpRemChassisId = $snmp->walk($model->{WALK}->{lldpRemChassisId}->{OID});
 
-    while (my ($oid, $chassisname) = sort each %{$results->{lldpRemChassisId}}) {
+    while (my ($oid, $chassisname) = sort each %{$lldpRemChassisId}) {
         my $suffix = $oid;
         $suffix =~ s/$model->{WALK}->{lldpRemChassisId}->{OID}//;
 

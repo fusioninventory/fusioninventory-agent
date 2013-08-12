@@ -454,7 +454,7 @@ sub _apply_rule {
 }
 
 sub _setTrunkPorts {
-    my ($description, $results, $ports) = @_;
+    my ($description, $snmp, $model, $ports) = @_;
 
     foreach my $rule (@trunk_ports_rules) {
         next unless $description =~ $rule->{match};
@@ -462,7 +462,7 @@ sub _setTrunkPorts {
         runFunction(
             module   => $rule->{module},
             function => 'setTrunkPorts',
-            params   => { results => $results, ports => $ports },
+            params   => { snmp => $snmp, model => $model, ports => $ports },
             load     => 1
         );
 
@@ -471,7 +471,7 @@ sub _setTrunkPorts {
 
 }
 sub _setConnectedDevices {
-    my ($description, $results, $ports, $model) = @_;
+    my ($description, $snmp, $model, $ports) = @_;
 
     foreach my $rule (@connected_devices_rules) {
         next unless $description =~ $rule->{match};
@@ -479,9 +479,7 @@ sub _setConnectedDevices {
         runFunction(
             module   => $rule->{module},
             function => 'setConnectedDevices',
-            params   => {
-                results => $results, ports => $ports, model => $model
-            },
+            params   => { snmp => $snmp, model => $model, ports => $ports },
             load     => 1
         );
 
@@ -490,7 +488,7 @@ sub _setConnectedDevices {
 }
 
 sub _setConnectedDevicesMacAddresses {
-    my ($description, $results, $ports, $model, $vlan_id) = @_;
+    my ($description, $snmp, $model, $ports, $vlan_id) = @_;
 
     foreach my $rule (@connected_devices_mac_addresses_rules) {
         next unless $description =~ $rule->{match};
@@ -499,10 +497,9 @@ sub _setConnectedDevicesMacAddresses {
             module   => $rule->{module},
             function => 'setConnectedDevicesMacAddresses',
             params   => {
-                results => $results,
-                ports   => $ports,
+                snmp    => $snmp,
                 model   => $model,
-                vlan_id => $vlan_id
+                ports   => $ports,
             },
             load     => 1
         );
@@ -512,7 +509,7 @@ sub _setConnectedDevicesMacAddresses {
 }
 
 sub _performSpecificCleanup {
-    my ($description, $results, $ports) = @_;
+    my ($description, $snmp, $model, $ports) = @_;
 
     foreach my $rule (@specific_cleanup_rules) {
         next unless $description =~ $rule->{match};
@@ -521,7 +518,8 @@ sub _performSpecificCleanup {
             module   => $rule->{module},
             function => $rule->{function},
             params   => {
-                results => $results,
+                snmp    => $snmp,
+                model   => $model,
                 ports   => $ports
             },
             load     => 1
@@ -579,17 +577,6 @@ sub getDeviceFullInfo {
         }
     }
 
-    # first, fetch values from device
-    my $results;
-    foreach my $variable (values %{$model->{GET}}) {
-        next unless $variable->{OBJECT};
-        $results->{$variable->{OBJECT}} = $snmp->get($variable->{OID});
-    }
-    foreach my $variable (values %{$model->{WALK}}) {
-        next if $variable->{VLAN};
-        $results->{$variable->{OBJECT}} = $snmp->walk($variable->{OID});
-    }
-
     # second, use results to build the object
     my $device = {
         INFO => {
@@ -600,20 +587,20 @@ sub getDeviceFullInfo {
     };
 
     _setGenericProperties(
-        results => $results,
-        device  => $device,
-        model   => $model
+        device => $device,
+        snmp   => $snmp,
+        model  => $model
     );
 
     _setPrinterProperties(
-        results => $results,
         device  => $device,
+        snmp   => $snmp,
+        model  => $model
     ) if $type && $type eq 'PRINTER';
 
     _setNetworkingProperties(
-        results     => $results,
-        snmp        => $snmp,
         device      => $device,
+        snmp        => $snmp,
         model       => $model,
         logger      => $logger
     ) if $type && $type eq 'NETWORKING';
@@ -632,24 +619,27 @@ sub getDeviceFullInfo {
 sub _setGenericProperties {
     my (%params) = @_;
 
-    my $results = $params{results};
-    my $device  = $params{device};
+    my $device = $params{device};
+    my $snmp   = $params{snmp};
+    my $model  = $params{model};
 
-    if ($results->{firmware1}) {
-        $device->{INFO}->{FIRMWARE} = $results->{firmware1};
+    if ($model->{GET}->{firmware1}) {
+        $device->{INFO}->{FIRMWARE} = $snmp->get($model->{GET}->{firmware1}->{OID});
     }
-    if ($results->{firmware2}) {
+    if ($model->{GET}->{firmware2}) {
         if ($device->{INFO}->{FIRMWARE}) {
             $device->{INFO}->{FIRMWARE} .= ' ' ;
         }
-        $device->{INFO}->{FIRMWARE} .= $results->{firmware2};
+        $device->{INFO}->{FIRMWARE} .= $snmp->get($model->{GET}->{firmware2}->{OID});
     }
 
     foreach my $key (keys %properties) {
         # don't overwrite known values
         next if $device->{INFO}->{$key};
+        # undefined variable
+        next unless $model->{GET}->{$properties{$key}};
 
-        my $raw_value = $results->{$properties{$key}};
+        my $raw_value = $snmp->get($model->{GET}->{$properties{$key}}->{OID});
         next unless defined $raw_value;
         my $value =
             $key eq 'NAME'        ? hex2char($raw_value)                           :
@@ -679,10 +669,11 @@ sub _setGenericProperties {
 
     }
 
-    if ($results->{ipAdEntAddr}) {
+    if ($model->{WALK}->{ipAdEntAddr}) {
+        my $results = $snmp->walk($model->{WALK}->{ipAdEntAddr}->{OID});
         $device->{INFO}->{IPS}->{IP} =  [
-            sort values %{$results->{ipAdEntAddr}}
-        ];
+            sort values %{$results}
+        ] if $results;
     }
 
     # ports is a sparse list of network ports, indexed by native port number
@@ -690,8 +681,9 @@ sub _setGenericProperties {
 
     foreach my $key (keys %interface_properties) {
         my $variable = $interface_properties{$key};
-        next unless $results->{$variable};
-        while (my ($oid, $data) = each %{$results->{$variable}}) {
+        my $results = $snmp->walk($model->{WALK}->{$variable}->{OID});
+        next unless $results;
+        while (my ($oid, $data) = each %{$results}) {
             if ($key eq 'MAC') {
                 next unless $data;
                 $data = alt2canonical($data);
@@ -700,11 +692,12 @@ sub _setGenericProperties {
         }
     }
 
-    if ($results->{ifaddr}) {
-        while (my ($oid, $data) = each %{$results->{ifaddr}}) {
+    if ($model->{WALK}->{ifaddr}) {
+        my $results = $snmp->walk($model->{WALK}->{ifaddr}->{OID});
+        while (my ($oid, $data) = each %{$results}) {
             next unless $data;
             my $address = $oid;
-            $address =~ s/$params{model}->{WALK}->{ifaddr}->{OID}//;
+            $address =~ s/$model->{WALK}->{ifaddr}->{OID}//;
             $address =~ s/^.//;
             $ports->{$data}->{IP} = $address;
         }
@@ -716,65 +709,70 @@ sub _setGenericProperties {
 sub _setPrinterProperties {
     my (%params) = @_;
 
-    my $results = $params{results};
-    my $device  = $params{device};
+    my $device = $params{device};
+    my $snmp   = $params{snmp};
+    my $model  = $params{model};
 
-    $device->{INFO}->{MODEL} = $results->{model};
+    $device->{INFO}->{MODEL} = $snmp->get($model->{GET}->{model}->{OID});
 
     # consumable levels
     foreach my $key (keys %printer_cartridges_simple_properties) {
-        my $property = $printer_cartridges_simple_properties{$key};
-
-        next unless defined($results->{$property . '-level'});
+        my $variable    = $printer_cartridges_simple_properties{$key};
+        my $level_value = $snmp->get($model->{GET}->{$variable . '-level'}->{OID});
+        my $type_value  = $snmp->get($model->{GET}->{$variable . '-capacitytype'}->{OID});
+        next unless defined $level_value;
 
         my $value =
-            $results->{$property . '-level'} == -3 ?
+            $level_value == -3 ?
                 100 :
                 _getPercentValue(
-                    $results->{$property . '-capacitytype'},
-                    $results->{$property . '-level'},
+                    $type_value,
+                    $level_value,
                 );
         next unless $value;
         $device->{CARTRIDGES}->{$key} = $value;
     }
+
     foreach my $key (keys %printer_cartridges_percent_properties) {
-        my $property = $printer_cartridges_percent_properties{$key};
-        my $value = _getPercentValue(
-            $results->{$property . 'MAX'},
-            $results->{$property . 'REMAIN'},
-        );
+        my $variable     = $printer_cartridges_percent_properties{$key};
+        my $max_value    = $snmp->get($model->{GET}->{$variable . 'MAX'}->{OID});
+        my $remain_value = $snmp->get($model->{GET}->{$variable . 'REMAIN'}->{OID});
+        my $value = _getPercentValue($max_value, $remain_value);
         next unless $value;
         $device->{CARTRIDGES}->{$key} = $value;
     }
 
     # page counters
     foreach my $key (keys %printer_pagecounters_properties) {
-        my $property = $printer_pagecounters_properties{$key};
-        $device->{PAGECOUNTERS}->{$key} =
-            $results->{$property};
+        my $variable = $printer_pagecounters_properties{$key};
+        my $value    = $snmp->get($model->{GET}->{$variable}->{OID});
+        $device->{PAGECOUNTERS}->{$key} = $value;
     }
 }
 
 sub _setNetworkingProperties {
     my (%params) = @_;
 
-    my $results = $params{results};
-    my $device  = $params{device};
-    my $model   = $params{model};
-    my $logger  = $params{logger};
+    my $device = $params{device};
+    my $snmp   = $params{snmp};
+    my $model  = $params{model};
+    my $logger = $params{logger};
 
-    $device->{INFO}->{MODEL} = $results->{entPhysicalModelName};
+    $device->{INFO}->{MODEL} = $snmp->get($model->{GET}->{entPhysicalModelName}->{OID});
 
     my $comments = $device->{INFO}->{DESCRIPTION} || $device->{INFO}->{COMMENTS};
     my $ports    = $device->{PORTS}->{PORT};
 
+    my $vlans = $snmp->walk($model->{WALK}->{vtpVlanName}->{OID});
+
     # Detect VLAN
-    if ($results->{vmvlan}) {
-        foreach my $oid (sort keys %{$results->{vmvlan}}) {
+    if ($model->{WALK}->{vmvlan}) {
+        my $results = $snmp->walk($model->{WALK}->{vmvlan}->{OID});
+        foreach my $oid (sort keys %{$results}) {
             my $port_id  = getLastElement($oid);
-            my $vlan_id  = $results->{vmvlan}->{$oid};
+            my $vlan_id  = $results->{$oid};
             my $vlan_oid = $model->{WALK}->{vtpVlanName}->{OID} . "." . $vlan_id;
-            my $name = $results->{vtpVlanName}->{$vlan_oid};
+            my $name     = $vlans->{$vlan_oid};
             push
                 @{$ports->{$port_id}->{VLANS}->{VLAN}},
                     {
@@ -787,9 +785,9 @@ sub _setNetworkingProperties {
     # everything else is vendor-specific, and requires device description
     return unless $comments;
 
-    _setTrunkPorts($comments, $results, $ports);
+    _setTrunkPorts($comments, $snmp, $model, $ports);
 
-    _setConnectedDevices($comments, $results, $ports, $model);
+    _setConnectedDevices($comments, $snmp, $model, $ports);
 
     # check if vlan-specific queries are needed
     my $vlan_query =
@@ -797,31 +795,22 @@ sub _setNetworkingProperties {
         values %{$model->{WALK}};
 
     if ($vlan_query) {
-        my $snmp = $params{snmp};
-
         # set connected devices mac addresses for each VLAN,
         # using VLAN-specific SNMP connections
-        while (my ($oid, $name) = each %{$results->{vtpVlanName}}) {
+        while (my ($oid, $name) = each %{$vlans}) {
             my $vlan_id = getLastElement($oid);
             $snmp->switch_community("@" . $vlan_id);
-
-            foreach my $variable (values %{$model->{WALK}}) {
-                next unless $variable->{VLAN};
-                $results->{VLAN}->{$vlan_id}->{$variable->{OBJECT}} =
-                    $snmp->walk($variable->{OID});
-            }
-
             _setConnectedDevicesMacAddresses(
-                $comments, $results, $ports, $model, $vlan_id
+                $comments, $snmp, $model, $ports
             );
         }
     } else {
         # set connected devices mac addresses only once
-        _setConnectedDevicesMacAddresses($comments, $results, $ports, $model);
+        _setConnectedDevicesMacAddresses($comments, $snmp, $model, $ports);
     }
 
     # hardware-specific hacks
-    _performSpecificCleanup($comments, $results, $ports);
+    _performSpecificCleanup($comments, $snmp, $model, $ports);
 }
 
 sub _getPercentValue {
@@ -864,7 +853,7 @@ return a minimal set of information for a device through SNMP, according to a
 set of rules hardcoded in the agent and the usage of an additional knowledge
 base, the dictionary.
 
-=head2 setConnectedDevicesMacAddresses($description, $results, $ports, $model, $vlan_id)
+=head2 setConnectedDevicesMacAddresses($description, $snmp, $model, $ports, $vlan_id)
 
 set mac addresses of connected devices.
 
@@ -872,17 +861,15 @@ set mac addresses of connected devices.
 
 =item * description: device identification key
 
-=item * results: raw values collected through SNMP
+=item * snmp: FusionInventory::Agent::SNMP object
+
+=item * model: SNMP model
 
 =item * ports: device ports list
 
-=item * model: model
-
-=item * vlan_id: VLAN identifier
-
 =back
 
-=head2 setConnectedDevices($description, $results, $ports, $model)
+=head2 setConnectedDevices($description, $snmp, $model, $ports)
 
 Set connected devices using CDP if available, LLDP otherwise.
 
@@ -890,15 +877,15 @@ Set connected devices using CDP if available, LLDP otherwise.
 
 =item * description: device identification key
 
-=item * results: raw values collected through SNMP
+=item * snmp: FusionInventory::Agent::SNMP object
+
+=item * model: SNMP model
 
 =item * ports: device ports list
 
-=item * model: model
-
 =back
 
-=head2 setTrunkPorts($description, $results, $ports)
+=head2 setTrunkPorts($description, $snmp, $model, $ports)
 
 Set trunk flag on ports needing it.
 
@@ -906,13 +893,15 @@ Set trunk flag on ports needing it.
 
 =item * description: device identification key
 
-=item * results: raw values collected through SNMP
+=item * snmp: FusionInventory::Agent::SNMP object
+
+=item * model: SNMP model
 
 =item * ports: device ports list
 
 =back
 
-=head2 performSpecificCleanup($description, $results, $ports)
+=head2 performSpecificCleanup($description, $snmp, $model, $ports)
 
 Perform device-specific miscaelanous cleanups
 
@@ -920,7 +909,9 @@ Perform device-specific miscaelanous cleanups
 
 =item * description: device identification key
 
-=item * results: raw values collected through SNMP
+=item * snmp: FusionInventory::Agent::SNMP object
+
+=item * model: SNMP model
 
 =item * ports: device ports list
 
