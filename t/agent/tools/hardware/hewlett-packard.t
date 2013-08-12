@@ -6606,7 +6606,6 @@ my %tests = (
                 NAME         => 'NPI7E0932',
                 OTHERSERIAL  => '0xFDE8',
                 SERIAL       => '20040201',
-                LOCATION     => undef,
                 ID           => undef
             },
             PORTS => {
@@ -6660,7 +6659,6 @@ my %tests = (
                 SERIAL       => '20040201',
                 NAME         => 'NPI8DDF43',
                 OTHERSERIAL  => '0xFDE8',
-                LOCATION     => undef,
             },
             PAGECOUNTERS => {
                 COPYTOTAL  => undef,
@@ -6713,7 +6711,6 @@ my %tests = (
                 NAME         => 'NPI830993',
                 ID           => undef,
                 MODEL        => 'HP LaserJet P2055dn',
-                LOCATION     => undef,
             },
             PORTS => {
                 PORT => []
@@ -6766,7 +6763,6 @@ my %tests = (
                 OTHERSERIAL  => '0xFDE8',
                 ID           => undef,
                 MODEL        => 'HP LaserJet P2055dn',
-                LOCATION     => undef,
             },
             PAGECOUNTERS => {
                 COLOR      => '0',
@@ -6819,7 +6815,6 @@ my %tests = (
                 SERIAL       => '20040201',
                 ID           => undef,
                 MODEL        => 'HP LaserJet P2055dn',
-                LOCATION     => undef,
             },
             PORTS => {
                 PORT => []
@@ -6872,7 +6867,6 @@ my %tests = (
                 NAME         => 'NPI886B5B',
                 OTHERSERIAL  => '0xFDE8',
                 ID           => undef,
-                LOCATION     => undef,
             },
             CARTRIDGES => {
                 TONERBLACK => 78
@@ -6925,7 +6919,6 @@ my %tests = (
                 OTHERSERIAL  => '0xFDE8',
                 SERIAL       => '20040201',
                 MODEL        => 'HP LaserJet P2055dn',
-                LOCATION     => undef,
             },
             CARTRIDGES => {
                 TONERBLACK => 46
@@ -6978,7 +6971,6 @@ my %tests = (
                 NAME         => 'NPICB3982',
                 MODEL        => 'HP LaserJet P2055dn',
                 SERIAL       => '20040201',
-                LOCATION     => undef,
             },
             PORTS => {
                 PORT => []
@@ -7031,7 +7023,6 @@ my %tests = (
                 SERIAL       => '20040201',
                 OTHERSERIAL  => '0xFDE8',
                 ID           => undef,
-                LOCATION     => undef,
             },
             PORTS => {
                 PORT => []
@@ -7084,7 +7075,6 @@ my %tests = (
                 OTHERSERIAL  => '0xFDE8',
                 NAME         => 'NPICBD8B1',
                 ID           => undef,
-                LOCATION     => undef,
             },
             PAGECOUNTERS => {
                 COPYBLACK  => undef,
@@ -7137,7 +7127,6 @@ my %tests = (
                 NAME         => 'NPIB979A2',
                 OTHERSERIAL  => '0xFDE8',
                 MODEL        => 'HP LaserJet P2055dn',
-                LOCATION     => undef,
             },
             PAGECOUNTERS => {
                 COPYTOTAL  => undef,
@@ -7187,7 +7176,6 @@ my %tests = (
                 SERIAL       => '20040201',
                 ID           => undef,
                 MODEL        => 'HP LaserJet P2055dn',
-                LOCATION     => undef,
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '1789',
