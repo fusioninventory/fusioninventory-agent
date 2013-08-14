@@ -877,6 +877,8 @@ sub getCanonicalMacAddress {
 sub getCanonicalSerialNumber {
     my ($value) = @_;
 
+    return unless $value;
+
     $value =~ s/\n//g;
     $value =~ s/\r//g;
     $value =~ s/^\s+//;
