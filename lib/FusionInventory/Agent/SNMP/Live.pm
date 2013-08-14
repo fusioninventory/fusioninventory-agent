@@ -106,11 +106,12 @@ sub walk {
     return unless $response;
 
     my $values;
+    my $offset = length($oid) + 1;
 
     foreach my $oid (keys %{$response}) {
         my $value = $response->{$oid};
         chomp $value;
-        $values->{$oid} = $value;
+        $values->{substr($oid, $offset)} = $value;
     }
 
     return $values;

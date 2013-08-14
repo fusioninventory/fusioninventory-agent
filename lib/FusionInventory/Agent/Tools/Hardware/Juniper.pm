@@ -24,12 +24,11 @@ sub setConnectedDevicesMacAddresses {
         next unless $mac;
 
         # get port key
-        my $portKey = $model->{oids}->{dot1dTpFdbPort} . '.' . $suffix;
+        my $portKey = $suffix;
 
         # get interface key from port key
-        my $ifKey_part = $dot1dTpFdbPort->{$portKey};
-        next unless defined $ifKey_part;
-        my $ifKey = $model->{oids}->{dot1dBasePortIfIndex} . '.' . $ifKey_part;
+        my $ifKey = $dot1dTpFdbPort->{$portKey};
+        next unless defined $ifKey;
 
         # get interface index
         my $ifIndex = $dot1dBasePortIfIndex->{$ifKey};

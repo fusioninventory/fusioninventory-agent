@@ -121,8 +121,8 @@ sub walk {
 
     my $values;
     foreach my $key (keys %{$self->{values}}) {
-       next unless $key =~ /^$oid\./;
-       $values->{$key} = _getSanitizedValue(
+       next unless $key =~ /^$oid\.(.+)/;
+       $values->{$1} = _getSanitizedValue(
            $self->{values}->{$key}->[0],
            $self->{values}->{$key}->[1]
        );

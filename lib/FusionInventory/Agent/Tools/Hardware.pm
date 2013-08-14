@@ -657,23 +657,20 @@ sub _setGenericProperties {
         my $variable = $interface_variables{$key};
         my $results = $snmp->walk($model->{oids}->{$variable});
         next unless $results;
-        while (my ($oid, $data) = each %{$results}) {
+        while (my ($suffix, $data) = each %{$results}) {
             if ($key eq 'MAC') {
                 next unless $data;
                 $data = alt2canonical($data);
             }
-            $ports->{getElement($oid, -1)}->{$key} = $data;
+            $ports->{getElement($suffix, -1)}->{$key} = $data;
         }
     }
 
     if ($model->{oids}->{ifaddr}) {
         my $results = $snmp->walk($model->{oids}->{ifaddr});
-        while (my ($oid, $data) = each %{$results}) {
-            next unless $data;
-            my $address = $oid;
-            $address =~ s/$model->{oids}->{ifaddr}//;
-            $address =~ s/^.//;
-            $ports->{$data}->{IP} = $address;
+        while (my ($address, $port_id) = each %{$results}) {
+            next unless $port_id;
+            $ports->{$port_id}->{IP} = $address;
         }
     }
 
@@ -749,11 +746,10 @@ sub _setNetworkingProperties {
     # Detect VLAN
     if ($model->{oids}->{vmvlan}) {
         my $results = $snmp->walk($model->{oids}->{vmvlan});
-        foreach my $oid (sort keys %{$results}) {
-            my $port_id  = getElement($oid, -1);
-            my $vlan_id  = $results->{$oid};
-            my $vlan_oid = $model->{oids}->{vtpVlanName} . "." . $vlan_id;
-            my $name     = $vlans->{$vlan_oid};
+        foreach my $suffix (sort keys %{$results}) {
+            my $port_id = getElement($suffix, -1);
+            my $vlan_id = $results->{$suffix};
+            my $name    = $vlans->{$vlan_id};
             push
                 @{$ports->{$port_id}->{VLANS}->{VLAN}},
                     {
@@ -778,8 +774,8 @@ sub _setNetworkingProperties {
     if ($vlan_query) {
         # set connected devices mac addresses for each VLAN,
         # using VLAN-specific SNMP connections
-        while (my ($oid, $name) = each %{$vlans}) {
-            my $vlan_id = getElement($oid, -1);
+        while (my ($suffix, $name) = each %{$vlans}) {
+            my $vlan_id = getElement($suffix, -1);
             $snmp->switch_community("@" . $vlan_id);
             _setConnectedDevicesMacAddresses(
                 $comments, $snmp, $model, $ports
