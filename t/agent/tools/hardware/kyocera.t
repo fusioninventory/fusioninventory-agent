@@ -12,14 +12,14 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'TASKalfa 820',
             SNMPHOSTNAME => '',
-            MAC          => undef,
+            MAC          => '00:C0:EE:31:84:6B'
         },
         {
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'TASKalfa 820',
             SNMPHOSTNAME => '',
-            MAC          => undef,
+            MAC          => '00:C0:EE:31:84:6B'
         },
         {
             INFO => {
@@ -38,14 +38,14 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'TASKalfa 181',
             SNMPHOSTNAME => '',
-            MAC          => undef,
+            MAC          => '00:C0:EE:2F:0D:D9'
         },
         {
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'TASKalfa 181',
             SNMPHOSTNAME => '',
-            MAC          => undef,
+            MAC          => '00:C0:EE:2F:0D:D9'
         },
         {
             INFO => {
@@ -64,14 +64,14 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'FS-2000D',
             SNMPHOSTNAME => '',
-            MAC          => undef,
+            MAC          => '00:C0:EE:6A:96:DD',
         },
         {
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'FS-2000D',
             SNMPHOSTNAME => '',
-            MAC          => undef,
+            MAC          => '00:C0:EE:6A:96:DD',
             MODELSNMP    => 'Printer0351',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -126,14 +126,14 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'FS-2000D',
             SNMPHOSTNAME => '',
-            MAC          => undef,
+            MAC          => '00:C0:EE:6A:97:07',
         },
         {
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'FS-2000D',
             SNMPHOSTNAME => '',
-            MAC          => undef,
+            MAC          => '00:C0:EE:6A:97:07',
             MODELSNMP    => 'Printer0351',
             MODEL        => undef,
             FIRMWARE     => undef,
