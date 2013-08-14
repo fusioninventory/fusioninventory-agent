@@ -3,14 +3,7 @@
 use strict;
 use lib 't/lib';
 
-use Test::More;
-use Test::Deep;
-use YAML qw(LoadFile);
-
-use FusionInventory::Agent::SNMP::Mock;
-use FusionInventory::Agent::Tools::Hardware;
-use FusionInventory::Agent::Task::NetDiscovery::Dictionary;
-use FusionInventory::Test::Utils;
+use FusionInventory::Test::Hardware;
 
 my %tests = (
     'xerox/DocuPrint_N2125.walk' => [
@@ -310,20 +303,16 @@ my %tests = (
                         MAC      => '00:00:AA:CF:9E:5A',
                         IFNUMBER => '1',
                         IFTYPE   => '6',
-                        IFNAME   => 'Xerox Embedded Ethernet Controller, 10/100/1000 Mbps, v1.0, RJ45, 100 Mbps full duplex'
+                        IFNAME   => 'Xerox Embedded Ethernet Controller, 10/100/1000 Mbps, v1.0, RJ45, 100 Mbps full duplex',
+                        IP       => '129.181.20.136'
                     },
                     {
                         MAC      => '00:00:00:00:00:00',
                         IFNUMBER => '2',
                         IFTYPE   => '24',
-                        IFNAME   => 'Xerox internal TCP Software Loopback Interface, v2.0'
+                        IFNAME   => 'Xerox internal TCP Software Loopback Interface, v2.0',
+                        IP       => '127.0.0.1'
                     },
-                    {
-                        IP => '127.0.0.1'
-                    },
-                    {
-                        IP => '129.181.20.136'
-                    }
                 ]
             }
         }
@@ -364,22 +353,18 @@ my %tests = (
                 PORT => [
                     {
                         IFNUMBER => '1',
-                        IFNAME => 'Xerox Embedded Ethernet Controller, 10/100/1000 Mbps, v1.0, RJ45, 100 Mbps full duplex',
-                        MAC => '00:00:AA:CF:84:10',
-                        IFTYPE => '6'
+                        IFNAME   => 'Xerox Embedded Ethernet Controller, 10/100/1000 Mbps, v1.0, RJ45, 100 Mbps full duplex',
+                        MAC      => '00:00:AA:CF:84:10',
+                        IFTYPE   => '6',
+                        IP       => '129.181.20.135'
                     },
                     {
-                        IFTYPE => '24',
-                        MAC => '00:00:00:00:00:00',
-                        IFNAME => 'Xerox internal TCP Software Loopback Interface, v2.0',
-                        IFNUMBER => '2'
+                        IFTYPE   => '24',
+                        MAC      => '00:00:00:00:00:00',
+                        IFNAME   => 'Xerox internal TCP Software Loopback Interface, v2.0',
+                        IFNUMBER => '2',
+                        IP       => '127.0.0.1'
                     },
-                    {
-                        IP => '127.0.0.1'
-                    },
-                    {
-                        IP => '129.181.20.135'
-                    }
                 ]
             },
             CARTRIDGES => {
@@ -436,20 +421,20 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFTYPE => 'iso88023Csmacd(7)',
+                        IFTYPE   => 'iso88023Csmacd(7)',
                         IFNUMBER => '1',
-                        IFNAME => 'Xerox Embedded Ethernet Controller, 10/100 Mbps, v1.0, RJ45, auto',
-                        MAC => ''
+                        IFNAME   => 'Xerox Embedded Ethernet Controller, 10/100 Mbps, v1.0, RJ45, auto',
+                        MAC      => ''
                     },
                     {
-                        IFTYPE => 'usb(160)',
-                        IFNAME => 'Xerox USB-1 - Network Interface',
-                        IFNUMBER => '2'
+                        IFTYPE   => 'usb(160)',
+                        IFNAME   => 'Xerox USB-1 - Network Interface',
+                        IFNUMBER => '2',
                     },
                     {
-                        IFTYPE => 'softwareLoopback(24)',
+                        IFTYPE   => 'softwareLoopback(24)',
                         IFNUMBER => '3',
-                        IFNAME => 'Xerox Internal TCP Software Loopback Interface'
+                        IFNAME => 'Xerox Internal TCP Software Loopback Interface',
                     }
                 ]
             },
@@ -492,22 +477,7 @@ my %tests = (
             INFO => {
                 MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
-                MODEL        => undef,
                 ID           => undef,
-            },
-            PAGECOUNTERS => {
-                FAXTOTAL   => undef,
-                TOTAL      => undef,
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                BLACK      => undef,
-                PRINTBLACK => undef,
-                PRINTTOTAL => undef,
-                RECTOVERSO => undef,
-                COPYTOTAL  => undef,
-                COLOR      => undef,
-                COPYBLACK  => undef,
-                COPYCOLOR  => undef
             },
             PORTS => {
                 PORT => []
@@ -516,39 +486,4 @@ my %tests = (
     ],
 );
 
-if (!$ENV{SNMPWALK_DATABASE}) {
-    plan skip_all => 'SNMP walks database required';
-} elsif (!$ENV{SNMPMODEL_DATABASE}) {
-    plan skip_all => 'SNMP models database required';
-} else {
-    plan tests => 3 * scalar keys %tests;
-}
-
-my $dictionary = FusionInventory::Agent::Task::NetDiscovery::Dictionary->new(
-    file => "$ENV{SNMPMODEL_DATABASE}/dictionary.xml"
-);
-
-my $index = LoadFile("$ENV{SNMPMODEL_DATABASE}/index.yaml");
-
-foreach my $test (sort keys %tests) {
-    my $snmp = FusionInventory::Agent::SNMP::Mock->new(
-        file => "$ENV{SNMPWALK_DATABASE}/$test"
-    );
-    my %device0 = getDeviceInfo($snmp);
-    my %device1 = getDeviceInfo($snmp, $dictionary);
-    cmp_deeply(\%device0, $tests{$test}->[0], $test);
-    cmp_deeply(\%device1, $tests{$test}->[1], $test);
-
-    my $model_id = $tests{$test}->[1]->{MODELSNMP};
-    my $model = $model_id ?
-        loadModel("$ENV{SNMPMODEL_DATABASE}/$index->{$model_id}") : undef;
-
-    my $device3 = FusionInventory::Agent::Tools::Hardware::getDeviceFullInfo(
-        device => {
-            FILE => "$ENV{SNMPWALK_DATABASE}/$test",
-            TYPE => 'PRINTER',
-        },
-        model => $model
-    );
-    cmp_deeply($device3, $tests{$test}->[2], $test);
-}
+runInventoryTests(%tests);

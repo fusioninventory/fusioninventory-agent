@@ -10,6 +10,7 @@ use Pod::Usage;
 use XML::TreePP;
 
 use FusionInventory::Agent::Task::NetInventory;
+use FusionInventory::Agent::Tool::Hardware;
 use FusionInventory::Agent::Logger;
 
 my $options = {
@@ -95,40 +96,6 @@ $inventory->{client} =
 $inventory->{deviceid} = 'foo';
 
 $inventory->run();
-
-sub loadModel {
-    my ($file) = @_;
-
-    my $model = XML::TreePP->new()->parsefile($file)->{model};
-
-    my @get = map {
-        {
-            OID    => $_->{oid},
-            OBJECT => $_->{mapping_name},
-            VLAN   => $_->{vlan},
-        }
-    } grep {
-        $_->{dynamicport} == 0
-    } @{$model->{oidlist}->{oidobject}};
-
-    my @walk = map {
-        {
-            OID    => $_->{oid},
-            OBJECT => $_->{mapping_name},
-            VLAN   => $_->{vlan},
-        }
-    } grep {
-        $_->{dynamicport} == 1
-    } @{$model->{oidlist}->{oidobject}};
-
-    return {
-        ID   => 1,
-        NAME => $model->{name},
-        TYPE => $model->{type},
-        GET  => \@get,
-        WALK => \@walk
-    }
-}
 
 package FusionInventory::Agent::Task::NetInventory::Client;
 

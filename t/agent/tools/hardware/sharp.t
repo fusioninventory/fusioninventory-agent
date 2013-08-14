@@ -3,14 +3,7 @@
 use strict;
 use lib 't/lib';
 
-use Test::More;
-use Test::Deep;
-use YAML qw(LoadFile);
-
-use FusionInventory::Agent::SNMP::Mock;
-use FusionInventory::Agent::Tools::Hardware;
-use FusionInventory::Agent::Task::NetDiscovery::Dictionary;
-use FusionInventory::Test::Utils;
+use FusionInventory::Test::Hardware;
 
 my %tests = (
     'sharp/MX_5001N.1.walk' => [
@@ -247,55 +240,16 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNAME => 'Ethernet',
-                        IFTYPE => '6',
-                        MAC => '00:22:F3:C8:04:99',
-                        IFNUMBER => '1'
+                        IFNAME   => 'Ethernet',
+                        IFTYPE   => '6',
+                        MAC      => '00:22:F3:C8:04:99',
+                        IFNUMBER => '1',
+                        IP       => '172.31.201.123'
                     },
-                    {
-                        IP => '172.31.201.123'
-                    }
                 ]
             }
         }
     ],
 );
 
-if (!$ENV{SNMPWALK_DATABASE}) {
-    plan skip_all => 'SNMP walks database required';
-} elsif (!$ENV{SNMPMODEL_DATABASE}) {
-    plan skip_all => 'SNMP models database required';
-} else {
-    plan tests => 3 * scalar keys %tests;
-}
-
-my $dictionary = FusionInventory::Agent::Task::NetDiscovery::Dictionary->new(
-    file => "$ENV{SNMPMODEL_DATABASE}/dictionary.xml"
-);
-
-my $index = LoadFile("$ENV{SNMPMODEL_DATABASE}/index.yaml");
-
-foreach my $test (sort keys %tests) {
-    my $snmp = FusionInventory::Agent::SNMP::Mock->new(
-        file => "$ENV{SNMPWALK_DATABASE}/$test"
-    );
-    my %device0 = getDeviceInfo($snmp);
-    my %device1 = getDeviceInfo($snmp, $dictionary);
-    cmp_deeply(\%device0, $tests{$test}->[0], $test);
-    cmp_deeply(\%device1, $tests{$test}->[1], $test);
-
-
-    my $model_id = $tests{$test}->[1]->{MODELSNMP};
-    my $model = $model_id ?
-        loadModel("$ENV{SNMPMODEL_DATABASE}/$index->{$model_id}") : undef;
-
-    my $device3 = FusionInventory::Agent::Tools::Hardware::getDeviceFullInfo(
-        device => {
-            FILE => "$ENV{SNMPWALK_DATABASE}/$test",
-            TYPE => 'PRINTER',
-        },
-        model => $model
-    );
-    cmp_deeply($device3, $tests{$test}->[2], $test);
-
-}
+runInventoryTests(%tests);

@@ -7,6 +7,7 @@ use Clone qw(clone);
 use Test::Deep;
 use Test::More;
 
+use FusionInventory::Agent::SNMP::Mock;
 use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::Tools::Hardware::Generic;
 use FusionInventory::Agent::Tools::Hardware::Cisco;
@@ -184,83 +185,49 @@ plan tests =>
     scalar @connected_devices_mac_addresses_tests * 2 +
     scalar @cisco_connected_devices_mac_addresses_tests * 2;
 
-my $walks = {
-    cdpCacheDevicePort => {
-        OID => '.1.3.6.1.4.1.9.9.23.1.2.1.1.7'
-    },
-    cdpCacheVersion => {
-        OID => '.1.3.6.1.4.1.9.9.23.1.2.1.1.5'
-    },
-    cdpCacheDeviceId => {
-        OID => '.1.3.6.1.4.1.9.9.23.1.2.1.1.6'
-    },
-    cdpCachePlatform => {
-        OID => '.1.3.6.1.4.1.9.9.23.1.2.1.1.8'
-    },
-    dot1dTpFdbPort => {
-        OID => '.1.3.6.1.2.1.17.4.3.1.2'
-    },
-    dot1dTpFdbAddress => {
-        OID => '.1.3.6.1.2.1.17.4.3.1.1'
-    },
-    dot1dBasePortIfIndex => {
-        OID => '.1.3.6.1.2.17.1.4.1.2'
-    },
-};
-
-my $results = {
-    vlanTrunkPortDynamicStatus => {
-        '1.2.0' => 1,
-        '1.2.1' => 0,
-        '1.2.2' => 1
-    },
-    cdpCacheAddress => {
-        '.1.3.6.1.4.1.9.9.23.1.2.1.1.4.24.7' => '0xc0a8148b'
-    },
-    cdpCacheDevicePort => {
-        '.1.3.6.1.4.1.9.9.23.1.2.1.1.7.24.7' => 'Port 1'
-    },
-    cdpCacheVersion => {
-        '.1.3.6.1.4.1.9.9.23.1.2.1.1.5.24.7' => '7.4.9c'
-    },
-    cdpCacheDeviceId => {
-        '.1.3.6.1.4.1.9.9.23.1.2.1.1.6.24.7' => 'SIPE05FB981A7A7'
-    },
-    cdpCachePlatform => {
-        '.1.3.6.1.4.1.9.9.23.1.2.1.1.8.24.7' => 'Cisco IP Phone SPA508G'
-    },
-    dot1dTpFdbPort => {
-        '.1.3.6.1.2.1.17.4.3.1.2.0.0.116.210.9.106' => 52,
-    },
-    dot1dTpFdbAddress => {
-        '.1.3.6.1.2.1.17.4.3.1.1.0.0.116.210.9.106' => '0x000074D2096A'
-    },
-    dot1dBasePortIfIndex => {
-        '.1.3.6.1.2.17.1.4.1.2.52' => 52,
+my $model = {
+    oids => {
+        cdpCacheAddress            => '.1.3.6.1.4.1.9.9.23.1.2.1.1.4',
+        cdpCacheVersion            => '.1.3.6.1.4.1.9.9.23.1.2.1.1.5',
+        cdpCacheDeviceId           => '.1.3.6.1.4.1.9.9.23.1.2.1.1.6',
+        cdpCacheDevicePort         => '.1.3.6.1.4.1.9.9.23.1.2.1.1.7',
+        cdpCachePlatform           => '.1.3.6.1.4.1.9.9.23.1.2.1.1.8',
+        dot1dTpFdbPort             => '.1.3.6.1.2.1.17.4.3.1.2',
+        dot1dTpFdbAddress          => '.1.3.6.1.2.1.17.4.3.1.1',
+        dot1dBasePortIfIndex       => '.1.3.6.1.2.1.17.1.4.1.2',
+        vlanTrunkPortDynamicStatus => '.1.3.6.1.4.1.9.9.46.1.6.1.1.14'
     }
 };
 
-my $cisco_results = {
-    VLAN => {
-        1 => {
-            dot1dTpFdbPort => {
-                '.1.3.6.1.2.1.17.4.3.1.2.0.28.246.197.100.25' => 2307,
-            },
-            dot1dTpFdbAddress => {
-                '.1.3.6.1.2.1.17.4.3.1.1.0.28.246.197.100.25' => '0x001CF6C56419',
-            },
-            dot1dBasePortIfIndex => {
-                '.1.3.6.1.2.17.1.4.1.2.2307' => 0,
-            }
-        }
+my $snmp = FusionInventory::Agent::SNMP::Mock->new(
+    hash => {
+        '.1.3.6.1.4.1.9.9.23.1.2.1.1.4.24.7'        => [ 'STRING', '0xc0a8148b' ],
+        '.1.3.6.1.4.1.9.9.23.1.2.1.1.7.24.7'        => [ 'STRING', 'Port 1' ],
+        '.1.3.6.1.4.1.9.9.23.1.2.1.1.5.24.7'        => [ 'STRING', '7.4.9c' ],
+        '.1.3.6.1.4.1.9.9.23.1.2.1.1.6.24.7'        => [ 'STRING', 'SIPE05FB981A7A7' ],
+        '.1.3.6.1.4.1.9.9.23.1.2.1.1.8.24.7'        => [ 'STRING', 'Cisco IP Phone SPA508G' ],
+        '.1.3.6.1.2.1.17.4.3.1.2.0.0.116.210.9.106' => [ 'INTEGER', 52 ],
+        '.1.3.6.1.2.1.17.4.3.1.1.0.0.116.210.9.106' => [ 'STRING', '0x000074D2096A' ],
+        '.1.3.6.1.2.1.17.1.4.1.2.52'                => [ 'INTEGER', 52 ],
+        '.1.3.6.1.4.1.9.9.46.1.6.1.1.14.1.2.0'      => [ 'INTEGER', 1  ],
+        '.1.3.6.1.4.1.9.9.46.1.6.1.1.14.1.2.1'      => [ 'INTEGER', 0  ],
+        '.1.3.6.1.4.1.9.9.46.1.6.1.1.14.1.2.2'      => [ 'INTEGER', 1  ]
     }
-};
+);
+
+my $cisco_snmp = FusionInventory::Agent::SNMP::Mock->new(
+    hash => {
+        '.1.3.6.1.2.1.17.4.3.1.2.0.28.246.197.100.25' => [ 'INTEGER', 2307 ],
+        '.1.3.6.1.2.1.17.4.3.1.1.0.28.246.197.100.25' => [ 'STRING', '0x001CF6C56419' ],
+        '.1.3.6.1.2.1.17.1.4.1.2.2307'                => [ 'INTEGER', 0 ],
+    }
+);
 
 # direct tests
 foreach my $test (@trunk_ports_tests) {
     my $ports = clone($test->[0]);
     FusionInventory::Agent::Tools::Hardware::Generic::setTrunkPorts(
-        results => $results, ports => $ports, walks => $walks
+        snmp => $snmp, ports => $ports, model => $model
     );
 
     cmp_deeply(
@@ -274,7 +241,7 @@ foreach my $test (@connected_devices_tests) {
     my $ports = clone($test->[0]);
 
     FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevices(
-        results => $results, ports => $ports, walks => $walks
+        snmp => $snmp, ports => $ports, model => $model
     );
 
     cmp_deeply(
@@ -288,7 +255,7 @@ foreach my $test (@connected_devices_mac_addresses_tests) {
     my $ports = clone($test->[0]);
 
     FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(
-        results => $results, ports => $ports, walks => $walks
+        snmp => $snmp, ports => $ports, model => $model
     );
 
     cmp_deeply(
@@ -302,7 +269,7 @@ foreach my $test (@cisco_connected_devices_mac_addresses_tests) {
     my $ports = clone($test->[0]);
 
     FusionInventory::Agent::Tools::Hardware::Cisco::setConnectedDevicesMacAddresses(
-        results => $cisco_results, ports => $ports, walks => $walks, vlan_id => 1
+        snmp => $cisco_snmp, ports => $ports, model => $model, vlan_id => 1
     );
 
     cmp_deeply(
@@ -316,8 +283,8 @@ foreach my $test (@cisco_connected_devices_mac_addresses_tests) {
 foreach my $test (@trunk_ports_tests) {
     my $ports = clone($test->[0]);
 
-    setTrunkPorts(
-        'Cisco', $results, $ports
+    FusionInventory::Agent::Tools::Hardware::_setTrunkPorts(
+        'Cisco', $snmp, $model, $ports
     );
 
     cmp_deeply(
@@ -330,8 +297,8 @@ foreach my $test (@trunk_ports_tests) {
 foreach my $test (@connected_devices_tests) {
     my $ports = clone($test->[0]);
 
-    setConnectedDevices(
-        'Cisco', $results, $ports, $walks
+    FusionInventory::Agent::Tools::Hardware::_setConnectedDevices(
+        'Cisco', $snmp, $model, $ports
     );
 
     cmp_deeply(
@@ -344,8 +311,8 @@ foreach my $test (@connected_devices_tests) {
 foreach my $test (@connected_devices_mac_addresses_tests) {
     my $ports = clone($test->[0]);
 
-    setConnectedDevicesMacAddresses(
-        'ProCurve', $results, $ports, $walks
+    FusionInventory::Agent::Tools::Hardware::_setConnectedDevicesMacAddresses(
+        'ProCurve', $snmp, $model, $ports
     );
 
     cmp_deeply(
@@ -358,8 +325,8 @@ foreach my $test (@connected_devices_mac_addresses_tests) {
 foreach my $test (@cisco_connected_devices_mac_addresses_tests) {
     my $ports = clone($test->[0]);
 
-    setConnectedDevicesMacAddresses(
-        'Cisco', $cisco_results, $ports, $walks, 1
+    FusionInventory::Agent::Tools::Hardware::_setConnectedDevicesMacAddresses(
+        'Cisco', $cisco_snmp, $model, $ports, 1
     );
 
     cmp_deeply(
