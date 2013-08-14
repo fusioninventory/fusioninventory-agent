@@ -857,15 +857,21 @@ sub loadModel {
 sub getCanonicalMacAddress {
     my ($value) = @_;
 
-    if ($value !~ /^0x/) {
-        # convert from binary to hexadecimal
-        $value = unpack 'H*', $value;
-    } else {
-        # drop hex prefix
-        $value =~ s/^0x//;
-    }
+    return unless $value;
 
-    return $value;
+    if ($value =~ /$mac_address_pattern/) {
+        # this was stored as a string, it just has to be normalized
+        return join(':', map { sprintf "%02X", hex($_) } split(':', $value));
+    } else {
+        # this was stored as an hex-string
+        if ($value =~ /^0x/) {
+            # value translated by Net::SNMP
+            return alt2canonical($value);
+        } else {
+            # packed value, onvert from binary to hexadecimal
+            return unpack 'H*', $value;
+        }
+    }
 }
 
 sub getCanonicalSerialNumber {
