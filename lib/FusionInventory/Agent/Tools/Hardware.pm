@@ -368,7 +368,7 @@ sub _getSerial {
     my ($snmp, $model) = @_;
 
     return unless $model->{SERIAL};
-    return $snmp->getSerialNumber($model->{SERIAL});
+    return getCanonicalSerialNumber($snmp->get($model->{SERIAL}));
 }
 
 sub _getMacAddress {

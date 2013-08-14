@@ -55,15 +55,6 @@ sub walkMacAddresses {
     return $values;
 }
 
-sub getSerialNumber {
-    my ($self, $oid) = @_;
-
-    my $value = $self->get($oid);
-    return unless $value;
-
-    return getCanonicalSerialNumber($value);
-}
-
 1;
 __END__
 
@@ -88,11 +79,6 @@ translated into plain ascii.
 This method returns an hashref of values, indexed by their OIDs, starting from
 the given one. The values are normalised to remove any control character, and
 hexadecimal mac addresses are translated into plain ascii.
-
-=head2 getSerialNumber($oid)
-
-Wraps get($oid), assuming the value is a serial number and sanitizing it
-accordingly.
 
 =head2 getMacAddress($oid)
 
