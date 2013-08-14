@@ -8,7 +8,7 @@ use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
-use FusionInventory::Agent::Tools::SNMP;
+use FusionInventory::Agent::Tools::Hardware;
 
 our $VERSION = '1.1';
 

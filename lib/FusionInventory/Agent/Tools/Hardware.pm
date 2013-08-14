@@ -16,6 +16,8 @@ our @EXPORT = qw(
     getDeviceInfo
     getDeviceFullInfo
     loadModel
+    getSanitizedSerialNumber
+    getSanitizedMacAddress
 );
 
 my %types = (
@@ -852,6 +854,32 @@ sub loadModel {
     }
 }
 
+sub getSanitizedMacAddress {
+    my ($value) = @_;
+
+    if ($value !~ /^0x/) {
+        # convert from binary to hexadecimal
+        $value = unpack 'H*', $value;
+    } else {
+        # drop hex prefix
+        $value =~ s/^0x//;
+    }
+
+    return $value;
+}
+
+sub getSanitizedSerialNumber {
+    my ($value) = @_;
+
+    $value =~ s/\n//g;
+    $value =~ s/\r//g;
+    $value =~ s/^\s+//;
+    $value =~ s/\s+$//;
+    $value =~ s/\.{2,}//g;
+
+    return $value;
+}
+
 1;
 __END__
 
@@ -939,3 +967,11 @@ Perform device-specific miscaelanous cleanups
 =item * ports: device ports list
 
 =back
+
+=head2 getSanitizedSerialNumber($value)
+
+Return a sanitized serial number.
+
+=head2 getSanitizedMacAddress($value)
+
+Return a sanitized mac address.
