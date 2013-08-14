@@ -626,11 +626,10 @@ sub _setGenericProperties {
             # if we use a number as a string, we can garbage char. For example for:
             #  - 0x0115
             #  - 0xfde8
-            $key eq 'OTHERSERIAL' ? getSanitizedSerialNumber($raw_value)           :
-            $key eq 'RAM'         ? int($raw_value / 1024 / 1024)                  :
-            $key eq 'MEMORY'      ? int($raw_value / 1024 / 1024)                  :
-                                    hex2char($raw_value)                           ;
-
+            $key eq 'OTHERSERIAL' ? getSanitizedSerialNumber($raw_value) :
+            $key eq 'RAM'         ? getCanonicalMemory($raw_value)       :
+            $key eq 'MEMORY'      ? getCanonicalMemory($raw_value)       :
+                                    hex2char($raw_value)                 ; 
         if ($key eq 'MAC') {
             if ($raw_value =~ $mac_address_pattern) {
                 $value = $raw_value;
@@ -879,6 +878,17 @@ sub getSanitizedSerialNumber {
 
     return $value;
 }
+
+sub getCanonicalMemory {
+    my ($value) = @_;
+
+    if ($value =~ /^(\d+) KBytes$/) {
+        return int($1 / 1024);
+    } else {
+        return int($value / 1024 / 1024);
+    }
+}
+
 
 1;
 __END__
