@@ -165,7 +165,7 @@ sub setTrunkPorts {
 
     my $results = $snmp->walk($model->{oids}->{vlanTrunkPortDynamicStatus});
     while (my ($oid, $trunk) = each %{$results}) {
-        $ports->{getLastElement($oid)}->{TRUNK} = $trunk ? 1 : 0;
+        $ports->{getElement($oid, -1)}->{TRUNK} = $trunk ? 1 : 0;
     }
 }
 

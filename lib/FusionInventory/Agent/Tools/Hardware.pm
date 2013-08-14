@@ -662,7 +662,7 @@ sub _setGenericProperties {
                 next unless $data;
                 $data = alt2canonical($data);
             }
-            $ports->{getLastElement($oid)}->{$key} = $data;
+            $ports->{getElement($oid, -1)}->{$key} = $data;
         }
     }
 
@@ -750,7 +750,7 @@ sub _setNetworkingProperties {
     if ($model->{oids}->{vmvlan}) {
         my $results = $snmp->walk($model->{oids}->{vmvlan});
         foreach my $oid (sort keys %{$results}) {
-            my $port_id  = getLastElement($oid);
+            my $port_id  = getElement($oid, -1);
             my $vlan_id  = $results->{$oid};
             my $vlan_oid = $model->{oids}->{vtpVlanName} . "." . $vlan_id;
             my $name     = $vlans->{$vlan_oid};
@@ -779,7 +779,7 @@ sub _setNetworkingProperties {
         # set connected devices mac addresses for each VLAN,
         # using VLAN-specific SNMP connections
         while (my ($oid, $name) = each %{$vlans}) {
-            my $vlan_id = getLastElement($oid);
+            my $vlan_id = getElement($oid, -1);
             $snmp->switch_community("@" . $vlan_id);
             _setConnectedDevicesMacAddresses(
                 $comments, $snmp, $model, $ports

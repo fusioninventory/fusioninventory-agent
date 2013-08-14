@@ -7,7 +7,6 @@ use base 'Exporter';
 our @EXPORT = qw(
     getElement
     getElements
-    getLastElement
 );
 
 sub getElement {
@@ -15,12 +14,6 @@ sub getElement {
 
     my @array = split(/\./, $oid);
     return $array[$index];
-}
-
-sub getLastElement {
-    my ($oid) = @_;
-
-    return getElement($oid, -1);
 }
 
 sub getElements {
@@ -46,10 +39,6 @@ This module provides some SNMP-related functions.
 =head2 getElement($oid, $index)
 
 return the $index element of an oid.
-
-=head2 getLastElement($oid)
-
-return the last element of an oid.
 
 =head2 getElements($oid, $first, $last)
 
