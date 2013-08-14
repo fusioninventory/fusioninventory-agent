@@ -28,7 +28,7 @@ sub getMacAddress {
     return unless $value;
 
     if ($oid =~ /$bad_oids_pattern/) {
-        $value = getSanitizedMacAddress($value);
+        $value = getCanonicalMacAddress($value);
     }
 
     $value = alt2canonical($value);
@@ -44,7 +44,7 @@ sub walkMacAddresses {
 
     if ($oid =~ /$bad_oids_pattern/) {
         foreach my $value (values %$values) {
-            $value = getSanitizedMacAddress($value);
+            $value = getCanonicalMacAddress($value);
         }
     }
 
@@ -61,7 +61,7 @@ sub getSerialNumber {
     my $value = $self->get($oid);
     return unless $value;
 
-    return getSanitizedSerialNumber($value);
+    return getCanonicalSerialNumber($value);
 }
 
 1;

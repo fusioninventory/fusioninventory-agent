@@ -16,8 +16,9 @@ our @EXPORT = qw(
     getDeviceInfo
     getDeviceFullInfo
     loadModel
-    getSanitizedSerialNumber
-    getSanitizedMacAddress
+    getCanonicalSerialNumber
+    getCanonicalMacAddress
+    getCanonicalMemory
 );
 
 my %types = (
@@ -618,7 +619,7 @@ sub _setGenericProperties {
         my $value =
             $key eq 'NAME'        ? hex2char($raw_value)                           :
             $key eq 'LOCATION'    ? hex2char($raw_value)                           :
-            $key eq 'SERIAL'      ? getSanitizedSerialNumber(hex2char($raw_value)) :
+            $key eq 'SERIAL'      ? getCanonicalSerialNumber(hex2char($raw_value)) :
             # OTHERSERIAL can be either:
             #  - a number in hex
             #  - a number
@@ -626,7 +627,7 @@ sub _setGenericProperties {
             # if we use a number as a string, we can garbage char. For example for:
             #  - 0x0115
             #  - 0xfde8
-            $key eq 'OTHERSERIAL' ? getSanitizedSerialNumber($raw_value) :
+            $key eq 'OTHERSERIAL' ? getCanonicalSerialNumber($raw_value) :
             $key eq 'RAM'         ? getCanonicalMemory($raw_value)       :
             $key eq 'MEMORY'      ? getCanonicalMemory($raw_value)       :
                                     hex2char($raw_value)                 ; 
@@ -853,7 +854,7 @@ sub loadModel {
     }
 }
 
-sub getSanitizedMacAddress {
+sub getCanonicalMacAddress {
     my ($value) = @_;
 
     if ($value !~ /^0x/) {
@@ -867,7 +868,7 @@ sub getSanitizedMacAddress {
     return $value;
 }
 
-sub getSanitizedSerialNumber {
+sub getCanonicalSerialNumber {
     my ($value) = @_;
 
     $value =~ s/\n//g;
@@ -978,10 +979,14 @@ Perform device-specific miscaelanous cleanups
 
 =back
 
-=head2 getSanitizedSerialNumber($value)
+=head2 getCanonicalSerialNumber($value)
 
-Return a sanitized serial number.
+Return a canonical value for a serial number.
 
-=head2 getSanitizedMacAddress($value)
+=head2 getCanonicalMacAddress($value)
 
-Return a sanitized mac address.
+Return a canonical value for a mac address.
+
+=head2 getCanonicalMemory($value)
+
+Return a canonical value for mac address, in bytes.
