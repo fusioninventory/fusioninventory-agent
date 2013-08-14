@@ -381,13 +381,13 @@ sub _getMacAddress {
         $model->{DYNMAC} ||
         ".1.3.6.1.2.1.2.2.1.6";  # IF-MIB::ifPhysAddress
 
-    my $address = $snmp->getMacAddress($mac_oid);
+    my $address = getCanonicalMacAddress($snmp->get($mac_oid));
 
     if (!$address || $address !~ /^$mac_address_pattern$/) {
-        my $macs = $snmp->walkMacAddresses($dynmac_oid);
+        my $macs = $snmp->walk($dynmac_oid);
         foreach my $value (values %{$macs}) {
+            $value = getCanonicalMacAddress($value);
             next if !$value;
-            next if $value eq '0:0:0:0:0:0';
             next if $value eq '00:00:00:00:00:00';
             $address = $value;
         }
