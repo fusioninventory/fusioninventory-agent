@@ -5,50 +5,15 @@ use warnings;
 use base 'Exporter';
 
 our @EXPORT = qw(
-    getSanitizedSerialNumber
-    getSanitizedMacAddress
     getElement
     getElements
-    getLastElement
 );
-
-sub getSanitizedMacAddress {
-    my ($value) = @_;
-
-    if ($value !~ /^0x/) {
-        # convert from binary to hexadecimal
-        $value = unpack 'H*', $value;
-    } else {
-        # drop hex prefix
-        $value =~ s/^0x//;
-    }
-
-    return $value;
-}
-
-sub getSanitizedSerialNumber {
-    my ($value) = @_;
-
-    $value =~ s/\n//g;
-    $value =~ s/\r//g;
-    $value =~ s/^\s+//;
-    $value =~ s/\s+$//;
-    $value =~ s/\.{2,}//g;
-
-    return $value;
-}
 
 sub getElement {
     my ($oid, $index) = @_;
 
     my @array = split(/\./, $oid);
     return $array[$index];
-}
-
-sub getLastElement {
-    my ($oid) = @_;
-
-    return getElement($oid, -1);
 }
 
 sub getElements {
@@ -71,21 +36,9 @@ This module provides some SNMP-related functions.
 
 =head1 FUNCTIONS
 
-=head2 getSanitizedSerialNumber($value)
-
-Return a sanitized serial number.
-
-=head2 getSanitizedMacAddress($value)
-
-Return a sanitized mac address.
-
 =head2 getElement($oid, $index)
 
 return the $index element of an oid.
-
-=head2 getLastElement($oid)
-
-return the last element of an oid.
 
 =head2 getElements($oid, $first, $last)
 

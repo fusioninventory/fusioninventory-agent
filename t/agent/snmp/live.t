@@ -73,14 +73,16 @@ is(
 cmp_deeply(
     $snmp->walk('1.3.6.1.2.1.1.9.1.3'),
     {
-        '1.3.6.1.2.1.1.9.1.3.1' => 'The MIB for Message Processing and Dispatching.',
-        '1.3.6.1.2.1.1.9.1.3.2' => 'The MIB for Message Processing and Dispatching.',
-        '1.3.6.1.2.1.1.9.1.3.3' => 'The SNMP Management Architecture MIB.',
-        '1.3.6.1.2.1.1.9.1.3.4' => 'The MIB module for SNMPv2 entities',
-        '1.3.6.1.2.1.1.9.1.3.5' => 'The MIB module for managing TCP implementations',
-        '1.3.6.1.2.1.1.9.1.3.6' => 'The MIB module for managing IP and ICMP implementations',
-        '1.3.6.1.2.1.1.9.1.3.7' => 'The MIB module for managing UDP implementations',
-        '1.3.6.1.2.1.1.9.1.3.8' => 'View-based Access Control Model for SNMP.'
+        1  => 'The MIB for Message Processing and Dispatching.',
+        2  => 'The management information definitions for the SNMP User-based Security Model.',
+        3  => 'The SNMP Management Architecture MIB.',
+        4  => 'The MIB module for SNMPv2 entities',
+        5  => 'The MIB module for managing TCP implementations',
+        6  => 'The MIB module for managing IP and ICMP implementations',
+        7  => 'The MIB module for managing UDP implementations',
+        8  => 'View-based Access Control Model for SNMP.',
+        9  => 'The MIB modules for managing SNMP Notification, plus filtering.',
+        10 => 'The MIB module for logging SNMP Notifications.'
     },
     'multiple value query'
 );

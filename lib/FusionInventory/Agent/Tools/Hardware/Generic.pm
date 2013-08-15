@@ -17,21 +17,18 @@ sub setConnectedDevicesMacAddresses {
     my $dot1dTpFdbPort       = $snmp->walk($model->{oids}->{dot1dTpFdbPort});
     my $dot1dBasePortIfIndex = $snmp->walk($model->{oids}->{dot1dBasePortIfIndex});
 
-    foreach my $oid (sort keys %{$dot1dTpFdbAddress}) {
-        my $mac = $dot1dTpFdbAddress->{$oid};
+    foreach my $suffix (sort keys %{$dot1dTpFdbAddress}) {
+        my $mac = $dot1dTpFdbAddress->{$suffix};
         $mac = alt2canonical($mac);
         next unless $mac;
 
         # get port key
-        my $portKey_part = $oid;
-        $portKey_part =~ s/$model->{oids}->{dot1dTpFdbAddress}\.//;
-        next unless $portKey_part;
-        my $portKey = $model->{oids}->{dot1dTpFdbPort} . '.' . $portKey_part;
+        my $portKey = $suffix;
+        next unless $portKey;
 
         # get interface key from port key
-        my $ifKey_part = $dot1dTpFdbPort->{$portKey};
-        next unless defined $ifKey_part;
-        my $ifKey = $model->{oids}->{dot1dBasePortIfIndex} . '.' . $ifKey_part;
+        my $ifKey = $dot1dTpFdbPort->{$portKey};
+        next unless defined $ifKey;
 
         # get interface index
         my $ifIndex = $dot1dBasePortIfIndex->{$ifKey};
@@ -77,38 +74,32 @@ sub setConnectedDevicesUsingCDP {
     my $cdpCacheVersion    = $snmp->walk($model->{oids}->{cdpCacheVersion});
     my $cdpCachePlatform   = $snmp->walk($model->{oids}->{cdpCachePlatform});
 
-    while (my ($oid, $ip) = each %{$cdpCacheAddress}) {
+    while (my ($suffix, $ip) = each %{$cdpCacheAddress}) {
         $ip = hex2canonical($ip);
         next if $ip eq '0.0.0.0';
 
         my $port_number =
-            getElement($oid, -2) . "." .
-            getElement($oid, -1);
+            getElement($suffix, -2) . "." .
+            getElement($suffix, -1);
 
         my $mac;
-        my $sysname = $cdpCacheDeviceId->{$model->{oids}->{cdpCacheDeviceId} . "." . $port_number};
+        my $sysname = $cdpCacheDeviceId->{$port_number};
         if ($sysname =~ /^SIP([A-F0-9a-f]*)$/) {
             $mac = alt2canonical("0x".$1);
         }
 
         my $connection = {
-            IP      => $ip,
-            MAC     => $mac,
-            IFDESCR => $cdpCacheDevicePort->{
-                $model->{oids}->{cdpCacheDevicePort} . "." . $port_number
-            },
-            SYSDESCR => $cdpCacheVersion->{
-                $model->{oids}->{cdpCacheVersion} . "." . $port_number
-            },
+            IP       => $ip,
+            MAC      => $mac,
+            IFDESCR  => $cdpCacheDevicePort->{$port_number},
+            SYSDESCR => $cdpCacheVersion->{$port_number},
             SYSNAME  => $sysname,
-            MODEL => $cdpCachePlatform->{
-                $model->{oids}->{cdpCachePlatform} . "." . $port_number
-            }
+            MODEL    => $cdpCachePlatform->{$port_number}
         };
 
         next if !$connection->{SYSDESCR} || !$connection->{MODEL};
 
-        $ports->{getElement($oid, -2)}->{CONNECTIONS} = {
+        $ports->{getElement($suffix, -2)}->{CONNECTIONS} = {
             CDP        => 1,
             CONNECTION => $connection
         };
@@ -128,29 +119,21 @@ sub setConnectedDevicesUsingLLDP {
     my $lldpRemSysDesc   = $snmp->walk($model->{oids}->{lldpRemSysDesc});
     my $lldpRemSysName   = $snmp->walk($model->{oids}->{lldpRemSysName});
 
-    while (my ($oid, $mac) = each %{$lldpRemChassisId}) {
+    while (my ($suffix, $mac) = each %{$lldpRemChassisId}) {
 
         my $port_number =
-            getElement($oid, -3) . "." .
-            getElement($oid, -2) . "." .
-            getElement($oid, -1);
+            getElement($suffix, -3) . "." .
+            getElement($suffix, -2) . "." .
+            getElement($suffix, -1);
 
-        $ports->{getElement($oid, -2)}->{CONNECTIONS} = {
+        $ports->{getElement($suffix, -2)}->{CONNECTIONS} = {
             CDP        => 1,
             CONNECTION => {
-                SYSMAC => scalar alt2canonical($mac),
-                IFDESCR => $lldpRemPortDesc->{
-                    $model->{oids}->{lldpRemPortDesc} . "." . $port_number
-                },
-                SYSDESCR => $lldpRemSysDesc->{
-                    $model->{oids}->{lldpRemSysDesc} . "." . $port_number
-                },
-                SYSNAME  => scalar alt2canonical($lldpRemSysName->{
-                    $model->{oids}->{lldpRemSysName} . "." . $port_number
-                }),
-                IFNUMBER => $lldpRemPortId->{
-                    $model->{oids}->{lldpRemPortId} . "." . $port_number
-                }
+                SYSMAC   => scalar alt2canonical($mac),
+                IFDESCR  => $lldpRemPortDesc->{$port_number},
+                SYSDESCR => $lldpRemSysDesc->{$port_number},
+                SYSNAME  => scalar alt2canonical($lldpRemSysName->{$port_number}),
+                IFNUMBER => $lldpRemPortId->{$port_number}
             }
         };
     }
@@ -164,8 +147,8 @@ sub setTrunkPorts {
     my $ports = $params{ports};
 
     my $results = $snmp->walk($model->{oids}->{vlanTrunkPortDynamicStatus});
-    while (my ($oid, $trunk) = each %{$results}) {
-        $ports->{getLastElement($oid)}->{TRUNK} = $trunk ? 1 : 0;
+    while (my ($suffix, $trunk) = each %{$results}) {
+        $ports->{getElement($suffix, -1)}->{TRUNK} = $trunk ? 1 : 0;
     }
 }
 

@@ -12,14 +12,14 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'RICOH Aficio AP3800C 1.12 / RICOH Network Printer C model / RICOH Network Scanner C model',
             SNMPHOSTNAME => 'Aficio AP3800C',
-            MAC          => undef,
+            MAC          => '00:00:74:71:17:CA'
         },
         {
             MANUFACTURER => 'Ricoh',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'RICOH Aficio AP3800C 1.12 / RICOH Network Printer C model / RICOH Network Scanner C model',
             SNMPHOSTNAME => 'Aficio AP3800C',
-            MAC          => undef,
+            MAC          => '00:00:74:71:17:CA',
         },
         {
             INFO => {
