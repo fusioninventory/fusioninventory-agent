@@ -140,22 +140,22 @@ sub _getType {
 
     # dmesg
 
+    my $handle;
     if (-r '/var/log/dmesg') {
         my $handle = getFileHandle(file => '/var/log/dmesg', logger => $logger);
-        $result = _matchPatterns($handle);
-        close $handle;
     } elsif (-x '/bin/dmesg') {
         my $handle = getFileHandle(command => '/bin/dmesg', logger => $logger);
-        $result = _matchPatterns($handle);
-        close $handle;
     } elsif (-x '/sbin/dmesg') {
         # On OpenBSD, dmesg is in sbin
         # http://forge.fusioninventory.org/issues/402
         my $handle = getFileHandle(command => '/sbin/dmesg', logger => $logger);
-        $result = _matchPatterns($handle);
-        close $handle;
     }
-    return $result if $result;
+
+    if ($handle) {
+        my $result = _matchPatterns($handle);
+        close $handle;
+        return $result if $result;
+    }
 
     # scsci
 
