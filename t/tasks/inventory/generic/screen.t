@@ -11,8 +11,8 @@ use UNIVERSAL::require;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::Inventory::Generic::Screen;
 
-plan(skip_all => 'Parse::EDID required')
-    unless Parse::EDID->require();
+plan(skip_all => 'Parse::EDID >= 1.0.4 required')
+    unless Parse::EDID->require('1.0.4');
 
 Test::NoWarnings->use();
 
