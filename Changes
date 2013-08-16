@@ -2,7 +2,7 @@ Revision history for FusionInventory agent
 
 2.3.1
 inventory task
-* FreeBSD: report when running in a Jail, thanks Igor Morozov
+* report when running in a BSD Jail or a LXC system, thanks Igor Morozov
 
 2.3.0  Thu, 01 Aug 2013 11:38:40 +0200
 distribution:
