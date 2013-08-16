@@ -120,6 +120,19 @@ sub _getType {
 
     my $result;
 
+    if (canRun('/sbin/sysctl')) {
+        my $handle = getFileHandle(
+            command => '/sbin/sysctl -n security.jail.jailed',
+            logger => $logger
+        );
+        my $line = <$handle>;
+        chomp($line);
+        if ($line == 1) {
+             return 'BSDJail';
+        }
+        close $handle;
+    }
+
     # loaded modules
 
     if (-f '/proc/modules') {
@@ -157,7 +170,7 @@ sub _getType {
         return $result if $result;
     }
 
-    # scsci
+    # scsi
 
     if (-f '/proc/scsi/scsi') {
         my $handle = getFileHandle(
