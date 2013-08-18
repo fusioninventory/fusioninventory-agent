@@ -30,9 +30,9 @@
 '
 '  @package   FusionInventory Agent
 '  @file      .\contrib\windows\fusioninventory-agent-deployment.vbs
-'  @author(s) mips
-'             meldrone
-'             ZenAdm
+'  @author(s) Benjamin Accary <meldrone@orange.fr>
+'             Christophe Pujol <chpujol@gmail.com>
+'             Marc Caissial <marc.caissial@zenitique.fr>
 '             Tomas Abad <tabadgp@gmail.com>
 '  @copyright Copyright (c) 2010-2013 FusionInventory Team
 '  @license   GNU GPL version 2 or (at your option) any later version
@@ -52,7 +52,8 @@
 '
 
 Option Explicit
-Dim Setup, SetupArchitecture, SetupLocation, SetupOptions, SetupVersion, SetupVerbose
+Dim Force, Verbose
+Dim Setup, SetupArchitecture, SetupLocation, SetupOptions, SetupVersion
 
 '
 '
@@ -61,7 +62,9 @@ Dim Setup, SetupArchitecture, SetupLocation, SetupOptions, SetupVersion, SetupVe
 '
 
 ' SetupLocation
-'    Depending on your needs or your environment, you can use either a HTTP or CIFS/SMB.
+'    Depending on your needs or your environment, you can use either a HTTP or
+'    CIFS/SMB.
+'
 '    If you use HTTP, please, set to SetupLocation a URL:
 '
 '       SetupLocation = "http://host[:port]/[absolut_path]" or
@@ -71,7 +74,10 @@ Dim Setup, SetupArchitecture, SetupLocation, SetupOptions, SetupVersion, SetupVe
 '
 '       SetupLocation = "\\host\share\[path]"
 '
-SetupLocation = "http://forge.fusioninventory.org/attachments/download/1034"
+'       You also must be sure that you have removed the "Open File Security Warning"
+'       from programs accessed from that UNC.
+'
+SetupLocation = "http://freefr.dl.sourceforge.net/project/fiawi/2.3.x/2.3.0"
 
 ' SetupVersion
 '    Setup version with the pattern <major>.<minor>.<release>[-<package>]
@@ -79,35 +85,57 @@ SetupLocation = "http://forge.fusioninventory.org/attachments/download/1034"
 SetupVersion = "2.3.0-1"
 
 ' SetupArchitecture
-'    The setup architecture can be 'i386', 'x86' or 'x64'.
+'    The setup architecture can be 'x86', 'x64' or 'Auto'
 '
-'    If SetupVersion is 2.2.x (or previous) you must use 'i386' exclusively.
-'    If SetupVersion is 2.3.x (or later) you can use 'x86' or 'x64', but not 'i386'.
+'    If you set SetupArchitecture = "Auto" be sure that both installers are in
+'    the same SetupLocation.
 '
-SetupArchitecture = "x64"
+SetupArchitecture = "Auto"
 
 ' SetupOptions
 '    Consult the installer documentation to know its list of options.
 '
-SetupOptions = "/acceptlicense /runnow /server='http://<server>/glpi/plugins/fusioninventory/' /S"
+'    You should use simple quotes (') to set between quotation marks those values
+'    that require it; double quotes (") doesn't work with UNCs.
+'
+SetupOptions = "/acceptlicense /runnow /server='http://glpi.yourcompany.com/glpi/plugins/fusioninventory/' /S"
 
 ' Setup
 '    The installer file name. You should not have to modify this variable ever.
 '
 Setup = "fusioninventory-agent_windows-" & SetupArchitecture & "_" & SetupVersion & ".exe"
 
-' SetupVerbose
+' Force
+'    Force the installation even whether Setup is previously installed.
+'
+Force = "No"
+
+' Verbose
 '    Enable or disable the information messages.
 '
-'    It's advisable to use SetupVerbose = "Yes" with 'cscript'.
+'    It's advisable to use Verbose = "Yes" with 'cscript //nologo ...'.
 '
-SetupVerbose = "No"
+Verbose = "No"
 
 '
 '
 ' DO NOT EDIT BELOW
 '
 '
+
+Function AdvanceTime(nMinutes)
+   Dim nMinimalMinutes, dtmTimeFuture
+   ' As protection
+   nMinimalMinutes = 5
+   If nMinutes < nMinimalMinutes Then
+      nMinutes = nMinimalMinutes
+   End If
+   ' Add nMinutes to the current time
+   dtmTimeFuture = DateAdd ("n", nMinutes, Time)
+   ' Format the result value
+   '    The command AT accepts 'HH:MM' values only
+   AdvanceTime = Hour(dtmTimeFuture) & ":" & Minute(dtmTimeFuture)
+End Function
 
 Function baseName (strng)
    Dim regEx, ret
@@ -118,7 +146,32 @@ Function baseName (strng)
    baseName = regEx.Replace(strng,"$1")
 End Function
 
-Function isHttp (strng)
+Function GetSystemArchitecture()
+   Dim strSystemArchitecture
+   Err.Clear
+   ' Get operative system architecture
+   On Error Resume Next
+   strSystemArchitecture = CreateObject("WScript.Shell").ExpandEnvironmentStrings("%PROCESSOR_ARCHITECTURE%")
+   If Err.Number = 0 Then
+      ' Check the operative system architecture
+      Select Case strSystemArchitecture
+         Case "x86"
+            ' The system architecture is 32-bit
+            GetSystemArchitecture = "x86"
+         Case "AMD64"
+            ' The system architecture is 64-bit
+            GetSystemArchitecture = "x64"
+         Case Else
+            ' The system architecture is not supported
+            GetSystemArchitecture = "NotSupported"
+      End Select
+   Else
+      ' It has been not possible to get the system architecture
+      GetSystemArchitecture = "Unknown"
+   End If
+End Function
+
+Function isHttp(strng)
    Dim regEx, matches
    Set regEx = New RegExp
    regEx.Global = true
@@ -132,12 +185,107 @@ Function isHttp (strng)
    Exit Function
 End Function
 
+Function IsInstallationNeeded(strSetupVersion, strSetupArchitecture, strSystemArchitecture)
+   Dim strCurrentSetupVersion
+   ' Compare the current version, whether it exists, with strSetupVersion
+   If strSystemArchitecture = "x86" Then
+      ' The system architecture is 32-bit
+      ' Check if the subkey 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory Agent' exists
+      '    This subkey is now deprecated
+      On error resume next
+      strCurrentSetupVersion = WshShell.RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory Agent\DisplayVersion")
+      If Err.Number = 0 Then
+      ' The subkey 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory Agent' exists
+         If strCurrentSetupVersion <> strSetupVersion Then
+            ShowMessage("Installation needed: " & strCurrentSetupVersion & " -> " & strSetupVersion)
+            IsInstallationNeeded = True
+         End If
+         Exit Function
+      Else
+         ' The subkey 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory Agent' doesn't exist
+         Err.Clear
+         ' Check if the subkey 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory-Agent' exists
+         On error resume next
+         strCurrentSetupVersion = WshShell.RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory-Agent\DisplayVersion")
+         If Err.Number = 0 Then
+         ' The subkey 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory-Agent' exists
+            If strCurrentSetupVersion <> strSetupVersion Then
+               ShowMessage("Installation needed: " & strCurrentSetupVersion & " -> " & strSetupVersion)
+               IsInstallationNeeded = True
+            End If
+            Exit Function
+         Else
+            ' The subkey 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory-Agent' doesn't exist
+            Err.Clear
+            ShowMessage("Installation needed: " & strSetupVersion)
+            IsInstallationNeeded = True
+         End If
+      End If
+   Else
+      ' The system architecture is 64-bit
+      ' Check if the subkey 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory Agent' exists
+      '    This subkey is now deprecated
+      On error resume next
+      strCurrentSetupVersion = WshShell.RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory Agent\DisplayVersion")
+      If Err.Number = 0 Then
+      ' The subkey 'SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory Agent' exists
+         If strCurrentSetupVersion <> strSetupVersion Then
+            ShowMessage("Installation needed: " & strCurrentSetupVersion & " -> " & strSetupVersion)
+            IsInstallationNeeded = True
+         End If
+         Exit Function
+      Else
+         ' The subkey 'SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory Agent' doesn't exist
+         Err.Clear
+         ' Check if the subkey 'SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory-Agent' exists
+         On error resume next
+         strCurrentSetupVersion = WshShell.RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory-Agent\DisplayVersion")
+         If Err.Number = 0 Then
+         ' The subkey 'SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory-Agent' exists
+            If strCurrentSetupVersion <> strSetupVersion Then
+               ShowMessage("Installation needed: " & strCurrentSetupVersion & " -> " & strSetupVersion)
+               IsInstallationNeeded = True
+            End If
+            Exit Function
+         Else
+            ' The subkey 'SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory-Agent' doesn't exist
+            Err.Clear
+            ' Check if the subkey 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory-Agent' exists
+            On error resume next
+            strCurrentSetupVersion = WshShell.RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory-Agent\DisplayVersion")
+            If Err.Number = 0 Then
+            ' The subkey 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory-Agent' exists
+               If strCurrentSetupVersion <> strSetupVersion Then
+                  ShowMessage("Installation needed: " & strCurrentSetupVersion & " -> " & strSetupVersion)
+                  IsInstallationNeeded = True
+               End If
+               Exit Function
+            Else
+               ' The subkey 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory-Agent' doesn't exist
+               Err.Clear
+               ShowMessage("Installation needed: " & strSetupVersion)
+               IsInstallationNeeded = True
+            End If
+         End If
+      End If
+   End If
+End Function
+
+Function IsSelectedForce()
+   If LCase(Force) <> "no" Then
+      ShowMessage("Installation forced: " & SetupVersion)
+      IsSelectedForce = True
+   Else
+      IsSelectedForce = False
+   End If
+End Function
+
 ' http://www.ericphelps.com/scripting/samples/wget/index.html
-Function SaveWebBinary (strSetupLocation, strSetup) 'As Boolean
-Const adTypeBinary = 1
-Const adSaveCreateOverWrite = 2
-Const ForWriting = 2
-Dim web, varByteArray, strData, strBuffer, lngCounter, ado, strUrl
+Function SaveWebBinary(strSetupLocation, strSetup)
+   Const adTypeBinary = 1
+   Const adSaveCreateOverWrite = 2
+   Const ForWriting = 2
+   Dim web, varByteArray, strData, strBuffer, lngCounter, ado, strUrl
    strUrl = strSetupLocation & "/" & strSetup
    'On Error Resume Next
    'Download the file with any available object
@@ -178,138 +326,15 @@ Dim web, varByteArray, strData, strBuffer, lngCounter, ado, strUrl
       ado.Type = adTypeBinary
       ado.Open
       ado.Write varByteArray
-      ado.SaveToFile CreateObject("WScript.Shell").ExpandEnvironmentStrings("%Temp%") & "\" & strSetup, adSaveCreateOverWrite
+      ado.SaveToFile CreateObject("WScript.Shell").ExpandEnvironmentStrings("%TEMP%") & "\" & strSetup, adSaveCreateOverWrite
       ado.Close
    End If
    SaveWebBinary = True
 End Function
 
-Function IsInstallationNeeded (strSetupVersion, strSetupArchitecture)
-   Dim strSystemArchitecture, strCurrentSetupVersion
-   ' Set the default value
-   IsInstallationNeeded = False
-   ' Get operative system architecture
-   '    It can be 'x86', 'AMD64' or 'x64'
-   strSystemArchitecture = WshShell.RegRead("HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\PROCESSOR_ARCHITECTURE")
-   ' Check the operative system architecture
-   If strSystemArchitecture = "x86" Then
-      ' The system architecture is 32-bit
-   ElseIf strSystemArchitecture = "x64" Then
-      ' The system architecture is 64-bit, but is IA64
-      Exit Function
-   ElseIf strSystemArchitecture = "AMD64" Then
-      ' The system architecture is 64-bit
-      strSystemArchitecture = "x64"
-   Else
-      ' The system architecture is unknow
-      Exit Function
-   End If
-   If SetupVerbose <> "No" Then
-      Wscript.Echo "System Architecture Detected... '" & strSystemArchitecture & "'"
-   End If
-   ' Check the relation between strSystemArchitecture and strSetupArchitecture
-   If (strSystemArchitecture = "x86") And (strSetupArchitecture = "x64") Then
-      ' It isn't possible to install a 64-bit setup on a 32-bit operative system
-      If SetupVerbose <> "No" Then
-         Wscript.Echo "It isn't possible to install a 64-bit setup on a 32-bit operative system."
-      End If
-      Exit Function
-   End If
-   ' Compare the current version, whether it exists, with strSetupVersion
-   If strSystemArchitecture = "x86" Then
-      ' The system architecture is 32-bit
-      ' Check if the subkey 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory Agent' exists
-      '    This subkey is now deprecated
-      On error resume next
-      strCurrentSetupVersion = WshShell.RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory Agent\DisplayVersion")
-      If Err.Number = 0 Then
-      ' The subkey 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory Agent' exists
-         If strCurrentSetupVersion <> strSetupVersion Then
-            If SetupVerbose <> "No" Then
-	       Wscript.Echo "Installation needed: '" & strCurrentSetupVersion & "' -> '" & strSetupVersion & "'"
-            End If
-            IsInstallationNeeded = True
-         End If
-         Exit Function
-      Else
-         ' The subkey 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory Agent' doesn't exist
-         Err.Clear
-         ' Check if the subkey 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory-Agent' exists
-         On error resume next
-         strCurrentSetupVersion = WshShell.RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory-Agent\DisplayVersion")
-         If Err.Number = 0 Then
-         ' The subkey 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory-Agent' exists
-            If strCurrentSetupVersion <> strSetupVersion Then
-               If SetupVerbose <> "No" Then
-	          Wscript.Echo "Installation needed: '" & strCurrentSetupVersion & "' -> '" & strSetupVersion & "'"
-               End If
-               IsInstallationNeeded = True
-            End If
-            Exit Function
-	 Else
-            ' The subkey 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory-Agent' doesn't exist
-            Err.Clear
-            If SetupVerbose <> "No" Then
-	       Wscript.Echo "Installation needed: '" & strSetupVersion & "'"
-            End If
-            IsInstallationNeeded = True
-         End If
-      End If
-   Else
-      ' The system architecture is 64-bit
-      ' Check if the subkey 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory Agent' exists
-      '    This subkey is now deprecated
-      On error resume next
-      strCurrentSetupVersion = WshShell.RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory Agent\DisplayVersion")
-      If Err.Number = 0 Then
-      ' The subkey 'SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory Agent' exists
-         If strCurrentSetupVersion <> strSetupVersion Then
-            If SetupVerbose <> "No" Then
-               Wscript.Echo "Installation needed: '" & strCurrentSetupVersion & "' -> '" & strSetupVersion & "'"
-            End If
-            IsInstallationNeeded = True
-         End If
-         Exit Function
-      Else
-         ' The subkey 'SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory Agent' doesn't exist
-         Err.Clear
-         ' Check if the subkey 'SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory-Agent' exists
-         On error resume next
-         strCurrentSetupVersion = WshShell.RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory-Agent\DisplayVersion")
-         If Err.Number = 0 Then
-         ' The subkey 'SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory-Agent' exists
-            If strCurrentSetupVersion <> strSetupVersion Then
-               If SetupVerbose <> "No" Then
-                  Wscript.Echo "Installation needed: '" & strCurrentSetupVersion & "' -> '" & strSetupVersion & "'"
-               End If
-               IsInstallationNeeded = True
-            End If
-            Exit Function
-         Else
-            ' The subkey 'SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory-Agent' doesn't exist
-            Err.Clear
-            ' Check if the subkey 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory-Agent' exists
-            On error resume next
-            strCurrentSetupVersion = WshShell.RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory-Agent\DisplayVersion")
-            If Err.Number = 0 Then
-            ' The subkey 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory-Agent' exists
-               If strCurrentSetupVersion <> strSetupVersion Then
-                  If SetupVerbose <> "No" Then
-                     Wscript.Echo "Installation needed: '" & strCurrentSetupVersion & "' -> '" & strSetupVersion & "'"
-                  End If
-                  IsInstallationNeeded = True
-               End If
-               Exit Function
-            Else
-               ' The subkey 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FusionInventory-Agent' doesn't exist
-               Err.Clear
-               If SetupVerbose <> "No" Then
-                  Wscript.Echo "Installation needed: '" & strSetupVersion & "'"
-               End If
-               IsInstallationNeeded = True
-            End If
-         End If
-      End If
+Function ShowMessage(strMessage)
+   If LCase(Verbose) <> "no" Then
+      WScript.Echo strMessage
    End If
 End Function
 
@@ -319,32 +344,71 @@ End Function
 '
 '
 
-Dim WshShell
-Set WshShell = Wscript.CreateObject("Wscript.shell")
+Dim nMinutesToAdvance, strCmd, strSystemArchitecture, strTempDir, WshShell
+Set WshShell = WScript.CreateObject("WScript.shell")
 
-If IsInstallationNeeded(SetupVersion, SetupArchitecture) Then
+nMinutesToAdvance = 5
+
+' Get system architecture
+strSystemArchitecture = GetSystemArchitecture()
+If (strSystemArchitecture <> "x86") And (strSystemArchitecture <> "x64") Then
+   ShowMessage("The system architecture is unknown or not supported.")
+   ShowMessage("Deployment aborted!")
+   WScript.Quit 1
+Else
+   ShowMessage("System architecture detected: " & strSystemArchitecture)
+End If
+
+' Check and auto detect SetupArchitecture
+Select Case LCase(SetupArchitecture)
+   Case "x86"
+      ' The setup architecture is 32-bit
+      SetupArchitecture = "x86"
+      Setup = Replace(Setup, "x86", SetupArchitecture, 1, 1, vbTextCompare)
+      ShowMessage("Setup architecture: " & SetupArchitecture)
+   Case "x64"
+      ' The setup architecture is 64-bit
+      SetupArchitecture = "x64"
+      Setup = Replace(Setup, "x64", SetupArchitecture, 1, 1, vbTextCompare)
+      ShowMessage("Setup architecture: " & SetupArchitecture)
+   Case "auto"
+      ' Auto detection of SetupArchitecture
+      SetupArchitecture = strSystemArchitecture
+      Setup = Replace(Setup, "Auto", SetupArchitecture, 1, 1, vbTextCompare)
+      ShowMessage("Setup architecture detected: " & SetupArchitecture)
+   Case Else
+      ' The setup architecture is not supported
+      ShowMessage("The setup architecture '" & SetupArchitecture & "' is not supported.")
+      WScript.Quit 2
+End Select
+
+' Check the relation between strSystemArchitecture and SetupArchitecture
+If (strSystemArchitecture = "x86") And (SetupArchitecture = "x64") Then
+   ' It isn't possible to execute a 64-bit setup on a 32-bit operative system
+   ShowMessage("It isn't possible to execute a 64-bit setup on a 32-bit operative system.")
+   ShowMessage("Deployment aborted!")
+   WScript.Quit 3
+End If
+
+If IsSelectedForce() Or IsInstallationNeeded(SetupVersion, SetupArchitecture, strSystemArchitecture) Then
    If isHttp(SetupLocation) Then
-      If SetupVerbose <> "No" Then
-         Wscript.Echo "Downloading '" & SetupLocation & "/" & Setup & "'..."
-      End If
+      ShowMessage("Downloading: " & SetupLocation & "/" & Setup)
       If SaveWebBinary(SetupLocation, Setup) Then
-         If SetupVerbose <> "No" Then
-            Wscript.Echo "Running:  ""%TEMP%\" & Setup & """ " & SetupOptions
-         End If
-         WshShell.Run "CMD.EXE /C ""%TEMP%\" & Setup & """ " & SetupOptions, 0, True
+         strCmd = WshShell.ExpandEnvironmentStrings("%ComSpec%")
+         strTempDir = WshShell.ExpandEnvironmentStrings("%TEMP%")
+         ShowMessage("Running: """ & strTempDir & "\" & Setup & """ " & SetupOptions)
+         WshShell.Run """" & strTempDir & "\" & Setup & """ " & SetupOptions, 0, True
+         ShowMessage("Scheduling: DEL /Q /F """ & strTempDir & "\" & Setup & """")
+         WshShell.Run "AT.EXE " & AdvanceTime(nMinutesToAdvance) & " " & strCmd & " /C ""DEL /Q /F """"" & strTempDir & "\" & Setup & """""", 0, True
+         ShowMessage("Deployment done!")
       Else
-         If SetupVerbose <> "No" Then
-            Wscript.Echo "Error downloading '" & SetupLocation & "\" & Setup & "'!"
-         End If
+         ShowMessage("Error downloading '" & SetupLocation & "\" & Setup & "'!")
       End If
    Else
-      If SetupVerbose <> "No" Then
-         Wscript.Echo "Running:  """ & SetupLocation & "\" & Setup & """ " & SetupOptions
-      End If
+      ShowMessage("Running: """ & SetupLocation & "\" & Setup & """ " & SetupOptions)
       WshShell.Run "CMD.EXE /C """ & SetupLocation & "\" & Setup & """ " & SetupOptions, 0, True
+      ShowMessage("Deployment done!")
    End If
 Else
-   If SetupVerbose <> "No" Then
-      Wscript.Echo "It isn't needed (or possible) the installation of '" & Setup & "'."
-   End If
+   ShowMessage("It isn't needed the installation of '" & Setup & "'.")
 End If
