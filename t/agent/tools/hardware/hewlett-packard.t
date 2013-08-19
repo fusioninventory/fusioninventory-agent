@@ -1806,12 +1806,11 @@ my %tests = (
                         CONNECTIONS      => {
                             CDP => 1,
                             CONNECTION => {
-                                IP => '172.31.196.140',
-                                MAC => undef,
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME => '0x0019BB010B00',
+                                IP       => '172.31.196.140',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME  => '0x0019BB010B00',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IFDESCR => '141'
+                                IFDESCR  => '141'
                             }
                         },
                     },
@@ -1832,12 +1831,11 @@ my %tests = (
                         IFNAME           => 'A2',
                         CONNECTIONS => {
                             CONNECTION => {
-                                IP => '172.31.196.140',
-                                MAC => undef,
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME => '0x0019BB010B00',
+                                IP       => '172.31.196.140',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME  => '0x0019BB010B00',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IFDESCR => '143'
+                                IFDESCR  => '143'
                             },
                             CDP => 1
                         },
@@ -1859,12 +1857,11 @@ my %tests = (
                         IFOUTERRORS      => '0',
                         CONNECTIONS => {
                             CONNECTION => {
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                MAC => undef,
-                                IFDESCR => '141',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IFDESCR  => '141',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME => '0x0019BB0D8100',
-                                IP => '172.31.196.141'
+                                SYSNAME  => '0x0019BB0D8100',
+                                IP       => '172.31.196.141'
                             },
                             CDP => 1
                         },
@@ -1889,7 +1886,6 @@ my %tests = (
                                 SYSNAME  => '0x0019BB0D8100',
                                 IFDESCR  => '143',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                MAC      => undef,
                                 MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                                 IP       => '172.31.196.141'
                             },
@@ -1913,12 +1909,11 @@ my %tests = (
                         IFNAME           => 'A5',
                         CONNECTIONS      => {
                             CONNECTION => {
-                                MAC => undef,
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME => '0x0016B9138000',
-                                IFDESCR => '141',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME  => '0x0016B9138000',
+                                IFDESCR  => '141',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IP => '172.31.196.142'
+                                IP       => '172.31.196.142'
                             },
                             CDP => 1
                         },
@@ -1941,12 +1936,11 @@ my %tests = (
                         CONNECTIONS      => {
                             CDP => 1,
                             CONNECTION => {
-                                SYSNAME => '0x0016B9138000',
+                                SYSNAME  => '0x0016B9138000',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IFDESCR => '143',
-                                MAC => undef,
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IP => '172.31.196.142'
+                                IFDESCR  => '143',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP       => '172.31.196.142'
                             }
                         },
                     },
@@ -1968,12 +1962,11 @@ my %tests = (
                         CONNECTIONS => {
                             CDP => 1,
                             CONNECTION => {
-                                IP => '172.31.196.143',
-                                IFDESCR => '141',
+                                IP       => '172.31.196.143',
+                                IFDESCR  => '141',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME => '0x0016B9142B00',
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                MAC => undef
+                                SYSNAME  => '0x0016B9142B00',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                             }
                         },
                     },
@@ -1994,12 +1987,11 @@ my %tests = (
                         IFMTU            => '1500',
                         CONNECTIONS      => {
                             CONNECTION => {
-                                MAC => undef,
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME => '0x0016B9142B00',
-                                IFDESCR => '143',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME  => '0x0016B9142B00',
+                                IFDESCR  => '143',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IP => '172.31.196.143'
+                                IP       => '172.31.196.143'
                             },
                             CDP => 1
                         },
@@ -2022,12 +2014,11 @@ my %tests = (
                         CONNECTIONS      => {
                             CDP => 1,
                             CONNECTION => {
-                                IP => '172.31.196.150',
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                MAC => undef,
-                                IFDESCR => '141',
+                                IP       => '172.31.196.150',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IFDESCR  => '141',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME => '0x0019BB1B4D00'
+                                SYSNAME  => '0x0019BB1B4D00'
                             }
                         },
                     },
@@ -2048,12 +2039,11 @@ my %tests = (
                         IFNAME           => 'A10',
                         CONNECTIONS      => {
                             CONNECTION => {
-                                IP => '172.31.196.150',
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                MAC => undef,
-                                IFDESCR => '143',
+                                IP       => '172.31.196.150',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IFDESCR  => '143',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME => '0x0019BB1B4D00'
+                                SYSNAME  => '0x0019BB1B4D00'
                             },
                             CDP => 1
                         },
@@ -2121,12 +2111,11 @@ my %tests = (
                         IFMTU            => '1500',
                         CONNECTIONS      => {
                             CONNECTION => {
-                                IP => '172.31.196.151',
-                                MAC => undef,
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME => '0x0019BB1ACC00',
+                                IP       => '172.31.196.151',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME  => '0x0019BB1ACC00',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IFDESCR => '141'
+                                IFDESCR  => '141'
                             },
                             CDP => 1
                         },
@@ -2173,11 +2162,10 @@ my %tests = (
                             CDP => 1,
                             CONNECTION => {
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IFDESCR => '118',
-                                SYSNAME => '0x0019BB01A600',
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                MAC => undef,
-                                IP => '172.31.196.160'
+                                IFDESCR  => '118',
+                                SYSNAME  => '0x0019BB01A600',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP       => '172.31.196.160'
                             }
                         },
                     },
@@ -2221,12 +2209,11 @@ my %tests = (
                         IFNAME           => 'A17',
                         CONNECTIONS      => {
                             CONNECTION => {
-                                IP => '172.31.196.161',
+                                IP       => '172.31.196.161',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IFDESCR => '118',
-                                SYSNAME => '0x0019BB058200',
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                MAC => undef
+                                IFDESCR  => '118',
+                                SYSNAME  => '0x0019BB058200',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                             },
                             CDP => 1
                         },
@@ -2272,12 +2259,11 @@ my %tests = (
                         CONNECTIONS      => {
                             CDP => 1,
                             CONNECTION => {
-                                SYSNAME => '0x0018FEF9A800',
-                                IFDESCR => '262',
+                                SYSNAME  => '0x0018FEF9A800',
+                                IFDESCR  => '262',
                                 SYSDESCR => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                MAC => undef,
-                                MODEL => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IP => '172.31.196.162'
+                                MODEL    => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP       => '172.31.196.162'
                             }
                         },
                     },
@@ -2321,12 +2307,11 @@ my %tests = (
                         IFINTERNALSTATUS => '1',
                         CONNECTIONS      => {
                             CONNECTION => {
-                                IP => '172.31.196.163',
-                                MODEL => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                MAC => undef,
-                                IFDESCR => '262',
+                                IP       => '172.31.196.163',
+                                MODEL    => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IFDESCR  => '262',
                                 SYSDESCR => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME => '0x001C2EE58B00'
+                                SYSNAME  => '0x001C2EE58B00'
                             },
                             CDP => 1
                         },
@@ -2349,12 +2334,11 @@ my %tests = (
                         CONNECTIONS      => {
                             CDP => 1,
                             CONNECTION => {
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                MAC => undef,
-                                IFDESCR => '22',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IFDESCR  => '22',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME => '0x0019BB172200',
-                                IP => '172.31.192.245'
+                                SYSNAME  => '0x0019BB172200',
+                                IP       => '172.31.192.245'
                             }
                         },
                     },
@@ -2376,12 +2360,11 @@ my %tests = (
                         CONNECTIONS      => {
                             CDP => 1,
                             CONNECTION => {
-                                MAC => undef,
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME => '0x0019BB172200',
-                                IFDESCR => '23',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME  => '0x0019BB172200',
+                                IFDESCR  => '23',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IP => '172.31.192.245'
+                                IP       => '172.31.192.245'
                             }
                         },
                     },
@@ -2403,11 +2386,10 @@ my %tests = (
                         CONNECTIONS      => {
                             CDP => 1,
                             CONNECTION => {
-                                IP => '172.31.192.245',
-                                MAC => undef,
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME => '0x0019BB172200',
-                                IFDESCR => '24',
+                                IP       => '172.31.192.245',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME  => '0x0019BB172200',
+                                IFDESCR  => '24',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))'
                             }
                         },
@@ -2429,12 +2411,11 @@ my %tests = (
                         IFMTU            => '1500',
                         CONNECTIONS => {
                             CONNECTION => {
-                                IP => '172.31.196.151',
-                                IFDESCR => '143',
+                                IP       => '172.31.196.151',
+                                IFDESCR  => '143',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME => '0x0019BB1ACC00',
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                MAC => undef
+                                SYSNAME  => '0x0019BB1ACC00',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                             },
                             CDP => 1
                         },
@@ -2456,12 +2437,11 @@ my %tests = (
                         IFOUTERRORS      => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
-                                IP => '172.31.196.151',
-                                IFDESCR => '118',
+                                IP       => '172.31.196.151',
+                                IFDESCR  => '118',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME => '0x0019BB1ACC00',
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                MAC => undef
+                                SYSNAME  => '0x0019BB1ACC00',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                             },
                             CDP => 1
                         },
@@ -2483,12 +2463,11 @@ my %tests = (
                         IFOUTERRORS      => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
-                                IFDESCR => '141',
+                                IFDESCR  => '141',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME => '0x0019BB01A600',
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                MAC => undef,
-                                IP => '172.31.196.160'
+                                SYSNAME  => '0x0019BB01A600',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP       => '172.31.196.160'
                             },
                             CDP => 1
                         },
@@ -2511,11 +2490,10 @@ my %tests = (
                         CONNECTIONS      => {
                             CONNECTION => {
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IFDESCR => '143',
-                                SYSNAME => '0x0019BB01A600',
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                MAC => undef,
-                                IP => '172.31.196.160'
+                                IFDESCR  => '143',
+                                SYSNAME  => '0x0019BB01A600',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP       => '172.31.196.160'
                             },
                             CDP => 1
                         },
@@ -2538,12 +2516,11 @@ my %tests = (
                         CONNECTIONS      => {
                             CDP => 1,
                             CONNECTION => {
-                                MAC => undef,
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME => '0x0019BB058200',
-                                IFDESCR => '141',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME  => '0x0019BB058200',
+                                IFDESCR  => '141',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IP => '172.31.196.161'
+                                IP       => '172.31.196.161'
                             }
                         },
                     },
@@ -2580,12 +2557,11 @@ my %tests = (
                         IFNAME           => 'B7',
                         CONNECTIONS      => {
                             CONNECTION => {
-                                IP => '172.31.196.162',
-                                SYSNAME => '0x0018FEF9A800',
-                                IFDESCR => '285',
+                                IP       => '172.31.196.162',
+                                SYSNAME  => '0x0018FEF9A800',
+                                IFDESCR  => '285',
                                 SYSDESCR => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                MAC => undef,
-                                MODEL => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))'
+                                MODEL    => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))'
                             },
                             CDP => 1
                         },
@@ -2608,12 +2584,11 @@ my %tests = (
                         CONNECTIONS      => {
                             CDP => 1,
                             CONNECTION => {
-                                IP => '172.31.196.162',
-                                IFDESCR => '287',
+                                IP       => '172.31.196.162',
+                                IFDESCR  => '287',
                                 SYSDESCR => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME => '0x0018FEF9A800',
-                                MODEL => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                MAC => undef
+                                SYSNAME  => '0x0018FEF9A800',
+                                MODEL    => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                             }
                         },
                     },
@@ -2635,12 +2610,11 @@ my %tests = (
                         CONNECTIONS      => {
                             CDP => 1,
                             CONNECTION => {
-                                IFDESCR => '285',
+                                IFDESCR  => '285',
                                 SYSDESCR => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME => '0x001C2EE58B00',
-                                MODEL => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                MAC => undef,
-                                IP => '172.31.196.163'
+                                SYSNAME  => '0x001C2EE58B00',
+                                MODEL    => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP       => '172.31.196.163'
                             }
                         },
                     },
@@ -2661,12 +2635,11 @@ my %tests = (
                         IFOUTOCTETS      => '2884232004',
                         CONNECTIONS      => {
                             CONNECTION => {
-                                MODEL => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                MAC => undef,
-                                IFDESCR => '287',
+                                MODEL    => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IFDESCR  => '287',
                                 SYSDESCR => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME => '0x001C2EE58B00',
-                                IP => '172.31.196.163'
+                                SYSNAME  => '0x001C2EE58B00',
+                                IP       => '172.31.196.163'
                             },
                             CDP => 1
                         },
@@ -2734,12 +2707,11 @@ my %tests = (
                         IFINOCTETS       => '1205644070',
                         CONNECTIONS      => {
                             CONNECTION => {
-                                MAC => undef,
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME => '0x0019BB010B00',
-                                IFDESCR => '118',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME  => '0x0019BB010B00',
+                                IFDESCR  => '118',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IP => '172.31.196.140'
+                                IP       => '172.31.196.140'
                             },
                             CDP => 1
                         },
@@ -2785,12 +2757,11 @@ my %tests = (
                         CONNECTIONS      => {
                             CDP => 1,
                             CONNECTION => {
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                MAC => undef,
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IFDESCR => '118',
-                                SYSNAME => '0x0019BB0D8100',
-                                IP => '172.31.196.141'
+                                IFDESCR  => '118',
+                                SYSNAME  => '0x0019BB0D8100',
+                                IP       => '172.31.196.141'
                             }
                         },
                     },
@@ -2835,12 +2806,11 @@ my %tests = (
                     CONNECTIONS      => {
                             CDP => 1,
                             CONNECTION => {
-                                IP => '172.31.196.142',
+                                IP       => '172.31.196.142',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IFDESCR => '118',
-                                SYSNAME => '0x0016B9138000',
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                MAC => undef
+                                IFDESCR  => '118',
+                                SYSNAME  => '0x0016B9138000',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                             }
                         },
                     },
@@ -2885,12 +2855,11 @@ my %tests = (
                         CONNECTIONS      => {
                             CDP => 1,
                             CONNECTION => {
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                MAC => undef,
-                                IFDESCR => '118',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IFDESCR  => '118',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME => '0x0016B9142B00',
-                                IP => '172.31.196.143'
+                                SYSNAME  => '0x0016B9142B00',
+                                IP       => '172.31.196.143'
                             }
                         },
                     },
@@ -2934,12 +2903,11 @@ my %tests = (
                         IFOUTERRORS      => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
-                                IP => '172.31.196.150',
-                                SYSNAME => '0x0019BB1B4D00',
-                                IFDESCR => '118',
+                                IP       => '172.31.196.150',
+                                SYSNAME  => '0x0019BB1B4D00',
+                                IFDESCR  => '118',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                MAC => undef,
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))'
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))'
                             },
                             CDP => 1
                         },
@@ -2962,12 +2930,11 @@ my %tests = (
                         CONNECTIONS      => {
                             CDP => 1,
                             CONNECTION => {
-                                SYSNAME => '0x0019BB172200',
+                                SYSNAME  => '0x0019BB172200',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IFDESCR => '46',
-                                MAC => undef,
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IP => '172.31.192.245'
+                                IFDESCR  => '46',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP       => '172.31.192.245'
                             }
                         },
                     },
@@ -2988,12 +2955,11 @@ my %tests = (
                         IFMTU            => '1500',
                         CONNECTIONS      => {
                             CONNECTION => {
-                                IP => '172.31.192.245',
-                                SYSNAME => '0x0019BB172200',
+                                IP       => '172.31.192.245',
+                                SYSNAME  => '0x0019BB172200',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IFDESCR => '47',
-                                MAC => undef,
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))'
+                                IFDESCR  => '47',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))'
                             },
                             CDP => 1
                         },
@@ -3016,12 +2982,11 @@ my %tests = (
                         CONNECTIONS      => {
                             CDP => 1,
                             CONNECTION => {
-                                MAC => undef,
-                                MODEL => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME => '0x0019BB172200',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                SYSNAME  => '0x0019BB172200',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IFDESCR => '48',
-                                IP => '172.31.192.245'
+                                IFDESCR  => '48',
+                                IP       => '172.31.192.245'
                             }
                         },
                     },

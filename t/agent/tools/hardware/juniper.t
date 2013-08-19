@@ -2715,11 +2715,11 @@ my %tests = (
                     IFINERRORS       => '0',
                     CONNECTIONS => {
                         CONNECTION => {
-                            SYSMAC => '00:1A:1E:CD:BB:02',
-                            IFDESCR          => 'eth0',
-                            IFNUMBER         => '0x001A1ECDBB02',
+                            SYSMAC   => '00:1A:1E:CD:BB:02',
+                            IFDESCR  => 'eth0',
+                            IFNUMBER => '0x001A1ECDBB02',
                             SYSDESCR => 'ArubaOS (MODEL: 125), Version 6.2.1.2 (38711)',
-                            SYSNAME => 'PM:F-:sa:p-:c4:07'
+                            SYSNAME  => 'PMF-sap-c407'
                         },
                         CDP => 1
                     },
@@ -6903,10 +6903,10 @@ my %tests = (
                     CONNECTIONS => {
                         CDP => 1,
                         CONNECTION => {
-                            IFDESCR          => 'eth0',
-                            SYSMAC => '00:1A:1E:CD:BB:02',
-                            SYSNAME => 'PM:F-:sa:p-:c4:07',
-                            IFNUMBER         => '0x001A1ECDBB02',
+                            IFDESCR  => 'eth0',
+                            SYSMAC   => '00:1A:1E:CD:BB:02',
+                            SYSNAME  => 'PMF-sap-c407',
+                            IFNUMBER => '0x001A1ECDBB02',
                             SYSDESCR => 'ArubaOS (MODEL: 125), Version 6.2.1.2 (38711)'
                         }
                     },
@@ -9510,10 +9510,10 @@ my %tests = (
                         IFINERRORS       => '0',
                         CONNECTIONS => {
                             CONNECTION => {
-                                SYSMAC => '2C:6B:F5:99:7C:00',
-                                IFDESCR          => 'ge-0/0/0.0',
-                                IFNUMBER         => '502',
-                                SYSNAME => '',
+                                SYSMAC   => '2C:6B:F5:99:7C:00',
+                                IFDESCR  => 'ge-0/0/0.0',
+                                IFNUMBER => '502',
+                                SYSNAME  => 'jte4-02',
                                 SYSDESCR => 'Juniper Networks, Inc. ex3200-48p , version 10.3R1.9 Build date: 2010-08-13 12:56:38 UTC '
                             },
                             CDP => 1
@@ -17093,11 +17093,11 @@ my %tests = (
                         IFINERRORS       => '0',
                         CONNECTIONS => {
                             CONNECTION => {
-                                IFDESCR          => 'ge-0/0/1.0',
-                                SYSMAC => '2C:6B:F5:99:7C:00',
-                                IFNUMBER         => '504',
+                                IFDESCR  => 'ge-0/0/1.0',
+                                SYSMAC   => '2C:6B:F5:99:7C:00',
+                                IFNUMBER => '504',
                                 SYSDESCR => 'Juniper Networks, Inc. ex3200-48p , version 10.3R1.9 Build date: 2010-08-13 12:56:38 UTC ',
-                                SYSNAME => ''
+                                SYSNAME  => 'jte4-02'
                             },
                             CDP => 1
                         },
@@ -19433,11 +19433,11 @@ my %tests = (
                         CONNECTIONS => {
                             CDP => 1,
                             CONNECTION => {
-                                SYSMAC => '78:FE:3D:3F:84:00',
-                                IFDESCR          => 'ge-0/0/23.0',
-                                IFNUMBER         => '534',
+                                SYSMAC   => '78:FE:3D:3F:84:00',
+                                IFDESCR  => 'ge-0/0/23.0',
+                                IFNUMBER => '534',
                                 SYSDESCR => 'Juniper Networks, Inc. ex2200-24p-4g , version 11.1R3.5 Build date: 2011-06-25 01:00:05 UTC ',
-                                SYSNAME => ''
+                                SYSNAME  => 'jta6-02'
                             }
                         },
                         IFINERRORS       => '0',

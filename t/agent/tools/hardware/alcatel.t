@@ -51,11 +51,11 @@ my %tests = (
                         CONNECTIONS => {
                             CDP => 1,
                             CONNECTION => {
-                                IFDESCR => 'GigabitEthernet1/0/19',
+                                IFDESCR  => 'GigabitEthernet1/0/19',
                                 IFNUMBER => 'Gi1/0/19',
                                 SYSDESCR => '"Cisco IOS Software, C2960S Software (C2960S-UNIVERSALK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)',
-                                SYSMAC => 'B4:14:89:38:2D:80',
-                                SYSNAME => '',
+                                SYSMAC   => 'B4:14:89:38:2D:80',
+                                SYSNAME  => 'CB-C005-202.mgmt.dauphine.fr',
                             }
                         }
                     },
