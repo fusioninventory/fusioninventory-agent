@@ -81,6 +81,18 @@ sub _readSymbolicOids {
         'SNMPv2-MIB::sysLocation'           => '.1.3.6.1.2.1.1.6',
         'SNMPv2-SMI::mib-2'                 => '.1.3.6.1.2.1',
         'SNMPv2-SMI::enterprises'           => '.1.3.6.1.4.1',
+        'IF-MIB::ifIndex'                   => '.1.3.6.1.2.1.2.2.1.1',
+        'IF-MIB::ifDescr'                   => '.1.3.6.1.2.1.2.2.1.2',
+        'IF-MIB::ifType'                    => '.1.3.6.1.2.1.2.2.1.3',
+        'IF-MIB::ifMtu'                     => '.1.3.6.1.2.1.2.2.1.4',
+        'IF-MIB::ifSpeed'                   => '.1.3.6.1.2.1.2.2.1.5',
+        'IF-MIB::ifPhysAddress'             => '.1.3.6.1.2.1.2.2.1.6',
+        'IF-MIB::ifLastChange'              => '.1.3.6.1.2.1.2.2.1.9',
+        'IF-MIB::ifInOctets'                => '.1.3.6.1.2.1.2.2.1.10',
+        'IF-MIB::ifInErrors'                => '.1.3.6.1.2.1.2.2.1.14',
+        'IF-MIB::ifOutOctets'               => '.1.3.6.1.2.1.2.2.1.16',
+        'IF-MIB::ifOutErrors'               => '.1.3.6.1.2.1.2.2.1.20',
+        'IF-MIB::ifName      '              => '.1.3.6.1.2.1.31.1.1.1.1',
         'HOST-RESOURCES-MIB::hrDeviceDescr' => '.1.3.6.1.2.1.25.3.2.1.3',
     );
 
