@@ -293,6 +293,7 @@ sub getDeviceInfo {
     # the device is initialized with basic information
     # deduced from its sysdescr
     my %device = getDeviceBaseInfo($snmp);
+    return unless %device;
 
     # then, we try to get a matching model from the dictionary,
     # using its current description as identification key
