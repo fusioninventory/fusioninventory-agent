@@ -74,32 +74,31 @@ sub setConnectedDevicesUsingCDP {
     my $cdpCacheVersion    = $snmp->walk($model->{oids}->{cdpCacheVersion});
     my $cdpCachePlatform   = $snmp->walk($model->{oids}->{cdpCachePlatform});
 
+    # each cdp variable matches the following scheme:
+    # $prefix.x.y = $value
+    # whereas x is the port number
+
     while (my ($suffix, $ip) = each %{$cdpCacheAddress}) {
         $ip = hex2canonical($ip);
         next if $ip eq '0.0.0.0';
 
-        my $port_number =
-            getElement($suffix, -2) . "." .
-            getElement($suffix, -1);
-
-        my $mac;
-        my $sysname = $cdpCacheDeviceId->{$port_number};
-        if ($sysname =~ /^SIP([A-F0-9a-f]*)$/) {
-            $mac = alt2canonical("0x".$1);
-        }
-
         my $connection = {
             IP       => $ip,
-            MAC      => $mac,
-            IFDESCR  => $cdpCacheDevicePort->{$port_number},
-            SYSDESCR => $cdpCacheVersion->{$port_number},
-            SYSNAME  => $sysname,
-            MODEL    => $cdpCachePlatform->{$port_number}
+            IFDESCR  => $cdpCacheDevicePort->{$suffix},
+            SYSDESCR => $cdpCacheVersion->{$suffix},
+            SYSNAME  => $cdpCacheDeviceId->{$suffix},
+            MODEL    => $cdpCachePlatform->{$suffix}
         };
+
+        if ($connection->{SYSNAME} =~ /^SIP([A-F0-9a-f]*)$/) {
+            $connection->{MAC} = alt2canonical("0x".$1);
+        }
 
         next if !$connection->{SYSDESCR} || !$connection->{MODEL};
 
-        $ports->{getElement($suffix, -2)}->{CONNECTIONS} = {
+        my $port_id = getElement($suffix, -2);
+
+        $ports->{$port_id}->{CONNECTIONS} = {
             CDP        => 1,
             CONNECTION => $connection
         };
@@ -119,21 +118,22 @@ sub setConnectedDevicesUsingLLDP {
     my $lldpRemSysDesc   = $snmp->walk($model->{oids}->{lldpRemSysDesc});
     my $lldpRemSysName   = $snmp->walk($model->{oids}->{lldpRemSysName});
 
+    # each lldp variable matches the following scheme:
+    # $prefix.x.y.z = $value
+    # whereas y is the port number
+
     while (my ($suffix, $mac) = each %{$lldpRemChassisId}) {
 
-        my $port_number =
-            getElement($suffix, -3) . "." .
-            getElement($suffix, -2) . "." .
-            getElement($suffix, -1);
+        my $port_id = getElement($suffix, -2);
 
-        $ports->{getElement($suffix, -2)}->{CONNECTIONS} = {
+        $ports->{$port_id}->{CONNECTIONS} = {
             CDP        => 1,
             CONNECTION => {
                 SYSMAC   => scalar alt2canonical($mac),
-                IFDESCR  => $lldpRemPortDesc->{$port_number},
-                SYSDESCR => $lldpRemSysDesc->{$port_number},
-                SYSNAME  => scalar alt2canonical($lldpRemSysName->{$port_number}),
-                IFNUMBER => $lldpRemPortId->{$port_number}
+                IFDESCR  => $lldpRemPortDesc->{$suffix},
+                SYSDESCR => $lldpRemSysDesc->{$suffix},
+                SYSNAME  => $lldpRemSysName->{$suffix},
+                IFNUMBER => $lldpRemPortId->{$suffix}
             }
         };
     }
