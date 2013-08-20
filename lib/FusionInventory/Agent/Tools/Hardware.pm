@@ -5,7 +5,7 @@ use warnings;
 use base 'Exporter';
 
 use English qw(-no_match_vars);
-
+use List::Util qw(first);
 
 use FusionInventory::Agent::Tools; # runFunction
 use FusionInventory::Agent::Tools::Network;
@@ -385,12 +385,12 @@ sub _getMacAddress {
 
     if (!$address || $address !~ /^$mac_address_pattern$/) {
         my $macs = $snmp->walk($dynmac_oid);
-        foreach my $value (values %{$macs}) {
-            $value = getCanonicalMacAddress($value);
-            next if !$value;
-            next if $value eq '00:00:00:00:00:00';
-            $address = $value;
-        }
+        $address =
+            first { $_ ne '00:00:00:00:00:00' }
+            map   { getCanonicalMacAddress($_) }
+            grep  { $_ }
+            sort  { $a cmp $b }
+            values %{$macs};
     }
 
     return $address;
