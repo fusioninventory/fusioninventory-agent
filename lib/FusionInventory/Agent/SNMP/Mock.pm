@@ -31,11 +31,6 @@ sub new {
     return $self;
 }
 
-sub _init_from_file {
-    my ($self, $file) = @_;
-
-}
-
 sub _getIndexedValues {
     my ($file) = @_;
 
