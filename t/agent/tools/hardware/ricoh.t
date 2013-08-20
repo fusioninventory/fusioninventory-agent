@@ -113,14 +113,14 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'RICOH Aficio SP C420DN 1.05 / RICOH Network Printer C model',
             SNMPHOSTNAME => 'Aficio SP C420DN',
-            MAC          => undef,
+            MAC          => '00:00:74:F3:01:95',
         },
         {
             MANUFACTURER => 'Ricoh',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'RICOH Aficio SP C420DN 1.05 / RICOH Network Printer C model',
             SNMPHOSTNAME => 'Aficio SP C420DN',
-            MAC          => undef,
+            MAC          => '00:00:74:F3:01:95',
         },
         {
             INFO => {
@@ -139,14 +139,14 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'RICOH Aficio SP C420DN 1.05 / RICOH Network Printer C model',
             SNMPHOSTNAME => 'Aficio SP C420DN',
-            MAC          => undef,
+            MAC          => '00:00:74:F3:01:95'
         },
         {
             MANUFACTURER => 'Ricoh',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'RICOH Aficio SP C420DN 1.05 / RICOH Network Printer C model',
             SNMPHOSTNAME => 'Aficio SP C420DN',
-            MAC          => undef,
+            MAC          => '00:00:74:F3:01:95'
         },
         {
             INFO => {

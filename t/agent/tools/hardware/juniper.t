@@ -1141,7 +1141,7 @@ my %tests = (
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-48t-4g internet router, kernel JUNOS 11.4R5.5 #0: 2012-08-25 05:21:13 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R5.5/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2012-08-25 04:48:47 U',
             SNMPHOSTNAME => 'jtc407-01',
-            MAC          => '78:FE:3D:36:F7:06',
+            MAC          => '00:0B:CA:FE:00:00'
         },
         {
             MANUFACTURER => 'Juniper',
@@ -3138,14 +3138,14 @@ my %tests = (
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-c-12p-2g internet router, kernel JUNOS 11.3R1.7 #0: 2011-08-30 11:49:21 UTC     builder@dagmath.juniper.net:/volume/build/junos/11.3/release/11.3R1.7/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2011-08-30 11:32:01',
             SNMPHOSTNAME => 'AB-B404-23-ex2200',
-            MAC          => '78:FE:3D:DF:20:0A'
+            MAC          => '00:0B:CA:FE:00:00'
         },
         {
             MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-c-12p-2g internet router, kernel JUNOS 11.3R1.7 #0: 2011-08-30 11:49:21 UTC     builder@dagmath.juniper.net:/volume/build/junos/11.3/release/11.3R1.7/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2011-08-30 11:32:01',
             SNMPHOSTNAME => 'AB-B404-23-ex2200',
-            MAC          => '78:FE:3D:DF:20:0A',
+            MAC          => '00:0B:CA:FE:00:00',
             MODELSNMP    => 'Networking2181',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -5574,14 +5574,14 @@ my %tests = (
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-c-12p-2g internet router, kernel JUNOS 11.4R1.6 #0: 2011-11-15 10:11:59 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R1.6/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2011-11-15 09:57:14',
             SNMPHOSTNAME => 'C005-236b-ex2200',
-            MAC          => '64:87:88:B0:39:CE'
+            MAC          => '00:0B:CA:FE:00:00'
         },
         {
             MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-c-12p-2g internet router, kernel JUNOS 11.4R1.6 #0: 2011-11-15 10:11:59 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R1.6/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2011-11-15 09:57:14',
             SNMPHOSTNAME => 'C005-236b-ex2200',
-            MAC          => '64:87:88:B0:39:CE',
+            MAC          => '00:0B:CA:FE:00:00',
             MODELSNMP    => 'Networking2180',
             MODEL        => undef,
             SERIAL       => undef,

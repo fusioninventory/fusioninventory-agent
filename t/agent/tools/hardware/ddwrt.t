@@ -44,14 +44,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'aleph.bu.dauphine.fr',
             SNMPHOSTNAME => 'aleph.bu.dauphine.fr',
-            MAC          => undef,
+            MAC          => '00:26:B9:71:58:1E',
         },
         {
             MANUFACTURER => 'Ddwrt',
             TYPE         => undef,
             DESCRIPTION  => 'aleph.bu.dauphine.fr',
             SNMPHOSTNAME => 'aleph.bu.dauphine.fr',
-            MAC          => undef,
+            MAC          => '00:26:B9:71:58:1E',
         }
     ],
     'ddwrt/unknown.4.walk' => [
@@ -60,14 +60,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'primotest.bu.dauphine.fr',
             SNMPHOSTNAME => 'primotest.bu.dauphine.fr',
-            MAC          => undef
+            MAC          => '00:26:B9:7E:13:08'
         },
         {
             MANUFACTURER => 'Ddwrt',
             TYPE         => undef,
             DESCRIPTION  => 'primotest.bu.dauphine.fr',
             SNMPHOSTNAME => 'primotest.bu.dauphine.fr',
-            MAC          => undef
+            MAC          => '00:26:B9:7E:13:08'
         }
     ],
     'ddwrt/unknown.5.walk' => [
@@ -76,14 +76,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'primo.bu.dauphine.fr',
             SNMPHOSTNAME => 'primo.bu.dauphine.fr',
-            MAC          => undef,
+            MAC          => '00:26:B9:7D:E6:A3'
         },
         {
             MANUFACTURER => 'Ddwrt',
             TYPE         => undef,
             DESCRIPTION  => 'primo.bu.dauphine.fr',
             SNMPHOSTNAME => 'primo.bu.dauphine.fr',
-            MAC          => undef,
+            MAC          => '00:26:B9:7D:E6:A3'
         }
     ],
     'ddwrt/unknown.6.walk' => [
@@ -92,14 +92,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'metalib.bu.dauphine.fr',
             SNMPHOSTNAME => 'metalib.bu.dauphine.fr',
-            MAC          => undef,
+            MAC          => '00:26:B9:7E:AD:BB'
         },
         {
             MANUFACTURER => 'Ddwrt',
             TYPE         => undef,
             DESCRIPTION  => 'metalib.bu.dauphine.fr',
             SNMPHOSTNAME => 'metalib.bu.dauphine.fr',
-            MAC          => undef,
+            MAC          => '00:26:B9:7E:AD:BB'
         }
     ],
 );

@@ -10,12 +10,12 @@ my %tests = (
         {
             DESCRIPTION  => 'D-Link DP-303 Print Server',
             SNMPHOSTNAME => 'Print Server PS-57B3C4',
-            MAC          => undef
+            MAC          => '00:05:5D:57:B3:C4'
         },
         {
             DESCRIPTION  => 'D-Link DP-303 Print Server',
             SNMPHOSTNAME => 'Print Server PS-57B3C4',
-            MAC          => undef
+            MAC          => '00:05:5D:57:B3:C4'
         }
 
     ],
@@ -23,12 +23,12 @@ my %tests = (
         {
             DESCRIPTION  => 'D-Link DP-303 Print Server',
             SNMPHOSTNAME => 'Print Server PS-57B3C7',
-            MAC          => undef
+            MAC          => '00:05:5D:57:B3:C7'
         },
         {
             DESCRIPTION  => 'D-Link DP-303 Print Server',
             SNMPHOSTNAME => 'Print Server PS-57B3C7',
-            MAC          => undef
+            MAC          => '00:05:5D:57:B3:C7'
         }
     ],
 );

@@ -1349,7 +1349,7 @@ IOS (tm) C3550 Software (C3550-I5Q3L2-M), Version 12.1(20)EA1a, RELEASE SOFTWARE
 Copyright (c) 1986-2004 by cisco Systems, Inc.
 Compiled Mon 19-Apr-04 21:50 by yenanh',
             SNMPHOSTNAME => 'CB-Federateur.mgmt.dauphine.fr',
-            MAC          => undef,
+            MAC          => '00:0B:5F:CC:D8:80'
         },
         {
             MANUFACTURER => 'Cisco',
@@ -1359,7 +1359,7 @@ IOS (tm) C3550 Software (C3550-I5Q3L2-M), Version 12.1(20)EA1a, RELEASE SOFTWARE
 Copyright (c) 1986-2004 by cisco Systems, Inc.
 Compiled Mon 19-Apr-04 21:50 by yenanh',
             SNMPHOSTNAME => 'CB-Federateur.mgmt.dauphine.fr',
-            MAC          => undef,
+            MAC          => '00:0B:5F:CC:D8:80',
             MODELSNMP    => 'Networking2034',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -1375,7 +1375,7 @@ IOS (tm) C3550 Software (C3550-I5Q3L2-M), Version 12.1(20)EA1a, RELEASE SOFTWARE
 Copyright (c) 1986-2004 by cisco Systems, Inc.
 Compiled Mon 19-Apr-04 21:50 by yenanh',
             SNMPHOSTNAME => 'CB-Federateur.mgmt.dauphine.fr',
-            MAC          => undef,
+            MAC          => '00:0B:5F:CC:D8:80'
         },
         {
             MANUFACTURER => 'Cisco',
@@ -1385,7 +1385,7 @@ IOS (tm) C3550 Software (C3550-I5Q3L2-M), Version 12.1(20)EA1a, RELEASE SOFTWARE
 Copyright (c) 1986-2004 by cisco Systems, Inc.
 Compiled Mon 19-Apr-04 21:50 by yenanh',
             SNMPHOSTNAME => 'CB-Federateur.mgmt.dauphine.fr',
-            MAC          => undef,
+            MAC          => '00:0B:5F:CC:D8:80',
             MODELSNMP    => 'Networking2034',
             MODEL        => undef,
             FIRMWARE     => undef,

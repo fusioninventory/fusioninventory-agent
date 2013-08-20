@@ -12,14 +12,14 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'Canon LBP7660C /P',
             SNMPHOSTNAME => 'LBP7660C',
-            MAC          => undef,
+            MAC          => '88:87:17:82:CA:B1'
         },
         {
             MANUFACTURER => 'Canon',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'Canon LBP7660C /P',
             SNMPHOSTNAME => 'LBP7660C',
-            MAC          => undef,
+            MAC          => '88:87:17:82:CA:B1',
             MODELSNMP    => 'Printer0790',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -50,7 +50,13 @@ my %tests = (
                 RECTOVERSO => undef
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNUMBER => 1,
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => '',
+                    }
+                ]
             },
         }
     ],
@@ -60,14 +66,14 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'Canon MF4500 Series /P',
             SNMPHOSTNAME => 'MF4500 Series',
-            MAC          => undef
+            MAC          => '00:1E:8F:B0:9B:7D'
         },
         {
             MANUFACTURER => 'Canon',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'Canon MF4500 Series /P',
             SNMPHOSTNAME => 'MF4500 Series',
-            MAC          => undef
+            MAC          => '00:1E:8F:B0:9B:7D'
         },
         {
             INFO => {

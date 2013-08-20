@@ -268,14 +268,14 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'EPSON AL-C3900',
             SNMPHOSTNAME => '',
-            MAC          => undef,
+            MAC          => '00:26:AB:9F:78:8B',
         },
         {
             MANUFACTURER => 'Epson',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'EPSON AL-C3900',
             SNMPHOSTNAME => '',
-            MAC          => undef,
+            MAC          => '00:26:AB:9F:78:8B',
         },
         {
             INFO => {
@@ -294,14 +294,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'AL-C1100',
             SNMPHOSTNAME => 'AL-C1100-0DBECC',
-            MAC          => undef,
+            MAC          => '00:00:48:0D:BE:CC',
         },
         {
             MANUFACTURER => 'Epson',
             TYPE         => undef,
             DESCRIPTION  => 'AL-C1100',
             SNMPHOSTNAME => 'AL-C1100-0DBECC',
-            MAC          => undef,
+            MAC          => '00:00:48:0D:BE:CC',
         },
         {
             INFO => {
@@ -320,14 +320,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'AL-M2400',
             SNMPHOSTNAME => 'AL-M2400-7FDDAF',
-            MAC          => undef
+            MAC          => '00:26:AB:7F:DD:AF'
         },
         {
             MANUFACTURER => 'Epson',
             TYPE         => undef,
             DESCRIPTION  => 'AL-M2400',
             SNMPHOSTNAME => 'AL-M2400-7FDDAF',
-            MAC          => undef
+            MAC          => '00:26:AB:7F:DD:AF'
         },
         {
             INFO => {
@@ -346,14 +346,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'AL-M2400',
             SNMPHOSTNAME => 'AL-M2400-7FDDAF',
-            MAC          => undef,
+            MAC          => '00:26:AB:7F:DD:AF',
         },
         {
             MANUFACTURER => 'Epson',
             TYPE         => undef,
             DESCRIPTION  => 'AL-M2400',
             SNMPHOSTNAME => 'AL-M2400-7FDDAF',
-            MAC          => undef,
+            MAC          => '00:26:AB:7F:DD:AF',
         },
         {
             INFO => {

@@ -464,14 +464,14 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'Xerox WorkCentre 7435;System 75.3.1,ESS PS1.222.18,IOT 41.1.0,FIN B13.8.0,IIT 22.13.1,ADF 20.0.0,SJFI3.0.12,SSMI1.11.1',
             SNMPHOSTNAME => 'WorkCentre 7435',
-            MAC          => undef,
+            MAC          => '08:00:37:9B:8F:CA',
         },
         {
             MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'Xerox WorkCentre 7435;System 75.3.1,ESS PS1.222.18,IOT 41.1.0,FIN B13.8.0,IIT 22.13.1,ADF 20.0.0,SJFI3.0.12,SSMI1.11.1',
             SNMPHOSTNAME => 'WorkCentre 7435',
-            MAC          => undef,
+            MAC          => '08:00:37:9B:8F:CA',
         },
         {
             INFO => {

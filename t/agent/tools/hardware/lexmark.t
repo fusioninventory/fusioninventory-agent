@@ -79,14 +79,14 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'Lexmark X792 version NH.HS2.N211La kernel 2.6.28.10.1 All-N-1',
             SNMPHOSTNAME => 'ET0021B7427721',
-            MAC          => undef,
+            MAC          => '00:21:B7:42:77:21',
         },
         {
             MANUFACTURER => 'Lexmark',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'Lexmark X792 version NH.HS2.N211La kernel 2.6.28.10.1 All-N-1',
             SNMPHOSTNAME => 'ET0021B7427721',
-            MAC          => undef,
+            MAC          => '00:21:B7:42:77:21',
         },
         {
             INFO => {

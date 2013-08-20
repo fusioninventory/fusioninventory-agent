@@ -12,14 +12,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114,CIDATE 11/17/2011',
             SNMPHOSTNAME => 'NPI419F6E',
-            MAC          => undef,
+            MAC          => '2C:76:8A:41:9F:6E'
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => undef,
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114,CIDATE 11/17/2011',
             SNMPHOSTNAME => 'NPI419F6E',
-            MAC          => undef,
+            MAC          => '2C:76:8A:41:9F:6E'
         },
         {
             INFO => {
@@ -172,14 +172,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'Officejet Pro K5400',
             SNMPHOSTNAME => 'HP560332',
-            MAC          => undef,
+            MAC          => '00:21:5A:56:03:32',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'Officejet Pro K5400',
             SNMPHOSTNAME => 'HP560332',
-            MAC          => undef,
+            MAC          => '00:21:5A:56:03:32',
             MODELSNMP    => 'Printer0285',
             MODEL        => undef,
             SERIAL       => undef,
@@ -216,7 +216,14 @@ my %tests = (
                 CARTRIDGEBLACK   => 9
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'Eth0',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             }
         }
     ],
@@ -226,14 +233,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'Officejet Pro 8600 N911g',
             SNMPHOSTNAME => 'HP8C0C51',
-            MAC          => undef,
+            MAC          => 'EC:9A:74:8C:0C:51',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => undef,
             DESCRIPTION  => 'Officejet Pro 8600 N911g',
             SNMPHOSTNAME => 'HP8C0C51',
-            MAC          => undef,
+            MAC          => 'EC:9A:74:8C:0C:51',
         },
         {
             INFO => {
@@ -252,14 +259,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet 100 colorMFP M175nw',
             SNMPHOSTNAME => 'NPIF6FA4A',
-            MAC          => undef
+            MAC          => 'B4:B5:2F:F6:FA:4A'
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 100 colorMFP M175nw',
             SNMPHOSTNAME => 'NPIF6FA4A',
-            MAC          => undef,
+            MAC          => 'B4:B5:2F:F6:FA:4A',
             MODELSNMP    => 'Printer0718',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -285,7 +292,30 @@ my %tests = (
                 TONERCYAN    => 83
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'LOOPBACK',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'Ethernet',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    },
+                    {
+                        IFNAME   => 'wifi0',
+                        IFNUMBER => '3',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    },
+                    {
+                        IFNAME   => 'wifiUAP',
+                        IFNUMBER => '4',
+                        IFTYPE   => 'ethernetCsmacd(6)'
+                    }
+                ]
             },
             PAGECOUNTERS => {
                 SCANNED    => undef,
@@ -309,14 +339,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet 400 color M451dn',
             SNMPHOSTNAME => 'NPIF67498',
-            MAC          => undef,
+            MAC          => 'B4:B5:2F:F6:74:98',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 400 color M451dn',
             SNMPHOSTNAME => 'NPIF67498',
-            MAC          => undef,
+            MAC          => 'B4:B5:2F:F6:74:98',
             MODELSNMP    => 'Printer0730',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -365,14 +395,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'hp LaserJet 1320 series',
             SNMPHOSTNAME => 'NPI61044B',
-            MAC          => undef,
+            MAC          => '00:14:38:61:04:4B',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'hp LaserJet 1320 series',
             SNMPHOSTNAME => 'NPI61044B',
-            MAC          => undef,
+            MAC          => '00:14:38:61:04:4B',
             MODELSNMP    => 'Printer0606',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -391,7 +421,19 @@ my %tests = (
                 NAME         => 'NPI61044B',
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    },
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    }
+                ]
             },
             PAGECOUNTERS => {
                 COLOR      => undef,
@@ -415,14 +457,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'hp LaserJet 1320 series',
             SNMPHOSTNAME => 'NPI9A3FC7',
-            MAC          => undef,
+            MAC          => '00:14:38:9A:3F:C7',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'hp LaserJet 1320 series',
             SNMPHOSTNAME => 'NPI9A3FC7',
-            MAC          => undef,
+            MAC          => '00:14:38:9A:3F:C7',
             MODELSNMP    => 'Printer0606',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -459,7 +501,19 @@ my %tests = (
                 FAXTOTAL   => undef
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    },
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    }
+                ]
             }
         }
     ],
@@ -469,14 +523,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'hp LaserJet 1320 series',
             SNMPHOSTNAME => 'NPIC68F5E',
-            MAC          => undef,
+            MAC          => '00:11:85:C6:8F:5E',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'hp LaserJet 1320 series',
             SNMPHOSTNAME => 'NPIC68F5E',
-            MAC          => undef,
+            MAC          => '00:11:85:C6:8F:5E',
             MODELSNMP    => 'Printer0606',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -509,7 +563,19 @@ my %tests = (
                 PRINTCOLOR => undef
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    },
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    }
+                ]
             },
             CARTRIDGES => {
                 TONERBLACK     => 34,
@@ -523,14 +589,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet 2100 Series',
             SNMPHOSTNAME => '',
-            MAC          => undef,
+            MAC          => '00:30:C1:8A:6E:5B',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet 2100 Series',
             SNMPHOSTNAME => '',
-            MAC          => undef,
+            MAC          => '00:30:C1:8A:6E:5B',
         },
         {
             INFO => {
@@ -549,14 +615,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet 2100 Series',
             SNMPHOSTNAME => '',
-            MAC          => undef,
+            MAC          => '00:30:C1:8A:6E:5B',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet 2100 Series',
             SNMPHOSTNAME => '',
-            MAC          => undef,
+            MAC          => '00:30:C1:8A:6E:5B',
         },
         {
             INFO => {
@@ -575,14 +641,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP Color LaserJet 2600n',
             SNMPHOSTNAME => 'NPI1864A0',
-            MAC          => undef,
+            MAC          => '00:1A:4B:18:64:A0',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet 2600n',
             SNMPHOSTNAME => 'NPI1864A0',
-            MAC          => undef,
+            MAC          => '00:1A:4B:18:64:A0',
             MODELSNMP    => 'Printer0093',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -599,7 +665,20 @@ my %tests = (
                 LOCATION     => undef
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'LOOPBACK',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'NetDrvr',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+
+                ]
             },
             PAGECOUNTERS => {
                 COPYBLACK  => undef,
@@ -623,14 +702,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP Color LaserJet 3600',
             SNMPHOSTNAME => 'NPI6F72C5',
-            MAC          => undef,
+            MAC          => '00:1B:78:6F:72:C5',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet 3600',
             SNMPHOSTNAME => 'NPI6F72C5',
-            MAC          => undef,
+            MAC          => '00:1B:78:6F:72:C5',
             MODELSNMP    => 'Printer0390',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -663,7 +742,19 @@ my %tests = (
                 COPYCOLOR  => undef
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD121,EEPROM V.30.31',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    },
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD121,EEPROM V.30.31',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    }
+                ]
             },
             CARTRIDGES => {
                 TONERMAGENTA => 46,
@@ -679,14 +770,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'hp LaserJet 4250',
             SNMPHOSTNAME => 'impKirat',
-            MAC          => undef,
+            MAC          => '00:11:85:D9:F6:C7',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'hp LaserJet 4250',
             SNMPHOSTNAME => 'impKirat',
-            MAC          => undef,
+            MAC          => '00:11:85:D9:F6:C7',
             MODELSNMP    => 'Printer0078',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -723,7 +814,19 @@ my %tests = (
                 MAINTENANCEKIT => 56
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.43',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    },
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.43',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    }
+                ]
             }
         }
     ],
@@ -733,14 +836,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'hp color LaserJet 5550 ',
             SNMPHOSTNAME => 'IDD116',
-            MAC          => undef,
+            MAC          => '00:1B:78:F0:F4:47',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'hp color LaserJet 5550 ',
             SNMPHOSTNAME => 'IDD116',
-            MAC          => undef,
+            MAC          => '00:1B:78:F0:F4:47',
             MODELSNMP    => 'Printer0614',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -760,7 +863,19 @@ my %tests = (
                 NAME         => 'IDD116',
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    },
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    }
+                ]
             },
             CARTRIDGES => {
                 TONERYELLOW  => 96,
@@ -790,14 +905,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP Color LaserJet CM1312nfi MFP',
             SNMPHOSTNAME => 'NPI271E90',
-            MAC          => undef,
+            MAC          => '00:1F:29:27:1E:90',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CM1312nfi MFP',
             SNMPHOSTNAME => 'NPI271E90',
-            MAC          => undef,
+            MAC          => '00:1F:29:27:1E:90',
             MODELSNMP    => 'Printer0396',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -830,7 +945,19 @@ my %tests = (
                 COPYTOTAL  => undef
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'LOOPBACK',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'Ethernet',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             },
             CARTRIDGES => {
                 TONERCYAN    => 35,
@@ -846,14 +973,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet CM1415fn',
             SNMPHOSTNAME => 'B536-lwc237-Fax',
-            MAC          => undef,
+            MAC          => '68:B5:99:AD:61:8E',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet CM1415fn',
             SNMPHOSTNAME => 'B536-lwc237-Fax',
-            MAC          => undef,
+            MAC          => '68:B5:99:AD:61:8E',
             MODELSNMP    => 'Printer0575',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -871,13 +998,25 @@ my %tests = (
                 NAME         => 'B536-lwc237-Fax',
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'LOOPBACK',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'Ethernet',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             },
             CARTRIDGES => {
-                TONERCYAN => 35,
+                TONERCYAN    => 35,
                 TONERMAGENTA => 31,
-                TONERYELLOW => 33,
-                TONERBLACK => 25
+                TONERYELLOW  => 33,
+                TONERBLACK   => 25
             },
             PAGECOUNTERS => {
                 SCANNED    => undef,
@@ -901,14 +1040,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP Color LaserJet CM2320fxi MFP',
             SNMPHOSTNAME => 'NPI7F5D71',
-            MAC          => undef,
+            MAC          => '00:23:7D:7F:5D:71',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CM2320fxi MFP',
             SNMPHOSTNAME => 'NPI7F5D71',
-            MAC          => undef,
+            MAC          => '00:23:7D:7F:5D:71',
             MODELSNMP    => 'Printer0550',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -926,7 +1065,19 @@ my %tests = (
                 ID           => undef
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'LOOPBACK',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'Ethernet',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             },
             CARTRIDGES => {
                 TONERBLACK   => 43,
@@ -956,14 +1107,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP Color LaserJet CM2320fxi MFP',
             SNMPHOSTNAME => 'NPI7F5D71',
-            MAC          => undef,
+            MAC          => '00:23:7D:7F:5D:71',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CM2320fxi MFP',
             SNMPHOSTNAME => 'NPI7F5D71',
-            MAC          => undef,
+            MAC          => '00:23:7D:7F:5D:71',
             MODELSNMP    => 'Printer0550',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -987,7 +1138,19 @@ my %tests = (
                 TONERCYAN    => 52
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'LOOPBACK',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'Ethernet',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                   }
+                ]
             },
             PAGECOUNTERS => {
                 BLACK      => undef,
@@ -1011,14 +1174,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP Color LaserJet CM2320fxi MFP',
             SNMPHOSTNAME => 'NPI828833',
-            MAC          => undef,
+            MAC          => '00:23:7D:82:88:33',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CM2320fxi MFP',
             SNMPHOSTNAME => 'NPI828833',
-            MAC          => undef,
+            MAC          => '00:23:7D:82:88:33',
             MODELSNMP    => 'Printer0550',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -1050,7 +1213,19 @@ my %tests = (
                 PRINTCOLOR => undef
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'LOOPBACK',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'Ethernet',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             },
             CARTRIDGES => {
                 TONERMAGENTA => 87,
@@ -1066,14 +1241,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP Color LaserJet CM2320nf MFP',
             SNMPHOSTNAME => 'NPIB302A7',
-            MAC          => undef,
+            MAC          => '3C:4A:92:B3:02:A7',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CM2320nf MFP',
             SNMPHOSTNAME => 'NPIB302A7',
-            MAC          => undef,
+            MAC          => '3C:4A:92:B3:02:A7',
             MODELSNMP    => 'Printer0393',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -1106,7 +1281,19 @@ my %tests = (
                 PRINTTOTAL => undef
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'LOOPBACK',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'Ethernet',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             },
             CARTRIDGES => {
                 TONERYELLOW  => 56,
@@ -1122,14 +1309,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP Color LaserJet CP2025dn',
             SNMPHOSTNAME => 'NPI2AD743',
-            MAC          => undef,
+            MAC          => '00:1F:29:2A:D7:43',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CP2025dn',
             SNMPHOSTNAME => 'NPI2AD743',
-            MAC          => undef,
+            MAC          => '00:1F:29:2A:D7:43',
             MODELSNMP    => 'Printer0414',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -1168,7 +1355,19 @@ my %tests = (
                 TONERBLACK   => 19
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'LOOPBACK',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'Ethernet',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             }
         }
     ],
@@ -1178,14 +1377,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP Color LaserJet CP2025dn',
             SNMPHOSTNAME => 'NPIC3D5FF',
-            MAC          => undef
+            MAC          => 'B4:99:BA:C3:D5:FF'
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CP2025dn',
             SNMPHOSTNAME => 'NPIC3D5FF',
-            MAC          => undef,
+            MAC          => 'B4:99:BA:C3:D5:FF',
             MODELSNMP    => 'Printer0414',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -1224,7 +1423,19 @@ my %tests = (
                 TONERBLACK => 89
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'LOOPBACK',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'Ethernet',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             }
         }
     ],
@@ -1234,14 +1445,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP Color LaserJet CP2025n',
             SNMPHOSTNAME => 'NPI117008',
-            MAC          => undef,
+            MAC          => '2C:27:D7:11:70:08',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CP2025n',
             SNMPHOSTNAME => 'NPI117008',
-            MAC          => undef,
+            MAC          => '2C:27:D7:11:70:08',
             MODELSNMP    => 'Printer0393',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -1280,7 +1491,19 @@ my %tests = (
                 TOTAL      => undef
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'LOOPBACK',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'Ethernet',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             }
         }
     ],
@@ -1290,14 +1513,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP Color LaserJet CP2025n',
             SNMPHOSTNAME => 'NPI84C481',
-            MAC          => undef,
+            MAC          => '00:21:5A:84:C4:81',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CP2025n',
             SNMPHOSTNAME => 'NPI84C481',
-            MAC          => undef,
+            MAC          => '00:21:5A:84:C4:81',
             MODELSNMP    => 'Printer0393',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -1316,10 +1539,10 @@ my %tests = (
                 OTHERSERIAL  => '0x0115',
             },
             CARTRIDGES => {
-                TONERBLACK => 31,
+                TONERBLACK   => 31,
                 TONERMAGENTA => 32,
-                TONERCYAN => 69,
-                TONERYELLOW => 77
+                TONERCYAN    => 69,
+                TONERYELLOW  => 77
             },
             PAGECOUNTERS => {
                 COPYTOTAL  => undef,
@@ -1336,7 +1559,19 @@ my %tests = (
                 TOTAL      => undef
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'LOOPBACK',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'Ethernet',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             }
         }
     ],
@@ -1346,14 +1581,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP Color LaserJet CP2025n',
             SNMPHOSTNAME => 'NPI84C481',
-            MAC          => undef,
+            MAC          => '00:21:5A:84:C4:81',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CP2025n',
             SNMPHOSTNAME => 'NPI84C481',
-            MAC          => undef,
+            MAC          => '00:21:5A:84:C4:81',
             MODELSNMP    => 'Printer0393',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -1386,7 +1621,19 @@ my %tests = (
                 COPYTOTAL  => undef
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'LOOPBACK',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'Ethernet',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             },
             CARTRIDGES => {
                 TONERBLACK   => 83,
@@ -1402,14 +1649,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP Color LaserJet CP2025n',
             SNMPHOSTNAME => 'NPI81E3A7',
-            MAC          => undef
+            MAC          => '00:21:5A:81:E3:A7'
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CP2025n',
             SNMPHOSTNAME => 'NPI81E3A7',
-            MAC          => undef,
+            MAC          => '00:21:5A:81:E3:A7',
             MODELSNMP    => 'Printer0393',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -1428,13 +1675,25 @@ my %tests = (
                 ID           => undef
             },
             CARTRIDGES => {
-                TONERBLACK => 41,
+                TONERBLACK   => 41,
                 TONERMAGENTA => 47,
-                TONERYELLOW => 63,
-                TONERCYAN => 93
+                TONERYELLOW  => 63,
+                TONERCYAN    => 93
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'LOOPBACK',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'Ethernet',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             },
             PAGECOUNTERS => {
                 COPYTOTAL  => undef,
@@ -1458,14 +1717,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP Color LaserJet CP2025n',
             SNMPHOSTNAME => 'NPI8FA1DD',
-            MAC          => undef,
+            MAC          => '78:AC:C0:8F:A1:DD',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CP2025n',
             SNMPHOSTNAME => 'NPI8FA1DD',
-            MAC          => undef,
+            MAC          => '78:AC:C0:8F:A1:DD',
             MODELSNMP    => 'Printer0393',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -1498,7 +1757,19 @@ my %tests = (
                 RECTOVERSO => '0'
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'LOOPBACK',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'Ethernet',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             },
             CARTRIDGES => {
                 TONERBLACK   => 55,
@@ -1514,14 +1785,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet P2015 Series',
             SNMPHOSTNAME => 'NPI83EC85',
-            MAC          => undef,
+            MAC          => '00:21:5A:83:EC:85',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2015 Series',
             SNMPHOSTNAME => 'NPI83EC85',
-            MAC          => undef,
+            MAC          => '00:21:5A:83:EC:85',
             MODELSNMP    => 'Printer0394',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -1540,7 +1811,19 @@ my %tests = (
                 LOCATION     => 'Boise, ID, USA'
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'LOOPBACK',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'Ethernet',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             },
             CARTRIDGES => {
                 TONERBLACK => 44
@@ -1567,14 +1850,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet P2015 Series',
             SNMPHOSTNAME => 'NPI13EE63',
-            MAC          => undef
+            MAC          => '00:1B:78:13:EE:63'
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2015 Series',
             SNMPHOSTNAME => 'NPI13EE63',
-            MAC          => undef,
+            MAC          => '00:1B:78:13:EE:63',
             MODELSNMP    => 'Printer0394',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -1610,7 +1893,19 @@ my %tests = (
                 TONERBLACK => 59
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'LOOPBACK',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'Ethernet',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             },
         }
     ],
@@ -1619,14 +1914,14 @@ my %tests = (
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet P2015 Series',
-            MAC          => undef,
+            MAC          => '00:21:5A:83:EC:85',
             SNMPHOSTNAME => 'NPI83EC85',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2015 Series',
-            MAC          => undef,
+            MAC          => '00:21:5A:83:EC:85',
             SNMPHOSTNAME => 'NPI83EC85',
             MODELSNMP    => 'Printer0394',
             MODEL        => undef,
@@ -1663,7 +1958,19 @@ my %tests = (
                 TONERBLACK => 50
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'LOOPBACK',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'Ethernet',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             },
         }
     ],
@@ -6447,15 +6754,15 @@ my %tests = (
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet CP1025nw',
-            MAC          => undef,
             SNMPHOSTNAME => 'NPIA6032E',
+            MAC          => '78:E7:D1:A6:03:2E',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet CP1025nw',
             SNMPHOSTNAME => 'NPIA6032E',
-            MAC          => undef,
+            MAC          => '78:E7:D1:A6:03:2E',
             MODELSNMP    => 'Printer0532',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -6472,7 +6779,19 @@ my %tests = (
                 NAME         => 'NPIA6032E'
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'LOOPBACK',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'NetDrvr',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             },
             PAGECOUNTERS => {
                 FAXTOTAL   => undef,
@@ -6496,14 +6815,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet P3005',
             SNMPHOSTNAME => 'NPI7A5E2D',
-            MAC          => undef,
+            MAC          => '00:21:5A:7A:5E:2D',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P3005',
             SNMPHOSTNAME => 'NPI7A5E2D',
-            MAC          => undef,
+            MAC          => '00:21:5A:7A:5E:2D',
             MODELSNMP    => 'Printer0612',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -6549,14 +6868,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI7E0932',
-            MAC          => undef,
+            MAC          => '00:21:5A:7E:09:32',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI7E0932',
-            MAC          => undef,
+            MAC          => '00:21:5A:7E:09:32',
             MODELSNMP    => 'Printer0611',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -6574,7 +6893,8 @@ my %tests = (
                 ID           => undef
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                ]
             },
             CARTRIDGES => {
                 TONERBLACK => 6
@@ -6601,14 +6921,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI8DDF43',
-            MAC          => undef,
+            MAC          => '00:21:5A:8D:DF:43',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI8DDF43',
-            MAC          => undef,
+            MAC          => '00:21:5A:8D:DF:43',
             MODELSNMP    => 'Printer0611',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -6640,7 +6960,8 @@ my %tests = (
                 RECTOVERSO => '8379'
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                ]
             },
             CARTRIDGES => {
                 TONERBLACK => 88
@@ -6653,14 +6974,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI830993',
-            MAC          => undef,
+            MAC          => '00:23:7D:83:09:93',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI830993',
-            MAC          => undef,
+            MAC          => '00:23:7D:83:09:93',
             MODELSNMP    => 'Printer0611',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -6705,14 +7026,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI83E8D5',
-            MAC          => undef,
+            MAC          => '00:23:7D:83:E8:D5'
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI83E8D5',
-            MAC          => undef,
+            MAC          => '00:23:7D:83:E8:D5',
             MODELSNMP    => 'Printer0611',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -6757,14 +7078,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI886B5B',
-            MAC          => undef,
+            MAC          => '00:23:7D:88:6B:5B',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI886B5B',
-            MAC          => undef,
+            MAC          => '00:23:7D:88:6B:5B',
             MODELSNMP    => 'Printer0611',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -6809,14 +7130,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI886B5B',
-            MAC          => undef,
+            MAC          => '00:23:7D:88:6B:5B',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI886B5B',
-            MAC          => undef,
+            MAC          => '00:23:7D:88:6B:5B',
             MODELSNMP    => 'Printer0611',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -6861,14 +7182,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI80BDD9',
-            MAC          => undef,
+            MAC          => '1C:C1:DE:80:BD:D9',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI80BDD9',
-            MAC          => undef,
+            MAC          => '1C:C1:DE:80:BD:D9',
             MODELSNMP    => 'Printer0611',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -6913,14 +7234,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPICB3982',
-            MAC          => undef,
+            MAC          => '1C:C1:DE:CB:39:82',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPICB3982',
-            MAC          => undef,
+            MAC          => '1C:C1:DE:CB:39:82',
             MODELSNMP    => 'Printer0611',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -6965,14 +7286,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPIC08394',
-            MAC          => undef,
+            MAC          => '3C:4A:92:C0:83:94',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPIC08394',
-            MAC          => undef,
+            MAC          => '3C:4A:92:C0:83:94',
             MODELSNMP    => 'Printer0611',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -7017,14 +7338,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPICBD8B1',
-            MAC          => undef,
+            MAC          => '1C:C1:DE:CB:D8:B1',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPICBD8B1',
-            MAC          => undef,
+            MAC          => '1C:C1:DE:CB:D8:B1',
             MODELSNMP    => 'Printer0611',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -7069,14 +7390,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPIB979A2',
-            MAC          => undef,
+            MAC          => '08:2E:5F:B9:79:A2',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPIB979A2',
-            MAC          => undef,
+            MAC          => '08:2E:5F:B9:79:A2',
             MODELSNMP    => 'Printer0611',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -7108,7 +7429,8 @@ my %tests = (
                 RECTOVERSO => '498'
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                ]
             }
         }
     ],
@@ -7118,14 +7440,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPIC93D6D',
-            MAC          => undef,
+            MAC          => '1C:C1:DE:C9:3D:6D'
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPIC93D6D',
-            MAC          => undef,
+            MAC          => '1C:C1:DE:C9:3D:6D',
             MODELSNMP    => 'Printer0611',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -7157,7 +7479,8 @@ my %tests = (
                 BLACK      => '89242'
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                ]
             },
             CARTRIDGES => {
                 TONERBLACK => 68
@@ -7170,14 +7493,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet P4015',
             SNMPHOSTNAME => 'LJ30000000000000000000----------',
-            MAC          => undef,
+            MAC          => '00:21:5A:8F:EA:2B',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P4015',
             SNMPHOSTNAME => 'LJ30000000000000000000----------',
-            MAC          => undef,
+            MAC          => '00:21:5A:8F:EA:2B',
             MODELSNMP    => 'Printer0386',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -7196,7 +7519,19 @@ my %tests = (
                 LOCATION     => undef
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             },
             CARTRIDGES => {
                 TONERBLACK     => 100,
@@ -7224,14 +7559,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet P4015',
             SNMPHOSTNAME => 'NPI8D9896',
-            MAC          => undef,
+            MAC          => '00:21:5A:8D:98:96',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P4015',
             SNMPHOSTNAME => 'NPI8D9896',
-            MAC          => undef,
+            MAC          => '00:21:5A:8D:98:96',
             MODELSNMP    => 'Printer0386',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -7250,7 +7585,19 @@ my %tests = (
                 LOCATION     => undef
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             },
             CARTRIDGES => {
                 TONERBLACK     => 64,
@@ -7278,14 +7625,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet P4015',
             SNMPHOSTNAME => 'NPI22C87C',
-            MAC          => undef,
+            MAC          => '00:1F:29:22:C8:7C',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P4015',
             SNMPHOSTNAME => 'NPI22C87C',
-            MAC          => undef,
+            MAC          => '00:1F:29:22:C8:7C',
             MODELSNMP    => 'Printer0386',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -7304,7 +7651,19 @@ my %tests = (
                 LOCATION     => undef
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.35',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.35',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             },
             CARTRIDGES => {
                 TONERBLACK     => 34,
@@ -7332,14 +7691,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet P4015',
             SNMPHOSTNAME => 'NPI9706DE',
-            MAC          => undef,
+            MAC          => '00:21:5A:97:06:DE',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P4015',
             SNMPHOSTNAME => 'NPI9706DE',
-            MAC          => undef,
+            MAC          => '00:21:5A:97:06:DE',
             MODELSNMP    => 'Printer0386',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -7358,7 +7717,19 @@ my %tests = (
                 LOCATION     => undef
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.40',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.40',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             },
             CARTRIDGES => {
                 MAINTENANCEKIT => 5,
@@ -7386,14 +7757,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet P4015',
             SNMPHOSTNAME => 'NPIEADBFB',
-            MAC          => undef,
+            MAC          => '00:25:B3:EA:DB:FB',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P4015',
             SNMPHOSTNAME => 'NPIEADBFB',
-            MAC          => undef,
+            MAC          => '00:25:B3:EA:DB:FB',
             MODELSNMP    => 'Printer0386',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -7412,7 +7783,19 @@ my %tests = (
                 LOCATION     => undef
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.41',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.41',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             },
             CARTRIDGES => {
                 TONERBLACK => 32
@@ -7439,14 +7822,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP Color LaserJet CP4520 Series',
             SNMPHOSTNAME => 'NPI10DB2C',
-            MAC          => undef,
+            MAC          => '2C:27:D7:10:DB:2C',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CP4520 Series',
             SNMPHOSTNAME => 'NPI10DB2C',
-            MAC          => undef,
+            MAC          => '2C:27:D7:10:DB:2C',
             MODELSNMP    => 'Printer0639',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -7485,7 +7868,19 @@ my %tests = (
                 TONERYELLOW  => 50
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD145,EEPROM V.38.99',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD145,EEPROM V.38.99',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             },
         }
     ],
@@ -7495,14 +7890,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP Color LaserJet CP3525',
             SNMPHOSTNAME => 'NPI85A57D',
-            MAC          => undef,
+            MAC          => '00:23:7D:85:A5:7D',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CP3525',
             SNMPHOSTNAME => 'NPI85A57D',
-            MAC          => undef,
+            MAC          => '00:23:7D:85:A5:7D',
             MODELSNMP    => 'Printer0388',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -7521,13 +7916,25 @@ my %tests = (
                 OTHERSERIAL  => '0xFDE8',
             },
             CARTRIDGES => {
-                TONERBLACK => 67,
-                TONERYELLOW => 30,
-                TONERCYAN => 39,
+                TONERBLACK   => 67,
+                TONERYELLOW  => 30,
+                TONERCYAN    => 39,
                 TONERMAGENTA => 21
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.67',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.67',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             },
             PAGECOUNTERS => {
                 COPYTOTAL  => undef,
@@ -7551,14 +7958,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP Color LaserJet CP3525',
             SNMPHOSTNAME => 'Corinne',
-            MAC          => undef,
+            MAC          => 'D4:85:64:3D:AC:2E',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CP3525',
             SNMPHOSTNAME => 'Corinne',
-            MAC          => undef,
+            MAC          => 'D4:85:64:3D:AC:2E',
             MODELSNMP    => 'Printer0388',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -7591,13 +7998,25 @@ my %tests = (
                 PRINTTOTAL => undef
             },
             CARTRIDGES => {
-                TONERYELLOW => 8,
-                TONERCYAN => 21,
+                TONERYELLOW  => 8,
+                TONERCYAN    => 21,
                 TONERMAGENTA => 97,
-                TONERBLACK => 53
+                TONERBLACK   => 53
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.80',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.80',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             }
         }
     ],
@@ -7607,14 +8026,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet P3010 Series',
             SNMPHOSTNAME => 'NPI013B81',
-            MAC          => undef,
+            MAC          => '00:9C:02:01:3B:81',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P3010 Series',
             SNMPHOSTNAME => 'NPI013B81',
-            MAC          => undef,
+            MAC          => '00:9C:02:01:3B:81',
             MODELSNMP    => 'Printer0402',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -7650,7 +8069,17 @@ my %tests = (
                 TONERBLACK => 84
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             }
         }
     ],
@@ -7660,14 +8089,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet P3010 Series',
             SNMPHOSTNAME => 'NPI013B81',
-            MAC          => undef,
+            MAC          => '00:9C:02:01:3B:81',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P3010 Series',
             SNMPHOSTNAME => 'NPI013B81',
-            MAC          => undef,
+            MAC          => '00:9C:02:01:3B:81',
             MODELSNMP    => 'Printer0402',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -7686,7 +8115,17 @@ my %tests = (
                 MODEL       => 'HP LaserJet P3010 Series',
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             },
             PAGECOUNTERS => {
                 PRINTCOLOR => undef,
@@ -7713,14 +8152,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet 500 color M551',
             SNMPHOSTNAME => 'NPI419F6E',
-            MAC          => undef,
+            MAC          => '2C:76:8A:41:9F:6E',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 500 color M551',
             SNMPHOSTNAME => 'NPI419F6E',
-            MAC          => undef,
+            MAC          => '2C:76:8A:41:9F:6E',
             MODELSNMP    => 'Printer0628',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -7752,7 +8191,20 @@ my %tests = (
                 COPYTOTAL  => undef
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+
+                ]
             },
         }
     ],
@@ -7762,14 +8214,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet 600 M603',
             SNMPHOSTNAME => 'lj1',
-            MAC          => undef,
+            MAC          => 'E8:39:35:90:92:1F',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet 600 M603',
             SNMPHOSTNAME => 'lj1',
-            MAC          => undef,
+            MAC          => 'E8:39:35:90:92:1F',
         },
         {
             INFO => {
@@ -7788,14 +8240,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet 600 M603',
             SNMPHOSTNAME => 'lj2',
-            MAC          => undef,
+            MAC          => 'E8:39:35:90:22:AC'
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet 600 M603',
             SNMPHOSTNAME => 'lj2',
-            MAC          => undef,
+            MAC          => 'E8:39:35:90:22:AC'
         },
         {
             INFO => {
@@ -7814,14 +8266,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet 4000 Series',
             SNMPHOSTNAME => 'inspiron8',
-            MAC          => undef,
+            MAC          => '00:60:B0:91:3D:9D',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 4000 Series',
             SNMPHOSTNAME => 'inspiron8',
-            MAC          => undef,
+            MAC          => '00:60:B0:91:3D:9D',
             MODELSNMP    => 'Printer0391',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -7840,7 +8292,15 @@ my %tests = (
                 NAME         => 'inspiron8',
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.05.35,JETDIRECT,JD30,EEPROM G.05.35',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+
+                ]
             },
             PAGECOUNTERS => {
                 FAXTOTAL   => undef,
@@ -7867,14 +8327,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'HP LaserJet 4050 Series ',
             SNMPHOSTNAME => 'imprimanteBR',
-            MAC          => undef,
+            MAC          => '00:30:C1:8C:D5:6C',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 4050 Series ',
             SNMPHOSTNAME => 'imprimanteBR',
-            MAC          => undef,
+            MAC          => '00:30:C1:8C:D5:6C',
             MODELSNMP    => 'Printer0615',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -7908,7 +8368,14 @@ my %tests = (
                 PRINTCOLOR => undef
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.08.08,JETDIRECT,JD33,EEPROM G.08.04',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    }
+                ]
             },
         }
     ],
@@ -7918,14 +8385,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'hp LaserJet 4200',
             SNMPHOSTNAME => 'IMP41200n0',
-            MAC          => undef,
+            MAC          => '00:01:E6:A1:A7:81',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'hp LaserJet 4200',
             SNMPHOSTNAME => 'IMP41200n0',
-            MAC          => undef,
+            MAC          => '00:01:E6:A1:A7:81',
             MODELSNMP    => 'Printer0386',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -7944,7 +8411,19 @@ my %tests = (
                 MODEL        => 'hp LaserJet 4200'
             },
             PORTS => {
-                PORT => []
+                PORT => [
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.25.09',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => ''
+                    },
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.25.09',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    }
+                ]
             },
             PAGECOUNTERS => {
                 FAXTOTAL   => undef,
@@ -7972,14 +8451,14 @@ my %tests = (
             TYPE         => undef,
             DESCRIPTION  => 'hp LaserJet 1300n',
             SNMPHOSTNAME => 'impbe94',
-            MAC          => undef,
+            MAC          => '00:0E:7F:33:34:BA',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => undef,
             DESCRIPTION  => 'hp LaserJet 1300n',
             SNMPHOSTNAME => 'impbe94',
-            MAC          => undef,
+            MAC          => '00:0E:7F:33:34:BA',
         },
         {
             INFO => {

@@ -82,7 +82,6 @@ sub runInventoryTests {
             model => $model,
         );
         cmp_deeply($device3, $tests{$test}->[2], "$test: base + model stage");
-       
     }
 }
 
