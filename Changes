@@ -1,5 +1,9 @@
 Revision history for FusionInventory agent
 
+2.3.1
+inventory task
+* report when running in a BSD Jail or a LXC system, thanks Igor Morozov
+
 2.3.0  Thu, 01 Aug 2013 11:38:40 +0200
 distribution:
 * Deploy, Network and ESX tasks are now integrated in the distribution
