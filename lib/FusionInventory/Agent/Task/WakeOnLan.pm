@@ -31,7 +31,7 @@ sub isEnabled {
         return;
     }
 
-    if (!$target !~ /^$mac_address_pattern$/) {
+    if ($target !~ /^$mac_address_pattern$/) {
         $self->{logger}->debug("invalid MAC address $target");
         return;
     }
