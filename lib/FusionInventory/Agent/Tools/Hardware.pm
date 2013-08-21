@@ -227,7 +227,6 @@ my %base_variables = (
     MAC          => 'macaddr',
     CPU          => 'cpu',
     LOCATION     => 'location',
-    FIRMWARE     => 'firmware',
     CONTACT      => 'contact',
     COMMENTS     => 'comments',
     UPTIME       => 'uptime',
@@ -596,15 +595,22 @@ sub _setGenericProperties {
     my $snmp   = $params{snmp};
     my $model  = $params{model};
 
-    if ($model->{oids}->{firmware1}) {
-        $device->{INFO}->{FIRMWARE} = $snmp->get($model->{oids}->{firmware1});
-    }
-    if ($model->{oids}->{firmware2}) {
-        if ($device->{INFO}->{FIRMWARE}) {
-            $device->{INFO}->{FIRMWARE} .= ' ' ;
+    my $firmware;
+    if ($model->{oids}->{firmware}) {
+        $firmware = $snmp->get($model->{oids}->{firmware});
+    } else {
+        my @parts;
+        if ($model->{oids}->{firmware1}) {
+            my $firmware1 = $snmp->get($model->{oids}->{firmware1});
+            push @parts, $firmware1 if $firmware1;
         }
-        $device->{INFO}->{FIRMWARE} .= $snmp->get($model->{oids}->{firmware2});
+        if ($model->{oids}->{firmware2}) {
+            my $firmware2 = $snmp->get($model->{oids}->{firmware2});
+            push @parts, $firmware2 if $firmware2;
+        }
+        $firmware = join(' ', @parts) if @parts;
     }
+    $device->{INFO}->{FIRMWARE} = $firmware if $firmware;
 
     foreach my $key (keys %base_variables) {
         # don't overwrite known values
