@@ -1137,7 +1137,6 @@ Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 02:53 by prod_rel_team',
                 CONTACT  => undef,
-                FIRMWARE => '',
                 ID       => undef,
                 IPS      => {
                     IP => [ '192.168.1.27' ]
@@ -1635,7 +1634,6 @@ Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 02:53 by prod_rel_team',
                 CONTACT      => undef,
-                FIRMWARE     => '',
                 ID           => undef,
                 LOCATION     => undef,
                 MAC          => '00:24:13:CE:D7:00',
@@ -2046,7 +2044,6 @@ Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 02:53 by prod_rel_team',
                 CONTACT      => undef,
-                FIRMWARE     => '',
                 ID           => undef,
                 LOCATION     => undef,
                 MAC          => '00:1B:54:D6:39:00',
@@ -11942,7 +11939,6 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 CONTACT  => undef,
                 CPU      => '88',
-                FIRMWARE => undef,
                 ID       => undef,
                 IPS      => {
                     IP => [ '192.168.1.72' ]
@@ -13215,7 +13211,6 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 CONTACT  => undef,
                 CPU      => '86',
-                FIRMWARE => undef,
                 ID       => undef,
                 IPS      => {
                     IP => [ '192.168.1.243' ]
@@ -14488,7 +14483,6 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 CONTACT  => undef,
                 CPU      => '86',
-                FIRMWARE => undef,
                 ID       => undef,
                 IPS      => {
                     IP => [ '192.168.1.39' ]
@@ -15761,7 +15755,6 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 CONTACT  => undef,
                 CPU      => '86',
-                FIRMWARE => undef,
                 ID       => undef,
                 IPS      => {
                     IP => [ '192.168.1.35' ]
@@ -17034,7 +17027,6 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 CONTACT      => undef,
                 CPU          => '82',
-                FIRMWARE     => undef,
                 ID           => undef,
                 LOCATION     => undef,
                 MANUFACTURER => 'Cisco',
@@ -18133,7 +18125,6 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 CONTACT      => undef,
                 CPU          => '83',
-                FIRMWARE     => undef,
                 ID           => undef,
                 LOCATION     => undef,
                 MANUFACTURER => 'Cisco',
@@ -19259,7 +19250,6 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 CONTACT      => undef,
                 CPU          => '90',
-                FIRMWARE     => undef,
                 ID           => undef,
                 LOCATION     => undef,
                 MANUFACTURER => 'Cisco',
@@ -20358,7 +20348,6 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 CONTACT      => undef,
                 CPU          => '91',
-                FIRMWARE     => undef,
                 ID           => undef,
                 LOCATION     => undef,
                 MANUFACTURER => 'Cisco',
@@ -21473,7 +21462,6 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 CONTACT      => undef,
                 CPU          => '89',
-                FIRMWARE     => undef,
                 ID           => undef,
                 LOCATION     => undef,
                 MANUFACTURER => 'Cisco',
@@ -22591,7 +22579,6 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 CONTACT      => undef,
                 CPU          => '85',
-                FIRMWARE     => undef,
                 ID           => undef,
                 LOCATION     => undef,
                 MANUFACTURER => 'Cisco',

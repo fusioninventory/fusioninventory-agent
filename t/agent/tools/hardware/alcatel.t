@@ -25,28 +25,28 @@ my %tests = (
             FIRMWARE     => undef,
             SERIAL       => 'M4682816',
         },
-	{
-	    INFO => {
-		COMMENTS        => 'Alcatel-Lucent 6.4.4.342.R01 GA, April 18, 2011.',
-		SERIAL          => 'M4682816',
-		ID              => undef,
-		CONTACT         => 'Alcatel-Lucent, http://alcatel-lucent.com/wps/portal/enterprise',
-		UPTIME          => '(1442631100) 166 days, 23:18:31.00',
-		NAME            => 'CB-C005-127-os6400',
-		TYPE            => 'NETWORKING',
-		MAC             => 'E8:E7:32:2B:C1:E2',
-		MANUFACTURER    => 'Alcatel-Lucent',
-		MODEL           => 'OS6400-P24',
-		FIRMWARE        => '6.4.4.342.R01',
-		IPS             => {
-		    IP => [
-			'127.0.0.1',
-			'192.168.1.127'
-		    ]
-		},
-	    },
-	    PORTS => {
-		PORT => [
+        {
+            INFO => {
+                COMMENTS        => 'Alcatel-Lucent 6.4.4.342.R01 GA, April 18, 2011.',
+                SERIAL          => 'M4682816',
+                ID              => undef,
+                CONTACT         => 'Alcatel-Lucent, http://alcatel-lucent.com/wps/portal/enterprise',
+                UPTIME          => '(1442631100) 166 days, 23:18:31.00',
+                NAME            => 'CB-C005-127-os6400',
+                TYPE            => 'NETWORKING',
+                MAC             => 'E8:E7:32:2B:C1:E2',
+                MANUFACTURER    => 'Alcatel-Lucent',
+                MODEL           => 'OS6400-P24',
+                FIRMWARE        => 'Alcatel-Lucent 6.4.4.342.R01 GA, April 18, 2011.',
+                IPS             => {
+                    IP => [
+                        '127.0.0.1',
+                        '192.168.1.127'
+                    ]
+                },
+            },
+            PORTS => {
+                PORT => [
                     {
                         CONNECTIONS => {
                             CDP => 1,
@@ -1430,9 +1430,9 @@ my %tests = (
                         IFINOCTETS       => '1305305095',
                         IFMTU            => '32768'
                     }
-		]
-	    },
-	}
+                ]
+            },
+        }
     ],
     'alcatel/unknown.2.walk' => [
         {
@@ -1461,7 +1461,7 @@ my %tests = (
                 MAC          => 'E8:E7:32:2B:C1:E2',
                 NAME         => 'CP-153-127',
                 ID           => undef,
-                FIRMWARE     => '6.4.4.342.R01',
+                FIRMWARE     => 'Alcatel-Lucent 6.4.4.342.R01 GA, April 18, 2011.',
                 MODEL        => 'OS6400-P24',
                 SERIAL       => 'M4682816',
                 CONTACT      => 'Alcatel-Lucent, http://alcatel-lucent.com/wps/portal/enterprise'
@@ -1472,11 +1472,11 @@ my %tests = (
                         CONNECTIONS => {
                             CDP => 1,
                             CONNECTION => {
-                                IFDESCR => undef,
+                                IFDESCR  => undef,
                                 IFNUMBER => '00:80:9f:af:b1:09',
                                 SYSDESCR => undef,
-                                SYSMAC => '00:80:9F:AF:B1:09',
-                                SYSNAME => undef
+                                SYSMAC   => '00:80:9F:AF:B1:09',
+                                SYSNAME  => undef
                             }
                         }
                     },
@@ -1484,11 +1484,11 @@ my %tests = (
                         CONNECTIONS => {
                             CDP => 1,
                             CONNECTION => {
-                                IFDESCR => undef,
+                                IFDESCR  => undef,
                                 IFNUMBER => '00:80:9f:af:b1:2e',
                                 SYSDESCR => undef,
-                                SYSMAC => '00:80:9F:AF:B1:2E',
-                                SYSNAME => undef
+                                SYSMAC   => '00:80:9F:AF:B1:2E',
+                                SYSNAME  => undef
                             }
                         }
                     },
@@ -1496,11 +1496,11 @@ my %tests = (
                         CONNECTIONS => {
                             CDP => 1,
                             CONNECTION => {
-                                IFDESCR => undef,
+                                IFDESCR  => undef,
                                 IFNUMBER => '00:80:9f:af:b0:fe',
                                 SYSDESCR => undef,
-                                SYSMAC => '00:80:9F:AF:B0:FE',
-                                SYSNAME => undef
+                                SYSMAC   => '00:80:9F:AF:B0:FE',
+                                SYSNAME  => undef
                             }
                         }
                     },
@@ -1508,11 +1508,11 @@ my %tests = (
                         CONNECTIONS => {
                             CDP => 1,
                             CONNECTION => {
-                                IFDESCR => undef,
+                                IFDESCR  => undef,
                                 IFNUMBER => '00:80:9f:af:b1:0c',
                                 SYSDESCR => undef,
-                                SYSMAC => '00:80:9F:AF:B1:0C',
-                                SYSNAME => undef
+                                SYSMAC   => '00:80:9F:AF:B1:0C',
+                                SYSNAME  => undef
                             }
                         }
                     },
@@ -1520,11 +1520,11 @@ my %tests = (
                         CONNECTIONS => {
                             CDP => 1,
                             CONNECTION => {
-                                IFDESCR => undef,
+                                IFDESCR  => undef,
                                 IFNUMBER => '00:80:9f:af:b1:32',
                                 SYSDESCR => undef,
-                                SYSMAC => '00:80:9F:AF:B1:32',
-                                SYSNAME => undef
+                                SYSMAC   => '00:80:9F:AF:B1:32',
+                                SYSNAME  => undef
                             }
                         }
                     },
@@ -1532,11 +1532,11 @@ my %tests = (
                         CONNECTIONS => {
                             CDP => 1,
                             CONNECTION => {
-                                IFDESCR => undef,
+                                IFDESCR  => undef,
                                 IFNUMBER => '2025',
                                 SYSDESCR => undef,
-                                SYSMAC => 'E8:E7:32:27:63:F4',
-                                SYSNAME => undef
+                                SYSMAC   => 'E8:E7:32:27:63:F4',
+                                SYSNAME  => undef
                             }
                         }
                     },
