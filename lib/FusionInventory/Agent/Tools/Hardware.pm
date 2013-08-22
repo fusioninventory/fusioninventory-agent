@@ -206,10 +206,6 @@ my @connected_devices_mac_addresses_rules = (
         module   => 'FusionInventory::Agent::Tools::Hardware::Cisco',
     },
     {
-        match    => qr/Juniper/,
-        module   => 'FusionInventory::Agent::Tools::Hardware::Juniper',
-    },
-    {
         match    => qr/.*/,
         module   => 'FusionInventory::Agent::Tools::Hardware::Generic',
     },
