@@ -19,7 +19,6 @@ use FusionInventory::Agent::XML::Query;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::Tools::Network;
-use FusionInventory::Agent::Tools::SNMP;
 
 # needed for perl < 5.10.1 compatbility
 if ($threads::shared::VERSION < 1.21) {

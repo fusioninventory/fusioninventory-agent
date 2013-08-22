@@ -9,7 +9,6 @@ use List::Util qw(first);
 
 use FusionInventory::Agent::Tools; # runFunction
 use FusionInventory::Agent::Tools::Network;
-use FusionInventory::Agent::Tools::SNMP;
 
 our @EXPORT = qw(
     getDeviceBaseInfo
@@ -19,6 +18,8 @@ our @EXPORT = qw(
     getCanonicalSerialNumber
     getCanonicalMacAddress
     getCanonicalMemory
+    getElement
+    getElements
 );
 
 my %types = (
@@ -908,6 +909,19 @@ sub getCanonicalMemory {
     }
 }
 
+sub getElement {
+    my ($oid, $index) = @_;
+
+    my @array = split(/\./, $oid);
+    return $array[$index];
+}
+
+sub getElements {
+    my ($oid, $first, $last) = @_;
+
+    my @array = split(/\./, $oid);
+    return @array[$first .. $last];
+}
 
 1;
 __END__
@@ -1008,3 +1022,11 @@ Return a canonical value for a mac address.
 =head2 getCanonicalMemory($value)
 
 Return a canonical value for mac address, in bytes.
+
+=head2 getElement($oid, $index)
+
+return the $index element of an oid.
+
+=head2 getElements($oid, $first, $last)
+
+return all elements of index in range $first to $last of an oid.

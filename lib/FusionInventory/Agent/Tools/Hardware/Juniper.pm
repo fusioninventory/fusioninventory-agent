@@ -3,7 +3,7 @@ package FusionInventory::Agent::Tools::Hardware::Juniper;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Tools::SNMP;
+use FusionInventory::Agent::Tools::Hardware;
 
 sub setConnectedDevicesMacAddresses {
     my (%params) = @_;
