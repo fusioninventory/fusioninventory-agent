@@ -104,7 +104,7 @@ my %tests = (
         {
             CREATEDATE  => undef,
             DESCRIPTION => "Conexi\x{f3}n de red",
-            FILESYSTEM  => 'CIFS',
+            FILESYSTEM  => 'HGFS',
             FREE        => 133793,
             LABEL       => 'Shared Folders',
             LETTER      => 'Y:',
@@ -175,7 +175,7 @@ my %tests = (
             DESCRIPTION => 'Network Connection',
             VOLUMN      => 'Shared Folders',
             TYPE        => 'Network Drive',
-            FILESYSTEM  => 'CIFS',
+            FILESYSTEM  => 'HGFS',
             LABEL       => 'Shared Folders',
             SYSTEMDRIVE => '',
             TOTAL       => 953541,
@@ -192,7 +192,7 @@ my $module = Test::MockModule->new(
     'FusionInventory::Agent::Task::Inventory::Win32::Drives'
 );
 
-foreach my $test (keys %tests) {
+foreach my $test (sort keys %tests) {
     $module->mock(
         'getWMIObjects',
         mockGetWMIObjects($test)

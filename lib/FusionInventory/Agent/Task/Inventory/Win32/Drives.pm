@@ -62,9 +62,11 @@ sub _getDrives {
             if $object->{Size};
 
         my $filesystem = $object->{FileSystem};
-        if ($object->{DriveType} == 4) {
-            if ($object->{ProviderName} && $object->{ProviderName} =~ /\\DavWWWRoot\\/) {
+        if ($object->{DriveType} == 4 && $object->{ProviderName}) {
+            if ($object->{ProviderName} =~ /\\DavWWWRoot\\/) {
                 $filesystem = "WebDav";
+            } elsif ($object->{ProviderName} =~ /^\\\\vmware-host\\/) {
+                $filesystem = "HGFS";
             } elsif (!$object->{FileSystem} || $object->{FileSystem} ne 'NFS') {
                 $filesystem = "CIFS";
             }
