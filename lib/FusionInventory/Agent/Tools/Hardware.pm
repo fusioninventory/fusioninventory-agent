@@ -687,6 +687,15 @@ sub _setGenericProperties {
         # with $i.$j.$k.$l as IP address, and $value as port id
         while (my ($suffix, $value) = each %{$results}) {
             next unless $value;
+            # safety checks
+            if (!$ports->{$value}) {
+                warn "non-existing port $value, check ifaddr mapping\n";
+                last;
+            }
+            if ($suffix !~ /^$ip_address_pattern$/) {
+                warn "invalid IP address $suffix, check ifaddr mapping\n";
+                last;
+            }
             $ports->{$value}->{IP} = $suffix;
         }
     }
@@ -770,6 +779,12 @@ sub _setNetworkingProperties {
             my $port_id = getElement($suffix, -1);
             my $vlan_id = $results->{$suffix};
             my $name    = $vlans->{$vlan_id};
+
+            # safety check
+            if (!$ports->{$port_id}) {
+                warn "non-existing port $port_id, check vmvlan mapping\n";
+                last;
+            }
             push
                 @{$ports->{$port_id}->{VLANS}->{VLAN}},
                     {

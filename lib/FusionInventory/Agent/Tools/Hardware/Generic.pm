@@ -31,10 +31,16 @@ sub setConnectedDevicesMacAddresses {
         next unless defined $ifKey;
 
         # get interface index
-        my $ifIndex = $dot1dBasePortIfIndex->{$ifKey};
-        next unless defined $ifIndex;
+        my $port_id = $dot1dBasePortIfIndex->{$ifKey};
+        next unless defined $port_id;
 
-        my $port = $ports->{$ifIndex};
+        # safety check
+        if (!$ports->{$port_id}) {
+            warn "non-existing port $port_id, check dot1d* mappings\n";
+            last;
+        }
+
+        my $port = $ports->{$port_id};
 
         # this device has already been processed through CDP/LLDP
         next if $port->{CONNECTIONS}->{CDP};
@@ -79,6 +85,14 @@ sub setConnectedDevicesUsingCDP {
     # whereas x is the port number
 
     while (my ($suffix, $ip) = each %{$cdpCacheAddress}) {
+        my $port_id = getElement($suffix, -2);
+
+        # safety check
+        if (!$ports->{$port_id}) {
+            warn "non-existing port $port_id, check cdpCacheAddress mapping\n";
+            last;
+        }
+
         $ip = hex2canonical($ip);
         next if $ip eq '0.0.0.0';
 
@@ -95,8 +109,6 @@ sub setConnectedDevicesUsingCDP {
         }
 
         next if !$connection->{SYSDESCR} || !$connection->{MODEL};
-
-        my $port_id = getElement($suffix, -2);
 
         $ports->{$port_id}->{CONNECTIONS} = {
             CDP        => 1,
@@ -123,8 +135,13 @@ sub setConnectedDevicesUsingLLDP {
     # whereas y is the port number
 
     while (my ($suffix, $mac) = each %{$lldpRemChassisId}) {
-
         my $port_id = getElement($suffix, -2);
+
+        # safety check
+        if (!$ports->{$port_id}) {
+            warn "non-existing port $port_id, check lldpRemChassisId mapping\n";
+            last;
+        }
 
         $ports->{$port_id}->{CONNECTIONS} = {
             CDP        => 1,
@@ -148,7 +165,14 @@ sub setTrunkPorts {
 
     my $results = $snmp->walk($model->{oids}->{vlanTrunkPortDynamicStatus});
     while (my ($suffix, $trunk) = each %{$results}) {
-        $ports->{getElement($suffix, -1)}->{TRUNK} = $trunk ? 1 : 0;
+        my $port_id = getElement($suffix, -1);
+
+        # safety check
+        if (!$ports->{$port_id}) {
+            warn "non-existing port $port_id, check vlanTrunkPortDynamicStatus mapping\n";
+            last;
+        }
+        $ports->{$port_id}->{TRUNK} = $trunk ? 1 : 0;
     }
 }
 
