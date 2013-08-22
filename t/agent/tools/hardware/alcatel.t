@@ -48,18 +48,6 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        CONNECTIONS => {
-                            CDP => 1,
-                            CONNECTION => {
-                                IFDESCR  => 'GigabitEthernet1/0/19',
-                                IFNUMBER => 'Gi1/0/19',
-                                SYSDESCR => '"Cisco IOS Software, C2960S Software (C2960S-UNIVERSALK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)',
-                                SYSMAC   => 'B4:14:89:38:2D:80',
-                                SYSNAME  => 'CB-C005-202.mgmt.dauphine.fr',
-                            }
-                        }
-                    },
-                    {
                         IFMTU            => '9216',
                         IFSPEED          => '0',
                         IFINOCTETS       => '0',
@@ -1468,78 +1456,6 @@ my %tests = (
             },
             PORTS => {
                 PORT => [
-                    {
-                        CONNECTIONS => {
-                            CDP => 1,
-                            CONNECTION => {
-                                IFDESCR  => undef,
-                                IFNUMBER => '00:80:9f:af:b1:09',
-                                SYSDESCR => undef,
-                                SYSMAC   => '00:80:9F:AF:B1:09',
-                                SYSNAME  => undef
-                            }
-                        }
-                    },
-                    {
-                        CONNECTIONS => {
-                            CDP => 1,
-                            CONNECTION => {
-                                IFDESCR  => undef,
-                                IFNUMBER => '00:80:9f:af:b1:2e',
-                                SYSDESCR => undef,
-                                SYSMAC   => '00:80:9F:AF:B1:2E',
-                                SYSNAME  => undef
-                            }
-                        }
-                    },
-                    {
-                        CONNECTIONS => {
-                            CDP => 1,
-                            CONNECTION => {
-                                IFDESCR  => undef,
-                                IFNUMBER => '00:80:9f:af:b0:fe',
-                                SYSDESCR => undef,
-                                SYSMAC   => '00:80:9F:AF:B0:FE',
-                                SYSNAME  => undef
-                            }
-                        }
-                    },
-                    {
-                        CONNECTIONS => {
-                            CDP => 1,
-                            CONNECTION => {
-                                IFDESCR  => undef,
-                                IFNUMBER => '00:80:9f:af:b1:0c',
-                                SYSDESCR => undef,
-                                SYSMAC   => '00:80:9F:AF:B1:0C',
-                                SYSNAME  => undef
-                            }
-                        }
-                    },
-                    {
-                        CONNECTIONS => {
-                            CDP => 1,
-                            CONNECTION => {
-                                IFDESCR  => undef,
-                                IFNUMBER => '00:80:9f:af:b1:32',
-                                SYSDESCR => undef,
-                                SYSMAC   => '00:80:9F:AF:B1:32',
-                                SYSNAME  => undef
-                            }
-                        }
-                    },
-                    {
-                        CONNECTIONS => {
-                            CDP => 1,
-                            CONNECTION => {
-                                IFDESCR  => undef,
-                                IFNUMBER => '2025',
-                                SYSDESCR => undef,
-                                SYSMAC   => 'E8:E7:32:27:63:F4',
-                                SYSNAME  => undef
-                            }
-                        }
-                    },
                     {
                         IFDESCR      => 'Alcatel-Lucent 1/1',
                         IFINERRORS   => '0',
