@@ -28,7 +28,7 @@ my %tests = (
         {
             INFO => {
                 MANUFACTURER => 'Epson',
-                TYPE         => undef,
+                TYPE         => 'PRINTER',
                 COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
                 MEMORY       => 128,
                 MODEL        => 'EPSON AL-C4200',
@@ -92,7 +92,7 @@ my %tests = (
         {
             INFO => {
                 MANUFACTURER => 'Epson',
-                TYPE         => undef,
+                TYPE         => 'PRINTER',
                 COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
                 MEMORY       => 128,
                 MODEL        => 'EPSON AL-C4200',
@@ -187,7 +187,7 @@ my %tests = (
             },
             INFO => {
                 MANUFACTURER => 'Epson',
-                TYPE         => undef,
+                TYPE         => 'PRINTER',
                 COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
                 MEMORY       => 128,
                 NAME         => 'AL-C4200-D1C30E',
@@ -220,7 +220,7 @@ my %tests = (
         {
             INFO => {
                 MANUFACTURER => 'Epson',
-                TYPE         => undef,
+                TYPE         => 'PRINTER',
                 COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
                 MODEL        => 'EPSON AL-C4200',
                 ID           => undef,
@@ -282,6 +282,21 @@ my %tests = (
                 MANUFACTURER => 'Epson',
                 TYPE         => 'PRINTER',
                 ID           => undef,
+                MODEL        => undef
+            },
+            PAGECOUNTERS => {
+                PRINTCOLOR => undef,
+                SCANNED    => undef,
+                COPYTOTAL  => undef,
+                COPYBLACK  => undef,
+                PRINTTOTAL => undef,
+                FAXTOTAL   => undef,
+                PRINTBLACK => undef,
+                TOTAL      => undef,
+                COPYCOLOR  => undef,
+                COLOR      => undef,
+                RECTOVERSO => undef,
+                BLACK      => undef
             },
             PORTS => {
                 PORT => []

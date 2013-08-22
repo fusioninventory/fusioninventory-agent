@@ -26,6 +26,21 @@ my %tests = (
                 MANUFACTURER => 'Ricoh',
                 TYPE         => 'PRINTER',
                 ID           => undef,
+                MODEL        => undef,
+            },
+            PAGECOUNTERS => {
+                PRINTBLACK => undef,
+                PRINTCOLOR => undef,
+                COLOR      => undef,
+                SCANNED    => undef,
+                COPYBLACK  => undef,
+                RECTOVERSO => undef,
+                COPYTOTAL  => undef,
+                FAXTOTAL   => undef,
+                TOTAL      => undef,
+                BLACK      => undef,
+                PRINTTOTAL => undef,
+                COPYCOLOR  => undef
             },
             PORTS => {
                 PORT => []
@@ -127,6 +142,21 @@ my %tests = (
                 MANUFACTURER => 'Ricoh',
                 TYPE         => 'PRINTER',
                 ID           => undef,
+                MODEL        => undef,
+            },
+            PAGECOUNTERS => {
+                PRINTBLACK => undef,
+                PRINTCOLOR => undef,
+                COLOR      => undef,
+                SCANNED    => undef,
+                COPYBLACK  => undef,
+                RECTOVERSO => undef,
+                COPYTOTAL  => undef,
+                FAXTOTAL   => undef,
+                TOTAL      => undef,
+                BLACK      => undef,
+                PRINTTOTAL => undef,
+                COPYCOLOR  => undef
             },
             PORTS => {
                 PORT => []
@@ -153,6 +183,21 @@ my %tests = (
                 MANUFACTURER => 'Ricoh',
                 TYPE         => 'PRINTER',
                 ID           => undef,
+                MODEL        => undef,
+            },
+            PAGECOUNTERS => {
+                PRINTBLACK => undef,
+                PRINTCOLOR => undef,
+                COLOR      => undef,
+                SCANNED    => undef,
+                COPYBLACK  => undef,
+                RECTOVERSO => undef,
+                COPYTOTAL  => undef,
+                FAXTOTAL   => undef,
+                TOTAL      => undef,
+                BLACK      => undef,
+                PRINTTOTAL => undef,
+                COPYCOLOR  => undef
             },
             PORTS => {
                 PORT => []

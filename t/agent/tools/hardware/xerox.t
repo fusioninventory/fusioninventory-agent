@@ -439,18 +439,18 @@ my %tests = (
                 ]
             },
             PAGECOUNTERS => {
-                TOTAL => undef,
-                COLOR => '6964',
+                TOTAL      => undef,
+                COLOR      => '6964',
                 PRINTBLACK => '3251',
                 PRINTTOTAL => '13755',
-                BLACK => '4086',
+                BLACK      => '4086',
                 RECTOVERSO => undef,
-                COPYTOTAL => undef,
-                SCANNED => undef,
-                COPYCOLOR => '1394',
-                FAXTOTAL => undef,
+                COPYTOTAL  => undef,
+                SCANNED    => undef,
+                COPYCOLOR  => '1394',
+                FAXTOTAL   => undef,
                 PRINTCOLOR => '6964',
-                COPYBLACK => '1311'
+                COPYBLACK  => '1311'
             },
             CARTRIDGES => {
                 TONERMAGENTA => 58,
@@ -478,6 +478,21 @@ my %tests = (
                 MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
                 ID           => undef,
+                MODEL        => undef,
+            },
+            PAGECOUNTERS => {
+                COPYTOTAL  => undef,
+                PRINTTOTAL => undef,
+                COPYBLACK  => undef,
+                BLACK      => undef,
+                PRINTBLACK => undef,
+                COLOR      => undef,
+                COPYCOLOR  => undef,
+                RECTOVERSO => undef,
+                SCANNED    => undef,
+                FAXTOTAL   => undef,
+                TOTAL      => undef,
+                PRINTCOLOR => undef
             },
             PORTS => {
                 PORT => []

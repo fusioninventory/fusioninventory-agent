@@ -539,7 +539,6 @@ sub getDeviceFullInfo {
     my $snmp   = $params{snmp};
     my $model  = $params{model};
     my $logger = $params{logger};
-    my $type   = $model ? $types{$model->{TYPE}} : $params{type};
 
     # first, let's retrieve basic device informations
     my %info = getDeviceBaseInfo($snmp);
@@ -550,14 +549,20 @@ sub getDeviceFullInfo {
     delete $info{DESCRIPTION};
     delete $info{SNMPHOSTNAME};
 
+    # device ID is set from the server request
+    $info{ID} = $params{id};
+
+    # device TYPE is set either:
+    # - from the server request,
+    # - from the model type
+    # - from initial identification
+    $info{TYPE} = 
+            $params{type} ? $params{type}          :
+            $model        ? $types{$model->{TYPE}} :
+                            $info{TYPE}            ;
+
     # second, use results to build the object
-    my $device = {
-        INFO => {
-            ID   => $params{id},
-            TYPE => $type,
-            %info
-        }
-    };
+    my $device = { INFO => \%info };
 
     _setGenericProperties(
         device => $device,
@@ -569,14 +574,14 @@ sub getDeviceFullInfo {
         device  => $device,
         snmp   => $snmp,
         model  => $model
-    ) if $type && $type eq 'PRINTER';
+    ) if $info{TYPE} && $info{TYPE} eq 'PRINTER';
 
     _setNetworkingProperties(
         device      => $device,
         snmp        => $snmp,
         model       => $model,
         logger      => $logger
-    ) if $type && $type eq 'NETWORKING';
+    ) if $info{TYPE} && $info{TYPE} eq 'NETWORKING';
 
     # convert ports hashref to an arrayref, sorted by interface number
     my $ports = $device->{PORTS}->{PORT};

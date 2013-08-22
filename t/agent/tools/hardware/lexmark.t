@@ -93,6 +93,21 @@ my %tests = (
                 MANUFACTURER => 'Lexmark',
                 TYPE         => 'PRINTER',
                 ID           => undef,
+                MODEL        => undef,
+            },
+            PAGECOUNTERS => {
+                PRINTTOTAL => undef,
+                COPYBLACK  => undef,
+                SCANNED    => undef,
+                RECTOVERSO => undef,
+                COLOR      => undef,
+                COPYCOLOR  => undef,
+                BLACK      => undef,
+                COPYTOTAL  => undef,
+                PRINTCOLOR => undef,
+                TOTAL      => undef,
+                FAXTOTAL   => undef,
+                PRINTBLACK => undef
             },
             PORTS => {
                 PORT => []

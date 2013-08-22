@@ -26,6 +26,21 @@ my %tests = (
                 MANUFACTURER => 'Kyocera',
                 TYPE         => 'PRINTER',
                 ID           => undef,
+                MODEL        => undef,
+            },
+            PAGECOUNTERS => {
+                PRINTTOTAL => undef,
+                FAXTOTAL   => undef,
+                COPYBLACK  => undef,
+                SCANNED    => undef,
+                COLOR      => undef,
+                PRINTBLACK => undef,
+                BLACK      => undef,
+                RECTOVERSO => undef,
+                COPYTOTAL  => undef,
+                COPYCOLOR  => undef,
+                TOTAL      => undef,
+                PRINTCOLOR => undef
             },
             PORTS => {
                 PORT => []
@@ -52,6 +67,21 @@ my %tests = (
                 MANUFACTURER => 'Kyocera',
                 TYPE         => 'PRINTER',
                 ID           => undef,
+                MODEL        => undef,
+            },
+            PAGECOUNTERS => {
+                PRINTTOTAL => undef,
+                FAXTOTAL   => undef,
+                COPYBLACK  => undef,
+                SCANNED    => undef,
+                COLOR      => undef,
+                PRINTBLACK => undef,
+                BLACK      => undef,
+                RECTOVERSO => undef,
+                COPYTOTAL  => undef,
+                COPYCOLOR  => undef,
+                TOTAL      => undef,
+                PRINTCOLOR => undef
             },
             PORTS => {
                 PORT => []
