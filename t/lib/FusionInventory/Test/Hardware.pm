@@ -5,7 +5,6 @@ use warnings;
 use base 'Exporter';
 
 use Test::More;
-use Test::Deep qw(cmp_deeply);
 use YAML qw(LoadFile);
 
 use FusionInventory::Agent::SNMP::Mock;
@@ -13,76 +12,44 @@ use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::Task::NetDiscovery::Dictionary;
 
 our @EXPORT = qw(
-    runDiscoveryTests
-    runInventoryTests
+    setPlan
+    getDictionnary
+    getIndex
+    getSNMP
+    getModel
 );
 
-sub runDiscoveryTests {
-    my %tests = @_;
+sub setPlan {
+    my ($count) = @_;
 
     if (!$ENV{SNMPWALK_DATABASE}) {
         plan skip_all => 'SNMP walks database required';
     } elsif (!$ENV{SNMPMODEL_DATABASE}) {
         plan skip_all => 'SNMP models database required';
     } else {
-        plan tests => 2 * scalar keys %tests;
-    }
-
-    my $dictionary = FusionInventory::Agent::Task::NetDiscovery::Dictionary->new(
-        file => "$ENV{SNMPMODEL_DATABASE}/dictionary.xml"
-    );
-
-    foreach my $test (sort keys %tests) {
-        my $snmp = FusionInventory::Agent::SNMP::Mock->new(
-            file => "$ENV{SNMPWALK_DATABASE}/$test"
-        );
-
-        my %device0 = getDeviceInfo($snmp);
-        cmp_deeply(\%device0, $tests{$test}->[0], "$test: base stage");
-
-        my %device1 = getDeviceInfo($snmp, $dictionary);
-        cmp_deeply(\%device1, $tests{$test}->[1], "$test: base + dictionnary stage");
+        plan tests => 3 * $count;
     }
 }
 
-sub runInventoryTests {
-    my %tests = @_;
-
-    if (!$ENV{SNMPWALK_DATABASE}) {
-        plan skip_all => 'SNMP walks database required';
-    } elsif (!$ENV{SNMPMODEL_DATABASE}) {
-        plan skip_all => 'SNMP models database required';
-    } else {
-        plan tests => 3 * scalar keys %tests;
-    }
-
-    my $dictionary = FusionInventory::Agent::Task::NetDiscovery::Dictionary->new(
+sub getDictionnary {
+    return FusionInventory::Agent::Task::NetDiscovery::Dictionary->new(
         file => "$ENV{SNMPMODEL_DATABASE}/dictionary.xml"
     );
-
-    my $index = LoadFile("$ENV{SNMPMODEL_DATABASE}/index.yaml");
-
-    foreach my $test (sort keys %tests) {
-        my $snmp = FusionInventory::Agent::SNMP::Mock->new(
-            file => "$ENV{SNMPWALK_DATABASE}/$test"
-        );
-
-        my %device0 = getDeviceInfo($snmp);
-        cmp_deeply(\%device0, $tests{$test}->[0], "$test: base stage");
-
-        my %device1 = getDeviceInfo($snmp, $dictionary);
-        cmp_deeply(\%device1, $tests{$test}->[1], "$test: base + dictionnary stage");
-
-        my $model_id = $tests{$test}->[1]->{MODELSNMP};
-        my $model = $model_id ?
-            loadModel("$ENV{SNMPMODEL_DATABASE}/$index->{$model_id}") : undef;
-
-        my $device3 = FusionInventory::Agent::Tools::Hardware::getDeviceFullInfo(
-            snmp  => $snmp,
-            model => $model,
-        );
-        cmp_deeply($device3, $tests{$test}->[2], "$test: base + model stage");
-    }
 }
 
+sub getIndex {
+    return LoadFile("$ENV{SNMPMODEL_DATABASE}/index.yaml");
+}
 
+sub getSNMP {
+    my ($test) = @_;
+    return FusionInventory::Agent::SNMP::Mock->new(
+        file => "$ENV{SNMPWALK_DATABASE}/$test"
+    );
+}
+
+sub getModel {
+    my ($index, $model_id) = @_;
+    return $model_id ?
+        loadModel("$ENV{SNMPMODEL_DATABASE}/$index->{$model_id}") : undef;
+}
