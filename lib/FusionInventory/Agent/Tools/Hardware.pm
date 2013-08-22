@@ -538,7 +538,7 @@ sub getDeviceFullInfo {
 
     my $snmp   = $params{snmp};
     my $model  = $params{model};
-    my $logger = $params{logget};
+    my $logger = $params{logger};
     my $type   = $model ? $types{$model->{TYPE}} : $params{type};
 
     # first, let's retrieve basic device informations
