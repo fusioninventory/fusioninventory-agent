@@ -1,0 +1,157 @@
+#!/usr/bin/perl
+
+use strict;
+use lib 't/lib';
+
+use Test::Deep qw(cmp_deeply);
+
+use FusionInventory::Agent::Tools::Hardware;
+use FusionInventory::Test::Hardware;
+
+my %tests = (
+    'konica/bizhub_421.1.walk' => [
+        {
+            MANUFACTURER => 'Konica',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
+            SNMPHOSTNAME => '',
+            MAC          => '00:50:AA:27:95:9E'
+        },
+        {
+            MANUFACTURER => 'Konica',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
+            SNMPHOSTNAME => '',
+            MAC          => '00:50:AA:27:95:9E'
+        },
+        {
+            INFO => {
+                MANUFACTURER => 'Konica',
+                TYPE         => 'PRINTER',
+                ID           => undef,
+                MODEL        => undef,
+            },
+            PAGECOUNTERS => {
+                BLACK      => undef,
+                COPYCOLOR  => undef,
+                PRINTCOLOR => undef,
+                TOTAL      => undef,
+                PRINTTOTAL => undef,
+                FAXTOTAL   => undef,
+                COLOR      => undef,
+                COPYTOTAL  => undef,
+                COPYBLACK  => undef,
+                PRINTBLACK => undef,
+                SCANNED    => undef,
+                RECTOVERSO => undef
+            },
+            PORTS => {
+                PORT => []
+            }
+        }
+    ],
+    'konica/bizhub_421.2.walk' => [
+        {
+            MANUFACTURER => 'Konica',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
+            SNMPHOSTNAME => '',
+            MAC          => '00:50:AA:27:96:68'
+        },
+        {
+            MANUFACTURER => 'Konica',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
+            SNMPHOSTNAME => '',
+            MAC          => '00:50:AA:27:96:68'
+        },
+        {
+            INFO => {
+                MANUFACTURER => 'Konica',
+                TYPE         => 'PRINTER',
+                ID           => undef,
+                MODEL        => undef,
+            },
+            PAGECOUNTERS => {
+                BLACK      => undef,
+                COPYCOLOR  => undef,
+                PRINTCOLOR => undef,
+                TOTAL      => undef,
+                PRINTTOTAL => undef,
+                FAXTOTAL   => undef,
+                COLOR      => undef,
+                COPYTOTAL  => undef,
+                COPYBLACK  => undef,
+                PRINTBLACK => undef,
+                SCANNED    => undef,
+                RECTOVERSO => undef
+            },
+            PORTS => {
+                PORT => []
+            }
+        }
+    ],
+    'konica/bizhub_421.3.walk' => [
+        {
+            MANUFACTURER => 'Konica',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
+            SNMPHOSTNAME => '',
+            MAC          => '00:50:AA:27:95:A3'
+        },
+        {
+            MANUFACTURER => 'Konica',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
+            SNMPHOSTNAME => '',
+            MAC          => '00:50:AA:27:95:A3'
+        },
+        {
+            INFO => {
+                MANUFACTURER => 'Konica',
+                TYPE         => 'PRINTER',
+                ID           => undef,
+                MODEL        => undef,
+            },
+            PAGECOUNTERS => {
+                BLACK      => undef,
+                COPYCOLOR  => undef,
+                PRINTCOLOR => undef,
+                TOTAL      => undef,
+                PRINTTOTAL => undef,
+                FAXTOTAL   => undef,
+                COLOR      => undef,
+                COPYTOTAL  => undef,
+                COPYBLACK  => undef,
+                PRINTBLACK => undef,
+                SCANNED    => undef,
+                RECTOVERSO => undef
+            },
+            PORTS => {
+                PORT => []
+            }
+        }
+    ],
+);
+
+setPlan(scalar keys %tests);
+
+my $dictionary = getDictionnary();
+my $index      = getIndex();
+
+foreach my $test (sort keys %tests) {
+    my $snmp  = getSNMP($test);
+    my $model = getModel($index, $tests{$test}->[1]->{MODELSNMP});
+
+    my %device0 = getDeviceInfo($snmp);
+    cmp_deeply(\%device0, $tests{$test}->[0], "$test: base stage");
+
+    my %device1 = getDeviceInfo($snmp, $dictionary);
+    cmp_deeply(\%device1, $tests{$test}->[1], "$test: base + dictionnary stage");
+
+    my $device3 = getDeviceFullInfo(
+        snmp  => $snmp,
+        model => $model,
+    );
+    cmp_deeply($device3, $tests{$test}->[2], "$test: base + model stage");
+}

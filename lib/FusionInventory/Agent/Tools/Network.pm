@@ -24,8 +24,9 @@ our @EXPORT = qw(
     resolv
 );
 
-my $hex_byte = qr/[0-9A-F]{2}/i;
-my $dec_byte = qr/[0-9]{1,3}/;
+my $dec_byte        = qr/[0-9]{1,3}/;
+my $hex_byte        = qr/[0-9A-F]{1,2}/i;
+my $padded_hex_byte = qr/[0-9A-F]{2}/i;
 
 our $mac_address_pattern = qr/
     $hex_byte : $hex_byte : $hex_byte : $hex_byte : $hex_byte : $hex_byte
@@ -36,11 +37,19 @@ our $ip_address_pattern = qr/
 /x;
 
 our $alt_mac_address_pattern = qr/
-    $hex_byte $hex_byte $hex_byte $hex_byte $hex_byte $hex_byte
+    $padded_hex_byte 
+    $padded_hex_byte 
+    $padded_hex_byte 
+    $padded_hex_byte 
+    $padded_hex_byte 
+    $padded_hex_byte
 /x;
 
 our $hex_ip_address_pattern = qr/
-    $hex_byte $hex_byte $hex_byte $hex_byte
+    $padded_hex_byte 
+    $padded_hex_byte 
+    $padded_hex_byte 
+    $padded_hex_byte
 /x;
 
 our $network_pattern = qr/

@@ -19,7 +19,6 @@ use FusionInventory::Agent::XML::Query;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::Tools::Network;
-use FusionInventory::Agent::Tools::SNMP;
 
 # needed for perl < 5.10.1 compatbility
 if ($threads::shared::VERSION < 1.21) {
@@ -31,84 +30,6 @@ our $VERSION = '2.2.0';
 # list of devices properties, indexed by XML element name
 # the link to a specific OID is made by the model
 
-# generic properties
-my %properties = (
-    MAC          => 'macaddr',
-    CPU          => 'cpu',
-    LOCATION     => 'location',
-    FIRMWARE     => 'firmware',
-    CONTACT      => 'contact',
-    COMMENTS     => 'comments',
-    UPTIME       => 'uptime',
-    SERIAL       => 'serial',
-    NAME         => 'name',
-    MANUFACTURER => 'enterprise',
-    OTHERSERIAL  => 'otherserial',
-    MEMORY       => 'memory',
-    RAM          => 'ram',
-);
-
-# printer catridge simple properties
-my %printer_cartridges_simple_properties = (
-    TONERBLACK            => 'tonerblack',
-    TONERBLACK2           => 'tonerblack2',
-    TONERCYAN             => 'tonercyan',
-    TONERMAGENTA          => 'tonermagenta',
-    TONERYELLOW           => 'toneryellow',
-    WASTETONER            => 'wastetoner',
-    CARTRIDGEBLACK        => 'cartridgeblack',
-    CARTRIDGEBLACKPHOTO   => 'cartridgeblackphoto',
-    CARTRIDGECYAN         => 'cartridgecyan',
-    CARTRIDGECYANLIGHT    => 'cartridgecyanlight',
-    CARTRIDGEMAGENTA      => 'cartridgemagenta',
-    CARTRIDGEMAGENTALIGHT => 'cartridgemagentalight',
-    CARTRIDGEYELLOW       => 'cartridgeyellow',
-    MAINTENANCEKIT        => 'maintenancekit',
-    DRUMBLACK             => 'drumblack',
-    DRUMCYAN              => 'drumcyan',
-    DRUMMAGENTA           => 'drummagenta',
-    DRUMYELLOW            => 'drumyellow',
-);
-
-# printer cartridge percent properties
-my %printer_cartridges_percent_properties = (
-    BLACK                 => 'cartridgesblack',
-    CYAN                  => 'cartridgescyan',
-    YELLOW                => 'cartridgesyellow',
-    MAGENTA               => 'cartridgesmagenta',
-    CYANLIGHT             => 'cartridgescyanlight',
-    MAGENTALIGHT          => 'cartridgesmagentalight',
-    PHOTOCONDUCTOR        => 'cartridgesphotoconductor',
-    PHOTOCONDUCTORBLACK   => 'cartridgesphotoconductorblack',
-    PHOTOCONDUCTORCOLOR   => 'cartridgesphotoconductorcolor',
-    PHOTOCONDUCTORCYAN    => 'cartridgesphotoconductorcyan',
-    PHOTOCONDUCTORYELLOW  => 'cartridgesphotoconductoryellow',
-    PHOTOCONDUCTORMAGENTA => 'cartridgesphotoconductormagenta',
-    UNITTRANSFERBLACK     => 'cartridgesunittransfertblack',
-    UNITTRANSFERCYAN      => 'cartridgesunittransfertcyan',
-    UNITTRANSFERYELLOW    => 'cartridgesunittransfertyellow',
-    UNITTRANSFERMAGENTA   => 'cartridgesunittransfertmagenta',
-    WASTE                 => 'cartridgeswaste',
-    FUSER                 => 'cartridgesfuser',
-    BELTCLEANER           => 'cartridgesbeltcleaner',
-    MAINTENANCEKIT        => 'cartridgesmaintenancekit',
-);
-
-# printer page counter properties
-my %printer_pagecounters_properties = (
-    TOTAL      => 'pagecountertotalpages',
-    BLACK      => 'pagecounterblackpages',
-    COLOR      => 'pagecountercolorpages',
-    RECTOVERSO => 'pagecounterrectoversopages',
-    SCANNED    => 'pagecounterscannedpages',
-    PRINTTOTAL => 'pagecountertotalpages_print',
-    PRINTBLACK => 'pagecounterblackpages_print',
-    PRINTCOLOR => 'pagecountercolorpages_print',
-    COPYTOTAL  => 'pagecountertotalpages_copy',
-    COPYBLACK  => 'pagecounterblackpages_copy',
-    COPYCOLOR  => 'pagecountercolorpages_copy',
-    FAXTOTAL   => 'pagecountertotalpages_fax',
-);
 
 sub isEnabled {
     my ($self, $response) = @_;
@@ -258,9 +179,17 @@ sub _queryDevices {
 
         my $result = $self->_queryDevice(
             device      => $device,
-            model       => $models->{$device->{MODELSNMP_ID}},
-            credentials => $credentials->{$device->{AUTHSNMP_ID}}
+            models      => $models,
+            credentials => $credentials
         );
+
+        $result = {
+            ERROR => {
+                    ID      => $device->{ID},
+                    TYPE    => $device->{TYPE},
+                    MESSAGE => "No response from remote host"
+                }
+        } if !$result;
 
         if ($result) {
             lock $results;
@@ -274,32 +203,13 @@ sub _queryDevices {
     $logger->debug("Thread $id switched to EXIT state");
 }
 
-sub _getIndexedModels {
-    my ($models) = @_;
-
-    foreach my $model (@{$models}) {
-        # index GET and WALK properties
-        $model->{GET}  = { map { $_->{OBJECT} => $_ } @{$model->{GET}}  };
-        $model->{WALK} = { map { $_->{OBJECT} => $_ } @{$model->{WALK}} };
-    }
-
-    # index models by their ID
-    return { map { $_->{ID} => $_ } @{$models} };
-}
-
-sub _getIndexedCredentials {
-    my ($credentials) = @_;
-
-    # index credentials by their ID
-    return { map { $_->{ID} => $_ } @{$credentials} };
-}
-
 sub _queryDevice {
     my ($self, %params) = @_;
 
-    my $credentials = $params{credentials};
-    my $model       = $params{model};
-    my $device      = $params{device};
+    my $device = $params{device};
+    my $logger = $self->{logger};
+    my $id     = threads->tid();
+    $logger->debug("thread $id: scanning $device->{ID}");
 
     my $snmp;
     if ($device->{FILE}) {
@@ -310,7 +220,7 @@ sub _queryDevice {
             );
         };
         if ($EVAL_ERROR) {
-            $self->{logger}->error("Unable to create SNMP session for $device->{FILE}: $EVAL_ERROR");
+            $logger->error("Unable to create SNMP session for $device->{FILE}: $EVAL_ERROR");
             return;
         }
     } else {
@@ -328,413 +238,42 @@ sub _queryDevice {
             );
         };
         if ($EVAL_ERROR) {
-            $self->{logger}->error("Unable to create SNMP session for $device->{IP}: $EVAL_ERROR");
+            $logger->error("Unable to create SNMP session for $device->{IP}: $EVAL_ERROR");
             return;
         }
     }
 
-    # first, let's retrieve basic device informations
-    my %info = getDeviceBaseInfo($snmp);
+    my $result = getDeviceFullInfo(
+         id     => $device->{ID}
+         type   => $device->{TYPE},
+         snmp   => $snmp,
+         model  => $params{models}->{$device->{MODELSNMP_ID}},
+         logger => $self->{logger}
+    );
 
-    if (!%info) {
-        return {
-            ERROR => {
-                ID      => $device->{ID},
-                TYPE    => $device->{TYPE},
-                MESSAGE => "No response from remote host"
-            }
+    return $result;
+}
+
+sub _getIndexedModels {
+    my ($models) = @_;
+
+    foreach my $model (@{$models}) {
+        # index oids
+        $model->{oids} = { 
+            map { $_->{OBJECT} => $_->{OID} }
+            @{$model->{GET}}, @{$model->{WALK}}
         };
     }
 
-    # unfortunatly, some elements differs between discovery
-    # and inventory response
-    delete $info{DESCRIPTION};
-    delete $info{SNMPHOSTNAME};
-
-    # automatically extend model for cartridge support
-    if ($device->{TYPE} eq "PRINTER") {
-        foreach my $variable (values %{$model->{GET}}) {
-            my $object = $variable->{OBJECT};
-            if (
-                $object eq "wastetoner"     ||
-                $object eq "maintenancekit" ||
-                $object =~ /^toner/         ||
-                $object =~ /^cartridge/     ||
-                $object =~ /^drum/
-            ) {
-                my $type_oid = $variable->{OID};
-                $type_oid =~ s/43.11.1.1.6/43.11.1.1.8/;
-                my $level_oid = $variable->{OID};
-                $level_oid =~ s/43.11.1.1.6/43.11.1.1.9/;
-
-                $model->{GET}->{"$object-capacitytype"} = {
-                    OID  => $type_oid,
-                    VLAN => 0,
-                    OBJECT => "$object-capacitytype"
-                };
-                $model->{GET}->{"$object-level"} = {
-                    OID  => $level_oid,
-                    VLAN => 0,
-                    OBJECT => "$object-level"
-                };
-            }
-        }
-    }
-
-    # first, fetch values from device
-    my $results;
-    foreach my $variable (values %{$model->{GET}}) {
-        $results->{$variable->{OBJECT}} = $snmp->get($variable->{OID});
-    }
-    foreach my $variable (values %{$model->{WALK}}) {
-        next if $variable->{VLAN};
-        $results->{$variable->{OBJECT}} = $snmp->walk($variable->{OID});
-    }
-
-    # second, use results to build the object
-    my $datadevice = {
-        INFO => {
-            ID   => $device->{ID},
-            TYPE => $device->{TYPE},
-            %info
-        }
-    };
-
-    $self->_setGenericProperties(
-        results => $results,
-        device  => $datadevice,
-        walks   => $model->{WALK}
-    );
-
-    $self->_setPrinterProperties(
-        results => $results,
-        device  => $datadevice,
-    ) if $device->{TYPE} eq 'PRINTER';
-
-    $self->_setNetworkingProperties(
-        results     => $results,
-        device      => $datadevice,
-        walks       => $model->{WALK},
-        host        => $device->{IP},
-        credentials => $credentials
-    ) if $device->{TYPE} eq 'NETWORKING';
-
-    # convert ports hashref to an arrayref, sorted by interface number
-    my $ports = $datadevice->{PORTS}->{PORT};
-    $datadevice->{PORTS}->{PORT} = [
-        map { $ports->{$_} }
-        sort { $a <=> $b }
-        keys %{$ports}
-    ];
-
-    return $datadevice;
+    # index models by their ID
+    return { map { $_->{ID} => $_ } @{$models} };
 }
 
-sub _setGenericProperties {
-    my ($self, %params) = @_;
+sub _getIndexedCredentials {
+    my ($credentials) = @_;
 
-    my $results = $params{results};
-    my $device  = $params{device};
-
-    if ($results->{firmware1}) {
-        $device->{INFO}->{FIRMWARE} = $results->{firmware1};
-    }
-    if ($results->{firmware2}) {
-        if ($device->{INFO}->{FIRMWARE}) {
-            $device->{INFO}->{FIRMWARE} .= ' ' ;
-        }
-        $device->{INFO}->{FIRMWARE} .= $results->{firmware2};
-    }
-
-    foreach my $key (keys %properties) {
-        # don't overwrite known values
-        next if $device->{INFO}->{$key};
-
-        my $raw_value = $results->{$properties{$key}};
-        next unless defined $raw_value;
-        my $value =
-            $key eq 'NAME'        ? hex2char($raw_value)                           :
-            $key eq 'LOCATION'    ? hex2char($raw_value)                           :
-            $key eq 'SERIAL'      ? getSanitizedSerialNumber(hex2char($raw_value)) :
-            # OTHERSERIAL can be either:
-            #  - a number in hex
-            #  - a number
-            #  - a string in hex
-            # if we use a number as a string, we can garbage char. For example for:
-            #  - 0x0115
-            #  - 0xfde8
-            $key eq 'OTHERSERIAL' ? getSanitizedSerialNumber($raw_value)           :
-            $key eq 'RAM'         ? int($raw_value / 1024 / 1024)                  :
-            $key eq 'MEMORY'      ? int($raw_value / 1024 / 1024)                  :
-                                    hex2char($raw_value)                           ;
-
-        if ($key eq 'MAC') {
-            if ($raw_value =~ $mac_address_pattern) {
-                $value = $raw_value;
-            } else {
-                $value = alt2canonical($raw_value);
-            }
-        }
-
-        $device->{INFO}->{$key} = $value;
-
-    }
-
-    if ($results->{ipAdEntAddr}) {
-        $device->{INFO}->{IPS}->{IP} =  [
-            sort values %{$results->{ipAdEntAddr}}
-        ];
-    }
-
-    # ports is a sparse list of network ports, indexed by native port number
-    my $ports;
-
-    if ($results->{ifIndex}) {
-        while (my ($oid, $data) = each %{$results->{ifIndex}}) {
-            $ports->{getLastElement($oid)}->{IFNUMBER} = $data;
-        }
-    }
-
-    if ($results->{ifdescr}) {
-        while (my ($oid, $data) = each %{$results->{ifdescr}}) {
-            $ports->{getLastElement($oid)}->{IFDESCR} = $data;
-        }
-    }
-
-    if ($results->{ifName}) {
-        while (my ($oid, $data) = each %{$results->{ifName}}) {
-            $ports->{getLastElement($oid)}->{IFNAME} = $data;
-        }
-    }
-
-    if ($results->{ifType}) {
-        while (my ($oid, $data) = each %{$results->{ifType}}) {
-            $ports->{getLastElement($oid)}->{IFTYPE} = $data;
-        }
-    }
-
-    if ($results->{ifmtu}) {
-        while (my ($oid, $data) = each %{$results->{ifmtu}}) {
-            $ports->{getLastElement($oid)}->{IFMTU} = $data;
-        }
-    }
-
-    if ($results->{ifspeed}) {
-        while (my ($oid, $data) = each %{$results->{ifspeed}}) {
-            $ports->{getLastElement($oid)}->{IFSPEED} = $data;
-        }
-    }
-
-    if ($results->{ifstatus}) {
-        while (my ($oid, $data) = each %{$results->{ifstatus}}) {
-            $ports->{getLastElement($oid)}->{IFSTATUS} = $data;
-        }
-    }
-
-    if ($results->{ifinternalstatus}) {
-        while (my ($oid, $data) = each %{$results->{ifinternalstatus}}) {
-            $ports->{getLastElement($oid)}->{IFINTERNALSTATUS} = $data;
-        }
-    }
-
-    if ($results->{iflastchange}) {
-        while (my ($oid, $data) = each %{$results->{iflastchange}}) {
-            $ports->{getLastElement($oid)}->{IFLASTCHANGE} = $data;
-        }
-    }
-
-    if ($results->{ifinoctets}) {
-        while (my ($oid, $data) = each %{$results->{ifinoctets}}) {
-            $ports->{getLastElement($oid)}->{IFINOCTETS} = $data;
-        }
-    }
-
-    if ($results->{ifoutoctets}) {
-        while (my ($oid, $data) = each %{$results->{ifoutoctets}}) {
-            $ports->{getLastElement($oid)}->{IFOUTOCTETS} = $data;
-        }
-    }
-
-    if ($results->{ifinerrors}) {
-        while (my ($oid, $data) = each %{$results->{ifinerrors}}) {
-            $ports->{getLastElement($oid)}->{IFINERRORS} = $data;
-        }
-    }
-
-    if ($results->{ifouterrors}) {
-        while (my ($oid, $data) = each %{$results->{ifouterrors}}) {
-            $ports->{getLastElement($oid)}->{IFOUTERRORS} = $data;
-        }
-    }
-
-    if ($results->{ifPhysAddress}) {
-        while (my ($oid, $data) = each %{$results->{ifPhysAddress}}) {
-            next unless $data;
-            $ports->{getLastElement($oid)}->{MAC} = alt2canonical($data);
-        }
-    }
-
-    if ($results->{ifaddr}) {
-        while (my ($oid, $data) = each %{$results->{ifaddr}}) {
-            next unless $data;
-            my $address = $oid;
-            $address =~ s/$params{walks}->{ifaddr}->{OID}//;
-            $address =~ s/^.//;
-            $ports->{$data}->{IP} = $address;
-        }
-    }
-
-    if ($results->{portDuplex}) {
-        while (my ($oid, $data) = each %{$results->{portDuplex}}) {
-            $ports->{getLastElement($oid)}->{IFPORTDUPLEX} = $data;
-        }
-    }
-
-    $device->{PORTS}->{PORT} = $ports;
-}
-
-sub _setPrinterProperties {
-    my ($self, %params) = @_;
-
-    my $results = $params{results};
-    my $device  = $params{device};
-
-    $device->{INFO}->{MODEL} = $results->{model};
-
-    # consumable levels
-    foreach my $key (keys %printer_cartridges_simple_properties) {
-        my $property = $printer_cartridges_simple_properties{$key};
-
-        next unless defined($results->{$property . '-level'});
-
-        my $value =
-            $results->{$property . '-level'} == -3 ?
-                100 :
-                _getPercentValue(
-                    $results->{$property . '-capacitytype'},
-                    $results->{$property . '-level'},
-                );
-        next unless $value;
-        $device->{CARTRIDGES}->{$key} = $value;
-    }
-    foreach my $key (keys %printer_cartridges_percent_properties) {
-        my $property = $printer_cartridges_percent_properties{$key};
-        my $value = _getPercentValue(
-            $results->{$property . 'MAX'},
-            $results->{$property . 'REMAIN'},
-        );
-        next unless $value;
-        $device->{CARTRIDGES}->{$key} = $value;
-    }
-
-    # page counters
-    foreach my $key (keys %printer_pagecounters_properties) {
-        my $property = $printer_pagecounters_properties{$key};
-        $device->{PAGECOUNTERS}->{$key} =
-            $results->{$property};
-    }
-}
-
-sub _setNetworkingProperties {
-    my ($self, %params) = @_;
-
-    my $results = $params{results};
-    my $device  = $params{device};
-    my $walks   = $params{walks};
-
-    $device->{INFO}->{MODEL} = $results->{entPhysicalModelName};
-
-    my $comments = $device->{INFO}->{DESCRIPTION} || $device->{INFO}->{COMMENTS};
-    my $ports    = $device->{PORTS}->{PORT};
-
-    # Detect VLAN
-    if ($results->{vmvlan}) {
-        while (my ($oid, $vlan_id) = each %{$results->{vmvlan}}) {
-            my $port_id  = getLastElement($oid);
-            my $vlan_oid = $walks->{vtpVlanName}->{OID} . "." . $vlan_id;
-            my $name = $results->{vtpVlanName}->{$vlan_oid};
-            push
-                @{$ports->{$port_id}->{VLANS}->{VLAN}},
-                    {
-                        NUMBER => $vlan_id,
-                        NAME   => $name
-                    };
-        }
-    }
-
-    # everything else is vendor-specific, and requires device description
-    return unless $comments;
-
-    setTrunkPorts($comments, $results, $ports);
-
-    setConnectedDevices($comments, $results, $ports, $walks);
-
-    # check if vlan-specific queries are needed
-    my $vlan_query =
-        any { $_->{VLAN} }
-        values %{$walks};
-
-    if ($vlan_query) {
-        my $host        = $params{host};
-        my $credentials = $params{credentials};
-        # set connected devices mac addresses for each VLAN
-        while (my ($oid, $name) = each %{$results->{vtpVlanName}}) {
-            my $vlan_id = getLastElement($oid);
-            # initiate a new SNMP connection on this VLAN
-            my $snmp;
-            eval {
-                $snmp = FusionInventory::Agent::SNMP::Live->new(
-                    version      => $credentials->{VERSION},
-                    hostname     => $host,
-                    community    => $credentials->{COMMUNITY} . "@" . $vlan_id,
-                    username     => $credentials->{USERNAME},
-                    authpassword => $credentials->{AUTHPASSWORD},
-                    authprotocol => $credentials->{AUTHPROTOCOL},
-                    privpassword => $credentials->{PRIVPASSWORD},
-                    privprotocol => $credentials->{PRIVPROTOCOL},
-                );
-            };
-            if ($EVAL_ERROR) {
-                $self->{logger}->error(
-                    "Unable to create SNMP session for $host, VLAN $vlan_id: " .
-                    $EVAL_ERROR
-                );
-                return;
-            }
-
-            foreach my $variable (values %{$walks}) {
-                next unless $variable->{VLAN};
-                $results->{VLAN}->{$vlan_id}->{$variable->{OBJECT}} =
-                    $snmp->walk($variable->{OID});
-            }
-
-            setConnectedDevicesMacAddresses(
-                $comments, $results, $ports, $walks, $vlan_id
-            );
-        }
-    } else {
-        # set connected devices mac addresses only once
-        setConnectedDevicesMacAddresses($comments, $results, $ports, $walks);
-    }
-
-    # hardware-specific hacks
-    performSpecificCleanup($comments, $results, $ports);
-}
-
-sub _getPercentValue {
-    my ($value1, $value2) = @_;
-
-    return unless defined $value1 && _isInteger($value1);
-    return unless defined $value2 && _isInteger($value2);
-    return if $value1 == 0;
-
-    return int(
-        ( 100 * $value2 ) / $value1
-    );
-}
-
-sub _isInteger {
-    $_[0] =~ /^[+-]?\d+$/;
+    # index credentials by their ID
+    return { map { $_->{ID} => $_ } @{$credentials} };
 }
 
 1;

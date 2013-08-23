@@ -104,6 +104,13 @@ my %dumpxml_tests = (
           uuid   => 'aee61d6a-0c2f-f8b6-5246-7c555d803a7d',
           vcpu   => '2'
     },
+    dumpxml4 => {
+          memory => 2147,
+          vmtype => 'kvm',
+          uuid   => 'a28ff943-8d89-38ee-fd28-1e675142951c',
+          vcpu   => '1'
+    },
+
 );
 
 

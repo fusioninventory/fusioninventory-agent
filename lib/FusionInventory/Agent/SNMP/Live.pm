@@ -22,7 +22,9 @@ sub new {
 
     die "invalid SNMP version $params{version}" unless $version;
 
-    my $self = {};
+    my $self = {
+        community => $params{community}
+    };
 
     my $error;
     if ($version eq 'snmpv3') {
@@ -52,6 +54,18 @@ sub new {
     bless $self, $class;
 
     return $self;
+}
+
+sub switch_community {
+    my ($self, $suffix) = @_;
+
+    ($self->{session}, undef) = Net::SNMP->session(
+            -timeout   => 1,
+            -retries   => 0,
+            -version   => $self->{session}->version(),
+            -hostname  => $self->{session}->hostname(),
+            -community => $self->{community} . $suffix
+    );
 }
 
 sub get {
@@ -92,11 +106,12 @@ sub walk {
     return unless $response;
 
     my $values;
+    my $offset = length($oid) + 1;
 
     foreach my $oid (keys %{$response}) {
         my $value = $response->{$oid};
         chomp $value;
-        $values->{$oid} = $value;
+        $values->{substr($oid, $offset)} = $value;
     }
 
     return $values;
@@ -151,3 +166,8 @@ Can be one of:
 =item privprotocol
 
 =back
+
+=head2 switch_community(suffix)
+
+Initiate a new SNMP connection, using a community derived from original one,
+with a suffix appended.
