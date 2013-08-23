@@ -18,7 +18,11 @@ use FusionInventory::Agent::Tools::Hardware::Cisco;
 # - test explication
 my @trunk_ports_tests = (
     [
-        {},
+        {
+            0 => {},
+            1 => {},
+            2 => {},
+        },
         {
             0 => {
                 TRUNK => 1
@@ -40,7 +44,9 @@ my @trunk_ports_tests = (
 # - test explication
 my @connected_devices_tests = (
     [
-        {},
+        {
+            24 => {},
+        },
         {
             24 => {
                 CONNECTIONS => {

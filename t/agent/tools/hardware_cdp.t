@@ -31,7 +31,9 @@ my %all_values = (
 
 my $snmp = FusionInventory::Agent::SNMP::Mock->new(hash => \%all_values);
 
-my $ports = {};
+my $ports = {
+    24 => {}
+};
 
 my $expected = {
     24 => {
