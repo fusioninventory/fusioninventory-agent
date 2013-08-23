@@ -92,6 +92,7 @@ makemaker_args(
     test => {
         TESTS => join ' ', map { glob } qw(t/*.t t/*/*.t t/*/*/*.t t/*/*/*/*.t)
     },
+    INSTALLMAN3DIR => 'none'
 );
 
 WriteAll;
