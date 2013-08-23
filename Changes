@@ -3,6 +3,20 @@ Revision history for FusionInventory agent
 2.3.1
 inventory task
 * report when running in a BSD Jail or a LXC system, thanks Igor Morozov
+* better strategy for extracting USB printer serial on windows (#2213)
+* force lowercase identifiers for USB and PCI lookups (#2122)
+
+netdiscovery task
+* fix invalid log message and spurious warnings during discovery (#2200)
+
+netinventory task
+* ensure device type is set in agent answer
+* emits warnings when retrieved values are obviously wrong
+* better handling of mac addresses
+* large code cleanup and optimisation
+
+wake-on-lan task
+* fix wrong mac address pattern check
 
 2.3.0  Thu, 01 Aug 2013 11:38:40 +0200
 distribution:
