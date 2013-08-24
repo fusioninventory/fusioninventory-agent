@@ -65,6 +65,7 @@ sub getModel {
 
     $description =~ s/\n//g;
     $description =~ s/\r//g;
+    $description =~ s/\s+$//g;
 
     my $md5 = md5_hex($description);
     return $self->{models}->{$md5};
