@@ -176,6 +176,11 @@ my @hardware_rules = (
         description => { function => 'FusionInventory::Agent::Tools::Hardware::Zebranet::getDescription' },
         vendor      => { value    => 'Zebranet' },
     },
+    {
+        match       => qr/Nortel Networks$/,
+        vendor      => { value    => 'Nortel' },
+        type        => { value    => 'NETWORKING' }
+    },
 );
 
 my @trunk_ports_rules = (
