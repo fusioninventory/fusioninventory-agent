@@ -44,12 +44,8 @@ pod2usage(
 ) unless $options->{last};
 
 my $discovery = FusionInventory::Agent::Task::NetDiscovery->new(
-    target => FusionInventory::Agent::Task::NetInventory::Target->new(
-        dictionary => $options->{dictionary}
-    ),
-    logger =>  FusionInventory::Agent::Logger->new(
-        debug => $options->{debug}
-    )
+    target => FusionInventory::Agent::Task::NetInventory::Target->new(),
+    logger => FusionInventory::Agent::Logger->new(debug => $options->{debug})
 );
 
 $discovery->{options} = {
