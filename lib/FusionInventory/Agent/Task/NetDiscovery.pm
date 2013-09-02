@@ -227,8 +227,7 @@ sub _getDictionary {
     my $storage = $self->{target}->getStorage();
 
     if ($options->{DICO}) {
-        # the server message contains a dictionary, use it
-        # and save it for later use
+        # new dictionary sent by the server, load it and save it for next run
         $dictionary =
             FusionInventory::Agent::Task::NetDiscovery::Dictionary->new(
                 string => $options->{DICO}
@@ -250,14 +249,33 @@ sub _getDictionary {
     }
 
     if ($options->{DICOHASH}) {
-        if ($dictionary && $hash && $hash eq $options->{DICOHASH}) {
-            $self->{logger}->debug("Dictionary is up to date.");
-            return $dictionary;
+        if ($hash) {
+            if ($hash eq $options->{DICOHASH}) {
+                $self->{logger}->debug("Dictionary is up to date.");
+            } else {
+                $self->_sendUpdateMessage($pid);
+                $self->{logger}->debug(
+                    "Dictionary is outdated, update request sent, exiting"
+                );
+                return;
+            }
+        } else {
+            $self->_sendUpdateMessage($pid);
+            $self->{logger}->debug(
+                "No dictionary, update request sent, exiting"
+            );
+            return;
         }
     }
 
+    $self->{logger}->debug("Dictionary loaded.");
 
-    # Send dictionary update request
+    return $dictionary;
+}
+
+sub _sendUpdateMessage {
+    my ($self, $pid) = @_;
+
     $self->_sendMessage({
         AGENT => {
             END => '1'
@@ -266,11 +284,6 @@ sub _getDictionary {
         PROCESSNUMBER => $pid,
         DICO          => "REQUEST",
     });
-    $self->{logger}->debug($hash ?
-        "Dictionary is outdated, update request sent, exiting" :
-        "No dictionary, update request sent, exiting"
-    );
-    return;
 }
 
 sub _getCredentials {
