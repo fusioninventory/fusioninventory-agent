@@ -100,7 +100,7 @@ sub run {
     my $max_size = 0;
     foreach my $block (@$blocks) {
         my $ip = Net::IP->new($block->{IPSTART} . '-' . $block->{IPEND});
-        if (!$ip || $ip->{binip} !~ /1/) {
+        if (!$ip || $ip->binip() !~ /1/) {
             $self->{logger}->error(
                 "IPv4 range not supported by Net::IP: ".
                 $block->{IPSTART} . '-' . $block->{IPEND}
