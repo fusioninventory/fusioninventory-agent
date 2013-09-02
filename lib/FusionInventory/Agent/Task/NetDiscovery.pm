@@ -96,22 +96,20 @@ sub run {
     }
 
     # compute blocks list
-    my $ranges   = $options->{RANGEIP};
+    my $blocks   = $options->{RANGEIP};
     my $max_size = 0;
-    foreach my $range (@$ranges) {
-        my $block = Net::IP->new(
-            $range->{IPSTART} . '-' . $range->{IPEND}
-        );
-        if (!$block || $block->{binip} !~ /1/) {
+    foreach my $block (@$blocks) {
+        my $ip = Net::IP->new($block->{IPSTART} . '-' . $block->{IPEND});
+        if (!$ip || $ip->{binip} !~ /1/) {
             $self->{logger}->error(
                 "IPv4 range not supported by Net::IP: ".
-                $range->{IPSTART} . '-' . $range->{IPEND}
+                $block->{IPSTART} . '-' . $block->{IPEND}
             );
             next;
         }
-        $range->{block} = $block;
+        $block->{ip} = $ip;
 
-        my $size = $range->{block}->size();
+        my $size = $ip->size();
         $max_size = $size if $size >= $max_size;
     }
 
@@ -145,15 +143,13 @@ sub run {
     });
 
     # proceed each given IP block
-    foreach my $range (@{$options->{RANGEIP}}) {
-        my $block = $range->{block};
+    foreach my $block (@$blocks) {
         my @addresses;
-        next unless $block;
         do {
-            push @addresses, $block->ip(),
-        } while (++$block);
+            push @addresses, $block->{ip}->ip(),
+        } while (++$block->{ip});
         $self->{logger}->debug(
-            "scanning range: $range->{IPSTART}-$range->{IPEND}"
+            "scanning range: $block->{IPSTART}-$block->{IPEND}"
         );
 
         # send block size to the server
@@ -167,7 +163,7 @@ sub run {
         my @results = $engine->scan(@addresses);
 
         foreach my $result (@results) {
-            $result->{ENTITY} = $range->{ENTITY} if defined($range->{ENTITY});
+            $result->{ENTITY} = $block->{ENTITY} if defined($block->{ENTITY});
             my $data = {
                 DEVICE        => [$result],
                 MODULEVERSION => $VERSION,
