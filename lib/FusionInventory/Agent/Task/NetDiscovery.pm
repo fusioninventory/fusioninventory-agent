@@ -8,7 +8,6 @@ use constant DEVICE_PER_MESSAGE => 4;
 
 use English qw(-no_match_vars);
 use Net::IP;
-use Time::localtime;
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::HTTP::Client::OCS;
