@@ -2,33 +2,19 @@ package FusionInventory::Agent::Task::NetDiscovery;
 
 use strict;
 use warnings;
-use threads;
-use threads::shared;
 use base 'FusionInventory::Agent::Task';
 
 use constant DEVICE_PER_MESSAGE => 4;
-
-use constant START => 0;
-use constant RUN   => 1;
-use constant STOP  => 2;
-use constant EXIT  => 3;
 
 use English qw(-no_match_vars);
 use Net::IP;
 use Time::localtime;
 use UNIVERSAL::require;
-use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
-use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::Task::NetDiscovery::Dictionary;
 use FusionInventory::Agent::XML::Query;
-
-# needed for perl < 5.10.1 compatbility
-if ($threads::shared::VERSION < 1.21) {
-    FusionInventory::Agent::Threads->use();
-}
 
 our $VERSION = '2.2.0';
 
@@ -109,16 +95,10 @@ sub run {
         return unless $snmp_dictionary;
     }
 
-
-    # create the required number of threads, sharing variables
-    # for synchronisation
-    my @addresses :shared;
-    my @results   :shared;
-    my @states    :shared;
-
     # compute blocks list
+    my $ranges          = $options->{RANGEIP};
     my $addresses_count = 0;
-    foreach my $range (@{$options->{RANGEIP}}) {
+    foreach my $range (@$ranges) {
         my $block = Net::IP->new(
             $range->{IPSTART} . '-' . $range->{IPEND}
         );
@@ -138,20 +118,19 @@ sub run {
         $max_threads = $addresses_count;
     }
 
-    for (my $i = 0; $i < $max_threads; $i++) {
-        $states[$i] = START;
+    my $engine_class = $max_threads > 1 ?
+        'FusionInventory::Agent::Task::NetDiscovery::Engine::Thread' :
+        'FusionInventory::Agent::Task::NetDiscovery::Engine::NoThread';
 
-        threads->create(
-            '_scanAddresses',
-            $self,
-            \$states[$i],
-            \@addresses,
-            \@results,
-            $snmp_credentials,
-            $snmp_dictionary,
-            $nmap_parameters,
-        )->detach();
-    }
+    $engine_class->require();
+
+    my $engine = $engine_class->new(
+        logger           => $self->{logger},
+        nmap_parameters  => $nmap_parameters,
+        snmp_credentials => $snmp_credentials,
+        snmp_dictionary  => $snmp_dictionary,
+        threads          => $max_threads
+    );
 
     # send initial message to the server
     $self->_sendMessage({
@@ -163,12 +142,10 @@ sub run {
         PROCESSNUMBER => $pid
     });
 
-    # set all threads in RUN state
-    $_ = RUN foreach @states;
-
     # proceed each given IP block
     foreach my $range (@{$options->{RANGEIP}}) {
         my $block = $range->{block};
+        my @addresses;
         next unless $block;
         do {
             push @addresses, $block->ip(),
@@ -185,29 +162,20 @@ sub run {
             PROCESSNUMBER => $pid
         });
 
-        # set all threads in RUN state
-        $_ = RUN foreach @states;
+        my @results = $engine->scan(@addresses);
 
-        # wait for all threads to reach STOP state
-        while (any { $_ != STOP } @states) {
-            delay(1);
-
-            # send results to the server
-            while (my $result = do { lock @results; shift @results; }) {
-                $result->{ENTITY} = $range->{ENTITY} if defined($range->{ENTITY});
-                my $data = {
-                    DEVICE        => [$result],
-                    MODULEVERSION => $VERSION,
-                    PROCESSNUMBER => $pid,
-                };
-                $self->_sendMessage($data);
-            }
+        foreach my $result (@results) {
+            $result->{ENTITY} = $range->{ENTITY} if defined($range->{ENTITY});
+            my $data = {
+                DEVICE        => [$result],
+                MODULEVERSION => $VERSION,
+                PROCESSNUMBER => $pid,
+            };
+            $self->_sendMessage($data);
         }
     }
 
-    # set all threads in EXIT state
-    $_ = EXIT foreach @states;
-    delay(1);
+    $engine->finish();
 
     # send final message to the server
     $self->_sendMessage({
@@ -217,7 +185,6 @@ sub run {
         MODULEVERSION => $VERSION,
         PROCESSNUMBER => $pid
     });
-
 }
 
 sub _getDictionary {
@@ -306,52 +273,6 @@ sub _getCredentials {
     return \@credentials;
 }
 
-sub _scanAddresses {
-    my ($self, $state, $addresses, $results, $snmp_credentials, $snmp_dictionary, $nmap_parameters) = @_;
-
-    my $logger = $self->{logger};
-    my $id     = threads->tid();
-
-    $logger->debug("Thread $id created");
-
-    # start: wait for state to change
-    while ($$state == START) {
-        delay(1);
-    }
-
-    OUTER: while (1) {
-        # run: process available addresses until exhaustion
-        $logger->debug("Thread $id switched to RUN state");
-
-        while (my $address = do { lock @{$addresses}; shift @{$addresses}; }) {
-
-            my $result = $self->_scanAddress(
-                ip               => $address,
-                nmap_parameters  => $nmap_parameters,
-                snmp_credentials => $snmp_credentials,
-                snmp_dictionary  => $snmp_dictionary
-            );
-
-            if ($result) {
-                lock $results;
-                push @$results, shared_clone($result);
-            }
-        }
-
-        # stop: wait for state to change
-        $$state = STOP;
-        $logger->debug("Thread $id switched to STOP state");
-        while ($$state == STOP) {
-            delay(1);
-        }
-
-        # exit: exit thread
-        last OUTER if $$state == EXIT;
-    }
-
-    $logger->debug("Thread $id deleted");
-}
-
 sub _sendMessage {
     my ($self, $content) = @_;
 
@@ -365,168 +286,6 @@ sub _sendMessage {
         url     => $self->{target}->getUrl(),
         message => $message
     );
-}
-
-sub _scanAddress {
-    my ($self, %params) = @_;
-
-    my $logger = $self->{logger};
-    my $id     = threads->tid();
-    $logger->debug("thread $id: scanning $params{ip}");
-
-    my %device = (
-        $params{nmap_parameters} ? $self->_scanAddressByNmap(%params)    : (),
-        $INC{'Net/NBName.pm'}    ? $self->_scanAddressByNetbios(%params) : (),
-        $INC{'Net/SNMP.pm'}      ? $self->_scanAddressBySNMP(%params)    : ()
-    );
-
-    if ($device{MAC}) {
-        $device{MAC} =~ tr/A-F/a-f/;
-    }
-
-    if ($device{MAC} || $device{DNSHOSTNAME} || $device{NETBIOSNAME}) {
-        $device{IP}     = $params{ip};
-        $logger->debug("thread $id: device found for $params{ip}");
-        return \%device;
-    } else {
-        $logger->debug("thread $id: nothing found for $params{ip}");
-        return;
-    }
-}
-
-sub _scanAddressByNmap {
-    my ($self, %params) = @_;
-
-    my $device = _parseNmap(
-        command => "nmap $params{nmap_parameters} $params{ip} -oX -"
-    );
-
-    $self->{logger}->debug2(
-        sprintf "thread %d: scanning %s with nmap: %s",
-        threads->tid(),
-        $params{ip},
-        $device ? 'success' : 'failure'
-    );
-
-    return $device ? %$device : ();
-}
-
-sub _scanAddressByNetbios {
-    my ($self, %params) = @_;
-
-    my $nb = Net::NBName->new();
-
-    my $ns = $nb->node_status($params{ip});
-
-    $self->{logger}->debug2(
-        sprintf "thread %d: scanning %s with netbios: %s",
-        threads->tid(),
-        $params{ip},
-        $ns ? 'success' : 'failure'
-    );
-    return unless $ns;
-
-    my %device;
-    foreach my $rr ($ns->names()) {
-        my $suffix = $rr->suffix();
-        my $G      = $rr->G();
-        my $name   = $rr->name();
-        if ($suffix == 0 && $G eq 'GROUP') {
-            $device{WORKGROUP} = getSanitizedString($name);
-        }
-        if ($suffix == 3 && $G eq 'UNIQUE') {
-            $device{USERSESSION} = getSanitizedString($name);
-        }
-        if ($suffix == 0 && $G eq 'UNIQUE') {
-            $device{NETBIOSNAME} = getSanitizedString($name)
-                unless $name =~ /^IS~/;
-        }
-    }
-
-    $device{MAC} = $ns->mac_address();
-    $device{MAC} =~ tr/-/:/;
-
-    return %device;
-}
-
-sub _scanAddressBySNMP {
-    my ($self, %params) = @_;
-
-    my %device;
-    foreach my $credential (@{$params{snmp_credentials}}) {
-
-        my $snmp;
-        eval {
-            $snmp = FusionInventory::Agent::SNMP::Live->new(
-                version      => $credential->{VERSION},
-                hostname     => $params{ip},
-                community    => $credential->{COMMUNITY},
-                username     => $credential->{USERNAME},
-                authpassword => $credential->{AUTHPASSWORD},
-                authprotocol => $credential->{AUTHPROTOCOL},
-                privpassword => $credential->{PRIVPASSWORD},
-                privprotocol => $credential->{PRIVPROTOCOL},
-            );
-        };
-        if ($EVAL_ERROR) {
-            $self->{logger}->error(
-                "Unable to create SNMP session for $params{ip}: $EVAL_ERROR"
-            );
-            next;
-        }
-
-        %device = getDeviceInfo(
-            $snmp, $params{snmp_dictionary}
-        );
-
-        # no device just means invalid credentials
-        $self->{logger}->debug2(
-            sprintf "thread %d: scanning %s with snmp credentials %d: %s",
-            threads->tid(),
-            $params{ip},
-            $credential->{ID},
-            %device ? 'success' : 'failure'
-        );
-
-        next unless %device;
-
-        $device{AUTHSNMP} = $credential->{ID};
-
-        last;
-    }
-
-    return %device;
-}
-
-sub _parseNmap {
-    my (%params) = @_;
-
-    my $handle = getFileHandle(%params);
-    return unless $handle;
-
-    local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode
-    my $tpp  = XML::TreePP->new(force_array => '*');
-    my $tree = $tpp->parse(<$handle>);
-    close $handle;
-    return unless $tree;
-
-    my $result;
-
-    foreach my $host (@{$tree->{nmaprun}[0]{host}}) {
-        foreach my $address (@{$host->{address}}) {
-            next unless $address->{'-addrtype'} eq 'mac';
-            $result->{MAC}           = $address->{'-addr'};
-            $result->{NETPORTVENDOR} = $address->{'-vendor'};
-            last;
-        }
-        foreach my $hostname (@{$host->{hostnames}}) {
-            my $name = eval {$hostname->{hostname}[0]{'-name'}};
-            next unless $name;
-            $result->{DNSHOSTNAME} = $name;
-        }
-    }
-
-    return $result;
 }
 
 1;
