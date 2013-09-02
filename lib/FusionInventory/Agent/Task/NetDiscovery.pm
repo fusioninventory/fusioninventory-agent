@@ -96,8 +96,8 @@ sub run {
     }
 
     # compute blocks list
-    my $ranges          = $options->{RANGEIP};
-    my $addresses_count = 0;
+    my $ranges   = $options->{RANGEIP};
+    my $max_size = 0;
     foreach my $range (@$ranges) {
         my $block = Net::IP->new(
             $range->{IPSTART} . '-' . $range->{IPEND}
@@ -110,12 +110,14 @@ sub run {
             next;
         }
         $range->{block} = $block;
-        $addresses_count += $range->{block}->size();
+
+        my $size = $range->{block}->size();
+        $max_size = $size if $size >= $max_size;
     }
 
-    # no need for more threads than addresses to scan
-    if ($max_threads > $addresses_count) {
-        $max_threads = $addresses_count;
+    # no need for more threads than addresses in any single block
+    if ($max_threads > $max_size) {
+        $max_threads = $max_size;
     }
 
     my $engine_class = $max_threads > 1 ?
