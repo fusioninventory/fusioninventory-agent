@@ -11,6 +11,7 @@ use Net::IP;
 use Time::localtime;
 use UNIVERSAL::require;
 
+use FusionInventory::Agent::HTTP::Client::OCS;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::NetDiscovery::Dictionary;
 use FusionInventory::Agent::XML::Query;
