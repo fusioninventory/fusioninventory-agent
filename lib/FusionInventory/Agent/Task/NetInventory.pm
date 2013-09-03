@@ -80,6 +80,7 @@ sub run {
         threads     => $max_threads
     );
 
+    # send initial message to the server
     $self->_sendMessage({
         AGENT => {
             START        => 1,
@@ -89,6 +90,7 @@ sub run {
         PROCESSNUMBER => $pid
     });
 
+    # proceed each given device
     my @results = $engine->query(@devices);
 
     foreach my $result (@results) {
@@ -102,6 +104,7 @@ sub run {
 
     $engine->finish();
 
+    # send final message to the server
     $self->_sendMessage({
         AGENT => {
             END => 1,
