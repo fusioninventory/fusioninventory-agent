@@ -8,16 +8,17 @@ use UNIVERSAL::require;
 sub create {
     my ($class, %params) = @_;
 
-    if ($params{target} && $params{target} =~ m{^https?://}) {
-        FusionInventory::Agent::Output::Server->require();
-        return FusionInventory::Agent::Output::Server->new(%params);
-    } elsif ($params{target}) {
-        FusionInventory::Agent::Output::Directory->require();
-        return FusionInventory::Agent::Output::Directory->new(%params);
-    } else {
-        FusionInventory::Agent::Output::Stdout->require();
-        return FusionInventory::Agent::Output::Stdout->new(%params);
-    }
+    my $target = $params{target};
+    my $output_class =
+        !defined $target         ? 'FusionInventory::Agent::Output::Stdout'   :
+        $target =~ m{^https?://} ? 'FusionInventory::Agent::Output::Server'   :
+        -d $target               ? 'FusionInventory::Agent::Output::Directory':
+                                   undef                                      ;
+
+    die "invalid target $target" unless $output_class;
+    $output_class->require();
+
+    return $output_class->new(%params);
 }
 
 1;
