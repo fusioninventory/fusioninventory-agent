@@ -8,6 +8,7 @@ inventory task
 
 netdiscovery task
 * fix invalid log message and spurious warnings during discovery (#2200)
+* fix dictionary update handling, breaking fusioninventory-netdiscovery usage
 
 netinventory task
 * ensure device type is set in agent answer
