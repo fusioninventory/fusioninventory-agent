@@ -8,7 +8,6 @@ use English qw(-no_match_vars);
 use Getopt::Long;
 use Pod::Usage;
 
-use FusionInventory::Agent::Output::Stdout;
 use FusionInventory::Agent::Task::NetDiscovery;
 use FusionInventory::Agent::Logger;
 
@@ -25,6 +24,7 @@ GetOptions(
     'community=s',
     'entity=s',
     'threads=i',
+    'target=s',
     'verbose',
     'debug+',
     'help',
@@ -90,8 +90,20 @@ if ($options->{dictionary}) {
 if (defined($options->{entity})) {
     $discovery->{options}->{RANGEIP}->[0]->{ENTITY} = $options->{entity};
 }
-$discovery->{client} =
-    FusionInventory::Agent::Output::Stdout->new(verbose => $options->{verbose});
+
+if ($options->{target}) {
+    FusionInventory::Agent::Output::Directory->require();
+    $discovery->{client} = FusionInventory::Agent::Output::Directory->new(
+        path    => $options->{target},
+        task    => 'netdiscovery',
+        verbose => $options->{verbose}
+    );
+} else {
+    FusionInventory::Agent::Output::Stdout->require();
+    $discovery->{client} = FusionInventory::Agent::Output::Stdout->new(
+        verbose => $options->{verbose}
+    );
+}
 $discovery->{deviceid} = 'foo';
 
 $discovery->run();
@@ -167,6 +179,7 @@ fusioninventory-netdiscovery [options] --first <start> --last <stop>
     --community     community string (default: public)
     --entity        GLPI entity
     --threads nb    number of discovery threads (default: 1)
+    --target target where to send result (default: stdout)
     --verbose       verbose output (control messages)
     --debug         debug output (execution traces)
     -h --help       print this message and exit

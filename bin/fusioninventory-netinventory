@@ -10,6 +10,7 @@ use Pod::Usage;
 use XML::TreePP;
 
 use FusionInventory::Agent::Output::Stdout;
+use FusionInventory::Agent::Output::Directory;
 use FusionInventory::Agent::Task::NetInventory;
 use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::Logger;
@@ -25,6 +26,7 @@ GetOptions(
     'file=s',
     'community=s',
     'entity=s',
+    'target=s',
     'verbose',
     'debug+',
     'help',
@@ -89,8 +91,21 @@ $inventory->{options} = {
 if (defined($options->{entity})) {
     $inventory->{options}->{DEVICE}->[0]->{ENTITY} = $options->{entity};
 }
-$inventory->{client} =
-    FusionInventory::Agent::Output::Stdout->new(verbose => $options->{verbose});
+
+if ($options->{target}) {
+    FusionInventory::Agent::Output::Directory->require();
+    $inventory->{client} = FusionInventory::Agent::Output::Directory->new(
+        path    => $options->{target},
+        task    => 'netinventory',
+        verbose => $options->{verbose}
+    );
+} else {
+    FusionInventory::Agent::Output::Stdout->require();
+    $inventory->{client} = FusionInventory::Agent::Output::Stdout->new(
+        verbose => $options->{verbose}
+    );
+}
+
 # TODO: need to be dropped the day we will depend on agent >= 2.3.0
 $inventory->{deviceid} = 'foo';
 
@@ -128,6 +143,7 @@ fusioninventory-netinventory [options] [--host <host>--file <file>]
     --model model  XML model file
     --community    community string (default: public)
     --entity       GLPI entity
+    --target target where to send result (default: stdout)
     --verbose      verbose output (control messages)
     --debug        debug output (execution traces)
     -h --help      print this message and exit
