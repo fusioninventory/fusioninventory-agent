@@ -126,4 +126,4 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::NetInventory::Engine::Thread - Threaded remote inventory engine
+FusionInventory::Agent::Task::NetInventory::Engine::Thread - Threaded network inventory engine

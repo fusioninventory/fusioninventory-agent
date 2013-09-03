@@ -23,4 +23,4 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::NetDiscovery::Engine - Net discovery engine
+FusionInventory::Agent::Task::NetDiscovery::Engine::NoThread - Non-threaded network discovery engine

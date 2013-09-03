@@ -291,7 +291,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::NetDiscovery - Net discovery support for FusionInventory Agent
+FusionInventory::Agent::Task::NetDiscovery - Network discovery task
 
 =head1 DESCRIPTION
 

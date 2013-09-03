@@ -23,4 +23,4 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::NetInventory::Engine::NoThread - Non-threaded remote inventory engine
+FusionInventory::Agent::Task::NetInventory::Engine::NoThread - Non-threaded network inventory engine

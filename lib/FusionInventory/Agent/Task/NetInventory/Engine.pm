@@ -75,4 +75,4 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::NetInventory::Engine - Remote inventory engine
+FusionInventory::Agent::Task::NetInventory::Engine - Network inventory engine

@@ -157,7 +157,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::NetInventory - Remote inventory support for FusionInventory Agent
+FusionInventory::Agent::Task::NetInventory - Network inventory task
 
 =head1 DESCRIPTION
 
