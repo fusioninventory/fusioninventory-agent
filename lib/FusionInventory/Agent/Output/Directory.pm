@@ -6,10 +6,11 @@ use warnings;
 sub new {
     my ($class, %params) = @_;
 
-    die "invalid path" unless -d $params{path};
+    die "missing target parameter" unless $params{target};
+    die "invalid target" unless -d $params{target};
 
     return bless {
-        path    => $params{path},
+        path    => $params{target},
         task    => $params{task},
         verbose => $params{verbose},
         count   => 0
