@@ -182,12 +182,12 @@ sub _getType {
     }
     return $result if $result;
 
-    if (getFirstMatch(
-        file    => '/proc/1/environ',
-        pattern => qr/container=lxc/
-    )) {
-        return 'LXC';
-    }
+    if (getFirstMatch(
+        file    => '/proc/1/environ',
+        pattern => qr/container=lxc/
+    )) {
+        return 'LXC';
+    }
 
     # OpenVZ
     if (-f '/proc/self/status') {
