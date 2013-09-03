@@ -7,6 +7,7 @@ use base 'FusionInventory::Agent::Task';
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
+use FusionInventory::Agent::HTTP::Client::OCS;
 use FusionInventory::Agent::XML::Query;
 use FusionInventory::Agent::Tools;
 
