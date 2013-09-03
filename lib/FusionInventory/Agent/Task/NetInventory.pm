@@ -9,8 +9,6 @@ use UNIVERSAL::require;
 
 use FusionInventory::Agent::XML::Query;
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::Hardware;
-use FusionInventory::Agent::Tools::Network;
 
 our $VERSION = '2.2.0';
 
