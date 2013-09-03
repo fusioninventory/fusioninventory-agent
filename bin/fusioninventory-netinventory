@@ -106,9 +106,6 @@ if ($options->{target}) {
     );
 }
 
-# TODO: need to be dropped the day we will depend on agent >= 2.3.0
-$inventory->{deviceid} = 'foo';
-
 $inventory->run();
 
 package FusionInventory::Agent::Task::NetInventory::Target;
