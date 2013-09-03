@@ -94,10 +94,10 @@ sub run {
         return unless $snmp_dictionary;
     }
 
-    # compute blocks list
-    my $blocks   = $options->{RANGEIP};
+    # blocks list
+    my @blocks = @{$options->{RANGEIP}};
     my $max_size = 0;
-    foreach my $block (@$blocks) {
+    foreach my $block (@blocks) {
         my $ip = Net::IP->new($block->{IPSTART} . '-' . $block->{IPEND});
         if (!$ip || $ip->binip() !~ /1/) {
             $self->{logger}->error(
@@ -142,7 +142,7 @@ sub run {
     });
 
     # proceed each given IP block
-    foreach my $block (@$blocks) {
+    foreach my $block (@blocks) {
         my @addresses;
         do {
             push @addresses, $block->{ip}->ip(),
