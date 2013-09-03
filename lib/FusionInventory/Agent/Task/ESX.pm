@@ -11,8 +11,6 @@ use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::SOAP::VMware;
 
-our $VERSION = "2.2.1";
-
 sub isEnabled {
     my ($self) = @_;
 
@@ -164,7 +162,7 @@ sub getHostIds {
 sub run {
     my ( $self, %params ) = @_;
 
-    $self->{logger}->debug("FusionInventory ESX task $VERSION");
+    $self->{logger}->debug("running FusionInventory ESX task");
 
     $self->{client} = FusionInventory::Agent::HTTP::Client::Fusion->new(
         logger       => $self->{logger},
@@ -183,7 +181,7 @@ sub run {
         args  => {
             action    => "getConfig",
             machineid => $self->{deviceid},
-            task      => { ESX => $VERSION },
+            task      => { ESX => $FusionInventory::Agent::VERSION },
         }
     );
 

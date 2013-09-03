@@ -12,8 +12,6 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::XML::Query::Inventory;
 
-our $VERSION = '1.0';
-
 sub isEnabled {
     my ($self, $response) = @_;
 
@@ -39,7 +37,7 @@ sub isEnabled {
 sub run {
     my ($self, %params) = @_;
 
-    $self->{logger}->debug("FusionInventory Inventory task $VERSION");
+    $self->{logger}->debug("running FusionInventory Inventory task");
 
     $self->{modules} = {};
 

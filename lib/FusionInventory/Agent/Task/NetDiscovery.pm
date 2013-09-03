@@ -30,8 +30,6 @@ if ($threads::shared::VERSION < 1.21) {
     FusionInventory::Agent::Threads->use();
 }
 
-our $VERSION = '2.2.0';
-
 sub isEnabled {
     my ($self, $response) = @_;
 
@@ -55,7 +53,7 @@ sub isEnabled {
 sub run {
     my ($self, %params) = @_;
 
-    $self->{logger}->debug("FusionInventory NetDiscovery task $VERSION");
+    $self->{logger}->debug("running FusionInventory NetDiscovery task");
 
     # task-specific client, if needed
     $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
@@ -159,7 +157,7 @@ sub run {
             START        => 1,
             AGENTVERSION => $FusionInventory::Agent::VERSION,
         },
-        MODULEVERSION => $VERSION,
+        MODULEVERSION => $FusionInventory::Agent::VERSION,
         PROCESSNUMBER => $pid
     });
 
@@ -197,7 +195,7 @@ sub run {
                 $result->{ENTITY} = $range->{ENTITY} if defined($range->{ENTITY});
                 my $data = {
                     DEVICE        => [$result],
-                    MODULEVERSION => $VERSION,
+                    MODULEVERSION => $FusionInventory::Agent::VERSION,
                     PROCESSNUMBER => $pid,
                 };
                 $self->_sendMessage($data);
@@ -214,7 +212,7 @@ sub run {
         AGENT => {
             END => 1,
         },
-        MODULEVERSION => $VERSION,
+        MODULEVERSION => $FusionInventory::Agent::VERSION,
         PROCESSNUMBER => $pid
     });
 
@@ -280,7 +278,7 @@ sub _sendUpdateMessage {
         AGENT => {
             END => '1'
         },
-        MODULEVERSION => $VERSION,
+        MODULEVERSION => $FusionInventory::Agent::VERSION,
         PROCESSNUMBER => $pid,
         DICO          => "REQUEST",
     });

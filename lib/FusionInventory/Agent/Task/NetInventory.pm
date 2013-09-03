@@ -25,8 +25,6 @@ if ($threads::shared::VERSION < 1.21) {
     FusionInventory::Agent::Threads->use();
 }
 
-our $VERSION = '2.2.0';
-
 # list of devices properties, indexed by XML element name
 # the link to a specific OID is made by the model
 
@@ -54,7 +52,7 @@ sub isEnabled {
 sub run {
     my ($self, %params) = @_;
 
-    $self->{logger}->debug("FusionInventory NetInventory task $VERSION");
+    $self->{logger}->debug("running FusionInventory NetInventory task");
 
     # task-specific client, if needed
     $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
@@ -111,7 +109,7 @@ sub run {
             START        => 1,
             AGENTVERSION => $FusionInventory::Agent::VERSION
         },
-        MODULEVERSION => $VERSION,
+        MODULEVERSION => $FusionInventory::Agent::VERSION,
         PROCESSNUMBER => $pid
     });
 
@@ -126,7 +124,7 @@ sub run {
         while (my $result = do { lock @results; shift @results; }) {
             my $data = {
                 DEVICE        => $result,
-                MODULEVERSION => $VERSION,
+                MODULEVERSION => $FusionInventory::Agent::VERSION,
                 PROCESSNUMBER => $pid
             };
             $self->_sendMessage($data);
@@ -138,7 +136,7 @@ sub run {
         AGENT => {
             END => 1,
         },
-        MODULEVERSION => $VERSION,
+        MODULEVERSION => $FusionInventory::Agent::VERSION,
         PROCESSNUMBER => $pid
     });
 }

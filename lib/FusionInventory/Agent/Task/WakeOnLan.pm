@@ -12,8 +12,6 @@ use UNIVERSAL::require;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 
-our $VERSION = '2.0';
-
 sub isEnabled {
     my ($self, $response) = @_;
 
@@ -43,7 +41,7 @@ sub isEnabled {
 sub run {
     my ($self, %params) = @_;
 
-    $self->{logger}->debug("FusionInventory WakeOnLan task $VERSION");
+    $self->{logger}->debug("running FusionInventory WakeOnLan task");
 
     my $options = $self->{options};
     my $target  = $options->{PARAM}->[0]->{MAC};

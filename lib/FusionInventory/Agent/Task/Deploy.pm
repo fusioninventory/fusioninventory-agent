@@ -19,8 +19,6 @@ use FusionInventory::Agent::Task::Deploy::Datastore;
 use FusionInventory::Agent::Task::Deploy::File;
 use FusionInventory::Agent::Task::Deploy::Job;
 
-our $VERSION = '2.0.4';
-
 sub isEnabled {
     my ($self) = @_;
 
@@ -506,7 +504,7 @@ sub run {
         args => {
             action    => "getConfig",
             machineid => $self->{deviceid},
-            task      => { Deploy => $VERSION },
+            task      => { Deploy => $FusionInventory::Agent::VERSION },
         }
     );
 
@@ -521,6 +519,7 @@ sub run {
     return 1;
 }
 
+1;
 __END__
 
 =head1 NAME
