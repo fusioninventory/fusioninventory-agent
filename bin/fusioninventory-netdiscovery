@@ -8,6 +8,7 @@ use English qw(-no_match_vars);
 use Getopt::Long;
 use Pod::Usage;
 
+use FusionInventory::Agent::Output;
 use FusionInventory::Agent::Task::NetDiscovery;
 use FusionInventory::Agent::Logger;
 
@@ -91,19 +92,11 @@ if (defined($options->{entity})) {
     $discovery->{options}->{RANGEIP}->[0]->{ENTITY} = $options->{entity};
 }
 
-if ($options->{target}) {
-    FusionInventory::Agent::Output::Directory->require();
-    $discovery->{client} = FusionInventory::Agent::Output::Directory->new(
-        path    => $options->{target},
-        task    => 'netdiscovery',
-        verbose => $options->{verbose}
-    );
-} else {
-    FusionInventory::Agent::Output::Stdout->require();
-    $discovery->{client} = FusionInventory::Agent::Output::Stdout->new(
-        verbose => $options->{verbose}
-    );
-}
+$discovery->{client} = FusionInventory::Agent::Output->create(
+    target  => $options->{target},
+    task    => 'netdiscovery',
+    verbose => $options->{verbose}
+);
 
 $discovery->run();
 

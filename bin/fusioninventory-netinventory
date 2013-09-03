@@ -9,8 +9,7 @@ use Getopt::Long;
 use Pod::Usage;
 use XML::TreePP;
 
-use FusionInventory::Agent::Output::Stdout;
-use FusionInventory::Agent::Output::Directory;
+use FusionInventory::Agent::Output;
 use FusionInventory::Agent::Task::NetInventory;
 use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::Logger;
@@ -92,19 +91,11 @@ if (defined($options->{entity})) {
     $inventory->{options}->{DEVICE}->[0]->{ENTITY} = $options->{entity};
 }
 
-if ($options->{target}) {
-    FusionInventory::Agent::Output::Directory->require();
-    $inventory->{client} = FusionInventory::Agent::Output::Directory->new(
-        path    => $options->{target},
-        task    => 'netinventory',
-        verbose => $options->{verbose}
-    );
-} else {
-    FusionInventory::Agent::Output::Stdout->require();
-    $inventory->{client} = FusionInventory::Agent::Output::Stdout->new(
-        verbose => $options->{verbose}
-    );
-}
+$discovery->{client} = FusionInventory::Agent::Output->create(
+    target  => $options->{target},
+    task    => 'netdiscovery',
+    verbose => $options->{verbose}
+);
 
 $inventory->run();
 
