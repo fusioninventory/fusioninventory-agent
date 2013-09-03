@@ -224,6 +224,7 @@ sub _queryDevice {
             return;
         }
     } else {
+        my $credentials = $params{credentials};
         eval {
             FusionInventory::Agent::SNMP::Live->require();
             $snmp = FusionInventory::Agent::SNMP::Live->new(
@@ -244,7 +245,7 @@ sub _queryDevice {
     }
 
     my $result = getDeviceFullInfo(
-         id     => $device->{ID}
+         id     => $device->{ID},
          type   => $device->{TYPE},
          snmp   => $snmp,
          model  => $params{models}->{$device->{MODELSNMP_ID}},
