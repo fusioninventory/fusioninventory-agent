@@ -8,6 +8,7 @@ use English qw(-no_match_vars);
 use Getopt::Long;
 use Pod::Usage;
 
+use FusionInventory::Agent::Output::Stdout;
 use FusionInventory::Agent::Task::NetDiscovery;
 use FusionInventory::Agent::Logger;
 
@@ -90,9 +91,7 @@ if (defined($options->{entity})) {
     $discovery->{options}->{RANGEIP}->[0]->{ENTITY} = $options->{entity};
 }
 $discovery->{client} =
-    FusionInventory::Agent::Task::NetInventory::Client->new(
-        verbose => $options->{verbose}
-    );
+    FusionInventory::Agent::Output::Stdout->new(verbose => $options->{verbose});
 $discovery->{deviceid} = 'foo';
 
 $discovery->run();
@@ -106,26 +105,6 @@ sub getDictionary {
     close $handle;
 
     return $string;
-}
-
-package FusionInventory::Agent::Task::NetInventory::Client;
-
-sub new {
-    my ($class, %params) = @_;
-
-    return bless {
-        verbose => $params{verbose}
-    }, $class;
-}
-
-sub send {
-    my ($self, %params) = @_;
-
-    # don't display control message by default
-    return unless $self->{verbose}
-        or $params{message}->{h}->{CONTENT}->{DEVICE};
-
-    print $params{message}->getContent();
 }
 
 package FusionInventory::Agent::Task::NetInventory::Target;
