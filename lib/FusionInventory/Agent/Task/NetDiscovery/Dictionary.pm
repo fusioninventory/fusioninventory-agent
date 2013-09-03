@@ -54,6 +54,8 @@ sub _init_from_hash {
         my $sysdescr = $device->{SYSDESCR};
         $sysdescr =~ s/\n//g;
         $sysdescr =~ s/\r//g;
+        $sysdescr =~ s/\s+$//;
+        $sysdescr =~ s/^\s+//;
         my $md5 = md5_hex($sysdescr);
         $self->{models}->{$md5} = $device;
     }
@@ -65,7 +67,8 @@ sub getModel {
 
     $description =~ s/\n//g;
     $description =~ s/\r//g;
-    $description =~ s/\s+$//g;
+    $description =~ s/\s+$//;
+    $description =~ s/^\s+//;
 
     my $md5 = md5_hex($description);
     return $self->{models}->{$md5};
