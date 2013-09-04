@@ -40,44 +40,17 @@ pod2usage(-verbose => 0) unless
 
 my $esx = FusionInventory::Agent::Task::ESX->new(
     target => {},
+    logger => usionInventory::Agent::Logger->new()
 );
 
-if (!$esx->connect(
-    host     => $options->{host},
-    user     => $options->{user},
-    password => $options->{password},
-)) {
-    exit 1;
-}
+# emulate a server requesting a unique job
+$esx->{jobs} = [ {
+        host     => $options->{host},
+        user     => $options->{user},
+        password => $options->{password}
+} ];
+$esx->run();
 
-my $logger = FusionInventory::Agent::Logger->new();
-
-my $hasError = 0;
-my $hostIds = $esx->getHostIds();
-foreach my $hostId (@$hostIds) {
-    my $inventory = $esx->createInventory($hostId, $options->{tag});
-
-    my $file =  $options->{directory} . '/' . $inventory->{deviceid} . ".ocs";
-
-    if (open my $handle, '>', $file) {
-        my $tpp = XML::TreePP->new(indent => 2);
-        print $handle $tpp->write({
-            REQUEST  => {
-                CONTENT  => $inventory->{content},
-                DEVICEID => $inventory->{deviceid},
-                QUERY    => "INVENTORY",
-            }
-        });
-
-        close $handle;
-        print("Inventory saved in $file\n");
-    } else {
-        $hasError = 1;
-        print("Can't write to $file: $ERRNO\n");
-    }
-
-}
-exit($hasError);
 __END__
 
 =head1 NAME
