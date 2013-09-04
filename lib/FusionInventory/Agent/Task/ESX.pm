@@ -16,6 +16,64 @@ sub isEnabled {
     my ($self, %params) = @_;
 
     return $self->{target}->isa('FusionInventory::Agent::Target::Server');
+
+    my $input = FusionInventory::Agent::HTTP::Client::Fusion->new(
+        logger       => $self->{logger},
+        user         => $params{user},
+        password     => $params{password},
+        proxy        => $params{proxy},
+        ca_cert_file => $params{ca_cert_file},
+        ca_cert_dir  => $params{ca_cert_dir},
+        no_ssl_check => $params{no_ssl_check},
+        debug        => $self->{debug}
+    );
+    die unless $input;
+
+    my $remoteConfig = $input->send(
+        url  => $self->{target}->{url},
+        args => {
+            action    => "getConfig",
+            machineid => $self->{deviceid},
+            task      => { ESX => $FusionInventory::Agent::VERSION },
+        }
+    );
+
+    my $schedule = $remoteConfig->{schedule};
+    return unless $schedule;
+    return unless ref $schedule eq 'ARRAY';
+
+    my @remotes =
+        grep { $_ }
+        map  { $_->{remote} } 
+        grep { $_->{task} eq "ESX" }
+        @{$schedule};
+
+    if (!@remotes) {
+        $self->{logger}->info("No ESX inventory task scheduled");
+        return;
+    }
+
+    my $jobs = $input->send(
+        url  => $remotes[-1],
+        args => {
+            action    => "getJobs",
+            machineid => $self->{deviceid}
+        }
+    );
+
+    if (!$jobs) {
+        $self->{logger}->info("No host in the server request");
+        return;
+    }
+
+    if (ref $jobs->{jobs} ne 'ARRAY') {
+        $self->{logger}->info("Invalid server request format");
+        return;
+    }
+
+    $self->{input} = $input;
+    $self->{jobs}  = $jobs->{jobs};
+    return 1;
 }
 
 sub connect {
@@ -165,56 +223,8 @@ sub run {
 
     $self->{logger}->debug("running FusionInventory ESX task");
 
-    my $input = FusionInventory::Agent::HTTP::Client::Fusion->new(
-        logger       => $self->{logger},
-        user         => $params{user},
-        password     => $params{password},
-        proxy        => $params{proxy},
-        ca_cert_file => $params{ca_cert_file},
-        ca_cert_dir  => $params{ca_cert_dir},
-        no_ssl_check => $params{no_ssl_check},
-        debug        => $self->{debug}
-    );
-    die unless $input;
-
-    my $globalRemoteConfig = $input->send(
-        "url" => $self->{target}->{url},
-        args  => {
-            action    => "getConfig",
-            machineid => $self->{deviceid},
-            task      => { ESX => $FusionInventory::Agent::VERSION },
-        }
-    );
-
-    return unless $globalRemoteConfig->{schedule};
-    return unless ref( $globalRemoteConfig->{schedule} ) eq 'ARRAY';
-
-    foreach my $job ( @{ $globalRemoteConfig->{schedule} } ) {
-        next unless $job->{task} eq "ESX";
-        $self->{esxRemote} = $job->{remote};
-    }
-    if ( !$self->{esxRemote} ) {
-        $self->{logger}->info("ESX support disabled server side.");
-        return;
-    }
-
-    my $jobs = $input->send(
-        "url" => $self->{esxRemote},
-        args  => {
-            action    => "getJobs",
-            machineid => $self->{deviceid}
-        }
-    );
-
-    return unless $jobs;
-    return unless ref( $jobs->{jobs} ) eq 'ARRAY';
-    $self->{logger}->info(
-        "Got " . int( @{ $jobs->{jobs} } ) . " VMware host(s) to inventory." );
-
-    #    my $esx = FusionInventory::Agent::Task::ESX->new({
-    #            config => $config
-    #            });
-    #
+    my @jobs = @{$self->{jobs}};
+    $self->{logger}->info("Got " . @jobs . " VMware host(s) to inventory.");
 
     # use either given output handler,
     # or assume the target is GLPI server using OCS protocol
@@ -230,14 +240,14 @@ sub run {
             no_ssl_check => $params{no_ssl_check},
     );
 
-    foreach my $job ( @{ $jobs->{jobs} } ) {
+    foreach my $job (@jobs) {
 
         if ( !$self->connect(
                 host     => $job->{host},
                 user     => $job->{user},
                 password => $job->{password}
         )) {
-            $input->send(
+            $self->{input}->send(
                 "url" => $self->{esxRemote},
                 args  => {
                     action => 'setLog',
@@ -268,7 +278,7 @@ sub run {
                 message => $message
             );
         }
-        $input->send(
+        $self->{input}->send(
             "url" => $self->{esxRemote},
             args  => {
                 action => 'setLog',
