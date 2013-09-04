@@ -164,7 +164,7 @@ sub run {
 
     $self->{logger}->debug("running FusionInventory ESX task");
 
-    $self->{client} = FusionInventory::Agent::HTTP::Client::Fusion->new(
+    my $input = FusionInventory::Agent::HTTP::Client::Fusion->new(
         logger       => $self->{logger},
         user         => $params{user},
         password     => $params{password},
@@ -174,9 +174,9 @@ sub run {
         no_ssl_check => $params{no_ssl_check},
         debug        => $self->{debug}
     );
-    die unless $self->{client};
+    die unless $input;
 
-    my $globalRemoteConfig = $self->{client}->send(
+    my $globalRemoteConfig = $input->send(
         "url" => $self->{target}->{url},
         args  => {
             action    => "getConfig",
@@ -197,7 +197,7 @@ sub run {
         return;
     }
 
-    my $jobs = $self->{client}->send(
+    my $jobs = $input->send(
         "url" => $self->{esxRemote},
         args  => {
             action    => "getJobs",
@@ -213,8 +213,9 @@ sub run {
     #    my $esx = FusionInventory::Agent::Task::ESX->new({
     #            config => $config
     #            });
+    #
 
-    my $ocsClient = FusionInventory::Agent::HTTP::Client::OCS->new(
+    my $output = FusionInventory::Agent::HTTP::Client::OCS->new(
         logger       => $self->{logger},
         user         => $params{user},
         password     => $params{password},
@@ -231,7 +232,7 @@ sub run {
                 user     => $job->{user},
                 password => $job->{password}
         )) {
-            $self->{client}->send(
+            $input->send(
                 "url" => $self->{esxRemote},
                 args  => {
                     action => 'setLog',
@@ -257,16 +258,16 @@ sub run {
                 content  => $inventory->getContent()
             );
 
-            $ocsClient->send(
+            $output->send(
                 url     => $self->{target}->getUrl(),
                 message => $message
             );
         }
-        $self->{client}->send(
+        $input->send(
             "url" => $self->{esxRemote},
             args  => {
                 action => 'setLog',
-                machineid => $self->{deviceid},
+               machineid => $self->{deviceid},
                 uuid      => $job->{uuid},
                 code      => 'ok'
             }
