@@ -9,6 +9,7 @@ use Test::More;
 use UNIVERSAL::require;
 use Config;
 
+use FusionInventory::Agent;
 use FusionInventory::Test::Utils;
 
 # check thread support availability
@@ -36,7 +37,7 @@ ok($rc == 0, '--version exit status');
 is($err, '', '--version stderr');
 like(
     $out,
-    qr/$FusionInventory::Agent::Task::NetDiscovery::VERSION/,
+    qr/$FusionInventory::Agent::VERSION/,
     '--version stdout'
 );
 
