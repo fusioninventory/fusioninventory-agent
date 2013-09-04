@@ -20,7 +20,7 @@ use FusionInventory::Agent::Task::Deploy::File;
 use FusionInventory::Agent::Task::Deploy::Job;
 
 sub isEnabled {
-    my ($self) = @_;
+    my ($self, %params) = @_;
 
     return $self->{target}->isa('FusionInventory::Agent::Target::Server');
 

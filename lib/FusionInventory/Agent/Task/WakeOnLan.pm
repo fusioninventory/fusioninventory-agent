@@ -13,10 +13,12 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 
 sub isEnabled {
-    my ($self, $response) = @_;
+    my ($self, %params) = @_;
 
     return unless
         $self->{target}->isa('FusionInventory::Agent::Target::Server');
+
+    my $response = $params{response};
 
     my $options = $self->getOptionsFromServer(
         $response, 'WAKEONLAN', 'WakeOnLan'

@@ -13,7 +13,7 @@ use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::SOAP::VMware;
 
 sub isEnabled {
-    my ($self) = @_;
+    my ($self, %params) = @_;
 
     return $self->{target}->isa('FusionInventory::Agent::Target::Server');
 }

@@ -31,10 +31,12 @@ if ($threads::shared::VERSION < 1.21) {
 
 
 sub isEnabled {
-    my ($self, $response) = @_;
+    my ($self, %params) = @_;
 
     return unless
         $self->{target}->isa('FusionInventory::Agent::Target::Server');
+
+    my $response = $params{response};
 
     my $options = $self->getOptionsFromServer(
         $response, 'SNMPQUERY', 'SNMPQuery'

@@ -13,7 +13,7 @@ use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::XML::Query::Inventory;
 
 sub isEnabled {
-    my ($self, $response) = @_;
+    my ($self, %params) = @_;
 
     # always enabled for local target
     return 1 unless
@@ -23,6 +23,8 @@ sub isEnabled {
         $self->{logger}->debug("Prolog response ignored");
         return 1;
     }
+
+    my $response = $params{response};
 
     my $content = $response->getContent();
     if (!$content || !$content->{RESPONSE} || $content->{RESPONSE} ne 'SEND') {

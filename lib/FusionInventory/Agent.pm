@@ -320,7 +320,16 @@ sub _runTaskReal {
         deviceid     => $self->{deviceid},
     );
 
-    if (!$task->isEnabled($response)) {
+    my $enabled = $task->isEnabled(
+        user         => $self->{config}->{user},
+        password     => $self->{config}->{password},
+        proxy        => $self->{config}->{proxy},
+        ca_cert_file => $self->{config}->{'ca-cert-file'},
+        ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
+        no_ssl_check => $self->{config}->{'no-ssl-check'},
+        response     => $response
+    );
+    if (!$enabled) {
         $self->{logger}->info("task $name execution not requested");
         return;
     }
