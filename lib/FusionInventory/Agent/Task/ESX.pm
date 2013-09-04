@@ -6,6 +6,7 @@ use base 'FusionInventory::Agent::Task';
 
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::HTTP::Client::Fusion;
+use FusionInventory::Agent::HTTP::Client::OCS;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::XML::Query::Inventory;

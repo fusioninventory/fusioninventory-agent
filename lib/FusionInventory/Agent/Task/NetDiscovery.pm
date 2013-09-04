@@ -19,6 +19,7 @@ use Time::localtime;
 use UNIVERSAL::require;
 use XML::TreePP;
 
+use FusionInventory::Agent::HTTP::Client::OCS;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Tools::Hardware;
