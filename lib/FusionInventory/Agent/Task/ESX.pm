@@ -277,16 +277,6 @@ sub run {
     return $self;
 }
 
-# Only used by the command line tool
-#sub new {
-#    my ( undef, $params ) = @_;
-#
-#    my $logger = FusionInventory::Agent::Logger->new();
-#
-#    my $self = { config => $params->{config}, logger => $logger };
-#    bless $self;
-#}
-
 1;
 
 __END__
