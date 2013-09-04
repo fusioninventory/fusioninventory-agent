@@ -257,7 +257,7 @@ sub run {
                     msg       => $self->{lastError},
                     code      => 'ko'
                 }
-            );
+            ) if  $self->{input};
 
             next;
         }
@@ -286,7 +286,7 @@ sub run {
                 uuid      => $job->{uuid},
                 code      => 'ok'
             }
-        );
+        ) if $self->{input};
 
     }
 
