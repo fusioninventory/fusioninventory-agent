@@ -55,16 +55,19 @@ sub run {
 
     $self->{logger}->debug("running FusionInventory NetDiscovery task");
 
-    # task-specific client, if needed
-    $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
-        logger       => $self->{logger},
-        user         => $params{user},
-        password     => $params{password},
-        proxy        => $params{proxy},
-        ca_cert_file => $params{ca_cert_file},
-        ca_cert_dir  => $params{ca_cert_dir},
-        no_ssl_check => $params{no_ssl_check},
-    ) if !$self->{client};
+    # use either given output handler,
+    # or assume the target is GLPI server using OCS protocol
+    my $output =
+        $params{output} ||
+        FusionInventory::Agent::HTTP::Client::OCS->new(
+            logger       => $self->{logger},
+            user         => $params{user},
+            password     => $params{password},
+            proxy        => $params{proxy},
+            ca_cert_file => $params{ca_cert_file},
+            ca_cert_dir  => $params{ca_cert_dir},
+            no_ssl_check => $params{no_ssl_check},
+        );
 
     my $options     = $self->{options};
     my $pid         = $options->{PARAM}->[0]->{PID};
@@ -102,7 +105,7 @@ sub run {
         );
     } else {
         $snmp_credentials = $self->_getCredentials($options);
-        $snmp_dictionary = $self->_getDictionary($options, $pid);
+        $snmp_dictionary = $self->_getDictionary($options, $output, $pid);
         # abort immediatly if the dictionary isn't up to date
         return unless $snmp_dictionary;
     }
@@ -152,14 +155,17 @@ sub run {
     }
 
     # send initial message to the server
-    $self->_sendMessage({
-        AGENT => {
-            START        => 1,
-            AGENTVERSION => $FusionInventory::Agent::VERSION,
-        },
-        MODULEVERSION => $FusionInventory::Agent::VERSION,
-        PROCESSNUMBER => $pid
-    });
+    $self->_sendMessage(
+        $output,
+        {
+            AGENT => {
+                START        => 1,
+                AGENTVERSION => $FusionInventory::Agent::VERSION,
+            },
+            MODULEVERSION => $FusionInventory::Agent::VERSION,
+            PROCESSNUMBER => $pid
+        }
+    );
 
     # set all threads in RUN state
     $_ = RUN foreach @states;
@@ -176,12 +182,15 @@ sub run {
         );
 
         # send block size to the server
-        $self->_sendMessage({
-            AGENT => {
-                NBIP => scalar @addresses
-            },
-            PROCESSNUMBER => $pid
-        });
+        $self->_sendMessage(
+            $output,
+            {
+                AGENT => {
+                    NBIP => scalar @addresses
+                },
+                PROCESSNUMBER => $pid
+            }
+        );
 
         # set all threads in RUN state
         $_ = RUN foreach @states;
@@ -198,7 +207,7 @@ sub run {
                     MODULEVERSION => $FusionInventory::Agent::VERSION,
                     PROCESSNUMBER => $pid,
                 };
-                $self->_sendMessage($data);
+                $self->_sendMessage($output, $data);
             }
         }
     }
@@ -208,18 +217,21 @@ sub run {
     delay(1);
 
     # send final message to the server
-    $self->_sendMessage({
-        AGENT => {
-            END => 1,
-        },
-        MODULEVERSION => $FusionInventory::Agent::VERSION,
-        PROCESSNUMBER => $pid
-    });
+    $self->_sendMessage(
+        $output,
+        {
+            AGENT => {
+                END => 1,
+            },
+            MODULEVERSION => $FusionInventory::Agent::VERSION,
+            PROCESSNUMBER => $pid
+        }
+    );
 
 }
 
 sub _getDictionary {
-    my ($self, $options, $pid) = @_;
+    my ($self, $options, $handler, $pid) = @_;
 
     my ($dictionary, $hash);
     my $storage = $self->{target}->getStorage();
@@ -251,14 +263,14 @@ sub _getDictionary {
             if ($hash eq $options->{DICOHASH}) {
                 $self->{logger}->debug("Dictionary is up to date.");
             } else {
-                $self->_sendUpdateMessage($pid);
+                $self->_sendUpdateMessage($handler, $pid);
                 $self->{logger}->debug(
                     "Dictionary is outdated, update request sent, exiting"
                 );
                 return;
             }
         } else {
-            $self->_sendUpdateMessage($pid);
+            $self->_sendUpdateMessage($handler, $pid);
             $self->{logger}->debug(
                 "No dictionary, update request sent, exiting"
             );
@@ -272,16 +284,19 @@ sub _getDictionary {
 }
 
 sub _sendUpdateMessage {
-    my ($self, $pid) = @_;
+    my ($self, $handler, $pid) = @_;
 
-    $self->_sendMessage({
-        AGENT => {
-            END => '1'
-        },
-        MODULEVERSION => $FusionInventory::Agent::VERSION,
-        PROCESSNUMBER => $pid,
-        DICO          => "REQUEST",
-    });
+    $self->_sendMessage(
+        $handler,
+        {
+            AGENT => {
+                END => '1'
+            },
+            MODULEVERSION => $FusionInventory::Agent::VERSION,
+            PROCESSNUMBER => $pid,
+            DICO          => "REQUEST",
+        }
+    );
 }
 
 sub _getCredentials {
@@ -351,7 +366,7 @@ sub _scanAddresses {
 }
 
 sub _sendMessage {
-    my ($self, $content) = @_;
+    my ($self, $handler, $content) = @_;
 
     my $message = FusionInventory::Agent::XML::Query->new(
         deviceid => $self->{deviceid},
@@ -359,7 +374,7 @@ sub _sendMessage {
         content  => $content
     );
 
-    $self->{client}->send(
+    $handler->send(
         url     => $self->{target}->getUrl(),
         message => $message
     );

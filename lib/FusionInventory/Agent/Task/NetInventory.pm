@@ -54,16 +54,19 @@ sub run {
 
     $self->{logger}->debug("running FusionInventory NetInventory task");
 
-    # task-specific client, if needed
-    $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
-        logger       => $self->{logger},
-        user         => $params{user},
-        password     => $params{password},
-        proxy        => $params{proxy},
-        ca_cert_file => $params{ca_cert_file},
-        ca_cert_dir  => $params{ca_cert_dir},
-        no_ssl_check => $params{no_ssl_check},
-    ) if !$self->{client};
+    # use either given output handler,
+    # or assume the target is GLPI server using OCS protocol
+    my $output =
+        $params{output} ||
+        FusionInventory::Agent::HTTP::Client::OCS->new(
+            logger       => $self->{logger},
+            user         => $params{user},
+            password     => $params{password},
+            proxy        => $params{proxy},
+            ca_cert_file => $params{ca_cert_file},
+            ca_cert_dir  => $params{ca_cert_dir},
+            no_ssl_check => $params{no_ssl_check},
+    );
 
     my $options     = $self->{options};
     my $pid         = $options->{PARAM}->[0]->{PID};
@@ -104,14 +107,17 @@ sub run {
     }
 
     # send initial message to the server
-    $self->_sendMessage({
-        AGENT => {
-            START        => 1,
-            AGENTVERSION => $FusionInventory::Agent::VERSION
-        },
-        MODULEVERSION => $FusionInventory::Agent::VERSION,
-        PROCESSNUMBER => $pid
-    });
+    $self->_sendMessage(
+        $output,
+        {
+            AGENT => {
+                START        => 1,
+                AGENTVERSION => $FusionInventory::Agent::VERSION
+            },
+            MODULEVERSION => $FusionInventory::Agent::VERSION,
+            PROCESSNUMBER => $pid
+        }
+    );
 
     # set all threads in RUN state
     $_ = RUN foreach @states;
@@ -127,23 +133,25 @@ sub run {
                 MODULEVERSION => $FusionInventory::Agent::VERSION,
                 PROCESSNUMBER => $pid
             };
-            $self->_sendMessage($data);
+            $self->_sendMessage($output, $data);
         }
     }
 
     # send final message to the server
-    $self->_sendMessage({
-        AGENT => {
-            END => 1,
-        },
-        MODULEVERSION => $FusionInventory::Agent::VERSION,
-        PROCESSNUMBER => $pid
-    });
+    $self->_sendMessage(
+        $output,
+        {
+            AGENT => {
+                END => 1,
+            },
+            MODULEVERSION => $FusionInventory::Agent::VERSION,
+            PROCESSNUMBER => $pid
+        }
+    );
 }
 
 sub _sendMessage {
-    my ($self, $content) = @_;
-
+    my ($self, $handler, $content) = @_;
 
    my $message = FusionInventory::Agent::XML::Query->new(
        deviceid => $self->{deviceid},
@@ -151,7 +159,7 @@ sub _sendMessage {
        content  => $content
    );
 
-   $self->{client}->send(
+   $handler->send(
        url     => $self->{target}->getUrl(),
        message => $message
    );
