@@ -9,6 +9,7 @@ use Getopt::Long;
 use Pod::Usage;
 use XML::TreePP;
 
+use FusionInventory::Agent;
 use FusionInventory::Agent::Output;
 use FusionInventory::Agent::Task::NetInventory;
 use FusionInventory::Agent::Tools::Hardware;
@@ -33,7 +34,7 @@ GetOptions(
 ) or pod2usage(-verbose => 0);
 
 if ($options->{version}) {
-  print "NetInventory task $FusionInventory::Agent::Task::NetInventory::VERSION\n";
+  print "NetInventory task $FusionInventory::Agent::VERSION\n";
   exit 0;
 }
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};

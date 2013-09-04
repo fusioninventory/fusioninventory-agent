@@ -8,6 +8,7 @@ use English qw(-no_match_vars);
 use Getopt::Long;
 use Pod::Usage;
 
+use FusionInventory::Agent;
 use FusionInventory::Agent::Output;
 use FusionInventory::Agent::Task::NetDiscovery;
 use FusionInventory::Agent::Logger;
@@ -33,7 +34,7 @@ GetOptions(
 ) or pod2usage(-verbose => 0);
 
 if ($options->{version}) {
-  print "NetDiscovery task $FusionInventory::Agent::Task::NetDiscovery::VERSION\n";
+  print "NetDiscovery task $FusionInventory::Agent::VERSION\n";
   exit 0;
 }
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
