@@ -7,10 +7,6 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
-use JSON;
-use LWP;
-use URI::Escape;
-
 use FusionInventory::Agent::HTTP::Client::Fusion;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor;
