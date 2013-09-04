@@ -65,6 +65,19 @@ sub isEnabled {
     return 1;
 }
 
+sub run {
+    my ($self, %params) = @_;
+
+    # Turn off localised output for commands
+    $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
+    $ENV{LANG} = 'C'; # Turn off localised output for commands
+
+    my @remotes = @{$self->{remotes}};
+    foreach my $remote (@remotes) {
+        $self->_processRemote($remote);
+    }
+}
+
 sub _validateAnswer {
     my ($msgRef, $answer) = @_;
 
@@ -114,7 +127,7 @@ sub _validateAnswer {
     return 1;
 }
 
-sub processRemote {
+sub _processRemote {
     my ($self, $remoteUrl) = @_;
 
     if ( !$remoteUrl ) {
@@ -520,18 +533,6 @@ sub processRemote {
 }
 
 
-sub run {
-    my ($self, %params) = @_;
-
-    # Turn off localised output for commands
-    $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
-    $ENV{LANG} = 'C'; # Turn off localised output for commands
-
-    my @remotes = @{$self->{remotes}};
-    foreach my $remote (@remotes) {
-        $self->processRemote($remote);
-    }
-}
 
 1;
 __END__
@@ -549,17 +550,3 @@ This module uses SSL certificat to authentificat the server. You may have
 to point F<--ca-cert-file> or F<--ca-cert-dir> to your public certificat.
 
 If the P2P option is turned on, the agent will looks for peer in its network. The network size will be limited at 255 machines.
-
-=head1 FUNCTIONS
-
-=head2 isEnabled ( $self )
-
-Returns true if the task is enabled.
-
-=head2 processRemote ( $self, $remoteUrl )
-
-Process orders from a remote server.
-
-=head2 run ( $self, %params )
-
-Run the task.

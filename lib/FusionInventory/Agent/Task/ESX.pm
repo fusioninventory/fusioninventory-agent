@@ -76,8 +76,82 @@ sub isEnabled {
     return 1;
 }
 
-sub connect {
+sub run {
     my ( $self, %params ) = @_;
+
+    $self->{logger}->debug("running FusionInventory ESX task");
+
+    my @jobs = @{$self->{jobs}};
+    $self->{logger}->info("Got " . @jobs . " VMware host(s) to inventory.");
+
+    # use either given output handler,
+    # or assume the target is GLPI server using OCS protocol
+    my $output =
+        $params{output} ||
+        FusionInventory::Agent::HTTP::Client::OCS->new(
+            logger       => $self->{logger},
+            user         => $params{user},
+            password     => $params{password},
+            proxy        => $params{proxy},
+            ca_cert_file => $params{ca_cert_file},
+            ca_cert_dir  => $params{ca_cert_dir},
+            no_ssl_check => $params{no_ssl_check},
+    );
+
+    foreach my $job (@jobs) {
+
+        if ( !$self->_connect(
+                host     => $job->{host},
+                user     => $job->{user},
+                password => $job->{password}
+        )) {
+            $self->{input}->send(
+                "url" => $self->{esxRemote},
+                args  => {
+                    action => 'setLog',
+                    machineid => $self->{deviceid},
+                    part      => 'login',
+                    uuid      => $job->{uuid},
+                    msg       => $self->{lastError},
+                    code      => 'ko'
+                }
+            ) if  $self->{input};
+
+            next;
+        }
+
+        my $hostIds = $self->_getHostIds();
+        foreach my $hostId (@$hostIds) {
+            my $inventory = $self->_createInventory(
+                $hostId, $self->{config}->{tag}
+            );
+
+            my $message = FusionInventory::Agent::XML::Query::Inventory->new(
+                deviceid => $self->{deviceid},
+                content  => $inventory->getContent()
+            );
+
+            $output->send(
+                url     => $self->{target}->getUrl(),
+                message => $message
+            );
+        }
+        $self->{input}->send(
+            "url" => $self->{esxRemote},
+            args  => {
+                action => 'setLog',
+               machineid => $self->{deviceid},
+                uuid      => $job->{uuid},
+                code      => 'ok'
+            }
+        ) if $self->{input};
+
+    }
+
+}
+
+sub _connect {
+    my ($self, %params) = @_;
 
     my $url = 'https://' . $params{host} . '/sdk/vimService';
 
@@ -91,8 +165,8 @@ sub connect {
     $self->{vpbs} = $vpbs;
 }
 
-sub createFakeDeviceid {
-    my ( $self, $host ) = @_;
+sub _createFakeDeviceid {
+    my ($self, $host) = @_;
 
     my $hostname = $host->getHostname();
     my $bootTime = $host->getBootTime();
@@ -121,8 +195,8 @@ sub createFakeDeviceid {
     return $deviceid;
 }
 
-sub createInventory {
-    my ( $self, $id, $tag ) = @_;
+sub _createInventory {
+    my ($self, $id, $tag) = @_;
 
     die unless $self->{vpbs};
 
@@ -135,7 +209,7 @@ sub createInventory {
         logger => $self->{logger},
         tag    => $tag
     );
-    $inventory->{deviceid} = $self->createFakeDeviceid($host);
+    $inventory->{deviceid} = $self->_createFakeDeviceid($host);
 
     $inventory->{isInitialised} = 1;
     $inventory->{h}{CONTENT}{HARDWARE}{ARCHNAME} = ['remote'];
@@ -212,84 +286,10 @@ sub createInventory {
 #    return from_json( $jsonText, { utf8  => 1 } );
 #}
 
-sub getHostIds {
+sub _getHostIds {
     my ($self) = @_;
 
     return $self->{vpbs}->getHostIds();
-}
-
-sub run {
-    my ( $self, %params ) = @_;
-
-    $self->{logger}->debug("running FusionInventory ESX task");
-
-    my @jobs = @{$self->{jobs}};
-    $self->{logger}->info("Got " . @jobs . " VMware host(s) to inventory.");
-
-    # use either given output handler,
-    # or assume the target is GLPI server using OCS protocol
-    my $output =
-        $params{output} ||
-        FusionInventory::Agent::HTTP::Client::OCS->new(
-            logger       => $self->{logger},
-            user         => $params{user},
-            password     => $params{password},
-            proxy        => $params{proxy},
-            ca_cert_file => $params{ca_cert_file},
-            ca_cert_dir  => $params{ca_cert_dir},
-            no_ssl_check => $params{no_ssl_check},
-    );
-
-    foreach my $job (@jobs) {
-
-        if ( !$self->connect(
-                host     => $job->{host},
-                user     => $job->{user},
-                password => $job->{password}
-        )) {
-            $self->{input}->send(
-                "url" => $self->{esxRemote},
-                args  => {
-                    action => 'setLog',
-                    machineid => $self->{deviceid},
-                    part      => 'login',
-                    uuid      => $job->{uuid},
-                    msg       => $self->{lastError},
-                    code      => 'ko'
-                }
-            ) if  $self->{input};
-
-            next;
-        }
-
-        my $hostIds = $self->getHostIds();
-        foreach my $hostId (@$hostIds) {
-            my $inventory = $self->createInventory(
-                $hostId, $self->{config}->{tag}
-            );
-
-            my $message = FusionInventory::Agent::XML::Query::Inventory->new(
-                deviceid => $self->{deviceid},
-                content  => $inventory->getContent()
-            );
-
-            $output->send(
-                url     => $self->{target}->getUrl(),
-                message => $message
-            );
-        }
-        $self->{input}->send(
-            "url" => $self->{esxRemote},
-            args  => {
-                action => 'setLog',
-               machineid => $self->{deviceid},
-                uuid      => $job->{uuid},
-                code      => 'ok'
-            }
-        ) if $self->{input};
-
-    }
-
 }
 
 1;
@@ -304,23 +304,3 @@ FusionInventory::Agent::SOAP::VMware - Access to VMware hypervisor
 
 This module allow access to VMware hypervisor using VMware SOAP API
 and _WITHOUT_ their Perl library.
-
-=head1 FUNCTIONS
-
-=head2 connect ( $self, %params )
-
-Connect the task to the VMware ESX, ESXi or vCenter.
-
-=head2 createFakeDeviceid ( $self, $host )
-
-Generate a fake deviceid based on the machine name and the
-boot date.
-
-=head2 createInventory ( $self, $id, $tag )
-
-Returns an FusionInventory::Agent::Inventory object for a given
-host id.
-
-=head2 getHostIds
-
-Returns the list of the host id.
