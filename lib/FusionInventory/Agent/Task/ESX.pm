@@ -70,8 +70,8 @@ sub isEnabled {
         return;
     }
 
-    $self->{controller} = $input;
-    $self->{jobs}  = $jobs->{jobs};
+    $self->{controller} = $controller;
+    $self->{jobs}       = $jobs->{jobs};
     return 1;
 }
 
@@ -83,10 +83,10 @@ sub run {
     my @jobs = @{$self->{jobs}};
     $self->{logger}->info("Got " . @jobs . " VMware host(s) to inventory.");
 
-    # use either given output handler,
+    # use either given output broker,
     # or assume the target is GLPI server using OCS protocol
-    my $output =
-        $params{output} ||
+    my $broker =
+        $params{broker} ||
         FusionInventory::Agent::HTTP::Client::OCS->new(
             logger       => $self->{logger},
             user         => $params{user},
@@ -130,7 +130,7 @@ sub run {
                 content  => $inventory->getContent()
             );
 
-            $output->send(
+            $broker->send(
                 url     => $self->{target}->getUrl(),
                 message => $message
             );

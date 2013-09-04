@@ -91,13 +91,13 @@ if (defined($options->{entity})) {
     $inventory->{options}->{DEVICE}->[0]->{ENTITY} = $options->{entity};
 }
 
-my $output = FusionInventory::Agent::Output->create(
+my $broker = FusionInventory::Agent::Output->create(
     target  => $options->{target},
     task    => 'netdiscovery',
     verbose => $options->{verbose}
 );
 
-$inventory->run(output => $output);
+$inventory->run(broker => $broker);
 
 package FusionInventory::Agent::Task::NetInventory::Target;
 

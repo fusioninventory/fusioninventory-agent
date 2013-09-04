@@ -57,10 +57,10 @@ sub run {
 
     $self->{logger}->debug("running FusionInventory NetInventory task");
 
-    # use either given output handler,
+    # use either given output broker,
     # or assume the target is GLPI server using OCS protocol
-    my $output =
-        $params{output} ||
+    my $broker =
+        $params{broker} ||
         FusionInventory::Agent::HTTP::Client::OCS->new(
             logger       => $self->{logger},
             user         => $params{user},
@@ -111,7 +111,7 @@ sub run {
 
     # send initial message to the server
     $self->_sendMessage(
-        $output,
+        $broker,
         {
             AGENT => {
                 START        => 1,
@@ -136,13 +136,13 @@ sub run {
                 MODULEVERSION => $FusionInventory::Agent::VERSION,
                 PROCESSNUMBER => $pid
             };
-            $self->_sendMessage($output, $data);
+            $self->_sendMessage($broker, $data);
         }
     }
 
     # send final message to the server
     $self->_sendMessage(
-        $output,
+        $broker,
         {
             AGENT => {
                 END => 1,
@@ -154,7 +154,7 @@ sub run {
 }
 
 sub _sendMessage {
-    my ($self, $handler, $content) = @_;
+    my ($self, $broker, $content) = @_;
 
    my $message = FusionInventory::Agent::XML::Query->new(
        deviceid => $self->{deviceid},
@@ -162,7 +162,7 @@ sub _sendMessage {
        content  => $content
    );
 
-   $handler->send(
+   $broker->send(
        url     => $self->{target}->getUrl(),
        message => $message
    );
