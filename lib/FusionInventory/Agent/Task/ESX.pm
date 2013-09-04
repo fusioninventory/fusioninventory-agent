@@ -16,7 +16,7 @@ sub isEnabled {
 
     return $self->{target}->isa('FusionInventory::Agent::Target::Server');
 
-    my $input = FusionInventory::Agent::HTTP::Client::Fusion->new(
+    my $controller = FusionInventory::Agent::HTTP::Client::Fusion->new(
         logger       => $self->{logger},
         user         => $params{user},
         password     => $params{password},
@@ -26,9 +26,9 @@ sub isEnabled {
         no_ssl_check => $params{no_ssl_check},
         debug        => $self->{debug}
     );
-    die unless $input;
+    die unless $controller;
 
-    my $remoteConfig = $input->send(
+    my $remoteConfig = $controller->send(
         url  => $self->{target}->{url},
         args => {
             action    => "getConfig",
@@ -52,7 +52,7 @@ sub isEnabled {
         return;
     }
 
-    my $jobs = $input->send(
+    my $jobs = $controller->send(
         url  => $remotes[-1],
         args => {
             action    => "getJobs",
@@ -70,7 +70,7 @@ sub isEnabled {
         return;
     }
 
-    $self->{input} = $input;
+    $self->{controller} = $input;
     $self->{jobs}  = $jobs->{jobs};
     return 1;
 }
@@ -104,7 +104,7 @@ sub run {
                 user     => $job->{user},
                 password => $job->{password}
         )) {
-            $self->{input}->send(
+            $self->{controller}->send(
                 "url" => $self->{esxRemote},
                 args  => {
                     action => 'setLog',
@@ -114,7 +114,7 @@ sub run {
                     msg       => $self->{lastError},
                     code      => 'ko'
                 }
-            ) if  $self->{input};
+            ) if  $self->{controller};
 
             next;
         }
@@ -135,7 +135,7 @@ sub run {
                 message => $message
             );
         }
-        $self->{input}->send(
+        $self->{controller}->send(
             "url" => $self->{esxRemote},
             args  => {
                 action => 'setLog',
@@ -143,8 +143,7 @@ sub run {
                 uuid      => $job->{uuid},
                 code      => 'ok'
             }
-        ) if $self->{input};
-
+        ) if $self->{controller};
     }
 
 }

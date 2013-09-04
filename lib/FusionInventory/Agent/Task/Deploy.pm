@@ -20,7 +20,7 @@ sub isEnabled {
 
     return $self->{target}->isa('FusionInventory::Agent::Target::Server');
 
-    my $input = FusionInventory::Agent::HTTP::Client::Fusion->new(
+    my $controller = FusionInventory::Agent::HTTP::Client::Fusion->new(
         logger       => $self->{logger},
         user         => $params{user},
         password     => $params{password},
@@ -31,7 +31,7 @@ sub isEnabled {
         debug        => $self->{debug}
     );
 
-    my $remoteConfig = $input->send(
+    my $remoteConfig = $controller->send(
         url  => $self->{target}->{url},
         args => {
             action    => "getConfig",
@@ -55,8 +55,8 @@ sub isEnabled {
         return;
     }
 
-    $self->{input}   = $input;
-    $self->{remotes} = \@remotes;
+    $self->{controller} = $controller;
+    $self->{remotes}    = \@remotes;
 
     return 1;
 }
