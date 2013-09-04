@@ -15,6 +15,7 @@ use Encode qw(encode);
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
+use FusionInventory::Agent;
 use FusionInventory::Agent::HTTP::Client::OCS;
 use FusionInventory::Agent::XML::Query;
 use FusionInventory::Agent::Tools;
