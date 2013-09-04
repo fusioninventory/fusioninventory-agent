@@ -280,7 +280,6 @@ sub run {
 
     }
 
-    return $self;
 }
 
 1;
