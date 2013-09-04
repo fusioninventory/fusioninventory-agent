@@ -215,14 +215,18 @@ sub run {
     #            });
     #
 
-    my $output = FusionInventory::Agent::HTTP::Client::OCS->new(
-        logger       => $self->{logger},
-        user         => $params{user},
-        password     => $params{password},
-        proxy        => $params{proxy},
-        ca_cert_file => $params{ca_cert_file},
-        ca_cert_dir  => $params{ca_cert_dir},
-        no_ssl_check => $params{no_ssl_check},
+    # use either given output handler,
+    # or assume the target is GLPI server using OCS protocol
+    my $output =
+        $params{output} ||
+        FusionInventory::Agent::HTTP::Client::OCS->new(
+            logger       => $self->{logger},
+            user         => $params{user},
+            password     => $params{password},
+            proxy        => $params{proxy},
+            ca_cert_file => $params{ca_cert_file},
+            ca_cert_dir  => $params{ca_cert_dir},
+            no_ssl_check => $params{no_ssl_check},
     );
 
     foreach my $job ( @{ $jobs->{jobs} } ) {
