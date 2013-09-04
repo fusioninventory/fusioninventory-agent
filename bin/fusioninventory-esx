@@ -8,8 +8,9 @@ use English qw(-no_match_vars) ;
 use Getopt::Long;
 use Pod::Usage;
 
-use FusionInventory::Agent::Task::ESX;
 use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Output;
+use FusionInventory::Agent::Task::ESX;
 
 my $options = {
 };
@@ -19,7 +20,7 @@ GetOptions(
     'host=s',
     'user=s',
     'password=s',
-    'directory=s',
+    'target=s',
     'tag=s',
     'help',
     'version',
@@ -35,8 +36,7 @@ if ($options->{version}) {
 pod2usage(-verbose => 0) unless
     $options->{host}      and
     $options->{user}      and
-    $options->{password}  and
-    $options->{directory};
+    $options->{password};
 
 my $esx = FusionInventory::Agent::Task::ESX->new(
     target => {},
@@ -49,7 +49,14 @@ $esx->{jobs} = [ {
         user     => $options->{user},
         password => $options->{password}
 } ];
-$esx->run();
+
+my $broker = FusionInventory::Agent::Output->create(
+    target  => $options->{target},
+    task    => 'netdiscovery',
+    verbose => $options->{verbose}
+);
+
+$esx->run(broker => $broker);
 
 __END__
 
@@ -59,14 +66,14 @@ fusioninventory-esx - vCenter/ESX/ESXi remote inventory from command line
 
 =head1 SYNOPSIS
 
-fusioninventory-esx --host <host> --user <user> --password <password> --directory <directory>
+fusioninventory-esx --host <host> --user <user> --password <password>
 
   Options:
     --help                 this menu
     --host hostname        ESX server hostname
     --user username        user name
     --password xxxx        user password
-    --directory directory  output directory
+    --target target        where to send result (default: stdout)
     --tag tag              tag for the inventoried machine
 
 =head1 EXAMPLES
