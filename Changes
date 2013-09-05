@@ -9,7 +9,9 @@ inventory task
 netdiscovery task
 * fix invalid log message and spurious warnings during discovery (#2200)
 * fix dictionary update handling, breaking fusioninventory-netdiscovery usage
-* identify nortel hardware from sysdescr
+* use sysobjectid for better identification
+* more sysdescr-based identification rules
+* fix loss of information when applying sysdescr-based identification rules
 * normalize sysdescr better before dictionary lookup
 
 netinventory task
