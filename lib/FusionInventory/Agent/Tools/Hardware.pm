@@ -139,11 +139,6 @@ my @sysdescr_rules = (
         type        => { value    => 'PRINTER' }
     },
     {
-        match       => qr/Linux/,
-        description => { oid   => '.1.3.6.1.2.1.1.5.0' },
-        vendor      => { value => 'Ddwrt' }
-    },
-    {
         match       => qr/^Ethernet Switch$/,
         description => { oid   => '.1.3.6.1.4.1.674.10895.3000.1.2.100.1.0' },
         vendor      => { value => 'Dell' },
