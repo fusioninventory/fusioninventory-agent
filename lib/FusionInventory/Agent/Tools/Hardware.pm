@@ -29,7 +29,7 @@ my %types = (
 );
 
 # http://www.iana.org/assignments/enterprise-numbers/enterprise-numbers
-my %iana_numbers = (
+my %sysobjectid_vendors = (
     2     => { vendor => 'IBM',             type => 'COMPUTER'   },
     9     => { vendor => 'Cisco',           type => 'NETWORKING' },
     11    => { vendor => 'Hewlett-Packard'                       },
@@ -71,7 +71,7 @@ my %iana_numbers = (
     18334 => { vendor => 'Konica',          type => 'PRINTER'    },
 );
 
-my %hardware_keywords = (
+my %sysdescr_first_word = (
     '3com'           => { vendor => '3Com',            type => 'NETWORKING' },
     'alcatel-lucent' => { vendor => 'Alcatel-Lucent',  type => 'NETWORKING' },
     'allied'         => { vendor => 'Allied',          type => 'NETWORKING' },
@@ -126,7 +126,7 @@ my %hardware_keywords = (
     'zywall'         => { vendor => 'ZyWall',          type => 'NETWORKING' }
 );
 
-my @hardware_rules = (
+my @sysdescr_rules = (
     {
         match       => qr/^\S+ Service Release/,
         description => { function => 'FusionInventory::Agent::Tools::Hardware::Alcatel::getDescription' },
@@ -379,7 +379,8 @@ sub getDeviceBaseInfo {
 
     my %device;
 
-    # retrieve sysobjectid (SNMPv2-MIB::sysObjectID.0)
+    # first heuristic:
+    # compute manufacturer and type from sysobjectid (SNMPv2-MIB::sysObjectID.0)
     my $sysobjectid = $snmp->get('.1.3.6.1.2.1.1.2.0');
     my $vendor_id =
         $sysobjectid =~ /^SNMPv2-SMI::enterprises\.(\d+)/ ? $1 :
@@ -387,29 +388,29 @@ sub getDeviceBaseInfo {
         $sysobjectid =~ /^\.1\.3\.6\.1\.4\.1\.(\d+)/      ? $1 :
                                                             undef;
     if ($vendor_id) {
-        my $vendor = $iana_numbers{$vendor_id};
-        if ($vendor) {
-            $device{MANUFACTURER} = $vendor->{vendor};
-            $device{TYPE}         = $vendor->{type} if $vendor->{type};
+        my $result = $sysobjectid_vendors{$vendor_id};
+        if ($result) {
+            $device{MANUFACTURER} = $result->{vendor};
+            $device{TYPE}         = $result->{type} if $result->{type};
         }
     }
 
-    # first heuristic:
-    # try to deduce manufacturer and type from first sysdescr word
+    # second heuristic:
+    # compute manufacturer and type from first sysdescr word
     my ($first_word) = $sysdescr =~ /^(\S+)/;
-    my $keyword = $hardware_keywords{lc($first_word)};
+    my $result = $sysdescr_first_word{lc($first_word)};
 
-    if ($keyword) {
-        $device{MANUFACTURER} = $keyword->{vendor};
-        $device{TYPE}         = $keyword->{type} if $keyword->{type};
+    if ($result) {
+        $device{MANUFACTURER} = $result->{vendor};
+        $device{TYPE}         = $result->{type} if $result->{type};
     }
 
-    # second heuristic:
-    # try to deduce manufacturer, type and a more specific identification key
-    # from a set of custom rules matched against full sysdescr value
+    # third heuristic:
+    # compute manufacturer, type and a more specific identification key
+    # from a list of rules matched against sysdescr value
     # the first matching rule wins
     if ($snmp) {
-        foreach my $rule (@hardware_rules) {
+        foreach my $rule (@sysdescr_rules) {
             next unless $sysdescr =~ $rule->{match};
             $device{MANUFACTURER} = _apply_rule($rule->{vendor}, $snmp)
                 if $rule->{vendor};
