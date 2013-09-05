@@ -20006,19 +20006,25 @@ my %tests = (
     ],
     'juniper/srx3400.1.walk' => [
         {
+            MANUFACTURER => 'Juniper',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Routeur Dauphine Juniper SRX3400',
             SNMPHOSTNAME => 'Dauphine-routeur',
             MAC          => '00:21:59:86:A8:00',
         },
         {
+            MANUFACTURER => 'Juniper',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Routeur Dauphine Juniper SRX3400',
             SNMPHOSTNAME => 'Dauphine-routeur',
             MAC          => '00:21:59:86:A8:00',
         },
         {
             INFO => {
-                TYPE => undef,
-                ID   => undef
+                MANUFACTURER => 'Juniper',
+                TYPE         => 'NETWORKING',
+                ID           => undef,
+                MODEL        => undef,
             },
             PORTS => {
                 PORT => []
@@ -20027,19 +20033,25 @@ my %tests = (
     ],
     'juniper/srx3400.2.walk' => [
         {
+            MANUFACTURER => 'Juniper',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Routeur Dauphine Juniper SRX3400',
             SNMPHOSTNAME => 'Dauphine-routeur',
             MAC          => '00:21:59:86:A8:00',
         },
         {
+            MANUFACTURER => 'Juniper',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Routeur Dauphine Juniper SRX3400',
             SNMPHOSTNAME => 'Dauphine-routeur',
             MAC          => '00:21:59:86:A8:00',
         },
         {
             INFO => {
-                TYPE => undef,
-                ID   => undef
+                MANUFACTURER => 'Juniper',
+                TYPE         => 'NETWORKING',
+                ID           => undef,
+                MODEL        => undef,
             },
             PORTS => {
                 PORT => []
@@ -20048,19 +20060,25 @@ my %tests = (
     ],
     'juniper/srx3400.3.walk' => [
         {
+            MANUFACTURER => 'Juniper',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Routeur Dauphine Juniper SRX3400',
             SNMPHOSTNAME => 'Dauphine-routeur',
             MAC          => '00:21:59:86:A8:00',
         },
         {
+            MANUFACTURER => 'Juniper',
+            TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Routeur Dauphine Juniper SRX3400',
             SNMPHOSTNAME => 'Dauphine-routeur',
             MAC          => '00:21:59:86:A8:00',
         },
         {
             INFO => {
-                TYPE => undef,
-                ID   => undef
+                MANUFACTURER => 'Juniper',
+                TYPE         => 'NETWORKING',
+                ID           => undef,
+                MODEL        => undef,
             },
             PORTS => {
                 PORT => []

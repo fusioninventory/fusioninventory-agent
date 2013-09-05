@@ -28,6 +28,49 @@ my %types = (
     3 => 'PRINTER'
 );
 
+# http://www.iana.org/assignments/enterprise-numbers/enterprise-numbers
+my %iana_numbers = (
+    2     => { vendor => 'IBM',             type => 'COMPUTER'   },
+    9     => { vendor => 'Cisco',           type => 'NETWORKING' },
+    11    => { vendor => 'Hewlett Packard'                       },
+    23    => { vendor => 'Novell',          type => 'COMPUTER'   },
+    36    => { vendor => 'DEC',             type => 'COMPUTER'   },
+    42    => { vendor => 'Sun',             type => 'COMPUTER'   },
+    43    => { vendor => '3Com',            type => 'NETWORKING' },
+    45    => { vendor => 'SynOptics',       type => 'NETWORKING' },
+    63    => { vendor => 'Apple',                                },
+    171   => { vendor => 'Dlink',           type => 'NETWORKING' },
+    186   => { vendor => 'Toshiba',         type => 'PRINTER'    },
+    207   => { vendor => 'Allied',          type => 'NETWORKING' },
+    236   => { vendor => 'Samsung',         type => 'PRINTER'    },
+    253   => { vendor => 'Xerox',           type => 'PRINTER'    },
+    289   => { vendor => 'Brocade',         type => 'NETWORKING' },
+    367   => { vendor => 'Ricoh',           type => 'PRINTER'    },
+    368   => { vendor => 'Axis',            type => 'NETWORKING' },
+    534   => { vendor => 'Eaton',           type => 'NETWORKING' },
+    637   => { vendor => 'Alcatel-Lucent',  type => 'NETWORKING' },
+    641   => { vendor => 'Lexmark',         type => 'PRINTER'    },
+    674   => { vendor => 'Dell'                                  },
+    1139  => { vendor => 'EMC'                                   },
+    1248  => { vendor => 'Epson',           type => 'PRINTER'    },
+    1347  => { vendor => 'Kyocera',         type => 'PRINTER'    },
+    1602  => { vendor => 'Canon',           type => 'PRINTER'    },
+    1805  => { vendor => 'Sagem',          type => 'NETWORKING' },
+    1872  => { vendor => 'Alteon',          type => 'NETWORKING' },
+    1916  => { vendor => 'Extrem Networks', type => 'NETWORKING' },
+    1991  => { vendor => 'Foundry',         type => 'NETWORKING' },
+    2385  => { vendor => 'Sharp',           type => 'PRINTER'    },
+    2435  => { vendor => 'Brother',         type => 'PRINTER'    },
+    2636  => { vendor => 'Juniper',         type => 'NETWORKING' },
+    3977  => { vendor => 'Broadband',       type => 'NETWORKING' },
+    5596  => { vendor => 'Tandberg'                              },
+    6486  => { vendor => 'Alcatel',         type => 'NETWORKING' },
+    6889  => { vendor => 'Avaya',           type => 'NETWORKING' },
+    10418 => { vendor => 'Avocent'                               },
+    16885 => { vendor => 'Nortel',          type => 'NETWORKING' },
+    18334 => { vendor => 'Konica',          type => 'PRINTER'    },
+);
+
 my %hardware_keywords = (
     '3com'           => { vendor => '3Com',            type => 'NETWORKING' },
     'alcatel-lucent' => { vendor => 'Alcatel-Lucent',  type => 'NETWORKING' },
@@ -332,6 +375,21 @@ sub getDeviceBaseInfo {
 
     my %device;
 
+    # retrieve sysobjectid (SNMPv2-MIB::sysObjectID.0)
+    my $sysobjectid = $snmp->get('.1.3.6.1.2.1.1.2.0');
+    my $vendor_id =
+        $sysobjectid =~ /^SNMPv2-SMI::enterprises\.(\d+)/ ? $1 :
+        $sysobjectid =~ /^iso\.3\.6\.1\.4\.1\.(\d+)/      ? $1 :
+        $sysobjectid =~ /^\.1\.3\.6\.1\.4\.1\.(\d+)/      ? $1 :
+                                                            undef;
+    if ($vendor_id) {
+        my $vendor = $iana_numbers{$vendor_id};
+        if ($vendor) {
+            $device{MANUFACTURER} = $vendor->{vendor};
+            $device{TYPE}         = $vendor->{type} if $vendor->{type};
+        }
+    }
+
     # first heuristic:
     # try to deduce manufacturer and type from first sysdescr word
     my ($first_word) = $sysdescr =~ /^(\S+)/;
@@ -339,7 +397,7 @@ sub getDeviceBaseInfo {
 
     if ($keyword) {
         $device{MANUFACTURER} = $keyword->{vendor};
-        $device{TYPE}         = $keyword->{type};
+        $device{TYPE}         = $keyword->{type} if $keyword->{type};
     }
 
     # second heuristic:
