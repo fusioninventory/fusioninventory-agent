@@ -176,6 +176,10 @@ my @hardware_rules = (
         type        => { value => 'PRINTER' }
     },
     {
+        match       => qr/JETDIRECT/,
+        type        => { value => 'PRINTER' }
+    },
+    {
         match       => qr/^KYOCERA (MITA Printing System|Print I\/F)$/,
         description => { function => 'FusionInventory::Agent::Tools::Hardware::Kyocera::getDescription' },
         vendor      => { value    => 'Kyocera' },
