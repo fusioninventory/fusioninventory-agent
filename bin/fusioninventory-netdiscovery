@@ -130,13 +130,6 @@ sub getStorage {
     return $self->{storage};
 }
 
-sub getUrl {
-    my ($self, %params) = @_;
-
-    ## no critic (ExplicitReturnUndef)
-    return undef;
-}
-
 package FusionInventory::Agent::Task::NetInventory::Storage;
 
 sub new {

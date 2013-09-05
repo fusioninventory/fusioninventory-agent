@@ -57,8 +57,8 @@ my $type =
                           undef        ;
 
 my $inventory = FusionInventory::Agent::Task::NetInventory->new(
-    target => FusionInventory::Agent::Task::NetInventory::Target->new(),
-    logger =>  FusionInventory::Agent::Logger->new(
+    target => {},
+    logger => FusionInventory::Agent::Logger->new(
         debug => $options->{debug}
     )
 );
@@ -99,21 +99,6 @@ my $broker = FusionInventory::Agent::Broker->create(
 );
 
 $inventory->run(broker => $broker);
-
-package FusionInventory::Agent::Task::NetInventory::Target;
-
-sub new {
-    my ($class) = @_;
-
-    return bless {}, $class;
-}
-
-sub getUrl {
-    my ($self, %params) = @_;
-
-    ## no critic (ExplicitReturnUndef)
-    return undef;
-}
 
 __END__
 
