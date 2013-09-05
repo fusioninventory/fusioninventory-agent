@@ -74,6 +74,7 @@ sub _readSymbolicOids {
     my %prefixes = (
         'iso'                               => '.1',
         'SNMPv2-MIB::sysDescr'              => '.1.3.6.1.2.1.1.1',
+        'SNMPv2-MIB::sysObjectID'           => '.1.3.6.1.2.1.1.2',
         'SNMPv2-MIB::sysUpTime'             => '.1.3.6.1.2.1.1.3',
         'SNMPv2-MIB::sysContact'            => '.1.3.6.1.2.1.1.4',
         'SNMPv2-MIB::sysName'               => '.1.3.6.1.2.1.1.5',
