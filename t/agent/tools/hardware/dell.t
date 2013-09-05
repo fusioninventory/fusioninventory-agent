@@ -94,12 +94,14 @@ my %tests = (
     'dell/unknown.walk' => [
         {
             MANUFACTURER => 'Dell',
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'DELL NETWORK PRINTER,ROM A.03.15,JETDIRECT,JD24,EEPROM A.08.20',
             SNMPHOSTNAME => 'DEL0000f0aceaa9',
             MAC          => '00:00:F0:AC:EA:A9',
         },
         {
             MANUFACTURER => 'Dell',
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'DELL NETWORK PRINTER,ROM A.03.15,JETDIRECT,JD24,EEPROM A.08.20',
             SNMPHOSTNAME => 'DEL0000f0aceaa9',
             MAC          => '00:00:F0:AC:EA:A9',
@@ -107,11 +109,26 @@ my %tests = (
         {
             INFO => {
                 MANUFACTURER => 'Dell',
-                TYPE         => undef,
+                TYPE         => 'PRINTER',
                 ID           => undef,
+                MODEL        => undef,
             },
             PORTS => {
                 PORT => []
+            },
+            PAGECOUNTERS => {
+                TOTAL      => undef,
+                PRINTTOTAL => undef,
+                COPYTOTAL  => undef,
+                COLOR      => undef,
+                RECTOVERSO => undef,
+                FAXTOTAL   => undef,
+                COPYBLACK  => undef,
+                SCANNED    => undef,
+                PRINTCOLOR => undef,
+                BLACK      => undef,
+                COPYCOLOR  => undef,
+                PRINTBLACK => undef
             },
         }
     ],
