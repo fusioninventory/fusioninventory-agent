@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Output::Stdout;
+package FusionInventory::Agent::Broker::Stdout;
 
 use strict;
 use warnings;

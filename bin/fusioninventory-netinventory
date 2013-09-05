@@ -10,10 +10,10 @@ use Pod::Usage;
 use XML::TreePP;
 
 use FusionInventory::Agent;
-use FusionInventory::Agent::Output;
+use FusionInventory::Agent::Broker;
+use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::NetInventory;
 use FusionInventory::Agent::Tools::Hardware;
-use FusionInventory::Agent::Logger;
 
 my $options = {
     community => 'public'
@@ -92,7 +92,7 @@ if (defined($options->{entity})) {
     $inventory->{options}->{DEVICE}->[0]->{ENTITY} = $options->{entity};
 }
 
-my $broker = FusionInventory::Agent::Output->create(
+my $broker = FusionInventory::Agent::Broker->create(
     target  => $options->{target},
     task    => 'netdiscovery',
     verbose => $options->{verbose}

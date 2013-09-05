@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Output;
+package FusionInventory::Agent::Broker;
 
 use strict;
 use warnings;
@@ -10,9 +10,9 @@ sub create {
 
     my $target = $params{target};
     my $output_class =
-        !defined $target         ? 'FusionInventory::Agent::Output::Stdout'   :
-        $target =~ m{^https?://} ? 'FusionInventory::Agent::Output::Server'   :
-        -d $target               ? 'FusionInventory::Agent::Output::Directory':
+        !defined $target         ? 'FusionInventory::Agent::Broker::Stdout'   :
+        $target =~ m{^https?://} ? 'FusionInventory::Agent::Broker::Server'   :
+        -d $target               ? 'FusionInventory::Agent::Broker::Directory':
                                    undef                                      ;
 
     die "invalid target $target" unless $output_class;
