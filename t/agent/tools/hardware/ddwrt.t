@@ -35,32 +35,6 @@ my %tests = (
             }
         }
     ],
-    'ddwrt/unknown.2.walk' => [
-        {
-            MANUFACTURER => 'Ddwrt',
-            TYPE         => undef,
-            DESCRIPTION  => 'Linux nasbcs 2.6.33N7700 #5 SMP Wed Jan 26 12:14:33 CST 2011 i686',
-            SNMPHOSTNAME => undef,
-            MAC          => undef,
-        },
-        {
-            MANUFACTURER => 'Ddwrt',
-            TYPE         => undef,
-            DESCRIPTION  => 'Linux nasbcs 2.6.33N7700 #5 SMP Wed Jan 26 12:14:33 CST 2011 i686',
-            SNMPHOSTNAME => undef,
-            MAC          => undef,
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Ddwrt',
-                TYPE         => undef
-            },
-            PORTS => {
-                PORT => []
-            }
-        }
-    ],
     'ddwrt/unknown.3.walk' => [
         {
             MANUFACTURER => 'Ddwrt',
