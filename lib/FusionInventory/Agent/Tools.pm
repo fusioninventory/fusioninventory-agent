@@ -109,7 +109,7 @@ sub getCanonicalManufacturer {
     )/xi) {
         $manufacturer = ucfirst(lc($1));
     } elsif ($manufacturer =~ /^(hp|HP|hewlett packard)/) {
-        $manufacturer = "Hewlett Packard";
+        $manufacturer = "Hewlett-Packard";
     } elsif ($manufacturer =~ /^(WDC|[Ww]estern)/) {
         $manufacturer = "Western Digital";
     } elsif ($manufacturer =~ /^(ST|[Ss]eagate)/) {
