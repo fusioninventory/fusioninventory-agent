@@ -407,9 +407,12 @@ sub getDeviceBaseInfo {
     if ($snmp) {
         foreach my $rule (@hardware_rules) {
             next unless $sysdescr =~ $rule->{match};
-            $device{MANUFACTURER} = _apply_rule($rule->{vendor}, $snmp);
-            $device{TYPE}         = _apply_rule($rule->{type}, $snmp);
-            $device{DESCRIPTION}  = _apply_rule($rule->{description}, $snmp);
+            $device{MANUFACTURER} = _apply_rule($rule->{vendor}, $snmp)
+                if $rule->{vendor};
+            $device{TYPE}         = _apply_rule($rule->{type}, $snmp)
+                if $rule->{type};
+            $device{DESCRIPTION}  = _apply_rule($rule->{description}, $snmp)
+                if $rule->{description};
             last;
         }
     }

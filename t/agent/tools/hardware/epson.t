@@ -12,7 +12,7 @@ my %tests = (
     'epson/AL-C4200.1.walk' => [
         {
             MANUFACTURER => 'Epson',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-C4200',
             SNMPHOSTNAME => 'AL-C4200-0ED50E',
             MAC          => '20:04:48:0E:D5:0E'
@@ -76,7 +76,7 @@ my %tests = (
     'epson/AL-C4200.2.walk' => [
         {
             MANUFACTURER => 'Epson',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-C4200',
             SNMPHOSTNAME => 'AL-C4200-D14BC7',
             MAC          => '00:00:48:D1:4B:C7',
@@ -140,7 +140,7 @@ my %tests = (
     'epson/AL-C4200.3.walk' => [
         {
             MANUFACTURER => 'Epson',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-C4200',
             SNMPHOSTNAME => 'AL-C4200-D1C30E',
             MAC          => '00:00:48:D1:C3:0E',
@@ -204,7 +204,7 @@ my %tests = (
     'epson/AL-C4200.4.walk' => [
         {
             MANUFACTURER => 'Epson',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-C4200',
             SNMPHOSTNAME => 'AL-C4200-D362D2',
             MAC          => '00:00:48:D3:62:D2',
@@ -309,14 +309,14 @@ my %tests = (
     'epson/AL-C1100.walk' => [
         {
             MANUFACTURER => 'Epson',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-C1100',
             SNMPHOSTNAME => 'AL-C1100-0DBECC',
             MAC          => '00:00:48:0D:BE:CC',
         },
         {
             MANUFACTURER => 'Epson',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-C1100',
             SNMPHOSTNAME => 'AL-C1100-0DBECC',
             MAC          => '00:00:48:0D:BE:CC',
@@ -324,25 +324,40 @@ my %tests = (
         {
             INFO => {
                 MANUFACTURER => 'Epson',
-                TYPE         => undef,
+                TYPE         => 'PRINTER',
                 ID           => undef,
+                MODEL        => undef,
             },
             PORTS => {
                 PORT => []
-            }
+            },
+            PAGECOUNTERS => {
+                PRINTCOLOR => undef,
+                SCANNED    => undef,
+                COPYTOTAL  => undef,
+                COPYBLACK  => undef,
+                PRINTTOTAL => undef,
+                FAXTOTAL   => undef,
+                PRINTBLACK => undef,
+                TOTAL      => undef,
+                COPYCOLOR  => undef,
+                COLOR      => undef,
+                RECTOVERSO => undef,
+                BLACK      => undef
+            },
         }
     ],
     'epson/AL-M2400.1.walk' => [
         {
             MANUFACTURER => 'Epson',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-M2400',
             SNMPHOSTNAME => 'AL-M2400-7FDDAF',
             MAC          => '00:26:AB:7F:DD:AF'
         },
         {
             MANUFACTURER => 'Epson',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-M2400',
             SNMPHOSTNAME => 'AL-M2400-7FDDAF',
             MAC          => '00:26:AB:7F:DD:AF'
@@ -350,25 +365,40 @@ my %tests = (
         {
             INFO => {
                 MANUFACTURER => 'Epson',
-                TYPE         => undef,
+                TYPE         => 'PRINTER',
                 ID           => undef,
+                MODEL        => undef,
             },
             PORTS => {
                 PORT => []
-            }
+            },
+            PAGECOUNTERS => {
+                PRINTCOLOR => undef,
+                SCANNED    => undef,
+                COPYTOTAL  => undef,
+                COPYBLACK  => undef,
+                PRINTTOTAL => undef,
+                FAXTOTAL   => undef,
+                PRINTBLACK => undef,
+                TOTAL      => undef,
+                COPYCOLOR  => undef,
+                COLOR      => undef,
+                RECTOVERSO => undef,
+                BLACK      => undef
+            },
         }
     ],
     'epson/AL-M2400.2.walk' => [
         {
             MANUFACTURER => 'Epson',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-M2400',
             SNMPHOSTNAME => 'AL-M2400-7FDDAF',
             MAC          => '00:26:AB:7F:DD:AF',
         },
         {
             MANUFACTURER => 'Epson',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-M2400',
             SNMPHOSTNAME => 'AL-M2400-7FDDAF',
             MAC          => '00:26:AB:7F:DD:AF',
@@ -376,12 +406,27 @@ my %tests = (
         {
             INFO => {
                 MANUFACTURER => 'Epson',
-                TYPE         => undef,
+                TYPE         => 'PRINTER',
                 ID           => undef,
+                MODEL        => undef,
             },
             PORTS => {
                 PORT => []
-            }
+            },
+            PAGECOUNTERS => {
+                PRINTCOLOR => undef,
+                SCANNED    => undef,
+                COPYTOTAL  => undef,
+                COPYBLACK  => undef,
+                PRINTTOTAL => undef,
+                FAXTOTAL   => undef,
+                PRINTBLACK => undef,
+                TOTAL      => undef,
+                COPYCOLOR  => undef,
+                COLOR      => undef,
+                RECTOVERSO => undef,
+                BLACK      => undef
+            },
         }
     ],
 );
