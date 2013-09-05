@@ -16,7 +16,7 @@ use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
 use FusionInventory::Agent;
-use FusionInventory::Agent::HTTP::Client::OCS;
+use FusionInventory::Agent::Broker::Server;
 use FusionInventory::Agent::XML::Query;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hardware;
@@ -58,11 +58,11 @@ sub run {
 
     $self->{logger}->debug("running FusionInventory NetInventory task");
 
-    # use either given output broker,
-    # or assume the target is GLPI server using OCS protocol
+    # use given output broker, otherwise assume the target is a GLPI server
     my $broker =
         $params{broker} ||
-        FusionInventory::Agent::HTTP::Client::OCS->new(
+        FusionInventory::Agent::Broker::Server->new(
+            target       => $self->{target}->getUrl(),
             logger       => $self->{logger},
             user         => $params{user},
             password     => $params{password},
@@ -163,10 +163,7 @@ sub _sendMessage {
        content  => $content
    );
 
-   $broker->send(
-       url     => $self->{target}->getUrl(),
-       message => $message
-   );
+   $broker->send(message => $message);
 }
 
 sub _queryDevices {

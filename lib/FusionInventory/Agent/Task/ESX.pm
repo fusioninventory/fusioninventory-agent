@@ -4,8 +4,8 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
+use FusionInventory::Agent::Broker::Server;
 use FusionInventory::Agent::HTTP::Client::Fusion;
-use FusionInventory::Agent::HTTP::Client::OCS;
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::SOAP::VMware;
@@ -83,11 +83,11 @@ sub run {
     my @jobs = @{$self->{jobs}};
     $self->{logger}->info("Got " . @jobs . " VMware host(s) to inventory.");
 
-    # use either given output broker,
-    # or assume the target is GLPI server using OCS protocol
+    # use given output broker, otherwise assume the target is a GLPI server
     my $broker =
         $params{broker} ||
-        FusionInventory::Agent::HTTP::Client::OCS->new(
+        FusionInventory::Agent::Broker::Server->new(
+            target       => $self->{target}->getUrl(),
             logger       => $self->{logger},
             user         => $params{user},
             password     => $params{password},
@@ -130,10 +130,7 @@ sub run {
                 content  => $inventory->getContent()
             );
 
-            $broker->send(
-                url     => $self->{target}->getUrl(),
-                message => $message
-            );
+            $broker->send(message => $message);
         }
         $self->{controller}->send(
             "url" => $self->{esxRemote},
