@@ -10,7 +10,7 @@ use UNIVERSAL::require;
 
 my $default = {
     'additional-content'      => undef,
-    'backend-collect-timeout' => 180,
+    'collect-timeout'         => 180,
     'ca-cert-dir'             => undef,
     'ca-cert-file'            => undef,
     'color'                   => undef,
@@ -41,6 +41,7 @@ my $default = {
     'user'                    => undef,
     # deprecated options
     'stdout'                  => undef,
+    'backend-collect-timeout' => undef,
     # multi-values options that will be converted to array ref
     'httpd-trust'             => "",
     'no-task'                 => "",
@@ -51,6 +52,10 @@ my $deprecated = {
     'stdout' => {
         message => 'use --local - option instead',
         new     => { 'local' => '-' }
+    },
+    'backend-collect-timeout' => {
+        message => 'use --collect-timeout option instead',
+        new     => 'collect-timeout'
     },
 };
 

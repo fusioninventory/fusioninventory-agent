@@ -28,7 +28,7 @@ my $options = {
 GetOptions(
     $options,
     'additional-content=s',
-    'backend-collect-timeout=s',
+    'collect-timeout=s',
     'html',
     'no-category=s',
     'scan-homedirs',
@@ -79,7 +79,7 @@ fusioninventory-inventory [options]
     --scan-homedirs                scan use home directories (false)
     --html                         save the inventory as HTML (false)
     -t --tag=TAG                   mark the machine with given tag
-    --backend-collect-timeout=TIME timeout for inventory modules
+    --collect-timeout=TIME         timeout for inventory modules
                                      execution (30)
     --additional-content=FILE      additional inventory content file
     --verbose                      verbose output (control messages)

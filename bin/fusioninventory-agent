@@ -17,7 +17,7 @@ my $options = {};
 GetOptions(
     $options,
     'additional-content=s',
-    'backend-collect-timeout=s',
+    'collect-timeout=s',
     'ca-cert-dir=s',
     'ca-cert-file=s',
     'conf-file=s',
@@ -56,6 +56,7 @@ GetOptions(
     'wait|w=s',
     # deprecated options
     'stdout',
+    'backend-collect-timeout',
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
@@ -148,7 +149,7 @@ B<fusioninventory-agent> [options] [--server server|--local path]
     --scan-homedirs                scan use home directories (false)
     --html                         save the inventory as HTML (false)
     -f --force                     always send data to server (false)
-    --backend-collect-timeout=TIME timeout for inventory modules
+    --collect-timeout=TIME         timeout for inventory modules
                                      execution (30)
     --additional-content=FILE      additional inventory content file
 
@@ -345,7 +346,7 @@ This is only used for local inventories.
 
 Send an inventory to the server, even if this last one doesn't ask for it.
 
-=item B<--backend-collect-timeout>=I<TIME>
+=item B<--collect-timeout>=I<TIME>
 
 Timeout for inventory modules execution.
 
