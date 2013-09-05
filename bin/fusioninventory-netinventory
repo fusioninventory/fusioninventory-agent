@@ -58,9 +58,7 @@ my $type =
 
 my $inventory = FusionInventory::Agent::Task::NetInventory->new(
     target => {},
-    logger => FusionInventory::Agent::Logger->new(
-        debug => $options->{debug}
-    )
+    logger => FusionInventory::Agent::Logger->new(debug => $options->{debug})
 );
 
 $inventory->{options} = {

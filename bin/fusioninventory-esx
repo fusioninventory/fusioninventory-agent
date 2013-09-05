@@ -41,7 +41,7 @@ pod2usage(-verbose => 0) unless
 
 my $esx = FusionInventory::Agent::Task::ESX->new(
     target => {},
-    logger => usionInventory::Agent::Logger->new()
+    logger => FusionInventory::Agent::Logger->new(debug => $options->{debug})
 );
 
 # emulate a server requesting a unique job
