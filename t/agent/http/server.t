@@ -119,7 +119,7 @@ if (my $pid = fork()) {
         $CHILD_ERROR >> 8,
         'server still listening on specific port after ALARM signal in child');
 } else {
-    alarm 1;
+    alarm 3;
     my $client = LWP::UserAgent->new(timeout => 2);
     exit $client->get("http://localhost:$port")->is_success();
 }
