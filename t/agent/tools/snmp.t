@@ -6,7 +6,7 @@ use warnings;
 use Test::More;
 use Test::Deep;
 
-use FusionInventory::Agent::Tools::SNMP;
+use FusionInventory::Agent::Tools::Hardware;
 
 plan tests => 6;
 
