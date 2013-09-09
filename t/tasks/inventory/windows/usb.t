@@ -39,60 +39,78 @@ my %tests = (
             CAPTION      => 'Integrated Rate Matching Hub'
         },
         {
-            NAME      => 'ASUS Bluetooth',
-            VENDORID  => '0B05',
-            PRODUCTID => '179C'
+            NAME         => 'ASUS Bluetooth',
+            VENDORID     => '0B05',
+            MANUFACTURER => 'ASUSTek Computer, Inc.',
+            PRODUCTID    => '179C'
         },
         {
-            NAME      => 'Périphérique USB composite',
-            SERIAL    => '6BE882AB',
-            VENDORID  => '046D',
-            PRODUCTID => '08C9'
+            NAME         => 'Périphérique USB composite',
+            SERIAL       => '6BE882AB',
+            VENDORID     => '046D',
+            PRODUCTID    => '08C9',
+            CAPTION      => 'QuickCam Ultra Vision',
+            MANUFACTURER => 'Logitech, Inc.'
+
         },
         {
-            NAME      => 'Périphérique d’entrée USB',
-            VENDORID  => '046D',
-            PRODUCTID => 'C03E'
+            CAPTION      => 'Premium Optical Wheel Mouse (M-BT58)',
+            MANUFACTURER => 'Logitech, Inc.',
+            NAME         => 'Périphérique d’entrée USB',
+            VENDORID     => '046D',
+            PRODUCTID    => 'C03E'
         },
         {
-            NAME      => 'Périphérique USB composite',
-            VENDORID  => '046D',
-            PRODUCTID => 'C30A'
+            NAME         => 'Périphérique USB composite',
+            VENDORID     => '046D',
+            PRODUCTID    => 'C30A',
+            CAPTION      => 'iTouch Composite',
+            MANUFACTURER => 'Logitech, Inc.'
         },
     ],
     xppro2 => [
         {
-            NAME      => "Concentrador USB genérico",
-            VENDORID  => '046A',
-            PRODUCTID => '0009'
+            MANUFACTURER => 'Cherry GmbH',
+            NAME         => "Concentrador USB genérico",
+            VENDORID     => '046A',
+            PRODUCTID    => '0009'
         },
         {
-            NAME      => 'Dispositivo compuesto USB',
-            VENDORID  => '046A',
-            PRODUCTID => '0019'
+            MANUFACTURER => 'Cherry GmbH',
+            NAME         => 'Dispositivo compuesto USB',
+            VENDORID     => '046A',
+            PRODUCTID    => '0019'
         },
         {
-            NAME      => 'SmartTerminal XX44',
-            VENDORID  => '046A',
-            PRODUCTID => '002D'
+            CAPTION      => 'SmartTerminal XX44',
+            MANUFACTURER => 'Cherry GmbH',
+            NAME         => 'SmartTerminal XX44',
+            VENDORID     => '046A',
+            PRODUCTID    => '002D'
         },
         {
-            NAME      => 'Compatibilidad con impresoras USB',
-            SERIAL    => 'JV40VNJ',
-            VENDORID  => '03F0',
-            PRODUCTID => '3A17'
+            CAPTION      => 'Printing Support',
+            MANUFACTURER => 'Hewlett-Packard',
+            NAME         => 'Compatibilidad con impresoras USB',
+            SERIAL       => 'JV40VNJ',
+            VENDORID     => '03F0',
+            PRODUCTID    => '3A17'
         },
         {
-            NAME      => 'Compatibilidad con impresoras USB',
-            SERIAL    => 'J5J126789',
-            VENDORID  => '04F9',
-            PRODUCTID => '002B'
+            CAPTION      => 'HL-5250DN Printer',
+            MANUFACTURER => 'Brother Industries, Ltd',
+            NAME         => 'Compatibilidad con impresoras USB',
+            SERIAL       => 'J5J126789',
+            VENDORID     => '04F9',
+            PRODUCTID    => '002B'
         },
         {
-            NAME      => 'Dispositivo compuesto USB',
-            SERIAL    => '00CNBW86S20B',
-            VENDORID  => '03F0',
-            PRODUCTID => '3817'
+            CAPTION      => 'LaserJet P2015 series',
+            MANUFACTURER => 'Hewlett-Packard',
+            NAME         => 'Dispositivo compuesto USB',
+            SERIAL       => '00CNBW86S20B',
+            VENDORID     => '03F0',
+            PRODUCTID    => '3817'
         }
     ]
 );
