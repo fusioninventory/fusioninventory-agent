@@ -108,11 +108,6 @@ sub run {
     $self->_feedInventory($inventory, \%disabled);
 
     my $response = $broker->send(inventory => $inventory);
-
-    if ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
-        $inventory->saveLastState() if $response;
-    }
-
 }
 
 sub _initModulesList {
