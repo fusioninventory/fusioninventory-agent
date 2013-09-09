@@ -10,10 +10,10 @@ sub create {
 
     my $target = $params{target};
     my $output_class =
-        !defined $target         ? 'FusionInventory::Agent::Broker::Stdout'   :
-        $target =~ m{^https?://} ? 'FusionInventory::Agent::Broker::Server'   :
-        -d $target               ? 'FusionInventory::Agent::Broker::Directory':
-                                   undef                                      ;
+        !defined $target         ? 'FusionInventory::Agent::Broker::Stdout'    :
+        $target =~ m{^https?://} ? 'FusionInventory::Agent::Broker::Server'    :
+        -d $target               ? 'FusionInventory::Agent::Broker::Filesystem':
+                                   undef                                       ;
 
     die "invalid target $target" unless $output_class;
     $output_class->require();
