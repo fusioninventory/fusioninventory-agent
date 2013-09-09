@@ -135,11 +135,11 @@ sub resolv {
             Socket::GetAddrInfo::NI_NUMERICHOST(),
         );
         # Drop the zone index. Net::IP do not support them
-        $host =~ s/%.*$//;
         if ($error && $logger) {
-            $logger->error("unable to get host `$host' IP address: $error");
+            $logger->error("unable to get hostname of IP address `$result->{addr}': $error");
             next;
         }
+        $host =~ s/%.*$//;
         push @ret, Net::IP->new($host);
     }
 
