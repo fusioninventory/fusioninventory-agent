@@ -126,11 +126,8 @@ sub _getType {
             logger => $logger
         );
         my $line = <$handle>;
-        chomp($line);
-        if ($line == 1) {
-             return 'BSDJail';
-        }
         close $handle;
+        return 'BSDJail' if $line && $line == 1;
     }
 
     # loaded modules
