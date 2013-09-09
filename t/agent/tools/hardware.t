@@ -10,7 +10,6 @@ use Test::More;
 use FusionInventory::Agent::SNMP::Mock;
 use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::Tools::Hardware::Generic;
-use FusionInventory::Agent::Tools::Hardware::Cisco;
 
 # each item is an arrayref of three elements:
 # - input data structure (ports list)
@@ -188,8 +187,8 @@ my @cisco_connected_devices_mac_addresses_tests = (
 plan tests =>
     scalar @trunk_ports_tests * 2 +
     scalar @connected_devices_tests * 2 +
-    scalar @connected_devices_mac_addresses_tests * 2 +
-    scalar @cisco_connected_devices_mac_addresses_tests * 2;
+    scalar @connected_devices_mac_addresses_tests +
+    scalar @cisco_connected_devices_mac_addresses_tests;
 
 my $model = {
     oids => {
@@ -274,8 +273,8 @@ foreach my $test (@connected_devices_mac_addresses_tests) {
 foreach my $test (@cisco_connected_devices_mac_addresses_tests) {
     my $ports = clone($test->[0]);
 
-    FusionInventory::Agent::Tools::Hardware::Cisco::setConnectedDevicesMacAddresses(
-        snmp => $cisco_snmp, ports => $ports, model => $model, vlan_id => 1
+    FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(
+        snmp => $cisco_snmp, ports => $ports, model => $model
     );
 
     cmp_deeply(
@@ -305,34 +304,6 @@ foreach my $test (@connected_devices_tests) {
 
     FusionInventory::Agent::Tools::Hardware::_setConnectedDevices(
         'Cisco', $snmp, $model, $ports
-    );
-
-    cmp_deeply(
-        $ports,
-        $test->[1],
-        $test->[2] . ' (indirect)',
-    );
-}
-
-foreach my $test (@connected_devices_mac_addresses_tests) {
-    my $ports = clone($test->[0]);
-
-    FusionInventory::Agent::Tools::Hardware::_setConnectedDevicesMacAddresses(
-        'ProCurve', $snmp, $model, $ports
-    );
-
-    cmp_deeply(
-        $ports,
-        $test->[1],
-        $test->[2] . ' (indirect)',
-    );
-}
-
-foreach my $test (@cisco_connected_devices_mac_addresses_tests) {
-    my $ports = clone($test->[0]);
-
-    FusionInventory::Agent::Tools::Hardware::_setConnectedDevicesMacAddresses(
-        'Cisco', $cisco_snmp, $model, $ports, 1
     );
 
     cmp_deeply(
