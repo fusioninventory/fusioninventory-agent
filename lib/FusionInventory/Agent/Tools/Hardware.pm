@@ -247,17 +247,6 @@ my @connected_devices_rules = (
     },
 );
 
-my @connected_devices_mac_addresses_rules = (
-    {
-        match    => qr/Cisco/,
-        module   => 'FusionInventory::Agent::Tools::Hardware::Cisco',
-    },
-    {
-        match    => qr/.*/,
-        module   => 'FusionInventory::Agent::Tools::Hardware::Generic',
-    },
-);
-
 my @specific_cleanup_rules = (
     {
         match    => qr/3Com IntelliJack/,
@@ -546,27 +535,6 @@ sub _setConnectedDevices {
             module   => $rule->{module},
             function => 'setConnectedDevices',
             params   => { snmp => $snmp, model => $model, ports => $ports },
-            load     => 1
-        );
-
-        last;
-    }
-}
-
-sub _setConnectedDevicesMacAddresses {
-    my ($description, $snmp, $model, $ports, $vlan_id) = @_;
-
-    foreach my $rule (@connected_devices_mac_addresses_rules) {
-        next unless $description =~ $rule->{match};
-
-        runFunction(
-            module   => $rule->{module},
-            function => 'setConnectedDevicesMacAddresses',
-            params   => {
-                snmp    => $snmp,
-                model   => $model,
-                ports   => $ports,
-            },
             load     => 1
         );
 
@@ -874,13 +842,11 @@ sub _setNetworkingProperties {
         while (my ($suffix, $value) = each %{$vlans}) {
             my $vlan_id = $suffix;
             $snmp->switch_community("@" . $vlan_id);
-            _setConnectedDevicesMacAddresses(
-                $comments, $snmp, $model, $ports
-            );
+            FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(snmp => $snmp, model => $model, ports => $ports);
         }
     } else {
         # set connected devices mac addresses only once
-        _setConnectedDevicesMacAddresses($comments, $snmp, $model, $ports);
+        FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(snmp => $snmp, model => $model, ports => $ports);
     }
 
     # hardware-specific hacks
@@ -1029,7 +995,7 @@ return a minimal set of information for a device through SNMP, according to a
 set of rules hardcoded in the agent and the usage of an additional knowledge
 base, the dictionary.
 
-=head2 setConnectedDevicesMacAddresses($description, $snmp, $model, $ports, $vlan_id)
+=head2 setConnectedDevicesMacAddresses($description, $snmp, $model, $ports)
 
 set mac addresses of connected devices.
 
