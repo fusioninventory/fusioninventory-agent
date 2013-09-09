@@ -125,7 +125,7 @@ sub resolv {
     );
     if ($error && $logger) {
         $logger->error("unable to resolve `$string': $error");
-        next;
+        return;
     }
 
     # and push all of their addresses in the list
