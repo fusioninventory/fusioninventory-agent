@@ -11,9 +11,8 @@ sub new {
 
     my $self = $class->SUPER::new(%params);
 
-    $self->{deviceid} = $params{deviceid};
-    $self->{format}   = $params{format};
-    $self->{datadir}  = $params{datadir};
+    $self->{format}  = $params{format};
+    $self->{datadir} = $params{datadir};
     return $self;
 }
 

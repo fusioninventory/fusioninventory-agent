@@ -7,7 +7,8 @@ sub new {
     my ($class, %params) = @_;
 
     return bless {
-        verbose => $params{verbose}
+        deviceid => $params{deviceid},
+        verbose  => $params{verbose}
     }, $class;
 }
 
