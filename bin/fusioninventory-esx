@@ -8,7 +8,6 @@ use English qw(-no_match_vars) ;
 use Getopt::Long;
 use Pod::Usage;
 
-use FusionInventory::Agent;
 use FusionInventory::Agent::Broker;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::ESX;
@@ -30,7 +29,7 @@ GetOptions(
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
 
 if ($options->{version}) {
-    print "ESX inventory task $FusionInventory::Agent::VERSION\n";
+    print "ESX inventory task $FusionInventory::Agent::Task::ESX::VERSION\n";
     exit 0;
 }
 

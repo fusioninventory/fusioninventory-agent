@@ -8,9 +8,12 @@ use Config;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
+use FusionInventory::Agent;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::XML::Query::Inventory;
+
+our $VERSION = $FusionInventory::Agent::VERSION;
 
 sub isEnabled {
     my ($self, %params) = @_;
