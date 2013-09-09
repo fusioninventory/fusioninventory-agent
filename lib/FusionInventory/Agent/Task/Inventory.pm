@@ -47,7 +47,6 @@ sub run {
     $self->{modules} = {};
 
     my $inventory = FusionInventory::Agent::Inventory->new(
-        statedir => $self->{target}->getStorage()->getDirectory(),
         logger   => $self->{logger},
         tag      => $self->{config}->{'tag'}
     );
@@ -132,8 +131,6 @@ sub run {
         );
 
         return unless $response;
-        $inventory->saveLastState();
-
     }
 
 }

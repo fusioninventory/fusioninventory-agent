@@ -212,7 +212,7 @@ $inventory->computeChecksum();
 
 is(
     $inventory->{content}->{HARDWARE}->{CHECKSUM},
-    1,
+    131071,
     'checksum after CPU addition'
 );
 
@@ -247,7 +247,7 @@ $inventory->computeChecksum();
 
 is(
     $inventory->{content}->{HARDWARE}->{CHECKSUM},
-    513,
+    131071,
     'checksum after drive addition'
 );
 
