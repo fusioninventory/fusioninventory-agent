@@ -597,13 +597,15 @@ sub getDeviceFullInfo {
     _setGenericProperties(
         device => $device,
         snmp   => $snmp,
-        model  => $model
+        model  => $model,
+        logger => $logger
     );
 
     _setPrinterProperties(
         device  => $device,
         snmp   => $snmp,
-        model  => $model
+        model  => $model,
+        logger => $logger
     ) if $info{TYPE} && $info{TYPE} eq 'PRINTER';
 
     _setNetworkingProperties(
@@ -630,6 +632,7 @@ sub _setGenericProperties {
     my $device = $params{device};
     my $snmp   = $params{snmp};
     my $model  = $params{model};
+    my $logger = $params{logger};
 
     my $firmware;
     if ($model->{oids}->{firmware}) {
@@ -719,11 +722,11 @@ sub _setGenericProperties {
             next unless $value;
             # safety checks
             if (!$ports->{$value}) {
-                warn "non-existing port $value, check ifaddr mapping\n";
+                $logger->error("non-existing port $value, check ifaddr mapping");
                 last;
             }
             if ($suffix !~ /^$ip_address_pattern$/) {
-                warn "invalid IP address $suffix, check ifaddr mapping\n";
+                $logger->error("invalid IP address $suffix, check ifaddr mapping");
                 last;
             }
             $ports->{$value}->{IP} = $suffix;
@@ -812,7 +815,7 @@ sub _setNetworkingProperties {
 
             # safety check
             if (!$ports->{$port_id}) {
-                warn "non-existing port $port_id, check vmvlan mapping\n";
+                $logger->error("non-existing port $port_id, check vmvlan mapping");
                 last;
             }
             push
