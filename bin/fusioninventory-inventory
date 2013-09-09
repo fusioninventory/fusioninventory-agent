@@ -78,10 +78,9 @@ fusioninventory-inventory [options]
   Options:
     --scan-homedirs                scan use home directories (false)
     --html                         save the inventory as HTML (false)
-    -t --tag=TAG                   mark the machine with given tag
-    --collect-timeout=TIME         timeout for inventory modules
-                                     execution (30)
-    --additional-content=FILE      additional inventory content file
+    -t --tag tag                   inventory tag
+    --collect-timeout time         inventory modules execution timeout (30)
+    --additional-content file      additional inventory content file
     --verbose                      verbose output (control messages)
     --debug                        debug output (execution traces)
     -h --help                      print this message and exit

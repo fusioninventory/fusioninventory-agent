@@ -110,8 +110,8 @@ fusioninventory-netinventory [options] [--host <host>--file <file>]
   [--model <model>]
 
   Options:
-    --host host    host to inventorize
-    --file         snmpwalk output file
+    --host host    device host name
+    --file file    snmpwalk output file
     --model model  XML model file
     --community    community string (default: public)
     --entity       GLPI entity
