@@ -48,7 +48,8 @@ my %tests = (
                 TONERMAGENTA => 50,
                 DRUMMAGENTA  => -4400,
                 DRUMCYAN     => -4400,
-                TONERYELLOW  => 75
+                TONERYELLOW  => 75,
+                WASTETONER   => 0
             },
             PORTS => {
                 PORT => [
@@ -142,15 +143,16 @@ my %tests = (
                 TONERYELLOW  => 25,
                 DRUMMAGENTA  => -750,
                 TONERMAGENTA => 25,
-                DRUMBLACK    => -2200
+                DRUMBLACK    => -2200,
+                WASTETONER   => 0
             },
             PORTS => {
                 PORT => [
                     {
                         IFNUMBER => '1',
-                        MAC => '00:22:F3:9D:20:4B',
-                        IFNAME => 'Ethernet',
-                        IFTYPE => '6'
+                        MAC      => '00:22:F3:9D:20:4B',
+                        IFNAME   => 'Ethernet',
+                        IFTYPE   => '6'
                     }
                 ]
             }

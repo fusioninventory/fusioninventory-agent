@@ -766,7 +766,7 @@ sub _setPrinterProperties {
                     $type_value,
                     $level_value,
                 );
-        next unless $value;
+        next unless defined $value;
         $device->{CARTRIDGES}->{$key} = $value;
     }
 
@@ -775,7 +775,7 @@ sub _setPrinterProperties {
         my $max_value    = $snmp->get($model->{oids}->{$variable . 'MAX'});
         my $remain_value = $snmp->get($model->{oids}->{$variable . 'REMAIN'});
         my $value = _getPercentValue($max_value, $remain_value);
-        next unless $value;
+        next unless defined $value;
         $device->{CARTRIDGES}->{$key} = $value;
     }
 
