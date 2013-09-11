@@ -51,20 +51,6 @@ my %tests = (
                     }
                 ]
             },
-            PAGECOUNTERS => {
-                PRINTBLACK => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
-                COPYCOLOR  => undef,
-                PRINTCOLOR => undef,
-                RECTOVERSO => undef,
-                COLOR      => undef,
-                BLACK      => undef,
-                COPYBLACK  => undef,
-                TOTAL      => undef,
-                FAXTOTAL   => undef,
-                PRINTTOTAL => undef
-            },
         }
     ],
     'xerox/Phaser_5550DT.1.walk' => [
@@ -111,20 +97,6 @@ my %tests = (
                     }
                 ]
             },
-            PAGECOUNTERS => {
-                COLOR      => undef,
-                RECTOVERSO => undef,
-                FAXTOTAL   => undef,
-                PRINTTOTAL => undef,
-                COPYCOLOR  => undef,
-                COPYBLACK  => undef,
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                TOTAL      => undef,
-                COPYTOTAL  => undef,
-                BLACK      => undef,
-                PRINTBLACK => undef
-            }
         }
     ],
     'xerox/Phaser_5550DT.2.walk' => [
@@ -158,20 +130,6 @@ my %tests = (
                 CONTACT      => undef,
                 NAME         => 'Phaser 5550DT-1',
                 MEMORY       => 0
-            },
-            PAGECOUNTERS => {
-                COPYCOLOR  => undef,
-                PRINTTOTAL => undef,
-                PRINTCOLOR => undef,
-                FAXTOTAL   => undef,
-                COPYBLACK  => undef,
-                COLOR      => undef,
-                TOTAL      => undef,
-                RECTOVERSO => undef,
-                PRINTBLACK => undef,
-                SCANNED    => undef,
-                BLACK      => undef,
-                COPYTOTAL  => undef
             },
             PORTS => {
                 PORT => [
@@ -237,17 +195,8 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 FAXTOTAL   => 'Faxed Impressions',
-                SCANNED    => undef,
-                PRINTCOLOR => undef,
-                PRINTBLACK => undef,
                 BLACK      => 'Black Impressions ',
-                COPYTOTAL  => undef,
-                TOTAL      => undef,
-                PRINTTOTAL => undef,
-                RECTOVERSO => undef,
                 COPYBLACK  => 'Black Copied Impressions',
-                COPYCOLOR  => undef,
-                COLOR      => undef
             }
         }
     ],
@@ -282,20 +231,6 @@ my %tests = (
                 LOCATION     => 'machine location not set',
                 NAME         => 'SO007XN',
                 SERIAL       => '3641509891'
-            },
-            PAGECOUNTERS => {
-                TOTAL      => undef,
-                COPYBLACK  => undef,
-                PRINTCOLOR => undef,
-                COPYCOLOR  => undef,
-                FAXTOTAL   => undef,
-                PRINTBLACK => undef,
-                BLACK      => undef,
-                SCANNED    => undef,
-                RECTOVERSO => undef,
-                COLOR      => undef,
-                COPYTOTAL  => undef,
-                PRINTTOTAL => undef
             },
             CARTRIDGES => {
                 TONERBLACK => 45
@@ -373,20 +308,6 @@ my %tests = (
             CARTRIDGES => {
                 TONERBLACK => 90
             },
-            PAGECOUNTERS => {
-                COPYTOTAL  => undef,
-                PRINTTOTAL => undef,
-                COPYBLACK  => undef,
-                BLACK      => undef,
-                PRINTBLACK => undef,
-                COLOR      => undef,
-                COPYCOLOR  => undef,
-                RECTOVERSO => undef,
-                SCANNED    => undef,
-                FAXTOTAL   => undef,
-                TOTAL      => undef,
-                PRINTCOLOR => undef
-            }
         }
     ],
     'xerox/WorkCentre_7125.walk' => [
@@ -442,16 +363,11 @@ my %tests = (
                 ]
             },
             PAGECOUNTERS => {
-                TOTAL      => undef,
                 COLOR      => '6964',
                 PRINTBLACK => '3251',
                 PRINTTOTAL => '13755',
                 BLACK      => '4086',
-                RECTOVERSO => undef,
-                COPYTOTAL  => undef,
-                SCANNED    => undef,
                 COPYCOLOR  => '1394',
-                FAXTOTAL   => undef,
                 PRINTCOLOR => '6964',
                 COPYBLACK  => '1311'
             },
@@ -482,20 +398,6 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
-            },
-            PAGECOUNTERS => {
-                COPYTOTAL  => undef,
-                PRINTTOTAL => undef,
-                COPYBLACK  => undef,
-                BLACK      => undef,
-                PRINTBLACK => undef,
-                COLOR      => undef,
-                COPYCOLOR  => undef,
-                RECTOVERSO => undef,
-                SCANNED    => undef,
-                FAXTOTAL   => undef,
-                TOTAL      => undef,
-                PRINTCOLOR => undef
             },
             PORTS => {
                 PORT => []

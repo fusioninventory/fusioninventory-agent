@@ -783,6 +783,7 @@ sub _setPrinterProperties {
     foreach my $key (keys %printer_pagecounters_variables) {
         my $variable = $printer_pagecounters_variables{$key};
         my $value    = $snmp->get($model->{oids}->{$variable});
+        next unless defined $value;
         $device->{PAGECOUNTERS}->{$key} = $value;
     }
 }

@@ -40,20 +40,6 @@ my %tests = (
                 SERIAL       => 'GMYZ106952',
                 NAME         => 'AL-C4200-0ED50E'
             },
-            PAGECOUNTERS => {
-                TOTAL      => undef,
-                PRINTTOTAL => undef,
-                COPYTOTAL  => undef,
-                COLOR      => undef,
-                RECTOVERSO => undef,
-                FAXTOTAL   => undef,
-                COPYBLACK  => undef,
-                SCANNED    => undef,
-                PRINTCOLOR => undef,
-                BLACK      => undef,
-                COPYCOLOR  => undef,
-                PRINTBLACK => undef
-            },
             CARTRIDGES => {
                 TONERCYAN    => 100,
                 TONERYELLOW  => 84,
@@ -103,20 +89,6 @@ my %tests = (
                 ID           => undef,
                 SERIAL       => 'GMYZ106565',
                 NAME         => 'AL-C4200-D14BC7'
-            },
-            PAGECOUNTERS => {
-                FAXTOTAL   => undef,
-                RECTOVERSO => undef,
-                COPYTOTAL  => undef,
-                COLOR      => undef,
-                TOTAL      => undef,
-                PRINTTOTAL => undef,
-                PRINTBLACK => undef,
-                COPYCOLOR  => undef,
-                BLACK      => undef,
-                SCANNED    => undef,
-                PRINTCOLOR => undef,
-                COPYBLACK  => undef
             },
             CARTRIDGES => {
                 TONERMAGENTA => 71,
@@ -173,20 +145,6 @@ my %tests = (
                 TONERCYAN    => 14,
                 TONERBLACK   => 37,
                 TONERYELLOW  => 46
-            },
-            PAGECOUNTERS => {
-                FAXTOTAL   => undef,
-                TOTAL      => undef,
-                COPYBLACK  => undef,
-                BLACK      => undef,
-                PRINTBLACK => undef,
-                RECTOVERSO => undef,
-                COPYTOTAL  => undef,
-                COPYCOLOR  => undef,
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                COLOR      => undef,
-                PRINTTOTAL => undef
             },
             INFO => {
                 MANUFACTURER => 'Epson',
@@ -249,20 +207,6 @@ my %tests = (
                 TONERBLACK   => 32,
                 TONERYELLOW  => 64
             },
-            PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                PRINTTOTAL => undef,
-                FAXTOTAL   => undef,
-                PRINTBLACK => undef,
-                TOTAL      => undef,
-                COPYCOLOR  => undef,
-                COLOR      => undef,
-                RECTOVERSO => undef,
-                BLACK      => undef
-            }
         }
     ],
     'epson/AL-C3900.walk' => [
@@ -286,20 +230,6 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef
-            },
-            PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                PRINTTOTAL => undef,
-                FAXTOTAL   => undef,
-                PRINTBLACK => undef,
-                TOTAL      => undef,
-                COPYCOLOR  => undef,
-                COLOR      => undef,
-                RECTOVERSO => undef,
-                BLACK      => undef
             },
             PORTS => {
                 PORT => []
@@ -331,20 +261,6 @@ my %tests = (
             PORTS => {
                 PORT => []
             },
-            PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                PRINTTOTAL => undef,
-                FAXTOTAL   => undef,
-                PRINTBLACK => undef,
-                TOTAL      => undef,
-                COPYCOLOR  => undef,
-                COLOR      => undef,
-                RECTOVERSO => undef,
-                BLACK      => undef
-            },
         }
     ],
     'epson/AL-M2400.1.walk' => [
@@ -372,20 +288,6 @@ my %tests = (
             PORTS => {
                 PORT => []
             },
-            PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                PRINTTOTAL => undef,
-                FAXTOTAL   => undef,
-                PRINTBLACK => undef,
-                TOTAL      => undef,
-                COPYCOLOR  => undef,
-                COLOR      => undef,
-                RECTOVERSO => undef,
-                BLACK      => undef
-            },
         }
     ],
     'epson/AL-M2400.2.walk' => [
@@ -412,20 +314,6 @@ my %tests = (
             },
             PORTS => {
                 PORT => []
-            },
-            PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                PRINTTOTAL => undef,
-                FAXTOTAL   => undef,
-                PRINTBLACK => undef,
-                TOTAL      => undef,
-                COPYCOLOR  => undef,
-                COLOR      => undef,
-                RECTOVERSO => undef,
-                BLACK      => undef
             },
         }
     ],

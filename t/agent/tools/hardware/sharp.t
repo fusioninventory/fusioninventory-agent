@@ -60,20 +60,6 @@ my %tests = (
                     }
                 ]
             },
-            PAGECOUNTERS => {
-                RECTOVERSO => undef,
-                PRINTCOLOR => undef,
-                COPYTOTAL  => undef,
-                TOTAL      => undef,
-                COPYCOLOR  => undef,
-                SCANNED    => undef,
-                BLACK      => undef,
-                COPYBLACK  => undef,
-                FAXTOTAL   => undef,
-                PRINTBLACK => undef,
-                PRINTTOTAL => undef,
-                COLOR      => undef
-            },
         }
     ],
     'sharp/MX_5001N.2.walk' => [
@@ -115,20 +101,6 @@ my %tests = (
                     }
                 ]
             },
-            PAGECOUNTERS => {
-                COPYBLACK  => undef,
-                BLACK      => undef,
-                PRINTCOLOR => undef,
-                COPYTOTAL  => undef,
-                FAXTOTAL   => undef,
-                TOTAL      => undef,
-                COLOR      => undef,
-                COPYCOLOR  => undef,
-                RECTOVERSO => undef,
-                PRINTTOTAL => undef,
-                SCANNED    => undef,
-                PRINTBLACK => undef
-            },
         }
     ],
     'sharp/MX_5001N.3.walk' => [
@@ -162,29 +134,15 @@ my %tests = (
                 ID           => undef,
                 MANUFACTURER => 'Sharp'
             },
-            PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                PRINTBLACK => undef,
-                RECTOVERSO => undef,
-                BLACK      => undef,
-                PRINTTOTAL => undef,
-                TOTAL      => undef,
-                FAXTOTAL   => undef,
-                SCANNED    => undef,
-                COLOR      => undef,
-                COPYBLACK  => undef,
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef
-            },
             CARTRIDGES => {
-                DRUMCYAN => -750,
-                TONERCYAN => 25,
-                TONERBLACK => 75,
-                DRUMYELLOW => -750,
-                TONERYELLOW => 25,
-                DRUMMAGENTA => -750,
+                DRUMCYAN     => -750,
+                TONERCYAN    => 25,
+                TONERBLACK   => 75,
+                DRUMYELLOW   => -750,
+                TONERYELLOW  => 25,
+                DRUMMAGENTA  => -750,
                 TONERMAGENTA => 25,
-                DRUMBLACK => -2200
+                DRUMBLACK    => -2200
             },
             PORTS => {
                 PORT => [
@@ -225,20 +183,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
                 LOCATION     => '2eme etage Bureau POTHIN',
-            },
-            PAGECOUNTERS => {
-                PRINTBLACK => undef,
-                COPYTOTAL  => undef,
-                COPYCOLOR  => undef,
-                TOTAL      => undef,
-                FAXTOTAL   => undef,
-                COPYBLACK  => undef,
-                PRINTCOLOR => undef,
-                PRINTTOTAL => undef,
-                SCANNED    => undef,
-                BLACK      => undef,
-                COLOR      => undef,
-                RECTOVERSO => undef
             },
             PORTS => {
                 PORT => [
