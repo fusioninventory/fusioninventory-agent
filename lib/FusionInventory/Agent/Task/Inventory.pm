@@ -8,9 +8,14 @@ use Config;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
+use FusionInventory::Agent;
+use FusionInventory::Agent::Broker::Inventory::Stdout;
+use FusionInventory::Agent::Broker::Inventory::Filesystem;
+use FusionInventory::Agent::Broker::Inventory::Server;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Inventory;
-use FusionInventory::Agent::XML::Query::Inventory;
+
+our $VERSION = $FusionInventory::Agent::VERSION;
 
 sub isEnabled {
     my ($self, %params) = @_;
@@ -41,10 +46,42 @@ sub run {
 
     $self->{logger}->debug("running FusionInventory Inventory task");
 
+    # use given output broker, otherwise use either local or server broker,
+    # according to target type
+    my $broker;
+    if ($params{broker}) {
+        $broker = $params{broker};
+    } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
+        my $path = $self->{target}->getPath();
+        if ($path eq '-') {
+            $broker = FusionInventory::Agent::Broker::Inventory::Stdout->new(
+                deviceid => $self->{deviceid},
+            );
+        } else {
+            $broker = FusionInventory::Agent::Broker::Inventory::Filesystem->new(
+                target   => $self->{target}->getPath(),
+                format   => $self->{target}->{format},
+                datadir  => $self->{datadir},
+                deviceid => $self->{deviceid},
+            );
+        }
+    } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
+        $broker = FusionInventory::Agent::Broker::Inventory::Server->new(
+            target       => $self->{target}->getUrl(),
+            deviceid     => $self->{deviceid},
+            logger       => $self->{logger},
+            user         => $params{user},
+            password     => $params{password},
+            proxy        => $params{proxy},
+            ca_cert_file => $params{ca_cert_file},
+            ca_cert_dir  => $params{ca_cert_dir},
+            no_ssl_check => $params{no_ssl_check},
+        );
+    }
+
     $self->{modules} = {};
 
     my $inventory = FusionInventory::Agent::Inventory->new(
-        statedir => $self->{target}->getStorage()->getDirectory(),
         logger   => $self->{logger},
         tag      => $self->{config}->{'tag'}
     );
@@ -69,74 +106,7 @@ sub run {
     $self->_initModulesList(\%disabled);
     $self->_feedInventory($inventory, \%disabled);
 
-    if ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
-        my $path   = $self->{target}->getPath();
-        my $format = $self->{target}->{format};
-        my ($file, $handle);
-
-        SWITCH: {
-            if ($path eq '-') {
-                $handle = \*STDOUT;
-                last SWITCH;
-            }
-
-            if (-d $path) {
-                $file =
-                    $path . "/" . $self->{deviceid} .
-                    ($format eq 'xml' ? '.ocs' : '.html');
-                last SWITCH;
-            }
-
-            $file = $path;
-        }
-
-        if ($file) {
-            if (Win32::Unicode::File->require()) {
-                $handle = Win32::Unicode::File->new('w', $file);
-            } else {
-                open($handle, '>', $file);
-            }
-            $self->{logger}->error("Can't write to $file: $ERRNO")
-                unless $handle;
-        }
-
-        $self->_printInventory(
-            inventory => $inventory,
-            handle    => $handle,
-            format    => $format
-        );
-
-        if ($file) {
-            $self->{logger}->info("Inventory saved in $file");
-            close $handle;
-        }
-
-    } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
-        my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
-            logger       => $self->{logger},
-            user         => $params{user},
-            password     => $params{password},
-            proxy        => $params{proxy},
-            ca_cert_file => $params{ca_cert_file},
-            ca_cert_dir  => $params{ca_cert_dir},
-            no_ssl_check => $params{no_ssl_check},
-        );
-
-        my $message = FusionInventory::Agent::XML::Query::Inventory->new(
-            deviceid => $self->{deviceid},
-            content  => $inventory->getContent()
-        );
-
-        my $response = $client->send(
-            url     => $self->{target}->getUrl(),
-            message => $message
-        );
-
-        return unless $response;
-        $inventory->saveLastState();
-
-    }
-
+    my $response = $broker->send(inventory => $inventory);
 }
 
 sub _initModulesList {
@@ -325,46 +295,6 @@ sub _injectContent {
     }
 
     $inventory->mergeContent($content);
-}
-
-sub _printInventory {
-    my ($self, %params) = @_;
-
-    SWITCH: {
-        if ($params{format} eq 'xml') {
-
-            my $tpp = XML::TreePP->new(indent => 2);
-            print {$params{handle}} $tpp->write({
-                REQUEST => {
-                    CONTENT => $params{inventory}->{content},
-                    DEVICEID => $self->{deviceid},
-                    QUERY => "INVENTORY",
-                }
-            });
-
-            last SWITCH;
-        }
-
-        if ($params{format} eq 'html') {
-            Text::Template->require();
-            my $template = Text::Template->new(
-                TYPE => 'FILE', SOURCE => "$self->{datadir}/html/inventory.tpl"
-            );
-
-             my $hash = {
-                version  => $FusionInventory::Agent::VERSION,
-                deviceid => $params{inventory}->{deviceid},
-                data     => $params{inventory}->{content},
-                fields   => $params{inventory}->{fields},
-            };
-
-            print {$params{handle}} $template->fill_in(HASH => $hash);
-
-            last SWITCH;
-        }
-
-        die "unknown format $params{format}";
-    }
 }
 
 1;

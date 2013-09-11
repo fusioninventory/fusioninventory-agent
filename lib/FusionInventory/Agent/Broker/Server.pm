@@ -20,8 +20,9 @@ sub new {
     );
 
     return bless {
-        url    => $params{target},
-        client => $client
+        deviceid => $params{deviceid},
+        url      => $params{target},
+        client   => $client
     }, $class;
 }
 

@@ -27,6 +27,8 @@ if ($threads::shared::VERSION < 1.21) {
     FusionInventory::Agent::Threads->use();
 }
 
+our $VERSION = $FusionInventory::Agent::VERSION;
+
 # list of devices properties, indexed by XML element name
 # the link to a specific OID is made by the model
 

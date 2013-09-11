@@ -4,12 +4,15 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
+use FusionInventory::Agent;
 use FusionInventory::Agent::Broker::Server;
 use FusionInventory::Agent::HTTP::Client::Fusion;
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::SOAP::VMware;
 use FusionInventory::Agent::XML::Query::Inventory;
+
+our $VERSION = $FusionInventory::Agent::VERSION;
 
 sub isEnabled {
     my ($self, %params) = @_;

@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use Test::Deep qw(cmp_deeply);
+use Test::Deep qw(cmp_deeply bag);
 use Test::More;
 use Config;
 
@@ -17,33 +17,39 @@ my %messages = (
             196 => {
                 ID   => 196,
                 NAME => 4675719,
-                WALK => {
-                    ifaddr => {
-                       VLAN => '0',
-                       LINK => 'ifaddr',
-                       OID => '.1.3.6.1.2.1.4.20.1.2',
+                WALK => bag(
+                    {
+                       VLAN   => '0',
+                       LINK   => 'ifaddr',
+                       OID    => '.1.3.6.1.2.1.4.20.1.2',
                        OBJECT => 'ifaddr'
                     },
-                    ifIndex => {
-                        VLAN => '0',
-                        LINK => 'ifIndex',
-                        OID => '.1.3.6.1.2.1.2.2.1.1',
+                    {
+                        VLAN   => '0',
+                        LINK   => 'ifIndex',
+                        OID    => '.1.3.6.1.2.1.2.2.1.1',
                         OBJECT => 'ifIndex'
                     }
-                },
-                GET => {
-                    name => {
+                ),
+                GET => bag(
+                    {
                         VLAN   => '0',
                         LINK   => 'name',
                         OID    => '.1.3.6.1.2.1.1.5.0',
                         OBJECT => 'name'
                     },
-                    informations => {
+                    {
                         VLAN   => '0',
                         LINK   => 'informations',
                         OID    => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0',
                         OBJECT => 'informations'
                     },
+                ),
+                oids => {
+                    name         => '.1.3.6.1.2.1.1.5.0',
+                    ifIndex      => '.1.3.6.1.2.1.2.2.1.1',
+                    ifaddr       => '.1.3.6.1.2.1.4.20.1.2',
+                    informations => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0',
                 }
             }
         }
@@ -53,65 +59,77 @@ my %messages = (
             196 => {
                 ID   => 196,
                 NAME => 4675719,
-                WALK => {
-                    ifaddr => {
-                       VLAN => '0',
-                       LINK => 'ifaddr',
-                       OID => '.1.3.6.1.2.1.4.20.1.2',
+                WALK => bag(
+                    {
+                       VLAN   => '0',
+                       LINK   => 'ifaddr',
+                       OID    => '.1.3.6.1.2.1.4.20.1.2',
                        OBJECT => 'ifaddr'
                     },
-                    ifIndex => {
-                        VLAN => '0',
-                        LINK => 'ifIndex',
-                        OID => '.1.3.6.1.2.1.2.2.1.1',
+                    {
+                        VLAN   => '0',
+                        LINK   => 'ifIndex',
+                        OID    => '.1.3.6.1.2.1.2.2.1.1',
                         OBJECT => 'ifIndex'
                     }
-                },
-                GET => {
-                    name => {
+                ),
+                GET => bag(
+                    {
                         VLAN   => '0',
                         LINK   => 'name',
                         OID    => '.1.3.6.1.2.1.1.5.0',
                         OBJECT => 'name'
                     },
-                    informations => {
+                    {
                         VLAN   => '0',
                         LINK   => 'informations',
                         OID    => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0',
                         OBJECT => 'informations'
                     },
+                ),
+                oids => {
+                    name         => '.1.3.6.1.2.1.1.5.0',
+                    ifIndex      => '.1.3.6.1.2.1.2.2.1.1',
+                    ifaddr       => '.1.3.6.1.2.1.4.20.1.2',
+                    informations => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0',
                 }
             },
             197 => {
                 ID   => 197,
                 NAME => 4675720,
-                WALK => {
-                    ifaddr => {
-                       VLAN => '0',
-                       LINK => 'ifaddr',
-                       OID => '.1.3.6.1.2.1.4.20.1.2',
+                WALK => bag(
+                    {
+                       VLAN   => '0',
+                       LINK   => 'ifaddr',
+                       OID    => '.1.3.6.1.2.1.4.20.1.2',
                        OBJECT => 'ifaddr'
                     },
-                    ifIndex => {
-                        VLAN => '0',
-                        LINK => 'ifIndex',
-                        OID => '.1.3.6.1.2.1.2.2.1.1',
+                    {
+                        VLAN   => '0',
+                        LINK   => 'ifIndex',
+                        OID    => '.1.3.6.1.2.1.2.2.1.1',
                         OBJECT => 'ifIndex'
                     }
-                },
-                GET => {
-                    name => {
+                ),
+                GET => bag(
+                    {
                         VLAN   => '0',
                         LINK   => 'name',
                         OID    => '.1.3.6.1.2.1.1.5.0',
                         OBJECT => 'name'
                     },
-                    informations => {
+                    {
                         VLAN   => '0',
                         LINK   => 'informations',
                         OID    => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0',
                         OBJECT => 'informations'
                     },
+                ),
+                oids => {
+                    name         => '.1.3.6.1.2.1.1.5.0',
+                    ifIndex      => '.1.3.6.1.2.1.2.2.1.1',
+                    ifaddr       => '.1.3.6.1.2.1.4.20.1.2',
+                    informations => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0',
                 }
             },
 

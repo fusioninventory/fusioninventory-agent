@@ -7,6 +7,7 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
+use FusionInventory::Agent;
 use FusionInventory::Agent::HTTP::Client::Fusion;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor;
@@ -14,6 +15,8 @@ use FusionInventory::Agent::Task::Deploy::CheckProcessor;
 use FusionInventory::Agent::Task::Deploy::Datastore;
 use FusionInventory::Agent::Task::Deploy::File;
 use FusionInventory::Agent::Task::Deploy::Job;
+
+our $VERSION = $FusionInventory::Agent::VERSION;
 
 sub isEnabled {
     my ($self, %params) = @_;

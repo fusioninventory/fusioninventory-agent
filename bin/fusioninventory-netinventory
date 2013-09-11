@@ -9,7 +9,6 @@ use Getopt::Long;
 use Pod::Usage;
 use XML::TreePP;
 
-use FusionInventory::Agent;
 use FusionInventory::Agent::Broker;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::NetInventory;
@@ -34,7 +33,7 @@ GetOptions(
 ) or pod2usage(-verbose => 0);
 
 if ($options->{version}) {
-  print "NetInventory task $FusionInventory::Agent::VERSION\n";
+  print "NetInventory task $FusionInventory::Agent::Task::NetInventory::VERSION\n";
   exit 0;
 }
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
@@ -110,8 +109,8 @@ fusioninventory-netinventory [options] [--host <host>--file <file>]
   [--model <model>]
 
   Options:
-    --host host    host to inventorize
-    --file         snmpwalk output file
+    --host host    device host name
+    --file file    snmpwalk output file
     --model model  XML model file
     --community    community string (default: public)
     --entity       GLPI entity

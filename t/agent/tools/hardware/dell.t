@@ -12,14 +12,14 @@ my %tests = (
     'dell/M5200.1.walk' => [
         {
             MANUFACTURER => 'Dell',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'Dell Laser Printer M5200 version 55.10.14 kernel 2.4.0-test6 All-N-1',
             SNMPHOSTNAME => 'LXKE6E33E-2',
             MAC          => '00:04:00:67:C7:7C',
         },
         {
             MANUFACTURER => 'Dell',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'Dell Laser Printer M5200 version 55.10.14 kernel 2.4.0-test6 All-N-1',
             SNMPHOSTNAME => 'LXKE6E33E-2',
             MAC          => '00:04:00:67:C7:7C',
@@ -27,25 +27,40 @@ my %tests = (
         {
             INFO => {
                 MANUFACTURER => 'Dell',
-                TYPE         => undef,
+                TYPE         => 'PRINTER',
                 ID           => undef,
+                MODEL        => undef,
             },
             PORTS => {
                 PORT => []
+            },
+            PAGECOUNTERS => {
+                TOTAL      => undef,
+                PRINTTOTAL => undef,
+                COPYTOTAL  => undef,
+                COLOR      => undef,
+                RECTOVERSO => undef,
+                FAXTOTAL   => undef,
+                COPYBLACK  => undef,
+                SCANNED    => undef,
+                PRINTCOLOR => undef,
+                BLACK      => undef,
+                COPYCOLOR  => undef,
+                PRINTBLACK => undef
             },
         }
     ],
     'dell/M5200.2.walk' => [
         {
             MANUFACTURER => 'Dell',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'Dell Laser Printer M5200 version 55.10.19 kernel 2.4.0-test6 All-N-1',
             SNMPHOSTNAME => 'LXKB92115',
             MAC          => '00:04:00:9D:84:A8',
         },
         {
             MANUFACTURER => 'Dell',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'Dell Laser Printer M5200 version 55.10.19 kernel 2.4.0-test6 All-N-1',
             SNMPHOSTNAME => 'LXKB92115',
             MAC          => '00:04:00:9D:84:A8',
@@ -53,25 +68,40 @@ my %tests = (
         {
             INFO => {
                 MANUFACTURER => 'Dell',
-                TYPE         => undef,
+                TYPE         => 'PRINTER',
                 ID           => undef,
+                MODEL        => undef,
             },
             PORTS => {
                 PORT => []
+            },
+            PAGECOUNTERS => {
+                TOTAL      => undef,
+                PRINTTOTAL => undef,
+                COPYTOTAL  => undef,
+                COLOR      => undef,
+                RECTOVERSO => undef,
+                FAXTOTAL   => undef,
+                COPYBLACK  => undef,
+                SCANNED    => undef,
+                PRINTCOLOR => undef,
+                BLACK      => undef,
+                COPYCOLOR  => undef,
+                PRINTBLACK => undef
             },
         }
     ],
     'dell/unknown.walk' => [
         {
             MANUFACTURER => 'Dell',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'DELL NETWORK PRINTER,ROM A.03.15,JETDIRECT,JD24,EEPROM A.08.20',
             SNMPHOSTNAME => 'DEL0000f0aceaa9',
             MAC          => '00:00:F0:AC:EA:A9',
         },
         {
             MANUFACTURER => 'Dell',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'DELL NETWORK PRINTER,ROM A.03.15,JETDIRECT,JD24,EEPROM A.08.20',
             SNMPHOSTNAME => 'DEL0000f0aceaa9',
             MAC          => '00:00:F0:AC:EA:A9',
@@ -79,11 +109,26 @@ my %tests = (
         {
             INFO => {
                 MANUFACTURER => 'Dell',
-                TYPE         => undef,
+                TYPE         => 'PRINTER',
                 ID           => undef,
+                MODEL        => undef,
             },
             PORTS => {
                 PORT => []
+            },
+            PAGECOUNTERS => {
+                TOTAL      => undef,
+                PRINTTOTAL => undef,
+                COPYTOTAL  => undef,
+                COLOR      => undef,
+                RECTOVERSO => undef,
+                FAXTOTAL   => undef,
+                COPYBLACK  => undef,
+                SCANNED    => undef,
+                PRINTCOLOR => undef,
+                BLACK      => undef,
+                COPYCOLOR  => undef,
+                PRINTBLACK => undef
             },
         }
     ],

@@ -32,6 +32,8 @@ if ($threads::shared::VERSION < 1.21) {
     FusionInventory::Agent::Threads->use();
 }
 
+our $VERSION = $FusionInventory::Agent::VERSION;
+
 sub isEnabled {
     my ($self, %params) = @_;
 

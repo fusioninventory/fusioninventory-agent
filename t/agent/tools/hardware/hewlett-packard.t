@@ -12,14 +12,14 @@ my %tests = (
     'hewlett-packard/unknown.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114,CIDATE 11/17/2011',
             SNMPHOSTNAME => 'NPI419F6E',
             MAC          => '2C:76:8A:41:9F:6E'
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114,CIDATE 11/17/2011',
             SNMPHOSTNAME => 'NPI419F6E',
             MAC          => '2C:76:8A:41:9F:6E'
@@ -27,18 +27,33 @@ my %tests = (
         {
             INFO => {
                 MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => undef,
+                TYPE         => 'PRINTER',
                 ID           => undef,
+                MODEL        => undef
             },
             PORTS => {
                 PORT => []
+            },
+            PAGECOUNTERS => {
+                TOTAL      => undef,
+                COPYBLACK  => undef,
+                SCANNED    => undef,
+                RECTOVERSO => undef,
+                BLACK      => undef,
+                PRINTTOTAL => undef,
+                COLOR      => undef,
+                COPYCOLOR  => undef,
+                COPYTOTAL  => undef,
+                PRINTBLACK => undef,
+                FAXTOTAL   => undef,
+                PRINTCOLOR => undef
             },
         }
     ],
     'hewlett-packard/Inkjet_2800.1.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Business Inkjet 2800',
             SNMPHOSTNAME => 'HPIJ2800-02',
             MAC          => '00:11:0A:F5:CC:DC',
@@ -105,7 +120,7 @@ my %tests = (
     'hewlett-packard/Inkjet_2800.2.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Business Inkjet 2800',
             SNMPHOSTNAME => 'HPIJ2800-01',
             MAC          => '00:11:0A:F5:1A:CC',
@@ -172,7 +187,7 @@ my %tests = (
     'hewlett-packard/OfficeJet_Pro_K5400.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'Officejet Pro K5400',
             SNMPHOSTNAME => 'HP560332',
             MAC          => '00:21:5A:56:03:32',
@@ -233,14 +248,14 @@ my %tests = (
     'hewlett-packard/OfficeJet_Pro_8600.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'Officejet Pro 8600 N911g',
             SNMPHOSTNAME => 'HP8C0C51',
             MAC          => 'EC:9A:74:8C:0C:51',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'Officejet Pro 8600 N911g',
             SNMPHOSTNAME => 'HP8C0C51',
             MAC          => 'EC:9A:74:8C:0C:51',
@@ -248,18 +263,33 @@ my %tests = (
         {
             INFO => {
                 MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => undef,
-                ID           => undef
+                TYPE         => 'PRINTER',
+                ID           => undef,
+                MODEL        => undef
             },
             PORTS => {
                 PORT => []
-            }
+            },
+            PAGECOUNTERS => {
+                TOTAL      => undef,
+                COPYBLACK  => undef,
+                SCANNED    => undef,
+                RECTOVERSO => undef,
+                BLACK      => undef,
+                PRINTTOTAL => undef,
+                COLOR      => undef,
+                COPYCOLOR  => undef,
+                COPYTOTAL  => undef,
+                PRINTBLACK => undef,
+                FAXTOTAL   => undef,
+                PRINTCOLOR => undef
+            },
         }
     ],
     'hewlett-packard/LaserJet_100_colorMFP_M175nw.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 100 colorMFP M175nw',
             SNMPHOSTNAME => 'NPIF6FA4A',
             MAC          => 'B4:B5:2F:F6:FA:4A'
@@ -339,7 +369,7 @@ my %tests = (
     'hewlett-packard/LaserJet_400_color_M451dn.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 400 color M451dn',
             SNMPHOSTNAME => 'NPIF67498',
             MAC          => 'B4:B5:2F:F6:74:98',
@@ -395,7 +425,7 @@ my %tests = (
     'hewlett-packard/LaserJet_1320.1.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'hp LaserJet 1320 series',
             SNMPHOSTNAME => 'NPI61044B',
             MAC          => '00:14:38:61:04:4B',
@@ -457,7 +487,7 @@ my %tests = (
     'hewlett-packard/LaserJet_1320.2.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'hp LaserJet 1320 series',
             SNMPHOSTNAME => 'NPI9A3FC7',
             MAC          => '00:14:38:9A:3F:C7',
@@ -523,7 +553,7 @@ my %tests = (
     'hewlett-packard/LaserJet_1320.3.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'hp LaserJet 1320 series',
             SNMPHOSTNAME => 'NPIC68F5E',
             MAC          => '00:11:85:C6:8F:5E',
@@ -589,14 +619,14 @@ my %tests = (
     'hewlett-packard/LaserJet_2100.1.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 2100 Series',
             SNMPHOSTNAME => '',
             MAC          => '00:30:C1:8A:6E:5B',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 2100 Series',
             SNMPHOSTNAME => '',
             MAC          => '00:30:C1:8A:6E:5B',
@@ -604,25 +634,40 @@ my %tests = (
         {
             INFO => {
                 MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => undef,
+                TYPE         => 'PRINTER',
                 ID           => undef,
+                MODEL        => undef,
             },
             PORTS => {
                 PORT => []
             },
+            PAGECOUNTERS => {
+                TOTAL      => undef,
+                COPYBLACK  => undef,
+                SCANNED    => undef,
+                RECTOVERSO => undef,
+                BLACK      => undef,
+                PRINTTOTAL => undef,
+                COLOR      => undef,
+                COPYCOLOR  => undef,
+                COPYTOTAL  => undef,
+                PRINTBLACK => undef,
+                FAXTOTAL   => undef,
+                PRINTCOLOR => undef
+            }
         }
     ],
     'hewlett-packard/LaserJet_2100.2.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 2100 Series',
             SNMPHOSTNAME => '',
             MAC          => '00:30:C1:8A:6E:5B',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 2100 Series',
             SNMPHOSTNAME => '',
             MAC          => '00:30:C1:8A:6E:5B',
@@ -630,18 +675,33 @@ my %tests = (
         {
             INFO => {
                 MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => undef,
+                TYPE         => 'PRINTER',
                 ID           => undef,
+                MODEL        => undef,
             },
             PORTS => {
                 PORT => []
             },
+            PAGECOUNTERS => {
+                TOTAL      => undef,
+                COPYBLACK  => undef,
+                SCANNED    => undef,
+                RECTOVERSO => undef,
+                BLACK      => undef,
+                PRINTTOTAL => undef,
+                COLOR      => undef,
+                COPYCOLOR  => undef,
+                COPYTOTAL  => undef,
+                PRINTBLACK => undef,
+                FAXTOTAL   => undef,
+                PRINTCOLOR => undef
+            }
         }
     ],
     'hewlett-packard/LaserJet_2600n.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet 2600n',
             SNMPHOSTNAME => 'NPI1864A0',
             MAC          => '00:1A:4B:18:64:A0',
@@ -702,7 +762,7 @@ my %tests = (
     'hewlett-packard/LaserJet_3600.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet 3600',
             SNMPHOSTNAME => 'NPI6F72C5',
             MAC          => '00:1B:78:6F:72:C5',
@@ -770,7 +830,7 @@ my %tests = (
     'hewlett-packard/LaserJet_4250.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'hp LaserJet 4250',
             SNMPHOSTNAME => 'impKirat',
             MAC          => '00:11:85:D9:F6:C7',
@@ -836,7 +896,7 @@ my %tests = (
     'hewlett-packard/LaserJet_5550.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'hp color LaserJet 5550 ',
             SNMPHOSTNAME => 'IDD116',
             MAC          => '00:1B:78:F0:F4:47',
@@ -905,7 +965,7 @@ my %tests = (
     'hewlett-packard/LaserJet_CM1312nfi_MFP.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CM1312nfi MFP',
             SNMPHOSTNAME => 'NPI271E90',
             MAC          => '00:1F:29:27:1E:90',
@@ -973,7 +1033,7 @@ my %tests = (
     'hewlett-packard/LaserJet_CM1415fn.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet CM1415fn',
             SNMPHOSTNAME => 'B536-lwc237-Fax',
             MAC          => '68:B5:99:AD:61:8E',
@@ -1040,7 +1100,7 @@ my %tests = (
     'hewlett-packard/LaserJet_CM2320fxi_MFP.1.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CM2320fxi MFP',
             SNMPHOSTNAME => 'NPI7F5D71',
             MAC          => '00:23:7D:7F:5D:71',
@@ -1107,7 +1167,7 @@ my %tests = (
     'hewlett-packard/LaserJet_CM2320fxi_MFP.2.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CM2320fxi MFP',
             SNMPHOSTNAME => 'NPI7F5D71',
             MAC          => '00:23:7D:7F:5D:71',
@@ -1174,7 +1234,7 @@ my %tests = (
     'hewlett-packard/LaserJet_CM2320fxi_MFP.3.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CM2320fxi MFP',
             SNMPHOSTNAME => 'NPI828833',
             MAC          => '00:23:7D:82:88:33',
@@ -1241,7 +1301,7 @@ my %tests = (
     'hewlett-packard/LaserJet_CM2320nf_MFP.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CM2320nf MFP',
             SNMPHOSTNAME => 'NPIB302A7',
             MAC          => '3C:4A:92:B3:02:A7',
@@ -1309,7 +1369,7 @@ my %tests = (
     'hewlett-packard/LaserJet_CP2025dn.1.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CP2025dn',
             SNMPHOSTNAME => 'NPI2AD743',
             MAC          => '00:1F:29:2A:D7:43',
@@ -1377,7 +1437,7 @@ my %tests = (
     'hewlett-packard/LaserJet_CP2025dn.2.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CP2025dn',
             SNMPHOSTNAME => 'NPIC3D5FF',
             MAC          => 'B4:99:BA:C3:D5:FF'
@@ -1445,7 +1505,7 @@ my %tests = (
     'hewlett-packard/LaserJet_CP2025n.1.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CP2025n',
             SNMPHOSTNAME => 'NPI117008',
             MAC          => '2C:27:D7:11:70:08',
@@ -1513,7 +1573,7 @@ my %tests = (
     'hewlett-packard/LaserJet_CP2025n.2.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CP2025n',
             SNMPHOSTNAME => 'NPI84C481',
             MAC          => '00:21:5A:84:C4:81',
@@ -1581,7 +1641,7 @@ my %tests = (
     'hewlett-packard/LaserJet_CP2025n.3.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CP2025n',
             SNMPHOSTNAME => 'NPI84C481',
             MAC          => '00:21:5A:84:C4:81',
@@ -1649,7 +1709,7 @@ my %tests = (
     'hewlett-packard/LaserJet_CP2025n.4.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CP2025n',
             SNMPHOSTNAME => 'NPI81E3A7',
             MAC          => '00:21:5A:81:E3:A7'
@@ -1717,7 +1777,7 @@ my %tests = (
     'hewlett-packard/LaserJet_CP2025n.5.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CP2025n',
             SNMPHOSTNAME => 'NPI8FA1DD',
             MAC          => '78:AC:C0:8F:A1:DD',
@@ -1785,7 +1845,7 @@ my %tests = (
     'hewlett-packard/LaserJet_P2015_Series.1.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2015 Series',
             SNMPHOSTNAME => 'NPI83EC85',
             MAC          => '00:21:5A:83:EC:85',
@@ -1850,7 +1910,7 @@ my %tests = (
     'hewlett-packard/LaserJet_P2015_Series.2.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2015 Series',
             SNMPHOSTNAME => 'NPI13EE63',
             MAC          => '00:1B:78:13:EE:63'
@@ -1915,7 +1975,7 @@ my %tests = (
     'hewlett-packard/LaserJet_P2015_Series.3.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2015 Series',
             MAC          => '00:21:5A:83:EC:85',
             SNMPHOSTNAME => 'NPI83EC85',
@@ -1980,7 +2040,7 @@ my %tests = (
     'hewlett-packard/LaserJet-P4014.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P4014',
             SNMPHOSTNAME => 'NPIFFF0F2',
             MAC          => '18:A9:05:FF:F0:F2',
@@ -6755,7 +6815,7 @@ my %tests = (
     'hewlett-packard/LaserJet_CP1025nw.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet CP1025nw',
             SNMPHOSTNAME => 'NPIA6032E',
             MAC          => '78:E7:D1:A6:03:2E',
@@ -6815,7 +6875,7 @@ my %tests = (
     'hewlett-packard/LaserJet_P3005.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P3005',
             SNMPHOSTNAME => 'NPI7A5E2D',
             MAC          => '00:21:5A:7A:5E:2D',
@@ -6868,7 +6928,7 @@ my %tests = (
     'hewlett-packard/LaserJet_P2055dn.1.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI7E0932',
             MAC          => '00:21:5A:7E:09:32',
@@ -6921,7 +6981,7 @@ my %tests = (
     'hewlett-packard/LaserJet_P2055dn.2.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI8DDF43',
             MAC          => '00:21:5A:8D:DF:43',
@@ -6974,7 +7034,7 @@ my %tests = (
     'hewlett-packard/LaserJet_P2055dn.3.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI830993',
             MAC          => '00:23:7D:83:09:93',
@@ -7026,7 +7086,7 @@ my %tests = (
     'hewlett-packard/LaserJet_P2055dn.4.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI83E8D5',
             MAC          => '00:23:7D:83:E8:D5'
@@ -7078,7 +7138,7 @@ my %tests = (
     'hewlett-packard/LaserJet_P2055dn.5.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI886B5B',
             MAC          => '00:23:7D:88:6B:5B',
@@ -7130,7 +7190,7 @@ my %tests = (
     'hewlett-packard/LaserJet_P2055dn.6.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI886B5B',
             MAC          => '00:23:7D:88:6B:5B',
@@ -7182,7 +7242,7 @@ my %tests = (
     'hewlett-packard/LaserJet_P2055dn.7.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI80BDD9',
             MAC          => '1C:C1:DE:80:BD:D9',
@@ -7234,7 +7294,7 @@ my %tests = (
     'hewlett-packard/LaserJet_P2055dn.8.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPICB3982',
             MAC          => '1C:C1:DE:CB:39:82',
@@ -7286,7 +7346,7 @@ my %tests = (
     'hewlett-packard/LaserJet_P2055dn.9.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPIC08394',
             MAC          => '3C:4A:92:C0:83:94',
@@ -7338,7 +7398,7 @@ my %tests = (
     'hewlett-packard/LaserJet_P2055dn.10.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPICBD8B1',
             MAC          => '1C:C1:DE:CB:D8:B1',
@@ -7390,7 +7450,7 @@ my %tests = (
     'hewlett-packard/LaserJet_P2055dn.11.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPIB979A2',
             MAC          => '08:2E:5F:B9:79:A2',
@@ -7440,7 +7500,7 @@ my %tests = (
     'hewlett-packard/LaserJet_P2055dn.12.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPIC93D6D',
             MAC          => '1C:C1:DE:C9:3D:6D'
@@ -7493,7 +7553,7 @@ my %tests = (
     'hewlett-packard/LaserJet_P4015.1.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P4015',
             SNMPHOSTNAME => 'LJ30000000000000000000----------',
             MAC          => '00:21:5A:8F:EA:2B',
@@ -7559,7 +7619,7 @@ my %tests = (
     'hewlett-packard/LaserJet_P4015.2.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P4015',
             SNMPHOSTNAME => 'NPI8D9896',
             MAC          => '00:21:5A:8D:98:96',
@@ -7625,7 +7685,7 @@ my %tests = (
     'hewlett-packard/LaserJet_P4015.3.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P4015',
             SNMPHOSTNAME => 'NPI22C87C',
             MAC          => '00:1F:29:22:C8:7C',
@@ -7691,7 +7751,7 @@ my %tests = (
     'hewlett-packard/LaserJet_P4015.4.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P4015',
             SNMPHOSTNAME => 'NPI9706DE',
             MAC          => '00:21:5A:97:06:DE',
@@ -7757,7 +7817,7 @@ my %tests = (
     'hewlett-packard/LaserJet_P4015.5.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P4015',
             SNMPHOSTNAME => 'NPIEADBFB',
             MAC          => '00:25:B3:EA:DB:FB',
@@ -7822,7 +7882,7 @@ my %tests = (
     'hewlett-packard/LaserJet_CP4520.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CP4520 Series',
             SNMPHOSTNAME => 'NPI10DB2C',
             MAC          => '2C:27:D7:10:DB:2C',
@@ -7890,7 +7950,7 @@ my %tests = (
     'hewlett-packard/LaserJet_CP3525.1.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CP3525',
             SNMPHOSTNAME => 'NPI85A57D',
             MAC          => '00:23:7D:85:A5:7D',
@@ -7958,7 +8018,7 @@ my %tests = (
     'hewlett-packard/LaserJet_CP3525.2.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CP3525',
             SNMPHOSTNAME => 'Corinne',
             MAC          => 'D4:85:64:3D:AC:2E',
@@ -8026,7 +8086,7 @@ my %tests = (
     'hewlett-packard/LaserJet_P3010.1.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P3010 Series',
             SNMPHOSTNAME => 'NPI013B81',
             MAC          => '00:9C:02:01:3B:81',
@@ -8089,7 +8149,7 @@ my %tests = (
     'hewlett-packard/LaserJet_P3010.2.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P3010 Series',
             SNMPHOSTNAME => 'NPI013B81',
             MAC          => '00:9C:02:01:3B:81',
@@ -8152,7 +8212,7 @@ my %tests = (
     'hewlett-packard/LaserJet_500.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 500 color M551',
             SNMPHOSTNAME => 'NPI419F6E',
             MAC          => '2C:76:8A:41:9F:6E',
@@ -8214,14 +8274,14 @@ my %tests = (
     'hewlett-packard/LaserJet_600.1.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 600 M603',
             SNMPHOSTNAME => 'lj1',
             MAC          => 'E8:39:35:90:92:1F',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 600 M603',
             SNMPHOSTNAME => 'lj1',
             MAC          => 'E8:39:35:90:92:1F',
@@ -8229,25 +8289,40 @@ my %tests = (
         {
             INFO => {
                 MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => undef,
+                TYPE         => 'PRINTER',
                 ID           => undef,
+                MODEL        => undef,
             },
             PORTS => {
                 PORT => []
             },
+            PAGECOUNTERS => {
+                TOTAL      => undef,
+                COPYBLACK  => undef,
+                SCANNED    => undef,
+                RECTOVERSO => undef,
+                BLACK      => undef,
+                PRINTTOTAL => undef,
+                COLOR      => undef,
+                COPYCOLOR  => undef,
+                COPYTOTAL  => undef,
+                PRINTBLACK => undef,
+                FAXTOTAL   => undef,
+                PRINTCOLOR => undef
+            }
         }
     ],
     'hewlett-packard/LaserJet_600.2.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 600 M603',
             SNMPHOSTNAME => 'lj2',
             MAC          => 'E8:39:35:90:22:AC'
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 600 M603',
             SNMPHOSTNAME => 'lj2',
             MAC          => 'E8:39:35:90:22:AC'
@@ -8255,18 +8330,33 @@ my %tests = (
         {
             INFO => {
                 MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => undef,
+                TYPE         => 'PRINTER',
                 ID           => undef,
+                MODEL        => undef,
             },
             PORTS => {
                 PORT => []
             },
+            PAGECOUNTERS => {
+                TOTAL      => undef,
+                COPYBLACK  => undef,
+                SCANNED    => undef,
+                RECTOVERSO => undef,
+                BLACK      => undef,
+                PRINTTOTAL => undef,
+                COLOR      => undef,
+                COPYCOLOR  => undef,
+                COPYTOTAL  => undef,
+                PRINTBLACK => undef,
+                FAXTOTAL   => undef,
+                PRINTCOLOR => undef
+            }
         }
     ],
     'hewlett-packard/LaserJet_4000.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 4000 Series',
             SNMPHOSTNAME => 'inspiron8',
             MAC          => '00:60:B0:91:3D:9D',
@@ -8327,7 +8417,7 @@ my %tests = (
     'hewlett-packard/LaserJet_4050.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 4050 Series ',
             SNMPHOSTNAME => 'imprimanteBR',
             MAC          => '00:30:C1:8C:D5:6C',
@@ -8385,7 +8475,7 @@ my %tests = (
     'hewlett-packard/LaserJet_4200.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'hp LaserJet 4200',
             SNMPHOSTNAME => 'IMP41200n0',
             MAC          => '00:01:E6:A1:A7:81',
@@ -8451,14 +8541,14 @@ my %tests = (
     'hewlett-packard/LaserJet_1300n.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'hp LaserJet 1300n',
             SNMPHOSTNAME => 'impbe94',
             MAC          => '00:0E:7F:33:34:BA',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => undef,
+            TYPE         => 'PRINTER',
             DESCRIPTION  => 'hp LaserJet 1300n',
             SNMPHOSTNAME => 'impbe94',
             MAC          => '00:0E:7F:33:34:BA',
@@ -8466,11 +8556,26 @@ my %tests = (
         {
             INFO => {
                 MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => undef,
+                TYPE         => 'PRINTER',
                 ID           => undef,
+                MODEL        => undef,
             },
             PORTS => {
                 PORT => []
+            },
+            PAGECOUNTERS => {
+                FAXTOTAL   => undef,
+                RECTOVERSO => undef,
+                COPYBLACK  => undef,
+                PRINTBLACK => undef,
+                PRINTCOLOR => undef,
+                BLACK      => undef,
+                SCANNED    => undef,
+                TOTAL      => undef,
+                COLOR      => undef,
+                COPYTOTAL  => undef,
+                PRINTTOTAL => undef,
+                COPYCOLOR  => undef
             },
         }
     ],

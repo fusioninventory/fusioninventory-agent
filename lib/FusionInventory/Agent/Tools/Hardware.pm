@@ -28,7 +28,50 @@ my %types = (
     3 => 'PRINTER'
 );
 
-my %hardware_keywords = (
+# http://www.iana.org/assignments/enterprise-numbers/enterprise-numbers
+my %sysobjectid_vendors = (
+    2     => { vendor => 'IBM',             type => 'COMPUTER'   },
+    9     => { vendor => 'Cisco',           type => 'NETWORKING' },
+    11    => { vendor => 'Hewlett-Packard'                       },
+    23    => { vendor => 'Novell',          type => 'COMPUTER'   },
+    36    => { vendor => 'DEC',             type => 'COMPUTER'   },
+    42    => { vendor => 'Sun',             type => 'COMPUTER'   },
+    43    => { vendor => '3Com',            type => 'NETWORKING' },
+    45    => { vendor => 'SynOptics',       type => 'NETWORKING' },
+    63    => { vendor => 'Apple',                                },
+    171   => { vendor => 'D-Link',          type => 'NETWORKING' },
+    186   => { vendor => 'Toshiba',         type => 'PRINTER'    },
+    207   => { vendor => 'Allied',          type => 'NETWORKING' },
+    236   => { vendor => 'Samsung',         type => 'PRINTER'    },
+    253   => { vendor => 'Xerox',           type => 'PRINTER'    },
+    289   => { vendor => 'Brocade',         type => 'NETWORKING' },
+    367   => { vendor => 'Ricoh',           type => 'PRINTER'    },
+    368   => { vendor => 'Axis',            type => 'NETWORKING' },
+    534   => { vendor => 'Eaton',           type => 'NETWORKING' },
+    637   => { vendor => 'Alcatel-Lucent',  type => 'NETWORKING' },
+    641   => { vendor => 'Lexmark',         type => 'PRINTER'    },
+    674   => { vendor => 'Dell'                                  },
+    1139  => { vendor => 'EMC'                                   },
+    1248  => { vendor => 'Epson',           type => 'PRINTER'    },
+    1347  => { vendor => 'Kyocera',         type => 'PRINTER'    },
+    1602  => { vendor => 'Canon',           type => 'PRINTER'    },
+    1805  => { vendor => 'Sagem',          type => 'NETWORKING' },
+    1872  => { vendor => 'Alteon',          type => 'NETWORKING' },
+    1916  => { vendor => 'Extrem Networks', type => 'NETWORKING' },
+    1991  => { vendor => 'Foundry',         type => 'NETWORKING' },
+    2385  => { vendor => 'Sharp',           type => 'PRINTER'    },
+    2435  => { vendor => 'Brother',         type => 'PRINTER'    },
+    2636  => { vendor => 'Juniper',         type => 'NETWORKING' },
+    3977  => { vendor => 'Broadband',       type => 'NETWORKING' },
+    5596  => { vendor => 'Tandberg'                              },
+    6486  => { vendor => 'Alcatel',         type => 'NETWORKING' },
+    6889  => { vendor => 'Avaya',           type => 'NETWORKING' },
+    10418 => { vendor => 'Avocent'                               },
+    16885 => { vendor => 'Nortel',          type => 'NETWORKING' },
+    18334 => { vendor => 'Konica',          type => 'PRINTER'    },
+);
+
+my %sysdescr_first_word = (
     '3com'           => { vendor => '3Com',            type => 'NETWORKING' },
     'alcatel-lucent' => { vendor => 'Alcatel-Lucent',  type => 'NETWORKING' },
     'allied'         => { vendor => 'Allied',          type => 'NETWORKING' },
@@ -44,9 +87,9 @@ my %hardware_keywords = (
     'canon'          => { vendor => 'Canon',           type => 'PRINTER'    },
     'cisco'          => { vendor => 'Cisco',           type => 'NETWORKING' },
     'dell'           => { vendor => 'Dell',                                 },
-    'designjet'      => { vendor => 'Hewlett Packard', type => 'PRINTER'    },
-    'deskjet'        => { vendor => 'Hewlett Packard', type => 'PRINTER'    },
-    'dlink'          => { vendor => 'Dlink',           type => 'NETWORKING' },
+    'designjet'      => { vendor => 'Hewlett-Packard', type => 'PRINTER'    },
+    'deskjet'        => { vendor => 'Hewlett-Packard', type => 'PRINTER'    },
+    'd-link'         => { vendor => 'D-Link',          type => 'NETWORKING' },
     'eaton'          => { vendor => 'Eaton',           type => 'NETWORKING' },
     'emc'            => { vendor => 'EMC',                                  },
     'enterasys'      => { vendor => 'Enterasys',       type => 'NETWORKING' },
@@ -56,7 +99,7 @@ my %hardware_keywords = (
     'foundry'        => { vendor => 'Foundry',         type => 'NETWORKING' },
     'fuji'           => { vendor => 'Fuji',            type => 'NETWORKING' },
     'h3c'            => { vendor => 'H3C',             type => 'NETWORKING' },
-    'hp'             => { vendor => 'Hewlett Packard', type => 'PRINTER'    },
+    'hp'             => { vendor => 'Hewlett-Packard', type => 'PRINTER'    },
     'ibm'            => { vendor => 'IBM',             type => 'COMPUTER'   },
     'juniper'        => { vendor => 'Juniper',         type => 'NETWORKING' },
     'konica'         => { vendor => 'Konica',          type => 'PRINTER'    },
@@ -66,7 +109,7 @@ my %hardware_keywords = (
     'netgear'        => { vendor => 'NetGear',         type => 'NETWORKING' },
     'nortel'         => { vendor => 'Nortel',          type => 'NETWORKING' },
     'nrg'            => { vendor => 'NRG',             type => 'PRINTER'    },
-    'officejet'      => { vendor => 'Hewlett Packard', type => 'PRINTER'    },
+    'officejet'      => { vendor => 'Hewlett-Packard', type => 'PRINTER'    },
     'oki'            => { vendor => 'OKI',             type => 'PRINTER'    },
     'powerconnect'   => { vendor => 'PowerConnect',    type => 'NETWORKING' },
     'procurve'       => { vendor => 'Hewlett Packard', type => 'NETWORKING' },
@@ -83,7 +126,7 @@ my %hardware_keywords = (
     'zywall'         => { vendor => 'ZyWall',          type => 'NETWORKING' }
 );
 
-my @hardware_rules = (
+my @sysdescr_rules = (
     {
         match       => qr/^\S+ Service Release/,
         description => { function => 'FusionInventory::Agent::Tools::Hardware::Alcatel::getDescription' },
@@ -94,11 +137,6 @@ my @hardware_rules = (
         description => { function => 'FusionInventory::Agent::Tools::Hardware::Axis::getDescription' },
         vendor      => { value    => 'Axis' },
         type        => { value    => 'PRINTER' }
-    },
-    {
-        match       => qr/Linux/,
-        description => { oid   => '.1.3.6.1.2.1.1.5.0' },
-        vendor      => { value => 'Ddwrt' }
     },
     {
         match       => qr/^Ethernet Switch$/,
@@ -130,6 +168,10 @@ my @hardware_rules = (
         match       => qr/,HP,JETDIRECT,J/,
         description => { oid   => '.1.3.6.1.4.1.1229.2.2.2.1.15.1' },
         vendor      => { value => 'Kyocera' },
+        type        => { value => 'PRINTER' }
+    },
+    {
+        match       => qr/JETDIRECT/,
         type        => { value => 'PRINTER' }
     },
     {
@@ -202,17 +244,6 @@ my @connected_devices_rules = (
     {
         match  => qr/.*/,
         module => 'FusionInventory::Agent::Tools::Hardware::Generic',
-    },
-);
-
-my @connected_devices_mac_addresses_rules = (
-    {
-        match    => qr/Cisco/,
-        module   => 'FusionInventory::Agent::Tools::Hardware::Cisco',
-    },
-    {
-        match    => qr/.*/,
-        module   => 'FusionInventory::Agent::Tools::Hardware::Generic',
     },
 );
 
@@ -333,25 +364,44 @@ sub getDeviceBaseInfo {
     my %device;
 
     # first heuristic:
-    # try to deduce manufacturer and type from first sysdescr word
-    my ($first_word) = $sysdescr =~ /^(\S+)/;
-    my $keyword = $hardware_keywords{lc($first_word)};
-
-    if ($keyword) {
-        $device{MANUFACTURER} = $keyword->{vendor};
-        $device{TYPE}         = $keyword->{type};
+    # compute manufacturer and type from sysobjectid (SNMPv2-MIB::sysObjectID.0)
+    my $sysobjectid = $snmp->get('.1.3.6.1.2.1.1.2.0');
+    my $vendor_id =
+        $sysobjectid =~ /^SNMPv2-SMI::enterprises\.(\d+)/ ? $1 :
+        $sysobjectid =~ /^iso\.3\.6\.1\.4\.1\.(\d+)/      ? $1 :
+        $sysobjectid =~ /^\.1\.3\.6\.1\.4\.1\.(\d+)/      ? $1 :
+                                                            undef;
+    if ($vendor_id) {
+        my $result = $sysobjectid_vendors{$vendor_id};
+        if ($result) {
+            $device{MANUFACTURER} = $result->{vendor};
+            $device{TYPE}         = $result->{type} if $result->{type};
+        }
     }
 
     # second heuristic:
-    # try to deduce manufacturer, type and a more specific identification key
-    # from a set of custom rules matched against full sysdescr value
+    # compute manufacturer and type from first sysdescr word
+    my ($first_word) = $sysdescr =~ /^(\S+)/;
+    my $result = $sysdescr_first_word{lc($first_word)};
+
+    if ($result) {
+        $device{MANUFACTURER} = $result->{vendor};
+        $device{TYPE}         = $result->{type} if $result->{type};
+    }
+
+    # third heuristic:
+    # compute manufacturer, type and a more specific identification key
+    # from a list of rules matched against sysdescr value
     # the first matching rule wins
     if ($snmp) {
-        foreach my $rule (@hardware_rules) {
+        foreach my $rule (@sysdescr_rules) {
             next unless $sysdescr =~ $rule->{match};
-            $device{MANUFACTURER} = _apply_rule($rule->{vendor}, $snmp);
-            $device{TYPE}         = _apply_rule($rule->{type}, $snmp);
-            $device{DESCRIPTION}  = _apply_rule($rule->{description}, $snmp);
+            $device{MANUFACTURER} = _apply_rule($rule->{vendor}, $snmp)
+                if $rule->{vendor};
+            $device{TYPE}         = _apply_rule($rule->{type}, $snmp)
+                if $rule->{type};
+            $device{DESCRIPTION}  = _apply_rule($rule->{description}, $snmp)
+                if $rule->{description};
             last;
         }
     }
@@ -492,27 +542,6 @@ sub _setConnectedDevices {
     }
 }
 
-sub _setConnectedDevicesMacAddresses {
-    my ($description, $snmp, $model, $ports, $vlan_id) = @_;
-
-    foreach my $rule (@connected_devices_mac_addresses_rules) {
-        next unless $description =~ $rule->{match};
-
-        runFunction(
-            module   => $rule->{module},
-            function => 'setConnectedDevicesMacAddresses',
-            params   => {
-                snmp    => $snmp,
-                model   => $model,
-                ports   => $ports,
-            },
-            load     => 1
-        );
-
-        last;
-    }
-}
-
 sub _performSpecificCleanup {
     my ($description, $snmp, $model, $ports) = @_;
 
@@ -568,13 +597,15 @@ sub getDeviceFullInfo {
     _setGenericProperties(
         device => $device,
         snmp   => $snmp,
-        model  => $model
+        model  => $model,
+        logger => $logger
     );
 
     _setPrinterProperties(
         device  => $device,
         snmp   => $snmp,
-        model  => $model
+        model  => $model,
+        logger => $logger
     ) if $info{TYPE} && $info{TYPE} eq 'PRINTER';
 
     _setNetworkingProperties(
@@ -601,6 +632,7 @@ sub _setGenericProperties {
     my $device = $params{device};
     my $snmp   = $params{snmp};
     my $model  = $params{model};
+    my $logger = $params{logger};
 
     my $firmware;
     if ($model->{oids}->{firmware}) {
@@ -690,11 +722,11 @@ sub _setGenericProperties {
             next unless $value;
             # safety checks
             if (!$ports->{$value}) {
-                warn "non-existing port $value, check ifaddr mapping\n";
+                $logger->error("non-existing port $value, check ifaddr mapping");
                 last;
             }
             if ($suffix !~ /^$ip_address_pattern$/) {
-                warn "invalid IP address $suffix, check ifaddr mapping\n";
+                $logger->error("invalid IP address $suffix, check ifaddr mapping");
                 last;
             }
             $ports->{$value}->{IP} = $suffix;
@@ -783,7 +815,7 @@ sub _setNetworkingProperties {
 
             # safety check
             if (!$ports->{$port_id}) {
-                warn "non-existing port $port_id, check vmvlan mapping\n";
+                $logger->error("non-existing port $port_id, check vmvlan mapping");
                 last;
             }
             push
@@ -813,13 +845,11 @@ sub _setNetworkingProperties {
         while (my ($suffix, $value) = each %{$vlans}) {
             my $vlan_id = $suffix;
             $snmp->switch_community("@" . $vlan_id);
-            _setConnectedDevicesMacAddresses(
-                $comments, $snmp, $model, $ports
-            );
+            FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(snmp => $snmp, model => $model, ports => $ports);
         }
     } else {
         # set connected devices mac addresses only once
-        _setConnectedDevicesMacAddresses($comments, $snmp, $model, $ports);
+        FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(snmp => $snmp, model => $model, ports => $ports);
     }
 
     # hardware-specific hacks
@@ -968,7 +998,7 @@ return a minimal set of information for a device through SNMP, according to a
 set of rules hardcoded in the agent and the usage of an additional knowledge
 base, the dictionary.
 
-=head2 setConnectedDevicesMacAddresses($description, $snmp, $model, $ports, $vlan_id)
+=head2 setConnectedDevicesMacAddresses($description, $snmp, $model, $ports)
 
 set mac addresses of connected devices.
 

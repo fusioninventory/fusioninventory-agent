@@ -215,6 +215,46 @@ my %tests = (
             }
         }
     ],
+    'kyocera/utax_ta.walk' => [
+        {
+            MANUFACTURER => 'Kyocera',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'UTAX_TA Printing System',
+            SNMPHOSTNAME => undef,
+            MAC          => '00:C0:EE:80:DD:2D',
+        },
+        {
+            MANUFACTURER => 'Kyocera',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'UTAX_TA Printing System',
+            SNMPHOSTNAME => undef,
+            MAC          => '00:C0:EE:80:DD:2D',
+            MODELSNMP    => 'Networking2073',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'Q250Z01068',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Kyocera',
+                TYPE         => 'NETWORKING',
+                MODEL        => undef,
+                SERIAL       => 'Q250Z01068',
+                COMMENTS     => 'UTAX_TA Printing System',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER => '1',
+                        IFTYPE   => '6',
+                        IP       => '10.104.154.211',
+                        MAC      => '00:C0:EE:80:DD:2D'
+                    }
+                ]
+            },
+        }
+    ],
 );
 
 setPlan(scalar keys %tests);

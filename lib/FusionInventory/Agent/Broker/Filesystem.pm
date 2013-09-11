@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Broker::Directory;
+package FusionInventory::Agent::Broker::Filesystem;
 
 use strict;
 use warnings;
@@ -10,10 +10,11 @@ sub new {
     die "invalid target" unless -d $params{target};
 
     return bless {
-        path    => $params{target},
-        task    => $params{task},
-        verbose => $params{verbose},
-        count   => 0
+        path     => $params{target},
+        deviceid => $params{deviceid},
+        task     => $params{task},
+        verbose  => $params{verbose},
+        count    => 0
     }, $class;
 }
 
