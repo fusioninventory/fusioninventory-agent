@@ -151,7 +151,15 @@ sub daemonize {
         chdir($cwd);
     }
 
-    if ($self->_isAlreadyRunning()) {
+    Proc::PID::File->require();
+    if ($EVAL_ERROR) {
+        $self->{logger}->debug(
+            'Proc::PID::File unavailable, unable to check for running agent'
+        );
+        return;
+    }
+
+    if (Proc::PID::File->running()) {
         $logger->debug("An agent is already runnnig, exiting...");
         exit 1;
     }
@@ -456,20 +464,6 @@ sub _getTaskVersion {
     }
 
     return $version;
-}
-
-sub _isAlreadyRunning {
-    my ($self) = @_;
-
-    Proc::PID::File->require();
-    if ($EVAL_ERROR) {
-        $self->{logger}->debug(
-            'Proc::PID::File unavailable, unable to check for running agent'
-        );
-        return 0;
-    }
-
-    return Proc::PID::File->running();
 }
 
 sub _loadState {
