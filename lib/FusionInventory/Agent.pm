@@ -221,13 +221,12 @@ sub initHTTPInterface {
 }
 
 sub run {
-    my ($self) = @_;
+    my ($self, %params) = @_;
 
     $self->{status} = 'waiting';
 
-    if ($self->{config}->{daemon} || $self->{config}->{service}) {
-
-        # background mode:
+    if ($params{background}) {
+        # background mode: infinite loop
         while (1) {
             my $time = time();
             foreach my $target (@{$self->{targets}}) {

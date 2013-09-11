@@ -106,11 +106,11 @@ sub startAgent {
             vardir  => $directory . '/../../var',
             libdir  => $directory . '/../../lib',
         );
-        $agent->init(options => { service => 1 });
+        $agent->init();
         $agent->initTargets();
         $agent->initTasks();
         $agent->initHTTPInterface();
-        $agent->run();
+        $agent->run(background => 1);
     });
 }
 
