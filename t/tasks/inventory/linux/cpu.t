@@ -31,6 +31,30 @@ my %i386 = (
             FAMILYNUMBER => '6'
         }
     ],
+    'linux-686-2' => [
+        {
+            NAME          => 'Intel(R) Xeon(R) CPU           E5620  @ 2.40GHz',
+            FAMILYNUMBER  => '6',
+            CORE          => '4',
+            MANUFACTURER  => 'Intel',
+            ARCH          => 'i386',
+            MODEL         => '44',
+            THREAD        => '2',
+            STEPPING      => '2',
+            SPEED         => '2400'
+        },
+        {
+            NAME          => 'Intel(R) Xeon(R) CPU           E5620  @ 2.40GHz',
+            MANUFACTURER => 'Intel',
+            MODEL        => '44',
+            SPEED        => '2400',
+            THREAD       => '2',
+            ARCH         => 'i386',
+            CORE         => '4',
+            STEPPING     => '2',
+            FAMILYNUMBER => '6'
+        }
+    ],
     'linux-686-samsung-nc10-1' => [
         {
             ARCH         => 'i386',
