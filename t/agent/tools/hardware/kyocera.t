@@ -193,6 +193,78 @@ my %tests = (
             },
         }
     ],
+    'kyocera/F-5350DN.1.walk' => [
+        {
+            MANUFACTURER => 'Kyocera',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'FS-C5350DN',
+            MAC          => '00:C0:EE:80:CA:DD',
+            SNMPHOSTNAME => '',
+        },
+        {
+            MANUFACTURER => 'Kyocera',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'FS-C5350DN',
+            MAC          => '00:C0:EE:80:CA:DD',
+            SNMPHOSTNAME => '',
+        },
+        {
+            INFO => {
+                MANUFACTURER => 'Kyocera',
+                TYPE         => 'PRINTER',
+                ID           => undef,
+                MODEL        => undef,
+            },
+        }
+    ],
+    'kyocera/F-5350DN.2.walk' => [
+        {
+            MANUFACTURER => 'Kyocera',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'FS-C5350DN',
+            MAC          => '00:C0:EE:80:73:71',
+            SNMPHOSTNAME => ''
+        },
+        {
+            MANUFACTURER => 'Kyocera',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'FS-C5350DN',
+            MAC          => '00:C0:EE:80:73:71',
+            SNMPHOSTNAME => ''
+        },
+        {
+            INFO => {
+                MANUFACTURER => 'Kyocera',
+                TYPE         => 'PRINTER',
+                ID           => undef,
+                MODEL        => undef,
+            },
+        }
+    ],
+    'kyocera/F-5350DN.3.walk' => [
+        {
+            MANUFACTURER => 'Kyocera',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'FS-C5350DN',
+            MAC          => '00:C0:EE:80:73:6C',
+            SNMPHOSTNAME => '',
+        },
+        {
+            MANUFACTURER => 'Kyocera',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'FS-C5350DN',
+            MAC          => '00:C0:EE:80:73:6C',
+            SNMPHOSTNAME => '',
+        },
+        {
+            INFO => {
+                MANUFACTURER => 'Kyocera',
+                TYPE         => 'PRINTER',
+                ID           => undef,
+                MODEL        => undef,
+            },
+        }
+    ],
 );
 
 setPlan(scalar keys %tests);
@@ -209,6 +281,7 @@ foreach my $test (sort keys %tests) {
 
     my %device1 = getDeviceInfo($snmp, $dictionary);
     cmp_deeply(\%device1, $tests{$test}->[1], "$test: base + dictionnary stage");
+    use Data::Dumper;
 
     my $device3 = getDeviceFullInfo(
         snmp  => $snmp,
