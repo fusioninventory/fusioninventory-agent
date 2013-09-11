@@ -136,29 +136,24 @@ sub daemonize {
     my $config = $self->{config};
     my $logger = $self->{logger};
 
-    if ($config->{daemon} && !$config->{'no-fork'}) {
+    Proc::Daemon->require();
+    if ($EVAL_ERROR) {
+        $logger->error("Can't load Proc::Daemon. Is the module installed?");
+        exit 1;
+    }
 
-        $logger->debug("Time to call Proc::Daemon");
+    my $cwd = getcwd();
+    Proc::Daemon::Init();
+    $logger->debug("Daemon started");
 
-        Proc::Daemon->require();
-        if ($EVAL_ERROR) {
-            $logger->error("Can't load Proc::Daemon. Is the module installed?");
-            exit 1;
-        }
+    # If we use relative path, we must stay in the current directory
+    if (substr( $self->{libdir}, 0, 1 ) ne '/') {
+        chdir($cwd);
+    }
 
-        my $cwd = getcwd();
-        Proc::Daemon::Init();
-        $logger->debug("Daemon started");
-
-        # If we use relative path, we must stay in the current directory
-        if (substr( $self->{libdir}, 0, 1 ) ne '/') {
-            chdir($cwd);
-        }
-
-        if ($self->_isAlreadyRunning()) {
-            $logger->debug("An agent is already runnnig, exiting...");
-            exit 1;
-        }
+    if ($self->_isAlreadyRunning()) {
+        $logger->debug("An agent is already runnnig, exiting...");
+        exit 1;
     }
 }
 
