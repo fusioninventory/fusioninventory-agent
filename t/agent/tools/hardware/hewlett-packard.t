@@ -378,6 +378,10 @@ my %tests = (
                     }
                 ]
             },
+            CARTRIDGES => {
+                CARTRIDGEBLACK => 0,
+                TONERBLACK     => 0
+            },
             PAGECOUNTERS => {
                 RECTOVERSO => '1935',
                 TOTAL      => '33545',
@@ -7019,6 +7023,9 @@ my %tests = (
                 COLOR      => '0',
                 RECTOVERSO => '498'
             },
+            CARTRIDGES => {
+                TONERBLACK => 0
+            },
             PORTS => {
                 PORT => [
                 ]
@@ -7338,7 +7345,8 @@ my %tests = (
                 ]
             },
             CARTRIDGES => {
-                TONERBLACK => 32
+                TONERBLACK     => 32,
+                MAINTENANCEKIT => 0
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '2096',
@@ -7821,6 +7829,10 @@ my %tests = (
             PAGECOUNTERS => {
                 TOTAL      => '252311',
                 RECTOVERSO => '0',
+            },
+            CARTRIDGES => {
+                CARTRIDGEBLACK => 0,
+                TONERBLACK     => 0
             },
             PORTS => {
                 PORT => [
