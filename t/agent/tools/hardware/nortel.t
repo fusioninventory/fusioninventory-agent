@@ -15,14 +15,14 @@ my %tests = (
             TYPE         => 'NETWORKING',
             MAC          => '00:15:40:94:75:A2',
             SNMPHOSTNAME => 'Bay470',
-            DESCRIPTION  => 'BayStack 470 - 24T           HW:06       FW:3.0.0.5   SW:v3.1.2.06 ISVN:2 '
+            DESCRIPTION  => 'BayStack 470 - 24T           HW:06       FW:3.0.0.5   SW:v3.1.2.06 ISVN:2'
         },
         {
             MANUFACTURER => 'Nortel',
             TYPE         => 'NETWORKING',
             MAC          => '00:15:40:94:75:A2',
             SNMPHOSTNAME => 'Bay470',
-            DESCRIPTION  => 'BayStack 470 - 24T           HW:06       FW:3.0.0.5   SW:v3.1.2.06 ISVN:2 ',
+            DESCRIPTION  => 'BayStack 470 - 24T           HW:06       FW:3.0.0.5   SW:v3.1.2.06 ISVN:2',
             MODEL        => undef,
             MODELSNMP    => 'Networking2050',
             SERIAL       => 'SACC170NLH',
@@ -41,7 +41,7 @@ my %tests = (
                 MAC          => '00:15:40:94:75:A2',
                 MANUFACTURER => 'Nortel',
                 NAME         => 'Bay470',
-                COMMENTS     => 'BayStack 470 - 24T           HW:06       FW:3.0.0.5   SW:v3.1.2.06 ISVN:2 ',
+                COMMENTS     => 'BayStack 470 - 24T           HW:06       FW:3.0.0.5   SW:v3.1.2.06 ISVN:2',
                 SERIAL       => 'SACC170NLH'
             },
             PORTS => {
