@@ -109,7 +109,11 @@ if ($options->{wait}) {
 
 eval {
     $agent->init(options => $options);
-    $agent->run();
+    $agent->initTargets();
+    $agent->initTasks();
+    $agent->initHTTPInterface() if $options->{daemon};
+    $agent->daemonize() if $options->{daemon} && !$options->{'no-fork'};
+    $agent->run(background => $options{daemon});
 };
 
 if ($EVAL_ERROR) {

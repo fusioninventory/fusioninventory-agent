@@ -87,6 +87,13 @@ sub init {
     $self->{deviceid} = _computeDeviceId() if !$self->{deviceid};
 
     $self->_saveState();
+}
+
+sub initTargets {
+    my ($self) = @_;
+
+    my $config = $self->{config};
+    my $logger = $self->{logger};
 
     # create target list
     if ($config->{local}) {
@@ -121,32 +128,48 @@ sub init {
         $logger->error("No target defined, aborting");
         exit 1;
     }
+}
 
-    if ($config->{daemon} && !$config->{'no-fork'}) {
+sub daemonize {
+    my ($self) = @_;
 
-        $logger->debug("Time to call Proc::Daemon");
+    my $config = $self->{config};
+    my $logger = $self->{logger};
 
-        Proc::Daemon->require();
-        if ($EVAL_ERROR) {
-            $logger->error("Can't load Proc::Daemon. Is the module installed?");
-            exit 1;
-        }
-
-        my $cwd = getcwd();
-        Proc::Daemon::Init();
-        $logger->debug("Daemon started");
-
-
-        # If we use relative path, we must stay in the current directory
-        if (substr( $params{libdir}, 0, 1 ) ne '/') {
-            chdir($cwd);
-        }
-
-        if ($self->_isAlreadyRunning()) {
-            $logger->debug("An agent is already runnnig, exiting...");
-            exit 1;
-        }
+    Proc::Daemon->require();
+    if ($EVAL_ERROR) {
+        $logger->error("Can't load Proc::Daemon. Is the module installed?");
+        exit 1;
     }
+
+    my $cwd = getcwd();
+    Proc::Daemon::Init();
+    $logger->debug("Daemon started");
+
+    # If we use relative path, we must stay in the current directory
+    if (substr( $self->{libdir}, 0, 1 ) ne '/') {
+        chdir($cwd);
+    }
+
+    Proc::PID::File->require();
+    if ($EVAL_ERROR) {
+        $self->{logger}->debug(
+            'Proc::PID::File unavailable, unable to check for running agent'
+        );
+        return;
+    }
+
+    if (Proc::PID::File->running()) {
+        $logger->debug("An agent is already runnnig, exiting...");
+        exit 1;
+    }
+}
+
+sub initTasks {
+    my ($self) = @_;
+
+    my $config = $self->{config};
+    my $logger = $self->{logger};
 
     # compute list of allowed tasks
     my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
@@ -158,44 +181,52 @@ sub init {
     }
 
     $self->{tasks} = \@tasks;
+}
 
-    # create HTTP interface
-    if (($config->{daemon} || $config->{service}) && !$config->{'no-httpd'}) {
-        FusionInventory::Agent::HTTP::Server->require();
-        if ($EVAL_ERROR) {
-            $logger->debug("Failed to load HTTP server: $EVAL_ERROR");
-        } else {
-            # compute trusted addresses
-            my $trust = $config->{'httpd-trust'};
-            if ($config->{server}) {
-                foreach my $url (@{$config->{server}}) {
-                    push @{$config->{'httpd-trust'}}, URI->new($url)->host();
-                }
-            }
+# create HTTP interface
+sub initHTTPInterface {
+    my ($self) = @_;
 
-            $self->{server} = FusionInventory::Agent::HTTP::Server->new(
-                logger          => $logger,
-                agent           => $self,
-                htmldir         => $self->{datadir} . '/html',
-                ip              => $config->{'httpd-ip'},
-                port            => $config->{'httpd-port'},
-                trust           => $trust
-            );
-            $self->{server}->init();
+    my $config = $self->{config};
+    my $logger = $self->{logger};
+
+    return if $config->{'no-httpd'};
+
+    FusionInventory::Agent::HTTP::Server->require();
+    if ($EVAL_ERROR) {
+        $logger->debug("Failed to load HTTP server: $EVAL_ERROR");
+        return;
+    }
+
+    # compute trusted addresses
+    my $trust = $config->{'httpd-trust'};
+    if ($config->{server}) {
+        foreach my $url (@{$config->{server}}) {
+            push @{$config->{'httpd-trust'}}, URI->new($url)->host();
         }
     }
+
+    $self->{server} = FusionInventory::Agent::HTTP::Server->new(
+        logger  => $logger,
+        agent   => $self,
+        htmldir => $self->{datadir} . '/html',
+        ip      => $config->{'httpd-ip'},
+        port    => $config->{'httpd-port'},
+        trust   => $trust
+    );
+
+    $self->{server}->init();
 
     $logger->debug("FusionInventory Agent initialised");
 }
 
 sub run {
-    my ($self) = @_;
+    my ($self, %params) = @_;
 
     $self->{status} = 'waiting';
 
-    if ($self->{config}->{daemon} || $self->{config}->{service}) {
-
-        # background mode:
+    if ($params{background}) {
+        # background mode: infinite loop
         while (1) {
             my $time = time();
             foreach my $target (@{$self->{targets}}) {
@@ -432,20 +463,6 @@ sub _getTaskVersion {
     }
 
     return $version;
-}
-
-sub _isAlreadyRunning {
-    my ($self) = @_;
-
-    Proc::PID::File->require();
-    if ($EVAL_ERROR) {
-        $self->{logger}->debug(
-            'Proc::PID::File unavailable, unable to check for running agent'
-        );
-        return 0;
-    }
-
-    return Proc::PID::File->running();
 }
 
 sub _loadState {
