@@ -180,37 +180,39 @@ sub initTasks {
     $self->{tasks} = \@tasks;
 }
 
+# create HTTP interface
 sub initHTTPInterface {
     my ($self) = @_;
 
     my $config = $self->{config};
     my $logger = $self->{logger};
 
-    # create HTTP interface
-    if (($config->{daemon} || $config->{service}) && !$config->{'no-httpd'}) {
-        FusionInventory::Agent::HTTP::Server->require();
-        if ($EVAL_ERROR) {
-            $logger->debug("Failed to load HTTP server: $EVAL_ERROR");
-        } else {
-            # compute trusted addresses
-            my $trust = $config->{'httpd-trust'};
-            if ($config->{server}) {
-                foreach my $url (@{$config->{server}}) {
-                    push @{$config->{'httpd-trust'}}, URI->new($url)->host();
-                }
-            }
+    return if $config->{'no-httpd'};
 
-            $self->{server} = FusionInventory::Agent::HTTP::Server->new(
-                logger          => $logger,
-                agent           => $self,
-                htmldir         => $self->{datadir} . '/html',
-                ip              => $config->{'httpd-ip'},
-                port            => $config->{'httpd-port'},
-                trust           => $trust
-            );
-            $self->{server}->init();
+    FusionInventory::Agent::HTTP::Server->require();
+    if ($EVAL_ERROR) {
+        $logger->debug("Failed to load HTTP server: $EVAL_ERROR");
+        return;
+    }
+
+    # compute trusted addresses
+    my $trust = $config->{'httpd-trust'};
+    if ($config->{server}) {
+        foreach my $url (@{$config->{server}}) {
+            push @{$config->{'httpd-trust'}}, URI->new($url)->host();
         }
     }
+
+    $self->{server} = FusionInventory::Agent::HTTP::Server->new(
+        logger  => $logger,
+        agent   => $self,
+        htmldir => $self->{datadir} . '/html',
+        ip      => $config->{'httpd-ip'},
+        port    => $config->{'httpd-port'},
+        trust   => $trust
+    );
+
+    $self->{server}->init();
 
     $logger->debug("FusionInventory Agent initialised");
 }

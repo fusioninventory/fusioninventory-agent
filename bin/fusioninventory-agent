@@ -112,7 +112,7 @@ eval {
     $agent->initTargets();
     $agent->daemonize();
     $agent->initTasks();
-    $agent->initHTTPInterface();
+    $agent->initHTTPInterface() if $options->{daemon};
     $agent->run();
 };
 
