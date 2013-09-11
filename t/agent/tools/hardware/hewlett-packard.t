@@ -34,20 +34,6 @@ my %tests = (
             PORTS => {
                 PORT => []
             },
-            PAGECOUNTERS => {
-                TOTAL      => undef,
-                COPYBLACK  => undef,
-                SCANNED    => undef,
-                RECTOVERSO => undef,
-                BLACK      => undef,
-                PRINTTOTAL => undef,
-                COLOR      => undef,
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef,
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                PRINTCOLOR => undef
-            },
         }
     ],
     'hewlett-packard/Inkjet_2800.1.walk' => [
@@ -101,20 +87,6 @@ my %tests = (
                     }
                 ]
             },
-            PAGECOUNTERS => {
-                RECTOVERSO => undef,
-                COLOR      => undef,
-                COPYCOLOR  => undef,
-                PRINTBLACK => undef,
-                BLACK      => undef,
-                COPYBLACK  => undef,
-                PRINTCOLOR => undef,
-                COPYTOTAL  => undef,
-                SCANNED    => undef,
-                FAXTOTAL   => undef,
-                TOTAL      => undef,
-                PRINTTOTAL => undef
-            },
         }
     ],
     'hewlett-packard/Inkjet_2800.2.walk' => [
@@ -145,20 +117,6 @@ my %tests = (
                 MEMORY       => 96,
                 ID           => undef,
                 NAME         => 'HPIJ2800-01',
-            },
-            PAGECOUNTERS => {
-                FAXTOTAL   => undef,
-                COPYTOTAL  => undef,
-                BLACK      => undef,
-                SCANNED    => undef,
-                COLOR      => undef,
-                RECTOVERSO => undef,
-                TOTAL      => undef,
-                PRINTBLACK => undef,
-                PRINTTOTAL => undef,
-                COPYCOLOR  => undef,
-                PRINTCOLOR => undef,
-                COPYBLACK  => undef
             },
             PORTS => {
                 PORT => [
@@ -213,20 +171,6 @@ my %tests = (
                 LOCATION     => undef,
                 MODEL        => undef,
             },
-            PAGECOUNTERS => {
-                SCANNED    => undef,
-                FAXTOTAL   => undef,
-                RECTOVERSO => undef,
-                PRINTTOTAL => undef,
-                COLOR      => undef,
-                COPYCOLOR  => undef,
-                PRINTCOLOR => undef,
-                COPYTOTAL  => undef,
-                TOTAL      => undef,
-                BLACK      => undef,
-                COPYBLACK  => undef,
-                PRINTBLACK => undef
-            },
             CARTRIDGES => {
                 CARTRIDGEYELLOW  => 6,
                 CARTRIDGECYAN    => 290,
@@ -269,20 +213,6 @@ my %tests = (
             },
             PORTS => {
                 PORT => []
-            },
-            PAGECOUNTERS => {
-                TOTAL      => undef,
-                COPYBLACK  => undef,
-                SCANNED    => undef,
-                RECTOVERSO => undef,
-                BLACK      => undef,
-                PRINTTOTAL => undef,
-                COLOR      => undef,
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef,
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                PRINTCOLOR => undef
             },
         }
     ],
@@ -351,18 +281,7 @@ my %tests = (
                 ]
             },
             PAGECOUNTERS => {
-                SCANNED    => undef,
-                RECTOVERSO => undef,
                 TOTAL      => '367',
-                PRINTCOLOR => undef,
-                COLOR      => undef,
-                FAXTOTAL   => undef,
-                COPYBLACK  => undef,
-                PRINTBLACK => undef,
-                COPYTOTAL  => undef,
-                PRINTTOTAL => undef,
-                COPYCOLOR  => undef,
-                BLACK      => undef
             }
         }
     ],
@@ -399,18 +318,9 @@ my %tests = (
                 SERIAL       => 'CNCF300725'
             },
             PAGECOUNTERS => {
-                SCANNED    => undef,
                 COLOR      => '507',
-                PRINTCOLOR => undef,
-                COPYBLACK  => undef,
-                PRINTBLACK => undef,
-                BLACK      => undef,
-                COPYTOTAL  => undef,
-                COPYCOLOR  => undef,
-                TOTAL      => undef,
                 RECTOVERSO => '0',
                 PRINTTOTAL => '541',
-                FAXTOTAL   => undef
             },
             PORTS => {
                 PORT => []
@@ -469,18 +379,8 @@ my %tests = (
                 ]
             },
             PAGECOUNTERS => {
-                COLOR      => undef,
-                PRINTTOTAL => undef,
-                BLACK      => undef,
                 RECTOVERSO => '1935',
-                SCANNED    => undef,
-                COPYBLACK  => undef,
                 TOTAL      => '33545',
-                PRINTCOLOR => undef,
-                FAXTOTAL   => undef,
-                PRINTBLACK => undef,
-                COPYTOTAL  => undef,
-                COPYCOLOR  => undef
             }
         }
     ],
@@ -521,17 +421,7 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '2685',
-                BLACK      => undef,
-                COPYBLACK  => undef,
-                SCANNED    => undef,
                 TOTAL      => '45790',
-                COLOR      => undef,
-                PRINTTOTAL => undef,
-                PRINTBLACK => undef,
-                COPYTOTAL  => undef,
-                COPYCOLOR  => undef,
-                PRINTCOLOR => undef,
-                FAXTOTAL   => undef
             },
             PORTS => {
                 PORT => [
@@ -583,17 +473,7 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 TOTAL      => '5868',
-                COPYBLACK  => undef,
-                SCANNED    => undef,
                 RECTOVERSO => '258',
-                BLACK      => undef,
-                PRINTTOTAL => undef,
-                COLOR      => undef,
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef,
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                PRINTCOLOR => undef
             },
             PORTS => {
                 PORT => [
@@ -641,20 +521,6 @@ my %tests = (
             PORTS => {
                 PORT => []
             },
-            PAGECOUNTERS => {
-                TOTAL      => undef,
-                COPYBLACK  => undef,
-                SCANNED    => undef,
-                RECTOVERSO => undef,
-                BLACK      => undef,
-                PRINTTOTAL => undef,
-                COLOR      => undef,
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef,
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                PRINTCOLOR => undef
-            }
         }
     ],
     'hewlett-packard/LaserJet_2100.2.walk' => [
@@ -682,20 +548,6 @@ my %tests = (
             PORTS => {
                 PORT => []
             },
-            PAGECOUNTERS => {
-                TOTAL      => undef,
-                COPYBLACK  => undef,
-                SCANNED    => undef,
-                RECTOVERSO => undef,
-                BLACK      => undef,
-                PRINTTOTAL => undef,
-                COLOR      => undef,
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef,
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                PRINTCOLOR => undef
-            }
         }
     ],
     'hewlett-packard/LaserJet_2600n.walk' => [
@@ -743,20 +595,6 @@ my %tests = (
 
                 ]
             },
-            PAGECOUNTERS => {
-                COPYBLACK  => undef,
-                FAXTOTAL   => undef,
-                RECTOVERSO => undef,
-                COPYTOTAL  => undef,
-                COPYCOLOR  => undef,
-                PRINTTOTAL => undef,
-                PRINTBLACK => undef,
-                PRINTCOLOR => undef,
-                BLACK      => undef,
-                SCANNED    => undef,
-                TOTAL      => undef,
-                COLOR      => undef
-            }
         }
     ],
     'hewlett-packard/LaserJet_3600.walk' => [
@@ -791,18 +629,7 @@ my %tests = (
                 SERIAL       => 'CNXJD65169',
             },
             PAGECOUNTERS => {
-                PRINTBLACK => undef,
-                PRINTTOTAL => undef,
-                COPYTOTAL  => undef,
-                BLACK      => undef,
-                COPYBLACK  => undef,
                 COLOR      => '9946',
-                PRINTCOLOR => undef,
-                RECTOVERSO => undef,
-                SCANNED    => undef,
-                FAXTOTAL   => undef,
-                TOTAL      => undef,
-                COPYCOLOR  => undef
             },
             PORTS => {
                 PORT => [
@@ -857,20 +684,6 @@ my %tests = (
                 ID           => undef,
                 LOCATION     => undef,
                 MODEL        => 'hp LaserJet 4250'
-            },
-            PAGECOUNTERS => {
-                BLACK      => undef,
-                SCANNED    => undef,
-                TOTAL      => undef,
-                PRINTTOTAL => undef,
-                RECTOVERSO => undef,
-                PRINTCOLOR => undef,
-                PRINTBLACK => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                COLOR      => undef,
-                COPYCOLOR  => undef,
-                FAXTOTAL   => undef
             },
             CARTRIDGES => {
                 TONERBLACK     => 52,
@@ -947,17 +760,8 @@ my %tests = (
                 TONERMAGENTA => 95
             },
             PAGECOUNTERS => {
-                PRINTTOTAL => undef,
                 RECTOVERSO => '0',
-                TOTAL      => undef,
-                SCANNED    => undef,
                 BLACK      => '102279',
-                PRINTCOLOR => undef,
-                COPYBLACK  => undef,
-                COPYTOTAL  => undef,
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                COPYCOLOR  => undef,
                 COLOR      => '92447'
             }
         }
@@ -992,20 +796,6 @@ my %tests = (
                 OTHERSERIAL  => '0x0115',
                 SERIAL       => 'CNB885QNXP',
                 ID           => undef
-            },
-            PAGECOUNTERS => {
-                RECTOVERSO => undef,
-                PRINTCOLOR => undef,
-                COPYBLACK  => undef,
-                TOTAL      => undef,
-                COLOR      => undef,
-                SCANNED    => undef,
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                BLACK      => undef,
-                PRINTTOTAL => undef,
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef
             },
             PORTS => {
                 PORT => [
@@ -1082,17 +872,8 @@ my %tests = (
                 TONERBLACK   => 25
             },
             PAGECOUNTERS => {
-                SCANNED    => undef,
-                TOTAL      => undef,
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef,
-                PRINTBLACK => undef,
                 BLACK      => '760',
-                FAXTOTAL   => undef,
-                COPYBLACK  => undef,
-                PRINTCOLOR => undef,
                 COLOR      => '4720',
-                PRINTTOTAL => undef,
                 RECTOVERSO => '0'
             }
         }
@@ -1148,20 +929,6 @@ my %tests = (
                 TONERYELLOW  => 18,
                 TONERCYAN    => 46
             },
-            PAGECOUNTERS => {
-                PRINTTOTAL => undef,
-                SCANNED    => undef,
-                BLACK      => undef,
-                FAXTOTAL   => undef,
-                PRINTBLACK => undef,
-                PRINTCOLOR => undef,
-                COPYCOLOR  => undef,
-                COPYBLACK  => undef,
-                COPYTOTAL  => undef,
-                COLOR      => undef,
-                TOTAL      => undef,
-                RECTOVERSO => undef
-            }
         }
     ],
     'hewlett-packard/LaserJet_CM2320fxi_MFP.2.walk' => [
@@ -1215,20 +982,6 @@ my %tests = (
                    }
                 ]
             },
-            PAGECOUNTERS => {
-                BLACK      => undef,
-                PRINTTOTAL => undef,
-                SCANNED    => undef,
-                PRINTCOLOR => undef,
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                COPYBLACK  => undef,
-                COPYTOTAL  => undef,
-                COPYCOLOR  => undef,
-                RECTOVERSO => undef,
-                COLOR      => undef,
-                TOTAL      => undef
-            }
         }
     ],
     'hewlett-packard/LaserJet_CM2320fxi_MFP.3.walk' => [
@@ -1260,20 +1013,6 @@ my %tests = (
                 OTHERSERIAL  => '0x0115',
                 ID           => undef,
                 MODEL        => 'HP Color LaserJet CM2320fxi MFP'
-            },
-            PAGECOUNTERS => {
-                COPYCOLOR  => undef,
-                COPYBLACK  => undef,
-                COPYTOTAL  => undef,
-                COLOR      => undef,
-                TOTAL      => undef,
-                RECTOVERSO => undef,
-                PRINTTOTAL => undef,
-                SCANNED    => undef,
-                BLACK      => undef,
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                PRINTCOLOR => undef
             },
             PORTS => {
                 PORT => [
@@ -1330,18 +1069,9 @@ my %tests = (
                 LOCATION     => 'HP Color LaserJet CM2320nf MFP'
             },
             PAGECOUNTERS => {
-                TOTAL      => undef,
-                COPYBLACK  => undef,
-                PRINTCOLOR => undef,
-                COPYTOTAL  => undef,
-                COPYCOLOR  => undef,
                 COLOR      => '789',
-                FAXTOTAL   => undef,
-                PRINTBLACK => undef,
-                SCANNED    => undef,
                 BLACK      => '141',
                 RECTOVERSO => '0',
-                PRINTTOTAL => undef
             },
             PORTS => {
                 PORT => [
@@ -1399,16 +1129,7 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '2584',
-                TOTAL      => undef,
-                FAXTOTAL   => undef,
-                PRINTBLACK => undef,
                 BLACK      => '9817',
-                PRINTCOLOR => undef,
-                PRINTTOTAL => undef,
-                SCANNED    => undef,
-                COPYBLACK  => undef,
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef,
                 COLOR      => '21930'
             },
             CARTRIDGES => {
@@ -1466,18 +1187,9 @@ my %tests = (
                 LOCATION     => 'HP Color LaserJet CP2025dn'
             },
             PAGECOUNTERS => {
-                PRINTTOTAL => undef,
-                PRINTCOLOR => undef,
-                TOTAL      => undef,
-                FAXTOTAL   => undef,
                 BLACK      => '1198',
-                PRINTBLACK => undef,
                 RECTOVERSO => '1',
                 COLOR      => '7501',
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef,
-                SCANNED    => undef,
-                COPYBLACK  => undef
             },
             CARTRIDGES => {
                 TONERYELLOW => 24,
@@ -1541,17 +1253,8 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 COLOR      => '2309',
-                COPYCOLOR  => undef,
-                FAXTOTAL   => undef,
                 BLACK      => '1145',
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
                 RECTOVERSO => '0',
-                PRINTTOTAL => undef,
-                PRINTBLACK => undef,
-                SCANNED    => undef,
-                PRINTCOLOR => undef,
-                TOTAL      => undef
             },
             PORTS => {
                 PORT => [
@@ -1608,18 +1311,9 @@ my %tests = (
                 TONERYELLOW  => 77
             },
             PAGECOUNTERS => {
-                COPYTOTAL  => undef,
                 BLACK      => '3459',
                 COLOR      => '11263',
-                COPYCOLOR  => undef,
-                FAXTOTAL   => undef,
                 RECTOVERSO => '0',
-                COPYBLACK  => undef,
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                PRINTBLACK => undef,
-                PRINTTOTAL => undef,
-                TOTAL      => undef
             },
             PORTS => {
                 PORT => [
@@ -1670,18 +1364,9 @@ my %tests = (
                 ID           => undef
             },
             PAGECOUNTERS => {
-                TOTAL      => undef,
-                SCANNED    => undef,
-                PRINTBLACK => undef,
-                PRINTCOLOR => undef,
-                PRINTTOTAL => undef,
                 RECTOVERSO => '0',
-                COPYBLACK  => undef,
                 BLACK      => '3896',
                 COLOR      => '12731',
-                COPYCOLOR  => undef,
-                FAXTOTAL   => undef,
-                COPYTOTAL  => undef
             },
             PORTS => {
                 PORT => [
@@ -1759,18 +1444,9 @@ my %tests = (
                 ]
             },
             PAGECOUNTERS => {
-                COPYTOTAL  => undef,
-                FAXTOTAL   => undef,
-                COPYCOLOR  => undef,
                 COLOR      => '16450',
                 BLACK      => '5506',
-                COPYBLACK  => undef,
                 RECTOVERSO => '0',
-                PRINTTOTAL => undef,
-                SCANNED    => undef,
-                PRINTCOLOR => undef,
-                PRINTBLACK => undef,
-                TOTAL      => undef
             },
         }
     ],
@@ -1806,17 +1482,8 @@ my %tests = (
                 MODEL        => 'HP Color LaserJet CP2025n'
             },
             PAGECOUNTERS => {
-                PRINTTOTAL => undef,
-                SCANNED    => undef,
-                PRINTBLACK => undef,
-                PRINTCOLOR => undef,
-                TOTAL      => undef,
-                COPYTOTAL  => undef,
-                FAXTOTAL   => undef,
-                COPYCOLOR  => undef,
                 COLOR      => '5758',
                 BLACK      => '3843',
-                COPYBLACK  => undef,
                 RECTOVERSO => '0'
             },
             PORTS => {
@@ -1892,17 +1559,8 @@ my %tests = (
                 TONERBLACK => 44
             },
             PAGECOUNTERS => {
-                COPYBLACK  => undef,
-                COPYCOLOR  => undef,
-                PRINTCOLOR => undef,
                 COLOR      => '0',
-                FAXTOTAL   => undef,
-                TOTAL      => undef,
                 RECTOVERSO => '0',
-                PRINTBLACK => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
-                PRINTTOTAL => undef,
                 BLACK      => '36596'
             }
         }
@@ -1939,18 +1597,9 @@ my %tests = (
                 ID           => undef
             },
             PAGECOUNTERS => {
-                COPYBLACK  => undef,
-                COPYCOLOR  => undef,
-                PRINTCOLOR => undef,
                 COLOR      => '0',
-                FAXTOTAL   => undef,
                 RECTOVERSO => '0',
-                PRINTBLACK => undef,
-                TOTAL      => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
                 BLACK      => '25333',
-                PRINTTOTAL => undef
             },
             CARTRIDGES => {
                 TONERBLACK => 59
@@ -2004,18 +1653,9 @@ my %tests = (
                 NAME         => 'NPI83EC85',
             },
             PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                COPYCOLOR  => undef,
-                COPYBLACK  => undef,
                 COLOR      => '0',
-                TOTAL      => undef,
                 RECTOVERSO => '0',
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                PRINTTOTAL => undef,
                 BLACK      => '36301',
-                COPYTOTAL  => undef,
-                SCANNED    => undef
             },
             CARTRIDGES => {
                 TONERBLACK => 50
@@ -2066,20 +1706,6 @@ my %tests = (
                 MODEL        => 'HP LaserJet P4014',
                 SERIAL       => 'CNFX409800',
                 MEMORY       => 384
-            },
-            PAGECOUNTERS => {
-                PRINTTOTAL => undef,
-                PRINTBLACK => undef,
-                TOTAL      => undef,
-                COPYBLACK  => undef,
-                PRINTCOLOR => undef,
-                COPYCOLOR  => undef,
-                SCANNED    => undef,
-                BLACK      => undef,
-                COPYTOTAL  => undef,
-                FAXTOTAL   => undef,
-                RECTOVERSO => undef,
-                COLOR      => undef
             },
             PORTS => {
                 PORT => [
@@ -6857,18 +6483,7 @@ my %tests = (
                 ]
             },
             PAGECOUNTERS => {
-                FAXTOTAL   => undef,
-                PRINTBLACK => undef,
                 BLACK      => '91',
-                SCANNED    => undef,
-                PRINTTOTAL => undef,
-                RECTOVERSO => undef,
-                TOTAL      => undef,
-                COPYBLACK  => undef,
-                COPYTOTAL  => undef,
-                PRINTCOLOR => undef,
-                COLOR      => undef,
-                COPYCOLOR  => undef
             },
         }
     ],
@@ -6910,18 +6525,8 @@ my %tests = (
                 TONERBLACK => 32
             },
             PAGECOUNTERS => {
-                BLACK      => undef,
-                FAXTOTAL   => undef,
                 RECTOVERSO => '0',
-                COPYBLACK  => undef,
-                COPYCOLOR  => undef,
-                COLOR      => undef,
                 PRINTTOTAL => '20949',
-                COPYTOTAL  => undef,
-                PRINTCOLOR => undef,
-                TOTAL      => undef,
-                PRINTBLACK => undef,
-                SCANNED    => undef
             }
         }
     ],
@@ -6967,14 +6572,7 @@ my %tests = (
                 COLOR      => '0',
                 PRINTBLACK => '30965',
                 PRINTTOTAL => '30965',
-                COPYBLACK  => undef,
-                SCANNED    => undef,
-                PRINTCOLOR => undef,
-                COPYCOLOR  => undef,
-                FAXTOTAL   => undef,
                 BLACK      => '30965',
-                COPYTOTAL  => undef,
-                TOTAL      => undef
             }
         }
     ],
@@ -7009,14 +6607,7 @@ my %tests = (
                 OTHERSERIAL  => '0xFDE8',
             },
             PAGECOUNTERS => {
-                COPYTOTAL  => undef,
-                TOTAL      => undef,
                 BLACK      => '36105',
-                COPYCOLOR  => undef,
-                FAXTOTAL   => undef,
-                SCANNED    => undef,
-                PRINTCOLOR => undef,
-                COPYBLACK  => undef,
                 PRINTBLACK => '36105',
                 PRINTTOTAL => '36105',
                 COLOR      => '0',
@@ -7070,15 +6661,8 @@ my %tests = (
             PAGECOUNTERS => {
                 RECTOVERSO => '62',
                 COLOR      => '0',
-                COPYBLACK  => undef,
                 PRINTTOTAL => '3837',
                 PRINTBLACK => '3837',
-                FAXTOTAL   => undef,
-                COPYCOLOR  => undef,
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                TOTAL      => undef,
-                COPYTOTAL  => undef,
                 BLACK      => '3837'
             }
         }
@@ -7118,14 +6702,7 @@ my %tests = (
                 RECTOVERSO => '5297',
                 PRINTTOTAL => '11057',
                 PRINTBLACK => '11057',
-                COPYBLACK  => undef,
-                COPYCOLOR  => undef,
-                FAXTOTAL   => undef,
-                SCANNED    => undef,
-                PRINTCOLOR => undef,
                 BLACK      => '11057',
-                COPYTOTAL  => undef,
-                TOTAL      => undef
             },
             CARTRIDGES => {
                 TONERBLACK => 45
@@ -7172,18 +6749,11 @@ my %tests = (
                 TONERBLACK => 56
             },
             PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                COPYCOLOR  => undef,
-                FAXTOTAL   => undef,
                 BLACK      => '19402',
-                COPYTOTAL  => undef,
-                TOTAL      => undef,
                 COLOR      => '0',
                 RECTOVERSO => '3761',
                 PRINTBLACK => '19402',
                 PRINTTOTAL => '19402',
-                COPYBLACK  => undef
             }
         }
     ],
@@ -7225,16 +6795,9 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 PRINTTOTAL => '17861',
-                FAXTOTAL   => undef,
-                TOTAL      => undef,
                 BLACK      => '17861',
-                COPYCOLOR  => undef,
                 COLOR      => '0',
                 PRINTBLACK => '17861',
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
                 RECTOVERSO => '3192'
             }
         }
@@ -7278,16 +6841,9 @@ my %tests = (
             PAGECOUNTERS => {
                 COLOR      => '0',
                 PRINTBLACK => '5696',
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
                 RECTOVERSO => '1843',
                 PRINTTOTAL => '5696',
-                FAXTOTAL   => undef,
-                TOTAL      => undef,
                 BLACK      => '5696',
-                COPYCOLOR  => undef
             }
         }
     ],
@@ -7329,16 +6885,9 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '6952',
-                SCANNED    => undef,
-                PRINTCOLOR => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
                 PRINTBLACK => '26922',
                 COLOR      => '0',
                 BLACK      => '26922',
-                COPYCOLOR  => undef,
-                TOTAL      => undef,
-                FAXTOTAL   => undef,
                 PRINTTOTAL => '26922'
             }
         }
@@ -7378,17 +6927,10 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 BLACK      => '4047',
-                FAXTOTAL   => undef,
                 RECTOVERSO => '50',
-                COPYBLACK  => undef,
-                COPYCOLOR  => undef,
                 COLOR      => '0',
-                COPYTOTAL  => undef,
                 PRINTTOTAL => '4047',
-                PRINTCOLOR => undef,
-                TOTAL      => undef,
                 PRINTBLACK => '4047',
-                SCANNED    => undef
             },
             CARTRIDGES => {
                 TONERBLACK => 20
@@ -7426,18 +6968,11 @@ my %tests = (
                 ID           => undef,
             },
             PAGECOUNTERS => {
-                COPYBLACK  => undef,
                 PRINTTOTAL => '4944',
                 PRINTBLACK => '4944',
                 COLOR      => '0',
                 RECTOVERSO => '0',
-                COPYTOTAL  => undef,
-                TOTAL      => undef,
                 BLACK      => '4944',
-                FAXTOTAL   => undef,
-                COPYCOLOR  => undef,
-                PRINTCOLOR => undef,
-                SCANNED    => undef
             },
             PORTS => {
                 PORT => []
@@ -7478,14 +7013,7 @@ my %tests = (
                 MODEL        => 'HP LaserJet P2055dn',
             },
             PAGECOUNTERS => {
-                COPYTOTAL  => undef,
-                TOTAL      => undef,
                 BLACK      => '4339',
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                FAXTOTAL   => undef,
-                COPYCOLOR  => undef,
-                COPYBLACK  => undef,
                 PRINTBLACK => '4339',
                 PRINTTOTAL => '4339',
                 COLOR      => '0',
@@ -7530,15 +7058,8 @@ my %tests = (
             PAGECOUNTERS => {
                 RECTOVERSO => '1789',
                 COLOR      => '0',
-                COPYBLACK  => undef,
                 PRINTBLACK => '89242',
                 PRINTTOTAL => '89242',
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                FAXTOTAL   => undef,
-                COPYCOLOR  => undef,
-                TOTAL      => undef,
-                COPYTOTAL  => undef,
                 BLACK      => '89242'
             },
             PORTS => {
@@ -7601,18 +7122,7 @@ my %tests = (
                 MAINTENANCEKIT => 87
             },
             PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                COPYCOLOR  => undef,
-                BLACK      => undef,
-                PRINTBLACK => undef,
-                TOTAL      => undef,
-                FAXTOTAL   => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                COLOR      => undef,
                 RECTOVERSO => '26',
-                PRINTTOTAL => undef
             }
         }
     ],
@@ -7667,18 +7177,7 @@ my %tests = (
                 MAINTENANCEKIT => 61
             },
             PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                COPYCOLOR  => undef,
-                BLACK      => undef,
-                PRINTBLACK => undef,
-                TOTAL      => undef,
-                FAXTOTAL   => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                COLOR      => undef,
                 RECTOVERSO => '26',
-                PRINTTOTAL => undef
             }
         }
     ],
@@ -7733,18 +7232,7 @@ my %tests = (
                 MAINTENANCEKIT => 79
             },
             PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                COPYCOLOR  => undef,
-                BLACK      => undef,
-                PRINTBLACK => undef,
-                TOTAL      => undef,
-                FAXTOTAL   => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                COLOR      => undef,
                 RECTOVERSO => '52',
-                PRINTTOTAL => undef
             }
         }
     ],
@@ -7799,18 +7287,7 @@ my %tests = (
                 TONERBLACK     => 1
             },
             PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                COPYCOLOR  => undef,
-                BLACK      => undef,
-                PRINTBLACK => undef,
-                TOTAL      => undef,
-                FAXTOTAL   => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                COLOR      => undef,
                 RECTOVERSO => '4',
-                PRINTTOTAL => undef
             }
         }
     ],
@@ -7864,18 +7341,7 @@ my %tests = (
                 TONERBLACK => 32
             },
             PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                COPYCOLOR  => undef,
-                BLACK      => undef,
-                PRINTBLACK => undef,
-                TOTAL      => undef,
-                FAXTOTAL   => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                COLOR      => undef,
                 RECTOVERSO => '2096',
-                PRINTTOTAL => undef
             }
         }
     ],
@@ -7912,16 +7378,9 @@ my %tests = (
                 CONTACT      => undef
             },
             PAGECOUNTERS => {
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef,
                 COLOR      => '5839',
-                COPYBLACK  => undef,
-                SCANNED    => undef,
                 BLACK      => '8881',
                 PRINTCOLOR => '5839',
-                FAXTOTAL   => undef,
-                TOTAL      => undef,
-                RECTOVERSO => undef,
                 PRINTBLACK => '8765',
                 PRINTTOTAL => '14610'
             },
@@ -8000,18 +7459,9 @@ my %tests = (
                 ]
             },
             PAGECOUNTERS => {
-                COPYTOTAL  => undef,
                 BLACK      => '7603',
-                FAXTOTAL   => undef,
-                COPYCOLOR  => undef,
                 COLOR      => '9127',
                 RECTOVERSO => '0',
-                COPYBLACK  => undef,
-                PRINTBLACK => undef,
-                SCANNED    => undef,
-                PRINTCOLOR => undef,
-                PRINTTOTAL => undef,
-                TOTAL      => undef
             },
         }
     ],
@@ -8048,17 +7498,8 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '49',
-                COPYBLACK  => undef,
                 BLACK      => '7256',
                 COLOR      => '11905',
-                COPYCOLOR  => undef,
-                FAXTOTAL   => undef,
-                COPYTOTAL  => undef,
-                TOTAL      => undef,
-                PRINTBLACK => undef,
-                SCANNED    => undef,
-                PRINTCOLOR => undef,
-                PRINTTOTAL => undef
             },
             CARTRIDGES => {
                 TONERYELLOW  => 8,
@@ -8116,17 +7557,7 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '74',
-                PRINTBLACK => undef,
-                TOTAL => undef,
-                FAXTOTAL => undef,
-                SCANNED => undef,
-                COPYTOTAL => undef,
-                PRINTTOTAL => undef,
-                COPYCOLOR => undef,
-                COLOR => undef,
-                PRINTCOLOR => undef,
-                BLACK => '15265',
-                COPYBLACK => undef
+                BLACK      => '15265',
             },
             CARTRIDGES => {
                 TONERBLACK => 84
@@ -8191,18 +7622,8 @@ my %tests = (
                 ]
             },
             PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                COLOR      => undef,
-                COPYBLACK  => undef,
                 BLACK      => '6386',
-                COPYTOTAL  => undef,
-                COPYCOLOR  => undef,
-                PRINTTOTAL => undef,
-                SCANNED    => undef,
-                FAXTOTAL   => undef,
                 RECTOVERSO => '772',
-                TOTAL      => undef,
-                PRINTBLACK => undef
             },
             CARTRIDGES => {
                 TONERBLACK => 1
@@ -8240,18 +7661,8 @@ my %tests = (
                 LOCATION     => undef
             },
             PAGECOUNTERS => {
-                PRINTCOLOR => undef,
                 BLACK      => '1685',
-                SCANNED    => undef,
-                PRINTTOTAL => undef,
-                RECTOVERSO => undef,
-                TOTAL      => undef,
                 COLOR      => '6601',
-                FAXTOTAL   => undef,
-                COPYCOLOR  => undef,
-                PRINTBLACK => undef,
-                COPYBLACK  => undef,
-                COPYTOTAL  => undef
             },
             PORTS => {
                 PORT => [
@@ -8296,20 +7707,6 @@ my %tests = (
             PORTS => {
                 PORT => []
             },
-            PAGECOUNTERS => {
-                TOTAL      => undef,
-                COPYBLACK  => undef,
-                SCANNED    => undef,
-                RECTOVERSO => undef,
-                BLACK      => undef,
-                PRINTTOTAL => undef,
-                COLOR      => undef,
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef,
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                PRINTCOLOR => undef
-            }
         }
     ],
     'hewlett-packard/LaserJet_600.2.walk' => [
@@ -8337,20 +7734,6 @@ my %tests = (
             PORTS => {
                 PORT => []
             },
-            PAGECOUNTERS => {
-                TOTAL      => undef,
-                COPYBLACK  => undef,
-                SCANNED    => undef,
-                RECTOVERSO => undef,
-                BLACK      => undef,
-                PRINTTOTAL => undef,
-                COLOR      => undef,
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef,
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                PRINTCOLOR => undef
-            }
         }
     ],
     'hewlett-packard/LaserJet_4000.walk' => [
@@ -8396,18 +7779,7 @@ my %tests = (
                 ]
             },
             PAGECOUNTERS => {
-                FAXTOTAL   => undef,
                 RECTOVERSO => '152',
-                COPYBLACK  => undef,
-                PRINTBLACK => undef,
-                PRINTCOLOR => undef,
-                BLACK      => undef,
-                SCANNED    => undef,
-                TOTAL      => undef,
-                COLOR      => undef,
-                COPYTOTAL  => undef,
-                PRINTTOTAL => undef,
-                COPYCOLOR  => undef
             },
             CARTRIDGES => {
                 TONERBLACK => 100
@@ -8447,18 +7819,8 @@ my %tests = (
                 LOCATION     => 'impbe93'
             },
             PAGECOUNTERS => {
-                SCANNED    => undef,
-                FAXTOTAL   => undef,
-                COPYCOLOR  => undef,
-                COPYBLACK  => undef,
                 TOTAL      => '252311',
                 RECTOVERSO => '0',
-                COPYTOTAL  => undef,
-                PRINTBLACK => undef,
-                BLACK      => undef,
-                COLOR      => undef,
-                PRINTTOTAL => undef,
-                PRINTCOLOR => undef
             },
             PORTS => {
                 PORT => [
@@ -8519,18 +7881,7 @@ my %tests = (
                 ]
             },
             PAGECOUNTERS => {
-                FAXTOTAL   => undef,
-                SCANNED    => undef,
-                COPYBLACK  => undef,
-                COPYCOLOR  => undef,
                 RECTOVERSO => '0',
-                COPYTOTAL  => undef,
-                BLACK      => undef,
-                PRINTBLACK => undef,
-                COLOR      => undef,
-                TOTAL      => undef,
-                PRINTTOTAL => undef,
-                PRINTCOLOR => undef
             },
             CARTRIDGES => {
                 TONERBLACK     => 95,
@@ -8562,20 +7913,6 @@ my %tests = (
             },
             PORTS => {
                 PORT => []
-            },
-            PAGECOUNTERS => {
-                FAXTOTAL   => undef,
-                RECTOVERSO => undef,
-                COPYBLACK  => undef,
-                PRINTBLACK => undef,
-                PRINTCOLOR => undef,
-                BLACK      => undef,
-                SCANNED    => undef,
-                TOTAL      => undef,
-                COLOR      => undef,
-                COPYTOTAL  => undef,
-                PRINTTOTAL => undef,
-                COPYCOLOR  => undef
             },
         }
     ],

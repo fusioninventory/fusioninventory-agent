@@ -38,20 +38,6 @@ my %tests = (
                 NAME         => 'LBP7660C',
                 MODEL        => 'Canon LBP7660C',
             },
-            PAGECOUNTERS => {
-                BLACK      => undef,
-                COPYCOLOR  => undef,
-                PRINTCOLOR => undef,
-                TOTAL      => undef,
-                PRINTTOTAL => undef,
-                FAXTOTAL   => undef,
-                COLOR      => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                PRINTBLACK => undef,
-                SCANNED    => undef,
-                RECTOVERSO => undef
-            },
             PORTS => {
                 PORT => [
                     {
@@ -84,20 +70,6 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
-            },
-            PAGECOUNTERS => {
-                BLACK      => undef,
-                COPYCOLOR  => undef,
-                PRINTCOLOR => undef,
-                TOTAL      => undef,
-                PRINTTOTAL => undef,
-                FAXTOTAL   => undef,
-                COLOR      => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                PRINTBLACK => undef,
-                SCANNED    => undef,
-                RECTOVERSO => undef
             },
             PORTS => {
                 PORT => []
