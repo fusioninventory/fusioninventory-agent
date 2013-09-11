@@ -109,6 +109,10 @@ if ($options->{wait}) {
 
 eval {
     $agent->init(options => $options);
+    $agent->initTargets();
+    $agent->daemonize();
+    $agent->initTasks();
+    $agent->initHTTPInterface();
     $agent->run();
 };
 

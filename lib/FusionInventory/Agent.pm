@@ -87,6 +87,13 @@ sub init {
     $self->{deviceid} = _computeDeviceId() if !$self->{deviceid};
 
     $self->_saveState();
+}
+
+sub initTargets {
+    my ($self) = @_;
+
+    my $config = $self->{config};
+    my $logger = $self->{logger};
 
     # create target list
     if ($config->{local}) {
@@ -121,6 +128,13 @@ sub init {
         $logger->error("No target defined, aborting");
         exit 1;
     }
+}
+
+sub daemonize {
+    my ($self) = @_;
+
+    my $config = $self->{config};
+    my $logger = $self->{logger};
 
     if ($config->{daemon} && !$config->{'no-fork'}) {
 
@@ -136,9 +150,8 @@ sub init {
         Proc::Daemon::Init();
         $logger->debug("Daemon started");
 
-
         # If we use relative path, we must stay in the current directory
-        if (substr( $params{libdir}, 0, 1 ) ne '/') {
+        if (substr( $self->{libdir}, 0, 1 ) ne '/') {
             chdir($cwd);
         }
 
@@ -147,6 +160,13 @@ sub init {
             exit 1;
         }
     }
+}
+
+sub initTasks {
+    my ($self) = @_;
+
+    my $config = $self->{config};
+    my $logger = $self->{logger};
 
     # compute list of allowed tasks
     my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
@@ -158,6 +178,13 @@ sub init {
     }
 
     $self->{tasks} = \@tasks;
+}
+
+sub initHTTPInterface {
+    my ($self) = @_;
+
+    my $config = $self->{config};
+    my $logger = $self->{logger};
 
     # create HTTP interface
     if (($config->{daemon} || $config->{service}) && !$config->{'no-httpd'}) {

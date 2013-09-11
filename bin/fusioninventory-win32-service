@@ -107,6 +107,9 @@ sub startAgent {
             libdir  => $directory . '/../../lib',
         );
         $agent->init(options => { service => 1 });
+        $agent->initTargets();
+        $agent->initTasks();
+        $agent->initHTTPInterface();
         $agent->run();
     });
 }
