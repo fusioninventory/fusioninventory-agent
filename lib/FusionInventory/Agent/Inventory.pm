@@ -4,10 +4,7 @@ use strict;
 use warnings;
 
 use Config;
-use Data::Dumper;
-use Digest::MD5 qw(md5_base64);
 use English qw(-no_match_vars);
-use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
 
@@ -18,7 +15,7 @@ my %fields = (
     CONTROLLERS => [ qw/CAPTION DRIVER NAME MANUFACTURER PCICLASS VENDORID
                         PRODUCTID PCISUBSYSTEMID PCISLOT TYPE REV/ ],
     CPUS        => [ qw/CACHE CORE DESCRIPTION MANUFACTURER NAME THREAD SERIAL
-                        STEPPING FAMILYNAME FAMILYNUMBER MODEL SPEED ID EXTERNAL_CLOCK/ ],
+                        STEPPING FAMILYNAME FAMILYNUMBER MODEL SPEED ID EXTERNAL_CLOCK ARCH/ ],
     DRIVES      => [ qw/CREATEDATE DESCRIPTION FREE FILESYSTEM LABEL LETTER
                         SERIAL SYSTEMDRIVE TOTAL TYPE VOLUMN/ ],
     ENVS        => [ qw/KEY VAL/ ],
@@ -88,10 +85,16 @@ my %checks = (
         INTERFACE => qr/^(SCSI|HDC|IDE|USB|1394|Serial-ATA|SAS)$/
     },
     VIRTUALMACHINES => {
-        STATUS => qr/^(running|idle|paused|shutdown|crashed|dying|off)$/
+        STATUS => qr/^(running|blocked|idle|paused|shutdown|crashed|dying|off)$/
+    },
+    SLOTS => {
+        STATUS => qr/^(free|used)$/
     },
     NETWORKS => {
-        TYPE => qr/^(ethernet|wifi)$/
+        TYPE => qr/^(ethernet|wifi|aggregate|alias|dialup)$/
+    },
+    CPUS => {
+        ARCH => qr/^(MIPS|MIPS64|Alpha|SPARC|SPARC64|m68k|i386|x86_64|PowerPC|PowerPC64|ARM|AArch64)$/
     }
 );
 
@@ -117,8 +120,6 @@ sub new {
     bless $self, $class;
 
     $self->setTag($params{tag});
-    $self->{last_state_file} = $params{statedir} . '/last_state'
-        if $params{statedir};
 
     return $self;
 }
@@ -339,9 +340,6 @@ sub setTag {
 sub computeChecksum {
     my ($self) = @_;
 
-    my $logger = $self->{logger};
-
-    # to apply to $checksum with an OR
     my %mask = (
         HARDWARE      => 1,
         BIOS          => 2,
@@ -361,69 +359,14 @@ sub computeChecksum {
         VIDEOS        => 32768,
         SOFTWARES     => 65536,
     );
-    # TODO CPUS is not in the list
 
-    if ($self->{last_state_file}) {
-        if (-f $self->{last_state_file}) {
-            eval {
-                $self->{last_state_content} = XML::TreePP->new()->parsefile(
-                    $self->{last_state_file}
-                );
-            };
-            if (ref($self->{last_state_content}) ne 'HASH') {
-                $self->{last_state_file} = {};
-            }
-        } else {
-            $logger->debug(
-                "last state file '$self->{last_state_file}' doesn't exist"
-            );
-        }
-    }
-
+    # compute maximal checksum, for OCS compatibility
     my $checksum = 0;
     foreach my $section (keys %mask) {
-        my $hash =
-            md5_base64(Dumper($self->{content}->{$section}));
-
-        # check if the section did change since the last run
-        next if
-            $self->{last_state_content}->{$section} &&
-            $self->{last_state_content}->{$section} eq $hash;
-
-        $logger->debug("Section $section has changed since last inventory");
-
-        # add the mask of the current section to the checksum
         $checksum |= $mask{$section}; ## no critic (ProhibitBitwise)
-
-        # store the new value.
-        $self->{last_state_content}->{$section} = $hash;
     }
-
 
     $self->setHardware({CHECKSUM => $checksum});
-}
-
-sub saveLastState {
-    my ($self) = @_;
-
-    my $logger = $self->{logger};
-
-    if (!defined($self->{last_state_content})) {
-        $self->processChecksum();
-    }
-    if ($self->{last_state_file}) {
-        eval {
-            XML::TreePP->new()->writefile(
-                $self->{last_state_file}, $self->{last_state_content}
-            );
-        }
-    } else {
-        $logger->debug(
-            "last state file is not defined, last state not saved"
-        );
-    }
-
-    my $tpp = XML::TreePP->new();
 }
 
 1;
@@ -519,11 +462,6 @@ know which parts of the inventory have changed since the last one.
 Compute the inventory global values, meaning values in hardware section such as
 CPU number, speed and model, computed from other values, but needed for OCS
 compatibility.
-
-=head2 saveLastState()
-
-At the end of the process IF the inventory was saved
-correctly, the last_state is saved.
 
 =head1 DATA MODEL
 
@@ -668,6 +606,10 @@ Eg. 2, start at 1, not 0
 =head2 CPUS
 
 =over
+
+=item ARCH
+
+The CPU architecture
 
 =item CACHESIZE
 
@@ -1011,7 +953,8 @@ Serial, Parallel, SATA, etc
 
 =head2 SLOTS
 
-Represents physical connection points including ports, motherboard slots and peripherals, and proprietary connection points.
+Represents physical connection points including ports, motherboard slots and
+peripherals, and proprietary connection points.
 
 This information is hardly reliable.
 
@@ -1019,11 +962,17 @@ This information is hardly reliable.
 
 =item DESCRIPTION
 
+The bus type.
+
 =item DESIGNATION
 
 =item NAME
 
+The slot identifier.
+
 =item STATUS
+
+The slot usage status (free or used).
 
 =back
 

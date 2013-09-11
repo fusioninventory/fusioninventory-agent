@@ -1,6 +1,24 @@
 Revision history for FusionInventory agent
 
-2.3.0
+2.3.1
+inventory task
+* report when running in a BSD Jail or a LXC system, thanks Igor Morozov
+* better strategy for extracting USB printer serial on windows (#2213)
+* force lowercase identifiers for USB and PCI lookups (#2122)
+
+netdiscovery task
+* fix invalid log message and spurious warnings during discovery (#2200)
+
+netinventory task
+* ensure device type is set in agent answer
+* emits warnings when retrieved values are obviously wrong
+* better handling of mac addresses
+* large code cleanup and optimisation
+
+wake-on-lan task
+* fix wrong mac address pattern check
+
+2.3.0  Thu, 01 Aug 2013 11:38:40 +0200
 distribution:
 * Deploy, Network and ESX tasks are now integrated in the distribution
 * new fusioninventory-inventory executable, dedicated to inventory task
@@ -12,24 +30,50 @@ core:
 * --daemon and --no-fork options are now available from command-line only 
 
 inventory task:
-* add DNS_DOMAIN, BOOT_TIME and FQDN in OPERATINGSYSTEM section
+* add DNS_DOMAIN, BOOT_TIME and FQDN in OPERATINGSYSTEM section (#1197, #1347, #1358)
 * collect public SSH keys
-* various UTF8 encoding fixes
-* collect license key for MS Office on Windows
+* collect local users and groups (#1570, #1870)
+* collect license key for MS Office on Windows (#152)
 * collect software from user profile on Windows(#1674)
+* collect license key for Adobe suite, Panic's Transit, VMware Fusion on MacOs
+* collect service package version on AIX (#1896)
+* collect manufacturer information for memories (#1735)
+* enforce consistent handling of USB and PCI identifiers (#1861)
+* enforce consistent TYPE values for network interfaces (#1838)
+* various UTF8 encoding fixes
+* better stripping of bogus values
 * Megaraid and 3ware RAID controller support on BSD (Egor Morozov)
 * Megaraid controller support on Linux (Egor Morozov)
 * support new OpenVZ configuration on Linux (Alessandro Iurlano)
-* collect license key for Adobe suite, Panic's Transit, VMware Fusion on MacOs
-* LPAR support on AIX
+* LPAR support on AIX (#950, #952)
+* FreeBSD jail support on BSD (#736, #1555)
+* better caching of system_profiler output (#2076)
+* better Qemu support (#2106)
+* better OpenVM support (#1774)
+* better HyperV support (#1989, #1990, #1991)
+* fix CPU inventory for non-i386 arches on Linux (#2172)
+* better CPU inventory on Solaris (#1741, #1905, #2152)
+* better memory inventory on Solaris (#1711, #1714, #1737)
+* better slot inventory on Solaris (#1730)
+* fix VXFS filesystem identification on Solaris (#1696)
+* minimal support for busybox-specific command output (#1372)
 * no more memconf usage on Solaris
-* no more Mac::SysProfile usage on MacOS
-* better Qemu support
+* no more Mac::SysProfile usage on MacOS (#1646)
 
 wake-on-lan task:
 * ethernet and udp methods support on all systems
 
-2.2.8
+netdiscovery task:
+* fix for regression introduced during code refactoring regarding printers
+  identification
+
+test suite:
+* check the link for 404 error in the doc
+* check for warnings generated during parsing
+* check entries generated from parsing match expected inventory format
+* normalize list before comparaison, for perl 5.18 hash randomisation
+
+2.2.8  unreleased
 
 AIX:
 * minor fixes in LVM support

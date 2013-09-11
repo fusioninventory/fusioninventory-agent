@@ -14,11 +14,7 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger = $params{logger};
-
-    my $sysprofile = getSystemProfilerInfos(@_);
-
-
+    my $logger    = $params{logger};
 
     foreach my $cpu (_getCpus(logger => $logger)) {
         $inventory->addEntry(
@@ -26,62 +22,46 @@ sub doInventory {
             entry   => $cpu
         );
     }
-
-
-    ### mem convert it to meg's if it comes back in gig's
-    my $mem = $sysprofile->{'Hardware'}{'Hardware Overview'}{'Memory'};
-    if ($mem =~ /GB$/){
-        $mem =~ s/\sGB$//;
-        $mem = ($mem * 1024);
-    } elsif ($mem =~ /MB$/){
-        $mem =~ s/\sMB$//;
-    }
-
-    $inventory->setHardware({
-        MEMORY => $mem,
-    });
 }
 
-sub _getCpus{
-
+sub _getCpus {
     my (%params) = @_;
-    my $logger = $params{logger};
-    my $sysctlfile  = $params{sysctl};
 
-   # Get more informations from sysctl
-    my $sysctl = getFileHandle (
-        logger  => $logger,
-        command => 'sysctl -a machdep.cpu',
-        file    => $sysctlfile
+    # system profiler informations
+    my $infos = getSystemProfilerInfos(
+        logger => $params{logger},
+        file   => $params{file}
     );
 
-    # System profiler informations
-    my $sysprofile = getSystemProfilerInfos(@_);
+    my $sysprofile_info = $infos->{'Hardware'}->{'Hardware Overview'};
 
+    # more informations from sysctl
+    my $handle = getFileHandle(
+        logger  => $params{logger},
+        command => 'sysctl -a machdep.cpu',
+        file    => $params{sysctl}
+    );
 
-    #add sysctl informations into profiler informations
-    my $info = $sysprofile->{'Hardware'}->{'Hardware Overview'};
-
-    while (my $line = <$sysctl>) {
+    my $sysctl_info;
+    while (my $line = <$handle>) {
         chomp $line;
-        if ($line =~ /(.+) : \s (.+)/x) {
-            $info->{$1} = $2;
-        }
+        next unless $line =~ /([^:]+) : \s (.+)/x;
+        $sysctl_info->{$1} = $2;
     }
+    close $handle;
 
-    my $type  = $info->{'Processor Name'} ||
-                $info->{'CPU Type'};
-    my $procs = $info->{'Number Of Processors'} ||
-                $info->{'Number Of CPUs'}       ||
+    my $type  = $sysprofile_info->{'Processor Name'} ||
+                $sysprofile_info->{'CPU Type'};
+    my $procs = $sysprofile_info->{'Number Of Processors'} ||
+                $sysprofile_info->{'Number Of CPUs'}       ||
                 1;
-    my $speed = $info->{'Processor Speed'} ||
-                $info->{'CPU Speed'};
+    my $speed = $sysprofile_info->{'Processor Speed'} ||
+                $sysprofile_info->{'CPU Speed'};
 
-    my $stepping = $info->{'machdep.cpu.stepping'};
-
-    my $family = $info->{'machdep.cpu.family'};
-
-    my $model =  $info->{'machdep.cpu.model'};
+    my $stepping = $sysctl_info->{'machdep.cpu.stepping'};
+    my $family   = $sysctl_info->{'machdep.cpu.family'};
+    my $model    = $sysctl_info->{'machdep.cpu.model'};
+    my $threads  = $sysctl_info->{'machdep.cpu.thread_count'};
 
     # French Mac returns 2,60 Ghz instead of 2.60 Ghz :D
     $speed =~ s/,/./;
@@ -93,12 +73,9 @@ sub _getCpus{
     }
     $speed =~ s/\s//g;
 
-    my $cores =
-        $info->{'Total Number Of Cores'} ? $info->{'Total Number Of Cores'} / $procs :
-                                           $info->{'machdep.cpu.core_count'};
-
-    my $threads = $info->{'machdep.cpu.thread_count'};
-
+    my $cores = $sysprofile_info->{'Total Number Of Cores'} ?
+        $sysprofile_info->{'Total Number Of Cores'} / $procs :
+        $sysctl_info->{'machdep.cpu.core_count'};
 
     my $manufacturer =
         $type =~ /Intel/i ? "Intel" :
@@ -106,7 +83,7 @@ sub _getCpus{
                             undef   ;
 
     my @cpus;
-    my $cpu={
+    my $cpu = {
         CORE         => $cores,
         MANUFACTURER => $manufacturer,
         NAME         => $type,
@@ -117,7 +94,7 @@ sub _getCpus{
         SPEED        => $speed
     };
 
-    for (my $i=0;$i<$procs;$i++) {
+    for (my $i=0; $i < $procs; $i++) {
         push @cpus, $cpu;
     }
 

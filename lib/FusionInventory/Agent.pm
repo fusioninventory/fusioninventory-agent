@@ -22,10 +22,19 @@ use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::XML::Query::Prolog;
 
 our $VERSION = '2.3.0';
-our $VERSION_STRING =
-    "FusionInventory Agent ($VERSION)";
-our $AGENT_STRING =
-    "FusionInventory-Agent_v$VERSION";
+our $VERSION_STRING = _versionString($VERSION);
+our $AGENT_STRING = "FusionInventory-Agent_v$VERSION";
+
+sub _versionString {
+    my ($VERSION) = @_;
+
+    my $string = "FusionInventory Agent ($VERSION)";
+    if ($VERSION =~ /^\d\.\d\.99(\d\d)/) {
+        $string .= " **THIS IS A DEVELOPMENT RELEASE **";
+    }
+
+    return $string;
+}
 
 sub new {
     my ($class, %params) = @_;
@@ -201,6 +210,7 @@ sub run {
 
             # check for http interface messages
             $self->{server}->handleRequests() if $self->{server};
+            delay(1);
         }
     } else {
         # foreground mode: check each targets once
@@ -310,7 +320,16 @@ sub _runTaskReal {
         deviceid     => $self->{deviceid},
     );
 
-    if (!$task->isEnabled($response)) {
+    my $enabled = $task->isEnabled(
+        user         => $self->{config}->{user},
+        password     => $self->{config}->{password},
+        proxy        => $self->{config}->{proxy},
+        ca_cert_file => $self->{config}->{'ca-cert-file'},
+        ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
+        no_ssl_check => $self->{config}->{'no-ssl-check'},
+        response     => $response
+    );
+    if (!$enabled) {
         $self->{logger}->info("task $name execution not requested");
         return;
     }

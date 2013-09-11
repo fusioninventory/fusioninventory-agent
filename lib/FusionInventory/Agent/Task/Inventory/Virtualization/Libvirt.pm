@@ -83,6 +83,16 @@ sub _parseList {
     return @machines;
 }
 
+sub _getKeyText {
+    my ($key) = @_;
+
+    if (ref($key) eq 'HASH') {
+        return $key->{'#text'};
+    } else {
+        return $key;
+    }
+}
+
 sub _parseDumpxml {
     my (%params) = @_;
 
@@ -101,11 +111,12 @@ sub _parseDumpxml {
         return;
     }
 
-    my $vcpu   = $data->{domain}->{vcpu};
-    my $uuid   = $data->{domain}->{uuid};
-    my $vmtype = $data->{domain}->{'-type'};
+    my $vcpu   = _getKeyText($data->{domain}{vcpu});
+    my $uuid   = _getKeyText($data->{domain}{uuid});
+    my $vmtype = $data->{domain}{'-type'};
     my $memory;
-    if ($data->{domain}{currentMemory} =~ /(\d+)\d{3}$/) {
+    my $currentMemory = _getKeyText($data->{domain}{currentMemory});
+    if ($currentMemory =~ /(\d+)\d{3}$/) {
         $memory = $1;
     }
 

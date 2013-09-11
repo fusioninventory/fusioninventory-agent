@@ -24,6 +24,19 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
+    foreach my $drive (_getDrives(
+        logger  => $params{logger},
+    )) {
+        $inventory->addEntry(
+            section => 'DRIVES',
+            entry   => $drive
+        );
+    }
+}
+
+sub _getDrives {
+    my (%params) = @_;
+
     my $systemDrive;
     foreach my $object (getWMIObjects(
         class      => 'Win32_OperatingSystem',
@@ -31,6 +44,8 @@ sub doInventory {
     )) {
         $systemDrive = lc($object->{SystemDrive});
     }
+
+    my @drives;
 
     foreach my $object (getWMIObjects(
         class      => 'Win32_LogicalDisk',
@@ -47,32 +62,32 @@ sub doInventory {
             if $object->{Size};
 
         my $filesystem = $object->{FileSystem};
-        if ($object->{DriveType} == 4) {
+        if ($object->{DriveType} == 4 && $object->{ProviderName}) {
             if ($object->{ProviderName} =~ /\\DavWWWRoot\\/) {
                 $filesystem = "WebDav";
+            } elsif ($object->{ProviderName} =~ /^\\\\vmware-host\\/) {
+                $filesystem = "HGFS";
             } elsif (!$object->{FileSystem} || $object->{FileSystem} ne 'NFS') {
                 $filesystem = "CIFS";
             }
         }
 
-
-        $inventory->addEntry(
-            section => 'DRIVES',
-            entry   => {
-                CREATEDATE  => $object->{InstallDate},
-                DESCRIPTION => $object->{Description},
-                FREE        => $object->{FreeSpace},
-                FILESYSTEM  => $filesystem,
-                LABEL       => $object->{VolumeName},
-                LETTER      => $object->{DeviceID} || $object->{Caption},
-                SERIAL      => $object->{VolumeSerialNumber},
-                SYSTEMDRIVE => (lc($object->{DeviceID}) eq $systemDrive),
-                TOTAL       => $object->{Size},
-                TYPE        => $type[$object->{DriveType}],
-                VOLUMN      => $object->{VolumeName},
-            }
-        );
+        push @drives, {
+            CREATEDATE  => $object->{InstallDate},
+            DESCRIPTION => $object->{Description},
+            FREE        => $object->{FreeSpace},
+            FILESYSTEM  => $filesystem,
+            LABEL       => $object->{VolumeName},
+            LETTER      => $object->{DeviceID} || $object->{Caption},
+            SERIAL      => $object->{VolumeSerialNumber},
+            SYSTEMDRIVE => (lc($object->{DeviceID}) eq $systemDrive),
+            TOTAL       => $object->{Size},
+            TYPE        => $type[$object->{DriveType}],
+            VOLUMN      => $object->{VolumeName},
+        };
     }
+
+    return @drives;
 }
 
 1;

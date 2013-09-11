@@ -43,6 +43,7 @@ our @EXPORT = qw(
     module2file
     runFunction
     delay
+    slurp
 );
 
 my $nowhere = $OSNAME eq 'MSWin32' ? 'nul' : '/dev/null';
@@ -108,7 +109,7 @@ sub getCanonicalManufacturer {
     )/xi) {
         $manufacturer = ucfirst(lc($1));
     } elsif ($manufacturer =~ /^(hp|HP|hewlett packard)/) {
-        $manufacturer = "Hewlett Packard";
+        $manufacturer = "Hewlett-Packard";
     } elsif ($manufacturer =~ /^(WDC|[Ww]estern)/) {
         $manufacturer = "Western Digital";
     } elsif ($manufacturer =~ /^(ST|[Ss]eagate)/) {
@@ -140,7 +141,8 @@ sub getCanonicalSpeed {
 }
 
 sub getCanonicalSize {
-    my ($size) = @_;
+    my ($size, $base) = @_;
+    $base ||= 1000;
 
     ## no critic (ExplicitReturnUndef)
 
@@ -153,11 +155,11 @@ sub getCanonicalSize {
     my $unit = lc($2);
 
     return
-        $unit eq 'tb' ? $value * 1000 * 1000 :
-        $unit eq 'gb' ? $value * 1000        :
-        $unit eq 'mb' ? $value               :
-        $unit eq 'kb' ? $value * 0.001       :
-                        undef                ;
+        $unit eq 'tb' ? $value * $base * $base :
+        $unit eq 'gb' ? $value * $base         :
+        $unit eq 'mb' ? $value                 :
+        $unit eq 'kb' ? $value * (1/$base)     :
+                        undef                  ;
 }
 
 sub compareVersion {
@@ -484,6 +486,16 @@ sub delay {
     }
 }
 
+sub slurp {
+    my($file) = @_;
+
+    my $handler;
+    return unless open $handler, '<', $file;
+    local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
+    my $content = <$handler>;
+    close $handler;
+    return $content;
+}
 
 1;
 __END__
@@ -518,7 +530,7 @@ Returns a normalized manufacturer value for given one.
 
 Returns a normalized speed value (in Mhz) for given one.
 
-=head2 getCanonicalSize($size)
+=head2 getCanonicalSize($size, $base)
 
 Returns a normalized size value (in Mb) for given one.
 
@@ -712,3 +724,7 @@ Run a function whose name is computed at runtime and return its result.
 
 Wait for $second. It uses sleep() or Win32::Sleep() depending
 on the Operating System.
+
+=head2 slurp($file)
+
+Return the content of a given file.

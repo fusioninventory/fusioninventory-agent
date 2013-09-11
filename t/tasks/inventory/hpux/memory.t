@@ -2,10 +2,14 @@
 
 use strict;
 use warnings;
+use lib 't/lib';
 
 use Test::Deep;
+use Test::Exception;
 use Test::More;
+use Test::NoWarnings;
 
+use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::HPUX::Memory;
 
 my %cstm_tests = (
@@ -253,24 +257,39 @@ my %cprop_tests = (
 );
 
 plan tests =>
-    (scalar keys %cstm_tests)   +
-    (scalar keys %cstm64_tests) +
-    (scalar keys %cprop_tests);
+    (2 * scalar keys %cstm_tests)   +
+    (2 * scalar keys %cstm64_tests) +
+    (2 * scalar keys %cprop_tests)  +
+    1;
+
+my $inventory = FusionInventory::Test::Inventory->new();
 
 foreach my $test (keys %cstm_tests) {
     my $file = "resources/hpux/cstm/$test-mem";
     my @memories = FusionInventory::Agent::Task::Inventory::HPUX::Memory::_parseCstm(file => $file);
     cmp_deeply(\@memories, $cstm_tests{$test}, "cstm parsing: $test");
+    lives_ok {
+        $inventory->addEntry(section => 'MEMORIES', entry => $_)
+            foreach @memories;
+    } "$test: registering";
 }
 
 foreach my $test (keys %cstm64_tests) {
     my $file = "resources/hpux/cstm/$test-MEMORY";
     my @memories = FusionInventory::Agent::Task::Inventory::HPUX::Memory::_parseCstm64(file => $file);
     cmp_deeply(\@memories, $cstm64_tests{$test}, "cstm 64 parsing: $test");
+    lives_ok {
+        $inventory->addEntry(section => 'MEMORIES', entry => $_)
+            foreach @memories;
+    } "$test: registering";
 }
 
 foreach my $test (keys %cprop_tests) {
     my $file = "resources/hpux/cprop/$test-memory";
     my @memories = FusionInventory::Agent::Task::Inventory::HPUX::Memory::_parseCprop(file => $file);
     cmp_deeply(\@memories, $cprop_tests{$test}, "cprop parsing: $test");
+    lives_ok {
+        $inventory->addEntry(section => 'MEMORIES', entry => $_)
+            foreach @memories;
+    } "$test: registering";
 }

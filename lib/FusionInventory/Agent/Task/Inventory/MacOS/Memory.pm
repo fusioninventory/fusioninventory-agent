@@ -22,10 +22,21 @@ sub doInventory {
             entry   => $memory
         );
     }
+
+    my $memory = _getMemory(logger => $logger);
+    $inventory->setHardware({
+        MEMORY => $memory,
+    });
+
 }
 
 sub _getMemories {
-    my $infos = getSystemProfilerInfos(@_);
+    my (%params) = @_;
+
+    my $infos = getSystemProfilerInfos(
+        logger => $params{logger},
+        file   => $params{file}
+    );
 
     return unless $infos->{Memory};
 
@@ -63,6 +74,20 @@ sub _getMemories {
     }
 
     return @memories;
+}
+
+sub _getMemory {
+    my (%params) = @_;
+
+    my $infos = getSystemProfilerInfos(
+        logger => $params{logger},
+        file   => $params{file}
+    );
+
+    return getCanonicalSize(
+        $infos->{'Hardware'}{'Hardware Overview'}{'Memory'},
+        1024
+    );
 }
 
 1;

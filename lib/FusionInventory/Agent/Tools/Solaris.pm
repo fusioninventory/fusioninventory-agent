@@ -119,7 +119,7 @@ sub getPrtdiagInfos {
         $info->{memories} = _parseMemorySection($section, $handle)
             if $section =~ /Memory/;
         $info->{slots}  = _parseSlotsSection($section, $handle)
-            if $section =~ /IO/;
+            if $section =~ /(IO|Slots)/;
     }
     close $handle;
 
@@ -150,22 +150,51 @@ sub _parseMemorySection {
         }
 
         if ($section eq 'Memory Configuration') {
-            my $i = 0;
-            $offset = 5;
-            $callback = sub {
-                my ($line) = @_;
-                return unless $line =~ qr/
-                    (\d+ [MG]B) \s+
-                    \S+         \s+
-                    (\d+ [MG]B) \s+
-                    \S+         \s+
-                    \d
-                $/x;
-                return {
-                    NUMSLOTS => $i++,
-                    CAPACITY => getCanonicalSize($1)
+            # use next line to determine actual format
+            my $next_line = <$handle>;
+
+            if ($next_line =~ /^Segment Table/) {
+                # multi-table format: reach bank table
+                while ($next_line = <$handle>) {
+                    last if $next_line =~ /^Bank Table/;
+                }
+
+                # then parse using callback
+                my $i = 0;
+                $offset = 4;
+                $callback = sub {
+                    my ($line) = @_;
+                    return unless $line =~ qr/
+                        \d+         \s+
+                        \S+         \s+
+                        \S+         \s+
+                        (\d+ [MG]B)
+                    /x;
+                    return {
+                        NUMSLOTS => $i++,
+                        CAPACITY => getCanonicalSize($1)
+                    };
                 };
-            };
+            } else {
+                # single-table format: start using callback directly
+                my $i = 0;
+                $offset = 4;
+                $callback = sub {
+                    my ($line) = @_;
+                    return unless $line =~ qr/
+                        (\d+ [MG]B) \s+
+                        \S+         \s+
+                        (\d+ [MG]B) \s+
+                        \S+         \s+
+                        \d
+                    $/x;
+                    return {
+                        NUMSLOTS => $i++,
+                        CAPACITY => getCanonicalSize($1)
+                    };
+                };
+            }
+
             last SWITCH;
         }
 
@@ -205,15 +234,14 @@ sub _parseSlotsSection {
             $callback = sub {
                 my ($line) = @_;
                 return unless $line =~ /^
-                    (\S+) \s+
-                    PCI[EX] \s+
+                    (\S+)    \s+
+                    ([A-Z]+) \s+
                     (\S+)
-                    (?:\s+ (\S+))?
                 /x;
                 return {
                     NAME        => $1,
-                    DESIGNATION => $2,
-                    DESCRIPTION => $3
+                    DESCRIPTION => $2,
+                    DESIGNATION => $3,
                 };
             };
             last SWITCH;
@@ -223,13 +251,52 @@ sub _parseSlotsSection {
             $offset  = 7;
             $callback = sub {
                 my ($line) = @_;
-                return unless $line =~ /
-                    (\S+) \s+
-                    (\S+) \s*
-                $/x;
+                return unless $line =~ /^
+                    \S+      \s+
+                    ([A-Z]+) \s+
+                    \S+      \s+
+                    \S+      \s+
+                    (\d)     \s+
+                    \S+      \s+
+                    \S+      \s+
+                    \S+      \s+
+                    \S+      \s+
+                    (\S+)
+                /x;
                 return {
-                    DESIGNATION => $1,
-                    DESCRIPTION => $2
+                    NAME        => $2,
+                    DESCRIPTION => $1,
+                    DESIGNATION => $3,
+                };
+            };
+            last SWITCH;
+        }
+
+        if ($section eq 'Upgradeable Slots') {
+            $offset  = 3;
+            # use a column-based strategy, as most values include spaces
+            $callback = sub {
+                my ($line) = @_;
+
+                my $name        = substr($line, 0, 1);
+                my $status      = substr($line, 4, 9);
+                my $description = substr($line, 14, 16);
+                my $designation = substr($line, 31, 28);
+
+                $status      =~ s/\s+$//;
+                $description =~ s/\s+$//;
+                $designation =~ s/\s+$//;
+
+                $status =
+                    $status eq 'in use'    ? 'used' :
+                    $status eq 'available' ? 'free' :
+                                              undef;
+
+                return {
+                    NAME        => $name,
+                    STATUS      => $status,
+                    DESCRIPTION => $description,
+                    DESIGNATION => $designation,
                 };
             };
             last SWITCH;

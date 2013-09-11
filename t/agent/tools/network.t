@@ -39,7 +39,8 @@ plan tests =>
     scalar @network_nok_tests   +
     scalar @hex2canonical_tests +
     scalar @alt2canonical_tests +
-    scalar @mask_tests;
+    scalar @mask_tests          +
+    2;
 
 foreach my $test (@network_ok_tests) {
     ok($test =~ $network_pattern, "$test matches network pattern");
@@ -71,4 +72,18 @@ foreach my $test (@mask_tests) {
         $test->[2],
         "$test->[0]/$test->[1] mask extraction"
     );
+}
+
+SKIP: {
+skip 'Author test', 2 unless $ENV{TEST_AUTHOR};
+
+ok(
+    resolv("localhost"),
+    "Can resolv localhost"
+);
+
+ok(
+    resolv("www.google.com") > 2,
+    "Can resolv www.google.com"
+);
 }

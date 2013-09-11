@@ -2,11 +2,15 @@
 
 use strict;
 use warnings;
+use lib 't/lib';
 
 use Test::Deep;
+use Test::Exception;
 use Test::MockModule;
 use Test::More;
+use Test::NoWarnings;
 
+use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::Solaris::CPU;
 
 my %vpcu_tests = (
@@ -19,6 +23,7 @@ my %vpcu_tests = (
     giration    => [ _map(16, { speed => '1350', type => 'sparcv9' }) ],
     v240        => [ _map( 2, { speed => '1280', type => 'sparcv9' }) ],
     v490        => [ _map( 8, { speed => '1350', type => 'sparcv9' }) ],
+    t1          => [ _map(16, { speed => '1000', type => 'sparcv9' }) ],
     t5120       => [ _map(32, { speed => '1165', type => 'sparcv9' }) ],
     e6900       => [
         _map(8, { speed => '1350', type => 'sparcv9' }) ,
@@ -54,6 +59,9 @@ my %pcpu_tests = (
     ],
     v490 => [
         _map(4, { speed => '1350', type => 'UltraSPARC-IV', count => 2 })
+    ],
+    t1   => [
+        _map(1, { speed => '1000', type => 'UltraSPARC-T1', count => 16 })
     ],
     t5120 => [
         _map(1, { speed => '1165', type => 'UltraSPARC-T2', count => 32 })
@@ -164,6 +172,17 @@ my %cpu_tests = (
             }
         )
     ],
+    t1 => [
+        _map(1,
+            {
+                NAME         => 'UltraSPARC-T1',
+                MANUFACTURER => 'SPARC',
+                SPEED        => 1000,
+                THREAD       => 4,
+                CORE         => 4
+            }
+        )
+    ],
     t5120 => [
         _map(1,
             {
@@ -178,9 +197,12 @@ my %cpu_tests = (
 );
 
 plan tests =>
-    (scalar keys %vpcu_tests) +
-    (scalar keys %pcpu_tests) +
-    (scalar keys %cpu_tests) ;
+    (scalar keys %vpcu_tests)    +
+    (scalar keys %pcpu_tests)    +
+    (2 * scalar keys %cpu_tests) +
+    1;
+
+my $inventory = FusionInventory::Test::Inventory->new();
 
 foreach my $test (keys %vpcu_tests) {
     my $file = "resources/solaris/psrinfo/$test-psrinfo_v";
@@ -220,7 +242,11 @@ foreach my $test (keys %cpu_tests) {
     );
 
     my @cpus = FusionInventory::Agent::Task::Inventory::Solaris::CPU::_getCPUs();
-    cmp_deeply(\@cpus, $cpu_tests{$test}, "cpus values: $test");
+    cmp_deeply(\@cpus, $cpu_tests{$test}, "$test: cpus values");
+    lives_ok {
+        $inventory->addEntry(section => 'CPUS', entry => $_) foreach @cpus;
+    } "$test: registering";
+
 }
 
 

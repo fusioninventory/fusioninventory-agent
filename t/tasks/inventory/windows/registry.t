@@ -8,6 +8,7 @@ use lib 't/lib';
 use English qw(-no_match_vars);
 use Test::More;
 use Test::MockModule;
+use UNIVERSAL::require;
 
 use FusionInventory::Test::Utils;
 
@@ -22,7 +23,8 @@ use FusionInventory::Agent::Task::Inventory::Win32::Registry;
 if ($OSNAME ne 'MSWin32') {
     plan skip_all => 'Windows-specific test';
 } else {
-    plan tests => 8;
+    Test::NoWarnings->use();
+    plan tests => 9;
 }
 
 my @data;
@@ -32,9 +34,9 @@ my @data;
         NAME => 'REGISTRY',
         PARAM => {
             NAME    => 'CurrentVersion',
-            content => 'ProductId',
+            content => 'Identifier',
             REGTREE => '2',
-            REGKEY  => 'SOFTWARE\\Microsoft\\Windows\\CurrentVersion'
+            REGKEY  => 'HARDWARE\\DESCRIPTION\\System'
         }
     }
 );
@@ -48,15 +50,15 @@ ok($data[0]->{entry}{NAME} eq 'CurrentVersion', "unique entry: NAME");
         PARAM => [
             {
                 NAME    => 'ProductID',
-                content => 'ProductId',
+                content => 'Identifier',
                 REGTREE => '2',
-                REGKEY  => 'SOFTWARE\\Microsoft\\Windows\\CurrentVersion'
+                REGKEY  => 'HARDWARE\\DESCRIPTION\\System'
             },
             {
                  NAME    => 'CurrentVersion',
                  content => '*',
                  REGTREE => '2',
-                 REGKEY  => 'SOFTWARE\\Microsoft\\Windows\\CurrentVersion'
+                 REGKEY  => 'HARDWARE\\DESCRIPTION\\System'
             }
         ]
     }

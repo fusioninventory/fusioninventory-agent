@@ -8,8 +8,9 @@ use English qw(-no_match_vars) ;
 use Getopt::Long;
 use Pod::Usage;
 
-use FusionInventory::Agent::Task::ESX;
+use FusionInventory::Agent::Broker;
 use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Task::ESX;
 
 my $options = {
 };
@@ -19,8 +20,8 @@ GetOptions(
     'host=s',
     'user=s',
     'password=s',
-    'directory=s',
-    'tag=s',
+    'target=s',
+    'tag|t=s',
     'help',
     'version',
 ) or pod2usage(-verbose => 0);
@@ -28,56 +29,35 @@ GetOptions(
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
 
 if ($options->{version}) {
-    print "fusioninventory-esx $FusionInventory::Agent::Task::ESX::VERSION\n";
+    print "ESX inventory task $FusionInventory::Agent::Task::ESX::VERSION\n";
     exit 0;
 }
 
 pod2usage(-verbose => 0) unless
     $options->{host}      and
     $options->{user}      and
-    $options->{password}  and
-    $options->{directory};
+    $options->{password};
 
 my $esx = FusionInventory::Agent::Task::ESX->new(
     target => {},
+    logger => FusionInventory::Agent::Logger->new(debug => $options->{debug})
 );
 
-if (!$esx->connect(
-    host     => $options->{host},
-    user     => $options->{user},
-    password => $options->{password},
-)) {
-    exit 1;
-}
+# emulate a server requesting a unique job
+$esx->{jobs} = [ {
+        host     => $options->{host},
+        user     => $options->{user},
+        password => $options->{password}
+} ];
 
-my $logger = FusionInventory::Agent::Logger->new();
+my $broker = FusionInventory::Agent::Broker->create(
+    target  => $options->{target},
+    task    => 'netdiscovery',
+    verbose => $options->{verbose}
+);
 
-my $hasError = 0;
-my $hostIds = $esx->getHostIds();
-foreach my $hostId (@$hostIds) {
-    my $inventory = $esx->createInventory($hostId);
+$esx->run(broker => $broker);
 
-    my $file =  $options->{directory} . '/' . $inventory->{deviceid} . ".ocs";
-
-    if (open my $handle, '>', $file) {
-        my $tpp = XML::TreePP->new(indent => 2);
-        print $handle $tpp->write({
-            REQUEST  => {
-                CONTENT  => $inventory->{content},
-                DEVICEID => $inventory->{deviceid},
-                QUERY    => "INVENTORY",
-            }
-        });
-
-        close $handle;
-        print("Inventory saved in $file\n");
-    } else {
-        $hasError = 1;
-        print("Can't write to $file: $ERRNO\n");
-    }
-
-}
-exit($hasError);
 __END__
 
 =head1 NAME
@@ -86,15 +66,16 @@ fusioninventory-esx - vCenter/ESX/ESXi remote inventory from command line
 
 =head1 SYNOPSIS
 
-fusioninventory-esx --host <host> --user <user> --password <password> --directory <directory> --tag <tag>
+fusioninventory-esx --host <host> --user <user> --password <password>
 
   Options:
-    --help                 this menu
-    --host hostname        ESX server hostname
-    --user username        user name
-    --password xxxx        user password
-    --directory directory  output directory
-    --tag tag              tag for the inventoried machine
+    --host host            ESX server host name
+    --user user            ESX server user name
+    --password xxxx        ESX server user password
+    --target target        where to send result (default: stdout)
+    -t --tag tag           inventory tag
+    -h --help              print this message and exit
+    --version              print the task version and exit
 
 =head1 EXAMPLES
 

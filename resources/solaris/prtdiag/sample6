@@ -1,0 +1,80 @@
+System Configuration: Sun Microsystems  sun4u Sun Fire V210
+System clock frequency: 167 MHZ
+Memory size: 4GB        
+
+==================================== CPUs ====================================
+               E$          CPU                    CPU
+CPU  Freq      Size        Implementation         Mask    Status      Location
+---  --------  ----------  ---------------------  -----   ------      --------
+0    1336 MHz  1MB         SUNW,UltraSPARC-IIIi    3.4    on-line     MB/P0
+1    1336 MHz  1MB         SUNW,UltraSPARC-IIIi    3.4    on-line     MB/P1
+
+================================= IO Devices =================================
+Bus     Freq  Slot +      Name +
+Type    MHz   Status      Path                          Model
+------  ----  ----------  ----------------------------  --------------------
+pci     66    MB          pci108e,1648 (network)                           
+              okay        /pci@1f,700000/network@2
+
+pci     66    MB          pci108e,1648 (network)                           
+              okay        /pci@1f,700000/network@2,1
+
+pci     33    MB          isa/su (serial)                                  
+              okay        /pci@1e,600000/isa@7/serial@0,3f8
+
+pci     33    MB          isa/su (serial)                                  
+              okay        /pci@1e,600000/isa@7/serial@0,2e8
+
+pci     33    MB          isa/rmc-comm-rmc_comm (seria+                    
+              okay        /pci@1e,600000/isa@7/rmc-comm@0,3e8
+
+pci     33    MB          pci10b9,5229 (ide)                               
+              okay        /pci@1e,600000/ide@d
+
+pci     66    MB          scsi-pci1000,21 (scsi-2)                         
+              okay        /pci@1c,600000/scsi@2
+
+pci     66    MB          scsi-pci1000,21 (scsi-2)                         
+              okay        /pci@1c,600000/scsi@2,1
+
+pci     66    MB          pci108e,1648 (network)                           
+              okay        /pci@1d,700000/network@2
+
+pci     66    MB          pci108e,1648 (network)                           
+              okay        /pci@1d,700000/network@2,1
+
+
+============================ Memory Configuration ============================
+Segment Table:
+-----------------------------------------------------------------------
+Base Address       Size       Interleave Factor  Contains
+-----------------------------------------------------------------------
+0x0                2GB               4           BankIDs 0,1,2,3
+0x1000000000       2GB               4           BankIDs 16,17,18,19
+
+Bank Table:
+-----------------------------------------------------------
+           Physical Location
+ID       ControllerID  GroupID   Size       Interleave Way
+-----------------------------------------------------------
+0        0             0         512MB           0,1,2,3
+1        0             1         512MB           
+2        0             1         512MB           
+3        0             0         512MB           
+16       1             0         512MB           0,1,2,3
+17       1             1         512MB           
+18       1             1         512MB           
+19       1             0         512MB           
+
+Memory Module Groups:
+--------------------------------------------------
+ControllerID   GroupID  Labels         Status
+--------------------------------------------------
+0              0        MB/P0/B0/D0    
+0              0        MB/P0/B0/D1    
+0              1        MB/P0/B1/D0    
+0              1        MB/P0/B1/D1    
+1              0        MB/P1/B0/D0    
+1              0        MB/P1/B0/D1    
+1              1        MB/P1/B1/D0    
+1              1        MB/P1/B1/D1    

@@ -5,14 +5,10 @@ use warnings;
 
 use Test::Deep;
 use Test::More;
+use Test::NoWarnings;
 
 use FusionInventory::Agent::Task::Inventory::Virtualization::Lxc;
 
-my $result_lxc_ls = {
-    name2 => 1,
-    name1 => 1,
-    name3 => 1
-};
 my $result_lxc_info = {
     STATUS => 'running',
     VMID   => '13018'
@@ -25,11 +21,6 @@ my $result_config = {
 };
 
 plan tests => 3;
-
-my $vms = FusionInventory::Agent::Task::Inventory::Virtualization::Lxc::_getVirtualMachines(
-    file => 'resources/virtualization/lxc/lxc-ls_-1'
-);
-cmp_deeply($vms, $result_lxc_ls, "lxc-ls -1");
 
 my $state = FusionInventory::Agent::Task::Inventory::Virtualization::Lxc::_getVirtualMachineState(
     file => 'resources/virtualization/lxc/lxc-info_-n_name1'

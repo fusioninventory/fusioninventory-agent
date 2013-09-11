@@ -17,7 +17,7 @@ my $options = {};
 GetOptions(
     $options,
     'additional-content=s',
-    'backend-collect-timeout=s',
+    'collect-timeout=s',
     'ca-cert-dir=s',
     'ca-cert-file=s',
     'conf-file=s',
@@ -56,6 +56,7 @@ GetOptions(
     'wait|w=s',
     # deprecated options
     'stdout',
+    'backend-collect-timeout',
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
@@ -77,6 +78,18 @@ if ($options->{setup}) {
         print "$key: $setup{$key}\n";
     }
     exit 0;
+}
+
+if ($options->{'conf-file'}) {
+    if ($options->{config}) {
+        if ($options->{config} ne 'file') {
+            print STDERR
+                "don't use --conf-file with $options->{config} backend";
+            exit 1;
+        }
+    } else {
+        $options->{config} = 'file';
+    }
 }
 
 my $agent = FusionInventory::Agent->new(%setup);
@@ -136,8 +149,7 @@ B<fusioninventory-agent> [options] [--server server|--local path]
     --scan-homedirs                scan use home directories (false)
     --html                         save the inventory as HTML (false)
     -f --force                     always send data to server (false)
-    -t --tag=TAG                   mark the machine with given tag
-    --backend-collect-timeout=TIME timeout for inventory modules
+    --collect-timeout=TIME         timeout for inventory modules
                                      execution (30)
     --additional-content=FILE      additional inventory content file
 
@@ -178,6 +190,7 @@ B<fusioninventory-agent> [options] [--server server|--local path]
                                      in seconds
     -d --daemon                    run the agent as a daemon (false)
     --no-fork                      don't fork in background (false)
+    -t --tag=TAG                   add given tag to inventory results
     --debug                        debug mode (false)
     --setup                        print the agent setup directories
                                      and exit
@@ -333,11 +346,7 @@ This is only used for local inventories.
 
 Send an inventory to the server, even if this last one doesn't ask for it.
 
-=item B<--tag>=I<TAG>
-
-Mark the machine with given tag.
-
-=item B<--backend-collect-timeout>=I<TIME>
+=item B<--collect-timeout>=I<TIME>
 
 Timeout for inventory modules execution.
 
@@ -528,9 +537,17 @@ Don't fork in background.
 
 This is only useful when running as a daemon.
 
+=item B<--tag>=I<TAG>
+
+Add the given tag to every inventory results.
+
 =item B<--debug>
 
-Turn the debug mode on.
+Turn the debug mode on. You can use the parameter up to 3 times in a row
+to increase the verbosity (e.g: B<--debug --debug>).
+
+Level 3 turns on the debug mode of some external libraries like Net::SSLeay.
+These messages will only be be printed on STDERR.
 
 =item B<--setup>
 

@@ -7,9 +7,12 @@ use lib 't/lib';
 
 use English qw(-no_match_vars);
 use Test::Deep;
+use Test::Exception;
 use Test::MockModule;
 use Test::More;
+use Test::NoWarnings;
 
+use FusionInventory::Agent::Inventory;
 use FusionInventory::Test::Utils;
 
 BEGIN {
@@ -108,7 +111,9 @@ my %tests = (
     ]
 );
 
-plan tests => scalar keys %tests;
+plan tests => (2 * scalar keys %tests) + 1;
+
+my $inventory = FusionInventory::Agent::Inventory->new();
 
 my $module = Test::MockModule->new(
     'FusionInventory::Agent::Task::Inventory::Win32::CPU'
@@ -141,6 +146,9 @@ foreach my $test (keys %tests) {
     cmp_deeply(
         \@cpus,
         $tests{$test},
-        "$test sample"
+        "$test: parsing"
     );
+    lives_ok {
+        $inventory->addEntry(section => 'CPUS', entry => $_) foreach @cpus;
+    } "$test: registering";
 }

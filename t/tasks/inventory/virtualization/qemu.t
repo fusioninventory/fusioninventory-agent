@@ -5,6 +5,7 @@ use warnings;
 
 use Test::Deep;
 use Test::More;
+use Test::NoWarnings;
 
 use FusionInventory::Agent::Task::Inventory::Virtualization::Qemu;
 
@@ -35,7 +36,7 @@ my @tests = (
     },
 );
 
-plan tests => scalar keys @tests;
+plan tests => (scalar @tests) + 1;
 
 foreach my $test (@tests) {
     my $values =

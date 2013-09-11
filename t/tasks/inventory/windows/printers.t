@@ -7,6 +7,7 @@ use lib 't/lib';
 use English qw(-no_match_vars);
 use Test::More;
 use Test::MockModule;
+use Test::NoWarnings;
 
 use FusionInventory::Test::Utils;
 
@@ -30,10 +31,16 @@ my %tests = (
     },
     7 => {
         USB001 => 'MY26K1K34C2L'
+    },
+    '7bis' => {
+        USB001 => 'S163EJM'
+    },
+    '7ter' => {
+        USB001 => '55PKB5Z11418880717'
     }
 );
 
-my $plan = 0;
+my $plan = 1;
 foreach my $test (keys %tests) {
     $plan += scalar (keys %{$tests{$test}});
 }

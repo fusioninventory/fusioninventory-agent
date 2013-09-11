@@ -2,10 +2,14 @@
 
 use strict;
 use warnings;
+use lib 't/lib';
 
 use Test::Deep;
+use Test::Exception;
 use Test::More;
+use Test::NoWarnings;
 
+use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::HPUX::Drives;
 
 my %tests = (
@@ -153,10 +157,15 @@ my %tests = (
     ]
 );
 
-plan tests => scalar keys %tests;
+plan tests => (2 * scalar keys %tests) + 1;
+
+my $inventory = FusionInventory::Test::Inventory->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/hpux/bdf/$test";
     my @drives = FusionInventory::Agent::Task::Inventory::HPUX::Drives::_parseBdf(file => $file);
     cmp_deeply(\@drives, $tests{$test}, "$test bdf parsing");
+    lives_ok {
+        $inventory->addEntry(section => 'DRIVES', entry => $_) foreach @drives;
+    } "$test: registering";
 }

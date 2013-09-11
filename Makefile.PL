@@ -48,7 +48,12 @@ test_requires 'Test::Deep'                   => undef;
 test_requires 'Test::Exception'              => undef;
 test_requires 'Test::MockModule'             => undef;
 test_requires 'Test::More'                   => '0.93'; # subtest
+test_requires 'Test::NoWarnings'             => undef;
 test_requires 'LWP::Protocol::https'         => undef;
+test_requires 'Clone'                        => undef;
+test_requires 'Test::MockObject'             => undef;
+test_requires 'JSON'                         => undef;
+test_requires 'Net::SNMP'                    => undef;
 
 # Inventory
 recommends 'Parse::EDID' => undef;
@@ -72,7 +77,7 @@ recommends 'Digest::MD5' => undef;
 recommends 'Crypt::DES'  => undef;
 
 # Wake-On-LAN
-recommends => 'Net::Write::Layer2' => undef;
+recommends 'Net::Write::Layer2' => undef;
 
 install_script 'bin/fusioninventory-agent';
 install_script 'bin/fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
@@ -87,6 +92,7 @@ makemaker_args(
     test => {
         TESTS => join ' ', map { glob } qw(t/*.t t/*/*.t t/*/*/*.t t/*/*/*/*.t)
     },
+    INSTALLMAN3DIR => 'none'
 );
 
 WriteAll;

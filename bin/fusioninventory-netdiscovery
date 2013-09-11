@@ -8,8 +8,9 @@ use English qw(-no_match_vars);
 use Getopt::Long;
 use Pod::Usage;
 
-use FusionInventory::Agent::Task::NetDiscovery;
+use FusionInventory::Agent::Broker;
 use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Task::NetDiscovery;
 
 my $options = {
     community => 'public',
@@ -20,10 +21,11 @@ GetOptions(
     $options,
     'first=s',
     'last=s',
-    'dictionnary=s',
+    'dictionary=s',
     'community=s',
     'entity=s',
     'threads=i',
+    'target=s',
     'verbose',
     'debug+',
     'help',
@@ -44,12 +46,8 @@ pod2usage(
 ) unless $options->{last};
 
 my $discovery = FusionInventory::Agent::Task::NetDiscovery->new(
-    target => FusionInventory::Agent::Task::NetInventory::Target->new(
-        dictionnary => $options->{dictionnary}
-    ),
-    logger =>  FusionInventory::Agent::Logger->new(
-        debug => $options->{debug}
-    )
+    target => FusionInventory::Agent::Task::NetInventory::Target->new(),
+    logger => FusionInventory::Agent::Logger->new(debug => $options->{debug})
 );
 
 $discovery->{options} = {
@@ -85,23 +83,24 @@ $discovery->{options} = {
         }
     ]
 };
-if ($options->{dictionnary}) {
-    die "no such file $options->{dictionnary}"
-        unless -f $options->{dictionnary};
-    $discovery->{options}->{DICO} = getDictionnary($options->{dictionnary});
+if ($options->{dictionary}) {
+    die "no such file $options->{dictionary}"
+        unless -f $options->{dictionary};
+    $discovery->{options}->{DICO} = getDictionary($options->{dictionary});
 }
 if (defined($options->{entity})) {
     $discovery->{options}->{RANGEIP}->[0]->{ENTITY} = $options->{entity};
 }
-$discovery->{client} =
-    FusionInventory::Agent::Task::NetInventory::Client->new(
-        verbose => $options->{verbose}
-    );
-$discovery->{deviceid} = 'foo';
 
-$discovery->run();
+my $broker = FusionInventory::Agent::Broker->create(
+    target  => $options->{target},
+    task    => 'netdiscovery',
+    verbose => $options->{verbose}
+);
 
-sub getDictionnary {
+$discovery->run(broker => $broker);
+
+sub getDictionary {
     my ($file) = @_;
 
     open (my $handle, '<', $file) or die "Can't open $file: $ERRNO";
@@ -110,26 +109,6 @@ sub getDictionnary {
     close $handle;
 
     return $string;
-}
-
-package FusionInventory::Agent::Task::NetInventory::Client;
-
-sub new {
-    my ($class, %params) = @_;
-
-    return bless {
-        verbose => $params{verbose}
-    }, $class;
-}
-
-sub send {
-    my ($self, %params) = @_;
-
-    # don't display control message by default
-    return unless $self->{verbose}
-        or $params{message}->{h}->{CONTENT}->{DEVICE};
-
-    print $params{message}->getContent();
 }
 
 package FusionInventory::Agent::Task::NetInventory::Target;
@@ -148,13 +127,6 @@ sub getStorage {
     my ($self, %params) = @_;
 
     return $self->{storage};
-}
-
-sub getUrl {
-    my ($self, %params) = @_;
-
-    ## no critic (ExplicitReturnUndef)
-    return undef;
 }
 
 package FusionInventory::Agent::Task::NetInventory::Storage;
@@ -188,10 +160,11 @@ fusioninventory-netdiscovery [options] --first <start> --last <stop>
   Options:
     --first address IP range first address
     --last address  IP range last address
-    --dictionnary   dictionnary file
+    --dictionary    dictionary file
     --community     community string (default: public)
     --entity        GLPI entity
     --threads nb    number of discovery threads (default: 1)
+    --target target where to send result (default: stdout)
     --verbose       verbose output (control messages)
     --debug         debug output (execution traces)
     -h --help       print this message and exit

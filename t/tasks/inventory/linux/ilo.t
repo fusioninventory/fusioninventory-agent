@@ -2,10 +2,14 @@
 
 use strict;
 use warnings;
+use lib 't/lib';
 
 use Test::Deep;
+use Test::Exception;
 use Test::More;
+use Test::NoWarnings;
 
+use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::Linux::iLO;
 
 my %tests = (
@@ -14,7 +18,7 @@ my %tests = (
         IPMASK      => '255.255.248.0',
         STATUS      => 'Up',
         SPEED       => '10',
-        TYPE        => 'Ethernet',
+        TYPE        => 'ethernet',
         IPSUBNET    => '192.168.8.0',
         MANAGEMENT  => 'iLO',
         DESCRIPTION => 'Management Interface - HP iLO',
@@ -22,17 +26,22 @@ my %tests = (
     },
     'sample2' => {
         STATUS      => 'Down',
-        TYPE        => 'Ethernet',
+        TYPE        => 'ethernet',
         MANAGEMENT  => 'iLO',
         DESCRIPTION => 'Management Interface - HP iLO',
         IPSUBNET    => undef
     }
 );
 
-plan tests => int (keys %tests);
+plan tests => (2 * scalar keys %tests) + 1;
+
+my $inventory = FusionInventory::Test::Inventory->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/linux/hponcfg/$test";
-    my $results = FusionInventory::Agent::Task::Inventory::Linux::iLO::_parseHponcfg(file => $file);
-    cmp_deeply($results, $tests{$test}, $test);
+    my $interface = FusionInventory::Agent::Task::Inventory::Linux::iLO::_parseHponcfg(file => $file);
+    cmp_deeply($interface, $tests{$test}, $test);
+    lives_ok {
+        $inventory->addEntry(section => 'NETWORKS', entry => $interface);
+    } 'no unknown fields';
 }

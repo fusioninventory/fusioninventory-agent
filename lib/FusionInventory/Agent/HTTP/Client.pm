@@ -62,7 +62,7 @@ sub request {
     my $scheme = $url->scheme();
     $self->_setSSLOptions() if $scheme eq 'https' && !$self->{ssl_set};
 
-    my $result;
+    my $result = HTTP::Response->new( 500 );
     eval {
         if ($OSNAME eq 'MSWin32' && $scheme eq 'https') {
             alarm $self->{timeout};
@@ -144,6 +144,10 @@ sub _setSSLOptions {
             "unable to perform SSL certificate validation.\n"  .
             "You can use 'no-ssl-check' option to disable it."
             if $EVAL_ERROR;
+
+        if ($self->{logger}{debug} >= 3) {
+            $Net::SSLeay::trace = 2;
+        }
 
         if ($LWP::VERSION >= 6) {
             $self->{ua}->ssl_opts(SSL_ca_file => $self->{ca_cert_file})

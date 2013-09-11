@@ -2,10 +2,14 @@
 
 use strict;
 use warnings;
+use lib 't/lib';
 
 use Test::Deep;
+use Test::Exception;
 use Test::More;
+use Test::NoWarnings;
 
+use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::AIX::Storages;
 
 my %lsdev_tests = (
@@ -370,13 +374,20 @@ my %disk_tests = (
 );
 
 plan tests =>
-    (scalar keys %lsdev_tests) +
-    (scalar keys %disk_tests);
+    (2 * scalar keys %lsdev_tests) +
+    (2 * scalar keys %disk_tests)  +
+    1;
+
+my $inventory = FusionInventory::Test::Inventory->new();
 
 foreach my $test (keys %lsdev_tests) {
     my $file = "resources/aix/lsdev/$test";
     my @devices = FusionInventory::Agent::Task::Inventory::AIX::Storages::_parseLsdev(file => $file, pattern => qr/^(.+):(.+)/);
     cmp_deeply(\@devices, $lsdev_tests{$test}, "lsdev parsing: $test");
+    lives_ok {
+        $inventory->addEntry(section => 'STORAGES', entry => $_)
+            foreach @devices ;
+    } "$test: registering";
 }
 
 foreach my $test (keys %disk_tests) {
@@ -385,4 +396,7 @@ foreach my $test (keys %disk_tests) {
     my $infos = FusionInventory::Agent::Task::Inventory::AIX::Storages::_getIndexedLsvpdInfos(file => $lsvpd_file);
     my @disks = FusionInventory::Agent::Task::Inventory::AIX::Storages::_getDisks(file => $lsdev_file, infos => $infos);
     cmp_deeply(\@disks, $disk_tests{$test}->{disks}, "disk extraction: $test");
+    lives_ok {
+        $inventory->addEntry(section => 'STORAGES', entry => $_) foreach @disks;
+    } "$test: registering";
 }

@@ -13,9 +13,9 @@ use Test::More;
 use Test::Exception;
 use UNIVERSAL::require;
 
+use FusionInventory::Test::Agent;
 use FusionInventory::Agent::HTTP::Server;
 use FusionInventory::Agent::Logger;
-use FusionInventory::Test::Agent;
 use FusionInventory::Test::Utils;
 
 plan tests => 12;
@@ -123,4 +123,3 @@ if (my $pid = fork()) {
     my $client = LWP::UserAgent->new(timeout => 2);
     exit $client->get("http://localhost:$port")->is_success();
 }
-

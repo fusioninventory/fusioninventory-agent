@@ -1,0 +1,25 @@
+<domain type='kvm'>
+  <name>cpu-static</name>
+  <uuid>a28ff943-8d89-38ee-fd28-1e675142951c</uuid>
+  <memory unit='KiB'>2147328</memory>
+  <currentMemory unit='KiB'>2147328</currentMemory>
+  <vcpu placement='static'>1</vcpu>
+  <os>
+    <type arch='i686' machine='pc-1.2'>hvm</type>
+    <boot dev='hd'/>
+    <bootmenu enable='no'/>
+  </os>
+  <features>
+    <acpi/>
+    <apic/>
+    <pae/>
+  </features>
+  <clock offset='localtime'/>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>restart</on_crash>
+  <devices>
+    <emulator>/usr/bin/kvm</emulator>
+    <controller type='pci' index='0' model='pci-root'/>
+  </devices>
+</domain>

@@ -8,11 +8,20 @@ use English qw(-no_match_vars);
 use Test::Deep;
 use Test::More;
 use XML::TreePP;
+use UNIVERSAL::require;
+use Config;
 
-use FusionInventory::Agent::Task::NetInventory;
+use FusionInventory::Agent;
 use FusionInventory::Test::Utils;
 
+# check thread support availability
+if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
+    plan skip_all => 'thread support required';
+}
+
 plan tests => 15;
+
+FusionInventory::Agent::Task::NetInventory->use();
 
 my ($out, $err, $rc);
 
@@ -30,7 +39,7 @@ ok($rc == 0, '--version exit status');
 is($err, '', '--version stderr');
 like(
     $out,
-    qr/$FusionInventory::Agent::Task::NetInventory::VERSION/,
+    qr/$FusionInventory::Agent::VERSION/,
     '--version stdout'
 );
 

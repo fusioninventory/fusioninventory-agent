@@ -51,7 +51,6 @@ sub _getSlots {
         push @slots, {
             NAME        => $1,
             DESIGNATION => $2,
-            STATUS      => 'available'
         };
     }
     close $handle;

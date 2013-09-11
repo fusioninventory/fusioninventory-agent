@@ -36,8 +36,7 @@ foreach my $module (@modules) {
 
 # namespace-based filter
 sub filter {
-    return 0 if $_ =~ m{FusionInventory::VMware};
-    return 1 if $_ =~ m{FusionInventory::Agent::Task::(Inventory|WakeOnLan)};
-    return 0 if $_ =~ m{FusionInventory::Agent::Task};
+    # no need to document multiple task-specific modules
+    return 0 if $_ =~ m{FusionInventory::Agent::Task::\w+::};
     return 1;
 }

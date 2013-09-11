@@ -120,6 +120,16 @@ sub _getType {
 
     my $result;
 
+    if (canRun('/sbin/sysctl')) {
+        my $handle = getFileHandle(
+            command => '/sbin/sysctl -n security.jail.jailed',
+            logger => $logger
+        );
+        my $line = <$handle>;
+        close $handle;
+        return 'BSDJail' if $line && $line == 1;
+    }
+
     # loaded modules
 
     if (-f '/proc/modules') {
@@ -140,24 +150,24 @@ sub _getType {
 
     # dmesg
 
+    my $handle;
     if (-r '/var/log/dmesg') {
-        my $handle = getFileHandle(file => '/var/log/dmesg', logger => $logger);
-        $result = _matchPatterns($handle);
-        close $handle;
+        $handle = getFileHandle(file => '/var/log/dmesg', logger => $logger);
     } elsif (-x '/bin/dmesg') {
-        my $handle = getFileHandle(command => '/bin/dmesg', logger => $logger);
-        $result = _matchPatterns($handle);
-        close $handle;
+        $handle = getFileHandle(command => '/bin/dmesg', logger => $logger);
     } elsif (-x '/sbin/dmesg') {
         # On OpenBSD, dmesg is in sbin
         # http://forge.fusioninventory.org/issues/402
-        my $handle = getFileHandle(command => '/sbin/dmesg', logger => $logger);
+        $handle = getFileHandle(command => '/sbin/dmesg', logger => $logger);
+    }
+
+    if ($handle) {
         $result = _matchPatterns($handle);
         close $handle;
+        return $result if $result;
     }
-    return $result if $result;
 
-    # scsci
+    # scsi
 
     if (-f '/proc/scsi/scsi') {
         my $handle = getFileHandle(
@@ -168,6 +178,13 @@ sub _getType {
         close $handle;
     }
     return $result if $result;
+
+    if (getFirstMatch(
+        file    => '/proc/1/environ',
+        pattern => qr/container=lxc/
+    )) {
+        return 'LXC';
+    }
 
     # OpenVZ
     if (-f '/proc/self/status') {

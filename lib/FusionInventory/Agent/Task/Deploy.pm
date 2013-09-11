@@ -7,10 +7,7 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
-use JSON;
-use LWP;
-use URI::Escape;
-
+use FusionInventory::Agent;
 use FusionInventory::Agent::HTTP::Client::Fusion;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor;
@@ -19,13 +16,65 @@ use FusionInventory::Agent::Task::Deploy::Datastore;
 use FusionInventory::Agent::Task::Deploy::File;
 use FusionInventory::Agent::Task::Deploy::Job;
 
-our $VERSION = '2.0.4';
+our $VERSION = $FusionInventory::Agent::VERSION;
 
 sub isEnabled {
-    my ($self) = @_;
+    my ($self, %params) = @_;
 
     return $self->{target}->isa('FusionInventory::Agent::Target::Server');
 
+    my $controller = FusionInventory::Agent::HTTP::Client::Fusion->new(
+        logger       => $self->{logger},
+        user         => $params{user},
+        password     => $params{password},
+        proxy        => $params{proxy},
+        ca_cert_file => $params{ca_cert_file},
+        ca_cert_dir  => $params{ca_cert_dir},
+        no_ssl_check => $params{no_ssl_check},
+        debug        => $self->{debug}
+    );
+
+    my $remoteConfig = $controller->send(
+        url  => $self->{target}->{url},
+        args => {
+            action    => "getConfig",
+            machineid => $self->{deviceid},
+            task      => { Deploy => $FusionInventory::Agent::VERSION },
+        }
+    );
+
+    my $schedule = $remoteConfig->{schedule};
+    return unless $schedule;
+    return unless ref $schedule eq 'ARRAY';
+
+    my @remotes =
+        grep { $_ }
+        map  { $_->{remote} }
+        grep { $_->{task} eq "Deploy" }
+        @{$schedule};
+
+    if (!@remotes) {
+        $self->{logger}->info("No deploy task scheduled");
+        return;
+    }
+
+    $self->{controller} = $controller;
+    $self->{remotes}    = \@remotes;
+
+    return 1;
+}
+
+sub run {
+    my ($self, %params) = @_;
+
+    # Turn off localised output for commands
+    $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
+    $ENV{LANG} = 'C'; # Turn off localised output for commands
+
+    my @remotes = @{$self->{remotes}};
+    foreach my $remote (@remotes) {
+        $self->_processRemote($remote);
+    }
 }
 
 sub _validateAnswer {
@@ -77,7 +126,7 @@ sub _validateAnswer {
     return 1;
 }
 
-sub processRemote {
+sub _processRemote {
     my ($self, $remoteUrl) = @_;
 
     if ( !$remoteUrl ) {
@@ -483,44 +532,8 @@ sub processRemote {
 }
 
 
-sub run {
-    my ($self, %params) = @_;
 
-    # Turn off localised output for commands
-    $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
-    $ENV{LANG} = 'C'; # Turn off localised output for commands
-
-    $self->{client} = FusionInventory::Agent::HTTP::Client::Fusion->new(
-        logger       => $self->{logger},
-        user         => $params{user},
-        password     => $params{password},
-        proxy        => $params{proxy},
-        ca_cert_file => $params{ca_cert_file},
-        ca_cert_dir  => $params{ca_cert_dir},
-        no_ssl_check => $params{no_ssl_check},
-        debug        => $self->{debug}
-    );
-
-    my $globalRemoteConfig = $self->{client}->send(
-        url  => $self->{target}->{url},
-        args => {
-            action    => "getConfig",
-            machineid => $self->{deviceid},
-            task      => { Deploy => $VERSION },
-        }
-    );
-
-    return unless $globalRemoteConfig->{schedule};
-    return unless ref( $globalRemoteConfig->{schedule} ) eq 'ARRAY';
-
-    foreach my $job ( @{ $globalRemoteConfig->{schedule} } ) {
-        next unless $job->{task} eq "Deploy";
-        $self->processRemote($job->{remote});
-    }
-
-    return 1;
-}
-
+1;
 __END__
 
 =head1 NAME
@@ -536,5 +549,3 @@ This module uses SSL certificat to authentificat the server. You may have
 to point F<--ca-cert-file> or F<--ca-cert-dir> to your public certificat.
 
 If the P2P option is turned on, the agent will looks for peer in its network. The network size will be limited at 255 machines.
-
-=cut

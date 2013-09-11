@@ -2,10 +2,14 @@
 
 use strict;
 use warnings;
+use lib 't/lib';
 
 use Test::Deep;
+use Test::Exception;
 use Test::More;
+use Test::NoWarnings;
 
+use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::Linux::Storages::Lsilogic;
 
 my %tests = (
@@ -85,7 +89,9 @@ my %tests = (
     }
 );
 
-plan tests => scalar keys %tests;
+plan tests => (2 * scalar keys %tests) + 1;
+
+my $inventory = FusionInventory::Test::Inventory->new(logger => $logger);
 
 foreach my $test (keys %tests) {
     my $file = "resources/linux/mpt-status/$test";
@@ -93,5 +99,8 @@ foreach my $test (keys %tests) {
         file       => $file,
         name       => $tests{$test}->{name},
     );
-    cmp_deeply(\@disks, $tests{$test}->{disks}, $test);
+    cmp_deeply(\@disks, $tests{$test}->{disks}, "$test: parsing");
+    lives_ok {
+        $inventory->addEntry(section => 'STORAGES', entry => $_) foreach @disks;
+    } "$test: registering";
 }

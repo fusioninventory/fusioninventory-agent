@@ -2,10 +2,14 @@
 
 use strict;
 use warnings;
+use lib 't/lib';
 
 use Test::Deep;
+use Test::Exception;
 use Test::More;
+use Test::NoWarnings;
 
+use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::Solaris::Memory;
 
 my %tests = (
@@ -14,19 +18,27 @@ my %tests = (
     sample3 => [ _gen(16, 'NUMSLOTS', { TYPE     => 'DDR2' }) ],
     sample4 => [ _gen(8,  'NUMSLOTS', { TYPE     => 'DDR'  }) ],
     sample5 => [ _gen(2,  'NUMSLOTS', { TYPE     => 'DRAM' }) ],
+    sample6 => [ _gen(8,  'NUMSLOTS', { CAPACITY => '512'  }) ],
+    sample7 => [ _gen(1,  'NUMSLOTS', { CAPACITY => '2000' }) ],
 );
 
-plan tests => scalar keys %tests;
+plan tests => (2 * scalar keys %tests) + 1;
+
+my $inventory = FusionInventory::Test::Inventory->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/solaris/prtdiag/$test";
-    my @results =
+    my @memories =
       FusionInventory::Agent::Task::Inventory::Solaris::Memory::_getMemoriesPrtdiag(file => $file);
     cmp_deeply(
-        \@results,
+        \@memories,
         $tests{$test},
-        "prtdiag parsing: $test"
+        "$test: parsing"
     );
+    lives_ok {
+        $inventory->addEntry(section => 'MEMORIES', entry => $_)
+            foreach @memories;
+    } "$test: registering";
 }
 
 sub _gen {

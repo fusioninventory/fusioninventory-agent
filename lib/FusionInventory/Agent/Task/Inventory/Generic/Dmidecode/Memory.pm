@@ -33,17 +33,14 @@ sub _getMemories {
 
     my ($memories, $slot);
 
-    my $memoryCorrection;
-    if ($infos->{16}) {
-        $memoryCorrection = $infos->{16}[0]{'Error Correction Type'};
-    }
     if ($infos->{17}) {
 
         foreach my $info (@{$infos->{17}}) {
             $slot++;
 
-            # Flash is 'in general' an unrelated internal BIOS storage, See bug: #1334
-            next if $info->{'Type'} =~ /Flash/i;
+            # Flash is 'in general' an unrelated internal BIOS storage
+            # See bug: #1334
+            next if $info->{'Type'} && $info->{'Type'} =~ /Flash/i;
 
             my $manufacturer;
             if (
@@ -66,19 +63,15 @@ sub _getMemories {
                 $manufacturer = $info->{'Manufacturer'};
             }
 
-
-            my $description = $info->{'Form Factor'};
-            $description .= " ($memoryCorrection)" if $memoryCorrection;
-
             my $memory = {
-                NUMSLOTS     => $slot,
-                DESCRIPTION  => $description,
-                CAPTION      => $info->{'Locator'},
-                SPEED        => $info->{'Speed'},
-                TYPE         => $info->{'Type'},
-                SERIALNUMBER => $info->{'Serial Number'},
-                MEMORYCORRECTION => $memoryCorrection,
-                MANUFACTURER => $manufacturer
+                NUMSLOTS         => $slot,
+                DESCRIPTION      => $info->{'Form Factor'},
+                CAPTION          => $info->{'Locator'},
+                SPEED            => $info->{'Speed'},
+                TYPE             => $info->{'Type'},
+                SERIALNUMBER     => $info->{'Serial Number'},
+                MEMORYCORRECTION => $infos->{16}[0]{'Error Correction Type'},
+                MANUFACTURER     => $manufacturer
             };
 
             if ($info->{'Size'} && $info->{'Size'} =~ /^(\d+) \s MB$/x) {

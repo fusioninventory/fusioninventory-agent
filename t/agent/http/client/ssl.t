@@ -11,6 +11,7 @@ use Test::Exception;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::HTTP::Client;
+use FusionInventory::Test::Proxy;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
 
@@ -46,19 +47,24 @@ my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'Test' ]
 );
 
+my $proxy = FusionInventory::Test::Proxy->new();
+$proxy->background();
+
 my $server;
 my $url = "https://localhost:$port/public";
 my $unsafe_client = FusionInventory::Agent::HTTP::Client->new(
     logger       => $logger,
     no_ssl_check => 1,
 );
+
 my $secure_client = FusionInventory::Agent::HTTP::Client->new(
     logger       => $logger,
     ca_cert_file => 'resources/ssl/crt/ca.pem',
 );
 
-my $secure_sha256_client = FusionInventory::Agent::HTTP::Client->new(
-    logger       => $logger,
+my $secure_proxy_client = FusionInventory::Agent::HTTP::Client->new(
+    logger => $logger,
+    proxy  => $proxy->url(),
     ca_cert_file => 'resources/ssl/crt/ca.pem',
 );
 
@@ -85,29 +91,16 @@ ok(
     'trusted certificate, correct hostname: connection success'
 );
 
-$server->stop();
-
-# trusted sha256 certificate, correct hostname
-$server = FusionInventory::Test::Server->new(
-    port     => $port,
-    ssl      => 1,
-    crt      => 'resources/ssl/crt/good-sha256.pem',
-    key      => 'resources/ssl/key/good-sha256.pem',
-);
-$server->set_dispatch({
-    '/public'  => $ok,
-});
-eval {
-    $server->background();
-};
-BAIL_OUT("can't launch the server: $EVAL_ERROR") if $EVAL_ERROR;
-
+SKIP: {
+skip "Known to fail, see: http://forge.fusioninventory.org/issues/1940", 1 unless $ENV{TEST_AUTHOR};
 ok(
-    $secure_sha256_client->request(HTTP::Request->new(GET => $url))->is_success(),
-    'trusted certificate (sha256), correct hostname: connection success'
+    $secure_proxy_client->request(HTTP::Request->new(GET => $url))->is_success(),
+    'trusted certificate, correct hostname, through proxy: connection success'
 );
+}
 
 $server->stop();
+$proxy->stop();
 
 # trusted certificate, alternate hostname
 $server = FusionInventory::Test::Server->new(

@@ -23,13 +23,25 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
+    foreach my $cpu (_getCPUs(logger => $logger)) {
+        $inventory->addEntry(
+            section => 'CPUS',
+            entry   => $cpu
+        );
+    }
+}
+
+sub _getCPUs {
+    my (%params) = @_;
+
     my @cpusFromDmidecode = getCpusFromDmidecode();
 
-    my ($proc_cpu, $procList) = _getCPUsFromProc(
-        logger => $logger, file => '/proc/cpuinfo'
-    );
+    my ($proc_cpu, $procList) = _getCPUsFromProc(%params);
+
     my $cpt = 0;
-    my @baseCpuList = @cpusFromDmidecode?@cpusFromDmidecode:@$procList;
+    my @baseCpuList = @cpusFromDmidecode ? @cpusFromDmidecode : @$procList;
+    my @cpus;
+
     foreach my $cpu (@baseCpuList) {
 
         if ($proc_cpu->{vendor_id}) {
@@ -53,10 +65,14 @@ sub doInventory {
             $cpu->{THREAD} = $procList->[$cpt]{THREAD};
         }
 
-        # Get directly informations from cpuinfo if not already processed in dmidecode
-        $cpu->{STEPPING} = $procList->[$cpt]{STEPPING} unless    $cpu->{STEPPING} ;
-        $cpu->{FAMILYNUMBER} = $procList->[$cpt]{FAMILYNUMBER} unless    $cpu->{FAMILYNUMBER};
-        $cpu->{MODEL} = $procList->[$cpt]{MODEL} unless    $cpu->{MODEL};
+        # Get directly informations from cpuinfo if not already processed
+        # in dmidecode
+        $cpu->{STEPPING} = $procList->[$cpt]{STEPPING}
+            unless $cpu->{STEPPING} ;
+        $cpu->{FAMILYNUMBER} = $procList->[$cpt]{FAMILYNUMBER}
+            unless $cpu->{FAMILYNUMBER};
+        $cpu->{MODEL} = $procList->[$cpt]{MODEL}
+            unless $cpu->{MODEL};
 
         if ($cpu->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
             $cpu->{SPEED} = {
@@ -65,50 +81,47 @@ sub doInventory {
             }->{lc($2)} * $1;
         }
 
-        $inventory->addEntry(
-            section => 'CPUS',
-            entry   => $cpu
-        );
+        $cpu->{ARCH} = 'i386';
+
+        push @cpus, $cpu;
         $cpt++;
     }
+
+    return @cpus;
 }
 
 sub _getCPUsFromProc {
-    my @cpus = getCPUsFromProc(@_);
-
-    my ($procs, $cpuNbr);
-
-    my @cpuList;
-
+    my %params = (
+        file => '/proc/cpuinfo',
+        @_
+    );
+    my @cpus = getCPUsFromProc(%params);
+    my @physical_cpus;
     my %cpus;
-    my $hasPhysicalId;
-    foreach my $cpu (@cpus) {
-        $procs = $cpu;
-        my $id = $cpu->{'physical id'};
-        $hasPhysicalId = 0;
-        if (defined $id) {
-            $cpus{$id}{STEPPING} = $cpu->{'stepping'};
-            $cpus{$id}{FAMILYNUMBER} = $cpu->{'cpu family'};
-            $cpus{$id}{MODEL} = $cpu->{'model'};
-            $cpus{$id}{CORE} = $cpu->{'cpu cores'};
-            $cpus{$id}{THREAD} = $cpu->{'siblings'} / ($cpu->{'cpu cores'} || 1);
-            $hasPhysicalId = 1;
-        }
 
-        push @cpuList, {STEPPING => $cpu->{'stepping'},FAMILYNUMBER => $cpu->{'cpu family'},
-                        MODEL => $cpu->{'model'},   CORE => 1, THREAD => 1 } unless $hasPhysicalId;
-    }
-    if (!$cpuNbr) {
-        $cpuNbr = keys %cpus;
+    foreach my $cpu (@cpus) {
+        my $id = $cpu->{'physical id'};
+        if (defined $id) {
+            $cpus{$id}{STEPPING}     = $cpu->{'stepping'};
+            $cpus{$id}{FAMILYNUMBER} = $cpu->{'cpu family'};
+            $cpus{$id}{MODEL}        = $cpu->{'model'};
+            $cpus{$id}{CORE}         = $cpu->{'cpu cores'};
+            $cpus{$id}{THREAD}       = $cpu->{'siblings'} / ($cpu->{'cpu cores'} || 1);
+        } else {
+            push @physical_cpus, {
+                STEPPING     => $cpu->{'stepping'},
+                FAMILYNUMBER => $cpu->{'cpu family'},
+                MODEL        => $cpu->{'model'},
+                CORE         => 1,
+                THREAD       => 1
+            }
+        }
     }
 
     # physical id may not start at 0!
-    if ($hasPhysicalId) {
-        foreach (keys %cpus) {
-            push @cpuList, $cpus{$_};
-        }
-    }
-    return $procs, \@cpuList;
+    push @physical_cpus, values %cpus if %cpus;
+
+    return $cpus[-1], \@physical_cpus;
 }
 
 1;

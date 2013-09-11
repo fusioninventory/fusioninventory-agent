@@ -14,8 +14,9 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
-    my %displays = _getDisplays();
+    my %displays = _getDisplays(logger => $logger);
 
     foreach my $monitor (@{$displays{MONITORS}}) {
         $inventory->addEntry(
@@ -33,7 +34,12 @@ sub doInventory {
 }
 
 sub _getDisplays {
-    my $infos = getSystemProfilerInfos(@_);
+    my (%params) = @_;
+
+    my $infos = getSystemProfilerInfos(
+        logger => $params{logger},
+        file   => $params{file}
+    );
 
     my @monitors;
     my @videos;

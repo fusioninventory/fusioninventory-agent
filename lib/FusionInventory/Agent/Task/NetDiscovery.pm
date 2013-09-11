@@ -19,9 +19,11 @@ use Time::localtime;
 use UNIVERSAL::require;
 use XML::TreePP;
 
+use FusionInventory::Agent;
+use FusionInventory::Agent::Broker::Server;
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::SNMP;
 use FusionInventory::Agent::Tools::Network;
+use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::Task::NetDiscovery::Dictionary;
 use FusionInventory::Agent::XML::Query;
 
@@ -30,13 +32,15 @@ if ($threads::shared::VERSION < 1.21) {
     FusionInventory::Agent::Threads->use();
 }
 
-our $VERSION = '2.2.0';
+our $VERSION = $FusionInventory::Agent::VERSION;
 
 sub isEnabled {
-    my ($self, $response) = @_;
+    my ($self, %params) = @_;
 
     return unless
         $self->{target}->isa('FusionInventory::Agent::Target::Server');
+
+    my $response = $params{response};
 
     my $options = $self->getOptionsFromServer(
         $response, 'NETDISCOVERY', 'NetDiscovery'
@@ -55,18 +59,21 @@ sub isEnabled {
 sub run {
     my ($self, %params) = @_;
 
-    $self->{logger}->debug("FusionInventory NetDiscovery task $VERSION");
+    $self->{logger}->debug("running FusionInventory NetDiscovery task");
 
-    # task-specific client, if needed
-    $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
-        logger       => $self->{logger},
-        user         => $params{user},
-        password     => $params{password},
-        proxy        => $params{proxy},
-        ca_cert_file => $params{ca_cert_file},
-        ca_cert_dir  => $params{ca_cert_dir},
-        no_ssl_check => $params{no_ssl_check},
-    ) if !$self->{client};
+    # use given output broker, otherwise assume the target is a GLPI server
+    my $broker =
+        $params{broker} ||
+        FusionInventory::Agent::Broker::Server->new(
+            target       => $self->{target}->getUrl(),
+            logger       => $self->{logger},
+            user         => $params{user},
+            password     => $params{password},
+            proxy        => $params{proxy},
+            ca_cert_file => $params{ca_cert_file},
+            ca_cert_dir  => $params{ca_cert_dir},
+            no_ssl_check => $params{no_ssl_check},
+        );
 
     my $options     = $self->{options};
     my $pid         = $options->{PARAM}->[0]->{PID};
@@ -104,7 +111,7 @@ sub run {
         );
     } else {
         $snmp_credentials = $self->_getCredentials($options);
-        $snmp_dictionary = $self->_getDictionary($options, $pid);
+        $snmp_dictionary = $self->_getDictionary($options, $broker, $pid);
         # abort immediatly if the dictionary isn't up to date
         return unless $snmp_dictionary;
     }
@@ -154,14 +161,17 @@ sub run {
     }
 
     # send initial message to the server
-    $self->_sendMessage({
-        AGENT => {
-            START        => 1,
-            AGENTVERSION => $FusionInventory::Agent::VERSION,
-        },
-        MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $pid
-    });
+    $self->_sendMessage(
+        $broker,
+        {
+            AGENT => {
+                START        => 1,
+                AGENTVERSION => $FusionInventory::Agent::VERSION,
+            },
+            MODULEVERSION => $FusionInventory::Agent::VERSION,
+            PROCESSNUMBER => $pid
+        }
+    );
 
     # set all threads in RUN state
     $_ = RUN foreach @states;
@@ -178,12 +188,15 @@ sub run {
         );
 
         # send block size to the server
-        $self->_sendMessage({
-            AGENT => {
-                NBIP => scalar @addresses
-            },
-            PROCESSNUMBER => $pid
-        });
+        $self->_sendMessage(
+            $broker,
+            {
+                AGENT => {
+                    NBIP => scalar @addresses
+                },
+                PROCESSNUMBER => $pid
+            }
+        );
 
         # set all threads in RUN state
         $_ = RUN foreach @states;
@@ -197,10 +210,10 @@ sub run {
                 $result->{ENTITY} = $range->{ENTITY} if defined($range->{ENTITY});
                 my $data = {
                     DEVICE        => [$result],
-                    MODULEVERSION => $VERSION,
+                    MODULEVERSION => $FusionInventory::Agent::VERSION,
                     PROCESSNUMBER => $pid,
                 };
-                $self->_sendMessage($data);
+                $self->_sendMessage($broker, $data);
             }
         }
     }
@@ -210,25 +223,27 @@ sub run {
     delay(1);
 
     # send final message to the server
-    $self->_sendMessage({
-        AGENT => {
-            END => 1,
-        },
-        MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $pid
-    });
+    $self->_sendMessage(
+        $broker,
+        {
+            AGENT => {
+                END => 1,
+            },
+            MODULEVERSION => $FusionInventory::Agent::VERSION,
+            PROCESSNUMBER => $pid
+        }
+    );
 
 }
 
 sub _getDictionary {
-    my ($self, $options, $pid) = @_;
+    my ($self, $options, $broker, $pid) = @_;
 
     my ($dictionary, $hash);
     my $storage = $self->{target}->getStorage();
 
     if ($options->{DICO}) {
-        # the server message contains a dictionary, use it
-        # and save it for later use
+        # new dictionary sent by the server, load it and save it for next run
         $dictionary =
             FusionInventory::Agent::Task::NetDiscovery::Dictionary->new(
                 string => $options->{DICO}
@@ -250,27 +265,44 @@ sub _getDictionary {
     }
 
     if ($options->{DICOHASH}) {
-        if ($dictionary && $hash && $hash eq $options->{DICOHASH}) {
-            $self->{logger}->debug("Dictionary is up to date.");
-	    return $dictionary;
+        if ($hash) {
+            if ($hash eq $options->{DICOHASH}) {
+                $self->{logger}->debug("Dictionary is up to date.");
+            } else {
+                $self->_sendUpdateMessage($broker, $pid);
+                $self->{logger}->debug(
+                    "Dictionary is outdated, update request sent, exiting"
+                );
+                return;
+            }
+        } else {
+            $self->_sendUpdateMessage($broker, $pid);
+            $self->{logger}->debug(
+                "No dictionary, update request sent, exiting"
+            );
+            return;
         }
     }
 
+    $self->{logger}->debug("Dictionary loaded.");
 
-    # Send dictionary update request
-    $self->_sendMessage({
-        AGENT => {
-            END => '1'
-        },
-        MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $pid,
-        DICO          => "REQUEST",
-    });
-    $self->{logger}->debug($hash ?
-        "Dictionary is outdated, update request sent, exiting" :
-        "No dictionary, update request sent, exiting"
+    return $dictionary;
+}
+
+sub _sendUpdateMessage {
+    my ($self, $broker, $pid) = @_;
+
+    $self->_sendMessage(
+        $broker,
+        {
+            AGENT => {
+                END => '1'
+            },
+            MODULEVERSION => $FusionInventory::Agent::VERSION,
+            PROCESSNUMBER => $pid,
+            DICO          => "REQUEST",
+        }
     );
-    return;
 }
 
 sub _getCredentials {
@@ -340,7 +372,7 @@ sub _scanAddresses {
 }
 
 sub _sendMessage {
-    my ($self, $content) = @_;
+    my ($self, $broker, $content) = @_;
 
     my $message = FusionInventory::Agent::XML::Query->new(
         deviceid => $self->{deviceid},
@@ -348,10 +380,7 @@ sub _sendMessage {
         content  => $content
     );
 
-    $self->{client}->send(
-        url     => $self->{target}->getUrl(),
-        message => $message
-    );
+    $broker->send(message => $message);
 }
 
 sub _scanAddress {
@@ -462,104 +491,27 @@ sub _scanAddressBySNMP {
             next;
         }
 
-        # SNMPv2-MIB::sysDescr.0
-        my $sysdescr = $snmp->get('.1.3.6.1.2.1.1.1.0');
+        %device = getDeviceInfo(
+            $snmp, $params{snmp_dictionary}
+        );
 
+        # no device just means invalid credentials
         $self->{logger}->debug2(
             sprintf "thread %d: scanning %s with snmp credentials %d: %s",
             threads->tid(),
             $params{ip},
             $credential->{ID},
-            $sysdescr ? 'success' : 'failure'
+            %device ? 'success' : 'failure'
         );
 
-        # no sysdescr means invalid credentials
-        next unless $sysdescr;
+        next unless %device;
 
-        # try to get a matching model from the dictionary
-        my $model = $params{snmp_dictionary}->getModel($sysdescr);
-
-        # first, we initialize with some generic information
-        %device = getBasicInfoFromSysdescr($sysdescr, $snmp);
-
-        $device{MAC} = _getMacAddress($snmp);
-
-
-        # then we use the available information from the model
-        if ($model) {
-
-            $device{SERIAL}    = _getSerial($snmp, $model);
-            $device{MAC}       = _getMacAddress($snmp, $model) ||
-                                 _getMacAddress($snmp);
-            $device{MODELSNMP}    = $model->{MODELSNMP};
-            $device{TYPE}         = $model->{TYPE} if $model->{TYPE};
-            $device{MANUFACTURER} = $model->{MANUFACTURER} if $model->{MANUFACTURER};
-            $device{FIRMWARE}     = $model->{FIRMWARE};
-            $device{MODEL}        = $model->{MODEL};
-
-        }
-
-        $device{AUTHSNMP}     = $credential->{ID};
-        # SNMPv2-MIB::sysName.0
-        $device{SNMPHOSTNAME} = $snmp->get('.1.3.6.1.2.1.1.5.0');
-        $device{DESCRIPTION}  = $sysdescr if !$device{DESCRIPTION};
+        $device{AUTHSNMP} = $credential->{ID};
 
         last;
     }
 
     return %device;
-}
-
-sub _getSerial {
-    my ($snmp, $model) = @_;
-
-    # the model is mandatory for the serial number
-    return unless $model;
-    return unless $model->{SERIAL};
-
-    return $snmp->getSerialNumber($model->{SERIAL});
-}
-
-sub _getMacAddress {
-    my ($snmp, $model) = @_;
-
-    my $macAddress;
-
-    if ($model) {
-        # use model-specific oids
-
-        if ($model->{MAC}) {
-            $macAddress = $snmp->getMacAddress($model->{MAC});
-        }
-
-        if (!$macAddress || $macAddress !~ /^$mac_address_pattern$/) {
-            my $macs = $snmp->walkMacAddresses($model->{MACDYN});
-            foreach my $value (values %{$macs}) {
-                next if !$value;
-                next if $value eq '0:0:0:0:0:0';
-                next if $value eq '00:00:00:00:00:00';
-                $macAddress = $value;
-            }
-        }
-    } else {
-        # use default oids
-
-        # SNMPv2-SMI::mib-2.17.1.1.0
-        $macAddress = $snmp->getMacAddress(".1.3.6.1.2.1.17.1.1.0");
-
-        if (!$macAddress || $macAddress !~ /^$mac_address_pattern$/) {
-            # IF-MIB::ifPhysAddress
-            my $macs = $snmp->walkMacAddresses(".1.3.6.1.2.1.2.2.1.6");
-            foreach my $value (values %{$macs}) {
-                next if !$value;
-                next if $value eq '0:0:0:0:0:0';
-                next if $value eq '00:00:00:00:00:00';
-                $macAddress = $value;
-            }
-        }
-    }
-
-    return $macAddress;
 }
 
 sub _parseNmap {

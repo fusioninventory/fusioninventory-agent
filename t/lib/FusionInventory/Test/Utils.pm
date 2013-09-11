@@ -168,7 +168,7 @@ sub loadRegistryDump {
 
 sub unsetProxyEnvVar {
     foreach my $key (qw(http_proxy https_proxy HTTP_PROXY HTTPS_PROXY)) {
-         $ENV{$key}=undef;
+         delete($ENV{$key});
     }
 }
 

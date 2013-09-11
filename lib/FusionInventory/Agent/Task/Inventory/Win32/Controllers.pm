@@ -49,9 +49,9 @@ sub _getControllers {
 
         delete $controller->{deviceid};
 
-        my $vendor_id    = $controller->{VENDORID};
-        my $device_id    = $controller->{PRODUCTID};
-        my $subdevice_id = $controller->{PCISUBSYSTEMID};
+        my $vendor_id    = lc($controller->{VENDORID});
+        my $device_id    = lc($controller->{PRODUCTID});
+        my $subdevice_id = lc($controller->{PCISUBSYSTEMID});
 
         my $vendor = getPCIDeviceVendor(id => $vendor_id, @_);
         if ($vendor) {

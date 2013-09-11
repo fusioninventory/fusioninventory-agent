@@ -390,7 +390,7 @@ sub _getProcessStartTime {
     if (-f "/proc/$pid") {
         # this will work only on OS with /proc/$pid like Linux and FreeBSD
         my $stat = stat("/proc/$pid");
-        my ($sec, $min, $hour, $day, $month, $year) = localtime($stat->ctime());
+        my (undef, $min, $hour, $day, $month, $year) = localtime($stat->ctime());
         $year = $year + 1900;
         $month = $month + 1;
         return sprintf("%04d-%02d-%02d %s:%s", $year, $month, $day, $hour, $min);

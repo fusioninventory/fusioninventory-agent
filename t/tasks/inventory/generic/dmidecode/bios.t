@@ -5,6 +5,7 @@ use warnings;
 
 use Test::Deep;
 use Test::More;
+use Test::NoWarnings;
 
 use FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Bios;
 
@@ -398,10 +399,10 @@ my %tests = (
             ASSETTAG      => '4568-2345-6432-9324-3433-2346-47',
             BMANUFACTURER => 'American Megatrends Inc.',
             MSN           => '2349-2347-2234-2340-2341-3240-48',
-            SMODEL        => 'Virtual Machine',
+            SMODEL        => 'Hyper-V',
             SMANUFACTURER => 'Microsoft Corporation',
             BDATE         => '03/19/2009',
-            MMODEL        => 'Virtual Machine',
+            MMODEL        => 'Hyper-V',
             BVERSION      => '090004'
         },
         hardware => {
@@ -412,7 +413,7 @@ my %tests = (
     }
 );
 
-plan tests => 2 * keys %tests;
+plan tests => (2 * keys %tests) + 1;
 
 foreach my $test (keys %tests) {
     my $file = "resources/generic/dmidecode/$test";

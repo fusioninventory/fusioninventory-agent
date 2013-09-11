@@ -21,7 +21,9 @@ Win32::OLE->Option(CP => Win32::OLE::CP_UTF8);
 use FusionInventory::Agent::Tools::Win32;
 
 sub isEnabled {
-    return if $params{no_category}->{process};
+    my (%params) = @_;
+
+    return if $params{no_category}->{user};
 
     return 1;
 }
@@ -57,9 +59,9 @@ sub doInventory {
         );
     }
 
-    $inventory->setHardware(
-        _getLastUser(logger => $logger)
-    );
+    $inventory->setHardware({
+        USERID => _getLastUser(logger => $logger)
+    });
 }
 
 sub _getLocalUsers {

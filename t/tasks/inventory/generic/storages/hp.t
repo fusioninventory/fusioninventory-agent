@@ -2,10 +2,14 @@
 
 use strict;
 use warnings;
+use lib 't/lib';
 
 use Test::Deep;
+use Test::Exception;
 use Test::More;
+use Test::NoWarnings;
 
+use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::Generic::Storages::HP;
 
 my %slots_tests = (
@@ -42,9 +46,12 @@ my %storage_tests = (
 );
 
 plan tests =>
-    (scalar keys %slots_tests) +
-    (scalar keys %drives_tests) +
-    (scalar keys %storage_tests);
+    (scalar keys %slots_tests)   +
+    (scalar keys %drives_tests)  +
+    (2 * scalar keys %storage_tests) +
+    1;
+
+my $inventory = FusionInventory::Test::Inventory->new();
 
 foreach my $test (keys %slots_tests) {
     my $file  = "resources/generic/hpacucli/$test-slots";
@@ -66,9 +73,13 @@ foreach my $test (keys %drives_tests) {
 
 foreach my $test (keys %storage_tests) {
     my $file  = "resources/generic/hpacucli/$test-storage";
+    my $storage = FusionInventory::Agent::Task::Inventory::Generic::Storages::HP::_getStorage(file => $file);
     cmp_deeply(
-        FusionInventory::Agent::Task::Inventory::Generic::Storages::HP::_getStorage(file => $file),
+        $storage,
         $storage_tests{$test},
         'storage extraction'
     );
+    lives_ok {
+        $inventory->addEntry(section => 'STORAGES', entry => $storage);
+    } "$test: registering";
 }

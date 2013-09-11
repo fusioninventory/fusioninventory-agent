@@ -202,4 +202,3 @@ Set maxDelay attribute.
 =head2 getStorage()
 
 Return the storage object for this target.
-

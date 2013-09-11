@@ -5,6 +5,7 @@ use warnings;
 
 use Test::Deep;
 use Test::More;
+use Test::NoWarnings;
 
 use FusionInventory::Agent::Task::Inventory::Linux::Videos;
 
@@ -190,7 +191,10 @@ my %xorg = (
 
 );
 
-plan tests => scalar keys (%ddcprobe) + scalar keys (%xorg);
+plan tests =>
+    (scalar keys %ddcprobe) +
+    (scalar keys %xorg)     +
+    1;
 
 foreach my $test (keys %ddcprobe) {
     my $file = "resources/linux/ddcprobe/$test";

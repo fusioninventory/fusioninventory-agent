@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use base 'Exporter';
 
+use UNIVERSAL::require;
 use Net::IP qw(:PROC);
 
 use FusionInventory::Agent::Tools;
@@ -20,10 +21,12 @@ our @EXPORT = qw(
     getNetworkMaskIPv6
     hex2canonical
     alt2canonical
+    resolv
 );
 
-my $hex_byte = qr/[0-9A-F]{2}/i;
-my $dec_byte = qr/[0-9]{1,3}/;
+my $dec_byte        = qr/[0-9]{1,3}/;
+my $hex_byte        = qr/[0-9A-F]{1,2}/i;
+my $padded_hex_byte = qr/[0-9A-F]{2}/i;
 
 our $mac_address_pattern = qr/
     $hex_byte : $hex_byte : $hex_byte : $hex_byte : $hex_byte : $hex_byte
@@ -34,11 +37,19 @@ our $ip_address_pattern = qr/
 /x;
 
 our $alt_mac_address_pattern = qr/
-    $hex_byte $hex_byte $hex_byte $hex_byte $hex_byte $hex_byte
+    $padded_hex_byte 
+    $padded_hex_byte 
+    $padded_hex_byte 
+    $padded_hex_byte 
+    $padded_hex_byte 
+    $padded_hex_byte
 /x;
 
 our $hex_ip_address_pattern = qr/
-    $hex_byte $hex_byte $hex_byte $hex_byte
+    $padded_hex_byte 
+    $padded_hex_byte 
+    $padded_hex_byte 
+    $padded_hex_byte
 /x;
 
 our $network_pattern = qr/
@@ -101,6 +112,40 @@ sub getNetworkMaskIPv6 {
     return ip_compress_address(ip_bintoip(ip_get_mask($prefix, 6), 6), 6);
 }
 
+sub resolv {
+    my ($string, $logger) = @_;
+
+    my @ret;
+
+    Socket::GetAddrInfo->require();
+    Socket->require();
+
+    my ($error, @results) = Socket::GetAddrInfo::getaddrinfo(
+        $string, "", { socktype => Socket::SOCK_RAW() }
+    );
+    if ($error && $logger) {
+        $logger->error("unable to resolve `$string': $error");
+        return;
+    }
+
+    # and push all of their addresses in the list
+    foreach my $result (@results) {
+        my ($error, $host) = Socket::GetAddrInfo::getnameinfo(
+            $result->{addr},
+            Socket::GetAddrInfo::NI_NUMERICHOST(),
+        );
+        # Drop the zone index. Net::IP do not support them
+        if ($error && $logger) {
+            $logger->error("unable to get hostname of IP address `$result->{addr}': $error");
+            next;
+        }
+        $host =~ s/%.*$//;
+        push @ret, Net::IP->new($host);
+    }
+
+    return @ret;
+}
+
 1;
 __END__
 
@@ -155,3 +200,7 @@ Returns the network mask for IPv4.
 =head2 getNetworkMaskIPv6($prefix)
 
 Returns the network mask for IPv6.
+
+=head2 resolv($string)
+
+Returns an array of Net::IP for the given $string

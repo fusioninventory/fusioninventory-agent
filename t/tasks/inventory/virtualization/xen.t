@@ -2,10 +2,14 @@
 
 use strict;
 use warnings;
+use lib 't/lib';
 
 use Test::Deep;
+use Test::Exception;
 use Test::More;
+use Test::NoWarnings;
 
+use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::Virtualization::Xen;
 
 my %tests_xm_list = (
@@ -63,12 +67,21 @@ my %tests_getUUID = (
     'xm_list_-l_vmname' => '0004fb00-0006-0000-4acc-3678187fb85c'
 );
 
-plan tests => scalar keys (%tests_xm_list) + scalar keys (%tests_getUUID);
+plan tests =>
+    (2 * scalar keys %tests_xm_list) +
+    (scalar keys %tests_getUUID)     +
+    1;
+
+my $inventory = FusionInventory::Test::Inventory->new();
 
 foreach my $test (keys %tests_xm_list) {
     my $file = "resources/virtualization/xm/$test";
     my @machines = FusionInventory::Agent::Task::Inventory::Virtualization::Xen::_getVirtualMachines(file => $file);
-    cmp_deeply(\@machines, $tests_xm_list{$test}, $test);
+    cmp_deeply(\@machines, $tests_xm_list{$test}, "$test: parsing");
+    lives_ok {
+        $inventory->addEntry(section => 'VIRTUALMACHINES', entry => $_)
+            foreach @machines;
+    } "$test: registering";
 }
 
 foreach my $test (keys %tests_getUUID) {

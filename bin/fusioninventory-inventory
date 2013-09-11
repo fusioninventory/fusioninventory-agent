@@ -9,10 +9,10 @@ use Getopt::Long;
 use File::Temp;
 use Pod::Usage;
 
-use FusionInventory::Agent::Task::Inventory;
-use FusionInventory::Agent::Target::Local;
-use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Broker::Inventory;
 use FusionInventory::Agent::Config;
+use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Task::Inventory;
 
 my %setup = (
     confdir => './etc',
@@ -28,11 +28,12 @@ my $options = {
 GetOptions(
     $options,
     'additional-content=s',
-    'backend-collect-timeout=s',
+    'collect-timeout=s',
     'html',
     'no-category=s',
     'scan-homedirs',
     'tag|t=s',
+    'target=s',
     'verbose',
     'debug+',
     'help',
@@ -50,20 +51,20 @@ my $config = FusionInventory::Agent::Config->new(
 );
 
 my $inventory = FusionInventory::Agent::Task::Inventory->new(
-    target => FusionInventory::Agent::Target::Local->new(
-        path       => '-',
-        html       => $options->{html},
-        basevardir => File::Temp->newdir(CLEANUP => 1),
-    ),
-    logger =>  FusionInventory::Agent::Logger->new(
-        debug => $options->{debug}
-    ),
+    target  => {},
+    logger  => FusionInventory::Agent::Logger->new(debug => $options->{debug}),
     datadir => $setup{datadir},
     confdir => $setup{confdir},
     config  => $config
 );
 
-$inventory->run();
+my $broker = FusionInventory::Agent::Broker::Inventory->create(
+    target  => $options->{target},
+    task    => 'inventory',
+    verbose => $options->{verbose}
+);
+
+$inventory->run(broker => $broker);
 
 __END__
 
@@ -78,10 +79,9 @@ fusioninventory-inventory [options]
   Options:
     --scan-homedirs                scan use home directories (false)
     --html                         save the inventory as HTML (false)
-    -t --tag=TAG                   mark the machine with given tag
-    --backend-collect-timeout=TIME timeout for inventory modules
-                                     execution (30)
-    --additional-content=FILE      additional inventory content file
+    -t --tag tag                   inventory tag
+    --collect-timeout time         inventory modules execution timeout (30)
+    --additional-content file      additional inventory content file
     --verbose                      verbose output (control messages)
     --debug                        debug output (execution traces)
     -h --help                      print this message and exit

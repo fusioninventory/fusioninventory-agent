@@ -8,10 +8,6 @@ use File::Basename;
 use HTTP::Daemon;
 use IO::Handle;
 use Net::IP;
-use Socket qw( SOCK_STREAM );
-use Socket::GetAddrInfo qw( getaddrinfo getnameinfo );
-use IO::Socket;
-#use Socket::GetAddrInfo qw( getaddrinfo getnameinfo );
 use Text::Template;
 use File::Glob;
 
@@ -54,24 +50,7 @@ sub _parseAddresses {
             next;
         }
 
-        # resolve host names
-        my ($error, @results) = getaddrinfo(
-            $string, "", { socktype => SOCK_RAW }
-        );
-        if ($error) {
-            $self->{logger}->error("unable to resolve $string: $error");
-            next;
-        }
-
-        # and push all of their addresses in the list
-        foreach my $result (@results) {
-            my ($error, $host) = getnameinfo($result->{addr}, Socket::GetAddrInfo::NI_NUMERICHOST, Socket::GetAddrInfo::NIx_NOSERV);
-            if ($error) {
-                $self->{logger}->error("unable to get host address: $error");
-                next;
-            }
-            push @addresses, Net::IP->new($host);
-        }
+        push @addresses, resolv($string);
     }
 
     return \@addresses;
@@ -292,10 +271,10 @@ sub _isTrusted {
     foreach my $trust (@{$self->{trust}}) {
         my $result = $source->overlaps($trust);
 
-	if (!$result) {
+        if (!$result && Net::IP::Error()) {
             $logger->debug("Server: ".Net::IP::Error());
-	    next;
-	}
+            next;
+        }
 
         # included in trusted range
         return 1 if $result == $IP_A_IN_B_OVERLAP;
@@ -335,6 +314,8 @@ sub init {
 sub handleRequests {
     my ($self) = @_;
 
+    return unless $self->{listener}; # init() call failed
+
     my ($client, $socket) = $self->{listener}->accept();
     return unless $socket;
 
@@ -372,7 +353,7 @@ requests are accepted:
 Authentication is based on connection source address: trusted requests are
 accepted, other are rejected.
 
-=head1 METHODS
+=head1 CLASS METHODS
 
 =head2 new(%params)
 
@@ -404,6 +385,12 @@ an IP address or an IP address range from which to trust incoming requests
 
 =back
 
-=head2 terminate
+=head1 INSTANCE METHODS
 
-Ensure the listening thread terminates.
+=head2 $server->init()
+
+Start the server internal listener.
+
+=head2 $server->handleRequests()
+
+Check if there any incoming request, and honours it if needed.

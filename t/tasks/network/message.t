@@ -4,11 +4,12 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use Test::Deep;
+use Test::Deep qw(cmp_deeply bag);
 use Test::More;
+use Config;
 
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::XML::Response;
-use FusionInventory::Agent::Task::NetInventory;
 
 my %messages = (
     message2 => {
@@ -16,33 +17,39 @@ my %messages = (
             196 => {
                 ID   => 196,
                 NAME => 4675719,
-                WALK => {
-                    ifaddr => {
-                       VLAN => '0',
-                       LINK => 'ifaddr',
-                       OID => '.1.3.6.1.2.1.4.20.1.2',
+                WALK => bag(
+                    {
+                       VLAN   => '0',
+                       LINK   => 'ifaddr',
+                       OID    => '.1.3.6.1.2.1.4.20.1.2',
                        OBJECT => 'ifaddr'
                     },
-                    ifIndex => {
-                        VLAN => '0',
-                        LINK => 'ifIndex',
-                        OID => '.1.3.6.1.2.1.2.2.1.1',
+                    {
+                        VLAN   => '0',
+                        LINK   => 'ifIndex',
+                        OID    => '.1.3.6.1.2.1.2.2.1.1',
                         OBJECT => 'ifIndex'
                     }
-                },
-                GET => {
-                    name => {
+                ),
+                GET => bag(
+                    {
                         VLAN   => '0',
                         LINK   => 'name',
                         OID    => '.1.3.6.1.2.1.1.5.0',
                         OBJECT => 'name'
                     },
-                    informations => {
+                    {
                         VLAN   => '0',
                         LINK   => 'informations',
                         OID    => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0',
                         OBJECT => 'informations'
                     },
+                ),
+                oids => {
+                    name         => '.1.3.6.1.2.1.1.5.0',
+                    ifIndex      => '.1.3.6.1.2.1.2.2.1.1',
+                    ifaddr       => '.1.3.6.1.2.1.4.20.1.2',
+                    informations => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0',
                 }
             }
         }
@@ -52,71 +59,89 @@ my %messages = (
             196 => {
                 ID   => 196,
                 NAME => 4675719,
-                WALK => {
-                    ifaddr => {
-                       VLAN => '0',
-                       LINK => 'ifaddr',
-                       OID => '.1.3.6.1.2.1.4.20.1.2',
+                WALK => bag(
+                    {
+                       VLAN   => '0',
+                       LINK   => 'ifaddr',
+                       OID    => '.1.3.6.1.2.1.4.20.1.2',
                        OBJECT => 'ifaddr'
                     },
-                    ifIndex => {
-                        VLAN => '0',
-                        LINK => 'ifIndex',
-                        OID => '.1.3.6.1.2.1.2.2.1.1',
+                    {
+                        VLAN   => '0',
+                        LINK   => 'ifIndex',
+                        OID    => '.1.3.6.1.2.1.2.2.1.1',
                         OBJECT => 'ifIndex'
                     }
-                },
-                GET => {
-                    name => {
+                ),
+                GET => bag(
+                    {
                         VLAN   => '0',
                         LINK   => 'name',
                         OID    => '.1.3.6.1.2.1.1.5.0',
                         OBJECT => 'name'
                     },
-                    informations => {
+                    {
                         VLAN   => '0',
                         LINK   => 'informations',
                         OID    => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0',
                         OBJECT => 'informations'
                     },
+                ),
+                oids => {
+                    name         => '.1.3.6.1.2.1.1.5.0',
+                    ifIndex      => '.1.3.6.1.2.1.2.2.1.1',
+                    ifaddr       => '.1.3.6.1.2.1.4.20.1.2',
+                    informations => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0',
                 }
             },
             197 => {
                 ID   => 197,
                 NAME => 4675720,
-                WALK => {
-                    ifaddr => {
-                       VLAN => '0',
-                       LINK => 'ifaddr',
-                       OID => '.1.3.6.1.2.1.4.20.1.2',
+                WALK => bag(
+                    {
+                       VLAN   => '0',
+                       LINK   => 'ifaddr',
+                       OID    => '.1.3.6.1.2.1.4.20.1.2',
                        OBJECT => 'ifaddr'
                     },
-                    ifIndex => {
-                        VLAN => '0',
-                        LINK => 'ifIndex',
-                        OID => '.1.3.6.1.2.1.2.2.1.1',
+                    {
+                        VLAN   => '0',
+                        LINK   => 'ifIndex',
+                        OID    => '.1.3.6.1.2.1.2.2.1.1',
                         OBJECT => 'ifIndex'
                     }
-                },
-                GET => {
-                    name => {
+                ),
+                GET => bag(
+                    {
                         VLAN   => '0',
                         LINK   => 'name',
                         OID    => '.1.3.6.1.2.1.1.5.0',
                         OBJECT => 'name'
                     },
-                    informations => {
+                    {
                         VLAN   => '0',
                         LINK   => 'informations',
                         OID    => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0',
                         OBJECT => 'informations'
                     },
+                ),
+                oids => {
+                    name         => '.1.3.6.1.2.1.1.5.0',
+                    ifIndex      => '.1.3.6.1.2.1.2.2.1.1',
+                    ifaddr       => '.1.3.6.1.2.1.4.20.1.2',
+                    informations => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0',
                 }
             },
 
         }
     }
 );
+
+# check thread support availability
+if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
+    plan skip_all => 'thread support required';
+}
+FusionInventory::Agent::Task::NetInventory->use();
 
 plan tests => scalar keys %messages;
 
@@ -131,15 +156,4 @@ foreach my $test (keys %messages) {
         $messages{$test}->{models},
         $test
     );
-}
-
-sub slurp {
-    my($file) = @_;
-
-    my $handler;
-    return unless open $handler, '<', $file;
-    local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
-    my $content = <$handler>;
-    close $handler;
-    return $content;
 }

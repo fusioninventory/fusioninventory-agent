@@ -11,8 +11,10 @@ use UNIVERSAL::require;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::Inventory::Generic::Screen;
 
-plan(skip_all => 'Parse::EDID required')
-    unless Parse::EDID->require();
+plan(skip_all => 'Parse::EDID >= 1.0.4 required')
+    unless Parse::EDID->require('1.0.4');
+
+Test::NoWarnings->use();
 
 my %edid_tests = (
     'crt.13' => {
@@ -383,7 +385,7 @@ my %edid_tests = (
     },
 );
 
-plan tests => scalar keys %edid_tests;
+plan tests => (scalar keys %edid_tests) + 1;
 
 foreach my $test (sort keys %edid_tests) {
     my $file = "resources/generic/edid/$test";

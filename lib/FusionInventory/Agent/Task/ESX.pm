@@ -4,23 +4,152 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
-use FusionInventory::Agent::Config;
+use FusionInventory::Agent;
+use FusionInventory::Agent::Broker::Server;
 use FusionInventory::Agent::HTTP::Client::Fusion;
-use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Inventory;
-use FusionInventory::Agent::XML::Query::Inventory;
+use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::SOAP::VMware;
+use FusionInventory::Agent::XML::Query::Inventory;
 
-our $VERSION = "2.2.1";
+our $VERSION = $FusionInventory::Agent::VERSION;
 
 sub isEnabled {
-    my ($self) = @_;
+    my ($self, %params) = @_;
 
     return $self->{target}->isa('FusionInventory::Agent::Target::Server');
+
+    my $controller = FusionInventory::Agent::HTTP::Client::Fusion->new(
+        logger       => $self->{logger},
+        user         => $params{user},
+        password     => $params{password},
+        proxy        => $params{proxy},
+        ca_cert_file => $params{ca_cert_file},
+        ca_cert_dir  => $params{ca_cert_dir},
+        no_ssl_check => $params{no_ssl_check},
+        debug        => $self->{debug}
+    );
+    die unless $controller;
+
+    my $remoteConfig = $controller->send(
+        url  => $self->{target}->{url},
+        args => {
+            action    => "getConfig",
+            machineid => $self->{deviceid},
+            task      => { ESX => $FusionInventory::Agent::VERSION },
+        }
+    );
+
+    my $schedule = $remoteConfig->{schedule};
+    return unless $schedule;
+    return unless ref $schedule eq 'ARRAY';
+
+    my @remotes =
+        grep { $_ }
+        map  { $_->{remote} } 
+        grep { $_->{task} eq "ESX" }
+        @{$schedule};
+
+    if (!@remotes) {
+        $self->{logger}->info("No ESX inventory task scheduled");
+        return;
+    }
+
+    my $jobs = $controller->send(
+        url  => $remotes[-1],
+        args => {
+            action    => "getJobs",
+            machineid => $self->{deviceid}
+        }
+    );
+
+    if (!$jobs) {
+        $self->{logger}->info("No host in the server request");
+        return;
+    }
+
+    if (ref $jobs->{jobs} ne 'ARRAY') {
+        $self->{logger}->info("Invalid server request format");
+        return;
+    }
+
+    $self->{controller} = $controller;
+    $self->{jobs}       = $jobs->{jobs};
+    return 1;
 }
 
-sub connect {
+sub run {
     my ( $self, %params ) = @_;
+
+    $self->{logger}->debug("running FusionInventory ESX task");
+
+    my @jobs = @{$self->{jobs}};
+    $self->{logger}->info("Got " . @jobs . " VMware host(s) to inventory.");
+
+    # use given output broker, otherwise assume the target is a GLPI server
+    my $broker =
+        $params{broker} ||
+        FusionInventory::Agent::Broker::Server->new(
+            target       => $self->{target}->getUrl(),
+            logger       => $self->{logger},
+            user         => $params{user},
+            password     => $params{password},
+            proxy        => $params{proxy},
+            ca_cert_file => $params{ca_cert_file},
+            ca_cert_dir  => $params{ca_cert_dir},
+            no_ssl_check => $params{no_ssl_check},
+    );
+
+    foreach my $job (@jobs) {
+
+        if ( !$self->_connect(
+                host     => $job->{host},
+                user     => $job->{user},
+                password => $job->{password}
+        )) {
+            $self->{controller}->send(
+                "url" => $self->{esxRemote},
+                args  => {
+                    action => 'setLog',
+                    machineid => $self->{deviceid},
+                    part      => 'login',
+                    uuid      => $job->{uuid},
+                    msg       => $self->{lastError},
+                    code      => 'ko'
+                }
+            ) if  $self->{controller};
+
+            next;
+        }
+
+        my $hostIds = $self->_getHostIds();
+        foreach my $hostId (@$hostIds) {
+            my $inventory = $self->_createInventory(
+                $hostId, $self->{config}->{tag}
+            );
+
+            my $message = FusionInventory::Agent::XML::Query::Inventory->new(
+                deviceid => $self->{deviceid},
+                content  => $inventory->getContent()
+            );
+
+            $broker->send(message => $message);
+        }
+        $self->{controller}->send(
+            "url" => $self->{esxRemote},
+            args  => {
+                action => 'setLog',
+               machineid => $self->{deviceid},
+                uuid      => $job->{uuid},
+                code      => 'ok'
+            }
+        ) if $self->{controller};
+    }
+
+}
+
+sub _connect {
+    my ($self, %params) = @_;
 
     my $url = 'https://' . $params{host} . '/sdk/vimService';
 
@@ -34,8 +163,8 @@ sub connect {
     $self->{vpbs} = $vpbs;
 }
 
-sub createFakeDeviceid {
-    my ( $self, $host ) = @_;
+sub _createFakeDeviceid {
+    my ($self, $host) = @_;
 
     my $hostname = $host->getHostname();
     my $bootTime = $host->getBootTime();
@@ -64,8 +193,8 @@ sub createFakeDeviceid {
     return $deviceid;
 }
 
-sub createInventory {
-    my ( $self, $id ) = @_;
+sub _createInventory {
+    my ($self, $id, $tag) = @_;
 
     die unless $self->{vpbs};
 
@@ -76,9 +205,9 @@ sub createInventory {
 
     my $inventory = FusionInventory::Agent::Inventory->new(
         logger => $self->{logger},
-        config => $self->{config},
+        tag    => $tag
     );
-    $inventory->{deviceid} = $self->createFakeDeviceid($host);
+    $inventory->{deviceid} = $self->_createFakeDeviceid($host);
 
     $inventory->{isInitialised} = 1;
     $inventory->{h}{CONTENT}{HARDWARE}{ARCHNAME} = ['remote'];
@@ -155,136 +284,21 @@ sub createInventory {
 #    return from_json( $jsonText, { utf8  => 1 } );
 #}
 
-sub getHostIds {
+sub _getHostIds {
     my ($self) = @_;
 
     return $self->{vpbs}->getHostIds();
 }
 
-sub run {
-    my ( $self, %params ) = @_;
-
-    $self->{logger}->debug("FusionInventory ESX task $VERSION");
-
-    $self->{client} = FusionInventory::Agent::HTTP::Client::Fusion->new(
-        logger       => $self->{logger},
-        user         => $params{user},
-        password     => $params{password},
-        proxy        => $params{proxy},
-        ca_cert_file => $params{ca_cert_file},
-        ca_cert_dir  => $params{ca_cert_dir},
-        no_ssl_check => $params{no_ssl_check},
-        debug        => $self->{debug}
-    );
-    die unless $self->{client};
-
-    my $globalRemoteConfig = $self->{client}->send(
-        "url" => $self->{target}->{url},
-        args  => {
-            action    => "getConfig",
-            machineid => $self->{deviceid},
-            task      => { ESX => $VERSION },
-        }
-    );
-
-    return unless $globalRemoteConfig->{schedule};
-    return unless ref( $globalRemoteConfig->{schedule} ) eq 'ARRAY';
-
-    foreach my $job ( @{ $globalRemoteConfig->{schedule} } ) {
-        next unless $job->{task} eq "ESX";
-        $self->{esxRemote} = $job->{remote};
-    }
-    if ( !$self->{esxRemote} ) {
-        $self->{logger}->info("ESX support disabled server side.");
-        return;
-    }
-
-    my $jobs = $self->{client}->send(
-        "url" => $self->{esxRemote},
-        args  => {
-            action    => "getJobs",
-            machineid => $self->{deviceid}
-        }
-    );
-
-    return unless $jobs;
-    return unless ref( $jobs->{jobs} ) eq 'ARRAY';
-    $self->{logger}->info(
-        "Got " . int( @{ $jobs->{jobs} } ) . " VMware host(s) to inventory." );
-
-    #    my $esx = FusionInventory::Agent::Task::ESX->new({
-    #            config => $config
-    #            });
-
-    my $ocsClient = FusionInventory::Agent::HTTP::Client::OCS->new(
-        logger       => $self->{logger},
-        user         => $params{user},
-        password     => $params{password},
-        proxy        => $params{proxy},
-        ca_cert_file => $params{ca_cert_file},
-        ca_cert_dir  => $params{ca_cert_dir},
-        no_ssl_check => $params{no_ssl_check},
-    );
-
-    foreach my $job ( @{ $jobs->{jobs} } ) {
-
-        if ( !$self->connect(
-                host     => $job->{host},
-                user     => $job->{user},
-                password => $job->{password}
-        )) {
-            $self->{client}->send(
-                "url" => $self->{esxRemote},
-                args  => {
-                    action => 'setLog',
-                    machineid => $self->{deviceid},
-                    part      => 'login',
-                    uuid      => $job->{uuid},
-                    msg       => $self->{lastError},
-                    code      => 'ko'
-                }
-            );
-
-            next;
-        }
-
-        my $hostIds = $self->getHostIds();
-        foreach my $hostId (@$hostIds) {
-            my $inventory = $self->createInventory($hostId);
-
-            my $message = FusionInventory::Agent::XML::Query::Inventory->new(
-                deviceid => $self->{deviceid},
-                content  => $inventory->getContent()
-            );
-
-            $ocsClient->send(
-                url     => $self->{target}->getUrl(),
-                message => $message
-            );
-        }
-        $self->{client}->send(
-            "url" => $self->{esxRemote},
-            args  => {
-                action => 'setLog',
-                machineid => $self->{deviceid},
-                uuid      => $job->{uuid},
-                code      => 'ok'
-            }
-        );
-
-    }
-
-    return $self;
-}
-
-# Only used by the command line tool
-#sub new {
-#    my ( undef, $params ) = @_;
-#
-#    my $logger = FusionInventory::Agent::Logger->new();
-#
-#    my $self = { config => $params->{config}, logger => $logger };
-#    bless $self;
-#}
-
 1;
+
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::SOAP::VMware - Access to VMware hypervisor
+
+=head1 DESCRIPTION
+
+This module allow access to VMware hypervisor using VMware SOAP API
+and _WITHOUT_ their Perl library.

@@ -1,0 +1,3 @@
+# prevent any eol normalization since we use them to
+# identify multiline strings
+*.walk -text

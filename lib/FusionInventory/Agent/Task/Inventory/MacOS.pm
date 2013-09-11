@@ -16,8 +16,9 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
-    my $infos = getSystemProfilerInfos();
+    my $infos = getSystemProfilerInfos(logger => $logger);
     my $SystemVersion =
         $infos->{'Software'}->{'System Software Overview'}->{'System Version'};
 
