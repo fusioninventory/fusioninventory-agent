@@ -20026,9 +20026,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PORTS => {
-                PORT => []
-            }
         }
     ],
     'juniper/srx3400.2.walk' => [
@@ -20053,9 +20050,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PORTS => {
-                PORT => []
-            }
         }
     ],
     'juniper/srx3400.3.walk' => [
@@ -20080,9 +20074,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PORTS => {
-                PORT => []
-            }
         }
     ],
 );

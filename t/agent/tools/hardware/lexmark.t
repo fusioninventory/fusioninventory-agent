@@ -84,9 +84,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PORTS => {
-                PORT => []
-            },
         }
     ],
 );

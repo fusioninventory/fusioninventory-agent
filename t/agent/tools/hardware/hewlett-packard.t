@@ -31,9 +31,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef
             },
-            PORTS => {
-                PORT => []
-            },
         }
     ],
     'hewlett-packard/Inkjet_2800.1.walk' => [
@@ -211,9 +208,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef
             },
-            PORTS => {
-                PORT => []
-            },
         }
     ],
     'hewlett-packard/LaserJet_100_colorMFP_M175nw.walk' => [
@@ -321,9 +315,6 @@ my %tests = (
                 COLOR      => '507',
                 RECTOVERSO => '0',
                 PRINTTOTAL => '541',
-            },
-            PORTS => {
-                PORT => []
             },
             CARTRIDGES => {
                 TONERMAGENTA => 73,
@@ -522,9 +513,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PORTS => {
-                PORT => []
-            },
         }
     ],
     'hewlett-packard/LaserJet_2100.2.walk' => [
@@ -548,9 +536,6 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
-            },
-            PORTS => {
-                PORT => []
             },
         }
     ],
@@ -6522,9 +6507,6 @@ my %tests = (
                 SERIAL       => 'CNH1R06635',
                 MODEL        => '0x0115513738313441'
             },
-            PORTS => {
-                PORT => []
-            },
             CARTRIDGES => {
                 TONERBLACK => 32
             },
@@ -6563,10 +6545,6 @@ my %tests = (
                 OTHERSERIAL  => '0xFDE8',
                 SERIAL       => '20040201',
                 ID           => undef
-            },
-            PORTS => {
-                PORT => [
-                ]
             },
             CARTRIDGES => {
                 TONERBLACK => 6
@@ -6617,10 +6595,6 @@ my %tests = (
                 COLOR      => '0',
                 RECTOVERSO => '8379'
             },
-            PORTS => {
-                PORT => [
-                ]
-            },
             CARTRIDGES => {
                 TONERBLACK => 88
             }
@@ -6655,9 +6629,6 @@ my %tests = (
                 NAME         => 'NPI830993',
                 ID           => undef,
                 MODEL        => 'HP LaserJet P2055dn',
-            },
-            PORTS => {
-                PORT => []
             },
             CARTRIDGES => {
                 TONERBLACK => 32
@@ -6711,9 +6682,6 @@ my %tests = (
             CARTRIDGES => {
                 TONERBLACK => 45
             },
-            PORTS => {
-                PORT => []
-            },
         }
     ],
     'hewlett-packard/LaserJet_P2055dn.5.walk' => [
@@ -6745,9 +6713,6 @@ my %tests = (
                 SERIAL       => '20040201',
                 ID           => undef,
                 MODEL        => 'HP LaserJet P2055dn',
-            },
-            PORTS => {
-                PORT => []
             },
             CARTRIDGES => {
                 TONERBLACK => 56
@@ -6794,9 +6759,6 @@ my %tests = (
             CARTRIDGES => {
                 TONERBLACK => 78
             },
-            PORTS => {
-                PORT => []
-            },
             PAGECOUNTERS => {
                 PRINTTOTAL => '17861',
                 BLACK      => '17861',
@@ -6839,9 +6801,6 @@ my %tests = (
             CARTRIDGES => {
                 TONERBLACK => 46
             },
-            PORTS => {
-                PORT => []
-            },
             PAGECOUNTERS => {
                 COLOR      => '0',
                 PRINTBLACK => '5696',
@@ -6880,9 +6839,6 @@ my %tests = (
                 NAME         => 'NPICB3982',
                 MODEL        => 'HP LaserJet P2055dn',
                 SERIAL       => '20040201',
-            },
-            PORTS => {
-                PORT => []
             },
             CARTRIDGES => {
                 TONERBLACK => 38
@@ -6925,9 +6881,6 @@ my %tests = (
                 SERIAL       => '20040201',
                 OTHERSERIAL  => '0xFDE8',
                 ID           => undef,
-            },
-            PORTS => {
-                PORT => []
             },
             PAGECOUNTERS => {
                 BLACK      => '4047',
@@ -6978,9 +6931,6 @@ my %tests = (
                 RECTOVERSO => '0',
                 BLACK      => '4944',
             },
-            PORTS => {
-                PORT => []
-            },
             CARTRIDGES => {
                 TONERBLACK => 40
             }
@@ -7026,10 +6976,6 @@ my %tests = (
             CARTRIDGES => {
                 TONERBLACK => 0
             },
-            PORTS => {
-                PORT => [
-                ]
-            }
         }
     ],
     'hewlett-packard/LaserJet_P2055dn.12.walk' => [
@@ -7068,10 +7014,6 @@ my %tests = (
                 PRINTBLACK => '89242',
                 PRINTTOTAL => '89242',
                 BLACK      => '89242'
-            },
-            PORTS => {
-                PORT => [
-                ]
             },
             CARTRIDGES => {
                 TONERBLACK => 68
@@ -7712,9 +7654,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PORTS => {
-                PORT => []
-            },
         }
     ],
     'hewlett-packard/LaserJet_600.2.walk' => [
@@ -7738,9 +7677,6 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
-            },
-            PORTS => {
-                PORT => []
             },
         }
     ],
@@ -7922,9 +7858,6 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
-            },
-            PORTS => {
-                PORT => []
             },
         }
     ],

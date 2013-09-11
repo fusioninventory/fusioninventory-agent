@@ -617,11 +617,15 @@ sub getDeviceFullInfo {
 
     # convert ports hashref to an arrayref, sorted by interface number
     my $ports = $device->{PORTS}->{PORT};
-    $device->{PORTS}->{PORT} = [
-        map { $ports->{$_} }
-        sort { $a <=> $b }
-        keys %{$ports}
-    ];
+    if ($ports) {
+        $device->{PORTS}->{PORT} = [
+            map { $ports->{$_} }
+            sort { $a <=> $b }
+            keys %{$ports}
+        ];
+    } else {
+        delete $device->{PORTS};
+    }
 
     return $device;
 }

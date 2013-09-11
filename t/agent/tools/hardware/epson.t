@@ -231,9 +231,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef
             },
-            PORTS => {
-                PORT => []
-            }
         }
     ],
     'epson/AL-C1100.walk' => [
@@ -257,9 +254,6 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
-            },
-            PORTS => {
-                PORT => []
             },
         }
     ],
@@ -285,9 +279,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PORTS => {
-                PORT => []
-            },
         }
     ],
     'epson/AL-M2400.2.walk' => [
@@ -311,9 +302,6 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
-            },
-            PORTS => {
-                PORT => []
             },
         }
     ],

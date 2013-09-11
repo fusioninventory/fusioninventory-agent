@@ -31,9 +31,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PORTS => {
-                PORT => []
-            },
         }
     ],
     'dell/M5200.2.walk' => [
@@ -58,9 +55,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PORTS => {
-                PORT => []
-            },
         }
     ],
     'dell/unknown.walk' => [
@@ -84,9 +78,6 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
-            },
-            PORTS => {
-                PORT => []
             },
         }
     ],
