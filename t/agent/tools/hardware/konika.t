@@ -31,9 +31,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PORTS => {
-                PORT => []
-            }
         }
     ],
     'konica/bizhub_421.2.walk' => [
@@ -58,9 +55,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PORTS => {
-                PORT => []
-            }
         }
     ],
     'konica/bizhub_421.3.walk' => [
@@ -85,9 +79,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PORTS => {
-                PORT => []
-            }
         }
     ],
 );

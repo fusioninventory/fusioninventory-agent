@@ -31,9 +31,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PORTS => {
-                PORT => []
-            }
         }
     ],
     'ricoh/Aficio_MP_C2050.walk' => [
@@ -119,9 +116,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PORTS => {
-                PORT => []
-            }
         }
     ],
     'ricoh/Aficio_SP_C420DN.2.walk' => [
@@ -146,9 +140,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PORTS => {
-                PORT => []
-            }
         }
     ],
 );

@@ -31,9 +31,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PORTS => {
-                PORT => []
-            }
         }
     ],
     'kyocera/TASKalfa-181.walk' => [
@@ -58,9 +55,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PORTS => {
-                PORT => []
-            }
         }
     ],
     'kyocera/FS-2000D.1.walk' => [
