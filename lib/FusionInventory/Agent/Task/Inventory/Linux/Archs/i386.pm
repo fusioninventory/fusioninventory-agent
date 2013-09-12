@@ -34,44 +34,45 @@ sub doInventory {
 sub _getCPUs {
     my (%params) = @_;
 
-    my @cpusFromDmidecode = getCpusFromDmidecode();
+    my @cpusFromDmidecode = getCpusFromDmidecode(file => $params{dmidecode});
+    my @cpusFromProc      = getCPUsFromProc(file => $params{cpuinfo});
 
-    my ($proc_cpu, $procList) = _getCPUsFromProc(%params);
+    my @physicalCPUs = _getPhysicalCPUs(@cpusFromProc);
+    my @baseCPUs = @cpusFromDmidecode ?
+        @cpusFromDmidecode : @physicalCPUs;
+
+    my $info = $cpusFromProc[-1];
 
     my $cpt = 0;
-    my @baseCpuList = @cpusFromDmidecode ? @cpusFromDmidecode : @$procList;
     my @cpus;
 
-    foreach my $cpu (@baseCpuList) {
+    foreach my $cpu (@baseCPUs) {
 
-        if ($proc_cpu->{vendor_id}) {
-            $proc_cpu->{vendor_id} =~ s/Genuine//;
-            $proc_cpu->{vendor_id} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
-            $proc_cpu->{vendor_id} =~ s/CyrixInstead/Cyrix/;
-            $proc_cpu->{vendor_id} =~ s/CentaurHauls/VIA/;
-            $proc_cpu->{vendor_id} =~ s/AuthenticAMD/AMD/;
+        if ($info->{vendor_id}) {
+            $info->{vendor_id} =~ s/Genuine//;
+            $info->{vendor_id} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
+            $info->{vendor_id} =~ s/CyrixInstead/Cyrix/;
+            $info->{vendor_id} =~ s/CentaurHauls/VIA/;
+            $info->{vendor_id} =~ s/AuthenticAMD/AMD/;
 
-            $cpu->{MANUFACTURER} = $proc_cpu->{vendor_id};
+            $cpu->{MANUFACTURER} = $info->{vendor_id};
         }
 
-        if ($proc_cpu->{'model name'}) {
-            $cpu->{NAME} = $proc_cpu->{'model name'};
-        }
-
-        if (!$cpu->{CORE}) {
-            $cpu->{CORE} = $procList->[$cpt]{CORE};
-        }
-        if (!$cpu->{THREAD}) {
-            $cpu->{THREAD} = $procList->[$cpt]{THREAD};
+        if ($info->{'model name'}) {
+            $cpu->{NAME} = $info->{'model name'};
         }
 
         # Get directly informations from cpuinfo if not already processed
         # in dmidecode
-        $cpu->{STEPPING} = $procList->[$cpt]{STEPPING}
+        $cpu->{CORE} = $cpusFromProc[$cpt]{CORE}
+            unless $cpu->{CORE};
+        $cpu->{THREAD} = $cpusFromProc[$cpt]{THREAD}
+            unless $cpu->{THREAD};
+        $cpu->{STEPPING} = $cpusFromProc[$cpt]{STEPPING}
             unless $cpu->{STEPPING} ;
-        $cpu->{FAMILYNUMBER} = $procList->[$cpt]{FAMILYNUMBER}
+        $cpu->{FAMILYNUMBER} = $cpusFromProc[$cpt]{FAMILYNUMBER}
             unless $cpu->{FAMILYNUMBER};
-        $cpu->{MODEL} = $procList->[$cpt]{MODEL}
+        $cpu->{MODEL} = $cpusFromProc[$cpt]{MODEL}
             unless $cpu->{MODEL};
 
         if ($cpu->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
@@ -90,12 +91,9 @@ sub _getCPUs {
     return @cpus;
 }
 
-sub _getCPUsFromProc {
-    my %params = (
-        file => '/proc/cpuinfo',
-        @_
-    );
-    my @cpus = getCPUsFromProc(%params);
+sub _getPhysicalCPUs {
+    my (@cpus) = @_;
+
     my @physical_cpus;
     my %cpus;
 
@@ -121,7 +119,7 @@ sub _getCPUsFromProc {
     # physical id may not start at 0!
     push @physical_cpus, values %cpus if %cpus;
 
-    return $cpus[-1], \@physical_cpus;
+    return @physical_cpus;
 }
 
 1;
