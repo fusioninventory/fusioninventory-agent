@@ -5,7 +5,8 @@ use warnings;
 use base 'Exporter';
 
 use Test::More;
-use YAML qw(LoadFile);
+use English qw(-no_match_vars);
+use UNIVERSAL::require;
 
 use FusionInventory::Agent::SNMP::Mock;
 use FusionInventory::Agent::Tools::Hardware;
@@ -27,8 +28,12 @@ sub setPlan {
     } elsif (!$ENV{SNMPMODEL_DATABASE}) {
         plan skip_all => 'SNMP models database required';
     } else {
-        plan tests => 3 * $count;
+        YAML->require();
+        plan(skip_all => 'YAML required') if $EVAL_ERROR;
+        YAML->import('LoadFile');
     }
+
+    plan tests => 3 * $count;
 }
 
 sub getDictionnary {
