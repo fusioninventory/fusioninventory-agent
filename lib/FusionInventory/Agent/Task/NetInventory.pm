@@ -233,7 +233,7 @@ sub _queryDevice {
             return;
         }
     } else {
-        my $credentials = $params{credentials};
+        my $credentials = $params{credentials}{$device->{AUTHSNMP_ID}};
         eval {
             FusionInventory::Agent::SNMP::Live->require();
             $snmp = FusionInventory::Agent::SNMP::Live->new(
