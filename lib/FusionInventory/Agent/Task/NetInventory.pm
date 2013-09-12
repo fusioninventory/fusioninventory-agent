@@ -179,8 +179,8 @@ sub _queryDevices {
 
         my $result = $self->_queryDevice(
             device      => $device,
-            models      => $models,
-            credentials => $credentials
+            model       => $models->{$device->{MODELSNMP_ID}},
+            credentials => $credentials->{$device->{AUTHSNMP_ID}}
         );
 
         $result = {
@@ -206,9 +206,10 @@ sub _queryDevices {
 sub _queryDevice {
     my ($self, %params) = @_;
 
-    my $device = $params{device};
-    my $logger = $self->{logger};
-    my $id     = threads->tid();
+    my $credentials = $params{credentials};
+    my $device      = $params{device};
+    my $logger      = $self->{logger};
+    my $id          = threads->tid();
     $logger->debug("thread $id: scanning $device->{ID}");
 
     my $snmp;
@@ -224,7 +225,6 @@ sub _queryDevice {
             return;
         }
     } else {
-        my $credentials = $params{credentials}{$device->{AUTHSNMP_ID}};
         eval {
             FusionInventory::Agent::SNMP::Live->require();
             $snmp = FusionInventory::Agent::SNMP::Live->new(
@@ -248,7 +248,7 @@ sub _queryDevice {
          id     => $device->{ID},
          type   => $device->{TYPE},
          snmp   => $snmp,
-         model  => $params{models}->{$device->{MODELSNMP_ID}},
+         model  => $params{model},
          logger => $self->{logger}
     );
 
