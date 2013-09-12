@@ -21,6 +21,7 @@ GetOptions(
     'user=s',
     'password=s',
     'target=s',
+    'directory=s', # deprecated
     'tag|t=s',
     'help',
     'version',
@@ -38,9 +39,16 @@ pod2usage(-verbose => 0) unless
     $options->{user}      and
     $options->{password};
 
+my $logger = FusionInventory::Agent::Logger->new(debug => $options->{debug});
+
+if ($options->{directory}) {
+    $options->{target}=$options->{directory};
+    $logger->info("--directory is deprecated, please use --target instead");
+}
+
 my $esx = FusionInventory::Agent::Task::ESX->new(
     target => {},
-    logger => FusionInventory::Agent::Logger->new(debug => $options->{debug})
+    logger => $logger
 );
 
 # emulate a server requesting a unique job
