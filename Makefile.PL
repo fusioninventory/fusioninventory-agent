@@ -54,6 +54,7 @@ test_requires 'Clone'                        => undef;
 test_requires 'Test::MockObject'             => undef;
 test_requires 'JSON'                         => undef;
 test_requires 'Net::SNMP'                    => undef;
+test_requires 'YAML'                         => undef; # t/lib/FusionInventory/Test/Hardware.pm
 
 # Inventory
 recommends 'Parse::EDID' => undef;

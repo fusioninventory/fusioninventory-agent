@@ -1,6 +1,10 @@
 Revision history for FusionInventory agent
 
-2.3.1  Sat, 07 Sep 2013 22:31:17 +0200
+2.3.2  Wed, 11 Sep 2013 15:45:36 +0200
+test suite
+* ad YAML as a test dependency
+
+2.3.1  Mon, 09 Sep 2013 15:36:40 +0200
 inventory task
 * report when running in a BSD Jail or a LXC system, thanks Igor Morozov
 * better strategy for extracting USB printer serial on windows (#2213)
