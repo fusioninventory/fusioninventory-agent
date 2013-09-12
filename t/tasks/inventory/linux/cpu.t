@@ -31,28 +31,36 @@ my %i386 = (
             FAMILYNUMBER => '6'
         }
     ],
-    'linux-686-2' => [
+    'rhel-5.6' => [
         {
-            NAME          => 'Intel(R) Xeon(R) CPU           E5620  @ 2.40GHz',
-            FAMILYNUMBER  => '6',
-            CORE          => '4',
-            MANUFACTURER  => 'Intel',
-            ARCH          => 'i386',
-            MODEL         => '44',
-            THREAD        => '2',
-            STEPPING      => '2',
-            SPEED         => '2400'
+            NAME           => 'Intel(R) Xeon(R) CPU           E5620  @ 2.40GHz',
+            FAMILYNUMBER   => '6',
+            CORE           => '4',
+            MANUFACTURER   => 'Intel',
+            ARCH           => 'i386',
+            MODEL          => '44',
+            THREAD         => '8',
+            STEPPING       => '2',
+            SPEED          => '2400',
+            EXTERNAL_CLOCK => 5860,
+            FAMILYNAME     => 'Xeon',
+            ID             => 'C2 06 02 00 FF FB EB BF',
+            SERIAL         => undef
         },
         {
-            NAME          => 'Intel(R) Xeon(R) CPU           E5620  @ 2.40GHz',
-            MANUFACTURER => 'Intel',
-            MODEL        => '44',
-            SPEED        => '2400',
-            THREAD       => '2',
-            ARCH         => 'i386',
-            CORE         => '4',
-            STEPPING     => '2',
-            FAMILYNUMBER => '6'
+            NAME           => 'Intel(R) Xeon(R) CPU           E5620  @ 2.40GHz',
+            MANUFACTURER   => 'Intel',
+            MODEL          => '44',
+            SPEED          => '2400',
+            THREAD         => '8',
+            ARCH           => 'i386',
+            CORE           => '4',
+            STEPPING       => '2',
+            FAMILYNUMBER   => '6',
+            EXTERNAL_CLOCK => 5860,
+            FAMILYNAME     => 'Xeon',
+            ID             => 'C2 06 02 00 FF FB EB BF',
+            SERIAL         => undef
         }
     ],
     'linux-686-samsung-nc10-1' => [
@@ -211,8 +219,9 @@ plan tests =>
 my $inventory = FusionInventory::Test::Inventory->new();
 
 foreach my $test (keys %i386) {
-    my $file = "resources/linux/proc/cpuinfo/$test";
-    my @cpus = FusionInventory::Agent::Task::Inventory::Linux::Archs::i386::_getCPUs(file => $file);
+    my $cpuinfo   = "resources/linux/proc/cpuinfo/$test";
+    my $dmidecode = "resources/generic/dmidecode/$test";
+    my @cpus = FusionInventory::Agent::Task::Inventory::Linux::Archs::i386::_getCPUs(cpuinfo => $cpuinfo, dmidecode => $dmidecode);
     cmp_deeply(\@cpus, $i386{$test}, "cpus: ".$test);
     lives_ok {
         $inventory->addEntry(section => 'CPUS', entry => $_) foreach @cpus;
