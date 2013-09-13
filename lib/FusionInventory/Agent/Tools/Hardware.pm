@@ -726,11 +726,11 @@ sub _setGenericProperties {
             next unless $value;
             # safety checks
             if (!$ports->{$value}) {
-                $logger->error("non-existing port $value, check ifaddr mapping");
+                $logger->error("non-existing port $value, check ifaddr mapping") if $logger;
                 last;
             }
             if ($suffix !~ /^$ip_address_pattern$/) {
-                $logger->error("invalid IP address $suffix, check ifaddr mapping");
+                $logger->error("invalid IP address $suffix, check ifaddr mapping") if $logger;
                 last;
             }
             $ports->{$value}->{IP} = $suffix;
