@@ -999,11 +999,16 @@ This module provides some hardware-related functions.
 return a minimal set of information for a device through SNMP, according to a
 set of rules hardcoded in the agent.
 
-=head2 getDeviceInfo($snmp, $dictionnary)
+=head2 getDeviceInfo($snmp, $dictionary)
 
-return a minimal set of information for a device through SNMP, according to a
-set of rules hardcoded in the agent and the usage of an additional knowledge
-base, the dictionary.
+return a limited set of information for a device through SNMP, according to a
+set of rules hardcoded in the agent and the usage of generic knowledge base,
+the dictionary.
+
+=head2 getDeviceFullInfo(%params)
+
+return a full set of information for a device through SNMP, according to a
+set of rules hardcoded in the agent and the usage of a device-specific set of mappings, the model.
 
 =head2 setConnectedDevicesMacAddresses($description, $snmp, $model, $ports)
 
@@ -1088,3 +1093,7 @@ return the $index element of an oid.
 =head2 getElements($oid, $first, $last)
 
 return all elements of index in range $first to $last of an oid.
+
+=head2 loadModel($file)
+
+Load an SNMP description model from given file.
