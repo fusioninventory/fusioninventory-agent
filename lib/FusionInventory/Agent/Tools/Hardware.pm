@@ -680,17 +680,10 @@ sub _setGenericProperties {
             $key eq 'OTHERSERIAL' ? getCanonicalSerialNumber($raw_value) :
             $key eq 'RAM'         ? getCanonicalMemory($raw_value)       :
             $key eq 'MEMORY'      ? getCanonicalMemory($raw_value)       :
+            $key eq 'MAC'         ? getCanonicalMacAddress($raw_value)   :
                                     hex2char($raw_value)                 ;
-        if ($key eq 'MAC') {
-            if ($raw_value =~ $mac_address_pattern) {
-                $value = $raw_value;
-            } else {
-                $value = alt2canonical($raw_value);
-            }
-        }
 
         $device->{INFO}->{$key} = $value if defined $value;
-
     }
 
     if ($model->{oids}->{ipAdEntAddr}) {
@@ -711,10 +704,9 @@ sub _setGenericProperties {
         # $prefix.$i = $value, with $i as port id
         while (my ($suffix, $value) = each %{$results}) {
             if ($key eq 'MAC') {
-                next unless $value;
-                $value = alt2canonical($value);
+                $value = getCanonicalMacAddress($value);
             }
-            $ports->{$suffix}->{$key} = $value;
+            $ports->{$suffix}->{$key} = $value if defined $value;
         }
     }
 

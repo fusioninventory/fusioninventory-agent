@@ -179,7 +179,7 @@ my %tests = (
                         IFNAME   => 'Eth0',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:21:5A:56:03:32'
                     }
                 ]
             }
@@ -256,13 +256,13 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => 'B4:B5:2F:F6:FA:4A'
                     },
                     {
                         IFNAME   => 'wifi0',
                         IFNUMBER => '3',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => 'B4:B5:2F:F6:FA:4A'
                     },
                     {
                         IFNAME   => 'wifiUAP',
@@ -362,7 +362,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '2C:76:8A:41:9F:6E'
                     }
 
                 ]
@@ -477,7 +477,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
                         IFNUMBER => '1',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:14:38:61:04:4B'
                     },
                     {
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
@@ -540,7 +540,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
                         IFNUMBER => '1',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:14:38:9A:3F:C7'
                     },
                     {
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
@@ -591,7 +591,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
                         IFNUMBER => '1',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:11:85:C6:8F:5E'
                     },
                     {
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
@@ -781,7 +781,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.19,JETDIRECT,JD33,EEPROM G.08.49',
                         IFTYPE   => 'ethernetCsmacd(6)',
                         IP       => '128.93.22.20',
-                        MAC      => '',
+                        MAC      => '00:30:C1:01:1E:68',
                     },
                 ]
             },
@@ -831,7 +831,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.24.08',
                         IFTYPE   => 'ethernetCsmacd(6)',
                         IP       => '128.93.22.126',
-                        MAC      => '',
+                        MAC      => '00:01:E6:A1:D0:34',
                     },
                     {
                         IFNUMBER => '2',
@@ -883,7 +883,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
                         IFTYPE   => 'ethernetCsmacd(6)',
                         IP       => '128.93.22.66',
-                        MAC      => '',
+                        MAC      => '00:30:C1:60:C8:5B',
                     },
                 ]
             },
@@ -928,7 +928,7 @@ my %tests = (
                         IFNAME   => 'NetDrvr',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:1A:4B:18:64:A0'
                     }
 
                 ]
@@ -974,7 +974,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD121,EEPROM V.30.31',
                         IFNUMBER => '1',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:1B:78:6F:72:C5'
                     },
                     {
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD121,EEPROM V.30.31',
@@ -1028,7 +1028,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.05.35,JETDIRECT,JD30,EEPROM G.05.35',
                         IFNUMBER => '1',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:60:B0:91:3D:9D'
                     }
 
                 ]
@@ -1086,7 +1086,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.08.08,JETDIRECT,JD33,EEPROM G.08.04',
                         IFNUMBER => '1',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:30:C1:8C:D5:6C'
                     }
                 ]
             },
@@ -1134,7 +1134,7 @@ my %tests = (
                         IFNUMBER => '1',
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.19,JETDIRECT,JD33,EEPROM G.08.40',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '',
+                        MAC      => '00:10:83:BA:17:CE',
                     },
                 ]
             },
@@ -1176,7 +1176,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.25.09',
                         IFNUMBER => '1',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:01:E6:A1:A7:81'
                     },
                     {
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.25.09',
@@ -1234,7 +1234,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.43',
                         IFNUMBER => '1',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:11:85:D9:F6:C7'
                     },
                     {
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.43',
@@ -1287,7 +1287,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
                         IFTYPE   => 'ethernetCsmacd(6)',
                         IP       => '128.93.22.88',
-                        MAC      => '',
+                        MAC      => '00:14:38:DF:A5:30',
                     },
                     {
                         IFNUMBER => '2',
@@ -1340,7 +1340,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63',
                         IFTYPE   => 'ethernetCsmacd(6)',
                         IP       => '128.93.8.82',
-                        MAC      => '',
+                        MAC      => '00:23:7D:7E:A1:31',
                     },
                     {
                         IFNUMBER => '2',
@@ -1393,7 +1393,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
                         IFTYPE   => 'ethernetCsmacd(6)',
                         IP       => '128.93.22.90',
-                        MAC      => '',
+                        MAC      => '00:14:38:EA:3B:FC',
                     },
                     {
                         IFNUMBER => '2',
@@ -1446,7 +1446,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
                         IFTYPE   => 'ethernetCsmacd(6)',
                         IP       => '128.93.13.25',
-                        MAC      => '',
+                        MAC      => '00:14:38:EA:2B:C4',
                     },
                     {
                         IFNUMBER => '2',
@@ -1499,7 +1499,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
                         IFTYPE   => 'ethernetCsmacd(6)',
                         IP       => '128.93.22.59',
-                        MAC      => '',
+                        MAC      => '00:14:38:E2:12:D8',
                     },
                     {
                         IFNUMBER => '2',
@@ -1552,7 +1552,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63',
                         IFTYPE   => 'ethernetCsmacd(6)',
                         IP       => '128.93.22.41',
-                        MAC      => '',
+                        MAC      => '00:1B:78:28:26:CB'
                     },
                     {
                         IFNUMBER => '2',
@@ -1605,7 +1605,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
                         IFTYPE   => 'ethernetCsmacd(6)',
                         IP       => '128.93.22.123',
-                        MAC      => '',
+                        MAC      => '00:14:38:EA:FA:59',
                     },
                     {
                         IFNUMBER => '2',
@@ -1663,7 +1663,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.33.19',
                         IFTYPE   => 'ethernetCsmacd(6)',
                         IP       => '128.93.10.59',
-                        MAC      => '',
+                        MAC      => '00:23:7D:81:22:F7',
                     },
                 ]
             },
@@ -1705,7 +1705,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
                         IFNUMBER => '1',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:1B:78:F0:F4:47'
                     },
                     {
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
@@ -1769,7 +1769,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:1F:29:27:1E:90'
                     }
                 ]
             },
@@ -1821,7 +1821,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '68:B5:99:AD:61:8E'
                     }
                 ]
             },
@@ -1879,7 +1879,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:23:7D:7F:5D:71'
                     }
                 ]
             },
@@ -1938,7 +1938,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:23:7D:7F:5D:71'
                    }
                 ]
             },
@@ -1985,7 +1985,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:23:7D:82:88:33'
                     }
                 ]
             },
@@ -2044,7 +2044,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '3C:4A:92:B3:02:A7'
                     }
                 ]
             },
@@ -2109,7 +2109,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:1F:29:2A:D7:43'
                     }
                 ]
             }
@@ -2168,7 +2168,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => 'B4:99:BA:C3:D5:FF'
                     }
                 ]
             }
@@ -2227,7 +2227,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '2C:27:D7:11:70:08'
                     }
                 ]
             }
@@ -2286,7 +2286,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:21:5A:84:C4:81'
                     }
                 ]
             }
@@ -2339,7 +2339,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:21:5A:84:C4:81'
                     }
                 ]
             },
@@ -2399,7 +2399,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:21:5A:81:E3:A7'
                     }
                 ]
             },
@@ -2457,7 +2457,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '78:AC:C0:8F:A1:DD'
                     }
                 ]
             },
@@ -2511,7 +2511,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:21:5A:83:EC:85'
                     }
                 ]
             },
@@ -2575,7 +2575,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:1B:78:13:EE:63'
                     }
                 ]
             },
@@ -2631,7 +2631,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:21:5A:83:EC:85'
                     }
                 ]
             },
@@ -2689,7 +2689,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFTYPE   => 'ethernetCsmacd(6)',
                         IP       => '128.93.22.213',
-                        MAC      => '',
+                        MAC      => '00:1F:29:2B:AB:3D',
                     },
                 ]
             },
@@ -2747,7 +2747,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFTYPE   => 'ethernetCsmacd(6)',
                         IP       => '128.93.22.14',
-                        MAC      => '',
+                        MAC      => '00:17:08:8C:A8:6F',
                     },
                 ]
             },
@@ -2805,7 +2805,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFTYPE   => 'ethernetCsmacd(6)',
                         IP       => '128.93.22.22',
-                        MAC      => '',
+                        MAC      => '00:17:08:8E:69:10',
                     },
                 ]
             },
@@ -2863,7 +2863,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFTYPE   => 'ethernetCsmacd(6)',
                         IP       => '128.93.22.122',
-                        MAC      => '',
+                        MAC      => '00:17:08:8C:98:0D',
                     },
                 ]
             },
@@ -2921,7 +2921,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFTYPE   => 'ethernetCsmacd(6)',
                         IP       => '128.93.22.220',
-                        MAC      => '',
+                        MAC      => '00:23:7D:79:54:CF',
                     },
                 ]
             },
@@ -2979,7 +2979,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFTYPE   => 'ethernetCsmacd(6)',
                         IP       => '128.93.22.197',
-                        MAC      => '',
+                        MAC      => '00:1A:4B:15:6F:54',
                     },
                 ]
             },
@@ -3037,7 +3037,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFTYPE   => 'ethernetCsmacd(6)',
                         IP       => '128.93.22.233',
-                        MAC      => '',
+                        MAC      => '00:1F:29:16:6E:31',
                     },
                 ]
             },
@@ -7844,7 +7844,7 @@ my %tests = (
                         IFNAME   => 'NetDrvr',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '78:E7:D1:A6:03:2E'
                     }
                 ]
             },
@@ -8418,7 +8418,7 @@ my %tests = (
                     {
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:9C:02:01:3B:81'
                     }
                 ]
             }
@@ -8463,7 +8463,7 @@ my %tests = (
                     {
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:9C:02:01:3B:81'
                     }
                 ]
             },
@@ -9193,7 +9193,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:21:5A:8F:EA:2B'
                     }
                 ]
             },
@@ -9247,7 +9247,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:21:5A:8D:98:96'
                     }
                 ]
             },
@@ -9301,7 +9301,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.35',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:1F:29:22:C8:7C'
                     }
                 ]
             },
@@ -9355,7 +9355,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.40',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:21:5A:97:06:DE'
                     }
                 ]
             },
@@ -9409,7 +9409,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.41',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:25:B3:EA:DB:FB'
                     }
                 ]
             },
@@ -9475,7 +9475,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD145,EEPROM V.38.99',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '2C:27:D7:10:DB:2C'
                     }
                 ]
             },
@@ -9528,7 +9528,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.67',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:23:7D:85:A5:7D'
                     }
                 ]
             },
@@ -9591,7 +9591,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.80',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => 'D4:85:64:3D:AC:2E'
                     }
                 ]
             }

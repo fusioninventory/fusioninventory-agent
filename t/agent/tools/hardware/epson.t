@@ -50,7 +50,7 @@ my %tests = (
                 PORT => [
                     {
                         IP       => '172.17.3.81',
-                        MAC      => '',
+                        MAC      => '20:04:48:0E:D5:0E',
                         IFTYPE   => 'ethernetCsmacd(6)',
                         IFNAME   => 'AL-C4200 Hard Ver.1.00 Firm Ver.2.40',
                         IFNUMBER => '1'
@@ -101,7 +101,7 @@ my %tests = (
                     {
                         IP       => '172.17.3.212',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '',
+                        MAC      => '00:00:48:D1:4B:C7',
                         IFNAME   => 'AL-C4200 Hard Ver.1.00 Firm Ver.2.40',
                         IFNUMBER => '1'
                     }
@@ -135,7 +135,7 @@ my %tests = (
                         IFNUMBER => '1',
                         IFTYPE   => 'ethernetCsmacd(6)',
                         IFNAME   => 'AL-C4200 Hard Ver.1.00 Firm Ver.2.40',
-                        MAC      => '',
+                        MAC      => '00:00:48:D1:C3:0E',
                         IP       => '172.17.3.213'
                     }
                 ]
@@ -193,7 +193,7 @@ my %tests = (
                 PORT => [
                     {
                         IP       => '172.17.3.102',
-                        MAC      => '',
+                        MAC      => '00:00:48:D3:62:D2',
                         IFNAME   => 'AL-C4200 Hard Ver.1.00 Firm Ver.2.40',
                         IFNUMBER => '1',
                         IFTYPE   => 'ethernetCsmacd(6)'

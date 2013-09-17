@@ -89,7 +89,7 @@ my %tests = (
                     {
                         IFNAME   => 'eth0',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '',
+                        MAC      => '00:C0:EE:6A:96:DD',
                         IFNUMBER => '1',
                         IP       => '172.20.3.51'
                     }
@@ -135,7 +135,7 @@ my %tests = (
                         IP       => '172.20.3.4',
                         IFTYPE   => 'ethernetCsmacd(6)',
                         IFNUMBER => '1',
-                        MAC      => ''
+                        MAC      => '00:C0:EE:6A:97:07'
                     }
                 ]
             }
