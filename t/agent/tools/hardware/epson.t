@@ -40,20 +40,6 @@ my %tests = (
                 SERIAL       => 'GMYZ106952',
                 NAME         => 'AL-C4200-0ED50E'
             },
-            PAGECOUNTERS => {
-                TOTAL      => undef,
-                PRINTTOTAL => undef,
-                COPYTOTAL  => undef,
-                COLOR      => undef,
-                RECTOVERSO => undef,
-                FAXTOTAL   => undef,
-                COPYBLACK  => undef,
-                SCANNED    => undef,
-                PRINTCOLOR => undef,
-                BLACK      => undef,
-                COPYCOLOR  => undef,
-                PRINTBLACK => undef
-            },
             CARTRIDGES => {
                 TONERCYAN    => 100,
                 TONERYELLOW  => 84,
@@ -64,7 +50,7 @@ my %tests = (
                 PORT => [
                     {
                         IP       => '172.17.3.81',
-                        MAC      => '',
+                        MAC      => '20:04:48:0E:D5:0E',
                         IFTYPE   => 'ethernetCsmacd(6)',
                         IFNAME   => 'AL-C4200 Hard Ver.1.00 Firm Ver.2.40',
                         IFNUMBER => '1'
@@ -104,20 +90,6 @@ my %tests = (
                 SERIAL       => 'GMYZ106565',
                 NAME         => 'AL-C4200-D14BC7'
             },
-            PAGECOUNTERS => {
-                FAXTOTAL   => undef,
-                RECTOVERSO => undef,
-                COPYTOTAL  => undef,
-                COLOR      => undef,
-                TOTAL      => undef,
-                PRINTTOTAL => undef,
-                PRINTBLACK => undef,
-                COPYCOLOR  => undef,
-                BLACK      => undef,
-                SCANNED    => undef,
-                PRINTCOLOR => undef,
-                COPYBLACK  => undef
-            },
             CARTRIDGES => {
                 TONERMAGENTA => 71,
                 TONERBLACK   => 96,
@@ -129,7 +101,7 @@ my %tests = (
                     {
                         IP       => '172.17.3.212',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '',
+                        MAC      => '00:00:48:D1:4B:C7',
                         IFNAME   => 'AL-C4200 Hard Ver.1.00 Firm Ver.2.40',
                         IFNUMBER => '1'
                     }
@@ -163,7 +135,7 @@ my %tests = (
                         IFNUMBER => '1',
                         IFTYPE   => 'ethernetCsmacd(6)',
                         IFNAME   => 'AL-C4200 Hard Ver.1.00 Firm Ver.2.40',
-                        MAC      => '',
+                        MAC      => '00:00:48:D1:C3:0E',
                         IP       => '172.17.3.213'
                     }
                 ]
@@ -173,20 +145,6 @@ my %tests = (
                 TONERCYAN    => 14,
                 TONERBLACK   => 37,
                 TONERYELLOW  => 46
-            },
-            PAGECOUNTERS => {
-                FAXTOTAL   => undef,
-                TOTAL      => undef,
-                COPYBLACK  => undef,
-                BLACK      => undef,
-                PRINTBLACK => undef,
-                RECTOVERSO => undef,
-                COPYTOTAL  => undef,
-                COPYCOLOR  => undef,
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                COLOR      => undef,
-                PRINTTOTAL => undef
             },
             INFO => {
                 MANUFACTURER => 'Epson',
@@ -230,13 +188,12 @@ my %tests = (
                 SERIAL       => 'GMYZ108184',
                 MEMORY       => 128,
                 NAME         => 'AL-C4200-D362D2',
-                LOCATION     => undef,
             },
             PORTS => {
                 PORT => [
                     {
                         IP       => '172.17.3.102',
-                        MAC      => '',
+                        MAC      => '00:00:48:D3:62:D2',
                         IFNAME   => 'AL-C4200 Hard Ver.1.00 Firm Ver.2.40',
                         IFNUMBER => '1',
                         IFTYPE   => 'ethernetCsmacd(6)'
@@ -249,20 +206,6 @@ my %tests = (
                 TONERBLACK   => 32,
                 TONERYELLOW  => 64
             },
-            PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                PRINTTOTAL => undef,
-                FAXTOTAL   => undef,
-                PRINTBLACK => undef,
-                TOTAL      => undef,
-                COPYCOLOR  => undef,
-                COLOR      => undef,
-                RECTOVERSO => undef,
-                BLACK      => undef
-            }
         }
     ],
     'epson/AL-C3900.walk' => [
@@ -270,14 +213,12 @@ my %tests = (
             MANUFACTURER => 'Epson',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'EPSON AL-C3900',
-            SNMPHOSTNAME => '',
             MAC          => '00:26:AB:9F:78:8B',
         },
         {
             MANUFACTURER => 'Epson',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'EPSON AL-C3900',
-            SNMPHOSTNAME => '',
             MAC          => '00:26:AB:9F:78:8B',
         },
         {
@@ -287,23 +228,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef
             },
-            PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                PRINTTOTAL => undef,
-                FAXTOTAL   => undef,
-                PRINTBLACK => undef,
-                TOTAL      => undef,
-                COPYCOLOR  => undef,
-                COLOR      => undef,
-                RECTOVERSO => undef,
-                BLACK      => undef
-            },
-            PORTS => {
-                PORT => []
-            }
         }
     ],
     'epson/AL-C1100.walk' => [
@@ -327,23 +251,6 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
-            },
-            PORTS => {
-                PORT => []
-            },
-            PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                PRINTTOTAL => undef,
-                FAXTOTAL   => undef,
-                PRINTBLACK => undef,
-                TOTAL      => undef,
-                COPYCOLOR  => undef,
-                COLOR      => undef,
-                RECTOVERSO => undef,
-                BLACK      => undef
             },
         }
     ],
@@ -369,23 +276,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PORTS => {
-                PORT => []
-            },
-            PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                PRINTTOTAL => undef,
-                FAXTOTAL   => undef,
-                PRINTBLACK => undef,
-                TOTAL      => undef,
-                COPYCOLOR  => undef,
-                COLOR      => undef,
-                RECTOVERSO => undef,
-                BLACK      => undef
-            },
         }
     ],
     'epson/AL-M2400.2.walk' => [
@@ -409,23 +299,6 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
-            },
-            PORTS => {
-                PORT => []
-            },
-            PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                PRINTTOTAL => undef,
-                FAXTOTAL   => undef,
-                PRINTBLACK => undef,
-                TOTAL      => undef,
-                COPYCOLOR  => undef,
-                COLOR      => undef,
-                RECTOVERSO => undef,
-                BLACK      => undef
             },
         }
     ],

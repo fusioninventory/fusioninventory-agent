@@ -31,23 +31,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PORTS => {
-                PORT => []
-            },
-            PAGECOUNTERS => {
-                TOTAL      => undef,
-                PRINTTOTAL => undef,
-                COPYTOTAL  => undef,
-                COLOR      => undef,
-                RECTOVERSO => undef,
-                FAXTOTAL   => undef,
-                COPYBLACK  => undef,
-                SCANNED    => undef,
-                PRINTCOLOR => undef,
-                BLACK      => undef,
-                COPYCOLOR  => undef,
-                PRINTBLACK => undef
-            },
         }
     ],
     'dell/M5200.2.walk' => [
@@ -72,23 +55,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PORTS => {
-                PORT => []
-            },
-            PAGECOUNTERS => {
-                TOTAL      => undef,
-                PRINTTOTAL => undef,
-                COPYTOTAL  => undef,
-                COLOR      => undef,
-                RECTOVERSO => undef,
-                FAXTOTAL   => undef,
-                COPYBLACK  => undef,
-                SCANNED    => undef,
-                PRINTCOLOR => undef,
-                BLACK      => undef,
-                COPYCOLOR  => undef,
-                PRINTBLACK => undef
-            },
         }
     ],
     'dell/unknown.walk' => [
@@ -112,23 +78,6 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
-            },
-            PORTS => {
-                PORT => []
-            },
-            PAGECOUNTERS => {
-                TOTAL      => undef,
-                PRINTTOTAL => undef,
-                COPYTOTAL  => undef,
-                COLOR      => undef,
-                RECTOVERSO => undef,
-                FAXTOTAL   => undef,
-                COPYBLACK  => undef,
-                SCANNED    => undef,
-                PRINTCOLOR => undef,
-                BLACK      => undef,
-                COPYCOLOR  => undef,
-                PRINTBLACK => undef
             },
         }
     ],

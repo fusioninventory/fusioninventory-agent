@@ -14,14 +14,12 @@ my %tests = (
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'TASKalfa 820',
-            SNMPHOSTNAME => '',
             MAC          => '00:C0:EE:31:84:6B'
         },
         {
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'TASKalfa 820',
-            SNMPHOSTNAME => '',
             MAC          => '00:C0:EE:31:84:6B'
         },
         {
@@ -31,23 +29,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PAGECOUNTERS => {
-                PRINTTOTAL => undef,
-                FAXTOTAL   => undef,
-                COPYBLACK  => undef,
-                SCANNED    => undef,
-                COLOR      => undef,
-                PRINTBLACK => undef,
-                BLACK      => undef,
-                RECTOVERSO => undef,
-                COPYTOTAL  => undef,
-                COPYCOLOR  => undef,
-                TOTAL      => undef,
-                PRINTCOLOR => undef
-            },
-            PORTS => {
-                PORT => []
-            }
         }
     ],
     'kyocera/TASKalfa-181.walk' => [
@@ -55,14 +36,12 @@ my %tests = (
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'TASKalfa 181',
-            SNMPHOSTNAME => '',
             MAC          => '00:C0:EE:2F:0D:D9'
         },
         {
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'TASKalfa 181',
-            SNMPHOSTNAME => '',
             MAC          => '00:C0:EE:2F:0D:D9'
         },
         {
@@ -72,23 +51,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PAGECOUNTERS => {
-                PRINTTOTAL => undef,
-                FAXTOTAL   => undef,
-                COPYBLACK  => undef,
-                SCANNED    => undef,
-                COLOR      => undef,
-                PRINTBLACK => undef,
-                BLACK      => undef,
-                RECTOVERSO => undef,
-                COPYTOTAL  => undef,
-                COPYCOLOR  => undef,
-                TOTAL      => undef,
-                PRINTCOLOR => undef
-            },
-            PORTS => {
-                PORT => []
-            }
         }
     ],
     'kyocera/FS-2000D.1.walk' => [
@@ -96,14 +58,12 @@ my %tests = (
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'FS-2000D',
-            SNMPHOSTNAME => '',
             MAC          => '00:C0:EE:6A:96:DD',
         },
         {
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'FS-2000D',
-            SNMPHOSTNAME => '',
             MAC          => '00:C0:EE:6A:96:DD',
             MODELSNMP    => 'Printer0351',
             MODEL        => undef,
@@ -117,35 +77,19 @@ my %tests = (
                 COMMENTS     => 'KYOCERA MITA Printing System',
                 MODEL        => 'FS-2000D',
                 MANUFACTURER => 'Kyocera',
-                LOCATION     => undef,
                 MEMORY       => 0,
-                NAME         => undef,
                 TYPE         => 'PRINTER'
             },
             CARTRIDGES => {
                 WASTETONER => 100,
                 TONERBLACK => 75
             },
-            PAGECOUNTERS => {
-                PRINTTOTAL => undef,
-                FAXTOTAL   => undef,
-                COPYBLACK  => undef,
-                SCANNED    => undef,
-                COLOR      => undef,
-                PRINTBLACK => undef,
-                BLACK      => undef,
-                RECTOVERSO => undef,
-                COPYTOTAL  => undef,
-                COPYCOLOR  => undef,
-                TOTAL      => undef,
-                PRINTCOLOR => undef
-            },
             PORTS => {
                 PORT => [
                     {
                         IFNAME   => 'eth0',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '',
+                        MAC      => '00:C0:EE:6A:96:DD',
                         IFNUMBER => '1',
                         IP       => '172.20.3.51'
                     }
@@ -158,14 +102,12 @@ my %tests = (
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'FS-2000D',
-            SNMPHOSTNAME => '',
             MAC          => '00:C0:EE:6A:97:07',
         },
         {
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'FS-2000D',
-            SNMPHOSTNAME => '',
             MAC          => '00:C0:EE:6A:97:07',
             MODELSNMP    => 'Printer0351',
             MODEL        => undef,
@@ -177,26 +119,10 @@ my %tests = (
                 MANUFACTURER => 'Kyocera',
                 TYPE         => 'PRINTER',
                 COMMENTS     => 'KYOCERA MITA Printing System',
-                NAME         => undef,
                 SERIAL       => 'XLM7Y21503',
                 MODEL        => 'FS-2000D',
-                LOCATION     => undef,
                 ID           => undef,
                 MEMORY       => 0
-            },
-            PAGECOUNTERS => {
-                COPYTOTAL  => undef,
-                RECTOVERSO => undef,
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                FAXTOTAL   => undef,
-                COPYCOLOR  => undef,
-                PRINTBLACK => undef,
-                COPYBLACK  => undef,
-                BLACK      => undef,
-                TOTAL      => undef,
-                PRINTTOTAL => undef,
-                COLOR      => undef
             },
             CARTRIDGES  => {
                 TONERBLACK => 37,
@@ -209,7 +135,7 @@ my %tests = (
                         IP       => '172.20.3.4',
                         IFTYPE   => 'ethernetCsmacd(6)',
                         IFNUMBER => '1',
-                        MAC      => ''
+                        MAC      => '00:C0:EE:6A:97:07'
                     }
                 ]
             }
@@ -220,14 +146,12 @@ my %tests = (
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'UTAX_TA Printing System',
-            SNMPHOSTNAME => undef,
             MAC          => '00:C0:EE:80:DD:2D',
         },
         {
             MANUFACTURER => 'Kyocera',
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'UTAX_TA Printing System',
-            SNMPHOSTNAME => undef,
             MAC          => '00:C0:EE:80:DD:2D',
             MODELSNMP    => 'Networking2073',
             MODEL        => undef,
@@ -255,6 +179,72 @@ my %tests = (
             },
         }
     ],
+    'kyocera/F-5350DN.1.walk' => [
+        {
+            MANUFACTURER => 'Kyocera',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'FS-C5350DN',
+            MAC          => '00:C0:EE:80:CA:DD',
+        },
+        {
+            MANUFACTURER => 'Kyocera',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'FS-C5350DN',
+            MAC          => '00:C0:EE:80:CA:DD',
+        },
+        {
+            INFO => {
+                MANUFACTURER => 'Kyocera',
+                TYPE         => 'PRINTER',
+                ID           => undef,
+                MODEL        => undef,
+            },
+        }
+    ],
+    'kyocera/F-5350DN.2.walk' => [
+        {
+            MANUFACTURER => 'Kyocera',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'FS-C5350DN',
+            MAC          => '00:C0:EE:80:73:71',
+        },
+        {
+            MANUFACTURER => 'Kyocera',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'FS-C5350DN',
+            MAC          => '00:C0:EE:80:73:71',
+        },
+        {
+            INFO => {
+                MANUFACTURER => 'Kyocera',
+                TYPE         => 'PRINTER',
+                ID           => undef,
+                MODEL        => undef,
+            },
+        }
+    ],
+    'kyocera/F-5350DN.3.walk' => [
+        {
+            MANUFACTURER => 'Kyocera',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'FS-C5350DN',
+            MAC          => '00:C0:EE:80:73:6C',
+        },
+        {
+            MANUFACTURER => 'Kyocera',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'FS-C5350DN',
+            MAC          => '00:C0:EE:80:73:6C',
+        },
+        {
+            INFO => {
+                MANUFACTURER => 'Kyocera',
+                TYPE         => 'PRINTER',
+                ID           => undef,
+                MODEL        => undef,
+            },
+        }
+    ],
 );
 
 setPlan(scalar keys %tests);
@@ -271,6 +261,7 @@ foreach my $test (sort keys %tests) {
 
     my %device1 = getDeviceInfo($snmp, $dictionary);
     cmp_deeply(\%device1, $tests{$test}->[1], "$test: base + dictionnary stage");
+    use Data::Dumper;
 
     my $device3 = getDeviceFullInfo(
         snmp  => $snmp,

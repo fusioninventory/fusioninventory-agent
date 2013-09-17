@@ -31,23 +31,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef
             },
-            PORTS => {
-                PORT => []
-            },
-            PAGECOUNTERS => {
-                TOTAL      => undef,
-                COPYBLACK  => undef,
-                SCANNED    => undef,
-                RECTOVERSO => undef,
-                BLACK      => undef,
-                PRINTTOTAL => undef,
-                COLOR      => undef,
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef,
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                PRINTCOLOR => undef
-            },
         }
     ],
     'hewlett-packard/Inkjet_2800.1.walk' => [
@@ -101,20 +84,6 @@ my %tests = (
                     }
                 ]
             },
-            PAGECOUNTERS => {
-                RECTOVERSO => undef,
-                COLOR      => undef,
-                COPYCOLOR  => undef,
-                PRINTBLACK => undef,
-                BLACK      => undef,
-                COPYBLACK  => undef,
-                PRINTCOLOR => undef,
-                COPYTOTAL  => undef,
-                SCANNED    => undef,
-                FAXTOTAL   => undef,
-                TOTAL      => undef,
-                PRINTTOTAL => undef
-            },
         }
     ],
     'hewlett-packard/Inkjet_2800.2.walk' => [
@@ -145,20 +114,6 @@ my %tests = (
                 MEMORY       => 96,
                 ID           => undef,
                 NAME         => 'HPIJ2800-01',
-            },
-            PAGECOUNTERS => {
-                FAXTOTAL   => undef,
-                COPYTOTAL  => undef,
-                BLACK      => undef,
-                SCANNED    => undef,
-                COLOR      => undef,
-                RECTOVERSO => undef,
-                TOTAL      => undef,
-                PRINTBLACK => undef,
-                PRINTTOTAL => undef,
-                COPYCOLOR  => undef,
-                PRINTCOLOR => undef,
-                COPYBLACK  => undef
             },
             PORTS => {
                 PORT => [
@@ -210,22 +165,7 @@ my %tests = (
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT',
                 NAME         => 'HP560332',
                 ID           => undef,
-                LOCATION     => undef,
                 MODEL        => undef,
-            },
-            PAGECOUNTERS => {
-                SCANNED    => undef,
-                FAXTOTAL   => undef,
-                RECTOVERSO => undef,
-                PRINTTOTAL => undef,
-                COLOR      => undef,
-                COPYCOLOR  => undef,
-                PRINTCOLOR => undef,
-                COPYTOTAL  => undef,
-                TOTAL      => undef,
-                BLACK      => undef,
-                COPYBLACK  => undef,
-                PRINTBLACK => undef
             },
             CARTRIDGES => {
                 CARTRIDGEYELLOW  => 6,
@@ -239,7 +179,7 @@ my %tests = (
                         IFNAME   => 'Eth0',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:21:5A:56:03:32'
                     }
                 ]
             }
@@ -267,23 +207,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef
             },
-            PORTS => {
-                PORT => []
-            },
-            PAGECOUNTERS => {
-                TOTAL      => undef,
-                COPYBLACK  => undef,
-                SCANNED    => undef,
-                RECTOVERSO => undef,
-                BLACK      => undef,
-                PRINTTOTAL => undef,
-                COLOR      => undef,
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef,
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                PRINTCOLOR => undef
-            },
         }
     ],
     'hewlett-packard/LaserJet_100_colorMFP_M175nw.walk' => [
@@ -310,12 +233,10 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
                 COMMENTS     => 'HP LaserJet 100 colorMFP M175nw',
-                CONTACT      => undef,
                 ID           => undef,
                 NAME         => 'NPIF6FA4A',
                 MODEL        => 'HP LaserJet 100 colorMFP M175nw',
                 SERIAL       => 'NPIF6FA4A',
-                LOCATION     => undef
             },
             CARTRIDGES => {
                 TONERBLACK   => 31,
@@ -335,13 +256,13 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => 'B4:B5:2F:F6:FA:4A'
                     },
                     {
                         IFNAME   => 'wifi0',
                         IFNUMBER => '3',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => 'B4:B5:2F:F6:FA:4A'
                     },
                     {
                         IFNAME   => 'wifiUAP',
@@ -351,18 +272,7 @@ my %tests = (
                 ]
             },
             PAGECOUNTERS => {
-                SCANNED    => undef,
-                RECTOVERSO => undef,
                 TOTAL      => '367',
-                PRINTCOLOR => undef,
-                COLOR      => undef,
-                FAXTOTAL   => undef,
-                COPYBLACK  => undef,
-                PRINTBLACK => undef,
-                COPYTOTAL  => undef,
-                PRINTTOTAL => undef,
-                COPYCOLOR  => undef,
-                BLACK      => undef
             }
         }
     ],
@@ -390,35 +300,144 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
                 COMMENTS     => 'HP LaserJet 400 color M451dn',
-                CONTACT      => undef,
                 NAME         => 'NPIF67498',
                 ID           => undef,
                 OTHERSERIAL  => '0x0115',
-                LOCATION     => undef,
                 MODEL        => 'HP LaserJet 400 color M451dn',
                 SERIAL       => 'CNCF300725'
             },
             PAGECOUNTERS => {
-                SCANNED    => undef,
                 COLOR      => '507',
-                PRINTCOLOR => undef,
-                COPYBLACK  => undef,
-                PRINTBLACK => undef,
-                BLACK      => undef,
-                COPYTOTAL  => undef,
-                COPYCOLOR  => undef,
-                TOTAL      => undef,
                 RECTOVERSO => '0',
                 PRINTTOTAL => '541',
-                FAXTOTAL   => undef
-            },
-            PORTS => {
-                PORT => []
             },
             CARTRIDGES => {
                 TONERMAGENTA => 73,
                 TONERCYAN => 68,
                 TONERBLACK => 53
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_500.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet 500 color M551',
+            SNMPHOSTNAME => 'NPI419F6E',
+            MAC          => '2C:76:8A:41:9F:6E',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet 500 color M551',
+            SNMPHOSTNAME => 'NPI419F6E',
+            MAC          => '2C:76:8A:41:9F:6E',
+            MODELSNMP    => 'Printer0628',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'SE00V4T'
+        },
+        {
+            INFO => {
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114,CIDATE 11/17/2011',
+                NAME         => 'NPI419F6E',
+                MODEL        => 'HP LaserJet 500 color M551',
+                SERIAL       => 'SE00V4T',
+                ID           => undef,
+            },
+            PAGECOUNTERS => {
+                BLACK      => '1685',
+                COLOR      => '6601',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => '2C:76:8A:41:9F:6E'
+                    }
+
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_600.1.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet 600 M603',
+            SNMPHOSTNAME => 'lj1',
+            MAC          => 'E8:39:35:90:92:1F',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet 600 M603',
+            SNMPHOSTNAME => 'lj1',
+            MAC          => 'E8:39:35:90:92:1F',
+        },
+        {
+            INFO => {
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                ID           => undef,
+                MODEL        => undef,
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_600.2.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet 600 M603',
+            SNMPHOSTNAME => 'lj2',
+            MAC          => 'E8:39:35:90:22:AC'
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet 600 M603',
+            SNMPHOSTNAME => 'lj2',
+            MAC          => 'E8:39:35:90:22:AC'
+        },
+        {
+            INFO => {
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                ID           => undef,
+                MODEL        => undef,
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_1300n.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'hp LaserJet 1300n',
+            SNMPHOSTNAME => 'impbe94',
+            MAC          => '00:0E:7F:33:34:BA',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'hp LaserJet 1300n',
+            SNMPHOSTNAME => 'impbe94',
+            MAC          => '00:0E:7F:33:34:BA',
+        },
+        {
+            INFO => {
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                ID           => undef,
+                MODEL        => undef,
             },
         }
     ],
@@ -447,7 +466,6 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05,CIDATE 04/22/2004',
                 OTHERSERIAL  => '0x0115',
-                LOCATION     => undef,
                 SERIAL       => 'CNHW59NG6N',
                 MODEL        => 'hp LaserJet 1320 series',
                 ID           => undef,
@@ -459,7 +477,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
                         IFNUMBER => '1',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:14:38:61:04:4B'
                     },
                     {
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
@@ -468,19 +486,13 @@ my %tests = (
                     }
                 ]
             },
+            CARTRIDGES => {
+                CARTRIDGEBLACK => 0,
+                TONERBLACK     => 0
+            },
             PAGECOUNTERS => {
-                COLOR      => undef,
-                PRINTTOTAL => undef,
-                BLACK      => undef,
                 RECTOVERSO => '1935',
-                SCANNED    => undef,
-                COPYBLACK  => undef,
                 TOTAL      => '33545',
-                PRINTCOLOR => undef,
-                FAXTOTAL   => undef,
-                PRINTBLACK => undef,
-                COPYTOTAL  => undef,
-                COPYCOLOR  => undef
             }
         }
     ],
@@ -508,7 +520,6 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05,CIDATE 04/22/2004',
-                LOCATION     => undef,
                 SERIAL       => 'CNHW625K6Z',
                 OTHERSERIAL  => '0x0115',
                 NAME         => 'NPI9A3FC7',
@@ -521,17 +532,7 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '2685',
-                BLACK      => undef,
-                COPYBLACK  => undef,
-                SCANNED    => undef,
                 TOTAL      => '45790',
-                COLOR      => undef,
-                PRINTTOTAL => undef,
-                PRINTBLACK => undef,
-                COPYTOTAL  => undef,
-                COPYCOLOR  => undef,
-                PRINTCOLOR => undef,
-                FAXTOTAL   => undef
             },
             PORTS => {
                 PORT => [
@@ -539,7 +540,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
                         IFNUMBER => '1',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:14:38:9A:3F:C7'
                     },
                     {
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
@@ -575,7 +576,6 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05,CIDATE 04/22/2004',
                 SERIAL       => 'CNBW49FHC4',
-                LOCATION     => undef,
                 OTHERSERIAL  => '0x0115',
                 NAME         => 'NPIC68F5E',
                 ID           => undef,
@@ -583,17 +583,7 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 TOTAL      => '5868',
-                COPYBLACK  => undef,
-                SCANNED    => undef,
                 RECTOVERSO => '258',
-                BLACK      => undef,
-                PRINTTOTAL => undef,
-                COLOR      => undef,
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef,
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                PRINTCOLOR => undef
             },
             PORTS => {
                 PORT => [
@@ -601,7 +591,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
                         IFNUMBER => '1',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:11:85:C6:8F:5E'
                     },
                     {
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
@@ -621,14 +611,12 @@ my %tests = (
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 2100 Series',
-            SNMPHOSTNAME => '',
             MAC          => '00:30:C1:8A:6E:5B',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 2100 Series',
-            SNMPHOSTNAME => '',
             MAC          => '00:30:C1:8A:6E:5B',
         },
         {
@@ -638,23 +626,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PORTS => {
-                PORT => []
-            },
-            PAGECOUNTERS => {
-                TOTAL      => undef,
-                COPYBLACK  => undef,
-                SCANNED    => undef,
-                RECTOVERSO => undef,
-                BLACK      => undef,
-                PRINTTOTAL => undef,
-                COLOR      => undef,
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef,
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                PRINTCOLOR => undef
-            }
         }
     ],
     'hewlett-packard/LaserJet_2100.2.walk' => [
@@ -662,14 +633,12 @@ my %tests = (
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 2100 Series',
-            SNMPHOSTNAME => '',
             MAC          => '00:30:C1:8A:6E:5B',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 2100 Series',
-            SNMPHOSTNAME => '',
             MAC          => '00:30:C1:8A:6E:5B',
         },
         {
@@ -679,23 +648,245 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PORTS => {
-                PORT => []
+        }
+    ],
+    'hewlett-packard/LaserJet_2100.3.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet 2100 Series',
+            MAC          => '00:30:C1:0D:AA:C6',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet 2100 Series',
+            MAC          => '00:30:C1:0D:AA:C6',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => undef,
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_2100.4.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet 2100 Series',
+            MAC          => '00:10:83:54:D6:08',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet 2100 Series',
+            MAC          => '00:10:83:54:D6:08',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => undef,
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_2100.5.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet 2100 Series',
+            SNMPHOSTNAME => 'l1618a',
+            MAC          => '00:0E:7F:EA:E1:B7',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet 2100 Series',
+            SNMPHOSTNAME => 'l1618a',
+            MAC          => '00:0E:7F:EA:E1:B7',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => undef,
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_2100.6.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet 2100 Series',
+            MAC          => '00:30:C1:C3:BE:CF',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet 2100 Series',
+            MAC          => '00:30:C1:C3:BE:CF',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => undef,
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_2200.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet 2200',
+            MAC          => '00:30:C1:01:1E:68',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet 2200',
+            MAC          => '00:30:C1:01:1E:68',
+            MODELSNMP    => 'Printer0391',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'FRFRH43314',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet 2200',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.19,JETDIRECT,JD33,EEPROM G.08.49',
+                MEMORY       => '16',
+                SERIAL       => 'FRFRH43314',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '100',
             },
             PAGECOUNTERS => {
-                TOTAL      => undef,
-                COPYBLACK  => undef,
-                SCANNED    => undef,
-                RECTOVERSO => undef,
-                BLACK      => undef,
-                PRINTTOTAL => undef,
-                COLOR      => undef,
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef,
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                PRINTCOLOR => undef
-            }
+                RECTOVERSO => '12873',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER => '1',
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.19,JETDIRECT,JD33,EEPROM G.08.49',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        IP       => '128.93.22.20',
+                        MAC      => '00:30:C1:01:1E:68',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_2300.1.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'hp LaserJet 2300 series',
+            SNMPHOSTNAME => 'NPIA1D034',
+            MAC          => '00:01:E6:A1:D0:34',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'hp LaserJet 2300 series',
+            SNMPHOSTNAME => 'NPIA1D034',
+            MAC          => '00:01:E6:A1:D0:34',
+            MODELSNMP    => 'Printer0385',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'CNCDF57941',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'hp LaserJet 2300 series',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.24.08,CIDATE 02/26/2003',
+                NAME         => 'NPIA1D034',
+                MEMORY       => '48',
+                SERIAL       => 'CNCDF57941',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '94',
+            },
+            PAGECOUNTERS => {
+                RECTOVERSO => '2066',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER => '1',
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.24.08',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        IP       => '128.93.22.126',
+                        MAC      => '00:01:E6:A1:D0:34',
+                    },
+                    {
+                        IFNUMBER => '2',
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.24.08',
+                        IFTYPE   => 'softwareLoopback(24)',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_2300.2.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'hp LaserJet 2300 series',
+            MAC          => '00:30:C1:60:C8:5B',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'hp LaserJet 2300 series',
+            MAC          => '00:30:C1:60:C8:5B',
+            MODELSNMP    => 'Printer0385',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'CNCHM24955',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'hp LaserJet 2300 series',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
+                MEMORY       => '48',
+                SERIAL       => 'CNCHM24955',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '1',
+            },
+            PAGECOUNTERS => {
+                RECTOVERSO => '219',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER => '1',
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        IP       => '128.93.22.66',
+                        MAC      => '00:30:C1:60:C8:5B',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_2600n.walk' => [
@@ -725,7 +916,6 @@ my %tests = (
                 NAME         => 'NPI1864A0',
                 MODEL        => undef,
                 ID           => undef,
-                LOCATION     => undef
             },
             PORTS => {
                 PORT => [
@@ -738,25 +928,11 @@ my %tests = (
                         IFNAME   => 'NetDrvr',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:1A:4B:18:64:A0'
                     }
 
                 ]
             },
-            PAGECOUNTERS => {
-                COPYBLACK  => undef,
-                FAXTOTAL   => undef,
-                RECTOVERSO => undef,
-                COPYTOTAL  => undef,
-                COPYCOLOR  => undef,
-                PRINTTOTAL => undef,
-                PRINTBLACK => undef,
-                PRINTCOLOR => undef,
-                BLACK      => undef,
-                SCANNED    => undef,
-                TOTAL      => undef,
-                COLOR      => undef
-            }
         }
     ],
     'hewlett-packard/LaserJet_3600.walk' => [
@@ -787,22 +963,10 @@ my %tests = (
                 OTHERSERIAL  => '0x0115',
                 MODEL        => 'HP Color LaserJet 3600',
                 ID           => undef,
-                LOCATION     => undef,
                 SERIAL       => 'CNXJD65169',
             },
             PAGECOUNTERS => {
-                PRINTBLACK => undef,
-                PRINTTOTAL => undef,
-                COPYTOTAL  => undef,
-                BLACK      => undef,
-                COPYBLACK  => undef,
                 COLOR      => '9946',
-                PRINTCOLOR => undef,
-                RECTOVERSO => undef,
-                SCANNED    => undef,
-                FAXTOTAL   => undef,
-                TOTAL      => undef,
-                COPYCOLOR  => undef
             },
             PORTS => {
                 PORT => [
@@ -810,7 +974,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD121,EEPROM V.30.31',
                         IFNUMBER => '1',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:1B:78:6F:72:C5'
                     },
                     {
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD121,EEPROM V.30.31',
@@ -827,7 +991,210 @@ my %tests = (
             }
         }
     ],
-    'hewlett-packard/LaserJet_4250.walk' => [
+    'hewlett-packard/LaserJet_4000.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet 4000 Series',
+            SNMPHOSTNAME => 'inspiron8',
+            MAC          => '00:60:B0:91:3D:9D',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet 4000 Series',
+            SNMPHOSTNAME => 'inspiron8',
+            MAC          => '00:60:B0:91:3D:9D',
+            MODELSNMP    => 'Printer0391',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'NLEW064384',
+        },
+        {
+            INFO => {
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.05.35,JETDIRECT,JD30,EEPROM G.05.35',
+                LOCATION     => 'lwcompta',
+                SERIAL       => 'NLEW064384',
+                OTHERSERIAL  => '0x0115',
+                MODEL        => 'HP LaserJet 4000 Series',
+                ID           => undef,
+                NAME         => 'inspiron8',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.05.35,JETDIRECT,JD30,EEPROM G.05.35',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => '00:60:B0:91:3D:9D'
+                    }
+
+                ]
+            },
+            PAGECOUNTERS => {
+                RECTOVERSO => '152',
+            },
+            CARTRIDGES => {
+                TONERBLACK => 100
+            }
+        }
+    ],
+    'hewlett-packard/LaserJet_4050.1.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet 4050 Series ',
+            SNMPHOSTNAME => 'imprimanteBR',
+            MAC          => '00:30:C1:8C:D5:6C',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet 4050 Series ',
+            SNMPHOSTNAME => 'imprimanteBR',
+            MAC          => '00:30:C1:8C:D5:6C',
+            MODELSNMP    => 'Printer0615',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'NL7N093250'
+        },
+        {
+            INFO => {
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                COMMENTS     => 'HP LaserJet 4050 Series ',
+                SERIAL       => 'NL7N093250',
+                OTHERSERIAL  => '0x011520',
+                NAME         => 'imprimanteBR',
+                MODEL        => 'HP LaserJet 4050 Series ',
+                ID           => undef,
+                LOCATION     => 'impbe93'
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '252311',
+                RECTOVERSO => '0',
+            },
+            CARTRIDGES => {
+                CARTRIDGEBLACK => 0,
+                TONERBLACK     => 0
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.08.08,JETDIRECT,JD33,EEPROM G.08.04',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => '00:30:C1:8C:D5:6C'
+                    }
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_4050.2.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet 4050 Series ',
+            MAC          => '00:10:83:BA:17:CE',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet 4050 Series ',
+            MAC          => '00:10:83:BA:17:CE',
+            MODELSNMP    => 'Printer0615',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'NL7V061384',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet 4050 Series ',
+                COMMENTS     => 'HP LaserJet 4050 Series ',
+                MEMORY       => '16',
+                SERIAL       => 'NL7V061384',
+                OTHERSERIAL  => '0x011520',
+            },
+            CARTRIDGES => {
+                CARTRIDGEBLACK   => '0',
+                TONERBLACK       => '0',
+            },
+            PAGECOUNTERS => {
+                RECTOVERSO => '57131',
+                TOTAL      => '243041',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER => '1',
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.19,JETDIRECT,JD33,EEPROM G.08.40',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => '00:10:83:BA:17:CE',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_4200.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'hp LaserJet 4200',
+            SNMPHOSTNAME => 'IMP41200n0',
+            MAC          => '00:01:E6:A1:A7:81',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'hp LaserJet 4200',
+            SNMPHOSTNAME => 'IMP41200n0',
+            MAC          => '00:01:E6:A1:A7:81',
+            MODELSNMP    => 'Printer0386',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'CNFX305387'
+        },
+        {
+            INFO => {
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.25.09,CIDATE 07/24/2003',
+                SERIAL       => 'CNFX305387',
+                OTHERSERIAL  => '0x0115',
+                NAME         => 'IMP41200n0',
+                ID           => undef,
+                MODEL        => 'hp LaserJet 4200'
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.25.09',
+                        IFNUMBER => '1',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => '00:01:E6:A1:A7:81'
+                    },
+                    {
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.25.09',
+                        IFNUMBER => '2',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    }
+                ]
+            },
+            PAGECOUNTERS => {
+                RECTOVERSO => '0',
+            },
+            CARTRIDGES => {
+                TONERBLACK     => 95,
+                MAINTENANCEKIT => 71
+            }
+        }
+    ],
+    'hewlett-packard/LaserJet_4250.1.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
@@ -855,22 +1222,7 @@ my %tests = (
                 SERIAL       => 'CNCXG01622',
                 OTHERSERIAL  => '0x0115',
                 ID           => undef,
-                LOCATION     => undef,
                 MODEL        => 'hp LaserJet 4250'
-            },
-            PAGECOUNTERS => {
-                BLACK      => undef,
-                SCANNED    => undef,
-                TOTAL      => undef,
-                PRINTTOTAL => undef,
-                RECTOVERSO => undef,
-                PRINTCOLOR => undef,
-                PRINTBLACK => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                COLOR      => undef,
-                COPYCOLOR  => undef,
-                FAXTOTAL   => undef
             },
             CARTRIDGES => {
                 TONERBLACK     => 52,
@@ -882,7 +1234,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.43',
                         IFNUMBER => '1',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:11:85:D9:F6:C7'
                     },
                     {
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.43',
@@ -891,6 +1243,430 @@ my %tests = (
                     }
                 ]
             }
+        }
+    ],
+    'hewlett-packard/LaserJet_4250.2.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'hp LaserJet 4250',
+            SNMPHOSTNAME => 'l0812a',
+            MAC          => '00:14:38:DF:A5:30',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'hp LaserJet 4250',
+            SNMPHOSTNAME => 'l0812a',
+            MAC          => '00:14:38:DF:A5:30',
+            MODELSNMP    => 'Printer0078',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'CNHXH84872',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'hp LaserJet 4250',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59,CIDATE 05/10/2005',
+                NAME         => 'l0812a',
+                MEMORY       => '256',
+                SERIAL       => 'CNHXH84872',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '86',
+                MAINTENANCEKIT  => '73',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER => '1',
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        IP       => '128.93.22.88',
+                        MAC      => '00:14:38:DF:A5:30',
+                    },
+                    {
+                        IFNUMBER => '2',
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFTYPE   => 'softwareLoopback(24)',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_4250.3.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'hp LaserJet 4250',
+            SNMPHOSTNAME => 'NPIEA2B02',
+            MAC          => '00:23:7D:7E:A1:31',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'hp LaserJet 4250',
+            SNMPHOSTNAME => 'NPIEA2B02',
+            MAC          => '00:23:7D:7E:A1:31',
+            MODELSNMP    => 'Printer0078',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'CNHXG83836',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'hp LaserJet 4250',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63,CIDATE 04/07/2006',
+                NAME         => 'NPIEA2B02',
+                MEMORY       => '208',
+                SERIAL       => 'CNHXG83836',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '61',
+                MAINTENANCEKIT  => '25',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER => '1',
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        IP       => '128.93.8.82',
+                        MAC      => '00:23:7D:7E:A1:31',
+                    },
+                    {
+                        IFNUMBER => '2',
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63',
+                        IFTYPE   => 'softwareLoopback(24)',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_4250.4.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'hp LaserJet 4250',
+            SNMPHOSTNAME => 'NPIEA3BFC',
+            MAC          => '00:14:38:EA:3B:FC',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'hp LaserJet 4250',
+            SNMPHOSTNAME => 'NPIEA3BFC',
+            MAC          => '00:14:38:EA:3B:FC',
+            MODELSNMP    => 'Printer0078',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'CNHXB71032',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'hp LaserJet 4250',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59,CIDATE 05/10/2005',
+                NAME         => 'NPIEA3BFC',
+                MEMORY       => '208',
+                SERIAL       => 'CNHXB71032',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '25',
+                MAINTENANCEKIT  => '41',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER => '1',
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        IP       => '128.93.22.90',
+                        MAC      => '00:14:38:EA:3B:FC',
+                    },
+                    {
+                        IFNUMBER => '2',
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFTYPE   => 'softwareLoopback(24)',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_4250.5.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'hp LaserJet 4250',
+            SNMPHOSTNAME => 'l1310a',
+            MAC          => '00:14:38:EA:2B:C4',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'hp LaserJet 4250',
+            SNMPHOSTNAME => 'l1310a',
+            MAC          => '00:14:38:EA:2B:C4',
+            MODELSNMP    => 'Printer0078',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'CNHXC68053',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'hp LaserJet 4250',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59,CIDATE 05/10/2005',
+                NAME         => 'l1310a',
+                MEMORY       => '208',
+                SERIAL       => 'CNHXC68053',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '23',
+                MAINTENANCEKIT  => '55',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER => '1',
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        IP       => '128.93.13.25',
+                        MAC      => '00:14:38:EA:2B:C4',
+                    },
+                    {
+                        IFNUMBER => '2',
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFTYPE   => 'softwareLoopback(24)',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_4250.6.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'hp LaserJet 4250',
+            SNMPHOSTNAME => 'l1439a',
+            MAC          => '00:14:38:E2:12:D8',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'hp LaserJet 4250',
+            SNMPHOSTNAME => 'l1439a',
+            MAC          => '00:14:38:E2:12:D8',
+            MODELSNMP    => 'Printer0078',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'CNHXH84870',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'hp LaserJet 4250',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59,CIDATE 05/10/2005',
+                NAME         => 'l1439a',
+                MEMORY       => '208',
+                SERIAL       => 'CNHXH84870',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '84',
+                MAINTENANCEKIT  => '87',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER => '1',
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        IP       => '128.93.22.59',
+                        MAC      => '00:14:38:E2:12:D8',
+                    },
+                    {
+                        IFNUMBER => '2',
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFTYPE   => 'softwareLoopback(24)',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_4250.7.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'hp LaserJet 4250',
+            SNMPHOSTNAME => 'l2007a',
+            MAC          => '00:1B:78:28:26:CB',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'hp LaserJet 4250',
+            SNMPHOSTNAME => 'l2007a',
+            MAC          => '00:1B:78:28:26:CB',
+            MODELSNMP    => 'Printer0078',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'CNHXB68748',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'hp LaserJet 4250',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63,CIDATE 04/07/2006',
+                NAME         => 'l2007a',
+                MEMORY       => '208',
+                SERIAL       => 'CNHXB68748',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '58',
+                MAINTENANCEKIT  => '57',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER => '1',
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        IP       => '128.93.22.41',
+                        MAC      => '00:1B:78:28:26:CB'
+                    },
+                    {
+                        IFNUMBER => '2',
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63',
+                        IFTYPE   => 'softwareLoopback(24)',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_4250.8.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'hp LaserJet 4250',
+            SNMPHOSTNAME => 'NPIEAFA59',
+            MAC          => '00:14:38:EA:FA:59',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'hp LaserJet 4250',
+            SNMPHOSTNAME => 'NPIEAFA59',
+            MAC          => '00:14:38:EA:FA:59',
+            MODELSNMP    => 'Printer0078',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'CNHXB71050',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'hp LaserJet 4250',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59,CIDATE 05/10/2005',
+                NAME         => 'NPIEAFA59',
+                MEMORY       => '208',
+                SERIAL       => 'CNHXB71050',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '5',
+                MAINTENANCEKIT  => '53',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER => '1',
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        IP       => '128.93.22.123',
+                        MAC      => '00:14:38:EA:FA:59',
+                    },
+                    {
+                        IFNUMBER => '2',
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFTYPE   => 'softwareLoopback(24)',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_4250.9.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'hp LaserJet 4250',
+            SNMPHOSTNAME => 'NPIEA8E82',
+            MAC          => '00:23:7D:81:22:F7',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'hp LaserJet 4250',
+            SNMPHOSTNAME => 'NPIEA8E82',
+            MAC          => '00:23:7D:81:22:F7',
+            MODELSNMP    => 'Printer0078',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'CNHXJ45092',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'hp LaserJet 4250',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.33.19,CIDATE 12/17/2008',
+                NAME         => 'NPIEA8E82',
+                MEMORY       => '208',
+                SERIAL       => 'CNHXJ45092',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '83',
+                MAINTENANCEKIT  => '81',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER => '1',
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.33.19',
+                        IFTYPE   => 'softwareLoopback(24)',
+                    },
+                    {
+                        IFNUMBER => '2',
+                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.33.19',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        IP       => '128.93.10.59',
+                        MAC      => '00:23:7D:81:22:F7',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_5550.walk' => [
@@ -920,9 +1696,7 @@ my %tests = (
                 ID           => undef,
                 OTHERSERIAL  => '0x0115',
                 SERIAL       => 'SG96304AD8',
-                LOCATION     => undef,
                 MODEL        => 'hp color LaserJet 5550 ',
-                CONTACT      => undef,
                 NAME         => 'IDD116',
             },
             PORTS => {
@@ -931,7 +1705,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
                         IFNUMBER => '1',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:1B:78:F0:F4:47'
                     },
                     {
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
@@ -947,17 +1721,8 @@ my %tests = (
                 TONERMAGENTA => 95
             },
             PAGECOUNTERS => {
-                PRINTTOTAL => undef,
                 RECTOVERSO => '0',
-                TOTAL      => undef,
-                SCANNED    => undef,
                 BLACK      => '102279',
-                PRINTCOLOR => undef,
-                COPYBLACK  => undef,
-                COPYTOTAL  => undef,
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                COPYCOLOR  => undef,
                 COLOR      => '92447'
             }
         }
@@ -993,20 +1758,6 @@ my %tests = (
                 SERIAL       => 'CNB885QNXP',
                 ID           => undef
             },
-            PAGECOUNTERS => {
-                RECTOVERSO => undef,
-                PRINTCOLOR => undef,
-                COPYBLACK  => undef,
-                TOTAL      => undef,
-                COLOR      => undef,
-                SCANNED    => undef,
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                BLACK      => undef,
-                PRINTTOTAL => undef,
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef
-            },
             PORTS => {
                 PORT => [
                     {
@@ -1018,7 +1769,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:1F:29:27:1E:90'
                     }
                 ]
             },
@@ -1057,7 +1808,6 @@ my %tests = (
                 OTHERSERIAL  => '0x0115',
                 ID           => undef,
                 MODEL        => 'HP LaserJet CM1415fn',
-                LOCATION     => undef,
                 NAME         => 'B536-lwc237-Fax',
             },
             PORTS => {
@@ -1071,7 +1821,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '68:B5:99:AD:61:8E'
                     }
                 ]
             },
@@ -1082,17 +1832,8 @@ my %tests = (
                 TONERBLACK   => 25
             },
             PAGECOUNTERS => {
-                SCANNED    => undef,
-                TOTAL      => undef,
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef,
-                PRINTBLACK => undef,
                 BLACK      => '760',
-                FAXTOTAL   => undef,
-                COPYBLACK  => undef,
-                PRINTCOLOR => undef,
                 COLOR      => '4720',
-                PRINTTOTAL => undef,
                 RECTOVERSO => '0'
             }
         }
@@ -1138,7 +1879,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:23:7D:7F:5D:71'
                     }
                 ]
             },
@@ -1148,20 +1889,6 @@ my %tests = (
                 TONERYELLOW  => 18,
                 TONERCYAN    => 46
             },
-            PAGECOUNTERS => {
-                PRINTTOTAL => undef,
-                SCANNED    => undef,
-                BLACK      => undef,
-                FAXTOTAL   => undef,
-                PRINTBLACK => undef,
-                PRINTCOLOR => undef,
-                COPYCOLOR  => undef,
-                COPYBLACK  => undef,
-                COPYTOTAL  => undef,
-                COLOR      => undef,
-                TOTAL      => undef,
-                RECTOVERSO => undef
-            }
         }
     ],
     'hewlett-packard/LaserJet_CM2320fxi_MFP.2.walk' => [
@@ -1211,24 +1938,10 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:23:7D:7F:5D:71'
                    }
                 ]
             },
-            PAGECOUNTERS => {
-                BLACK      => undef,
-                PRINTTOTAL => undef,
-                SCANNED    => undef,
-                PRINTCOLOR => undef,
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                COPYBLACK  => undef,
-                COPYTOTAL  => undef,
-                COPYCOLOR  => undef,
-                RECTOVERSO => undef,
-                COLOR      => undef,
-                TOTAL      => undef
-            }
         }
     ],
     'hewlett-packard/LaserJet_CM2320fxi_MFP.3.walk' => [
@@ -1261,20 +1974,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => 'HP Color LaserJet CM2320fxi MFP'
             },
-            PAGECOUNTERS => {
-                COPYCOLOR  => undef,
-                COPYBLACK  => undef,
-                COPYTOTAL  => undef,
-                COLOR      => undef,
-                TOTAL      => undef,
-                RECTOVERSO => undef,
-                PRINTTOTAL => undef,
-                SCANNED    => undef,
-                BLACK      => undef,
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                PRINTCOLOR => undef
-            },
             PORTS => {
                 PORT => [
                     {
@@ -1286,7 +1985,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:23:7D:82:88:33'
                     }
                 ]
             },
@@ -1330,18 +2029,9 @@ my %tests = (
                 LOCATION     => 'HP Color LaserJet CM2320nf MFP'
             },
             PAGECOUNTERS => {
-                TOTAL      => undef,
-                COPYBLACK  => undef,
-                PRINTCOLOR => undef,
-                COPYTOTAL  => undef,
-                COPYCOLOR  => undef,
                 COLOR      => '789',
-                FAXTOTAL   => undef,
-                PRINTBLACK => undef,
-                SCANNED    => undef,
                 BLACK      => '141',
                 RECTOVERSO => '0',
-                PRINTTOTAL => undef
             },
             PORTS => {
                 PORT => [
@@ -1354,7 +2044,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '3C:4A:92:B3:02:A7'
                     }
                 ]
             },
@@ -1399,16 +2089,7 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '2584',
-                TOTAL      => undef,
-                FAXTOTAL   => undef,
-                PRINTBLACK => undef,
                 BLACK      => '9817',
-                PRINTCOLOR => undef,
-                PRINTTOTAL => undef,
-                SCANNED    => undef,
-                COPYBLACK  => undef,
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef,
                 COLOR      => '21930'
             },
             CARTRIDGES => {
@@ -1428,7 +2109,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:1F:29:2A:D7:43'
                     }
                 ]
             }
@@ -1466,18 +2147,9 @@ my %tests = (
                 LOCATION     => 'HP Color LaserJet CP2025dn'
             },
             PAGECOUNTERS => {
-                PRINTTOTAL => undef,
-                PRINTCOLOR => undef,
-                TOTAL      => undef,
-                FAXTOTAL   => undef,
                 BLACK      => '1198',
-                PRINTBLACK => undef,
                 RECTOVERSO => '1',
                 COLOR      => '7501',
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef,
-                SCANNED    => undef,
-                COPYBLACK  => undef
             },
             CARTRIDGES => {
                 TONERYELLOW => 24,
@@ -1496,7 +2168,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => 'B4:99:BA:C3:D5:FF'
                     }
                 ]
             }
@@ -1541,17 +2213,8 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 COLOR      => '2309',
-                COPYCOLOR  => undef,
-                FAXTOTAL   => undef,
                 BLACK      => '1145',
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
                 RECTOVERSO => '0',
-                PRINTTOTAL => undef,
-                PRINTBLACK => undef,
-                SCANNED    => undef,
-                PRINTCOLOR => undef,
-                TOTAL      => undef
             },
             PORTS => {
                 PORT => [
@@ -1564,7 +2227,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '2C:27:D7:11:70:08'
                     }
                 ]
             }
@@ -1608,18 +2271,9 @@ my %tests = (
                 TONERYELLOW  => 77
             },
             PAGECOUNTERS => {
-                COPYTOTAL  => undef,
                 BLACK      => '3459',
                 COLOR      => '11263',
-                COPYCOLOR  => undef,
-                FAXTOTAL   => undef,
                 RECTOVERSO => '0',
-                COPYBLACK  => undef,
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                PRINTBLACK => undef,
-                PRINTTOTAL => undef,
-                TOTAL      => undef
             },
             PORTS => {
                 PORT => [
@@ -1632,7 +2286,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:21:5A:84:C4:81'
                     }
                 ]
             }
@@ -1670,18 +2324,9 @@ my %tests = (
                 ID           => undef
             },
             PAGECOUNTERS => {
-                TOTAL      => undef,
-                SCANNED    => undef,
-                PRINTBLACK => undef,
-                PRINTCOLOR => undef,
-                PRINTTOTAL => undef,
                 RECTOVERSO => '0',
-                COPYBLACK  => undef,
                 BLACK      => '3896',
                 COLOR      => '12731',
-                COPYCOLOR  => undef,
-                FAXTOTAL   => undef,
-                COPYTOTAL  => undef
             },
             PORTS => {
                 PORT => [
@@ -1694,7 +2339,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:21:5A:84:C4:81'
                     }
                 ]
             },
@@ -1754,23 +2399,14 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:21:5A:81:E3:A7'
                     }
                 ]
             },
             PAGECOUNTERS => {
-                COPYTOTAL  => undef,
-                FAXTOTAL   => undef,
-                COPYCOLOR  => undef,
                 COLOR      => '16450',
                 BLACK      => '5506',
-                COPYBLACK  => undef,
                 RECTOVERSO => '0',
-                PRINTTOTAL => undef,
-                SCANNED    => undef,
-                PRINTCOLOR => undef,
-                PRINTBLACK => undef,
-                TOTAL      => undef
             },
         }
     ],
@@ -1806,17 +2442,8 @@ my %tests = (
                 MODEL        => 'HP Color LaserJet CP2025n'
             },
             PAGECOUNTERS => {
-                PRINTTOTAL => undef,
-                SCANNED    => undef,
-                PRINTBLACK => undef,
-                PRINTCOLOR => undef,
-                TOTAL      => undef,
-                COPYTOTAL  => undef,
-                FAXTOTAL   => undef,
-                COPYCOLOR  => undef,
                 COLOR      => '5758',
                 BLACK      => '3843',
-                COPYBLACK  => undef,
                 RECTOVERSO => '0'
             },
             PORTS => {
@@ -1830,7 +2457,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '78:AC:C0:8F:A1:DD'
                     }
                 ]
             },
@@ -1842,7 +2469,7 @@ my %tests = (
             }
         }
     ],
-    'hewlett-packard/LaserJet_P2015_Series.1.walk' => [
+    'hewlett-packard/LaserJet_P2015.1.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
@@ -1884,7 +2511,7 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:21:5A:83:EC:85'
                     }
                 ]
             },
@@ -1892,22 +2519,13 @@ my %tests = (
                 TONERBLACK => 44
             },
             PAGECOUNTERS => {
-                COPYBLACK  => undef,
-                COPYCOLOR  => undef,
-                PRINTCOLOR => undef,
                 COLOR      => '0',
-                FAXTOTAL   => undef,
-                TOTAL      => undef,
                 RECTOVERSO => '0',
-                PRINTBLACK => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
-                PRINTTOTAL => undef,
                 BLACK      => '36596'
             }
         }
     ],
-    'hewlett-packard/LaserJet_P2015_Series.2.walk' => [
+    'hewlett-packard/LaserJet_P2015.2.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
@@ -1939,18 +2557,9 @@ my %tests = (
                 ID           => undef
             },
             PAGECOUNTERS => {
-                COPYBLACK  => undef,
-                COPYCOLOR  => undef,
-                PRINTCOLOR => undef,
                 COLOR      => '0',
-                FAXTOTAL   => undef,
                 RECTOVERSO => '0',
-                PRINTBLACK => undef,
-                TOTAL      => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
                 BLACK      => '25333',
-                PRINTTOTAL => undef
             },
             CARTRIDGES => {
                 TONERBLACK => 59
@@ -1966,13 +2575,13 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:1B:78:13:EE:63'
                     }
                 ]
             },
         }
     ],
-    'hewlett-packard/LaserJet_P2015_Series.3.walk' => [
+    'hewlett-packard/LaserJet_P2015.3.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
@@ -2004,18 +2613,9 @@ my %tests = (
                 NAME         => 'NPI83EC85',
             },
             PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                COPYCOLOR  => undef,
-                COPYBLACK  => undef,
                 COLOR      => '0',
-                TOTAL      => undef,
                 RECTOVERSO => '0',
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                PRINTTOTAL => undef,
                 BLACK      => '36301',
-                COPYTOTAL  => undef,
-                SCANNED    => undef
             },
             CARTRIDGES => {
                 TONERBLACK => 50
@@ -2031,8 +2631,414 @@ my %tests = (
                         IFNAME   => 'Ethernet',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:21:5A:83:EC:85'
                     }
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P2015.4.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2015 Series',
+            SNMPHOSTNAME => 'NPI2BAB3D',
+            MAC          => '00:1F:29:2B:AB:3D',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2015 Series',
+            SNMPHOSTNAME => 'NPI2BAB3D',
+            MAC          => '00:1F:29:2B:AB:3D',
+            MODELSNMP    => 'Printer0394',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'CNBW87R2XX',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet P2015 Series',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW87R2XX,FN:JK5BJMX,SVCID:00000,PID:HP LaserJet P2015 Series',
+                NAME         => 'NPI2BAB3D',
+                MEMORY       => '95',
+                LOCATION     => 'Boise, ID, USA',
+                SERIAL       => 'CNBW87R2XX',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '65',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '129336',
+                COLOR      => '0',
+                RECTOVERSO => '0',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER => '1',
+                        IFNAME   => 'LOOPBACK',
+                        IFTYPE   => 'softwareLoopback(24)',
+                    },
+                    {
+                        IFNUMBER => '2',
+                        IFNAME   => 'Ethernet',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        IP       => '128.93.22.213',
+                        MAC      => '00:1F:29:2B:AB:3D',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P2015.5.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2015 Series',
+            SNMPHOSTNAME => 'NPI8CA86F',
+            MAC          => '00:17:08:8C:A8:6F',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2015 Series',
+            SNMPHOSTNAME => 'NPI8CA86F',
+            MAC          => '00:17:08:8C:A8:6F',
+            MODELSNMP    => 'Printer0394',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'CNBW6DW3R8',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet P2015 Series',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW6DW3R8,FN:JK151HQ,SVCID:00000,PID:l0713a',
+                NAME         => 'NPI8CA86F',
+                MEMORY       => '159',
+                LOCATION     => 'Boise, ID, USA',
+                SERIAL       => 'CNBW6DW3R8',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '18',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '45078',
+                COLOR      => '0',
+                RECTOVERSO => '20379',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER => '1',
+                        IFNAME   => 'LOOPBACK',
+                        IFTYPE   => 'softwareLoopback(24)',
+                    },
+                    {
+                        IFNUMBER => '2',
+                        IFNAME   => 'Ethernet',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        IP       => '128.93.22.14',
+                        MAC      => '00:17:08:8C:A8:6F',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P2015.6.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2015 Series',
+            SNMPHOSTNAME => 'NPI8E6910',
+            MAC          => '00:17:08:8E:69:10',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2015 Series',
+            SNMPHOSTNAME => 'NPI8E6910',
+            MAC          => '00:17:08:8E:69:10',
+            MODELSNMP    => 'Printer0394',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'CNBW7171V8',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet P2015 Series',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW7171V8,FN:JK15ESY,SVCID:00000,PID:HP LaserJet P2015 Series',
+                NAME         => 'NPI8E6910',
+                MEMORY       => '159',
+                LOCATION     => 'Boise, ID, USA',
+                SERIAL       => 'CNBW7171V8',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '46',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '16610',
+                COLOR      => '0',
+                RECTOVERSO => '423',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER => '1',
+                        IFNAME   => 'LOOPBACK',
+                        IFTYPE   => 'softwareLoopback(24)',
+                    },
+                    {
+                        IFNUMBER => '2',
+                        IFNAME   => 'Ethernet',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        IP       => '128.93.22.22',
+                        MAC      => '00:17:08:8E:69:10',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P2015.7.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2015 Series',
+            SNMPHOSTNAME => 'NPI8C980D',
+            MAC          => '00:17:08:8C:98:0D',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2015 Series',
+            SNMPHOSTNAME => 'NPI8C980D',
+            MAC          => '00:17:08:8C:98:0D',
+            MODELSNMP    => 'Printer0394',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'CNBW6DW37G',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet P2015 Series',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW6DW37G,FN:JK15170,SVCID:00000,PID:l2405a',
+                NAME         => 'NPI8C980D',
+                MEMORY       => '159',
+                LOCATION     => 'Boise, ID, USA',
+                SERIAL       => 'CNBW6DW37G',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '32',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '5943',
+                COLOR      => '0',
+                RECTOVERSO => '930',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER => '1',
+                        IFNAME   => 'LOOPBACK',
+                        IFTYPE   => 'softwareLoopback(24)',
+                    },
+                    {
+                        IFNUMBER => '2',
+                        IFNAME   => 'Ethernet',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        IP       => '128.93.22.122',
+                        MAC      => '00:17:08:8C:98:0D',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P2015.8.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2015 Series',
+            SNMPHOSTNAME => 'NPI7954CF',
+            MAC          => '00:23:7D:79:54:CF',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2015 Series',
+            SNMPHOSTNAME => 'NPI7954CF',
+            MAC          => '00:23:7D:79:54:CF',
+            MODELSNMP    => 'Printer0394',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'CNBW76W0B8',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet P2015 Series',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW76W0B8,FN:JK62250,SVCID:00000,PID:HP LaserJet P2015 Series',
+                NAME         => 'NPI7954CF',
+                MEMORY       => '95',
+                LOCATION     => 'Boise, ID, USA',
+                SERIAL       => 'CNBW76W0B8',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '66',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '96192',
+                COLOR      => '0',
+                RECTOVERSO => '620',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER => '1',
+                        IFNAME   => 'LOOPBACK',
+                        IFTYPE   => 'softwareLoopback(24)',
+                    },
+                    {
+                        IFNUMBER => '2',
+                        IFNAME   => 'Ethernet',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        IP       => '128.93.22.220',
+                        MAC      => '00:23:7D:79:54:CF',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P2015.9.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2015 Series',
+            SNMPHOSTNAME => 'NPI156F54',
+            MAC          => '00:1A:4B:15:6F:54',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2015 Series',
+            SNMPHOSTNAME => 'NPI156F54',
+            MAC          => '00:1A:4B:15:6F:54',
+            MODELSNMP    => 'Printer0394',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'CNBW74K7GP',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet P2015 Series',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW74K7GP,FN:JK306JC,SVCID:00000,PID:HP LaserJet P2015 Series',
+                NAME         => 'NPI156F54',
+                MEMORY       => '95',
+                LOCATION     => 'Boise, ID, USA',
+                SERIAL       => 'CNBW74K7GP',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '90',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '30412',
+                COLOR      => '0',
+                RECTOVERSO => '65',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER => '1',
+                        IFNAME   => 'LOOPBACK',
+                        IFTYPE   => 'softwareLoopback(24)',
+                    },
+                    {
+                        IFNUMBER => '2',
+                        IFNAME   => 'Ethernet',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        IP       => '128.93.22.197',
+                        MAC      => '00:1A:4B:15:6F:54',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P2015.10.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2015 Series',
+            SNMPHOSTNAME => 'NPI166E31',
+            MAC          => '00:1F:29:16:6E:31',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2015 Series',
+            SNMPHOSTNAME => 'NPI166E31',
+            MAC          => '00:1F:29:16:6E:31',
+            MODELSNMP    => 'Printer0394',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'CNBW84P402',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet P2015 Series',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW84P402,FN:JK54RBG,SVCID:00000,PID:HP LaserJet P2015 Series',
+                NAME         => 'NPI166E31',
+                MEMORY       => '95',
+                LOCATION     => 'Boise, ID, USA',
+                SERIAL       => 'CNBW84P402',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '33',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '8880',
+                COLOR      => '0',
+                RECTOVERSO => '2115',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER => '1',
+                        IFNAME   => 'LOOPBACK',
+                        IFTYPE   => 'softwareLoopback(24)',
+                    },
+                    {
+                        IFNUMBER => '2',
+                        IFNAME   => 'Ethernet',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        IP       => '128.93.22.233',
+                        MAC      => '00:1F:29:16:6E:31',
+                    },
                 ]
             },
         }
@@ -2066,20 +3072,6 @@ my %tests = (
                 MODEL        => 'HP LaserJet P4014',
                 SERIAL       => 'CNFX409800',
                 MEMORY       => 384
-            },
-            PAGECOUNTERS => {
-                PRINTTOTAL => undef,
-                PRINTBLACK => undef,
-                TOTAL      => undef,
-                COPYBLACK  => undef,
-                PRINTCOLOR => undef,
-                COPYCOLOR  => undef,
-                SCANNED    => undef,
-                BLACK      => undef,
-                COPYTOTAL  => undef,
-                FAXTOTAL   => undef,
-                RECTOVERSO => undef,
-                COLOR      => undef
             },
             PORTS => {
                 PORT => [
@@ -6852,27 +7844,16 @@ my %tests = (
                         IFNAME   => 'NetDrvr',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '78:E7:D1:A6:03:2E'
                     }
                 ]
             },
             PAGECOUNTERS => {
-                FAXTOTAL   => undef,
-                PRINTBLACK => undef,
                 BLACK      => '91',
-                SCANNED    => undef,
-                PRINTTOTAL => undef,
-                RECTOVERSO => undef,
-                TOTAL      => undef,
-                COPYBLACK  => undef,
-                COPYTOTAL  => undef,
-                PRINTCOLOR => undef,
-                COLOR      => undef,
-                COPYCOLOR  => undef
             },
         }
     ],
-    'hewlett-packard/LaserJet_P3005.walk' => [
+    'hewlett-packard/LaserJet_P3005.1.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
@@ -6898,30 +7879,600 @@ my %tests = (
                 COMMENTS     => 'HP LaserJet P3005',
                 OTHERSERIAL  => '0x0115',
                 ID           => undef,
-                LOCATION     => undef,
                 NAME         => 'NPI7A5E2D',
                 SERIAL       => 'CNH1R06635',
                 MODEL        => '0x0115513738313441'
-            },
-            PORTS => {
-                PORT => []
             },
             CARTRIDGES => {
                 TONERBLACK => 32
             },
             PAGECOUNTERS => {
-                BLACK      => undef,
-                FAXTOTAL   => undef,
                 RECTOVERSO => '0',
-                COPYBLACK  => undef,
-                COPYCOLOR  => undef,
-                COLOR      => undef,
                 PRINTTOTAL => '20949',
-                COPYTOTAL  => undef,
-                PRINTCOLOR => undef,
-                TOTAL      => undef,
-                PRINTBLACK => undef,
-                SCANNED    => undef
+            }
+        }
+    ],
+    'hewlett-packard/LaserJet_P3005.2.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3005',
+            SNMPHOSTNAME => 'NPI91B509',
+            MAC          => '00:17:08:91:B5:09',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3005',
+            SNMPHOSTNAME => 'NPI91B509',
+            MAC          => '00:17:08:91:B5:09',
+            MODELSNMP    => 'Printer0612',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => '0x0115434E4657364447333853',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => '0x0115513738313541',
+                COMMENTS     => 'HP LaserJet P3005',
+                NAME         => 'NPI91B509',
+                MEMORY       => '320',
+                SERIAL       => 'CNFW6DG38S',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '98',
+            },
+            PAGECOUNTERS => {
+                RECTOVERSO => '1',
+                PRINTTOTAL => '150',
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P3005.3.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3005',
+            SNMPHOSTNAME => 'NPI947D4C',
+            MAC          => '00:17:A4:94:7D:4C',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3005',
+            SNMPHOSTNAME => 'NPI947D4C',
+            MAC          => '00:17:A4:94:7D:4C',
+            MODELSNMP    => 'Printer0612',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => '0x0115434E465736444630574C',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => '0x0115513738313541',
+                COMMENTS     => 'HP LaserJet P3005',
+                NAME         => 'NPI947D4C',
+                MEMORY       => '320',
+                SERIAL       => 'CNFW6DF0WL',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '10',
+            },
+            PAGECOUNTERS => {
+                RECTOVERSO => '1',
+                PRINTTOTAL => '13324',
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P3005.4.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3005',
+            SNMPHOSTNAME => 'L0420a',
+            MAC          => '00:17:A4:93:4D:9F',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3005',
+            SNMPHOSTNAME => 'L0420a',
+            MAC          => '00:17:A4:93:4D:9F',
+            MODELSNMP    => 'Printer0612',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => '0x0115434E4657364447333951',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => '0x0115513738313541',
+                COMMENTS     => 'HP LaserJet P3005',
+                NAME         => 'L0420a',
+                MEMORY       => '320',
+                SERIAL       => 'CNFW6DG39Q',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '70',
+            },
+            PAGECOUNTERS => {
+                RECTOVERSO => '566',
+                PRINTTOTAL => '13193',
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P3005.5.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3005',
+            SNMPHOSTNAME => 'l0500a',
+            MAC          => '00:17:08:91:95:DD',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3005',
+            SNMPHOSTNAME => 'l0500a',
+            MAC          => '00:17:08:91:95:DD',
+            MODELSNMP    => 'Printer0612',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => '0x0115434E465736444733384C',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => '0x0115513738313541',
+                COMMENTS     => 'HP LaserJet P3005',
+                NAME         => 'l0500a',
+                MEMORY       => '320',
+                SERIAL       => 'CNFW6DG38L',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '36',
+            },
+            PAGECOUNTERS => {
+                RECTOVERSO => '105',
+                PRINTTOTAL => '15807',
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P3005.6.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3005',
+            SNMPHOSTNAME => 'NPI934D69',
+            MAC          => '00:17:A4:93:4D:69',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3005',
+            SNMPHOSTNAME => 'NPI934D69',
+            MAC          => '00:17:A4:93:4D:69',
+            MODELSNMP    => 'Printer0612',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => '0x0115434E4657364447334450',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => '0x0115513738313541',
+                COMMENTS     => 'HP LaserJet P3005',
+                NAME         => 'NPI934D69',
+                MEMORY       => '320',
+                SERIAL       => 'CNFW6DG3DP',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '95',
+            },
+            PAGECOUNTERS => {
+                RECTOVERSO => '1',
+                PRINTTOTAL => '53053',
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P3005.7.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3005',
+            SNMPHOSTNAME => 'NPI934D9C',
+            MAC          => '00:17:A4:93:4D:9C',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3005',
+            SNMPHOSTNAME => 'NPI934D9C',
+            MAC          => '00:17:A4:93:4D:9C',
+            MODELSNMP    => 'Printer0612',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => '0x0115434E4657364447333750',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => '0x0115513738313541',
+                COMMENTS     => 'HP LaserJet P3005',
+                NAME         => 'NPI934D9C',
+                MEMORY       => '320',
+                SERIAL       => 'CNFW6DG37P',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '41',
+            },
+            PAGECOUNTERS => {
+                RECTOVERSO => '21',
+                PRINTTOTAL => '130480',
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P3005.8.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3005',
+            SNMPHOSTNAME => 'NPI917343',
+            MAC          => '00:17:08:91:73:43',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3005',
+            SNMPHOSTNAME => 'NPI917343',
+            MAC          => '00:17:08:91:73:43',
+            MODELSNMP    => 'Printer0612',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => '0x0115434E4657364447314D48',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => '0x0115513738313541',
+                COMMENTS     => 'HP LaserJet P3005',
+                NAME         => 'NPI917343',
+                MEMORY       => '320',
+                SERIAL       => 'CNFW6DG1MH',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '94',
+            },
+            PAGECOUNTERS => {
+                RECTOVERSO => '814',
+                PRINTTOTAL => '45077',
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P3005.9.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3005',
+            SNMPHOSTNAME => 'l1B220a',
+            MAC          => '00:17:A4:93:DF:9C',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3005',
+            SNMPHOSTNAME => 'l1B220a',
+            MAC          => '00:17:A4:93:DF:9C',
+            MODELSNMP    => 'Printer0612',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => '0x0115434E4657364447314C50',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => '0x0115513738313541',
+                COMMENTS     => 'HP LaserJet P3005',
+                NAME         => 'l1B220a',
+                MEMORY       => '320',
+                SERIAL       => 'CNFW6DG1LP',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '95',
+            },
+            PAGECOUNTERS => {
+                RECTOVERSO => '12',
+                PRINTTOTAL => '11083',
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P3005.10.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3005',
+            SNMPHOSTNAME => 'NPI824876',
+            MAC          => '00:17:08:82:48:76',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3005',
+            SNMPHOSTNAME => 'NPI824876',
+            MAC          => '00:17:08:82:48:76',
+            MODELSNMP    => 'Printer0612',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => '0x0115434E4657364446305846',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => '0x0115513738313541',
+                COMMENTS     => 'HP LaserJet P3005',
+                NAME         => 'NPI824876',
+                MEMORY       => '320',
+                SERIAL       => 'CNFW6DF0XF',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '77',
+            },
+            PAGECOUNTERS => {
+                RECTOVERSO => '1',
+                PRINTTOTAL => '17204',
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P3005.11.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3005',
+            SNMPHOSTNAME => 'NPI934D5B',
+            MAC          => '00:17:A4:93:4D:5B',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3005',
+            SNMPHOSTNAME => 'NPI934D5B',
+            MAC          => '00:17:A4:93:4D:5B',
+            MODELSNMP    => 'Printer0612',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => '0x0115434E4657364447333934',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => '0x0115513738313541',
+                COMMENTS     => 'HP LaserJet P3005',
+                NAME         => 'NPI934D5B',
+                MEMORY       => '192',
+                SERIAL       => 'CNFW6DG394',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '11',
+            },
+            PAGECOUNTERS => {
+                RECTOVERSO => '1',
+                PRINTTOTAL => '100796',
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P3005.12.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3005',
+            SNMPHOSTNAME => 'NPI939CBD',
+            MAC          => '00:17:A4:93:A7:56',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3005',
+            SNMPHOSTNAME => 'NPI939CBD',
+            MAC          => '00:17:A4:93:A7:56',
+            MODELSNMP    => 'Printer0612',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => '0x0115434E4657364447314E50',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => '0x0115513738313541',
+                COMMENTS     => 'HP LaserJet P3005',
+                NAME         => 'NPI939CBD',
+                MEMORY       => '320',
+                SERIAL       => 'CNFW6DG1NP',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '88',
+            },
+            PAGECOUNTERS => {
+                RECTOVERSO => '22',
+                PRINTTOTAL => '65087',
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P3005.13.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3005',
+            SNMPHOSTNAME => 'l2427a',
+            MAC          => '00:17:A4:94:A6:1F',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3005',
+            SNMPHOSTNAME => 'l2427a',
+            MAC          => '00:17:A4:94:A6:1F',
+            MODELSNMP    => 'Printer0612',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => '0x0115434E4657364447314D38',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => '0x0115513738313541',
+                COMMENTS     => 'HP LaserJet P3005',
+                NAME         => 'l2427a',
+                MEMORY       => '320',
+                SERIAL       => 'CNFW6DG1M8',
+                OTHERSERIAL  => '0x0115',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '53',
+            },
+            PAGECOUNTERS => {
+                RECTOVERSO => '7',
+                PRINTTOTAL => '5388',
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P3010.1.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3010 Series',
+            SNMPHOSTNAME => 'NPI013B81',
+            MAC          => '00:9C:02:01:3B:81',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3010 Series',
+            SNMPHOSTNAME => 'NPI013B81',
+            MAC          => '00:9C:02:01:3B:81',
+            MODELSNMP    => 'Printer0402',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'VNBQD3C0BF'
+        },
+        {
+            INFO => {
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                COMMENTS     => 'HP LaserJet P3010 Series',
+                OTHERSERIAL  => '0xFDE8',
+                ID           => undef,
+                SERIAL       => 'VNBQD3C0BF',
+                NAME         => 'NPI013B81',
+                MODEL        => 'HP LaserJet P3010 Series',
+            },
+            PAGECOUNTERS => {
+                RECTOVERSO => '74',
+                BLACK      => '15265',
+            },
+            CARTRIDGES => {
+                TONERBLACK => 84
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => '00:9C:02:01:3B:81'
+                    }
+                ]
+            }
+        }
+    ],
+    'hewlett-packard/LaserJet_P3010.2.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3010 Series',
+            SNMPHOSTNAME => 'NPI013B81',
+            MAC          => '00:9C:02:01:3B:81',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P3010 Series',
+            SNMPHOSTNAME => 'NPI013B81',
+            MAC          => '00:9C:02:01:3B:81',
+            MODELSNMP    => 'Printer0402',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => 'VNBQD3C0BF'
+        },
+        {
+            INFO => {
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                COMMENTS     => 'HP LaserJet P3010 Series',
+                ID           => undef,
+                OTHERSERIAL  => '0xFDE8',
+                SERIAL       => 'VNBQD3C0BF',
+                NAME         => 'NPI013B81',
+                MODEL        => 'HP LaserJet P3010 Series',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER => '1',
+                        IFTYPE   => 'softwareLoopback(24)'
+                    },
+                    {
+                        IFNUMBER => '2',
+                        IFTYPE   => 'ethernetCsmacd(6)',
+                        MAC      => '00:9C:02:01:3B:81'
+                    }
+                ]
+            },
+            PAGECOUNTERS => {
+                BLACK      => '6386',
+                RECTOVERSO => '772',
+            },
+            CARTRIDGES => {
+                TONERBLACK => 1
             }
         }
     ],
@@ -6955,10 +8506,6 @@ my %tests = (
                 SERIAL       => '20040201',
                 ID           => undef
             },
-            PORTS => {
-                PORT => [
-                ]
-            },
             CARTRIDGES => {
                 TONERBLACK => 6
             },
@@ -6967,14 +8514,7 @@ my %tests = (
                 COLOR      => '0',
                 PRINTBLACK => '30965',
                 PRINTTOTAL => '30965',
-                COPYBLACK  => undef,
-                SCANNED    => undef,
-                PRINTCOLOR => undef,
-                COPYCOLOR  => undef,
-                FAXTOTAL   => undef,
                 BLACK      => '30965',
-                COPYTOTAL  => undef,
-                TOTAL      => undef
             }
         }
     ],
@@ -7009,22 +8549,11 @@ my %tests = (
                 OTHERSERIAL  => '0xFDE8',
             },
             PAGECOUNTERS => {
-                COPYTOTAL  => undef,
-                TOTAL      => undef,
                 BLACK      => '36105',
-                COPYCOLOR  => undef,
-                FAXTOTAL   => undef,
-                SCANNED    => undef,
-                PRINTCOLOR => undef,
-                COPYBLACK  => undef,
                 PRINTBLACK => '36105',
                 PRINTTOTAL => '36105',
                 COLOR      => '0',
                 RECTOVERSO => '8379'
-            },
-            PORTS => {
-                PORT => [
-                ]
             },
             CARTRIDGES => {
                 TONERBLACK => 88
@@ -7061,24 +8590,14 @@ my %tests = (
                 ID           => undef,
                 MODEL        => 'HP LaserJet P2055dn',
             },
-            PORTS => {
-                PORT => []
-            },
             CARTRIDGES => {
                 TONERBLACK => 32
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '62',
                 COLOR      => '0',
-                COPYBLACK  => undef,
                 PRINTTOTAL => '3837',
                 PRINTBLACK => '3837',
-                FAXTOTAL   => undef,
-                COPYCOLOR  => undef,
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                TOTAL      => undef,
-                COPYTOTAL  => undef,
                 BLACK      => '3837'
             }
         }
@@ -7118,20 +8637,10 @@ my %tests = (
                 RECTOVERSO => '5297',
                 PRINTTOTAL => '11057',
                 PRINTBLACK => '11057',
-                COPYBLACK  => undef,
-                COPYCOLOR  => undef,
-                FAXTOTAL   => undef,
-                SCANNED    => undef,
-                PRINTCOLOR => undef,
                 BLACK      => '11057',
-                COPYTOTAL  => undef,
-                TOTAL      => undef
             },
             CARTRIDGES => {
                 TONERBLACK => 45
-            },
-            PORTS => {
-                PORT => []
             },
         }
     ],
@@ -7165,25 +8674,15 @@ my %tests = (
                 ID           => undef,
                 MODEL        => 'HP LaserJet P2055dn',
             },
-            PORTS => {
-                PORT => []
-            },
             CARTRIDGES => {
                 TONERBLACK => 56
             },
             PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                COPYCOLOR  => undef,
-                FAXTOTAL   => undef,
                 BLACK      => '19402',
-                COPYTOTAL  => undef,
-                TOTAL      => undef,
                 COLOR      => '0',
                 RECTOVERSO => '3761',
                 PRINTBLACK => '19402',
                 PRINTTOTAL => '19402',
-                COPYBLACK  => undef
             }
         }
     ],
@@ -7220,21 +8719,11 @@ my %tests = (
             CARTRIDGES => {
                 TONERBLACK => 78
             },
-            PORTS => {
-                PORT => []
-            },
             PAGECOUNTERS => {
                 PRINTTOTAL => '17861',
-                FAXTOTAL   => undef,
-                TOTAL      => undef,
                 BLACK      => '17861',
-                COPYCOLOR  => undef,
                 COLOR      => '0',
                 PRINTBLACK => '17861',
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
                 RECTOVERSO => '3192'
             }
         }
@@ -7272,22 +8761,12 @@ my %tests = (
             CARTRIDGES => {
                 TONERBLACK => 46
             },
-            PORTS => {
-                PORT => []
-            },
             PAGECOUNTERS => {
                 COLOR      => '0',
                 PRINTBLACK => '5696',
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
                 RECTOVERSO => '1843',
                 PRINTTOTAL => '5696',
-                FAXTOTAL   => undef,
-                TOTAL      => undef,
                 BLACK      => '5696',
-                COPYCOLOR  => undef
             }
         }
     ],
@@ -7321,24 +8800,14 @@ my %tests = (
                 MODEL        => 'HP LaserJet P2055dn',
                 SERIAL       => '20040201',
             },
-            PORTS => {
-                PORT => []
-            },
             CARTRIDGES => {
                 TONERBLACK => 38
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '6952',
-                SCANNED    => undef,
-                PRINTCOLOR => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
                 PRINTBLACK => '26922',
                 COLOR      => '0',
                 BLACK      => '26922',
-                COPYCOLOR  => undef,
-                TOTAL      => undef,
-                FAXTOTAL   => undef,
                 PRINTTOTAL => '26922'
             }
         }
@@ -7373,22 +8842,12 @@ my %tests = (
                 OTHERSERIAL  => '0xFDE8',
                 ID           => undef,
             },
-            PORTS => {
-                PORT => []
-            },
             PAGECOUNTERS => {
                 BLACK      => '4047',
-                FAXTOTAL   => undef,
                 RECTOVERSO => '50',
-                COPYBLACK  => undef,
-                COPYCOLOR  => undef,
                 COLOR      => '0',
-                COPYTOTAL  => undef,
                 PRINTTOTAL => '4047',
-                PRINTCOLOR => undef,
-                TOTAL      => undef,
                 PRINTBLACK => '4047',
-                SCANNED    => undef
             },
             CARTRIDGES => {
                 TONERBLACK => 20
@@ -7426,21 +8885,11 @@ my %tests = (
                 ID           => undef,
             },
             PAGECOUNTERS => {
-                COPYBLACK  => undef,
                 PRINTTOTAL => '4944',
                 PRINTBLACK => '4944',
                 COLOR      => '0',
                 RECTOVERSO => '0',
-                COPYTOTAL  => undef,
-                TOTAL      => undef,
                 BLACK      => '4944',
-                FAXTOTAL   => undef,
-                COPYCOLOR  => undef,
-                PRINTCOLOR => undef,
-                SCANNED    => undef
-            },
-            PORTS => {
-                PORT => []
             },
             CARTRIDGES => {
                 TONERBLACK => 40
@@ -7478,23 +8927,15 @@ my %tests = (
                 MODEL        => 'HP LaserJet P2055dn',
             },
             PAGECOUNTERS => {
-                COPYTOTAL  => undef,
-                TOTAL      => undef,
                 BLACK      => '4339',
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                FAXTOTAL   => undef,
-                COPYCOLOR  => undef,
-                COPYBLACK  => undef,
                 PRINTBLACK => '4339',
                 PRINTTOTAL => '4339',
                 COLOR      => '0',
                 RECTOVERSO => '498'
             },
-            PORTS => {
-                PORT => [
-                ]
-            }
+            CARTRIDGES => {
+                TONERBLACK => 0
+            },
         }
     ],
     'hewlett-packard/LaserJet_P2055dn.12.walk' => [
@@ -7530,24 +8971,185 @@ my %tests = (
             PAGECOUNTERS => {
                 RECTOVERSO => '1789',
                 COLOR      => '0',
-                COPYBLACK  => undef,
                 PRINTBLACK => '89242',
                 PRINTTOTAL => '89242',
-                PRINTCOLOR => undef,
-                SCANNED    => undef,
-                FAXTOTAL   => undef,
-                COPYCOLOR  => undef,
-                TOTAL      => undef,
-                COPYTOTAL  => undef,
                 BLACK      => '89242'
-            },
-            PORTS => {
-                PORT => [
-                ]
             },
             CARTRIDGES => {
                 TONERBLACK => 68
             }
+        }
+    ],
+    'hewlett-packard/LaserJet_P2055dn.13.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'l1019a',
+            MAC          => '00:25:B3:EB:EA:20',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'l1019a',
+            MAC          => '00:25:B3:EB:EA:20',
+            MODELSNMP    => 'Printer0611',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => '20040201',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet P2055dn',
+                COMMENTS     => 'HP LaserJet P2055dn',
+                NAME         => 'l1019a',
+                MEMORY       => '128',
+                SERIAL       => '20040201',
+                OTHERSERIAL  => '0xFDE8',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '74',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '3515',
+                PRINTBLACK => '3515',
+                COLOR      => '0',
+                RECTOVERSO => '0',
+                PRINTTOTAL => '3515',
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P2055dn.14.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPIEB8A8F',
+            MAC          => '00:25:B3:EB:8A:8F',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPIEB8A8F',
+            MAC          => '00:25:B3:EB:8A:8F',
+            MODELSNMP    => 'Printer0611',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => '20040201',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet P2055dn',
+                COMMENTS     => 'HP LaserJet P2055dn',
+                NAME         => 'NPIEB8A8F',
+                MEMORY       => '128',
+                SERIAL       => '20040201',
+                OTHERSERIAL  => '0xFDE8',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '66',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '11344',
+                PRINTBLACK => '11344',
+                COLOR      => '0',
+                RECTOVERSO => '2389',
+                PRINTTOTAL => '11344',
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P2055dn.15.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'l1a220a',
+            MAC          => '00:25:B3:EB:7A:C7',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'l1a220a',
+            MAC          => '00:25:B3:EB:7A:C7',
+            MODELSNMP    => 'Printer0611',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => '20040201',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet P2055dn',
+                COMMENTS     => 'HP LaserJet P2055dn',
+                NAME         => 'l1a220a',
+                MEMORY       => '128',
+                SERIAL       => '20040201',
+                OTHERSERIAL  => '0xFDE8',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '2',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '22937',
+                PRINTBLACK => '22937',
+                COLOR      => '0',
+                RECTOVERSO => '6832',
+                PRINTTOTAL => '22937',
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P2055dn.16.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPIEB4B44',
+            MAC          => '00:25:B3:EB:4B:44',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPIEB4B44',
+            MAC          => '00:25:B3:EB:4B:44',
+            MODELSNMP    => 'Printer0611',
+            MODEL        => undef,
+            FIRMWARE     => undef,
+            SERIAL       => '20040201',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet P2055dn',
+                COMMENTS     => 'HP LaserJet P2055dn',
+                NAME         => 'NPIEB4B44',
+                MEMORY       => '128',
+                SERIAL       => '20040201',
+                OTHERSERIAL  => '0xFDE8',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '60',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '4878',
+                PRINTBLACK => '4878',
+                COLOR      => '0',
+                RECTOVERSO => '504',
+                PRINTTOTAL => '4878',
+            },
         }
     ],
     'hewlett-packard/LaserJet_P4015.1.walk' => [
@@ -7579,7 +9181,6 @@ my %tests = (
                 MODEL        => 'HP LaserJet P4015',
                 NAME         => 'LJ30000000000000000000----------',
                 SERIAL       => 'CNFY417951',
-                LOCATION     => undef
             },
             PORTS => {
                 PORT => [
@@ -7592,7 +9193,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:21:5A:8F:EA:2B'
                     }
                 ]
             },
@@ -7601,18 +9202,7 @@ my %tests = (
                 MAINTENANCEKIT => 87
             },
             PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                COPYCOLOR  => undef,
-                BLACK      => undef,
-                PRINTBLACK => undef,
-                TOTAL      => undef,
-                FAXTOTAL   => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                COLOR      => undef,
                 RECTOVERSO => '26',
-                PRINTTOTAL => undef
             }
         }
     ],
@@ -7645,7 +9235,6 @@ my %tests = (
                 MODEL        => 'HP LaserJet P4015',
                 NAME         => 'NPI8D9896',
                 SERIAL       => 'CNFY409032',
-                LOCATION     => undef
             },
             PORTS => {
                 PORT => [
@@ -7658,7 +9247,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:21:5A:8D:98:96'
                     }
                 ]
             },
@@ -7667,18 +9256,7 @@ my %tests = (
                 MAINTENANCEKIT => 61
             },
             PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                COPYCOLOR  => undef,
-                BLACK      => undef,
-                PRINTBLACK => undef,
-                TOTAL      => undef,
-                FAXTOTAL   => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                COLOR      => undef,
                 RECTOVERSO => '26',
-                PRINTTOTAL => undef
             }
         }
     ],
@@ -7711,7 +9289,6 @@ my %tests = (
                 MODEL        => 'HP LaserJet P4015',
                 NAME         => 'NPI22C87C',
                 SERIAL       => 'CNFY213364',
-                LOCATION     => undef
             },
             PORTS => {
                 PORT => [
@@ -7724,7 +9301,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.35',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:1F:29:22:C8:7C'
                     }
                 ]
             },
@@ -7733,18 +9310,7 @@ my %tests = (
                 MAINTENANCEKIT => 79
             },
             PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                COPYCOLOR  => undef,
-                BLACK      => undef,
-                PRINTBLACK => undef,
-                TOTAL      => undef,
-                FAXTOTAL   => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                COLOR      => undef,
                 RECTOVERSO => '52',
-                PRINTTOTAL => undef
             }
         }
     ],
@@ -7777,7 +9343,6 @@ my %tests = (
                 MODEL        => 'HP LaserJet P4015',
                 NAME         => 'NPI9706DE',
                 SERIAL       => 'CNFY183496',
-                LOCATION     => undef
             },
             PORTS => {
                 PORT => [
@@ -7790,7 +9355,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.40',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:21:5A:97:06:DE'
                     }
                 ]
             },
@@ -7799,18 +9364,7 @@ my %tests = (
                 TONERBLACK     => 1
             },
             PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                COPYCOLOR  => undef,
-                BLACK      => undef,
-                PRINTBLACK => undef,
-                TOTAL      => undef,
-                FAXTOTAL   => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                COLOR      => undef,
                 RECTOVERSO => '4',
-                PRINTTOTAL => undef
             }
         }
     ],
@@ -7843,7 +9397,6 @@ my %tests = (
                 MODEL        => 'HP LaserJet P4015',
                 NAME         => 'NPIEADBFB',
                 SERIAL       => 'CNFY349204',
-                LOCATION     => undef
             },
             PORTS => {
                 PORT => [
@@ -7856,26 +9409,16 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.41',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:25:B3:EA:DB:FB'
                     }
                 ]
             },
             CARTRIDGES => {
-                TONERBLACK => 32
+                TONERBLACK     => 32,
+                MAINTENANCEKIT => 0
             },
             PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                COPYCOLOR  => undef,
-                BLACK      => undef,
-                PRINTBLACK => undef,
-                TOTAL      => undef,
-                FAXTOTAL   => undef,
-                SCANNED    => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                COLOR      => undef,
                 RECTOVERSO => '2096',
-                PRINTTOTAL => undef
             }
         }
     ],
@@ -7906,22 +9449,13 @@ my %tests = (
                 ID           => undef,
                 SERIAL       => 'JPCTC8M0LJ',
                 OTHERSERIAL  => '0xFDE8',
-                LOCATION     => undef,
                 MODEL        => 'HP Color LaserJet CP4520 Series',
                 NAME         => 'NPI10DB2C',
-                CONTACT      => undef
             },
             PAGECOUNTERS => {
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef,
                 COLOR      => '5839',
-                COPYBLACK  => undef,
-                SCANNED    => undef,
                 BLACK      => '8881',
                 PRINTCOLOR => '5839',
-                FAXTOTAL   => undef,
-                TOTAL      => undef,
-                RECTOVERSO => undef,
                 PRINTBLACK => '8765',
                 PRINTTOTAL => '14610'
             },
@@ -7941,7 +9475,7 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD145,EEPROM V.38.99',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '2C:27:D7:10:DB:2C'
                     }
                 ]
             },
@@ -7972,7 +9506,6 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.67,CIDATE 06/17/2008',
                 ID           => undef,
-                LOCATION     => undef,
                 SERIAL       => 'CNCT98DGJY',
                 NAME         => 'NPI85A57D',
                 MODEL        => 'HP Color LaserJet CP3525',
@@ -7995,23 +9528,14 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.67',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => '00:23:7D:85:A5:7D'
                     }
                 ]
             },
             PAGECOUNTERS => {
-                COPYTOTAL  => undef,
                 BLACK      => '7603',
-                FAXTOTAL   => undef,
-                COPYCOLOR  => undef,
                 COLOR      => '9127',
                 RECTOVERSO => '0',
-                COPYBLACK  => undef,
-                PRINTBLACK => undef,
-                SCANNED    => undef,
-                PRINTCOLOR => undef,
-                PRINTTOTAL => undef,
-                TOTAL      => undef
             },
         }
     ],
@@ -8042,23 +9566,13 @@ my %tests = (
                 OTHERSERIAL  => '0xFDE8',
                 NAME         => 'Corinne',
                 MODEL        => 'HP Color LaserJet CP3525',
-                LOCATION     => undef,
                 SERIAL       => 'CNCTB9PHWG',
                 ID           => undef
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '49',
-                COPYBLACK  => undef,
                 BLACK      => '7256',
                 COLOR      => '11905',
-                COPYCOLOR  => undef,
-                FAXTOTAL   => undef,
-                COPYTOTAL  => undef,
-                TOTAL      => undef,
-                PRINTBLACK => undef,
-                SCANNED    => undef,
-                PRINTCOLOR => undef,
-                PRINTTOTAL => undef
             },
             CARTRIDGES => {
                 TONERYELLOW  => 8,
@@ -8077,505 +9591,153 @@ my %tests = (
                         IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.80',
                         IFNUMBER => '2',
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
+                        MAC      => 'D4:85:64:3D:AC:2E'
                     }
                 ]
             }
         }
     ],
-    'hewlett-packard/LaserJet_P3010.1.walk' => [
+    'hewlett-packard/LaserJet_M1217nfw.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P3010 Series',
-            SNMPHOSTNAME => 'NPI013B81',
-            MAC          => '00:9C:02:01:3B:81',
+            DESCRIPTION  => 'HP LaserJet Professional M1217nfw MFP',
+            SNMPHOSTNAME => 'l2407a',
+            MAC          => '10:60:4B:19:A6:51',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P3010 Series',
-            SNMPHOSTNAME => 'NPI013B81',
-            MAC          => '00:9C:02:01:3B:81',
-            MODELSNMP    => 'Printer0402',
-            MODEL        => undef,
-            FIRMWARE     => undef,
-            SERIAL       => 'VNBQD3C0BF'
+            DESCRIPTION  => 'HP LaserJet Professional M1217nfw MFP',
+            SNMPHOSTNAME => 'l2407a',
+            MAC          => '10:60:4B:19:A6:51',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'HP LaserJet P3010 Series',
-                OTHERSERIAL  => '0xFDE8',
-                ID           => undef,
-                LOCATION     => undef,
-                SERIAL       => 'VNBQD3C0BF',
-                NAME         => 'NPI013B81',
-                MODEL        => 'HP LaserJet P3010 Series',
-            },
-            PAGECOUNTERS => {
-                RECTOVERSO => '74',
-                PRINTBLACK => undef,
-                TOTAL => undef,
-                FAXTOTAL => undef,
-                SCANNED => undef,
-                COPYTOTAL => undef,
-                PRINTTOTAL => undef,
-                COPYCOLOR => undef,
-                COLOR => undef,
-                PRINTCOLOR => undef,
-                BLACK => '15265',
-                COPYBLACK => undef
-            },
-            CARTRIDGES => {
-                TONERBLACK => 84
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    },
-                    {
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
-                    }
-                ]
-            }
-        }
-    ],
-    'hewlett-packard/LaserJet_P3010.2.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P3010 Series',
-            SNMPHOSTNAME => 'NPI013B81',
-            MAC          => '00:9C:02:01:3B:81',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P3010 Series',
-            SNMPHOSTNAME => 'NPI013B81',
-            MAC          => '00:9C:02:01:3B:81',
-            MODELSNMP    => 'Printer0402',
-            MODEL        => undef,
-            FIRMWARE     => undef,
-            SERIAL       => 'VNBQD3C0BF'
-        },
-        {
-            INFO => {
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'PRINTER',
-                COMMENTS     => 'HP LaserJet P3010 Series',
-                ID           => undef,
-                OTHERSERIAL  => '0xFDE8',
-                LOCATION     => undef,
-                SERIAL       => 'VNBQD3C0BF',
-                NAME         => 'NPI013B81',
-                MODEL        => 'HP LaserJet P3010 Series',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    },
-                    {
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
-                    }
-                ]
-            },
-            PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                COLOR      => undef,
-                COPYBLACK  => undef,
-                BLACK      => '6386',
-                COPYTOTAL  => undef,
-                COPYCOLOR  => undef,
-                PRINTTOTAL => undef,
-                SCANNED    => undef,
-                FAXTOTAL   => undef,
-                RECTOVERSO => '772',
-                TOTAL      => undef,
-                PRINTBLACK => undef
-            },
-            CARTRIDGES => {
-                TONERBLACK => 1
-            }
-        }
-    ],
-    'hewlett-packard/LaserJet_500.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet 500 color M551',
-            SNMPHOSTNAME => 'NPI419F6E',
-            MAC          => '2C:76:8A:41:9F:6E',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet 500 color M551',
-            SNMPHOSTNAME => 'NPI419F6E',
-            MAC          => '2C:76:8A:41:9F:6E',
-            MODELSNMP    => 'Printer0628',
-            MODEL        => undef,
-            FIRMWARE     => undef,
-            SERIAL       => 'SE00V4T'
-        },
-        {
-            INFO => {
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'PRINTER',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114,CIDATE 11/17/2011',
-                NAME         => 'NPI419F6E',
-                MODEL        => 'HP LaserJet 500 color M551',
-                SERIAL       => 'SE00V4T',
-                ID           => undef,
-                LOCATION     => undef
-            },
-            PAGECOUNTERS => {
-                PRINTCOLOR => undef,
-                BLACK      => '1685',
-                SCANNED    => undef,
-                PRINTTOTAL => undef,
-                RECTOVERSO => undef,
-                TOTAL      => undef,
-                COLOR      => '6601',
-                FAXTOTAL   => undef,
-                COPYCOLOR  => undef,
-                PRINTBLACK => undef,
-                COPYBLACK  => undef,
-                COPYTOTAL  => undef
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    },
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
-                    }
-
-                ]
-            },
-        }
-    ],
-    'hewlett-packard/LaserJet_600.1.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet 600 M603',
-            SNMPHOSTNAME => 'lj1',
-            MAC          => 'E8:39:35:90:92:1F',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet 600 M603',
-            SNMPHOSTNAME => 'lj1',
-            MAC          => 'E8:39:35:90:92:1F',
-        },
-        {
-            INFO => {
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'PRINTER',
-                ID           => undef,
                 MODEL        => undef,
             },
-            PORTS => {
-                PORT => []
-            },
-            PAGECOUNTERS => {
-                TOTAL      => undef,
-                COPYBLACK  => undef,
-                SCANNED    => undef,
-                RECTOVERSO => undef,
-                BLACK      => undef,
-                PRINTTOTAL => undef,
-                COLOR      => undef,
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef,
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                PRINTCOLOR => undef
-            }
         }
     ],
-    'hewlett-packard/LaserJet_600.2.walk' => [
+    'hewlett-packard/l1803a.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet 600 M603',
-            SNMPHOSTNAME => 'lj2',
-            MAC          => 'E8:39:35:90:22:AC'
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+            SNMPHOSTNAME => 'NPI9195E8',
+            MAC          => '00:17:08:91:95:E8',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet 600 M603',
-            SNMPHOSTNAME => 'lj2',
-            MAC          => 'E8:39:35:90:22:AC'
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+            SNMPHOSTNAME => 'NPI9195E8',
+            MAC          => '00:17:08:91:95:E8',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                ID           => undef,
                 MODEL        => undef,
             },
-            PORTS => {
-                PORT => []
-            },
-            PAGECOUNTERS => {
-                TOTAL      => undef,
-                COPYBLACK  => undef,
-                SCANNED    => undef,
-                RECTOVERSO => undef,
-                BLACK      => undef,
-                PRINTTOTAL => undef,
-                COLOR      => undef,
-                COPYCOLOR  => undef,
-                COPYTOTAL  => undef,
-                PRINTBLACK => undef,
-                FAXTOTAL   => undef,
-                PRINTCOLOR => undef
-            }
         }
     ],
-    'hewlett-packard/LaserJet_4000.walk' => [
+    'hewlett-packard/l0214a.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet 4000 Series',
-            SNMPHOSTNAME => 'inspiron8',
-            MAC          => '00:60:B0:91:3D:9D',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+            SNMPHOSTNAME => 'l0214a',
+            MAC          => '00:17:08:91:95:E4',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet 4000 Series',
-            SNMPHOSTNAME => 'inspiron8',
-            MAC          => '00:60:B0:91:3D:9D',
-            MODELSNMP    => 'Printer0391',
-            MODEL        => undef,
-            FIRMWARE     => undef,
-            SERIAL       => 'NLEW064384',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+            SNMPHOSTNAME => 'l0214a',
+            MAC          => '00:17:08:91:95:E4',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.05.35,JETDIRECT,JD30,EEPROM G.05.35',
-                LOCATION     => 'lwcompta',
-                SERIAL       => 'NLEW064384',
-                OTHERSERIAL  => '0x0115',
-                MODEL        => 'HP LaserJet 4000 Series',
-                ID           => undef,
-                NAME         => 'inspiron8',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.05.35,JETDIRECT,JD30,EEPROM G.05.35',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
-                    }
-
-                ]
-            },
-            PAGECOUNTERS => {
-                FAXTOTAL   => undef,
-                RECTOVERSO => '152',
-                COPYBLACK  => undef,
-                PRINTBLACK => undef,
-                PRINTCOLOR => undef,
-                BLACK      => undef,
-                SCANNED    => undef,
-                TOTAL      => undef,
-                COLOR      => undef,
-                COPYTOTAL  => undef,
-                PRINTTOTAL => undef,
-                COPYCOLOR  => undef
-            },
-            CARTRIDGES => {
-                TONERBLACK => 100
-            }
-        }
-    ],
-    'hewlett-packard/LaserJet_4050.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet 4050 Series ',
-            SNMPHOSTNAME => 'imprimanteBR',
-            MAC          => '00:30:C1:8C:D5:6C',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet 4050 Series ',
-            SNMPHOSTNAME => 'imprimanteBR',
-            MAC          => '00:30:C1:8C:D5:6C',
-            MODELSNMP    => 'Printer0615',
-            MODEL        => undef,
-            FIRMWARE     => undef,
-            SERIAL       => 'NL7N093250'
-        },
-        {
-            INFO => {
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'PRINTER',
-                COMMENTS     => 'HP LaserJet 4050 Series ',
-                SERIAL       => 'NL7N093250',
-                CONTACT      => undef,
-                OTHERSERIAL  => '0x011520',
-                NAME         => 'imprimanteBR',
-                MODEL        => 'HP LaserJet 4050 Series ',
-                ID           => undef,
-                LOCATION     => 'impbe93'
-            },
-            PAGECOUNTERS => {
-                SCANNED    => undef,
-                FAXTOTAL   => undef,
-                COPYCOLOR  => undef,
-                COPYBLACK  => undef,
-                TOTAL      => '252311',
-                RECTOVERSO => '0',
-                COPYTOTAL  => undef,
-                PRINTBLACK => undef,
-                BLACK      => undef,
-                COLOR      => undef,
-                PRINTTOTAL => undef,
-                PRINTCOLOR => undef
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.08.08,JETDIRECT,JD33,EEPROM G.08.04',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
-                    }
-                ]
-            },
-        }
-    ],
-    'hewlett-packard/LaserJet_4200.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'hp LaserJet 4200',
-            SNMPHOSTNAME => 'IMP41200n0',
-            MAC          => '00:01:E6:A1:A7:81',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'hp LaserJet 4200',
-            SNMPHOSTNAME => 'IMP41200n0',
-            MAC          => '00:01:E6:A1:A7:81',
-            MODELSNMP    => 'Printer0386',
-            MODEL        => undef,
-            FIRMWARE     => undef,
-            SERIAL       => 'CNFX305387'
-        },
-        {
-            INFO => {
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'PRINTER',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.25.09,CIDATE 07/24/2003',
-                SERIAL       => 'CNFX305387',
-                OTHERSERIAL  => '0x0115',
-                NAME         => 'IMP41200n0',
-                LOCATION     => undef,
-                ID           => undef,
-                MODEL        => 'hp LaserJet 4200'
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.25.09',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => ''
-                    },
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.25.09',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    }
-                ]
-            },
-            PAGECOUNTERS => {
-                FAXTOTAL   => undef,
-                SCANNED    => undef,
-                COPYBLACK  => undef,
-                COPYCOLOR  => undef,
-                RECTOVERSO => '0',
-                COPYTOTAL  => undef,
-                BLACK      => undef,
-                PRINTBLACK => undef,
-                COLOR      => undef,
-                TOTAL      => undef,
-                PRINTTOTAL => undef,
-                PRINTCOLOR => undef
-            },
-            CARTRIDGES => {
-                TONERBLACK     => 95,
-                MAINTENANCEKIT => 71
-            }
-        }
-    ],
-    'hewlett-packard/LaserJet_1300n.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'hp LaserJet 1300n',
-            SNMPHOSTNAME => 'impbe94',
-            MAC          => '00:0E:7F:33:34:BA',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'hp LaserJet 1300n',
-            SNMPHOSTNAME => 'impbe94',
-            MAC          => '00:0E:7F:33:34:BA',
-        },
-        {
-            INFO => {
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'PRINTER',
-                ID           => undef,
                 MODEL        => undef,
             },
-            PORTS => {
-                PORT => []
+        }
+    ],
+    'hewlett-packard/l0700a.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+            SNMPHOSTNAME => 'NPI934D66',
+            MAC          => '00:17:A4:93:4D:66',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+            SNMPHOSTNAME => 'NPI934D66',
+            MAC          => '00:17:A4:93:4D:66',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => undef,
             },
-            PAGECOUNTERS => {
-                FAXTOTAL   => undef,
-                RECTOVERSO => undef,
-                COPYBLACK  => undef,
-                PRINTBLACK => undef,
-                PRINTCOLOR => undef,
-                BLACK      => undef,
-                SCANNED    => undef,
-                TOTAL      => undef,
-                COLOR      => undef,
-                COPYTOTAL  => undef,
-                PRINTTOTAL => undef,
-                COPYCOLOR  => undef
+        }
+    ],
+    'hewlett-packard/l2520a.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+            SNMPHOSTNAME => 'NPI934D6D',
+            MAC          => '00:17:A4:93:4D:6D',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+            SNMPHOSTNAME => 'NPI934D6D',
+            MAC          => '00:17:A4:93:4D:6D',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => undef,
+            },
+        }
+    ],
+    'hewlett-packard/l1b110a.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+            SNMPHOSTNAME => 'NPI810884',
+            MAC          => '00:1B:78:21:EF:DF',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+            SNMPHOSTNAME => 'NPI810884',
+            MAC          => '00:1B:78:21:EF:DF',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => undef,
             },
         }
     ],

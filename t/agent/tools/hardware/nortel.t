@@ -15,14 +15,14 @@ my %tests = (
             TYPE         => 'NETWORKING',
             MAC          => '00:15:40:94:75:A2',
             SNMPHOSTNAME => 'Bay470',
-            DESCRIPTION  => 'BayStack 470 - 24T           HW:06       FW:3.0.0.5   SW:v3.1.2.06 ISVN:2 '
+            DESCRIPTION  => 'BayStack 470 - 24T           HW:06       FW:3.0.0.5   SW:v3.1.2.06 ISVN:2'
         },
         {
             MANUFACTURER => 'Nortel',
             TYPE         => 'NETWORKING',
             MAC          => '00:15:40:94:75:A2',
             SNMPHOSTNAME => 'Bay470',
-            DESCRIPTION  => 'BayStack 470 - 24T           HW:06       FW:3.0.0.5   SW:v3.1.2.06 ISVN:2 ',
+            DESCRIPTION  => 'BayStack 470 - 24T           HW:06       FW:3.0.0.5   SW:v3.1.2.06 ISVN:2',
             MODEL        => undef,
             MODELSNMP    => 'Networking2050',
             SERIAL       => 'SACC170NLH',
@@ -41,7 +41,7 @@ my %tests = (
                 MAC          => '00:15:40:94:75:A2',
                 MANUFACTURER => 'Nortel',
                 NAME         => 'Bay470',
-                COMMENTS     => 'BayStack 470 - 24T           HW:06       FW:3.0.0.5   SW:v3.1.2.06 ISVN:2 ',
+                COMMENTS     => 'BayStack 470 - 24T           HW:06       FW:3.0.0.5   SW:v3.1.2.06 ISVN:2',
                 SERIAL       => 'SACC170NLH'
             },
             PORTS => {
@@ -58,7 +58,7 @@ my %tests = (
                         IFDESCR =>
                           'Nortel Networks <unknown> Ethernet Switch Module - Port 1  ',
                         IFNAME           => 'ifc1 (Slot: 1 Port: 1)',
-                        MAC              => '',
+                        MAC              => '00:15:40:94:75:A0',
                         IFINERRORS       => '0',
                         IFLASTCHANGE     => '(55) 0:00:00.55',
                         IFINTERNALSTATUS => 'up(1)'
@@ -67,7 +67,7 @@ my %tests = (
                         IFNAME => 'ifc2 (Slot: 1 Port: 2)',
                         IFDESCR =>
                           'Nortel Networks <unknown> Ethernet Switch Module - Port 2  ',
-                        MAC              => '',
+                        MAC              => '00:15:40:94:75:A0',
                         IFINERRORS       => '0',
                         IFLASTCHANGE     => '(55) 0:00:00.55',
                         IFINTERNALSTATUS => 'up(1)',
@@ -84,7 +84,7 @@ my %tests = (
                         IFINERRORS => '0',
                         IFDESCR =>
                           'Nortel Networks <unknown> Ethernet Switch Module - Port 3  ',
-                        MAC              => '',
+                        MAC              => '00:15:40:94:75:A0',
                         IFNAME           => 'ifc3 (Slot: 1 Port: 3)',
                         IFINTERNALSTATUS => 'up(1)',
                         IFLASTCHANGE     => '(55) 0:00:00.55',
@@ -103,7 +103,7 @@ my %tests = (
                         IFNAME           => 'ifc4 (Slot: 1 Port: 4)',
                         IFDESCR =>
                           'Nortel Networks <unknown> Ethernet Switch Module - Port 4  ',
-                        MAC         => '',
+                        MAC         => '00:15:40:94:75:A0',
                         IFINERRORS  => '0',
                         IFSPEED     => '100000000',
                         IFOUTERRORS => '0',
@@ -129,10 +129,10 @@ my %tests = (
                         IFDESCR =>
                           'Nortel Networks <unknown> Ethernet Switch Module - Port 5  ',
                         IFNAME => 'ifc5 (Slot: 1 Port: 5)',
-                        MAC    => ''
+                        MAC    => '00:15:40:94:75:A0'
                     },
                     {
-                        MAC => '',
+                        MAC => '00:15:40:94:75:A0',
                         IFDESCR =>
                           'Nortel Networks <unknown> Ethernet Switch Module - Port 6  ',
                         IFNAME           => 'ifc6 (Slot: 1 Port: 6)',
@@ -157,7 +157,7 @@ my %tests = (
                         IFOUTOCTETS => '0',
                         IFOUTERRORS => '0',
                         IFSPEED     => '100000000',
-                        MAC         => '',
+                        MAC         => '00:15:40:94:75:A0',
                         IFNAME      => 'ifc7 (Slot: 1 Port: 7)',
                         IFDESCR =>
                           'Nortel Networks <unknown> Ethernet Switch Module - Port 7  ',
@@ -177,7 +177,7 @@ my %tests = (
                         IFINTERNALSTATUS => 'up(1)',
                         IFLASTCHANGE     => '(55) 0:00:00.55',
                         IFINERRORS       => '0',
-                        MAC              => '',
+                        MAC              => '00:15:40:94:75:A0',
                         IFNAME           => 'ifc8 (Slot: 1 Port: 8)',
                         IFDESCR =>
                           'Nortel Networks <unknown> Ethernet Switch Module - Port 8  '
@@ -194,7 +194,7 @@ my %tests = (
                         IFDESCR =>
                           'Nortel Networks <unknown> Ethernet Switch Module - Port 9  ',
                         IFNAME           => 'ifc9 (Slot: 1 Port: 9)',
-                        MAC              => '',
+                        MAC              => '00:15:40:94:75:A0',
                         IFINERRORS       => '0',
                         IFLASTCHANGE     => '(55) 0:00:00.55',
                         IFINTERNALSTATUS => 'up(1)'
@@ -202,7 +202,7 @@ my %tests = (
                     {
                         IFINERRORS => '0',
                         IFNAME     => 'ifc10 (Slot: 1 Port: 10)',
-                        MAC        => '',
+                        MAC        => '00:15:40:94:75:A0',
                         IFDESCR =>
         'Nortel Networks <unknown> Ethernet Switch Module - Port 10  ',
                         IFINTERNALSTATUS => 'up(1)',
@@ -219,7 +219,7 @@ my %tests = (
                     {
                         IFLASTCHANGE     => '(77308621) 8 days, 22:44:46.21',
                         IFINTERNALSTATUS => 'up(1)',
-                        MAC              => '',
+                        MAC              => '00:15:40:94:75:A0',
                         IFNAME           => 'ifc11 (Slot: 1 Port: 11)',
                         IFDESCR =>
         'Nortel Networks <unknown> Ethernet Switch Module - Port 11  ',
@@ -245,7 +245,7 @@ my %tests = (
                         IFDESCR =>
         'Nortel Networks <unknown> Ethernet Switch Module - Port 12  ',
                         IFNAME           => 'ifc12 (Slot: 1 Port: 12)',
-                        MAC              => '',
+                        MAC              => '00:15:40:94:75:A0',
                         IFINERRORS       => '4',
                         IFLASTCHANGE     => '(76741116) 8 days, 21:10:11.16',
                         IFINTERNALSTATUS => 'up(1)'
@@ -262,7 +262,7 @@ my %tests = (
                         IFLASTCHANGE     => '(70532885) 8 days, 3:55:28.85',
                         IFINTERNALSTATUS => 'up(1)',
                         IFNAME           => 'ifc13 (Slot: 1 Port: 13)',
-                        MAC              => '',
+                        MAC              => '00:15:40:94:75:A0',
                         IFDESCR =>
         'Nortel Networks <unknown> Ethernet Switch Module - Port 13  ',
                         IFINERRORS => '26'
@@ -278,7 +278,7 @@ my %tests = (
                         IFINOCTETS  => '0',
                         IFDESCR =>
         'Nortel Networks <unknown> Ethernet Switch Module - Port 14  ',
-                        MAC              => '',
+                        MAC              => '00:15:40:94:75:A0',
                         IFNAME           => 'ifc14 (Slot: 1 Port: 14)',
                         IFINERRORS       => '0',
                         IFLASTCHANGE     => '(55) 0:00:00.55',
@@ -298,7 +298,7 @@ my %tests = (
                                 MAC => [ '00:19:B9:23:05:D4' ]
                             }
                         },
-                        MAC    => '',
+                        MAC    => '00:15:40:94:75:A0',
                         IFNAME => 'ifc15 (Slot: 1 Port: 15)',
                         IFDESCR =>
         'Nortel Networks <unknown> Ethernet Switch Module - Port 15  ',
@@ -312,7 +312,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFDESCR =>
         'Nortel Networks <unknown> Ethernet Switch Module - Port 16  ',
-                        MAC         => '',
+                        MAC         => '00:15:40:94:75:A0',
                         IFNAME      => 'ifc16 (Slot: 1 Port: 16)',
                         IFTYPE      => 'ethernetCsmacd(6)',
                         IFOUTOCTETS => '0',
@@ -341,7 +341,7 @@ my %tests = (
                             }
                         },
                         IFNAME => 'ifc17 (Slot: 1 Port: 17)',
-                        MAC    => '',
+                        MAC    => '00:15:40:94:75:A0',
                         IFDESCR =>
                           'Nortel Networks <unknown> Ethernet Switch Module - Port 17  '
                     },
@@ -351,7 +351,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFDESCR =>
         'Nortel Networks <unknown> Ethernet Switch Module - Port 18  ',
-                        MAC         => '',
+                        MAC         => '00:15:40:94:75:A0',
                         IFNAME      => 'ifc18 (Slot: 1 Port: 18)',
                         IFTYPE      => 'ethernetCsmacd(6)',
                         IFINOCTETS  => '0',
@@ -364,7 +364,7 @@ my %tests = (
                     },
                     {
                         IFINERRORS => '0',
-                        MAC        => '',
+                        MAC        => '00:15:40:94:75:A0',
                         IFNAME     => 'ifc19 (Slot: 1 Port: 19)',
                         IFDESCR =>
         'Nortel Networks <unknown> Ethernet Switch Module - Port 19  ',
@@ -384,7 +384,7 @@ my %tests = (
                         IFNAME     => 'ifc20 (Slot: 1 Port: 20)',
                         IFDESCR =>
         'Nortel Networks <unknown> Ethernet Switch Module - Port 20  ',
-                        MAC              => '',
+                        MAC              => '00:15:40:94:75:A0',
                         IFINTERNALSTATUS => 'up(1)',
                         IFLASTCHANGE     => '(55) 0:00:00.55',
                         IFSTATUS         => 'down(2)',
@@ -408,7 +408,7 @@ my %tests = (
                         IFINTERNALSTATUS => 'up(1)',
                         IFLASTCHANGE     => '(55) 0:00:00.55',
                         IFINERRORS       => '0',
-                        MAC              => '',
+                        MAC              => '00:15:40:94:75:A0',
                         IFNAME           => 'ifc21 (Slot: 1 Port: 21)',
                         IFDESCR =>
                           'Nortel Networks <unknown> Ethernet Switch Module - Port 21  '
@@ -418,7 +418,7 @@ my %tests = (
                         IFNAME     => 'ifc22 (Slot: 1 Port: 22)',
                         IFDESCR =>
         'Nortel Networks <unknown> Ethernet Switch Module - Port 22  ',
-                        MAC              => '',
+                        MAC              => '00:15:40:94:75:A0',
                         IFINTERNALSTATUS => 'up(1)',
                         IFLASTCHANGE     => '(55) 0:00:00.55',
                         IFMTU            => '1514',
@@ -433,7 +433,7 @@ my %tests = (
                     {
                         IFLASTCHANGE     => '(55) 0:00:00.55',
                         IFINTERNALSTATUS => 'up(1)',
-                        MAC              => '',
+                        MAC              => '00:15:40:94:75:A0',
                         IFDESCR =>
         'Nortel Networks <unknown> Ethernet Switch Module - Port 23  ',
                         IFNAME      => 'ifc23 (Slot: 1 Port: 23)',
@@ -459,7 +459,7 @@ my %tests = (
                         IFDESCR =>
         'Nortel Networks <unknown> Ethernet Switch Module - Port 24  ',
                         IFNAME           => 'ifc24 (Slot: 1 Port: 24)',
-                        MAC              => '',
+                        MAC              => '00:15:40:94:75:A0',
                         IFINERRORS       => '0',
                         IFLASTCHANGE     => '(55) 0:00:00.55',
                         IFINTERNALSTATUS => 'up(1)'
@@ -554,7 +554,7 @@ my %tests = (
                                 ]
                             }
                         },
-                        MAC    => '',
+                        MAC    => '00:15:40:94:75:A0',
                         IFNAME => 'ifc25 (Slot: 1 Port: 25)',
                         IFDESCR =>
         'Nortel Networks <unknown> Ethernet Switch Module - Port 25  ',
@@ -570,7 +570,7 @@ my %tests = (
                     },
                     {
                         IFNAME => 'ifc26 (Slot: 1 Port: 26)',
-                        MAC    => '',
+                        MAC    => '00:15:40:94:75:A0',
                         IFDESCR =>
         'Nortel Networks <unknown> Ethernet Switch Module - Port 26  ',
                         IFINERRORS       => '0',
@@ -623,7 +623,7 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        MAC => '',
+                        MAC => '00:1D:AF:EA:A0:E0',
                         IFSPEED => '100000000',
                         IFDESCR => 'Nortel Ethernet Switch 470-24T Module - Port 1  ',
                         IFNUMBER => '1',
@@ -644,7 +644,7 @@ my %tests = (
                     },
                     {
                         IFSPEED => '100000000',
-                        MAC => '',
+                        MAC => '00:1D:AF:EA:A0:E0',
                         IFNUMBER => '2',
                         IFDESCR => 'Nortel Ethernet Switch 470-24T Module - Port 2  ',
                         IFLASTCHANGE => '(10880) 0:01:48.80',
@@ -666,7 +666,7 @@ my %tests = (
                         IFNUMBER => '3',
                         IFDESCR => 'Nortel Ethernet Switch 470-24T Module - Port 3  ',
                         IFLASTCHANGE => '(81099) 0:13:30.99',
-                        MAC => '',
+                        MAC => '00:1D:AF:EA:A0:E0',
                         IFSPEED => '100000000',
                         IFOUTERRORS => '0',
                         IFINERRORS => '2',
@@ -689,7 +689,7 @@ my %tests = (
                         IFINERRORS => '0',
                         IFOUTOCTETS => '26786780',
                         IFOUTERRORS => '0',
-                        MAC => '',
+                        MAC => '00:1D:AF:EA:A0:E0',
                         IFSPEED => '100000000',
                         IFLASTCHANGE => '(60244953) 6 days, 23:20:49.53',
                         IFDESCR => 'Nortel Ethernet Switch 470-24T Module - Port 4  ',
@@ -697,7 +697,7 @@ my %tests = (
                     },
                     {
                         IFSPEED => '100000000',
-                        MAC => '',
+                        MAC => '00:1D:AF:EA:A0:E0',
                         IFLASTCHANGE => '(7005250) 19:27:32.50',
                         IFNUMBER => '5',
                         IFDESCR => 'Nortel Ethernet Switch 470-24T Module - Port 5  ',
@@ -720,7 +720,7 @@ my %tests = (
                         IFDESCR => 'Nortel Ethernet Switch 470-24T Module - Port 6  ',
                         IFLASTCHANGE => '(60246350) 6 days, 23:21:03.50',
                         IFSPEED => '100000000',
-                        MAC => '',
+                        MAC => '00:1D:AF:EA:A0:E0',
                         IFOUTERRORS => '0',
                         IFINERRORS => '0',
                         IFOUTOCTETS => '26419930',
@@ -745,7 +745,7 @@ my %tests = (
                         IFLASTCHANGE => '(81149) 0:13:31.49',
                         IFNUMBER => '7',
                         IFDESCR => 'Nortel Ethernet Switch 470-24T Module - Port 7  ',
-                        MAC => '',
+                        MAC => '00:1D:AF:EA:A0:E0',
                         IFSPEED => '100000000'
                     },
                     {
@@ -753,7 +753,7 @@ my %tests = (
                         IFDESCR => 'Nortel Ethernet Switch 470-24T Module - Port 8  ',
                         IFLASTCHANGE => '(60245003) 6 days, 23:20:50.03',
                         IFSPEED => '100000000',
-                        MAC => '',
+                        MAC => '00:1D:AF:EA:A0:E0',
                         IFOUTERRORS => '0',
                         IFINERRORS => '0',
                         IFOUTOCTETS => '26659895',
@@ -763,7 +763,7 @@ my %tests = (
                     },
                     {
                         IFSPEED => '100000000',
-                        MAC => '',
+                        MAC => '00:1D:AF:EA:A0:E0',
                         IFDESCR => 'Nortel Ethernet Switch 470-24T Module - Port 9  ',
                         IFNUMBER => '9',
                         IFLASTCHANGE => '(28) 0:00:00.28',
@@ -778,7 +778,7 @@ my %tests = (
                         IFLASTCHANGE => '(29) 0:00:00.29',
                         IFNUMBER => '10',
                         IFDESCR => 'Nortel Ethernet Switch 470-24T Module - Port 10  ',
-                        MAC => '',
+                        MAC => '00:1D:AF:EA:A0:E0',
                         IFSPEED => '100000000',
                         IFINERRORS => '0',
                         IFOUTOCTETS => '0',
@@ -788,7 +788,7 @@ my %tests = (
                         IFMTU => '1514'
                     },
                     {
-                        MAC => '',
+                        MAC => '00:1D:AF:EA:A0:E0',
                         IFSPEED => '100000000',
                         IFDESCR => 'Nortel Ethernet Switch 470-24T Module - Port 11  ',
                         IFNUMBER => '11',
@@ -811,7 +811,7 @@ my %tests = (
                         IFDESCR => 'Nortel Ethernet Switch 470-24T Module - Port 12  ',
                         IFLASTCHANGE => '(60245053) 6 days, 23:20:50.53',
                         IFSPEED => '100000000',
-                        MAC => ''
+                        MAC => '00:1D:AF:EA:A0:E0'
                     },
                     {
                         IFOUTOCTETS => '0',
@@ -823,7 +823,7 @@ my %tests = (
                         IFLASTCHANGE => '(29) 0:00:00.29',
                         IFDESCR => 'Nortel Ethernet Switch 470-24T Module - Port 13  ',
                         IFNUMBER => '13',
-                        MAC => '',
+                        MAC => '00:1D:AF:EA:A0:E0',
                         IFSPEED => '100000000'
                     },
                     {
@@ -833,7 +833,7 @@ my %tests = (
                         IFINERRORS => '0',
                         IFOUTOCTETS => '0',
                         IFOUTERRORS => '0',
-                        MAC => '',
+                        MAC => '00:1D:AF:EA:A0:E0',
                         IFSPEED => '100000000',
                         IFLASTCHANGE => '(30) 0:00:00.30',
                         IFDESCR => 'Nortel Ethernet Switch 470-24T Module - Port 14  ',
@@ -846,14 +846,14 @@ my %tests = (
                         IFOUTERRORS => '0',
                         IFOUTOCTETS => '0',
                         IFINERRORS => '0',
-                        MAC => '',
+                        MAC => '00:1D:AF:EA:A0:E0',
                         IFSPEED => '100000000',
                         IFDESCR => 'Nortel Ethernet Switch 470-24T Module - Port 15  ',
                         IFNUMBER => '15',
                         IFLASTCHANGE => '(30) 0:00:00.30'
                     },
                     {
-                        MAC => '',
+                        MAC => '00:1D:AF:EA:A0:E0',
                         IFSPEED => '100000000',
                         IFLASTCHANGE => '(30) 0:00:00.30',
                         IFDESCR => 'Nortel Ethernet Switch 470-24T Module - Port 16  ',
@@ -873,7 +873,7 @@ my %tests = (
                         IFOUTOCTETS => '0',
                         IFOUTERRORS => '0',
                         IFSPEED => '100000000',
-                        MAC => '',
+                        MAC => '00:1D:AF:EA:A0:E0',
                         IFLASTCHANGE => '(30) 0:00:00.30',
                         IFDESCR => 'Nortel Ethernet Switch 470-24T Module - Port 17  ',
                         IFNUMBER => '17'
@@ -889,13 +889,13 @@ my %tests = (
                         IFNUMBER => '18',
                         IFLASTCHANGE => '(30) 0:00:00.30',
                         IFSPEED => '100000000',
-                        MAC => ''
+                        MAC => '00:1D:AF:EA:A0:E0'
                     },
                     {
                         IFNUMBER => '19',
                         IFDESCR => 'Nortel Ethernet Switch 470-24T Module - Port 19  ',
                         IFLASTCHANGE => '(30) 0:00:00.30',
-                        MAC => '',
+                        MAC => '00:1D:AF:EA:A0:E0',
                         IFSPEED => '100000000',
                         IFOUTERRORS => '0',
                         IFINERRORS => '0',
@@ -905,7 +905,7 @@ my %tests = (
                         IFMTU => '1514'
                     },
                     {
-                        MAC => '',
+                        MAC => '00:1D:AF:EA:A0:E0',
                         IFSPEED => '100000000',
                         IFLASTCHANGE => '(30) 0:00:00.30',
                         IFDESCR => 'Nortel Ethernet Switch 470-24T Module - Port 20  ',
@@ -927,7 +927,7 @@ my %tests = (
                         IFLASTCHANGE => '(30) 0:00:00.30',
                         IFDESCR => 'Nortel Ethernet Switch 470-24T Module - Port 21  ',
                         IFNUMBER => '21',
-                        MAC => '',
+                        MAC => '00:1D:AF:EA:A0:E0',
                         IFSPEED => '100000000'
                     },
                     {
@@ -935,7 +935,7 @@ my %tests = (
                         IFNUMBER => '22',
                         IFLASTCHANGE => '(31) 0:00:00.31',
                         IFSPEED => '100000000',
-                        MAC => '',
+                        MAC => '00:1D:AF:EA:A0:E0',
                         IFOUTERRORS => '0',
                         IFINERRORS => '0',
                         IFOUTOCTETS => '0',
@@ -1368,13 +1368,13 @@ my %tests = (
                         IFINERRORS => '0',
                         IFOUTERRORS => '0',
                         IFSPEED => '100000000',
-                        MAC => '',
+                        MAC => '00:1D:AF:EA:A0:E0',
                         IFLASTCHANGE => '(13430) 0:02:14.30',
                         IFDESCR => 'Nortel Ethernet Switch 470-24T Module - Port 23  ',
                         IFNUMBER => '23'
                     },
                     {
-                        MAC => '',
+                        MAC => '00:1D:AF:EA:A0:E0',
                         IFSPEED => '100000000',
                         IFLASTCHANGE => '(13580) 0:02:15.80',
                         IFNUMBER => '24',
@@ -1403,14 +1403,14 @@ my %tests = (
                         IFLASTCHANGE => '(31) 0:00:00.31',
                         IFNUMBER => '25',
                         IFDESCR => 'Nortel Ethernet Switch 470-24T Module - Port 25  ',
-                        MAC => '',
+                        MAC => '00:1D:AF:EA:A0:E0',
                         IFSPEED => '1000000000'
                     },
                     {
                         IFDESCR => 'Nortel Ethernet Switch 470-24T Module - Port 26  ',
                         IFNUMBER => '26',
                         IFLASTCHANGE => '(31) 0:00:00.31',
-                        MAC => '',
+                        MAC => '00:1D:AF:EA:A0:E0',
                         IFSPEED => '1000000000',
                         IFOUTERRORS => '0',
                         IFINERRORS => '0',
