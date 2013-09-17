@@ -7965,10 +7965,6 @@ my %tests = (
                 RECTOVERSO => '1',
                 PRINTTOTAL => '150',
             },
-            PORTS => {
-                PORT => [
-                ]
-            },
         }
     ],
     'hewlett-packard/LaserJet_P3005.3.walk' => [
@@ -8009,10 +8005,6 @@ my %tests = (
             PAGECOUNTERS => {
                 RECTOVERSO => '1',
                 PRINTTOTAL => '13324',
-            },
-            PORTS => {
-                PORT => [
-                ]
             },
         }
     ],
@@ -8055,10 +8047,6 @@ my %tests = (
                 RECTOVERSO => '566',
                 PRINTTOTAL => '13193',
             },
-            PORTS => {
-                PORT => [
-                ]
-            },
         }
     ],
     'hewlett-packard/LaserJet_P3005.5.walk' => [
@@ -8099,10 +8087,6 @@ my %tests = (
             PAGECOUNTERS => {
                 RECTOVERSO => '105',
                 PRINTTOTAL => '15807',
-            },
-            PORTS => {
-                PORT => [
-                ]
             },
         }
     ],
@@ -8145,10 +8129,6 @@ my %tests = (
                 RECTOVERSO => '1',
                 PRINTTOTAL => '53053',
             },
-            PORTS => {
-                PORT => [
-                ]
-            },
         }
     ],
     'hewlett-packard/LaserJet_P3005.7.walk' => [
@@ -8189,10 +8169,6 @@ my %tests = (
             PAGECOUNTERS => {
                 RECTOVERSO => '21',
                 PRINTTOTAL => '130480',
-            },
-            PORTS => {
-                PORT => [
-                ]
             },
         }
     ],
@@ -8235,10 +8211,6 @@ my %tests = (
                 RECTOVERSO => '814',
                 PRINTTOTAL => '45077',
             },
-            PORTS => {
-                PORT => [
-                ]
-            },
         }
     ],
     'hewlett-packard/LaserJet_P3005.9.walk' => [
@@ -8279,10 +8251,6 @@ my %tests = (
             PAGECOUNTERS => {
                 RECTOVERSO => '12',
                 PRINTTOTAL => '11083',
-            },
-            PORTS => {
-                PORT => [
-                ]
             },
         }
     ],
@@ -8325,10 +8293,6 @@ my %tests = (
                 RECTOVERSO => '1',
                 PRINTTOTAL => '17204',
             },
-            PORTS => {
-                PORT => [
-                ]
-            },
         }
     ],
     'hewlett-packard/LaserJet_P3005.11.walk' => [
@@ -8369,10 +8333,6 @@ my %tests = (
             PAGECOUNTERS => {
                 RECTOVERSO => '1',
                 PRINTTOTAL => '100796',
-            },
-            PORTS => {
-                PORT => [
-                ]
             },
         }
     ],
@@ -8415,10 +8375,6 @@ my %tests = (
                 RECTOVERSO => '22',
                 PRINTTOTAL => '65087',
             },
-            PORTS => {
-                PORT => [
-                ]
-            },
         }
     ],
     'hewlett-packard/LaserJet_P3005.13.walk' => [
@@ -8459,10 +8415,6 @@ my %tests = (
             PAGECOUNTERS => {
                 RECTOVERSO => '7',
                 PRINTTOTAL => '5388',
-            },
-            PORTS => {
-                PORT => [
-                ]
             },
         }
     ],
@@ -9117,10 +9069,6 @@ my %tests = (
                 RECTOVERSO => '0',
                 PRINTTOTAL => '3515',
             },
-            PORTS => {
-                PORT => [
-                ]
-            },
         }
     ],
     'hewlett-packard/LaserJet_P2055dn.14.walk' => [
@@ -9163,10 +9111,6 @@ my %tests = (
                 COLOR      => '0',
                 RECTOVERSO => '2389',
                 PRINTTOTAL => '11344',
-            },
-            PORTS => {
-                PORT => [
-                ]
             },
         }
     ],
@@ -9211,10 +9155,6 @@ my %tests = (
                 RECTOVERSO => '6832',
                 PRINTTOTAL => '22937',
             },
-            PORTS => {
-                PORT => [
-                ]
-            },
         }
     ],
     'hewlett-packard/LaserJet_P2055dn.16.walk' => [
@@ -9257,10 +9197,6 @@ my %tests = (
                 COLOR      => '0',
                 RECTOVERSO => '504',
                 PRINTTOTAL => '4878',
-            },
-            PORTS => {
-                PORT => [
-                ]
             },
         }
     ],
