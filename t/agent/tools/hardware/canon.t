@@ -41,7 +41,7 @@ my %tests = (
                     {
                         IFNUMBER => 1,
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '',
+                        MAC      => '88:87:17:82:CA:B1',
                     }
                 ]
             },
