@@ -77,9 +77,7 @@ my %tests = (
                 COMMENTS     => 'KYOCERA MITA Printing System',
                 MODEL        => 'FS-2000D',
                 MANUFACTURER => 'Kyocera',
-                LOCATION     => undef,
                 MEMORY       => 0,
-                NAME         => undef,
                 TYPE         => 'PRINTER'
             },
             CARTRIDGES => {
@@ -121,10 +119,8 @@ my %tests = (
                 MANUFACTURER => 'Kyocera',
                 TYPE         => 'PRINTER',
                 COMMENTS     => 'KYOCERA MITA Printing System',
-                NAME         => undef,
                 SERIAL       => 'XLM7Y21503',
                 MODEL        => 'FS-2000D',
-                LOCATION     => undef,
                 ID           => undef,
                 MEMORY       => 0
             },
