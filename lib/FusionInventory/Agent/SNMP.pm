@@ -32,3 +32,8 @@ translated into plain ascii.
 This method returns an hashref of values, indexed by their OIDs, starting from
 the given one. The values are normalised to remove any control character, and
 hexadecimal mac addresses are translated into plain ascii.
+
+=head2 switch_community($suffix)
+
+Initiate a new SNMP connection, using a community derived from original one,
+with a suffix appended.

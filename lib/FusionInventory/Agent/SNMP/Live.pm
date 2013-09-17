@@ -166,8 +166,3 @@ Can be one of:
 =item privprotocol
 
 =back
-
-=head2 switch_community(suffix)
-
-Initiate a new SNMP connection, using a community derived from original one,
-with a suffix appended.
