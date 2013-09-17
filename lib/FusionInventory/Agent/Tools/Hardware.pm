@@ -842,11 +842,21 @@ sub _setNetworkingProperties {
         while (my ($suffix, $value) = each %{$vlans}) {
             my $vlan_id = $suffix;
             $snmp->switch_community("@" . $vlan_id);
-            FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(snmp => $snmp, model => $model, ports => $ports);
+            FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(
+                snmp   => $snmp,
+                model  => $model,
+                ports  => $ports,
+                logger => $logger
+            );
         }
     } else {
         # set connected devices mac addresses only once
-        FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(snmp => $snmp, model => $model, ports => $ports);
+        FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(
+            snmp   => $snmp,
+            model  => $model,
+            ports  => $ports,
+            logger => $logger
+        );
     }
 
     # hardware-specific hacks
