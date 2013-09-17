@@ -31,9 +31,6 @@ my %tests = (
                 TYPE         => 'NETWORKING',
                 MODEL        => undef
             },
-            PORTS => {
-                PORT => []
-            }
         }
     ],
     'd-link/DP_303.2.walk' => [
@@ -58,9 +55,6 @@ my %tests = (
                 TYPE         => 'NETWORKING',
                 MODEL        => undef
             },
-            PORTS => {
-                PORT => []
-            }
         }
     ],
 );

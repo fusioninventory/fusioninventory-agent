@@ -214,14 +214,12 @@ my %tests = (
             MANUFACTURER => 'Epson',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'EPSON AL-C3900',
-            SNMPHOSTNAME => '',
             MAC          => '00:26:AB:9F:78:8B',
         },
         {
             MANUFACTURER => 'Epson',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'EPSON AL-C3900',
-            SNMPHOSTNAME => '',
             MAC          => '00:26:AB:9F:78:8B',
         },
         {

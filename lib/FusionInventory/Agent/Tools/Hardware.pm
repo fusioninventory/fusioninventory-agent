@@ -410,7 +410,8 @@ sub getDeviceBaseInfo {
     $device{DESCRIPTION}  = $sysdescr if !$device{DESCRIPTION};
 
     # SNMPv2-MIB::sysName.0
-    $device{SNMPHOSTNAME} = $snmp->get('.1.3.6.1.2.1.1.5.0');
+    my $hostname = $snmp->get('.1.3.6.1.2.1.1.5.0');
+    $device{SNMPHOSTNAME} = $hostname if $hostname;
 
     return %device;
 }

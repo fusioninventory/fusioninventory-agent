@@ -14,14 +14,12 @@ my %tests = (
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'TASKalfa 820',
-            SNMPHOSTNAME => '',
             MAC          => '00:C0:EE:31:84:6B'
         },
         {
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'TASKalfa 820',
-            SNMPHOSTNAME => '',
             MAC          => '00:C0:EE:31:84:6B'
         },
         {
@@ -38,14 +36,12 @@ my %tests = (
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'TASKalfa 181',
-            SNMPHOSTNAME => '',
             MAC          => '00:C0:EE:2F:0D:D9'
         },
         {
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'TASKalfa 181',
-            SNMPHOSTNAME => '',
             MAC          => '00:C0:EE:2F:0D:D9'
         },
         {
@@ -62,14 +58,12 @@ my %tests = (
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'FS-2000D',
-            SNMPHOSTNAME => '',
             MAC          => '00:C0:EE:6A:96:DD',
         },
         {
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'FS-2000D',
-            SNMPHOSTNAME => '',
             MAC          => '00:C0:EE:6A:96:DD',
             MODELSNMP    => 'Printer0351',
             MODEL        => undef,
@@ -110,14 +104,12 @@ my %tests = (
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'FS-2000D',
-            SNMPHOSTNAME => '',
             MAC          => '00:C0:EE:6A:97:07',
         },
         {
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'FS-2000D',
-            SNMPHOSTNAME => '',
             MAC          => '00:C0:EE:6A:97:07',
             MODELSNMP    => 'Printer0351',
             MODEL        => undef,
@@ -158,14 +150,12 @@ my %tests = (
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'UTAX_TA Printing System',
-            SNMPHOSTNAME => undef,
             MAC          => '00:C0:EE:80:DD:2D',
         },
         {
             MANUFACTURER => 'Kyocera',
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'UTAX_TA Printing System',
-            SNMPHOSTNAME => undef,
             MAC          => '00:C0:EE:80:DD:2D',
             MODELSNMP    => 'Networking2073',
             MODEL        => undef,
@@ -199,14 +189,12 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'FS-C5350DN',
             MAC          => '00:C0:EE:80:CA:DD',
-            SNMPHOSTNAME => '',
         },
         {
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'FS-C5350DN',
             MAC          => '00:C0:EE:80:CA:DD',
-            SNMPHOSTNAME => '',
         },
         {
             INFO => {
@@ -223,14 +211,12 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'FS-C5350DN',
             MAC          => '00:C0:EE:80:73:71',
-            SNMPHOSTNAME => ''
         },
         {
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'FS-C5350DN',
             MAC          => '00:C0:EE:80:73:71',
-            SNMPHOSTNAME => ''
         },
         {
             INFO => {
@@ -247,14 +233,12 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'FS-C5350DN',
             MAC          => '00:C0:EE:80:73:6C',
-            SNMPHOSTNAME => '',
         },
         {
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'FS-C5350DN',
             MAC          => '00:C0:EE:80:73:6C',
-            SNMPHOSTNAME => '',
         },
         {
             INFO => {
