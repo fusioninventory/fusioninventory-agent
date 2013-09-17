@@ -102,7 +102,7 @@ sub _getUSBPrinterSerial {
     my ($portName, $logger) = @_;
 
     # the serial number can be extracted from the USB registry key, containing
-    # all USB devices, but we only know the USB port identifier, meaning we 
+    # all USB devices, but we only know the USB port identifier, meaning we
     # must first look in USBPRINT registry key, containing USB printers only,
     # and find some way to correlate entries
     my $usbprint_key = getRegistryKey(

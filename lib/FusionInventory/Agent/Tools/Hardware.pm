@@ -586,7 +586,7 @@ sub getDeviceFullInfo {
     # - from the server request,
     # - from the model type
     # - from initial identification
-    $info{TYPE} = 
+    $info{TYPE} =
             $params{type} ? $params{type}          :
             $model        ? $types{$model->{TYPE}} :
                             $info{TYPE}            ;
@@ -675,7 +675,7 @@ sub _setGenericProperties {
             $key eq 'OTHERSERIAL' ? getCanonicalSerialNumber($raw_value) :
             $key eq 'RAM'         ? getCanonicalMemory($raw_value)       :
             $key eq 'MEMORY'      ? getCanonicalMemory($raw_value)       :
-                                    hex2char($raw_value)                 ; 
+                                    hex2char($raw_value)                 ;
         if ($key eq 'MAC') {
             if ($raw_value =~ $mac_address_pattern) {
                 $value = $raw_value;
