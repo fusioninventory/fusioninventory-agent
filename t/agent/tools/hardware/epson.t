@@ -188,7 +188,6 @@ my %tests = (
                 SERIAL       => 'GMYZ108184',
                 MEMORY       => 128,
                 NAME         => 'AL-C4200-D362D2',
-                LOCATION     => undef,
             },
             PORTS => {
                 PORT => [

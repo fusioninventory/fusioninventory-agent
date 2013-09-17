@@ -3287,10 +3287,8 @@ my %tests = (
                 COMMENTS     => 'Juniper Networks, Inc. ex2200-c-12p-2g internet router, kernel JUNOS 11.3R1.7 #0: 2011-08-30 11:49:21 UTC     builder@dagmath.juniper.net:/volume/build/junos/11.3/release/11.3R1.7/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2011-08-30 11:32:01',
                 NAME         => 'AB-B404-23-ex2200',
                 UPTIME       => '(1896073543) 219 days, 10:52:15.43',
-                CONTACT      => undef,
                 ID           => undef,
                 MODEL        => undef,
-                LOCATION     => undef,
                 IPS          => {
                     IP => [
                         '128.0.0.1',
@@ -5738,7 +5736,6 @@ my %tests = (
                 TYPE         => 'NETWORKING',
                 ID           => undef,
                 MODEL        => undef,
-                CONTACT      => undef,
                 IPS          => {
                     IP => [
                         '128.0.0.1',

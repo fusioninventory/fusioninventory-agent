@@ -165,7 +165,6 @@ my %tests = (
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT',
                 NAME         => 'HP560332',
                 ID           => undef,
-                LOCATION     => undef,
                 MODEL        => undef,
             },
             CARTRIDGES => {
@@ -234,12 +233,10 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
                 COMMENTS     => 'HP LaserJet 100 colorMFP M175nw',
-                CONTACT      => undef,
                 ID           => undef,
                 NAME         => 'NPIF6FA4A',
                 MODEL        => 'HP LaserJet 100 colorMFP M175nw',
                 SERIAL       => 'NPIF6FA4A',
-                LOCATION     => undef
             },
             CARTRIDGES => {
                 TONERBLACK   => 31,
@@ -303,11 +300,9 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
                 COMMENTS     => 'HP LaserJet 400 color M451dn',
-                CONTACT      => undef,
                 NAME         => 'NPIF67498',
                 ID           => undef,
                 OTHERSERIAL  => '0x0115',
-                LOCATION     => undef,
                 MODEL        => 'HP LaserJet 400 color M451dn',
                 SERIAL       => 'CNCF300725'
             },
@@ -351,7 +346,6 @@ my %tests = (
                 MODEL        => 'HP LaserJet 500 color M551',
                 SERIAL       => 'SE00V4T',
                 ID           => undef,
-                LOCATION     => undef
             },
             PAGECOUNTERS => {
                 BLACK      => '1685',
@@ -472,7 +466,6 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05,CIDATE 04/22/2004',
                 OTHERSERIAL  => '0x0115',
-                LOCATION     => undef,
                 SERIAL       => 'CNHW59NG6N',
                 MODEL        => 'hp LaserJet 1320 series',
                 ID           => undef,
@@ -527,7 +520,6 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05,CIDATE 04/22/2004',
-                LOCATION     => undef,
                 SERIAL       => 'CNHW625K6Z',
                 OTHERSERIAL  => '0x0115',
                 NAME         => 'NPI9A3FC7',
@@ -584,7 +576,6 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05,CIDATE 04/22/2004',
                 SERIAL       => 'CNBW49FHC4',
-                LOCATION     => undef,
                 OTHERSERIAL  => '0x0115',
                 NAME         => 'NPIC68F5E',
                 ID           => undef,
@@ -773,9 +764,7 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 MODEL        => 'HP LaserJet 2200',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.19,JETDIRECT,JD33,EEPROM G.08.49',
-                NAME         => undef,
                 MEMORY       => '16',
-                LOCATION     => undef,
                 SERIAL       => 'FRFRH43314',
                 OTHERSERIAL  => '0x0115',
             },
@@ -826,7 +815,6 @@ my %tests = (
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.24.08,CIDATE 02/26/2003',
                 NAME         => 'NPIA1D034',
                 MEMORY       => '48',
-                LOCATION     => undef,
                 SERIAL       => 'CNCDF57941',
                 OTHERSERIAL  => '0x0115',
             },
@@ -878,9 +866,7 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 MODEL        => 'hp LaserJet 2300 series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
-                NAME         => undef,
                 MEMORY       => '48',
-                LOCATION     => undef,
                 SERIAL       => 'CNCHM24955',
                 OTHERSERIAL  => '0x0115',
             },
@@ -930,7 +916,6 @@ my %tests = (
                 NAME         => 'NPI1864A0',
                 MODEL        => undef,
                 ID           => undef,
-                LOCATION     => undef
             },
             PORTS => {
                 PORT => [
@@ -978,7 +963,6 @@ my %tests = (
                 OTHERSERIAL  => '0x0115',
                 MODEL        => 'HP Color LaserJet 3600',
                 ID           => undef,
-                LOCATION     => undef,
                 SERIAL       => 'CNXJD65169',
             },
             PAGECOUNTERS => {
@@ -1082,7 +1066,6 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 COMMENTS     => 'HP LaserJet 4050 Series ',
                 SERIAL       => 'NL7N093250',
-                CONTACT      => undef,
                 OTHERSERIAL  => '0x011520',
                 NAME         => 'imprimanteBR',
                 MODEL        => 'HP LaserJet 4050 Series ',
@@ -1133,10 +1116,7 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 MODEL        => 'HP LaserJet 4050 Series ',
                 COMMENTS     => 'HP LaserJet 4050 Series ',
-                CONTACT      => undef,
-                NAME         => undef,
                 MEMORY       => '16',
-                LOCATION     => undef,
                 SERIAL       => 'NL7V061384',
                 OTHERSERIAL  => '0x011520',
             },
@@ -1187,7 +1167,6 @@ my %tests = (
                 SERIAL       => 'CNFX305387',
                 OTHERSERIAL  => '0x0115',
                 NAME         => 'IMP41200n0',
-                LOCATION     => undef,
                 ID           => undef,
                 MODEL        => 'hp LaserJet 4200'
             },
@@ -1243,7 +1222,6 @@ my %tests = (
                 SERIAL       => 'CNCXG01622',
                 OTHERSERIAL  => '0x0115',
                 ID           => undef,
-                LOCATION     => undef,
                 MODEL        => 'hp LaserJet 4250'
             },
             CARTRIDGES => {
@@ -1295,7 +1273,6 @@ my %tests = (
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59,CIDATE 05/10/2005',
                 NAME         => 'l0812a',
                 MEMORY       => '256',
-                LOCATION     => undef,
                 SERIAL       => 'CNHXH84872',
                 OTHERSERIAL  => '0x0115',
             },
@@ -1349,7 +1326,6 @@ my %tests = (
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63,CIDATE 04/07/2006',
                 NAME         => 'NPIEA2B02',
                 MEMORY       => '208',
-                LOCATION     => undef,
                 SERIAL       => 'CNHXG83836',
                 OTHERSERIAL  => '0x0115',
             },
@@ -1403,7 +1379,6 @@ my %tests = (
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59,CIDATE 05/10/2005',
                 NAME         => 'NPIEA3BFC',
                 MEMORY       => '208',
-                LOCATION     => undef,
                 SERIAL       => 'CNHXB71032',
                 OTHERSERIAL  => '0x0115',
             },
@@ -1457,7 +1432,6 @@ my %tests = (
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59,CIDATE 05/10/2005',
                 NAME         => 'l1310a',
                 MEMORY       => '208',
-                LOCATION     => undef,
                 SERIAL       => 'CNHXC68053',
                 OTHERSERIAL  => '0x0115',
             },
@@ -1511,7 +1485,6 @@ my %tests = (
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59,CIDATE 05/10/2005',
                 NAME         => 'l1439a',
                 MEMORY       => '208',
-                LOCATION     => undef,
                 SERIAL       => 'CNHXH84870',
                 OTHERSERIAL  => '0x0115',
             },
@@ -1565,7 +1538,6 @@ my %tests = (
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63,CIDATE 04/07/2006',
                 NAME         => 'l2007a',
                 MEMORY       => '208',
-                LOCATION     => undef,
                 SERIAL       => 'CNHXB68748',
                 OTHERSERIAL  => '0x0115',
             },
@@ -1619,7 +1591,6 @@ my %tests = (
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59,CIDATE 05/10/2005',
                 NAME         => 'NPIEAFA59',
                 MEMORY       => '208',
-                LOCATION     => undef,
                 SERIAL       => 'CNHXB71050',
                 OTHERSERIAL  => '0x0115',
             },
@@ -1673,7 +1644,6 @@ my %tests = (
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.33.19,CIDATE 12/17/2008',
                 NAME         => 'NPIEA8E82',
                 MEMORY       => '208',
-                LOCATION     => undef,
                 SERIAL       => 'CNHXJ45092',
                 OTHERSERIAL  => '0x0115',
             },
@@ -1726,9 +1696,7 @@ my %tests = (
                 ID           => undef,
                 OTHERSERIAL  => '0x0115',
                 SERIAL       => 'SG96304AD8',
-                LOCATION     => undef,
                 MODEL        => 'hp color LaserJet 5550 ',
-                CONTACT      => undef,
                 NAME         => 'IDD116',
             },
             PORTS => {
@@ -1840,7 +1808,6 @@ my %tests = (
                 OTHERSERIAL  => '0x0115',
                 ID           => undef,
                 MODEL        => 'HP LaserJet CM1415fn',
-                LOCATION     => undef,
                 NAME         => 'B536-lwc237-Fax',
             },
             PORTS => {
@@ -7912,7 +7879,6 @@ my %tests = (
                 COMMENTS     => 'HP LaserJet P3005',
                 OTHERSERIAL  => '0x0115',
                 ID           => undef,
-                LOCATION     => undef,
                 NAME         => 'NPI7A5E2D',
                 SERIAL       => 'CNH1R06635',
                 MODEL        => '0x0115513738313441'
@@ -7954,7 +7920,6 @@ my %tests = (
                 COMMENTS     => 'HP LaserJet P3005',
                 NAME         => 'NPI91B509',
                 MEMORY       => '320',
-                LOCATION     => undef,
                 SERIAL       => 'CNFW6DG38S',
                 OTHERSERIAL  => '0x0115',
             },
@@ -7995,7 +7960,6 @@ my %tests = (
                 COMMENTS     => 'HP LaserJet P3005',
                 NAME         => 'NPI947D4C',
                 MEMORY       => '320',
-                LOCATION     => undef,
                 SERIAL       => 'CNFW6DF0WL',
                 OTHERSERIAL  => '0x0115',
             },
@@ -8036,7 +8000,6 @@ my %tests = (
                 COMMENTS     => 'HP LaserJet P3005',
                 NAME         => 'L0420a',
                 MEMORY       => '320',
-                LOCATION     => undef,
                 SERIAL       => 'CNFW6DG39Q',
                 OTHERSERIAL  => '0x0115',
             },
@@ -8077,7 +8040,6 @@ my %tests = (
                 COMMENTS     => 'HP LaserJet P3005',
                 NAME         => 'l0500a',
                 MEMORY       => '320',
-                LOCATION     => undef,
                 SERIAL       => 'CNFW6DG38L',
                 OTHERSERIAL  => '0x0115',
             },
@@ -8118,7 +8080,6 @@ my %tests = (
                 COMMENTS     => 'HP LaserJet P3005',
                 NAME         => 'NPI934D69',
                 MEMORY       => '320',
-                LOCATION     => undef,
                 SERIAL       => 'CNFW6DG3DP',
                 OTHERSERIAL  => '0x0115',
             },
@@ -8159,7 +8120,6 @@ my %tests = (
                 COMMENTS     => 'HP LaserJet P3005',
                 NAME         => 'NPI934D9C',
                 MEMORY       => '320',
-                LOCATION     => undef,
                 SERIAL       => 'CNFW6DG37P',
                 OTHERSERIAL  => '0x0115',
             },
@@ -8200,7 +8160,6 @@ my %tests = (
                 COMMENTS     => 'HP LaserJet P3005',
                 NAME         => 'NPI917343',
                 MEMORY       => '320',
-                LOCATION     => undef,
                 SERIAL       => 'CNFW6DG1MH',
                 OTHERSERIAL  => '0x0115',
             },
@@ -8241,7 +8200,6 @@ my %tests = (
                 COMMENTS     => 'HP LaserJet P3005',
                 NAME         => 'l1B220a',
                 MEMORY       => '320',
-                LOCATION     => undef,
                 SERIAL       => 'CNFW6DG1LP',
                 OTHERSERIAL  => '0x0115',
             },
@@ -8282,7 +8240,6 @@ my %tests = (
                 COMMENTS     => 'HP LaserJet P3005',
                 NAME         => 'NPI824876',
                 MEMORY       => '320',
-                LOCATION     => undef,
                 SERIAL       => 'CNFW6DF0XF',
                 OTHERSERIAL  => '0x0115',
             },
@@ -8323,7 +8280,6 @@ my %tests = (
                 COMMENTS     => 'HP LaserJet P3005',
                 NAME         => 'NPI934D5B',
                 MEMORY       => '192',
-                LOCATION     => undef,
                 SERIAL       => 'CNFW6DG394',
                 OTHERSERIAL  => '0x0115',
             },
@@ -8364,7 +8320,6 @@ my %tests = (
                 COMMENTS     => 'HP LaserJet P3005',
                 NAME         => 'NPI939CBD',
                 MEMORY       => '320',
-                LOCATION     => undef,
                 SERIAL       => 'CNFW6DG1NP',
                 OTHERSERIAL  => '0x0115',
             },
@@ -8405,7 +8360,6 @@ my %tests = (
                 COMMENTS     => 'HP LaserJet P3005',
                 NAME         => 'l2427a',
                 MEMORY       => '320',
-                LOCATION     => undef,
                 SERIAL       => 'CNFW6DG1M8',
                 OTHERSERIAL  => '0x0115',
             },
@@ -8444,7 +8398,6 @@ my %tests = (
                 COMMENTS     => 'HP LaserJet P3010 Series',
                 OTHERSERIAL  => '0xFDE8',
                 ID           => undef,
-                LOCATION     => undef,
                 SERIAL       => 'VNBQD3C0BF',
                 NAME         => 'NPI013B81',
                 MODEL        => 'HP LaserJet P3010 Series',
@@ -8497,7 +8450,6 @@ my %tests = (
                 COMMENTS     => 'HP LaserJet P3010 Series',
                 ID           => undef,
                 OTHERSERIAL  => '0xFDE8',
-                LOCATION     => undef,
                 SERIAL       => 'VNBQD3C0BF',
                 NAME         => 'NPI013B81',
                 MODEL        => 'HP LaserJet P3010 Series',
@@ -9229,7 +9181,6 @@ my %tests = (
                 MODEL        => 'HP LaserJet P4015',
                 NAME         => 'LJ30000000000000000000----------',
                 SERIAL       => 'CNFY417951',
-                LOCATION     => undef
             },
             PORTS => {
                 PORT => [
@@ -9284,7 +9235,6 @@ my %tests = (
                 MODEL        => 'HP LaserJet P4015',
                 NAME         => 'NPI8D9896',
                 SERIAL       => 'CNFY409032',
-                LOCATION     => undef
             },
             PORTS => {
                 PORT => [
@@ -9339,7 +9289,6 @@ my %tests = (
                 MODEL        => 'HP LaserJet P4015',
                 NAME         => 'NPI22C87C',
                 SERIAL       => 'CNFY213364',
-                LOCATION     => undef
             },
             PORTS => {
                 PORT => [
@@ -9394,7 +9343,6 @@ my %tests = (
                 MODEL        => 'HP LaserJet P4015',
                 NAME         => 'NPI9706DE',
                 SERIAL       => 'CNFY183496',
-                LOCATION     => undef
             },
             PORTS => {
                 PORT => [
@@ -9449,7 +9397,6 @@ my %tests = (
                 MODEL        => 'HP LaserJet P4015',
                 NAME         => 'NPIEADBFB',
                 SERIAL       => 'CNFY349204',
-                LOCATION     => undef
             },
             PORTS => {
                 PORT => [
@@ -9502,10 +9449,8 @@ my %tests = (
                 ID           => undef,
                 SERIAL       => 'JPCTC8M0LJ',
                 OTHERSERIAL  => '0xFDE8',
-                LOCATION     => undef,
                 MODEL        => 'HP Color LaserJet CP4520 Series',
                 NAME         => 'NPI10DB2C',
-                CONTACT      => undef
             },
             PAGECOUNTERS => {
                 COLOR      => '5839',
@@ -9561,7 +9506,6 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.67,CIDATE 06/17/2008',
                 ID           => undef,
-                LOCATION     => undef,
                 SERIAL       => 'CNCT98DGJY',
                 NAME         => 'NPI85A57D',
                 MODEL        => 'HP Color LaserJet CP3525',
@@ -9622,7 +9566,6 @@ my %tests = (
                 OTHERSERIAL  => '0xFDE8',
                 NAME         => 'Corinne',
                 MODEL        => 'HP Color LaserJet CP3525',
-                LOCATION     => undef,
                 SERIAL       => 'CNCTB9PHWG',
                 ID           => undef
             },

@@ -207,8 +207,6 @@ Compiled Thu 11-Aug-11 02:58 by prod_rel_team',
                 UPTIME       => '(829014147) 95 days, 22:49:01.47',
                 MODEL        => 'AIR-AP1042N-E-K9  ',
                 MAC          => 'A4:18:75:C2:67:00',
-                LOCATION     => undef,
-                CONTACT      => undef,
                 SERIAL       => 'FCZ1623Z2XQ',
                 IPS          => {
                     IP => [ '192.168.55.82' ]
@@ -257,11 +255,9 @@ Compiled Wed 19-Mar-08 18:08 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2008 by Cisco Systems, Inc.
 Compiled Wed 19-Mar-08 18:08 by prod_rel_team',
-                CONTACT      => undef,
                 CPU          => '97',
                 FIRMWARE     => 'CW_VERSION$12.4(10b)JA3$',
                 ID           => undef,
-                LOCATION     => undef,
                 MAC          => '00:13:5F:FA:F2:50',
                 MANUFACTURER => 'Cisco',
                 MODEL        => 'AIR-AP1131AG-E-K9 ',
@@ -448,14 +444,12 @@ Compiled Wed 19-Mar-08 18:08 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2008 by Cisco Systems, Inc.
 Compiled Wed 19-Mar-08 18:08 by prod_rel_team',
-                CONTACT  => undef,
                 CPU      => '98',
                 FIRMWARE => 'CW_VERSION$12.4(10b)JA3$',
                 ID       => undef,
                 IPS      => {
                     IP => [ '192.168.55.45' ]
                 },
-                LOCATION     => undef,
                 MAC          => '00:13:5F:FA:FA:50',
                 MANUFACTURER => 'Cisco',
                 MODEL        => 'AIR-AP1131AG-E-K9 ',
@@ -679,7 +673,6 @@ Compiled Wed 16-Sep-09 18:36 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Wed 16-Sep-09 18:36 by prod_rel_team',
-                CONTACT  => undef,
                 CPU      => '97',
                 FIRMWARE => 'CW_VERSION$12.4(21a)JA1$',
                 ID       => undef,
@@ -909,7 +902,6 @@ Compiled Wed 16-Sep-09 18:36 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Wed 16-Sep-09 18:36 by prod_rel_team',
-                CONTACT  => undef,
                 CPU      => '98',
                 FIRMWARE => 'CW_VERSION$12.4(21a)JA1$',
                 ID       => undef,
@@ -1139,12 +1131,10 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 02:53 by prod_rel_team',
-                CONTACT  => undef,
                 ID       => undef,
                 IPS      => {
                     IP => [ '192.168.1.27' ]
                 },
-                LOCATION     => undef,
                 MAC          => '00:24:13:EA:A7:00',
                 MANUFACTURER => 'Cisco',
                 MODEL        => 'WS-C2960-24TC-L',
@@ -1636,9 +1626,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 02:53 by prod_rel_team',
-                CONTACT      => undef,
                 ID           => undef,
-                LOCATION     => undef,
                 MAC          => '00:24:13:CE:D7:00',
                 MANUFACTURER => 'Cisco',
                 MODEL        => 'WS-C2960-24TC-L',
@@ -2046,9 +2034,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 02:53 by prod_rel_team',
-                CONTACT      => undef,
                 ID           => undef,
-                LOCATION     => undef,
                 MAC          => '00:1B:54:D6:39:00',
                 MANUFACTURER => 'Cisco',
                 MODEL        => 'WS-C2960-24TC-L',
@@ -2456,13 +2442,11 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2012 by Cisco Systems, Inc.
 Compiled Wed 30-May-12 14:26 by prod_rel_team',
-                CONTACT  => undef,
                 FIRMWARE => '15.0(1)SE3',
                 ID       => undef,
                 IPS      => {
                     IP => [ '192.168.1.74' ]
                 },
-                LOCATION     => undef,
                 MAC          => 'C4:0A:CB:CD:86:00',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 4,
@@ -4382,10 +4366,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2012 by Cisco Systems, Inc.
 Compiled Wed 30-May-12 14:26 by prod_rel_team',
-                CONTACT      => undef,
                 FIRMWARE     => '15.0(1)SE3',
                 ID           => undef,
-                LOCATION     => undef,
                 MAC          => '64:D9:89:8D:B1:80',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 5,
@@ -5941,10 +5923,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2012 by Cisco Systems, Inc.
 Compiled Wed 30-May-12 14:26 by prod_rel_team',
-                CONTACT      => undef,
                 FIRMWARE     => '15.0(1)SE3',
                 ID           => undef,
-                LOCATION     => undef,
                 MAC          => '2C:36:F8:7D:09:00',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 4,
@@ -7500,10 +7480,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2012 by Cisco Systems, Inc.
 Compiled Wed 30-May-12 14:26 by prod_rel_team',
-                CONTACT      => undef,
                 FIRMWARE     => '15.0(1)SE3',
                 ID           => undef,
-                LOCATION     => undef,
                 MAC          => '2C:36:F8:7D:06:80',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 4,
@@ -9059,10 +9037,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2012 by Cisco Systems, Inc.
 Compiled Wed 30-May-12 14:26 by prod_rel_team',
-                CONTACT      => undef,
                 FIRMWARE     => '15.0(1)SE3',
                 ID           => undef,
-                LOCATION     => undef,
                 MAC          => 'C4:0A:CB:22:E5:80',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 4,
@@ -10687,14 +10663,12 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2010 by Cisco Systems, Inc.
 Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
-                CONTACT  => undef,
                 CPU      => '97',
                 FIRMWARE => 'CW_VERSION$12.2(50)SE5$',
                 ID       => undef,
                 IPS      => {
                     IP => [ '192.168.1.40' ]
                 },
-                LOCATION     => undef,
                 MAC          => '04:C5:A4:42:F2:80',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 22,
@@ -11038,11 +11012,9 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2010 by Cisco Systems, Inc.
 Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
-                CONTACT      => undef,
                 CPU          => '90',
                 FIRMWARE     => 'CW_VERSION$12.2(50)SE5$',
                 ID           => undef,
-                LOCATION     => undef,
                 MAC          => '04:C5:A4:42:F2:80',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 22,
@@ -11352,11 +11324,9 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2010 by Cisco Systems, Inc.
 Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
-                CONTACT      => undef,
                 CPU          => '90',
                 FIRMWARE     => 'CW_VERSION$12.2(50)SE5$',
                 ID           => undef,
-                LOCATION     => undef,
                 MAC          => 'E8:40:40:AA:73:80',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 22,
@@ -11629,14 +11599,12 @@ Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2010 by Cisco Systems, Inc.
 Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
-                CONTACT  => undef,
                 CPU      => '92',
                 FIRMWARE => 'CW_VERSION$12.2(50)SE4$',
                 ID       => undef,
                 IPS      => {
                     IP => [ '192.168.1.7' ]
                 },
-                LOCATION     => undef,
                 MAC          => '40:F4:EC:D6:80:00',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 23,
@@ -11940,13 +11908,11 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 COMMENTS => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
-                CONTACT  => undef,
                 CPU      => '88',
                 ID       => undef,
                 IPS      => {
                     IP => [ '192.168.1.72' ]
                 },
-                LOCATION     => undef,
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 20,
                 MODEL        => undef,
@@ -13212,13 +13178,11 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 COMMENTS => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
-                CONTACT  => undef,
                 CPU      => '86',
                 ID       => undef,
                 IPS      => {
                     IP => [ '192.168.1.243' ]
                 },
-                LOCATION     => undef,
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 20,
                 MODEL        => undef,
@@ -14484,13 +14448,11 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 COMMENTS => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
-                CONTACT  => undef,
                 CPU      => '86',
                 ID       => undef,
                 IPS      => {
                     IP => [ '192.168.1.39' ]
                 },
-                LOCATION     => undef,
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 20,
                 MODEL        => undef,
@@ -15756,13 +15718,11 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 COMMENTS => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
-                CONTACT  => undef,
                 CPU      => '86',
                 ID       => undef,
                 IPS      => {
                     IP => [ '192.168.1.35' ]
                 },
-                LOCATION     => undef,
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 20,
                 MODEL        => undef,
@@ -17028,10 +16988,8 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 COMMENTS => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
-                CONTACT      => undef,
                 CPU          => '82',
                 ID           => undef,
-                LOCATION     => undef,
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 20,
                 MODEL        => undef,
@@ -18126,10 +18084,8 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 COMMENTS => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
-                CONTACT      => undef,
                 CPU          => '83',
                 ID           => undef,
-                LOCATION     => undef,
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 20,
                 MODEL        => undef,
@@ -19251,10 +19207,8 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 COMMENTS => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
-                CONTACT      => undef,
                 CPU          => '90',
                 ID           => undef,
-                LOCATION     => undef,
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 20,
                 MODEL        => undef,
@@ -20349,10 +20303,8 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 COMMENTS => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
-                CONTACT      => undef,
                 CPU          => '91',
                 ID           => undef,
-                LOCATION     => undef,
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 20,
                 MODEL        => undef,
@@ -21463,10 +21415,8 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 COMMENTS => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
-                CONTACT      => undef,
                 CPU          => '89',
                 ID           => undef,
-                LOCATION     => undef,
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 20,
                 MODEL        => undef,
@@ -22580,10 +22530,8 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 COMMENTS => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
-                CONTACT      => undef,
                 CPU          => '85',
                 ID           => undef,
-                LOCATION     => undef,
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 20,
                 MODEL        => undef,
@@ -23697,10 +23645,8 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 03:03 by prod_rel_team',
-                CONTACT      => undef,
                 FIRMWARE     => '12.2(58)SE1',
                 ID           => undef,
-                LOCATION     => undef,
                 MAC          => '18:33:9D:E7:15:00',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 34,
@@ -24967,13 +24913,11 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 03:03 by prod_rel_team',
-                CONTACT  => undef,
                 FIRMWARE => '12.2(58)SE1',
                 ID       => undef,
                 IPS      => {
                     IP => [ '192.168.1.202' ]
                 },
-                LOCATION     => undef,
                 MAC          => 'B4:14:89:38:2D:80',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 33,
@@ -26015,7 +25959,6 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
                 CPU          => '97',
                 FIRMWARE     => 'CW_VERSION$12.1(20)EA1a$',
                 ID           => undef,
-                LOCATION     => undef,
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 42,
                 MODEL        => 'WS-C3550-12G',
@@ -27136,7 +27079,6 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
                 CPU          => '97',
                 FIRMWARE     => 'CW_VERSION$12.1(20)EA1a$',
                 ID           => undef,
-                LOCATION     => undef,
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 42,
                 MODEL        => 'WS-C3550-12G',

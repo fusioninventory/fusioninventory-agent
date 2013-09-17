@@ -33,8 +33,6 @@ my %tests = (
                 MANUFACTURER => 'Canon',
                 TYPE         => 'PRINTER',
                 ID           => undef,
-                LOCATION     => undef,
-                CONTACT      => undef,
                 NAME         => 'LBP7660C',
                 MODEL        => 'Canon LBP7660C',
             },

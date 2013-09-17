@@ -689,7 +689,7 @@ sub _setGenericProperties {
             }
         }
 
-        $device->{INFO}->{$key} = $value;
+        $device->{INFO}->{$key} = $value if defined $value;
 
     }
 
