@@ -3,7 +3,7 @@
 use strict;
 use lib 't/lib';
 
-use Test::Deep qw(cmp_deeply re);
+use Test::Deep qw(cmp_deeply);
 
 use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Test::Hardware;
@@ -20032,7 +20032,15 @@ my %tests = (
                 LOCATION     => 'Salle informatique E4 PMF',
                 SERIAL       => 'BQ0210122093',
                 FIRMWARE     => 'Juniper Networks, Inc. ex4200-48p , version 10.4R3.4 Build date: 2011-03-19 22:17:08 UTC ',
-                IPS          => re('^HASH\(0x[\da-f]+\)$'),
+                IPS          => {
+                    IP => [
+                        '128.0.0.1',
+                        '128.0.0.127',
+                        '128.0.0.16',
+                        '128.0.0.32',
+                        '192.168.100.31'
+                    ]
+                },
                 MAC          => '2C:6B:F5:9B:48:80',
                 UPTIME       => '(395632884) 45 days, 18:58:48.84',
             },
