@@ -260,7 +260,7 @@ sub _getIndexedModels {
 
     foreach my $model (@{$models}) {
         # index oids
-        $model->{oids} = { 
+        $model->{oids} = {
             map { $_->{OBJECT} => $_->{OID} }
             @{$model->{GET}}, @{$model->{WALK}}
         };

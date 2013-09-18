@@ -14,14 +14,12 @@ my %tests = (
             MANUFACTURER => 'Konica',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
-            SNMPHOSTNAME => '',
             MAC          => '00:50:AA:27:95:9E'
         },
         {
             MANUFACTURER => 'Konica',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
-            SNMPHOSTNAME => '',
             MAC          => '00:50:AA:27:95:9E'
         },
         {
@@ -31,23 +29,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PAGECOUNTERS => {
-                BLACK      => undef,
-                COPYCOLOR  => undef,
-                PRINTCOLOR => undef,
-                TOTAL      => undef,
-                PRINTTOTAL => undef,
-                FAXTOTAL   => undef,
-                COLOR      => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                PRINTBLACK => undef,
-                SCANNED    => undef,
-                RECTOVERSO => undef
-            },
-            PORTS => {
-                PORT => []
-            }
         }
     ],
     'konica/bizhub_421.2.walk' => [
@@ -55,14 +36,12 @@ my %tests = (
             MANUFACTURER => 'Konica',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
-            SNMPHOSTNAME => '',
             MAC          => '00:50:AA:27:96:68'
         },
         {
             MANUFACTURER => 'Konica',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
-            SNMPHOSTNAME => '',
             MAC          => '00:50:AA:27:96:68'
         },
         {
@@ -72,23 +51,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PAGECOUNTERS => {
-                BLACK      => undef,
-                COPYCOLOR  => undef,
-                PRINTCOLOR => undef,
-                TOTAL      => undef,
-                PRINTTOTAL => undef,
-                FAXTOTAL   => undef,
-                COLOR      => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                PRINTBLACK => undef,
-                SCANNED    => undef,
-                RECTOVERSO => undef
-            },
-            PORTS => {
-                PORT => []
-            }
         }
     ],
     'konica/bizhub_421.3.walk' => [
@@ -96,14 +58,12 @@ my %tests = (
             MANUFACTURER => 'Konica',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
-            SNMPHOSTNAME => '',
             MAC          => '00:50:AA:27:95:A3'
         },
         {
             MANUFACTURER => 'Konica',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
-            SNMPHOSTNAME => '',
             MAC          => '00:50:AA:27:95:A3'
         },
         {
@@ -113,23 +73,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PAGECOUNTERS => {
-                BLACK      => undef,
-                COPYCOLOR  => undef,
-                PRINTCOLOR => undef,
-                TOTAL      => undef,
-                PRINTTOTAL => undef,
-                FAXTOTAL   => undef,
-                COLOR      => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                PRINTBLACK => undef,
-                SCANNED    => undef,
-                RECTOVERSO => undef
-            },
-            PORTS => {
-                PORT => []
-            }
         }
     ],
 );

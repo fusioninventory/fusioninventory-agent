@@ -56,7 +56,7 @@ my %tests = (
                         IFINOCTETS       => '0',
                         IFDESCR          => 'Alcatel-Lucent 1/1',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => '',
+                        MAC              => 'E8:E7:32:2B:C1:E4',
                         IFNAME           => '1/1',
                         IFLASTCHANGE     => '(7100) 0:01:11.00',
                         IFNUMBER         => '1001',
@@ -73,7 +73,7 @@ my %tests = (
                         IFSPEED          => '0',
                         IFNAME           => '1/2',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => '',
+                        MAC              => 'E8:E7:32:2B:C1:E5',
                         IFOUTERRORS      => '0',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
@@ -92,7 +92,7 @@ my %tests = (
                         IFLASTCHANGE     => '(7100) 0:01:11.00',
                         IFNAME           => '1/3',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => '',
+                        MAC              => 'E8:E7:32:2B:C1:E6',
                         IFINOCTETS       => '0',
                         IFDESCR          => 'Alcatel-Lucent 1/3',
                         IFSPEED          => '0',
@@ -112,11 +112,11 @@ my %tests = (
                         IFNUMBER         => '1004',
                         IFNAME           => '1/4',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => ''
-                        },
+                        MAC              => 'E8:E7:32:2B:C1:E7',
+                    },
                     {
                         IFNAME           => '1/5',
-                        MAC              => '',
+                        MAC              => 'E8:E7:32:2B:C1:E8',
                         IFTYPE           => 'ethernetCsmacd(6)',
                         IFSTATUS         => 'down(2)',
                         IFINTERNALSTATUS => 'up(1)',
@@ -133,7 +133,7 @@ my %tests = (
                     {
                         IFNAME           => '1/6',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => '',
+                        MAC              => 'E8:E7:32:2B:C1:E9',
                         IFOUTOCTETS      => '0',
                         IFINERRORS       => '0',
                         IFOUTERRORS      => '0',
@@ -149,7 +149,7 @@ my %tests = (
                     {
                         IFNAME           => '1/7',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => '',
+                        MAC              => 'E8:E7:32:2B:C1:EA',
                         IFSTATUS         => 'down(2)',
                         IFINTERNALSTATUS => 'up(1)',
                         IFINERRORS       => '0',
@@ -172,14 +172,14 @@ my %tests = (
                         IFLASTCHANGE     => '(7100) 0:01:11.00',
                         IFNAME           => '1/8',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => '',
+                        MAC              => 'E8:E7:32:2B:C1:EB',
                         IFDESCR          => 'Alcatel-Lucent 1/8',
                         IFINOCTETS       => '0',
                         IFSPEED          => '0',
                         IFMTU            => '9216'
                     },
                     {
-                        MAC              => '',
+                        MAC              => 'E8:E7:32:2B:C1:EC',
                         IFTYPE           => 'ethernetCsmacd(6)',
                         IFNAME           => '1/9',
                         IFLASTCHANGE     => '(7100) 0:01:11.00',
@@ -200,7 +200,7 @@ my %tests = (
                         IFDESCR          => 'Alcatel-Lucent 1/10',
                         IFSPEED          => '0',
                         IFNAME           => '1/10',
-                        MAC              => '',
+                        MAC              => 'E8:E7:32:2B:C1:ED',
                         IFTYPE           => 'ethernetCsmacd(6)',
                         IFINERRORS       => '0',
                         IFOUTERRORS      => '0',
@@ -213,7 +213,7 @@ my %tests = (
                     {
                         IFNAME           => '1/11',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => '',
+                        MAC              => 'E8:E7:32:2B:C1:EE',
                         IFINTERNALSTATUS => 'up(1)',
                         IFSTATUS         => 'down(2)',
                         IFOUTERRORS      => '0',
@@ -239,13 +239,13 @@ my %tests = (
                         IFNUMBER         => '1012',
                         IFLASTCHANGE     => '(7100) 0:01:11.00',
                         IFNAME           => '1/12',
-                        MAC              => '',
+                        MAC              => 'E8:E7:32:2B:C1:EF',
                         IFTYPE           => 'ethernetCsmacd(6)'
                     },
                     {
                         IFNAME           => '1/13',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => '',
+                        MAC              => 'E8:E7:32:2B:C1:F0',
                         IFINERRORS       => '0',
                         IFOUTERRORS      => '0',
                         IFOUTOCTETS      => '0',
@@ -266,7 +266,7 @@ my %tests = (
                         IFOUTOCTETS      => '0',
                         IFINERRORS       => '0',
                         IFOUTERRORS      => '0',
-                        MAC              => '',
+                        MAC              => 'E8:E7:32:2B:C1:F1',
                         IFTYPE           => 'ethernetCsmacd(6)',
                         IFNAME           => '1/14',
                         IFSPEED          => '0',
@@ -284,7 +284,7 @@ my %tests = (
                         IFNUMBER         => '1015',
                         IFNAME           => '1/15',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => '',
+                        MAC              => 'E8:E7:32:2B:C1:F2',
                         IFDESCR          => 'Alcatel-Lucent 1/15',
                         IFINOCTETS       => '0',
                         IFSPEED          => '0',
@@ -293,7 +293,7 @@ my %tests = (
                     {
                         IFNAME           => '1/16',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => '',
+                        MAC              => 'E8:E7:32:2B:C1:F3',
                         IFOUTERRORS      => '0',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
@@ -319,7 +319,7 @@ my %tests = (
                         IFLASTCHANGE     => '(7100) 0:01:11.00',
                         IFNUMBER         => '1017',
                         IFNAME           => '1/17',
-                        MAC              => '',
+                        MAC              => 'E8:E7:32:2B:C1:F4',
                         IFTYPE           => 'ethernetCsmacd(6)'
                     },
                     {
@@ -328,7 +328,7 @@ my %tests = (
                         IFDESCR          => 'Alcatel-Lucent 1/18',
                         IFINOCTETS       => '0',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => '',
+                        MAC              => 'E8:E7:32:2B:C1:F5',
                         IFNAME           => '1/18',
                         IFNUMBER         => '1018',
                         IFLASTCHANGE     => '(7100) 0:01:11.00',
@@ -350,7 +350,7 @@ my %tests = (
                         IFOUTOCTETS      => '0',
                         IFINERRORS       => '0',
                         IFOUTERRORS      => '0',
-                        MAC              => '',
+                        MAC              => 'E8:E7:32:2B:C1:F6',
                         IFTYPE           => 'ethernetCsmacd(6)',
                         IFNAME           => '1/19'
                     },
@@ -367,7 +367,7 @@ my %tests = (
                         IFNUMBER         => '1020',
                         IFLASTCHANGE     => '(1009388000) 116 days, 19:51:20.00',
                         IFNAME           => '1/20',
-                        MAC              => '',
+                        MAC              => 'E8:E7:32:2B:C1:F7',
                         IFTYPE           => 'ethernetCsmacd(6)',
                         CONNECTIONS      => {
                             CONNECTION => {
@@ -399,7 +399,7 @@ my %tests = (
                         IFLASTCHANGE     => '(1441734300) 166 days, 20:49:03.00',
                         IFNUMBER         => '1021',
                         IFNAME           => '1/21',
-                        MAC              => '',
+                        MAC              => 'E8:E7:32:2B:C1:F8',
                         IFTYPE           => 'ethernetCsmacd(6)',
                         CONNECTIONS      => {
                             CONNECTION => {
@@ -417,7 +417,7 @@ my %tests = (
                         IFDESCR          => 'Alcatel-Lucent 1/22',
                         IFINOCTETS       => '1952393561',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => '',
+                        MAC              => 'E8:E7:32:2B:C1:F9',
                         IFNAME           => '1/22',
                         IFNUMBER         => '1022',
                         IFLASTCHANGE     => '(492727000) 57 days, 0:41:10.00',
@@ -443,7 +443,7 @@ my %tests = (
                     {
                         IFNAME           => '1/23',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => '',
+                        MAC              => 'E8:E7:32:2B:C1:FA',
                         IFINTERNALSTATUS => 'up(1)',
                         IFSTATUS         => 'down(2)',
                         IFINERRORS       => '0',
@@ -470,7 +470,7 @@ my %tests = (
                         IFNUMBER         => '1024',
                         IFNAME           => '1/24',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => '',
+                        MAC              => 'E8:E7:32:2B:C1:FB',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -1367,7 +1367,7 @@ my %tests = (
                         IFNUMBER         => '1025',
                         IFLASTCHANGE     => '(3300) 0:00:33.00',
                         IFNAME           => ' Stacking Port 1/StackA',
-                        MAC              => '',
+                        MAC              => '00:00:00:00:00:00',
                         IFTYPE           => 'propVirtual(53)',
                         IFINOCTETS       => '0',
                         IFDESCR          => 'Alcatel-Lucent Stacking Port 1/StackA',
@@ -1384,7 +1384,7 @@ my %tests = (
                         IFNUMBER         => '1026',
                         IFNAME           => ' Stacking Port 1/StackB',
                         IFTYPE           => 'propVirtual(53)',
-                        MAC              => '',
+                        MAC              => '00:00:00:00:00:00',
                         IFINOCTETS       => '0',
                         IFDESCR          => 'Alcatel-Lucent Stacking Port 1/StackB',
                         IFSPEED          => '0',
@@ -1395,7 +1395,7 @@ my %tests = (
                         IFSPEED          => '0',
                         IFDESCR          => 'admin',
                         IFINOCTETS       => '173601851',
-                        MAC              => '',
+                        MAC              => 'E8:E7:32:2B:C1:E2',
                         IFTYPE           => 'l3ipvlan(136)',
                         IFNAME           => 'admin',
                         IFLASTCHANGE     => '(57238810) 6 days, 14:59:48.10',
@@ -1470,7 +1470,7 @@ my %tests = (
                         IFOUTOCTETS  => '135933304',
                         IFSPEED      => '0',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => ''
+                        MAC          => 'E8:E7:32:2B:C1:E4'
                     },
                     {
                         IFDESCR      => 'Alcatel-Lucent 1/2',
@@ -1483,7 +1483,7 @@ my %tests = (
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '0',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => ''
+                        MAC          => 'E8:E7:32:2B:C1:E5'
                     },
                     {
                         IFDESCR      => 'Alcatel-Lucent 1/3',
@@ -1496,7 +1496,7 @@ my %tests = (
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '0',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => ''
+                        MAC          => 'E8:E7:32:2B:C1:E6'
                     },
                     {
                         IFDESCR      => 'Alcatel-Lucent 1/4',
@@ -1509,7 +1509,7 @@ my %tests = (
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '0',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => ''
+                        MAC          => 'E8:E7:32:2B:C1:E7'
                     },
                     {
                         IFDESCR      => 'Alcatel-Lucent 1/5',
@@ -1522,7 +1522,7 @@ my %tests = (
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '0',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => ''
+                        MAC          => 'E8:E7:32:2B:C1:E8'
                     },
                     {
                         IFDESCR      => 'Alcatel-Lucent 1/6',
@@ -1535,7 +1535,7 @@ my %tests = (
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '0',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => ''
+                        MAC          => 'E8:E7:32:2B:C1:E9'
                     },
                     {
                         IFDESCR      => 'Alcatel-Lucent 1/7',
@@ -1548,7 +1548,7 @@ my %tests = (
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '0',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => ''
+                        MAC          => 'E8:E7:32:2B:C1:EA'
                     },
                     {
                         CONNECTIONS => {
@@ -1568,7 +1568,7 @@ my %tests = (
                         IFOUTOCTETS  => '167030715',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => ''
+                        MAC          => 'E8:E7:32:2B:C1:EB'
                     },
                     {
                         IFDESCR      => 'Alcatel-Lucent 1/9',
@@ -1581,7 +1581,7 @@ my %tests = (
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '0',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => ''
+                        MAC          => 'E8:E7:32:2B:C1:EC'
                     },
                     {
                         IFDESCR      => 'Alcatel-Lucent 1/10',
@@ -1594,7 +1594,7 @@ my %tests = (
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '0',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => ''
+                        MAC          => 'E8:E7:32:2B:C1:ED'
                     },
                     {
                         CONNECTIONS => {
@@ -1614,7 +1614,7 @@ my %tests = (
                         IFOUTOCTETS  => '347793172',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => ''
+                        MAC          => 'E8:E7:32:2B:C1:EE'
                     },
                     {
                         CONNECTIONS => {
@@ -1634,7 +1634,7 @@ my %tests = (
                         IFOUTOCTETS  => '408235574',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => ''
+                        MAC          => 'E8:E7:32:2B:C1:EF'
                     },
                     {
                         CONNECTIONS => {
@@ -1654,7 +1654,7 @@ my %tests = (
                         IFOUTOCTETS  => '754298162',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => ''
+                        MAC          => 'E8:E7:32:2B:C1:F0'
                     },
                     {
                         CONNECTIONS => {
@@ -1674,7 +1674,7 @@ my %tests = (
                         IFOUTOCTETS  => '126345688',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => ''
+                        MAC          => 'E8:E7:32:2B:C1:F1'
                     },
                     {
                         IFDESCR      => 'Alcatel-Lucent 1/15',
@@ -1687,7 +1687,7 @@ my %tests = (
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '0',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => ''
+                        MAC          => 'E8:E7:32:2B:C1:F2'
                     },
                     {
                         IFDESCR      => 'Alcatel-Lucent 1/16',
@@ -1700,7 +1700,7 @@ my %tests = (
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '0',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => ''
+                        MAC          => 'E8:E7:32:2B:C1:F3'
                     },
                     {
                         IFDESCR      => 'Alcatel-Lucent 1/17',
@@ -1713,7 +1713,7 @@ my %tests = (
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '0',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => ''
+                        MAC          => 'E8:E7:32:2B:C1:F4'
                     },
                     {
                         IFDESCR      => 'Alcatel-Lucent 1/18',
@@ -1726,7 +1726,7 @@ my %tests = (
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '0',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => ''
+                        MAC          => 'E8:E7:32:2B:C1:F5'
                     },
                     {
                         IFDESCR      => 'Alcatel-Lucent 1/19',
@@ -1739,7 +1739,7 @@ my %tests = (
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '0',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => ''
+                        MAC          => 'E8:E7:32:2B:C1:F6'
                     },
                     {
                         IFDESCR      => 'Alcatel-Lucent 1/20',
@@ -1752,7 +1752,7 @@ my %tests = (
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '0',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => ''
+                        MAC          => 'E8:E7:32:2B:C1:F7'
                     },
                     {
                         IFDESCR      => 'Alcatel-Lucent 1/21',
@@ -1765,7 +1765,7 @@ my %tests = (
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '0',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => ''
+                        MAC          => 'E8:E7:32:2B:C1:F8'
                     },
                     {
                         IFDESCR      => 'Alcatel-Lucent 1/22',
@@ -1778,7 +1778,7 @@ my %tests = (
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '0',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => ''
+                        MAC          => 'E8:E7:32:2B:C1:F9'
                     },
                     {
                         IFDESCR      => 'Alcatel-Lucent 1/23',
@@ -1791,7 +1791,7 @@ my %tests = (
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '0',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => ''
+                        MAC          => 'E8:E7:32:2B:C1:FA'
                     },
                     {
                         CONNECTIONS => {
@@ -1925,7 +1925,7 @@ my %tests = (
                         IFOUTOCTETS  => '1199596145',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => ''
+                        MAC          => 'E8:E7:32:2B:C1:FB'
                     },
                     {
                         IFDESCR      => 'Alcatel-Lucent Stacking Port 1/StackA',
@@ -1938,7 +1938,7 @@ my %tests = (
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '0',
                         IFTYPE       => 'propVirtual(53)',
-                        MAC          => ''
+                        MAC          => '00:00:00:00:00:00'
                     },
                     {
                         IFDESCR      => 'Alcatel-Lucent Stacking Port 1/StackB',
@@ -1951,7 +1951,7 @@ my %tests = (
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '0',
                         IFTYPE       => 'propVirtual(53)',
-                        MAC          => ''
+                        MAC          => '00:00:00:00:00:00'
                     },
                     {
                         IFDESCR      => 'admin',
@@ -1964,7 +1964,7 @@ my %tests = (
                         IFOUTOCTETS  => '26159026',
                         IFSPEED      => '0',
                         IFTYPE       => 'l3ipvlan(136)',
-                        MAC          => ''
+                        MAC          => 'E8:E7:32:2B:C1:E2'
                     },
                     {
                         IFDESCR      => 'Loopback',

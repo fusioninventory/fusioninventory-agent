@@ -37,18 +37,18 @@ our $ip_address_pattern = qr/
 /x;
 
 our $alt_mac_address_pattern = qr/
-    $padded_hex_byte 
-    $padded_hex_byte 
-    $padded_hex_byte 
-    $padded_hex_byte 
-    $padded_hex_byte 
+    $padded_hex_byte
+    $padded_hex_byte
+    $padded_hex_byte
+    $padded_hex_byte
+    $padded_hex_byte
     $padded_hex_byte
 /x;
 
 our $hex_ip_address_pattern = qr/
-    $padded_hex_byte 
-    $padded_hex_byte 
-    $padded_hex_byte 
+    $padded_hex_byte
+    $padded_hex_byte
+    $padded_hex_byte
     $padded_hex_byte
 /x;
 

@@ -33,31 +33,15 @@ my %tests = (
                 MANUFACTURER => 'Canon',
                 TYPE         => 'PRINTER',
                 ID           => undef,
-                LOCATION     => undef,
-                CONTACT      => undef,
                 NAME         => 'LBP7660C',
                 MODEL        => 'Canon LBP7660C',
-            },
-            PAGECOUNTERS => {
-                BLACK      => undef,
-                COPYCOLOR  => undef,
-                PRINTCOLOR => undef,
-                TOTAL      => undef,
-                PRINTTOTAL => undef,
-                FAXTOTAL   => undef,
-                COLOR      => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                PRINTBLACK => undef,
-                SCANNED    => undef,
-                RECTOVERSO => undef
             },
             PORTS => {
                 PORT => [
                     {
                         IFNUMBER => 1,
                         IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '',
+                        MAC      => '88:87:17:82:CA:B1',
                     }
                 ]
             },
@@ -84,23 +68,6 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
-            },
-            PAGECOUNTERS => {
-                BLACK      => undef,
-                COPYCOLOR  => undef,
-                PRINTCOLOR => undef,
-                TOTAL      => undef,
-                PRINTTOTAL => undef,
-                FAXTOTAL   => undef,
-                COLOR      => undef,
-                COPYTOTAL  => undef,
-                COPYBLACK  => undef,
-                PRINTBLACK => undef,
-                SCANNED    => undef,
-                RECTOVERSO => undef
-            },
-            PORTS => {
-                PORT => []
             },
         }
     ],
