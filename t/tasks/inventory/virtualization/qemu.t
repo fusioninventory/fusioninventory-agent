@@ -10,7 +10,6 @@ use Test::NoWarnings;
 use FusionInventory::Agent::Task::Inventory::Virtualization::Qemu;
 
 my @tests = (
-    { CMD => "ps aux", _result => undef },
     {
         CMD     => "qemu -hda /dev/hda -m 256 foobar",
         _result => { name => '/dev/hda', 'mem' => 256 }
