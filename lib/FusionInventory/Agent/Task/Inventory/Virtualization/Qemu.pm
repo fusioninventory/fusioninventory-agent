@@ -20,7 +20,6 @@ sub isEnabled {
 sub _parseProcessList {
     my ($process) = @_;
 
-    return unless $process->{CMD} =~ /(qemu|kvm|qemu-kvm|qemu-system\S+) .*\S/x;
 
     my $values = {};
 
@@ -63,6 +62,8 @@ sub doInventory {
 
     foreach my $process (getProcesses(logger => $logger)) {
         # match only if an qemu instance
+        next if $process->{CMD} =~ /^\[/;
+        next if $process->{CMD} !~ /(qemu|kvm|qemu-kvm|qemu-system\S+) .*\S/x;
 
         my $values = _parseProcessList($process);
         next unless $values;

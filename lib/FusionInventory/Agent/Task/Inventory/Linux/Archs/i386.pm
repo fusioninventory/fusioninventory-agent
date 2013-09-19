@@ -34,8 +34,12 @@ sub doInventory {
 sub _getCPUs {
     my (%params) = @_;
 
-    my @cpusFromDmidecode = getCpusFromDmidecode(file => $params{dmidecode});
-    my @cpusFromProc      = getCPUsFromProc(file => $params{cpuinfo});
+    my @cpusFromDmidecode = $params{dmidecode} ?
+        getCpusFromDmidecode(file => $params{dmidecode}) :
+        getCpusFromDmidecode();
+    my @cpusFromProc      = $params{cpuinfo} ?
+        getCPUsFromProc(file => $params{cpuinfo}) :
+        getCPUsFromProc();
 
     my @physicalCPUs = _getPhysicalCPUs(@cpusFromProc);
     my @baseCPUs = @cpusFromDmidecode ?
