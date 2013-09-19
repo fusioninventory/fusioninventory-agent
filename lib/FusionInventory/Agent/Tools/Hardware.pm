@@ -510,7 +510,7 @@ sub _apply_rule {
 }
 
 sub _setTrunkPorts {
-    my ($description, $snmp, $model, $ports) = @_;
+    my ($description, $snmp, $model, $ports, $logger) = @_;
 
     foreach my $rule (@trunk_ports_rules) {
         next unless $description =~ $rule->{match};
@@ -518,7 +518,12 @@ sub _setTrunkPorts {
         runFunction(
             module   => $rule->{module},
             function => 'setTrunkPorts',
-            params   => { snmp => $snmp, model => $model, ports => $ports },
+            params   => {
+                snmp   => $snmp,
+                model  => $model,
+                ports  => $ports,
+                logger => $logger
+            },
             load     => 1
         );
 
@@ -527,7 +532,7 @@ sub _setTrunkPorts {
 
 }
 sub _setConnectedDevices {
-    my ($description, $snmp, $model, $ports) = @_;
+    my ($description, $snmp, $model, $ports, $logger) = @_;
 
     foreach my $rule (@connected_devices_rules) {
         next unless $description =~ $rule->{match};
@@ -535,7 +540,12 @@ sub _setConnectedDevices {
         runFunction(
             module   => $rule->{module},
             function => 'setConnectedDevices',
-            params   => { snmp => $snmp, model => $model, ports => $ports },
+            params   => {
+                snmp   => $snmp,
+                model  => $model,
+                ports  => $ports,
+                logger => $logger
+            },
             load     => 1
         );
 
@@ -827,9 +837,9 @@ sub _setNetworkingProperties {
     # everything else is vendor-specific, and requires device description
     return unless $comments;
 
-    _setTrunkPorts($comments, $snmp, $model, $ports);
+    _setTrunkPorts($comments, $snmp, $model, $ports, $logger);
 
-    _setConnectedDevices($comments, $snmp, $model, $ports);
+    _setConnectedDevices($comments, $snmp, $model, $ports, $logger);
 
     # check if vlan-specific queries are needed
     my $vlan_query =
