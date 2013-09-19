@@ -6416,7 +6416,7 @@ my %cpu_tests = (
             THREAD         => '8',
             SERIAL         => undef,
             MANUFACTURER   => 'Intel',
-            STEPPING       => 2
+            STEPPING       => 2,
             FAMILYNUMBER   => 6,
             MODEL          => 44,
             FAMILYNAME     => 'Xeon',
@@ -6432,7 +6432,7 @@ my %cpu_tests = (
             MANUFACTURER   => 'Intel',
             STEPPING       => 2,
             FAMILYNUMBER   => 6,
-            MODEL          => 44
+            MODEL          => 44,
             FAMILYNAME     => 'Xeon',
             CORE           => '4',
         }
