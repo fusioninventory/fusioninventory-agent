@@ -2,11 +2,11 @@ Revision history for FusionInventory agent
 
 2.3.2  Mon, 16 Sep 2013 11:15:44 +0200
 core
-* add YAML as a test dependency
 * avoid some warning messages
 
 netinventory task
 * fix: properly pass the SNMP credentials
+* better handling of mac addresses
 
 2.3.1  Mon, 09 Sep 2013 15:36:40 +0200
 inventory task
