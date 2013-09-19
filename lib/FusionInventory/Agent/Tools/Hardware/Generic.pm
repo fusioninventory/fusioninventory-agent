@@ -9,9 +9,10 @@ use FusionInventory::Agent::Tools::Network;
 sub setConnectedDevicesMacAddresses {
     my (%params) = @_;
 
-    my $snmp  = $params{snmp};
-    my $model = $params{model};
-    my $ports = $params{ports};
+    my $snmp   = $params{snmp};
+    my $model  = $params{model};
+    my $ports  = $params{ports};
+    my $logger = $params{logger};
 
     my $dot1dTpFdbAddress    = $snmp->walk($model->{oids}->{dot1dTpFdbAddress});
     my $dot1dTpFdbPort       = $snmp->walk($model->{oids}->{dot1dTpFdbPort});
@@ -36,7 +37,8 @@ sub setConnectedDevicesMacAddresses {
 
         # safety check
         if (!$ports->{$port_id}) {
-            warn "non-existing port $port_id, check dot1d* mappings\n";
+            $logger->error("non-existing port $port_id, check dot1d* mappings")
+                if $logger;
             last;
         }
 
@@ -70,9 +72,10 @@ sub setConnectedDevices {
 sub setConnectedDevicesUsingCDP {
     my (%params) = @_;
 
-    my $snmp  = $params{snmp};
-    my $model = $params{model};
-    my $ports = $params{ports};
+    my $snmp   = $params{snmp};
+    my $model  = $params{model};
+    my $ports  = $params{ports};
+    my $logger = $params{logger};
 
     my $cdpCacheAddress    = $snmp->walk($model->{oids}->{cdpCacheAddress});
     my $cdpCacheDeviceId   = $snmp->walk($model->{oids}->{cdpCacheDeviceId});
@@ -89,7 +92,8 @@ sub setConnectedDevicesUsingCDP {
 
         # safety check
         if (!$ports->{$port_id}) {
-            warn "non-existing port $port_id, check cdpCacheAddress mapping\n";
+            $logger->error("non-existing port $port_id, check cdpCacheAddress mapping")
+                if $logger;
             last;
         }
 
@@ -120,9 +124,10 @@ sub setConnectedDevicesUsingCDP {
 sub setConnectedDevicesUsingLLDP {
     my (%params) = @_;
 
-    my $snmp  = $params{snmp};
-    my $model = $params{model};
-    my $ports = $params{ports};
+    my $snmp   = $params{snmp};
+    my $model  = $params{model};
+    my $ports  = $params{ports};
+    my $logger = $params{logger};
 
     my $lldpRemChassisId = $snmp->walk($model->{oids}->{lldpRemChassisId});
     my $lldpRemPortId    = $snmp->walk($model->{oids}->{lldpRemPortId});
@@ -139,7 +144,8 @@ sub setConnectedDevicesUsingLLDP {
 
         # safety check
         if (!$ports->{$port_id}) {
-            warn "non-existing port $port_id, check lldpRemChassisId mapping\n";
+            $logger->error("non-existing port $port_id, check lldpRemChassisId mapping")
+                if $logger;
             last;
         }
 
@@ -159,9 +165,10 @@ sub setConnectedDevicesUsingLLDP {
 sub setTrunkPorts {
     my (%params) = @_;
 
-    my $snmp  = $params{snmp};
-    my $model = $params{model};
-    my $ports = $params{ports};
+    my $snmp   = $params{snmp};
+    my $model  = $params{model};
+    my $ports  = $params{ports};
+    my $logger = $params{logger};
 
     my $results = $snmp->walk($model->{oids}->{vlanTrunkPortDynamicStatus});
     while (my ($suffix, $trunk) = each %{$results}) {
@@ -169,7 +176,8 @@ sub setTrunkPorts {
 
         # safety check
         if (!$ports->{$port_id}) {
-            warn "non-existing port $port_id, check vlanTrunkPortDynamicStatus mapping\n";
+            $logger->error("non-existing port $port_id, check vlanTrunkPortDynamicStatus mapping")
+                if $logger;
             last;
         }
         $ports->{$port_id}->{TRUNK} = $trunk ? 1 : 0;
