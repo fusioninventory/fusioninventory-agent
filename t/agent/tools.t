@@ -7,6 +7,7 @@ use lib 't/lib';
 use File::Temp;
 use Test::Deep qw(cmp_deeply);
 use Test::More;
+use Test::Exception;
 
 use FusionInventory::Agent::Tools;
 
@@ -119,7 +120,7 @@ plan tests =>
     (scalar @hex2char_tests) +
     (scalar @hex2dec_tests) +
     (scalar @dec2hex_tests) +
-    17;
+    20;
 
 foreach my $test (@size_tests_nok) {
     ok(
@@ -311,3 +312,24 @@ runFunction(
     timeout  => 1
 );
 ok(1, 'indirect infinite loop function execution, timeout');
+
+throws_ok {
+    my $instance = getInstance(
+        class  => 'No::Such::Class',
+    );
+} qr/^no such class/,
+'failure to load a non-existing class';
+
+throws_ok {
+    my $instance = getInstance(
+        class  => 'FusionInventory::Agent::Config::Registry'
+    );
+} qr/^unable to load class/,
+'failure to load existing class';
+
+throws_ok {
+    my $instance = getInstance(
+        class  => 'FusionInventory::Agent::Config::File'
+    );
+} qr/^unable to instanciate class/,
+'failure to instanciate existing class';
