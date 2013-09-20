@@ -186,7 +186,9 @@ sub _getFromWMI {
 my %functions = (
     getFromRegistry => \&_getFromRegistry,
     findFile        => \&_findFile,
-    runCommand      => \&_runCommand,
+# As decided by the FusInv-Agent developers, the runCommand function
+# is disabled for the moment.
+#    runCommand      => \&_runCommand,
     getFromWMI      => \&_getFromWMI
 );
 
