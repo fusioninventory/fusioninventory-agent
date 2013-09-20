@@ -2135,7 +2135,7 @@ my %dmidecode_tests = (
         ]
     },
     'rhel-4.3' => {
-             32 => [
+        32 => [
             {
                  'Status' => 'No errors detected'
             }
@@ -2639,6 +2639,648 @@ my %dmidecode_tests = (
                 'Associated Memory Slots' => '4',
                 'Current Interleave' => 'One-way Interleave',
                 'Memory Module Voltage' => '3.3 V'
+            }
+        ]
+    },
+    'rhel-5.6' => {
+        11 => [
+            {
+                'String 2' => '5[0000]',
+                'String 1' => 'Dell System'
+            }
+        ],
+        17 => [
+            {
+                'Type' => 'DDR3',
+                'Error Information Handle' => 'Not Provided',
+                'Speed' => 'Unknown',
+                'Size' => 'No Module Installed',
+                'Data Width' => '64 bits',
+                'Total Width' => '72 bits',
+                'Rank' => 'Unknown',
+                'Set' => '1',
+                'Array Handle' => '0x1000',
+                'Type Detail' => 'Synchronous',
+                'Form Factor' => 'DIMM',
+                'Locator' => 'DIMM_A1'
+            },
+            {
+                'Rank' => '1',
+                'Error Information Handle' => 'Not Provided',
+                'Data Width' => '64 bits',
+                'Serial Number' => '2AA3F87D',
+                'Type' => 'DDR3',
+                'Form Factor' => 'DIMM',
+                'Part Number' => 'HMT325R7BFR8C-H9',
+                'Set' => '1',
+                'Asset Tag' => '01110228',
+                'Array Handle' => '0x1000',
+                'Total Width' => '72 bits',
+                'Size' => '2048 MB',
+                'Speed' => '1333 MHz',
+                'Locator' => 'DIMM_A2',
+                'Type Detail' => 'Synchronous',
+                'Manufacturer' => '00AD009780AD'
+            },
+            {
+                'Locator' => 'DIMM_A3',
+                'Type Detail' => 'Synchronous',
+                'Manufacturer' => '00AD009780AD',
+                'Total Width' => '72 bits',
+                'Speed' => '1333 MHz',
+                'Size' => '2048 MB',
+                'Form Factor' => 'DIMM',
+                'Part Number' => 'HMT325R7BFR8C-H9',
+                'Set' => '2',
+                'Array Handle' => '0x1000',
+                'Asset Tag' => '01110228',
+                'Rank' => '1',
+                'Error Information Handle' => 'Not Provided',
+                'Data Width' => '64 bits',
+                'Serial Number' => '2A33F897',
+                'Type' => 'DDR3'
+            },
+            {
+                'Type' => 'DDR3',
+                'Error Information Handle' => 'Not Provided',
+                'Size' => 'No Module Installed',
+                'Speed' => 'Unknown',
+                'Data Width' => '64 bits',
+                'Total Width' => '72 bits',
+                'Rank' => 'Unknown',
+                'Set' => '2',
+                'Array Handle' => '0x1000',
+                'Type Detail' => 'Synchronous',
+                'Form Factor' => 'DIMM',
+                'Locator' => 'DIMM_A4'
+            },
+            {
+                'Error Information Handle' => 'Not Provided',
+                'Speed' => 'Unknown',
+                'Data Width' => '64 bits',
+                'Size' => 'No Module Installed',
+                'Type' => 'DDR3',
+                'Total Width' => '72 bits',
+                'Rank' => 'Unknown',
+                'Set' => '3',
+                'Array Handle' => '0x1000',
+                'Locator' => 'DIMM_A5',
+                'Type Detail' => 'Synchronous',
+                'Form Factor' => 'DIMM'
+            },
+            {
+                'Total Width' => '72 bits',
+                'Rank' => 'Unknown',
+                'Error Information Handle' => 'Not Provided',
+                'Speed' => 'Unknown',
+                'Size' => 'No Module Installed',
+                'Data Width' => '64 bits',
+                'Type' => 'DDR3',
+                'Locator' => 'DIMM_A6',
+                'Type Detail' => 'Synchronous',
+                'Form Factor' => 'DIMM',
+                'Set' => '3',
+                'Array Handle' => '0x1000'
+            },
+            {
+                'Locator' => 'DIMM_A7',
+                'Type Detail' => 'Synchronous',
+                'Form Factor' => 'DIMM',
+                'Set' => '4',
+                'Array Handle' => '0x1000',
+                'Total Width' => '72 bits',
+                'Rank' => 'Unknown',
+                'Error Information Handle' => 'Not Provided',
+                'Data Width' => '64 bits',
+                'Speed' => 'Unknown',
+                'Size' => 'No Module Installed',
+                'Type' => 'DDR3'
+            },
+            {
+                'Form Factor' => 'DIMM',
+                'Type Detail' => 'Synchronous',
+                'Locator' => 'DIMM_A8',
+                'Array Handle' => '0x1000',
+                'Set' => '4',
+                'Rank' => 'Unknown',
+                'Total Width' => '72 bits',
+                'Type' => 'DDR3',
+                'Speed' => 'Unknown',
+                'Data Width' => '64 bits',
+                'Size' => 'No Module Installed',
+                'Error Information Handle' => 'Not Provided'
+            },
+            {
+                'Type' => 'DDR3',
+                'Error Information Handle' => 'Not Provided',
+                'Speed' => 'Unknown',
+                'Size' => 'No Module Installed',
+                'Data Width' => '64 bits',
+                'Total Width' => '72 bits',
+                'Rank' => 'Unknown',
+                'Set' => '5',
+                'Array Handle' => '0x1000',
+                'Type Detail' => 'Synchronous',
+                'Form Factor' => 'DIMM',
+                'Locator' => 'DIMM_A9'
+            },
+            {
+                'Rank' => 'Unknown',
+                'Total Width' => '72 bits',
+                'Type' => 'DDR3',
+                'Data Width' => '64 bits',
+                'Speed' => 'Unknown',
+                'Size' => 'No Module Installed',
+                'Error Information Handle' => 'Not Provided',
+                'Form Factor' => 'DIMM',
+                'Type Detail' => 'Synchronous',
+                'Locator' => 'DIMM_B1',
+                'Array Handle' => '0x1000',
+                'Set' => '5'
+            },
+            {
+                'Type Detail' => 'Synchronous',
+                'Locator' => 'DIMM_B2',
+                'Manufacturer' => '00AD009780AD',
+                'Total Width' => '72 bits',
+                'Speed' => '1333 MHz',
+                'Size' => '2048 MB',
+                'Form Factor' => 'DIMM',
+                'Part Number' => 'HMT325R7BFR8C-H9',
+                'Array Handle' => '0x1000',
+                'Asset Tag' => '01110228',
+                'Set' => '6',
+                'Rank' => '1',
+                'Type' => 'DDR3',
+                'Serial Number' => '2A43F870',
+                'Data Width' => '64 bits',
+                'Error Information Handle' => 'Not Provided'
+            },
+            {
+                'Total Width' => '72 bits',
+                'Speed' => '1333 MHz',
+                'Size' => '2048 MB',
+                'Type Detail' => 'Synchronous',
+                'Locator' => 'DIMM_B3',
+                'Manufacturer' => '00AD009780AD',
+                'Rank' => '1',
+                'Serial Number' => '2A93F87A',
+                'Type' => 'DDR3',
+                'Data Width' => '64 bits',
+                'Error Information Handle' => 'Not Provided',
+                'Form Factor' => 'DIMM',
+                'Part Number' => 'HMT325R7BFR8C-H9',
+                'Asset Tag' => '01110228',
+                'Array Handle' => '0x1000',
+                'Set' => '6'
+            },
+            {
+                'Speed' => 'Unknown',
+                'Size' => 'No Module Installed',
+                'Data Width' => '64 bits',
+                'Error Information Handle' => 'Not Provided',
+                'Type' => 'DDR3',
+                'Rank' => 'Unknown',
+                'Total Width' => '72 bits',
+                'Array Handle' => '0x1000',
+                'Set' => '4',
+                'Locator' => 'DIMM_B4',
+                'Form Factor' => 'DIMM',
+                'Type Detail' => 'Synchronous'
+            },
+            {
+                'Type' => 'DDR3',
+                'Data Width' => '64 bits',
+                'Speed' => 'Unknown',
+                'Size' => 'No Module Installed',
+                'Error Information Handle' => 'Not Provided',
+                'Rank' => 'Unknown',
+                'Total Width' => '72 bits',
+                'Array Handle' => '0x1000',
+                'Set' => '5',
+                'Form Factor' => 'DIMM',
+                'Type Detail' => 'Synchronous',
+                'Locator' => 'DIMM_B5'
+            },
+            {
+                'Total Width' => '72 bits',
+                'Rank' => 'Unknown',
+                'Error Information Handle' => 'Not Provided',
+                'Speed' => 'Unknown',
+                'Size' => 'No Module Installed',
+                'Data Width' => '64 bits',
+                'Type' => 'DDR3',
+                'Locator' => 'DIMM_B6',
+                'Type Detail' => 'Synchronous',
+                'Form Factor' => 'DIMM',
+                'Set' => '6',
+                'Array Handle' => '0x1000'
+            },
+            {
+                'Locator' => 'DIMM_B7',
+                'Type Detail' => 'Synchronous',
+                'Form Factor' => 'DIMM',
+                'Set' => '4',
+                'Array Handle' => '0x1000',
+                'Total Width' => '72 bits',
+                'Rank' => 'Unknown',
+                'Error Information Handle' => 'Not Provided',
+                'Data Width' => '64 bits',
+                'Speed' => 'Unknown',
+                'Size' => 'No Module Installed',
+                'Type' => 'DDR3'
+            },
+            {
+                'Array Handle' => '0x1000',
+                'Set' => '5',
+                'Form Factor' => 'DIMM',
+                'Type Detail' => 'Synchronous',
+                'Locator' => 'DIMM_B8',
+                'Type' => 'DDR3',
+                'Speed' => 'Unknown',
+                'Data Width' => '64 bits',
+                'Size' => 'No Module Installed',
+                'Error Information Handle' => 'Not Provided',
+                'Rank' => 'Unknown',
+                'Total Width' => '72 bits'
+            },
+            {
+                'Rank' => 'Unknown',
+                'Total Width' => '72 bits',
+                'Speed' => 'Unknown',
+                'Data Width' => '64 bits',
+                'Size' => 'No Module Installed',
+                'Error Information Handle' => 'Not Provided',
+                'Type' => 'DDR3',
+                'Locator' => 'DIMM_B9',
+                'Form Factor' => 'DIMM',
+                'Type Detail' => 'Synchronous',
+                'Array Handle' => '0x1000',
+                'Set' => '6'
+            }
+        ],
+        0 => [
+            {
+                'ROM Size' => '4096 kB',
+                'Vendor' => 'Dell Inc.',
+                'Runtime Size' => '64 kB',
+                'Version' => '2.2.10',
+                'Release Date' => '11/09/2010',
+                'BIOS Revision' => '2.2',
+                'Address' => '0xF0000'
+            }
+        ],
+        4 => [
+            {
+                'Core Enabled' => '4',
+                'Family' => 'Xeon',
+                'Current Speed' => '2400 MHz',
+                'Socket Designation' => 'CPU1',
+                'L2 Cache Handle' => '0x0701',
+                'L3 Cache Handle' => '0x0702',
+                'Manufacturer' => 'Intel',
+                'Status' => 'Populated, Enabled',
+                'ID' => 'C2 06 02 00 FF FB EB BF',
+                'Thread Count' => '8',
+                'Version' => 'Intel(R) Xeon(R) CPU           E5620  @ 2.40GHz',
+                'Voltage' => '1.2 V',
+                'Upgrade' => 'Socket LGA1366',
+                'Signature' => 'Type 0, Family 6, Model 44, Stepping 2',
+                'External Clock' => '5860 MHz',
+                'Type' => 'Central Processor',
+                'Max Speed' => '3600 MHz',
+                'Core Count' => '4',
+                'L1 Cache Handle' => '0x0700'
+            },
+            {
+                'Current Speed' => '2400 MHz',
+                'Socket Designation' => 'CPU2',
+                'Manufacturer' => 'Intel',
+                'Status' => 'Populated, Idle',
+                'L3 Cache Handle' => '0x0705',
+                'L2 Cache Handle' => '0x0704',
+                'Thread Count' => '8',
+                'ID' => 'C2 06 02 00 FF FB EB BF',
+                'Family' => 'Xeon',
+                'Core Enabled' => '4',
+                'Core Count' => '4',
+                'L1 Cache Handle' => '0x0703',
+                'Version' => 'Intel(R) Xeon(R) CPU           E5620  @ 2.40GHz',
+                'Upgrade' => 'Socket LGA1366',
+                'Voltage' => '1.2 V',
+                'External Clock' => '5860 MHz',
+                'Signature' => 'Type 0, Family 6, Model 44, Stepping 2',
+                'Max Speed' => '3600 MHz',
+                'Type' => 'Central Processor'
+            }
+        ],
+        7 => [
+            {
+                'Error Correction Type' => 'Single-bit ECC',
+                'Speed' => 'Unknown',
+                'System Type' => 'Data',
+                'Operational Mode' => 'Write Back',
+                'Associativity' => '8-way Set-associative',
+                'Location' => 'Internal',
+                'Installed Size' => '128 kB',
+                'Maximum Size' => '128 kB',
+                'Configuration' => 'Enabled, Not Socketed, Level 1',
+                'Installed SRAM Type' => 'Unknown'
+            },
+            {
+                'Error Correction Type' => 'Single-bit ECC',
+                'System Type' => 'Unified',
+                'Speed' => 'Unknown',
+                'Associativity' => '8-way Set-associative',
+                'Operational Mode' => 'Write Back',
+                'Configuration' => 'Enabled, Not Socketed, Level 2',
+                'Installed SRAM Type' => 'Unknown',
+                'Installed Size' => '1024 kB',
+                'Maximum Size' => '2048 kB',
+                'Location' => 'Internal'
+            },
+            {
+                'Error Correction Type' => 'Single-bit ECC',
+                'Speed' => 'Unknown',
+                'System Type' => 'Unified',
+                'Operational Mode' => 'Write Back',
+                'Associativity' => '16-way Set-associative',
+                'Location' => 'Internal',
+                'Installed Size' => '12288 kB',
+                'Maximum Size' => '12288 kB',
+                'Configuration' => 'Enabled, Not Socketed, Level 3',
+                'Installed SRAM Type' => 'Unknown'
+            },
+            {
+                'System Type' => 'Data',
+                'Speed' => 'Unknown',
+                'Error Correction Type' => 'Single-bit ECC',
+                'Installed SRAM Type' => 'Unknown',
+                'Configuration' => 'Enabled, Not Socketed, Level 1',
+                'Installed Size' => '128 kB',
+                'Maximum Size' => '128 kB',
+                'Location' => 'Internal',
+                'Associativity' => '8-way Set-associative',
+                'Operational Mode' => 'Write Back'
+            },
+            {
+                'Speed' => 'Unknown',
+                'System Type' => 'Unified',
+                'Error Correction Type' => 'Single-bit ECC',
+                'Configuration' => 'Enabled, Not Socketed, Level 2',
+                'Installed SRAM Type' => 'Unknown',
+                'Location' => 'Internal',
+                'Maximum Size' => '2048 kB',
+                'Installed Size' => '1024 kB',
+                'Associativity' => '8-way Set-associative',
+                'Operational Mode' => 'Write Back'
+            },
+            {
+                'Installed SRAM Type' => 'Unknown',
+                'Configuration' => 'Enabled, Not Socketed, Level 3',
+                'Location' => 'Internal',
+                'Installed Size' => '12288 kB',
+                'Maximum Size' => '12288 kB',
+                'Associativity' => '16-way Set-associative',
+                'Operational Mode' => 'Write Back',
+                'System Type' => 'Unified',
+                'Speed' => 'Unknown',
+                'Error Correction Type' => 'Single-bit ECC'
+            }
+        ],
+        10 => [
+            {
+                'Status' => 'Enabled',
+                'Type' => 'SAS Controller',
+                'Description' => 'Integrated RAID Controller'
+            }
+        ],
+        2 => [
+            {
+                'Version' => 'A07',
+                'Serial Number' => '..CN708210BL002B.',
+                'Product Name' => '0MD99X',
+                'Manufacturer' => 'Dell Inc.'
+            }
+        ],
+        13 => [
+            {
+                'Installable Languages' => '1',
+                'Currently Installed Language' => 'en|US|iso8859-1'
+            }
+        ],
+        12 => [
+            {
+                'Option 1' => 'NVRAM_CLR:  Clear user settable NVRAM areas and set defaults',
+                'Option 2' => 'PWRD_EN:  Close to enable password'
+            }
+        ],
+        1 => [
+            {
+                'Manufacturer' => 'Dell Inc.',
+                'Product Name' => 'PowerEdge R710',
+                'Serial Number' => '861YZ4J',
+                'UUID' => '4C4C4544-0036-3110-8059-B8C04F5A344A',
+                'Wake-up Type' => 'Power Switch'
+            }
+        ],
+        16 => [
+            {
+                'Number Of Devices' => '18',
+                'Location' => 'System Board Or Motherboard',
+                'Error Information Handle' => 'Not Provided',
+                'Maximum Capacity' => '288 GB',
+                'Use' => 'System Memory',
+                'Error Correction Type' => 'Multi-bit ECC'
+            }
+        ],
+        3 => [
+            {
+                'Number Of Power Cords' => 'Unspecified',
+                'Thermal State' => 'Safe',
+                'Height' => '2 U',
+                'Manufacturer' => 'Dell Inc.',
+                'Boot-up State' => 'Safe',
+                'OEM Information' => '0x00000000',
+                'Type' => 'Rack Mount Chassis',
+                'Serial Number' => '861YZ4J',
+                'Contained Elements' => '0',
+                'Power Supply State' => 'Safe',
+                'Security Status' => 'Unknown',
+                'Lock' => 'Present'
+            }
+        ],
+        8 => [
+            {
+                'Port Type' => 'Video Port',
+                'External Connector Type' => 'DB-15 female',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'Internal Connector Type' => 'None',
+                'Port Type' => 'Video Port',
+                'External Connector Type' => 'DB-15 female'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'Port Type' => 'USB',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'Internal Connector Type' => 'None',
+                'External Connector Type' => 'Access Bus (USB)',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'Port Type' => 'USB',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'Internal Connector Type' => 'None',
+                'Port Type' => 'USB',
+                'External Connector Type' => 'Access Bus (USB)'
+            },
+            {
+                'Port Type' => 'USB',
+                'Internal Reference Designator' => 'INT_USB',
+                'External Connector Type' => 'None',
+                'Internal Connector Type' => 'Access Bus (USB)'
+            },
+            {
+                'Internal Connector Type' => 'Other',
+                'External Connector Type' => 'None',
+                'Port Type' => 'USB',
+                'Internal Reference Designator' => 'INT_SD'
+            },
+            {
+                'External Connector Type' => 'RJ-45',
+                'Port Type' => 'Network Port',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'External Connector Type' => 'RJ-45',
+                'Port Type' => 'Network Port',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'External Connector Type' => 'RJ-45',
+                'Port Type' => 'Network Port',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'External Connector Type' => 'RJ-45',
+                'Port Type' => 'Network Port',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'External Connector Type' => 'DB-9 male',
+                'Port Type' => 'Serial Port 16550A Compatible',
+                'Internal Connector Type' => 'None'
+            }
+        ],
+        19 => [
+            {
+                'Physical Array Handle' => '0x1000',
+                'Partition Width' => '0',
+                'Range Size' => '3328 MB',
+                'Starting Address' => '0x00000000000',
+                'Ending Address' => '0x000CFFFFFFF'
+            },
+            {
+                'Starting Address' => '0x00100000000',
+                'Partition Width' => '0',
+                'Range Size' => '4864 MB',
+                'Physical Array Handle' => '0x1000',
+                'Ending Address' => '0x0022FFFFFFF'
+            }
+        ],
+        9 => [
+            {
+                'Bus Address' => '0000:05:00.0',
+                'Type' => 'x4 PCI Express Gen 2 x8',
+                'Designation' => 'PCI1',
+                'Length' => 'Long',
+                'Current Usage' => 'In Use'
+            },
+            {
+                'Designation' => 'PCI2',
+                'Length' => 'Long',
+                'Current Usage' => 'In Use',
+                'Bus Address' => '0000:04:00.0',
+                'Type' => 'x4 PCI Express Gen 2 x8'
+            },
+            {
+                'Current Usage' => 'In Use',
+                'Length' => 'Long',
+                'Designation' => 'PCI3',
+                'Bus Address' => '0000:07:00.0',
+                'Type' => 'x8 PCI Express Gen 2'
+            },
+            {
+                'Designation' => 'PCI4',
+                'Length' => 'Long',
+                'Current Usage' => 'In Use',
+                'Bus Address' => '0000:06:00.0',
+                'Type' => 'x8 PCI Express Gen 2'
+            }
+        ],
+        41 => [
+            {
+                'Reference Designation' => 'Embedded NIC 1',
+                'Status' => 'Enabled',
+                'Type Instance' => '1',
+                'Type' => 'Ethernet',
+                'Bus Address' => '0000:01:00.0'
+            },
+            {
+                'Bus Address' => '0000:01:00.1',
+                'Type' => 'Ethernet',
+                'Status' => 'Enabled',
+                'Reference Designation' => 'Embedded NIC 2',
+                'Type Instance' => '2'
+            },
+            {
+                'Type' => 'Ethernet',
+                'Bus Address' => '0000:02:00.0',
+                'Type Instance' => '3',
+                'Reference Designation' => 'Embedded NIC 3',
+                'Status' => 'Enabled'
+            },
+            {
+                'Bus Address' => '0000:02:00.1',
+                'Type' => 'Ethernet',
+                'Type Instance' => '4',
+                'Reference Designation' => 'Embedded NIC 4',
+                'Status' => 'Enabled'
+            },
+            {
+                'Bus Address' => '0000:03:00.0',
+                'Type' => 'SAS Controller',
+                'Type Instance' => '4',
+                'Reference Designation' => 'Integrated RAID',
+                'Status' => 'Enabled'
+            },
+            {
+                'Type Instance' => '4',
+                'Reference Designation' => 'Embedded Video',
+                'Status' => 'Enabled',
+                'Type' => 'Video',
+                'Bus Address' => '0000:08:03.0'
+            }
+        ],
+        32 => [
+            {
+                'Status' => 'No errors detected'
+            }
+        ],
+        38 => [
+            {
+                'Base Address' => '0x0000000000000CA8 (I/O)',
+                'I2C Slave Address' => '0x10',
+                'Specification Version' => '2.0',
+                'Register Spacing' => '32-bit Boundaries',
+                'Interface Type' => 'KCS (Keyboard Control Style)'
             }
         ]
     },
@@ -5763,6 +6405,36 @@ my %cpu_tests = (
             MODEL          => '23',
             FAMILYNAME     => 'Xeon',
             CORE           => undef
+        }
+    ],
+    'rhel-5.6' => [
+        {
+            ID             => 'C2 06 02 00 FF FB EB BF',
+            NAME           => 'Xeon',
+            EXTERNAL_CLOCK => '5860',
+            SPEED          => '2400',
+            THREAD         => '8',
+            SERIAL         => undef,
+            MANUFACTURER   => 'Intel',
+            STEPPING       => 2,
+            FAMILYNUMBER   => 6,
+            MODEL          => 44,
+            FAMILYNAME     => 'Xeon',
+            CORE           => '4',
+        },
+        {
+            ID             => 'C2 06 02 00 FF FB EB BF',
+            NAME           => 'Xeon',
+            EXTERNAL_CLOCK => '5860',
+            SPEED          => '2400',
+            THREAD         => '8',
+            SERIAL         => undef,
+            MANUFACTURER   => 'Intel',
+            STEPPING       => 2,
+            FAMILYNUMBER   => 6,
+            MODEL          => 44,
+            FAMILYNAME     => 'Xeon',
+            CORE           => '4',
         }
     ],
     'openbsd-3.7' => [

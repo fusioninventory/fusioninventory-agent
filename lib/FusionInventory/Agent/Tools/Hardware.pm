@@ -410,7 +410,8 @@ sub getDeviceBaseInfo {
     $device{DESCRIPTION}  = $sysdescr if !$device{DESCRIPTION};
 
     # SNMPv2-MIB::sysName.0
-    $device{SNMPHOSTNAME} = $snmp->get('.1.3.6.1.2.1.1.5.0');
+    my $hostname = $snmp->get('.1.3.6.1.2.1.1.5.0');
+    $device{SNMPHOSTNAME} = $hostname if $hostname;
 
     return %device;
 }
@@ -509,7 +510,7 @@ sub _apply_rule {
 }
 
 sub _setTrunkPorts {
-    my ($description, $snmp, $model, $ports) = @_;
+    my ($description, $snmp, $model, $ports, $logger) = @_;
 
     foreach my $rule (@trunk_ports_rules) {
         next unless $description =~ $rule->{match};
@@ -517,7 +518,12 @@ sub _setTrunkPorts {
         runFunction(
             module   => $rule->{module},
             function => 'setTrunkPorts',
-            params   => { snmp => $snmp, model => $model, ports => $ports },
+            params   => {
+                snmp   => $snmp,
+                model  => $model,
+                ports  => $ports,
+                logger => $logger
+            },
             load     => 1
         );
 
@@ -526,7 +532,7 @@ sub _setTrunkPorts {
 
 }
 sub _setConnectedDevices {
-    my ($description, $snmp, $model, $ports) = @_;
+    my ($description, $snmp, $model, $ports, $logger) = @_;
 
     foreach my $rule (@connected_devices_rules) {
         next unless $description =~ $rule->{match};
@@ -534,7 +540,12 @@ sub _setConnectedDevices {
         runFunction(
             module   => $rule->{module},
             function => 'setConnectedDevices',
-            params   => { snmp => $snmp, model => $model, ports => $ports },
+            params   => {
+                snmp   => $snmp,
+                model  => $model,
+                ports  => $ports,
+                logger => $logger
+            },
             load     => 1
         );
 
@@ -586,7 +597,7 @@ sub getDeviceFullInfo {
     # - from the server request,
     # - from the model type
     # - from initial identification
-    $info{TYPE} = 
+    $info{TYPE} =
             $params{type} ? $params{type}          :
             $model        ? $types{$model->{TYPE}} :
                             $info{TYPE}            ;
@@ -617,11 +628,15 @@ sub getDeviceFullInfo {
 
     # convert ports hashref to an arrayref, sorted by interface number
     my $ports = $device->{PORTS}->{PORT};
-    $device->{PORTS}->{PORT} = [
-        map { $ports->{$_} }
-        sort { $a <=> $b }
-        keys %{$ports}
-    ];
+    if ($ports && %$ports) {
+        $device->{PORTS}->{PORT} = [
+            map { $ports->{$_} }
+            sort { $a <=> $b }
+            keys %{$ports}
+        ];
+    } else {
+        delete $device->{PORTS};
+    }
 
     return $device;
 }
@@ -675,17 +690,9 @@ sub _setGenericProperties {
             $key eq 'OTHERSERIAL' ? getCanonicalSerialNumber($raw_value) :
             $key eq 'RAM'         ? getCanonicalMemory($raw_value)       :
             $key eq 'MEMORY'      ? getCanonicalMemory($raw_value)       :
-                                    hex2char($raw_value)                 ; 
-        if ($key eq 'MAC') {
-            if ($raw_value =~ $mac_address_pattern) {
-                $value = $raw_value;
-            } else {
-                $value = alt2canonical($raw_value);
-            }
-        }
-
-        $device->{INFO}->{$key} = $value;
-
+            $key eq 'MAC'         ? getCanonicalMacAddress($raw_value)   :
+                                    hex2char($raw_value)                 ;
+        $device->{INFO}->{$key} = $value if defined $value;
     }
 
     if ($model->{oids}->{ipAdEntAddr}) {
@@ -706,10 +713,9 @@ sub _setGenericProperties {
         # $prefix.$i = $value, with $i as port id
         while (my ($suffix, $value) = each %{$results}) {
             if ($key eq 'MAC') {
-                next unless $value;
-                $value = alt2canonical($value);
+                $value = getCanonicalMacAddress($value);
             }
-            $ports->{$suffix}->{$key} = $value;
+            $ports->{$suffix}->{$key} = $value if defined $value;
         }
     }
 
@@ -722,11 +728,11 @@ sub _setGenericProperties {
             next unless $value;
             # safety checks
             if (!$ports->{$value}) {
-                $logger->error("non-existing port $value, check ifaddr mapping");
+                $logger->error("non-existing port $value, check ifaddr mapping") if $logger;
                 last;
             }
             if ($suffix !~ /^$ip_address_pattern$/) {
-                $logger->error("invalid IP address $suffix, check ifaddr mapping");
+                $logger->error("invalid IP address $suffix, check ifaddr mapping") if $logger;
                 last;
             }
             $ports->{$value}->{IP} = $suffix;
@@ -766,7 +772,7 @@ sub _setPrinterProperties {
                     $type_value,
                     $level_value,
                 );
-        next unless $value;
+        next unless defined $value;
         $device->{CARTRIDGES}->{$key} = $value;
     }
 
@@ -775,7 +781,7 @@ sub _setPrinterProperties {
         my $max_value    = $snmp->get($model->{oids}->{$variable . 'MAX'});
         my $remain_value = $snmp->get($model->{oids}->{$variable . 'REMAIN'});
         my $value = _getPercentValue($max_value, $remain_value);
-        next unless $value;
+        next unless defined $value;
         $device->{CARTRIDGES}->{$key} = $value;
     }
 
@@ -783,6 +789,7 @@ sub _setPrinterProperties {
     foreach my $key (keys %printer_pagecounters_variables) {
         my $variable = $printer_pagecounters_variables{$key};
         my $value    = $snmp->get($model->{oids}->{$variable});
+        next unless defined $value;
         $device->{PAGECOUNTERS}->{$key} = $value;
     }
 }
@@ -830,9 +837,9 @@ sub _setNetworkingProperties {
     # everything else is vendor-specific, and requires device description
     return unless $comments;
 
-    _setTrunkPorts($comments, $snmp, $model, $ports);
+    _setTrunkPorts($comments, $snmp, $model, $ports, $logger);
 
-    _setConnectedDevices($comments, $snmp, $model, $ports);
+    _setConnectedDevices($comments, $snmp, $model, $ports, $logger);
 
     # check if vlan-specific queries are needed
     my $vlan_query =
@@ -845,11 +852,21 @@ sub _setNetworkingProperties {
         while (my ($suffix, $value) = each %{$vlans}) {
             my $vlan_id = $suffix;
             $snmp->switch_community("@" . $vlan_id);
-            FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(snmp => $snmp, model => $model, ports => $ports);
+            FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(
+                snmp   => $snmp,
+                model  => $model,
+                ports  => $ports,
+                logger => $logger
+            );
         }
     } else {
         # set connected devices mac addresses only once
-        FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(snmp => $snmp, model => $model, ports => $ports);
+        FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(
+            snmp   => $snmp,
+            model  => $model,
+            ports  => $ports,
+            logger => $logger
+        );
     }
 
     # hardware-specific hacks
@@ -992,11 +1009,16 @@ This module provides some hardware-related functions.
 return a minimal set of information for a device through SNMP, according to a
 set of rules hardcoded in the agent.
 
-=head2 getDeviceInfo($snmp, $dictionnary)
+=head2 getDeviceInfo($snmp, $dictionary)
 
-return a minimal set of information for a device through SNMP, according to a
-set of rules hardcoded in the agent and the usage of an additional knowledge
-base, the dictionary.
+return a limited set of information for a device through SNMP, according to a
+set of rules hardcoded in the agent and the usage of generic knowledge base,
+the dictionary.
+
+=head2 getDeviceFullInfo(%params)
+
+return a full set of information for a device through SNMP, according to a
+set of rules hardcoded in the agent and the usage of a device-specific set of mappings, the model.
 
 =head2 setConnectedDevicesMacAddresses($description, $snmp, $model, $ports)
 
@@ -1081,3 +1103,7 @@ return the $index element of an oid.
 =head2 getElements($oid, $first, $last)
 
 return all elements of index in range $first to $last of an oid.
+
+=head2 loadModel($file)
+
+Load an SNMP description model from given file.

@@ -31,23 +31,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PAGECOUNTERS => {
-                PRINTBLACK => undef,
-                PRINTCOLOR => undef,
-                COLOR      => undef,
-                SCANNED    => undef,
-                COPYBLACK  => undef,
-                RECTOVERSO => undef,
-                COPYTOTAL  => undef,
-                FAXTOTAL   => undef,
-                TOTAL      => undef,
-                BLACK      => undef,
-                PRINTTOTAL => undef,
-                COPYCOLOR  => undef
-            },
-            PORTS => {
-                PORT => []
-            }
         }
     ],
     'ricoh/Aficio_MP_C2050.walk' => [
@@ -109,20 +92,6 @@ my %tests = (
                     }
                 ]
             },
-            PAGECOUNTERS => {
-                PRINTBLACK => undef,
-                PRINTCOLOR => undef,
-                COLOR      => undef,
-                SCANNED    => undef,
-                COPYBLACK  => undef,
-                RECTOVERSO => undef,
-                COPYTOTAL  => undef,
-                FAXTOTAL   => undef,
-                TOTAL      => undef,
-                BLACK      => undef,
-                PRINTTOTAL => undef,
-                COPYCOLOR  => undef
-            },
         }
     ],
     'ricoh/Aficio_SP_C420DN.1.walk' => [
@@ -147,23 +116,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PAGECOUNTERS => {
-                PRINTBLACK => undef,
-                PRINTCOLOR => undef,
-                COLOR      => undef,
-                SCANNED    => undef,
-                COPYBLACK  => undef,
-                RECTOVERSO => undef,
-                COPYTOTAL  => undef,
-                FAXTOTAL   => undef,
-                TOTAL      => undef,
-                BLACK      => undef,
-                PRINTTOTAL => undef,
-                COPYCOLOR  => undef
-            },
-            PORTS => {
-                PORT => []
-            }
         }
     ],
     'ricoh/Aficio_SP_C420DN.2.walk' => [
@@ -188,23 +140,6 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
             },
-            PAGECOUNTERS => {
-                PRINTBLACK => undef,
-                PRINTCOLOR => undef,
-                COLOR      => undef,
-                SCANNED    => undef,
-                COPYBLACK  => undef,
-                RECTOVERSO => undef,
-                COPYTOTAL  => undef,
-                FAXTOTAL   => undef,
-                TOTAL      => undef,
-                BLACK      => undef,
-                PRINTTOTAL => undef,
-                COPYCOLOR  => undef
-            },
-            PORTS => {
-                PORT => []
-            }
         }
     ],
 );
