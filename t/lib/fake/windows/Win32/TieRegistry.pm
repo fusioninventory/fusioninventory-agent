@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 our $Registry;
+our $Error;
 
 sub import {
     my $callpkg = caller();
@@ -11,6 +12,7 @@ sub import {
 
     *{"$callpkg\::Registry"} = \$Registry;
     *{"$callpkg\::KEY_READ"} = sub {};
+    *{"$callpkg\::EXTENDED_OS_ERROR"} = \$Error;
 }
 
 1;
