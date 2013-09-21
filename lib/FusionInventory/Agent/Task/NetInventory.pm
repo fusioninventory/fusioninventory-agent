@@ -2,36 +2,17 @@ package FusionInventory::Agent::Task::NetInventory;
 
 use strict;
 use warnings;
-use threads;
-use threads::shared;
 use base 'FusionInventory::Agent::Task';
 
-use constant START => 0;
-use constant RUN   => 1;
-use constant STOP  => 2;
-use constant EXIT  => 3;
-
-use Encode qw(encode);
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
 use FusionInventory::Agent;
 use FusionInventory::Agent::Broker::Server;
-use FusionInventory::Agent::XML::Query;
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::Hardware;
-use FusionInventory::Agent::Tools::Network;
-
-# needed for perl < 5.10.1 compatbility
-if ($threads::shared::VERSION < 1.21) {
-    FusionInventory::Agent::Threads->use();
-}
+use FusionInventory::Agent::XML::Query;
 
 our $VERSION = $FusionInventory::Agent::VERSION;
-
-# list of devices properties, indexed by XML element name
-# the link to a specific OID is made by the model
-
 
 sub isEnabled {
     my ($self, %params) = @_;
@@ -84,33 +65,26 @@ sub run {
     # SNMP credentials
     my $credentials = _getIndexedCredentials($options->{AUTHENTICATION});
 
-    # create the required number of threads, sharing variables
-    # for synchronisation
-    my @devices :shared = map { shared_clone($_) } @{$options->{DEVICE}};
-    my @results :shared;
-    my @states  :shared;
+    # devices list
+    my @devices = @{$options->{DEVICE}};
 
     # no need for more threads than devices to scan
     if ($max_threads > @devices) {
         $max_threads = @devices;
     }
 
-    #===================================
-    # Create all Threads
-    #===================================
-    for (my $i = 0; $i < $max_threads; $i++) {
-        $states[$i] = START;
+    my $engine_class = $max_threads > 1 ?
+        'FusionInventory::Agent::Task::NetInventory::Egine::Thread' :
+        'FusionInventory::Agent::Task::NetInventory::Engine::NoThread';
 
-        threads->create(
-            '_queryDevices',
-            $self,
-            \$states[$i],
-            \@devices,
-            \@results,
-            $models,
-            $credentials,
-        )->detach();
-    }
+    $engine_class->require();
+
+    my $engine = $engine_class->new(
+        logger      => $self->{logger},
+        credentials => $credentials,
+        models      => $models,
+        threads     => $max_threads
+    );
 
     # send initial message to the server
     $self->_sendMessage(
@@ -125,23 +99,19 @@ sub run {
         }
     );
 
-    # set all threads in RUN state
-    $_ = RUN foreach @states;
+    # proceed each given device
+    my @results = $engine->query(@devices);
 
-    # wait for all threads to reach EXIT state
-    while (any { $_ != EXIT } @states) {
-        delay(1);
-
-        # send results to the server
-        while (my $result = do { lock @results; shift @results; }) {
-            my $data = {
-                DEVICE        => $result,
-                MODULEVERSION => $FusionInventory::Agent::VERSION,
-                PROCESSNUMBER => $pid
-            };
-            $self->_sendMessage($broker, $data);
-        }
+    foreach my $result (@results) {
+        my $data = {
+            DEVICE        => $result,
+            MODULEVERSION => $VERSION,
+            PROCESSNUMBER => $pid
+        };
+        $self->_sendMessage($broker, $data);
     }
+
+    $engine->finish();
 
     # send final message to the server
     $self->_sendMessage(
@@ -166,102 +136,6 @@ sub _sendMessage {
    );
 
    $broker->send(message => $message);
-}
-
-sub _queryDevices {
-    my ($self, $state, $devices, $results, $models, $credentials) = @_;
-
-    my $logger = $self->{logger};
-    my $id     = threads->tid();
-
-    $logger->debug("Thread $id created in PAUSE state");
-
-    # start: wait for state to change
-    while ($$state == START) {
-        delay(1);
-    }
-
-    # run: process available addresses until exhaustion
-    $logger->debug("Thread $id switched to RUN state");
-
-    while (my $device = do { lock @{$devices}; shift @{$devices}; }) {
-
-        my $result = $self->_queryDevice(
-            device      => $device,
-            model       => $models->{$device->{MODELSNMP_ID}},
-            credentials => $credentials->{$device->{AUTHSNMP_ID}}
-        );
-
-        $result = {
-            ERROR => {
-                    ID      => $device->{ID},
-                    TYPE    => $device->{TYPE},
-                    MESSAGE => "No response from remote host"
-                }
-        } if !$result;
-
-        if ($result) {
-            lock $results;
-            push @$results, shared_clone($result);
-        }
-
-        delay(1);
-    }
-
-    $$state = EXIT;
-    $logger->debug("Thread $id switched to EXIT state");
-}
-
-sub _queryDevice {
-    my ($self, %params) = @_;
-
-    my $credentials = $params{credentials};
-    my $device      = $params{device};
-    my $logger      = $self->{logger};
-    my $id          = threads->tid();
-    $logger->debug("thread $id: scanning $device->{ID}");
-
-    my $snmp;
-    if ($device->{FILE}) {
-        FusionInventory::Agent::SNMP::Mock->require();
-        eval {
-            $snmp = FusionInventory::Agent::SNMP::Mock->new(
-                file => $device->{FILE}
-            );
-        };
-        if ($EVAL_ERROR) {
-            $logger->error("Unable to create SNMP session for $device->{FILE}: $EVAL_ERROR");
-            return;
-        }
-    } else {
-        eval {
-            FusionInventory::Agent::SNMP::Live->require();
-            $snmp = FusionInventory::Agent::SNMP::Live->new(
-                version      => $credentials->{VERSION},
-                hostname     => $device->{IP},
-                community    => $credentials->{COMMUNITY},
-                username     => $credentials->{USERNAME},
-                authpassword => $credentials->{AUTHPASSWORD},
-                authprotocol => $credentials->{AUTHPROTOCOL},
-                privpassword => $credentials->{PRIVPASSWORD},
-                privprotocol => $credentials->{PRIVPROTOCOL},
-            );
-        };
-        if ($EVAL_ERROR) {
-            $logger->error("Unable to create SNMP session for $device->{IP}: $EVAL_ERROR");
-            return;
-        }
-    }
-
-    my $result = getDeviceFullInfo(
-         id     => $device->{ID},
-         type   => $device->{TYPE},
-         snmp   => $snmp,
-         model  => $params{model},
-         logger => $self->{logger}
-    );
-
-    return $result;
 }
 
 sub _getIndexedModels {
@@ -292,7 +166,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::NetInventory - Remote inventory support for FusionInventory Agent
+FusionInventory::Agent::Task::NetInventory - Network inventory task
 
 =head1 DESCRIPTION
 
