@@ -8,12 +8,11 @@ use Test::Deep;
 
 use FusionInventory::Agent::Tools::Hardware;
 
-plan tests => 6;
+plan tests => 5;
 
 my $oid = '0.1.2.3.4.5.6.7.8.9';
 is(getElement($oid, 0),        0, 'getElement with index 0');
 is(getElement($oid, -1),       9, 'getElement with index -1');
-is(getLastElement($oid),       9, 'getLastElement');
 is(getElement($oid, -2),       8, 'getElement with index -2');
 cmp_deeply(
     [ getElements($oid, 0, 3) ],
