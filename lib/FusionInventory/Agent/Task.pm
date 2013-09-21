@@ -6,6 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 use File::Find;
 
+use FusionInventory::Agent;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Logger;
 

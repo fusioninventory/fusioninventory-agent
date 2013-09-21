@@ -14,7 +14,7 @@ use File::stat;
 use File::Basename;
 use Digest::SHA;
 
-our $VERSION = "0.0.1";
+our $VERSION = $FusionInventory::Agent::VERSION;
 
 sub isEnabled {
     my ($self) = @_;
