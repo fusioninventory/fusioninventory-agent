@@ -9,8 +9,11 @@ use List::Util qw(first);
 use Socket;
 use UNIVERSAL::require;
 
+use FusionInventory::Agent;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
+
+our $VERSION = $FusionInventory::Agent::VERSION;
 
 sub isEnabled {
     my ($self, %params) = @_;
