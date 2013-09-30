@@ -253,10 +253,6 @@ if I<PATH> is a directory, a file will be created therein
 
 =item *
 
-if I<PATH> is a file, it will be used directly
-
-=item *
-
 if I<PATH> is '-', STDOUT will be used
 
 =back
