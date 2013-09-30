@@ -12,7 +12,7 @@ use XML::TreePP;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Test::Utils;
 
-plan tests => 34;
+plan tests => 32;
 
 my ($content, $out, $err, $rc);
 
@@ -208,14 +208,6 @@ subtest "--local <directory> inventory execution" => sub {
     check_execution_ok($err, $rc);
 };
 ok(<$dir/*.ocs>, '--local <directory> result file presence');
-
-($out, $err, $rc) = run_executable(
-    'fusioninventory-agent', "$base_options --local $dir/foo"
-);
-subtest "--local <file> inventory execution" => sub {
-    check_execution_ok($err, $rc);
-};
-ok(-f "$dir/foo", '--local <file> result file presence');
 
 sub check_execution_ok {
     my ($err, $rc) = @_;
