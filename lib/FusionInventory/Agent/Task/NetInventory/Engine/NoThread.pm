@@ -17,6 +17,10 @@ sub query {
     return @results;
 }
 
+sub finish {
+    return 1;
+}
+
 1;
 
 __END__
