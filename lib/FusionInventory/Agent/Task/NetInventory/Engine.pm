@@ -3,9 +3,11 @@ package FusionInventory::Agent::Task::NetInventory::Engine;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
-use English qw(-no_match_vars);
+use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Hardware;
 
 sub new {
     my ($class, %params) = @_;
