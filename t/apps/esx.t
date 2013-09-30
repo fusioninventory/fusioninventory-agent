@@ -10,7 +10,7 @@ use Test::More;
 use FusionInventory::Agent::Task::ESX;
 use FusionInventory::Test::Utils;
 
-plan tests => 7;
+plan tests => 8;
 
 my ($out, $err, $rc);
 
