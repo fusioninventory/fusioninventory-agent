@@ -13,6 +13,7 @@ sub new {
     my $self = {
         models      => $params{models},
         credentials => $params{credentials},
+        logger      => $params{logger},
     };
     bless $self, $class;
 
