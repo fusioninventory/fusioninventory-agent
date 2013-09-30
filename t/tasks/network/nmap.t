@@ -7,7 +7,7 @@ use File::Basename;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::NetDiscovery;
+use FusionInventory::Agent::Task::NetDiscovery::Engine;
 
 my %tests = (
     '192.168.0.1' => {
@@ -40,7 +40,7 @@ plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/nmap/$test";
-    my $result = FusionInventory::Agent::Task::NetDiscovery::_parseNmap(
+    my $result = FusionInventory::Agent::Task::NetDiscovery::Engine::_parseNmap(
         file => $file
     );
     cmp_deeply($result, $tests{$test}, $test);
