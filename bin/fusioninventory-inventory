@@ -9,9 +9,8 @@ use Getopt::Long;
 use File::Temp;
 use Pod::Usage;
 
+use FusionInventory::Agent;
 use FusionInventory::Agent::Broker::Inventory;
-use FusionInventory::Agent::Config;
-use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Inventory;
 
 my %setup = (
@@ -46,16 +45,15 @@ if ($options->{version}) {
 }
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
 
-my $config = FusionInventory::Agent::Config->new(
-    options => $options,
-);
+my $agent = FusionInventory::Agent->new(%setup);
 
 my $inventory = FusionInventory::Agent::Task::Inventory->new(
-    target  => {},
-    logger  => FusionInventory::Agent::Logger->new(debug => $options->{debug}),
-    datadir => $setup{datadir},
-    confdir => $setup{confdir},
-    config  => $config
+    config   => $agent->{config},
+    confdir  => $agent->{confdir},
+    datadir  => $agent->{datadir},
+    logger   => $agent->{logger},
+    deviceid => $agent->{deviceid},
+    target   => {},
 );
 
 my $broker = FusionInventory::Agent::Broker::Inventory->create(
@@ -64,7 +62,10 @@ my $broker = FusionInventory::Agent::Broker::Inventory->create(
     verbose => $options->{verbose}
 );
 
-$inventory->run(broker => $broker);
+eval {
+    $agent->init(options => $options);
+    $agent->runSingleTask(task => $inventory, broker => $broker);
+};
 
 __END__
 

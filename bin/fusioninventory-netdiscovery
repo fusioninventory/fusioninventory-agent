@@ -8,9 +8,16 @@ use English qw(-no_match_vars);
 use Getopt::Long;
 use Pod::Usage;
 
+use FusionInventory::Agent;
 use FusionInventory::Agent::Broker;
-use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::NetDiscovery;
+
+my %setup = (
+    confdir => './etc',
+    datadir => './share',
+    libdir  => './lib',
+    vardir  => './var',
+);
 
 my $options = {
     community => 'public',
@@ -45,9 +52,15 @@ pod2usage(
     -message => "no last address, aborting\n", -verbose => 0
 ) unless $options->{last};
 
+my $agent = FusionInventory::Agent->new(%setup);
+
 my $discovery = FusionInventory::Agent::Task::NetDiscovery->new(
-    target => FusionInventory::Agent::Task::NetInventory::Target->new(),
-    logger => FusionInventory::Agent::Logger->new(debug => $options->{debug})
+    config   => $agent->{config},
+    confdir  => $agent->{confdir},
+    datadir  => $agent->{datadir},
+    logger   => $agent->{logger},
+    deviceid => $agent->{deviceid},
+    target   => FusionInventory::Agent::Task::NetInventory::Target->new(),
 );
 
 $discovery->{options} = {
@@ -98,7 +111,10 @@ my $broker = FusionInventory::Agent::Broker->create(
     verbose => $options->{verbose}
 );
 
-$discovery->run(broker => $broker);
+eval {
+    $agent->init(options => $options);
+    $agent->runSingleTask(task => $discovery, broker => $broker);
+};
 
 sub getDictionary {
     my ($file) = @_;

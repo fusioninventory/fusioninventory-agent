@@ -9,10 +9,17 @@ use Getopt::Long;
 use Pod::Usage;
 use XML::TreePP;
 
+use FusionInventory::Agent;
 use FusionInventory::Agent::Broker;
-use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::NetInventory;
 use FusionInventory::Agent::Tools::Hardware;
+
+my %setup = (
+    confdir => './etc',
+    datadir => './share',
+    libdir  => './lib',
+    vardir  => './var',
+);
 
 my $options = {
     community => 'public'
@@ -48,6 +55,8 @@ pod2usage(
     -message => "no host nor file given, aborting\n", -verbose => 0
 ) unless $options->{host} or $options->{file};
 
+my $agent = FusionInventory::Agent->new(%setup);
+
 my $model = loadModel($options->{model});
 my $type =
     $model->{TYPE} == 1 ? 'COMPUTER'   :
@@ -56,8 +65,12 @@ my $type =
                           undef        ;
 
 my $inventory = FusionInventory::Agent::Task::NetInventory->new(
-    target => {},
-    logger => FusionInventory::Agent::Logger->new(debug => $options->{debug})
+    config   => $agent->{config},
+    confdir  => $agent->{confdir},
+    datadir  => $agent->{datadir},
+    logger   => $agent->{logger},
+    deviceid => $agent->{deviceid},
+    target   => {},
 );
 
 $inventory->{options} = {
@@ -95,7 +108,10 @@ my $broker = FusionInventory::Agent::Broker->create(
     verbose => $options->{verbose}
 );
 
-$inventory->run(broker => $broker);
+eval {
+    $agent->init(options => $options);
+    $agent->runSingleTask(task => $inventory, broker => $broker);
+};
 
 __END__
 
