@@ -1,9 +1,8 @@
 #!/usr/bin/perl
 
-use warnings;
 use strict;
+use warnings;
 
-use File::Basename;
 use Test::Deep;
 use Test::More;
 
