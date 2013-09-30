@@ -6,8 +6,8 @@ use strict;
 use File::Basename;
 use Test::Deep;
 use Test::More;
-use UNIVERSAL::require;
-use Config;
+
+use FusionInventory::Agent::Task::NetDiscovery;
 
 my %tests = (
     '192.168.0.1' => {
@@ -35,14 +35,8 @@ my %tests = (
     },
 );
 
-# check thread support availability
-if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
-    plan skip_all => 'thread support required';
-}
 
-FusionInventory::Agent::Task::NetDiscovery->use();
 plan tests => scalar keys %tests;
-
 
 foreach my $test (keys %tests) {
     my $file = "resources/nmap/$test";

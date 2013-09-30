@@ -6,18 +6,9 @@ use lib 't/lib';
 
 use English qw(-no_match_vars);
 use Test::More;
-use UNIVERSAL::require;
-use Config;
 
 use FusionInventory::Agent;
 use FusionInventory::Test::Utils;
-
-# check thread support availability
-if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
-    plan skip_all => 'thread support required';
-}
-
-FusionInventory::Agent::Task::NetDiscovery->use();
 
 plan tests => 12;
 

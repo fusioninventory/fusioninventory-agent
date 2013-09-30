@@ -28,8 +28,8 @@ all_pm_files_ok(@files);
 sub filter {
 
     if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
-        return 0 if $_ =~ m{FusionInventory/Agent/Task/NetInventory.pm};
-        return 0 if $_ =~ m{FusionInventory/Agent/Task/NetDiscovery.pm};
+        return 0 if $_ =~ m{FusionInventory/Agent/Task/NetInventory/Engine/Thread.pm};
+        return 0 if $_ =~ m{FusionInventory/Agent/Task/NetDiscovery/Engine/Thread.pm};
         return 0 if $_ =~ m{FusionInventory/Agent/Threads.pm};
     }
 
