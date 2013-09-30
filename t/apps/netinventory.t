@@ -9,7 +9,7 @@ use Test::Deep;
 use Test::More;
 use XML::TreePP;
 
-use FusionInventory::Agent;
+use FusionInventory::Agent::Task::NetInventory;
 use FusionInventory::Test::Utils;
 
 plan tests => 15;
@@ -30,7 +30,7 @@ ok($rc == 0, '--version exit status');
 is($err, '', '--version stderr');
 like(
     $out,
-    qr/$FusionInventory::Agent::VERSION/,
+    qr/$FusionInventory::Agent::Task::NetInventory::VERSION/,
     '--version stdout'
 );
 

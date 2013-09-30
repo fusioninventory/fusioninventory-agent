@@ -7,7 +7,7 @@ use lib 't/lib';
 use English qw(-no_match_vars);
 use Test::More;
 
-use FusionInventory::Agent;
+use FusionInventory::Agent::Task::NetDiscovery;
 use FusionInventory::Test::Utils;
 
 plan tests => 12;
@@ -28,7 +28,7 @@ ok($rc == 0, '--version exit status');
 is($err, '', '--version stderr');
 like(
     $out,
-    qr/$FusionInventory::Agent::VERSION/,
+    qr/$FusionInventory::Agent::Task::NetDiscovery::VERSION/,
     '--version stdout'
 );
 
