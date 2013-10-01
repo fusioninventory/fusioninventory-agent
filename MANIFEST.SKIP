@@ -14,6 +14,7 @@ CVS/
 ^nytprof
 ^Makefile(\.old)?$
 ^MANIFEST\.
+^MYMETA\.
 ^pm_to_blib$
 ^run-postinst
 ^tmon.out
