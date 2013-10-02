@@ -619,6 +619,7 @@ my %tests = (
                 MAC          => '00:1D:AF:EA:A0:E2',
                 LOCATION     => 'Salle Informatique',
                 COMMENTS     => 'Ethernet Switch 470-24T      HW:34       FW:3.6.0.6   SW:v3.6.2.04 BN:4 ISVN:2 (c) Nortel Networks',
+                CONTACT      => 'OBS'
             },
             PORTS => {
                 PORT => [

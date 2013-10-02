@@ -41,6 +41,7 @@ my %tests = (
                 MANUFACTURER    => 'Alcatel-Lucent',
                 MODEL           => 'OS6400-P24',
                 FIRMWARE        => 'Alcatel-Lucent 6.4.4.342.R01 GA, April 18, 2011.',
+                LOCATION        => 'Unknown',
                 IPS             => {
                     IP => [
                         '127.0.0.1',
@@ -1455,7 +1456,8 @@ my %tests = (
                 FIRMWARE     => 'Alcatel-Lucent 6.4.4.342.R01 GA, April 18, 2011.',
                 MODEL        => 'OS6400-P24',
                 SERIAL       => 'M4682816',
-                CONTACT      => 'Alcatel-Lucent, http://alcatel-lucent.com/wps/portal/enterprise'
+                CONTACT      => 'Alcatel-Lucent, http://alcatel-lucent.com/wps/portal/enterprise',
+                LOCATION     => 'Unknown'
             },
             PORTS => {
                 PORT => [

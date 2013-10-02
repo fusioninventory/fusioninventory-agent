@@ -38,6 +38,7 @@ my %tests = (
                 NAME         => 'LXK3936A4',
                 MODEL        => 'Lexmark T622 41XT225  543.006',
                 SERIAL       => 'LXK3936A4',
+                UPTIME       => '(256604241) 29 days, 16:47:22.41'
             },
             CARTRIDGES => {
                 TONERBLACK => 100
@@ -83,6 +84,8 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                COMMENTS     => 'Lexmark X792 version NH.HS2.N211La kernel 2.6.28.10.1 All-N-1',
+                NAME         => 'ET0021B7427721',
             },
         }
     ],

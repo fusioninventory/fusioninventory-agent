@@ -38,7 +38,8 @@ my %tests = (
                 SERIAL       => '9801405X00',
                 MEMORY       => 0,
                 NAME         => 'KENET - DPE2',
-                LOCATION     => 'RDC - apers escalier en bois'
+                LOCATION     => 'RDC - apers escalier en bois',
+                UPTIME       => '(8649373) 1 day, 0:01:33.73'
             },
             CARTRIDGES => {
                 DRUMYELLOW   => -4400,
@@ -90,7 +91,8 @@ my %tests = (
                 MODEL        => undef,
                 NAME         => 'WASAI -- DFP',
                 ID           => undef,
-                LOCATION     => '1er etage couloir'
+                LOCATION     => '1er etage couloir',
+                UPTIME       => '(28125680) 3 days, 6:07:36.80'
             },
             PORTS => {
                 PORT => [
@@ -133,7 +135,8 @@ my %tests = (
                 MODEL        => 'SHARP MX-5001N',
                 MEMORY       => 0,
                 ID           => undef,
-                MANUFACTURER => 'Sharp'
+                MANUFACTURER => 'Sharp',
+                UPTIME       => '(1486295) 4:07:42.95'
             },
             CARTRIDGES => {
                 DRUMCYAN     => -750,
@@ -185,6 +188,7 @@ my %tests = (
                 ID           => undef,
                 MODEL        => undef,
                 LOCATION     => '2eme etage Bureau POTHIN',
+                UPTIME       => '(94252230) 10 days, 21:48:42.30'
             },
             PORTS => {
                 PORT => [

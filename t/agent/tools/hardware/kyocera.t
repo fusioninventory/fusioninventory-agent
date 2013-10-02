@@ -28,6 +28,8 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                UPTIME       => '(11310876) 1 day, 7:25:08.76',
+                COMMENTS     => 'KYOCERA MITA Printing System'
             },
         }
     ],
@@ -50,6 +52,8 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                UPTIME       => '(17673056) 2 days, 1:05:30.56',
+                COMMENTS     => 'KYOCERA MITA Printing System'
             },
         }
     ],
@@ -78,7 +82,8 @@ my %tests = (
                 MODEL        => 'FS-2000D',
                 MANUFACTURER => 'Kyocera',
                 MEMORY       => 0,
-                TYPE         => 'PRINTER'
+                TYPE         => 'PRINTER',
+                UPTIME       => '(19416556) 2 days, 5:56:05.56'
             },
             CARTRIDGES => {
                 WASTETONER => 100,
@@ -122,7 +127,8 @@ my %tests = (
                 SERIAL       => 'XLM7Y21503',
                 MODEL        => 'FS-2000D',
                 ID           => undef,
-                MEMORY       => 0
+                MEMORY       => 0,
+                UPTIME       => '(749216) 2:04:52.16'
             },
             CARTRIDGES  => {
                 TONERBLACK => 37,
@@ -166,6 +172,7 @@ my %tests = (
                 MODEL        => undef,
                 SERIAL       => 'Q250Z01068',
                 COMMENTS     => 'UTAX_TA Printing System',
+                UPTIME       => '(281437) 0:46:54.37',
             },
             PORTS => {
                 PORT => [
@@ -198,6 +205,8 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                UPTIME       => '(55544038) 6 days, 10:17:20.38',
+                COMMENTS     => 'KYOCERA MITA Printing System'
             },
         }
     ],
@@ -220,6 +229,8 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                UPTIME       => '(44432286) 5 days, 3:25:22.86',
+                COMMENTS     => 'KYOCERA MITA Printing System'
             },
         }
     ],
@@ -242,6 +253,8 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                UPTIME       => '(3145468) 8:44:14.68',
+                COMMENTS     => 'KYOCERA MITA Printing System'
             },
         }
     ],

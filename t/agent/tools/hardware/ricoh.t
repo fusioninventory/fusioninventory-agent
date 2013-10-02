@@ -30,6 +30,10 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                UPTIME       => '(166369300) 19 days, 6:08:13.00',
+                NAME         => 'Aficio AP3800C',
+                COMMENTS     => 'RICOH Aficio AP3800C 1.12 / RICOH Network Printer C model / RICOH Network Scanner C model',
+                MEMORY       => '192',
             },
         }
     ],
@@ -61,6 +65,7 @@ my %tests = (
                 LOCATION     => 'Schoelcher - 1er',
                 ID           => undef,
                 MODEL        => undef,
+                UPTIME       => '(234064600) 27 days, 2:10:46.00'
             },
             CARTRIDGES => {
                 TONERMAGENTA => 100,
@@ -115,6 +120,9 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                LOCATION     => 'Ugo',
+                NAME         => 'Aficio SP C420DN',
+                COMMENTS     => 'RICOH Aficio SP C420DN 1.05 / RICOH Network Printer C model',
             },
         }
     ],
@@ -139,6 +147,9 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                LOCATION     => 'Ugo',
+                NAME         => 'Aficio SP C420DN',
+                COMMENTS     => 'RICOH Aficio SP C420DN 1.05 / RICOH Network Printer C model',
             },
         }
     ],

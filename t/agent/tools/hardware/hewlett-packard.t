@@ -29,7 +29,9 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
                 ID           => undef,
-                MODEL        => undef
+                MODEL        => undef,
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114,CIDATE 11/17/2011',
+                NAME         => 'NPI419F6E',
             },
         }
     ],
@@ -60,7 +62,8 @@ my %tests = (
                 MEMORY       => 96,
                 ID           => undef,
                 NAME         => 'HPIJ2800-02',
-                MODEL        => 'HP Business Inkjet 2800'
+                MODEL        => 'HP Business Inkjet 2800',
+                UPTIME       => '(45821440) 5 days, 7:16:54.40',
             },
             CARTRIDGES => {
                 CARTRIDGEMAGENTA => 29,
@@ -114,6 +117,7 @@ my %tests = (
                 MEMORY       => 96,
                 ID           => undef,
                 NAME         => 'HPIJ2800-01',
+                UPTIME       => '(85884840) 9 days, 22:34:08.40',
             },
             PORTS => {
                 PORT => [
@@ -205,7 +209,9 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
                 ID           => undef,
-                MODEL        => undef
+                MODEL        => undef,
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT',
+                NAME         => 'HP8C0C51',
             },
         }
     ],
@@ -390,6 +396,8 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251131008,CIDATE 11/30/2011',
+                NAME         => 'lj1',
             },
         }
     ],
@@ -414,6 +422,8 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251131008,CIDATE 11/30/2011',
+                NAME         => 'lj2',
             },
         }
     ],
@@ -438,6 +448,8 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM P.22.01,JETDIRECT,JD86,EEPROM P.25.14,CIDATE 09/24/2003',
+                NAME         => 'impbe94',
             },
         }
     ],
@@ -579,7 +591,7 @@ my %tests = (
                 OTHERSERIAL  => '0x0115',
                 NAME         => 'NPIC68F5E',
                 ID           => undef,
-                MODEL        => 'hp LaserJet 1320 series'
+                MODEL        => 'hp LaserJet 1320 series',
             },
             PAGECOUNTERS => {
                 TOTAL      => '5868',
@@ -625,6 +637,8 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                LOCATION     => 'impbe92',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.04',
             },
         }
     ],
@@ -647,6 +661,8 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                LOCATION     => 'impbe92',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.04',
             },
         }
     ],
@@ -669,6 +685,9 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
                 MODEL        => undef,
+                UPTIME       => '(319831420) 37 days, 0:25:14.20',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
+                MEMORY       => '8',
             },
         }
     ],
@@ -691,6 +710,9 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
                 MODEL        => undef,
+                UPTIME       => '(165740930) 19 days, 4:23:29.30',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
+                MEMORY       => '8',
             },
         }
     ],
@@ -715,6 +737,10 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
                 MODEL        => undef,
+                UPTIME       => '(13841080) 1 day, 14:26:50.80',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM C.25.80,JETDIRECT,JD115,EEPROM V.28.06,CIDATE 04/27/2004',
+                MEMORY       => '8',
+                NAME         => 'l1618a',
             },
         }
     ],
@@ -737,6 +763,9 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
                 MODEL        => undef,
+                UPTIME       => '(20422550) 2 days, 8:43:45.50',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.08.08,JETDIRECT,JD30,EEPROM G.08.20',
+                MEMORY       => '8',
             },
         }
     ],
@@ -767,6 +796,7 @@ my %tests = (
                 MEMORY       => '16',
                 SERIAL       => 'FRFRH43314',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(745729650) 86 days, 7:28:16.50',
             },
             CARTRIDGES => {
                 TONERBLACK       => '100',
@@ -817,6 +847,7 @@ my %tests = (
                 MEMORY       => '48',
                 SERIAL       => 'CNCDF57941',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(313714810) 36 days, 7:25:48.10',
             },
             CARTRIDGES => {
                 TONERBLACK       => '94',
@@ -869,6 +900,7 @@ my %tests = (
                 MEMORY       => '48',
                 SERIAL       => 'CNCHM24955',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(3052880) 8:28:48.80',
             },
             CARTRIDGES => {
                 TONERBLACK       => '1',
@@ -1119,6 +1151,7 @@ my %tests = (
                 MEMORY       => '16',
                 SERIAL       => 'NL7V061384',
                 OTHERSERIAL  => '0x011520',
+                UPTIME       => '(130640030) 15 days, 2:53:20.30',
             },
             CARTRIDGES => {
                 CARTRIDGEBLACK   => '0',
@@ -1222,7 +1255,7 @@ my %tests = (
                 SERIAL       => 'CNCXG01622',
                 OTHERSERIAL  => '0x0115',
                 ID           => undef,
-                MODEL        => 'hp LaserJet 4250'
+                MODEL        => 'hp LaserJet 4250',
             },
             CARTRIDGES => {
                 TONERBLACK     => 52,
@@ -1275,6 +1308,7 @@ my %tests = (
                 MEMORY       => '256',
                 SERIAL       => 'CNHXH84872',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(22322645) 2 days, 14:00:26.45',
             },
             CARTRIDGES => {
                 TONERBLACK       => '86',
@@ -1328,6 +1362,7 @@ my %tests = (
                 MEMORY       => '208',
                 SERIAL       => 'CNHXG83836',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(22683627) 2 days, 15:00:36.27'
             },
             CARTRIDGES => {
                 TONERBLACK       => '61',
@@ -1381,6 +1416,7 @@ my %tests = (
                 MEMORY       => '208',
                 SERIAL       => 'CNHXB71032',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(23418928) 2 days, 17:03:09.28',
             },
             CARTRIDGES => {
                 TONERBLACK       => '25',
@@ -1434,6 +1470,7 @@ my %tests = (
                 MEMORY       => '208',
                 SERIAL       => 'CNHXC68053',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(23191049) 2 days, 16:25:10.49',
             },
             CARTRIDGES => {
                 TONERBLACK       => '23',
@@ -1487,6 +1524,7 @@ my %tests = (
                 MEMORY       => '208',
                 SERIAL       => 'CNHXH84870',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(22810882) 2 days, 15:21:48.82',
             },
             CARTRIDGES => {
                 TONERBLACK       => '84',
@@ -1540,6 +1578,7 @@ my %tests = (
                 MEMORY       => '208',
                 SERIAL       => 'CNHXB68748',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(23402944) 2 days, 17:00:29.44',
             },
             CARTRIDGES => {
                 TONERBLACK       => '58',
@@ -1593,6 +1632,7 @@ my %tests = (
                 MEMORY       => '208',
                 SERIAL       => 'CNHXB71050',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(22641038) 2 days, 14:53:30.38',
             },
             CARTRIDGES => {
                 TONERBLACK       => '5',
@@ -1646,6 +1686,7 @@ my %tests = (
                 MEMORY       => '208',
                 SERIAL       => 'CNHXJ45092',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(1097769844) 127 days, 1:21:38.44',
             },
             CARTRIDGES => {
                 TONERBLACK       => '83',
@@ -1866,7 +1907,8 @@ my %tests = (
                 NAME         => 'NPI7F5D71',
                 MODEL        => 'HP Color LaserJet CM2320fxi MFP',
                 OTHERSERIAL  => '0x0115',
-                ID           => undef
+                ID           => undef,
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNFN9BYG41,FN:NN407PC,SVCID:19339,PID:HP Color LaserJet CM2320fxi MFP',
             },
             PORTS => {
                 PORT => [
@@ -1919,7 +1961,8 @@ my %tests = (
                 NAME         => 'NPI7F5D71',
                 OTHERSERIAL  => '0x0115',
                 ID           => undef,
-                MODEL        => 'HP Color LaserJet CM2320fxi MFP'
+                MODEL        => 'HP Color LaserJet CM2320fxi MFP',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNFN9BYG41,FN:NN407PC,SVCID:19339,PID:HP Color LaserJet CM2320fxi MFP',
             },
             CARTRIDGES => {
                 TONERBLACK   => 46,
@@ -1972,7 +2015,8 @@ my %tests = (
                 NAME         => 'NPI828833',
                 OTHERSERIAL  => '0x0115',
                 ID           => undef,
-                MODEL        => 'HP Color LaserJet CM2320fxi MFP'
+                MODEL        => 'HP Color LaserJet CM2320fxi MFP',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNDN99YG0D,FN:NN40AH0,SVCID:19312,PID:HP Color LaserJet CM2320fxi MFP',
             },
             PORTS => {
                 PORT => [
@@ -2554,7 +2598,7 @@ my %tests = (
                 MODEL        => 'HP LaserJet P2015 Series',
                 SERIAL       => 'CNBW7BQ7BS',
                 NAME         => 'NPI13EE63',
-                ID           => undef
+                ID           => undef,
             },
             PAGECOUNTERS => {
                 COLOR      => '0',
@@ -2668,6 +2712,7 @@ my %tests = (
                 LOCATION     => 'Boise, ID, USA',
                 SERIAL       => 'CNBW87R2XX',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(200046302) 23 days, 3:41:03.02',
             },
             CARTRIDGES => {
                 TONERBLACK       => '65',
@@ -2726,6 +2771,7 @@ my %tests = (
                 LOCATION     => 'Boise, ID, USA',
                 SERIAL       => 'CNBW6DW3R8',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(180819074) 20 days, 22:16:30.74',
             },
             CARTRIDGES => {
                 TONERBLACK       => '18',
@@ -2784,6 +2830,7 @@ my %tests = (
                 LOCATION     => 'Boise, ID, USA',
                 SERIAL       => 'CNBW7171V8',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(138093688) 15 days, 23:35:36.88'
             },
             CARTRIDGES => {
                 TONERBLACK       => '46',
@@ -2842,6 +2889,7 @@ my %tests = (
                 LOCATION     => 'Boise, ID, USA',
                 SERIAL       => 'CNBW6DW37G',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(71190989) 8 days, 5:45:09.89',
             },
             CARTRIDGES => {
                 TONERBLACK       => '32',
@@ -2900,6 +2948,7 @@ my %tests = (
                 LOCATION     => 'Boise, ID, USA',
                 SERIAL       => 'CNBW76W0B8',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(59927764) 6 days, 22:27:57.64',
             },
             CARTRIDGES => {
                 TONERBLACK       => '66',
@@ -2958,6 +3007,7 @@ my %tests = (
                 LOCATION     => 'Boise, ID, USA',
                 SERIAL       => 'CNBW74K7GP',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(2901531) 8:03:35.31'
             },
             CARTRIDGES => {
                 TONERBLACK       => '90',
@@ -3016,6 +3066,7 @@ my %tests = (
                 LOCATION     => 'Boise, ID, USA',
                 SERIAL       => 'CNBW84P402',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(2821021) 7:50:10.21',
             },
             CARTRIDGES => {
                 TONERBLACK       => '33',
@@ -3071,7 +3122,8 @@ my %tests = (
                 ID           => undef,
                 MODEL        => 'HP LaserJet P4014',
                 SERIAL       => 'CNFX409800',
-                MEMORY       => 384
+                MEMORY       => 384,
+                UPTIME       => '(705273859) 81 days, 15:05:38.59',
             },
             PORTS => {
                 PORT => [
@@ -7831,7 +7883,8 @@ my %tests = (
                 MODEL        => 'HP LaserJet CP1025nw',
                 LOCATION     => ' ',
                 ID           => undef,
-                NAME         => 'NPIA6032E'
+                NAME         => 'NPIA6032E',
+                CONTACT      => ' ',
             },
             PORTS => {
                 PORT => [
@@ -7881,7 +7934,7 @@ my %tests = (
                 ID           => undef,
                 NAME         => 'NPI7A5E2D',
                 SERIAL       => 'CNH1R06635',
-                MODEL        => '0x0115513738313441'
+                MODEL        => '0x0115513738313441',
             },
             CARTRIDGES => {
                 TONERBLACK => 32
@@ -7922,6 +7975,7 @@ my %tests = (
                 MEMORY       => '320',
                 SERIAL       => 'CNFW6DG38S',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(22362085) 2 days, 14:07:00.85',
             },
             CARTRIDGES => {
                 TONERBLACK       => '98',
@@ -7962,6 +8016,7 @@ my %tests = (
                 MEMORY       => '320',
                 SERIAL       => 'CNFW6DF0WL',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(21658724) 2 days, 12:09:47.24',
             },
             CARTRIDGES => {
                 TONERBLACK       => '10',
@@ -8002,6 +8057,7 @@ my %tests = (
                 MEMORY       => '320',
                 SERIAL       => 'CNFW6DG39Q',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(37718618) 4 days, 8:46:26.18',
             },
             CARTRIDGES => {
                 TONERBLACK       => '70',
@@ -8042,6 +8098,7 @@ my %tests = (
                 MEMORY       => '320',
                 SERIAL       => 'CNFW6DG38L',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(11522734) 1 day, 8:00:27.34',
             },
             CARTRIDGES => {
                 TONERBLACK       => '36',
@@ -8082,6 +8139,7 @@ my %tests = (
                 MEMORY       => '320',
                 SERIAL       => 'CNFW6DG3DP',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(29663349) 3 days, 10:23:53.49'
             },
             CARTRIDGES => {
                 TONERBLACK       => '95',
@@ -8122,6 +8180,7 @@ my %tests = (
                 MEMORY       => '320',
                 SERIAL       => 'CNFW6DG37P',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(30521576) 3 days, 12:46:55.76'
             },
             CARTRIDGES => {
                 TONERBLACK       => '41',
@@ -8162,6 +8221,7 @@ my %tests = (
                 MEMORY       => '320',
                 SERIAL       => 'CNFW6DG1MH',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(33056147) 3 days, 19:49:21.47',
             },
             CARTRIDGES => {
                 TONERBLACK       => '94',
@@ -8202,6 +8262,7 @@ my %tests = (
                 MEMORY       => '320',
                 SERIAL       => 'CNFW6DG1LP',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(31793654) 3 days, 16:18:56.54',
             },
             CARTRIDGES => {
                 TONERBLACK       => '95',
@@ -8242,6 +8303,7 @@ my %tests = (
                 MEMORY       => '320',
                 SERIAL       => 'CNFW6DF0XF',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(15263036) 1 day, 18:23:50.36',
             },
             CARTRIDGES => {
                 TONERBLACK       => '77',
@@ -8282,6 +8344,7 @@ my %tests = (
                 MEMORY       => '192',
                 SERIAL       => 'CNFW6DG394',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(11824269) 1 day, 8:50:42.69'
             },
             CARTRIDGES => {
                 TONERBLACK       => '11',
@@ -8322,6 +8385,7 @@ my %tests = (
                 MEMORY       => '320',
                 SERIAL       => 'CNFW6DG1NP',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(745416056) 86 days, 6:36:00.56',
             },
             CARTRIDGES => {
                 TONERBLACK       => '88',
@@ -8362,6 +8426,7 @@ my %tests = (
                 MEMORY       => '320',
                 SERIAL       => 'CNFW6DG1M8',
                 OTHERSERIAL  => '0x0115',
+                UPTIME       => '(35620617) 4 days, 2:56:46.17'
             },
             CARTRIDGES => {
                 TONERBLACK       => '53',
@@ -9010,6 +9075,7 @@ my %tests = (
                 MEMORY       => '128',
                 SERIAL       => '20040201',
                 OTHERSERIAL  => '0xFDE8',
+                UPTIME       => '(20267234) 2 days, 8:17:52.34',
             },
             CARTRIDGES => {
                 TONERBLACK       => '74',
@@ -9053,6 +9119,7 @@ my %tests = (
                 MEMORY       => '128',
                 SERIAL       => '20040201',
                 OTHERSERIAL  => '0xFDE8',
+                UPTIME       => '(3967795) 11:01:17.95'
             },
             CARTRIDGES => {
                 TONERBLACK       => '66',
@@ -9096,6 +9163,7 @@ my %tests = (
                 MEMORY       => '128',
                 SERIAL       => '20040201',
                 OTHERSERIAL  => '0xFDE8',
+                UPTIME       => '(19326743) 2 days, 5:41:07.43'
             },
             CARTRIDGES => {
                 TONERBLACK       => '2',
@@ -9139,6 +9207,7 @@ my %tests = (
                 MEMORY       => '128',
                 SERIAL       => '20040201',
                 OTHERSERIAL  => '0xFDE8',
+                UPTIME       => '(22020083) 2 days, 13:10:00.83'
             },
             CARTRIDGES => {
                 TONERBLACK       => '60',
@@ -9618,6 +9687,10 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
                 MODEL        => undef,
+                UPTIME       => '(261657629) 30 days, 6:49:36.29',
+                CONTACT      => ' ',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT',
+                NAME         => 'l2407a',
             },
         }
     ],
@@ -9642,6 +9715,9 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
                 MODEL        => undef,
+                UPTIME       => '(4016837) 11:09:28.37',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+                NAME         => 'NPI9195E8',
             },
         }
     ],
@@ -9666,6 +9742,9 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
                 MODEL        => undef,
+                UPTIME       => '(27930670) 3 days, 5:35:06.70',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+                NAME         => 'l0214a',
             },
         }
     ],
@@ -9690,6 +9769,9 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
                 MODEL        => undef,
+                UPTIME       => '(40406032) 4 days, 16:14:20.32',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+                NAME         => 'NPI934D66',
             },
         }
     ],
@@ -9714,6 +9796,9 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
                 MODEL        => undef,
+                UPTIME       => '(3561333) 9:53:33.33',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+                NAME         => 'NPI934D6D',
             },
         }
     ],
@@ -9738,6 +9823,9 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
                 MODEL        => undef,
+                UPTIME       => '(13141846) 1 day, 12:30:18.46',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+                NAME         => 'NPI810884',
             },
         }
     ],

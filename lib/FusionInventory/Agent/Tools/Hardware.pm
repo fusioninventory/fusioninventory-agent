@@ -257,37 +257,70 @@ my @specific_cleanup_rules = (
 
 # common base variables
 my %base_variables = (
-    MAC          => 'macaddr',
-    CPU          => 'cpu',
-    LOCATION     => 'location',
-    CONTACT      => 'contact',
-    COMMENTS     => 'comments',
-    UPTIME       => 'uptime',
-    SERIAL       => 'serial',
-    NAME         => 'name',
-    MANUFACTURER => 'enterprise',
-    OTHERSERIAL  => 'otherserial',
-    MEMORY       => 'memory',
-    RAM          => 'ram',
+    MAC          => {
+        mapping => 'macaddr'
+    },
+    CPU          => {
+        mapping => 'cpu',
+        default => '.1.3.6.1.4.1.9.9.109.1.1.1.1.3.1'
+    },
+    LOCATION     => {
+        mapping => 'location',
+        default => '.1.3.6.1.2.1.1.6.0'
+    },
+    CONTACT      => {
+        mapping => 'contact',
+        default => '.1.3.6.1.2.1.1.4.0'
+    },
+    COMMENTS     => {
+        mapping => 'comments',
+        default => '.1.3.6.1.2.1.1.1.0'
+    },
+    UPTIME       => {
+        mapping => 'uptime',
+        default => '.1.3.6.1.2.1.1.3.0'
+    },
+    SERIAL       => {
+        mapping => 'serial'
+    },
+    NAME         => {
+        mapping => 'name',
+        default => '.1.3.6.1.2.1.1.5.0'
+    },
+    MANUFACTURER => {
+        mapping => 'enterprise',
+        default => '.1.3.6.1.2.1.43.8.2.1.14.1.1'
+    },
+    OTHERSERIAL  => {
+        mapping => 'otherserial'
+    },
+    MEMORY       => {
+        mapping => 'memory',
+        default => '.1.3.6.1.2.1.25.2.3.1.5.1'
+    },
+    RAM          => {
+        mapping => 'ram',
+        default => '.1.3.6.1.4.1.9.3.6.6.0'
+    },
 );
 
 # common interface variables
 my %interface_variables = (
-    IFNUMBER         => 'ifIndex',
-    IFDESCR          => 'ifdescr',
-    IFNAME           => 'ifName',
-    IFTYPE           => 'ifType',
-    IFMTU            => 'ifmtu',
-    IFSPEED          => 'ifspeed',
-    IFSTATUS         => 'ifstatus',
-    IFINTERNALSTATUS => 'ifinternalstatus',
-    IFLASTCHANGE     => 'iflastchange',
-    IFINOCTETS       => 'ifinoctets',
-    IFOUTOCTETS      => 'ifoutoctets',
-    IFINERRORS       => 'ifinerrors',
-    IFOUTERRORS      => 'ifouterrors',
-    MAC              => 'ifPhysAddress',
-    IFPORTDUPLEX     => 'portDuplex',
+    IFNUMBER         => { mapping => 'ifIndex'           },
+    IFDESCR          => { mapping => 'ifdescr'           },
+    IFNAME           => { mapping => 'ifName'            },
+    IFTYPE           => { mapping => 'ifType'            },
+    IFMTU            => { mapping => 'ifmtu',            },
+    IFSPEED          => { mapping => 'ifspeed'           },
+    IFSTATUS         => { mapping => 'ifstatus'          },
+    IFINTERNALSTATUS => { mapping => 'ifinternalstatus'  },
+    IFLASTCHANGE     => { mapping => 'iflastchange'      },
+    IFINOCTETS       => { mapping => 'ifinoctets'        },
+    IFOUTOCTETS      => { mapping => 'ifoutoctets'       },
+    IFINERRORS       => { mapping => 'ifinerrors'        },
+    IFOUTERRORS      => { mapping => 'ifouterrors'       },
+    MAC              => { mapping => 'ifPhysAddress'     },
+    IFPORTDUPLEX     => { mapping => 'portDuplex'        },
 );
 
 # printer-specific cartridge simple variables
@@ -672,9 +705,11 @@ sub _setGenericProperties {
 
         # skip undefined variable
         my $variable = $base_variables{$key};
-        next unless $model->{oids}->{$variable};
+        my $oid = $model->{oids}->{$variable->{mapping}} ||
+                  $variable->{default};
+        next unless $oid;
 
-        my $raw_value = $snmp->get($model->{oids}->{$variable});
+        my $raw_value = $snmp->get($oid);
         next unless defined $raw_value;
         my $value =
             $key eq 'NAME'        ? hex2char($raw_value)                           :
@@ -707,7 +742,10 @@ sub _setGenericProperties {
 
     foreach my $key (keys %interface_variables) {
         my $variable = $interface_variables{$key};
-        my $results = $snmp->walk($model->{oids}->{$variable});
+        my $oid = $model->{oids}->{$variable->{mapping}} ||
+                  $variable->{default};
+        next unless $oid;
+        my $results = $snmp->walk($oid);
         next unless $results;
         # each result matches the following scheme:
         # $prefix.$i = $value, with $i as port id

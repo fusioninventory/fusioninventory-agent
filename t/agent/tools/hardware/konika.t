@@ -28,6 +28,8 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                UPTIME       => '(80180925) 9 days, 6:43:29.25',
+                COMMENTS     => 'KONICA MINOLTA bizhub 421',
             },
         }
     ],
@@ -50,6 +52,8 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                UPTIME       => '(105584922) 12 days, 5:17:29.22',
+                COMMENTS     => 'KONICA MINOLTA bizhub 421',
             },
         }
     ],
@@ -72,6 +76,8 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                UPTIME       => '(8072382) 22:25:23.82',
+                COMMENTS     => 'KONICA MINOLTA bizhub 421',
             },
         }
     ],
@@ -94,6 +100,9 @@ my %tests = (
                 MANUFACTURER => 'Konica',
                 TYPE         => 'PRINTER',
                 MODEL        => undef,
+                UPTIME       => '(17995666) 2 days, 1:59:16.66',
+                COMMENTS     => 'KONICA MINOLTA bizhub C224e',
+                MEMORY       => '0',
             },
         }
     ],

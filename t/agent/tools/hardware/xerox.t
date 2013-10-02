@@ -34,7 +34,8 @@ my %tests = (
                 MEMORY       => 32,
                 MODEL        => 'Xerox DocuPrint N2125 Network Laser Printer - 2.12-02 ',
                 ID           => undef,
-                SERIAL       => '3510349171'
+                SERIAL       => '3510349171',
+                UPTIME       => '(16986889) 1 day, 23:11:08.89'
             },
             PORTS => {
                 PORT => [
@@ -76,7 +77,8 @@ my %tests = (
                 MEMORY       => 0,
                 ID           => undef,
                 MODEL        => 'Xerox Phaser 5550DT;OS8.2,PS5.1.0,Eng11.58.00,Net40.46.04.03',
-                NAME         => 'Phaser 5550DT'
+                NAME         => 'Phaser 5550DT',
+                UPTIME       => '(7088810) 19:41:28.10'
             },
             PORTS => {
                 PORT => [
@@ -120,7 +122,8 @@ my %tests = (
                 SERIAL       => 'KNB015753',
                 MODEL        => 'Xerox Phaser 5550DT;OS8.2,PS5.1.0,Eng11.58.00,Net40.46.04.03',
                 NAME         => 'Phaser 5550DT-1',
-                MEMORY       => 0
+                MEMORY       => 0,
+                UPTIME       => '(52327401) 6 days, 1:21:14.01'
             },
             PORTS => {
                 PORT => [
@@ -164,7 +167,8 @@ my %tests = (
                 SERIAL       => 'GPX259705',
                 ID           => undef,
                 NAME         => 'Phaser 6180MFP-D-E360D7',
-                MODEL        => 'Xerox Phaser 6180MFP-D'
+                MODEL        => 'Xerox Phaser 6180MFP-D',
+                UPTIME       => '(119016820) 13 days, 18:36:08.20'
             },
             CARTRIDGES => {
                 TONERMAGENTA => 25,
@@ -220,7 +224,8 @@ my %tests = (
                 CONTACT      => 'System Administrator name not set; System Administrator phone number not set; System Administrator location not set; Device Administrator name not set; Device Administrator phone number not set; Device Administrator location not set; company URL not set',
                 LOCATION     => 'machine location not set',
                 NAME         => 'SO007XN',
-                SERIAL       => '3641509891'
+                SERIAL       => '3641509891',
+                UPTIME       => '(36879516) 4 days, 6:26:35.16'
             },
             CARTRIDGES => {
                 TONERBLACK => 45
@@ -275,7 +280,8 @@ my %tests = (
                 MODEL        => 'Xerox WorkCentre 5632 v1 Multifunction System',
                 SERIAL       => '3641504792',
                 MEMORY       => 0,
-                ID           => undef
+                ID           => undef,
+                UPTIME       => '(717880872) 83 days, 2:06:48.72'
             },
             PORTS => {
                 PORT => [
@@ -329,6 +335,7 @@ my %tests = (
                 MODEL        => undef,
                 MEMORY       => 2,
                 NAME         => 'XEROX WorkCentre 7125',
+                UPTIME       => '(9495100) 1 day, 2:22:31.00'
             },
             PORTS => {
                 PORT => [
@@ -386,6 +393,8 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                COMMENTS     => 'Xerox WorkCentre 7435;System 75.3.1,ESS PS1.222.18,IOT 41.1.0,FIN B13.8.0,IIT 22.13.1,ADF 20.0.0,SJFI3.0.12,SSMI1.11.1',
+                NAME         => 'WorkCentre 7435',
             },
         }
     ],
@@ -417,7 +426,8 @@ my %tests = (
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 MODEL        => 'Xerox Phaser 8560DN;OS9.82,PS4.7.0,Eng22.L0.4.7.0,Net37.54.03.02',
                 SERIAL       => 'FBT261926',
-                NAME         => 'c0211a'
+                NAME         => 'c0211a',
+                UPTIME       => '(9827360) 1 day, 3:17:53.60'
             },
             CARTRIDGES => {
                 MAINTENANCEKIT => 22,
@@ -472,7 +482,10 @@ my %tests = (
                 MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
                 MODEL        => 'Xerox ColorQube 8570DN;OS10.62,Eng23.P1.4.10.0,Net42.40.09.02',
-                NAME         => 'c0500a'
+                NAME         => 'c0500a',
+                UPTIME       => '(457023) 1:16:10.23',
+                COMMENTS     => 'Xerox ColorQube 8570DN; System 1.3.8.P, OS 10.62, PS 4.10.0, Eng 23.P1.4.10.0, Net 42.40.09.02.2011, Adobe PostScript 3016.101 (16), PCL 5c Version 5.0',
+                MEMORY       => 0,
             },
             PAGECOUNTERS => {
                 TOTAL => '401'
@@ -507,7 +520,8 @@ my %tests = (
                 SERIAL       => 'FBT340010',
                 MEMORY       => 0,
                 NAME         => 'c1309a',
-                MODEL        => 'Xerox Phaser 8560DN;OS9.82,PS4.7.0,Eng22.L0.4.7.0,Net37.54.03.02'
+                MODEL        => 'Xerox Phaser 8560DN;OS9.82,PS4.7.0,Eng22.L0.4.7.0,Net37.54.03.02',
+                UPTIME       => '(184090216) 21 days, 7:21:42.16'
             },
             PORTS => {
                 PORT => [
@@ -566,6 +580,7 @@ my %tests = (
                 MEMORY       => 0,
                 MODEL        => undef,
                 SERIAL       => 'FBT133984',
+                UPTIME       => '(745557553) 86 days, 6:59:35.53'
             },
             CARTRIDGES => {
                 TONERCYAN      => 100,
@@ -626,7 +641,8 @@ my %tests = (
                 SERIAL       => 'FBT133868',
                 MEMORY       => 0,
                 NAME         => 'c1715a',
-                MODEL        => undef
+                MODEL        => undef,
+                UPTIME       => '(745560805) 86 days, 7:00:08.05'
             },
             PAGECOUNTERS => {
                 BLACK => 'Black Impressions'
@@ -687,7 +703,8 @@ my %tests = (
                 NAME         => 'c1A110a-1',
                 MODEL        => 'Xerox Phaser 8550DP;PS3.11.0,Net24.38.04.28,Eng18.P1.3.11.0',
                 SERIAL       => 'WYP050086',
-                MEMORY       => 0
+                MEMORY       => 0,
+                UPTIME       => '(339691530) 39 days, 7:35:15.30'
             },
             PAGECOUNTERS => {
                 BLACK => 'Black Impressions'
@@ -740,7 +757,8 @@ my %tests = (
                 NAME         => 'c0400a',
                 MEMORY       => 0,
                 MODEL        => 'Xerox Phaser 8560DN;OS9.82,PS4.7.0,Eng22.L0.4.7.0,Net37.54.03.02',
-                SERIAL       => 'FBT261925'
+                SERIAL       => 'FBT261925',
+                UPTIME       => '(537900356) 62 days, 6:10:03.56'
             },
             PORTS => {
                 PORT => [
@@ -799,6 +817,7 @@ my %tests = (
                 MODEL        => undef,
                 SERIAL       => 'FBT133950',
                 MEMORY       => 0,
+                UPTIME       => '(53965840) 6 days, 5:54:18.40'
             },
             PAGECOUNTERS => {
                 BLACK => 'Black Impressions'
@@ -859,7 +878,8 @@ my %tests = (
                 MEMORY       => 0,
                 ID           => undef,
                 MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER'
+                TYPE         => 'PRINTER',
+                UPTIME       => '(284944040) 32 days, 23:30:40.40'
             },
             PAGECOUNTERS => {
                 BLACK => 'Black Impressions'
@@ -913,6 +933,7 @@ my %tests = (
                 NAME         => 'c2206a',
                 MEMORY       => 0,
                 MODEL        => undef,
+                UPTIME       => '(504016756) 58 days, 8:02:47.56',
             },
             PORTS => {
                 PORT => [
@@ -973,7 +994,8 @@ my %tests = (
                 NAME         => 'c2410a',
                 SERIAL       => 'FBT261951',
                 MODEL        => 'Xerox Phaser 8560DN;OS9.82,PS4.7.0,Eng22.L0.4.7.0,Net37.54.03.02',
-                MEMORY       => 0
+                MEMORY       => 0,
+                UPTIME       => '(72059111) 8 days, 8:09:51.11',
             },
             PORTS => {
                 PORT => [
@@ -1031,7 +1053,8 @@ my %tests = (
                 NAME         => 'Phaser 8550DP',
                 MEMORY       => 0,
                 SERIAL       => 'WYP050085',
-                MODEL        => 'Xerox Phaser 8550DP;PS3.11.0,Net24.38.04.28,Eng18.P1.3.11.0'
+                MODEL        => 'Xerox Phaser 8550DP;PS3.11.0,Net24.38.04.28,Eng18.P1.3.11.0',
+                UPTIME       => '(543157724) 62 days, 20:46:17.24',
             },
             PORTS => {
                 PORT => [
@@ -1088,6 +1111,7 @@ my %tests = (
                 MEMORY       => 0,
                 NAME         => 'c2700a',
                 SERIAL       => 'WYP050251',
+                UPTIME       => '(543164034) 62 days, 20:47:20.34',
             },
             PORTS => {
                 PORT => [
@@ -1129,7 +1153,11 @@ my %tests = (
                 ID           => undef,
                 MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
-                MODEL        => undef
+                MODEL        => undef,
+                UPTIME       => '(80535700) 9 days, 7:42:37.00',
+                COMMENTS     => 'Xerox Phaser 8560DN; OS 9.86, PS 4.10.0, Eng 22.L0.4.10.0, Net 37.58.08.31.2009, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
+                NAME         => 'c3003a',
+                MEMORY       => 0,
             }
         }
     ],
@@ -1161,7 +1189,8 @@ my %tests = (
                 SERIAL       => 'FBT164018',
                 NAME         => 'c3111a',
                 MEMORY       => 0,
-                MODEL        => undef
+                MODEL        => undef,
+                UPTIME       => '(182596303) 21 days, 3:12:43.03'
             },
             PAGECOUNTERS => {
                 BLACK => 'Black Impressions'
@@ -1222,7 +1251,8 @@ my %tests = (
                 ID           => undef,
                 MODEL        => 'Xerox Phaser 8560DN;OS9.82,PS4.7.0,Eng22.L0.4.7.0,Net37.54.03.02',
                 TYPE         => 'PRINTER',
-                MANUFACTURER => 'Xerox'
+                MANUFACTURER => 'Xerox',
+                UPTIME       => '(745216738) 86 days, 6:02:47.38'
             },
             PORTS => {
                 PORT => [
@@ -1272,7 +1302,11 @@ my %tests = (
                 MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
                 MODEL        => undef,
-                ID           => undef
+                ID           => undef,
+                UPTIME       => '(132190381) 15 days, 7:11:43.81',
+                COMMENTS     => 'Xerox Phaser 8560DT; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
+                NAME         => 'ciT400a',
+                MEMORY       => 0,
             }
         }
     ],
@@ -1304,7 +1338,8 @@ my %tests = (
                 SERIAL       => 'FBT261947',
                 NAME         => 'cIT510a',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-                ID           => undef
+                ID           => undef,
+                UPTIME       => '(8607383) 23:54:33.83'
             },
             CARTRIDGES => {
                 WASTETONER     => 100,
@@ -1362,7 +1397,8 @@ my %tests = (
                 MODEL        => 'Xerox Phaser 8560DN;OS9.82,PS4.7.0,Eng22.L0.4.7.0,Net37.54.03.02',
                 MANUFACTURER => 'Xerox',
                 ID           => undef,
-                MEMORY       => 0
+                MEMORY       => 0,
+                UPTIME       => '(262695935) 30 days, 9:42:39.35'
             },
             PORTS => {
                 PORT => [
@@ -1420,7 +1456,8 @@ my %tests = (
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 SERIAL       => 'FBT261946',
                 MEMORY       => 0,
-                NAME         => 'Phaser 8560DN'
+                NAME         => 'Phaser 8560DN',
+                UPTIME       => '(1056921) 2:56:09.21'
             },
             PORTS => {
                 PORT => [

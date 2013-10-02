@@ -29,7 +29,9 @@ my %tests = (
                 ID           => undef,
                 MANUFACTURER => 'D-Link',
                 TYPE         => 'NETWORKING',
-                MODEL        => undef
+                MODEL        => undef,
+                COMMENTS     => 'D-Link DP-303 Print Server',
+                NAME         => 'Print Server PS-57B3C4',
             },
         }
     ],
@@ -53,7 +55,9 @@ my %tests = (
                 ID           => undef,
                 MANUFACTURER => 'D-Link',
                 TYPE         => 'NETWORKING',
-                MODEL        => undef
+                MODEL        => undef,
+                COMMENTS     => 'D-Link DP-303 Print Server',
+                NAME         => 'Print Server PS-57B3C7',
             },
         }
     ],

@@ -30,6 +30,10 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                UPTIME       => '(259620718) 30 days, 1:10:07.18',
+                COMMENTS     => 'Dell Laser Printer M5200 version 55.10.14 kernel 2.4.0-test6 All-N-1',
+                MEMORY       => '64',
+                NAME         => 'LXKE6E33E-2',
             },
         }
     ],
@@ -54,6 +58,10 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                UPTIME       => '(259655546) 30 days, 1:15:55.46',
+                COMMENTS     => 'Dell Laser Printer M5200 version 55.10.19 kernel 2.4.0-test6 All-N-1',
+                MEMORY       => '64',
+                NAME         => 'LXKB92115',
             },
         }
     ],
@@ -78,6 +86,11 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                UPTIME       => '(10346500) 1 day, 4:44:25.00',
+                CONTACT      => 'Administrator',
+                COMMENTS     => 'DELL NETWORK PRINTER,ROM A.03.15,JETDIRECT,JD24,EEPROM A.08.20',
+                MEMORY       => '0',
+                NAME         => 'DEL0000f0aceaa9',
             },
         }
     ],

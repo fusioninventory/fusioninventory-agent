@@ -35,6 +35,7 @@ my %tests = (
                 ID           => undef,
                 NAME         => 'LBP7660C',
                 MODEL        => 'Canon LBP7660C',
+                COMMENTS     => 'Canon LBP7660C /P',
             },
             PORTS => {
                 PORT => [
@@ -68,6 +69,8 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                COMMENTS     => 'Canon MF4500 Series /P',
+                NAME         => 'MF4500 Series'
             },
         }
     ],

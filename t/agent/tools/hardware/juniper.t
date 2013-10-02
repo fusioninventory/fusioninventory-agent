@@ -2,6 +2,7 @@
 
 use strict;
 use lib 't/lib';
+use utf8;
 
 use Test::Deep qw(cmp_deeply);
 
@@ -1293,6 +1294,7 @@ my %tests = (
                 ID           => undef,
                 NAME         => 'jtc407-01',
                 MAC          => '78:FE:3D:36:F7:00',
+                LOCATION     => 'PMF 4 n° 407',
                 IPS          => {
                     IP => [
                         '128.0.0.1',
@@ -5736,6 +5738,9 @@ my %tests = (
                 TYPE         => 'NETWORKING',
                 ID           => undef,
                 MODEL        => undef,
+                UPTIME       => '(1539344336) 178 days, 3:57:23.36',
+                COMMENTS     => 'Juniper Networks, Inc. ex2200-c-12p-2g internet router, kernel JUNOS 11.4R1.6 #0: 2011-11-15 10:11:59 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R1.6/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2011-11-15 09:57:14',
+                NAME         => 'C005-236b-ex2200',
                 IPS          => {
                     IP => [
                         '128.0.0.1',
@@ -6396,7 +6401,8 @@ my %tests = (
                 MODEL        => undef,
                 ID           => undef,
                 NAME         => 'jtc407-01',
-                MAC          => '78:FE:3D:36:F7:00'
+                MAC          => '78:FE:3D:36:F7:00',
+                LOCATION     => 'PMF 4 n° 407',
             },
             PORTS => {
                 PORT => [
@@ -30700,6 +30706,8 @@ my %tests = (
                 TYPE         => 'NETWORKING',
                 ID           => undef,
                 MODEL        => undef,
+                COMMENTS     => 'Routeur Dauphine Juniper SRX3400',
+                NAME         => 'Dauphine-routeur'
             },
         }
     ],
@@ -30724,6 +30732,8 @@ my %tests = (
                 TYPE         => 'NETWORKING',
                 ID           => undef,
                 MODEL        => undef,
+                COMMENTS     => 'Routeur Dauphine Juniper SRX3400',
+                NAME         => 'Dauphine-routeur'
             },
         }
     ],
@@ -30748,6 +30758,8 @@ my %tests = (
                 TYPE         => 'NETWORKING',
                 ID           => undef,
                 MODEL        => undef,
+                COMMENTS     => 'Routeur Dauphine Juniper SRX3400',
+                NAME         => 'Dauphine-routeur'
             },
         }
     ],

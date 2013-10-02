@@ -1140,7 +1140,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                 MODEL        => 'WS-C2960-24TC-L',
                 NAME         => 'CB-27.mgmt.dauphine.fr',
                 SERIAL       => 'FOC1247X5DX',
-                TYPE         => 'NETWORKING'
+                TYPE         => 'NETWORKING',
+                UPTIME       => '(329794199) 38 days, 4:05:41.99'
             },
             PORTS => {
                 PORT => [
@@ -1632,7 +1633,9 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                 MODEL        => 'WS-C2960-24TC-L',
                 NAME         => 'AP-P101-59.mgmt.dauphine.fr',
                 SERIAL       => 'FOC1247X5D4',
-                TYPE         => 'NETWORKING'
+                TYPE         => 'NETWORKING',
+                CPU          => '81',
+                RAM          => '64'
             },
             PORTS => {
                 PORT => [
@@ -2040,7 +2043,9 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                 MODEL        => 'WS-C2960-24TC-L',
                 NAME         => 'CP-P101-37.mgmt.dauphine.fr',
                 SERIAL       => 'FOC1113X1PE',
-                TYPE         => 'NETWORKING'
+                TYPE         => 'NETWORKING',
+                CPU          => '89',
+                RAM          => '64'
             },
             PORTS => {
                 PORT => [
@@ -2455,7 +2460,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                 RAM          => 64,
                 SERIAL       => 'FOC1511W1A2',
                 TYPE         => 'NETWORKING',
-                UPTIME       => '(347543457) 40 days, 5:23:54.57'
+                UPTIME       => '(347543457) 40 days, 5:23:54.57',
+                CPU          => '83'
             },
             PORTS => {
                 PORT => [
@@ -4375,7 +4381,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                 NAME         => 'CB-C005-208.Dauphine',
                 RAM          => 64,
                 SERIAL       => 'FOC1511W19F',
-                TYPE         => 'NETWORKING'
+                TYPE         => 'NETWORKING',
+                CPU          => '89'
             },
             PORTS => {
                 PORT => [
@@ -5932,7 +5939,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                 NAME         => 'CB-C005-206.Dauphine',
                 RAM          => 64,
                 SERIAL       => 'FCQ1605X4UZ',
-                TYPE         => 'NETWORKING'
+                TYPE         => 'NETWORKING',
+                CPU          => '80'
             },
             PORTS => {
                 PORT => [
@@ -7489,7 +7497,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                 NAME         => 'CB-C005-207.Dauphine',
                 RAM          => 64,
                 SERIAL       => 'FCQ1605X4VP',
-                TYPE         => 'NETWORKING'
+                TYPE         => 'NETWORKING',
+                CPU          => '92'
             },
             PORTS => {
                 PORT => [
@@ -9046,7 +9055,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                 NAME         => 'CB-C005-205.Dauphine',
                 RAM          => 64,
                 SERIAL       => 'FOC1511W1CB',
-                TYPE         => 'NETWORKING'
+                TYPE         => 'NETWORKING',
+                CPU          => '79'
             },
             PORTS => {
                 PORT => [
@@ -23654,7 +23664,8 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                 NAME         => 'SALSERV-INTERUFR-149.mgmt.dauphine.fr',
                 RAM          => 128,
                 SERIAL       => 'FOC1622Y2ME',
-                TYPE         => 'NETWORKING'
+                TYPE         => 'NETWORKING',
+                CPU          => '73'
             },
             PORTS => {
                 PORT => [
@@ -24926,7 +24937,8 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                 RAM          => 128,
                 SERIAL       => 'FOC1440Z0HG',
                 TYPE         => 'NETWORKING',
-                UPTIME       => '(1038728684) 120 days, 5:21:26.84'
+                UPTIME       => '(1038728684) 120 days, 5:21:26.84',
+                CPU          => '75'
             },
             PORTS => {
                 PORT => [

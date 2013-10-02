@@ -38,7 +38,8 @@ my %tests = (
                 LOCATION     => 'Aff. Generales',
                 ID           => undef,
                 SERIAL       => 'GMYZ106952',
-                NAME         => 'AL-C4200-0ED50E'
+                NAME         => 'AL-C4200-0ED50E',
+                UPTIME       => '(166086480) 19 days, 5:21:04.80'
             },
             CARTRIDGES => {
                 TONERCYAN    => 100,
@@ -88,7 +89,8 @@ my %tests = (
                 LOCATION     => 'PPV - 2eme Etage',
                 ID           => undef,
                 SERIAL       => 'GMYZ106565',
-                NAME         => 'AL-C4200-D14BC7'
+                NAME         => 'AL-C4200-D14BC7',
+                UPTIME       => '(17442921) 2 days, 0:27:09.21'
             },
             CARTRIDGES => {
                 TONERMAGENTA => 71,
@@ -156,6 +158,7 @@ my %tests = (
                 LOCATION     => 'PPV - 1er Etage',
                 MODEL        => 'EPSON AL-C4200',
                 ID           => undef,
+                UPTIME       => '(311511314) 36 days, 1:18:33.14'
             }
         }
     ],
@@ -188,6 +191,7 @@ my %tests = (
                 SERIAL       => 'GMYZ108184',
                 MEMORY       => 128,
                 NAME         => 'AL-C4200-D362D2',
+                UPTIME       => '(140436577) 16 days, 6:06:05.77'
             },
             PORTS => {
                 PORT => [
@@ -226,7 +230,8 @@ my %tests = (
                 MANUFACTURER => 'Epson',
                 TYPE         => 'PRINTER',
                 ID           => undef,
-                MODEL        => undef
+                MODEL        => undef,
+                COMMENTS     => 'EPSON AL-C3900',
             },
         }
     ],
@@ -251,6 +256,8 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
+                NAME         => 'AL-C1100-0DBECC',
             },
         }
     ],
@@ -275,6 +282,8 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
+                NAME         => 'AL-M2400-7FDDAF',
             },
         }
     ],
@@ -299,6 +308,8 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
+                NAME         => 'AL-M2400-7FDDAF',
             },
         }
     ],
