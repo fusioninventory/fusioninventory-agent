@@ -33,6 +33,37 @@ my %tests = (
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114,CIDATE 11/17/2011',
                 NAME         => 'NPI419F6E',
             },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '2C:76:8A:41:9F:6E',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '141158254',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '3974520',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/Inkjet_2800.1.walk' => [
@@ -71,20 +102,40 @@ my %tests = (
                 CARTRIDGECYAN    => 32,
                 CARTRIDGEYELLOW  => 33
             },
-            PORTS => {
+           PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IP       => '10.104.102.194',
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
-                        MAC      => '00:11:0A:F5:CC:DC',
-                        IFTYPE   => '6'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '10.104.102.194',
+                        MAC              => '00:11:0A:F5:CC:DC',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '3338251014',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '14894593',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNUMBER => '2',
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
-                        IFTYPE   => '24'
-                    }
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
+                        IFTYPE           => '24',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '32768',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '3337864481',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '14683822',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
             },
         }
@@ -119,28 +170,48 @@ my %tests = (
                 NAME         => 'HPIJ2800-01',
                 UPTIME       => '(85884840) 9 days, 22:34:08.40',
             },
-            PORTS => {
-                PORT => [
-                    {
-                        IP       => '10.104.109.230',
-                        IFTYPE   => '6',
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
-                        MAC      => '00:11:0A:F5:1A:CC',
-                        IFNUMBER => '1'
-                    },
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
-                        IFNUMBER => '2',
-                        IFTYPE   => '24'
-                    }
-                ]
-            },
             CARTRIDGES => {
                 CARTRIDGEMAGENTA => 32,
                 CARTRIDGEBLACK   => 10,
                 CARTRIDGEYELLOW  => 27,
                 CARTRIDGECYAN    => 32
-            }
+            },
+        PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '10.104.109.230',
+                        MAC              => '00:11:0A:F5:1A:CC',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(52250) 0:08:42.50',
+                        IFINOCTETS       => '47343424',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '685530',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
+                        IFTYPE           => '24',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '32768',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/OfficeJet_Pro_K5400.walk' => [
@@ -180,13 +251,21 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNAME   => 'Eth0',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:21:5A:56:03:32'
-                    }
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Eth0',
+                        IFDESCR          => 'Eth0',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:21:5A:56:03:32',
+                        IFLASTCHANGE     => '(18259) 0:03:02.59',
+                        IFINOCTETS       => '201446672',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '2340353',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
-            }
+            },
         }
     ],
     'hewlett-packard/OfficeJet_Pro_8600.walk' => [
@@ -212,6 +291,24 @@ my %tests = (
                 MODEL        => undef,
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT',
                 NAME         => 'HP8C0C51',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Eth0',
+                        IFDESCR          => 'Eth0',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => 'EC:9A:74:8C:0C:51',
+                        IFLASTCHANGE     => '(655) 0:00:06.55',
+                        IFINOCTETS       => '22514039',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '4313921',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -251,35 +348,67 @@ my %tests = (
                 DRUMBLACK    => 96,
                 TONERCYAN    => 83
             },
+            PAGECOUNTERS => {
+                TOTAL      => '367',
+            },
             PORTS => {
                 PORT => [
                     {
-                        IFNAME   => 'LOOPBACK',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '569120555',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '568555646',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNAME   => 'Ethernet',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => 'B4:B5:2F:F6:FA:4A'
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => 'B4:B5:2F:F6:FA:4A',
+                        IFLASTCHANGE     => '(227607) 0:37:56.07',
+                        IFINOCTETS       => '376926321',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '10253796',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNAME   => 'wifi0',
-                        IFNUMBER => '3',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => 'B4:B5:2F:F6:FA:4A'
+                        IFNUMBER         => '3',
+                        IFNAME           => 'wifi0',
+                        IFDESCR          => 'wifi0',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => 'B4:B5:2F:F6:FA:4A',
+                        IFLASTCHANGE     => '(290) 0:00:02.90',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNAME   => 'wifiUAP',
-                        IFNUMBER => '4',
-                        IFTYPE   => 'ethernetCsmacd(6)'
-                    }
+                        IFNUMBER         => '4',
+                        IFNAME           => 'wifiUAP',
+                        IFDESCR          => 'wifiUAP',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
             },
-            PAGECOUNTERS => {
-                TOTAL      => '367',
-            }
         }
     ],
     'hewlett-packard/LaserJet_400_color_M451dn.walk' => [
@@ -322,6 +451,30 @@ my %tests = (
                 TONERCYAN => 68,
                 TONERBLACK => 53
             },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'LOOPBACK',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '1544097',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1544097',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'Ethernet',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '407432',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '128595',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_500.walk' => [
@@ -360,17 +513,32 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '2C:76:8A:41:9F:6E'
-                    }
-
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '2C:76:8A:41:9F:6E',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '143357783',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '9194670',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
             },
         }
@@ -399,6 +567,37 @@ my %tests = (
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251131008,CIDATE 11/30/2011',
                 NAME         => 'lj1',
             },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251131008',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251131008',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251131008',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251131008',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => 'E8:39:35:90:92:1F',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2054925461',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '15908767',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_600.2.walk' => [
@@ -425,6 +624,37 @@ my %tests = (
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251131008,CIDATE 11/30/2011',
                 NAME         => 'lj2',
             },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251131008',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251131008',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251131008',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251131008',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => 'E8:39:35:90:22:AC',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '421318194',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '3953117',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_1300n.walk' => [
@@ -450,6 +680,37 @@ my %tests = (
                 MODEL        => undef,
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM P.22.01,JETDIRECT,JD86,EEPROM P.25.14,CIDATE 09/24/2003',
                 NAME         => 'impbe94',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM P.22.01,JETDIRECT,JD86,EEPROM P.25.14',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM P.22.01,JETDIRECT,JD86,EEPROM P.25.14',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0E:7F:33:34:BA',
+                        IFLASTCHANGE     => '(2147640540) 248 days, 13:40:05.40',
+                        IFINOCTETS       => '138463765',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1669632',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM P.22.01,JETDIRECT,JD86,EEPROM P.25.14',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM P.22.01,JETDIRECT,JD86,EEPROM P.25.14',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '2149807168',
+                        IFMTU            => '32768',
+                        IFLASTCHANGE     => '(256) 0:00:02.56',
+                        IFINOCTETS       => '2154227664',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '2422572804',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -483,21 +744,6 @@ my %tests = (
                 ID           => undef,
                 NAME         => 'NPI61044B',
             },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:14:38:61:04:4B'
-                    },
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    }
-                ]
-            },
             CARTRIDGES => {
                 CARTRIDGEBLACK => 0,
                 TONERBLACK     => 0
@@ -505,7 +751,38 @@ my %tests = (
             PAGECOUNTERS => {
                 RECTOVERSO => '1935',
                 TOTAL      => '33545',
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:14:38:61:04:4B',
+                        IFLASTCHANGE     => '(15) 0:00:00.15',
+                        IFINOCTETS       => '1398049413',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '5988998',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '4',
+                        IFMTU            => '32768',
+                        IFLASTCHANGE     => '(2154273388) 249 days, 8:05:33.88',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '2148697580',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_1320.2.walk' => [
@@ -549,18 +826,34 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:14:38:9A:3F:C7'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:14:38:9A:3F:C7',
+                        IFLASTCHANGE     => '(15) 0:00:00.15',
+                        IFINOCTETS       => '64787538',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '304811',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    }
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '4',
+                        IFMTU            => '32768',
+                        IFLASTCHANGE     => '(2154316712) 249 days, 8:12:47.12',
+                        IFINOCTETS       => '2148589888',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '2423914616',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
-            }
+            },
         }
     ],
     'hewlett-packard/LaserJet_1320.3.walk' => [
@@ -597,24 +890,40 @@ my %tests = (
                 TOTAL      => '5868',
                 RECTOVERSO => '258',
             },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:11:85:C6:8F:5E'
-                    },
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    }
-                ]
-            },
             CARTRIDGES => {
                 TONERBLACK     => 34,
                 CARTRIDGEBLACK => 34
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:11:85:C6:8F:5E',
+                        IFLASTCHANGE     => '(4) 0:00:00.04',
+                        IFINOCTETS       => '1057001886',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '9279619',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '60',
+                        IFMTU            => '32768',
+                        IFLASTCHANGE     => '(2422553824) 280 days, 9:18:58.24',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '2148697580',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -640,6 +949,24 @@ my %tests = (
                 LOCATION     => 'impbe92',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.04',
             },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.04',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.04',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:30:C1:8A:6E:5B',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '940032733',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '8567174',
+                        IFOUTERRORS      => '16',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_2100.2.walk' => [
@@ -663,6 +990,24 @@ my %tests = (
                 MODEL        => undef,
                 LOCATION     => 'impbe92',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.04',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.04',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.04',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:30:C1:8A:6E:5B',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '929364745',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '6619438',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -689,6 +1034,26 @@ my %tests = (
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
                 MEMORY       => '8',
             },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:30:C1:0D:AA:C6',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '3098738609',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '6907034',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_2100.4.walk' => [
@@ -713,6 +1078,26 @@ my %tests = (
                 UPTIME       => '(165740930) 19 days, 4:23:29.30',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
                 MEMORY       => '8',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:10:83:54:D6:08',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2570180872',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1315699',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -742,6 +1127,41 @@ my %tests = (
                 MEMORY       => '8',
                 NAME         => 'l1618a',
             },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM C.25.80,JETDIRECT,JD115,EEPROM V.28.06',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM C.25.80,JETDIRECT,JD115,EEPROM V.28.06',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0E:7F:EA:E1:B7',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '3003827766',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '155057491',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM C.25.80,JETDIRECT,JD115,EEPROM V.28.06',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM C.25.80,JETDIRECT,JD115,EEPROM V.28.06',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '4008636142',
+                        IFMTU            => '32768',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '78520',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_2100.6.walk' => [
@@ -766,6 +1186,26 @@ my %tests = (
                 UPTIME       => '(20422550) 2 days, 8:43:45.50',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.08.08,JETDIRECT,JD30,EEPROM G.08.20',
                 MEMORY       => '8',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.08.08,JETDIRECT,JD30,EEPROM G.08.20',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.08.08,JETDIRECT,JD30,EEPROM G.08.20',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:30:C1:C3:BE:CF',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '1489429781',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '239316',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -807,11 +1247,21 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.19,JETDIRECT,JD33,EEPROM G.08.49',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IP       => '128.93.22.20',
-                        MAC      => '00:30:C1:01:1E:68',
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.19,JETDIRECT,JD33,EEPROM G.08.49',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.19,JETDIRECT,JD33,EEPROM G.08.49',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.20',
+                        MAC              => '00:30:C1:01:1E:68',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '3553593205',
+                        IFINERRORS       => '942585',
+                        IFOUTOCTETS      => '17502829',
+                        IFOUTERRORS      => '0',
                     },
                 ]
             },
@@ -855,19 +1305,39 @@ my %tests = (
             PAGECOUNTERS => {
                 RECTOVERSO => '2066',
             },
-            PORTS => {
+           PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.24.08',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IP       => '128.93.22.126',
-                        MAC      => '00:01:E6:A1:D0:34',
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.24.08',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.24.08',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.126',
+                        MAC              => '00:01:E6:A1:D0:34',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(4008588496) 463 days, 22:58:04.96',
+                        IFINOCTETS       => '2184590033',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '313870484',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNUMBER => '2',
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.24.08',
-                        IFTYPE   => 'softwareLoopback(24)',
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.24.08',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.24.08',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '4008636142',
+                        IFMTU            => '32768',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(4008636142) 463 days, 23:06:01.42',
+                        IFINOCTETS       => '4008636142',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '4008636142',
+                        IFOUTERRORS      => '0',
                     },
                 ]
             },
@@ -911,11 +1381,21 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IP       => '128.93.22.66',
-                        MAC      => '00:30:C1:60:C8:5B',
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.66',
+                        MAC              => '00:30:C1:60:C8:5B',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '260181495',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '522299',
+                        IFOUTERRORS      => '0',
                     },
                 ]
             },
@@ -952,17 +1432,32 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNAME   => 'LOOPBACK',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNAME   => 'NetDrvr',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:1A:4B:18:64:A0'
-                    }
-
+                        IFNUMBER         => '2',
+                        IFNAME           => 'NetDrvr',
+                        IFDESCR          => 'NetDrvr',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:1A:4B:18:64:A0',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '323501189',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1322669',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
             },
         }
@@ -1000,27 +1495,43 @@ my %tests = (
             PAGECOUNTERS => {
                 COLOR      => '9946',
             },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD121,EEPROM V.30.31',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:1B:78:6F:72:C5'
-                    },
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD121,EEPROM V.30.31',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    }
-                ]
-            },
             CARTRIDGES => {
                 TONERMAGENTA => 46,
                 TONERYELLOW  => 45,
                 TONERBLACK   => 63,
                 TONERCYAN    => 44
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD121,EEPROM V.30.31',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD121,EEPROM V.30.31',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:1B:78:6F:72:C5',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '127624321',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '612088',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD121,EEPROM V.30.31',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD121,EEPROM V.30.31',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '1',
+                        IFMTU            => '32768',
+                        IFLASTCHANGE     => '(5917) 0:00:59.17',
+                        IFINOCTETS       => '611022',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '2',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_4000.walk' => [
@@ -1054,23 +1565,30 @@ my %tests = (
                 ID           => undef,
                 NAME         => 'inspiron8',
             },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.05.35,JETDIRECT,JD30,EEPROM G.05.35',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:60:B0:91:3D:9D'
-                    }
-
-                ]
-            },
             PAGECOUNTERS => {
                 RECTOVERSO => '152',
             },
             CARTRIDGES => {
                 TONERBLACK => 100
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.05.35,JETDIRECT,JD30,EEPROM G.05.35',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.05.35,JETDIRECT,JD30,EEPROM G.05.35',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:60:B0:91:3D:9D',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2393162823',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '75803829',
+                        IFOUTERRORS      => '321',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_4050.1.walk' => [
@@ -1112,14 +1630,22 @@ my %tests = (
                 CARTRIDGEBLACK => 0,
                 TONERBLACK     => 0
             },
-            PORTS => {
+           PORTS => {
                 PORT => [
                     {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.08.08,JETDIRECT,JD33,EEPROM G.08.04',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:30:C1:8C:D5:6C'
-                    }
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.08.08,JETDIRECT,JD33,EEPROM G.08.04',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.08.08,JETDIRECT,JD33,EEPROM G.08.04',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:30:C1:8C:D5:6C',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '343388846',
+                        IFINERRORS       => '10',
+                        IFOUTOCTETS      => '7245532',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
             },
         }
@@ -1164,10 +1690,20 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.19,JETDIRECT,JD33,EEPROM G.08.40',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:10:83:BA:17:CE',
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.19,JETDIRECT,JD33,EEPROM G.08.40',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.19,JETDIRECT,JD33,EEPROM G.08.40',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:10:83:BA:17:CE',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '15339819',
+                        IFINERRORS       => '124290',
+                        IFOUTOCTETS      => '5833586',
+                        IFOUTERRORS      => '0',
                     },
                 ]
             },
@@ -1203,28 +1739,44 @@ my %tests = (
                 ID           => undef,
                 MODEL        => 'hp LaserJet 4200'
             },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.25.09',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:01:E6:A1:A7:81'
-                    },
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.25.09',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    }
-                ]
-            },
             PAGECOUNTERS => {
                 RECTOVERSO => '0',
             },
             CARTRIDGES => {
                 TONERBLACK     => 95,
                 MAINTENANCEKIT => 71
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.25.09',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.25.09',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:01:E6:A1:A7:81',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '17795405',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '2549445',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.25.09',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.25.09',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '4008636142',
+                        IFMTU            => '32768',
+                        IFLASTCHANGE     => '(4008636142) 463 days, 23:06:01.42',
+                        IFINOCTETS       => '4008636142',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '4008636142',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_4250.1.walk' => [
@@ -1264,18 +1816,34 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.43',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:11:85:D9:F6:C7'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.43',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.43',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:11:85:D9:F6:C7',
+                        IFLASTCHANGE     => '(1384596280) 160 days, 6:06:02.80',
+                        IFINOCTETS       => '3616354',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '244332',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.43',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    }
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.43',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.43',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '1384596280',
+                        IFMTU            => '32768',
+                        IFLASTCHANGE     => '(1) 0:00:00.01',
+                        IFINOCTETS       => '1376930680',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1381269328',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
-            }
+            },
         }
     ],
     'hewlett-packard/LaserJet_4250.2.walk' => [
@@ -1314,19 +1882,39 @@ my %tests = (
                 TONERBLACK       => '86',
                 MAINTENANCEKIT  => '73',
             },
-            PORTS => {
+PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IP       => '128.93.22.88',
-                        MAC      => '00:14:38:DF:A5:30',
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.88',
+                        MAC              => '00:14:38:DF:A5:30',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(1384198996) 160 days, 4:59:49.96',
+                        IFINOCTETS       => '2049027686',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '81883590',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNUMBER => '2',
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
-                        IFTYPE   => 'softwareLoopback(24)',
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '1384198996',
+                        IFMTU            => '32768',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(1) 0:00:00.01',
+                        IFINOCTETS       => '1376931336',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1381271536',
+                        IFOUTERRORS      => '0',
                     },
                 ]
             },
@@ -1371,19 +1959,39 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IP       => '128.93.8.82',
-                        MAC      => '00:23:7D:7E:A1:31',
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.8.82',
+                        MAC              => '00:23:7D:7E:A1:31',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(1384190036) 160 days, 4:58:20.36',
+                        IFINOCTETS       => '2308962248',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '34234855',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNUMBER => '2',
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63',
-                        IFTYPE   => 'softwareLoopback(24)',
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '1384190036',
+                        IFMTU            => '32768',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(1) 0:00:00.01',
+                        IFINOCTETS       => '1376939592',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1381281136',
+                        IFOUTERRORS      => '0',
                     },
                 ]
-            },
+            }
         }
     ],
     'hewlett-packard/LaserJet_4250.4.walk' => [
@@ -1422,19 +2030,39 @@ my %tests = (
                 TONERBLACK       => '25',
                 MAINTENANCEKIT  => '41',
             },
-            PORTS => {
+             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IP       => '128.93.22.90',
-                        MAC      => '00:14:38:EA:3B:FC',
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.90',
+                        MAC              => '00:14:38:EA:3B:FC',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(1384200904) 160 days, 5:00:09.04',
+                        IFINOCTETS       => '1437804814',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '65704274',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNUMBER => '2',
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
-                        IFTYPE   => 'softwareLoopback(24)',
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '1384200904',
+                        IFMTU            => '32768',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(1) 0:00:00.01',
+                        IFINOCTETS       => '1376931336',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1381271536',
+                        IFOUTERRORS      => '0',
                     },
                 ]
             },
@@ -1479,16 +2107,36 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IP       => '128.93.13.25',
-                        MAC      => '00:14:38:EA:2B:C4',
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.13.25',
+                        MAC              => '00:14:38:EA:2B:C4',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(1384213080) 160 days, 5:02:10.80',
+                        IFINOCTETS       => '650567085',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '5895937',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNUMBER => '2',
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
-                        IFTYPE   => 'softwareLoopback(24)',
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '1384213080',
+                        IFMTU            => '32768',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(1) 0:00:00.01',
+                        IFINOCTETS       => '1376931336',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1381271536',
+                        IFOUTERRORS      => '0',
                     },
                 ]
             },
@@ -1533,16 +2181,36 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IP       => '128.93.22.59',
-                        MAC      => '00:14:38:E2:12:D8',
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.59',
+                        MAC              => '00:14:38:E2:12:D8',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(1384218412) 160 days, 5:03:04.12',
+                        IFINOCTETS       => '1621092006',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '24563627',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNUMBER => '2',
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
-                        IFTYPE   => 'softwareLoopback(24)',
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '1384218412',
+                        IFMTU            => '32768',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(1) 0:00:00.01',
+                        IFINOCTETS       => '1376931336',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1381271536',
+                        IFOUTERRORS      => '0',
                     },
                 ]
             },
@@ -1587,16 +2255,36 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IP       => '128.93.22.41',
-                        MAC      => '00:1B:78:28:26:CB'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.41',
+                        MAC              => '00:1B:78:28:26:CB',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(1384192000) 160 days, 4:58:40.00',
+                        IFINOCTETS       => '2265964061',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '5440024',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNUMBER => '2',
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63',
-                        IFTYPE   => 'softwareLoopback(24)',
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '1384192000',
+                        IFMTU            => '32768',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(1) 0:00:00.01',
+                        IFINOCTETS       => '1376939592',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1381281136',
+                        IFOUTERRORS      => '0',
                     },
                 ]
             },
@@ -1641,16 +2329,36 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IP       => '128.93.22.123',
-                        MAC      => '00:14:38:EA:FA:59',
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.123',
+                        MAC              => '00:14:38:EA:FA:59',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(1384170484) 160 days, 4:55:04.84',
+                        IFINOCTETS       => '1860424481',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '87024832',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNUMBER => '2',
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
-                        IFTYPE   => 'softwareLoopback(24)',
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '1384170124',
+                        IFMTU            => '32768',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(1) 0:00:00.01',
+                        IFINOCTETS       => '1376931336',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1381271536',
+                        IFOUTERRORS      => '0',
                     },
                 ]
             },
@@ -1695,16 +2403,36 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.33.19',
-                        IFTYPE   => 'softwareLoopback(24)',
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.33.19',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.33.19',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNUMBER => '2',
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.33.19',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IP       => '128.93.10.59',
-                        MAC      => '00:23:7D:81:22:F7',
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.33.19',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.33.19',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IP               => '128.93.10.59',
+                        MAC              => '00:23:7D:81:22:F7',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2163459797',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '232877851',
+                        IFOUTERRORS      => '0',
                     },
                 ]
             },
@@ -1740,21 +2468,6 @@ my %tests = (
                 MODEL        => 'hp color LaserJet 5550 ',
                 NAME         => 'IDD116',
             },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:1B:78:F0:F4:47'
-                    },
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    }
-                ]
-            },
             CARTRIDGES => {
                 TONERYELLOW  => 96,
                 TONERCYAN    => 95,
@@ -1765,7 +2478,38 @@ my %tests = (
                 RECTOVERSO => '0',
                 BLACK      => '102279',
                 COLOR      => '92447'
-            }
+            },
+                        PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:1B:78:F0:F4:47',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '188114366',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '3722494',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '2149727364',
+                        IFMTU            => '32768',
+                        IFLASTCHANGE     => '(2148908512) 248 days, 17:11:25.12',
+                        IFINOCTETS       => '8',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_CM1312nfi_MFP.walk' => [
@@ -1799,27 +2543,43 @@ my %tests = (
                 SERIAL       => 'CNB885QNXP',
                 ID           => undef
             },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'LOOPBACK',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    },
-                    {
-                        IFNAME   => 'Ethernet',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:1F:29:27:1E:90'
-                    }
-                ]
-            },
             CARTRIDGES => {
                 TONERCYAN    => 35,
                 TONERBLACK   => 68,
                 TONERMAGENTA => 89,
                 TONERYELLOW  => 59
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '9886098',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '9684604',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:1F:29:27:1E:90',
+                        IFLASTCHANGE     => '(517) 0:00:05.17',
+                        IFINOCTETS       => '16842599',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '849706',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_CM1415fn.walk' => [
@@ -1851,21 +2611,6 @@ my %tests = (
                 MODEL        => 'HP LaserJet CM1415fn',
                 NAME         => 'B536-lwc237-Fax',
             },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'LOOPBACK',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    },
-                    {
-                        IFNAME   => 'Ethernet',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '68:B5:99:AD:61:8E'
-                    }
-                ]
-            },
             CARTRIDGES => {
                 TONERCYAN    => 35,
                 TONERMAGENTA => 31,
@@ -1876,7 +2621,38 @@ my %tests = (
                 BLACK      => '760',
                 COLOR      => '4720',
                 RECTOVERSO => '0'
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '143008520',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '142942976',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '68:B5:99:AD:61:8E',
+                        IFLASTCHANGE     => '(364754) 1:00:47.54',
+                        IFINOCTETS       => '71548687',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '356768881',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_CM2320fxi_MFP.1.walk' => [
@@ -1910,26 +2686,42 @@ my %tests = (
                 ID           => undef,
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNFN9BYG41,FN:NN407PC,SVCID:19339,PID:HP Color LaserJet CM2320fxi MFP',
             },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'LOOPBACK',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    },
-                    {
-                        IFNAME   => 'Ethernet',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:23:7D:7F:5D:71'
-                    }
-                ]
-            },
             CARTRIDGES => {
                 TONERBLACK   => 43,
                 TONERMAGENTA => 41,
                 TONERYELLOW  => 18,
                 TONERCYAN    => 46
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '368171197',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '366212613',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:23:7D:7F:5D:71',
+                        IFLASTCHANGE     => '(512) 0:00:05.12',
+                        IFINOCTETS       => '293534493',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '39257355',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -1973,16 +2765,32 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNAME   => 'LOOPBACK',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '784368',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '742026',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNAME   => 'Ethernet',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:23:7D:7F:5D:71'
-                   }
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:23:7D:7F:5D:71',
+                        IFLASTCHANGE     => '(511) 0:00:05.11',
+                        IFINOCTETS       => '454091',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '175629',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
             },
         }
@@ -2018,26 +2826,42 @@ my %tests = (
                 MODEL        => 'HP Color LaserJet CM2320fxi MFP',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNDN99YG0D,FN:NN40AH0,SVCID:19312,PID:HP Color LaserJet CM2320fxi MFP',
             },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'LOOPBACK',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    },
-                    {
-                        IFNAME   => 'Ethernet',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:23:7D:82:88:33'
-                    }
-                ]
-            },
             CARTRIDGES => {
                 TONERMAGENTA => 87,
                 TONERBLACK   => 31,
                 TONERCYAN    => 96,
                 TONERYELLOW  => 17
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '254579996',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '254171744',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:23:7D:82:88:33',
+                        IFLASTCHANGE     => '(511) 0:00:05.11',
+                        IFINOCTETS       => '342647146',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '73067033',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -2077,27 +2901,43 @@ my %tests = (
                 BLACK      => '141',
                 RECTOVERSO => '0',
             },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'LOOPBACK',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    },
-                    {
-                        IFNAME   => 'Ethernet',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '3C:4A:92:B3:02:A7'
-                    }
-                ]
-            },
             CARTRIDGES => {
                 TONERYELLOW  => 56,
                 TONERMAGENTA => 55,
                 TONERBLACK   => 23,
                 TONERCYAN    => 50
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '447698759',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '447698281',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '3C:4A:92:B3:02:A7',
+                        IFLASTCHANGE     => '(609) 0:00:06.09',
+                        IFINOCTETS       => '66621082',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '2067624',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_CP2025dn.1.walk' => [
@@ -2145,18 +2985,34 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNAME   => 'LOOPBACK',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '803165203',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '801066149',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNAME   => 'Ethernet',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:1F:29:2A:D7:43'
-                    }
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:1F:29:2A:D7:43',
+                        IFLASTCHANGE     => '(706) 0:00:07.06',
+                        IFINOCTETS       => '575687995',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '8880062',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
-            }
+            },
         }
     ],
     'hewlett-packard/LaserJet_CP2025dn.2.walk' => [
@@ -2204,18 +3060,34 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNAME   => 'LOOPBACK',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '392477023',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '416180804',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNAME   => 'Ethernet',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => 'B4:99:BA:C3:D5:FF'
-                    }
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => 'B4:99:BA:C3:D5:FF',
+                        IFLASTCHANGE     => '(706) 0:00:07.06',
+                        IFINOCTETS       => '247854787',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '17527357',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
-            }
+            },
         }
     ],
     'hewlett-packard/LaserJet_CP2025n.1.walk' => [
@@ -2260,21 +3132,37 @@ my %tests = (
                 BLACK      => '1145',
                 RECTOVERSO => '0',
             },
-            PORTS => {
+           PORTS => {
                 PORT => [
                     {
-                        IFNAME   => 'LOOPBACK',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '3229787810',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '3228564584',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNAME   => 'Ethernet',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '2C:27:D7:11:70:08'
-                    }
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '2C:27:D7:11:70:08',
+                        IFLASTCHANGE     => '(278502387) 32 days, 5:37:03.87',
+                        IFINOCTETS       => '3962571861',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '80583527',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
-            }
+            },
         }
     ],
     'hewlett-packard/LaserJet_CP2025n.2.walk' => [
@@ -2322,18 +3210,34 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNAME   => 'LOOPBACK',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '3603654689',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '3603294840',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNAME   => 'Ethernet',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:21:5A:84:C4:81'
-                    }
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:21:5A:84:C4:81',
+                        IFLASTCHANGE     => '(505) 0:00:05.05',
+                        IFINOCTETS       => '1951645626',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '42454155',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
-            }
+            },
         }
     ],
     'hewlett-packard/LaserJet_CP2025n.3.walk' => [
@@ -2372,27 +3276,43 @@ my %tests = (
                 BLACK      => '3896',
                 COLOR      => '12731',
             },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'LOOPBACK',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    },
-                    {
-                        IFNAME   => 'Ethernet',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:21:5A:84:C4:81'
-                    }
-                ]
-            },
             CARTRIDGES => {
                 TONERBLACK   => 83,
                 TONERMAGENTA => 93,
                 TONERCYAN    => 33,
                 TONERYELLOW  => 50
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '3616912763',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '3616622374',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:21:5A:84:C4:81',
+                        IFLASTCHANGE     => '(505) 0:00:05.05',
+                        IFINOCTETS       => '2925586477',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '50103223',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_CP2025n.4.walk' => [
@@ -2432,25 +3352,41 @@ my %tests = (
                 TONERYELLOW  => 63,
                 TONERCYAN    => 93
             },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'LOOPBACK',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    },
-                    {
-                        IFNAME   => 'Ethernet',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:21:5A:81:E3:A7'
-                    }
-                ]
-            },
             PAGECOUNTERS => {
                 COLOR      => '16450',
                 BLACK      => '5506',
                 RECTOVERSO => '0',
+            },
+           PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '380316273',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '380139218',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:21:5A:81:E3:A7',
+                        IFLASTCHANGE     => '(605) 0:00:06.05',
+                        IFINOCTETS       => '112601870',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '3560969',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -2490,27 +3426,43 @@ my %tests = (
                 BLACK      => '3843',
                 RECTOVERSO => '0'
             },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'LOOPBACK',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    },
-                    {
-                        IFNAME   => 'Ethernet',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '78:AC:C0:8F:A1:DD'
-                    }
-                ]
-            },
             CARTRIDGES => {
                 TONERBLACK   => 55,
                 TONERMAGENTA => 23,
                 TONERYELLOW  => 29,
                 TONERCYAN    => 18
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '8463955',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '8809286',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '78:AC:C0:8F:A1:DD',
+                        IFLASTCHANGE     => '(505) 0:00:05.05',
+                        IFINOCTETS       => '4563808',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '529251',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P2015.1.walk' => [
@@ -2544,21 +3496,6 @@ my %tests = (
                 MODEL        => 'HP LaserJet P2015 Series',
                 LOCATION     => 'Boise, ID, USA'
             },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'LOOPBACK',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    },
-                    {
-                        IFNAME   => 'Ethernet',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:21:5A:83:EC:85'
-                    }
-                ]
-            },
             CARTRIDGES => {
                 TONERBLACK => 44
             },
@@ -2566,7 +3503,38 @@ my %tests = (
                 COLOR      => '0',
                 RECTOVERSO => '0',
                 BLACK      => '36596'
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '1081446700',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1081457348',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:21:5A:83:EC:85',
+                        IFLASTCHANGE     => '(799) 0:00:07.99',
+                        IFINOCTETS       => '2857680319',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '398641223',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P2015.2.walk' => [
@@ -2611,16 +3579,32 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNAME   => 'LOOPBACK',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '31512183',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '31512183',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNAME   => 'Ethernet',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:1B:78:13:EE:63'
-                    }
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:1B:78:13:EE:63',
+                        IFLASTCHANGE     => '(699) 0:00:06.99',
+                        IFINOCTETS       => '91830571',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1268509',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
             },
         }
@@ -2667,16 +3651,32 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNAME   => 'LOOPBACK',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '340834617',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '340834617',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNAME   => 'Ethernet',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:21:5A:83:EC:85'
-                    }
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:21:5A:83:EC:85',
+                        IFLASTCHANGE     => '(799) 0:00:07.99',
+                        IFINOCTETS       => '141025151',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1679896',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
             },
         }
@@ -2725,16 +3725,36 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IFNAME   => 'LOOPBACK',
-                        IFTYPE   => 'softwareLoopback(24)',
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '578298200',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '578302190',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNUMBER => '2',
-                        IFNAME   => 'Ethernet',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IP       => '128.93.22.213',
-                        MAC      => '00:1F:29:2B:AB:3D',
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.213',
+                        MAC              => '00:1F:29:2B:AB:3D',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(1600) 0:00:16.00',
+                        IFINOCTETS       => '1659255782',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '33116153',
+                        IFOUTERRORS      => '0',
                     },
                 ]
             },
@@ -2784,16 +3804,36 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IFNAME   => 'LOOPBACK',
-                        IFTYPE   => 'softwareLoopback(24)',
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '513466755',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '513471955',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNUMBER => '2',
-                        IFNAME   => 'Ethernet',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IP       => '128.93.22.14',
-                        MAC      => '00:17:08:8C:A8:6F',
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.14',
+                        MAC              => '00:17:08:8C:A8:6F',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(1603) 0:00:16.03',
+                        IFINOCTETS       => '4284098790',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '42529924',
+                        IFOUTERRORS      => '0',
                     },
                 ]
             },
@@ -2843,16 +3883,36 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IFNAME   => 'LOOPBACK',
-                        IFTYPE   => 'softwareLoopback(24)',
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '387932396',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '387939313',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNUMBER => '2',
-                        IFNAME   => 'Ethernet',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IP       => '128.93.22.22',
-                        MAC      => '00:17:08:8E:69:10',
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.22',
+                        MAC              => '00:17:08:8E:69:10',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(1601) 0:00:16.01',
+                        IFINOCTETS       => '84810818',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '18961108',
+                        IFOUTERRORS      => '0',
                     },
                 ]
             },
@@ -2902,16 +3962,36 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IFNAME   => 'LOOPBACK',
-                        IFTYPE   => 'softwareLoopback(24)',
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '199794226',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '199797652',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNUMBER => '2',
-                        IFNAME   => 'Ethernet',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IP       => '128.93.22.122',
-                        MAC      => '00:17:08:8C:98:0D',
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.122',
+                        MAC              => '00:17:08:8C:98:0D',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(1702) 0:00:17.02',
+                        IFINOCTETS       => '1621136760',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '4321189',
+                        IFOUTERRORS      => '0',
                     },
                 ]
             },
@@ -2961,16 +4041,36 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IFNAME   => 'LOOPBACK',
-                        IFTYPE   => 'softwareLoopback(24)',
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '170980525',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '170990271',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNUMBER => '2',
-                        IFNAME   => 'Ethernet',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IP       => '128.93.22.220',
-                        MAC      => '00:23:7D:79:54:CF',
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.220',
+                        MAC              => '00:23:7D:79:54:CF',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(1600) 0:00:16.00',
+                        IFINOCTETS       => '593649816',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '5505762',
+                        IFOUTERRORS      => '0',
                     },
                 ]
             },
@@ -3020,16 +4120,36 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IFNAME   => 'LOOPBACK',
-                        IFTYPE   => 'softwareLoopback(24)',
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '8480431',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '8482160',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNUMBER => '2',
-                        IFNAME   => 'Ethernet',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IP       => '128.93.22.197',
-                        MAC      => '00:1A:4B:15:6F:54',
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.197',
+                        MAC              => '00:1A:4B:15:6F:54',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(1600) 0:00:16.00',
+                        IFINOCTETS       => '371591459',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '581750',
+                        IFOUTERRORS      => '0',
                     },
                 ]
             },
@@ -3079,16 +4199,36 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IFNAME   => 'LOOPBACK',
-                        IFTYPE   => 'softwareLoopback(24)',
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '8515210',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '8523142',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNUMBER => '2',
-                        IFNAME   => 'Ethernet',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IP       => '128.93.22.233',
-                        MAC      => '00:1F:29:16:6E:31',
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.233',
+                        MAC              => '00:1F:29:16:6E:31',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(1600) 0:00:16.00',
+                        IFINOCTETS       => '339332088',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '497134',
+                        IFOUTERRORS      => '0',
                     },
                 ]
             },
@@ -3125,26 +4265,46 @@ my %tests = (
                 MEMORY       => 384,
                 UPTIME       => '(705273859) 81 days, 15:05:38.59',
             },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.41',
-                        IFNUMBER => '1',
-                        IFTYPE   => '24'
-                    },
-                    {
-                        IFNUMBER => '2',
-                        MAC      => '18:A9:05:FF:F0:F2',
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.41',
-                        IP       => '10.75.13.175',
-                        IFTYPE   => '6'
-                    }
-                ]
-            },
             CARTRIDGES => {
                 TONERBLACK     => 18,
                 MAINTENANCEKIT => 32
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.41',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.41',
+                        IFTYPE           => '24',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.41',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.41',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '10.75.13.175',
+                        MAC              => '18:A9:05:FF:F0:F2',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '1102701832',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '142816478',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/ProCurve_J8697A_Switch_5406zl.walk' => [
@@ -3208,6 +4368,7 @@ my %tests = (
                         IFOUTERRORS      => '0',
                         IFSPEED          => '1000000000',
                         IFLASTCHANGE     => '(137791) 0:22:57.91',
+                        IFPORTDUPLEX     => '3',
                         MAC              => '00:18:71:C1:F0:FF',
                         IFINERRORS       => '0',
                         IFTYPE           => '6',
@@ -3238,6 +4399,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFSPEED          => '1000000000',
                         IFLASTCHANGE     => '(137791) 0:22:57.91',
+                        IFPORTDUPLEX     => '3',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFDESCR          => 'A2',
@@ -3261,6 +4423,7 @@ my %tests = (
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
                         IFLASTCHANGE     => '(140056) 0:23:20.56',
+                        IFPORTDUPLEX     => '3',
                         IFINTERNALSTATUS => '1',
                         IFSTATUS         => '1',
                         IFDESCR          => 'A3',
@@ -3290,6 +4453,7 @@ my %tests = (
                         IFINTERNALSTATUS => '1',
                         IFSPEED          => '1000000000',
                         IFLASTCHANGE     => '(140106) 0:23:21.06',
+                        IFPORTDUPLEX     => '3',
                         IFTYPE           => '6',
                         MAC              => '00:18:71:C1:F0:FC',
                         IFINERRORS       => '0',
@@ -3316,6 +4480,7 @@ my %tests = (
                         IFINTERNALSTATUS => '1',
                         IFSPEED          => '1000000000',
                         IFLASTCHANGE     => '(98419) 0:16:24.19',
+                        IFPORTDUPLEX     => '3',
                         MAC              => '00:18:71:C1:F0:FB',
                         IFTYPE           => '6',
                         IFINERRORS       => '0',
@@ -3341,6 +4506,7 @@ my %tests = (
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
                         IFLASTCHANGE     => '(98419) 0:16:24.19',
+                        IFPORTDUPLEX     => '3',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFDESCR          => 'A6',
@@ -3364,6 +4530,7 @@ my %tests = (
                         IFOUTERRORS      => '0',
                         IFSPEED          => '1000000000',
                         IFLASTCHANGE     => '(133722) 0:22:17.22',
+                        IFPORTDUPLEX     => '3',
                         MAC              => '00:18:71:C1:F0:F9',
                         IFINERRORS       => '0',
                         IFTYPE           => '6',
@@ -3396,6 +4563,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFSPEED          => '1000000000',
                         IFLASTCHANGE     => '(133722) 0:22:17.22',
+                        IFPORTDUPLEX     => '3',
                         IFOUTOCTETS      => '1496580095',
                         IFINOCTETS       => '2740877036',
                         IFMTU            => '1500',
@@ -3413,6 +4581,7 @@ my %tests = (
                     {
                         IFNUMBER         => '9',
                         IFLASTCHANGE     => '(171654) 0:28:36.54',
+                        IFPORTDUPLEX     => '3',
                         IFSPEED          => '1000000000',
                         MAC              => '00:18:71:C1:F0:F7',
                         IFTYPE           => '6',
@@ -3446,6 +4615,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFSPEED          => '1000000000',
                         IFLASTCHANGE     => '(171654) 0:28:36.54',
+                        IFPORTDUPLEX     => '3',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFDESCR          => 'A10',
@@ -3468,6 +4638,7 @@ my %tests = (
                         MAC              => '00:18:71:C1:F0:F5',
                         IFINERRORS       => '0',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFPORTDUPLEX     => '3',
                         IFSPEED          => '0',
                         IFSTATUS         => '2',
                         IFINTERNALSTATUS => '1',
@@ -3492,6 +4663,7 @@ my %tests = (
                         IFOUTOCTETS      => '0',
                         IFSPEED          => '0',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFPORTDUPLEX     => '3',
                         IFTYPE           => '6',
                         MAC              => '00:18:71:C1:F0:F4',
                         IFINERRORS       => '0',
@@ -3516,6 +4688,7 @@ my %tests = (
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(147598) 0:24:35.98',
+                        IFPORTDUPLEX     => '3',
                         IFSPEED          => '1000000000',
                         IFTYPE           => '6',
                         MAC              => '00:18:71:C1:F0:F3',
@@ -3540,6 +4713,7 @@ my %tests = (
                         IFSTATUS         => '2',
                         IFSPEED          => '0',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFPORTDUPLEX     => '3',
                         IFTYPE           => '6',
                         MAC              => '00:18:71:C1:F0:F2',
                         IFINERRORS       => '0',
@@ -3566,6 +4740,7 @@ my %tests = (
                         IFSTATUS         => '1',
                         IFSPEED          => '1000000000',
                         IFLASTCHANGE     => '(154728) 0:25:47.28',
+                        IFPORTDUPLEX     => '3',
                         MAC              => '00:18:71:C1:F0:F1',
                         IFINERRORS       => '0',
                         IFTYPE           => '6',
@@ -3588,6 +4763,7 @@ my %tests = (
                         IFNAME           => 'A16',
                         IFOUTERRORS      => '0',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFPORTDUPLEX     => '3',
                         IFSPEED          => '0',
                         IFTYPE           => '6',
                         MAC              => '00:18:71:C1:F0:F0',
@@ -3619,6 +4795,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFSPEED          => '1000000000',
                         IFLASTCHANGE     => '(152568) 0:25:25.68',
+                        IFPORTDUPLEX     => '3',
                         IFOUTERRORS      => '0',
                         IFNAME           => 'A17',
                         CONNECTIONS      => {
@@ -3641,6 +4818,7 @@ my %tests = (
                         IFSTATUS         => '2',
                         IFSPEED          => '0',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFPORTDUPLEX     => '3',
                         MAC              => '00:18:71:C1:F0:EE',
                         IFTYPE           => '6',
                         IFINERRORS       => '0',
@@ -3661,6 +4839,7 @@ my %tests = (
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(143621) 0:23:56.21',
+                        IFPORTDUPLEX     => '3',
                         IFSPEED          => '1000000000',
                         IFTYPE           => '6',
                         MAC              => '00:18:71:C1:F0:ED',
@@ -3687,6 +4866,7 @@ my %tests = (
                         IFINOCTETS       => '0',
                         IFOUTOCTETS      => '0',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFPORTDUPLEX     => '3',
                         IFSPEED          => '0',
                         MAC              => '00:18:71:C1:F0:EC',
                         IFINERRORS       => '0',
@@ -3713,6 +4893,7 @@ my %tests = (
                         IFOUTOCTETS      => '1009676074',
                         IFSPEED          => '1000000000',
                         IFLASTCHANGE     => '(94699) 0:15:46.99',
+                        IFPORTDUPLEX     => '3',
                         MAC              => '00:18:71:C1:F0:EB',
                         IFTYPE           => '6',
                         IFINERRORS       => '0',
@@ -3736,6 +4917,7 @@ my %tests = (
                         IFOUTERRORS      => '0',
                         IFSPEED          => '1000000000',
                         IFLASTCHANGE     => '(57936) 0:09:39.36',
+                        IFPORTDUPLEX     => '3',
                         IFTYPE           => '6',
                         MAC              => '00:18:71:C1:F0:EA',
                         IFINERRORS       => '0',
@@ -3767,6 +4949,7 @@ my %tests = (
                         IFINTERNALSTATUS => '1',
                         IFSTATUS         => '1',
                         IFLASTCHANGE     => '(57936) 0:09:39.36',
+                        IFPORTDUPLEX     => '3',
                         IFSPEED          => '1000000000',
                         IFINERRORS       => '0',
                         MAC              => '00:18:71:C1:F0:E9',
@@ -3794,6 +4977,7 @@ my %tests = (
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
                         IFLASTCHANGE     => '(57936) 0:09:39.36',
+                        IFPORTDUPLEX     => '3',
                         IFOUTOCTETS      => '2284145698',
                         IFINOCTETS       => '3412112397',
                         IFMTU            => '1500',
@@ -3820,6 +5004,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFSPEED          => '1000000000',
                         IFLASTCHANGE     => '(147667) 0:24:36.67',
+                        IFPORTDUPLEX     => '3',
                         IFOUTOCTETS      => '1169469549',
                         IFINOCTETS       => '1056898244',
                         IFMTU            => '1500',
@@ -3843,6 +5028,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFTYPE           => '6',
                         IFLASTCHANGE     => '(147617) 0:24:36.17',
+                        IFPORTDUPLEX     => '3',
                         IFSPEED          => '1000000000',
                         IFOUTOCTETS      => '558861009',
                         IFMTU            => '1500',
@@ -3863,6 +5049,7 @@ my %tests = (
                     {
                         IFNUMBER         => '27',
                         IFLASTCHANGE     => '(154748) 0:25:47.48',
+                        IFPORTDUPLEX     => '3',
                         IFSPEED          => '1000000000',
                         IFINERRORS       => '0',
                         MAC              => '00:18:71:C1:F0:E5',
@@ -3889,6 +5076,7 @@ my %tests = (
                     {
                         IFNUMBER         => '28',
                         IFLASTCHANGE     => '(154797) 0:25:47.97',
+                        IFPORTDUPLEX     => '3',
                         IFSPEED          => '1000000000',
                         MAC              => '00:18:71:C1:F0:E4',
                         IFINERRORS       => '0',
@@ -3918,6 +5106,7 @@ my %tests = (
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(152588) 0:25:25.88',
+                        IFPORTDUPLEX     => '3',
                         IFSPEED          => '1000000000',
                         MAC              => '00:18:71:C1:F0:E3',
                         IFTYPE           => '6',
@@ -3947,6 +5136,7 @@ my %tests = (
                         MAC              => '00:18:71:C1:F0:E2',
                         IFINERRORS       => '0',
                         IFLASTCHANGE     => '(2632) 0:00:26.32',
+                        IFPORTDUPLEX     => '3',
                         IFSPEED          => '1000000000',
                         IFSTATUS         => '2',
                         IFINTERNALSTATUS => '1',
@@ -3967,6 +5157,7 @@ my %tests = (
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
                         IFLASTCHANGE     => '(143699) 0:23:56.99',
+                        IFPORTDUPLEX     => '3',
                         IFOUTERRORS      => '0',
                         IFNAME           => 'B7',
                         CONNECTIONS      => {
@@ -3986,6 +5177,7 @@ my %tests = (
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(143699) 0:23:56.99',
+                        IFPORTDUPLEX     => '3',
                         IFSPEED          => '1000000000',
                         IFTYPE           => '6',
                         MAC              => '00:18:71:C1:F0:E0',
@@ -4009,6 +5201,7 @@ my %tests = (
                     {
                         IFNUMBER         => '33',
                         IFLASTCHANGE     => '(94732) 0:15:47.32',
+                        IFPORTDUPLEX     => '3',
                         IFSPEED          => '1000000000',
                         IFINERRORS       => '0',
                         MAC              => '00:18:71:C1:F0:DF',
@@ -4037,6 +5230,7 @@ my %tests = (
                         IFNAME           => 'B10',
                         IFOUTERRORS      => '0',
                         IFLASTCHANGE     => '(94732) 0:15:47.32',
+                        IFPORTDUPLEX     => '3',
                         IFSPEED          => '1000000000',
                         MAC              => '00:18:71:C1:F0:DE',
                         IFINERRORS       => '0',
@@ -4069,6 +5263,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFTYPE           => '6',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFPORTDUPLEX     => '3',
                         IFSPEED          => '0',
                         IFSTATUS         => '2',
                         IFINTERNALSTATUS => '1',
@@ -4087,6 +5282,7 @@ my %tests = (
                         IFSTATUS         => '2',
                         IFSPEED          => '0',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFPORTDUPLEX     => '3',
                         MAC              => '00:18:71:C1:F0:DC',
                         IFINERRORS       => '0',
                         IFTYPE           => '6',
@@ -4116,6 +5312,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFSPEED          => '1000000000',
                         IFLASTCHANGE     => '(137672) 0:22:56.72',
+                        IFPORTDUPLEX     => '3',
                         IFOUTOCTETS      => '1019288656',
                         IFMTU            => '1500',
                         IFINOCTETS       => '1205644070',
@@ -4138,6 +5335,7 @@ my %tests = (
                         IFSTATUS         => '2',
                         IFSPEED          => '0',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFPORTDUPLEX     => '3',
                         MAC              => '00:18:71:C1:F0:DA',
                         IFINERRORS       => '0',
                         IFTYPE           => '6',
@@ -4160,6 +5358,7 @@ my %tests = (
                         IFSTATUS         => '1',
                         IFSPEED          => '1000000000',
                         IFLASTCHANGE     => '(139982) 0:23:19.82',
+                        IFPORTDUPLEX     => '3',
                         IFINERRORS       => '0',
                         MAC              => '00:18:71:C1:F0:D9',
                         IFTYPE           => '6',
@@ -4192,6 +5391,7 @@ my %tests = (
                         IFTYPE           => '6',
                         IFINERRORS       => '0',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFPORTDUPLEX     => '3',
                         IFSPEED          => '0',
                         VLANS            => {
                             VLAN => [
@@ -4212,6 +5412,7 @@ my %tests = (
                     IFINERRORS       => '0',
                     IFSPEED          => '1000000000',
                     IFLASTCHANGE     => '(98347) 0:16:23.47',
+                        IFPORTDUPLEX     => '3',
                     IFOUTOCTETS      => '1435860196',
                     IFINOCTETS       => '2496990832',
                     IFMTU            => '1500',
@@ -4238,6 +5439,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFTYPE           => '6',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFPORTDUPLEX     => '3',
                         IFSPEED          => '0',
                         IFOUTOCTETS      => '0',
                         IFMTU            => '0',
@@ -4260,6 +5462,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFTYPE           => '6',
                         IFLASTCHANGE     => '(133655) 0:22:16.55',
+                        IFPORTDUPLEX     => '3',
                         IFSPEED          => '1000000000',
                         IFOUTOCTETS      => '2304461112',
                         IFINOCTETS       => '3225589631',
@@ -4284,6 +5487,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFSPEED          => '0',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFPORTDUPLEX     => '3',
                         IFSTATUS         => '2',
                         IFINTERNALSTATUS => '1',
                         IFMTU            => '0',
@@ -4309,6 +5513,7 @@ my %tests = (
                         MAC              => '00:18:71:C1:F0:D3',
                         IFTYPE           => '6',
                         IFLASTCHANGE     => '(171619) 0:28:36.19',
+                        IFPORTDUPLEX     => '3',
                         IFSPEED          => '1000000000',
                         IFOUTOCTETS      => '4215478562',
                         IFMTU            => '1500',
@@ -4333,6 +5538,7 @@ my %tests = (
                         IFINOCTETS       => '2524887906',
                         IFOUTOCTETS      => '986787144',
                         IFLASTCHANGE     => '(57873) 0:09:38.73',
+                        IFPORTDUPLEX     => '3',
                         IFSPEED          => '1000000000',
                         MAC              => '00:18:71:C1:F0:D2',
                         IFTYPE           => '6',
@@ -4360,6 +5566,7 @@ my %tests = (
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(57873) 0:09:38.73',
+                        IFPORTDUPLEX     => '3',
                         IFSPEED          => '1000000000',
                         IFTYPE           => '6',
                         MAC              => '00:18:71:C1:F0:D1',
@@ -4389,6 +5596,7 @@ my %tests = (
                         IFINTERNALSTATUS => '1',
                         IFSPEED          => '1000000000',
                         IFLASTCHANGE     => '(57873) 0:09:38.73',
+                        IFPORTDUPLEX     => '3',
                         MAC              => '00:18:71:C1:F0:D0',
                         IFTYPE           => '6',
                         IFINERRORS       => '0',
@@ -7886,23 +9094,39 @@ my %tests = (
                 NAME         => 'NPIA6032E',
                 CONTACT      => ' ',
             },
+            PAGECOUNTERS => {
+                BLACK      => '91',
+            },
             PORTS => {
                 PORT => [
                     {
-                        IFNAME   => 'LOOPBACK',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNAME   => 'NetDrvr',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '78:E7:D1:A6:03:2E'
-                    }
+                        IFNUMBER         => '2',
+                        IFNAME           => 'NetDrvr',
+                        IFDESCR          => 'NetDrvr',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '78:E7:D1:A6:03:2E',
+                        IFLASTCHANGE     => '(655) 0:00:06.55',
+                        IFINOCTETS       => '33595273',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1357116',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
-            },
-            PAGECOUNTERS => {
-                BLACK      => '91',
             },
         }
     ],
@@ -7942,7 +9166,31 @@ my %tests = (
             PAGECOUNTERS => {
                 RECTOVERSO => '0',
                 PRINTTOTAL => '20949',
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '145086685',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '2444081',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P3005.2.walk' => [
@@ -7983,6 +9231,34 @@ my %tests = (
             PAGECOUNTERS => {
                 RECTOVERSO => '1',
                 PRINTTOTAL => '150',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '4178582359',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '115945591',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -8025,6 +9301,34 @@ my %tests = (
                 RECTOVERSO => '1',
                 PRINTTOTAL => '13324',
             },
+           PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '3089015758',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '75450885',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P3005.4.walk' => [
@@ -8065,6 +9369,34 @@ my %tests = (
             PAGECOUNTERS => {
                 RECTOVERSO => '566',
                 PRINTTOTAL => '13193',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2307684777',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '108781795',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -8107,6 +9439,34 @@ my %tests = (
                 RECTOVERSO => '105',
                 PRINTTOTAL => '15807',
             },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '496490610',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '7579572',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P3005.6.walk' => [
@@ -8147,6 +9507,34 @@ my %tests = (
             PAGECOUNTERS => {
                 RECTOVERSO => '1',
                 PRINTTOTAL => '53053',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2931305839',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '92945383',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -8189,6 +9577,34 @@ my %tests = (
                 RECTOVERSO => '21',
                 PRINTTOTAL => '130480',
             },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2225730103',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '154536764',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P3005.8.walk' => [
@@ -8229,6 +9645,34 @@ my %tests = (
             PAGECOUNTERS => {
                 RECTOVERSO => '814',
                 PRINTTOTAL => '45077',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '4294835122',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '232767636',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -8271,6 +9715,34 @@ my %tests = (
                 RECTOVERSO => '12',
                 PRINTTOTAL => '11083',
             },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '3954235628',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '118033695',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P3005.10.walk' => [
@@ -8311,6 +9783,34 @@ my %tests = (
             PAGECOUNTERS => {
                 RECTOVERSO => '1',
                 PRINTTOTAL => '17204',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '1478912108',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '2882335238',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -8353,6 +9853,34 @@ my %tests = (
                 RECTOVERSO => '1',
                 PRINTTOTAL => '100796',
             },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '1379448828',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '41043399',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P3005.12.walk' => [
@@ -8394,6 +9922,34 @@ my %tests = (
                 RECTOVERSO => '22',
                 PRINTTOTAL => '65087',
             },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.60',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.60',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '507317169',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '165546197',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P3005.13.walk' => [
@@ -8434,6 +9990,34 @@ my %tests = (
             PAGECOUNTERS => {
                 RECTOVERSO => '7',
                 PRINTTOTAL => '5388',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2818547819',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '302246316',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -8477,16 +10061,32 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
+                        IFNUMBER         => '1',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD148,EEPROM V.43.10',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:9C:02:01:3B:81'
-                    }
+                        IFNUMBER         => '2',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD148,EEPROM V.43.10',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:9C:02:01:3B:81',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '66753796',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1745120',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
-            }
+            },
         }
     ],
     'hewlett-packard/LaserJet_P3010.2.walk' => [
@@ -8519,26 +10119,42 @@ my %tests = (
                 NAME         => 'NPI013B81',
                 MODEL        => 'HP LaserJet P3010 Series',
             },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    },
-                    {
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:9C:02:01:3B:81'
-                    }
-                ]
-            },
             PAGECOUNTERS => {
                 BLACK      => '6386',
                 RECTOVERSO => '772',
             },
             CARTRIDGES => {
                 TONERBLACK => 1
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD148,EEPROM V.43.10',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD148,EEPROM V.43.10',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:9C:02:01:3B:81',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '985600239',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '22750126',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P2055dn.1.walk' => [
@@ -8580,7 +10196,31 @@ my %tests = (
                 PRINTBLACK => '30965',
                 PRINTTOTAL => '30965',
                 BLACK      => '30965',
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.07',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.07',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2219679339',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '123773898',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P2055dn.2.walk' => [
@@ -8622,7 +10262,31 @@ my %tests = (
             },
             CARTRIDGES => {
                 TONERBLACK => 88
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.07',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.07',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '200058917',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1869715',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P2055dn.3.walk' => [
@@ -8664,7 +10328,31 @@ my %tests = (
                 PRINTTOTAL => '3837',
                 PRINTBLACK => '3837',
                 BLACK      => '3837'
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '683787528',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '4718265',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P2055dn.4.walk' => [
@@ -8707,6 +10395,31 @@ my %tests = (
             CARTRIDGES => {
                 TONERBLACK => 45
             },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '3240054009',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '6629940',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+
         }
     ],
     'hewlett-packard/LaserJet_P2055dn.5.walk' => [
@@ -8748,7 +10461,31 @@ my %tests = (
                 RECTOVERSO => '3761',
                 PRINTBLACK => '19402',
                 PRINTTOTAL => '19402',
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '226525511',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '5925070',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P2055dn.6.walk' => [
@@ -8790,7 +10527,31 @@ my %tests = (
                 COLOR      => '0',
                 PRINTBLACK => '17861',
                 RECTOVERSO => '3192'
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '561048360',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '14426521',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P2055dn.7.walk' => [
@@ -8832,7 +10593,31 @@ my %tests = (
                 RECTOVERSO => '1843',
                 PRINTTOTAL => '5696',
                 BLACK      => '5696',
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '1574260753',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '44021940',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P2055dn.8.walk' => [
@@ -8874,7 +10659,31 @@ my %tests = (
                 COLOR      => '0',
                 BLACK      => '26922',
                 PRINTTOTAL => '26922'
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '37368958',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '218905',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P2055dn.9.walk' => [
@@ -8917,6 +10726,30 @@ my %tests = (
             CARTRIDGES => {
                 TONERBLACK => 20
             },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '1911576981',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '48854545',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P2055dn.10.walk' => [
@@ -8958,7 +10791,31 @@ my %tests = (
             },
             CARTRIDGES => {
                 TONERBLACK => 40
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2220813285',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '51880468',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P2055dn.11.walk' => [
@@ -9001,6 +10858,30 @@ my %tests = (
             CARTRIDGES => {
                 TONERBLACK => 0
             },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '861281403',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '4972936',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P2055dn.12.walk' => [
@@ -9042,7 +10923,31 @@ my %tests = (
             },
             CARTRIDGES => {
                 TONERBLACK => 68
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '20375229',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '380785',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P2055dn.13.walk' => [
@@ -9086,6 +10991,34 @@ my %tests = (
                 COLOR      => '0',
                 RECTOVERSO => '0',
                 PRINTTOTAL => '3515',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '1045360896',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '66590530',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -9131,6 +11064,34 @@ my %tests = (
                 RECTOVERSO => '2389',
                 PRINTTOTAL => '11344',
             },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2831933549',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '92564533',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P2055dn.15.walk' => [
@@ -9174,6 +11135,34 @@ my %tests = (
                 COLOR      => '0',
                 RECTOVERSO => '6832',
                 PRINTTOTAL => '22937',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2309963329',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '21666979',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -9219,6 +11208,34 @@ my %tests = (
                 RECTOVERSO => '504',
                 PRINTTOTAL => '4878',
             },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '3419623381',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '65027106',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P4015.1.walk' => [
@@ -9251,28 +11268,44 @@ my %tests = (
                 NAME         => 'LJ30000000000000000000----------',
                 SERIAL       => 'CNFY417951',
             },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    },
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:21:5A:8F:EA:2B'
-                    }
-                ]
-            },
             CARTRIDGES => {
                 TONERBLACK     => 100,
                 MAINTENANCEKIT => 87
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '26',
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:21:5A:8F:EA:2B',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '42955297',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1263745',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P4015.2.walk' => [
@@ -9305,28 +11338,44 @@ my %tests = (
                 NAME         => 'NPI8D9896',
                 SERIAL       => 'CNFY409032',
             },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    },
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:21:5A:8D:98:96'
-                    }
-                ]
-            },
             CARTRIDGES => {
                 TONERBLACK     => 64,
                 MAINTENANCEKIT => 61
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '26',
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:21:5A:8D:98:96',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '197354717',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '10744976',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P4015.3.walk' => [
@@ -9359,28 +11408,44 @@ my %tests = (
                 NAME         => 'NPI22C87C',
                 SERIAL       => 'CNFY213364',
             },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.35',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    },
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.35',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:1F:29:22:C8:7C'
-                    }
-                ]
-            },
             CARTRIDGES => {
                 TONERBLACK     => 34,
                 MAINTENANCEKIT => 79
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '52',
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.35',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.35',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.35',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.35',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:1F:29:22:C8:7C',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '316207723',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '11488728',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P4015.4.walk' => [
@@ -9413,28 +11478,44 @@ my %tests = (
                 NAME         => 'NPI9706DE',
                 SERIAL       => 'CNFY183496',
             },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.40',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    },
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.40',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:21:5A:97:06:DE'
-                    }
-                ]
-            },
             CARTRIDGES => {
                 MAINTENANCEKIT => 5,
                 TONERBLACK     => 1
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '4',
-            }
+            },
+          PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.40',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.40',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.40',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.40',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:21:5A:97:06:DE',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '267130694',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '5406422',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_P4015.5.walk' => [
@@ -9467,28 +11548,44 @@ my %tests = (
                 NAME         => 'NPIEADBFB',
                 SERIAL       => 'CNFY349204',
             },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.41',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    },
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.41',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:25:B3:EA:DB:FB'
-                    }
-                ]
-            },
             CARTRIDGES => {
                 TONERBLACK     => 32,
                 MAINTENANCEKIT => 0
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '2096',
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.41',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.41',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.41',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.41',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:25:B3:EA:DB:FB',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '4240914294',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '37809478',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/LaserJet_CP4520.walk' => [
@@ -9536,16 +11633,32 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD145,EEPROM V.38.99',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD145,EEPROM V.38.99',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD145,EEPROM V.38.99',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD145,EEPROM V.38.99',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '2C:27:D7:10:DB:2C'
-                    }
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD145,EEPROM V.38.99',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD145,EEPROM V.38.99',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '2C:27:D7:10:DB:2C',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2342375615',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '43069516',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
             },
         }
@@ -9586,25 +11699,41 @@ my %tests = (
                 TONERCYAN    => 39,
                 TONERMAGENTA => 21
             },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.67',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
-                    },
-                    {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.67',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:23:7D:85:A5:7D'
-                    }
-                ]
-            },
             PAGECOUNTERS => {
                 BLACK      => '7603',
                 COLOR      => '9127',
                 RECTOVERSO => '0',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.67',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.67',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.67',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.67',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:23:7D:85:A5:7D',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '695289',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '535873',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -9649,21 +11778,37 @@ my %tests = (
                 TONERMAGENTA => 97,
                 TONERBLACK   => 53
             },
-            PORTS => {
+           PORTS => {
                 PORT => [
                     {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.80',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.80',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.80',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNAME   => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.80',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => 'D4:85:64:3D:AC:2E'
-                    }
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.80',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.80',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => 'D4:85:64:3D:AC:2E',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '9335102',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '762709',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
-            }
+            },
         }
     ],
     'hewlett-packard/LaserJet_M1217nfw.walk' => [
@@ -9692,6 +11837,57 @@ my %tests = (
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT',
                 NAME         => 'l2407a',
             },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'NetDrvr',
+                        IFDESCR          => 'NetDrvr',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '10:60:4B:19:A6:51',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(380) 0:00:03.80',
+                        IFINOCTETS       => '1332770858',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '59043597',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '3',
+                        IFNAME           => 'uAP_drvr',
+                        IFDESCR          => 'uAP_drvr',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '84:4B:F5:84:07:A2',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(28) 0:00:00.28',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '1',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/l1803a.walk' => [
@@ -9718,6 +11914,41 @@ my %tests = (
                 UPTIME       => '(4016837) 11:09:28.37',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'NPI9195E8',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:17:08:91:95:E8',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '518877292',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '326948288',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -9746,6 +11977,41 @@ my %tests = (
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'l0214a',
             },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:17:08:91:95:E4',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '4231070113',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '358458889',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/l0700a.walk' => [
@@ -9772,6 +12038,41 @@ my %tests = (
                 UPTIME       => '(40406032) 4 days, 16:14:20.32',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'NPI934D66',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:17:A4:93:4D:66',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2697548956',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '2323517464',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -9800,6 +12101,41 @@ my %tests = (
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'NPI934D6D',
             },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:17:A4:93:4D:6D',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2266764957',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '119345262',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'hewlett-packard/l1b110a.walk' => [
@@ -9826,6 +12162,41 @@ my %tests = (
                 UPTIME       => '(13141846) 1 day, 12:30:18.46',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'NPI810884',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:1B:78:21:EF:DF',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2493348234',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '107189645',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],

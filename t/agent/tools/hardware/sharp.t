@@ -56,11 +56,21 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        MAC => '00:22:F3:9D:1F:3B',
-                        IFNAME => 'Ethernet',
-                        IFTYPE => '6',
-                        IFNUMBER => '1'
-                    }
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1514',
+                        MAC              => '00:22:F3:9D:1F:3B',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '116703394',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '44812256',
+                        IFOUTERRORS      => '141912',
+                    },
                 ]
             },
         }
@@ -95,14 +105,24 @@ my %tests = (
                 LOCATION     => '1er etage couloir',
                 UPTIME       => '(28125680) 3 days, 6:07:36.80'
             },
-            PORTS => {
+PORTS => {
                 PORT => [
                     {
-                        IFTYPE   => '6',
-                        IFNAME   => 'Ethernet',
-                        IFNUMBER => '1',
-                        MAC      => '00:22:F3:9D:20:56'
-                    }
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1514',
+                        MAC              => '00:22:F3:9D:20:56',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '216375141',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '38874951',
+                        IFOUTERRORS      => '222292',
+                    },
                 ]
             },
         }
@@ -153,13 +173,23 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        MAC      => '00:22:F3:9D:20:4B',
-                        IFNAME   => 'Ethernet',
-                        IFTYPE   => '6'
-                    }
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1514',
+                        MAC              => '00:22:F3:9D:20:4B',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '9667897',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1008700',
+                        IFOUTERRORS      => '10674',
+                    },
                 ]
-            }
+            },
         }
     ],
     'sharp/MX_2600N.walk' => [
@@ -191,17 +221,27 @@ my %tests = (
                 LOCATION     => '2eme etage Bureau POTHIN',
                 UPTIME       => '(94252230) 10 days, 21:48:42.30'
             },
-            PORTS => {
+   PORTS => {
                 PORT => [
                     {
-                        IFNAME   => 'Ethernet',
-                        IFTYPE   => '6',
-                        MAC      => '00:22:F3:C8:04:99',
-                        IFNUMBER => '1',
-                        IP       => '172.31.201.123'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1514',
+                        IP               => '172.31.201.123',
+                        MAC              => '00:22:F3:C8:04:99',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '891166577',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '577413631',
+                        IFOUTERRORS      => '1444616',
                     },
                 ]
-            }
+            },
         }
     ],
 );

@@ -31,6 +31,22 @@ my %tests = (
                 UPTIME       => '(11310876) 1 day, 7:25:08.76',
                 COMMENTS     => 'KYOCERA MITA Printing System'
             },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'eth0',
+                        IFDESCR          => 'eth0',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1514',
+                        MAC              => '00:C0:EE:31:84:6B',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                    },
+                ]
+            },
         }
     ],
     'kyocera/TASKalfa-181.walk' => [
@@ -54,6 +70,22 @@ my %tests = (
                 MODEL        => undef,
                 UPTIME       => '(17673056) 2 days, 1:05:30.56',
                 COMMENTS     => 'KYOCERA MITA Printing System'
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'eth0',
+                        IFDESCR          => 'eth0',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1514',
+                        MAC              => '00:C0:EE:2F:0D:D9',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                    },
+                ]
             },
         }
     ],
@@ -92,14 +124,20 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNAME   => 'eth0',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:C0:EE:6A:96:DD',
-                        IFNUMBER => '1',
-                        IP       => '172.20.3.51'
-                    }
+                        IFNUMBER         => '1',
+                        IFNAME           => 'eth0',
+                        IFDESCR          => 'eth0',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1514',
+                        IP               => '172.20.3.51',
+                        MAC              => '00:C0:EE:6A:96:DD',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                    },
                 ]
-            }
+            },
         }
     ],
     'kyocera/FS-2000D.2.walk' => [
@@ -134,17 +172,23 @@ my %tests = (
                 TONERBLACK => 37,
                 WASTETONER => 100
             },
-            PORTS => {
+           PORTS => {
                 PORT => [
                     {
-                        IFNAME   => 'eth0',
-                        IP       => '172.20.3.4',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IFNUMBER => '1',
-                        MAC      => '00:C0:EE:6A:97:07'
-                    }
+                        IFNUMBER         => '1',
+                        IFNAME           => 'eth0',
+                        IFDESCR          => 'eth0',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1514',
+                        IP               => '172.20.3.4',
+                        MAC              => '00:C0:EE:6A:97:07',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                    },
                 ]
-            }
+            },
         }
     ],
     'kyocera/utax_ta.walk' => [
@@ -177,11 +221,22 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IFTYPE   => '6',
-                        IP       => '10.104.154.211',
-                        MAC      => '00:C0:EE:80:DD:2D'
-                    }
+                        IFNUMBER         => '1',
+                        IFNAME           => 'eth0',
+                        IFDESCR          => 'eth0',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        IP               => '10.104.154.211',
+                        MAC              => '00:C0:EE:80:DD:2D',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '25318524',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '18480',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
             },
         }
@@ -208,6 +263,26 @@ my %tests = (
                 UPTIME       => '(55544038) 6 days, 10:17:20.38',
                 COMMENTS     => 'KYOCERA MITA Printing System'
             },
+            PORTS => {
+               PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'lnPci0',
+                        IFDESCR          => 'lnPci0',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:C0:EE:80:CA:DD',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            }
         }
     ],
     'kyocera/F-5350DN.2.walk' => [
@@ -232,6 +307,26 @@ my %tests = (
                 UPTIME       => '(44432286) 5 days, 3:25:22.86',
                 COMMENTS     => 'KYOCERA MITA Printing System'
             },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'lnPci0',
+                        IFDESCR          => 'lnPci0',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:C0:EE:80:73:71',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'kyocera/F-5350DN.3.walk' => [
@@ -255,6 +350,26 @@ my %tests = (
                 MODEL        => undef,
                 UPTIME       => '(3145468) 8:44:14.68',
                 COMMENTS     => 'KYOCERA MITA Printing System'
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'lnPci0',
+                        IFDESCR          => 'lnPci0',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:C0:EE:80:73:6C',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],

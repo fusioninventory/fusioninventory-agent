@@ -40,10 +40,19 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => 1,
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '88:87:17:82:CA:B1',
-                    }
+                        IFNUMBER         => '1',
+                        IFNAME           => 'eth0',
+                        IFDESCR          => 'eth0',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '88:87:17:82:CA:B1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '996758063',
+                        IFINERRORS       => '1',
+                        IFOUTOCTETS      => '19122970',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
             },
         }
@@ -71,6 +80,27 @@ my %tests = (
                 MODEL        => undef,
                 COMMENTS     => 'Canon MF4500 Series /P',
                 NAME         => 'MF4500 Series'
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'FastEthernet',
+                        IFDESCR          => 'FastEthernet',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:1E:8F:B0:9B:7D',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'lo',
+                        IFDESCR          => 'lo',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '1000000',
+                        IFMTU            => '65535',
+                    },
+                ]
             },
         }
     ],

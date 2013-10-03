@@ -306,21 +306,66 @@ my %base_variables = (
 
 # common interface variables
 my %interface_variables = (
-    IFNUMBER         => { mapping => 'ifIndex'           },
-    IFDESCR          => { mapping => 'ifdescr'           },
-    IFNAME           => { mapping => 'ifName'            },
-    IFTYPE           => { mapping => 'ifType'            },
-    IFMTU            => { mapping => 'ifmtu',            },
-    IFSPEED          => { mapping => 'ifspeed'           },
-    IFSTATUS         => { mapping => 'ifstatus'          },
-    IFINTERNALSTATUS => { mapping => 'ifinternalstatus'  },
-    IFLASTCHANGE     => { mapping => 'iflastchange'      },
-    IFINOCTETS       => { mapping => 'ifinoctets'        },
-    IFOUTOCTETS      => { mapping => 'ifoutoctets'       },
-    IFINERRORS       => { mapping => 'ifinerrors'        },
-    IFOUTERRORS      => { mapping => 'ifouterrors'       },
-    MAC              => { mapping => 'ifPhysAddress'     },
-    IFPORTDUPLEX     => { mapping => 'portDuplex'        },
+    IFNUMBER         => {
+        mapping => 'ifIndex',
+        default => '.1.3.6.1.2.1.2.2.1.1'
+    },
+    IFDESCR          => {
+        mapping => 'ifdescr',
+        default => '.1.3.6.1.2.1.2.2.1.2',
+    },
+    IFNAME           => {
+        mapping => 'ifName',
+        default => '.1.3.6.1.2.1.2.2.1.2',
+    },
+    IFTYPE           => {
+        mapping => 'ifType',
+        default => '.1.3.6.1.2.1.2.2.1.3',
+    },
+    IFMTU            => {
+        mapping => 'ifmtu',
+        default => '.1.3.6.1.2.1.2.2.1.4',
+    },
+    IFSPEED          => {
+        mapping => 'ifspeed',
+        default => '.1.3.6.1.2.1.2.2.1.5',
+    },
+    IFSTATUS         => {
+        mapping => 'ifstatus',
+        default => '.1.3.6.1.2.1.2.2.1.8',
+    },
+    IFINTERNALSTATUS => {
+        mapping => 'ifinternalstatus',
+        default => '.1.3.6.1.2.1.2.2.1.7',
+    },
+    IFLASTCHANGE     => {
+        mapping => 'iflastchange',
+        default => '.1.3.6.1.2.1.2.2.1.9',
+    },
+    IFINOCTETS       => {
+        mapping => 'ifinoctets',
+        default => '.1.3.6.1.2.1.2.2.1.10',
+    },
+    IFOUTOCTETS      => {
+        mapping => 'ifoutoctets',
+        default => '.1.3.6.1.2.1.2.2.1.16',
+    },
+    IFINERRORS       => {
+        mapping => 'ifinerrors',
+        default => '.1.3.6.1.2.1.2.2.1.14',
+    },
+    IFOUTERRORS      => {
+        mapping => 'ifouterrors',
+        default => '.1.3.6.1.2.1.2.2.1.20',
+    },
+    MAC              => {
+        mapping => 'ifPhysAddress',
+        default => '.1.3.6.1.2.1.2.2.1.6',
+    },
+    IFPORTDUPLEX     => {
+        mapping => 'portDuplex',
+        default => '.1.3.6.1.2.1.10.7.2.1.19'
+    },
 );
 
 # printer-specific cartridge simple variables
