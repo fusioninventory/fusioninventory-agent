@@ -43,27 +43,25 @@ sub _getFromRegistry {
 }
 
 sub _findFile {
-    my %params = @_;
+    my %params = (
+        dir => '/',
+        limit => 50
+        , @_);
 
-    my $dir   = $params{dir}   || '/';
-    my $limit = $params{limit} || 50;
-
-    return unless -d $dir;
+    return unless -d $params{dir};
 
     my @result;
 
-    my $dirCpt;
     File::Find::find(
         {
-            preprocess => sub {
-                if (!$params{recursive}) {
-                  $dirCpt++;
-                  return if $dirCpt > 1;
-               }
-               return @_;
-            },
             wanted => sub {
 #                    print $File::Find::name."\n";
+#
+                if (!$params{recursive} && $File::Find::name ne $params{dir}) {
+                    $File::Find::prune = 1  # Don't recurse.
+                }
+
+
                 if (   $params{filter}{is_dir}
                     && !$params{filter}{checkSumSHA512}
                     && !$params{filter}{checkSumSHA2} )
@@ -123,12 +121,12 @@ sub _findFile {
                     size => $size,
                     path => $File::Find::name
                   };
-                goto DONE if @result >= $limit;
+                goto DONE if @result >= $params{limit};
             },
             no_chdir => 1
 
         },
-        $dir
+        $params{dir}
     );
   DONE:
 
