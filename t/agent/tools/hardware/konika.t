@@ -75,6 +75,28 @@ my %tests = (
             },
         }
     ],
+    'konica/bizhub_C224.1.walk' => [
+        {
+            MANUFACTURER => 'Konica',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'KONICA MINOLTA bizhub C224e',
+            MAC          => '00:20:6B:8A:DC:EC',
+        },
+        {
+            MANUFACTURER => 'Konica',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'KONICA MINOLTA bizhub C224e',
+            MAC          => '00:20:6B:8A:DC:EC',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Konica',
+                TYPE         => 'PRINTER',
+                MODEL        => undef,
+            },
+        }
+    ],
 );
 
 setPlan(scalar keys %tests);
