@@ -22,4 +22,7 @@ sub import {
 sub Option {
 }
 
+sub GetObject {
+}
+
 1;
