@@ -493,8 +493,6 @@ Ensure given registry content is properly encoded to utf-8.
 
 Returns a value from the registry.
 
-=over
-
 =head2 getRegistryValues(%params)
 
 Much like getRegistryValue but accept wildcare and return a hash ref (key => value).
