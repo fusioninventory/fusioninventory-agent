@@ -551,7 +551,7 @@ the options to use.
 
 Initialize the agent.
 
-=head2 run()
+=head2 runRequestedTasks()
 
 Run the agent.
 
