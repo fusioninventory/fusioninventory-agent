@@ -1,5 +1,13 @@
 Revision history for FusionInventory agent
 
+2.4.0
+core
+* introducing “Collect”. With this module, the administrator can 
+  decided which additional information need to be collected:
+  - scan a directory
+  - retrieve some keys from the registry,
+  - collect some values from WMI objects
+
 2.3.2  Fri, 20 Sep 2013 10:52:30 +0200
 core
 * avoid some warning messages

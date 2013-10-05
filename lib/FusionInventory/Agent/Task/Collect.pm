@@ -255,11 +255,13 @@ sub run {
 
         next unless @result;
 
+        my $cpt = int(@result);
         foreach my $r (@result) {
             next unless ref($r) eq 'HASH';
             next unless keys %$r;
             $r->{uuid}   = $job->{uuid};
             $r->{action} = "setAnswer";
+            $r->{cpt}    = $cpt--;
             $self->{client}->send(
                 url  => $self->{collectRemote},
                 args => $r
