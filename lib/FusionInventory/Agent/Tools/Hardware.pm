@@ -692,6 +692,7 @@ sub _setGenericProperties {
             $key eq 'MEMORY'      ? getCanonicalMemory($raw_value)       :
             $key eq 'MAC'         ? getCanonicalMacAddress($raw_value)   :
                                     hex2char($raw_value)                 ;
+
         $device->{INFO}->{$key} = $value if defined $value;
     }
 

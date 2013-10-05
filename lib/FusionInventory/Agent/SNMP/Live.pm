@@ -29,7 +29,7 @@ sub new {
     my $error;
     if ($version eq 'snmpv3') {
         ($self->{session}, $error) = Net::SNMP->session(
-            -timeout      => 1,
+            -timeout      => 15,
             -retries      => 0,
             -version      => $version,
             -hostname     => $params{hostname},
