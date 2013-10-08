@@ -31,7 +31,7 @@ my %types = (
 # http://www.iana.org/assignments/enterprise-numbers/enterprise-numbers
 my %sysobjectid_vendors = (
     2     => { vendor => 'IBM',             type => 'COMPUTER'   },
-    9     => { vendor => 'Cisco',           type => 'NETWORKING', model => 1 },
+    9     => { vendor => 'Cisco',           type => 'NETWORKING' },
     11    => { vendor => 'Hewlett-Packard'                       },
     23    => { vendor => 'Novell',          type => 'COMPUTER'   },
     36    => { vendor => 'DEC',             type => 'COMPUTER'   },
@@ -57,7 +57,7 @@ my %sysobjectid_vendors = (
     1602  => { vendor => 'Canon',           type => 'PRINTER'    },
     1805  => { vendor => 'Sagem',          type => 'NETWORKING' },
     1872  => { vendor => 'Alteon',          type => 'NETWORKING' },
-    1916  => { vendor => 'Extrem Networks', type => 'NETWORKING', model => 1 },
+    1916  => { vendor => 'Extrem Networks', type => 'NETWORKING' },
     1991  => { vendor => 'Foundry',         type => 'NETWORKING' },
     2385  => { vendor => 'Sharp',           type => 'PRINTER'    },
     2435  => { vendor => 'Brother',         type => 'PRINTER'    },
@@ -376,13 +376,14 @@ sub getDeviceBaseInfo {
     if ($vendor_id) {
         my $result = $sysobjectid_vendors{$vendor_id};
         if ($result) {
-            $device{MANUFACTURER} = $result->{vendor};
-            $device{TYPE}         = $result->{type} if $result->{type};
-            $device{MODEL}        = _getDeviceModel(
+            $result->{model} = _getDeviceModel(
                 vendor  => $result->{vendor},
                 id      => $model_id,
                 datadir => $datadir,
-            ) if $result->{model};
+            );
+            $device{MANUFACTURER} = $result->{vendor};
+            $device{TYPE}         = $result->{type}  if $result->{type};
+            $device{MODEL}        = $result->{model} if $result->{model};
         }
     }
 
