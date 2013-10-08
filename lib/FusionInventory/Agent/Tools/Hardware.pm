@@ -71,6 +71,8 @@ my %sysobjectid_vendors = (
     18334 => { vendor => 'Konica',          type => 'PRINTER'    },
 );
 
+my %sysobjectid_models;
+
 my %sysdescr_first_word = (
     '3com'           => { vendor => '3Com',            type => 'NETWORKING' },
     'alcatel-lucent' => { vendor => 'Alcatel-Lucent',  type => 'NETWORKING' },
@@ -376,18 +378,11 @@ sub getDeviceBaseInfo {
         if ($result) {
             $device{MANUFACTURER} = $result->{vendor};
             $device{TYPE}         = $result->{type} if $result->{type};
-            if ($result->{model}) {
-                my $module =
-                    'FusionInventory::Agent::Tools::Hardware::' .
-                    ucfirst($result->{vendor});
-                my $function = 'getDeviceModel';
-                $device{MODEL} = runFunction(
-                    module   => $module,
-                    function => $function,
-                    params   => { id => $model_id, datadir => $datadir},
-                    load     => 1
-                );
-            }
+            $device{MODEL}        = _getDeviceModel(
+                vendor  => $result->{vendor},
+                id      => $model_id,
+                datadir => $datadir,
+            ) if $result->{model};
         }
     }
 
@@ -426,6 +421,43 @@ sub getDeviceBaseInfo {
     $device{SNMPHOSTNAME} = $hostname if $hostname;
 
     return %device;
+}
+
+sub _getDeviceModel {
+    my (%params) = @_;
+
+    return unless $params{id};
+
+    # load vendor-specific database if not already done
+    my $vendor = lc($params{vendor});
+    $vendor =~ s/ //g;
+    $sysobjectid_models{$vendor} = _loadDeviceModels(
+        file => "$params{datadir}/sysobjectid.$vendor.ids"
+    ) if !exists $sysobjectid_models{$vendor};
+
+    # use last digit of the device id
+    my $id = (split(/\./, $params{id}))[-1];
+    return $sysobjectid_models{$vendor}->{$id}->{name};
+}
+
+sub _loadDeviceModels {
+    my (%params) = @_;
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my $models;
+
+    while (my $line = <$handle>) {
+        chomp $line;
+        my ($id, $name, $description) = split(/\t/, $line);
+        next unless $id;
+        $models->{$id} = { name => $name, description => $description };
+    }
+
+    close $handle;
+
+    return $models;
 }
 
 sub _getSerial {
