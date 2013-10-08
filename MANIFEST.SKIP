@@ -4,6 +4,7 @@ CVS/
 ^00
 ^.gitignore$
 ^.cvsignore$
+^.travis.yml$
 .svn
 .merge
 
