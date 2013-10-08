@@ -57,7 +57,7 @@ my %sysobjectid_vendors = (
     1602  => { vendor => 'Canon',           type => 'PRINTER'    },
     1805  => { vendor => 'Sagem',          type => 'NETWORKING' },
     1872  => { vendor => 'Alteon',          type => 'NETWORKING' },
-    1916  => { vendor => 'Extrem Networks', type => 'NETWORKING' },
+    1916  => { vendor => 'Extrem Networks', type => 'NETWORKING', model => 1 },
     1991  => { vendor => 'Foundry',         type => 'NETWORKING' },
     2385  => { vendor => 'Sharp',           type => 'PRINTER'    },
     2435  => { vendor => 'Brother',         type => 'PRINTER'    },
@@ -430,7 +430,7 @@ sub _getDeviceModel {
 
     # load vendor-specific database if not already done
     my $vendor = lc($params{vendor});
-    $vendor =~ s/ //g;
+    $vendor =~ s/ /_/g;
     $sysobjectid_models{$vendor} = _loadDeviceModels(
         file => "$params{datadir}/sysobjectid.$vendor.ids"
     ) if !exists $sysobjectid_models{$vendor};
