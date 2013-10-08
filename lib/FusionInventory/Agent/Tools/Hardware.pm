@@ -31,7 +31,7 @@ my %types = (
 # http://www.iana.org/assignments/enterprise-numbers/enterprise-numbers
 my %sysobjectid_vendors = (
     2     => { vendor => 'IBM',             type => 'COMPUTER'   },
-    9     => { vendor => 'Cisco',           type => 'NETWORKING' },
+    9     => { vendor => 'Cisco',           type => 'NETWORKING', model => 1 },
     11    => { vendor => 'Hewlett-Packard'                       },
     23    => { vendor => 'Novell',          type => 'COMPUTER'   },
     36    => { vendor => 'DEC',             type => 'COMPUTER'   },
@@ -353,7 +353,7 @@ my %printer_pagecounters_variables = (
 );
 
 sub getDeviceBaseInfo {
-    my ($snmp) = @_;
+    my ($snmp, $datadir) = @_;
 
     # retrieve sysdescr value, as it is our primary identification key
     my $sysdescr = $snmp->get('.1.3.6.1.2.1.1.1.0'); # SNMPv2-MIB::sysDescr.0
@@ -366,16 +366,28 @@ sub getDeviceBaseInfo {
     # first heuristic:
     # compute manufacturer and type from sysobjectid (SNMPv2-MIB::sysObjectID.0)
     my $sysobjectid = $snmp->get('.1.3.6.1.2.1.1.2.0');
-    my $vendor_id =
-        $sysobjectid =~ /^SNMPv2-SMI::enterprises\.(\d+)/ ? $1 :
-        $sysobjectid =~ /^iso\.3\.6\.1\.4\.1\.(\d+)/      ? $1 :
-        $sysobjectid =~ /^\.1\.3\.6\.1\.4\.1\.(\d+)/      ? $1 :
-                                                            undef;
+    my ($vendor_id, $model_id) =
+        $sysobjectid =~ /^SNMPv2-SMI::enterprises\.(\d+)\.(.+)/ ? ($1, $2) :
+        $sysobjectid =~ /^iso\.3\.6\.1\.4\.1\.(\d+)\.(.+)/      ? ($1, $2) :
+        $sysobjectid =~ /^\.1\.3\.6\.1\.4\.1\.(\d+)\.(.+)/      ? ($1, $2) :
+                                                                  ()       ;
     if ($vendor_id) {
         my $result = $sysobjectid_vendors{$vendor_id};
         if ($result) {
             $device{MANUFACTURER} = $result->{vendor};
             $device{TYPE}         = $result->{type} if $result->{type};
+            if ($result->{model}) {
+                my $module =
+                    'FusionInventory::Agent::Tools::Hardware::' .
+                    ucfirst($result->{vendor});
+                my $function = 'getDeviceModel';
+                $device{MODEL} = runFunction(
+                    module   => $module,
+                    function => $function,
+                    params   => { id => $model_id, datadir => $datadir},
+                    load     => 1
+                );
+            }
         }
     }
 
@@ -449,11 +461,11 @@ sub _getMacAddress {
 }
 
 sub getDeviceInfo {
-     my ($snmp, $dictionary) = @_;
+     my ($snmp, $dictionary, $datadir) = @_;
 
     # the device is initialized with basic information
     # deduced from its sysdescr
-    my %device = getDeviceBaseInfo($snmp);
+    my %device = getDeviceBaseInfo($snmp, $datadir);
     return unless %device;
 
     # then, we try to get a matching model from the dictionary,
@@ -476,7 +488,6 @@ sub getDeviceInfo {
         $device{SERIAL}    = _getSerial($snmp, $model);
         $device{MODELSNMP} = $model->{MODELSNMP};
         $device{FIRMWARE}  = $model->{FIRMWARE};
-        $device{MODEL}     = $model->{MODEL};
     } else {
         # otherwise, we fallback on default mappings
         $device{MAC} = _getMacAddress($snmp);

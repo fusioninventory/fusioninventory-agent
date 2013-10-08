@@ -18,7 +18,8 @@ Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 11-Aug-11 02:58 by prod_rel_team',
             SNMPHOSTNAME => 'WIFI-IPJ-etage2-82.wifi-mngt.dauphine.fr',
-            MAC          => '00:00:00:00:00:00'
+            MAC          => '00:00:00:00:00:00',
+            MODEL        => 'ciscoAIRAP1042',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -29,8 +30,8 @@ Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 11-Aug-11 02:58 by prod_rel_team',
             SNMPHOSTNAME => 'WIFI-IPJ-etage2-82.wifi-mngt.dauphine.fr',
             MAC          => 'A4:18:75:C2:67:00',
+            MODEL        => 'ciscoAIRAP1042',
             MODELSNMP    => 'Networking2178',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'FCZ1623Z2XQ',
         },
@@ -233,7 +234,8 @@ Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2008 by Cisco Systems, Inc.
 Compiled Wed 19-Mar-08 18:08 by prod_rel_team',
             MAC          => '00:00:00:00:00:00',
-            SNMPHOSTNAME => 'ap-CP6-BU-161.wifi-mngt.dauphine.fr'
+            SNMPHOSTNAME => 'ap-CP6-BU-161.wifi-mngt.dauphine.fr',
+            MODEL        => 'ciscoAIRAP1130',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -244,8 +246,8 @@ Copyright (c) 1986-2008 by Cisco Systems, Inc.
 Compiled Wed 19-Mar-08 18:08 by prod_rel_team',
             MAC          => '00:13:5F:FA:F2:50',
             SNMPHOSTNAME => 'ap-CP6-BU-161.wifi-mngt.dauphine.fr',
+            MODEL        => 'ciscoAIRAP1130',
             MODELSNMP    => 'Networking2176',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'FCZ0930Q00Z',
         },
@@ -422,7 +424,8 @@ Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2008 by Cisco Systems, Inc.
 Compiled Wed 19-Mar-08 18:08 by prod_rel_team',
             SNMPHOSTNAME => 'ap-P405-45.wifi-mngt.dauphine.fr',
-            MAC          => '00:00:00:00:00:00'
+            MAC          => '00:00:00:00:00:00',
+            MODEL        => 'ciscoAIRAP1130',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -433,8 +436,8 @@ Copyright (c) 1986-2008 by Cisco Systems, Inc.
 Compiled Wed 19-Mar-08 18:08 by prod_rel_team',
             SNMPHOSTNAME => 'ap-P405-45.wifi-mngt.dauphine.fr',
             MAC          => '00:13:5F:FA:FA:50',
+            MODEL        => 'ciscoAIRAP1130',
             MODELSNMP    => 'Networking2176',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'FCZ0930Q01A',
         },
@@ -652,6 +655,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Wed 16-Sep-09 18:36 by prod_rel_team',
             MAC          => '00:00:00:00:00:00',
             SNMPHOSTNAME => 'ap-D416-141.wifi-mngt.dauphine.fr',
+            MODEL        => 'ciscoAIRAP1130',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -662,8 +666,8 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Wed 16-Sep-09 18:36 by prod_rel_team',
             MAC          => '00:13:5F:FA:F9:A0',
             SNMPHOSTNAME => 'ap-D416-141.wifi-mngt.dauphine.fr',
+            MODEL        => 'ciscoAIRAP1130',
             MODELSNMP    => 'Networking2191',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'FCZ0930Q01N',
         },
@@ -880,7 +884,8 @@ Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Wed 16-Sep-09 18:36 by prod_rel_team',
             SNMPHOSTNAME => 'ap-D416-141.wifi-mngt.dauphine.fr',
-            MAC          => '00:00:00:00:00:00'
+            MAC          => '00:00:00:00:00:00',
+            MODEL        => 'ciscoAIRAP1130',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -891,8 +896,8 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Wed 16-Sep-09 18:36 by prod_rel_team',
             SNMPHOSTNAME => 'ap-D416-141.wifi-mngt.dauphine.fr',
             MAC          => '00:13:5F:FA:F9:A0',
+            MODEL        => 'ciscoAIRAP1130',
             MODELSNMP    => 'Networking2191',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'FCZ0930Q01N',
         },
@@ -1110,6 +1115,7 @@ Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 02:53 by prod_rel_team',
             MAC          => '00:24:13:EA:A7:00',
             SNMPHOSTNAME => 'CB-27.mgmt.dauphine.fr',
+            MODEL        => 'catalyst296024',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -1120,8 +1126,8 @@ Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 02:53 by prod_rel_team',
             MAC          => '00:24:13:EA:A7:00',
             SNMPHOSTNAME => 'CB-27.mgmt.dauphine.fr',
+            MODEL        => 'catalyst296024',
             MODELSNMP    => 'Networking2177',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'FOC1247X5DX',
         },
@@ -1605,6 +1611,7 @@ Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 02:53 by prod_rel_team',
             MAC          => '00:24:13:CE:D7:00',
             SNMPHOSTNAME => 'AP-P101-59.mgmt.dauphine.fr',
+            MODEL        => 'catalyst296024',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -1615,8 +1622,8 @@ Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 02:53 by prod_rel_team',
             MAC          => '00:24:13:CE:D7:00',
             SNMPHOSTNAME => 'AP-P101-59.mgmt.dauphine.fr',
+            MODEL        => 'catalyst296024',
             MODELSNMP    => 'Networking2177',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'FOC1247X5D4',
         },
@@ -2013,6 +2020,7 @@ Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 02:53 by prod_rel_team',
             MAC          => '00:1B:54:D6:39:00',
             SNMPHOSTNAME => 'CP-P101-37.mgmt.dauphine.fr',
+            MODEL        => 'catalyst296024',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -2023,8 +2031,8 @@ Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 02:53 by prod_rel_team',
             MAC          => '00:1B:54:D6:39:00',
             SNMPHOSTNAME => 'CP-P101-37.mgmt.dauphine.fr',
+            MODEL        => 'catalyst296024',
             MODELSNMP    => 'Networking2177',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'FOC1113X1PE',
         },
@@ -2421,6 +2429,7 @@ Copyright (c) 1986-2012 by Cisco Systems, Inc.
 Compiled Wed 30-May-12 14:26 by prod_rel_team',
             SNMPHOSTNAME => 'AP-74.mgmt.dauphine.fr',
             MAC          => 'C4:0A:CB:CD:86:00',
+            MODEL        => 'catalyst296048',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -2431,8 +2440,8 @@ Copyright (c) 1986-2012 by Cisco Systems, Inc.
 Compiled Wed 30-May-12 14:26 by prod_rel_team',
             SNMPHOSTNAME => 'AP-74.mgmt.dauphine.fr',
             MAC          => 'C4:0A:CB:CD:86:00',
+            MODEL        => 'catalyst296048',
             MODELSNMP    => 'Networking2179',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'FOC1511W1A2',
         },
@@ -4345,6 +4354,7 @@ Copyright (c) 1986-2012 by Cisco Systems, Inc.
 Compiled Wed 30-May-12 14:26 by prod_rel_team',
             MAC          => '64:D9:89:8D:B1:80',
             SNMPHOSTNAME => 'CB-C005-208.Dauphine',
+            MODEL        => 'catalyst296048',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -4355,8 +4365,8 @@ Copyright (c) 1986-2012 by Cisco Systems, Inc.
 Compiled Wed 30-May-12 14:26 by prod_rel_team',
             MAC          => '64:D9:89:8D:B1:80',
             SNMPHOSTNAME => 'CB-C005-208.Dauphine',
+            MODEL        => 'catalyst296048',
             MODELSNMP    => 'Networking2179',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'FOC1511W19F',
         },
@@ -5902,6 +5912,7 @@ Copyright (c) 1986-2012 by Cisco Systems, Inc.
 Compiled Wed 30-May-12 14:26 by prod_rel_team',
             MAC          => '2C:36:F8:7D:09:00',
             SNMPHOSTNAME => 'CB-C005-206.Dauphine',
+            MODEL        => 'catalyst296048',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -5916,6 +5927,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
             MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'FCQ1605X4UZ',
+            MODEL        => 'catalyst296048',
         },
         {
             INFO => {
@@ -7459,6 +7471,7 @@ Copyright (c) 1986-2012 by Cisco Systems, Inc.
 Compiled Wed 30-May-12 14:26 by prod_rel_team',
             MAC          => '2C:36:F8:7D:06:80',
             SNMPHOSTNAME => 'CB-C005-207.Dauphine',
+            MODEL        => 'catalyst296048',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -7469,8 +7482,8 @@ Copyright (c) 1986-2012 by Cisco Systems, Inc.
 Compiled Wed 30-May-12 14:26 by prod_rel_team',
             MAC          => '2C:36:F8:7D:06:80',
             SNMPHOSTNAME => 'CB-C005-207.Dauphine',
+            MODEL        => 'catalyst296048',
             MODELSNMP    => 'Networking2179',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'FCQ1605X4VP',
         },
@@ -9016,6 +9029,7 @@ Copyright (c) 1986-2012 by Cisco Systems, Inc.
 Compiled Wed 30-May-12 14:26 by prod_rel_team',
             MAC          => 'C4:0A:CB:22:E5:80',
             SNMPHOSTNAME => 'CB-C005-205.Dauphine',
+            MODEL        => 'catalyst296048',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -9027,7 +9041,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
             MAC          => 'C4:0A:CB:22:E5:80',
             SNMPHOSTNAME => 'CB-C005-205.Dauphine',
             MODELSNMP    => 'Networking2179',
-            MODEL        => undef,
+            MODEL        => 'catalyst296048',
             FIRMWARE     => undef,
             SERIAL       => 'FOC1511W1CB'
         },
@@ -10642,6 +10656,7 @@ Copyright (c) 1986-2010 by Cisco Systems, Inc.
 Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
             SNMPHOSTNAME => 'CP-lt-40.mgmt.dauphine.fr',
             MAC          => '04:C5:A4:42:F2:80',
+            MODEL        => 'catalyst29608TCS',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -10652,8 +10667,8 @@ Copyright (c) 1986-2010 by Cisco Systems, Inc.
 Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
             SNMPHOSTNAME => 'CP-lt-40.mgmt.dauphine.fr',
             MAC          => '04:C5:A4:42:F2:80',
+            MODEL        => 'catalyst29608TCS',
             MODELSNMP    => 'Networking2183',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'FOC1508V4B5',
         },
@@ -10991,6 +11006,7 @@ Copyright (c) 1986-2010 by Cisco Systems, Inc.
 Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
             MAC          => '04:C5:A4:42:F2:80',
             SNMPHOSTNAME => 'default-40.mgmt.dauphine.fr',
+            MODEL        => 'catalyst29608TCS',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -11001,8 +11017,8 @@ Copyright (c) 1986-2010 by Cisco Systems, Inc.
 Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
             MAC          => '04:C5:A4:42:F2:80',
             SNMPHOSTNAME => 'default-40.mgmt.dauphine.fr',
+            MODEL        => 'catalyst29608TCS',
             MODELSNMP    => 'Networking2183',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'FOC1508V4B5',
         },
@@ -11303,6 +11319,7 @@ Copyright (c) 1986-2010 by Cisco Systems, Inc.
 Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
             SNMPHOSTNAME => 'Scol-tmp-65.mgmt.dauphine.fr',
             MAC          => 'E8:40:40:AA:73:80',
+            MODEL        => 'catalyst29608TCS',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -11313,8 +11330,8 @@ Copyright (c) 1986-2010 by Cisco Systems, Inc.
 Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
             SNMPHOSTNAME => 'Scol-tmp-65.mgmt.dauphine.fr',
             MAC          => 'E8:40:40:AA:73:80',
+            MODEL        => 'catalyst29608TCS',
             MODELSNMP    => 'Networking2183',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'FOC1511W532'
         },
@@ -11578,6 +11595,7 @@ Copyright (c) 1986-2010 by Cisco Systems, Inc.
 Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
             SNMPHOSTNAME => 'AB-A422-7.mgmt.dauphine.fr',
             MAC          => '40:F4:EC:D6:80:00',
+            MODEL        => 'catalyst29608TCS',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -11588,8 +11606,8 @@ Copyright (c) 1986-2010 by Cisco Systems, Inc.
 Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
             SNMPHOSTNAME => 'AB-A422-7.mgmt.dauphine.fr',
             MAC          => '40:F4:EC:D6:80:00',
+            MODEL        => 'catalyst29608TCS',
             MODELSNMP    => 'Networking2184',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'FOC1501V1PS'
         },
@@ -11889,6 +11907,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             SNMPHOSTNAME => 'AP-72.mgmt.dauphine.fr',
             MAC          => 'C4:0A:CB:E6:F0:00',
+            MODEL        => 'catalyst296048',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -11898,8 +11917,8 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             SNMPHOSTNAME => 'AP-72.mgmt.dauphine.fr',
             MAC          => 'C4:0A:CB:E6:F0:00',
+            MODEL        => 'catalyst296048',
             MODELSNMP    => 'Networking2416',
-            MODEL        => undef,
             SERIAL       => undef,
             FIRMWARE     => undef,
         },
@@ -13159,6 +13178,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             SNMPHOSTNAME => 'CB-243.mgmt.dauphine.fr',
             MAC          => 'C4:0A:CB:E6:E8:80',
+            MODEL        => 'catalyst296048',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -13168,8 +13188,8 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             SNMPHOSTNAME => 'CB-243.mgmt.dauphine.fr',
             MAC          => 'C4:0A:CB:E6:E8:80',
+            MODEL        => 'catalyst296048',
             MODELSNMP    => 'Networking2416',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => undef,
         },
@@ -14429,6 +14449,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             SNMPHOSTNAME => 'AB-39.mgmt.dauphine.fr',
             MAC          => 'C4:0A:CB:CD:83:00',
+            MODEL        => 'catalyst296048',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -14438,8 +14459,8 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             SNMPHOSTNAME => 'AB-39.mgmt.dauphine.fr',
             MAC          => 'C4:0A:CB:CD:83:00',
+            MODEL        => 'catalyst296048',
             MODELSNMP    => 'Networking2416',
-            MODEL        => undef,
             SERIAL       => undef,
             FIRMWARE     => undef,
         },
@@ -15699,6 +15720,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             SNMPHOSTNAME => 'AB-35.mgmt.dauphine.fr',
             MAC          => 'C4:0A:CB:95:39:00',
+            MODEL        => 'catalyst296048',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -15708,8 +15730,8 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             SNMPHOSTNAME => 'AB-35.mgmt.dauphine.fr',
             MAC          => 'C4:0A:CB:95:39:00',
+            MODEL        => 'catalyst296048',
             MODELSNMP    => 'Networking2416',
-            MODEL        => undef,
             SERIAL       => undef,
             FIRMWARE     => undef,
         },
@@ -16968,7 +16990,8 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             MAC          => 'C4:0A:CB:CD:8B:80',
-            SNMPHOSTNAME => 'CP-106.mgmt.dauphine.fr'
+            SNMPHOSTNAME => 'CP-106.mgmt.dauphine.fr',
+            MODEL        => 'catalyst296048',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -16978,8 +17001,8 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             MAC          => 'C4:0A:CB:CD:8B:80',
             SNMPHOSTNAME => 'CP-106.mgmt.dauphine.fr',
+            MODEL        => 'catalyst296048',
             MODELSNMP    => 'Networking2416',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => undef,
         },
@@ -18065,6 +18088,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             MAC          => 'C4:0A:CB:AB:68:80',
             SNMPHOSTNAME => 'AP-71.mgmt.dauphine.fr',
+            MODEL        => 'catalyst296048',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -18074,8 +18098,8 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             MAC          => 'C4:0A:CB:AB:68:80',
             SNMPHOSTNAME => 'AP-71.mgmt.dauphine.fr',
+            MODEL        => 'catalyst296048',
             MODELSNMP    => 'Networking2416',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => undef,
         },
@@ -19188,6 +19212,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             MAC          => 'C4:0A:CB:CD:88:00',
             SNMPHOSTNAME => 'CP-129.mgmt.dauphine.fr',
+            MODEL        => 'catalyst296048',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -19197,8 +19222,8 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             MAC          => 'C4:0A:CB:CD:88:00',
             SNMPHOSTNAME => 'CP-129.mgmt.dauphine.fr',
+            MODEL        => 'catalyst296048',
             MODELSNMP    => 'Networking2416',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => undef
         },
@@ -20284,6 +20309,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             MAC          => 'C4:0A:CB:BA:6C:00',
             SNMPHOSTNAME => 'AP-73.mgmt.dauphine.fr',
+            MODEL        => 'catalyst296048',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -20293,8 +20319,8 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             MAC          => 'C4:0A:CB:BA:6C:00',
             SNMPHOSTNAME => 'AP-73.mgmt.dauphine.fr',
+            MODEL        => 'catalyst296048',
             MODELSNMP    => 'Networking2416',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => undef
         },
@@ -21396,6 +21422,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             SNMPHOSTNAME => 'CP-138.mgmt.dauphine.fr',
             MAC          => 'C4:0A:CB:BA:6E:80',
+            MODEL        => 'catalyst296048',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -21405,8 +21432,8 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             SNMPHOSTNAME => 'CP-138.mgmt.dauphine.fr',
             MAC          => 'C4:0A:CB:BA:6E:80',
+            MODEL        => 'catalyst296048',
             MODELSNMP    => 'Networking2416',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => undef
         },
@@ -22511,6 +22538,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             SNMPHOSTNAME => 'CB-242.mgmt.dauphine.fr',
             MAC          => 'C4:0A:CB:CD:73:00',
+            MODEL        => 'catalyst296048',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -22520,8 +22548,8 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             SNMPHOSTNAME => 'CB-242.mgmt.dauphine.fr',
             MAC          => 'C4:0A:CB:CD:73:00',
+            MODEL        => 'catalyst296048',
             MODELSNMP    => 'Networking2416',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => undef
         },
@@ -23624,6 +23652,7 @@ Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 03:03 by prod_rel_team',
             SNMPHOSTNAME => 'SALSERV-INTERUFR-149.mgmt.dauphine.fr',
             MAC          => '18:33:9D:E7:15:00',
+            MODEL        => 'cat29xxStack'
         },
         {
             MANUFACTURER => 'Cisco',
@@ -23634,8 +23663,8 @@ Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 03:03 by prod_rel_team',
             SNMPHOSTNAME => 'SALSERV-INTERUFR-149.mgmt.dauphine.fr',
             MAC          => '18:33:9D:E7:15:00',
+            MODEL        => 'cat29xxStack',
             MODELSNMP    => 'Networking2147',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'FOC1622Y2ME',
         },
@@ -24892,6 +24921,7 @@ Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 03:03 by prod_rel_team',
             SNMPHOSTNAME => 'CB-C005-202.mgmt.dauphine.fr',
             MAC          => 'B4:14:89:38:2D:80',
+            MODEL        => 'cat29xxStack',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -24902,8 +24932,8 @@ Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 03:03 by prod_rel_team',
             SNMPHOSTNAME => 'CB-C005-202.mgmt.dauphine.fr',
             MAC          => 'B4:14:89:38:2D:80',
+            MODEL        => 'cat29xxStack',
             MODELSNMP    => 'Networking2147',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'FOC1440Z0HG'
         },
@@ -25934,7 +25964,8 @@ IOS (tm) C3550 Software (C3550-I5Q3L2-M), Version 12.1(20)EA1a, RELEASE SOFTWARE
 Copyright (c) 1986-2004 by cisco Systems, Inc.
 Compiled Mon 19-Apr-04 21:50 by yenanh',
             SNMPHOSTNAME => 'CB-Federateur.mgmt.dauphine.fr',
-            MAC          => '00:0B:5F:CC:D8:80'
+            MAC          => '00:0B:5F:CC:D8:80',
+            MODEL        => 'catalyst355012G'
         },
         {
             MANUFACTURER => 'Cisco',
@@ -25945,8 +25976,8 @@ Copyright (c) 1986-2004 by cisco Systems, Inc.
 Compiled Mon 19-Apr-04 21:50 by yenanh',
             SNMPHOSTNAME => 'CB-Federateur.mgmt.dauphine.fr',
             MAC          => '00:0B:5F:CC:D8:80',
+            MODEL        => 'catalyst355012G',
             MODELSNMP    => 'Networking2034',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'CAT0647X118',
         },
@@ -27054,7 +27085,8 @@ IOS (tm) C3550 Software (C3550-I5Q3L2-M), Version 12.1(20)EA1a, RELEASE SOFTWARE
 Copyright (c) 1986-2004 by cisco Systems, Inc.
 Compiled Mon 19-Apr-04 21:50 by yenanh',
             SNMPHOSTNAME => 'CB-Federateur.mgmt.dauphine.fr',
-            MAC          => '00:0B:5F:CC:D8:80'
+            MAC          => '00:0B:5F:CC:D8:80',
+            MODEL        => 'catalyst355012G',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -27065,8 +27097,8 @@ Copyright (c) 1986-2004 by cisco Systems, Inc.
 Compiled Mon 19-Apr-04 21:50 by yenanh',
             SNMPHOSTNAME => 'CB-Federateur.mgmt.dauphine.fr',
             MAC          => '00:0B:5F:CC:D8:80',
+            MODEL        => 'catalyst355012G',
             MODELSNMP    => 'Networking2034',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'CAT0647X118',
         },
@@ -28176,10 +28208,10 @@ foreach my $test (sort keys %tests) {
     my $snmp  = getSNMP($test);
     my $model = getModel($index, $tests{$test}->[1]->{MODELSNMP});
 
-    my %device0 = getDeviceInfo($snmp);
+    my %device0 = getDeviceInfo($snmp, undef, './share');
     cmp_deeply(\%device0, $tests{$test}->[0], "$test: base stage");
 
-    my %device1 = getDeviceInfo($snmp, $dictionary);
+    my %device1 = getDeviceInfo($snmp, $dictionary, './share');
     cmp_deeply(\%device1, $tests{$test}->[1], "$test: base + dictionnary stage");
 
     my $device3 = getDeviceFullInfo(
