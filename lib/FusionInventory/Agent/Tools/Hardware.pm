@@ -112,7 +112,7 @@ my %sysdescr_first_word = (
     'officejet'      => { vendor => 'Hewlett-Packard', type => 'PRINTER'    },
     'oki'            => { vendor => 'OKI',             type => 'PRINTER'    },
     'powerconnect'   => { vendor => 'PowerConnect',    type => 'NETWORKING' },
-    'procurve'       => { vendor => 'Hewlett Packard', type => 'NETWORKING' },
+    'procurve'       => { vendor => 'Hewlett-Packard', type => 'NETWORKING' },
     'ricoh'          => { vendor => 'Ricoh',           type => 'PRINTER'    },
     'sagem'          => { vendor => 'Sagem',           type => 'NETWORKING' },
     'samsung'        => { vendor => 'Samsung',         type => 'PRINTER'    },
