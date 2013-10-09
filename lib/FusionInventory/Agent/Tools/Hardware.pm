@@ -367,10 +367,10 @@ sub getDeviceBaseInfo {
     # compute manufacturer and type from sysobjectid (SNMPv2-MIB::sysObjectID.0)
     my $sysobjectid = $snmp->get('.1.3.6.1.2.1.1.2.0');
     my $vendor_id =
-        !defined($sysobjectid)                            ? '' :
-        $sysobjectid =~ /^SNMPv2-SMI::enterprises\.(\d+)/ ? $1 :
-        $sysobjectid =~ /^iso\.3\.6\.1\.4\.1\.(\d+)/      ? $1 :
-        $sysobjectid =~ /^\.1\.3\.6\.1\.4\.1\.(\d+)/      ? $1 :
+        !defined($sysobjectid)                            ? undef :
+        $sysobjectid =~ /^SNMPv2-SMI::enterprises\.(\d+)/ ? $1    :
+        $sysobjectid =~ /^iso\.3\.6\.1\.4\.1\.(\d+)/      ? $1    :
+        $sysobjectid =~ /^\.1\.3\.6\.1\.4\.1\.(\d+)/      ? $1    :
                                                             undef;
     if ($vendor_id) {
         my $result = $sysobjectid_vendors{$vendor_id};
