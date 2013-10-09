@@ -28207,10 +28207,17 @@ foreach my $test (sort keys %tests) {
     my $snmp  = getSNMP($test);
     my $model = getModel($index, $tests{$test}->[1]->{MODELSNMP});
 
-    my %device0 = getDeviceInfo($snmp, undef, './share');
+    my %device0 = getDeviceInfo(
+        snmp       => $snmp,
+        datadir    => './share'
+    );
     cmp_deeply(\%device0, $tests{$test}->[0], "$test: base stage");
 
-    my %device1 = getDeviceInfo($snmp, $dictionary, './share');
+    my %device1 = getDeviceInfo(
+        snmp       => $snmp,
+        dictionary => $dictionary,
+        datadir    => './share'
+    );
     cmp_deeply(\%device1, $tests{$test}->[1], "$test: base + dictionnary stage");
 
     my $device3 = getDeviceFullInfo(

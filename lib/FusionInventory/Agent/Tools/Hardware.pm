@@ -494,11 +494,14 @@ sub _getMacAddress {
 }
 
 sub getDeviceInfo {
-     my ($snmp, $dictionary, $datadir) = @_;
+    my (%params) = @_;
+
+    my $snmp       = $params{snmp};
+    my $dictionary = $params{dictionary};
 
     # the device is initialized with basic information
     # deduced from its sysdescr
-    my %device = getDeviceBaseInfo($snmp, $datadir);
+    my %device = getDeviceBaseInfo($snmp, $params{datadir});
     return unless %device;
 
     # then, we try to get a matching model from the dictionary,
@@ -1055,7 +1058,7 @@ This module provides some hardware-related functions.
 return a minimal set of information for a device through SNMP, according to a
 set of rules hardcoded in the agent.
 
-=head2 getDeviceInfo($snmp, $dictionary)
+=head2 getDeviceInfo(%params)
 
 return a limited set of information for a device through SNMP, according to a
 set of rules hardcoded in the agent and the usage of generic knowledge base,
