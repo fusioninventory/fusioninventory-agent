@@ -793,8 +793,8 @@ sub _setPrinterProperties {
     my $snmp   = $params{snmp};
     my $model  = $params{model};
 
-    my $model_value = $snmp->get($model->{oids}->{model});
-    $device->{INFO}->{MODEL} = $model_value if $model_value;
+    $device->{INFO}->{MODEL} = $snmp->get($model->{oids}->{model})
+        if !$device->{INFO}->{MODEL};
 
     # consumable levels
     foreach my $key (keys %printer_cartridges_simple_variables) {
@@ -847,8 +847,8 @@ sub _setNetworkingProperties {
     my $model  = $params{model};
     my $logger = $params{logger};
 
-    my $model_value = $snmp->get($model->{oids}->{entPhysicalModelName});
-    $device->{INFO}->{MODEL} = $model_value if $model_value;
+    $device->{INFO}->{MODEL} = $snmp->get($model->{oids}->{entPhysicalModelName})
+        if !$device->{INFO}->{MODEL};
 
     my $comments = $device->{INFO}->{DESCRIPTION} || $device->{INFO}->{COMMENTS};
     my $ports    = $device->{PORTS}->{PORT};
