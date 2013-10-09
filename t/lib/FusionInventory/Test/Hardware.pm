@@ -30,7 +30,6 @@ sub setPlan {
     } else {
         YAML->require();
         plan(skip_all => 'YAML required') if $EVAL_ERROR;
-        YAML->import('LoadFile');
     }
 
     plan tests => 3 * $count;
@@ -43,7 +42,7 @@ sub getDictionnary {
 }
 
 sub getIndex {
-    return LoadFile("$ENV{SNMPMODEL_DATABASE}/index.yaml");
+    return YAML::LoadFile("$ENV{SNMPMODEL_DATABASE}/index.yaml");
 }
 
 sub getSNMP {
