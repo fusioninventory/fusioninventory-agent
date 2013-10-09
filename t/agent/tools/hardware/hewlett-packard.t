@@ -3045,14 +3045,14 @@ my %tests = (
     ],
     'hewlett-packard/ProCurve_J8697A_Switch_5406zl.walk' => [
         {
-            MANUFACTURER => 'Hewlett Packard',
+            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_',
             SNMPHOSTNAME => 'oyapock CR2',
             MAC          => '00:18:71:C1:E0:00',
         },
         {
-            MANUFACTURER => 'Hewlett Packard',
+            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_',
             SNMPHOSTNAME => 'oyapock CR2',
@@ -3063,7 +3063,7 @@ my %tests = (
         },
         {
             INFO => {
-                MANUFACTURER => 'Hewlett Packard',
+                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'NETWORKING',
                 COMMENTS     => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_',
                 MODEL        => 'J8697A',
