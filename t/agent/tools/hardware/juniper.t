@@ -24,7 +24,6 @@ my %tests = (
             SNMPHOSTNAME => 'INTERUFR-219-ex2200-24',
             MAC          => '78:FE:3D:D5:0E:C0',
             MODELSNMP    => 'Networking2185',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'CW0211513175',
         },
@@ -1279,7 +1278,6 @@ my %tests = (
             SNMPHOSTNAME => 'jtc407-01',
             MAC          => '78:FE:3D:36:F7:00',
             MODELSNMP    => 'Networking2495',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => undef,
         },
@@ -3276,7 +3274,6 @@ my %tests = (
             SNMPHOSTNAME => 'AB-B404-23-ex2200',
             MAC          => '00:0B:CA:FE:00:00',
             MODELSNMP    => 'Networking2181',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => undef,
         },
@@ -3980,7 +3977,6 @@ my %tests = (
             SNMPHOSTNAME => 'AB-BU6-132-ex2200-48',
             MAC          => '78:FE:3D:37:5E:C0',
             MODELSNMP    => 'Networking2190',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'CU0211450517',
         },
@@ -5726,7 +5722,6 @@ my %tests = (
             SNMPHOSTNAME => 'C005-236b-ex2200',
             MAC          => '00:0B:CA:FE:00:00',
             MODELSNMP    => 'Networking2180',
-            MODEL        => undef,
             SERIAL       => undef,
             FIRMWARE     => undef,
         },
@@ -6383,7 +6378,6 @@ my %tests = (
             SNMPHOSTNAME => 'jtc407-01',
             MAC          => '78:FE:3D:36:F7:00',
             MODELSNMP    => 'Networking2495',
-            MODEL        => undef,
             SERIAL       => undef,
             FIRMWARE     => undef,
         },
@@ -7245,7 +7239,6 @@ my %tests = (
             SNMPHOSTNAME => 'jtc20-03',
             MAC          => '2C:6B:F5:9A:7E:80',
             MODELSNMP    => 'Networking2450',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'BL0210129540',
         },
@@ -9330,7 +9323,6 @@ my %tests = (
             SNMPHOSTNAME => 'jte4-01',
             MAC          => '2C:6B:F5:9B:48:80',
             MODELSNMP    => 'Networking2448',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'BQ0210122093',
         },
@@ -20016,7 +20008,6 @@ my %tests = (
             SNMPHOSTNAME => 'jte4-01',
             MAC          => '2C:6B:F5:9B:48:80',
             MODELSNMP    => 'Networking2448',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'BQ0210122093',
         },
@@ -30762,15 +30753,16 @@ foreach my $test (sort keys %tests) {
     my $snmp  = getSNMP($test);
     my $model = getModel($index, $tests{$test}->[1]->{MODELSNMP});
 
-    my %device0 = getDeviceInfo($snmp);
+    my %device0 = getDeviceInfo($snmp, undef, './share');
     cmp_deeply(\%device0, $tests{$test}->[0], "$test: base stage");
 
-    my %device1 = getDeviceInfo($snmp, $dictionary);
+    my %device1 = getDeviceInfo($snmp, $dictionary, './share');
     cmp_deeply(\%device1, $tests{$test}->[1], "$test: base + dictionnary stage");
 
     my $device3 = getDeviceFullInfo(
-        snmp  => $snmp,
-        model => $model,
+        snmp    => $snmp,
+        model   => $model,
+        datadir => './share'
     );
     cmp_deeply($device3, $tests{$test}->[2], "$test: base + model stage");
 }

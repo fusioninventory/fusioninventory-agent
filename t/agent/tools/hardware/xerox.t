@@ -22,7 +22,6 @@ my %tests = (
             DESCRIPTION  => 'Xerox DocuPrint N2125 Network Laser Printer - 2.12-02 ',
             MAC          => '00:00:AA:5C:1C:8C',
             MODELSNMP    => 'Printer0687',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => '3510349171',
         },
@@ -63,7 +62,6 @@ my %tests = (
             SNMPHOSTNAME => 'Phaser 5550DT',
             MAC          => '00:00:AA:D4:A2:FE',
             MODELSNMP    => 'Printer0688',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'KNB015751',
         },
@@ -107,7 +105,6 @@ my %tests = (
             SNMPHOSTNAME => 'Phaser 5550DT-1',
             MAC          => '00:00:AA:D4:A4:CC',
             MODELSNMP    => 'Printer0689',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'KNB015753',
         },
@@ -151,7 +148,6 @@ my %tests = (
             SNMPHOSTNAME => 'Phaser 6180MFP-D-E360D7',
             MAC          => '00:00:AA:E3:60:D7',
             MODELSNMP    => 'Printer0370',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'GPX259705',
         },
@@ -205,7 +201,6 @@ my %tests = (
             SNMPHOSTNAME => 'SO007XN',
             MAC          => '00:00:AA:CF:9E:5A',
             MODELSNMP    => 'Printer0705',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => '3641509891',
         },
@@ -260,7 +255,6 @@ my %tests = (
             SNMPHOSTNAME => 'SO011XN',
             MAC          => '00:00:AA:CF:84:10',
             MODELSNMP    => 'Printer0705',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => '3641504792',
         },
@@ -315,7 +309,6 @@ my %tests = (
             SNMPHOSTNAME  => 'XEROX WorkCentre 7125',
             MAC           => '08:00:37:B9:16:5D',
             MODELSNMP     => 'Printer0690',
-            MODEL         => undef,
             FIRMWARE      => undef,
             SERIAL        => '3325295030',
         },
@@ -403,7 +396,6 @@ my %tests = (
             DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
             SNMPHOSTNAME => 'c0211a',
             MAC          => '00:00:AA:C4:27:C4',
-            MODEL        => undef,
             MODELSNMP    => 'Printer0265',
             FIRMWARE     => undef,
             SERIAL       => 'FBT261926'
@@ -461,7 +453,6 @@ my %tests = (
             DESCRIPTION  => 'Xerox ColorQube 8570DN; System 1.3.8.P, OS 10.62, PS 4.10.0, Eng 23.P1.4.10.0, Net 42.40.09.02.2011, Adobe PostScript 3016.101 (16), PCL 5c Version 5.0',
             SNMPHOSTNAME => 'c0500a',
             MAC          => '9C:93:4E:02:92:55',
-            MODEL        => undef,
             MODELSNMP    => 'Printer0670',
             SERIAL       => undef,
             FIRMWARE     => undef,
@@ -496,7 +487,6 @@ my %tests = (
             MODELSNMP    => 'Printer0265',
             FIRMWARE     => undef,
             SERIAL       => 'FBT340010',
-            MODEL        => undef,
         },
         {
             INFO => {
@@ -552,7 +542,6 @@ my %tests = (
             SNMPHOSTNAME => 'c1500a',
             MAC          => '00:00:AA:A7:E4:D3',
             MODELSNMP    => 'Printer0314',
-            MODEL        => undef,
             SERIAL       => 'FBT133984',
             FIRMWARE     => undef,
         },
@@ -613,7 +602,6 @@ my %tests = (
             SNMPHOSTNAME => 'c1715a',
             MAC          => '00:00:AA:A7:E5:B6',
             FIRMWARE     => undef,
-            MODEL        => undef,
             SERIAL       => 'FBT133868',
             MODELSNMP    => 'Printer0314'
         },
@@ -675,7 +663,6 @@ my %tests = (
             MAC          => '00:00:AA:95:17:A7',
             FIRMWARE     => undef,
             SERIAL       => 'WYP050086',
-            MODEL        => undef,
             MODELSNMP    => 'Printer0451'
         },
         {
@@ -729,7 +716,6 @@ my %tests = (
             SERIAL       => 'FBT261925',
             FIRMWARE     => undef,
             MODELSNMP    => 'Printer0265',
-            MODEL        => undef
         },
         {
             INFO => {
@@ -782,7 +768,6 @@ my %tests = (
             MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
-            MODEL        => undef,
             SNMPHOSTNAME => 'Phaser 8560DN-2',
             MAC          => '00:00:AA:A8:12:CF',
             FIRMWARE     => undef,
@@ -848,7 +833,6 @@ my %tests = (
             MODELSNMP    => 'Printer0451',
             SERIAL       => 'WYP050250',
             FIRMWARE     => undef,
-            MODEL        => undef,
         },
         {
             INFO => {
@@ -899,7 +883,6 @@ my %tests = (
             SNMPHOSTNAME => 'c2206a',
             FIRMWARE     => undef,
             SERIAL       => 'FBT163981',
-            MODEL        => undef,
             MAC          => '00:00:AA:AB:95:BE',
             MODELSNMP    => 'Printer0314'
         },
@@ -959,7 +942,6 @@ my %tests = (
             DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
             SNMPHOSTNAME => 'c2410a',
             MAC          => '00:00:AA:C4:27:0F',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'FBT261951',
             MODELSNMP    => 'Printer0265'
@@ -1015,7 +997,6 @@ my %tests = (
             MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
-            MODEL        => undef,
             MODELSNMP    => 'Printer0451',
             SNMPHOSTNAME => 'Phaser 8550DP',
             SERIAL       => 'WYP050085',
@@ -1068,7 +1049,6 @@ my %tests = (
             MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
-            MODEL        => undef,
             SERIAL       => 'WYP050251',
             SNMPHOSTNAME => 'c2700a',
             MODELSNMP    => 'Printer0451',
@@ -1148,7 +1128,6 @@ my %tests = (
             SNMPHOSTNAME  => 'c3111a',
             MAC           => '00:00:AA:AB:96:82',
             FIRMWARE      => undef,
-            MODEL         => undef,
             MODELSNMP     => 'Printer0314',
             SERIAL        => 'FBT164018',
         },
@@ -1209,7 +1188,6 @@ my %tests = (
             SNMPHOSTNAME => 'c3312a',
             SERIAL       => 'FBT163983',
             MAC          => '00:00:AA:AB:92:93',
-            MODEL        => undef,
             MODELSNMP    => 'Printer0265',
             FIRMWARE     => undef,
         },
@@ -1293,7 +1271,6 @@ my %tests = (
             SERIAL       => 'FBT261947',
             MODELSNMP    => 'Printer0265',
             FIRMWARE     => undef,
-            MODEL        => undef,
         },
         {
             INFO => {
@@ -1348,7 +1325,6 @@ my %tests = (
             DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
             SNMPHOSTNAME => 'cIT524a',
             MAC          => '00:00:AA:C4:26:B0',
-            MODEL        => undef,
             SERIAL       => 'FBT261949',
             FIRMWARE     => undef,
             MODELSNMP    => 'Printer0265',
@@ -1406,7 +1382,6 @@ my %tests = (
             DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
             SNMPHOSTNAME => 'Phaser 8560DN',
             MAC          => '00:00:AA:C4:26:61',
-            MODEL        => undef,
             SERIAL       => 'FBT261946',
             FIRMWARE     => undef,
             MODELSNMP    => 'Printer0265',
@@ -1462,15 +1437,16 @@ foreach my $test (sort keys %tests) {
     my $snmp  = getSNMP($test);
     my $model = getModel($index, $tests{$test}->[1]->{MODELSNMP});
 
-    my %device0 = getDeviceInfo($snmp);
+    my %device0 = getDeviceInfo($snmp, undef, './share');
     cmp_deeply(\%device0, $tests{$test}->[0], "$test: base stage");
 
-    my %device1 = getDeviceInfo($snmp, $dictionary);
+    my %device1 = getDeviceInfo($snmp, $dictionary, './share');
     cmp_deeply(\%device1, $tests{$test}->[1], "$test: base + dictionnary stage");
 
     my $device3 = getDeviceFullInfo(
-        snmp  => $snmp,
-        model => $model,
+        snmp    => $snmp,
+        model   => $model,
+        datadir => './share'
     );
     cmp_deeply($device3, $tests{$test}->[2], "$test: base + model stage");
 }

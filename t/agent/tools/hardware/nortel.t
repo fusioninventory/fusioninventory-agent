@@ -23,7 +23,6 @@ my %tests = (
             MAC          => '00:15:40:94:75:A2',
             SNMPHOSTNAME => 'Bay470',
             DESCRIPTION  => 'BayStack 470 - 24T           HW:06       FW:3.0.0.5   SW:v3.1.2.06 ISVN:2',
-            MODEL        => undef,
             MODELSNMP    => 'Networking2050',
             SERIAL       => 'SACC170NLH',
             FIRMWARE     => undef,
@@ -604,7 +603,6 @@ my %tests = (
             MODELSNMP    => 'Networking0316',
             FIRMWARE     => undef,
             SNMPHOSTNAME => '470_99_OBS',
-            MODEL        => undef,
             DESCRIPTION  => 'Ethernet Switch 470-24T      HW:34       FW:3.6.0.6   SW:v3.6.2.04 BN:4 ISVN:2 (c) Nortel Networks',
             MAC          => '00:1D:AF:EA:A0:E2'
         },
@@ -1434,15 +1432,16 @@ foreach my $test (sort keys %tests) {
     my $snmp  = getSNMP($test);
     my $model = getModel($index, $tests{$test}->[1]->{MODELSNMP});
 
-    my %device0 = getDeviceInfo($snmp);
+    my %device0 = getDeviceInfo($snmp, undef, './share');
     cmp_deeply(\%device0, $tests{$test}->[0], "$test: base stage");
 
-    my %device1 = getDeviceInfo($snmp, $dictionary);
+    my %device1 = getDeviceInfo($snmp, $dictionary, './share');
     cmp_deeply(\%device1, $tests{$test}->[1], "$test: base + dictionnary stage");
 
     my $device3 = getDeviceFullInfo(
-        snmp  => $snmp,
-        model => $model,
+        snmp    => $snmp,
+        model   => $model,
+        datadir => './share'
     );
     cmp_deeply($device3, $tests{$test}->[2], "$test: base + model stage");
 }

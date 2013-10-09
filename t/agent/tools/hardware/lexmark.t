@@ -24,7 +24,6 @@ my %tests = (
             SNMPHOSTNAME => 'LXK3936A4',
             MAC          => '00:04:00:9C:6C:25',
             MODELSNMP    => 'Printer0643',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'LXK3936A4'
         },
@@ -97,15 +96,16 @@ foreach my $test (sort keys %tests) {
     my $snmp  = getSNMP($test);
     my $model = getModel($index, $tests{$test}->[1]->{MODELSNMP});
 
-    my %device0 = getDeviceInfo($snmp);
+    my %device0 = getDeviceInfo($snmp, undef, './share');
     cmp_deeply(\%device0, $tests{$test}->[0], "$test: base stage");
 
-    my %device1 = getDeviceInfo($snmp, $dictionary);
+    my %device1 = getDeviceInfo($snmp, $dictionary, './share');
     cmp_deeply(\%device1, $tests{$test}->[1], "$test: base + dictionnary stage");
 
     my $device3 = getDeviceFullInfo(
-        snmp  => $snmp,
-        model => $model,
+        snmp    => $snmp,
+        model   => $model,
+        datadir => './share'
     );
     cmp_deeply($device3, $tests{$test}->[2], "$test: base + model stage");
 }
