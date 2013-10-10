@@ -368,23 +368,26 @@ sub getDeviceBaseInfo {
     # first heuristic:
     # compute manufacturer and type from sysobjectid (SNMPv2-MIB::sysObjectID.0)
     my $sysobjectid = $snmp->get('.1.3.6.1.2.1.1.2.0');
-    my ($vendor_id, $model_id) =
-        !defined($sysobjectid)                                  ? ()       :
-        $sysobjectid =~ /^SNMPv2-SMI::enterprises\.(\d+)\.(.+)/ ? ($1, $2) :
-        $sysobjectid =~ /^iso\.3\.6\.1\.4\.1\.(\d+)\.(.+)/      ? ($1, $2) :
-        $sysobjectid =~ /^\.1\.3\.6\.1\.4\.1\.(\d+)\.(.+)/      ? ($1, $2) :
-                                                                  ()       ;
-    if ($vendor_id) {
-        my $result = $sysobjectid_vendors{$vendor_id};
-        if ($result) {
-            $result->{model} = _getDeviceModel(
-                vendor  => $result->{vendor},
-                id      => $model_id,
-                datadir => $datadir,
-            );
-            $device{MANUFACTURER} = $result->{vendor};
-            $device{TYPE}         = $result->{type}  if $result->{type};
-            $device{MODEL}        = $result->{model} if $result->{model};
+    if ($sysobjectid) {
+        my $prefix = qr/(?:
+            SNMPv2-SMI::enterprises |
+            iso\.3\.6\.1\.4\.1      |
+            \.1\.3\.6\.1\.4\.1
+        )/x;
+        my ($vendor_id, $model_id) =
+            $sysobjectid =~ /^ $prefix \. (\d+) (?: \. (.+) )? $/x;
+        if ($vendor_id) {
+            my $result = $sysobjectid_vendors{$vendor_id};
+            if ($result) {
+                $result->{model} = _getDeviceModel(
+                    vendor  => $result->{vendor},
+                    id      => $model_id,
+                    datadir => $datadir,
+                );
+                $device{MANUFACTURER} = $result->{vendor};
+                $device{TYPE}         = $result->{type}  if $result->{type};
+                $device{MODEL}        = $result->{model} if $result->{model};
+            }
         }
     }
 
