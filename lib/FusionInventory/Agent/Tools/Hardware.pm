@@ -441,9 +441,7 @@ sub _getDeviceModel {
         file => "$params{datadir}/sysobjectid.$vendor.ids"
     ) if !exists $sysobjectid_models{$vendor};
 
-    # use last digit of the device id
-    my $id = (split(/\./, $params{id}))[-1];
-    return $sysobjectid_models{$vendor}->{$id}->{name};
+    return $sysobjectid_models{$vendor}->{$params{id}}->{name};
 }
 
 sub _loadDeviceModels {
