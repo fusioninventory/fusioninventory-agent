@@ -58,6 +58,7 @@ my %sysobjectid_vendors = (
     1805  => { vendor => 'Sagem',          type => 'NETWORKING' },
     1872  => { vendor => 'Alteon',          type => 'NETWORKING' },
     1916  => { vendor => 'Extrem Networks', type => 'NETWORKING' },
+    1981  => { vendor => 'EMC'                                   },
     1991  => { vendor => 'Foundry',         type => 'NETWORKING' },
     2385  => { vendor => 'Sharp',           type => 'PRINTER'    },
     2435  => { vendor => 'Brother',         type => 'PRINTER'    },
