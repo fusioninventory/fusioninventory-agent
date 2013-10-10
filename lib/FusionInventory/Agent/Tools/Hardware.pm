@@ -369,6 +369,7 @@ sub getDeviceBaseInfo {
     # compute manufacturer and type from sysobjectid (SNMPv2-MIB::sysObjectID.0)
     my $sysobjectid = $snmp->get('.1.3.6.1.2.1.1.2.0');
     my ($vendor_id, $model_id) =
+        !defined($sysobjectid)                                  ? ()       :
         $sysobjectid =~ /^SNMPv2-SMI::enterprises\.(\d+)\.(.+)/ ? ($1, $2) :
         $sysobjectid =~ /^iso\.3\.6\.1\.4\.1\.(\d+)\.(.+)/      ? ($1, $2) :
         $sysobjectid =~ /^\.1\.3\.6\.1\.4\.1\.(\d+)\.(.+)/      ? ($1, $2) :
@@ -739,6 +740,7 @@ sub _setGenericProperties {
             $key eq 'MEMORY'      ? getCanonicalMemory($raw_value)       :
             $key eq 'MAC'         ? getCanonicalMacAddress($raw_value)   :
                                     hex2char($raw_value)                 ;
+
         $device->{INFO}->{$key} = $value if defined $value;
     }
 

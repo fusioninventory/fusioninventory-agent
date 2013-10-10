@@ -188,7 +188,8 @@ plan tests =>
     scalar @trunk_ports_tests * 2 +
     scalar @connected_devices_tests * 2 +
     scalar @connected_devices_mac_addresses_tests +
-    scalar @cisco_connected_devices_mac_addresses_tests;
+    scalar @cisco_connected_devices_mac_addresses_tests +
+    2;
 
 my $model = {
     oids => {
@@ -312,3 +313,31 @@ foreach my $test (@connected_devices_tests) {
         $test->[2] . ' (indirect)',
     );
 }
+
+## getDeviceBaseInfo()
+$snmp = FusionInventory::Agent::SNMP::Mock->new(
+    hash => {
+        '.1.3.6.1.2.1.1.1.0'        => [ 'STRING', 'foo' ],
+    }
+);
+
+my %device = getDeviceBaseInfo($snmp);
+cmp_deeply(
+    \%device,
+    { DESCRIPTION => 'foo' },
+    'getDeviceBaseInfo() with no sysobjectid'
+);
+
+$snmp = FusionInventory::Agent::SNMP::Mock->new(
+    hash => {
+        '.1.3.6.1.2.1.1.1.0'        => [ 'STRING', 'foo' ],
+        '.1.3.6.1.2.1.1.2.0'        => [ 'STRING', '.1.3.6.1.4.1.45' ],
+    }
+);
+
+my %device = getDeviceBaseInfo($snmp);
+cmp_deeply(
+    \%device,
+    { DESCRIPTION => 'foo', TYPE => 'NETWORKING', MANUFACTURER => 'SynOptics'},
+    'getDeviceBaseInfo() with sysobjectid'
+);

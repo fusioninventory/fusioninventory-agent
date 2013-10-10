@@ -2,6 +2,7 @@
 
 use strict;
 use lib 't/lib';
+use utf8;
 
 use Test::Deep qw(cmp_deeply);
 
@@ -124,7 +125,7 @@ my %tests = (
             INFO => {
                 COMMENTS     => 'SHARP MX-5001N',
                 TYPE         => 'PRINTER',
-                LOCATION     => 'Bat. R�habilit� ',
+                LOCATION     => 'Bat. Réhabilité ',
                 NAME         => 'MALAKA  - DOS -- IA-IPR',
                 SERIAL       => '9801391X00',
                 MODEL        => 'SHARP MX-5001N',
@@ -225,4 +226,5 @@ foreach my $test (sort keys %tests) {
         datadir => './share'
     );
     cmp_deeply($device3, $tests{$test}->[2], "$test: base + model stage");
+
 }

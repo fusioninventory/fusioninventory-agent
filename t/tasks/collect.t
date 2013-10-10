@@ -7,8 +7,9 @@ use lib 't/lib';
 use Cwd;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
+use Test::Deep qw(cmp_deeply);
 use Test::More;
-use Test::MockModule;
+use FusionInventory::Test::Utils;
 
 # use mock modules for non-available ones
 if ($OSNAME eq 'MSWin32') {
@@ -21,7 +22,7 @@ if ($OSNAME eq 'MSWin32') {
 FusionInventory::Agent::Task::Collect->require();
 
 
-plan tests => 2;
+plan tests => 3;
 
 
 my @result;
@@ -39,3 +40,10 @@ ok(int(@result) == 50, "_findFile() recursive=1 reach the limit");
 );
 
 ok(int(@result) == 60, "_findFile() limit=60");
+
+my $result = FusionInventory::Agent::Task::Collect::_getFromRegistry(
+    path => 'nowhere'
+);
+ok(!defined($result), "_getFromRegistry ignores wrong registry path");
+
+

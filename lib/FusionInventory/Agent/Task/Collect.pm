@@ -25,11 +25,11 @@ sub isEnabled {
 sub _getFromRegistry {
     my %params = @_;
 
-    return unless $OSNAME eq 'MSWin32';
-
-    FusionInventory::Agent::Tools::Win32->require();
+    return unless FusionInventory::Agent::Tools::Win32->require();
 
     my $values = FusionInventory::Agent::Tools::Win32::getRegistryValues(path => $params{path});
+
+    return unless $values;
 
     my $result;
     if (ref($values) eq 'HASH') { # I don't like that. We should always get href
@@ -162,16 +162,15 @@ sub _runCommand {
 sub _getFromWMI {
     my %params = @_;
 
-    return unless $OSNAME eq 'MSWin32';
-
-    FusionInventory::Agent::Tools::Win32->require();
+    return unless FusionInventory::Agent::Tools::Win32->require();
 
     return unless $params{properties};
     return unless $params{class};
 
     my @return;
 
-    my @objs = FusionInventory::Agent::Tools::Win32::getWmiObjects(%params);
+    my @objs = FusionInventory::Agent::Tools::Win32::getWMIObjects(%params);
+    return unless @objs;
 
     foreach my $obj (@objs) {
         push @return, $obj; 
@@ -256,11 +255,13 @@ sub run {
 
         next unless @result;
 
+        my $cpt = int(@result);
         foreach my $r (@result) {
             next unless ref($r) eq 'HASH';
             next unless keys %$r;
             $r->{uuid}   = $job->{uuid};
             $r->{action} = "setAnswer";
+            $r->{cpt}    = $cpt--;
             $self->{client}->send(
                 url  => $self->{collectRemote},
                 args => $r

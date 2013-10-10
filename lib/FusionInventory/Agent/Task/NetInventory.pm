@@ -194,4 +194,4 @@ This task requires a GLPI server with FusionInventory plugin.
 =head1 AUTHORS
 
 Copyright (C) 2009 David Durieux
-Copyright (C) 2010-2012 FusionInventory Team
+Copyright (C) 2010-2013 FusionInventory Team
