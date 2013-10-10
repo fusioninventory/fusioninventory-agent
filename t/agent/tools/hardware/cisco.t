@@ -28205,6 +28205,7 @@ IOS (tm) C2900XL Software (C2900XL-C3H2S-M), Version 12.0(5)WC17, RELEASE SOFTWA
 Copyright (c) 1986-2007 by cisco Systems, Inc.
 Compiled Tue 13-Feb-07 15:27 by antonino',
             MAC          => '00:01:96:38:57:40',
+            MODEL        => 'catalyst2924XLv',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -28214,8 +28215,8 @@ IOS (tm) C2900XL Software (C2900XL-C3H2S-M), Version 12.0(5)WC17, RELEASE SOFTWA
 Copyright (c) 1986-2007 by cisco Systems, Inc.
 Compiled Tue 13-Feb-07 15:27 by antonino',
             MAC          => '00:01:96:38:57:40',
+            MODEL        => 'catalyst2924XLv',
             MODELSNMP    => 'Networking1921',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'FAB0411S1FB',
         },
@@ -28224,7 +28225,7 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                 ID           => undef,
                 MANUFACTURER => 'Cisco',
                 TYPE         => 'NETWORKING',
-                MODEL        => 'WS-C2924-XL',
+                MODEL        => 'catalyst2924XLv',
                 COMMENTS     => 'Cisco Internetwork Operating System Software 
 IOS (tm) C2900XL Software (C2900XL-C3H2S-M), Version 12.0(5)WC17, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2007 by cisco Systems, Inc.
@@ -28676,6 +28677,7 @@ Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2009 by cisco Systems, Inc.
 Compiled Fri 27-F',
             MAC          => '00:0C:30:50:BB:C0',
+            MODEL        => 'catalyst295024',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -28686,8 +28688,8 @@ Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2009 by cisco Systems, Inc.
 Compiled Fri 27-F',
             MAC          => '00:0C:30:50:BB:C0',
+            MODEL        => 'catalyst295024',
             MODELSNMP    => 'Networking1876',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'FOC0707Y03C',
         },
@@ -28696,7 +28698,7 @@ Compiled Fri 27-F',
                 ID           => undef,
                 MANUFACTURER => 'Cisco',
                 TYPE         => 'NETWORKING',
-                MODEL        => 'WS-C2950-24',
+                MODEL        => 'catalyst295024',
                 COMMENTS     => 'Cisco Internetwork Operating System Software 
 IOS (tm) C2950 Software (C2950-I6K2L2Q4-M), Version 12.1(22)EA13, RELEASE SOFTWARE (fc2)
 Technical Support: http://www.cisco.com/techsupport
@@ -29152,6 +29154,7 @@ Compiled Fri 27-F',
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Mon 06-Apr-09 08:36 by amvarma',
             MAC          => '00:1A:6C:13:94:00',
+            MODEL        => 'catalyst2960G24',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -29160,8 +29163,8 @@ Compiled Mon 06-Apr-09 08:36 by amvarma',
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Mon 06-Apr-09 08:36 by amvarma',
             MAC          => '00:1A:6C:13:94:00',
+            MODEL        => 'catalyst2960G24',
             MODELSNMP    => 'Networking1956',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'FOC1047X36T',
         },
@@ -29170,7 +29173,7 @@ Compiled Mon 06-Apr-09 08:36 by amvarma',
                 ID           => undef,
                 MANUFACTURER => 'Cisco',
                 TYPE         => 'NETWORKING',
-                MODEL        => 'WS-C2960G-24TC-L',
+                MODEL        => 'catalyst2960G24',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(50)SE1, RELEASE SOFTWARE (fc2)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Mon 06-Apr-09 08:36 by amvarma',
@@ -29620,6 +29623,7 @@ Compiled Mon 06-Apr-09 08:36 by amvarma',
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Mon 06-Apr-09 08:36 by amvarma',
             MAC          => '00:1A:6D:9D:23:00',
+            MODEL        => 'catalyst296048TT',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -29628,8 +29632,8 @@ Compiled Mon 06-Apr-09 08:36 by amvarma',
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Mon 06-Apr-09 08:36 by amvarma',
             MAC          => '00:1A:6D:9D:23:00',
+            MODEL        => 'catalyst296048TT',
             MODELSNMP    => 'Networking1956',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'FOC1049Z7RN',
         },
@@ -29638,7 +29642,7 @@ Compiled Mon 06-Apr-09 08:36 by amvarma',
                 ID           => undef,
                 MANUFACTURER => 'Cisco',
                 TYPE         => 'NETWORKING',
-                MODEL        => 'WS-C2960-48TT-L',
+                MODEL        => 'catalyst296048TT',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(50)SE1, RELEASE SOFTWARE (fc2)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Mon 06-Apr-09 08:36 by amvarma',
