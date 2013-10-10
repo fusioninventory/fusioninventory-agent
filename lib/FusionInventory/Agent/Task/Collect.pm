@@ -25,11 +25,11 @@ sub isEnabled {
 sub _getFromRegistry {
     my %params = @_;
 
-    return unless $OSNAME eq 'MSWin32';
-
-    FusionInventory::Agent::Tools::Win32->require();
+    return unless FusionInventory::Agent::Tools::Win32->require();
 
     my $values = FusionInventory::Agent::Tools::Win32::getRegistryValues(path => $params{path});
+
+    return unless $values;
 
     my $result;
     if (ref($values) eq 'HASH') { # I don't like that. We should always get href
@@ -43,27 +43,25 @@ sub _getFromRegistry {
 }
 
 sub _findFile {
-    my %params = @_;
+    my %params = (
+        dir => '/',
+        limit => 50
+        , @_);
 
-    my $dir   = $params{dir}   || '/';
-    my $limit = $params{limit} || 50;
-
-    return unless -d $dir;
+    return unless -d $params{dir};
 
     my @result;
 
-    my $dirCpt;
     File::Find::find(
         {
-            preprocess => sub {
-                if (!$params{recursive}) {
-                  $dirCpt++;
-                  return if $dirCpt > 1;
-               }
-               return @_;
-            },
             wanted => sub {
 #                    print $File::Find::name."\n";
+#
+                if (!$params{recursive} && $File::Find::name ne $params{dir}) {
+                    $File::Find::prune = 1  # Don't recurse.
+                }
+
+
                 if (   $params{filter}{is_dir}
                     && !$params{filter}{checkSumSHA512}
                     && !$params{filter}{checkSumSHA2} )
@@ -123,12 +121,12 @@ sub _findFile {
                     size => $size,
                     path => $File::Find::name
                   };
-                goto DONE if @result >= $limit;
+                goto DONE if @result >= $params{limit};
             },
             no_chdir => 1
 
         },
-        $dir
+        $params{dir}
     );
   DONE:
 
@@ -164,16 +162,15 @@ sub _runCommand {
 sub _getFromWMI {
     my %params = @_;
 
-    return unless $OSNAME eq 'MSWin32';
-
-    FusionInventory::Agent::Tools::Win32->require();
+    return unless FusionInventory::Agent::Tools::Win32->require();
 
     return unless $params{properties};
     return unless $params{class};
 
     my @return;
 
-    my @objs = FusionInventory::Agent::Tools::Win32::getWmiObjects(%params);
+    my @objs = FusionInventory::Agent::Tools::Win32::getWMIObjects(%params);
+    return unless @objs;
 
     foreach my $obj (@objs) {
         push @return, $obj; 
@@ -258,11 +255,13 @@ sub run {
 
         next unless @result;
 
+        my $cpt = int(@result);
         foreach my $r (@result) {
             next unless ref($r) eq 'HASH';
             next unless keys %$r;
             $r->{uuid}   = $job->{uuid};
             $r->{action} = "setAnswer";
+            $r->{cpt}    = $cpt--;
             $self->{client}->send(
                 url  => $self->{collectRemote},
                 args => $r

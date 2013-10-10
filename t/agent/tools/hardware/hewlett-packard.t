@@ -4309,14 +4309,14 @@ PORTS => {
     ],
     'hewlett-packard/ProCurve_J8697A_Switch_5406zl.walk' => [
         {
-            MANUFACTURER => 'Hewlett Packard',
+            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_',
             SNMPHOSTNAME => 'oyapock CR2',
             MAC          => '00:18:71:C1:E0:00',
         },
         {
-            MANUFACTURER => 'Hewlett Packard',
+            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_',
             SNMPHOSTNAME => 'oyapock CR2',
@@ -4328,7 +4328,7 @@ PORTS => {
         },
         {
             INFO => {
-                MANUFACTURER => 'Hewlett Packard',
+                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'NETWORKING',
                 COMMENTS     => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_',
                 MODEL        => 'J8697A',
@@ -9062,6 +9062,94 @@ PORTS => {
                     }
                 ]
             }
+        }
+    ],
+    'hewlett-packard/ProCurve_J4899B.walk' => [
+        {
+            MANUFACTURER => 'Hewlett Packard',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'ProCurve J4899B Switch 2650, revision H.10.108, ROM H.08.02 (/sw/code/build/fish)',
+            MAC          => '00:18:FE:AA:A9:80',
+        },
+        {
+            MANUFACTURER => 'Hewlett Packard',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'ProCurve J4899B Switch 2650, revision H.10.108, ROM H.08.02 (/sw/code/build/fish)',
+            MAC          => '00:18:FE:AA:A9:80',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett Packard',
+                TYPE         => 'NETWORKING',
+                MODEL        => undef,
+            },
+        }
+    ],
+    'hewlett-packard/ProCurve_J4899C.walk' => [
+        {
+            MANUFACTURER => 'Hewlett Packard',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'ProCurve J4899C Switch 2650, revision H.10.108, ROM H.08.05 (/sw/code/build/fish)',
+            MAC          => '00:1D:B3:58:CF:80',
+        },
+        {
+            MANUFACTURER => 'Hewlett Packard',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'ProCurve J4899C Switch 2650, revision H.10.108, ROM H.08.05 (/sw/code/build/fish)',
+            MAC          => '00:1D:B3:58:CF:80',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett Packard',
+                TYPE         => 'NETWORKING',
+                MODEL        => undef,
+            },
+        }
+    ],
+    'hewlett-packard/ProCurve_J4899B.walk' => [
+        {
+            MANUFACTURER => 'Hewlett Packard',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'ProCurve J4899B Switch 2650, revision H.10.108, ROM H.08.02 (/sw/code/build/fish)',
+            MAC          => '00:18:FE:AA:A9:80',
+        },
+        {
+            MANUFACTURER => 'Hewlett Packard',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'ProCurve J4899B Switch 2650, revision H.10.108, ROM H.08.02 (/sw/code/build/fish)',
+            MAC          => '00:18:FE:AA:A9:80',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett Packard',
+                TYPE         => 'NETWORKING',
+                MODEL        => undef,
+            },
+        }
+    ],
+    'hewlett-packard/ProCurve_J4899C.walk' => [
+        {
+            MANUFACTURER => 'Hewlett Packard',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'ProCurve J4899C Switch 2650, revision H.10.108, ROM H.08.05 (/sw/code/build/fish)',
+            MAC          => '00:1D:B3:58:CF:80',
+        },
+        {
+            MANUFACTURER => 'Hewlett Packard',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'ProCurve J4899C Switch 2650, revision H.10.108, ROM H.08.05 (/sw/code/build/fish)',
+            MAC          => '00:1D:B3:58:CF:80',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett Packard',
+                TYPE         => 'NETWORKING',
+                MODEL        => undef,
+            },
         }
     ],
     'hewlett-packard/LaserJet_CP1025nw.walk' => [

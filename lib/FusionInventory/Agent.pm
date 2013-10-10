@@ -21,7 +21,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::XML::Query::Prolog;
 
-our $VERSION = '2.3.0';
+our $VERSION = '2.3.2';
 our $VERSION_STRING = _versionString($VERSION);
 our $AGENT_STRING = "FusionInventory-Agent_v$VERSION";
 
@@ -551,7 +551,7 @@ the options to use.
 
 Initialize the agent.
 
-=head2 run()
+=head2 runRequestedTasks()
 
 Run the agent.
 

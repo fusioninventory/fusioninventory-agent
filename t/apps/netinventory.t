@@ -64,4 +64,6 @@ my $content = XML::TreePP->new()->parse($out);
 ok($content, 'valid output');
 
 my $result = XML::TreePP->new()->parsefile('resources/walks/sample4.result');
+# Ignore VERSION changes
+$result->{REQUEST}{CONTENT}{MODULEVERSION} = $FusionInventory::Agent::Task::NetInventory::VERSION;
 cmp_deeply($content, $result, "expected output");

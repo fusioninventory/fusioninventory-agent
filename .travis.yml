@@ -1,0 +1,19 @@
+language: perl
+perl:
+  - "5.18"
+  - "5.16"
+  - "5.14"
+  - "5.12"
+  - "5.10"
+  - "5.8"
+notifications:
+  recipients:
+    - fusioninventory-commit@lists.alioth.debian.org
+  email:
+    on_success: change
+    on_failure: always
+# whitelist
+branches:
+  only:
+    - master
+    - 2.3.x
