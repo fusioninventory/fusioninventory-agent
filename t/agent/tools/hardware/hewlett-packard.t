@@ -3050,7 +3050,7 @@ my %tests = (
             DESCRIPTION  => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_',
             SNMPHOSTNAME => 'oyapock CR2',
             MAC          => '00:18:71:C1:E0:00',
-            MODEL        => 'hpSwitchJ8697A',
+            MODEL        => 'ProCurve 5406zl (J8697A)',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -3058,7 +3058,7 @@ my %tests = (
             DESCRIPTION  => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_',
             SNMPHOSTNAME => 'oyapock CR2',
             MAC          => '00:18:71:C1:E0:00',
-            MODEL        => 'hpSwitchJ8697A',
+            MODEL        => 'ProCurve 5406zl (J8697A)',
             MODELSNMP    => 'Networking2063',
             SERIAL       => 'SG707SU03Y',
             FIRMWARE     => undef
@@ -3068,7 +3068,7 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'NETWORKING',
                 COMMENTS     => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_',
-                MODEL        => 'hpSwitchJ8697A',
+                MODEL        => 'ProCurve 5406zl (J8697A)',
                 UPTIME       => '(293555959) 33 days, 23:25:59.59',
                 CONTACT      => 'systeme@ac-guyane.fr',
                 LOCATION     => 'datacenter',
@@ -7759,21 +7759,21 @@ my %tests = (
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'ProCurve J4899B Switch 2650, revision H.10.108, ROM H.08.02 (/sw/code/build/fish)',
             MAC          => '00:18:FE:AA:A9:80',
-            MODEL        => 'hpSwitchJ4899B',
+            MODEL        => 'ProCurve 2650 (J4899B)',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'ProCurve J4899B Switch 2650, revision H.10.108, ROM H.08.02 (/sw/code/build/fish)',
             MAC          => '00:18:FE:AA:A9:80',
-            MODEL        => 'hpSwitchJ4899B',
+            MODEL        => 'ProCurve 2650 (J4899B)',
         },
         {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'NETWORKING',
-                MODEL        => 'hpSwitchJ4899B',
+                MODEL        => 'ProCurve 2650 (J4899B)',
             },
         }
     ],
@@ -7783,21 +7783,21 @@ my %tests = (
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'ProCurve J4899C Switch 2650, revision H.10.108, ROM H.08.05 (/sw/code/build/fish)',
             MAC          => '00:1D:B3:58:CF:80',
-            MODEL        => 'hpSwitchJ4899B',
+            MODEL        => 'ProCurve 2650 (J4899B)',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'ProCurve J4899C Switch 2650, revision H.10.108, ROM H.08.05 (/sw/code/build/fish)',
             MAC          => '00:1D:B3:58:CF:80',
-            MODEL        => 'hpSwitchJ4899B',
+            MODEL        => 'ProCurve 2650 (J4899B)',
         },
         {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'NETWORKING',
-                MODEL        => 'hpSwitchJ4899B',
+                MODEL        => 'ProCurve 2650 (J4899B)',
             },
         }
     ],
@@ -7808,20 +7808,21 @@ my %tests = (
             DESCRIPTION  => 'ProCurve J4899B Switch 2650, revision H.10.108, ROM H.08.02 (/sw/code/build/fish)',
             MAC          => '00:18:FE:AA:A9:80',
             MODEL        => 'hpSwitchJ4899B',
+            MODEL        => 'ProCurve 2650 (J4899B)',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'ProCurve J4899B Switch 2650, revision H.10.108, ROM H.08.02 (/sw/code/build/fish)',
             MAC          => '00:18:FE:AA:A9:80',
-            MODEL        => 'hpSwitchJ4899B',
+            MODEL        => 'ProCurve 2650 (J4899B)',
         },
         {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'NETWORKING',
-                MODEL        => 'hpSwitchJ4899B',
+                MODEL        => 'ProCurve 2650 (J4899B)',
             },
         }
     ],
@@ -7831,19 +7832,21 @@ my %tests = (
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'ProCurve J4899C Switch 2650, revision H.10.108, ROM H.08.05 (/sw/code/build/fish)',
             MAC          => '00:1D:B3:58:CF:80',
+            MODEL        => 'ProCurve 2650 (J4899C)',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'ProCurve J4899C Switch 2650, revision H.10.108, ROM H.08.05 (/sw/code/build/fish)',
             MAC          => '00:1D:B3:58:CF:80',
+            MODEL        => 'ProCurve 2650 (J4899C)',
         },
         {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'NETWORKING',
-                MODEL        => undef
+                MODEL        => 'ProCurve 2650 (J4899C)',
             },
         }
     ],

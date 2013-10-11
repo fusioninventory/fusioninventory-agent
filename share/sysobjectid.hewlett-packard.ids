@@ -1,410 +1,115 @@
-2.3.7.1.1	bridge1010	HP 28673A 10:10 LAN Bridge.
-2.3.7.1.2	bridgeRemote	HP 28674A/B Remote Bridge.
-2.3.7.1.3	eswitch	HP J2418A EtherTwist LAN Switch.
-2.3.7.1.8	eswitch2	HP J2980A AdvanceStack LAN Switch-16.
-2.3.7.1.9	netSwitch100	HP J3126A AdvanceStack Switch 100.
-2.3.7.1.10	netSwitch200	HP J3125A AdvanceStack Switch 200.
-2.3.7.2.1	icfRouterER	HP 27285A Router ER.
-2.3.7.2.2	icfRouterTR	HP 27286A Router TR.
-2.3.7.2.3	icfRouterSR	HP 27288A Router SR.
-2.3.7.2.4	icfRouterFR	HP 27289A Router FR.
-2.3.7.2.5	icfRouterLR	HP Router LR.
-2.3.7.2.6	icfRouterBR	HP 27290A Router BR.
-2.3.7.2.7	icfRouterPR	HP J2540A Router PR.
-2.3.7.2.8	icfRouter650	HP J2430A AdvanceStack Router 650.
-2.3.7.2.8.2	icfRouter650Engine	routing engine card for the HP J2430A AdvanceStack Router 650.
-2.3.7.2.8.3	icfRouter650Port4E	HP J2435A AdvanceStack Router 4E Port Module.
-2.3.7.2.8.4	icfRouter650Port4S	HP J2434A AdvanceStack Router 4S Port Module.
-2.3.7.2.8.5	icfRouter650Port4T	HP J2437A AdvanceStack Router 4T Port Module.
-2.3.7.2.8.6	icfRouter650PortFDDI	HP J2436A AdvanceStack Router FDDI Port Module.
-2.3.7.2.8.7	icfRouter650Port100VG	HP J2438A AdvanceStack Router 100VG Port Module.
-2.3.7.2.9	icfRouter230	HP J2540B Router 230.
-2.3.7.2.10	icfRouter250	HP 27289B Router 250.
-2.3.7.2.11	icfRouter255	HP J2543A Router 255.
-2.3.7.2.12	icfRouter210	HP J2628A AdvanceStack Router 210.
-2.3.7.5.1	etherTwist12	HP 27288A/B EtherTwist Hub PLUS.
-2.3.7.5.3	fiberOptic	HP 28682A Fiber-Optic Hub PLUS.
-2.3.7.5.4	etherTwist48	HP 28699A EtherTwist Hub PLUS/48.
-2.3.7.5.5	thinLAN	HP 28692A ThinLAN Hub PLUS.
-2.3.7.5.6	etherTwist24S	HP J2355A EtherTwist Secure Hub PLUS/24S
-2.3.7.5.7	advStack12	HP J2600A AdvanceStack 10Base-T Hub-12
-2.3.7.5.8	advStack24	HP J2601A/B AdvanceStack 10Base-T Hub-24.
-2.3.7.5.9	advStack48	HP J2602A/B AdvanceStack 10Base-T Hub-48.
-2.3.7.5.10	advStackVg15	HP J2410A AdvanceStack 100VG Hub-15.
-2.3.7.5.11	advStackU8	HP J2610A AdvanceStack 10Base-T Hub-8U.
-2.3.7.5.12	advStackU16	HP J2611A AdvanceStack 10Base-T Hub-16U.
-2.3.7.5.13	advStackVg6	HP J2413A AdvanceStack 100VG Hub-7M.
-2.3.7.5.14	advStackVg12	HP J2415A AdvanceStack 100VG Hub-14.
-2.3.7.5.15	hpAdvStkEnetSH12R	HP J3200A AdvanceStack 10BT Switching Hub-12R.
-2.3.7.5.16	hpAdvStkEnetSH24R	HP J3202A AdvanceStack 10BT Switching Hub-24R.
-2.3.7.5.17	hpAdvStkEnetSH24T	HP J3204A AdvanceStack 10BT Switching Hub-24T.
-2.3.7.5.18	hpAdvStk100Tx12TM	HP J3233A AdvanceStack 100B-TX Hub-12TM w/MGMT.
-2.3.7.5.19	hp10THub16M	HP J3188A 10Base-T Hub-16M.
-2.3.7.5.20	hp10BaseTHub12M	HP J3301A 10Base-T Hub-12M
-2.3.7.5.21	hp10BaseTHub24M	HP J3303A 10Base-T Hub-24M
-2.3.7.5.22	hpProCurve10T100THub12M	HP J3288A ProCurve 100Base-T Hub 12M
-2.3.7.5.23	hpProCurve10T100THub24M	HP J3289A ProCurve 100Base-T Hub 24M
-2.3.7.8.1	repeaterAgent	HP J2603A/B AdvanceStack Ethernet SNMP module.
-2.3.7.8.2	chassisAgents	
-2.3.7.8.2.1	icfVgAgent	HP J2414A AdvanceStack 100VG/ET SNMP/Bridge Module.
-2.3.7.8.2.3	icfVgAgent2	HP J2414B AdvanceStack 100VG/ET SNMP/Bridge Module.
-2.3.7.8.2.4	hpicfEnetSMM	HPJ3133A AdvanceStack 8U/16U SNMP Module.
-2.3.7.8.2.5	hpAdvStkEnetSHAgent	HPJ3210A AdvanceStack 10BT Switching Hub Management Module.
-2.3.7.8.2.6	hpAdvStkSwStackTopMgmt	HPJ3179A AdvanceStack Switch StackTop Management Module.
-2.3.7.8.2.7	hpSwitch8000CpuCard	HP J4110A Switch 8000M and HP J4121A Switch 4000M CPU card.
-2.3.7.8.3.1	icfPowerSupplySensor	Identifier for a power supply sensor type.
-2.3.7.8.3.2	icfFanSensor	Identifier for a fan sensor type.
-2.3.7.8.3.3	icfTemperatureSensor	Identifier for a temperature sensor type.
-2.3.7.8.3.4	icfFutureSlotSensor	Identifier for a FutureSlot sensor type.
-2.3.7.8.4	icfCards	
-2.3.7.8.4.1	icfUnidentifiedCard	Used to indicate that a module is installed in a slot in a chassis, but the agent is unable to identify it.
-2.3.7.8.4.2	hpAdvStkEnetSHSwitch	HP J3212A AdvanceStack 10BT Switching Hub Switch Module.
-2.3.7.8.4.3	hpAdvStkSwStackExpander	HPJ3180A AdvanceStack Switch Stack Expander Module.
-2.3.7.8.5	hpicfStacks	
-2.3.7.8.5.1	hpAdvStkEnetSHStack	stack of HP AdvanceStack 10Base-T Switching Hubs.
-2.3.7.8.6	hpicfBackplanes	
-2.3.7.8.6.1	hpAdvStkEnetSHExtSeg	an inter-box repeater segment in a stack of HP AdvanceStack 10Base-T Switching Hubs.
-2.3.7.8.6.2	hpAdvStkEnetSHIntSeg	repeater segment that is internal to a single box in a stack of HP AdvanceStack 10Base-T Switching Hubs.
-2.3.7.8.6.3	hp10BaseTHubSeg	repeater segment in an HP 10Base-T Hub-12M or HP 10Base-T Hub-24M.
-2.3.7.8.6.4	hpSwitchBackplane	an HP Switch backplane.
-2.3.7.8.6.5	hp100BaseTHubSeg	repeater segment in an HP ProCurve 100Base-T Hub 12M or HP ProCurve 100Base-T Hub 24M.
-2.3.7.8.7	hpicfSlots	
-2.3.7.8.7.1	hpAdvStkEnetSHAgentSlot	Management Slot in an HP AdvanceStack 10Base-T Switching Hub.
-2.3.7.8.7.2	hpAdvStkEnetSHIOSlot	Expansion Slot in an HP AdvanceStack 10Base-T Switching Hub.
-2.3.7.8.7.3	hpAdvStkSwStackMgmtSlot	Management/Stacking Slot in an HP AdvanceStack Switch 208 or Switch 224.
-2.3.7.8.7.4	hpAdvStkSwStackExpSlot	Expansion Slot in an HP AdvanceStack Switch 208 or Switch 224.
-2.3.7.8.7.5	hpSwitch8000PowerSupplyBay	power supply bay in an HP Switch 8000 or HP Switch 4000.
-2.3.7.8.7.6	hpSwitch8000CpuSlot	CPU slot in an HP Switch 8000 or HP Switch 4000.
-2.3.7.8.7.7	hpSwitch8000PortSlot	port module slot in an HP Switch 8000, HP Switch 4000, HP Switch 1600, or HP Switch 2400/2424.
-2.3.7.8.7.8	hpSwitch2524PortSlot	port module slot in an HP Switch 2524, HP Switch 2512, or HP Network Blade.
-2.3.7.8.7.9	hpSwitch5308PowerSupplyBay	power supply bay in an HP Switch 5308XL or HP Switch 5304XL.
-2.3.7.8.7.10	hpSwitch5308PortSlot	port module slot in an HP Switch 5308XL, HP Switch 5304XL, HP Switch 3324XL, or HP Switch 3124XL.
-2.3.7.8.7.11	hpSwitch4865PowerSupplyBay	power supply bay in an HP Switch 4108GL.
-2.3.7.8.7.12	hpSwitch4865PortSlot	port module slot in an HP Switch 4108GL.
-2.3.7.8.7.13	hpSwitch2650PortSlot	port module slot in an HP Switch 2650.
-2.3.7.8.7.14	hpSwitch6108PortSlot	port module slot in an HP Switch 6108.
-2.3.7.8.7.15	hpSwitch2824PortSlot	port module slot in an HP Switch 2824 or HP Switch 2848.
-2.3.7.8.7.16	hpSwitch2626PortSlot	port module slot in an HP Switch 2626.
-2.3.7.8.7.17	hpSwitch2650PPortSlot	port module slot in an HP Switch 2650-PWR.
-2.3.7.8.7.18	hpSwitch2626PPortSlot	port module slot in an HP Switch 2626-PWR.
-2.3.7.8.7.19	hpSwitch3324PortSlot	port module slot in an HP Switch 3400cl-24G or HP Switch 3400cl-48G.
-2.3.7.8.7.20	hpSwitch2650CRPortSlot	port module slot in an HP Switch 2650-CR.
-2.3.7.8.7.21	hpSwitch2626CRPortSlot	port module slot in an HP Switch 2626-CR.
-2.3.7.8.7.22	hpSwitch2600n8PPortSlot	port module slot in an HP Switch 2600-8-PWR.
-2.3.7.8.7.23	hpSwitch869xPowerSupplyBay	power supply bay in an HP Switch 8697 or HP Switch 8698.
-2.3.7.8.7.24	hpSwitch869xPortSlot	port module slot in an HP Switch 8697, HP Switch 8698, HP Switch 8692, HP switch 8693 and HP Switch 8992.
-2.3.7.8.7.25	hpSwitch2510PortSlot	port module slot in an HP Switch 2510vl-24 or HP Switch 2510vl-48.
-2.3.7.8.7.26	hpSwitch2810PortSlot	port module slot in an HP Switch 2810vl-24G or HP Switch 2810vl-48G.
-2.3.7.8.7.27	hpSwitch5400CpuCardBay	Management Module bay in a Procurve Switch 54XXZL or Procurve Switch 8212ZL.
-2.3.7.8.7.28	hpSwitch8212FabricBay	Fabric bay in a Procurve Switch 8212ZL.
-2.3.7.8.8.1	hpAdvStkEnetSHExtPort	repeater port which has an external connector on an HP AdvanceStack 10Base-T Switching Hub.
-2.3.7.8.8.2	hpAdvStkEnetSHIntPort	repeater port which does not have an external connector on an HP AdvanceStack 10Base-T Switching Hub. This port may be used to connect to an interface on an expansion module.
-2.3.7.8.8.3	hpAdvStkEnetSHAgentPort	an internal repeater port used to connect to an interface on a management module in an HP AdvanceStack 10Base-T Switching Hub.
-2.3.7.8.8.4	hp10BaseTHubPort	repeater port which has an external connector on an HP 10Base-T Hub-12M or an HP 10Base-T Hub-24M.
-2.3.7.8.8.5	hp10BaseTHubAgentPort	an internal repeater port used to connect to an agent interface in an HP 10Base-T Hub-12M or an HP 10Base-T Hub-24M.
-2.3.7.8.8.6	hp10T100THubPort	10/100 repeater port that has an external connector on an HP ProCurve 100Base-T Hub.
-2.3.7.8.8.7	hp100BaseTHubAgentPort	an internal 100Mbit repeater port used to connect to an agent interface in an HP ProCurve 100Base-T Hub.
-2.3.7.8.9	hpicfEnetChipSets	hpicfEnetChipSetHydra 	2.3.7.8.9.1 HP Hydra 4-interface Ethernet LAN controller.
-2.3.7.8.9.2	hpicfEnetChipSetGT48001	GT48001 8-interface switch chip.
-2.3.7.8.9.3	hpicfEnetChipSetPentagon	HP Pentagon ASIC.
-2.3.7.8.10	hpicfSwitchPorts	hpicfSwitchPort10T100TX 	2.3.7.8.10.1 an IEEE 802.3 10BASE-T/100BASE-TX autonegotiating port on an HP switch.
-2.3.7.8.10.2	hpicfSwitchPort100FX	an IEEE 802.3 100BASE-FX port on an HP switch.
-2.3.7.8.10.3	hpicfSwitchPort10FL	an IEEE 802.3 10BASE-FL port on an HP switch.
-2.3.7.8.10.4	hpicfSwitchPort1000SX	an IEEE 802.3 1000BASE-SX port on an HP switch.
-2.3.7.8.10.5	hpicfSwitchPort10T	an IEEE 802.3 10BASE-T port on an HP switch.
-2.3.7.8.10.6	hpicfSwitchPort1000LX	an IEEE 802.3 1000BASE-LX port on an HP switch.
-2.3.7.8.10.7	hpicfSwitchPort1000T	an IEEE 802.3 1000BASE-T port on an HP switch.
-2.3.7.8.10.8	hpicfSwitchPort1000Stk	an IEEE 802.3 1000BASE-Stk port on an HP switch.
-2.3.7.8.10.9	hpicfSwitchPort1000LH	an IEEE 802.3 1000BASE-LH port on an HP switch.
-2.3.7.8.10.10	hpicfSwitchPort10GigBaseCX4	an IEEE 802.3 10GIGBASE-CX4 port on an HP switch.
-2.3.7.8.10.11	hpicfSwitchPort1000ESP	an internal ESP Blade port on an HP switch.
-2.3.7.8.10.12	hpicfSwitchPort10GigBaseSR	an IEEE 802.3 10GIGBASE-SR port on an HP switch.
-2.3.7.8.10.13	hpicfSwitchPort10GigBaseER	an IEEE 802.3 10GIGBASE-ER port on an HP switch.
-2.3.7.8.10.14	hpicfSwitchPort10GigBaseLR	an IEEE 802.3 10GIGBASE-LR port on an HP switch.
-2.3.7.8.11	hpicfMAUTypes	hpicfMauType1000BaseSXHD 	2.3.7.8.11.1 IEEE 802.3 X fiber over short-wavelength laser PMD (clause 38), half-duplex.
-2.3.7.8.11.2	hpicfMauType1000BaseSXFD	IEEE 802.3 X fiber over short-wavelength laser PMD (clause 38), full-duplex.
-2.3.7.8.11.3	hpicfMauType1000BaseLXHD	IEEE 802.3 X fiber over long-wavelength laser PMD (clause 38), half-duplex.
-2.3.7.8.11.4	hpicfMauType1000BaseLXFD	IEEE 802.3 X fiber over long-wavelength laser PMD (clause 38), full-duplex.
-2.3.7.8.11.5	hpicfMauType1000BaseTHD	IEEE 802.3 four-pair Category 5 UTP PHY (clause 40), half-duplex.
-2.3.7.8.11.6	hpicfMauType1000BaseTFD	IEEE 802.3 four-pair Category 5 UTP PHY (clause 40), full-duplex.
-2.3.7.8.11.7	hpicfMauType1000BaseStkHD	IEEE 802.3 X copper, half-duplex.
-2.3.7.8.11.8	hpicfMauType1000BaseStkFD	IEEE 802.3 X copper, full-duplex.
-2.3.7.8.11.9	hpicfMauType1000BaseLHFD	Proprietary Long Haul, Fiber full-duplex.
-2.3.7.8.11.10	hpicfMauType1000BaseEspPCS	Proprietary internal, PCS port.
-2.3.7.8.11.11	hpicfMauType1000BaseEspG	Proprietary internal, GMII port.
-2.3.7.8.11.12	hpicfMauType10GigBaseCX4	Proprietary 10Gig CX4, full-duplex.
-2.3.7.8.11.13	hpicfMauType10GigBaseSR	Proprietary 10Gig SR, full-duplex.
-2.3.7.8.11.14	hpicfMauType10GigBaseER	Proprietary 10Gig ER, full-duplex.
-2.3.7.8.11.15	hpicfMauType10GigBaseLR	Proprietary 10Gig LR, full-duplex.
-2.3.7.11.1	hpAdvSwitch2000	HP J3100A AdvanceStack Switch 2000.
-2.3.7.11.1.1	hpSwitchPortModuleET4	HP J3102A AdvanceStack Switch Ethernet Port Module.
-2.3.7.11.1.2	hpSwitchPortModuleVG2	HP J3103A AdvanceStack Switch 100VG Port Module.
-2.3.7.11.1.3	hpSwitchPortModule10FL	HP AdvanceStack Switch 10BaseFL Port Module.
-2.3.7.11.1.4	hpSwitchPortModuleFDDI	HP AdvanceStack Switch FDDI Port Module.
-2.3.7.11.1.5	hpSwitchPortModuleTX2	HP AdvanceStack Switch 100BaseT Port Module.
-2.3.7.11.1.6	hpSwitchPortModuleATM	HP AdvanceStack Switch ATM Port Module.
-2.3.7.11.2	hpAdvSwitch2000B	HP J3100B AdvanceStack Switch 2000B.
-2.3.7.11.3	hpAdvSwitch800T	HP J3245A AdvanceStack Switch 800T.
-2.3.7.11.4	hpAdvSwitch200	HP J3175A AdvanceStack Switch 208T and HP J3177A AdvanceStack Switch 224T.
-2.3.7.11.4.1	hpAdvSwitch208T
-2.3.7.11.4.2	hpAdvSwitch208VG
-2.3.7.11.4.3	hpAdvSwitch224T
-2.3.7.11.4.4	hpAdvSwitch224VG
-2.3.7.11.5	hpSwitch212M	HP J3298A Switch 212M.
-2.3.7.11.6	hpSwitch224M	HP J3299A Switch 224M.
-2.3.7.11.7	hpSwitch8000	HP J4110A Switch 8000M.
-2.3.7.11.7.1	hpSwitchPortModule100TX8	HP J4111A 8-port 10/100Base-TX module.
-2.3.7.11.7.2	hpSwitchPortModule100FX4	HP J4112A 4-port 100Base-FX module.
-2.3.7.11.7.3	hpSwitchPortModule10FL4	HP J4118A 4-port 10Base-FL module.
-2.3.7.11.7.4	hpSwitchPortModuleGigSX	HP J4113A 1-port Gigabit SX module.
-2.3.7.11.7.5	hpSwitchPortModuleGigLX	HP J4114A 1-port Gigabit LX module.
-2.3.7.11.7.6	hpSwitchPortModuleTwoGig	HP J4130A 2-port Gigabit module.
-2.3.7.11.7.7	hpSwitchPortModuleGigStk	HP J4130A 1-port Gigabit Stacking module.
-2.3.7.11.7.8	hpSwitchPortModuleGigT	HP J4115A 1-port Gigabit T module.
-2.3.7.11.8	hpSwitch1600	HP J4120A Switch 1600M.
-2.3.7.11.9	hpSwitch4000	HP J4121A Switch 4000M.
-2.3.7.11.10	hpSwitch2400	HP J4122A Switch 2400M.
-2.3.7.11.11	hpSwitch2424	HP J4122B Switch 2424M.
-2.3.7.11.13	hpSwitch9308	HP J4138A Routing Switch 9308M.
-2.3.7.11.14	hpSwitch9304	HP J4139A Routing Switch 9304M.
-2.3.7.11.15	hpSwitch6308	HP J4840A Routing Switch 6308M.
-2.3.7.11.16	hpSwitch6208	HP J4841A Switch 6208M.
-2.3.7.11.17	hpSwitchJ4819A	HP J4819A Switch 5308XL.
-2.3.7.11.17.1	hpSwitchPortModuleJ4820A	HP J4820A 24 Port 10/100Base-TX Module.
-2.3.7.11.17.2	hpSwitchPortModuleJ4821A	HP J4821A 4 Port 100/1000Base-TX Module.
-2.3.7.11.17.3	hpSwitchPortModuleJ4878A	HP J4878A 4x MiniGBIC Module.
-2.3.7.11.17.4	hpSwitchModuleJ4852A	HP J4852A 12-port 100-FX MTRJ
-2.3.7.11.17.5	hpSwitchModuleJ8161A	HP J8161A 24-port 10/100Base-TX PoE Module.
-2.3.7.11.17.6	hpSwitchModuleJ4907A	HP J4907A Gig-T/GBIC xl Module.
-2.3.7.11.17.7	hpSwitchModuleJ8162A	HP J8162A XL Access Controller Module.
-2.3.7.11.17.8	hpSwitchPortModuleJ4820B	HP J4820B 24 Port 10/100Base-TX Module.
-2.3.7.11.17.9	hpSwitchPortModuleJ4821B	HP J4821B 4 Port 100/1000Base-TX Module.
-2.3.7.11.17.10	hpSwitchPortModuleJ4878B	HP J4878B 4x MiniGBIC Module.
-2.3.7.11.17.11	hpSwitchModuleJ9001A	HP J9001A Module.
-2.3.7.11.17.12	hpSwitchModuleJ9003A	HP J9003A Module.
-2.3.7.11.17.13	hpSwitchModuleJ8988A	ProCurve J8988A 10-GbE xl module. (DO NOT PUBLISH)
-2.3.7.11.18	hpSwitchJ4812A	HP J4812A Switch 2512.
-2.3.7.11.18.1	hpSwitchModuleJ4812A	HP J4812A 12-port 10/100Base-TX + 2 Gig module
-2.3.7.11.19	hpSwitchJ4813A	HP J4813A Switch 2524.
-2.3.7.11.19.1	hpSwitchModuleJ4813A	HP J4813A 24-port 10/100Base-TX + 2 Gig module
-2.3.7.11.20	hpSwitchJ4850A	HP J4819A Switch 5304XL.
-2.3.7.11.21	hpSwitchJ4815A	HP J4819A Switch 3324XL.
-2.3.7.11.22	hpSwitchJ4851A	HP J4819A Switch 3124.
-2.3.7.11.23	hpSwitchJ4865A	HP J4865A Switch 4108GL.
-2.3.7.11.23.1	hpSwitchModuleJ4862A	HP J4862A 24-port 10/100Base-TX
-2.3.7.11.23.2	hpSwitchModuleJ4863A	HP J4863A 6-port 100/1000Base-TX
-2.3.7.11.23.3	hpSwitchModuleJ4864A	HP J4864A 3-port tranceiver module
-2.3.7.11.23.4	hpSwitchModuleJ4862B	HP J4862B 24-port 10/100Base-TX
-2.3.7.11.23.5	hpSwitchModuleJ4893A	HP J4893A 6-port Mini-GBIC module
-2.3.7.11.23.6	hpSwitchModuleJ4892A	HP J4892A 12-port 100-FX MTRJ
-2.3.7.11.23.7	hpSwitchModuleJ4908A	HP J489XA 20-port 10/100/1000Base-TX + 2 Mini-GBIC
-2.3.7.11.24	hpSwitchA6713A	HP A6713A Network Blade.
-2.3.7.11.25	hpSwitchA6716A	HP A6716A Network Blade.
-2.3.7.11.26	hpSwitchA6717A	HP A6717A Network Blade.
-2.3.7.11.27	hpSwitchJ4887A	HP J4887A Switch 4104GL.
-2.3.7.11.28	hpSwitchJ4874A	HP J4874A Routing Switch 9315.
-2.3.7.11.29	hpSwitchJ4899A	HP J4899A Switch 2650.
-2.3.7.11.30	hpSwitchJ4902A	HP J4902A Switch 6108.
-2.3.7.11.31	hpSwitchJ4903A	HP J4903A Switch 2824.
-2.3.7.11.31.1	hpSwitchModuleJ4903A	HP J4903A 24-port 10/100/1000Base-TX
-2.3.7.11.31.2	hpSwitchModuleJ8434A	HP J8434A 2-port 10G CX4 hpSwitchModuleJ8435A 	2.3.7.11.31.3 HP J8435A 2-port 10G MF
-2.3.7.11.32	hpSwitchJ4904A	HP J4904A Switch 2848.
-2.3.7.11.32.1	hpSwitchModuleJ4904A	HP J4904A 48-port 10/100/1000Base-TX
-2.3.7.11.33	hpSwitchProliant	HP Proliant Series Switches.
-2.3.7.11.34	hpSwitchJ4900A	HP J4900A Switch 2626.
-2.3.7.11.35	hpSwitchJ8165A	HP J8165A Switch 2650-PWR.
-2.3.7.11.36	hpSwitchJ8164A	HP J8164A Switch 2626-PWR.
-2.3.7.11.37	hpSwitchJ8130A	HP J8130A Wireless Access Point AP420WL.
-2.3.7.11.38	hpSwitchJ8133A	HP J8133A Wireless Access Point AP520WL.
-2.3.7.11.39	hpSwitchJ8153A	HP J8153A Access Controller 720WL.
-2.3.7.11.40	hpSwitchJ8154A	HP J8154A Access Controller Server 740WL.
-2.3.7.11.41	hpSwitchJ8155A	HP J8155A Integrated Access Manager 760WL.
-2.3.7.11.42	hpSwitchJ4905A	HP J4905A Switch 3400cl-24G.
-2.3.7.11.42.1	hpSwitchModuleJ4905A	HP J4905A Switch 3400cl-24G.
-2.3.7.11.43	hpSwitchJ4906A	HP J4906A Switch 3400cl-48G.
-2.3.7.11.43.1	hpSwitchModuleJ4906A	HP J4906A Switch 3400cl-48G.
-2.3.7.11.44	hpSwitchJ4899B	HP J4899B Switch 2650-CR.
-2.3.7.11.45	hpSwitchJ4900B	HP J4900B Switch 2626-CR.
-2.3.7.11.46	hpSwitchJ8718A	HP J8718A Switch 5404yl.
-2.3.7.11.47	hpSwitchJ8719A	HP J8719A Switch 5408yl.
-2.3.7.11.48	hpSwitchJ8433A	HP J8433A Switch 6400cl-6XG.
-2.3.7.11.48.1	hpSwitchModuleJ8433A	HP J8433A Switch 6400cl-6XG.
-2.3.7.11.49	hpSwitchJ8474A	HP J8474A Switch 6410cl-6XG.
-2.3.7.11.49.1	hpSwitchModuleJ8474A	HP J8474A Switch 6410cl-6XG .
-2.3.7.11.50	hpSwitchJ8697A	HP J8697A Switch 5406zl.
-2.3.7.11.50.1	hpSwitchModuleJ8701A	HP J8701A 24 port Gig-T.
-2.3.7.11.50.2	hpSwitchModuleJ8702A	HP J8702A 24 port Gig-T zl Module.
-2.3.7.11.50.3	hpSwitchModuleJ8705A	HP J8705A Gig-T/SFP zl Module.
-2.3.7.11.50.4	hpSwitchModuleJ8706A	HP J8706A 24 port SFP zl Module.
-2.3.7.11.50.5	hpSwitchModuleJ8707A	HP J8707A 4 port 10-GbE zl Module.
-2.3.7.11.50.6	hpSwitchModuleJ8708A	HP J8708A 4 port 10G CX4 zl Module.
-2.3.7.11.50.7	hpSwitchModuleJ87xxA	HP J87xxA yl Fixed Gig-T/SFP.
-2.3.7.11.50.8	hpSwitchModuleJ87yyA	HP J87yyA yl Fixed 24p Gig-T.
-2.3.7.11.50.9	hpSwitchModuleJ8694A	HP J8694A yl X2/CX4 10-GbE Module.
-2.3.7.11.50.10	hpSwitchModuleJ8726A	HP J8726A 5400 zl Management Module.
-2.3.7.11.50.14	hpSwitchModuleJ9051A	HP J9051A Wireless services Primary zl Module.
-2.3.7.11.50.15	hpSwitchModuleJ9052A	HP J9052A Wireless services Redundant zl Module.
-2.3.7.11.51	hpSwitchJ8698A	HP J8698A Switch 5412zl.
-2.3.7.11.52	hpSwitchJ8770A	ProCurve J8770A Switch 4204vl.
-2.3.7.11.52.1	hpSwitchModuleJ8765A	ProCurve J8765A 10/100 module.
-2.3.7.11.52.2	hpSwitchModuleJ8764A	ProCurve J8764A 10/100/1000 module.
-2.3.7.11.52.3	hpSwitchModuleJ8776A	ProCurve J8776A miniGBIC module.
-2.3.7.11.52.4	hpSwitchModuleJ8763A	ProCurve J8763A 100FX module.
-2.3.7.11.52.5	hpSwitchModuleJ8768A	ProCurve J8768A Gig-T vl module.
-2.3.7.11.52.6	hpSwitchModuleJ9033A	ProCurve J9033A Gig-T/SFP vl module.
-2.3.7.11.52.7	hpSwitchModuleJ9037A	ProCurve J9037A 10/100Base-TX + SFP vl module. (DO NOT PUBLISH)
-2.3.7.11.52.8	hpSwitchModuleJ8765B	ProCurve J8765B 10/100-TX vl module. (DO NOT PUBLISH)
-2.3.7.11.52.9	hpSwitchModuleJ9036A	ProCurve J9036A SFP vl module. (DO NOT PUBLISH)
-2.3.7.11.52.10	hpSwitchModuleJ8766A	ProCurve J8766A 10-GbE vl module. (DO NOT PUBLISH)
-2.3.7.11.53	hpSwitchJ8773A	ProCurve J8773A Switch 4208vl.
-2.3.7.11.54	hpSwitchJ8680A	HP J8680A Router 9608sl.
-2.3.7.11.55	hpSwitchJ8762A	HP J8762A Switch 2600-8-PWR.
-2.3.7.11.56	hpSwitchJ8771A	ProCurve J8771A Switch 4202vl-48G.
-2.3.7.11.57	hpSwitchJ8772A	ProCurve J8772A Switch 4202vl-72.
-2.3.7.11.58	hpSwitchJ8692A	HP J8692A Switch 3500yl-24G-PWR.
-2.3.7.11.59	hpSwitchJ8693A	HP J8693A Switch 3500yl-48G-PWR.
-2.3.7.11.60	hpSwitchJ8992A	HP J8992A Switch 6200yl-24G.
-2.3.7.11.61	hpSwitchJ9019A	ProCurve J9019A Switch 2510-24A.
-2.3.7.11.61.1	hpSwitchModuleJ9019A	HP J9019A Switch 2510-24A.
-2.3.7.11.62	hpSwitchJ9020A	ProCurve J9020A Switch 2510-48A.
-2.3.7.11.62.1	hpSwitchModuleJ9020A	HP J9020A Switch 2510-48A.
-2.3.7.11.63	hpSwitchJ9021A	ProCurve J9021A Switch 2810-24G.
-2.3.7.11.63.1	hpSwitchModuleJ9021A	HP J9021A Switch 2810-24G.
-2.3.7.11.64	hpSwitchJ9022A	ProCurve J9022A Switch 2810-48G.
-2.3.7.11.64.1	hpSwitchModuleJ9022A	HP J9022A Switch 2810-48G.
-2.3.7.11.65	hpSwitchJ9028A	ProCurve J9028A Switch 1800-24G.
-2.3.7.11.66	hpSwitchJ9029A	ProCurve J9029A Switch 1800-8G.
-2.3.7.11.67	hpSwitchJ9038A	ProCurve J9038A device.
-2.3.7.11.68	hpSwitchJ9050A	HP J9050A Switch 2900-48G.
-2.3.7.11.68.11	hpSwitchModuleJ90xxA	HP J9050A yl Fixed Gig-T/SFP.
-2.3.7.11.68.12	hpSwitchModuleJ90yyA	HP J9050A yl Fixed 24p Gig-T.
-2.3.7.11.68.13	hpSwitchModuleJ90zzA	HP J9050A yl X2/CX4 10-GbE Module.
-2.3.7.11.69	hpSwitchJ9049A	HP J9049A Switch 2900-24G.
-2.3.7.11.70	hpSwitchJ9032A	ProCurve J9032A Switch 4202vl-68G.
-2.3.7.11.71	hpSwitchJ9031A	ProCurve J9031A Switch 4202vl-68. (DO NOT PUBLISH)
-2.3.7.11.72	hpSwitchJ8715A	HP J8715A Switch 8200zl.
-2.3.7.11.99	hpEtherSwitchPortType
-2.3.7.11.99.1	hpEtherSwitchPort10T
-2.3.7.11.99.2	hpEtherSwitchPort100T
-2.3.7.11.99.3	hpEtherSwitchPort100VG
-2.3.7.11.99.4	hpEtherSwitchPort100F
-2.14	icf
-2.14.1	icfCommon
-2.14.2	icfHub
-2.14.3	icfBridge
-2.14.4	icfSecurity
-2.14.5	icfConfig
-2.14.6	icfEsSwitch
-2.14.6.1	hpEs
-2.14.6.2	hpEs2
-2.14.6.3	hpNetSwitch
-2.14.7	icfRouter
-2.14.8	icfDot12Draft
-2.14.8.1	icfVgRepeater
-2.14.8.2	icfVgInterface
-2.14.9	hpEntityMIB
-2.14.10	hpicfAdmin
-2.14.10.1	hpicfDomains
-2.14.10.1.1	hpicfLLCDomain	The SNMP over 802.2 transport domain.
-2.14.10.2	hpicfObjectModules
-2.14.10.2.1	icfSecurityMib
-2.14.10.2.2	hpicfChainMib
-2.14.10.2.3	hpicfChassisMib
-2.14.10.2.4	hpicfDownloadMib
-2.14.10.2.5	hpicfBasicMib
-2.14.10.2.6	hpicfStackMib
-2.14.10.2.7	hpicfLinkTestMib
-2.14.10.2.8	hpicfGenRptrMib
-2.14.10.2.9	hpicf8023RptrMib
-2.14.10.2.10	icfVgRepeaterMib
-2.14.10.2.11	hpicfVgRptrMib
-2.14.10.2.12	hpicfFaultFinderMib
-2.14.10.2.13	hpicfJumboMIB
-2.14.10.2.14	hpicfRateLimitMIB
-2.14.10.3	hpicfAgentModules
-2.14.10.3.1	hpicfETwistHubAgentsMib
-2.14.10.3.2	hpicfETwistBridgeAgentsMib
-2.14.10.3.3	hpicfAdvStk8023AgentsMib
-2.14.10.3.4	hpicfAdvStkVGAgentsMib
-2.14.10.4	hpicfTextualConventions
-2.14.11	hpicfObjects
-2.14.11.1	hpicfCommon
-2.14.11.1.1	hpicfChain
-2.14.11.1.2	hpicfChassis
-2.14.11.1.3	hpicfDownload
-2.14.11.1.4	hpicfBasic
-2.14.11.1.5	hpicfStack
-2.14.11.1.6	hpicfLinktest
-2.14.11.1.7	hpicfFaultFinder
-2.14.11.2	hpicfRepeater
-2.14.11.3	hpicfVg
-2.14.11.4	hpicfGenericRepeater
-2.14.11.5	hpicfSwitch
-2.14.11.5.1	hpSwitch
-2.14.11.5.1.1	hpOpSystem
-2.14.11.5.1.2	hpHwSystem
-2.14.11.5.1.3	hpVLAN
-2.14.11.5.1.7	hpConfig
-2.14.11.5.1.9	hpSwitchStatistics
-2.14.11.5.1.10	hpSwitchVirtualStackMib
-2.14.11.5.1.11	hpicfDhcpRelay
-2.14.11.5.1.12	hpicfBridge
-2.14.11.5.1.13	hpicfRip
-2.14.11.5.1.14	hpicfOspf
-2.14.11.5.1.15	hpicfIpRouting
-2.14.11.5.1.16	hpSwitchAuthenticationMIB
-2.14.11.5.1.17	hpSwitchAccountingMIB
-2.14.11.5.1.18	hpicfXrrpMIB
-2.14.11.5.1.19	hpicfUsrAuthMIB
-2.14.11.5.1.20	hpicfPimMIB
-2.14.11.5.1.21	hpicfMstpMIB
-2.14.11.5.1.23	hpicfUdpFwd
-2.14.11.5.1.24	hpicfConnectionRateFilter
-2.14.11.5.1.25	hpicfDot1xMIB
-2.14.11.5.1.30	hpicfLldpMIB
-2.14.11.5.1.31	hpicfVrrpMIB
-2.14.11.5.1.32	hpSwitchAuthorizationMIB
-2.14.11.5.1.34	hpicfIpDhcpSnoop
-2.14.11.5.1.35	hpicfInstMonMIB
-2.14.11.5.1.36	hpicfL3MacConfigMIB
-2.14.11.5.1.37	hpicfArpProtect
-2.14.11.6	hpicfAccess
-2.14.11.7	hpicfWAN
-2.14.11.7.1	hpWANRouters
-2.14.11.7.1.1	hpSRJ8751A	HP J8751A Secure Router 7001dl.
-2.14.11.7.1.2	hpSRJ8752A	HP J8752A Secure Router 7102dl.
-2.14.11.7.1.3	hpSRJ8753A	HP J8753A Secure Router 7203dl.
-2.14.11.7.1.4	hpSRJ8754A	HP J8754A Secure Router 7306dl.
-2.14.11.7.1.4.1	hpSRPowerSupply8756A	HP J8754A Secure Router 7306dl powersupply.
-2.14.11.7.2	hpWANModules	hpSRmoduleJ8451A 	2.14.11.7.2.1 HP ProCurve SR dl 1 x T1 module.
-2.14.11.7.2.2	hpSRmoduleJ8452A	HP ProCurve SR dl 1 x T1 + DSX-1 module.
-2.14.11.7.2.3	hpSRmoduleJ8453A	HP ProCurve SR dl 2 x T1 module.
-2.14.11.7.2.4	hpSRmoduleJ8454A	HP ProCurve SR dl 1 x E1 module.
-2.14.11.7.2.5	hpSRmoduleJ8455A	HP ProCurve SR dl 1 x E1 + G.703 module.
-2.14.11.7.2.6	hpSRmoduleJ8456A	HP ProCurve SR dl 2 x E1 module.
-2.14.11.7.2.7	hpSRmoduleJ8457A	HP ProCurve SR dl 2 x ISDN BRI S/T module.
-2.14.11.7.2.8	hpSRmoduleJ8458A	HP ProCurve SR dl 1 x Serial module.
-2.14.11.7.2.9	hpSRmoduleJ8459A	HP ProCurve SR dl 1 x ADSL2+ Annex A module.
-2.14.11.7.2.10	hpSRmoduleJ8759A	HP ProCurve SR dl 1 x ADSL2+ Annex B module.
-2.14.11.7.2.11	hpSRmoduleJ8460A	HP ProCurve SR dl ISDN BRI U backup.
-2.14.11.7.2.12	hpSRmoduleJ8461A	HP ProCurve SR dl ISDN BRI S/T backup.
-2.14.11.7.2.13	hpSRmoduleJ8462A	HP ProCurve SR dl Analog Modem backup.
-2.14.11.7.2.14	hpSRmoduleJ8463A	HP ProCurve SR dl 8 x T1/E1 wide module.
-2.14.11.7.2.15	hpSRmoduleJ8464A	HP ProCurve SR dl DS-3 wide module.
-2.14.11.7.2.16	hpSRmoduleJ8465A	HP ProCurve SR dl HSSI wide module.
-2.14.11.7.2.17	hpSRmoduleJ8471A	HP ProCurve SR 7100/7200 IPSec module.
-2.14.11.7.2.18	hpSRmoduleJ8472A	HP ProCurve SR 7300 series IPSec module.
-2.14.11.8	hpicfFabric
-2.14.12	hpicfNotifications
-2.14.12.1	hpicfCommonTraps
-2.14.12.1.0	hpicfCommonTrapsPrefix
-2.14.12.2	hpicf8023RptrTraps
-2.14.12.2.0	hpicf8023RptrTrapsPrefix
-2.14.12.3	hpicfVgRptrTraps
-2.14.12.3.0	hpicfVgRptrTrapsPrefix
-2.14.12.4	hpicfGenRptrTraps
-2.14.12.4.0	hpicfGenRptrTrapsPrefix
-2.14.12.5	hpicfRateLimitTraps
-2.14.12.5.0	hpicfRateLimitTrapsPrefix
-2.14.13	hpicfOEMs
-2.14.13.1	hpicfFEHub
+2.3.7.11.1	AdvanceStack Switch 2000 (J3100A)
+2.3.7.11.2	AdvanceStack Switch 2000B (J3100B)
+2.3.7.11.3	AdvanceStack Switch 800T (J3245A
+2.3.7.11.4	AdvanceStack Switch 208T (J3175A)
+2.3.7.11.4.1	ProCurve 208T
+2.3.7.11.4.2	ProCurve 208T
+2.3.7.11.4.3	ProCurve 224T
+2.3.7.11.4.4	ProCurve 224VG
+2.3.7.11.5	ProCurve 212 (J3298A)
+2.3.7.11.6	ProCurve 224M (J3299A)
+2.3.7.11.7	ProCurve 8000M (J4110)
+2.3.7.11.8	ProCurve 1600M (J4120A)
+2.3.7.11.9	ProCurve 4000M (J4121A)
+2.3.7.11.10	ProCurve 2400M (J4122A)
+2.3.7.11.11	ProCurve 2424M (J4122B)
+2.3.7.11.13	ProCurve 9308M (J4138A)
+2.3.7.11.14	ProCurve 9304M (J4139A)
+2.3.7.11.15	ProCurve 6308M (J4840A)
+2.3.7.11.16	ProCurve 6208M (J4841A)
+2.3.7.11.17	ProCurve 5308XL (J4819A)
+2.3.7.11.18	ProCurve 2512 (J4812A)
+2.3.7.11.19	ProCurve 2524 (J4813A)
+2.3.7.11.20	ProCurve 5304XL (J4850A)
+2.3.7.11.21	ProCurve 3324XL (J4815A)
+2.3.7.11.22	ProCurve 3124 (J4851A)
+2.3.7.11.23	ProCurve 4108GL (J4865A)
+2.3.7.11.24	ProCurve Copper GE Blade for BH7800 BladeServer (A6713A)
+2.3.7.11.25	ProCurve SX Fiber Blade for BH7800 BladeServer (A6716A)
+2.3.7.11.26	ProCurve LX Fiber Blade for BH7800 BladeServer (A6717A)
+2.3.7.11.27	ProCurve 4104GL (J4887A)
+2.3.7.11.28	ProCurve 9315M (J4874A)
+2.3.7.11.29	ProCurve 2650 (J4899A)
+2.3.7.11.30	ProCurve 6108 (J4902A)
+2.3.7.11.31	ProCurve 2824 (J4903A)
+2.3.7.11.32	ProCurve 2848 (J4904A)
+2.3.7.11.33	Proliant Switch
+2.3.7.11.33.1.1.1	ProLiant BL p-Class C-GbE2 Interconnect Switch
+2.3.7.11.33.4.1.1	ProLiant C-Class BladeSystem GbE2c Ethernet Blade Switch
+2.3.7.11.33.5.1.1	ProLiant BL p-Class C-GbE2C Ethernet Blade Switch
+2.3.7.11.34	ProCurve 2626 (J4900A)
+2.3.7.11.35	ProCurve 2650-PWR (J8165A)
+2.3.7.11.36	ProCurve 2626-PWR (J8164A)
+2.3.7.11.37	Wireless Access Point AP420WL (J8130A)
+2.3.7.11.38	Wireless Access Point AP520WL (J8133A)
+2.3.7.11.39	Access Controller 720WL (J8153A)
+2.3.7.11.40	Access Controller Server 740WL (J8154A)
+2.3.7.11.41	Integrated Access Manager 760WL (J8155A)
+2.3.7.11.42	ProCurve Switch 3400cl-24G (J4905A)
+2.3.7.11.43	ProCurve Switch 3400cl-48G (J4906A)
+2.3.7.11.44	ProCurve 2650 (J4899B)
+2.3.7.11.45	ProCurve 2626 (J4900B)
+2.3.7.11.46	ProCurve 5404yl (J8718A)
+2.3.7.11.47	ProCurve 5408yl (J8719A)
+2.3.7.11.48	ProCurve 6400 (J8433A)
+2.3.7.11.49	ProCurve 6400 (J8474A)
+2.3.7.11.50	ProCurve 5406zl (J8697A)
+2.3.7.11.51	ProCurve 5412zl (J8698A)
+2.3.7.11.52	ProCurve 4204vl (J8770A)
+2.3.7.11.53	ProCurve 4208vl (J8773A)
+2.3.7.11.54	ProCurve 9400 (J8453A)
+2.3.7.11.55	ProCurve 2608-PWR (J8762A)
+2.3.7.11.56	ProCurve 4202vl-48G (J8771A)
+2.3.7.11.57	ProCurve 4202vl-72 (J8772A)
+2.3.7.11.58	ProCurve Switch 3500yl-24G (J8692A)
+2.3.7.11.59	ProCurve Switch 3500yl-48G (J8693A)
+2.3.7.11.60	ProCurve 6200yl-24G (J8992A)
+2.3.7.11.61	ProCurve 2510-24 (J9019A)
+2.3.7.11.62	ProCurve 2510-48 (J9020A)
+2.3.7.11.63	ProCurve 2810-24G (J9021A)
+2.3.7.11.64	ProCurve 2810-48G (J9022A)
+2.3.7.11.65	ProCurve 1800-24G (J9028A)
+2.3.7.11.66	ProCurve 1800-8G (J9029A)
+2.3.7.11.67	ProCurve (J9038A)
+2.3.7.11.68	ProCurve 2900-48g (J9050A)
+2.3.7.11.69	ProCurve 2900-24G (J9049A)
+2.3.7.11.70	ProCurve 4202vl-68G (J9032A)
+2.3.7.11.72	ProCurve 8212zl (J8715A)
+2.3.7.11.74	ProCurve 1700-8 (J9079A)
+2.3.7.11.75	ProCurve 1700-24 (J9080A)
+2.3.7.11.76	ProCurve 2610-24
+2.3.7.11.77	ProCurve 2610-48
+2.3.7.11.78	ProCurve 2610-24-PWR
+2.3.7.11.79	ProCurve 2610-48-PWR
+2.3.7.11.80	ProCurve 2610-24/12-PWR (J9086A)
+2.3.7.11.81	ProCurve 1800-24G-B (J9028B)
+2.3.7.11.82	ProCurve 2626C
+2.3.7.11.83	ProCurve 2650 (J4899C)
+2.3.7.11.84	ProCurve 2910al-24G-PoE (J9146A)
+2.3.7.11.85	ProCurve 2910al-48G-PoE
+2.3.7.11.86	ProCurve 2910al-24G
+2.3.7.11.87	ProCurve 2910al-48G
+2.3.7.11.88	ProCurve 2510G-24
+2.3.7.11.89	ProCurve 2510G-48
+2.3.7.11.90	ProCurve 2510B-24
+2.3.7.11.94	ProCurve 2520-8-PoE (J9137A)
+2.3.7.11.95	ProCurve 2520-24-PoE (J9138A)
+2.3.7.11.96	ProCurve 2520G-8-PoE (J9298A)
+2.3.7.11.97	ProCurve 2520G-24-PoE (J9299A)
+2.3.7.11.98	ProCurve 6600ml-24X (J9265A)
+2.3.7.11.100	ProCurve 6600ml-24G (J9263A)
+2.3.7.11.101	ProCurve 6600ml-24G-4XG (J9264A)
+2.3.7.11.103	ProCurve 1810G-8 (J9449A)
+2.3.7.11.104	ProCurve 1810G-24 (J9450A)
+2.3.7.11.105	ProCurve Switch 6600-48G-4XG (J9452A)
+2.3.7.11.106	ProCurve 6600-48G (J9451A)
+2.3.7.11.107	ProCurve 6120XG (516733-B21)
+2.3.7.11.108	ProCurve 6120G/XG (498358-B21)
+2.3.7.11.109	ProCurve 3500-24-PoE (J9471A)
+2.3.7.11.110	ProCurve 3500-48-PoE (J9473A)
+2.3.7.11.111	ProCurve 3500-24 (J9470A)
+2.3.7.11.112	ProCurve 3500-48 (J9472A)
+2.3.7.11.113	ProCurve 8206zl (J9477A)
+2.3.7.11.114	ProCurve 3500yl-24G-PoE+ (J9310A)
+2.3.7.11.117	ProCurve 2615-8-PoE (J9565A)
+2.3.7.11.122	E3800-48G-4SFP (J9576A)
