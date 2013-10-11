@@ -14,20 +14,22 @@ my %tests = (
             MANUFACTURER => 'Konica',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
-            MAC          => '00:50:AA:27:95:9E'
+            MAC          => '00:50:AA:27:95:9E',
+            MODEL        => 'bizhub 421',
         },
         {
             MANUFACTURER => 'Konica',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
-            MAC          => '00:50:AA:27:95:9E'
+            MAC          => '00:50:AA:27:95:9E',
+            MODEL        => 'bizhub 421',
         },
         {
             INFO => {
                 MANUFACTURER => 'Konica',
                 TYPE         => 'PRINTER',
                 ID           => undef,
-                MODEL        => undef,
+                MODEL        => 'bizhub 421',
             },
         }
     ],
@@ -36,20 +38,22 @@ my %tests = (
             MANUFACTURER => 'Konica',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
-            MAC          => '00:50:AA:27:96:68'
+            MAC          => '00:50:AA:27:96:68',
+            MODEL        => 'bizhub 421',
         },
         {
             MANUFACTURER => 'Konica',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
-            MAC          => '00:50:AA:27:96:68'
+            MAC          => '00:50:AA:27:96:68',
+            MODEL        => 'bizhub 421',
         },
         {
             INFO => {
                 MANUFACTURER => 'Konica',
                 TYPE         => 'PRINTER',
                 ID           => undef,
-                MODEL        => undef,
+                MODEL        => 'bizhub 421',
             },
         }
     ],
@@ -58,20 +62,22 @@ my %tests = (
             MANUFACTURER => 'Konica',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
-            MAC          => '00:50:AA:27:95:A3'
+            MAC          => '00:50:AA:27:95:A3',
+            MODEL        => 'bizhub 421',
         },
         {
             MANUFACTURER => 'Konica',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
-            MAC          => '00:50:AA:27:95:A3'
+            MAC          => '00:50:AA:27:95:A3',
+            MODEL        => 'bizhub 421',
         },
         {
             INFO => {
                 MANUFACTURER => 'Konica',
                 TYPE         => 'PRINTER',
                 ID           => undef,
-                MODEL        => undef,
+                MODEL        => 'bizhub 421',
             },
         }
     ],
@@ -81,19 +87,21 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'KONICA MINOLTA bizhub C224e',
             MAC          => '00:20:6B:8A:DC:EC',
+            MODEL        => 'bizhub C224',
         },
         {
             MANUFACTURER => 'Konica',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'KONICA MINOLTA bizhub C224e',
             MAC          => '00:20:6B:8A:DC:EC',
+            MODEL        => 'bizhub C224',
         },
         {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Konica',
                 TYPE         => 'PRINTER',
-                MODEL        => undef,
+                MODEL        => 'bizhub C224',
             },
         }
     ],
