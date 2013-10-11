@@ -15,7 +15,8 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-C4200',
             SNMPHOSTNAME => 'AL-C4200-0ED50E',
-            MAC          => '20:04:48:0E:D5:0E'
+            MAC          => '20:04:48:0E:D5:0E',
+            MODEL        => 'AL-C4200',
         },
         {
             MANUFACTURER => 'Epson',
@@ -23,6 +24,7 @@ my %tests = (
             DESCRIPTION  => 'AL-C4200',
             SNMPHOSTNAME => 'AL-C4200-0ED50E',
             MAC          => '20:04:48:0E:D5:0E',
+            MODEL        => 'AL-C4200',
             MODELSNMP    => 'Printer0125',
             FIRMWARE     => undef,
             SERIAL       => 'GMYZ106952'
@@ -33,7 +35,7 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
                 MEMORY       => 128,
-                MODEL        => 'EPSON AL-C4200',
+                MODEL        => 'AL-C4200',
                 LOCATION     => 'Aff. Generales',
                 ID           => undef,
                 SERIAL       => 'GMYZ106952',
@@ -65,6 +67,7 @@ my %tests = (
             DESCRIPTION  => 'AL-C4200',
             SNMPHOSTNAME => 'AL-C4200-D14BC7',
             MAC          => '00:00:48:D1:4B:C7',
+            MODEL        => 'AL-C4200',
         },
         {
             MANUFACTURER => 'Epson',
@@ -74,7 +77,8 @@ my %tests = (
             MAC          => '00:00:48:D1:4B:C7',
             MODELSNMP    => 'Printer0125',
             FIRMWARE     => undef,
-            SERIAL       => 'GMYZ106565'
+            SERIAL       => 'GMYZ106565',
+            MODEL        => 'AL-C4200',
         },
         {
             INFO => {
@@ -82,7 +86,7 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
                 MEMORY       => 128,
-                MODEL        => 'EPSON AL-C4200',
+                MODEL        => 'AL-C4200',
                 LOCATION     => 'PPV - 2eme Etage',
                 ID           => undef,
                 SERIAL       => 'GMYZ106565',
@@ -114,6 +118,7 @@ my %tests = (
             DESCRIPTION  => 'AL-C4200',
             SNMPHOSTNAME => 'AL-C4200-D1C30E',
             MAC          => '00:00:48:D1:C3:0E',
+            MODEL        => 'AL-C4200',
         },
         {
             MANUFACTURER => 'Epson',
@@ -121,6 +126,7 @@ my %tests = (
             DESCRIPTION  => 'AL-C4200',
             SNMPHOSTNAME => 'AL-C4200-D1C30E',
             MAC          => '00:00:48:D1:C3:0E',
+            MODEL        => 'AL-C4200',
             MODELSNMP    => 'Printer0125',
             FIRMWARE     => undef,
             SERIAL       => 'GMYZ106833'
@@ -151,7 +157,7 @@ my %tests = (
                 NAME         => 'AL-C4200-D1C30E',
                 SERIAL       => 'GMYZ106833',
                 LOCATION     => 'PPV - 1er Etage',
-                MODEL        => 'EPSON AL-C4200',
+                MODEL        => 'AL-C4200',
                 ID           => undef,
             }
         }
@@ -163,6 +169,7 @@ my %tests = (
             DESCRIPTION  => 'AL-C4200',
             SNMPHOSTNAME => 'AL-C4200-D362D2',
             MAC          => '00:00:48:D3:62:D2',
+            MODEL        => 'AL-C4200',
         },
         {
             MANUFACTURER => 'Epson',
@@ -170,6 +177,7 @@ my %tests = (
             DESCRIPTION  => 'AL-C4200',
             SNMPHOSTNAME => 'AL-C4200-D362D2',
             MAC          => '00:00:48:D3:62:D2',
+            MODEL        => 'AL-C4200',
             MODELSNMP    => 'Printer0125',
             FIRMWARE     => undef,
             SERIAL       => 'GMYZ108184'
@@ -179,7 +187,7 @@ my %tests = (
                 MANUFACTURER => 'Epson',
                 TYPE         => 'PRINTER',
                 COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
-                MODEL        => 'EPSON AL-C4200',
+                MODEL        => 'AL-C4200',
                 ID           => undef,
                 SERIAL       => 'GMYZ108184',
                 MEMORY       => 128,
