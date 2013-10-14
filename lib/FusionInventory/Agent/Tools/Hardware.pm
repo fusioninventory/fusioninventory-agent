@@ -37,7 +37,7 @@ my %sysobjectid_vendors = (
     36    => { vendor => 'DEC',             type => 'COMPUTER'   },
     42    => { vendor => 'Sun',             type => 'COMPUTER'   },
     43    => { vendor => '3Com',            type => 'NETWORKING' },
-    45    => { vendor => 'SynOptics',       type => 'NETWORKING' },
+    45    => { vendor => 'Nortel',          type => 'NETWORKING' },
     63    => { vendor => 'Apple',                                },
     171   => { vendor => 'D-Link',          type => 'NETWORKING' },
     186   => { vendor => 'Toshiba',         type => 'PRINTER'    },
