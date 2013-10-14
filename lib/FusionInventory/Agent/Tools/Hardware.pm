@@ -442,7 +442,7 @@ sub _getDeviceModel {
         file => "$params{datadir}/sysobjectid.$vendor.ids"
     ) if !exists $sysobjectid_models{$vendor};
 
-    return $sysobjectid_models{$vendor}->{$params{id}}->{name};
+    return $sysobjectid_models{$vendor}->{$params{id}};
 }
 
 sub _loadDeviceModels {
@@ -455,9 +455,9 @@ sub _loadDeviceModels {
 
     while (my $line = <$handle>) {
         chomp $line;
-        my ($id, $name, $description) = split(/\t/, $line);
+        my ($id, $name) = split(/\t/, $line);
         next unless $id;
-        $models->{$id} = { name => $name, description => $description };
+        $models->{$id} = $name;
     }
 
     close $handle;
