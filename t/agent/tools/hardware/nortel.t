@@ -15,7 +15,8 @@ my %tests = (
             TYPE         => 'NETWORKING',
             MAC          => '00:15:40:94:75:A2',
             SNMPHOSTNAME => 'Bay470',
-            DESCRIPTION  => 'BayStack 470 - 24T           HW:06       FW:3.0.0.5   SW:v3.1.2.06 ISVN:2'
+            DESCRIPTION  => 'BayStack 470 - 24T           HW:06       FW:3.0.0.5   SW:v3.1.2.06 ISVN:2',
+            MODEL        => 'Baystack 470 24T',
         },
         {
             MANUFACTURER => 'Nortel',
@@ -23,6 +24,7 @@ my %tests = (
             MAC          => '00:15:40:94:75:A2',
             SNMPHOSTNAME => 'Bay470',
             DESCRIPTION  => 'BayStack 470 - 24T           HW:06       FW:3.0.0.5   SW:v3.1.2.06 ISVN:2',
+            MODEL        => 'Baystack 470 24T',
             MODELSNMP    => 'Networking2050',
             SERIAL       => 'SACC170NLH',
             FIRMWARE     => undef,
@@ -36,7 +38,7 @@ my %tests = (
                     IP => [ '10.97.9.231' ]
                 },
                 LOCATION     => 'Dost 111',
-                MODEL        => 'BS470_24',
+                MODEL        => 'Baystack 470 24T',
                 MAC          => '00:15:40:94:75:A2',
                 MANUFACTURER => 'Nortel',
                 NAME         => 'Bay470',
@@ -594,12 +596,14 @@ my %tests = (
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Ethernet Switch 470-24T      HW:34       FW:3.6.0.6   SW:v3.6.2.04 BN:4 ISVN:2 (c) Nortel Networks',
             SNMPHOSTNAME => '470_99_OBS',
-            MAC          => '00:1D:AF:EA:A0:E2'
+            MAC          => '00:1D:AF:EA:A0:E2',
+            MODEL        => 'Baystack 470 24T',
         },
         {
             MANUFACTURER => 'Nortel',
             TYPE         => 'NETWORKING',
             SERIAL       => 'LBNNTMJX5809LW',
+            MODEL        => 'Baystack 470 24T',
             MODELSNMP    => 'Networking0316',
             FIRMWARE     => undef,
             SNMPHOSTNAME => '470_99_OBS',
@@ -611,7 +615,7 @@ my %tests = (
                 MANUFACTURER => 'Nortel',
                 TYPE         => 'NETWORKING',
                 SERIAL       => 'LBNNTMJX5809LW',
-                MODEL        => '470-24T',
+                MODEL        => 'Baystack 470 24T',
                 NAME         => '470_99_OBS',
                 ID           => undef,
                 MAC          => '00:1D:AF:EA:A0:E2',
