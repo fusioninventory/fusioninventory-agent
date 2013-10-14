@@ -63,6 +63,7 @@ my %sysobjectid_vendors = (
     2385  => { vendor => 'Sharp',           type => 'PRINTER'    },
     2435  => { vendor => 'Brother',         type => 'PRINTER'    },
     2636  => { vendor => 'Juniper',         type => 'NETWORKING' },
+    3224  => { vendor => 'NetScreen',       type => 'NETWORKING' },
     3977  => { vendor => 'Broadband',       type => 'NETWORKING' },
     5596  => { vendor => 'Tandberg'                              },
     6486  => { vendor => 'Alcatel',         type => 'NETWORKING' },
