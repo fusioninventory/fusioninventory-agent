@@ -1121,7 +1121,7 @@ Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 02:53 by prod_rel_team',
             MAC          => '00:24:13:EA:A7:00',
-            SNMPHOSTNAME => 'CB-27.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'CB-27.example.com',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -1131,7 +1131,7 @@ Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 02:53 by prod_rel_team',
             MAC          => '00:24:13:EA:A7:00',
-            SNMPHOSTNAME => 'CB-27.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'CB-27.example.com',
             MODELSNMP    => 'Networking2177',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -1150,7 +1150,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                 MAC          => '00:24:13:EA:A7:00',
                 MANUFACTURER => 'Cisco',
                 MODEL        => 'WS-C2960-24TC-L',
-                NAME         => 'CB-27.mgmt.dauphine.fr',
+                NAME         => 'CB-27.example.com',
                 SERIAL       => 'FOC1247X5DX',
                 TYPE         => 'NETWORKING',
                 UPTIME       => '(329794199) 38 days, 4:05:41.99'
@@ -1643,7 +1643,7 @@ Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 02:53 by prod_rel_team',
             MAC          => '00:24:13:CE:D7:00',
-            SNMPHOSTNAME => 'AP-P101-59.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'AP-P101-59.example.com',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -1653,7 +1653,7 @@ Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 02:53 by prod_rel_team',
             MAC          => '00:24:13:CE:D7:00',
-            SNMPHOSTNAME => 'AP-P101-59.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'AP-P101-59.example.com',
             MODELSNMP    => 'Networking2177',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -1669,7 +1669,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                 MAC          => '00:24:13:CE:D7:00',
                 MANUFACTURER => 'Cisco',
                 MODEL        => 'WS-C2960-24TC-L',
-                NAME         => 'AP-P101-59.mgmt.dauphine.fr',
+                NAME         => 'AP-P101-59.example.com',
                 SERIAL       => 'FOC1247X5D4',
                 TYPE         => 'NETWORKING',
                 CPU          => '81',
@@ -2053,7 +2053,7 @@ Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 02:53 by prod_rel_team',
             MAC          => '00:1B:54:D6:39:00',
-            SNMPHOSTNAME => 'CP-P101-37.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'CP-P101-37.example.com',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -2063,7 +2063,7 @@ Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 02:53 by prod_rel_team',
             MAC          => '00:1B:54:D6:39:00',
-            SNMPHOSTNAME => 'CP-P101-37.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'CP-P101-37.example.com',
             MODELSNMP    => 'Networking2177',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -2079,7 +2079,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                 MAC          => '00:1B:54:D6:39:00',
                 MANUFACTURER => 'Cisco',
                 MODEL        => 'WS-C2960-24TC-L',
-                NAME         => 'CP-P101-37.mgmt.dauphine.fr',
+                NAME         => 'CP-P101-37.example.com',
                 SERIAL       => 'FOC1113X1PE',
                 TYPE         => 'NETWORKING',
                 CPU          => '89',
@@ -2462,7 +2462,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2012 by Cisco Systems, Inc.
 Compiled Wed 30-May-12 14:26 by prod_rel_team',
-            SNMPHOSTNAME => 'AP-74.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'AP-74.example.com',
             MAC          => 'C4:0A:CB:CD:86:00',
         },
         {
@@ -2472,7 +2472,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2012 by Cisco Systems, Inc.
 Compiled Wed 30-May-12 14:26 by prod_rel_team',
-            SNMPHOSTNAME => 'AP-74.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'AP-74.example.com',
             MAC          => 'C4:0A:CB:CD:86:00',
             MODELSNMP    => 'Networking2179',
             MODEL        => undef,
@@ -2494,7 +2494,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 4,
                 MODEL        => 'WS-C2960-48TC-L',
-                NAME         => 'AP-74.mgmt.dauphine.fr',
+                NAME         => 'AP-74.example.com',
                 RAM          => 64,
                 SERIAL       => 'FOC1511W1A2',
                 TYPE         => 'NETWORKING',
@@ -10738,7 +10738,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2010 by Cisco Systems, Inc.
 Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
-            SNMPHOSTNAME => 'CP-lt-40.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'CP-lt-40.example.com',
             MAC          => '04:C5:A4:42:F2:80',
         },
         {
@@ -10748,7 +10748,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2010 by Cisco Systems, Inc.
 Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
-            SNMPHOSTNAME => 'CP-lt-40.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'CP-lt-40.example.com',
             MAC          => '04:C5:A4:42:F2:80',
             MODELSNMP    => 'Networking2183',
             MODEL        => undef,
@@ -10771,7 +10771,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 22,
                 MODEL        => 'WS-C2960-8TC-S',
-                NAME         => 'CP-lt-40.mgmt.dauphine.fr',
+                NAME         => 'CP-lt-40.example.com',
                 RAM          => 64,
                 SERIAL       => 'FOC1508V4B5',
                 TYPE         => 'NETWORKING',
@@ -11049,7 +11049,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                                 MODEL   => 'cisco WS-C2960-48TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(25)SEE1, RELEASE SOFTWARE (fc1)',
-                                SYSNAME => 'CP1-CRIC-116.mgmt.dauphine.fr'
+                                SYSNAME => 'CP1-CRIC-116.example.com'
                             }
                         },
                         IFDESCR          => 'GigabitEthernet0/1',
@@ -11097,7 +11097,7 @@ Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2010 by Cisco Systems, Inc.
 Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
             MAC          => '04:C5:A4:42:F2:80',
-            SNMPHOSTNAME => 'default-40.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'default-40.example.com',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -11107,7 +11107,7 @@ Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2010 by Cisco Systems, Inc.
 Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
             MAC          => '04:C5:A4:42:F2:80',
-            SNMPHOSTNAME => 'default-40.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'default-40.example.com',
             MODELSNMP    => 'Networking2183',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -11126,7 +11126,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 22,
                 MODEL        => 'WS-C2960-8TC-S',
-                NAME         => 'default-40.mgmt.dauphine.fr',
+                NAME         => 'default-40.example.com',
                 RAM          => 64,
                 SERIAL       => 'FOC1508V4B5',
                 TYPE         => 'NETWORKING'
@@ -11368,7 +11368,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                                 MODEL   => 'cisco WS-C2960-48TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(25)SEE1, RELEASE SOFTWARE (fc1)',
-                                SYSNAME => 'CP1-CRIC-116.mgmt.dauphine.fr'
+                                SYSNAME => 'CP1-CRIC-116.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/1',
@@ -11408,7 +11408,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2010 by Cisco Systems, Inc.
 Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
-            SNMPHOSTNAME => 'Scol-tmp-65.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'Scol-tmp-65.example.com',
             MAC          => 'E8:40:40:AA:73:80',
         },
         {
@@ -11418,7 +11418,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2010 by Cisco Systems, Inc.
 Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
-            SNMPHOSTNAME => 'Scol-tmp-65.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'Scol-tmp-65.example.com',
             MAC          => 'E8:40:40:AA:73:80',
             MODELSNMP    => 'Networking2183',
             MODEL        => undef,
@@ -11438,7 +11438,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 22,
                 MODEL        => 'WS-C2960-8TC-S',
-                NAME         => 'Scol-tmp-65.mgmt.dauphine.fr',
+                NAME         => 'Scol-tmp-65.example.com',
                 RAM          => 64,
                 SERIAL       => 'FOC1511W532',
                 TYPE         => 'NETWORKING'
@@ -11643,7 +11643,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                                 MODEL   => 'cisco WS-C2960-48TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(46)SE, RELEASE SOFTWARE (fc2)',
-                                SYSNAME => 'AP-Switch-51.mgmt.dauphine.fr'
+                                SYSNAME => 'AP-Switch-51.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/1',
@@ -11683,7 +11683,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2010 by Cisco Systems, Inc.
 Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
-            SNMPHOSTNAME => 'AB-A422-7.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'AB-A422-7.example.com',
             MAC          => '40:F4:EC:D6:80:00',
         },
         {
@@ -11693,7 +11693,7 @@ Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2010 by Cisco Systems, Inc.
 Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
-            SNMPHOSTNAME => 'AB-A422-7.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'AB-A422-7.example.com',
             MAC          => '40:F4:EC:D6:80:00',
             MODELSNMP    => 'Networking2184',
             MODEL        => undef,
@@ -11716,7 +11716,7 @@ Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 23,
                 MODEL        => 'WS-C2960-8TC-S',
-                NAME         => 'AB-A422-7.mgmt.dauphine.fr',
+                NAME         => 'AB-A422-7.example.com',
                 RAM          => 64,
                 SERIAL       => 'FOC1501V1PS',
                 TYPE         => 'NETWORKING',
@@ -11957,7 +11957,7 @@ Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
                                 MODEL   => 'cisco WS-C2960-48TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(46)SE, RELEASE SOFTWARE (fc2)',
-                                SYSNAME => 'AB-Switch-1.mgmt.dauphine.fr'
+                                SYSNAME => 'AB-Switch-1.example.com'
                             }
                         },
                         IFDESCR          => 'GigabitEthernet0/1',
@@ -12003,7 +12003,7 @@ Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
-            SNMPHOSTNAME => 'AP-72.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'AP-72.example.com',
             MAC          => 'C4:0A:CB:E6:F0:00',
         },
         {
@@ -12012,7 +12012,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
-            SNMPHOSTNAME => 'AP-72.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'AP-72.example.com',
             MAC          => 'C4:0A:CB:E6:F0:00',
             MODELSNMP    => 'Networking2416',
             MODEL        => undef,
@@ -12032,7 +12032,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 20,
                 MODEL        => undef,
-                NAME         => 'AP-72.mgmt.dauphine.fr',
+                NAME         => 'AP-72.example.com',
                 RAM          => 60,
                 TYPE         => 'NETWORKING',
                 UPTIME       => '(353824260) 40 days, 22:50:42.60'
@@ -13332,7 +13332,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                                 MODEL   => 'cisco WS-C2960-48TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(46)SE, RELEASE SOFTWARE (fc2)',
-                                SYSNAME => 'AP-Switch-51.mgmt.dauphine.fr'
+                                SYSNAME => 'AP-Switch-51.example.com'
                             }
                         },
                         IFDESCR          => 'GigabitEthernet0/2',
@@ -13376,7 +13376,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
-            SNMPHOSTNAME => 'CB-243.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'CB-243.example.com',
             MAC          => 'C4:0A:CB:E6:E8:80',
         },
         {
@@ -13385,7 +13385,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
-            SNMPHOSTNAME => 'CB-243.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'CB-243.example.com',
             MAC          => 'C4:0A:CB:E6:E8:80',
             MODELSNMP    => 'Networking2416',
             MODEL        => undef,
@@ -13405,7 +13405,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 20,
                 MODEL        => undef,
-                NAME         => 'CB-243.mgmt.dauphine.fr',
+                NAME         => 'CB-243.example.com',
                 RAM          => 60,
                 TYPE         => 'NETWORKING',
                 UPTIME       => '(414811307) 48 days, 0:15:13.07'
@@ -14705,7 +14705,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                                 MODEL   => 'cisco WS-C2960S-24TD-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960S Software (C2960S-UNIVERSALK9-M), Version 15.0(2)SE, RELEASE SOFTWARE (fc1)',
-                                SYSNAME => 'CB-LT-0-6.mgmt.dauphine.fr'
+                                SYSNAME => 'CB-LT-0-6.example.com'
                             }
                         },
                         IFDESCR          => 'GigabitEthernet0/2',
@@ -14749,7 +14749,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
-            SNMPHOSTNAME => 'AB-39.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'AB-39.example.com',
             MAC          => 'C4:0A:CB:CD:83:00',
         },
         {
@@ -14758,7 +14758,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
-            SNMPHOSTNAME => 'AB-39.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'AB-39.example.com',
             MAC          => 'C4:0A:CB:CD:83:00',
             MODELSNMP    => 'Networking2416',
             MODEL        => undef,
@@ -14778,7 +14778,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 20,
                 MODEL        => undef,
-                NAME         => 'AB-39.mgmt.dauphine.fr',
+                NAME         => 'AB-39.example.com',
                 RAM          => 60,
                 TYPE         => 'NETWORKING',
                 UPTIME       => '(399149124) 46 days, 4:44:51.24'
@@ -16078,7 +16078,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                                 MODEL   => 'cisco WS-C2960-48TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(46)SE, RELEASE SOFTWARE (fc2)',
-                                SYSNAME => 'AB-Switch-1.mgmt.dauphine.fr'
+                                SYSNAME => 'AB-Switch-1.example.com'
                             }
                         },
                         IFDESCR          => 'GigabitEthernet0/2',
@@ -16122,7 +16122,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
-            SNMPHOSTNAME => 'AB-35.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'AB-35.example.com',
             MAC          => 'C4:0A:CB:95:39:00',
         },
         {
@@ -16131,7 +16131,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
-            SNMPHOSTNAME => 'AB-35.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'AB-35.example.com',
             MAC          => 'C4:0A:CB:95:39:00',
             MODELSNMP    => 'Networking2416',
             MODEL        => undef,
@@ -16151,7 +16151,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 20,
                 MODEL        => undef,
-                NAME         => 'AB-35.mgmt.dauphine.fr',
+                NAME         => 'AB-35.example.com',
                 RAM          => 60,
                 TYPE         => 'NETWORKING',
                 UPTIME       => '(399196332) 46 days, 4:52:43.32'
@@ -17451,7 +17451,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                                 MODEL   => 'cisco WS-C2960-48TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(46)SE, RELEASE SOFTWARE (fc2)',
-                                SYSNAME => 'AB-Switch-1.mgmt.dauphine.fr'
+                                SYSNAME => 'AB-Switch-1.example.com'
                             }
                         },
                         IFDESCR          => 'GigabitEthernet0/2',
@@ -17496,7 +17496,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             MAC          => 'C4:0A:CB:CD:8B:80',
-            SNMPHOSTNAME => 'CP-106.mgmt.dauphine.fr'
+            SNMPHOSTNAME => 'CP-106.example.com'
         },
         {
             MANUFACTURER => 'Cisco',
@@ -17505,7 +17505,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             MAC          => 'C4:0A:CB:CD:8B:80',
-            SNMPHOSTNAME => 'CP-106.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'CP-106.example.com',
             MODELSNMP    => 'Networking2416',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -17521,7 +17521,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 20,
                 MODEL        => undef,
-                NAME         => 'CP-106.mgmt.dauphine.fr',
+                NAME         => 'CP-106.example.com',
                 RAM          => 60,
                 TYPE         => 'NETWORKING'
             },
@@ -18655,7 +18655,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                                 MODEL   => 'cisco WS-C2960-48TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(46)SE, RELEASE SOFTWARE (fc2)',
-                                SYSNAME => 'CP-Switch-101.mgmt.dauphine.fr'
+                                SYSNAME => 'CP-Switch-101.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/2',
@@ -18695,7 +18695,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             MAC          => 'C4:0A:CB:AB:68:80',
-            SNMPHOSTNAME => 'AP-71.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'AP-71.example.com',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -18704,7 +18704,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             MAC          => 'C4:0A:CB:AB:68:80',
-            SNMPHOSTNAME => 'AP-71.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'AP-71.example.com',
             MODELSNMP    => 'Networking2416',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -18720,7 +18720,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 20,
                 MODEL        => undef,
-                NAME         => 'AP-71.mgmt.dauphine.fr',
+                NAME         => 'AP-71.example.com',
                 RAM          => 60,
                 TYPE         => 'NETWORKING'
             },
@@ -19855,7 +19855,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                                 MODEL   => 'cisco WS-C2960-8TC-S',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(50)SE5, RELEASE SOFTWARE (fc1)',
-                                SYSNAME => 'AP-A410-13.mgmt.dauphine.fr'
+                                SYSNAME => 'AP-A410-13.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/1',
@@ -19881,7 +19881,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                                 MODEL   => 'cisco WS-C2960-48TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(46)SE, RELEASE SOFTWARE (fc2)',
-                                SYSNAME => 'AP-Switch-51.mgmt.dauphine.fr'
+                                SYSNAME => 'AP-Switch-51.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/2',
@@ -19921,7 +19921,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             MAC          => 'C4:0A:CB:CD:88:00',
-            SNMPHOSTNAME => 'CP-129.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'CP-129.example.com',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -19930,7 +19930,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             MAC          => 'C4:0A:CB:CD:88:00',
-            SNMPHOSTNAME => 'CP-129.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'CP-129.example.com',
             MODELSNMP    => 'Networking2416',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -19946,7 +19946,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 20,
                 MODEL        => undef,
-                NAME         => 'CP-129.mgmt.dauphine.fr',
+                NAME         => 'CP-129.example.com',
                 RAM          => 60,
                 TYPE         => 'NETWORKING'
             },
@@ -21080,7 +21080,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                                 MODEL   => 'cisco WS-C2960-48TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(46)SE, RELEASE SOFTWARE (fc2)',
-                                SYSNAME => 'CP-Switch-101.mgmt.dauphine.fr'
+                                SYSNAME => 'CP-Switch-101.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/2',
@@ -21120,7 +21120,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             MAC          => 'C4:0A:CB:BA:6C:00',
-            SNMPHOSTNAME => 'AP-73.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'AP-73.example.com',
         },
         {
             MANUFACTURER => 'Cisco',
@@ -21129,7 +21129,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
             MAC          => 'C4:0A:CB:BA:6C:00',
-            SNMPHOSTNAME => 'AP-73.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'AP-73.example.com',
             MODELSNMP    => 'Networking2416',
             MODEL        => undef,
             FIRMWARE     => undef,
@@ -21145,7 +21145,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 20,
                 MODEL        => undef,
-                NAME         => 'AP-73.mgmt.dauphine.fr',
+                NAME         => 'AP-73.example.com',
                 RAM          => 60,
                 TYPE         => 'NETWORKING'
             },
@@ -22295,7 +22295,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                                 MODEL   => 'cisco WS-C2960-48TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(46)SE, RELEASE SOFTWARE (fc2)',
-                                SYSNAME => 'AP-Switch-51.mgmt.dauphine.fr'
+                                SYSNAME => 'AP-Switch-51.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/2',
@@ -22334,7 +22334,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
-            SNMPHOSTNAME => 'CP-138.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'CP-138.example.com',
             MAC          => 'C4:0A:CB:BA:6E:80',
         },
         {
@@ -22343,7 +22343,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
-            SNMPHOSTNAME => 'CP-138.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'CP-138.example.com',
             MAC          => 'C4:0A:CB:BA:6E:80',
             MODELSNMP    => 'Networking2416',
             MODEL        => undef,
@@ -22360,7 +22360,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 20,
                 MODEL        => undef,
-                NAME         => 'CP-138.mgmt.dauphine.fr',
+                NAME         => 'CP-138.example.com',
                 RAM          => 60,
                 TYPE         => 'NETWORKING'
             },
@@ -23487,7 +23487,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                                 MODEL   => 'cisco WS-C2960-8TC-S',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(50)SE4, RELEASE SOFTWARE (fc1)',
-                                SYSNAME => 'cp-c202-117.mgmt.dauphine.fr'
+                                SYSNAME => 'cp-c202-117.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/1',
@@ -23513,7 +23513,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                                 MODEL   => 'cisco WS-C2960-48TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(46)SE, RELEASE SOFTWARE (fc2)',
-                                SYSNAME => 'CP-Switch-101.mgmt.dauphine.fr'
+                                SYSNAME => 'CP-Switch-101.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/2',
@@ -23552,7 +23552,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
-            SNMPHOSTNAME => 'CB-242.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'CB-242.example.com',
             MAC          => 'C4:0A:CB:CD:73:00',
         },
         {
@@ -23561,7 +23561,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
-            SNMPHOSTNAME => 'CB-242.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'CB-242.example.com',
             MAC          => 'C4:0A:CB:CD:73:00',
             MODELSNMP    => 'Networking2416',
             MODEL        => undef,
@@ -23578,7 +23578,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 20,
                 MODEL        => undef,
-                NAME         => 'CB-242.mgmt.dauphine.fr',
+                NAME         => 'CB-242.example.com',
                 RAM          => 60,
                 TYPE         => 'NETWORKING'
             },
@@ -24728,7 +24728,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                                 MODEL   => 'cisco WS-C2960-48TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(46)SE, RELEASE SOFTWARE (fc2)',
-                                SYSNAME => 'CB-Switch-201.mgmt.dauphine.fr'
+                                SYSNAME => 'CB-Switch-201.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/2',
@@ -24768,7 +24768,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 03:03 by prod_rel_team',
-            SNMPHOSTNAME => 'SALSERV-INTERUFR-149.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'SALSERV-INTERUFR-149.example.com',
             MAC          => '18:33:9D:E7:15:00',
         },
         {
@@ -24778,7 +24778,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 03:03 by prod_rel_team',
-            SNMPHOSTNAME => 'SALSERV-INTERUFR-149.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'SALSERV-INTERUFR-149.example.com',
             MAC          => '18:33:9D:E7:15:00',
             MODELSNMP    => 'Networking2147',
             MODEL        => undef,
@@ -24797,7 +24797,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 34,
                 MODEL        => 'WS-C2960S-24TD-L',
-                NAME         => 'SALSERV-INTERUFR-149.mgmt.dauphine.fr',
+                NAME         => 'SALSERV-INTERUFR-149.example.com',
                 RAM          => 128,
                 SERIAL       => 'FOC1622Y2ME',
                 TYPE         => 'NETWORKING',
@@ -25945,7 +25945,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                                 MODEL   => 'cisco WS-C2960S-24TD-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960S Software (C2960S-UNIVERSALK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)',
-                                SYSNAME => 'SALSERV-INTERUFR-150.mgmt.dauphine.fr'
+                                SYSNAME => 'SALSERV-INTERUFR-150.example.com'
                             }
                         },
                         IFDESCR      => 'TenGigabitEthernet1/0/1',
@@ -26010,7 +26010,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                                 MODEL   => 'cisco WS-C2960S-24TD-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960S Software (C2960S-UNIVERSALK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)',
-                                SYSNAME => 'SALSERV-160.mgmt.dauphine.fr'
+                                SYSNAME => 'SALSERV-160.example.com'
                             }
                         },
                         IFDESCR      => 'FastEthernet0',
@@ -26037,7 +26037,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 03:03 by prod_rel_team',
-            SNMPHOSTNAME => 'CB-C005-202.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'CB-C005-202.example.com',
             MAC          => 'B4:14:89:38:2D:80',
         },
         {
@@ -26047,7 +26047,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 03:03 by prod_rel_team',
-            SNMPHOSTNAME => 'CB-C005-202.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'CB-C005-202.example.com',
             MAC          => 'B4:14:89:38:2D:80',
             MODELSNMP    => 'Networking2147',
             MODEL        => undef,
@@ -26069,7 +26069,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 33,
                 MODEL        => 'WS-C2960S-24TD-L',
-                NAME         => 'CB-C005-202.mgmt.dauphine.fr',
+                NAME         => 'CB-C005-202.example.com',
                 RAM          => 128,
                 SERIAL       => 'FOC1440Z0HG',
                 TYPE         => 'NETWORKING',
@@ -26980,7 +26980,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                                 MODEL   => 'cisco WS-C2960-48TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(46)SE, RELEASE SOFTWARE (fc2)',
-                                SYSNAME => 'CB-DIVERS-217.mgmt.dauphine.fr'
+                                SYSNAME => 'CB-DIVERS-217.example.com'
                             }
                         },
                         IFDESCR          => 'GigabitEthernet1/0/25',
@@ -27110,7 +27110,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
 IOS (tm) C3550 Software (C3550-I5Q3L2-M), Version 12.1(20)EA1a, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2004 by cisco Systems, Inc.
 Compiled Mon 19-Apr-04 21:50 by yenanh',
-            SNMPHOSTNAME => 'CB-Federateur.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'CB-Federateur.example.com',
             MAC          => '00:0B:5F:CC:D8:80'
         },
         {
@@ -27120,7 +27120,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
 IOS (tm) C3550 Software (C3550-I5Q3L2-M), Version 12.1(20)EA1a, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2004 by cisco Systems, Inc.
 Compiled Mon 19-Apr-04 21:50 by yenanh',
-            SNMPHOSTNAME => 'CB-Federateur.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'CB-Federateur.example.com',
             MAC          => '00:0B:5F:CC:D8:80',
             MODELSNMP    => 'Networking2034',
             MODEL        => undef,
@@ -27139,7 +27139,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 42,
                 MODEL        => 'WS-C3550-12G',
-                NAME         => 'CB-Federateur.mgmt.dauphine.fr',
+                NAME         => 'CB-Federateur.example.com',
                 RAM          => 63,
                 SERIAL       => 'CAT0647X118',
                 TYPE         => 'NETWORKING'
@@ -27155,7 +27155,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
                                 MODEL   => 'cisco WS-C2960-48TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(46)SE, RELEASE SOFTWARE (fc2)',
-                                SYSNAME => 'CB-Switch-201.mgmt.dauphine.fr'
+                                SYSNAME => 'CB-Switch-201.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/1',
@@ -27194,7 +27194,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
                                 MODEL   => 'cisco WS-C2960-48TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(46)SE, RELEASE SOFTWARE (fc2)',
-                                SYSNAME => 'AP-Switch-51.mgmt.dauphine.fr'
+                                SYSNAME => 'AP-Switch-51.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/3',
@@ -27219,7 +27219,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
                                 MODEL   => 'cisco WS-C2960-48TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(46)SE, RELEASE SOFTWARE (fc2)',
-                                SYSNAME => 'CP-Switch-101.mgmt.dauphine.fr'
+                                SYSNAME => 'CP-Switch-101.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/4',
@@ -27244,7 +27244,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
                                 MODEL   => 'cisco WS-C3560-24PS',
                                 SYSDESCR =>
         '"Cisco IOS Software, C3560 Software (C3560-IPBASE-M), Version 12.2(46)SE, RELEASE SOFTWARE (fc2)',
-                                SYSNAME => 'CB6-BU-221.mgmt.dauphine.fr'
+                                SYSNAME => 'CB6-BU-221.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/5',
@@ -27269,7 +27269,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
                                 MODEL   => 'cisco WS-C2960-24TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(46)SE, RELEASE SOFTWARE (fc2)',
-                                SYSNAME => 'CB-C125-218.mgmt.dauphine.fr'
+                                SYSNAME => 'CB-C125-218.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/6',
@@ -27294,7 +27294,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
                                 MODEL   => 'cisco WS-C2960S-24TD-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960S Software (C2960S-UNIVERSALK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)',
-                                SYSNAME => 'SALSERV-160.mgmt.dauphine.fr'
+                                SYSNAME => 'SALSERV-160.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/7',
@@ -27319,7 +27319,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
                                 MODEL   => 'cisco WS-C2960-48TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(25)SEE2, RELEASE SOFTWARE (fc1)',
-                                SYSNAME => 'SALSERV-152.mgmt.dauphine.fr'
+                                SYSNAME => 'SALSERV-152.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/8',
@@ -27344,7 +27344,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
                                 MODEL   => 'cisco WS-C2960-48TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(46)SE, RELEASE SOFTWARE (fc2)',
-                                SYSNAME => 'AB-Switch-1.mgmt.dauphine.fr'
+                                SYSNAME => 'AB-Switch-1.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/9',
@@ -27397,7 +27397,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
                                 MODEL   => 'cisco WS-C2960-24TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)',
-                                SYSNAME => 'CB-27.mgmt.dauphine.fr'
+                                SYSNAME => 'CB-27.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/12',
@@ -28230,7 +28230,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
 IOS (tm) C3550 Software (C3550-I5Q3L2-M), Version 12.1(20)EA1a, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2004 by cisco Systems, Inc.
 Compiled Mon 19-Apr-04 21:50 by yenanh',
-            SNMPHOSTNAME => 'CB-Federateur.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'CB-Federateur.example.com',
             MAC          => '00:0B:5F:CC:D8:80'
         },
         {
@@ -28240,7 +28240,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
 IOS (tm) C3550 Software (C3550-I5Q3L2-M), Version 12.1(20)EA1a, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2004 by cisco Systems, Inc.
 Compiled Mon 19-Apr-04 21:50 by yenanh',
-            SNMPHOSTNAME => 'CB-Federateur.mgmt.dauphine.fr',
+            SNMPHOSTNAME => 'CB-Federateur.example.com',
             MAC          => '00:0B:5F:CC:D8:80',
             MODELSNMP    => 'Networking2034',
             MODEL        => undef,
@@ -28259,7 +28259,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
                 MANUFACTURER => 'Cisco',
                 MEMORY       => 42,
                 MODEL        => 'WS-C3550-12G',
-                NAME         => 'CB-Federateur.mgmt.dauphine.fr',
+                NAME         => 'CB-Federateur.example.com',
                 RAM          => 63,
                 SERIAL       => 'CAT0647X118',
                 TYPE         => 'NETWORKING'
@@ -28275,7 +28275,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
                                 MODEL   => 'cisco WS-C2960-48TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(46)SE, RELEASE SOFTWARE (fc2)',
-                                SYSNAME => 'CB-Switch-201.mgmt.dauphine.fr'
+                                SYSNAME => 'CB-Switch-201.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/1',
@@ -28314,7 +28314,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
                                 MODEL   => 'cisco WS-C2960-48TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(46)SE, RELEASE SOFTWARE (fc2)',
-                                SYSNAME => 'AP-Switch-51.mgmt.dauphine.fr'
+                                SYSNAME => 'AP-Switch-51.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/3',
@@ -28339,7 +28339,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
                                 MODEL   => 'cisco WS-C2960-48TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(46)SE, RELEASE SOFTWARE (fc2)',
-                                SYSNAME => 'CP-Switch-101.mgmt.dauphine.fr'
+                                SYSNAME => 'CP-Switch-101.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/4',
@@ -28364,7 +28364,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
                                 MODEL   => 'cisco WS-C3560-24PS',
                                 SYSDESCR =>
         '"Cisco IOS Software, C3560 Software (C3560-IPBASE-M), Version 12.2(46)SE, RELEASE SOFTWARE (fc2)',
-                                SYSNAME => 'CB6-BU-221.mgmt.dauphine.fr'
+                                SYSNAME => 'CB6-BU-221.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/5',
@@ -28389,7 +28389,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
                                 MODEL   => 'cisco WS-C2960-24TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(46)SE, RELEASE SOFTWARE (fc2)',
-                                SYSNAME => 'CB-C125-218.mgmt.dauphine.fr'
+                                SYSNAME => 'CB-C125-218.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/6',
@@ -28414,7 +28414,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
                                 MODEL   => 'cisco WS-C2960S-24TD-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960S Software (C2960S-UNIVERSALK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)',
-                                SYSNAME => 'SALSERV-160.mgmt.dauphine.fr'
+                                SYSNAME => 'SALSERV-160.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/7',
@@ -28439,7 +28439,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
                                 MODEL   => 'cisco WS-C2960-48TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(25)SEE2, RELEASE SOFTWARE (fc1)',
-                                SYSNAME => 'SALSERV-152.mgmt.dauphine.fr'
+                                SYSNAME => 'SALSERV-152.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/8',
@@ -28464,7 +28464,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
                                 MODEL   => 'cisco WS-C2960-48TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(46)SE, RELEASE SOFTWARE (fc2)',
-                                SYSNAME => 'AB-Switch-1.mgmt.dauphine.fr'
+                                SYSNAME => 'AB-Switch-1.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/9',
@@ -28517,7 +28517,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
                                 MODEL   => 'cisco WS-C2960-24TC-L',
                                 SYSDESCR =>
         '"Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)',
-                                SYSNAME => 'CB-27.mgmt.dauphine.fr'
+                                SYSNAME => 'CB-27.example.com'
                             }
                         },
                         IFDESCR      => 'GigabitEthernet0/12',
