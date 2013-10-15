@@ -53,11 +53,13 @@ my %tests = (
     ],
     'emc/CX3-10c.walk' => [
         {
+            MANUFACTURER => 'EMC',
             DESCRIPTION  => 'CX3-10c - Flare 3.26.0.10.5.032',
             SNMPHOSTNAME => 'BNK5RD1',
             MAC          => '00:60:16:1B:CD:7A',
         },
         {
+            MANUFACTURER => 'EMC',
             DESCRIPTION  => 'CX3-10c - Flare 3.26.0.10.5.032',
             SNMPHOSTNAME => 'BNK5RD1',
             MAC          => '00:60:16:1B:CD:7A',
@@ -66,6 +68,7 @@ my %tests = (
             INFO => {
                 ID           => undef,
                 TYPE         => undef,
+                MANUFACTURER => 'EMC',
             },
         }
     ],
