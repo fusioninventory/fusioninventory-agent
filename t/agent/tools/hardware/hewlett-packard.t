@@ -7783,55 +7783,6 @@ my %tests = (
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'ProCurve J4899C Switch 2650, revision H.10.108, ROM H.08.05 (/sw/code/build/fish)',
             MAC          => '00:1D:B3:58:CF:80',
-            MODEL        => 'ProCurve 2650 (J4899B)',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'ProCurve J4899C Switch 2650, revision H.10.108, ROM H.08.05 (/sw/code/build/fish)',
-            MAC          => '00:1D:B3:58:CF:80',
-            MODEL        => 'ProCurve 2650 (J4899B)',
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'NETWORKING',
-                MODEL        => 'ProCurve 2650 (J4899B)',
-            },
-        }
-    ],
-    'hewlett-packard/ProCurve_J4899B.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'ProCurve J4899B Switch 2650, revision H.10.108, ROM H.08.02 (/sw/code/build/fish)',
-            MAC          => '00:18:FE:AA:A9:80',
-            MODEL        => 'hpSwitchJ4899B',
-            MODEL        => 'ProCurve 2650 (J4899B)',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'ProCurve J4899B Switch 2650, revision H.10.108, ROM H.08.02 (/sw/code/build/fish)',
-            MAC          => '00:18:FE:AA:A9:80',
-            MODEL        => 'ProCurve 2650 (J4899B)',
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'NETWORKING',
-                MODEL        => 'ProCurve 2650 (J4899B)',
-            },
-        }
-    ],
-    'hewlett-packard/ProCurve_J4899C.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'ProCurve J4899C Switch 2650, revision H.10.108, ROM H.08.05 (/sw/code/build/fish)',
-            MAC          => '00:1D:B3:58:CF:80',
             MODEL        => 'ProCurve 2650 (J4899C)',
         },
         {
@@ -7847,6 +7798,78 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'NETWORKING',
                 MODEL        => 'ProCurve 2650 (J4899C)',
+            },
+        }
+    ],
+    'hewlett-packard/ProCurve_J9022A.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'ProCurve J9022A Switch 2810-48G, revision N.11.52, ROM N.10.01 (/sw/code/build/bass(N_bh2))',
+            MAC          => '00:19:BB:99:F9:C0',
+            MODEL        => 'ProCurve 2810-48G (J9022A)',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'ProCurve J9022A Switch 2810-48G, revision N.11.52, ROM N.10.01 (/sw/code/build/bass(N_bh2))',
+            MAC          => '00:19:BB:99:F9:C0',
+            MODEL        => 'ProCurve 2810-48G (J9022A)',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'NETWORKING',
+                MODEL        => 'ProCurve 2810-48G (J9022A)',
+            },
+        }
+    ],
+    'hewlett-packard/ProCurve_J9050A.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'ProCurve J9050A Switch 2900-48G, revision T.13.80, ROM K.12.12 (/sw/code/build/mbm)',
+            MAC          => '00:21:F7:1E:01:40',
+            MODEL        => 'ProCurve 2900-48g (J9050A)',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'ProCurve J9050A Switch 2900-48G, revision T.13.80, ROM K.12.12 (/sw/code/build/mbm)',
+            MAC          => '00:21:F7:1E:01:40',
+            MODEL        => 'ProCurve 2900-48g (J9050A)',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'NETWORKING',
+                MODEL        => 'ProCurve 2900-48g (J9050A)',
+            },
+        }
+    ],
+    'hewlett-packard/ProCurve_J9088A.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'ProCurve J9088A Switch 2610-48, revision R.11.72, ROM R.10.06 (/sw/code/build/nemo(R_ndx))',
+            MAC          => '00:21:F7:2B:E6:00',
+            MODEL        => 'ProCurve 2610-48',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'ProCurve J9088A Switch 2610-48, revision R.11.72, ROM R.10.06 (/sw/code/build/nemo(R_ndx))',
+            MAC          => '00:21:F7:2B:E6:00',
+            MODEL        => 'ProCurve 2610-48',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'NETWORKING',
+                MODEL        => 'ProCurve 2610-48',
             },
         }
     ],
