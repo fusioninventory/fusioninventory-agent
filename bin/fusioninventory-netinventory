@@ -83,6 +83,7 @@ $inventory->{options} = {
     ],
     DEVICE => [
         {
+            ID           => 0,
             TYPE         => $type,
             IP           => $options->{host},
             FILE         => $options->{file},
