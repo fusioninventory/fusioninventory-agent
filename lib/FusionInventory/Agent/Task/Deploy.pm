@@ -68,6 +68,22 @@ sub isEnabled {
 sub run {
     my ($self, %params) = @_;
 
+
+    $self->{logger}->debug("FusionInventory Deploy task $VERSION");
+
+    $self->{client} = FusionInventory::Agent::HTTP::Client::Fusion->new(
+        logger       => $self->{logger},
+        user         => $params{user},
+        password     => $params{password},
+        proxy        => $params{proxy},
+        ca_cert_file => $params{ca_cert_file},
+        ca_cert_dir  => $params{ca_cert_dir},
+        no_ssl_check => $params{no_ssl_check},
+        debug        => $self->{debug}
+    );
+    die unless $self->{client};
+
+
     # Turn off localised output for commands
     $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
     $ENV{LANG} = 'C'; # Turn off localised output for commands
