@@ -4,6 +4,7 @@ CVS/
 ^00
 ^.gitignore$
 ^.cvsignore$
+^.travis.yml$
 .svn
 .merge
 
@@ -14,6 +15,7 @@ CVS/
 ^nytprof
 ^Makefile(\.old)?$
 ^MANIFEST\.
+^MYMETA\.
 ^pm_to_blib$
 ^run-postinst
 ^tmon.out

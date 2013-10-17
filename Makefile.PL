@@ -6,6 +6,7 @@ name 'FusionInventory-Agent';
 include 'Module::AutoInstall';
 abstract 'FusionInventory unified Agent for UNIX, Linux, Windows and MacOSX';
 license 'gpl';
+repository 'https://github.com/fusinv/fusioninventory-agent';
 version_from 'lib/FusionInventory/Agent.pm';
 perl_version '5.008';
 
