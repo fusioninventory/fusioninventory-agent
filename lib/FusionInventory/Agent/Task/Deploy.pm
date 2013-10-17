@@ -21,7 +21,8 @@ our $VERSION = $FusionInventory::Agent::VERSION;
 sub isEnabled {
     my ($self, %params) = @_;
 
-    return $self->{target}->isa('FusionInventory::Agent::Target::Server');
+    return unless
+        $self->{target}->isa('FusionInventory::Agent::Target::Server');
 
     my $controller = FusionInventory::Agent::HTTP::Client::Fusion->new(
         logger       => $self->{logger},
