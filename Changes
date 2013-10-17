@@ -1,5 +1,13 @@
 Revision history for FusionInventory agent
 
+2.3.3  Thu, 17 Oct 2013 11:41:27 +0200
+core
+* clean up in the distribution, thanks Olivier Mengué <dolmen@cpan.org>
+
+netinventory task
+* fix the LLDP port detection for Juniper devices
+* fix SNMP version handling
+
 2.3.2  Fri, 20 Sep 2013 10:52:30 +0200
 core
 * avoid some warning messages
