@@ -1723,7 +1723,17 @@ my %tests = (
             MANUFACTURER => 'Intel',
             MODEL        => 'RMM2 VDrive 3'
         }
-    ]
+    ],
+    'sample4-slash-char-in-model' => [
+        {
+            NAME         => 'c0t3d0',
+            DISKSIZE     => 0,
+            FIRMWARE     => 'SR02',
+            DESCRIPTION  => 'FW:SR02',
+            MANUFACTURER => 'TSSTcorp',
+            MODEL        => 'CD/DVDW TS-L632D'
+        },
+    ],
 );
 
 plan tests => (2 * scalar keys %tests) + 1;
