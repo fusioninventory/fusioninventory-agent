@@ -29,32 +29,19 @@ sub doInventory {
         # get all file systems
         getFilesystemsFromDf(logger => $logger, command => $command);
 
-    # get indexed list of ZFS filesystems
-    my %zfs_filesystems =
-        map { $_ => 1 }
-        map { (split(/\s+/, $_))[0] }
-        getAllLines(logger => $logger, command => '/usr/sbin/zfs list -H');
+    # get indexed list of filesystems types
+    my %filesystems_types =
+        map { /^(\S+) on \S+ type (\w+)/; $1 => $2 }
+        getAllLines(logger => $logger, command => '/usr/sbin/mount -v');
 
-    # set filesystem type, using fstyp if needed
+    # set filesystem type based on that information
     foreach my $filesystem (@filesystems) {
-
         if ($filesystem->{VOLUMN} eq 'swap') {
             $filesystem->{FILESYSTEM} = 'swap';
             next;
         }
 
-        if ($zfs_filesystems{$filesystem->{VOLUMN}}) {
-            $filesystem->{FILESYSTEM} = 'zfs';
-            next;
-        }
-
-        my $type = getFirstLine(
-            logger => $logger,
-            command => "fstyp $filesystem->{VOLUMN}"
-        );
-        if ($type && $type !~ /^fstyp/) {
-            $filesystem->{FILESYSTEM} = $type;
-        }
+        $filesystem->{FILESYSTEM} = $filesystems_types{$filesystem->{VOLUMN}};
     }
 
     # add filesystems to the inventory
