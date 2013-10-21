@@ -71,6 +71,7 @@ sub run {
     my $options     = $self->{options};
     my $pid         = $options->{PARAM}->[0]->{PID};
     my $max_threads = $options->{PARAM}->[0]->{THREADS_DISCOVERY};
+    my $timeout     = $options->{PARAM}->[0]->{TIMEOUT};
 
     # check discovery methods available
     my ($nmap_parameters, $snmp_credentials, $snmp_dictionary);
@@ -150,6 +151,7 @@ sub run {
             $snmp_credentials,
             $snmp_dictionary,
             $nmap_parameters,
+            $timeout
         )->detach();
     }
 
@@ -307,7 +309,7 @@ sub _getCredentials {
 }
 
 sub _scanAddresses {
-    my ($self, $state, $addresses, $results, $snmp_credentials, $snmp_dictionary, $nmap_parameters) = @_;
+    my ($self, $state, $addresses, $results, $snmp_credentials, $snmp_dictionary, $nmap_parameters, $timeout) = @_;
 
     my $logger = $self->{logger};
     my $id     = threads->tid();
@@ -327,6 +329,7 @@ sub _scanAddresses {
 
             my $result = $self->_scanAddress(
                 ip               => $address,
+                timeout          => $timeout,
                 nmap_parameters  => $nmap_parameters,
                 snmp_credentials => $snmp_credentials,
                 snmp_dictionary  => $snmp_dictionary
@@ -460,6 +463,7 @@ sub _scanAddressBySNMP {
             $snmp = FusionInventory::Agent::SNMP::Live->new(
                 version      => $credential->{VERSION},
                 hostname     => $params{ip},
+                timeout      => $params{timeout},
                 community    => $credential->{COMMUNITY},
                 username     => $credential->{USERNAME},
                 authpassword => $credential->{AUTHPASSWORD},
