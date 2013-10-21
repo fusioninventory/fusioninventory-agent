@@ -41,7 +41,7 @@ sub new {
         );
     } else { # snmpv2c && snmpv1 #
         ($self->{session}, $error) = Net::SNMP->session(
-            -timeout   => 1,
+            -timeout   => 15,
             -retries   => 0,
             -version   => $version,
             -hostname  => $params{hostname},
@@ -67,7 +67,7 @@ sub switch_community {
                              undef   ;
     my $error;
     ($self->{session}, $error) = Net::SNMP->session(
-            -timeout   => 1,
+            -timeout   => 15,
             -retries   => 0,
             -version   => $version,
             -hostname  => $self->{session}->hostname(),
