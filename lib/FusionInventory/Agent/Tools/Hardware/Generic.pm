@@ -18,7 +18,6 @@ sub setConnectedDevicesMacAddresses {
     my $dot1dTpFdbPort       = $snmp->walk($model->{oids}->{dot1dTpFdbPort} || '.1.3.6.1.2.1.17.4.3.1.2');
     my $dot1dBasePortIfIndex = $snmp->walk($model->{oids}->{dot1dBasePortIfIndex} || '.1.3.6.1.2.1.17.1.4.1.2');
 
-    my $firstMethodIsASuccess;
     foreach my $suffix (sort keys %{$dot1dTpFdbAddress}) {
         my $mac = $dot1dTpFdbAddress->{$suffix};
         $mac = alt2canonical($mac);
@@ -55,46 +54,7 @@ sub setConnectedDevicesMacAddresses {
         push
             @{$port->{CONNECTIONS}->{CONNECTION}->{MAC}},
             $mac;
-
-        $firstMethodIsASuccess = 1;
     }
-
-    return if $firstMethodIsASuccess;
-
-    # Ok, we tried to find the remote devices using dot1dTpFdbAddress without success,
-    # let's try by using dot1qTpFdbPort this time. This alternative solution is known
-    # to work at last with Juniper ex2200 devices.
-
-    # New OID, not yet in model files most of the time
-    my $dot1qTpFdbPort       = $snmp->walk($model->{oids}->{dot1qTpFdbPort} || '.1.3.6.1.2.1.17.7.1.2.2.1.2');
-    my $dot1qTpFdbStatus     = $snmp->walk($model->{oids}->{dot1qTpFdbStatus} || '.1.3.6.1.2.1.17.7.1.2.2.1.3');
-
-    foreach my $suffix (sort keys %{$dot1qTpFdbPort}) {
-        my ($vlan_id, @macDecimal) = split(/\./, $suffix);
-        # vlan_id is not used (yet?)
-        my $mac = sprintf ("%02x:%02x:%02x:%02x:%02x:%02x", @macDecimal);
-
-        my $ifKey = $dot1qTpFdbPort->{$suffix};
-
-        # get interface index
-        my $port_id = $dot1dBasePortIfIndex->{$ifKey};
-        next unless defined $port_id;
-
-        my $port = $ports->{$port_id};
-
-        # this device has already been processed through CDP/LLDP
-        next if $port->{CONNECTIONS}->{CDP};
-
-        # this is port own mac address
-        next if $port->{MAC} && $port->{MAC} eq $mac;
-
-        # create a new connection with this mac address
-        push
-            @{$port->{CONNECTIONS}->{CONNECTION}->{MAC}},
-            $mac;
-
-    }
-
 }
 
 sub setConnectedDevices {
