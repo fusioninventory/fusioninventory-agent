@@ -245,11 +245,12 @@ sub _queryDevice {
     }
 
     my $result = getDeviceFullInfo(
-         id     => $device->{ID},
-         type   => $device->{TYPE},
-         snmp   => $snmp,
-         model  => $params{model},
-         logger => $self->{logger}
+         id      => $device->{ID},
+         type    => $device->{TYPE},
+         snmp    => $snmp,
+         model   => $params{model},
+         logger  => $self->{logger},
+         datadir => $self->{datadir}
     );
 
     return $result;
