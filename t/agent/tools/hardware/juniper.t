@@ -16,6 +16,7 @@ my %tests = (
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-24t-4g internet router, kernel JUNOS 11.1R3.5 #0: 2011-06-25 00:35:00 UTC     builder@briath.juniper.net:/volume/build/junos/11.1/release/11.1R3.5/obj-arm/bsd/kernels/JUNIPER-EX/kernel Build date: 2011-06-25 00:31:37 UTC Cop',
             SNMPHOSTNAME => 'INTERUFR-219-ex2200-24',
             MAC          => '78:FE:3D:D5:0E:C0',
+            MODEL        => 'EX2200',
         },
         {
             MANUFACTURER => 'Juniper',
@@ -23,8 +24,8 @@ my %tests = (
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-24t-4g internet router, kernel JUNOS 11.1R3.5 #0: 2011-06-25 00:35:00 UTC     builder@briath.juniper.net:/volume/build/junos/11.1/release/11.1R3.5/obj-arm/bsd/kernels/JUNIPER-EX/kernel Build date: 2011-06-25 00:31:37 UTC Cop',
             SNMPHOSTNAME => 'INTERUFR-219-ex2200-24',
             MAC          => '78:FE:3D:D5:0E:C0',
+            MODEL        => 'EX2200',
             MODELSNMP    => 'Networking2185',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'CW0211513175',
         },
@@ -42,7 +43,7 @@ my %tests = (
                 RAM          => 512,
                 ID           => undef,
                 LOCATION     => 'CB',
-                MODEL        => undef,
+                MODEL        => 'EX2200',
                 IPS          => {
                     IP => [
                         '128.0.0.1',
@@ -1270,7 +1271,8 @@ my %tests = (
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-48t-4g internet router, kernel JUNOS 11.4R5.5 #0: 2012-08-25 05:21:13 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R5.5/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2012-08-25 04:48:47 U',
             SNMPHOSTNAME => 'jtc407-01',
-            MAC          => '00:0B:CA:FE:00:00'
+            MAC          => '00:0B:CA:FE:00:00',
+            MODEL        => 'EX2200',
         },
         {
             MANUFACTURER => 'Juniper',
@@ -1278,8 +1280,8 @@ my %tests = (
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-48t-4g internet router, kernel JUNOS 11.4R5.5 #0: 2012-08-25 05:21:13 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R5.5/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2012-08-25 04:48:47 U',
             SNMPHOSTNAME => 'jtc407-01',
             MAC          => '78:FE:3D:36:F7:00',
+            MODEL        => 'EX2200',
             MODELSNMP    => 'Networking2495',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => undef,
         },
@@ -1289,7 +1291,7 @@ my %tests = (
                 TYPE         => 'NETWORKING',
                 COMMENTS     => 'Juniper Networks, Inc. ex2200-48t-4g internet router, kernel JUNOS 11.4R5.5 #0: 2012-08-25 05:21:13 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R5.5/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2012-08-25 04:48:47 U',
                 UPTIME       => '(690838738) 79 days, 22:59:47.38',
-                MODEL        => undef,
+                MODEL        => 'EX2200',
                 ID           => undef,
                 NAME         => 'jtc407-01',
                 MAC          => '78:FE:3D:36:F7:00',
@@ -3267,7 +3269,8 @@ my %tests = (
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-c-12p-2g internet router, kernel JUNOS 11.3R1.7 #0: 2011-08-30 11:49:21 UTC     builder@dagmath.juniper.net:/volume/build/junos/11.3/release/11.3R1.7/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2011-08-30 11:32:01',
             SNMPHOSTNAME => 'AB-B404-23-ex2200',
-            MAC          => '00:0B:CA:FE:00:00'
+            MAC          => '00:0B:CA:FE:00:00',
+            MODEL        => 'EX2200',
         },
         {
             MANUFACTURER => 'Juniper',
@@ -3275,8 +3278,8 @@ my %tests = (
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-c-12p-2g internet router, kernel JUNOS 11.3R1.7 #0: 2011-08-30 11:49:21 UTC     builder@dagmath.juniper.net:/volume/build/junos/11.3/release/11.3R1.7/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2011-08-30 11:32:01',
             SNMPHOSTNAME => 'AB-B404-23-ex2200',
             MAC          => '00:0B:CA:FE:00:00',
+            MODEL        => 'EX2200',
             MODELSNMP    => 'Networking2181',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => undef,
         },
@@ -3288,7 +3291,7 @@ my %tests = (
                 NAME         => 'AB-B404-23-ex2200',
                 UPTIME       => '(1896073543) 219 days, 10:52:15.43',
                 ID           => undef,
-                MODEL        => undef,
+                MODEL        => 'EX2200',
                 IPS          => {
                     IP => [
                         '128.0.0.1',
@@ -3972,6 +3975,7 @@ my %tests = (
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-48t-4g internet router, kernel JUNOS 11.1R3.5 #0: 2011-06-25 00:35:00 UTC     builder@briath.juniper.net:/volume/build/junos/11.1/release/11.1R3.5/obj-arm/bsd/kernels/JUNIPER-EX/kernel Build date: 2011-06-25 00:31:37 UTC Cop',
             SNMPHOSTNAME => 'AB-BU6-132-ex2200-48',
             MAC          => '78:FE:3D:37:5E:C0',
+            MODEL        => 'EX2200',
         },
         {
             MANUFACTURER => 'Juniper',
@@ -3979,8 +3983,8 @@ my %tests = (
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-48t-4g internet router, kernel JUNOS 11.1R3.5 #0: 2011-06-25 00:35:00 UTC     builder@briath.juniper.net:/volume/build/junos/11.1/release/11.1R3.5/obj-arm/bsd/kernels/JUNIPER-EX/kernel Build date: 2011-06-25 00:31:37 UTC Cop',
             SNMPHOSTNAME => 'AB-BU6-132-ex2200-48',
             MAC          => '78:FE:3D:37:5E:C0',
+            MODEL        => 'EX2200',
             MODELSNMP    => 'Networking2190',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'CU0211450517',
         },
@@ -3993,7 +3997,7 @@ my %tests = (
                 UPTIME       => '(1514669572) 175 days, 7:24:55.72',
                 RAM          => 512,
                 ID           => undef,
-                MODEL        => undef,
+                MODEL        => 'EX2200',
                 LOCATION     => 'AB-BU6',
                 NAME         => 'AB-BU6-132-ex2200-48',
                 MAC          => '78:FE:3D:37:5E:C0',
@@ -5717,7 +5721,8 @@ my %tests = (
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-c-12p-2g internet router, kernel JUNOS 11.4R1.6 #0: 2011-11-15 10:11:59 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R1.6/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2011-11-15 09:57:14',
             SNMPHOSTNAME => 'C005-236b-ex2200',
-            MAC          => '00:0B:CA:FE:00:00'
+            MAC          => '00:0B:CA:FE:00:00',
+            MODEL        => 'EX2200',
         },
         {
             MANUFACTURER => 'Juniper',
@@ -5725,8 +5730,8 @@ my %tests = (
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-c-12p-2g internet router, kernel JUNOS 11.4R1.6 #0: 2011-11-15 10:11:59 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R1.6/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2011-11-15 09:57:14',
             SNMPHOSTNAME => 'C005-236b-ex2200',
             MAC          => '00:0B:CA:FE:00:00',
+            MODEL        => 'EX2200',
             MODELSNMP    => 'Networking2180',
-            MODEL        => undef,
             SERIAL       => undef,
             FIRMWARE     => undef,
         },
@@ -5735,7 +5740,7 @@ my %tests = (
                 MANUFACTURER => 'Juniper',
                 TYPE         => 'NETWORKING',
                 ID           => undef,
-                MODEL        => undef,
+                MODEL        => 'EX2200',
                 IPS          => {
                     IP => [
                         '128.0.0.1',
@@ -6374,7 +6379,8 @@ my %tests = (
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-48t-4g internet router, kernel JUNOS 11.4R5.5 #0: 2012-08-25 05:21:13 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R5.5/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2012-08-25 04:48:47 U',
             SNMPHOSTNAME => 'jtc407-01',
-            MAC          => undef
+            MAC          => undef,
+            MODEL        => 'EX2200',
         },
         {
             MANUFACTURER => 'Juniper',
@@ -6382,8 +6388,8 @@ my %tests = (
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-48t-4g internet router, kernel JUNOS 11.4R5.5 #0: 2012-08-25 05:21:13 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R5.5/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2012-08-25 04:48:47 U',
             SNMPHOSTNAME => 'jtc407-01',
             MAC          => '78:FE:3D:36:F7:00',
+            MODEL        => 'EX2200',
             MODELSNMP    => 'Networking2495',
-            MODEL        => undef,
             SERIAL       => undef,
             FIRMWARE     => undef,
         },
@@ -6393,7 +6399,7 @@ my %tests = (
                 TYPE         => 'NETWORKING',
                 COMMENTS     => 'Juniper Networks, Inc. ex2200-48t-4g internet router, kernel JUNOS 11.4R5.5 #0: 2012-08-25 05:21:13 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R5.5/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2012-08-25 04:48:47 U',
                 UPTIME       => '(690835636) 79 days, 22:59:16.36',
-                MODEL        => undef,
+                MODEL        => 'EX2200',
                 ID           => undef,
                 NAME         => 'jtc407-01',
                 MAC          => '78:FE:3D:36:F7:00'
@@ -7237,6 +7243,7 @@ my %tests = (
             DESCRIPTION  => 'Juniper Networks, Inc. ex3200-48p internet router, kernel JUNOS 10.4R2.6 #0: 2011-02-06 23:48:13 UTC     builder@warth.juniper.net:/volume/build/junos/10.4/release/10.4R2.6/obj-powerpc/bsd/sys/compile/JUNIPER-EX Build date: 2011-02-06 23:17:05 UTC Copyri',
             SNMPHOSTNAME => 'jtc20-03',
             MAC          => '2C:6B:F5:9A:7E:80',
+            MODEL        => 'EX3200-24t',
         },
         {
             MANUFACTURER => 'Juniper',
@@ -7244,8 +7251,8 @@ my %tests = (
             DESCRIPTION  => 'Juniper Networks, Inc. ex3200-48p internet router, kernel JUNOS 10.4R2.6 #0: 2011-02-06 23:48:13 UTC     builder@warth.juniper.net:/volume/build/junos/10.4/release/10.4R2.6/obj-powerpc/bsd/sys/compile/JUNIPER-EX Build date: 2011-02-06 23:17:05 UTC Copyri',
             SNMPHOSTNAME => 'jtc20-03',
             MAC          => '2C:6B:F5:9A:7E:80',
+            MODEL        => 'EX3200-24t',
             MODELSNMP    => 'Networking2450',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'BL0210129540',
         },
@@ -7263,7 +7270,7 @@ my %tests = (
                 ID           => undef,
                 RAM          => 0,
                 LOCATION     => 'repartiteur PMF 20eme',
-                MODEL        => 'Juniper Networks, Inc. ex3200-48p internet router, kernel JUNOS 10.4R2.6 #0: 2011-02-06 23:48:13 UTC     builder@warth.juniper.net:/volume/build/junos/10.4/release/10.4R2.6/obj-powerpc/bsd/sys/compile/JUNIPER-EX Build date: 2011-02-06 23:17:05 UTC Copyri',
+                MODEL        => 'EX3200-24t',
                 IPS          => {
                     IP => [
                         '128.0.0.1',
@@ -9322,6 +9329,7 @@ my %tests = (
             DESCRIPTION  => 'Juniper Networks, Inc. ex4200-48p internet router, kernel JUNOS 10.4R3.4 #0: 2011-03-19 22:06:32 UTC     builder@warth.juniper.net:/volume/build/junos/10.4/release/10.4R3.4/obj-powerpc/bsd/sys/compile/JUNIPER-EX Build date: 2011-03-19 21:51:24 UTC Copyri',
             SNMPHOSTNAME => 'jte4-01',
             MAC          => '2C:6B:F5:9B:48:80',
+            MODEL        => 'EX4200-24t',
         },
         {
             MANUFACTURER => 'Juniper',
@@ -9329,8 +9337,8 @@ my %tests = (
             DESCRIPTION  => 'Juniper Networks, Inc. ex4200-48p internet router, kernel JUNOS 10.4R3.4 #0: 2011-03-19 22:06:32 UTC     builder@warth.juniper.net:/volume/build/junos/10.4/release/10.4R3.4/obj-powerpc/bsd/sys/compile/JUNIPER-EX Build date: 2011-03-19 21:51:24 UTC Copyri',
             SNMPHOSTNAME => 'jte4-01',
             MAC          => '2C:6B:F5:9B:48:80',
+            MODEL        => 'EX4200-24t',
             MODELSNMP    => 'Networking2448',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'BQ0210122093',
         },
@@ -9340,7 +9348,7 @@ my %tests = (
                 TYPE         => 'NETWORKING',
                 COMMENTS     => 'Juniper Networks, Inc. ex4200-48p internet router, kernel JUNOS 10.4R3.4 #0: 2011-03-19 22:06:32 UTC     builder@warth.juniper.net:/volume/build/junos/10.4/release/10.4R3.4/obj-powerpc/bsd/sys/compile/JUNIPER-EX Build date: 2011-03-19 21:51:24 UTC Copyri',
                 UPTIME       => '(1579491875) 182 days, 19:28:38.75',
-                MODEL        => undef,
+                MODEL        => 'EX4200-24t',
                 LOCATION     => 'Salle informatique E4 PMF',
                 ID           => undef,
                 SERIAL       => 'BQ0210122093',
@@ -20008,6 +20016,7 @@ my %tests = (
             DESCRIPTION  => 'Juniper Networks, Inc. ex4200-48p internet router, kernel JUNOS 10.4R3.4 #0: 2011-03-19 22:06:32 UTC     builder@warth.juniper.net:/volume/build/junos/10.4/release/10.4R3.4/obj-powerpc/bsd/sys/compile/JUNIPER-EX Build date: 2011-03-19 21:51:24 UTC Copyri',
             SNMPHOSTNAME => 'jte4-01',
             MAC          => '2C:6B:F5:9B:48:80',
+            MODEL        => 'EX4200-24t',
         },
         {
             MANUFACTURER => 'Juniper',
@@ -20015,8 +20024,8 @@ my %tests = (
             DESCRIPTION  => 'Juniper Networks, Inc. ex4200-48p internet router, kernel JUNOS 10.4R3.4 #0: 2011-03-19 22:06:32 UTC     builder@warth.juniper.net:/volume/build/junos/10.4/release/10.4R3.4/obj-powerpc/bsd/sys/compile/JUNIPER-EX Build date: 2011-03-19 21:51:24 UTC Copyri',
             SNMPHOSTNAME => 'jte4-01',
             MAC          => '2C:6B:F5:9B:48:80',
+            MODEL        => 'EX4200-24t',
             MODELSNMP    => 'Networking2448',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'BQ0210122093',
         },
@@ -20025,7 +20034,7 @@ my %tests = (
                 ID           => undef,
                 MANUFACTURER => 'Juniper',
                 TYPE         => 'NETWORKING',
-                MODEL        => undef,
+                MODEL        => 'EX4200-24t',
                 COMMENTS     => 'Juniper Networks, Inc. ex4200-48p internet router, kernel JUNOS 10.4R3.4 #0: 2011-03-19 22:06:32 UTC     builder@warth.juniper.net:/volume/build/junos/10.4/release/10.4R3.4/obj-powerpc/bsd/sys/compile/JUNIPER-EX Build date: 2011-03-19 21:51:24 UTC Copyri',
                 NAME         => 'jte4-01',
                 MEMORY       => '1016',
@@ -30686,6 +30695,7 @@ my %tests = (
             DESCRIPTION  => 'Routeur Dauphine Juniper SRX3400',
             SNMPHOSTNAME => 'Dauphine-routeur',
             MAC          => '00:21:59:86:A8:00',
+            MODEL        => 'SRX3400',
         },
         {
             MANUFACTURER => 'Juniper',
@@ -30693,13 +30703,14 @@ my %tests = (
             DESCRIPTION  => 'Routeur Dauphine Juniper SRX3400',
             SNMPHOSTNAME => 'Dauphine-routeur',
             MAC          => '00:21:59:86:A8:00',
+            MODEL        => 'SRX3400',
         },
         {
             INFO => {
                 MANUFACTURER => 'Juniper',
                 TYPE         => 'NETWORKING',
                 ID           => undef,
-                MODEL        => undef,
+                MODEL        => 'SRX3400',
             },
         }
     ],
@@ -30710,6 +30721,7 @@ my %tests = (
             DESCRIPTION  => 'Routeur Dauphine Juniper SRX3400',
             SNMPHOSTNAME => 'Dauphine-routeur',
             MAC          => '00:21:59:86:A8:00',
+            MODEL        => 'SRX3400',
         },
         {
             MANUFACTURER => 'Juniper',
@@ -30717,13 +30729,14 @@ my %tests = (
             DESCRIPTION  => 'Routeur Dauphine Juniper SRX3400',
             SNMPHOSTNAME => 'Dauphine-routeur',
             MAC          => '00:21:59:86:A8:00',
+            MODEL        => 'SRX3400',
         },
         {
             INFO => {
                 MANUFACTURER => 'Juniper',
                 TYPE         => 'NETWORKING',
                 ID           => undef,
-                MODEL        => undef,
+                MODEL        => 'SRX3400',
             },
         }
     ],
@@ -30734,6 +30747,7 @@ my %tests = (
             DESCRIPTION  => 'Routeur Dauphine Juniper SRX3400',
             SNMPHOSTNAME => 'Dauphine-routeur',
             MAC          => '00:21:59:86:A8:00',
+            MODEL        => 'SRX3400',
         },
         {
             MANUFACTURER => 'Juniper',
@@ -30741,13 +30755,14 @@ my %tests = (
             DESCRIPTION  => 'Routeur Dauphine Juniper SRX3400',
             SNMPHOSTNAME => 'Dauphine-routeur',
             MAC          => '00:21:59:86:A8:00',
+            MODEL        => 'SRX3400',
         },
         {
             INFO => {
                 MANUFACTURER => 'Juniper',
                 TYPE         => 'NETWORKING',
                 ID           => undef,
-                MODEL        => undef,
+                MODEL        => 'SRX3400',
             },
         }
     ],
@@ -30762,15 +30777,23 @@ foreach my $test (sort keys %tests) {
     my $snmp  = getSNMP($test);
     my $model = getModel($index, $tests{$test}->[1]->{MODELSNMP});
 
-    my %device0 = getDeviceInfo($snmp);
+    my %device0 = getDeviceInfo(
+        snmp    => $snmp,
+        datadir => './share'
+    );
     cmp_deeply(\%device0, $tests{$test}->[0], "$test: base stage");
 
-    my %device1 = getDeviceInfo($snmp, $dictionary);
+    my %device1 = getDeviceInfo(
+        snmp       => $snmp,
+        dictionary => $dictionary,
+        datadir    => './share'
+    );
     cmp_deeply(\%device1, $tests{$test}->[1], "$test: base + dictionnary stage");
 
     my $device3 = getDeviceFullInfo(
-        snmp  => $snmp,
-        model => $model,
+        snmp    => $snmp,
+        model   => $model,
+        datadir => './share'
     );
     cmp_deeply($device3, $tests{$test}->[2], "$test: base + model stage");
 }

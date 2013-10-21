@@ -15,7 +15,8 @@ my %tests = (
             TYPE         => 'NETWORKING',
             MAC          => '00:15:40:94:75:A2',
             SNMPHOSTNAME => 'Bay470',
-            DESCRIPTION  => 'BayStack 470 - 24T           HW:06       FW:3.0.0.5   SW:v3.1.2.06 ISVN:2'
+            DESCRIPTION  => 'BayStack 470 - 24T           HW:06       FW:3.0.0.5   SW:v3.1.2.06 ISVN:2',
+            MODEL        => 'Baystack 470 24T',
         },
         {
             MANUFACTURER => 'Nortel',
@@ -23,7 +24,7 @@ my %tests = (
             MAC          => '00:15:40:94:75:A2',
             SNMPHOSTNAME => 'Bay470',
             DESCRIPTION  => 'BayStack 470 - 24T           HW:06       FW:3.0.0.5   SW:v3.1.2.06 ISVN:2',
-            MODEL        => undef,
+            MODEL        => 'Baystack 470 24T',
             MODELSNMP    => 'Networking2050',
             SERIAL       => 'SACC170NLH',
             FIRMWARE     => undef,
@@ -37,7 +38,7 @@ my %tests = (
                     IP => [ '10.97.9.231' ]
                 },
                 LOCATION     => 'Dost 111',
-                MODEL        => 'BS470_24',
+                MODEL        => 'Baystack 470 24T',
                 MAC          => '00:15:40:94:75:A2',
                 MANUFACTURER => 'Nortel',
                 NAME         => 'Bay470',
@@ -595,16 +596,17 @@ my %tests = (
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Ethernet Switch 470-24T      HW:34       FW:3.6.0.6   SW:v3.6.2.04 BN:4 ISVN:2 (c) Nortel Networks',
             SNMPHOSTNAME => '470_99_OBS',
-            MAC          => '00:1D:AF:EA:A0:E2'
+            MAC          => '00:1D:AF:EA:A0:E2',
+            MODEL        => 'Baystack 470 24T',
         },
         {
             MANUFACTURER => 'Nortel',
             TYPE         => 'NETWORKING',
             SERIAL       => 'LBNNTMJX5809LW',
+            MODEL        => 'Baystack 470 24T',
             MODELSNMP    => 'Networking0316',
             FIRMWARE     => undef,
             SNMPHOSTNAME => '470_99_OBS',
-            MODEL        => undef,
             DESCRIPTION  => 'Ethernet Switch 470-24T      HW:34       FW:3.6.0.6   SW:v3.6.2.04 BN:4 ISVN:2 (c) Nortel Networks',
             MAC          => '00:1D:AF:EA:A0:E2'
         },
@@ -613,7 +615,7 @@ my %tests = (
                 MANUFACTURER => 'Nortel',
                 TYPE         => 'NETWORKING',
                 SERIAL       => 'LBNNTMJX5809LW',
-                MODEL        => '470-24T',
+                MODEL        => 'Baystack 470 24T',
                 NAME         => '470_99_OBS',
                 ID           => undef,
                 MAC          => '00:1D:AF:EA:A0:E2',
@@ -1434,15 +1436,23 @@ foreach my $test (sort keys %tests) {
     my $snmp  = getSNMP($test);
     my $model = getModel($index, $tests{$test}->[1]->{MODELSNMP});
 
-    my %device0 = getDeviceInfo($snmp);
+    my %device0 = getDeviceInfo(
+        snmp    => $snmp,
+        datadir => './share'
+    );
     cmp_deeply(\%device0, $tests{$test}->[0], "$test: base stage");
 
-    my %device1 = getDeviceInfo($snmp, $dictionary);
+    my %device1 = getDeviceInfo(
+        snmp       => $snmp,
+        dictionary => $dictionary,
+        datadir    => './share'
+    );
     cmp_deeply(\%device1, $tests{$test}->[1], "$test: base + dictionnary stage");
 
     my $device3 = getDeviceFullInfo(
-        snmp  => $snmp,
-        model => $model,
+        snmp    => $snmp,
+        model   => $model,
+        datadir => './share'
     );
     cmp_deeply($device3, $tests{$test}->[2], "$test: base + model stage");
 }
