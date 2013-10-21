@@ -37,7 +37,7 @@ my %sysobjectid_vendors = (
     36    => { vendor => 'DEC',             type => 'COMPUTER'   },
     42    => { vendor => 'Sun',             type => 'COMPUTER'   },
     43    => { vendor => '3Com',            type => 'NETWORKING' },
-    45    => { vendor => 'SynOptics',       type => 'NETWORKING' },
+    45    => { vendor => 'Nortel',          type => 'NETWORKING' },
     63    => { vendor => 'Apple',                                },
     171   => { vendor => 'D-Link',          type => 'NETWORKING' },
     186   => { vendor => 'Toshiba',         type => 'PRINTER'    },
@@ -57,12 +57,13 @@ my %sysobjectid_vendors = (
     1602  => { vendor => 'Canon',           type => 'PRINTER'    },
     1805  => { vendor => 'Sagem',          type => 'NETWORKING' },
     1872  => { vendor => 'Alteon',          type => 'NETWORKING' },
-    1916  => { vendor => 'Extrem Networks', type => 'NETWORKING' },
+    1916  => { vendor => 'Extreme',         type => 'NETWORKING' },
     1981  => { vendor => 'EMC'                                   },
     1991  => { vendor => 'Foundry',         type => 'NETWORKING' },
     2385  => { vendor => 'Sharp',           type => 'PRINTER'    },
     2435  => { vendor => 'Brother',         type => 'PRINTER'    },
     2636  => { vendor => 'Juniper',         type => 'NETWORKING' },
+    3224  => { vendor => 'NetScreen',       type => 'NETWORKING' },
     3977  => { vendor => 'Broadband',       type => 'NETWORKING' },
     5596  => { vendor => 'Tandberg'                              },
     6486  => { vendor => 'Alcatel',         type => 'NETWORKING' },
@@ -71,6 +72,8 @@ my %sysobjectid_vendors = (
     16885 => { vendor => 'Nortel',          type => 'NETWORKING' },
     18334 => { vendor => 'Konica',          type => 'PRINTER'    },
 );
+
+my %sysobjectid_models;
 
 my %sysdescr_first_word = (
     '3com'           => { vendor => '3Com',            type => 'NETWORKING' },
@@ -354,7 +357,7 @@ my %printer_pagecounters_variables = (
 );
 
 sub getDeviceBaseInfo {
-    my ($snmp) = @_;
+    my ($snmp, $datadir) = @_;
 
     # retrieve sysdescr value, as it is our primary identification key
     my $sysdescr = $snmp->get('.1.3.6.1.2.1.1.1.0'); # SNMPv2-MIB::sysDescr.0
@@ -367,17 +370,26 @@ sub getDeviceBaseInfo {
     # first heuristic:
     # compute manufacturer and type from sysobjectid (SNMPv2-MIB::sysObjectID.0)
     my $sysobjectid = $snmp->get('.1.3.6.1.2.1.1.2.0');
-    my $vendor_id =
-        !defined($sysobjectid)                            ? undef :
-        $sysobjectid =~ /^SNMPv2-SMI::enterprises\.(\d+)/ ? $1    :
-        $sysobjectid =~ /^iso\.3\.6\.1\.4\.1\.(\d+)/      ? $1    :
-        $sysobjectid =~ /^\.1\.3\.6\.1\.4\.1\.(\d+)/      ? $1    :
-                                                            undef;
-    if ($vendor_id) {
-        my $result = $sysobjectid_vendors{$vendor_id};
-        if ($result) {
-            $device{MANUFACTURER} = $result->{vendor};
-            $device{TYPE}         = $result->{type} if $result->{type};
+    if ($sysobjectid) {
+        my $prefix = qr/(?:
+            SNMPv2-SMI::enterprises |
+            iso\.3\.6\.1\.4\.1      |
+            \.1\.3\.6\.1\.4\.1
+        )/x;
+        my ($vendor_id, $model_id) =
+            $sysobjectid =~ /^ $prefix \. (\d+) (?: \. (.+) )? $/x;
+        if ($vendor_id) {
+            my $result = $sysobjectid_vendors{$vendor_id};
+            if ($result) {
+                $result->{model} = _getDeviceModel(
+                    vendor  => $result->{vendor},
+                    id      => $model_id,
+                    datadir => $datadir,
+                );
+                $device{MANUFACTURER} = $result->{vendor};
+                $device{TYPE}         = $result->{type}  if $result->{type};
+                $device{MODEL}        = $result->{model} if $result->{model};
+            }
         }
     }
 
@@ -418,6 +430,41 @@ sub getDeviceBaseInfo {
     return %device;
 }
 
+sub _getDeviceModel {
+    my (%params) = @_;
+
+    return unless $params{id};
+
+    # load vendor-specific database if not already done
+    my $vendor = lc($params{vendor});
+    $vendor =~ s/ /_/g;
+    $sysobjectid_models{$vendor} = _loadDeviceModels(
+        file => "$params{datadir}/sysobjectid.$vendor.ids"
+    ) if !exists $sysobjectid_models{$vendor};
+
+    return $sysobjectid_models{$vendor}->{$params{id}};
+}
+
+sub _loadDeviceModels {
+    my (%params) = @_;
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+
+    my $models;
+
+    while (my $line = <$handle>) {
+        chomp $line;
+        my ($id, $name) = split(/\t/, $line);
+        next unless $id;
+        $models->{$id} = $name;
+    }
+
+    close $handle;
+
+    return $models;
+}
+
 sub _getSerial {
     my ($snmp, $model) = @_;
 
@@ -451,11 +498,14 @@ sub _getMacAddress {
 }
 
 sub getDeviceInfo {
-     my ($snmp, $dictionary) = @_;
+    my (%params) = @_;
+
+    my $snmp       = $params{snmp};
+    my $dictionary = $params{dictionary};
 
     # the device is initialized with basic information
     # deduced from its sysdescr
-    my %device = getDeviceBaseInfo($snmp);
+    my %device = getDeviceBaseInfo($snmp, $params{datadir});
     return unless %device;
 
     # then, we try to get a matching model from the dictionary,
@@ -478,7 +528,6 @@ sub getDeviceInfo {
         $device{SERIAL}    = _getSerial($snmp, $model);
         $device{MODELSNMP} = $model->{MODELSNMP};
         $device{FIRMWARE}  = $model->{FIRMWARE};
-        $device{MODEL}     = $model->{MODEL};
     } else {
         # otherwise, we fallback on default mappings
         $device{MAC} = _getMacAddress($snmp);
@@ -584,7 +633,7 @@ sub getDeviceFullInfo {
     my $logger = $params{logger};
 
     # first, let's retrieve basic device informations
-    my %info = getDeviceBaseInfo($snmp);
+    my %info = getDeviceBaseInfo($snmp, $params{datadir});
     return unless %info;
 
     # unfortunatly, some elements differs between discovery
@@ -752,7 +801,8 @@ sub _setPrinterProperties {
     my $snmp   = $params{snmp};
     my $model  = $params{model};
 
-    $device->{INFO}->{MODEL} = $snmp->get($model->{oids}->{model});
+    $device->{INFO}->{MODEL} = $snmp->get($model->{oids}->{model})
+        if !$device->{INFO}->{MODEL};
 
     # consumable levels
     foreach my $key (keys %printer_cartridges_simple_variables) {
@@ -805,7 +855,8 @@ sub _setNetworkingProperties {
     my $model  = $params{model};
     my $logger = $params{logger};
 
-    $device->{INFO}->{MODEL} = $snmp->get($model->{oids}->{entPhysicalModelName});
+    $device->{INFO}->{MODEL} = $snmp->get($model->{oids}->{entPhysicalModelName})
+        if !$device->{INFO}->{MODEL};
 
     my $comments = $device->{INFO}->{DESCRIPTION} || $device->{INFO}->{COMMENTS};
     my $ports    = $device->{PORTS}->{PORT};
@@ -1012,7 +1063,7 @@ This module provides some hardware-related functions.
 return a minimal set of information for a device through SNMP, according to a
 set of rules hardcoded in the agent.
 
-=head2 getDeviceInfo($snmp, $dictionary)
+=head2 getDeviceInfo(%params)
 
 return a limited set of information for a device through SNMP, according to a
 set of rules hardcoded in the agent and the usage of generic knowledge base,

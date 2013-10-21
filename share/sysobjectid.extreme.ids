@@ -1,0 +1,73 @@
+# source: http://www.snmplink.org/OnLineMIB/Extreme/index.html#8
+2.1	Summit 1
+2.2	Summit 2
+2.3	Summit 3
+2.4	Summit 4
+2.5	Summit 4 Fx
+2.6	Summit 48
+2.6.3	Summit 400-24t
+2.7	Summit 24
+2.8	BlackDiamond
+2.11	BlackDiamond 64
+2.12	Summit 7i Sx
+2.13	Summit 7i Tx
+2.14	Summit 1i Tx
+2.15	Summit 5i
+2.16	Summit 48i
+2.17	Alpine 3808
+2.19	Summit 1i Sx
+2.20	Alpine 3804
+2.21	Summit 5iLX
+2.22	Summit 5i Tx
+2.23	enetSwitch 24 Port
+2.24	Black Diamond 6816
+2.25	Summit 24e3
+2.26	Alpine 3802
+2.27	Black Diamond 6804
+2.28	Summit 48si
+2.30	Summit Px1
+2.40	Summit 24e2
+2.41	Summit 24e2
+2.53	Summit 200-24
+2.54	Summit 200-48
+2.55	Summit 300-48
+2.56	BlackDiamond 10808
+2.58	Summit 400-48t
+2.60	Summit 200-48
+2.61	Summit 300-24
+2.62	Aspen 8810
+2.63	Summit 400-24t
+2.64	Summit 400-24p
+2.65	Summit X450-24x
+2.66	Summit X450-24t
+2.67	Summit 400-48t
+2.68	SummitWM 100
+2.69	SummitWM 1000
+2.71	Summit X450a-24t
+2.72	Summit X450e-24p
+2.74	BlackDiamond 8806
+2.76	Summit X450a-48t
+2.77	BlackDiamond 12804
+2.79	Summit x450e-48p
+2.80	Extreme Summit X450a 24tDC 24 Port Switch
+2.81	Extreme Summit X450a-24t 24 Port Switch
+2.82	Extreme Summit X450a-24xDC 24 Port Switch
+2.84	Summit X450a-24x
+2.85	BlackDiamond 12802
+2.87	Extreme Summit X450a-48tDC 48 Port Switch
+2.88	Summit X250e-24t
+2.89	Summit X250e-24p
+2.90	Extreme Summit X250-24x 24 Port Switch
+2.91	Summit X250e-48t
+2.92	Summit x250-48p
+2.93	Summit X450a-48t
+2.94	SummitWM 200
+2.95	SummitWM 2000
+2.102	X150-24p
+2.100	X150-24t
+2.105	X150-48t
+2.120	Summit X650-24x
+2.131.15	WM3700
+2.135	X460-48t
+2.152	X460-24t
+2.156	X460-48p

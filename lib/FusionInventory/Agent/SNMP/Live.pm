@@ -59,13 +59,21 @@ sub new {
 sub switch_community {
     my ($self, $suffix) = @_;
 
-    ($self->{session}, undef) = Net::SNMP->session(
+    my $version_id = $self->{session}->version();
+    my $version =
+        $version_id == 0 ? 'snmpv1'  :
+        $version_id == 1 ? 'snmpv2c' :
+        $version_id == 2 ? 'snmpv3'  :
+                             undef   ;
+    my $error;
+    ($self->{session}, $error) = Net::SNMP->session(
             -timeout   => 1,
             -retries   => 0,
-            -version   => $self->{session}->version(),
+            -version   => $version,
             -hostname  => $self->{session}->hostname(),
             -community => $self->{community} . $suffix
     );
+    die $error unless $self->{session};
 }
 
 sub get {
