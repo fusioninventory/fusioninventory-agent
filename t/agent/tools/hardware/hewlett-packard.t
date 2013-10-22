@@ -3043,7 +3043,7 @@ my %tests = (
             }
         }
     ],
-    'hewlett-packard/ProCurve_J8697A_Switch_5406zl.walk' => [
+    'hewlett-packard/ProCurve_J8697A.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'NETWORKING',
