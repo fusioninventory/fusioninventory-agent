@@ -16,6 +16,7 @@ sub new {
         models      => $params{models},
         credentials => $params{credentials},
         logger      => $params{logger},
+        timeout     => $params{timeout},
     };
     bless $self, $class;
 
@@ -47,6 +48,7 @@ sub _queryDevice {
             $snmp = FusionInventory::Agent::SNMP::Live->new(
                 version      => $credentials->{VERSION},
                 hostname     => $device->{IP},
+                timeout      => $self->{timeout},
                 community    => $credentials->{COMMUNITY},
                 username     => $credentials->{USERNAME},
                 authpassword => $credentials->{AUTHPASSWORD},

@@ -58,6 +58,7 @@ sub run {
     my $options     = $self->{options};
     my $pid         = $options->{PARAM}->[0]->{PID};
     my $max_threads = $options->{PARAM}->[0]->{THREADS_QUERY};
+    my $timeout     = $options->{PARAM}->[0]->{TIMEOUT};
 
     # SNMP models
     my $models = _getIndexedModels($options->{MODEL});
@@ -83,7 +84,8 @@ sub run {
         logger      => $self->{logger},
         credentials => $credentials,
         models      => $models,
-        threads     => $max_threads
+        threads     => $max_threads,
+        timeout     => $timeout,
     );
 
     # send initial message to the server
