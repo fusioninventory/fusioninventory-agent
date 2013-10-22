@@ -75,7 +75,7 @@ sub run {
     }
 
     my $engine_class = $max_threads > 1 ?
-        'FusionInventory::Agent::Task::NetInventory::Egine::Thread' :
+        'FusionInventory::Agent::Task::NetInventory::Engine::Thread' :
         'FusionInventory::Agent::Task::NetInventory::Engine::NoThread';
 
     $engine_class->require();
