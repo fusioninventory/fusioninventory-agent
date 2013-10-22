@@ -17,6 +17,8 @@ sub new {
         snmp_credentials => $params{snmp_credentials},
         snmp_dictionary  => $params{snmp_dictionary},
         logger           => $params{logger},
+        timeout          => $params{timeout},
+        datadir          => $params{datadir},
     };
 
     bless $self, $class;
@@ -107,6 +109,7 @@ sub _scanAddressBySNMP {
         eval {
             $snmp = FusionInventory::Agent::SNMP::Live->new(
                 hostname     => $address,
+                timeout      => $self->{timeout},
                 version      => $credential->{VERSION},
                 community    => $credential->{COMMUNITY},
                 username     => $credential->{USERNAME},
@@ -124,8 +127,9 @@ sub _scanAddressBySNMP {
         }
 
         %device = getDeviceInfo(
-            snmp => $snmp,
-            dictionary => $self->{snmp_dictionary}
+            snmp       => $snmp,
+            dictionary => $self->{snmp_dictionary},
+            datadir    => $params{datadir},
         );
 
         # no device just means invalid credentials

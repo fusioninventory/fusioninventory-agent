@@ -3043,7 +3043,7 @@ my %tests = (
             }
         }
     ],
-    'hewlett-packard/ProCurve_J8697A_Switch_5406zl.walk' => [
+    'hewlett-packard/ProCurve_J8697A.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'NETWORKING',
@@ -7846,30 +7846,6 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'NETWORKING',
                 MODEL        => 'ProCurve 2900-48g (J9050A)',
-            },
-        }
-    ],
-    'hewlett-packard/ProCurve_J9088A.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'ProCurve J9088A Switch 2610-48, revision R.11.72, ROM R.10.06 (/sw/code/build/nemo(R_ndx))',
-            MAC          => '00:21:F7:2B:E6:00',
-            MODEL        => 'ProCurve 2610-48',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'ProCurve J9088A Switch 2610-48, revision R.11.72, ROM R.10.06 (/sw/code/build/nemo(R_ndx))',
-            MAC          => '00:21:F7:2B:E6:00',
-            MODEL        => 'ProCurve 2610-48',
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'NETWORKING',
-                MODEL        => undef,
             },
         }
     ],

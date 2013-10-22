@@ -33,6 +33,7 @@ GetOptions(
     'community=s',
     'entity=s',
     'target=s',
+    'timeout=i',
     'verbose',
     'debug+',
     'help',
@@ -78,7 +79,8 @@ $inventory->{options} = {
     PARAM => [
         {
             PID           => 1,
-            THREADS_QUERY => 1
+            THREADS_QUERY => 1,
+            TIMEOUT       => $options->{timeout},
         }
     ],
     DEVICE => [
@@ -130,6 +132,7 @@ fusioninventory-netinventory [options] [--host <host>--file <file>]
     --file file    snmpwalk output file
     --model model  XML model file
     --community    community string (default: public)
+    --timeout val  SNMP timeout (default: 15s)
     --entity       GLPI entity
     --target target where to send result (default: stdout)
     --verbose      verbose output (control messages)
