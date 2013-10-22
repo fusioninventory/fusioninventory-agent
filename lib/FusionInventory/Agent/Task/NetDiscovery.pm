@@ -132,6 +132,7 @@ sub run {
 
     my $engine = $engine_class->new(
         logger           => $self->{logger},
+        datadir          => $self->{datadir},
         nmap_parameters  => $nmap_parameters,
         snmp_credentials => $snmp_credentials,
         snmp_dictionary  => $snmp_dictionary,

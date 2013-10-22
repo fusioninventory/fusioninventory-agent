@@ -18,6 +18,7 @@ sub new {
         snmp_dictionary  => $params{snmp_dictionary},
         logger           => $params{logger},
         timeout          => $params{timeout},
+        datadir          => $params{datadir},
     };
 
     bless $self, $class;
@@ -126,8 +127,9 @@ sub _scanAddressBySNMP {
         }
 
         %device = getDeviceInfo(
-            snmp => $snmp,
-            dictionary => $self->{snmp_dictionary}
+            snmp       => $snmp,
+            dictionary => $self->{snmp_dictionary},
+            datadir    => $params{datadir},
         );
 
         # no device just means invalid credentials

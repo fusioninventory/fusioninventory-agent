@@ -17,6 +17,7 @@ sub new {
         credentials => $params{credentials},
         logger      => $params{logger},
         timeout     => $params{timeout},
+        datadir     => $params{datadir},
     };
     bless $self, $class;
 
@@ -64,11 +65,12 @@ sub _queryDevice {
     }
 
     my $result = getDeviceFullInfo(
-         id     => $device->{ID},
-         type   => $device->{TYPE},
-         snmp   => $snmp,
-         model  => $self->{models}->{$device->{MODELSNMP_ID}},
-         logger => $self->{logger}
+         id      => $device->{ID},
+         type    => $device->{TYPE},
+         snmp    => $snmp,
+         model   => $self->{models}->{$device->{MODELSNMP_ID}},
+         logger  => $self->{logger},
+         datadir => $self->{datadir},
     );
 
     return $result;

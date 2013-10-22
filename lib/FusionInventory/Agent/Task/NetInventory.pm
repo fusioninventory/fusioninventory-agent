@@ -82,6 +82,7 @@ sub run {
 
     my $engine = $engine_class->new(
         logger      => $self->{logger},
+        datadir     => $self->{datadir},
         credentials => $credentials,
         models      => $models,
         threads     => $max_threads,
