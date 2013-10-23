@@ -16,7 +16,7 @@ sub new {
         models      => $params{models},
         credentials => $params{credentials},
         logger      => $params{logger},
-        timeout     => $params{timeout},
+        timeout     => $params{timeout} || 15,
         datadir     => $params{datadir},
     };
     bless $self, $class;

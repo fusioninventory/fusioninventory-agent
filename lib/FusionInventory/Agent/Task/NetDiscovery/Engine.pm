@@ -17,7 +17,7 @@ sub new {
         snmp_credentials => $params{snmp_credentials},
         snmp_dictionary  => $params{snmp_dictionary},
         logger           => $params{logger},
-        timeout          => $params{timeout},
+        timeout          => $params{timeout} || 1,
         datadir          => $params{datadir},
     };
 
