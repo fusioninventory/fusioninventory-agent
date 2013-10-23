@@ -129,7 +129,7 @@ sub _scanAddressBySNMP {
         %device = getDeviceInfo(
             snmp       => $snmp,
             dictionary => $self->{snmp_dictionary},
-            datadir    => $params{datadir},
+            datadir    => $self->{datadir},
         );
 
         # no device just means invalid credentials
