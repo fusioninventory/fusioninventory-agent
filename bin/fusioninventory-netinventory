@@ -131,7 +131,7 @@ fusioninventory-netinventory [options] [--host <host>--file <file>]
     --file file    snmpwalk output file
     --model model  XML model file
     --community    community string (default: public)
-    --timeout val  SNMP timeout (default: 15s)
+    --timeout val  SNMP timeout (default: 5s)
     --entity       GLPI entity
     --target target where to send result (default: stdout)
     --verbose      verbose output (control messages)

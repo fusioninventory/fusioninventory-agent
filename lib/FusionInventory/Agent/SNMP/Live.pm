@@ -13,7 +13,7 @@ sub new {
 
     die "no hostname parameters" unless $params{hostname};
 
-    my $timeout = $params{timeout} || 15;
+    my $timeout = $params{timeout} || 5;
 
     my $version =
         ! $params{version}       ? 'snmpv1'  :
@@ -163,7 +163,7 @@ Can be one of:
 
 =item timeout
 
-The transport layer timeout (default: 15 seconds)
+The transport layer timeout (default: 5 seconds)
 
 =item hostname (mandatory)
 

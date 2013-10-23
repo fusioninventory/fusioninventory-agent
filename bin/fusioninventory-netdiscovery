@@ -183,7 +183,7 @@ fusioninventory-netdiscovery [options] --first <start> --last <stop>
     --entity        GLPI entity
     --threads nb    number of discovery threads (default: 1)
     --target target where to send result (default: stdout)
-    --timeout val   SNMP timeout (default: 15s)
+    --timeout val   SNMP timeout (default: 5s)
     --verbose       verbose output (control messages)
     --debug         debug output (execution traces)
     -h --help       print this message and exit
