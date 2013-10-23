@@ -17,7 +17,8 @@ our $VERSION = $FusionInventory::Agent::VERSION;
 sub isEnabled {
     my ($self, %params) = @_;
 
-    return $self->{target}->isa('FusionInventory::Agent::Target::Server');
+    return unless
+        $self->{target}->isa('FusionInventory::Agent::Target::Server');
 
     my $controller = FusionInventory::Agent::HTTP::Client::Fusion->new(
         logger       => $self->{logger},
@@ -108,9 +109,9 @@ sub run {
                 password => $job->{password}
         )) {
             $self->{controller}->send(
-                "url" => $self->{esxRemote},
+                url   => $self->{esxRemote},
                 args  => {
-                    action => 'setLog',
+                    action    => 'setLog',
                     machineid => $self->{deviceid},
                     part      => 'login',
                     uuid      => $job->{uuid},
@@ -136,10 +137,10 @@ sub run {
             $broker->send(message => $message);
         }
         $self->{controller}->send(
-            "url" => $self->{esxRemote},
-            args  => {
-                action => 'setLog',
-               machineid => $self->{deviceid},
+            url  => $self->{esxRemote},
+            args => {
+                action    => 'setLog',
+                machineid => $self->{deviceid},
                 uuid      => $job->{uuid},
                 code      => 'ok'
             }
@@ -154,7 +155,7 @@ sub _connect {
     my $url = 'https://' . $params{host} . '/sdk/vimService';
 
     my $vpbs =
-      FusionInventory::Agent::SOAP::VMware->new(url => $url, vcenter => 1 );
+        FusionInventory::Agent::SOAP::VMware->new(url => $url, vcenter => 1 );
     if ( !$vpbs->connect( $params{user}, $params{password} ) ) {
         $self->{lastError} = $vpbs->{lastError};
         return;
@@ -170,16 +171,15 @@ sub _createFakeDeviceid {
     my $bootTime = $host->getBootTime();
     my ( $year, $month, $day, $hour, $min, $sec );
     if ( $bootTime =~
-        /(\d{4})-(\d{1,2})-(\d{1,2})T(\d{1,2}):(\d{1,2}):(\d{1,2})/ )
-    {
+        /(\d{4})-(\d{1,2})-(\d{1,2})T(\d{1,2}):(\d{1,2}):(\d{1,2})/
+    ) {
         $year  = $1;
         $month = $2;
         $day   = $3;
         $hour  = $4;
         $min   = $5;
         $sec   = $6;
-    }
-    else {
+    } else {
         my $ty;
         my $tm;
         ( $ty, $tm, $day, $hour, $min, $sec ) =
@@ -296,9 +296,4 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::SOAP::VMware - Access to VMware hypervisor
-
-=head1 DESCRIPTION
-
-This module allow access to VMware hypervisor using VMware SOAP API
-and _WITHOUT_ their Perl library.
+FusionInventory::Agent::Task::ESX - ESX inventory task

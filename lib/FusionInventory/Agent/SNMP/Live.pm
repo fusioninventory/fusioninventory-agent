@@ -13,6 +13,8 @@ sub new {
 
     die "no hostname parameters" unless $params{hostname};
 
+    my $timeout = $params{timeout} || 5;
+
     my $version =
         ! $params{version}       ? 'snmpv1'  :
         $params{version} eq '1'  ? 'snmpv1'  :
@@ -29,7 +31,7 @@ sub new {
     my $error;
     if ($version eq 'snmpv3') {
         ($self->{session}, $error) = Net::SNMP->session(
-            -timeout      => 15,
+            -timeout      => $timeout,
             -retries      => 0,
             -version      => $version,
             -hostname     => $params{hostname},
@@ -41,7 +43,7 @@ sub new {
         );
     } else { # snmpv2c && snmpv1 #
         ($self->{session}, $error) = Net::SNMP->session(
-            -timeout   => 1,
+            -timeout   => $timeout,
             -retries   => 0,
             -version   => $version,
             -hostname  => $params{hostname},
@@ -59,13 +61,21 @@ sub new {
 sub switch_community {
     my ($self, $suffix) = @_;
 
-    ($self->{session}, undef) = Net::SNMP->session(
-            -timeout   => 1,
+    my $version_id = $self->{session}->version();
+    my $version =
+        $version_id == 0 ? 'snmpv1'  :
+        $version_id == 1 ? 'snmpv2c' :
+        $version_id == 2 ? 'snmpv3'  :
+                             undef   ;
+    my $error;
+    ($self->{session}, $error) = Net::SNMP->session(
+            -timeout   => $self->{session}->timeout(),
             -retries   => 0,
-            -version   => $self->{session}->version(),
+            -version   => $version,
             -hostname  => $self->{session}->hostname(),
             -community => $self->{community} . $suffix
     );
+    die $error unless $self->{session};
 }
 
 sub get {
@@ -150,6 +160,10 @@ Can be one of:
 =item '3'
 
 =back
+
+=item timeout
+
+The transport layer timeout (default: 5 seconds)
 
 =item hostname (mandatory)
 

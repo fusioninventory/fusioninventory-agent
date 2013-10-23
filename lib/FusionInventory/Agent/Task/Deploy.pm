@@ -21,7 +21,8 @@ our $VERSION = $FusionInventory::Agent::VERSION;
 sub isEnabled {
     my ($self, %params) = @_;
 
-    return $self->{target}->isa('FusionInventory::Agent::Target::Server');
+    return unless
+        $self->{target}->isa('FusionInventory::Agent::Target::Server');
 
     my $controller = FusionInventory::Agent::HTTP::Client::Fusion->new(
         logger       => $self->{logger},
@@ -66,6 +67,22 @@ sub isEnabled {
 
 sub run {
     my ($self, %params) = @_;
+
+
+    $self->{logger}->debug("FusionInventory Deploy task $VERSION");
+
+    $self->{client} = FusionInventory::Agent::HTTP::Client::Fusion->new(
+        logger       => $self->{logger},
+        user         => $params{user},
+        password     => $params{password},
+        proxy        => $params{proxy},
+        ca_cert_file => $params{ca_cert_file},
+        ca_cert_dir  => $params{ca_cert_dir},
+        no_ssl_check => $params{no_ssl_check},
+        debug        => $self->{debug}
+    );
+    die unless $self->{client};
+
 
     # Turn off localised output for commands
     $ENV{LC_ALL} = 'C'; # Turn off localised output for commands

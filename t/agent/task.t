@@ -11,13 +11,9 @@ use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Task::Inventory;
 use FusionInventory::Agent::Tools;
 
-plan tests => 4;
+plan tests => 3;
 
 my $task;
-throws_ok {
-    $task = FusionInventory::Agent::Task::Inventory->new();
-} qr/^no target parameter/,
-'instanciation: no target';
 
 lives_ok {
     $task = FusionInventory::Agent::Task::Inventory->new(

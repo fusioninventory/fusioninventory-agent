@@ -50,7 +50,6 @@ my $task = FusionInventory::Agent::Task::WakeOnLan->new(
     datadir  => $agent->{datadir},
     logger   => $agent->{logger},
     deviceid => $agent->{deviceid},
-    target   => {},
 );
 
 $task->{options} = {

@@ -16,6 +16,8 @@ sub new {
         models      => $params{models},
         credentials => $params{credentials},
         logger      => $params{logger},
+        timeout     => $params{timeout},
+        datadir     => $params{datadir},
     };
     bless $self, $class;
 
@@ -47,6 +49,7 @@ sub _queryDevice {
             $snmp = FusionInventory::Agent::SNMP::Live->new(
                 version      => $credentials->{VERSION},
                 hostname     => $device->{IP},
+                timeout      => $self->{timeout},
                 community    => $credentials->{COMMUNITY},
                 username     => $credentials->{USERNAME},
                 authpassword => $credentials->{AUTHPASSWORD},
@@ -62,11 +65,12 @@ sub _queryDevice {
     }
 
     my $result = getDeviceFullInfo(
-         id     => $device->{ID},
-         type   => $device->{TYPE},
-         snmp   => $snmp,
-         model  => $self->{models}->{$device->{MODELSNMP_ID}},
-         logger => $self->{logger}
+         id      => $device->{ID},
+         type    => $device->{TYPE},
+         snmp    => $snmp,
+         model   => $self->{models}->{$device->{MODELSNMP_ID}},
+         logger  => $self->{logger},
+         datadir => $self->{datadir},
     );
 
     return $result;

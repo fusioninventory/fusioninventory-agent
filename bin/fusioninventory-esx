@@ -59,7 +59,6 @@ my $esx = FusionInventory::Agent::Task::ESX->new(
     datadir  => $agent->{datadir},
     logger   => $agent->{logger},
     deviceid => $agent->{deviceid},
-    target   => {},
 );
 
 # emulate a server requesting a unique job

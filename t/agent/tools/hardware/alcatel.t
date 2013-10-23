@@ -24,7 +24,6 @@ my %tests = (
             SNMPHOSTNAME => 'CB-C005-127-os6400',
             MAC          => 'E8:E7:32:2B:C1:E2',
             MODELSNMP    => 'Networking2189',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'M4682816',
         },
@@ -1465,7 +1464,6 @@ my %tests = (
             SNMPHOSTNAME => 'CP-153-127',
             MAC          => 'E8:E7:32:2B:C1:E2',
             MODELSNMP    => 'Networking2189',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => 'M4682816',
         },
@@ -2019,15 +2017,23 @@ foreach my $test (sort keys %tests) {
     my $snmp  = getSNMP($test);
     my $model = getModel($index, $tests{$test}->[1]->{MODELSNMP});
 
-    my %device0 = getDeviceInfo($snmp);
+    my %device0 = getDeviceInfo(
+        snmp       => $snmp,
+        datadir    => './share'
+    );
     cmp_deeply(\%device0, $tests{$test}->[0], "$test: base stage");
 
-    my %device1 = getDeviceInfo($snmp, $dictionary);
+    my %device1 = getDeviceInfo(
+        snmp       => $snmp,
+        dictionary => $dictionary,
+        datadir    => './share'
+    );
     cmp_deeply(\%device1, $tests{$test}->[1], "$test: base + dictionnary stage");
 
     my $device3 = getDeviceFullInfo(
-        snmp  => $snmp,
-        model => $model,
+        snmp    => $snmp,
+        model   => $model,
+        datadir => './share'
     );
     cmp_deeply($device3, $tests{$test}->[2], "$test: base + model stage");
 }

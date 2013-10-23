@@ -237,11 +237,13 @@ my %tests = (
     ],
     'emc/CX3-10c.walk' => [
         {
+            MANUFACTURER => 'EMC',
             DESCRIPTION  => 'CX3-10c - Flare 3.26.0.10.5.032',
             SNMPHOSTNAME => 'BNK5RD1',
             MAC          => '00:60:16:1B:CD:7A',
         },
         {
+            MANUFACTURER => 'EMC',
             DESCRIPTION  => 'CX3-10c - Flare 3.26.0.10.5.032',
             SNMPHOSTNAME => 'BNK5RD1',
             MAC          => '00:60:16:1B:CD:7A',
@@ -249,6 +251,7 @@ my %tests = (
         {
             INFO => {
                 ID           => undef,
+                MANUFACTURER => 'EMC',
                 TYPE         => undef,
                 COMMENTS     => 'CX3-10c - Flare 3.26.0.10.5.032',
                 NAME         => 'BNK5RD1',
@@ -350,15 +353,23 @@ foreach my $test (sort keys %tests) {
     my $snmp  = getSNMP($test);
     my $model = getModel($index, $tests{$test}->[1]->{MODELSNMP});
 
-    my %device0 = getDeviceInfo($snmp);
+    my %device0 = getDeviceInfo(
+        snmp    => $snmp,
+        datadir => './share'
+    );
     cmp_deeply(\%device0, $tests{$test}->[0], "$test: base stage");
 
-    my %device1 = getDeviceInfo($snmp, $dictionary);
+    my %device1 = getDeviceInfo(
+        snmp       => $snmp,
+        dictionary => $dictionary,
+        datadir    => './share'
+    );
     cmp_deeply(\%device1, $tests{$test}->[1], "$test: base + dictionnary stage");
 
     my $device3 = getDeviceFullInfo(
-        snmp  => $snmp,
-        model => $model,
+        snmp    => $snmp,
+        model   => $model,
+        datadir => './share'
     );
     cmp_deeply($device3, $tests{$test}->[2], "$test: base + model stage");
 }

@@ -62,6 +62,7 @@ sub run {
     my $options     = $self->{options};
     my $pid         = $options->{PARAM}->[0]->{PID};
     my $max_threads = $options->{PARAM}->[0]->{THREADS_DISCOVERY};
+    my $timeout     = $options->{PARAM}->[0]->{TIMEOUT};
 
     # check discovery methods available
     my ($nmap_parameters, $snmp_credentials, $snmp_dictionary);
@@ -131,10 +132,12 @@ sub run {
 
     my $engine = $engine_class->new(
         logger           => $self->{logger},
+        datadir          => $self->{datadir},
         nmap_parameters  => $nmap_parameters,
         snmp_credentials => $snmp_credentials,
         snmp_dictionary  => $snmp_dictionary,
-        threads          => $max_threads
+        threads          => $max_threads,
+        timeout          => $timeout,
     );
 
     # send initial message to the server

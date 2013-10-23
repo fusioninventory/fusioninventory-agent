@@ -17,6 +17,7 @@ my %tests = (
             DESCRIPTION  => 'SHARP MX-5001N',
             SNMPHOSTNAME => 'KENET - DPE2',
             MAC          => '00:22:F3:9D:1F:3B',
+            MODEL        => 'MX-5001N',
         },
         {
             MANUFACTURER => 'Sharp',
@@ -24,8 +25,8 @@ my %tests = (
             DESCRIPTION  => 'SHARP MX-5001N',
             SNMPHOSTNAME => 'KENET - DPE2',
             MAC          => '00:22:F3:9D:1F:3B',
+            MODEL        => 'MX-5001N',
             MODELSNMP    => 'Printer0578',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => '9801405X00',
         },
@@ -34,7 +35,7 @@ my %tests = (
                 MANUFACTURER => 'Sharp',
                 TYPE         => 'PRINTER',
                 COMMENTS     => 'SHARP MX-5001N',
-                MODEL        => 'SHARP MX-5001N',
+                MODEL        => 'MX-5001N',
                 ID           => undef,
                 SERIAL       => '9801405X00',
                 MEMORY       => 0,
@@ -82,6 +83,7 @@ my %tests = (
             DESCRIPTION  => 'SHARP MX-5001N',
             SNMPHOSTNAME => 'WASAI -- DFP',
             MAC          => '00:22:F3:9D:20:56',
+            MODEL        => 'MX-5001N',
         },
         {
             MANUFACTURER => 'Sharp',
@@ -89,8 +91,8 @@ my %tests = (
             DESCRIPTION  => 'SHARP MX-5001N',
             SNMPHOSTNAME => 'WASAI -- DFP',
             MAC          => '00:22:F3:9D:20:56',
+            MODEL        => 'MX-5001N',
             MODELSNMP    => 'Printer0578',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => undef,
         },
@@ -99,7 +101,7 @@ my %tests = (
                 MANUFACTURER => 'Sharp',
                 TYPE         => 'PRINTER',
                 COMMENTS     => 'SHARP MX-5001N',
-                MODEL        => undef,
+                MODEL        => 'MX-5001N',
                 NAME         => 'WASAI -- DFP',
                 ID           => undef,
                 LOCATION     => '1er etage couloir',
@@ -134,6 +136,7 @@ PORTS => {
             DESCRIPTION  => 'SHARP MX-5001N',
             SNMPHOSTNAME => 'MALAKA  - DOS -- IA-IPR',
             MAC          => '00:22:F3:9D:20:4B',
+            MODEL        => 'MX-5001N',
         },
         {
             MANUFACTURER => 'Sharp',
@@ -141,8 +144,8 @@ PORTS => {
             DESCRIPTION  => 'SHARP MX-5001N',
             SNMPHOSTNAME => 'MALAKA  - DOS -- IA-IPR',
             MAC          => '00:22:F3:9D:20:4B',
+            MODEL        => 'MX-5001N',
             MODELSNMP    => 'Printer0578',
-            MODEL        => undef,
             FIRMWARE     => undef,
             SERIAL       => '9801391X00',
         },
@@ -153,7 +156,7 @@ PORTS => {
                 LOCATION     => 'Bat. Réhabilité ',
                 NAME         => 'MALAKA  - DOS -- IA-IPR',
                 SERIAL       => '9801391X00',
-                MODEL        => 'SHARP MX-5001N',
+                MODEL        => 'MX-5001N',
                 MEMORY       => 0,
                 ID           => undef,
                 MANUFACTURER => 'Sharp',
@@ -199,6 +202,7 @@ PORTS => {
             DESCRIPTION  => 'SHARP MX-2600N',
             SNMPHOSTNAME => 'PASTEK',
             MAC          => '00:22:F3:C8:04:99',
+            MODEL        => 'MX-2600N',
         },
         {
             MANUFACTURER => 'Sharp',
@@ -206,8 +210,8 @@ PORTS => {
             DESCRIPTION  => 'SHARP MX-2600N',
             SNMPHOSTNAME => 'PASTEK',
             MAC          => '00:22:F3:C8:04:99',
+            MODEL        => 'MX-2600N',
             MODELSNMP    => 'Printer0700',
-            MODEL        => undef,
             SERIAL       => undef,
             FIRMWARE     => undef,
         },
@@ -217,7 +221,7 @@ PORTS => {
                 TYPE         => 'PRINTER',
                 COMMENTS     => 'SHARP MX-2600N',
                 ID           => undef,
-                MODEL        => undef,
+                MODEL        => 'MX-2600N',
                 LOCATION     => '2eme etage Bureau POTHIN',
                 UPTIME       => '(94252230) 10 days, 21:48:42.30'
             },
@@ -255,15 +259,23 @@ foreach my $test (sort keys %tests) {
     my $snmp  = getSNMP($test);
     my $model = getModel($index, $tests{$test}->[1]->{MODELSNMP});
 
-    my %device0 = getDeviceInfo($snmp);
+    my %device0 = getDeviceInfo(
+        snmp    => $snmp,
+        datadir => './share'
+    );
     cmp_deeply(\%device0, $tests{$test}->[0], "$test: base stage");
 
-    my %device1 = getDeviceInfo($snmp, $dictionary);
+    my %device1 = getDeviceInfo(
+        snmp       => $snmp,
+        dictionary => $dictionary,
+        datadir    => './share'
+    );
     cmp_deeply(\%device1, $tests{$test}->[1], "$test: base + dictionnary stage");
 
     my $device3 = getDeviceFullInfo(
-        snmp  => $snmp,
-        model => $model,
+        snmp    => $snmp,
+        model   => $model,
+        datadir => './share'
     );
     cmp_deeply($device3, $tests{$test}->[2], "$test: base + model stage");
 

@@ -33,6 +33,7 @@ GetOptions(
     'entity=s',
     'threads=i',
     'target=s',
+    'timeout=i',
     'verbose',
     'debug+',
     'help',
@@ -68,7 +69,8 @@ $discovery->{options} = {
     PARAM => [
         {
             PID               => 1,
-            THREADS_DISCOVERY => $options->{threads}
+            THREADS_DISCOVERY => $options->{threads},
+            TIMEOUT           => $options->{timeout},
         }
     ],
     RANGEIP => [
@@ -181,6 +183,7 @@ fusioninventory-netdiscovery [options] --first <start> --last <stop>
     --entity        GLPI entity
     --threads nb    number of discovery threads (default: 1)
     --target target where to send result (default: stdout)
+    --timeout val   SNMP timeout (default: 5s)
     --verbose       verbose output (control messages)
     --debug         debug output (execution traces)
     -h --help       print this message and exit

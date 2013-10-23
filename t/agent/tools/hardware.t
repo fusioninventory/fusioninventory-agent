@@ -338,6 +338,6 @@ $snmp = FusionInventory::Agent::SNMP::Mock->new(
 %device = getDeviceBaseInfo($snmp);
 cmp_deeply(
     \%device,
-    { DESCRIPTION => 'foo', TYPE => 'NETWORKING', MANUFACTURER => 'SynOptics'},
+    { DESCRIPTION => 'foo', TYPE => 'NETWORKING', MANUFACTURER => 'Nortel' },
     'getDeviceBaseInfo() with sysobjectid'
 );
