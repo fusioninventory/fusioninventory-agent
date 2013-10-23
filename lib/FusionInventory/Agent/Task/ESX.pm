@@ -296,9 +296,4 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::SOAP::VMware - Access to VMware hypervisor
-
-=head1 DESCRIPTION
-
-This module allow access to VMware hypervisor using VMware SOAP API
-and _WITHOUT_ their Perl library.
+FusionInventory::Agent::Task::ESX - ESX inventory task
