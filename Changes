@@ -5,8 +5,12 @@ core
 * clean up in the distribution, thanks Olivier Mengué <dolmen@cpan.org>
 
 netinventory task
-* fix the LLDP port detection for Juniper devices
-* fix SNMP version handling
+* fix SNMP reconnection when issuing VLAN-specific queries on some Cisco
+  devices
+* use longer default SNMP timeout, and make them configurable
+
+netdiscovery task
+* backport device model identification from sysobjectid value
 
 2.3.2  Fri, 20 Sep 2013 10:52:30 +0200
 core
