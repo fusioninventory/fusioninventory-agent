@@ -53,7 +53,6 @@ my $inventory = FusionInventory::Agent::Task::Inventory->new(
     datadir  => $agent->{datadir},
     logger   => $agent->{logger},
     deviceid => $agent->{deviceid},
-    target   => {},
 );
 
 my $broker = FusionInventory::Agent::Broker::Inventory->create(

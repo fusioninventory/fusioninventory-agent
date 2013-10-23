@@ -71,7 +71,6 @@ my $inventory = FusionInventory::Agent::Task::NetInventory->new(
     datadir  => $agent->{datadir},
     logger   => $agent->{logger},
     deviceid => $agent->{deviceid},
-    target   => {},
 );
 
 $inventory->{options} = {
