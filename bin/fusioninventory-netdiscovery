@@ -16,6 +16,13 @@ my $options = {
     threads   => 1
 };
 
+my %setup = (
+    confdir => './etc',
+    datadir => './share',
+    libdir  => './lib',
+    vardir  => './var',
+);
+
 GetOptions(
     $options,
     'first=s',
@@ -45,6 +52,7 @@ pod2usage(
 ) unless $options->{last};
 
 my $discovery = FusionInventory::Agent::Task::NetDiscovery->new(
+    %setup,
     target => FusionInventory::Agent::Task::NetInventory::Target->new(
         dictionnary => $options->{dictionnary}
     ),

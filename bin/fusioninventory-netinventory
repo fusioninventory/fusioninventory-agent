@@ -17,6 +17,14 @@ my $options = {
     community => 'public'
 };
 
+my %setup = (
+    confdir => './etc',
+    datadir => './share',
+    libdir  => './lib',
+    vardir  => './var',
+);
+
+
 GetOptions(
     $options,
     'model=s',
@@ -55,6 +63,7 @@ my $type =
                           undef        ;
 
 my $inventory = FusionInventory::Agent::Task::NetInventory->new(
+    %setup,
     target => FusionInventory::Agent::Task::NetInventory::Target->new(),
     logger =>  FusionInventory::Agent::Logger->new(
         debug => $options->{debug}
