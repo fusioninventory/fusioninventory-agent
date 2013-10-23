@@ -233,7 +233,7 @@ sub _queryDevice {
             $snmp = FusionInventory::Agent::SNMP::Live->new(
                 version      => $credentials->{VERSION},
                 hostname     => $device->{IP},
-                timeout      => $params{timeout},
+                timeout      => $params{timeout} || 15,
                 community    => $credentials->{COMMUNITY},
                 username     => $credentials->{USERNAME},
                 authpassword => $credentials->{AUTHPASSWORD},

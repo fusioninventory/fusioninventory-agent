@@ -463,7 +463,7 @@ sub _scanAddressBySNMP {
             $snmp = FusionInventory::Agent::SNMP::Live->new(
                 version      => $credential->{VERSION},
                 hostname     => $params{ip},
-                timeout      => $params{timeout},
+                timeout      => $params{timeout} || 1,
                 community    => $credential->{COMMUNITY},
                 username     => $credential->{USERNAME},
                 authpassword => $credential->{AUTHPASSWORD},
