@@ -1004,7 +1004,7 @@ sub getCanonicalMacAddress {
             $r = alt2canonical('0x'.$1);
         } else {
             # packed value, onvert from binary to hexadecimal
-            $r = unpack 'H*', $value;
+            $r = getCanonicalMacAddress("0x".unpack 'H*', $value);
         }
     }
 
