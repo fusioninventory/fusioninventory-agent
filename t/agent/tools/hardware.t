@@ -212,6 +212,7 @@ plan tests =>
     scalar @trunk_ports_tests * 2 +
     scalar @connected_devices_tests * 2 +
     scalar @connected_devices_mac_addresses_tests +
+    scalar @method1_connected_devices_mac_addresses_tests +
     scalar @cisco_connected_devices_mac_addresses_tests +
     2;
 
