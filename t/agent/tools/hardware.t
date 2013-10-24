@@ -125,6 +125,30 @@ my @connected_devices_mac_addresses_tests = (
 );
 
 
+my @method1_connected_devices_mac_addresses_tests = (
+    [
+        {
+            865 => {
+                MAC => 'X',
+                IFNAME => 865
+            }
+        },
+        {
+            865 => {
+                CONNECTIONS => {
+                    CONNECTION => {
+                        MAC => [ 'e8:9a:8f:b0:11:71' ]
+                    }
+                },
+                IFNAME => 865,
+                MAC => 'X'
+            }
+        },
+        'mac addresses found'
+    ]
+);
+
+
 # each item is an arrayref of three elements:
 # - input data structure (ports list)
 # - expected resulting data structure
@@ -221,6 +245,13 @@ my $snmp = FusionInventory::Agent::SNMP::Mock->new(
     }
 );
 
+my $method1_snmp = FusionInventory::Agent::SNMP::Mock->new(
+    hash => {
+        '.1.3.6.1.2.1.17.1.4.1.2.644' => [ 'INTEGER', '865' ],
+        '.1.3.6.1.2.1.17.7.1.2.2.1.2.27.232.154.143.176.17.113' => [ 'INTEGER', '644' ],
+    }
+);
+
 my $cisco_snmp = FusionInventory::Agent::SNMP::Mock->new(
     hash => {
         '.1.3.6.1.2.1.17.4.3.1.2.0.28.246.197.100.25' => [ 'INTEGER', 2307 ],
@@ -262,6 +293,20 @@ foreach my $test (@connected_devices_mac_addresses_tests) {
 
     FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(
         snmp => $snmp, ports => $ports, model => $model
+    );
+
+    cmp_deeply(
+        $ports,
+        $test->[1],
+        $test->[2] . ' (direct)',
+    );
+}
+
+foreach my $test (@method1_connected_devices_mac_addresses_tests) {
+    my $ports = clone($test->[0]);
+
+    FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(
+        snmp => $method1_snmp, ports => $ports
     );
 
     cmp_deeply(
