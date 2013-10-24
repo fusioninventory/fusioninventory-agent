@@ -54,7 +54,13 @@ sub setConnectedDevicesMacAddresses {
     # show ethernet-switching table | match ge-0/0/8
     # pmf-lan-foo      cc:52:af:4a:4b:98 Learn          0 ge-0/0/8.0
     foreach my $ifKey (sort keys %{$ports}) {
-        next unless $ports->{$ifKey}{IFNAME};
+
+        my $port = $ports->{$ifKey};
+        next unless $port->{IFNAME};
+
+        # this device has already been processed through CDP/LLDP
+        next if $port->{CONNECTIONS}->{CDP};
+
 
         my $port_id;
         foreach my $t (keys %$dot1dBasePortIfIndex) {
@@ -76,7 +82,7 @@ sub setConnectedDevicesMacAddresses {
             my ($vlan_id, @macDecimal) = split(/\./, $t);
             my $mac = sprintf ("%02x:%02x:%02x:%02x:%02x:%02x", @macDecimal);
             push
-                @{$ports->{$ifKey}{CONNECTIONS}{CONNECTION}{MAC}},
+                @{$port->{CONNECTIONS}{CONNECTION}{MAC}},
                 $mac;
 
             $firstMethodIsASuccess = 1;
