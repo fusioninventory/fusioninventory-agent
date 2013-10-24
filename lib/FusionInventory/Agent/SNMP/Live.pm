@@ -41,7 +41,7 @@ sub new {
         );
     } else { # snmpv2c && snmpv1 #
         ($self->{session}, $error) = Net::SNMP->session(
-            -timeout   => $timeout,
+            -timeout   => $params{timeout},
             -retries   => 0,
             -version   => $version,
             -hostname  => $params{hostname},
