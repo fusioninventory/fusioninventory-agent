@@ -1008,7 +1008,7 @@ sub getCanonicalMacAddress {
         }
     }
 
-    return lc($r);
+    return $r;
 }
 
 sub getCanonicalSerialNumber {
