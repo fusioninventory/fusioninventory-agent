@@ -73,7 +73,7 @@ sub setConnectedDevicesMacAddresses {
         }
         next unless $port_id;
 
-        foreach my $t (keys %$dot1qTpFdbPort) {
+        foreach my $t (sort keys %$dot1qTpFdbPort) {
             next unless $t;
             next unless $dot1qTpFdbPort->{$t};
             next unless $dot1qTpFdbPort->{$t} eq $port_id;
