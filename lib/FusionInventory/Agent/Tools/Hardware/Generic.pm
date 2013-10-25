@@ -59,8 +59,7 @@ sub setConnectedDevicesMacAddresses {
         next unless $port->{IFNAME};
 
         # this device has already been processed through CDP/LLDP
-        next if $port->{CONNECTIONS}->{CDP};
-
+        next if $port->{CONNECTIONS} && $port->{CONNECTIONS}{CDP};
 
         my $port_id;
         foreach my $t (keys %$dot1dBasePortIfIndex) {
