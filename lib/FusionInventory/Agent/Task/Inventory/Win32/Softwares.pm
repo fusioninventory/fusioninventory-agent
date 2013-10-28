@@ -58,7 +58,8 @@ sub doInventory {
         );
         _loadUserSoftware(
             inventory => $inventory,
-            is64bit   => 1
+            is64bit   => 1,
+            logger    => $logger
         );
 
         my $machKey32 = $Registry->Open('LMachine', {
@@ -81,7 +82,8 @@ sub doInventory {
         );
         _loadUserSoftware(
             inventory => $inventory,
-            is64bit   => 0
+            is64bit   => 0,
+            logger    => $logger
         );
     } else {
         my $machKey = $Registry->Open('LMachine', {
@@ -103,7 +105,8 @@ sub doInventory {
         );
         _loadUserSoftware(
             inventory => $inventory,
-            is64bit   => 0
+            is64bit   => 0,
+            logger    => $logger
         );
 
     }
@@ -123,7 +126,7 @@ sub _loadUserSoftware {
 
     my $inventory = $params{inventory};
     my $is64bit   = is64bit();
-
+    my $logger    = $params{logger};
 
     my $lmachine = $Registry->Open('LMachine');
 
