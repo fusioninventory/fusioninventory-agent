@@ -128,12 +128,12 @@ sub _loadUserSoftware {
     my $is64bit   = is64bit();
     my $logger    = $params{logger};
 
-    my $lmachine = $Registry->Open('LMachine', {
+    my $machKey = $Registry->Open('LMachine', {
         Access => KEY_READ
     }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
 
     my $profileList =
-        $lmachine->{"SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProfileList"};
+        $machKey-->{"SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProfileList"};
 
     return unless $profileList;
 
