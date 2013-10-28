@@ -135,6 +135,8 @@ sub _loadUserSoftware {
     $Registry->AllowLoad(1);
 
     foreach my $profileName (keys %$profileList) {
+        # we're only interested in subkeys
+        next unless $profileName =~ m{/$};
         next unless length($profileName) > 10;
 
         my $profilePath = $profileList->{$profileName}{'/ProfileImagePath'};
