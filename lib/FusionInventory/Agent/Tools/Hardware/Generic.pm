@@ -14,11 +14,84 @@ sub setConnectedDevicesMacAddresses {
     my $ports  = $params{ports};
     my $logger = $params{logger};
 
+
+    my $firstMethodIsASuccess;
+
     my $dot1dTpFdbAddress    = $snmp->walk($model->{oids}->{dot1dTpFdbAddress} || '.1.3.6.1.2.1.17.4.3.1.1');
     my $dot1dTpFdbPort       = $snmp->walk($model->{oids}->{dot1dTpFdbPort} || '.1.3.6.1.2.1.17.4.3.1.2');
     my $dot1dBasePortIfIndex = $snmp->walk($model->{oids}->{dot1dBasePortIfIndex} || '.1.3.6.1.2.1.17.1.4.1.2');
+    # New OID, not yet in model files most of the time
+    my $dot1qTpFdbPort       = $snmp->walk($model->{oids}->{dot1qTpFdbPort} || '.1.3.6.1.2.1.17.7.1.2.2.1.2');
+    my $dot1qTpFdbStatus     = $snmp->walk($model->{oids}->{dot1qTpFdbStatus} || '.1.3.6.1.2.1.17.7.1.2.2.1.3');
 
-    my $firstMethodIsASuccess;
+    # Ok, we tried to find the remote devices using dot1dTpFdbAddress without success,
+    # let's try by using dot1qTpFdbPort this time. This alternative solution is known
+    # to work at last with Juniper ex2200 devices.
+    #
+    #
+    # Frédéric Grosjean
+    # Voila la méthode qui, a priori, fonctionne quel que soit le modèle.
+    #
+    # Recherche de la mac sur l'interface ge-0/0/8.0 sur mydevice
+    # sur les interfaces sans 0 (ge-0/0/8), il n'y a rien,
+    # si on peut les supprimer de glpi ça serait bien
+    #
+    #
+    # snmpwalk -v 2c -c public mydevice 1.3.6.1.2.1.31.1.1.1.1 | grep ge-0/0/8.0
+    # iso.3.6.1.2.1.31.1.1.1.1.519 = STRING: "ge-0/0/8.0"
+    #
+    # snmpwalk -v 2c -c public mydevice dot1dBasePortIfIndex | grep '= INTEGER: 519'
+    # iso.3.6.1.2.1.17.1.4.1.2.521 = INTEGER: 519
+    #
+    # snmpwalk -v 2c -c public mydevice 1.3.6.1.2.1.17.7.1.2.2 | grep '= INTEGER: 521'
+    # iso.3.6.1.2.1.17.7.1.2.2.1.2.27.204.82.175.74.75.152 = INTEGER: 521
+    #
+    #
+    # 204.82.175.74.75.152 = cc:52:af:4a:4b:98
+    #
+    # vérification sur mydevice
+    #
+    # show ethernet-switching table | match ge-0/0/8
+    # pmf-lan-foo      cc:52:af:4a:4b:98 Learn          0 ge-0/0/8.0
+    foreach my $ifKey (sort keys %{$ports}) {
+
+        my $port = $ports->{$ifKey};
+        next unless $port->{IFNAME};
+
+        # this device has already been processed through CDP/LLDP
+        next if $port->{CONNECTIONS} && $port->{CONNECTIONS}{CDP};
+
+        my $port_id;
+        foreach my $t (keys %$dot1dBasePortIfIndex) {
+            next unless $t;
+            next unless $dot1dBasePortIfIndex->{$t};
+            next unless $ifKey;
+            next unless $dot1dBasePortIfIndex->{$t} eq $ifKey;
+
+            $port_id = $t;
+            last;
+        }
+        next unless $port_id;
+
+        foreach my $t (sort keys %$dot1qTpFdbPort) {
+            next unless $t;
+            next unless $dot1qTpFdbPort->{$t};
+            next unless $dot1qTpFdbPort->{$t} eq $port_id;
+
+            my ($vlan_id, @macDecimal) = split(/\./, $t);
+            my $mac = sprintf ("%02x:%02x:%02x:%02x:%02x:%02x", @macDecimal);
+            push
+                @{$port->{CONNECTIONS}{CONNECTION}{MAC}},
+                $mac;
+
+            $firstMethodIsASuccess = 1;
+
+        }
+
+    }
+
+    return if $firstMethodIsASuccess;
+
     foreach my $suffix (sort keys %{$dot1dTpFdbAddress}) {
         my $mac = $dot1dTpFdbAddress->{$suffix};
         $mac = alt2canonical($mac);
@@ -56,44 +129,8 @@ sub setConnectedDevicesMacAddresses {
             @{$port->{CONNECTIONS}->{CONNECTION}->{MAC}},
             $mac;
 
-        $firstMethodIsASuccess = 1;
     }
 
-    return if $firstMethodIsASuccess;
-
-    # Ok, we tried to find the remote devices using dot1dTpFdbAddress without success,
-    # let's try by using dot1qTpFdbPort this time. This alternative solution is known
-    # to work at last with Juniper ex2200 devices.
-
-    # New OID, not yet in model files most of the time
-    my $dot1qTpFdbPort       = $snmp->walk($model->{oids}->{dot1qTpFdbPort} || '.1.3.6.1.2.1.17.7.1.2.2.1.2');
-    my $dot1qTpFdbStatus     = $snmp->walk($model->{oids}->{dot1qTpFdbStatus} || '.1.3.6.1.2.1.17.7.1.2.2.1.3');
-
-    foreach my $suffix (sort keys %{$dot1qTpFdbPort}) {
-        my ($vlan_id, @macDecimal) = split(/\./, $suffix);
-        # vlan_id is not used (yet?)
-        my $mac = sprintf ("%02x:%02x:%02x:%02x:%02x:%02x", @macDecimal);
-
-        my $ifKey = $dot1qTpFdbPort->{$suffix};
-
-        # get interface index
-        my $port_id = $dot1dBasePortIfIndex->{$ifKey};
-        next unless defined $port_id;
-
-        my $port = $ports->{$port_id};
-
-        # this device has already been processed through CDP/LLDP
-        next if $port->{CONNECTIONS}->{CDP};
-
-        # this is port own mac address
-        next if $port->{MAC} && $port->{MAC} eq $mac;
-
-        # create a new connection with this mac address
-        push
-            @{$port->{CONNECTIONS}->{CONNECTION}->{MAC}},
-            $mac;
-
-    }
 
 }
 

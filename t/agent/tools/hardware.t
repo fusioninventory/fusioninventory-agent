@@ -125,6 +125,30 @@ my @connected_devices_mac_addresses_tests = (
 );
 
 
+my @method1_connected_devices_mac_addresses_tests = (
+    [
+        {
+            865 => {
+                MAC => 'X',
+                IFNAME => 865
+            }
+        },
+        {
+            865 => {
+                CONNECTIONS => {
+                    CONNECTION => {
+                        MAC => [ 'e8:9a:8f:b0:11:71' ]
+                    }
+                },
+                IFNAME => 865,
+                MAC => 'X'
+            }
+        },
+        'mac addresses found'
+    ]
+);
+
+
 # each item is an arrayref of three elements:
 # - input data structure (ports list)
 # - expected resulting data structure
@@ -188,6 +212,7 @@ plan tests =>
     scalar @trunk_ports_tests * 2 +
     scalar @connected_devices_tests * 2 +
     scalar @connected_devices_mac_addresses_tests +
+    scalar @method1_connected_devices_mac_addresses_tests +
     scalar @cisco_connected_devices_mac_addresses_tests +
     2;
 
@@ -218,6 +243,13 @@ my $snmp = FusionInventory::Agent::SNMP::Mock->new(
         '.1.3.6.1.4.1.9.9.46.1.6.1.1.14.1.2.0'      => [ 'INTEGER', 1  ],
         '.1.3.6.1.4.1.9.9.46.1.6.1.1.14.1.2.1'      => [ 'INTEGER', 0  ],
         '.1.3.6.1.4.1.9.9.46.1.6.1.1.14.1.2.2'      => [ 'INTEGER', 1  ]
+    }
+);
+
+my $method1_snmp = FusionInventory::Agent::SNMP::Mock->new(
+    hash => {
+        '.1.3.6.1.2.1.17.1.4.1.2.644' => [ 'INTEGER', '865' ],
+        '.1.3.6.1.2.1.17.7.1.2.2.1.2.27.232.154.143.176.17.113' => [ 'INTEGER', '644' ],
     }
 );
 
@@ -262,6 +294,20 @@ foreach my $test (@connected_devices_mac_addresses_tests) {
 
     FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(
         snmp => $snmp, ports => $ports, model => $model
+    );
+
+    cmp_deeply(
+        $ports,
+        $test->[1],
+        $test->[2] . ' (direct)',
+    );
+}
+
+foreach my $test (@method1_connected_devices_mac_addresses_tests) {
+    my $ports = clone($test->[0]);
+
+    FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(
+        snmp => $method1_snmp, ports => $ports
     );
 
     cmp_deeply(

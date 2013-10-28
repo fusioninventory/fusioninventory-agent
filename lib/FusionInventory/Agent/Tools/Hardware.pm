@@ -992,19 +992,23 @@ sub getCanonicalMacAddress {
 
     return unless $value;
 
+    my $r;
     if ($value =~ /$mac_address_pattern/) {
         # this was stored as a string, it just has to be normalized
-        return join(':', map { sprintf "%02X", hex($_) } split(':', $value));
+        $r = join(':', map { sprintf "%02X", hex($_) } split(':', $value));
     } else {
         # this was stored as an hex-string
-        if ($value =~ /^0x/) {
+        # 0xD205A86C26D5 or 0x6001D205A86C26D5
+        if ($value =~ /^0x[0-9A-F]{0,4}([0-9A-F]{12})$/i) {
             # value translated by Net::SNMP
-            return alt2canonical($value);
+            $r = alt2canonical('0x'.$1);
         } else {
             # packed value, onvert from binary to hexadecimal
-            return unpack 'H*', $value;
+            $r = getCanonicalMacAddress("0x".unpack 'H*', $value);
         }
     }
+
+    return $r;
 }
 
 sub getCanonicalSerialNumber {

@@ -50,7 +50,7 @@ sub _getStorages {
         }
         if ($line =~ /^
             Vendor:       \s (\S+)          \s+
-            Product:      \s (\S[\w\s-]*\S) \s+
+            Product:      \s (\S.*?\S)      \s+
             Revision:     \s (\S+)          \s+
             Serial \s No: \s (\S*)
         /x) {
