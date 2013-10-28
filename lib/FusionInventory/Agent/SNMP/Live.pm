@@ -29,7 +29,6 @@ sub new {
     my $error;
     if ($version eq 'snmpv3') {
         ($self->{session}, $error) = Net::SNMP->session(
-            -timeout      => $params{timeout} || 15,
             -retries      => 0,
             -version      => $version,
             -hostname     => $params{hostname},
@@ -41,7 +40,6 @@ sub new {
         );
     } else { # snmpv2c && snmpv1 #
         ($self->{session}, $error) = Net::SNMP->session(
-            -timeout   => $params{timeout} || 15,
             -retries   => 0,
             -version   => $version,
             -hostname  => $params{hostname},
@@ -50,6 +48,8 @@ sub new {
     }
 
     die $error unless $self->{session};
+
+    $self->{session}->timeout($params{timeout}) if $params{timeout};
 
     bless $self, $class;
 
@@ -67,7 +67,7 @@ sub switch_community {
                              undef   ;
     my $error;
     ($self->{session}, $error) = Net::SNMP->session(
-            -timeout   => $self->{session}->timeout() || 15,
+            -timeout   => $self->{session}->timeout(),
             -retries   => 0,
             -version   => $version,
             -hostname  => $self->{session}->hostname(),
