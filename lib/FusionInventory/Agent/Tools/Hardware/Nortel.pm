@@ -40,22 +40,34 @@ sub setTrunkPorts {
 sub setConnectedDevices {
     my (%params) = @_;
 
-    my $snmp  = $params{snmp};
-    my $model = $params{model};
-    my $ports = $params{ports};
+    my $snmp   = $params{snmp};
+    my $model  = $params{model};
+    my $ports  = $params{ports};
+    my $logger = $params{logger};
 
     my $lldpRemChassisId = $snmp->walk($model->{oids}->{lldpRemChassisId});
 
-    while (my ($oid, $chassisname) = sort each %{$lldpRemChassisId}) {
-        my $suffix = $oid;
+    # each lldp variable matches the following scheme:
+    # $prefix.x.y.z = $value
+    # whereas y is the port number
 
-        my $connections =
-            $ports->{getElement($suffix, 2)}->{CONNECTIONS};
+    while (my ($suffix, $mac) = each %{$lldpRemChassisId}) {
+        my $port_id = getElements($suffix, -2);
 
-        $connections->{CONNECTION}->{IFNUMBER} = getElement($suffix, 3);
-        $connections->{CONNECTION}->{SYSMAC} =
-            alt2canonical($chassisname);
-        $connections->{CDP} = 1;
+        # safety check
+        if (!$ports->{$port_id}) {
+            $logger->error("non-existing port $port_id, check lldpRemChassisId mapping")
+                if $logger;
+            last;
+        }
+
+        $ports->{$port_id}->{CONNECTIONS} = {
+            CDP        => 1,
+            CONNECTION => {
+                SYSMAC   => scalar alt2canonical($mac),
+                IFNUMBER => getElement($suffix, 3),
+            }
+        };
     }
 }
 
