@@ -42,7 +42,7 @@ my @cdp_info_tests = (
                  }
              }
         },
-        'connected devices info through CDP'
+        'connected devices info extraction through CDP'
     ],
     [
         {
@@ -57,7 +57,7 @@ my @cdp_info_tests = (
         {
             24 => {}
         },
-        'connected devices info through CDP, missing CDP cache version'
+        'connected devices info extraction through CDP, missing CDP cache version'
     ],
     [
         {
@@ -72,7 +72,7 @@ my @cdp_info_tests = (
         {
             24 => {}
         },
-        'connected devices info through CDP, missing CDP cache platform'
+        'connected devices info extraction through CDP, missing CDP cache platform'
     ],
 );
 
@@ -103,7 +103,7 @@ my @mac_addresses_tests = (
                 MAC => 'X',
             }
         },
-        'mac addresses'
+        'connected devices mac addresses extraction, first dataset'
     ],
     [
         {
@@ -126,7 +126,7 @@ my @mac_addresses_tests = (
                 MAC => 'X',
             }
         },
-        'mac addresses'
+        'connected devices mac addresses extraction, second dataset'
     ],
     [
         {
@@ -150,7 +150,7 @@ my @mac_addresses_tests = (
                 MAC => 'X',
             }
         },
-        'mac addresses, CDP exception'
+        'connected devices mac addresses extraction, already processed connection'
     ],
     [
         {
@@ -170,7 +170,7 @@ my @mac_addresses_tests = (
                 MAC => '00:00:74:D2:09:6A',
             }
         },
-        'mac addresses, same address exception'
+        'connected devices mac addresses extraction, same address connection'
     ],
 );
 
@@ -202,7 +202,7 @@ my @trunk_ports_tests = (
                 TRUNK => 1
             },
         },
-        'trunk ports'
+        'trunk ports extraction'
     ]
 );
 
