@@ -248,7 +248,9 @@ foreach my $test (@mac_addresses_tests) {
     my $snmp  = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
 
     FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(
-        snmp => $snmp, ports => $test->[1], model => $mac_addresses_model
+        snmp  => $snmp,
+        model => $mac_addresses_model,
+        ports => $test->[1],
     );
 
     cmp_deeply(
@@ -268,7 +270,9 @@ foreach my $test (@trunk_ports_tests) {
     my $snmp  = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
 
     FusionInventory::Agent::Tools::Hardware::Generic::setTrunkPorts(
-        snmp => $snmp, ports => $test->[1], model => $trunk_model
+        snmp  => $snmp,
+        model => $trunk_model,
+        ports => $test->[1],
     );
 
     cmp_deeply(
