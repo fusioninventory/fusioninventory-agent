@@ -22,32 +22,6 @@ my @mac_tests = (
 # - input data structure (ports list)
 # - expected resulting data structure
 # - test explication
-my @trunk_ports_tests = (
-    [
-        {
-            0 => {},
-            1 => {},
-            2 => {},
-        },
-        {
-            0 => {
-                TRUNK => 1
-            },
-            1 => {
-                TRUNK => 0
-            },
-            2 => {
-                TRUNK => 1
-            },
-        },
-        'trunk ports'
-    ]
-);
-
-# each item is an arrayref of three elements:
-# - input data structure (ports list)
-# - expected resulting data structure
-# - test explication
 my @connected_devices_tests = (
     [
         {
@@ -192,7 +166,6 @@ my @cisco_connected_devices_mac_addresses_tests = (
 
 plan tests =>
     scalar @mac_tests +
-    scalar @trunk_ports_tests +
     scalar @connected_devices_tests +
     scalar @connected_devices_mac_addresses_tests +
     scalar @cisco_connected_devices_mac_addresses_tests +
@@ -243,20 +216,6 @@ my $cisco_snmp = FusionInventory::Agent::SNMP::Mock->new(
         '.1.3.6.1.2.1.17.1.4.1.2.2307'                => [ 'INTEGER', 0 ],
     }
 );
-
-# direct tests
-foreach my $test (@trunk_ports_tests) {
-    my $ports = clone($test->[0]);
-    FusionInventory::Agent::Tools::Hardware::Generic::setTrunkPorts(
-        snmp => $snmp, ports => $ports, model => $model
-    );
-
-    cmp_deeply(
-        $ports,
-        $test->[1],
-        $test->[2]
-    );
-}
 
 foreach my $test (@connected_devices_tests) {
     my $ports = clone($test->[0]);
