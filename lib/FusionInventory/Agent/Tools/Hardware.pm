@@ -251,14 +251,6 @@ my @connected_devices_rules = (
     },
 );
 
-my @specific_cleanup_rules = (
-    {
-        match    => qr/3Com IntelliJack/,
-        module   => 'FusionInventory::Agent::Tools::Hardware::3Com',
-        function => 'RewritePortOf225'
-    },
-);
-
 # common base variables
 my %base_variables = (
     MAC          => 'macaddr',
@@ -596,27 +588,6 @@ sub _setConnectedDevices {
                 model  => $model,
                 ports  => $ports,
                 logger => $logger
-            },
-            load     => 1
-        );
-
-        last;
-    }
-}
-
-sub _performSpecificCleanup {
-    my ($description, $snmp, $model, $ports) = @_;
-
-    foreach my $rule (@specific_cleanup_rules) {
-        next unless $description =~ $rule->{match};
-
-        runFunction(
-            module   => $rule->{module},
-            function => $rule->{function},
-            params   => {
-                snmp    => $snmp,
-                model   => $model,
-                ports   => $ports
             },
             load     => 1
         );
@@ -1113,22 +1084,6 @@ Set connected devices using CDP if available, LLDP otherwise.
 =head2 setTrunkPorts($description, $snmp, $model, $ports)
 
 Set trunk flag on ports needing it.
-
-=over
-
-=item * description: device identification key
-
-=item * snmp: FusionInventory::Agent::SNMP object
-
-=item * model: SNMP model
-
-=item * ports: device ports list
-
-=back
-
-=head2 performSpecificCleanup($description, $snmp, $model, $ports)
-
-Perform device-specific miscaelanous cleanups
 
 =over
 
