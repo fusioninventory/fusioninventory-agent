@@ -76,10 +76,43 @@ my @cdp_info_tests = (
     ],
 );
 
-plan tests => 
-    scalar @cdp_info_tests;
+# each item is an arrayref of four elements:
+# - raw SNMP values
+# - input ports list
+# - output ports list
+# - test explication
+my @trunk_ports_tests = (
+    [
+        {
+            '.1.3.6.1.4.1.9.9.46.1.6.1.1.14.1.2.0' => [ 'INTEGER', 1  ],
+            '.1.3.6.1.4.1.9.9.46.1.6.1.1.14.1.2.1' => [ 'INTEGER', 0  ],
+            '.1.3.6.1.4.1.9.9.46.1.6.1.1.14.1.2.2' => [ 'INTEGER', 1  ]
+        },
+        {
+            0 => {},
+            1 => {},
+            2 => {},
+        },
+        {
+            0 => {
+                TRUNK => 1
+            },
+            1 => {
+                TRUNK => 0
+            },
+            2 => {
+                TRUNK => 1
+            },
+        },
+        'trunk ports'
+    ]
+);
 
-my $model = {
+plan tests => 
+    scalar @cdp_info_tests +
+    scalar @trunk_ports_tests;
+
+my $cdp_model = {
     oids => {
         cdpCacheAddress    => '.1.3.6.1.4.1.9.9.23.1.2.1.1.4',
         cdpCacheVersion    => '.1.3.6.1.4.1.9.9.23.1.2.1.1.5',
@@ -95,8 +128,28 @@ foreach my $test (@cdp_info_tests) {
 
     FusionInventory::Agent::Tools::Hardware::Generic::_setConnectedDevicesInfoCDP(
         snmp  => $snmp,
-        model => $model,
+        model => $cdp_model,
         ports => $ports,
+    );
+
+    cmp_deeply(
+        $ports,
+        $test->[2],
+        $test->[3]
+    );
+}
+
+my $trunk_model = {
+    oids => {
+        vlanTrunkPortDynamicStatus => '.1.3.6.1.4.1.9.9.46.1.6.1.1.14'
+    }
+};
+
+foreach my $test (@trunk_ports_tests) {
+    my $snmp  = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
+    my $ports = clone($test->[1]);
+    FusionInventory::Agent::Tools::Hardware::Generic::setTrunkPorts(
+        snmp => $snmp, ports => $ports, model => $trunk_model
     );
 
     cmp_deeply(
