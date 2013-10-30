@@ -3,7 +3,6 @@
 use strict;
 use warnings;
 
-use Clone qw(clone);
 use Test::More;
 use Test::Deep;
 
@@ -223,16 +222,15 @@ my $cdp_model = {
 
 foreach my $test (@cdp_info_tests) {
     my $snmp  = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
-    my $ports = clone($test->[1]);
 
     FusionInventory::Agent::Tools::Hardware::Generic::_setConnectedDevicesInfoCDP(
         snmp  => $snmp,
         model => $cdp_model,
-        ports => $ports,
+        ports => $test->[1],
     );
 
     cmp_deeply(
-        $ports,
+        $test->[1],
         $test->[2],
         $test->[3]
     );
@@ -248,14 +246,13 @@ my $mac_addresses_model = {
 
 foreach my $test (@mac_addresses_tests) {
     my $snmp  = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
-    my $ports = clone($test->[1]);
 
     FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(
-        snmp => $snmp, ports => $ports, model => $mac_addresses_model
+        snmp => $snmp, ports => $test->[1], model => $mac_addresses_model
     );
 
     cmp_deeply(
-        $ports,
+        $test->[1],
         $test->[2],
         $test->[3]
     );
@@ -269,14 +266,13 @@ my $trunk_model = {
 
 foreach my $test (@trunk_ports_tests) {
     my $snmp  = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
-    my $ports = clone($test->[1]);
 
     FusionInventory::Agent::Tools::Hardware::Generic::setTrunkPorts(
-        snmp => $snmp, ports => $ports, model => $trunk_model
+        snmp => $snmp, ports => $test->[1], model => $trunk_model
     );
 
     cmp_deeply(
-        $ports,
+        $test->[1],
         $test->[2],
         $test->[3]
     );
