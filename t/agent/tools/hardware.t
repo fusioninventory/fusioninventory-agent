@@ -261,7 +261,7 @@ foreach my $test (@trunk_ports_tests) {
 foreach my $test (@connected_devices_tests) {
     my $ports = clone($test->[0]);
 
-    FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevices(
+    FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesInfo(
         snmp => $snmp, ports => $ports, model => $model
     );
 
@@ -318,7 +318,7 @@ foreach my $test (@trunk_ports_tests) {
 foreach my $test (@connected_devices_tests) {
     my $ports = clone($test->[0]);
 
-    FusionInventory::Agent::Tools::Hardware::_setConnectedDevices(
+    FusionInventory::Agent::Tools::Hardware::_setConnectedDevicesInfo(
         'Cisco', $snmp, $model, $ports
     );
 

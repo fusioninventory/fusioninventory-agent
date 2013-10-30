@@ -57,19 +57,19 @@ sub setConnectedDevicesMacAddresses {
     }
 }
 
-sub setConnectedDevices {
+sub setConnectedDevicesInfo {
     my (%params) = @_;
 
     my $model = $params{model};
 
     if      ($model->{oids}->{cdpCacheAddress}) {
-        setConnectedDevicesUsingCDP(%params);
+        _setConnectedDevicesInfoCDP(%params);
     } elsif ($model->{oids}->{lldpRemChassisId}) {
-        setConnectedDevicesUsingLLDP(%params);
+        _setConnectedDevicesInfoLLDP(%params);
     }
 }
 
-sub setConnectedDevicesUsingCDP {
+sub _setConnectedDevicesInfoCDP {
     my (%params) = @_;
 
     my $snmp   = $params{snmp};
@@ -121,7 +121,7 @@ sub setConnectedDevicesUsingCDP {
     }
 }
 
-sub setConnectedDevicesUsingLLDP {
+sub _setConnectedDevicesInfoLLDP {
     my (%params) = @_;
 
     my $snmp   = $params{snmp};
@@ -197,59 +197,35 @@ This module provides some generic implementation of hardware-related functions.
 
 =head1 FUNCTIONS
 
+=head2 setConnectedDevicesInfo
+
+Set connected devices information, using CDP if available, LLDP otherwise.
+
+=over
+
+=item * snmp: FusionInventory::Agent::SNMP object
+
+=item * model: SNMP model
+
+=item * ports: device ports list
+
+=item * logger: logger object
+
+=back
+
 =head2 setConnectedDevicesMacAddresses(%params)
 
-set mac addresses of connected devices.
+set connected devices mac addresses, when previous method failed. 
 
 =over
 
-=item results raw values collected through SNMP
+=item * snmp: FusionInventory::Agent::SNMP object
 
-=item ports device ports list
+=item * model: SNMP model
 
-=item walks model walk branch
+=item * ports: device ports list
 
-=back
-
-=head2 setConnectedDevices
-
-Set connected devices using CDP if available, LLDP otherwise.
-
-=over
-
-=item results raw values collected through SNMP
-
-=item ports device ports list
-
-=item walks model walk branch
-
-=back
-
-=head2 setConnectedDevicesUsingCDP
-
-Set connected devices using CDP
-
-=over
-
-=item results raw values collected through SNMP
-
-=item ports device ports list
-
-=item walks model walk branch
-
-=back
-
-=head2 setConnectedDevicesUsingLLDP
-
-Set connected devices using LLDP
-
-=over
-
-=item results raw values collected through SNMP
-
-=item ports device ports list
-
-=item walks model walk branch
+=item * logger: logger object
 
 =back
 
