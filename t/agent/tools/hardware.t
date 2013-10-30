@@ -192,8 +192,8 @@ my @cisco_connected_devices_mac_addresses_tests = (
 
 plan tests =>
     scalar @mac_tests +
-    scalar @trunk_ports_tests * 2 +
-    scalar @connected_devices_tests * 2 +
+    scalar @trunk_ports_tests +
+    scalar @connected_devices_tests +
     scalar @connected_devices_mac_addresses_tests +
     scalar @cisco_connected_devices_mac_addresses_tests +
     2;
@@ -254,7 +254,7 @@ foreach my $test (@trunk_ports_tests) {
     cmp_deeply(
         $ports,
         $test->[1],
-        $test->[2] . ' (direct)',
+        $test->[2]
     );
 }
 
@@ -268,7 +268,7 @@ foreach my $test (@connected_devices_tests) {
     cmp_deeply(
         $ports,
         $test->[1],
-        $test->[2] . ' (direct)',
+        $test->[2]
     );
 }
 
@@ -282,7 +282,7 @@ foreach my $test (@connected_devices_mac_addresses_tests) {
     cmp_deeply(
         $ports,
         $test->[1],
-        $test->[2] . ' (direct)',
+        $test->[2]
     );
 }
 
@@ -296,36 +296,7 @@ foreach my $test (@cisco_connected_devices_mac_addresses_tests) {
     cmp_deeply(
         $ports,
         $test->[1],
-        $test->[2] . ' (direct)',
-    );
-}
-
-# indirect tests
-foreach my $test (@trunk_ports_tests) {
-    my $ports = clone($test->[0]);
-
-    FusionInventory::Agent::Tools::Hardware::_setTrunkPorts(
-        'Cisco', $snmp, $model, $ports
-    );
-
-    cmp_deeply(
-        $ports,
-        $test->[1],
-        $test->[2] . ' (indirect)',
-    );
-}
-
-foreach my $test (@connected_devices_tests) {
-    my $ports = clone($test->[0]);
-
-    FusionInventory::Agent::Tools::Hardware::_setConnectedDevicesInfo(
-        'Cisco', $snmp, $model, $ports
-    );
-
-    cmp_deeply(
-        $ports,
-        $test->[1],
-        $test->[2] . ' (indirect)',
+        $test->[2]
     );
 }
 
