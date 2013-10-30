@@ -10,7 +10,6 @@ use Test::More;
 use Test::Exception;
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::Hardware;
 
 my @size_tests_nok = (
     'foo', undef
@@ -71,14 +70,6 @@ my @manufacturer_tests_nok = (
     undef
 );
 
-my @mac_tests_ok = (
-    [ 'd2:05:a8:6c:26:d5'     ,      'D2:05:A8:6C:26:D5' ],
-    [ '0xD205A86C26D5'        ,      'D2:05:A8:6C:26:D5' ],
-    [ '0x6001D205A86C26D5'    ,      'D2:05:A8:6C:26:D5' ],
-    [ ",k\365\233H\204"       ,      '2c:6b:f5:9b:48:84' ]
-
-);
-
 my @version_tests_ok = (
     [ 1, 0, 1, 0 ],
     [ 1, 1, 1, 0 ],
@@ -123,7 +114,6 @@ plan tests =>
     (scalar @speed_tests_nok) +
     (scalar @manufacturer_tests_ok) +
     (scalar @manufacturer_tests_nok) +
-    (scalar @mac_tests_ok) +
     (scalar @version_tests_ok) +
     (scalar @version_tests_nok) +
     (scalar @sanitization_tests) +
@@ -176,14 +166,6 @@ foreach my $test (@manufacturer_tests_nok) {
     ok(
         !defined getCanonicalManufacturer($test),
         "invalid value manufacturer normalisation"
-    );
-}
-
-foreach my $test (@mac_tests_ok) {
-    is(
-        getCanonicalMacAddress($test->[0]),
-        $test->[1],
-        "$test->[0] normalisation"
     );
 }
 

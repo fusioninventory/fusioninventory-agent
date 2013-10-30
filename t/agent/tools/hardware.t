@@ -11,6 +11,14 @@ use FusionInventory::Agent::SNMP::Mock;
 use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::Tools::Hardware::Generic;
 
+my @mac_tests = (
+    [ 'd2:05:a8:6c:26:d5' , 'D2:05:A8:6C:26:D5' ],
+    [ '0xD205A86C26D5'    , 'D2:05:A8:6C:26:D5' ],
+    [ '0x6001D205A86C26D5', 'D2:05:A8:6C:26:D5' ],
+    [ ",k\365\233H\204"   , '2c:6b:f5:9b:48:84' ]
+);
+
+
 # each item is an arrayref of three elements:
 # - input data structure (ports list)
 # - expected resulting data structure
@@ -209,12 +217,21 @@ my @cisco_connected_devices_mac_addresses_tests = (
 );
 
 plan tests =>
+    scalar @mac_tests +
     scalar @trunk_ports_tests * 2 +
     scalar @connected_devices_tests * 2 +
     scalar @connected_devices_mac_addresses_tests +
     scalar @method1_connected_devices_mac_addresses_tests +
     scalar @cisco_connected_devices_mac_addresses_tests +
     2;
+
+foreach my $test (@mac_tests) {
+    is(
+        getCanonicalMacAddress($test->[0]),
+        $test->[1],
+        "$test->[0] normalisation"
+    );
+}
 
 my $model = {
     oids => {
