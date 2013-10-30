@@ -81,6 +81,104 @@ my @cdp_info_tests = (
 # - input ports list
 # - output ports list
 # - test explication
+my @mac_addresses_tests = (
+    [
+        {
+            '.1.3.6.1.2.1.17.4.3.1.2.0.28.246.197.100.25' => [ 'INTEGER', 2307 ],
+            '.1.3.6.1.2.1.17.4.3.1.1.0.28.246.197.100.25' => [ 'STRING', '0x001CF6C56419' ],
+            '.1.3.6.1.2.1.17.1.4.1.2.2307'                => [ 'INTEGER', 0 ],
+        },
+        {
+            0 => {
+                MAC => 'X',
+            }
+        },
+        {
+            0 => {
+                CONNECTIONS => {
+                    CONNECTION => {
+                        MAC => [ '00:1C:F6:C5:64:19' ]
+                    }
+                },
+                MAC => 'X',
+            }
+        },
+        'mac addresses'
+    ],
+    [
+        {
+            '.1.3.6.1.2.1.17.4.3.1.2.0.0.116.210.9.106' => [ 'INTEGER', 52 ],
+            '.1.3.6.1.2.1.17.4.3.1.1.0.0.116.210.9.106' => [ 'STRING', '0x000074D2096A' ],
+            '.1.3.6.1.2.1.17.1.4.1.2.52'                => [ 'INTEGER', 52 ],
+        },
+        {
+            52 => {
+                MAC => 'X',
+            }
+        },
+        {
+            52 => {
+                CONNECTIONS => {
+                    CONNECTION => {
+                        MAC => [ '00:00:74:D2:09:6A' ]
+                    }
+                },
+                MAC => 'X',
+            }
+        },
+        'mac addresses'
+    ],
+    [
+        {
+            '.1.3.6.1.2.1.17.4.3.1.2.0.0.116.210.9.106' => [ 'INTEGER', 52 ],
+            '.1.3.6.1.2.1.17.4.3.1.1.0.0.116.210.9.106' => [ 'STRING', '0x000074D2096A' ],
+            '.1.3.6.1.2.1.17.1.4.1.2.52'                => [ 'INTEGER', 52 ],
+        },
+        {
+            52 => {
+                CONNECTIONS => {
+                    CDP => 1,
+                },
+                MAC => 'X',
+            }
+        },
+        {
+            52 => {
+                CONNECTIONS => {
+                    CDP => 1,
+                },
+                MAC => 'X',
+            }
+        },
+        'mac addresses, CDP exception'
+    ],
+    [
+        {
+            '.1.3.6.1.2.1.17.4.3.1.2.0.0.116.210.9.106' => [ 'INTEGER', 52 ],
+            '.1.3.6.1.2.1.17.4.3.1.1.0.0.116.210.9.106' => [ 'STRING', '0x000074D2096A' ],
+            '.1.3.6.1.2.1.17.1.4.1.2.52'                => [ 'INTEGER', 52 ],
+        },
+        {
+            52 => {
+                MAC => '00:00:74:D2:09:6A',
+            }
+        },
+        {
+            52 => {
+                CONNECTIONS => {
+                },
+                MAC => '00:00:74:D2:09:6A',
+            }
+        },
+        'mac addresses, same address exception'
+    ],
+);
+
+# each item is an arrayref of four elements:
+# - raw SNMP values
+# - input ports list
+# - output ports list
+# - test explication
 my @trunk_ports_tests = (
     [
         {
@@ -109,7 +207,8 @@ my @trunk_ports_tests = (
 );
 
 plan tests => 
-    scalar @cdp_info_tests +
+    scalar @cdp_info_tests      +
+    scalar @mac_addresses_tests +
     scalar @trunk_ports_tests;
 
 my $cdp_model = {
@@ -130,6 +229,29 @@ foreach my $test (@cdp_info_tests) {
         snmp  => $snmp,
         model => $cdp_model,
         ports => $ports,
+    );
+
+    cmp_deeply(
+        $ports,
+        $test->[2],
+        $test->[3]
+    );
+}
+
+my $mac_addresses_model = {
+    oids => {
+        dot1dTpFdbPort             => '.1.3.6.1.2.1.17.4.3.1.2',
+        dot1dTpFdbAddress          => '.1.3.6.1.2.1.17.4.3.1.1',
+        dot1dBasePortIfIndex       => '.1.3.6.1.2.1.17.1.4.1.2',
+    }
+};
+
+foreach my $test (@mac_addresses_tests) {
+    my $snmp  = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
+    my $ports = clone($test->[1]);
+
+    FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(
+        snmp => $snmp, ports => $ports, model => $mac_addresses_model
     );
 
     cmp_deeply(
