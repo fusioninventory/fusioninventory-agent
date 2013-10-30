@@ -22,34 +22,6 @@ my @mac_tests = (
 # - input data structure (ports list)
 # - expected resulting data structure
 # - test explication
-my @connected_devices_tests = (
-    [
-        {
-            24 => {},
-        },
-        {
-            24 => {
-                CONNECTIONS => {
-                    CONNECTION => {
-                        IP       => '192.168.20.139',
-                        MAC      => 'E0:5F:B9:81:A7:A7',
-                        IFDESCR  => 'Port 1',
-                        SYSDESCR => '7.4.9c',
-                        SYSNAME  => 'SIPE05FB981A7A7',
-                        MODEL    => 'Cisco IP Phone SPA508G',
-                    },
-                    CDP => 1,
-                },
-            },
-        },
-        'connected devices'
-    ],
-);
-
-# each item is an arrayref of three elements:
-# - input data structure (ports list)
-# - expected resulting data structure
-# - test explication
 my @connected_devices_mac_addresses_tests = (
     [
         {
@@ -166,7 +138,6 @@ my @cisco_connected_devices_mac_addresses_tests = (
 
 plan tests =>
     scalar @mac_tests +
-    scalar @connected_devices_tests +
     scalar @connected_devices_mac_addresses_tests +
     scalar @cisco_connected_devices_mac_addresses_tests +
     2;
@@ -216,20 +187,6 @@ my $cisco_snmp = FusionInventory::Agent::SNMP::Mock->new(
         '.1.3.6.1.2.1.17.1.4.1.2.2307'                => [ 'INTEGER', 0 ],
     }
 );
-
-foreach my $test (@connected_devices_tests) {
-    my $ports = clone($test->[0]);
-
-    FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesInfo(
-        snmp => $snmp, ports => $ports, model => $model
-    );
-
-    cmp_deeply(
-        $ports,
-        $test->[1],
-        $test->[2]
-    );
-}
 
 foreach my $test (@connected_devices_mac_addresses_tests) {
     my $ports = clone($test->[0]);

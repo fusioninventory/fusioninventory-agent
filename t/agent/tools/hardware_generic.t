@@ -148,6 +148,7 @@ my $trunk_model = {
 foreach my $test (@trunk_ports_tests) {
     my $snmp  = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
     my $ports = clone($test->[1]);
+
     FusionInventory::Agent::Tools::Hardware::Generic::setTrunkPorts(
         snmp => $snmp, ports => $ports, model => $trunk_model
     );
