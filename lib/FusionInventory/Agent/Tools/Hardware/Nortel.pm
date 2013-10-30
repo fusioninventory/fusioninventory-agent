@@ -37,7 +37,7 @@ sub setTrunkPorts {
     }
 }
 
-sub setConnectedDevices {
+sub setConnectedDevicesInfo {
     my (%params) = @_;
 
     my $snmp   = $params{snmp};

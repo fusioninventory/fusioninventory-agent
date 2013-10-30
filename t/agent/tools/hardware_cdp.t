@@ -51,7 +51,7 @@ my $expected = {
      }
 };
 
-FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesUsingCDP(
+FusionInventory::Agent::Tools::Hardware::Generic::_setConnectedDevicesInfoCDP(
     snmp  => $snmp,
     model => $model,
     ports => $ports,
@@ -69,7 +69,7 @@ $snmp = FusionInventory::Agent::SNMP::Mock->new(hash => \%noversion_values);
 $ports    = {};
 $expected = {};
 
-FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesUsingCDP(
+FusionInventory::Agent::Tools::Hardware::Generic::_setConnectedDevicesInfoCDP(
     model => $model,
     snmp  => $snmp,
     ports => $ports,
@@ -87,7 +87,7 @@ $snmp = FusionInventory::Agent::SNMP::Mock->new(hash => \%noplatform_values);
 $ports    = {};
 $expected = {};
 
-FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesUsingCDP(
+FusionInventory::Agent::Tools::Hardware::Generic::_setConnectedDevicesInfoCDP(
     model => $model,
     snmp  => $snmp,
     ports => $ports,
