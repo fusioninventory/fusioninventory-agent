@@ -13,7 +13,7 @@ use FusionInventory::Agent::Tools::Hardware::Generic;
 # - raw SNMP values
 # - expected output
 # - test description
-my @cdp_info_tests = (
+my @cdp_info_extraction_tests = (
     [
         {
             '.1.3.6.1.4.1.9.9.23.1.2.1.1.4.24.7' => [ 'STRING', '0xc0a8148b' ],
@@ -32,7 +32,7 @@ my @cdp_info_tests = (
                 SYSNAME  => 'SIPE05FB981A7A7'
              }
         },
-        'connected devices info extraction through CDP'
+        'CDP info extraction'
     ],
     [
         {
@@ -42,7 +42,7 @@ my @cdp_info_tests = (
             '.1.3.6.1.4.1.9.9.23.1.2.1.1.8.24.7' => [ 'STRING', 'Cisco IP Phone SPA508G' ],
         },
         undef,
-        'connected devices info extraction through CDP, missing CDP cache version'
+        'CDP info extraction, missing CDP cache version'
     ],
     [
         {
@@ -52,7 +52,7 @@ my @cdp_info_tests = (
             '.1.3.6.1.4.1.9.9.23.1.2.1.1.7.24.7' => [ 'STRING', 'Port 1' ],
         },
         undef,
-        'connected devices info extraction through CDP, missing CDP cache platform'
+        'CDP info extraction, missing CDP cache platform'
     ],
 );
 
@@ -70,7 +70,7 @@ my @mac_addresses_extraction_tests = (
         {
             0 => [ '00:1C:F6:C5:64:19' ]
         },
-        'connected devices mac addresses extraction, first dataset'
+        'mac addresses extraction, first dataset'
     ],
     [
         {
@@ -81,7 +81,7 @@ my @mac_addresses_extraction_tests = (
         {
             52 => [ '00:00:74:D2:09:6A' ]
         },
-        'connected devices mac addresses extraction, second dataset'
+        'mac addresses extraction, second dataset'
     ],
 );
 
@@ -112,7 +112,7 @@ my @mac_addresses_addition_tests = (
                 MAC => 'X',
             }
         },
-        'additional associated mac addresses'
+        'mac addresses addition'
     ],
     [
         {
@@ -136,7 +136,7 @@ my @mac_addresses_addition_tests = (
                 MAC => 'X',
             }
         },
-        'additional associated mac addresses, already processed port'
+        'mac addresses addition, already processed port'
     ],
     [
         {
@@ -154,7 +154,7 @@ my @mac_addresses_addition_tests = (
                 MAC => '00:00:74:D2:09:6A',
             }
         },
-        'additional associated mac addresses, port own address'
+        'mac addresses addition, port own address'
     ],
 );
 
@@ -162,7 +162,7 @@ my @mac_addresses_addition_tests = (
 # - raw SNMP values
 # - expected output
 # - test description
-my @trunk_ports_tests = (
+my @trunk_ports_extraction_tests = (
     [
         {
             '.1.3.6.1.4.1.9.9.46.1.6.1.1.14.1.2.0' => [ 'INTEGER', 1  ],
@@ -179,10 +179,10 @@ my @trunk_ports_tests = (
 );
 
 plan tests => 
-    scalar @cdp_info_tests      +
+    scalar @cdp_info_extraction_tests      +
     scalar @mac_addresses_extraction_tests +
     scalar @mac_addresses_addition_tests +
-    scalar @trunk_ports_tests;
+    scalar @trunk_ports_extraction_tests;
 
 my $cdp_model = {
     oids => {
@@ -194,7 +194,7 @@ my $cdp_model = {
     }
 };
 
-foreach my $test (@cdp_info_tests) {
+foreach my $test (@cdp_info_extraction_tests) {
     my $snmp  = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
 
     my $cdp_info = FusionInventory::Agent::Tools::Hardware::Generic::_getConnectedDevicesInfoCDP(
@@ -254,7 +254,7 @@ my $trunk_model = {
     }
 };
 
-foreach my $test (@trunk_ports_tests) {
+foreach my $test (@trunk_ports_extraction_tests) {
     my $snmp = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
 
     my $trunk_ports = FusionInventory::Agent::Tools::Hardware::Generic::_getTrunkPorts(
