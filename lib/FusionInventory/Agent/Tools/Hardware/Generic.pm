@@ -9,11 +9,52 @@ use FusionInventory::Agent::Tools::Network;
 sub setConnectedDevicesMacAddresses {
     my (%params) = @_;
 
-    my $snmp   = $params{snmp};
-    my $model  = $params{model};
+    my $mac_addresses = _getConnectedDevicesMacAddresses(
+        snmp  => $params{snmp},
+        model => $params{model}
+    );
+    return unless $mac_addresses;
+
     my $ports  = $params{ports};
     my $logger = $params{logger};
 
+    foreach my $port_id (keys %$mac_addresses) {
+        # safety check
+        if (!$ports->{$port_id}) {
+            $logger->error("non-existing port $port_id, check dot1d* mappings")
+                if $logger;
+            last;
+        }
+
+        my $port = $ports->{$port_id};
+
+        # connected device has already been identified through CDP/LLDP
+        next if $port->{CONNECTIONS}->{CDP};
+
+        # get at list of already associated addresses, if any
+        # as well as the port own mac address, if known
+        my @known;
+        push @known, $port->{MAC} if $port->{MAC};
+        push @known, @{$port->{CONNECTIONS}->{CONNECTION}->{MAC}}
+            if $port->{CONNECTIONS}->{CONNECTION}->{MAC};
+
+        # filter out those addresses from the additional ones
+        my %known = map { $_ => 1 } @known;
+        my @adresses = grep { !$known{$_} } @{$mac_addresses->{$port_id}};
+        next unless @adresses;
+
+        # add remaining ones
+        push @{$port->{CONNECTIONS}->{CONNECTION}->{MAC}}, @adresses;
+    }
+}
+
+sub _getConnectedDevicesMacAddresses {
+    my (%params) = @_;
+
+    my $snmp   = $params{snmp};
+    my $model  = $params{model};
+
+    my $results;
     my $dot1dTpFdbAddress    = $snmp->walk($model->{oids}->{dot1dTpFdbAddress});
     my $dot1dTpFdbPort       = $snmp->walk($model->{oids}->{dot1dTpFdbPort});
     my $dot1dBasePortIfIndex = $snmp->walk($model->{oids}->{dot1dBasePortIfIndex});
@@ -35,26 +76,10 @@ sub setConnectedDevicesMacAddresses {
         my $port_id = $dot1dBasePortIfIndex->{$ifKey};
         next unless defined $port_id;
 
-        # safety check
-        if (!$ports->{$port_id}) {
-            $logger->error("non-existing port $port_id, check dot1d* mappings")
-                if $logger;
-            last;
-        }
-
-        my $port = $ports->{$port_id};
-
-        # this device has already been processed through CDP/LLDP
-        next if $port->{CONNECTIONS}->{CDP};
-
-        # this is port own mac address
-        next if $port->{MAC} && $port->{MAC} eq $mac;
-
-        # create a new connection with this mac address
-        push
-            @{$port->{CONNECTIONS}->{CONNECTION}->{MAC}},
-            $mac;
+        push @{$results->{$port_id}}, $mac;
     }
+
+    return $results;
 }
 
 sub setConnectedDevicesInfo {

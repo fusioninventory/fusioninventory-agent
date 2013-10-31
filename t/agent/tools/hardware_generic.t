@@ -56,12 +56,41 @@ my @cdp_info_tests = (
     ],
 );
 
-# each item is an arrayref of four elements:
+# each item is an arrayref of 3 elements:
 # - raw SNMP values
-# - input ports list
-# - output ports list
+# - expected output
 # - test explication
-my @mac_addresses_tests = (
+my @mac_addresses_extraction_tests = (
+    [
+        {
+            '.1.3.6.1.2.1.17.4.3.1.2.0.28.246.197.100.25' => [ 'INTEGER', 2307 ],
+            '.1.3.6.1.2.1.17.4.3.1.1.0.28.246.197.100.25' => [ 'STRING', '0x001CF6C56419' ],
+            '.1.3.6.1.2.1.17.1.4.1.2.2307'                => [ 'INTEGER', 0 ],
+        },
+        {
+            0 => [ '00:1C:F6:C5:64:19' ]
+        },
+        'connected devices mac addresses extraction, first dataset'
+    ],
+    [
+        {
+            '.1.3.6.1.2.1.17.4.3.1.2.0.0.116.210.9.106' => [ 'INTEGER', 52 ],
+            '.1.3.6.1.2.1.17.4.3.1.1.0.0.116.210.9.106' => [ 'STRING', '0x000074D2096A' ],
+            '.1.3.6.1.2.1.17.1.4.1.2.52'                => [ 'INTEGER', 52 ],
+        },
+        {
+            52 => [ '00:00:74:D2:09:6A' ]
+        },
+        'connected devices mac addresses extraction, second dataset'
+    ],
+);
+
+# each item is an arrayref of 4 elements:
+# - raw SNMP values
+# - initial port list
+# - expected final port list
+# - test explication
+my @mac_addresses_addition_tests = (
     [
         {
             '.1.3.6.1.2.1.17.4.3.1.2.0.28.246.197.100.25' => [ 'INTEGER', 2307 ],
@@ -83,36 +112,13 @@ my @mac_addresses_tests = (
                 MAC => 'X',
             }
         },
-        'connected devices mac addresses extraction, first dataset'
+        'additional associated mac addresses'
     ],
     [
         {
-            '.1.3.6.1.2.1.17.4.3.1.2.0.0.116.210.9.106' => [ 'INTEGER', 52 ],
-            '.1.3.6.1.2.1.17.4.3.1.1.0.0.116.210.9.106' => [ 'STRING', '0x000074D2096A' ],
-            '.1.3.6.1.2.1.17.1.4.1.2.52'                => [ 'INTEGER', 52 ],
-        },
-        {
-            52 => {
-                MAC => 'X',
-            }
-        },
-        {
-            52 => {
-                CONNECTIONS => {
-                    CONNECTION => {
-                        MAC => [ '00:00:74:D2:09:6A' ]
-                    }
-                },
-                MAC => 'X',
-            }
-        },
-        'connected devices mac addresses extraction, second dataset'
-    ],
-    [
-        {
-            '.1.3.6.1.2.1.17.4.3.1.2.0.0.116.210.9.106' => [ 'INTEGER', 52 ],
-            '.1.3.6.1.2.1.17.4.3.1.1.0.0.116.210.9.106' => [ 'STRING', '0x000074D2096A' ],
-            '.1.3.6.1.2.1.17.1.4.1.2.52'                => [ 'INTEGER', 52 ],
+            '.1.3.6.1.2.1.17.4.3.1.2.0.28.246.197.100.25' => [ 'INTEGER', 2307 ],
+            '.1.3.6.1.2.1.17.4.3.1.1.0.28.246.197.100.25' => [ 'STRING', '0x001CF6C56419' ],
+            '.1.3.6.1.2.1.17.1.4.1.2.2307'                => [ 'INTEGER', 0 ],
         },
         {
             52 => {
@@ -130,13 +136,13 @@ my @mac_addresses_tests = (
                 MAC => 'X',
             }
         },
-        'connected devices mac addresses extraction, already processed connection'
+        'additional associated mac addresses, already processed port'
     ],
     [
         {
-            '.1.3.6.1.2.1.17.4.3.1.2.0.0.116.210.9.106' => [ 'INTEGER', 52 ],
-            '.1.3.6.1.2.1.17.4.3.1.1.0.0.116.210.9.106' => [ 'STRING', '0x000074D2096A' ],
-            '.1.3.6.1.2.1.17.1.4.1.2.52'                => [ 'INTEGER', 52 ],
+            '.1.3.6.1.2.1.17.4.3.1.2.0.28.246.197.100.25' => [ 'INTEGER', 2307 ],
+            '.1.3.6.1.2.1.17.4.3.1.1.0.28.246.197.100.25' => [ 'STRING', '0x001CF6C56419' ],
+            '.1.3.6.1.2.1.17.1.4.1.2.2307'                => [ 'INTEGER', 0 ],
         },
         {
             52 => {
@@ -145,12 +151,10 @@ my @mac_addresses_tests = (
         },
         {
             52 => {
-                CONNECTIONS => {
-                },
                 MAC => '00:00:74:D2:09:6A',
             }
         },
-        'connected devices mac addresses extraction, same address connection'
+        'additional associated mac addresses, port own address'
     ],
 );
 
@@ -176,7 +180,8 @@ my @trunk_ports_tests = (
 
 plan tests => 
     scalar @cdp_info_tests      +
-    scalar @mac_addresses_tests +
+    scalar @mac_addresses_extraction_tests +
+    scalar @mac_addresses_addition_tests +
     scalar @trunk_ports_tests;
 
 my $cdp_model = {
@@ -212,7 +217,22 @@ my $mac_addresses_model = {
     }
 };
 
-foreach my $test (@mac_addresses_tests) {
+foreach my $test (@mac_addresses_extraction_tests) {
+    my $snmp  = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
+
+    my $mac_addresses = FusionInventory::Agent::Tools::Hardware::Generic::_getConnectedDevicesMacAddresses(
+        snmp  => $snmp,
+        model => $mac_addresses_model,
+    );
+
+    cmp_deeply(
+        $mac_addresses,
+        $test->[1],
+        $test->[2]
+    );
+}
+
+foreach my $test (@mac_addresses_addition_tests) {
     my $snmp  = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
 
     FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(
