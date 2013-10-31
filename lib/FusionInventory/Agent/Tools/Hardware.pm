@@ -893,9 +893,6 @@ sub _setNetworkingProperties {
             logger => $logger
         );
     }
-
-    # hardware-specific hacks
-    _performSpecificCleanup($comments, $snmp, $model, $ports);
 }
 
 sub _getPercentValue {
