@@ -133,7 +133,7 @@ sub _loadUserSoftware {
     }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
 
     my $profileList =
-        $machKey-->{"SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProfileList"};
+        $machKey->{"SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProfileList"};
 
     return unless $profileList;
 
