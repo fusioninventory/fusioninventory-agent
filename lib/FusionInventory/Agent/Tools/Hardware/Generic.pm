@@ -141,11 +141,37 @@ sub _getConnectedDevicesInfoCDP {
 sub _setConnectedDevicesInfoLLDP {
     my (%params) = @_;
 
-    my $snmp   = $params{snmp};
-    my $model  = $params{model};
+    my $lldp_info = _getConnectedDevicesInfoLLDP(
+        snmp  => $params{snmp},
+        model => $params{model}
+    );
+    return unless $lldp_info;
+
     my $ports  = $params{ports};
     my $logger = $params{logger};
 
+    foreach my $port_id (keys %$lldp_info) {
+        # safety check
+        if (!$ports->{$port_id}) {
+            $logger->error("non-existing port $port_id, check lldpRemChassisId mapping")
+                if $logger;
+            last;
+        }
+
+        $ports->{$port_id}->{CONNECTIONS} = {
+            CDP        => 1,
+            CONNECTION => $lldp_info->{$port_id}
+        };
+    }
+}
+
+sub _getConnectedDevicesInfoLLDP {
+    my (%params) = @_;
+
+    my $snmp   = $params{snmp};
+    my $model  = $params{model};
+
+    my $results;
     my $lldpRemChassisId = $snmp->walk($model->{oids}->{lldpRemChassisId});
     my $lldpRemPortId    = $snmp->walk($model->{oids}->{lldpRemPortId});
     my $lldpRemPortDesc  = $snmp->walk($model->{oids}->{lldpRemPortDesc});
@@ -158,25 +184,16 @@ sub _setConnectedDevicesInfoLLDP {
 
     while (my ($suffix, $mac) = each %{$lldpRemChassisId}) {
         my $port_id = getElement($suffix, -2);
-
-        # safety check
-        if (!$ports->{$port_id}) {
-            $logger->error("non-existing port $port_id, check lldpRemChassisId mapping")
-                if $logger;
-            last;
-        }
-
-        $ports->{$port_id}->{CONNECTIONS} = {
-            CDP        => 1,
-            CONNECTION => {
-                SYSMAC   => scalar alt2canonical($mac),
-                IFDESCR  => $lldpRemPortDesc->{$suffix},
-                SYSDESCR => $lldpRemSysDesc->{$suffix},
-                SYSNAME  => $lldpRemSysName->{$suffix},
-                IFNUMBER => $lldpRemPortId->{$suffix}
-            }
+        $results->{$port_id} = {
+            SYSMAC   => scalar alt2canonical($mac),
+            IFDESCR  => $lldpRemPortDesc->{$suffix},
+            SYSDESCR => $lldpRemSysDesc->{$suffix},
+            SYSNAME  => $lldpRemSysName->{$suffix},
+            IFNUMBER => $lldpRemPortId->{$suffix}
         };
     }
+
+    return $results;
 }
 
 sub setTrunkPorts {
