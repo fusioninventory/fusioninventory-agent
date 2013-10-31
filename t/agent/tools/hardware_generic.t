@@ -9,11 +9,10 @@ use Test::Deep;
 use FusionInventory::Agent::SNMP::Mock;
 use FusionInventory::Agent::Tools::Hardware::Generic;
 
-# each item is an arrayref of four elements:
+# each item is an arrayref of 3 elements:
 # - raw SNMP values
-# - input ports list
-# - output ports list
-# - test explication
+# - expected output
+# - test description
 my @cdp_info_tests = (
     [
         {
@@ -24,21 +23,13 @@ my @cdp_info_tests = (
             '.1.3.6.1.4.1.9.9.23.1.2.1.1.8.24.7' => [ 'STRING', 'Cisco IP Phone SPA508G' ],
         },
         {
-            24 => {}
-        },
-        {
             24 => {
-                CONNECTIONS => {
-                    CDP => 1,
-                    CONNECTION => {
-                        MAC      => 'E0:5F:B9:81:A7:A7',
-                        SYSDESCR => '7.4.9c',
-                        IFDESCR  => 'Port 1',
-                        MODEL    => 'Cisco IP Phone SPA508G',
-                        IP       => '192.168.20.139',
-                        SYSNAME  => 'SIPE05FB981A7A7'
-                     }
-                 }
+                MAC      => 'E0:5F:B9:81:A7:A7',
+                SYSDESCR => '7.4.9c',
+                IFDESCR  => 'Port 1',
+                MODEL    => 'Cisco IP Phone SPA508G',
+                IP       => '192.168.20.139',
+                SYSNAME  => 'SIPE05FB981A7A7'
              }
         },
         'connected devices info extraction through CDP'
@@ -50,12 +41,7 @@ my @cdp_info_tests = (
             '.1.3.6.1.4.1.9.9.23.1.2.1.1.7.24.7' => [ 'STRING', 'Port 1' ],
             '.1.3.6.1.4.1.9.9.23.1.2.1.1.8.24.7' => [ 'STRING', 'Cisco IP Phone SPA508G' ],
         },
-        {
-            24 => {}
-        },
-        {
-            24 => {}
-        },
+        undef,
         'connected devices info extraction through CDP, missing CDP cache version'
     ],
     [
@@ -65,12 +51,7 @@ my @cdp_info_tests = (
             '.1.3.6.1.4.1.9.9.23.1.2.1.1.6.24.7' => [ 'STRING', 'SIPE05FB981A7A7' ],
             '.1.3.6.1.4.1.9.9.23.1.2.1.1.7.24.7' => [ 'STRING', 'Port 1' ],
         },
-        {
-            24 => {}
-        },
-        {
-            24 => {}
-        },
+        undef,
         'connected devices info extraction through CDP, missing CDP cache platform'
     ],
 );
@@ -211,16 +192,15 @@ my $cdp_model = {
 foreach my $test (@cdp_info_tests) {
     my $snmp  = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
 
-    FusionInventory::Agent::Tools::Hardware::Generic::_setConnectedDevicesInfoCDP(
+    my $cdp_info = FusionInventory::Agent::Tools::Hardware::Generic::_getConnectedDevicesInfoCDP(
         snmp  => $snmp,
         model => $cdp_model,
-        ports => $test->[1],
     );
 
     cmp_deeply(
+        $cdp_info,
         $test->[1],
-        $test->[2],
-        $test->[3]
+        $test->[2]
     );
 }
 

@@ -72,11 +72,37 @@ sub setConnectedDevicesInfo {
 sub _setConnectedDevicesInfoCDP {
     my (%params) = @_;
 
-    my $snmp   = $params{snmp};
-    my $model  = $params{model};
+    my $cdp_info = _getConnectedDevicesInfoCDP(
+        snmp  => $params{snmp},
+        model => $params{model}
+    );
+    return unless $cdp_info;
+
     my $ports  = $params{ports};
     my $logger = $params{logger};
 
+    foreach my $port_id (keys %$cdp_info) {
+        # safety check
+        if (!$ports->{$port_id}) {
+            $logger->error("non-existing port $port_id, check cdpCacheAddress mapping")
+                if $logger;
+            last;
+        }
+
+        $ports->{$port_id}->{CONNECTIONS} = {
+            CDP        => 1,
+            CONNECTION => $cdp_info->{$port_id}
+        };
+    }
+}
+
+sub _getConnectedDevicesInfoCDP {
+    my (%params) = @_;
+
+    my $snmp   = $params{snmp};
+    my $model  = $params{model};
+
+    my $results;
     my $cdpCacheAddress    = $snmp->walk($model->{oids}->{cdpCacheAddress});
     my $cdpCacheDeviceId   = $snmp->walk($model->{oids}->{cdpCacheDeviceId});
     my $cdpCacheDevicePort = $snmp->walk($model->{oids}->{cdpCacheDevicePort});
@@ -89,14 +115,6 @@ sub _setConnectedDevicesInfoCDP {
 
     while (my ($suffix, $ip) = each %{$cdpCacheAddress}) {
         my $port_id = getElement($suffix, -2);
-
-        # safety check
-        if (!$ports->{$port_id}) {
-            $logger->error("non-existing port $port_id, check cdpCacheAddress mapping")
-                if $logger;
-            last;
-        }
-
         $ip = hex2canonical($ip);
         next if $ip eq '0.0.0.0';
 
@@ -114,11 +132,10 @@ sub _setConnectedDevicesInfoCDP {
 
         next if !$connection->{SYSDESCR} || !$connection->{MODEL};
 
-        $ports->{$port_id}->{CONNECTIONS} = {
-            CDP        => 1,
-            CONNECTION => $connection
-        };
+        $results->{$port_id} = $connection;
     }
+
+    return $results;
 }
 
 sub _setConnectedDevicesInfoLLDP {
