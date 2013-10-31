@@ -186,20 +186,9 @@ my @trunk_ports_tests = (
             '.1.3.6.1.4.1.9.9.46.1.6.1.1.14.1.2.2' => [ 'INTEGER', 1  ]
         },
         {
-            0 => {},
-            1 => {},
-            2 => {},
-        },
-        {
-            0 => {
-                TRUNK => 1
-            },
-            1 => {
-                TRUNK => 0
-            },
-            2 => {
-                TRUNK => 1
-            },
+            0 => 1,
+            1 => 0,
+            2 => 1,
         },
         'trunk ports extraction'
     ]
@@ -267,17 +256,16 @@ my $trunk_model = {
 };
 
 foreach my $test (@trunk_ports_tests) {
-    my $snmp  = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
+    my $snmp = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
 
-    FusionInventory::Agent::Tools::Hardware::Generic::setTrunkPorts(
+    my $trunk_ports = FusionInventory::Agent::Tools::Hardware::Generic::_getTrunkPorts(
         snmp  => $snmp,
         model => $trunk_model,
-        ports => $test->[1],
     );
 
     cmp_deeply(
+        $trunk_ports,
         $test->[1],
-        $test->[2],
-        $test->[3]
+        $test->[2]
     );
 }

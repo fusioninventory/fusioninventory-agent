@@ -165,23 +165,40 @@ sub _setConnectedDevicesInfoLLDP {
 sub setTrunkPorts {
     my (%params) = @_;
 
-    my $snmp   = $params{snmp};
-    my $model  = $params{model};
+    my $trunk_ports = _getTrunkPorts(
+        snmp  => $params{snmp},
+        model => $params{model}
+    );
+    return unless $trunk_ports;
+
     my $ports  = $params{ports};
     my $logger = $params{logger};
 
-    my $results = $snmp->walk($model->{oids}->{vlanTrunkPortDynamicStatus});
-    while (my ($suffix, $trunk) = each %{$results}) {
-        my $port_id = getElement($suffix, -1);
-
+    foreach my $port_id (keys %$trunk_ports) {
         # safety check
         if (!$ports->{$port_id}) {
             $logger->error("non-existing port $port_id, check vlanTrunkPortDynamicStatus mapping")
                 if $logger;
             last;
         }
-        $ports->{$port_id}->{TRUNK} = $trunk ? 1 : 0;
+        $ports->{$port_id}->{TRUNK} = $trunk_ports->{$port_id};
     }
+}
+
+sub _getTrunkPorts {
+    my (%params) = @_;
+
+    my $snmp   = $params{snmp};
+    my $model  = $params{model};
+
+    my $results;
+    my $vlanStatus = $snmp->walk($model->{oids}->{vlanTrunkPortDynamicStatus});
+    while (my ($suffix, $trunk) = each %{$vlanStatus}) {
+        my $port_id = getElement($suffix, -1);
+        $results->{$port_id} = $trunk ? 1 : 0;
+    }
+
+    return $results;
 }
 
 1;
