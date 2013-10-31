@@ -173,11 +173,10 @@ my @mac_addresses_tests = (
     ],
 );
 
-# each item is an arrayref of four elements:
+# each item is an arrayref of 3 elements:
 # - raw SNMP values
-# - input ports list
-# - output ports list
-# - test explication
+# - expected output
+# - test description
 my @trunk_ports_tests = (
     [
         {
