@@ -62,36 +62,27 @@ sub setConnectedDevicesInfo {
 
     my $model = $params{model};
 
-    if      ($model->{oids}->{cdpCacheAddress}) {
-        _setConnectedDevicesInfoCDP(%params);
-    } elsif ($model->{oids}->{lldpRemChassisId}) {
-        _setConnectedDevicesInfoLLDP(%params);
-    }
-}
+    my $info =
+        $model->{oids}->{cdpCacheAddress}  ? _getConnectedDevicesInfoCDP(%params) :
+        $model->{oids}->{lldpRemChassisId} ? _getConnectedDevicesInfoLLDP(%params) :
+                                             undef;
+    return unless $info;
 
-sub _setConnectedDevicesInfoCDP {
-    my (%params) = @_;
-
-    my $cdp_info = _getConnectedDevicesInfoCDP(
-        snmp  => $params{snmp},
-        model => $params{model}
-    );
-    return unless $cdp_info;
-
-    my $ports  = $params{ports};
     my $logger = $params{logger};
+    my $ports  = $params{ports};
 
-    foreach my $port_id (keys %$cdp_info) {
+    foreach my $port_id (keys %$info) {
         # safety check
         if (!$ports->{$port_id}) {
-            $logger->error("non-existing port $port_id, check cdpCacheAddress mapping")
-                if $logger;
+            $logger->error(
+                "non-existing port $port_id, check CDP/LLDP mappings"
+            ) if $logger;
             last;
         }
 
         $ports->{$port_id}->{CONNECTIONS} = {
             CDP        => 1,
-            CONNECTION => $cdp_info->{$port_id}
+            CONNECTION => $info->{$port_id}
         };
     }
 }
@@ -136,33 +127,6 @@ sub _getConnectedDevicesInfoCDP {
     }
 
     return $results;
-}
-
-sub _setConnectedDevicesInfoLLDP {
-    my (%params) = @_;
-
-    my $lldp_info = _getConnectedDevicesInfoLLDP(
-        snmp  => $params{snmp},
-        model => $params{model}
-    );
-    return unless $lldp_info;
-
-    my $ports  = $params{ports};
-    my $logger = $params{logger};
-
-    foreach my $port_id (keys %$lldp_info) {
-        # safety check
-        if (!$ports->{$port_id}) {
-            $logger->error("non-existing port $port_id, check lldpRemChassisId mapping")
-                if $logger;
-            last;
-        }
-
-        $ports->{$port_id}->{CONNECTIONS} = {
-            CDP        => 1,
-            CONNECTION => $lldp_info->{$port_id}
-        };
-    }
 }
 
 sub _getConnectedDevicesInfoLLDP {
