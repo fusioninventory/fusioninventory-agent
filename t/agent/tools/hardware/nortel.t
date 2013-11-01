@@ -1426,6 +1426,32 @@ my %tests = (
             },
         }
     ],
+    'nortel/4548GT-PWR.walk' => [
+        {
+            MANUFACTURER => 'Nortel',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Ethernet Routing Switch 4548GT-PWR    HW:06       FW:5.2.0.3   SW:v5.2.0.008 BN:08 (c) Nortel Networks',
+            SNMPHOSTNAME => '4548_DOULEUR',
+            MAC          => 'E8:05:6D:27:5C:02',
+            MODEL        => 'Ethernet Routing Switch 4548GT-PWR',
+        },
+        {
+            MANUFACTURER => 'Nortel',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Ethernet Routing Switch 4548GT-PWR    HW:06       FW:5.2.0.3   SW:v5.2.0.008 BN:08 (c) Nortel Networks',
+            SNMPHOSTNAME => '4548_DOULEUR',
+            MAC          => 'E8:05:6D:27:5C:02',
+            MODEL        => 'Ethernet Routing Switch 4548GT-PWR',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Nortel',
+                TYPE         => 'NETWORKING',
+                MODEL        => 'Ethernet Routing Switch 4548GT-PWR',
+            },
+        }
+    ],
 );
 
 setPlan(scalar keys %tests);
