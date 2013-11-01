@@ -3,6 +3,8 @@ package FusionInventory::Agent::Config::Registry;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 use base qw(FusionInventory::Agent::Config::Backend);
 
 use Win32::TieRegistry (

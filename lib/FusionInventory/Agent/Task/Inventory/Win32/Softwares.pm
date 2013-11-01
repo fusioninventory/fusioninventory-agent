@@ -58,7 +58,8 @@ sub doInventory {
         );
         _loadUserSoftware(
             inventory => $inventory,
-            is64bit   => 1
+            is64bit   => 1,
+            logger    => $logger
         );
 
         my $machKey32 = $Registry->Open('LMachine', {
@@ -81,7 +82,8 @@ sub doInventory {
         );
         _loadUserSoftware(
             inventory => $inventory,
-            is64bit   => 0
+            is64bit   => 0,
+            logger    => $logger
         );
     } else {
         my $machKey = $Registry->Open('LMachine', {
@@ -103,7 +105,8 @@ sub doInventory {
         );
         _loadUserSoftware(
             inventory => $inventory,
-            is64bit   => 0
+            is64bit   => 0,
+            logger    => $logger
         );
 
     }
@@ -123,18 +126,22 @@ sub _loadUserSoftware {
 
     my $inventory = $params{inventory};
     my $is64bit   = is64bit();
+    my $logger    = $params{logger};
 
-
-    my $lmachine = $Registry->Open('LMachine');
+    my $machKey = $Registry->Open('LMachine', {
+        Access => KEY_READ
+    }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
 
     my $profileList =
-        $lmachine->{"SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProfileList"};
+        $machKey->{"SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProfileList"};
 
     return unless $profileList;
 
     $Registry->AllowLoad(1);
 
     foreach my $profileName (keys %$profileList) {
+        # we're only interested in subkeys
+        next unless $profileName =~ m{/$};
         next unless length($profileName) > 10;
 
         my $profilePath = $profileList->{$profileName}{'/ProfileImagePath'};

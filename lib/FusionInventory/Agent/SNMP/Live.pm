@@ -13,8 +13,6 @@ sub new {
 
     die "no hostname parameters" unless $params{hostname};
 
-    my $timeout = $params{timeout} || 5;
-
     my $version =
         ! $params{version}       ? 'snmpv1'  :
         $params{version} eq '1'  ? 'snmpv1'  :
@@ -31,7 +29,6 @@ sub new {
     my $error;
     if ($version eq 'snmpv3') {
         ($self->{session}, $error) = Net::SNMP->session(
-            -timeout      => $timeout,
             -retries      => 0,
             -version      => $version,
             -hostname     => $params{hostname},
@@ -43,7 +40,6 @@ sub new {
         );
     } else { # snmpv2c && snmpv1 #
         ($self->{session}, $error) = Net::SNMP->session(
-            -timeout   => $timeout,
             -retries   => 0,
             -version   => $version,
             -hostname  => $params{hostname},
@@ -52,6 +48,8 @@ sub new {
     }
 
     die $error unless $self->{session};
+
+    $self->{session}->timeout($params{timeout}) if $params{timeout};
 
     bless $self, $class;
 
@@ -163,7 +161,7 @@ Can be one of:
 
 =item timeout
 
-The transport layer timeout (default: 5 seconds)
+The transport layer timeout
 
 =item hostname (mandatory)
 

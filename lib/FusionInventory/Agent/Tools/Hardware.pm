@@ -251,14 +251,6 @@ my @connected_devices_rules = (
     },
 );
 
-my @specific_cleanup_rules = (
-    {
-        match    => qr/3Com IntelliJack/,
-        module   => 'FusionInventory::Agent::Tools::Hardware::3Com',
-        function => 'RewritePortOf225'
-    },
-);
-
 # common base variables
 my %base_variables = (
     MAC          => {
@@ -660,7 +652,7 @@ sub _setTrunkPorts {
     }
 
 }
-sub _setConnectedDevices {
+sub _setConnectedDevicesInfo {
     my ($description, $snmp, $model, $ports, $logger) = @_;
 
     foreach my $rule (@connected_devices_rules) {
@@ -668,33 +660,12 @@ sub _setConnectedDevices {
 
         runFunction(
             module   => $rule->{module},
-            function => 'setConnectedDevices',
+            function => 'setConnectedDevicesInfo',
             params   => {
                 snmp   => $snmp,
                 model  => $model,
                 ports  => $ports,
                 logger => $logger
-            },
-            load     => 1
-        );
-
-        last;
-    }
-}
-
-sub _performSpecificCleanup {
-    my ($description, $snmp, $model, $ports) = @_;
-
-    foreach my $rule (@specific_cleanup_rules) {
-        next unless $description =~ $rule->{match};
-
-        runFunction(
-            module   => $rule->{module},
-            function => $rule->{function},
-            params   => {
-                snmp    => $snmp,
-                model   => $model,
-                ports   => $ports
             },
             load     => 1
         );
@@ -976,7 +947,7 @@ sub _setNetworkingProperties {
 
     _setTrunkPorts($comments, $snmp, $model, $ports, $logger);
 
-    _setConnectedDevices($comments, $snmp, $model, $ports, $logger);
+    _setConnectedDevicesInfo($comments, $snmp, $model, $ports, $logger);
 
     # check if vlan-specific queries are needed
     my $vlan_query =
@@ -1005,9 +976,6 @@ sub _setNetworkingProperties {
             logger => $logger
         );
     }
-
-    # hardware-specific hacks
-    _performSpecificCleanup($comments, $snmp, $model, $ports);
 }
 
 sub _getPercentValue {
@@ -1075,19 +1043,23 @@ sub getCanonicalMacAddress {
 
     return unless $value;
 
+    my $r;
     if ($value =~ /$mac_address_pattern/) {
         # this was stored as a string, it just has to be normalized
-        return join(':', map { sprintf "%02X", hex($_) } split(':', $value));
+        $r = join(':', map { sprintf "%02X", hex($_) } split(':', $value));
     } else {
         # this was stored as an hex-string
-        if ($value =~ /^0x/) {
+        # 0xD205A86C26D5 or 0x6001D205A86C26D5
+        if ($value =~ /^0x[0-9A-F]{0,4}([0-9A-F]{12})$/i) {
             # value translated by Net::SNMP
-            return alt2canonical($value);
+            $r = alt2canonical('0x'.$1);
         } else {
             # packed value, onvert from binary to hexadecimal
-            return unpack 'H*', $value;
+            $r = getCanonicalMacAddress("0x".unpack 'H*', $value);
         }
     }
+
+    return $r;
 }
 
 sub getCanonicalSerialNumber {
@@ -1156,70 +1128,6 @@ the dictionary.
 
 return a full set of information for a device through SNMP, according to a
 set of rules hardcoded in the agent and the usage of a device-specific set of mappings, the model.
-
-=head2 setConnectedDevicesMacAddresses($description, $snmp, $model, $ports)
-
-set mac addresses of connected devices.
-
-=over
-
-=item * description: device identification key
-
-=item * snmp: FusionInventory::Agent::SNMP object
-
-=item * model: SNMP model
-
-=item * ports: device ports list
-
-=back
-
-=head2 setConnectedDevices($description, $snmp, $model, $ports)
-
-Set connected devices using CDP if available, LLDP otherwise.
-
-=over
-
-=item * description: device identification key
-
-=item * snmp: FusionInventory::Agent::SNMP object
-
-=item * model: SNMP model
-
-=item * ports: device ports list
-
-=back
-
-=head2 setTrunkPorts($description, $snmp, $model, $ports)
-
-Set trunk flag on ports needing it.
-
-=over
-
-=item * description: device identification key
-
-=item * snmp: FusionInventory::Agent::SNMP object
-
-=item * model: SNMP model
-
-=item * ports: device ports list
-
-=back
-
-=head2 performSpecificCleanup($description, $snmp, $model, $ports)
-
-Perform device-specific miscaelanous cleanups
-
-=over
-
-=item * description: device identification key
-
-=item * snmp: FusionInventory::Agent::SNMP object
-
-=item * model: SNMP model
-
-=item * ports: device ports list
-
-=back
 
 =head2 getCanonicalSerialNumber($value)
 
