@@ -6,6 +6,7 @@ use base 'Exporter';
 
 use English qw(-no_match_vars);
 use List::Util qw(first);
+use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools; # runFunction
 use FusionInventory::Agent::Tools::Network;
@@ -948,6 +949,9 @@ sub _setNetworkingProperties {
     _setTrunkPorts($comments, $snmp, $model, $ports, $logger);
 
     _setConnectedDevicesInfo($comments, $snmp, $model, $ports, $logger);
+
+    # ensure module is loaded
+    FusionInventory::Agent::Tools::Hardware::Generic->require();
 
     # check if vlan-specific queries are needed
     my $vlan_query =
