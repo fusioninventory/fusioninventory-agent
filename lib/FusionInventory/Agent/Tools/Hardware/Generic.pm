@@ -177,11 +177,21 @@ sub _getConnectedDevicesInfoLLDP {
     my $model  = $params{model};
 
     my $results;
-    my $lldpRemChassisId = $snmp->walk($model->{oids}->{lldpRemChassisId});
-    my $lldpRemPortId    = $snmp->walk($model->{oids}->{lldpRemPortId});
-    my $lldpRemPortDesc  = $snmp->walk($model->{oids}->{lldpRemPortDesc});
-    my $lldpRemSysDesc   = $snmp->walk($model->{oids}->{lldpRemSysDesc});
-    my $lldpRemSysName   = $snmp->walk($model->{oids}->{lldpRemSysName});
+    my $lldpRemChassisId = $snmp->walk(
+        $model->{oids}->{lldpRemChassisId} || '.1.0.8802.1.1.2.1.4.1.1.5'
+    );
+    my $lldpRemPortId    = $snmp->walk(
+        $model->{oids}->{lldpRemPortId}    || '.1.0.8802.1.1.2.1.4.1.1.7'
+    );
+    my $lldpRemPortDesc  = $snmp->walk(
+        $model->{oids}->{lldpRemPortDesc}  || '.1.0.8802.1.1.2.1.4.1.1.8'
+    );
+    my $lldpRemSysDesc   = $snmp->walk(
+        $model->{oids}->{lldpRemSysDesc}   || '.1.0.8802.1.1.2.1.4.1.1.10'
+    );
+    my $lldpRemSysName   = $snmp->walk(
+        $model->{oids}->{lldpRemSysName}   || '.1.0.8802.1.1.2.1.4.1.1.9'
+    );
 
     # each lldp variable matches the following scheme:
     # $prefix.x.y.z = $value
