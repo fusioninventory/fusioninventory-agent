@@ -55,9 +55,15 @@ sub _getConnectedDevicesMacAddresses {
     my $model  = $params{model};
 
     my $results;
-    my $dot1dTpFdbAddress    = $snmp->walk($model->{oids}->{dot1dTpFdbAddress} || '.1.3.6.1.2.1.17.4.3.1.1');
-    my $dot1dTpFdbPort       = $snmp->walk($model->{oids}->{dot1dTpFdbPort} || '.1.3.6.1.2.1.17.4.3.1.2');
-    my $dot1dBasePortIfIndex = $snmp->walk($model->{oids}->{dot1dBasePortIfIndex} || '.1.3.6.1.2.1.17.1.4.1.2');
+    my $dot1dTpFdbAddress    = $snmp->walk(
+        $model->{oids}->{dot1dTpFdbAddress}    || '.1.3.6.1.2.1.17.4.3.1.1'
+    );
+    my $dot1dTpFdbPort       = $snmp->walk(
+        $model->{oids}->{dot1dTpFdbPort}       || '.1.3.6.1.2.1.17.4.3.1.2'
+    );
+    my $dot1dBasePortIfIndex = $snmp->walk(
+        $model->{oids}->{dot1dBasePortIfIndex} || '.1.3.6.1.2.1.17.1.4.1.2'
+    );
 
     foreach my $suffix (sort keys %{$dot1dTpFdbAddress}) {
         my $mac = $dot1dTpFdbAddress->{$suffix};
