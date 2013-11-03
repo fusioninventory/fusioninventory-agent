@@ -125,14 +125,14 @@ sub _getConnectedDevicesInfoCDP {
     my $cdpCacheAddress    = $snmp->walk(
         $model->{oids}->{cdpCacheAddress}    || '.1.3.6.1.4.1.9.9.23.1.2.1.1.4'
     );
+    my $cdpCacheVersion    = $snmp->walk(
+        $model->{oids}->{cdpCacheVersion}    || '.1.3.6.1.4.1.9.9.23.1.2.1.1.5'
+    );
     my $cdpCacheDeviceId   = $snmp->walk(
         $model->{oids}->{cdpCacheDeviceId}   || '.1.3.6.1.4.1.9.9.23.1.2.1.1.6'
     );
     my $cdpCacheDevicePort = $snmp->walk(
         $model->{oids}->{cdpCacheDevicePort} || '.1.3.6.1.4.1.9.9.23.1.2.1.1.7'
-    );
-    my $cdpCacheVersion    = $snmp->walk(
-        $model->{oids}->{cdpCacheVersion}    || '.1.3.6.1.4.1.9.9.23.1.2.1.1.5'
     );
     my $cdpCachePlatform   = $snmp->walk(
         $model->{oids}->{cdpCachePlatform}   || '.1.3.6.1.4.1.9.9.23.1.2.1.1.8'
@@ -183,11 +183,11 @@ sub _getConnectedDevicesInfoLLDP {
     my $lldpRemPortDesc  = $snmp->walk(
         $model->{oids}->{lldpRemPortDesc}  || '.1.0.8802.1.1.2.1.4.1.1.8'
     );
-    my $lldpRemSysDesc   = $snmp->walk(
-        $model->{oids}->{lldpRemSysDesc}   || '.1.0.8802.1.1.2.1.4.1.1.10'
-    );
     my $lldpRemSysName   = $snmp->walk(
         $model->{oids}->{lldpRemSysName}   || '.1.0.8802.1.1.2.1.4.1.1.9'
+    );
+    my $lldpRemSysDesc   = $snmp->walk(
+        $model->{oids}->{lldpRemSysDesc}   || '.1.0.8802.1.1.2.1.4.1.1.10'
     );
 
     # each lldp variable matches the following scheme:
